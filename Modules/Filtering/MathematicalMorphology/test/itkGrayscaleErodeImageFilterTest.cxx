@@ -40,13 +40,13 @@ itkGrayscaleErodeImageFilterTest(int ac, char * av[])
   using ImageType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
 
   // Create a filter
   using SRType = itk::FlatStructuringElement<dim>;
   using FilterType = itk::GrayscaleErodeImageFilter<ImageType, ImageType, SRType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
@@ -73,7 +73,7 @@ itkGrayscaleErodeImageFilterTest(int ac, char * av[])
     filter->SetRadius(4);
 
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(filter->GetOutput());
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
@@ -100,7 +100,7 @@ itkGrayscaleErodeImageFilterTest(int ac, char * av[])
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(av[2]);
   writer->Update();

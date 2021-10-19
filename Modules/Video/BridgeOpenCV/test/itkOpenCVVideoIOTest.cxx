@@ -53,7 +53,7 @@ itkImageFromBuffer(itk::OpenCVVideoIO::Pointer opencvIO, void * buffer, size_t b
   space.Fill(1.0); // May need fixing
 
   // Use itkImportImageFilter to create an ITK image
-  ImportFilterType::Pointer importFilter = ImportFilterType::New();
+  auto importFilter = ImportFilterType::New();
   importFilter->SetRegion(region);
   importFilter->SetOrigin(origin);
   importFilter->SetSpacing(space);
@@ -416,7 +416,7 @@ test_OpenCVVideoIO(char *          input,
     delete[] camBuffer;
 
     // Write out the ITK image -- DEBUG
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(cameraOutput);
     writer->SetInput(cameraFrame);
     writer->Update();

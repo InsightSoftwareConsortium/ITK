@@ -39,7 +39,7 @@ void
 BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
@@ -48,7 +48,7 @@ BlackTopHatImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 
   // Delegate to a closing filter.
   using ClosingFilterType = GrayscaleMorphologicalClosingImageFilter<TInputImage, TInputImage, TKernel>;
-  typename ClosingFilterType::Pointer close = ClosingFilterType::New();
+  auto close = ClosingFilterType::New();
 
   close->SetInput(this->GetInput());
   close->SetKernel(this->GetKernel());

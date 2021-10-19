@@ -67,11 +67,11 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   using MeasurementVectorRealType = FilterType::MeasurementVectorRealType;
   using CovarianceMatrixType = FilterType::MatrixType;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   MeasurementVectorType measure;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
@@ -342,7 +342,7 @@ itkWeightedCovarianceSampleFilterTest(int, char *[])
   }; // end of class
 
   // set  a constant 1.0 weight using a function
-  WeightedCovarianceSampleTestFunction1::Pointer weightFunction = WeightedCovarianceSampleTestFunction1::New();
+  auto weightFunction = WeightedCovarianceSampleTestFunction1::New();
   filter->SetWeightingFunction(weightFunction);
 
   try

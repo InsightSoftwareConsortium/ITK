@@ -195,16 +195,16 @@ TimeVaryingVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTransformPa
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
   using IdentityTransformType = IdentityTransform<ParametersValueType, TotalDimension>;
-  typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   using LinearInterpolatorType = LinearInterpolateImageFunction<TimeVaryingVelocityFieldType, ParametersValueType>;
-  typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+  auto interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage(this->m_Transform->GetVelocityField());
 
   using ResamplerType =
     ResampleImageFilter<TimeVaryingVelocityFieldType, TimeVaryingVelocityFieldType, ParametersValueType>;
-  typename ResamplerType::Pointer resampler = ResamplerType::New();
+  auto resampler = ResamplerType::New();
   resampler->SetInput(this->m_Transform->GetVelocityField());
   resampler->SetOutputDirection(newFieldDirection);
   resampler->SetOutputOrigin(newFieldOrigin);

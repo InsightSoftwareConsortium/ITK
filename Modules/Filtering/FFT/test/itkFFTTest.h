@@ -63,7 +63,7 @@ test_fft(unsigned int * SizeOfDimensions)
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
 
-  typename RealImageType::Pointer realImage = RealImageType::New();
+  auto realImage = RealImageType::New();
   // Create the Real Image.
   realImage->SetLargestPossibleRegion(region);
   realImage->SetBufferedRegion(region);
@@ -120,9 +120,9 @@ test_fft(unsigned int * SizeOfDimensions)
   }
 
   // Real to complex pointer. This computes the forward FFT.
-  typename R2CType::Pointer R2C = R2CType::New();
+  auto R2C = R2CType::New();
   // Complex to Real pointer. This computes the Inverse FFT.
-  typename C2RType::Pointer C2R = C2RType::New();
+  auto C2R = C2RType::New();
 
   // Set the real image created as the input to the forward FFT
   // filter.
@@ -299,7 +299,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   typename RealImageType::RegionType region;
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
-  typename RealImageType::Pointer realImage = RealImageType::New();
+  auto realImage = RealImageType::New();
 
   // Create the Real Image.
   realImage->SetLargestPossibleRegion(region);
@@ -341,10 +341,10 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   }
 
   // Real to complex pointers. This computes the forward FFT.
-  typename R2CAType::Pointer R2Ca = R2CAType::New();
+  auto R2Ca = R2CAType::New();
 
   // Real to complex pointers. This computes the forward FFT.
-  typename R2CBType::Pointer R2Cb = R2CBType::New();
+  auto R2Cb = R2CBType::New();
 
   // Set the real image created as the input to the forward FFT
   // filter.

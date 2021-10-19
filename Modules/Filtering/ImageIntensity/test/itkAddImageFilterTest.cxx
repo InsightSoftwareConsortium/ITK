@@ -51,8 +51,8 @@ itkAddImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<Dimension>;
 
   // Create two images
-  InputImageType1::Pointer inputImageA = InputImageType1::New();
-  InputImageType2::Pointer inputImageB = InputImageType2::New();
+  auto inputImageA = InputImageType1::New();
+  auto inputImageB = InputImageType2::New();
 
   // Define their size, and start index
   SizeType size;
@@ -95,7 +95,7 @@ itkAddImageFilterTest(int, char *[])
 
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AddImageFilter, BinaryGeneratorImageFilter);
 
@@ -139,7 +139,7 @@ itkAddImageFilterTest(int, char *[])
     using ImageType2 = itk::Image<PixelType2>;
 
     using FilterType2 = itk::AddImageFilter<ImageType2, ImageType2, ImageType2>;
-    FilterType2::Pointer filter2 = FilterType2::New();
+    auto filter2 = FilterType2::New();
 
     ITK_TEST_EXPECT_TRUE(!filter2.IsNull());
   }
@@ -153,7 +153,7 @@ itkAddImageFilterTest(int, char *[])
 
     using FilterType3 = itk::AddImageFilter<ImageType3, ComplexImageType, ComplexImageType>;
 
-    FilterType3::Pointer filter3 = FilterType3::New();
+    auto filter3 = FilterType3::New();
 
     ITK_TEST_EXPECT_TRUE(!filter3.IsNull());
   }

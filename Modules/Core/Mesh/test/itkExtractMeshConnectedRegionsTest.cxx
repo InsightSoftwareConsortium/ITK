@@ -39,13 +39,13 @@ itkExtractMeshConnectedRegionsTest(int, char *[])
   // Define a simple mesh of three connected pieces. The mesh consists
   // of several different cell types.
 
-  MeshType::Pointer inMesh = MeshType::New();
+  auto inMesh = MeshType::New();
 
   // Pass the mesh through the filter in a variety of ways.
   //
-  PointType::ValueType       pInit[3] = { 1, 2, 3 };
-  PointType                  p = pInit;
-  ConnectFilterType::Pointer connect = ConnectFilterType::New();
+  PointType::ValueType pInit[3] = { 1, 2, 3 };
+  PointType            p = pInit;
+  auto                 connect = ConnectFilterType::New();
 
   connect->SetInput(inMesh);
   connect->SetClosestPoint(p);
@@ -78,7 +78,7 @@ itkExtractMeshConnectedRegionsTest(int, char *[])
   // Create a Sphere for running the filter on real input data.
   using SphereMeshSourceType = itk::SphereMeshSource<MeshType>;
 
-  SphereMeshSourceType::Pointer meshSource = SphereMeshSourceType::New();
+  auto meshSource = SphereMeshSourceType::New();
 
   PointType center;
   center.Fill(0);

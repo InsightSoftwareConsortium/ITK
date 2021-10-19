@@ -37,8 +37,8 @@ itkTIFFImageIOCompressionTestHelper(int, char * argv[], int JPEGQuality)
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
 
   itk::TIFFImageIO::Pointer imageIO = itk::TIFFImageIO::New();

@@ -38,10 +38,10 @@ TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInter
 {
   // Create a process accumulator for tracking the progress of this
   // minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typename InputImageType::Pointer localInput = InputImageType::New();
+  auto localInput = InputImageType::New();
   localInput->Graft(this->GetInput());
 
   const KernelImageType * kernelImage = this->GetKernelImage();
@@ -59,7 +59,7 @@ TikhonovDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInter
 
   using TikhonovFilterType =
     BinaryGeneratorImageFilter<InternalComplexImageType, InternalComplexImageType, InternalComplexImageType>;
-  typename TikhonovFilterType::Pointer tikhonovFilter = TikhonovFilterType::New();
+  auto tikhonovFilter = TikhonovFilterType::New();
   tikhonovFilter->SetInput1(input);
   tikhonovFilter->SetInput2(kernel);
   tikhonovFilter->SetFunctor(tikhonovFunctor);

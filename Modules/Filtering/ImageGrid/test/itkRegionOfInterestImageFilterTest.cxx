@@ -40,11 +40,11 @@ itkRegionOfInterestImageFilterTest(int, char *[])
 
   using IteratorType = itk::ImageRegionIterator<ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RegionOfInterestImageFilter, ImageToImageFilter);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   IndexType start;
   start.Fill(0);

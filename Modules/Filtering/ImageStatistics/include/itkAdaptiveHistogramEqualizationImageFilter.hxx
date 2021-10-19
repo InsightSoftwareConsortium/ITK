@@ -37,14 +37,14 @@ template <typename TImageType, typename TKernel>
 void
 AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::BeforeThreadedGenerateData()
 {
-  typename ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->Graft(const_cast<ImageType *>(this->GetInput()));
 
   // Calculate min and max gray level of an input image
   // NOTE: This computation of min/max means that this filter should
   // not be able to stream.
   using MinMaxFilter = MinimumMaximumImageFilter<ImageType>;
-  typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
+  auto minmax = MinMaxFilter::New();
 
   minmax->SetInput(input);
   minmax->Update();

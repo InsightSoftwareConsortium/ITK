@@ -93,7 +93,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
 
   // write out the array2D object
   using WriterType = itk::CSVNumericObjectFileWriter<double, ARows, ACols>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   if (argc < 2)
   {
@@ -134,7 +134,7 @@ itkCSVFileReaderWriterTest_Func(int argc, char * argv[], bool headers)
   }
 
   using ReaderType = itk::CSVArray2DFileReader<double>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(filename);
   reader->SetFieldDelimiterCharacter(',');
   reader->SetStringDelimiterCharacter('"');

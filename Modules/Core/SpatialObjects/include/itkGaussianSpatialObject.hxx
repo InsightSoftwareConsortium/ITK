@@ -163,7 +163,7 @@ typename EllipseSpatialObject<TDimension>::Pointer
 GaussianSpatialObject<TDimension>::GetEllipsoid() const
 {
   using EllipseType = itk::EllipseSpatialObject<TDimension>;
-  typename EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
 
   ellipse->SetRadiusInObjectSpace(m_RadiusInObjectSpace);
   ellipse->SetCenterInObjectSpace(m_CenterInObjectSpace);

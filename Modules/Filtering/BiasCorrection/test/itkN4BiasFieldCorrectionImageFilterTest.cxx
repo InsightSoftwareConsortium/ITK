@@ -121,7 +121,7 @@ N4(int argc, char * argv[])
   using ImagePointer = typename ImageType::Pointer;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[2]);
   reader->Update();
 
@@ -136,7 +136,7 @@ N4(int argc, char * argv[])
   if (argc > 6)
   {
     using MaskReaderType = itk::ImageFileReader<MaskImageType>;
-    typename MaskReaderType::Pointer maskreader = MaskReaderType::New();
+    auto maskreader = MaskReaderType::New();
     maskreader->SetFileName(argv[6]);
     try
     {
@@ -154,7 +154,7 @@ N4(int argc, char * argv[])
   {
     std::cout << "Mask not read.  Creating Otsu mask." << std::endl;
     using ThresholderType = itk::OtsuThresholdImageFilter<ImageType, MaskImageType>;
-    typename ThresholderType::Pointer otsu = ThresholderType::New();
+    auto otsu = ThresholderType::New();
     otsu->SetInput(inputImage);
     // otsu->SetNumberOfHistogramBins( 200 );
     otsu->SetInsideValue(0);
@@ -167,7 +167,7 @@ N4(int argc, char * argv[])
 
   // Instantiate N4 and assign variables not exposed to the user in this test.
   using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType, ImageType>;
-  typename CorrecterType::Pointer correcter = CorrecterType::New();
+  auto correcter = CorrecterType::New();
 
   unsigned int splineOrder = 3;
   correcter->SetSplineOrder(splineOrder);
@@ -251,7 +251,7 @@ N4(int argc, char * argv[])
   }
 
   using PadderType = itk::ConstantPadImageFilter<ImageType, ImageType>;
-  typename PadderType::Pointer padder = PadderType::New();
+  auto padder = PadderType::New();
   padder->SetInput(inputImage);
   padder->SetPadLowerBound(lowerBound);
   padder->SetPadUpperBound(upperBound);
@@ -262,7 +262,7 @@ N4(int argc, char * argv[])
   inputImage->DisconnectPipeline();
 
   using MaskPadderType = itk::ConstantPadImageFilter<MaskImageType, MaskImageType>;
-  typename MaskPadderType::Pointer maskPadder = MaskPadderType::New();
+  auto maskPadder = MaskPadderType::New();
   maskPadder->SetInput(maskImage);
   maskPadder->SetPadLowerBound(lowerBound);
   maskPadder->SetPadUpperBound(upperBound);
@@ -277,12 +277,12 @@ N4(int argc, char * argv[])
 
   // Handle the shrink factor
   using ShrinkerType = itk::ShrinkImageFilter<ImageType, ImageType>;
-  typename ShrinkerType::Pointer shrinker = ShrinkerType::New();
+  auto shrinker = ShrinkerType::New();
   shrinker->SetInput(inputImage);
   shrinker->SetShrinkFactors(1);
 
   using MaskShrinkerType = itk::ShrinkImageFilter<MaskImageType, MaskImageType>;
-  typename MaskShrinkerType::Pointer maskshrinker = MaskShrinkerType::New();
+  auto maskshrinker = MaskShrinkerType::New();
   maskshrinker->SetInput(maskImage);
   maskshrinker->SetShrinkFactors(1);
 
@@ -304,7 +304,7 @@ N4(int argc, char * argv[])
   correcter->SetMaskImage(maskImage);
 
   using CommandType = CommandIterationUpdate<CorrecterType>;
-  typename CommandType::Pointer observer = CommandType::New();
+  auto observer = CommandType::New();
   correcter->AddObserver(itk::IterationEvent(), observer);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(correcter->Update());
@@ -348,7 +348,7 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
   using MaskImageType = itk::Image<MaskPixelType, ImageDimension>;
 
   using CorrecterType = itk::N4BiasFieldCorrectionImageFilter<ImageType, MaskImageType, ImageType>;
-  typename CorrecterType::Pointer correcter = CorrecterType::New();
+  auto correcter = CorrecterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(correcter, N4BiasFieldCorrectionImageFilter, ImageToImageFilter);
 

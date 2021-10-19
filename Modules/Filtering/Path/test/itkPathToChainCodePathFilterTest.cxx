@@ -38,7 +38,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
   // Setup the path
   std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
   VertexType             v;
-  InPathType::Pointer    inPath = InPathType::New();
+  auto                   inPath = InPathType::New();
   ChainPathType::Pointer chainPath;
 
   v.Fill(30);
@@ -50,7 +50,7 @@ itkPathToChainCodePathFilterTest(int, char *[])
   inPath->AddVertex(v);
 
   // Set up the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PathToChainCodePathFilter, PathToPathFilter);
 
   bool maximallyConnected = false;

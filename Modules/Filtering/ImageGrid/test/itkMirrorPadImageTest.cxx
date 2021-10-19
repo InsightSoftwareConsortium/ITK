@@ -92,7 +92,7 @@ itkMirrorPadImageTest(int, char *[])
 
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
-  SimpleImage::Pointer simpleImage = SimpleImage::New();
+  auto simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1]
             << std::endl;
 
@@ -100,7 +100,7 @@ itkMirrorPadImageTest(int, char *[])
   using ShortImage = itk::Image<short, 2>;
 
   // Test the creation of an image with native type
-  ShortImage::Pointer if2 = ShortImage::New();
+  auto if2 = ShortImage::New();
 
   // fill in an image
   ShortImage::IndexType  index = { { 0, 0 } };

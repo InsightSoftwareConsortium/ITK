@@ -32,7 +32,7 @@ itkLabelMapTest2(int, char *[])
   using RegionType = LabelMapType::RegionType;
   using SizeType = LabelMapType::SizeType;
 
-  LabelMapType::Pointer map = LabelMapType::New();
+  auto map = LabelMapType::New();
 
   SizeType sizeIn;
   sizeIn[0] = 10;
@@ -65,7 +65,7 @@ itkLabelMapTest2(int, char *[])
 
   map->SetBackgroundValue(255);
 
-  LabelObjectType::Pointer lo = LabelObjectType::New();
+  auto lo = LabelObjectType::New();
   lo->SetLabel(1);
 
   IndexType idx;
@@ -104,7 +104,7 @@ itkLabelMapTest2(int, char *[])
 
   map->AddLabelObject(lo);
 
-  LabelObjectType::Pointer lo2 = LabelObjectType::New();
+  auto lo2 = LabelObjectType::New();
 
   idx[0] = 1;
   idx[1] = 21;

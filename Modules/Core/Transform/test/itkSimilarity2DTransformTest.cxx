@@ -54,7 +54,7 @@ itkSimilarity2DTransformTest(int, char *[])
   bool                   Ok = true;
 
   using SimilarityTransformType = itk::CenteredSimilarity2DTransform<double>;
-  SimilarityTransformType::Pointer transform = SimilarityTransformType::New();
+  auto transform = SimilarityTransformType::New();
 
   // Test the identity transform
   std::cout << "Testing Identity:";
@@ -84,8 +84,8 @@ itkSimilarity2DTransformTest(int, char *[])
   }
 
   // Test SetAngle/GetAngle
-  SimilarityTransformType::Pointer transform1 = SimilarityTransformType::New();
-  SimilarityTransformType::Pointer transform2 = SimilarityTransformType::New();
+  auto transform1 = SimilarityTransformType::New();
+  auto transform2 = SimilarityTransformType::New();
   transform1->SetIdentity();
   double angle1 = .125;
   transform1->SetAngle(angle1);
@@ -245,7 +245,7 @@ itkSimilarity2DTransformTest(int, char *[])
   {
     // Test instantiation, inverse computation, back transform etc.
     using TransformType = itk::Similarity2DTransform<double>;
-    TransformType::Pointer t1 = TransformType::New();
+    auto t1 = TransformType::New();
 
     // Set parameters
     TransformType::ParametersType parameters(t1->GetNumberOfParameters());
@@ -282,7 +282,7 @@ itkSimilarity2DTransformTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TransformType::Pointer t2dash = TransformType::New();
+    auto t2dash = TransformType::New();
     t1->GetInverse(t2dash);
     TransformType::InputPointType p3dash;
     p3dash = t2dash->TransformPoint(p2);
@@ -334,7 +334,7 @@ itkSimilarity2DTransformTest(int, char *[])
     }
 
     // Test compose
-    TransformType::Pointer t4 = TransformType::New();
+    auto t4 = TransformType::New();
 
     parameters[0] = 0.6;
     parameters[1] = 14.7 / 180.0 * itk::Math::pi;
@@ -424,7 +424,7 @@ itkSimilarity2DTransformTest(int, char *[])
   {
     // Test instantiation, inverse computation, back transform etc.
     using TransformType = SimilarityTransformType;
-    TransformType::Pointer t1 = TransformType::New();
+    auto t1 = TransformType::New();
 
     // Set parameters
     TransformType::ParametersType parameters(t1->GetNumberOfParameters());
@@ -458,7 +458,7 @@ itkSimilarity2DTransformTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TransformType::Pointer t2dash = TransformType::New();
+    auto t2dash = TransformType::New();
     t1->GetInverse(t2dash);
     TransformType::InputPointType p3dash;
     p3dash = t2dash->TransformPoint(p2);
@@ -497,7 +497,7 @@ itkSimilarity2DTransformTest(int, char *[])
     }
 
     // Test compose
-    TransformType::Pointer t4 = TransformType::New();
+    auto t4 = TransformType::New();
 
     parameters[0] = 0.6;
     parameters[1] = 14.7 / 180.0 * itk::Math::pi;
@@ -583,8 +583,8 @@ itkSimilarity2DTransformTest(int, char *[])
   {
     // Test Set/Get Matrix and Set/Get Offset
     using TransformType = itk::Similarity2DTransform<double>;
-    TransformType::Pointer t1 = TransformType::New();
-    TransformType::Pointer t2 = TransformType::New();
+    auto t1 = TransformType::New();
+    auto t2 = TransformType::New();
 
     TransformType::InputPointType center;
     center[0] = 9.0;

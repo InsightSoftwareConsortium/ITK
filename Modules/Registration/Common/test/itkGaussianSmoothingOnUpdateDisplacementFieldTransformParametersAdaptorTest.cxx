@@ -47,7 +47,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int,
   direction.SetIdentity();
 
   using DisplacementFieldType = TransformType::DisplacementFieldType;
-  DisplacementFieldType::Pointer displacementField = DisplacementFieldType::New();
+  auto displacementField = DisplacementFieldType::New();
   displacementField->SetOrigin(origin);
   displacementField->SetSpacing(spacing);
   displacementField->SetRegions(size);
@@ -71,7 +71,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int,
    */
   std::cout << "Initialize transform." << std::endl;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   transform->SetDisplacementField(displacementField);
 
   TransformType::InputPointType point;
@@ -98,7 +98,7 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int,
   }
 
   using AdaptorType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TransformType>;
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetTransform(transform);
   adaptor->SetRequiredSize(requiredSize);
   adaptor->SetRequiredSpacing(requiredSpacing);

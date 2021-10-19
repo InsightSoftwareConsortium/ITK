@@ -262,7 +262,7 @@ test1DCubicSpline()
   image->SetSpacing(spacing);
 
   // Create and initialize the interpolator
-  InterpolatorType1D::Pointer interp = InterpolatorType1D::New();
+  auto interp = InterpolatorType1D::New();
   interp->SetInputImage(image);
   interp->Print(std::cout);
 
@@ -324,7 +324,7 @@ test2DSpline()
   /* Create and initialize the interpolator */
   for (unsigned int splineOrder = 0; splineOrder <= 5; ++splineOrder)
   {
-    InterpolatorType2D::Pointer interp = InterpolatorType2D::New();
+    auto interp = InterpolatorType2D::New();
     interp->SetSplineOrder(splineOrder);
 
     std::cout << "SplineOrder: " << interp->GetSplineOrder() << std::endl;
@@ -396,7 +396,7 @@ test3DSpline()
   /* Create and initialize the interpolator */
   for (int splineOrder = 2; splineOrder <= 5; ++splineOrder)
   {
-    InterpolatorType3D::Pointer interp = InterpolatorType3D::New();
+    auto interp = InterpolatorType3D::New();
     interp->SetSplineOrder(splineOrder);
     interp->SetInputImage(image);
     interp->Print(std::cout);
@@ -467,7 +467,7 @@ test3DSplineDerivative()
   /* Create and initialize the interpolator */
   for (int splineOrder = 1; splineOrder <= 5; ++splineOrder)
   {
-    InterpolatorType3D::Pointer interp = InterpolatorType3D::New();
+    auto interp = InterpolatorType3D::New();
     interp->SetSplineOrder(splineOrder);
     interp->SetInputImage(image);
     interp->Print(std::cout);
@@ -521,7 +521,7 @@ testInteger3DSpline()
   int flag = 0;
 
   /* Allocate a simple test image */
-  ImageIntegerType3D::Pointer image = ImageIntegerType3D::New();
+  auto image = ImageIntegerType3D::New();
 
   set3DInterpData<ImageIntegerType3D>(image);
 
@@ -534,7 +534,7 @@ testInteger3DSpline()
   /* Create and initialize the interpolator */
   for (int splineOrder = 2; splineOrder <= 5; ++splineOrder)
   {
-    InterpolatorIntegerType3D::Pointer interp = InterpolatorIntegerType3D::New();
+    auto interp = InterpolatorIntegerType3D::New();
     interp->SetSplineOrder(splineOrder);
     interp->SetInputImage(image);
     interp->Print(std::cout);

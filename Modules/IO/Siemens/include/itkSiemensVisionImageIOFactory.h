@@ -58,7 +58,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    SiemensVisionImageIOFactory::Pointer metaFactory = SiemensVisionImageIOFactory::New();
+    auto metaFactory = SiemensVisionImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

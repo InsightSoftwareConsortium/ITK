@@ -41,7 +41,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   using ComplexImageType = itk::Image<std::complex<float>, 2>;
   using RandomSourceType = itk::RandomImageSource<ImageType>;
 
-  RandomSourceType::Pointer  source = RandomSourceType::New();
+  auto                       source = RandomSourceType::New();
   RandomSourceType::SizeType size;
   size[0] = std::stoi(argv[1]);
   size[1] = std::stoi(argv[2]);
@@ -53,7 +53,7 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   // Change the index of the image's largest possible region to test
   // generality of the filters.
   using ChangeFilterType = itk::ChangeInformationImageFilter<ImageType>;
-  ChangeFilterType::Pointer changer = ChangeFilterType::New();
+  auto changer = ChangeFilterType::New();
   changer->ChangeRegionOn();
   ChangeFilterType::OutputImageOffsetValueType indexShift[2];
   indexShift[0] = -3;
@@ -64,17 +64,17 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   // Compute frequency image, yielding the non-redundant half of the
   // full complex image.
   using FFTFilterType = itk::RealToHalfHermitianForwardFFTImageFilter<ImageType, ComplexImageType>;
-  FFTFilterType::Pointer fft = FFTFilterType::New();
+  auto fft = FFTFilterType::New();
   fft->SetInput(changer->GetOutput());
 
   // Expand the non-redundant half to the full complex image.
   using HalfToFullFilterType = itk::HalfToFullHermitianImageFilter<ComplexImageType>;
-  HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
+  auto halfToFullFilter = HalfToFullFilterType::New();
   halfToFullFilter->SetActualXDimensionIsOddInput(fft->GetActualXDimensionIsOddOutput());
   halfToFullFilter->SetInput(fft->GetOutput());
 
   using FullToHalfFilterType = itk::FullToHalfHermitianImageFilter<ComplexImageType>;
-  FullToHalfFilterType::Pointer fullToHalfFilter = FullToHalfFilterType::New();
+  auto fullToHalfFilter = FullToHalfFilterType::New();
   fullToHalfFilter->SetInput(halfToFullFilter->GetOutput());
   fullToHalfFilter->Update();
   fullToHalfFilter->Print(std::cout);

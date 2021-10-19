@@ -74,7 +74,7 @@ GetCenterOfMass(const ImageType * volume)
   typename ImageType::PointType CenterOfMass;
   {
     using momentsCalculatorType = itk::ImageMomentsCalculator<ImageType>;
-    typename momentsCalculatorType::Pointer moments = momentsCalculatorType::New();
+    auto moments = momentsCalculatorType::New();
     moments->SetImage(volume);
     moments->Compute();
     typename ImageType::PointType::VectorType tempCenterOfMass = moments->GetCenterOfGravity();
@@ -150,7 +150,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   direction[1][2] = 1;
   direction[2][0] = 1;
 
-  InputImageType::Pointer imgTarget = InputImageType::New();
+  auto imgTarget = InputImageType::New();
   imgTarget->SetLargestPossibleRegion(region);
   imgTarget->SetBufferedRegion(region);
   imgTarget->SetRequestedRegion(region);

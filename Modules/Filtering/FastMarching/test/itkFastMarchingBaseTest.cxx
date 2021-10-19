@@ -115,10 +115,10 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     constexpr unsigned Dimension = 3;
     using ImageType = itk::Image<PixelType, Dimension>;
 
-    ImageType::Pointer input = ImageType::New();
+    auto input = ImageType::New();
 
     using ImageFastMarching = itk::FastMarchingBaseTestHelper<ImageType, ImageType>;
-    ImageFastMarching::Pointer fmm = ImageFastMarching::New();
+    auto fmm = ImageFastMarching::New();
     fmm->SetInput(input);
 
     try
@@ -143,10 +143,10 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     {
       using MeshType = itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits<PixelType, 3, bool, bool>>;
 
-      MeshType::Pointer input = MeshType::New();
+      auto input = MeshType::New();
 
       using MeshFastMarching = itk::FastMarchingBaseTestHelper<MeshType, MeshType>;
-      MeshFastMarching::Pointer fmm = MeshFastMarching::New();
+      auto fmm = MeshFastMarching::New();
       fmm->SetInput(input);
 
       try

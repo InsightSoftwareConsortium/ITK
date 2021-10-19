@@ -97,8 +97,8 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -110,27 +110,27 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
 
   /** define a resample filter that will ultimately be used to deform the image */
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   /** create a composite transform holder for other transforms  */
   using CompositeType = itk::CompositeTransform<double, Dimension>;
-  CompositeType::Pointer compositeTransform = CompositeType::New();
+  auto compositeTransform = CompositeType::New();
 
   // create an affine transform
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
-  AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
 
   // identity transform for fixed image
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
-  IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   // the metric
   using MetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
   using PointSetType = MetricType::FixedSampledPointSetType;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   using PointType = PointSetType::PointType;
   PointSetType::Pointer                             pset(PointSetType::New());
@@ -177,7 +177,7 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
 
   // optimizer
   using OptimizerType = itk::LBFGSOptimizerv4;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
   optimizer->SetScalesEstimator(shiftScaleEstimator);
 
@@ -213,8 +213,8 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest2(int argc, char * argv[])
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
   writer->SetFileName(argv[3]);
   caster->SetInput(resample->GetOutput());
   writer->SetInput(caster->GetOutput());

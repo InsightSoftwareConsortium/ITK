@@ -58,7 +58,7 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create an input image
-  DisplacementFieldType::Pointer inputDisplacementField = DisplacementFieldType::New();
+  auto inputDisplacementField = DisplacementFieldType::New();
 
   // Define its size, and start index
   SizeType size;
@@ -100,7 +100,7 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
 
 
   // Create the filter instance
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GridForwardWarpImageFilter, ImageToImageFilter);
 
@@ -122,7 +122,7 @@ itkGridForwardWarpImageFilterTest(int argc, char * argv[])
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[1]);
 

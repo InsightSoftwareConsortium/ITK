@@ -38,11 +38,11 @@ template <typename TInputImage, typename TGradientImage, typename TOutputImage>
 void
 RobustAutomaticThresholdImageFilter<TInputImage, TGradientImage, TOutputImage>::GenerateData()
 {
-  typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Threshold for the input image
-  typename CalculatorType::Pointer thresholdCalculator = CalculatorType::New();
+  auto thresholdCalculator = CalculatorType::New();
   thresholdCalculator->SetInput(this->GetInput());
   thresholdCalculator->SetGradient(this->GetGradientImage());
   thresholdCalculator->SetPow(m_Pow);

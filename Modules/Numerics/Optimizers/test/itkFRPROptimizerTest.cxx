@@ -114,11 +114,11 @@ itkFRPROptimizerTest(int, char *[])
   using OptimizerType = itk::FRPROptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
-  FRPRGradientCostFunction::Pointer costFunction = FRPRGradientCostFunction::New();
+  auto costFunction = FRPRGradientCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);

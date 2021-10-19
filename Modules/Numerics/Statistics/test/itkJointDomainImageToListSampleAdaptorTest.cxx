@@ -32,7 +32,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::IndexType start;
   ImageType::SizeType  size;
@@ -64,7 +64,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
 
   // define an adaptor type
   using JointDomainImageToListSampleAdaptorType = itk::Statistics::JointDomainImageToListSampleAdaptor<ImageType>;
-  JointDomainImageToListSampleAdaptorType::Pointer adaptor = JointDomainImageToListSampleAdaptorType::New();
+  auto adaptor = JointDomainImageToListSampleAdaptorType::New();
   // Test if the methods throw exceptions if invoked before setting the image
   try
   {

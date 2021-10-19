@@ -27,8 +27,8 @@ TestTransform()
 {
   using ImageType = itk::Image<float, TDimension>;
 
-  typename ImageType::Pointer image = ImageType::New();
-  typename ImageType::Pointer orientedImage = ImageType::New();
+  auto image = ImageType::New();
+  auto orientedImage = ImageType::New();
 
   typename ImageType::PointType origin;
 

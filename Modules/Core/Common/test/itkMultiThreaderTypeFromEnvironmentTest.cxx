@@ -29,7 +29,7 @@ checkThreaderByName(ThreaderEnum expectedThreaderType)
   using ImageType = itk::Image<unsigned, 3>;
   // any filter type which does not manually specify threader type will do
   using FilterType = itk::AbsImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   std::string realThreaderName = filter->GetMultiThreader()->GetNameOfClass();
   std::string expectedThreaderName =

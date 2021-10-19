@@ -39,7 +39,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   constexpr double              FOV = 10.0;
   constexpr itk::IndexValueType small_xSize = 3;
   constexpr itk::IndexValueType small_ySize = 3;
-  ImageType::Pointer            small_image = ImageType::New();
+  auto                          small_image = ImageType::New();
   {
     RegionType region;
     {
@@ -88,7 +88,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   }
 
   using InterpolatorType = itk::LabelImageGaussianInterpolateImageFunction<ImageType, CoordRepType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(small_image);
   {
     double sigma[Dimension];
@@ -112,7 +112,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
   constexpr unsigned char       default_background_value = 17;
   const itk::IndexValueType     large_xSize = 5 + 1;
   constexpr itk::IndexValueType large_ySize = 5;
-  ImageType::Pointer            large_image = ImageType::New();
+  auto                          large_image = ImageType::New();
   {
     RegionType region;
     {

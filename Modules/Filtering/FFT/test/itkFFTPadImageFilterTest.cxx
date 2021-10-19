@@ -52,7 +52,7 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   using FFTPadType = itk::FFTPadImageFilter<ImageType>;
 
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   itk::ZeroFluxNeumannBoundaryCondition<ImageType> zfnCond;
@@ -60,7 +60,7 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   itk::PeriodicBoundaryCondition<ImageType>        wrapCond;
 
   // Create the filters
-  FFTPadType::Pointer fftpad = FFTPadType::New();
+  auto fftpad = FFTPadType::New();
   fftpad->SetInput(reader->GetOutput());
   fftpad->SetSizeGreatestPrimeFactor(std::stoi(argv[3]));
   std::string padMethod = argv[4];
@@ -82,7 +82,7 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   }
   itk::SimpleFilterWatcher watchFFTPad(fftpad, "fftpad");
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(fftpad->GetOutput());
   writer->SetFileName(argv[2]);
 
@@ -92,7 +92,7 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   // Ensure we can build with a different output image type.
   using OutputImageType = itk::Image<double, Dimension>;
   using FFTPadWithOutputType = itk::FFTPadImageFilter<ImageType, OutputImageType>;
-  FFTPadWithOutputType::Pointer fftPadWithOutput = FFTPadWithOutputType::New();
+  auto fftPadWithOutput = FFTPadWithOutputType::New();
   (void)fftPadWithOutput;
 
   return EXIT_SUCCESS;

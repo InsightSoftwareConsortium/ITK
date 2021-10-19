@@ -75,7 +75,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   region.SetSize(size);
   region.SetIndex(index);
 
-  typename ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->SetRequestedRegion(region);
@@ -95,7 +95,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
 
   /* Create Fast Chamfer Distance filter */
   using ChamferFilterType = itk::FastChamferDistanceImageFilter<ImageType, ImageType>;
-  typename ChamferFilterType::Pointer filter = ChamferFilterType::New();
+  auto filter = ChamferFilterType::New();
 
   filter->SetInput(inputImage);
 
@@ -117,7 +117,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   // Create NarrowBand
   using NarrowBandType = typename ChamferFilterType::NarrowBandType;
 
-  typename NarrowBandType::Pointer band = NarrowBandType::New();
+  auto band = NarrowBandType::New();
   band->SetTotalRadius(4);
   band->SetInnerRadius(2);
   filter->SetMaximumDistance(5);
@@ -200,7 +200,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   }
   /* For debugging write the result
   using WriterType = itk::ImageFileWriter< ImageType >;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName("chamferoutput.mhd");
   writer->SetInput(filter->GetOutput());

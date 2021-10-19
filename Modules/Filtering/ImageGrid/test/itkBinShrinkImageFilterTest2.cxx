@@ -73,7 +73,7 @@ itkBinShrinkImageFilterTest2(int, char *[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using SourceType = itk::PhysicalPointImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   SourceType::SizeValueType size[] = { 512, 509 };
   source->SetSize(size);
@@ -94,7 +94,7 @@ itkBinShrinkImageFilterTest2(int, char *[])
       std::cout << "Testing with shrink factors:" << xf << " " << yf << std::endl;
 
       using FilterType = itk::BinShrinkImageFilter<ImageType, ImageType>;
-      FilterType::Pointer shrink = FilterType::New();
+      auto shrink = FilterType::New();
 
       shrink->SetInput(source->GetOutput());
 

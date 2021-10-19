@@ -53,8 +53,8 @@ itkGEImageIOFactoryTest(int ac, char * av[])
   }
   char * filename = *++av;
 
-  ImagePointer             input;
-  ImageReaderType::Pointer imageReader = ImageReaderType::New();
+  ImagePointer input;
+  auto         imageReader = ImageReaderType::New();
 
   try
   {
@@ -113,8 +113,8 @@ itkGEImageIOTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
-  ImagePointer             input;
-  ImageReaderType::Pointer imageReader = ImageReaderType::New();
+  ImagePointer input;
+  auto         imageReader = ImageReaderType::New();
 
   try
   {
@@ -140,7 +140,7 @@ itkGEImageIOTest(int ac, char * av[])
 
   if (failmode == std::string("true"))
   {
-    ImageWriterType::Pointer writer = ImageWriterType::New();
+    auto writer = ImageWriterType::New();
     writer->SetInput(input);
     writer->SetFileName(av[4]);
     writer->Update();

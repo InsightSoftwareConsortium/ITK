@@ -88,13 +88,13 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader1 = ReaderType::New();
+  auto reader2 = ReaderType::New();
 
-  WriterType::Pointer writer1 = WriterType::New();
-  WriterType::Pointer writer2 = WriterType::New();
-  WriterType::Pointer writer3 = WriterType::New();
-  WriterType::Pointer writer4 = WriterType::New();
+  auto writer1 = WriterType::New();
+  auto writer2 = WriterType::New();
+  auto writer3 = WriterType::New();
+  auto writer4 = WriterType::New();
 
   reader1->SetFileName(argv[1]);
   reader2->SetFileName(argv[2]);
@@ -105,21 +105,21 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   writer4->SetFileName(argv[6]);
 
   // Create an affine transformation
-  AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
   affineTransform->Scale(2.0);
 
   // Create a linear interpolation image function
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   // Create a nearest neighbor extrapolate image function
-  ExtrapolatorType::Pointer extrapolator = ExtrapolatorType::New();
+  auto extrapolator = ExtrapolatorType::New();
 
   // Create and configure a resampling filter
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   using MonitorFilterType = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilterType::Pointer monitor = MonitorFilterType::New();
+  auto monitor = MonitorFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
 
@@ -171,7 +171,7 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   // instead of LinearThreadedGenerateData. This will test that
   // we get the same results for both methods.
   std::cout << "Test with NonlinearAffineTransform." << std::endl;
-  NonlinearAffineTransformType::Pointer nonlinearAffineTransform = NonlinearAffineTransformType::New();
+  auto nonlinearAffineTransform = NonlinearAffineTransformType::New();
 
   nonlinearAffineTransform->Scale(2.0);
   resample->SetTransform(nonlinearAffineTransform);

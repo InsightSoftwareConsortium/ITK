@@ -42,19 +42,19 @@ doTest(const char * inputImage, const char * outputImage)
   using ImageType = typename FFTForwardType::InputImageType;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
 
-  typename FFTForwardType::Pointer fftForward = FFTForwardType::New();
+  auto fftForward = FFTForwardType::New();
   fftForward->SetInput(reader->GetOutput());
   fftForward->SetDirection(direction);
 
-  typename FFTInverseType::Pointer fftInverse = FFTInverseType::New();
+  auto fftInverse = FFTInverseType::New();
   fftInverse->SetInput(fftForward->GetOutput());
   fftInverse->SetDirection(direction);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(fftInverse->GetOutput());
   writer->SetFileName(outputImage);
 

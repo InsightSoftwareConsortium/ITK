@@ -425,7 +425,7 @@ NameIsSharedLibrary(const char * name)
 void
 ObjectFactoryBase::LoadLibrariesInPath(const char * path)
 {
-  Directory::Pointer dir = Directory::New();
+  auto dir = Directory::New();
 
   if (!dir->Load(path))
   {

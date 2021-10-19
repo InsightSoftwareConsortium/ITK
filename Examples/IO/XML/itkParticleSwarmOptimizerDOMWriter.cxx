@@ -78,21 +78,21 @@ ParticleSwarmOptimizerDOMWriter::GenerateData(DOMNodeType * outputdom,
   }
   // generate and insert the DOM node for the lower bound of the parameters
   logger->Info("writing LowerBound ...\n");
-  DOMNode::Pointer nodelb = DOMNode::New();
+  auto nodelb = DOMNode::New();
   nodelb->SetName("bound");
   nodelb->SetAttribute("id", "lower");
   nodelb->SetAttribute("value", s << ClearContent << lbound);
   outputdom->AddChildAtEnd(nodelb);
   // generate and insert the DOM node for the upper bound of the parameters
   logger->Info("writing UpperBound ...\n");
-  DOMNode::Pointer nodeub = DOMNode::New();
+  auto nodeub = DOMNode::New();
   nodeub->SetName("bound");
   nodeub->SetAttribute("id", "upper");
   nodeub->SetAttribute("value", s << ClearContent << ubound);
   outputdom->AddChildAtEnd(nodeub);
 
   logger->Info("writing ParametersConvergenceTolerance ...\n");
-  DOMNode::Pointer nodeptols = DOMNode::New();
+  auto nodeptols = DOMNode::New();
   nodeptols->SetName("ParametersConvergenceTolerance");
   outputdom->AddChildAtEnd(nodeptols);
   s << ClearContent

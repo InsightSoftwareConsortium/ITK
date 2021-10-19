@@ -42,7 +42,7 @@ public:
     using ReaderType = itk::ImageFileReader<TImageType>;
     using IOType = itk::RawImageIO<PixelType, ImageDimension>;
 
-    typename IOType::Pointer io = IOType::New();
+    auto io = IOType::New();
 
     io->SetFileTypeToBinary();
 
@@ -60,7 +60,7 @@ public:
       io->SetDimensions(j, dims[j]);
     }
 
-    typename ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(filename);
     reader->SetImageIO(io);
 

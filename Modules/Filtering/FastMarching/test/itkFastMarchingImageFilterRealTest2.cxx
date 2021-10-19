@@ -58,10 +58,10 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   using FastMarchingType = itk::FastMarchingImageFilterBase<FloatImageType, FloatImageType>;
 
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
   criterion->SetThreshold(100.);
 
-  FastMarchingType::Pointer marcher = FastMarchingType::New();
+  auto marcher = FastMarchingType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(marcher, FastMarchingImageFilterBase, FastMarchingBase);
 
@@ -78,7 +78,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
-  FloatImageType::Pointer    speedImage = FloatImageType::New();
+  auto                       speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -86,7 +86,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   speedImage->Allocate();
 
   // Set up an 'alive image'
-  FloatImageType::Pointer aliveImage = FloatImageType::New();
+  auto aliveImage = FloatImageType::New();
   aliveImage->SetLargestPossibleRegion(region);
   aliveImage->SetBufferedRegion(region);
   aliveImage->Allocate();
@@ -101,7 +101,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   aliveImage->SetPixel(index, 1.0);
 
   // Set up a 'trial image'
-  FloatImageType::Pointer trialImage = FloatImageType::New();
+  auto trialImage = FloatImageType::New();
   trialImage->SetLargestPossibleRegion(region);
   trialImage->SetBufferedRegion(region);
   trialImage->Allocate();
@@ -123,7 +123,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   trialImage->SetPixel(index, 1.0);
 
   // Set up a binary mask image in float (to make sure it works with float)
-  FloatImageType::Pointer maskImage = FloatImageType::New();
+  auto maskImage = FloatImageType::New();
   maskImage->SetLargestPossibleRegion(region);
   maskImage->SetBufferedRegion(region);
   maskImage->Allocate();
@@ -152,7 +152,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
 
   using AdaptorType = itk::FastMarchingImageToNodePairContainerAdaptor<FloatImageType, FloatImageType, FloatImageType>;
 
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetIsForbiddenImageBinaryMask(true);
 
   adaptor->SetAliveImage(aliveImage.GetPointer());

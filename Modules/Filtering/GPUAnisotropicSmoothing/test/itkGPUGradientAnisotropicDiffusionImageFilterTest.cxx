@@ -45,8 +45,8 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inFile);
   writer->SetFileName(outFile);
@@ -55,8 +55,8 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
   using CPUAnisoDiffFilterType = itk::GradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
   using GPUAnisoDiffFilterType = itk::GPUGradientAnisotropicDiffusionImageFilter<InputImageType, OutputImageType>;
 
-  typename CPUAnisoDiffFilterType::Pointer CPUFilter = CPUAnisoDiffFilterType::New();
-  typename GPUAnisoDiffFilterType::Pointer GPUFilter = GPUAnisoDiffFilterType::New();
+  auto CPUFilter = CPUAnisoDiffFilterType::New();
+  auto GPUFilter = GPUAnisoDiffFilterType::New();
 
   reader->Update();
 

@@ -208,7 +208,7 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
   ConjugateGradientLineSearchOptimizerv4TestMetric::Pointer metric =
@@ -278,8 +278,8 @@ itkConjugateGradientLineSearchOptimizerv4Test(int, char *[])
   itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
-  OptimizerType::Pointer badOptimizer = OptimizerType::New();
-  bool                   caught = false;
+  auto badOptimizer = OptimizerType::New();
+  bool caught = false;
   try
   {
     badOptimizer->GetCurrentPosition();

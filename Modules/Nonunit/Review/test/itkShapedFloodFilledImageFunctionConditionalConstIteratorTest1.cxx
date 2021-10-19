@@ -48,7 +48,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -63,7 +63,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
 
   RegionType region = reader->GetOutput()->GetBufferedRegion();
 
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   function->SetInputImage(reader->GetOutput());
   function->ThresholdAbove(1); // >= 1
@@ -79,7 +79,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
   }
   std::cout << std::endl;
 
-  ImageType::Pointer visitedImage = ImageType::New();
+  auto visitedImage = ImageType::New();
   visitedImage->SetRegions(region);
   visitedImage->Allocate(true); // initialize
                                 // buffer to zero

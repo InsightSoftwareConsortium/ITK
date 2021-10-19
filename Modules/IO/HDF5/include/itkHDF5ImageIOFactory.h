@@ -60,7 +60,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    HDF5ImageIOFactory::Pointer metaFactory = HDF5ImageIOFactory::New();
+    auto metaFactory = HDF5ImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

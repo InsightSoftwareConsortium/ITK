@@ -42,9 +42,9 @@ itkJoinImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create three images
-  myImageType1::Pointer inputImageA = myImageType1::New();
-  myImageType2::Pointer inputImageB = myImageType2::New();
-  myImageType3::Pointer inputImageC = myImageType3::New();
+  auto inputImageA = myImageType1::New();
+  auto inputImageB = myImageType2::New();
+  auto inputImageC = myImageType3::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -147,7 +147,7 @@ itkJoinImageFilterTest(int, char *[])
   //
 
   // Setup a JoinImageFilter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
   filter->SetInput1(inputImageA);
   filter->SetInput2(inputImageB);
 
@@ -156,7 +156,7 @@ itkJoinImageFilterTest(int, char *[])
   //
 
   // Setup a JoinImageFilter
-  myFilterType3::Pointer filter123 = myFilterType3::New();
+  auto filter123 = myFilterType3::New();
   filter123->SetInput1(filter->GetOutput());
   filter123->SetInput2(inputImageC);
   filter123->Update(); // This Update will force filter to execute, then filter123
@@ -192,7 +192,7 @@ itkJoinImageFilterTest(int, char *[])
   //
 
   // Setup a JoinImageFilter
-  myFilterType1::Pointer filter1 = myFilterType1::New();
+  auto filter1 = myFilterType1::New();
   filter1->SetInput1(inputImageB);
   filter1->SetInput2(inputImageA);
   filter1->Update();
@@ -215,7 +215,7 @@ itkJoinImageFilterTest(int, char *[])
   //
 
   // Setup a JoinImageFilter
-  myFilterType2::Pointer filter2 = myFilterType2::New();
+  auto filter2 = myFilterType2::New();
   filter2->SetInput1(inputImageA);
   filter2->SetInput2(inputImageA);
   filter2->Update();
@@ -238,7 +238,7 @@ itkJoinImageFilterTest(int, char *[])
   //
 
   // Setup a JoinImageFilter
-  myFilterType4::Pointer filter4 = myFilterType4::New();
+  auto filter4 = myFilterType4::New();
   filter4->SetInput1(inputImageB);
   filter4->SetInput2(inputImageB);
   filter4->Update();

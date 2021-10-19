@@ -44,7 +44,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest(int, char *[])
   constexpr unsigned int numberOfComponents = 3;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -111,7 +111,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageOfVectorTest(int, char *[])
 
 
   // Create a  Filter
-  myFilterType::Pointer    filter = myFilterType::New();
+  auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images

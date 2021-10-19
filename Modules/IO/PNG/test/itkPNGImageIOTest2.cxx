@@ -147,7 +147,7 @@ itkPNGImageIOTest2(int argc, char * argv[])
   }
 
   // Actually reading an RGBA image
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
 
@@ -186,7 +186,7 @@ itkPNGImageIOTest2(int argc, char * argv[])
   ImageType::Pointer inputImage = reader->GetOutput();
 
   // Write the grayscale output image
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(inputImage);
   writer->SetImageIO(io);
   writer->SetFileName(argv[2]);

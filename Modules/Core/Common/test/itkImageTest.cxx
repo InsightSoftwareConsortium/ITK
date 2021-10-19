@@ -49,7 +49,7 @@ itkImageTest(int, char *[])
 {
 
   using Image = itk::Image<float, 2>;
-  Image::Pointer      image = Image::New();
+  auto                image = Image::New();
   Image::ConstPointer myconstptr = image;
   image->DebugOn();
   const char * const knownStringName = "My First Image For Testing.";
@@ -129,7 +129,7 @@ itkImageTest(int, char *[])
   region.SetSize(size);
   image->SetRegions(region);
 
-  Image::Pointer     imageRef = Image::New();
+  auto               imageRef = Image::New();
   Image::SpacingType spacingRef;
   spacingRef.Fill(2);
   Image::PointType originRef;
@@ -166,7 +166,7 @@ itkImageTest(int, char *[])
   }
 
   using Image3D = itk::Image<float, 3>;
-  Image3D::Pointer     volume = Image3D::New();
+  auto                 volume = Image3D::New();
   Image3D::SpacingType spacingVol;
   spacingVol.Fill(1);
   Image3D::PointType originVol;

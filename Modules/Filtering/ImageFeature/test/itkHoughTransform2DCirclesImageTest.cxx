@@ -55,7 +55,7 @@ Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
   using ImageType = itk::Image<PixelType>;
 
   // Create an image that has at least one circle.
-  const ImageType::Pointer  image = ImageType::New();
+  const auto                image = ImageType::New();
   const ImageType::SizeType size = { { 64, 64 } };
   image->SetRegions(size);
   image->Allocate(true);
@@ -65,7 +65,7 @@ Test_GetCircles_should_return_empty_list_when_NumberOfCircles_is_set_to_zero()
 
   using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, PixelType, PixelType>;
 
-  const FilterType::Pointer filter = FilterType::New();
+  const auto filter = FilterType::New();
 
   filter->SetInput(image);
   filter->SetNumberOfCircles(0);
@@ -89,10 +89,10 @@ Test_GetCircles_should_return_empty_list_when_input_image_is_uniform()
 
   using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, PixelType, PixelType>;
 
-  const FilterType::Pointer filter = FilterType::New();
+  const auto filter = FilterType::New();
 
   // Create an input image for the filter.
-  const ImageType::Pointer  image = ImageType::New();
+  const auto                image = ImageType::New();
   const ImageType::SizeType size = { { 32, 32 } };
   image->SetRegions(size);
   image->Allocate();
@@ -129,7 +129,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
   using InputImageType = itk::Image<InputPixelType>;
 
   // Create an image that has at least one circle.
-  const InputImageType::Pointer  inputImage = InputImageType::New();
+  const auto                     inputImage = InputImageType::New();
   const InputImageType::SizeType size = { { 64, 64 } };
   inputImage->SetRegions(size);
   inputImage->Allocate();
@@ -144,8 +144,8 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
   using FilterType1 = itk::HoughTransform2DCirclesImageFilter<InputPixelType, OutputPixelType, unsigned long>;
   using FilterType2 = itk::HoughTransform2DCirclesImageFilter<InputPixelType, OutputPixelType, double>;
 
-  const FilterType1::Pointer filter1 = FilterType1::New();
-  const FilterType2::Pointer filter2 = FilterType2::New();
+  const auto filter1 = FilterType1::New();
+  const auto filter2 = FilterType2::New();
 
   filter1->SetInput(inputImage);
   filter2->SetInput(inputImage);
@@ -312,7 +312,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create a black image
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::RegionType region;
 
@@ -352,21 +352,21 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   }
 
   // Allocate Hough Space image (accumulator)
-  ImageType::Pointer m_HoughSpaceImage = ImageType::New();
+  auto m_HoughSpaceImage = ImageType::New();
   m_HoughSpaceImage->SetRegions(region);
   m_HoughSpaceImage->Allocate(true); // initialize buffer to zero
 
   // Apply gradient filter to the input image
   using CastingFilterType = itk::CastImageFilter<ImageType, HoughImageType>;
 
-  CastingFilterType::Pointer caster = CastingFilterType::New();
+  auto caster = CastingFilterType::New();
   caster->SetInput(image);
 
   // Define the HoughTransform filter
   using HoughTransformFilterType =
     itk::HoughTransform2DCirclesImageFilter<HoughSpacePixelType, HoughSpacePixelType, HoughSpacePixelType>;
 
-  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
+  auto houghFilter = HoughTransformFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(houghFilter, HoughTransform2DCirclesImageFilter, ImageToImageFilter);
 
@@ -460,7 +460,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   // Blur the accumulator in order to find the maximum
   using GaussianFilterType = itk::DiscreteGaussianImageFilter<HoughImageType, HoughImageType>;
 
-  GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+  auto gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput(accumulator);
   double gaussianFilterVariance[Dimension];
   gaussianFilterVariance[0] = variance;
@@ -473,7 +473,7 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   HoughImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
   using MinMaxCalculatorType = itk::MinimumMaximumImageCalculator<HoughImageType>;
-  MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
+  auto minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator<ImageType> it_output(m_HoughSpaceImage, m_HoughSpaceImage->GetLargestPossibleRegion());
 

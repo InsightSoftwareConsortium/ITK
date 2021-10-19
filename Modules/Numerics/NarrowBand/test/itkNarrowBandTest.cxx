@@ -29,7 +29,7 @@ itkNarrowBandTest(int, char *[])
   using BandType = itk::NarrowBand<BandNodeType>;
   using RegionType = BandType::RegionType;
 
-  BandType::Pointer band = BandType::New();
+  auto band = BandType::New();
   band->Reserve(100);
   // Create nodes
   BandNodeType node;

@@ -42,15 +42,15 @@ itkMetaImageStreamingIOTest(int ac, char * av[])
 
   using StreamingFilterType = itk::StreamingImageFilter<OutputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  StreamingFilterType::Pointer streamer = StreamingFilterType::New();
+  auto streamer = StreamingFilterType::New();
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
-  IOType::Pointer metaIn = IOType::New();
-  IOType::Pointer metaOut = IOType::New();
+  auto metaIn = IOType::New();
+  auto metaOut = IOType::New();
   reader->SetImageIO(metaIn);
   writer->SetImageIO(metaOut);
 

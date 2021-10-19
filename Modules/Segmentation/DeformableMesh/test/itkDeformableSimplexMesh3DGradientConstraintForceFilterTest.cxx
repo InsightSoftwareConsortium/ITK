@@ -46,8 +46,8 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 
   // note : image is volume of 20x20x20 starting at 0,0,0 so make sure
   // the mesh sits on image in space
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
-  PointType                     center;
+  auto      mySphereMeshSource = SphereMeshSourceType::New();
+  PointType center;
   center.Fill(10);
   PointType::ValueType scaleInit[3] = { 5, 5, 5 };
   VectorType           scale = scaleInit;
@@ -58,7 +58,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 
   std::cout << "Triangle mesh created. " << std::endl;
 
-  SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
+  auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
 
   using DeformFilterType = itk::DeformableSimplexMesh3DGradientConstraintForceFilter<SimplexMeshType, SimplexMeshType>;
@@ -69,7 +69,7 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   using IndexType = OriginalImageType::IndexType;
   using ImageSizeType = OriginalImageType::SizeType;
 
-  OriginalImageType::Pointer originalImage = OriginalImageType::New();
+  auto originalImage = OriginalImageType::New();
 
   ImageSizeType imageSize;
   imageSize.Fill(20);
@@ -103,21 +103,21 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
 
   using EdgeFilterType = itk::SobelEdgeDetectionImageFilter<OriginalImageType, OriginalImageType>;
 
-  EdgeFilterType::Pointer edgeFilter = EdgeFilterType::New();
+  auto edgeFilter = EdgeFilterType::New();
   edgeFilter->SetInput(originalImage);
   edgeFilter->Update();
 
   using GradientImageType = DeformFilterType::GradientImageType;
   using GradientFilterType = itk::GradientRecursiveGaussianImageFilter<OriginalImageType, GradientImageType>;
 
-  GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
+  auto gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput(edgeFilter->GetOutput());
   gradientFilter->SetSigma(1.0);
   gradientFilter->Update();
 
   std::cout << "done." << std::endl;
 
-  DeformFilterType::Pointer deformFilter = DeformFilterType::New();
+  auto deformFilter = DeformFilterType::New();
   deformFilter->SetInput(simplexFilter->GetOutput());
   deformFilter->SetImage(originalImage);
   deformFilter->SetGradient(gradientFilter->GetOutput());

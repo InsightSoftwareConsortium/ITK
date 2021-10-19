@@ -165,7 +165,7 @@ MorphologicalWatershedFromMarkersImageFilter<TInputImage, TLabelImage>::Generate
     // create a temporary image to store the state of each pixel (processed or
     // not)
     using StatusImageType = Image<bool, ImageDimension>;
-    typename StatusImageType::Pointer statusImage = StatusImageType::New();
+    auto statusImage = StatusImageType::New();
     statusImage->SetRegions(markerImage->GetLargestPossibleRegion());
     statusImage->Allocate();
 

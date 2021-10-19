@@ -39,10 +39,10 @@ itkIOEuler3DTransformTxtTest(int argc, char * argv[])
   TransformType::Pointer oldStyleInput, newStyleInput;
 
   using ReaderType = itk::TransformFileReaderTemplate<double>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   using WriterType = itk::TransformFileWriterTemplate<double>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   // read old style format in
   reader->SetFileName(argv[1]);

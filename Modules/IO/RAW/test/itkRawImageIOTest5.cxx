@@ -76,12 +76,12 @@ public:
   Write()
   {
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->SetFileName(m_FileName.c_str());
     writer->SetInput(m_Image);
 
-    RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
+    auto rawImageIO = RawImageIOType::New();
     writer->SetImageIO(rawImageIO);
 
     writer->Update();
@@ -91,10 +91,10 @@ public:
   Read()
   {
     using ReaderType = itk::ImageFileReader<ImageType>;
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(m_FileName.c_str());
 
-    RawImageIOType::Pointer rawImageIO = RawImageIOType::New();
+    auto rawImageIO = RawImageIOType::New();
     reader->SetImageIO(rawImageIO);
 
     unsigned int dim[2] = { 16, 16 };

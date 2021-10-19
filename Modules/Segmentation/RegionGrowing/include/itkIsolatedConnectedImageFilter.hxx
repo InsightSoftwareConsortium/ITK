@@ -200,7 +200,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using FunctionType = BinaryThresholdImageFunction<InputImageType>;
   using IteratorType = FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType>;
 
-  typename FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
   function->SetInputImage(inputImage);
 
   float             progressWeight = 0.0f;

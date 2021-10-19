@@ -130,7 +130,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
   // initialize selectionMap
   using MapPixelType = unsigned char;
   using SelectionMapType = Image<MapPixelType, ImageDimension>;
-  typename SelectionMapType::Pointer selectionMap = SelectionMapType::New();
+  auto selectionMap = SelectionMapType::New();
 
   // The selectionMap only needs to have the same pixel grid of the input image,
   // but do not have to care about origin, spacing or orientation.

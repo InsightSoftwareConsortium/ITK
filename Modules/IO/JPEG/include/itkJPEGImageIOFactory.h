@@ -62,7 +62,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    JPEGImageIOFactory::Pointer JPEGFactory = JPEGImageIOFactory::New();
+    auto JPEGFactory = JPEGImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(JPEGFactory);
   }

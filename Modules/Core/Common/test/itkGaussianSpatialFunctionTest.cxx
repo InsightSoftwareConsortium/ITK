@@ -39,7 +39,7 @@ itkGaussianSpatialFunctionTest(int argc, char * argv[])
 
   // Create and initialize the Spatial function
 
-  GaussianSpatialFunctionType::Pointer gaussianSpatialFunction = GaussianSpatialFunctionType::New();
+  auto gaussianSpatialFunction = GaussianSpatialFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(gaussianSpatialFunction, GaussianSpatialFunction, SpatialFunction);
 

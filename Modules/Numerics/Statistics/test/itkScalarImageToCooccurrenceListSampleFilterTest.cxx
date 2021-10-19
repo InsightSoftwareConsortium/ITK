@@ -36,7 +36,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image = InputImageType::New();
+  auto image = InputImageType::New();
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
@@ -81,7 +81,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
   using CooccurrenceListType = itk::Statistics::ScalarImageToCooccurrenceListSampleFilter<InputImageType>;
 
-  CooccurrenceListType::Pointer filter = CooccurrenceListType::New();
+  auto filter = CooccurrenceListType::New();
 
   filter->Print(std::cout);
 

@@ -124,7 +124,7 @@ void
 MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
@@ -141,7 +141,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
     m_BasicErodeFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_BasicErodeFilter, 0.4f);
 
-    typename SubtractFilterType::Pointer sub = SubtractFilterType::New();
+    auto sub = SubtractFilterType::New();
     sub->SetInput1(m_BasicDilateFilter->GetOutput());
     sub->SetInput2(m_BasicErodeFilter->GetOutput());
     progress->RegisterInternalFilter(sub, 0.1f);
@@ -169,7 +169,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
     m_AnchorErodeFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_AnchorErodeFilter, 0.4f);
 
-    typename SubtractFilterType::Pointer sub = SubtractFilterType::New();
+    auto sub = SubtractFilterType::New();
     sub->SetInput1(m_AnchorDilateFilter->GetOutput());
     sub->SetInput2(m_AnchorErodeFilter->GetOutput());
     progress->RegisterInternalFilter(sub, 0.1f);
@@ -187,7 +187,7 @@ MorphologicalGradientImageFilter<TInputImage, TOutputImage, TKernel>::GenerateDa
     m_VanHerkGilWermanErodeFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_VanHerkGilWermanErodeFilter, 0.4f);
 
-    typename SubtractFilterType::Pointer sub = SubtractFilterType::New();
+    auto sub = SubtractFilterType::New();
     sub->SetInput1(m_VanHerkGilWermanDilateFilter->GetOutput());
     sub->SetInput2(m_VanHerkGilWermanErodeFilter->GetOutput());
     progress->RegisterInternalFilter(sub, 0.1f);

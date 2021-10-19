@@ -90,7 +90,7 @@ namespace itk
  * triangles sharing an edge.
    \code
     using MeshSourceType = itk::AutomaticTopologyMeshSource< MeshType >;
-    MeshSourceType::Pointer meshSource = MeshSourceType::New();
+    auto meshSource = MeshSourceType::New();
     meshSource->AddTriangle(
       meshSource->AddPoint(0, 0, 0),
       meshSource->AddPoint(1, 0, 0),

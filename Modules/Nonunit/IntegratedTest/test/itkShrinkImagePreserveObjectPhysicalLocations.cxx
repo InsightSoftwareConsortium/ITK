@@ -48,7 +48,7 @@ MakeTwoLevelPyramid(TImageType::Pointer refImage)
 {
   PyramidFilterType::ScheduleType pyramidSchedule;
 
-  PyramidFilterType::Pointer MyPyramid = PyramidFilterType::New();
+  auto MyPyramid = PyramidFilterType::New();
   MyPyramid->SetInput(refImage);
   MyPyramid->SetNumberOfLevels(2);
   MyPyramid->SetMaximumError(1.e-5);
@@ -94,7 +94,7 @@ GetCenterOfMass(TImageType::Pointer volume)
   TImageType::PointType CenterOfMass;
   {
     using momentsCalculatorType = itk::ImageMomentsCalculator<TImageType>;
-    momentsCalculatorType::Pointer moments = momentsCalculatorType::New();
+    auto moments = momentsCalculatorType::New();
     moments->SetImage(volume);
     moments->Compute();
     TImageType::PointType::VectorType tempCenterOfMass = moments->GetCenterOfGravity();
@@ -157,7 +157,7 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
   newDirection[1][1] = 0;
   newOrigin = newDirection * newOrigin;
 
-  TImageType::Pointer image = TImageType::New();
+  auto image = TImageType::New();
   image->SetOrigin(newOrigin);
   image->SetSpacing(newSpacing);
   image->SetRegions(newSize);
@@ -214,7 +214,7 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
 //#define __WRITE_DEBUG_IMAGING__
 #ifdef __WRITE_DEBUG_IMAGING__
   using WriterType = itk::ImageFileWriter<WImageType>;
-  WriterType::Pointer                                   writer = WriterType::New();
+  auto                                                  writer = WriterType::New();
   itk::CastImageFilter<TImageType, WImageType>::Pointer castFilter =
     itk::CastImageFilter<TImageType, WImageType>::New();
 

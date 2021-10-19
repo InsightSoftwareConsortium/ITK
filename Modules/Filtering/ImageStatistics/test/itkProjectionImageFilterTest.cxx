@@ -92,13 +92,13 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // produce an image with 3 labels: 0 (background), 100 and 200
 
   using LabelerType = itk::ThresholdLabelerImageFilter<ImageType, ImageType>;
-  LabelerType::Pointer labeler = LabelerType::New();
+  auto labeler = LabelerType::New();
   labeler->SetInput(reader->GetOutput());
   LabelerType::RealThresholdVector thresholds;
   thresholds.push_back(100);
@@ -106,7 +106,7 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   labeler->SetRealThresholds(thresholds);
 
   using ChangeType = itk::ChangeLabelImageFilter<ImageType, ImageType>;
-  ChangeType::Pointer change = ChangeType::New();
+  auto change = ChangeType::New();
   change->SetInput(labeler->GetOutput());
   change->SetChange(1, 100);
   change->SetChange(2, 200);
@@ -115,7 +115,7 @@ itkProjectionImageFilterTest(int argc, char * argv[])
 
   using FilterType = itk::ProjectionImageFilter<ImageType, ImageType, FunctionType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ProjectionImageFilter, ImageToImageFilter);
 
@@ -130,7 +130,7 @@ itkProjectionImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

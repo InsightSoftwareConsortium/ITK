@@ -48,12 +48,12 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   using DilateFilterType = itk::GrayscaleGeodesicDilateImageFilter<InputImageType, OutputImageType>;
   using ErodeFilterType = itk::GrayscaleGeodesicErodeImageFilter<InputImageType, OutputImageType>;
 
-  ReaderType::Pointer       reader = ReaderType::New();
-  WriterType::Pointer       writer = WriterType::New();
-  ShiftFilterType::Pointer  shiftErode = ShiftFilterType::New();
-  ShiftFilterType::Pointer  shiftDilate = ShiftFilterType::New();
-  ErodeFilterType::Pointer  erode = ErodeFilterType::New();
-  DilateFilterType::Pointer dilate = DilateFilterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto shiftErode = ShiftFilterType::New();
+  auto shiftDilate = ShiftFilterType::New();
+  auto erode = ErodeFilterType::New();
+  auto dilate = DilateFilterType::New();
 
   // Create the reader and writer
   reader->SetFileName(argv[1]);

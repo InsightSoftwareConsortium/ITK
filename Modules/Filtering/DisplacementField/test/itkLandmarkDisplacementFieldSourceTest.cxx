@@ -45,7 +45,7 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
 
   using FilterType = itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
@@ -82,8 +82,8 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   using LandmarkContainerType = FilterType::LandmarkContainer;
   using LandmarkPointType = FilterType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks = LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks = LandmarkContainerType::New();
+  auto sourceLandmarks = LandmarkContainerType::New();
+  auto targetLandmarks = LandmarkContainerType::New();
 
   LandmarkPointType sourcePoint;
   LandmarkPointType targetPoint;
@@ -127,7 +127,7 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   // Write an image for regression testing
   using WriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);

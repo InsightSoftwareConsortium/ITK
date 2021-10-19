@@ -44,7 +44,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   VectorType displacement1;
   displacement1.Fill(0.1);
 
-  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = TimeVaryingVelocityFieldType::New();
+  auto timeVaryingVelocityField = TimeVaryingVelocityFieldType::New();
 
   timeVaryingVelocityField->SetOrigin(origin);
   timeVaryingVelocityField->SetSpacing(spacing);
@@ -55,7 +55,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   using IntegratorType =
     itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType>;
 
-  IntegratorType::Pointer integrator = IntegratorType::New();
+  auto integrator = IntegratorType::New();
   integrator->SetInput(timeVaryingVelocityField);
   integrator->SetLowerTimeBound(0.3);
   integrator->SetUpperTimeBound(0.75);
@@ -82,7 +82,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+  auto inverseIntegrator = IntegratorType::New();
   inverseIntegrator->SetInput(timeVaryingVelocityField);
   inverseIntegrator->SetLowerTimeBound(1.0);
   inverseIntegrator->SetUpperTimeBound(0.0);
@@ -103,7 +103,7 @@ itkTimeVaryingVelocityFieldTransformTest(int, char *[])
   // Now test the transform
 
   using TransformType = itk::TimeVaryingVelocityFieldTransform<ComponentType, ComponentDimension>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(transform, TimeVaryingVelocityFieldTransform, VelocityFieldTransform);
 

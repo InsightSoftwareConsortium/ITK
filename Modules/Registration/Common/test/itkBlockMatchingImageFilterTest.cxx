@@ -65,7 +65,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
   // Set up the reader
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -80,7 +80,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   // Reduce region of interest by SEARCH_RADIUS
   using RegionOfInterestFilterType = itk::RegionOfInterestImageFilter<InputImageType, InputImageType>;
 
-  RegionOfInterestFilterType::Pointer regionOfInterestFilter = RegionOfInterestFilterType::New();
+  auto regionOfInterestFilter = RegionOfInterestFilterType::New();
 
   regionOfInterestFilter->SetInput(reader->GetOutput());
 
@@ -101,7 +101,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   using PointSetType = FeatureSelectionFilterType::FeaturePointsType;
 
   // Feature Selection
-  FeatureSelectionFilterType::Pointer featureSelectionFilter = FeatureSelectionFilterType::New();
+  auto featureSelectionFilter = FeatureSelectionFilterType::New();
 
   featureSelectionFilter->SetInput(regionOfInterestFilter->GetOutput());
   featureSelectionFilter->SetSelectFraction(selectFraction);
@@ -110,7 +110,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   // Create transformed image from input to match with
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  TranslationTransformType::Pointer          transform = TranslationTransformType::New();
+  auto                                       transform = TranslationTransformType::New();
   TranslationTransformType::OutputVectorType translation;
   // move each pixel in input image 5 pixels along first(0) dimension
   translation[0] = 20.0;
@@ -119,14 +119,14 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   transform->Translate(translation);
 
   using ResampleImageFilterType = itk::ResampleImageFilter<InputImageType, InputImageType>;
-  ResampleImageFilterType::Pointer resampleFilter = ResampleImageFilterType::New();
+  auto resampleFilter = ResampleImageFilterType::New();
   resampleFilter->SetTransform(transform);
   resampleFilter->SetInput(reader->GetOutput());
   resampleFilter->SetReferenceImage(reader->GetOutput());
   resampleFilter->UseReferenceImageOn();
 
   using BlockMatchingFilterType = itk::BlockMatchingImageFilter<InputImageType>;
-  BlockMatchingFilterType::Pointer blockMatchingFilter = BlockMatchingFilterType::New();
+  auto blockMatchingFilter = BlockMatchingFilterType::New();
 
   // inputs (all required)
   blockMatchingFilter->SetFixedImage(resampleFilter->GetOutput());
@@ -164,7 +164,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   // create RGB copy of input image
   using RGBFilterType = itk::ScalarToRGBColormapImageFilter<InputImageType, OutputImageType>;
-  RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
+  auto colormapImageFilter = RGBFilterType::New();
 
   colormapImageFilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey);
   colormapImageFilter->SetInput(reader->GetOutput());
@@ -231,7 +231,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   // Set up the writer
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(outputImage);

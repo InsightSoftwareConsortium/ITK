@@ -74,7 +74,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   const InputPixelType     insideValue = std::stoi(argv[1]);
   constexpr InputPixelType outsideValue = 0;
 
-  InputImageType::Pointer  image = InputImageType::New();
+  auto                     image = InputImageType::New();
   InputImageType::SizeType size;
   size.Fill(64);
   InputImageType::RegionType region(size);
@@ -96,7 +96,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
 
   // Set up the filter
   using DistanceMapFilterType = itk::ApproximateSignedDistanceMapImageFilter<InputImageType, OutputImageType>;
-  DistanceMapFilterType::Pointer signedDistanceMapFilter = DistanceMapFilterType::New();
+  auto signedDistanceMapFilter = DistanceMapFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     signedDistanceMapFilter, ApproximateSignedDistanceMapImageFilter, ImageToImageFilter);
@@ -114,7 +114,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
 
   // Write the output image
   using RescaleFilterType = itk::ShiftScaleImageFilter<OutputImageType, WriterImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
 
   rescaler->SetInput(signedDistanceMapFilter->GetOutput());
   rescaler->SetScale(1000);
@@ -132,7 +132,7 @@ itkApproximateSignedDistanceMapImageFilterTest(int argc, char * argv[])
   }
 
   using WriterType = itk::ImageFileWriter<WriterImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileName(argv[2]);
 

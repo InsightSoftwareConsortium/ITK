@@ -35,9 +35,9 @@ itkTestingExtractSliceImageFilterTest(int, char *[])
 
   using FilterType = itk::Testing::ExtractSliceImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   InputImageType::SizeType size;
   size[0] = 20;

@@ -52,7 +52,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   using PixelType = itk::Vector<float, VectorLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  typename ImageType::Pointer  image = ImageType::New();
+  auto                         image = ImageType::New();
   typename ImageType::SizeType size;
   size.Fill(16);
   typename ImageType::RegionType region(size);
@@ -87,7 +87,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
   using OutputType = typename FunctionType::OutputType;
   using OutputValueType = typename FunctionType::OutputValueType;
 
-  typename FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   function->SetInputImage(image);
 
@@ -357,7 +357,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
 
   using BadFunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType, BadDerivativeType>;
 
-  typename BadFunctionType::Pointer badFunction = BadFunctionType::New();
+  auto badFunction = BadFunctionType::New();
   ITK_TRY_EXPECT_EXCEPTION(badFunction->SetInputImage(image));
 
   return result;

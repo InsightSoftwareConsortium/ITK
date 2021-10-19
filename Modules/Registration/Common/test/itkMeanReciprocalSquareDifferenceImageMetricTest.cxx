@@ -69,8 +69,8 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
   MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
-  MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
-  FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
+  auto movingImageSource = MovingImageSourceType::New();
+  auto fixedImageSource = FixedImageSourceType::New();
 
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
@@ -99,7 +99,7 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   using TransformBaseType = MetricType::TransformType;
   using ParametersType = TransformBaseType::ParametersType;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   metric->Print(std::cout);
 
   //-----------------------------------------------------------
@@ -114,7 +114,7 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
 
   using TransformType = itk::TranslationTransform<CoordinateRepresentationType, ImageDimension>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   metric->SetTransform(transform);
 
@@ -124,7 +124,7 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   //------------------------------------------------------------
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   interpolator->SetInputImage(movingImage);
 

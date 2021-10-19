@@ -40,7 +40,7 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
 
   VectorType ones(1);
 
-  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+  auto field = DisplacementFieldType::New();
   field->SetOrigin(origin);
   field->SetSpacing(spacing);
   field->SetRegions(size);
@@ -49,7 +49,7 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
   field->FillBuffer(ones);
 
   using ComposerType = itk::ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
-  ComposerType::Pointer composer = ComposerType::New();
+  auto composer = ComposerType::New();
   composer->SetDisplacementField(field);
   composer->SetWarpingField(field);
   composer->Update();

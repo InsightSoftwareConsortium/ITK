@@ -117,13 +117,13 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   // memory.
   using BinaryFilterType = BinaryThresholdImageFilter<InputImageType, OutputImageType>;
 
-  ProgressAccumulator::Pointer progressAcc = ProgressAccumulator::New();
+  auto progressAcc = ProgressAccumulator::New();
   progressAcc->SetMiniPipelineFilter(this);
 
   // compute the boundary of the binary object.
   // To do that, we erode the binary object. The eroded pixels are the ones
   // on the boundary. We mark them with the value 2
-  typename BinaryFilterType::Pointer binaryFilter = BinaryFilterType::New();
+  auto binaryFilter = BinaryFilterType::New();
 
   binaryFilter->SetLowerThreshold(this->m_BackgroundValue);
   binaryFilter->SetUpperThreshold(this->m_BackgroundValue);
@@ -138,7 +138,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Dilate the inverted image by 1 pixel to give it the same boundary
   // as the univerted inputPtr.
   using BorderFilterType = BinaryContourImageFilter<OutputImageType, OutputImageType>;
-  typename BorderFilterType::Pointer borderFilter = BorderFilterType::New();
+  auto borderFilter = BorderFilterType::New();
   borderFilter->SetInput(binaryFilter->GetOutput());
   borderFilter->SetForegroundValue(NumericTraits<OutputPixelType>::ZeroValue());
   borderFilter->SetBackgroundValue(NumericTraits<OutputPixelType>::max());

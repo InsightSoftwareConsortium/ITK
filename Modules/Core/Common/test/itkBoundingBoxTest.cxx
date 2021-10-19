@@ -27,7 +27,7 @@ itkBoundingBoxTest(int, char *[])
   // Test out the bounding box code
 
   using BB = itk::BoundingBox<unsigned long, 1, double>;
-  BB::Pointer myBox = BB::New();
+  auto myBox = BB::New();
 
   BB::PointsContainerPointer Points = BB::PointsContainer::New();
 
@@ -133,7 +133,7 @@ itkBoundingBoxTest(int, char *[])
   std::cout << " Some Testing in 3D " << std::endl;
 
   using CC = itk::BoundingBox<unsigned long, 3, double>;
-  CC::Pointer my3DBox = CC::New();
+  auto my3DBox = CC::New();
 
   CC::PointsContainerPointer Points3D = CC::PointsContainer::New();
 

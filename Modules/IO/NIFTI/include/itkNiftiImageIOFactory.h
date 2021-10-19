@@ -58,7 +58,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    NiftiImageIOFactory::Pointer metaFactory = NiftiImageIOFactory::New();
+    auto metaFactory = NiftiImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

@@ -80,7 +80,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   if (this->GetInverseFieldInitialEstimate())
   {
     using DuplicatorType = ImageDuplicator<InverseDisplacementFieldType>;
-    typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
+    auto duplicator = DuplicatorType::New();
     duplicator->SetInputImage(this->GetInverseFieldInitialEstimate());
     duplicator->Update();
 
@@ -117,7 +117,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
                                << ", max error norm = " << this->m_MaxErrorNorm);
 
     using ComposerType = ComposeDisplacementFieldsImageFilter<DisplacementFieldType>;
-    typename ComposerType::Pointer composer = ComposerType::New();
+    auto composer = ComposerType::New();
     composer->SetDisplacementField(displacementField);
     composer->SetWarpingField(inverseDisplacementField);
 

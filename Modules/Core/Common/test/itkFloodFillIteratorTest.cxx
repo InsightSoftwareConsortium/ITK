@@ -40,7 +40,7 @@ itkFloodFillIteratorTest(int, char *[])
   TImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
-  TImageType::Pointer sourceImage = TImageType::New();
+  auto sourceImage = TImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
@@ -82,7 +82,7 @@ itkFloodFillIteratorTest(int, char *[])
 
   // Create and initialize a new sphere function
 
-  TFunctionType::Pointer spatialFunc = TFunctionType::New();
+  auto spatialFunc = TFunctionType::New();
   spatialFunc->SetRadius(5);
 
   TFunctionPositionType center;

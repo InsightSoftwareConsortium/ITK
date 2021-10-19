@@ -39,12 +39,12 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
   using BayesianClassifierInitializerType = TBayesianClassifierInitializer;
   using BayesianClassifierFilterType = TBayesianClassifierFilter;
 
-  typename BayesianClassifierInitializerType::Pointer bayesianInitializer = BayesianClassifierInitializerType::New();
+  auto bayesianInitializer = BayesianClassifierInitializerType::New();
 
   bayesianInitializer->SetInput(image);
   bayesianInitializer->SetNumberOfClasses(numberOfClasses);
 
-  typename BayesianClassifierFilterType::Pointer bayesianClassifier = BayesianClassifierFilterType::New();
+  auto bayesianClassifier = BayesianClassifierFilterType::New();
 
   bayesianClassifier->SetInput(bayesianInitializer->GetOutput());
 
@@ -54,7 +54,7 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
   using ExtractedComponentImageType = typename BayesianClassifierFilterType::ExtractedComponentImageType;
   using SmoothingFilterType =
     itk::GradientAnisotropicDiffusionImageFilter<ExtractedComponentImageType, ExtractedComponentImageType>;
-  typename SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
+  auto smoother = SmoothingFilterType::New();
   smoother->SetNumberOfIterations(1);
   smoother->SetTimeStep(0.125);
   smoother->SetConductanceParameter(3);
@@ -64,21 +64,21 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
 
 
   using MonitorFilterType = itk::PipelineMonitorImageFilter<TInputImage>;
-  typename MonitorFilterType::Pointer monitor = MonitorFilterType::New();
+  auto monitor = MonitorFilterType::New();
   monitor->SetInput(bayesianClassifier->GetOutput());
 
 
   using ClassifierOutputImageType = typename BayesianClassifierFilterType::OutputImageType;
   using OutputImageType = itk::Image<unsigned char, TInputImage::ImageDimension>;
   using RescalerType = itk::RescaleIntensityImageFilter<ClassifierOutputImageType, OutputImageType>;
-  typename RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
   rescaler->SetInput(monitor->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFilename);
 
   writer->SetInput(rescaler->GetOutput());
@@ -106,13 +106,13 @@ TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer       
   using BayesianClassifierInitializerType = TBayesianClassifierInitializer;
   using BayesianClassifierFilterType = TBayesianClassifierFilter;
 
-  typename BayesianClassifierInitializerType::Pointer bayesianInitializer = BayesianClassifierInitializerType::New();
+  auto bayesianInitializer = BayesianClassifierInitializerType::New();
 
   bayesianInitializer->SetInput(image);
 
   bayesianInitializer->SetNumberOfClasses(numberOfClasses);
 
-  typename BayesianClassifierFilterType::Pointer bayesianClassifier = BayesianClassifierFilterType::New();
+  auto bayesianClassifier = BayesianClassifierFilterType::New();
 
   bayesianClassifier->SetInput(bayesianInitializer->GetOutput());
   bayesianClassifier->SetPriors(priorsImage);
@@ -123,7 +123,7 @@ TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer       
   using ExtractedComponentImageType = typename BayesianClassifierFilterType::ExtractedComponentImageType;
   using SmoothingFilterType =
     itk::GradientAnisotropicDiffusionImageFilter<ExtractedComponentImageType, ExtractedComponentImageType>;
-  typename SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
+  auto smoother = SmoothingFilterType::New();
   smoother->SetNumberOfIterations(1);
   smoother->SetTimeStep(0.125);
   smoother->SetConductanceParameter(3);
@@ -133,21 +133,21 @@ TestBayesianClassifierImageFilterWithPriors(typename TInputImage::Pointer       
 
 
   using MonitorFilterType = itk::PipelineMonitorImageFilter<TInputImage>;
-  typename MonitorFilterType::Pointer monitor = MonitorFilterType::New();
+  auto monitor = MonitorFilterType::New();
   monitor->SetInput(bayesianClassifier->GetOutput());
 
 
   using ClassifierOutputImageType = typename BayesianClassifierFilterType::OutputImageType;
   using OutputImageType = itk::Image<unsigned char, TInputImage::ImageDimension>;
   using RescalerType = itk::RescaleIntensityImageFilter<ClassifierOutputImageType, OutputImageType>;
-  typename RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
   rescaler->SetInput(monitor->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFilename);
 
   writer->SetInput(rescaler->GetOutput());
@@ -185,13 +185,13 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
   using BayesianInitializerType = itk::BayesianClassifierInitializationImageFilter<InputImageType>;
 
-  BayesianInitializerType::Pointer bayesianInitializer = BayesianInitializerType::New();
+  auto bayesianInitializer = BayesianInitializerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     bayesianInitializer, BayesianClassifierInitializationImageFilter, ImageToImageFilter);
 
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -213,7 +213,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
   using BayesianClassifierFilterType =
     itk::BayesianClassifierImageFilter<InitialLabelImageType, LabelType, PosteriorType, PriorType>;
 
-  BayesianClassifierFilterType::Pointer bayesianClassifier = BayesianClassifierFilterType::New();
+  auto bayesianClassifier = BayesianClassifierFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(bayesianClassifier, BayesianClassifierImageFilter, ImageToImageFilter);
 
@@ -237,7 +237,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
     const InputImageType * priorsInputImage = reader->GetOutput();
 
-    PriorsImageType::Pointer priorsImage = PriorsImageType::New();
+    auto priorsImage = PriorsImageType::New();
     priorsImage->CopyInformation(priorsInputImage);
     priorsImage->SetRegions(inputImage->GetLargestPossibleRegion());
     priorsImage->SetNumberOfComponentsPerPixel(5);
@@ -262,7 +262,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
     using ClassifierFilterType =
       itk::BayesianClassifierImageFilter<TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType>;
-    ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
+    auto filter = ClassifierFilterType::New();
 
     if (filter.IsNull())
     {
@@ -282,7 +282,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
     using ClassifierFilterType =
       itk::BayesianClassifierImageFilter<TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType>;
-    ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
+    auto filter = ClassifierFilterType::New();
     if (filter.IsNull())
     {
       return EXIT_FAILURE;
@@ -302,7 +302,7 @@ itkBayesianClassifierImageFilterTest(int argc, char * argv[])
 
     using ClassifierFilterType =
       itk::BayesianClassifierImageFilter<TestInitialLabelImageType, TestLabelType, TestPosteriorType, TestPriorType>;
-    ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
+    auto filter = ClassifierFilterType::New();
     if (filter.IsNull())
     {
       return EXIT_FAILURE;

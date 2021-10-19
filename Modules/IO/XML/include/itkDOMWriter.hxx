@@ -34,7 +34,7 @@ DOMWriter<TInput>::DOMWriter()
   // Create the logger.
   this->m_Logger = LoggerType::New();
   // by default logged messages go to the console
-  typename StdStreamLogOutput::Pointer defout = StdStreamLogOutput::New();
+  auto defout = StdStreamLogOutput::New();
   defout->SetStream(std::cout);
   this->m_Logger->AddLogOutput(defout);
   // settings that may be important
@@ -115,7 +115,7 @@ DOMWriter<TInput>::Update()
 {
   if (this->m_IntermediateDOM.IsNull())
   {
-    typename DOMNodeType::Pointer temp = DOMNodeType::New();
+    auto temp = DOMNodeType::New();
     this->SetIntermediateDOM(temp);
   }
 
@@ -136,7 +136,7 @@ DOMWriter<TInput>::Update()
   itksys::SystemTools::ChangeDirectory(sOldWorkingDir);
 
   // write the newly updated DOM object to the output XML file
-  typename DOMNodeXMLWriter::Pointer writer = DOMNodeXMLWriter::New();
+  auto writer = DOMNodeXMLWriter::New();
   writer->SetFileName(fn.ToString());
   writer->SetInput(this->m_IntermediateDOM);
   writer->Update();

@@ -48,7 +48,7 @@ itkSquareImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -88,7 +88,7 @@ itkSquareImageFilterTest(int, char *[])
   using FilterType = itk::SquareImageFilter<InputImageType, OutputImageType>;
 
   // Create a Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SquareImageFilter, UnaryGeneratorImageFilter);
 

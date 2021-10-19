@@ -47,7 +47,7 @@ itkEdgePotentialImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -91,7 +91,7 @@ itkEdgePotentialImageFilterTest(int, char *[])
   // create an EdgePotentialImageFilter
   using FilterType = itk::EdgePotentialImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
   // Connect the input images

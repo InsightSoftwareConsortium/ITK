@@ -44,7 +44,7 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
   PointValueType   sourceImageOrigin[] = { 0, 0 };
 
   // Creates the sourceImage (but doesn't set the size or allocate memory)
-  ImageType::Pointer sourceImage = ImageType::New();
+  auto sourceImage = ImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
@@ -87,7 +87,7 @@ itkFloodFilledSpatialFunctionTest(int, char *[])
     using FunctionType = itk::SphereSpatialFunction<dim>;
     using FunctionPositionType = FunctionType::InputType;
 
-    FunctionType::Pointer spatialFunc = FunctionType::New();
+    auto spatialFunc = FunctionType::New();
     spatialFunc->SetRadius(1.0);
 
     FunctionPositionType center;

@@ -51,7 +51,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   numberOfElements[1] = static_cast<unsigned int>(std::stoi(argv[6]));
   numberOfElements[2] = static_cast<unsigned int>(std::stoi(argv[7]));
 
-  ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+  auto reader = ImageFileReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
@@ -65,7 +65,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   m->SetMomentOfInertia(0.004);
 
   using MembraneElementType = itk::fem::Element3DC0LinearHexahedronMembrane;
-  MembraneElementType::Pointer e0 = MembraneElementType::New();
+  auto e0 = MembraneElementType::New();
   e0->SetGlobalNumber(0);
   if (dynamic_cast<ElasticityType *>(m.GetPointer()))
   {
@@ -73,7 +73,7 @@ itkImageToRectilinearFEMObjectFilter3DTest(int argc, char * argv[])
   }
 
   using MeshFilterType = itk::fem::ImageToRectilinearFEMObjectFilter<ImageType>;
-  MeshFilterType::Pointer meshFilter = MeshFilterType::New();
+  auto meshFilter = MeshFilterType::New();
   meshFilter->SetInput(reader->GetOutput());
   meshFilter->SetPixelsPerElement(pixelsPerElement);
   meshFilter->SetElement(e0);

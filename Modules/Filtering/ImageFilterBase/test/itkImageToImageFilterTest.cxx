@@ -50,12 +50,12 @@ itkImageToImageFilterTest(int, char *[])
 
   using FilterType = itk::ImageToImageFilterTestHelper<InputImageType, OutputImageType>;
 
-  InputImageType::Pointer inputImage1 = InputImageType::New();
-  InputImageType::Pointer inputImage2 = InputImageType::New();
-  InputImageType::Pointer inputImage3 = InputImageType::New();
-  InputImageType::Pointer inputImage4 = InputImageType::New();
+  auto inputImage1 = InputImageType::New();
+  auto inputImage2 = InputImageType::New();
+  auto inputImage3 = InputImageType::New();
+  auto inputImage4 = InputImageType::New();
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->Print(std::cout);
   std::cout << "Name of Class = " << filter->GetNameOfClass() << std::endl;

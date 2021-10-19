@@ -199,15 +199,15 @@ ConstantVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTransformParam
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
   using IdentityTransformType = IdentityTransform<ParametersValueType, ConstantVelocityFieldDimension>;
-  typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   using LinearInterpolatorType = LinearInterpolateImageFunction<ConstantVelocityFieldType, ParametersValueType>;
-  typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+  auto interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage(this->m_Transform->GetConstantVelocityField());
 
   using ResamplerType = ResampleImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ParametersValueType>;
-  typename ResamplerType::Pointer resampler = ResamplerType::New();
+  auto resampler = ResamplerType::New();
   resampler->SetInput(this->m_Transform->GetConstantVelocityField());
   resampler->SetOutputDirection(newFieldDirection);
   resampler->SetOutputOrigin(newFieldOrigin);

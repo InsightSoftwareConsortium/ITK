@@ -140,7 +140,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
 {
   using ImageType = itk::Image<float, 2>;
 
-  ImageType::Pointer im_init = ImageType::New();
+  auto im_init = ImageType::New();
 
   ImageType::RegionType r;
   ImageType::SizeType   sz = { { SFFOLSIFT::HEIGHT, SFFOLSIFT::WIDTH } };
@@ -155,7 +155,7 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
 
   SFFOLSIFT::evaluate_function(im_init, SFFOLSIFT::square);
   using FilterType = itk::IsotropicDiffusionLevelSetFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(im_init);
   std::cout << "MaxRefitIteration = " << (filter->GetMaxRefitIteration()) << "\n";

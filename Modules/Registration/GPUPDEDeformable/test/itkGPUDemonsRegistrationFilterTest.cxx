@@ -236,8 +236,8 @@ itkGPUDemons(int, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  typename FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  typename MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[3]);
   movingImageReader->SetFileName(argv[4]);
@@ -248,15 +248,15 @@ itkGPUDemons(int, char * argv[])
   using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  typename FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  typename MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  auto fixedImageCaster = FixedImageCasterType::New();
+  auto movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
 
   // maching intensity histogram
   using MatchingFilterType = itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
-  typename MatchingFilterType::Pointer matcher = MatchingFilterType::New();
+  auto matcher = MatchingFilterType::New();
 
   matcher->SetInput(movingImageCaster->GetOutput());
   matcher->SetReferenceImage(fixedImageCaster->GetOutput());
@@ -271,7 +271,7 @@ itkGPUDemons(int, char * argv[])
   using RegistrationFilterType =
     itk::GPUDemonsRegistrationFilter<InternalImageType, InternalImageType, DisplacementFieldType>;
 
-  typename RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
+  auto filter = RegistrationFilterType::New();
 
   using ProgressType = ShowProgressObject<RegistrationFilterType>;
   ProgressType progressWatch(filter);
@@ -302,9 +302,9 @@ itkGPUDemons(int, char * argv[])
   // warp the image with the deformation field
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  typename WarperType::Pointer       warper = WarperType::New();
-  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  typename FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
+  auto                             warper = WarperType::New();
+  auto                             interpolator = InterpolatorType::New();
+  typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
   warper->SetInterpolator(interpolator);
@@ -321,8 +321,8 @@ itkGPUDemons(int, char * argv[])
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename WriterType::Pointer     writer = WriterType::New();
-  typename CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   char * outName = AppendFileName(argv[5], "_gpu");
   writer->SetFileName(outName);
@@ -351,8 +351,8 @@ itkCPUDemons(int, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  typename FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  typename MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[3]);
   movingImageReader->SetFileName(argv[4]);
@@ -363,15 +363,15 @@ itkCPUDemons(int, char * argv[])
   using FixedImageCasterType = itk::CastImageFilter<FixedImageType, InternalImageType>;
   using MovingImageCasterType = itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  typename FixedImageCasterType::Pointer  fixedImageCaster = FixedImageCasterType::New();
-  typename MovingImageCasterType::Pointer movingImageCaster = MovingImageCasterType::New();
+  auto fixedImageCaster = FixedImageCasterType::New();
+  auto movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
 
   // maching intensity histogram
   using MatchingFilterType = itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
-  typename MatchingFilterType::Pointer matcher = MatchingFilterType::New();
+  auto matcher = MatchingFilterType::New();
 
   matcher->SetInput(movingImageCaster->GetOutput());
   matcher->SetReferenceImage(fixedImageCaster->GetOutput());
@@ -386,7 +386,7 @@ itkCPUDemons(int, char * argv[])
   using RegistrationFilterType =
     itk::DemonsRegistrationFilter<InternalImageType, InternalImageType, DisplacementFieldType>;
 
-  typename RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
+  auto filter = RegistrationFilterType::New();
 
   using ProgressType = ShowProgressObject<RegistrationFilterType>;
   ProgressType                                             progressWatch(filter);
@@ -411,9 +411,9 @@ itkCPUDemons(int, char * argv[])
   // warp the image with the deformation field
   using WarperType = itk::WarpImageFilter<MovingImageType, MovingImageType, DisplacementFieldType>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  typename WarperType::Pointer       warper = WarperType::New();
-  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  typename FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
+  auto                             warper = WarperType::New();
+  auto                             interpolator = InterpolatorType::New();
+  typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
   warper->SetInterpolator(interpolator);
@@ -429,8 +429,8 @@ itkCPUDemons(int, char * argv[])
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename WriterType::Pointer     writer = WriterType::New();
-  typename CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   char * outName = AppendFileName(argv[5], "_cpu");
   writer->SetFileName(outName);

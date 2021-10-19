@@ -252,7 +252,7 @@ itkEqualTest(int, char *[])
   {
     // BinaryImageFilter
     using iFIB = itk::BinaryFunctorImageFilter<itk::Image<double>, itk::Image<double>, itk::Image<double>, Bogus>;
-    iFIB::Pointer FIB = iFIB::New();
+    auto FIB = iFIB::New();
     if (FIB.IsNull())
     {
       return EXIT_FAILURE;

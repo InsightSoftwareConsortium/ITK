@@ -26,7 +26,7 @@ itkLightObjectTest(int, char *[])
 
   using ObjectType = itk::LightObject;
 
-  ObjectType::Pointer light = ObjectType::New();
+  auto light = ObjectType::New();
 
   std::cout << "Light Object class name = ";
   std::cout << light->GetNameOfClass() << std::endl;

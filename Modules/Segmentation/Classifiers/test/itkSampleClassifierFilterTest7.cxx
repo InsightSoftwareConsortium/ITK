@@ -92,7 +92,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  PointSetType::Pointer                pointSet = PointSetType::New();
+  auto                                 pointSet = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   constexpr int                        dataSizeBig = 2000;
   pointsContainer->Reserve(dataSizeBig);
@@ -124,7 +124,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   dataStream.close();
 
   /* Importing the point set to the sample */
-  DataSampleType::Pointer sample = DataSampleType::New();
+  auto sample = DataSampleType::New();
 
   sample->SetPointSet(pointSet);
 
@@ -139,7 +139,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   }
 
   /* Estimating */
-  EstimatorType::Pointer estimator = EstimatorType::New();
+  auto estimator = EstimatorType::New();
   estimator->SetSample(sample);
   estimator->SetMaximumIteration(maximumIteration);
   estimator->SetInitialProportions(initialProportions);
@@ -180,12 +180,12 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
 
   // Set up a classifier
   using FilterType = itk::Statistics::SampleClassifierFilter<DataSampleType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = FilterType::ClassLabelVectorType;
 
-  ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
 
   // Add class labels
   ClassLabelVectorType & classLabelVector = classLabelsObject->Get();
@@ -201,7 +201,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   // Set a decision rule type
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   const FilterType::MembershipFunctionVectorObjectType * membershipFunctionsObject = estimator->GetOutput();
 
@@ -250,7 +250,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  PointSetType::Pointer                pointSet2 = PointSetType::New();
+  auto                                 pointSet2 = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer2 = PointSetType::PointsContainer::New();
   constexpr int                        dataSizeSmall = 200;
   pointsContainer2->Reserve(dataSizeSmall);
@@ -272,7 +272,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   dataTargetStream.close();
 
   /* Importing the point set to the sample */
-  DataSampleType::Pointer sampleTarget = DataSampleType::New();
+  auto sampleTarget = DataSampleType::New();
 
   sampleTarget->SetPointSet(pointSet2);
 

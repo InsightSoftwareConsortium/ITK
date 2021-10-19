@@ -53,8 +53,8 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
-  myImageType1::Pointer inputImageA = myImageType1::New();
-  myImageType2::Pointer inputImageB = myImageType2::New();
+  auto inputImageA = myImageType1::New();
+  auto inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -118,7 +118,7 @@ itkSquaredDifferenceImageFilterTest(int, char *[])
 
 
   // Create a MagnitudeImageFilter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SquaredDifferenceImageFilter, BinaryGeneratorImageFilter);
 

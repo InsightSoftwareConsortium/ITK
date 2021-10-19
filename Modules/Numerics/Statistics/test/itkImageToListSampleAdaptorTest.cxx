@@ -32,7 +32,7 @@ itkImageToListSampleAdaptorTestTemplate()
 
   // Now generate a random image
   using SourceType = itk::RandomImageSource<FloatImageType>;
-  typename SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   itk::SizeValueType size[Dimension] = { 17, 8, 20 };
   itk::SizeValueType totalSize = size[0] * size[1] * size[2];
@@ -45,14 +45,14 @@ itkImageToListSampleAdaptorTestTemplate()
   source->SetMax(static_cast<typename FloatImageType::PixelType>(maxValue));
 
   using ComposeFilterType = itk::ComposeImageFilter<FloatImageType, ImageType>;
-  typename ComposeFilterType::Pointer composeFilter = ComposeFilterType::New();
+  auto composeFilter = ComposeFilterType::New();
   composeFilter->SetInput(source->GetOutput());
   composeFilter->Update();
 
   // creates a sample
   using ImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<ImageType>;
 
-  typename ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
+  auto sample = ImageToListSampleAdaptorType::New();
 
   // Test if the methods throw exceptions if invoked before setting the image
   try

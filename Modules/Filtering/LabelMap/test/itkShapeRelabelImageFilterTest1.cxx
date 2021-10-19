@@ -41,11 +41,11 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using RelabelType = itk::ShapeRelabelImageFilter<IType>;
-  RelabelType::Pointer opening = RelabelType::New();
+  auto opening = RelabelType::New();
 
   opening->SetInput(reader->GetOutput());
 
@@ -78,7 +78,7 @@ itkShapeRelabelImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(opening->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

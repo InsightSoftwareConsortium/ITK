@@ -66,7 +66,7 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Up
   using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions>;
   const bool importFilterWillReleaseMemory = false;
 
-  typename ImporterType::Pointer importer = ImporterType::New();
+  auto importer = ImporterType::New();
   importer->SetImportPointer(updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory);
   importer->SetRegion(velocityField->GetBufferedRegion());
   importer->SetOrigin(velocityField->GetOrigin());
@@ -90,13 +90,13 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Up
   using RealImageType = Image<ScalarType, NDimensions>;
 
   using MultiplierType = MultiplyImageFilter<ConstantVelocityFieldType, RealImageType, ConstantVelocityFieldType>;
-  typename MultiplierType::Pointer multiplier = MultiplierType::New();
+  auto multiplier = MultiplierType::New();
   multiplier->SetInput(updateField);
   multiplier->SetConstant(factor);
   multiplier->Update();
 
   using AdderType = AddImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType, ConstantVelocityFieldType>;
-  typename AdderType::Pointer adder = AdderType::New();
+  auto adder = AdderType::New();
   adder->SetInput1(velocityField);
   adder->SetInput2(multiplier->GetOutput());
 
@@ -146,13 +146,13 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, NDimensions>::Ga
   }
 
   using DuplicatorType = ImageDuplicator<ConstantVelocityFieldType>;
-  typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
+  auto duplicator = DuplicatorType::New();
   duplicator->SetInputImage(field);
   duplicator->Update();
 
   ConstantVelocityFieldPointer smoothField = duplicator->GetOutput();
 
-  typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
+  auto smoother = GaussianSmoothingSmootherType::New();
 
   for (unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension)
   {

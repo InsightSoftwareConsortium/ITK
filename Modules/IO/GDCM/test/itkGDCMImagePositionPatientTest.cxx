@@ -60,14 +60,14 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   Image2DType::SizeType size2D;
   size2D.Fill(16);
 
-  RandomImageSource2DType::Pointer src2D = RandomImageSource2DType::New();
+  auto src2D = RandomImageSource2DType::New();
   src2D->SetMin(0);
   src2D->SetMax(255);
   src2D->SetSpacing(spacing2D);
   src2D->SetSize(size2D);
 
-  ImageIOType::Pointer gdcmIO = ImageIOType::New();
-  DictionaryType       dictionary;
+  auto           gdcmIO = ImageIOType::New();
+  DictionaryType dictionary;
 
   // Set all required DICOM fields
   std::ostringstream value;
@@ -86,8 +86,8 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
 
   src2D->GetOutput()->SetMetaDataDictionary(dictionary);
 
-  Writer2DType::Pointer writer2D = Writer2DType::New();
-  std::ostringstream    filename;
+  auto               writer2D = Writer2DType::New();
+  std::ostringstream filename;
   filename.str("");
   filename << argv[1] << "/itkGDCMImagePositionPatientTest.dcm";
   writer2D->SetInput(src2D->GetOutput());
@@ -106,7 +106,7 @@ itkGDCMImagePositionPatientTest(int argc, char * argv[])
   }
 
   // Now read the dicom back and check its origin
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(filename.str().c_str());
   reader->Update();
 

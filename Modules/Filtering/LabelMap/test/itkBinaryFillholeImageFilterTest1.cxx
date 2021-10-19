@@ -42,14 +42,14 @@ itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   using FilterType = itk::BinaryFillholeImageFilter<ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryFillholeImageFilter, ImageToImageFilter);
 
@@ -66,7 +66,7 @@ itkBinaryFillholeImageFilterTest1(int argc, char * argv[])
   filter->SetInput(reader->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

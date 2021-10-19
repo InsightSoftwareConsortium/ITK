@@ -84,7 +84,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   if (InputImageDimension == OutputImageDimension)
   {
     using DecoratorType = DataObjectDecorator<IdentityTransformType>;
-    typename DecoratorType::Pointer decoratedInput = DecoratorType::New();
+    auto decoratedInput = DecoratorType::New();
     decoratedInput->Set(defaultTransform);
     this->ProcessObject::SetInput(
       "Transform", const_cast<DataObjectDecorator<IdentityTransformType> *>(decoratedInput.GetPointer()));

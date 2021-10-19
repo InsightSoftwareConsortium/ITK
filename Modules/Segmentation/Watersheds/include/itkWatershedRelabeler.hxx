@@ -50,7 +50,7 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
 
   typename SegmentTreeType::Pointer  tree = this->GetInputSegmentTree();
   typename SegmentTreeType::Iterator it;
-  EquivalencyTable::Pointer          eqT = EquivalencyTable::New();
+  auto                               eqT = EquivalencyTable::New();
 
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();

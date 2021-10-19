@@ -27,7 +27,7 @@ itkVectorCentralDifferenceImageFunctionTest(int, char *[])
   using PixelType = itk::Vector<short, VectorDimension>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   ImageType::SizeType size;
   size.Fill(16);
   ImageType::RegionType region(size);
@@ -50,7 +50,7 @@ itkVectorCentralDifferenceImageFunctionTest(int, char *[])
   // set up central difference calculator
   using CoordRepType = float;
   using FunctionType = itk::VectorCentralDifferenceImageFunction<ImageType, CoordRepType>;
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   function->SetInputImage(image);
 

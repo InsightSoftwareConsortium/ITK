@@ -144,7 +144,7 @@ TEST(SmartPointer, EmptyAndNull)
   //  EXPECT_TRUE( 0 == ptr );
 
   // Excercise pointer assignment
-  Derived2::Pointer      p1 = Derived2::New();
+  auto                   p1 = Derived2::New();
   Derived2::Pointer      p2 = p1;
   Derived2::ConstPointer cp1 = p1;
   Derived2::ConstPointer cp2(p1);

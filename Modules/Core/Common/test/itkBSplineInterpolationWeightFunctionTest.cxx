@@ -56,7 +56,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     using IndexType = FunctionType::IndexType;
     using WeightsType = FunctionType::WeightsType;
 
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     WeightsType weights1;
     WeightsType weights2;
@@ -143,7 +143,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     using IndexType = FunctionType::IndexType;
     using WeightsType = FunctionType::WeightsType;
 
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     WeightsType weights1;
     WeightsType weights2;
@@ -231,7 +231,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     using WeightsType = FunctionType::WeightsType;
     using SizeType = FunctionType::SizeType;
 
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
     function->Print(std::cout);
 
     SizeType      size = FunctionType::SupportSize;
@@ -257,10 +257,10 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
     // Check for accuracy
     using KernelType = itk::BSplineKernelFunction<SplineOrder>;
-    KernelType::Pointer kernel = KernelType::New();
+    auto kernel = KernelType::New();
 
     using ImageType = itk::Image<char, SpaceDimension>;
-    ImageType::Pointer    image = ImageType::New();
+    auto                  image = ImageType::New();
     ImageType::RegionType region;
     region.SetIndex(startIndex);
     region.SetSize(size);

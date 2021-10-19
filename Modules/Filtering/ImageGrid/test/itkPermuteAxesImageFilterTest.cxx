@@ -60,7 +60,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
   double spacing[ImageDimension] = { 1.1, 1.2, 1.3, 1.4 };
   double origin[ImageDimension] = { 0.5, 0.4, 0.3, 0.2 };
 
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
@@ -81,7 +81,7 @@ itkPermuteAxesImageFilterTest(int, char *[])
 
 
   // permute the image
-  PermuterType::Pointer permuter = PermuterType::New();
+  auto permuter = PermuterType::New();
 
   unsigned int order[ImageDimension] = { 2, 0, 3, 1 };
   permuter->SetOrder(order);

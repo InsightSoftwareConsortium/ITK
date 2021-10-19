@@ -53,7 +53,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -91,7 +91,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::AcosImageFilter<InputImageType, OutputImageType>;
 
   // Create the Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AcosImageFilter, UnaryGeneratorImageFilter);
 
@@ -139,7 +139,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::AcosImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer acosAdaptor = AdaptorType::New();
+  auto acosAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(acosAdaptor, AcosImageAdaptor, ImageAdaptor);
 
@@ -147,7 +147,7 @@ itkAcosImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(acosAdaptor);

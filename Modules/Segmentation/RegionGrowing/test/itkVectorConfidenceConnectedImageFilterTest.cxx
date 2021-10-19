@@ -47,13 +47,13 @@ itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer input = ReaderType::New();
+  auto input = ReaderType::New();
   input->SetFileName(av[1]);
 
   // Create a filter
   using FilterType = itk::VectorConfidenceConnectedImageFilter<ImageType, OutputImageType>;
 
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(input->GetOutput());
@@ -102,7 +102,7 @@ itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(av[2]);
@@ -115,11 +115,11 @@ itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
   using VectorImageType = itk::VectorImage<PixelComponentType, Dimension>;
 
   using VectorReaderType = itk::ImageFileReader<VectorImageType>;
-  VectorReaderType::Pointer vinput = VectorReaderType::New();
+  auto vinput = VectorReaderType::New();
   vinput->SetFileName(av[1]);
 
   using VectorFilterType = itk::VectorConfidenceConnectedImageFilter<VectorImageType, OutputImageType>;
-  VectorFilterType::Pointer vFilter = VectorFilterType::New();
+  auto vFilter = VectorFilterType::New();
 
   vFilter->SetInput(vinput->GetOutput());
   vFilter->SetInitialNeighborhoodRadius(3); // measured in pixels

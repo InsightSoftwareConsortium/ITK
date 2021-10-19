@@ -31,7 +31,7 @@ RegularSphereMeshSource<TOutputMesh>::RegularSphereMeshSource()
   /**
    * Create the output
    */
-  typename TOutputMesh::Pointer output = TOutputMesh::New();
+  auto output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
   m_Center.Fill(0);
@@ -145,9 +145,9 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
     typename OutputMeshType::CellsContainerPointer    myCells = outputMesh->GetCells();
     typename OutputMeshType::CellsContainer::Iterator cells = myCells->Begin();
 
-    typename OutputMeshType::Pointer result = OutputMeshType::New();
-    PointType                        v[3];
-    PointType *                      v_pt[3];
+    auto        result = OutputMeshType::New();
+    PointType   v[3];
+    PointType * v_pt[3];
     v_pt[0] = &v[0];
     v_pt[1] = &v[1];
     v_pt[2] = &v[2];
@@ -159,7 +159,7 @@ RegularSphereMeshSource<TOutputMesh>::GenerateData()
     // container for the processed edges
     // when subdividing a triangle, the corresponding subdivided
     // edges are stocked here with the Id of the middle point.
-    PointMapType::Pointer handledEdges = PointMapType::New();
+    auto handledEdges = PointMapType::New();
 
     // for the points Id to be consecutive,
     // and for the Ids to exist only if the point has been copied

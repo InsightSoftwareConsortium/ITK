@@ -160,10 +160,10 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   using OptimizerType = itk::LBFGS2Optimizerv4;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the metric
-  itkLBFGS2Optimizerv4TestMetric::Pointer metric = itkLBFGS2Optimizerv4TestMetric::New();
+  auto metric = itkLBFGS2Optimizerv4TestMetric::New();
 
   // Set some optimizer parameters
   itkOptimizer->SetHessianApproximationAccuracy(5);

@@ -36,7 +36,7 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
   using ImageNDType = itk::Image<short, 2>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
   reader->Update();
   ImageNDType::Pointer image = reader->GetOutput();

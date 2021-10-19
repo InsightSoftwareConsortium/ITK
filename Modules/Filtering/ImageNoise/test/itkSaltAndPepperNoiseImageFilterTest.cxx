@@ -41,11 +41,11 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using SaltAndPepperNoiseImageFilterType = itk::SaltAndPepperNoiseImageFilter<ImageType, ImageType>;
-  SaltAndPepperNoiseImageFilterType::Pointer saltAndPepperNoiseImageFilter = SaltAndPepperNoiseImageFilterType::New();
+  auto saltAndPepperNoiseImageFilter = SaltAndPepperNoiseImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(saltAndPepperNoiseImageFilter, SaltAndPepperNoiseImageFilter, NoiseBaseImageFilter);
 
@@ -73,7 +73,7 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(saltAndPepperNoiseImageFilter, "SaltAndPepperNoiseImageFilter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(saltAndPepperNoiseImageFilter->GetOutput());
   writer->SetFileName(argv[2]);
 

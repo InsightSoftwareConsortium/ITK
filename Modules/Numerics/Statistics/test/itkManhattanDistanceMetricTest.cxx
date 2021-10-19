@@ -27,7 +27,7 @@ itkManhattanDistanceMetricTest(int, char *[])
 
   using DistanceMetricType = itk::Statistics::ManhattanDistanceMetric<MeasurementVectorType>;
 
-  DistanceMetricType::Pointer distance = DistanceMetricType::New();
+  auto distance = DistanceMetricType::New();
 
   std::cout << distance->GetNameOfClass() << std::endl;
 

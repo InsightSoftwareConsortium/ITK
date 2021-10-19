@@ -68,7 +68,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    PhilipsRECImageIOFactory::Pointer factory = PhilipsRECImageIOFactory::New();
+    auto factory = PhilipsRECImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

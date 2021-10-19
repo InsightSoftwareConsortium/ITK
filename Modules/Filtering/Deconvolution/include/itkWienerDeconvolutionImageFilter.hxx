@@ -38,10 +38,10 @@ WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInterna
 {
   // Create a process accumulator for tracking the progress of this
   // minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typename InputImageType::Pointer localInput = InputImageType::New();
+  auto localInput = InputImageType::New();
   localInput->Graft(this->GetInput());
 
   const KernelImageType * kernelImage = this->GetKernelImage();
@@ -58,7 +58,7 @@ WienerDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInterna
 
   using WienerFilterType =
     BinaryGeneratorImageFilter<InternalComplexImageType, InternalComplexImageType, InternalComplexImageType>;
-  typename WienerFilterType::Pointer wienerFilter = WienerFilterType::New();
+  auto wienerFilter = WienerFilterType::New();
   wienerFilter->SetInput(0, input);
   wienerFilter->SetInput(1, kernel);
   wienerFilter->SetFunctor(wienerFunctor);

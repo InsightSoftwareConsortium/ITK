@@ -43,7 +43,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>::VelocityFieldTransfor
 
   // Setup and assign default interpolator
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<VelocityFieldType, ScalarType>;
-  typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
+  auto interpolator = DefaultInterpolatorType::New();
   this->m_VelocityFieldInterpolator = interpolator;
 
   // Setup and assign parameter helper. This will hold the displacement field
@@ -190,7 +190,7 @@ VelocityFieldTransform<TParametersValueType, NDimensions>::SetFixedParameters(
   PixelType zeroDisplacement;
   zeroDisplacement.Fill(0.0);
 
-  typename VelocityFieldType::Pointer velocityField = VelocityFieldType::New();
+  auto velocityField = VelocityFieldType::New();
   velocityField->SetSpacing(spacing);
   velocityField->SetOrigin(origin);
   velocityField->SetDirection(direction);
@@ -247,7 +247,7 @@ typename VelocityFieldTransform<TParametersValueType, NDimensions>::Displacement
 VelocityFieldTransform<TParametersValueType, NDimensions>::CopyDisplacementField(
   const DisplacementFieldType * toCopy) const
 {
-  typename DisplacementFieldType::Pointer rval = DisplacementFieldType::New();
+  auto rval = DisplacementFieldType::New();
   rval->SetOrigin(toCopy->GetOrigin());
   rval->SetSpacing(toCopy->GetSpacing());
   rval->SetDirection(toCopy->GetDirection());

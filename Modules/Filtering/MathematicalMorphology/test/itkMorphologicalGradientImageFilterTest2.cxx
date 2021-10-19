@@ -40,7 +40,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   using IType = itk::Image<PType, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using StructuringElementType = itk::BinaryBallStructuringElement<PType, dim>;
@@ -49,7 +49,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   structuringElement.CreateStructuringElement();
 
   using GradientType = itk::MorphologicalGradientImageFilter<IType, IType, StructuringElementType>;
-  GradientType::Pointer gradient = GradientType::New();
+  auto gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetKernel(structuringElement);
   itk::SimpleFilterWatcher watcher(gradient);
@@ -58,7 +58,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   std::cout << "algorithmType : " << algorithmType << std::endl;
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(gradient->GetOutput());
   writer->SetFileName(argv[2]);
 
@@ -81,7 +81,7 @@ itkMorphologicalGradientImageFilterTest2(int argc, char * argv[])
   SRType structuringElement2 = SRType::Box(elementRadius);
 
   using Gradient1Type = itk::MorphologicalGradientImageFilter<IType, IType, SRType>;
-  Gradient1Type::Pointer gradient1 = Gradient1Type::New();
+  auto gradient1 = Gradient1Type::New();
   gradient1->SetInput(reader->GetOutput());
   gradient1->SetKernel(structuringElement2);
   gradient1->SetAlgorithm(GradientType::AlgorithmEnum::VHGW);

@@ -44,7 +44,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
   region.SetSize(size);
   region.SetIndex(index);
 
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
@@ -95,7 +95,7 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 
   // Apply labeler filter
   using LabelerFilterType = itk::ThresholdLabelerImageFilter<InputImageType, LabeledImageType>;
-  LabelerFilterType::Pointer labelerFilter = LabelerFilterType::New();
+  auto labelerFilter = LabelerFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(labelerFilter, ThresholdLabelerImageFilter, UnaryFunctorImageFilter);
 

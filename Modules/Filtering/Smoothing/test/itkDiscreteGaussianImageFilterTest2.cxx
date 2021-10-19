@@ -38,19 +38,19 @@ itkDiscreteGaussianImageFilterTestA(int argc, char * argv[])
   const char * output_file_name = argv[5];
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(input_file_name);
 
   using FilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetVariance(sigma);
   filter->Update();
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(output_file_name);
   writer->SetInput(filter->GetOutput());
   writer->UseCompressionOn();

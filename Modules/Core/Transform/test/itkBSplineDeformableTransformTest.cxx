@@ -77,7 +77,7 @@ itkBSplineDeformableTransformTest1()
   /**
    * Instantiate a transform
    */
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   transform->SetGridSpacing(spacing);
   transform->SetGridOrigin(origin);
@@ -133,7 +133,7 @@ itkBSplineDeformableTransformTest1()
    * Set a bulk transform
    */
   using BulkTransformType = itk::VersorRigid3DTransform<CoordinateRepType>;
-  BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
+  auto bulkTransform = BulkTransformType::New();
 
   // optional: set bulk transform parameters
 
@@ -391,7 +391,7 @@ itkBSplineDeformableTransformTest1()
   std::cout << transform->GetValidRegion() << std::endl;
 
   using EvenOrderTransformType = itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, 2>;
-  EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
+  auto evenOrderTransform = EvenOrderTransformType::New();
   if (evenOrderTransform.IsNull())
   {
     return EXIT_FAILURE;
@@ -415,7 +415,7 @@ itkBSplineDeformableTransformTest1()
    */
   {
     std::cout << "Exercising SetIdentity() " << std::endl;
-    TransformType::Pointer transform2 = TransformType::New();
+    auto transform2 = TransformType::New();
     transform2->SetGridSpacing(spacing);
     transform2->SetGridOrigin(origin);
     transform2->SetGridRegion(region);
@@ -462,7 +462,7 @@ itkBSplineDeformableTransformTest2()
   TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   // Set up field spacing, origin, region
   double                spacing[Dimension];
@@ -612,7 +612,7 @@ itkBSplineDeformableTransformTest3()
   /**
    * Instantiate a transform
    */
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   transform->SetGridSpacing(spacing);
   transform->SetGridOrigin(origin);

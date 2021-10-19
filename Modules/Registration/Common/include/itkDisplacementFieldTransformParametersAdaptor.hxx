@@ -195,15 +195,15 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameter
   const DirectionType newFieldDirection = this->GetRequiredDirection();
 
   using IdentityTransformType = IdentityTransform<ParametersValueType, SpaceDimension>;
-  typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   using LinearInterpolatorType = LinearInterpolateImageFunction<DisplacementFieldType, ParametersValueType>;
-  typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+  auto interpolator = LinearInterpolatorType::New();
   interpolator->SetInputImage(this->m_Transform->GetDisplacementField());
 
   using ResamplerType = ResampleImageFilter<DisplacementFieldType, DisplacementFieldType, ParametersValueType>;
-  typename ResamplerType::Pointer resampler = ResamplerType::New();
+  auto resampler = ResamplerType::New();
   resampler->SetInput(this->m_Transform->GetDisplacementField());
   resampler->SetOutputDirection(newFieldDirection);
   resampler->SetOutputOrigin(newFieldOrigin);
@@ -219,10 +219,10 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameter
   typename DisplacementFieldType::Pointer newInverseDisplacementField = nullptr;
   if (this->m_Transform->GetInverseDisplacementField())
   {
-    typename LinearInterpolatorType::Pointer inverseInterpolator = LinearInterpolatorType::New();
+    auto inverseInterpolator = LinearInterpolatorType::New();
     inverseInterpolator->SetInputImage(this->m_Transform->GetInverseDisplacementField());
 
-    typename ResamplerType::Pointer inverseResampler = ResamplerType::New();
+    auto inverseResampler = ResamplerType::New();
     inverseResampler->SetInput(this->m_Transform->GetInverseDisplacementField());
     inverseResampler->SetOutputDirection(newFieldDirection);
     inverseResampler->SetOutputOrigin(newFieldOrigin);

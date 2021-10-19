@@ -40,7 +40,7 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
   using ChangeInfoFilterType = itk::ChangeInformationImageFilter<ImageType>;
   using CyclicShiftFilterType = itk::CyclicShiftImageFilter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Change the origin of the image to make sure we can handle that case.
@@ -48,7 +48,7 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
   newOrigin[0] = -52;
   newOrigin[1] = 37;
 
-  ChangeInfoFilterType::Pointer changeInfoFilter = ChangeInfoFilterType::New();
+  auto changeInfoFilter = ChangeInfoFilterType::New();
   changeInfoFilter->ChangeRegionOn();
   changeInfoFilter->SetOutputOffset(newOrigin);
   changeInfoFilter->SetInput(reader->GetOutput());
@@ -57,7 +57,7 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
   shift[0] = std::stoi(argv[2]);
   shift[1] = std::stoi(argv[3]);
 
-  CyclicShiftFilterType::Pointer shiftFilter = CyclicShiftFilterType::New();
+  auto shiftFilter = CyclicShiftFilterType::New();
   shiftFilter->SetShift(shift);
   shiftFilter->SetInput(changeInfoFilter->GetOutput());
 

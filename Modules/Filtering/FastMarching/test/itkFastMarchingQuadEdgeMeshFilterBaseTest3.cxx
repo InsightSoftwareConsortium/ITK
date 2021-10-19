@@ -49,7 +49,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
   using PointDataContainerPointer = PointDataContainer::Pointer;
 
   // Let's create here a plane!
-  MeshType::Pointer plane = MeshType::New();
+  auto plane = MeshType::New();
 
   PointsContainerPointer    points = PointsContainer::New();
   PointDataContainerPointer pointdata = PointDataContainer::New();
@@ -104,16 +104,16 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
   //  using NodeContainerType = FastMarchingType::NodeContainerType;
   using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
-  NodePairContainerType::Pointer trial = NodePairContainerType::New();
+  auto trial = NodePairContainerType::New();
 
   NodePairType node_pair(0, 0.);
   trial->push_back(node_pair);
 
   using CriterionType = itk::FastMarchingThresholdStoppingCriterion<MeshType, MeshType>;
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
   criterion->SetThreshold(100.);
 
-  FastMarchingType::Pointer fmm_filter = FastMarchingType::New();
+  auto fmm_filter = FastMarchingType::New();
   fmm_filter->SetInput(plane);
   fmm_filter->SetTrialPoints(trial);
   fmm_filter->SetStoppingCriterion(criterion);
@@ -162,7 +162,7 @@ itkFastMarchingQuadEdgeMeshFilterBaseTest3(int, char *[])
   }
 
   using WriterType = itk::MeshFileWriter<MeshType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(fmm_filter->GetOutput());
   writer->SetFileName("itkFastMarchingQuadEdgeMeshFilterBaseTest3.vtk");
   writer->Update();

@@ -208,7 +208,7 @@ itkFEMSolverHyperbolicTest(int ac, char * av[])
    * Third, create the FEM solver object and generate the solution
    */
 
-  FEMSolverType::Pointer SH = FEMSolverType::New();
+  auto SH = FEMSolverType::New();
   SH->SetInput(femSO->GetFEMObject());
   SH->SetTimeStep(.5);
   SH->SetNumberOfIterations(niter);

@@ -37,12 +37,12 @@ itkInterpolateImageFilterTest(int, char *[])
   SizeType size;
   size.Fill(5);
 
-  InputImageType::Pointer image1 = InputImageType::New();
+  auto image1 = InputImageType::New();
   image1->SetRegions(size);
   image1->Allocate();
   image1->FillBuffer(100);
 
-  InputImageType::Pointer image2 = InputImageType::New();
+  auto image2 = InputImageType::New();
   image2->SetRegions(size);
   image2->Allocate();
 
@@ -58,7 +58,7 @@ itkInterpolateImageFilterTest(int, char *[])
   }
 
   using FilterType = itk::InterpolateImageFilter<InputImageType, OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput1(image1);
   filter->SetInput2(image2);

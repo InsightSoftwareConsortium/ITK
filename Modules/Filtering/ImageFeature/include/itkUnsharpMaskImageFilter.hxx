@@ -71,9 +71,9 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPrecisi
 void
 UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::GenerateData()
 {
-  typename TInputImage::Pointer input = TInputImage::New();
+  auto input = TInputImage::New();
   input->Graft(const_cast<TInputImage *>(this->GetInput()));
-  typename GaussianType::Pointer gaussianF = GaussianType::New();
+  auto gaussianF = GaussianType::New();
   gaussianF->SetInput(input);
   gaussianF->SetSigmaArray(m_Sigmas);
   gaussianF->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -81,14 +81,14 @@ UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::GenerateD
   using USMType = UnsharpMaskingFunctor<InputPixelType, TInternalPrecision, OutputPixelType>;
   using BinaryFunctorType =
     BinaryGeneratorImageFilter<TInputImage, typename GaussianType::OutputImageType, TOutputImage>;
-  typename BinaryFunctorType::Pointer functorF = BinaryFunctorType::New();
+  auto functorF = BinaryFunctorType::New();
   functorF->SetInput1(this->GetInput());
   functorF->SetInput2(gaussianF->GetOutput());
   USMType usmT(m_Amount, m_Threshold, m_Clamp);
   functorF->SetFunctor(usmT);
   functorF->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(gaussianF, 0.7);
   progress->RegisterInternalFilter(functorF, 0.3);

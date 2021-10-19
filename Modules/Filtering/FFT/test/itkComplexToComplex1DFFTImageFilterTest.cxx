@@ -44,12 +44,12 @@ doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, co
   using ToRealFilterType = itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  typename ReaderType::Pointer       readerReal = ReaderType::New();
-  typename ReaderType::Pointer       readerImag = ReaderType::New();
-  typename FFTType::Pointer          fft = FFTType::New();
-  typename JoinFilterType::Pointer   joinFilter = JoinFilterType::New();
-  typename ToRealFilterType::Pointer toReal = ToRealFilterType::New();
-  typename WriterType::Pointer       writer = WriterType::New();
+  auto readerReal = ReaderType::New();
+  auto readerImag = ReaderType::New();
+  auto fft = FFTType::New();
+  auto joinFilter = JoinFilterType::New();
+  auto toReal = ToRealFilterType::New();
+  auto writer = WriterType::New();
 
   readerReal->SetFileName(inputRealFullImage);
   readerImag->SetFileName(inputImaginaryFullImage);

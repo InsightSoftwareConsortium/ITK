@@ -36,7 +36,7 @@ itkFEMLoadEdgeTest(int argc, char * argv[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using Solver2DType = itk::fem::Solver<2>;
-  Solver2DType::Pointer solver = Solver2DType::New();
+  auto solver = Solver2DType::New();
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;

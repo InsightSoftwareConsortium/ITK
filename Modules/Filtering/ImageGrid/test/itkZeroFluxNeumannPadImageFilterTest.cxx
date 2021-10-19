@@ -149,7 +149,7 @@ VerifyFilter(const ShortImage *    inputImage,
 
   // Create a streaming filter
   using StreamingFilter = itk::StreamingImageFilter<FloatImage, FloatImage>;
-  StreamingFilter::Pointer stream = StreamingFilter::New();
+  auto stream = StreamingFilter::New();
   stream->SetInput(padFilter->GetOutput());
   stream->SetNumberOfStreamDivisions(3);
   stream->UpdateLargestPossibleRegion();
@@ -171,7 +171,7 @@ int
 itkZeroFluxNeumannPadImageFilterTest(int, char *[])
 {
   // Test the creation of an image with native type
-  ShortImage::Pointer inputImage = ShortImage::New();
+  auto inputImage = ShortImage::New();
 
   // Fill in a test image
   ShortImage::IndexType  inputIndex = { { 0, 0 } };
@@ -192,7 +192,7 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
   }
 
   // Create a filter
-  FilterType::Pointer padFilter = FilterType::New();
+  auto padFilter = FilterType::New();
   padFilter->SetInput(inputImage);
 
   // itk::SimpleFilterWatcher watcher( padFilter );

@@ -43,7 +43,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -51,7 +51,7 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
 
   using KMeansFilterType = itk::ScalarImageKmeansImageFilter<ImageType>;
 
-  KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
+  auto kmeansFilter = KMeansFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(kmeansFilter, ScalarImageKmeansImageFilter, ImageToImageFilter);
 
@@ -99,12 +99,12 @@ itkScalarImageKmeansImageFilterTest(int argc, char * argv[])
   using RelabelFilterType = itk::RelabelComponentImageFilter<OutputImageType, OutputImageType>;
 
 
-  RelabelFilterType::Pointer relabeler = RelabelFilterType::New();
+  auto relabeler = RelabelFilterType::New();
 
   relabeler->SetInput(kmeansFilter->GetOutput());
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(relabeler->GetOutput());
   writer->SetFileName(argv[2]);
 

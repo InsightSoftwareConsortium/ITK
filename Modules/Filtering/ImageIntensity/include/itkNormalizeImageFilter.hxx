@@ -57,7 +57,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 NormalizeImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 

@@ -44,7 +44,7 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
 
   constexpr SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
   //
@@ -60,7 +60,7 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
   }
 
   using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
   std::cout << treeGenerator->GetNameOfClass() << std::endl;
   treeGenerator->Print(std::cout);
 
@@ -92,8 +92,8 @@ itkWeightedCentroidKdTreeGeneratorTest1(int argc, char * argv[])
   //  Check that for every point in the sample, its closest point is itself.
   //
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
-  bool                        testFailed = false;
+  auto distanceMetric = DistanceMetricType::New();
+  bool testFailed = false;
 
   for (unsigned int k = 0; k < sample->Size(); ++k)
   {

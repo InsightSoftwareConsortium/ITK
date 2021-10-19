@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    NrrdImageIOFactory::Pointer nrrdFactory = NrrdImageIOFactory::New();
+    auto nrrdFactory = NrrdImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(nrrdFactory);
   }

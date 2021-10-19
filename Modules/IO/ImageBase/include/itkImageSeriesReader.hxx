@@ -123,8 +123,8 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
   const int firstFileName = (m_ReverseOrder ? numberOfFiles - 1 : 0);
   const int lastFileName = (m_ReverseOrder ? 0 : numberOfFiles - 1);
 
-  typename ReaderType::Pointer firstReader = ReaderType::New();
-  typename ReaderType::Pointer lastReader = ReaderType::New();
+  auto firstReader = ReaderType::New();
+  auto lastReader = ReaderType::New();
   firstReader->SetFileName(m_FileNames[firstFileName].c_str());
   lastReader->SetFileName(m_FileNames[lastFileName].c_str());
   if (m_ImageIO)
@@ -321,7 +321,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
     }
 
     // configure reader
-    typename ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(m_FileNames[iFileName].c_str());
 
     TOutputImage * readerOutput = reader->GetOutput();

@@ -45,10 +45,10 @@ itkVotingBinaryImageFilterTestImp(const std::string & infname,
 
   using FilterType = itk::VotingBinaryImageFilter<InputImageType, OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(infname);
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
 
@@ -67,7 +67,7 @@ itkVotingBinaryImageFilterTestImp(const std::string & infname,
   ITK_TEST_SET_GET_VALUE(birthThreshold, filter->GetBirthThreshold());
   ITK_TEST_SET_GET_VALUE(survivalThreshold, filter->GetSurvivalThreshold());
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(outfname);
   writer->SetNumberOfStreamDivisions(5);
@@ -116,7 +116,7 @@ itkVotingBinaryImageFilterTest(int argc, char * argv[])
   using TestImageType = itk::Image<short, 3>;
   using FilterType = itk::VotingBinaryImageFilter<TestImageType, TestImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VotingBinaryImageFilter, ImageToImageFilter);
 
   switch (componentType)

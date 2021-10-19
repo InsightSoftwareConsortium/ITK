@@ -46,10 +46,10 @@ itkBorderQuadEdgeMeshFilterTest2(int argc, char * argv[])
   using SourceType = itk::RegularSphereMeshSource<MeshType>;
   using BorderTransformType = itk::BorderQuadEdgeMeshFilter<MeshType, MeshType>;
 
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-  BorderTransformType::Pointer border_transform = BorderTransformType::New();
+  auto border_transform = BorderTransformType::New();
   border_transform->SetInput(source->GetOutput());
   border_transform->SetTransformType(BorderTransformType::BorderTransformEnum::SQUARE_BORDER_TRANSFORM);
 

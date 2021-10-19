@@ -51,19 +51,19 @@ itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
   using VectorImageType = TVectorImage;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using ComposeType = itk::ComposeImageFilter<ImageType, VectorImageType>;
-  typename ComposeType::Pointer compose = ComposeType::New();
+  auto compose = ComposeType::New();
   compose->SetInput1(reader->GetOutput());
   compose->SetInput2(reader2->GetOutput());
 
   using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<VectorImageType>;
-  typename HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
+  auto histogramFilter = HistogramFilterType::New();
   histogramFilter->SetInput(compose->GetOutput());
   itk::SimpleFilterWatcher watcher(histogramFilter, "histogramFilter");
 
@@ -74,16 +74,16 @@ itkImageToHistogramFilterTest4Templated(int argc, char * argv[])
   // is of greater dimension than the histogram
   using FloatImageType = itk::Image<float, 3>;
   using ImageFilterType = itk::HistogramToLogProbabilityImageFilter<HistogramType, FloatImageType>;
-  typename ImageFilterType::Pointer imageFilter = ImageFilterType::New();
+  auto imageFilter = ImageFilterType::New();
   imageFilter->SetInput(histogramFilter->GetOutput());
   itk::SimpleFilterWatcher watcher2(imageFilter, "imageFilter");
 
   using RescaleType = itk::RescaleIntensityImageFilter<FloatImageType, ImageType>;
-  typename RescaleType::Pointer rescale = RescaleType::New();
+  auto rescale = RescaleType::New();
   rescale->SetInput(imageFilter->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(rescale->GetOutput());
   writer->SetFileName(argv[3]);
 

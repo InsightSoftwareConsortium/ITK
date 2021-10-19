@@ -42,7 +42,7 @@ itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
   using CellIdentifier = MeshType::CellIdentifier;
 
   // Read mesh file
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -50,7 +50,7 @@ itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ConformalFlatteningMeshFilter, MeshToMeshFilter);
 
@@ -88,7 +88,7 @@ itkConformalFlatteningMeshFilterTest(int argc, char * argv[])
   MeshType::Pointer newMesh = filter->GetOutput();
 
   // Write to file
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(newMesh);
   writer->SetFileName(argv[2]);
 

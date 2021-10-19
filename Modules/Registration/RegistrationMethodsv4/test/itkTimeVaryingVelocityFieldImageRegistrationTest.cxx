@@ -112,14 +112,14 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 
   using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
-  typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[2]);
   fixedImageReader->Update();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
-  typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[3]);
   movingImageReader->Update();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
@@ -128,7 +128,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 
   using AffineTransformType = itk::AffineTransform<double, ImageDimension>;
   using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType>;
-  typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
+  auto affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage(fixedImage);
   affineSimple->SetMovingImage(movingImage);
 
@@ -149,7 +149,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   std::cout << "number of affine iterations: " << numberOfAffineIterations << std::endl;
 
   using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
-  typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
+  auto affineObserver = AffineCommandType::New();
   affineSimple->AddObserver(itk::IterationEvent(), affineObserver);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
@@ -163,11 +163,11 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   using RealType = typename AffineRegistrationType::RealType;
 
   using CompositeTransformType = itk::CompositeTransform<RealType, ImageDimension>;
-  typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  auto compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform(affineSimple->GetModifiableTransform());
 
   using AffineResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  typename AffineResampleFilterType::Pointer affineResampler = AffineResampleFilterType::New();
+  auto affineResampler = AffineResampleFilterType::New();
   affineResampler->SetTransform(compositeTransform);
   affineResampler->SetInput(movingImage);
   affineResampler->SetSize(fixedImage->GetBufferedRegion().GetSize());
@@ -180,7 +180,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   std::string affineMovingImageFileName = std::string(argv[4]) + std::string("MovingImageAfterAffineTransform.nii.gz");
 
   using AffineWriterType = itk::ImageFileWriter<FixedImageType>;
-  typename AffineWriterType::Pointer affineWriter = AffineWriterType::New();
+  auto affineWriter = AffineWriterType::New();
   affineWriter->SetFileName(affineMovingImageFileName.c_str());
   affineWriter->SetInput(affineResampler->GetOutput());
   affineWriter->Update();
@@ -191,7 +191,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
   // Here we use 10 time index points.
   using TimeVaryingVelocityFieldType = itk::Image<VectorType, ImageDimension + 1>;
-  typename TimeVaryingVelocityFieldType::Pointer velocityField = TimeVaryingVelocityFieldType::New();
+  auto velocityField = TimeVaryingVelocityFieldType::New();
 
   typename TimeVaryingVelocityFieldType::IndexType     velocityFieldIndex;
   typename TimeVaryingVelocityFieldType::SizeType      velocityFieldSize;
@@ -235,7 +235,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   velocityField->FillBuffer(zeroVector);
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename CorrelationMetricType::Pointer    correlationMetric = CorrelationMetricType::New();
+  auto                                       correlationMetric = CorrelationMetricType::New();
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill(4);
   correlationMetric->SetRadius(radius);
@@ -244,10 +244,10 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 
   using VelocityFieldRegistrationType =
     itk::TimeVaryingVelocityFieldImageRegistrationMethodv4<FixedImageType, MovingImageType>;
-  typename VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
+  auto velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
   using OutputTransformType = typename VelocityFieldRegistrationType::OutputTransformType;
-  typename OutputTransformType::Pointer outputTransform = OutputTransformType::New();
+  auto outputTransform = OutputTransformType::New();
 
   velocityFieldRegistration->SetFixedImage(fixedImage);
   velocityFieldRegistration->SetMovingInitialTransform(compositeTransform);
@@ -300,7 +300,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
-    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(shrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(fixedImage);
     shrinkFilter->Update();
@@ -351,7 +351,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   compositeTransform->AddTransform(outputTransform);
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
   resampler->SetTransform(compositeTransform);
   resampler->SetInput(movingImage);
   resampler->SetSize(fixedImage->GetBufferedRegion().GetSize());
@@ -365,7 +365,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     std::string(argv[4]) + std::string("MovingImageAfterVelocityFieldTransform.nii.gz");
 
   using WriterType = itk::ImageFileWriter<FixedImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(warpedMovingImageFileName.c_str());
   writer->SetInput(resampler->GetOutput());
   writer->Update();
@@ -384,7 +384,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   std::string inverseWarpedFixedImageFileName = std::string(argv[4]) + std::string("InverseWarpedFixedImage.nii.gz");
 
   using InverseWriterType = itk::ImageFileWriter<MovingImageType>;
-  typename InverseWriterType::Pointer inverseWriter = InverseWriterType::New();
+  auto inverseWriter = InverseWriterType::New();
   inverseWriter->SetFileName(inverseWarpedFixedImageFileName.c_str());
   inverseWriter->SetInput(inverseResampler->GetOutput());
   inverseWriter->Update();
@@ -392,7 +392,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   std::string velocityFieldFileName = std::string(argv[4]) + std::string("VelocityField.nii.gz");
 
   using VelocityFieldWriterType = itk::ImageFileWriter<TimeVaryingVelocityFieldType>;
-  typename VelocityFieldWriterType::Pointer velocityFieldWriter = VelocityFieldWriterType::New();
+  auto velocityFieldWriter = VelocityFieldWriterType::New();
   velocityFieldWriter->SetFileName(velocityFieldFileName.c_str());
   velocityFieldWriter->SetInput(outputTransform->GetVelocityField());
   velocityFieldWriter->Update();

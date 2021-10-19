@@ -29,7 +29,7 @@ itkSimplexMeshWithFloatCoordRepTest(int, char *[])
   using MeshType = itk::SimplexMesh<PixelType, Dimension, MeshTraits>;
   using DeformType = itk::DeformableSimplexMesh3DFilter<MeshType, MeshType>;
 
-  DeformType::Pointer deform = DeformType::New();
+  auto deform = DeformType::New();
   deform->Print(std::cout);
   return EXIT_SUCCESS;
 }

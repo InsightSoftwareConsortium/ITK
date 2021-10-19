@@ -67,7 +67,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   //------------------------------------------------------
   using VecImageType = itk::Image<itk::Vector<double, NUMBANDS>, NDIMENSION>;
 
-  VecImageType::Pointer vecImage = VecImageType::New();
+  auto vecImage = VecImageType::New();
 
   VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
@@ -173,7 +173,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   // Generate the training data
   //---------------------------------------------------------------
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
-  ClassImageType::Pointer classImage = ClassImageType::New();
+  auto classImage = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
@@ -299,7 +299,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   using ImageGaussianModelEstimatorType =
     itk::ImageGaussianModelEstimator<VecImageType, MembershipFunctionType, ClassImageType>;
 
-  ImageGaussianModelEstimatorType::Pointer applyEstimateModel = ImageGaussianModelEstimatorType::New();
+  auto applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
@@ -317,7 +317,7 @@ itkSupervisedImageClassifierTest(int, char *[])
   using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer myDecisionRule = DecisionRuleType::New();
+  auto myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
   // Test code for the supervised classifier algorithm
@@ -329,7 +329,7 @@ itkSupervisedImageClassifierTest(int, char *[])
 
   using SupervisedClassifierType = itk::ImageClassifierBase<VecImageType, ClassImageType>;
 
-  SupervisedClassifierType::Pointer applyClassifier = SupervisedClassifierType::New();
+  auto applyClassifier = SupervisedClassifierType::New();
 
   using ProgressType = SupervisedImageClassifierTest::ShowProgressObject;
 

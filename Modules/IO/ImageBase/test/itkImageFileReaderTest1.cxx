@@ -36,7 +36,7 @@ itkImageFileReaderTest1(int ac, char * av[])
   int status = 1;
   try
   {
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->Update();
   }
   catch (const itk::ExceptionObject & ex)
@@ -56,7 +56,7 @@ itkImageFileReaderTest1(int ac, char * av[])
   status = 1;
   try
   {
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName("this_file_should_not_exist");
     reader->Update();
   }
@@ -76,7 +76,7 @@ itkImageFileReaderTest1(int ac, char * av[])
   status = 1;
   try
   {
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     // this is the executable and no reader should be able to read it
     reader->SetFileName(av[0]);
     reader->Update();

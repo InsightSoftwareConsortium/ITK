@@ -57,7 +57,7 @@ itkRigid2DTransformTest(int, char *[])
 
   /* Create a 2D identity transformation and show its parameters */
   {
-    TransformType::Pointer identityTransform = TransformType::New();
+    auto identityTransform = TransformType::New();
     identityTransform->SetIdentity();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
@@ -80,13 +80,13 @@ itkRigid2DTransformTest(int, char *[])
 
   /* Create a Rigid 2D transform with translation */
   {
-    TransformType::Pointer               translation = TransformType::New();
+    auto                                 translation = TransformType::New();
     TransformType::OffsetType::ValueType ioffsetInit[2] = { 1, 4 };
     TransformType::OffsetType            ioffset = ioffsetInit;
 
     translation->SetOffset(ioffset);
 
-    TransformType::Pointer translationInverse = TransformType::New();
+    auto translationInverse = TransformType::New();
     if (!translation->GetInverse(translationInverse))
     {
       std::cout << "Cannot create transform" << std::endl;
@@ -234,7 +234,7 @@ itkRigid2DTransformTest(int, char *[])
 
   /* Create a Rigid 2D transform with a rotation given by a Matrix */
   {
-    TransformType::Pointer    rotation = TransformType::New();
+    auto                      rotation = TransformType::New();
     TransformType::MatrixType mrotation;
 
     mrotation.SetIdentity();
@@ -262,7 +262,7 @@ itkRigid2DTransformTest(int, char *[])
 
     rotation->SetOffset(ioffset);
 
-    TransformType::Pointer rotationInverse = TransformType::New();
+    auto rotationInverse = TransformType::New();
     if (!rotation->GetInverse(rotationInverse))
     {
       std::cout << "Cannot create transform" << std::endl;
@@ -458,7 +458,7 @@ itkRigid2DTransformTest(int, char *[])
 
     {
       // Test instantiation, inverse computation, back transform etc.
-      TransformType::Pointer t1 = TransformType::New();
+      auto t1 = TransformType::New();
 
       // Set parameters
       double                          angle0;
@@ -495,7 +495,7 @@ itkRigid2DTransformTest(int, char *[])
         return EXIT_FAILURE;
       }
 
-      TransformType::Pointer t2dash = TransformType::New();
+      auto t2dash = TransformType::New();
       t1->GetInverse(t2dash);
       TransformType::InputPointType p3dash;
       p3dash = t2dash->TransformPoint(p2);
@@ -535,7 +535,7 @@ itkRigid2DTransformTest(int, char *[])
       }
 
       // Test compose
-      TransformType::Pointer t4 = TransformType::New();
+      auto t4 = TransformType::New();
 
       angle0 = 14.7 / 180.0 * itk::Math::pi;
       center.Fill(4.0);

@@ -225,7 +225,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   direction.SetIdentity();
 
   // Create simple test images.
-  typename ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->SetRegions(region);
   image->SetSpacing(spacing);
   image->SetOrigin(origin);
@@ -258,7 +258,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
   // Create a "moving" image
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
-  typename ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
   resample->SetTransform(transform);
   resample->SetInput(image);
   resample->SetOutputParametersFromImage(image);
@@ -282,7 +282,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
     using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     // moving
     writer->SetFileName(outputPath + "_moving.nii.gz");
     writer->SetInput(movingImage);
@@ -305,7 +305,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
 
   // compute Dm directly from graient image
   using CentralDifferenceCalculatorType = itk::CentralDifferenceImageFunction<ImageType, double>;
-  typename CentralDifferenceCalculatorType::Pointer movingCalculator = CentralDifferenceCalculatorType::New();
+  auto movingCalculator = CentralDifferenceCalculatorType::New();
   movingCalculator->UseImageDirectionOn();
   movingCalculator->SetInputImage(movingImage);
   mappedMovingImageGradientGroundtruth = movingCalculator->Evaluate(mappedPoint);
@@ -313,7 +313,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
   // compute Dm using Metricv4 routine
   typename ImageType::PointType mappedMovingPoint;
   typename ImageType::PixelType mappedMovingPixelValue;
-  typename MetricType::Pointer  metric = MetricType::New();
+  auto                          metric = MetricType::New();
 
   metric->SetFixedImage(image);
   metric->SetMovingImage(movingImage);
@@ -411,7 +411,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
 
         using TransformType = itk::AffineTransform<double, 2>;
 
-        TransformType::Pointer transform = TransformType::New();
+        auto transform = TransformType::New();
         transform->SetIdentity();
 
         transform->Rotate2D(itk::Math::pi * rotationDegrees / 180);
@@ -431,7 +431,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
       {
         // Transform
         using TransformType = itk::AffineTransform<double, 3>;
-        TransformType::Pointer transform = TransformType::New();
+        auto transform = TransformType::New();
         transform->SetIdentity();
         double angleRad = itk::Math::pi * rotationDegrees / 180;
         //    transform->SetRotation( angleRad, angleRad, angleRad );

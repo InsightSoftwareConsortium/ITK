@@ -373,7 +373,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Initialize()
   if (m_Sampler.IsNull())
   {
     using SamplerType = itk::Statistics::SpatialNeighborSubsampler<PatchSampleType, InputImageRegionType>;
-    typename SamplerType::Pointer defaultSampler = SamplerType::New();
+    auto defaultSampler = SamplerType::New();
 
     defaultSampler->SetRadius(25);
     this->SetSampler(defaultSampler);
@@ -477,7 +477,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   typename WeightsImageType::SizeType physicalSize;
   physicalSize.Fill(physicalDiameter);
   typename WeightsImageType::RegionType physicalRegion(physicalSize);
-  typename WeightsImageType::Pointer    physicalWeightsImage = WeightsImageType::New();
+  auto                                  physicalWeightsImage = WeightsImageType::New();
   physicalWeightsImage->SetRegions(physicalRegion);
   physicalWeightsImage->SetSpacing(physicalSpacing);
   physicalWeightsImage->Allocate();
@@ -532,9 +532,9 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializePatchWeight
   using TransformType = itk::IdentityTransform<double, ImageDimension>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<WeightsImageType, double>;
 
-  typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
-  typename InterpolatorType::Pointer   interpolator = InterpolatorType::New();
-  typename TransformType::Pointer      transform = TransformType::New();
+  auto resampler = ResampleFilterType::New();
+  auto interpolator = InterpolatorType::New();
+  auto transform = TransformType::New();
   transform->SetIdentity();
 
   resampler->SetTransform(transform);
@@ -591,7 +591,7 @@ void
 PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::DispatchedMinMax(const TInputImageType * img)
 {
   using MinMaxFilter = MinimumMaximumImageFilter<TInputImageType>;
-  typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
+  auto minmax = MinMaxFilter::New();
   minmax->SetInput(img);
   minmax->Modified();
   minmax->Update();
@@ -608,10 +608,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::DispatchedArrayMinMax
   using AdaptorType = NthElementImageAdaptor<TInputImageType, PixelValueType>;
   using MinMaxFilter = MinimumMaximumImageFilter<AdaptorType>;
 
-  typename AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetImage(const_cast<InputImageType *>(img));
 
-  typename MinMaxFilter::Pointer minmax = MinMaxFilter::New();
+  auto minmax = MinMaxFilter::New();
 
   for (unsigned int pc = 0; pc < m_NumPixelComponents; ++pc)
   {
@@ -1340,7 +1340,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::InitializeIteration()
 
     // Provide a sampler to the thread
     m_ThreadData[thread].sampler = dynamic_cast<BaseSamplerType *>(m_Sampler->Clone().GetPointer());
-    typename ListAdaptorType::Pointer searchList = ListAdaptorType::New();
+    auto searchList = ListAdaptorType::New();
     searchList->SetImage(this->m_OutputImage);
     searchList->SetRadius(radius);
     m_ThreadData[thread].sampler->SetSeed(thread);
@@ -1535,7 +1535,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeSigmaU
   const OutputImageType * output = this->m_OutputImage;
   const InputImageType *  inputImage = this->m_InputImage;
 
-  typename ListAdaptorType::Pointer inList = ListAdaptorType::New();
+  auto inList = ListAdaptorType::New();
   inList->SetImage(output);
   inList->SetRadius(radius);
 
@@ -1972,7 +1972,7 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::ThreadedComputeImageU
   OutputImageType *      output = this->m_OutputImage;
   const InputImageType * inputImage = this->m_InputImage;
 
-  typename ListAdaptorType::Pointer inList = ListAdaptorType::New();
+  auto inList = ListAdaptorType::New();
   inList->SetImage(output);
   inList->SetRadius(radius);
 

@@ -187,8 +187,8 @@ itkAdaptorComparisonTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  ScalarImageType::Pointer scalar_image = ScalarImageType::New();
-  VectorImageType::Pointer vector_image = VectorImageType::New();
+  auto scalar_image = ScalarImageType::New();
+  auto vector_image = VectorImageType::New();
 
   scalar_image->SetLargestPossibleRegion(region);
   scalar_image->SetBufferedRegion(region);

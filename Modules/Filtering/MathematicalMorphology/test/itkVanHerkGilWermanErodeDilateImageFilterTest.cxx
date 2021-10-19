@@ -32,7 +32,7 @@ itkVanHerkGilWermanErodeDilateImageFilterTest(int, char ** const)
   using FunctionType = std::less<typename ImageType::PixelType>;
 
   using FilterType = itk::VanHerkGilWermanErodeDilateImageFilter<ImageType, KernelType, FunctionType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VanHerkGilWermanErodeDilateImageFilter, KernelImageFilter);
 

@@ -110,7 +110,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Create an internal image to protect the input image's metdata
   // (e.g. RequestedRegion). The StreamingImageFilter changes the
   // requested region as poart of its normal provessing.
-  typename TInputImage::Pointer localInput = TInputImage::New();
+  auto localInput = TInputImage::New();
   localInput->Graft(this->GetInput());
 
   // Type of the pixel to use for intermediate results
@@ -142,7 +142,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   oper.resize(ImageDimension);
 
   // Create a process accumulator for tracking the progress of minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Set up the operators

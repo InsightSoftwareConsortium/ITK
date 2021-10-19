@@ -238,8 +238,8 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
   using ResampleShrinkerType = ResampleImageFilter<TOutputImage, TOutputImage>;
   using ShrinkerType = ShrinkImageFilter<TOutputImage, TOutputImage>;
 
-  typename CasterType::Pointer   caster = CasterType::New();
-  typename SmootherType::Pointer smoother = SmootherType::New();
+  auto caster = CasterType::New();
+  auto smoother = SmootherType::New();
 
   typename ImageToImageType::Pointer shrinkerFilter;
   //
@@ -257,7 +257,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     resampleShrinker = ResampleShrinkerType::New();
     using LinearInterpolatorType = itk::LinearInterpolateImageFunction<OutputImageType, double>;
-    typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+    auto interpolator = LinearInterpolatorType::New();
     resampleShrinker->SetInterpolator(interpolator);
     resampleShrinker->SetDefaultPixelValue(0);
     shrinkerFilter = resampleShrinker.GetPointer();
@@ -294,7 +294,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
     if (!this->GetUseShrinkImageFilter())
     {
       using IdentityTransformType = itk::IdentityTransform<double, OutputImageType::ImageDimension>;
-      typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+      auto identityTransform = IdentityTransformType::New();
       resampleShrinker->SetOutputParametersFromImage(outputPtr);
       resampleShrinker->SetTransform(identityTransform);
     }

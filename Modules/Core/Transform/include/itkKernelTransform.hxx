@@ -385,8 +385,8 @@ KernelTransform<TParametersValueType, NDimensions>::SetParameters(const Paramete
     this->CopyInParameters(&(parameters.data_block())[offset], &(parameters.data_block())[offset] + parameterSize);
   }
 
-  typename PointsContainer::Pointer landmarks = PointsContainer::New();
-  const unsigned int                numberOfLandmarks = parameters.Size() / NDimensions;
+  auto               landmarks = PointsContainer::New();
+  const unsigned int numberOfLandmarks = parameters.Size() / NDimensions;
   landmarks->Reserve(numberOfLandmarks);
 
   PointsIterator itr = landmarks->Begin();
@@ -424,8 +424,8 @@ KernelTransform<TParametersValueType, NDimensions>::SetFixedParameters(const Fix
   // setting of the target landmarks, and allowing the Transform
   // I/O mechanism to be supported.
 
-  typename PointsContainer::Pointer landmarks = PointsContainer::New();
-  const unsigned int                numberOfLandmarks = parameters.Size() / NDimensions;
+  auto               landmarks = PointsContainer::New();
+  const unsigned int numberOfLandmarks = parameters.Size() / NDimensions;
 
   landmarks->Reserve(numberOfLandmarks);
 

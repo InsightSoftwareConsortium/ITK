@@ -47,7 +47,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
     itkExceptionMacro(<< "Can't convert MetaObject to MetaMesh");
   }
 
-  typename MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
+  auto meshSO = MeshSpatialObjectType::New();
 
   meshSO->GetProperty().SetName(_mesh->Name());
   meshSO->SetId(_mesh->ID());
@@ -58,7 +58,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   meshSO->GetProperty().SetAlpha(_mesh->Color()[3]);
 
   // Create a new Mesh
-  typename MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   // Add Points
   using PointListType = typename MeshMetaObjectType::PointListType;
@@ -151,7 +151,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   auto                   it_links = links.begin();
 
   using CellLinksContainerType = typename MeshType::CellLinksContainer;
-  typename CellLinksContainerType::Pointer linkContainer = CellLinksContainerType::New();
+  auto linkContainer = CellLinksContainerType::New();
 
   while (it_links != links.end())
   {
@@ -171,7 +171,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
 
   // Add point data
   using PointDataContainer = typename MeshType::PointDataContainer;
-  typename PointDataContainer::Pointer pointData = PointDataContainer::New();
+  auto pointData = PointDataContainer::New();
 
   auto it_pd = _mesh->GetPointData().begin();
 
@@ -184,7 +184,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
 
   // Add cell data
   using CellDataContainer = typename MeshType::CellDataContainer;
-  typename CellDataContainer::Pointer cellData = CellDataContainer::New();
+  auto cellData = CellDataContainer::New();
 
   auto it_cd = _mesh->GetCellData().begin();
   while (it_cd != _mesh->GetCellData().end())

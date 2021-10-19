@@ -42,14 +42,14 @@ itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using BinaryOpeningType = itk::BinaryStatisticsOpeningImageFilter<IType, IType>;
-  BinaryOpeningType::Pointer opening = BinaryOpeningType::New();
+  auto opening = BinaryOpeningType::New();
 
   opening->SetInput(reader->GetOutput());
   opening->SetFeatureImage(reader2->GetOutput());
@@ -101,7 +101,7 @@ itkBinaryStatisticsOpeningImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(opening->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();

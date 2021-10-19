@@ -131,7 +131,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GPUMeanImageFilterFactory::Pointer factory = GPUMeanImageFilterFactory::New();
+    auto factory = GPUMeanImageFilterFactory::New();
 
     ObjectFactoryBase::RegisterFactory(factory);
   }

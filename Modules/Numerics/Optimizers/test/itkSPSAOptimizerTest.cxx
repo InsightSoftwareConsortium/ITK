@@ -110,10 +110,10 @@ itkSPSAOptimizerTest(int, char *[])
   using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the CostFunction
-  SPSACostFunction::Pointer costFunction = SPSACostFunction::New();
+  auto costFunction = SPSACostFunction::New();
   itkOptimizer->SetCostFunction(costFunction);
 
   using ParametersType = SPSACostFunction::ParametersType;

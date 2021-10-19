@@ -46,8 +46,8 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inFile);
   writer->SetFileName(outFile);
@@ -71,7 +71,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
   // test 1~8 work units for CPU
   for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
-    typename NeighborhoodFilterType::Pointer CPUFilter = NeighborhoodFilterType::New();
+    auto CPUFilter = NeighborhoodFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
@@ -92,7 +92,7 @@ runGPUNeighborhoodOperatorImageFilterTest(const std::string & inFile, const std:
 
     if (numberOfWorkUnits == 8)
     {
-      typename GPUNeighborhoodFilterType::Pointer GPUFilter = GPUNeighborhoodFilterType::New();
+      auto GPUFilter = GPUNeighborhoodFilterType::New();
 
       itk::TimeProbe gputimer;
       gputimer.Start();

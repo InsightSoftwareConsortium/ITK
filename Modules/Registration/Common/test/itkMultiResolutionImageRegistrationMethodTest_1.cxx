@@ -113,8 +113,8 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
    * Set up the two input images.
    * One image scaled and shifted with respect to the other.
    **********************************************************/
-  FixedImageType::Pointer  fixedImage = FixedImageType::New();
-  MovingImageType::Pointer movingImage = MovingImageType::New();
+  auto fixedImage = FixedImageType::New();
+  auto movingImage = MovingImageType::New();
 
   double displacement[dimension] = { 7, 3, 2 };
   double scale[dimension] = { 0.80, 1.0, 1.0 };
@@ -190,13 +190,13 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
    * the number of computation levels */
   {
 
-    MetricType::Pointer             metric = MetricType::New();
-    TransformType::Pointer          transform = TransformType::New();
-    OptimizerType::Pointer          optimizer = OptimizerType::New();
-    InterpolatorType::Pointer       interpolator = InterpolatorType::New();
-    FixedImagePyramidType::Pointer  fixedImagePyramid = FixedImagePyramidType::New();
-    MovingImagePyramidType::Pointer movingImagePyramid = MovingImagePyramidType::New();
-    RegistrationType::Pointer       registration = RegistrationType::New();
+    auto metric = MetricType::New();
+    auto transform = TransformType::New();
+    auto optimizer = OptimizerType::New();
+    auto interpolator = InterpolatorType::New();
+    auto fixedImagePyramid = FixedImagePyramidType::New();
+    auto movingImagePyramid = MovingImagePyramidType::New();
+    auto registration = RegistrationType::New();
 
     /******************************************************************
      * Set up the optimizer.
@@ -414,13 +414,13 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
 
   {
 
-    MetricType::Pointer             metric = MetricType::New();
-    TransformType::Pointer          transform = TransformType::New();
-    OptimizerType::Pointer          optimizer = OptimizerType::New();
-    InterpolatorType::Pointer       interpolator = InterpolatorType::New();
-    FixedImagePyramidType::Pointer  fixedImagePyramid = FixedImagePyramidType::New();
-    MovingImagePyramidType::Pointer movingImagePyramid = MovingImagePyramidType::New();
-    RegistrationType::Pointer       registration = RegistrationType::New();
+    auto metric = MetricType::New();
+    auto transform = TransformType::New();
+    auto optimizer = OptimizerType::New();
+    auto interpolator = InterpolatorType::New();
+    auto fixedImagePyramid = FixedImagePyramidType::New();
+    auto movingImagePyramid = MovingImagePyramidType::New();
+    auto registration = RegistrationType::New();
 
     /******************************************************************
      * Set up the optimizer.

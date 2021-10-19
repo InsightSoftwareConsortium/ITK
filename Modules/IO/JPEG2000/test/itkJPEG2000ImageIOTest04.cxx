@@ -49,11 +49,11 @@ itkJPEG2000ImageIOTest04(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
   using IOBaseType = itk::JPEG2000ImageIO;
 
-  IOBaseType::Pointer base = IOBaseType::New();
+  auto base = IOBaseType::New();
   base->SetTileSize(std::stoi(argv[3]), std::stoi(argv[4]));
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   const std::string inputFilename = argv[1];
   const std::string outputFilename = argv[2];

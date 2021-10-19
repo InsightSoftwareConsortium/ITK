@@ -48,15 +48,15 @@ itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<ShapeLabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using I2LType = itk::LabelImageToShapeLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
 
   using LabelOpeningType = itk::ShapeKeepNObjectsLabelMapFilter<LabelMapType>;
-  LabelOpeningType::Pointer opening = LabelOpeningType::New();
+  auto opening = LabelOpeningType::New();
 
   // testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
@@ -88,12 +88,12 @@ itkShapeKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
   l2i->SetInput(opening->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

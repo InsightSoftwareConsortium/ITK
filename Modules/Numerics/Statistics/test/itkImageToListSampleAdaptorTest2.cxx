@@ -32,7 +32,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   constexpr unsigned int ImageDimension = 3;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::IndexType start;
   ImageType::SizeType  size;
@@ -59,7 +59,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   // define an adaptor type
   using ImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<ImageType>;
-  ImageToListSampleAdaptorType::Pointer adaptor = ImageToListSampleAdaptorType::New();
+  auto adaptor = ImageToListSampleAdaptorType::New();
 
   adaptor->SetImage(image);
 
@@ -119,7 +119,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   constexpr unsigned int vMeasurementVectorSize = 4;
 
-  VariableLengthImageType::Pointer vImage = VariableLengthImageType::New();
+  auto vImage = VariableLengthImageType::New();
 
   VariableLengthImageType::IndexType vStart;
   VariableLengthImageType::SizeType  vSize;
@@ -152,7 +152,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   // define an adaptor for the image with variable length vector type
   using VariableLengthImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<VariableLengthImageType>;
 
-  VariableLengthImageToListSampleAdaptorType::Pointer vAdaptor = VariableLengthImageToListSampleAdaptorType::New();
+  auto vAdaptor = VariableLengthImageToListSampleAdaptorType::New();
 
   vAdaptor->SetImage(vImage);
 
@@ -195,7 +195,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
 
   using RGBImageType = itk::Image<RGBPixelType, ImageDimension>;
 
-  RGBImageType::Pointer rgbImage = RGBImageType::New();
+  auto rgbImage = RGBImageType::New();
 
   RGBImageType::IndexType rgbStart;
   RGBImageType::SizeType  rgbSize;
@@ -228,7 +228,7 @@ itkImageToListSampleAdaptorTest2(int, char *[])
   // define an adaptor for the image with variable length vector type
   using RGBImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<RGBImageType>;
 
-  RGBImageToListSampleAdaptorType::Pointer rgbAdaptor = RGBImageToListSampleAdaptorType::New();
+  auto rgbAdaptor = RGBImageToListSampleAdaptorType::New();
 
   rgbAdaptor->SetImage(rgbImage);
 

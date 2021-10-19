@@ -41,13 +41,13 @@ itkBinaryGrindPeakImageFilterTest1(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   using BinaryGrindPeakImageFilterType = itk::BinaryGrindPeakImageFilter<ImageType>;
-  BinaryGrindPeakImageFilterType::Pointer binaryGrindPeakImageFilter = BinaryGrindPeakImageFilterType::New();
+  auto binaryGrindPeakImageFilter = BinaryGrindPeakImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(binaryGrindPeakImageFilter, BinaryGrindPeakImageFilter, ImageToImageFilter);
 
@@ -80,7 +80,7 @@ itkBinaryGrindPeakImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(binaryGrindPeakImageFilter, "BinaryGrindPeakImageFilter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(binaryGrindPeakImageFilter->GetOutput());
   writer->SetFileName(argv[2]);
 

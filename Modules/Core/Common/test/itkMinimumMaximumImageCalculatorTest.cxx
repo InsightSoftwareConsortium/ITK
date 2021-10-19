@@ -37,7 +37,7 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   std::cout << "Testing Minimum and Maximum Image Calulator:\n";
 
   // Allocate a simple test image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
   image->SetLargestPossibleRegion(region);
@@ -83,7 +83,7 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   image->SetPixel(maxIntensityValueIndex, maximum);
 
   // Create and initialize the calculator
-  MinMaxCalculatorType::Pointer calculator = MinMaxCalculatorType::New();
+  auto calculator = MinMaxCalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, MinimumMaximumImageCalculator, Object);
 

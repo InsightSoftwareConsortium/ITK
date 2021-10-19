@@ -308,7 +308,7 @@ test(char * INfilename, char * OUTfilename, bool IsBinary)
     return EXIT_SUCCESS;
   }
 
-  typename MeshFileReaderType::Pointer reader1 = MeshFileReaderType::New();
+  auto reader1 = MeshFileReaderType::New();
   reader1->SetFileName(OUTfilename);
   try
   {

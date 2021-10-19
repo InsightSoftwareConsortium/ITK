@@ -39,7 +39,7 @@ MetaSurfaceConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
   {
     itkExceptionMacro(<< "Can't convert MetaObject to MetaSurface");
   }
-  typename SurfaceSpatialObjectType::Pointer surfaceSO = SurfaceSpatialObjectType::New();
+  auto surfaceSO = SurfaceSpatialObjectType::New();
 
   surfaceSO->GetProperty().SetName(surfaceMO->Name());
   surfaceSO->SetId(surfaceMO->ID());

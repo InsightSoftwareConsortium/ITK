@@ -35,10 +35,10 @@ itkMembershipSampleTest1(int, char *[])
 
   using MembershipSampleType = itk::Statistics::MembershipSample<SampleType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
 
-  MembershipSampleType::Pointer membershipSample = MembershipSampleType::New();
+  auto membershipSample = MembershipSampleType::New();
 
   membershipSample->SetSample(sample);
 

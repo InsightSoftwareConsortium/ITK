@@ -38,7 +38,7 @@ itkMinimumMaximumImageFilterTest(int, char *[])
   std::cout << "Testing Minimum and Maximum Image Calulator:\n";
 
   // Allocate a simple test image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
   image->SetLargestPossibleRegion(region);
@@ -77,8 +77,8 @@ itkMinimumMaximumImageFilterTest(int, char *[])
   image->SetPixel(index, maximum);
 
   // Create and initialize the filter
-  MinMaxFilterType::Pointer filter = MinMaxFilterType::New();
-  itk::SimpleFilterWatcher  watcher(filter);
+  auto                     filter = MinMaxFilterType::New();
+  itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(image);
   filter->Update();

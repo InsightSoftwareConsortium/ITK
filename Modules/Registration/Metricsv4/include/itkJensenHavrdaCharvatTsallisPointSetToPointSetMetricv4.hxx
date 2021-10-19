@@ -182,7 +182,7 @@ template <typename TPointSet, class TInternalComputationValueType>
 typename LightObject::Pointer
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::InternalClone() const
 {
-  typename Self::Pointer rval = Self::New();
+  auto rval = Self::New();
   rval->SetMovingPointSet(this->m_MovingPointSet);
   rval->SetFixedPointSet(this->m_FixedPointSet);
   rval->SetPointSetSigma(this->m_PointSetSigma);

@@ -52,13 +52,13 @@ itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   }
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer fixedImageReader = ReaderType::New();
+  auto fixedImageReader = ReaderType::New();
   fixedImageReader->SetFileName(fixedImageFileName);
 
-  ReaderType::Pointer movingImageReader = ReaderType::New();
+  auto movingImageReader = ReaderType::New();
   movingImageReader->SetFileName(movingImageFileName);
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetFixedImage(fixedImageReader->GetOutput());
   filter->SetMovingImage(movingImageReader->GetOutput());
   // Larger values zero-out pixels on a larger border around the correlation image.
@@ -79,13 +79,13 @@ itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   // mapped to 127 or 128, depending on whether they are slightly negative or positive.
   // Therefore, we truncate instead so that all values near 0 get mapped to 127.
   using RescaleType = itk::ShiftScaleImageFilter<RealImageType, OutputImageType>;
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto rescaler = RescaleType::New();
   rescaler->SetInput(filter->GetOutput());
   rescaler->SetShift(1);
   rescaler->SetScale(255.0 / 2.0);
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
   writer->SetInput(rescaler->GetOutput());
   try

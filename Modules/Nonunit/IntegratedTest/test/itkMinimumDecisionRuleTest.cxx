@@ -26,7 +26,7 @@ itkMinimumDecisionRuleTest(int, char *[])
 
   using MembershipVectorType = MinimumDecisionRuleType::MembershipVectorType;
 
-  MinimumDecisionRuleType::Pointer decisionRule = MinimumDecisionRuleType::New();
+  auto decisionRule = MinimumDecisionRuleType::New();
 
   std::cout << decisionRule->GetNameOfClass() << std::endl;
   std::cout << decisionRule->MinimumDecisionRuleType::Superclass::GetNameOfClass() << std::endl;

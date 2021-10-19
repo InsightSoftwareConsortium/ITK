@@ -48,21 +48,21 @@ itkKittlerIllingworthMaskedThresholdImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   using MaskReaderType = itk::ImageFileReader<OutputImageType>;
-  MaskReaderType::Pointer maskReader = MaskReaderType::New();
+  auto maskReader = MaskReaderType::New();
   maskReader->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(maskReader->Update());
 
 
   using FilterType = itk::KittlerIllingworthThresholdImageFilter<InputImageType, OutputImageType, OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
@@ -106,7 +106,7 @@ itkKittlerIllingworthMaskedThresholdImageFilterTest(int argc, char * argv[])
 
   // Write output image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
 

@@ -129,7 +129,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
   {
     this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
     this->m_RunLengthMatrixGenerator->Update();
-    typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
+    auto runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
     runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
     runLengthMatrixCalculator->Update();
 
@@ -215,7 +215,7 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Fast
   this->m_RunLengthMatrixGenerator->SetOffset(offsetIt.Value());
 
   this->m_RunLengthMatrixGenerator->Update();
-  typename RunLengthFeaturesFilterType::Pointer runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
+  auto runLengthMatrixCalculator = RunLengthFeaturesFilterType::New();
   runLengthMatrixCalculator->SetInput(this->m_RunLengthMatrixGenerator->GetOutput());
   runLengthMatrixCalculator->Update();
 

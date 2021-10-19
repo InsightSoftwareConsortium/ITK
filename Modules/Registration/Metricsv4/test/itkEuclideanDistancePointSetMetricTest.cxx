@@ -30,10 +30,10 @@ itkEuclideanDistancePointSetMetricTestRun()
 
   using PointType = typename PointSetType::PointType;
 
-  typename PointSetType::Pointer fixedPoints = PointSetType::New();
+  auto fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
 
-  typename PointSetType::Pointer movingPoints = PointSetType::New();
+  auto movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
   // Produce two simple point sets of 1) a circle and 2) the same circle with an offset;
@@ -71,12 +71,12 @@ itkEuclideanDistancePointSetMetricTestRun()
   // Simple translation transform for moving point set
   //
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
+  auto translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
   // Instantiate the metric
   using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
-  typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
+  auto metric = PointSetMetricType::New();
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);
   metric->SetMovingTransform(translationTransform);

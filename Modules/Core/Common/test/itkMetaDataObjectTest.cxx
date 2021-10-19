@@ -28,7 +28,7 @@ testMetaData(const TMetaData & value)
 
   using MetaDataObjectType = itk::MetaDataObject<MetaDataType>;
 
-  typename MetaDataObjectType::Pointer metaDataObject = MetaDataObjectType::New();
+  auto metaDataObject = MetaDataObjectType::New();
 
   metaDataObject->SetMetaDataObjectValue(value);
   if (itk::Math::NotExactlyEquals(metaDataObject->GetMetaDataObjectValue(), value))

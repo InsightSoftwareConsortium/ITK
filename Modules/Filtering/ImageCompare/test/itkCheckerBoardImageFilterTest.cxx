@@ -58,8 +58,8 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   using CheckerBoardPatternArrayType = CheckerBoardImageFilterType::PatternArrayType;
 
   // Create the input images
-  ImageType::Pointer inputImageA = ImageType::New();
-  ImageType::Pointer inputImageB = ImageType::New();
+  auto inputImageA = ImageType::New();
+  auto inputImageB = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -115,7 +115,7 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   }
 
   // Create the filter
-  CheckerBoardImageFilterType::Pointer checkerBoard = CheckerBoardImageFilterType::New();
+  auto checkerBoard = CheckerBoardImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(checkerBoard, CheckerBoardImageFilter, ImageToImageFilter);
 
@@ -140,7 +140,7 @@ itkCheckerBoardImageFilterTest(int argc, char * argv[])
   // Write the result image
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
 

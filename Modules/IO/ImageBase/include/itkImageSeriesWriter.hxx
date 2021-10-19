@@ -187,7 +187,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   }
 
   // Allocate an image for output and create an iterator for it
-  typename OutputImageType::Pointer outputImage = OutputImageType::New();
+  auto outputImage = OutputImageType::New();
   outputImage->SetRegions(outRegion);
   outputImage->SetNumberOfComponentsPerPixel(inputImage->GetNumberOfComponentsPerPixel());
   outputImage->Allocate();
@@ -265,7 +265,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
     // Copy the selected "slice" into the output image.
     ImageAlgorithm::Copy(inputImage, outputImage.GetPointer(), inRegion, outRegion);
 
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->UseInputMetaDataDictionaryOff(); // use the dictionary from the
                                              // ImageIO class

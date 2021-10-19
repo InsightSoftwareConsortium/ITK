@@ -29,7 +29,7 @@ itkExtractImage3Dto2DTest(int, char *[])
   using ExtractType = itk::ExtractImageFilter<Image3DType, Image2DType>;
   using RandomImageSourceType = itk::RandomImageSource<Image3DType>;
 
-  RandomImageSourceType::Pointer src = RandomImageSourceType::New();
+  auto src = RandomImageSourceType::New();
   src->SetMin(0);
   src->SetMax(255);
   Image3DType::SizeType size = { { 16, 16, 16 } };
@@ -48,7 +48,7 @@ itkExtractImage3Dto2DTest(int, char *[])
 
   im3d->SetDirection(dir);
 
-  ExtractType::Pointer extract = ExtractType::New();
+  auto extract = ExtractType::New();
   extract->SetDirectionCollapseToIdentity();
   Image3DType::RegionType extractRegion = im3d->GetLargestPossibleRegion();
   Image3DType::SizeType   extractSize = extractRegion.GetSize();

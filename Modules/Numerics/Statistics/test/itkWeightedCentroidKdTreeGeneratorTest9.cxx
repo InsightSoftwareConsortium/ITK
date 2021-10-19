@@ -38,7 +38,7 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
   // Random number generator
   using NumberGeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
 
-  NumberGeneratorType::Pointer randomNumberGenerator = NumberGeneratorType::New();
+  auto randomNumberGenerator = NumberGeneratorType::New();
   randomNumberGenerator->Initialize();
 
   using MeasurementVectorType = itk::VariableLengthVector<double>;
@@ -46,7 +46,7 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
 
   constexpr SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
   //
@@ -62,7 +62,7 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
   }
 
   using TreeGeneratorType = itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
   std::cout << treeGenerator->GetNameOfClass() << std::endl;
   treeGenerator->Print(std::cout);
 
@@ -95,7 +95,7 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::OriginType origin;
   ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, measurementVectorSize);
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  auto distanceMetric = DistanceMetricType::New();
 
   bool testFailed = false;
 

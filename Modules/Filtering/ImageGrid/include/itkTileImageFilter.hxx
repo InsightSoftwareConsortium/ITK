@@ -43,7 +43,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 TileImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   TOutputImage * output = this->GetOutput();
@@ -96,7 +96,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateData()
       // output image. The additional dimensions are set to 1. The
       // temporary image will use the same container as the input
       // image. This way we avoid copying the data.
-      typename TempImageType::Pointer tempImage = TempImageType::New();
+      auto tempImage = TempImageType::New();
       tempImage->CopyInformation(output);
 
       OutputSizeType  tempSize;

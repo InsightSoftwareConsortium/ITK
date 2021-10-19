@@ -80,8 +80,8 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
   using ImageIOType = itk::GDCMImageIO;
   using SeriesFileNames = itk::GDCMSeriesFileNames;
 
-  ImageIOType::Pointer     gdcmIO = ImageIOType::New();
-  SeriesFileNames::Pointer filenameGenerator = SeriesFileNames::New();
+  auto gdcmIO = ImageIOType::New();
+  auto filenameGenerator = SeriesFileNames::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filenameGenerator, GDCMSeriesFileNames, ProcessObject);
 
@@ -101,7 +101,7 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
   filenameGenerator->SetInputDirectory(inputDirectory);
 
   using ReaderType = itk::ImageSeriesReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & filenames = filenameGenerator->GetInputFileNames();
 
@@ -110,11 +110,11 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
 
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
   using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamingFilter::Pointer streamer = StreamingFilter::New();
+  auto streamer = StreamingFilter::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
@@ -189,7 +189,7 @@ itkGDCMSeriesStreamReadImageWriteTest(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());

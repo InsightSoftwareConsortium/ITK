@@ -45,7 +45,7 @@ SymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplaceme
   m_Normalizer = 0.0;
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
 
   m_MovingImageInterpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 

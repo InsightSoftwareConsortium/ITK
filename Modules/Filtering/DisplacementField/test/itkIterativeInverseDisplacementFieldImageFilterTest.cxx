@@ -43,12 +43,12 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   using FilterType = itk::IterativeInverseDisplacementFieldImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
   // Creating an input displacement field
-  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+  auto field = DisplacementFieldType::New();
 
   DisplacementFieldType::SpacingType spacing;
   spacing.Fill(1.0);
@@ -119,7 +119,7 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
   // Write an image for regression testing
   using WriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[1]);

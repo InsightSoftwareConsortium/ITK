@@ -89,7 +89,7 @@ itkMultiphaseDenseFiniteDifferenceImageFilterTest(int, char *[])
   using RegionBasedLevelSetFunctionType =
     itk::ScalarChanAndVeseLevelSetFunction<LevelSetImageType, FeatureImageType, SharedDataHelperType>;
 
-  RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  auto function = RegionBasedLevelSetFunctionType::New();
   if (function.IsNull())
   {
     return EXIT_FAILURE;
@@ -103,7 +103,7 @@ itkMultiphaseDenseFiniteDifferenceImageFilterTest(int, char *[])
                                                                                RegionBasedLevelSetFunctionType,
                                                                                IdCellType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);

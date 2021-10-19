@@ -49,7 +49,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   tube1->Update();
 
   using SpatialObjectToPointSetFilterType = itk::SpatialObjectToPointSetFilter<TubeType, PointSetType>;
-  SpatialObjectToPointSetFilterType::Pointer pointSetFilter = SpatialObjectToPointSetFilterType::New();
+  auto pointSetFilter = SpatialObjectToPointSetFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pointSetFilter, SpatialObjectToPointSetFilter, MeshSource);
 
@@ -112,10 +112,10 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   using Tube3DPointListType = Tube3DType::TubePointListType;
   using Tube3DPointType = Tube3DType::TubePointType;
 
-  Group3DType::Pointer group3D = Group3DType::New();
+  auto group3D = Group3DType::New();
 
 
-  Tube3DType::Pointer tube3D = Tube3DType::New();
+  auto                tube3D = Tube3DType::New();
   Tube3DPointListType tubePointList;
   for (unsigned int i = 0; i < 10; ++i)
   {
@@ -127,7 +127,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   tube3D->SetPoints(tubePointList);
   tube3D->Update();
 
-  Tube3DType::Pointer tube3D2 = Tube3DType::New();
+  auto                tube3D2 = Tube3DType::New();
   Tube3DPointListType tubePointList2;
   for (unsigned int i = 10; i < 20; ++i)
   {
@@ -145,7 +145,7 @@ itkSpatialObjectToPointSetFilterTest(int, char *[])
   // Create the 3D filter
   using PointSet3DType = itk::PointSet<PixelType, 3>;
   using SpatialObjectToPointSet3DFilterType = itk::SpatialObjectToPointSetFilter<Tube3DType, PointSet3DType>;
-  SpatialObjectToPointSet3DFilterType::Pointer pointSetFilter3D = SpatialObjectToPointSet3DFilterType::New();
+  auto pointSetFilter3D = SpatialObjectToPointSet3DFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pointSetFilter3D, SpatialObjectToPointSetFilter, MeshSource);
 

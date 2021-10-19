@@ -46,7 +46,7 @@ itkBMPImageIOTest3(int argc, char * argv[])
   using IteratorType = itk::ImageRegionConstIterator<ImageType>;
 
 
-  ReaderType::Pointer lowerLeftImageReader = ReaderType::New();
+  auto lowerLeftImageReader = ReaderType::New();
 
   itk::BMPImageIO::Pointer lowerLeftImageIO = itk::BMPImageIO::New();
 
@@ -55,7 +55,7 @@ itkBMPImageIOTest3(int argc, char * argv[])
   lowerLeftImageReader->SetImageIO(lowerLeftImageIO);
   lowerLeftImageReader->SetFileName(argv[1]);
 
-  ReaderType::Pointer upperLeftImageReader = ReaderType::New();
+  auto upperLeftImageReader = ReaderType::New();
 
   itk::BMPImageIO::Pointer upperLeftImageIO = itk::BMPImageIO::New();
 

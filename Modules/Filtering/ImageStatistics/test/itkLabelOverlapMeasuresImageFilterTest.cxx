@@ -30,13 +30,13 @@ LabelOverlapMeasures(int, char * argv[])
   using ImageType = itk::Image<PixelType, VImageDimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader1 = ReaderType::New();
+  auto reader1 = ReaderType::New();
   reader1->SetFileName(argv[2]);
-  typename ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[3]);
 
   using FilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetSourceImage(reader1->GetOutput());
   filter->SetTargetImage(reader2->GetOutput());
   filter->Update();

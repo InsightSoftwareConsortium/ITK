@@ -67,14 +67,14 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   RealType LowerBound = 51.0;
   RealType UpperBound = 252.0;
 
-  ReaderType::Pointer               reader = ReaderType::New();
-  WriterType::Pointer               writer = WriterType::New();
-  ChangeFilterType::Pointer         change = ChangeFilterType::New();
-  ThresholdFilterType::Pointer      threshold = ThresholdFilterType::New();
-  ConnectedComponentType::Pointer   connected = ConnectedComponentType::New();
-  RelabelComponentType::Pointer     relabel = RelabelComponentType::New();
-  FinalThresholdFilterType::Pointer finalThreshold = FinalThresholdFilterType::New();
-  StatisticsFilterType::Pointer     statistics = StatisticsFilterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto change = ChangeFilterType::New();
+  auto threshold = ThresholdFilterType::New();
+  auto connected = ConnectedComponentType::New();
+  auto relabel = RelabelComponentType::New();
+  auto finalThreshold = FinalThresholdFilterType::New();
+  auto statistics = StatisticsFilterType::New();
 
   itk::SimpleFilterWatcher watcher(relabel);
   itk::SimpleFilterWatcher statswatcher(statistics);

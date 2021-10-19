@@ -57,7 +57,7 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
 
   using CalculatorType = MinimumMaximumImageCalculator<TInputImage>;
 
-  typename CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   calculator->SetImage(this->GetInput());
 

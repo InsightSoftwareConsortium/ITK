@@ -44,11 +44,11 @@ itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType, LabelMapType>;
-  L2SType::Pointer l2s = L2SType::New();
+  auto l2s = L2SType::New();
   l2s->SetInput(reader->GetOutput());
 
   const PixelType backgroundValue = std::stoi(argv[3]);
@@ -65,11 +65,11 @@ itkLabelImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
   l2i->SetInput(l2s->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

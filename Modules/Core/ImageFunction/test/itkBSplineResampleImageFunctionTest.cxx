@@ -48,7 +48,7 @@ itkBSplineResampleImageFunctionTest(int, char *[])
   ImageType::ConstPointer randImage = interpolator->GetInputImage();
 
   using FilterType = itk::BSplineDecompositionImageFilter<ImageType, ImageType>;
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   filter->SetSplineOrder(interpolator->GetSplineOrder());
@@ -59,7 +59,7 @@ itkBSplineResampleImageFunctionTest(int, char *[])
 
   /** Set up a BSplineResampleImageFunction. */
   using ResampleFunctionType = itk::BSplineResampleImageFunction<ImageType, double>;
-  ResampleFunctionType::Pointer resample = ResampleFunctionType::New();
+  auto resample = ResampleFunctionType::New();
 
   resample->SetSplineOrder(interpolator->GetSplineOrder());
   resample->SetInputImage(filter->GetOutput());

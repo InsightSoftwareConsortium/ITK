@@ -32,7 +32,7 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   using FunctionType = itk::ScatterMatrixImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::SizeType   size;
   ImageType::IndexType  start;
   ImageType::RegionType region;
@@ -58,7 +58,7 @@ itkScatterMatrixImageFunctionTest(int, char *[])
 
   image->FillBuffer(initialValue);
 
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   function->SetInputImage(image);
 

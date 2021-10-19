@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    VXLVideoIOFactory::Pointer VXLFactory = VXLVideoIOFactory::New();
+    auto VXLFactory = VXLVideoIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(VXLFactory);
   }

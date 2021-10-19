@@ -42,7 +42,7 @@ WarpVectorImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpVector
   }
 
   // Setup default interpolator
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
 
   m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
   this->DynamicMultiThreadingOn();

@@ -50,7 +50,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -88,7 +88,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::ComplexToImaginaryImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ComplexToImaginaryImageFilter, UnaryGeneratorImageFilter);
 
@@ -132,7 +132,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::ComplexToImaginaryImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer imaginaryAdaptor = AdaptorType::New();
+  auto imaginaryAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imaginaryAdaptor, ComplexToImaginaryImageAdaptor, ImageAdaptor);
 
@@ -140,7 +140,7 @@ itkComplexToImaginaryFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(imaginaryAdaptor);

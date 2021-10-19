@@ -45,7 +45,7 @@ public:
   static void
   RegisterType()
   {
-    typename T::Pointer t = T::New();
+    auto t = T::New();
 
     FEMFactoryBase::Pointer f = FEMFactoryBase::GetFactory();
 

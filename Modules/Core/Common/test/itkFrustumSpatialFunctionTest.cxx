@@ -37,7 +37,7 @@ itkFrustumSpatialFunctionTest(int, char *[])
   using FrustumSpatialFunctionType = itk::FrustumSpatialFunction<PointDimension, PointType>;
 
   // Create the frustum spatial function
-  FrustumSpatialFunctionType::Pointer frustrumSpatialFunction = FrustumSpatialFunctionType::New();
+  auto frustrumSpatialFunction = FrustumSpatialFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(frustrumSpatialFunction, FrustumSpatialFunction, InteriorExteriorSpatialFunction);
 

@@ -40,16 +40,16 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
+  auto reader1 = ReaderType::New();
   reader1->SetFileName(argv[1]);
   reader1->Update();
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
   reader2->Update();
 
   using ConvolutionFilterType = itk::ConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convoluter = ConvolutionFilterType::New();
+  auto convoluter = ConvolutionFilterType::New();
   convoluter->SetInput(reader1->GetOutput());
   convoluter->SetKernelImage(reader2->GetOutput());
 
@@ -61,7 +61,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   }
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(convoluter->GetOutput());
 
@@ -82,7 +82,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
   //
   convoluter->Print(std::cout);
 
-  ImageType::Pointer emtpyImage = ImageType::New();
+  auto emtpyImage = ImageType::New();
   convoluter->SetInput(emtpyImage);
   try
   {
@@ -166,7 +166,7 @@ itkConvolutionImageFilterTest(int argc, char * argv[])
 
   // Test VALID output region mode with kernel that is larger than
   // the input image. Should result in a zero-size valid region.
-  ImageType::Pointer    largeKernel = ImageType::New();
+  auto                  largeKernel = ImageType::New();
   ImageType::RegionType kernelRegion(reader1->GetOutput()->GetLargestPossibleRegion().GetSize());
   kernelRegion.PadByRadius(5);
 

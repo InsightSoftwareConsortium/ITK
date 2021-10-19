@@ -44,7 +44,7 @@ itkBinaryDilateImageFilterTest2(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -124,7 +124,7 @@ itkBinaryDilateImageFilterTest2(int, char *[])
   using myFilterType = itk::FastIncrementalBinaryDilateImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
   // Create the structuring element
   myKernelType cross;

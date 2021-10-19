@@ -35,7 +35,7 @@ itkListSampleTest(int argc, char * argv[])
 
   unsigned int sampleSize = 25;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
@@ -393,7 +393,7 @@ itkListSampleTest(int argc, char * argv[])
 
   using VariableSizeListSampleType = itk::Statistics::ListSample<VariableSizeMeasurementVectorType>;
 
-  VariableSizeListSampleType::Pointer variableSizeSample = VariableSizeListSampleType::New();
+  auto variableSizeSample = VariableSizeListSampleType::New();
 
   constexpr unsigned int initialSize = 19;
   variableSizeSample->SetMeasurementVectorSize(initialSize);

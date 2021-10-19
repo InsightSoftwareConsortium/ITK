@@ -37,14 +37,14 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   using DisplacementTransformType = itk::GaussianExponentialDiffeomorphicTransform<double, dimensions>;
 
   /* Create a displacement field transform */
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
   displacementTransform->SetCalculateNumberOfIntegrationStepsAutomatically(true);
   displacementTransform->SetNumberOfIntegrationSteps(10);
 
   displacementTransform->Print(std::cout, 3);
 
   using FieldType = DisplacementTransformType::DisplacementFieldType;
-  FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
+  auto field = FieldType::New(); // This is based on itk::Image
 
   FieldType::SizeType   size;
   FieldType::IndexType  start;

@@ -56,7 +56,7 @@ protected:
     static typename ImageType::Pointer
     CreateImage()
     {
-      typename ImageType::Pointer image = ImageType::New();
+      auto image = ImageType::New();
 
       typename ImageType::SizeType imageSize;
       imageSize.Fill(25);
@@ -73,7 +73,7 @@ protected:
     {
 
       using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType>;
-      typename L2SType::Pointer l2s = L2SType::New();
+      auto l2s = L2SType::New();
       l2s->SetInput(image);
       l2s->ComputeFeretDiameterOn();
       l2s->ComputePerimeterOn();

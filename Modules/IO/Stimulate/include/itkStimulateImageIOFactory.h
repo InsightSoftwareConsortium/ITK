@@ -66,7 +66,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    StimulateImageIOFactory::Pointer stimulateFactory = StimulateImageIOFactory::New();
+    auto stimulateFactory = StimulateImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(stimulateFactory);
   }

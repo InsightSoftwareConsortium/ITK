@@ -42,7 +42,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
   unsigned long numberOfPixelTolerance = 0;
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DiffType::Pointer diff = DiffType::New();
+  auto diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
   diff->SetDifferenceThreshold(intensityTolerance);
@@ -114,7 +114,7 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char * av[])
   // We now set up testing when the image spacing is not trivial 1 and
   // perform diffusion with spacing on
   using ChangeInformationType = itk::ChangeInformationImageFilter<myFloatImage>;
-  ChangeInformationType::Pointer changeInfo = ChangeInformationType::New();
+  auto changeInfo = ChangeInformationType::New();
   changeInfo->SetInput(input->GetOutput());
   myFloatImage::SpacingType spacing;
   spacing[0] = input->GetOutput()->GetSpacing()[0] * 100.0;

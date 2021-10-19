@@ -43,8 +43,8 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
 
   using TriangleFilterType = itk::SimplexMeshToTriangleMeshFilter<SimplexMeshType, TriangleMeshType>;
   using TriangleMeshPointer = TriangleMeshType::Pointer;
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
-  PointType                     center;
+  auto      mySphereMeshSource = SphereMeshSourceType::New();
+  PointType center;
   center.Fill(50);
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
   VectorType           scale = scaleInit;
@@ -53,10 +53,10 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
   mySphereMeshSource->SetResolution(3);
   mySphereMeshSource->SetScale(scale);
 
-  SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
+  auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
 
-  TriangleFilterType::Pointer backFilter = TriangleFilterType::New();
+  auto backFilter = TriangleFilterType::New();
   backFilter->SetInput(simplexFilter->GetOutput());
   backFilter->Update();
 
@@ -84,7 +84,7 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
 
   using TriangleImageType = itk::TriangleMeshToBinaryImageFilter<TriangleMeshType, ImageType>;
 
-  TriangleImageType::Pointer imageFilter = TriangleImageType::New();
+  auto imageFilter = TriangleImageType::New();
 
   imageFilter->SetInput(triangleMesh);
 

@@ -53,7 +53,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  DisplacementFieldType::Pointer inputDisplacementField = DisplacementFieldType::New();
+  auto inputDisplacementField = DisplacementFieldType::New();
 
   // Define its size, and start index
   SizeType size;
@@ -86,7 +86,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
 
 
   // Create the calculator
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, WarpHarmonicEnergyCalculator, Object);
 

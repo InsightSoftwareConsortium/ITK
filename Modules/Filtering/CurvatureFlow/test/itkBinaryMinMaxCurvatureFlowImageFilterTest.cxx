@@ -110,7 +110,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   using DenoiserType = itk::BinaryMinMaxCurvatureFlowImageFilter<ImageType, ImageType>;
 
-  typename DenoiserType::Pointer denoiser = DenoiserType::New();
+  auto denoiser = DenoiserType::New();
 
   int j;
 
@@ -124,7 +124,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
   PixelType background = 255.0;                 // intensity value of the background
 
   std::cout << "Create an image of circle/sphere with noise" << std::endl;
-  typename ImageType::Pointer circleImage = ImageType::New();
+  auto circleImage = ImageType::New();
 
 
   typename ImageType::RegionType region;
@@ -260,7 +260,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
    * Exercise error handling
    */
   using WrongFunctionType = itk::CurvatureFlowFunction<ImageType>;
-  typename WrongFunctionType::Pointer wrongFunction = WrongFunctionType::New();
+  auto wrongFunction = WrongFunctionType::New();
 
   passed = false;
   try

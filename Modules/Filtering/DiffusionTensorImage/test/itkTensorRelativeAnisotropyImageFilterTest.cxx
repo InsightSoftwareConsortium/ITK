@@ -42,7 +42,7 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -109,7 +109,7 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 
 
   // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
 
   // Connect the input images
@@ -121,7 +121,7 @@ itkTensorRelativeAnisotropyImageFilterTest(int, char *[])
 
   using FAFilterType = itk::TensorRelativeAnisotropyImageFilter<myDTIImageType, myFaImageType>;
 
-  FAFilterType::Pointer relativeAnisotropyFilter = FAFilterType::New();
+  auto relativeAnisotropyFilter = FAFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     relativeAnisotropyFilter, TensorRelativeAnisotropyImageFilter, UnaryFunctorImageFilter);

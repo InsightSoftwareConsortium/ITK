@@ -41,7 +41,7 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
   // Create a filter
   using FilterType = itk::IsolatedConnectedImageFilter<myImage, myImage>;
 
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(input->GetOutput());

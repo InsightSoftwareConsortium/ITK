@@ -49,18 +49,18 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<AttributeLabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using LabelReconstructionType = itk::BinaryReconstructionLabelMapFilter<LabelMapType, ImageType>;
-  LabelReconstructionType::Pointer reconstruction = LabelReconstructionType::New();
+  auto reconstruction = LabelReconstructionType::New();
 
   // testing get and set macros for Lambda
   int fg = std::stoi(argv[4]);
@@ -75,17 +75,17 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   reconstruction->GetOutput()->PrintLabelObjects();
 
   using LabelOpeningType = itk::AttributeSelectionLabelMapFilter<LabelMapType>;
-  LabelOpeningType::Pointer opening = LabelOpeningType::New();
+  auto opening = LabelOpeningType::New();
   opening->SetInput(reconstruction->GetOutput());
   opening->SetAttribute(true);
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
   l2i->SetInput(opening->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();

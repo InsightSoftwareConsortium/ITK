@@ -47,7 +47,7 @@ itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
 
   // Set up the filter
-  CannyEdgeDetectionImageFilterType::Pointer filter = CannyEdgeDetectionImageFilterType::New();
+  auto filter = CannyEdgeDetectionImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, CannyEdgeDetectionImageFilter, ImageToImageFilter);
 

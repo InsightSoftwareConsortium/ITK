@@ -43,11 +43,11 @@ itkSampleClassifierFilterTest6(int, char *[])
   using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator<GeneratorType::KdTreeType>;
 
   // Generate a sample list
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(numberOfComponents);
 
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
   normalGenerator->Initialize(101);
 
   // Populate the list with samples from two normal distributions
@@ -88,17 +88,17 @@ itkSampleClassifierFilterTest6(int, char *[])
   using ClassLabelVectorObjectType = FilterType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = FilterType::ClassLabelVectorType;
 
-  ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
 
   /* Creating k-d tree */
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
   generator->SetSample(sample);
   unsigned int bucketSize = 1;
   generator->SetBucketSize(bucketSize);
   generator->GenerateData();
 
   /* Searching kmeans */
-  EstimatorType::Pointer estimator = EstimatorType::New();
+  auto estimator = EstimatorType::New();
 
   itk::Array<double> initialMeans(2);
   initialMeans[0] = 5;
@@ -125,7 +125,7 @@ itkSampleClassifierFilterTest6(int, char *[])
   // Set a decision rule type
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   const FilterType::MembershipFunctionVectorObjectType * membershipFunctionsObject = estimator->GetOutput();
 
@@ -155,7 +155,7 @@ itkSampleClassifierFilterTest6(int, char *[])
   }
 
   // Instantiate and pass all the required inputs to the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(sample);
   filter->SetNumberOfClasses(numberOfClasses);

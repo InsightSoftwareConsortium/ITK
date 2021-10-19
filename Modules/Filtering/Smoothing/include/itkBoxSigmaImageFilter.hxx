@@ -63,7 +63,7 @@ BoxSigmaImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   accumRegion.PadByRadius(internalRadius);
   accumRegion.Crop(inputImage->GetRequestedRegion());
 
-  typename AccumImageType::Pointer accImage = AccumImageType::New();
+  auto accImage = AccumImageType::New();
   accImage->SetRegions(accumRegion);
   accImage->Allocate();
 

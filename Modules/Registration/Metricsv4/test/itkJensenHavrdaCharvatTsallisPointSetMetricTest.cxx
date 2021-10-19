@@ -30,10 +30,10 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   using PointType = typename PointSetType::PointType;
   using VectorType = typename PointType::VectorType;
 
-  typename PointSetType::Pointer fixedPoints = PointSetType::New();
+  auto fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
 
-  typename PointSetType::Pointer movingPoints = PointSetType::New();
+  auto movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
   // Produce two simple point sets of 1) a circle and 2) the same circle with an offset
@@ -80,7 +80,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
   // Simple translation transform for moving point set
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  typename TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
+  auto translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
   // check various alpha values between accepted values of [1.0, 2.0]
@@ -97,7 +97,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
     // Instantiate the metric ( alpha = 1.0 )
     using PointSetMetricType = itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>;
-    typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
+    auto metric = PointSetMetricType::New();
     metric->SetFixedPointSet(fixedPoints);
     metric->SetMovingPointSet(movingPoints);
     metric->SetMovingTransform(translationTransform);

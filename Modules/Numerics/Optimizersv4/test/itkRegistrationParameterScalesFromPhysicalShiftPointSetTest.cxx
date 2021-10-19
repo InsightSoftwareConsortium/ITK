@@ -86,9 +86,9 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   using PointSetType = itk::PointSet<PixelType, Dimension>;
   using PointType = PointSetType::PointType;
 
-  PointSetType::Pointer fixedPoints = PointSetType::New();
+  auto fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
-  PointSetType::Pointer movingPoints = PointSetType::New();
+  auto movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
   itk::Size<Dimension> virtualDomainSize;
@@ -118,16 +118,16 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
 
   // Transforms
   using MovingTransformType = itk::AffineTransform<double, Dimension>;
-  MovingTransformType::Pointer movingTransform = MovingTransformType::New();
+  auto movingTransform = MovingTransformType::New();
   movingTransform->SetIdentity();
 
   using FixedTransformType = itk::TranslationTransform<double, Dimension>;
-  FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
+  auto fixedTransform = FixedTransformType::New();
   fixedTransform->SetIdentity();
 
   // Metric
   using MetricType = RegistrationParameterScalesFromPhysicalShiftPointSetTestMetric<PointSetType, PointSetType>;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);
@@ -297,7 +297,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   index.Fill(0);
   region.SetIndex(index);
 
-  FieldType::Pointer field = FieldType::New();
+  auto field = FieldType::New();
   field->SetRegions(region);
   double spacing[2] = { 1.0, 1.0 };
   field->SetSpacing(spacing);
@@ -306,7 +306,7 @@ itkRegistrationParameterScalesFromPhysicalShiftPointSetTest(int, char *[])
   field->Allocate();
   field->FillBuffer(zero);
 
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
   displacementTransform->SetDisplacementField(field);
   metric->SetMovingTransform(displacementTransform);
   // We must initialize the metric so it will create a virtual domain from the displacement field.

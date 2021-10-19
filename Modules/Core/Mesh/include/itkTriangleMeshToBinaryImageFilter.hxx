@@ -396,9 +396,9 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
   OutputImagePointer OutputImage = this->GetOutput();
 
   // need to transform points from physical to index coordinates
-  PointsContainer::Pointer NewPoints = PointsContainer::New();
-  PointSetType::Pointer    NewPointSet = PointSetType::New();
-  PointSetType::PointType  newpoint;
+  auto                    NewPoints = PointsContainer::New();
+  auto                    NewPointSet = PointSetType::New();
+  PointSetType::PointType newpoint;
 
   // the index value type must match the point value type
   ContinuousIndex<PointType::ValueType, 3> ind;

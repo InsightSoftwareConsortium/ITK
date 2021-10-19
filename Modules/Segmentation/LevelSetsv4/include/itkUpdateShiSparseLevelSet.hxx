@@ -56,7 +56,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Update()
   this->m_OutputLevelSet->SetDomainOffset(this->m_Offset);
 
   using LabelMapToLabelImageFilterType = LabelMapToLabelImageFilter<LevelSetLabelMapType, LabelImageType>;
-  typename LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
+  auto labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(this->m_InputLevelSet->GetLabelMap());
   labelMapToLabelImageFilter->Update();
 
@@ -166,7 +166,7 @@ UpdateShiSparseLevelSet<VDimension, TEquationContainer>::Update()
   }
 
   using LabelImageToLabelMapFilterType = LabelImageToLabelMapFilter<LabelImageType, LevelSetLabelMapType>;
-  typename LabelImageToLabelMapFilterType::Pointer labelImageToLabelMapFilter = LabelImageToLabelMapFilterType::New();
+  auto labelImageToLabelMapFilter = LabelImageToLabelMapFilterType::New();
   labelImageToLabelMapFilter->SetInput(this->m_InternalImage);
   labelImageToLabelMapFilter->SetBackgroundValue(LevelSetType::PlusThreeLayer());
   labelImageToLabelMapFilter->Update();

@@ -40,10 +40,10 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::DisplacementField
 
   // Setup and assign default interpolator
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<DisplacementFieldType, ScalarType>;
-  typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
+  auto interpolator = DefaultInterpolatorType::New();
   this->m_Interpolator = interpolator;
 
-  typename DefaultInterpolatorType::Pointer inverseInterpolator = DefaultInterpolatorType::New();
+  auto inverseInterpolator = DefaultInterpolatorType::New();
   this->m_InverseInterpolator = inverseInterpolator;
 
   // Setup and assign parameter helper. This will hold the displacement field
@@ -531,7 +531,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::SetFixedParameter
   PixelType zeroDisplacement;
   zeroDisplacement.Fill(0.0);
 
-  typename DisplacementFieldType::Pointer displacementField = DisplacementFieldType::New();
+  auto displacementField = DisplacementFieldType::New();
   displacementField->SetSpacing(spacing);
   displacementField->SetOrigin(origin);
   displacementField->SetDirection(direction);
@@ -543,7 +543,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::SetFixedParameter
 
   if (!this->m_InverseDisplacementField.IsNull())
   {
-    typename DisplacementFieldType::Pointer inverseDisplacementField = DisplacementFieldType::New();
+    auto inverseDisplacementField = DisplacementFieldType::New();
     inverseDisplacementField->SetSpacing(spacing);
     inverseDisplacementField->SetOrigin(origin);
     inverseDisplacementField->SetDirection(direction);

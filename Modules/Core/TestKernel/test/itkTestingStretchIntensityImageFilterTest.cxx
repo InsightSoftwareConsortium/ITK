@@ -31,7 +31,7 @@ itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUse
   using StatsFilterType = itk::StatisticsImageFilter<ImageType>;
 
   ImageType::SizeType imageSize = { { 32, 32 } };
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   image->SetRegions(imageSize);
   image->Allocate();
   PixelType i = -511;
@@ -40,7 +40,7 @@ itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUse
     it.Set(i);
   }
 
-  StretchFilterType::Pointer stretchFilter = StretchFilterType::New();
+  auto stretchFilter = StretchFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(stretchFilter, StretchIntensityImageFilter, ImageSource);
 
@@ -74,7 +74,7 @@ itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUse
   ITK_TEST_EXPECT_EQUAL(stretchFilter->GetInputMinimum(), -511);
   ITK_TEST_EXPECT_EQUAL(stretchFilter->GetInputMaximum(), 512);
 
-  StatsFilterType::Pointer statsFilter = StatsFilterType::New();
+  auto statsFilter = StatsFilterType::New();
   statsFilter->SetInput(stretchFilter->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(statsFilter->Update());

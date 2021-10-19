@@ -59,7 +59,7 @@ itkRawImageIOTest3(int argc, char * argv[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->SetRegions(region);
   image->Allocate();
 
@@ -74,7 +74,7 @@ itkRawImageIOTest3(int argc, char * argv[])
     ++ii;
   }
 
-  RawImageIOType::Pointer io = RawImageIOType::New();
+  auto io = RawImageIOType::New();
   io->SetByteOrderToBigEndian();
 
   // Write out the image

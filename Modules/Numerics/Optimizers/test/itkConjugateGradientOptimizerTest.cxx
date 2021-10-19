@@ -164,11 +164,11 @@ itkConjugateGradientOptimizerTest(int, char *[])
   using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction adaptor
-  conjugateCostFunction::Pointer costFunction = conjugateCostFunction::New();
+  auto costFunction = conjugateCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);
@@ -203,7 +203,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
 
   itkOptimizer->SetInitialPosition(currentValue);
 
-  CommandIterationUpdateConjugateGradient::Pointer observer = CommandIterationUpdateConjugateGradient::New();
+  auto observer = CommandIterationUpdateConjugateGradient::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
   itkOptimizer->AddObserver(itk::FunctionEvaluationIterationEvent(), observer);
 

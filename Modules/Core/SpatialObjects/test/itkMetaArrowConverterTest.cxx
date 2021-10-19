@@ -54,7 +54,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   using ConverterType = itk::MetaArrowConverter<Dimensions>;
 
   // instantiate new converter and object
-  ConverterType::Pointer converter = ConverterType::New();
+  auto converter = ConverterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaArrowConverter, MetaConverterBase);
 
@@ -104,7 +104,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   color[3] = 1;
 
   // set up itkArrow
-  SpatialObjectType::Pointer itkArrow = SpatialObjectType::New();
+  auto itkArrow = SpatialObjectType::New();
   itkArrow->SetDirectionInObjectSpace(direction);
   itkArrow->SetPositionInObjectSpace(position);
   itkArrow->SetLengthInObjectSpace(length);
@@ -113,7 +113,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   itkArrow->GetProperty().SetBlue(color[2]);
   itkArrow->GetProperty().SetAlpha(color[3]);
 
-  SpatialObjectParentType::Pointer itkParent = SpatialObjectParentType::New();
+  auto itkParent = SpatialObjectParentType::New();
   itkParent->SetId(1);
   itkParent->AddChild(itkArrow);
   itkParent->Update();

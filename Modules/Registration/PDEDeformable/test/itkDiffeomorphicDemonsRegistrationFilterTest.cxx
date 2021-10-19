@@ -143,9 +143,9 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   direction.SetIdentity();
   direction(1, 1) = -1;
 
-  ImageType::Pointer moving = ImageType::New();
-  ImageType::Pointer fixed = ImageType::New();
-  FieldType::Pointer initField = FieldType::New();
+  auto moving = ImageType::New();
+  auto fixed = ImageType::New();
+  auto initField = FieldType::New();
 
   moving->SetLargestPossibleRegion(region);
   moving->SetBufferedRegion(region);
@@ -185,7 +185,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
   caster->SetInput(initField);
   caster->InPlaceOff();
 
@@ -194,7 +194,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
 
-  RegistrationType::Pointer registrator = RegistrationType::New();
+  auto registrator = RegistrationType::New();
 
   registrator->SetInitialDisplacementField(caster->GetOutput());
 
@@ -279,11 +279,11 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   // warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
 
   warper->SetInput(moving);
@@ -318,9 +318,9 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer1 = WriterType::New();
-  WriterType::Pointer writer2 = WriterType::New();
-  WriterType::Pointer writer3 = WriterType::New();
+  auto writer1 = WriterType::New();
+  auto writer2 = WriterType::New();
+  auto writer3 = WriterType::New();
 
   writer1->SetFileName("fixedImage.mha");
   writer2->SetFileName("movingImage.mha");

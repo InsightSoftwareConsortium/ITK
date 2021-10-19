@@ -35,7 +35,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   unsigned int i;
   using AffineTransformType = itk::AffineTransform<ScalarType, 4>;
   using AffineTransformTypeNotRegistered = itk::AffineTransform<ScalarType, 10>;
-  typename AffineTransformType::Pointer affine = AffineTransformType::New();
+  auto affine = AffineTransformType::New();
 
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
@@ -116,7 +116,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
 
 
   std::cout << "Creating bad writer" << std::endl;
-  typename AffineTransformTypeNotRegistered::Pointer Bogus = AffineTransformTypeNotRegistered::New();
+  auto Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set it's parameters
   {
@@ -236,7 +236,7 @@ templatelessTest(const std::string & outputDirectory)
   const std::string outputFile = outputDirectory + "itkIOTransformTxtTestRigid2DTransform.tfm";
 
   using TransformType = itk::Rigid2DTransform<float>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   itk::TransformFileWriter::Pointer writer = itk::TransformFileWriter::New();
   writer->SetInput(transform);

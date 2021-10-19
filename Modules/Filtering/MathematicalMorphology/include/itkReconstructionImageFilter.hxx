@@ -100,8 +100,8 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
 
   if (m_UseInternalCopy)
   {
-    typename PadType::Pointer MaskPad = PadType::New();
-    typename PadType::Pointer MarkerPad = PadType::New();
+    auto MaskPad = PadType::New();
+    auto MarkerPad = PadType::New();
     padSize.Fill(1);
 
     MaskPad->SetConstant(m_MarkerValue);
@@ -324,7 +324,7 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   if (m_UseInternalCopy)
   {
     using CropType = typename itk::CropImageFilter<InputImageType, OutputImageType>;
-    typename CropType::Pointer crop = CropType::New();
+    auto crop = CropType::New();
 
     crop->SetInput(markerImageP);
     crop->SetUpperBoundaryCropSize(padSize);

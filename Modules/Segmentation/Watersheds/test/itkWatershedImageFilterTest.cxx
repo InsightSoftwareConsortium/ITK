@@ -47,13 +47,13 @@ itkWatershedImageFilterTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(origin);
 
-  ImageType2D::Pointer image2D = ImageType2D::New();
+  auto image2D = ImageType2D::New();
   image2D->SetLargestPossibleRegion(region);
   image2D->SetBufferedRegion(region);
   image2D->SetRequestedRegion(region);
   image2D->Allocate();
 
-  LongImageType2D::Pointer longimage2D = LongImageType2D::New();
+  auto longimage2D = LongImageType2D::New();
   longimage2D->SetRegions(region);
   longimage2D->Allocate(true); // initialize buffer to zero
 

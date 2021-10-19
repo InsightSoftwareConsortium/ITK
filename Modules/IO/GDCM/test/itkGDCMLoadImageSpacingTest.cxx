@@ -52,7 +52,7 @@ itkGDCMLoadImageSpacingTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
-  ReaderType::Pointer       reader = ReaderType::New();
+  auto                      reader = ReaderType::New();
   reader->SetImageIO(imageIO);
   reader->SetFileName(imageFilename);
   try

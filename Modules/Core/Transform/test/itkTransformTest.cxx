@@ -196,7 +196,7 @@ public:
   RunTests()
   {
     std::cout << "Testing itkTransform<" << NInputDimensions << "," << NOutputDimensions << ">" << std::endl;
-    typename TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     InputPointType pnt;
     pnt.Fill(2.9);

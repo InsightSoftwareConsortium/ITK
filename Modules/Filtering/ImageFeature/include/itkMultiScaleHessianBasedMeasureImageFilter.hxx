@@ -55,8 +55,8 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
   m_GenerateScalesOutput = false;
   m_GenerateHessianOutput = false;
 
-  typename ScalesImageType::Pointer  scalesImage = ScalesImageType::New();
-  typename HessianImageType::Pointer hessianImage = HessianImageType::New();
+  auto scalesImage = ScalesImageType::New();
+  auto hessianImage = HessianImageType::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(3);
   this->ProcessObject::SetNthOutput(1, scalesImage.GetPointer());
   this->ProcessObject::SetNthOutput(2, hessianImage.GetPointer());
@@ -169,7 +169,7 @@ MultiScaleHessianBasedMeasureImageFilter<TInputImage, THessianImage, TOutputImag
 
   // Create a process accumulator for tracking the progress of this
   // minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // prevent a divide by zero

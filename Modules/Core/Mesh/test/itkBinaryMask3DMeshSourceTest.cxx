@@ -95,7 +95,7 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
     Create16CubeConfig(image, 0, 0, 3 * counter, i, j, k, l);
   }
 
-  MeshSourceType::Pointer meshSource = MeshSourceType::New();
+  auto meshSource = MeshSourceType::New();
   meshSource->SetInput(image);
   meshSource->SetObjectValue(internalValue);
 

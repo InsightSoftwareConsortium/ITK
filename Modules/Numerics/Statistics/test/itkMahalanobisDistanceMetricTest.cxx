@@ -27,7 +27,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   using DistanceMetricType = itk::Statistics::MahalanobisDistanceMetric<MeasurementVectorType>;
 
-  DistanceMetricType::Pointer distance = DistanceMetricType::New();
+  auto distance = DistanceMetricType::New();
 
   std::cout << distance->GetNameOfClass() << std::endl;
 

@@ -73,7 +73,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   using DefaultMetricType =
     MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType, VirtualImageType, RealType>;
-  typename DefaultMetricType::Pointer mutualInformationMetric = DefaultMetricType::New();
+  auto mutualInformationMetric = DefaultMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins(20);
   mutualInformationMetric->SetUseMovingImageGradientFilter(false);
   mutualInformationMetric->SetUseFixedImageGradientFilter(false);
@@ -81,12 +81,12 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_Metric = mutualInformationMetric;
 
   using DefaultScalesEstimatorType = RegistrationParameterScalesFromPhysicalShift<DefaultMetricType>;
-  typename DefaultScalesEstimatorType::Pointer scalesEstimator = DefaultScalesEstimatorType::New();
+  auto scalesEstimator = DefaultScalesEstimatorType::New();
   scalesEstimator->SetMetric(mutualInformationMetric);
   scalesEstimator->SetTransformForward(true);
 
   using DefaultOptimizerType = GradientDescentOptimizerv4Template<RealType>;
-  typename DefaultOptimizerType::Pointer optimizer = DefaultOptimizerType::New();
+  auto optimizer = DefaultOptimizerType::New();
   optimizer->SetLearningRate(1.0);
   optimizer->SetNumberOfIterations(1000);
   optimizer->SetScalesEstimator(scalesEstimator);
@@ -475,7 +475,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   typename VirtualImageType::Pointer currentLevelVirtualDomainImage = nullptr;
   if (this->m_VirtualDomainImage.IsNotNull())
   {
-    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(this->m_ShrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(this->m_VirtualDomainImage);
 
@@ -496,7 +496,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     else
     {
       using IdentityTransformType = IdentityTransform<RealType, ImageDimension>;
-      typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+      auto defaultFixedInitialTransform = IdentityTransformType::New();
       multiMetric->SetFixedTransform(defaultFixedInitialTransform);
     }
     multiMetric->SetMovingTransform(this->m_CompositeTransform);
@@ -529,7 +529,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
           // they have identical virtual image types.
 
           using CasterType = CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType>;
-          typename CasterType::Pointer caster = CasterType::New();
+          auto caster = CasterType::New();
           caster->SetInput(currentLevelVirtualDomainImage);
           caster->Update();
 
@@ -549,7 +549,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     else
     {
       using IdentityTransformType = IdentityTransform<RealType, ImageDimension>;
-      typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+      auto defaultFixedInitialTransform = IdentityTransformType::New();
       imageMetric->SetFixedTransform(defaultFixedInitialTransform);
     }
     imageMetric->SetMovingTransform(this->m_CompositeTransform);
@@ -570,7 +570,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
     else
     {
       using IdentityTransformType = IdentityTransform<RealType, ImageDimension>;
-      typename IdentityTransformType::Pointer defaultFixedInitialTransform = IdentityTransformType::New();
+      auto defaultFixedInitialTransform = IdentityTransformType::New();
       pointSetMetric->SetFixedTransform(defaultFixedInitialTransform);
     }
     pointSetMetric->SetMovingTransform(this->m_CompositeTransform);
@@ -580,7 +580,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       // they have identical virtual image types.
 
       using CasterType = CastImageFilter<VirtualImageType, typename PointSetMetricType::VirtualImageType>;
-      typename CasterType::Pointer caster = CasterType::New();
+      auto caster = CasterType::New();
       caster->SetInput(currentLevelVirtualDomainImage);
       caster->Update();
 
@@ -968,13 +968,13 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   for (SizeValueType n = 0; n < numberOfLocalMetrics; ++n)
   {
-    typename MetricSamplePointSetType::Pointer samplePointSet = MetricSamplePointSetType::New();
+    auto samplePointSet = MetricSamplePointSetType::New();
     samplePointSet->Initialize();
 
     using SamplePointType = typename MetricSamplePointSetType::PointType;
 
     using RandomizerType = Statistics::MersenneTwisterRandomVariateGenerator;
-    typename RandomizerType::Pointer randomizer = RandomizerType::New();
+    auto randomizer = RandomizerType::New();
     if (m_ReseedIterator)
     {
       randomizer->SetSeed();

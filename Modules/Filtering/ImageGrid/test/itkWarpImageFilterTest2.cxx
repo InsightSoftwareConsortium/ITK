@@ -109,7 +109,7 @@ itkWarpImageFilterTest2(int, char *[])
   // make half-res displacement field
   DisplacementFieldType::Pointer defField2 = MakeDisplacementField<8u>();
 
-  WarpFilterType::Pointer filter = WarpFilterType::New();
+  auto filter = WarpFilterType::New();
   // test with full res
   filter->SetDisplacementField(defField1);
   filter->SetInput(image);
@@ -141,20 +141,20 @@ itkWarpImageFilterTest2(int, char *[])
   }
   //
   // try streaming
-  MonitorFilter::Pointer monitor1 = MonitorFilter::New();
+  auto monitor1 = MonitorFilter::New();
   monitor1->SetInput(image);
 
-  WarpFilterType::Pointer filter2 = WarpFilterType::New();
+  auto filter2 = WarpFilterType::New();
   filter2->SetDisplacementField(defField2);
   filter2->SetInput(monitor1->GetOutput());
   filter2->SetOutputParametersFromImage(image);
 
 
-  MonitorFilter::Pointer monitor2 = MonitorFilter::New();
+  auto monitor2 = MonitorFilter::New();
   monitor2->SetInput(filter2->GetOutput());
 
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamerType::Pointer streamer = StreamerType::New();
+  auto streamer = StreamerType::New();
   streamer->SetInput(monitor2->GetOutput());
   streamer->SetNumberOfStreamDivisions(4);
   streamer->Update();

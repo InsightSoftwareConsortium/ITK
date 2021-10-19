@@ -116,7 +116,7 @@ test_RegionGrowKLMExceptionHandling()
   int sizeLen = 3;
 
   using ImageType5D = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM5D>;
-  ImageType5D::Pointer image5D = ImageType5D::New();
+  auto image5D = ImageType5D::New();
 
   ImageType5D::SizeType imageSize5D;
   imageSize5D.Fill(sizeLen);
@@ -139,7 +139,7 @@ test_RegionGrowKLMExceptionHandling()
 
   using KLMRegionGrowImageFilterType5D = itk::KLMRegionGrowImageFilter<ImageType5D, ImageType5D>;
 
-  KLMRegionGrowImageFilterType5D::Pointer exceptionTestingFilter5D = KLMRegionGrowImageFilterType5D::New();
+  auto exceptionTestingFilter5D = KLMRegionGrowImageFilterType5D::New();
 
   KLMRegionGrowImageFilterType5D::GridSizeType gridSize5D;
   gridSize5D.Fill(1);
@@ -227,7 +227,7 @@ test_regiongrowKLM1D()
   using ImageType = itk::Image<itk::Vector<unsigned char, NUMBANDS3>, NUMDIM1D>;
   using OutputImageType = itk::Image<itk::Vector<double, NUMBANDS3>, NUMDIM1D>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   unsigned int        numPixels = 100;
   unsigned int        numPixelsHalf = 50;
@@ -276,7 +276,7 @@ test_regiongrowKLM1D()
 
   using KLMRegionGrowImageFilterType = itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
-  KLMRegionGrowImageFilterType::Pointer KLMFilter = KLMRegionGrowImageFilterType::New();
+  auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
   KLMRegionGrowImageFilterType::GridSizeType gridSize;
   gridSize.Fill(1);
@@ -794,7 +794,7 @@ test_regiongrowKLM2D()
   using ImageType = itk::Image<itk::Vector<int, NUMBANDS2>, NUMDIM2D>;
   using OutputImageType = itk::Image<itk::Vector<double, NUMBANDS2>, NUMDIM2D>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType imageSize;
   imageSize[0] = 10;
@@ -848,7 +848,7 @@ test_regiongrowKLM2D()
 
   using KLMRegionGrowImageFilterType = itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
-  KLMRegionGrowImageFilterType::Pointer KLMFilter = KLMRegionGrowImageFilterType::New();
+  auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
   KLMRegionGrowImageFilterType::GridSizeType gridSize;
   gridSize.Fill(1);
@@ -1169,7 +1169,7 @@ test_regiongrowKLM2D()
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
 
   histogramGenerator->SetInput(KLMFilter->GetLabelledImage());
   histogramGenerator->SetNumberOfBins(KLMFilter->GetNumberOfRegions());
@@ -1242,7 +1242,7 @@ test_regiongrowKLM3D()
   using ImageType = itk::Image<itk::Vector<short int, NUMBANDS2>, NUMDIM3D>;
   using OutputImageType = itk::Image<itk::Vector<float, NUMBANDS2>, NUMDIM3D>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType imageSize;
   imageSize[0] = 10;
@@ -1312,7 +1312,7 @@ test_regiongrowKLM3D()
 
   using KLMRegionGrowImageFilterType = itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
-  KLMRegionGrowImageFilterType::Pointer KLMFilter = KLMRegionGrowImageFilterType::New();
+  auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
   KLMRegionGrowImageFilterType::GridSizeType gridSize;
   gridSize.Fill(1);
@@ -1671,7 +1671,7 @@ test_regiongrowKLM3D()
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
 
   histogramGenerator->SetInput(KLMFilter->GetLabelledImage());
   histogramGenerator->SetNumberOfBins(KLMFilter->GetNumberOfRegions());
@@ -1744,7 +1744,7 @@ test_regiongrowKLM4D()
   using ImageType = itk::Image<itk::Vector<short int, NUMBANDS1>, NUMDIM4D>;
   using OutputImageType = itk::Image<itk::Vector<float, NUMBANDS1>, NUMDIM4D>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType imageSize;
   int                 multVal = 2;
@@ -1772,7 +1772,7 @@ test_regiongrowKLM4D()
 
   using KLMRegionGrowImageFilterType = itk::KLMRegionGrowImageFilter<ImageType, OutputImageType>;
 
-  KLMRegionGrowImageFilterType::Pointer KLMFilter = KLMRegionGrowImageFilterType::New();
+  auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
   KLMRegionGrowImageFilterType::GridSizeType gridSize;
   gridSize[0] = 1;
@@ -2063,7 +2063,7 @@ test_regiongrowKLM4D()
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<LabelledImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
 
   histogramGenerator->SetInput(KLMFilter->GetLabelledImage());
   histogramGenerator->SetNumberOfBins(KLMFilter->GetNumberOfRegions());

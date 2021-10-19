@@ -43,11 +43,11 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
   using IType = itk::Image<PType, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using FilterType = itk::FFTShiftImageFilter<IType, IType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // test default values
   ITK_TEST_EXPECT_TRUE(!filter->GetInverse());
 
@@ -67,7 +67,7 @@ itkFFTShiftImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

@@ -48,23 +48,23 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
 
   int numberOfThresholds = 1;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<InputImageType>;
   using HistogramType = HistogramGeneratorType::HistogramType;
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(reader->GetOutput());
 
   // Compute the OtsuThreshold for the input image.
   using OtsuCalculatorType = itk::OtsuThresholdCalculator<HistogramType>;
-  OtsuCalculatorType::Pointer otsuCalculator = OtsuCalculatorType::New();
+  auto otsuCalculator = OtsuCalculatorType::New();
   otsuCalculator->SetInput(histogramGenerator->GetOutput());
 
   // Compute the OtsuMultipleThresholds for the input image
   using OtsuMultipleCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
-  OtsuMultipleCalculatorType::Pointer otsuMultipleCalculator = OtsuMultipleCalculatorType::New();
+  auto otsuMultipleCalculator = OtsuMultipleCalculatorType::New();
   otsuMultipleCalculator->SetInputHistogram(histogramGenerator->GetOutput());
   otsuMultipleCalculator->SetNumberOfThresholds(numberOfThresholds);
 

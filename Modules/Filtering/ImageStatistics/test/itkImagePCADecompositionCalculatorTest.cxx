@@ -58,21 +58,21 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image1 = InputImageType::New();
+  auto image1 = InputImageType::New();
 
-  InputImageType::Pointer image2 = InputImageType::New();
+  auto image2 = InputImageType::New();
 
-  InputImageType::Pointer image3 = InputImageType::New();
+  auto image3 = InputImageType::New();
 
-  InputImageType::Pointer image4 = InputImageType::New();
+  auto image4 = InputImageType::New();
 
-  InputImageType::Pointer image5 = InputImageType::New();
+  auto image5 = InputImageType::New();
 
-  InputImageType::Pointer image6 = InputImageType::New();
+  auto image6 = InputImageType::New();
 
-  InputImageType::Pointer image7 = InputImageType::New();
+  auto image7 = InputImageType::New();
 
-  InputImageType::Pointer image8 = InputImageType::New();
+  auto image8 = InputImageType::New();
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
@@ -264,7 +264,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   //----------------------------------------------------------------------
   using ImagePCAShapeModelEstimatorType = itk::ImagePCADecompositionCalculator<InputImageType>;
 
-  ImagePCAShapeModelEstimatorType::Pointer decomposer = ImagePCAShapeModelEstimatorType::New();
+  auto decomposer = ImagePCAShapeModelEstimatorType::New();
 
   //----------------------------------------------------------------------
   // Set the parameters of the clusterer

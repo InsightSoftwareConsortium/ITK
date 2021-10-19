@@ -84,7 +84,7 @@ itkGibbsTest(int, char *[])
   using PixelType = itk::Vector<unsigned short, NumberOfBands>;
   using VecImageType = itk::Image<PixelType, ImageDimension>;
 
-  VecImageType::Pointer vecImage = VecImageType::New();
+  auto vecImage = VecImageType::New();
 
   using VecImagePixelType = VecImageType::PixelType;
 
@@ -135,7 +135,7 @@ itkGibbsTest(int, char *[])
   // Generate the training data
   //---------------------------------------------------------------
   using ClassImageType = itk::Image<unsigned short, ImageDimension>;
-  ClassImageType::Pointer classImage = ClassImageType::New();
+  auto classImage = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
@@ -210,7 +210,7 @@ itkGibbsTest(int, char *[])
   using ImageGaussianModelEstimatorType =
     itk::ImageGaussianModelEstimator<VecImageType, MembershipFunctionType, ClassImageType>;
 
-  ImageGaussianModelEstimatorType::Pointer applyEstimateModel = ImageGaussianModelEstimatorType::New();
+  auto applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
@@ -228,7 +228,7 @@ itkGibbsTest(int, char *[])
   using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer myDecisionRule = DecisionRuleType::New();
+  auto myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
   // Set the classifier to be used and assigne the parameters for the
@@ -254,7 +254,7 @@ itkGibbsTest(int, char *[])
 
   // Set the Gibbs Prior labeller
   using GibbsPriorFilterType = itk::RGBGibbsPriorFilter<VecImageType, ClassImageType>;
-  GibbsPriorFilterType::Pointer applyGibbsImageFilter = GibbsPriorFilterType::New();
+  auto applyGibbsImageFilter = GibbsPriorFilterType::New();
 
   // Set the MRF labeller parameters
   applyGibbsImageFilter->SetNumberOfClasses(NUM_CLASSES);

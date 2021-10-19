@@ -47,7 +47,7 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -68,7 +68,7 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
   using VotingBinaryHoleFillingImageFilterType =
     itk::VotingBinaryHoleFillingImageFilter<InputImageType, OutputImageType>;
 
-  VotingBinaryHoleFillingImageFilterType::Pointer voting = VotingBinaryHoleFillingImageFilterType::New();
+  auto voting = VotingBinaryHoleFillingImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(voting, VotingBinaryHoleFillingImageFilter, VotingBinaryImageFilter);
 
@@ -95,7 +95,7 @@ itkVotingBinaryHoleFillingImageFilterTest(int argc, char * argv[])
 
   std::cout << "Number of pixels changed: " << voting->GetNumberOfPixelsChanged() << std::endl;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(voting->GetOutput());
   writer->SetFileName(argv[2]);
 

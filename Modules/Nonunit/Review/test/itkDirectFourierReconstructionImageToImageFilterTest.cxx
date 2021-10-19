@@ -89,17 +89,17 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
 
-  SmootherType::Pointer smoother = SmootherType::New();
+  auto smoother = SmootherType::New();
   smoother->SetInput(reader->GetOutput());
   smoother->SetSigma(std::stod(argv[17]));
   smoother->SetDirection(std::stoi(argv[3]));
 
 
-  ReconstructionFilterType::Pointer reconstruct = ReconstructionFilterType::New();
+  auto reconstruct = ReconstructionFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstruct, DirectFourierReconstructionImageToImageFilter, ImageToImageFilter);
 
@@ -121,16 +121,16 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   reconstruct->SetRadialSplineOrder(std::stoi(argv[9]));
   reconstruct->SetAlphaRange(std::stoi(argv[10]));
 
-  CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
+  auto observer = CommandProgressUpdate::New();
   reconstruct->AddObserver(itk::ProgressEvent(), observer);
 
-  RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
   rescaler->SetInput(reconstruct->GetOutput());
   rescaler->SetOutputMinimum(itk::NumericTraits<TestOutputPixelType>::min());
   rescaler->SetOutputMaximum(itk::NumericTraits<TestOutputPixelType>::max());
 
 
-  ROIFilterType::Pointer ROIFilter = ROIFilterType::New();
+  auto ROIFilter = ROIFilterType::New();
   ROIFilter->SetInput(rescaler->GetOutput());
 
   ROIFilterType::IndexType start;
@@ -151,7 +151,7 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   ROIFilter->SetRegionOfInterest(requestedRegion);
 
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
   writer->SetInput(ROIFilter->GetOutput());

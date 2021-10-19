@@ -173,7 +173,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   itk::StdStreamStateSave coutState(std::cout);
 
   // Create a displacement field transform
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(displacementTransform, DisplacementFieldTransform, Transform);
 
@@ -191,11 +191,11 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   using InterpolatorType = itk::VectorLinearInterpolateImageFunction<DisplacementTransformType::DisplacementFieldType,
                                                                      DisplacementTransformType::ScalarType>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   displacementTransform->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, displacementTransform->GetInterpolator());
 
-  InterpolatorType::Pointer inverseInterpolator = InterpolatorType::New();
+  auto inverseInterpolator = InterpolatorType::New();
   displacementTransform->SetInverseInterpolator(inverseInterpolator);
   ITK_TEST_SET_GET_VALUE(inverseInterpolator, displacementTransform->GetInverseInterpolator());
 
@@ -208,7 +208,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(directionTolerance, displacementTransform->GetDirectionTolerance());
 
 
-  FieldType::Pointer field = FieldType::New();
+  auto field = FieldType::New();
 
   FieldType::SizeType   size;
   FieldType::IndexType  start;
@@ -282,7 +282,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   affineMatrix(0, 1) = 0.02;
   affineMatrix(1, 1) = 1.1;
 
-  AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   affineTransform->SetMatrix(affineMatrix);
 
@@ -588,7 +588,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   // The inverse displacement field for the inverse displacement transform must
   // have been set to nullptr when calling SetDisplacementField(), so
   // 'false' should be returned here
-  DisplacementTransformType::Pointer inverseTransform = DisplacementTransformType::New();
+  auto inverseTransform = DisplacementTransformType::New();
   if (displacementTransform->GetInverse(inverseTransform))
   {
     std::cout << "Test failed!" << std::endl;

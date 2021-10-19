@@ -183,7 +183,7 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
   using FilterType = itk::ThresholdSegmentationLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
 

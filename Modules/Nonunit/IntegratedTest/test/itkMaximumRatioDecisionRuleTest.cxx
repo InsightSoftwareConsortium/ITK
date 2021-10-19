@@ -26,7 +26,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
 
   using MembershipVectorType = MaximumRatioDecisionRuleType::MembershipVectorType;
 
-  MaximumRatioDecisionRuleType::Pointer decisionRule = MaximumRatioDecisionRuleType::New();
+  auto decisionRule = MaximumRatioDecisionRuleType::New();
 
   std::cout << decisionRule->GetNameOfClass() << std::endl;
   std::cout << decisionRule->MaximumRatioDecisionRuleType::Superclass::GetNameOfClass() << std::endl;

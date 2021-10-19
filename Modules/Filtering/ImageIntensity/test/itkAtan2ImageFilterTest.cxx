@@ -51,8 +51,8 @@ itkAtan2ImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  InputImageType::Pointer sinImage = InputImageType::New();
-  InputImageType::Pointer cosImage = InputImageType::New();
+  auto sinImage = InputImageType::New();
+  auto cosImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -105,7 +105,7 @@ itkAtan2ImageFilterTest(int, char *[])
   using FilterType = itk::Atan2ImageFilter<InputImageType, InputImageType, OutputImageType>;
 
   // Create the Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, Atan2ImageFilter, BinaryGeneratorImageFilter);
 

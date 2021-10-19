@@ -92,8 +92,8 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
 
   // Use a couple of sphere spatial functions...
   using SphereType = SphereSpatialFunction<TDimension>;
-  typename SphereType::Pointer innerS = SphereType::New();
-  typename SphereType::Pointer outerS = SphereType::New();
+  auto innerS = SphereType::New();
+  auto outerS = SphereType::New();
 
   innerS->SetRadius(m_InnerRadius);
   outerS->SetRadius(m_InnerRadius + m_Thickness);

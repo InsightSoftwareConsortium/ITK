@@ -46,7 +46,7 @@ itkExpImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -87,7 +87,7 @@ itkExpImageFilterAndAdaptorTest(int, char *[])
 
 
   // Create an ADD Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
 
   // Connect the input images
@@ -135,13 +135,13 @@ itkExpImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::ExpImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer expAdaptor = AdaptorType::New();
+  auto expAdaptor = AdaptorType::New();
 
   expAdaptor->SetImage(inputImage);
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(expAdaptor);

@@ -145,10 +145,10 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  GradientDescentOptimizerv4Test2Metric::Pointer metric = GradientDescentOptimizerv4Test2Metric::New();
+  auto metric = GradientDescentOptimizerv4Test2Metric::New();
 
   itkOptimizer->SetMetric(metric);
 

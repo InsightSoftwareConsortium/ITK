@@ -51,7 +51,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int, char *[])
     region.SetIndex(1, 0);
     region.SetIndex(2, 0);
 
-    ImageType::Pointer inputImage = ImageType::New();
+    auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
     inputImage->Allocate(true); // initialize
                                 // buffer to zero
@@ -90,7 +90,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest3(int, char *[])
       }
     }
 
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     function->SetInputImage(inputImage);
     function->ThresholdAbove(1); // >= 1

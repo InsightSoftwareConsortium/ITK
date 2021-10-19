@@ -44,7 +44,7 @@ itkOrientedImage3DTest(int ac, char * av[])
   using IndexType = ImageType::IndexType;
   using IndexValueType = IndexType::IndexValueType;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(av[1]);
 
@@ -131,7 +131,7 @@ itkOrientedImage3DTest(int ac, char * av[])
 
   using CentralDifferenceImageFunctionType = itk::CentralDifferenceImageFunction<ImageType, double>;
 
-  CentralDifferenceImageFunctionType::Pointer gradientHelper1 = CentralDifferenceImageFunctionType::New();
+  auto gradientHelper1 = CentralDifferenceImageFunctionType::New();
   gradientHelper1->SetInputImage(image);
 
   std::cout << std::endl;

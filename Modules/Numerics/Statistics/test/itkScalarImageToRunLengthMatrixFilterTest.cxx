@@ -41,8 +41,8 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image = InputImageType::New();
-  InputImageType::Pointer mask = InputImageType::New();
+  auto image = InputImageType::New();
+  auto mask = InputImageType::New();
 
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
@@ -114,7 +114,7 @@ itkScalarImageToRunLengthMatrixFilterTest(int, char *[])
 
     using FilterType = itk::Statistics::ScalarImageToRunLengthMatrixFilter<InputImageType>;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput(image);
 

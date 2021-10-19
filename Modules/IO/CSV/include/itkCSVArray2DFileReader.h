@@ -61,7 +61,7 @@ namespace itk
  * from an input file:
  *
  * using ReaderType = itk::CSVArray2DFileReader<double>;
- * ReaderType::Pointer reader = ReaderType::New();
+ * auto reader = ReaderType::New();
  *
  * std::string filename = "NameOfFile.csv";
  * reader->SetFileName( filename );

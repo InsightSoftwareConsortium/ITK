@@ -54,7 +54,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   bool                   Ok = true;
 
   using CenteredRigidTransformType = itk::CenteredRigid2DTransform<double>;
-  CenteredRigidTransformType::Pointer transform = CenteredRigidTransformType::New();
+  auto transform = CenteredRigidTransformType::New();
 
   // 15 degrees in radians
   const double angle = 15.0 * std::atan(1.0f) / 45.0;
@@ -129,8 +129,8 @@ itkCenteredRigid2DTransformTest(int, char *[])
     std::cout << "Testing Inverse:";
 
     // Populate the transform with some parameters
-    CenteredRigidTransformType::Pointer transform2 = CenteredRigidTransformType::New();
-    constexpr double                    a = 0.175;
+    auto             transform2 = CenteredRigidTransformType::New();
+    constexpr double a = 0.175;
     transform2->SetAngle(a);
 
     CenteredRigidTransformType::InputPointType c;
@@ -216,7 +216,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   {
     // Test instantiation, inverse computation, back transform etc.
     using TransformType = CenteredRigidTransformType;
-    TransformType::Pointer t1 = TransformType::New();
+    auto t1 = TransformType::New();
 
     // Set parameters
     TransformType::ParametersType parameters(t1->GetNumberOfParameters());
@@ -247,7 +247,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TransformType::Pointer t2dash = TransformType::New();
+    auto t2dash = TransformType::New();
     t1->GetInverse(t2dash);
     TransformType::InputPointType p3dash = t2dash->TransformPoint(p2);
 
@@ -284,7 +284,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     }
 
     // Test compose
-    TransformType::Pointer t4 = TransformType::New();
+    auto t4 = TransformType::New();
 
     parameters[0] = 14.7 / 180.0 * itk::Math::pi;
     parameters[1] = 4.0;

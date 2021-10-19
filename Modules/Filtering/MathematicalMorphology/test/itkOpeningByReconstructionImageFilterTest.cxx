@@ -47,7 +47,7 @@ itkOpeningByReconstructionImageFilterTest(int argc, char * argv[])
     itk::OpeningByReconstructionImageFilter<InputImageType, OutputImageType, StructuringElementType>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -55,7 +55,7 @@ itkOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 
 
   // Create the filter
-  MorphologicalFilterType::Pointer filter = MorphologicalFilterType::New();
+  auto filter = MorphologicalFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, OpeningByReconstructionImageFilter, ImageToImageFilter);
 
@@ -81,7 +81,7 @@ itkOpeningByReconstructionImageFilterTest(int argc, char * argv[])
 
   // Write the output
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(filter->GetOutput());

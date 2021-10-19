@@ -31,7 +31,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   using PointSetType = itk::PointSet<unsigned int, Dimension>;
 
   using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
-  PointSetMetricType::Pointer metric = PointSetMetricType::New();
+  auto metric = PointSetMetricType::New();
 
   using PointSetType = PointSetMetricType::FixedPointSetType;
   using PointType = PointSetType::PointType;
@@ -41,10 +41,10 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   using MovingImageType = itk::Image<PixelType, Dimension>;
 
 
-  PointSetType::Pointer fixedPoints = PointSetType::New();
+  auto fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
 
-  PointSetType::Pointer movingPoints = PointSetType::New();
+  auto movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
   // two circles with a small offset
@@ -89,7 +89,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   fixedImageDirection.SetIdentity();
   fixedImageSpacing.Fill(1);
 
-  FixedImageType::Pointer fixedImage = FixedImageType::New();
+  auto fixedImage = FixedImageType::New();
   fixedImage->SetRegions(fixedImageSize);
   fixedImage->SetOrigin(fixedImageOrigin);
   fixedImage->SetDirection(fixedImageDirection);
@@ -97,7 +97,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   fixedImage->Allocate();
 
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
-  AffineTransformType::Pointer transform = AffineTransformType::New();
+  auto transform = AffineTransformType::New();
   transform->SetIdentity();
 
   metric->SetFixedPointSet(fixedPoints);
@@ -110,10 +110,10 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   using VelocityFieldRegistrationType =
     itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod<FixedImageType, MovingImageType>;
-  VelocityFieldRegistrationType::Pointer velocityFieldRegistration = VelocityFieldRegistrationType::New();
+  auto velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
   using OutputTransformType = VelocityFieldRegistrationType::OutputTransformType;
-  OutputTransformType::Pointer outputTransform = OutputTransformType::New();
+  auto outputTransform = OutputTransformType::New();
   velocityFieldRegistration->SetInitialTransform(outputTransform);
   velocityFieldRegistration->InPlaceOn();
 
@@ -180,7 +180,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
 
   using VelocityFieldTransformAdaptorType =
     itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType>;
-  VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
+  auto initialFieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
   initialFieldTransformAdaptor->SetSplineOrder(outputTransform->GetSplineOrder());
   initialFieldTransformAdaptor->SetRequiredTransformDomainOrigin(transformDomainOrigin);
   initialFieldTransformAdaptor->SetRequiredTransformDomainSpacing(transformDomainSpacing);
@@ -230,7 +230,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   for (unsigned int level = 0; level < shrinkFactorsPerLevel.Size(); ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
-    ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(shrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(fixedImage);
     shrinkFilter->Update();
@@ -262,7 +262,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
       }
     }
 
-    VelocityFieldTransformAdaptorType::Pointer fieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
+    auto fieldTransformAdaptor = VelocityFieldTransformAdaptorType::New();
     fieldTransformAdaptor->SetSplineOrder(outputTransform->GetSplineOrder());
     fieldTransformAdaptor->SetRequiredTransformDomainSpacing(velocityFieldSpacing);
     fieldTransformAdaptor->SetRequiredTransformDomainSize(velocityFieldSize);

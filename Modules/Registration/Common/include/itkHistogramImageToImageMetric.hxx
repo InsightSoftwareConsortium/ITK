@@ -198,13 +198,13 @@ HistogramImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const Tran
   derivative = DerivativeType(ParametersDimension);
   derivative.Fill(NumericTraits<typename DerivativeType::ValueType>::ZeroValue());
 
-  typename HistogramType::Pointer pHistogram = HistogramType::New();
+  auto pHistogram = HistogramType::New();
   pHistogram->SetMeasurementVectorSize(2);
   this->ComputeHistogram(parameters, *pHistogram);
 
   for (unsigned int i = 0; i < ParametersDimension; ++i)
   {
-    typename HistogramType::Pointer pHistogram2 = HistogramType::New();
+    auto pHistogram2 = HistogramType::New();
     pHistogram2->SetMeasurementVectorSize(2);
     this->CopyHistogram(*pHistogram2, *pHistogram);
 

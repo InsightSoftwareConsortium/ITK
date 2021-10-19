@@ -38,24 +38,24 @@ itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer inputReader = ReaderType::New();
+  auto inputReader = ReaderType::New();
   inputReader->SetFileName(argv[1]);
   inputReader->Update();
 
-  ReaderType::Pointer kernelReader = ReaderType::New();
+  auto kernelReader = ReaderType::New();
   kernelReader->SetFileName(argv[2]);
   kernelReader->Update();
 
   // Generate a convolution of the input image with the kernel image
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
+  auto convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetInput(inputReader->GetOutput());
   convolutionFilter->NormalizeOn();
   convolutionFilter->SetKernelImage(kernelReader->GetOutput());
 
   // Test the deconvolution algorithm
   using DeconvolutionFilterType = itk::ProjectedLandweberDeconvolutionImageFilter<ImageType>;
-  DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
+  auto deconvolutionFilter = DeconvolutionFilterType::New();
   deconvolutionFilter->SetInput(convolutionFilter->GetOutput());
   deconvolutionFilter->SetKernelImage(kernelReader->GetOutput());
   deconvolutionFilter->NormalizeOn();
@@ -65,13 +65,13 @@ itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Add an observer to report on filter iteration progress
   using IterationCommandType = itk::DeconvolutionIterationCommand<DeconvolutionFilterType>;
-  IterationCommandType::Pointer observer = IterationCommandType::New();
+  auto observer = IterationCommandType::New();
   deconvolutionFilter->AddObserver(itk::IterationEvent(), observer);
 
   // Write the deconvolution result
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[3]);
     writer->SetInput(deconvolutionFilter->GetOutput());
     writer->Update();
@@ -97,7 +97,7 @@ itkProjectedLandweberDeconvolutionImageFilterTest(int argc, char * argv[])
 
   using FilterType =
     itk::ProjectedLandweberDeconvolutionImageFilter<FloatImageType, DoubleImageType, IntImageType, float>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->Print(std::cout);
 
   return EXIT_SUCCESS;

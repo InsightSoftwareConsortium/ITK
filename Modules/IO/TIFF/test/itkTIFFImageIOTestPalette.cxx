@@ -62,12 +62,12 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ScalarImageType>;
   using IOType = itk::TIFFImageIO;
 
-  IOType::Pointer io = IOType::New();
+  auto io = IOType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(io, TIFFImageIO, ImageIOBase);
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   ITK_TEST_SET_GET_BOOLEAN(io, ExpandRGBPalette, expandRGBPalette);
 

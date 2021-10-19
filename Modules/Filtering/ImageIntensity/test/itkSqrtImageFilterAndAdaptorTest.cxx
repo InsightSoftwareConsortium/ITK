@@ -51,7 +51,7 @@ itkSqrtImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define its size, and start index
   SizeType size;
@@ -90,7 +90,7 @@ itkSqrtImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::SqrtImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SqrtImageFilter, UnaryGeneratorImageFilter);
 
@@ -135,7 +135,7 @@ itkSqrtImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::SqrtImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer sqrtAdaptor = AdaptorType::New();
+  auto sqrtAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(sqrtAdaptor, SqrtImageAdaptor, ImageAdaptor);
 
@@ -143,7 +143,7 @@ itkSqrtImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(sqrtAdaptor);

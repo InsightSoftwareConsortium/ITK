@@ -59,18 +59,18 @@ NormalizeToConstantImageFilter<TInputImage, TOutputImage>::GenerateData()
   OutputImageType *      output0 = this->GetOutput(0);
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   using StatType = typename itk::StatisticsImageFilter<InputImageType>;
-  typename StatType::Pointer stat = StatType::New();
+  auto stat = StatType::New();
   stat->SetInput(input0);
   progress->RegisterInternalFilter(stat, 0.5f);
   stat->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   stat->Update();
 
   using DivType = typename itk::DivideImageFilter<InputImageType, OutputImageType, OutputImageType>;
-  typename DivType::Pointer div = DivType::New();
+  auto div = DivType::New();
   div->SetInput(input0);
   div->SetConstant2(static_cast<RealType>(stat->GetSum()) / m_Constant);
   div->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());

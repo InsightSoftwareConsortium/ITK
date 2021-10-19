@@ -62,12 +62,12 @@ itkImageFileWriterStreamingTest1(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
   if (forceNoStreamingInput)
@@ -77,7 +77,7 @@ itkImageFileWriterStreamingTest1(int argc, char * argv[])
   }
 
   // Setup the writer
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(monitor->GetOutput());
   writer->SetNumberOfStreamDivisions(numberOfDataPieces);

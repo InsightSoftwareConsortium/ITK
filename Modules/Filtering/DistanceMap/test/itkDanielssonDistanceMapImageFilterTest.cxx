@@ -44,7 +44,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   region2D.SetSize(size2D);
   region2D.SetIndex(index2D);
 
-  myImageType2D1::Pointer inputImage2D = myImageType2D1::New();
+  auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetLargestPossibleRegion(region2D);
   inputImage2D->SetBufferedRegion(region2D);
   inputImage2D->SetRequestedRegion(region2D);
@@ -65,7 +65,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   // Create Danielsson Distance Map filter
   using myFilterType2D = itk::DanielssonDistanceMapImageFilter<myImageType2D1, myImageType2D2>;
 
-  myFilterType2D::Pointer filter2D = myFilterType2D::New();
+  auto filter2D = myFilterType2D::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter2D, DanielssonDistanceMapImageFilter, ImageToImageFilter);
 
@@ -195,7 +195,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   ImageType3D::RegionType region3D;
   region3D.SetSize(size3D);
   region3D.SetIndex(index3D);
-  ImageType3D::Pointer inputImage3D = ImageType3D::New();
+  auto inputImage3D = ImageType3D::New();
   inputImage3D->SetRegions(region3D);
   inputImage3D->Allocate();
   inputImage3D->FillBuffer(1);
@@ -222,7 +222,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   // Create Danielsson Distance Map filter
   using myFilterType3D = itk::DanielssonDistanceMapImageFilter<ImageType3D, ImageType3D>;
 
-  myFilterType3D::Pointer filter3D = myFilterType3D::New();
+  auto filter3D = myFilterType3D::New();
 
   filter3D->SetInput(inputImage3D);
 

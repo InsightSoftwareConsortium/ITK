@@ -33,7 +33,7 @@ itkReadVesselTubeSpatialObjectTest(int argc, char * argv[])
 
   using ReaderType = itk::SpatialObjectReader<Dimension>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputVessel);
 
   try

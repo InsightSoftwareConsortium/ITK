@@ -36,17 +36,17 @@ DoIt(const std::string & infname, const std::string & outfname)
   using InputPixelType = typename InputImageType::PixelType;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(infname);
 
   using FilterType = itk::GradientImageFilter<InputImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
 
   using OutputImageType = typename FilterType::OutputImageType;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(outfname);
   writer->SetNumberOfStreamDivisions(5);
@@ -57,7 +57,7 @@ DoIt(const std::string & infname, const std::string & outfname)
   using VectorImageType = itk::VectorImage<InputPixelType, ImageDimension>;
 
   using VectorFilterType = itk::GradientImageFilter<InputImageType, float, float, VectorImageType>;
-  typename VectorFilterType::Pointer vectorFilter = VectorFilterType::New();
+  auto vectorFilter = VectorFilterType::New();
   vectorFilter->SetInput(reader->GetOutput());
   vectorFilter->Update();
 
@@ -120,7 +120,7 @@ itkGradientImageFilterTest2(int argc, char * argv[])
   using TestImageType = itk::Image<short, 3>;
   using FilterType = itk::GradientImageFilter<TestImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientImageFilter, ImageToImageFilter);
 
   const unsigned int dimension = iobase->GetNumberOfDimensions();

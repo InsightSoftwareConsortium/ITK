@@ -87,7 +87,7 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   if (m_SafeBorder)
   {
     using PadType = ConstantPadImageFilter<InputImageType, InputImageType>;
-    typename PadType::Pointer pad = PadType::New();
+    auto pad = PadType::New();
     pad->SetPadLowerBound(this->GetKernel().GetRadius());
     pad->SetPadUpperBound(this->GetKernel().GetRadius());
     pad->SetConstant(backgroundValue);
@@ -96,12 +96,12 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
     dilate->SetInput(pad->GetOutput());
 
     using CropType = CropImageFilter<TOutputImage, TOutputImage>;
-    typename CropType::Pointer crop = CropType::New();
+    auto crop = CropType::New();
     crop->SetInput(erode->GetOutput());
     crop->SetUpperBoundaryCropSize(this->GetKernel().GetRadius());
     crop->SetLowerBoundaryCropSize(this->GetKernel().GetRadius());
 
-    ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+    auto progress = ProgressAccumulator::New();
     progress->SetMiniPipelineFilter(this);
     progress->RegisterInternalFilter(pad, .1f);
     progress->RegisterInternalFilter(erode, .35f);
@@ -118,7 +118,7 @@ BinaryMorphologicalClosingImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   else
   {
     /** set up the minipipeline */
-    ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+    auto progress = ProgressAccumulator::New();
     progress->SetMiniPipelineFilter(this);
     progress->RegisterInternalFilter(erode, .45f);
     progress->RegisterInternalFilter(dilate, .45f);

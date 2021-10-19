@@ -69,10 +69,10 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
   using PointSetType = typename PointSetMetricType::FixedPointSetType;
   using PointType = typename PointSetType::PointType;
 
-  typename PointSetType::Pointer fixedPoints = PointSetType::New();
+  auto fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
 
-  typename PointSetType::Pointer movingPoints = PointSetType::New();
+  auto movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
   // two circles with a small offset
@@ -111,11 +111,11 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
   }
 
   using AffineTransformType = itk::AffineTransform<double, PointSetType::PointDimension>;
-  typename AffineTransformType::Pointer transform = AffineTransformType::New();
+  auto transform = AffineTransformType::New();
   transform->SetIdentity();
 
   using LabeledPointSetMetricType = itk::LabeledPointSetToPointSetMetricv4<PointSetType>;
-  typename LabeledPointSetMetricType::Pointer metric = LabeledPointSetMetricType::New();
+  auto metric = LabeledPointSetMetricType::New();
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);
   metric->SetMovingTransform(transform);
@@ -133,14 +133,14 @@ itkLabeledPointSetMetricRegistrationTestPerMetric(unsigned int numberOfIteration
 
   // optimizer
   using OptimizerType = itk::GradientDescentOptimizerv4;
-  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
   optimizer->SetNumberOfIterations(numberOfIterations);
   optimizer->SetScalesEstimator(shiftScaleEstimator);
   optimizer->SetMaximumStepSizeInPhysicalUnits(3.0);
 
   using CommandType = itkLabeledPointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
-  typename CommandType::Pointer observer = CommandType::New();
+  auto observer = CommandType::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   optimizer->SetMinimumConvergenceValue(0.0);
@@ -201,8 +201,8 @@ itkLabeledPointSetMetricRegistrationTest(int argc, char * argv[])
 
   {
     using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
-    PointSetMetricType::Pointer metric = PointSetMetricType::New();
-    int                         success =
+    auto metric = PointSetMetricType::New();
+    int  success =
       itkLabeledPointSetMetricRegistrationTestPerMetric<PointSetMetricType>(numberOfIterations, metric.GetPointer());
 
     allSuccess *= success;
@@ -210,7 +210,7 @@ itkLabeledPointSetMetricRegistrationTest(int argc, char * argv[])
 
   {
     using PointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
-    PointSetMetricType::Pointer metric = PointSetMetricType::New();
+    auto metric = PointSetMetricType::New();
     metric->SetPointSetSigma(2.0);
     metric->SetEvaluationKNeighborhood(3);
     int success =
@@ -221,7 +221,7 @@ itkLabeledPointSetMetricRegistrationTest(int argc, char * argv[])
 
   {
     using PointSetMetricType = itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>;
-    PointSetMetricType::Pointer metric = PointSetMetricType::New();
+    auto metric = PointSetMetricType::New();
     metric->SetPointSetSigma(1.0);
     metric->SetKernelSigma(10.0);
     metric->SetUseAnisotropicCovariances(false);

@@ -66,13 +66,13 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
   // load binary mask
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
   InputImageType::Pointer input = reader->GetOutput();
 
   // Binary initialization
-  InputImageType::Pointer binary = InputImageType::New();
+  auto binary = InputImageType::New();
   binary->SetRegions(input->GetLargestPossibleRegion());
   binary->CopyInformation(input);
   binary->Allocate();
@@ -97,7 +97,7 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   }
 
   // Convert binary mask to sparse level set
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
@@ -105,11 +105,11 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(2.0);
 
   // Insert the levelsets in a levelset container
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
 
   bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
@@ -125,13 +125,13 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   // *** 1st Level Set phi ***
 
   // Create ChanAndVese internal term for phi_{1}
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm0 = ChanAndVeseInternalTermType::New();
+  auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
   std::cout << "LevelSet 1: CV internal term created" << std::endl;
 
   // Create ChanAndVese external term for phi_{1}
-  ChanAndVeseExternalTermType::Pointer cvExternalTerm0 = ChanAndVeseExternalTermType::New();
+  auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
   std::cout << "LevelSet 1: CV external term created" << std::endl;
@@ -139,7 +139,7 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   // **************** CREATE ALL EQUATIONS ****************
 
   // Create Term Container
-  TermContainerType::Pointer termContainer0 = TermContainerType::New();
+  auto termContainer0 = TermContainerType::New();
   termContainer0->SetInput(input);
   termContainer0->SetCurrentLevelSetId(0);
   termContainer0->SetLevelSetContainer(lscontainer);
@@ -148,15 +148,15 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   termContainer0->AddTerm(1, cvExternalTerm0);
   std::cout << "Term container 0 created" << std::endl;
 
-  EquationContainerType::Pointer equationContainer = EquationContainerType::New();
+  auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
   equationContainer->AddEquation(0, termContainer0);
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
-  StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
+  auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(std::stoi(argv[2]));
 
-  LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
+  auto evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer(equationContainer);
   evolution->SetStoppingCriterion(criterion);
   evolution->SetLevelSetContainer(lscontainer);
@@ -172,7 +172,7 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   }
 
   using OutputImageType = itk::Image<signed char, Dimension>;
-  OutputImageType::Pointer outputImage = OutputImageType::New();
+  auto outputImage = OutputImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());
   outputImage->CopyInformation(input);
   outputImage->Allocate();
@@ -192,7 +192,7 @@ itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
   }
 
   using OutputWriterType = itk::ImageFileWriter<OutputImageType>;
-  OutputWriterType::Pointer writer = OutputWriterType::New();
+  auto writer = OutputWriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(outputImage);
 

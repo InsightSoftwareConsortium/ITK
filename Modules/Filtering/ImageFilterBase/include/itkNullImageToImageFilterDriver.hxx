@@ -138,7 +138,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   };
 
   // Set up input images
-  typename TInputImage::Pointer     ip = TInputImage::New();
+  auto                              ip = TInputImage::New();
   typename TOutputImage::IndexType  index;
   typename TOutputImage::RegionType region;
 

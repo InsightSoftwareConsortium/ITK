@@ -234,10 +234,10 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   using OptimizerType = itk::LBFGSBOptimizerv4;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the metric
-  LBFGSBOptimizerv4TestMetric::Pointer metric = LBFGSBOptimizerv4TestMetric::New();
+  auto metric = LBFGSBOptimizerv4TestMetric::New();
 
   itkOptimizer->SetMetric(metric);
 
@@ -288,7 +288,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
 
   itkOptimizer->Print(std::cout);
 
-  EventChecker::Pointer eventChecker = EventChecker::New();
+  auto eventChecker = EventChecker::New();
   itkOptimizer->AddObserver(itk::StartEvent(), eventChecker);
   itkOptimizer->AddObserver(itk::IterationEvent(), eventChecker);
   itkOptimizer->AddObserver(itk::EndEvent(), eventChecker);
@@ -420,7 +420,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   //
   std::cout << std::endl << "Test in unbounded mode:" << std::endl;
 
-  OptimizerType::Pointer itkOptimizer2 = OptimizerType::New();
+  auto itkOptimizer2 = OptimizerType::New();
 
   // Set up boundary conditions
   select.Fill(0);

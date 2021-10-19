@@ -59,7 +59,7 @@ itkTransformCloneTest(int, char *[])
 {
   using AffineTransformType = itk::AffineTransform<double, 3>;
   using Transform3DType = itk::Transform<double, 3, 3>;
-  AffineTransformType::Pointer          affineXfrm = AffineTransformType::New();
+  auto                                  affineXfrm = AffineTransformType::New();
   AffineTransformType::OutputVectorType axis, offset;
   axis[0] = -1.0;
   axis[1] = 1.0;
@@ -96,7 +96,7 @@ itkTransformCloneTest(int, char *[])
     return EXIT_FAILURE;
   }
   using CompositeTransformType = itk::CompositeTransform<double, 3>;
-  CompositeTransformType::Pointer compositeXfrm = CompositeTransformType::New();
+  auto compositeXfrm = CompositeTransformType::New();
   compositeXfrm->AddTransform(clonePtr);
   compositeXfrm->SetOnlyMostRecentTransformToOptimizeOn();
 

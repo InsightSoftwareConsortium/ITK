@@ -45,12 +45,12 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Read in the input image
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Instantiate the filter
   using FilterType = itk::LabelToRGBImageFilter<ImageType, ColorImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelToRGBImageFilter, UnaryFunctorImageFilter);
 
@@ -77,7 +77,7 @@ itkLabelToRGBImageFilterTest(int argc, char * argv[])
 
   // Instantiate output image
   using WriterType = itk::ImageFileWriter<ColorImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);

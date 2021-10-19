@@ -35,7 +35,7 @@ template <typename TNeighborhoodType>
 ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::ParallelSparseFieldCityBlockNeighborList()
 {
   using ImageType = typename NeighborhoodType::ImageType;
-  typename ImageType::Pointer dummy_image = ImageType::New();
+  auto dummy_image = ImageType::New();
 
   unsigned int i, nCenter;
   int          d;
@@ -178,7 +178,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CopyInputToOu
 
   // First need to subtract the iso-surface value from the input image.
   using ShiftScaleFilterType = ShiftScaleImageFilter<InputImageType, OutputImageType>;
-  typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
+  auto shiftScaleFilter = ShiftScaleFilterType::New();
   shiftScaleFilter->SetInput(this->GetInput());
   shiftScaleFilter->SetShift(-m_IsoSurfaceValue);
   // keep a handle to the shifted output

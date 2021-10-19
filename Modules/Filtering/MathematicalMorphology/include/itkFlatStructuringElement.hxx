@@ -923,7 +923,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
 
   // Create an image to hold the ellipsoid
   //
-  typename ImageType::Pointer    sourceImage = ImageType::New();
+  auto                           sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = radius;
   for (i = 0; i < (int)VDimension; ++i)
@@ -952,7 +952,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
   using EllipsoidType = EllipsoidInteriorExteriorSpatialFunction<VDimension>;
 
   // Create an ellipsoid spatial function for the source image
-  typename EllipsoidType::Pointer spatialFunction = EllipsoidType::New();
+  auto spatialFunction = EllipsoidType::New();
 
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axes;
@@ -1029,7 +1029,7 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
 
   // Create an image to hold the ellipsoid
   //
-  typename ImageType::Pointer    kernelImage = ImageType::New();
+  auto                           kernelImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = radius;
   for (unsigned int i = 0; i < NDimension; ++i)
@@ -1057,8 +1057,8 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
   using EllipsoidType = EllipsoidInteriorExteriorSpatialFunction<NDimension>;
 
   // Create an ellipsoid spatial function for the source image
-  typename EllipsoidType::Pointer ellipsoidOuter = EllipsoidType::New();
-  typename EllipsoidType::Pointer ellipsoidInner = EllipsoidType::New();
+  auto ellipsoidOuter = EllipsoidType::New();
+  auto ellipsoidInner = EllipsoidType::New();
 
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axesOuter;
@@ -1189,7 +1189,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
   // Create an image to hold the ellipsoid
   //
-  typename ImageType::Pointer    sourceImage = ImageType::New();
+  auto                           sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = this->GetRadius();
   for (int i = 0; i < (int)VDimension; ++i)
@@ -1229,7 +1229,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
   // dilate the pixel
   using DilateType = VanHerkGilWermanDilateImageFilter<ImageType, Self>;
-  typename DilateType::Pointer dilate = DilateType::New();
+  auto dilate = DilateType::New();
   // suspect that multithreading does odd things when images are
   // really tiny
   dilate->SetNumberOfWorkUnits(1);

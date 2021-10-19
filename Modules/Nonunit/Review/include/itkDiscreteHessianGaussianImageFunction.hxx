@@ -106,7 +106,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
   // only one.
 
   using KernelImageType = itk::Image<TOutput, Self::ImageDimension2>;
-  typename KernelImageType::Pointer kernelImage = KernelImageType::New();
+  auto kernelImage = KernelImageType::New();
 
   using RegionType = typename KernelImageType::RegionType;
   RegionType region;
@@ -133,7 +133,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;
-  typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
+  auto convolutionFilter = NeighborhoodFilterType::New();
 
   // Array that stores the current order for each direction
   using OrderArrayType = FixedArray<unsigned int, Self::ImageDimension2>;

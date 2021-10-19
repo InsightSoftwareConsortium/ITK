@@ -87,8 +87,8 @@ TEST(ITKBSplineTransform, Construction)
 
   using BSplineType = itk::BSplineTransform<double, 3, 3>;
 
-  BSplineType::Pointer bspline1 = BSplineType::New();
-  BSplineType::Pointer bspline2 = BSplineType::New();
+  auto bspline1 = BSplineType::New();
+  auto bspline2 = BSplineType::New();
 
   bspline_eq(bspline1.GetPointer(), bspline1.GetPointer());
   bspline_eq(bspline2.GetPointer(), bspline2.GetPointer());
@@ -149,7 +149,7 @@ TEST(ITKBSplineTransform, Copying_Clone)
     }
   }
 
-  BSplineType::Pointer bspline1 = BSplineType::New();
+  auto bspline1 = BSplineType::New();
   bspline1->SetCoefficientImages(coeffImageArray);
 
   bspline_eq(bspline1.GetPointer(), bspline1.GetPointer(), "Check after initialization by coefficient images.");
@@ -159,7 +159,7 @@ TEST(ITKBSplineTransform, Copying_Clone)
   EXPECT_EQ(bspline1->GetTransformDomainMeshSize(), itk::MakeSize(7, 7));
   ITK_EXPECT_VECTOR_NEAR(bspline1->GetTransformDomainPhysicalDimensions(), itk::MakeVector(7.7, 8.4), 1e-15);
 
-  BSplineType::Pointer bspline2 = BSplineType::New();
+  auto bspline2 = BSplineType::New();
   bspline2->SetFixedParameters(bspline1->GetFixedParameters());
   bspline2->SetParameters(bspline1->GetParameters());
 

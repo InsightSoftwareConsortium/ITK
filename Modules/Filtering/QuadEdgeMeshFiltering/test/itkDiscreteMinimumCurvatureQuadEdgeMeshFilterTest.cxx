@@ -42,7 +42,7 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::MeshFileReader<MeshType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -57,14 +57,14 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  CurvatureFilterType::Pointer min_curvature = CurvatureFilterType::New();
+  auto min_curvature = CurvatureFilterType::New();
   min_curvature->SetInput(mesh);
   min_curvature->Update();
 
   MeshType::Pointer output = min_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(output);
   writer->SetFileName("min_curvature.vtk");
   writer->Update();

@@ -39,7 +39,7 @@ itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
   using IType = itk::Image<PType, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using StructuringElementType = itk::BinaryBallStructuringElement<PType, dim>;
@@ -48,14 +48,14 @@ itkMorphologicalGradientImageFilterTest(int argc, char * argv[])
   structuringElement.CreateStructuringElement();
 
   using GradientType = itk::MorphologicalGradientImageFilter<IType, IType, StructuringElementType>;
-  GradientType::Pointer gradient = GradientType::New();
+  auto gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetKernel(structuringElement);
 
   itk::SimpleFilterWatcher watcher(gradient);
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(gradient->GetOutput());
   writer->SetFileName(argv[2]);
 

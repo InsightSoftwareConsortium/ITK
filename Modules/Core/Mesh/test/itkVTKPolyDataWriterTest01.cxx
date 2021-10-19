@@ -40,7 +40,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
 
   using WriterType = itk::VTKPolyDataWriter<MeshType>;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   constexpr unsigned int numberOfPoints = 4;
   constexpr unsigned int numberOfCells = 9;
@@ -90,7 +90,7 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
     mesh->SetCell(i, cell);
   }
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(mesh);
   writer->SetFileName(argv[1]);
   writer->Write();

@@ -108,8 +108,8 @@ SobelEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Setup mini-pipelines along each axis.
   typename OpFilter::Pointer   opFilter[ImageDimension];
   typename MultFilter::Pointer multFilter[ImageDimension];
-  typename AddFilter::Pointer  addFilter = AddFilter::New();
-  typename SqrtFilter::Pointer sqrtFilter = SqrtFilter::New();
+  auto                         addFilter = AddFilter::New();
+  auto                         sqrtFilter = SqrtFilter::New();
   for (i = 0; i < ImageDimension; ++i)
   {
     // Create the filters for this axis.

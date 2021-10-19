@@ -43,14 +43,14 @@ SameRegionImage(ImageConstPointer test, ImageConstPointer baseline)
   unsigned int numberOfPixelTolerance = 0;
 
   using ExtractImageFilter = itk::ExtractImageFilter<ImageType, ImageType>;
-  ExtractImageFilter::Pointer extractor = ExtractImageFilter::New();
+  auto extractor = ExtractImageFilter::New();
   extractor->SetDirectionCollapseToSubmatrix();
   extractor->SetExtractionRegion(test->GetLargestPossibleRegion());
   extractor->SetInput(baseline);
 
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DiffType::Pointer diff = DiffType::New();
+  auto diff = DiffType::New();
   diff->SetValidInput(extractor->GetOutput());
   diff->SetTestInput(test);
   diff->SetDifferenceThreshold(intensityTolerance);
@@ -80,24 +80,24 @@ itkImageFileReaderStreamingTest2(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer baselineReader = ReaderType::New();
+  auto baselineReader = ReaderType::New();
   baselineReader->SetFileName(argv[1]);
   baselineReader->UpdateLargestPossibleRegion();
 
   ImageType::ConstPointer baselineImage = baselineReader->GetOutput();
 
-  ReaderType::Pointer streamingReader = ReaderType::New();
+  auto streamingReader = ReaderType::New();
   streamingReader->SetFileName(argv[1]);
   streamingReader->UseStreamingOn();
 
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(streamingReader->GetOutput());
 
 
   using ExtractImageFilter = itk::ExtractImageFilter<ImageType, ImageType>;
-  ExtractImageFilter::Pointer extractor = ExtractImageFilter::New();
+  auto extractor = ExtractImageFilter::New();
   extractor->SetDirectionCollapseToSubmatrix();
   extractor->SetInput(monitor->GetOutput());
 

@@ -43,11 +43,11 @@ itkMaximumProjectionImageFilterTest2(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, 3>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[2]);
 
   using FilterType = itk::MaximumProjectionImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetProjectionDimension(dim);
   // to be sure that the result is ok with several threads, even on a single
@@ -57,7 +57,7 @@ itkMaximumProjectionImageFilterTest2(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
 

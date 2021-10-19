@@ -59,20 +59,20 @@ void
 LabelImageToShapeLabelMapFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
 
-  typename LabelizerType::Pointer labelizer = LabelizerType::New();
+  auto labelizer = LabelizerType::New();
   labelizer->SetInput(this->GetInput());
   labelizer->SetBackgroundValue(m_BackgroundValue);
   labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .5f);
 
-  typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
+  auto valuator = LabelObjectValuatorType::New();
   valuator->SetInput(labelizer->GetOutput());
   valuator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   valuator->SetComputePerimeter(m_ComputePerimeter);

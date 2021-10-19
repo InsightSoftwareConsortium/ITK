@@ -53,15 +53,15 @@ itkBSplineUpsampleImageFilterTest(int argc, char * argv[])
 
   using UpsamplerFilterType = itk::BSplineUpsampleImageFilter<ImageType, ImageType>;
 
-  UpsamplerFilterType::Pointer filter = UpsamplerFilterType::New();
+  auto filter = UpsamplerFilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter, "BSplineUpsampleImageFilter");
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);

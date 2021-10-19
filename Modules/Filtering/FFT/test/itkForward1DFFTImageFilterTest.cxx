@@ -43,11 +43,11 @@ doTest(const char * inputImage, const char * outputImagePrefix)
   using ImaginaryFilterType = itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  typename ReaderType::Pointer          reader = ReaderType::New();
-  typename FFTType::Pointer             fft = FFTType::New();
-  typename RealFilterType::Pointer      realFilter = RealFilterType::New();
-  typename ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
-  typename WriterType::Pointer          writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto fft = FFTType::New();
+  auto realFilter = RealFilterType::New();
+  auto imaginaryFilter = ImaginaryFilterType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inputImage);
   fft->SetInput(reader->GetOutput());
@@ -101,7 +101,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
     using FFTForwardType = itk::Forward1DFFTImageFilter<ImageType, ComplexImageType>;
 
     // Instantiate a filter to exercise basic object methods
-    typename FFTForwardType::Pointer fft = FFTForwardType::New();
+    auto fft = FFTForwardType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Forward1DFFTImageFilter, ImageToImageFilter);
 
     itk::SizeValueType sizeGreatestPrimeFactor = 2;
@@ -114,7 +114,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
     using FFTForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
 
     // Instantiate a filter to exercise basic object methods
-    typename FFTForwardType::Pointer fft = FFTForwardType::New();
+    auto fft = FFTForwardType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, VnlForward1DFFTImageFilter, Forward1DFFTImageFilter);
 
 
@@ -126,7 +126,7 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
     using FFTForwardType = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
 
     // Instantiate a filter to exercise basic object methods
-    typename FFTForwardType::Pointer fft = FFTForwardType::New();
+    auto fft = FFTForwardType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, FFTWForward1DFFTImageFilter, Forward1DFFTImageFilter);
 
 

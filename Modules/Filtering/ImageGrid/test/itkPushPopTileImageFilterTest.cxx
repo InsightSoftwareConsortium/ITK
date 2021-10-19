@@ -53,11 +53,11 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
   layout[1] = 1;
 
   // Tile the input images
-  TilerType::Pointer tiler1 = TilerType::New();
-  TilerType::Pointer tiler2 = TilerType::New();
-  TilerType::Pointer tiler3 = TilerType::New();
-  TilerType::Pointer tiler4 = TilerType::New();
-  TilerType::Pointer tiler = TilerType::New();
+  auto tiler1 = TilerType::New();
+  auto tiler2 = TilerType::New();
+  auto tiler3 = TilerType::New();
+  auto tiler4 = TilerType::New();
+  auto tiler = TilerType::New();
 
   unsigned char                yellow[3] = { 255, 255, 127 };
   itk::RGBPixel<unsigned char> fillPixel = yellow;
@@ -74,7 +74,7 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
   int f = 0;
   for (int i = 1; i < argc - 1; ++i)
   {
-    ImageReaderType::Pointer reader = ImageReaderType::New();
+    auto reader = ImageReaderType::New();
     reader->SetFileName(argv[i]);
     reader->Update();
     tiler1->SetInput(f, reader->GetOutput());
@@ -105,7 +105,7 @@ itkPushPopTileImageFilterTest(int argc, char * argv[])
   tiler->PushBackInput(tiler3->GetOutput());
   tiler->PushBackInput(tiler4->GetOutput());
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[argc - 1]);
 

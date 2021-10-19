@@ -41,8 +41,8 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
   // Declare the type of the gradient image
   using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
-  PointType                     center;
+  auto      mySphereMeshSource = SphereMeshSourceType::New();
+  PointType center;
   center.Fill(0);
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
   VectorType           scale = scaleInit;
@@ -50,13 +50,13 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
   mySphereMeshSource->SetCenter(center);
   mySphereMeshSource->SetScale(scale);
 
-  SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
+  auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
 
   using VolumeCalculatorType = itk::SimplexMeshVolumeCalculator<SimplexMeshType>;
 
 
-  VolumeCalculatorType::Pointer calculator = VolumeCalculatorType::New();
+  auto calculator = VolumeCalculatorType::New();
 
   calculator->SetSimplexMesh(simplexFilter->GetOutput());
   for (int i = 1; i <= 5; ++i)

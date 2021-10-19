@@ -144,7 +144,7 @@ itkScalarChanAndVeseLevelSetFunctionTest1(int, char *[])
   using ChanAndVeseLevelSetFunctionType =
     itk::ScalarChanAndVeseLevelSetFunctionTestHelper<ImageType, FeatureImageType, DataHelperType>;
 
-  ChanAndVeseLevelSetFunctionType::Pointer function = ChanAndVeseLevelSetFunctionType::New();
+  auto function = ChanAndVeseLevelSetFunctionType::New();
 
   std::cout << "GetNameOfClass() = " << function->GetNameOfClass() << std::endl;
   function->Print(std::cout);

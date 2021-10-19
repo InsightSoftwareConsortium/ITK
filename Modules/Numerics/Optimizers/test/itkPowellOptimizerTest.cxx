@@ -99,11 +99,11 @@ itkPowellOptimizerTest(int, char *[])
   using OptimizerType = itk::PowellOptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
-  PowellBoundedCostFunction::Pointer costFunction = PowellBoundedCostFunction::New();
+  auto costFunction = PowellBoundedCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);

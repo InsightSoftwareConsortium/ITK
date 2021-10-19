@@ -31,7 +31,7 @@ itkImageRegistrationSamplingTest(int, char *[])
   using MovingImageType = itk::Image<PixelType, 2>;
 
   using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
-  RegistrationType::Pointer registrationMethod = RegistrationType::New();
+  auto registrationMethod = RegistrationType::New();
 
   try
   {

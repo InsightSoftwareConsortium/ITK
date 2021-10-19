@@ -43,7 +43,7 @@ itkOptimizersHierarchyTest(int, char *[])
   bool pass = true;
 
   using OptimizerType = itk::Optimizer;
-  OptimizerType::Pointer genericOptimizer = OptimizerType::New();
+  auto genericOptimizer = OptimizerType::New();
 
   unsigned int spaceDimension = 10;
 
@@ -88,35 +88,35 @@ itkOptimizersHierarchyTest(int, char *[])
   }
 
   using NonLinearOptimizerType = itk::NonLinearOptimizer;
-  NonLinearOptimizerType::Pointer nonLinearOptimizer = NonLinearOptimizerType::New();
+  auto nonLinearOptimizer = NonLinearOptimizerType::New();
   if (nonLinearOptimizer.IsNull())
   {
     pass = false;
   }
 
   using SingleValuedNonLinearOptimizerType = itk::SingleValuedNonLinearOptimizer;
-  SingleValuedNonLinearOptimizerType::Pointer singleValuedOptimizer = SingleValuedNonLinearOptimizerType::New();
+  auto singleValuedOptimizer = SingleValuedNonLinearOptimizerType::New();
   if (singleValuedOptimizer.IsNull())
   {
     pass = false;
   }
 
   using AmoebaOptimizerType = itk::AmoebaOptimizer;
-  AmoebaOptimizerType::Pointer amoeba = AmoebaOptimizerType::New();
+  auto amoeba = AmoebaOptimizerType::New();
   if (amoeba.IsNull())
   {
     pass = false;
   }
 
   using ConjugateGradientOptimizerType = itk::ConjugateGradientOptimizer;
-  ConjugateGradientOptimizerType::Pointer conjugate = ConjugateGradientOptimizerType::New();
+  auto conjugate = ConjugateGradientOptimizerType::New();
   if (conjugate.IsNull())
   {
     pass = false;
   }
 
   using LBFGSOptimizerType = itk::LBFGSOptimizer;
-  LBFGSOptimizerType::Pointer lbfgs = LBFGSOptimizerType::New();
+  auto lbfgs = LBFGSOptimizerType::New();
   if (lbfgs.IsNull())
   {
     pass = false;
@@ -124,35 +124,35 @@ itkOptimizersHierarchyTest(int, char *[])
 
   // Note that a "Versor" is a Unit Quaternion
   using VersorOptimizerType = itk::VersorTransformOptimizer;
-  VersorOptimizerType::Pointer versoropt = VersorOptimizerType::New();
+  auto versoropt = VersorOptimizerType::New();
   if (versoropt.IsNull())
   {
     pass = false;
   }
 
   using QuaternionOptimizerType = itk::QuaternionRigidTransformGradientDescentOptimizer;
-  QuaternionOptimizerType::Pointer quaternionopt = QuaternionOptimizerType::New();
+  auto quaternionopt = QuaternionOptimizerType::New();
   if (quaternionopt.IsNull())
   {
     pass = false;
   }
 
   using OnePlusOneEvolutionaryOptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
-  OnePlusOneEvolutionaryOptimizerType::Pointer onePlusOne = OnePlusOneEvolutionaryOptimizerType::New();
+  auto onePlusOne = OnePlusOneEvolutionaryOptimizerType::New();
   if (onePlusOne.IsNull())
   {
     pass = false;
   }
 
   using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
-  CumulativeGaussianOptimizerType::Pointer cumgaussopt = CumulativeGaussianOptimizerType::New();
+  auto cumgaussopt = CumulativeGaussianOptimizerType::New();
   if (cumgaussopt.IsNull())
   {
     pass = false;
   }
 
   using CumulativeGaussianCostFunctionType = itk::CumulativeGaussianCostFunction;
-  CumulativeGaussianCostFunctionType::Pointer cumgausstype = CumulativeGaussianCostFunctionType::New();
+  auto cumgausstype = CumulativeGaussianCostFunctionType::New();
   if (cumgausstype.IsNull())
   {
     pass = false;

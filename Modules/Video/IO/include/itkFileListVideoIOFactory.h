@@ -58,7 +58,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    FileListVideoIOFactory::Pointer FileListFactory = FileListVideoIOFactory::New();
+    auto FileListFactory = FileListVideoIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(FileListFactory);
   }

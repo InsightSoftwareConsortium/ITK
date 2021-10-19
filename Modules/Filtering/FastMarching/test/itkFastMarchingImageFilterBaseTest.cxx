@@ -34,10 +34,10 @@ FastMarchingImageFilterBaseTestFunction()
   using PixelType = float;
 
   using ImageType = itk::Image<PixelType, VDimension>;
-  typename ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
 
   using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase<ImageType, ImageType>;
-  typename FastMarchingImageFilterType::Pointer fastMarchingFilter = FastMarchingImageFilterType::New();
+  auto fastMarchingFilter = FastMarchingImageFilterType::New();
 
   bool overrideOutputInformation = true;
   ITK_TEST_SET_GET_BOOLEAN(fastMarchingFilter, OverrideOutputInformation, overrideOutputInformation);
@@ -91,7 +91,7 @@ itkFastMarchingImageFilterBaseTest(int, char *[])
 
   using FastMarchingImageFilterType = itk::FastMarchingImageFilterBase<ImageType, ImageType>;
 
-  FastMarchingImageFilterType::Pointer fastMarchingFilter = FastMarchingImageFilterType::New();
+  auto fastMarchingFilter = FastMarchingImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(fastMarchingFilter, FastMarchingImageFilterBase, FastMarchingBase);
 

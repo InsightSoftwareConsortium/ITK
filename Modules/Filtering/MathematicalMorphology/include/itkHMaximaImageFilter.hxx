@@ -66,7 +66,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   // dilation. the marker image is the input image minus the height
   // parameter.
   using ShiftFilterType = ShiftScaleImageFilter<TInputImage, TInputImage>;
-  typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
+  auto shift = ShiftFilterType::New();
   shift->SetInput(this->GetInput());
   shift->SetShift(-1.0 * static_cast<typename ShiftFilterType::RealType>(m_Height));
 
@@ -77,7 +77,7 @@ HMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
     ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(dilate, 1.0f);
 

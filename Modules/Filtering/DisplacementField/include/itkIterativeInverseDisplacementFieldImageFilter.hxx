@@ -77,8 +77,8 @@ IterativeInverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::Generat
   outputPtr->SetDirection(inputPtr->GetDirection());
   outputPtr->Allocate();
 
-  typename VectorWarperType::Pointer      vectorWarper = VectorWarperType::New();
-  typename FieldInterpolatorType::Pointer VectorInterpolator = FieldInterpolatorType::New();
+  auto vectorWarper = VectorWarperType::New();
+  auto VectorInterpolator = FieldInterpolatorType::New();
   vectorWarper->SetInput(negField);
   vectorWarper->SetInterpolator(VectorInterpolator);
   vectorWarper->SetOutputOrigin(inputPtr->GetOrigin());

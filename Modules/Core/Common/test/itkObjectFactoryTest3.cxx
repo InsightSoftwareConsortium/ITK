@@ -63,7 +63,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    TestFactory3::Pointer factory = TestFactory3::New();
+    auto factory = TestFactory3::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }
 
@@ -127,13 +127,13 @@ ListRegisteredFactories(const std::string & TestName, const DescriptionListType 
 int
 itkObjectFactoryTest3(int, char *[])
 {
-  TestFactory3::Pointer factory1 = TestFactory3::New();
-  TestFactory3::Pointer factory2 = TestFactory3::New();
-  TestFactory3::Pointer factory3 = TestFactory3::New();
-  TestFactory3::Pointer factory4 = TestFactory3::New();
-  TestFactory3::Pointer factory5 = TestFactory3::New();
-  TestFactory3::Pointer factory6 = TestFactory3::New();
-  TestFactory3::Pointer factory7 = TestFactory3::New();
+  auto factory1 = TestFactory3::New();
+  auto factory2 = TestFactory3::New();
+  auto factory3 = TestFactory3::New();
+  auto factory4 = TestFactory3::New();
+  auto factory5 = TestFactory3::New();
+  auto factory6 = TestFactory3::New();
+  auto factory7 = TestFactory3::New();
 
   factory1->SetDescription("factory1");
   factory2->SetDescription("factory2");

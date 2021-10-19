@@ -36,7 +36,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
   unsigned long numberOfPixelTolerance = 0;
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DiffType::Pointer diff = DiffType::New();
+  auto diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
   diff->SetDifferenceThreshold(intensityTolerance);
@@ -79,7 +79,7 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
@@ -101,11 +101,11 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   ImageType::RegionType pasteRegion(pasteIndex, pasteSize);
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
   // Setup the writer
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(monitor->GetOutput());
 
@@ -150,14 +150,14 @@ itkImageFileWriterPastingTest2(int argc, char * argv[])
   }
 
   using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
-  ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
+  auto extractBaselineImage = ExtractImageFilterType::New();
   extractBaselineImage->SetDirectionCollapseToSubmatrix();
   extractBaselineImage->SetInput(reader->GetOutput());
   extractBaselineImage->SetExtractionRegion(pasteRegion);
 
-  ReaderType::Pointer readerTestImage = ReaderType::New();
+  auto readerTestImage = ReaderType::New();
   readerTestImage->SetFileName(argv[2]);
-  ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();
+  auto extractTestImage = ExtractImageFilterType::New();
   extractTestImage->SetDirectionCollapseToSubmatrix();
   extractTestImage->SetInput(readerTestImage->GetOutput());
   extractTestImage->SetExtractionRegion(pasteRegion);

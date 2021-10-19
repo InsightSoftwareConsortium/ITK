@@ -63,7 +63,7 @@ itk64bitTest(int argc, char * argv[])
 
   int returnValue = EXIT_SUCCESS;
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]); // Input/Test64bit.nrrd
 
   try
@@ -75,7 +75,7 @@ itk64bitTest(int argc, char * argv[])
 
     std::cout << "Writing " << argv[2] << std::endl;
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(argv[2]);
     writer->Update();

@@ -284,7 +284,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
   {
     using SelectionFilterType =
       VectorIndexSelectionCastImageFilter<TimeVaryingVelocityFieldControlPointLatticeType, ComponentImageType>;
-    typename SelectionFilterType::Pointer selector = SelectionFilterType::New();
+    auto selector = SelectionFilterType::New();
     selector->SetInput(this->m_Transform->GetTimeVaryingVelocityFieldControlPointLattice());
     selector->SetIndex(j);
 
@@ -299,8 +299,8 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
      * This code is copied from the itk-example
      * DeformableRegistration6.cxx .
      */
-    typename UpsampleFilterType::Pointer              upsampler = UpsampleFilterType::New();
-    typename CoefficientUpsampleFunctionType::Pointer coeffUpsampleFunction = CoefficientUpsampleFunctionType::New();
+    auto upsampler = UpsampleFilterType::New();
+    auto coeffUpsampleFunction = CoefficientUpsampleFunctionType::New();
 
     upsampler->SetInterpolator(coeffUpsampleFunction);
     upsampler->SetSize(requiredLatticeSize);
@@ -310,7 +310,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
     upsampler->SetOutputDirection(requiredLatticeDirection);
     upsampler->SetInput(selector->GetOutput());
 
-    typename DecompositionFilterType::Pointer decompositionFilter = DecompositionFilterType::New();
+    auto decompositionFilter = DecompositionFilterType::New();
     decompositionFilter->SetSplineOrder(this->m_Transform->GetSplineOrder());
     decompositionFilter->SetInput(upsampler->GetOutput());
     decompositionFilter->Update();

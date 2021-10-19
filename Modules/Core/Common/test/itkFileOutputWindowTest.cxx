@@ -29,7 +29,7 @@ itkFileOutputWindowTest(int, char *[])
   using myFileOutputWindow = itk::FileOutputWindow;
 
   // Create the filter
-  myFileOutputWindow::Pointer window = myFileOutputWindow::New();
+  auto window = myFileOutputWindow::New();
 
   // Test itkSetStringMacro
   const char * fileName = "";

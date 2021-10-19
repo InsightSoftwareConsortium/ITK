@@ -35,7 +35,7 @@ itkPathToImageFilterTest(int, char *[])
 
 
   // Set up the path
-  PolyLineParametricPathType::Pointer path = PolyLineParametricPathType::New();
+  auto path = PolyLineParametricPathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, PolyLineParametricPath, ParametricPath);
 
@@ -55,7 +55,7 @@ itkPathToImageFilterTest(int, char *[])
   path->AddVertex(v);
 
 
-  PathToImageFilterType::Pointer pathToImageFilter = PathToImageFilterType::New();
+  auto pathToImageFilter = PathToImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(pathToImageFilter, PathToImageFilter, ImageSource);
 

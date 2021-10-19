@@ -28,7 +28,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
   using DenseFrequencyContainer2Type = itk::Statistics::DenseFrequencyContainer2;
 
 
-  DenseFrequencyContainer2Type::Pointer container = DenseFrequencyContainer2Type::New();
+  auto container = DenseFrequencyContainer2Type::New();
 
   using AbsoluteFrequencyType = DenseFrequencyContainer2Type::AbsoluteFrequencyType;
 

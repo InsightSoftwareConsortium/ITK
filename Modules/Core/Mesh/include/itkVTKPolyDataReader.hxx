@@ -35,7 +35,7 @@ VTKPolyDataReader<TOutputMesh>::VTKPolyDataReader()
   //
   // Create the output
   //
-  typename TOutputMesh::Pointer output = TOutputMesh::New();
+  auto output = TOutputMesh::New();
   this->ProcessObject::SetNumberOfRequiredOutputs(1);
   this->ProcessObject::SetNthOutput(0, output.GetPointer());
 }

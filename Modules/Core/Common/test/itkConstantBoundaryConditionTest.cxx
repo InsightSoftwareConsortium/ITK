@@ -123,17 +123,17 @@ int
 itkConstantBoundaryConditionTest(int, char *[])
 {
   // Test an image to cover one operator() method.
-  ImageType::Pointer image = ImageType::New();
-  RegionType         imageRegion;
-  SizeType           imageSize = { { 5, 5 } };
-  IndexType          imageIndex = { { 0, 0 } };
+  auto       image = ImageType::New();
+  RegionType imageRegion;
+  SizeType   imageSize = { { 5, 5 } };
+  IndexType  imageIndex = { { 0, 0 } };
   imageRegion.SetSize(imageSize);
   imageRegion.SetIndex(imageIndex);
   image->SetRegions(imageRegion);
   image->Allocate();
 
   // Test a vector image to cover the other operator() method.
-  VectorImageType::Pointer vectorImage = VectorImageType::New();
+  auto vectorImage = VectorImageType::New();
   vectorImage->SetRegions(imageRegion);
   vectorImage->SetNumberOfComponentsPerPixel(1);
   vectorImage->Allocate();

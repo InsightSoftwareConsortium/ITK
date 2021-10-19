@@ -104,7 +104,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  InputImageType::Pointer imgTarget = InputImageType::New();
+  auto imgTarget = InputImageType::New();
   imgTarget->SetLargestPossibleRegion(region);
   imgTarget->SetBufferedRegion(region);
   imgTarget->SetRequestedRegion(region);
@@ -153,7 +153,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
    */
   using PyramidType = itk::RecursiveMultiResolutionPyramidImageFilter<InputImageType, OutputImageType>;
   using ScheduleType = PyramidType::ScheduleType;
-  PyramidType::Pointer pyramid = PyramidType::New();
+  auto pyramid = PyramidType::New();
   pyramid->SetUseShrinkImageFilter(useShrinkFilter);
 
   pyramid->SetInput(imgTarget);
@@ -299,18 +299,18 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   std::cout << std::endl;
 
   using CasterType = itk::CastImageFilter<InputImageType, InputImageType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
 
   caster->SetInput(pyramid->GetInput());
 
-  PyramidType::Pointer pyramid2 = PyramidType::New();
+  auto pyramid2 = PyramidType::New();
   pyramid2->SetInput(caster->GetOutput());
   pyramid2->SetUseShrinkImageFilter(useShrinkFilter);
   pyramid2->SetNumberOfLevels(pyramid->GetNumberOfLevels());
   pyramid2->SetSchedule(pyramid->GetSchedule());
 
   using StreamerType = itk::StreamingImageFilter<OutputImageType, OutputImageType>;
-  StreamerType::Pointer streamer = StreamerType::New();
+  auto streamer = StreamerType::New();
   streamer->SetInput(pyramid2->GetOutput(testLevel));
   streamer->Update();
 

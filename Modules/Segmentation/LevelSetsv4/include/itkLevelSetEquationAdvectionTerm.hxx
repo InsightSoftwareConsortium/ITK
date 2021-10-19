@@ -78,7 +78,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
   {
     using DerivativeFilterType = GradientRecursiveGaussianImageFilter<InputImageType, AdvectionImageType>;
 
-    typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
+    auto derivative = DerivativeFilterType::New();
     derivative->SetInput(this->m_Input);
     derivative->SetSigma(this->m_DerivativeSigma);
     derivative->Update();
@@ -89,7 +89,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
   {
     using DerivativeFilterType = GradientImageFilter<InputImageType>;
 
-    typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
+    auto derivative = DerivativeFilterType::New();
     derivative->SetInput(this->m_Input);
     derivative->UseImageSpacingOn();
     derivative->Update();
@@ -97,7 +97,7 @@ LevelSetEquationAdvectionTerm<TInput, TLevelSetContainer>::GenerateAdvectionImag
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
     using GradientCasterType = CastImageFilter<DerivativeOutputImageType, AdvectionImageType>;
 
-    typename GradientCasterType::Pointer caster = GradientCasterType::New();
+    auto caster = GradientCasterType::New();
     caster->SetInput(derivative->GetOutput());
     caster->Update();
 

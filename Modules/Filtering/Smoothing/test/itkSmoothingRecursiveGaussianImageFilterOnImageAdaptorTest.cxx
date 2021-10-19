@@ -47,7 +47,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
   constexpr unsigned int numberOfComponents = 3;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -109,7 +109,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
 
   // Create Image adaptor on the RGB Image
   using myAdaptorType = itk::RGBToLuminanceImageAdaptor<myImageType, float>;
-  myAdaptorType::Pointer adaptor = myAdaptorType::New();
+  auto adaptor = myAdaptorType::New();
   adaptor->SetImage(inputImage);
 
 
@@ -120,7 +120,7 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest(int, char *[])
 
 
   // Create a  Filter
-  myFilterType::Pointer    filter = myFilterType::New();
+  auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watchit(filter);
 
   // Connect the input images

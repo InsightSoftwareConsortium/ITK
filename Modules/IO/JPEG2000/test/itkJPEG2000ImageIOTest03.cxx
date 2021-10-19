@@ -47,8 +47,8 @@ itkJPEG2000ImageIOTest03(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   const std::string inputFilename = argv[1];
   const std::string outputFilename = argv[2];

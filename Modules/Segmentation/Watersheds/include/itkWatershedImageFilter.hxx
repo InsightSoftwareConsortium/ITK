@@ -90,7 +90,7 @@ WatershedImageFilter<TInputImage>::WatershedImageFilter()
   m_Relabeler->SetInputImage(m_Segmenter->GetOutputImage());
   m_Relabeler->SetFloodLevel(this->GetLevel());
 
-  WatershedMiniPipelineProgressCommand::Pointer c = WatershedMiniPipelineProgressCommand::New();
+  auto c = WatershedMiniPipelineProgressCommand::New();
   c->SetFilter(this);
   c->SetNumberOfFilters(3);
 

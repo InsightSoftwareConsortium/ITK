@@ -63,7 +63,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   // Set up an itk reader
   itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());
-  scalarReaderType::Pointer scalarReader = scalarReaderType::New();
+  auto scalarReader = scalarReaderType::New();
   scalarReader->SetFileName(argv[1]);
 
   // Set up OpenCVVideoCapture
@@ -121,7 +121,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   // Set up an itk reader
   itk::ObjectFactoryBase::RegisterFactory(itk::OpenCVVideoIOFactory::New());
-  rgbReaderType::Pointer rgbReader = rgbReaderType::New();
+  auto rgbReader = rgbReaderType::New();
   rgbReader->SetFileName(argv[1]);
 
   // Set up OpenCVVideoCapture

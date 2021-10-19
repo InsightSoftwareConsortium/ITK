@@ -78,8 +78,8 @@ SegmentTreeGenerator<TScalar>::GenerateData()
   this->GetOutputSegmentTree()->Clear();
 
   typename SegmentTableType::Pointer input = this->GetInputSegmentTable();
-  typename SegmentTreeType::Pointer  mergeList = SegmentTreeType::New();
-  typename SegmentTableType::Pointer seg = SegmentTableType::New();
+  auto                               mergeList = SegmentTreeType::New();
+  auto                               seg = SegmentTableType::New();
   if (m_ConsumeInput == true) // do not copy input
   {
     input->Modified();

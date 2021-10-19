@@ -28,7 +28,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   using ImageType = itk::Image<float, 2>;
   using InterpolatorType = itk::GaussianInterpolateImageFunction<ImageType, float>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(interpolator, GaussianInterpolateImageFunction, InterpolateImageFunction);
 
@@ -41,7 +41,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
   interpolator->SetAlpha(alpha);
   ITK_TEST_SET_GET_VALUE(alpha, interpolator->GetAlpha());
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::IndexType start;
   start.Fill(0);

@@ -28,17 +28,17 @@ ForwardInverseFullFFTTest(const char * inputFileName)
   double tolerance = 1.e-3;
   using ImageType = typename TForwardFFT::InputImageType;
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
-  typename TForwardFFT::Pointer fft = TForwardFFT::New();
+  auto fft = TForwardFFT::New();
   fft->SetInput(reader->GetOutput());
 
-  typename TInverseFFT::Pointer ifft = TInverseFFT::New();
+  auto ifft = TInverseFFT::New();
   ifft->SetInput(fft->GetOutput());
 
   using AbsDiffFilterType = itk::AbsoluteValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
-  typename AbsDiffFilterType::Pointer diffFilter = AbsDiffFilterType::New();
+  auto diffFilter = AbsDiffFilterType::New();
   diffFilter->SetInput1(reader->GetOutput());
   diffFilter->SetInput2(ifft->GetOutput());
   diffFilter->UpdateLargestPossibleRegion();
@@ -69,20 +69,20 @@ ForwardInverseHalfFFTTest(const char * inputFileName)
   double tolerance = 1.e-3;
   using ImageType = typename TForwardFFT::InputImageType;
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFileName);
   reader->UpdateLargestPossibleRegion();
 
-  typename TForwardFFT::Pointer fft = TForwardFFT::New();
+  auto fft = TForwardFFT::New();
   fft->SetInput(reader->GetOutput());
 
-  typename TInverseFFT::Pointer ifft = TInverseFFT::New();
-  bool                          xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
+  auto ifft = TInverseFFT::New();
+  bool xIsOdd = reader->GetOutput()->GetLargestPossibleRegion().GetSize()[0] % 2 == 1;
   ifft->SetActualXDimensionIsOdd(xIsOdd);
   ifft->SetInput(fft->GetOutput());
 
   using AbsDiffFilterType = itk::AbsoluteValueDifferenceImageFilter<ImageType, ImageType, ImageType>;
-  typename AbsDiffFilterType::Pointer diffFilter = AbsDiffFilterType::New();
+  auto diffFilter = AbsDiffFilterType::New();
   diffFilter->SetInput1(reader->GetOutput());
   diffFilter->SetInput2(ifft->GetOutput());
   diffFilter->UpdateLargestPossibleRegion();

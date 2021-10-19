@@ -145,7 +145,7 @@ TestCastFromTo()
   using FilterType = itk::CastImageFilter<InputImageType, OutputImageType>;
 
   using SourceType = itk::RandomImageSource<InputImageType>;
-  typename SourceType::Pointer randomValuesImageSource = SourceType::New();
+  auto randomValuesImageSource = SourceType::New();
   {
     typename InputImageType::SizeValueType randomSize[3] = { 18, 17, 23 };
     randomValuesImageSource->SetSize(randomSize);
@@ -179,7 +179,7 @@ TestCastFromTo()
     randomSourceImagePtr->SetPixel(Index400, std::numeric_limits<TInputPixelType>::round_error());
   }
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(randomSourceImagePtr);
   filter->UpdateLargestPossibleRegion();
 
@@ -283,7 +283,7 @@ TestVectorImageCast1()
   using FloatVectorImageType = itk::VectorImage<float, 2>;
 
   // Create a 1x3 image of 2D vectors
-  FloatVectorImageType::Pointer image = FloatVectorImageType::New();
+  auto image = FloatVectorImageType::New();
 
   const itk::Size<2>  size{ { 1, 3 } };
   const itk::Index<2> start{ { 0, 0 } };
@@ -300,7 +300,7 @@ TestVectorImageCast1()
   image->FillBuffer(vec);
 
   using CastImageFilterType = itk::CastImageFilter<FloatVectorImageType, UnsignedCharVectorImageType>;
-  CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+  auto castImageFilter = CastImageFilterType::New();
   castImageFilter->SetInput(image);
   castImageFilter->Update();
 
@@ -350,7 +350,7 @@ TestVectorImageCast2()
   using FloatVectorImageType = itk::VectorImage<float, 2>;
 
   // Create a 1x3 image of 2D vectors
-  FloatVectorImageType::Pointer image = FloatVectorImageType::New();
+  auto image = FloatVectorImageType::New();
 
   const itk::Size<2>  size{ { 1, 3 } };
   const itk::Index<2> start{ { 0, 0 } };
@@ -367,7 +367,7 @@ TestVectorImageCast2()
   image->FillBuffer(vec);
 
   using CastImageFilterType = itk::CastImageFilter<FloatVectorImageType, UnsignedCharVectorImageType>;
-  CastImageFilterType::Pointer castImageFilter = CastImageFilterType::New();
+  auto castImageFilter = CastImageFilterType::New();
   castImageFilter->SetInput(image);
   castImageFilter->Update();
 

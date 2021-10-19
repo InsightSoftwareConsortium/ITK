@@ -61,11 +61,11 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
   using OutputImageIterator = itk::ImageRegionIterator<OutputImageType>;
 
-  InputImageType::Pointer image1 = InputImageType::New();
+  auto image1 = InputImageType::New();
 
-  InputImageType::Pointer image2 = InputImageType::New();
+  auto image2 = InputImageType::New();
 
-  InputImageType::Pointer image3 = InputImageType::New();
+  auto image3 = InputImageType::New();
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
@@ -136,7 +136,7 @@ itkImagePCAShapeModelEstimatorTest(int, char *[])
   // Set the image model estimator
   using ImagePCAShapeModelEstimatorType = itk::ImagePCAShapeModelEstimator<InputImageType, OutputImageType>;
 
-  ImagePCAShapeModelEstimatorType::Pointer applyPCAShapeEstimator = ImagePCAShapeModelEstimatorType::New();
+  auto applyPCAShapeEstimator = ImagePCAShapeModelEstimatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(applyPCAShapeEstimator, ImagePCAShapeModelEstimator, ImageShapeModelEstimatorBase);
 

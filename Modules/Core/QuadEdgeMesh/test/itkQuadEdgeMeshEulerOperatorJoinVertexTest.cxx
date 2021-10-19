@@ -194,7 +194,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
       break;
   }
 
-  JoinVertexType::Pointer joinVertex = JoinVertexType::New();
+  auto joinVertex = JoinVertexType::New();
 
   std::cout << joinVertex->GetNameOfClass() << std::endl;
   std::cout << joinVertex << std::endl;
@@ -242,7 +242,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
   int      kk(0);
 
   using CheckerType = itk::QuadEdgeMeshTopologyChecker<MeshType>;
-  CheckerType::Pointer check = CheckerType::New();
+  auto check = CheckerType::New();
 
   while (qe != nullptr)
   {

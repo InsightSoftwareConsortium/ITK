@@ -37,7 +37,7 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest1(int, char *[])
   using RegionBasedLevelSetFunctionType =
     itk::ScalarChanAndVeseLevelSetFunction<ImageType, FeatureImageType, SharedDataHelperType>;
 
-  RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  auto function = RegionBasedLevelSetFunctionType::New();
   if (function.IsNull())
   {
     return EXIT_FAILURE;
@@ -49,7 +49,7 @@ itkScalarChanAndVeseSparseLevelSetImageFilterTest1(int, char *[])
                                                                      RegionBasedLevelSetFunctionType,
                                                                      SharedDataHelperType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     filter, ScalarChanAndVeseSparseLevelSetImageFilter, MultiphaseSparseFiniteDifferenceImageFilter);

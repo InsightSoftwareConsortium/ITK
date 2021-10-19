@@ -63,7 +63,7 @@ itkVersorTransformTest(int, char *[])
   {
     std::cout << "Test default constructor... ";
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     VectorType axis(1.5);
 
@@ -90,8 +90,8 @@ itkVersorTransformTest(int, char *[])
 
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
-    MatrixType             matrix = transform->GetMatrix();
+    auto       transform = TransformType::New();
+    MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
   }
@@ -101,7 +101,7 @@ itkVersorTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer rotation = TransformType::New();
+    auto rotation = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -259,7 +259,7 @@ itkVersorTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -371,7 +371,7 @@ itkVersorTransformTest(int, char *[])
 
     MatrixType matrix;
 
-    TransformType::Pointer t = TransformType::New();
+    auto t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
     par = 0;
@@ -454,7 +454,7 @@ itkVersorTransformTest(int, char *[])
     t = TransformType::New();
     t->SetParameters(e);
 
-    TransformType::Pointer t2 = TransformType::New();
+    auto t2 = TransformType::New();
     t2->SetMatrix(t->GetMatrix());
 
     ParametersType p = t2->GetParameters();
@@ -499,7 +499,7 @@ itkVersorTransformTest(int, char *[])
       }
     }
     {
-      TransformType::Pointer tInverse = TransformType::New();
+      auto tInverse = TransformType::New();
       if (!t->GetInverse(tInverse))
       {
         std::cout << "Cannot create inverse transform" << std::endl;

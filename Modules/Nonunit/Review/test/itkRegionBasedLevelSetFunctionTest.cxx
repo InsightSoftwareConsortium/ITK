@@ -125,7 +125,7 @@ itkRegionBasedLevelSetFunctionTest(int, char *[])
   using RegionBasedLevelSetFunctionType =
     itk::RegionBasedLevelSetFunctionTestHelper<ImageType, FeatureImageType, DataHelperType>;
 
-  RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  auto function = RegionBasedLevelSetFunctionType::New();
   if (function.IsNull())
   {
     return EXIT_FAILURE;

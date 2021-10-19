@@ -79,7 +79,7 @@ itkQuadrilateralCellTest(int, char *[])
   /**
    * Create the mesh through its object factory.
    */
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
   mesh->DebugOn();
 
   constexpr unsigned int numberOfPoints = 6;

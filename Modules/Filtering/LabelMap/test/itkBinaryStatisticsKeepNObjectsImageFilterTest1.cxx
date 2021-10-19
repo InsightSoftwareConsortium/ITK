@@ -42,14 +42,14 @@ itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using BinaryKeepNObjectsType = itk::BinaryStatisticsKeepNObjectsImageFilter<IType, IType>;
-  BinaryKeepNObjectsType::Pointer KeepNObjects = BinaryKeepNObjectsType::New();
+  auto KeepNObjects = BinaryKeepNObjectsType::New();
 
   KeepNObjects->SetInput(reader->GetOutput());
   KeepNObjects->SetFeatureImage(reader2->GetOutput());
@@ -101,7 +101,7 @@ itkBinaryStatisticsKeepNObjectsImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(KeepNObjects->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();

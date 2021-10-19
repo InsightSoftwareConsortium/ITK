@@ -27,8 +27,8 @@ itkVectorMultiplyTest(int, char *[])
   VecImageType::SizeType size;
   size[0] = size[1] = size[2] = 2;
 
-  VecImageType::Pointer   images[2];
-  MultFilterType::Pointer mult = MultFilterType::New();
+  VecImageType::Pointer images[2];
+  auto                  mult = MultFilterType::New();
   for (unsigned int i = 0; i < 2; ++i)
   {
     images[i] = VecImageType::New();

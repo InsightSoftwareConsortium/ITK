@@ -63,19 +63,19 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
   using ImageReaderType = itk::ImageFileReader<InputImageType>;
 
   // Read fixed image
-  ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(fixedImageReader->Update());
 
   // Read moving image
-  ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(movingImageReader->Update());
 
   // Read mask image
-  ImageReaderType::Pointer maskImageReader = ImageReaderType::New();
+  auto maskImageReader = ImageReaderType::New();
   maskImageReader->SetFileName(argv[3]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(maskImageReader->Update());
@@ -83,7 +83,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
   // Read mesh
   using MeshReaderType = itk::VTKTetrahedralMeshReader<MeshType>;
 
-  MeshReaderType::Pointer meshReader = MeshReaderType::New();
+  auto meshReader = MeshReaderType::New();
   meshReader->SetFileName(argv[4]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(meshReader->Update());
@@ -96,7 +96,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
                                                                            MeshType,
                                                                            DeformationFieldType>;
 
-  PBNRRFilterType::Pointer filter = PBNRRFilterType::New();
+  auto filter = PBNRRFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PhysicsBasedNonRigidRegistrationMethod, ImageToImageFilter);
 
@@ -158,10 +158,10 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
 
   // Warp image
   using WarpFilterType = itk::WarpImageFilter<InputImageType, InputImageType, DeformationFieldType>;
-  WarpFilterType::Pointer warpFilter = WarpFilterType::New();
+  auto warpFilter = WarpFilterType::New();
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<InputImageType, double>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   warpFilter->SetInterpolator(interpolator);
 
   warpFilter->SetInput(movingImageReader->GetOutput());
@@ -174,7 +174,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest(int argc, char * argv[])
 
   // Write warped image to file
   using WriterType = itk::ImageFileWriter<InputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[5]);
   writer->SetInput(warpFilter->GetOutput());
 

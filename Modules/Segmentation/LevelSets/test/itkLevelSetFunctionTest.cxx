@@ -182,7 +182,7 @@ protected:
   ~MorphFilter() override = default;
   MorphFilter()
   {
-    MorphFunction::Pointer p = MorphFunction::New();
+    auto p = MorphFunction::New();
     p->SetPropagationWeight(-1.0);
     p->SetAdvectionWeight(0.0);
     p->SetCurvatureWeight(1.0);
@@ -212,8 +212,8 @@ itkLevelSetFunctionTest(int, char *[])
 
   constexpr int n = 100; // Number of iterations
 
-  ImageType::Pointer im_init = ImageType::New();
-  ImageType::Pointer im_target = ImageType::New();
+  auto im_init = ImageType::New();
+  auto im_target = ImageType::New();
 
   ImageType::RegionType r;
   ImageType::SizeType   sz = { { LSFT::HEIGHT, LSFT::WIDTH } };

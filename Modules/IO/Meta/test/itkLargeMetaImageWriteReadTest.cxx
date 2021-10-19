@@ -49,7 +49,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   itk::TimeProbesCollectorBase chronometer;
 
   { // begin write block
-    typename ImageType::Pointer image = ImageType::New();
+    auto image = ImageType::New();
     index.Fill(0);
     region.SetSize(size);
     region.SetIndex(index);
@@ -89,7 +89,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
     std::cout << "Trying to write the image to disk" << std::endl;
     try
     {
-      typename WriterType::Pointer writer = WriterType::New();
+      auto writer = WriterType::New();
       writer->SetInput(image);
       writer->SetFileName(filename);
       chronometer.Start("Write");
@@ -104,7 +104,7 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
   } // end write block to free the memory
 
   std::cout << "Trying to read the image back from disk" << std::endl;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(filename);
 
   itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();

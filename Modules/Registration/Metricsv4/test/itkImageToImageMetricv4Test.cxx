@@ -427,14 +427,14 @@ itkImageToImageMetricv4Test(int, char ** const)
   direction.SetIdentity();
 
   // Create simple test images.
-  ImageToImageMetricv4TestImageType::Pointer fixedImage = ImageToImageMetricv4TestImageType::New();
+  auto fixedImage = ImageToImageMetricv4TestImageType::New();
   fixedImage->SetRegions(region);
   fixedImage->SetSpacing(spacing);
   fixedImage->SetOrigin(origin);
   fixedImage->SetDirection(direction);
   fixedImage->Allocate();
 
-  ImageToImageMetricv4TestImageType::Pointer movingImage = ImageToImageMetricv4TestImageType::New();
+  auto movingImage = ImageToImageMetricv4TestImageType::New();
   movingImage->SetRegions(region);
   movingImage->SetSpacing(spacing);
   movingImage->SetOrigin(origin);
@@ -464,8 +464,8 @@ itkImageToImageMetricv4Test(int, char ** const)
   // Transforms
   using FixedTransformType = itk::TranslationTransform<double, ImageToImageMetricv4TestImageDimensionality>;
   using MovingTransformType = itk::TranslationTransform<double, ImageToImageMetricv4TestImageDimensionality>;
-  FixedTransformType::Pointer  fixedTransform = FixedTransformType::New();
-  MovingTransformType::Pointer movingTransform = MovingTransformType::New();
+  auto fixedTransform = FixedTransformType::New();
+  auto movingTransform = MovingTransformType::New();
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
 
@@ -552,9 +552,9 @@ itkImageToImageMetricv4Test(int, char ** const)
   // Create a displacement field transform
   using DisplacementTransformType =
     itk::DisplacementFieldTransform<double, ImageToImageMetricv4TestImageDimensionality>;
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
   using FieldType = DisplacementTransformType::DisplacementFieldType;
-  FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
+  auto field = FieldType::New(); // This is based on itk::Image
 
   FieldType::SizeType   defsize;
   FieldType::IndexType  start;

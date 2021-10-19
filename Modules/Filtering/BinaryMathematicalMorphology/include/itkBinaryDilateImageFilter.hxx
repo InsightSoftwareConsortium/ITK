@@ -111,7 +111,7 @@ BinaryDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
   // The temp image size is equal to the output requested region for thread
   // padded by max( connectivity neighborhood radius, SE kernel radius ).
   using TempImageType = itk::Image<unsigned char, TInputImage::ImageDimension>;
-  typename TempImageType::Pointer tmpImage = TempImageType::New();
+  auto tmpImage = TempImageType::New();
 
   // Define regions of temp image
   tmpImage->SetRegions(tmpRequestedRegion);

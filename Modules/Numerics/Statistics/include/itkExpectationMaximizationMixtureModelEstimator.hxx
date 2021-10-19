@@ -362,7 +362,7 @@ ExpectationMaximizationMixtureModelEstimator<TSample>::GetOutput() const -> cons
   for (size_t i = 0; i < numberOfComponents; ++i)
   {
     parameters = m_ComponentVector[i]->GetFullParameters();
-    typename GaussianMembershipFunctionType::Pointer membershipFunction = GaussianMembershipFunctionType::New();
+    auto membershipFunction = GaussianMembershipFunctionType::New();
     membershipFunction->SetMeasurementVectorSize(measurementVectorSize);
     unsigned int parameterIndex = 0;
     for (unsigned int j = 0; j < measurementVectorSize; ++j)

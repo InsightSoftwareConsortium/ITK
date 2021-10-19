@@ -73,10 +73,10 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   using OptimizerType = itk::AmoebaOptimizer;
   using ParametersType = FilterType::ParametersType;
 
-  FilterType::Pointer        filter = FilterType::New();
-  ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
-  CostFunctionType::Pointer  costFunction = CostFunctionType::New();
-  OptimizerType::Pointer     optimizer = OptimizerType::New();
+  auto filter = FilterType::New();
+  auto shape = ShapeFunctionType::New();
+  auto costFunction = CostFunctionType::New();
+  auto optimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     filter, GeodesicActiveContourShapePriorLevelSetImageFilter, ShapePriorSegmentationLevelSetImageFilter);
@@ -100,12 +100,12 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   PixelType foreground = 190;
 
   // Fill in the background
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);
   inputImage->Allocate();
   inputImage->FillBuffer(background);
 
-  ImageType::Pointer trueShape = ImageType::New();
+  auto trueShape = ImageType::New();
   trueShape->SetRegions(imageRegion);
   trueShape->Allocate();
   trueShape->FillBuffer(background);
@@ -164,17 +164,17 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Then apply a sigmoid function to the gradient magnitude.
   //
   using CastFilterType = itk::CastImageFilter<ImageType, InternalImageType>;
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto caster = CastFilterType::New();
   caster->SetInput(inputImage);
 
   using GradientImageType = itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType, InternalImageType>;
 
-  GradientImageType::Pointer gradMagnitude = GradientImageType::New();
+  auto gradMagnitude = GradientImageType::New();
   gradMagnitude->SetInput(caster->GetOutput());
   gradMagnitude->SetSigma(1.0);
 
   using SigmoidFilterType = itk::SigmoidImageFilter<InternalImageType, InternalImageType>;
-  SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
+  auto sigmoid = SigmoidFilterType::New();
   sigmoid->SetOutputMinimum(0.0);
   sigmoid->SetOutputMaximum(1.0);
   sigmoid->SetAlpha(-0.4);
@@ -186,12 +186,12 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Use fast marching to create an signed distance from a seed point.
   //
   using FastMarchingFilterType = itk::FastMarchingImageFilter<InternalImageType>;
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
 
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
 
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
 
   // Choose an initial contour that is within the shape to be segmented
   // The initial contour is a circle centered at {47,47} with radius 10.0
@@ -276,7 +276,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Threshold the output level set to display the final contour.
   //
   using ThresholdFilterType = itk::BinaryThresholdImageFilter<InternalImageType, ImageType>;
-  ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
+  auto thresholder = ThresholdFilterType::New();
 
   thresholder->SetInput(filter->GetOutput());
   thresholder->SetLowerThreshold(-1e+10);
@@ -288,7 +288,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Compute overlap between the true shape and the segmented shape.
   //
   using OverlapCalculatorType = itk::SimilarityIndexImageFilter<ImageType, ImageType>;
-  OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
+  auto overlap = OverlapCalculatorType::New();
 
   overlap->SetInput1(trueShape);
   overlap->SetInput2(thresholder->GetOutput());
@@ -317,11 +317,11 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest(int, char *[])
   // Uncomment to write out images
   /*
     using WriterType = itk::ImageFileWriter< ImageType >;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     using RescaleFilterType = itk::RescaleIntensityImageFilter< InternalImageType,
       ImageType >;
-    RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+    auto rescaler = RescaleFilterType::New();
 
     writer->SetFileName( "inputImage.png" );
     writer->SetInput( inputImage );

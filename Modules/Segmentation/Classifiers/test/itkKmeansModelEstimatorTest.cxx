@@ -62,7 +62,7 @@ itkKmeansModelEstimatorTest(int, char *[])
 
   using VecImagePixelType = VecImageType::PixelType;
 
-  VecImageType::Pointer vecImage = VecImageType::New();
+  auto vecImage = VecImageType::New();
 
   VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
@@ -233,7 +233,7 @@ itkKmeansModelEstimatorTest(int, char *[])
   //----------------------------------------------------------------------
   using ImageKmeansModelEstimatorType = itk::ImageKmeansModelEstimator<VecImageType, MembershipFunctionType>;
 
-  ImageKmeansModelEstimatorType::Pointer applyKmeansEstimator = ImageKmeansModelEstimatorType::New();
+  auto applyKmeansEstimator = ImageKmeansModelEstimatorType::New();
 
   //----------------------------------------------------------------------
   // Set the parameters of the clusterer

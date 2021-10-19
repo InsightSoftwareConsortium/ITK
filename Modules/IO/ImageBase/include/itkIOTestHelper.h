@@ -37,7 +37,7 @@ public:
   {
     using ReaderType = itk::ImageFileReader<TImage>;
 
-    typename ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     {
       if (imageio)
       {
@@ -81,7 +81,7 @@ public:
   {
 
     using WriterType = itk::ImageFileWriter<ImageType>;
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     if (imageio.IsNull())
     {
@@ -169,7 +169,7 @@ public:
   AllocateImageFromRegionAndSpacing(const typename ImageType::RegionType &  region,
                                     const typename ImageType::SpacingType & spacing)
   {
-    typename ImageType::Pointer rval = ImageType::New();
+    auto rval = ImageType::New();
     SetIdentityDirection<ImageType>(rval);
     rval->SetSpacing(spacing);
     rval->SetRegions(region);
@@ -182,7 +182,7 @@ public:
                                     const typename ImageType::SpacingType & spacing,
                                     int                                     vecLength)
   {
-    typename ImageType::Pointer rval = ImageType::New();
+    auto rval = ImageType::New();
     rval->SetSpacing(spacing);
     rval->SetRegions(region);
     rval->SetVectorLength(vecLength);

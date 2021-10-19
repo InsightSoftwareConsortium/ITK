@@ -27,7 +27,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
   using PointSetType = itk::PointSet<double, 3>;
   using PointSetToListSampleAdaptorType = itk::Statistics::PointSetToListSampleAdaptor<PointSetType>;
 
-  PointSetType::Pointer   pointSet = PointSetType::New();
+  auto                    pointSet = PointSetType::New();
   PointSetType::PointType point;
 
   unsigned int numberOfPoints = 10;
@@ -39,7 +39,7 @@ itkPointSetToListSampleAdaptorTest(int, char *[])
     pointSet->SetPoint(i, point);
   }
 
-  PointSetToListSampleAdaptorType::Pointer listSample = PointSetToListSampleAdaptorType::New();
+  auto listSample = PointSetToListSampleAdaptorType::New();
 
   bool exceptionsProperlyCaught = true;
   // Test if the methods throw exceptions if invoked before setting the pointset

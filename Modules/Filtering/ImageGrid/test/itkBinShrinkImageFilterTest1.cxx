@@ -29,7 +29,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   // type alias to simplify the syntax
   using InputImageType = itk::Image<int, 2>;
   using OutputImageType = itk::Image<long int, 2>;
-  InputImageType::Pointer sourceImage = InputImageType::New();
+  auto sourceImage = InputImageType::New();
 
   // fill in an image
   InputImageType::IndexType  index = { { 100, 100 } };
@@ -51,11 +51,11 @@ itkBinShrinkImageFilterTest1(int, char *[])
 
   // assemple pipeline
   using InputMonitorFilterType = itk::PipelineMonitorImageFilter<InputImageType>;
-  InputMonitorFilterType::Pointer monitor1 = InputMonitorFilterType::New();
+  auto monitor1 = InputMonitorFilterType::New();
   monitor1->SetInput(sourceImage);
 
   using BinShrinkFilterType = itk::BinShrinkImageFilter<InputImageType, OutputImageType>;
-  BinShrinkFilterType::Pointer bin = BinShrinkFilterType::New();
+  auto bin = BinShrinkFilterType::New();
 
   // Exercise some methods for coverage
   ITK_EXERCISE_BASIC_OBJECT_METHODS(bin, BinShrinkImageFilter, ImageToImageFilter);
@@ -89,7 +89,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
 
 
   using OutputMonitorFilterType = itk::PipelineMonitorImageFilter<OutputImageType>;
-  OutputMonitorFilterType::Pointer monitor2 = OutputMonitorFilterType::New();
+  auto monitor2 = OutputMonitorFilterType::New();
   monitor2->SetInput(bin->GetOutput());
 
   bool failed = false;

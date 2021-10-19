@@ -44,7 +44,7 @@ itkOctreeTest(int, char *[])
   ImageType::RegionType      region;
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
-  ImageType::Pointer img = ImageType::New();
+  auto img = ImageType::New();
   img->SetLargestPossibleRegion(region);
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);
@@ -73,7 +73,7 @@ itkOctreeTest(int, char *[])
   }
 
   using OctreeType = itk::Octree<unsigned int, 16384, IdentityMap<unsigned int, 16384>>;
-  OctreeType::Pointer octree = OctreeType::New();
+  auto octree = OctreeType::New();
   octree->BuildFromImage(img);
   ImageType::Pointer                  output = octree->GetImage();
   itk::ImageRegionIterator<ImageType> ri2(output, region);

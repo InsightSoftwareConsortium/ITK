@@ -29,7 +29,7 @@ SEToFile(const TSEType & e, const std::string & fname)
 
   using ImageType = itk::Image<unsigned char, Dimension>;
 
-  typename ImageType::Pointer img = ImageType::New();
+  auto img = ImageType::New();
 
   typename ImageType::IndexType start;
   start.Fill(0);
@@ -55,7 +55,7 @@ SEToFile(const TSEType & e, const std::string & fname)
   }
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(fname);
   writer->SetInput(img);
   writer->Update();

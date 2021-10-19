@@ -140,7 +140,7 @@ itkSymmetricSecondRankTensorTest(int, char *[])
   using PixelType = Float3DTensorType;
   using ImageType = itk::Image<PixelType, 3>;
 
-  ImageType::Pointer dti = ImageType::New();
+  auto dti = ImageType::New();
 
   ImageType::SizeType   size;
   ImageType::IndexType  start;

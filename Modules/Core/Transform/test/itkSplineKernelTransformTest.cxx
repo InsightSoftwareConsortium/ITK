@@ -57,15 +57,15 @@ itkSplineKernelTransformTest(int, char *[])
   PointType2D targetPoint2D;
   PointType2D mappedPoint2D;
 
-  EBSTransform2DType::Pointer     ebs2D = EBSTransform2DType::New();
-  EBRSTransform2DType::Pointer    ebrs2D = EBRSTransform2DType::New();
-  TPSTransform2DType::Pointer     tps2D = TPSTransform2DType::New();
-  TPR2LRSTransform2DType::Pointer tpr2lrs2D = TPR2LRSTransform2DType::New();
-  VSTransform2DType::Pointer      vs2D = VSTransform2DType::New();
+  auto ebs2D = EBSTransform2DType::New();
+  auto ebrs2D = EBRSTransform2DType::New();
+  auto tps2D = TPSTransform2DType::New();
+  auto tpr2lrs2D = TPR2LRSTransform2DType::New();
+  auto vs2D = VSTransform2DType::New();
 
   // Reserve memory for the number of points
-  PointSetType2D::Pointer sourceLandmarks2D = PointSetType2D::New();
-  PointSetType2D::Pointer targetLandmarks2D = PointSetType2D::New();
+  auto sourceLandmarks2D = PointSetType2D::New();
+  auto targetLandmarks2D = PointSetType2D::New();
 
   sourceLandmarks2D->GetPoints()->Reserve(4);
   targetLandmarks2D->GetPoints()->Reserve(4);
@@ -358,11 +358,11 @@ itkSplineKernelTransformTest(int, char *[])
   PointType3D mappedPoint3D;
 
   // Reserve memory for the number of points
-  EBSTransform3DType::Pointer ebs3D = EBSTransform3DType::New();
+  auto ebs3D = EBSTransform3DType::New();
   ebs3D->GetModifiableTargetLandmarks()->GetPoints()->Reserve(8);
   ebs3D->GetModifiableSourceLandmarks()->GetPoints()->Reserve(8);
 
-  TPSTransform3DType::Pointer tps3D = TPSTransform3DType::New();
+  auto tps3D = TPSTransform3DType::New();
   tps3D->GetModifiableTargetLandmarks()->GetPoints()->Reserve(8);
   tps3D->GetModifiableSourceLandmarks()->GetPoints()->Reserve(8);
 
@@ -483,8 +483,8 @@ itkSplineKernelTransformTest(int, char *[])
   PointType4D targetPoint4D;
   PointType4D mappedPoint4D;
 
-  EBSTransform4DType::Pointer ebs4D = EBSTransform4DType::New();
-  TPSTransform4DType::Pointer tps4D = TPSTransform4DType::New();
+  auto ebs4D = EBSTransform4DType::New();
+  auto tps4D = TPSTransform4DType::New();
 
   // Reserve memory for the number of points
   ebs4D->GetModifiableTargetLandmarks()->GetPoints()->Reserve(16);

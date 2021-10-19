@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    VTKPolyDataMeshIOFactory::Pointer vtkFactory = VTKPolyDataMeshIOFactory::New();
+    auto vtkFactory = VTKPolyDataMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(vtkFactory);
   }

@@ -35,7 +35,7 @@ itkImageToHistogramFilterTest(int, char *[])
 
   int result = EXIT_SUCCESS;
 
-  RGBImageType::Pointer image = RGBImageType::New();
+  auto image = RGBImageType::New();
 
   RGBImageType::RegionType region;
   RGBImageType::SizeType   size;
@@ -80,8 +80,8 @@ itkImageToHistogramFilterTest(int, char *[])
   using HistogramSizeType = HistogramFilterType::HistogramSizeType;
   using HistogramType = HistogramFilterType::HistogramType;
 
-  HistogramFilterType::Pointer filter = HistogramFilterType::New();
-  itk::SimpleFilterWatcher     watcher(filter, "filter");
+  auto                     filter = HistogramFilterType::New();
+  itk::SimpleFilterWatcher watcher(filter, "filter");
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);
   // Exercise the method NameOfClass();
@@ -310,7 +310,7 @@ itkImageToHistogramFilterTest(int, char *[])
   hsize[2] = 1;   // number of bins for the Blue  channel
 
   // Compute the tails of the histrogram automatically
-  InputBooleanObjectType::Pointer autoMinMaxInputObject = InputBooleanObjectType::New();
+  auto autoMinMaxInputObject = InputBooleanObjectType::New();
   autoMinMaxInputObject->Set(true);
   filter->SetAutoMinimumMaximumInput(autoMinMaxInputObject);
 

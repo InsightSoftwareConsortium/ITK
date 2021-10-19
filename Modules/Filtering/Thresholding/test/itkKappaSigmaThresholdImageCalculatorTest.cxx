@@ -44,13 +44,13 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
   using MaskType = itk::Image<unsigned char, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
   // Create and initialize the calculator
   using CalculatorType = itk::KappaSigmaThresholdImageCalculator<ImageType, MaskType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, KappaSigmaThresholdImageCalculator, Object);
 

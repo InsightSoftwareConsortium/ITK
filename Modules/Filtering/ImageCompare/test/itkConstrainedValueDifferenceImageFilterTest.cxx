@@ -53,8 +53,8 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
   using RegionType = itk::ImageRegion<Dimension>;
 
   // Create the two input images
-  InputImage1Type::Pointer inputImageA = InputImage1Type::New();
-  InputImage2Type::Pointer inputImageB = InputImage2Type::New();
+  auto inputImageA = InputImage1Type::New();
+  auto inputImageB = InputImage2Type::New();
 
   // Define their size and start index
   SizeType size;
@@ -115,7 +115,7 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
     itk::ConstrainedValueDifferenceImageFilter<InputImage1Type, InputImage2Type, OutputImageType>;
 
   // Create the filter
-  ConstrainedValueDifferenceImageFilterType::Pointer filter = ConstrainedValueDifferenceImageFilterType::New();
+  auto filter = ConstrainedValueDifferenceImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ConstrainedValueDifferenceImageFilter, BinaryGeneratorImageFilter);
 
@@ -133,7 +133,7 @@ itkConstrainedValueDifferenceImageFilterTest(int argc, char * argv[])
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
 

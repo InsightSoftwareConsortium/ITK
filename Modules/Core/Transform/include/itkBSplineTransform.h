@@ -57,7 +57,7 @@ namespace itk
  * The following illustrates the typical usage of this class:
  * \code
    using TransformType = BSplineTransform<double,2,3>;
-   TransformType::Pointer transform = TransformType::New();
+   auto transform = TransformType::New();
 
    transform->SetTransformDomainOrigin( origin );
    transform->SetTransformDomainPhysicalDimensions( physicalDimensions );

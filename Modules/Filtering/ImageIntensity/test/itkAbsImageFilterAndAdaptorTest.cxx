@@ -50,7 +50,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -91,7 +91,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::AbsImageFilter<InputImageType, OutputImageType>;
 
   // Create an Abs Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AbsImageFilter, UnaryGeneratorImageFilter);
 
@@ -139,7 +139,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::AbsImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer absAdaptor = AdaptorType::New();
+  auto absAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(absAdaptor, AbsImageAdaptor, ImageAdaptor);
 
@@ -147,7 +147,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(absAdaptor);

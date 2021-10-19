@@ -53,8 +53,8 @@ itkXorImageFilterTest(int argc, char * argv[])
   using XorImageFilterType = itk::XorImageFilter<InputImage1Type, InputImage2Type, OutputImageType>;
 
   // Create the input images
-  InputImage1Type::Pointer inputImageA = InputImage1Type::New();
-  InputImage2Type::Pointer inputImageB = InputImage2Type::New();
+  auto inputImageA = InputImage1Type::New();
+  auto inputImageB = InputImage2Type::New();
 
   // Define their size, and start index
   SizeType size;
@@ -112,7 +112,7 @@ itkXorImageFilterTest(int argc, char * argv[])
   }
 
   // Create the filter
-  XorImageFilterType::Pointer filter = XorImageFilterType::New();
+  auto filter = XorImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, XorImageFilter, BinaryGeneratorImageFilter);
 
@@ -130,7 +130,7 @@ itkXorImageFilterTest(int argc, char * argv[])
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
 

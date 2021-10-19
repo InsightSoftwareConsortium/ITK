@@ -29,7 +29,7 @@ itkIteratorTests(int, char *[])
 {
   std::cout << "Creating an image" << std::endl;
   using ScalarImage = itk::Image<unsigned short, 3>;
-  ScalarImage::Pointer o3 = ScalarImage::New();
+  auto o3 = ScalarImage::New();
 
   double origin3D[3] = { 5, 2.1, 8.1 };
   double spacing3D[3] = { 1.5, 2.1, 1 };

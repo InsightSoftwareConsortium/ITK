@@ -51,7 +51,7 @@ itkPasteImageFilterTest(int argc, char * argv[])
   // Create the filter
   using FilterType = itk::PasteImageFilter<ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PasteImageFilter, InPlaceImageFilter);
 
@@ -84,10 +84,10 @@ itkPasteImageFilterTest(int argc, char * argv[])
 
   // We'll tie this to a streamer to really exercise the paste code
   using SplitterType = itk::ImageRegionSplitterMultidimensional;
-  SplitterType::Pointer splitter = SplitterType::New();
+  auto splitter = SplitterType::New();
 
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamerType::Pointer streamer = StreamerType::New();
+  auto streamer = StreamerType::New();
   streamer->SetInput(filter->GetOutput());
   streamer->SetNumberOfStreamDivisions(25);
   streamer->SetRegionSplitter(splitter);

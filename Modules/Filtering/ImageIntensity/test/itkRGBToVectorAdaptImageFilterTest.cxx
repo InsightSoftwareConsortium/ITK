@@ -74,7 +74,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  RGBImageType::Pointer myImage = RGBImageType::New();
+  auto myImage = RGBImageType::New();
 
 
   myImage->SetRegions(region);
@@ -100,7 +100,7 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   // Convert to a Vector image
   using AdaptFilterType = itk::AdaptImageFilter<RGBImageType, myImageType, AccessorType>;
 
-  AdaptFilterType::Pointer adaptImageToVector = AdaptFilterType::New();
+  auto adaptImageToVector = AdaptFilterType::New();
 
   adaptImageToVector->SetInput(myImage);
   adaptImageToVector->UpdateLargestPossibleRegion();

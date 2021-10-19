@@ -46,33 +46,33 @@ itkAddImageFilterTest2(int argc, char * argv[])
   using IntegerImageType = itk::Image<IntegerPixelType, Dimension>;
 
   using FloatReaderType = itk::ImageFileReader<FloatImageType>;
-  FloatReaderType::Pointer floatReader = FloatReaderType::New();
+  auto floatReader = FloatReaderType::New();
   floatReader->SetFileName(inputImage);
   floatReader->SetUseStreaming(true);
 
   using IntegerReaderType = itk::ImageFileReader<IntegerImageType>;
-  IntegerReaderType::Pointer integerReader = IntegerReaderType::New();
+  auto integerReader = IntegerReaderType::New();
   integerReader->SetFileName(inputImage);
   integerReader->SetUseStreaming(true);
 
   constexpr unsigned int streams = 4;
 
   using IntegerMonitorFilterType = itk::PipelineMonitorImageFilter<IntegerImageType>;
-  IntegerMonitorFilterType::Pointer integerMonitorFilter = IntegerMonitorFilterType::New();
+  auto integerMonitorFilter = IntegerMonitorFilterType::New();
   integerMonitorFilter->SetInput(integerReader->GetOutput());
 
   // Test with different input types.
   using AddFilterType = itk::AddImageFilter<FloatImageType, IntegerImageType, FloatImageType>;
-  AddFilterType::Pointer addFilter = AddFilterType::New();
+  auto addFilter = AddFilterType::New();
   addFilter->SetInput1(floatReader->GetOutput());
   addFilter->SetInput2(integerMonitorFilter->GetOutput());
 
   using MonitorFilterType = itk::PipelineMonitorImageFilter<FloatImageType>;
-  MonitorFilterType::Pointer monitorFilter = MonitorFilterType::New();
+  auto monitorFilter = MonitorFilterType::New();
   monitorFilter->SetInput(addFilter->GetOutput());
 
   using WriterType = itk::ImageFileWriter<FloatImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(monitorFilter->GetOutput());
   writer->SetNumberOfStreamDivisions(streams);
   writer->SetFileName(outputImage);

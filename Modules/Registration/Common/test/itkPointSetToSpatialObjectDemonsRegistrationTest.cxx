@@ -30,7 +30,7 @@ itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<Dimension>;
 
   // Create a ellipse.
-  EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
 
   // Set the radius
   ellipse->SetRadiusInObjectSpace(50);
@@ -47,14 +47,14 @@ itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
 
   using SphereType = itk::RegularSphereMeshSource<PointSetType>;
 
-  SphereType::Pointer sphereSource = SphereType::New();
+  auto sphereSource = SphereType::New();
 
   sphereSource->Update();
 
 
   using DemonsRegistrationType = itk::PointSetToSpatialObjectDemonsRegistration<PointSetType, EllipseType>;
 
-  DemonsRegistrationType::Pointer demonsRegistration = DemonsRegistrationType::New();
+  auto demonsRegistration = DemonsRegistrationType::New();
 
   demonsRegistration->SetFixedPointSet(sphereSource->GetOutput());
   demonsRegistration->SetMovingSpatialObject(ellipse);

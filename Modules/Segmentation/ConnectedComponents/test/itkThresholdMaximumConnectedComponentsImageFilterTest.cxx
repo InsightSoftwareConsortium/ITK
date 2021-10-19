@@ -60,7 +60,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   const unsigned int minimumPixelArea = std::stoi(argv[3]);
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -77,7 +77,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
   unsigned int thresholdValue;
 
   using ThresholdType = itk::ThresholdMaximumConnectedComponentsImageFilter<InputImageType>;
-  ThresholdType::Pointer automaticThreshold = ThresholdType::New();
+  auto automaticThreshold = ThresholdType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     automaticThreshold, ThresholdMaximumConnectedComponentsImageFilter, ImageToImageFilter);
@@ -112,7 +112,7 @@ itkThresholdMaximumConnectedComponentsImageFilterTest(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(automaticThreshold->GetOutput());
   writer->SetFileName(argv[2]);
 

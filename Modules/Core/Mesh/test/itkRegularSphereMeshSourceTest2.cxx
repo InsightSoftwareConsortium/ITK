@@ -32,7 +32,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   scale[1] = 2.;
   scale[2] = 3.;
 
-  SphereMeshSourceType::Pointer source1 = SphereMeshSourceType::New();
+  auto source1 = SphereMeshSourceType::New();
   source1->SetResolution(1);
   source1->SetScale(scale);
   source1->Update();
@@ -47,7 +47,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   }
 
 
-  SphereMeshSourceType::Pointer source2 = SphereMeshSourceType::New();
+  auto source2 = SphereMeshSourceType::New();
   source2->SetResolution(2);
   source2->SetScale(scale);
   source2->Update();

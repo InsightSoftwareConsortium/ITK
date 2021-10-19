@@ -61,7 +61,7 @@ compare_linear(const char * linear_transform)
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New());
 
   using AffineTransformType = itk::AffineTransform<double, 3>;
-  AffineTransformType::Pointer affine = AffineTransformType::New();
+  auto affine = AffineTransformType::New();
 
   AffineTransformType::OutputVectorType rot_axis;
   rot_axis[0] = 1.0;
@@ -135,8 +135,8 @@ compare_nonlinear_double(const char * nonlinear_transform)
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
   using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
-  DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
-  DisplacementFieldType::Pointer      field = DisplacementFieldType::New();
+  auto disp = DisplacementFieldTransform::New();
+  auto field = DisplacementFieldType::New();
 
   // create zero displacement field
   DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };

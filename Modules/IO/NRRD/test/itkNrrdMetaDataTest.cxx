@@ -42,7 +42,7 @@ itkNrrdMetaDataTest(int ac, char * av[])
   // Image type
   using ImageType = itk::Image<unsigned char, 3>;
   // create dummy image
-  ImageType::Pointer  image1 = ImageType::New();
+  auto                image1 = ImageType::New();
   ImageType::SizeType size = { { 2, 2, 2 } };
   image1->SetRegions(size);
   image1->Allocate();
@@ -61,12 +61,12 @@ itkNrrdMetaDataTest(int ac, char * av[])
   std::string fname = av[1];
   fname += "/metadatatest.nrrd";
   // set up writer
-  ImageWriterType::Pointer writer = ImageWriterType::New();
+  auto writer = ImageWriterType::New();
   writer->SetImageIO(itk::NrrdImageIO::New());
   writer->SetFileName(fname.c_str());
   writer->SetInput(image1);
   // set up reader
-  ImageReaderType::Pointer reader = ImageReaderType::New();
+  auto reader = ImageReaderType::New();
   reader->SetFileName(fname.c_str());
   reader->SetImageIO(itk::NrrdImageIO::New());
   ImageType::Pointer image2;

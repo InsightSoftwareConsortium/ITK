@@ -54,13 +54,13 @@ itkMutualInformationMetricTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  MovingImageType::Pointer imgMoving = MovingImageType::New();
+  auto imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion(region);
   imgMoving->SetBufferedRegion(region);
   imgMoving->SetRequestedRegion(region);
   imgMoving->Allocate();
 
-  FixedImageType::Pointer imgFixed = FixedImageType::New();
+  auto imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion(region);
   imgFixed->SetBufferedRegion(region);
   imgFixed->SetRequestedRegion(region);
@@ -118,21 +118,21 @@ itkMutualInformationMetricTest(int, char *[])
   using TransformType = itk::AffineTransform<double, ImageDimension>;
   using ParametersType = TransformType::ParametersType;
 
-  TransformType::Pointer transformer = TransformType::New();
+  auto transformer = TransformType::New();
 
   //------------------------------------------------------------
   // Set up a interpolator
   //------------------------------------------------------------
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   //------------------------------------------------------------
   // Set up the metric
   //------------------------------------------------------------
   using MetricType = itk::MutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // connect the interpolator
   metric->SetInterpolator(interpolator);

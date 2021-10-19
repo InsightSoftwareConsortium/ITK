@@ -35,10 +35,10 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 
   using BEFunctionType = itk::QuadEdgeMeshBoundaryEdgesMeshFunction<MeshType>;
 
-  BEFunctionType::Pointer BoundaryEdges = BEFunctionType::New();
+  auto BoundaryEdges = BEFunctionType::New();
   std::cout << BoundaryEdges->GetNameOfClass() << std::endl;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   //                                                  //
   //                    p3--------------p2            //
@@ -397,7 +397,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
                  "should return false"
               << std::endl;
 
-    //   MeshType::Pointer inconsistentMesh = MeshType::New();
+    //   auto inconsistentMesh = MeshType::New();
 
     //   for(int i=0; i < NumPoints; i++)
     //     {
@@ -575,7 +575,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     //
     //
 
-    MeshType::Pointer moebiusMesh = MeshType::New();
+    auto moebiusMesh = MeshType::New();
 
     constexpr int   moebNumPoints = 6;
     PointIdentifier moebPid[moebNumPoints];

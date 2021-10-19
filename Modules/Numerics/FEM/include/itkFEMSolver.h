@@ -50,10 +50,10 @@ namespace fem
  *
    \code
          using FEMObjectType = itk::fem::FEMObject<3>;
-         FEMObjectObjectType::Pointer fem = FEMObjectObjectType::New();
+         auto fem = FEMObjectObjectType::New();
          ...
          using FEMSolverType = itk::fem::Solver<3>;
-         FEMSolverType::Pointer solver = FEMSolverType::New();
+         auto solver = FEMSolverType::New();
 
          solver->SetInput( fem );
          solver->Update();

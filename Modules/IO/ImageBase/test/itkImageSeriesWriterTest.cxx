@@ -50,7 +50,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
   const SeriesIdContainer & seriesUID = nameGenerator->GetSeriesUIDs();
   std::string               seriesIdentifier = seriesUID.begin()->c_str();
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileNames(nameGenerator->GetFileNames(seriesIdentifier));
   reader->SetImageIO(io);
 
@@ -67,7 +67,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<WritePixelType, 2>;
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageNDType, RescaleImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetInput(reader->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
@@ -78,7 +78,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
     // for generating the list of filenames.  This API will be removed after ITK 1.8
     using WriterType = itk::ImageSeriesWriter<RescaleImageType, OutputImageType>;
 
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     itk::SimpleFilterWatcher watcher2(writer);
 
@@ -105,7 +105,7 @@ itkImageSeriesWriterTest(int argc, char * argv[])
 
     using WriterType = itk::ImageSeriesWriter<RescaleImageType, OutputImageType>;
 
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
 
     char format[4096];

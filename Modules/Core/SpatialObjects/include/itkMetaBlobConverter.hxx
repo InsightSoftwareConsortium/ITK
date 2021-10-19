@@ -41,7 +41,7 @@ MetaBlobConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
     itkExceptionMacro(<< "Can't downcast MetaObject to BlobMetaObject");
   }
 
-  typename BlobSpatialObjectType::Pointer blob = BlobSpatialObjectType::New();
+  auto blob = BlobSpatialObjectType::New();
 
   blob->GetProperty().SetName(Blob->Name());
   blob->SetId(Blob->ID());

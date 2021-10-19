@@ -47,8 +47,8 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
   MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
-  MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
-  FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
+  auto movingImageSource = MovingImageSourceType::New();
+  auto fixedImageSource = FixedImageSourceType::New();
 
   movingImageSource->SetSize(movingImageSize);
   movingImageSource->SetOrigin(movingImageOrigin);
@@ -75,7 +75,7 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   using DerivativeType = MetricType::DerivativeType;
   using ParametersType = TransformBaseType::ParametersType;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // Plug the images into the metric.
   metric->SetFixedImage(fixedImage);
@@ -84,13 +84,13 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   // Set up a transform.
   using TransformType = itk::TranslationTransform<CoordinateRepresentationType, ImageDimension>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   metric->SetTransform(transform);
 
   // Set up an interpolator.
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(movingImage);
   metric->SetInterpolator(interpolator);
 

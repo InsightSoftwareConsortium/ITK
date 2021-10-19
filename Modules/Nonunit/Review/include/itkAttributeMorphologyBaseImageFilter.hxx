@@ -67,7 +67,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   {
     // save some time - simply copy the input in the output
     using CastType = CastImageFilter<TInputImage, TOutputImage>;
-    typename CastType::Pointer cast = CastType::New();
+    auto cast = CastType::New();
     cast->SetInput(this->GetInput());
     cast->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     cast->SetInPlace(false);

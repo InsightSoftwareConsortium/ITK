@@ -125,7 +125,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   ImageType::SizeType size;
   size.Fill(128);
   ImageType::RegionType region(size);
@@ -147,18 +147,18 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
 
   // Squash up the level sets by mulitplying with a scalar
   using MultiplierType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
-  MultiplierType::Pointer multiplier = MultiplierType::New();
+  auto multiplier = MultiplierType::New();
   multiplier->SetInput(image);
   multiplier->SetScale(0.5);
 
   // Set up auxiliary variables
-  ImageType::Pointer aux1 = ImageType::New();
+  auto aux1 = ImageType::New();
   aux1->SetRegions(region);
   aux1->Allocate();
 
   aux1->FillBuffer(1.0);
 
-  ImageType::Pointer aux2 = ImageType::New();
+  auto aux2 = ImageType::New();
   aux2->SetRegions(region);
   aux2->Allocate();
 
@@ -176,7 +176,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
     {
     // For debugging
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput( aux2 );
     writer->SetFileName( "input.mhd" );
     writer->Write();
@@ -186,7 +186,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   // Set up reinitialize level set image filter
   constexpr unsigned int AuxDimension = 2;
   using ReinitializerType = itk::ExtensionVelocitiesImageFilter<ImageType, float, AuxDimension>;
-  ReinitializerType::Pointer reinitializer = ReinitializerType::New();
+  auto reinitializer = ReinitializerType::New();
   reinitializer->SetInput(multiplier->GetOutput());
   reinitializer->SetInputVelocityImage(aux1, 0);
   reinitializer->SetInputVelocityImage(aux2, 1);
@@ -201,7 +201,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
     {
     // For debugging
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput( reinitializer->GetOutputVelocityImage( 1 ) );
     writer->SetFileName( "output.mhd" );
     writer->Write();
@@ -210,7 +210,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
 
   // Check the output
   using DifferenceType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DifferenceType::Pointer difference = DifferenceType::New();
+  auto difference = DifferenceType::New();
   difference->SetTestInput(aux2);
   difference->SetValidInput(reinitializer->GetOutputVelocityImage(1));
   difference->Update();
@@ -234,7 +234,7 @@ itkExtensionVelocitiesImageFilterTest(int, char *[])
   }
 
   using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
   calculator->SetImage(difference->GetOutput());
   calculator->Compute();
 

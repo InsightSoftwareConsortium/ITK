@@ -182,9 +182,9 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   spacing.Fill(1.0);
   spacing[1] = 1.2;
 
-  ImageType::Pointer moving = ImageType::New();
-  ImageType::Pointer fixed = ImageType::New();
-  FieldType::Pointer initField = FieldType::New();
+  auto moving = ImageType::New();
+  auto fixed = ImageType::New();
+  auto initField = FieldType::New();
 
   moving->SetLargestPossibleRegion(region);
   moving->SetBufferedRegion(region);
@@ -231,7 +231,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   using RegistrationType = itk::MultiResolutionPDEDeformableRegistration<ImageType, ImageType, FieldType>;
 
-  RegistrationType::Pointer registrator = RegistrationType::New();
+  auto registrator = RegistrationType::New();
 
   registrator->SetMovingImage(moving);
   registrator->SetFixedImage(fixed);
@@ -256,19 +256,19 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   using CommandType = itk::SimpleMemberCommand<ShowProgressPDEObject>;
 
   ShowProgressPDEObject progressWatch(registrator);
-  CommandType::Pointer  command = CommandType::New();
+  auto                  command = CommandType::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressPDEObject::ShowIteration);
   registrator->AddObserver(itk::IterationEvent(), command);
 
   PDERegistrationController<RegistrationType> controller(registrator);
   using ControllerType = itk::SimpleMemberCommand<PDERegistrationController<RegistrationType>>;
-  ControllerType::Pointer controllerCommand = ControllerType::New();
+  auto controllerCommand = ControllerType::New();
   controllerCommand->SetCallbackFunction(&controller, &PDERegistrationController<RegistrationType>::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), controllerCommand);
 
   ShowProgressPDEObject innerWatch(registrator->GetModifiableRegistrationFilter());
   innerWatch.m_Prefix = "    ";
-  CommandType::Pointer innerCommand = CommandType::New();
+  auto innerCommand = CommandType::New();
   innerCommand->SetCallbackFunction(&innerWatch, &ShowProgressPDEObject::ShowProgress);
   registrator->GetRegistrationFilter()->AddObserver(itk::ProgressEvent(), innerCommand);
 
@@ -282,11 +282,11 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   std::cout << "Warp moving image" << std::endl;
 
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
 
   warper->SetInput(moving);
@@ -298,7 +298,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   warper->Update();
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(warper->GetOutput());
   writer->SetFileName(argv[1]);
   writer->Update();

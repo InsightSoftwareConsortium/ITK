@@ -29,7 +29,7 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
 
   using AdaptorType = itk::Statistics::VectorContainerToListSampleAdaptor<ContainerType>;
 
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor, VectorContainerToListSampleAdaptor, ListSample);
 
@@ -44,8 +44,8 @@ itkVectorContainerToListSampleAdaptorTest(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(adaptor->GetTotalFrequency());
 
   // Set the vector container
-  unsigned int           containerSize = 3;
-  ContainerType::Pointer container = ContainerType::New();
+  unsigned int containerSize = 3;
+  auto         container = ContainerType::New();
   container->Reserve(containerSize);
   for (unsigned int i = 0; i < container->Size(); ++i)
   {

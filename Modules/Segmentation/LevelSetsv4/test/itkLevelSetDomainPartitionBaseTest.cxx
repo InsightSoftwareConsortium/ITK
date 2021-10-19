@@ -60,7 +60,7 @@ itkLevelSetDomainPartitionBaseTest(int, char *[])
 
   itk::IdentifierType count = 2;
 
-  DomainPartitionBaseHelperType::Pointer function = DomainPartitionBaseHelperType::New();
+  auto function = DomainPartitionBaseHelperType::New();
   function->SetNumberOfLevelSetFunctions(count);
 
   if (function->GetNumberOfLevelSetFunctions() != count)

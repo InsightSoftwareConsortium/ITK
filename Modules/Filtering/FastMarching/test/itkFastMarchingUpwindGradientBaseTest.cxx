@@ -51,11 +51,11 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
   using CriterionType = itk::FastMarchingReachedTargetNodesStoppingCriterion<FloatImageType, FloatImageType>;
 
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
 
   using FloatFMType = itk::FastMarchingUpwindGradientImageFilterBase<FloatImageType, FloatImageType>;
 
-  FloatFMType::Pointer marcher = FloatFMType::New();
+  auto marcher = FloatFMType::New();
 
   //   ShowProgressObject progressWatch(marcher);
   //   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -72,7 +72,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   using NodePairContainerType = FloatFMType::NodePairContainerType;
 
   // setup alive points
-  NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
+  auto AlivePoints = NodePairContainerType::New();
 
   FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
@@ -85,7 +85,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   marcher->SetAlivePoints(AlivePoints);
 
   // setup trial points
-  NodePairContainerType::Pointer TrialPoints = NodePairContainerType::New();
+  auto TrialPoints = NodePairContainerType::New();
 
   index.Fill(0);
   index += offset0;
@@ -115,7 +115,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  FloatImageType::Pointer    speedImage = FloatImageType::New();
+  auto                       speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);

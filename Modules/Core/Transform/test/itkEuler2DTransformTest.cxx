@@ -55,7 +55,7 @@ itkEuler2DTransformTest(int, char *[])
   bool                   Ok = true;
 
   using EulerTransformType = itk::Euler2DTransform<double>;
-  EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
+  auto eulerTransform = EulerTransformType::New();
 
   // Testing Identity
   std::cout << "Testing identity transform: ";
@@ -168,7 +168,7 @@ itkEuler2DTransformTest(int, char *[])
   eulerTransform->SetIdentity();
   eulerTransform->SetRotation(0.2);
 
-  EulerTransformType::Pointer t2 = EulerTransformType::New();
+  auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
   if (std::fabs(t2->GetParameters()[0] - 0.2) > 0.0001)
@@ -181,7 +181,7 @@ itkEuler2DTransformTest(int, char *[])
   {
     // Test instantiation, inverse computation, back transform etc.
     using TransformType = EulerTransformType;
-    TransformType::Pointer t1 = TransformType::New();
+    auto t1 = TransformType::New();
 
     // Set parameters
     TransformType::ParametersType parameters2(t1->GetNumberOfParameters());
@@ -217,7 +217,7 @@ itkEuler2DTransformTest(int, char *[])
       return EXIT_FAILURE;
     }
 
-    TransformType::Pointer t2dash = TransformType::New();
+    auto t2dash = TransformType::New();
     t1->GetInverse(t2dash);
     TransformType::InputPointType p3dash;
     p3dash = t2dash->TransformPoint(p2);
@@ -256,7 +256,7 @@ itkEuler2DTransformTest(int, char *[])
     }
 
     // Test compose
-    TransformType::Pointer t4 = TransformType::New();
+    auto t4 = TransformType::New();
 
     parameters2[0] = 14.7 / 180.0 * itk::Math::pi;
     parameters2[1] = 67.1;
@@ -342,8 +342,8 @@ itkEuler2DTransformTest(int, char *[])
   {
     // Test Set/Get Matrix and Set/Get Offset
     using TransformType = EulerTransformType;
-    TransformType::Pointer t1 = TransformType::New();
-    TransformType::Pointer t23 = TransformType::New();
+    auto t1 = TransformType::New();
+    auto t23 = TransformType::New();
 
     TransformType::InputPointType center;
     center[0] = 9.0;

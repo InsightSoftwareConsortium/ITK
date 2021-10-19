@@ -73,7 +73,7 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   size.Fill(20);
   MaskImageType::RegionType region(origin, size);
 
-  MaskImageType::Pointer mask = MaskImageType::New();
+  auto mask = MaskImageType::New();
   mask->SetRegions(region);
   mask->Allocate();
   mask->FillBuffer(false);
@@ -87,20 +87,20 @@ itkTernaryOperatorImageFilterTest(int, char *[])
       maskIt.Set(true);
   }
 
-  constexpr short        val1 = 25;
-  GrayImageType::Pointer image1 = GrayImageType::New();
+  constexpr short val1 = 25;
+  auto            image1 = GrayImageType::New();
   image1->SetRegions(region);
   image1->Allocate();
   image1->FillBuffer(val1);
 
-  constexpr short        val2 = 123;
-  GrayImageType::Pointer image2 = GrayImageType::New();
+  constexpr short val2 = 123;
+  auto            image2 = GrayImageType::New();
   image2->SetRegions(region);
   image2->Allocate();
   image2->FillBuffer(val2);
 
   using TernaryType = itk::TernaryOperatorImageFilter<MaskImageType, GrayImageType>;
-  TernaryType::Pointer tern = TernaryType::New();
+  auto tern = TernaryType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(tern, TernaryOperatorImageFilter, TernaryGeneratorImageFilter);
 
@@ -109,7 +109,7 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   tern->SetInput3(image2);
   tern->Update();
 
-  GrayImageType::Pointer output = GrayImageType::New();
+  auto output = GrayImageType::New();
   output->Graft(tern->GetOutput());
 
   // Even indices should be equal to val1 (the value of the second input)

@@ -59,9 +59,9 @@ itkLabelVotingImageFilterTest(int, char *[])
   using LabelVotingImageFilterType = itk::LabelVotingImageFilter<ImageType>;
 
   // Create the input images
-  ImageType::Pointer inputImageA = ImageType::New();
-  ImageType::Pointer inputImageB = ImageType::New();
-  ImageType::Pointer inputImageC = ImageType::New();
+  auto inputImageA = ImageType::New();
+  auto inputImageB = ImageType::New();
+  auto inputImageC = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -116,7 +116,7 @@ itkLabelVotingImageFilterTest(int, char *[])
   }
 
   // Create the LabelVoting Filter
-  LabelVotingImageFilterType::Pointer labelVotingFilter = LabelVotingImageFilterType::New();
+  auto labelVotingFilter = LabelVotingImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(labelVotingFilter, LabelVotingImageFilter, ImageToImageFilter);
 

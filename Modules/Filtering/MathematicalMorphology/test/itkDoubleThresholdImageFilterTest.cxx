@@ -63,13 +63,13 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
 
 
   // Creation of Reader and Writer filters
-  ReaderType::Pointer  reader = ReaderType::New();
-  WriterType::Pointer  writer = WriterType::New();
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto rescaler = RescaleType::New();
 
   // Create the filter
-  DoubleThresholdFilterType::Pointer threshold = DoubleThresholdFilterType::New();
-  itk::SimpleFilterWatcher           watcher(threshold, "threshold");
+  auto                     threshold = DoubleThresholdFilterType::New();
+  itk::SimpleFilterWatcher watcher(threshold, "threshold");
 
   // Setup the input and output files
   reader->SetFileName(argv[1]);

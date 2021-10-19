@@ -59,7 +59,7 @@ itkFEMGenerateMeshTest(int, char *[])
 
   using ElasticityType = itk::fem::MaterialLinearElasticity;
   // Create the material
-  ElasticityType::Pointer m = ElasticityType::New();
+  auto m = ElasticityType::New();
 
   m->SetGlobalNumber(0);
   m->SetYoungsModulus(1000.);
@@ -71,7 +71,7 @@ itkFEMGenerateMeshTest(int, char *[])
 
   // Create the element type
   using StrainType = itk::fem::Element2DC0LinearQuadrilateralStrain;
-  StrainType::Pointer e1 = StrainType::New();
+  auto e1 = StrainType::New();
 
   e1->SetMaterial(dynamic_cast<ElasticityType *>(m));
 

@@ -111,7 +111,7 @@ IBPSOTest1()
   // the function we want to optimize
   itk::ParticleSwarmTestF1::Pointer costFunction = itk::ParticleSwarmTestF1::New();
 
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
   itkOptimizer->UseSeedOn();
   itkOptimizer->SetSeed(8775070 + seedOffset++);
 
@@ -217,7 +217,7 @@ IBPSOTest2()
   // the function we want to optimize
   itk::ParticleSwarmTestF2::Pointer costFunction = itk::ParticleSwarmTestF2::New();
 
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
   itkOptimizer->UseSeedOn();
   itkOptimizer->SetSeed(8775070 + seedOffset++);
 
@@ -296,7 +296,7 @@ IBPSOTest3()
   // the function we want to optimize
   itk::ParticleSwarmTestF3::Pointer costFunction = itk::ParticleSwarmTestF3::New();
 
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
   itkOptimizer->UseSeedOn();
   itkOptimizer->SetSeed(8775070 + seedOffset++);
 

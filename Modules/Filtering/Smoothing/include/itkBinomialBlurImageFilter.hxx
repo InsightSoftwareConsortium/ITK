@@ -110,7 +110,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   // Processing with doubles eliminates possible rounding artifacts which may
   // accumulate over repeated integer division
   using TTempImage = Image<double, NDimensions>;
-  typename TTempImage::Pointer tempPtr = TTempImage::New();
+  auto tempPtr = TTempImage::New();
 
   typename TTempImage::RegionType tempRegion;
   tempRegion = inputPtr->GetRequestedRegion();

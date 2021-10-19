@@ -29,7 +29,7 @@ itkSparseLevelSetContainerTest(int, char *[])
   using NameType = std::string;
   using NamedLevelSetContainerType = itk::LevelSetContainer<NameType, LevelSetType>;
 
-  NamedLevelSetContainerType::Pointer name_container = NamedLevelSetContainerType::New();
+  auto name_container = NamedLevelSetContainerType::New();
 
   name_container->AddLevelSet("Lung", LevelSetType::New());
   name_container->AddLevelSet("Heart", LevelSetType::New());
@@ -50,7 +50,7 @@ itkSparseLevelSetContainerTest(int, char *[])
   }
 
   using LevelSetContainerType = itk::LevelSetContainer<unsigned int, LevelSetType>;
-  LevelSetContainerType::Pointer container = LevelSetContainerType::New();
+  auto container = LevelSetContainerType::New();
 
   container->AddLevelSet(1, LevelSetType::New());
   container->AddLevelSet(3, LevelSetType::New());

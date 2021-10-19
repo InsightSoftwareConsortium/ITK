@@ -55,9 +55,9 @@ RunLinearInterpolateTest()
   using InterpolatedVectorType = typename VectorInterpolatorType::OutputType;
   using InterpolatedVariableVectorType = typename VariableVectorInterpolatorType::OutputType;
 
-  typename ImageType::Pointer               image = ImageType::New();
-  typename VectorImageType::Pointer         vectorimage = VectorImageType::New();
-  typename VariableVectorImageType::Pointer variablevectorimage = VariableVectorImageType::New();
+  auto image = ImageType::New();
+  auto vectorimage = VectorImageType::New();
+  auto variablevectorimage = VariableVectorImageType::New();
   variablevectorimage->SetVectorLength(VectorDimension);
 
   IndexType start;
@@ -144,13 +144,13 @@ RunLinearInterpolateTest()
     }
   }
 
-  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(image);
 
-  typename VectorInterpolatorType::Pointer vectorinterpolator = VectorInterpolatorType::New();
+  auto vectorinterpolator = VectorInterpolatorType::New();
   vectorinterpolator->SetInputImage(vectorimage);
 
-  typename VariableVectorInterpolatorType::Pointer variablevectorinterpolator = VariableVectorInterpolatorType::New();
+  auto variablevectorinterpolator = VariableVectorInterpolatorType::New();
   variablevectorinterpolator->SetInputImage(variablevectorimage);
 
   typename ImageType::SizeType radius;

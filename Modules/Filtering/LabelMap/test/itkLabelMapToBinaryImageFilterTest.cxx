@@ -50,14 +50,14 @@ itkLabelMapToBinaryImageFilterTest(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<LabelImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using I2LType = itk::LabelImageToLabelMapFilter<LabelImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
 
   using L2IType = itk::LabelMapToBinaryImageFilter<LabelMapType, BinaryImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
 
   l2i->SetForegroundValue(std::stoi(argv[3]));
   ITK_TEST_SET_GET_VALUE(std::stoi(argv[3]), l2i->GetForegroundValue());
@@ -68,7 +68,7 @@ itkLabelMapToBinaryImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(l2i);
 
   using WriterType = itk::ImageFileWriter<BinaryImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

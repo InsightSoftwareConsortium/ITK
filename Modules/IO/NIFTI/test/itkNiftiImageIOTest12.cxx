@@ -54,7 +54,7 @@ itkNiftiImageIOTest12(int ac, char * av[])
 #endif
   region.SetIndex(startIndex);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->SetRegions(region);
   image->SetNumberOfComponentsPerPixel(3);
   image->SetOrigin(itk::MakePoint(-7.0, -13.0, -19.0));
@@ -80,7 +80,7 @@ itkNiftiImageIOTest12(int ac, char * av[])
   using Hasher = itk::Testing::HashImageFilter<ImageType>;
 
   auto myHasher = [&](ImageType::Pointer imptr) -> std::string {
-    Hasher::Pointer originalHasher = Hasher::New();
+    auto originalHasher = Hasher::New();
     originalHasher->InPlaceOff();
     originalHasher->SetInput(imptr);
     originalHasher->Update();

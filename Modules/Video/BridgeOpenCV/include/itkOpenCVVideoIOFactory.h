@@ -58,7 +58,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    OpenCVVideoIOFactory::Pointer OpenCVFactory = OpenCVVideoIOFactory::New();
+    auto OpenCVFactory = OpenCVVideoIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(OpenCVFactory);
   }

@@ -48,7 +48,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   // Primary input is optional in this filter
   this->RemoveRequiredInputName("Primary");
 
-  typename DefaultRegistrationType::Pointer registrator = DefaultRegistrationType::New();
+  auto registrator = DefaultRegistrationType::New();
   m_RegistrationFilter = registrator.GetPointer();
 
   m_MovingImagePyramid = MovingImagePyramidType::New();
@@ -380,7 +380,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
     tempField = inputPtr;
 
     using GaussianFilterType = RecursiveGaussianImageFilter<DisplacementFieldType, DisplacementFieldType>;
-    typename GaussianFilterType::Pointer smoother = GaussianFilterType::New();
+    auto smoother = GaussianFilterType::New();
 
     for (unsigned int dim = 0; dim < DisplacementFieldType::ImageDimension; ++dim)
     {

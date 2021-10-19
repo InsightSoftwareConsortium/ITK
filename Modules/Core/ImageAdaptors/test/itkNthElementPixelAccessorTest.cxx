@@ -67,7 +67,7 @@ itkNthElementPixelAccessorTest(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  myImageType::Pointer myImage = myImageType::New();
+  auto myImage = myImageType::New();
 
   myImage->SetLargestPossibleRegion(region);
   myImage->SetBufferedRegion(region);
@@ -99,7 +99,7 @@ itkNthElementPixelAccessorTest(int, char *[])
     ++it1;
   }
 
-  myNthAdaptorType::Pointer myAdaptor = myNthAdaptorType::New();
+  auto myAdaptor = myNthAdaptorType::New();
   myAdaptor->SetImage(myImage);
 
   myNthAccessorType myNthAccessor;

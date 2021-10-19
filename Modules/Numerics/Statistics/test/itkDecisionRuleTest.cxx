@@ -77,7 +77,7 @@ itkDecisionRuleTest(int, char *[])
 
   using MembershipVectorType = DecisionRuleType::MembershipVectorType;
 
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   std::cout << decisionRule->GetNameOfClass() << std::endl;
   std::cout << decisionRule->DecisionRuleType::Superclass::GetNameOfClass() << std::endl;

@@ -31,7 +31,7 @@ itkShrinkImageStreamingTest(int, char *[])
 
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;
-  ShortImage::Pointer sourceImage = ShortImage::New();
+  auto sourceImage = ShortImage::New();
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ShortImage>;
 
@@ -60,7 +60,7 @@ itkShrinkImageStreamingTest(int, char *[])
   caster->SetInput(sourceImage);
 
 
-  MonitorFilter::Pointer monitor1 = MonitorFilter::New();
+  auto monitor1 = MonitorFilter::New();
   monitor1->SetInput(caster->GetOutput());
 
   // Create a filter, shrink by 2,3
@@ -72,7 +72,7 @@ itkShrinkImageStreamingTest(int, char *[])
   shrink->SetShrinkFactors(factors);
 
 
-  MonitorFilter::Pointer monitor2 = MonitorFilter::New();
+  auto monitor2 = MonitorFilter::New();
   monitor2->SetInput(shrink->GetOutput());
 
   itk::StreamingImageFilter<ShortImage, ShortImage>::Pointer streamer;

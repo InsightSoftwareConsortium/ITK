@@ -146,7 +146,7 @@ itkThresholdImageFilterTest(int, char *[])
     using PixelType = int;
 
     using IntImage1DType = itk::Image<PixelType, 1>;
-    IntImage1DType::Pointer          input = IntImage1DType::New();
+    auto                             input = IntImage1DType::New();
     IntImage1DType::SpacingValueType inputSpacing[1] = { 0.7 };
     input->SetSpacing(inputSpacing);
     IntImage1DType::PointValueType inputOrigin[1] = { 15 };

@@ -49,7 +49,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   std::cout << "Read " << argv[1] << std::endl;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -68,7 +68,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
   // Test itkConformalFlatteningMeshFilter
   //
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Connect the input
   filter->SetInput(mesh);
@@ -114,7 +114,7 @@ itkConformalFlatteningQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   std::cout << "Write " << argv[2] << std::endl;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(newMesh);
   writer->SetFileName(argv[2]);
 

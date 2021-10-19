@@ -29,7 +29,7 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
 
   using IndexType = typename PathType::IndexType;
 
-  typename PathType::Pointer path = PathType::New();
+  auto path = PathType::New();
 
   for (unsigned int order = 1; order < maxHilbertPathOder; ++order)
   {
@@ -90,7 +90,7 @@ itkHilbertPathTest(int, char *[])
 
   // Test dimension = 2
   using HilbertPathType2D = itk::HilbertPath<IndexValueType, 2>;
-  HilbertPathType2D::Pointer path2D = HilbertPathType2D::New();
+  auto path2D = HilbertPathType2D::New();
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
@@ -101,7 +101,7 @@ itkHilbertPathTest(int, char *[])
 
   // Test dimension = 3
   using HilbertPathType3D = itk::HilbertPath<IndexValueType, 3>;
-  HilbertPathType3D::Pointer path3D = HilbertPathType3D::New();
+  auto path3D = HilbertPathType3D::New();
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
@@ -112,7 +112,7 @@ itkHilbertPathTest(int, char *[])
 
   // Test dimension = 4
   using HilbertPathType4D = itk::HilbertPath<IndexValueType, 4>;
-  HilbertPathType4D::Pointer path4D = HilbertPathType4D::New();
+  auto path4D = HilbertPathType4D::New();
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited

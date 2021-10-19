@@ -96,7 +96,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   ImageType::ConstPointer randImage = interpolator->GetInputImage();
 
   using FilterType = itk::BSplineDecompositionImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineDecompositionImageFilter, ImageToImageFilter);
 
@@ -146,7 +146,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
 
   // Set up a BSplineResampleImageFunction.
   using ResampleFunctionType = itk::BSplineResampleImageFunction<ImageType, double>;
-  ResampleFunctionType::Pointer resample = ResampleFunctionType::New();
+  auto resample = ResampleFunctionType::New();
 
   resample->SetSplineOrder(interpolator->GetSplineOrder());
   resample->SetInputImage(filter->GetOutput());
@@ -191,7 +191,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   using ComplexPixelType = std::complex<PixelType>;
   using ComplexImageType = itk::Image<ComplexPixelType, ImageDimension>;
   using ComplexFilterType = itk::BSplineDecompositionImageFilter<ComplexImageType, ComplexImageType>;
-  ComplexFilterType::Pointer complexFilter = ComplexFilterType::New();
+  auto complexFilter = ComplexFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineDecompositionImageFilter, ImageToImageFilter);
 

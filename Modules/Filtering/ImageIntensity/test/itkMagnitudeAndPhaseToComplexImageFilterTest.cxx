@@ -57,8 +57,8 @@ itkMagnitudeAndPhaseToComplexImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer magnitudeReader = ReaderType::New();
-  ReaderType::Pointer phaseReader = ReaderType::New();
+  auto magnitudeReader = ReaderType::New();
+  auto phaseReader = ReaderType::New();
   magnitudeReader->SetFileName(magnitudeImageFileName);
   phaseReader->SetFileName(phaseImageFileName);
 
@@ -75,7 +75,7 @@ itkMagnitudeAndPhaseToComplexImageFilterTest(int argc, char * argv[])
   magnitudeAndPhaseToComplexFilter->SetInput2(phaseReader->GetOutput());
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(complexImageFileName);
   writer->SetInput(magnitudeAndPhaseToComplexFilter->GetOutput());
 
@@ -83,7 +83,7 @@ itkMagnitudeAndPhaseToComplexImageFilterTest(int argc, char * argv[])
 
   // Check that the default template parameters work
   using DefaultParametersFilterType = itk::MagnitudeAndPhaseToComplexImageFilter<InputImageType>;
-  DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
+  auto temp = DefaultParametersFilterType::New();
   if (temp.IsNull())
   {
     return EXIT_FAILURE;

@@ -36,7 +36,7 @@ itkPolyLineParametricPathTest(int, char *[])
   OffsetType offset;
   VertexType v;
 
-  PathType::Pointer path = PathType::New();
+  auto path = PathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, PolyLineParametricPath, ParametricPath);
 
@@ -84,7 +84,7 @@ itkPolyLineParametricPathTest(int, char *[])
 
   // Test a degenerate path
   std::cout << "Generating degenerate path" << std::endl;
-  PathType::Pointer path2 = PathType::New();
+  auto path2 = PathType::New();
 
   // Add a bunch of points closely spaced together
   for (double k = 0; k < 10; k += 0.1)

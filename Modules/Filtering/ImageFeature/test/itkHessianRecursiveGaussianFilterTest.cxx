@@ -38,7 +38,7 @@ itkHessianRecursiveGaussianFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -100,7 +100,7 @@ itkHessianRecursiveGaussianFilterTest(int, char *[])
 
 
   // Create a  Filter
-  myFilterType::Pointer    filter = myFilterType::New();
+  auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
 
@@ -138,7 +138,7 @@ itkHessianRecursiveGaussianFilterTest(int, char *[])
   // the following just tests for warnings in 2D
   using my2DImageType = itk::Image<float, 2>;
   using my2DFilterType = itk::HessianRecursiveGaussianImageFilter<my2DImageType>;
-  my2DFilterType::Pointer test = my2DFilterType::New();
+  auto test = my2DFilterType::New();
   if (test.IsNull())
   {
     return EXIT_FAILURE;

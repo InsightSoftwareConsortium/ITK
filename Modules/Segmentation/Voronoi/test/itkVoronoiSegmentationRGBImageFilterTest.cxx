@@ -60,7 +60,7 @@ ImageType::Pointer
 SetUpInputImage()
 {
   // initialize the test input image
-  ImageType::Pointer    inputImage = ImageType::New();
+  auto                  inputImage = ImageType::New();
   ImageType::SizeType   size = { { width, height } };
   ImageType::RegionType region;
   region.SetSize(size);
@@ -197,7 +197,7 @@ TestNoPrior(ImageType::Pointer inputImage)
   std::cout << "Beginning no-prior test" << std::endl;
 
   // set up the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   std::cout << "Setting filter input" << std::endl;
   filter->SetInput(inputImage);
 
@@ -257,12 +257,12 @@ TestWithPrior(ImageType::Pointer inputImage)
 {
   // set up the filter
   std::cout << "Setting up the filter and image" << std::endl;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(inputImage);
 
   // set up the prior
   std::cout << "Setting up the prior image" << std::endl;
-  BinaryObjectImage::Pointer    prior = BinaryObjectImage::New();
+  auto                          prior = BinaryObjectImage::New();
   BinaryObjectImage::SizeType   size = { { width, height } };
   BinaryObjectImage::RegionType region;
   region.SetSize(size);
@@ -357,7 +357,7 @@ itkVoronoiSegmentationRGBImageFilterTest(int, char *[])
   }
 
   // test set/get TestMean
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetTestMean(VoronoiSegRGBTest::fgMean, VoronoiSegRGBTest::fgMean, VoronoiSegRGBTest::fgMean);
   unsigned int testMean[3];
   filter->GetTestMean(testMean);

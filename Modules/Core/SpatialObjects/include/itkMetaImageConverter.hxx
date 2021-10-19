@@ -44,7 +44,7 @@ auto
 MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::AllocateImage(const ImageMetaObjectType * image) ->
   typename ImageType::Pointer
 {
-  typename ImageType::Pointer rval = ImageType::New();
+  auto rval = ImageType::New();
 
   using SizeType = typename ImageType::SizeType;
   using SpacingType = typename ImageType::SpacingType;

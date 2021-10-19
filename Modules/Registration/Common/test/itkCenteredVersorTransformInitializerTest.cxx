@@ -82,8 +82,8 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   region.SetIndex(index);
 
 
-  FixedImageType::Pointer  fixedImage = FixedImageType::New();
-  MovingImageType::Pointer movingImage = MovingImageType::New();
+  auto fixedImage = FixedImageType::New();
+  auto movingImage = MovingImageType::New();
 
   fixedImage->SetRegions(region);
   fixedImage->SetSpacing(spacing);
@@ -147,13 +147,13 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
     ++mi;
   }
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   transform->SetIdentity();
 
 
   using InitializerType = itk::CenteredVersorTransformInitializer<FixedImageType, MovingImageType>;
 
-  InitializerType::Pointer initializer = InitializerType::New();
+  auto initializer = InitializerType::New();
 
   initializer->SetFixedImage(fixedImage);
   initializer->SetMovingImage(movingImage);

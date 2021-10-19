@@ -37,7 +37,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   VectorType displacement1;
   displacement1.Fill(0.1);
 
-  TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = TimeVaryingVelocityFieldType::New();
+  auto timeVaryingVelocityField = TimeVaryingVelocityFieldType::New();
 
   timeVaryingVelocityField->SetOrigin(origin);
   timeVaryingVelocityField->SetSpacing(spacing);
@@ -48,7 +48,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
 
   using IntegratorType =
     itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType>;
-  IntegratorType::Pointer integrator = IntegratorType::New();
+  auto integrator = IntegratorType::New();
   integrator->SetInput(timeVaryingVelocityField);
   integrator->SetLowerTimeBound(0.3);
   integrator->SetUpperTimeBound(0.75);
@@ -61,7 +61,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   index.Fill(0);
   VectorType displacement;
 
-  IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+  auto inverseIntegrator = IntegratorType::New();
   inverseIntegrator->SetInput(timeVaryingVelocityField);
   inverseIntegrator->SetLowerTimeBound(1.0);
   inverseIntegrator->SetUpperTimeBound(0.0);

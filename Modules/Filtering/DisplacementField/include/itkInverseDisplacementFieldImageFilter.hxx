@@ -112,7 +112,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
 
   using ResamplerType = itk::ResampleImageFilter<InputImageType, InputImageType>;
 
-  typename ResamplerType::Pointer resampler = ResamplerType::New();
+  auto resampler = ResamplerType::New();
 
   const InputImageType * inputImage = this->GetInput();
 

@@ -526,11 +526,11 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     // are 1, 2, 3, ...
     using ConnectedComponentFilterType =
       ConnectedComponentImageFilter<ConnectedComponentImageType, ConnectedComponentImageType>;
-    typename ConnectedComponentFilterType::Pointer connecter = ConnectedComponentFilterType::New();
+    auto connecter = ConnectedComponentFilterType::New();
     connecter->SetInput(m_ConnectedComponentImage);
 
     using RelabelerType = RelabelComponentImageFilter<ConnectedComponentImageType, ConnectedComponentImageType>;
-    typename RelabelerType::Pointer relabeler = RelabelerType::New();
+    auto relabeler = RelabelerType::New();
     relabeler->SetInput(connecter->GetOutput());
 
     try

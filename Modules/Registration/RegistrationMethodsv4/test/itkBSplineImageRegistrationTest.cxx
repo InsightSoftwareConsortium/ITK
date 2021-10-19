@@ -116,14 +116,14 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 
   using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
-  typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[2]);
   fixedImageReader->Update();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
-  typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[3]);
   movingImageReader->Update();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
@@ -132,7 +132,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
 
   using AffineTransformType = itk::AffineTransform<double, VImageDimension>;
   using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, AffineTransformType>;
-  typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
+  auto affineSimple = AffineRegistrationType::New();
   affineSimple->SetFixedImage(fixedImage);
   affineSimple->SetMovingImage(movingImage);
 
@@ -161,7 +161,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration(true);
 
   using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
-  typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
+  auto affineObserver = AffineCommandType::New();
   affineSimple->AddObserver(itk::IterationEvent(), affineObserver);
 
   {
@@ -197,7 +197,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   //
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename CorrelationMetricType::Pointer    correlationMetric = CorrelationMetricType::New();
+  auto                                       correlationMetric = CorrelationMetricType::New();
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill(4);
   correlationMetric->SetRadius(radius);
@@ -205,12 +205,12 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   correlationMetric->SetUseFixedImageGradientFilter(false);
 
   using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<CorrelationMetricType>;
-  typename ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
+  auto scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric(correlationMetric);
   scalesEstimator->SetTransformForward(true);
   scalesEstimator->SetSmallParameterVariation(1.0);
 
-  typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
+  auto optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate(1.0);
   optimizer->SetNumberOfIterations(std::stoi(argv[6]));
   optimizer->SetScalesEstimator(scalesEstimator);
@@ -220,7 +220,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   using RealType = typename AffineRegistrationType::RealType;
 
   using CompositeTransformType = itk::CompositeTransform<RealType, VImageDimension>;
-  typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  auto compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform(affineSimple->GetModifiableTransform());
 
   constexpr unsigned int numberOfLevels = 3;
@@ -228,7 +228,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   using BSplineTransformType = itk::BSplineTransform<RealType, VImageDimension, SplineOrder>;
 
   using BSplineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, BSplineTransformType>;
-  typename BSplineRegistrationType::Pointer bsplineRegistration = BSplineRegistrationType::New();
+  auto bsplineRegistration = BSplineRegistrationType::New();
 
   // Shrink the virtual domain by specified factors for each level.  See documentation
   // for the itkShrinkImageFilter for more detailed behavior.
@@ -246,7 +246,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   smoothingSigmasPerLevel[1] = 1;
   smoothingSigmasPerLevel[2] = 1;
 
-  typename BSplineTransformType::Pointer outputBSplineTransform = BSplineTransformType::New();
+  auto outputBSplineTransform = BSplineTransformType::New();
 
   typename BSplineTransformType::PhysicalDimensionsType physicalDimensions;
   typename BSplineTransformType::MeshSizeType           meshSize;
@@ -264,7 +264,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   for (unsigned int level = 0; level < numberOfLevels; ++level)
   {
     using ShrinkFilterType = itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
-    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(shrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(fixedImage);
     shrinkFilter->Update();
@@ -278,7 +278,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
     }
 
     using BSplineAdaptorType = itk::BSplineTransformParametersAdaptor<BSplineTransformType>;
-    typename BSplineAdaptorType::Pointer bsplineAdaptor = BSplineAdaptorType::New();
+    auto bsplineAdaptor = BSplineAdaptorType::New();
     bsplineAdaptor->SetTransform(outputBSplineTransform);
     bsplineAdaptor->SetRequiredTransformDomainMeshSize(requiredMeshSize);
     bsplineAdaptor->SetRequiredTransformDomainOrigin(shrinkFilter->GetOutput()->GetOrigin());
@@ -308,7 +308,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   bsplineRegistration->InPlaceOn();
 
   using BSplineRegistrationCommandType = CommandIterationUpdate<BSplineRegistrationType>;
-  typename BSplineRegistrationCommandType::Pointer bsplineObserver = BSplineRegistrationCommandType::New();
+  auto bsplineObserver = BSplineRegistrationCommandType::New();
   bsplineRegistration->AddObserver(itk::IterationEvent(), bsplineObserver);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(bsplineRegistration->Update());
@@ -324,7 +324,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
             << " optimizer: " << bsplineRegistration->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
   resampler->SetTransform(compositeTransform);
   resampler->SetInput(movingImage);
   resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
@@ -335,7 +335,7 @@ PerformBSplineImageRegistration(int argc, char * argv[])
   resampler->Update();
 
   using WriterType = itk::ImageFileWriter<FixedImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[4]);
   writer->SetInput(resampler->GetOutput());
   writer->Update();

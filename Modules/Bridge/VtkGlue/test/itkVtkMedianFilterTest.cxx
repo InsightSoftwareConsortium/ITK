@@ -45,11 +45,11 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   using SubtractType = itk::SubtractImageFilter<ImageType>;
 
   // Create and setup a reader
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFilename);
 
   // Create and setup a median filter
-  FilterType::Pointer       medianFilter = FilterType::New();
+  auto                      medianFilter = FilterType::New();
   FilterType::InputSizeType radius;
   radius.Fill(2);
   if (argc > 2)
@@ -60,7 +60,7 @@ itkVtkMedianFilterTest(int argc, char * argv[])
   medianFilter->SetRadius(radius);
   medianFilter->SetInput(reader->GetOutput());
 
-  SubtractType::Pointer diff = SubtractType::New();
+  auto diff = SubtractType::New();
   diff->SetInput1(reader->GetOutput());
   diff->SetInput2(medianFilter->GetOutput());
 

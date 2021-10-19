@@ -31,12 +31,12 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
 
   ImageType::SizeType size = { { 10, 12, 14 } };
 
-  ImageType::Pointer numeratorImage = ImageType::New();
+  auto numeratorImage = ImageType::New();
   numeratorImage->SetRegions(size);
   numeratorImage->Allocate();
   numeratorImage->FillBuffer(1.0f);
 
-  ImageType::Pointer denominatorImage = ImageType::New();
+  auto denominatorImage = ImageType::New();
   denominatorImage->SetRegions(size);
   denominatorImage->Allocate();
 
@@ -46,7 +46,7 @@ itkDivideOrZeroOutImageFilterTest(int, char *[])
   denominatorImage->SetPixel(zeroIndex, 0.0f);
 
   // Instantiate and run the filter
-  DivideFilterType::Pointer divider = DivideFilterType::New();
+  auto divider = DivideFilterType::New();
   divider->SetInput1(numeratorImage);
   divider->SetInput2(denominatorImage);
   divider->InPlaceOn();

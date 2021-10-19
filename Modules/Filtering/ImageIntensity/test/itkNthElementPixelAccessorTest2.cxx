@@ -72,7 +72,7 @@ itkNthElementPixelAccessorTest2(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  VectorImageType::Pointer vectorImage = VectorImageType::New();
+  auto vectorImage = VectorImageType::New();
 
   vectorImage->SetLargestPossibleRegion(region);
   vectorImage->SetBufferedRegion(region);
@@ -104,7 +104,7 @@ itkNthElementPixelAccessorTest2(int, char *[])
   AccessorType accessor;
   accessor.SetElementNumber(0);
 
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetInput(vectorImage);
   adaptor->SetAccessor(accessor);
   adaptor->Update();

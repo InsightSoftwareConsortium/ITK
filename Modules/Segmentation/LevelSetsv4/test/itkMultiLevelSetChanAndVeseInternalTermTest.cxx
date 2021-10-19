@@ -63,7 +63,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
   PixelType value = 0.;
 
-  InputImageType::Pointer input = InputImageType::New();
+  auto input = InputImageType::New();
   input->SetRegions(region);
   input->Allocate();
   input->FillBuffer(0);
@@ -76,12 +76,12 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
     ++it;
   }
 
-  ImageType::Pointer input1 = ImageType::New();
+  auto input1 = ImageType::New();
   input1->SetRegions(region);
   input1->Allocate();
   input1->FillBuffer(value);
 
-  ImageType::Pointer input2 = ImageType::New();
+  auto input2 = ImageType::New();
   input2->SetRegions(region);
   input2->Allocate();
   input2->FillBuffer(value);
@@ -89,16 +89,16 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   ImageType::IndexType idx;
   IdListType           list_ids;
 
-  IdListImageType::Pointer id_image = IdListImageType::New();
+  auto id_image = IdListImageType::New();
   id_image->SetRegions(region);
   id_image->Allocate();
   id_image->FillBuffer(list_ids);
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(1.0);
 
-  DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
+  auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
   CacheImageType::Pointer output = domainMapFilter->GetOutput();
@@ -142,8 +142,8 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   level_set[2]->SetImage(input2);
 
   // Insert the levelsets in a levelset container
-  bool                           levelSetNotYetAdded;
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  bool levelSetNotYetAdded;
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
@@ -160,7 +160,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   std::cout << "Level set container created" << std::endl;
 
   // Create ChanAndVeseTerm
-  ChanAndVeseTermType::Pointer cvTerm = ChanAndVeseTermType::New();
+  auto cvTerm = ChanAndVeseTermType::New();
   cvTerm->SetInput(input);
   cvTerm->SetCoefficient(1.0);
   cvTerm->SetCurrentLevelSetId(0);
@@ -168,7 +168,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
   std::cout << "CV term created" << std::endl;
 
   // Create Term Container
-  TermContainerType::Pointer termContainer = TermContainerType::New();
+  auto termContainer = TermContainerType::New();
   termContainer->AddTerm(0, cvTerm);
   std::cout << "Term container created" << std::endl;
 

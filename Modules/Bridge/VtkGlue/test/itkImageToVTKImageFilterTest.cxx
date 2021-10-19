@@ -37,7 +37,7 @@ itkImageToVTKImageFilterTest(int, char *[])
   size[0] = 40;
   size[1] = 10;
   size[2] = 20;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
   source->SetSize(size);
 
   SpacingType spacing;
@@ -61,7 +61,7 @@ itkImageToVTKImageFilterTest(int, char *[])
   auto input = source->GetOutput();
   input->Print(std::cout);
 
-  ConnectorType::Pointer connector = ConnectorType::New();
+  auto connector = ConnectorType::New();
   connector->SetInput(input);
   connector->UpdateLargestPossibleRegion();
   connector->Update();

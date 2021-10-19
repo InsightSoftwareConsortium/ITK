@@ -85,7 +85,7 @@ InternalTest(int argc, char * argv[])
 
   // Read the input image
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -102,7 +102,7 @@ InternalTest(int argc, char * argv[])
   // Store the input image for convenience
   typename ImageType::Pointer image = reader->GetOutput();
 
-  typename InputMeshType::Pointer mesh = InputMeshType::New();
+  auto mesh = InputMeshType::New();
 
   // Get the input image indexes for the mesh filter
   itk::ImageRegionConstIterator<ImageType> imageIterator(image, image->GetBufferedRegion());
@@ -145,7 +145,7 @@ InternalTest(int argc, char * argv[])
 
   using ParametricFilterType = itk::ParametricSpaceToImageSpaceMeshFilter<InputMeshType, OutputMeshType>;
 
-  typename ParametricFilterType::Pointer parametricFilter = ParametricFilterType::New();
+  auto parametricFilter = ParametricFilterType::New();
 
   if (parametricFilter.IsNull())
   {

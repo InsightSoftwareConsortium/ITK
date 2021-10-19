@@ -65,10 +65,10 @@ void
 FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrecision>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typename InputImageType::Pointer localInput = InputImageType::New();
+  auto localInput = InputImageType::New();
   localInput->Graft(this->GetInput());
 
   const KernelImageType * kernelImage = this->GetKernelImage();
@@ -79,7 +79,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
 
   using MultiplyFilterType =
     MultiplyImageFilter<InternalComplexImageType, InternalComplexImageType, InternalComplexImageType>;
-  typename MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
+  auto multiplyFilter = MultiplyFilterType::New();
   multiplyFilter->SetInput1(input);
   multiplyFilter->SetInput2(kernel);
   multiplyFilter->ReleaseDataFlagOn();
@@ -133,7 +133,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   InputSizeType   inputSize = inputRegion.GetSize();
 
   using InputPadFilterType = PadImageFilter<InputImageType, InputImageType>;
-  typename InputPadFilterType::Pointer inputPadder = InputPadFilterType::New();
+  auto inputPadder = InputPadFilterType::New();
   inputPadder->SetBoundaryCondition(this->GetBoundaryCondition());
 
   InputSizeType inputLowerBound = this->GetPadLowerBound();
@@ -159,7 +159,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   // definition of the boundary condition passed into this class and
   // requires the InternalImageType to be exposed publicly.
   using InputCastFilterType = CastImageFilter<InputImageType, InternalImageType>;
-  typename InputCastFilterType::Pointer inputCaster = InputCastFilterType::New();
+  auto inputCaster = InputCastFilterType::New();
   // See if we can avoid unnecessary casting and copying of memory
   inputCaster->InPlaceOn();
   inputCaster->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -180,7 +180,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   float                             progressWeight)
 {
   // Take the Fourier transform of the padded image.
-  typename FFTFilterType::Pointer imageFFTFilter = FFTFilterType::New();
+  auto imageFFTFilter = FFTFilterType::New();
   imageFFTFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   imageFFTFilter->SetInput(paddedInput);
   imageFFTFilter->ReleaseDataFlagOn();
@@ -218,7 +218,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   if (this->GetNormalize())
   {
     using NormalizeFilterType = NormalizeToConstantImageFilter<KernelImageType, InternalImageType>;
-    typename NormalizeFilterType::Pointer normalizeFilter = NormalizeFilterType::New();
+    auto normalizeFilter = NormalizeFilterType::New();
     normalizeFilter->SetConstant(NumericTraits<TInternalPrecision>::OneValue());
     normalizeFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
     normalizeFilter->SetInput(kernel);
@@ -254,7 +254,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
 
   // Shift the padded kernel image.
   using KernelShiftFilterType = CyclicShiftImageFilter<InternalImageType, InternalImageType>;
-  typename KernelShiftFilterType::Pointer    kernelShifter = KernelShiftFilterType::New();
+  auto                                       kernelShifter = KernelShiftFilterType::New();
   typename KernelShiftFilterType::OffsetType kernelShift;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -266,14 +266,14 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   kernelShifter->ReleaseDataFlagOn();
   progress->RegisterInternalFilter(kernelShifter, 0.1f * progressWeight);
 
-  typename FFTFilterType::Pointer kernelFFTFilter = FFTFilterType::New();
+  auto kernelFFTFilter = FFTFilterType::New();
   kernelFFTFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   kernelFFTFilter->SetInput(kernelShifter->GetOutput());
   progress->RegisterInternalFilter(kernelFFTFilter, 0.699f * progressWeight);
   kernelFFTFilter->Update();
 
   using InfoFilterType = ChangeInformationImageFilter<InternalComplexImageType>;
-  typename InfoFilterType::Pointer kernelInfoFilter = InfoFilterType::New();
+  auto kernelInfoFilter = InfoFilterType::New();
   kernelInfoFilter->ChangeRegionOn();
 
   using InfoOffsetValueType = typename InfoFilterType::OutputImageOffsetValueType;
@@ -301,7 +301,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   ProgressAccumulator *      progress,
   float                      progressWeight)
 {
-  typename IFFTFilterType::Pointer ifftFilter = IFFTFilterType::New();
+  auto ifftFilter = IFFTFilterType::New();
   ifftFilter->SetActualXDimensionIsOdd(this->GetXDimensionIsOdd());
   ifftFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   ifftFilter->SetInput(paddedOutput);
@@ -324,7 +324,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
   // Now crop the output to the desired size.
   using ExtractFilterType = ExtractImageFilter<InternalImageType, OutputImageType>;
 
-  typename ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
+  auto extractFilter = ExtractFilterType::New();
   extractFilter->InPlaceOn();
   extractFilter->GraftOutput(this->GetOutput());
 

@@ -386,19 +386,19 @@ itkQuadEdgeMeshCellInterfaceTest(int, char *[])
   // test the visitor API
   using QELineVisitorInterfaceType =
     itk::CellInterfaceVisitorImplementation<PixelType, MeshType::CellTraits, QELineCellType, CustomQELineVisitor>;
-  QELineVisitorInterfaceType::Pointer QELineVisitor = QELineVisitorInterfaceType::New();
+  auto QELineVisitor = QELineVisitorInterfaceType::New();
 
   using QEPolyVisitorInterfaceType =
     itk::CellInterfaceVisitorImplementation<PixelType, MeshType::CellTraits, QEPolygonCellType, CustomQEPolyVisitor>;
-  QEPolyVisitorInterfaceType::Pointer QEPolyVisitor = QEPolyVisitorInterfaceType::New();
+  auto QEPolyVisitor = QEPolyVisitorInterfaceType::New();
 
 
   using CellMultiVisitorType = CellType::MultiVisitor;
-  CellMultiVisitorType::Pointer multiVisitor = CellMultiVisitorType::New();
+  auto multiVisitor = CellMultiVisitorType::New();
   multiVisitor->AddVisitor(QELineVisitor);
   multiVisitor->AddVisitor(QEPolyVisitor);
 
-  MeshType::Pointer   mesh = MeshType::New();
+  auto                mesh = MeshType::New();
   MeshType::PointType pts[3];
   pts[0][0] = 0;
   pts[0][1] = 0;

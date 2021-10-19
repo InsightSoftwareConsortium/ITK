@@ -82,7 +82,7 @@ public:
       if (m_Factory == nullptr)
       {
         // Make and register the factory
-        FEMFactoryBase::Pointer p = FEMFactoryBase::New();
+        auto p = FEMFactoryBase::New();
         if (p.IsNull())
         {
           std::ostringstream message;

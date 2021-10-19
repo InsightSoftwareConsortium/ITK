@@ -43,17 +43,17 @@ itkImageToVectorImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  FilterType::Pointer filter = FilterType::New();
-  int                 f = 0;
+  auto filter = FilterType::New();
+  int  f = 0;
   for (int i = 1; i < argc - 1; ++i)
   {
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(argv[i]);
     reader->Update();
     filter->SetInput(f++, reader->GetOutput());
   }
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[argc - 1]);
 
   try

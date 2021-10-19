@@ -68,7 +68,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
 
   image->SetLargestPossibleRegion(region);
@@ -104,7 +104,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
     ++it1;
   }
 
-  ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
+  auto adaptor = ImageAdaptorType::New();
   adaptor->SetImage(image);
 
 

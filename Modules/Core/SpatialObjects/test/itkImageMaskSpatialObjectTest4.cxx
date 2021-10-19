@@ -46,7 +46,7 @@ Test3dImageMask()
   // then translate it by 7 in all directions
   // bounding box should by [7,8] x [7,8] x [7,8]
 
-  BoxType::Pointer  box1 = BoxType::New();
+  auto              box1 = BoxType::New();
   BoxType::SizeType sizeArray;
   sizeArray[0] = 1;
   sizeArray[1] = 1;
@@ -55,7 +55,7 @@ Test3dImageMask()
   box1->SetDefaultInsideValue(1);
   box1->SetDefaultOutsideValue(0);
 
-  TransformType::Pointer          transform = TransformType::New();
+  auto                            transform = TransformType::New();
   TransformType::OutputVectorType translation;
 
   transform->SetIdentity();
@@ -84,7 +84,7 @@ Test3dImageMask()
 
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<BoxType, ImageType>;
 
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
 
   // note visual studio 2015 u1  (release mode) fails to exectute .Fill
   // properly here by not initializing the last member. With initializer it
@@ -114,7 +114,7 @@ Test3dImageMask()
   imageFilter->SetInput(box1);
   imageFilter->Update();
 
-  ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
+  auto maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage(imageFilter->GetOutput());
   maskSpatialObject->Update();
 
@@ -177,7 +177,7 @@ Test2dImageMask()
   // then translate it by 7 in all directions
   // bounding box should by [7,8] x [7,8]
 
-  BoxType::Pointer  box1 = BoxType::New();
+  auto              box1 = BoxType::New();
   BoxType::SizeType sizeArray;
   sizeArray[0] = 1;
   sizeArray[1] = 1;
@@ -185,7 +185,7 @@ Test2dImageMask()
   box1->SetDefaultInsideValue(1);
   box1->SetDefaultOutsideValue(0);
 
-  TransformType::Pointer          transform = TransformType::New();
+  auto                            transform = TransformType::New();
   TransformType::OutputVectorType translation;
 
   transform->SetIdentity();
@@ -213,7 +213,7 @@ Test2dImageMask()
 
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<BoxType, ImageType>;
 
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
 
   itk::Size<2> size;
   size.Fill(10);
@@ -237,7 +237,7 @@ Test2dImageMask()
   imageFilter->SetInput(box1);
   imageFilter->Update();
 
-  ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
+  auto maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage(imageFilter->GetOutput());
 
   maskSpatialObject->Update();

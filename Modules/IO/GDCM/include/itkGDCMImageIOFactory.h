@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GDCMImageIOFactory::Pointer gdcmFactory = GDCMImageIOFactory::New();
+    auto gdcmFactory = GDCMImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(gdcmFactory);
   }

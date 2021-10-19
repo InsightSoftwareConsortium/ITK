@@ -58,7 +58,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
 
 
   // ** READ THE FILE IN **
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -75,7 +75,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   typename MeshType::Pointer mesh = reader->GetOutput();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-  typename BorderTransformType::Pointer border_transform = BorderTransformType::New();
+  auto border_transform = BorderTransformType::New();
   border_transform->SetInput(mesh);
   // two following line for coverage
   border_transform->SetRadius(border_transform->GetRadius());
@@ -109,7 +109,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   itk::HarmonicMatrixCoefficients<MeshType>                 coeff4;
 
   using ParametrizationType = itk::ParameterizationQuadEdgeMeshFilter<MeshType, MeshType, TSolver>;
-  typename ParametrizationType::Pointer param = ParametrizationType::New();
+  auto param = ParametrizationType::New();
   param->SetInput(mesh);
   param->SetBorderTransform(border_transform);
 
@@ -146,7 +146,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   typename MeshType::Pointer output = param->GetOutput();
 
   // ** WRITE OUTPUT **
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(param->GetOutput());
   writer->SetFileName(argv[5]);
   writer->Update();

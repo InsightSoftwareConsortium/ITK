@@ -34,7 +34,7 @@ itkAnchorOpenCloseImageFilterTest(int, char ** const)
   using CompateType2 = std::greater<typename ImageType::PixelType>;
 
   using FilterType = itk::AnchorOpenCloseImageFilter<ImageType, KernelType, CompateType1, CompateType2>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AnchorOpenCloseImageFilter, KernelImageFilter);
 

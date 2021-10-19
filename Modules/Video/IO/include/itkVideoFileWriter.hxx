@@ -158,7 +158,7 @@ VideoFileWriter<TInputVideoStream>::Write()
   // temporal streaming in TemporalProcessObject's GenerateData. We set the
   // buffered region to an empty region so that the entire requested region is
   // unbuffered and gets written.
-  TemporalDataObject::Pointer output = TemporalDataObject::New();
+  auto output = TemporalDataObject::New();
   output->SetLargestPossibleTemporalRegion(m_OutputTemporalRegion);
   output->SetRequestedTemporalRegion(m_OutputTemporalRegion);
   output->SetBufferedTemporalRegion(TemporalRegion());

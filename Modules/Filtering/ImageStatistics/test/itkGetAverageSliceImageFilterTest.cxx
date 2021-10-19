@@ -46,14 +46,14 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   }
 
   // Get the input filenames
-  SeriesFileNames::Pointer names = SeriesFileNames::New();
+  auto names = SeriesFileNames::New();
 
   // Get the DICOM filenames from the directory
   names->SetInputDirectory(argv[1]);
 
   // Create the reader
-  ImageIOType::Pointer gdcmIO = ImageIOType::New();
-  ReaderType::Pointer  reader = ReaderType::New();
+  auto gdcmIO = ImageIOType::New();
+  auto reader = ReaderType::New();
   reader->SetImageIO(gdcmIO);
   try
   {
@@ -68,7 +68,7 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   }
 
   // GetAverage the input images
-  GetAveragerType::Pointer average = GetAveragerType::New();
+  auto average = GetAveragerType::New();
   average->SetInput(reader->GetOutput());
   average->SetAveragedOutDimension(2);
 
@@ -88,7 +88,7 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
 
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[2]);
 
     writer->SetInput(average->GetOutput());

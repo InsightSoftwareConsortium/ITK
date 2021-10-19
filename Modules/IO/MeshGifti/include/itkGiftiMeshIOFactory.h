@@ -56,7 +56,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GiftiMeshIOFactory::Pointer giftiFactory = GiftiMeshIOFactory::New();
+    auto giftiFactory = GiftiMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(giftiFactory);
   }

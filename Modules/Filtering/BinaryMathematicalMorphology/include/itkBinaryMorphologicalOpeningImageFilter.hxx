@@ -64,7 +64,7 @@ BinaryMorphologicalOpeningImageFilter<TInputImage, TOutputImage, TKernel>::Gener
   erode->SetBackgroundValue(m_BackgroundValue);  // Replacement value for eroded voxels
 
   /** set up the minipipeline */
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(erode, .5f);
   progress->RegisterInternalFilter(dilate, .5f);

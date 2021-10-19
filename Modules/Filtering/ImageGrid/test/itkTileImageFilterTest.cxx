@@ -56,12 +56,12 @@ itkTileImageFilterTest(int argc, char * argv[])
   layout[2] = std::stoi(argv[3]);
 
   // Tile the input images
-  TilerType::Pointer       tiler = TilerType::New();
+  auto                     tiler = TilerType::New();
   itk::SimpleFilterWatcher tileWatcher(tiler, "Tiler");
   int                      f = 0;
   for (int i = 4; i < argc - 1; ++i)
   {
-    ImageReaderType::Pointer reader = ImageReaderType::New();
+    auto reader = ImageReaderType::New();
     reader->SetFileName(argv[i]);
     reader->Update();
     tiler->SetInput(f++, reader->GetOutput());
@@ -75,7 +75,7 @@ itkTileImageFilterTest(int argc, char * argv[])
 
   tiler->Print(std::cout);
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetSeriesFormat(argv[argc - 1]);
 

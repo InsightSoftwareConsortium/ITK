@@ -42,7 +42,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(input);
   try
   {
@@ -113,7 +113,7 @@ itkGDCMImageIOTest2(int argc, char * argv[])
   std::string output_raw = output;
   output_raw += "-raw.dcm";
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetImageIO(dicomIO);
   writer->SetInput(reader->GetOutput());
   writer->UseInputMetaDataDictionaryOff();

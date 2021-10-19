@@ -66,7 +66,7 @@ MeanSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(
   (void)mean; // for complainty pants : valgrind
   NumericTraits<MeasurementVectorRealType>::SetLength(mean, this->GetMeasurementVectorSize());
   // NumericTraits::SetLength also initializes array to zero
-  typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
+  auto decoratedMean = MeasurementVectorDecoratedType::New();
   decoratedMean->Set(mean);
   return decoratedMean.GetPointer();
 }

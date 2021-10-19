@@ -62,7 +62,7 @@ void
 OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
@@ -90,7 +90,7 @@ OpeningByReconstructionImageFilter<TInputImage, TOutputImage, TKernel>::Generate
   if (m_PreserveIntensities)
   {
     dilate->Update();
-    typename TInputImage::Pointer tempImage = TInputImage::New();
+    auto tempImage = TInputImage::New();
     tempImage->SetRegions(erode->GetOutput()->GetBufferedRegion());
     tempImage->CopyInformation(this->GetInput());
 

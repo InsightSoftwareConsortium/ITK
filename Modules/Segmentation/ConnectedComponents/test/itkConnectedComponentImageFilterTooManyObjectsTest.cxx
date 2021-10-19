@@ -29,7 +29,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
 
   // create a test input image with more objects in it than what the output type
   // can handle - 255
-  ImageType::Pointer  img = ImageType::New();
+  auto                img = ImageType::New();
   ImageType::SizeType size;
   size.Fill(512);
   img->SetRegions(size);
@@ -47,7 +47,7 @@ itkConnectedComponentImageFilterTooManyObjectsTest(int itkNotUsed(argc), char *[
   }
 
   using FilterType = itk::ConnectedComponentImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(img);
   itk::SimpleFilterWatcher watcher(filter);
 

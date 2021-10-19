@@ -41,21 +41,21 @@ itkLabelMapToRGBImageFilterTest2(int argc, char * argv[])
   using OType = itk::VectorImage<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using ConverterType = itk::LabelImageToLabelMapFilter<IType>;
-  ConverterType::Pointer converter = ConverterType::New();
+  auto converter = ConverterType::New();
   converter->SetInput(reader->GetOutput());
 
   using ColorizerType = itk::LabelMapToRGBImageFilter<ConverterType::OutputImageType, OType>;
-  ColorizerType::Pointer colorizer = ColorizerType::New();
+  auto colorizer = ColorizerType::New();
   colorizer->SetInput(converter->GetOutput());
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
   using WriterType = itk::ImageFileWriter<OType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(colorizer->GetOutput());
   writer->SetFileName(argv[2]);
 

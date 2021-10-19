@@ -42,19 +42,19 @@ itkMaximumProjectionImageFilterTest3(int argc, char * argv[])
   using Image2DType = itk::Image<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[2]);
 
   using FilterType = itk::MaximumProjectionImageFilter<ImageType, Image2DType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetProjectionDimension(dim);
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<Image2DType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
 

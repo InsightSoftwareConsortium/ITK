@@ -91,7 +91,7 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeightingFun
   const WeightingFunctionType * const weightingFunction = this->GetWeightingFunction();
 
   using WeightedMeanFilterType = WeightedMeanSampleFilter<SampleType>;
-  typename WeightedMeanFilterType::Pointer meanFilter = WeightedMeanFilterType::New();
+  auto meanFilter = WeightedMeanFilterType::New();
 
   meanFilter->SetInput(input);
   meanFilter->SetWeightingFunction(weightingFunction);
@@ -188,7 +188,7 @@ WeightedCovarianceSampleFilter<TSample>::ComputeCovarianceMatrixWithWeights()
   const WeightArrayType & weightsArray = this->GetWeights();
 
   using WeightedMeanFilterType = WeightedMeanSampleFilter<SampleType>;
-  typename WeightedMeanFilterType::Pointer meanFilter = WeightedMeanFilterType::New();
+  auto meanFilter = WeightedMeanFilterType::New();
 
   meanFilter->SetInput(input);
   meanFilter->SetWeights(weightsArray);

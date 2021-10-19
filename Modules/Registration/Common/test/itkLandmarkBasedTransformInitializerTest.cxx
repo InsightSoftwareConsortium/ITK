@@ -28,7 +28,7 @@ typename itk::Image<unsigned char, Dimension>::Pointer
 CreateTestImage()
 {
   using FixedImageType = itk::Image<unsigned char, Dimension>;
-  typename FixedImageType::Pointer image = FixedImageType::New();
+  auto image = FixedImageType::New();
 
   typename FixedImageType::RegionType fRegion;
   typename FixedImageType::SizeType   fSize;
@@ -182,7 +182,7 @@ template <typename TransformType>
 bool
 test1()
 {
-  typename TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   std::cout << "Testing Landmark alignment with " << transform->GetNameOfClass() << std::endl;
 
   using PixelType = unsigned char;
@@ -192,7 +192,7 @@ test1()
 
   using TransformInitializerType =
     itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  typename TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+  auto initializer = TransformInitializerType::New();
 
   typename TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   typename TransformInitializerType::LandmarkPointContainer movingLandmarks;
@@ -234,7 +234,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     using TransformType = itk::Rigid2DTransform<double>;
     using TransformInitializerType =
       itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-    TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    auto initializer = TransformInitializerType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(initializer, LandmarkBasedTransformInitializer, Object);
 
@@ -315,9 +315,9 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     ImageType::Pointer movingImage = CreateTestImage<Dimension>();
 
     using TransformType = itk::AffineTransform<double, Dimension>;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
     using TransformInitializerType = itk::LandmarkBasedTransformInitializer<TransformType, ImageType, ImageType>;
-    TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    auto initializer = TransformInitializerType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(initializer, LandmarkBasedTransformInitializer, Object);
 
@@ -427,11 +427,11 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
     // Set the transform type
     constexpr unsigned int SplineOrder = 3;
     using TransformType = itk::BSplineTransform<double, FixedImageType::ImageDimension, SplineOrder>;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     using TransformInitializerType =
       itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-    TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    auto initializer = TransformInitializerType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(initializer, LandmarkBasedTransformInitializer, Object);
 
@@ -468,7 +468,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
     using TransformInitializerType = itk::LandmarkBasedTransformInitializer<TransformType>;
 
-    TransformInitializerType::Pointer initializer = TransformInitializerType::New();
+    auto initializer = TransformInitializerType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(initializer, LandmarkBasedTransformInitializer, Object);
   }

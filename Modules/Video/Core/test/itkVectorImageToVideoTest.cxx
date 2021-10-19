@@ -51,7 +51,7 @@ itkVectorImageToVideoTest(int argc, char * argv[])
   const auto inputImage = itk::ReadImage<ImageType>(argv[1]);
 
   using VideoFilterType = itk::ImageToVideoFilter<ImageType, FilterOutputType>;
-  VideoFilterType::Pointer videoFilter = VideoFilterType::New();
+  auto videoFilter = VideoFilterType::New();
   videoFilter->SetInput(inputImage);
   // Arbitrarily set last axis as temporal dimension to split frames
   itk::IndexValueType frameAxis = Dimension - 1;

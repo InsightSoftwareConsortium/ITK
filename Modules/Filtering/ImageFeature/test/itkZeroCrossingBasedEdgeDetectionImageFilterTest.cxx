@@ -37,7 +37,7 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   // Set up filter
   using FilterType = itk::ZeroCrossingBasedEdgeDetectionImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ZeroCrossingBasedEdgeDetectionImageFilter, ImageToImageFilter);
 

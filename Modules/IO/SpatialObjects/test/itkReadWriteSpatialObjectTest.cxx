@@ -200,14 +200,14 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   tube1->SetPoints(list);
   tube1->Update();
 
-  VesselTubeType::Pointer tube2 = VesselTubeType::New();
+  auto tube2 = VesselTubeType::New();
   tube2->SetTypeName("VesselTubeSpatialObject");
   tube2->GetProperty().SetName("Tube 2");
   tube2->SetId(2);
   tube2->SetPoints(list2);
   tube2->Update();
 
-  DTITubeType::Pointer tube3 = DTITubeType::New();
+  auto tube3 = DTITubeType::New();
   tube3->GetProperty().SetName("Tube 3");
   tube3->SetId(3);
   tube3->SetPoints(list3);
@@ -288,7 +288,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     sit.Set(i);
   }
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->GetProperty().SetName("Image 1");
   image->SetImage(itkImage);
   image->Update();
@@ -314,7 +314,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
     itM.Set(i);
   }
 
-  ImageMaskType::Pointer maskImage = ImageMaskType::New();
+  auto maskImage = ImageMaskType::New();
   maskImage->GetProperty().SetName("Mask Image 1");
   maskImage->SetImage(itkImageMask);
   maskImage->Update();
@@ -323,7 +323,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   tubeN2->Update();
 
   // Define a contour
-  ContourType::Pointer contour = ContourType::New();
+  auto contour = ContourType::New();
   contour->GetProperty().SetName("My First Contour");
   contour->SetInterpolationMethod(ContourType::InterpolationMethodEnum::EXPLICIT_INTERPOLATION);
   contour->SetIsClosed(true);
@@ -385,7 +385,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Writing SceneSpatialObject: " << std::endl;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   try
   {
     writer->SetInput(tubeN1);
@@ -416,7 +416,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   std::cout << "Testing Reading SceneSpatialObject: ";
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   if ((argc > 2) && (strcmp(argv[2], "binary")))
   {
     reader->SetFileName(argv[2]);

@@ -25,7 +25,7 @@ itkArrowSpatialObjectTest(int, char *[])
 {
   using ArrowType = itk::ArrowSpatialObject<3>;
 
-  ArrowType::Pointer myArrow = ArrowType::New();
+  auto myArrow = ArrowType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myArrow, ArrowSpatialObject, SpatialObject);
 
@@ -100,7 +100,7 @@ itkArrowSpatialObjectTest(int, char *[])
 
   std::cout << "Testing 2D Arrow:";
   using Arrow2DType = itk::ArrowSpatialObject<2>;
-  Arrow2DType::Pointer myArrow2D = Arrow2DType::New();
+  auto myArrow2D = Arrow2DType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myArrow2D, ArrowSpatialObject, SpatialObject);
 

@@ -41,7 +41,7 @@ itkImageDuplicatorTest(int, char *[])
   {
     /** Create an image image */
     std::cout << "Creating simulated image: ";
-    ImageType::Pointer m_Image = ImageType::New();
+    auto m_Image = ImageType::New();
     m_Image->SetRegions(region);
     m_Image->Allocate(true); // initialize buffer to zero
 
@@ -57,7 +57,7 @@ itkImageDuplicatorTest(int, char *[])
     }
 
     using ShiftType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
-    ShiftType::Pointer shift = ShiftType::New();
+    auto shift = ShiftType::New();
     shift->SetInput(m_Image);
     shift->SetShift(0.0);
     shift->SetScale(1.0);
@@ -68,7 +68,7 @@ itkImageDuplicatorTest(int, char *[])
     // Test the duplicator
     std::cout << "Testing duplicator with float images: ";
     using DuplicatorType = itk::ImageDuplicator<ImageType>;
-    DuplicatorType::Pointer duplicator = DuplicatorType::New();
+    auto duplicator = DuplicatorType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(duplicator, ImageDuplicator, Object);
 
@@ -145,7 +145,7 @@ itkImageDuplicatorTest(int, char *[])
     /** Create an RGB image image */
     using RGBImageType = itk::Image<itk::RGBPixel<unsigned char>, 3>;
     std::cout << "Creating simulated image: ";
-    RGBImageType::Pointer m_RGBImage = RGBImageType::New();
+    auto m_RGBImage = RGBImageType::New();
     m_RGBImage->SetRegions(region);
     m_RGBImage->Allocate();
 
@@ -188,7 +188,7 @@ itkImageDuplicatorTest(int, char *[])
 
     std::cout << "Testing duplicator with RGB images: ";
     using RGBDuplicatorType = itk::ImageDuplicator<RGBImageType>;
-    RGBDuplicatorType::Pointer RGBduplicator = RGBDuplicatorType::New();
+    auto RGBduplicator = RGBDuplicatorType::New();
 
     RGBduplicator->SetInputImage(m_RGBImage);
     RGBduplicator->Update();
@@ -249,7 +249,7 @@ itkImageDuplicatorTest(int, char *[])
     using PixelType = float;
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
 
-    VectorImageType::Pointer             vectorImage = VectorImageType::New();
+    auto                                 vectorImage = VectorImageType::New();
     itk::VariableLengthVector<PixelType> f(VectorLength);
     for (unsigned int i = 0; i < VectorLength; ++i)
     {
@@ -263,7 +263,7 @@ itkImageDuplicatorTest(int, char *[])
     // Test the duplicator
     std::cout << "Testing duplicator with Vector images: ";
     using VectorDuplicatorType = itk::ImageDuplicator<VectorImageType>;
-    VectorDuplicatorType::Pointer Vectorduplicator = VectorDuplicatorType::New();
+    auto Vectorduplicator = VectorDuplicatorType::New();
 
     Vectorduplicator->SetInputImage(vectorImage);
     Vectorduplicator->Update();

@@ -33,9 +33,9 @@ itkModifiedTimeTest(int, char *[])
   q.Fill(0);
   r.Fill(0);
 
-  BoundingBox::Pointer bb = BoundingBox::New();
+  auto bb = BoundingBox::New();
 
-  PointsContainer::Pointer pc = PointsContainer::New();
+  auto pc = PointsContainer::New();
 
   pc->InsertElement(0, p);
   pc->InsertElement(1, q);

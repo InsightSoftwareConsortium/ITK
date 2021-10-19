@@ -46,8 +46,8 @@ itkMinimumImageFilterTest(int, char *[])
   using MinimumFilterType = itk::MinimumImageFilter<ImageType, ImageType, ImageType>;
 
   // Create two images
-  ImageType::Pointer inputImageA = ImageType::New();
-  ImageType::Pointer inputImageB = ImageType::New();
+  auto inputImageA = ImageType::New();
+  auto inputImageB = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -104,7 +104,7 @@ itkMinimumImageFilterTest(int, char *[])
   }
 
   // Create the filter
-  MinimumFilterType::Pointer minimumImageFilter = MinimumFilterType::New();
+  auto minimumImageFilter = MinimumFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(minimumImageFilter, MinimumImageFilter, BinaryGeneratorImageFilter);
 

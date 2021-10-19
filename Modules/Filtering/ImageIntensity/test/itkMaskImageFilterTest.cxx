@@ -43,8 +43,8 @@ itkMaskImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
-  myImageType1::Pointer inputImageA = myImageType1::New();
-  myImageType2::Pointer inputImageB = myImageType2::New();
+  auto inputImageA = myImageType1::New();
+  auto inputImageB = myImageType2::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -121,7 +121,7 @@ itkMaskImageFilterTest(int, char *[])
 
 
   // Create a mask  Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
 
   // Connect the input images
@@ -153,7 +153,7 @@ itkMaskImageFilterTest(int, char *[])
   // Vector image tests
   using myVectorImageType = itk::VectorImage<float, myDimension>;
 
-  myVectorImageType::Pointer inputVectorImage = myVectorImageType::New();
+  auto inputVectorImage = myVectorImageType::New();
   inputVectorImage->SetLargestPossibleRegion(region);
   inputVectorImage->SetBufferedRegion(region);
   inputVectorImage->SetRequestedRegion(region);
@@ -162,7 +162,7 @@ itkMaskImageFilterTest(int, char *[])
 
   using myVectorFilterType = itk::MaskImageFilter<myVectorImageType, myImageType2, myVectorImageType>;
 
-  myVectorFilterType::Pointer vectorFilter = myVectorFilterType::New();
+  auto vectorFilter = myVectorFilterType::New();
   vectorFilter->SetInput1(inputVectorImage);
   vectorFilter->SetMaskImage(inputImageB);
 

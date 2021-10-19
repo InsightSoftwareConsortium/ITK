@@ -91,14 +91,14 @@ doDenoising(const std::string & inputFileName,
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // Read the noisy image to be denoised
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   // Create filter and initialize
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   typename FilterType::InputImageType::Pointer inputImage = reader->GetOutput();
   filter->SetInput(inputImage);
@@ -155,7 +155,7 @@ doDenoising(const std::string & inputFileName,
   filter->SetNumberOfWorkUnits(numThreads);
 
   // Sampling the image to find similar patches
-  typename SamplerType::Pointer sampler = SamplerType::New();
+  auto sampler = SamplerType::New();
 
   // Variance (in physical units) for semi-local Gaussian sampling
   sampler->SetVariance(400);
@@ -273,7 +273,7 @@ doDenoising(const std::string & inputFileName,
   }
 
   // Write the denoised image to file
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFileName);
   writer->SetInput(filter->GetOutput());
 
@@ -308,7 +308,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, 3>;
   using FilterType = itk::PatchBasedDenoisingImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PatchBasedDenoisingImageFilter, PatchBasedDenoisingBaseImageFilter);
 

@@ -114,7 +114,7 @@ itkCompositeTransformTest(int, char *[])
   using CompositeType = itk::CompositeTransform<double, NDimensions>;
   using ScalarType = CompositeType::ScalarType;
 
-  CompositeType::Pointer compositeTransform = CompositeType::New();
+  auto compositeTransform = CompositeType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(compositeTransform, CompositeTransform, MultiTransform);
 
@@ -160,9 +160,9 @@ itkCompositeTransformTest(int, char *[])
 
   /* Add an affine transform */
   using AffineType = itk::AffineTransform<ScalarType, NDimensions>;
-  AffineType::Pointer affine = AffineType::New();
-  Matrix2Type         matrix2;
-  Vector2Type         vector2;
+  auto        affine = AffineType::New();
+  Matrix2Type matrix2;
+  Vector2Type vector2;
   matrix2[0][0] = 1;
   matrix2[0][1] = 2;
   matrix2[1][0] = 3;
@@ -309,7 +309,7 @@ itkCompositeTransformTest(int, char *[])
   }
 
   /* Test inverse */
-  CompositeType::Pointer         inverseTransform = CompositeType::New();
+  auto                           inverseTransform = CompositeType::New();
   CompositeType::OutputPointType inverseTruth, inverseOutput;
   if (!compositeTransform->GetInverse(inverseTransform))
   {
@@ -347,7 +347,7 @@ itkCompositeTransformTest(int, char *[])
   /*
    * Create and add 2nd transform
    */
-  AffineType::Pointer affine2 = AffineType::New();
+  auto affine2 = AffineType::New();
   matrix2[0][0] = 11;
   matrix2[0][1] = 22;
   matrix2[1][0] = 33;
@@ -611,7 +611,7 @@ itkCompositeTransformTest(int, char *[])
    */
 
   /* Add yet another affine transform */
-  AffineType::Pointer affine3 = AffineType::New();
+  auto affine3 = AffineType::New();
   matrix2[0][0] = 1.1;
   matrix2[0][1] = 2.2;
   matrix2[1][0] = 3.3;
@@ -834,11 +834,11 @@ itkCompositeTransformTest(int, char *[])
    * transforms
    */
 
-  CompositeType::Pointer nestedCompositeTransform = CompositeType::New();
-  CompositeType::Pointer compositeTransform1 = CompositeType::New();
-  CompositeType::Pointer compositeTransform2 = CompositeType::New();
-  CompositeType::Pointer compositeTransform3 = CompositeType::New();
-  CompositeType::Pointer compositeTransform4 = CompositeType::New();
+  auto nestedCompositeTransform = CompositeType::New();
+  auto compositeTransform1 = CompositeType::New();
+  auto compositeTransform2 = CompositeType::New();
+  auto compositeTransform3 = CompositeType::New();
+  auto compositeTransform4 = CompositeType::New();
 
   using TranslationTransformType = itk::TranslationTransform<double, NDimensions>;
   using TranslationTransformPointer = TranslationTransformType::Pointer;

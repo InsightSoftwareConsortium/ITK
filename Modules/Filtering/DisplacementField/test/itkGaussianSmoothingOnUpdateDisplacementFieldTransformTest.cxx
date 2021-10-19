@@ -37,9 +37,9 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, dimensions>;
 
   /* Create a displacement field transform */
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
   using FieldType = DisplacementTransformType::DisplacementFieldType;
-  FieldType::Pointer field = FieldType::New(); // This is based on itk::Image
+  auto field = FieldType::New(); // This is based on itk::Image
 
   FieldType::SizeType   size;
   FieldType::IndexType  start;

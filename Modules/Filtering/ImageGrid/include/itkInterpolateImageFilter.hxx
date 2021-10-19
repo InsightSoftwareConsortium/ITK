@@ -33,7 +33,7 @@ InterpolateImageFilter<TInputImage, TOutputImage>::InterpolateImageFilter()
 
   // Set default interpolator to linear
   using LinearInterpolatorType = LinearInterpolateImageFunction<IntermediateImageType>;
-  typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+  auto interpolator = LinearInterpolatorType::New();
 
   m_Interpolator = static_cast<InterpolatorType *>(interpolator.GetPointer());
 

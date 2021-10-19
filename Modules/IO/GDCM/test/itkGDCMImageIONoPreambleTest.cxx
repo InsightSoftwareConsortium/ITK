@@ -41,15 +41,15 @@ itkGDCMImageIONoPreambleTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using ImageIOType = itk::GDCMImageIO;
 
-  ImageIOType::Pointer dcmImageIO = ImageIOType::New();
-  bool                 canRead = dcmImageIO->CanReadFile(argv[1]);
+  auto dcmImageIO = ImageIOType::New();
+  bool canRead = dcmImageIO->CanReadFile(argv[1]);
   if (!canRead)
   {
     std::cerr << "Cannot read file " << std::endl;
     return EXIT_FAILURE;
   }
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(dcmImageIO);
 

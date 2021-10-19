@@ -88,14 +88,14 @@ ImageRegistration(int itkNotUsed(argc), char * argv[])
 
   using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
-  typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[2]);
   fixedImageReader->Update();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
-  typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[3]);
   movingImageReader->Update();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
@@ -104,14 +104,14 @@ ImageRegistration(int itkNotUsed(argc), char * argv[])
 
   // Set up the centered transform initializer
   using TransformType = itk::Euler2DTransform<double>;
-  typename TransformType::Pointer initialTransform = TransformType::New();
+  auto initialTransform = TransformType::New();
 
 
   using MetricType = itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
-  typename RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetFixedImage(fixedImage);
   registration->SetMovingImage(movingImage);
@@ -120,7 +120,7 @@ ImageRegistration(int itkNotUsed(argc), char * argv[])
   registration->SetNumberOfLevels(1);
 
   using Optimizerv4Type = itk::ConjugateGradientLineSearchOptimizerv4;
-  typename Optimizerv4Type::Pointer optimizer = Optimizerv4Type::New();
+  auto optimizer = Optimizerv4Type::New();
 
   optimizer->SetLearningRate(1.0);
   optimizer->SetNumberOfIterations(100);
@@ -134,7 +134,7 @@ ImageRegistration(int itkNotUsed(argc), char * argv[])
   registration->SetOptimizer(optimizer);
 
   using CommandType = CommandIterationUpdate<Optimizerv4Type>;
-  typename CommandType::Pointer observer = CommandType::New();
+  auto observer = CommandType::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   try

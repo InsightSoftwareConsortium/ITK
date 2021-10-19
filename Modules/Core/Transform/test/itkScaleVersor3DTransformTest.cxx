@@ -57,7 +57,7 @@ itkScaleVersor3DTransformTest(int, char *[])
   {
     std::cout << "Test default constructor... ";
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     std::cout << transform->GetNameOfClass() << std::endl;
 
@@ -97,8 +97,8 @@ itkScaleVersor3DTransformTest(int, char *[])
 
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
-    MatrixType             matrix = transform->GetMatrix();
+    auto       transform = TransformType::New();
+    MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
 
@@ -124,7 +124,7 @@ itkScaleVersor3DTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer rotation = TransformType::New();
+    auto rotation = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -282,7 +282,7 @@ itkScaleVersor3DTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -419,7 +419,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
   {
     std::cout << " Exercise the SetIdentity() method " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -468,7 +468,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
   {
     std::cout << " Exercise the Scaling methods " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -542,7 +542,7 @@ itkScaleVersor3DTransformTest(int, char *[])
   { // Exercise exceptions
     std::cout << " Exercise Exceptions " << std::endl;
 
-    TransformHelperType::Pointer transform = TransformHelperType::New();
+    auto transform = TransformHelperType::New();
 
     // At this point the method ComputeMatrixParameters() is expected to throw
     // an exception.
@@ -561,7 +561,7 @@ itkScaleVersor3DTransformTest(int, char *[])
   {
     std::cout << "Exercise SetParameters with Versor norm > 1.0 - epsilon" << std::endl;
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     const unsigned int np = transform->GetNumberOfParameters();
 
@@ -575,7 +575,7 @@ itkScaleVersor3DTransformTest(int, char *[])
     transform->SetParameters(parameters);
 #if 0 // TODO: Need to instrument inverse of ScaleVersor3DTransform
       {
-      TransformType::Pointer tInverse = TransformType::New();
+      auto tInverse = TransformType::New();
       if(!transform->GetInverse(tInverse))
         {
         std::cout << "Cannot create inverse transform" << std::endl;

@@ -89,7 +89,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
     VectorContainer<unsigned short, typename GaussianMembershipFunctionType::CovarianceMatrixType *>;
 
   // Run k means to get the means from the input image
-  typename KMeansFilterType::Pointer kmeansFilter = KMeansFilterType::New();
+  auto kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput(this->GetInput());
   kmeansFilter->SetUseNonContiguousLabels(false);
 
@@ -175,7 +175,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   }
 
   // Create gaussian membership functions.
-  typename MeanEstimatorsContainerType::Pointer       meanEstimatorsContainer = MeanEstimatorsContainerType::New();
+  auto                                                meanEstimatorsContainer = MeanEstimatorsContainerType::New();
   typename CovarianceEstimatorsContainerType::Pointer covarianceEstimatorsContainer =
     CovarianceEstimatorsContainerType::New();
   meanEstimatorsContainer->Reserve(m_NumberOfClasses);
@@ -196,7 +196,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
 
     meanEstimators->Fill(estimatedMeans[i]);
     covarianceEstimators->Fill(estimatedCovariances[i]);
-    typename GaussianMembershipFunctionType::Pointer gaussianDensityFunction = GaussianMembershipFunctionType::New();
+    auto gaussianDensityFunction = GaussianMembershipFunctionType::New();
     gaussianDensityFunction->SetMean(*(meanEstimatorsContainer->GetElement(i)));
     gaussianDensityFunction->SetCovariance(*(covarianceEstimatorsContainer->GetElement(i)));
 

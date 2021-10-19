@@ -75,12 +75,12 @@ itkNewTest(int, char *[])
   // BackwardDifferenceOperator
   // Bad
   // using iDHBO = itk::BackwardDifferenceOperator<double>;
-  // iDHBO::Pointer dhbo = iDHBO::New();
+  // auto dhbo = iDHBO::New();
 
   // ForwardDifferenceOperator
   // Bad
   // using iDHFO = itk::ForwardDifferenceOperator<double>;
-  // iDHFO::Pointer dhfo = iDHFO::New();
+  // auto dhfo = iDHFO::New();
 
   return EXIT_SUCCESS;
 }

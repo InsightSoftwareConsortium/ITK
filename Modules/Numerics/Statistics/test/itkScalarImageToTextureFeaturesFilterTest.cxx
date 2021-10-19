@@ -40,7 +40,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image = InputImageType::New();
+  auto image = InputImageType::New();
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
@@ -81,7 +81,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   //  1 1 1 1 1
   //--------------------------------------------------------------------------
 
-  InputImageType::Pointer mask = InputImageType::New();
+  auto mask = InputImageType::New();
   mask->SetRegions(region);
   mask->Allocate();
 
@@ -106,7 +106,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
       itk::Statistics::ScalarImageToTextureFeaturesFilter<InputImageType, itk::Statistics::DenseFrequencyContainer2>;
 
     // First test: just use the defaults.
-    TextureFilterType::Pointer texFilter = TextureFilterType::New();
+    auto texFilter = TextureFilterType::New();
 
     // Invoke update before adding an input. An exception should be
     // thrown.

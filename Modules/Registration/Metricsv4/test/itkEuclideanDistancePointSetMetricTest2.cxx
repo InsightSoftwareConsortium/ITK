@@ -36,10 +36,10 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   using PointType = typename PointSetType::PointType;
 
-  typename PointSetType::Pointer fixedPoints = PointSetType::New();
+  auto fixedPoints = PointSetType::New();
   fixedPoints->Initialize();
 
-  typename PointSetType::Pointer movingPoints = PointSetType::New();
+  auto movingPoints = PointSetType::New();
   movingPoints->Initialize();
 
   // Create a few points and apply a small offset to make the moving points
@@ -92,7 +92,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   std::cout << "Testing with displacement field transform." << std::endl;
   // using DisplacementFieldTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
   using DisplacementFieldTransformType = itk::DisplacementFieldTransform<double, Dimension>;
-  typename DisplacementFieldTransformType::Pointer displacementTransform = DisplacementFieldTransformType::New();
+  auto displacementTransform = DisplacementFieldTransformType::New();
 
   // Setup the physical space to match the point set virtual domain,
   // which is defined by the fixed point set since the fixed transform
@@ -123,7 +123,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   region.SetSize(regionSize);
   region.SetIndex(regionIndex);
 
-  typename FieldType::Pointer displacementField = FieldType::New();
+  auto displacementField = FieldType::New();
   displacementField->SetOrigin(origin);
   displacementField->SetDirection(direction);
   displacementField->SetSpacing(spacing);
@@ -136,7 +136,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
 
   // Instantiate the metric
   using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
-  typename PointSetMetricType::Pointer metric = PointSetMetricType::New();
+  auto metric = PointSetMetricType::New();
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);
   metric->SetMovingTransform(displacementTransform);
@@ -208,7 +208,7 @@ itkEuclideanDistancePointSetMetricTest2Run()
   }
 
   // Test with no valid points.
-  typename PointSetType::Pointer fixedPoints2 = PointSetType::New();
+  auto fixedPoints2 = PointSetType::New();
   fixedPoints2->Initialize();
   fixedPoint[0] = -pointMax;
   fixedPoint[1] = 0.0;

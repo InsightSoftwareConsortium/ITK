@@ -120,13 +120,13 @@ itkTransformGeometryImageFilterTest(int argc, char * argv[])
 
   double rotationAngle = .5; // Radians
 
-  TransformType::Pointer transform = TransformType::New(); // Identity by default
+  auto transform = TransformType::New(); // Identity by default
   transform->SetCenter(center);
   transform->Translate(translation);
   transform->SetRotation(rotationAxis, rotationAngle);
 
   // Set up the transform filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TransformGeometryImageFilter, InPlaceImageFilter);
 
   // Test the exceptions

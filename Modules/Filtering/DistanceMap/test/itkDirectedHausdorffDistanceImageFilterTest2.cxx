@@ -42,8 +42,8 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader1 = ReaderType::New();
-  typename ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader1 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader1->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader1->Update());
@@ -54,7 +54,7 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
 
 
   using FilterType = itk::DirectedHausdorffDistanceImageFilter<ImageType, ImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
 
@@ -80,7 +80,7 @@ itkDirectedHausdorffDistanceImageFilterTest2(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

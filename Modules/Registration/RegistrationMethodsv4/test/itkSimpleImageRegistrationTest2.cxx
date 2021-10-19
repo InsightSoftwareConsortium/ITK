@@ -149,14 +149,14 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 
   using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
-  typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[2]);
   fixedImageReader->Update();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
   fixedImage->Update();
   fixedImage->DisconnectPipeline();
 
-  typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[3]);
   movingImageReader->Update();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
@@ -165,7 +165,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 
   // Set up MI metric
   using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
+  auto mutualInformationMetric = MIMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins(20);
   mutualInformationMetric->SetUseMovingImageGradientFilter(false);
   mutualInformationMetric->SetUseFixedImageGradientFilter(false);
@@ -173,18 +173,18 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 
   // Set up CC metric
   using GlobalCorrelationMetricType = itk::CorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename GlobalCorrelationMetricType::Pointer gCorrelationMetric = GlobalCorrelationMetricType::New();
+  auto gCorrelationMetric = GlobalCorrelationMetricType::New();
 
 
   // Stage1: Rigid registration
   //
   using RegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
-  typename RegistrationType::Pointer rigidRegistration = RegistrationType::New();
+  auto rigidRegistration = RegistrationType::New();
   rigidRegistration->SetObjectName("RigidSimple");
   // Set up rigid multi metric: It only has one metric component
   using MultiMetricType = itk::ObjectToObjectMultiMetricv4<VImageDimension, VImageDimension>;
 
-  typename MultiMetricType::Pointer rigidMultiMetric = MultiMetricType::New();
+  auto rigidMultiMetric = MultiMetricType::New();
   rigidMultiMetric->AddMetric(mutualInformationMetric);
   rigidRegistration->SetMetric(rigidMultiMetric);
 
@@ -193,7 +193,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
 
   // Rigid transform that is set to be optimized
   using RigidTransformType = typename RigidTransformTraits<VImageDimension>::TransformType;
-  typename RigidTransformType::Pointer rigidTransform = RigidTransformType::New();
+  auto rigidTransform = RigidTransformType::New();
   rigidRegistration->SetInitialTransform(rigidTransform);
   rigidRegistration->InPlaceOn();
 
@@ -211,7 +211,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   rigidRegistration->SetMetricSamplingPercentage(rigidSamplingPercentage);
 
   using RigidScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
-  typename RigidScalesEstimatorType::Pointer rigidScalesEstimator = RigidScalesEstimatorType::New();
+  auto rigidScalesEstimator = RigidScalesEstimatorType::New();
   rigidScalesEstimator->SetMetric(mutualInformationMetric);
   rigidScalesEstimator->SetTransformForward(true);
 
@@ -232,13 +232,13 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   rigidOptimizer->SetScalesEstimator(rigidScalesEstimator);
 
   using CommandType = CommandIterationUpdate<RegistrationType>;
-  typename CommandType::Pointer rigidObserver = CommandType::New();
+  auto rigidObserver = CommandType::New();
   rigidRegistration->AddObserver(itk::MultiResolutionIterationEvent(), rigidObserver);
 
 
   // Stage2: Affine registration
   //
-  typename RegistrationType::Pointer affineSimple = RegistrationType::New();
+  auto affineSimple = RegistrationType::New();
   affineSimple->SetObjectName("affineSimple");
   // Ensuring code coverage for boolean macros
   affineSimple->SmoothingSigmasAreSpecifiedInPhysicalUnitsOff();
@@ -250,7 +250,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   }
 
   // Set up affine multi metric: It has two metric components
-  typename MultiMetricType::Pointer affineMultiMetric = MultiMetricType::New();
+  auto affineMultiMetric = MultiMetricType::New();
   affineMultiMetric->AddMetric(mutualInformationMetric);
   affineMultiMetric->AddMetric(gCorrelationMetric);
   affineSimple->SetMetric(affineMultiMetric);
@@ -261,14 +261,14 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   affineSimple->SetMovingImage(1, movingImage);
 
   using AffineTransformType = itk::AffineTransform<double, VImageDimension>;
-  typename AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
   affineSimple->SetInitialTransform(affineTransform);
   affineSimple->InPlaceOn();
 
   affineSimple->SetMovingInitialTransformInput(rigidRegistration->GetTransformOutput());
 
   using AffineScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
-  typename AffineScalesEstimatorType::Pointer scalesEstimator1 = AffineScalesEstimatorType::New();
+  auto scalesEstimator1 = AffineScalesEstimatorType::New();
   scalesEstimator1->SetMetric(mutualInformationMetric);
   scalesEstimator1->SetTransformForward(true);
 
@@ -307,7 +307,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   affineOptimizer->SetDoEstimateLearningRateAtEachIteration(true);
   affineOptimizer->SetScalesEstimator(scalesEstimator1);
 
-  typename CommandType::Pointer affineObserver = CommandType::New();
+  auto affineObserver = CommandType::New();
   affineSimple->AddObserver(itk::IterationEvent(), affineObserver);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
@@ -322,12 +322,12 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   }
 
   using CompositeTransformType = itk::CompositeTransform<double, VImageDimension>;
-  typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  auto compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform(rigidTransform);
   compositeTransform->AddTransform(affineTransform);
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
   resampler->SetTransform(compositeTransform);
   resampler->SetInput(movingImage);
   resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
@@ -338,7 +338,7 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
   resampler->Update();
 
   using WriterType = itk::ImageFileWriter<FixedImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[4]);
   writer->SetInput(resampler->GetOutput());
   writer->Update();

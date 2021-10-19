@@ -126,7 +126,7 @@ itkSampleTest(int, char *[])
 
   using SampleType = itk::Statistics::SampleTest::MySample<MeasurementVectorType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   std::cout << sample->GetNameOfClass() << std::endl;
   std::cout << sample->SampleType::Superclass::GetNameOfClass() << std::endl;

@@ -93,9 +93,9 @@ itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
-  ImageIOType::Pointer dcmImageIO = ImageIOType::New();
+  auto dcmImageIO = ImageIOType::New();
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
   reader->SetImageIO(dcmImageIO);
 

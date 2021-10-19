@@ -81,7 +81,7 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using MultiplyFilterType = itk::MultiplyImageFilter<GradientImageType, GradientImageType, OutputImageType>;
 
-  typename MultiplyFilterType::Pointer multiplyFilter = MultiplyFilterType::New();
+  auto multiplyFilter = MultiplyFilterType::New();
   multiplyFilter->SetInput1(fastMarchingFilter1->GetGradientImage());
   multiplyFilter->SetInput2(fastMarchingFilter2->GetGradientImage());
   multiplyFilter->Update();
@@ -113,7 +113,7 @@ CollidingFrontsImageFilter<TInputImage, TOutputImage>::GenerateData()
     using FunctionType = BinaryThresholdImageFunction<OutputImageType>;
     using IteratorType = FloodFilledImageFunctionConditionalConstIterator<OutputImageType, FunctionType>;
 
-    typename FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
     function->SetInputImage(multipliedImage);
     function->ThresholdBelow(m_NegativeEpsilon);
 

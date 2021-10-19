@@ -69,8 +69,8 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   using SimplexVolumeType = itk::SimplexMeshVolumeCalculator<SimplexMeshType>;
 
   // create the actual mesh, sphere
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
-  PointType                     center;
+  auto      mySphereMeshSource = SphereMeshSourceType::New();
+  PointType center;
   center.Fill(10);
   PointType::ValueType scaleInit[3] = { 3, 3, 3 };
   VectorType           scale = scaleInit;
@@ -83,7 +83,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   std::cout << "Triangle mesh created. " << std::endl;
 
   // send the sphere mesh ( triangle cells) to create a simplex mesh
-  SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
+  auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
   simplexFilter->Update();
 
@@ -93,7 +93,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   std::cout << "Simplex Mesh: " << simplexMesh << std::endl;
 
   std::cout << "Creating dummy image...";
-  OriginalImageType::Pointer originalImage = OriginalImageType::New();
+  auto originalImage = OriginalImageType::New();
 
   ImageSizeType imageSize;
   imageSize.Fill(20);
@@ -126,7 +126,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   std::cout << "Creating dummy image done" << std::endl;
 
   std::cout << " starting to Filter Image" << std::endl;
-  GradientAnisotropicImageType::Pointer gradientanisotropicfilter = GradientAnisotropicImageType::New();
+  auto gradientanisotropicfilter = GradientAnisotropicImageType::New();
   gradientanisotropicfilter->SetInput(originalImage);
   gradientanisotropicfilter->SetNumberOfIterations(5);
   gradientanisotropicfilter->SetTimeStep(0.0625);
@@ -134,13 +134,13 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   gradientanisotropicfilter->Update();
   std::cout << "GradientAnisotropicDiffusion is DONE!" << std::endl;
 
-  GradientMagnitudeType::Pointer gradientmagnitudefilter = GradientMagnitudeType::New();
+  auto gradientmagnitudefilter = GradientMagnitudeType::New();
   gradientmagnitudefilter->SetInput(gradientanisotropicfilter->GetOutput());
   gradientmagnitudefilter->SetSigma(1.0);
   gradientmagnitudefilter->Update();
   std::cout << "GradientMagnitude is DONE!" << std::endl;
 
-  SigmoidImageType::Pointer sigmoidimagefilter = SigmoidImageType::New();
+  auto sigmoidimagefilter = SigmoidImageType::New();
   sigmoidimagefilter->SetInput(gradientmagnitudefilter->GetOutput());
   sigmoidimagefilter->SetOutputMinimum(0);
   sigmoidimagefilter->SetOutputMaximum(1);
@@ -149,13 +149,13 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   sigmoidimagefilter->Update();
   std::cout << "Sigmoid is DONE!" << std::endl;
 
-  GradientFilterType::Pointer gradientFilter = GradientFilterType::New();
+  auto gradientFilter = GradientFilterType::New();
   gradientFilter->SetInput(sigmoidimagefilter->GetOutput());
   gradientFilter->SetSigma(1.0);
   gradientFilter->Update();
   std::cout << "GradientMagnitude is DONE!" << std::endl;
 
-  DeformFilterType::Pointer deformFilter = DeformFilterType::New();
+  auto deformFilter = DeformFilterType::New();
 
   constexpr unsigned int numberOfCycles = 100;
 
@@ -174,7 +174,7 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
   SimplexMeshType::Pointer deformResult = deformFilter->GetOutput();
 
   // calculate the volume of the mesh
-  SimplexVolumeType::Pointer volumecalculator = SimplexVolumeType::New();
+  auto volumecalculator = SimplexVolumeType::New();
   volumecalculator->SetSimplexMesh(deformFilter->GetOutput());
   volumecalculator->Compute();
 

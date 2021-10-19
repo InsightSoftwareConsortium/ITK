@@ -84,9 +84,9 @@ itkFEMRobustSolverTest(int, char *[])
   /** intepolation grid type alias support */
   using InterpolationGridType = itk::Image<itk::fem::Element::ConstPointer, ParameterDimension>;
 
-  SolverType::Pointer solver = SolverType::New();
+  auto solver = SolverType::New();
 
-  FEMObjectType::Pointer femObject = FEMObjectType::New();
+  auto femObject = FEMObjectType::New();
 
   /** initialize material */
   MaterialContainerType * materialContainer = femObject->GetModifiableMaterialContainer();
@@ -99,7 +99,7 @@ itkFEMRobustSolverTest(int, char *[])
 
   materialContainer->Initialize();
 
-  MaterialType::Pointer material = MaterialType::New();
+  auto material = MaterialType::New();
   material->SetYoungsModulus(3000.0);
   material->SetPoissonsRatio(0.45);
 
@@ -132,7 +132,7 @@ itkFEMRobustSolverTest(int, char *[])
       point[0] = i;
       point[1] = j;
 
-      NodeType::Pointer n = NodeType::New();
+      auto n = NodeType::New();
       n->SetCoordinates(point);
       n->SetGlobalNumber(globalNumbering);
 
@@ -164,7 +164,7 @@ itkFEMRobustSolverTest(int, char *[])
       unsigned int rigthUpperNodeIndex = i + 1 + (elementDimensionX + 1) * (j + 1);
       unsigned int leftUpperNodeIndex = i + (elementDimensionX + 1) * (j + 1);
 
-      ElementType::Pointer quadrilateral = ElementType::New();
+      auto quadrilateral = ElementType::New();
 
       quadrilateral->SetNode(0, femObject->GetNode(leftBottomNodeIndex));
       quadrilateral->SetNode(1, femObject->GetNode(rightBottomNodeIndex));
@@ -227,19 +227,19 @@ itkFEMRobustSolverTest(int, char *[])
   displacement3[0] = 1.0;
   displacement3[1] = 1.0;
 
-  LoadType::Pointer load0 = LoadType::New();
+  auto load0 = LoadType::New();
   load0->SetSource(featurePoint0);
   load0->SetRealDisplacement(displacement0);
 
-  LoadType::Pointer load1 = LoadType::New();
+  auto load1 = LoadType::New();
   load1->SetSource(featurePoint1);
   load1->SetRealDisplacement(displacement1);
 
-  LoadType::Pointer load2 = LoadType::New();
+  auto load2 = LoadType::New();
   load2->SetSource(featurePoint2);
   load2->SetRealDisplacement(displacement2);
 
-  LoadType::Pointer load3 = LoadType::New();
+  auto load3 = LoadType::New();
   load3->SetSource(featurePoint3);
   load3->SetRealDisplacement(displacement3);
 

@@ -49,7 +49,7 @@ namespace itk
  *      using DownsamplerType2D = itk::BSplineDownsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
  *      using UpsamplerType2D = itk::BSplineUpsampleImageFilter<ImageType2D,ImageType2D,ResamplerType>;
  *
- *      DownsamplerType2D::Pointer downSampler = DownsamplerType2D::New();
+ *      auto downSampler = DownsamplerType2D::New();
  *      UpsamplerType2D::Pointer   upSampler =   UpsamplerType2D::New();
  *      int splineOrder = 3;
  *      downSampler->SetSplineOrder(splineOrder);

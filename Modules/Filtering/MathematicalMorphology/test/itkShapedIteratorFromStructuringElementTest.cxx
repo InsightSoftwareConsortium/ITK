@@ -41,7 +41,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
   using ImageType = itk::Image<int, 2>;
   using PixelType = ImageType::PixelType;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   CreateImagex(image);
 
   using StructuringElementType = itk::BinaryBallStructuringElement<PixelType, 2>;

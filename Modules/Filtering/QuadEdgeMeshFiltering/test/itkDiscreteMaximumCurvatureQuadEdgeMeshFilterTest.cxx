@@ -42,7 +42,7 @@ itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::MeshFileReader<MeshType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -57,14 +57,14 @@ itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  CurvatureFilterType::Pointer max_curvature = CurvatureFilterType::New();
+  auto max_curvature = CurvatureFilterType::New();
   max_curvature->SetInput(mesh);
   max_curvature->Update();
 
   MeshType::Pointer output = max_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(output);
   writer->SetFileName("max_curvature.vtk");
   writer->Update();

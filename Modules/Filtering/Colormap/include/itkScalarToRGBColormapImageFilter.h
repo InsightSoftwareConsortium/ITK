@@ -86,7 +86,7 @@ extern ITKColormap_EXPORT std::ostream &
  * The color map is specified by passing the SetColormap function one of the
  * predefined maps. The following selects the "RGBColormapFilterEnum::Hot" colormap:
    \code
-   RGBFilterType::Pointer colormapImageFilter = RGBFilterType::New();
+   auto colormapImageFilter = RGBFilterType::New();
    colormapImageFilter->SetColormap( RGBFilterType::Hot );
    \endcode
  *
@@ -100,7 +100,7 @@ extern ITKColormap_EXPORT std::ostream &
    // Create the custom colormap
    using ColormapType = itk::Function::CustomColormapFunction<RealImageType::PixelType,
    RGBImageType::PixelType>;
-   ColormapType::Pointer colormap = ColormapType::New();
+   auto colormap = ColormapType::New();
    // Setup the red channel of the colormap
    ColormapType::ChannelType redChannel;
    redChannel.push_back(0); redChannel.push_back(255);

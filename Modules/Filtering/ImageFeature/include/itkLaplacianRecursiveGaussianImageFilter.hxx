@@ -141,7 +141,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   m_DerivativeFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   // Create a process accumulator for tracking the progress of minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // dim^2 recursive gaussians + dim add filters + cast filter
@@ -172,7 +172,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // The CastImageFilter is used because it is multithreaded and
   // it may perform no operation if the two images types are the same
   using CastFilterType = itk::CastImageFilter<CumulativeImageType, OutputImageType>;
-  typename CastFilterType::Pointer caster = CastFilterType::New();
+  auto caster = CastFilterType::New();
   caster->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   // If the last filter is running in-place then this bulk data is not
@@ -194,7 +194,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // allocate the add and scale image filter just for the scope of
   // this function!
   using AddFilterType = itk::BinaryGeneratorImageFilter<CumulativeImageType, RealImageType, CumulativeImageType>;
-  typename AddFilterType::Pointer addFilter = AddFilterType::New();
+  auto addFilter = AddFilterType::New();
   addFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
 
   // register with progress accumulator

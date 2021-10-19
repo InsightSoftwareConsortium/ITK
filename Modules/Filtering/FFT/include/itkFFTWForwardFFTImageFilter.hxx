@@ -85,7 +85,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename OutputImageType::RegionType fftwOutputRegion(outputPtr->GetLargestPossibleRegion());
   fftwOutputRegion.SetSize(fftwOutputSize);
 
-  typename OutputImageType::Pointer fftwOutput = OutputImageType::New();
+  auto fftwOutput = OutputImageType::New();
   // The information is copied to the half image so that it will then
   // be copied to the final output of this filter.
   fftwOutput->CopyInformation(inputPtr);
@@ -119,7 +119,7 @@ FFTWForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Expand the half image to the full image size
   using HalfToFullFilterType = HalfToFullHermitianImageFilter<OutputImageType>;
-  typename HalfToFullFilterType::Pointer halfToFullFilter = HalfToFullFilterType::New();
+  auto halfToFullFilter = HalfToFullFilterType::New();
   halfToFullFilter->SetActualXDimensionIsOdd(inputSize[0] % 2 != 0);
   halfToFullFilter->SetInput(fftwOutput);
   halfToFullFilter->GraftOutput(this->GetOutput());

@@ -23,7 +23,7 @@ namespace itk
 LoggerManager::LoggerPointer
 LoggerManager::CreateLogger(const NameType & name, PriorityLevelEnum level, PriorityLevelEnum levelForFlushing)
 {
-  Logger::Pointer logger = Logger::New();
+  auto logger = Logger::New();
 
   logger->SetName(name.c_str());
   logger->SetPriorityLevel(level);
@@ -36,7 +36,7 @@ LoggerManager::CreateLogger(const NameType & name, PriorityLevelEnum level, Prio
 LoggerManager::ThreadLoggerPointer
 LoggerManager::CreateThreadLogger(const NameType & name, PriorityLevelEnum level, PriorityLevelEnum levelForFlushing)
 {
-  ThreadLogger::Pointer logger = ThreadLogger::New();
+  auto logger = ThreadLogger::New();
 
   logger->SetName(name.c_str());
   logger->SetPriorityLevel(level);

@@ -166,7 +166,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    ImportImageContainerFactory::Pointer factory = ImportImageContainerFactory::New();
+    auto factory = ImportImageContainerFactory::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }
 

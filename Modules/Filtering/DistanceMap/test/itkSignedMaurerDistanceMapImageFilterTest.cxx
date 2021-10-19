@@ -34,13 +34,13 @@ itkSignedMaurerDistanceMapImageFilterTest(char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
   using FilterType = itk::SignedMaurerDistanceMapImageFilter<InputImageType, OutputImageType>;
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetSquaredDistance(false);
   filter->SetUseImageSpacing(true);
@@ -48,7 +48,7 @@ itkSignedMaurerDistanceMapImageFilterTest(char * argv[])
   filter->Update();
   filter->Print(std::cout);
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

@@ -43,8 +43,8 @@ itkHistogramToLogProbabilityImageFilterTest2(int argc, char * argv[])
   using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
   using ReaderType = itk::ImageFileReader<ScalarImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader1 = ReaderType::New();
+  auto reader2 = ReaderType::New();
 
   reader1->SetFileName(argv[1]);
   reader2->SetFileName(argv[2]);
@@ -55,7 +55,7 @@ itkHistogramToLogProbabilityImageFilterTest2(int argc, char * argv[])
 
   using JoinFilterType = itk::JoinImageFilter<ScalarImageType, ScalarImageType>;
 
-  JoinFilterType::Pointer joinFilter = JoinFilterType::New();
+  auto joinFilter = JoinFilterType::New();
 
   using ArrayImageType = JoinFilterType::OutputImageType;
 
@@ -88,7 +88,7 @@ itkHistogramToLogProbabilityImageFilterTest2(int argc, char * argv[])
   imageMax[1] = minmaxFilter->GetMaximum();
 
 
-  HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
+  auto histogramFilter = HistogramFilterType::New();
 
   histogramFilter->SetInput(joinFilter->GetOutput());
 
@@ -111,14 +111,14 @@ itkHistogramToLogProbabilityImageFilterTest2(int argc, char * argv[])
   const HistogramType * histogram = histogramFilter->GetOutput();
 
   using HistogramToImageFilterType = itk::HistogramToLogProbabilityImageFilter<HistogramType>;
-  HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
+  auto histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput(histogram);
 
   using OutputImageType = HistogramToImageFilterType::OutputImageType;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[3]);
 

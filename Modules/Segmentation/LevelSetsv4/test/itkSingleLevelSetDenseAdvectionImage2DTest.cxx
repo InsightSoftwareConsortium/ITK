@@ -66,14 +66,14 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   using NodeType = FastMarchingFilterType::NodeType;
 
   // Read the image to be segmented
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
   InputImageType::Pointer input = reader->GetOutput();
 
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
 
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
 
   ImageType::IndexType seedPosition;
   seedPosition[0] = std::stoi(argv[2]);
@@ -116,15 +116,15 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   fastMarching->Update();
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(1.0);
 
   // Map of levelset bases
-  LevelSetType::Pointer level_set = LevelSetType::New();
+  auto level_set = LevelSetType::New();
   level_set->SetImage(fastMarching->GetOutput());
 
   // Insert the levelsets in a levelset container
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
 
   bool levelSetNotYetAdded = lscontainer->AddLevelSet(0, level_set, false);
@@ -140,7 +140,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   // *** 1st Level Set phi ***
 
   // Create Advection term for phi_{1}
-  AdvectionTermType::Pointer advectionTerm = AdvectionTermType::New();
+  auto advectionTerm = AdvectionTermType::New();
   advectionTerm->SetInput(input);
   advectionTerm->SetCoefficient(1.0);
   advectionTerm->SetDerivativeSigma(std::stod(argv[6]));
@@ -149,7 +149,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   // **************** CREATE ALL EQUATIONS ****************
 
   // Create Term Container
-  TermContainerType::Pointer termContainer0 = TermContainerType::New();
+  auto termContainer0 = TermContainerType::New();
   termContainer0->SetInput(input);
   termContainer0->SetCurrentLevelSetId(0);
   termContainer0->SetLevelSetContainer(lscontainer);
@@ -157,15 +157,15 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   termContainer0->AddTerm(0, advectionTerm);
   std::cout << "Term container 0 created" << std::endl;
 
-  EquationContainerType::Pointer equationContainer = EquationContainerType::New();
+  auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
   equationContainer->AddEquation(0, termContainer0);
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
-  StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
+  auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(5);
 
-  LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
+  auto evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer(equationContainer);
   evolution->SetStoppingCriterion(criterion);
   evolution->SetLevelSetContainer(lscontainer);
@@ -183,7 +183,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   AdvectionTermType::AdvectionImageType * advectionImage = advectionTerm->GetModifiableAdvectionImage();
   advectionTerm->SetAdvectionImage(advectionImage);
 
-  ImageType::Pointer outputImage = ImageType::New();
+  auto outputImage = ImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());
   outputImage->CopyInformation(input);
   outputImage->Allocate();
@@ -202,7 +202,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
   }
 
   using OutputWriterType = itk::ImageFileWriter<ImageType>;
-  OutputWriterType::Pointer writer = OutputWriterType::New();
+  auto writer = OutputWriterType::New();
   writer->SetFileName(argv[5]);
   writer->SetInput(outputImage);
 

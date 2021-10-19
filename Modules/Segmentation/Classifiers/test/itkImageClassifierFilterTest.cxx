@@ -52,10 +52,10 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   // Generate an image with pixel intensities generated from two normal
   // distributions
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
   normalGenerator->Initialize(101);
 
-  InputImageType::Pointer image = InputImageType::New();
+  auto image = InputImageType::New();
 
   InputImageType::IndexType start;
   InputImageType::SizeType  size;
@@ -109,7 +109,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   // to EM estimator
   using ImageToListSampleAdaptorType = itk::Statistics::ImageToListSampleAdaptor<InputImageType>;
 
-  ImageToListSampleAdaptorType::Pointer sample = ImageToListSampleAdaptorType::New();
+  auto sample = ImageToListSampleAdaptorType::New();
   sample->SetImage(image);
 
   // Use EM estimator to estimate gaussian membership functions
@@ -138,7 +138,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   }
 
   /* Estimating */
-  EstimatorType::Pointer estimator = EstimatorType::New();
+  auto estimator = EstimatorType::New();
   estimator->SetSample(sample);
 
   int maximumIteration = 200;
@@ -169,12 +169,12 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   using ImageClassifierFilterType =
     itk::Statistics::ImageClassifierFilter<ImageToListSampleAdaptorType, InputImageType, OutputImageType>;
-  ImageClassifierFilterType::Pointer filter = ImageClassifierFilterType::New();
+  auto filter = ImageClassifierFilterType::New();
 
   using ClassLabelVectorObjectType = ImageClassifierFilterType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = ImageClassifierFilterType::ClassLabelVectorType;
 
-  ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
 
   // Add class labels
   ClassLabelVectorType & classLabelVector = classLabelsObject->Get();
@@ -190,7 +190,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   // Set a decision rule type
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   const ImageClassifierFilterType::MembershipFunctionVectorObjectType * membershipFunctionsObject =
     estimator->GetOutput();
@@ -282,7 +282,7 @@ itkImageClassifierFilterTest(int argc, char * argv[])
 
   // Write out the classified image
   using OutputImageWriterType = itk::ImageFileWriter<OutputImageType>;
-  OutputImageWriterType::Pointer outputImageWriter = OutputImageWriterType::New();
+  auto outputImageWriter = OutputImageWriterType::New();
   outputImageWriter->SetFileName(argv[1]);
   outputImageWriter->SetInput(filter->GetOutput());
   outputImageWriter->Update();

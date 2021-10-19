@@ -90,7 +90,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //                 Create and Initialize the RGBPixel image
   //-------------------------------------------------------------
 
-  myRGBPixelImageType::Pointer myRGBPixelImage = myRGBPixelImageType::New();
+  auto myRGBPixelImage = myRGBPixelImageType::New();
 
   myRGBPixelImage->SetLargestPossibleRegion(region);
   myRGBPixelImage->SetBufferedRegion(region);
@@ -139,7 +139,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //                 Create and Initialize the Float image
   //-------------------------------------------------------------
 
-  myFloatImageType::Pointer myFloatImage = myFloatImageType::New();
+  auto myFloatImage = myFloatImageType::New();
 
   myFloatImage->SetLargestPossibleRegion(region);
   myFloatImage->SetBufferedRegion(region);
@@ -181,7 +181,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //         Create the adaptor and connect the image
   //-------------------------------------------------------------
 
-  myAdaptorType::Pointer myAdaptor = myAdaptorType::New();
+  auto myAdaptor = myAdaptorType::New();
 
   myAdaptor->SetImage(myRGBPixelImage);
 
@@ -189,7 +189,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //         Create the filter and connect the inputs
   //-------------------------------------------------------------
 
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
   filter->SetInput1(myAdaptor);
   filter->SetInput2(myFloatImage);
@@ -243,7 +243,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
   //-------------------------------------------------------------
   //         Test Graft() method
   //-------------------------------------------------------------
-  myAdaptorType::Pointer myGraftedAdaptor = myAdaptorType::New();
+  auto myGraftedAdaptor = myAdaptorType::New();
   myGraftedAdaptor->Graft(myAdaptor);
   if (myGraftedAdaptor->GetPixelContainer() != myAdaptor->GetPixelContainer())
   {

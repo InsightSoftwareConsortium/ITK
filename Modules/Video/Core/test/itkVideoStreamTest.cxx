@@ -52,7 +52,7 @@ itkVideoStreamTest(int, char *[])
   //////
 
   // Instantiate a new VideoStream
-  VideoType::Pointer video1 = VideoType::New();
+  auto video1 = VideoType::New();
 
   // Check dimension
   if (video1->GetFrameDimension() != Dimension)
@@ -67,7 +67,7 @@ itkVideoStreamTest(int, char *[])
   }
 
   // Create a second VideoStream
-  VideoType::Pointer video2 = VideoType::New();
+  auto video2 = VideoType::New();
 
   // Use GetFrameBuffer and SetFrameBuffer to make video1 point to the same
   // buffer as video2
@@ -108,9 +108,9 @@ itkVideoStreamTest(int, char *[])
   }
 
   // Test appending frames to video2
-  FrameType::Pointer frame1 = FrameType::New();
-  FrameType::Pointer frame2 = FrameType::New();
-  FrameType::Pointer frame3 = FrameType::New();
+  auto frame1 = FrameType::New();
+  auto frame2 = FrameType::New();
+  auto frame3 = FrameType::New();
   video2->SetFrame(0, frame1);
   video2->SetFrame(1, frame2);
   video2->SetFrame(2, frame3);

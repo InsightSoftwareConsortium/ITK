@@ -45,22 +45,22 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
 
   using KernelType = itk::FlatStructuringElement<dim>;
   using DilateType = itk::BinaryDilateImageFilter<ImageType, ImageType, KernelType>;
-  DilateType::Pointer  dilate = DilateType::New();
+  auto                 dilate = DilateType::New();
   KernelType::SizeType rad;
   rad.Fill(3);
   dilate->SetKernel(KernelType::Ball(rad));
 
   using ObOType = itk::ObjectByObjectLabelMapFilter<LabelMapType>;
-  ObOType::Pointer obo = ObOType::New();
+  auto obo = ObOType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(obo, ObjectByObjectLabelMapFilter, LabelMapFilter);
 
@@ -88,11 +88,11 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(obo, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
   l2i->SetInput(obo->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
 

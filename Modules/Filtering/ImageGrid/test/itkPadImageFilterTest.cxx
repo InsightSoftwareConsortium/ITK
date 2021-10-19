@@ -27,7 +27,7 @@ itkPadImageFilterTest(int, char *[])
   using SizeValueType = ShortImage::SizeValueType;
 
   using FilterType = itk::PadImageFilter<ShortImage, ShortImage>;
-  FilterType::Pointer padFilter = FilterType::New();
+  auto padFilter = FilterType::New();
 
   SizeType      lowerBound = { { 1, 2 } };
   SizeType      upperBound = { { 3, 4 } };
@@ -98,7 +98,7 @@ itkPadImageFilterTest(int, char *[])
   }
 
   // Fill in a test image
-  ShortImage::Pointer    inputImage = ShortImage::New();
+  auto                   inputImage = ShortImage::New();
   ShortImage::SizeType   inputSize = { { 1, 1 } };
   ShortImage::RegionType inputRegion(inputSize);
   inputImage->SetRegions(inputRegion);

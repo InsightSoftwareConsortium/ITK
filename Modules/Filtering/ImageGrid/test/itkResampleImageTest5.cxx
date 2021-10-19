@@ -85,11 +85,11 @@ itkResampleImageTest5(int argc, char * argv[])
   }
 
   // Create an affine transformation
-  AffineTransformType::Pointer aff = AffineTransformType::New();
+  auto aff = AffineTransformType::New();
   aff->Scale(0.9);
 
   // Create a linear interpolation image function
-  InterpolatorType::Pointer interp = InterpolatorType::New();
+  auto interp = InterpolatorType::New();
   interp->SetInputImage(image);
 
   // Create and configure a resampling filter
@@ -130,7 +130,7 @@ itkResampleImageTest5(int argc, char * argv[])
 
   std::cout << "Resampling from " << size << " to " << osize << " took " << clock.GetMean() << " s" << std::endl;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(resample->GetOutput());
   writer->SetFileName(argv[2]);
   writer->Update();

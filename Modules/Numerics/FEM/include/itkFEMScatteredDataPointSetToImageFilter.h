@@ -92,7 +92,7 @@ namespace fem
     <PointSetType, MeshType, VectorImageType,
     ConfidencePointSetType, TensorPointSetType>;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput(displacementPointSet);
     filter->SetConfidencePointSet(confidencePointSet); //optional

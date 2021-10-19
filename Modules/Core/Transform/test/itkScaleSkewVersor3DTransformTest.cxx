@@ -66,7 +66,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
   {
     std::cout << "Test default constructor... ";
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     VectorType axis(1.5);
 
@@ -99,8 +99,8 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
-    MatrixType             matrix = transform->GetMatrix();
+    auto       transform = TransformType::New();
+    MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
   }
@@ -110,7 +110,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer rotation = TransformType::New();
+    auto rotation = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -268,7 +268,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -407,7 +407,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
   {
     std::cout << " Exercise the SetIdentity() method " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -462,7 +462,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
 
   {
     std::cout << " Exercise the Scaling methods " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -533,7 +533,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << "Input/Output parameter check Passed !" << std::endl;
 #if 0 // TODO: Need to instrument inverse of ScaleVersor3DTransform
       {
-      TransformType::Pointer tInverse = TransformType::New();
+      auto tInverse = TransformType::New();
       if(!transform->GetInverse(tInverse))
         {
         std::cout << "Cannot create inverse transform" << std::endl;

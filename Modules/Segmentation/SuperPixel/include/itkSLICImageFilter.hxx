@@ -112,7 +112,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
 {
   itkDebugMacro("Starting BeforeThreadedGenerateData");
 
-  typename InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
   inputImage->Graft(const_cast<InputImageType *>(this->GetInput()));
 
 
@@ -122,7 +122,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
   typename InputImageType::Pointer shrunkImage;
   {
     using ShrinkImageFilterType = itk::ShrinkImageFilter<InputImageType, InputImageType>;
-    typename ShrinkImageFilterType::Pointer shrinker = ShrinkImageFilterType::New();
+    auto shrinker = ShrinkImageFilterType::New();
     shrinker->SetInput(inputImage);
     shrinker->SetShrinkFactors(m_SuperGridSize);
     shrinker->UpdateLargestPossibleRegion();

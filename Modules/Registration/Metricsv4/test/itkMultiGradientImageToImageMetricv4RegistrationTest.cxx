@@ -72,8 +72,8 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -86,32 +86,32 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   /** define a resample filter that will ultimately be used to deform the image */
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
 
   /** create a composite transform holder for other transforms  */
   using CompositeType = itk::CompositeTransform<double, Dimension>;
 
-  CompositeType::Pointer compositeTransform = CompositeType::New();
+  auto compositeTransform = CompositeType::New();
 
   // create an affine transform
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
-  AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
 
   // identity transform for fixed image
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
-  IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   // The metric
   using MetricType = itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   using MetricType2 = itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
   using PointSetType = MetricType::FixedSampledPointSetType;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   metric->SetNumberOfHistogramBins(20);
-  MetricType2::Pointer metric2 = MetricType2::New();
+  auto metric2 = MetricType2::New();
 
   if (false)
   {
@@ -167,7 +167,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   shiftScaleEstimator->SetMetric(metric);
   shiftScaleEstimator->EstimateScales(scales);
   using OptimizerType = itk::GradientDescentOptimizerv4;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
   optimizer->SetScales(scales);
   /** Set just 1 iteration for the sub-optimizer */
@@ -182,7 +182,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
     RegistrationParameterScalesFromShiftType2::New();
   shiftScaleEstimator2->SetMetric(metric2);
   shiftScaleEstimator2->EstimateScales(scales);
-  OptimizerType::Pointer optimizer2 = OptimizerType::New();
+  auto optimizer2 = OptimizerType::New();
   optimizer2->SetMetric(metric2);
   optimizer2->SetScales(scales);
   /** Set just 1 iteration for the sub-optimizer */
@@ -192,7 +192,7 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
 
   std::cout << "now declare optimizer to combine the 2 sub-optimizers  " << std::endl;
   using MOptimizerType = itk::MultiGradientOptimizerv4;
-  MOptimizerType::Pointer MOptimizer = MOptimizerType::New();
+  auto MOptimizer = MOptimizerType::New();
   MOptimizer->GetOptimizersList().push_back(optimizer);
   MOptimizer->GetOptimizersList().push_back(optimizer2);
   std::cout << "set the # of iterations " << std::endl;
@@ -216,8 +216,8 @@ itkMultiGradientImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
   writer->SetFileName(argv[3]);
   caster->SetInput(resample->GetOutput());
   writer->SetInput(caster->GetOutput());

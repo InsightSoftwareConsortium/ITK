@@ -51,7 +51,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -91,7 +91,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::AsinImageFilter<InputImageType, OutputImageType>;
 
   // Create the Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AsinImageFilter, UnaryGeneratorImageFilter);
 
@@ -137,7 +137,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::AsinImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer asinAdaptor = AdaptorType::New();
+  auto asinAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(asinAdaptor, AsinImageAdaptor, ImageAdaptor);
 
@@ -145,7 +145,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(asinAdaptor);

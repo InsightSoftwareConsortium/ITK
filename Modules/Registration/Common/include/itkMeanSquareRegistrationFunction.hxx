@@ -48,7 +48,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::M
   this->SetFixedImage(nullptr);
   m_FixedImageGradientCalculator = GradientCalculatorType::New();
 
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
 
   m_MovingImageInterpolator = itkDynamicCastInDebugMode<InterpolatorType *>(interp.GetPointer());
 }

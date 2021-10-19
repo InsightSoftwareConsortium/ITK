@@ -51,9 +51,9 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
   using FieldType = DisplacementTransformType::DisplacementFieldType;
 
   // Create a displacement field transform
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
 
-  FieldType::Pointer field = FieldType::New();
+  auto field = FieldType::New();
 
   FieldType::SizeType   size;
   FieldType::IndexType  start;

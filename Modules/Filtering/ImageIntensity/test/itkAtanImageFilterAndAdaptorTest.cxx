@@ -51,7 +51,7 @@ itkAtanImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -90,7 +90,7 @@ itkAtanImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::AtanImageFilter<InputImageType, OutputImageType>;
 
   // Create the Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AtanImageFilter, UnaryGeneratorImageFilter);
 
@@ -136,7 +136,7 @@ itkAtanImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::AtanImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer atanAdaptor = AdaptorType::New();
+  auto atanAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(atanAdaptor, AtanImageAdaptor, ImageAdaptor);
 
@@ -144,7 +144,7 @@ itkAtanImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(atanAdaptor);

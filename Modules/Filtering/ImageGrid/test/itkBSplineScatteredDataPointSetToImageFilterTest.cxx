@@ -48,10 +48,10 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
   using VectorImageType = itk::Image<VectorType, ParametricDimension>;
   using PointSetType = itk::PointSet<VectorImageType::PixelType, ParametricDimension>;
 
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
@@ -84,7 +84,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
   // Instantiate the B-spline filter and set the desired parameters.
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter);
 
@@ -151,7 +151,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
 
   // Write the output to an image.
   using RealImageType = itk::Image<RealType, ParametricDimension>;
-  RealImageType::Pointer image = RealImageType::New();
+  auto image = RealImageType::New();
   image->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
   image->Allocate();
   itk::ImageRegionIteratorWithIndex<RealImageType> Itt(image, image->GetLargestPossibleRegion());
@@ -162,7 +162,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
   }
 
   using WriterType = itk::ImageFileWriter<RealImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(image);
   writer->SetFileName(argv[2]);
 

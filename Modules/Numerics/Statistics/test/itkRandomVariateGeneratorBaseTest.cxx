@@ -60,7 +60,7 @@ itkRandomVariateGeneratorBaseTest(int, char *[])
 {
   using GeneratorType = itk::Statistics::VariateGeneratorTestHelper;
 
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
 
   std::cout << generator->GetNameOfClass() << std::endl;
 

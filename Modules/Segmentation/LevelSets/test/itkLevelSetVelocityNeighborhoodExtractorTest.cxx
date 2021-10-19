@@ -29,7 +29,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
 
   // Create an input image using fastmarching
   using SourceType = itk::FastMarchingImageFilter<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   ImageType::SizeType size;
   size.Fill(17);
@@ -44,7 +44,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   node.SetValue(-4.0);
 
   using NodeContainerType = SourceType::NodeContainer;
-  NodeContainerType::Pointer container = NodeContainerType::New();
+  auto container = NodeContainerType::New();
 
   container->InsertElement(0, node);
 
@@ -53,7 +53,7 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   source->Update();
 
   using ExtractorType = itk::LevelSetVelocityNeighborhoodExtractor<ImageType, AuxValueType, 2>;
-  ExtractorType::Pointer extractor = ExtractorType::New();
+  auto extractor = ExtractorType::New();
 
   extractor->SetInputLevelSet(source->GetOutput());
   extractor->SetLevelSetValue(0.0);
@@ -62,14 +62,14 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   // create some dummy auxiliary variable images
   using AuxImageType = ExtractorType::AuxImageType;
 
-  AuxImageType::Pointer aux0 = AuxImageType::New();
+  auto aux0 = AuxImageType::New();
   aux0->SetRegions(source->GetOutput()->GetBufferedRegion());
   aux0->Allocate();
   aux0->FillBuffer(1.0);
 
   extractor->SetAuxImage(aux0, 0);
 
-  AuxImageType::Pointer aux1 = AuxImageType::New();
+  auto aux1 = AuxImageType::New();
   aux1->SetRegions(source->GetOutput()->GetBufferedRegion());
   aux1->Allocate();
   aux1->FillBuffer(5.0);

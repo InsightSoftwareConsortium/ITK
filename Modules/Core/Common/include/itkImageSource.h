@@ -164,7 +164,7 @@ public:
      \code
         // Setup the mini-pipeline to process the input to this filter
         // The input is not connected to the pipeline.
-        typename InputImageType::Pointer input = InputImageType::New();
+        auto input = InputImageType::New();
         input->Graft( const_cast< InputImageType * >( this->GetInput() );
         firstFilterInMiniPipeline->SetInput( input );
 

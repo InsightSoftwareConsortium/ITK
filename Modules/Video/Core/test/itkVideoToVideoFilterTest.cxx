@@ -41,7 +41,7 @@ namespace VideoToVideoFilterTest
 InputFrameType::Pointer
 CreateInputFrame(InputPixelType val)
 {
-  InputFrameType::Pointer out = InputFrameType::New();
+  auto out = InputFrameType::New();
 
   InputFrameType::RegionType largestRegion;
   InputFrameType::SizeType   sizeLR;
@@ -173,15 +173,15 @@ itkVideoToVideoFilterTest(int, char *[])
 
   // Instantiate a filter
   using VideoFilterType = itk::VideoToVideoFilterTest::DummyVideoToVideoFilter<InputVideoType, OutputVideoType>;
-  VideoFilterType::Pointer filter = VideoFilterType::New();
+  auto filter = VideoFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DummyVideoToVideoFilter, VideoToVideoFilter);
 
   // Set up an input video stream
-  InputVideoType::Pointer inputVideo = InputVideoType::New();
-  itk::TemporalRegion     inputLargestTemporalRegion;
-  SizeValueType           inputStart = 0;
-  SizeValueType           inputDuration = 10;
+  auto                inputVideo = InputVideoType::New();
+  itk::TemporalRegion inputLargestTemporalRegion;
+  SizeValueType       inputStart = 0;
+  SizeValueType       inputDuration = 10;
   inputLargestTemporalRegion.SetFrameStart(inputStart);
   inputLargestTemporalRegion.SetFrameDuration(inputDuration);
   inputVideo->SetLargestPossibleTemporalRegion(inputLargestTemporalRegion);

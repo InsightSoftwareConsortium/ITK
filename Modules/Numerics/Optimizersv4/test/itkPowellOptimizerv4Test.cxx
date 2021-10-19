@@ -148,11 +148,11 @@ itkPowellOptimizerv4Test(int, char *[])
   using OptimizerType = itk::PowellOptimizerv4<double>;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
-  PowellBoundedMetric::Pointer metric = PowellBoundedMetric::New();
+  auto metric = PowellBoundedMetric::New();
 
 
   itkOptimizer->SetMetric(metric);

@@ -25,9 +25,9 @@ int
 itkCoxDeBoorBSplineKernelFunctionTest2(int, char *[])
 {
   using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
-  KernelType::Pointer kernel = KernelType::New();
+  auto kernel = KernelType::New();
 
-  KernelType::Pointer kernelOrderMinus1 = KernelType::New();
+  auto kernelOrderMinus1 = KernelType::New();
 
   for (unsigned int order = 2; order <= 10; ++order)
   {

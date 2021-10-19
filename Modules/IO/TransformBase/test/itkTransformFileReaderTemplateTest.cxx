@@ -31,7 +31,7 @@ itkTransformFileReaderTemplateTest(int argc, char * argv[])
 
   using TransformReaderType = itk::TransformFileReaderTemplate<double>;
 
-  TransformReaderType::Pointer transformReader = TransformReaderType::New();
+  auto transformReader = TransformReaderType::New();
 
   std::cout << "Reader class = " << transformReader->GetNameOfClass() << "Reader base = "
             << dynamic_cast<TransformReaderType::Superclass *>(transformReader.GetPointer())->GetNameOfClass()

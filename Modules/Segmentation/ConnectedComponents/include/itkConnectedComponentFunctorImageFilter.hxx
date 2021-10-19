@@ -32,7 +32,7 @@ void
 ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskImage>::GenerateData()
 {
   // create an equivalency table
-  EquivalencyTable::Pointer eqTable = EquivalencyTable::New();
+  auto eqTable = EquivalencyTable::New();
 
   InputPixelType        value, neighborValue;
   OutputPixelType       label, originalLabel, neighborLabel;

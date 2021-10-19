@@ -219,10 +219,10 @@ itkFilterDispatchTest(int, char *[])
   using Filter5d = ExampleImageFilter<Image5d, Image5d>;
 
   // Instantiate a filter of each dimension.
-  Filter2d::Pointer filter2d = Filter2d::New();
-  Filter3d::Pointer filter3d = Filter3d::New();
-  Filter4d::Pointer filter4d = Filter4d::New();
-  Filter5d::Pointer filter5d = Filter5d::New();
+  auto filter2d = Filter2d::New();
+  auto filter3d = Filter3d::New();
+  auto filter4d = Filter4d::New();
+  auto filter5d = Filter5d::New();
 
   // Try running each of the filters.  If the wrong Execute() method is
   // invoked by one of these calls, a std::string() exception will be

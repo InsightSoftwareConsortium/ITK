@@ -157,9 +157,9 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   using FlipFilterType = FlipImageFilter<InputImageType>;
   using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
-  typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
+  auto permute = PermuteFilterType::New();
+  auto flip = FlipFilterType::New();
+  auto cast = CastToOutputFilterType::New();
   permute->SetInput(inputPtr);
   permute->SetOrder(m_PermuteOrder);
 
@@ -470,7 +470,7 @@ void
 OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // No need to allocate the output since the minipipeline does it
@@ -480,9 +480,9 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateData()
   using FlipFilterType = FlipImageFilter<InputImageType>;
   using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
-  typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
+  auto permute = PermuteFilterType::New();
+  auto flip = FlipFilterType::New();
+  auto cast = CastToOutputFilterType::New();
 
   progress->RegisterInternalFilter(permute, .3333333f);
   progress->RegisterInternalFilter(flip, .3333333f);
@@ -566,9 +566,9 @@ OrientImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   using FlipFilterType = FlipImageFilter<InputImageType>;
   using CastToOutputFilterType = CastImageFilter<InputImageType, OutputImageType>;
 
-  typename PermuteFilterType::Pointer      permute = PermuteFilterType::New();
-  typename FlipFilterType::Pointer         flip = FlipFilterType::New();
-  typename CastToOutputFilterType::Pointer cast = CastToOutputFilterType::New();
+  auto permute = PermuteFilterType::New();
+  auto flip = FlipFilterType::New();
+  auto cast = CastToOutputFilterType::New();
   permute->SetInput(inputPtr);
   permute->SetOrder(m_PermuteOrder);
 

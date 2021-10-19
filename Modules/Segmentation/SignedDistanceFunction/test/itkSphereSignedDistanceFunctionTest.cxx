@@ -42,7 +42,7 @@ itkSphereSignedDistanceFunctionTest(int, char *[])
   using PointType = FunctionType::PointType;
   using ParametersType = FunctionType::ParametersType;
 
-  SphereFunctionType::Pointer sphere = SphereFunctionType::New();
+  auto sphere = SphereFunctionType::New();
 
   // cast it to a generic function
   FunctionType::Pointer function = dynamic_cast<FunctionType *>(sphere.GetPointer());

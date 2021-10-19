@@ -40,7 +40,7 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
     itkExceptionMacro(<< "Can't convert MetaObject to MetaTube");
   }
 
-  typename TubeSpatialObjectType::Pointer tubeSO = TubeSpatialObjectType::New();
+  auto tubeSO = TubeSpatialObjectType::New();
 
   tubeSO->GetProperty().SetName(tubeMO->Name());
   tubeSO->SetParentPoint(tubeMO->ParentPoint());

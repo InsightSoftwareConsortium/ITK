@@ -293,8 +293,8 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
 
     auto iterator1 = vertexNeighbors.begin();
 
-    typename MapType::Pointer tmpMap = MapType::New();
-    CellIdentifier            startIdx = NumericTraits<CellIdentifier>::max(), lastIdx = 0, wrongIdx = 0;
+    auto           tmpMap = MapType::New();
+    CellIdentifier startIdx = NumericTraits<CellIdentifier>::max(), lastIdx = 0, wrongIdx = 0;
 
     while (lastIdx != startIdx)
     {

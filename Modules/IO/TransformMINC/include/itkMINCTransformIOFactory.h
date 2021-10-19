@@ -58,7 +58,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    MINCTransformIOFactory::Pointer metaFactory = MINCTransformIOFactory::New();
+    auto metaFactory = MINCTransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

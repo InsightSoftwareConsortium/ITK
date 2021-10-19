@@ -118,7 +118,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThreaded
 
   // Compute distance from non-zero pixels in the second image
   using FilterType = itk::SignedMaurerDistanceMapImageFilter<InputImage2Type, DistanceMapType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   auto input2 = InputImage2Type::New();
   input2->Graft(const_cast<InputImage2Type *>(this->GetInput2()));

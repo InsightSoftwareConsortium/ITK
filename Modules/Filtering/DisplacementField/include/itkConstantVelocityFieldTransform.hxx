@@ -46,7 +46,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::ConstantVeloc
 
   // Setup and assign default interpolator
   using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<ConstantVelocityFieldType, ScalarType>;
-  typename DefaultInterpolatorType::Pointer interpolator = DefaultInterpolatorType::New();
+  auto interpolator = DefaultInterpolatorType::New();
   this->m_ConstantVelocityFieldInterpolator = interpolator;
 
   // Setup and assign parameter helper. This will hold the displacement field
@@ -195,7 +195,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::SetFixedParam
   PixelType zeroDisplacement;
   zeroDisplacement.Fill(0.0);
 
-  typename ConstantVelocityFieldType::Pointer velocityField = ConstantVelocityFieldType::New();
+  auto velocityField = ConstantVelocityFieldType::New();
   velocityField->SetSpacing(spacing);
   velocityField->SetOrigin(origin);
   velocityField->SetDirection(direction);
@@ -258,7 +258,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::IntegrateVelo
 
   ConstantVelocityFieldPointer constantVelocityField = this->GetModifiableConstantVelocityField();
 
-  typename ExponentiatorType::Pointer exponentiator = ExponentiatorType::New();
+  auto exponentiator = ExponentiatorType::New();
   exponentiator->SetInput(constantVelocityField);
   if (this->m_CalculateNumberOfIntegrationStepsAutomatically || this->GetNumberOfIntegrationSteps() == 0)
   {
@@ -278,7 +278,7 @@ ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::IntegrateVelo
 
   // Calculate inverse displacement field
 
-  typename ExponentiatorType::Pointer exponentiatorInv = ExponentiatorType::New();
+  auto exponentiatorInv = ExponentiatorType::New();
   exponentiatorInv->SetInput(constantVelocityField);
   if (this->m_CalculateNumberOfIntegrationStepsAutomatically || this->m_NumberOfIntegrationSteps == 0)
   {
@@ -319,7 +319,7 @@ typename ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::Disp
 ConstantVelocityFieldTransform<TParametersValueType, NDimensions>::CopyDisplacementField(
   const DisplacementFieldType * toCopy) const
 {
-  typename DisplacementFieldType::Pointer rval = DisplacementFieldType::New();
+  auto rval = DisplacementFieldType::New();
   rval->SetOrigin(toCopy->GetOrigin());
   rval->SetSpacing(toCopy->GetSpacing());
   rval->SetDirection(toCopy->GetDirection());

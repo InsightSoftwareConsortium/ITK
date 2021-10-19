@@ -176,8 +176,8 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer  fixedImageReader = FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader = MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -190,25 +190,25 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
 
   /** define a resample filter that will ultimately be used to deform the image */
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
 
   /** create a composite transform holder for other transforms  */
   using CompositeType = itk::CompositeTransform<double, Dimension>;
 
-  CompositeType::Pointer compositeTransform = CompositeType::New();
+  auto compositeTransform = CompositeType::New();
 
   // create an affine transform
   using AffineTransformType = itk::AffineTransform<double, Dimension>;
-  AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << " affineTransform params prior to optimization " << affineTransform->GetParameters() << std::endl;
 
   using DisplacementTransformType = itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<double, Dimension>;
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
 
   using DisplacementFieldType = DisplacementTransformType::DisplacementFieldType;
-  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+  auto field = DisplacementFieldType::New();
 
   // set the field to be the same as the fixed image region, which will
   // act by default as the virtual domain in this example.
@@ -228,13 +228,13 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
 
   // identity transform for fixed image
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
-  IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   // The metric
   using MetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   using PointSetType = MetricType::FixedSampledPointSetType;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   metric->SetNumberOfHistogramBins(20);
 
   using PointType = PointSetType::PointType;
@@ -284,9 +284,9 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
 
   std::cout << "First do an affine registration " << std::endl;
   using OptimizerType = itk::GradientDescentOptimizerv4;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   using JointPDFStatusType = JointPDFStatus<OptimizerType, MetricType>;
-  JointPDFStatusType::Pointer jointPDFStatus = JointPDFStatusType::New();
+  auto jointPDFStatus = JointPDFStatusType::New();
   jointPDFStatus->SetOutputFileNameBase(argv[3]);
   jointPDFStatus->SetMIMetric(metric);
   // optimizer->AddObserver( itk::IterationEvent(), jointPDFStatus );
@@ -354,12 +354,12 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
 
   // write out the displacement field
   using DisplacementWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  DisplacementWriterType::Pointer displacementwriter = DisplacementWriterType::New();
-  std::string                     outfilename(argv[3]);
-  std::string                     ext = itksys::SystemTools::GetFilenameExtension(outfilename);
-  std::string                     name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);
-  std::string                     path = itksys::SystemTools::GetFilenamePath(outfilename);
-  std::string                     defout = path + std::string("/") + name + std::string("_def") + ext;
+  auto        displacementwriter = DisplacementWriterType::New();
+  std::string outfilename(argv[3]);
+  std::string ext = itksys::SystemTools::GetFilenameExtension(outfilename);
+  std::string name = itksys::SystemTools::GetFilenameWithoutExtension(outfilename);
+  std::string path = itksys::SystemTools::GetFilenamePath(outfilename);
+  std::string defout = path + std::string("/") + name + std::string("_def") + ext;
   displacementwriter->SetFileName(defout.c_str());
   displacementwriter->SetInput(displacementTransform->GetDisplacementField());
   displacementwriter->Update();
@@ -369,8 +369,8 @@ itkJointHistogramMutualInformationImageToImageRegistrationTest(int argc, char * 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using CastFilterType = itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
   writer->SetFileName(argv[3]);
   caster->SetInput(resample->GetOutput());
   writer->SetInput(caster->GetOutput());

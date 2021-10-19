@@ -67,11 +67,11 @@ itkSampleToHistogramFilterTest5(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
-  ImageToListSampleFilterType::Pointer imageToSampleFilter = ImageToListSampleFilterType::New();
+  auto imageToSampleFilter = ImageToListSampleFilterType::New();
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   reader->SetFileName(argv[1]);
 

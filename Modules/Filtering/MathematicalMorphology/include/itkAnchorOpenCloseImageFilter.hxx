@@ -68,7 +68,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   IReg.Crop(this->GetInput()->GetRequestedRegion());
 
   // allocate an internal buffer
-  typename InputImageType::Pointer internalbuffer = InputImageType::New();
+  auto internalbuffer = InputImageType::New();
   internalbuffer->SetRegions(IReg);
   internalbuffer->Allocate();
   InputImagePointer output = internalbuffer;
@@ -188,7 +188,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
   // using ItType = ImageRegionConstIteratorWithIndex<TImage>;
   // ItType it(input, face);
 
-  typename TImage::Pointer dumbImg = TImage::New();
+  auto dumbImg = TImage::New();
   dumbImg->SetRegions(face);
 
   KernelLType NormLine = line;

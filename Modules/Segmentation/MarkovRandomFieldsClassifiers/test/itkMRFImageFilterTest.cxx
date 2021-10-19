@@ -46,7 +46,7 @@ itkMRFImageFilterTest(int, char *[])
   //------------------------------------------------------
   using VecImageType = itk::Image<itk::Vector<double, NUMBANDS>, NDIMENSION>;
 
-  VecImageType::Pointer vecImage = VecImageType::New();
+  auto vecImage = VecImageType::New();
 
   using VecImagePixelType = VecImageType::PixelType;
 
@@ -191,7 +191,7 @@ itkMRFImageFilterTest(int, char *[])
   // Generate the training data
   //---------------------------------------------------------------
   using ClassImageType = itk::Image<unsigned short, NDIMENSION>;
-  ClassImageType::Pointer classImage = ClassImageType::New();
+  auto classImage = ClassImageType::New();
 
   ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
 
@@ -286,7 +286,7 @@ itkMRFImageFilterTest(int, char *[])
   using ImageGaussianModelEstimatorType =
     itk::ImageGaussianModelEstimator<VecImageType, MembershipFunctionType, ClassImageType>;
 
-  ImageGaussianModelEstimatorType::Pointer applyEstimateModel = ImageGaussianModelEstimatorType::New();
+  auto applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
@@ -302,7 +302,7 @@ itkMRFImageFilterTest(int, char *[])
   // Set the decision rule
   //----------------------------------------------------------------------
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer myDecisionRule = DecisionRuleType::New();
+  auto myDecisionRule = DecisionRuleType::New();
 
   //----------------------------------------------------------------------
   // Set the classifier to be used and assigne the parameters for the
@@ -332,7 +332,7 @@ itkMRFImageFilterTest(int, char *[])
 
   // Set the MRF labeller
   using MRFImageFilterType = itk::MRFImageFilter<VecImageType, ClassImageType>;
-  MRFImageFilterType::Pointer applyMRFImageFilter = MRFImageFilterType::New();
+  auto applyMRFImageFilter = MRFImageFilterType::New();
 
   // Set the MRF labeller parameters
   applyMRFImageFilter->SetNumberOfClasses(NUM_CLASSES);

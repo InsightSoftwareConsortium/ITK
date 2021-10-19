@@ -28,7 +28,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   using GFunctionType = itk::GaussianBlurImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::SizeType   size;
   ImageType::IndexType  start;
   ImageType::RegionType region;
@@ -55,7 +55,7 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   }
 
   // Test the derivative of Gaussian image function
-  GFunctionType::Pointer gaussianFunction = GFunctionType::New();
+  auto gaussianFunction = GFunctionType::New();
   gaussianFunction->SetInputImage(image);
   itk::Index<2> index;
   index.Fill(25);

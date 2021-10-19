@@ -183,13 +183,13 @@ itkLBFGSBOptimizerTest(int, char *[])
   using OptimizerType = itk::LBFGSBOptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   itkOptimizer->Print(std::cout);
 
 
   // Declaration of the CostFunction adaptor
-  LBFGSBCostFunction::Pointer costFunction = LBFGSBCostFunction::New();
+  auto costFunction = LBFGSBCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);
@@ -231,7 +231,7 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   itkOptimizer->Print(std::cout);
 
-  EventChecker::Pointer eventChecker = EventChecker::New();
+  auto eventChecker = EventChecker::New();
   itkOptimizer->AddObserver(itk::StartEvent(), eventChecker);
   itkOptimizer->AddObserver(itk::IterationEvent(), eventChecker);
   itkOptimizer->AddObserver(itk::EndEvent(), eventChecker);

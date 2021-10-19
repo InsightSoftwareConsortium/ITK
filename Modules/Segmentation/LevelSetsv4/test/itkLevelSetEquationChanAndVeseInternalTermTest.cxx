@@ -85,7 +85,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   region.SetSize(size);
 
   // Binary initialization
-  InputImageType::Pointer binary = InputImageType::New();
+  auto binary = InputImageType::New();
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
@@ -107,7 +107,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   }
 
   // Convert binary mask to sparse level set
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
@@ -117,22 +117,22 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   IdListType list_ids;
   list_ids.push_back(1);
 
-  IdListImageType::Pointer id_image = IdListImageType::New();
+  auto id_image = IdListImageType::New();
   id_image->SetRegions(binary->GetLargestPossibleRegion());
   id_image->Allocate();
   id_image->FillBuffer(list_ids);
 
-  DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
+  auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
   std::cout << "Domain map computed" << std::endl;
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(1.0);
 
   // Insert the levelsets in a levelset container
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
@@ -143,7 +143,7 @@ itkLevelSetEquationChanAndVeseInternalTermTest(int argc, char * argv[])
   }
 
   // Create ChanAndVese internal term for phi_{1}
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm0 = ChanAndVeseInternalTermType::New();
+  auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(binary);
   cvInternalTerm0->SetCoefficient(1.0);
   cvInternalTerm0->SetCurrentLevelSetId(0);

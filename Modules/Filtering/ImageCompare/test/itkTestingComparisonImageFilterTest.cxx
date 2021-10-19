@@ -50,8 +50,8 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader1 = ReaderType::New();
+  auto reader2 = ReaderType::New();
 
   reader1->SetFileName(argv[1]);
   reader2->SetFileName(argv[2]);
@@ -59,7 +59,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   // Define the filter
   using FilterType = itk::Testing::ComparisonImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // setup the filter
   filter->SetDifferenceThreshold(std::stoi(argv[4]));
@@ -74,7 +74,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
   // Write the output
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
 

@@ -157,7 +157,7 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Ge
   // moving the allocation out of loop of offsets
   // while keeping FillBuffer with boolean false in each loop
   using BoolImageType = Image<bool, ImageDimension>;
-  typename BoolImageType::Pointer alreadyVisitedImage = BoolImageType::New();
+  auto alreadyVisitedImage = BoolImageType::New();
   alreadyVisitedImage->CopyInformation(inputImage);
   alreadyVisitedImage->SetRegions(inputImage->GetRequestedRegion());
   alreadyVisitedImage->Allocate();

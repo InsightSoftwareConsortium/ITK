@@ -343,7 +343,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     }
 
     using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
-    typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
+    auto duplicator = ImageDuplicatorType::New();
     duplicator->SetInputImage(this->m_PsiLattice);
     duplicator->Update();
     this->m_PhiLattice = duplicator->GetOutput();
@@ -598,7 +598,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
     collapsedPhiLattices[i]->Allocate();
   }
   using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
-  typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
+  auto duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage(this->m_PhiLattice);
   duplicator->Update();
 
@@ -900,7 +900,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
   }
 
   using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
-  typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
+  auto duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage(refinedLattice);
   duplicator->Update();
   this->m_PsiLattice = duplicator->GetOutput();

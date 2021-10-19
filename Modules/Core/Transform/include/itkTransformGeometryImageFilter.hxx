@@ -82,7 +82,7 @@ TransformGeometryImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   /** make a cast copied version of the input image **/
   using DuplicatorType = CastImageFilter<InputImageType, OutputImageType>;
-  typename DuplicatorType::Pointer castFilter = DuplicatorType::New();
+  auto castFilter = DuplicatorType::New();
   castFilter->SetInput(input);
 
   castFilter->GraftOutput(this->GetOutput());

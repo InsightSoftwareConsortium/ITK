@@ -37,7 +37,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   using InputImageType = itk::Image<InputPixelType, Dimension>;
 
   using InputReaderType = itk::ImageFileReader<InputImageType>;
-  InputReaderType::Pointer reader = InputReaderType::New();
+  auto reader = InputReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -57,7 +57,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<InputImageType, LevelSetType>;
 
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(input);
   adaptor->Initialize();
 
@@ -67,14 +67,14 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
-  OutputImageType::Pointer output = OutputImageType::New();
+  auto output = OutputImageType::New();
   output->SetRegions(input->GetLargestPossibleRegion());
   output->CopyInformation(input);
   output->Allocate();
   output->FillBuffer(0.0);
 
   using StatusImageType = itk::Image<signed char, Dimension>;
-  StatusImageType::Pointer statusImage = StatusImageType::New();
+  auto statusImage = StatusImageType::New();
   statusImage->SetRegions(input->GetLargestPossibleRegion());
   statusImage->CopyInformation(input);
   statusImage->Allocate();
@@ -100,7 +100,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
 
   using OutputWriterType = itk::ImageFileWriter<OutputImageType>;
-  OutputWriterType::Pointer outputWriter = OutputWriterType::New();
+  auto outputWriter = OutputWriterType::New();
   outputWriter->SetFileName(argv[2]);
   outputWriter->SetInput(output);
 
@@ -115,7 +115,7 @@ itkBinaryImageToWhitakerSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
 
   using StatusWriterType = itk::ImageFileWriter<StatusImageType>;
-  StatusWriterType::Pointer statusWriter = StatusWriterType::New();
+  auto statusWriter = StatusWriterType::New();
   statusWriter->SetFileName(argv[3]);
   statusWriter->SetInput(statusImage);
 

@@ -46,7 +46,7 @@ itkKdTreeTest3(int argc, char * argv[])
 
   constexpr SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
   //
@@ -62,7 +62,7 @@ itkKdTreeTest3(int argc, char * argv[])
   }
 
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
 
   const unsigned int bucketSize = std::stoi(argv[4]);
 
@@ -99,7 +99,7 @@ itkKdTreeTest3(int argc, char * argv[])
 
   using OriginType = DistanceMetricType::OriginType;
 
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  auto distanceMetric = DistanceMetricType::New();
 
   OriginType origin(measurementVectorSize);
 

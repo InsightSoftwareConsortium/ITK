@@ -111,7 +111,7 @@ InPlaceLabelMapFilter<TInputImage>::AllocateOutputs()
       itkAssertInDebugAndIgnoreInReleaseMacro(labelObject != nullptr);
       itkAssertInDebugAndIgnoreInReleaseMacro(labelObject->GetLabel() == it.GetLabel());
 
-      typename LabelObjectType::Pointer newLabelObject = LabelObjectType::New();
+      auto newLabelObject = LabelObjectType::New();
       newLabelObject->template CopyAllFrom<LabelObjectType>(labelObject);
 
       output->AddLabelObject(newLabelObject);

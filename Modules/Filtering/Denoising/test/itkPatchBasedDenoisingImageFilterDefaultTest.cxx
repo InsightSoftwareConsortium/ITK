@@ -37,14 +37,14 @@ doDenoising(const std::string & inputFileName, const std::string & outputFileNam
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
   // Read the noisy image to be denoised
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   // Create filter and initialize
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
 
   // Use 2 threads for consistency
@@ -55,7 +55,7 @@ doDenoising(const std::string & inputFileName, const std::string & outputFileNam
 
 
   // Write the denoised image to file
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFileName);
   writer->SetInput(filter->GetOutput());
 
@@ -82,7 +82,7 @@ itkPatchBasedDenoisingImageFilterDefaultTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, 3>;
   using FilterType = itk::PatchBasedDenoisingImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PatchBasedDenoisingImageFilter, PatchBasedDenoisingBaseImageFilter);
 

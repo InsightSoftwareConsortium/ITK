@@ -61,7 +61,7 @@ check_linear(const char * linear_transform)
   using AffineTransformType = itk::AffineTransform<double, 3>;
   const double tolerance = 1e-5;
 
-  AffineTransformType::Pointer affine = AffineTransformType::New();
+  auto affine = AffineTransformType::New();
 
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New());
 
@@ -167,8 +167,8 @@ check_nonlinear_double(const char * nonlinear_transform)
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
   using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
-  DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
-  DisplacementFieldType::Pointer      field = DisplacementFieldType::New();
+  auto disp = DisplacementFieldTransform::New();
+  auto field = DisplacementFieldType::New();
 
   // create zero displacement field
   DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
@@ -308,8 +308,8 @@ check_nonlinear_float(const char * nonlinear_transform)
   using DisplacementFieldTransform = itk::DisplacementFieldTransform<float, 3>;
   using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
-  DisplacementFieldTransform::Pointer disp = DisplacementFieldTransform::New();
-  DisplacementFieldType::Pointer      field = DisplacementFieldType::New();
+  auto disp = DisplacementFieldTransform::New();
+  auto field = DisplacementFieldType::New();
 
   // create zero displacement field
   DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
@@ -476,9 +476,9 @@ check_composite(const char * transform_file)
 
   const double tolerance = 1e-5;
 
-  AffineTransformType::Pointer    affine1 = AffineTransformType::New();
-  AffineTransformType::Pointer    affine2 = AffineTransformType::New();
-  CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  auto affine1 = AffineTransformType::New();
+  auto affine2 = AffineTransformType::New();
+  auto compositeTransform = CompositeTransformType::New();
 
   itk::ObjectFactoryBase::RegisterFactory(itk::MINCTransformIOFactory::New());
 
@@ -609,7 +609,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
     using DisplacementFieldTransform = itk::DisplacementFieldTransform<double, 3>;
     using DisplacementFieldType = DisplacementFieldTransform::DisplacementFieldType;
 
-    DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+    auto field = DisplacementFieldType::New();
 
     // create zero displacement field
     DisplacementFieldType::SizeType  imageSize3D = { { 10, 10, 10 } };
@@ -637,7 +637,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
 
     using MincWriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
-    typename MincWriterType::Pointer writer = MincWriterType::New();
+    auto writer = MincWriterType::New();
     // expecting .mnc here
     writer->SetFileName(transform_grid_file);
 
@@ -676,7 +676,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
     using CompositeTransformType = itk::CompositeTransform<double, 3>;
     using TransformType = itk::Transform<double, 3>;
 
-    CompositeTransformType::Pointer _xfm = CompositeTransformType::New();
+    auto _xfm = CompositeTransformType::New();
     for (const auto & it : *list)
     {
       it->Print(std::cout);

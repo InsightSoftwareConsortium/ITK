@@ -48,7 +48,7 @@ itkFEMElement2DQuadraticTriangularTest(int, char *[])
 
   using ElasticityType = itk::fem::MaterialLinearElasticity;
 
-  ElasticityType::Pointer m = ElasticityType::New();
+  auto m = ElasticityType::New();
 
   m->SetGlobalNumber(0);
   m->SetYoungsModulus(300.0);
@@ -56,7 +56,7 @@ itkFEMElement2DQuadraticTriangularTest(int, char *[])
   m->SetMomentOfInertia(0.004);
 
   using StrainType = itk::fem::Element2DC0QuadraticTriangularStrain;
-  StrainType::Pointer e0 = StrainType::New();
+  auto e0 = StrainType::New();
 
   e0->SetGlobalNumber(0);
   e0->SetNode(0, n0);

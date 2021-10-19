@@ -29,7 +29,7 @@ itkGaussianMembershipFunctionTest(int, char *[])
   using MembershipFunctionType = itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
   using MeasurementVectorSizeType = MembershipFunctionType::MeasurementVectorSizeType;
 
-  MembershipFunctionType::Pointer function = MembershipFunctionType::New();
+  auto function = MembershipFunctionType::New();
   std::cout << function->GetNameOfClass() << std::endl;
 
   function->Print(std::cout);

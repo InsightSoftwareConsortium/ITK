@@ -49,7 +49,7 @@ itkGridImageSourceTest(int argc, char * argv[])
 
   // Instantiate the filter
   using GridSourceType = itk::GridImageSource<ImageType>;
-  GridSourceType::Pointer gridImage = GridSourceType::New();
+  auto gridImage = GridSourceType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(gridImage, GridImageSource, GenerateImageSource);
 
@@ -142,13 +142,13 @@ itkGridImageSourceTest(int argc, char * argv[])
     if (bSplineOrder == 3)
     {
       using KernelType = itk::BSplineKernelFunction<3>;
-      KernelType::Pointer kernel = KernelType::New();
+      auto kernel = KernelType::New();
       gridImage->SetKernelFunction(kernel);
     }
     else
     {
       using KernelType = itk::BSplineKernelFunction<0>;
-      KernelType::Pointer kernel = KernelType::New();
+      auto kernel = KernelType::New();
       gridImage->SetKernelFunction(kernel);
     }
   }
@@ -159,7 +159,7 @@ itkGridImageSourceTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(gridImage->Update());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[1]);
   writer->SetInput(gridImage->GetOutput());
 

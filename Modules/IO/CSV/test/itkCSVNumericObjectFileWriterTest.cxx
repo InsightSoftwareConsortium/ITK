@@ -55,7 +55,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   array[2][5] = 3e+10;
 
   using Array2DWriterType = itk::CSVNumericObjectFileWriter<double, ARows, ACols>;
-  Array2DWriterType::Pointer array_writer = Array2DWriterType::New();
+  auto array_writer = Array2DWriterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(array_writer, CSVNumericObjectFileWriter, LightProcessObject);
 
@@ -138,7 +138,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   vnlmatrix[2][3] = 5.6;
 
   using vnlMatrixWriterType = itk::CSVNumericObjectFileWriter<double, VMRows, VMCols>;
-  vnlMatrixWriterType::Pointer vnl_matrix_writer = vnlMatrixWriterType::New();
+  auto vnl_matrix_writer = vnlMatrixWriterType::New();
 
   vnl_matrix_writer->SetFileName(filename);
   vnl_matrix_writer->SetInput(&vnlmatrix);
@@ -188,7 +188,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   RowHeaders.emplace_back("Row3");
 
   using fixedMatrixWriterType = itk::CSVNumericObjectFileWriter<double, NRows, NCols>;
-  fixedMatrixWriterType::Pointer fixed_matrix_writer = fixedMatrixWriterType::New();
+  auto fixed_matrix_writer = fixedMatrixWriterType::New();
 
   fixed_matrix_writer->SetFileName(filename);
   fixed_matrix_writer->SetInput(&fixedmatrix);

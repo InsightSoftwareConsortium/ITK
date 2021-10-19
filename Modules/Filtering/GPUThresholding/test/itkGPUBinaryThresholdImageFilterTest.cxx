@@ -46,8 +46,8 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   if (!itk::IsGPUAvailable())
   {
@@ -69,8 +69,8 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
   for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
-    typename ThresholdFilterType::Pointer CPUFilter = ThresholdFilterType::New();
-    itk::TimeProbe                        cputimer;
+    auto           CPUFilter = ThresholdFilterType::New();
+    itk::TimeProbe cputimer;
     cputimer.Start();
 
     // build pipeline
@@ -92,7 +92,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
     if (numberOfWorkUnits == 8)
     {
-      typename GPUThresholdFilterType::Pointer GPUFilter = GPUThresholdFilterType::New();
+      auto GPUFilter = GPUThresholdFilterType::New();
 
       itk::TimeProbe gputimer;
       gputimer.Start();

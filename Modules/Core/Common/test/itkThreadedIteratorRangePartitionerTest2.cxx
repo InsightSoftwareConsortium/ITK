@@ -267,7 +267,7 @@ itkThreadedIteratorRangePartitionerTest2(int, char *[])
 
   using DomainType = IteratorRangeDomainThreaderAssociate::TestDomainThreader::DomainType;
   using DomainContainerType = IteratorRangeDomainThreaderAssociate::DomainContainerType;
-  DomainContainerType::Pointer container = DomainContainerType::New();
+  auto container = DomainContainerType::New();
   container->Reserve(ITK_DEFAULT_MAX_THREADS + 110);
 
   for (unsigned int i = 0; i < ITK_DEFAULT_MAX_THREADS + 110; ++i)

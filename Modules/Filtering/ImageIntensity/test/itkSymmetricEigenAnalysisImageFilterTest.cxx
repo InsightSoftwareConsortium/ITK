@@ -62,7 +62,7 @@ public:
     using RegionType = itk::ImageRegion<InputImageType::ImageDimension>;
 
     // Create the input image
-    typename InputImageType::Pointer inputImage = InputImageType::New();
+    auto inputImage = InputImageType::New();
 
     // Define its size, and start index
     SizeType size;
@@ -109,7 +109,7 @@ public:
 
 
     // Create the filter
-    typename SymmetricEigenAnalysisImageFilterType::Pointer filter = SymmetricEigenAnalysisImageFilterType::New();
+    auto filter = SymmetricEigenAnalysisImageFilterType::New();
 
     // Dimension should be initialized to the input image dimension
     ITK_TEST_EXPECT_EQUAL(filter->GetDimension(), InputImageType::ImageDimension);
@@ -136,7 +136,7 @@ public:
     // Get the output image to a writable format
     using CastImageFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
 
-    typename CastImageFilterType::Pointer roundImageFilter = CastImageFilterType::New();
+    auto roundImageFilter = CastImageFilterType::New();
 
     roundImageFilter->SetInput(internalImage);
 
@@ -145,7 +145,7 @@ public:
     // Write the result image
     using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->SetFileName(outputFilename);
 
@@ -196,7 +196,7 @@ public:
     using RegionType = itk::ImageRegion<InputImageType::ImageDimension>;
 
     // Create the input image
-    typename InputImageType::Pointer inputImage = InputImageType::New();
+    auto inputImage = InputImageType::New();
 
     // Define its size, and start index
     SizeType size;
@@ -264,7 +264,7 @@ public:
     // Get the output image to a writable format
     using CastImageFilterType = itk::CastImageFilter<InternalImageType, OutputImageType>;
 
-    typename CastImageFilterType::Pointer roundImageFilter = CastImageFilterType::New();
+    auto roundImageFilter = CastImageFilterType::New();
 
     roundImageFilter->SetInput(internalImage);
 
@@ -273,7 +273,7 @@ public:
     // Write the result image
     using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->SetFileName(outputFilename);
 
@@ -326,7 +326,7 @@ itkSymmetricEigenAnalysisImageFilterTest(int argc, char * argv[])
   using FilterType = itk::SymmetricEigenAnalysisImageFilter<InputImageType, InternalImageType>;
 
   // Create an instance to exercise basic object methods
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SymmetricEigenAnalysisImageFilter, UnaryFunctorImageFilter);
 

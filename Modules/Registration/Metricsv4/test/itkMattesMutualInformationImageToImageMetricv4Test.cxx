@@ -77,7 +77,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   imgOrigin[0] = 0.001;
   imgOrigin[1] = -0.002;
 
-  typename MovingImageType::Pointer imgMoving = MovingImageType::New();
+  auto imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion(region);
   imgMoving->SetBufferedRegion(region);
   imgMoving->SetRequestedRegion(region);
@@ -85,7 +85,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   imgMoving->SetSpacing(imgSpacing);
   imgMoving->SetOrigin(imgOrigin);
 
-  typename FixedImageType::Pointer imgFixed = FixedImageType::New();
+  auto imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion(region);
   imgFixed->SetBufferedRegion(region);
   imgFixed->SetRequestedRegion(region);
@@ -141,12 +141,12 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   }
 
   // Setup a fixed image mask for the image
-  typename MovingImageType::Pointer imgMovingMask = MovingImageType::New();
+  auto imgMovingMask = MovingImageType::New();
   imgMovingMask->CopyInformation(imgMoving);
   imgMovingMask->SetRegions(region);
   imgMovingMask->Allocate(true); // initialize buffer to zero
 
-  typename FixedImageType::Pointer imgFixedMask = FixedImageType::New();
+  auto imgFixedMask = FixedImageType::New();
   imgFixedMask->CopyInformation(imgFixed);
   imgFixedMask->SetRegions(region);
   imgFixedMask->Allocate(true); // initialize buffer to zero
@@ -192,14 +192,14 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   using TransformType = itk::AffineTransform<double, ImageDimension>;
   using ParametersType = typename TransformType::ParametersType;
 
-  typename TransformType::Pointer transformer = TransformType::New();
+  auto transformer = TransformType::New();
 
   //------------------------------------------------------------
   // Set up the metric
   //------------------------------------------------------------
   using MetricType = itk::MattesMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
 
-  typename MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // Sanity check before metric is run, these should be nullptr;
   if (metric->GetJointPDFDerivatives().IsNotNull())
@@ -452,7 +452,7 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
   // Test metric with a linear interpolator
   using LinearInterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
 
-  LinearInterpolatorType::Pointer linearInterpolator = LinearInterpolatorType::New();
+  auto linearInterpolator = LinearInterpolatorType::New();
 
   std::cout << "Test metric with a linear interpolator." << std::endl;
   bool useSampling = false;
@@ -475,7 +475,7 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
   // Test metric with a BSpline interpolator
   using BSplineInterpolatorType = itk::BSplineInterpolateImageFunction<ImageType, double>;
 
-  BSplineInterpolatorType::Pointer bSplineInterpolator = BSplineInterpolatorType::New();
+  auto bSplineInterpolator = BSplineInterpolatorType::New();
 
   bSplineInterpolator->SetSplineOrder(3);
   useSampling = false;

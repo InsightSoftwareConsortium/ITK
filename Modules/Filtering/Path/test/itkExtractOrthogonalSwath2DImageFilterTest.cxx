@@ -54,8 +54,8 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
 
   // Set up the image
   std::cout << "Making a 64x64 white square centered in a 128x128 black image" << std::endl;
-  ImageType::Pointer inputImage = ImageType::New();
-  IndexType          start;
+  auto      inputImage = ImageType::New();
+  IndexType start;
   start[0] = 0;
   start[1] = 0;
   ImageType::SizeType size;
@@ -93,8 +93,8 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
 
   // Set up the path
   std::cout << "Making a square Path with v0 at (24,24) -> (24,104) -> (104,104) -> (104,24)" << std::endl;
-  PolyLineParametricPathType::Pointer inputPath = PolyLineParametricPathType::New();
-  VertexType                          v;
+  auto       inputPath = PolyLineParametricPathType::New();
+  VertexType v;
   v.Fill(24);
   inputPath->AddVertex(v);
   v[0] = 24;
@@ -109,7 +109,7 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   inputPath->AddVertex(v);
 
   // Set up the first filter
-  PathToChainCodePathFilterType::Pointer pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
+  auto pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
   pathToChainCodePathFilter->SetInput(inputPath);
   ChainCodePathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
 

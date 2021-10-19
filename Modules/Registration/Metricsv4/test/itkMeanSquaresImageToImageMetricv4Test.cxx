@@ -50,14 +50,14 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   direction.SetIdentity();
 
   /* Create simple test images. */
-  ImageType::Pointer fixedImage = ImageType::New();
+  auto fixedImage = ImageType::New();
   fixedImage->SetRegions(region);
   fixedImage->SetSpacing(spacing);
   fixedImage->SetOrigin(origin);
   fixedImage->SetDirection(direction);
   fixedImage->Allocate();
 
-  ImageType::Pointer movingImage = ImageType::New();
+  auto movingImage = ImageType::New();
   movingImage->SetRegions(region);
   movingImage->SetSpacing(spacing);
   movingImage->SetOrigin(origin);
@@ -91,8 +91,8 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   using FixedTransformType = itk::TranslationTransform<double, imageDimensionality>;
   using MovingTransformType = itk::TranslationTransform<double, imageDimensionality>;
 
-  FixedTransformType::Pointer  fixedTransform = FixedTransformType::New();
-  MovingTransformType::Pointer movingTransform = MovingTransformType::New();
+  auto fixedTransform = FixedTransformType::New();
+  auto movingTransform = MovingTransformType::New();
 
   fixedTransform->SetIdentity();
   movingTransform->SetIdentity();
@@ -100,7 +100,7 @@ itkMeanSquaresImageToImageMetricv4Test(int, char ** const)
   /* The metric */
   using MetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType, ImageType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   /* Assign images and transforms.
    * By not setting a virtual domain image or virtual domain settings,

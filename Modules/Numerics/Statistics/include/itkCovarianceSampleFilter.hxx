@@ -66,7 +66,7 @@ CovarianceSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index
   {
     MatrixType covarianceMatrix(measurementVectorSize, measurementVectorSize);
     covarianceMatrix.SetIdentity();
-    typename MatrixDecoratedType::Pointer decoratedCovarianceMatrix = MatrixDecoratedType::New();
+    auto decoratedCovarianceMatrix = MatrixDecoratedType::New();
     decoratedCovarianceMatrix->Set(covarianceMatrix);
     return decoratedCovarianceMatrix.GetPointer();
   }
@@ -77,7 +77,7 @@ CovarianceSampleFilter<TSample>::MakeOutput(DataObjectPointerArraySizeType index
     (void)mean; // for complainty pants : valgrind
     NumericTraits<MeasurementVectorRealType>::SetLength(mean, this->GetMeasurementVectorSize());
     // NumericTraits::SetLength also initializes array to zero
-    typename MeasurementVectorDecoratedType::Pointer decoratedMean = MeasurementVectorDecoratedType::New();
+    auto decoratedMean = MeasurementVectorDecoratedType::New();
     decoratedMean->Set(mean);
     return decoratedMean.GetPointer();
   }
@@ -129,7 +129,7 @@ CovarianceSampleFilter<TSample>::GenerateData()
 
   // calculate mean
   using MeanFilterType = MeanSampleFilter<SampleType>;
-  typename MeanFilterType::Pointer meanFilter = MeanFilterType::New();
+  auto meanFilter = MeanFilterType::New();
 
   meanFilter->SetInput(input);
   meanFilter->Update();

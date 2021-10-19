@@ -43,13 +43,13 @@ itkGDCMLegacyMultiFrameTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer       reader = ReaderType::New();
+  auto                      reader = ReaderType::New();
   itk::GDCMImageIO::Pointer imageIO = itk::GDCMImageIO::New();
   reader->SetImageIO(imageIO);
   reader->SetFileName(inputFileName);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(outputFileName);
   try

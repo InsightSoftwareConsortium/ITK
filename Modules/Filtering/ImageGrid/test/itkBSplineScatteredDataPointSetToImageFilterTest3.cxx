@@ -53,7 +53,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
 
   using PointSetType = itk::PointSet<PointSetPixelType, ParametricDimension>;
 
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
 
   // Read the input points
   std::ifstream inputFile;
@@ -89,7 +89,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   // Instantiate the filter and set the parameters
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter);
 
@@ -135,14 +135,14 @@ itkBSplineScatteredDataPointSetToImageFilterTest3(int argc, char * argv[])
   // Cast the output image
   using CastImageFilterType = itk::CastImageFilter<ImageType, OutputImageType>;
 
-  CastImageFilterType::Pointer caster = CastImageFilterType::New();
+  auto caster = CastImageFilterType::New();
 
   caster->SetInput(outputImage);
 
   // Write the result image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
 

@@ -31,7 +31,7 @@ itkImageFileWriterTest(int ac, char * av[])
   using ImageNDType = itk::Image<short, 2>;
   using WriterType = itk::ImageFileWriter<ImageNDType>;
 
-  ImageNDType::Pointer    image = ImageNDType::New();
+  auto                    image = ImageNDType::New();
   ImageNDType::RegionType region;
   ImageNDType::IndexType  index;
   ImageNDType::SizeType   size;
@@ -49,7 +49,7 @@ itkImageFileWriterTest(int ac, char * av[])
   int status = 1;
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->Update();
   }
   catch (const itk::ExceptionObject & ex)
@@ -68,7 +68,7 @@ itkImageFileWriterTest(int ac, char * av[])
   status = 1;
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(image);
     writer->Update();
   }
@@ -88,7 +88,7 @@ itkImageFileWriterTest(int ac, char * av[])
   status = 1;
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName("this_is_a_bad_filename");
     writer->Update();
@@ -109,7 +109,7 @@ itkImageFileWriterTest(int ac, char * av[])
   status = 1;
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(av[1]);
     writer->Update();
@@ -130,7 +130,7 @@ itkImageFileWriterTest(int ac, char * av[])
   status = 1;
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(av[1]);
     writer->UpdateLargestPossibleRegion();

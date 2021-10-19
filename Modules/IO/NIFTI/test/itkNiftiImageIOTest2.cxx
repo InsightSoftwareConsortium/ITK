@@ -49,7 +49,7 @@ itkNiftiImageIOTest2(int ac, char * av[])
   {
     using ImageReaderType = itk::ImageFileReader<ImageType>;
     itk::NiftiImageIO::Pointer io = itk::NiftiImageIO::New();
-    ImageReaderType::Pointer   imageReader = ImageReaderType::New();
+    auto                       imageReader = ImageReaderType::New();
     imageReader->SetImageIO(io);
     imageReader->SetFileName(arg2);
     imageReader->Update();

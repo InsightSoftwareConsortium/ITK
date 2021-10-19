@@ -43,9 +43,9 @@ itkDCMTKImageIOTest(int ac, char * av[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
   using ImageIOType = itk::DCMTKImageIO;
-  ImageIOType::Pointer dcmtkImageIO = ImageIOType::New();
+  auto dcmtkImageIO = ImageIOType::New();
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
   reader->SetImageIO(dcmtkImageIO);
   // reader->DebugOn();
@@ -59,13 +59,13 @@ itkDCMTKImageIOTest(int ac, char * av[])
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using RescaleFilterType = itk::RescaleIntensityImageFilter<InputImageType, WriteImageType>;
 
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
   rescaler->SetInput(reader->GetOutput());
 
   using Writer2Type = itk::ImageFileWriter<WriteImageType>;
-  Writer2Type::Pointer writer2 = Writer2Type::New();
+  auto writer2 = Writer2Type::New();
   // writer2->DebugOn();
   writer2->SetFileName(av[3]);
   writer2->SetInput(rescaler->GetOutput());

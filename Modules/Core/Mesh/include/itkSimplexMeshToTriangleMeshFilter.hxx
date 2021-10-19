@@ -49,7 +49,7 @@ template <typename TInputMesh, typename TOutputMesh>
 void
 SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::CreateTriangles()
 {
-  typename AutoMeshSourceType::Pointer   meshSource = AutoMeshSourceType::New();
+  auto                                   meshSource = AutoMeshSourceType::New();
   typename AutoMeshSourceType::PointType p1, p2, p3;
 
   typename TInputMesh::ConstPointer                 inputMesh = this->GetInput(0);

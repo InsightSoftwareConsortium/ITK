@@ -150,7 +150,7 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
@@ -179,7 +179,7 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
 
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
   itkOptimizer->SetNormalVariateGenerator(generator);
 
   itkOptimizer->SetInitialPosition(initialPosition);

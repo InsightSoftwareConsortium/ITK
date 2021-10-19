@@ -43,7 +43,7 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::MeshFileReader<MeshType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -58,14 +58,14 @@ itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  CurvatureFilterType::Pointer gaussian_curvature = CurvatureFilterType::New();
+  auto gaussian_curvature = CurvatureFilterType::New();
   gaussian_curvature->SetInput(mesh);
   gaussian_curvature->Update();
 
   MeshType::Pointer output = gaussian_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(output);
   writer->SetFileName("gaussian_curvature.vtk");
   writer->Update();

@@ -62,7 +62,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    TIFFImageIOFactory::Pointer TIFFFactory = TIFFImageIOFactory::New();
+    auto TIFFFactory = TIFFImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(TIFFFactory);
   }

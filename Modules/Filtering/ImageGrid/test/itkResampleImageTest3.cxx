@@ -57,15 +57,15 @@ itkResampleImageTest3(int argc, char * argv[])
   using ChangeInfoType = itk::ChangeInformationImageFilter<ImageType>;
   using ResampleFilterType = itk::ResampleImageFilter<ImageType, ImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
+  auto reader1 = ReaderType::New();
   reader1->SetFileName(argv[1]);
   reader1->Update();
 
   // Create an identity transformation
-  TransformType::Pointer identityTransform = TransformType::New();
+  auto identityTransform = TransformType::New();
 
   // Create a linear interpolation image function
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   // Create an image with flipped directions
   ImageType::DirectionType direction;
@@ -78,7 +78,7 @@ itkResampleImageTest3(int argc, char * argv[])
   origin[0] = inputRegion.GetSize()[0];
   origin[1] = inputRegion.GetSize()[1];
 
-  ChangeInfoType::Pointer changeInfo = ChangeInfoType::New();
+  auto changeInfo = ChangeInfoType::New();
   changeInfo->ChangeDirectionOn();
   changeInfo->SetOutputDirection(direction);
   changeInfo->ChangeOriginOn();
@@ -86,7 +86,7 @@ itkResampleImageTest3(int argc, char * argv[])
   changeInfo->SetInput(reader1->GetOutput());
 
   // Create and configure a resampling filter
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resample, ResampleImageFilter, ImageToImageFilter);
 
@@ -105,7 +105,7 @@ itkResampleImageTest3(int argc, char * argv[])
   resample->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, resample->GetInterpolator());
 
-  WriterType::Pointer writer1 = WriterType::New();
+  auto writer1 = WriterType::New();
   writer1->SetFileName(argv[2]);
   writer1->SetInput(resample->GetOutput());
 

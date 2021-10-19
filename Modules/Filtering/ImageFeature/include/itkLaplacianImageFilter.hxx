@@ -120,12 +120,12 @@ LaplacianImageFilter<TInputImage, TOutputImage>::GenerateData()
   oper.CreateOperator();
 
   using NOIF = NeighborhoodOperatorImageFilter<InputImageType, OutputImageType>;
-  typename NOIF::Pointer filter = NOIF::New();
+  auto filter = NOIF::New();
 
   filter->OverrideBoundaryCondition(&nbc);
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Register the filter with the with progress accumulator using

@@ -70,13 +70,13 @@ void
 BinaryReconstructionByDilationImageFilter<TInputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
 
-  typename LabelizerType::Pointer labelizer = LabelizerType::New();
+  auto labelizer = LabelizerType::New();
   labelizer->SetInput(this->GetMaskImage());
   labelizer->SetInputForegroundValue(m_ForegroundValue);
   labelizer->SetOutputBackgroundValue(m_BackgroundValue);
@@ -84,20 +84,20 @@ BinaryReconstructionByDilationImageFilter<TInputImage>::GenerateData()
   labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .25f);
 
-  typename ReconstructionType::Pointer reconstruction = ReconstructionType::New();
+  auto reconstruction = ReconstructionType::New();
   reconstruction->SetInput(labelizer->GetOutput());
   reconstruction->SetMarkerImage(this->GetMarkerImage());
   reconstruction->SetForegroundValue(m_ForegroundValue);
   reconstruction->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(reconstruction, .25f);
 
-  typename OpeningType::Pointer opening = OpeningType::New();
+  auto opening = OpeningType::New();
   opening->SetInput(reconstruction->GetOutput());
   opening->SetLambda(true);
   opening->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(opening, .25f);
 
-  typename BinarizerType::Pointer binarizer = BinarizerType::New();
+  auto binarizer = BinarizerType::New();
   binarizer->SetInput(opening->GetOutput());
   binarizer->SetForegroundValue(m_ForegroundValue);
   binarizer->SetBackgroundValue(m_BackgroundValue);

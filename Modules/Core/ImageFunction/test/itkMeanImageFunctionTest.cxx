@@ -33,7 +33,7 @@ itkMeanImageFunctionTest(int, char *[])
   using FunctionType = itk::MeanImageFunction<ImageType>;
 
   // Create and allocate the image
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType   size;
   ImageType::IndexType  start;
@@ -55,7 +55,7 @@ itkMeanImageFunctionTest(int, char *[])
 
   image->FillBuffer(initialValue);
 
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, MeanImageFunction, ImageFunction);
 

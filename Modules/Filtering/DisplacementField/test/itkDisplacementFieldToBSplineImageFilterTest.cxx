@@ -40,7 +40,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   VectorType ones(1);
 
-  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+  auto field = DisplacementFieldType::New();
   field->SetOrigin(origin);
   field->SetSpacing(spacing);
   field->SetRegions(size);
@@ -51,13 +51,13 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   using BSplineFilterType = itk::DisplacementFieldToBSplineImageFilter<DisplacementFieldType, PointSetType>;
   using RealImageType = BSplineFilterType::RealImageType;
 
-  RealImageType::Pointer confidenceImage = RealImageType::New();
+  auto confidenceImage = RealImageType::New();
   confidenceImage->CopyInformation(field);
   confidenceImage->SetRegions(size);
   confidenceImage->Allocate();
   confidenceImage->FillBuffer(1.0);
 
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   pointSet->Initialize();
 
   VectorType ones_points(1.0);
@@ -84,7 +84,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   BSplineFilterType::ArrayType numberOfControlPoints;
   numberOfControlPoints.Fill(4);
 
-  BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  auto bspliner = BSplineFilterType::New();
   bspliner->SetDisplacementField(field);
   bspliner->SetConfidenceImage(confidenceImage);
   bspliner->SetPointSet(pointSet);
@@ -149,7 +149,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
   /** do a second run using only the point set. */
 
-  BSplineFilterType::Pointer bspliner2 = BSplineFilterType::New();
+  auto bspliner2 = BSplineFilterType::New();
   bspliner2->SetPointSet(pointSet);
   bspliner2->SetUseInputFieldToDefineTheBSplineDomain(false);
   bspliner2->SetBSplineDomainFromImage(field);

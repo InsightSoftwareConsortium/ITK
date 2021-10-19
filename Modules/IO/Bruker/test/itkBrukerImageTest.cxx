@@ -52,8 +52,8 @@ itkBrukerImageTest(int argc, char * argv[])
   {
     using ReaderType = itk::ImageFileReader<ImageType>;
     using WriterType = itk::ImageFileWriter<ImageType>;
-    ReaderType::Pointer reader = ReaderType::New();
-    WriterType::Pointer writer = WriterType::New();
+    auto reader = ReaderType::New();
+    auto writer = WriterType::New();
     reader->SetFileName(argv[1]);
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
     // Bruker has a lot of extraneous meta-data, get rid of it

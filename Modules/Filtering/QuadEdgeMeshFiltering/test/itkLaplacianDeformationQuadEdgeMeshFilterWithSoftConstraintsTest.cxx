@@ -41,14 +41,14 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   using MeshType = itk::QuadEdgeMesh<CoordType, Dimension>;
 
   using ReaderType = itk::MeshFileReader<MeshType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
   using SolverType = VNLSparseLUSolverTraits<CoordType>;
 
   using FilterType = itk::LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<MeshType, MeshType, SolverType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetOrder(1);
   filter->SetLambda(1.);
@@ -110,7 +110,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   }
 
   using WriterType = itk::MeshFileWriter<MeshType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
   writer->Update();

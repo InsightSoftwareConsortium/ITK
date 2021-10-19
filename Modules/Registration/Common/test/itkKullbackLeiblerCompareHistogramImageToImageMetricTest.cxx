@@ -58,25 +58,25 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  MovingImageType::Pointer imgMoving = MovingImageType::New();
+  auto imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion(region);
   imgMoving->SetBufferedRegion(region);
   imgMoving->SetRequestedRegion(region);
   imgMoving->Allocate();
 
-  FixedImageType::Pointer imgFixed = FixedImageType::New();
+  auto imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion(region);
   imgFixed->SetBufferedRegion(region);
   imgFixed->SetRequestedRegion(region);
   imgFixed->Allocate();
 
-  MovingImageType::Pointer imgTrainingMoving = MovingImageType::New();
+  auto imgTrainingMoving = MovingImageType::New();
   imgTrainingMoving->SetLargestPossibleRegion(region);
   imgTrainingMoving->SetBufferedRegion(region);
   imgTrainingMoving->SetRequestedRegion(region);
   imgTrainingMoving->Allocate();
 
-  FixedImageType::Pointer imgTrainingFixed = FixedImageType::New();
+  auto imgTrainingFixed = FixedImageType::New();
   imgTrainingFixed->SetLargestPossibleRegion(region);
   imgTrainingFixed->SetBufferedRegion(region);
   imgTrainingFixed->SetRequestedRegion(region);
@@ -167,8 +167,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   using TransformType = itk::AffineTransform<double, ImageDimension>;
   using ParametersType = TransformType::ParametersType;
 
-  TransformType::Pointer transformer = TransformType::New();
-  TransformType::Pointer TrainingTransform = TransformType::New();
+  auto transformer = TransformType::New();
+  auto TrainingTransform = TransformType::New();
   transformer->SetIdentity();
   TrainingTransform->SetIdentity();
 
@@ -177,15 +177,15 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   //------------------------------------------------------------
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  InterpolatorType::Pointer TrainingInterpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
+  auto TrainingInterpolator = InterpolatorType::New();
 
   //------------------------------------------------------------
   // Set up the metric
   //------------------------------------------------------------
   using MetricType = itk::KullbackLeiblerCompareHistogramImageToImageMetric<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // connect the interpolator
   metric->SetInterpolator(interpolator);

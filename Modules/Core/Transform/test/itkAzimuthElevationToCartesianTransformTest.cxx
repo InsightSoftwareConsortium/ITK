@@ -40,7 +40,7 @@ itkAzimuthElevationToCartesianTransformTest(int, char *[])
   using AzimuthElevationToCartesianTransformType =
     itk::AzimuthElevationToCartesianTransform<CoordinateRepresentationType>;
 
-  AzimuthElevationToCartesianTransformType::Pointer transform = AzimuthElevationToCartesianTransformType::New();
+  auto transform = AzimuthElevationToCartesianTransformType::New();
 
   transform->SetAzimuthElevationToCartesianParameters(1.0, 5.0, 45, 45);
 

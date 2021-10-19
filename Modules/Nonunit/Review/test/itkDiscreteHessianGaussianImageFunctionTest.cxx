@@ -35,7 +35,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
   // Read input
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -46,7 +46,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
   typename HessianGaussianImageFunctionType::TensorType                       hessian;
   typename HessianGaussianImageFunctionType::TensorType::EigenValuesArrayType eigenValues;
 
-  typename HessianGaussianImageFunctionType::Pointer function = HessianGaussianImageFunctionType::New();
+  auto function = HessianGaussianImageFunctionType::New();
 
 
   function->SetInputImage(reader->GetOutput());
@@ -172,7 +172,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
 
   // Write the output image
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(output);
 
@@ -279,7 +279,7 @@ itkDiscreteHessianGaussianImageFunctionTest(int argc, char * argv[])
 
 
   using HessianGaussianImageFunctionType = itk::DiscreteHessianGaussianImageFunction<ImageType, PixelType>;
-  HessianGaussianImageFunctionType::Pointer function = HessianGaussianImageFunctionType::New();
+  auto function = HessianGaussianImageFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, DiscreteHessianGaussianImageFunction, ImageFunction);
 

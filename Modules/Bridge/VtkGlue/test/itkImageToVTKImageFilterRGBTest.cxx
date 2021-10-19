@@ -41,11 +41,11 @@ itkImageToVTKImageFilterRGBTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFileName);
 
   using ConnectorType = itk::ImageToVTKImageFilter<ImageType>;
-  ConnectorType::Pointer connector = ConnectorType::New();
+  auto connector = ConnectorType::New();
   connector->SetInput(reader->GetOutput());
 
   connector->UpdateLargestPossibleRegion();

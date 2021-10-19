@@ -42,7 +42,7 @@ itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
 
   using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
 
-  LabelMapType::Pointer map = LabelMapType::New();
+  auto map = LabelMapType::New();
 
   SizeType sizeIn;
   sizeIn[0] = 11;
@@ -68,7 +68,7 @@ itkLabelMapToLabelImageFilterTest(int argc, char * argv[])
     map->SetPixel(idxVertical, 1);
   }
 
-  LabelMapToLabelImageFilterType::Pointer conversion = LabelMapToLabelImageFilterType::New();
+  auto conversion = LabelMapToLabelImageFilterType::New();
   conversion->SetInput(map);
   conversion->Update();
 

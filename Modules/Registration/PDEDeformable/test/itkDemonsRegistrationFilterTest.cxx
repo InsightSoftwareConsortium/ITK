@@ -129,9 +129,9 @@ itkDemonsRegistrationFilterTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  ImageType::Pointer moving = ImageType::New();
-  ImageType::Pointer fixed = ImageType::New();
-  FieldType::Pointer initField = FieldType::New();
+  auto moving = ImageType::New();
+  auto fixed = ImageType::New();
+  auto initField = FieldType::New();
 
   moving->SetLargestPossibleRegion(region);
   moving->SetBufferedRegion(region);
@@ -168,7 +168,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
   caster->SetInput(initField);
   caster->InPlaceOff();
 
@@ -176,7 +176,7 @@ itkDemonsRegistrationFilterTest(int, char *[])
   std::cout << "Run registration and warp moving" << std::endl;
 
   using RegistrationType = itk::DemonsRegistrationFilter<ImageType, ImageType, FieldType>;
-  RegistrationType::Pointer registrator = RegistrationType::New();
+  auto registrator = RegistrationType::New();
 
   registrator->SetInitialDisplacementField(caster->GetOutput());
   registrator->SetMovingImage(moving);
@@ -222,11 +222,11 @@ itkDemonsRegistrationFilterTest(int, char *[])
 
   // warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
 
   warper->SetInput(moving);

@@ -35,7 +35,7 @@ itkImageToListSampleFilterTest2(int, char *[])
 
   using MaskImageType = itk::Image<unsigned char, ImageDimension>;
 
-  ImageType::Pointer   image = ImageType::New();
+  auto                 image = ImageType::New();
   ImageType::IndexType start;
   ImageType::SizeType  size;
 
@@ -59,7 +59,7 @@ itkImageToListSampleFilterTest2(int, char *[])
     ++it;
   }
 
-  MaskImageType::Pointer maskImage = MaskImageType::New();
+  auto maskImage = MaskImageType::New();
   maskImage->SetRegions(region);
   maskImage->Allocate(true); // initialize
                              // buffer to zero
@@ -86,7 +86,7 @@ itkImageToListSampleFilterTest2(int, char *[])
 
   // Generate a list sample from "image" confined to the mask, "maskImage".
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
-  ImageToListSampleFilterType::Pointer filter = ImageToListSampleFilterType::New();
+  auto filter = ImageToListSampleFilterType::New();
 
   filter->SetInput(image);
   filter->SetMaskImage(maskImage);

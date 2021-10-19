@@ -66,7 +66,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>::GenerateData()
   // erosion. the marker image is the input image minus the height
   // parameter.
   using ShiftFilterType = ShiftScaleImageFilter<TInputImage, TInputImage>;
-  typename ShiftFilterType::Pointer shift = ShiftFilterType::New();
+  auto shift = ShiftFilterType::New();
   shift->SetInput(this->GetInput());
   shift->SetShift(static_cast<typename ShiftFilterType::RealType>(m_Height));
 
@@ -77,7 +77,7 @@ HMinimaImageFilter<TInputImage, TOutputImage>::GenerateData()
     ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(erode, 1.0f);
 

@@ -244,7 +244,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GPUImageFactory::Pointer factory = GPUImageFactory::New();
+    auto factory = GPUImageFactory::New();
 
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }

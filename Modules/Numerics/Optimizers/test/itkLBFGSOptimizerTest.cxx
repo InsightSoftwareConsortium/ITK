@@ -118,10 +118,10 @@ itkLBFGSOptimizerTest(int, char *[])
   using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the CostFunction adapter
-  LBFGSCostFunction::Pointer costFunction = LBFGSCostFunction::New();
+  auto costFunction = LBFGSCostFunction::New();
 
   // Set some optimizer parameters
   itkOptimizer->SetTrace(false);

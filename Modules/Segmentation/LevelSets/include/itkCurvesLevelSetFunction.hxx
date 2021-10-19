@@ -62,7 +62,7 @@ CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
   {
     using DerivativeFilterType = GradientRecursiveGaussianImageFilter<FeatureImageType, VectorImageType>;
 
-    typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
+    auto derivative = DerivativeFilterType::New();
     derivative->SetInput(this->GetFeatureImage());
     derivative->SetSigma(m_DerivativeSigma);
     derivative->Update();
@@ -73,7 +73,7 @@ CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
   {
     using DerivativeFilterType = GradientImageFilter<FeatureImageType>;
 
-    typename DerivativeFilterType::Pointer derivative = DerivativeFilterType::New();
+    auto derivative = DerivativeFilterType::New();
     derivative->SetInput(this->GetFeatureImage());
     derivative->UseImageSpacingOn();
     derivative->Update();
@@ -81,7 +81,7 @@ CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
     using DerivativeOutputImageType = typename DerivativeFilterType::OutputImageType;
     using GradientCasterType = CastImageFilter<DerivativeOutputImageType, VectorImageType>;
 
-    typename GradientCasterType::Pointer caster = GradientCasterType::New();
+    auto caster = GradientCasterType::New();
     caster->SetInput(derivative->GetOutput());
     caster->Update();
 

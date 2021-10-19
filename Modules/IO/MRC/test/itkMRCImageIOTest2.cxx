@@ -34,7 +34,7 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
   using ImageType = TImageType;
   using ImageFileReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+  auto reader = ImageFileReaderType::New();
   reader->SetFileName(inFileName);
   reader->UpdateLargestPossibleRegion();
 
@@ -86,14 +86,14 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
   }
 
   using HashFilter = itk::Testing::HashImageFilter<ImageType>;
-  typename HashFilter::Pointer hasher = HashFilter::New();
+  auto hasher = HashFilter::New();
   hasher->SetInput(image);
   hasher->Update();
 
   ITK_TEST_EXPECT_EQUAL(md5, hasher->GetHash());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(image);
   writer->SetFileName(outFileName);
   writer->Update();

@@ -71,7 +71,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
   using SampleType = HistogramType;
 
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
 
   HistogramType::SizeType              size(MeasurementVectorSize);
   HistogramType::MeasurementVectorType lowerBound(MeasurementVectorSize);
@@ -87,7 +87,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
   using MembershipFunctionType = itk::Statistics::MahalanobisDistanceMetric<HistogramType::MeasurementVectorType>;
 
-  MembershipFunctionType::Pointer memberFunction = MembershipFunctionType::New();
+  auto memberFunction = MembershipFunctionType::New();
 
 
   using MeanVectorType = MembershipFunctionType::MeanVectorType;
@@ -140,7 +140,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
   using FilterType = itk::Statistics::MyCovarianceSampleFilter<SampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
 
   // test if exception is thrown if a derived class tries to create

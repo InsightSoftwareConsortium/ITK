@@ -56,11 +56,11 @@ itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
 
   using RealAndImaginary2ComplexFilterType = itk::ComposeImageFilter<InputImageType, OutputImageType>;
 
-  ReaderType::Pointer readerReal = ReaderType::New();
-  ReaderType::Pointer readerImag = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto readerReal = ReaderType::New();
+  auto readerImag = ReaderType::New();
+  auto writer = WriterType::New();
 
-  RealAndImaginary2ComplexFilterType::Pointer RealAndImaginary2Complex = RealAndImaginary2ComplexFilterType::New();
+  auto RealAndImaginary2Complex = RealAndImaginary2ComplexFilterType::New();
 
   readerReal->SetFileName(argv[1]);
   readerImag->SetFileName(argv[2]);
@@ -88,7 +88,7 @@ itkImageReadRealAndImaginaryWriteComplexTest(int argc, char * argv[])
 
   // check that the default template parameters work
   using DefaultParametersFilterType = itk::ComposeImageFilter<InputImageType>;
-  DefaultParametersFilterType::Pointer temp = DefaultParametersFilterType::New();
+  auto temp = DefaultParametersFilterType::New();
   if (temp.IsNull())
   {
     return EXIT_FAILURE;

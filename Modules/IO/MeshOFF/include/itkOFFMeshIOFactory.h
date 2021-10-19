@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    OFFMeshIOFactory::Pointer offFactory = OFFMeshIOFactory::New();
+    auto offFactory = OFFMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(offFactory);
   }

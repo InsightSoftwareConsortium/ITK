@@ -37,7 +37,7 @@ itkNrrdDiffusionTensor3DImageReadTensorDoubleWriteTensorDoubleTest(int ac, char 
 
   using ReaderType = itk::ImageFileReader<InImage>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetImageIO(itk::NrrdImageIO::New());
 

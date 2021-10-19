@@ -43,8 +43,8 @@ itkPowImageFilterTest(int, char *[])
   using SizeType = itk::Size<1>;
   using IndexType = itk::Index<1>;
 
-  ImageType::Pointer inputImageA = ImageType::New();
-  ImageType::Pointer inputImageB = ImageType::New();
+  auto inputImageA = ImageType::New();
+  auto inputImageB = ImageType::New();
 
   SizeType size;
   size[0] = 2;
@@ -69,7 +69,7 @@ itkPowImageFilterTest(int, char *[])
   }
 
   // Create a PowFilter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PowImageFilter, BinaryGeneratorImageFilter);
 
@@ -114,7 +114,7 @@ itkPowImageFilterTest(int, char *[])
   {
     using complexFloatFilterType =
       itk::PowImageFilter<itk::Image<float>, itk::Image<std::complex<float>>, itk::Image<std::complex<float>>>;
-    complexFloatFilterType::Pointer tFilter = complexFloatFilterType::New();
+    auto tFilter = complexFloatFilterType::New();
     ITK_TEST_EXPECT_TRUE(!tFilter.IsNull());
   }
 

@@ -32,8 +32,8 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
   using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
   using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
 
-  Image1Type::Pointer image1 = Image1Type::New();
-  Image2Type::Pointer image2 = Image2Type::New();
+  auto image1 = Image1Type::New();
+  auto image2 = Image2Type::New();
 
   Image1Type::SizeType size;
   size.Fill(50);
@@ -85,7 +85,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
   // Compute the Hausdorff distance H(image1,image2)
   {
     using FilterType = itk::HausdorffDistanceImageFilter<Image1Type, Image2Type>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, HausdorffDistanceImageFilter, ImageToImageFilter);
 
@@ -117,7 +117,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
   // Compute the Hausdorff distance H(image2,image1)
   {
     using FilterType = itk::HausdorffDistanceImageFilter<Image2Type, Image1Type>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput1(image2);
     filter->SetInput2(image1);
@@ -157,7 +157,7 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     image2->SetSpacing(spacing2);
 
     using FilterType = itk::HausdorffDistanceImageFilter<Image2Type, Image1Type>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput1(image2);
     filter->SetInput2(image1);

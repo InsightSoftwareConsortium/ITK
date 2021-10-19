@@ -236,10 +236,10 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   // Declaration of the CostFunction adaptor
-  LMCostFunction::Pointer costFunction = LMCostFunction::New();
+  auto costFunction = LMCostFunction::New();
 
   using ParametersType = LMCostFunction::ParametersType;
   ParametersType parameters(LMCostFunction::SpaceDimension);
@@ -289,7 +289,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
 
   optimizer->SetInitialPosition(currentValue);
 
-  CommandIterationUpdateLevenbergMarquardt::Pointer observer = CommandIterationUpdateLevenbergMarquardt::New();
+  auto observer = CommandIterationUpdateLevenbergMarquardt::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
   optimizer->AddObserver(itk::FunctionEvaluationIterationEvent(), observer);
 

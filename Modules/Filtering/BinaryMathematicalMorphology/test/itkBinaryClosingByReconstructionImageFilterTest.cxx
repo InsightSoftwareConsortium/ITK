@@ -43,7 +43,7 @@ itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -57,7 +57,7 @@ itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
   ball.CreateStructuringElement();
 
   using FilterType = itk::BinaryClosingByReconstructionImageFilter<ImageType, KernelType>;
-  FilterType::Pointer reconstructionFilter = FilterType::New();
+  auto reconstructionFilter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstructionFilter, BinaryClosingByReconstructionImageFilter, KernelImageFilter);
 
@@ -76,7 +76,7 @@ itkBinaryClosingByReconstructionImageFilterTest(int argc, char * argv[])
   reconstructionFilter->SetInput(reader->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(reconstructionFilter->GetOutput());
   writer->SetFileName(argv[2]);
 

@@ -60,7 +60,7 @@ public:
 
     using ColormapType = itk::Function::CustomColormapFunction<ScalarType, RGBPixelType>;
 
-    typename ColormapType::Pointer colormap = ColormapType::New();
+    auto colormap = ColormapType::New();
 
     // Set the RGB channels
     colormap->SetRedChannel(redChannel);

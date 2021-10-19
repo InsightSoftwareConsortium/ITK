@@ -50,7 +50,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
 
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -67,7 +67,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   MeshType::Pointer mesh = reader->GetOutput();
 
   // ** CHOSE< COMPUTE AND SET BORDER TRANSFORM **
-  BorderTransformType::Pointer border_transform = BorderTransformType::New();
+  auto border_transform = BorderTransformType::New();
   border_transform->SetInput(mesh);
   // two following line for coverage
   border_transform->SetRadius(border_transform->GetRadius());
@@ -110,7 +110,7 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   MeshType::Pointer output = border_transform->GetOutput();
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(border_transform->GetOutput());
   writer->SetFileName(argv[4]);
   writer->Update();

@@ -87,7 +87,7 @@ itkImageMomentsTest(int argc, char * argv[])
   tpa.GetVnlMatrix().set((double *)pad);
 
   /* Allocate a simple test image */
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::RegionType region;
   region.SetSize(size);
@@ -113,14 +113,14 @@ itkImageMomentsTest(int argc, char * argv[])
   }
 
   /* Compute the moments */
-  CalculatorType::Pointer moments = CalculatorType::New();
+  auto moments = CalculatorType::New();
   moments->SetImage(image);
   if (maskCondition == std::string("mask"))
   {
     // Test the mask spatial object for masked ImageMomentsTest
     // Make a mask that covers the entire image space
     using MaskImageType = itk::Image<unsigned char, 3>;
-    MaskImageType::Pointer maskimg = MaskImageType::New();
+    auto maskimg = MaskImageType::New();
     maskimg->CopyInformation(image);
     maskimg->SetRegions(image->GetLargestPossibleRegion());
     maskimg->Allocate();
@@ -129,7 +129,7 @@ itkImageMomentsTest(int argc, char * argv[])
 
     // convert mask image to mask
     using LFFImageMaskSpatialObjectType = typename itk::ImageMaskSpatialObject<MaskImageType::ImageDimension>;
-    typename LFFImageMaskSpatialObjectType::Pointer mask = LFFImageMaskSpatialObjectType::New();
+    auto mask = LFFImageMaskSpatialObjectType::New();
     mask->SetImage(maskimg.GetPointer());
     mask->Update();
     // Purposefully use the base class type
@@ -210,7 +210,7 @@ itkImageMomentsTest(int argc, char * argv[])
   /* Do some error checking on the transforms */
   double dist = pa2p->Metric(pa2p);
   std::cout << "Distance from self to self = " << dist << std::endl;
-  AffineTransformType::Pointer p2pa2p = AffineTransformType::New();
+  auto p2pa2p = AffineTransformType::New();
   p2pa2p->Compose(p2pa);
   p2pa2p->Compose(pa2p);
   double trerr = p2pa2p->Metric();

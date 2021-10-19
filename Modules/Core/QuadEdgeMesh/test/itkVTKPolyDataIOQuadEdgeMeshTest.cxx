@@ -30,8 +30,8 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
   using ReaderType = itk::VTKPolyDataReader<MeshType>;
   using WriterType = itk::VTKPolyDataWriter<MeshType>;
 
-  ReaderType::Pointer polyDataReader = ReaderType::New();
-  WriterType::Pointer polyDataWriter = WriterType::New();
+  auto polyDataReader = ReaderType::New();
+  auto polyDataWriter = WriterType::New();
 
   if (argc != 3)
   {

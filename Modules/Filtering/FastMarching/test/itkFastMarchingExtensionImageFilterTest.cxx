@@ -50,12 +50,12 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   using FloatImageType = itk::Image<PixelType, Dimension>;
 
   using CriterionType = itk::FastMarchingThresholdStoppingCriterion<FloatImageType, FloatImageType>;
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
   criterion->SetThreshold(100.);
 
   using MarcherType = itk::FastMarchingExtensionImageFilterBase<FloatImageType, FloatImageType, unsigned char, 1>;
 
-  MarcherType::Pointer marcher = MarcherType::New();
+  auto marcher = MarcherType::New();
   marcher->SetStoppingCriterion(criterion);
 
   ShowProgressObject                                    progressWatch(marcher);
@@ -72,7 +72,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   using NodePairContainerType = MarcherType::NodePairContainerType;
 
   // setup alive points
-  NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
+  auto AlivePoints = NodePairContainerType::New();
 
   FloatImageType::OffsetType offset0 = { { 28, 35 } };
 
@@ -88,7 +88,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
 
 
   // setup trial points
-  NodePairContainerType::Pointer TrialPoints = NodePairContainerType::New();
+  auto TrialPoints = NodePairContainerType::New();
 
   index.Fill(0);
   index += offset0;
@@ -118,7 +118,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  FloatImageType::Pointer    speedImage = FloatImageType::New();
+  auto                       speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -154,7 +154,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
   using VectorType = MarcherType::AuxValueVectorType;
   using AuxValueContainerType = MarcherType::AuxValueContainerType;
 
-  AuxValueContainerType::Pointer auxAliveValues = AuxValueContainerType::New();
+  auto auxAliveValues = AuxValueContainerType::New();
 
   // deliberately cause an exception setting AuxAliveValues of the wrong size
   marcher->SetAuxiliaryAliveValues(auxAliveValues);
@@ -201,7 +201,7 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  AuxValueContainerType::Pointer auxTrialValues = AuxValueContainerType::New();
+  auto auxTrialValues = AuxValueContainerType::New();
 
   // deliberately cause an exception setting AuxTrialValues of the wrong size
   marcher->SetAuxiliaryTrialValues(auxTrialValues);

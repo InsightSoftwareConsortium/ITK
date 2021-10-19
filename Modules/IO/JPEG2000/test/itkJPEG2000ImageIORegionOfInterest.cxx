@@ -53,7 +53,7 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
   //  the input and output image types. A filter object is created with the
   //  New() method and assigned to a \doxygen{SmartPointer}.
   using FilterType = itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   //  The RegionOfInterestImageFilter requires a region to be
   //  defined by the user. The region is specified by an \doxygen{Index}
@@ -77,8 +77,8 @@ itkJPEG2000ImageIORegionOfInterest(int argc, char * argv[])
 
   filter->SetRegionOfInterest(desiredRegion);
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   const std::string inputFilename = argv[1];
   const std::string outputFilename = argv[2];

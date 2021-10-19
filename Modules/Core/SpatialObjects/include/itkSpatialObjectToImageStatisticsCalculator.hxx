@@ -50,7 +50,7 @@ bool
 SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSampleDimension>::ComputeStatistics()
 {
   using MeanAlgorithmType = itk::Statistics::MeanSampleFilter<SampleType>;
-  typename MeanAlgorithmType::Pointer meanAlgorithm = MeanAlgorithmType::New();
+  auto meanAlgorithm = MeanAlgorithmType::New();
   meanAlgorithm->SetInput(m_Sample);
   meanAlgorithm->Update();
 
@@ -62,7 +62,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
   }
 
   using CovarianceAlgorithmType = itk::Statistics::CovarianceSampleFilter<SampleType>;
-  typename CovarianceAlgorithmType::Pointer covarianceAlgorithm = CovarianceAlgorithmType::New();
+  auto covarianceAlgorithm = CovarianceAlgorithmType::New();
 
   covarianceAlgorithm->SetInput(m_Sample);
   covarianceAlgorithm->Update();

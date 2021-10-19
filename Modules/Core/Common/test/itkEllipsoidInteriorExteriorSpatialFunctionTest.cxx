@@ -33,7 +33,7 @@ itkEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   using TEllipsoidFunctionVectorType = TEllipsoidFunctionType::InputType;
 
   // Create an ellipsoid spatial function for the source image
-  TEllipsoidFunctionType::Pointer spatialFunc = TEllipsoidFunctionType::New();
+  auto spatialFunc = TEllipsoidFunctionType::New();
   // Define and set the axes lengths for the ellipsoid
   TEllipsoidFunctionVectorType axes;
   axes[0] = 40;

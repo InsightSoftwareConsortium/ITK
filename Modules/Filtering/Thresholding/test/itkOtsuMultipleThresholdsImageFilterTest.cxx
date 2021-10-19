@@ -58,14 +58,14 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
 
   // Set up the reader
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   using FilterType = itk::OtsuMultipleThresholdsImageFilter<InputImageType, InternalImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
@@ -124,14 +124,14 @@ itkOtsuMultipleThresholdsImageFilterTest(int argc, char * argv[])
   // image looks nearly uniform unless there are a large number of labels.
   //
   using RescaleType = itk::RescaleIntensityImageFilter<InternalImageType, OutputImageType>;
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto rescaler = RescaleType::New();
   rescaler->SetInput(filter->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   // Write out the test image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(rescaler->GetOutput());
 

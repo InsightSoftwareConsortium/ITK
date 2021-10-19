@@ -113,7 +113,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
   // N convolutions for each point we calculate but only one.
 
   using KernelImageType = itk::Image<TOutput, Self::ImageDimension2>;
-  typename KernelImageType::Pointer kernelImage = KernelImageType::New();
+  auto kernelImage = KernelImageType::New();
 
   using RegionType = typename KernelImageType::RegionType;
   RegionType region;
@@ -140,7 +140,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;
-  typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
+  auto convolutionFilter = NeighborhoodFilterType::New();
 
   unsigned int opidx; // current operator index in m_OperatorArray
 

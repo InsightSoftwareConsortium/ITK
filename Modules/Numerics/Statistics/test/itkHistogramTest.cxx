@@ -35,7 +35,7 @@ itkHistogramTest(int, char *[])
 
   // create a histogram with 3 components measurement vectors
   using HistogramType = itk::Statistics::Histogram<MeasurementType, itk::Statistics::DenseFrequencyContainer2>;
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(histogram, Histogram, Sample);
 
@@ -255,7 +255,7 @@ itkHistogramTest(int, char *[])
 
   // Histogram with SparseFrequencyContainer2
   using SparseHistogramType = itk::Statistics::Histogram<MeasurementType, itk::Statistics::SparseFrequencyContainer2>;
-  SparseHistogramType::Pointer sparseHistogram = SparseHistogramType::New();
+  auto sparseHistogram = SparseHistogramType::New();
 
   sparseHistogram->SetMeasurementVectorSize(numberOfComponents);
 

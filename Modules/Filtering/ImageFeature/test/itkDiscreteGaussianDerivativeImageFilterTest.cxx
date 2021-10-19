@@ -57,14 +57,14 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   using DerivativeFilterType = itk::DiscreteGaussianDerivativeImageFilter<ImageType, ImageType>;
-  DerivativeFilterType::Pointer derivativeFilter = DerivativeFilterType::New();
+  auto derivativeFilter = DerivativeFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(derivativeFilter, DiscreteGaussianDerivativeImageFilter, ImageToImageFilter);
 
@@ -124,7 +124,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
 
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, OutputImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(itk::NumericTraits<OutputPixelType>::min());
   rescaler->SetOutputMaximum(itk::NumericTraits<OutputPixelType>::max());
   rescaler->SetInput(derivativeFilter->GetOutput());
@@ -132,7 +132,7 @@ itkDiscreteGaussianDerivativeImageFilterTest(int argc, char * argv[])
 
   // Write the output image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(rescaler->GetOutput());
 

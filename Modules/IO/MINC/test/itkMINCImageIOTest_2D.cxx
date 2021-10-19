@@ -44,9 +44,9 @@ test_image_moments(const char * input_image,
 
   using MomentsCalculatorType = itk::ImageMomentsCalculator<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
-  typename MomentsCalculatorType::Pointer calculator = MomentsCalculatorType::New();
+  auto calculator = MomentsCalculatorType::New();
 
   reader->SetFileName(input_image);
 
@@ -79,7 +79,7 @@ test_image_moments(const char * input_image,
 
   if (output_image)
   {
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(output_image);
     writer->SetInput(reader->GetOutput());
     writer->Update();

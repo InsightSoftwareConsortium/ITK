@@ -37,7 +37,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   using ImageType = itk::Image<MeasurementVectorType, MeasurementVectorSize>;
   using MaskImageType = itk::Image<unsigned char, MeasurementVectorSize>;
 
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   ImageType::SizeType   size;
   ImageType::IndexType  index;
@@ -71,7 +71,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
   // creates an ImageToListSampleAdaptor object
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
 
-  ImageToListSampleFilterType::Pointer sampleGeneratingFilter = ImageToListSampleFilterType::New();
+  auto sampleGeneratingFilter = ImageToListSampleFilterType::New();
 
   sampleGeneratingFilter->SetInput(image);
 
@@ -163,7 +163,7 @@ itkStandardDeviationPerComponentSampleFilterTest(int, char *[])
 
 
   using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter<ListSampleType>;
-  CovarianceSampleFilterType::Pointer covarianceFilter = CovarianceSampleFilterType::New();
+  auto covarianceFilter = CovarianceSampleFilterType::New();
   covarianceFilter->SetInput(sampleGeneratingFilter->GetOutput());
 
   try

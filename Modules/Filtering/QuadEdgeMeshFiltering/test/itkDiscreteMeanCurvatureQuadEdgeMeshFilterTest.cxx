@@ -42,7 +42,7 @@ itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::MeshFileReader<MeshType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -57,14 +57,14 @@ itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   MeshType::Pointer mesh = reader->GetOutput();
 
-  CurvatureFilterType::Pointer mean_curvature = CurvatureFilterType::New();
+  auto mean_curvature = CurvatureFilterType::New();
   mean_curvature->SetInput(mesh);
   mean_curvature->Update();
 
   MeshType::Pointer output = mean_curvature->GetOutput();
 
   using WriterType = itk::MeshFileWriter<MeshType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(output);
   writer->SetFileName("mean_curvature.vtk");
   writer->Update();

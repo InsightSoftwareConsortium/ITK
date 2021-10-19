@@ -74,7 +74,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    JPEG2000ImageIOFactory::Pointer factory = JPEG2000ImageIOFactory::New();
+    auto factory = JPEG2000ImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

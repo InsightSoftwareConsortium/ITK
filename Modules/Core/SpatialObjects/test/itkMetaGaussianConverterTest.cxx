@@ -58,13 +58,13 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
 
 
   // Instantiate new converter object
-  ConverterType::Pointer converter = ConverterType::New();
+  auto converter = ConverterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaGaussianConverter, MetaConverterBase);
 
 
   // Set up a Gaussian spatial object
-  SpatialObjectType::Pointer GaussianSpatialObj = SpatialObjectType::New();
+  auto GaussianSpatialObj = SpatialObjectType::New();
 
   // Gaussian spatial object properties
   SpatialObjectType::ScalarType maximum = 2;
@@ -87,7 +87,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   GaussianSpatialObj->GetProperty().SetBlue(color[2]);
   GaussianSpatialObj->GetProperty().SetAlpha(color[3]);
 
-  SpatialObjectParentType::Pointer parentSpatialObj = SpatialObjectParentType::New();
+  auto parentSpatialObj = SpatialObjectParentType::New();
   parentSpatialObj->SetId(1);
   parentSpatialObj->AddChild(GaussianSpatialObj);
 

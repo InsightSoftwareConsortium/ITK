@@ -50,7 +50,7 @@ itkLabelImageToLabelMapFilterTest(int, char *[])
 
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   SizeType sizeIn;
   sizeIn[0] = 11;
@@ -86,7 +86,7 @@ itkLabelImageToLabelMapFilterTest(int, char *[])
   idxHorizontal[0] = 7;
   image->SetPixel(idxHorizontal, 3);
 
-  LabelImageToLabelMapFilterType::Pointer conversion = LabelImageToLabelMapFilterType::New();
+  auto conversion = LabelImageToLabelMapFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(conversion, LabelImageToLabelMapFilter, ImageToImageFilter);
 

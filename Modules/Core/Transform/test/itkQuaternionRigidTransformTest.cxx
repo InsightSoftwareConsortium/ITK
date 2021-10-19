@@ -34,7 +34,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    TransformType::Pointer    identityTransform = TransformType::New();
+    auto                      identityTransform = TransformType::New();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
@@ -55,7 +55,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with translation */
   {
-    TransformType::Pointer          translation = TransformType::New();
+    auto                            translation = TransformType::New();
     TransformType::OutputVectorType itransVector;
     itransVector[0] = 1;
     itransVector[1] = 4;
@@ -194,7 +194,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a rotation given by a Matrix */
   {
-    TransformType::Pointer           rotation = TransformType::New();
+    auto                             rotation = TransformType::New();
     TransformType::VnlQuaternionType qrotation;
 
     // 15 degrees in radians
@@ -404,7 +404,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     // Test the Jacobian
     std::cout << "Testing ComputeJacobianWithRespectToParameters()" << std::endl;
 
-    TransformType::Pointer        quaternionRigid = TransformType::New();
+    auto                          quaternionRigid = TransformType::New();
     TransformType::ParametersType parameters(quaternionRigid->GetNumberOfParameters());
 
     parameters.Fill(0.0);
@@ -474,8 +474,8 @@ itkQuaternionRigidTransformTest(int, char *[])
     TransformType::OutputPointType pOut;
     quaternionRigid->SetParameters(parameters);
     {
-      TransformType::Pointer inverseQuaternionRigid = TransformType::New();
-      const bool             inverseIsValid = quaternionRigid->GetInverse(inverseQuaternionRigid);
+      auto       inverseQuaternionRigid = TransformType::New();
+      const bool inverseIsValid = quaternionRigid->GetInverse(inverseQuaternionRigid);
       if (!inverseIsValid)
       {
         std::cerr << "Error computing inverse transform" << std::endl;
@@ -506,7 +506,7 @@ itkQuaternionRigidTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a defined center and a rotation given by a Matrix */
   {
-    TransformType::Pointer           rotation = TransformType::New();
+    auto                             rotation = TransformType::New();
     TransformType::VnlQuaternionType qrotation;
 
     // 15 degrees in radians
@@ -751,7 +751,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     using MatrixType = TransformType::MatrixType;
     MatrixType matrix;
 
-    TransformType::Pointer t = TransformType::New();
+    auto t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
     par = 0;
@@ -829,7 +829,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     t = TransformType::New();
     t->SetParameters(e);
 
-    TransformType::Pointer t2 = TransformType::New();
+    auto t2 = TransformType::New();
     t2->SetMatrix(t->GetMatrix());
 
     ParametersType p = t2->GetParameters();

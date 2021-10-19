@@ -70,11 +70,11 @@ RunTest(itk::SmartPointer<TFixedImage> fixedImage, itk::SmartPointer<TMovingImag
   TransformType::InputVectorType relativeCenter = movingCenter - fixedCenter;
 
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   using InitializerType = itk::CenteredTransformInitializer<TransformType, FixedImageType, MovingImageType>;
 
-  typename InitializerType::Pointer initializer = InitializerType::New();
+  auto initializer = InitializerType::New();
 
   initializer->SetFixedImage(fixedImage);
   initializer->SetMovingImage(movingImage);
@@ -275,8 +275,8 @@ itkCenteredTransformInitializerTest(int, char *[])
     region.SetIndex(index);
 
 
-    FixedImageType::Pointer  fixedImage = FixedImageType::New();
-    MovingImageType::Pointer movingImage = MovingImageType::New();
+    auto fixedImage = FixedImageType::New();
+    auto movingImage = MovingImageType::New();
 
     fixedImage->SetRegions(region);
     fixedImage->SetSpacing(spacing);
@@ -357,8 +357,8 @@ itkCenteredTransformInitializerTest(int, char *[])
     DirectionType movingDirection = (z * y * x).GetMatrix();
 
 
-    FixedImageType::Pointer  fixedImage = FixedImageType::New();
-    MovingImageType::Pointer movingImage = MovingImageType::New();
+    auto fixedImage = FixedImageType::New();
+    auto movingImage = MovingImageType::New();
 
     fixedImage->SetRegions(fixedRegion);
     fixedImage->SetSpacing(spacing);

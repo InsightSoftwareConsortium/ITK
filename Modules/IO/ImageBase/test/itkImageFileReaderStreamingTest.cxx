@@ -57,17 +57,17 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, 3>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
 
   using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamingFilter::Pointer streamer = StreamingFilter::New();
+  auto streamer = StreamingFilter::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
 

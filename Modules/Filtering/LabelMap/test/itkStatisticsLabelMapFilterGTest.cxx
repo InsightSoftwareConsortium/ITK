@@ -59,7 +59,7 @@ protected:
     static typename ImageType::Pointer
     CreateImage()
     {
-      typename ImageType::Pointer image = ImageType::New();
+      auto image = ImageType::New();
 
       typename ImageType::SizeType imageSize;
       imageSize.Fill(25);
@@ -73,7 +73,7 @@ protected:
     static typename ImageType::Pointer
     CreateImageRandom(PixelType randMax = 500, unsigned int randSeed = 0)
     {
-      typename ImageType::Pointer image = ImageType::New();
+      auto image = ImageType::New();
 
       typename ImageType::SizeType imageSize;
       imageSize.Fill(25);

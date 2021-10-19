@@ -37,7 +37,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   using CalculatorType = itk::OtsuThresholdCalculator<HistogramType>;
 
   // Allocate a simple test image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
 
   // Define the image size and physical coordinates
@@ -81,7 +81,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
     ++iter;
   }
 
-  HistogramGeneratorType::Pointer histGenerator = HistogramGeneratorType::New();
+  auto histGenerator = HistogramGeneratorType::New();
   histGenerator->SetInput(image);
   HistogramGeneratorType::HistogramSizeType hsize(1);
   hsize[0] = 64;
@@ -89,7 +89,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   histGenerator->SetAutoMinimumMaximum(true);
 
   // Create and initialize the calculator
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, OtsuThresholdCalculator, HistogramThresholdCalculator);
 

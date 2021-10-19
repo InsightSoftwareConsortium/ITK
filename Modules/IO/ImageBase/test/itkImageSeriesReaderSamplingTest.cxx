@@ -42,7 +42,7 @@ itkImageSeriesReaderSamplingTest(int ac, char * av[])
   std::cout << "testing reading a series of 2D images to 3D with extra slices" << std::endl;
   try
   {
-    Reader3DType::Pointer reader = Reader3DType::New();
+    auto reader = Reader3DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     double maxSamplingDeviation = 0.0;

@@ -47,7 +47,7 @@ itkGradientImageFilterTest(int argc, char * argv[])
 
 
   // Set up filter
-  FilterType1::Pointer filter1 = FilterType1::New();
+  auto filter1 = FilterType1::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter1, GradientImageFilter, ImageToImageFilter);
 
@@ -85,7 +85,7 @@ itkGradientImageFilterTest(int argc, char * argv[])
 
   using FilterType2 = itk::GradientImageFilter<InputImageType2, float, float, OutputImageType2>;
 
-  FilterType2::Pointer filter2 = FilterType2::New();
+  auto filter2 = FilterType2::New();
 
   using PeriodicBoundaryType = itk::PeriodicBoundaryCondition<InputImageType2>;
   // Test the OverrideBoundaryCondition setting;

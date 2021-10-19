@@ -33,7 +33,7 @@ ExtractImageInPlaceTest()
   using ImageType = itk::Image<float, 3>;
 
   using SourceType = itk::RandomImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto                source = SourceType::New();
   ImageType::SizeType size = { { 32, 32, 32 } };
   source->SetSize(size);
 
@@ -45,7 +45,7 @@ ExtractImageInPlaceTest()
   ImageType::SizeType  zeroSize = { { 0, 0, 0 } };
 
   using ExtractFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
-  ExtractFilterType::Pointer extract = ExtractFilterType::New();
+  auto extract = ExtractFilterType::New();
   extract->SetDirectionCollapseToSubmatrix();
   extract->SetExtractionRegion(ImageType::RegionType(extractIndex, extractSize));
   extract->InPlaceOn();
@@ -58,7 +58,7 @@ ExtractImageInPlaceTest()
   // add a filter between which will produce the requested region, and
   // enable in-place operation
   using SomeStreamableFitlerType = itk::CastImageFilter<ImageType, ImageType>;
-  SomeStreamableFitlerType::Pointer filter = SomeStreamableFitlerType::New();
+  auto filter = SomeStreamableFitlerType::New();
   filter->SetInput(source->GetOutput());
   filter->InPlaceOff(); // ensure a copy is performed
 
@@ -95,7 +95,7 @@ itkExtractImageTest(int, char *[])
 
   // type alias to simplify the syntax
   using SimpleImage = itk::Image<short, 2>;
-  SimpleImage::Pointer simpleImage = SimpleImage::New();
+  auto simpleImage = SimpleImage::New();
   std::cout << "Simple image spacing: " << simpleImage->GetSpacing()[0] << ", " << simpleImage->GetSpacing()[1]
             << std::endl;
 
@@ -104,7 +104,7 @@ itkExtractImageTest(int, char *[])
   using LineImage = itk::Image<short, 1>;
 
   // Test the creation of an image with native type
-  ShortImage::Pointer if2 = ShortImage::New();
+  auto if2 = ShortImage::New();
 
   // fill in an image
   ShortImage::IndexType  index = { { 0, 0 } };

@@ -213,9 +213,9 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   using EllipseType = itk::EllipseSpatialObject<2>;
 
   // Create a group with 3 ellipses linked by lines.
-  EllipseType::Pointer ellipse1 = EllipseType::New();
-  EllipseType::Pointer ellipse2 = EllipseType::New();
-  EllipseType::Pointer ellipse3 = EllipseType::New();
+  auto ellipse1 = EllipseType::New();
+  auto ellipse2 = EllipseType::New();
+  auto ellipse3 = EllipseType::New();
 
   // Set the radius
   ellipse1->SetRadiusInObjectSpace(10);
@@ -241,7 +241,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   ellipse3->GetModifiableObjectToParentTransform()->SetOffset(offset);
   ellipse3->Update();
 
-  GroupType::Pointer group = GroupType::New();
+  auto group = GroupType::New();
   group->AddChild(ellipse1);
   group->AddChild(ellipse2);
   group->AddChild(ellipse3);
@@ -250,7 +250,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   using ImageType = itk::Image<double, 2>;
 
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<GroupType, ImageType>;
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(group);
   ImageType::SizeType size;
   size[0] = 200;
@@ -262,7 +262,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
 
   // blurr the image to have a global maximum
   using GaussianFilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
-  GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+  auto gaussianFilter = GaussianFilterType::New();
 
   gaussianFilter->SetInput(image);
   constexpr double variance = 20;
@@ -271,23 +271,23 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   image = gaussianFilter->GetOutput();
 
   using RegistrationType = itk::ImageToSpatialObjectRegistrationMethod<ImageType, GroupType>;
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, ImageToSpatialObjectRegistrationMethod, ProcessObject);
 
   using MetricType = itk::SimpleImageToSpatialObjectMetric<ImageType, GroupType>;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   std::cout << "metric = " << metric << std::endl;
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   using TransformType = itk::Euler2DTransform<>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   metric->SetTransform(transform);
   std::cout << "Number of Parameters  : " << metric->GetNumberOfParameters() << std::endl;
@@ -398,7 +398,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   optimizer->SetMaximumIteration(500);
 
   using IterationCallbackType = itk::IterationCallback<OptimizerType>;
-  IterationCallbackType::Pointer callback = IterationCallbackType::New();
+  auto callback = IterationCallbackType::New();
   callback->SetOptimizer(optimizer);
 
   registration->SetOptimizer(optimizer);

@@ -43,7 +43,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType size;
 
@@ -92,7 +92,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
     using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, DifferenceImageType>;
 
-    DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+    auto difference = DifferenceFilterType::New();
 
     difference->SetValidInput(image);
     difference->SetTestInput(itk::ReadImage<ImageType>(argv[2]));
@@ -100,7 +100,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
     difference->SetDifferenceThreshold(0);
 
     using DifferenceWriterType = itk::ImageFileWriter<DifferenceImageType>;
-    DifferenceWriterType::Pointer writer2 = DifferenceWriterType::New();
+    auto writer2 = DifferenceWriterType::New();
 
     writer2->SetInput(difference->GetOutput());
 

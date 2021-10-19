@@ -117,11 +117,11 @@ itkGradientDescentOptimizerTest(int, char *[])
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
-  gradientCostFunction::Pointer costFunction = gradientCostFunction::New();
+  auto costFunction = gradientCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);

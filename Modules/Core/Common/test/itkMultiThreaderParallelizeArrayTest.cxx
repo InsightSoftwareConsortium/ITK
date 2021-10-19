@@ -67,8 +67,8 @@ itkMultiThreaderParallelizeArrayTest(int argc, char * argv[])
   std::vector<unsigned> vec(size);
 
   using SomeProcessObject = itk::AbsImageFilter<itk::Image<char>, itk::Image<char>>;
-  SomeProcessObject::Pointer progressPO = SomeProcessObject::New();
-  ShowProgress::Pointer      showProgress = ShowProgress::New();
+  auto progressPO = SomeProcessObject::New();
+  auto showProgress = ShowProgress::New();
   progressPO->AddObserver(itk::ProgressEvent(), showProgress);
   mt->ParallelizeArray(
     1, size, [&vec](int i) { vec[i] = i; }, progressPO);

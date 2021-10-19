@@ -53,7 +53,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
     itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldControlPointLatticeType,
                                                         DisplacementFieldType>;
 
-  IntegratorType::Pointer integrator = IntegratorType::New();
+  auto integrator = IntegratorType::New();
   integrator->SetInput(timeVaryingVelocityFieldControlPointLattice);
   integrator->SetLowerTimeBound(0.3);
   integrator->SetUpperTimeBound(0.75);
@@ -79,7 +79,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+  auto inverseIntegrator = IntegratorType::New();
   inverseIntegrator->SetInput(timeVaryingVelocityFieldControlPointLattice);
   inverseIntegrator->SetLowerTimeBound(1.0);
   inverseIntegrator->SetUpperTimeBound(0.0);
@@ -116,7 +116,7 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   timeVaryingVelocityFieldSize[3] = 5;
 
   using TransformType = itk::TimeVaryingBSplineVelocityFieldTransform<double, 3>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   transform->SetLowerTimeBound(0.0);
   transform->SetUpperTimeBound(1.0);
   transform->SetSplineOrder(splineOrder);

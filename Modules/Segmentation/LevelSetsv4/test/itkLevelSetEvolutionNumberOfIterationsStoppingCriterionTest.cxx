@@ -32,7 +32,7 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest(int, char *[])
   using LevelSetContainerType = itk::LevelSetContainerBase<itk::IdentifierType, LevelSetType>;
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
-  StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
+  auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(5);
 
   if (criterion->GetNumberOfIterations() != 5)

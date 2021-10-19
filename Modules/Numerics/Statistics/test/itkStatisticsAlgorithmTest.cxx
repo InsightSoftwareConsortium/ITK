@@ -30,7 +30,7 @@ itkStatisticsAlgorithmTest(int, char *[])
   using MeasurementVectorType = itk::Array<float>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   SampleType::MeasurementVectorType lower(measurementVectorSize);
   SampleType::MeasurementVectorType upper(measurementVectorSize);

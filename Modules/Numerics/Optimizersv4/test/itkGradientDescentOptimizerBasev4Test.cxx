@@ -170,8 +170,8 @@ itkGradientDescentOptimizerBasev4Test(int, char *[])
 
   using MetricType = GradientDescentOptimizerBasev4TestMetric<ImageType, ImageType>;
 
-  MetricType::Pointer                                  metric = MetricType::New();
-  GradientDescentOptimizerBasev4TestOptimizer::Pointer optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();
+  auto metric = MetricType::New();
+  auto optimizer = GradientDescentOptimizerBasev4TestOptimizer::New();
 
   /* exercise some methods */
   optimizer->SetMetric(metric);

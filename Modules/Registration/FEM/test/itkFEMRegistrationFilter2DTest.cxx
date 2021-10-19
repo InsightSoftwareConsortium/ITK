@@ -109,10 +109,10 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  InputImageType::Pointer movingImage = InputImageType::New();
-  InputImageType::Pointer fixedImage = InputImageType::New();
+  auto movingImage = InputImageType::New();
+  auto fixedImage = InputImageType::New();
 
-  DeformationFieldImageType::Pointer initField = DeformationFieldImageType::New();
+  auto initField = DeformationFieldImageType::New();
 
   movingImage->SetLargestPossibleRegion(region);
   movingImage->SetBufferedRegion(region);
@@ -157,7 +157,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
   // Run registration and warp moving
   for (unsigned int met = 0; met < 4; ++met)
   {
-    RegistrationType::Pointer registrator = RegistrationType::New();
+    auto registrator = RegistrationType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(registrator, FEMRegistrationFilter, ImageToImageFilter);
 
@@ -280,7 +280,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
     material->SetDensityHeatProduct(1.0);
 
     // Create the element type
-    ElementType::Pointer element1 = ElementType::New();
+    auto element1 = ElementType::New();
     element1->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(&*material));
     registrator->SetElement(&*element1);
     registrator->SetMaterial(material);
@@ -313,7 +313,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
       outFileName += ss.str();
       outFileName += ".mhd";
       using ImageWriterType = itk::ImageFileWriter<RegistrationType::FieldType>;
-      ImageWriterType::Pointer writer = ImageWriterType::New();
+      auto writer = ImageWriterType::New();
       writer->SetFileName(outFileName);
       writer->SetInput(registrator->GetDisplacementField());
       writer->Update();
@@ -327,7 +327,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
       outFileName += ss.str();
       outFileName += ".mhd";
       using ImageWriterType = itk::ImageFileWriter<InputImageType>;
-      ImageWriterType::Pointer writer = ImageWriterType::New();
+      auto writer = ImageWriterType::New();
       writer->SetFileName(outFileName);
       writer->SetInput(registrator->GetWarpedImage());
       writer->Update();

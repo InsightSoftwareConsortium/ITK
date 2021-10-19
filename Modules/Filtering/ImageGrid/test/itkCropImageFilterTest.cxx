@@ -34,7 +34,7 @@ itkCropImageFilterTest(int, char *[])
   // Declare the types of the images
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
 
   // Fill in the image
   ImageType::IndexType  index = { { 0, 0 } };

@@ -27,7 +27,7 @@ itkSinRegularizedHeavisideStepFunctionTest1(int, char *[])
 
   using HeavisideFunctionBaseType = itk::SinRegularizedHeavisideStepFunction<InputType, OutputType>;
 
-  HeavisideFunctionBaseType::Pointer functionBase0 = HeavisideFunctionBaseType::New();
+  auto functionBase0 = HeavisideFunctionBaseType::New();
 
   std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
   functionBase0->Print(std::cout);

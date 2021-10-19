@@ -47,11 +47,11 @@ itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using FilterType = itk::ValuedRegionalMaximaImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ValuedRegionalMaximaImageFilter, ValuedRegionalExtremaImageFilter);
 
@@ -66,7 +66,7 @@ itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
@@ -75,7 +75,7 @@ itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
 
   // Produce the same output with other filters
   using ConvexFilterType = itk::HConvexImageFilter<ImageType, ImageType>;
-  ConvexFilterType::Pointer convexFilter = ConvexFilterType::New();
+  auto convexFilter = ConvexFilterType::New();
   convexFilter->SetInput(reader->GetOutput());
   convexFilter->SetFullyConnected(fullyConnected);
   convexFilter->SetHeight(1);
@@ -83,18 +83,18 @@ itkValuedRegionalMaximaImageFilterTest(int argc, char * argv[])
   // Convex gives maxima with value=1 and others with value = 0
   // Rescale the image so we have maxima = 255 other = 0
   using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, ImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetInput(convexFilter->GetOutput());
   rescaler->SetOutputMaximum(255);
   rescaler->SetOutputMinimum(0);
 
   // in the input image, select the values of the pixel at the minima
   using AndFilterType = itk::AndImageFilter<ImageType, ImageType, ImageType>;
-  AndFilterType::Pointer andFilter = AndFilterType::New();
+  auto andFilter = AndFilterType::New();
   andFilter->SetInput(0, rescaler->GetOutput());
   andFilter->SetInput(1, reader->GetOutput());
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(andFilter->GetOutput());
   writer2->SetFileName(argv[3]);
   writer2->Update();

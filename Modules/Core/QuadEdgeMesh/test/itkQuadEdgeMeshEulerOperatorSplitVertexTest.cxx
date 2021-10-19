@@ -41,7 +41,7 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
   MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
-  SplitVertex::Pointer splitVertex = SplitVertex::New();
+  auto splitVertex = SplitVertex::New();
   std::cout << "     "
             << "Test No Mesh Input";
   if (splitVertex->Evaluate((QEType *)1, (QEType *)1))
@@ -135,7 +135,7 @@ itkQuadEdgeMeshEulerOperatorSplitVertexTest(int, char *[])
 
   splitVertex->SetInput(mesh);
 
-  JoinVertex::Pointer joinVertex = JoinVertex::New();
+  auto joinVertex = JoinVertex::New();
   joinVertex->SetInput(mesh);
   if (!joinVertex->Evaluate(splitVertex->Evaluate(mesh->FindEdge(5, 11), mesh->FindEdge(17, 11))))
   {

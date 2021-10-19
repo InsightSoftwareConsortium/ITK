@@ -36,7 +36,7 @@ itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
   using MatrixPixelType = itk::Matrix<float, 3, 3>;
   using MatrixImageType = itk::Image<MatrixPixelType, 3>;
 
-  MatrixImageType::Pointer matrixImage = MatrixImageType::New();
+  auto matrixImage = MatrixImageType::New();
 
   MatrixImageType::SizeType size;
   size.Fill(10);

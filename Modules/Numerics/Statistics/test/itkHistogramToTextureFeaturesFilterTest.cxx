@@ -31,7 +31,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   //------------------------------------------------------
   using MeasurementType = float;
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
 
   constexpr unsigned int measurementVectorSize = 2;
 
@@ -101,7 +101,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
 
   using HistogramToTextureFeaturesFilterType = itk::Statistics::HistogramToTextureFeaturesFilter<HistogramType>;
 
-  HistogramToTextureFeaturesFilterType::Pointer filter = HistogramToTextureFeaturesFilterType::New();
+  auto filter = HistogramToTextureFeaturesFilterType::New();
 
   std::cout << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);

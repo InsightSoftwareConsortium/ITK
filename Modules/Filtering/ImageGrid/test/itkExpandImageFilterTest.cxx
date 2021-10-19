@@ -90,7 +90,7 @@ itkExpandImageFilterTest(int, char *[])
   ImageType::SizeType   size = { { 64, 64 } };
   region.SetSize(size);
 
-  ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetLargestPossibleRegion(region);
   input->SetBufferedRegion(region);
   input->Allocate();
@@ -117,10 +117,10 @@ itkExpandImageFilterTest(int, char *[])
   std::cout << "Run ExpandImageFilter in standalone mode with progress.";
   std::cout << std::endl;
   using ExpanderType = itk::ExpandImageFilter<ImageType, ImageType>;
-  ExpanderType::Pointer expander = ExpanderType::New();
+  auto expander = ExpanderType::New();
 
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, double>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   expander->SetInterpolator(interpolator);
   std::cout << "Interpolator: " << expander->GetInterpolator() << std::endl;
@@ -197,12 +197,12 @@ itkExpandImageFilterTest(int, char *[])
   std::cout << std::endl;
 
   using CasterType = itk::CastImageFilter<ImageType, ImageType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
 
   caster->SetInput(expander->GetInput());
 
 
-  ExpanderType::Pointer expander2 = ExpanderType::New();
+  auto expander2 = ExpanderType::New();
 
   expander2->SetInput(caster->GetOutput());
   expander2->SetExpandFactors(expander->GetExpandFactors());
@@ -210,7 +210,7 @@ itkExpandImageFilterTest(int, char *[])
   expander2->SetInterpolator(interpolator);
 
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamerType::Pointer streamer = StreamerType::New();
+  auto streamer = StreamerType::New();
   streamer->SetInput(expander2->GetOutput());
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();

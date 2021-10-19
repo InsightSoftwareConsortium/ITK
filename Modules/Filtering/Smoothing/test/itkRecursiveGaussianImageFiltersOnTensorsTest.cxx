@@ -55,7 +55,7 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
   ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->SetRequestedRegion(region);
@@ -79,8 +79,8 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
   // is filtered independently.
   //
   using FilterType = itk::RecursiveGaussianImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filterX = FilterType::New();
-  FilterType::Pointer filterY = FilterType::New();
+  auto filterX = FilterType::New();
+  auto filterY = FilterType::New();
   filterX->SetDirection(0); // 0 --> X direction
   filterY->SetDirection(1); // 1 --> Y direction
   filterX->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
