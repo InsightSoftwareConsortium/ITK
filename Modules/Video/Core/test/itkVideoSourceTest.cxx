@@ -110,7 +110,7 @@ protected:
 FrameType::Pointer
 CreateEmptyFrame()
 {
-  FrameType::Pointer out = FrameType::New();
+  auto out = FrameType::New();
 
   FrameType::RegionType largestRegion;
   FrameType::SizeType   sizeLR;
@@ -152,14 +152,14 @@ itkVideoSourceTest(int, char *[])
   // Test Instantiation
   //////
   using VideoSourceType = itk::VideoSourceTest::DummyVideoSource<VideoType>;
-  VideoSourceType::Pointer videoSource = VideoSourceType::New();
+  auto videoSource = VideoSourceType::New();
 
   //////
   // Test Graft
   //////
 
   // Create a VideoStream
-  VideoType::Pointer  video = VideoType::New();
+  auto                video = VideoType::New();
   itk::TemporalRegion largestRegion;
   itk::TemporalRegion requestedRegion;
   itk::TemporalRegion bufferedRegion;

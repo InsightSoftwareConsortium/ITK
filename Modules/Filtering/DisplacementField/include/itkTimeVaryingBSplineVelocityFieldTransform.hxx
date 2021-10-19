@@ -63,7 +63,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::Int
     closeDimensions[NDimensions] = 1;
   }
 
-  typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  auto bspliner = BSplineFilterType::New();
   bspliner->SetInput(this->GetTimeVaryingVelocityFieldControlPointLattice());
   bspliner->SetSplineOrder(this->m_SplineOrder);
   bspliner->SetSpacing(this->m_VelocityFieldSpacing);
@@ -78,7 +78,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::Int
 
   using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
-  typename IntegratorType::Pointer integrator = IntegratorType::New();
+  auto integrator = IntegratorType::New();
   integrator->SetInput(bsplinerOutput);
   integrator->SetLowerTimeBound(this->GetLowerTimeBound());
   integrator->SetUpperTimeBound(this->GetUpperTimeBound());
@@ -97,7 +97,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::Int
   this->SetDisplacementField(displacementField);
   this->GetModifiableInterpolator()->SetInputImage(displacementField);
 
-  typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+  auto inverseIntegrator = IntegratorType::New();
   inverseIntegrator->SetInput(bsplinerOutput);
   inverseIntegrator->SetLowerTimeBound(this->GetUpperTimeBound());
   inverseIntegrator->SetUpperTimeBound(this->GetLowerTimeBound());
@@ -139,7 +139,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::Upd
   auto * updateFieldPointer = reinterpret_cast<DisplacementVectorType *>(scaledUpdate.data_block());
 
   using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions + 1>;
-  typename ImporterType::Pointer importer = ImporterType::New();
+  auto importer = ImporterType::New();
   importer->SetImportPointer(updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory);
   importer->SetRegion(this->GetTimeVaryingVelocityFieldControlPointLattice()->GetBufferedRegion());
   importer->SetOrigin(this->GetTimeVaryingVelocityFieldControlPointLattice()->GetOrigin());
@@ -148,7 +148,7 @@ TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, NDimensions>::Upd
   importer->Update();
 
   using AdderType = AddImageFilter<VelocityFieldType, VelocityFieldType, VelocityFieldType>;
-  typename AdderType::Pointer adder = AdderType::New();
+  auto adder = AdderType::New();
   adder->SetInput1(this->GetVelocityField());
   adder->SetInput2(importer->GetOutput());
 

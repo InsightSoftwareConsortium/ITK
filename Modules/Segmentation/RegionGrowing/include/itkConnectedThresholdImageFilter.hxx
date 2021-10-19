@@ -33,11 +33,11 @@ template <typename TInputImage, typename TOutputImage>
 ConnectedThresholdImageFilter<TInputImage, TOutputImage>::ConnectedThresholdImageFilter()
   : m_ReplaceValue(NumericTraits<OutputImagePixelType>::OneValue())
 {
-  typename InputPixelObjectType::Pointer lower = InputPixelObjectType::New();
+  auto lower = InputPixelObjectType::New();
   lower->Set(NumericTraits<InputImagePixelType>::NonpositiveMin());
   this->ProcessObject::SetNthInput(1, lower);
 
-  typename InputPixelObjectType::Pointer upper = InputPixelObjectType::New();
+  auto upper = InputPixelObjectType::New();
   upper->Set(NumericTraits<InputImagePixelType>::max());
   this->ProcessObject::SetNthInput(2, upper);
 }
@@ -237,7 +237,7 @@ ConnectedThresholdImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using FunctionType = BinaryThresholdImageFunction<InputImageType, double>;
 
-  typename FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
   function->SetInputImage(inputImage);
   function->ThresholdBetween(lower, upper);
 

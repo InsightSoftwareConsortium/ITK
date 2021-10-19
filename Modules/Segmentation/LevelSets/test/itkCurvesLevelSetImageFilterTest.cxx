@@ -56,7 +56,7 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
   PixelType background = 0;
   PixelType foreground = 190;
 
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);
   inputImage->Allocate();
   inputImage->FillBuffer(background);
@@ -84,17 +84,17 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
    * Then apply a sigmoid function to the gradient magnitude.
    */
   using CastFilterType = itk::CastImageFilter<ImageType, InternalImageType>;
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto caster = CastFilterType::New();
   caster->SetInput(inputImage);
 
   using GradientImageType = itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType, InternalImageType>;
 
-  GradientImageType::Pointer gradMagnitude = GradientImageType::New();
+  auto gradMagnitude = GradientImageType::New();
   gradMagnitude->SetInput(caster->GetOutput());
   gradMagnitude->SetSigma(1.0);
 
   using SigmoidFilterType = itk::SigmoidImageFilter<InternalImageType, InternalImageType>;
-  SigmoidFilterType::Pointer sigmoid = SigmoidFilterType::New();
+  auto sigmoid = SigmoidFilterType::New();
   sigmoid->SetOutputMinimum(0.0);
   sigmoid->SetOutputMaximum(1.0);
   sigmoid->SetAlpha(-0.4);
@@ -106,12 +106,12 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
    * Use fast marching to create an signed distance from a seed point.
    */
   using FastMarchingFilterType = itk::FastMarchingImageFilter<InternalImageType>;
-  FastMarchingFilterType::Pointer fastMarching = FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
 
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
 
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
 
   // Choose an initial contour that overlaps the square to be segmented.
   InternalImageType::IndexType seedPosition;
@@ -134,7 +134,7 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
    */
   using CurvesFilterType = itk::CurvesLevelSetImageFilter<InternalImageType, InternalImageType>;
 
-  CurvesFilterType::Pointer curvesFilter = CurvesFilterType::New();
+  auto curvesFilter = CurvesFilterType::New();
 
   // set the initial level set
   curvesFilter->SetInput(fastMarching->GetOutput());
@@ -155,7 +155,7 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
    * Threshold the output level set to display the final contour.
    */
   using ThresholdFilterType = itk::BinaryThresholdImageFilter<InternalImageType, ImageType>;
-  ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
+  auto thresholder = ThresholdFilterType::New();
 
   thresholder->SetInput(curvesFilter->GetOutput());
   thresholder->SetLowerThreshold(-1e+10);
@@ -167,7 +167,7 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
    * Compute overlap between the true shape and the segmented shape
    */
   using OverlapCalculatorType = itk::SimilarityIndexImageFilter<ImageType, ImageType>;
-  OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
+  auto overlap = OverlapCalculatorType::New();
 
   overlap->SetInput1(inputImage);
   overlap->SetInput2(thresholder->GetOutput());
@@ -185,10 +185,10 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
    */
 #ifdef WRITING_OUT_IMAGES
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<InternalImageType, ImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
 
   writer->SetFileName("inputImage.png");
   writer->SetInput(inputImage);

@@ -61,7 +61,7 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   region.SetSize(size);
 
   // Binary initialization
-  InputImageType::Pointer binary = InputImageType::New();
+  auto binary = InputImageType::New();
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
@@ -73,8 +73,8 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   LevelSetDomainRegionVectorType regionVector;
   regionVector.resize(numberOfLevelSetFunctions);
 
-  CentroidVectorType  mv;
-  SampleType::Pointer sample = SampleType::New();
+  CentroidVectorType mv;
+  auto               sample = SampleType::New();
   sample->SetMeasurementVectorSize(Dimension);
 
   for (unsigned int i = 0; i < numberOfLevelSetFunctions; ++i)
@@ -94,13 +94,13 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
     sample->PushBack(mv);
   }
 
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
   treeGenerator->SetSample(sample);
   treeGenerator->SetBucketSize(2);
   treeGenerator->Update();
   TreeType::Pointer kdtree = treeGenerator->GetOutput();
 
-  DomainPartitionSourceType::Pointer partitionSource = DomainPartitionSourceType::New();
+  auto partitionSource = DomainPartitionSourceType::New();
   partitionSource->SetNumberOfLevelSetFunctions(numberOfLevelSetFunctions);
   partitionSource->SetImage(binary);
   partitionSource->SetLevelSetDomainRegionVector(regionVector);

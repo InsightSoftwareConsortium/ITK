@@ -116,9 +116,9 @@ itkBoundaryConditionTest(int, char *[])
   Region3D.SetIndex(orig3D);
   RegionND.SetIndex(origND);
 
-  ImageType2D::Pointer image2D = ImageType2D::New();
-  ImageType3D::Pointer image3D = ImageType3D::New();
-  ImageTypeND::Pointer imageND = ImageTypeND::New();
+  auto image2D = ImageType2D::New();
+  auto image3D = ImageType3D::New();
+  auto imageND = ImageTypeND::New();
 
   image2D->SetLargestPossibleRegion(Region2D);
   image3D->SetLargestPossibleRegion(Region3D);

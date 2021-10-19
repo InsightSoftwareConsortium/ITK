@@ -102,7 +102,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   // Create the filter
   using JoinSeriesImageType = itk::JoinSeriesImageFilter<InputImageType, OutputImageType>;
 
-  JoinSeriesImageType::Pointer joinSeriesImage = JoinSeriesImageType::New();
+  auto joinSeriesImage = JoinSeriesImageType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(joinSeriesImage, JoinSeriesImageFilter, ImageToImageFilter);
 
@@ -133,13 +133,13 @@ itkJoinSeriesImageFilterTest(int, char *[])
   // Test the ProgressReporter
   ShowProgressObject progressWatch(joinSeriesImage);
   using CommandType = itk::SimpleMemberCommand<ShowProgressObject>;
-  CommandType::Pointer command = CommandType::New();
+  auto command = CommandType::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   joinSeriesImage->AddObserver(itk::ProgressEvent(), command);
 
   // Test streaming
   using StreamingImageType = itk::StreamingImageFilter<OutputImageType, OutputImageType>;
-  StreamingImageType::Pointer streamingImage = StreamingImageType::New();
+  auto streamingImage = StreamingImageType::New();
   streamingImage->SetInput(joinSeriesImage->GetOutput());
   streamingImage->SetNumberOfStreamDivisions(streamDivisions);
 

@@ -53,7 +53,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   imageRegion.SetIndex(imageIndex);
 
   // creates an image that will stores the Gaussian pixel * bias values
-  ImageType::Pointer imageWithBias = ImageType::New();
+  auto imageWithBias = ImageType::New();
   imageWithBias->SetBufferedRegion(imageRegion);
   imageWithBias->SetLargestPossibleRegion(imageRegion);
   imageWithBias->SetSpacing(spacing);
@@ -61,7 +61,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   imageWithBias->Allocate();
 
   // creates the image source with a sphere.
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->SetBufferedRegion(imageRegion);
   image->SetLargestPossibleRegion(imageRegion);
   image->SetSpacing(spacing);
@@ -69,7 +69,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   image->Allocate();
 
   // creates an image for bias
-  ImageType::Pointer biasImage = ImageType::New();
+  auto biasImage = ImageType::New();
   biasImage->SetBufferedRegion(imageRegion);
   biasImage->SetLargestPossibleRegion(imageRegion);
   biasImage->SetSpacing(spacing);
@@ -93,7 +93,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   // fills the image with a sphere filled with intensity values from a
   // normal distribution.
   using SphereType = itk::SphereSpatialFunction<ImageDimension>;
-  SphereType::Pointer sphere = SphereType::New();
+  auto sphere = SphereType::New();
 
   SphereType::InputType center;
   center[0] = imageSize[0] / 2;
@@ -162,7 +162,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   // creates a bias correction filter and run it.
   using FilterType = itk::MRIBiasFieldCorrectionFilter<ImageType, ImageType, MaskType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MRIBiasFieldCorrectionFilter, ImageToImageFilter);
 
@@ -259,18 +259,18 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   if (SaveImages)
   {
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->SetInput(image);
     writer->SetFileName("MRISource.mhd");
     writer->Update();
 
-    WriterType::Pointer writer2 = WriterType::New();
+    auto writer2 = WriterType::New();
     writer2->SetInput(imageWithBias);
     writer2->SetFileName("MRISourceWithBias.mhd");
     writer2->Update();
 
-    WriterType::Pointer writer3 = WriterType::New();
+    auto writer3 = WriterType::New();
     writer3->SetInput(filter->GetOutput());
     writer3->SetFileName("MRICorrected.mhd");
     writer3->Update();

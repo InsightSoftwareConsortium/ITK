@@ -102,17 +102,17 @@ LabelGeometryImageFilterTest(std::string labelImageName,
 
   // Read the label image.
   using LabelReaderType = itk::ImageFileReader<LabelImageType>;
-  typename LabelReaderType::Pointer labelReader = LabelReaderType::New();
+  auto labelReader = LabelReaderType::New();
   labelReader->SetFileName(labelImageName);
 
   // Read the intensity image.
   using IntensityReaderType = itk::ImageFileReader<IntensityImageType>;
-  typename IntensityReaderType::Pointer intensityReader = IntensityReaderType::New();
+  auto intensityReader = IntensityReaderType::New();
   intensityReader->SetFileName(intensityImageName);
 
   // First test the filter without any intensity image.
   using LabelGeometryType = itk::LabelGeometryImageFilter<LabelImageType, IntensityImageType>;
-  typename LabelGeometryType::Pointer labelGeometryFilter = LabelGeometryType::New();
+  auto labelGeometryFilter = LabelGeometryType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(labelGeometryFilter, LabelGeometryImageFilter, ImageToImageFilter);
 
@@ -132,7 +132,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   // Write out the oriented image of the first object.
   typename LabelGeometryType::LabelPixelType labelValue = 1;
   using IntensityWriterType = itk::ImageFileWriter<IntensityImageType>;
-  typename IntensityWriterType::Pointer intensityWriter = IntensityWriterType::New();
+  auto intensityWriter = IntensityWriterType::New();
   intensityWriter->SetFileName(outputImageName);
   intensityWriter->SetInput(labelGeometryFilter->GetOrientedIntensityImage(labelValue));
 
@@ -208,7 +208,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   columnName.push_back("Orientation");
 
   // write out the array2D object
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFileName);
   writer->SetInput(&matrix);
   writer->SetColumnHeaders(columnName);
@@ -228,14 +228,14 @@ LabelGeometryImageFilterTest(std::string labelImageName,
     // Read the values we just wrote.
     // This is better than comparing against the values in memory because some truncation occurs when writing to file.
     using ReaderType = itk::CSVArray2DFileReader<double>;
-    ReaderType::Pointer newReader = ReaderType::New();
+    auto newReader = ReaderType::New();
     newReader->SetFileName(outputFileName);
     newReader->SetFieldDelimiterCharacter(',');
     newReader->HasColumnHeadersOn();
     newReader->HasRowHeadersOff();
 
     // Read the values to compare against.
-    ReaderType::Pointer compareReader = ReaderType::New();
+    auto compareReader = ReaderType::New();
     compareReader->SetFileName(compareFileName);
     compareReader->SetFieldDelimiterCharacter(',');
     compareReader->HasColumnHeadersOn();
@@ -246,11 +246,11 @@ LabelGeometryImageFilterTest(std::string labelImageName,
 
 
     using DataFrameObjectType = itk::CSVArray2DDataObject<double>;
-    DataFrameObjectType::Pointer newDFO = DataFrameObjectType::New();
+    auto newDFO = DataFrameObjectType::New();
     newDFO = newReader->GetOutput();
     MatrixType newMatrix = newDFO->GetMatrix();
 
-    DataFrameObjectType::Pointer compareDFO = DataFrameObjectType::New();
+    auto compareDFO = DataFrameObjectType::New();
     compareDFO = compareReader->GetOutput();
     MatrixType compareMatrix = compareDFO->GetMatrix();
 

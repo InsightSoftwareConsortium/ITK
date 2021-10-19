@@ -62,23 +62,23 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest2(int argc, char * argv[])
 
   using DomainFunctionType = itk::AtanRegularizedHeavisideStepFunction<ScalarPixelType, ScalarPixelType>;
 
-  DomainFunctionType::Pointer domainFunction = DomainFunctionType::New();
+  auto domainFunction = DomainFunctionType::New();
 
   domainFunction->SetEpsilon(epsilon);
 
-  LevelSetReaderType::Pointer levelSetReader1 = LevelSetReaderType::New();
+  auto levelSetReader1 = LevelSetReaderType::New();
   levelSetReader1->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(levelSetReader1->Update());
 
 
-  FeatureReaderType::Pointer featureReader = FeatureReaderType::New();
+  auto featureReader = FeatureReaderType::New();
   featureReader->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(featureReader->Update());
 
 
-  MultiLevelSetType::Pointer levelSetFilter = MultiLevelSetType::New();
+  auto levelSetFilter = MultiLevelSetType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     levelSetFilter, ScalarChanAndVeseDenseLevelSetImageFilter, MultiphaseDenseFiniteDifferenceImageFilter);
@@ -105,7 +105,7 @@ itkScalarChanAndVeseDenseLevelSetImageFilterTest2(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(levelSetFilter->Update());
 
 
-  WriterType::Pointer writer1 = WriterType::New();
+  auto writer1 = WriterType::New();
 
   writer1->SetInput(levelSetFilter->GetOutput());
   writer1->UseCompressionOn();

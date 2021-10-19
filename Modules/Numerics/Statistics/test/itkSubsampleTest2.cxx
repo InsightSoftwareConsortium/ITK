@@ -33,7 +33,7 @@ itkSubsampleTest2(int, char *[])
 
   unsigned int sampleSize = 10;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
@@ -50,7 +50,7 @@ itkSubsampleTest2(int, char *[])
 
   // tests begin
   using SubsampleType = itk::Statistics::Subsample<SampleType>;
-  SubsampleType::Pointer subSample = SubsampleType::New();
+  auto subSample = SubsampleType::New();
   subSample->SetSample(sample);
 
   // Add measurement vectors in sample with even id number to subSample
@@ -78,7 +78,7 @@ itkSubsampleTest2(int, char *[])
   }
 
   using CascadedSubsampleType = itk::Statistics::Subsample<SubsampleType>;
-  CascadedSubsampleType::Pointer subSample2 = CascadedSubsampleType::New();
+  auto subSample2 = CascadedSubsampleType::New();
   subSample2->SetSample(subSample);
 
   // Add measurement vectors in subsample with even id number to subSample2

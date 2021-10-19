@@ -37,7 +37,7 @@ itkFEMPArrayTest(int, char *[])
 
   ArrayType array;
 
-  NodeType::Pointer       n1 = NodeType::New();
+  auto                    n1 = NodeType::New();
   ElementType::VectorType pt(2);
 
   pt[0] = 0.;
@@ -81,7 +81,7 @@ itkFEMPArrayTest(int, char *[])
   }
 
   // try an element with GN larger than the array size
-  NodeType::Pointer n2 = NodeType::New();
+  auto n2 = NodeType::New();
   pt[0] = 0.;
   pt[1] = 3.;
   n2->SetCoordinates(pt);

@@ -857,7 +857,7 @@ compilers.
       return;                                                                                                       \
     }                                                                                                               \
     CLANG_PRAGMA_POP                                                                                                \
-    typename DecoratorType::Pointer newInput = DecoratorType::New();                                                \
+    auto newInput = DecoratorType::New();                                                                           \
     newInput->Set(_arg);                                                                                            \
     this->Set##name##Input(newInput);                                                                               \
   }                                                                                                                 \
@@ -915,7 +915,7 @@ compilers.
     {                                                                                                         \
       return;                                                                                                 \
     }                                                                                                         \
-    typename DecoratorType::Pointer newInput = DecoratorType::New();                                          \
+    auto newInput = DecoratorType::New();                                                                     \
     newInput->Set(_arg);                                                                                      \
     this->Set##name##Input(newInput);                                                                         \
   }                                                                                                           \
@@ -1280,7 +1280,7 @@ compilers.
     }                                                                                                                \
     else                                                                                                             \
     {                                                                                                                \
-      typename DecoratorType::Pointer newOutput = DecoratorType::New();                                              \
+      auto newOutput = DecoratorType::New();                                                                         \
       newOutput->Set(_arg);                                                                                          \
       this->Set##name##Output(newOutput);                                                                            \
     }                                                                                                                \

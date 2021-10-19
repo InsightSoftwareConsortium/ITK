@@ -41,7 +41,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
   RegionND.SetSize(sizeND);
   RegionND.SetIndex(origND);
 
-  TestImageType::Pointer imageND = TestImageType::New();
+  auto imageND = TestImageType::New();
   imageND->SetLargestPossibleRegion(RegionND);
   imageND->SetBufferedRegion(RegionND);
   imageND->SetRequestedRegion(RegionND);
@@ -330,7 +330,7 @@ itkConstNeighborhoodIteratorTest(int, char *[])
 
     ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
 
-    ChangeRegionTestImageType::Pointer image = ChangeRegionTestImageType::New();
+    auto image = ChangeRegionTestImageType::New();
     image->SetRegions(imageRegion);
     image->Allocate();
 

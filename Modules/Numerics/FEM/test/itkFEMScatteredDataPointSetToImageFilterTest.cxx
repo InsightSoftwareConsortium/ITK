@@ -65,14 +65,14 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
 
   using ConstIteratorType = itk::ImageRegionConstIterator<DeformationFieldType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Construct a feature point set
-  FeaturePointSetType::Pointer featurePoints = FeaturePointSetType::New();
-  PointType                    p0;
-  PointType                    p1;
-  PointType                    p2;
-  PointType                    p3;
+  auto      featurePoints = FeaturePointSetType::New();
+  PointType p0;
+  PointType p1;
+  PointType p2;
+  PointType p3;
   // point is on the bottom boundary
   p0[0] = 1.0;
   p0[1] = 0.0;

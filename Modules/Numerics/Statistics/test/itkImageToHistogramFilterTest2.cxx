@@ -52,14 +52,14 @@ itkImageToHistogramFilterTest2(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<RGBImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
   using HistogramFilterType = itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
-  HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
-  itk::SimpleFilterWatcher     watcher(histogramFilter, "filter");
+  auto                     histogramFilter = HistogramFilterType::New();
+  itk::SimpleFilterWatcher watcher(histogramFilter, "filter");
 
   using HistogramMeasurementVectorType = HistogramFilterType::HistogramMeasurementVectorType;
 

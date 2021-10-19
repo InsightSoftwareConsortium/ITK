@@ -71,17 +71,17 @@ itkMultiLevelSetEvolutionTest(int, char *[])
 
   PixelType value = 0.;
 
-  InputImageType::Pointer input = InputImageType::New();
+  auto input = InputImageType::New();
   input->SetRegions(region);
   input->Allocate();
   input->FillBuffer(1);
 
-  ImageType::Pointer input1 = ImageType::New();
+  auto input1 = ImageType::New();
   input1->SetRegions(region);
   input1->Allocate();
   input1->FillBuffer(value);
 
-  ImageType::Pointer input2 = ImageType::New();
+  auto input2 = ImageType::New();
   input2->SetRegions(region);
   input2->Allocate();
   input2->FillBuffer(value);
@@ -89,7 +89,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   ImageType::IndexType idx;
   IdListType           list_ids;
 
-  IdListImageType::Pointer id_image = IdListImageType::New();
+  auto id_image = IdListImageType::New();
   id_image->SetRegions(region);
   id_image->Allocate();
   id_image->FillBuffer(list_ids);
@@ -124,12 +124,12 @@ itkMultiLevelSetEvolutionTest(int, char *[])
     ++it2;
   }
 
-  DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
+  auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(1.0);
 
   // Map of levelset bases
@@ -141,7 +141,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   level_set[2]->SetImage(input2);
 
   // Insert the levelsets in a levelset container
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
@@ -164,13 +164,13 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   // *** 1st Level Set phi_{1} ***
 
   // Create ChanAndVese internal term for phi_{1}
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm0 = ChanAndVeseInternalTermType::New();
+  auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
   std::cout << "LevelSet 1: CV internal term created" << std::endl;
 
   // Create ChanAndVese external term for phi_{1}
-  ChanAndVeseExternalTermType::Pointer cvExternalTerm0 = ChanAndVeseExternalTermType::New();
+  auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
   std::cout << "LevelSet 1: CV external term created" << std::endl;
@@ -179,13 +179,13 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   // *** 2nd Level Set phi_{2} ***
 
   // Create ChanAndVese internal term for phi_{1}
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm1 = ChanAndVeseInternalTermType::New();
+  auto cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput(input);
   cvInternalTerm1->SetCoefficient(1.0);
   std::cout << "LevelSet 2: CV internal term created" << std::endl;
 
   // Create ChanAndVese external term for phi_{2}
-  ChanAndVeseExternalTermType::Pointer cvExternalTerm1 = ChanAndVeseExternalTermType::New();
+  auto cvExternalTerm1 = ChanAndVeseExternalTermType::New();
   cvExternalTerm1->SetInput(input);
   cvExternalTerm1->SetCoefficient(1.0);
   std::cout << "LevelSet 2: CV external term created" << std::endl;
@@ -193,7 +193,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   // **************** CREATE ALL EQUATIONS ****************
 
   // Create Term Container
-  TermContainerType::Pointer termContainer0 = TermContainerType::New();
+  auto termContainer0 = TermContainerType::New();
   termContainer0->SetInput(input);
   termContainer0->SetCurrentLevelSetId(0);
   termContainer0->SetLevelSetContainer(lscontainer);
@@ -202,7 +202,7 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   termContainer0->AddTerm(1, cvExternalTerm0);
   std::cout << "Term container 0 created" << std::endl;
 
-  TermContainerType::Pointer termContainer1 = TermContainerType::New();
+  auto termContainer1 = TermContainerType::New();
   termContainer1->SetInput(input);
   termContainer1->SetCurrentLevelSetId(1);
   termContainer1->SetLevelSetContainer(lscontainer);
@@ -212,15 +212,15 @@ itkMultiLevelSetEvolutionTest(int, char *[])
   std::cout << "Term container 1 created" << std::endl;
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
-  StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
+  auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(2);
 
-  EquationContainerType::Pointer equationContainer = EquationContainerType::New();
+  auto equationContainer = EquationContainerType::New();
   equationContainer->AddEquation(0, termContainer0);
   equationContainer->AddEquation(1, termContainer1);
   equationContainer->SetLevelSetContainer(lscontainer);
 
-  LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
+  auto evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer(equationContainer);
   evolution->SetStoppingCriterion(criterion);
   evolution->SetLevelSetContainer(lscontainer);

@@ -33,7 +33,7 @@ BSpline(int argc, char * argv[])
   using ScalarFieldType = itk::Image<ScalarPixelType, ImageDimension>;
 
   using ReaderType = itk::ImageFileReader<ScalarFieldType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   if (argc > 2)
   {
     reader->SetFileName(argv[2]);
@@ -55,7 +55,7 @@ BSpline(int argc, char * argv[])
   spacing.Fill(1.0);
 
   using BSplinerType = itk::BSplineControlPointImageFilter<ScalarFieldType, ScalarFieldType>;
-  typename BSplinerType::Pointer bspliner = BSplinerType::New();
+  auto bspliner = BSplinerType::New();
 
   bspliner->SetInput(reader->GetOutput());
 
@@ -88,7 +88,7 @@ BSpline(int argc, char * argv[])
   }
 
   using WriterType = itk::ImageFileWriter<ScalarFieldType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(bspliner->GetOutput());
   writer->Update();
@@ -104,7 +104,7 @@ BSpline(int argc, char * argv[])
   typename BSplinerType::ControlPointLatticeType::Pointer refinedControlPointLattice =
     bspliner->RefineControlPointLattice(numberOfRefinementLevels);
 
-  typename BSplinerType::Pointer bspliner2 = BSplinerType::New();
+  auto bspliner2 = BSplinerType::New();
   bspliner2->SetInput(refinedControlPointLattice);
   bspliner2->SetSplineOrder(3);
   bspliner2->SetSize(size);
@@ -123,7 +123,7 @@ BSpline(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  typename WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetFileName(argv[4]);
   writer2->SetInput(bspliner2->GetOutput());
   writer2->Update();
@@ -148,7 +148,7 @@ itkBSplineControlPointImageFilterTest(int argc, char * argv[])
   using ScalarFieldType = itk::Image<ScalarPixelType, Dimension>;
 
   using BSplinerType = itk::BSplineControlPointImageFilter<ScalarFieldType, ScalarFieldType>;
-  BSplinerType::Pointer bspliner = BSplinerType::New();
+  auto bspliner = BSplinerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(bspliner, BSplineControlPointImageFilter, ImageToImageFilter);
 

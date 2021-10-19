@@ -168,8 +168,8 @@ itkHistogramMatchingImageFilterTest()
   typename ImageType::RegionType region;
   region.SetSize(size);
 
-  typename ImageType::Pointer reference = ImageType::New();
-  typename ImageType::Pointer source = ImageType::New();
+  auto reference = ImageType::New();
+  auto source = ImageType::New();
 
   reference->SetLargestPossibleRegion(region);
   reference->SetBufferedRegion(region);
@@ -208,7 +208,7 @@ itkHistogramMatchingImageFilterTest()
   // Test with historical reference image input, and then capture the histogram as cached
   // value for other tests
   {
-    typename FilterType::Pointer filterWithReferenceImage = FilterType::New();
+    auto filterWithReferenceImage = FilterType::New();
 
     filterWithReferenceImage->SetReferenceImage(reference);
     filterWithReferenceImage->SetSourceImage(source);
@@ -261,7 +261,7 @@ itkHistogramMatchingImageFilterTest()
   std::cout << "===================================================================================" << std::endl;
   {
     // Test SourceHistogram same size (50) as ReferenceHistogram
-    typename FilterType::Pointer filterWithSameSizeHistogram = FilterType::New();
+    auto filterWithSameSizeHistogram = FilterType::New();
 
     filterWithSameSizeHistogram->SetReferenceHistogram(refHistogram);
     filterWithSameSizeHistogram->GenerateReferenceHistogramFromImageOff();
@@ -288,7 +288,7 @@ itkHistogramMatchingImageFilterTest()
   }
   // Test SourceHistogram smaller than (31) ReferenceHistogram
   {
-    typename FilterType::Pointer filterWithSmallerHistogram = FilterType::New();
+    auto filterWithSmallerHistogram = FilterType::New();
 
     filterWithSmallerHistogram->SetReferenceHistogram(refHistogram);
     filterWithSmallerHistogram->SetGenerateReferenceHistogramFromImage(false);
@@ -316,7 +316,7 @@ itkHistogramMatchingImageFilterTest()
 
   // Test SourceHistogram larger than (93) ReferenceHistogram
   {
-    typename FilterType::Pointer filterWithLargerHistogram = FilterType::New();
+    auto filterWithLargerHistogram = FilterType::New();
 
     filterWithLargerHistogram->SetReferenceHistogram(refHistogram);
     filterWithLargerHistogram->SetGenerateReferenceHistogramFromImage(false);
@@ -344,7 +344,7 @@ itkHistogramMatchingImageFilterTest()
 
   // Incorrect input setting failures for ReferenceHistogram
   {
-    typename FilterType::Pointer mismatchReferenceChoice = FilterType::New();
+    auto mismatchReferenceChoice = FilterType::New();
     try
     {
       mismatchReferenceChoice->SetReferenceHistogram(refHistogram);
@@ -365,7 +365,7 @@ itkHistogramMatchingImageFilterTest()
   }
   // Incorrect input setting failures for ReferenceImage
   {
-    typename FilterType::Pointer mismatchReferenceChoice = FilterType::New();
+    auto mismatchReferenceChoice = FilterType::New();
     try
     {
       mismatchReferenceChoice->SetReferenceImage(reference);

@@ -69,7 +69,7 @@ itkImageAdaptorTest(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  myImageType::Pointer myImage = myImageType::New();
+  auto myImage = myImageType::New();
 
 
   myImage->SetLargestPossibleRegion(region);
@@ -103,7 +103,7 @@ itkImageAdaptorTest(int, char *[])
     ++it1;
   }
 
-  myRedAdaptorType::Pointer myAdaptor = myRedAdaptorType::New();
+  auto myAdaptor = myRedAdaptorType::New();
   myAdaptor->SetImage(myImage);
 
 

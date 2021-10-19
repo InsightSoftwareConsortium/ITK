@@ -161,7 +161,7 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
   double              spacing[3] = { 0.1, 0.05, 0.025 };
 
   // Create a test image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
 
@@ -199,7 +199,7 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
   }
 
   // Create the interpolator
-  InterpolatorType::Pointer interp = InterpolatorType::New();
+  auto interp = InterpolatorType::New();
   interp->SetInputImage(image);
   interp->Print(std::cout);
 

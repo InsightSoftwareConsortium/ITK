@@ -109,7 +109,7 @@ itkProbabilityDistributionTest(int, char *[])
 
   using DistributionType = itk::Statistics::ProbabilityDistributionTestingHelper;
 
-  DistributionType::Pointer distributionFunction = DistributionType::New();
+  auto distributionFunction = DistributionType::New();
 
   std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << std::endl;
   std::cout << "HasMean()        = " << distributionFunction->HasMean() << std::endl;

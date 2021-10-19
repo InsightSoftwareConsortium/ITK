@@ -130,9 +130,9 @@ public:
   Run()
   {
     // Create the images
-    typename myImageType::Pointer inputImageXX = myImageType::New();
-    typename myImageType::Pointer inputImageXY = myImageType::New();
-    typename myImageType::Pointer inputImageYY = myImageType::New();
+    auto inputImageXX = myImageType::New();
+    auto inputImageXY = myImageType::New();
+    auto inputImageYY = myImageType::New();
 
 
     InitializeImage(inputImageXX, std::cos(itk::Math::pi / 6.0));
@@ -141,8 +141,8 @@ public:
 
 
     // Create a  Filter
-    typename myFilterType::Pointer filter = myFilterType::New();
-    itk::SimpleFilterWatcher       watcher(filter);
+    auto                     filter = myFilterType::New();
+    itk::SimpleFilterWatcher watcher(filter);
 
     // Connect the input images
     filter->SetInput1(inputImageXX);

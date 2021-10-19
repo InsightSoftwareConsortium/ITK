@@ -115,8 +115,8 @@ itkNaryMaximumImageFilterTest(int, char *[])
   using namespace NaryMaximumImageFilterTest;
 
   // Create two images
-  InputImageType::Pointer inputImageA = InputImageType::New();
-  InputImageType::Pointer inputImageB = InputImageType::New();
+  auto inputImageA = InputImageType::New();
+  auto inputImageB = InputImageType::New();
 
   static constexpr int minValue = 12;
   static constexpr int maxValue = 13;
@@ -127,7 +127,7 @@ itkNaryMaximumImageFilterTest(int, char *[])
   PrintImage(inputImageB, "Input image B");
 
   // Create the  itk::NaryMaximumImageFilter filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, NaryMaximumImageFilter, NaryFunctorImageFilter);
 

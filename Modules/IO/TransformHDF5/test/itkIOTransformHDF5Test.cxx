@@ -44,9 +44,9 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   const double aNumberThatCanNotBeRepresentedInFloatingPoint = 1e-5 + 1e-7 + 1e-9 + 1e-13;
   const double requiredSpacing = 1.2 + aNumberThatCanNotBeRepresentedInFloatingPoint;
   const double requiredOrigin = 23.0 + aNumberThatCanNotBeRepresentedInFloatingPoint;
-  typename DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto         displacementTransform = DisplacementTransformType::New();
   using FieldType = typename DisplacementTransformType::DisplacementFieldType;
-  typename FieldType::Pointer knownField = FieldType::New(); // This is based on itk::Image
+  auto knownField = FieldType::New(); // This is based on itk::Image
   {
     constexpr int                dimLength = 20;
     typename FieldType::SizeType size;
@@ -76,11 +76,11 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   // Now test reading/writing many different transform types.
 
   using TransformReaderType = itk::TransformFileReaderTemplate<TParametersValueType>;
-  typename TransformReaderType::Pointer reader = TransformReaderType::New();
+  auto reader = TransformReaderType::New();
   reader->SetFileName(fileName);
 
   using TransformIOType = itk::HDF5TransformIOTemplate<TParametersValueType>;
-  typename TransformIOType::Pointer transformIO = TransformIOType::New();
+  auto transformIO = TransformIOType::New();
   reader->SetTransformIO(transformIO);
   if (reader->GetTransformIO() != transformIO.GetPointer())
   {
@@ -89,7 +89,7 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
   }
 
   using TransformWriterType = itk::TransformFileWriterTemplate<TParametersValueType>;
-  typename TransformWriterType::Pointer writer = TransformWriterType::New();
+  auto writer = TransformWriterType::New();
   writer->SetFileName(fileName);
   writer->SetTransformIO(transformIO);
   writer->SetUseCompression(UseCompression);
@@ -181,7 +181,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
 {
   using AffineTransformType = typename itk::AffineTransform<TParametersValueType, 4>;
   using AffineTransformTypeNotRegistered = typename itk::AffineTransform<TParametersValueType, 10>;
-  typename AffineTransformType::Pointer affine = AffineTransformType::New();
+  auto affine = AffineTransformType::New();
 
   // Set it's parameters
   {
@@ -250,7 +250,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
 
 
   std::cout << "Creating bad writer" << std::endl;
-  typename AffineTransformTypeNotRegistered::Pointer Bogus = AffineTransformTypeNotRegistered::New();
+  auto Bogus = AffineTransformTypeNotRegistered::New();
 
   // Set it's parameters
   {
@@ -403,7 +403,7 @@ itkIOTransformHDF5Test(int argc, char * argv[])
     {
       // This test only verifies that the test can read the transform.
       using TFM_READER_TYPE = typename itk::TransformFileReaderTemplate<double>;
-      TFM_READER_TYPE::Pointer reader = TFM_READER_TYPE::New();
+      auto reader = TFM_READER_TYPE::New();
       reader->SetFileName(testType);
       reader->Update();
       TFM_READER_TYPE::TransformListType const * const myTransformList = reader->GetTransformList();

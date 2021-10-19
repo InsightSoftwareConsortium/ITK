@@ -44,7 +44,7 @@ itkImageSpatialObjectTest(int, char *[])
   using Iterator = itk::ImageRegionIterator<ImageType>;
   using PointType = itk::Point<ScalarType, NDimensions>;
 
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::SizeType   size = { { 10, 10, 10 } };
   ImageType::IndexType  index = { { 0, 0, 0 } };
   ImageType::RegionType region;
@@ -68,7 +68,7 @@ itkImageSpatialObjectTest(int, char *[])
   }
   it.GoToBegin();
 
-  ImageSpatialObject::Pointer imageSO = ImageSpatialObject::New();
+  auto imageSO = ImageSpatialObject::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(imageSO, ImageSpatialObject, SpatialObject);
 
@@ -150,7 +150,7 @@ itkImageSpatialObjectTest(int, char *[])
 
   // Now testing the ValueAt() with an interpolator
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   imageSO->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, imageSO->GetInterpolator());
 

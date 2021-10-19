@@ -56,7 +56,7 @@ itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   my
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  typename myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -116,7 +116,7 @@ itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   my
   using myGradientImageType = typename myFilterType::OutputImageType;
 
   // Create a  Filter
-  typename myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
   // Connect the input images
   filter->SetInput(inputImage);
@@ -136,7 +136,7 @@ itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   my
   // Write the output to file
   using WriterType = itk::ImageFileWriter<myGradientImageType>;
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFilename);
   writer->SetInput(outputImage);
   writer->Update();

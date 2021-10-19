@@ -76,7 +76,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::FEMRegistrationFil
   m_StandardDeviations.Fill(1.0);
 
   // Set up the default interpolator
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
   m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
   m_Interpolator->SetInputImage(m_Field);
 }
@@ -243,10 +243,10 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::WarpImage(const MovingImageType * ImageToWarp)
 {
-  typename WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
   using WarperCoordRepType = typename WarperType::CoordRepType;
   using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
-  typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
+  auto interpolator = InterpolatorType1::New();
 
   warper = WarperType::New();
   warper->SetInput(ImageToWarp);
@@ -276,7 +276,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
 
     itkDebugMacro(<< " Generating regular Quad mesh " << std::endl);
-    typename ImageToMeshType::Pointer meshFilter = ImageToMeshType::New();
+    auto meshFilter = ImageToMeshType::New();
     meshFilter->SetInput(m_MovingImage);
     meshFilter->SetPixelsPerElement(pixPerElement);
     meshFilter->SetElement(&*m_Element);
@@ -291,7 +291,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::CreateMesh(unsigne
     m_Material->SetYoungsModulus(this->GetElasticity(m_CurrentLevel));
 
     itkDebugMacro(<< " Generating regular Hex mesh " << std::endl);
-    typename ImageToMeshType::Pointer meshFilter = ImageToMeshType::New();
+    auto meshFilter = ImageToMeshType::New();
     meshFilter->SetInput(m_MovingImage);
     meshFilter->SetPixelsPerElement(pixPerElement);
     meshFilter->SetElement(&*m_Element);
@@ -781,13 +781,13 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ComputeJacobian()
   m_MinJacobian = 1.0;
 
   using JacobianFilterType = typename itk::DisplacementFieldJacobianDeterminantFilter<FieldType, float, FloatImageType>;
-  typename JacobianFilterType::Pointer jacobianFilter = JacobianFilterType::New();
+  auto jacobianFilter = JacobianFilterType::New();
   jacobianFilter->SetInput(m_Field);
   jacobianFilter->Update();
   m_FloatImage = jacobianFilter->GetOutput();
 
   using StatisticsFilterType = typename itk::StatisticsImageFilter<FloatImageType>;
-  typename StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
+  auto statisticsFilter = StatisticsFilterType::New();
   statisticsFilter->SetInput(m_FloatImage);
   statisticsFilter->Update();
 
@@ -812,10 +812,10 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::EnforceDiffeomorph
     this->SmoothDisplacementField();
   }
 
-  typename WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
   using WarperCoordRepType = typename WarperType::CoordRepType;
   using InterpolatorType1 = itk::LinearInterpolateImageFunction<MovingImageType, WarperCoordRepType>;
-  typename InterpolatorType1::Pointer interpolator = InterpolatorType1::New();
+  auto interpolator = InterpolatorType1::New();
 
   // If using landmarks, warp them
   if (m_UseLandmarks)
@@ -979,7 +979,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::SmoothDisplacement
 {
 
   using GaussianFilterType = RecursiveGaussianImageFilter<FieldType, FieldType>;
-  typename GaussianFilterType::Pointer smoother = GaussianFilterType::New();
+  auto smoother = GaussianFilterType::New();
 
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
@@ -1016,7 +1016,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField(
     itkDebugMacro(<< expandFactors[i] << " ");
   }
   itkDebugMacro(<< std::endl);
-  typename ExpanderType::Pointer m_FieldExpander = ExpanderType::New();
+  auto m_FieldExpander = ExpanderType::New();
   m_FieldExpander->SetInput(field);
   m_FieldExpander->SetExpandFactors(expandFactors);
   // use default
@@ -1109,7 +1109,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::MultiResSolve()
   {
     itkDebugMacro(<< " Beginning level " << m_CurrentLevel << std::endl);
 
-    typename SolverType::Pointer solver = SolverType::New();
+    auto solver = SolverType::New();
 
     if (m_Maxiters[m_CurrentLevel] > 0)
     {
@@ -1376,7 +1376,7 @@ template <typename TMovingImage, typename TFixedImage, typename TFemObject>
 void
 FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::AddLandmark(PointType source, PointType target)
 {
-  typename LoadLandmark::Pointer newLandmark = LoadLandmark::New();
+  auto newLandmark = LoadLandmark::New();
 
   vnl_vector<Float> localSource;
   vnl_vector<Float> localTarget;
@@ -1401,7 +1401,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InsertLandmark(uns
                                                                              PointType    source,
                                                                              PointType    target)
 {
-  typename LoadLandmark::Pointer newLandmark = LoadLandmark::New();
+  auto newLandmark = LoadLandmark::New();
 
   vnl_vector<Float> localSource;
   vnl_vector<Float> localTarget;

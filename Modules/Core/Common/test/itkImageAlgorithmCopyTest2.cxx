@@ -72,17 +72,17 @@ itkImageAlgorithmCopyTest2(int, char *[])
   region.SetIndex(index);
 
 
-  Short3DImageType::Pointer image1 = Short3DImageType::New();
+  auto image1 = Short3DImageType::New();
   image1->SetRegions(region);
   image1->Allocate();
   image1->FillBuffer(13);
 
-  Short3DImageType::Pointer image2 = Short3DImageType::New();
+  auto image2 = Short3DImageType::New();
   image2->SetRegions(region);
   image2->Allocate(true); // initialize buffer to zero
 
 
-  Float3DImageType::Pointer image3 = Float3DImageType::New();
+  auto image3 = Float3DImageType::New();
   image3->SetRegions(region);
   image3->Allocate(true); // initialize buffer to zero
 
@@ -103,7 +103,7 @@ itkImageAlgorithmCopyTest2(int, char *[])
   ITK_TEST_EXPECT_TRUE(CheckBuffer(image1.GetPointer(), 13));
 
 
-  AbsImageType::Pointer absimage = AbsImageType::New();
+  auto absimage = AbsImageType::New();
   absimage->SetImage(image3);
   image2->FillBuffer(0);
 
@@ -113,12 +113,12 @@ itkImageAlgorithmCopyTest2(int, char *[])
   ITK_TEST_EXPECT_TRUE(CheckBuffer(image2.GetPointer(), 13));
 
 
-  STDVectorImageType::Pointer image4 = STDVectorImageType::New();
+  auto image4 = STDVectorImageType::New();
   image4->SetRegions(region);
   image4->Allocate();
   image4->FillBuffer(std::vector<float>(10, 3.14));
 
-  STDVectorImageType::Pointer image5 = STDVectorImageType::New();
+  auto image5 = STDVectorImageType::New();
   image5->SetRegions(region);
   image5->Allocate();
 

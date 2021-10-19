@@ -44,7 +44,7 @@ itkVTKImageToImageFilterTest(int, char *[])
 #endif
   input->Print(std::cout);
 
-  ConnectorType::Pointer connector = ConnectorType::New();
+  auto connector = ConnectorType::New();
   connector->SetInput(input);
   connector->Update();
 

@@ -67,9 +67,9 @@ itkNaryAddImageFilterTest(int, char *[])
   using OutputImageType = itk::Image<PixelType, Dimension3D>;
 
   // Create some images
-  InputImageType::Pointer inputImageA = InputImageType::New();
-  InputImageType::Pointer inputImageB = InputImageType::New();
-  InputImageType::Pointer inputImageC = InputImageType::New();
+  auto inputImageA = InputImageType::New();
+  auto inputImageB = InputImageType::New();
+  auto inputImageC = InputImageType::New();
 
 
   constexpr InputImageType::PixelType valueA = 12;
@@ -84,7 +84,7 @@ itkNaryAddImageFilterTest(int, char *[])
   using FilterType = itk::NaryAddImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, NaryAddImageFilter, NaryFunctorImageFilter);
 
@@ -175,9 +175,9 @@ itkNaryAddImageFilterTest(int, char *[])
   using VectorPixelType = itk::Vector<ElementPixelType, Dimension2D>;
   using VectorImageType = itk::Image<VectorPixelType, Dimension2D>;
 
-  VectorImageType::Pointer vectorImageA = VectorImageType::New();
-  VectorImageType::Pointer vectorImageB = VectorImageType::New();
-  VectorImageType::Pointer vectorImageC = VectorImageType::New();
+  auto vectorImageA = VectorImageType::New();
+  auto vectorImageB = VectorImageType::New();
+  auto vectorImageC = VectorImageType::New();
 
   VectorPixelType vectorImageValueA, vectorImageValueB, vectorImageValueC;
 
@@ -201,7 +201,7 @@ itkNaryAddImageFilterTest(int, char *[])
   // Create an ADD Filter
   using VectorAdderType = itk::NaryAddImageFilter<VectorImageType, VectorImageType>;
 
-  VectorAdderType::Pointer vectorFilter = VectorAdderType::New();
+  auto vectorFilter = VectorAdderType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(vectorFilter, NaryAddImageFilter, NaryFunctorImageFilter);
 

@@ -33,7 +33,7 @@ itkSubsampleTest(int, char *[])
 
   // Now generate a random image
   using SourceType = itk::RandomImageSource<FloatImage>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   itk::SizeValueType size[3] = { 17, 8, 20 };
   itk::SizeValueType totalSize = size[0] * size[1] * size[2];
@@ -54,13 +54,13 @@ itkSubsampleTest(int, char *[])
   using MaskPixelImageType = itk::Image<unsigned char, 3>;
 
   using ImageCastFilterType = itk::ComposeImageFilter<FloatImage, ArrayPixelImageType>;
-  ImageCastFilterType::Pointer castFilter = ImageCastFilterType::New();
+  auto castFilter = ImageCastFilterType::New();
   castFilter->SetInput(source->GetOutput());
   castFilter->Update();
 
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ArrayPixelImageType, MaskPixelImageType>;
 
-  ImageToListSampleFilterType::Pointer filter = ImageToListSampleFilterType::New();
+  auto filter = ImageToListSampleFilterType::New();
   filter->SetInput(castFilter->GetOutput());
 
   try
@@ -77,7 +77,7 @@ itkSubsampleTest(int, char *[])
 
   using SubsampleType = itk::Statistics::Subsample<ListSampleType>;
 
-  SubsampleType::Pointer subsample = SubsampleType::New();
+  auto subsample = SubsampleType::New();
 
   std::cout << subsample->GetNameOfClass() << std::endl;
 

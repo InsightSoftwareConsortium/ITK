@@ -61,7 +61,7 @@ itkContourSpatialObjectTest(int, char *[])
   pnt[1] = 1;
   pt4.SetPickedPointInObjectSpace(pnt);
 
-  SpatialObjectType::Pointer contour = SpatialObjectType::New();
+  auto contour = SpatialObjectType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(contour, ContourSpatialObject, PointBasedSpatialObject);
 

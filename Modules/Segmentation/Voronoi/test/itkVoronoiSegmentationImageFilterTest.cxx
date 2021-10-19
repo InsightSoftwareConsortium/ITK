@@ -30,12 +30,12 @@ itkVoronoiSegmentationImageFilterTest(int, char *[])
   using PriorImage = itk::Image<unsigned char, 2>;
   using VoronoiSegmentationImageFilterType = itk::VoronoiSegmentationImageFilter<UShortImage, UShortImage, PriorImage>;
 
-  VoronoiSegmentationImageFilterType::Pointer voronoiSegmenter = VoronoiSegmentationImageFilterType::New();
+  auto voronoiSegmenter = VoronoiSegmentationImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     voronoiSegmenter, VoronoiSegmentationImageFilter, VoronoiSegmentationImageFilterBase);
 
-  UShortImage::Pointer   inputImage = UShortImage::New();
+  auto                   inputImage = UShortImage::New();
   UShortImage::SizeType  size = { { width, height } };
   UShortImage::IndexType index;
   index.Fill(0);

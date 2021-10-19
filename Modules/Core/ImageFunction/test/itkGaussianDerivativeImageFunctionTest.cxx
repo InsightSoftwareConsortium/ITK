@@ -29,7 +29,7 @@ TestGaussianDerivativeImageFunction()
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Create and allocate the image
-  typename ImageType::Pointer    image = ImageType::New();
+  auto                           image = ImageType::New();
   typename ImageType::SizeType   size;
   typename ImageType::IndexType  start;
   typename ImageType::RegionType region;
@@ -57,7 +57,7 @@ TestGaussianDerivativeImageFunction()
 
   // Test the derivative of Gaussian image function
   using DoGFunctionType = itk::GaussianDerivativeImageFunction<ImageType>;
-  typename DoGFunctionType::Pointer DoG = DoGFunctionType::New();
+  auto DoG = DoGFunctionType::New();
 
   DoG->SetInputImage(image);
 
@@ -168,7 +168,7 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
                 "Check legacy support for GaussianDerivativeFunctionPointer");
 #endif
 
-  DoGFunctionType::Pointer DoG = DoGFunctionType::New();
+  auto DoG = DoGFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(DoG, GaussianDerivativeImageFunction, ImageFunction);
 
@@ -187,7 +187,7 @@ itkGaussianDerivativeImageFunctionTest(int, char *[])
   std::cout << "\nTesting Gaussian Derivative Spatial Function:";
 
   using GaussianDerivativeFunctionType = itk::GaussianDerivativeSpatialFunction<double, 1>;
-  GaussianDerivativeFunctionType::Pointer f = GaussianDerivativeFunctionType::New();
+  auto f = GaussianDerivativeFunctionType::New();
 
   f->SetScale(1.0);
   if (f->GetScale() != 1.0)

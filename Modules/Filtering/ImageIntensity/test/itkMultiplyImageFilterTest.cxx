@@ -50,8 +50,8 @@ itkMultiplyImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<Dimension>;
 
   // Create two images
-  InputImageType1::Pointer inputImageA = InputImageType1::New();
-  InputImageType2::Pointer inputImageB = InputImageType2::New();
+  auto inputImageA = InputImageType1::New();
+  auto inputImageB = InputImageType2::New();
 
   // Define their size, and start index
   SizeType size;
@@ -93,7 +93,7 @@ itkMultiplyImageFilterTest(int, char *[])
   using FilterType = itk::MultiplyImageFilter<InputImageType1, InputImageType2, OutputImageType>;
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MultiplyImageFilter, BinaryGeneratorImageFilter);
 

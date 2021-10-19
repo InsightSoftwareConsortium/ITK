@@ -232,7 +232,7 @@ SparseFieldFourthOrderLevelSetImageFilter<TInputImage, TOutputImage>::ProcessNor
   // on into a temporary image to  use as the input to the mini-pipeline.  This
   // avoids a complete copy of the image.
   typename OutputImageType::Pointer phi = this->GetOutput();
-  typename OutputImageType::Pointer tmp = OutputImageType::New();
+  auto                              tmp = OutputImageType::New();
   tmp->SetRequestedRegion(phi->GetRequestedRegion());
   tmp->SetBufferedRegion(phi->GetBufferedRegion());
   tmp->SetLargestPossibleRegion(phi->GetLargestPossibleRegion());

@@ -41,15 +41,15 @@ CompareMeshSources(bool computeSquaredDistance)
 
   using IdentityType = itk::IdentityTransform<double, 3>;
 
-  typename FixedSourceType::Pointer fixed = FixedSourceType::New();
+  auto fixed = FixedSourceType::New();
   fixed->Update();
 
-  typename MovingSourceType::Pointer moving = MovingSourceType::New();
+  auto moving = MovingSourceType::New();
   moving->Update();
 
-  typename IdentityType::Pointer identity = IdentityType::New();
+  auto identity = IdentityType::New();
 
-  typename MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   metric->SetComputeSquaredDistance(computeSquaredDistance);
   ITK_TEST_SET_GET_VALUE(computeSquaredDistance, metric->GetComputeSquaredDistance());
@@ -92,7 +92,7 @@ itkEuclideanDistancePointMetricTest(int argc, char * argv[])
 
   using MetricType = itk::EuclideanDistancePointMetric<MeshType, QuadEdgeMeshType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, EuclideanDistancePointMetric, PointSetToPointSetMetric);
 

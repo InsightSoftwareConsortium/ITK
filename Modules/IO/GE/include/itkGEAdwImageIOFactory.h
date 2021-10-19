@@ -58,7 +58,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GEAdwImageIOFactory::Pointer metaFactory = GEAdwImageIOFactory::New();
+    auto metaFactory = GEAdwImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

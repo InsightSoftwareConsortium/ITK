@@ -70,7 +70,7 @@ itkMixtureModelComponentBaseTest(int, char *[])
 
   using ComponentType = itk::Statistics::MixtureModelComponentBaseTestHelper<SampleType>;
 
-  ComponentType::Pointer component = ComponentType::New();
+  auto component = ComponentType::New();
   std::cout << "component->GetWeights(): " << component->GetWeights() << std::endl;
   component->RunTests();
 

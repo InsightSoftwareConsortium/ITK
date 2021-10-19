@@ -36,7 +36,7 @@ itkFEMSolverTest3D(int argc, char * argv[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using Solver3DType = itk::fem::Solver<3>;
-  Solver3DType::Pointer solver = Solver3DType::New();
+  auto solver = Solver3DType::New();
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<3>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
@@ -103,7 +103,7 @@ itkFEMSolverTest3D(int argc, char * argv[])
   }
 
   // to write the deformed mesh
-  FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+  auto femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput());
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<3>;
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;

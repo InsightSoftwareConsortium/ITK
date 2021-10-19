@@ -34,7 +34,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
   using TensorPixelType = itk::SymmetricSecondRankTensor<float, 2>;
   using TensorImageType = itk::Image<TensorPixelType, 2>;
 
-  TensorImageType::Pointer tensorImageInput = TensorImageType::New();
+  auto tensorImageInput = TensorImageType::New();
 
   TensorImageType::SizeType size;
   size.Fill(10);

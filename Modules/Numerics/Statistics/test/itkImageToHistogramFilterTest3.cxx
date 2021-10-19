@@ -39,7 +39,7 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
   using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
   using ReaderType = itk::ImageFileReader<ScalarImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -54,7 +54,7 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
 
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>;
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(reader->GetOutput());
 
   const int NumberOfBins = static_cast<unsigned int>(imageMax - imageMin + 1);

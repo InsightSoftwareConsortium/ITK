@@ -93,7 +93,7 @@ FillWithCircle(typename TImage::Pointer & image,
   }
 
   using SmoothingFilterType = itk::SmoothingRecursiveGaussianImageFilter<TImage, TImage>;
-  typename SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
+  auto smoother = SmoothingFilterType::New();
   smoother->SetInput(image);
   smoother->SetSigma(1.0);
   smoother->Update();
@@ -146,9 +146,9 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  ImageType::Pointer moving = ImageType::New();
-  ImageType::Pointer fixed = ImageType::New();
-  FieldType::Pointer initField = FieldType::New();
+  auto moving = ImageType::New();
+  auto fixed = ImageType::New();
+  auto initField = FieldType::New();
 
   moving->SetLargestPossibleRegion(region);
   moving->SetBufferedRegion(region);
@@ -185,14 +185,14 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   initField->FillBuffer(zeroVec);
 
   using CasterType = itk::CastImageFilter<FieldType, FieldType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
   caster->SetInput(initField);
   caster->InPlaceOff();
 
   std::cout << "Run registration and warp moving" << std::endl;
 
   using RegistrationType = itk::LevelSetMotionRegistrationFilter<ImageType, ImageType, FieldType>;
-  RegistrationType::Pointer registrator = RegistrationType::New();
+  auto registrator = RegistrationType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(registrator, LevelSetMotionRegistrationFilter, PDEDeformableRegistrationFilter);
 
@@ -256,11 +256,11 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
 
   // Warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   warper->SetInput(moving);
   warper->SetDisplacementField(registrator->GetOutput());
@@ -275,7 +275,7 @@ itkLevelSetMotionRegistrationFilterTest(int argc, char * argv[])
   warper->Update();
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   if (argc > 1)
   {

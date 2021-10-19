@@ -36,7 +36,7 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   // Create the 16x16 input image
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
 
   ImageType::SizeType size;
   size.Fill(16);
@@ -64,14 +64,14 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   itk::EncapsulateMetaData<std::string>(inputDictionary, itk::ITK_PatientID, patientstr);
 
   // Write the image down
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(inputImage);
   writer->SetFileName(argv[1]);
   writer->Update();
 
   // Read the image back
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
   reader->Update();

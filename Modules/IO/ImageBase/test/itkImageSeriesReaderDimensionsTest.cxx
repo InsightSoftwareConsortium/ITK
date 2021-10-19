@@ -51,7 +51,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a single 2D image to 2D" << std::endl;
   try
   {
-    Reader2DType::Pointer reader = Reader2DType::New();
+    auto reader = Reader2DType::New();
     reader->SetFileNames(fname);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -65,7 +65,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a single 2D image to 3D" << std::endl;
   try
   {
-    Reader3DType::Pointer reader = Reader3DType::New();
+    auto reader = Reader3DType::New();
     reader->SetFileNames(fname);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -79,7 +79,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a single 2D image to 4D" << std::endl;
   try
   {
-    Reader4DType::Pointer reader = Reader4DType::New();
+    auto reader = Reader4DType::New();
     reader->SetFileNames(fname);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -95,7 +95,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a series of 2D images to 2D" << std::endl;
   try
   {
-    Reader2DType::Pointer reader = Reader2DType::New();
+    auto reader = Reader2DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -109,7 +109,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a series of 2D images to 3D" << std::endl;
   try
   {
-    Reader3DType::Pointer reader = Reader3DType::New();
+    auto reader = Reader3DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -123,7 +123,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a series of 2D images to 4D" << std::endl;
   try
   {
-    Reader4DType::Pointer reader = Reader4DType::New();
+    auto reader = Reader4DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;
@@ -137,7 +137,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   std::cout << "testing reading a series of 2D images to 5D" << std::endl;
   try
   {
-    Reader5DType::Pointer reader = Reader5DType::New();
+    auto reader = Reader5DType::New();
     reader->SetFileNames(fnames);
     reader->Update();
     std::cout << "output image size:: " << reader->GetOutput()->GetLargestPossibleRegion().GetSize() << std::endl;

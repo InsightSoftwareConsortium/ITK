@@ -31,7 +31,7 @@ itkGaussianDistributionTest(int, char *[])
 
   using DistributionType = itk::Statistics::GaussianDistribution;
 
-  DistributionType::Pointer distributionFunction = DistributionType::New();
+  auto distributionFunction = DistributionType::New();
 
   std::cout << "GetNameOfClass() = " << distributionFunction->GetNameOfClass() << std::endl;
   std::cout << "HasMean()        = " << distributionFunction->HasMean() << std::endl;

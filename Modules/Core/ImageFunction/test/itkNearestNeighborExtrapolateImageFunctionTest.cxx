@@ -41,11 +41,11 @@ itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
   imageSize[1] = 7;
   ImageType::RegionType imageRegion(imageSize);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->SetRegions(imageRegion);
   image->Allocate();
 
-  VectorImageType::Pointer vectorimage = VectorImageType::New();
+  auto vectorimage = VectorImageType::New();
   vectorimage->SetRegions(imageRegion);
   vectorimage->Allocate();
 
@@ -74,10 +74,10 @@ itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
 
   // set up the extrapolator
   using FunctionType = itk::NearestNeighborExtrapolateImageFunction<ImageType, CoordRep>;
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   using VectorFunctionType = itk::NearestNeighborExtrapolateImageFunction<VectorImageType, CoordRep>;
-  VectorFunctionType::Pointer vectorfunction = VectorFunctionType::New();
+  auto vectorfunction = VectorFunctionType::New();
 
   function->SetInputImage(image);
 

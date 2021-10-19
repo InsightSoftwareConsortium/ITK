@@ -189,7 +189,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
   typename TOutputImage::Pointer outputImage(this->GetOutput());
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // If the last filter is running in-place then this bulk data is not
@@ -200,7 +200,7 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
   }
 
 
-  typename CumulativeImageType::Pointer cumulativeImage = CumulativeImageType::New();
+  auto cumulativeImage = CumulativeImageType::New();
   cumulativeImage->SetRegions(inputImage->GetBufferedRegion());
   cumulativeImage->Allocate();
   cumulativeImage->FillBuffer(NumericTraits<InternalRealType>::ZeroValue());

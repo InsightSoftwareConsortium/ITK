@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    OBJMeshIOFactory::Pointer objFactory = OBJMeshIOFactory::New();
+    auto objFactory = OBJMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(objFactory);
   }

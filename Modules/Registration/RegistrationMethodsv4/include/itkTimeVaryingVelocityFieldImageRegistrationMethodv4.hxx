@@ -78,14 +78,14 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
 
   // This transform is used for the fixed image
   using IdentityTransformType = itk::IdentityTransform<RealType, ImageDimension>;
-  typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+  auto identityTransform = IdentityTransformType::New();
   identityTransform->SetIdentity();
 
   typename DisplacementFieldTransformType::Pointer identityDisplacementFieldTransform =
     DisplacementFieldTransformType::New();
 
   // This transform gets used for the moving image
-  typename DisplacementFieldDuplicatorType::Pointer fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
+  auto fieldDuplicatorIdentity = DisplacementFieldDuplicatorType::New();
 
   TimeVaryingVelocityFieldPointer velocityField = this->m_OutputTransform->GetModifiableVelocityField();
   IndexValueType numberOfTimePoints = velocityField->GetLargestPossibleRegion().GetSize()[ImageDimension];
@@ -141,7 +141,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
 
   // Monitor the convergence
   using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<RealType>;
-  typename ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
+  auto convergenceMonitoring = ConvergenceMonitoringType::New();
   convergenceMonitoring->SetWindowSize(this->m_ConvergenceWindowSize);
 
   // m_OutputTransform is the velocity field
@@ -178,7 +178,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         this->m_OutputTransform->IntegrateVelocityField();
       }
 
-      typename DisplacementFieldDuplicatorType::Pointer fieldDuplicator = DisplacementFieldDuplicatorType::New();
+      auto fieldDuplicator = DisplacementFieldDuplicatorType::New();
       fieldDuplicator->SetInputImage(this->m_OutputTransform->GetDisplacementField());
       fieldDuplicator->Update();
 
@@ -216,7 +216,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
       for (unsigned int n = 0; n < this->m_MovingSmoothImages.size(); ++n)
       {
         using MovingResamplerType = ResampleImageFilter<MovingImageType, VirtualImageType, RealType>;
-        typename MovingResamplerType::Pointer movingResampler = MovingResamplerType::New();
+        auto movingResampler = MovingResamplerType::New();
         movingResampler->SetTransform(this->m_CompositeTransform);
         movingResampler->SetInput(this->m_MovingSmoothImages[n]);
         movingResampler->SetSize(virtualDomainImage->GetRequestedRegion().GetSize());
@@ -227,7 +227,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
         movingResampler->Update();
 
         using FixedResamplerType = ResampleImageFilter<FixedImageType, VirtualImageType, RealType>;
-        typename FixedResamplerType::Pointer fixedResampler = FixedResamplerType::New();
+        auto fixedResampler = FixedResamplerType::New();
         fixedResampler->SetTransform(fixedDisplacementFieldTransform);
         fixedResampler->SetInput(this->m_FixedSmoothImages[n]);
         fixedResampler->SetSize(virtualDomainImage->GetRequestedRegion().GetSize());
@@ -305,7 +305,7 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
       auto * metricDerivativeFieldPointer = reinterpret_cast<DisplacementVectorType *>(metricDerivative.data_block());
 
       using ImporterType = ImportImageFilter<DisplacementVectorType, ImageDimension>;
-      typename ImporterType::Pointer importer = ImporterType::New();
+      auto importer = ImporterType::New();
       importer->SetImportPointer(
         metricDerivativeFieldPointer, numberOfPixelsPerTimePoint, importFilterWillReleaseMemory);
       importer->SetRegion(virtualDomainImage->GetBufferedRegion());
@@ -317,12 +317,12 @@ TimeVaryingVelocityFieldImageRegistrationMethodv4<TFixedImage,
       using MagnitudeImageType = Image<RealType, ImageDimension>;
 
       using MagnituderType = VectorMagnitudeImageFilter<DisplacementFieldType, MagnitudeImageType>;
-      typename MagnituderType::Pointer magnituder = MagnituderType::New();
+      auto magnituder = MagnituderType::New();
       magnituder->SetInput(importer->GetOutput());
       magnituder->Update();
 
       using StatisticsImageFilterType = StatisticsImageFilter<MagnitudeImageType>;
-      typename StatisticsImageFilterType::Pointer stats = StatisticsImageFilterType::New();
+      auto stats = StatisticsImageFilterType::New();
       stats->SetInput(magnituder->GetOutput());
       stats->Update();
 

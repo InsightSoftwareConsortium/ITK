@@ -41,7 +41,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
 
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   SizeType sizeIn;
   sizeIn[0] = 12;
@@ -63,7 +63,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
     image->SetPixel(idxVertical, 1);
   }
 
-  LabelImageToLabelMapFilterType::Pointer conversion = LabelImageToLabelMapFilterType::New();
+  auto conversion = LabelImageToLabelMapFilterType::New();
   conversion->SetInput(image);
   conversion->Update();
 

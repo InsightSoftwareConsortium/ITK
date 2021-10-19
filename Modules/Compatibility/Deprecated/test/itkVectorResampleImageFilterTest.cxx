@@ -41,7 +41,7 @@ itkVectorResampleImageFilterTest(int argc, char * argv[])
 
   using FilterType = itk::VectorResampleImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorResampleImageFilter, ImageToImageFilter);
 
@@ -49,13 +49,13 @@ itkVectorResampleImageFilterTest(int argc, char * argv[])
 
   using InterpolatorType = itk::VectorLinearInterpolateImageFunction<ImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, filter->GetInterpolator());
 
   using TransformType = itk::IdentityTransform<double, Dimension>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   filter->SetTransform(transform);
   ITK_TEST_SET_GET_VALUE(transform, filter->GetTransform());
@@ -79,7 +79,7 @@ itkVectorResampleImageFilterTest(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(start);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   image->SetOrigin(origin);
   image->SetSpacing(spacing);
@@ -145,7 +145,7 @@ itkVectorResampleImageFilterTest(int argc, char * argv[])
 
   // Write an image for regression testing
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[1]);
 

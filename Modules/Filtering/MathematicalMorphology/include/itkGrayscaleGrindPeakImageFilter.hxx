@@ -125,7 +125,7 @@ GrayscaleGrindPeakImageFilter<TInputImage, TOutputImage>::GenerateData()
     ReconstructionByDilationImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(dilate, 1.0f);
 

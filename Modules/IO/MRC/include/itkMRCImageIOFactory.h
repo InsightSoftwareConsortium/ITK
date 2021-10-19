@@ -73,7 +73,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    MRCImageIOFactory::Pointer vtkFactory = MRCImageIOFactory::New();
+    auto vtkFactory = MRCImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(vtkFactory);
   }

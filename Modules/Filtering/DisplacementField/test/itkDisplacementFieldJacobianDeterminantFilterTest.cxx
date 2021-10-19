@@ -43,7 +43,7 @@ TestDisplacementJacobianDeterminantValue()
   VectorImageType::SizeType size = { { 4096, 4096 } };
   region.SetSize(size);
 
-  VectorImageType::Pointer dispacementfield = VectorImageType::New();
+  auto dispacementfield = VectorImageType::New();
   dispacementfield->SetLargestPossibleRegion(region);
   dispacementfield->SetBufferedRegion(region);
   dispacementfield->Allocate();
@@ -76,7 +76,7 @@ TestDisplacementJacobianDeterminantValue()
   const float expectedJacobianDeterminant = (((.25 + 1.0) * (.375 + 1.0)) - (.125 * .125));
 
   using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType, float>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DisplacementFieldJacobianDeterminantFilter, ImageToImageFilter);
 
@@ -141,7 +141,7 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int, char *[])
     // Set up filter
 
     using FilterType = itk::DisplacementFieldJacobianDeterminantFilter<VectorImageType, float>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DisplacementFieldJacobianDeterminantFilter, ImageToImageFilter);
 

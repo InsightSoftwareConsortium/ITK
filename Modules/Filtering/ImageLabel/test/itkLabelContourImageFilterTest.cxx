@@ -41,11 +41,11 @@ itkLabelContourImageFilterTest(int argc, char * argv[])
   using IType = itk::Image<PType, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using FilterType = itk::LabelContourImageFilter<IType, IType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // test default values
   if (filter->GetFullyConnected() != false)
@@ -76,7 +76,7 @@ itkLabelContourImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

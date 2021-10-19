@@ -71,7 +71,7 @@ itkAdaptImageFilterTest2(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  myVectorImageType::Pointer myImage = myVectorImageType::New();
+  auto myImage = myVectorImageType::New();
 
 
   myImage->SetLargestPossibleRegion(region);
@@ -113,7 +113,7 @@ itkAdaptImageFilterTest2(int, char *[])
   // Get the first element
   using AdaptFilterType = itk::AdaptImageFilter<myVectorImageType, myImageType, myAccessorType>;
 
-  AdaptFilterType::Pointer adaptImage = AdaptFilterType::New();
+  auto adaptImage = AdaptFilterType::New();
 
   myAccessorType accessor;
   accessor.SetElementNumber(0);

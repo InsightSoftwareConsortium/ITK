@@ -45,14 +45,14 @@ itkTriangleThresholdImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
 
   using FilterType = itk::TriangleThresholdImageFilter<InputImageType, OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
@@ -108,7 +108,7 @@ itkTriangleThresholdImageFilterTest(int argc, char * argv[])
 
   // Write output image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

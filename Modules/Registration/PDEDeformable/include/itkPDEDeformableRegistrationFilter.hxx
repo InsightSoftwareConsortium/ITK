@@ -343,8 +343,8 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   using OperatorType = GaussianOperator<ScalarType, ImageDimension>;
   using SmootherType = VectorNeighborhoodOperatorImageFilter<DisplacementFieldType, DisplacementFieldType>;
 
-  auto *                         oper = new OperatorType;
-  typename SmootherType::Pointer smoother = SmootherType::New();
+  auto * oper = new OperatorType;
+  auto   smoother = SmootherType::New();
 
   using PixelContainerPointer = typename DisplacementFieldType::PixelContainerPointer;
   PixelContainerPointer swapPtr;

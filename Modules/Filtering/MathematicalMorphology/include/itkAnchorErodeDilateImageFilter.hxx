@@ -60,7 +60,7 @@ AnchorErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThreadedGenera
   IReg.Crop(this->GetInput()->GetRequestedRegion());
 
   // allocate an internal buffer
-  typename InputImageType::Pointer internalbuffer = InputImageType::New();
+  auto internalbuffer = InputImageType::New();
   internalbuffer->SetRegions(IReg);
   internalbuffer->Allocate();
   InputImagePointer output = internalbuffer;

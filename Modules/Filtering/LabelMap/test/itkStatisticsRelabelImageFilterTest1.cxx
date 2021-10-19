@@ -42,14 +42,14 @@ itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using RelabelType = itk::StatisticsRelabelImageFilter<IType, IType>;
-  RelabelType::Pointer statisticsRelabel = RelabelType::New();
+  auto statisticsRelabel = RelabelType::New();
 
   statisticsRelabel->SetInput(reader->GetOutput());
   statisticsRelabel->SetFeatureImage(reader2->GetOutput());
@@ -79,7 +79,7 @@ itkStatisticsRelabelImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(statisticsRelabel, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(statisticsRelabel->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();

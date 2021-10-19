@@ -128,19 +128,19 @@ CreateMesh(InputImageType * image, unsigned int elementWidth = 1)
   }
 
   // Set up image to mesh filter
-  MeshFilterType::Pointer meshFilter = MeshFilterType::New();
+  auto meshFilter = MeshFilterType::New();
   meshFilter->SetInput(image);
   meshFilter->SetPixelsPerElement(pixelsPerElement);
-  MaterialType::Pointer material = MaterialType::New();
+  auto material = MaterialType::New();
   if (ImageDimension == 2)
   {
-    Element2DType::Pointer element = Element2DType::New();
+    auto element = Element2DType::New();
     element->SetMaterial(material);
     meshFilter->SetElement(element);
   }
   else
   {
-    Element3DType::Pointer element = Element3DType::New();
+    auto element = Element3DType::New();
     element->SetMaterial(material);
     meshFilter->SetElement(element);
   }
@@ -161,7 +161,7 @@ RunTest(InputImageType *            fixedImage,
   InputImageType::SpacingType spacing = fixedImage->GetSpacing();
   InputImageType::PointType   origin = fixedImage->GetOrigin();
 
-  ImageMetricLoadType::Pointer load = ImageMetricLoadType::New();
+  auto load = ImageMetricLoadType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(load, FiniteDifferenceFunctionLoad, LoadElement);
 
@@ -274,7 +274,7 @@ RunTest(InputImageType *            fixedImage,
 
   // Write to vector image
   using FieldWriterType = itk::ImageFileWriter<DeformationFieldImageType>;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  auto fieldWriter = FieldWriterType::New();
 
   std::ostringstream outFilenameStream;
   outFilenameStream << filenamePrefix << "ForcesWithMetric" << metricType << ".vtk";
@@ -333,7 +333,7 @@ RunTest(InputImageType *            fixedImage,
   }   // end of for(each element)
 
   // Write to vector image
-  FieldWriterType::Pointer forceFieldWriter = FieldWriterType::New();
+  auto forceFieldWriter = FieldWriterType::New();
 
   std::ostringstream vectorOutFilenameStream;
   vectorOutFilenameStream << filenamePrefix << "NodalForcesWithMetric" << metricType << ".vtk";
@@ -388,11 +388,11 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  InputImageType::Pointer movingImage = InputImageType::New();
-  InputImageType::Pointer fixedImage = InputImageType::New();
+  auto movingImage = InputImageType::New();
+  auto fixedImage = InputImageType::New();
 
-  DeformationFieldImageType::Pointer initField = DeformationFieldImageType::New();
-  DeformationFieldImageType::Pointer outField = DeformationFieldImageType::New();
+  auto initField = DeformationFieldImageType::New();
+  auto outField = DeformationFieldImageType::New();
 
   movingImage->SetLargestPossibleRegion(region);
   movingImage->SetBufferedRegion(region);
@@ -442,8 +442,8 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
   FillImage<DeformationFieldImageType>(initField, zeroVec);
 
   using ImageWriterType = itk::ImageFileWriter<InputImageType>;
-  ImageWriterType::Pointer writer = ImageWriterType::New();
-  std::string              filename(filenamePrefix);
+  auto        writer = ImageWriterType::New();
+  std::string filename(filenamePrefix);
 
   writer->SetInput(movingImage);
   writer->SetFileName((filename + "MovingImage.mha").c_str());
@@ -456,7 +456,7 @@ itkFEMFiniteDifferenceFunctionLoadTest(int argc, char * argv[])
 
   // Create mesh from image
   FEMObjectType::Pointer femObject = CreateMesh(fixedImage, PixelsPerElement);
-  SolverType::Pointer    solver = SolverType::New();
+  auto                   solver = SolverType::New();
   solver->SetInput(femObject);
 
   // Test FinitDifferenceFunctionLoad with four metric types

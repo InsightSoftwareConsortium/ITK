@@ -33,7 +33,7 @@ itkImageFileWriterTest2(int ac, char * av[])
   using WriterType = itk::ImageFileWriter<ImageNDType>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
-  ImageNDType::Pointer    image = ImageNDType::New();
+  auto                    image = ImageNDType::New();
   ImageNDType::RegionType region;
   ImageNDType::IndexType  index;
   ImageNDType::SizeType   size;
@@ -56,8 +56,8 @@ itkImageFileWriterTest2(int ac, char * av[])
   std::cout << "Original Starting Point (physical cooridents) : " << originalPoint << std::endl;
   std::cout << "Original Origin: " << image->GetOrigin() << std::endl;
 
-  WriterType::Pointer writer = WriterType::New();
-  ReaderType::Pointer reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto reader = ReaderType::New();
   try
   {
     writer->SetInput(image);

@@ -250,8 +250,8 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
      * This code is copied from the itk-example
      * DeformableRegistration6.cxx .
      */
-    typename UpsampleFilterType::Pointer              upsampler = UpsampleFilterType::New();
-    typename CoefficientUpsampleFunctionType::Pointer coeffUpsampleFunction = CoefficientUpsampleFunctionType::New();
+    auto upsampler = UpsampleFilterType::New();
+    auto coeffUpsampleFunction = CoefficientUpsampleFunctionType::New();
 
     upsampler->SetInterpolator(coeffUpsampleFunction);
     upsampler->SetSize(newGridSize);
@@ -261,7 +261,7 @@ BSplineTransformParametersAdaptor<TTransform>::AdaptTransformParameters()
     upsampler->SetOutputDirection(newGridDirection);
     upsampler->SetInput(this->m_Transform->GetCoefficientImages()[j]);
 
-    typename DecompositionFilterType::Pointer decompositionFilter = DecompositionFilterType::New();
+    auto decompositionFilter = DecompositionFilterType::New();
     decompositionFilter->SetSplineOrder(TransformType::SplineOrder);
     decompositionFilter->SetInput(upsampler->GetOutput());
 

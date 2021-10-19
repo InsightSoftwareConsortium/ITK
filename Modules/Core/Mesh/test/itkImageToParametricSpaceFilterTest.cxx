@@ -43,7 +43,7 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   using PointType = MeshType::PointType;
 
   // Create an input Mesh
-  MeshType::Pointer inputMesh = MeshType::New();
+  auto inputMesh = MeshType::New();
 
   // Insert data on the Mesh
   PointsContainerPointer points = inputMesh->GetPoints();

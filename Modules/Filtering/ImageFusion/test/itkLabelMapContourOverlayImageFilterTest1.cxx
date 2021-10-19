@@ -39,18 +39,18 @@ itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using ConverterType = itk::LabelImageToLabelMapFilter<IType>;
-  ConverterType::Pointer converter = ConverterType::New();
+  auto converter = ConverterType::New();
   converter->SetInput(reader->GetOutput());
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using ColorizerType = itk::LabelMapContourOverlayImageFilter<ConverterType::OutputImageType, IType>;
-  ColorizerType::Pointer colorizer = ColorizerType::New();
+  auto colorizer = ColorizerType::New();
   colorizer->SetInput(converter->GetOutput());
   colorizer->SetFeatureImage(reader2->GetOutput());
   colorizer->SetOpacity(std::stod(argv[4]));
@@ -66,7 +66,7 @@ itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 
   using WriterType = itk::ImageFileWriter<ColorizerType::OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(colorizer->GetOutput());
   writer->SetFileName(argv[3]);
 

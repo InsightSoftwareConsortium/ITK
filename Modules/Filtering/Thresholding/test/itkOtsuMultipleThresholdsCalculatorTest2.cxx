@@ -23,7 +23,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
 {
   using MeasurementType = float;
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
 
   bool               passed = true;
   constexpr unsigned pixelCount = 4;
@@ -55,7 +55,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
     }
 
     using OtsuMultipleThresholdCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
-    OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
+    auto otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
 
     otsuThresholdCalculator->SetInputHistogram(histogram);
     otsuThresholdCalculator->SetNumberOfThresholds(thresholdCount);

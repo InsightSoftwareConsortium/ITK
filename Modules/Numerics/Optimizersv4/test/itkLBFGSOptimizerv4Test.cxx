@@ -162,10 +162,10 @@ itkLBFGSOptimizerv4Test(int, char *[])
   using vnlOptimizerType = vnl_lbfgs;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the metric
-  itkLBFGSOptimizerv4TestMetric::Pointer metric = itkLBFGSOptimizerv4TestMetric::New();
+  auto metric = itkLBFGSOptimizerv4TestMetric::New();
 
   // Set some optimizer parameters
   itkOptimizer->SetTrace(false);

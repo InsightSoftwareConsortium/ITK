@@ -45,7 +45,7 @@ itkMetaImageIOTest(int argc, char * argv[])
 
   // Force use of MetaIO
   using IOType = itk::MetaImageIO;
-  IOType::Pointer metaIn = IOType::New();
+  auto metaIn = IOType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metaIn, MetaImageIO, ImageIOBase);
 
@@ -96,7 +96,7 @@ itkMetaImageIOTest(int argc, char * argv[])
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
-  IOType::Pointer metaOut = IOType::New();
+  auto metaOut = IOType::New();
   writer->SetImageIO(metaOut);
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);

@@ -40,7 +40,7 @@ itkPathIteratorTest(int, char *[])
 
   // Setup the image
   std::cout << "Making a 64x64 white square centered in a 128x128 black image" << std::endl;
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   IndexType start;
   start[0] = 0;
@@ -88,8 +88,8 @@ itkPathIteratorTest(int, char *[])
 
   // Set up the path
   std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
-  VertexType        v;
-  PathType::Pointer path = PathType::New();
+  VertexType v;
+  auto       path = PathType::New();
   v.Fill(30);
   path->AddVertex(v);
   v[0] = 33;

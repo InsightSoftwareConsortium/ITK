@@ -106,7 +106,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   std::string whereFail = "";
 
   // creats an image and allocate memory
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType size;
   size.Fill(5);
@@ -123,11 +123,11 @@ itkStatisticsAlgorithmTest2(int, char *[])
   image->Allocate();
 
   // creates an ImageToListSampleAdaptor object
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetImage(image);
 
   // creates a Subsample obeject using the ImageToListSampleAdaptor object
-  SubsampleType::Pointer subsample = SubsampleType::New();
+  auto subsample = SubsampleType::New();
   subsample->SetSample(sample);
 
   // each algorithm test will be compared with the sorted

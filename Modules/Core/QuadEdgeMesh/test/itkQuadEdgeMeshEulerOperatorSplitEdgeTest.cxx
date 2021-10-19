@@ -38,7 +38,7 @@ itkQuadEdgeMeshEulerOperatorSplitEdgeTest(int, char *[])
   MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
-  SplitEdge::Pointer splitEdge = SplitEdge::New();
+  auto splitEdge = SplitEdge::New();
   std::cout << "     "
             << "Test No Mesh Input";
   if (splitEdge->Evaluate((QEType *)1))

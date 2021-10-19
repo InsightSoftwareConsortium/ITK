@@ -108,13 +108,13 @@ itkImageRegistrationMethodTest_15(int, char *[])
   using RegistrationType = itk::ImageRegistrationMethod<FixedImageType, MovingImageType>;
 
 
-  MetricType::Pointer       metric = MetricType::New();
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  FixedImageType::Pointer   fixedImage = FixedImageType::New();
-  MovingImageType::Pointer  movingImage = MovingImageType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto fixedImage = FixedImageType::New();
+  auto movingImage = MovingImageType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
 
   /*********************************************************
    * Set up the two input images.
@@ -210,7 +210,7 @@ itkImageRegistrationMethodTest_15(int, char *[])
    * Set up the optimizer observer
    ******************************************************************/
   using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
-  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  auto iterationCommand = CommandIterationType::New();
 
   iterationCommand->SetOptimizer(optimizer);
 

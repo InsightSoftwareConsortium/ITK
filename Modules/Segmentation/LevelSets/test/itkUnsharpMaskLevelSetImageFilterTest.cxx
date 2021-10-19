@@ -65,7 +65,7 @@ itkUnsharpMaskLevelSetImageFilterTest(int, char *[])
 {
   using ImageType = itk::Image<float, 2>;
 
-  ImageType::Pointer im_init = ImageType::New();
+  auto im_init = ImageType::New();
 
   ImageType::RegionType r;
   ImageType::SizeType   sz = { { HEIGHT, WIDTH } };
@@ -80,7 +80,7 @@ itkUnsharpMaskLevelSetImageFilterTest(int, char *[])
 
   evaluate_function(im_init, square);
   using FilterType = itk::UnsharpMaskLevelSetImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetMaxFilterIteration(99);
   filter->SetNormalProcessUnsharpWeight(1);
 

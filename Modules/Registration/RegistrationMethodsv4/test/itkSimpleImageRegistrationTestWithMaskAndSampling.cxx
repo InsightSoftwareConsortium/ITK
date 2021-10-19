@@ -132,7 +132,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
 
   using ImageReaderType = itk::ImageFileReader<FixedImageType>;
 
-  typename ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
   fixedImageReader->SetFileName(argv[3]);
   fixedImageReader->Update();
   typename FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
@@ -145,17 +145,17 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<VImageDimension>;
   using MaskImageType = typename ImageMaskSpatialObjectType::ImageType;
 
-  typename MaskImageType::Pointer maskImage = MaskImageType::New();
+  auto maskImage = MaskImageType::New();
   maskImage->CopyInformation(fixedImage);
   maskImage->SetRegions(fixedImage->GetRequestedRegion());
   maskImage->Allocate();
   maskImage->FillBuffer(itk::NumericTraits<typename MaskImageType::PixelType>::OneValue());
 
-  typename ImageMaskSpatialObjectType::Pointer maskSpatialObject = ImageMaskSpatialObjectType::New();
+  auto maskSpatialObject = ImageMaskSpatialObjectType::New();
   maskSpatialObject->SetImage(maskImage);
   maskSpatialObject->Update();
 
-  typename ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
   movingImageReader->SetFileName(argv[4]);
   movingImageReader->Update();
   typename MovingImageType::Pointer movingImage = movingImageReader->GetOutput();
@@ -163,10 +163,10 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   movingImage->DisconnectPipeline();
 
   using AffineTransformType = itk::AffineTransform<double, VImageDimension>;
-  typename AffineTransformType::Pointer affineTransform = AffineTransformType::New();
+  auto affineTransform = AffineTransformType::New();
 
   using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
-  typename AffineRegistrationType::Pointer affineSimple = AffineRegistrationType::New();
+  auto affineSimple = AffineRegistrationType::New();
   affineSimple->SetObjectName("affineSimple");
   affineSimple->SetFixedImage(fixedImage);
   affineSimple->SetMovingImage(movingImage);
@@ -185,7 +185,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   }
 
   using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename MIMetricType::Pointer mutualInformationMetric = MIMetricType::New();
+  auto mutualInformationMetric = MIMetricType::New();
   mutualInformationMetric->SetNumberOfHistogramBins(20);
   mutualInformationMetric->SetUseMovingImageGradientFilter(false);
   mutualInformationMetric->SetUseFixedImageGradientFilter(false);
@@ -195,7 +195,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   affineSimple->SetMetric(mutualInformationMetric);
 
   using AffineScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;
-  typename AffineScalesEstimatorType::Pointer scalesEstimator1 = AffineScalesEstimatorType::New();
+  auto scalesEstimator1 = AffineScalesEstimatorType::New();
   scalesEstimator1->SetMetric(mutualInformationMetric);
   scalesEstimator1->SetTransformForward(true);
 
@@ -235,7 +235,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   affineOptimizer->SetScalesEstimator(scalesEstimator1);
 
   using AffineCommandType = CommandIterationUpdate<AffineRegistrationType>;
-  typename AffineCommandType::Pointer affineObserver = AffineCommandType::New();
+  auto affineObserver = AffineCommandType::New();
   affineSimple->AddObserver(itk::MultiResolutionIterationEvent(), affineObserver);
 
   {
@@ -256,7 +256,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   using VectorType = itk::Vector<RealType, VImageDimension>;
   VectorType zeroVector(0.0);
   using DisplacementFieldType = itk::Image<VectorType, VImageDimension>;
-  typename DisplacementFieldType::Pointer displacementField = DisplacementFieldType::New();
+  auto displacementField = DisplacementFieldType::New();
   displacementField->CopyInformation(fixedImage);
   displacementField->SetRegions(fixedImage->GetBufferedRegion());
   displacementField->Allocate();
@@ -265,7 +265,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   using DisplacementFieldTransformType =
     itk::GaussianSmoothingOnUpdateDisplacementFieldTransform<RealType, VImageDimension>;
 
-  typename DisplacementFieldTransformType::Pointer fieldTransform = DisplacementFieldTransformType::New();
+  auto fieldTransform = DisplacementFieldTransformType::New();
   fieldTransform->SetGaussianSmoothingVarianceForTheUpdateField(0);
   fieldTransform->SetGaussianSmoothingVarianceForTheTotalField(1.5);
   fieldTransform->SetDisplacementField(displacementField);
@@ -276,7 +276,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   displacementFieldSimple->SetObjectName("displacementFieldSimple");
 
   using CorrelationMetricType = itk::ANTSNeighborhoodCorrelationImageToImageMetricv4<FixedImageType, MovingImageType>;
-  typename CorrelationMetricType::Pointer    correlationMetric = CorrelationMetricType::New();
+  auto                                       correlationMetric = CorrelationMetricType::New();
   typename CorrelationMetricType::RadiusType radius;
   radius.Fill(4);
   correlationMetric->SetRadius(radius);
@@ -287,11 +287,11 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   // correlationMetric->SetFloatingPointCorrectionResolution(1e4);
 
   using ScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<CorrelationMetricType>;
-  typename ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
+  auto scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric(correlationMetric);
   scalesEstimator->SetTransformForward(true);
 
-  typename GradientDescentOptimizerv4Type::Pointer optimizer = GradientDescentOptimizerv4Type::New();
+  auto optimizer = GradientDescentOptimizerv4Type::New();
   optimizer->SetLearningRate(1.0);
 #ifdef NDEBUG
   optimizer->SetNumberOfIterations(std::stoi(argv[7]));
@@ -348,7 +348,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
     // usage, we could calculate these fixed parameters directly.
 
     using ShrinkFilterType = itk::ShrinkImageFilter<DisplacementFieldType, DisplacementFieldType>;
-    typename ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(shrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(displacementField);
     shrinkFilter->Update();
@@ -393,12 +393,12 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
             << "  optimizer: " << displacementFieldSimple->GetOptimizer()->GetNumberOfWorkUnits() << std::endl;
 
   using CompositeTransformType = itk::CompositeTransform<RealType, VImageDimension>;
-  typename CompositeTransformType::Pointer compositeTransform = CompositeTransformType::New();
+  auto compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform(affineSimple->GetModifiableTransform());
   compositeTransform->AddTransform(displacementFieldSimple->GetModifiableTransform());
 
   using ResampleFilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
   resampler->SetTransform(compositeTransform);
   resampler->SetInput(movingImage);
   resampler->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
@@ -409,7 +409,7 @@ PerformSimpleImageRegistrationWithMaskAndSampling(int argc, char * argv[])
   resampler->Update();
 
   using WriterType = itk::ImageFileWriter<FixedImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[5]);
   writer->SetInput(resampler->GetOutput());
   writer->Update();

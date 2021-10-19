@@ -45,11 +45,11 @@ itkStreamingImageFilterTest3(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFilename);
 
   using SomeFilter = itk::ShiftScaleImageFilter<ImageType, ImageType>;
-  SomeFilter::Pointer filter = SomeFilter::New();
+  auto filter = SomeFilter::New();
   filter->SetInput(reader->GetOutput());
 
   // monitor what's going on

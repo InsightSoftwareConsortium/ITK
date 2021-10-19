@@ -43,12 +43,12 @@ itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
   const PixelType rescaleSlope(2);
   const PixelType rescaleIntercept(-99);
 
-  ImageIOType::Pointer dcmImageIO = ImageIOType::New();
+  auto dcmImageIO = ImageIOType::New();
 
   ImageType::Pointer images[2];
   for (unsigned i = 0; i < 2; ++i)
   {
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(av[i + 1]);
     reader->SetImageIO(dcmImageIO);
 

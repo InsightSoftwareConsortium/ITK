@@ -40,7 +40,7 @@ itkExtractSlice(int argc, char * argv[])
   using ExtractType = itk::ExtractImageFilter<ImageType, SliceType>;
   using WriterType = itk::ImageFileWriter<SliceType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->UpdateOutputInformation();
 
@@ -54,13 +54,13 @@ itkExtractSlice(int argc, char * argv[])
   outRegion.SetSize(outSize);
   outRegion.SetIndex(outIndex);
 
-  ExtractType::Pointer extractFilter = ExtractType::New();
+  auto extractFilter = ExtractType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();
   extractFilter->InPlaceOn();
   extractFilter->SetInput(reader->GetOutput());
   extractFilter->SetExtractionRegion(outRegion);
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(extractFilter->GetOutput());
   writer->SetFileName(argv[2]);
 

@@ -114,7 +114,7 @@ GrayscaleConnectedClosingImageFilter<TInputImage, TOutputImage>::GenerateData()
     ReconstructionByErosionImageFilter<TInputImage, TInputImage>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(erode, 1.0f);
 

@@ -129,7 +129,7 @@ private:
   MetaObject *
   SpatialObjectToMetaObject(SpatialObjectConstPointer & so)
   {
-    typename TConverter::Pointer converter = TConverter::New();
+    auto converter = TConverter::New();
     // needed just for Image & ImageMask
     converter->SetWriteImagesInSeparateFile(this->m_WriteImagesInSeparateFile);
     return converter->SpatialObjectToMetaObject(so);
@@ -138,7 +138,7 @@ private:
   SpatialObjectPointer
   MetaObjectToSpatialObject(const MetaObject * mo)
   {
-    typename TConverter::Pointer converter = TConverter::New();
+    auto converter = TConverter::New();
     return converter->MetaObjectToSpatialObject(mo);
   }
   void

@@ -31,7 +31,7 @@ itkMalcolmSparseLevelSetImageTest(int, char *[])
   IndexType index;
   index.Fill(3);
 
-  LabelMapType::Pointer labelMap = LabelMapType::New();
+  auto labelMap = LabelMapType::New();
   labelMap->SetBackgroundValue(1);
 
   for (int i = 0; i < 4; ++i)
@@ -40,7 +40,7 @@ itkMalcolmSparseLevelSetImageTest(int, char *[])
     labelMap->SetPixel(index, -1);
   }
 
-  SparseLevelSetType::Pointer phi = SparseLevelSetType::New();
+  auto phi = SparseLevelSetType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(phi, MalcolmSparseLevelSetImage, LevelSetSparseImage);
 

@@ -100,7 +100,7 @@ itkLevelSetDenseImageTest(int, char *[])
   origin[0] = 3.99;
   origin[1] = 3.99;
 
-  ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetRegions(region);
   input->SetSpacing(spacing);
   input->SetOrigin(origin);
@@ -115,7 +115,7 @@ itkLevelSetDenseImageTest(int, char *[])
   ImageType::PointType pt;
 
   using TestFunctionType = itk::LevelSetTestFunction<PixelType>;
-  TestFunctionType::Pointer testFunction = TestFunctionType::New();
+  auto testFunction = TestFunctionType::New();
 
   while (!it.IsAtEnd())
   {
@@ -129,7 +129,7 @@ itkLevelSetDenseImageTest(int, char *[])
     ++it;
   }
 
-  LevelSetType::Pointer level_set = LevelSetType::New();
+  auto level_set = LevelSetType::New();
   level_set->SetImage(input);
 
   idx[0] = 9;

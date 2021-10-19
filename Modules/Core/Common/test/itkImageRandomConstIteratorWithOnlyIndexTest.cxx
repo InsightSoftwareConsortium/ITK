@@ -32,7 +32,7 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
 
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer      myImage = ImageType::New();
+  auto                    myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage;
 
   ImageType::SizeType size0;
@@ -127,7 +127,7 @@ itkImageRandomConstIteratorWithOnlyIndexTest(int, char *[])
   using ImageBaseType = itk::ImageBase<ImageDimension>;
   using ImageBaseRandomConstIteratorType = itk::ImageRandomConstIteratorWithOnlyIndex<ImageBaseType>;
 
-  ImageBaseType::Pointer myImageBase = ImageBaseType::New();
+  auto myImageBase = ImageBaseType::New();
   myImageBase->CopyInformation(myImage);
   ImageBaseRandomConstIteratorType dor(myImageBase, region0);
   dor.SetNumberOfSamples(numberOfSamples); // 0=x, 1=y, 2=z

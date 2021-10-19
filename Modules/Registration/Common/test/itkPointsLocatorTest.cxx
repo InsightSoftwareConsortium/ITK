@@ -31,11 +31,11 @@ testPointsLocatorTest()
   using PointType = itk::Point<float, PointDimension>;
 
   using PointsContainerType = TPointsContainer;
-  typename PointsContainerType::Pointer points = PointsContainerType::New();
+  auto points = PointsContainerType::New();
   points->Initialize();
 
   using PointsLocatorType = itk::PointsLocator<PointsContainerType>;
-  typename PointsLocatorType::Pointer pointsLocator = PointsLocatorType::New();
+  auto pointsLocator = PointsLocatorType::New();
 
   /**
    * Create a simple point set structure that will create a non-degenerate

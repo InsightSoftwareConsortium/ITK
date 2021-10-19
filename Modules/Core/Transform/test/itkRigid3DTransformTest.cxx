@@ -71,7 +71,7 @@ TestSettingTranslation()
 
   using TransformType = itk::Rigid3DTransformSurrogate<double>;
 
-  TransformType::Pointer r1 = TransformType::New();
+  auto r1 = TransformType::New();
   // r1->SetIdentity();
   r1->SetMatrix(R);
   r1->Translate(T);
@@ -80,7 +80,7 @@ TestSettingTranslation()
   p1.set_size(12);
   p1 = r1->GetParameters();
 
-  TransformType::Pointer        r2 = TransformType::New();
+  auto                          r2 = TransformType::New();
   TransformType::ParametersType p2;
 
   p2.set_size(12);
@@ -95,7 +95,7 @@ TestSettingTranslation()
   p2[10] = T[1];
   p2[11] = T[2];
   r2->SetParameters(p2);
-  TransformType::Pointer r3 = TransformType::New();
+  auto r3 = TransformType::New();
   r3->SetFixedParameters(r1->GetFixedParameters());
   r3->SetParameters(r1->GetParameters());
 
@@ -133,7 +133,7 @@ itkRigid3DTransformTest(int, char *[])
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    TransformType::Pointer    identityTransform = TransformType::New();
+    auto                      identityTransform = TransformType::New();
     TransformType::OffsetType offset = identityTransform->GetOffset();
     std::cout << "Vector from instantiating an identity transform:  ";
     std::cout << offset << std::endl;
@@ -155,7 +155,7 @@ itkRigid3DTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with translation */
   {
-    TransformType::Pointer               translation = TransformType::New();
+    auto                                 translation = TransformType::New();
     TransformType::OffsetType::ValueType ioffsetInit[3] = { 1, 4, 9 };
     TransformType::OffsetType            ioffset = ioffsetInit;
 
@@ -291,7 +291,7 @@ itkRigid3DTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a rotation given by a Matrix */
   {
-    TransformType::Pointer    rotation = TransformType::New();
+    auto                      rotation = TransformType::New();
     TransformType::MatrixType mrotation;
 
     mrotation.SetIdentity();
@@ -497,8 +497,8 @@ itkRigid3DTransformTest(int, char *[])
       std::cout << "Testing SetParameters() ... ";
       unsigned int j;
 
-      TransformType::Pointer t = TransformType::New();
-      ParametersType         p(t->GetNumberOfParameters());
+      auto           t = TransformType::New();
+      ParametersType p(t->GetNumberOfParameters());
 
       // attempt to set an non-orthogonal matrix
       for (j = 0; j < t->GetNumberOfParameters(); ++j)
@@ -579,8 +579,8 @@ itkRigid3DTransformTest(int, char *[])
       // Testing SetIdentity()
       std::cout << "Testing SetIdentity() ... ";
 
-      TransformType::Pointer t = TransformType::New();
-      ParametersType         p(t->GetNumberOfParameters());
+      auto           t = TransformType::New();
+      ParametersType p(t->GetNumberOfParameters());
 
       t->SetIdentity();
       p = t->GetParameters();
@@ -621,7 +621,7 @@ itkRigid3DTransformTest(int, char *[])
       using MatrixType = TransformType::MatrixType;
       MatrixType matrix;
 
-      TransformType::Pointer t = TransformType::New();
+      auto t = TransformType::New();
 
       // attempt to set an non-orthogonal matrix
       par = 0;

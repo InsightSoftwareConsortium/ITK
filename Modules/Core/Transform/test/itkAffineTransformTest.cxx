@@ -126,7 +126,7 @@ itkAffineTransformTest(int, char *[])
 
   /* Create a 2D identity transformation and show its parameters */
   using Affine2DType = itk::AffineTransform<double, 2>;
-  Affine2DType::Pointer id2 = Affine2DType::New();
+  auto id2 = Affine2DType::New();
   matrix2 = id2->GetMatrix();
   vector2 = id2->GetOffset();
   std::cout << "Matrix from instantiating an identity transform:" << std::endl << matrix2;
@@ -155,7 +155,7 @@ itkAffineTransformTest(int, char *[])
   vector2[0] = 5;
   vector2[1] = 6;
 
-  Affine2DType::Pointer aff2 = Affine2DType::New();
+  auto aff2 = Affine2DType::New();
   aff2->SetMatrix(matrix2);
   aff2->SetOffset(vector2);
   for (unsigned int i = 0; i < 2; ++i)
@@ -170,7 +170,7 @@ itkAffineTransformTest(int, char *[])
   aff2->Print(std::cout);
 
   /* Get and test inverse of whole transform */
-  Affine2DType::Pointer affInv2 = Affine2DType::New();
+  auto affInv2 = Affine2DType::New();
   if (!aff2->GetInverse(affInv2))
   {
     std::cout << "Test transform does not have an inverse when expected." << std::endl;
@@ -475,7 +475,7 @@ itkAffineTransformTest(int, char *[])
   Affine3DType::MatrixType matrix3Truth;
 
   /* Create a 3D transform and rotate in 3D */
-  Affine3DType::Pointer  aff3 = Affine3DType::New();
+  auto                   aff3 = Affine3DType::New();
   itk::Vector<double, 3> axis;
   axis[0] = .707;
   axis[1] = .707;
@@ -501,7 +501,7 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Generate inverse transform */
-  Affine3DType::Pointer inv3 = Affine3DType::New();
+  auto inv3 = Affine3DType::New();
   if (!aff3->GetInverse(inv3))
   {
     std::cout << "Cannot compute inverse transformation" << std::endl;
@@ -542,7 +542,7 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Test output of ComputeJacobianWithRespectToParameters */
-  Affine3DType::Pointer jaff = Affine3DType::New();
+  auto jaff = Affine3DType::New();
 
   Affine3DType::InputPointType jpoint;
   jpoint[0] = 5.0;
@@ -589,7 +589,7 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Test SetParameters */
-  Affine3DType::Pointer paff = Affine3DType::New();
+  auto paff = Affine3DType::New();
   paff->Print(std::cout);
   Affine3DType::ParametersType parameters1(paff->GetNumberOfParameters());
   Affine3DType::ParametersType fixed_parameters = paff->GetFixedParameters();
@@ -619,9 +619,9 @@ itkAffineTransformTest(int, char *[])
   paff->Print(std::cout);
 
   // TEST INVERSE OF INVERSE
-  Affine3DType::Pointer paff_inv = Affine3DType::New();
+  auto paff_inv = Affine3DType::New();
   paff->GetInverse(paff_inv);
-  Affine3DType::Pointer paff_inv_inv = Affine3DType::New();
+  auto paff_inv_inv = Affine3DType::New();
   paff_inv->GetInverse(paff_inv_inv);
 
   std::cout << "TEST INVERSE" << std::endl;
@@ -729,7 +729,7 @@ itkAffineTransformTest(int, char *[])
   {
     // Test SetParameters and GetInverse
     using TransformType = itk::AffineTransform<double, 2>;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     TransformType::ParametersType parameters2;
     TransformType::ParametersType expectedParameters;
@@ -782,7 +782,7 @@ itkAffineTransformTest(int, char *[])
 
     transform->SetParameters(expectedParameters);
 
-    TransformType::Pointer other = TransformType::New();
+    auto other = TransformType::New();
     transform->GetInverse(other);
 
     TransformType::Pointer otherbis = dynamic_cast<TransformType *>(transform->GetInverseTransform().GetPointer());
@@ -820,8 +820,8 @@ itkAffineTransformTest(int, char *[])
     }
 
     // Try to invert a singular transform
-    TransformType::Pointer singularTransform = TransformType::New();
-    TransformType::Pointer singularTransformInverse = TransformType::New();
+    auto singularTransform = TransformType::New();
+    auto singularTransformInverse = TransformType::New();
     singularTransform->Scale(0.0);
     if (!singularTransform->GetInverse(singularTransformInverse))
     {

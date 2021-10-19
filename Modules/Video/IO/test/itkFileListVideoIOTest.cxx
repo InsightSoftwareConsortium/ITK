@@ -127,7 +127,7 @@ test_FileListVideoIO(const char *  input,
   std::cout << "Comparing all " << fileListIO->GetFrameTotal() << " frames" << std::endl;
 
   // Set up ImageFileReader
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   // Loop through all frames
   std::vector<std::string> filenames = fileListIO->SplitFileNames(input);

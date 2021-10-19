@@ -163,12 +163,12 @@ QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::Process(QEType * h) -
   using JoinFacet = QuadEdgeMeshEulerOperatorJoinFacetFunction<MeshType, QEType>;
   using SplitFacet = QuadEdgeMeshEulerOperatorSplitFacetFunction<MeshType, QEType>;
 
-  QEType *                    G = h->GetLnext();
-  typename JoinFacet::Pointer joinFacet = JoinFacet::New();
+  QEType * G = h->GetLnext();
+  auto     joinFacet = JoinFacet::New();
   joinFacet->SetInput(this->m_Mesh);
   QEType * H = joinFacet->Evaluate(h)->GetLnext();
 
-  typename SplitFacet::Pointer splitFacet = SplitFacet::New();
+  auto splitFacet = SplitFacet::New();
   splitFacet->SetInput(this->m_Mesh);
 
   return (splitFacet->Evaluate(H, G));

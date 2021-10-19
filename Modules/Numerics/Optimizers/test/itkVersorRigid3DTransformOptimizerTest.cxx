@@ -231,11 +231,11 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction adaptor
-  versorRigid3DCostFunction::Pointer costFunction = versorRigid3DCostFunction::New();
+  auto costFunction = versorRigid3DCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);

@@ -58,24 +58,24 @@ itkLaplacianRecursiveGaussianImageFilterTest(int argc, char * argv[])
   { // Instantiate a 6D image for testing purposes
     using HighDImageType = itk::Image<RealPixelType, 6>;
     using LaplacianFilterHighDType = itk::LaplacianRecursiveGaussianImageFilter<HighDImageType, HighDImageType>;
-    LaplacianFilterHighDType::Pointer nDTest = LaplacianFilterHighDType::New();
+    auto nDTest = LaplacianFilterHighDType::New();
   }
 
   using ZeroCrossingFilter = itk::ZeroCrossingImageFilter<RealImageType, RealImageType>;
 
   // Setting the IO
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
-  CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
-  CastToCharFilterType::Pointer toChar = CastToCharFilterType::New();
-  RescaleFilter::Pointer        rescale = RescaleFilter::New();
+  auto toReal = CastToRealFilterType::New();
+  auto toChar = CastToCharFilterType::New();
+  auto rescale = RescaleFilter::New();
 
   // Setting the ITK pipeline filter
 
-  LaplacianFilter::Pointer    lapFilter = LaplacianFilter::New();
-  itk::SimpleFilterWatcher    watcher(lapFilter);
-  ZeroCrossingFilter::Pointer zeroFilter = ZeroCrossingFilter::New();
+  auto                     lapFilter = LaplacianFilter::New();
+  itk::SimpleFilterWatcher watcher(lapFilter);
+  auto                     zeroFilter = ZeroCrossingFilter::New();
 
   reader->SetFileName(inputFilename);
   writer->SetFileName(outputFilename);

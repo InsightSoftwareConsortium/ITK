@@ -163,7 +163,7 @@ itkMeshTest(int, char *[])
   /**
    * Create the mesh through its object factory.
    */
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
   mesh->DebugOn();
 
   /**
@@ -594,11 +594,11 @@ itkMeshTest(int, char *[])
   /**
    * Create a visitor for each cell type and set the counts class for the visitor
    */
-  TetraCellVisitor::Pointer cv = TetraCellVisitor::New();
+  auto cv = TetraCellVisitor::New();
   cv->SetCountClass(&counts);
-  QuadraticEdgeCellVisitor::Pointer ev = QuadraticEdgeCellVisitor::New();
+  auto ev = QuadraticEdgeCellVisitor::New();
   ev->SetCountClass(&counts);
-  QuadraticTriangleCellVisitor::Pointer tv = QuadraticTriangleCellVisitor::New();
+  auto tv = QuadraticTriangleCellVisitor::New();
   tv->SetCountClass(&counts);
   mv->AddVisitor(cv);
   mv->AddVisitor(ev);
@@ -619,7 +619,7 @@ itkMeshTest(int, char *[])
 
 
   // Exercising the Graft method
-  MeshType::Pointer newMesh = MeshType::New();
+  auto newMesh = MeshType::New();
   newMesh->Graft(mesh);
 
   if (newMesh->GetNumberOfPoints() != mesh->GetNumberOfPoints())

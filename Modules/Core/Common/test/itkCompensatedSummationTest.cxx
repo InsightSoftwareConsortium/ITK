@@ -37,7 +37,7 @@ itkCompensatedSummationTest(int, char *[])
   constexpr itk::SizeValueType accumSize = 50000000;
 
   using GeneratorType = itk::Statistics::MersenneTwisterRandomVariateGenerator;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
   generator->Initialize(seedValue);
 
   FloatType vanillaSum = 0.0;

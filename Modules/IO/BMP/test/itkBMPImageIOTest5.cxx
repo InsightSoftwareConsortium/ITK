@@ -49,7 +49,7 @@ itkBMPImageIOTest5(int argc, char * argv[])
   using IteratorType = itk::ImageRegionConstIterator<ImageType>;
 
 
-  ReaderType::Pointer compressedImageReader = ReaderType::New();
+  auto compressedImageReader = ReaderType::New();
 
   itk::BMPImageIO::Pointer compressedImageIO = itk::BMPImageIO::New();
 
@@ -59,7 +59,7 @@ itkBMPImageIOTest5(int argc, char * argv[])
   compressedImageReader->SetFileName(argv[1]);
   compressedImageIO->SetFileName(argv[1]);
 
-  ReaderType::Pointer uncompressedImageReader = ReaderType::New();
+  auto uncompressedImageReader = ReaderType::New();
 
   itk::BMPImageIO::Pointer uncompressedImageIO = itk::BMPImageIO::New();
 

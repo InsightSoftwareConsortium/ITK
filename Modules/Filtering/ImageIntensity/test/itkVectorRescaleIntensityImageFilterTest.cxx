@@ -36,7 +36,7 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
   using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 
-  InputImageType::Pointer    inputImage = InputImageType::New();
+  auto                       inputImage = InputImageType::New();
   InputImageType::RegionType region;
   InputImageType::SizeType   size;
   InputImageType::IndexType  index;
@@ -58,7 +58,7 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
 
   using FilterType = itk::VectorRescaleIntensityImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorRescaleIntensityImageFilter, UnaryFunctorImageFilter);
 

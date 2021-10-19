@@ -37,12 +37,12 @@ AverageTestCopy(typename TImage::SizeType & size)
   region.SetSize(size);
   region.SetIndex(index);
 
-  typename ImageType::Pointer inImage = ImageType::New();
+  auto inImage = ImageType::New();
   inImage->SetRegions(region);
   inImage->Allocate();
   inImage->FillBuffer(12);
 
-  typename ImageType::Pointer outImage = ImageType::New();
+  auto outImage = ImageType::New();
   outImage->SetRegions(region);
   outImage->Allocate();
   outImage->FillBuffer(12);

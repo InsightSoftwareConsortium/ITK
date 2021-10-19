@@ -45,16 +45,16 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   // Read in the input image
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Read in the label image
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   // Instantiate the filter
   using FilterType = itk::LabelOverlayImageFilter<ImageType, ImageType, ColorImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Exercising Background Value methods
   filter->SetBackgroundValue(10);
@@ -91,7 +91,7 @@ itkLabelOverlayImageFilterTest(int argc, char * argv[])
 
   // Instantiate output image
   using WriterType = itk::ImageFileWriter<ColorImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[4]);

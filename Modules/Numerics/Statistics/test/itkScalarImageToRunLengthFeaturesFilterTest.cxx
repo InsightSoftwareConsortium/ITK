@@ -39,7 +39,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image = InputImageType::New();
+  auto image = InputImageType::New();
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
@@ -80,7 +80,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
   //  1 1 1 1 1
   //--------------------------------------------------------------------------
 
-  InputImageType::Pointer mask = InputImageType::New();
+  auto mask = InputImageType::New();
   mask->SetRegions(region);
   mask->Allocate();
 
@@ -104,7 +104,7 @@ itkScalarImageToRunLengthFeaturesFilterTest(int, char *[])
     using RunLengthFilterType = itk::Statistics::ScalarImageToRunLengthFeaturesFilter<InputImageType>;
 
     // First test: just use the defaults.
-    RunLengthFilterType::Pointer texFilter = RunLengthFilterType::New();
+    auto texFilter = RunLengthFilterType::New();
 
     // Invoke update before adding an input. An exception should be
     // thrown.

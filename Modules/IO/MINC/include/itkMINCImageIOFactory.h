@@ -66,7 +66,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    MINCImageIOFactory::Pointer MINCFactory = MINCImageIOFactory::New();
+    auto MINCFactory = MINCImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(MINCFactory);
   }

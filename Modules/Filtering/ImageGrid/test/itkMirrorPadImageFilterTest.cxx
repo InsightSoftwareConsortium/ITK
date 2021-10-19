@@ -33,17 +33,17 @@ RunTest(int argc, char * argv[])
   using InImageType = itk::Image<InputImagePixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<InImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[2]);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   using OutImageType = itk::Image<OutPixelType, Dimension>;
   using WriterType = itk::ImageFileWriter<OutImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
 
   using Mirror = itk::MirrorPadImageFilter<InImageType, OutImageType>;
-  typename Mirror::Pointer filter = Mirror::New();
+  auto filter = Mirror::New();
 
   if (argc > 4)
   {

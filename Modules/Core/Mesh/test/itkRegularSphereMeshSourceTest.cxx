@@ -28,7 +28,7 @@ itkRegularSphereMeshSourceTest(int, char *[])
 
   using SphereMeshSourceType = itk::RegularSphereMeshSource<MeshType>;
 
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
+  auto mySphereMeshSource = SphereMeshSourceType::New();
 
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;

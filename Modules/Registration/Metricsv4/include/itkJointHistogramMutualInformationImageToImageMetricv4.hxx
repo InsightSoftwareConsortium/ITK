@@ -261,7 +261,7 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   if (this->m_VarianceForJointPDFSmoothing > NumericTraits<JointPDFValueType>::ZeroValue())
   {
     using DgType = DiscreteGaussianImageFilter<JointPDFType, JointPDFType>;
-    typename DgType::Pointer dg = DgType::New();
+    auto dg = DgType::New();
     dg->SetInput(this->m_JointPDF);
     dg->SetVariance(this->m_VarianceForJointPDFSmoothing);
     dg->UseImageSpacingOff();

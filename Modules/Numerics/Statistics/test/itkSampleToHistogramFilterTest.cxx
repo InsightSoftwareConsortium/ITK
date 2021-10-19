@@ -45,9 +45,9 @@ itkSampleToHistogramFilterTest(int, char *[])
   using InputHistogramMeasurementObjectType = FilterType::InputHistogramMeasurementObjectType;
   using InputHistogramMeasurementVectorObjectType = FilterType::InputHistogramMeasurementVectorObjectType;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   // Test GetInput() before setting the input
   if (filter->GetInput() != nullptr)
@@ -179,7 +179,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
 
 
-  InputHistogramSizeObjectType::Pointer histogramSizeObject = InputHistogramSizeObjectType::New();
+  auto histogramSizeObject = InputHistogramSizeObjectType::New();
 
   histogramSizeObject->Set(histogramSize1);
 
@@ -285,7 +285,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
 
 
-  InputHistogramMeasurementObjectType::Pointer marginalScaleObject1 = InputHistogramMeasurementObjectType::New();
+  auto marginalScaleObject1 = InputHistogramMeasurementObjectType::New();
 
   marginalScaleObject1->Set(marginalScale1);
 
@@ -305,7 +305,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  InputHistogramMeasurementObjectType::Pointer marginalScaleObject2 = InputHistogramMeasurementObjectType::New();
+  auto marginalScaleObject2 = InputHistogramMeasurementObjectType::New();
 
   marginalScaleObject2->Set(marginalScale2);
 
@@ -621,7 +621,7 @@ itkSampleToHistogramFilterTest(int, char *[])
   }
 
 
-  InputBooleanObjectType::Pointer autoMinimumMaximumObject1 = InputBooleanObjectType::New();
+  auto autoMinimumMaximumObject1 = InputBooleanObjectType::New();
 
   autoMinimumMaximumObject1->Set(autoMinimumMaximum1);
 
@@ -641,7 +641,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  InputBooleanObjectType::Pointer autoMinimumMaximumObject2 = InputBooleanObjectType::New();
+  auto autoMinimumMaximumObject2 = InputBooleanObjectType::New();
 
   autoMinimumMaximumObject2->Set(autoMinimumMaximum2);
 

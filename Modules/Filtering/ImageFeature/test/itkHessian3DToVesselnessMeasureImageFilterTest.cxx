@@ -40,7 +40,7 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -105,10 +105,10 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int, char *[])
 
 
   // Create a Hessian Filter
-  myHessianFilterType::Pointer filterHessian = myHessianFilterType::New();
+  auto filterHessian = myHessianFilterType::New();
 
   // Create a vesselness Filter
-  myVesselnessFilterType::Pointer filterVesselness = myVesselnessFilterType::New();
+  auto filterVesselness = myVesselnessFilterType::New();
 
 
   // Connect the input images

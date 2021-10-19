@@ -35,11 +35,11 @@ itkMembershipSampleTest4(int, char *[])
 
   using MembershipSampleType = itk::Statistics::MembershipSample<SampleType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
-  MembershipSampleType::Pointer membershipSample = MembershipSampleType::New();
+  auto membershipSample = MembershipSampleType::New();
 
   membershipSample->SetSample(sample);
 

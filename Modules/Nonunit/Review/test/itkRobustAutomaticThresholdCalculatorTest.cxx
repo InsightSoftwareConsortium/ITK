@@ -44,17 +44,17 @@ itkRobustAutomaticThresholdCalculatorTest(int argc, char * argv[])
   using RealImageType = itk::Image<RealPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using GradientType = itk::GradientMagnitudeRecursiveGaussianImageFilter<ImageType, RealImageType>;
-  GradientType::Pointer gradient = GradientType::New();
+  auto gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetSigma(10);
   gradient->Update();
 
   using CalculatorType = itk::RobustAutomaticThresholdCalculator<ImageType, RealImageType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, RobustAutomaticThresholdCalculator, Object);
 

@@ -37,9 +37,9 @@ itkSampleClassifierFilterTest2(int, char *[])
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
   using FilterType = itk::Statistics::SampleClassifierFilter<SampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(numberOfComponents);
 
   filter->SetNumberOfClasses(numberOfClasses);
@@ -61,10 +61,10 @@ itkSampleClassifierFilterTest2(int, char *[])
 
   using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
   filter->SetClassLabels(classLabelsObject);
 
-  MembershipFunctionVectorObjectType::Pointer membershipFunctionsObject = MembershipFunctionVectorObjectType::New();
+  auto membershipFunctionsObject = MembershipFunctionVectorObjectType::New();
   filter->SetMembershipFunctions(membershipFunctionsObject);
   // Add three membership functions and rerun the filter
   MembershipFunctionVectorType & membershipFunctionsVector = membershipFunctionsObject->Get();
@@ -112,7 +112,7 @@ itkSampleClassifierFilterTest2(int, char *[])
   // Set a decision rule type
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule(decisionRule);
 
   // Generate samples from a Gaussian distribution with mean and
@@ -121,7 +121,7 @@ itkSampleClassifierFilterTest2(int, char *[])
   // the first class
 
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize(101);
 

@@ -46,7 +46,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -124,7 +124,7 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   using myFilterType = itk::ErodeObjectMorphologyImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  myFilterType::Pointer    filter = myFilterType::New();
+  auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   // Create the structuring element

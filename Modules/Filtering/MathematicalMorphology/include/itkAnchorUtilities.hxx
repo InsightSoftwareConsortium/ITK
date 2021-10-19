@@ -57,7 +57,7 @@ DoAnchorFace(const TImage *                            input,
   // using ItType = ImageRegionConstIteratorWithIndex<TImage>;
   // ItType it(input, face);
 
-  typename TImage::Pointer dumbImg = TImage::New();
+  auto dumbImg = TImage::New();
   dumbImg->SetRegions(face);
 
   TLine NormLine = line;

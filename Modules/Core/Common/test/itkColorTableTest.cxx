@@ -138,7 +138,7 @@ ColorTableTestHelper(const char * name, unsigned int numberOfColors)
   int testStatus = EXIT_SUCCESS;
 
   using ColorTableType = itk::ColorTable<TPixel>;
-  typename ColorTableType::Pointer colors = ColorTableType::New();
+  auto colors = ColorTableType::New();
 
   std::cout << "Testing for type: " << name << std::endl;
 
@@ -184,7 +184,7 @@ itkColorTableTest(int argc, char * argv[])
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
   using ColorTableType = itk::ColorTable<unsigned char>;
-  ColorTableType::Pointer colors = ColorTableType::New();
+  auto colors = ColorTableType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(colors, ColorTable, Object);
 

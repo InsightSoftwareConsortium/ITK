@@ -31,7 +31,7 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   using TCylinderFunctionVectorType = TCylinderFunctionType::InputType;
 
   // cylinder
-  TCylinderFunctionType::Pointer spatialFunc = TCylinderFunctionType::New();
+  auto spatialFunc = TCylinderFunctionType::New();
 
   double axis = 40.0;
   spatialFunc->SetAxisLength(axis);

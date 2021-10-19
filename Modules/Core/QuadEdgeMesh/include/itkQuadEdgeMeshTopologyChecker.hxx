@@ -42,7 +42,7 @@ QuadEdgeMeshTopologyChecker<TMesh>::ValidateEulerCharacteristic() const
     return (false);
   }
 
-  typename BoundaryEdges::Pointer boundaryEdges = BoundaryEdges::New();
+  auto boundaryEdges = BoundaryEdges::New();
 
   // Number of USED points
   PointIdentifier numPoints = m_Mesh->ComputeNumberOfPoints();

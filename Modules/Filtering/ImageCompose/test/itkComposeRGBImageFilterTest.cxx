@@ -36,11 +36,11 @@ itkComposeRGBImageFilterTest(int, char *[])
   using SizeType = InputImageType::SizeType;
   using IndexType = InputImageType::IndexType;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  InputImageType::Pointer redImage = InputImageType::New();
-  InputImageType::Pointer greenImage = InputImageType::New();
-  InputImageType::Pointer blueImage = InputImageType::New();
+  auto redImage = InputImageType::New();
+  auto greenImage = InputImageType::New();
+  auto blueImage = InputImageType::New();
 
   SizeType size;
   size[0] = 2;

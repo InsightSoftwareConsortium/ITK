@@ -35,7 +35,7 @@ itkFourierSeriesPathTest(int, char *[])
   OffsetType offset;
   VectorType cosV, sinV;
 
-  PathType::Pointer path = PathType::New();
+  auto path = PathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, FourierSeriesPath, ParametricPath);
 

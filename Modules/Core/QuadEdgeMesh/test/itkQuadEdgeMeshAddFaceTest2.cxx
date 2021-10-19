@@ -104,7 +104,7 @@ itkQuadEdgeMeshAddFaceTest2(int, char *[])
   std::cout << "Test whether the fourth face was rejected" << std::endl;
 
   using TopologyCheckerType = itk::QuadEdgeMeshTopologyChecker<MeshType>;
-  TopologyCheckerType::Pointer checker = TopologyCheckerType::New();
+  auto checker = TopologyCheckerType::New();
 
   checker->SetMesh(mesh);
   checker->SetExpectedNumberOfPoints(7);

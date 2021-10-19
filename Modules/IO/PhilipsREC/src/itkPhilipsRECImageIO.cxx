@@ -523,7 +523,7 @@ PhilipsRECImageIO::CanReadFile(const char * FileNameToRead)
   // Zero out par_parameter.
   memset(&par, 0, sizeof(struct par_parameter));
 
-  PhilipsPAR::Pointer philipsPAR = PhilipsPAR::New();
+  auto philipsPAR = PhilipsPAR::New();
   try
   {
     philipsPAR->ReadPAR(HeaderFileName, &par);
@@ -552,7 +552,7 @@ PhilipsRECImageIO::ReadImageInformation()
   memset(&par, 0, sizeof(struct par_parameter));
 
   // Read PAR file.
-  PhilipsPAR::Pointer philipsPAR = PhilipsPAR::New();
+  auto philipsPAR = PhilipsPAR::New();
   try
   {
     philipsPAR->ReadPAR(HeaderFileName, &par);
@@ -568,8 +568,8 @@ PhilipsRECImageIO::ReadImageInformation()
   }
 
   // Get all the diffusion info, rescale, etc.
-  GradientBvalueContainerType::Pointer    diffusionBvalueVector = GradientBvalueContainerType::New();
-  GradientDirectionContainerType::Pointer diffusionGradientOrientationVector = GradientDirectionContainerType::New();
+  auto diffusionBvalueVector = GradientBvalueContainerType::New();
+  auto diffusionGradientOrientationVector = GradientDirectionContainerType::New();
   if (!philipsPAR->GetDiffusionGradientOrientationAndBValues(
         HeaderFileName, diffusionGradientOrientationVector, diffusionBvalueVector))
   {
@@ -579,7 +579,7 @@ PhilipsRECImageIO::ReadImageInformation()
   }
 
   // Get ASL label types.
-  LabelTypesASLContainerType::Pointer labelTypesASLVector = LabelTypesASLContainerType::New();
+  auto labelTypesASLVector = LabelTypesASLContainerType::New();
   if (!philipsPAR->GetLabelTypesASL(HeaderFileName, labelTypesASLVector))
   {
     ExceptionObject exception(__FILE__, __LINE__, "Problem reading ASL label types from PAR file", ITK_LOCATION);
@@ -886,7 +886,7 @@ PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData<int>(thisDic, PAR_ReconstructionNr, par.recno);
   EncapsulateMetaData<int>(thisDic, PAR_ScanDuration, par.scan_duration);
   EncapsulateMetaData<int>(thisDic, PAR_MaxNumberOfCardiacPhases, par.cardiac_phases);
-  TriggerTimesContainerType::Pointer triggerTimes = TriggerTimesContainerType::New();
+  auto triggerTimes = TriggerTimesContainerType::New();
   triggerTimes->resize(par.cardiac_phases);
 
   for (unsigned int ttime_index = 0; ttime_index < (unsigned int)par.cardiac_phases; ++ttime_index)
@@ -896,7 +896,7 @@ PhilipsRECImageIO::ReadImageInformation()
 
   EncapsulateMetaData<TriggerTimesContainerType::Pointer>(thisDic, PAR_TriggerTimes, triggerTimes);
   EncapsulateMetaData<int>(thisDic, PAR_MaxNumberOfEchoes, par.echoes);
-  EchoTimesContainerType::Pointer echoTimes = EchoTimesContainerType::New();
+  auto echoTimes = EchoTimesContainerType::New();
   echoTimes->resize(par.echoes);
 
   for (unsigned int echo_index = 0; echo_index < (unsigned int)par.echoes; ++echo_index)
@@ -913,7 +913,7 @@ PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData<std::string>(thisDic, PAR_ScanMode, std::string(par.scan_mode));
   EncapsulateMetaData<int>(thisDic, PAR_NumberOfAverages, par.num_averages);
   EncapsulateMetaData<ScanResolutionType>(thisDic, PAR_ScanResolution, ScanResolutionType(par.scan_resolution));
-  RepetitionTimesContainerType::Pointer repTimes = RepetitionTimesContainerType::New();
+  auto repTimes = RepetitionTimesContainerType::New();
   repTimes->resize(par.mixes); // This has only been verified using a
                                // Look-Locker sequence and may not be valid.
 

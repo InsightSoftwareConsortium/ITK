@@ -56,17 +56,17 @@ itkPadLabelMapFilterTest1(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
 
   using PadLabelMapFilterType = itk::PadLabelMapFilter<LabelMapType>;
-  PadLabelMapFilterType::Pointer padLabelMapFilter = PadLabelMapFilterType::New();
+  auto padLabelMapFilter = PadLabelMapFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(padLabelMapFilter, PadLabelMapFilter, ChangeRegionLabelMapFilter);
 
@@ -92,12 +92,12 @@ itkPadLabelMapFilterTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(padLabelMapFilter->Update());
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
 
   l2i->SetInput(padLabelMapFilter->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

@@ -26,7 +26,7 @@ itkMaximumDecisionRuleTest(int, char *[])
 
   using MembershipVectorType = MaximumDecisionRuleType::MembershipVectorType;
 
-  MaximumDecisionRuleType::Pointer decisionRule = MaximumDecisionRuleType::New();
+  auto decisionRule = MaximumDecisionRuleType::New();
 
   std::cout << decisionRule->GetNameOfClass() << std::endl;
   std::cout << decisionRule->MaximumDecisionRuleType::Superclass::GetNameOfClass() << std::endl;

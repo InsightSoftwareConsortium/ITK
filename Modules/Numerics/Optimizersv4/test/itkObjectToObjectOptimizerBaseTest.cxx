@@ -152,8 +152,8 @@ itkObjectToObjectOptimizerBaseTest(int, char *[])
 
   using MetricType = ObjectToObjectOptimizerBaseTestMetric<ImageType, ImageType>;
 
-  MetricType::Pointer                               metric = MetricType::New();
-  ObjectToObjectOptimizerBaseTestOptimizer::Pointer optimizer = ObjectToObjectOptimizerBaseTestOptimizer::New();
+  auto metric = MetricType::New();
+  auto optimizer = ObjectToObjectOptimizerBaseTestOptimizer::New();
 
   if (optimizer->GetStopConditionDescription() != std::string("Placeholder test return string"))
   {

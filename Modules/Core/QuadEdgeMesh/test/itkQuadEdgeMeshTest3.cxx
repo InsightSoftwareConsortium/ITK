@@ -27,7 +27,7 @@ itkQuadEdgeMeshTest3(int, char *[])
   using LineType = itk::QuadEdgeMeshLineCell<CellType>;
   using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   MeshType::PointType point0;
   MeshType::PointType point1;

@@ -38,16 +38,16 @@ itkMapMaskedRankImageFilterTest(int ac, char * av[])
   using ImageType = itk::Image<unsigned short, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer input = ReaderType::New();
+  auto input = ReaderType::New();
   input->SetFileName(av[1]);
 
-  ReaderType::Pointer input2 = ReaderType::New();
+  auto input2 = ReaderType::New();
   input2->SetFileName(av[2]);
 
   // Create a filter
   using SEType = itk::FlatStructuringElement<2>;
   using FilterType = itk::MaskedRankImageFilter<ImageType, ImageType, ImageType, SEType>;
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher filterWatch(filter);
 
   using RadiusType = FilterType::RadiusType;
@@ -148,7 +148,7 @@ itkMapMaskedRankImageFilterTest(int ac, char * av[])
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(av[3]);
   writer->Update();

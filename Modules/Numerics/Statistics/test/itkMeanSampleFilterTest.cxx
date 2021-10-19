@@ -33,7 +33,7 @@ itkMeanSampleFilterTest(int, char *[])
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
@@ -54,7 +54,7 @@ itkMeanSampleFilterTest(int, char *[])
 
   using FilterType = itk::Statistics::MeanSampleFilter<SampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   std::cout << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);

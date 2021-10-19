@@ -30,7 +30,7 @@ itkQuadEdgeMeshTest2(int, char *[])
   using QuadEdgeType = LineType::QEType;
   using CellAutoPointer = CellType::CellAutoPointer;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   MeshType::PointType p0;
   MeshType::PointType p1;

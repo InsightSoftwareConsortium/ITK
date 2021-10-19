@@ -34,7 +34,7 @@ itkTreeContainerTest(int, char *[])
 {
   using NodeType = int;
   using TreeType = itk::TreeContainer<NodeType>;
-  TreeType::Pointer tree = TreeType::New();
+  auto tree = TreeType::New();
   tree->SetRoot(0);
   tree->Add(1, 0);
   tree->Add(2, 0);

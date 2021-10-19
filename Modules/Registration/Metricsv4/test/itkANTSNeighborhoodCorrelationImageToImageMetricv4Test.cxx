@@ -134,19 +134,19 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   using DisplacementTransformType = itk::DisplacementFieldTransform<double, ImageDimension>;
   using FieldType = DisplacementTransformType::DisplacementFieldType;
 
-  IdentityTransformType::Pointer transformFId = IdentityTransformType::New();
+  auto transformFId = IdentityTransformType::New();
 
-  IdentityTransformType::Pointer transformMId = IdentityTransformType::New();
+  auto transformMId = IdentityTransformType::New();
   if (transformMId.IsNull())
   {
     std::cerr << "transformMId == nullptr" << std::endl;
     return EXIT_FAILURE;
   }
-  DisplacementTransformType::Pointer transformMdisplacement = DisplacementTransformType::New();
-  TranslationTransformType::Pointer  transformMtranslation = TranslationTransformType::New();
-  TranslationTransformType::Pointer  transformMtranslation2 = TranslationTransformType::New();
-  CompositeTransformType::Pointer    transformMComp = CompositeTransformType::New();
-  CompositeTransformType::Pointer    transformFComp = CompositeTransformType::New();
+  auto transformMdisplacement = DisplacementTransformType::New();
+  auto transformMtranslation = TranslationTransformType::New();
+  auto transformMtranslation2 = TranslationTransformType::New();
+  auto transformMComp = CompositeTransformType::New();
+  auto transformFComp = CompositeTransformType::New();
 
 
   constexpr itk::SizeValueType imageSize = 6;
@@ -166,14 +166,14 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   direction.SetIdentity();
 
   /* Create simple test images. */
-  ImageType::Pointer fixedImage = ImageType::New();
+  auto fixedImage = ImageType::New();
   fixedImage->SetRegions(region);
   fixedImage->SetSpacing(spacing);
   fixedImage->SetOrigin(origin);
   fixedImage->SetDirection(direction);
   fixedImage->Allocate();
 
-  ImageType::Pointer movingImage = ImageType::New();
+  auto movingImage = ImageType::New();
   movingImage->SetRegions(region);
   movingImage->SetSpacing(spacing);
   movingImage->SetOrigin(origin);
@@ -204,7 +204,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   float      def_value = -0.5;
 
   zero.Fill(def_value);
-  FieldType::Pointer field = FieldType::New();
+  auto field = FieldType::New();
   field->SetRegions(fixedImage->GetLargestPossibleRegion());
   field->SetSpacing(fixedImage->GetSpacing());
   field->SetOrigin(fixedImage->GetOrigin());
@@ -212,7 +212,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   field->Allocate();
   field->FillBuffer(zero);
 
-  FieldType::Pointer fieldInv = FieldType::New();
+  auto fieldInv = FieldType::New();
 
   zero.Fill(def_value * (-1.0));
   fieldInv->SetRegions(fixedImage->GetLargestPossibleRegion());

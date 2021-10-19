@@ -32,7 +32,7 @@ itkEuler3DTransformTest(int, char *[])
   bool                   Ok = true;
 
   using EulerTransformType = itk::Euler3DTransform<double>;
-  EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
+  auto eulerTransform = EulerTransformType::New();
 
   // Testing Identity
   std::cout << "Testing identity transform: ";
@@ -129,7 +129,7 @@ itkEuler3DTransformTest(int, char *[])
 
   std::cout << "Testing Rotation Change from ZXY to ZYX consistency:";
 
-  EulerTransformType::Pointer         eulerTransform2 = EulerTransformType::New();
+  auto                                eulerTransform2 = EulerTransformType::New();
   EulerTransformType::OutputPointType r1, r2;
 
   // rotation angles already set above
@@ -334,7 +334,7 @@ itkEuler3DTransformTest(int, char *[])
 
   eulerTransform->SetRotation(0.2, 0.1, 0.3);
 
-  EulerTransformType::Pointer t2 = EulerTransformType::New();
+  auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
   if ((std::fabs(t2->GetParameters()[0] - 0.2) > 0.0001) || (std::fabs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
@@ -369,8 +369,8 @@ itkEuler3DTransformTest(int, char *[])
     using TransformType = itk::Euler3DTransform<double>;
     using MatrixType = TransformType::MatrixType;
 
-    MatrixType             matrix;
-    TransformType::Pointer t = TransformType::New();
+    MatrixType matrix;
+    auto       t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
     unsigned int par = 0;
@@ -446,7 +446,7 @@ itkEuler3DTransformTest(int, char *[])
     t = TransformType::New();
     t->SetParameters(e);
     {
-      TransformType::Pointer t3 = TransformType::New();
+      auto t3 = TransformType::New();
       t3->SetMatrix(t->GetMatrix());
 
       ParametersType par0 = t3->GetParameters();
@@ -465,8 +465,8 @@ itkEuler3DTransformTest(int, char *[])
 
     {
       std::cout << "Test GetInverse(): ";
-      TransformType::Pointer t_inv = TransformType::New();
-      const bool             invSuccessful = t->GetInverse(t_inv);
+      auto       t_inv = TransformType::New();
+      const bool invSuccessful = t->GetInverse(t_inv);
       if (!invSuccessful)
       {
         std::cout << " [ FAILED ] " << std::endl;
@@ -474,7 +474,7 @@ itkEuler3DTransformTest(int, char *[])
         return EXIT_FAILURE;
       }
 
-      TransformType::Pointer t3 = TransformType::New();
+      auto t3 = TransformType::New();
       t3->SetMatrix(MatrixType(t->GetMatrix().GetInverse()));
 
       ParametersType par0 = t3->GetParameters();
@@ -492,7 +492,7 @@ itkEuler3DTransformTest(int, char *[])
       std::cout << "[ PASSED ]" << std::endl;
     }
     {
-      TransformType::Pointer tInverse = TransformType::New();
+      auto tInverse = TransformType::New();
       if (!t->GetInverse(tInverse))
       {
         std::cout << "Cannot create inverse transform" << std::endl;

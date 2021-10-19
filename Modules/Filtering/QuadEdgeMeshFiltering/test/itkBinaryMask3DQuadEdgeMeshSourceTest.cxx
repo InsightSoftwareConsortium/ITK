@@ -62,7 +62,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(start);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   image->SetRegions(region);
   image->Allocate();
@@ -97,7 +97,7 @@ itkBinaryMask3DQuadEdgeMeshSourceTest(int, char *[])
     ++it;
   }
 
-  MeshSourceType::Pointer meshSource = MeshSourceType::New();
+  auto meshSource = MeshSourceType::New();
 
   meshSource->SetInput(image);
   meshSource->SetObjectValue(internalValue);

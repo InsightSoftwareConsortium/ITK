@@ -46,11 +46,11 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
   }
 
   // Create a reader and filter
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetImage(reader->GetOutput());
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(adaptor);
 
   auto mode = static_cast<bool>(std::stoi(av[3]));
@@ -66,12 +66,12 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
 #endif
   ITK_TEST_SET_GET_BOOLEAN(filter, UsePrincipleComponents, mode);
 
-  RescaleFilterType::Pointer rescale = RescaleFilterType::New();
+  auto rescale = RescaleFilterType::New();
   rescale->SetOutputMinimum(0);
   rescale->SetOutputMaximum(255);
   rescale->SetInput(filter->GetOutput());
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(av[2]);
 
   try
@@ -83,7 +83,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
     extractedRegion.SetSize(2, 1);
     extractedRegion.SetIndex(2, ::std::stoi(av[4]));
 
-    CharImage2Type::Pointer    extractedImage = CharImage2Type::New();
+    auto                       extractedImage = CharImage2Type::New();
     CharImage2Type::RegionType reg;
     reg.SetSize(0, extractedRegion.GetSize()[0]);
     reg.SetSize(1, extractedRegion.GetSize()[1]);

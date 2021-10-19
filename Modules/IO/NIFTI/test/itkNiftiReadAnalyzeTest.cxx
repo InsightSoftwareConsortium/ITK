@@ -199,7 +199,7 @@ ReadImage(const std::string &                     fileName,
 {
   using ReaderType = itk::ImageFileReader<TImage>;
 
-  typename ReaderType::Pointer        reader = ReaderType::New();
+  auto                                reader = ReaderType::New();
   typename itk::NiftiImageIO::Pointer imageIO = itk::NiftiImageIO::New();
   {
     imageIO->SetLegacyAnalyze75Mode(analyze_mode);

@@ -42,17 +42,17 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
   }
 
   // Create a reader and filter
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
 
-  Monitor1Filter::Pointer monitor1 = Monitor1Filter::New();
+  auto monitor1 = Monitor1Filter::New();
   monitor1->SetInput(reader->GetOutput());
   monitor1->ClearPipelineOnGenerateOutputInformationOff();
 
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetImage(monitor1->GetOutput());
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(adaptor);
 
   auto mode = static_cast<bool>(std::stoi(av[3]));
@@ -68,10 +68,10 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
 #endif
   ITK_TEST_SET_GET_BOOLEAN(filter, UsePrincipleComponents, mode);
 
-  Monitor2Filter::Pointer monitor2 = Monitor2Filter::New();
+  auto monitor2 = Monitor2Filter::New();
   monitor2->SetInput(filter->GetOutput());
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(av[2]);
   writer->SetInput(monitor2->GetOutput());
   writer->SetNumberOfStreamDivisions(4);

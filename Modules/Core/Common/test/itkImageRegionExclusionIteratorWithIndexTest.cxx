@@ -34,14 +34,14 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
   using IndexImageType = itk::Image<IndexPixelType, ImageDimension>;
   using ValueImageType = itk::Image<ValuePixelType, ImageDimension>;
 
-  typename IndexImageType::Pointer myIndexImage = IndexImageType::New();
+  auto myIndexImage = IndexImageType::New();
 
   myIndexImage->SetLargestPossibleRegion(region);
   myIndexImage->SetBufferedRegion(region);
   myIndexImage->SetRequestedRegion(region);
   myIndexImage->Allocate();
 
-  typename ValueImageType::Pointer myValueImage = ValueImageType::New();
+  auto myValueImage = ValueImageType::New();
 
   myValueImage->SetLargestPossibleRegion(region);
   myValueImage->SetBufferedRegion(region);

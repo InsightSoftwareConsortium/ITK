@@ -64,7 +64,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    Bruker2dseqImageIOFactory::Pointer factory = Bruker2dseqImageIOFactory::New();
+    auto factory = Bruker2dseqImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(factory);
   }

@@ -27,12 +27,12 @@ int
 itkSpatialObjectDuplicatorTest(int, char *[])
 {
   using EllipseType = itk::EllipseSpatialObject<3>;
-  EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(3);
   ellipse->GetProperty().SetColor(0, 1, 1);
 
   using DuplicatorType = itk::SpatialObjectDuplicator<EllipseType>;
-  DuplicatorType::Pointer duplicator = DuplicatorType::New();
+  auto duplicator = DuplicatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(duplicator, SpatialObjectDuplicator, Object);
 
@@ -47,11 +47,11 @@ itkSpatialObjectDuplicatorTest(int, char *[])
 
   // Test with a group
   using GroupType = itk::GroupSpatialObject<3>;
-  GroupType::Pointer group = GroupType::New();
+  auto group = GroupType::New();
   group->AddChild(ellipse);
 
   using DuplicatorGroupType = itk::SpatialObjectDuplicator<GroupType>;
-  DuplicatorGroupType::Pointer duplicatorGroup = DuplicatorGroupType::New();
+  auto duplicatorGroup = DuplicatorGroupType::New();
   duplicatorGroup->SetInput(group);
   duplicatorGroup->Update();
   GroupType::Pointer groupCopy = duplicatorGroup->GetOutput();
@@ -99,13 +99,13 @@ itkSpatialObjectDuplicatorTest(int, char *[])
     list3.push_back(p);
   }
 
-  DTITubeType::Pointer dtiTube = DTITubeType::New();
+  auto dtiTube = DTITubeType::New();
   dtiTube->GetProperty().SetName("Tube 3");
   dtiTube->SetId(3);
   dtiTube->SetPoints(list3);
 
   using DuplicatorDTIType = itk::SpatialObjectDuplicator<DTITubeType>;
-  DuplicatorDTIType::Pointer duplicatorDti = DuplicatorDTIType::New();
+  auto duplicatorDti = DuplicatorDTIType::New();
   duplicatorDti->SetInput(dtiTube);
   duplicatorDti->Update();
   DTITubeType::Pointer dtiTube_copy = duplicatorDti->GetOutput();

@@ -51,7 +51,7 @@ VotingBinaryIterativeHoleFillingImageFilter<TInputImage>::GenerateData()
 
   m_NumberOfPixelsChanged = 0;
 
-  typename VotingFilterType::Pointer filter = VotingFilterType::New();
+  auto filter = VotingFilterType::New();
 
   filter->SetRadius(this->GetRadius());
   filter->SetBackgroundValue(this->GetBackgroundValue());

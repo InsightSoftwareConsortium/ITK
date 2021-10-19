@@ -84,11 +84,11 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 
   bool expectedToStream = !forceNoStreaming;
 
-  ImageIOType::Pointer     gdcmIO = ImageIOType::New();
-  SeriesFileNames::Pointer filenameGenerator = SeriesFileNames::New();
+  auto gdcmIO = ImageIOType::New();
+  auto filenameGenerator = SeriesFileNames::New();
   filenameGenerator->SetInputDirectory(argv[1]);
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & filenames = filenameGenerator->GetInputFileNames();
 
@@ -97,11 +97,11 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
   using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamingFilter::Pointer streamer = StreamingFilter::New();
+  auto streamer = StreamingFilter::New();
   streamer->SetInput(monitor->GetOutput());
   streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
@@ -176,7 +176,7 @@ itkDCMTKSeriesStreamReadImageWrite(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());

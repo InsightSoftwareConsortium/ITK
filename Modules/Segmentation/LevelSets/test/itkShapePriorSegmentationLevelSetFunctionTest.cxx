@@ -75,7 +75,7 @@ public:
 protected:
   SimpleTestFilter()
   {
-    typename ShapePriorFunctionType::Pointer function = ShapePriorFunctionType::New();
+    auto function = ShapePriorFunctionType::New();
     function->SetPropagationWeight(0.0);
     function->SetAdvectionWeight(0.0);
     function->SetCurvatureWeight(0.0);
@@ -122,12 +122,12 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
   ImageType::RegionType region;
   region.SetSize(size);
 
-  ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetRegions(region);
   input->Allocate();
 
   using ShapeFunctionType = itk::SphereSignedDistanceFunction<double, Dimension>;
-  ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
+  auto shape = ShapeFunctionType::New();
   shape->Initialize();
 
   ShapeFunctionType::ParametersType parameters(shape->GetNumberOfParameters());
@@ -154,7 +154,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
    * Set up the simple test filter using itk::ShapePriorSegmentationLevelSetFunction.
    */
   using FilterType = itk::SPSLSF::SimpleTestFilter<ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   try
   {
@@ -183,7 +183,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
    */
   using CharImageType = itk::Image<unsigned char, Dimension>;
   using ThresholdFilterType = itk::BinaryThresholdImageFilter<ImageType, CharImageType>;
-  ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
+  auto thresholder = ThresholdFilterType::New();
 
   thresholder->SetInput(filter->GetOutput());
   thresholder->SetLowerThreshold(-1e+10);
@@ -191,7 +191,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
   thresholder->SetOutsideValue(0);
   thresholder->SetInsideValue(255);
 
-  CharImageType::Pointer target = CharImageType::New();
+  auto target = CharImageType::New();
   target->SetRegions(region);
   target->Allocate();
 
@@ -222,7 +222,7 @@ itkShapePriorSegmentationLevelSetFunctionTest(int, char *[])
    * Compute overlap between the true shape and the segmented shape
    */
   using OverlapCalculatorType = itk::SimilarityIndexImageFilter<CharImageType, CharImageType>;
-  OverlapCalculatorType::Pointer overlap = OverlapCalculatorType::New();
+  auto overlap = OverlapCalculatorType::New();
 
   overlap->SetInput1(target);
   overlap->SetInput2(thresholder->GetOutput());

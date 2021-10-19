@@ -45,7 +45,7 @@ protected:
   {
 
     using HashFilter = itk::Testing::HashImageFilter<TImageType>;
-    typename HashFilter::Pointer hasher = HashFilter::New();
+    auto hasher = HashFilter::New();
     hasher->SetInput(image);
     hasher->InPlaceOff();
     hasher->Update();
@@ -78,7 +78,7 @@ protected:
     static typename TImage::Pointer
     CreateImageT(unsigned int size = 100)
     {
-      typename TImage::Pointer image = TImage::New();
+      auto image = TImage::New();
 
       typename TImage::SizeType imageSize;
       imageSize.Fill(size);

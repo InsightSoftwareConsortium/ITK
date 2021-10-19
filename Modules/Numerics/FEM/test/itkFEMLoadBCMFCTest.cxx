@@ -36,7 +36,7 @@ itkFEMLoadBCMFCTest(int argc, char * argv[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using Solver2DType = itk::fem::Solver<2>;
-  Solver2DType::Pointer solver = Solver2DType::New();
+  auto solver = Solver2DType::New();
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
@@ -102,7 +102,7 @@ itkFEMLoadBCMFCTest(int argc, char * argv[])
   }
 
   // to write the deformed mesh
-  FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+  auto femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput());
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<2>;
   using FEMSpatialObjectWriterPointer = FEMSpatialObjectWriterType::Pointer;

@@ -28,7 +28,7 @@ itkKdTreeTestSamplePoints(int, char *[])
 
   constexpr SampleType::MeasurementVectorSizeType measurementVectorSize = 2;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(measurementVectorSize);
 
   constexpr unsigned int numberOfDataPoints = 5;
@@ -58,7 +58,7 @@ itkKdTreeTestSamplePoints(int, char *[])
   sample->PushBack(mv5);
 
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
 
   constexpr unsigned int bucketSize = 1;
 
@@ -85,7 +85,7 @@ itkKdTreeTestSamplePoints(int, char *[])
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   using OriginType = DistanceMetricType::OriginType;
 
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  auto distanceMetric = DistanceMetricType::New();
 
   OriginType origin(measurementVectorSize);
   for (unsigned int k = 0; k < sample->Size(); ++k)

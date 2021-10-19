@@ -37,11 +37,11 @@ RegionalMaximaImageFilterTestHelper(std::string inputImageFile,
   using OutputImageType = TInputImage;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImageFile);
 
   using FilterType = itk::RegionalMaximaImageFilter<InputImageType, OutputImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
 
@@ -63,7 +63,7 @@ RegionalMaximaImageFilterTestHelper(std::string inputImageFile,
 
   // Write the output images
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(outputImageFile);
   writer->Update();
@@ -71,7 +71,7 @@ RegionalMaximaImageFilterTestHelper(std::string inputImageFile,
 
   // Produce the same output with other filters
   using ConvexFilterType = itk::HConvexImageFilter<InputImageType, InputImageType>;
-  typename ConvexFilterType::Pointer convexFilter = ConvexFilterType::New();
+  auto convexFilter = ConvexFilterType::New();
   convexFilter->SetInput(reader->GetOutput());
   convexFilter->SetFullyConnected(fullyConnected);
   convexFilter->SetHeight(1);
@@ -79,12 +79,12 @@ RegionalMaximaImageFilterTestHelper(std::string inputImageFile,
   // Convex gives maxima with value = 1 and others with value = 0
   // Rescale the image so we have maxima = 255 other = 0
   using RescaleFilterType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
-  typename RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetInput(convexFilter->GetOutput());
   rescaler->SetOutputMaximum(255);
   rescaler->SetOutputMinimum(0);
 
-  typename WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(rescaler->GetOutput());
   writer2->SetFileName(outputImageFile2);
   writer2->Update();
@@ -127,7 +127,7 @@ itkRegionalMaximaImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, 2>;
 
   using FilterType = itk::RegionalMaximaImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RegionalMaximaImageFilter, ImageToImageFilter);
 

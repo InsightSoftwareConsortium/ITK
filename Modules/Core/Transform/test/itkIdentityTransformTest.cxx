@@ -33,7 +33,7 @@ itkIdentityTransformTest(int, char *[])
   bool                   Ok = true;
 
   using IdentityTransformType = itk::IdentityTransform<double>;
-  IdentityTransformType::Pointer transform = IdentityTransformType::New();
+  auto transform = IdentityTransformType::New();
 
   std::cout << "Testing TransformPoint: ";
   IdentityTransformType::InputPointType  p(10);
@@ -170,7 +170,7 @@ itkIdentityTransformTest(int, char *[])
     std::cout << " [ PASSED ] " << std::endl;
   }
 
-  IdentityTransformType::Pointer inv = IdentityTransformType::New();
+  auto inv = IdentityTransformType::New();
   ITK_TEST_EXPECT_TRUE(transform->GetInverse(inv));
   ITK_TEST_EXPECT_TRUE(!transform->GetInverse(nullptr));
 

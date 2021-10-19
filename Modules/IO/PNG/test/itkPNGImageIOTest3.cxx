@@ -41,7 +41,7 @@ itkPNGImageIOTest3(int argc, char * argv[])
 
   // Read the input image
   itk::PNGImageIO::Pointer io = itk::PNGImageIO::New();
-  ReaderType::Pointer      reader = ReaderType::New();
+  auto                     reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
 

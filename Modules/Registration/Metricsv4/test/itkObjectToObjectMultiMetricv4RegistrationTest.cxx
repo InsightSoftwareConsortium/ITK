@@ -101,7 +101,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
   typename TImage::DirectionType direction;
   direction.Fill(itk::NumericTraits<CoordinateRepresentationType>::OneValue());
 
-  typename GaussianImageSourceType::Pointer fixedImageSource = GaussianImageSourceType::New();
+  auto fixedImageSource = GaussianImageSourceType::New();
 
   fixedImageSource->SetSize(size);
   fixedImageSource->SetOrigin(origin);
@@ -127,7 +127,7 @@ ObjectToObjectMultiMetricv4RegistrationTestCreateImages(typename TImage::Pointer
 
   // shift the fixed image to get the moving image
   using CyclicShiftFilterType = itk::CyclicShiftImageFilter<TImage, TImage>;
-  typename CyclicShiftFilterType::Pointer         shiftFilter = CyclicShiftFilterType::New();
+  auto                                            shiftFilter = CyclicShiftFilterType::New();
   typename CyclicShiftFilterType::OffsetValueType maxImageShift = boundary - 1;
   imageShift.Fill(maxImageShift);
   imageShift[0] = maxImageShift / 2;
@@ -162,7 +162,7 @@ ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &      
   // optimizer
   //
   using OptimizerType = itk::GradientDescentOptimizerv4;
-  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   optimizer->SetMetric(metric);
   optimizer->SetNumberOfIterations(numberOfIterations);
@@ -172,7 +172,7 @@ ObjectToObjectMultiMetricv4RegistrationTestRun(typename TMetric::Pointer &      
   optimizer->SetDoEstimateLearningRateAtEachIteration(!estimateStepOnce);
 
   using CommandType = itkObjectToObjectMultiMetricv4RegistrationTestCommandIterationUpdate<OptimizerType>;
-  typename CommandType::Pointer observer = CommandType::New();
+  auto observer = CommandType::New();
   // optimizer->AddObserver( itk::IterationEvent(), observer );
 
   optimizer->StartOptimization();
@@ -211,7 +211,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   // create an affine transform
   using TranslationTransformType = itk::TranslationTransform<double, Dimension>;
-  TranslationTransformType::Pointer translationTransform = TranslationTransformType::New();
+  auto translationTransform = TranslationTransformType::New();
   translationTransform->SetIdentity();
 
   // create images
@@ -221,7 +221,7 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   ObjectToObjectMultiMetricv4RegistrationTestCreateImages<ImageType>(fixedImage, movingImage, imageShift);
 
   using CorrelationMetricType = itk::CorrelationImageToImageMetricv4<ImageType, ImageType>;
-  CorrelationMetricType::Pointer correlationMetric = CorrelationMetricType::New();
+  auto correlationMetric = CorrelationMetricType::New();
   correlationMetric->SetFixedImage(fixedImage);
   correlationMetric->SetMovingImage(movingImage);
   correlationMetric->SetMovingTransform(translationTransform);
@@ -237,13 +237,13 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
     correlationMetric, numberOfIterations, singleValueResult, singleDerivativeResult, 1.0, true);
 
   std::cout << "*** multi-variate metric: " << std::endl;
-  CorrelationMetricType::Pointer metric2 = CorrelationMetricType::New();
+  auto metric2 = CorrelationMetricType::New();
   metric2->SetFixedImage(fixedImage);
   metric2->SetMovingImage(movingImage);
   metric2->SetMovingTransform(translationTransform);
 
   using MultiMetricType = itk::ObjectToObjectMultiMetricv4<Dimension, Dimension>;
-  MultiMetricType::Pointer multiMetric = MultiMetricType::New();
+  auto multiMetric = MultiMetricType::New();
   multiMetric->AddMetric(correlationMetric);
   multiMetric->AddMetric(metric2);
   multiMetric->AddMetric(metric2);
@@ -326,12 +326,12 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   // Test with two different metric types
   //
   using MeanSquaresMetricType = itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
-  MeanSquaresMetricType::Pointer meanSquaresMetric = MeanSquaresMetricType::New();
+  auto meanSquaresMetric = MeanSquaresMetricType::New();
   meanSquaresMetric->SetFixedImage(fixedImage);
   meanSquaresMetric->SetMovingImage(movingImage);
   meanSquaresMetric->SetMovingTransform(translationTransform);
 
-  MultiMetricType::Pointer multiMetric2 = MultiMetricType::New();
+  auto multiMetric2 = MultiMetricType::New();
   multiMetric2->AddMetric(correlationMetric);
   multiMetric2->AddMetric(meanSquaresMetric);
   multiMetric2->Initialize();

@@ -195,7 +195,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   inputIt.GoToBegin();
 
   // Setup projection line
-  ProjectionLineType::Pointer    projectionLine = ProjectionLineType::New();
+  auto                           projectionLine = ProjectionLineType::New();
   ProjectionLineType::RegionType pRegion;
   ProjectionLineType::SizeType   pSize;
   ProjectionLineType::IndexType  pStart;
@@ -211,7 +211,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   const unsigned int            pLineHalfShift = pSize[0] - inputROISize[m_RDirection] / 2;
 
   // Setup 1D FFT Filter
-  FFTLineFilterType::Pointer FFT = FFTLineFilterType::New();
+  auto FFT = FFTLineFilterType::New();
   FFT->SetInput(projectionLine);
 
   // Setup FFT Line interpolator stack
@@ -232,7 +232,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   FFTSliceRegion.SetSize(FFTSliceSize);
   FFTSliceRegion.SetIndex(FFTSliceStart);
 
-  FFTSliceType::Pointer FFTSlice = FFTSliceType::New();
+  auto FFTSlice = FFTSliceType::New();
   FFTSlice->SetRegions(FFTSliceRegion);
   FFTSlice->Allocate(true); // initialize
                             // buffer to zero
@@ -382,7 +382,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
     } // for FFTSliceIt
 
     // Setup inverse 2D FFT Filter
-    IFFTSliceFilterType::Pointer IFFT = IFFTSliceFilterType::New();
+    auto IFFT = IFFTSliceFilterType::New();
     IFFT->SetInput(FFTSlice);
 
     // Calculate the inverse 2D FFT of the slice

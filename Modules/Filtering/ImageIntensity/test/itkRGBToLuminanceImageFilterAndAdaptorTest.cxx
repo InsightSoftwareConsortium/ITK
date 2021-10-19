@@ -54,7 +54,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define its size, and start index
   SizeType size;
@@ -97,7 +97,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::RGBToLuminanceImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RGBToLuminanceImageFilter, UnaryGeneratorImageFilter);
 
@@ -144,7 +144,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::RGBToLuminanceImageAdaptor<InputImageType, OutputPixelType>;
 
-  AdaptorType::Pointer luminanceAdaptor = AdaptorType::New();
+  auto luminanceAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(luminanceAdaptor, RGBToLuminanceImageAdaptor, ImageAdaptor);
 
@@ -152,7 +152,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(luminanceAdaptor);

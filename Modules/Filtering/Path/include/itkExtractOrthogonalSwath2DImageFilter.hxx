@@ -177,7 +177,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
   ContinuousIndex<SpacePrecisionType> continousIndex;
   PathVectorType                      pathDerivative;
 
-  typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   interpolator->SetInputImage(inputImagePtr);
 
   // Iterate through the output image

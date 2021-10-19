@@ -75,7 +75,7 @@ public:
     if (m_Factory == nullptr)
     {
       // Make and register the factory
-      SpatialObjectFactoryBase::Pointer p = SpatialObjectFactoryBase::New();
+      auto p = SpatialObjectFactoryBase::New();
       m_Factory = p.GetPointer();
       ObjectFactoryBase::RegisterFactory(p);
       p->RegisterDefaultSpatialObjects();

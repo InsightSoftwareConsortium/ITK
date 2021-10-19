@@ -56,7 +56,7 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   using ConnectedClosingFilterType = itk::GrayscaleConnectedClosingImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  ConnectedClosingFilterType::Pointer connectedClosing = ConnectedClosingFilterType::New();
+  auto connectedClosing = ConnectedClosingFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(connectedClosing, GrayscaleConnectedClosingImageFilter, ImageToImageFilter);
 
@@ -64,7 +64,7 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(connectedClosing, "connectedClosing");
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -87,7 +87,7 @@ itkGrayscaleConnectedClosingImageFilterTest(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<WriteImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(connectedClosing->GetOutput());

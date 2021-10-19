@@ -33,8 +33,8 @@ itkContourMeanDistanceImageFilterTest(int, char *[])
   using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
   using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
 
-  Image1Type::Pointer image1 = Image1Type::New();
-  Image2Type::Pointer image2 = Image2Type::New();
+  auto image1 = Image1Type::New();
+  auto image2 = Image2Type::New();
 
   Image1Type::SizeType size;
   size.Fill(50);
@@ -84,7 +84,7 @@ itkContourMeanDistanceImageFilterTest(int, char *[])
   // compute the directed Mean distance h(image1,image2)
   {
     using FilterType = itk::ContourMeanDistanceImageFilter<Image1Type, Image2Type>;
-    FilterType::Pointer      filter = FilterType::New();
+    auto                     filter = FilterType::New();
     itk::SimpleFilterWatcher watcher(filter, "filter");
 
     filter->SetInput1(image1);
@@ -112,7 +112,7 @@ itkContourMeanDistanceImageFilterTest(int, char *[])
   // compute the directed Mean distance h(image2,image1)
   {
     using FilterType = itk::ContourMeanDistanceImageFilter<Image2Type, Image1Type>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput1(image2);
     filter->SetInput2(image1);
@@ -136,7 +136,7 @@ itkContourMeanDistanceImageFilterTest(int, char *[])
   // compute the directed Mean distance h(image2,image1) with different pixel sizes
   {
     using FilterType = itk::ContourMeanDistanceImageFilter<Image2Type, Image1Type>;
-    FilterType::Pointer     filter = FilterType::New();
+    auto                    filter = FilterType::New();
     Image1Type::SpacingType spacing1 = image1->GetSpacing();
     spacing1[0] = spacing1[0] / 2;
     spacing1[1] = spacing1[1] / 2;

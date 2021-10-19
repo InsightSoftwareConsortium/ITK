@@ -112,7 +112,7 @@ DerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
     NeighborhoodOperatorImageFilter<InputImageType, OutputImageType, OperatorValueType>::New();
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Register the filter with the with progress accumulator using

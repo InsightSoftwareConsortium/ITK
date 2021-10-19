@@ -337,7 +337,7 @@ AmoebaTest1()
   using OptimizerType = itk::AmoebaOptimizerv4;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
   itkOptimizer->SetNumberOfIterations(10);
@@ -348,7 +348,7 @@ AmoebaTest1()
   double fTolerance = 0.001;
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
 
-  itkAmoebaOptimizerv4TestMetric1::Pointer metric = itkAmoebaOptimizerv4TestMetric1::New();
+  auto metric = itkAmoebaOptimizerv4TestMetric1::New();
   itkOptimizer->SetMetric(metric);
   std::cout << "itkOptimizer->GetMetric(): " << itkOptimizer->GetMetric() << std::endl;
 
@@ -438,7 +438,7 @@ AmoebaTest2()
   std::cout << "Amoeba Optimizer Test 2\n \n";
 
   using OptimizerType = itk::AmoebaOptimizerv4;
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // set optimizer parameters
   unsigned int maxIterations = 100;
@@ -463,13 +463,13 @@ AmoebaTest2()
   initialParameters[0] = -100;
 
   // the function we want to optimize
-  itkAmoebaOptimizerv4TestMetric2::Pointer metric = itkAmoebaOptimizerv4TestMetric2::New();
+  auto metric = itkAmoebaOptimizerv4TestMetric2::New();
   itkOptimizer->SetMetric(metric);
 
   metric->SetParameters(initialParameters);
 
   // observe the iterations
-  CommandIterationUpdateAmoeba::Pointer observer = CommandIterationUpdateAmoeba::New();
+  auto observer = CommandIterationUpdateAmoeba::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
   try

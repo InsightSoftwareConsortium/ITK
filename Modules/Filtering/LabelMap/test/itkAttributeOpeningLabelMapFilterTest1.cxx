@@ -49,11 +49,11 @@ itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using ImageToLabelType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
+  auto imageToLabel = ImageToLabelType::New();
   imageToLabel->SetInput(reader->GetOutput());
 
 
@@ -73,7 +73,7 @@ itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
 
 
   using LabelOpeningType = itk::AttributeOpeningLabelMapFilter<LabelMapType>;
-  LabelOpeningType::Pointer opening = LabelOpeningType::New();
+  auto opening = LabelOpeningType::New();
 
   // testing get and set macros for Lambda
   auto lambda = static_cast<LabelOpeningType::AttributeValueType>(std::stod(argv[3]));
@@ -97,12 +97,12 @@ itkAttributeOpeningLabelMapFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(opening, "filter");
 
   using LabelToImageType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  LabelToImageType::Pointer labelToImage = LabelToImageType::New();
+  auto labelToImage = LabelToImageType::New();
   labelToImage->SetInput(opening->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(labelToImage->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

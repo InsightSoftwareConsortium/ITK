@@ -79,7 +79,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
@@ -100,7 +100,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   using FilterType = itk::Statistics::WeightedMeanSampleFilter<SampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   std::cout << filter->GetNameOfClass() << std::endl;
   filter->Print(std::cout);
@@ -217,7 +217,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   }
 
   // set the weight using a function
-  WeightedMeanTestFunction::Pointer weightFunction = WeightedMeanTestFunction::New();
+  auto weightFunction = WeightedMeanTestFunction::New();
   filter->SetWeightingFunction(weightFunction);
 
   try

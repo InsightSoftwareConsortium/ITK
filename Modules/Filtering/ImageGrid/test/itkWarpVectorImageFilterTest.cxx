@@ -109,7 +109,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   ImageType::SizeType   size = { { 64, 64 } };
   region.SetSize(size);
 
-  ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetLargestPossibleRegion(region);
   input->SetBufferedRegion(region);
   input->Allocate();
@@ -146,7 +146,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   }
   fieldRegion.SetSize(fieldSize);
 
-  FieldType::Pointer field = FieldType::New();
+  auto field = FieldType::New();
   field->SetLargestPossibleRegion(fieldRegion);
   field->SetBufferedRegion(fieldRegion);
   field->Allocate();
@@ -169,7 +169,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   std::cout << "Run WarpVectorImageFilter in standalone mode with progress.";
   std::cout << std::endl;
   using WarperType = itk::WarpVectorImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   warper->SetInput(input);
   warper->SetDisplacementField(field);
@@ -296,18 +296,18 @@ itkWarpVectorImageFilterTest(int, char *[])
   std::cout << std::endl;
 
   using VectorCasterType = itk::CastImageFilter<FieldType, FieldType>;
-  VectorCasterType::Pointer vcaster = VectorCasterType::New();
+  auto vcaster = VectorCasterType::New();
 
   vcaster->SetInput(warper->GetDisplacementField());
 
-  WarperType::Pointer warper2 = WarperType::New();
+  auto warper2 = WarperType::New();
 
   warper2->SetInput(warper->GetInput());
   warper2->SetDisplacementField(vcaster->GetOutput());
   warper2->SetEdgePaddingValue(warper->GetEdgePaddingValue());
 
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamerType::Pointer streamer = StreamerType::New();
+  auto streamer = StreamerType::New();
   streamer->SetInput(warper2->GetOutput());
   streamer->SetNumberOfStreamDivisions(3);
   streamer->Update();

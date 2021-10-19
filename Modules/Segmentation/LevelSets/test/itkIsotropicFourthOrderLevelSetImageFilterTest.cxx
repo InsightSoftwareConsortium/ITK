@@ -25,7 +25,7 @@ itkIsotropicFourthOrderLevelSetImageFilterTest(int, char *[])
   using ImageType = itk::Image<float, 2>;
   using IndexType = ImageType::IndexType;
 
-  ImageType::Pointer im_init = ImageType::New();
+  auto im_init = ImageType::New();
 
   ImageType::RegionType r;
   ImageType::SizeType   sz = { { 128, 128 } };
@@ -54,7 +54,7 @@ itkIsotropicFourthOrderLevelSetImageFilterTest(int, char *[])
     }
 
   using FilterType = itk::IsotropicFourthOrderLevelSetImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetMaxFilterIteration(250);
 
   filter->SetInput(im_init);

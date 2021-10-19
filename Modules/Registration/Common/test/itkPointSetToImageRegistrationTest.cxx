@@ -50,7 +50,7 @@ itkPointSetToImageRegistrationTest(int, char *[])
 
   using ImageSourceType = itk::testhelper::ImageRegistrationMethodImageSource<PixelType, PixelType, ImageDimension>;
 
-  ImageSourceType::Pointer imageSource = ImageSourceType::New();
+  auto imageSource = ImageSourceType::New();
 
   itk::Size<ImageDimension> size;
   size[0] = 100;
@@ -66,7 +66,7 @@ itkPointSetToImageRegistrationTest(int, char *[])
   // the fixed image.
   //
   using FixedPointSetType = itk::PointSet<float, ImageDimension>;
-  FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
+  auto fixedPointSet = FixedPointSetType::New();
 
   constexpr unsigned int numberOfPoints = 10000;
 
@@ -111,31 +111,31 @@ itkPointSetToImageRegistrationTest(int, char *[])
   using TransformBaseType = MetricType::TransformType;
   using ParametersType = TransformBaseType::ParametersType;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // Set up the Transform
   using TransformType = itk::TranslationTransform<CoordinateRepresentationType, ImageDimension>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   // Set up the Interpolator
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   // Set up the Optimizer
   using OptimizerType = itk::RegularStepGradientDescentOptimizer;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   // Set up the Registration method
   using RegistrationType = itk::PointSetToImageRegistrationMethod<FixedPointSetType, MovingImageType>;
 
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, PointSetToImageRegistrationMethod, ProcessObject);
 
   using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
 
   // Instantiate an Observer to report the progress of the Optimization
-  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  auto iterationCommand = CommandIterationType::New();
   iterationCommand->SetOptimizer(optimizer);
 
   // Scale the translation components of the Transform in the Optimizer

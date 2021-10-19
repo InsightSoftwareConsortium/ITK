@@ -39,7 +39,7 @@ FFTW()
   using CplxImageType = itk::Image<CplxPixelType, 3>;
 
   using FFTWComplexToComplexFilterType = itk::FFTWComplexToComplexFFTImageFilter<CplxImageType>;
-  typename FFTWComplexToComplexFilterType::Pointer fftwCplxToCplxFFT = FFTWComplexToComplexFilterType::New();
+  auto fftwCplxToCplxFFT = FFTWComplexToComplexFilterType::New();
 
   using FFTWRealToHalfHermitianForwardFFTImageFilterType =
     itk::FFTWRealToHalfHermitianForwardFFTImageFilter<RealImageType, CplxImageType>;
@@ -47,7 +47,7 @@ FFTW()
     FFTWRealToHalfHermitianForwardFFTImageFilterType::New();
 
   using FFTWInverseFFTImageFilterType = itk::FFTWInverseFFTImageFilter<CplxImageType, RealImageType>;
-  typename FFTWInverseFFTImageFilterType::Pointer fNvrsFFT = FFTWInverseFFTImageFilterType::New();
+  auto fNvrsFFT = FFTWInverseFFTImageFilterType::New();
 
   using FFTWHalfHermitianToRealInverseFFTImageFilterType =
     itk::FFTWHalfHermitianToRealInverseFFTImageFilter<CplxImageType, RealImageType>;
@@ -55,7 +55,7 @@ FFTW()
     FFTWHalfHermitianToRealInverseFFTImageFilterType::New();
 
   using FFTWForwardFFTImageFilterType = itk::FFTWForwardFFTImageFilter<RealImageType, CplxImageType>;
-  typename FFTWForwardFFTImageFilterType::Pointer fFrwrdFFT = FFTWForwardFFTImageFilterType::New();
+  auto fFrwrdFFT = FFTWForwardFFTImageFilterType::New();
 }
 #endif
 
@@ -69,7 +69,7 @@ Vnl()
   using CplxImageType = itk::Image<CplxPixelType, 3>;
 
   using VnlComplexToComplexFilterType = itk::VnlComplexToComplexFFTImageFilter<CplxImageType>;
-  typename VnlComplexToComplexFilterType::Pointer vnlCplxToCplxFFT = VnlComplexToComplexFilterType::New();
+  auto vnlCplxToCplxFFT = VnlComplexToComplexFilterType::New();
 
   using VnlRealToHalfHermitianForwardFFTImageFilterType =
     itk::VnlRealToHalfHermitianForwardFFTImageFilter<RealImageType, CplxImageType>;
@@ -77,7 +77,7 @@ Vnl()
     VnlRealToHalfHermitianForwardFFTImageFilterType::New();
 
   using VnlInverseFFTImageFilterType = itk::VnlInverseFFTImageFilter<CplxImageType, RealImageType>;
-  typename VnlInverseFFTImageFilterType::Pointer vNvrsFFT = VnlInverseFFTImageFilterType::New();
+  auto vNvrsFFT = VnlInverseFFTImageFilterType::New();
 
   using VnlHalfHermitianToRealInverseFFTImageFilterType =
     itk::VnlHalfHermitianToRealInverseFFTImageFilter<CplxImageType, RealImageType>;
@@ -85,7 +85,7 @@ Vnl()
     VnlHalfHermitianToRealInverseFFTImageFilterType::New();
 
   using VnlForwardFFTImageFilterType = itk::VnlForwardFFTImageFilter<RealImageType, CplxImageType>;
-  typename VnlForwardFFTImageFilterType::Pointer vFrwrdFFT = VnlForwardFFTImageFilterType::New();
+  auto vFrwrdFFT = VnlForwardFFTImageFilterType::New();
 }
 
 int

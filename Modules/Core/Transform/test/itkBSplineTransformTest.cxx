@@ -77,7 +77,7 @@ itkBSplineTransformTest1()
   /**
    * Instantiate a transform
    */
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   /**
    * Set fixed parameters which store the following information:
@@ -427,7 +427,7 @@ itkBSplineTransformTest1()
   std::cout << transform->GetTransformDomainDirection() << std::endl;
 
   using EvenOrderTransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, 2>;
-  EvenOrderTransformType::Pointer evenOrderTransform = EvenOrderTransformType::New();
+  auto evenOrderTransform = EvenOrderTransformType::New();
   if (evenOrderTransform.IsNull())
   {
     return EXIT_FAILURE;
@@ -451,7 +451,7 @@ itkBSplineTransformTest1()
    */
   {
     std::cout << "Exercising SetIdentity() " << std::endl;
-    TransformType::Pointer transform2 = TransformType::New();
+    auto transform2 = TransformType::New();
     transform2->SetTransformDomainOrigin(origin);
     transform2->SetTransformDomainPhysicalDimensions(dimensions);
     transform2->SetTransformDomainMeshSize(meshSize);
@@ -502,7 +502,7 @@ itkBSplineTransformTest2()
   TransformType::InputPointType  inputPoint;
   TransformType::OutputPointType outputPoint;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   // Set up field spacing, origin, region
   double                spacing[Dimension];
@@ -637,7 +637,7 @@ itkBSplineTransformTest3()
   /**
    * Instantiate a transform
    */
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   transform->SetTransformDomainOrigin(origin);
   transform->SetTransformDomainPhysicalDimensions(dimensions);

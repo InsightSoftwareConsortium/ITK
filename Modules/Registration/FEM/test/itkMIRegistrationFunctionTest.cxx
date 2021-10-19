@@ -57,8 +57,8 @@ itkMIRegistrationFunctionTest(int, char *[])
   FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
   MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
-  MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
-  FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
+  auto movingImageSource = MovingImageSourceType::New();
+  auto fixedImageSource = FixedImageSourceType::New();
 
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
@@ -81,7 +81,7 @@ itkMIRegistrationFunctionTest(int, char *[])
   // Set up the metric
   using MetricFunctionType = itk::MIRegistrationFunction<FixedImageType, MovingImageType, DisplacementFieldType>;
 
-  MetricFunctionType::Pointer metricFunction = MetricFunctionType::New();
+  auto metricFunction = MetricFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metricFunction, MIRegistrationFunction, PDEDeformableRegistrationFunction);
 

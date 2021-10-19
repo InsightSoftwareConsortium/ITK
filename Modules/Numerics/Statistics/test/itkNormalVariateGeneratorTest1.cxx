@@ -23,7 +23,7 @@ itkNormalVariateGeneratorTest1(int, char *[])
 {
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
 
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize(101);
 

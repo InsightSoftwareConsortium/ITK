@@ -37,7 +37,7 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetImageIO(itk::DCMTKImageIO::New());
   reader->SetFileName(argv[1]);
 
@@ -47,7 +47,7 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   ImageType::Pointer im = reader->GetOutput();
   std::cout << im;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(im);
   writer->SetFileName(argv[2]);
 
@@ -60,12 +60,12 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
 
   using SubtractFilterType = itk::SubtractImageFilter<ImageType, ImageType, ImageType>;
 
-  SubtractFilterType::Pointer subtractFilter = SubtractFilterType::New();
+  auto subtractFilter = SubtractFilterType::New();
   subtractFilter->SetInput1(im);
   subtractFilter->SetInput2(reader->GetOutput());
 
   using StatisticsFilterType = itk::StatisticsImageFilter<ImageType>;
-  StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
+  auto statisticsFilter = StatisticsFilterType::New();
 
   statisticsFilter->SetInput(subtractFilter->GetOutput());
 

@@ -74,12 +74,12 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
 
   // Transform for the moving image
   using MovingTransformType = TMovingTransform;
-  typename MovingTransformType::Pointer movingTransform = MovingTransformType::New();
+  auto movingTransform = MovingTransformType::New();
   movingTransform->SetIdentity();
 
   // Transform for the fixed image
   using FixedTransformType = itk::IdentityTransform<double, Dimension>;
-  typename FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
+  auto fixedTransform = FixedTransformType::New();
   fixedTransform->SetIdentity();
 
   // ParametersType for the moving transform
@@ -90,7 +90,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
     VectorImageToImageMetricTraitsv4<FixedImageType, MovingImageType, FixedImageType, PixelType::Dimension, double>;
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType, FixedImageType, double, MetricTraitsType>;
-  typename MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // Assign images and transforms to the metric.
   metric->SetFixedImage(fixedImage);
@@ -104,14 +104,14 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
 
   // Optimizer
   using OptimizerType = itk::GradientDescentOptimizerv4;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   optimizer->SetMetric(metric);
   optimizer->SetNumberOfIterations(numberOfIterations);
 
   // Instantiate an Observer to report the progress of the Optimization
   using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
-  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  auto iterationCommand = CommandIterationType::New();
   iterationCommand->SetOptimizer(optimizer);
 
   // Optimizer parameter scales estimator
@@ -123,7 +123,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   if (scalesOption.compare("shift") == 0)
   {
     std::cout << "Testing RegistrationParameterScalesFromPhysicalShift" << std::endl;
-    typename ShiftScalesEstimatorType::Pointer shiftScalesEstimator = ShiftScalesEstimatorType::New();
+    auto shiftScalesEstimator = ShiftScalesEstimatorType::New();
     shiftScalesEstimator->SetMetric(metric);
     shiftScalesEstimator->SetTransformForward(true); // default
     scalesEstimator = shiftScalesEstimator;
@@ -131,7 +131,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   else
   {
     std::cout << "Testing RegistrationParameterScalesFromJacobian" << std::endl;
-    typename JacobianScalesEstimatorType::Pointer jacobianScalesEstimator = JacobianScalesEstimatorType::New();
+    auto jacobianScalesEstimator = JacobianScalesEstimatorType::New();
     jacobianScalesEstimator->SetMetric(metric);
     jacobianScalesEstimator->SetTransformForward(true); // default
     scalesEstimator = jacobianScalesEstimator;

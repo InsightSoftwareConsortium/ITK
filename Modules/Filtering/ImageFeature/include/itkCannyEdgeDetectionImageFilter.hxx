@@ -197,12 +197,12 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Use grafting of the input and output of this filter to isolate
   // the mini-pipeline and other modifications from the pipeline.
-  typename InputImageType::Pointer input = InputImageType::New();
+  auto input = InputImageType::New();
   input->Graft(const_cast<InputImageType *>(this->GetInput()));
 
   // Allocate the output, and graft
   Superclass::AllocateOutputs();
-  typename OutputImageType::Pointer output = OutputImageType::New();
+  auto output = OutputImageType::New();
   output->Graft(this->GetOutput());
   this->m_OutputImage = output;
 

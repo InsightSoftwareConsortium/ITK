@@ -79,8 +79,8 @@ itkNiftiImageIOTest4(int ac, char * av[])
   using TransformType = itk::AffineTransform<double, 3>;
   using AxisType = itk::Vector<double, 3>;
 
-  TransformType::Pointer transform = TransformType::New();
-  AxisType               axis;
+  auto     transform = TransformType::New();
+  AxisType axis;
   axis[0] = 1.0;
   axis[1] = 0.0;
   axis[2] = 0.0;

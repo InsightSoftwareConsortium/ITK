@@ -431,7 +431,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
       point[i] = it.Value()[i];
     }
 
-    NodeType::Pointer node = NodeType::New();
+    auto node = NodeType::New();
     node->SetCoordinates(point);
     node->SetGlobalNumber(it.Index());
 
@@ -476,7 +476,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
     {
       case itk::CellGeometryEnum::TRIANGLE_CELL:
       {
-        FEM2DTriangleType::Pointer triangleEle = FEM2DTriangleType::New();
+        auto triangleEle = FEM2DTriangleType::New();
 
         auto * triangleCell = static_cast<TriangleType *>(cell);
 
@@ -500,7 +500,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
       case itk::CellGeometryEnum::TETRAHEDRON_CELL:
       {
-        FEMTetrahedronType::Pointer tetrahedronEle = FEMTetrahedronType::New();
+        auto tetrahedronEle = FEMTetrahedronType::New();
 
         auto * tetrahedron = static_cast<TetrahedronType *>(cell);
 
@@ -525,7 +525,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
       case itk::CellGeometryEnum::QUADRILATERAL_CELL:
       {
-        FEM2DQuadrilateralType::Pointer quadrilateralEle = FEM2DQuadrilateralType::New();
+        auto quadrilateralEle = FEM2DQuadrilateralType::New();
 
         // use Cell and Ele to distinguish itk element and FEM element
         auto * quadrilateralCell = static_cast<QuadrilateralType *>(cell);
@@ -551,7 +551,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
       case itk::CellGeometryEnum::HEXAHEDRON_CELL:
       {
-        FEMHexahedronType::Pointer hexahedronEle = FEMHexahedronType::New();
+        auto hexahedronEle = FEMHexahedronType::New();
 
         auto * hexahedron = static_cast<HexahedronType *>(cell);
 
@@ -654,7 +654,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
       displacement[i] = displacementIt.Value()[i];
     }
 
-    LoadType::Pointer load = LoadType::New();
+    auto load = LoadType::New();
 
     load->SetSource(point);
     load->SetRealDisplacement(displacement);

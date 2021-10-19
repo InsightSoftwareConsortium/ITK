@@ -39,7 +39,7 @@ itkGradientRecursiveGaussianFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
 
   // Define their size, and start index
@@ -102,7 +102,7 @@ itkGradientRecursiveGaussianFilterTest(int, char *[])
 
 
   // Create a  Filter
-  myFilterType::Pointer    filter = myFilterType::New();
+  auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
   // Connect the input images
@@ -148,7 +148,7 @@ itkGradientRecursiveGaussianFilterTest(int, char *[])
   inputImage->SetDirection(direction);
 
   // Create a  Filter
-  myFilterType::Pointer filter2 = myFilterType::New();
+  auto filter2 = myFilterType::New();
   filter2->SetInput(inputImage);
   filter2->SetSigma(2.5);
   filter2->Update();

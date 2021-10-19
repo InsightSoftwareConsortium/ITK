@@ -142,7 +142,7 @@ test2DInterpolateImagePointsFilter()
   }
 
   // Initialize InterpolateImagePointsFilter
-  InterpolatorType2D::Pointer resamp = InterpolatorType2D::New();
+  auto resamp = InterpolatorType2D::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resamp, InterpolateImagePointsFilter, ImageToImageFilter);
 
@@ -200,7 +200,7 @@ test3DInterpolateImagePointsFilter()
   ImageTypePtr3D image = set3DData();
 
   // Initialize InterpolateImagePointsFilter and set input image
-  InterpolatorType3D::Pointer resamp = InterpolatorType3D::New();
+  auto resamp = InterpolatorType3D::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(resamp, InterpolateImagePointsFilter, ImageToImageFilter);
 
@@ -348,7 +348,7 @@ set3DData()
 {
   // Create a Gaussian image source
   using GaussianSourceType = itk::GaussianImageSource<ImageType3D>;
-  GaussianSourceType::Pointer pSource = GaussianSourceType::New();
+  auto pSource = GaussianSourceType::New();
 
   ImageType3D::SpacingValueType spacing[] = { 1.2f, 1.3f, 1.4f };
   ImageType3D::PointValueType   origin[] = { 1.0f, 4.0f, 2.0f };

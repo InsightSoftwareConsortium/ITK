@@ -40,8 +40,8 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image = InputImageType::New();
-  InputImageType::Pointer mask = InputImageType::New();
+  auto image = InputImageType::New();
+  auto mask = InputImageType::New();
 
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
@@ -125,7 +125,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
 
     using FilterType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<InputImageType>;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput(image);
 
@@ -271,7 +271,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest2(int, char *[])
       passed = false;
     }
 
-    FilterType::Pointer filter2 = FilterType::New();
+    auto filter2 = FilterType::New();
 
     filter2->SetInput(image);
     filter2->SetMaskImage(mask);

@@ -47,14 +47,14 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using FilterType = itk::MorphologicalWatershedFromMarkersImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MorphologicalWatershedFromMarkersImageFilter, ImageToImageFilter);
 
@@ -108,7 +108,7 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
 
   // Write output image
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
 
@@ -120,12 +120,12 @@ itkMorphologicalWatershedFromMarkersImageFilterTest(int argc, char * argv[])
     using RGBImageType = itk::Image<RGBPixelType, Dimension>;
 
     using OverlayType = itk::LabelOverlayImageFilter<ImageType, ImageType, RGBImageType>;
-    OverlayType::Pointer overlay = OverlayType::New();
+    auto overlay = OverlayType::New();
     overlay->SetInput(reader->GetOutput());
     overlay->SetLabelImage(filter->GetOutput());
 
     using RGBWriterType = itk::ImageFileWriter<RGBImageType>;
-    RGBWriterType::Pointer rgbwriter = RGBWriterType::New();
+    auto rgbwriter = RGBWriterType::New();
     rgbwriter->SetInput(overlay->GetOutput());
     rgbwriter->SetFileName(argv[6]);
 

@@ -89,7 +89,7 @@ GaussianImageSource<TOutputImage>::GenerateData()
 
   // Create and initialize a new Gaussian function
   using FunctionType = GaussianSpatialFunction<double, NDimensions>;
-  typename FunctionType::Pointer gaussian = FunctionType::New();
+  auto gaussian = FunctionType::New();
 
   gaussian->SetSigma(m_Sigma);
   gaussian->SetMean(m_Mean);

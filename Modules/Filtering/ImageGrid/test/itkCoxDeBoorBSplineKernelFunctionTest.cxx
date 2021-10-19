@@ -26,7 +26,7 @@ int
 itkCoxDeBoorBSplineKernelFunctionTest(int, char *[])
 {
   using KernelType = itk::CoxDeBoorBSplineKernelFunction<3>;
-  KernelType::Pointer    kernel = KernelType::New();
+  auto                   kernel = KernelType::New();
   KernelType::MatrixType coefficients;
 
   /**

@@ -67,7 +67,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    LSMImageIOFactory::Pointer lsmFactory = LSMImageIOFactory::New();
+    auto lsmFactory = LSMImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(lsmFactory);
   }

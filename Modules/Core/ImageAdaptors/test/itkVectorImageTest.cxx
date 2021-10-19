@@ -157,7 +157,7 @@ testVectorImageBasicMethods()
 
   std::cout << "Testing Get/SetPixel methods." << std::endl;
 
-  typename VectorImageType::Pointer    image = VectorImageType::New();
+  auto                                 image = VectorImageType::New();
   typename VectorImageType::SizeType   size = { { 11, 9, 7 } };
   typename VectorImageType::RegionType region;
   region.SetSize(size);
@@ -252,7 +252,7 @@ testVectorImageBasicMethods()
   std::cout << "Testing Get/SetPixel methods [PASSED]" << std::endl;
 
   // test Graft method
-  typename VectorImageType::Pointer imageGraft = VectorImageType::New();
+  auto imageGraft = VectorImageType::New();
   imageGraft->Graft(image);
   ITK_TEST_EXPECT_EQUAL(image->GetPixelContainer(), imageGraft->GetPixelContainer());
 
@@ -294,7 +294,7 @@ itkVectorImageTest(int, char * argv[])
       itk::TimeProbe clock;
       clock.Start();
 
-      VariableLengthVectorImageType::Pointer   image = VariableLengthVectorImageType::New();
+      auto                                     image = VariableLengthVectorImageType::New();
       VariableLengthVectorImageType::IndexType start;
       InternalPixelType                        f(VectorLength);
       VariableLengthVectorImageType::SizeType  size;
@@ -340,7 +340,7 @@ itkVectorImageTest(int, char * argv[])
 
       using InternalPixelType = itk::FixedArray<PixelType, VectorLength>;
 
-      FixedArrayImageType::Pointer   image = FixedArrayImageType::New();
+      auto                           image = FixedArrayImageType::New();
       FixedArrayImageType::IndexType start;
       InternalPixelType              f;
       FixedArrayImageType::SizeType  size;
@@ -399,7 +399,7 @@ itkVectorImageTest(int, char * argv[])
       itk::TimeProbe clock;
       clock.Start();
 
-      VectorImageType::Pointer             vectorImage = VectorImageType::New();
+      auto                                 vectorImage = VectorImageType::New();
       VectorImageType::IndexType           start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
       VectorImageType::SizeType            size;
@@ -442,7 +442,7 @@ itkVectorImageTest(int, char * argv[])
 
       const unsigned int componentToExtract = 2 * (Dimension - 1);
       using VectorImageToImageAdaptorType = itk::VectorImageToImageAdaptor<PixelType, Dimension>;
-      VectorImageToImageAdaptorType::Pointer vectorImageToImageAdaptor = VectorImageToImageAdaptorType::New();
+      auto vectorImageToImageAdaptor = VectorImageToImageAdaptorType::New();
       vectorImageToImageAdaptor->SetExtractComponentIndex(componentToExtract);
       if (vectorImageToImageAdaptor->GetExtractComponentIndex() != componentToExtract)
       {
@@ -457,7 +457,7 @@ itkVectorImageTest(int, char * argv[])
         failed = true;
       }
       using NthElementImageAdaptorType = itk::NthElementImageAdaptor<VectorImageType, PixelType>;
-      NthElementImageAdaptorType::Pointer nthElementImageAdaptor = NthElementImageAdaptorType::New();
+      auto nthElementImageAdaptor = NthElementImageAdaptorType::New();
       nthElementImageAdaptor->SelectNthElement(componentToExtract);
       adaptorTestResult = testVectorImageAdaptor<PixelType, Dimension, NthElementImageAdaptorType, VectorLength>(
         nthElementImageAdaptor, vectorImage, region, componentToExtract);
@@ -470,7 +470,7 @@ itkVectorImageTest(int, char * argv[])
     // Test with Region and Linear iterators...
     {
       // Create a  small image
-      VectorImageType::Pointer             vectorImage = VectorImageType::New();
+      auto                                 vectorImage = VectorImageType::New();
       VectorImageType::IndexType           start;
       itk::VariableLengthVector<PixelType> f(VectorLength);
       itk::VariableLengthVector<PixelType> ZeroPixel(VectorLength);
@@ -592,7 +592,7 @@ itkVectorImageTest(int, char * argv[])
     // Create an image using itk::Vector
     using VectorPixelType = itk::Vector<PixelType, VectorLength>;
     using VectorImageType = itk::Image<itk::Vector<PixelType, VectorLength>, Dimension>;
-    VectorImageType::Pointer   image = VectorImageType::New();
+    auto                       image = VectorImageType::New();
     VectorImageType::IndexType start;
     start.Fill(0);
     VectorImageType::SizeType size;
@@ -618,7 +618,7 @@ itkVectorImageTest(int, char * argv[])
     }
 
     using WriterType = itk::ImageFileWriter<VectorImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(image);
     writer->SetFileName(argv[2]);
     writer->Update();
@@ -631,7 +631,7 @@ itkVectorImageTest(int, char * argv[])
     // Now read it as a itk::VectorImage.
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
     using ReaderType = itk::ImageFileReader<VectorImageType>;
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
 
@@ -675,7 +675,7 @@ itkVectorImageTest(int, char * argv[])
     // Now read it as a itk::VectorImage.
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
     using ReaderType = itk::ImageFileReader<VectorImageType>;
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->Update();
 

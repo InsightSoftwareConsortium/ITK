@@ -25,7 +25,7 @@ itkQuadEdgeMeshIteratorTest(int, char *[])
   using MeshType = itk::QuadEdgeMesh<double, 3>;
   using IteratorGeom = MeshType::QEPrimal::IteratorGeom;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
 //
 //                    p2--------------p1               //

@@ -44,24 +44,24 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 
   PixelType background = 64;
 
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetRegions(imageRegion);
   inputImage->Allocate();
   inputImage->FillBuffer(background);
 
   using CastFilterType = itk::CastImageFilter<ImageType, InternalImageType>;
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto caster = CastFilterType::New();
   caster->SetInput(inputImage);
 
   using CollidingFrontsFilterType = itk::CollidingFrontsImageFilter<InternalImageType, InternalImageType>;
-  CollidingFrontsFilterType::Pointer collidingFronts = CollidingFrontsFilterType::New();
+  auto collidingFronts = CollidingFrontsFilterType::New();
 
   using NodeContainer = CollidingFrontsFilterType::NodeContainer;
   using NodeType = CollidingFrontsFilterType::NodeType;
 
   // select seeds 20 pixels apart
 
-  NodeContainer::Pointer seeds1 = NodeContainer::New();
+  auto seeds1 = NodeContainer::New();
 
   InternalImageType::IndexType seedPosition1;
   seedPosition1[0] = 50;
@@ -74,7 +74,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   seeds1->Initialize();
   seeds1->InsertElement(0, node1);
 
-  NodeContainer::Pointer seeds2 = NodeContainer::New();
+  auto seeds2 = NodeContainer::New();
 
   InternalImageType::IndexType seedPosition2;
   seedPosition2[0] = 70;
@@ -148,10 +148,10 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   if (argc > 2)
   {
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     using RescaleFilterType = itk::RescaleIntensityImageFilter<InternalImageType, ImageType>;
-    RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+    auto rescaler = RescaleFilterType::New();
 
     writer->SetFileName(argv[1]);
     writer->SetInput(inputImage);
@@ -186,7 +186,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 
   using DoubleImageType = itk::Image<double, ImageDimension>;
   using CollidingFrontsFilterType2 = itk::CollidingFrontsImageFilter<DoubleImageType, InternalImageType>;
-  CollidingFrontsFilterType2::Pointer collidingFronts2 = CollidingFrontsFilterType2::New();
+  auto collidingFronts2 = CollidingFrontsFilterType2::New();
 
   return EXIT_SUCCESS;
 }

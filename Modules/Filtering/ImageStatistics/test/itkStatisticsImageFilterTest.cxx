@@ -46,7 +46,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::Statistics::MersenneTwisterRandomVariateGenerator::GetInstance()->SetSeed(987);
 
-  FloatImage::Pointer    image = FloatImage::New();
+  auto                   image = FloatImage::New();
   FloatImage::RegionType region;
   FloatImage::SizeType   size;
   size.Fill(64);
@@ -66,7 +66,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   float sumOfSquares = std::pow(fillValue, 2.0) * static_cast<float>(region.GetNumberOfPixels());
 
   using FilterType = itk::StatisticsImageFilter<FloatImage>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher filterWatch(filter);
 
@@ -112,7 +112,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   // Now generate a real image
 
   using SourceType = itk::RandomImageSource<FloatImage>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   FloatImage::SizeValueType randomSize[3] = { 17, 8, 241 };
 
@@ -142,7 +142,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   double knownVariance = 10.0;
 
   using DoubleImage = itk::Image<double, 3>;
-  DoubleImage::Pointer    dImage = DoubleImage::New();
+  auto                    dImage = DoubleImage::New();
   DoubleImage::SizeType   dsize;
   DoubleImage::IndexType  dindex;
   DoubleImage::RegionType dregion;
@@ -159,7 +159,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
     ++it;
   }
   using DFilterType = itk::StatisticsImageFilter<DoubleImage>;
-  DFilterType::Pointer dfilter = DFilterType::New();
+  auto dfilter = DFilterType::New();
   dfilter->SetInput(dImage);
   dfilter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
   ITK_TRY_EXPECT_NO_EXCEPTION(dfilter->UpdateLargestPossibleRegion());

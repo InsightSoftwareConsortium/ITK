@@ -52,8 +52,8 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inFile);
   writer->SetFileName(outFile);
@@ -63,7 +63,7 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
   // test 1~8 threads for CPU
   for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
-    typename CPUFilterType::Pointer CPUFilter = CPUFilterType::New();
+    auto CPUFilter = CPUFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
@@ -84,7 +84,7 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
 
     if (numberOfWorkUnits == 8)
     {
-      typename GPUFilterType::Pointer GPUFilter = GPUFilterType::New();
+      auto GPUFilter = GPUFilterType::New();
 
       itk::TimeProbe gputimer;
       gputimer.Start();

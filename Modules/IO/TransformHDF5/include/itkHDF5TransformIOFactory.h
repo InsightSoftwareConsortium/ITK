@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    HDF5TransformIOFactory::Pointer metaFactory = HDF5TransformIOFactory::New();
+    auto metaFactory = HDF5TransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

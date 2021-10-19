@@ -38,10 +38,10 @@ InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TIntern
 {
   // Create a process accumulator for tracking the progress of this
   // minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  typename InputImageType::Pointer localInput = InputImageType::New();
+  auto localInput = InputImageType::New();
   localInput->Graft(this->GetInput());
 
   const KernelImageType * kernelImage = this->GetKernelImage();
@@ -60,7 +60,7 @@ InverseDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TIntern
   FunctorType inverseFunctor;
   inverseFunctor.SetKernelZeroMagnitudeThreshold(this->GetKernelZeroMagnitudeThreshold());
 
-  typename InverseFilterType::Pointer inverseFilter = InverseFilterType::New();
+  auto inverseFilter = InverseFilterType::New();
   inverseFilter->SetInput1(input);
   inverseFilter->SetInput2(kernel);
   inverseFilter->ReleaseDataFlagOn();

@@ -66,7 +66,7 @@ DOMNodeXMLReader::Update(std::istream & is)
 {
   if (m_DOMNodeXML.IsNull())
   {
-    OutputType::Pointer temp = OutputType::New();
+    auto temp = OutputType::New();
     this->SetDOMNodeXML(temp);
   }
   m_DOMNodeXML->RemoveAllAttributesAndChildren();

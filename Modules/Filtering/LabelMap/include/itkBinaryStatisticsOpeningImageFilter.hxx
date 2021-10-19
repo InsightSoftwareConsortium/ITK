@@ -62,14 +62,14 @@ void
 BinaryStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
   // Allocate the output
   this->AllocateOutputs();
 
-  typename LabelizerType::Pointer labelizer = LabelizerType::New();
+  auto labelizer = LabelizerType::New();
   labelizer->SetInput(this->GetInput());
   labelizer->SetInputForegroundValue(m_ForegroundValue);
   labelizer->SetOutputBackgroundValue(m_BackgroundValue);
@@ -77,7 +77,7 @@ BinaryStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::GenerateData()
   labelizer->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(labelizer, .3f);
 
-  typename LabelObjectValuatorType::Pointer valuator = LabelObjectValuatorType::New();
+  auto valuator = LabelObjectValuatorType::New();
   valuator->SetInput(labelizer->GetOutput());
   valuator->SetFeatureImage(this->GetFeatureImage());
   valuator->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -92,7 +92,7 @@ BinaryStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::GenerateData()
   }
   progress->RegisterInternalFilter(valuator, .3f);
 
-  typename OpeningType::Pointer opening = OpeningType::New();
+  auto opening = OpeningType::New();
   opening->SetInput(valuator->GetOutput());
   opening->SetLambda(m_Lambda);
   opening->SetReverseOrdering(m_ReverseOrdering);
@@ -100,7 +100,7 @@ BinaryStatisticsOpeningImageFilter<TInputImage, TFeatureImage>::GenerateData()
   opening->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   progress->RegisterInternalFilter(opening, .2f);
 
-  typename BinarizerType::Pointer binarizer = BinarizerType::New();
+  auto binarizer = BinarizerType::New();
   binarizer->SetInput(opening->GetOutput());
   binarizer->SetForegroundValue(m_ForegroundValue);
   binarizer->SetBackgroundValue(m_BackgroundValue);

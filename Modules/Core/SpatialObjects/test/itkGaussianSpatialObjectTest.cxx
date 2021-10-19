@@ -25,7 +25,7 @@ itkGaussianSpatialObjectTest(int, char *[])
 {
   using GaussianType = itk::GaussianSpatialObject<4>;
 
-  GaussianType::Pointer myGaussian = GaussianType::New();
+  auto myGaussian = GaussianType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myGaussian, GaussianSpatialObject, SpatialObject);
 
@@ -88,7 +88,7 @@ itkGaussianSpatialObjectTest(int, char *[])
   std::cout << "ObjectToWorldTransform" << std::endl;
 
   // Create myGaussian2 as a child of myGaussian
-  GaussianType::Pointer myGaussian2 = GaussianType::New();
+  auto myGaussian2 = GaussianType::New();
   std::cout << "AddChild" << std::endl;
   myGaussian->AddChild(myGaussian2);
 

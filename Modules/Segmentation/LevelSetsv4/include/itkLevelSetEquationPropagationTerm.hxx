@@ -41,7 +41,7 @@ LevelSetEquationPropagationTerm<TInput, TLevelSetContainer, TPropagationImage>::
   if (this->m_PropagationImage.IsNull())
   {
     using CastFilterType = CastImageFilter<TInput, TPropagationImage>;
-    typename CastFilterType::Pointer castFilter = CastFilterType::New();
+    auto castFilter = CastFilterType::New();
     castFilter->SetInput(this->m_Input);
     castFilter->Update();
 

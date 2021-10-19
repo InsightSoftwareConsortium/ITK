@@ -95,7 +95,7 @@ BinaryClosingByReconstructionImageFilter<TInputImage, TKernel>::GenerateData()
 
 
   /** set up the minipipeline */
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(erode, .8f);
   progress->RegisterInternalFilter(dilate, .2f);

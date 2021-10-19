@@ -51,7 +51,7 @@ BinaryImageToLevelSetImageAdaptor<TInputImage, LevelSetDenseImage<TLevelSetImage
   m_SignedDistanceTransformFilter->SetInput(this->m_InputImage);
   m_SignedDistanceTransformFilter->Update();
 
-  typename LevelSetImageType::Pointer tempImage = LevelSetImageType::New();
+  auto tempImage = LevelSetImageType::New();
   tempImage->Graft(m_SignedDistanceTransformFilter->GetOutput());
 
   this->m_LevelSet = LevelSetType::New();

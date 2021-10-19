@@ -277,7 +277,7 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateData()
     inputSliceRegion.SetIndex(m_FrameAxis, idx);
 
     using ExtractFilterType = typename itk::ExtractImageFilter<InputImageType, OutputFrameType>;
-    typename ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
+    auto extractFilter = ExtractFilterType::New();
     extractFilter->SetDirectionCollapseToSubmatrix();
 
     extractFilter->SetInput(input);

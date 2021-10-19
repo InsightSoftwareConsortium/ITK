@@ -44,7 +44,7 @@ itkPathFunctionsTest(int, char *[])
 
   // Set up the image
   std::cout << "Making a 64x64 white square centered in a 128x128 black image" << std::endl;
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   IndexType start;
   start[0] = 0;
@@ -93,10 +93,10 @@ itkPathFunctionsTest(int, char *[])
 
   // Set up the path
   std::cout << "Making a square Path with v0 at (30,30) and v2 at (33,33)" << std::endl;
-  VertexType                          v;
-  PolyLineParametricPathType::Pointer inPath = PolyLineParametricPathType::New();
-  ChainPathType::Pointer              chainPath = ChainPathType::New();
-  FourierSeriesPathType::Pointer      path = FourierSeriesPathType::New();
+  VertexType v;
+  auto       inPath = PolyLineParametricPathType::New();
+  auto       chainPath = ChainPathType::New();
+  auto       path = FourierSeriesPathType::New();
   v.Fill(30);
   inPath->AddVertex(v);
   v[0] = 33;

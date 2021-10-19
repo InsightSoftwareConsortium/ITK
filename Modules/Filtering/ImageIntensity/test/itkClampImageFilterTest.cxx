@@ -64,12 +64,12 @@ TestClampFromTo()
   using FilterType = itk::ClampImageFilter<InputImageType, OutputImageType>;
 
   using SourceType = itk::RandomImageSource<InputImageType>;
-  typename SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   typename InputImageType::SizeType randomSize = { { 18, 17, 23 } };
   source->SetSize(randomSize);
   source->UpdateLargestPossibleRegion();
-  typename InputImageType::Pointer    sourceCopy = InputImageType::New();
+  auto                                sourceCopy = InputImageType::New();
   typename InputImageType::RegionType region;
   region.SetSize(randomSize);
   sourceCopy->SetRegions(region);
@@ -78,7 +78,7 @@ TestClampFromTo()
   itk::ImageAlgorithm::Copy(source->GetOutput(), sourceCopy.GetPointer(), region, region);
 
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(source->GetOutput());
   if (std::is_same<TInputPixelType, typename itk::NumericTraits<TOutputPixelType>::ValueType>::value)
@@ -175,14 +175,14 @@ TestClampFromToWithCustomBounds()
   using FilterType = itk::ClampImageFilter<InputImageType, OutputImageType>;
 
   using SourceType = itk::RandomImageSource<InputImageType>;
-  typename SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
   source->SetMin(static_cast<TInputPixelType>(0));
   source->SetMax(static_cast<TInputPixelType>(20));
 
   typename InputImageType::SizeType randomSize = { { 18, 17, 23 } };
   source->SetSize(randomSize);
   source->UpdateLargestPossibleRegion();
-  typename InputImageType::Pointer    sourceCopy = InputImageType::New();
+  auto                                sourceCopy = InputImageType::New();
   typename InputImageType::RegionType region;
   region.SetSize(randomSize);
   sourceCopy->SetRegions(region);
@@ -190,7 +190,7 @@ TestClampFromToWithCustomBounds()
   // Create a copy to use when InPlaceOn is set
   itk::ImageAlgorithm::Copy(source->GetOutput(), sourceCopy.GetPointer(), region, region);
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetBounds(static_cast<TOutputPixelType>(5), static_cast<TOutputPixelType>(15));
   filter->SetInput(source->GetOutput());
@@ -288,7 +288,7 @@ itkClampImageFilterTest(int, char *[])
 
   using ImageType = itk::Image<unsigned char, 3>;
   using FilterType = itk::ClampImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ClampImageFilter, UnaryFunctorImageFilter);
 
   bool success = TestClampFrom<char>() && TestClampFrom<unsigned char>() && TestClampFrom<short>() &&

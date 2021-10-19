@@ -31,7 +31,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   FCoRAffine2DType::InputVectorType vector2;
   FCoRAffine2DType::InputPointType  point2;
 
-  FCoRAffine2DType::Pointer id2 = FCoRAffine2DType::New();
+  auto id2 = FCoRAffine2DType::New();
   matrix2 = id2->GetMatrixComponent();
   vector2 = id2->GetOffsetComponent();
   point2 = id2->GetCenterOfRotationComponent();
@@ -78,7 +78,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   point2[0] = 1.0;
   point2[1] = 1.0;
 
-  FCoRAffine2DType::Pointer aff2 = FCoRAffine2DType::New();
+  auto aff2 = FCoRAffine2DType::New();
   aff2->SetCenterOfRotationComponent(point2);
   aff2->SetMatrixComponent(matrix2);
   aff2->SetOffsetComponent(vector2);

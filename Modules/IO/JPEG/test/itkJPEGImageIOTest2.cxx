@@ -36,7 +36,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::RegionType region;
   ImageType::IndexType  start;
@@ -63,7 +63,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
   image->SetSpacing(spacing);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[1]);
 
   writer->SetInput(image);
@@ -72,7 +72,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());

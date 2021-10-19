@@ -32,7 +32,7 @@ itkQuadEdgeMeshTest1(int, char *[])
   using QEPolygonCellType = itk::QuadEdgeMeshPolygonCell<CellType>;
   using QELineCellType = itk::QuadEdgeMeshLineCell<CellType>;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   mesh->GetCellBoundaryFeatureNeighbors(0, 0, 0, nullptr);
   mesh->GetCellNeighbors(0, nullptr);

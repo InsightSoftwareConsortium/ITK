@@ -131,7 +131,7 @@ typename LightObject::Pointer
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   InternalClone() const
 {
-  typename Self::Pointer rval = Self::New();
+  auto rval = Self::New();
   rval->SetMovingPointSet(this->m_MovingPointSet);
   rval->SetFixedPointSet(this->m_FixedPointSet);
   rval->SetPointSetSigma(this->m_PointSetSigma);

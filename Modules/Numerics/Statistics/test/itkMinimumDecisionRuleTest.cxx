@@ -29,7 +29,7 @@ itkMinimumDecisionRuleTest(int, char *[])
   std::cout << "Testing MinimumDecionRule " << std::endl << std::endl;
 
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.resize(3);

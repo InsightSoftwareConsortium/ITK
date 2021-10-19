@@ -41,8 +41,8 @@ itkVoxBoCUBImageIOTest(int argc, char * argv[])
 
   itk::VoxBoCUBImageIOFactory::RegisterOneFactory();
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);

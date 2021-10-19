@@ -35,7 +35,7 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
   ImageType::PointValueType   sourceImageOrigin[] = { 0, 0, 0 };
 
   // Create the sourceImage
-  ImageType::Pointer sourceImage = ImageType::New();
+  auto sourceImage = ImageType::New();
   sourceImage->SetOrigin(sourceImageOrigin);
   sourceImage->SetSpacing(sourceImageSpacing);
 
@@ -58,11 +58,11 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
 
   // Create and initialize a new Gaussian function
   using FunctionType = itk::GaussianSpatialFunction<char, dim>;
-  FunctionType::Pointer func = FunctionType::New();
+  auto func = FunctionType::New();
 
   // Run the image evaluator filter
   using TFilter = itk::SpatialFunctionImageEvaluatorFilter<FunctionType, ImageType, ImageType>;
-  TFilter::Pointer filter = TFilter::New();
+  auto filter = TFilter::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SpatialFunctionImageEvaluatorFilter, ImageToImageFilter);
 

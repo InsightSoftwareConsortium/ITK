@@ -166,10 +166,10 @@ RegularStepGradientDescentOptimizerv4TestHelper(
 {
   using ScalesType = typename OptimizerType::ScalesType;
 
-  typename OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   // Declaration of the metric
-  RSGv4TestMetric::Pointer metric = RSGv4TestMetric::New();
+  auto metric = RSGv4TestMetric::New();
 
   optimizer->SetMetric(metric);
 
@@ -275,7 +275,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     itkOptimizer, RegularStepGradientDescentOptimizerv4, GradientDescentOptimizerv4Template);

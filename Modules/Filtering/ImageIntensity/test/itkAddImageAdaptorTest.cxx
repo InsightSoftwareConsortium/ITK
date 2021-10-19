@@ -43,7 +43,7 @@ itkAddImageAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<Dimension>;
 
   // Create input image
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -89,7 +89,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   using AdaptorType = itk::AddImageAdaptor<ImageType>;
 
-  AdaptorType::Pointer addAdaptor = AdaptorType::New();
+  auto addAdaptor = AdaptorType::New();
 
   PixelType additiveConstant = 19;
 
@@ -98,7 +98,7 @@ itkAddImageAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<AdaptorType, ImageType, ImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(addAdaptor);
   diffFilter->SetInput2(inputImage);

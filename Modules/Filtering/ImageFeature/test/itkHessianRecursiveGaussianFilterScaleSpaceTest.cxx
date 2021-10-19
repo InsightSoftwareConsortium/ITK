@@ -36,7 +36,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   using PointType = ImageType::PointType;
   using SpacingType = ImageType::SpacingType;
 
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
 
   SizeType size;
   size.Fill(21);
@@ -96,7 +96,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 
     using HessianImageType = FilterType::OutputImageType;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
     filter->SetInput(inputImage);
     filter->SetSigma(objectSize);
     filter->SetNormalizeAcrossScale(true);
@@ -153,7 +153,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
 
     using HessianImageType = FilterType::OutputImageType;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
     filter->SetInput(inputImage);
     filter->SetSigma(objectSize);
     filter->SetNormalizeAcrossScale(true);

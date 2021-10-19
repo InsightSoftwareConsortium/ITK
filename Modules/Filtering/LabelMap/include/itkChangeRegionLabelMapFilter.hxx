@@ -93,7 +93,7 @@ template <typename TInputImage>
 void
 ChangeRegionLabelMapFilter<TInputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
-  typename LabelObjectType::Pointer tmp = LabelObjectType::New();
+  auto tmp = LabelObjectType::New();
   tmp->template CopyAllFrom<LabelObjectType>(labelObject);
   labelObject->Clear();
 

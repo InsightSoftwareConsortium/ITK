@@ -184,7 +184,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GPUBinaryThresholdImageFilterFactory::Pointer factory = GPUBinaryThresholdImageFilterFactory::New();
+    auto factory = GPUBinaryThresholdImageFilterFactory::New();
 
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }

@@ -40,7 +40,7 @@ itkImageSeriesReaderVectorTest(int ac, char * av[])
   std::cout << "testing reading a image series into VecorImage" << std::endl;
   try
   {
-    VectorImageSeriesReader::Pointer reader = VectorImageSeriesReader::New();
+    auto reader = VectorImageSeriesReader::New();
     reader->SetFileNames(fnames);
     reader->Update();
   }
@@ -53,7 +53,7 @@ itkImageSeriesReaderVectorTest(int ac, char * av[])
   std::cout << "testing reading image series into ImageOfVectors " << std::endl;
   try
   {
-    VectorImageSeriesReader::Pointer reader = VectorImageSeriesReader::New();
+    auto reader = VectorImageSeriesReader::New();
     reader->SetFileNames(fnames);
     reader->Update();
   }

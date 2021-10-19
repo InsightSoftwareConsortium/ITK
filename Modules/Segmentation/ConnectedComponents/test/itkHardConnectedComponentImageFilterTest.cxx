@@ -42,8 +42,8 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using IndexType = typename InputImageType::IndexType;
 
-  typename InputImageType::Pointer inputimg = InputImageType::New();
-  IndexType                        index;
+  auto      inputimg = InputImageType::New();
+  IndexType index;
   index.Fill(0);
   typename InputImageType::RegionType region;
 
@@ -100,7 +100,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   // InputImageType::IndexType Seed = {10,2};
 
   using FilterType = itk::HardConnectedComponentImageFilter<InputImageType, OutputImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
 
@@ -142,7 +142,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   std::cout << std::endl;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(std::string(outputImageFileName) + pixelType + ".png");
   writer->SetInput(filter->GetOutput());
   try

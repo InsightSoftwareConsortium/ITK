@@ -27,7 +27,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
 {
   // Ellipse
   using EllipseType = itk::EllipseSpatialObject<3>;
-  EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(3);
   ellipse->GetProperty().SetColor(0, 1, 1);
 
@@ -46,20 +46,20 @@ itkCastSpatialObjectFilterTest(int, char *[])
     p.SetAlpha(i + 3);
     list3.push_back(p);
   }
-  TubeType::Pointer tube = TubeType::New();
+  auto tube = TubeType::New();
   tube->GetProperty().SetName("Tube 3");
   tube->SetId(3);
   tube->SetPoints(list3);
 
   // Group
   using GroupType = itk::GroupSpatialObject<3>;
-  GroupType::Pointer group = GroupType::New();
+  auto group = GroupType::New();
   group->AddChild(ellipse);
   ellipse->AddChild(tube);
 
   using CastType = itk::CastSpatialObjectFilter<3>;
   using TubeListType = std::list<TubeType::Pointer>;
-  CastType::Pointer caster = CastType::New();
+  auto caster = CastType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(caster, CastSpatialObjectFilter, Object);
 

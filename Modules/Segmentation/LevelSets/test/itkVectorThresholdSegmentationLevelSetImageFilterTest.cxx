@@ -51,8 +51,8 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
   using InputReaderType = itk::ImageFileReader<InputImageType>;
   using RGBReaderType = itk::ImageFileReader<RGBImageType>;
 
-  RGBReaderType::Pointer   rgbReader = RGBReaderType::New();
-  InputReaderType::Pointer inputReader = InputReaderType::New();
+  auto rgbReader = RGBReaderType::New();
+  auto inputReader = InputReaderType::New();
 
   inputReader->SetFileName(av[1]);
   rgbReader->SetFileName(av[2]);
@@ -60,7 +60,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
   // Create a filter
   using FilterType = itk::VectorThresholdSegmentationLevelSetImageFilter<InputImageType, RGBImageType, OutputPixelType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(inputReader->GetOutput());
 
@@ -123,7 +123,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
 
 
   using RescalerType = itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
-  RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
 
   rescaler->SetInput(filter->GetOutput());
 
@@ -132,7 +132,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
 
   // Generate test image
   using WriterType = itk::ImageFileWriter<WriteImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileName(av[3]);

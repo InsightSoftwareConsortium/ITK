@@ -36,7 +36,7 @@ NarrowBandImageFilterBase<TInputImage, TOutputImage>::CopyInputToOutput()
 {
   //   First need to subtract the iso-surface value from the input image.
   using ShiftScaleFilterType = ShiftScaleImageFilter<InputImageType, OutputImageType>;
-  typename ShiftScaleFilterType::Pointer shiftScaleFilter = ShiftScaleFilterType::New();
+  auto shiftScaleFilter = ShiftScaleFilterType::New();
   shiftScaleFilter->SetInput(this->GetInput());
   shiftScaleFilter->SetShift(-m_IsoSurfaceValue);
   shiftScaleFilter->Update();

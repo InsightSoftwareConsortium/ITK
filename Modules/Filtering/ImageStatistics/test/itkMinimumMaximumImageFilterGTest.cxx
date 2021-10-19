@@ -52,7 +52,7 @@ protected:
       // Create an image of all 1s with a random 0, and 2 valued pixel
       //
 
-      typename ImageType::Pointer image = ImageType::New();
+      auto image = ImageType::New();
 
       typename ImageType::SizeType imageSize;
       imageSize.Fill(m_ImageSize);

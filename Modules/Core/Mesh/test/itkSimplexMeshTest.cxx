@@ -32,7 +32,7 @@ itkSimplexMeshTest(int, char *[])
   using SimplexMeshType = itk::SimplexMesh<double, 3, MeshTraits>;
   using SimplexMeshGeometryType = itk::SimplexMeshGeometry;
 
-  SimplexMeshType::Pointer simplexMesh = SimplexMeshType::New();
+  auto simplexMesh = SimplexMeshType::New();
 
   using NeighborsListType = SimplexMeshType::NeighborListType;
 

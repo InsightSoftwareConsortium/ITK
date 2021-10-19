@@ -124,14 +124,14 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer inputReader = ReaderType::New();
+  auto inputReader = ReaderType::New();
   inputReader->SetFileName(argv[1]);
   inputReader->Update();
 
   // Create a masked parametric image source so that we can optimize
   // for the sigma parameters only.
   using KernelSourceType = itk::ExampleImageSource<ImageType>;
-  KernelSourceType::Pointer kernelSource = KernelSourceType::New();
+  auto kernelSource = KernelSourceType::New();
   kernelSource->SetScale(1.0);
 
   KernelSourceType::SizeType size = { { 32, 32 } };
@@ -161,7 +161,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   // from a parametric image source. We'll try to recover those
   // parameters later.
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
+  auto convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetInput(inputReader->GetOutput());
   convolutionFilter->NormalizeOn();
   convolutionFilter->SetKernelImage(kernelSource->GetOutput());
@@ -172,7 +172,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
 
   // Create an instance of the deconvolution filter
   using DeconvolutionFilterType = itk::ParametricBlindLeastSquaresDeconvolutionImageFilter<ImageType, KernelSourceType>;
-  DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
+  auto deconvolutionFilter = DeconvolutionFilterType::New();
   deconvolutionFilter->SetKernelSource(kernelSource);
   deconvolutionFilter->SetSizeGreatestPrimeFactor(5);
 
@@ -195,7 +195,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   std::cout << "Kernel parameters: " << kernelSource->GetParameters() << std::endl;
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[2]);
     writer->SetInput(deconvolutionFilter->GetOutput());
     writer->Update();
@@ -228,7 +228,7 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   {
     try
     {
-      WriterType::Pointer writer = WriterType::New();
+      auto writer = WriterType::New();
       writer->SetFileName(argv[6]);
       writer->SetInput(convolutionFilter->GetOutput());
       writer->Update();

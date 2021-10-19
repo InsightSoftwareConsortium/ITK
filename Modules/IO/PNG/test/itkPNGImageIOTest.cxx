@@ -168,7 +168,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   // 3D non-degenerate volume
   //
 
-  ImageType3D::Pointer volume = ImageType3D::New();
+  auto volume = ImageType3D::New();
 
   ImageType3D::SizeType size3D;
   size3D.Fill(10);
@@ -183,7 +183,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   volume->FillBuffer(0);
 
   using WriterType3D = itk::ImageFileWriter<ImageType3D>;
-  WriterType3D::Pointer writer3D = WriterType3D::New();
+  auto writer3D = WriterType3D::New();
   writer3D->SetFileName(argv[2]);
   writer3D->SetImageIO(io);
 
@@ -196,7 +196,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   // 3D degenerate volume
   //
 
-  ImageType3D::Pointer degenerateVolume = ImageType3D::New();
+  auto degenerateVolume = ImageType3D::New();
   // Collapse the first dimension.
   size3D[0] = 1;
   region3D.SetSize(size3D);
@@ -214,7 +214,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   // 2D non-degenerate volume
   //
-  ImageType2D::Pointer image = ImageType2D::New();
+  auto image = ImageType2D::New();
 
   ImageType2D::SizeType size2D;
   size2D.Fill(10);
@@ -229,7 +229,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   image->FillBuffer(0);
 
   using WriterType2D = itk::ImageFileWriter<ImageType2D>;
-  WriterType2D::Pointer writer2D = WriterType2D::New();
+  auto writer2D = WriterType2D::New();
 
   writer2D->SetFileName(argv[2]);
   writer2D->SetImageIO(io);
@@ -241,7 +241,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   // 2D degenerate volume
   //
-  ImageType2D::Pointer degenerateImage = ImageType2D::New();
+  auto degenerateImage = ImageType2D::New();
 
   // Collapse the first dimension
   size2D[0] = 1;
@@ -259,7 +259,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   //
   // 1D image
   //
-  ImageType1D::Pointer line = ImageType1D::New();
+  auto line = ImageType1D::New();
 
   ImageType1D::SizeType size1D;
   size1D.Fill(10);
@@ -274,7 +274,7 @@ itkPNGImageIOTest(int argc, char * argv[])
   line->FillBuffer(0);
 
   using WriterType1D = itk::ImageFileWriter<ImageType1D>;
-  WriterType1D::Pointer writer1D = WriterType1D::New();
+  auto writer1D = WriterType1D::New();
   writer1D->SetFileName(argv[2]);
   writer1D->SetImageIO(io);
   writer1D->SetInput(line);

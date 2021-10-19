@@ -46,7 +46,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::NCCRegis
 
   m_FixedImageSpacing.Fill(1.0);
 
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
 
   m_MovingImageInterpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 }

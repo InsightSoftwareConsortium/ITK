@@ -117,7 +117,7 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   using FunctionType = NeighborhoodBinaryThresholdImageFunction<InputImageType>;
   using IteratorType = FloodFilledImageFunctionConditionalIterator<OutputImageType, FunctionType>;
 
-  typename FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
   function->SetInputImage(inputImage);
   function->ThresholdBetween(m_Lower, m_Upper);
   function->SetRadius(m_Radius);

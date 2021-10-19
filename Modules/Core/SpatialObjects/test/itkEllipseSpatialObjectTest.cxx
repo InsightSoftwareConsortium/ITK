@@ -25,7 +25,7 @@ itkEllipseSpatialObjectTest(int, char *[])
 {
   using EllipseType = itk::EllipseSpatialObject<4>;
 
-  EllipseType::Pointer myEllipse = EllipseType::New();
+  auto myEllipse = EllipseType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(myEllipse, EllipseSpatialObject, SpatialObject);
 
@@ -81,7 +81,7 @@ itkEllipseSpatialObjectTest(int, char *[])
   std::cout << "ObjectToWorldTransform : ";
 
   // Create myEllipse2 as a child of myEllipse
-  EllipseType::Pointer myEllipse2 = EllipseType::New();
+  auto myEllipse2 = EllipseType::New();
   myEllipse2->SetRadiusInObjectSpace(1);
   myEllipse->AddChild(myEllipse2);
 

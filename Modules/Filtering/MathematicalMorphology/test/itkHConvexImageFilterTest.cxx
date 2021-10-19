@@ -50,7 +50,7 @@ itkHConvexImageFilterTest(int argc, char * argv[])
 
   // Read the input image
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -60,7 +60,7 @@ itkHConvexImageFilterTest(int argc, char * argv[])
   using HConvexFilterType = itk::HConvexImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  HConvexFilterType::Pointer hConvexFilter = HConvexFilterType::New();
+  auto hConvexFilter = HConvexFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(hConvexFilter, HConvexImageFilter, ImageToImageFilter);
 
@@ -84,7 +84,7 @@ itkHConvexImageFilterTest(int argc, char * argv[])
 
   // Write the output
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(hConvexFilter->GetOutput());
 

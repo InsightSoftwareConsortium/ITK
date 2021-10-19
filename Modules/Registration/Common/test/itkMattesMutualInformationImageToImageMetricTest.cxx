@@ -72,7 +72,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   imgOrigin[0] = 0.0;
   imgOrigin[1] = 0.0;
 
-  typename MovingImageType::Pointer imgMoving = MovingImageType::New();
+  auto imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion(region);
   imgMoving->SetBufferedRegion(region);
   imgMoving->SetRequestedRegion(region);
@@ -80,7 +80,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   imgMoving->SetSpacing(imgSpacing);
   imgMoving->SetOrigin(imgOrigin);
 
-  typename FixedImageType::Pointer imgFixed = FixedImageType::New();
+  auto imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion(region);
   imgFixed->SetBufferedRegion(region);
   imgFixed->SetRequestedRegion(region);
@@ -134,13 +134,13 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   }
 
   // Setup a fixed image mask for the image
-  typename MovingImageType::Pointer imgMovingMask = MovingImageType::New();
+  auto imgMovingMask = MovingImageType::New();
   imgMovingMask->CopyInformation(imgMoving);
   imgMovingMask->SetRegions(region);
   imgMovingMask->Allocate(true); // initialize
                                  // buffer to zero
 
-  typename FixedImageType::Pointer imgFixedMask = FixedImageType::New();
+  auto imgFixedMask = FixedImageType::New();
   imgFixedMask->CopyInformation(imgFixed);
   imgFixedMask->SetRegions(region);
   imgFixedMask->Allocate(true); // initialize
@@ -184,14 +184,14 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   using TransformType = itk::AffineTransform<double, ImageDimension>;
   using ParametersType = typename TransformType::ParametersType;
 
-  typename TransformType::Pointer transformer = TransformType::New();
+  auto transformer = TransformType::New();
 
   //------------------------------------------------------------
   // Set up the metric
   //------------------------------------------------------------
   using MetricType = itk::MattesMutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
 
-  typename MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // Sanity check before metric is run, these should be nullptr;
   if (metric->GetJointPDFDerivatives().IsNotNull())
@@ -259,11 +259,11 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
       // convert mask image to mask
 
       using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<ImageDimension>;
-      typename ImageMaskSpatialObjectType::Pointer soMovingMask = ImageMaskSpatialObjectType::New();
+      auto soMovingMask = ImageMaskSpatialObjectType::New();
       soMovingMask->SetImage(imgMovingMask);
       soMovingMask->Update();
 
-      typename ImageMaskSpatialObjectType::Pointer soFixedMask = ImageMaskSpatialObjectType::New();
+      auto soFixedMask = ImageMaskSpatialObjectType::New();
       soFixedMask->SetImage(imgFixedMask);
       soFixedMask->Update();
 
@@ -473,7 +473,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   imgOrigin[0] = 0.0;
   imgOrigin[1] = 0.0;
 
-  typename MovingImageType::Pointer imgMoving = MovingImageType::New();
+  auto imgMoving = MovingImageType::New();
   imgMoving->SetLargestPossibleRegion(region);
   imgMoving->SetBufferedRegion(region);
   imgMoving->SetRequestedRegion(region);
@@ -481,7 +481,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   imgMoving->SetSpacing(imgSpacing);
   imgMoving->SetOrigin(imgOrigin);
 
-  typename FixedImageType::Pointer imgFixed = FixedImageType::New();
+  auto imgFixed = FixedImageType::New();
   imgFixed->SetLargestPossibleRegion(region);
   imgFixed->SetBufferedRegion(region);
   imgFixed->SetRequestedRegion(region);
@@ -547,7 +547,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   typename TransformType::MeshSizeType meshSize;
   meshSize.Fill(4);
 
-  typename TransformType::Pointer transformer = TransformType::New();
+  auto transformer = TransformType::New();
 
   transformer->SetTransformDomainPhysicalDimensions(dimensions);
   transformer->SetTransformDomainOrigin(imgFixed->GetOrigin());
@@ -561,7 +561,7 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   //------------------------------------------------------------
   using MetricType = itk::MattesMutualInformationImageToImageMetric<FixedImageType, MovingImageType>;
 
-  typename MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // connect the interpolator
   metric->SetInterpolator(interpolator);
@@ -724,7 +724,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
   // Test metric with a linear interpolator
   using LinearInterpolatorType = itk::LinearInterpolateImageFunction<ImageType, double>;
 
-  LinearInterpolatorType::Pointer linearInterpolator = LinearInterpolatorType::New();
+  auto linearInterpolator = LinearInterpolatorType::New();
 
   failed = TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(
     linearInterpolator, useSampling, useExplicitJointPDFDerivatives, useCachingBSplineWeights);
@@ -748,7 +748,7 @@ itkMattesMutualInformationImageToImageMetricTest(int argc, char * argv[])
   // Test metric with a BSpline interpolator
   using BSplineInterpolatorType = itk::BSplineInterpolateImageFunction<ImageType, double>;
 
-  BSplineInterpolatorType::Pointer bSplineInterpolator = BSplineInterpolatorType::New();
+  auto bSplineInterpolator = BSplineInterpolatorType::New();
 
   bSplineInterpolator->SetSplineOrder(3);
 

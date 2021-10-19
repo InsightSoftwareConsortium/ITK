@@ -39,9 +39,9 @@ itkImageDuplicatorTest2(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using DuplicatorType = itk::ImageDuplicator<ImageType>;
-  DuplicatorType::Pointer dup = DuplicatorType::New();
+  auto dup = DuplicatorType::New();
   using AbsType = itk::AbsImageFilter<ImageType, ImageType>;
-  AbsType::Pointer absF = AbsType::New();
+  auto absF = AbsType::New();
 
   try
   {

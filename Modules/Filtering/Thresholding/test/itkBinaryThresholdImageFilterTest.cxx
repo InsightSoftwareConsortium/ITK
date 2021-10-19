@@ -43,7 +43,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
 
   // Use a random image source as input
   using SourceType = itk::RandomImageSource<InputImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   InputImageType::SizeValueType sizeArray[Dimension] = { 3, 3, 3 };
 
@@ -54,7 +54,7 @@ itkBinaryThresholdImageFilterTest(int, char *[])
   // Declare the type for the binary threshold filter
   using FilterType = itk::BinaryThresholdImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryThresholdImageFilter, UnaryFunctorImageFilter);
 

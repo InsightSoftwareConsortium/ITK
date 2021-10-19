@@ -67,7 +67,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    VTKImageIOFactory::Pointer vtkFactory = VTKImageIOFactory::New();
+    auto vtkFactory = VTKImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(vtkFactory);
   }

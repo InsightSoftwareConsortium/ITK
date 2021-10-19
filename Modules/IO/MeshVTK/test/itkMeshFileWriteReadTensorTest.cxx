@@ -53,11 +53,11 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   Mesh2dType::PixelType pixel2d;
   pixel2d.Fill(0);
 
-  Mesh2dType::Pointer mesh2d = Mesh2dType::New();
+  auto mesh2d = Mesh2dType::New();
   mesh2d->SetPoint(0, point2d);
   mesh2d->SetPointData(0, pixel2d);
 
-  MeshWriter2dType::Pointer mesh2dWriter = MeshWriter2dType::New();
+  auto mesh2dWriter = MeshWriter2dType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mesh2dWriter, MeshFileWriter, ProcessObject);
 
@@ -85,11 +85,11 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   Mesh3dType::PixelType pixel3d;
   pixel3d.Fill(0);
 
-  Mesh3dType::Pointer mesh3d = Mesh3dType::New();
+  auto mesh3d = Mesh3dType::New();
   mesh3d->SetPoint(0, point3d);
   mesh3d->SetPointData(0, pixel3d);
 
-  MeshWriter3dType::Pointer mesh3dWriter = MeshWriter3dType::New();
+  auto mesh3dWriter = MeshWriter3dType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mesh3dWriter, MeshFileWriter, ProcessObject);
 

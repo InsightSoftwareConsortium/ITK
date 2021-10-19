@@ -56,7 +56,7 @@ itkFlipImageFilterTest(int argc, char * argv[])
   origin[1] = 0.4;
   origin[2] = 0.3;
 
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
   inputImage->SetLargestPossibleRegion(region);
   inputImage->SetBufferedRegion(region);
   inputImage->Allocate();
@@ -77,7 +77,7 @@ itkFlipImageFilterTest(int argc, char * argv[])
 
 
   // Flip the image
-  FlipperType::Pointer flipper = FlipperType::New();
+  auto flipper = FlipperType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(flipper, FlipImageFilter, ImageToImageFilter);
 

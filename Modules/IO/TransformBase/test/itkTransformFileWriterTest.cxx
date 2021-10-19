@@ -26,7 +26,7 @@ itkTransformFileWriterTest(int, char *[])
   using TransformWriterType = itk::TransformFileWriter;
 
 
-  TransformWriterType::Pointer transformWriter = TransformWriterType::New();
+  auto transformWriter = TransformWriterType::New();
 
   std::cout << "Writer class = " << transformWriter->GetNameOfClass() << "Writer base = "
             << dynamic_cast<TransformWriterType::Superclass *>(transformWriter.GetPointer())->GetNameOfClass()

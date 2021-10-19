@@ -39,8 +39,8 @@ itkTriangleMeshToSimplexMeshFilterTest(int, char *[])
   // declare the triangle to simplex mesh filter
   using SimplexFilterType = itk::TriangleMeshToSimplexMeshFilter<TriangleMeshType, SimplexMeshType>;
 
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
-  PointType                     center;
+  auto      mySphereMeshSource = SphereMeshSourceType::New();
+  PointType center;
   center.Fill(0);
   PointType::ValueType scaleInit[3] = { 5, 5, 5 };
   VectorType           scale = scaleInit;
@@ -51,7 +51,7 @@ itkTriangleMeshToSimplexMeshFilterTest(int, char *[])
 
   std::cout << "Triangle mesh created. " << std::endl;
 
-  SimplexFilterType::Pointer simplexFilter = SimplexFilterType::New();
+  auto simplexFilter = SimplexFilterType::New();
   simplexFilter->SetInput(mySphereMeshSource->GetOutput());
   simplexFilter->Update();
   simplexFilter->Print(std::cout);

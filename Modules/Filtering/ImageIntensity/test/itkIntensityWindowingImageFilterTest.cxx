@@ -46,13 +46,13 @@ itkIntensityWindowingImageFilterTest(int, char *[])
 
 
   using FilterType = itk::IntensityWindowingImageFilter<TestInputImage, TestOutputImage>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, IntensityWindowingImageFilter, UnaryFunctorImageFilter);
 
   // Generate a real image
   using SourceType = itk::RandomImageSource<TestInputImage>;
-  SourceType::Pointer           source = SourceType::New();
+  auto                          source = SourceType::New();
   TestInputImage::SizeValueType randomSize[3] = { 17, 8, 20 };
 
   // Set up source
@@ -98,7 +98,7 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->SetFunctor(filter->GetFunctor()));
 
   using CalculatorType = itk::MinimumMaximumImageCalculator<TestOutputImage>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   calculator->SetImage(filter->GetOutput());
 

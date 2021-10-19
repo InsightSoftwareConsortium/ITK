@@ -208,10 +208,10 @@ itkMultiStartOptimizerv4Test(int, char *[])
   using OptimizerType = itk::MultiStartOptimizerv4;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  MultiStartOptimizerv4TestMetric::Pointer metric = MultiStartOptimizerv4TestMetric::New();
+  auto metric = MultiStartOptimizerv4TestMetric::New();
 
   itkOptimizer->SetMetric(metric);
 

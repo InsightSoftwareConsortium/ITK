@@ -64,13 +64,13 @@ itkHConvexConcaveImageFilterTest(int argc, char * argv[])
 
 
   // Creation of reader and writer filters
-  ReaderType::Pointer  reader = ReaderType::New();
-  WriterType::Pointer  writer = WriterType::New();
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto rescaler = RescaleType::New();
 
   // Create the filters
-  HConvexFilterType::Pointer  hConvexFilter = HConvexFilterType::New();
-  HConcaveFilterType::Pointer hConcaveFilter = HConcaveFilterType::New();
+  auto hConvexFilter = HConvexFilterType::New();
+  auto hConcaveFilter = HConcaveFilterType::New();
 
   itk::SimpleFilterWatcher watchConvex(hConvexFilter, "HConvexImageFilter");
   itk::SimpleFilterWatcher watchConcave(hConcaveFilter, "HConcaveImageFilter");
@@ -89,7 +89,7 @@ itkHConvexConcaveImageFilterTest(int argc, char * argv[])
   // Create a filter to add the two images
   using AddFilterType = itk::AddImageFilter<InputImageType, InputImageType, OutputImageType>;
 
-  AddFilterType::Pointer add = AddFilterType::New();
+  auto add = AddFilterType::New();
   add->SetInput1(hConvexFilter->GetOutput());
   add->SetInput2(hConcaveFilter->GetOutput());
 

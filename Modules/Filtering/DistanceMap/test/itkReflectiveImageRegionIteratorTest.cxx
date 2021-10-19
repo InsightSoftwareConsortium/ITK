@@ -33,7 +33,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   using IteratorVisitsType = itk::ImageRegionIteratorWithIndex<ImageVisitsType>;
 
-  ImageType::Pointer myImage = ImageType::New();
+  auto myImage = ImageType::New();
 
   ImageType::SizeType size = { { 4, 4, 4, 4 } };
 
@@ -49,7 +49,7 @@ itkReflectiveImageRegionIteratorTest(int, char *[])
   myImage->SetRequestedRegion(region);
   myImage->Allocate();
 
-  ImageVisitsType::Pointer visitImage = ImageVisitsType::New();
+  auto visitImage = ImageVisitsType::New();
 
   visitImage->SetLargestPossibleRegion(region);
   visitImage->SetRequestedRegion(region);

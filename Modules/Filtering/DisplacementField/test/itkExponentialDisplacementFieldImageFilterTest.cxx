@@ -46,7 +46,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create two images
-  ImageType::Pointer inputImage = ImageType::New();
+  auto inputImage = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -89,7 +89,7 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
 
   // Create one filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
 
   // Connect the input images

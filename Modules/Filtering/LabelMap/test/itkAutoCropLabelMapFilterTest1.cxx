@@ -56,11 +56,11 @@ itkAutoCropLabelMapFilterTest1(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using ImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  ImageToLabelMapFilterType::Pointer imageToLabelMapFilter = ImageToLabelMapFilterType::New();
+  auto imageToLabelMapFilter = ImageToLabelMapFilterType::New();
   imageToLabelMapFilter->SetInput(reader->GetOutput());
 
   PixelType backgroundValue = std::stoi(argv[3]);
@@ -68,7 +68,7 @@ itkAutoCropLabelMapFilterTest1(int argc, char * argv[])
   imageToLabelMapFilter->SetBackgroundValue(backgroundValue);
 
   using AutoCropLabelMapFilterType = itk::AutoCropLabelMapFilter<LabelMapType>;
-  AutoCropLabelMapFilterType::Pointer autoCropFilter = AutoCropLabelMapFilterType::New();
+  auto autoCropFilter = AutoCropLabelMapFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(autoCropFilter, AutoCropLabelMapFilter, ChangeRegionLabelMapFilter);
 
@@ -83,11 +83,11 @@ itkAutoCropLabelMapFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(autoCropFilter, "AutoCropLabelMapFilter");
 
   using LabelMapToLabelImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
+  auto labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(autoCropFilter->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(labelMapToLabelImageFilter->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

@@ -184,7 +184,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GPUDemonsRegistrationFilterFactory::Pointer factory = GPUDemonsRegistrationFilterFactory::New();
+    auto factory = GPUDemonsRegistrationFilterFactory::New();
 
     ObjectFactoryBase::RegisterFactory(factory);
   }

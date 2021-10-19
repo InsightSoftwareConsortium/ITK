@@ -30,7 +30,7 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   // Build a constant image
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   ImageType::SizeType   size;
   size.Fill(256);
@@ -41,7 +41,7 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
 
   // Generate co-occurence matrix
   using MatrixGeneratorType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<ImageType>;
-  MatrixGeneratorType::Pointer    generator = MatrixGeneratorType::New();
+  auto                            generator = MatrixGeneratorType::New();
   MatrixGeneratorType::OffsetType offset;
   offset.Fill(1);
   generator->SetOffset(offset);
@@ -49,7 +49,7 @@ itkHistogramToTextureFeaturesFilterNaNTest(int, char *[])
   generator->Update();
 
   using TextureFilterType = itk::Statistics::HistogramToTextureFeaturesFilter<MatrixGeneratorType::HistogramType>;
-  TextureFilterType::Pointer filter = TextureFilterType::New();
+  auto filter = TextureFilterType::New();
   filter->SetInput(generator->GetOutput());
   filter->Update();
 

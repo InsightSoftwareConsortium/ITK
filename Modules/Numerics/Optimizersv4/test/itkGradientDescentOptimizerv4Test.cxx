@@ -203,10 +203,10 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   using ScalesType = OptimizerType::ScalesType;
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric
-  GradientDescentOptimizerv4TestMetric::Pointer metric = GradientDescentOptimizerv4TestMetric::New();
+  auto metric = GradientDescentOptimizerv4TestMetric::New();
 
   itkOptimizer->SetMetric(metric);
 
@@ -333,8 +333,8 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   }
 
   std::cout << "\nTest the Exception if the optimizer is not set properly:" << std::endl;
-  OptimizerType::Pointer badOptimizer = OptimizerType::New();
-  bool                   caught = false;
+  auto badOptimizer = OptimizerType::New();
+  bool caught = false;
   try
   {
     badOptimizer->GetCurrentPosition();

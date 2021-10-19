@@ -40,14 +40,14 @@ itkBinaryReconstructionByErosionImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, dim>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using LabelReconstructionType = itk::BinaryReconstructionByErosionImageFilter<ImageType>;
-  LabelReconstructionType::Pointer reconstruction = LabelReconstructionType::New();
+  auto reconstruction = LabelReconstructionType::New();
 
   // testing get and set macros for Lambda
   int fg = std::stoi(argv[4]);
@@ -67,7 +67,7 @@ itkBinaryReconstructionByErosionImageFilterTest(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(reconstruction->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();

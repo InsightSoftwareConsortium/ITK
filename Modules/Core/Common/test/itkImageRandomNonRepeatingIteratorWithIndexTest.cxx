@@ -40,7 +40,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   using RandomConstIteratorType = itk::ImageRandomNonRepeatingConstIteratorWithIndex<ImageType>;
   std::cout << "Creating images" << std::endl;
 
-  ImageType::Pointer      myImage = ImageType::New();
+  auto                    myImage = ImageType::New();
   ImageType::ConstPointer myConstImage = myImage;
   ImageType::SizeType     size0;
   size0[0] = 50;
@@ -57,7 +57,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   myImage->SetRequestedRegion(region0);
   myImage->Allocate();
   // Make the priority image
-  PriorityImageType::Pointer  priorityImage = PriorityImageType::New();
+  auto                        priorityImage = PriorityImageType::New();
   PriorityImageType::SizeType prioritySize;
   prioritySize[0] = 50;
   prioritySize[1] = 50;

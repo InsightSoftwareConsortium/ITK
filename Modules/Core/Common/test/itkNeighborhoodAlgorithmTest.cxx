@@ -106,7 +106,7 @@ NeighborhoodAlgorithmTest()
 
   RegionType region(ind, size);
 
-  typename ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   image->SetRegions(region);
   image->Allocate();
 

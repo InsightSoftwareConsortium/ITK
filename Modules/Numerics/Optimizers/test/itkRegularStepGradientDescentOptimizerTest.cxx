@@ -113,11 +113,11 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction
-  RSGCostFunction::Pointer costFunction = RSGCostFunction::New();
+  auto costFunction = RSGCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);

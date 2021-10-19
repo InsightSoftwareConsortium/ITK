@@ -56,7 +56,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
   // Create the filter
   using ConnectedThresholdImageFilterType = itk::ConnectedThresholdImageFilter<ImageType, ImageType>;
 
-  ConnectedThresholdImageFilterType::Pointer connectedThresholdFilter = ConnectedThresholdImageFilterType::New();
+  auto connectedThresholdFilter = ConnectedThresholdImageFilterType::New();
 
   itk::SimpleFilterWatcher watcher(connectedThresholdFilter);
 

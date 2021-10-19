@@ -38,7 +38,7 @@ GetImage(const itk::FlatStructuringElement<VDimension> & flatElement)
   using ConstIterator = typename FlatStructuringElement<2U>::ConstIterator;
   using PixelType = unsigned char;
 
-  typename ImageType::Pointer    image = ImageType::New();
+  auto                           image = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = flatElement.GetRadius();
   Index<VDimension>              centerIdx;
@@ -86,7 +86,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   // Read test image as unsigned char
   using ImageUCType = itk::Image<unsigned char, Dimension>;
   using ReaderUCType = itk::ImageFileReader<ImageUCType>;
-  ReaderUCType::Pointer reader = ReaderUCType::New();
+  auto reader = ReaderUCType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->UpdateLargestPossibleRegion());
@@ -101,13 +101,13 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   using ImageBoolType = itk::Image<bool, Dimension>;
 
   using RescaleType = itk::RescaleIntensityImageFilter<ImageUCType, ImageUCType>;
-  RescaleType::Pointer rescale = RescaleType::New();
+  auto rescale = RescaleType::New();
   rescale->SetInput(testImg);
   rescale->SetOutputMinimum(itk::NumericTraits<bool>::ZeroValue());
   rescale->SetOutputMaximum(itk::NumericTraits<bool>::OneValue());
 
   using castFilterType = itk::CastImageFilter<ImageUCType, ImageBoolType>;
-  castFilterType::Pointer cast = castFilterType::New();
+  auto cast = castFilterType::New();
   cast->SetInput(rescale->GetOutput());
   cast->Update();
   ImageBoolType::Pointer testImgBool = cast->GetOutput();
@@ -118,7 +118,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   // Write result from GetImage for comparisson with input image
 
   using WriterType = itk::ImageFileWriter<ImageUCType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(imgFromStructure);
 
@@ -129,7 +129,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
 
   // Pad test image to even size
   using ConstPadFilterType = itk::ConstantPadImageFilter<ImageBoolType, ImageBoolType>;
-  ConstPadFilterType::Pointer padFilter = ConstPadFilterType::New();
+  auto padFilter = ConstPadFilterType::New();
   padFilter->SetInput(testImgBool);
   ImageBoolType::SizeType lowerExtendRegion;
   lowerExtendRegion[0] = 1;

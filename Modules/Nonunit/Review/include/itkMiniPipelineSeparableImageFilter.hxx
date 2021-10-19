@@ -102,7 +102,7 @@ MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::GenerateDa
   m_Filters[0]->SetInput(this->GetInput());
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   for (unsigned i = 0; i < ImageDimension; ++i)
   {

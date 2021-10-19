@@ -117,7 +117,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
   {                                                          \
     using PixelType = char;                                  \
     using ImageType = itk::Image<PixelType, dim>;            \
-    ImageType::Pointer    myImage = ImageType::New();        \
+    auto                  myImage = ImageType::New();        \
     ImageType::SizeType   size;                              \
     ImageType::IndexType  index;                             \
     ImageType::RegionType region;                            \
@@ -149,7 +149,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
   {                                                      \
     using PixelType = char;                              \
     using ImageType = itk::Image<PixelType, dim>;        \
-    ImageType::Pointer    myImage = ImageType::New();    \
+    auto                  myImage = ImageType::New();    \
     ImageType::SizeType   size;                          \
     ImageType::IndexType  index;                         \
     ImageType::RegionType region;                        \
@@ -181,7 +181,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
   {                                                                     \
     using PixelType = char;                                             \
     using ImageType = itk::Image<PixelType, dim>;                       \
-    ImageType::Pointer    myImage = ImageType::New();                   \
+    auto                  myImage = ImageType::New();                   \
     ImageType::SizeType   size;                                         \
     ImageType::IndexType  index;                                        \
     ImageType::RegionType region;                                       \
@@ -208,7 +208,7 @@ itkImageComputeOffsetAndIndexTest(int, char *[])
   {                                                                 \
     using PixelType = char;                                         \
     using ImageType = itk::Image<PixelType, dim>;                   \
-    ImageType::Pointer    myImage = ImageType::New();               \
+    auto                  myImage = ImageType::New();               \
     ImageType::SizeType   size;                                     \
     ImageType::IndexType  index;                                    \
     ImageType::RegionType region;                                   \

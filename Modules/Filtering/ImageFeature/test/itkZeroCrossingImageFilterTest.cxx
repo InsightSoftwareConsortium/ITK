@@ -39,7 +39,7 @@ itkZeroCrossingImageFilterTest(int, char *[])
   using FilterType = itk::ZeroCrossingImageFilter<ImageType, ImageType>;
 
   // Set up filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ZeroCrossingImageFilter, ImageToImageFilter);
 

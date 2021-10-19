@@ -40,17 +40,17 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer inputReader = ReaderType::New();
+  auto inputReader = ReaderType::New();
   inputReader->SetFileName(argv[1]);
   inputReader->Update();
 
-  ReaderType::Pointer kernelReader = ReaderType::New();
+  auto kernelReader = ReaderType::New();
   kernelReader->SetFileName(argv[2]);
   kernelReader->Update();
 
   // Generate a convolution of the input image with the kernel image
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convolutionFilter = ConvolutionFilterType::New();
+  auto convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetInput(inputReader->GetOutput());
   convolutionFilter->NormalizeOn();
   convolutionFilter->SetKernelImage(kernelReader->GetOutput());
@@ -60,7 +60,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   {
     try
     {
-      WriterType::Pointer writer = WriterType::New();
+      auto writer = WriterType::New();
       writer->SetFileName(argv[5]);
       writer->SetInput(convolutionFilter->GetOutput());
       writer->Update();
@@ -74,7 +74,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Test the deconvolution algorithm
   using DeconvolutionFilterType = itk::RichardsonLucyDeconvolutionImageFilter<ImageType>;
-  DeconvolutionFilterType::Pointer deconvolutionFilter = DeconvolutionFilterType::New();
+  auto deconvolutionFilter = DeconvolutionFilterType::New();
   deconvolutionFilter->SetInput(convolutionFilter->GetOutput());
   deconvolutionFilter->SetKernelImage(kernelReader->GetOutput());
   deconvolutionFilter->NormalizeOn();
@@ -83,7 +83,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
 
   // Add an observer to report on filter iteration progress
   using IterationCommandType = itk::DeconvolutionIterationCommand<DeconvolutionFilterType>;
-  IterationCommandType::Pointer observer = IterationCommandType::New();
+  auto observer = IterationCommandType::New();
   deconvolutionFilter->AddObserver(itk::IterationEvent(), observer);
 
   itk::SimpleFilterWatcher watcher(deconvolutionFilter);
@@ -91,7 +91,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   // Write the deconvolution result
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[3]);
     writer->SetInput(deconvolutionFilter->GetOutput());
     writer->Update();
@@ -145,7 +145,7 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   using IntImageType = itk::Image<int, Dimension>;
 
   using FilterType = itk::RichardsonLucyDeconvolutionImageFilter<FloatImageType, DoubleImageType, IntImageType, float>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->Print(std::cout);
 
   return EXIT_SUCCESS;

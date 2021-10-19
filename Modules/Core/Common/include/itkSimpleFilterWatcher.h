@@ -47,7 +47,7 @@ namespace itk
  * Example of use:
  *
  * using FilterType = itk::BinaryThresholdImageFilter<ImageType>;
- * FilterType::Pointer thresholdFilter = FilterType::New();
+ * auto thresholdFilter = FilterType::New();
  *
  * SimpleFilterWatcher watcher(thresholdFilter, "Threshold");
  *

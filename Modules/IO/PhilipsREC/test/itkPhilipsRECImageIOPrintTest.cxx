@@ -34,7 +34,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
 
   using PhilipsRECImageIOType = itk::PhilipsRECImageIO;
 
-  PhilipsRECImageIOType::Pointer imageIO = PhilipsRECImageIOType::New();
+  auto imageIO = PhilipsRECImageIOType::New();
 
   if (!imageIO->CanReadFile(argv[1]))
   {

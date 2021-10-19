@@ -78,9 +78,9 @@ itkSampleToSubsampleFilterTest1(int, char *[])
   using FilterType = itk::Statistics::itkSampleToSubsampleFilter1Namespace::SubsamplerTester<SampleType>;
 
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Test GetInput() before setting the input
   if (filter->GetInput() != nullptr)

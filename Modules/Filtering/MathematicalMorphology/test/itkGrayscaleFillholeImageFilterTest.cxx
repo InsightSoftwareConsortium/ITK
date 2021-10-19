@@ -64,12 +64,12 @@ itkGrayscaleFillholeImageFilterTest(int argc, char * argv[])
 
 
   // Creation of Reader and Writer filters
-  ReaderType::Pointer  reader = ReaderType::New();
-  WriterType::Pointer  writer = WriterType::New();
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto rescaler = RescaleType::New();
 
   // Create the filter
-  FillholeFilterType::Pointer fillhole = FillholeFilterType::New();
+  auto fillhole = FillholeFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(fillhole, GrayscaleFillholeImageFilter, ImageToImageFilter);
 

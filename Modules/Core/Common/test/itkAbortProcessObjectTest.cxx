@@ -61,7 +61,7 @@ itkAbortProcessObjectTest(int, char *[])
 {
   // type alias to simplify the syntax
   using ShortImage = itk::Image<short, 2>;
-  ShortImage::Pointer img = ShortImage::New();
+  auto img = ShortImage::New();
 
   // fill in an image
   const ShortImage::IndexType index = { { 0, 0 } };

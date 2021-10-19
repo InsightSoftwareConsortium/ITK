@@ -46,7 +46,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::WarpImageFilter(
   m_EdgePaddingValue = NumericTraits<PixelType>::ZeroValue(m_EdgePaddingValue);
   m_OutputStartIndex.Fill(0);
 
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
   m_Interpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 
   m_DefFieldSameInformation = false;

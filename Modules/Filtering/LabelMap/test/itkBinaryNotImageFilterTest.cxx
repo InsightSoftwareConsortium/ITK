@@ -38,20 +38,20 @@ itkBinaryNotImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader1 = ReaderType::New();
+  auto reader1 = ReaderType::New();
   reader1->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader1->Update());
 
 
-  typename ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
 
 
   using FilterType = itk::BinaryNotImageFilter<ImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BinaryNotImageFilter, UnaryFunctorImageFilter);
 
@@ -73,7 +73,7 @@ itkBinaryNotImageFilterTest(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
 

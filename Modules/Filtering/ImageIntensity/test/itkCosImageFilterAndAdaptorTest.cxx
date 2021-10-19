@@ -51,7 +51,7 @@ itkCosImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -90,7 +90,7 @@ itkCosImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::CosImageFilter<InputImageType, OutputImageType>;
 
   // Create the Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, CosImageFilter, UnaryGeneratorImageFilter);
 
@@ -136,7 +136,7 @@ itkCosImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::CosImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer cosAdaptor = AdaptorType::New();
+  auto cosAdaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(cosAdaptor, CosImageAdaptor, ImageAdaptor);
 
@@ -144,7 +144,7 @@ itkCosImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(cosAdaptor);

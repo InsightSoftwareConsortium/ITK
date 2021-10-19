@@ -112,9 +112,9 @@ itkChangeInformationImageFilterTest(int, char *[])
   using FilterType = itk::ChangeInformationImageFilter<ImageType>;
   using ArrayType = itk::FixedArray<double, ImageDimension>;
 
-  ImageType::Pointer  inputImage = ImageType::New();
-  ImageType::Pointer  referenceImage = ImageType::New();
-  FilterType::Pointer filter = FilterType::New();
+  auto inputImage = ImageType::New();
+  auto referenceImage = ImageType::New();
+  auto filter = FilterType::New();
 
   itk::SpacePrecisionType  spacing[ImageDimension] = { 1, 2, 3 };
   itk::SpacePrecisionType  origin[ImageDimension] = { -100, -200, -300 };

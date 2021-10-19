@@ -64,7 +64,7 @@ itkBSplineKernelFunctionTest(int, char *[])
 #define TEST_BSPLINE_KERNEL(ORDERNUM)                                                          \
   {                                                                                            \
     using FunctionType = itk::BSplineKernelFunction<ORDERNUM>;                                 \
-    FunctionType::Pointer function = FunctionType::New();                                      \
+    auto function = FunctionType::New();                                                       \
                                                                                                \
     function->Print(std::cout);                                                                \
     for (unsigned j = 0; j < npoints; ++j)                                                     \
@@ -92,7 +92,7 @@ itkBSplineKernelFunctionTest(int, char *[])
   {
     constexpr unsigned int SplineOrder = 0;
     using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
-    DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+    auto derivFunction = DerivativeFunctionType::New();
     derivFunction->Print(std::cout);
 
     double xx = -0.25;
@@ -113,10 +113,10 @@ itkBSplineKernelFunctionTest(int, char *[])
   {
     constexpr unsigned int SplineOrder = 1;
     using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
-    DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+    auto derivFunction = DerivativeFunctionType::New();
 
     using FunctionType = itk::BSplineKernelFunction<SplineOrder - 1>;
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     for (double xx = -3.0; xx <= 3.0; xx += 0.1)
     {
@@ -138,11 +138,11 @@ itkBSplineKernelFunctionTest(int, char *[])
   {
     constexpr unsigned int SplineOrder = 2;
     using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
-    DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+    auto derivFunction = DerivativeFunctionType::New();
     derivFunction->Print(std::cout);
 
     using FunctionType = itk::BSplineKernelFunction<SplineOrder - 1>;
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     for (double xx = -3.0; xx <= 3.0; xx += 0.1)
     {
@@ -164,11 +164,11 @@ itkBSplineKernelFunctionTest(int, char *[])
   {
     constexpr unsigned int SplineOrder = 3;
     using DerivativeFunctionType = itk::BSplineDerivativeKernelFunction<SplineOrder>;
-    DerivativeFunctionType::Pointer derivFunction = DerivativeFunctionType::New();
+    auto derivFunction = DerivativeFunctionType::New();
     derivFunction->Print(std::cout);
 
     using FunctionType = itk::BSplineKernelFunction<SplineOrder - 1>;
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     for (double xx = -3.0; xx <= 3.0; xx += 0.1)
     {
@@ -190,7 +190,7 @@ itkBSplineKernelFunctionTest(int, char *[])
   {
 
     using FunctionType = itk::BSplineKernelFunction<7>;
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     bool pass = false;
     try
@@ -216,7 +216,7 @@ itkBSplineKernelFunctionTest(int, char *[])
   {
 
     using FunctionType = itk::BSplineDerivativeKernelFunction<5>;
-    FunctionType::Pointer function = FunctionType::New();
+    auto function = FunctionType::New();
 
     bool pass = false;
     try

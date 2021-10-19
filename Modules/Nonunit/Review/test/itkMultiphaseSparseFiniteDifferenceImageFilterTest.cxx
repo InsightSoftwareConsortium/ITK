@@ -92,7 +92,7 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
   using RegionBasedLevelSetFunctionType =
     itk::ScalarChanAndVeseLevelSetFunction<LevelSetImageType, FeatureImageType, SharedDataHelperType>;
 
-  RegionBasedLevelSetFunctionType::Pointer function = RegionBasedLevelSetFunctionType::New();
+  auto function = RegionBasedLevelSetFunctionType::New();
   if (function.IsNull())
   {
     return EXIT_FAILURE;
@@ -106,7 +106,7 @@ itkMultiphaseSparseFiniteDifferenceImageFilterTest(int, char *[])
                                                                                 RegionBasedLevelSetFunctionType,
                                                                                 IdCellType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Instantiate the filter of interest to exercise its basic object methods
   typename FilterType::Superclass::Pointer multiphaseSparseFiniteDiffFilter = FilterType::Superclass::New();

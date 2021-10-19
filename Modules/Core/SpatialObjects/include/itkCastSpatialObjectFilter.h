@@ -85,7 +85,7 @@ public:
     auto * obj = dynamic_cast<OutObjectType *>(m_Input.GetPointer());
     if (obj != nullptr)
     {
-      typename OutObjectType::Pointer sObj = OutObjectType::New();
+      auto sObj = OutObjectType::New();
       sObj = obj;
       outputList->push_back(sObj);
     }
@@ -96,7 +96,7 @@ public:
       obj = dynamic_cast<OutObjectType *>(it->GetPointer());
       if (obj != nullptr)
       {
-        typename OutObjectType::Pointer sObj = OutObjectType::New();
+        auto sObj = OutObjectType::New();
         sObj = obj;
         outputList->push_back(sObj);
       }

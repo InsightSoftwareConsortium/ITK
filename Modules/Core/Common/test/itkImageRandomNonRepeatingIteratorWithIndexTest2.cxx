@@ -43,7 +43,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
   ImageType::RegionType region;
   region.SetIndex(start);
   region.SetSize(size);
-  ImageType::Pointer myImage = ImageType::New();
+  auto myImage = ImageType::New();
   myImage->SetLargestPossibleRegion(region);
   myImage->SetBufferedRegion(region);
   myImage->SetRequestedRegion(region);

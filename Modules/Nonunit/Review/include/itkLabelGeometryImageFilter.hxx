@@ -102,7 +102,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
   // centroid of the object, the rotation matrix is specified by the
   // eigenvectors, and there is no translation.
   using TransformType = itk::AffineTransform<double, Dimension>;
-  typename TransformType::Pointer    transform = TransformType::New();
+  auto                               transform = TransformType::New();
   typename TransformType::MatrixType rotationMatrix(vnl_RotationMatrix);
   typename TransformType::CenterType center;
   typename TInputImage::PointType    origin;
@@ -118,7 +118,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
   transform->SetMatrix(rotationMatrix);
 
   using ResampleFilterType = itk::ResampleImageFilter<TInputImage, TIntensityImage>;
-  typename ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
 
   // The m_OrientedBoundingBoxSize is specified to float precision.
   // Here we need an integer size large enough to contain all of the points, so
@@ -143,7 +143,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
     // Set up the interpolator.
     // Use a nearest neighbor interpolator since these are labeled images.
     using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<TInputImage, double>;
-    typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+    auto interpolator = InterpolatorType::New();
     resampler->SetInterpolator(interpolator);
   }
   else
@@ -151,7 +151,7 @@ CalculateOrientedImage(const vnl_symmetric_eigensystem<double> &                
     // Set up the interpolator.
     // Use a linear interpolator since these are intensity images.
     using InterpolatorType = itk::LinearInterpolateImageFunction<TInputImage, double>;
-    typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+    auto interpolator = InterpolatorType::New();
     resampler->SetInterpolator(interpolator);
   }
   resampler->Update();

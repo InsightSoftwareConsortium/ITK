@@ -76,7 +76,7 @@ itkAdaptImageFilterTest(int, char *[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  myRGBImageType::Pointer myImage = myRGBImageType::New();
+  auto myImage = myRGBImageType::New();
 
 
   myImage->SetRegions(region);

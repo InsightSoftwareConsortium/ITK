@@ -165,7 +165,7 @@ typename LabelObject<TLabel, VDimension>::Pointer
 LevelSetSparseImage<TOutput, VDimension>::GetAsLabelObject()
 {
   using OutputLabelObjectType = LabelObject<TLabel, Dimension>;
-  typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
+  auto object = OutputLabelObjectType::New();
 
   if (this->m_InternalLabelList.empty())
   {

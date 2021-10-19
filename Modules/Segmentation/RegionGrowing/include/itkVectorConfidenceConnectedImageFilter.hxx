@@ -131,12 +131,12 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Compute the statistics of the seed point
   using VectorMeanImageFunctionType = VectorMeanImageFunction<InputImageType>;
-  typename VectorMeanImageFunctionType::Pointer meanFunction = VectorMeanImageFunctionType::New();
+  auto meanFunction = VectorMeanImageFunctionType::New();
 
   meanFunction->SetInputImage(inputImage);
   meanFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
   using CovarianceImageFunctionType = CovarianceImageFunction<InputImageType>;
-  typename CovarianceImageFunctionType::Pointer varianceFunction = CovarianceImageFunctionType::New();
+  auto varianceFunction = CovarianceImageFunctionType::New();
   varianceFunction->SetInputImage(inputImage);
   varianceFunction->SetNeighborhoodRadius(m_InitialNeighborhoodRadius);
 
@@ -258,7 +258,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
     // Essentially, we flip the iterator around, so we walk the input
     // image (so Get() will get pixel values from the input) and constrain
     // iterator such it only visits pixels that were set in the output.
-    typename SecondFunctionType::Pointer secondFunction = SecondFunctionType::New();
+    auto secondFunction = SecondFunctionType::New();
     secondFunction->SetInputImage(outputImage);
     secondFunction->ThresholdBetween(m_ReplaceValue, m_ReplaceValue);
 

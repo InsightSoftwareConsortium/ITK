@@ -50,8 +50,8 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   using ImageIOType = itk::DCMTKImageIO;
   using SeriesFileNames = itk::DCMTKSeriesFileNames;
 
-  ImageIOType::Pointer     dcmtkIO = ImageIOType::New();
-  SeriesFileNames::Pointer it = SeriesFileNames::New();
+  auto dcmtkIO = ImageIOType::New();
+  auto it = SeriesFileNames::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(it, DCMTKSeriesFileNames, ProcessObject);
 
@@ -79,7 +79,7 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
   auto loadPrivateTags = static_cast<bool>(std::stoi(argv[5]));
   ITK_TEST_SET_GET_BOOLEAN(it, LoadPrivateTags, loadPrivateTags);
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   const ReaderType::FileNamesContainer & fileNames = it->GetInputFileNames();
   const unsigned int                     numberOfFileNames = fileNames.size();
@@ -97,7 +97,7 @@ itkDCMTKSeriesReadImageWrite(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(reader->GetOutput());

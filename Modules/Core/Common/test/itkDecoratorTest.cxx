@@ -43,7 +43,7 @@ itkDecoratorTest(int, char *[])
 
   using FloatObjectType = itk::SimpleDataObjectDecorator<float>;
 
-  FloatObjectType::Pointer f = FloatObjectType::New();
+  auto f = FloatObjectType::New();
   f->Set(5.0);
 
   std::cout << "Value of f: " << f->Get() << std::endl;
@@ -54,9 +54,9 @@ itkDecoratorTest(int, char *[])
   using TransformType = itk::AffineTransform<double, 3>;
   using TransformObjectType = itk::DataObjectDecorator<TransformType>;
 
-  TransformObjectType::Pointer decoratedTransform = TransformObjectType::New();
-  TransformType::Pointer       transformObject = TransformType::New();
-  const TransformType *        constTransformObject = transformObject;
+  auto                  decoratedTransform = TransformObjectType::New();
+  auto                  transformObject = TransformType::New();
+  const TransformType * constTransformObject = transformObject;
 
   transformObject->Scale(5.0);
 
@@ -66,7 +66,7 @@ itkDecoratorTest(int, char *[])
   transformObject->Modified();
   ITK_TEST_EXPECT_TRUE(t1 < decoratedTransform->GetMTime());
 
-  TransformObjectType::Pointer decoratedTransform2 = TransformObjectType::New();
+  auto decoratedTransform2 = TransformObjectType::New();
   decoratedTransform2->Graft(decoratedTransform);
 
   ITK_TEST_EXPECT_EQUAL(decoratedTransform2->Get(), decoratedTransform->Get());
@@ -83,7 +83,7 @@ itkDecoratorTest(int, char *[])
   using TransformBaseType = itk::Transform<double, 3>;
   using TransformBaseObjectType = itk::DataObjectDecorator<TransformBaseType>;
 
-  TransformBaseObjectType::Pointer decoratedBaseTransform = TransformBaseObjectType::New();
+  auto decoratedBaseTransform = TransformBaseObjectType::New();
   // NOTE: GetPointer is needed to force selection of the correct overloaded function signature.
   decoratedBaseTransform->Graft(decoratedTransform.GetPointer());
   ITK_TEST_EXPECT_TRUE(decoratedBaseTransform->Get() != nullptr);
@@ -116,7 +116,7 @@ itkDecoratorTest(int, char *[])
   VectorType v;
   v.resize(5);
   std::cout << v << std::endl;
-  VectorObjectType::Pointer vo = VectorObjectType::New();
+  auto vo = VectorObjectType::New();
   vo->Set(v);
   std::cout << vo;
   std::cout << "----------------------------------------------------" << std::endl;
@@ -130,7 +130,7 @@ itkDecoratorTest(int, char *[])
     vp->resize(3);
     std::cout << *vp << std::endl;
 
-    VectorPointerObjectType::Pointer vop = VectorPointerObjectType::New();
+    auto vop = VectorPointerObjectType::New();
     vop->Set(vp);
 
     std::cout << vop;
@@ -148,7 +148,7 @@ itkDecoratorTest(int, char *[])
   // vp2->resize(4);
   // std::cout << *vp2 << std::endl;
 
-  // VectorPointerObjectType2::Pointer vop2 = VectorPointerObjectType2::New();
+  // auto vop2 = VectorPointerObjectType2::New();
   // vop2->Set(vp2);
 
   // std::cout << vop2;

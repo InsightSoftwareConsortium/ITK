@@ -61,14 +61,14 @@ itkNormalizedCorrelationImageFilterTest(int ac, char * av[])
 
   // resample the mask to be the size of the input
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<InputImageType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   if (interpolator.IsNull())
   {
     return EXIT_FAILURE;
   }
 
   using ResampleType = itk::ResampleImageFilter<InputImageType, InputImageType>;
-  ResampleType::Pointer resample = ResampleType::New();
+  auto resample = ResampleType::New();
   resample->SetInput(mask->GetOutput());
   resample->SetOutputParametersFromImage(input->GetOutput());
 
@@ -76,7 +76,7 @@ itkNormalizedCorrelationImageFilterTest(int ac, char * av[])
   // Create a filter
   using FilterType = itk::NormalizedCorrelationImageFilter<InputImageType, InputImageType, CorrelationImageType>;
 
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher watcher(filter, "Normalized correlation");
 
   filter->SetInput(input->GetOutput());
@@ -85,7 +85,7 @@ itkNormalizedCorrelationImageFilterTest(int ac, char * av[])
 
 
   using ThresholdType = itk::BinaryThresholdImageFilter<CorrelationImageType, InputImageType>;
-  ThresholdType::Pointer threshold = ThresholdType::New();
+  auto threshold = ThresholdType::New();
   threshold->SetInput(filter->GetOutput());
   threshold->SetLowerThreshold(0.1);
   threshold->SetUpperThreshold(1.0);

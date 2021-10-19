@@ -41,7 +41,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   using InputImageType = itk::Image<InputPixelType, Dimension>;
   using InputReaderType = itk::ImageFileReader<InputImageType>;
 
-  InputReaderType::Pointer reader = InputReaderType::New();
+  auto reader = InputReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -58,7 +58,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   using LevelSetType = itk::MalcolmSparseLevelSetImage<Dimension>;
   using BinaryToSparseAdaptorType = itk::BinaryImageToLevelSetImageAdaptor<InputImageType, LevelSetType>;
 
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(input);
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
@@ -66,7 +66,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   LevelSetType::Pointer sparseLevelSet = adaptor->GetModifiableLevelSet();
 
   using StatusImageType = itk::Image<signed char, Dimension>;
-  StatusImageType::Pointer statusImage = StatusImageType::New();
+  auto statusImage = StatusImageType::New();
   statusImage->SetRegions(input->GetLargestPossibleRegion());
   statusImage->CopyInformation(input);
   statusImage->Allocate();
@@ -90,7 +90,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
   }
 
   using StatusWriterType = itk::ImageFileWriter<StatusImageType>;
-  StatusWriterType::Pointer writer = StatusWriterType::New();
+  auto writer = StatusWriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(statusImage);
 

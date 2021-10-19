@@ -89,7 +89,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   using FilterType = BSplineScatteredDataPointSetToImageFilter<PointSetType, VectorImageType>;
 
   using WeightsContainerType = typename FilterType::WeightsContainerType;
-  typename WeightsContainerType::Pointer weights = WeightsContainerType::New();
+  auto weights = WeightsContainerType::New();
   weights->Reserve(numberOfLandMarks);
 
   if (!m_LandmarkWeight.empty())
@@ -114,7 +114,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   }
 
   // Set a pointSet from the input landmarks
-  typename PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   pointSet->Initialize();
 
   PointsContainerConstIterator fixedIt = m_FixedLandmarks.begin();
@@ -135,7 +135,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   const typename VectorImageType::SpacingType   spacing = this->m_ReferenceImage->GetSpacing();
   const typename VectorImageType::DirectionType direction = this->m_ReferenceImage->GetDirection();
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // Define the parametric domain.
   filter->SetOrigin(origin);
   filter->SetSpacing(spacing);
@@ -166,7 +166,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
     using SelectorType = VectorIndexSelectionCastImageFilter<VectorImageType, CoefficientImageType>;
-    typename SelectorType::Pointer selector = SelectorType::New();
+    auto selector = SelectorType::New();
     selector->SetInput(filter->GetPhiLattice());
     selector->SetIndex(j);
 
@@ -641,7 +641,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
     itkWarningMacro(<< "Less than 2 landmarks available. Rotation is not computed");
   }
 
-  typename Rigid2DTransformType::Pointer t = Rigid2DTransformType::New();
+  auto t = Rigid2DTransformType::New();
   t->SetIdentity();
   t->SetAngle(rotationAngle);
 

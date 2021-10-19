@@ -71,7 +71,7 @@ itkMembershipFunctionBaseTest2(int, char *[])
   using MembershipFunctionBaseType =
     itk::Statistics::MembershipFunctionBaseTest::MyMembershipFunctionBase<MeasurementVectorType>;
 
-  MembershipFunctionBaseType::Pointer function = MembershipFunctionBaseType::New();
+  auto function = MembershipFunctionBaseType::New();
 
   std::cout << function->GetNameOfClass() << std::endl;
   std::cout << function->MembershipFunctionBaseType::Superclass::GetNameOfClass() << std::endl;

@@ -38,13 +38,13 @@ SameImage(std::string output, std::string baseline)
   unsigned int radiusTolerance = 0;
   unsigned int numberOfPixelTolerance = 0;
 
-  ReaderType::Pointer testReader = ReaderType::New();
-  ReaderType::Pointer baselineReader = ReaderType::New();
+  auto testReader = ReaderType::New();
+  auto baselineReader = ReaderType::New();
   testReader->SetFileName(output);
   baselineReader->SetFileName(baseline);
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DiffType::Pointer diff = DiffType::New();
+  auto diff = DiffType::New();
   diff->SetValidInput(baselineReader->GetOutput());
   diff->SetTestInput(testReader->GetOutput());
   diff->SetDifferenceThreshold(intensityTolerance);
@@ -79,15 +79,15 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
   unsigned int numberOfDataPieces = 4;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(monitor->GetOutput());
   writer->SetNumberOfStreamDivisions(numberOfDataPieces);

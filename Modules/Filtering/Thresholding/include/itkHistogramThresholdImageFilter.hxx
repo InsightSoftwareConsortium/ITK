@@ -71,13 +71,13 @@ template <typename TInputImage, typename TOutputImage, typename TMaskImage>
 void
 HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateData()
 {
-  typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   HistogramGeneratorPointer histogramGenerator = HistogramGeneratorType::New();
 
   using MaskedHistogramGeneratorType = Statistics::MaskedImageToHistogramFilter<InputImageType, MaskImageType>;
-  typename MaskedHistogramGeneratorType::Pointer maskedHistogramGenerator = MaskedHistogramGeneratorType::New();
+  auto maskedHistogramGenerator = MaskedHistogramGeneratorType::New();
 
   if (this->GetMaskImage())
   {
@@ -103,7 +103,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
   progress->RegisterInternalFilter(m_Calculator, .2f);
 
   using ThresholderType = BinaryThresholdImageFilter<TInputImage, TOutputImage>;
-  typename ThresholderType::Pointer thresholder = ThresholderType::New();
+  auto thresholder = ThresholderType::New();
   thresholder->SetInput(this->GetInput());
   thresholder->SetLowerThreshold(NumericTraits<InputPixelType>::NonpositiveMin());
   thresholder->SetUpperThresholdInput(m_Calculator->GetOutput());
@@ -113,7 +113,7 @@ HistogramThresholdImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
   progress->RegisterInternalFilter(thresholder, .4f);
 
   using MaskType = MaskImageFilter<TOutputImage, TMaskImage>;
-  typename MaskType::Pointer masker = MaskType::New();
+  auto masker = MaskType::New();
 
   if ((this->GetMaskOutput()) && (this->GetMaskImage()))
   {

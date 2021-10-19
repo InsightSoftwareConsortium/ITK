@@ -44,7 +44,7 @@ itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
   std::cout << "Making a triangle Path with v0 at (30,30) -> (30,33) -> (33,33)" << std::endl;
   VertexType v;
 
-  PolyLinePathType::Pointer inputPath = PolyLinePathType::New();
+  auto inputPath = PolyLinePathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(inputPath, PolyLineParametricPath, ParametricPath);
 
@@ -59,13 +59,13 @@ itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
   inputPath->AddVertex(v);
 
   // Set up the first filter
-  PathToChainCodePathFilterType::Pointer pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
+  auto pathToChainCodePathFilter = PathToChainCodePathFilterType::New();
   pathToChainCodePathFilter->SetInput(inputPath);
 
   ChainPathType::Pointer chainPath = pathToChainCodePathFilter->GetOutput();
 
   // Set up the second filter
-  ChainCodeToFSPathFilterType::Pointer chainCodeToFSPathFilter = ChainCodeToFSPathFilterType::New();
+  auto chainCodeToFSPathFilter = ChainCodeToFSPathFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(chainCodeToFSPathFilter, ChainCodeToFourierSeriesPathFilter, PathToPathFilter);
 

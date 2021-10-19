@@ -58,7 +58,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   using FixedImageType = itk::Image<PixelType, ImageDimension>;
 
   using FixedReaderType = itk::ImageFileReader<FixedImageType>;
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  auto fixedReader = FixedReaderType::New();
   fixedReader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
@@ -75,11 +75,11 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
 
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
-  TransformType::Pointer bsplineTransform = TransformType::New();
+  auto bsplineTransform = TransformType::New();
 
   using InitializerType = itk::BSplineTransformInitializer<TransformType, FixedImageType>;
 
-  InitializerType::Pointer transformInitializer = InitializerType::New();
+  auto transformInitializer = InitializerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(transformInitializer, BSplineTransformInitializer, Object);
 
@@ -119,7 +119,7 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   // be the same.
 
   using PermuterType = itk::PermuteAxesImageFilter<FixedImageType>;
-  PermuterType::Pointer               permuter = PermuterType::New();
+  auto                                permuter = PermuterType::New();
   PermuterType::PermuteOrderArrayType array;
 
   array[0] = 1;
@@ -129,8 +129,8 @@ itkBSplineTransformInitializerTest2(int argc, char * argv[])
   permuter->SetOrder(array);
   permuter->Update();
 
-  TransformType::Pointer   bsplineTransform2 = TransformType::New();
-  InitializerType::Pointer transformInitializer2 = InitializerType::New();
+  auto bsplineTransform2 = TransformType::New();
+  auto transformInitializer2 = InitializerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(transformInitializer2, BSplineTransformInitializer, Object);
 

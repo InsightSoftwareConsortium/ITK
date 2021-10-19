@@ -46,12 +46,12 @@ itkMultiLevelSetDenseImageTest(int, char *[])
 
   PixelType value = 0.;
 
-  ImageType::Pointer input1 = ImageType::New();
+  auto input1 = ImageType::New();
   input1->SetRegions(region);
   input1->Allocate();
   input1->FillBuffer(value);
 
-  ImageType::Pointer input2 = ImageType::New();
+  auto input2 = ImageType::New();
   input2->SetRegions(region);
   input2->Allocate();
   input2->FillBuffer(value);
@@ -59,7 +59,7 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   ImageType::IndexType idx;
   IdListType           list_ids;
 
-  IdListImageType::Pointer id_image = IdListImageType::New();
+  auto id_image = IdListImageType::New();
   id_image->SetRegions(region);
   id_image->Allocate();
   id_image->FillBuffer(list_ids);
@@ -100,7 +100,7 @@ itkMultiLevelSetDenseImageTest(int, char *[])
   level_set[2] = LevelSetType::New();
   level_set[2]->SetImage(input2);
 
-  DomainMapImageFilterType::Pointer filter = DomainMapImageFilterType::New();
+  auto filter = DomainMapImageFilterType::New();
   filter->SetInput(id_image);
   filter->Update();
   CacheImageType::Pointer output = filter->GetOutput();

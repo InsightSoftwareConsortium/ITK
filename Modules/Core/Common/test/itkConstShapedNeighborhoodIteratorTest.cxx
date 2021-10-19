@@ -425,7 +425,7 @@ itkConstShapedNeighborhoodIteratorTest(int, char *[])
 
     ChangeRegionTestImageType::RegionType imageRegion(imageCorner, imageSize);
 
-    ChangeRegionTestImageType::Pointer image = ChangeRegionTestImageType::New();
+    auto image = ChangeRegionTestImageType::New();
     image->SetRegions(imageRegion);
     image->Allocate();
 

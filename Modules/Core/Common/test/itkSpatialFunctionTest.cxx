@@ -34,7 +34,7 @@ itkSpatialFunctionTest(int, char *[])
 
   // Create and initialize a new sphere function
 
-  TFunctionType::Pointer spatialFunc = TFunctionType::New();
+  auto spatialFunc = TFunctionType::New();
   spatialFunc->SetRadius(5);
 
   TFunctionPositionType center;

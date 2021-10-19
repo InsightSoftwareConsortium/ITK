@@ -50,8 +50,8 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inFile);
   writer->SetFileName(outFile);
@@ -75,7 +75,7 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
   // test 1~8 threads for CPU
   for (int numberOfWorkUnits = 1; numberOfWorkUnits <= 8; ++numberOfWorkUnits)
   {
-    typename MeanFilterType::Pointer CPUFilter = MeanFilterType::New();
+    auto CPUFilter = MeanFilterType::New();
 
     itk::TimeProbe cputimer;
     cputimer.Start();
@@ -96,7 +96,7 @@ runGPUMeanImageFilterTest(const std::string & inFile, const std::string & outFil
 
     if (numberOfWorkUnits == 8)
     {
-      typename GPUMeanFilterType::Pointer GPUFilter = GPUMeanFilterType::New();
+      auto GPUFilter = GPUMeanFilterType::New();
 
       itk::TimeProbe gputimer;
       gputimer.Start();

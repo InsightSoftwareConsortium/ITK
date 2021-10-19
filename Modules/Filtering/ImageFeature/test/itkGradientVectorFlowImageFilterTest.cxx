@@ -51,9 +51,9 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
   using myVectorMagnitudeFilterType = itk::VectorMagnitudeImageFilter<myGradientImageType, myImageType>;
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
-  myImageType::Pointer interImage = myImageType::New();
-  myImageType::Pointer inter1Image = myImageType::New();
+  auto inputImage = myImageType::New();
+  auto interImage = myImageType::New();
+  auto inter1Image = myImageType::New();
 
 
   // Define their size, and start index
@@ -123,10 +123,10 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   using myFilterType = itk::GradientRecursiveGaussianImageFilter<myImageType, myGradientImageType>;
 
   // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
-  myGFilterType::Pointer               gfilter = myGFilterType::New();
-  myVectorMagnitudeFilterType::Pointer gtomfilter = myVectorMagnitudeFilterType::New();
+  auto gfilter = myGFilterType::New();
+  auto gtomfilter = myVectorMagnitudeFilterType::New();
 
   // Connect the input images
   filter->SetInput(inputImage);
@@ -139,8 +139,8 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
 
   std::cout << "Filter: " << filter;
 
-  myLaplacianFilterType::Pointer m_LFilter = myLaplacianFilterType::New();
-  myGVFFilterType::Pointer       m_GVFFilter = myGVFFilterType::New();
+  auto m_LFilter = myLaplacianFilterType::New();
+  auto m_GVFFilter = myGVFFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(m_GVFFilter, GradientVectorFlowImageFilter, ImageToImageFilter);
 

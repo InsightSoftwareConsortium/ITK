@@ -41,7 +41,7 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
   VertexType v;
 
   // Original Path
-  OriginalPathType::Pointer originalPath = OriginalPathType::New();
+  auto originalPath = OriginalPathType::New();
   v.Fill(2);
   originalPath->AddVertex(v);
   v[0] = 4;
@@ -64,7 +64,7 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
   }
 
   // Create the corrected path
-  PathType::Pointer path = PathType::New();
+  auto path = PathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, OrthogonallyCorrected2DParametricPath, ParametricPath);
 

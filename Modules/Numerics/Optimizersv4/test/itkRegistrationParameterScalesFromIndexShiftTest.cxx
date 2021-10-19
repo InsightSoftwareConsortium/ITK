@@ -124,8 +124,8 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   using MovingImageType = itk::Image<PixelType, ImageDimension>;
   using VirtualImageType = itk::Image<PixelType, ImageDimension>;
 
-  FixedImageType::Pointer   fixedImage = FixedImageType::New();
-  MovingImageType::Pointer  movingImage = MovingImageType::New();
+  auto                      fixedImage = FixedImageType::New();
+  auto                      movingImage = MovingImageType::New();
   VirtualImageType::Pointer virtualImage = fixedImage;
 
   MovingImageType::SizeType size;
@@ -137,17 +137,17 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
 
   // Transform begins
   using MovingTransformType = itk::AffineTransform<double, ImageDimension>;
-  MovingTransformType::Pointer movingTransform = MovingTransformType::New();
+  auto movingTransform = MovingTransformType::New();
   movingTransform->SetIdentity();
 
   using FixedTransformType = itk::TranslationTransform<double, ImageDimension>;
-  FixedTransformType::Pointer fixedTransform = FixedTransformType::New();
+  auto fixedTransform = FixedTransformType::New();
   fixedTransform->SetIdentity();
   // Transform done
 
   // Metric
   using MetricType = RegistrationParameterScalesFromIndexShiftTestMetric<FixedImageType, MovingImageType>;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   metric->SetVirtualDomainFromImage(virtualImage);
   metric->SetFixedImage(fixedImage);
@@ -264,7 +264,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   VectorType zero;
   zero.Fill(0.0);
 
-  FieldType::Pointer field = FieldType::New();
+  auto field = FieldType::New();
   field->SetRegions(virtualImage->GetLargestPossibleRegion());
   field->SetSpacing(virtualImage->GetSpacing());
   field->SetOrigin(virtualImage->GetOrigin());
@@ -272,7 +272,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   field->Allocate();
   field->FillBuffer(zero);
 
-  DisplacementTransformType::Pointer displacementTransform = DisplacementTransformType::New();
+  auto displacementTransform = DisplacementTransformType::New();
   displacementTransform->SetDisplacementField(field);
 
   metric->SetMovingTransform(displacementTransform);

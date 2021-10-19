@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    GiplImageIOFactory::Pointer GiplFactory = GiplImageIOFactory::New();
+    auto GiplFactory = GiplImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(GiplFactory);
   }

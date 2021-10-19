@@ -60,12 +60,12 @@ itkHMaximaMinimaImageFilterTest(int argc, char * argv[])
 
 
   // Creation of reader and writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   // Create the filters
-  HMaximaFilterType::Pointer hMaximaFilter = HMaximaFilterType::New();
-  HMinimaFilterType::Pointer hMinimaFilter = HMinimaFilterType::New();
+  auto hMaximaFilter = HMaximaFilterType::New();
+  auto hMinimaFilter = HMinimaFilterType::New();
 
   itk::SimpleFilterWatcher watchHmaxima(hMaximaFilter, "HMaximaImageFilter");
   itk::SimpleFilterWatcher watchHminima(hMinimaFilter, "HMinimaImageFilter");

@@ -46,7 +46,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -119,7 +119,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   using myFilterType = itk::GrayscaleFunctionDilateImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  myFilterType::Pointer    filter = myFilterType::New();
+  auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher filterWatcher(filter);
 
   // Create the structuring element
@@ -172,7 +172,7 @@ itkGrayscaleFunctionDilateImageFilterTest(int argc, char * argv[])
   if (argc == 2)
   {
     using WriterType = itk::ImageFileWriter<myImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[1]);
     writer->SetInput(filter->GetOutput());
     writer->Update();

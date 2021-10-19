@@ -38,7 +38,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
   unsigned long numberOfPixelTolerance = 0;
 
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DiffType::Pointer diff = DiffType::New();
+  auto diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
   diff->SetDifferenceThreshold(intensityTolerance);
@@ -89,7 +89,7 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
   // Then let the reader go out of scope to orphan the image to have
   // no source.
   {
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(argv[1]);
     reader->SetUseStreaming(true);
     reader->UpdateOutputInformation();
@@ -116,7 +116,7 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
   // Setup the writer with an image which doesn't have a source
   //
   // We expect that the writer should respect the LargestPossibleRegion
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(image);
 
@@ -129,11 +129,11 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->UpdateOutputInformation();
 
-  ReaderType::Pointer readerTestImage = ReaderType::New();
+  auto readerTestImage = ReaderType::New();
   readerTestImage->SetFileName(argv[2]);
   readerTestImage->UpdateOutputInformation();
 
@@ -148,14 +148,14 @@ itkImageFileWriterPastingTest3(int argc, char * argv[])
 
   // compare the two subregions
   using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
-  ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();
+  auto extractTestImage = ExtractImageFilterType::New();
   extractTestImage->SetInput(readerTestImage->GetOutput());
   extractTestImage->SetDirectionCollapseToSubmatrix();
   extractTestImage->SetExtractionRegion(image->GetBufferedRegion());
   extractTestImage->InPlaceOn();
 
   using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
-  ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
+  auto extractBaselineImage = ExtractImageFilterType::New();
   extractBaselineImage->SetInput(reader->GetOutput());
   extractBaselineImage->SetDirectionCollapseToSubmatrix();
   extractBaselineImage->SetExtractionRegion(image->GetBufferedRegion());

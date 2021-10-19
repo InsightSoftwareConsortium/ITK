@@ -35,7 +35,7 @@ itkFEMSolverTest2D(int argc, char * argv[])
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
   using Solver2DType = itk::fem::Solver<2>;
-  Solver2DType::Pointer solver = Solver2DType::New();
+  auto solver = Solver2DType::New();
 
   using SpatialObjectType = itk::SpatialObject<2>;
   using SpatialObjectPointer = SpatialObjectType::Pointer;

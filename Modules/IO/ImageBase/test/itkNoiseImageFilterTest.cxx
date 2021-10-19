@@ -46,12 +46,12 @@ itkNoiseImageFilterTest(int ac, char * av[])
   // Create a filter
   using FilterType = itk::NoiseImageFilter<myImageIn, myImageOut>;
 
-  FilterType::Pointer      filter = FilterType::New();
+  auto                     filter = FilterType::New();
   itk::SimpleFilterWatcher filterWatch(filter);
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<myImageOut, myImageChar>;
 
-  RescaleFilterType::Pointer rescale = RescaleFilterType::New();
+  auto rescale = RescaleFilterType::New();
   rescale->SetOutputMinimum(0);
   rescale->SetOutputMaximum(255);
   rescale->SetInput(filter->GetOutput());

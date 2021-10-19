@@ -122,7 +122,7 @@ itkImageFunctionTest(int, char *[])
 
   using FunctionType = itk::TestImageFunction<ImageType, CoordRepType>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   IndexType start;
   start.Fill(1);
@@ -147,7 +147,7 @@ itkImageFunctionTest(int, char *[])
 
   image->Print(std::cout);
 
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   /* Test SetInputImage & Accessors */
   function->SetInputImage(image);

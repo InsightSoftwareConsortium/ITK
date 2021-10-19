@@ -68,7 +68,7 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char * argv[])
 
   std::cout << "Checking JointFacet." << std::endl;
 
-  JoinFacet::Pointer joinFacet = JoinFacet::New();
+  auto joinFacet = JoinFacet::New();
 #ifndef NDEBUG
   std::cout << "     "
             << "Test No Mesh Input";

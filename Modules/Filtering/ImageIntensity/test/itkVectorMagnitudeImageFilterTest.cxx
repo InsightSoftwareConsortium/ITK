@@ -39,7 +39,7 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
   VectorImageType::RegionType region(start, size);
 
   // Construct an image
-  VectorImageType::Pointer image = VectorImageType::New();
+  auto image = VectorImageType::New();
   image->SetRegions(region);
   image->Allocate();
 
@@ -60,7 +60,7 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
   using myMagnitudeFilterType = itk::VectorMagnitudeImageFilter<VectorImageType, FloatImageType>;
 
   // Create the filter
-  myMagnitudeFilterType::Pointer magnitude = myMagnitudeFilterType::New();
+  auto magnitude = myMagnitudeFilterType::New();
 
   magnitude->SetInput(image);
 

@@ -36,12 +36,12 @@ public:
     using ImageType = itk::Image<PixelType, NDimension>;
 
     using ReaderType = itk::ImageFileReader<ImageType>;
-    typename ReaderType::Pointer imageReader = ReaderType::New();
+    auto imageReader = ReaderType::New();
     imageReader->SetFileName(argv[2]);
     imageReader->Update();
 
     using FractalFilterType = itk::StochasticFractalDimensionImageFilter<ImageType>;
-    typename FractalFilterType::Pointer fractalFilter = FractalFilterType::New();
+    auto fractalFilter = FractalFilterType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fractalFilter, StochasticFractalDimensionImageFilter, ImageToImageFilter);
 
@@ -74,7 +74,7 @@ public:
         maskLabel = static_cast<PixelType>(std::stod(argv[6]));
       }
 
-      typename ReaderType::Pointer labelImageReader = ReaderType::New();
+      auto labelImageReader = ReaderType::New();
       labelImageReader->SetFileName(argv[5]);
       labelImageReader->Update();
 
@@ -82,7 +82,7 @@ public:
 
       using ThresholderType = itk::BinaryThresholdImageFilter<ImageType, MaskImageType>;
 
-      typename ThresholderType::Pointer thresholder = ThresholderType::New();
+      auto thresholder = ThresholderType::New();
       thresholder->SetInput(labelImageReader->GetOutput());
       thresholder->SetInsideValue(1);
       thresholder->SetOutsideValue(0);
@@ -106,7 +106,7 @@ public:
     std::cout << "   (elapsed time: " << timer.GetMean() << ")" << std::endl;
 
     using WriterType = itk::ImageFileWriter<ImageType>;
-    typename WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput(fractalFilter->GetOutput());
     writer->SetFileName(argv[3]);
     writer->UseCompressionOn();

@@ -41,7 +41,7 @@ itkSignedMaurerDistanceMapImageFilterTest11(int, char *[])
   region2D.SetSize(size2D);
   region2D.SetIndex(index2D);
 
-  myImageType2D1::Pointer inputImage2D = myImageType2D1::New();
+  auto inputImage2D = myImageType2D1::New();
   inputImage2D->SetLargestPossibleRegion(region2D);
   inputImage2D->SetBufferedRegion(region2D);
   inputImage2D->SetRequestedRegion(region2D);
@@ -59,7 +59,7 @@ itkSignedMaurerDistanceMapImageFilterTest11(int, char *[])
   /* Create SignedMaurerDistance Map filter */
   using myFilterType2D = itk::SignedMaurerDistanceMapImageFilter<myImageType2D1, myImageType2D2>;
 
-  myFilterType2D::Pointer filter2D = myFilterType2D::New();
+  auto filter2D = myFilterType2D::New();
 
   filter2D->SetInput(inputImage2D);
 

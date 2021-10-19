@@ -49,7 +49,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     using myRegionType = itk::ImageRegion<myDimension>;
 
     // Create the image
-    myImageType::Pointer inputImage = myImageType::New();
+    auto inputImage = myImageType::New();
 
 
     // Define their size, and start index
@@ -110,7 +110,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     using myGaussianFilterType = itk::RecursiveGaussianImageFilter<myImageType, myImageType>;
 
     // Create a  Filter
-    myGaussianFilterType::Pointer filter = myGaussianFilterType::New();
+    auto filter = myGaussianFilterType::New();
 
 
     // Connect the input images
@@ -126,7 +126,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
 
 
     // Create a  Filter
-    myGaussianFilterType::Pointer filter1 = myGaussianFilterType::New();
+    auto filter1 = myGaussianFilterType::New();
 
 
     // Connect the input images
@@ -141,7 +141,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     std::cout << " Done !" << std::endl;
 
     // Create a  Filter
-    myGaussianFilterType::Pointer filter2 = myGaussianFilterType::New();
+    auto filter2 = myGaussianFilterType::New();
 
     // Connect the input images
     filter2->SetInput(inputImage);
@@ -180,7 +180,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     SpacingType spacing;
     spacing[0] = 1.0;
 
-    ImageType::Pointer inputImage = ImageType::New();
+    auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
     inputImage->Allocate();
     inputImage->SetSpacing(spacing);
@@ -193,7 +193,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
 
     using FilterType = itk::RecursiveGaussianImageFilter<ImageType, ImageType>;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     filter->SetInput(inputImage);
 
@@ -458,7 +458,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     SpacingType spacing;
     spacing[0] = 1.0;
 
-    ImageType::Pointer inputImage = ImageType::New();
+    auto inputImage = ImageType::New();
     inputImage->SetRegions(region);
     inputImage->Allocate();
     inputImage->SetSpacing(spacing);
@@ -470,7 +470,7 @@ itkRecursiveGaussianImageFiltersTest(int, char *[])
     inputImage->SetPixel(index, static_cast<PixelType>(1.0));
 
     using FilterType = itk::RecursiveGaussianImageFilter<ImageType, ImageType>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
     filter->SetInput(inputImage);
     filter->SetSigma(1);
 

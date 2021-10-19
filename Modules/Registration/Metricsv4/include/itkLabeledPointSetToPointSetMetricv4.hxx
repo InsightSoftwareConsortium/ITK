@@ -34,7 +34,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
 {
   using DefaultMetricType =
     EuclideanDistancePointSetToPointSetMetricv4<FixedPointSetType, MovingPointSetType, TInternalComputationValueType>;
-  typename DefaultMetricType::Pointer euclideanMetric = DefaultMetricType::New();
+  auto euclideanMetric = DefaultMetricType::New();
   this->m_PointSetMetric = euclideanMetric;
 
   this->m_UsePointSetData = true;
@@ -130,7 +130,7 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
     GetLabeledFixedPointSet(const LabelType label) const
 {
-  typename FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
+  auto fixedPointSet = FixedPointSetType::New();
   fixedPointSet->Initialize();
 
   typename FixedPointSetType::PointIdentifier count = NumericTraits<PointIdentifier>::ZeroValue();
@@ -156,7 +156,7 @@ typename LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
     GetLabeledMovingPointSet(const LabelType label) const
 {
-  typename MovingPointSetType::Pointer movingPointSet = MovingPointSetType::New();
+  auto movingPointSet = MovingPointSetType::New();
   movingPointSet->Initialize();
 
   typename MovingPointSetType::PointIdentifier count = NumericTraits<PointIdentifier>::ZeroValue();

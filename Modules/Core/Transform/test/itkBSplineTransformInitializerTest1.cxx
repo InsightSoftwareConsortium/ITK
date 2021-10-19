@@ -52,13 +52,13 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   using FixedReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  auto fixedReader = FixedReaderType::New();
   fixedReader->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
 
 
-  MovingReaderType::Pointer movingReader = MovingReaderType::New();
+  auto movingReader = MovingReaderType::New();
 
   movingReader->SetFileName(argv[3]);
 
@@ -66,11 +66,11 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   using FilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  FilterType::Pointer resampler = FilterType::New();
+  auto resampler = FilterType::New();
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   resampler->SetInterpolator(interpolator);
 
@@ -95,10 +95,10 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
 
   using TransformType = itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
-  TransformType::Pointer bsplineTransform = TransformType::New();
+  auto bsplineTransform = TransformType::New();
 
   using InitializerType = itk::BSplineTransformInitializer<TransformType, FixedImageType>;
-  InitializerType::Pointer transformInitializer = InitializerType::New();
+  auto transformInitializer = InitializerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(transformInitializer, BSplineTransformInitializer, Object);
 
@@ -144,7 +144,7 @@ itkBSplineTransformInitializerTest1(int argc, char * argv[])
   using VectorType = itk::Vector<float, ImageDimension>;
   using DeformationFieldType = itk::Image<VectorType, ImageDimension>;
 
-  DeformationFieldType::Pointer field = DeformationFieldType::New();
+  auto field = DeformationFieldType::New();
   field->SetRegions(fixedRegion);
   field->SetOrigin(fixedOrigin);
   field->SetSpacing(fixedSpacing);

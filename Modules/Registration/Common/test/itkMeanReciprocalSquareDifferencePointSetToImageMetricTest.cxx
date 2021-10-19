@@ -70,8 +70,8 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   FixedImageType::PointValueType  fixedImageOrigin[] = { 0.0f, 0.0f };
   MovingImageType::PointValueType movingImageOrigin[] = { 0.0f, 0.0f };
 
-  MovingImageSourceType::Pointer movingImageSource = MovingImageSourceType::New();
-  FixedImageSourceType::Pointer  fixedImageSource = FixedImageSourceType::New();
+  auto movingImageSource = MovingImageSourceType::New();
+  auto fixedImageSource = FixedImageSourceType::New();
 
   fixedImageSource->SetSize(fixedImageSize);
   fixedImageSource->SetOrigin(fixedImageOrigin);
@@ -96,7 +96,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   // the fixed image
   //-----------------------------------------------------------
   using FixedPointSetType = itk::PointSet<float, 2>;
-  FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
+  auto fixedPointSet = FixedPointSetType::New();
 
   constexpr unsigned int numberOfPoints = 100;
 
@@ -151,7 +151,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   using TransformBaseType = MetricType::TransformType;
   using ParametersType = TransformBaseType::ParametersType;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
 
   //-----------------------------------------------------------
@@ -166,7 +166,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
 
   using TransformType = itk::TranslationTransform<CoordinateRepresentationType, ImageDimension>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   metric->SetTransform(transform);
 
@@ -176,7 +176,7 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
   //------------------------------------------------------------
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   interpolator->SetInputImage(movingImage);
 

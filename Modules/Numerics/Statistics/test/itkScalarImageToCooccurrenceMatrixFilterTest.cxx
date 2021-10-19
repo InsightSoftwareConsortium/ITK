@@ -40,7 +40,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
 
 
-  InputImageType::Pointer image = InputImageType::New();
+  auto image = InputImageType::New();
 
   InputImageType::SizeType inputImageSize = { { IMGWIDTH, IMGHEIGHT } };
 
@@ -98,7 +98,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
 
     using FilterType = itk::Statistics::ScalarImageToCooccurrenceMatrixFilter<InputImageType>;
 
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     // Invoke update before adding an input. An exception should be
     // thrown.
@@ -232,7 +232,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     //--------------------------------------------------------------------------
 
 
-    FilterType::Pointer filter0 = FilterType::New();
+    auto filter0 = FilterType::New();
 
     filter0->SetInput(image);
     filter0->SetOffsets(offsetV);
@@ -268,7 +268,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     //--------------------------------------------------------------------------
 
     // First a histogram with 2 bins per axis
-    FilterType::Pointer filter2 = FilterType::New();
+    auto filter2 = FilterType::New();
 
     filter2->SetInput(image);
     InputImageType::OffsetType offset3 = { { 0, 1 } };
@@ -303,7 +303,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
 
 
     // Next a histogram with a smaller range.
-    FilterType::Pointer filter3 = FilterType::New();
+    auto filter3 = FilterType::New();
 
     filter3->SetInput(image);
     InputImageType::OffsetType offset4 = { { 1, 1 } };
@@ -361,7 +361,7 @@ itkScalarImageToCooccurrenceMatrixFilterTest(int, char *[])
     }
 
     // Next a histogram with a truncated range.
-    FilterType::Pointer filter4 = FilterType::New();
+    auto filter4 = FilterType::New();
 
     filter4->SetInput(image);
     filter4->SetOffsets(offsetV);

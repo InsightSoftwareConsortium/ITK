@@ -44,7 +44,7 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   using WriterType = itk::MeshFileWriter<MeshType>;
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -65,13 +65,13 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   ssout >> tol;
 
   using CleanFilterType = itk::CleanQuadEdgeMeshFilter<MeshType, MeshType>;
-  CleanFilterType::Pointer filter = CleanFilterType::New();
+  auto filter = CleanFilterType::New();
   filter->SetInput(mesh);
   filter->SetRelativeTolerance(tol);
   filter->Update();
 
   // ** WRITE OUTPUT **
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
   writer->Update();

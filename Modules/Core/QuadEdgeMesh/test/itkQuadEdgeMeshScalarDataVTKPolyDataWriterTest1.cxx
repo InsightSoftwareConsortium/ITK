@@ -38,7 +38,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 
   using SphereMeshSourceType = itk::RegularSphereMeshSource<MeshType>;
 
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
+  auto mySphereMeshSource = SphereMeshSourceType::New();
 
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
@@ -95,7 +95,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 
   using WriterType = itk::QuadEdgeMeshScalarDataVTKPolyDataWriter<MeshType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(mySphereMeshSource->GetOutput());
   writer->SetFileName(argv[1]);

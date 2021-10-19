@@ -47,7 +47,7 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
   center.Fill(0.);
 
   using SphereSourceType = itk::RegularSphereMeshSource<MeshType>;
-  SphereSourceType::Pointer sphere_filter = SphereSourceType::New();
+  auto sphere_filter = SphereSourceType::New();
   sphere_filter->SetCenter(center);
   sphere_filter->SetResolution(5);
   sphere_filter->Update();
@@ -69,16 +69,16 @@ itkFastMarchingQuadEdgeMeshFilterWithNumberOfElementsTest(int, char *[])
   //  using NodeContainerType = FastMarchingType::NodeContainerType;
   using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
-  NodePairContainerType::Pointer trial = NodePairContainerType::New();
+  auto trial = NodePairContainerType::New();
 
   NodePairType node_pair(0, 1.);
   trial->push_back(node_pair);
 
   using CriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<MeshType, MeshType>;
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
   criterion->SetTargetNumberOfElements(100);
 
-  FastMarchingType::Pointer fmm_filter = FastMarchingType::New();
+  auto fmm_filter = FastMarchingType::New();
   fmm_filter->SetInput(sphere_output);
   fmm_filter->SetTrialPoints(trial);
   fmm_filter->SetStoppingCriterion(criterion);

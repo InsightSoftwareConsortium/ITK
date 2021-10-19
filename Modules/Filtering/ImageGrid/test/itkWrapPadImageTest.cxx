@@ -59,14 +59,14 @@ itkWrapPadImageTest(int, char *[])
   using VectorImage = itk::VectorImage<short, 2>;
 
   // Test the creation of an image with native type
-  ShortImage::Pointer    image = ShortImage::New();
+  auto                   image = ShortImage::New();
   ShortImage::IndexType  index = { { 0, 0 } };
   ShortImage::SizeType   size = { { 8, 12 } };
   ShortImage::RegionType region(index, size);
   image->SetRegions(region);
   image->Allocate();
 
-  VectorImage::Pointer vectorImage = VectorImage::New();
+  auto vectorImage = VectorImage::New();
   vectorImage->SetRegions(region);
   vectorImage->SetNumberOfComponentsPerPixel(3);
   vectorImage->Allocate();
@@ -86,7 +86,7 @@ itkWrapPadImageTest(int, char *[])
 
   // Create a filter
   using PadFilterType = itk::WrapPadImageFilter<ShortImage, FloatImage>;
-  PadFilterType::Pointer wrapPad = PadFilterType::New();
+  auto wrapPad = PadFilterType::New();
   wrapPad->SetInput(image);
 
   itk::WrapPadImageFilter<VectorImage, VectorImage>::Pointer vectorWrapPad;
@@ -251,7 +251,7 @@ itkWrapPadImageTest(int, char *[])
 
   // Create a stream
   using StreamingFilter = itk::StreamingImageFilter<FloatImage, FloatImage>;
-  StreamingFilter::Pointer stream = StreamingFilter::New();
+  auto stream = StreamingFilter::New();
   stream->SetInput(wrapPad->GetOutput());
   stream->SetNumberOfStreamDivisions(3);
 

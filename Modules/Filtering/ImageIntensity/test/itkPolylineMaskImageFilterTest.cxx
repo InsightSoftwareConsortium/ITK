@@ -53,12 +53,12 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   inputVectorType inputUpVector, inputViewVector;
 
   // Create polyline
-  inputPolylineType::Pointer inputPolyline = inputPolylineType::New();
+  auto inputPolyline = inputPolylineType::New();
   std::cout << "Generating the synthetic object..." << std::endl;
 
   // Generate a synthetic ellipse image
   using EllipseType = itk::EllipseSpatialObject<2>;
-  EllipseType::Pointer   ellipse = EllipseType::New();
+  auto                   ellipse = EllipseType::New();
   EllipseType::PointType center;
   center.Fill(20);
   ellipse->SetCenterInObjectSpace(center);
@@ -68,7 +68,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   std::cout << "Generating the image of the object..." << std::endl;
 
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<EllipseType, inputImageType>;
-  SpatialObjectToImageFilterType::Pointer imageGenerationFilter = SpatialObjectToImageFilterType::New();
+  auto imageGenerationFilter = SpatialObjectToImageFilterType::New();
 
   inputImageType::SizeType  size;
   inputImageType::PointType origin;
@@ -140,7 +140,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
   std::cout << "Generating the filter..." << std::endl;
 
   // Create the mask filter
-  PolylineMaskImageFilterType::Pointer polylineMaskFilter = PolylineMaskImageFilterType::New();
+  auto polylineMaskFilter = PolylineMaskImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(polylineMaskFilter, PolylineMaskImageFilter, ImageToImageFilter);
 
@@ -189,7 +189,7 @@ itkPolylineMaskImageFilterTest(int argc, char * argv[])
 
   // Write out the output image
   using OutputWriterType = itk::ImageFileWriter<outputImageType>;
-  OutputWriterType::Pointer outputWriter = OutputWriterType::New();
+  auto outputWriter = OutputWriterType::New();
   outputWriter->SetFileName(argv[1]);
   outputWriter->SetInput(polylineMaskFilter->GetOutput());
   outputWriter->Update();

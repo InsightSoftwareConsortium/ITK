@@ -119,7 +119,7 @@ itkObjectToObjectMetricBaseTest(int, char *[])
   using ImageType = itk::Image<unsigned char, 3>;
   using ObjectMetricType = ObjectToObjectMetricTestMetric<ImageType, ImageType>;
 
-  ObjectMetricType::Pointer objectMetric = ObjectMetricType::New();
+  auto objectMetric = ObjectMetricType::New();
 
   objectMetric->Print(std::cout);
 

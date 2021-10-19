@@ -46,14 +46,14 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
   // define a pca shape function
   using ShapeFunction = itk::PCAShapeSignedDistanceFunction<CoordRep, Dimension>;
-  ShapeFunction::Pointer shape = ShapeFunction::New();
+  auto shape = ShapeFunction::New();
   //  shape->DebugOn();
   shape->SetNumberOfPrincipalComponents(NumberOfPCs);
 
 
   // set up the transform
   using transformType = itk::Euler2DTransform<double>;
-  transformType::Pointer transform = transformType::New();
+  auto transform = transformType::New();
   shape->SetTransform(transform);
 
 
@@ -76,7 +76,7 @@ itkPCAShapeSignedDistanceFunctionTest(int, char *[])
 
 
   // set up the mean image
-  ImageType::Pointer meanImage = ImageType::New();
+  auto meanImage = ImageType::New();
   meanImage->SetRegions(region);
   meanImage->Allocate();
 

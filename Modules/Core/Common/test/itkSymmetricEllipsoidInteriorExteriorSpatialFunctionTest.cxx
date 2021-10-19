@@ -33,7 +33,7 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   using TSymEllipsoidFunctionVectorType = TSymEllipsoidFunctionType::InputType;
 
   // Create an ellipsoid spatial function for the source image
-  TSymEllipsoidFunctionType::Pointer spatialFunc = TSymEllipsoidFunctionType::New();
+  auto spatialFunc = TSymEllipsoidFunctionType::New();
 
   // Define function doitkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest, which encapsulates ellipsoid.
   int xExtent = 50;

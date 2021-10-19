@@ -29,7 +29,7 @@ itkMaximumDecisionRuleTest(int, char *[])
   std::cout << "Testing MaximumDecionRule " << std::endl << std::endl;
 
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.resize(3);

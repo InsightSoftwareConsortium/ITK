@@ -42,8 +42,8 @@ itkMaskNegatedImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create two images
-  InputImageType::Pointer inputImage = InputImageType::New();
-  MaskImageType::Pointer  inputMask = MaskImageType::New();
+  auto inputImage = InputImageType::New();
+  auto inputMask = MaskImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -120,7 +120,7 @@ itkMaskNegatedImageFilterTest(int, char *[])
 
 
   // Create an MaskNegated Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
 
   // Connect the input images

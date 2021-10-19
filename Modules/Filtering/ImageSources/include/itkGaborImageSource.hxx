@@ -49,7 +49,7 @@ GaborImageSource<TOutputImage>::GenerateData()
 
   // Create and initialize a new Gaussian function
   using KernelFunctionType = GaborKernelFunction<double>;
-  typename KernelFunctionType::Pointer gabor = KernelFunctionType::New();
+  auto gabor = KernelFunctionType::New();
 
   gabor->SetSigma(this->m_Sigma[0]);
   gabor->SetFrequency(this->m_Frequency);

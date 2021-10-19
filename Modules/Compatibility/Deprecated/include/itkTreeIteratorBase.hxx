@@ -111,7 +111,7 @@ TreeIteratorBase<TTreeType>::Add(ValueType element)
     return false;
   }
 
-  typename TreeNodeType::Pointer node = TreeNodeType::New();
+  auto node = TreeNodeType::New();
   node->Set(element);
   m_Position->AddChild(node);
   m_Tree->Modified();
@@ -133,7 +133,7 @@ TreeIteratorBase<TTreeType>::Add(int itkNotUsed(childPosition), ValueType elemen
 {
   if (m_Position)
   {
-    typename TreeNodeType::Pointer node = TreeNodeType::New();
+    auto node = TreeNodeType::New();
     node->Set(element);
     m_Position->AddChild(node);
     m_Tree->Modified();
@@ -210,7 +210,7 @@ template <typename TTreeType>
 TTreeType *
 TreeIteratorBase<TTreeType>::GetSubTree() const
 {
-  typename TTreeType::Pointer tree = TTreeType::New();
+  auto tree = TTreeType::New();
   tree->SetRoot(m_Position);
   tree->SetSubtree(true);
   return tree;

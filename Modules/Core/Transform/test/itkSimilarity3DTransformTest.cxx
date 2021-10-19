@@ -59,7 +59,7 @@ itkSimilarity3DTransformTest(int, char *[])
   {
     std::cout << "Test default constructor... ";
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
     if (std::fabs(transform->GetScale() - 1.0) > itk::NumericTraits<TransformType::ScaleType>::min())
     {
       std::cout << "Error: Scale: Expected 1.0, got " << transform->GetScale() << " ! " << std::endl;
@@ -102,8 +102,8 @@ itkSimilarity3DTransformTest(int, char *[])
   }
   {
     std::cout << "Test initial rotation matrix " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
-    MatrixType             matrix = transform->GetMatrix();
+    auto       transform = TransformType::New();
+    MatrixType matrix = transform->GetMatrix();
     std::cout << "Matrix = " << std::endl;
     std::cout << matrix << std::endl;
   }
@@ -112,7 +112,7 @@ itkSimilarity3DTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer rotation = TransformType::New();
+    auto rotation = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -268,7 +268,7 @@ itkSimilarity3DTransformTest(int, char *[])
   {
     bool Ok = true;
 
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -394,7 +394,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
   {
     std::cout << " Exercise the SetIdentity() method " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -441,7 +441,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
   {
     std::cout << " Exercise the Scaling methods " << std::endl;
-    TransformType::Pointer transform = TransformType::New();
+    auto transform = TransformType::New();
 
     itk::Vector<double, 3> axis(1);
 
@@ -511,7 +511,7 @@ itkSimilarity3DTransformTest(int, char *[])
 
     MatrixType matrix;
 
-    TransformType::Pointer t = TransformType::New();
+    auto t = TransformType::New();
 
     // attempt to set an non-orthogonal matrix
     par = 0;
@@ -600,7 +600,7 @@ itkSimilarity3DTransformTest(int, char *[])
     t->SetCenter(center);
     t->SetParameters(e);
 
-    TransformType::Pointer t2 = TransformType::New();
+    auto t2 = TransformType::New();
     t2->SetCenter(center);
     t2->SetMatrix(t->GetMatrix());
 

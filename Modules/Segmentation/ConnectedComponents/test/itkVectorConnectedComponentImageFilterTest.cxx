@@ -48,7 +48,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
   // create an image of vectors
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   ImageType::SizeType   size;
   size.Fill(100);
@@ -166,15 +166,15 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
 
   using VectorFilterType = itk::VectorConnectedComponentImageFilter<ImageType, OutputImageType>;
 
-  VectorFilterType::Pointer filter = VectorFilterType::New();
+  auto filter = VectorFilterType::New();
   filter->SetInput(image);
   filter->SetDistanceThreshold(.01);
   using RelabelComponentType = itk::RelabelComponentImageFilter<OutputImageType, LabelImageType>;
-  RelabelComponentType::Pointer relabel = RelabelComponentType::New();
+  auto relabel = RelabelComponentType::New();
   relabel->SetInput(filter->GetOutput());
 
   using WriterType = itk::ImageFileWriter<LabelImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   try
   {
@@ -195,7 +195,7 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   using VectorImageType = itk::VectorImage<float, 2>;
   using VectorImageFilterType =
     itk::VectorConnectedComponentImageFilter<VectorImageType, OutputImageType, LabelImageType>;
-  VectorImageFilterType::Pointer vfilter = VectorImageFilterType::New();
+  auto vfilter = VectorImageFilterType::New();
 
   return EXIT_SUCCESS;
 }

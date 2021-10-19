@@ -37,7 +37,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   using PixelType = itk::Vector<float, vecLength>;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  typename ImageType::Pointer  image = ImageType::New();
+  auto                         image = ImageType::New();
   typename ImageType::SizeType size;
   size.Fill(imageSize);
   typename ImageType::RegionType region(size);
@@ -70,7 +70,7 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTestRun(char * argv[])
   using FunctionType = itk::CentralDifferenceImageFunction<ImageType, CoordRepType, DerivativeType>;
   using OutputType = typename FunctionType::OutputType;
 
-  typename FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   function->SetInputImage(image);
 

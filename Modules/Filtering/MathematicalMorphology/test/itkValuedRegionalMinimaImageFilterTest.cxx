@@ -49,11 +49,11 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using FilterType = itk::ValuedRegionalMinimaImageFilter<ImageType, ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ValuedRegionalMinimaImageFilter, ValuedRegionalExtremaImageFilter);
 
@@ -68,7 +68,7 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
@@ -77,7 +77,7 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
 
   // Produce the same output with other filters
   using ConcaveFilterType = itk::HConcaveImageFilter<ImageType, ImageType>;
-  ConcaveFilterType::Pointer concaveFilter = ConcaveFilterType::New();
+  auto concaveFilter = ConcaveFilterType::New();
   concaveFilter->SetInput(reader->GetOutput());
   concaveFilter->SetFullyConnected(fullyConnected);
   concaveFilter->SetHeight(1);
@@ -85,14 +85,14 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   // Concave gives minima with value=1 and others with value = 0
   // Rescale the image so we have minima = 255 other = 0
   using RescaleFilterType = itk::RescaleIntensityImageFilter<ImageType, ImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetInput(concaveFilter->GetOutput());
   rescaler->SetOutputMaximum(255);
   rescaler->SetOutputMinimum(0);
 
   // In the input image, select the values of the pixel at the minima
   using AndFilterType = itk::AndImageFilter<ImageType, ImageType, ImageType>;
-  AndFilterType::Pointer andFilter = AndFilterType::New();
+  auto andFilter = AndFilterType::New();
   andFilter->SetInput(0, rescaler->GetOutput());
   andFilter->SetInput(1, reader->GetOutput());
 
@@ -100,18 +100,18 @@ itkValuedRegionalMinimaImageFilterTest(int argc, char * argv[])
   // Get the non minima pixel by inverting the rescaled image
   // We will have minima value = 0 and non minima value = 255
   using InvertFilterType = itk::InvertIntensityImageFilter<ImageType, ImageType>;
-  InvertFilterType::Pointer invertFilter = InvertFilterType::New();
+  auto invertFilter = InvertFilterType::New();
   invertFilter->SetInput(rescaler->GetOutput());
 
   // Get the highest value from the and and invert filters. The minima have
   // value >= 0 in "a" image and the non minima have a value=0. In invert,
   // the non minima have a value=255 and the minima a value=0
   using MaxType = itk::MaximumImageFilter<ImageType, ImageType, ImageType>;
-  MaxType::Pointer max = MaxType::New();
+  auto max = MaxType::New();
   max->SetInput(0, invertFilter->GetOutput());
   max->SetInput(1, andFilter->GetOutput());
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(andFilter->GetOutput());
   writer2->SetFileName(argv[3]);
   writer2->Update();

@@ -52,8 +52,8 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   using ImageReaderType = itk::ImageFileReader<ImageType>;
 
-  ImageReaderType::Pointer fixedImageReader = ImageReaderType::New();
-  ImageReaderType::Pointer movingImageReader = ImageReaderType::New();
+  auto fixedImageReader = ImageReaderType::New();
+  auto movingImageReader = ImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -71,16 +71,16 @@ itkOptMattesMutualInformationImageToImageMetricThreadsTest1(int argc, char * arg
 
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   using MetricType = itk::MattesMutualInformationImageToImageMetric<ImageType, ImageType>;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MattesMutualInformationImageToImageMetric, ImageToImageMetric);
 
 
   using TranformType = itk::TranslationTransform<double, Dimension>;
-  TranformType::Pointer transform = TranformType::New();
+  auto transform = TranformType::New();
 
   unsigned int numberOfSamples = 100;
 

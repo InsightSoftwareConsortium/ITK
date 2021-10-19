@@ -42,9 +42,9 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   using FilterType = itk::Statistics::SampleClassifierFilter<SampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(numberOfComponents);
 
   // Test GetInput() before setting the input
@@ -106,10 +106,10 @@ itkSampleClassifierFilterTest1(int, char *[])
 
   using MembershipFunctionPointer = MembershipFunctionType::Pointer;
 
-  ClassLabelVectorObjectType::Pointer classLabelsObject = ClassLabelVectorObjectType::New();
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
   filter->SetClassLabels(classLabelsObject);
 
-  MembershipFunctionVectorObjectType::Pointer membershipFunctionsObject = MembershipFunctionVectorObjectType::New();
+  auto membershipFunctionsObject = MembershipFunctionVectorObjectType::New();
   filter->SetMembershipFunctions(membershipFunctionsObject);
 
   // Run the filter without specifying any membership functions. An exception
@@ -199,7 +199,7 @@ itkSampleClassifierFilterTest1(int, char *[])
   // Set a decision rule type
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
 
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
   filter->SetDecisionRule(decisionRule);
 
   if (filter->GetDecisionRule() != decisionRule)

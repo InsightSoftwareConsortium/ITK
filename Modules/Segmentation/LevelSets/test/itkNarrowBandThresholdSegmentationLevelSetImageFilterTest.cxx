@@ -175,18 +175,18 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
     // For Debugging
     // using WriterType = itk::ImageFileWriter< ::NBTS::ImageType>;
-    // WriterType::Pointer writer = WriterType::New();
+    // auto writer = WriterType::New();
     // writer->SetInput( filter->GetOutput() );
     // writer->SetFileName( "outputThreshold.mhd" );
     // writer->Write();
 
-    // WriterType::Pointer writer3 = WriterType::New();
+    // auto writer3 = WriterType::New();
     // writer3->SetInput(inputImage);
     // writer3->SetFileName("inputThreshold.mhd");
     // writer3->Write();
 
     // using Writer2Type = itk::ImageFileWriter< ::NBTS::SeedImageType>;
-    // Writer2Type::Pointer writer2 = Writer2Type::New();
+    // auto writer2 = Writer2Type::New();
     // writer2->SetInput(seedImage);
     // writer2->SetFileName("seedThreshold.mhd");
     // writer2->Write();

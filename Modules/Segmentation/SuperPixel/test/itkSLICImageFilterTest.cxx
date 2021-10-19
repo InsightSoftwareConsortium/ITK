@@ -57,11 +57,11 @@ itkSLICImageFilter(const std::string & inFileName,
   using InputImageType = TInputImageType;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inFileName);
 
   using FilterType = itk::SLICImageFilter<InputImageType, OutputImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetSuperGridSize(gridSize);
   filter->SetEnforceConnectivity(enforceConnectivity);
@@ -75,7 +75,7 @@ itkSLICImageFilter(const std::string & inFileName,
 
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outFileName);
   writer->SetInput(filter->GetOutput());
   writer->Update();
@@ -101,7 +101,7 @@ itkSLICImageFilterTest(int argc, char * argv[])
   using InputImageType = itk::VectorImage<float, VDimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inFileName);
   reader->UpdateOutputInformation();
 

@@ -51,7 +51,7 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     using PixelType = typename ImageType::PixelType;
 
     // allocate an 10x10x10 image
-    typename ImageType::Pointer  image = ImageType::New();
+    auto                         image = ImageType::New();
     typename ImageType::SizeType m_ImageSize;
     m_ImageSize.Fill(10);
     image->SetRegions(m_ImageSize);
@@ -82,12 +82,12 @@ MRCImageIOTester<TImageType>::Write(const std::string & filePrefix, std::string 
     }
 
     using ImageFileWriterType = itk::ImageFileWriter<ImageType>;
-    typename ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
+    auto writer = ImageFileWriterType::New();
     writer->SetInput(image);
 
     // force use of MRCImageIO
     using IOType = itk::MRCImageIO;
-    IOType::Pointer mrcIO = IOType::New();
+    auto mrcIO = IOType::New();
     writer->SetImageIO(mrcIO);
 
     std::ostringstream m_NameWithIndex;
@@ -149,11 +149,11 @@ MRCImageIOTester<TImageType>::Read(const std::string & filePrefix, std::string &
     using PixelType = typename ImageType::PixelType;
 
     using ImageFileReaderType = itk::ImageFileReader<ImageType>;
-    typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+    auto reader = ImageFileReaderType::New();
 
     // force use of MRCImageIO
     using IOType = itk::MRCImageIO;
-    IOType::Pointer mrcIO = IOType::New();
+    auto mrcIO = IOType::New();
     reader->SetImageIO(mrcIO);
 
     // construct the image filename
@@ -465,7 +465,7 @@ itkMRCImageIOTest(int argc, char * argv[])
 
   // Exercise other methods to improve coverage
   using IOType = itk::MRCImageIO;
-  IOType::Pointer mrcIO = IOType::New();
+  auto mrcIO = IOType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mrcIO, MRCImageIO, StreamingImageIOBase);
 

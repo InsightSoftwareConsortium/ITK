@@ -74,7 +74,7 @@ template <typename TImageType, typename TFeatureImageType>
 void
 CannySegmentationLevelSetFunction<TImageType, TFeatureImageType>::CalculateDistanceImage()
 {
-  typename TFeatureImageType::Pointer tempFeature = TFeatureImageType::New();
+  auto tempFeature = TFeatureImageType::New();
 
   // The minipipeline might muck with its feature image requested
   // region. The rest of the class relies on the feature image requested

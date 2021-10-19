@@ -50,7 +50,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
   /**
    * Instantiate a transform
    */
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   transform->SetTransformDomainOrigin(origin);
   transform->SetTransformDomainPhysicalDimensions(dimensions);
   transform->SetTransformDomainMeshSize(meshSize);
@@ -95,7 +95,7 @@ itkBSplineTransformParametersAdaptorTest(int, char *[])
   TransformType::SizeType gridSizeBefore = transform->GetCoefficientImages()[0]->GetLargestPossibleRegion().GetSize();
 
   using AdaptorType = itk::BSplineTransformParametersAdaptor<TransformType>;
-  AdaptorType::Pointer adaptor = AdaptorType::New();
+  auto adaptor = AdaptorType::New();
   adaptor->SetTransform(transform);
   adaptor->SetRequiredTransformDomainMeshSize(requiredMeshSize);
   adaptor->SetRequiredTransformDomainOrigin(transform->GetTransformDomainOrigin());

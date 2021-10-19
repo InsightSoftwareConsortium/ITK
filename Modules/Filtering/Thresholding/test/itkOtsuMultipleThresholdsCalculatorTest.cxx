@@ -34,7 +34,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
   using MeasurementType = float;
   using HistogramType = itk::Statistics::Histogram<MeasurementType>;
 
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
 
   // Initialize histogram
   HistogramType::SizeType              size;
@@ -79,7 +79,7 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 
   using OtsuMultipleThresholdCalculatorType = itk::OtsuMultipleThresholdsCalculator<HistogramType>;
 
-  OtsuMultipleThresholdCalculatorType::Pointer otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
+  auto otsuThresholdCalculator = OtsuMultipleThresholdCalculatorType::New();
 
 #if defined(ITKV4_COMPATIBILITY)
   ITK_TEST_EXPECT_TRUE(otsuThresholdCalculator->GetReturnBinMidpoint());

@@ -416,8 +416,8 @@ SpatialObject<TDimension>::GetFamilyBoundingBoxInWorldSpace() const -> const Bou
 {
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const auto                        corners = m_FamilyBoundingBoxInObjectSpace->ComputeCorners();
-  typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
+  const auto corners = m_FamilyBoundingBoxInObjectSpace->ComputeCorners();
+  auto       transformedCorners = PointsContainer::New();
   transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>(corners.size()));
 
   auto it = corners.begin();
@@ -600,7 +600,7 @@ SpatialObject<TDimension>::ComputeObjectToParentTransform()
 
   if (this->HasParent())
   {
-    typename TransformType::Pointer inverse = TransformType::New();
+    auto inverse = TransformType::New();
     if (this->GetParent()->GetObjectToWorldTransform()->GetInverse(inverse))
     {
       m_ObjectToParentTransform->Compose(inverse, true);
@@ -664,8 +664,8 @@ SpatialObject<TDimension>::GetMyBoundingBoxInWorldSpace() const -> const Boundin
 {
   // Next Transform the corners of the bounding box
   using PointsContainer = typename BoundingBoxType::PointsContainer;
-  const auto                        corners = m_MyBoundingBoxInObjectSpace->ComputeCorners();
-  typename PointsContainer::Pointer transformedCorners = PointsContainer::New();
+  const auto corners = m_MyBoundingBoxInObjectSpace->ComputeCorners();
+  auto       transformedCorners = PointsContainer::New();
   transformedCorners->Reserve(static_cast<typename PointsContainer::ElementIdentifier>(corners.size()));
 
   auto it = corners.begin();

@@ -44,16 +44,16 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
 
   // reading image to file
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   // converting Label image to Statistics label map
   // don't set the output type to test the default value of the template parameter
   using I2LType = itk::LabelImageToStatisticsLabelMapFilter<ImageType, ImageType>;
-  I2LType::Pointer         i2l = I2LType::New();
+  auto                     i2l = I2LType::New();
   itk::SimpleFilterWatcher watcher1(i2l);
 
   i2l->SetInput(reader->GetOutput());
@@ -111,13 +111,13 @@ itkLabelImageToStatisticsLabelMapFilterTest1(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(numberOfBins, i2l->GetNumberOfBins());
 
   using L2IType = itk::LabelMapToLabelImageFilter<I2LType::OutputImageType, ImageType>;
-  L2IType::Pointer         l2i = L2IType::New();
+  auto                     l2i = L2IType::New();
   itk::SimpleFilterWatcher watcher2(l2i);
 
   l2i->SetInput(i2l->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[3]);
   writer->UseCompressionOn();

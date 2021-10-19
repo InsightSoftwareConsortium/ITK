@@ -76,7 +76,7 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   ImageType::SizeType size;
   size.Fill(128);
   ImageType::RegionType region(size);
@@ -98,14 +98,14 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
 
   // Squash up the level sets by mulitplying with a scalar
   using MultiplierType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
-  MultiplierType::Pointer multiplier = MultiplierType::New();
+  auto multiplier = MultiplierType::New();
   multiplier->SetInput(image);
   multiplier->SetScale(0.5);
   // multiplier->SetShift( 0.0 );
 
   // Set up reinitialize level set image filter
   using ReinitializerType = itk::ReinitializeLevelSetImageFilter<ImageType>;
-  ReinitializerType::Pointer reinitializer = ReinitializerType::New();
+  auto reinitializer = ReinitializerType::New();
   reinitializer->SetInput(multiplier->GetOutput());
 
   ShowProgressObject                                    progressWatch(reinitializer);
@@ -118,14 +118,14 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
   /*
     {
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput( image );
     writer->SetFileName( "input.mhd" );
     writer->Write();
     }
     {
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetInput( reinitializer->GetOutput() );
     writer->SetFileName( "output.mhd" );
     writer->Write();
@@ -134,13 +134,13 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
 
   // Check the output signed distance map is within threshold
   using DifferenceType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DifferenceType::Pointer difference = DifferenceType::New();
+  auto difference = DifferenceType::New();
   difference->SetTestInput(image);
   difference->SetValidInput(reinitializer->GetOutput());
   difference->Update();
 
   using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
   calculator->SetImage(difference->GetOutput());
   calculator->Compute();
 
@@ -159,7 +159,7 @@ itkReinitializeLevelSetImageFilterTest(int, char *[])
 
   // Check if inside/outside points remain the same after reinitialization
   using CheckerType = itk::MultiplyImageFilter<ImageType, ImageType, ImageType>;
-  CheckerType::Pointer checker = CheckerType::New();
+  auto checker = CheckerType::New();
   checker->SetInput1(image);
   checker->SetInput2(reinitializer->GetOutput());
   checker->Update();

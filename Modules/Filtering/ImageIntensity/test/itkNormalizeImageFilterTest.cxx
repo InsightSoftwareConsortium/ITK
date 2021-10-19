@@ -33,7 +33,7 @@ itkNormalizeImageFilterTest(int, char *[])
 
   // Generate a real image
   using SourceType = itk::RandomImageSource<ShortImage>;
-  SourceType::Pointer       source = SourceType::New();
+  auto                      source = SourceType::New();
   ShortImage::SizeValueType randomSize[3] = { 18, 17, 67 };
 
   source->SetSize(randomSize);
@@ -44,13 +44,13 @@ itkNormalizeImageFilterTest(int, char *[])
   source->SetMax(static_cast<ShortImage::PixelType>(maxValue));
 
   using NormalizeType = itk::NormalizeImageFilter<ShortImage, FloatImage>;
-  NormalizeType::Pointer   normalize = NormalizeType::New();
+  auto                     normalize = NormalizeType::New();
   itk::SimpleFilterWatcher watch(normalize, "Streaming");
 
   normalize->SetInput(source->GetOutput());
 
   using StreamingType = itk::StreamingImageFilter<FloatImage, FloatImage>;
-  StreamingType::Pointer streaming = StreamingType::New();
+  auto streaming = StreamingType::New();
 
   streaming->SetNumberOfStreamDivisions(5);
   streaming->SetInput(normalize->GetOutput());
@@ -60,7 +60,7 @@ itkNormalizeImageFilterTest(int, char *[])
   source->Modified();
 
   using StatisticsType = itk::StatisticsImageFilter<FloatImage>;
-  StatisticsType::Pointer statistics = StatisticsType::New();
+  auto statistics = StatisticsType::New();
 
   statistics->SetInput(streaming->GetOutput());
   statistics->UpdateLargestPossibleRegion();

@@ -64,7 +64,7 @@ ApproximateSignedDistanceMapImageFilter<TInputImage, TOutputImage>::GenerateData
   this->AllocateOutputs();
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(m_IsoContourFilter, 0.5f);
   progress->RegisterInternalFilter(m_ChamferFilter, 0.5f);

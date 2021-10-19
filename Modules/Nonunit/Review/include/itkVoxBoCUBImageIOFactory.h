@@ -62,7 +62,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    VoxBoCUBImageIOFactory::Pointer VoxBoCUBFactory = VoxBoCUBImageIOFactory::New();
+    auto VoxBoCUBFactory = VoxBoCUBImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactory(VoxBoCUBFactory);
   }

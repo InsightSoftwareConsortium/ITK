@@ -60,8 +60,8 @@ itkReviewPrintTest(int, char *[])
   using OutputImageType = itk::Image<PixelType, 3>;
 
   // Dummy variable just to force the full instantiation of the class
-  CharType::Pointer        dummyImage = CharType::New();
-  VectorImageType::Pointer dummy2 = VectorImageType::New();
+  auto dummyImage = CharType::New();
+  auto dummy2 = VectorImageType::New();
 
   itk::ContourExtractor2DImageFilter<Input2DImageType>::Pointer ContourExtractor2DImageFilterObj =
     itk::ContourExtractor2DImageFilter<Input2DImageType>::New();
@@ -75,7 +75,7 @@ itkReviewPrintTest(int, char *[])
     itk::LabelOverlayImageFilter<Input2DImageType, CharType, RGBImageType>::New();
   std::cout << "-------------LabelOverlayImageFilter " << LabelOverlayImageFilterObj;
 
-  QuadEdgeMeshType::Pointer QuadEdgeMeshObj = QuadEdgeMeshType::New();
+  auto QuadEdgeMeshObj = QuadEdgeMeshType::New();
   std::cout << "-------------QuadEdgeMesh " << QuadEdgeMeshObj;
 
   itk::ValuedRegionalMaximaImageFilter<Input2DImageType, Input2DImageType>::Pointer ValuedRegionalMaximaImageFilterObj =

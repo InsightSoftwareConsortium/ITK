@@ -86,7 +86,7 @@ namespace itk
    ImageType::Pointer ReadAnalyzeFile(const char *path)
    {
      itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
-     ImageReaderType::Pointer fileReader = ImageReaderType::New();
+     auto fileReader = ImageReaderType::New();
      fileReader->SetImageIO(io);
      fileReader->SetFileName(path);
      fileReader->Update();
@@ -119,7 +119,7 @@ namespace itk
    ImageType::Pointer ReadAnalyzeFile(const char *path)
    {
      itk::AnalyzeImageIO::Pointer io = itk::AnalyzeImageIO::New();
-     ImageReaderType::Pointer fileReader = ImageReaderType::New();
+     auto fileReader = ImageReaderType::New();
      fileReader->SetImageIO(io);
      fileReader->SetFileName(path);
      fileReader->Update();

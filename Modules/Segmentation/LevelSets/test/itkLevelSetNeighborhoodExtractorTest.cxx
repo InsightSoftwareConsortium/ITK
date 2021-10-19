@@ -28,7 +28,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
 
   // Create an input image using fastmarching
   using SourceType = itk::FastMarchingImageFilter<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   ImageType::SizeType size;
   size.Fill(17);
@@ -43,7 +43,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   node.SetValue(-4.0);
 
   using NodeContainerType = SourceType::NodeContainer;
-  NodeContainerType::Pointer container = NodeContainerType::New();
+  auto container = NodeContainerType::New();
 
   container->InsertElement(0, node);
 
@@ -52,7 +52,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   source->Update();
 
   using ExtractorType = itk::LevelSetNeighborhoodExtractor<ImageType>;
-  ExtractorType::Pointer extractor = ExtractorType::New();
+  auto extractor = ExtractorType::New();
 
   extractor->SetInputLevelSet(source->GetOutput());
   extractor->SetLevelSetValue(0.0);

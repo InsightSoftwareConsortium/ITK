@@ -46,7 +46,7 @@ MakeImage(const int count, T pixel)
   using RegionType = typename ImageType::RegionType;
   using SizeType = typename ImageType::SizeType;
 
-  typename ImageType::Pointer testImage = ImageType::New();
+  auto testImage = ImageType::New();
 
   IndexType index;
   index[0] = 0;
@@ -72,7 +72,7 @@ ReallocateImage()
   using ImageType = itk::Image<double, 2>;
   using SizeType = ImageType::SizeType;
 
-  ImageType::Pointer testImage = ImageType::New();
+  auto testImage = ImageType::New();
 
   SizeType size = { { 5, 3 } };
 

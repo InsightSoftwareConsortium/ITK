@@ -51,7 +51,7 @@ itkTranslationTransformTest(int, char *[])
 
   /* Create a 2D identity transformation and show its parameters */
   using TransformType = itk::TranslationTransform<double, 2>;
-  TransformType::Pointer id2 = TransformType::New();
+  auto id2 = TransformType::New();
   vector2 = id2->GetOffset();
   std::cout << "Vector from instantiating an identity transform:" << std::endl;
   PrintVector(vector2);
@@ -59,7 +59,7 @@ itkTranslationTransformTest(int, char *[])
   /* Create and show a simple 2D transform from given parameters */
   vector2[0] = 5;
   vector2[1] = 6;
-  TransformType::Pointer aff2 = TransformType::New();
+  auto aff2 = TransformType::New();
   aff2->SetOffset(vector2);
   for (i = 0; i < 2; ++i)
   {
@@ -67,7 +67,7 @@ itkTranslationTransformTest(int, char *[])
   }
   std::cout << "Instantiation of a given 2D transform:" << std::endl << aff2;
 
-  TransformType::Pointer inverse2 = TransformType::New();
+  auto inverse2 = TransformType::New();
   if (!aff2->GetInverse(inverse2))
   {
     std::cout << "Cannot create inverse transform" << std::endl;

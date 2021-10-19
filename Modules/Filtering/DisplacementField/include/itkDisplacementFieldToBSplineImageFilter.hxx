@@ -122,10 +122,10 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
     itkExceptionMacro("The number of input points does not match the number of weight elements.");
   }
 
-  typename InputPointSetType::Pointer fieldPoints = InputPointSetType::New();
+  auto fieldPoints = InputPointSetType::New();
   fieldPoints->Initialize();
 
-  typename WeightsContainerType::Pointer weights = WeightsContainerType::New();
+  auto weights = WeightsContainerType::New();
 
   IdentifierType numberOfPoints = NumericTraits<IdentifierType>::ZeroValue();
 
@@ -144,14 +144,14 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   typename InputFieldType::DirectionType identity;
   identity.SetIdentity();
 
-  typename OutputFieldType::Pointer bsplinePhysicalDomainField = OutputFieldType::New();
+  auto bsplinePhysicalDomainField = OutputFieldType::New();
   bsplinePhysicalDomainField->SetOrigin(this->m_BSplineDomainOrigin);
   bsplinePhysicalDomainField->SetSpacing(this->m_BSplineDomainSpacing);
   bsplinePhysicalDomainField->SetRegions(this->m_BSplineDomainSize);
   bsplinePhysicalDomainField->SetDirection(this->m_BSplineDomainDirection);
   // bsplinePhysicalDomainField->Allocate();
 
-  typename OutputFieldType::Pointer bsplineParametricDomainField = OutputFieldType::New();
+  auto bsplineParametricDomainField = OutputFieldType::New();
   bsplineParametricDomainField->SetOrigin(this->m_BSplineDomainOrigin);
   bsplineParametricDomainField->SetSpacing(this->m_BSplineDomainSpacing);
   bsplineParametricDomainField->SetRegions(this->m_BSplineDomainSize);
@@ -364,7 +364,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
   ArrayType close;
   close.Fill(false);
 
-  typename BSplineFilterType::Pointer bspliner = BSplineFilterType::New();
+  auto bspliner = BSplineFilterType::New();
   bspliner->SetOrigin(this->m_BSplineDomainOrigin);
   bspliner->SetSpacing(this->m_BSplineDomainSpacing);
   bspliner->SetSize(this->m_BSplineDomainSize);

@@ -87,7 +87,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   region.SetSize(size);
 
   // Binary initialization
-  InputImageType::Pointer binary = InputImageType::New();
+  auto binary = InputImageType::New();
   binary->SetRegions(region);
   binary->SetSpacing(spacing);
   binary->SetOrigin(origin);
@@ -109,7 +109,7 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   }
 
   // Convert binary mask to sparse level set
-  BinaryToSparseAdaptorType::Pointer adaptor = BinaryToSparseAdaptorType::New();
+  auto adaptor = BinaryToSparseAdaptorType::New();
   adaptor->SetInputImage(binary);
   adaptor->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
@@ -119,22 +119,22 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   IdListType list_ids;
   list_ids.push_back(1);
 
-  IdListImageType::Pointer id_image = IdListImageType::New();
+  auto id_image = IdListImageType::New();
   id_image->SetRegions(binary->GetLargestPossibleRegion());
   id_image->Allocate();
   id_image->FillBuffer(list_ids);
 
-  DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
+  auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
   std::cout << "Domain map computed" << std::endl;
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(1.0);
 
   // Insert the levelsets in a levelset container
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
@@ -145,17 +145,17 @@ itkLevelSetEquationTermContainerTest(int argc, char * argv[])
   }
 
   // Create ChanAndVese External term for phi_{1}
-  LaplacianTermType::Pointer term0 = LaplacianTermType::New();
+  auto term0 = LaplacianTermType::New();
   term0->SetInput(binary);
   term0->SetCoefficient(1.0);
   std::cout << "Laplacian term created" << std::endl;
 
-  ChanAndVeseInternalTermType::Pointer term1 = ChanAndVeseInternalTermType::New();
+  auto term1 = ChanAndVeseInternalTermType::New();
   term1->SetInput(binary);
   term1->SetCoefficient(1.0);
   std::cout << "CV internal term created" << std::endl;
 
-  TermContainerType::Pointer termContainer0 = TermContainerType::New();
+  auto termContainer0 = TermContainerType::New();
   termContainer0->SetInput(binary);
   termContainer0->SetCurrentLevelSetId(0);
   termContainer0->SetLevelSetContainer(lscontainer);

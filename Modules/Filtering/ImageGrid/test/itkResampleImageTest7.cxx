@@ -68,11 +68,11 @@ itkResampleImageTest7(int, char *[])
   }
 
   // Create an affine transformation
-  AffineTransformType::Pointer aff = AffineTransformType::New();
+  auto aff = AffineTransformType::New();
   aff->Scale(0.9);
 
   // Create a linear interpolation image function
-  InterpolatorType::Pointer interp = InterpolatorType::New();
+  auto interp = InterpolatorType::New();
   interp->SetInputImage(image);
 
   // Create and configure a resampling filter
@@ -109,7 +109,7 @@ itkResampleImageTest7(int, char *[])
   ITK_TEST_SET_GET_VALUE(spacing, resample->GetOutputSpacing());
 
   using StreamerType = itk::StreamingImageFilter<ImageType, ImageType>;
-  StreamerType::Pointer streamer = StreamerType::New();
+  auto streamer = StreamerType::New();
 
   std::cout << "Test with normal AffineTransform." << std::endl;
   streamer->SetInput(resample->GetOutput());

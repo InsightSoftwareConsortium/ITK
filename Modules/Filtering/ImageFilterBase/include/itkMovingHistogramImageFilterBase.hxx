@@ -49,7 +49,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
   // transform the structuring element in an image for an easier
   // access to the data
   using BoolImageType = Image<bool, TInputImage::ImageDimension>;
-  typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
+  auto tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions(kernel.GetSize());
   tmpSEImage->Allocate();
   RegionType                                  tmpSEImageRegion = tmpSEImage->GetRequestedRegion();

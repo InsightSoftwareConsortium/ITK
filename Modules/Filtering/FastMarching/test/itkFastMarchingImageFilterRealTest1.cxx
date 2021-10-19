@@ -57,10 +57,10 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   using FastMarchingType = itk::FastMarchingImageFilterBase<FloatImageType, FloatImageType>;
 
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
   criterion->SetThreshold(100.);
 
-  FastMarchingType::Pointer marcher = FastMarchingType::New();
+  auto marcher = FastMarchingType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(marcher, FastMarchingImageFilterBase, FastMarchingBase);
 
@@ -76,7 +76,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
   // Set up alive points
-  NodePairContainerType::Pointer alive = NodePairContainerType::New();
+  auto alive = NodePairContainerType::New();
 
   NodePairType node_pair;
 
@@ -98,7 +98,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetAlivePoints(alive);
 
   // Set up trial points
-  NodePairContainerType::Pointer trial = NodePairContainerType::New();
+  auto trial = NodePairContainerType::New();
   node_pair.SetValue(1.0);
 
   index.Fill(0);
@@ -135,7 +135,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
   marcher->SetOutputSize(size);
 
   // Set up a speed image of ones
-  FloatImageType::Pointer    speedImage = FloatImageType::New();
+  auto                       speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);

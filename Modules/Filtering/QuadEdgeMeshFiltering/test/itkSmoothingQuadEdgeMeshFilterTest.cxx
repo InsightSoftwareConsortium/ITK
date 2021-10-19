@@ -46,7 +46,7 @@ itkSmoothingQuadEdgeMeshFilterTest(int argc, char * argv[])
   using WriterType = itk::MeshFileWriter<MeshType>;
 
   // ** READ THE FILE IN **
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 

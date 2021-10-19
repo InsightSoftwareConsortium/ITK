@@ -41,7 +41,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
 
   // Fixed Point Set
   using FixedPointSetType = itk::PointSet<PointSetPointType, PointSetDimension>;
-  FixedPointSetType::Pointer fixedPointSet = FixedPointSetType::New();
+  auto fixedPointSet = FixedPointSetType::New();
 
   constexpr unsigned int numberOfPoints = 500;
 
@@ -68,7 +68,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
 
   // Moving Point Set
   using MovingPointSetType = itk::PointSet<PointSetPointType, PointSetDimension>;
-  MovingPointSetType::Pointer movingPointSet = MovingPointSetType::New();
+  auto movingPointSet = MovingPointSetType::New();
 
   movingPointSet->SetPointData(MovingPointSetType::PointDataContainer::New());
 
@@ -95,21 +95,21 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   using TransformBaseType = MetricType::TransformType;
   using ParametersType = TransformBaseType::ParametersType;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   // Set up the Transform
   using TransformType = itk::TranslationTransform<double, PointSetDimension>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   // Set up the Optimizer
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   optimizer->SetUseCostFunctionGradient(false);
 
   // Set up the Registration method
   using RegistrationType = itk::PointSetToPointSetRegistrationMethod<FixedPointSetType, MovingPointSetType>;
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, PointSetToPointSetRegistrationMethod, ProcessObject);
 
@@ -189,7 +189,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   using ImageType = itk::Image<unsigned short, ImageDimension>;
 
   using PSToImageFilterType = itk::PointSetToImageFilter<FixedPointSetType, BinaryImageType>;
-  PSToImageFilterType::Pointer psToImageFilter = PSToImageFilterType::New();
+  auto psToImageFilter = PSToImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(psToImageFilter, PointSetToImageFilter, ImageSource);
 
@@ -210,7 +210,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   BinaryImageType::Pointer binaryImage = psToImageFilter->GetOutput();
 
   using DDFilterType = itk::DanielssonDistanceMapImageFilter<BinaryImageType, ImageType>;
-  DDFilterType::Pointer ddFilter = DDFilterType::New();
+  auto ddFilter = DDFilterType::New();
 
   ddFilter->SetInput(binaryImage);
 

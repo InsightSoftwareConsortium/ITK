@@ -48,15 +48,15 @@ itkAttributeLabelObjectAccessorsTest1(int argc, char * argv[])
 
   // We read the input image.
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   // And convert it to a LabelMap
   using I2LType = itk::LabelImageToLabelMapFilter<IType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
   // The next step is made outside the pipeline model, so we call Update() now.
   i2l->Update();

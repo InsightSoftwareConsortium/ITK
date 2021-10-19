@@ -121,7 +121,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
 
   // Read and Parse the data
   using ReaderType = itk::CSVArray2DFileReader<double>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   std::string filename = "nonexistentfilename.csv";
   reader->SetFileName(filename);

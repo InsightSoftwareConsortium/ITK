@@ -94,7 +94,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   //                 Create and Initialize the RGBPixel image
   //-------------------------------------------------------------
 
-  myContainerPixelImageType::Pointer myContainerPixelImage = myContainerPixelImageType::New();
+  auto myContainerPixelImage = myContainerPixelImageType::New();
 
   myContainerPixelImage->SetLargestPossibleRegion(region);
   myContainerPixelImage->SetBufferedRegion(region);
@@ -143,7 +143,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   //                 Create and Initialize the Float image
   //-------------------------------------------------------------
 
-  myFloatImageType::Pointer myFloatImage = myFloatImageType::New();
+  auto myFloatImage = myFloatImageType::New();
 
   myFloatImage->SetLargestPossibleRegion(region);
   myFloatImage->SetBufferedRegion(region);
@@ -185,7 +185,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   //         Create the adaptor and connect the image
   //-------------------------------------------------------------
 
-  myAdaptorType::Pointer myAdaptor = myAdaptorType::New();
+  auto myAdaptor = myAdaptorType::New();
 
   myAdaptor->SetImage(myContainerPixelImage);
 
@@ -193,7 +193,7 @@ itkImageAdaptorNthElementTest(int, char *[])
   //         Create the filter and connect the inputs
   //-------------------------------------------------------------
 
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
   filter->SetInput1(myAdaptor);
   filter->SetInput2(myFloatImage);

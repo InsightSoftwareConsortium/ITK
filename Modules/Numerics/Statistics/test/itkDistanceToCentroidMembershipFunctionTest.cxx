@@ -29,7 +29,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
 
   using MembershipFunctionType = itk::Statistics::DistanceToCentroidMembershipFunction<MeasurementVectorType>;
 
-  MembershipFunctionType::Pointer function = MembershipFunctionType::New();
+  auto function = MembershipFunctionType::New();
 
   std::cout << function->GetNameOfClass() << std::endl;
 
@@ -38,7 +38,7 @@ itkDistanceToCentroidMembershipFunctionTest(int, char *[])
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   using MeasurementVectorSizeType = DistanceMetricType::MeasurementVectorSizeType;
 
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  auto distanceMetric = DistanceMetricType::New();
   function->SetDistanceMetric(distanceMetric);
 
   if (function->GetDistanceMetric() != distanceMetric)

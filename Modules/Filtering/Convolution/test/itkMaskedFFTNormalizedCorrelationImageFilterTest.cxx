@@ -57,13 +57,13 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
     requiredFractionOfOverlappingPixels = std::stod(argv[4]);
   }
 
-  ReaderType::Pointer fixedImageReader = ReaderType::New();
+  auto fixedImageReader = ReaderType::New();
   fixedImageReader->SetFileName(fixedImageFileName);
 
-  ReaderType::Pointer movingImageReader = ReaderType::New();
+  auto movingImageReader = ReaderType::New();
   movingImageReader->SetFileName(movingImageFileName);
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetFixedImage(fixedImageReader->GetOutput());
   filter->SetMovingImage(movingImageReader->GetOutput());
   // Larger values zero-out pixels on a larger border around the correlation image.
@@ -73,8 +73,8 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
 
   if (argc > 5)
   {
-    char *                  fixedMaskFileName = argv[5];
-    MaskReaderType::Pointer fixedMaskReader = MaskReaderType::New();
+    char * fixedMaskFileName = argv[5];
+    auto   fixedMaskReader = MaskReaderType::New();
     fixedMaskReader->SetFileName(fixedMaskFileName);
     fixedMaskReader->Update();
     filter->SetFixedImageMask(fixedMaskReader->GetOutput());
@@ -82,8 +82,8 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
 
   if (argc > 6)
   {
-    char *                  movingMaskFileName = argv[6];
-    MaskReaderType::Pointer movingMaskReader = MaskReaderType::New();
+    char * movingMaskFileName = argv[6];
+    auto   movingMaskReader = MaskReaderType::New();
     movingMaskReader->SetFileName(movingMaskFileName);
     movingMaskReader->Update();
     filter->SetMovingImageMask(movingMaskReader->GetOutput());
@@ -102,13 +102,13 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   // mapped to 127 or 128, depending on whether they are slightly negative or positive.
   // Therefore, we truncate instead so that all values near 0 get mapped to 127.
   using RescaleType = itk::ShiftScaleImageFilter<RealImageType, OutputImageType>;
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto rescaler = RescaleType::New();
   rescaler->SetInput(filter->GetOutput());
   rescaler->SetShift(1);
   rescaler->SetScale(255.0 / 2.0);
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputImageFileName);
   writer->SetInput(rescaler->GetOutput());
   try

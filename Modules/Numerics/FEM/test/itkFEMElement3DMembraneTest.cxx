@@ -80,7 +80,7 @@ itkFEMElement3DMembraneTest(int, char *[])
   n7->SetCoordinates(pt);
 
   using ElasticityType = itk::fem::MaterialLinearElasticity;
-  ElasticityType::Pointer m = ElasticityType::New();
+  auto m = ElasticityType::New();
   m->SetGlobalNumber(0);
   m->SetYoungsModulus(10000.0);
   m->SetCrossSectionalArea(0.02);
@@ -88,7 +88,7 @@ itkFEMElement3DMembraneTest(int, char *[])
   m->SetPoissonsRatio(0.4);
 
   using ElementMembraneType = itk::fem::Element3DC0LinearHexahedronMembrane;
-  ElementMembraneType::Pointer e0 = ElementMembraneType::New();
+  auto e0 = ElementMembraneType::New();
 
   e0->SetGlobalNumber(0);
   e0->SetNode(0, n0);

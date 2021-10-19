@@ -40,7 +40,7 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
   using OutputImageType = itk::Image<PixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   // reader->SetUseStreaming( true );
 
@@ -56,7 +56,7 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
 
   using WriterType = itk::ImageSeriesWriter<ImageType, OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
 
   char format[4096];

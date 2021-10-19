@@ -33,7 +33,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::IntegrateV
   {
     using IntegratorType = TimeVaryingVelocityFieldIntegrationImageFilter<VelocityFieldType, DisplacementFieldType>;
 
-    typename IntegratorType::Pointer integrator = IntegratorType::New();
+    auto integrator = IntegratorType::New();
     integrator->SetInput(this->GetVelocityField());
     integrator->SetLowerTimeBound(this->GetLowerTimeBound());
     integrator->SetUpperTimeBound(this->GetUpperTimeBound());
@@ -52,7 +52,7 @@ TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>::IntegrateV
     this->SetDisplacementField(displacementField);
     this->GetModifiableInterpolator()->SetInputImage(displacementField);
 
-    typename IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+    auto inverseIntegrator = IntegratorType::New();
     inverseIntegrator->SetInput(this->GetVelocityField());
     inverseIntegrator->SetLowerTimeBound(this->GetUpperTimeBound());
     inverseIntegrator->SetUpperTimeBound(this->GetLowerTimeBound());

@@ -32,8 +32,8 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   using Image1Type = itk::Image<Pixel1Type, ImageDimension>;
   using Image2Type = itk::Image<Pixel2Type, ImageDimension>;
 
-  Image1Type::Pointer image1 = Image1Type::New();
-  Image2Type::Pointer image2 = Image2Type::New();
+  auto image1 = Image1Type::New();
+  auto image2 = Image2Type::New();
 
   Image1Type::SizeType size;
   size.Fill(50);
@@ -85,7 +85,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   // Compute the directed Hausdorff distance h(image1,image2)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image1Type, Image2Type>;
-    FilterType::Pointer      filter = FilterType::New();
+    auto                     filter = FilterType::New();
     itk::SimpleFilterWatcher watcher(filter, "filter");
 
     filter->SetInput1(image1);
@@ -114,7 +114,7 @@ itkDirectedHausdorffDistanceImageFilterTest1(int, char *[])
   // Compute the directed Hausdorff distance h(image2,image1)
   {
     using FilterType = itk::DirectedHausdorffDistanceImageFilter<Image2Type, Image1Type>;
-    FilterType::Pointer filter = FilterType::New();
+    auto filter = FilterType::New();
 
     ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DirectedHausdorffDistanceImageFilter, ImageToImageFilter);
 

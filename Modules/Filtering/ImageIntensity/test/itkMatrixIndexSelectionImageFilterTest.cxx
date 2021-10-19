@@ -44,7 +44,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   // Create a matrix image
-  InputImageType::Pointer    image = InputImageType::New();
+  auto                       image = InputImageType::New();
   InputImageType::RegionType region;
 
   InputImageType::SizeType size;
@@ -110,7 +110,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
 
   using SelectionFilterType = itk::MatrixIndexSelectionImageFilter<InputImageType, OutputImageType>;
 
-  SelectionFilterType::Pointer filter = SelectionFilterType::New();
+  auto filter = SelectionFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MatrixIndexSelectionImageFilter, UnaryFunctorImageFilter);
 
@@ -136,7 +136,7 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   filter->SetFunctor(filter->GetFunctor());
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
   writer->SetInput(filter->GetOutput());

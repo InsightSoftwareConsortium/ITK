@@ -33,7 +33,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int, char *[])
   //
   //  Initialize an image with a white square in a black background
   //
-  BinaryMaskImageType::Pointer binaryMask = BinaryMaskImageType::New();
+  auto binaryMask = BinaryMaskImageType::New();
 
   BinaryMaskImageType::SizeType   size;
   BinaryMaskImageType::IndexType  index;
@@ -76,7 +76,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int, char *[])
 
   using GeneratorType = itk::BinaryMaskToNarrowBandPointSetFilter<BinaryMaskImageType, PointSetType>;
 
-  GeneratorType::Pointer narrowBandGenerator = GeneratorType::New();
+  auto narrowBandGenerator = GeneratorType::New();
 
   narrowBandGenerator->SetInput(binaryMask);
 

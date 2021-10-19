@@ -664,7 +664,7 @@ DOMNode::GetTextChild(IdentifierType i) const
 void
 DOMNode::AddTextChild(const std::string & text, IdentifierType i)
 {
-  DOMTextNode::Pointer tnode = DOMTextNode::New();
+  auto tnode = DOMTextNode::New();
   tnode->SetText(text);
   this->AddChild((DOMTextNode *)tnode, i);
 }
@@ -673,7 +673,7 @@ DOMNode::AddTextChild(const std::string & text, IdentifierType i)
 void
 DOMNode::AddTextChildAtBegin(const std::string & text)
 {
-  DOMTextNode::Pointer tnode = DOMTextNode::New();
+  auto tnode = DOMTextNode::New();
   tnode->SetText(text);
   this->AddChildAtBegin((DOMTextNode *)tnode);
 }
@@ -682,7 +682,7 @@ DOMNode::AddTextChildAtBegin(const std::string & text)
 void
 DOMNode::AddTextChildAtEnd(const std::string & text)
 {
-  DOMTextNode::Pointer tnode = DOMTextNode::New();
+  auto tnode = DOMTextNode::New();
   tnode->SetText(text);
   this->AddChildAtEnd((DOMTextNode *)tnode);
 }
@@ -691,7 +691,7 @@ DOMNode::AddTextChildAtEnd(const std::string & text)
 void
 DOMNode::SetTextChild(const std::string & text, IdentifierType i)
 {
-  DOMTextNode::Pointer tnode = DOMTextNode::New();
+  auto tnode = DOMTextNode::New();
   tnode->SetText(text);
   this->SetChild((DOMTextNode *)tnode, i);
 }

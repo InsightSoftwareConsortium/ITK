@@ -482,7 +482,7 @@ itkTubeSpatialObjectTest(int, char *[])
   // For coverage only
   std::cout << "Testing PointBasedSO: ";
   using PointBasedType = itk::PointBasedSpatialObject<3>;
-  PointBasedType::Pointer                    pBSO = PointBasedType::New();
+  auto                                       pBSO = PointBasedType::New();
   PointBasedType::SpatialObjectPointType     pnt;
   PointBasedType::SpatialObjectPointListType ll;
   ll.push_back(pnt);

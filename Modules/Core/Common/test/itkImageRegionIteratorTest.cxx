@@ -148,7 +148,7 @@ itkImageRegionIteratorTest(int, char *[])
 
     TestImageType::RegionType imageRegion(imageCorner, imageSize);
 
-    TestImageType::Pointer image = TestImageType::New();
+    auto image = TestImageType::New();
     image->SetRegions(imageRegion);
     image->Allocate();
 

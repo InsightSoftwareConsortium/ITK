@@ -41,16 +41,16 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
   using IType = itk::Image<PType, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
   reader2->Update();
 
   using CalculatorType = itk::PeakSignalToNoiseRatioCalculator<IType>;
-  CalculatorType::Pointer psnr = CalculatorType::New();
+  auto psnr = CalculatorType::New();
   psnr->SetImage(reader->GetOutput());
   psnr->SetNoisyImage(reader2->GetOutput());
   psnr->Compute();

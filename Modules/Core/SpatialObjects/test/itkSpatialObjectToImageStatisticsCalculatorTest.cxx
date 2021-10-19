@@ -38,7 +38,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   spacing.Fill(1);
 
   // Circle definition
-  EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(10);
   ellipse->Update();
 
@@ -50,7 +50,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
 
   // Create a test image
   using ImageFilterType = itk::SpatialObjectToImageFilter<EllipseType, ImageType>;
-  ImageFilterType::Pointer filter = ImageFilterType::New();
+  auto filter = ImageFilterType::New();
   filter->SetInput(ellipse);
   filter->SetSize(size);
   filter->SetSpacing(spacing);
@@ -64,7 +64,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   ellipse->Update();
 
   using CalculatorType = itk::SpatialObjectToImageStatisticsCalculator<ImageType, EllipseType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, SpatialObjectToImageStatisticsCalculator, Object);
 
@@ -134,7 +134,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
 
   // Create a new 3D image
   using Image3DType = itk::Image<PixelType, 3>;
-  Image3DType::Pointer image3D = Image3DType::New();
+  auto image3D = Image3DType::New();
 
   using RegionType = Image3DType::RegionType;
   using SizeType = Image3DType::SizeType;
@@ -179,8 +179,8 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
 
   std::cout << "Allocating spatial object." << std::endl;
   using Ellipse3DType = itk::EllipseSpatialObject<3>;
-  Ellipse3DType::Pointer ellipse3D = Ellipse3DType::New();
-  double                 radii[3];
+  auto   ellipse3D = Ellipse3DType::New();
+  double radii[3];
   radii[0] = 10;
   radii[1] = 10;
   radii[2] = 0;
@@ -195,7 +195,7 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   // Create a new calculator with a sample size of 3
   std::cout << "Updating calculator." << std::endl;
   using Calculator3DType = itk::SpatialObjectToImageStatisticsCalculator<Image3DType, Ellipse3DType, 3>;
-  Calculator3DType::Pointer calculator3D = Calculator3DType::New();
+  auto calculator3D = Calculator3DType::New();
   calculator3D->SetImage(image3D);
   calculator3D->SetSpatialObject(ellipse3D);
   calculator3D->Update();

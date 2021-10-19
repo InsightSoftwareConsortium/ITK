@@ -36,7 +36,7 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
 
   // Generate a random image
   using SourceType = itk::RandomImageSource<IntImage>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   IntImage::SizeValueType randomSize[3] = { 18, 17, 67 };
 
@@ -48,7 +48,7 @@ itkNormalizeToConstantImageFilterTest(int, char *[])
   source->SetMax(maxValue);
 
   using NormalizeType = itk::NormalizeToConstantImageFilter<IntImage, DoubleImage>;
-  NormalizeType::Pointer normalize = NormalizeType::New();
+  auto normalize = NormalizeType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(normalize, NormalizeToConstantImageFilter, ImageToImageFilter);
 

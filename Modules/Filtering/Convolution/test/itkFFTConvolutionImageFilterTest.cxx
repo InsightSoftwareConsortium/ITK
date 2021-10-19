@@ -48,23 +48,23 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
+  auto reader1 = ReaderType::New();
   reader1->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader1->Update());
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
 
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convoluter = ConvolutionFilterType::New();
+  auto convoluter = ConvolutionFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(convoluter, FFTConvolutionImageFilter, ConvolutionImageFilterBase);
 
   // Test empty image exception
-  ImageType::Pointer emptyImage = ImageType::New();
+  auto emptyImage = ImageType::New();
   convoluter->SetInput(emptyImage);
   try
   {
@@ -80,7 +80,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
 
   // Test generality of filter by changing the image index
   using ChangeInformationFilterType = itk::ChangeInformationImageFilter<ImageType>;
-  ChangeInformationFilterType::Pointer inputChanger = ChangeInformationFilterType::New();
+  auto inputChanger = ChangeInformationFilterType::New();
   inputChanger->ChangeRegionOn();
   ImageType::OffsetType inputOffset = { { -2, 3 } };
   inputChanger->SetOutputOffset(inputOffset);
@@ -89,7 +89,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   convoluter->SetInput(inputChanger->GetOutput());
 
   // Test generality of filter by changing the kernel index
-  ChangeInformationFilterType::Pointer kernelChanger = ChangeInformationFilterType::New();
+  auto kernelChanger = ChangeInformationFilterType::New();
   kernelChanger->ChangeRegionOn();
   ImageType::OffsetType kernelOffset = { { 3, -5 } };
   kernelChanger->SetOutputOffset(kernelOffset);
@@ -196,7 +196,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(convoluter->Update());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(convoluter->GetOutput());
 
@@ -205,7 +205,7 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
 
   // Test VALID output region mode with kernel that is larger than
   // the input image. Should result in a zero-size valid region.
-  ImageType::Pointer    largeKernel = ImageType::New();
+  auto                  largeKernel = ImageType::New();
   ImageType::RegionType kernelRegion(reader1->GetOutput()->GetLargestPossibleRegion().GetSize());
   kernelRegion.PadByRadius(5);
 

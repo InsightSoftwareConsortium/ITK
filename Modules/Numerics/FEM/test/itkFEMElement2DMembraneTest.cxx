@@ -61,7 +61,7 @@ itkFEMElement2DMembraneTest(int, char *[])
   m->SetMomentOfInertia(0.004);
 
   using MembraneElementType = itk::fem::Element2DC0LinearQuadrilateralMembrane;
-  MembraneElementType::Pointer e0 = MembraneElementType::New();
+  auto e0 = MembraneElementType::New();
 
   e0->SetGlobalNumber(0);
   e0->SetNode(0, n0);

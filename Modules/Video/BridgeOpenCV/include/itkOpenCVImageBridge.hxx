@@ -48,7 +48,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage * in)
   }
 
   // Do the conversion
-  typename ImageType::Pointer out = ImageType::New();
+  auto out = ImageType::New();
 
 #define CONVERSION_CASE(iplInputDepthID, itkOutputPixelType)                                          \
   case (iplInputDepthID):                                                                             \
@@ -90,7 +90,7 @@ OpenCVImageBridge::CVMatToITKImage(const cv::Mat & in)
   using ImageType = TOutputImageType;
   using DepthIDType = int;
 
-  typename ImageType::Pointer out = ImageType::New();
+  auto out = ImageType::New();
 
 #define CONVERSION_CASE(inputDepthID, itkOutputPixelType)                          \
   case (inputDepthID):                                                             \

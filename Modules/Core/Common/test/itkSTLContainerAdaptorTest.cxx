@@ -39,7 +39,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
     using VectorContainerType = itk::VectorContainer<IndexType, ElementType>;
 
-    VectorContainerType::Pointer vectorContainer = VectorContainerType::New();
+    auto vectorContainer = VectorContainerType::New();
 
     using STLVectorType = std::vector<ElementType>;
 
@@ -162,7 +162,7 @@ itkSTLContainerAdaptorTest(int, char *[])
 
     std::cout << "Testing the MapContainer " << std::endl;
 
-    MapContainerType::Pointer mapContainer = MapContainerType::New();
+    auto mapContainer = MapContainerType::New();
 
     using STLMapType = std::map<int, ElementType>;
     STLMapType mapSource;

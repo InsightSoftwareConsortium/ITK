@@ -279,7 +279,7 @@ BayesianClassifierImageFilter<TInputVectorImage, TLabelsType, TPosteriorsPrecisi
       // Create an auxiliary image to store one component of the vector image.
       // Smoothing filters typically can't handle multi-component images, so we
       // will extract each component and smooth it.
-      typename ExtractedComponentImageType::Pointer extractedComponentImage = ExtractedComponentImageType::New();
+      auto extractedComponentImage = ExtractedComponentImageType::New();
       extractedComponentImage->CopyInformation(this->GetPosteriorImage());
       extractedComponentImage->SetBufferedRegion(this->GetPosteriorImage()->GetBufferedRegion());
       extractedComponentImage->SetRequestedRegion(this->GetPosteriorImage()->GetRequestedRegion());

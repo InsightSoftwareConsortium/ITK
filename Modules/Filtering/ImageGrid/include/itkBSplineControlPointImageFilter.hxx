@@ -199,7 +199,7 @@ BSplineControlPointImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenera
     collapsedPhiLattices[i]->Allocate();
   }
   using ImageDuplicatorType = ImageDuplicator<ControlPointLatticeType>;
-  typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
+  auto duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage(inputPtr);
   duplicator->Update();
 
@@ -388,11 +388,11 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
   this->SetNumberOfLevels(numberOfLevels);
 
   using ImageDuplicatorType = ImageDuplicator<ControlPointLatticeType>;
-  typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
+  auto duplicator = ImageDuplicatorType::New();
   duplicator->SetInputImage(this->GetInput());
   duplicator->Update();
 
-  typename ControlPointLatticeType::Pointer psiLattice = ControlPointLatticeType::New();
+  auto psiLattice = ControlPointLatticeType::New();
   psiLattice = duplicator->GetOutput();
 
   for (unsigned int m = 1; m < this->m_MaximumNumberOfLevels; ++m)
@@ -422,7 +422,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
       }
     }
 
-    typename ControlPointLatticeType::Pointer refinedLattice = ControlPointLatticeType::New();
+    auto refinedLattice = ControlPointLatticeType::New();
     refinedLattice->SetRegions(size);
     refinedLattice->Allocate();
     PixelType data;
@@ -541,7 +541,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
         }
       }
     }
-    typename ImageDuplicatorType::Pointer duplicator2 = ImageDuplicatorType::New();
+    auto duplicator2 = ImageDuplicatorType::New();
     duplicator2->SetInputImage(refinedLattice);
     duplicator2->Update();
     psiLattice = duplicator2->GetOutput();

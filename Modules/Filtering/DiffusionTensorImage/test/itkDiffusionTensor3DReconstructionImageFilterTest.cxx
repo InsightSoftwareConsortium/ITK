@@ -61,7 +61,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     // Create a reference image
     //
     using ReferenceImageType = TensorReconstructionImageFilterType::ReferenceImageType;
-    ReferenceImageType::Pointer referenceImage = ReferenceImageType::New();
+    auto referenceImage = ReferenceImageType::New();
     using ReferenceRegionType = ReferenceImageType::RegionType;
     using ReferenceIndexType = ReferenceRegionType::IndexType;
     using ReferenceSizeType = ReferenceRegionType::SizeType;
@@ -94,10 +94,10 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
 
     for (unsigned int i = 0; i < numberOfGradientImages; ++i)
     {
-      GradientImageType::Pointer gradientImage = GradientImageType::New();
-      GradientSizeType           sizeGradientImage = { { 4, 4, 4 } };
-      GradientIndexType          indexGradientImage = { { 0, 0, 0 } };
-      GradientRegionType         regionGradientImage;
+      auto               gradientImage = GradientImageType::New();
+      GradientSizeType   sizeGradientImage = { { 4, 4, 4 } };
+      GradientIndexType  indexGradientImage = { { 0, 0, 0 } };
+      GradientRegionType regionGradientImage;
       regionGradientImage.SetSize(sizeGradientImage);
       regionGradientImage.SetIndex(indexGradientImage);
       gradientImage->SetRegions(regionGradientImage);
@@ -127,7 +127,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       // With all pixels set to 255, it won't actually suppress any voxels
       // from processing, but it will at least exercise the mask code.
       using MaskImageType = TensorReconstructionImageFilterType::MaskImageType;
-      MaskImageType::Pointer maskImage = MaskImageType::New();
+      auto maskImage = MaskImageType::New();
       maskImage->SetRegions(regionReferenceImage);
       maskImage->Allocate();
       maskImage->FillBuffer(255);

@@ -43,27 +43,27 @@ itkConvertLabelMapFilterTest1(int argc, char * argv[])
 
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType>;
-  L2SType::Pointer l2s = L2SType::New();
+  auto l2s = L2SType::New();
   l2s->SetInput(reader->GetOutput());
 
   using LabelObjectType = itk::LabelObject<PixelType, dim>;
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using CastType = itk::ConvertLabelMapFilter<L2SType::OutputImageType, LabelMapType>;
-  CastType::Pointer cast = CastType::New();
+  auto cast = CastType::New();
   cast->SetInput(l2s->GetOutput());
   itk::SimpleFilterWatcher watcher(cast, "cast");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  L2IType::Pointer l2i = L2IType::New();
+  auto l2i = L2IType::New();
   l2i->SetInput(cast->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

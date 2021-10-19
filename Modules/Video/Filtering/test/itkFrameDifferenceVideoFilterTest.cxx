@@ -48,7 +48,7 @@ namespace FrameDifferenceVideoFilterTest
 InputFrameType::Pointer
 CreateInputFrame(InputPixelType val)
 {
-  InputFrameType::Pointer out = InputFrameType::New();
+  auto out = InputFrameType::New();
 
   InputFrameType::RegionType largestRegion;
   InputFrameType::SizeType   sizeLR;
@@ -85,12 +85,12 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
 {
   // Instantiate the filter
   using FilterType = itk::FrameDifferenceVideoFilter<InputVideoType, OutputVideoType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
 
   // Set up an input VideoStream
-  InputVideoType::Pointer inputVideo = InputVideoType::New();
-  SizeValueType           numInputFrames = 50;
+  auto          inputVideo = InputVideoType::New();
+  SizeValueType numInputFrames = 50;
   inputVideo->SetNumberOfBuffers(numInputFrames);
   itk::TemporalRegion inputTempRegion;
   inputTempRegion.SetFrameStart(0);

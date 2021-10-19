@@ -27,7 +27,7 @@ itkSparseFrequencyContainer2Test(int, char *[])
   using SparseFrequencyContainer2Type = itk::Statistics::SparseFrequencyContainer2;
 
 
-  SparseFrequencyContainer2Type::Pointer container = SparseFrequencyContainer2Type::New();
+  auto container = SparseFrequencyContainer2Type::New();
 
   using AbsoluteFrequencyType = SparseFrequencyContainer2Type::AbsoluteFrequencyType;
 

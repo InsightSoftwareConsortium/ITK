@@ -142,7 +142,7 @@ void
 GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
@@ -176,7 +176,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
     m_AnchorFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_AnchorFilter, 0.9f);
 
-    typename CastFilterType::Pointer cast = CastFilterType::New();
+    auto cast = CastFilterType::New();
     cast->SetInput(m_AnchorFilter->GetOutput());
     progress->RegisterInternalFilter(cast, 0.1f);
 
@@ -190,7 +190,7 @@ GrayscaleDilateImageFilter<TInputImage, TOutputImage, TKernel>::GenerateData()
     m_VHGWFilter->SetInput(this->GetInput());
     progress->RegisterInternalFilter(m_VHGWFilter, 0.9f);
 
-    typename CastFilterType::Pointer cast = CastFilterType::New();
+    auto cast = CastFilterType::New();
     cast->SetInput(m_VHGWFilter->GetOutput());
     progress->RegisterInternalFilter(cast, 0.1f);
 

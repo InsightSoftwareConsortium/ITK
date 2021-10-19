@@ -32,7 +32,7 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   using IndexType = Image::IndexType;
   using ContinuousIndexType = itk::ContinuousIndex<itk::SpacePrecisionType, 3>;
 
-  Image::Pointer image = Image::New();
+  auto image = Image::New();
   // image->DebugOn();
   // image->GetSource();
   SizeType size;
@@ -93,7 +93,7 @@ itkPhasedArray3DSpecialCoordinatesImageTest(int, char *[])
   }
 
   using WindowedSincInterpolatorType = itk::WindowedSincInterpolateImageFunction<Image, 3>;
-  WindowedSincInterpolatorType::Pointer interpolator = WindowedSincInterpolatorType::New();
+  auto interpolator = WindowedSincInterpolatorType::New();
   interpolator->SetInputImage(image);
 
   std::cout << std::endl;

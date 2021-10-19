@@ -39,11 +39,11 @@ itkBilateralImageFilterTest3(int ac, char * av[])
   // Create a filter
   using FilterType = itk::BilateralImageFilter<myImage, myImage>;
 
-  FilterType::Pointer filter1 = FilterType::New();
+  auto filter1 = FilterType::New();
   filter1->SetInput(input->GetOutput());
-  FilterType::Pointer filter2 = FilterType::New();
+  auto filter2 = FilterType::New();
   filter2->SetInput(filter1->GetOutput());
-  FilterType::Pointer filter3 = FilterType::New();
+  auto filter3 = FilterType::New();
   filter3->SetInput(filter2->GetOutput());
 
   // Instead of using a single aggressive smoothing filter, use 3

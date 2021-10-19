@@ -73,7 +73,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   using PointType = itk::Point<double, ImageDimension>;
 
   // Fill an input image with simple signed distance function
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   ImageType::SizeType size;
   size.Fill(128);
   ImageType::RegionType region(size);
@@ -95,14 +95,14 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
 
   // Squash up the level sets by mulitplying with a scalar
   using MultiplierType = itk::ShiftScaleImageFilter<ImageType, ImageType>;
-  MultiplierType::Pointer multiplier = MultiplierType::New();
+  auto multiplier = MultiplierType::New();
   multiplier->SetInput(image);
   multiplier->SetScale(0.5);
   // multiplier->SetShift( 0.0 );
 
   // Set up  image filter
   using IsoContourType = itk::IsoContourDistanceImageFilter<ImageType, ImageType>;
-  IsoContourType::Pointer isocontour = IsoContourType::New();
+  auto isocontour = IsoContourType::New();
   isocontour->SetInput(multiplier->GetOutput());
   isocontour->SetFarValue(10);
   //  isocontour->SetNumberOfWorkUnits(8);
@@ -121,7 +121,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
 
   // For debugging
   using CastFilterType = itk::RescaleIntensityImageFilter<ImageType, OutputImageType>;
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto caster = CastFilterType::New();
   caster->SetInput(isocontour->GetOutput());
 
   try
@@ -138,7 +138,7 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
   using BandNodeType = IsoContourType::BandNodeType;
   using NarrowBandType = IsoContourType::NarrowBandType;
 
-  NarrowBandType::Pointer band = NarrowBandType::New();
+  auto band = NarrowBandType::New();
   // Create nodes
   BandNodeType node;
 
@@ -170,13 +170,13 @@ itkIsoContourDistanceImageFilterTest(int, char *[])
 
   // Check if inside/outside points remain the same after reinitialization
   using CheckerType = itk::MultiplyImageFilter<ImageType, ImageType, ImageType>;
-  CheckerType::Pointer checker = CheckerType::New();
+  auto checker = CheckerType::New();
   checker->SetInput1(image);
   checker->SetInput2(isocontour->GetOutput());
   checker->Update();
 
   using CalculatorType = itk::MinimumMaximumImageCalculator<ImageType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
   calculator->SetImage(checker->GetOutput());
   calculator->Compute();
   double minValue = calculator->GetMinimum();

@@ -36,11 +36,11 @@ template <typename TInputImage, typename TMaskImage, typename TOutputImage>
 void
 KappaSigmaThresholdImageFilter<TInputImage, TMaskImage, TOutputImage>::GenerateData()
 {
-  typename ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
   // Compute the Threshold for the input image
-  typename CalculatorType::Pointer thresholdImageCalculator = CalculatorType::New();
+  auto thresholdImageCalculator = CalculatorType::New();
   thresholdImageCalculator->SetImage(this->GetInput());
   thresholdImageCalculator->SetMask(this->GetMaskImage());
   thresholdImageCalculator->SetMaskValue(m_MaskValue);

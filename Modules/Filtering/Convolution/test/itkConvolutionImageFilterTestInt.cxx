@@ -42,14 +42,14 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
+  auto reader1 = ReaderType::New();
   reader1->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   using ConvolutionFilterType = itk::ConvolutionImageFilter<ImageType>;
-  ConvolutionFilterType::Pointer convolver = ConvolutionFilterType::New();
+  auto convolver = ConvolutionFilterType::New();
   convolver->SetInput(reader1->GetOutput());
   convolver->SetKernelImage(reader2->GetOutput());
 
@@ -83,7 +83,7 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
 
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(convolver->GetOutput());
 
   constexpr unsigned int                                   numberOfStreamDivisions = 4;
@@ -93,7 +93,7 @@ itkConvolutionImageFilterTestInt(int argc, char * argv[])
   streamingFilter->SetInput(monitor->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(streamingFilter->GetOutput());
 

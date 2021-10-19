@@ -31,7 +31,7 @@ CreateRandomImage()
   ImageType::RegionType      region;
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
-  ImageType::Pointer img = ImageType::New();
+  auto img = ImageType::New();
   img->SetLargestPossibleRegion(region);
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);

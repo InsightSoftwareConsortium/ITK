@@ -31,7 +31,7 @@ itkStreamingImageFilterTest(int, char *[])
   using ShortImage = itk::Image<short, 2>;
 
   // Test the creation of an image with native type
-  ShortImage::Pointer if2 = ShortImage::New();
+  auto if2 = ShortImage::New();
 
   // fill in an image
   ShortImage::IndexType  index = { { 0, 0 } };

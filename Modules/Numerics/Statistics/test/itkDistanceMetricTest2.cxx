@@ -75,7 +75,7 @@ itkDistanceMetricTest2(int, char *[])
 
   using MeasurementVectorSizeType = DistanceMetricType::MeasurementVectorSizeType;
 
-  DistanceMetricType::Pointer distance = DistanceMetricType::New();
+  auto distance = DistanceMetricType::New();
 
   std::cout << distance->GetNameOfClass() << std::endl;
   std::cout << distance->DistanceMetricType::Superclass::GetNameOfClass() << std::endl;

@@ -123,7 +123,7 @@ itkInterpolateTest(int, char *[])
   std::cout << "Testing image interpolation methods:\n";
 
   /* Allocate a simple test image */
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   region.SetSize(size);
   image->SetLargestPossibleRegion(region);
@@ -151,7 +151,7 @@ itkInterpolateTest(int, char *[])
   }
 
   /* Create and initialize the interpolator */
-  InterpolatorType::Pointer interp = InterpolatorType::New();
+  auto interp = InterpolatorType::New();
   interp->SetInputImage(image);
   interp->Print(std::cout);
 
@@ -265,7 +265,7 @@ itkInterpolateTest(int, char *[])
   }
 
   /* Create and initialize the nearest neigh. interpolator */
-  NNInterpolatorType::Pointer nninterp = NNInterpolatorType::New();
+  auto nninterp = NNInterpolatorType::New();
   nninterp->SetInputImage(image);
   nninterp->Print(std::cout);
 

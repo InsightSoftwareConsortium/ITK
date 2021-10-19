@@ -59,10 +59,10 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<StatisticsLabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImage);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(featureImage);
 
 
@@ -70,7 +70,7 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   constexpr unsigned int radiusValue = 5;
 
   using LabelImageToLabelMapFilterType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  LabelImageToLabelMapFilterType::Pointer labelMapConverter = LabelImageToLabelMapFilterType::New();
+  auto labelMapConverter = LabelImageToLabelMapFilterType::New();
   labelMapConverter->SetInput(reader->GetOutput());
   labelMapConverter->SetBackgroundValue(itk::NumericTraits<PixelType>::ZeroValue());
 
@@ -81,23 +81,23 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   StructuringElementType structuringElement = StructuringElementType::Box(radius);
 
   using MorphologicalFilterType = itk::GrayscaleDilateImageFilter<ImageType, ImageType, StructuringElementType>;
-  MorphologicalFilterType::Pointer grayscaleDilateFilter = MorphologicalFilterType::New();
+  auto grayscaleDilateFilter = MorphologicalFilterType::New();
   grayscaleDilateFilter->SetInput(reader->GetOutput());
   grayscaleDilateFilter->SetKernel(structuringElement);
 
   using ObjectByObjectLabelMapFilterType = itk::ObjectByObjectLabelMapFilter<LabelMapType>;
-  ObjectByObjectLabelMapFilterType::Pointer objectByObjectLabelMapFilter = ObjectByObjectLabelMapFilterType::New();
+  auto objectByObjectLabelMapFilter = ObjectByObjectLabelMapFilterType::New();
   objectByObjectLabelMapFilter->SetInput(labelMapConverter->GetOutput());
   objectByObjectLabelMapFilter->SetBinaryInternalOutput(false);
   objectByObjectLabelMapFilter->SetFilter(grayscaleDilateFilter);
 
   using StatisticsFilterType = itk::StatisticsLabelMapFilter<LabelMapType, ImageType>;
-  StatisticsFilterType::Pointer statisticsFilter = StatisticsFilterType::New();
+  auto statisticsFilter = StatisticsFilterType::New();
   statisticsFilter->SetInput1(objectByObjectLabelMapFilter->GetOutput());
   statisticsFilter->SetFeatureImage(reader2->GetOutput());
 
   using LabelUniqueType = itk::StatisticsUniqueLabelMapFilter<LabelMapType>;
-  LabelUniqueType::Pointer unique = LabelUniqueType::New();
+  auto unique = LabelUniqueType::New();
 
   // testing boolean macro for ReverseOrdering
   unique->ReverseOrderingOn();
@@ -124,11 +124,11 @@ itkStatisticsUniqueLabelMapFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
   using LabelMapToImageFilterType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  LabelMapToImageFilterType::Pointer labelMapToImageFilter = LabelMapToImageFilterType::New();
+  auto labelMapToImageFilter = LabelMapToImageFilterType::New();
   labelMapToImageFilter->SetInput(unique->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(labelMapToImageFilter->GetOutput());
   writer->SetFileName(outputImage);
   writer->UseCompressionOn();

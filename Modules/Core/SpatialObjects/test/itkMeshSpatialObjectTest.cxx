@@ -36,7 +36,7 @@ itkMeshSpatialObjectTest(int, char *[])
   using CellAutoPointer = CellType::CellAutoPointer;
 
   // Create an itkMesh
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   MeshType::CoordRepType testPointCoords[4][3] = { { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 } };
 
@@ -56,7 +56,7 @@ itkMeshSpatialObjectTest(int, char *[])
 
   // Create the mesh Spatial Object
 
-  MeshSpatialObjectType::Pointer meshSO = MeshSpatialObjectType::New();
+  auto meshSO = MeshSpatialObjectType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(meshSO, MeshSpatialObject, SpatialObject);
 
@@ -135,7 +135,7 @@ itkMeshSpatialObjectTest(int, char *[])
   using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
 
   // Create an itkMesh
-  MeshType::Pointer meshTriangle = MeshType::New();
+  auto meshTriangle = MeshType::New();
 
   MeshType::CoordRepType testTrianglePointCoords[4][3] = {
     { 50, 50, 64 }, { 50, 100, 64 }, { 100, 50, 64 }, { 100, 100, 64 }
@@ -163,7 +163,7 @@ itkMeshSpatialObjectTest(int, char *[])
   meshTriangle->SetCell(1, testCell4);
 
   // Create the mesh Spatial Object
-  MeshSpatialObjectType::Pointer meshTriangleSO = MeshSpatialObjectType::New();
+  auto meshTriangleSO = MeshSpatialObjectType::New();
   meshTriangleSO->SetMesh(meshTriangle);
   meshTriangleSO->Update();
 

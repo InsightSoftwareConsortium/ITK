@@ -52,13 +52,13 @@ itkGrayscaleGrindPeakImageFilterTest(int argc, char * argv[])
   using WriteImageType = itk::Image<WritePixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
 
   // Create the filter
   using GrindPeakFilterType = itk::GrayscaleGrindPeakImageFilter<InputImageType, OutputImageType>;
-  GrindPeakFilterType::Pointer grindpeak = GrindPeakFilterType::New();
+  auto grindpeak = GrindPeakFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(grindpeak, GrayscaleGrindPeakImageFilter, ImageToImageFilter);
 
@@ -71,7 +71,7 @@ itkGrayscaleGrindPeakImageFilterTest(int argc, char * argv[])
 
   // Write the output
   using WriterType = itk::ImageFileWriter<WriteImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(grindpeak->GetOutput());
 

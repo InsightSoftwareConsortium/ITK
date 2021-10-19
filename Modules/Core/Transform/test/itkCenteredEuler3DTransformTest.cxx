@@ -32,7 +32,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   bool                   Ok = true;
 
   using EulerTransformType = itk::CenteredEuler3DTransform<double>;
-  EulerTransformType::Pointer eulerTransform = EulerTransformType::New();
+  auto eulerTransform = EulerTransformType::New();
 
   // Testing Identity
   std::cout << "Testing identity transform: ";
@@ -295,7 +295,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
 
   eulerTransform->SetRotation(0.2, 0.1, 0.3);
 
-  EulerTransformType::Pointer t2 = EulerTransformType::New();
+  auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
   if ((std::fabs(t2->GetParameters()[0] - 0.2) > 0.0001) || (std::fabs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
@@ -323,7 +323,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   }
   std::cout << " [ PASSED ] " << std::endl;
 
-  EulerTransformType::Pointer t3 = EulerTransformType::New();
+  auto t3 = EulerTransformType::New();
   t2->GetInverse(t3);
 
   t3 = dynamic_cast<EulerTransformType *>(t2->GetInverseTransform().GetPointer());
@@ -336,7 +336,7 @@ itkCenteredEuler3DTransformTest(int, char *[])
   std::cout << "Testing offset updating after changing angle order (ZYX) : ";
   const double dtr = (std::atan(1.0) * 4.0) / 180.0; // cast angles from degrees to radians
 
-  EulerTransformType::Pointer        centeredtransform = EulerTransformType::New();
+  auto                               centeredtransform = EulerTransformType::New();
   EulerTransformType::ParametersType transformParameters = centeredtransform->GetParameters();
   transformParameters[0] = 32;
   transformParameters[1] = -51;

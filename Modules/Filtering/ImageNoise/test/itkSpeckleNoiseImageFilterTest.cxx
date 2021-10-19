@@ -39,11 +39,11 @@ itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using SpeckleNoiseImageFilterType = itk::SpeckleNoiseImageFilter<ImageType, ImageType>;
-  SpeckleNoiseImageFilterType::Pointer speckleNoiseImageFilter = SpeckleNoiseImageFilterType::New();
+  auto speckleNoiseImageFilter = SpeckleNoiseImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(speckleNoiseImageFilter, SpeckleNoiseImageFilter, NoiseBaseImageFilter);
 
@@ -60,7 +60,7 @@ itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(speckleNoiseImageFilter, "SpeckleNoiseImageFilter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(speckleNoiseImageFilter->GetOutput());
   writer->SetFileName(argv[2]);
 

@@ -192,7 +192,7 @@ protected:
   ~MorphFilter() override = default;
   MorphFilter()
   {
-    MorphFunction::Pointer p = MorphFunction::New();
+    auto p = MorphFunction::New();
     p->SetPropagationWeight(-1.0);
     p->SetAdvectionWeight(0.0);
     p->SetCurvatureWeight(1.0);
@@ -229,8 +229,8 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   constexpr int n = 100;                // Number of iterations
   constexpr int numberOfWorkUnits = 11; // Number of work units to be used
 
-  ImageType::Pointer im_init = ImageType::New();
-  ImageType::Pointer im_target = ImageType::New();
+  auto im_init = ImageType::New();
+  auto im_target = ImageType::New();
 
   ImageType::RegionType r;
   ImageType::SizeType   sz = { { PSFLSIFT::HEIGHT, PSFLSIFT::WIDTH, PSFLSIFT::DEPTH } };
@@ -273,7 +273,7 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   PSFLSIFT::evaluate_function(im_target, PSFLSIFT::cube);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   if (argc > 2)
   {
     writer->SetInput(im_init);

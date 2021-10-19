@@ -40,7 +40,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
   itk::TimeProbesCollectorBase chronometer;
 
   { // begin write block
-    OutputImageType::Pointer    image = OutputImageType::New();
+    auto                        image = OutputImageType::New();
     OutputImageType::RegionType region;
     OutputImageType::IndexType  index;
     OutputImageType::SizeType   size;
@@ -79,7 +79,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
     std::cout << "Trying to write the image to disk" << std::endl;
     try
     {
-      WriterType::Pointer writer = WriterType::New();
+      auto writer = WriterType::New();
       writer->SetInput(image);
       writer->SetFileName(av[1]);
       chronometer.Start("Write");
@@ -95,7 +95,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
   } // end writing block so data is freed
 
   std::cout << "Trying to read the image back from disk" << std::endl;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
 
   try

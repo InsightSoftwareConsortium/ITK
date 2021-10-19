@@ -136,7 +136,7 @@ itkFEMElement2DTest(int argc, char * argv[])
     itk::fem::LinearSystemWrapperVNL      lsw_vnl;
     for (int s = 0; s < numsolvers; ++s)
     {
-      Solver2DType::Pointer solver = Solver2DType::New();
+      auto solver = Solver2DType::New();
       solver->SetInput(femSO->GetFEMObject());
 
       if (s == 2)

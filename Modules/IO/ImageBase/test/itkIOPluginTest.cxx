@@ -77,8 +77,8 @@ itkIOPluginTest(int argc, char * argv[])
   using ImageNDType = itk::Image<unsigned char, 2>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
   using WriterType = itk::ImageFileWriter<ImageNDType>;
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   int status = EXIT_SUCCESS;
   try

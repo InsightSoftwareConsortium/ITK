@@ -32,7 +32,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   using SampleType = HistogramType;
 
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
 
   HistogramType::SizeType              size(MeasurementVectorSize);
   HistogramType::MeasurementVectorType lowerBound(MeasurementVectorSize);
@@ -48,7 +48,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   using MembershipFunctionType = itk::Statistics::MahalanobisDistanceMetric<HistogramType::MeasurementVectorType>;
 
-  MembershipFunctionType::Pointer memberFunction = MembershipFunctionType::New();
+  auto memberFunction = MembershipFunctionType::New();
 
 
   using MeanVectorType = MembershipFunctionType::MeanVectorType;
@@ -101,7 +101,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   using FilterType = itk::Statistics::MeanSampleFilter<SampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(histogram);
 

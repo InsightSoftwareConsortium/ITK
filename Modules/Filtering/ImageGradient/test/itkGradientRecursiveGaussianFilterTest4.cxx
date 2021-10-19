@@ -47,17 +47,17 @@ itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
   using myGradientImageType = itk::VectorImage<FloatType, myDimension>;
 
   // Create the image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
   using myReaderType = itk::ImageFileReader<myImageType>;
-  myReaderType::Pointer reader = myReaderType::New();
+  auto reader = myReaderType::New();
   reader->SetFileName(inFileName);
 
   // Declare the type for the
   using myFilterType = itk::GradientRecursiveGaussianImageFilter<myImageType, myGradientImageType>;
 
   // Create a  Filter
-  myFilterType::Pointer filter = myFilterType::New();
+  auto filter = myFilterType::New();
 
   // Connect the input images
   filter->SetInput(reader->GetOutput());
@@ -66,7 +66,7 @@ itkGradientRecursiveGaussianFilterTest4(int argc, char * argv[])
   filter->SetSigma(2.5);
 
   using myWriterType = itk::ImageFileWriter<myGradientImageType>;
-  myWriterType::Pointer writer = myWriterType::New();
+  auto writer = myWriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(outFileName);
   writer->Update();

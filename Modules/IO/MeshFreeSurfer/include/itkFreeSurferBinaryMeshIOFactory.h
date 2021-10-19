@@ -56,7 +56,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    FreeSurferBinaryMeshIOFactory::Pointer freesurferFactory = FreeSurferBinaryMeshIOFactory::New();
+    auto freesurferFactory = FreeSurferBinaryMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(freesurferFactory);
   }

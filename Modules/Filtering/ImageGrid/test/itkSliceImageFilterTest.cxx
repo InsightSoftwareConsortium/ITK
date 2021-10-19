@@ -69,7 +69,7 @@ RunFilter(const TImageType *             img,
           int                            step[TImageType::ImageDimension])
 {
   using FilterType = itk::SliceImageFilter<TImageType, TImageType>;
-  typename FilterType::Pointer sliceFilter = FilterType::New();
+  auto sliceFilter = FilterType::New();
 
   sliceFilter->SetInput(img);
   sliceFilter->SetStart(start);
@@ -90,7 +90,7 @@ TEST(SliceImageFilterTests, PhysicalPoint1)
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using SourceType = itk::PhysicalPointImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
 
   // these size are chosen as a power of two and a prime number.
@@ -130,7 +130,7 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using SourceType = itk::PhysicalPointImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
 
   // these size are chosen as a power of two and a prime number.
@@ -172,7 +172,7 @@ TEST(SliceImageFilterTests, PhysicalPoint3)
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using SourceType = itk::PhysicalPointImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
 
   // these size are chosen as a power of two and a prime number.
@@ -210,7 +210,7 @@ TEST(SliceImageFilterTests, Empty)
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
   using SourceType = itk::PhysicalPointImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
 
   // these size are chosen as a power of two and a prime number.
@@ -252,7 +252,7 @@ TEST(SliceImageFilterTests, Coverage)
 
   using FilterType = itk::SliceImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   std::cout << filter;
 
   FilterType::IndexType idx;
@@ -289,7 +289,7 @@ TEST(SliceImageFilterTests, Sizes)
   using ImageType = itk::Image<float, ImageDimension>;
 
   using SourceType = itk::GaussianImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
   SourceType::SizeType size = { { 64, 64, 64 } };
   source->SetSize(size);
@@ -297,7 +297,7 @@ TEST(SliceImageFilterTests, Sizes)
 
   using FilterType = itk::SliceImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(source->GetOutput());
   // check with default start, stop, step
   EXPECT_NO_THROW(filter->Update());
@@ -343,12 +343,12 @@ TEST(SliceImageFilterTests, ExceptionalCases)
   using ImageType = itk::Image<float, ImageDimension>;
 
   using SourceType = itk::GaussianImageSource<ImageType>;
-  SourceType::Pointer source = SourceType::New();
+  auto source = SourceType::New();
 
 
   using FilterType = itk::SliceImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(source->GetOutput());
 
   filter->SetStep(0);

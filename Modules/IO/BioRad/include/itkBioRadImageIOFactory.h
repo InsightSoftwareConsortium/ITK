@@ -67,7 +67,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    BioRadImageIOFactory::Pointer bioradFactory = BioRadImageIOFactory::New();
+    auto bioradFactory = BioRadImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(bioradFactory);
   }

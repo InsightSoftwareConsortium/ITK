@@ -43,9 +43,9 @@ itkDCMTKRGBImageIOTest(int ac, char * av[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
   using ImageIOType = itk::DCMTKImageIO;
-  ImageIOType::Pointer dcmtkImageIO = ImageIOType::New();
+  auto dcmtkImageIO = ImageIOType::New();
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(av[1]);
   reader->SetImageIO(dcmtkImageIO);
 
@@ -54,7 +54,7 @@ itkDCMTKRGBImageIOTest(int ac, char * av[])
 
   using WriteImageType = itk::Image<PixelType, 2>;
   using Writer2Type = itk::ImageFileWriter<WriteImageType>;
-  Writer2Type::Pointer writer2 = Writer2Type::New();
+  auto writer2 = Writer2Type::New();
   writer2->SetFileName(av[2]);
   writer2->SetInput(reader->GetOutput());
 

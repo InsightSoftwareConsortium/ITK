@@ -79,7 +79,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDa
   typename TMaskImage::ConstPointer  mask = this->GetMaskImage();
 
   using MaskFilterType = MaskImageFilter<TInputImage, TMaskImage, TInputImage>;
-  typename MaskFilterType::Pointer maskFilter = MaskFilterType::New();
+  auto maskFilter = MaskFilterType::New();
   if (mask)
   {
     maskFilter->SetInput(input);

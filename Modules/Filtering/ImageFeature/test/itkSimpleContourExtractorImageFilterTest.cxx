@@ -52,14 +52,14 @@ itkSimpleContourExtractorImageFilterTest(int argc, char * argv[])
   using FilterType = itk::SimpleContourExtractorImageFilter<ImageType, ImageType>;
 
   // Create the reader and writer
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SimpleContourExtractorImageFilter, BoxImageFilter);
 

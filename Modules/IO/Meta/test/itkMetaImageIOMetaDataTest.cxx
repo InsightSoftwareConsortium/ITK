@@ -32,7 +32,7 @@ ReadImage(const std::string & fileName)
 {
   typename TImage::Pointer image;
   using ReaderType = itk::ImageFileReader<TImage>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(fileName.c_str());
 
   itk::MetaImageIO::Pointer io = itk::MetaImageIO::New();
@@ -63,7 +63,7 @@ void
 WriteImage(typename ImageType::Pointer & image, const std::string & fileName)
 {
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(fileName.c_str());
 
@@ -161,7 +161,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dim>;
   using SourceType = itk::RandomImageSource<ImageType>;
 
-  SourceType::Pointer      source = SourceType::New();
+  auto                     source = SourceType::New();
   ImageType::SizeValueType size[Dim] = { 32, 32 };
   source->SetSize(size);
   source->SetMin(itk::NumericTraits<PixelType>::min());

@@ -72,7 +72,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
   MeshPointer mesh = MeshType::New();
   CreateSquareTriangularMesh<MeshType>(mesh);
 
-  DeleteCenterVertex::Pointer deleteCenterVertex = DeleteCenterVertex::New();
+  auto deleteCenterVertex = DeleteCenterVertex::New();
   std::cout << "     "
             << "Test No Mesh Input";
   if (deleteCenterVertex->Evaluate((QEType *)1))
@@ -246,7 +246,7 @@ itkQuadEdgeMeshEulerOperatorDeleteCenterVertexTest(int argc, char * argv[])
 
   std::cout << "Checking DeleteCenterVertex( CreateCenterVertex()) Invariance.";
 
-  CreateCenterVertex::Pointer createCenterVertex = CreateCenterVertex::New();
+  auto createCenterVertex = CreateCenterVertex::New();
   createCenterVertex->SetInput(mesh);
 
   CreateSquareTriangularMesh<MeshType>(mesh);

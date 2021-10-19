@@ -33,10 +33,10 @@ itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char * argv[])
 
   constexpr unsigned int Dimension = 2;
   using Solver2DType = itk::fem::Solver<Dimension>;
-  Solver2DType::Pointer solver = Solver2DType::New();
+  auto solver = Solver2DType::New();
 
   using FEMObjectType = itk::fem::FEMObject<Dimension>;
-  FEMObjectType::Pointer femObject = FEMObjectType::New();
+  auto femObject = FEMObjectType::New();
 
   using NodeType = itk::fem::Element::Node;
   NodeType::Pointer n1;
@@ -153,7 +153,7 @@ itkFEMElement2DC0LinearQuadrilateralStressTest(int argc, char * argv[])
   // to write the deformed mesh
   // Testing the fe mesh validity
   using FEMObjectSpatialObjectType = itk::FEMObjectSpatialObject<Dimension>;
-  FEMObjectSpatialObjectType::Pointer femSODef = FEMObjectSpatialObjectType::New();
+  auto femSODef = FEMObjectSpatialObjectType::New();
   femSODef->SetFEMObject(solver->GetOutput());
 
   using FEMSpatialObjectWriterType = itk::FEMSpatialObjectWriter<Dimension>;

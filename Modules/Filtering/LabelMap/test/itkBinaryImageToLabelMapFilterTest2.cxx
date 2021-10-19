@@ -47,11 +47,11 @@ itkBinaryImageToLabelMapFilterTest2(int argc, char * argv[])
   using LabelMapType = itk::LabelMap<LabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using ImageToLabelType = itk::BinaryImageToLabelMapFilter<ImageType, LabelMapType>;
-  ImageToLabelType::Pointer imageToLabel = ImageToLabelType::New();
+  auto imageToLabel = ImageToLabelType::New();
 
   imageToLabel->SetInput(reader->GetOutput());
   imageToLabel->SetFullyConnected(true);
@@ -65,11 +65,11 @@ itkBinaryImageToLabelMapFilterTest2(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(imageToLabel->GetOutput()->GetNumberOfLabelObjects(), imageToLabel->GetNumberOfObjects());
 
   using LabelToImageType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
-  LabelToImageType::Pointer labelToImage = LabelToImageType::New();
+  auto labelToImage = LabelToImageType::New();
   labelToImage->SetInput(imageToLabel->GetOutput());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(labelToImage->GetOutput());
 

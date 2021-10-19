@@ -42,13 +42,13 @@ itkDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
   using FilterType = itk::DanielssonDistanceMapImageFilter<InputImageType, OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   auto squaredDistance = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(filter, SquaredDistance, squaredDistance);
@@ -67,7 +67,7 @@ itkDanielssonDistanceMapImageFilterTest1(int argc, char * argv[])
 
   filter->Print(std::cout);
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

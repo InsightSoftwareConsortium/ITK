@@ -46,11 +46,11 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
   using RealImageType = itk::Image<RealPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using GradientType = itk::GradientMagnitudeRecursiveGaussianImageFilter<ImageType, RealImageType>;
-  GradientType::Pointer gradient = GradientType::New();
+  auto gradient = GradientType::New();
   gradient->SetInput(reader->GetOutput());
   gradient->SetSigma(10);
 
@@ -58,7 +58,7 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
 
 
   using FilterType = itk::RobustAutomaticThresholdImageFilter<ImageType, RealImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RobustAutomaticThresholdImageFilter, ImageToImageFilter);
 
@@ -101,7 +101,7 @@ itkRobustAutomaticThresholdImageFilterTest(int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

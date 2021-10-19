@@ -78,7 +78,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
     }
   }
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   try
@@ -94,7 +94,7 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   InputMeshType::Pointer mesh = reader->GetOutput();
 
-  NormalFilterType::Pointer normals = NormalFilterType::New();
+  auto normals = NormalFilterType::New();
   normals->SetInput(mesh);
   normals->SetWeight(weight_type);
   normals->Update();

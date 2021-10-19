@@ -40,7 +40,7 @@ itkQuadEdgeMeshEulerOperatorSplitFaceTest(int, char *[])
   // Split the facet again in order to restore the original situation:
   std::cout << "Checking SplitFacet." << std::endl;
 
-  SplitFacet::Pointer splitFacet = SplitFacet::New();
+  auto splitFacet = SplitFacet::New();
   std::cout << "     "
             << "Test No Mesh Input";
   if (splitFacet->Evaluate((QEType *)1, (QEType *)2))
@@ -93,10 +93,10 @@ itkQuadEdgeMeshEulerOperatorSplitFaceTest(int, char *[])
   }
   std::cout << "OK" << std::endl;
 
-  JoinFacet::Pointer joinFacet = JoinFacet::New();
-  QEType *           DeletedEdge = mesh->FindEdge(12, 7);
-  QEType *           G = DeletedEdge->GetSym()->GetLprev();
-  QEType *           H = joinFacet->Evaluate(DeletedEdge);
+  auto     joinFacet = JoinFacet::New();
+  QEType * DeletedEdge = mesh->FindEdge(12, 7);
+  QEType * G = DeletedEdge->GetSym()->GetLprev();
+  QEType * H = joinFacet->Evaluate(DeletedEdge);
 
   if (!splitFacet->Evaluate(H, G))
   {

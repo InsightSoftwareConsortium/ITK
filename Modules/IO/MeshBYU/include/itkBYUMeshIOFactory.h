@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    BYUMeshIOFactory::Pointer byuFactory = BYUMeshIOFactory::New();
+    auto byuFactory = BYUMeshIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(byuFactory);
   }

@@ -104,7 +104,7 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
       if (xfm->inverse_flag)
       {
         using AffineTransformType = AffineTransform<TParametersValueType, 3>;
-        typename AffineTransformType::Pointer tmp = AffineTransformType::New();
+        auto tmp = AffineTransformType::New();
         tmp->SetParametersByValue(parameterArray);
         tmp->GetInverse(static_cast<AffineTransformType *>(transform.GetPointer()));
       }
@@ -138,8 +138,8 @@ MINCTransformIOTemplate<TParametersValueType>::ReadOneTransform(VIO_General_tran
         using GridImageType = typename DisplacementFieldTransformType::DisplacementFieldType;
         using MincReaderType = ImageFileReader<GridImageType>;
 
-        MINCImageIO::Pointer             mincIO = MINCImageIO::New();
-        typename MincReaderType::Pointer reader = MincReaderType::New();
+        auto mincIO = MINCImageIO::New();
+        auto reader = MincReaderType::New();
         reader->SetImageIO(mincIO);
         reader->SetFileName(xfm->displacement_volume_file);
         reader->Update();
@@ -251,8 +251,8 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       sprintf(tmp, "%s_grid_%d.mnc", xfm_file_base, serial);
       ++serial;
 
-      MINCImageIO::Pointer             mincIO = MINCImageIO::New();
-      typename MincWriterType::Pointer writer = MincWriterType::New();
+      auto mincIO = MINCImageIO::New();
+      auto writer = MincWriterType::New();
       writer->SetImageIO(mincIO);
       writer->SetFileName(tmp);
 

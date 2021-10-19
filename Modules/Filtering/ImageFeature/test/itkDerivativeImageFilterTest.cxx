@@ -48,13 +48,13 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Define the filter
   using FilterType = itk::DerivativeImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DerivativeImageFilter, ImageToImageFilter);
 
@@ -93,8 +93,8 @@ itkDerivativeImageFilterTest(int argc, char * argv[])
 
   using NormalizedWriterType = itk::ImageFileWriter<WriteImageType>;
 
-  NormalizeFilterType::Pointer  normalizer = NormalizeFilterType::New();
-  NormalizedWriterType::Pointer normalizedWriter = NormalizedWriterType::New();
+  auto normalizer = NormalizeFilterType::New();
+  auto normalizedWriter = NormalizedWriterType::New();
 
   normalizer->SetInput(filter->GetOutput());
   normalizedWriter->SetInput(normalizer->GetOutput());

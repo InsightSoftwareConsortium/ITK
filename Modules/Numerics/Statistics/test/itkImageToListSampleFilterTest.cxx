@@ -33,7 +33,7 @@ using MaskImageType = itk::Image<unsigned char, 2>;
 static ImageType::Pointer
 CreateImage()
 {
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::IndexType start;
   ImageType::SizeType  size;
@@ -63,7 +63,7 @@ CreateImage()
 static MaskImageType::Pointer
 CreateMaskImage()
 {
-  MaskImageType::Pointer   image = MaskImageType::New();
+  auto                     image = MaskImageType::New();
   MaskImageType::IndexType start;
   MaskImageType::SizeType  size;
 
@@ -101,7 +101,7 @@ CreateMaskImage()
 static MaskImageType::Pointer
 CreateLargerMaskImage()
 {
-  MaskImageType::Pointer image = MaskImageType::New();
+  auto image = MaskImageType::New();
 
   MaskImageType::IndexType start;
   MaskImageType::SizeType  size;
@@ -128,7 +128,7 @@ itkImageToListSampleFilterTest(int, char *[])
 
   // Generate a list sample from "image" confined to the mask, "maskImage".
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
-  ImageToListSampleFilterType::Pointer filter = ImageToListSampleFilterType::New();
+  auto filter = ImageToListSampleFilterType::New();
 
   bool        pass = true;
   std::string failureMeassage = "";

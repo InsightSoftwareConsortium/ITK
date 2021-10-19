@@ -468,7 +468,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
   m_EnergyFunction->SetRegion(region);
 
   // Initialize the 1+1 optimizer
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   optimizer->SetDebug(this->GetDebug());
   optimizer->SetNormalVariateGenerator(m_NormalVariateGenerator);
   optimizer->SetCostFunction(m_EnergyFunction);

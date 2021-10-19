@@ -45,7 +45,7 @@ SameImage(ImagePointer testImage, ImagePointer baselineImage)
   // NOTE ALEX: it look slike this filter does not take the spacing
   // into account, to check later.
   using DiffType = itk::Testing::ComparisonImageFilter<ImageType, ImageType>;
-  DiffType::Pointer diff = DiffType::New();
+  auto diff = DiffType::New();
   diff->SetValidInput(baselineImage);
   diff->SetTestInput(testImage);
   diff->SetDifferenceThreshold(intensityTolerance);
@@ -78,7 +78,7 @@ bool
 SameImage(std::string testImageFileName, ImagePointer baselineImage)
 {
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer readerTestImage = ReaderType::New();
+  auto readerTestImage = ReaderType::New();
   readerTestImage->SetFileName(testImageFileName);
 
   // NOTE ALEX: here we suppose the reading went well
@@ -119,7 +119,7 @@ ActualTest(std::string inputFileName,
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputFileName.c_str());
   reader->SetUseStreaming(true);
 
@@ -143,11 +143,11 @@ ActualTest(std::string inputFileName,
 
   // ??
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-  MonitorFilter::Pointer monitor = MonitorFilter::New();
+  auto monitor = MonitorFilter::New();
   monitor->SetInput(reader->GetOutput());
 
   // Setup the writer
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFileName);
   writer->SetInput(monitor->GetOutput());
 
@@ -203,14 +203,14 @@ ActualTest(std::string inputFileName,
   if (pasteWriting)
   {
     using ExtractImageFilterType = itk::ExtractImageFilter<ImageType, ImageType>;
-    ExtractImageFilterType::Pointer extractBaselineImage = ExtractImageFilterType::New();
+    auto extractBaselineImage = ExtractImageFilterType::New();
     extractBaselineImage->SetDirectionCollapseToSubmatrix();
     extractBaselineImage->SetInput(reader->GetOutput());
     extractBaselineImage->SetExtractionRegion(pasteRegion);
 
-    ReaderType::Pointer readerTestImage = ReaderType::New();
+    auto readerTestImage = ReaderType::New();
     readerTestImage->SetFileName(outputFileName);
-    ExtractImageFilterType::Pointer extractTestImage = ExtractImageFilterType::New();
+    auto extractTestImage = ExtractImageFilterType::New();
     extractTestImage->SetDirectionCollapseToSubmatrix();
     extractTestImage->SetInput(readerTestImage->GetOutput());
     extractTestImage->SetExtractionRegion(pasteRegion);

@@ -66,23 +66,23 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using FilterType = itk::SliceBySliceImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->DebugOn();
 
   filter->SetInput(reader->GetOutput());
 
   using MedianType = itk::MedianImageFilter<FilterType::InternalInputImageType, FilterType::InternalOutputImageType>;
 
-  MedianType::Pointer median = MedianType::New();
+  auto median = MedianType::New();
   filter->SetFilter(median);
 
   using MonitorType = itk::PipelineMonitorImageFilter<FilterType::InternalOutputImageType>;
-  MonitorType::Pointer monitor = MonitorType::New();
+  auto monitor = MonitorType::New();
 
   itk::CStyleCommand::Pointer command = itk::CStyleCommand::New();
   command->SetCallback(*sliceCallBack);
@@ -93,7 +93,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
@@ -157,7 +157,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   // spacing. We are setting the input image to have a non-zero
   // starting index.
   //
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   {
     ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
     region.SetIndex(0, 10);
@@ -201,8 +201,8 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   //
   // Exercise exceptions
   //
-  bool                caughtException;
-  FilterType::Pointer badFilter = FilterType::New();
+  bool caughtException;
+  auto badFilter = FilterType::New();
 
   std::cout << "Testing with no filter set..." << std::endl;
   badFilter->SetInput(reader->GetOutput());

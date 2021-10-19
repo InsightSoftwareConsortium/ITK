@@ -42,11 +42,11 @@ itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using LabelKeepNObjectsType = itk::LabelShapeKeepNObjectsImageFilter<IType>;
-  LabelKeepNObjectsType::Pointer KeepNObjects = LabelKeepNObjectsType::New();
+  auto KeepNObjects = LabelKeepNObjectsType::New();
 
   KeepNObjects->SetInput(reader->GetOutput());
 
@@ -84,7 +84,7 @@ itkLabelShapeKeepNObjectsImageFilterTest1(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(KeepNObjects, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(KeepNObjects->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

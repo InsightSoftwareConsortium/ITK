@@ -63,14 +63,14 @@ itkRemoveBoundaryObjectsTest2(int argc, char * argv[])
   using XorFilterType = itk::XorImageFilter<InputImageType, InputImageType, OutputImageType>;
 
   // Creation of Reader and Writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   // Create the filter
-  GrindPeakFilterType::Pointer grindpeak = GrindPeakFilterType::New();
+  auto grindpeak = GrindPeakFilterType::New();
 
   // Create the xor and not filter
-  XorFilterType::Pointer xorfilter = XorFilterType::New();
+  auto xorfilter = XorFilterType::New();
 
   // Setup the input and output files
   reader->SetFileName(argv[1]);

@@ -58,14 +58,14 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
 
   double epsilon = 0.000001;
 
-  TransformType::Pointer    transform = TransformType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto transform = TransformType::New();
+  auto interpolator = InterpolatorType::New();
 
   FixedImageType::SizeType fixedImageSize;
   fixedImageSize.Fill(128);
 
   // Create fixed image
-  FixedImageType::Pointer fixedImage = FixedImageType::New();
+  auto fixedImage = FixedImageType::New();
   fixedImage->SetRegions(fixedImageSize);
   fixedImage->Allocate(true); // initialize buffer to zero
   fixedImage->Update();
@@ -84,7 +84,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   movingImageSize.Fill(128);
 
   // Create moving image
-  MovingImageType::Pointer movingImage = MovingImageType::New();
+  auto movingImage = MovingImageType::New();
   movingImage->SetRegions(movingImageSize);
   movingImage->Allocate(true); // initialize buffer to zero
   movingImage->Update();
@@ -99,7 +99,7 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
     }
   }
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, KappaStatisticImageToImageMetric, ImageToImageMetric);
 
@@ -160,12 +160,12 @@ itkKappaStatisticImageToImageMetricTest(int, char *[])
   //
   metric->ComputeGradient();
 
-  GradientImageType::Pointer xGradImage = GradientImageType::New();
+  auto xGradImage = GradientImageType::New();
   xGradImage->SetRegions(movingImageSize);
   xGradImage->Allocate(true); // initialize buffer to zero
   xGradImage->Update();
 
-  GradientImageType::Pointer yGradImage = GradientImageType::New();
+  auto yGradImage = GradientImageType::New();
   yGradImage->SetRegions(movingImageSize);
   yGradImage->Allocate(true); // initialize buffer to zero
   yGradImage->Update();

@@ -52,15 +52,15 @@ itkLabelMapMaskImageFilterTest(int argc, char * argv[])
 
   // Read the label image and the input image to be masked.
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  ReaderType::Pointer reader2 = ReaderType::New();
+  auto reader2 = ReaderType::New();
   reader2->SetFileName(argv[2]);
 
   // Convert the label image to a label collection image.
   using I2LType = itk::LabelImageToLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
   // i2l->SetUseBackground( true );
 
@@ -75,7 +75,7 @@ itkLabelMapMaskImageFilterTest(int argc, char * argv[])
   // image is not cropped by default.
 
   using MaskFilterType = itk::LabelMapMaskImageFilter<LabelMapType, ImageType>;
-  MaskFilterType::Pointer maskFilter = MaskFilterType::New();
+  auto maskFilter = MaskFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(maskFilter, LabelMapMaskImageFilter, LabelMapFilter);
 
@@ -128,7 +128,7 @@ itkLabelMapMaskImageFilterTest(int argc, char * argv[])
 
   // Finally, save the output image.
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(maskFilter->GetOutput());
   writer->SetFileName(argv[3]);
 

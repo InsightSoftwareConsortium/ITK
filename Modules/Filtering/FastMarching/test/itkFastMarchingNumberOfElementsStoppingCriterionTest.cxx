@@ -25,7 +25,7 @@ itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
 
   using ImageStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<ImageType, ImageType>;
 
-  ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
+  auto image_criterion = ImageStoppingCriterionType::New();
   if (image_criterion.IsNull())
   {
     return EXIT_FAILURE;
@@ -35,7 +35,7 @@ itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
 
   using MeshStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<MeshType, MeshType>;
 
-  MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
+  auto mesh_criterion = MeshStoppingCriterionType::New();
   if (mesh_criterion.IsNull())
   {
     return EXIT_FAILURE;

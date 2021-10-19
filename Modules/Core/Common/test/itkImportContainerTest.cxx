@@ -33,7 +33,7 @@ itkImportContainerTest(int, char *[])
   PixelType * ptr1;
   {
     // Test 1: Create an empty container and print it
-    ContainerType::Pointer container1 = ContainerType::New();
+    auto container1 = ContainerType::New();
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
               << " and import pointer is " << container1->GetImportPointer() << std::endl;
@@ -69,7 +69,7 @@ itkImportContainerTest(int, char *[])
   auto * myPtr = new float[2000];
   {
     // Test 1: Create an empty container and print it
-    ContainerType::Pointer container1 = ContainerType::New();
+    auto container1 = ContainerType::New();
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
               << " and import pointer is " << container1->GetImportPointer() << std::endl;
@@ -122,7 +122,7 @@ itkImportContainerTest(int, char *[])
   // Now repeat tests with ContainerManagesMemory true
   {
     // Test 1: Create an empty container and print it
-    ContainerType::Pointer container1 = ContainerType::New();
+    auto container1 = ContainerType::New();
     container1->Print(std::cout);
     std::cout << "After New(), size is " << container1->Size() << ", capacity is " << container1->Capacity()
               << " and import pointer is " << container1->GetImportPointer() << std::endl;
@@ -159,7 +159,7 @@ itkImportContainerTest(int, char *[])
   bool caughtException = false;
   try
   {
-    ContainerType::Pointer container1 = ContainerType::New();
+    auto container1 = ContainerType::New();
     container1->Reserve(itk::NumericTraits<unsigned long>::max() / sizeof(PixelType));
   }
   catch (const itk::ExceptionObject & err)

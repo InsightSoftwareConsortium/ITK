@@ -55,7 +55,7 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
   //
   using VoronoiSegmentationType = itk::VoronoiPartitioningImageFilter<FloatImage, FloatImage>;
 
-  VoronoiSegmentationType::Pointer voronoi = VoronoiSegmentationType::New();
+  auto voronoi = VoronoiSegmentationType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(voronoi, VoronoiPartitioningImageFilter, VoronoiSegmentationImageFilterBase);
 
@@ -81,8 +81,8 @@ itkVoronoiPartitioningImageFilterTest(int argc, char * argv[])
   using ColormapFilterType = itk::UnaryFunctorImageFilter<FloatImage, RGBImageType, ColormapFunctorType>;
   using WriterType = itk::ImageFileWriter<RGBImageType>;
 
-  WriterType::Pointer         writer = WriterType::New();
-  ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
+  auto writer = WriterType::New();
+  auto colormapper = ColormapFilterType::New();
   colormapper->SetInput(voronoi->GetOutput());
   writer->SetInput(colormapper->GetOutput());
   writer->SetFileName(argv[2]);

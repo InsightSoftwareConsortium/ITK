@@ -56,7 +56,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    TxtTransformIOFactory::Pointer metaFactory = TxtTransformIOFactory::New();
+    auto metaFactory = TxtTransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

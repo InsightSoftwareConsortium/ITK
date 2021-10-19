@@ -56,7 +56,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::BeforeThreadedGenerateData()
     {
       // generate an image of the labelized image
       using LCI2IType = LabelMapToLabelImageFilter<TImage, LabelImageType>;
-      typename LCI2IType::Pointer lci2i = LCI2IType::New();
+      auto lci2i = LCI2IType::New();
       lci2i->SetInput(this->GetOutput());
       // Respect the number of threads of the filter
       lci2i->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -504,7 +504,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   // store the lines in a N-1D image of vectors
   using VectorLineType = std::deque<typename LabelObjectType::LineType>;
   using LineImageType = itk::Image<VectorLineType, ImageDimension - 1>;
-  typename LineImageType::Pointer   lineImage = LineImageType::New();
+  auto                              lineImage = LineImageType::New();
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType  lSize;
   RegionType                        boundingBox = labelObject->GetBoundingBox();

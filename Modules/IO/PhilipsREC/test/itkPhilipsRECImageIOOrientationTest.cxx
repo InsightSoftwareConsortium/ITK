@@ -50,29 +50,29 @@ itkPhilipsRECImageIOOrientationTest(int argc, char * argv[])
   using SubtractImageFilterType = itk::SubtractImageFilter<ImageType, ImageType, ImageType>;
   using NearestInterpType = itk::NearestNeighborInterpolateImageFunction<ImageType, ScalarType>;
 
-  ReaderType::Pointer referenceReader = ReaderType::New();
+  auto referenceReader = ReaderType::New();
   referenceReader->SetImageIO(PhilipsRECImageIOType::New());
   referenceReader->SetFileName(argv[1]);
 
-  ReaderType::Pointer targetReader = ReaderType::New();
+  auto targetReader = ReaderType::New();
   targetReader->SetImageIO(PhilipsRECImageIOType::New());
   targetReader->SetFileName(argv[2]);
 
-  AffineTransformType::Pointer transform = AffineTransformType::New();
+  auto transform = AffineTransformType::New();
   transform->SetIdentity();
 
-  ResampleImageFilterType::Pointer resample = ResampleImageFilterType::New();
+  auto resample = ResampleImageFilterType::New();
   resample->SetInput(referenceReader->GetOutput());
   resample->SetTransform(transform);
   resample->SetInterpolator(NearestInterpType::New());
   resample->UseReferenceImageOn();
   resample->SetReferenceImage(targetReader->GetOutput());
 
-  SubtractImageFilterType::Pointer subtract = SubtractImageFilterType::New();
+  auto subtract = SubtractImageFilterType::New();
   subtract->SetInput1(targetReader->GetOutput());
   subtract->SetInput2(resample->GetOutput());
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(subtract->GetOutput());
   writer->UseCompressionOn();

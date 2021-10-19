@@ -45,7 +45,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(inputImage);
 
@@ -54,7 +54,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   using ImageIOType = itk::GDCMImageIO;
   using NamesGeneratorType = itk::NumericSeriesFileNames;
 
-  ImageIOType::Pointer gdcmIO = ImageIOType::New();
+  auto gdcmIO = ImageIOType::New();
 
   itksys::SystemTools::MakeDirectory(outputDirectory);
 
@@ -64,7 +64,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   using Image2DType = itk::Image<OutputPixelType, OutputDimension>;
   using SeriesWriterType = itk::ImageSeriesWriter<ImageType, Image2DType>;
 
-  NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
+  auto namesGenerator = NamesGeneratorType::New();
 
   itk::MetaDataDictionary & dict = gdcmIO->GetMetaDataDictionary();
   std::string               tagkey, value;
@@ -79,7 +79,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
 
 
-  SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
+  auto seriesWriter = SeriesWriterType::New();
   seriesWriter->SetInput(reader->GetOutput());
   seriesWriter->SetImageIO(gdcmIO);
 
@@ -103,11 +103,11 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
 
   // Now read back in and write out as 3D image for comparison with the input.
   using SeriesReaderType = itk::ImageSeriesReader<ImageType>;
-  SeriesReaderType::Pointer seriesReader = SeriesReaderType::New();
+  auto seriesReader = SeriesReaderType::New();
   seriesReader->SetFileNames(namesGenerator->GetFileNames());
 
   using SingleWriterType = itk::ImageFileWriter<ImageType>;
-  SingleWriterType::Pointer singleWriter = SingleWriterType::New();
+  auto singleWriter = SingleWriterType::New();
   singleWriter->SetInput(seriesReader->GetOutput());
   singleWriter->SetFileName(singleOutputImage);
 

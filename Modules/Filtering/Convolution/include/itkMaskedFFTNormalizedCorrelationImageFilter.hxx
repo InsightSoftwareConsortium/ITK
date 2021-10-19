@@ -231,7 +231,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   rotatedMovingDenom = this->ElementPositive<RealImageType>(rotatedMovingDenom);
 
   using SqrtType = itk::SqrtImageFilter<RealImageType, RealImageType>;
-  typename SqrtType::Pointer sqrtFilter = SqrtType::New();
+  auto sqrtFilter = SqrtType::New();
   sqrtFilter->SetInput(this->ElementProduct<RealImageType, RealImageType>(fixedDenom, rotatedMovingDenom));
   sqrtFilter->Update();
   RealImagePointer denominator = sqrtFilter->GetOutput();
@@ -247,7 +247,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // Given the numberOfOverlapPixels, we can check that the m_RequiredNumberOfOverlappingPixels is not set higher than
   // the actual maximum overlap voxels.  If it is, we set m_RequiredNumberOfOverlappingPixels to be this maximum.
   using CalculatorType = itk::MinimumMaximumImageCalculator<RealImageType>;
-  typename CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
   calculator->SetImage(numberOfOverlapPixels);
   calculator->ComputeMaximum();
   m_MaximumNumberOfOverlappingPixels = static_cast<SizeValueType>(calculator->GetMaximum());
@@ -270,7 +270,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // and set to zero all values outside of this range.
   // Also, zero-out the correlation values that arise from too few voxels since they are statistically unreliable.
   using PostProcessType = itk::TernaryGeneratorImageFilter<RealImageType, RealImageType, RealImageType, RealImageType>;
-  typename PostProcessType::Pointer postProcessor = PostProcessType::New();
+  auto postProcessor = PostProcessType::New();
 
   auto functor = Functor::PostProcessCorrelation<RealPixelType>();
   functor.SetRequiredNumberOfOverlappingPixels(requiredNumberOfOverlappingPixels);
@@ -302,7 +302,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   using FlipperType = itk::FlipImageFilter<LocalInputImageType>;
   typename FlipperType::FlipAxesArrayType flipAxes;
   flipAxes.Fill(true);
-  typename FlipperType::Pointer rotater = FlipperType::New();
+  auto rotater = FlipperType::New();
   rotater->SetFlipAxes(flipAxes);
   rotater->SetInput(inputImage);
   rotater->Update();
@@ -326,7 +326,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
     // The mask must have only 0 and 1 values.
     // Threshold the mask.  All voxels less than or equal to 0 are set to 0, and all others are set to 1.
     using ThresholdType = itk::BinaryThresholdImageFilter<MaskImageType, MaskImageType>;
-    typename ThresholdType::Pointer thresholder = ThresholdType::New();
+    auto thresholder = ThresholdType::New();
     thresholder->SetInput(inputMask);
     thresholder->SetUpperThreshold(0);
     thresholder->SetInsideValue(0);
@@ -361,7 +361,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // We achieve this by multiplying the image with the mask, since the mask now contains
   // only values 0 and 1.
   using MultiplyType = itk::MultiplyImageFilter<InputImageType, MaskImageType, InputImageType>;
-  typename MultiplyType::Pointer multiplier = MultiplyType::New();
+  auto multiplier = MultiplyType::New();
   multiplier->SetInput1(inputImage);
   multiplier->SetInput2(inputMask);
   multiplier->Update();
@@ -383,14 +383,14 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   upperPad = FFTImageSize - inputImage->GetLargestPossibleRegion().GetSize();
 
   using PadType = itk::ConstantPadImageFilter<LocalInputImageType, RealImageType>;
-  typename PadType::Pointer padder = PadType::New();
+  auto padder = PadType::New();
   padder->SetInput(inputImage);
   padder->SetConstant(constantPixel);
   padder->SetPadUpperBound(upperPad);
 
   // The input type must be real or else the code will not compile.
   using FFTFilterType = itk::ForwardFFTImageFilter<RealImageType, LocalOutputImageType>;
-  typename FFTFilterType::Pointer FFTFilter = FFTFilterType::New();
+  auto FFTFilter = FFTFilterType::New();
   FFTFilter->SetInput(padder->GetOutput());
   FFTFilter->Update();
 
@@ -415,7 +415,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // It also converts the image from complex (with small imaginary values since
   // the input to the original FFTs was real) to real.
   using FFTFilterType = itk::InverseFFTImageFilter<LocalInputImageType, LocalOutputImageType>;
-  typename FFTFilterType::Pointer FFTFilter = FFTFilterType::New();
+  auto FFTFilter = FFTFilterType::New();
   FFTFilter->SetInput(inputImage);
 
   // Extract the relevant part out of the image.
@@ -427,7 +427,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   imageRegion.SetIndex(imageIndex);
   imageRegion.SetSize(combinedImageSize);
   using ExtractType = itk::RegionOfInterestImageFilter<LocalOutputImageType, LocalOutputImageType>;
-  typename ExtractType::Pointer extracter = ExtractType::New();
+  auto extracter = ExtractType::New();
   extracter->SetInput(FFTFilter->GetOutput());
   extracter->SetRegionOfInterest(imageRegion);
   extracter->Update();
@@ -450,7 +450,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   LocalInputImageType * inputImage2)
 {
   using MultiplyType = itk::MultiplyImageFilter<LocalInputImageType, LocalInputImageType, LocalOutputImageType>;
-  typename MultiplyType::Pointer multiplier = MultiplyType::New();
+  auto multiplier = MultiplyType::New();
   multiplier->SetInput1(inputImage1);
   multiplier->SetInput2(inputImage2);
   multiplier->Update();
@@ -467,7 +467,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   LocalInputImageType * inputImage2)
 {
   using DivideType = itk::DivideImageFilter<LocalInputImageType, LocalInputImageType, LocalInputImageType>;
-  typename DivideType::Pointer divider = DivideType::New();
+  auto divider = DivideType::New();
   divider->SetInput1(inputImage1);
   divider->SetInput2(inputImage2);
   divider->Update();
@@ -484,7 +484,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   LocalInputImageType * inputImage2)
 {
   using SubtractType = itk::SubtractImageFilter<LocalInputImageType, LocalInputImageType, LocalInputImageType>;
-  typename SubtractType::Pointer subtracter = SubtractType::New();
+  auto subtracter = SubtractType::New();
   subtracter->SetInput1(inputImage1);
   subtracter->SetInput2(inputImage2);
   subtracter->Update();
@@ -501,7 +501,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
   // Set all negative values to 0.
   using ThresholdType = itk::ThresholdImageFilter<LocalInputImageType>;
-  typename ThresholdType::Pointer thresholder = ThresholdType::New();
+  auto thresholder = ThresholdType::New();
   thresholder->SetInput(inputImage);
   thresholder->ThresholdBelow(0);
   thresholder->SetOutsideValue(0);
@@ -518,7 +518,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   LocalInputImageType * inputImage)
 {
   using RoundType = itk::RoundImageFilter<LocalInputImageType, LocalOutputImageType>;
-  typename RoundType::Pointer rounder = RoundType::New();
+  auto rounder = RoundType::New();
   rounder->SetInput(inputImage);
   rounder->Update();
   typename LocalOutputImageType::Pointer outputImage = rounder->GetOutput();
@@ -578,7 +578,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
 {
   // First find the maximum of the inputImage.
   using CalculatorType = itk::MinimumMaximumImageCalculator<LocalInputImageType>;
-  typename CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
   calculator->SetImage(inputImage);
   calculator->ComputeMaximum();
 

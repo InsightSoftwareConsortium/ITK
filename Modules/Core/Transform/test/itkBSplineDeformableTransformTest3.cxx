@@ -77,13 +77,13 @@ public:
     using FixedReaderType = itk::ImageFileReader<FixedImageType>;
     using MovingReaderType = itk::ImageFileReader<MovingImageType>;
 
-    typename FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+    auto fixedReader = FixedReaderType::New();
     fixedReader->SetFileName(argv[2]);
 
     ITK_TRY_EXPECT_NO_EXCEPTION(fixedReader->Update());
 
 
-    typename MovingReaderType::Pointer movingReader = MovingReaderType::New();
+    auto movingReader = MovingReaderType::New();
 
     movingReader->SetFileName(argv[3]);
 
@@ -92,11 +92,11 @@ public:
 
     using FilterType = itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-    typename FilterType::Pointer resampler = FilterType::New();
+    auto resampler = FilterType::New();
 
     using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-    typename InterpolatorType::Pointer interpolator = InterpolatorType::New();
+    auto interpolator = InterpolatorType::New();
 
     resampler->SetInterpolator(interpolator);
 
@@ -122,7 +122,7 @@ public:
 
     using TransformType = itk::BSplineDeformableTransform<CoordinateRepType, SpaceDimension, VSplineOrder>;
 
-    typename TransformType::Pointer bsplineTransform = TransformType::New();
+    auto bsplineTransform = TransformType::New();
 
 
     using RegionType = typename TransformType::RegionType;
@@ -161,7 +161,7 @@ public:
     bsplineTransform->SetGridDirection(fixedImage->GetDirection());
 
     using BulkTransformType = itk::Similarity2DTransform<CoordinateRepType>;
-    BulkTransformType::Pointer bulkTransform = BulkTransformType::New();
+    auto bulkTransform = BulkTransformType::New();
     bulkTransform->SetIdentity();
 
     BulkTransformType::ParametersType bulkParameters = bulkTransform->GetParameters();
@@ -195,7 +195,7 @@ public:
     bsplineTransform->SetParameters(parameters);
 
 
-    typename CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
+    auto observer = CommandProgressUpdate::New();
 
     resampler->AddObserver(itk::ProgressEvent(), observer);
 
@@ -208,7 +208,7 @@ public:
     using VectorType = itk::Vector<float, ImageDimension>;
     using DeformationFieldType = itk::Image<VectorType, ImageDimension>;
 
-    typename DeformationFieldType::Pointer field = DeformationFieldType::New();
+    auto field = DeformationFieldType::New();
     field->SetRegions(fixedRegion);
     field->SetOrigin(fixedOrigin);
     field->SetSpacing(fixedSpacing);

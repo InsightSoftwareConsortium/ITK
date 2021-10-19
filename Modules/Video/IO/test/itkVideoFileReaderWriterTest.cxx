@@ -52,7 +52,7 @@ itkVideoFileReaderWriterTest(int argc, char * argv[])
       inFile = inFile + std::string(",");
     }
   }
-  VideoReaderType::Pointer reader = VideoReaderType::New();
+  auto reader = VideoReaderType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(reader, VideoFileReader, VideoSource);
 
@@ -63,7 +63,7 @@ itkVideoFileReaderWriterTest(int argc, char * argv[])
   itk::ObjectFactoryBase::RegisterFactory(itk::FileListVideoIOFactory::New());
 
   // Set up the writer
-  VideoWriterType::Pointer writer = VideoWriterType::New();
+  auto writer = VideoWriterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, VideoFileWriter, TemporalProcessObject);
 

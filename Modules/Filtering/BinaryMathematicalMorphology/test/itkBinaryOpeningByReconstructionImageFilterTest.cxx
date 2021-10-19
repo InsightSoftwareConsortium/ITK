@@ -41,7 +41,7 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   using IType = itk::Image<unsigned char, dim>;
 
   using ReaderType = itk::ImageFileReader<IType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
@@ -53,7 +53,7 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   ball.CreateStructuringElement();
 
   using I2LType = itk::BinaryOpeningByReconstructionImageFilter<IType, KernelType>;
-  I2LType::Pointer reconstruction = I2LType::New();
+  auto reconstruction = I2LType::New();
   reconstruction->SetInput(reader->GetOutput());
   reconstruction->SetKernel(ball);
   reconstruction->SetFullyConnected(std::stoi(argv[3]));
@@ -62,7 +62,7 @@ itkBinaryOpeningByReconstructionImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watcher(reconstruction, "filter");
 
   using WriterType = itk::ImageFileWriter<IType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(reconstruction->GetOutput());
   writer->SetFileName(argv[2]);
 

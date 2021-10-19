@@ -108,7 +108,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    TestFactory::Pointer factory = TestFactory::New();
+    auto factory = TestFactory::New();
     itk::ObjectFactoryBase::RegisterFactory(factory);
   }
 
@@ -146,7 +146,7 @@ TestNewImage(myPointer v, const char * expectedClassName)
 int
 itkObjectFactoryTest(int, char *[])
 {
-  TestFactory::Pointer factory = TestFactory::New();
+  auto factory = TestFactory::New();
   itk::ObjectFactoryBase::RegisterFactory(factory);
 
   // List all registered factories

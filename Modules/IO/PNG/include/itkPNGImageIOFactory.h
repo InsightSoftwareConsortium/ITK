@@ -62,7 +62,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    PNGImageIOFactory::Pointer pngFactory = PNGImageIOFactory::New();
+    auto pngFactory = PNGImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(pngFactory);
   }

@@ -48,7 +48,7 @@ public:
   static void
   RegisterTransform()
   {
-    typename T::Pointer t = T::New();
+    auto t = T::New();
 
     TransformFactoryBase::Pointer f = TransformFactoryBase::GetFactory();
 

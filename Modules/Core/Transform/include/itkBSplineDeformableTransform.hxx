@@ -38,7 +38,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::BSp
 
   // Instantiate an identity transform
   using IdentityTransformType = IdentityTransform<TParametersValueType, SpaceDimension>;
-  typename IdentityTransformType::Pointer id = IdentityTransformType::New();
+  auto id = IdentityTransformType::New();
   this->m_BulkTransform = id;
 
   // Setup variables for computing interpolation

@@ -42,11 +42,11 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
 
   // Typedef and initialization for the Cumulative Gaussian Optimizer.
   using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
-  CumulativeGaussianOptimizerType::Pointer optimizer = CumulativeGaussianOptimizerType::New();
+  auto optimizer = CumulativeGaussianOptimizerType::New();
 
   // Typedef and initialization for the Cumulative Gaussian Cost Function.
   using CostFunctionType = itk::CumulativeGaussianCostFunction;
-  CostFunctionType::Pointer costFunction = CostFunctionType::New();
+  auto costFunction = CostFunctionType::New();
 
   // Declare and initialize the data array.
   // CostFunctionType::MeasureType * cumGaussianArray = new CostFunctionType::MeasureType();

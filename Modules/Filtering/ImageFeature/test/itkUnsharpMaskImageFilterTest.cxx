@@ -34,7 +34,7 @@ RunTest(int argc, char * argv[])
   using InImageType = itk::Image<InputImagePixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<InImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -42,11 +42,11 @@ RunTest(int argc, char * argv[])
   using OutImageType = itk::Image<OutPixelType, Dimension>;
   using WriterType = itk::ImageFileWriter<OutImageType>;
 
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
 
   using FilterType = itk::UnsharpMaskImageFilter<InImageType, OutImageType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // this does not work from within a templated method (GCC gives an error)
   // ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, UnsharpMaskImageFilter, ImageToImageFilter);

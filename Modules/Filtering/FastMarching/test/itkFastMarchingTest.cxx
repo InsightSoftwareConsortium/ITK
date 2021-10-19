@@ -49,7 +49,7 @@ itkFastMarchingTest(int, char *[])
   using FloatImage = itk::Image<PixelType, 2>;
   using FloatFMType = itk::FastMarchingImageFilter<FloatImage, FloatImage>;
 
-  FloatFMType::Pointer marcher = FloatFMType::New();
+  auto marcher = FloatFMType::New();
 
   ShowProgressObject                                    progressWatch(marcher);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -61,7 +61,7 @@ itkFastMarchingTest(int, char *[])
   using NodeContainer = FloatFMType::NodeContainer;
 
   // setup alive points
-  NodeContainer::Pointer alivePoints = NodeContainer::New();
+  auto alivePoints = NodeContainer::New();
 
   NodeType node;
 
@@ -83,7 +83,7 @@ itkFastMarchingTest(int, char *[])
 
 
   // setup trial points
-  NodeContainer::Pointer trialPoints = NodeContainer::New();
+  auto trialPoints = NodeContainer::New();
 
   node.SetValue(1.0);
 
@@ -121,7 +121,7 @@ itkFastMarchingTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  FloatImage::Pointer    speedImage = FloatImage::New();
+  auto                   speedImage = FloatImage::New();
   FloatImage::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);

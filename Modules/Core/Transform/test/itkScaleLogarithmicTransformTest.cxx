@@ -32,14 +32,14 @@ itkScaleLogarithmicTransformTest(int, char *[])
   bool testStatus = true;
 
 
-  TransformType::Pointer scaleLogTransform = TransformType::New();
+  auto scaleLogTransform = TransformType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(scaleLogTransform, ScaleLogarithmicTransform, ScaleTransform);
 
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    TransformType::Pointer   identityTransform = TransformType::New();
+    auto                     identityTransform = TransformType::New();
     TransformType::ScaleType scale = identityTransform->GetScale();
     std::cout << "Scale from instantiating an identity transform:  ";
     for (unsigned int j = 0; j < N; ++j)
@@ -64,7 +64,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
 
   /* Create a Scale transform */
   {
-    TransformType::Pointer scaleTransform = TransformType::New();
+    auto scaleTransform = TransformType::New();
 
     TransformType::ScaleType::ValueType iscaleInit[3] = { 1, 4, 9 };
     TransformType::ScaleType            iscale = iscaleInit;

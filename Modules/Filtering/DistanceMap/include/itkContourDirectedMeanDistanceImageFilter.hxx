@@ -131,7 +131,7 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::BeforeThread
   // Compute Signed distance from non-zero pixels in the second image
   using FilterType = SignedMaurerDistanceMapImageFilter<InputImage2Type, DistanceMapType>;
 
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(this->GetInput2());
   filter->SetSquaredDistance(false);

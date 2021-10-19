@@ -32,7 +32,7 @@ itkSubsampleTest3(int, char *[])
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
@@ -53,7 +53,7 @@ itkSubsampleTest3(int, char *[])
 
   using SubsampleType = itk::Statistics::Subsample<SampleType>;
 
-  SubsampleType::Pointer subsample = SubsampleType::New();
+  auto subsample = SubsampleType::New();
 
   subsample->SetSample(sample);
 
@@ -62,7 +62,7 @@ itkSubsampleTest3(int, char *[])
 
   using FilterType = itk::Statistics::MeanSampleFilter<SubsampleType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(subsample);
 

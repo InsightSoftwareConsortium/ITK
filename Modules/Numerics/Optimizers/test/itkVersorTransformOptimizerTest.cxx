@@ -187,11 +187,11 @@ itkVersorTransformOptimizerTest(int, char *[])
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Declaration of the CostFunction adaptor
-  versorCostFunction::Pointer costFunction = versorCostFunction::New();
+  auto costFunction = versorCostFunction::New();
 
 
   itkOptimizer->SetCostFunction(costFunction);

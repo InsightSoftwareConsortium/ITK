@@ -73,7 +73,7 @@ itkFastMarchingStoppingCriterionBaseTest(int, char *[])
 
   using ImageStoppingCriterionType = itk::FastMarchingStoppingCriterionBaseHelperTest<ImageType, ImageType>;
 
-  ImageStoppingCriterionType::Pointer image_criterion = ImageStoppingCriterionType::New();
+  auto image_criterion = ImageStoppingCriterionType::New();
   if (image_criterion.IsNull())
   {
     return EXIT_FAILURE;
@@ -83,7 +83,7 @@ itkFastMarchingStoppingCriterionBaseTest(int, char *[])
 
   using MeshStoppingCriterionType = itk::FastMarchingStoppingCriterionBaseHelperTest<MeshType, MeshType>;
 
-  MeshStoppingCriterionType::Pointer mesh_criterion = MeshStoppingCriterionType::New();
+  auto mesh_criterion = MeshStoppingCriterionType::New();
   if (mesh_criterion.IsNull())
   {
     return EXIT_FAILURE;

@@ -41,7 +41,7 @@ itkHistogramToIntensityImageFilterTest1(int argc, char * argv[])
   using ScalarImageType = itk::Image<PixelComponentType, Dimension>;
   using ReaderType = itk::ImageFileReader<ScalarImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -59,7 +59,7 @@ itkHistogramToIntensityImageFilterTest1(int argc, char * argv[])
 
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>;
-  HistogramGeneratorType::Pointer histogramGenerator = HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
   histogramGenerator->SetInput(reader->GetOutput());
 
   const int NumberOfBins = static_cast<unsigned int>(imageMax - imageMin + 1);
@@ -76,14 +76,14 @@ itkHistogramToIntensityImageFilterTest1(int argc, char * argv[])
   const HistogramType * histogram = histogramGenerator->GetOutput();
 
   using HistogramToImageFilterType = itk::HistogramToIntensityImageFilter<HistogramType>;
-  HistogramToImageFilterType::Pointer histogramToImageFilter = HistogramToImageFilterType::New();
+  auto histogramToImageFilter = HistogramToImageFilterType::New();
 
   histogramToImageFilter->SetInput(histogram);
 
   using OutputImageType = HistogramToImageFilterType::OutputImageType;
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
 

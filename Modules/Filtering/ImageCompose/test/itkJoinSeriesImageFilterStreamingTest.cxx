@@ -46,7 +46,7 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
   std::string inputFileName = argv[1];
   std::string outputFileName = argv[2];
 
-  ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+  auto reader = ImageFileReaderType::New();
   reader->SetFileName(inputFileName);
   reader->UpdateOutputInformation();
 
@@ -60,14 +60,14 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
 
   std::vector<itk::ProcessObject::Pointer> savedPointers;
 
-  JoinSeriesFilterType::Pointer joinSeries = JoinSeriesFilterType::New();
+  auto joinSeries = JoinSeriesFilterType::New();
   joinSeries->SetOrigin(reader->GetOutput()->GetOrigin()[2]);
   joinSeries->SetSpacing(reader->GetOutput()->GetSpacing()[2]);
 
   for (ImageType::SizeValueType z = 0; z < numberOfSlices; ++z)
   {
 
-    SliceExtractorFilterType::Pointer extractor = SliceExtractorFilterType::New();
+    auto extractor = SliceExtractorFilterType::New();
     extractor->SetDirectionCollapseToSubmatrix();
 
     SliceExtractorFilterType::InputImageRegionType slice(reader->GetOutput()->GetLargestPossibleRegion());
@@ -88,7 +88,7 @@ itkJoinSeriesImageFilterStreamingTest(int argc, char * argv[])
   itk::PipelineMonitorImageFilter<ImageType>::Pointer monitor2 = itk::PipelineMonitorImageFilter<ImageType>::New();
   monitor2->SetInput(joinSeries->GetOutput());
 
-  ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
+  auto writer = ImageFileWriterType::New();
   writer->SetInput(monitor2->GetOutput());
   writer->SetFileName(outputFileName);
   writer->SetNumberOfStreamDivisions(numberOfSlices);

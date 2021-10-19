@@ -50,7 +50,7 @@ itkOrientedImageProfileTest3(int, char *[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   image->SetVectorLength(2);
   image->SetRegions(region);

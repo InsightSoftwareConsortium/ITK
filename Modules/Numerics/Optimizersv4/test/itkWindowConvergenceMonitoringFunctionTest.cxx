@@ -24,7 +24,7 @@ itkWindowConvergenceMonitoringFunctionTest(int itkNotUsed(argc), char *[])
   using RealType = float;
 
   using ConvergenceMonitoringType = itk::Function::WindowConvergenceMonitoringFunction<RealType>;
-  ConvergenceMonitoringType::Pointer convergenceMonitoring = ConvergenceMonitoringType::New();
+  auto convergenceMonitoring = ConvergenceMonitoringType::New();
 
   convergenceMonitoring->SetWindowSize(10);
 

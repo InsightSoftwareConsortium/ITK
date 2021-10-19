@@ -165,7 +165,7 @@ itkResampleImageTest8(int, char *[])
   }
 
   // Create an Project transformation
-  TransformType::Pointer tform = TransformType::New();
+  auto tform = TransformType::New();
 
   // OutputImagePointerType outputImage = OutputImageType::New();
   OutputImageIndexType  outputIndex = { { 0, 0, 0 } };
@@ -173,7 +173,7 @@ itkResampleImageTest8(int, char *[])
   OutputImageRegionType outputRegion;
 
   // Create a linear interpolation image function
-  InterpolatorType::Pointer interp = InterpolatorType::New();
+  auto interp = InterpolatorType::New();
   interp->SetInputImage(inputImage);
 
   // Create and configure a resampling filter

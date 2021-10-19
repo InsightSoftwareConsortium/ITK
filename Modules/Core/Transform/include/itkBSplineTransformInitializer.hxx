@@ -89,7 +89,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   using CoordRepType = typename ImagePointType::CoordRepType;
 
   using PointSetType = PointSet<CoordRepType, SpaceDimension>;
-  typename PointSetType::Pointer cornerPoints = PointSetType::New();
+  auto cornerPoints = PointSetType::New();
   cornerPoints->Initialize();
 
   using PointType = typename PointSetType::PointType;
@@ -136,7 +136,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
                                       SpaceDimension,
                                       typename PointSetType::CoordRepType,
                                       typename PointSetType::PointsContainer>;
-  typename BoundingBoxType::Pointer bbox = BoundingBoxType::New();
+  auto bbox = BoundingBoxType::New();
   bbox->SetPoints(cornerPoints->GetPoints());
   bbox->ComputeBoundingBox();
 

@@ -56,7 +56,7 @@ void
 TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::SetInput1(
   const Input1ImagePixelType & input1)
 {
-  typename DecoratedInput1ImagePixelType::Pointer newInput = DecoratedInput1ImagePixelType::New();
+  auto newInput = DecoratedInput1ImagePixelType::New();
   newInput->Set(input1);
   this->SetInput1(newInput);
 }
@@ -106,7 +106,7 @@ void
 TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::SetInput2(
   const Input2ImagePixelType & input2)
 {
-  typename DecoratedInput2ImagePixelType::Pointer newInput = DecoratedInput2ImagePixelType::New();
+  auto newInput = DecoratedInput2ImagePixelType::New();
   newInput->Set(input2);
   this->SetInput2(newInput);
 }
@@ -157,7 +157,7 @@ void
 TernaryGeneratorImageFilter<TInputImage1, TInputImage2, TInputImage3, TOutputImage>::SetInput3(
   const Input3ImagePixelType & input3)
 {
-  typename DecoratedInput3ImagePixelType::Pointer newInput = DecoratedInput3ImagePixelType::New();
+  auto newInput = DecoratedInput3ImagePixelType::New();
   newInput->Set(input3);
   this->SetInput3(newInput);
 }

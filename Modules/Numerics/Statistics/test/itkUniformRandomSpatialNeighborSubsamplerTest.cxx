@@ -47,8 +47,8 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   using SamplerType = itk::Statistics::UniformRandomSpatialNeighborSubsampler<AdaptorType, RegionType>;
   using WriterType = itk::ImageFileWriter<FloatImage>;
 
-  FloatImage::Pointer inImage = FloatImage::New();
-  SizeType            sz;
+  auto     inImage = FloatImage::New();
+  SizeType sz;
   sz.Fill(35);
   IndexType idx;
   idx.Fill(0);
@@ -60,10 +60,10 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   inImage->Allocate(true); // initialize buffer
                            // to zero
 
-  AdaptorType::Pointer sample = AdaptorType::New();
+  auto sample = AdaptorType::New();
   sample->SetImage(inImage);
 
-  SamplerType::Pointer sampler_orig = SamplerType::New();
+  auto sampler_orig = SamplerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(sampler_orig, UniformRandomSpatialNeighborSubsampler, SpatialNeighborSubsampler);
 
@@ -103,7 +103,7 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   {
     const std::string outFileName(argv[2]);
 
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(outFileName);
     writer->SetInput(inImage);
 

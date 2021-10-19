@@ -54,12 +54,12 @@ itkPromoteDimensionImageTest(int argc, char * argv[])
   using RescaleFilter = itk::RescaleIntensityImageFilter<RealImageType, RealImageType>;
 
   // Setting the IO
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
-  CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
-  CastToCharFilterType::Pointer toChar = CastToCharFilterType::New();
-  RescaleFilter::Pointer        rescale = RescaleFilter::New();
+  auto toReal = CastToRealFilterType::New();
+  auto toChar = CastToCharFilterType::New();
+  auto rescale = RescaleFilter::New();
 
   // Setting the ITK pipeline filter
 

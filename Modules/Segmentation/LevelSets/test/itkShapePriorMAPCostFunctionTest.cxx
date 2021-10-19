@@ -48,7 +48,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
    * Set up the shape signed distance function
    */
   using ShapeFunctionType = itk::SphereSignedDistanceFunction<double, Dimension>;
-  ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
+  auto shape = ShapeFunctionType::New();
   shape->Initialize();
 
   /**
@@ -87,11 +87,11 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   ImageType::RegionType region;
   region.SetSize(size);
 
-  ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->SetRegions(region);
   input->Allocate();
 
-  NodeContainerType::Pointer activeRegion = NodeContainerType::New();
+  auto activeRegion = NodeContainerType::New();
 
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;
@@ -127,7 +127,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   /**
    * Create a dummy edge potential image.
    */
-  ImageType::Pointer edgeMap = ImageType::New();
+  auto edgeMap = ImageType::New();
   edgeMap->SetRegions(region);
   edgeMap->Allocate();
   edgeMap->FillBuffer(1.0);
@@ -136,7 +136,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
   /**
    * Set up the cost function
    */
-  CostFunctionType::Pointer costFunction = CostFunctionType::New();
+  auto costFunction = CostFunctionType::New();
 
   costFunction->SetShapeFunction(shape);
   costFunction->SetActiveRegion(activeRegion);
@@ -191,7 +191,7 @@ itkShapePriorMAPCostFunctionTest(int, char *[])
    * Attempt to plug the cost function into an optimizer
    */
   using OptimizerType = itk::AmoebaOptimizer;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   optimizer->SetCostFunction(costFunction);
   optimizer->SetInitialPosition(mean);

@@ -35,10 +35,10 @@ itkCompose2DCovariantVectorImageFilterTest(int, char *[])
   using SizeType = InputImageType::SizeType;
   using IndexType = InputImageType::IndexType;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
-  InputImageType::Pointer zeroImage = InputImageType::New();
-  InputImageType::Pointer oneImage = InputImageType::New();
+  auto zeroImage = InputImageType::New();
+  auto oneImage = InputImageType::New();
 
   SizeType size;
   size[0] = 2;

@@ -33,7 +33,7 @@ itkMovingHistogramMorphologyImageFilterTest(int, char ** const)
   using HistogramType = itk::Function::MorphologyHistogram<PixelType, std::greater<PixelType>>;
 
   using FilterType = itk::MovingHistogramMorphologyImageFilter<ImageType, ImageType, KernelType, HistogramType>;
-  typename FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MovingHistogramMorphologyImageFilter, MovingHistogramImageFilter);
 

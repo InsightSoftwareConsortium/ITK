@@ -41,11 +41,11 @@ doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, co
   using JoinFilterType = itk::ComposeImageFilter<ImageType, ComplexImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  typename ReaderType::Pointer     readerReal = ReaderType::New();
-  typename ReaderType::Pointer     readerImag = ReaderType::New();
-  typename FFTType::Pointer        fft = FFTType::New();
-  typename JoinFilterType::Pointer joinFilter = JoinFilterType::New();
-  typename WriterType::Pointer     writer = WriterType::New();
+  auto readerReal = ReaderType::New();
+  auto readerImag = ReaderType::New();
+  auto fft = FFTType::New();
+  auto joinFilter = JoinFilterType::New();
+  auto writer = WriterType::New();
 
   readerReal->SetFileName(inputRealFullImage);
   readerImag->SetFileName(inputImaginaryFullImage);
@@ -97,7 +97,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
     using FFTInverseType = itk::Inverse1DFFTImageFilter<ComplexImageType, ImageType>;
 
     // Instantiate a filter to exercise basic object methods
-    typename FFTInverseType::Pointer fft = FFTInverseType::New();
+    auto fft = FFTInverseType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Inverse1DFFTImageFilter, ImageToImageFilter);
 
     itk::SizeValueType sizeGreatestPrimeFactor = 2;
@@ -111,7 +111,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
     using FFTInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
 
     // Instantiate a filter to exercise basic object methods
-    typename FFTInverseType::Pointer fft = FFTInverseType::New();
+    auto fft = FFTInverseType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, VnlInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
 
 
@@ -123,7 +123,7 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
     using FFTInverseType = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
 
     // Instantiate a filter to exercise basic object methods
-    typename FFTInverseType::Pointer fft = FFTInverseType::New();
+    auto fft = FFTInverseType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, FFTWInverse1DFFTImageFilter, Inverse1DFFTImageFilter);
 
 

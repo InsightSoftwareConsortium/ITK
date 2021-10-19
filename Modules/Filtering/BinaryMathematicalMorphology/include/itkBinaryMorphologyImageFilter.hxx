@@ -111,7 +111,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
   // ----------------------------------------------
   // To do this we convert the SE into a temp image
   using BoolImageType = Image<bool, TInputImage::ImageDimension>;
-  typename BoolImageType::Pointer tmpSEImage = BoolImageType::New();
+  auto tmpSEImage = BoolImageType::New();
   tmpSEImage->SetRegions(this->GetKernel().GetSize());
 
   // allocation

@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    FileFreeImageIOFactory::Pointer fileFreeFactory = FileFreeImageIOFactory::New();
+    auto fileFreeFactory = FileFreeImageIOFactory::New();
     ObjectFactoryBase::RegisterFactory(fileFreeFactory);
   }
 

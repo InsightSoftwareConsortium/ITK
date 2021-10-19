@@ -53,7 +53,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
 
   using PointSetType = itk::PointSet<VectorType, ParametricDimension>;
 
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
 
   // Sample the trefoil knot.
   // The first parametric dimension, u,  is doing the knot part
@@ -80,7 +80,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
   // Instantiate the filter and set the parameters
   using FilterType = itk::BSplineScatteredDataPointSetToImageFilter<PointSetType, ImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, BSplineScatteredDataPointSetToImageFilter, PointSetToImageFilter);
 
@@ -120,12 +120,12 @@ itkBSplineScatteredDataPointSetToImageFilterTest5(int argc, char * argv[])
 
   // Cast the PhiLattice
   using CastImageFilterType = itk::CastImageFilter<FilterType::PointDataImageType, OutputImageType>;
-  CastImageFilterType::Pointer caster = CastImageFilterType::New();
+  auto caster = CastImageFilterType::New();
   caster->SetInput(filter->GetPhiLattice());
 
   // Write the PhiLattice
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[1]);
   writer->SetInput(caster->GetOutput());
 

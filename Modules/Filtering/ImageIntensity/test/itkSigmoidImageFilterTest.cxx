@@ -49,7 +49,7 @@ itkSigmoidImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -88,7 +88,7 @@ itkSigmoidImageFilterTest(int, char *[])
   using FilterType = itk::SigmoidImageFilter<InputImageType, OutputImageType>;
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SigmoidImageFilter, UnaryFunctorImageFilter);
 

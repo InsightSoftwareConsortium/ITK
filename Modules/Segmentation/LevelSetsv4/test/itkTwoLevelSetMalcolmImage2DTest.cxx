@@ -71,13 +71,13 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   using InputIteratorType = itk::ImageRegionIteratorWithIndex<InputImageType>;
 
   // load binary mask
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
   InputImageType::Pointer input = reader->GetOutput();
 
   // Binary initialization
-  InputImageType::Pointer binary = InputImageType::New();
+  auto binary = InputImageType::New();
   binary->SetRegions(input->GetLargestPossibleRegion());
   binary->CopyInformation(input);
   binary->Allocate();
@@ -102,14 +102,14 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   }
 
   // Convert binary mask to sparse level set
-  BinaryToSparseAdaptorType::Pointer adaptor0 = BinaryToSparseAdaptorType::New();
+  auto adaptor0 = BinaryToSparseAdaptorType::New();
   adaptor0->SetInputImage(binary);
   adaptor0->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
 
   SparseLevelSetType::Pointer level_set0 = adaptor0->GetModifiableLevelSet();
 
-  BinaryToSparseAdaptorType::Pointer adaptor1 = BinaryToSparseAdaptorType::New();
+  auto adaptor1 = BinaryToSparseAdaptorType::New();
   adaptor1->SetInputImage(binary);
   adaptor1->Initialize();
   std::cout << "Finished converting to sparse format" << std::endl;
@@ -121,22 +121,22 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   list_ids.push_back(1);
   list_ids.push_back(2);
 
-  IdListImageType::Pointer id_image = IdListImageType::New();
+  auto id_image = IdListImageType::New();
   id_image->SetRegions(input->GetLargestPossibleRegion());
   id_image->Allocate();
   id_image->FillBuffer(list_ids);
 
-  DomainMapImageFilterType::Pointer domainMapFilter = DomainMapImageFilterType::New();
+  auto domainMapFilter = DomainMapImageFilterType::New();
   domainMapFilter->SetInput(id_image);
   domainMapFilter->Update();
   std::cout << "Domain map computed" << std::endl;
 
   // Define the Heaviside function
-  HeavisideFunctionBaseType::Pointer heaviside = HeavisideFunctionBaseType::New();
+  auto heaviside = HeavisideFunctionBaseType::New();
   heaviside->SetEpsilon(2.0);
 
   // Insert the levelsets in a levelset container
-  LevelSetContainerType::Pointer lscontainer = LevelSetContainerType::New();
+  auto lscontainer = LevelSetContainerType::New();
   lscontainer->SetHeaviside(heaviside);
   lscontainer->SetDomainMapFilter(domainMapFilter);
 
@@ -159,26 +159,26 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   // *** 1st Level Set phi ***
 
   // Create ChanAndVese internal term for phi_{1}
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm0 = ChanAndVeseInternalTermType::New();
+  auto cvInternalTerm0 = ChanAndVeseInternalTermType::New();
   cvInternalTerm0->SetInput(input);
   cvInternalTerm0->SetCoefficient(1.0);
   std::cout << "LevelSet 1: CV internal term created" << std::endl;
 
   // Create ChanAndVese external term for phi_{1}
-  ChanAndVeseExternalTermType::Pointer cvExternalTerm0 = ChanAndVeseExternalTermType::New();
+  auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
   cvExternalTerm0->SetInput(input);
   cvExternalTerm0->SetCoefficient(1.0);
   std::cout << "LevelSet 1: CV external term created" << std::endl;
 
   // -----------------------------
   // *** 2nd Level Set phi ***
-  ChanAndVeseInternalTermType::Pointer cvInternalTerm1 = ChanAndVeseInternalTermType::New();
+  auto cvInternalTerm1 = ChanAndVeseInternalTermType::New();
   cvInternalTerm1->SetInput(input);
   cvInternalTerm1->SetCoefficient(1.0);
   std::cout << "LevelSet 2: CV internal term created" << std::endl;
 
   // Create ChanAndVese external term for phi_{1}
-  ChanAndVeseExternalTermType::Pointer cvExternalTerm1 = ChanAndVeseExternalTermType::New();
+  auto cvExternalTerm1 = ChanAndVeseExternalTermType::New();
   cvExternalTerm1->SetInput(input);
   cvExternalTerm1->SetCoefficient(1.0);
   std::cout << "LevelSet 2: CV external term created" << std::endl;
@@ -186,7 +186,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   // **************** CREATE ALL EQUATIONS ****************
 
   // Create Term Container
-  TermContainerType::Pointer termContainer0 = TermContainerType::New();
+  auto termContainer0 = TermContainerType::New();
   termContainer0->SetInput(input);
   termContainer0->SetCurrentLevelSetId(0);
   termContainer0->SetLevelSetContainer(lscontainer);
@@ -196,7 +196,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   std::cout << "Term container 0 created" << std::endl;
 
   // Create Term Container
-  TermContainerType::Pointer termContainer1 = TermContainerType::New();
+  auto termContainer1 = TermContainerType::New();
   termContainer1->SetInput(input);
   termContainer1->SetCurrentLevelSetId(1);
   termContainer1->SetLevelSetContainer(lscontainer);
@@ -207,16 +207,16 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   std::cout << "Term container 1 created" << std::endl;
 
   // Create equation container
-  EquationContainerType::Pointer equationContainer = EquationContainerType::New();
+  auto equationContainer = EquationContainerType::New();
   equationContainer->SetLevelSetContainer(lscontainer);
   equationContainer->AddEquation(0, termContainer0);
   equationContainer->AddEquation(1, termContainer1);
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
-  StoppingCriterionType::Pointer criterion = StoppingCriterionType::New();
+  auto criterion = StoppingCriterionType::New();
   criterion->SetNumberOfIterations(std::stoi(argv[2]));
 
-  LevelSetEvolutionType::Pointer evolution = LevelSetEvolutionType::New();
+  auto evolution = LevelSetEvolutionType::New();
   evolution->SetEquationContainer(equationContainer);
   evolution->SetStoppingCriterion(criterion);
   evolution->SetLevelSetContainer(lscontainer);
@@ -231,7 +231,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
   using OutputImageType = itk::Image<signed char, Dimension>;
-  OutputImageType::Pointer outputImage = OutputImageType::New();
+  auto outputImage = OutputImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());
   outputImage->CopyInformation(input);
   outputImage->Allocate();
@@ -251,7 +251,7 @@ itkTwoLevelSetMalcolmImage2DTest(int argc, char * argv[])
   }
 
   using OutputWriterType = itk::ImageFileWriter<OutputImageType>;
-  OutputWriterType::Pointer writer = OutputWriterType::New();
+  auto writer = OutputWriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(outputImage);
 

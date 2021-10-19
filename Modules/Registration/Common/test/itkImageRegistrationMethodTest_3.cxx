@@ -70,13 +70,13 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   using CommandIterationType = itk::CommandIterationUpdate<OptimizerType>;
 
 
-  MetricType::Pointer       metric = MetricType::New();
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
 
-  ImageSourceType::Pointer imageSource = ImageSourceType::New();
+  auto imageSource = ImageSourceType::New();
 
   SizeType size;
   size[0] = 100;
@@ -103,7 +103,7 @@ itkImageRegistrationMethodTest_3(int argc, char * argv[])
   metric->SetFixedImageRegion(fixedImage->GetBufferedRegion());
 
   // Instantiate an Observer to report the progress of the Optimization
-  CommandIterationType::Pointer iterationCommand = CommandIterationType::New();
+  auto iterationCommand = CommandIterationType::New();
   iterationCommand->SetOptimizer(optimizer);
 
   // Scale the translation components of the Transform in the Optimizer

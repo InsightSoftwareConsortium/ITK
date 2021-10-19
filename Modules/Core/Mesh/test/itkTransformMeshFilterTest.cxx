@@ -49,7 +49,7 @@ itkTransformMeshFilterTest(int, char *[])
   using PointType = MeshType::PointType;
 
   // Create an input Mesh
-  MeshType::Pointer inputMesh = MeshType::New();
+  auto inputMesh = MeshType::New();
 
   // Insert data on the Mesh
   PointsContainerPointer points = inputMesh->GetPoints();
@@ -98,11 +98,11 @@ itkTransformMeshFilterTest(int, char *[])
 
 
   // Create a Filter
-  FilterType::Pointer                  filter = FilterType::New();
-  FilterWithBaseTransformType::Pointer filterwithbasetrfs = FilterWithBaseTransformType::New();
+  auto filter = FilterType::New();
+  auto filterwithbasetrfs = FilterWithBaseTransformType::New();
 
   // Create a Transform
-  TransformType::Pointer affineTransform = TransformType::New();
+  auto affineTransform = TransformType::New();
   affineTransform->Scale(3.5);
   TransformType::OffsetType::ValueType tInit[3] = { 100, 200, 300 };
   TransformType::OffsetType            translation = tInit;

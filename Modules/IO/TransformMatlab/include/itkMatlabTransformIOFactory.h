@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    MatlabTransformIOFactory::Pointer metaFactory = MatlabTransformIOFactory::New();
+    auto metaFactory = MatlabTransformIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(metaFactory);
   }

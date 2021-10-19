@@ -60,7 +60,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   /* Loading point data */
   using PointSetType = itk::PointSet<double, 2>;
-  PointSetType::Pointer                pointSet = PointSetType::New();
+  auto                                 pointSet = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
@@ -85,13 +85,13 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   /* Importing the point set to the sample */
   using DataSampleType = stat::PointSetToListSampleAdaptor<PointSetType>;
 
-  DataSampleType::Pointer sample = DataSampleType::New();
+  auto sample = DataSampleType::New();
 
   sample->SetPointSet(pointSet);
 
   /* Creating k-d tree */
   using Generator = stat::WeightedCentroidKdTreeGenerator<DataSampleType>;
-  Generator::Pointer generator = Generator::New();
+  auto generator = Generator::New();
 
   generator->SetSample(sample);
   generator->SetBucketSize(bucketSize);
@@ -99,7 +99,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   /* Searching kmeans */
   using Estimator = stat::KdTreeBasedKmeansEstimator<Generator::KdTreeType>;
-  Estimator::Pointer estimator = Estimator::New();
+  auto estimator = Estimator::New();
   std::cout << estimator->GetNameOfClass() << std::endl;
   estimator->Print(std::cout);
 

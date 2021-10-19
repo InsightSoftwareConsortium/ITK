@@ -76,7 +76,7 @@ itkVtkConnectedComponentImageFilterTest(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   QuickView viewer;
@@ -111,10 +111,10 @@ itkVtkConnectedComponentImageFilterTest(int argc, char * argv[])
     (*it).second->SetInput(reader->GetOutput());
     (*it).second->Update();
 
-    ConnectedComponentImageFilterType::Pointer connected = ConnectedComponentImageFilterType::New();
+    auto connected = ConnectedComponentImageFilterType::New();
     connected->SetInput((*it).second->GetOutput());
 
-    RGBFilterType::Pointer rgbFilter = RGBFilterType::New();
+    auto rgbFilter = RGBFilterType::New();
     rgbFilter->SetInput(connected->GetOutput());
     std::stringstream desc;
     desc << (*it).first << " threshold = " << (*it).second->GetThreshold();

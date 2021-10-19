@@ -34,7 +34,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   // Read the input image
   using ReaderType = itk::ImageFileReader<ImageType>;
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -44,7 +44,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
   // Create the itk::DiscreteGaussianDerivativeImageFunction
   using GaussianDerivativeImageFunctionType = itk::DiscreteGaussianDerivativeImageFunction<ImageType, PixelType>;
-  typename GaussianDerivativeImageFunctionType::Pointer function = GaussianDerivativeImageFunctionType::New();
+  auto function = GaussianDerivativeImageFunctionType::New();
 
   function->SetInputImage(inputImage);
 
@@ -107,7 +107,7 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
 
   // Create image for storing result
-  typename ImageType::Pointer output = ImageType::New();
+  auto output = ImageType::New();
   output->SetSpacing(inputImage->GetSpacing());
   output->SetOrigin(inputImage->GetOrigin());
   output->SetDirection(inputImage->GetDirection());
@@ -161,14 +161,14 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
   using RescaleType = itk::RescaleIntensityImageFilter<ImageType, OutputImageType>;
 
-  typename RescaleType::Pointer rescaler = RescaleType::New();
+  auto rescaler = RescaleType::New();
   rescaler->SetInput(output);
   rescaler->SetOutputMinimum(itk::NumericTraits<OutputPixelType>::min());
   rescaler->SetOutputMaximum(itk::NumericTraits<OutputPixelType>::max());
 
   // Write the output image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(rescaler->GetOutput());
 
@@ -206,7 +206,7 @@ itkDiscreteGaussianDerivativeImageFunctionTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using GaussianDerivativeImageFunctionType = itk::DiscreteGaussianDerivativeImageFunction<ImageType, PixelType>;
-  GaussianDerivativeImageFunctionType::Pointer function = GaussianDerivativeImageFunctionType::New();
+  auto function = GaussianDerivativeImageFunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, DiscreteGaussianDerivativeImageFunction, ImageFunction);
 

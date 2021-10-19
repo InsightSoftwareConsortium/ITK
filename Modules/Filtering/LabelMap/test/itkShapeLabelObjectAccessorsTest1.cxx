@@ -80,11 +80,11 @@ itkShapeLabelObjectAccessorsTest1(int argc, char * argv[])
       status = EXIT_FAILURE;
     }
   }
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using I2LType = itk::LabelImageToShapeLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
   i2l->SetComputePerimeter(true);
   i2l->SetComputeOrientedBoundingBox(true);

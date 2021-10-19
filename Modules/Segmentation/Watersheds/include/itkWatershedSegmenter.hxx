@@ -155,7 +155,7 @@ Segmenter<TInputImage>::GenerateData()
   // Now create and allocate the threshold image.  We need a single pixel
   // border around the NxM region we are segmenting.  This means that for faces
   // that have no overlap into another chunk, we have to pad the image.
-  typename InputImageType::Pointer thresholdImage = InputImageType::New();
+  auto thresholdImage = InputImageType::New();
 
   thresholdImage->SetLargestPossibleRegion(thresholdLargestPossibleRegion);
   thresholdImage->SetBufferedRegion(thresholdImageRegion);
@@ -463,7 +463,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
   }
   fps.label = NULL_LABEL;
 
-  EquivalencyTable::Pointer eqTable = EquivalencyTable::New();
+  auto eqTable = EquivalencyTable::New();
 
   // Process each boundary region.
   for (idx.first = 0; idx.first < ImageDimension; ++(idx.first))
@@ -693,7 +693,7 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
 
   typename flat_region_table_t::iterator flatPtr;
   InputPixelType                         currentValue;
-  EquivalencyTable::Pointer              equivalentLabels = EquivalencyTable::New();
+  auto                                   equivalentLabels = EquivalencyTable::New();
 
   typename OutputImageType::Pointer output = this->GetOutputImage();
 
@@ -907,7 +907,7 @@ Segmenter<TInputImage>::DescendFlatRegions(flat_region_table_t & flatRegionTable
   // regions and equates each one with the label at its lowest boundary
   // point. Flat basins are preserved as their own regions. The output image is
   // relabeled to reflect these equivalencies.
-  EquivalencyTable::Pointer equivalentLabels = EquivalencyTable::New();
+  auto equivalentLabels = EquivalencyTable::New();
 
   for (typename flat_region_table_t::const_iterator region = flatRegionTable.begin(); region != flatRegionTable.end();
        ++region)

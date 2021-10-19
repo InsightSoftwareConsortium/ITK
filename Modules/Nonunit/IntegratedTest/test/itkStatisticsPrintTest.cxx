@@ -112,28 +112,28 @@ itkStatisticsPrintTest(int, char *[])
 
   using KdTreeBasedKMeansEstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator<TreeGeneratorType::KdTreeType>;
 
-  SampleType::Pointer sampleObj = SampleType::New();
+  auto sampleObj = SampleType::New();
   std::cout << "----------ListSample " << sampleObj;
 
-  SubSampleType::Pointer subsampleObj = SubSampleType::New();
+  auto subsampleObj = SubSampleType::New();
   std::cout << "----------Subsample " << subsampleObj;
 
-  HistogramType::Pointer HistogramObj = HistogramType::New();
+  auto HistogramObj = HistogramType::New();
   std::cout << "----------Histogram " << HistogramObj;
 
-  SampleToHistogramFilterType::Pointer SampleToHistogramFilterObj = SampleToHistogramFilterType::New();
+  auto SampleToHistogramFilterObj = SampleToHistogramFilterType::New();
   std::cout << "----------SampleToHistogramFilter ";
   std::cout << SampleToHistogramFilterObj;
 
-  SampleClassifierFilterType::Pointer xSampleClassifierFilterObj = SampleClassifierFilterType::New();
+  auto xSampleClassifierFilterObj = SampleClassifierFilterType::New();
   std::cout << "----------SampleClassifierFilter ";
   std::cout << xSampleClassifierFilterObj;
 
-  ImageToListSampleFilterType::Pointer ImageToListSampleFilterObj = ImageToListSampleFilterType::New();
+  auto ImageToListSampleFilterObj = ImageToListSampleFilterType::New();
   std::cout << "----------ImageToListSampleFilter ";
   std::cout << ImageToListSampleFilterObj;
 
-  ImageToListSampleAdaptorType::Pointer ImageToListSampleAdaptorObj = ImageToListSampleAdaptorType::New();
+  auto ImageToListSampleAdaptorObj = ImageToListSampleAdaptorType::New();
   std::cout << "----------ImageToListSampleAdaptor ";
   std::cout << ImageToListSampleAdaptorObj;
 
@@ -142,7 +142,7 @@ itkStatisticsPrintTest(int, char *[])
   std::cout << "----------JointDomainImageToListSampleAdaptor ";
   std::cout << JointDomainImageToListSampleAdaptorObj;
 
-  PointSetToListSampleAdaptorType::Pointer PointSetToListSampleAdaptorObj = PointSetToListSampleAdaptorType::New();
+  auto PointSetToListSampleAdaptorObj = PointSetToListSampleAdaptorType::New();
   std::cout << "----------PointSetToListSampleAdaptor ";
   std::cout << PointSetToListSampleAdaptorObj;
 
@@ -165,60 +165,60 @@ itkStatisticsPrintTest(int, char *[])
     HistogramToTextureFeaturesFilterType::New();
   std::cout << "----------HistogramToTextureFeaturesFilter " << HistogramToTextureFeaturesFilterObj;
 
-  MembershipSampleType::Pointer MembershipSampleObj = MembershipSampleType::New();
+  auto MembershipSampleObj = MembershipSampleType::New();
   std::cout << "----------MembershipSample " << MembershipSampleObj;
 
   DistanceToCentroidMembershipFunctionType::Pointer DistanceToCentroidMembershipFunctionObj =
     DistanceToCentroidMembershipFunctionType::New();
   std::cout << "----------DistanceToCentroidMembershipFunction " << DistanceToCentroidMembershipFunctionObj;
 
-  MeanSampleFilterType::Pointer meanFilterObj = MeanSampleFilterType::New();
+  auto meanFilterObj = MeanSampleFilterType::New();
   std::cout << "----------Mean filter " << meanFilterObj;
 
-  WeightedMeanSampleFilterType::Pointer weighedMeanSampleFilterObj = WeightedMeanSampleFilterType::New();
+  auto weighedMeanSampleFilterObj = WeightedMeanSampleFilterType::New();
   std::cout << "----------WeightedMean filter " << weighedMeanSampleFilterObj;
 
-  CovarianceSampleFilterType::Pointer covarianceFilterObj = CovarianceSampleFilterType::New();
+  auto covarianceFilterObj = CovarianceSampleFilterType::New();
   std::cout << "----------Covariance filter " << covarianceFilterObj;
 
   WeightedCovarianceSampleFilterType::Pointer weighedCovarianceSampleFilterObj =
     WeightedCovarianceSampleFilterType::New();
   std::cout << "----------WeightedCovariance filter " << weighedCovarianceSampleFilterObj;
 
-  NeighborhoodSamplerType::Pointer neighborhoodSamplerObj = NeighborhoodSamplerType::New();
+  auto neighborhoodSamplerObj = NeighborhoodSamplerType::New();
   std::cout << "----------NeighborhoodSamplerType filter " << neighborhoodSamplerObj;
 
-  DenseFrequencyContainer2Type::Pointer DenseFrequencyContainer2Obj = DenseFrequencyContainer2Type::New();
+  auto DenseFrequencyContainer2Obj = DenseFrequencyContainer2Type::New();
   std::cout << "----------DenseFrequencyContainer " << DenseFrequencyContainer2Obj;
 
-  SparseFrequencyContainer2Type::Pointer SparseFrequencyContainer2Obj = SparseFrequencyContainer2Type::New();
+  auto SparseFrequencyContainer2Obj = SparseFrequencyContainer2Type::New();
   std::cout << "----------SparseFrequencyContainer2 " << SparseFrequencyContainer2Obj;
 
-  EuclideanDistanceMetricType::Pointer euclideanDistance = EuclideanDistanceMetricType::New();
+  auto euclideanDistance = EuclideanDistanceMetricType::New();
   std::cout << "----------EuclideanDistanceMetricType " << euclideanDistance;
 
-  EuclideanSquareDistanceMetricType::Pointer euclideanSquareDistance = EuclideanSquareDistanceMetricType::New();
+  auto euclideanSquareDistance = EuclideanSquareDistanceMetricType::New();
   std::cout << "----------EuclideanSquareDistanceMetricType " << euclideanSquareDistance;
 
-  MahalanobisDistanceMetricType::Pointer mahalanobisDistance = MahalanobisDistanceMetricType::New();
+  auto mahalanobisDistance = MahalanobisDistanceMetricType::New();
   std::cout << "----------MahalanobisDistanceMetricType " << mahalanobisDistance;
 
-  ManhattanDistanceMetricType::Pointer manhattanDistance = ManhattanDistanceMetricType::New();
+  auto manhattanDistance = ManhattanDistanceMetricType::New();
   std::cout << "----------ManhattanDistanceMetricType " << manhattanDistance;
 
-  MaximumDecisionRuleType::Pointer maximumDecsion = MaximumDecisionRuleType::New();
+  auto maximumDecsion = MaximumDecisionRuleType::New();
   std::cout << "----------MaximumDecisionRuleType " << maximumDecsion;
 
-  MinimumDecisionRuleType::Pointer minimumDecsion = MinimumDecisionRuleType::New();
+  auto minimumDecsion = MinimumDecisionRuleType::New();
   std::cout << "----------MinimumDecisionRuleType " << minimumDecsion;
 
-  ImageClassifierFilterType::Pointer classifierFilter = ImageClassifierFilterType::New();
+  auto classifierFilter = ImageClassifierFilterType::New();
   std::cout << "----------ImageClassifierFilterType " << classifierFilter;
 
-  EMEstimatorType::Pointer emEstimator = EMEstimatorType::New();
+  auto emEstimator = EMEstimatorType::New();
   std::cout << "----------EMEstimatorType " << emEstimator;
 
-  KdTreeBasedKMeansEstimatorType::Pointer kdTreeBasedEstimator = KdTreeBasedKMeansEstimatorType::New();
+  auto kdTreeBasedEstimator = KdTreeBasedKMeansEstimatorType::New();
   std::cout << "----------KdTreeBasedKMeansEstimatorType " << kdTreeBasedEstimator;
 
   return EXIT_SUCCESS;

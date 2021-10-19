@@ -41,7 +41,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->SetUseStreaming(true);
 
@@ -65,7 +65,7 @@ itkImageFileWriterPastingTest1(int argc, char * argv[])
   unsigned int zsize = fullsize[2] / m_NumberOfPieces;
 
   // Setup the writer
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
 
   for (unsigned int i = 0; i < m_NumberOfPieces; ++i)

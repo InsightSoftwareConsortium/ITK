@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    BMPImageIOFactory::Pointer BMPFactory = BMPImageIOFactory::New();
+    auto BMPFactory = BMPImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(BMPFactory);
   }

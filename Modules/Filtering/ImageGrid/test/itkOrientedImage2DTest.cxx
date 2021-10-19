@@ -44,7 +44,7 @@ itkOrientedImage2DTest(int ac, char * av[])
   using PointType = ImageType::PointType;
   using IndexValueType = IndexType::IndexValueType;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(av[1]);
 
@@ -123,7 +123,7 @@ itkOrientedImage2DTest(int ac, char * av[])
 
   using CentralDifferenceImageFunctionType = itk::CentralDifferenceImageFunction<ImageType, double>;
 
-  CentralDifferenceImageFunctionType::Pointer gradientHelper1 = CentralDifferenceImageFunctionType::New();
+  auto gradientHelper1 = CentralDifferenceImageFunctionType::New();
   gradientHelper1->SetInputImage(image);
 
   std::cout << std::endl;

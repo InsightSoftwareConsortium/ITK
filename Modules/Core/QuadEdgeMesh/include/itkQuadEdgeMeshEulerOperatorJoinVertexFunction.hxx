@@ -194,7 +194,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
   using Zip = QuadEdgeMeshZipMeshFunction<MeshType, QEType>;
   if (wasLeftTriangle)
   {
-    typename Zip::Pointer zip = Zip::New();
+    auto zip = Zip::New();
     zip->SetInput(this->m_Mesh);
     if (QEType::m_NoPoint != zip->Evaluate(leftZip))
     {
@@ -214,7 +214,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
   if (wasRiteTriangle)
   {
     NewOrg = riteZip->GetDestination();
-    typename Zip::Pointer zip = Zip::New();
+    auto zip = Zip::New();
     zip->SetInput(this->m_Mesh);
     if (QEType::m_NoPoint != zip->Evaluate(riteZip))
     {

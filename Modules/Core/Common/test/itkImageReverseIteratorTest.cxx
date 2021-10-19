@@ -54,7 +54,7 @@ itkImageReverseIteratorTest(int, char *[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   std::cout << "Creating an image" << std::endl;
-  ImageType::Pointer o3 = ImageType::New();
+  auto o3 = ImageType::New();
 
   float origin3D[3] = { 5.0f, 2.1f, 8.1f };
   float spacing3D[3] = { 1.5f, 2.1f, 1.0f };

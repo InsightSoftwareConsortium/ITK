@@ -152,15 +152,15 @@ itkExhaustiveOptimizerTest(int, char *[])
 
 
   // Declaration of a itkOptimizer
-  OptimizerType::Pointer itkOptimizer = OptimizerType::New();
+  auto itkOptimizer = OptimizerType::New();
 
 
   // Index observer (enables us to check if all positions were indeed visisted):
-  IndexObserver::Pointer idxObserver = IndexObserver::New();
+  auto idxObserver = IndexObserver::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), idxObserver);
 
   // Declaration of the CostFunction
-  RSGCostFunction::Pointer costFunction = RSGCostFunction::New();
+  auto costFunction = RSGCostFunction::New();
   itkOptimizer->SetCostFunction(costFunction);
 
 

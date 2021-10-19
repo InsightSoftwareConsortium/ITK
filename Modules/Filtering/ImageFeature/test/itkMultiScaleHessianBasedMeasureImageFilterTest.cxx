@@ -62,7 +62,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   using MultiScaleEnhancementFilterType =
     itk::MultiScaleHessianBasedMeasureImageFilter<InputImageType, HessianImageType, OutputImageType>;
 
-  FileReaderType::Pointer imageReader = FileReaderType::New();
+  auto imageReader = FileReaderType::New();
   imageReader->SetFileName(argv[1]);
   try
   {
@@ -74,7 +74,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  ObjectnessFilterType::Pointer objectnessFilter = ObjectnessFilterType::New();
+  auto objectnessFilter = ObjectnessFilterType::New();
   objectnessFilter->SetScaleObjectnessMeasure(false);
   objectnessFilter->SetBrightObject(true);
   objectnessFilter->SetAlpha(0.5);
@@ -82,7 +82,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   objectnessFilter->SetGamma(5.0);
 
 
-  MultiScaleEnhancementFilterType::Pointer multiScaleEnhancementFilter = MultiScaleEnhancementFilterType::New();
+  auto multiScaleEnhancementFilter = MultiScaleEnhancementFilterType::New();
   multiScaleEnhancementFilter->SetInput(imageReader->GetOutput());
   multiScaleEnhancementFilter->SetHessianToMeasureFilter(objectnessFilter);
   multiScaleEnhancementFilter->SetSigmaStepMethodToLogarithmic();
@@ -175,7 +175,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
     std::cerr << e << std::endl;
   }
 
-  FileWriterType::Pointer writer = FileWriterType::New();
+  auto writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();
   writer->SetInput(multiScaleEnhancementFilter->GetOutput());
@@ -225,7 +225,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
       std::cerr << e << std::endl;
     }
 
-    FileWriterType::Pointer writer2 = FileWriterType::New();
+    auto writer2 = FileWriterType::New();
     writer2->SetFileName(argv[9]);
     writer2->UseCompressionOn();
     writer2->SetInput(multiScaleEnhancementFilter->GetOutput());
@@ -256,7 +256,7 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
       std::cerr << e << std::endl;
     }
 
-    FileWriterType::Pointer writer3 = FileWriterType::New();
+    auto writer3 = FileWriterType::New();
     writer3->SetFileName(argv[10]);
     writer3->UseCompressionOn();
     writer3->SetInput(multiScaleEnhancementFilter->GetScalesOutput());

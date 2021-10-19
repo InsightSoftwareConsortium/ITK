@@ -101,7 +101,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
   //
   // Read the image directly
   //
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv);
 
   reader->Update();
@@ -127,7 +127,7 @@ itkOpenCVImageBridgeTestTemplatedScalar(char * argv)
   }
 
   // Check results of IplImage -> itk::Image
-  typename DifferenceFilterType::Pointer differ = DifferenceFilterType::New();
+  auto differ = DifferenceFilterType::New();
   differ->SetValidInput(baselineImage);
   differ->SetTestInput(outIplITK);
   differ->Update();

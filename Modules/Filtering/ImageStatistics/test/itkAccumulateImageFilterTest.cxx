@@ -46,14 +46,14 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   }
 
   // Get the input filenames
-  SeriesFileNames::Pointer names = SeriesFileNames::New();
+  auto names = SeriesFileNames::New();
 
   // Get the DICOM filenames from the directory
   names->SetInputDirectory(argv[1]);
 
   // Create the reader
-  ImageIOType::Pointer gdcmIO = ImageIOType::New();
-  ReaderType::Pointer  reader = ReaderType::New();
+  auto gdcmIO = ImageIOType::New();
+  auto reader = ReaderType::New();
   reader->SetImageIO(gdcmIO);
   try
   {
@@ -68,7 +68,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   }
 
   // Accumulate the input images
-  AccumulaterType::Pointer accumulate = AccumulaterType::New();
+  auto accumulate = AccumulaterType::New();
   accumulate->SetInput(reader->GetOutput());
   accumulate->SetAccumulateDimension(2);
 
@@ -90,7 +90,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
   accumulate->AverageOff();
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[2]);
 
     writer->SetInput(accumulate->GetOutput());
@@ -109,7 +109,7 @@ itkAccumulateImageFilterTest(int argc, char * argv[])
 
   try
   {
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetFileName(argv[2]);
 
     writer->SetInput(accumulate->GetOutput());

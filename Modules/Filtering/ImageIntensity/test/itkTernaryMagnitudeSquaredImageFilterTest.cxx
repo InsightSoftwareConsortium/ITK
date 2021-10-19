@@ -46,9 +46,9 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   using RegionType = itk::ImageRegion<Dimension>;
 
   // Create the input images
-  InputImageType1::Pointer inputImageA = InputImageType1::New();
-  InputImageType2::Pointer inputImageB = InputImageType2::New();
-  InputImageType3::Pointer inputImageC = InputImageType3::New();
+  auto inputImageA = InputImageType1::New();
+  auto inputImageB = InputImageType2::New();
+  auto inputImageC = InputImageType3::New();
 
   // Define their size, and start index
   SizeType size;
@@ -129,7 +129,7 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
 
 
   // Create the filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TernaryMagnitudeSquaredImageFilter, TernaryGeneratorImageFilter);
 

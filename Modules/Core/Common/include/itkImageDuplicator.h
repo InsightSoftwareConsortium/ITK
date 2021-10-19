@@ -34,7 +34,7 @@ namespace itk
        medianFilter->Update();
        ImageType::Pointer image = medianFilter->GetOutput();
        using DuplicatorType = itk::ImageDuplicator< ImageType >;
-       DuplicatorType::Pointer duplicator = DuplicatorType::New();
+       auto duplicator = DuplicatorType::New();
        duplicator->SetInputImage(image);
        duplicator->Update();
        ImageType::Pointer clonedImage = duplicator->GetOutput();

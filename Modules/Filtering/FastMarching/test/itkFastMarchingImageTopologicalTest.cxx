@@ -91,7 +91,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   LabelType label_zero = itk::NumericTraits<LabelType>::ZeroValue();
 
   using ContourFilterType = itk::LabelContourImageFilter<LabelImageType, LabelImageType>;
-  typename ContourFilterType::Pointer contour = ContourFilterType::New();
+  auto contour = ContourFilterType::New();
   contour->SetInput(labelImageReader->GetOutput());
   contour->FullyConnectedOff();
   contour->SetBackgroundValue(label_zero);
@@ -111,8 +111,8 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   using NodePairContainerType = typename FastMarchingType::NodePairContainerType;
 
 
-  typename NodePairContainerType::Pointer AlivePoints = NodePairContainerType::New();
-  typename NodePairContainerType::Pointer TrialPoints = NodePairContainerType::New();
+  auto AlivePoints = NodePairContainerType::New();
+  auto TrialPoints = NodePairContainerType::New();
 
   itk::ImageRegionIteratorWithIndex<LabelImageType> ItL(labelImageReader->GetOutput(),
                                                         labelImageReader->GetOutput()->GetLargestPossibleRegion());
@@ -168,7 +168,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
   }
 
   using ThresholdingFilterType = itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
-  typename ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
 
   thresholder->SetLowerThreshold(0.0);
   thresholder->SetUpperThreshold(stoppingValue);
@@ -189,7 +189,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
 
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(thresholder->GetOutput());
   writer->SetFileName(argv[3]);
 
@@ -209,7 +209,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
     {
       std::string filename = std::string(argv[7]) + std::string("LevelSet.nii.gz");
       using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
-      typename InternalWriterType::Pointer internal_writer = InternalWriterType::New();
+      auto internal_writer = InternalWriterType::New();
       internal_writer->SetInput(fastMarching->GetOutput());
       internal_writer->SetFileName(filename.c_str());
 
@@ -228,7 +228,7 @@ FastMarchingImageFilter(unsigned int argc, char * argv[])
     {
       std::string filename = std::string(argv[7]) + std::string("LabelMap.nii.gz");
       using LabelImageWriterType = itk::ImageFileWriter<LabelImageType>;
-      typename LabelImageWriterType::Pointer mapWriter = LabelImageWriterType::New();
+      auto mapWriter = LabelImageWriterType::New();
       mapWriter->SetInput(fastMarching->GetLabelImage());
       mapWriter->SetFileName(filename.c_str());
 

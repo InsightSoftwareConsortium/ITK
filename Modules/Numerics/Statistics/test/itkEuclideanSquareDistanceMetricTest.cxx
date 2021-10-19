@@ -27,7 +27,7 @@ itkEuclideanSquareDistanceMetricTest(int, char *[])
 
   using DistanceMetricType = itk::Statistics::EuclideanSquareDistanceMetric<MeasurementVectorType>;
 
-  DistanceMetricType::Pointer distance = DistanceMetricType::New();
+  auto distance = DistanceMetricType::New();
 
   std::cout << distance->GetNameOfClass() << std::endl;
 

@@ -43,7 +43,7 @@ TestUnknowMetaDataBug(const std::string & fname)
     ImageType::SizeType   size = { { 32, 32 } };
     region.SetSize(size);
 
-    ImageType::Pointer image = ImageType::New();
+    auto image = ImageType::New();
     image->SetRegions(region);
     image->Allocate();
     image->FillBuffer(0);
@@ -55,7 +55,7 @@ TestUnknowMetaDataBug(const std::string & fname)
       dict, "AnUnsuportedComplexInitalized", std::complex<float>(1.234560F));
 
     using Hasher = itk::Testing::HashImageFilter<ImageType>;
-    Hasher::Pointer hasher = Hasher::New();
+    auto hasher = Hasher::New();
     hasher->SetInput(image);
     hasher->InPlaceOff();
     hasher->Update();

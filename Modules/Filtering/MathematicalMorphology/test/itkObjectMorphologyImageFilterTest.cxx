@@ -52,7 +52,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   using myRegionType = itk::ImageRegion<myDimension>;
 
   // Create an image
-  myImageType::Pointer inputImage = myImageType::New();
+  auto inputImage = myImageType::New();
 
   // Define their size, and start index
   mySizeType size;
@@ -122,10 +122,10 @@ itkObjectMorphologyImageFilterTest(int, char *[])
   using binErodeFilterType = itk::BinaryErodeImageFilter<myImageType, myImageType, myKernelType>;
 
   // Create the filter
-  myDilateFilterType::Pointer  dilateFilter = myDilateFilterType::New();
-  myErodeFilterType::Pointer   erodeFilter = myErodeFilterType::New();
-  binDilateFilterType::Pointer binDilateFilter = binDilateFilterType::New();
-  binErodeFilterType::Pointer  binErodeFilter = binErodeFilterType::New();
+  auto dilateFilter = myDilateFilterType::New();
+  auto erodeFilter = myErodeFilterType::New();
+  auto binDilateFilter = binDilateFilterType::New();
+  auto binErodeFilter = binErodeFilterType::New();
 
   // Create the structuring element
   myKernelType           ball;

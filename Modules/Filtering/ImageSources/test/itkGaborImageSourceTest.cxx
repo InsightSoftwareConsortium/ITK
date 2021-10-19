@@ -30,7 +30,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
 
   // Instantiate the filter
   using GaborSourceType = itk::GaborImageSource<ImageType>;
-  typename GaborSourceType::Pointer gaborImage = GaborSourceType::New();
+  auto gaborImage = GaborSourceType::New();
 
   if (ImageDimension == 2)
   {
@@ -78,7 +78,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
   ITK_TRY_EXPECT_NO_EXCEPTION(gaborImage->Update());
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(outputFilename);
   writer->SetInput(gaborImage->GetOutput());
 
@@ -104,7 +104,7 @@ itkGaborImageSourceTest(int argc, char * argv[])
 
   // Instantiate the filter
   using GaborSourceType = itk::GaborImageSource<ImageType>;
-  GaborSourceType::Pointer gaborImage = GaborSourceType::New();
+  auto gaborImage = GaborSourceType::New();
 
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited

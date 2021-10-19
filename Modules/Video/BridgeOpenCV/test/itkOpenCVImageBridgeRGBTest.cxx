@@ -158,7 +158,7 @@ itkOpenCVImageBridgeTestTemplatedRGB(char * argv0, char * argv1)
   //
   // Read the image directly
   //
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv1);
   try
   {

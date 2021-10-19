@@ -42,10 +42,10 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, double>;
 
-  ReaderType::Pointer       reader = ReaderType::New();
-  MetricType::Pointer       metric = MetricType::New();
-  TransformType::Pointer    transform = TransformType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto reader = ReaderType::New();
+  auto metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto interpolator = InterpolatorType::New();
 
   MetricType::ParametersType offset(2);
 

@@ -31,7 +31,7 @@ TestMultipleReads(const std::string & fname, TImage *)
   using ImageType = TImage;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName(fname.c_str());
@@ -66,8 +66,8 @@ itkTIFFImageIOTestHelper(int, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  typename ReaderType::Pointer reader = ReaderType::New();
-  typename WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   itk::TIFFImageIO::Pointer io = itk::TIFFImageIO::New();
   reader->SetFileName(argv[1]);

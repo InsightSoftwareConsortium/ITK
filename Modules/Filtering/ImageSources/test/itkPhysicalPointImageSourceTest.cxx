@@ -40,7 +40,7 @@ itkPhysicalPointImageSourceTest(const std::string &                  fname,
 
   using PhysicalPointImageSourceType = itk::PhysicalPointImageSource<ImageType>;
 
-  typename PhysicalPointImageSourceType::Pointer physicalPointImageSource = PhysicalPointImageSourceType::New();
+  auto physicalPointImageSource = PhysicalPointImageSourceType::New();
 
   ITK_TRY_EXPECT_NO_EXCEPTION(physicalPointImageSource->UpdateLargestPossibleRegion());
 
@@ -55,12 +55,12 @@ itkPhysicalPointImageSourceTest(const std::string &                  fname,
     itk::Image<typename itk::NumericTraits<typename ImageType::PixelType>::ValueType, ImageType::ImageDimension>;
 
   using ValueImageCastFilter = itk::VectorIndexSelectionCastImageFilter<ImageType, ValueImageType>;
-  typename ValueImageCastFilter::Pointer vif = ValueImageCastFilter::New();
+  auto vif = ValueImageCastFilter::New();
   vif->SetInput(physicalPointImageSource->GetOutput());
   vif->SetIndex(0);
 
   using WriterType = itk::ImageFileWriter<ValueImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(fname);
   writer->SetInput(vif->GetOutput());
 
@@ -99,7 +99,7 @@ itkPhysicalPointImageSourceTest(int argc, char * argv[])
     itk::PhysicalPointImageSource<itk::Image<itk::Point<double, ImageDimension>, ImageDimension>>;
 
   // Instantiate the filter
-  PhysicalPointImageSourceType::Pointer physicalPointImageSource = PhysicalPointImageSourceType::New();
+  auto physicalPointImageSource = PhysicalPointImageSourceType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(physicalPointImageSource, PhysicalPointImageSource, GenerateImageSource);
 

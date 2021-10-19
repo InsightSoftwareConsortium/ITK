@@ -43,7 +43,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   double expected_max = std::pow(double(order), order * 0.5) * std::exp(-0.5 * order);
 
   using ImageType = itk::Image<double, ImageDimension>;
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::SizeType size;
   size.Fill(imageSize);
@@ -72,7 +72,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
 
 
   using GaussianFilterType = itk::RecursiveGaussianImageFilter<ImageType, ImageType>;
-  GaussianFilterType::Pointer filter = GaussianFilterType::New();
+  auto filter = GaussianFilterType::New();
   filter->SetInput(image);
   filter->SetDirection(0);
   filter->SetSigma(sigma_max);

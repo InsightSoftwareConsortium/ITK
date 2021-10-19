@@ -48,7 +48,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   using PointType = SphereFunctionType::PointType;
   using ParametersType = SphereFunctionType::ParametersType;
 
-  SphereFunctionType::Pointer sphere = SphereFunctionType::New();
+  auto sphere = SphereFunctionType::New();
 
   // We must initialize the sphere before use
   sphere->Initialize();
@@ -62,7 +62,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   std::cout << "SphereParameters: " << sphere->GetParameters() << std::endl;
 
   // Create a binary threshold function
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, BinaryThresholdSpatialFunction, SpatialFunction);
 
@@ -109,7 +109,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
 
   // Set up a dummy image
   using ImageType = itk::Image<unsigned char, Dimension>;
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   ImageType::SizeType size;
   size.Fill(10);
   image->SetRegions(size);

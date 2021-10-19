@@ -32,7 +32,7 @@ itkChainCodePath2DTest(int, char *[])
   IndexType  index;
   OffsetType offset;
 
-  PathType::Pointer path = PathType::New();
+  auto path = PathType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(path, ChainCodePath2D, ChainCodePath);
 

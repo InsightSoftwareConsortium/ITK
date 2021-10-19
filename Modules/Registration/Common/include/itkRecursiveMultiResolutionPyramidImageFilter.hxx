@@ -66,9 +66,9 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
   using ResampleShrinkerType = ResampleImageFilter<TOutputImage, TOutputImage>;
   using ShrinkerType = ShrinkImageFilter<TOutputImage, TOutputImage>;
 
-  typename CasterType::Pointer   caster = CasterType::New();
-  typename CopierType::Pointer   copier = CopierType::New();
-  typename SmootherType::Pointer smoother = SmootherType::New();
+  auto caster = CasterType::New();
+  auto copier = CopierType::New();
+  auto smoother = SmootherType::New();
 
   typename ImageToImageType::Pointer shrinkerFilter;
   //
@@ -86,9 +86,9 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
   {
     resampleShrinker = ResampleShrinkerType::New();
     using LinearInterpolatorType = itk::LinearInterpolateImageFunction<OutputImageType, double>;
-    typename LinearInterpolatorType::Pointer interpolator = LinearInterpolatorType::New();
+    auto interpolator = LinearInterpolatorType::New();
     using IdentityTransformType = itk::IdentityTransform<double, OutputImageType::ImageDimension>;
-    typename IdentityTransformType::Pointer identityTransform = IdentityTransformType::New();
+    auto identityTransform = IdentityTransformType::New();
     resampleShrinker->SetInterpolator(interpolator);
     resampleShrinker->SetDefaultPixelValue(0);
     resampleShrinker->SetTransform(identityTransform);

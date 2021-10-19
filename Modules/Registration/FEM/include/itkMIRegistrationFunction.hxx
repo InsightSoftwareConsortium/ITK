@@ -53,7 +53,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::MIRegistr
   {
     m_MovingImageGradientCalculator = GradientCalculatorType::New();
   }
-  typename DefaultInterpolatorType::Pointer interp = DefaultInterpolatorType::New();
+  auto interp = DefaultInterpolatorType::New();
 
   m_MovingImageInterpolator = static_cast<InterpolatorType *>(interp.GetPointer());
 }

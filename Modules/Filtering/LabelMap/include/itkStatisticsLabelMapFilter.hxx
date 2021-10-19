@@ -44,7 +44,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::BeforeThreadedGenerateData()
   // of our
   // histograms
   using MinMaxCalculatorType = MinimumMaximumImageCalculator<FeatureImageType>;
-  typename MinMaxCalculatorType::Pointer minMax = MinMaxCalculatorType::New();
+  auto minMax = MinMaxCalculatorType::New();
   minMax->SetImage(this->GetFeatureImage());
   minMax->Compute();
 
@@ -86,7 +86,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     featureImageMax.Fill(m_Maximum);
   }
 
-  typename HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
   histogram->SetMeasurementVectorSize(1);
   histogram->SetClipBinsAtEnds(false);
   histogram->Initialize(histogramSize, featureImageMin, featureImageMax);

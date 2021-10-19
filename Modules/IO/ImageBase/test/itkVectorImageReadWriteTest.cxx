@@ -41,9 +41,9 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ImageType::Pointer  inputImage = ImageType::New();
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto inputImage = ImageType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   // In this test, we will create a 9x9 image of vectors with pixels (4,4)
   // and (1,6) set to 'vector1'. We will filter it using

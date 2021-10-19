@@ -49,25 +49,25 @@ itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
 
   // Reading Image File
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Converting LabelImage to ShapeLabelMap
   using I2LType = itk::LabelImageToShapeLabelMapFilter<ImageType, LabelMapType>;
-  I2LType::Pointer i2l = I2LType::New();
+  auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
 
   using L2ImageType =
     itk::LabelMapToAttributeImageFilter<LabelMapType,
                                         ImageType,
                                         itk::Functor::NumberOfPixelsLabelObjectAccessor<LabelMapType::LabelObjectType>>;
-  L2ImageType::Pointer l2i = L2ImageType::New();
+  auto l2i = L2ImageType::New();
   l2i->SetInput(i2l->GetOutput());
   itk::SimpleFilterWatcher watcher(l2i, "filter");
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(l2i->GetOutput());
   writer->SetFileName(argv[2]);
   writer->UseCompressionOn();

@@ -47,12 +47,12 @@ Test_GetLines_should_return_empty_list_when_input_image_is_entirely_black()
   using FilterType = itk::HoughTransform2DLinesImageFilter<PixelType, double>;
 
   // Create a black input image for the filter.
-  const ImageType::Pointer  image = ImageType::New();
+  const auto                image = ImageType::New();
   const ImageType::SizeType size = { { 32, 32 } };
   image->SetRegions(size);
   image->Allocate(true);
 
-  const FilterType::Pointer filter = FilterType::New();
+  const auto filter = FilterType::New();
   filter->SetInput(image);
   filter->Update();
 
@@ -73,7 +73,7 @@ Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
   using ImageType = itk::Image<PixelType>;
 
   // Create an image.
-  const ImageType::Pointer image = ImageType::New();
+  const auto image = ImageType::New();
   enum
   {
     sizeX = 32,
@@ -92,7 +92,7 @@ Test_GetLines_should_return_empty_list_when_NumberOfLines_is_set_to_zero()
 
   using FilterType = itk::HoughTransform2DLinesImageFilter<PixelType, double>;
 
-  const FilterType::Pointer filter = FilterType::New();
+  const auto filter = FilterType::New();
 
   filter->SetInput(image);
   filter->SetNumberOfLines(0);
@@ -136,7 +136,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
 
 
   // Create a line image with one line
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   ImageType::RegionType region;
 
@@ -178,27 +178,27 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   }
 
   // Allocate Hough Space image (accumulator)
-  HoughImageType::Pointer m_HoughSpaceImage = HoughImageType::New();
+  auto m_HoughSpaceImage = HoughImageType::New();
   m_HoughSpaceImage->SetRegions(region);
   m_HoughSpaceImage->Allocate();
 
   // Apply gradient filter to the input image
   using CastingFilterType = itk::CastImageFilter<ImageType, HoughImageType>;
 
-  CastingFilterType::Pointer caster = CastingFilterType::New();
+  auto caster = CastingFilterType::New();
   caster->SetInput(image);
 
 
   using GradientFilterType = itk::GradientMagnitudeImageFilter<HoughImageType, HoughImageType>;
 
-  GradientFilterType::Pointer gradFilter = GradientFilterType::New();
+  auto gradFilter = GradientFilterType::New();
   gradFilter->SetInput(caster->GetOutput());
   gradFilter->Update();
 
   /// Apply a threshold to the Grad(InputImage)
   using ThresholdFilterType = itk::ThresholdImageFilter<HoughImageType>;
 
-  ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
+  auto threshFilter = ThresholdFilterType::New();
   threshFilter->SetInput(gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
   unsigned char lowerThreshold = 10;
@@ -210,7 +210,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   // Define the HoughTransform filter
   using HoughTransformFilterType = itk::HoughTransform2DLinesImageFilter<HoughSpacePixelType, HoughSpacePixelType>;
 
-  HoughTransformFilterType::Pointer houghFilter = HoughTransformFilterType::New();
+  auto houghFilter = HoughTransformFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(houghFilter, HoughTransform2DLinesImageFilter, ImageToImageFilter);
 
@@ -250,7 +250,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   // Blur the accumulator in order to find the maximum
   using GaussianFilterType = itk::DiscreteGaussianImageFilter<HoughImageType, HoughImageType>;
 
-  GaussianFilterType::Pointer gaussianFilter = GaussianFilterType::New();
+  auto gaussianFilter = GaussianFilterType::New();
   gaussianFilter->SetInput(accumulator);
   double gaussianFilterVariance[Dimension];
   gaussianFilterVariance[0] = variance;
@@ -263,7 +263,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   HoughImageType::Pointer postProcessImage = gaussianFilter->GetOutput();
 
   using MinMaxCalculatorType = itk::MinimumMaximumImageCalculator<HoughImageType>;
-  MinMaxCalculatorType::Pointer minMaxCalculator = MinMaxCalculatorType::New();
+  auto minMaxCalculator = MinMaxCalculatorType::New();
 
   itk::ImageRegionIterator<HoughImageType> it_output(m_HoughSpaceImage, m_HoughSpaceImage->GetLargestPossibleRegion());
 

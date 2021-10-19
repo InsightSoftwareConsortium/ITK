@@ -76,7 +76,7 @@ protected:
 int
 itkOptimizerParameterScalesEstimatorTest(int, char *[])
 {
-  OptimizerParameterScalesEstimatorTest::Pointer scalesEstimator = OptimizerParameterScalesEstimatorTest::New();
+  auto scalesEstimator = OptimizerParameterScalesEstimatorTest::New();
 
   OptimizerParameterScalesEstimatorTest::ScalesType scales;
   scalesEstimator->Print(std::cout);

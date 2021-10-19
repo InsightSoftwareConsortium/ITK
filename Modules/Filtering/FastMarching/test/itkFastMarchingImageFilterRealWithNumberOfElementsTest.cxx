@@ -37,10 +37,10 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
 
   using FastMarchingType = itk::FastMarchingImageFilterBase<FloatImageType, FloatImageType>;
 
-  CriterionType::Pointer criterion = CriterionType::New();
+  auto criterion = CriterionType::New();
   criterion->SetTargetNumberOfElements(100);
 
-  FastMarchingType::Pointer marcher = FastMarchingType::New();
+  auto marcher = FastMarchingType::New();
   marcher->SetStoppingCriterion(criterion);
 
   using NodePairType = FastMarchingType::NodePairType;
@@ -48,7 +48,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   using NodePairContainerType = FastMarchingType::NodePairContainerType;
 
   // setup alive points
-  NodePairContainerType::Pointer alive = NodePairContainerType::New();
+  auto alive = NodePairContainerType::New();
 
   NodePairType node_pair;
 
@@ -70,7 +70,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   marcher->SetAlivePoints(alive);
 
   // setup trial points
-  NodePairContainerType::Pointer trial = NodePairContainerType::New();
+  auto trial = NodePairContainerType::New();
   node_pair.SetValue(1.0);
 
   index.Fill(0);
@@ -107,7 +107,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   marcher->SetOutputSize(size);
 
   // setup a speed image of ones
-  FloatImageType::Pointer    speedImage = FloatImageType::New();
+  auto                       speedImage = FloatImageType::New();
   FloatImageType::RegionType region;
   region.SetSize(size);
   speedImage->SetLargestPossibleRegion(region);
@@ -140,7 +140,7 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
 
   using ThresholdingFilterType = itk::BinaryThresholdImageFilter<FloatImageType, OutputImageType>;
 
-  ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
 
   thresholder->SetLowerThreshold(0.0);
   thresholder->SetUpperThreshold(100.0);

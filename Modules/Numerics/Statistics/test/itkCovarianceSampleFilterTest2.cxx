@@ -31,7 +31,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   using MeasurementVectorType = itk::FixedArray<float, MeasurementVectorSize>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
 
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   sample->SetMeasurementVectorSize(MeasurementVectorSize);
 
@@ -54,7 +54,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   using CovarianceMatrixType = FilterType::MatrixType;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(sample);
 
@@ -125,7 +125,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
 
   // use orthogonal meausrment vectors
-  SampleType::Pointer sample2 = SampleType::New();
+  auto sample2 = SampleType::New();
 
   sample2->SetMeasurementVectorSize(MeasurementVectorSize);
 
@@ -211,7 +211,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   }
 
 
-  SampleType::Pointer sample3 = SampleType::New();
+  auto sample3 = SampleType::New();
 
   sample2->SetMeasurementVectorSize(MeasurementVectorSize);
 

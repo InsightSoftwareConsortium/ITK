@@ -100,7 +100,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
   // only one.
 
   using KernelImageType = itk::Image<TOutput, Self::ImageDimension2>;
-  typename KernelImageType::Pointer kernelImage = KernelImageType::New();
+  auto kernelImage = KernelImageType::New();
 
   using RegionType = typename KernelImageType::RegionType;
   RegionType region;
@@ -129,7 +129,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
 
   // Now create an image filter to perform successive convolutions
   using NeighborhoodFilterType = itk::NeighborhoodOperatorImageFilter<KernelImageType, KernelImageType>;
-  typename NeighborhoodFilterType::Pointer convolutionFilter = NeighborhoodFilterType::New();
+  auto convolutionFilter = NeighborhoodFilterType::New();
 
   for (unsigned int direction = 0; direction < Self::ImageDimension2; ++direction)
   {

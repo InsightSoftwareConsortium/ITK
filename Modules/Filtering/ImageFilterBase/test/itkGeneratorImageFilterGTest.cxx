@@ -40,7 +40,7 @@ struct Utilities
   static typename ImageType::Pointer
   CreateImage()
   {
-    typename ImageType::Pointer image = ImageType::New();
+    auto image = ImageType::New();
 
     typename ImageType::SizeType imageSize;
     imageSize.Fill(5);
@@ -104,7 +104,7 @@ TEST(UnaryGeneratorImageFilter, SetGetBasic)
 
 
   using FilterType = itk::UnaryGeneratorImageFilter<Utils::ImageType, Utils::ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->Print(std::cout);
 
   FilterType::ConstPointer constFilter = (const FilterType *)(filter.GetPointer());
@@ -122,7 +122,7 @@ TEST(BinaryGeneratorImageFilter, SetGetBasic)
 
 
   using FilterType = itk::BinaryGeneratorImageFilter<Utils::ImageType, Utils::ImageType, Utils::ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->Print(std::cout);
 
 
@@ -151,7 +151,7 @@ TEST(TernaryGeneratorImageFilter, SetGetBasic)
 
   using FilterType =
     itk::TernaryGeneratorImageFilter<Utils::ImageType, Utils::ImageType, Utils::ImageType, Utils::ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->Print(std::cout);
 
 

@@ -78,7 +78,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
 
   this->m_OutputLevelSet->SetLabelMap(this->m_InputLevelSet->GetModifiableLabelMap());
 
-  typename LabelMapToLabelImageFilterType::Pointer labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
+  auto labelMapToLabelImageFilter = LabelMapToLabelImageFilterType::New();
   labelMapToLabelImageFilter->SetInput(this->m_InputLevelSet->GetLabelMap());
   labelMapToLabelImageFilter->Update();
 
@@ -167,7 +167,7 @@ UpdateWhitakerSparseLevelSet<VDimension, TLevelSetValueType, TEquationContainer>
   this->MovePointFromMinus2();
   this->MovePointFromPlus2();
 
-  typename LabelImageToLabelMapFilterType::Pointer labelImageToLabelMapFilter = LabelImageToLabelMapFilterType::New();
+  auto labelImageToLabelMapFilter = LabelImageToLabelMapFilterType::New();
   labelImageToLabelMapFilter->SetInput(this->m_InternalImage);
   labelImageToLabelMapFilter->SetBackgroundValue(LevelSetType::PlusThreeLayer());
   labelImageToLabelMapFilter->Update();

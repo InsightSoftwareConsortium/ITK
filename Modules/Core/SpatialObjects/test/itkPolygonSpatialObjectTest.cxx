@@ -28,7 +28,7 @@ itkPolygonSpatialObjectTest(int, char *[])
 
   //
   // create rectangle
-  PolygonType::Pointer rectangle = PolygonType::New();
+  auto rectangle = PolygonType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(rectangle, PolygonSpatialObject, PointBasedSpatialObject);
 

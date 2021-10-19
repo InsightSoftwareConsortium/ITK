@@ -72,7 +72,7 @@ namespace itk
  * Example filter usage:
    \code
    using FilterType = itk::FFTNormalizedCorrelationImageFilter< ShortImageType, DoubleImageType >;
-   FilterType::Pointer filter = FilterType::New();
+   auto filter = FilterType::New();
    filter->SetFixedImage( fixedImage );
    filter->SetMovingImage( movingImage );
    filter->SetRequiredNumberOfOverlappingPixels(20);

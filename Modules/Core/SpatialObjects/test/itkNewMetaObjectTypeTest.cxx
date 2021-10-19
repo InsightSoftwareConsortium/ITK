@@ -239,7 +239,7 @@ itkNewMetaObjectTypeTest(int, char *[])
 
   DummyConverterType::Pointer dummyConverter(DummyConverterType::New());
 
-  MetaSceneConverterType::Pointer converter = MetaSceneConverterType::New();
+  auto converter = MetaSceneConverterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaSceneConverter, Object);
 

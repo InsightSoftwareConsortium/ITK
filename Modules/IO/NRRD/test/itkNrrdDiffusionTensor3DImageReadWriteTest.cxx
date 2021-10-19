@@ -37,7 +37,7 @@ itkNrrdDiffusionTensor3DImageReadWriteTest(int ac, char * av[])
 
   using ReaderType = itk::ImageFileReader<myImage>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetImageIO(itk::NrrdImageIO::New());
 

@@ -57,7 +57,7 @@ public:
   static void
   RegisterOneFactory()
   {
-    DCMTKImageIOFactory::Pointer DCMTKFactory = DCMTKImageIOFactory::New();
+    auto DCMTKFactory = DCMTKImageIOFactory::New();
 
     ObjectFactoryBase::RegisterFactoryInternal(DCMTKFactory);
   }

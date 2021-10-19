@@ -33,7 +33,7 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
   using MeshType = itk::QuadEdgeMesh<float, 3>;
   using ReaderType = itk::VTKPolyDataReader<MeshType>;
 
-  ReaderType::Pointer polyDataReader = ReaderType::New();
+  auto polyDataReader = ReaderType::New();
 
   using PointType = ReaderType::PointType;
 

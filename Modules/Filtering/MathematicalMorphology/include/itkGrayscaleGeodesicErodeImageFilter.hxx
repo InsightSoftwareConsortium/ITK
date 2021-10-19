@@ -193,7 +193,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
   singleIteration->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
   progress->RegisterInternalFilter(singleIteration, 1.0f);
 

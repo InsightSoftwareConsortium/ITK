@@ -47,7 +47,7 @@ itkNotImageFilterTest(int, char *[])
   using NotImageFilterType = itk::NotImageFilter<InputImageType, OutputImageType>;
 
   // Create the input image
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -86,7 +86,7 @@ itkNotImageFilterTest(int, char *[])
   }
 
   // Create the filter
-  NotImageFilterType::Pointer filter = NotImageFilterType::New();
+  auto filter = NotImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, NotImageFilter, UnaryFunctorImageFilter);
 

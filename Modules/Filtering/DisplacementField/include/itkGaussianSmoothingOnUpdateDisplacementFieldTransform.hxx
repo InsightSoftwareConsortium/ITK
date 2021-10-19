@@ -70,7 +70,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
     auto * updateFieldPointer =
       reinterpret_cast<DisplacementVectorType *>(const_cast<DerivativeType &>(update).data_block());
 
-    typename ImporterType::Pointer importer = ImporterType::New();
+    auto importer = ImporterType::New();
     importer->SetImportPointer(updateFieldPointer, numberOfPixels, importFilterWillReleaseMemory);
     importer->SetRegion(displacementField->GetBufferedRegion());
     importer->SetOrigin(displacementField->GetOrigin());
@@ -107,7 +107,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   {
     itkDebugMacro("Smooothing the total field.");
 
-    typename ImporterType::Pointer importer = ImporterType::New();
+    auto importer = ImporterType::New();
     importer->SetImportPointer(displacementField->GetBufferPointer(), numberOfPixels, importFilterWillReleaseMemory);
     importer->SetRegion(displacementField->GetBufferedRegion());
     importer->SetOrigin(displacementField->GetOrigin());
@@ -139,13 +139,13 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   }
 
   using DuplicatorType = ImageDuplicator<DisplacementFieldType>;
-  typename DuplicatorType::Pointer duplicator = DuplicatorType::New();
+  auto duplicator = DuplicatorType::New();
   duplicator->SetInputImage(field);
   duplicator->Update();
 
   DisplacementFieldPointer smoothField = duplicator->GetOutput();
 
-  typename GaussianSmoothingSmootherType::Pointer smoother = GaussianSmoothingSmootherType::New();
+  auto smoother = GaussianSmoothingSmootherType::New();
 
   for (unsigned int dimension = 0; dimension < Superclass::Dimension; ++dimension)
   {

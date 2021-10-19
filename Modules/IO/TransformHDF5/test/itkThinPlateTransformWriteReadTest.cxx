@@ -43,7 +43,7 @@ ReadWriteTest(const char * const fileName)
   using ParametersValueType = typename TransformType::ScalarType;
 
   // Create transform
-  typename TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   using PointType = typename TransformType::InputPointType;
   using PointsIteratorType = typename TransformType::PointsIterator;
   using PointSetType = typename TransformType::PointSetType;
@@ -53,8 +53,8 @@ ReadWriteTest(const char * const fileName)
   PointType mappedPoint;
 
   // Reserve memory for the number of points
-  typename PointSetType::Pointer sourceLandmarks = PointSetType::New();
-  typename PointSetType::Pointer targetLandmarks = PointSetType::New();
+  auto sourceLandmarks = PointSetType::New();
+  auto targetLandmarks = PointSetType::New();
 
   sourceLandmarks->GetPoints()->Reserve(4);
   targetLandmarks->GetPoints()->Reserve(4);
@@ -105,14 +105,14 @@ ReadWriteTest(const char * const fileName)
 
   // Write transform to file
   using TransformWriterType = typename itk::TransformFileWriterTemplate<ParametersValueType>;
-  typename TransformWriterType::Pointer transformWriter = TransformWriterType::New();
+  auto transformWriter = TransformWriterType::New();
   transformWriter->SetFileName(fileName);
   transformWriter->AddTransform(transform);
   ITK_TRY_EXPECT_NO_EXCEPTION(transformWriter->Update());
 
   // Read transform file
   using TransformReaderType = typename itk::TransformFileReaderTemplate<ParametersValueType>;
-  typename TransformReaderType::Pointer transformReader = TransformReaderType::New();
+  auto transformReader = TransformReaderType::New();
   transformReader->SetFileName(fileName);
   ITK_TRY_EXPECT_NO_EXCEPTION(transformReader->Update());
 

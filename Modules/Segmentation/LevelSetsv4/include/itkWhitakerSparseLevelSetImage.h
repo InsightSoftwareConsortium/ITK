@@ -137,7 +137,7 @@ public:
   GetAsLabelObject()
   {
     using OutputLabelObjectType = LabelObject<TLabel, Dimension>;
-    typename OutputLabelObjectType::Pointer object = OutputLabelObjectType::New();
+    auto object = OutputLabelObjectType::New();
 
     for (LayerIdType status = this->MinusThreeLayer(); status < this->PlusOneLayer(); ++status)
     {

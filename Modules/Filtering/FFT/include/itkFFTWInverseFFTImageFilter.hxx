@@ -76,7 +76,7 @@ FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData
 
   // Cut the full complex image to just the portion needed by FFTW.
   using FullToHalfFilterType = FullToHalfHermitianImageFilter<InputImageType>;
-  typename FullToHalfFilterType::Pointer fullToHalfFilter = FullToHalfFilterType::New();
+  auto fullToHalfFilter = FullToHalfFilterType::New();
   fullToHalfFilter->SetInput(this->GetInput());
   fullToHalfFilter->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   fullToHalfFilter->UpdateLargestPossibleRegion();

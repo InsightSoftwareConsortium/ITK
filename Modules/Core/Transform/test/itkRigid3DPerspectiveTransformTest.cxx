@@ -38,7 +38,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   /* Create a 3D identity transformation and show its parameters */
   {
-    TransformType::Pointer identityTransform = TransformType::New();
+    auto identityTransform = TransformType::New();
     identityTransform->SetFocalDistance(focal);
 
     TransformType::OffsetType offset = identityTransform->GetOffset();
@@ -62,7 +62,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with translation */
   {
-    TransformType::Pointer translation = TransformType::New();
+    auto translation = TransformType::New();
     translation->SetFocalDistance(focal);
 
     TransformType::OffsetType ioffset;
@@ -124,7 +124,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   /* Create a Rigid 3D transform with a rotation */
   {
-    TransformType::Pointer rigid = TransformType::New();
+    auto rigid = TransformType::New();
     rigid->SetFocalDistance(focal);
 
     TransformType::OffsetType ioffset;

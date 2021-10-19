@@ -41,7 +41,7 @@ itkTriangleMeshToBinaryImageFilterTest3(int argc, char * argv[])
   using MeshType = itk::Mesh<float, Dimension>;
   using ReaderType = itk::MeshFileReader<MeshType>;
 
-  ReaderType::Pointer polyDataReader = ReaderType::New();
+  auto polyDataReader = ReaderType::New();
 
   polyDataReader->SetFileName(argv[1]);
 
@@ -60,7 +60,7 @@ itkTriangleMeshToBinaryImageFilterTest3(int argc, char * argv[])
 
   using TriangleImageType = itk::TriangleMeshToBinaryImageFilter<MeshType, ImageType>;
 
-  TriangleImageType::Pointer imageFilter = TriangleImageType::New();
+  auto imageFilter = TriangleImageType::New();
 
   imageFilter->SetInput(polyDataReader->GetOutput());
 

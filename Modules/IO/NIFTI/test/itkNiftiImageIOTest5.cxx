@@ -146,7 +146,7 @@ SlopeInterceptWriteTest()
   size[2] = 4;
   region.SetSize(size);
   region.SetIndex(start);
-  typename OutputImageType::Pointer outputimage = OutputImageType::New();
+  auto outputimage = OutputImageType::New();
   outputimage->SetRegions(region);
   outputimage->Allocate();
   using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
@@ -161,8 +161,8 @@ SlopeInterceptWriteTest()
     itout.Set(static_cast<PixelType>(i));
   }
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  typename WriterType::Pointer writer = WriterType::New();
-  itk::NiftiImageIO::Pointer   niftiImageIO(itk::NiftiImageIO::New());
+  auto                       writer = WriterType::New();
+  itk::NiftiImageIO::Pointer niftiImageIO(itk::NiftiImageIO::New());
   niftiImageIO->SetRescaleSlope(1.0 / 256.0);
   niftiImageIO->SetRescaleIntercept(-10.0);
   writer->SetImageIO(niftiImageIO);

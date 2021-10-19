@@ -76,13 +76,13 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer fixedReader = ReaderType::New();
-  ReaderType::Pointer movingReader = ReaderType::New();
+  auto fixedReader = ReaderType::New();
+  auto movingReader = ReaderType::New();
 
   fixedReader->SetFileName(argv[1]);
   movingReader->SetFileName(argv[2]);
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[3]);
 
@@ -95,7 +95,7 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
   using RegistrationType = itk::DiffeomorphicDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
 
-  RegistrationType::Pointer registrator = RegistrationType::New();
+  auto registrator = RegistrationType::New();
 
   registrator->SetMovingImage(movingReader->GetOutput());
   registrator->SetFixedImage(fixedReader->GetOutput());
@@ -179,11 +179,11 @@ itkDiffeomorphicDemonsRegistrationFilterTest2(int argc, char * argv[])
 
   // warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
   using CoordRepType = WarperType::CoordRepType;
   using InterpolatorType = itk::NearestNeighborInterpolateImageFunction<ImageType, CoordRepType>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   const ImageType * fixed = fixedReader->GetOutput();
   const ImageType * moving = movingReader->GetOutput();

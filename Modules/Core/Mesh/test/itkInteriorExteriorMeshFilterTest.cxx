@@ -44,7 +44,7 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
   using PointType = MeshType::PointType;
 
   // Create an input Mesh
-  MeshType::Pointer inputMesh = MeshType::New();
+  auto inputMesh = MeshType::New();
 
   // Insert data on the Mesh
   PointsContainerPointer points = inputMesh->GetPoints();
@@ -79,10 +79,10 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
 
 
   // Create a Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Create the Spatial Function
-  SpatialFunctionType::Pointer spatialFunction = SpatialFunctionType::New();
+  auto spatialFunction = SpatialFunctionType::New();
 
   SpatialFunctionType::InputType center;
   center[0] = 0;

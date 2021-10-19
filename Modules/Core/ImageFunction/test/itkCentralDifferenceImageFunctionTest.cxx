@@ -29,7 +29,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType, ImageDimension>;
 
-  ImageType::Pointer  image = ImageType::New();
+  auto                image = ImageType::New();
   ImageType::SizeType size;
   size.Fill(16);
   ImageType::RegionType region(size);
@@ -56,7 +56,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   using OutputType = FunctionType::OutputType;
   using OutputValueType = FunctionType::OutputValueType;
 
-  FunctionType::Pointer function = FunctionType::New();
+  auto function = FunctionType::New();
 
   function->SetInputImage(image);
 

@@ -41,7 +41,7 @@ MetaVesselTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObject
     itkExceptionMacro(<< "Can't convert MetaObject to MetaVesselTube");
   }
 
-  typename VesselTubeSpatialObjectType::Pointer vesselTubeSO = VesselTubeSpatialObjectType::New();
+  auto vesselTubeSO = VesselTubeSpatialObjectType::New();
 
   vesselTubeSO->SetTypeName("VesselTubeSpatialObject");
   vesselTubeSO->GetProperty().SetName(vesselTubeMO->Name());

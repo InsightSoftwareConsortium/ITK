@@ -49,7 +49,7 @@ itkLog10ImageFilterAndAdaptorTest(int, char *[])
   using RegionType = itk::ImageRegion<ImageDimension>;
 
   // Create the input images
-  InputImageType::Pointer inputImage = InputImageType::New();
+  auto inputImage = InputImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -88,7 +88,7 @@ itkLog10ImageFilterAndAdaptorTest(int, char *[])
   using FilterType = itk::Log10ImageFilter<InputImageType, OutputImageType>;
 
   // Create the Filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, Log10ImageFilter, UnaryGeneratorImageFilter);
 
@@ -134,7 +134,7 @@ itkLog10ImageFilterAndAdaptorTest(int, char *[])
 
   using AdaptorType = itk::Log10ImageAdaptor<InputImageType, OutputImageType::PixelType>;
 
-  AdaptorType::Pointer log10Adaptor = AdaptorType::New();
+  auto log10Adaptor = AdaptorType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(log10Adaptor, Log10ImageAdaptor, ImageAdaptor);
 
@@ -142,7 +142,7 @@ itkLog10ImageFilterAndAdaptorTest(int, char *[])
 
   using DiffFilterType = itk::SubtractImageFilter<OutputImageType, AdaptorType, OutputImageType>;
 
-  DiffFilterType::Pointer diffFilter = DiffFilterType::New();
+  auto diffFilter = DiffFilterType::New();
 
   diffFilter->SetInput1(outputImage);
   diffFilter->SetInput2(log10Adaptor);

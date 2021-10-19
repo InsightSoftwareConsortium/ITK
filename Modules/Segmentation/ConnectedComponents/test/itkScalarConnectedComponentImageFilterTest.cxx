@@ -53,11 +53,11 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   using FilterType = itk::ScalarConnectedComponentImageFilter<InternalImageType, OutputImageType, MaskImageType>;
   using RelabelType = itk::RelabelComponentImageFilter<OutputImageType, OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
-  FilterType::Pointer  filter = FilterType::New();
-  RelabelType::Pointer relabel = RelabelType::New();
+  auto filter = FilterType::New();
+  auto relabel = RelabelType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
   watcher.QuietOn();
@@ -67,7 +67,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
 
   // create a mask containing the upper left hand corner and
   // a chunk out of the middle
-  MaskImageType::Pointer mask = MaskImageType::New();
+  auto mask = MaskImageType::New();
   mask->SetRegions(reader->GetOutput()->GetLargestPossibleRegion());
   mask->CopyInformation(reader->GetOutput());
   mask->Allocate();
@@ -141,7 +141,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   }
 
   // Remap the labels to viewable colors
-  RGBImageType::Pointer colored = RGBImageType::New();
+  auto colored = RGBImageType::New();
   colored->SetRegions(filter->GetOutput()->GetBufferedRegion());
   colored->Allocate();
 

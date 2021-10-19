@@ -46,9 +46,9 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   using PointIdIterator = CellType::PointIdIterator;
   using NeighborIdIterator = VoronoiDiagram::NeighborIdIterator;
 
-  VoronoiDiagram::Pointer voronoiDiagram = VoronoiDiagram::New();
+  auto voronoiDiagram = VoronoiDiagram::New();
 
-  VoronoiDiagramGenerator::Pointer voronoiDiagramGenerator = VoronoiDiagramGenerator::New();
+  auto voronoiDiagramGenerator = VoronoiDiagramGenerator::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(voronoiDiagramGenerator, VoronoiDiagram2DGenerator, MeshSource);
 
   PointType insize;
@@ -96,7 +96,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   }
 
   using WriterType = itk::MeshFileWriter<VoronoiDiagram>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(voronoiDiagram);
   writer->SetFileName(argv[1]);
 

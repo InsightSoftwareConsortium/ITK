@@ -33,7 +33,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   using VectorType = itk::Vector<RealType, DataDimension>;
   using VectorImageType = itk::Image<VectorType, ParametricDimension>;
 
-  VectorImageType::Pointer phiLattice = VectorImageType::New();
+  auto phiLattice = VectorImageType::New();
 
   VectorImageType::SizeType    size;
   VectorImageType::SpacingType spacing;
@@ -61,7 +61,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   phiLattice->SetPixel(index, value);
 
   using BSplinerType = itk::BSplineControlPointImageFunction<VectorImageType>;
-  BSplinerType::Pointer bspliner = BSplinerType::New();
+  auto bspliner = BSplinerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(bspliner, BSplineControlPointImageFunction, ImageFunction);
 

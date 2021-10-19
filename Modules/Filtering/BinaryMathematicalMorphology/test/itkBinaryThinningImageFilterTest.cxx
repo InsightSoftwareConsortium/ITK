@@ -41,12 +41,12 @@ itkBinaryThinningImageFilterTest(int argc, char * argv[])
   using OutputImageType = itk::Image<OutputPixelType, 2>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
   using ThinningType = itk::BinaryThinningImageFilter<InputImageType, InputImageType>;
-  ThinningType::Pointer thinning = ThinningType::New();
+  auto thinning = ThinningType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(thinning, BinaryThinningImageFilter, ImageToImageFilter);
 
@@ -55,14 +55,14 @@ itkBinaryThinningImageFilterTest(int argc, char * argv[])
 
   // Rescale the image so that it can be seen.
   using RescaleType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
-  RescaleType::Pointer rescaler = RescaleType::New();
+  auto rescaler = RescaleType::New();
   rescaler->SetInput(thinning->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   // Write out the test image
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(rescaler->GetOutput());
 

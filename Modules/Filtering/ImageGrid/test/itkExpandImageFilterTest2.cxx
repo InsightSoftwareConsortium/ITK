@@ -148,7 +148,7 @@ typename TVectorImage::Pointer
 GetVectorTestImage(const typename TVectorImage::SizeType &         size,
                    const typename TVectorImage::VectorLengthType & nImages)
 {
-  typename TVectorImage::Pointer    ans = TVectorImage::New();
+  auto                              ans = TVectorImage::New();
   typename TVectorImage::RegionType region;
 
   region.SetSize(size);
@@ -200,10 +200,10 @@ itkExpandImageFilterTest2(int, char *[])
   std::cout << PrintTestImage1D<VectorImage1D>(input1D) << std::endl;
 
   using Expander1DType = itk::ExpandImageFilter<VectorImage1D, VectorImage1D>;
-  Expander1DType::Pointer expander1D = Expander1DType::New();
+  auto expander1D = Expander1DType::New();
 
   using Interpolator1DType = itk::NearestNeighborInterpolateImageFunction<VectorImage1D, double>;
-  Interpolator1DType::Pointer interpolator1D = Interpolator1DType::New();
+  auto interpolator1D = Interpolator1DType::New();
 
   expander1D->SetInterpolator(interpolator1D);
   unsigned int factors1[1] = { 2 };
@@ -248,10 +248,10 @@ itkExpandImageFilterTest2(int, char *[])
   std::cout << PrintTestImage3D<VectorImage3D>(input3D) << std::endl;
 
   using Expander3DType = itk::ExpandImageFilter<VectorImage3D, VectorImage3D>;
-  Expander3DType::Pointer expander3D = Expander3DType::New();
+  auto expander3D = Expander3DType::New();
 
   using Interpolator3DType = itk::NearestNeighborInterpolateImageFunction<VectorImage3D, double>;
-  Interpolator3DType::Pointer interpolator3D = Interpolator3DType::New();
+  auto interpolator3D = Interpolator3DType::New();
 
   expander3D->SetInterpolator(interpolator3D);
   unsigned int factors3[3] = { 1, 2, 1 };

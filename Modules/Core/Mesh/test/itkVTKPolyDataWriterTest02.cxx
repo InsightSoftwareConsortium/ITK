@@ -35,7 +35,7 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
 
   using SphereMeshSourceType = itk::RegularSphereMeshSource<MeshType>;
 
-  SphereMeshSourceType::Pointer mySphereMeshSource = SphereMeshSourceType::New();
+  auto mySphereMeshSource = SphereMeshSourceType::New();
 
   using PointType = SphereMeshSourceType::PointType;
   using VectorType = SphereMeshSourceType::VectorType;
@@ -125,7 +125,7 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
 
   using WriterType = itk::VTKPolyDataWriter<MeshType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(myMesh);
   writer->SetFileName(argv[1]);
   writer->Write();

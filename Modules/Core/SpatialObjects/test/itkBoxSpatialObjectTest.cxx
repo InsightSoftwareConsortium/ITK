@@ -39,16 +39,16 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   using OutputImageType = itk::Image<unsigned char, Dimension>;
   using SpatialObjectToImageFilterType = itk::SpatialObjectToImageFilter<SceneType, OutputImageType>;
 
-  SceneType::Pointer scene = SceneType::New();
+  auto scene = SceneType::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(scene, GroupSpatialObject, SpatialObject);
 
 
-  BoxType::Pointer box1 = BoxType::New();
+  auto box1 = BoxType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(box1, BoxSpatialObject, SpatialObject);
 
 
-  BoxType::Pointer box2 = BoxType::New();
+  auto box2 = BoxType::New();
   box1->SetId(1);
 
   // Test the SetProperty()
@@ -137,7 +137,7 @@ itkBoxSpatialObjectTest(int argc, char * argv[])
   std::cout << "[PASSED]" << std::endl;
 
   std::cout << "Test SpatialObjectToImageFilter / IsInside " << std::endl;
-  SpatialObjectToImageFilterType::Pointer imageFilter = SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
   imageFilter->SetInput(scene);
 
   OutputImageType::SizeType size;

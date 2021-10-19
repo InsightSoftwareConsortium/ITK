@@ -69,7 +69,7 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   initialProportions[1] = 0.5;
 
   /* Loading point data */
-  PointSetType::Pointer                pointSet = PointSetType::New();
+  auto                                 pointSet = PointSetType::New();
   PointSetType::PointsContainerPointer pointsContainer = PointSetType::PointsContainer::New();
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
@@ -98,7 +98,7 @@ itkGaussianMixtureModelComponentTest(int argc, char * argv[])
   dataStream.close();
 
   /* Importing the point set to the sample */
-  DataSampleType::Pointer sample = DataSampleType::New();
+  auto sample = DataSampleType::New();
 
   sample->SetPointSet(pointSet);
 

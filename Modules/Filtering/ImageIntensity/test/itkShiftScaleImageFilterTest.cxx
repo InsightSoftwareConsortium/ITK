@@ -32,7 +32,7 @@ itkShiftScaleImageFilterTest(int, char *[])
   using TestOutputImage = itk::Image<unsigned char, 3>;
   using RealType = itk::NumericTraits<char>::RealType;
 
-  TestInputImage::Pointer    inputImage = TestInputImage::New();
+  auto                       inputImage = TestInputImage::New();
   TestInputImage::RegionType region;
   TestInputImage::SizeType   size;
   size.Fill(64);
@@ -49,7 +49,7 @@ itkShiftScaleImageFilterTest(int, char *[])
   inputImage->FillBuffer(static_cast<TestInputImage::PixelType>(fillValue));
 
   using FilterType = itk::ShiftScaleImageFilter<TestInputImage, TestOutputImage>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   // Set up Start, End and Progress callbacks
   itk::SimpleFilterWatcher filterWatch(filter);
@@ -61,7 +61,7 @@ itkShiftScaleImageFilterTest(int, char *[])
   // Now generate a real image
 
   using SourceType = itk::RandomImageSource<TestInputImage>;
-  SourceType::Pointer           source = SourceType::New();
+  auto                          source = SourceType::New();
   TestInputImage::SizeValueType randomSize[3] = { 17, 8, 20 };
 
   // Set up Start, End and Progress callbacks

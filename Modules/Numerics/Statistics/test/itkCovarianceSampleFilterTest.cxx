@@ -36,7 +36,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   using ImageType = itk::Image<MeasurementVectorType, 3>;
   using MaskImageType = itk::Image<unsigned char, 3>;
 
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::RegionType region;
   ImageType::SizeType   size;
   ImageType::IndexType  index;
@@ -68,7 +68,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   // creates an ImageToListSampleAdaptor object
   using ImageToListSampleFilterType = itk::Statistics::ImageToListSampleFilter<ImageType, MaskImageType>;
 
-  ImageToListSampleFilterType::Pointer sampleGeneratingFilter = ImageToListSampleFilterType::New();
+  auto sampleGeneratingFilter = ImageToListSampleFilterType::New();
 
   sampleGeneratingFilter->SetInput(image);
 
@@ -85,7 +85,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   using ListSampleType = ImageToListSampleFilterType::ListSampleType;
   using CovarianceSampleFilterType = itk::Statistics::CovarianceSampleFilter<ListSampleType>;
 
-  CovarianceSampleFilterType::Pointer covarianceFilter = CovarianceSampleFilterType::New();
+  auto covarianceFilter = CovarianceSampleFilterType::New();
 
   std::cout << "GetNameOfClass() = " << covarianceFilter->GetNameOfClass() << std::endl;
 
@@ -152,7 +152,7 @@ itkCovarianceSampleFilterTest(int, char *[])
 
 
   using MeanSampleFilterType = itk::Statistics::MeanSampleFilter<ListSampleType>;
-  MeanSampleFilterType::Pointer meanFilter = MeanSampleFilterType::New();
+  auto meanFilter = MeanSampleFilterType::New();
   meanFilter->SetInput(sampleGeneratingFilter->GetOutput());
 
   try

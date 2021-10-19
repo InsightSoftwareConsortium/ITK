@@ -46,8 +46,8 @@ itkMaximumImageFilterTest(int, char *[])
   using MaximumImageFilterType = itk::MaximumImageFilter<ImageType, ImageType, ImageType>;
 
   // Create two images
-  ImageType::Pointer inputImageA = ImageType::New();
-  ImageType::Pointer inputImageB = ImageType::New();
+  auto inputImageA = ImageType::New();
+  auto inputImageB = ImageType::New();
 
   // Define their size, and start index
   SizeType size;
@@ -104,7 +104,7 @@ itkMaximumImageFilterTest(int, char *[])
   }
 
   // Create the filter
-  MaximumImageFilterType::Pointer maximumImageFilter = MaximumImageFilterType::New();
+  auto maximumImageFilter = MaximumImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(maximumImageFilter, MaximumImageFilter, BinaryGeneratorImageFilter);
 

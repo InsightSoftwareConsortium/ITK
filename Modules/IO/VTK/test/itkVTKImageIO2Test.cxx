@@ -84,7 +84,7 @@ public:
 
       // force use of VTKImageIO
       using IOType = itk::VTKImageIO;
-      IOType::Pointer vtkIO = IOType::New();
+      auto vtkIO = IOType::New();
       if (ascii)
       {
         vtkIO->SetFileTypeToASCII();
@@ -95,11 +95,11 @@ public:
       }
 
       using ImageFileWriterType = itk::ImageFileWriter<ImageType>;
-      typename ImageFileWriterType::Pointer writer = ImageFileWriterType::New();
+      auto writer = ImageFileWriterType::New();
       writer->SetImageIO(vtkIO);
 
       // allocate an 10x10x10 image
-      typename ImageType::Pointer  image = ImageType::New();
+      auto                         image = ImageType::New();
       typename ImageType::SizeType imageSize;
       imageSize.Fill(10);
       image->SetRegions(imageSize);
@@ -161,11 +161,11 @@ public:
       using ImageType = itk::Image<PixelType, VImageDimension>;
 
       using ImageFileReaderType = itk::ImageFileReader<ImageType>;
-      typename ImageFileReaderType::Pointer reader = ImageFileReaderType::New();
+      auto reader = ImageFileReaderType::New();
 
       // force use of VTKImageIO
       using IOType = itk::VTKImageIO;
-      IOType::Pointer vtkIO = IOType::New();
+      auto vtkIO = IOType::New();
       reader->SetImageIO(vtkIO);
 
       // set ascii or binary
@@ -282,7 +282,7 @@ public:
   CanReadFileTest(const std::string & filePrefix, const std::string & fileExtension, std::string & outputPath)
   {
     using IOType = itk::VTKImageIO;
-    IOType::Pointer vtkIO = IOType::New();
+    auto vtkIO = IOType::New();
 
     std::string fileName = VTKImageIOTester::SetupFileName(filePrefix, fileExtension, outputPath);
 
@@ -293,7 +293,7 @@ public:
   CanWriteFileTest(const std::string & filePrefix, const std::string & fileExtension, std::string & outputPath)
   {
     using IOType = itk::VTKImageIO;
-    IOType::Pointer vtkIO = IOType::New();
+    auto vtkIO = IOType::New();
 
     std::string fileName = VTKImageIOTester::SetupFileName(filePrefix, fileExtension, outputPath);
 
@@ -431,7 +431,7 @@ itkVTKImageIO2Test(int argc, char * argv[])
   // use print methods
   //
   using IOType = itk::VTKImageIO;
-  IOType::Pointer vtkIO = IOType::New();
+  auto vtkIO = IOType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(vtkIO, VTKImageIO, StreamingImageIOBase);
 

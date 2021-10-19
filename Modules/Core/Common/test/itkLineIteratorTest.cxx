@@ -52,7 +52,7 @@ itkLineIteratorTest(int argc, char * argv[])
   region.SetIndex(index);
   region.SetSize(size);
 
-  ImageType::Pointer output = ImageType::New();
+  auto output = ImageType::New();
   output->SetRegions(region);
   output->Allocate(true); // initialize buffer to zero
 

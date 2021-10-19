@@ -52,11 +52,11 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   using FilterType = itk::MaskFeaturePointSelectionFilter<InputImageType, InputImageType, PointSetType>;
 
   // Set up the reader
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   // Set up filter
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
 
@@ -77,13 +77,13 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
 
   // Set up the writer
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   using InputIteratorType = itk::ImageRegionConstIterator<InputImageType>;
   InputIteratorType inputIterator(reader->GetOutput(), reader->GetOutput()->GetBufferedRegion());
   using OutputIteratorType = itk::ImageRegionIterator<OutputImageType>;
 
-  OutputImageType::Pointer outputImage = OutputImageType::New();
+  auto outputImage = OutputImageType::New();
   outputImage->CopyInformation(reader->GetOutput());
   outputImage->SetBufferedRegion(reader->GetOutput()->GetBufferedRegion());
   outputImage->SetRequestedRegion(reader->GetOutput()->GetRequestedRegion());

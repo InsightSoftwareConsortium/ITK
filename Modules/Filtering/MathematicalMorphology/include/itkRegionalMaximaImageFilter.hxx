@@ -66,7 +66,7 @@ void
 RegionalMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
   // Create a process accumulator for tracking the progress of this minipipeline
-  ProgressAccumulator::Pointer progress = ProgressAccumulator::New();
+  auto progress = ProgressAccumulator::New();
 
   progress->SetMiniPipelineFilter(this);
 
@@ -110,7 +110,7 @@ RegionalMaximaImageFilter<TInputImage, TOutputImage>::GenerateData()
   else
   {
     using ThresholdType = BinaryThresholdImageFilter<InputImageType, OutputImageType>;
-    typename ThresholdType::Pointer thresholder = ThresholdType::New();
+    auto thresholder = ThresholdType::New();
     thresholder->SetInput(regionalMax->GetOutput());
     thresholder->SetUpperThreshold(regionalMax->GetMarkerValue());
     thresholder->SetLowerThreshold(regionalMax->GetMarkerValue());

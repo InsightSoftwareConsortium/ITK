@@ -51,7 +51,7 @@ itkVTKImageIO2Test2(int argc, char * argv[])
 
   {
     // allocate an 10x10x10 image
-    ImageType::Pointer  image = ImageType::New();
+    auto                image = ImageType::New();
     ImageType::SizeType imageSize;
     imageSize.Fill(10);
     image->SetRegions(imageSize);
@@ -80,9 +80,9 @@ itkVTKImageIO2Test2(int argc, char * argv[])
     }
 
     using IOType = itk::VTKImageIO;
-    IOType::Pointer vtkIO = IOType::New();
+    auto vtkIO = IOType::New();
 
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetImageIO(vtkIO);
     writer->SetInput(image);
     writer->SetFileName(outputFileName.c_str());
@@ -92,20 +92,20 @@ itkVTKImageIO2Test2(int argc, char * argv[])
   // check that a request to stream is not
   {
     using IOType = itk::VTKImageIO;
-    IOType::Pointer vtkIO = IOType::New();
+    auto vtkIO = IOType::New();
 
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(outputFileName.c_str());
     reader->SetImageIO(vtkIO);
 
     using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-    MonitorFilter::Pointer monitor = MonitorFilter::New();
+    auto monitor = MonitorFilter::New();
     monitor->SetInput(reader->GetOutput());
     constexpr unsigned int numberOfDataPieces = 10;
 
 
     using StreamingFilter = itk::StreamingImageFilter<ImageType, ImageType>;
-    StreamingFilter::Pointer streamer = StreamingFilter::New();
+    auto streamer = StreamingFilter::New();
     streamer->SetInput(monitor->GetOutput());
     streamer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
@@ -130,20 +130,20 @@ itkVTKImageIO2Test2(int argc, char * argv[])
   {
 
     using IOType = itk::VTKImageIO;
-    IOType::Pointer vtkIO = IOType::New();
+    auto vtkIO = IOType::New();
 
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(outputFileName.c_str());
     reader->SetImageIO(vtkIO);
     reader->UpdateLargestPossibleRegion();
 
 
     using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
-    MonitorFilter::Pointer monitor = MonitorFilter::New();
+    auto monitor = MonitorFilter::New();
     monitor->SetInput(reader->GetOutput());
     constexpr unsigned int numberOfDataPieces = 10;
 
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
     writer->SetImageIO(vtkIO);
     writer->SetInput(monitor->GetOutput());
     writer->SetNumberOfStreamDivisions(numberOfDataPieces);
