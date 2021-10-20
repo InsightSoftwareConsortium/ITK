@@ -459,7 +459,7 @@ Then [build the
 wheels](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Python_packages.html)
 from the `release` branch locally.
 
-Build the sdist and wheels for Linux:
+Build the sdist and wheels for Linux (amd64):
 
 ```sh
 ssh blaster
@@ -468,7 +468,6 @@ git reset --hard HEAD
 git checkout release
 git pull origin release
 git clean -fdx
-/home/kitware/Support/skbuild-venv/bin/python setup.py sdist --formats=gztar,zip
 ./scripts/dockcross-manylinux-build-wheels.sh
 tar cvzf /tmp/dist-linux.tar.gz ./dist
 rm dist/*
@@ -476,8 +475,18 @@ cd ..
 ./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
 ```
 
+For Linux ARM builds, the steps are similar, but the wheel build step is:
 
-Build the wheels for macOS:
+```
+docker run --privileged --rm tonistiigi/binfmt --install all
+docker run -it -v $(pwd):/work/ quay.io/pypa/manylinux2014_aarch64:latest bash
+# In the container
+cd /work
+./scripts/internal/manylinux-build-wheels.sh
+```
+
+
+Build the wheels for macOS (both amd64 and ARM):
 
 ```sh
 ssh computron
@@ -505,7 +514,7 @@ git clean -fdx
 # Open a x64 Native Tools Command Prompt for VS 2019
 cd C:\P\IPP
 set PATH=C:\P\doxygen;%PATH%
-C:\Python36-x64\python.exe ./scripts/windows_build_wheels.py
+C:\Python39-x64\python.exe ./scripts/windows_build_wheels.py
 # Back in Git Bash...
 tar cvzf /c/P/dist-windows.tar.gz ./dist
 rm dist/*
