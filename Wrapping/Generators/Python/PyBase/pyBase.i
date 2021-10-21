@@ -554,6 +554,7 @@ str = str
                 vnl_reference = self.__GetVnlMatrix_orig__()
                 vnl_copy = type(vnl_reference)(vnl_reference)
                 return vnl_copy
+
             def __repr__(self):
                 vnl_mat = self.GetVnlMatrix()
                 python_list_mat = [
@@ -561,6 +562,13 @@ str = str
                   for i in range(vnl_mat.rows())
                 ]
                 return type(self).__name__ + " (" + repr(python_list_mat) + ")"
+
+            def __array__(self, dtype=None):
+                import itk
+                import numpy as np
+                array = itk.array_from_matrix(self)
+                return np.asarray(array, dtype=dtype)
+
             %}
         }
 
