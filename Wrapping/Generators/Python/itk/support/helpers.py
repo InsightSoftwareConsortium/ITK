@@ -16,8 +16,11 @@
 #
 # ==========================================================================*/
 
+import os
 import re
 import functools
+
+import numpy as np
 
 _HAVE_XARRAY = False
 try:
@@ -173,3 +176,133 @@ def accept_array_like_xarray_torch(image_filter):
             return image_filter(*args, **kwargs)
 
     return image_filter_wrapper
+
+
+def wasm_type_from_image_type(itkimage):  # noqa: C901
+    import itk
+
+    component = itk.template(itkimage)[1][0]
+    if component == itk.UL:
+        if os.name == 'nt':
+            return 'uint32_t', 1
+        else:
+            return 'uint64_t', 1
+    mangle = None
+    pixelType = 1
+    if component == itk.SL:
+        if os.name == 'nt':
+            return 'int32_t', 1,
+        else:
+            return 'int64_t', 1,
+    if component in (itk.SC, itk.UC, itk.SS, itk.US, itk.SI, itk.UI, itk.F,
+            itk.D, itk.B, itk.SL, itk.SLL, itk.UL, itk.ULL):
+        mangle = component
+    elif component in [i[1] for i in itk.Vector.items()]:
+        mangle = itk.template(component)[1][0]
+        pixelType = 5
+    elif component == itk.complex[itk.F]:
+        # complex float
+        return 'float', 10
+    elif component == itk.complex[itk.D]:
+        # complex float
+        return 'double', 10
+    elif component in [i[1] for i in itk.CovariantVector.items()]:
+        # CovariantVector
+        mangle = itk.template(component)[1][0]
+        pixelType = 7
+    elif component in [i[1] for i in itk.Offset.items()]:
+        # Offset
+        return 'int64_t', 4
+    elif component in [i[1] for i in itk.FixedArray.items()]:
+        # FixedArray
+        mangle = itk.template(component)[1][0]
+        pixelType = 11
+    elif component in [i[1] for i in itk.RGBAPixel.items()]:
+        # RGBA
+        mangle = itk.template(component)[1][0]
+        pixelType = 3
+    elif component in [i[1] for i in itk.RGBPixel.items()]:
+        # RGB
+        mangle = itk.template(component)[1][0]
+        pixelType = 2
+    elif component in [i[1] for i in itk.SymmetricSecondRankTensor.items()]:
+        # SymmetricSecondRankTensor
+        mangle = itk.template(component)[1][0]
+        pixelType = 8
+    else:
+        raise RuntimeError('Unrecognized component type: {0}'.format(str(component)))
+
+    def _long_type():
+        if os.name == 'nt':
+            return 'int32_t'
+        else:
+            return 'int64_t'
+    _python_to_js = {
+        itk.SC: 'int8_t',
+        itk.UC: 'uint8_t',
+        itk.SS: 'int16_t',
+        itk.US: 'uint16_t',
+        itk.SI: 'int32_t',
+        itk.UI: 'uint32_t',
+        itk.F: 'float',
+        itk.D: 'double',
+        itk.B: 'uint8_t',
+        itk.SL: _long_type(),
+        itk.UL: 'u' + _long_type(),
+        itk.SLL: 'int64_t',
+        itk.ULL: 'uint64_t',
+    }
+    imageType = dict(
+        dimension=itkimage.GetImageDimension(),
+        componentType=_python_to_js[mangle],
+        pixelType=pixelType,
+        components=itkimage.GetNumberOfComponentsPerPixel()
+    )
+    return imageType
+
+
+def image_type_from_wasm_type(jstype):
+    import itk
+
+    _pixelType_to_prefix = {
+        1: '',
+        2: 'RGB',
+        3: 'RGBA',
+        4: 'O',
+        5: 'V',
+        7: 'CV',
+        8: 'SSRT',
+        11: 'FA'
+    }
+    pixelType = jstype['pixelType']
+    dimension = jstype['dimension']
+    if pixelType == 10:
+        if jstype['componentType'] == 'float':
+            return itk.Image[itk.complex, itk.F], np.float32
+        else:
+            return itk.Image[itk.complex, itk.D], np.float64
+
+    def _long_type():
+        if os.name == 'nt':
+            return 'LL'
+        else:
+            return 'L'
+    prefix = _pixelType_to_prefix[pixelType]
+    _js_to_python = {
+        'int8_t': 'SC',
+        'uint8_t': 'UC',
+        'int16_t': 'SS',
+        'uint16_t': 'US',
+        'int32_t': 'SI',
+        'uint32_t': 'UI',
+        'int64_t': 'S' + _long_type(),
+        'uint64_t': 'U' + _long_type(),
+        'float': 'F',
+        'double': 'D'
+    }
+    if pixelType != 4:
+        prefix += _js_to_python[jstype['componentType']]
+    if pixelType not in (1, 2, 3, 10):
+        prefix += str(dimension)
+    prefix += str(dimension)
+    return getattr(itk.Image, prefix)
