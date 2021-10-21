@@ -49,16 +49,10 @@ GiftiMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool GiftiMeshIOFactoryHasBeenRegistered;
-
 void ITKIOMeshGifti_EXPORT
      GiftiMeshIOFactoryRegister__Private()
 {
-  if (!GiftiMeshIOFactoryHasBeenRegistered)
-  {
-    GiftiMeshIOFactoryHasBeenRegistered = true;
-    GiftiMeshIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<GiftiMeshIOFactory>();
 }
 
 } // end namespace itk

@@ -48,16 +48,10 @@ OFFMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool OFFMeshIOFactoryHasBeenRegistered;
-
 void ITKIOMeshOFF_EXPORT
      OFFMeshIOFactoryRegister__Private()
 {
-  if (!OFFMeshIOFactoryHasBeenRegistered)
-  {
-    OFFMeshIOFactoryHasBeenRegistered = true;
-    OFFMeshIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<OFFMeshIOFactory>();
 }
 
 } // end namespace itk

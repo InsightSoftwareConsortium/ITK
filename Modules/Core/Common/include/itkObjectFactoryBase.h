@@ -219,6 +219,25 @@ public:
     CreateObjectFunctionBase::Pointer m_CreateObject;
   };
 
+  /** Registers the specified internal factory only once, even when `RegisterInternalFactoryOnce<TFactory>()` is called
+   * multiple times (possibly even by multiple threads) for the very same factory. */
+  template <typename TFactory>
+  static void
+  RegisterInternalFactoryOnce()
+  {
+    struct FactoryRegistration
+    {};
+
+    // Factory registration, made thread-safe by "magic statics" (as introduced with C++11).
+    static const FactoryRegistration staticFactoryRegistration = [] {
+      RegisterFactoryInternal(TFactory::New());
+      return FactoryRegistration{};
+    }();
+
+    (void)staticFactoryRegistration;
+  }
+
+
 protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

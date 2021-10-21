@@ -53,17 +53,10 @@ LSMImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool LSMImageIOFactoryHasBeenRegistered;
-
 void ITKIOLSM_EXPORT
      LSMImageIOFactoryRegister__Private()
 {
-  if (!LSMImageIOFactoryHasBeenRegistered)
-  {
-    LSMImageIOFactoryHasBeenRegistered = true;
-    LSMImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<LSMImageIOFactory>();
 }
 
 } // end namespace itk

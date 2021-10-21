@@ -50,17 +50,10 @@ SiemensVisionImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool SiemensVisionImageIOFactoryHasBeenRegistered;
-
 void ITKIOSiemens_EXPORT
      SiemensVisionImageIOFactoryRegister__Private()
 {
-  if (!SiemensVisionImageIOFactoryHasBeenRegistered)
-  {
-    SiemensVisionImageIOFactoryHasBeenRegistered = true;
-    SiemensVisionImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<SiemensVisionImageIOFactory>();
 }
 
 } // end namespace itk

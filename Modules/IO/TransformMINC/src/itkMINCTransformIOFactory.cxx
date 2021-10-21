@@ -60,19 +60,13 @@ MINCTransformIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool MINCTransformIOFactoryHasBeenRegistered;
-
 void ITKIOTransformMINC_EXPORT
      MINCTransformIOFactoryRegister__Private()
 {
-  if (!MINCTransformIOFactoryHasBeenRegistered)
-  {
-    MINCTransformIOFactoryHasBeenRegistered = true;
-    MINCTransformIOFactory::RegisterOneFactory();
+  ObjectFactoryBase::RegisterInternalFactoryOnce<MINCTransformIOFactory>();
 
-    // TransformFactory< DisplacementFieldTransform<double,3> >::RegisterTransform ();
-    // register additional transform type
-  }
+  // TransformFactory< DisplacementFieldTransform<double,3> >::RegisterTransform ();
+  // register additional transform type
 }
 
 } // end namespace itk

@@ -58,15 +58,9 @@ HDF5TransformIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool HDF5TransformIOFactoryHasBeenRegistered;
-
 void ITKIOTransformHDF5_EXPORT
      HDF5TransformIOFactoryRegister__Private()
 {
-  if (!HDF5TransformIOFactoryHasBeenRegistered)
-  {
-    HDF5TransformIOFactoryHasBeenRegistered = true;
-    HDF5TransformIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<HDF5TransformIOFactory>();
 }
 } // end namespace itk

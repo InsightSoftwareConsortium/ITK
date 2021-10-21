@@ -53,17 +53,10 @@ BioRadImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool BioRadImageIOFactoryHasBeenRegistered;
-
 void ITKIOBioRad_EXPORT
      BioRadImageIOFactoryRegister__Private()
 {
-  if (!BioRadImageIOFactoryHasBeenRegistered)
-  {
-    BioRadImageIOFactoryHasBeenRegistered = true;
-    BioRadImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<BioRadImageIOFactory>();
 }
 
 } // end namespace itk

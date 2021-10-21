@@ -43,17 +43,10 @@ BMPImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool BMPImageIOFactoryHasBeenRegistered;
-
 void ITKIOBMP_EXPORT
      BMPImageIOFactoryRegister__Private()
 {
-  if (!BMPImageIOFactoryHasBeenRegistered)
-  {
-    BMPImageIOFactoryHasBeenRegistered = true;
-    BMPImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<BMPImageIOFactory>();
 }
 
 } // end namespace itk

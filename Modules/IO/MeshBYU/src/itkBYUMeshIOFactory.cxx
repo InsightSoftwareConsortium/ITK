@@ -52,16 +52,10 @@ BYUMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-static bool BYUMeshIOFactoryHasBeenRegistered;
-
 void ITKIOMeshBYU_EXPORT
      BYUMeshIOFactoryRegister__Private()
 {
-  if (!BYUMeshIOFactoryHasBeenRegistered)
-  {
-    BYUMeshIOFactoryHasBeenRegistered = true;
-    BYUMeshIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<BYUMeshIOFactory>();
 }
 
 } // end namespace itk

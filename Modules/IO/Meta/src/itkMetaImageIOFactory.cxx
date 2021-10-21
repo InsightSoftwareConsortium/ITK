@@ -43,17 +43,10 @@ MetaImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool MetaImageIOFactoryHasBeenRegistered;
-
 void ITKIOMeta_EXPORT
      MetaImageIOFactoryRegister__Private()
 {
-  if (!MetaImageIOFactoryHasBeenRegistered)
-  {
-    MetaImageIOFactoryHasBeenRegistered = true;
-    MetaImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<MetaImageIOFactory>();
 }
 
 } // end namespace itk

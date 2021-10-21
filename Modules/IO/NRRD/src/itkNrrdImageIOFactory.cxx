@@ -43,17 +43,10 @@ NrrdImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool NrrdImageIOFactoryHasBeenRegistered;
-
 void ITKIONRRD_EXPORT
      NrrdImageIOFactoryRegister__Private()
 {
-  if (!NrrdImageIOFactoryHasBeenRegistered)
-  {
-    NrrdImageIOFactoryHasBeenRegistered = true;
-    NrrdImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<NrrdImageIOFactory>();
 }
 
 } // end namespace itk

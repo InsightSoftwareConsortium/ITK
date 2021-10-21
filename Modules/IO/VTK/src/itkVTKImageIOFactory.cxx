@@ -53,17 +53,10 @@ VTKImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool VTKImageIOFactoryHasBeenRegistered;
-
 void ITKIOVTK_EXPORT
      VTKImageIOFactoryRegister__Private()
 {
-  if (!VTKImageIOFactoryHasBeenRegistered)
-  {
-    VTKImageIOFactoryHasBeenRegistered = true;
-    VTKImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<VTKImageIOFactory>();
 }
 
 } // end namespace itk

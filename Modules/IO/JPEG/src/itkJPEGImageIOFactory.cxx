@@ -43,17 +43,10 @@ JPEGImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool JPEGImageIOFactoryHasBeenRegistered;
-
 void ITKIOJPEG_EXPORT
      JPEGImageIOFactoryRegister__Private()
 {
-  if (!JPEGImageIOFactoryHasBeenRegistered)
-  {
-    JPEGImageIOFactoryHasBeenRegistered = true;
-    JPEGImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<JPEGImageIOFactory>();
 }
 
 } // end namespace itk

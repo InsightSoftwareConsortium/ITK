@@ -42,17 +42,10 @@ VXLVideoIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool VXLVideoIOFactoryHasBeenRegistered;
-
 void
 VXLVideoIOFactoryRegister__Private()
 {
-  if (!VXLVideoIOFactoryHasBeenRegistered)
-  {
-    VXLVideoIOFactoryHasBeenRegistered = true;
-    VXLVideoIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<VXLVideoIOFactory>();
 }
 
 } // end namespace itk

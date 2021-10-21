@@ -43,17 +43,10 @@ MINCImageIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool MINCImageIOFactoryHasBeenRegistered;
-
 void ITKIOMINC_EXPORT
      MINCImageIOFactoryRegister__Private()
 {
-  if (!MINCImageIOFactoryHasBeenRegistered)
-  {
-    MINCImageIOFactoryHasBeenRegistered = true;
-    MINCImageIOFactory::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<MINCImageIOFactory>();
 }
 
 } // end namespace itk
