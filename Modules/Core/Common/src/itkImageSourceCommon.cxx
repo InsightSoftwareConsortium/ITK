@@ -25,23 +25,16 @@ namespace itk
 
 namespace
 {
-std::mutex                       globalDefaultSplitterLock;
+std::once_flag                   globalDefaultSplitterOnceFlag;
 ImageRegionSplitterBase::Pointer globalDefaultSplitter;
 } // namespace
 
 const ImageRegionSplitterBase *
 ImageSourceCommon::GetGlobalDefaultSplitter()
 {
-  if (globalDefaultSplitter.IsNull())
-  {
-    // thread safe lazy initialization, prevent race condition on
-    // setting, with an atomic set if null.
-    std::lock_guard<std::mutex> lock(globalDefaultSplitterLock);
-    if (globalDefaultSplitter.IsNull())
-    {
-      globalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer();
-    }
-  }
+  std::call_once(globalDefaultSplitterOnceFlag,
+                 []() { globalDefaultSplitter = ImageRegionSplitterSlowDimension::New().GetPointer(); });
+
   return globalDefaultSplitter;
 }
 
