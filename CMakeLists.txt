@@ -569,6 +569,7 @@ install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               CMake/itkImageIOFactoryRegisterManager.h.in
               CMake/itkTransformIOFactoryRegisterManager.h.in
               CMake/itkMeshIOFactoryRegisterManager.h.in
+              CMake/ITKInitializeCXXStandard.cmake
   DESTINATION ${ITK_INSTALL_PACKAGE_DIR}
   COMPONENT Development)
 get_property(ITKTargets_MODULES GLOBAL PROPERTY ITKTargets_MODULES)
