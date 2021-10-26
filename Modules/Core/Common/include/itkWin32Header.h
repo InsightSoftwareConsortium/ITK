@@ -53,9 +53,6 @@
 // 'conversion' : truncation of constant value
 #  pragma warning(disable : 4309)
 
-// decorated name length exceeded, name was truncated
-#  pragma warning(disable : 4503)
-
 // unreferenced local function has been removed
 #  pragma warning(disable : 4505)
 
