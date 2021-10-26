@@ -53,14 +53,14 @@ option( BUILD_SHARED_LIBS "Toggle building shared libraries." OFF)
 option(NIFTI_BUILD_APPLICATIONS "Build various utility tools" ON)
 mark_as_advanced(NIFTI_BUILD_APPLICATIONS)
 
-#When including nifti as a subpackage, a prefix is often needed to avoid conflicts with sytem installed libraries.
+#When including nifti as a subpackage, a prefix is often needed to avoid conflicts with system installed libraries.
 set_if_not_defined(NIFTI_PACKAGE_PREFIX "")
 set(PACKAGE_NAME ${NIFTI_PACKAGE_PREFIX}NIFTI)
 set_if_not_defined(NIFTI_INSTALL_EXPORT_NAME ${PACKAGE_NAME}Targets)
 
 # Set default shared library version
 # This library version will be applied to all libraries in the package
-# unless it is not explicitely for a certain lib.
+# unless it is not explicitly for a certain lib.
 set(NIFTI_SHAREDLIB_VERSION ${GIT_REPO_VERSION} )
 if(BUILD_SHARED_LIBS AND NOT NIFTI_LIBRARY_PROPERTIES)
   set(NIFTI_LIBRARY_PROPERTIES ${DEFAULT_SHARED_LIBS}
@@ -150,7 +150,9 @@ endif()
 
 #######################################################################
 # Find unix math libraries
-if(NOT WIN32)
+if(EMSCRIPTEN OR WASI)
+    set(NIFTI_SYSTEM_MATH_LIB m)
+elseif(NOT WIN32)
     find_library(NIFTI_SYSTEM_MATH_LIB m)
 else()
     set(NIFTI_SYSTEM_MATH_LIB "")
@@ -179,7 +181,7 @@ endif()
 
 option(USE_FSL_CODE "If OFF, The copyright of this code is questionable for inclusion with nifti." OFF)
 mark_as_advanced(USE_FSL_CODE)
-# the order of add_subdirectory is important! fsliolob has to preceed examples
+# the order of add_subdirectory is important! fsliolob has to precede, examples
 # as otherwise FSLIOLIB_SOURCE_DIR is undefined and hence the examples
 # will fail to compile
 if(USE_FSL_CODE)
@@ -202,7 +204,7 @@ endif()
 
 # Report installed targets
 get_property(nifti_installed_targets GLOBAL PROPERTY nifti_installed_targets)
-message("nifti_installed_targets: ${nifti_installed_targets}")
+message(STATUS "nifti_installed_targets: ${nifti_installed_targets}")
 
 if(CMAKE_VER_AT_LEAST_3_13)
   # Target installation for CMake versions >=3.13

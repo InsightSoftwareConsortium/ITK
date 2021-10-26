@@ -100,6 +100,6 @@ set(dashboard_cache "
 # Eventually USE_NIFTI1_CODE:BOOL=ON must be added.
 
 string(TIMESTAMP build_date "%Y-%m-%d")
-message("CDash Build Identifier: ${build_date} ${CTEST_BUILD_NAME}")
-message("CTEST_SITE = ${CTEST_SITE}")
+message(STATUS "CDash Build Identifier: ${build_date} ${CTEST_BUILD_NAME}")
+message(STATUS "CTEST_SITE = ${CTEST_SITE}")
 include("${CTEST_SCRIPT_DIRECTORY}/nifti_common.cmake")

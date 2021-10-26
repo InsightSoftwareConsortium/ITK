@@ -42,7 +42,7 @@ static char const * const gni_history[] =
   "     (FMRIB Centre, University of Oxford, UK)\n"
   "   - Mainly adding low-level IO and changing things to allow gzipped\n"
   "     files to be read and written\n"
-  "   - Full backwards compatability should have been maintained\n"
+  "   - Full backwards compatibility should have been maintained\n"
   "\n",
   "0.2  16 Nov 2004 [rickr]\n"
   "     (Rick Reynolds of the National Institutes of Health, SSCC/DIRP/NIMH)\n"
@@ -265,7 +265,7 @@ static char const * const gni_history[] =
   "1.12b 25 August 2005 [rickr] - changes by Hans Johnson\n",
   "1.13  25 August 2005 [rickr]\n",
   "   - finished changes by Hans for Insight\n"
-  "   - added const in all appropraite parameter locations (30-40)\n"
+  "   - added const in all appropriate parameter locations (30-40)\n"
   "     (any pointer referencing data that will not change)\n"
   "   - shortened all string constants below 509 character limit\n"
   "1.14  28 October 2005 [HJohnson]\n",
@@ -771,7 +771,7 @@ int nifti_image_load_bricks( nifti_image * nim , int nbricks,
 
    if( rv != 0 ){
       nifti_free_NBL( NBL );  /* failure! */
-      NBL->nbricks = 0; /* repetative, but clear */
+      NBL->nbricks = 0; /* repetitive, but clear */
    }
 
    if( slist ){ free(slist); free(sindex); }
@@ -1048,7 +1048,7 @@ int valid_nifti_brick_list(nifti_image * nim , int nbricks,
 
    if( nim->dim[0] < 3 ){
       if( disp_error || g_opts.debug > 1 )
-         fprintf(stderr,"** cannot read explict brick list from %d-D dataset\n",
+         fprintf(stderr,"** cannot read explicit brick list from %d-D dataset\n",
                  nim->dim[0]);
       return 0;
    }
@@ -1945,7 +1945,7 @@ mat33 nifti_mat33_polar( mat33 A )
 }
 
 /*---------------------------------------------------------------------------*/
-/*! compute the (closest) orientation from a 4x4 ijk->xyz tranformation matrix
+/*! compute the (closest) orientation from a 4x4 ijk->xyz transformation matrix
 
    <pre>
    Input:  4x4 matrix that transforms (i,j,k) indexes to (x,y,z) coordinates,
@@ -2136,7 +2136,7 @@ void nifti_mat44_to_orientation( mat44 R , int *icod, int *jcod, int *kcod )
 /*! swap each byte pair from the given list of n pairs
  *
  *  Due to alignment of structures at some architectures (e.g. on ARM),
- *  stick to char varaibles.
+ *  stick to char variables.
  *  Fixes http://bugs.debian.org/446893   Yaroslav <debian@onerussian.com>
  *
 *//*--------------------------------------------------------------------*/
@@ -2781,7 +2781,7 @@ char * nifti_findhdrname(const char* fname)
 
    /* note: efirst is 0 in the case of ".img" */
 
-   /* if the user passed an uppercase entension (.IMG), search for uppercase */
+   /* if the user passed an uppercase extension (.IMG), search for uppercase */
    if( eisupper ) {
       make_uppercase(elist[0]);
       make_uppercase(elist[1]);
@@ -3107,11 +3107,11 @@ int nifti_set_filenames( nifti_image * nim, const char * prefix, int check,
     - if type 1, expect .nii (and names must match)
 
     \param nim       given nifti_image
-    \param show_warn if set, print a warning message for any mis-match
+    \param show_warn if set, print a warning message for any mismatch
 
     \return
         -   1 if the values seem to match
-        -   0 if there is a mis-match
+        -   0 if there is a mismatch
         -  -1 if there is not sufficient information to create file(s)
 
     \sa NIFTI_FTYPE_* codes in nifti1_io.h
@@ -3163,7 +3163,7 @@ int nifti_type_and_names_match( nifti_image * nim, int show_warn )
       errs++;
    }
 
-   if( errs ) return 0;   /* do not proceed, but this is just a mis-match */
+   if( errs ) return 0;   /* do not proceed, but this is just a mismatch */
 
    /* general tests */
    if( nim->nifti_type == NIFTI_FTYPE_NIFTI1_1 ){  /* .nii */
@@ -3676,7 +3676,7 @@ nifti_image* nifti_convert_nhdr2nim(struct nifti_1_header nhdr,
      if( nhdr.dim[ii] <= 0 ) nhdr.dim[ii] = 1 ;
 
    /* fix any remaining bad dim[] values, so garbage does not propagate */
-   /* (only values 0 or 1 seem rational, otherwise set to arbirary 1)   */
+   /* (only values 0 or 1 seem rational, otherwise set to arbitrary 1)   */
    for( ii=nhdr.dim[0]+1 ; ii <= 7 ; ii++ )
      if( nhdr.dim[ii] != 1 && nhdr.dim[ii] != 0) nhdr.dim[ii] = 1 ;
 
@@ -5374,7 +5374,7 @@ nifti_1_header * nifti_make_new_header(const int arg_dims[], int arg_dtype)
 /*! basic creation of a nifti_image struct
 
    Create a nifti_image from the given dimensions and data type.
-   Optinally, allocate zero-filled data.
+   Optionally, allocate zero-filled data.
 
    \param dims      : optional dim[8]   (default {3,1,1,1,0,0,0,0})
    \param datatype  : optional datatype (default DT_FLOAT32)
@@ -5578,7 +5578,7 @@ int nifti_copy_extensions(nifti_image * nim_dest, const nifti_image * nim_src)
       /* data length is size-8, as esize includes space for esize and ecode */
       data = (char *)calloc(size-8,sizeof(char));      /* maybe size > old */
       if( !data ){
-         fprintf(stderr,"** failed to alloc %d bytes for extention\n", size);
+         fprintf(stderr,"** failed to alloc %d bytes for extension\n", size);
          if( c == 0 ) { free(nim_dest->ext_list); nim_dest->ext_list = NULL; }
          /* otherwise, keep what we have (a.o.t. deleting them all) */
          return -1;
@@ -6852,7 +6852,7 @@ compute_strides(int *strides,const int *size,int nbyper)
 /*---------------------------------------------------------------------------*/
 /*! read an arbitrary subregion from a nifti image
 
-    This function may be used to read a single arbitary subregion of any
+    This function may be used to read a single arbitrary subregion of any
     rectangular size from a nifti dataset, such as a small 5x5x5 subregion
     around the center of a 3D image.
 
