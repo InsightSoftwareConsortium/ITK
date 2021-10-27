@@ -29,9 +29,8 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " intput output Probability" << std::endl;
-    std::cerr << " input: the input image" << std::endl;
-    std::cerr << " output: the output image" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage Probability" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -79,5 +78,7 @@ itkSaltAndPepperNoiseImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

@@ -29,7 +29,9 @@ itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [standardDeviation]" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage [standardDeviation]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -66,5 +68,7 @@ itkSpeckleNoiseImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

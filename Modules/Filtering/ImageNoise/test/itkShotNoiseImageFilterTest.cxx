@@ -29,7 +29,8 @@ itkShotNoiseImageFilterTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " input output [scale]" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage [scale]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -67,5 +68,7 @@ itkShotNoiseImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
