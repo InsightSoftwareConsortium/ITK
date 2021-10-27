@@ -28,36 +28,29 @@ itkLabelContourImageFilterTest(int argc, char * argv[])
 {
   if (argc != 5)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " intput output fullyConnected bg" << std::endl;
-    std::cerr << " input: the input image" << std::endl;
-    std::cerr << " output: the output image" << std::endl;
-    std::cerr << " fullyConnected: 0 or 1" << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " intputImage outputImage fullyConnected backgroundValue" << std::endl;
     return EXIT_FAILURE;
   }
 
-  constexpr int dim = 3;
+  constexpr unsigned int Dimension = 3;
 
-  using PType = unsigned char;
-  using IType = itk::Image<PType, dim>;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader<IType>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  using FilterType = itk::LabelContourImageFilter<IType, IType>;
+  using FilterType = itk::LabelContourImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
 
-  // test default values
-  if (filter->GetFullyConnected() != false)
-  {
-    std::cerr << "Wrong default FullyConnected." << std::endl;
-    return EXIT_FAILURE;
-  }
-  if (filter->GetBackgroundValue() != 0)
-  {
-    std::cerr << "Wrong default background value." << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Test default values
+  ITK_TEST_EXPECT_TRUE(!filter->GetFullyConnected());
+
+  ITK_TEST_EXPECT_TRUE(filter->GetBackgroundValue() ==
+                       itk::NumericTraits<FilterType::OutputImagePixelType>::NonpositiveMin());
 
   // Tests for raising code coverage
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelContourImageFilter, InPlaceImageFilter);
@@ -66,21 +59,21 @@ itkLabelContourImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(reader->GetOutput());
 
-  filter->SetBackgroundValue(std::stoi(argv[4]));
-  if (filter->GetBackgroundValue() != std::stoi(argv[4]))
-  {
-    std::cerr << "Set/Get BackgroundValue problem." << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto backgroundValue = std::stoi(argv[4]);
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
-  using WriterType = itk::ImageFileWriter<IType>;
+  using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }

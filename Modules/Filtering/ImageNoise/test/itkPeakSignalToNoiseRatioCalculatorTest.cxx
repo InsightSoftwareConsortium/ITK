@@ -28,19 +28,18 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " intput noisy [expectedValue tolerance]"
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputImage noisyImage [expectedValue] [tolerance]"
               << std::endl;
-    std::cerr << " input: the input image" << std::endl;
-    std::cerr << " noisy: noise with the input image" << std::endl;
     return EXIT_FAILURE;
   }
 
-  constexpr int dim = 2;
+  constexpr unsigned int Dimension = 2;
 
-  using PType = unsigned char;
-  using IType = itk::Image<PType, dim>;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using ReaderType = itk::ImageFileReader<IType>;
+  using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
@@ -49,7 +48,7 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
   reader2->SetFileName(argv[2]);
   reader2->Update();
 
-  using CalculatorType = itk::PeakSignalToNoiseRatioCalculator<IType>;
+  using CalculatorType = itk::PeakSignalToNoiseRatioCalculator<ImageType>;
   auto psnr = CalculatorType::New();
   psnr->SetImage(reader->GetOutput());
   psnr->SetNoisyImage(reader2->GetOutput());
@@ -70,5 +69,7 @@ itkPeakSignalToNoiseRatioCalculatorTest(int argc, char * argv[])
     }
   }
 
+
+  std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
 }
