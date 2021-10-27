@@ -20,6 +20,7 @@
 
 #include "itkPeriodicBoundaryCondition.h"
 #include "itkVectorImage.h"
+#include "itkTestingMacros.h"
 
 using ImageType = itk::Image<int, 2>;
 using RegionType = ImageType::RegionType;
@@ -290,6 +291,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
   ImageType::RegionType testRegion(testSize);
   testImage->SetRegions(testRegion);
   testImage->Allocate();
+  testImage->FillBuffer(1);
 
   using BoundaryConditionType = itk::PeriodicBoundaryCondition<ImageType, ImageType>;
   using IterType = itk::ConstNeighborhoodIterator<ImageType, BoundaryConditionType>;
@@ -312,7 +314,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
     }
     ++testIter;
   }
-  std::cout << "Dummy sum: " << sum << std::endl;
+  ITK_TEST_EXPECT_EQUAL(sum, testSize[0] * testSize[1] * 3);
 
   return EXIT_SUCCESS;
 }
