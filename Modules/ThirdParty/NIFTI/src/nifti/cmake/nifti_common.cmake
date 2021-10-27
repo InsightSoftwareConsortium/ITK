@@ -218,7 +218,7 @@ if(EXISTS ${CTEST_SOURCE_DIRECTORY})
     set(vcs_refresh "because it is not managed by git.")
   endif()
   if(vcs_refresh AND "${CTEST_SOURCE_DIRECTORY}" MATCHES "/(NIFTI|nifti_clib)[^/]*")
-    message("Deleting source tree\n  ${CTEST_SOURCE_DIRECTORY}\n${vcs_refresh}")
+    message(STATUS "Deleting source tree\n  ${CTEST_SOURCE_DIRECTORY}\n${vcs_refresh}")
     file(REMOVE_RECURSE "${CTEST_SOURCE_DIRECTORY}")
   endif()
 endif()
@@ -314,7 +314,7 @@ foreach(v
     )
   set(vars "${vars}  ${v}=[${${v}}]\n")
 endforeach(v)
-message("Dashboard script configuration:\n${vars}\n")
+message(STATUS "Dashboard script configuration:\n${vars}\n")
 
 # Avoid non-ascii characters in tool output.
 set(ENV{LC_ALL} C)
@@ -347,7 +347,7 @@ if(NOT EXISTS "${CTEST_BINARY_DIRECTORY}")
   file(MAKE_DIRECTORY "${CTEST_BINARY_DIRECTORY}")
 elseif(NOT "${CTEST_SOURCE_DIRECTORY}" STREQUAL "${CTEST_BINARY_DIRECTORY}"
     AND NOT dashboard_no_clean)
-  message("Clearing build tree...")
+  message(STATUS "Clearing build tree...")
   ctest_empty_binary_directory(${CTEST_BINARY_DIRECTORY})
 endif()
 
@@ -425,7 +425,7 @@ while(NOT dashboard_done)
       dashboard_hook_test()
     endif()
     ctest_test(${CTEST_TEST_ARGS} RETURN_VALUE test_return)
-    set(safe_message_skip 1) # Block furhter messages
+    set(safe_message_skip 1) # Block further messages
 
     if(dashboard_do_coverage)
       if(COMMAND dashboard_hook_coverage)

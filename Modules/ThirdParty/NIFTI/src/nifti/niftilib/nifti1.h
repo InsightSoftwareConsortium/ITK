@@ -873,7 +873,7 @@ typedef struct { unsigned char r,g,b; } rgb_byte ;
      as a displacement field or vector:
        - dataset must have a 5th dimension
        - intent_code must be NIFTI_INTENT_DISPVECT
-       - dim[5] must be the dimensionality of the displacment
+       - dim[5] must be the dimensionality of the displacement
          vector (e.g., 3 for spatial displacement, 2 for in-plane) */
 
 #define NIFTI_INTENT_DISPVECT  1006   /* specifically for displacements */
