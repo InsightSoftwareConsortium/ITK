@@ -156,7 +156,7 @@ function(get_lib_version_vars version_header libver libver_major)
     # Check that a valid version has been specified (of the form XX.XX.XX)
     string(REGEX MATCH "^[0-9]*\.[0-9]*\.[0-9]*$" VER_MATCHED "${LIB_VERSION}" )
     if("" STREQUAL "${VER_MATCHED}")
-        message("matched ${VER_MATCHED}")
+        message(STATUS "matched ${VER_MATCHED}")
         message(FATAL_ERROR "Cannot find a valid version in the version header file ${version_header} (Found: '${LIB_VERSION}')")
     endif()
     # Set outputs in calling scope
