@@ -25,7 +25,7 @@
 namespace itk
 {
 /*** \class LBFGS2Optimizerv4Enums
- * \brief Scoped Enum classes for LBFGS2Optimizerv4 class
+ * \brief Scoped Enum classes for LBFGS2Optimizerv4Template class
  * \ingroup ITKOptimizersv4
  */
 class LBFGS2Optimizerv4Enums
@@ -82,7 +82,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
                               operator<<(std::ostream & out, LBFGS2Optimizerv4Enums::LineSearchMethod value);
 
 /**
- *\class LBFGS2Optimizerv4
+ *\class LBFGS2Optimizerv4Template
  * \brief Wrap of the libLBFGS[1] algorithm for use in ITKv4 registration framework.
  * LibLBFGS is a translation of LBFGS code by Nocedal [2] and adds the orthantwise
  * limited-memmory Quais-Newton method [3] for optimization with L1-norm on the
@@ -153,11 +153,13 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  *
  * \ingroup ITKOptimizersv4
  */
-class ITKOptimizersv4_EXPORT LBFGS2Optimizerv4 : public GradientDescentOptimizerv4Template<double>
+template <typename TInternalComputationValueType>
+class ITK_TEMPLATE_EXPORT LBFGS2Optimizerv4Template
+  : public GradientDescentOptimizerv4Template<TInternalComputationValueType>
 {
 
 public:
-  ITK_DISALLOW_COPY_AND_MOVE(LBFGS2Optimizerv4);
+  ITK_DISALLOW_COPY_AND_MOVE(LBFGS2Optimizerv4Template);
 
   using LineSearchMethodEnum = LBFGS2Optimizerv4Enums::LineSearchMethod;
 #if !defined(ITK_LEGACY_REMOVE)
@@ -181,14 +183,14 @@ public:
   using PrecisionType = double;
 
   /** Standard "Self" type alias. */
-  using Self = LBFGS2Optimizerv4;
-  using Superclass = GradientDescentOptimizerv4Template<double>;
+  using Self = LBFGS2Optimizerv4Template;
+  using Superclass = GradientDescentOptimizerv4Template<TInternalComputationValueType>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using MetricType = Superclass::MetricType;
-  using ParametersType = Superclass::ParametersType;
-  using ScalesType = Superclass::ScalesType;
+  using MetricType = typename Superclass::MetricType;
+  using ParametersType = typename Superclass::ParametersType;
+  using ScalesType = typename Superclass::ScalesType;
 
   /** Stop condition return string type */
   using typename Superclass::StopConditionReturnStringType;
@@ -197,7 +199,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGS2Optimizerv4, GradientDescentOptimizerv4Template);
+  itkTypeMacro(LBFGS2Optimizerv4Template, GradientDescentOptimizerv4Template);
 
   /** Start optimization with an initial value. */
   void
@@ -457,8 +459,8 @@ public:
   itkBooleanMacro(EstimateScalesAtEachIteration);
 
 protected:
-  LBFGS2Optimizerv4();
-  ~LBFGS2Optimizerv4() override;
+  LBFGS2Optimizerv4Template();
+  ~LBFGS2Optimizerv4Template() override;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -534,8 +536,18 @@ private:
   void
   AdvanceOneStep() override
   {
-    itkWarningMacro("LBFGS2Optimizerv4 does not implemenetd single step advance");
+    itkWarningMacro("LBFGS2Optimizerv4Template does not implemenetd single step advance");
   };
 };
+
+
+/** This helps to meet backward compatibility */
+using LBFGS2Optimizerv4 = LBFGS2Optimizerv4Template<double>;
+
 } // end namespace itk
+
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkLBFGS2Optimizerv4.hxx"
+#endif
+
 #endif
