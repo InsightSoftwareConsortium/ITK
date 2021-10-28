@@ -23,4 +23,5 @@
 
   <Function><Name>itk::SmartPointer.+</Name><Action>NoStepInto</Action></Function>
   <Function><Name>std::.+</Name><Action>NoStepInto</Action></Function>
+  <Function><Name>itk::Object::Register</Name><Action>NoStepInto</Action></Function>
 </StepFilter>
