@@ -641,7 +641,12 @@ ImageIOBase::OpenFileForReading(std::ifstream & inputStream, const std::string &
     mode |= std::ios::binary;
   }
 
+#ifdef _MSC_VER
+  const std::wstring uncpath = itksys::SystemTools::ConvertToWindowsExtendedPath(filename.c_str());
+  inputStream.open(uncpath.c_str(), std::ios::binary);
+#else
   inputStream.open(filename.c_str(), mode);
+#endif
 
   if (!inputStream.is_open() || inputStream.fail())
   {
