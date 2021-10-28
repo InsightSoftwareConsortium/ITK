@@ -22,25 +22,16 @@
 #include "itkMacro.h"
 #include "itkMath.h"
 
-#include "lbfgs.h"
 
 namespace itk
 {
 
-template <typename TInternalComputationValueType>
-class LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrivateImplementationHolder
-{
-public:
-  lbfgs_parameter_t m_Parameters;
-};
-
 
 template <typename TInternalComputationValueType>
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::LBFGS2Optimizerv4Template()
-  : m_Pimpl(new PrivateImplementationHolder)
 {
   // Initialize to default parameters
-  lbfgs_parameter_init(&m_Pimpl->m_Parameters);
+  lbfgs_parameter_init(&m_Parameters);
   m_StatusCode = 100;
 
   this->m_EstimateScalesAtEachIteration = true;
@@ -55,22 +46,22 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m: " << m_Pimpl->m_Parameters.m << std::endl;
-  os << indent << "epsilon: " << m_Pimpl->m_Parameters.epsilon << std::endl;
-  os << indent << "past: " << m_Pimpl->m_Parameters.past << std::endl;
-  os << indent << "delta: " << m_Pimpl->m_Parameters.delta << std::endl;
-  os << indent << "max_iterations: " << m_Pimpl->m_Parameters.max_iterations << std::endl;
-  os << indent << "linesearch: " << m_Pimpl->m_Parameters.linesearch << std::endl;
-  os << indent << "max_linesearch: " << m_Pimpl->m_Parameters.max_linesearch << std::endl;
-  os << indent << "min_step: " << m_Pimpl->m_Parameters.min_step << std::endl;
-  os << indent << "max_step: " << m_Pimpl->m_Parameters.max_step << std::endl;
-  os << indent << "ftol: " << m_Pimpl->m_Parameters.ftol << std::endl;
-  os << indent << "wolfe: " << m_Pimpl->m_Parameters.wolfe << std::endl;
-  os << indent << "gtol: " << m_Pimpl->m_Parameters.gtol << std::endl;
-  os << indent << "xtol: " << m_Pimpl->m_Parameters.xtol << std::endl;
-  os << indent << "orthantwise_c: " << m_Pimpl->m_Parameters.orthantwise_c << std::endl;
-  os << indent << "orthantwise_start: " << m_Pimpl->m_Parameters.orthantwise_start << std::endl;
-  os << indent << "orthantwise_end: " << m_Pimpl->m_Parameters.orthantwise_end << std::endl;
+  os << indent << "m: " << m_Parameters.m << std::endl;
+  os << indent << "epsilon: " << m_Parameters.epsilon << std::endl;
+  os << indent << "past: " << m_Parameters.past << std::endl;
+  os << indent << "delta: " << m_Parameters.delta << std::endl;
+  os << indent << "max_iterations: " << m_Parameters.max_iterations << std::endl;
+  os << indent << "linesearch: " << m_Parameters.linesearch << std::endl;
+  os << indent << "max_linesearch: " << m_Parameters.max_linesearch << std::endl;
+  os << indent << "min_step: " << m_Parameters.min_step << std::endl;
+  os << indent << "max_step: " << m_Parameters.max_step << std::endl;
+  os << indent << "ftol: " << m_Parameters.ftol << std::endl;
+  os << indent << "wolfe: " << m_Parameters.wolfe << std::endl;
+  os << indent << "gtol: " << m_Parameters.gtol << std::endl;
+  os << indent << "xtol: " << m_Parameters.xtol << std::endl;
+  os << indent << "orthantwise_c: " << m_Parameters.orthantwise_c << std::endl;
+  os << indent << "orthantwise_start: " << m_Parameters.orthantwise_start << std::endl;
+  os << indent << "orthantwise_end: " << m_Parameters.orthantwise_end << std::endl;
 }
 
 
@@ -114,7 +105,7 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::ResumeOptimization()
                        LBFGS2Optimizerv4Template::EvaluateCostCallback,
                        LBFGS2Optimizerv4Template::UpdateProgressCallback,
                        this,
-                       &m_Pimpl->m_Parameters);
+                       &m_Parameters);
 
   // Match the behavior of other optimizer setting the current
   // iteration to the max when iteration limit is reached
@@ -309,7 +300,7 @@ template <typename TInternalComputationValueType>
 void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetHessianApproximationAccuracy(int m)
 {
-  m_Pimpl->m_Parameters.m = m;
+  m_Parameters.m = m;
   this->Modified();
 }
 
@@ -317,7 +308,7 @@ template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetHessianApproximationAccuracy() const
 {
-  return m_Pimpl->m_Parameters.m;
+  return m_Parameters.m;
 }
 
 template <typename TInternalComputationValueType>
@@ -325,7 +316,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetSolutionAccuracy(
   LBFGS2Optimizerv4Template::PrecisionType epsilon)
 {
-  m_Pimpl->m_Parameters.epsilon = epsilon;
+  m_Parameters.epsilon = epsilon;
   this->Modified();
 }
 
@@ -333,14 +324,14 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetSolutionAccuracy() const
 {
-  return m_Pimpl->m_Parameters.epsilon;
+  return m_Parameters.epsilon;
 }
 
 template <typename TInternalComputationValueType>
 void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetDeltaConvergenceDistance(int nPast)
 {
-  m_Pimpl->m_Parameters.past = nPast;
+  m_Parameters.past = nPast;
   this->Modified();
 }
 
@@ -348,7 +339,7 @@ template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetDeltaConvergenceDistance() const
 {
-  return m_Pimpl->m_Parameters.past;
+  return m_Parameters.past;
 }
 
 template <typename TInternalComputationValueType>
@@ -356,7 +347,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetDeltaConvergenceTolerance(
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType tol)
 {
-  m_Pimpl->m_Parameters.delta = tol;
+  m_Parameters.delta = tol;
   this->Modified();
 }
 
@@ -364,14 +355,14 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetDeltaConvergenceTolerance() const
 {
-  return m_Pimpl->m_Parameters.delta;
+  return m_Parameters.delta;
 }
 
 template <typename TInternalComputationValueType>
 void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMaximumIterations(int maxIterations)
 {
-  m_Pimpl->m_Parameters.max_iterations = maxIterations;
+  m_Parameters.max_iterations = maxIterations;
   this->Modified();
 }
 
@@ -380,7 +371,7 @@ template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMaximumIterations() const
 {
-  return m_Pimpl->m_Parameters.max_iterations;
+  return m_Parameters.max_iterations;
 }
 
 // translate to lbfgs.h enum
@@ -415,7 +406,7 @@ LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetLineSearch(
     lbfgsLineSearch = LBFGS_LINESEARCH_MORETHUENTE;
   }
 
-  m_Pimpl->m_Parameters.linesearch = lbfgsLineSearch;
+  m_Parameters.linesearch = lbfgsLineSearch;
   this->Modified();
 }
 
@@ -424,7 +415,7 @@ typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::LineSearchMet
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearch() const
 {
   LineSearchMethodEnum linesearch = LineSearchMethodEnum::LINESEARCH_DEFAULT;
-  int                  lbfgsLineSearch = m_Pimpl->m_Parameters.linesearch;
+  int                  lbfgsLineSearch = m_Parameters.linesearch;
   if (lbfgsLineSearch == LBFGS_LINESEARCH_BACKTRACKING)
   {
     linesearch = LineSearchMethodEnum::LINESEARCH_BACKTRACKING;
@@ -453,7 +444,7 @@ template <typename TInternalComputationValueType>
 void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMaximumLineSearchEvaluations(int n)
 {
-  m_Pimpl->m_Parameters.max_linesearch = n;
+  m_Parameters.max_linesearch = n;
   this->Modified();
 }
 
@@ -461,7 +452,7 @@ template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMaximumLineSearchEvaluations() const
 {
-  return m_Pimpl->m_Parameters.max_linesearch;
+  return m_Parameters.max_linesearch;
 }
 
 template <typename TInternalComputationValueType>
@@ -469,7 +460,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMinimumLineSearchStep(
   LBFGS2Optimizerv4Template::PrecisionType step)
 {
-  m_Pimpl->m_Parameters.min_step = step;
+  m_Parameters.min_step = step;
   this->Modified();
 }
 
@@ -477,7 +468,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMinimumLineSearchStep() const
 {
-  return m_Pimpl->m_Parameters.min_step;
+  return m_Parameters.min_step;
 }
 
 template <typename TInternalComputationValueType>
@@ -485,7 +476,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMaximumLineSearchStep(
   LBFGS2Optimizerv4Template::PrecisionType step)
 {
-  m_Pimpl->m_Parameters.max_step = step;
+  m_Parameters.max_step = step;
 
   this->Modified();
 }
@@ -494,7 +485,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMaximumLineSearchStep() const
 {
-  return m_Pimpl->m_Parameters.max_step;
+  return m_Parameters.max_step;
 }
 
 template <typename TInternalComputationValueType>
@@ -502,7 +493,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetLineSearchAccuracy(
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType ftol)
 {
-  m_Pimpl->m_Parameters.ftol = ftol;
+  m_Parameters.ftol = ftol;
 
   this->Modified();
 }
@@ -510,7 +501,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearchAccuracy() const
 {
-  return m_Pimpl->m_Parameters.ftol;
+  return m_Parameters.ftol;
 }
 
 template <typename TInternalComputationValueType>
@@ -518,7 +509,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetWolfeCoefficient(
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType wc)
 {
-  m_Pimpl->m_Parameters.wolfe = wc;
+  m_Parameters.wolfe = wc;
   this->Modified();
 }
 
@@ -526,7 +517,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetWolfeCoefficient() const
 {
-  return m_Pimpl->m_Parameters.wolfe;
+  return m_Parameters.wolfe;
 }
 
 template <typename TInternalComputationValueType>
@@ -534,7 +525,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetLineSearchGradientAccuracy(
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType gtol)
 {
-  m_Pimpl->m_Parameters.gtol = gtol;
+  m_Parameters.gtol = gtol;
   this->Modified();
 }
 
@@ -542,7 +533,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetLineSearchGradientAccuracy() const
 {
-  return m_Pimpl->m_Parameters.gtol;
+  return m_Parameters.gtol;
 }
 
 
@@ -551,7 +542,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetMachinePrecisionTolerance(
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType xtol)
 {
-  m_Pimpl->m_Parameters.xtol = xtol;
+  m_Parameters.xtol = xtol;
   this->Modified();
 }
 
@@ -559,7 +550,7 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetMachinePrecisionTolerance() const
 {
-  return m_Pimpl->m_Parameters.xtol;
+  return m_Parameters.xtol;
 }
 
 template <typename TInternalComputationValueType>
@@ -567,7 +558,7 @@ void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetOrthantwiseCoefficient(
   LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType orthant_c)
 {
-  m_Pimpl->m_Parameters.orthantwise_c = orthant_c;
+  m_Parameters.orthantwise_c = orthant_c;
   this->Modified();
 }
 
@@ -575,14 +566,14 @@ template <typename TInternalComputationValueType>
 typename LBFGS2Optimizerv4Template<TInternalComputationValueType>::PrecisionType
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetOrthantwiseCoefficient() const
 {
-  return m_Pimpl->m_Parameters.orthantwise_c;
+  return m_Parameters.orthantwise_c;
 }
 
 template <typename TInternalComputationValueType>
 void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetOrthantwiseStart(int start)
 {
-  m_Pimpl->m_Parameters.orthantwise_start = start;
+  m_Parameters.orthantwise_start = start;
   this->Modified();
 }
 
@@ -590,14 +581,14 @@ template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetOrthantwiseStart() const
 {
-  return m_Pimpl->m_Parameters.orthantwise_start;
+  return m_Parameters.orthantwise_start;
 }
 
 template <typename TInternalComputationValueType>
 void
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::SetOrthantwiseEnd(int end)
 {
-  m_Pimpl->m_Parameters.orthantwise_end = end;
+  m_Parameters.orthantwise_end = end;
   this->Modified();
 }
 
@@ -605,7 +596,7 @@ template <typename TInternalComputationValueType>
 int
 LBFGS2Optimizerv4Template<TInternalComputationValueType>::GetOrthantwiseEnd() const
 {
-  return m_Pimpl->m_Parameters.orthantwise_end;
+  return m_Parameters.orthantwise_end;
 }
 
 

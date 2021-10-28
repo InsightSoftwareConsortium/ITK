@@ -22,6 +22,8 @@
 #include "ITKOptimizersv4Export.h"
 #include <memory>
 
+#include "lbfgs.h"
+
 namespace itk
 {
 /*** \class LBFGS2Optimizerv4Enums
@@ -504,7 +506,7 @@ protected:
 private:
   // Private Implementation (Pimpl), to hide liblbfgs data structures
   class PrivateImplementationHolder;
-  std::unique_ptr<PrivateImplementationHolder> m_Pimpl;
+  lbfgs_parameter_t m_Parameters;
 
   bool   m_EstimateScalesAtEachIteration;
   double m_CurrentStepSize;

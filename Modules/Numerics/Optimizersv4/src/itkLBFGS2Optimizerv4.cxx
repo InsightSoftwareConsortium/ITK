@@ -43,3 +43,5 @@ operator<<(std::ostream & out, const LBFGS2Optimizerv4Enums::LineSearchMethod va
     }
   }();
 }
+
+} // end namespace itk
