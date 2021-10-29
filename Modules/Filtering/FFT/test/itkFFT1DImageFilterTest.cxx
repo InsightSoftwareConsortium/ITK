@@ -25,6 +25,8 @@
 #include "itkForward1DFFTImageFilter.h"
 #include "itkInverse1DFFTImageFilter.h"
 
+#include "itkObjectFactoryBase.h"
+
 #include "itkVnlForward1DFFTImageFilter.h"
 #include "itkVnlInverse1DFFTImageFilter.h"
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
@@ -32,6 +34,11 @@
 #  include "itkFFTWInverse1DFFTImageFilter.h"
 #endif
 #include "itkTestingMacros.h"
+
+#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
+// Load default backends (Vnl, FFTW) for FFT object factory
+#  include "itkFFTImageFilterFactoryRegisterManager.h"
+#endif
 
 template <typename FFTForwardType, typename FFTInverseType>
 int
@@ -89,33 +96,63 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   using ComplexImageType = itk::Image<std::complex<PixelType>, Dimension>;
 
+  using FFTForwardType = itk::Forward1DFFTImageFilter<ImageType, ComplexImageType>;
+  using FFTInverseType = itk::Inverse1DFFTImageFilter<ComplexImageType, ImageType>;
+
   int backend = 0;
   if (argc > 3)
   {
     backend = std::stoi(argv[3]);
   }
 
-  if (backend == 0)
-  {
-    using FFTForwardType = itk::Forward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using FFTInverseType = itk::Inverse1DFFTImageFilter<ComplexImageType, ImageType>;
-    return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
-  }
-  else if (backend == 1)
-  {
-    using FFTForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using FFTInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
-    return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
-  }
-  else if (backend == 2)
+  if (backend == 0) // Default backend
   {
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-    using FFTForwardType = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
-    using FFTInverseType = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+#  ifndef ITK_FFT_FACTORY_REGISTER_MANAGER
+    // If the factory register manager is not defined then manually register default backend
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTWForward1DFFTImageFilterFactory>();
+#  endif
+    using FFTForwardSubtype = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    std::string defaultFFTBackend("FFTW");
+#else
+#  ifndef ITK_FFT_FACTORY_REGISTER_MANAGER
+    // If the factory register manager is not defined then manually register default backend
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::VnlForward1DFFTImageFilterFactory>();
+#  endif
+    using FFTForwardSubtype = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    std::string defaultFFTBackend("Vnl");
+#endif
+
+    // Verify that FFT class is instantiated with correct backend
+    auto fft = FFTForwardType::New();
+    if (dynamic_cast<FFTForwardSubtype *>(fft.GetPointer()) == nullptr)
+    {
+      std::cerr << "Did not get " << defaultFFTBackend << " default backend as expected!" << std::endl;
+      return EXIT_FAILURE;
+    }
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);
+  }
+  else if (backend == 1) // Vnl backend
+  {
+    // Verify object factory returns expected type
+    using VnlForwardType = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using VnlInverseType = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    return doTest<VnlForwardType, VnlInverseType>(argv[1], argv[2]);
+  }
+  else if (backend == 2) // FFTW backend
+  {
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+    using FFTWForwardType = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using FFTWInverseType = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
+    return doTest<FFTWForwardType, FFTWInverseType>(argv[1], argv[2]);
+#else
+    std::cerr << "FFTW is not defined and this test should not be run!" << std::endl;
+    return EXIT_FAILURE;
 #endif
   }
-
-  std::cerr << "Backend " << backend << " (" << argv[3] << ") not implemented" << std::endl;
-  return EXIT_FAILURE;
+  else
+  {
+    std::cerr << "Backend " << backend << " (" << argv[3] << ") not implemented" << std::endl;
+    return EXIT_FAILURE;
+  }
 }

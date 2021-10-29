@@ -28,6 +28,13 @@ namespace itk
  * \brief Perform the Fast Fourier Transform, in the forward direction, with
  * real inputs, but only along one dimension.
  *
+ * Forward1DFFTImageFilter implements methods for generating output information
+ * and relies on the ITK object factory to select a viable backend to generate data.
+ * Forward1DFFTImageFilter does not itself implement FFT.
+ *
+ * \sa itkVnlForward1DFFTImageFilter
+ * \sa itkFFTWForward1DFFTImageFilter
+ *
  * \ingroup FourierTransform
  * \ingroup Ultrasound
  */
@@ -103,6 +110,10 @@ private:
 #      endif
 #    endif
 #  endif
+#endif
+
+#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
+#  include "itkFFTImageFilterFactoryRegisterManager.h"
 #endif
 
 #endif // itkForward1DFFTImageFilter_h
