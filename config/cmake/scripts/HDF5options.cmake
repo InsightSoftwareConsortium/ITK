@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -57,7 +57,9 @@ set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ALLOW_EXTERNAL_SUPPORT:STRIN
 #set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ALLOW_EXTERNAL_SUPPORT:STRING=GIT")
 ### ext libs on system
 #set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ALLOW_EXTERNAL_SUPPORT:STRING=NO")
+#set(ENV{ZLIB_ROOT} "some_location")
 #set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DZLIB_LIBRARY:FILEPATH=some_location/lib/zlib.lib -DZLIB_INCLUDE_DIR:PATH=some_location/include")
+#set(ENV{SZIP_ROOT} "some_location")
 #set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DSZIP_LIBRARY:FILEPATH=some_location/lib/szlib.lib -DSZIP_INCLUDE_DIR:PATH=some_location/include")
 
 ### disable using ext zlib
@@ -67,7 +69,7 @@ set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ALLOW_EXTERNAL_SUPPORT:STRIN
 #set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_ENABLE_SZIP_ENCODING:BOOL=OFF")
 
 ####      package examples       ####
-#set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_PACK_EXAMPLES:BOOL=ON -DHDF5_EXAMPLES_COMPRESSED:STRING=HDF5Examples-1.10.15-Source.tar.gz -DHDF5_EXAMPLES_COMPRESSED_DIR:PATH=${CTEST_SCRIPT_DIRECTORY}")
+#set (ADD_BUILD_OPTIONS "${ADD_BUILD_OPTIONS} -DHDF5_PACK_EXAMPLES:BOOL=ON -DHDF5_EXAMPLES_COMPRESSED:STRING=HDF5Examples-1.10.17-Source.tar.gz -DHDF5_EXAMPLES_COMPRESSED_DIR:PATH=${CTEST_SCRIPT_DIRECTORY}")
 
 #############################################################################################
 ### enable parallel builds

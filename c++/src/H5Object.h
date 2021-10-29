@@ -7,13 +7,13 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __H5Object_H
-#define __H5Object_H
+#ifndef H5Object_H
+#define H5Object_H
 
 namespace H5 {
 
@@ -40,98 +40,96 @@ namespace H5 {
 // Inheritance: H5Location -> IdComponent
 
 // Define the operator function pointer for H5Aiterate().
-typedef void (*attr_operator_t)(H5Object& loc,
-                                 const H5std_string attr_name,
-                                 void *operator_data);
+typedef void (*attr_operator_t)(H5Object &loc, const H5std_string attr_name, void *operator_data);
 
 // Define the operator function pointer for H5Ovisit2().
-typedef int (*visit_operator_t)(H5Object& obj,
-                                 const H5std_string attr_name,
-                                 const H5O_info_t *oinfo,
-                                 void *operator_data);
+typedef int (*visit_operator_t)(H5Object &obj, const H5std_string attr_name, const H5O_info_t *oinfo,
+                                void *operator_data);
 
 // User data for attribute iteration
 class UserData4Aiterate {
-    public:
-        attr_operator_t op;
-        void* opData;
-        H5Object* location; // Consider changing to H5Location
+  public:
+    attr_operator_t op;
+    void *          opData;
+    H5Object *      location; // Consider changing to H5Location
 };
 
 // User data for visit iteration
 class UserData4Visit {
-    public:
-        visit_operator_t op;
-        void* opData;
-        H5Object* obj;
+  public:
+    visit_operator_t op;
+    void *           opData;
+    H5Object *       obj;
 };
 
 class H5_DLLCPP H5Object : public H5Location {
-   public:
-        // Creates an attribute for the specified object
-        // PropList is currently not used, so always be default.
-        Attribute createAttribute(const char* name, const DataType& type, const DataSpace& space, const PropList& create_plist = PropList::DEFAULT) const;
-        Attribute createAttribute(const H5std_string& name, const DataType& type, const DataSpace& space, const PropList& create_plist = PropList::DEFAULT) const;
+  public:
+    // Creates an attribute for the specified object
+    // PropList is currently not used, so always be default.
+    Attribute createAttribute(const char *name, const DataType &type, const DataSpace &space,
+                              const PropList &create_plist = PropList::DEFAULT) const;
+    Attribute createAttribute(const H5std_string &name, const DataType &type, const DataSpace &space,
+                              const PropList &create_plist = PropList::DEFAULT) const;
 
-        // Given its name, opens the attribute that belongs to an object at
-        // this location.
-        Attribute openAttribute(const char* name) const;
-        Attribute openAttribute(const H5std_string& name) const;
+    // Given its name, opens the attribute that belongs to an object at
+    // this location.
+    Attribute openAttribute(const char *name) const;
+    Attribute openAttribute(const H5std_string &name) const;
 
-        // Given its index, opens the attribute that belongs to an object at
-        // this location.
-        Attribute openAttribute(const unsigned int idx) const;
+    // Given its index, opens the attribute that belongs to an object at
+    // this location.
+    Attribute openAttribute(const unsigned int idx) const;
 
-        // Iterate user's function over the attributes of this object.
-        int iterateAttrs(attr_operator_t user_op, unsigned* idx = NULL, void* op_data = NULL);
+    // Iterate user's function over the attributes of this object.
+    int iterateAttrs(attr_operator_t user_op, unsigned *idx = NULL, void *op_data = NULL);
 
-        // Recursively visit elements reachable from this object.
-        void visit(H5_index_t idx_type, H5_iter_order_t order, visit_operator_t user_op, void *op_data, unsigned int fields);
+    // Recursively visit elements reachable from this object.
+    void visit(H5_index_t idx_type, H5_iter_order_t order, visit_operator_t user_op, void *op_data,
+               unsigned int fields);
 
-        // Returns the object header version of an object
-        unsigned objVersion() const;
+    // Returns the object header version of an object
+    unsigned objVersion() const;
 
-        // Determines the number of attributes belong to this object.
-        int getNumAttrs() const;
+    // Determines the number of attributes belong to this object.
+    int getNumAttrs() const;
 
-        // Checks whether the named attribute exists for this object.
-        bool attrExists(const char* name) const;
-        bool attrExists(const H5std_string& name) const;
+    // Checks whether the named attribute exists for this object.
+    bool attrExists(const char *name) const;
+    bool attrExists(const H5std_string &name) const;
 
-        // Renames the named attribute to a new name.
-        void renameAttr(const char* oldname, const char* newname) const;
-        void renameAttr(const H5std_string& oldname, const H5std_string& newname) const;
+    // Renames the named attribute to a new name.
+    void renameAttr(const char *oldname, const char *newname) const;
+    void renameAttr(const H5std_string &oldname, const H5std_string &newname) const;
 
-        // Removes the named attribute from this object.
-        void removeAttr(const char* name) const;
-        void removeAttr(const H5std_string& name) const;
+    // Removes the named attribute from this object.
+    void removeAttr(const char *name) const;
+    void removeAttr(const H5std_string &name) const;
 
-        // Returns an identifier.
-        virtual hid_t getId() const = 0;
+    // Returns an identifier.
+    virtual hid_t getId() const H5_OVERRIDE = 0;
 
-        // Gets the name of this HDF5 object, i.e., Group, DataSet, or
-        // DataType.
-        ssize_t getObjName(char *obj_name, size_t buf_size = 0) const;
-        ssize_t getObjName(H5std_string& obj_name, size_t len = 0) const;
-        H5std_string getObjName() const;
-
+    // Gets the name of this HDF5 object, i.e., Group, DataSet, or
+    // DataType.
+    ssize_t      getObjName(char *obj_name, size_t buf_size = 0) const;
+    ssize_t      getObjName(H5std_string &obj_name, size_t len = 0) const;
+    H5std_string getObjName() const;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-   protected:
-        // Default constructor
-        H5Object();
+  protected:
+    // Default constructor
+    H5Object();
 
-        // Sets the identifier of this object to a new value. - this one
-        // doesn't increment reference count
-        virtual void p_setId(const hid_t new_id) = 0;
+    // Sets the identifier of this object to a new value. - this one
+    // doesn't increment reference count
+    virtual void p_setId(const hid_t new_id) H5_OVERRIDE = 0;
 
-        // Noop destructor.
-        virtual ~H5Object();
+    // Noop destructor.
+    virtual ~H5Object() H5_OVERRIDE;
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
 }; // end of H5Object
 } // namespace H5
 
-#endif // __H5Object_H
+#endif // H5Object_H

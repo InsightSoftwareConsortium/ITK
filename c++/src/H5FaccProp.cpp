@@ -6,16 +6,12 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef OLD_HEADER_FILENAME
-#include <iostream.h>
-#else
 #include <iostream>
-#endif
 #include <string>
 
 using std::cerr;
@@ -37,7 +33,7 @@ namespace H5 {
 // in "H5PredType.cpp" for information.
 
 // Initialize a pointer for the constant
-FileAccPropList* FileAccPropList::DEFAULT_ = 0;
+FileAccPropList *FileAccPropList::DEFAULT_ = 0;
 
 //--------------------------------------------------------------------------
 // Function:    FileAccPropList::getConstant
@@ -50,13 +46,13 @@ FileAccPropList* FileAccPropList::DEFAULT_ = 0;
 //              happen.
 // Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
-FileAccPropList* FileAccPropList::getConstant()
+FileAccPropList *
+FileAccPropList::getConstant()
 {
     // Tell the C library not to clean up, H5Library::termH5cpp will call
     // H5close - more dependency if use H5Library::dontAtExit()
-    if (!IdComponent::H5dontAtexit_called)
-    {
-        (void) H5dont_atexit();
+    if (!IdComponent::H5dontAtexit_called) {
+        (void)H5dont_atexit();
         IdComponent::H5dontAtexit_called = true;
     }
 
@@ -65,8 +61,9 @@ FileAccPropList* FileAccPropList::getConstant()
     if (DEFAULT_ == 0)
         DEFAULT_ = new FileAccPropList(H5P_FILE_ACCESS);
     else
-        throw PropListIException("FileAccPropList::getConstant", "FileAccPropList::getConstant is being invoked on an allocated DEFAULT_");
-    return(DEFAULT_);
+        throw PropListIException("FileAccPropList::getConstant",
+                                 "FileAccPropList::getConstant is being invoked on an allocated DEFAULT_");
+    return (DEFAULT_);
 }
 
 //--------------------------------------------------------------------------
@@ -76,7 +73,8 @@ FileAccPropList* FileAccPropList::getConstant()
 // exception    H5::PropListIException
 // Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
-void FileAccPropList::deleteConstants()
+void
+FileAccPropList::deleteConstants()
 {
     if (DEFAULT_ != 0)
         delete DEFAULT_;
@@ -85,7 +83,7 @@ void FileAccPropList::deleteConstants()
 //--------------------------------------------------------------------------
 // Purpose     Constant for default property
 //--------------------------------------------------------------------------
-const FileAccPropList& FileAccPropList::DEFAULT = *getConstant();
+const FileAccPropList &FileAccPropList::DEFAULT = *getConstant();
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -94,7 +92,9 @@ const FileAccPropList& FileAccPropList::DEFAULT = *getConstant();
 ///\brief       Creates a file access property list
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-FileAccPropList::FileAccPropList() : PropList(H5P_FILE_ACCESS) {}
+FileAccPropList::FileAccPropList() : PropList(H5P_FILE_ACCESS)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    FileAccPropList copy constructor
@@ -102,7 +102,9 @@ FileAccPropList::FileAccPropList() : PropList(H5P_FILE_ACCESS) {}
 ///\param       original - IN: FileAccPropList instance to copy
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-FileAccPropList::FileAccPropList(const FileAccPropList& original) : PropList(original) {}
+FileAccPropList::FileAccPropList(const FileAccPropList &original) : PropList(original)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    FileAccPropList overloaded constructor
@@ -110,7 +112,9 @@ FileAccPropList::FileAccPropList(const FileAccPropList& original) : PropList(ori
 ///             existing one.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-FileAccPropList::FileAccPropList(const hid_t plist_id) : PropList(plist_id) {}
+FileAccPropList::FileAccPropList(const hid_t plist_id) : PropList(plist_id)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    FileAccPropList::setStdio
@@ -119,11 +123,11 @@ FileAccPropList::FileAccPropList(const hid_t plist_id) : PropList(plist_id) {}
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setStdio() const
+void
+FileAccPropList::setStdio() const
 {
     herr_t ret_value = H5Pset_fapl_stdio(id);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setStdio", "H5Pset_fapl_stdio failed");
     }
 }
@@ -139,14 +143,14 @@ void FileAccPropList::setStdio() const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-hid_t FileAccPropList::getDriver() const
+hid_t
+FileAccPropList::getDriver() const
 {
     hid_t driver = H5Pget_driver(id);
-    if (driver < 0)
-    {
+    if (driver < 0) {
         throw PropListIException("FileAccPropList::getDriver", "H5Pget_driver failed");
     }
-   return(driver);
+    return (driver);
 }
 
 //--------------------------------------------------------------------------
@@ -160,11 +164,11 @@ hid_t FileAccPropList::getDriver() const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setDriver(hid_t new_driver_id, const void *new_driver_info) const
+void
+FileAccPropList::setDriver(hid_t new_driver_id, const void *new_driver_info) const
 {
     herr_t ret_value = H5Pset_driver(id, new_driver_id, new_driver_info);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setDriver", "H5Pset_driver failed");
     }
 }
@@ -176,11 +180,11 @@ void FileAccPropList::setDriver(hid_t new_driver_id, const void *new_driver_info
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setFamilyOffset(hsize_t offset) const
+void
+FileAccPropList::setFamilyOffset(hsize_t offset) const
 {
     herr_t ret_value = H5Pset_family_offset(id, offset);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setFamilyOffset", "H5Pset_family_offset failed");
     }
 }
@@ -192,15 +196,15 @@ void FileAccPropList::setFamilyOffset(hsize_t offset) const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-hsize_t FileAccPropList::getFamilyOffset() const
+hsize_t
+FileAccPropList::getFamilyOffset() const
 {
     hsize_t offset;
-    herr_t ret_value = H5Pget_family_offset(id, &offset);
-    if (ret_value < 0)
-    {
+    herr_t  ret_value = H5Pget_family_offset(id, &offset);
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getFamilyOffset", "H5Pget_family_offset failed");
     }
-   return(offset);
+    return (offset);
 }
 
 //--------------------------------------------------------------------------
@@ -217,12 +221,12 @@ hsize_t FileAccPropList::getFamilyOffset() const
 ///             refer to the H5Pset_fapl_core API in the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setCore (size_t increment, hbool_t backing_store) const
+void
+FileAccPropList::setCore(size_t increment, hbool_t backing_store) const
 {
-    herr_t ret_value = H5Pset_fapl_core (id, increment, backing_store);
-    if (ret_value < 0)
-    {
-        throw PropListIException ("FileAccPropList::setCore", "H5Pset_fapl_core failed");
+    herr_t ret_value = H5Pset_fapl_core(id, increment, backing_store);
+    if (ret_value < 0) {
+        throw PropListIException("FileAccPropList::setCore", "H5Pset_fapl_core failed");
     }
 }
 
@@ -235,11 +239,11 @@ void FileAccPropList::setCore (size_t increment, hbool_t backing_store) const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::getCore (size_t& increment, hbool_t& backing_store) const
+void
+FileAccPropList::getCore(size_t &increment, hbool_t &backing_store) const
 {
     herr_t ret_value = H5Pget_fapl_core(id, &increment, &backing_store);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getCore", "H5Pget_fapl_core failed");
     }
 }
@@ -255,11 +259,11 @@ void FileAccPropList::getCore (size_t& increment, hbool_t& backing_store) const
 ///             Note that \a memb_size is used only when creating a new file.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setFamily(hsize_t memb_size, const FileAccPropList& memb_plist) const
+void
+FileAccPropList::setFamily(hsize_t memb_size, const FileAccPropList &memb_plist) const
 {
-    herr_t ret_value = H5Pset_fapl_family (id, memb_size, memb_plist.getId());
-    if (ret_value < 0)
-    {
+    herr_t ret_value = H5Pset_fapl_family(id, memb_size, memb_plist.getId());
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setFamily", "H5Pset_fapl_family failed");
     }
 }
@@ -274,12 +278,12 @@ void FileAccPropList::setFamily(hsize_t memb_size, const FileAccPropList& memb_p
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::getFamily(hsize_t& memb_size, FileAccPropList& memb_plist) const
+void
+FileAccPropList::getFamily(hsize_t &memb_size, FileAccPropList &memb_plist) const
 {
-    hid_t memb_plist_id;
+    hid_t  memb_plist_id;
     herr_t ret_value = H5Pget_fapl_family(id, &memb_size, &memb_plist_id);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getFamily", "H5Pget_fapl_family failed");
     }
     memb_plist.p_setId(memb_plist_id);
@@ -295,16 +299,16 @@ void FileAccPropList::getFamily(hsize_t& memb_size, FileAccPropList& memb_plist)
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-FileAccPropList FileAccPropList::getFamily(hsize_t& memb_size) const
+FileAccPropList
+FileAccPropList::getFamily(hsize_t &memb_size) const
 {
-    hid_t memb_plist_id;
+    hid_t  memb_plist_id;
     herr_t ret_value = H5Pget_fapl_family(id, &memb_size, &memb_plist_id);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getFamily", "H5Pget_fapl_family failed");
     }
     FileAccPropList memb_plist(memb_plist_id);
-    return(memb_plist);
+    return (memb_plist);
 }
 
 //--------------------------------------------------------------------------
@@ -321,13 +325,14 @@ FileAccPropList FileAccPropList::getFamily(hsize_t& memb_size) const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setSplit(const FileAccPropList& meta_plist, const FileAccPropList& raw_plist, const char* meta_ext, const char* raw_ext) const
+void
+FileAccPropList::setSplit(const FileAccPropList &meta_plist, const FileAccPropList &raw_plist,
+                          const char *meta_ext, const char *raw_ext) const
 {
-    hid_t meta_pid = meta_plist.getId();
-    hid_t raw_pid = raw_plist.getId();
+    hid_t  meta_pid  = meta_plist.getId();
+    hid_t  raw_pid   = raw_plist.getId();
     herr_t ret_value = H5Pset_fapl_split(id, meta_ext, meta_pid, raw_ext, raw_pid);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setSplit", "H5Pset_fapl_split failed");
     }
 }
@@ -343,7 +348,9 @@ void FileAccPropList::setSplit(const FileAccPropList& meta_plist, const FileAccP
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setSplit(const FileAccPropList& meta_plist, const FileAccPropList& raw_plist, const H5std_string& meta_ext, const H5std_string& raw_ext) const
+void
+FileAccPropList::setSplit(const FileAccPropList &meta_plist, const FileAccPropList &raw_plist,
+                          const H5std_string &meta_ext, const H5std_string &raw_ext) const
 {
     setSplit(meta_plist, raw_plist, meta_ext.c_str(), raw_ext.c_str());
 }
@@ -360,15 +367,15 @@ void FileAccPropList::setSplit(const FileAccPropList& meta_plist, const FileAccP
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-size_t FileAccPropList::getSieveBufSize() const
+size_t
+FileAccPropList::getSieveBufSize() const
 {
     size_t bufsize;
     herr_t ret_value = H5Pget_sieve_buf_size(id, &bufsize);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getSieveBufSize", "H5Pget_sieve_buf_size failed");
     }
-    return(bufsize);
+    return (bufsize);
 }
 
 //--------------------------------------------------------------------------
@@ -381,11 +388,11 @@ size_t FileAccPropList::getSieveBufSize() const
 ///             API in the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setSieveBufSize(size_t bufsize) const
+void
+FileAccPropList::setSieveBufSize(size_t bufsize) const
 {
     herr_t ret_value = H5Pset_sieve_buf_size(id, bufsize);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getSieveBufSize", "H5Pget_sieve_buf_size failed");
     }
 }
@@ -401,11 +408,11 @@ void FileAccPropList::setSieveBufSize(size_t bufsize) const
 ///             API in the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setMetaBlockSize(hsize_t &block_size) const
+void
+FileAccPropList::setMetaBlockSize(hsize_t &block_size) const
 {
     herr_t ret_value = H5Pset_meta_block_size(id, block_size);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setMetaBlockSize", "H5Pset_meta_block_size failed");
     }
 }
@@ -417,15 +424,15 @@ void FileAccPropList::setMetaBlockSize(hsize_t &block_size) const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-hsize_t FileAccPropList::getMetaBlockSize() const
+hsize_t
+FileAccPropList::getMetaBlockSize() const
 {
     hsize_t block_size;
-    herr_t ret_value = H5Pget_meta_block_size(id, &block_size);
-    if (ret_value < 0)
-    {
+    herr_t  ret_value = H5Pget_meta_block_size(id, &block_size);
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getMetaBlockSize", "H5Pget_meta_block_size failed");
     }
-    return(block_size);
+    return (block_size);
 }
 
 //--------------------------------------------------------------------------
@@ -441,11 +448,11 @@ hsize_t FileAccPropList::getMetaBlockSize() const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setLog(const char *logfile, unsigned flags, size_t buf_size) const
+void
+FileAccPropList::setLog(const char *logfile, unsigned flags, size_t buf_size) const
 {
     herr_t ret_value = H5Pset_fapl_log(id, logfile, flags, buf_size);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setLog", "H5Pset_fapl_log failed");
     }
 }
@@ -460,7 +467,8 @@ void FileAccPropList::setLog(const char *logfile, unsigned flags, size_t buf_siz
 ///\param       buf_size - IN: Size of the logging buffer
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setLog(const H5std_string& logfile, unsigned flags, size_t buf_size) const
+void
+FileAccPropList::setLog(const H5std_string &logfile, unsigned flags, size_t buf_size) const
 {
     setLog(logfile.c_str(), flags, buf_size);
 }
@@ -473,11 +481,11 @@ void FileAccPropList::setLog(const H5std_string& logfile, unsigned flags, size_t
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setSec2() const
+void
+FileAccPropList::setSec2() const
 {
     herr_t ret_value = H5Pset_fapl_sec2(id);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setSec2", "H5Pset_fapl_sec2 failed");
     }
 }
@@ -498,11 +506,11 @@ void FileAccPropList::setSec2() const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void FileAccPropList::setAlignment(hsize_t threshold, hsize_t alignment) const
+void
+FileAccPropList::setAlignment(hsize_t threshold, hsize_t alignment) const
 {
     herr_t ret_value = H5Pset_alignment(id, threshold, alignment);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setAlignment", "H5Pset_alignment failed");
     }
 }
@@ -516,11 +524,11 @@ void FileAccPropList::setAlignment(hsize_t threshold, hsize_t alignment) const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void FileAccPropList::getAlignment(hsize_t &threshold, hsize_t &alignment) const
+void
+FileAccPropList::getAlignment(hsize_t &threshold, hsize_t &alignment) const
 {
     herr_t ret_value = H5Pget_alignment(id, &threshold, &alignment);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getAlignment", "H5Pget_alignment failed");
     }
 }
@@ -535,11 +543,11 @@ void FileAccPropList::getAlignment(hsize_t &threshold, hsize_t &alignment) const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setMultiType(H5FD_mem_t dtype) const
+void
+FileAccPropList::setMultiType(H5FD_mem_t dtype) const
 {
     herr_t ret_value = H5Pset_multi_type(id, dtype);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setMultiType", "H5Pset_multi_type failed");
     }
 }
@@ -554,15 +562,15 @@ void FileAccPropList::setMultiType(H5FD_mem_t dtype) const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-H5FD_mem_t FileAccPropList::getMultiType() const
+H5FD_mem_t
+FileAccPropList::getMultiType() const
 {
     H5FD_mem_t dtype;
-    herr_t ret_value = H5Pget_multi_type(id, &dtype);
-    if (ret_value < 0)
-    {
+    herr_t     ret_value = H5Pget_multi_type(id, &dtype);
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getMultiType", "H5Pget_multi_type failed");
     }
-    return(dtype);
+    return (dtype);
 }
 
 //--------------------------------------------------------------------------
@@ -582,11 +590,11 @@ H5FD_mem_t FileAccPropList::getMultiType() const
 ///             means fully read chunks are always preempted before other chunks.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void FileAccPropList::setCache(int mdc_nelmts, size_t rdcc_nelmts, size_t rdcc_nbytes, double rdcc_w0) const
+void
+FileAccPropList::setCache(int mdc_nelmts, size_t rdcc_nelmts, size_t rdcc_nbytes, double rdcc_w0) const
 {
     herr_t ret_value = H5Pset_cache(id, mdc_nelmts, rdcc_nelmts, rdcc_nbytes, rdcc_w0);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setCache", "H5Pset_cache failed");
     }
 }
@@ -601,11 +609,11 @@ void FileAccPropList::setCache(int mdc_nelmts, size_t rdcc_nelmts, size_t rdcc_n
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void FileAccPropList::getCache(int& mdc_nelmts, size_t& rdcc_nelmts, size_t& rdcc_nbytes, double& rdcc_w0) const
+void
+FileAccPropList::getCache(int &mdc_nelmts, size_t &rdcc_nelmts, size_t &rdcc_nbytes, double &rdcc_w0) const
 {
     herr_t ret_value = H5Pget_cache(id, &mdc_nelmts, &rdcc_nelmts, &rdcc_nbytes, &rdcc_w0);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getCache", "H5Pget_cache failed");
     }
 }
@@ -617,11 +625,11 @@ void FileAccPropList::getCache(int& mdc_nelmts, size_t& rdcc_nelmts, size_t& rdc
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-void FileAccPropList::setFcloseDegree(H5F_close_degree_t degree) const
+void
+FileAccPropList::setFcloseDegree(H5F_close_degree_t degree) const
 {
     herr_t ret_value = H5Pset_fclose_degree(id, degree);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setFcloseDegree", "H5Pset_fclose_degree failed");
     }
 }
@@ -633,15 +641,15 @@ void FileAccPropList::setFcloseDegree(H5F_close_degree_t degree) const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - April, 2004
 //--------------------------------------------------------------------------
-H5F_close_degree_t FileAccPropList::getFcloseDegree() const
+H5F_close_degree_t
+FileAccPropList::getFcloseDegree() const
 {
     H5F_close_degree_t degree;
-    herr_t ret_value = H5Pget_fclose_degree(id, &degree);
-    if (ret_value < 0)
-    {
+    herr_t             ret_value = H5Pget_fclose_degree(id, &degree);
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getFcloseDegree", "H5Pget_fclose_degree failed");
     }
-    return(degree);
+    return (degree);
 }
 
 //--------------------------------------------------------------------------
@@ -655,11 +663,11 @@ H5F_close_degree_t FileAccPropList::getFcloseDegree() const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void FileAccPropList::setGcReferences(unsigned gc_ref) const
+void
+FileAccPropList::setGcReferences(unsigned gc_ref) const
 {
     herr_t ret_value = H5Pset_gc_references(id, gc_ref);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setGcReferences", "H5Pset_gc_references failed");
     }
 }
@@ -671,17 +679,17 @@ void FileAccPropList::setGcReferences(unsigned gc_ref) const
 ///\exception   H5::PropListIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-unsigned FileAccPropList::getGcReferences() const
+unsigned
+FileAccPropList::getGcReferences() const
 {
     unsigned gc_ref;
 
     // the name of this routine will be changed to H5Pget_gc_references???
     herr_t ret_value = H5Pget_gc_references(id, &gc_ref);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getGcReferences", "H5Pget_gc_references failed");
     }
-    return(gc_ref);
+    return (gc_ref);
 }
 
 //--------------------------------------------------------------------------
@@ -697,12 +705,12 @@ unsigned FileAccPropList::getGcReferences() const
 ///             the HDF5 C Reference Manual.
 // Programmer   Dana Robinson - 2020
 //--------------------------------------------------------------------------
-void FileAccPropList::setFileLocking(hbool_t use_file_locking, hbool_t ignore_when_disabled) const
+void
+FileAccPropList::setFileLocking(hbool_t use_file_locking, hbool_t ignore_when_disabled) const
 {
     herr_t ret_value = H5Pset_file_locking(id, use_file_locking, ignore_when_disabled);
 
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setFileLocking", "H5Pset_file_locking failed");
     }
 }
@@ -720,16 +728,15 @@ void FileAccPropList::setFileLocking(hbool_t use_file_locking, hbool_t ignore_wh
 ///             the HDF5 C Reference Manual.
 // Programmer   Dana Robinson - 2020
 //--------------------------------------------------------------------------
-void FileAccPropList::getFileLocking(hbool_t& use_file_locking, hbool_t& ignore_when_disabled) const
+void
+FileAccPropList::getFileLocking(hbool_t &use_file_locking, hbool_t &ignore_when_disabled) const
 {
     herr_t ret_value = H5Pget_file_locking(id, &use_file_locking, &ignore_when_disabled);
 
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getFileLocking", "H5Pget_file_locking failed");
     }
 }
-
 
 //--------------------------------------------------------------------------
 // Function:    FileAccPropList::setLibverBounds
@@ -753,11 +760,11 @@ void FileAccPropList::getFileLocking(hbool_t& use_file_locking, hbool_t& ignore_
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - March, 2015
 //--------------------------------------------------------------------------
-void FileAccPropList::setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libver_high) const
+void
+FileAccPropList::setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libver_high) const
 {
     herr_t ret_value = H5Pset_libver_bounds(id, libver_low, libver_high);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::setLibverBounds", "H5Pset_libver_bounds failed");
     }
 }
@@ -783,11 +790,11 @@ void FileAccPropList::setLibverBounds(H5F_libver_t libver_low, H5F_libver_t libv
 ///             \li \c H5F_LIBVER_LATEST
 // Programmer   Binh-Minh Ribler - March, 2015
 //--------------------------------------------------------------------------
-void FileAccPropList::getLibverBounds(H5F_libver_t& libver_low, H5F_libver_t& libver_high) const
+void
+FileAccPropList::getLibverBounds(H5F_libver_t &libver_low, H5F_libver_t &libver_high) const
 {
     herr_t ret_value = H5Pget_libver_bounds(id, &libver_low, &libver_high);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("FileAccPropList::getLibverBounds", "H5Pget_libver_bounds failed");
     }
 }
@@ -797,6 +804,8 @@ void FileAccPropList::getLibverBounds(H5F_libver_t& libver_low, H5F_libver_t& li
 ///\brief       Noop destructor
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-FileAccPropList::~FileAccPropList() {}
+FileAccPropList::~FileAccPropList()
+{
+}
 
-} // end namespace
+} // namespace H5

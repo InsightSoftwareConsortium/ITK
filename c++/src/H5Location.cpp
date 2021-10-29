@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -15,7 +15,7 @@
 #include <iostream>
 using namespace std;
 
-#include "H5private.h"        // for HDmemset
+#include "H5private.h" // for HDmemset
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -45,7 +45,9 @@ namespace H5 {
 // Function:    H5Location default constructor (protected)
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-H5Location::H5Location() : IdComponent() {}
+H5Location::H5Location() : IdComponent()
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    H5Location overloaded constructor (protected)
@@ -88,7 +90,8 @@ H5Location::H5Location() : IdComponent() {}
 // Modification
 //              Renamed from exists() in 1.10.2 -BMR
 //--------------------------------------------------------------------------
-bool H5Location::nameExists(const char* name, const LinkAccPropList& lapl) const
+bool
+H5Location::nameExists(const char *name, const LinkAccPropList &lapl) const
 {
     htri_t ret_value = H5Lexists(getId(), name, lapl.getId());
     if (ret_value > 0)
@@ -110,9 +113,10 @@ bool H5Location::nameExists(const char* name, const LinkAccPropList& lapl) const
 // Modification
 //              Renamed from exists() in 1.10.2 -BMR
 //--------------------------------------------------------------------------
-bool H5Location::nameExists(const H5std_string& name, const LinkAccPropList& lapl) const
+bool
+H5Location::nameExists(const H5std_string &name, const LinkAccPropList &lapl) const
 {
-    return(nameExists(name.c_str(), lapl));
+    return (nameExists(name.c_str(), lapl));
 }
 
 //--------------------------------------------------------------------------
@@ -126,9 +130,10 @@ bool H5Location::nameExists(const H5std_string& name, const LinkAccPropList& lap
 // Modification
 //              Renamed to nameExists() in 1.10.2 -BMR
 //--------------------------------------------------------------------------
-bool H5Location::exists(const char* name, const LinkAccPropList& lapl) const
+bool
+H5Location::exists(const char *name, const LinkAccPropList &lapl) const
 {
-    return(nameExists(name, lapl));
+    return (nameExists(name, lapl));
 }
 
 //--------------------------------------------------------------------------
@@ -142,9 +147,10 @@ bool H5Location::exists(const char* name, const LinkAccPropList& lapl) const
 // Modification
 //              Renamed to nameExists() in 1.10.2 -BMR
 //--------------------------------------------------------------------------
-bool H5Location::exists(const H5std_string& name, const LinkAccPropList& lapl) const
+bool
+H5Location::exists(const H5std_string &name, const LinkAccPropList &lapl) const
 {
-    return(nameExists(name.c_str(), lapl));
+    return (nameExists(name.c_str(), lapl));
 }
 
 //--------------------------------------------------------------------------
@@ -162,11 +168,11 @@ bool H5Location::exists(const H5std_string& name, const LinkAccPropList& lapl) c
 //        Sep 2012 - BMR
 //              Moved from H5File/H5Object
 //--------------------------------------------------------------------------
-void H5Location::flush(H5F_scope_t scope) const
+void
+H5Location::flush(H5F_scope_t scope) const
 {
     herr_t ret_value = H5Fflush(getId(), scope);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw LocationException(inMemFunc("flush"), "H5Fflush failed");
     }
 }
@@ -179,12 +185,13 @@ void H5Location::flush(H5F_scope_t scope) const
 ///\exception   H5::LocationException
 // Programmer   Binh-Minh Ribler - Jul, 2004
 //--------------------------------------------------------------------------
-H5std_string H5Location::getFileName() const
+H5std_string
+H5Location::getFileName() const
 {
     try {
-      return(p_get_file_name());
+        return (p_get_file_name());
     }
-    catch (IdComponentException& E) {
+    catch (IdComponentException &E) {
         throw LocationException(inMemFunc("getFileName"), E.getDetailMsg());
     }
 }
@@ -209,7 +216,8 @@ H5std_string H5Location::getFileName() const
 //              to another class to accommodate attribute, dataset, and named
 //              datatype. - BMR
 //--------------------------------------------------------------------------
-void H5Location::setComment(const char* name, const char* comment) const
+void
+H5Location::setComment(const char *name, const char *comment) const
 {
     herr_t ret_value = H5Oset_comment_by_name(getId(), name, comment, H5P_DEFAULT);
     if (ret_value < 0)
@@ -223,7 +231,8 @@ void H5Location::setComment(const char* name, const char* comment) const
 ///             \c H5std_string for \a name and \a comment.
 // Programmer   Binh-Minh Ribler - 2000 (moved from CommonFG, Sep 2013)
 //--------------------------------------------------------------------------
-void H5Location::setComment(const H5std_string& name, const H5std_string& comment) const
+void
+H5Location::setComment(const H5std_string &name, const H5std_string &comment) const
 {
     setComment(name.c_str(), comment.c_str());
 }
@@ -235,7 +244,8 @@ void H5Location::setComment(const H5std_string& name, const H5std_string& commen
 ///             an object name.
 // Programmer   Binh-Minh Ribler - Sep 2013
 //--------------------------------------------------------------------------
-void H5Location::setComment(const char* comment) const
+void
+H5Location::setComment(const char *comment) const
 {
     herr_t ret_value = H5Oset_comment_by_name(getId(), ".", comment, H5P_DEFAULT);
     if (ret_value < 0)
@@ -249,7 +259,8 @@ void H5Location::setComment(const char* comment) const
 ///             \c H5std_string for \a comment.
 // Programmer   Binh-Minh Ribler - Sep 2013
 //--------------------------------------------------------------------------
-void H5Location::setComment(const H5std_string& comment) const
+void
+H5Location::setComment(const H5std_string &comment) const
 {
     setComment(comment.c_str());
 }
@@ -265,7 +276,8 @@ void H5Location::setComment(const H5std_string& comment) const
 //              to another class to accommodate attribute, dataset, and named
 //              datatype. - BMR
 //--------------------------------------------------------------------------
-void H5Location::removeComment(const char* name) const
+void
+H5Location::removeComment(const char *name) const
 {
     herr_t ret_value = H5Oset_comment_by_name(getId(), name, NULL, H5P_DEFAULT);
     if (ret_value < 0)
@@ -279,9 +291,10 @@ void H5Location::removeComment(const char* name) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - May 2005 (moved from CommonFG, Sep 2013)
 //--------------------------------------------------------------------------
-void H5Location::removeComment(const H5std_string& name) const
+void
+H5Location::removeComment(const H5std_string &name) const
 {
-    removeComment (name.c_str());
+    removeComment(name.c_str());
 }
 
 //--------------------------------------------------------------------------
@@ -299,7 +312,8 @@ void H5Location::removeComment(const H5std_string& name) const
 ///             will be truncated to accommodate the null terminator.
 // Programmer   Binh-Minh Ribler - Mar 2014
 //--------------------------------------------------------------------------
-ssize_t H5Location::getComment(const char* name, size_t buf_size, char* comment) const
+ssize_t
+H5Location::getComment(const char *name, size_t buf_size, char *comment) const
 {
     // H5Oget_comment_by_name will get buf_size chars of the comment including
     // the null terminator
@@ -307,17 +321,16 @@ ssize_t H5Location::getComment(const char* name, size_t buf_size, char* comment)
     comment_len = H5Oget_comment_by_name(getId(), name, comment, buf_size, H5P_DEFAULT);
 
     // If H5Oget_comment_by_name returns a negative value, raise an exception
-    if (comment_len < 0)
-     {
+    if (comment_len < 0) {
         throw LocationException("H5Location::getComment", "H5Oget_comment_by_name failed");
     }
     // If the comment is longer than the provided buffer size, the C library
     // will not null terminate it
     if (static_cast<size_t>(comment_len) >= buf_size)
-        comment[buf_size-1] = '\0';
+        comment[buf_size - 1] = '\0';
 
     // Return the actual comment length, which might be different from buf_size
-    return(comment_len);
+    return (comment_len);
 }
 
 //--------------------------------------------------------------------------
@@ -330,24 +343,23 @@ ssize_t H5Location::getComment(const char* name, size_t buf_size, char* comment)
 ///\exception   H5::LocationException
 // Programmer   Binh-Minh Ribler - 2000 (moved from CommonFG, Sep 2013)
 //--------------------------------------------------------------------------
-H5std_string H5Location::getComment(const char* name, size_t buf_size) const
+H5std_string
+H5Location::getComment(const char *name, size_t buf_size) const
 {
     // Initialize string to "", so that if there is no comment, the returned
     // string will be empty
-    H5std_string comment("");
+    H5std_string comment;
 
     // Preliminary call to get the comment's length
     ssize_t comment_len = H5Oget_comment_by_name(getId(), name, NULL, (size_t)0, H5P_DEFAULT);
 
     // If H5Oget_comment_by_name returns a negative value, raise an exception
-    if (comment_len < 0)
-     {
+    if (comment_len < 0) {
         throw LocationException("H5Location::getComment", "H5Oget_comment_by_name failed");
     }
 
     // If comment exists, calls C routine again to get it
-    else if (comment_len > 0)
-     {
+    else if (comment_len > 0) {
         size_t tmp_len = buf_size;
 
         // If buffer size is not provided, use comment length
@@ -355,14 +367,13 @@ H5std_string H5Location::getComment(const char* name, size_t buf_size) const
             tmp_len = comment_len;
 
         // Temporary buffer for char* comment
-        char* comment_C = new char[tmp_len+1];
-        HDmemset(comment_C, 0, tmp_len+1); // clear buffer
+        char *comment_C = new char[tmp_len + 1];
+        HDmemset(comment_C, 0, tmp_len + 1); // clear buffer
 
         // Used overloaded function
-        ssize_t temp_len = getComment(name, tmp_len+1, comment_C);
-        if (temp_len < 0)
-        {
-            delete []comment_C;
+        ssize_t temp_len = getComment(name, tmp_len + 1, comment_C);
+        if (temp_len < 0) {
+            delete[] comment_C;
             throw LocationException("H5Location::getComment", "H5Oget_comment_by_name failed");
         }
 
@@ -370,11 +381,11 @@ H5std_string H5Location::getComment(const char* name, size_t buf_size) const
         comment = comment_C;
 
         // Clean up resource
-        delete []comment_C;
+        delete[] comment_C;
     }
 
     // Return the string comment
-    return(comment);
+    return (comment);
 }
 
 //--------------------------------------------------------------------------
@@ -384,10 +395,12 @@ H5std_string H5Location::getComment(const char* name, size_t buf_size) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000 (moved from CommonFG, Sep 2013)
 //--------------------------------------------------------------------------
-H5std_string H5Location::getComment(const H5std_string& name, size_t buf_size) const
+H5std_string
+H5Location::getComment(const H5std_string &name, size_t buf_size) const
 {
-    return(getComment(name.c_str(), buf_size));
+    return (getComment(name.c_str(), buf_size));
 }
+
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
@@ -400,11 +413,11 @@ H5std_string H5Location::getComment(const H5std_string& name, size_t buf_size) c
 // Exception    H5::ReferenceException
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-void H5Location::p_reference(void* ref, const char* name, hid_t space_id, H5R_type_t ref_type) const
+void
+H5Location::p_reference(void *ref, const char *name, hid_t space_id, H5R_type_t ref_type) const
 {
     herr_t ret_value = H5Rcreate(ref, getId(), name, ref_type, space_id);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw ReferenceException(inMemFunc("reference"), "H5Rcreate failed");
     }
 }
@@ -425,12 +438,13 @@ void H5Location::p_reference(void* ref, const char* name, hid_t space_id, H5R_ty
 ///\note        This method is more suitable for a dataset region reference.
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-void H5Location::reference(void* ref, const char* name, const DataSpace& dataspace, H5R_type_t ref_type) const
+void
+H5Location::reference(void *ref, const char *name, const DataSpace &dataspace, H5R_type_t ref_type) const
 {
     try {
         p_reference(ref, name, dataspace.getId(), ref_type);
     }
-    catch (ReferenceException& E) {
+    catch (ReferenceException &E) {
         throw ReferenceException(inMemFunc("reference"), E.getDetailMsg());
     }
 }
@@ -451,12 +465,14 @@ void H5Location::reference(void* ref, const char* name, const DataSpace& dataspa
 ///\note        This method is more suitable for a dataset region reference.
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-void H5Location::reference(void* ref, const H5std_string& name, const DataSpace& dataspace, H5R_type_t ref_type) const
+void
+H5Location::reference(void *ref, const H5std_string &name, const DataSpace &dataspace,
+                      H5R_type_t ref_type) const
 {
     try {
         p_reference(ref, name.c_str(), dataspace.getId(), ref_type);
     }
-    catch (ReferenceException& E) {
+    catch (ReferenceException &E) {
         throw ReferenceException(inMemFunc("reference"), E.getDetailMsg());
     }
 }
@@ -475,12 +491,13 @@ void H5Location::reference(void* ref, const H5std_string& name, const DataSpace&
 ///\note        This method is more suitable for an object reference.
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-void H5Location::reference(void* ref, const char* name, H5R_type_t ref_type) const
+void
+H5Location::reference(void *ref, const char *name, H5R_type_t ref_type) const
 {
     try {
         p_reference(ref, name, -1, ref_type);
     }
-    catch (ReferenceException& E) {
+    catch (ReferenceException &E) {
         throw ReferenceException(inMemFunc("reference"), E.getDetailMsg());
     }
 }
@@ -498,9 +515,10 @@ void H5Location::reference(void* ref, const char* name, H5R_type_t ref_type) con
 ///\note        This method is more suitable for an object reference.
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-void H5Location::reference(void* ref, const H5std_string& name, H5R_type_t ref_type) const
+void
+H5Location::reference(void *ref, const H5std_string &name, H5R_type_t ref_type) const
 {
-   reference(ref, name.c_str(), ref_type);
+    reference(ref, name.c_str(), ref_type);
 }
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
@@ -517,7 +535,9 @@ void H5Location::reference(void* ref, const H5std_string& name, H5R_type_t ref_t
 // Exception    H5::ReferenceException
 // Programmer   Binh-Minh Ribler - Oct, 2006
 //--------------------------------------------------------------------------
-hid_t H5Location::p_dereference(hid_t loc_id, const void* ref, H5R_type_t ref_type, const PropList& plist, const char* from_func)
+hid_t
+H5Location::p_dereference(hid_t loc_id, const void *ref, H5R_type_t ref_type, const PropList &plist,
+                          const char *from_func)
 {
     hid_t plist_id;
     if (p_valid_id(plist.getId()))
@@ -526,12 +546,11 @@ hid_t H5Location::p_dereference(hid_t loc_id, const void* ref, H5R_type_t ref_ty
         plist_id = H5P_DEFAULT;
 
     hid_t temp_id = H5Rdereference2(loc_id, plist_id, ref_type, ref);
-    if (temp_id < 0)
-    {
+    if (temp_id < 0) {
         throw ReferenceException(inMemFunc(from_func), "H5Rdereference2 failed");
     }
 
-    return(temp_id);
+    return (temp_id);
 }
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -545,7 +564,8 @@ hid_t H5Location::p_dereference(hid_t loc_id, const void* ref, H5R_type_t ref_ty
 ///\exception   H5::ReferenceException
 // Programmer   Binh-Minh Ribler - Oct, 2006
 //--------------------------------------------------------------------------
-void H5Location::dereference(const H5Location& loc, const void* ref, H5R_type_t ref_type, const PropList& plist)
+void
+H5Location::dereference(const H5Location &loc, const void *ref, H5R_type_t ref_type, const PropList &plist)
 {
     p_setId(p_dereference(loc.getId(), ref, ref_type, plist, "dereference"));
 }
@@ -564,11 +584,12 @@ void H5Location::dereference(const H5Location& loc, const void* ref, H5R_type_t 
 //              Removed in 1.10.1 because H5Location is Attribute's baseclass
 //              now. -BMR
 //--------------------------------------------------------------------------
- /* void H5Location::dereference(const Attribute& attr, const void* ref, H5R_type_t ref_type, const PropList& plist)
+/* void H5Location::dereference(const Attribute& attr, const void* ref, H5R_type_t ref_type, const PropList&
+plist)
 {
-   p_setId(p_dereference(attr.getId(), ref, ref_type, plist, "dereference"));
+  p_setId(p_dereference(attr.getId(), ref, ref_type, plist, "dereference"));
 }
- */
+*/
 
 #ifndef H5_NO_DEPRECATED_SYMBOLS
 //--------------------------------------------------------------------------
@@ -590,12 +611,13 @@ void H5Location::dereference(const H5Location& loc, const void* ref, H5R_type_t 
 // Modification
 //      Sep 2012: Moved up from H5File, Group, DataSet, and DataType
 //--------------------------------------------------------------------------
-H5G_obj_t H5Location::getObjType(void *ref, H5R_type_t ref_type) const
+H5G_obj_t
+H5Location::getObjType(void *ref, H5R_type_t ref_type) const
 {
     try {
-        return(p_get_obj_type(ref, ref_type));
+        return (p_get_obj_type(ref, ref_type));
     }
-    catch (ReferenceException& E) {
+    catch (ReferenceException &E) {
         throw ReferenceException(inMemFunc("getObjType"), E.getDetailMsg());
     }
 }
@@ -617,16 +639,17 @@ H5G_obj_t H5Location::getObjType(void *ref, H5R_type_t ref_type) const
 // Exception    H5::ReferenceException
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-H5G_obj_t H5Location::p_get_obj_type(void *ref, H5R_type_t ref_type) const
+H5G_obj_t
+H5Location::p_get_obj_type(void *ref, H5R_type_t ref_type) const
 {
-   H5G_obj_t obj_type = H5Rget_obj_type1(getId(), ref_type, ref);
-   if (obj_type == H5G_UNKNOWN)
-    {
+    H5G_obj_t obj_type = H5Rget_obj_type1(getId(), ref_type, ref);
+    if (obj_type == H5G_UNKNOWN) {
         throw ReferenceException(inMemFunc("getObjType"), "H5Rget_obj_type1 failed");
     }
-   return(obj_type);
+    return (obj_type);
 }
 #endif // DOXYGEN_SHOULD_SKIP_THIS
+
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
 
 //--------------------------------------------------------------------------
@@ -645,12 +668,13 @@ H5G_obj_t H5Location::p_get_obj_type(void *ref, H5R_type_t ref_type) const
 ///\exception   H5::ReferenceException
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-H5O_type_t H5Location::getRefObjType(void *ref, H5R_type_t ref_type) const
+H5O_type_t
+H5Location::getRefObjType(void *ref, H5R_type_t ref_type) const
 {
     try {
-      return(p_get_ref_obj_type(ref, ref_type));
+        return (p_get_ref_obj_type(ref, ref_type));
     }
-    catch (ReferenceException& E) {
+    catch (ReferenceException &E) {
         throw ReferenceException(inMemFunc("getRefObjType"), E.getDetailMsg());
     }
 }
@@ -671,21 +695,20 @@ H5O_type_t H5Location::getRefObjType(void *ref, H5R_type_t ref_type) const
 // Exception    H5::ReferenceException
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-H5O_type_t H5Location::p_get_ref_obj_type(void *ref, H5R_type_t ref_type) const
+H5O_type_t
+H5Location::p_get_ref_obj_type(void *ref, H5R_type_t ref_type) const
 {
-    H5O_type_t obj_type = H5O_TYPE_UNKNOWN;
-    herr_t ret_value = H5Rget_obj_type2(getId(), ref_type, ref, &obj_type);
-    if (ret_value < 0)
-    {
+    H5O_type_t obj_type  = H5O_TYPE_UNKNOWN;
+    herr_t     ret_value = H5Rget_obj_type2(getId(), ref_type, ref, &obj_type);
+    if (ret_value < 0) {
         throw ReferenceException(inMemFunc("getRefObjType"), "H5Rget_obj_type2 failed");
     }
-    if (obj_type == H5O_TYPE_UNKNOWN || obj_type >= H5O_TYPE_NTYPES)
-    {
+    if (obj_type == H5O_TYPE_UNKNOWN || obj_type >= H5O_TYPE_NTYPES) {
         throw ReferenceException(inMemFunc("getRefObjType"), "H5Rget_obj_type2 returned invalid type");
     }
-    return(obj_type);
+    return (obj_type);
 }
-
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 //--------------------------------------------------------------------------
 // Function:    H5Location::getRegion
@@ -703,23 +726,22 @@ H5O_type_t H5Location::p_get_ref_obj_type(void *ref, H5R_type_t ref_type) const
 //              ref count, as a work-around for a problem described in the JIRA
 //              issue HDFFV-7947. -BMR
 //--------------------------------------------------------------------------
-DataSpace H5Location::getRegion(void *ref, H5R_type_t ref_type) const
+DataSpace
+H5Location::getRegion(void *ref, H5R_type_t ref_type) const
 {
     hid_t space_id = H5Rget_region(getId(), ref_type, ref);
-    if (space_id < 0)
-    {
+    if (space_id < 0) {
         throw ReferenceException(inMemFunc("getRegion"), "H5Rget_region failed");
     }
     try {
         DataSpace dataspace;
         f_DataSpace_setId(&dataspace, space_id);
-        return(dataspace);
+        return (dataspace);
     }
-    catch (DataSpaceIException& E) {
+    catch (DataSpaceIException &E) {
         throw ReferenceException(inMemFunc("getRegion"), E.getDetailMsg());
     }
 }
-
 
 // From H5CommonFG.cpp
 // Notes with "***Updated" are new and for Group.cpp
@@ -768,7 +790,8 @@ DataSpace H5Location::getRegion(void *ref, H5R_type_t ref_type) const
 ///             then a default size is chosen.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Group H5Location::createGroup(const char* name, const LinkCreatPropList& lcpl) const
+Group
+H5Location::createGroup(const char *name, const LinkCreatPropList &lcpl) const
 {
     // Call C routine H5Gcreate2 to create the named group, giving the
     // location id which can be a file id or a group id
@@ -779,10 +802,10 @@ Group H5Location::createGroup(const char* name, const LinkCreatPropList& lcpl) c
         throwException("createGroup", "H5Gcreate2 failed");
 
     // No failure, create and return the Group object
-    Group group;
+    Group       group;
     H5Location *ptr = &group;
     ptr->p_setId(group_id);
-    return(group);
+    return (group);
 }
 
 //--------------------------------------------------------------------------
@@ -792,9 +815,10 @@ Group H5Location::createGroup(const char* name, const LinkCreatPropList& lcpl) c
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Group H5Location::createGroup(const H5std_string& name, const LinkCreatPropList& lcpl) const
+Group
+H5Location::createGroup(const H5std_string &name, const LinkCreatPropList &lcpl) const
 {
-    return(createGroup( name.c_str(), lcpl));
+    return (createGroup(name.c_str(), lcpl));
 }
 
 //--------------------------------------------------------------------------
@@ -813,22 +837,22 @@ Group H5Location::createGroup(const H5std_string& name, const LinkCreatPropList&
 ///             then a default size is chosen.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Group H5Location::createGroup(const char* name, size_t size_hint) const
+Group
+H5Location::createGroup(const char *name, size_t size_hint) const
 {
     // Group creation property list for size hint
     hid_t gcpl_id = 0;
 
     // Set the local heap size hint
-    if (size_hint > 0)
-     {
-       // If the creation of the property list failed, throw an exception
-       if ((gcpl_id = H5Pcreate(H5P_GROUP_CREATE)) < 0)
-          throwException("createGroup", "H5Pcreate failed");
+    if (size_hint > 0) {
+        // If the creation of the property list failed, throw an exception
+        if ((gcpl_id = H5Pcreate(H5P_GROUP_CREATE)) < 0)
+            throwException("createGroup", "H5Pcreate failed");
 
-       if (H5Pset_local_heap_size_hint(gcpl_id, size_hint) < 0) {
-          H5Pclose(gcpl_id);
-          throwException("createGroup", "H5Pset_local_heap_size_hint failed");
-       }
+        if (H5Pset_local_heap_size_hint(gcpl_id, size_hint) < 0) {
+            H5Pclose(gcpl_id);
+            throwException("createGroup", "H5Pset_local_heap_size_hint failed");
+        }
     }
 
     // Call C routine H5Gcreate2 to create the named group, giving the
@@ -836,18 +860,18 @@ Group H5Location::createGroup(const char* name, size_t size_hint) const
     hid_t group_id = H5Gcreate2(getId(), name, H5P_DEFAULT, gcpl_id, H5P_DEFAULT);
 
     // Close the group creation property list, if necessary
-    if(gcpl_id > 0)
-       H5Pclose(gcpl_id);
+    if (gcpl_id > 0)
+        H5Pclose(gcpl_id);
 
     // If the creation of the group failed, throw an exception
     if (group_id < 0)
         throwException("createGroup", "H5Gcreate2 failed");
 
     // No failure, create and return the Group object
-    Group group;
+    Group       group;
     H5Location *ptr = &group;
     ptr->p_setId(group_id);
-    return(group);
+    return (group);
 }
 
 //--------------------------------------------------------------------------
@@ -857,9 +881,10 @@ Group H5Location::createGroup(const char* name, size_t size_hint) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Group H5Location::createGroup(const H5std_string& name, size_t size_hint) const
+Group
+H5Location::createGroup(const H5std_string &name, size_t size_hint) const
 {
-    return(createGroup( name.c_str(), size_hint));
+    return (createGroup(name.c_str(), size_hint));
 }
 
 //--------------------------------------------------------------------------
@@ -871,7 +896,8 @@ Group H5Location::createGroup(const H5std_string& name, size_t size_hint) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Group H5Location::openGroup(const char* name) const
+Group
+H5Location::openGroup(const char *name) const
 {
     // Call C routine H5Gopen2 to open the named group, giving the
     // location id which can be a file id or a group id
@@ -883,10 +909,10 @@ Group H5Location::openGroup(const char* name) const
 
     // No failure, create and return the Group object
     Group group;
-    //group.p_setId(group_id);
+    // group.p_setId(group_id);
     H5Location *ptr = &group;
     ptr->p_setId(group_id);
-    return(group);
+    return (group);
 }
 
 //--------------------------------------------------------------------------
@@ -896,9 +922,10 @@ Group H5Location::openGroup(const char* name) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Group H5Location::openGroup(const H5std_string& name) const
+Group
+H5Location::openGroup(const H5std_string &name) const
 {
-    return(openGroup( name.c_str()));
+    return (openGroup(name.c_str()));
 }
 
 //--------------------------------------------------------------------------
@@ -919,14 +946,17 @@ Group H5Location::openGroup(const H5std_string& name) const
 //              follow the order in the C function: lcpl, dcpl, dapl, to
 //              accommodate the existing createDataSet calls.
 //--------------------------------------------------------------------------
-DataSet H5Location::createDataSet(const char* name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& dcpl, const DSetAccPropList& dapl, const LinkCreatPropList& lcpl) const
+DataSet
+H5Location::createDataSet(const char *name, const DataType &data_type, const DataSpace &data_space,
+                          const DSetCreatPropList &dcpl, const DSetAccPropList &dapl,
+                          const LinkCreatPropList &lcpl) const
 {
-   // Obtain identifiers for C API
-    hid_t type_id = data_type.getId();
+    // Obtain identifiers for C API
+    hid_t type_id  = data_type.getId();
     hid_t space_id = data_space.getId();
-    hid_t dcpl_id = dcpl.getId();
-    hid_t lcpl_id = lcpl.getId();
-    hid_t dapl_id = dapl.getId();
+    hid_t dcpl_id  = dcpl.getId();
+    hid_t lcpl_id  = lcpl.getId();
+    hid_t dapl_id  = dapl.getId();
 
     // Call C routine H5Dcreate2 to create the named dataset
     hid_t dataset_id = H5Dcreate2(getId(), name, type_id, space_id, lcpl_id, dcpl_id, dapl_id);
@@ -938,7 +968,7 @@ DataSet H5Location::createDataSet(const char* name, const DataType& data_type, c
     // No failure, create and return the DataSet object
     DataSet dataset;
     f_DataSet_setId(&dataset, dataset_id);
-    return(dataset);
+    return (dataset);
 }
 
 //--------------------------------------------------------------------------
@@ -953,9 +983,12 @@ DataSet H5Location::createDataSet(const char* name, const DataType& data_type, c
 //              follow the order in the C function: lcpl, dcpl, dapl, to
 //              accommodate the existing createDataSet calls.
 //--------------------------------------------------------------------------
-DataSet H5Location::createDataSet(const H5std_string& name, const DataType& data_type, const DataSpace& data_space, const DSetCreatPropList& dcpl, const DSetAccPropList& dapl, const LinkCreatPropList& lcpl) const
+DataSet
+H5Location::createDataSet(const H5std_string &name, const DataType &data_type, const DataSpace &data_space,
+                          const DSetCreatPropList &dcpl, const DSetAccPropList &dapl,
+                          const LinkCreatPropList &lcpl) const
 {
-    return(createDataSet(name.c_str(), data_type, data_space, dcpl, dapl, lcpl));
+    return (createDataSet(name.c_str(), data_type, data_space, dcpl, dapl, lcpl));
 }
 
 //--------------------------------------------------------------------------
@@ -969,21 +1002,22 @@ DataSet H5Location::createDataSet(const H5std_string& name, const DataType& data
 //      Jul 2018
 //              Added DSetAccPropList argument
 //--------------------------------------------------------------------------
-DataSet H5Location::openDataSet(const char* name, const DSetAccPropList& dapl) const
+DataSet
+H5Location::openDataSet(const char *name, const DSetAccPropList &dapl) const
 {
     // Call C function H5Dopen2 to open the specified dataset, giving
     // the location id and the dataset's name
-    hid_t dapl_id = dapl.getId();
+    hid_t dapl_id    = dapl.getId();
     hid_t dataset_id = H5Dopen2(getId(), name, dapl_id);
 
     // If the dataset's opening failed, throw an exception
-    if(dataset_id < 0)
+    if (dataset_id < 0)
         throwException("openDataSet", "H5Dopen2 failed");
 
     // No failure, create and return the DataSet object
     DataSet dataset;
     f_DataSet_setId(&dataset, dataset_id);
-    return(dataset);
+    return (dataset);
 }
 
 //--------------------------------------------------------------------------
@@ -996,9 +1030,10 @@ DataSet H5Location::openDataSet(const char* name, const DSetAccPropList& dapl) c
 //      Jul 2018
 //              Added DSetAccPropList argument
 //--------------------------------------------------------------------------
-DataSet H5Location::openDataSet(const H5std_string& name, const DSetAccPropList& dapl) const
+DataSet
+H5Location::openDataSet(const H5std_string &name, const DSetAccPropList &dapl) const
 {
-    return(openDataSet(name.c_str(), dapl));
+    return (openDataSet(name.c_str(), dapl));
 }
 
 //--------------------------------------------------------------------------
@@ -1016,12 +1051,13 @@ DataSet H5Location::openDataSet(const H5std_string& name, const DSetAccPropList&
 ///             H5Lcreate_soft APIs in the HDF5 C Reference Manual.
 //  March 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const char *target_name, const char *link_name,
-             const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::link(const char *target_name, const char *link_name, const LinkCreatPropList &lcpl,
+                 const LinkAccPropList &lapl) const
 {
     herr_t ret_value = -1;
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    hid_t  lcpl_id   = lcpl.getId();
+    hid_t  lapl_id   = lapl.getId();
 
     ret_value = H5Lcreate_soft(target_name, getId(), link_name, lcpl_id, lapl_id);
     if (ret_value < 0)
@@ -1036,8 +1072,9 @@ void H5Location::link(const char *target_name, const char *link_name,
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const H5std_string& target_name, const H5std_string&
-             link_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::link(const H5std_string &target_name, const H5std_string &link_name,
+                 const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     link(target_name.c_str(), link_name.c_str(), lcpl, lapl);
 }
@@ -1058,16 +1095,17 @@ void H5Location::link(const H5std_string& target_name, const H5std_string&
 ///             H5Lcreate_hard APIs in the HDF5 C Reference Manual.
 //  March 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const char *curr_name, const Group& new_loc,
-             const char *new_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::link(const char *curr_name, const Group &new_loc, const char *new_name,
+                 const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
-    herr_t ret_value = -1;
-    hid_t new_loc_id = new_loc.getId();
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    herr_t ret_value  = -1;
+    hid_t  new_loc_id = new_loc.getId();
+    hid_t  lcpl_id    = lcpl.getId();
+    hid_t  lapl_id    = lapl.getId();
 
     ret_value = H5Lcreate_hard(getId(), curr_name, new_loc_id, new_name, lcpl_id, lapl_id);
-   if (ret_value < 0)
+    if (ret_value < 0)
         throwException("link", "creating link failed");
 }
 
@@ -1079,8 +1117,9 @@ void H5Location::link(const char *curr_name, const Group& new_loc,
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const H5std_string& curr_name, const Group& new_loc,
-             const H5std_string& new_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::link(const H5std_string &curr_name, const Group &new_loc, const H5std_string &new_name,
+                 const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     link(curr_name.c_str(), new_loc, new_name.c_str(), lcpl, lapl);
 }
@@ -1102,15 +1141,17 @@ void H5Location::link(const H5std_string& curr_name, const Group& new_loc,
 ///             H5Lcreate_hard APIs in the HDF5 C Reference Manual.
 //  March 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const char *curr_name, const hid_t same_loc, const char *new_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::link(const char *curr_name, const hid_t same_loc, const char *new_name,
+                 const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     herr_t ret_value = -1;
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    hid_t  lcpl_id   = lcpl.getId();
+    hid_t  lapl_id   = lapl.getId();
 
     ret_value = H5Lcreate_hard(getId(), curr_name, same_loc, new_name, lcpl_id, lapl_id);
 
-   if (ret_value < 0)
+    if (ret_value < 0)
         throwException("link", "creating link failed");
 }
 
@@ -1122,8 +1163,9 @@ void H5Location::link(const char *curr_name, const hid_t same_loc, const char *n
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::link(const H5std_string& curr_name, const hid_t same_loc,
-             const H5std_string& new_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::link(const H5std_string &curr_name, const hid_t same_loc, const H5std_string &new_name,
+                 const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     link(curr_name.c_str(), same_loc, new_name.c_str(), lcpl, lapl);
 }
@@ -1152,17 +1194,18 @@ void H5Location::link(const H5std_string& curr_name, const hid_t same_loc,
 //              H5L_SAME_LOC.  This function will be retired in favor of
 //              its replacement. - BMR
 //--------------------------------------------------------------------------
-void H5Location::link(H5L_type_t link_type, const char* curr_name, const char* new_name) const
+void
+H5Location::link(H5L_type_t link_type, const char *curr_name, const char *new_name) const
 {
     herr_t ret_value = -1;
 
-    switch(link_type) {
+    switch (link_type) {
         case H5L_TYPE_HARD:
             ret_value = H5Lcreate_hard(getId(), curr_name, H5L_SAME_LOC, new_name, H5P_DEFAULT, H5P_DEFAULT);
             break;
 
         case H5L_TYPE_SOFT:
-            ret_value = H5Lcreate_soft(curr_name,getId(), new_name, H5P_DEFAULT, H5P_DEFAULT);
+            ret_value = H5Lcreate_soft(curr_name, getId(), new_name, H5P_DEFAULT, H5P_DEFAULT);
             break;
 
         case H5L_TYPE_ERROR:
@@ -1173,7 +1216,7 @@ void H5Location::link(H5L_type_t link_type, const char* curr_name, const char* n
             break;
     } /* end switch */
 
-   if (ret_value < 0)
+    if (ret_value < 0)
         throwException("link", "creating link failed");
 }
 
@@ -1184,7 +1227,8 @@ void H5Location::link(H5L_type_t link_type, const char* curr_name, const char* n
 ///             \c H5std_string for \a curr_name and \a new_name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void H5Location::link(H5L_type_t link_type, const H5std_string& curr_name, const H5std_string& new_name) const
+void
+H5Location::link(H5L_type_t link_type, const H5std_string &curr_name, const H5std_string &new_name) const
 {
     link(link_type, curr_name.c_str(), new_name.c_str());
 }
@@ -1200,17 +1244,17 @@ void H5Location::link(H5L_type_t link_type, const H5std_string& curr_name, const
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::copyLink(const char *src_name,
-        const Group& dst, const char *dst_name, const LinkCreatPropList& lcpl,
-        const LinkAccPropList& lapl) const
+void
+H5Location::copyLink(const char *src_name, const Group &dst, const char *dst_name,
+                     const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     herr_t ret_value;
-    hid_t dst_id = dst.getId();
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    hid_t  dst_id  = dst.getId();
+    hid_t  lcpl_id = lcpl.getId();
+    hid_t  lapl_id = lapl.getId();
 
     ret_value = H5Lcopy(getId(), src_name, dst_id, dst_name, lcpl_id, lapl_id);
-    if(ret_value < 0)
+    if (ret_value < 0)
         throwException("copyLink", "H5Lcopy failed");
 }
 
@@ -1222,9 +1266,9 @@ void H5Location::copyLink(const char *src_name,
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::copyLink(const H5std_string& src_name,
-        const Group& dst, const H5std_string& dst_name, const LinkCreatPropList& lcpl,
-        const LinkAccPropList& lapl) const
+void
+H5Location::copyLink(const H5std_string &src_name, const Group &dst, const H5std_string &dst_name,
+                     const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     copyLink(src_name.c_str(), dst, dst_name.c_str(), lcpl, lapl);
 }
@@ -1239,16 +1283,16 @@ void H5Location::copyLink(const H5std_string& src_name,
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::copyLink(const char *src_name,
-        const char *dst_name, const LinkCreatPropList& lcpl,
-        const LinkAccPropList& lapl) const
+void
+H5Location::copyLink(const char *src_name, const char *dst_name, const LinkCreatPropList &lcpl,
+                     const LinkAccPropList &lapl) const
 {
     herr_t ret_value;
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    hid_t  lcpl_id = lcpl.getId();
+    hid_t  lapl_id = lapl.getId();
 
     ret_value = H5Lcopy(getId(), src_name, H5L_SAME_LOC, dst_name, lcpl_id, lapl_id);
-    if(ret_value < 0)
+    if (ret_value < 0)
         throwException("copyLink", "H5Lcopy H5L_SAME_LOC failed");
 }
 
@@ -1260,9 +1304,9 @@ void H5Location::copyLink(const char *src_name,
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::copyLink(const H5std_string& src_name,
-        const H5std_string& dst_name, const LinkCreatPropList& lcpl,
-        const LinkAccPropList& lapl) const
+void
+H5Location::copyLink(const H5std_string &src_name, const H5std_string &dst_name,
+                     const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     copyLink(src_name.c_str(), dst_name.c_str(), lcpl, lapl);
 }
@@ -1282,12 +1326,14 @@ void H5Location::copyLink(const H5std_string& src_name,
 ///             to the Group Interface in the HDF5 User's Guide for details.
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::moveLink(const char* src_name, const Group& dst, const char* dst_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::moveLink(const char *src_name, const Group &dst, const char *dst_name,
+                     const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     herr_t ret_value;
-    hid_t dst_id = dst.getId();
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    hid_t  dst_id  = dst.getId();
+    hid_t  lcpl_id = lcpl.getId();
+    hid_t  lapl_id = lapl.getId();
 
     ret_value = H5Lmove(getId(), src_name, dst_id, dst_name, lcpl_id, lapl_id);
     if (ret_value < 0)
@@ -1302,7 +1348,9 @@ void H5Location::moveLink(const char* src_name, const Group& dst, const char* ds
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::moveLink(const H5std_string& src_name, const Group& dst, const H5std_string& dst_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::moveLink(const H5std_string &src_name, const Group &dst, const H5std_string &dst_name,
+                     const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     moveLink(src_name.c_str(), dst, dst_name.c_str(), lcpl, lapl);
 }
@@ -1321,11 +1369,13 @@ void H5Location::moveLink(const H5std_string& src_name, const Group& dst, const 
 ///             to the Group Interface in the HDF5 User's Guide for details.
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::moveLink(const char* src_name, const char* dst_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::moveLink(const char *src_name, const char *dst_name, const LinkCreatPropList &lcpl,
+                     const LinkAccPropList &lapl) const
 {
     herr_t ret_value;
-    hid_t lcpl_id = lcpl.getId();
-    hid_t lapl_id = lapl.getId();
+    hid_t  lcpl_id = lcpl.getId();
+    hid_t  lapl_id = lapl.getId();
 
     ret_value = H5Lmove(getId(), src_name, H5L_SAME_LOC, dst_name, lcpl_id, lapl_id);
     if (ret_value < 0)
@@ -1340,7 +1390,9 @@ void H5Location::moveLink(const char* src_name, const char* dst_name, const Link
 ///\exception   H5::FileIException or H5::GroupIException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::moveLink(const H5std_string& src_name, const H5std_string& dst_name, const LinkCreatPropList& lcpl, const LinkAccPropList& lapl) const
+void
+H5Location::moveLink(const H5std_string &src_name, const H5std_string &dst_name,
+                     const LinkCreatPropList &lcpl, const LinkAccPropList &lapl) const
 {
     moveLink(src_name.c_str(), dst_name.c_str(), lcpl, lapl);
 }
@@ -1359,7 +1411,8 @@ void H5Location::moveLink(const H5std_string& src_name, const H5std_string& dst_
 //      2007: QAK modified to use H5L APIs - BMR
 //      2018: Will be replaced by H5Location::moveLink() -BMR
 //--------------------------------------------------------------------------
-void H5Location::move(const char* src, const char* dst) const
+void
+H5Location::move(const char *src, const char *dst) const
 {
     moveLink(src, dst, LinkCreatPropList::DEFAULT, LinkAccPropList::DEFAULT);
 }
@@ -1372,7 +1425,8 @@ void H5Location::move(const char* src, const char* dst) const
 // Modification
 //      2018: Will be replaced by H5Location::moveLink() -BMR
 //--------------------------------------------------------------------------
-void H5Location::move(const H5std_string& src, const H5std_string& dst) const
+void
+H5Location::move(const H5std_string &src, const H5std_string &dst) const
 {
     moveLink(src.c_str(), dst.c_str(), LinkCreatPropList::DEFAULT, LinkAccPropList::DEFAULT);
 }
@@ -1384,7 +1438,8 @@ void H5Location::move(const H5std_string& src, const H5std_string& dst) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::unlink(const char* name, const LinkAccPropList& lapl) const
+void
+H5Location::unlink(const char *name, const LinkAccPropList &lapl) const
 {
     herr_t ret_value = H5Ldelete(getId(), name, lapl.getId());
     if (ret_value < 0)
@@ -1398,7 +1453,8 @@ void H5Location::unlink(const char* name, const LinkAccPropList& lapl) const
 ///             \c H5std_string for \a name.
 // March, 2018
 //--------------------------------------------------------------------------
-void H5Location::unlink(const H5std_string& name, const LinkAccPropList& lapl) const
+void
+H5Location::unlink(const H5std_string &name, const LinkAccPropList &lapl) const
 {
     unlink(name.c_str(), lapl);
 }
@@ -1418,7 +1474,8 @@ void H5Location::unlink(const H5std_string& name, const LinkAccPropList& lapl) c
 ///             \li \c H5O_INFO_ALL
 // July, 2018
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(H5O_info_t& objinfo, unsigned fields) const
+void
+H5Location::getObjinfo(H5O_info_t &objinfo, unsigned fields) const
 {
 
     // Use C API to get information of the object
@@ -1447,7 +1504,9 @@ void H5Location::getObjinfo(H5O_info_t& objinfo, unsigned fields) const
 ///             \li \c H5O_INFO_ALL
 // July, 2018
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const char* name, H5O_info_t& objinfo, unsigned fields, const LinkAccPropList& lapl) const
+void
+H5Location::getObjinfo(const char *name, H5O_info_t &objinfo, unsigned fields,
+                       const LinkAccPropList &lapl) const
 {
     // Use C API to get information of the object
     herr_t ret_value = H5Oget_info_by_name2(getId(), name, &objinfo, fields, lapl.getId());
@@ -1469,7 +1528,9 @@ void H5Location::getObjinfo(const char* name, H5O_info_t& objinfo, unsigned fiel
 ///\param       lapl - IN: Link access property list
 // July, 2018
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const H5std_string& name, H5O_info_t& objinfo, unsigned fields, const LinkAccPropList& lapl) const
+void
+H5Location::getObjinfo(const H5std_string &name, H5O_info_t &objinfo, unsigned fields,
+                       const LinkAccPropList &lapl) const
 {
     getObjinfo(name.c_str(), objinfo, fields, lapl);
 }
@@ -1495,13 +1556,13 @@ void H5Location::getObjinfo(const H5std_string& name, H5O_info_t& objinfo, unsig
 ///             \li \c H5O_INFO_ALL
 // July, 2018
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const char* grp_name, H5_index_t idx_type,
-     H5_iter_order_t order, hsize_t idx, H5O_info_t& objinfo, unsigned fields,
-     const LinkAccPropList& lapl) const
+void
+H5Location::getObjinfo(const char *grp_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t idx,
+                       H5O_info_t &objinfo, unsigned fields, const LinkAccPropList &lapl) const
 {
     // Use C API to get information of the object
-    herr_t ret_value = H5Oget_info_by_idx2(getId(), grp_name, idx_type, order,
-                       idx, &objinfo, fields, lapl.getId());
+    herr_t ret_value =
+        H5Oget_info_by_idx2(getId(), grp_name, idx_type, order, idx, &objinfo, fields, lapl.getId());
 
     // Throw exception if C API returns failure
     if (ret_value < 0)
@@ -1520,9 +1581,9 @@ void H5Location::getObjinfo(const char* grp_name, H5_index_t idx_type,
 ///\param       lapl - IN: Link access property list
 // July, 2018
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const H5std_string& grp_name, H5_index_t idx_type,
-     H5_iter_order_t order, hsize_t idx, H5O_info_t& objinfo, unsigned fields,
-     const LinkAccPropList& lapl) const
+void
+H5Location::getObjinfo(const H5std_string &grp_name, H5_index_t idx_type, H5_iter_order_t order, hsize_t idx,
+                       H5O_info_t &objinfo, unsigned fields, const LinkAccPropList &lapl) const
 {
     getObjinfo(grp_name.c_str(), idx_type, order, idx, objinfo, fields, lapl);
 }
@@ -1540,7 +1601,8 @@ void H5Location::getObjinfo(const H5std_string& grp_name, H5_index_t idx_type,
 ///             the HDF5 C Reference Manual.
 // 2000
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const char* name, hbool_t follow_link, H5G_stat_t& statbuf) const
+void
+H5Location::getObjinfo(const char *name, hbool_t follow_link, H5G_stat_t &statbuf) const
 {
     herr_t ret_value = H5Gget_objinfo(getId(), name, follow_link, &statbuf);
     if (ret_value < 0)
@@ -1554,7 +1616,8 @@ void H5Location::getObjinfo(const char* name, hbool_t follow_link, H5G_stat_t& s
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const H5std_string& name, hbool_t follow_link, H5G_stat_t& statbuf) const
+void
+H5Location::getObjinfo(const H5std_string &name, hbool_t follow_link, H5G_stat_t &statbuf) const
 {
     getObjinfo(name.c_str(), follow_link, statbuf);
 }
@@ -1566,7 +1629,8 @@ void H5Location::getObjinfo(const H5std_string& name, hbool_t follow_link, H5G_s
 ///             the paramemter \a follow_link.
 // Nov, 2005
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const char* name, H5G_stat_t& statbuf) const
+void
+H5Location::getObjinfo(const char *name, H5G_stat_t &statbuf) const
 {
     herr_t ret_value = H5Gget_objinfo(getId(), name, 0, &statbuf);
     if (ret_value < 0)
@@ -1580,7 +1644,8 @@ void H5Location::getObjinfo(const char* name, H5G_stat_t& statbuf) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - Nov, 2005
 //--------------------------------------------------------------------------
-void H5Location::getObjinfo(const H5std_string& name, H5G_stat_t& statbuf) const
+void
+H5Location::getObjinfo(const H5std_string &name, H5G_stat_t &statbuf) const
 {
     getObjinfo(name.c_str(), statbuf);
 }
@@ -1596,7 +1661,8 @@ void H5Location::getObjinfo(const H5std_string& name, H5G_stat_t& statbuf) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // 2000
 //--------------------------------------------------------------------------
-H5L_info_t H5Location::getLinkInfo(const char* link_name, const LinkAccPropList& lapl) const
+H5L_info_t
+H5Location::getLinkInfo(const char *link_name, const LinkAccPropList &lapl) const
 {
     H5L_info_t linkinfo; // link info structure
 
@@ -1604,7 +1670,7 @@ H5L_info_t H5Location::getLinkInfo(const char* link_name, const LinkAccPropList&
     if (ret_value < 0)
         throwException("getLinkInfo", "H5Lget_info to find buffer size failed");
 
-    return(linkinfo);
+    return (linkinfo);
 }
 
 //--------------------------------------------------------------------------
@@ -1613,9 +1679,10 @@ H5L_info_t H5Location::getLinkInfo(const char* link_name, const LinkAccPropList&
 ///             It differs from the above function in that it takes an
 ///             \c H5std_string for \a link_name.
 //--------------------------------------------------------------------------
-H5L_info_t H5Location::getLinkInfo(const H5std_string& link_name, const LinkAccPropList& lapl) const
+H5L_info_t
+H5Location::getLinkInfo(const H5std_string &link_name, const LinkAccPropList &lapl) const
 {
-    return(getLinkInfo(link_name.c_str(), lapl));
+    return (getLinkInfo(link_name.c_str(), lapl));
 }
 
 //--------------------------------------------------------------------------
@@ -1627,17 +1694,17 @@ H5L_info_t H5Location::getLinkInfo(const H5std_string& link_name, const LinkAccP
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // 2000
 //--------------------------------------------------------------------------
-H5std_string H5Location::getLinkval(const char* name, size_t size) const
+H5std_string
+H5Location::getLinkval(const char *name, size_t size) const
 {
-    H5L_info_t linkinfo;
-    char *value_C;        // value in C string
-    size_t val_size = size;
-    H5std_string value = "";
-    herr_t ret_value;
+    H5L_info_t   linkinfo;
+    char *       value_C; // value in C string
+    size_t       val_size = size;
+    H5std_string value;
+    herr_t       ret_value;
 
     // if user doesn't provide buffer size, determine it
-    if (size == 0)
-    {
+    if (size == 0) {
         ret_value = H5Lget_info(getId(), name, &linkinfo, H5P_DEFAULT);
         if (ret_value < 0)
             throwException("getLinkval", "H5Lget_info to find buffer size failed");
@@ -1646,22 +1713,20 @@ H5std_string H5Location::getLinkval(const char* name, size_t size) const
     }
 
     // if link has value, retrieve the value, otherwise, return null string
-    if (val_size > 0)
-    {
-        value_C = new char[val_size+1];  // temporary C-string for C API
-        HDmemset(value_C, 0, val_size+1); // clear buffer
+    if (val_size > 0) {
+        value_C = new char[val_size + 1];   // temporary C-string for C API
+        HDmemset(value_C, 0, val_size + 1); // clear buffer
 
         ret_value = H5Lget_val(getId(), name, value_C, val_size, H5P_DEFAULT);
-        if (ret_value < 0)
-        {
-            delete []value_C;
+        if (ret_value < 0) {
+            delete[] value_C;
             throwException("getLinkval", "H5Lget_val failed");
         }
 
         value = H5std_string(value_C);
-        delete []value_C;
+        delete[] value_C;
     }
-    return(value);
+    return (value);
 }
 
 //--------------------------------------------------------------------------
@@ -1671,9 +1736,10 @@ H5std_string H5Location::getLinkval(const char* name, size_t size) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-H5std_string H5Location::getLinkval(const H5std_string& name, size_t size) const
+H5std_string
+H5Location::getLinkval(const H5std_string &name, size_t size) const
 {
-    return(getLinkval( name.c_str(), size));
+    return (getLinkval(name.c_str(), size));
 }
 
 //--------------------------------------------------------------------------
@@ -1685,7 +1751,8 @@ H5std_string H5Location::getLinkval(const H5std_string& name, size_t size) const
 ///\exception   H5::FileIException or H5::GroupIException
 // Programmer   Binh-Minh Ribler - 2014 (original 2000)
 //--------------------------------------------------------------------------
-void H5Location::mount(const char* name, const H5File& child, const PropList& plist) const
+void
+H5Location::mount(const char *name, const H5File &child, const PropList &plist) const
 {
     // Obtain identifiers for C API
     hid_t plist_id = plist.getId();
@@ -1714,7 +1781,7 @@ void H5Location::mount(const char* name, const H5File& child, const PropList& pl
 //              Removed from documentation. -BMR, 2016/03/07 1.8.17 and 1.10.0
 //              Removed from code. -BMR, 2016/08/11 1.8.18 and 1.10.1
 //--------------------------------------------------------------------------
-//void H5Location::mount(const char* name, H5File& child, PropList& plist) const
+// void H5Location::mount(const char* name, H5File& child, PropList& plist) const
 //{
 //   mount(name, child, plist);
 //}
@@ -1725,7 +1792,8 @@ void H5Location::mount(const char* name, const H5File& child, const PropList& pl
 ///             It takes an \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void H5Location::mount(const H5std_string& name, const H5File& child, const PropList& plist) const
+void
+H5Location::mount(const H5std_string &name, const H5File &child, const PropList &plist) const
 {
     mount(name.c_str(), child, plist);
 }
@@ -1741,7 +1809,7 @@ void H5Location::mount(const H5std_string& name, const H5File& child, const Prop
 //              Removed from documentation. -BMR, 2016/03/07 1.8.17 and 1.10.0
 //              Removed from code. -BMR, 2016/08/11 1.8.18 and 1.10.1
 //--------------------------------------------------------------------------
-//void H5Location::mount(const H5std_string& name, H5File& child, PropList& plist) const
+// void H5Location::mount(const H5std_string& name, H5File& child, PropList& plist) const
 //{
 //   mount(name.c_str(), child, plist);
 //}
@@ -1753,7 +1821,8 @@ void H5Location::mount(const H5std_string& name, const H5File& child, const Prop
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void H5Location::unmount(const char* name) const
+void
+H5Location::unmount(const char *name) const
 {
     // Call C routine H5Fmount to do the mouting
     herr_t ret_value = H5Funmount(getId(), name);
@@ -1770,7 +1839,8 @@ void H5Location::unmount(const char* name) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void H5Location::unmount(const H5std_string& name) const
+void
+H5Location::unmount(const H5std_string &name) const
 {
     unmount(name.c_str());
 }
@@ -1789,14 +1859,14 @@ void H5Location::unmount(const H5std_string& name) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-int H5Location::iterateElems(const char* name, int *idx, H5G_iterate_t op , void* op_data)
+int
+H5Location::iterateElems(const char *name, int *idx, H5G_iterate_t op, void *op_data)
 {
     int ret_value = H5Giterate(getId(), name, idx, op, op_data);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throwException("iterateElems", "H5Giterate failed");
     }
-    return(ret_value);
+    return (ret_value);
 }
 
 //--------------------------------------------------------------------------
@@ -1806,9 +1876,10 @@ int H5Location::iterateElems(const char* name, int *idx, H5G_iterate_t op , void
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-int H5Location::iterateElems(const H5std_string& name, int *idx, H5G_iterate_t op , void* op_data)
+int
+H5Location::iterateElems(const H5std_string &name, int *idx, H5G_iterate_t op, void *op_data)
 {
-    return(iterateElems( name.c_str(), idx, op, op_data));
+    return (iterateElems(name.c_str(), idx, op, op_data));
 }
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
 
@@ -1819,12 +1890,13 @@ int H5Location::iterateElems(const H5std_string& name, int *idx, H5G_iterate_t o
 ///\exception   Deprecated
 // Programmer   Binh-Minh Ribler - January, 2003
 //--------------------------------------------------------------------------
-hsize_t H5Location::getNumObjs() const
+hsize_t
+H5Location::getNumObjs() const
 {
-    H5G_info_t ginfo;      // Group information
+    H5G_info_t ginfo; // Group information
 
     herr_t ret_value = H5Gget_info(getId(), &ginfo);
-    if(ret_value < 0)
+    if (ret_value < 0)
         throwException("getNumObjs", "H5Gget_info failed");
     return (ginfo.nlinks);
 }
@@ -1844,28 +1916,30 @@ hsize_t H5Location::getNumObjs() const
 ///             each time the group is opened.
 // Programmer   Binh-Minh Ribler - Mar, 2005
 //--------------------------------------------------------------------------
-H5std_string H5Location::getObjnameByIdx(hsize_t idx) const
+H5std_string
+H5Location::getObjnameByIdx(hsize_t idx) const
 {
     // call H5Lget_name_by_idx with name as NULL to get its length
-    ssize_t name_len = H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, NULL, 0, H5P_DEFAULT);
-    if(name_len < 0)
+    ssize_t name_len =
+        H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, NULL, 0, H5P_DEFAULT);
+    if (name_len < 0)
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
 
     // now, allocate C buffer to get the name
-    char* name_C = new char[name_len+1];
-    HDmemset(name_C, 0, name_len+1); // clear buffer
+    char *name_C = new char[name_len + 1];
+    HDmemset(name_C, 0, name_len + 1); // clear buffer
 
-    name_len = H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name_C, name_len+1, H5P_DEFAULT);
+    name_len =
+        H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name_C, name_len + 1, H5P_DEFAULT);
 
-    if (name_len < 0)
-    {
-        delete []name_C;
+    if (name_len < 0) {
+        delete[] name_C;
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
     }
 
     // clean up and return the string
     H5std_string name = H5std_string(name_C);
-    delete []name_C;
+    delete[] name_C;
     return (name);
 }
 
@@ -1886,10 +1960,12 @@ H5std_string H5Location::getObjnameByIdx(hsize_t idx) const
 ///             each time the group is opened.
 // Programmer   Binh-Minh Ribler - January, 2003
 //--------------------------------------------------------------------------
-ssize_t H5Location::getObjnameByIdx(hsize_t idx, char* name, size_t size) const
+ssize_t
+H5Location::getObjnameByIdx(hsize_t idx, char *name, size_t size) const
 {
-    ssize_t name_len = H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name, size, H5P_DEFAULT);
-    if(name_len < 0)
+    ssize_t name_len =
+        H5Lget_name_by_idx(getId(), ".", H5_INDEX_NAME, H5_ITER_INC, idx, name, size, H5P_DEFAULT);
+    if (name_len < 0)
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
 
     return (name_len);
@@ -1902,22 +1978,22 @@ ssize_t H5Location::getObjnameByIdx(hsize_t idx, char* name, size_t size) const
 ///             \c H5std_string for \a name.
 // Programmer   Binh-Minh Ribler - January, 2003
 //--------------------------------------------------------------------------
-ssize_t H5Location::getObjnameByIdx(hsize_t idx, H5std_string& name, size_t size) const
+ssize_t
+H5Location::getObjnameByIdx(hsize_t idx, H5std_string &name, size_t size) const
 {
-    char* name_C = new char[size+1]; // temporary C-string for object name
-    HDmemset(name_C, 0, size+1); // clear buffer
+    char *name_C = new char[size + 1]; // temporary C-string for object name
+    HDmemset(name_C, 0, size + 1);     // clear buffer
 
     // call overloaded function to get the name
-    ssize_t name_len = getObjnameByIdx(idx, name_C, size+1);
-    if(name_len < 0)
-    {
-      delete []name_C;
+    ssize_t name_len = getObjnameByIdx(idx, name_C, size + 1);
+    if (name_len < 0) {
+        delete[] name_C;
         throwException("getObjnameByIdx", "H5Lget_name_by_idx failed");
     }
 
     // clean up and return the string
     name = H5std_string(name_C);
-    delete []name_C;
+    delete[] name_C;
     return (name_len);
 }
 
@@ -1939,7 +2015,8 @@ ssize_t H5Location::getObjnameByIdx(hsize_t idx, H5std_string& name, size_t size
 ///             - object type is not one of the valid values above
 // Programmer   Binh-Minh Ribler - April, 2014
 //--------------------------------------------------------------------------
-H5O_type_t H5Location::childObjType(const char* objname) const
+H5O_type_t
+H5Location::childObjType(const char *objname) const
 {
     H5O_info_t objinfo;
     H5O_type_t objtype = H5O_TYPE_UNKNOWN;
@@ -1952,19 +2029,18 @@ H5O_type_t H5Location::childObjType(const char* objname) const
         throwException("childObjType", "H5Oget_info_by_name failed");
     // Return a valid type or throw an exception for unknown type
     else
-        switch (objinfo.type)
-        {
-          case H5O_TYPE_GROUP:
-          case H5O_TYPE_DATASET:
-          case H5O_TYPE_NAMED_DATATYPE:
-              objtype = objinfo.type;
-              break;
-          case H5O_TYPE_UNKNOWN:
-          case H5O_TYPE_NTYPES:
-          default:
-              throwException("childObjType", "Unknown type of object");
+        switch (objinfo.type) {
+            case H5O_TYPE_GROUP:
+            case H5O_TYPE_DATASET:
+            case H5O_TYPE_NAMED_DATATYPE:
+                objtype = objinfo.type;
+                break;
+            case H5O_TYPE_UNKNOWN:
+            case H5O_TYPE_NTYPES:
+            default:
+                throwException("childObjType", "Unknown type of object");
         }
-    return(objtype);
+    return (objtype);
 }
 
 //--------------------------------------------------------------------------
@@ -1977,11 +2053,12 @@ H5O_type_t H5Location::childObjType(const char* objname) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - April, 2014
 //--------------------------------------------------------------------------
-H5O_type_t H5Location::childObjType(const H5std_string& objname) const
+H5O_type_t
+H5Location::childObjType(const H5std_string &objname) const
 {
     // Use overloaded function
     H5O_type_t objtype = childObjType(objname.c_str());
-    return(objtype);
+    return (objtype);
 }
 
 //--------------------------------------------------------------------------
@@ -2013,33 +2090,35 @@ H5O_type_t H5Location::childObjType(const H5std_string& objname) const
 //        can be added later when needed.
 // Programmer   Binh-Minh Ribler - April, 2014
 //--------------------------------------------------------------------------
-H5O_type_t H5Location::childObjType(hsize_t index, H5_index_t index_type, H5_iter_order_t order, const char* objname) const
+H5O_type_t
+H5Location::childObjType(hsize_t index, H5_index_t index_type, H5_iter_order_t order,
+                         const char *objname) const
 {
-    herr_t ret_value;
+    herr_t     ret_value;
     H5O_info_t objinfo;
     H5O_type_t objtype = H5O_TYPE_UNKNOWN;
 
     // Use C API to get information of the object
-    ret_value = H5Oget_info_by_idx2(getId(), objname, index_type, order, index, &objinfo, H5O_INFO_BASIC, H5P_DEFAULT);
+    ret_value = H5Oget_info_by_idx2(getId(), objname, index_type, order, index, &objinfo, H5O_INFO_BASIC,
+                                    H5P_DEFAULT);
 
     // Throw exception if C API returns failure
     if (ret_value < 0)
         throwException("childObjType", "H5Oget_info_by_idx failed");
     // Return a valid type or throw an exception for unknown type
     else
-        switch (objinfo.type)
-        {
-          case H5O_TYPE_GROUP:
-          case H5O_TYPE_DATASET:
-          case H5O_TYPE_NAMED_DATATYPE:
-              objtype = objinfo.type;
-              break;
-          case H5O_TYPE_UNKNOWN:
-          case H5O_TYPE_NTYPES:
-          default:
-              throwException("childObjType", "Unknown type of object");
+        switch (objinfo.type) {
+            case H5O_TYPE_GROUP:
+            case H5O_TYPE_DATASET:
+            case H5O_TYPE_NAMED_DATATYPE:
+                objtype = objinfo.type;
+                break;
+            case H5O_TYPE_UNKNOWN:
+            case H5O_TYPE_NTYPES:
+            default:
+                throwException("childObjType", "Unknown type of object");
         }
-    return(objtype);
+    return (objtype);
 }
 
 //--------------------------------------------------------------------------
@@ -2056,10 +2135,11 @@ H5O_type_t H5Location::childObjType(hsize_t index, H5_index_t index_type, H5_ite
 ///             - version number is not one of the valid values above
 // Programmer   Binh-Minh Ribler - April, 2014
 //--------------------------------------------------------------------------
-unsigned H5Location::childObjVersion(const char* objname) const
+unsigned
+H5Location::childObjVersion(const char *objname) const
 {
     H5O_info_t objinfo;
-    unsigned version = 0;
+    unsigned   version = 0;
 
     // Use C API to get information of the object
     herr_t ret_value = H5Oget_info_by_name2(getId(), objname, &objinfo, H5O_INFO_HDR, H5P_DEFAULT);
@@ -2068,13 +2148,12 @@ unsigned H5Location::childObjVersion(const char* objname) const
     if (ret_value < 0)
         throwException("childObjVersion", "H5Oget_info_by_name failed");
     // Return a valid version or throw an exception for invalid value
-    else
-    {
+    else {
         version = objinfo.hdr.version;
         if (version != H5O_VERSION_1 && version != H5O_VERSION_2)
             throwException("childObjVersion", "Invalid version for object");
     }
-    return(version);
+    return (version);
 }
 
 //--------------------------------------------------------------------------
@@ -2087,15 +2166,15 @@ unsigned H5Location::childObjVersion(const char* objname) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - April, 2014
 //--------------------------------------------------------------------------
-unsigned H5Location::childObjVersion(const H5std_string& objname) const
+unsigned
+H5Location::childObjVersion(const H5std_string &objname) const
 {
     // Use overloaded function
     unsigned version = childObjVersion(objname.c_str());
-    return(version);
+    return (version);
 }
 
 #ifndef H5_NO_DEPRECATED_SYMBOLS
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 //--------------------------------------------------------------------------
 // Function:    H5Location::getObjTypeByIdx
 ///\brief       Returns the type of an object in this group, given the
@@ -2105,13 +2184,14 @@ unsigned H5Location::childObjVersion(const H5std_string& objname) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - January, 2003
 //--------------------------------------------------------------------------
-H5G_obj_t H5Location::getObjTypeByIdx(hsize_t idx) const
+H5G_obj_t
+H5Location::getObjTypeByIdx(hsize_t idx) const
 {
-   H5G_obj_t obj_type = H5Gget_objtype_by_idx(getId(), idx);
-   if (obj_type == H5G_UNKNOWN)
+    H5G_obj_t obj_type = H5Gget_objtype_by_idx(getId(), idx);
+    if (obj_type == H5G_UNKNOWN)
         throwException("getObjTypeByIdx", "H5Gget_objtype_by_idx failed");
 
-   return (obj_type);
+    return (obj_type);
 }
 
 //--------------------------------------------------------------------------
@@ -2127,10 +2207,11 @@ H5G_obj_t H5Location::getObjTypeByIdx(hsize_t idx) const
 // Modification
 //              Modified to use the other function. -BMR, 2016/03/07
 //--------------------------------------------------------------------------
-H5G_obj_t H5Location::getObjTypeByIdx(hsize_t idx, char* type_name) const
+H5G_obj_t
+H5Location::getObjTypeByIdx(hsize_t idx, char *type_name) const
 {
     H5std_string stype_name(type_name);
-    return(getObjTypeByIdx(idx, stype_name));
+    return (getObjTypeByIdx(idx, stype_name));
 }
 //--------------------------------------------------------------------------
 // Function:    H5Location::getObjTypeByIdx
@@ -2143,27 +2224,34 @@ H5G_obj_t H5Location::getObjTypeByIdx(hsize_t idx, char* type_name) const
 ///\exception   H5::FileIException/H5::GroupIException/H5::LocationException
 // Programmer   Binh-Minh Ribler - January, 2003
 //--------------------------------------------------------------------------
-H5G_obj_t H5Location::getObjTypeByIdx(hsize_t idx, H5std_string& type_name) const
+H5G_obj_t
+H5Location::getObjTypeByIdx(hsize_t idx, H5std_string &type_name) const
 {
     H5G_obj_t obj_type = H5Gget_objtype_by_idx(getId(), idx);
-    switch (obj_type)
-    {
-      case H5G_LINK: type_name = H5std_string("symbolic link"); break;
-      case H5G_GROUP: type_name = H5std_string("group"); break;
-      case H5G_DATASET: type_name = H5std_string("dataset"); break;
-      case H5G_TYPE: type_name = H5std_string("datatype"); break;
-      case H5G_UNKNOWN:
-      case H5G_UDLINK:
-      case H5G_RESERVED_5:
-      case H5G_RESERVED_6:
-      case H5G_RESERVED_7:
-      default:
-          throwException("getObjTypeByIdx", "H5Gget_objtype_by_idx failed");
+    switch (obj_type) {
+        case H5G_LINK:
+            type_name = H5std_string("symbolic link");
+            break;
+        case H5G_GROUP:
+            type_name = H5std_string("group");
+            break;
+        case H5G_DATASET:
+            type_name = H5std_string("dataset");
+            break;
+        case H5G_TYPE:
+            type_name = H5std_string("datatype");
+            break;
+        case H5G_UNKNOWN:
+        case H5G_UDLINK:
+        case H5G_RESERVED_5:
+        case H5G_RESERVED_6:
+        case H5G_RESERVED_7:
+        default:
+            throwException("getObjTypeByIdx", "H5Gget_objtype_by_idx failed");
     }
     return (obj_type);
 }
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
 
 //--------------------------------------------------------------------------
@@ -2179,7 +2267,8 @@ H5G_obj_t H5Location::getObjTypeByIdx(hsize_t idx, H5std_string& type_name) cons
 //              maintain backward compatibility.  For other subclasses, throw
 //              LocationException.
 //--------------------------------------------------------------------------
-void H5Location::throwException(const H5std_string& func_name, const H5std_string& msg) const
+void
+H5Location::throwException(const H5std_string &func_name, const H5std_string &msg) const
 {
     throw LocationException(inMemFunc(func_name.c_str()), msg);
 }
@@ -2210,7 +2299,8 @@ void H5Location::throwException(const H5std_string& func_name, const H5std_strin
 // param        new_id - IN: New id to set
 // Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
-void f_DataSpace_setId(DataSpace* dspace, hid_t new_id)
+void
+f_DataSpace_setId(DataSpace *dspace, hid_t new_id)
 {
     dspace->p_setId(new_id);
 }
@@ -2220,8 +2310,8 @@ void f_DataSpace_setId(DataSpace* dspace, hid_t new_id)
 ///\brief       Noop destructor.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-H5Location::~H5Location() {}
+H5Location::~H5Location()
+{
+}
 
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-} // end namespace
+} // namespace H5

@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -28,22 +28,21 @@
 #include "H5PTpublic.h"
 #include "H5api_adpt.h"
 
-class H5_HLCPPDLL  PacketTable
-{
-public:
+class H5_HLCPPDLL PacketTable {
+  public:
     /* Null constructor
-     * Sets table_id to "invalid"
+     * Sets table_id to H5I_INVALID_HID
      */
-    PacketTable() {table_id = H5I_BADID;}
+    PacketTable();
 
     /* "Open" Constructor
      * Opens an existing packet table, which can contain either fixed-length or
      * variable-length packets.
      */
-    PacketTable(hid_t fileID, const char* name);
+    PacketTable(hid_t fileID, const char *name);
 
     /* "Open" Constructor - will be deprecated because of char* name */
-    PacketTable(hid_t fileID, char* name);
+    PacketTable(hid_t fileID, char *name);
 
     /* Destructor
      * Cleans up the packet table
@@ -80,16 +79,17 @@ public:
      * Returns the position of the current packet.
      * On failure, returns 0 and error is set to negative.
      */
-    hsize_t GetIndex(int& error);
+    hsize_t GetIndex(int &error);
 
     /* GetPacketCount
      * Returns the number of packets in the packet table.  Error
      * is set to 0 on success.  On failure, returns 0 and
      * error is set to negative.
      */
-    hsize_t GetPacketCount(int& error);
+    hsize_t GetPacketCount(int &error);
 
-    hsize_t GetPacketCount()
+    hsize_t
+    GetPacketCount()
     {
         int ignoreError;
         return GetPacketCount(ignoreError);
@@ -122,22 +122,22 @@ public:
      * location in memory.
      * Returns 0 on success, negative on error.
      */
-    int FreeBuff(size_t numStructs, hvl_t * buffer);
+    int FreeBuff(size_t numStructs, hvl_t *buffer);
 
-protected:
+  protected:
     hid_t table_id;
 };
 
-class H5_HLCPPDLL FL_PacketTable : virtual public PacketTable
-{
-public:
+class H5_HLCPPDLL FL_PacketTable : virtual public PacketTable {
+  public:
     /* Constructor
      * Creates a packet table to store either fixed- or variable-length packets.
      * Takes the ID of the file the packet table will be created in, the ID of
      * the property list to specify compression, the name of the packet table,
      * the ID of the datatype, and the size of a memory chunk used in chunking.
      */
-    FL_PacketTable(hid_t fileID, const char* name, hid_t dtypeID, hsize_t chunkSize = 0, hid_t plistID = H5P_DEFAULT);
+    FL_PacketTable(hid_t fileID, const char *name, hid_t dtypeID, hsize_t chunkSize = 0,
+                   hid_t plistID = H5P_DEFAULT);
 
     /* Constructors - deprecated
      * Creates a packet table in which to store fixed length packets.
@@ -148,36 +148,38 @@ public:
      * Note: these overloaded constructors will be deprecated in favor of the
      * constructor above.
      */
-    FL_PacketTable(hid_t fileID, hid_t plist_id, const char* name, hid_t dtypeID, hsize_t chunkSize);
-    FL_PacketTable(hid_t fileID, char* name, hid_t dtypeID, hsize_t chunkSize, int compression = 0);
+    FL_PacketTable(hid_t fileID, hid_t plist_id, const char *name, hid_t dtypeID, hsize_t chunkSize);
+    FL_PacketTable(hid_t fileID, char *name, hid_t dtypeID, hsize_t chunkSize, int compression = 0);
 
     /* "Open" Constructor
      * Opens an existing fixed-length packet table.
      * Fails if the packet table specified is variable-length.
      */
-    FL_PacketTable(hid_t fileID, const char* name);
+    FL_PacketTable(hid_t fileID, const char *name);
 
     /* "Open" Constructor - will be deprecated because of char* name */
-    FL_PacketTable(hid_t fileID, char* name);
+    FL_PacketTable(hid_t fileID, char *name);
 
     /* Destructor
      * Cleans up the packet table
      */
-    virtual ~FL_PacketTable() {};
+    virtual ~FL_PacketTable()
+    {
+    }
 
     /* AppendPacket
      * Adds a single packet to the packet table.  Takes a pointer
      * to the location of the data in memory.
      * Returns 0 on success, negative on failure
      */
-    int AppendPacket(void * data);
+    int AppendPacket(void *data);
 
     /* AppendPackets (multiple packets)
      * Adds multiple packets to the packet table.  Takes the number of packets
      * to be added and a pointer to their location in memory.
      * Returns 0 on success, -1 on failure.
      */
-    int AppendPackets(size_t numPackets, void * data);
+    int AppendPackets(size_t numPackets, void *data);
 
     /* GetPacket (indexed)
      * Gets a single packet from the packet table.  Takes the index
@@ -185,7 +187,7 @@ public:
      * to memory where the data should be stored.
      * Returns 0 on success, negative on failure
      */
-    int GetPacket(hsize_t index, void * data);
+    int GetPacket(hsize_t index, void *data);
 
     /* GetPackets (multiple packets)
      * Gets multiple packets at once, all packets between
@@ -193,7 +195,7 @@ public:
      * the memory where these packets should be stored.
      * Returns 0 on success, negative on failure.
      */
-    int GetPackets(hsize_t startIndex, hsize_t endIndex, void * data);
+    int GetPackets(hsize_t startIndex, hsize_t endIndex, void *data);
 
     /* GetNextPacket (single packet)
      * Gets the next packet in the packet table.  Takes a pointer to
@@ -201,7 +203,7 @@ public:
      * Returns 0 on success, negative on failure.  Index
      * is not advanced to the next packet on failure.
      */
-    int GetNextPacket(void * data);
+    int GetNextPacket(void *data);
 
     /* GetNextPackets (multiple packets)
      * Gets the next numPackets packets in the packet table.  Takes a
@@ -209,7 +211,7 @@ public:
      * Returns 0 on success, negative on failure.  Index
      * is not advanced on failure.
      */
-    int GetNextPackets(size_t numPackets, void * data);
+    int GetNextPackets(size_t numPackets, void *data);
 };
 
 /* Removed "#ifdef VLPT_REMOVED" block.  03/08/2016, -BMR */

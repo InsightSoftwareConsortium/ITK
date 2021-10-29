@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -145,7 +145,11 @@ macro (EXTERNAL_SZIP_LIBRARY compress_type encoding)
   set (SZIP_LIBRARIES ${SZIP_STATIC_LIBRARY})
 
   set (SZIP_INCLUDE_DIR_GEN "${BINARY_DIR}")
-  set (SZIP_INCLUDE_DIR "${SOURCE_DIR}/src")
+  if (USE_LIBAEC)
+    set (SZIP_INCLUDE_DIR "${SOURCE_DIR}/include")
+  else ()
+    set (SZIP_INCLUDE_DIR "${SOURCE_DIR}/src")
+  endif ()
   set (SZIP_FOUND 1)
   set (SZIP_INCLUDE_DIRS ${SZIP_INCLUDE_DIR_GEN} ${SZIP_INCLUDE_DIR})
 endmacro ()
@@ -154,6 +158,8 @@ endmacro ()
 macro (PACKAGE_SZIP_LIBRARY compress_type)
   set (SZIP_HDR "SZconfig")
   if (USE_LIBAEC)
+    set (SZIP_HDR "aec_config")
+  else ()
     set (SZIP_HDR "libaec_Export")
   endif ()
   add_custom_target (SZIP-GenHeader-Copy ALL

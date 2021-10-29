@@ -287,6 +287,9 @@
 /* Define to 1 if you have the <pthread.h> header file. */
 #undef HAVE_PTHREAD_H
 
+/* Define to 1 if you have the <pwd.h> header file. */
+#undef HAVE_PWD_H
+
 /* Define to 1 if you have the <quadmath.h> header file. */
 #undef HAVE_QUADMATH_H
 

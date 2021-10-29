@@ -4,369 +4,516 @@
 UseJava
 -------
 
-Use Module for Java
-
-This file provides functions for Java.  It is assumed that
+This file provides support for ``Java``.  It is assumed that
 :module:`FindJava` has already been loaded.  See :module:`FindJava` for
-information on how to load Java into your CMake project.
+information on how to load Java into your ``CMake`` project.
+
+Synopsis
+^^^^^^^^
+
+.. parsed-literal::
+
+  `Creating and Installing JARS`_
+    `add_jar`_ (<target_name> [SOURCES] <source1> [<source2>...] ...)
+    `install_jar`_ (<target_name> DESTINATION <destination> [COMPONENT <component>])
+    `install_jni_symlink`_ (<target_name> DESTINATION <destination> [COMPONENT <component>])
+
+  `Header Generation`_
+    `create_javah`_ ((TARGET <target> | GENERATED_FILES <VAR>) CLASSES <class>... ...)
+
+  `Exporting JAR Targets`_
+    `install_jar_exports`_ (TARGETS <jars>... FILE <filename> DESTINATION <destination> ...)
+    `export_jars`_ (TARGETS <jars>... [NAMESPACE <namespace>] FILE <filename>)
+
+  `Finding JARs`_
+    `find_jar`_ (<VAR> NAMES <name1> [<name2>...] [PATHS <path1> [<path2>... ENV <var>]] ...)
+
+  `Creating Java Documentation`_
+    `create_javadoc`_ (<VAR> (PACKAGES <pkg1> [<pkg2>...] | FILES <file1> [<file2>...]) ...)
 
 Creating And Installing JARs
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-.. code-block:: cmake
-
-  add_jar(<target_name>
-          [SOURCES] <source1> [<source2>...] [<resource1>...]
-          [INCLUDE_JARS <jar1> [<jar2>...]]
-          [ENTRY_POINT <entry>]
-          [VERSION <version>]
-          [OUTPUT_NAME <name>]
-          [OUTPUT_DIR <dir>]
-          [GENERATE_NATIVE_HEADERS <target> [DESTINATION <dir>]]
-          )
+.. _add_jar:
 
-This command creates a ``<target_name>.jar``.  It compiles the given
-``<source>`` files and adds the given ``<resource>`` files to
-the jar file.  Source files can be java files or listing files
-(prefixed by ``@``).  If only resource files are given then just a jar file
-is created.  The list of ``INCLUDE_JARS`` are added to the classpath when
-compiling the java sources and also to the dependencies of the target.
-``INCLUDE_JARS`` also accepts other target names created by ``add_jar()``.
-For backwards compatibility, jar files listed as sources are ignored (as
-they have been since the first version of this module).
+.. command:: add_jar
 
-The default ``OUTPUT_DIR`` can also be changed by setting the variable
-``CMAKE_JAVA_TARGET_OUTPUT_DIR``.
+  Creates a jar file containing java objects and, optionally, resources::
 
-Optionally, using option ``GENERATE_NATIVE_HEADERS``, native header files can
-be generated for methods declared as native.  These files provide the
-connective glue that allow your Java and C code to interact.  An INTERFACE
-target will be created for an easy usage of generated files.  Sub-option
-``DESTINATION`` can be used to specify the output directory for generated
-header files.
+    add_jar(<target_name>
+            [SOURCES] <source1> [<source2>...] [<resource1>...]
+            [INCLUDE_JARS <jar1> [<jar2>...]]
+            [ENTRY_POINT <entry>]
+            [VERSION <version>]
+            [MANIFEST <manifest>]
+            [OUTPUT_NAME <name>]
+            [OUTPUT_DIR <dir>]
+            [GENERATE_NATIVE_HEADERS <target>
+            [DESTINATION (<dir>|INSTALL <dir> [BUILD <dir>])]]
+            )
 
-``GENERATE_NATIVE_HEADERS`` option requires, at least, version 1.8 of the JDK.
+  This command creates a ``<target_name>.jar``.  It compiles the given
+  ``<source>`` files and adds the given ``<resource>`` files to
+  the jar file.  Source files can be java files or listing files
+  (prefixed by ``@``).  If only resource files are given then just a jar file
+  is created.
 
-The ``add_jar()`` function sets the following target properties on
-``<target_name>``:
+  ``SOURCES``
+    Compiles the specified source files and adds the result in the jar file.
 
-``INSTALL_FILES``
-  The files which should be installed.  This is used by ``install_jar()``.
-``JNI_SYMLINK``
-  The JNI symlink which should be installed.  This is used by
-  ``install_jni_symlink()``.
-``JAR_FILE``
-  The location of the jar file so that you can include it.
-``CLASSDIR``
-  The directory where the class files can be found.  For example to use them
-  with ``javah``.
+    .. versionadded:: 3.4
+      Support for response files, prefixed by ``@``.
 
-.. code-block:: cmake
+  ``INCLUDE_JARS``
+    The list of jars are added to the classpath when compiling the java sources
+    and also to the dependencies of the target. ``INCLUDE_JARS`` also accepts
+    other target names created by ``add_jar()``. For backwards compatibility,
+    jar files listed as sources are ignored (as they have been since the first
+    version of this module).
 
- install_jar(<target_name> <destination>)
- install_jar(<target_name> DESTINATION <destination> [COMPONENT <component>])
+  ``ENTRY_POINT``
+    Defines an entry point in the jar file.
 
-This command installs the ``<target_name>`` files to the given
-``<destination>``.  It should be called in the same scope as ``add_jar()`` or
-it will fail.
+  ``VERSION``
+    Adds a version to the target output name.
+
+    The following example will create a jar file with the name
+    ``shibboleet-1.2.0.jar`` and will create a symlink ``shibboleet.jar``
+    pointing to the jar with the version information.
+
+    .. code-block:: cmake
 
-The ``install_jar()`` function sets the ``INSTALL_DESTINATION`` target
-property on jars so installed.  This property holds the ``<destination>`` as
-described above, and is used by ``install_jar_exports()``.  You can get this
-information with :command:`get_property` and the ``INSTALL_DESTINATION``
-property key.
+      add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
 
-.. code-block:: cmake
+  ``MANIFEST``
+    Defines a custom manifest for the jar.
 
- install_jni_symlink(<target_name> <destination>)
- install_jni_symlink(<target_name> DESTINATION <destination> [COMPONENT <component>])
+  ``OUTPUT_NAME``
+    Specify a different output name for the target.
 
-This command installs the ``<target_name>`` JNI symlinks to the given
-``<destination>``.  It should be called in the same scope as ``add_jar()`` or
-it will fail.
+  ``OUTPUT_DIR``
+    Sets the directory where the jar file will be generated. If not specified,
+    :variable:`CMAKE_CURRENT_BINARY_DIR` is used as the output directory.
 
-.. code-block:: cmake
+  ``GENERATE_NATIVE_HEADERS``
+    .. versionadded:: 3.11
 
- install_jar_exports(TARGETS <jars>...
-                     [NAMESPACE <namespace>]
-                     FILE <filename>
-                     DESTINATION <destination> [COMPONENT <component>])
+    Generates native header files for methods declared as native. These files
+    provide the connective glue that allow your Java and C code to interact.
+    An INTERFACE target will be created for an easy usage of generated files.
+    Sub-option ``DESTINATION`` can be used to specify the output directory for
+    generated header files.
 
-This command installs a target export file ``<filename>`` for the named jar
-targets to the given ``<destination>`` directory.  Its function is similar to
-that of :command:`install(EXPORTS)`.
+    This option requires, at least, version 1.8 of the JDK.
 
-.. code-block:: cmake
+    For an optimum usage of this option, it is recommended to include module
+    JNI before any call to ``add_jar()``. The produced target for native
+    headers can then be used to compile C/C++ sources with the
+    :command:`target_link_libraries` command.
 
- export_jars(TARGETS <jars>...
-             [NAMESPACE <namespace>]
-             FILE <filename>)
+    .. code-block:: cmake
 
-This command writes a target export file ``<filename>`` for the named ``<jars>``
-targets.  Its function is similar to that of :command:`export`.
+      find_package(JNI)
+      add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo-native)
+      add_library(bar bar.cpp)
+      target_link_libraries(bar PRIVATE foo-native)
 
+    .. versionadded:: 3.20
+      ``DESTINATION`` sub-option now supports the possibility to specify
+      different output directories for ``BUILD`` and ``INSTALL`` steps. If
+      ``BUILD`` directory is not specified, a default directory will be used.
 
-Examples
-""""""""
+      To export the interface target generated by ``GENERATE_NATIVE_HEADERS``
+      option, sub-option ``INSTALL`` of ``DESTINATION`` is required:
 
-To add compile flags to the target you can set these flags with the following
-variable:
+      .. code-block:: cmake
 
-.. code-block:: cmake
+        add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo-native
+                             DESTINATION INSTALL include)
+        install(TARGETS foo-native EXPORT native)
+        install(DIRECTORY "$<TARGET_PROPERTY:foo-native,NATIVE_HEADERS_DIRECTORY>/"
+                DESTINATION include)
+        install(EXPORT native DESTINATION /to/export NAMESPACE foo)
 
-  set(CMAKE_JAVA_COMPILE_FLAGS -nowarn)
+  Some variables can be set to customize the behavior of ``add_jar()`` as well
+  as the java compiler:
 
+  ``CMAKE_JAVA_COMPILE_FLAGS``
+    Specify additional flags to java compiler.
 
-To add a path or a jar file to the class path you can do this with the
-``CMAKE_JAVA_INCLUDE_PATH`` variable.
+  ``CMAKE_JAVA_INCLUDE_PATH``
+    Specify additional paths to the class path.
 
-.. code-block:: cmake
+  ``CMAKE_JNI_TARGET``
+    If the target is a JNI library, sets this boolean variable to ``TRUE`` to
+    enable creation of a JNI symbolic link (see also
+    :ref:`install_jni_symlink() <install_jni_symlink>`).
 
-  set(CMAKE_JAVA_INCLUDE_PATH /usr/share/java/shibboleet.jar)
+  ``CMAKE_JAR_CLASSES_PREFIX``
+    If multiple jars should be produced from the same java source filetree,
+    to prevent the accumulation of duplicate class files in subsequent jars,
+    set/reset ``CMAKE_JAR_CLASSES_PREFIX`` prior to calling the ``add_jar()``:
 
-To use a different output name for the target you can set it with:
+    .. code-block:: cmake
 
-.. code-block:: cmake
+      set(CMAKE_JAR_CLASSES_PREFIX com/redhat/foo)
+      add_jar(foo foo.java)
 
-  add_jar(foobar foobar.java OUTPUT_NAME shibboleet.jar)
+      set(CMAKE_JAR_CLASSES_PREFIX com/redhat/bar)
+      add_jar(bar bar.java)
 
-To use a different output directory than ``CMAKE_CURRENT_BINARY_DIR`` you can
-set it with:
+  The ``add_jar()`` function sets the following target properties on
+  ``<target_name>``:
 
-.. code-block:: cmake
+  ``INSTALL_FILES``
+    The files which should be installed.  This is used by
+    :ref:`install_jar() <install_jar>`.
+  ``JNI_SYMLINK``
+    The JNI symlink which should be installed.  This is used by
+    :ref:`install_jni_symlink() <install_jni_symlink>`.
+  ``JAR_FILE``
+    The location of the jar file so that you can include it.
+  ``CLASSDIR``
+    The directory where the class files can be found.  For example to use them
+    with ``javah``.
+  ``NATIVE_HEADERS_DIRECTORY``
+    .. versionadded:: 3.20
 
-  add_jar(foobar foobar.java OUTPUT_DIR ${PROJECT_BINARY_DIR}/bin)
+    The directory where native headers are generated. Defined when option
+    ``GENERATE_NATIVE_HEADERS`` is specified.
 
-To define an entry point in your jar you can set it with the ``ENTRY_POINT``
-named argument:
+.. _install_jar:
 
-.. code-block:: cmake
+.. command:: install_jar
 
-  add_jar(example ENTRY_POINT com/examples/MyProject/Main)
+  This command installs the jar file to the given destination::
 
-To define a custom manifest for the jar, you can set it with the ``MANIFEST``
-named argument:
+   install_jar(<target_name> <destination>)
+   install_jar(<target_name> DESTINATION <destination> [COMPONENT <component>])
 
-.. code-block:: cmake
+  This command installs the ``<target_name>`` file to the given
+  ``<destination>``.  It should be called in the same scope as
+  :ref:`add_jar() <add_jar>` or it will fail.
 
-  add_jar(example MANIFEST /path/to/manifest)
+  .. versionadded:: 3.4
+    The second signature with ``DESTINATION`` and ``COMPONENT`` options.
 
-To add a version to the target output name you can set it using the ``VERSION``
-named argument to ``add_jar()``.  The following example will create a jar file
-with the name ``shibboleet-1.0.0.jar`` and will create a symlink
-``shibboleet.jar`` pointing to the jar with the version information.
+  ``DESTINATION``
+    Specify the directory on disk to which a file will be installed.
 
-.. code-block:: cmake
+  ``COMPONENT``
+    Specify an installation component name with which the install rule is
+    associated, such as "runtime" or "development".
 
-  add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
+  The ``install_jar()`` command sets the following target properties
+  on ``<target_name>``:
 
-If the target is a JNI library, utilize the following commands to
-create a JNI symbolic link:
+  ``INSTALL_DESTINATION``
+    Holds the ``<destination>`` as described above, and is used by
+    :ref:`install_jar_exports() <install_jar_exports>`.
 
-.. code-block:: cmake
+.. _install_jni_symlink:
 
-  set(CMAKE_JNI_TARGET TRUE)
-  add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
-  install_jar(shibboleet ${LIB_INSTALL_DIR}/shibboleet)
-  install_jni_symlink(shibboleet ${JAVA_LIB_INSTALL_DIR})
+.. command:: install_jni_symlink
 
-If a single target needs to produce more than one jar from its
-java source code, to prevent the accumulation of duplicate class
-files in subsequent jars, set/reset ``CMAKE_JAR_CLASSES_PREFIX`` prior
-to calling the ``add_jar()`` function:
+  Installs JNI symlinks for target generated by :ref:`add_jar() <add_jar>`::
 
-.. code-block:: cmake
+   install_jni_symlink(<target_name> <destination>)
+   install_jni_symlink(<target_name> DESTINATION <destination> [COMPONENT <component>])
 
-  set(CMAKE_JAR_CLASSES_PREFIX com/redhat/foo)
-  add_jar(foo foo.java)
+  This command installs the ``<target_name>`` JNI symlinks to the given
+  ``<destination>``.  It should be called in the same scope as
+  :ref:`add_jar() <add_jar>` or it will fail.
 
-  set(CMAKE_JAR_CLASSES_PREFIX com/redhat/bar)
-  add_jar(bar bar.java)
+  .. versionadded:: 3.4
+    The second signature with ``DESTINATION`` and ``COMPONENT`` options.
 
-For an optimum usage of option ``GENERATE_NATIVE_HEADERS``, it is recommended to
-include module JNI before any call to ``add_jar()``. The produced target for
-native headers can then be used to compile C/C++ sources with the
-:command:`target_link_libraries` command.
+  ``DESTINATION``
+    Specify the directory on disk to which a file will be installed.
 
-.. code-block:: cmake
+  ``COMPONENT``
+    Specify an installation component name with which the install rule is
+    associated, such as "runtime" or "development".
 
-  find_package(JNI)
-  add_jar(foo foo.java GENERATE_NATIVE_HEADERS foo-native)
-  add_library(bar bar.cpp)
-  target_link_libraries(bar PRIVATE foo-native)
+  Utilize the following commands to create a JNI symbolic link:
 
+  .. code-block:: cmake
 
-Finding JARs
-^^^^^^^^^^^^
-
-.. code-block:: cmake
-
-  find_jar(<VAR>
-           <name> | NAMES <name1> [<name2>...]
-           [PATHS <path1> [<path2>... ENV <var>]]
-           [VERSIONS <version1> [<version2>]]
-           [DOC "cache documentation string"]
-          )
-
-This command is used to find a full path to the named jar.  A cache
-entry named by ``<VAR>`` is created to store the result of this command.
-If the full path to a jar is found the result is stored in the
-variable and the search will not repeated unless the variable is
-cleared.  If nothing is found, the result will be ``<VAR>-NOTFOUND``, and
-the search will be attempted again next time ``find_jar()`` is invoked with
-the same variable.  The name of the full path to a file that is
-searched for is specified by the names listed after ``NAMES`` argument.
-Additional search locations can be specified after the ``PATHS`` argument.
-If you require special a version of a jar file you can specify it with
-the ``VERSIONS`` argument.  The argument after ``DOC`` will be used for the
-documentation string in the cache.
-
-
-Javadoc
-^^^^^^^
-
-The ``create_javadoc()`` command can be used to create java documentation
-based on files or packages.  For more details please read the javadoc manpage.
-
-There are two main signatures for ``create_javadoc()``.  The first signature
-works with package names on a path with source files.
-
-.. code-block:: cmake
-
- create_javadoc(<VAR>
-                PACKAGES <pkg1> [<pkg2>...]
-                [SOURCEPATH <sourcepath>]
-                [CLASSPATH <classpath>]
-                [INSTALLPATH <install path>]
-                [DOCTITLE "the documentation title"]
-                [WINDOWTITLE "the title of the document"]
-                [AUTHOR TRUE|FALSE]
-                [USE TRUE|FALSE]
-                [VERSION TRUE|FALSE]
-                )
-
-For example:
-
-.. code-block:: cmake
-
-  create_javadoc(my_example_doc
-    PACKAGES com.example.foo com.example.bar
-    SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
-    CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
-    WINDOWTITLE "My example"
-    DOCTITLE "<h1>My example</h1>"
-    AUTHOR TRUE
-    USE TRUE
-    VERSION TRUE
-  )
-
-The second signature for ``create_javadoc()`` works on a given list of
-files.
-
-.. code-block:: cmake
-
-  create_javadoc(<VAR>
-                 FILES <file1> [<file2>...]
-                 [CLASSPATH <classpath>]
-                 [INSTALLPATH <install path>]
-                 [DOCTITLE "the documentation title"]
-                 [WINDOWTITLE "the title of the document"]
-                 [AUTHOR TRUE|FALSE]
-                 [USE TRUE|FALSE]
-                 [VERSION TRUE|FALSE]
-                )
-
-For example:
-
-.. code-block:: cmake
-
-  create_javadoc(my_example_doc
-    FILES ${example_SRCS}
-    CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
-    WINDOWTITLE "My example"
-    DOCTITLE "<h1>My example</h1>"
-    AUTHOR TRUE
-    USE TRUE
-    VERSION TRUE
-  )
-
-Both signatures share most of the options.  These options are the same
-as what you can find in the javadoc manpage.  Please look at the
-manpage for ``CLASSPATH``, ``DOCTITLE``, ``WINDOWTITLE``, ``AUTHOR``, ``USE``
-and ``VERSION``.
-
-If you don't set the ``INSTALLPATH``, then by default the documentation will
-be installed to :
-
-::
-
-   ${CMAKE_INSTALL_PREFIX}/share/javadoc/<VAR>
-
+    set(CMAKE_JNI_TARGET TRUE)
+    add_jar(shibboleet shibbotleet.java VERSION 1.2.0)
+    install_jar(shibboleet ${LIB_INSTALL_DIR}/shibboleet)
+    install_jni_symlink(shibboleet ${JAVA_LIB_INSTALL_DIR})
 
 Header Generation
 ^^^^^^^^^^^^^^^^^
 
-.. code-block:: cmake
+.. _create_javah:
 
- create_javah(TARGET <target> | GENERATED_FILES <VAR>
-              CLASSES <class>...
-              [CLASSPATH <classpath>...]
-              [DEPENDS <depend>...]
-              [OUTPUT_NAME <path>|OUTPUT_DIR <path>]
-              )
+.. command:: create_javah
 
-Create C header files from java classes. These files provide the connective glue
-that allow your Java and C code to interact.
+  .. versionadded:: 3.4
 
-.. deprecated:: 3.11
+  Generates C header files for java classes::
 
-.. note::
+   create_javah(TARGET <target> | GENERATED_FILES <VAR>
+                CLASSES <class>...
+                [CLASSPATH <classpath>...]
+                [DEPENDS <depend>...]
+                [OUTPUT_NAME <path>|OUTPUT_DIR <path>]
+                )
 
-  This command will no longer be supported starting with version 10 of the JDK
-  due to the `suppression of javah tool <http://openjdk.java.net/jeps/313>`_.
-  The ``add_jar(GENERATE_NATIVE_HEADERS)`` command should be used instead.
+  .. deprecated:: 3.11
+    This command will no longer be supported starting with version 10 of the JDK
+    due to the `suppression of javah tool <http://openjdk.java.net/jeps/313>`_.
+    The :ref:`add_jar(GENERATE_NATIVE_HEADERS) <add_jar>` command should be
+    used instead.
 
-There are two main signatures for ``create_javah()``.  The first signature
-returns generated files through variable specified by the ``GENERATED_FILES``
-option.  For example:
+  Create C header files from java classes. These files provide the connective
+  glue that allow your Java and C code to interact.
 
-.. code-block:: cmake
+  There are two main signatures for ``create_javah()``.  The first signature
+  returns generated files through variable specified by the ``GENERATED_FILES``
+  option.  For example:
 
-  create_javah(GENERATED_FILES files_headers
-    CLASSES org.cmake.HelloWorld
-    CLASSPATH hello.jar
-  )
+  .. code-block:: cmake
 
-The second signature for ``create_javah()`` creates a target which encapsulates
-header files generation. E.g.
+    create_javah(GENERATED_FILES files_headers
+      CLASSES org.cmake.HelloWorld
+      CLASSPATH hello.jar
+    )
 
-.. code-block:: cmake
+  The second signature for ``create_javah()`` creates a target which
+  encapsulates header files generation. E.g.
 
-  create_javah(TARGET target_headers
-    CLASSES org.cmake.HelloWorld
-    CLASSPATH hello.jar
-  )
+  .. code-block:: cmake
 
-Both signatures share same options.
+    create_javah(TARGET target_headers
+      CLASSES org.cmake.HelloWorld
+      CLASSPATH hello.jar
+    )
 
-``CLASSES <class>...``
-  Specifies Java classes used to generate headers.
+  Both signatures share same options.
 
-``CLASSPATH <classpath>...``
-  Specifies various paths to look up classes. Here .class files, jar files or
-  targets created by command add_jar can be used.
+  ``CLASSES``
+    Specifies Java classes used to generate headers.
 
-``DEPENDS <depend>...``
-  Targets on which the javah target depends.
+  ``CLASSPATH``
+    Specifies various paths to look up classes. Here ``.class`` files, jar
+    files or targets created by command add_jar can be used.
 
-``OUTPUT_NAME <path>``
-  Concatenates the resulting header files for all the classes listed by option
-  ``CLASSES`` into ``<path>``.  Same behavior as option ``-o`` of javah tool.
+  ``DEPENDS``
+    Targets on which the javah target depends.
 
-``OUTPUT_DIR <path>``
-  Sets the directory where the header files will be generated.  Same behavior
-  as option ``-d`` of javah tool.  If not specified,
-  :variable:`CMAKE_CURRENT_BINARY_DIR` is used as the output directory.
+  ``OUTPUT_NAME``
+    Concatenates the resulting header files for all the classes listed by
+    option ``CLASSES`` into ``<path>``.  Same behavior as option ``-o`` of
+    ``javah`` tool.
+
+  ``OUTPUT_DIR``
+    Sets the directory where the header files will be generated.  Same behavior
+    as option ``-d`` of ``javah`` tool.  If not specified,
+    :variable:`CMAKE_CURRENT_BINARY_DIR` is used as the output directory.
+
+Exporting JAR Targets
+^^^^^^^^^^^^^^^^^^^^^
+
+.. _install_jar_exports:
+
+.. command:: install_jar_exports
+
+  .. versionadded:: 3.7
+
+  Installs a target export file::
+
+   install_jar_exports(TARGETS <jars>...
+                       [NAMESPACE <namespace>]
+                       FILE <filename>
+                       DESTINATION <destination> [COMPONENT <component>])
+
+  This command installs a target export file ``<filename>`` for the named jar
+  targets to the given ``<destination>`` directory.  Its function is similar to
+  that of :command:`install(EXPORT)`.
+
+  ``TARGETS``
+    List of targets created by :ref:`add_jar() <add_jar>` command.
+
+  ``NAMESPACE``
+    .. versionadded:: 3.9
+
+    The ``<namespace>`` value will be prepend to the target names as they are
+    written to the import file.
+
+  ``FILE``
+    Specify name of the export file.
+
+
+  ``DESTINATION``
+    Specify the directory on disk to which a file will be installed.
+
+  ``COMPONENT``
+    Specify an installation component name with which the install rule is
+    associated, such as "runtime" or "development".
+
+.. _export_jars:
+
+.. command:: export_jars
+
+  .. versionadded:: 3.7
+
+  Writes a target export file::
+
+   export_jars(TARGETS <jars>...
+               [NAMESPACE <namespace>]
+               FILE <filename>)
+
+  This command writes a target export file ``<filename>`` for the named ``<jars>``
+  targets.  Its function is similar to that of :command:`export`.
+
+  ``TARGETS``
+    List of targets created by :ref:`add_jar() <add_jar>` command.
+
+  ``NAMESPACE``
+    .. versionadded:: 3.9
+
+    The ``<namespace>`` value will be prepend to the target names as they are
+    written to the import file.
+
+  ``FILE``
+    Specify name of the export file.
+
+Finding JARs
+^^^^^^^^^^^^
+
+.. _find_jar:
+
+.. command:: find_jar
+
+  Finds the specified jar file::
+
+    find_jar(<VAR>
+             <name> | NAMES <name1> [<name2>...]
+             [PATHS <path1> [<path2>... ENV <var>]]
+             [VERSIONS <version1> [<version2>]]
+             [DOC "cache documentation string"]
+            )
+
+  This command is used to find a full path to the named jar.  A cache
+  entry named by ``<VAR>`` is created to store the result of this command.
+  If the full path to a jar is found the result is stored in the
+  variable and the search will not repeated unless the variable is
+  cleared.  If nothing is found, the result will be ``<VAR>-NOTFOUND``, and
+  the search will be attempted again next time ``find_jar()`` is invoked with
+  the same variable.
+
+  ``NAMES``
+    Specify one or more possible names for the jar file.
+
+  ``PATHS``
+    Specify directories to search in addition to the default locations.
+    The ``ENV`` var sub-option reads paths from a system environment variable.
+
+  ``VERSIONS``
+    Specify jar versions.
+
+  ``DOC``
+    Specify the documentation string for the ``<VAR>`` cache entry.
+
+Creating Java Documentation
+^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. _create_javadoc:
+
+.. command:: create_javadoc
+
+  Creates java documentation based on files and packages::
+
+    create_javadoc(<VAR>
+                   (PACKAGES <pkg1> [<pkg2>...] | FILES <file1> [<file2>...])
+                   [SOURCEPATH <sourcepath>]
+                   [CLASSPATH <classpath>]
+                   [INSTALLPATH <install path>]
+                   [DOCTITLE <the documentation title>]
+                   [WINDOWTITLE <the title of the document>]
+                   [AUTHOR (TRUE|FALSE)]
+                   [USE (TRUE|FALSE)]
+                   [VERSION (TRUE|FALSE)]
+                   )
+
+  The ``create_javadoc()`` command can be used to create java documentation.
+  There are two main signatures for ``create_javadoc()``.
+
+  The first signature works with package names on a path with source files:
+
+  .. code-block:: cmake
+
+    create_javadoc(my_example_doc
+                   PACKAGES com.example.foo com.example.bar
+                   SOURCEPATH "${CMAKE_CURRENT_SOURCE_DIR}"
+                   CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
+                   WINDOWTITLE "My example"
+                   DOCTITLE "<h1>My example</h1>"
+                   AUTHOR TRUE
+                   USE TRUE
+                   VERSION TRUE
+                  )
+
+  The second signature for ``create_javadoc()`` works on a given list of files:
+
+  .. code-block:: cmake
+
+    create_javadoc(my_example_doc
+                   FILES java/A.java java/B.java
+                   CLASSPATH ${CMAKE_JAVA_INCLUDE_PATH}
+                   WINDOWTITLE "My example"
+                   DOCTITLE "<h1>My example</h1>"
+                   AUTHOR TRUE
+                   USE TRUE
+                   VERSION TRUE
+                  )
+
+  Both signatures share most of the options. For more details please read the
+  javadoc manpage.
+
+  ``PACKAGES``
+    Specify java packages.
+
+  ``FILES``
+    Specify java source files. If relative paths are specified, they are
+    relative to :variable:`CMAKE_CURRENT_SOURCE_DIR`.
+
+  ``SOURCEPATH``
+    Specify the directory where to look for packages. By default,
+    :variable:`CMAKE_CURRENT_SOURCE_DIR` directory is used.
+
+  ``CLASSPATH``
+    Specify where to find user class files. Same behavior as option
+    ``-classpath`` of ``javadoc`` tool.
+
+  ``INSTALLPATH``
+    Specify where to install the java documentation. If you specified, the
+    documentation will be installed to
+    ``${CMAKE_INSTALL_PREFIX}/share/javadoc/<VAR>``.
+
+  ``DOCTITLE``
+    Specify the title to place near the top of the overview summary file.
+    Same behavior as option ``-doctitle`` of ``javadoc`` tool.
+
+  ``WINDOWTITLE``
+    Specify the title to be placed in the HTML ``<title>`` tag. Same behavior
+    as option ``-windowtitle`` of ``javadoc`` tool.
+
+  ``AUTHOR``
+    When value ``TRUE`` is specified, includes the ``@author`` text in the
+    generated docs. Same behavior as option  ``-author`` of ``javadoc`` tool.
+
+  ``USE``
+    When value ``TRUE`` is specified, creates class and package usage pages.
+    Includes one Use page for each documented class and package. Same behavior
+    as option ``-use`` of ``javadoc`` tool.
+
+  ``VERSION``
+    When value ``TRUE`` is specified, includes the version text in the
+    generated docs. Same behavior as option ``-version`` of ``javadoc`` tool.
 #]=======================================================================]
 
 include(CMakeParseArguments)
@@ -378,7 +525,8 @@ function (__java_copy_file src dest comment)
         ARGS    ${src}
                 ${dest}
         DEPENDS ${src}
-        COMMENT ${comment})
+        COMMENT ${comment}
+        )
 endfunction ()
 
 function(__java_lcat VAR)
@@ -408,6 +556,12 @@ endfunction()
 set(_JAVA_EXPORT_TARGETS_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/javaTargets.cmake.in)
 set(_JAVA_CLASS_FILELIST_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/UseJavaClassFilelist.cmake)
 set(_JAVA_SYMLINK_SCRIPT ${CMAKE_CURRENT_LIST_DIR}/UseJavaSymlinks.cmake)
+
+if (CMAKE_HOST_WIN32 AND NOT CYGWIN AND CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
+    set(_UseJava_PATH_SEP "$<SEMICOLON>")
+else ()
+    set(_UseJava_PATH_SEP ":")
+endif()
 
 function(add_jar _TARGET_NAME)
 
@@ -440,6 +594,9 @@ function(add_jar _TARGET_NAME)
         set(_add_jar_ENTRY_POINT "${CMAKE_JAVA_JAR_ENTRY_POINT}")
     endif()
 
+    # This *should* still work if <resources1>... are included without a
+    # named RESOURCES argument.  In that case, the old behavior of potentially
+    # misplacing the within the Jar will behave as previously (incorrectly)
     set(_JAVA_SOURCE_FILES ${_add_jar_SOURCES} ${_add_jar_UNPARSED_ARGUMENTS})
 
     if (NOT DEFINED _add_jar_OUTPUT_DIR)
@@ -467,7 +624,10 @@ function(add_jar _TARGET_NAME)
       if (Java_VERSION VERSION_LESS 1.8)
         message (FATAL_ERROR "ADD_JAR: GENERATE_NATIVE_HEADERS is not supported with this version of Java.")
       endif()
-      cmake_parse_arguments (_add_jar_GENERATE_NATIVE_HEADERS "" "DESTINATION" "" ${_add_jar_GENERATE_NATIVE_HEADERS})
+
+      unset (_GENERATE_NATIVE_HEADERS_OUTPUT_DESC)
+
+      cmake_parse_arguments (_add_jar_GENERATE_NATIVE_HEADERS "" "" "DESTINATION" ${_add_jar_GENERATE_NATIVE_HEADERS})
       if (NOT _add_jar_GENERATE_NATIVE_HEADERS_UNPARSED_ARGUMENTS)
         message (FATAL_ERROR "ADD_JAR: GENERATE_NATIVE_HEADERS: missing required argument.")
       endif()
@@ -478,11 +638,30 @@ function(add_jar _TARGET_NAME)
       endif()
       if (NOT _add_jar_GENERATE_NATIVE_HEADERS_DESTINATION)
         set (_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${_TARGET_NAME}.dir/native_headers")
+      else()
+        list (LENGTH _add_jar_GENERATE_NATIVE_HEADERS_DESTINATION length)
+        if (NOT length EQUAL 1)
+          cmake_parse_arguments (_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION "" "BUILD;INSTALL" "" "${_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION}")
+          if (_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_UNPARSED_ARGUMENTS)
+            message (FATAL_ERROR "ADD_JAR: GENERATE_NATIVE_HEADERS: DESTINATION: ${_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_UNPARSED_ARGUMENTS}: unexpected argument(s).")
+          endif()
+          if (NOT _add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_INSTALL)
+            message (FATAL_ERROR "ADD_JAR: GENERATE_NATIVE_HEADERS: DESTINATION: INSTALL sub-option is required.")
+          endif()
+          if (NOT _add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_BUILD)
+            set(_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_BUILD "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${_TARGET_NAME}.dir/native_headers")
+          endif()
+          set(_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION "${_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_BUILD}")
+          set(_GENERATE_NATIVE_HEADERS_OUTPUT_DESC "$<BUILD_INTERFACE:${_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_BUILD}>" "$<INSTALL_INTERFACE:${_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION_INSTALL}>")
+        endif()
       endif()
 
       set (_GENERATE_NATIVE_HEADERS_TARGET ${_add_jar_GENERATE_NATIVE_HEADERS_UNPARSED_ARGUMENTS})
       set (_GENERATE_NATIVE_HEADERS_OUTPUT_DIR "${_add_jar_GENERATE_NATIVE_HEADERS_DESTINATION}")
       set (_GENERATE_NATIVE_HEADERS -h "${_GENERATE_NATIVE_HEADERS_OUTPUT_DIR}")
+      if(NOT _GENERATE_NATIVE_HEADERS_OUTPUT_DESC)
+        set(_GENERATE_NATIVE_HEADERS_OUTPUT_DESC "${_GENERATE_NATIVE_HEADERS_OUTPUT_DIR}")
+      endif()
     endif()
 
     if (LIBRARY_OUTPUT_PATH)
@@ -498,14 +677,8 @@ function(add_jar _TARGET_NAME)
         ${CMAKE_JAVA_LIBRARY_OUTPUT_PATH}
     )
 
-    if (CMAKE_HOST_WIN32 AND NOT CYGWIN AND CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
-        set(CMAKE_JAVA_INCLUDE_FLAG_SEP ";")
-    else ()
-        set(CMAKE_JAVA_INCLUDE_FLAG_SEP ":")
-    endif()
-
     foreach (JAVA_INCLUDE_DIR IN LISTS CMAKE_JAVA_INCLUDE_PATH)
-       string(APPEND CMAKE_JAVA_INCLUDE_PATH_FINAL "${CMAKE_JAVA_INCLUDE_FLAG_SEP}${JAVA_INCLUDE_DIR}")
+       string(APPEND CMAKE_JAVA_INCLUDE_PATH_FINAL "${_UseJava_PATH_SEP}${JAVA_INCLUDE_DIR}")
     endforeach()
 
     set(CMAKE_JAVA_CLASS_OUTPUT_PATH "${CMAKE_CURRENT_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/${_TARGET_NAME}.dir")
@@ -536,7 +709,7 @@ function(add_jar _TARGET_NAME)
 
         if (_JAVA_SOURCE_FILE MATCHES "^@(.+)$")
             get_filename_component(_JAVA_FULL ${CMAKE_MATCH_1} ABSOLUTE)
-            list (APPEND _JAVA_COMPILE_FILELISTS ${_JAVA_FULL})
+            list(APPEND _JAVA_COMPILE_FILELISTS ${_JAVA_FULL})
 
         elseif (_JAVA_EXT MATCHES ".java")
             file(RELATIVE_PATH _JAVA_REL_BINARY_PATH ${CMAKE_CURRENT_BINARY_DIR} ${_JAVA_FULL})
@@ -550,7 +723,7 @@ function(add_jar _TARGET_NAME)
             endif ()
             get_filename_component(_JAVA_REL_PATH ${_JAVA_REL_PATH} PATH)
 
-            list (APPEND _JAVA_COMPILE_FILES ${_JAVA_SOURCE_FILE})
+            list(APPEND _JAVA_COMPILE_FILES ${_JAVA_SOURCE_FILE})
             set(_JAVA_CLASS_FILE "${CMAKE_JAVA_CLASS_OUTPUT_PATH}/${_JAVA_REL_PATH}/${_JAVA_FILE}.class")
             set(_JAVA_CLASS_FILES ${_JAVA_CLASS_FILES} ${_JAVA_CLASS_FILE})
 
@@ -561,15 +734,15 @@ function(add_jar _TARGET_NAME)
             # Ignored for backward compatibility
 
         elseif (_JAVA_EXT STREQUAL "")
-            list (APPEND CMAKE_JAVA_INCLUDE_PATH ${JAVA_JAR_TARGET_${_JAVA_SOURCE_FILE}} ${JAVA_JAR_TARGET_${_JAVA_SOURCE_FILE}_CLASSPATH})
-            list (APPEND _JAVA_DEPENDS ${JAVA_JAR_TARGET_${_JAVA_SOURCE_FILE}})
+            list(APPEND CMAKE_JAVA_INCLUDE_PATH ${JAVA_JAR_TARGET_${_JAVA_SOURCE_FILE}} ${JAVA_JAR_TARGET_${_JAVA_SOURCE_FILE}_CLASSPATH})
+            list(APPEND _JAVA_DEPENDS ${JAVA_JAR_TARGET_${_JAVA_SOURCE_FILE}})
 
         else ()
             __java_copy_file(${CMAKE_CURRENT_SOURCE_DIR}/${_JAVA_SOURCE_FILE}
                              ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/${_JAVA_SOURCE_FILE}
                              "Copying ${_JAVA_SOURCE_FILE} to the build directory")
-            list (APPEND _JAVA_RESOURCE_FILES ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/${_JAVA_SOURCE_FILE})
-            list (APPEND _JAVA_RESOURCE_FILES_RELATIVE ${_JAVA_SOURCE_FILE})
+            list(APPEND _JAVA_RESOURCE_FILES ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/${_JAVA_SOURCE_FILE})
+            list(APPEND _JAVA_RESOURCE_FILES_RELATIVE ${_JAVA_SOURCE_FILE})
         endif ()
     endforeach()
 
@@ -577,18 +750,18 @@ function(add_jar _TARGET_NAME)
         if (TARGET ${_JAVA_INCLUDE_JAR})
             get_target_property(_JAVA_JAR_PATH ${_JAVA_INCLUDE_JAR} JAR_FILE)
             if (_JAVA_JAR_PATH)
-                string(APPEND CMAKE_JAVA_INCLUDE_PATH_FINAL "${CMAKE_JAVA_INCLUDE_FLAG_SEP}${_JAVA_JAR_PATH}")
-                list (APPEND CMAKE_JAVA_INCLUDE_PATH ${_JAVA_JAR_PATH})
-                list (APPEND _JAVA_DEPENDS ${_JAVA_INCLUDE_JAR})
-                list (APPEND _JAVA_COMPILE_DEPENDS ${_JAVA_JAR_PATH})
+                string(APPEND CMAKE_JAVA_INCLUDE_PATH_FINAL "${_UseJava_PATH_SEP}${_JAVA_JAR_PATH}")
+                list(APPEND CMAKE_JAVA_INCLUDE_PATH ${_JAVA_JAR_PATH})
+                list(APPEND _JAVA_DEPENDS ${_JAVA_INCLUDE_JAR})
+                list(APPEND _JAVA_COMPILE_DEPENDS ${_JAVA_JAR_PATH})
             else ()
                 message(SEND_ERROR "add_jar: INCLUDE_JARS target ${_JAVA_INCLUDE_JAR} is not a jar")
             endif ()
         else ()
-            string(APPEND CMAKE_JAVA_INCLUDE_PATH_FINAL "${CMAKE_JAVA_INCLUDE_FLAG_SEP}${_JAVA_INCLUDE_JAR}")
-            list (APPEND CMAKE_JAVA_INCLUDE_PATH "${_JAVA_INCLUDE_JAR}")
-            list (APPEND _JAVA_DEPENDS "${_JAVA_INCLUDE_JAR}")
-            list (APPEND _JAVA_COMPILE_DEPENDS "${_JAVA_INCLUDE_JAR}")
+            string(APPEND CMAKE_JAVA_INCLUDE_PATH_FINAL "${_UseJava_PATH_SEP}${_JAVA_INCLUDE_JAR}")
+            list(APPEND CMAKE_JAVA_INCLUDE_PATH "${_JAVA_INCLUDE_JAR}")
+            list(APPEND _JAVA_DEPENDS "${_JAVA_INCLUDE_JAR}")
+            list(APPEND _JAVA_COMPILE_DEPENDS "${_JAVA_INCLUDE_JAR}")
         endif ()
     endforeach()
 
@@ -627,14 +800,14 @@ function(add_jar _TARGET_NAME)
             OUTPUT ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist
             COMMAND ${CMAKE_COMMAND}
                 -DCMAKE_JAVA_CLASS_OUTPUT_PATH=${CMAKE_JAVA_CLASS_OUTPUT_PATH}
-                -DCMAKE_JAR_CLASSES_PREFIX="${CMAKE_JAR_CLASSES_PREFIX}"
+                -DCMAKE_JAR_CLASSES_PREFIX=${CMAKE_JAR_CLASSES_PREFIX}
                 -P ${_JAVA_CLASS_FILELIST_SCRIPT}
             DEPENDS ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_compiled_${_TARGET_NAME}
             WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         )
     else ()
         # create an empty java_class_filelist
-        if (NOT EXISTS "${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist")
+        if (NOT EXISTS ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist)
             file(WRITE ${CMAKE_JAVA_CLASS_OUTPUT_PATH}/java_class_filelist "")
         endif()
     endif ()
@@ -731,8 +904,9 @@ function(add_jar _TARGET_NAME)
     # create an INTERFACE library encapsulating include directory for generated headers
     add_library (${_GENERATE_NATIVE_HEADERS_TARGET} INTERFACE)
     target_include_directories (${_GENERATE_NATIVE_HEADERS_TARGET} INTERFACE
-      "${_GENERATE_NATIVE_HEADERS_OUTPUT_DIR}"
+      "${_GENERATE_NATIVE_HEADERS_OUTPUT_DESC}"
       ${JNI_INCLUDE_DIRS})
+    set_property(TARGET ${_GENERATE_NATIVE_HEADERS_TARGET} PROPERTY NATIVE_HEADERS_DIRECTORY "${_GENERATE_NATIVE_HEADERS_OUTPUT_DIR}")
     # this INTERFACE library depends on jar generation
     add_dependencies (${_GENERATE_NATIVE_HEADERS_TARGET} ${_TARGET_NAME})
 
@@ -985,7 +1159,7 @@ function(create_javadoc _target)
             elseif (arg STREQUAL "VERSION")
                 set(_state "version")
             else ()
-                list (APPEND _javadoc_packages ${arg})
+                list(APPEND _javadoc_packages ${arg})
             endif ()
         elseif (_state STREQUAL "files")
             if (arg STREQUAL "PACKAGES")
@@ -1009,7 +1183,7 @@ function(create_javadoc _target)
             elseif (arg STREQUAL "VERSION")
                 set(_state "version")
             else ()
-                list (APPEND _javadoc_files ${arg})
+                list(APPEND _javadoc_files ${arg})
             endif ()
         elseif (_state STREQUAL "sourcepath")
             if (arg STREQUAL "PACKAGES")
@@ -1033,7 +1207,7 @@ function(create_javadoc _target)
             elseif (arg STREQUAL "VERSION")
                 set(_state "version")
             else ()
-                list (APPEND _javadoc_sourcepath ${arg})
+                list(APPEND _javadoc_sourcepath ${arg})
             endif ()
         elseif (_state STREQUAL "classpath")
             if (arg STREQUAL "PACKAGES")
@@ -1057,7 +1231,7 @@ function(create_javadoc _target)
             elseif (arg STREQUAL "VERSION")
                 set(_state "version")
             else ()
-                list (APPEND _javadoc_classpath ${arg})
+                list(APPEND _javadoc_classpath ${arg})
             endif ()
         elseif (_state STREQUAL "installpath")
             if (arg STREQUAL "PACKAGES")
@@ -1238,68 +1412,45 @@ function(create_javadoc _target)
     set(_javadoc_options -d ${_javadoc_builddir})
 
     if (_javadoc_sourcepath)
-        set(_start TRUE)
-        foreach(_path IN LISTS _javadoc_sourcepath)
-            if (_start)
-                set(_sourcepath ${_path})
-                set(_start FALSE)
-            else ()
-                set(_sourcepath ${_sourcepath}:${_path})
-            endif ()
-        endforeach()
-        set(_javadoc_options ${_javadoc_options} -sourcepath ${_sourcepath})
+        list(JOIN _javadoc_sourcepath "${_UseJava_PATH_SEP}" _javadoc_sourcepath)
+        list(APPEND _javadoc_options -sourcepath "\"${_javadoc_sourcepath}\"")
     endif ()
 
     if (_javadoc_overview)
-        set(_start TRUE)
-        foreach(_path IN LISTS _javadoc_overview)
-            if (_start)
-                set(_overview ${_path})
-                set(_start FALSE)
-            else ()
-                set(_overview ${_overview}:${_path})
-            endif ()
-        endforeach ()
-        set(_javadoc_options ${_javadoc_options} -overview ${_overview})
+        list(JOIN _javadoc_overview "${_UseJava_PATH_SEP}" _javadoc_overview)
+        list(APPEND _javadoc_options -overview "\"${_javadoc_overview}\"")
     endif ()
 
     if (_javadoc_classpath)
-        set(_start TRUE)
-        foreach(_path IN LISTS _javadoc_classpath)
-            if (_start)
-                set(_classpath ${_path})
-                set(_start FALSE)
-            else ()
-                set(_classpath ${_classpath}:${_path})
-            endif ()
-        endforeach()
-        set(_javadoc_options ${_javadoc_options} -classpath "${_classpath}")
+        list(JOIN _javadoc_classpath "${_UseJava_PATH_SEP}" _javadoc_classpath)
+        list(APPEND _javadoc_options -classpath "\"${_javadoc_classpath}\"")
     endif ()
 
     if (_javadoc_doctitle)
-        set(_javadoc_options ${_javadoc_options} -doctitle '${_javadoc_doctitle}')
+        list(APPEND _javadoc_options -doctitle '${_javadoc_doctitle}')
     endif ()
 
     if (_javadoc_windowtitle)
-        set(_javadoc_options ${_javadoc_options} -windowtitle '${_javadoc_windowtitle}')
+        list(APPEND _javadoc_options -windowtitle '${_javadoc_windowtitle}')
     endif ()
 
     if (_javadoc_author)
-        set(_javadoc_options ${_javadoc_options} -author)
+        list(APPEND _javadoc_options -author)
     endif ()
 
     if (_javadoc_use)
-        set(_javadoc_options ${_javadoc_options} -use)
+        list(APPEND _javadoc_options -use)
     endif ()
 
     if (_javadoc_version)
-        set(_javadoc_options ${_javadoc_options} -version)
+        list(APPEND _javadoc_options -version)
     endif ()
 
     add_custom_target(${_target}_javadoc ALL
-        COMMAND ${Java_JAVADOC_EXECUTABLE} ${_javadoc_options}
-                            ${_javadoc_files}
-                            ${_javadoc_packages}
+        COMMAND ${Java_JAVADOC_EXECUTABLE}
+                ${_javadoc_options}
+                ${_javadoc_files}
+                ${_javadoc_packages}
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
     )
 
@@ -1335,11 +1486,6 @@ function (create_javah)
     endif()
 
     set (_output_files)
-    if (WIN32 AND NOT CYGWIN AND CMAKE_HOST_SYSTEM_NAME MATCHES "Windows")
-      set(_classpath_sep "$<SEMICOLON>")
-    else ()
-      set(_classpath_sep ":")
-    endif()
 
     # handle javah options
     set (_javah_options)
@@ -1365,7 +1511,7 @@ function (create_javah)
           message(SEND_ERROR "create_javah: CLASSPATH entry ${_path} does not exist.")
         endif()
       endforeach()
-      string (REPLACE ";" "${_classpath_sep}" _classpath "${_classpath}")
+      string (REPLACE ";" "${_UseJava_PATH_SEP}" _classpath "${_classpath}")
       list (APPEND _javah_options -classpath "${_classpath}")
     endif()
 

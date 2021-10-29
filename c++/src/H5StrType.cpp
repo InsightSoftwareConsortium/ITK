@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -32,6 +32,7 @@
 #include "H5StrType.h"
 #include "H5DataSet.h"
 #include "H5PredType.h"
+#include "H5private.h"
 
 namespace H5 {
 
@@ -40,7 +41,9 @@ namespace H5 {
 ///\brief       Default constructor: Creates a stub string datatype
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-StrType::StrType() : AtomType() {}
+StrType::StrType() : AtomType()
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    StrType overloaded constructor
@@ -49,7 +52,7 @@ StrType::StrType() : AtomType() {}
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-StrType::StrType(const PredType& pred_type) : AtomType()
+StrType::StrType(const PredType &pred_type) : AtomType()
 {
     // use DataType::copy to make a copy of this predefined type
     copy(pred_type);
@@ -78,7 +81,7 @@ StrType::StrType(const PredType& pred_type) : AtomType()
 //              Planned for removal. -BMR, 2005/12/02
 //              Removed from documentation. -BMR, 2016/03/07
 //--------------------------------------------------------------------------
-StrType::StrType(const PredType& pred_type, const size_t& size) : AtomType()
+StrType::StrType(const PredType &pred_type, const size_t &size) : AtomType()
 {
     // use DataType::copy to make a copy of the string predefined type
     // then set its length
@@ -102,7 +105,7 @@ StrType::StrType(const PredType& pred_type, const size_t& size) : AtomType()
 //              This constructor replaced the previous one.
 // Programmer   Binh-Minh Ribler - Nov 28, 2005
 //--------------------------------------------------------------------------
-StrType::StrType(const int dummy, const size_t& size) : AtomType()
+StrType::StrType(H5_ATTR_UNUSED const int dummy, const size_t &size) : AtomType()
 {
     // use DataType::copy to make a copy of the string predefined type
     // then set its length
@@ -117,14 +120,18 @@ StrType::StrType(const int dummy, const size_t& size) : AtomType()
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-StrType::StrType(const hid_t existing_id) : AtomType( existing_id ) {}
+StrType::StrType(const hid_t existing_id) : AtomType(existing_id)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    StrType copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-StrType::StrType(const StrType& original) : AtomType ( original ) {}
+StrType::StrType(const StrType &original) : AtomType(original)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    StrType overloaded constructor
@@ -133,13 +140,12 @@ StrType::StrType(const StrType& original) : AtomType ( original ) {}
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-StrType::StrType(const DataSet& dataset) : AtomType ()
+StrType::StrType(const DataSet &dataset) : AtomType()
 {
     // Calls C function H5Dget_type to get the id of the datatype
     id = H5Dget_type(dataset.getId());
 
-    if (id < 0)
-    {
+    if (id < 0) {
         throw DataSetIException("StrType constructor", "H5Dget_type failed");
     }
 }
@@ -158,7 +164,7 @@ StrType::StrType(const DataSet& dataset) : AtomType ()
 //              improve usability.
 //              -BMR, Dec 2016
 //--------------------------------------------------------------------------
-StrType::StrType(const H5Location& loc, const char *dtype_name) : AtomType()
+StrType::StrType(const H5Location &loc, const char *dtype_name) : AtomType()
 {
     id = p_opentype(loc, dtype_name);
 }
@@ -177,7 +183,7 @@ StrType::StrType(const H5Location& loc, const char *dtype_name) : AtomType()
 //              to improve usability.
 //              -BMR, Dec 2016
 //--------------------------------------------------------------------------
-StrType::StrType(const H5Location& loc, const H5std_string& dtype_name) : AtomType()
+StrType::StrType(const H5Location &loc, const H5std_string &dtype_name) : AtomType()
 {
     id = p_opentype(loc, dtype_name.c_str());
 }
@@ -190,7 +196,8 @@ StrType::StrType(const H5Location& loc, const H5std_string& dtype_name) : AtomTy
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------
-DataType* StrType::decode() const
+DataType *
+StrType::decode() const
 {
     hid_t encoded_strtype_id = H5I_INVALID_HID;
     try {
@@ -201,7 +208,7 @@ DataType* StrType::decode() const
     }
     StrType *encoded_strtype = new StrType;
     encoded_strtype->p_setId(encoded_strtype_id);
-    return(encoded_strtype);
+    return (encoded_strtype);
 }
 
 //--------------------------------------------------------------------------
@@ -219,16 +226,16 @@ DataType* StrType::decode() const
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-H5T_cset_t StrType::getCset() const
+H5T_cset_t
+StrType::getCset() const
 {
     H5T_cset_t cset = H5Tget_cset(id);
 
     // Returns a valid character set type if successful
-    if (cset == H5T_CSET_ERROR)
-    {
+    if (cset == H5T_CSET_ERROR) {
         throw DataTypeIException("StrType::getCset", "H5Tget_cset failed");
     }
-    return(cset);
+    return (cset);
 }
 
 //--------------------------------------------------------------------------
@@ -246,11 +253,11 @@ H5T_cset_t StrType::getCset() const
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void StrType::setCset(H5T_cset_t cset) const
+void
+StrType::setCset(H5T_cset_t cset) const
 {
     herr_t ret_value = H5Tset_cset(id, cset);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw DataTypeIException("StrType::setCset", "H5Tset_cset failed");
     }
 }
@@ -265,17 +272,16 @@ void StrType::setCset(H5T_cset_t cset) const
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-H5T_str_t StrType::getStrpad() const
+H5T_str_t
+StrType::getStrpad() const
 {
     H5T_str_t strpad = H5Tget_strpad(id);
 
     // Returns a valid string padding type if successful
-    if (strpad == H5T_STR_ERROR)
-    {
-        throw DataTypeIException("StrType::getStrpad",
-            "H5Tget_strpad failed - returned H5T_STR_ERROR");
+    if (strpad == H5T_STR_ERROR) {
+        throw DataTypeIException("StrType::getStrpad", "H5Tget_strpad failed - returned H5T_STR_ERROR");
     }
-    return(strpad);
+    return (strpad);
 }
 
 //--------------------------------------------------------------------------
@@ -288,11 +294,11 @@ H5T_str_t StrType::getStrpad() const
 ///             the HDF5 C Reference Manual.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void StrType::setStrpad(H5T_str_t strpad) const
+void
+StrType::setStrpad(H5T_str_t strpad) const
 {
     herr_t ret_value = H5Tset_strpad(id, strpad);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw DataTypeIException("StrType::setStrpad", "H5Tset_strpad failed");
     }
 }
@@ -302,6 +308,8 @@ void StrType::setStrpad(H5T_str_t strpad) const
 ///\brief       Properly terminates access to this string datatype.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-StrType::~StrType() {}
+StrType::~StrType()
+{
+}
 
-} // end namespace
+} // namespace H5

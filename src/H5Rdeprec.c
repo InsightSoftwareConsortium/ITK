@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,62 +27,53 @@
 /* Module Setup */
 /****************/
 
-#include "H5Rmodule.h"          /* This source code file is part of the H5R module */
-
+#include "H5Rmodule.h" /* This source code file is part of the H5R module */
 
 /***********/
 /* Headers */
 /***********/
 /* Public headers needed by this file */
-#include "H5Ppublic.h"          /* Property lists                           */
+#include "H5Ppublic.h" /* Property lists                           */
 
 /* Private headers needed by this file */
-#include "H5private.h"		/* Generic Functions                        */
-#include "H5ACprivate.h"	/* Metadata cache                           */
-#include "H5CXprivate.h"        /* API Contexts                             */
-#include "H5Eprivate.h"		/* Error handling                           */
-#include "H5Gprivate.h"		/* Groups                                   */
-#include "H5Oprivate.h"		/* Object headers                           */
-#include "H5Rpkg.h"             /* References                               */
-
+#include "H5private.h"   /* Generic Functions                        */
+#include "H5ACprivate.h" /* Metadata cache                           */
+#include "H5CXprivate.h" /* API Contexts                             */
+#include "H5Eprivate.h"  /* Error handling                           */
+#include "H5Gprivate.h"  /* Groups                                   */
+#include "H5Oprivate.h"  /* Object headers                           */
+#include "H5Rpkg.h"      /* References                               */
 
 /****************/
 /* Local Macros */
 /****************/
 
-
 /******************/
 /* Local Typedefs */
 /******************/
-
 
 /********************/
 /* Package Typedefs */
 /********************/
 
-
 /********************/
 /* Local Prototypes */
 /********************/
-
 
 /*********************/
 /* Package Variables */
 /*********************/
 
-
 /*****************************/
 /* Library Private Variables */
 /*****************************/
-
 
 /*******************/
 /* Local Variables */
 /*******************/
 
-
 #ifndef H5_NO_DEPRECATED_SYMBOLS
-
+
 /*-------------------------------------------------------------------------
  * Function:    H5Rget_obj_type1
  *
@@ -102,9 +93,9 @@
 H5G_obj_t
 H5Rget_obj_type1(hid_t id, H5R_type_t ref_type, const void *ref)
 {
-    H5G_loc_t loc;              /* Object location */
-    H5O_type_t obj_type;        /* Object type */
-    H5G_obj_t ret_value;        /* Return value */
+    H5G_loc_t  loc;       /* Object location */
+    H5O_type_t obj_type;  /* Object type */
+    H5G_obj_t  ret_value; /* Return value */
 
     FUNC_ENTER_API(H5G_UNKNOWN)
     H5TRACE3("Go", "iRt*x", id, ref_type, ref);
@@ -118,7 +109,7 @@ H5Rget_obj_type1(hid_t id, H5R_type_t ref_type, const void *ref)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5G_UNKNOWN, "invalid reference pointer")
 
     /* Get the object information */
-    if(H5R__get_obj_type(loc.oloc->file, ref_type, ref, &obj_type) < 0)
+    if (H5R__get_obj_type(loc.oloc->file, ref_type, ref, &obj_type) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, H5G_UNKNOWN, "unable to determine object type")
 
     /* Set return value */
@@ -126,9 +117,8 @@ H5Rget_obj_type1(hid_t id, H5R_type_t ref_type, const void *ref)
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5Rget_obj_type1() */
+} /* end H5Rget_obj_type1() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5Rdereference1
  *
@@ -148,9 +138,9 @@ done:
 hid_t
 H5Rdereference1(hid_t obj_id, H5R_type_t ref_type, const void *_ref)
 {
-    H5G_loc_t loc;      /* Group location */
-    H5F_t *file = NULL; /* File object */
-    hid_t ret_value = H5I_INVALID_HID;	/* Return value */
+    H5G_loc_t loc;                         /* Group location */
+    H5F_t *   file      = NULL;            /* File object */
+    hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
     H5TRACE3("i", "iRt*x", obj_id, ref_type, _ref);
@@ -167,12 +157,11 @@ H5Rdereference1(hid_t obj_id, H5R_type_t ref_type, const void *_ref)
     file = loc.oloc->file;
 
     /* Create reference */
-    if((ret_value = H5R__dereference(file, H5P_DATASET_ACCESS_DEFAULT, ref_type, _ref)) < 0)
+    if ((ret_value = H5R__dereference(file, H5P_DATASET_ACCESS_DEFAULT, ref_type, _ref)) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTINIT, H5I_INVALID_HID, "unable dereference object")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5Rdereference1() */
+} /* end H5Rdereference1() */
 
 #endif /* H5_NO_DEPRECATED_SYMBOLS */
-

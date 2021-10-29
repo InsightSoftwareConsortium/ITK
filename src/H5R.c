@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -15,52 +15,44 @@
 /* Module Setup */
 /****************/
 
-#include "H5Rmodule.h"          /* This source code file is part of the H5R module */
-
+#include "H5Rmodule.h" /* This source code file is part of the H5R module */
 
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"          /* Generic Functions                        */
-#include "H5ACprivate.h"        /* Metadata cache                           */
-#include "H5CXprivate.h"        /* API Contexts                             */
-#include "H5Eprivate.h"         /* Error handling                           */
-#include "H5Gprivate.h"         /* Groups                                   */
-#include "H5Iprivate.h"         /* IDs                                      */
-#include "H5Rpkg.h"             /* References                               */
-#include "H5Sprivate.h"         /* Dataspaces                               */
-
+#include "H5private.h"   /* Generic Functions                        */
+#include "H5ACprivate.h" /* Metadata cache                           */
+#include "H5CXprivate.h" /* API Contexts                             */
+#include "H5Eprivate.h"  /* Error handling                           */
+#include "H5Gprivate.h"  /* Groups                                   */
+#include "H5Iprivate.h"  /* IDs                                      */
+#include "H5Rpkg.h"      /* References                               */
+#include "H5Sprivate.h"  /* Dataspaces                               */
 
 /****************/
 /* Local Macros */
 /****************/
 
-
 /******************/
 /* Local Typedefs */
 /******************/
-
 
 /********************/
 /* Local Prototypes */
 /********************/
 
-
 /*********************/
 /* Package Variables */
 /*********************/
-
 
 /*****************************/
 /* Library Private Variables */
 /*****************************/
 
-
 /*******************/
 /* Local Variables */
 /*******************/
 
-
 /*--------------------------------------------------------------------------
  NAME
     H5Rcreate
@@ -91,9 +83,9 @@
 herr_t
 H5Rcreate(void *ref, hid_t loc_id, const char *name, H5R_type_t ref_type, hid_t space_id)
 {
-    H5G_loc_t   loc;            /* File location */
-    H5S_t      *space = NULL;   /* Pointer to dataspace containing region */
-    herr_t      ret_value;      /* Return value */
+    H5G_loc_t loc;          /* File location */
+    H5S_t *   space = NULL; /* Pointer to dataspace containing region */
+    herr_t    ret_value;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE5("e", "*xi*sRti", ref, loc_id, name, ref_type, space_id);
@@ -115,18 +107,17 @@ H5Rcreate(void *ref, hid_t loc_id, const char *name, H5R_type_t ref_type, hid_t 
         HGOTO_ERROR(H5E_ARGS, H5E_BADTYPE, FAIL, "not a dataspace")
 
     /* Set up collective metadata if appropriate */
-    if(H5CX_set_loc(loc_id) < 0)
+    if (H5CX_set_loc(loc_id) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTSET, FAIL, "can't set access property list info")
 
     /* Create reference */
-    if((ret_value = H5R__create(ref, &loc, name, ref_type, space)) < 0)
+    if ((ret_value = H5R__create(ref, &loc, name, ref_type, space)) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTCREATE, FAIL, "unable to create reference")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5Rcreate() */
+} /* end H5Rcreate() */
 
-
 /*--------------------------------------------------------------------------
  NAME
     H5Rdereference2
@@ -157,9 +148,9 @@ done:
 hid_t
 H5Rdereference2(hid_t obj_id, hid_t oapl_id, H5R_type_t ref_type, const void *_ref)
 {
-    H5G_loc_t loc;      /* Group location */
-    H5F_t *file = NULL; /* File object */
-    hid_t ret_value = H5I_INVALID_HID;	/* Return value */
+    H5G_loc_t loc;                         /* Group location */
+    H5F_t *   file      = NULL;            /* File object */
+    hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
     H5TRACE4("i", "iiRt*x", obj_id, oapl_id, ref_type, _ref);
@@ -175,21 +166,20 @@ H5Rdereference2(hid_t obj_id, hid_t oapl_id, H5R_type_t ref_type, const void *_r
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference pointer")
 
     /* Verify access property list and set up collective metadata if appropriate */
-    if(H5CX_set_apl(&oapl_id, H5P_CLS_DACC, obj_id, FALSE) < 0)
+    if (H5CX_set_apl(&oapl_id, H5P_CLS_DACC, obj_id, FALSE) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTSET, FAIL, "can't set access property list info")
 
     /* Get the file pointer from the entry */
     file = loc.oloc->file;
 
     /* Create reference */
-    if((ret_value = H5R__dereference(file, oapl_id, ref_type, _ref)) < 0)
+    if ((ret_value = H5R__dereference(file, oapl_id, ref_type, _ref)) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTOPENOBJ, H5I_INVALID_HID, "unable to dereference object")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5Rdereference2() */
+} /* end H5Rdereference2() */
 
-
 /*--------------------------------------------------------------------------
  NAME
     H5Rget_region
@@ -216,9 +206,9 @@ done:
 hid_t
 H5Rget_region(hid_t id, H5R_type_t ref_type, const void *ref)
 {
-    H5G_loc_t loc;          /* Object's group location */
-    H5S_t *space = NULL;    /* Dataspace object */
-    hid_t ret_value = H5I_INVALID_HID;	/* Return value */
+    H5G_loc_t loc;                         /* Object's group location */
+    H5S_t *   space     = NULL;            /* Dataspace object */
+    hid_t     ret_value = H5I_INVALID_HID; /* Return value */
 
     FUNC_ENTER_API(H5I_INVALID_HID)
     H5TRACE3("i", "iRt*x", id, ref_type, ref);
@@ -232,7 +222,7 @@ H5Rget_region(hid_t id, H5R_type_t ref_type, const void *ref)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, H5I_INVALID_HID, "invalid reference pointer")
 
     /* Get the dataspace with the correct region selected */
-    if(NULL == (space = H5R__get_region(loc.oloc->file, ref)))
+    if (NULL == (space = H5R__get_region(loc.oloc->file, ref)))
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTGET, H5I_INVALID_HID, "unable to retrieve dataspace")
 
     /* Atomize */
@@ -241,9 +231,8 @@ H5Rget_region(hid_t id, H5R_type_t ref_type, const void *ref)
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5Rget_region() */
+} /* end H5Rget_region() */
 
-
 /*--------------------------------------------------------------------------
  NAME
     H5Rget_obj_type2
@@ -268,11 +257,10 @@ done:
  REVISION LOG
 --------------------------------------------------------------------------*/
 herr_t
-H5Rget_obj_type2(hid_t id, H5R_type_t ref_type, const void *ref,
-    H5O_type_t *obj_type)
+H5Rget_obj_type2(hid_t id, H5R_type_t ref_type, const void *ref, H5O_type_t *obj_type)
 {
-    H5G_loc_t loc;              /* Object location */
-    herr_t ret_value = SUCCEED; /* Return value */
+    H5G_loc_t loc;                 /* Object location */
+    herr_t    ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE4("e", "iRt*x*Ot", id, ref_type, ref, obj_type);
@@ -286,14 +274,13 @@ H5Rget_obj_type2(hid_t id, H5R_type_t ref_type, const void *ref,
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "invalid reference pointer")
 
     /* Get the object information */
-    if(H5R__get_obj_type(loc.oloc->file, ref_type, ref, obj_type) < 0)
+    if (H5R__get_obj_type(loc.oloc->file, ref_type, ref, obj_type) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTGET, FAIL, "unable to determine object type")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5Rget_obj_type2() */
+} /* end H5Rget_obj_type2() */
 
-
 /*--------------------------------------------------------------------------
  NAME
     H5Rget_name
@@ -306,7 +293,7 @@ done:
         H5R_type_t ref_type;    IN: Type of reference
         void *ref;      IN: Reference to query.
         char *name;     OUT: Buffer to place name of object referenced. If NULL
-	                     then this call will return the size in bytes of name.
+                             then this call will return the size in bytes of name.
         size_t size;    IN: Size of name buffer (user needs to include NULL terminator
                             when passing in the size)
 
@@ -328,12 +315,11 @@ done:
     negative on failure.
 --------------------------------------------------------------------------*/
 ssize_t
-H5Rget_name(hid_t id, H5R_type_t ref_type, const void *_ref, char *name,
-    size_t size)
+H5Rget_name(hid_t id, H5R_type_t ref_type, const void *_ref, char *name, size_t size)
 {
-    H5G_loc_t loc;      /* Group location */
-    H5F_t *file;        /* File object */
-    ssize_t ret_value;  /* Return value */
+    H5G_loc_t loc;       /* Group location */
+    H5F_t *   file;      /* File object */
+    ssize_t   ret_value; /* Return value */
 
     FUNC_ENTER_API((-1))
     H5TRACE5("Zs", "iRt*x*sz", id, ref_type, _ref, name, size);
@@ -350,10 +336,9 @@ H5Rget_name(hid_t id, H5R_type_t ref_type, const void *_ref, char *name,
     file = loc.oloc->file;
 
     /* Get name */
-    if((ret_value = H5R__get_name(file, id, ref_type, _ref, name, size)) < 0)
+    if ((ret_value = H5R__get_name(file, id, ref_type, _ref, name, size)) < 0)
         HGOTO_ERROR(H5E_REFERENCE, H5E_CANTGET, (-1), "unable to determine object path")
 
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5Rget_name() */
-

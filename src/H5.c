@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -14,43 +14,40 @@
 /****************/
 /* Module Setup */
 /****************/
-
+#include "H5module.h" /* This source code file is part of the H5 module */
 
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"          /* Generic Functions                        */
-#include "H5ACprivate.h"        /* Metadata cache                           */
-#include "H5CXprivate.h"        /* API Contexts                             */
-#include "H5Dprivate.h"         /* Datasets                                 */
-#include "H5Eprivate.h"         /* Error handling                           */
-#include "H5FLprivate.h"        /* Free lists                               */
-#include "H5FSprivate.h"        /* File free space                          */
-#include "H5Lprivate.h"         /* Links                                    */
-#include "H5MMprivate.h"        /* Memory management                        */
-#include "H5Pprivate.h"         /* Property lists                           */
-#include "H5SLprivate.h"        /* Skip lists                               */
-#include "H5Tprivate.h"         /* Datatypes                                */
+#include "H5private.h"   /* Generic Functions                        */
+#include "H5ACprivate.h" /* Metadata cache                           */
+#include "H5CXprivate.h" /* API Contexts                             */
+#include "H5Dprivate.h"  /* Datasets                                 */
+#include "H5Eprivate.h"  /* Error handling                           */
+#include "H5FLprivate.h" /* Free lists                               */
+#include "H5FSprivate.h" /* File free space                          */
+#include "H5Lprivate.h"  /* Links                                    */
+#include "H5MMprivate.h" /* Memory management                        */
+#include "H5Pprivate.h"  /* Property lists                           */
+#include "H5SLprivate.h" /* Skip lists                               */
+#include "H5Tprivate.h"  /* Datatypes                                */
 
 /****************/
 /* Local Macros */
 /****************/
 
-
 /******************/
 /* Local Typedefs */
 /******************/
-
 
 /********************/
 /* Package Typedefs */
 /********************/
 
-
 /********************/
 /* Local Prototypes */
 /********************/
-static void H5__debug_mask(const char*);
+static void H5__debug_mask(const char *);
 #ifdef H5_HAVE_PARALLEL
 static int H5__mpi_delete_cb(MPI_Comm comm, int keyval, void *attr_val, int *flag);
 #endif /*H5_HAVE_PARALLEL*/
@@ -59,37 +56,37 @@ static int H5__mpi_delete_cb(MPI_Comm comm, int keyval, void *attr_val, int *fla
 /* Package Variables */
 /*********************/
 
+/* Package initialization variable */
+hbool_t H5_PKG_INIT_VAR = FALSE;
 
 /*****************************/
 /* Library Private Variables */
 /*****************************/
 
-/* HDF5 API Entered variable */
-/* (move to H5.c when new FUNC_ENTER macros in actual use -QAK) */
-hbool_t H5_api_entered_g = FALSE;
+/* Library incompatible release versions */
+const unsigned VERS_RELEASE_EXCEPTIONS[]    = {0, 1, 2, 4};
+const unsigned VERS_RELEASE_EXCEPTIONS_SIZE = 4;
 
 /* statically initialize block for pthread_once call used in initializing */
 /* the first global mutex                                                 */
 #ifdef H5_HAVE_THREADSAFE
 H5_api_t H5_g;
 #else
-hbool_t H5_libinit_g = FALSE;   /* Library hasn't been initialized */
-hbool_t H5_libterm_g = FALSE;   /* Library isn't being shutdown */
+hbool_t H5_libinit_g = FALSE; /* Library hasn't been initialized */
+hbool_t H5_libterm_g = FALSE; /* Library isn't being shutdown */
 #endif
 
 #ifdef H5_HAVE_MPE
-hbool_t H5_MPEinit_g = FALSE;	/* MPE Library hasn't been initialized */
+hbool_t H5_MPEinit_g = FALSE; /* MPE Library hasn't been initialized */
 #endif
 
-char                    H5_lib_vers_info_g[] = H5_VERS_INFO;
-static hbool_t          H5_dont_atexit_g = FALSE;
-H5_debug_t              H5_debug_g; /* debugging info */
-
+char           H5_lib_vers_info_g[] = H5_VERS_INFO;
+static hbool_t H5_dont_atexit_g     = FALSE;
+H5_debug_t     H5_debug_g; /* debugging info */
 
 /*******************/
 /* Local Variables */
 /*******************/
-
 
 /*--------------------------------------------------------------------------
  * NAME
@@ -114,12 +111,12 @@ H5_init_library(void)
 
 #ifdef H5_HAVE_PARALLEL
     {
-	int mpi_initialized;
-	int mpi_finalized;
+        int mpi_initialized;
+        int mpi_finalized;
         int mpi_code;
 
-	MPI_Initialized(&mpi_initialized);
-	MPI_Finalized(&mpi_finalized);
+        MPI_Initialized(&mpi_initialized);
+        MPI_Finalized(&mpi_finalized);
 
 #ifdef H5_HAVE_MPE
         /* Initialize MPE instrumentation library. */
@@ -127,7 +124,7 @@ H5_init_library(void)
             int mpe_code;
             if (mpi_initialized && !mpi_finalized) {
                 mpe_code = MPE_Init_log();
-                HDassert(mpe_code >=0);
+                HDassert(mpe_code >= 0);
                 H5_MPEinit_g = TRUE;
             }
         }
@@ -138,15 +135,15 @@ H5_init_library(void)
         if (mpi_initialized && !mpi_finalized) {
             int key_val;
 
-            if(MPI_SUCCESS != (mpi_code = MPI_Comm_create_keyval(MPI_COMM_NULL_COPY_FN,
-                                                                 (MPI_Comm_delete_attr_function *)H5__mpi_delete_cb,
-                                                                 &key_val, NULL)))
+            if (MPI_SUCCESS != (mpi_code = MPI_Comm_create_keyval(
+                                    MPI_COMM_NULL_COPY_FN, (MPI_Comm_delete_attr_function *)H5__mpi_delete_cb,
+                                    &key_val, NULL)))
                 HMPI_GOTO_ERROR(FAIL, "MPI_Comm_create_keyval failed", mpi_code)
 
-            if(MPI_SUCCESS != (mpi_code = MPI_Comm_set_attr(MPI_COMM_SELF, key_val, NULL)))
+            if (MPI_SUCCESS != (mpi_code = MPI_Comm_set_attr(MPI_COMM_SELF, key_val, NULL)))
                 HMPI_GOTO_ERROR(FAIL, "MPI_Comm_set_attr failed", mpi_code)
 
-            if(MPI_SUCCESS != (mpi_code = MPI_Comm_free_keyval(&key_val)))
+            if (MPI_SUCCESS != (mpi_code = MPI_Comm_free_keyval(&key_val)))
                 HMPI_GOTO_ERROR(FAIL, "MPI_Comm_free_keyval failed", mpi_code)
         }
     }
@@ -156,24 +153,24 @@ H5_init_library(void)
      * Make sure the package information is updated.
      */
     HDmemset(&H5_debug_g, 0, sizeof H5_debug_g);
-    H5_debug_g.pkg[H5_PKG_A].name = "a";
+    H5_debug_g.pkg[H5_PKG_A].name  = "a";
     H5_debug_g.pkg[H5_PKG_AC].name = "ac";
-    H5_debug_g.pkg[H5_PKG_B].name = "b";
-    H5_debug_g.pkg[H5_PKG_D].name = "d";
-    H5_debug_g.pkg[H5_PKG_E].name = "e";
-    H5_debug_g.pkg[H5_PKG_F].name = "f";
-    H5_debug_g.pkg[H5_PKG_G].name = "g";
+    H5_debug_g.pkg[H5_PKG_B].name  = "b";
+    H5_debug_g.pkg[H5_PKG_D].name  = "d";
+    H5_debug_g.pkg[H5_PKG_E].name  = "e";
+    H5_debug_g.pkg[H5_PKG_F].name  = "f";
+    H5_debug_g.pkg[H5_PKG_G].name  = "g";
     H5_debug_g.pkg[H5_PKG_HG].name = "hg";
     H5_debug_g.pkg[H5_PKG_HL].name = "hl";
-    H5_debug_g.pkg[H5_PKG_I].name = "i";
+    H5_debug_g.pkg[H5_PKG_I].name  = "i";
     H5_debug_g.pkg[H5_PKG_MF].name = "mf";
     H5_debug_g.pkg[H5_PKG_MM].name = "mm";
-    H5_debug_g.pkg[H5_PKG_O].name = "o";
-    H5_debug_g.pkg[H5_PKG_P].name = "p";
-    H5_debug_g.pkg[H5_PKG_S].name = "s";
-    H5_debug_g.pkg[H5_PKG_T].name = "t";
-    H5_debug_g.pkg[H5_PKG_V].name = "v";
-    H5_debug_g.pkg[H5_PKG_Z].name = "z";
+    H5_debug_g.pkg[H5_PKG_O].name  = "o";
+    H5_debug_g.pkg[H5_PKG_P].name  = "p";
+    H5_debug_g.pkg[H5_PKG_S].name  = "s";
+    H5_debug_g.pkg[H5_PKG_T].name  = "t";
+    H5_debug_g.pkg[H5_PKG_V].name  = "v";
+    H5_debug_g.pkg[H5_PKG_Z].name  = "z";
 
     /*
      * Install atexit() library cleanup routines unless the H5dont_atexit()
@@ -188,7 +185,7 @@ H5_init_library(void)
          * This must be entered before the library cleanup code so it's
          * executed in LIFO order (i.e., last).
          */
-	    (void)HDatexit(H5TS_win32_process_exit);
+        (void)HDatexit(H5TS_win32_process_exit);
 #endif /* H5_HAVE_THREADSAFE && H5_HAVE_WIN_THREADS */
 
         /* Normal library termination code */
@@ -211,19 +208,19 @@ H5_init_library(void)
      *   When the application does not close the file, routines in the module might
      *   be called via H5_term_library() when shutting down the file.
      */
-    if(H5E_init() < 0)
+    if (H5E_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize error interface")
-    if(H5P_init() < 0)
+    if (H5P_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize property list interface")
-    if(H5T_init() < 0)
+    if (H5T_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize datatype interface")
-    if(H5D_init() < 0)
+    if (H5D_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize dataset interface")
-    if(H5AC_init() < 0)
+    if (H5AC_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize metadata caching interface")
-    if(H5L_init() < 0)
+    if (H5L_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize link interface")
-    if(H5FS_init() < 0)
+    if (H5FS_init() < 0)
         HGOTO_ERROR(H5E_FUNC, H5E_CANTINIT, FAIL, "unable to initialize FS interface")
 
     /* Debugging? */
@@ -234,24 +231,23 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5_init_library() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5_term_library
+ * Function:    H5_term_library
  *
- * Purpose:	Terminate interfaces in a well-defined order due to
- *		dependencies among the interfaces, then terminate
- *		library-specific data.
+ * Purpose:    Terminate interfaces in a well-defined order due to
+ *        dependencies among the interfaces, then terminate
+ *        library-specific data.
  *
- * Return:	void
+ * Return:    void
  *
  *-------------------------------------------------------------------------
  */
 void
 H5_term_library(void)
 {
-    int	pending, ntries = 0, n;
-    size_t	at = 0;
-    char	loop[1024];
+    int         pending, ntries = 0, n;
+    size_t      at = 0;
+    char        loop[1024];
     H5E_auto2_t func;
 
 #ifdef H5_HAVE_THREADSAFE
@@ -261,7 +257,7 @@ H5_term_library(void)
 #endif
 
     /* Don't do anything if the library is already closed */
-    if(!(H5_INIT_GLOBAL))
+    if (!(H5_INIT_GLOBAL))
         goto done;
 
     /* Indicate that the library is being shut down */
@@ -278,15 +274,11 @@ H5_term_library(void)
      * value if they do something that might affect some other interface in a
      * way that would necessitate some cleanup work in the other interface.
      */
-#define DOWN(F)								      \
-    (((n = H5##F##_term_package()) && (at + 8) < sizeof loop)?	      \
-     (HDsprintf(loop + at, "%s%s", (at ? "," : ""), #F),			      \
-      at += HDstrlen(loop + at),					      \
-      n):                                                                     \
-     ((n > 0 && (at + 5) < sizeof loop) ?				      \
-     (HDsprintf(loop + at, "..."),					      \
-      at += HDstrlen(loop + at),					      \
-     n) : n))
+#define DOWN(F)                                                                                              \
+    (((n = H5##F##_term_package()) && (at + 8) < sizeof loop)                                                \
+         ? (HDsprintf(loop + at, "%s%s", (at ? "," : ""), #F), at += HDstrlen(loop + at), n)                 \
+         : ((n > 0 && (at + 5) < sizeof loop) ? (HDsprintf(loop + at, "..."), at += HDstrlen(loop + at), n)  \
+                                              : n))
 
     do {
         pending = 0;
@@ -310,19 +302,19 @@ H5_term_library(void)
         pending += DOWN(T_top);
 
         /* Don't shut down the file code until objects in files are shut down */
-        if(pending == 0)
+        if (pending == 0)
             pending += DOWN(F);
 
         /* Don't shut down the property list code until all objects that might
          * use property lists are shut down */
-        if(pending == 0)
+        if (pending == 0)
             pending += DOWN(P);
 
         /* Wait to shut down the "bottom" of various interfaces until the
          *      files are closed, so pieces of the file can be serialized
          *      correctly.
          */
-        if(pending == 0) {
+        if (pending == 0) {
             /* Shut down the "bottom" of the attribute, dataset, group,
              *  reference, dataspace, and datatype interfaces, fully closing
              *  out the interfaces now.
@@ -340,47 +332,47 @@ H5_term_library(void)
          * from being closed "out from underneath" of the high-level objects
          * that depend on them. -QAK
          */
-        if(pending == 0) {
+        if (pending == 0) {
             pending += DOWN(AC);
             pending += DOWN(Z);
             pending += DOWN(FD);
             /* Don't shut down the plugin code until all "pluggable" interfaces (Z, FD, PL) are shut down */
-            if(pending == 0)
+            if (pending == 0)
                 pending += DOWN(PL);
             /* Don't shut down the error code until other APIs which use it are shut down */
-            if(pending == 0)
+            if (pending == 0)
                 pending += DOWN(E);
             /* Don't shut down the ID code until other APIs which use them are shut down */
-            if(pending == 0)
+            if (pending == 0)
                 pending += DOWN(I);
             /* Don't shut down the skip list code until everything that uses it is down */
-            if(pending == 0)
+            if (pending == 0)
                 pending += DOWN(SL);
             /* Don't shut down the free list code until everything that uses it is down */
-            if(pending == 0)
+            if (pending == 0)
                 pending += DOWN(FL);
             /* Don't shut down the API context code until _everything_ else is down */
-            if(pending == 0)
+            if (pending == 0)
                 pending += DOWN(CX);
         } /* end if */
-    } while(pending && ntries++ < 100);
+    } while (pending && ntries++ < 100);
 
-    if(pending) {
+    if (pending) {
         /* Only display the error message if the user is interested in them. */
-        if(func) {
+        if (func) {
             HDfprintf(stderr, "HDF5: infinite loop closing library\n");
             HDfprintf(stderr, "      %s\n", loop);
 #ifndef NDEBUG
             HDabort();
-#endif /* NDEBUG */
+#endif    /* NDEBUG */
         } /* end if */
-    } /* end if */
+    }     /* end if */
 
 #ifdef H5_HAVE_MPE
     /* Close MPE instrumentation library.  May need to move this
      * down if any of the below code involves using the instrumentation code.
      */
-    if(H5_MPEinit_g) {
+    if (H5_MPEinit_g) {
         int mpi_initialized;
         int mpi_finalized;
         int mpe_code;
@@ -390,15 +382,15 @@ H5_term_library(void)
 
         if (mpi_initialized && !mpi_finalized) {
             mpe_code = MPE_Finish_log("h5log");
-            HDassert(mpe_code >=0);
-        } /* end if */
-        H5_MPEinit_g = FALSE;	/* turn it off no matter what */
-    } /* end if */
+            HDassert(mpe_code >= 0);
+        }                     /* end if */
+        H5_MPEinit_g = FALSE; /* turn it off no matter what */
+    }                         /* end if */
 #endif
 
     /* Free open debugging streams */
-    while(H5_debug_g.open_stream) {
-        H5_debug_open_stream_t  *tmp_open_stream;
+    while (H5_debug_g.open_stream) {
+        H5_debug_open_stream_t *tmp_open_stream;
 
         tmp_open_stream = H5_debug_g.open_stream;
         (void)HDfclose(H5_debug_g.open_stream->stream);
@@ -427,36 +419,35 @@ done:
     return;
 } /* end H5_term_library() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5dont_atexit
+ * Function:    H5dont_atexit
  *
- * Purpose:	Indicates that the library is not to clean up after itself
- *		when the application exits by calling exit() or returning
- *		from main().  This function must be called before any other
- *		HDF5 function or constant is used or it will have no effect.
+ * Purpose:    Indicates that the library is not to clean up after itself
+ *        when the application exits by calling exit() or returning
+ *        from main().  This function must be called before any other
+ *        HDF5 function or constant is used or it will have no effect.
  *
- *		If this function is used then certain memory buffers will not
- *		be de-allocated nor will open files be flushed automatically.
- *		The application may still call H5close() explicitly to
- *		accomplish these things.
+ *        If this function is used then certain memory buffers will not
+ *        be de-allocated nor will open files be flushed automatically.
+ *        The application may still call H5close() explicitly to
+ *        accomplish these things.
  *
- * Return:	Success:	non-negative
+ * Return:    Success:    non-negative
  *
- *		Failure:	negative if this function is called more than
- *				once or if it is called too late.
+ *        Failure:    negative if this function is called more than
+ *                once or if it is called too late.
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5dont_atexit(void)
 {
-    herr_t ret_value = SUCCEED;       /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API_NOINIT_NOERR_NOFS
-    H5TRACE0("e","");
+    H5TRACE0("e", "");
 
-    if(H5_dont_atexit_g)
+    if (H5_dont_atexit_g)
         ret_value = FAIL;
     else
         H5_dont_atexit_g = TRUE;
@@ -464,45 +455,43 @@ H5dont_atexit(void)
     FUNC_LEAVE_API_NOFS(ret_value)
 } /* end H5dont_atexit() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5garbage_collect
+ * Function:    H5garbage_collect
  *
- * Purpose:	Walks through all the garbage collection routines for the
- *		library, which are supposed to free any unused memory they have
- *		allocated.
+ * Purpose:    Walks through all the garbage collection routines for the
+ *        library, which are supposed to free any unused memory they have
+ *        allocated.
  *
  *      These should probably be registered dynamically in a linked list of
  *          functions to call, but there aren't that many right now, so we
  *          hard-wire them...
  *
- * Return:	Success:	non-negative
+ * Return:    Success:    non-negative
  *
- *		Failure:	negative
+ *        Failure:    negative
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5garbage_collect(void)
 {
-    herr_t                  ret_value = SUCCEED;
+    herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE0("e","");
+    H5TRACE0("e", "");
 
     /* Call the garbage collection routines in the library */
-    if(H5FL_garbage_coll()<0)
+    if (H5FL_garbage_coll() < 0)
         HGOTO_ERROR(H5E_RESOURCE, H5E_CANTGC, FAIL, "can't garbage collect objects")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5garbage_collect() */
+} /* end H5garbage_collect() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5set_free_list_limits
+ * Function:    H5set_free_list_limits
  *
- * Purpose:	Sets limits on the different kinds of free lists.  Setting a value
+ * Purpose:    Sets limits on the different kinds of free lists.  Setting a value
  *      of -1 for a limit means no limit of that type.  These limits are global
  *      for the entire library.  Each "global" limit only applies to free lists
  *      of that type, so if an application sets a limit of 1 MB on each of the
@@ -520,38 +509,37 @@ done:
  *  int blk_global_lim;  IN: The limit on all "block" free list memory used
  *  int blk_list_lim;    IN: The limit on memory used in each "block" free list
  *
- * Return:	Success:	non-negative
+ * Return:    Success:    non-negative
  *
- *		Failure:	negative
+ *        Failure:    negative
  *
  *-------------------------------------------------------------------------
  */
 herr_t
-H5set_free_list_limits(int reg_global_lim, int reg_list_lim, int arr_global_lim,
-    int arr_list_lim, int blk_global_lim, int blk_list_lim)
+H5set_free_list_limits(int reg_global_lim, int reg_list_lim, int arr_global_lim, int arr_list_lim,
+                       int blk_global_lim, int blk_list_lim)
 {
-    herr_t                  ret_value = SUCCEED;
+    herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
-    H5TRACE6("e", "IsIsIsIsIsIs", reg_global_lim, reg_list_lim, arr_global_lim,
-             arr_list_lim, blk_global_lim, blk_list_lim);
+    H5TRACE6("e", "IsIsIsIsIsIs", reg_global_lim, reg_list_lim, arr_global_lim, arr_list_lim, blk_global_lim,
+             blk_list_lim);
 
     /* Call the free list function to actually set the limits */
-    if(H5FL_set_free_list_limits(reg_global_lim, reg_list_lim, arr_global_lim, arr_list_lim,
-            blk_global_lim, blk_list_lim, blk_global_lim, blk_list_lim)<0)
+    if (H5FL_set_free_list_limits(reg_global_lim, reg_list_lim, arr_global_lim, arr_list_lim, blk_global_lim,
+                                  blk_list_lim, blk_global_lim, blk_list_lim) < 0)
         HGOTO_ERROR(H5E_RESOURCE, H5E_CANTSET, FAIL, "can't set garbage collection limits")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5set_free_list_limits() */
+} /* end H5set_free_list_limits() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5get_free_list_sizes
+ * Function:    H5get_free_list_sizes
  *
- * Purpose:	Gets the current size of the different kinds of free lists that
- *	the library uses to manage memory.  The free list sizes can be set with
- *	H5set_free_list_limits and garbage collected with H5garbage_collect.
+ * Purpose:    Gets the current size of the different kinds of free lists that
+ *    the library uses to manage memory.  The free list sizes can be set with
+ *    H5set_free_list_limits and garbage collected with H5garbage_collect.
  *      These lists are global for the entire library.
  *
  * Parameters:
@@ -560,8 +548,8 @@ done:
  *  size_t *blk_size;    OUT: The current size of all "block" free list memory used
  *  size_t *fac_size;    OUT: The current size of all "factory" free list memory used
  *
- * Return:	Success:	non-negative
- *		Failure:	negative
+ * Return:    Success:    non-negative
+ *        Failure:    negative
  *
  * Programmer:  Quincey Koziol
  *              Friday, March 6, 2020
@@ -569,41 +557,39 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5get_free_list_sizes(size_t *reg_size, size_t *arr_size, size_t *blk_size,
-    size_t *fac_size)
+H5get_free_list_sizes(size_t *reg_size, size_t *arr_size, size_t *blk_size, size_t *fac_size)
 {
-    herr_t ret_value = SUCCEED;         /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE4("e", "*z*z*z*z", reg_size, arr_size, blk_size, fac_size);
 
     /* Call the free list function to actually get the sizes */
-    if(H5FL_get_free_list_sizes(reg_size, arr_size, blk_size, fac_size) < 0)
+    if (H5FL_get_free_list_sizes(reg_size, arr_size, blk_size, fac_size) < 0)
         HGOTO_ERROR(H5E_RESOURCE, H5E_CANTGET, FAIL, "can't get garbage collection sizes")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5get_free_list_sizes() */
+} /* end H5get_free_list_sizes() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5get_alloc_stats
+ * Function:    H5get_alloc_stats
  *
- * Purpose:	Gets the memory allocation statistics for the library, if the
- *	--enable-memory-alloc-sanity-check option was given when building the
+ * Purpose:    Gets the memory allocation statistics for the library, if the
+ *    --enable-memory-alloc-sanity-check option was given when building the
  *      library.  Applications can check whether this option was enabled by
- *	detecting if the 'H5_MEMORY_ALLOC_SANITY_CHECK' macro is defined.  This
- *	option is enabled by default for debug builds of the library and
- *	disabled by default for non-debug builds.  If the option is not enabled,
- *	all the values returned with be 0.  These statistics are global for the
- *	entire library, but don't include allocations from chunked dataset I/O
- *	filters or non-native VOL connectors.
+ *    detecting if the 'H5_MEMORY_ALLOC_SANITY_CHECK' macro is defined.  This
+ *    option is enabled by default for debug builds of the library and
+ *    disabled by default for non-debug builds.  If the option is not enabled,
+ *    all the values returned with be 0.  These statistics are global for the
+ *    entire library, but don't include allocations from chunked dataset I/O
+ *    filters or non-native VOL connectors.
  *
  * Parameters:
  *  H5_alloc_stats_t *stats;            OUT: Memory allocation statistics
  *
- * Return:	Success:	non-negative
- *		Failure:	negative
+ * Return:    Success:    non-negative
+ *        Failure:    negative
  *
  * Programmer:  Quincey Koziol
  *              Saturday, March 7, 2020
@@ -613,20 +599,19 @@ done:
 herr_t
 H5get_alloc_stats(H5_alloc_stats_t *stats)
 {
-    herr_t ret_value = SUCCEED;         /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "*x", stats);
 
     /* Call the internal allocation stat routine to get the values */
-    if(H5MM_get_alloc_stats(stats) < 0)
+    if (H5MM_get_alloc_stats(stats) < 0)
         HGOTO_ERROR(H5E_RESOURCE, H5E_CANTGET, FAIL, "can't get allocation stats")
 
 done:
     FUNC_LEAVE_API(ret_value)
-}   /* end H5get_alloc_stats() */
+} /* end H5get_alloc_stats() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5__debug_mask
  *
@@ -653,263 +638,325 @@ done:
 static void
 H5__debug_mask(const char *s)
 {
-    FILE	*stream = stderr;
-    char	pkg_name[32], *rest;
-    size_t	i;
-    hbool_t	clear;
+    FILE *  stream = stderr;
+    char    pkg_name[32], *rest;
+    size_t  i;
+    hbool_t clear;
 
     while (s && *s) {
 
-        if (HDisalpha(*s) || '-'==*s || '+'==*s) {
+        if (HDisalpha(*s) || '-' == *s || '+' == *s) {
 
             /* Enable or Disable debugging? */
-            if ('-'==*s) {
+            if ('-' == *s) {
                 clear = TRUE;
                 s++;
-            } else if ('+'==*s) {
+            }
+            else if ('+' == *s) {
                 clear = FALSE;
                 s++;
-            } else {
+            }
+            else {
                 clear = FALSE;
             } /* end if */
 
             /* Get the name */
-            for (i=0; HDisalpha(*s); i++, s++)
-                if (i<sizeof pkg_name)
+            for (i = 0; HDisalpha(*s); i++, s++)
+                if (i < sizeof pkg_name)
                     pkg_name[i] = *s;
-            pkg_name[MIN(sizeof(pkg_name)-1, i)] = '\0';
+            pkg_name[MIN(sizeof(pkg_name) - 1, i)] = '\0';
 
             /* Trace, all, or one? */
             if (!HDstrcmp(pkg_name, "trace")) {
                 H5_debug_g.trace = clear ? NULL : stream;
-            } else if (!HDstrcmp(pkg_name, "ttop")) {
+            }
+            else if (!HDstrcmp(pkg_name, "ttop")) {
                 H5_debug_g.trace = stream;
-                H5_debug_g.ttop = (hbool_t)!clear;
-            } else if (!HDstrcmp(pkg_name, "ttimes")) {
-                H5_debug_g.trace = stream;
+                H5_debug_g.ttop  = (hbool_t)!clear;
+            }
+            else if (!HDstrcmp(pkg_name, "ttimes")) {
+                H5_debug_g.trace  = stream;
                 H5_debug_g.ttimes = (hbool_t)!clear;
-            } else if (!HDstrcmp(pkg_name, "all")) {
-                for (i=0; i<(size_t)H5_NPKGS; i++)
+            }
+            else if (!HDstrcmp(pkg_name, "all")) {
+                for (i = 0; i < (size_t)H5_NPKGS; i++)
                     H5_debug_g.pkg[i].stream = clear ? NULL : stream;
-            } else {
-                for (i=0; i<(size_t)H5_NPKGS; i++) {
+            }
+            else {
+                for (i = 0; i < (size_t)H5_NPKGS; i++) {
                     if (!HDstrcmp(H5_debug_g.pkg[i].name, pkg_name)) {
                         H5_debug_g.pkg[i].stream = clear ? NULL : stream;
                         break;
-		            } /* end if */
-                } /* end for */
-                if (i>=(size_t)H5_NPKGS)
+                    } /* end if */
+                }     /* end for */
+                if (i >= (size_t)H5_NPKGS)
                     HDfprintf(stderr, "HDF5_DEBUG: ignored %s\n", pkg_name);
             } /* end if-else */
-
-        } else if (HDisdigit(*s)) {
-            int fd = (int)HDstrtol(s, &rest, 0);
+        }
+        else if (HDisdigit(*s)) {
+            int                     fd = (int)HDstrtol(s, &rest, 0);
             H5_debug_open_stream_t *open_stream;
 
-            if((stream = HDfdopen(fd, "w")) != NULL) {
+            if ((stream = HDfdopen(fd, "w")) != NULL) {
                 (void)HDsetvbuf(stream, NULL, _IOLBF, (size_t)0);
 
-                if(NULL == (open_stream = (H5_debug_open_stream_t *)H5MM_malloc(sizeof(H5_debug_open_stream_t)))) {
+                if (NULL ==
+                    (open_stream = (H5_debug_open_stream_t *)H5MM_malloc(sizeof(H5_debug_open_stream_t)))) {
                     (void)HDfclose(stream);
                     return;
                 } /* end if */
 
-                open_stream->stream = stream;
-                open_stream->next = H5_debug_g.open_stream;
+                open_stream->stream    = stream;
+                open_stream->next      = H5_debug_g.open_stream;
                 H5_debug_g.open_stream = open_stream;
             } /* end if */
 
             s = rest;
-        } else {
+        }
+        else {
             s++;
         } /* end if-else */
-    } /* end while */
-
-    return;
-
+    }     /* end while */
 } /* end H5__debug_mask() */
 
 #ifdef H5_HAVE_PARALLEL
-
+
 /*-------------------------------------------------------------------------
- * Function:	H5__mpi_delete_cb
+ * Function:    H5__mpi_delete_cb
  *
- * Purpose:	Callback attribute on MPI_COMM_SELF to terminate the HDF5
+ * Purpose:    Callback attribute on MPI_COMM_SELF to terminate the HDF5
  *              library when the communicator is destroyed, i.e. on MPI_Finalize.
  *
- * Return:	MPI_SUCCESS
+ * Return:    MPI_SUCCESS
  *
  *-------------------------------------------------------------------------
  */
-static int H5__mpi_delete_cb(MPI_Comm H5_ATTR_UNUSED comm, int H5_ATTR_UNUSED keyval, void H5_ATTR_UNUSED *attr_val, int H5_ATTR_UNUSED *flag)
+static int
+H5__mpi_delete_cb(MPI_Comm H5_ATTR_UNUSED comm, int H5_ATTR_UNUSED keyval, void H5_ATTR_UNUSED *attr_val,
+                  int H5_ATTR_UNUSED *flag)
 {
     H5_term_library();
     return MPI_SUCCESS;
 }
 #endif /*H5_HAVE_PARALLEL*/
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5get_libversion
+ * Function:    H5get_libversion
  *
- * Purpose:	Returns the library version numbers through arguments. MAJNUM
- *		will be the major revision number of the library, MINNUM the
- *		minor revision number, and RELNUM the release revision number.
+ * Purpose:    Returns the library version numbers through arguments. MAJNUM
+ *        will be the major revision number of the library, MINNUM the
+ *        minor revision number, and RELNUM the release revision number.
  *
- * Note:	When printing an HDF5 version number it should be printed as
+ * Note:    When printing an HDF5 version number it should be printed as
  *
- * 		printf("%u.%u.%u", maj, min, rel)		or
- *		printf("version %u.%u release %u", maj, min, rel)
+ *         printf("%u.%u.%u", maj, min, rel)        or
+ *        printf("version %u.%u release %u", maj, min, rel)
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:    Non-negative on success/Negative on failure
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5get_libversion(unsigned *majnum, unsigned *minnum, unsigned *relnum)
 {
-    herr_t                  ret_value = SUCCEED;
+    herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_API(FAIL)
     H5TRACE3("e", "*Iu*Iu*Iu", majnum, minnum, relnum);
 
     /* Set the version information */
-    if (majnum) *majnum = H5_VERS_MAJOR;
-    if (minnum) *minnum = H5_VERS_MINOR;
-    if (relnum) *relnum = H5_VERS_RELEASE;
+    if (majnum)
+        *majnum = H5_VERS_MAJOR;
+    if (minnum)
+        *minnum = H5_VERS_MINOR;
+    if (relnum)
+        *relnum = H5_VERS_RELEASE;
 
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5get_libversion() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5check_version
+ * Function:    H5check_version
  *
- * Purpose:	Verifies that the arguments match the version numbers
- *		compiled into the library.  This function is intended to be
- *		called from user to verify that the versions of header files
- *		compiled into the application match the version of the hdf5
- *		library.
+ * Purpose:    Verifies that the arguments match the version numbers
+ *        compiled into the library.  This function is intended to be
+ *        called from user to verify that the versions of header files
+ *        compiled into the application match the version of the hdf5
+ *        library.
+ *        Within major.minor.release version, the expectation
+ *        is that all release versions are compatible, exceptions to
+ *        this rule must be added to the VERS_RELEASE_EXCEPTIONS list.
  *
- * Return:	Success:	SUCCEED
+ * Return:    Success:    SUCCEED
  *
- *		Failure:	abort()
+ *        Failure:    abort()
  *
  *-------------------------------------------------------------------------
  */
-#define VERSION_MISMATCH_WARNING \
-    "Warning! ***HDF5 library version mismatched error***\n" \
-    "The HDF5 header files used to compile this application do not match\n" \
-    "the version used by the HDF5 library to which this application is linked.\n" \
-    "Data corruption or segmentation faults may occur if the application continues.\n" \
-    "This can happen when an application was compiled by one version of HDF5 but\n" \
-    "linked with a different version of static or shared HDF5 library.\n" \
-    "You should recompile the application or check your shared library related\n" \
+#define VERSION_MISMATCH_WARNING                                                                             \
+    "Warning! ***HDF5 library version mismatched error***\n"                                                 \
+    "The HDF5 header files used to compile this application do not match\n"                                  \
+    "the version used by the HDF5 library to which this application is linked.\n"                            \
+    "Data corruption or segmentation faults may occur if the application continues.\n"                       \
+    "This can happen when an application was compiled by one version of HDF5 but\n"                          \
+    "linked with a different version of static or shared HDF5 library.\n"                                    \
+    "You should recompile the application or check your shared library related\n"                            \
+    "settings such as 'LD_LIBRARY_PATH'.\n"
+#define RELEASE_MISMATCH_WARNING                                                                             \
+    "Warning! ***HDF5 library release mismatched error***\n"                                                 \
+    "The HDF5 header files used to compile this application are not compatible with\n"                       \
+    "the version used by the HDF5 library to which this application is linked.\n"                            \
+    "Data corruption or segmentation faults may occur if the application continues.\n"                       \
+    "This can happen when an application was compiled by one version of HDF5 but\n"                          \
+    "linked with an incompatible version of static or shared HDF5 library.\n"                                \
+    "You should recompile the application or check your shared library related\n"                            \
     "settings such as 'LD_LIBRARY_PATH'.\n"
 
 herr_t
 H5check_version(unsigned majnum, unsigned minnum, unsigned relnum)
 {
-    char	lib_str[256];
-    char	substr[] = H5_VERS_SUBRELEASE;
-    static int	checked = 0;            /* If we've already checked the version info */
-    static unsigned int	disable_version_check = 0;      /* Set if the version check should be disabled */
-    static const char *version_mismatch_warning = VERSION_MISMATCH_WARNING;
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    char                lib_str[256];
+    char                substr[]                 = H5_VERS_SUBRELEASE;
+    static int          checked                  = 0; /* If we've already checked the version info */
+    static unsigned int disable_version_check    = 0; /* Set if the version check should be disabled */
+    static const char * version_mismatch_warning = VERSION_MISMATCH_WARNING;
+    herr_t              ret_value                = SUCCEED; /* Return value */
 
     FUNC_ENTER_API_NOINIT_NOERR_NOFS
     H5TRACE3("e", "IuIuIu", majnum, minnum, relnum);
 
     /* Don't check again, if we already have */
     if (checked)
-	HGOTO_DONE(SUCCEED)
+        HGOTO_DONE(SUCCEED)
 
-    {    const char *s;  /* Environment string for disabling version check */
+    {
+        const char *s; /* Environment string for disabling version check */
 
         /* Allow different versions of the header files and library? */
-        s = HDgetenv ("HDF5_DISABLE_VERSION_CHECK");
+        s = HDgetenv("HDF5_DISABLE_VERSION_CHECK");
 
         if (s && HDisdigit(*s))
-            disable_version_check = (unsigned int)HDstrtol (s, NULL, 0);
+            disable_version_check = (unsigned int)HDstrtol(s, NULL, 0);
     }
 
-    if (H5_VERS_MAJOR!=majnum || H5_VERS_MINOR!=minnum ||
-            H5_VERS_RELEASE!=relnum) {
-        switch (disable_version_check) {
-	case 0:
-	    HDfprintf(stderr, "%s%s", version_mismatch_warning,
-		     "You can, at your own risk, disable this warning by setting the environment\n"
-		     "variable 'HDF5_DISABLE_VERSION_CHECK' to a value of '1'.\n"
-		     "Setting it to 2 or higher will suppress the warning messages totally.\n");
-	    /* Mention the versions we are referring to */
-	    HDfprintf (stderr, "Headers are %u.%u.%u, library is %u.%u.%u\n",
-		     majnum, minnum, relnum,
-		     (unsigned)H5_VERS_MAJOR, (unsigned)H5_VERS_MINOR, (unsigned)H5_VERS_RELEASE);
-	    /* Show library settings if available */
-	    HDfprintf (stderr, "%s", H5libhdf5_settings);
+    /* H5_VERS_MAJOR and H5_VERS_MINOR must match */
+    /* Cast relnum to int to avoid warning for unsigned < 0 comparison
+     * in first release versions */
+    if (H5_VERS_MAJOR != majnum || H5_VERS_MINOR != minnum || H5_VERS_RELEASE > (int)relnum) {
 
-	    /* Bail out now. */
-	    HDfputs ("Bye...\n", stderr);
-	    HDabort ();
-	case 1:
-	    /* continue with a warning */
-	    /* Note that the warning message is embedded in the format string.*/
-            HDfprintf (stderr,
-                     "%s'HDF5_DISABLE_VERSION_CHECK' "
-                     "environment variable is set to %d, application will\n"
-                     "continue at your own risk.\n",
-		     version_mismatch_warning, disable_version_check);
-	    /* Mention the versions we are referring to */
-	    HDfprintf (stderr, "Headers are %u.%u.%u, library is %u.%u.%u\n",
-		     majnum, minnum, relnum,
-		     (unsigned)H5_VERS_MAJOR, (unsigned)H5_VERS_MINOR, (unsigned)H5_VERS_RELEASE);
-	    /* Show library settings if available */
-	    HDfprintf (stderr, "%s", H5libhdf5_settings);
-	    break;
-	default:
-	    /* 2 or higher: continue silently */
-	    break;
+        switch (disable_version_check) {
+            case 0:
+                HDfprintf(stderr, "%s%s", version_mismatch_warning,
+                          "You can, at your own risk, disable this warning by setting the environment\n"
+                          "variable 'HDF5_DISABLE_VERSION_CHECK' to a value of '1'.\n"
+                          "Setting it to 2 or higher will suppress the warning messages totally.\n");
+                /* Mention the versions we are referring to */
+                HDfprintf(stderr, "Headers are %u.%u.%u, library is %u.%u.%u\n", majnum, minnum, relnum,
+                          (unsigned)H5_VERS_MAJOR, (unsigned)H5_VERS_MINOR, (unsigned)H5_VERS_RELEASE);
+                /* Show library settings if available */
+                HDfprintf(stderr, "%s", H5libhdf5_settings);
+
+                /* Bail out now. */
+                HDfputs("Bye...\n", stderr);
+                HDabort();
+            case 1:
+                /* continue with a warning */
+                /* Note that the warning message is embedded in the format string.*/
+                HDfprintf(stderr,
+                          "%s'HDF5_DISABLE_VERSION_CHECK' "
+                          "environment variable is set to %d, application will\n"
+                          "continue at your own risk.\n",
+                          version_mismatch_warning, disable_version_check);
+                /* Mention the versions we are referring to */
+                HDfprintf(stderr, "Headers are %u.%u.%u, library is %u.%u.%u\n", majnum, minnum, relnum,
+                          (unsigned)H5_VERS_MAJOR, (unsigned)H5_VERS_MINOR, (unsigned)H5_VERS_RELEASE);
+                /* Show library settings if available */
+                HDfprintf(stderr, "%s", H5libhdf5_settings);
+                break;
+            default:
+                /* 2 or higher: continue silently */
+                break;
         } /* end switch */
 
-    } /* end if */
+    } /* end if (H5_VERS_MAJOR != majnum || H5_VERS_MINOR != minnum || H5_VERS_RELEASE > relnum) */
+
+    /* H5_VERS_RELEASE should be compatible, we will only add checks for exceptions */
+    if (H5_VERS_RELEASE != relnum) {
+        for (unsigned i = 0; i < VERS_RELEASE_EXCEPTIONS_SIZE; i++) {
+            /* Check for incompatible headers or incompatible library */
+            if (VERS_RELEASE_EXCEPTIONS[i] == relnum || VERS_RELEASE_EXCEPTIONS[i] == H5_VERS_RELEASE) {
+                switch (disable_version_check) {
+                    case 0:
+                        HDfprintf(
+                            stderr, "%s%s", version_mismatch_warning,
+                            "You can, at your own risk, disable this warning by setting the environment\n"
+                            "variable 'HDF5_DISABLE_VERSION_CHECK' to a value of '1'.\n"
+                            "Setting it to 2 or higher will suppress the warning messages totally.\n");
+                        /* Mention the versions we are referring to */
+                        HDfprintf(stderr, "Headers are %u.%u.%u, library is %u.%u.%u\n", majnum, minnum,
+                                  relnum, (unsigned)H5_VERS_MAJOR, (unsigned)H5_VERS_MINOR,
+                                  (unsigned)H5_VERS_RELEASE);
+
+                        /* Bail out now. */
+                        HDfputs("Bye...\n", stderr);
+                        HDabort();
+                    case 1:
+                        /* continue with a warning */
+                        /* Note that the warning message is embedded in the format string.*/
+                        HDfprintf(stderr,
+                                  "%s'HDF5_DISABLE_VERSION_CHECK' "
+                                  "environment variable is set to %d, application will\n"
+                                  "continue at your own risk.\n",
+                                  version_mismatch_warning, disable_version_check);
+                        /* Mention the versions we are referring to */
+                        HDfprintf(stderr, "Headers are %u.%u.%u, library is %u.%u.%u\n", majnum, minnum,
+                                  relnum, (unsigned)H5_VERS_MAJOR, (unsigned)H5_VERS_MINOR,
+                                  (unsigned)H5_VERS_RELEASE);
+                        break;
+                    default:
+                        /* 2 or higher: continue silently */
+                        break;
+                } /* end switch */
+
+            } /* end if */
+
+        } /* end for */
+
+    } /* end if (H5_VERS_RELEASE != relnum) */
 
     /* Indicate that the version check has been performed */
     checked = 1;
 
-    if (!disable_version_check){
-	/*
-	 * Verify if H5_VERS_INFO is consistent with the other version information.
-	 * Check only the first sizeof(lib_str) char.  Assume the information
-	 * will fit within this size or enough significance.
-	 */
-	HDsnprintf(lib_str, sizeof(lib_str), "HDF5 library version: %d.%d.%d",
-	    H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE);
-	if(*substr) {
-	    HDstrncat(lib_str, "-", (size_t)1);
-	    HDstrncat(lib_str, substr, (sizeof(lib_str) - HDstrlen(lib_str)) - 1);
-	} /* end if */
-	if (HDstrcmp(lib_str, H5_lib_vers_info_g)){
-	    HDfputs ("Warning!  Library version information error.\n"
-		     "The HDF5 library version information are not "
-		     "consistent in its source code.\nThis is NOT a fatal error "
-		     "but should be corrected.  Setting the environment\n"
-		     "variable 'HDF5_DISABLE_VERSION_CHECK' to a value of 1 "
-		     "will suppress\nthis warning.\n",
-		     stderr);
-	    HDfprintf (stderr, "Library version information are:\n"
-		     "H5_VERS_MAJOR=%d, H5_VERS_MINOR=%d, H5_VERS_RELEASE=%d, "
-		     "H5_VERS_SUBRELEASE=%s,\nH5_VERS_INFO=%s\n",
-		     H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE,
-		     H5_VERS_SUBRELEASE, H5_VERS_INFO);
-	} /* end if */
+    if (!disable_version_check) {
+        /*
+         * Verify if H5_VERS_INFO is consistent with the other version information.
+         * Check only the first sizeof(lib_str) char.  Assume the information
+         * will fit within this size or enough significance.
+         */
+        HDsnprintf(lib_str, sizeof(lib_str), "HDF5 library version: %d.%d.%d%s%s", H5_VERS_MAJOR,
+                   H5_VERS_MINOR, H5_VERS_RELEASE, (*substr ? "-" : ""), substr);
+
+        if (HDstrcmp(lib_str, H5_lib_vers_info_g) != 0) {
+            HDfputs("Warning!  Library version information error.\n"
+                    "The HDF5 library version information are not "
+                    "consistent in its source code.\nThis is NOT a fatal error "
+                    "but should be corrected.  Setting the environment\n"
+                    "variable 'HDF5_DISABLE_VERSION_CHECK' to a value of 1 "
+                    "will suppress\nthis warning.\n",
+                    stderr);
+            HDfprintf(stderr,
+                      "Library version information are:\n"
+                      "H5_VERS_MAJOR=%d, H5_VERS_MINOR=%d, H5_VERS_RELEASE=%d, "
+                      "H5_VERS_SUBRELEASE=%s,\nH5_VERS_INFO=%s\n",
+                      H5_VERS_MAJOR, H5_VERS_MINOR, H5_VERS_RELEASE, H5_VERS_SUBRELEASE, H5_VERS_INFO);
+        } /* end if */
     }
 
 done:
     FUNC_LEAVE_API_NOFS(ret_value)
 } /* end H5check_version() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5open
  *
@@ -918,14 +965,14 @@ done:
  *              is failing inexplicably, then try calling this function
  *              first.
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:    Non-negative on success/Negative on failure
  *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5open(void)
 {
-    herr_t ret_value=SUCCEED;   /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API_NOPUSH(FAIL)
     /*NO TRACE*/
@@ -936,13 +983,12 @@ done:
     FUNC_LEAVE_API_NOPUSH(ret_value)
 } /* end H5open() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5close
+ * Function:    H5close
  *
- * Purpose:	Terminate the library and release all resources.
+ * Purpose:    Terminate the library and release all resources.
  *
- * Return:	Non-negative on success/Negative on failure
+ * Return:    Non-negative on success/Negative on failure
  *
  *-------------------------------------------------------------------------
  */
@@ -955,18 +1001,17 @@ H5close(void)
      * this function for an uninitialized library.
      */
     FUNC_ENTER_API_NOINIT_NOERR_NOFS
-    H5TRACE0("e","");
+    H5TRACE0("e", "");
 
     H5_term_library();
 
     FUNC_LEAVE_API_NOFS(SUCCEED)
 } /* end H5close() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5allocate_memory
+ * Function:    H5allocate_memory
  *
- * Purpose:	    Allocate a memory buffer with the semantics of malloc().
+ * Purpose:        Allocate a memory buffer with the semantics of malloc().
  *
  *              NOTE: This function is intended for use with filter
  *              plugins so that all allocation and free operations
@@ -995,7 +1040,7 @@ H5allocate_memory(size_t size, hbool_t clear)
     FUNC_ENTER_API_NOINIT
     H5TRACE2("*x", "zb", size, clear);
 
-    if(clear)
+    if (clear)
         ret_value = H5MM_calloc(size);
     else
         ret_value = H5MM_malloc(size);
@@ -1003,11 +1048,10 @@ H5allocate_memory(size_t size, hbool_t clear)
     FUNC_LEAVE_API_NOINIT(ret_value)
 } /* end H5allocate_memory() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5resize_memory
+ * Function:    H5resize_memory
  *
- * Purpose:	    Resize a memory buffer with the semantics of realloc().
+ * Purpose:        Resize a memory buffer with the semantics of realloc().
  *
  *              NOTE: This function is intended for use with filter
  *              plugins so that all allocation and free operations
@@ -1041,16 +1085,15 @@ H5resize_memory(void *mem, size_t size)
     FUNC_LEAVE_API_NOINIT(ret_value)
 } /* end H5resize_memory() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5free_memory
+ * Function:    H5free_memory
  *
- * Purpose:	    Frees memory allocated by the library that it is the user's
+ * Purpose:        Frees memory allocated by the library that it is the user's
  *              responsibility to free.  Ensures that the same library
  *              that was used to allocate the memory frees it.  Passing
  *              NULL pointers is allowed.
  *
- * Return:	    SUCCEED/FAIL
+ * Return:        SUCCEED/FAIL
  *
  *-------------------------------------------------------------------------
  */
@@ -1066,14 +1109,13 @@ H5free_memory(void *mem)
     FUNC_LEAVE_API_NOINIT(SUCCEED)
 } /* end H5free_memory() */
 
-
 /*-------------------------------------------------------------------------
- * Function:	H5is_library_threadsafe
+ * Function:    H5is_library_threadsafe
  *
- * Purpose:	    Checks to see if the library was built with thread-safety
+ * Purpose:        Checks to see if the library was built with thread-safety
  *              enabled.
  *
- * Return:	    SUCCEED/FAIL
+ * Return:        SUCCEED/FAIL
  *
  *-------------------------------------------------------------------------
  */
@@ -1088,16 +1130,15 @@ H5is_library_threadsafe(hbool_t *is_ts)
     /* At this time, it is impossible for this to fail. */
 #ifdef H5_HAVE_THREADSAFE
     *is_ts = TRUE;
-#else /* H5_HAVE_THREADSAFE */
+#else  /* H5_HAVE_THREADSAFE */
     *is_ts = FALSE;
 #endif /* H5_HAVE_THREADSAFE */
 
     FUNC_LEAVE_API_NOINIT(SUCCEED)
 } /* end H5is_library_threadsafe() */
 
-
-#if defined(H5_HAVE_THREADSAFE) && defined(H5_BUILT_AS_DYNAMIC_LIB) \
-    && defined(H5_HAVE_WIN32_API) && defined(H5_HAVE_WIN_THREADS)
+#if defined(H5_HAVE_THREADSAFE) && defined(H5_BUILT_AS_DYNAMIC_LIB) && defined(H5_HAVE_WIN32_API) &&         \
+    defined(H5_HAVE_WIN_THREADS)
 /*-------------------------------------------------------------------------
  * Function:    DllMain
  *
@@ -1125,35 +1166,33 @@ DllMain(_In_ HINSTANCE hinstDLL, _In_ DWORD fdwReason, _In_ LPVOID lpvReserved)
 
     BOOL fOkay = TRUE;
 
-    switch(fdwReason)
-    {
-    case DLL_PROCESS_ATTACH:
-        break;
+    switch (fdwReason) {
+        case DLL_PROCESS_ATTACH:
+            break;
 
-    case DLL_PROCESS_DETACH:
-        break;
+        case DLL_PROCESS_DETACH:
+            break;
 
-    case DLL_THREAD_ATTACH:
+        case DLL_THREAD_ATTACH:
 #ifdef H5_HAVE_WIN_THREADS
-        if(H5TS_win32_thread_enter() < 0)
-            fOkay = FALSE;
+            if (H5TS_win32_thread_enter() < 0)
+                fOkay = FALSE;
 #endif /* H5_HAVE_WIN_THREADS */
-        break;
+            break;
 
-    case DLL_THREAD_DETACH:
+        case DLL_THREAD_DETACH:
 #ifdef H5_HAVE_WIN_THREADS
-        if(H5TS_win32_thread_exit() < 0)
-            fOkay = FALSE;
+            if (H5TS_win32_thread_exit() < 0)
+                fOkay = FALSE;
 #endif /* H5_HAVE_WIN_THREADS */
-        break;
+            break;
 
-    default:
-        /* Shouldn't get here */
-        fOkay = FALSE;
-        break;
+        default:
+            /* Shouldn't get here */
+            fOkay = FALSE;
+            break;
     }
 
     return fOkay;
 }
 #endif /* H5_HAVE_WIN32_API && H5_BUILT_AS_DYNAMIC_LIB && H5_HAVE_WIN_THREADS && H5_HAVE_THREADSAFE*/
-

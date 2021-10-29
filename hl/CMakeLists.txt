@@ -7,9 +7,17 @@ project (HDF5_HL C)
 
 add_subdirectory (src)
 
-#-- Build the High level Tools
+# Build HDF5 Tools
 if (HDF5_BUILD_TOOLS)
-  add_subdirectory (tools)
+  #-----------------------------------------------------------------------------
+  #-- Option to build the High level Tools
+  #-----------------------------------------------------------------------------
+  if (EXISTS "${HDF5_HL_SOURCE_DIR}/tools" AND IS_DIRECTORY "${HDF5_HL_SOURCE_DIR}/tools")
+    option (HDF5_BUILD_HL_TOOLS  "Build HDF5 HL Tools" ON)
+    if (HDF5_BUILD_HL_TOOLS)
+      add_subdirectory (tools)
+    endif ()
+  endif ()
 endif ()
 
 #-- Add High Level Examples
@@ -18,8 +26,6 @@ if (HDF5_BUILD_EXAMPLES)
 endif ()
 
 #-- Build the Unit testing if requested
-if (NOT HDF5_EXTERNALLY_CONFIGURED)
-  if (BUILD_TESTING AND HDF5_TEST_SERIAL)
-    add_subdirectory (test)
-  endif ()
+if (BUILD_TESTING AND HDF5_TEST_SERIAL)
+  add_subdirectory (test)
 endif ()
