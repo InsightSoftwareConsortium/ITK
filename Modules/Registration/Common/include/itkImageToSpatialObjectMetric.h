@@ -129,7 +129,7 @@ public:
   itkGetConstObjectMacro(FixedImage, FixedImageType);
 
   /** Get/Set the MovingSpatialObject */
-  itkSetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
+  itkVirtualSetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
   itkGetConstObjectMacro(MovingSpatialObject, MovingSpatialObjectType);
 
   /** Connect the Interpolator. */

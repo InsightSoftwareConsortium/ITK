@@ -175,11 +175,11 @@ protected:
 
   /** Set the number of pieces to divide the input.  The upstream pipeline
    * will be executed this many times. */
-  itkSetMacro(NumberOfStreamDivisions, unsigned int);
+  itkVirtualSetMacro(NumberOfStreamDivisions, unsigned int);
 
   /** Get the number of pieces to divide the input. The upstream pipeline
    * will be executed this many times. */
-  itkGetConstMacro(NumberOfStreamDivisions, unsigned int);
+  itkVirtualGetConstMacro(NumberOfStreamDivisions, unsigned int);
 
   /** Set/Get Helper class for dividing the input into regions for
    * streaming */

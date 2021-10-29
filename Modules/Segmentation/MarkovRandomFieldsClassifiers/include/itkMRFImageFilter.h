@@ -249,13 +249,13 @@ public:
   SetClassifier(typename ClassifierType::Pointer ptrToClassifier);
 
   /** Set/Get the number of classes. */
-  itkSetMacro(NumberOfClasses, unsigned int);
-  itkGetConstMacro(NumberOfClasses, unsigned int);
+  itkVirtualSetMacro(NumberOfClasses, unsigned int);
+  itkVirtualGetConstMacro(NumberOfClasses, unsigned int);
 
   /** Set/Get the number of iteration of the Iterated Conditional Mode
    * (ICM) algorithm. A default value is set at 50 iterations. */
-  itkSetMacro(MaximumNumberOfIterations, unsigned int);
-  itkGetConstMacro(MaximumNumberOfIterations, unsigned int);
+  itkVirtualSetMacro(MaximumNumberOfIterations, unsigned int);
+  itkVirtualGetConstMacro(MaximumNumberOfIterations, unsigned int);
 
   /** Set/Get the error tolerance level which is used as a threshold
    * to quit the iterations */

@@ -223,11 +223,11 @@ protected:
   virtual TemporalRegion
   GenerateDefaultLargestPossibleTemporalRegion();
 
-  itkSetMacro(UnitInputNumberOfFrames, SizeValueType);
-  itkSetMacro(UnitOutputNumberOfFrames, SizeValueType);
-  itkSetMacro(FrameSkipPerOutput, OffsetValueType);
-  itkSetMacro(InputStencilCurrentFrameIndex, SizeValueType);
-  itkGetMacro(InputStencilCurrentFrameIndex, SizeValueType);
+  itkVirtualSetMacro(UnitInputNumberOfFrames, SizeValueType);
+  itkVirtualSetMacro(UnitOutputNumberOfFrames, SizeValueType);
+  itkVirtualSetMacro(FrameSkipPerOutput, OffsetValueType);
+  itkVirtualSetMacro(InputStencilCurrentFrameIndex, SizeValueType);
+  itkVirtualGetMacro(InputStencilCurrentFrameIndex, SizeValueType);
 
   /*-PROTECTED MEMBERS-------------------------------------------------------*/
 

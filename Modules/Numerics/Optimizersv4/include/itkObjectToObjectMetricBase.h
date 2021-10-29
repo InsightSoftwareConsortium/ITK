@@ -120,11 +120,11 @@ public:
   using ObjectConstPointer = typename ObjectType::ConstPointer;
 
   /** Get/Set the Fixed Object.  */
-  itkSetConstObjectMacro(FixedObject, ObjectType);
+  itkVirtualSetConstObjectMacro(FixedObject, ObjectType);
   itkGetConstObjectMacro(FixedObject, ObjectType);
 
   /** Get/Set the Moving Object.  */
-  itkSetConstObjectMacro(MovingObject, ObjectType);
+  itkVirtualSetConstObjectMacro(MovingObject, ObjectType);
   itkGetConstObjectMacro(MovingObject, ObjectType);
 
   using GradientSourceEnum = itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource;

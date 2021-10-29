@@ -89,13 +89,13 @@ public:
 
   /** Birth threshold. Pixels that are OFF will turn ON when the number of
    * neighbors ON is larger than the value defined in this threshold. */
-  itkGetConstReferenceMacro(BirthThreshold, unsigned int);
-  itkSetMacro(BirthThreshold, unsigned int);
+  itkVirtualGetConstReferenceMacro(BirthThreshold, unsigned int);
+  itkVirtualSetMacro(BirthThreshold, unsigned int);
 
   /** Survival threshold. Pixels that are ON will turn OFF when the number of
    * neighbors ON is smaller than the value defined in this survival threshold. */
-  itkGetConstReferenceMacro(SurvivalThreshold, unsigned int);
-  itkSetMacro(SurvivalThreshold, unsigned int);
+  itkVirtualGetConstReferenceMacro(SurvivalThreshold, unsigned int);
+  itkVirtualSetMacro(SurvivalThreshold, unsigned int);
 
   /** VotingBinaryImageFilter needs a larger input requested region than
    * the output requested region.  As such, VotingBinaryImageFilter needs

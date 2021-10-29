@@ -490,7 +490,7 @@ public:
   itkBooleanMacro(ReleaseDataBeforeUpdateFlag);
 
   /** Get/Set the number of work units to create when executing. */
-  itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
+  itkVirtualSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
 #if !defined(ITK_LEGACY_REMOVE) || defined(ITKV4_COMPATIBILITY)

@@ -810,8 +810,8 @@ compilers.
 #endif
 
 /** Set an input. This defines the Set"name"() method */
-#define itkSetInputMacro(name, type)                                                     \
-  virtual void Set##name(const type * _arg)                                              \
+#define itkOptionallyVirtualSetInputMacro(optionalVirtualKeyword, name, type)            \
+  optionalVirtualKeyword void Set##name(const type * _arg)                               \
   {                                                                                      \
     itkDebugMacro("setting input " #name " to " << _arg);                                \
     if (_arg != itkDynamicCastInDebugMode<type *>(this->ProcessObject::GetInput(#name))) \
@@ -823,8 +823,8 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Get an input. This defines the Get"name"() method */
-#define itkGetInputMacro(name, type)                                                           \
-  virtual const type * Get##name() const                                                       \
+#define itkOptionallyVirtualGetInputMacro(optionalVirtualKeyword, name, type)                  \
+  optionalVirtualKeyword const type * Get##name() const                                        \
   {                                                                                            \
     itkDebugMacro("returning input " << #name " of " << this->ProcessObject::GetInput(#name)); \
     return itkDynamicCastInDebugMode<const type *>(this->ProcessObject::GetInput(#name));      \
@@ -833,8 +833,8 @@ compilers.
 
 // clang-format off
 /** Set a decorated input. This defines the Set"name"() and a Set"name"Input() method */
-#define itkSetDecoratedInputMacro(name, type)                                                                       \
-  virtual void Set##name##Input(const SimpleDataObjectDecorator<type> * _arg)                                       \
+#define itkOptionallyVirtualSetDecoratedInputMacro(optionalVirtualKeyword, name, type)                              \
+  optionalVirtualKeyword void Set##name##Input(const SimpleDataObjectDecorator<type> * _arg)                        \
   {                                                                                                                 \
     itkDebugMacro("setting input " #name " to " << _arg);                                                           \
     if (_arg != itkDynamicCastInDebugMode<SimpleDataObjectDecorator<type> *>(this->ProcessObject::GetInput(#name))) \
@@ -843,8 +843,11 @@ compilers.
       this->Modified();                                                                                             \
     }                                                                                                               \
   }                                                                                                                 \
-  virtual void Set##name(const SimpleDataObjectDecorator<type> * _arg) { this->Set##name##Input(_arg); }            \
-  virtual void Set##name(const type & _arg)                                                                         \
+  optionalVirtualKeyword void Set##name(const SimpleDataObjectDecorator<type> * _arg)                               \
+  {                                                                                                                 \
+    this->Set##name##Input(_arg);                                                                                   \
+  }                                                                                                                 \
+  optionalVirtualKeyword void Set##name(const type & _arg)                                                          \
   {                                                                                                                 \
     using DecoratorType = SimpleDataObjectDecorator<type>;                                                          \
     itkDebugMacro("setting input " #name " to " << _arg);                                                           \
@@ -865,13 +868,13 @@ compilers.
 // clang-format on
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method */
-#define itkGetDecoratedInputMacro(name, type)                                                                        \
-  virtual const SimpleDataObjectDecorator<type> * Get##name##Input() const                                           \
+#define itkOptionallyVirtualGetDecoratedInputMacro(optionalVirtualKeyword, name, type)                               \
+  optionalVirtualKeyword const SimpleDataObjectDecorator<type> * Get##name##Input() const                            \
   {                                                                                                                  \
     itkDebugMacro("returning input " << #name " of " << this->ProcessObject::GetInput(#name));                       \
     return itkDynamicCastInDebugMode<const SimpleDataObjectDecorator<type> *>(this->ProcessObject::GetInput(#name)); \
   }                                                                                                                  \
-  virtual const type & Get##name() const                                                                             \
+  optionalVirtualKeyword const type & Get##name() const                                                              \
   {                                                                                                                  \
     itkDebugMacro("Getting input " #name);                                                                           \
     using DecoratorType = SimpleDataObjectDecorator<type>;                                                           \
@@ -887,16 +890,16 @@ compilers.
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method
  * and Get"name" and Get"name"Input methods */
-#define itkSetGetDecoratedInputMacro(name, type) \
-  itkSetDecoratedInputMacro(name, type);         \
-  itkGetDecoratedInputMacro(name, type)
+#define itkOptionallyVirtualSetGetDecoratedInputMacro(optionalVirtualKeyword, name, type) \
+  itkOptionallyVirtualSetDecoratedInputMacro(optionalVirtualKeyword, name, type);         \
+  itkOptionallyVirtualGetDecoratedInputMacro(optionalVirtualKeyword, name, type)
 
 /** Set a decorated input that derives from itk::Object, but not from
  * itk::DataObject. This defines the Set"name"() and Set"name"Input
  * methods.
  */
-#define itkSetDecoratedObjectInputMacro(name, type)                                                           \
-  virtual void Set##name##Input(const DataObjectDecorator<type> * _arg)                                       \
+#define itkOptionallyVirtualSetDecoratedObjectInputMacro(optionalVirtualKeyword, name, type)                  \
+  optionalVirtualKeyword void Set##name##Input(const DataObjectDecorator<type> * _arg)                        \
   {                                                                                                           \
     itkDebugMacro("setting input " #name " to " << _arg);                                                     \
     if (_arg != itkDynamicCastInDebugMode<DataObjectDecorator<type> *>(this->ProcessObject::GetInput(#name))) \
@@ -905,7 +908,7 @@ compilers.
       this->Modified();                                                                                       \
     }                                                                                                         \
   }                                                                                                           \
-  virtual void Set##name(const type * _arg)                                                                   \
+  optionalVirtualKeyword void Set##name(const type * _arg)                                                    \
   {                                                                                                           \
     using DecoratorType = DataObjectDecorator<type>;                                                          \
     itkDebugMacro("setting input " #name " to " << _arg);                                                     \
@@ -925,13 +928,13 @@ compilers.
  * itk::DataObject. This defines the Get"name"() and Get"name"Input
  * methods.
  */
-#define itkGetDecoratedObjectInputMacro(name, type)                                                            \
-  virtual const DataObjectDecorator<type> * Get##name##Input() const                                           \
+#define itkOptionallyVirtualGetDecoratedObjectInputMacro(optionalVirtualKeyword, name, type)                   \
+  optionalVirtualKeyword const DataObjectDecorator<type> * Get##name##Input() const                            \
   {                                                                                                            \
     itkDebugMacro("returning input " << #name " of " << this->ProcessObject::GetInput(#name));                 \
     return itkDynamicCastInDebugMode<const DataObjectDecorator<type> *>(this->ProcessObject::GetInput(#name)); \
   }                                                                                                            \
-  virtual const type * Get##name() const                                                                       \
+  optionalVirtualKeyword const type * Get##name() const                                                        \
   {                                                                                                            \
     itkDebugMacro("Getting input " #name);                                                                     \
     using DecoratorType = DataObjectDecorator<type>;                                                           \
@@ -947,120 +950,120 @@ compilers.
 
 /** Set a decorated input. This defines the Set"name"() and Set"name"Input() method
  * and Get"name" and Get"name"Input methods */
-#define itkSetGetDecoratedObjectInputMacro(name, type) \
-  itkSetDecoratedObjectInputMacro(name, type);         \
-  itkGetDecoratedObjectInputMacro(name, type)
+#define itkOptionallyVirtualSetGetDecoratedObjectInputMacro(optionalVirtualKeyword, name, type) \
+  itkOptionallyVirtualSetDecoratedObjectInputMacro(optionalVirtualKeyword, name, type);         \
+  itkOptionallyVirtualGetDecoratedObjectInputMacro(optionalVirtualKeyword, name, type)
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility()); */
 // clang-format off
-#define itkSetMacro(name, type)                     \
-  virtual void Set##name(const type _arg)           \
-  {                                                 \
-    itkDebugMacro("setting " #name " to " << _arg); \
-    CLANG_PRAGMA_PUSH                               \
-    CLANG_SUPPRESS_Wfloat_equal                     \
-    if (this->m_##name != _arg)                     \
-    {                                               \
-      this->m_##name = _arg;                        \
-      this->Modified();                             \
-    }                                               \
-    CLANG_PRAGMA_POP                                \
-  }                                                 \
+#define itkOptionallyVirtualSetMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword void Set##name(const type _arg)                 \
+  {                                                                      \
+    itkDebugMacro("setting " #name " to " << _arg);                      \
+    CLANG_PRAGMA_PUSH                                                    \
+    CLANG_SUPPRESS_Wfloat_equal                                          \
+    if (this->m_##name != _arg)                                          \
+    {                                                                    \
+      this->m_##name = _arg;                                             \
+      this->Modified();                                                  \
+    }                                                                    \
+    CLANG_PRAGMA_POP                                                     \
+  }                                                                      \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility()); */
-#define itkGetMacro(name, type)                       \
-  virtual type Get##name() { return this->m_##name; } \
+#define itkOptionallyVirtualGetMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword type Get##name() { return this->m_##name; }     \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine. */
-#define itkGetConstMacro(name, type)                        \
-  virtual type Get##name() const { return this->m_##name; } \
+#define itkOptionallyVirtualGetConstMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword type Get##name() const { return this->m_##name; }    \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This is the "const" form of the itkGetMacro.  It should be used unless
  * the member can be changed through the "Get" access routine.
  * This versions returns a const reference to the variable. */
-#define itkGetConstReferenceMacro(name, type)                       \
-  virtual const type & Get##name() const { return this->m_##name; } \
+#define itkOptionallyVirtualGetConstReferenceMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword const type & Get##name() const { return this->m_##name; }     \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set built-in type.  Creates member Set"name"() (e.g., SetVisibility());
  * This should be used when the type is an enum. It is used to avoid warnings on
  * some compilers with non specified enum types passed to
  * itkDebugMacro. */
-#define itkSetEnumMacro(name, type)                                    \
-  virtual void Set##name(const type _arg)                              \
-  {                                                                    \
-    itkDebugMacro("setting " #name " to " << static_cast<long>(_arg)); \
-    if (this->m_##name != _arg)                                        \
-    {                                                                  \
-      this->m_##name = _arg;                                           \
-      this->Modified();                                                \
-    }                                                                  \
-  }                                                                    \
+#define itkOptionallyVirtualSetEnumMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword void Set##name(const type _arg)                     \
+  {                                                                          \
+    itkDebugMacro("setting " #name " to " << static_cast<long>(_arg));       \
+    if (this->m_##name != _arg)                                              \
+    {                                                                        \
+      this->m_##name = _arg;                                                 \
+      this->Modified();                                                      \
+    }                                                                        \
+  }                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Get built-in type.  Creates member Get"name"() (e.g., GetVisibility());
  * This should be use when the type is an enum. It is use to avoid warnings on
  * some compilers with non specified enum types passed to
  * itkDebugMacro. */
-#define itkGetEnumMacro(name, type)                         \
-  virtual type Get##name() const { return this->m_##name; } \
+#define itkOptionallyVirtualGetEnumMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword type Get##name() const { return this->m_##name; }   \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set character string.  Creates member Set"name"()
  * (e.g., SetFilename(char *)). The macro assumes that
  * the class member (name) is declared a type std::string. */
-#define itkSetStringMacro(name)                                                       \
-  virtual void Set##name(const char * _arg)                                           \
-  {                                                                                   \
-    if (_arg && (_arg == this->m_##name))                                             \
-    {                                                                                 \
-      return;                                                                         \
-    }                                                                                 \
-    if (_arg)                                                                         \
-    {                                                                                 \
-      this->m_##name = _arg;                                                          \
-    }                                                                                 \
-    else                                                                              \
-    {                                                                                 \
-      this->m_##name = "";                                                            \
-    }                                                                                 \
-    this->Modified();                                                                 \
-  }                                                                                   \
-  virtual void Set##name(const std::string & _arg) { this->Set##name(_arg.c_str()); } \
+#define itkOptionallyVirtualSetStringMacro(optionalVirtualKeyword, name)                             \
+  optionalVirtualKeyword void Set##name(const char * _arg)                                           \
+  {                                                                                                  \
+    if (_arg && (_arg == this->m_##name))                                                            \
+    {                                                                                                \
+      return;                                                                                        \
+    }                                                                                                \
+    if (_arg)                                                                                        \
+    {                                                                                                \
+      this->m_##name = _arg;                                                                         \
+    }                                                                                                \
+    else                                                                                             \
+    {                                                                                                \
+      this->m_##name = "";                                                                           \
+    }                                                                                                \
+    this->Modified();                                                                                \
+  }                                                                                                  \
+  optionalVirtualKeyword void Set##name(const std::string & _arg) { this->Set##name(_arg.c_str()); } \
   ITK_MACROEND_NOOP_STATEMENT
 
 
 /** Get character string.  Creates member Get"name"()
  * (e.g., SetFilename(char *)). The macro assumes that
  * the class member (name) is declared as a type std::string. */
-#define itkGetStringMacro(name)                                             \
-  virtual const char * Get##name() const { return this->m_##name.c_str(); } \
+#define itkOptionallyVirtualGetStringMacro(optionalVirtualKeyword, name)                   \
+  optionalVirtualKeyword const char * Get##name() const { return this->m_##name.c_str(); } \
   ITK_MACROEND_NOOP_STATEMENT
 
 // clang-format off
 /** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convenience for clamping open-ended values. */
-#define itkSetClampMacro(name, type, min, max)                                \
-  virtual void Set##name(type _arg)                                           \
-  {                                                                           \
-    const type temp_extrema = (_arg < min ? min : (_arg > max ? max : _arg)); \
-    itkDebugMacro("setting " << #name " to " << _arg);                        \
-    CLANG_PRAGMA_PUSH                                                         \
-    CLANG_SUPPRESS_Wfloat_equal                                               \
-    if (this->m_##name != temp_extrema)                                       \
-    {                                                                         \
-      this->m_##name = temp_extrema;                                          \
-      this->Modified();                                                       \
-    }                                                                         \
-    CLANG_PRAGMA_POP                                                          \
-  }                                                                           \
+#define itkOptionallyVirtualSetClampMacro(optionalVirtualKeyword, name, type, min, max) \
+  optionalVirtualKeyword void Set##name(type _arg)                                      \
+  {                                                                                     \
+    const type temp_extrema = (_arg < min ? min : (_arg > max ? max : _arg));           \
+    itkDebugMacro("setting " << #name " to " << _arg);                                  \
+    CLANG_PRAGMA_PUSH                                                                   \
+    CLANG_SUPPRESS_Wfloat_equal                                                         \
+    if (this->m_##name != temp_extrema)                                                 \
+    {                                                                                   \
+      this->m_##name = temp_extrema;                                                    \
+      this->Modified();                                                                 \
+    }                                                                                   \
+    CLANG_PRAGMA_POP                                                                    \
+  }                                                                                     \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
@@ -1070,19 +1073,19 @@ compilers.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using real pointers when setting input,
  * but returning smart pointers on output. */
-#define itkSetObjectMacro(name, type)                  \
-  virtual void Set##name(type * _arg)                  \
-  {                                                    \
-    itkDebugMacro("setting " << #name " to " << _arg); \
-    CLANG_PRAGMA_PUSH                                  \
-    CLANG_SUPPRESS_Wfloat_equal                        \
-    if (this->m_##name != _arg)                        \
-    {                                                  \
-      this->m_##name = _arg;                           \
-      this->Modified();                                \
-    }                                                  \
-    CLANG_PRAGMA_POP                                   \
-  }                                                    \
+#define itkOptionallyVirtualSetObjectMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword void Set##name(type * _arg)                           \
+  {                                                                            \
+    itkDebugMacro("setting " << #name " to " << _arg);                         \
+    CLANG_PRAGMA_PUSH                                                          \
+    CLANG_SUPPRESS_Wfloat_equal                                                \
+    if (this->m_##name != _arg)                                                \
+    {                                                                          \
+      this->m_##name = _arg;                                                   \
+      this->Modified();                                                        \
+    }                                                                          \
+    CLANG_PRAGMA_POP                                                           \
+  }                                                                            \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
@@ -1111,8 +1114,8 @@ compilers.
 
 /** Get a smart const pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
-#define itkGetConstObjectMacro(name, type)                                       \
-  virtual const type * Get##name() const { return this->m_##name.GetPointer(); } \
+#define itkOptionallyVirtualGetConstObjectMacro(optionalVirtualKeyword, name, type)             \
+  optionalVirtualKeyword const type * Get##name() const { return this->m_##name.GetPointer(); } \
   ITK_MACROEND_NOOP_STATEMENT
 
 
@@ -1122,26 +1125,26 @@ compilers.
 // through manual setting of a compiler define -DITK_FUTURE_LEGACY_REMOVE
 // ("/DITK_FUTURE_LEGACY_REMOVE /EHsc" with Visual Studio)
 // to ease the transition from the historical GetObjectMacro to the GetModifiableObjectMacro
-#  define itkGetObjectMacro(name, type)                                                           \
-    virtual type * Get##name()                                                                    \
+#  define itkOptionallyVirtualGetObjectMacro(optionalVirtualKeyword, name, type)                  \
+    optionalVirtualKeyword type * Get##name()                                                     \
     {                                                                                             \
       purposeful_error("itkGetObjectMacro should be replaced with itkGetModifiableObjectMacro."); \
     }
 
-#  define itkGetModifiableObjectMacro(name, type)                                \
-    virtual type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
-    itkGetConstObjectMacro(name, type)
+#  define itkOptionallyVirtualGetModifiableObjectMacro(optionalVirtualKeyword, name, type)      \
+    optionalVirtualKeyword type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
+    itkOptionallyVirtualGetConstObjectMacro(optionalVirtualKeyword, name, type)
 
 #else // defined ( ITK_FUTURE_LEGACY_REMOVE )
 /** Get a smart pointer to an object.  Creates the member
  * Get"name"() (e.g., GetPoints()). */
-#  define itkGetObjectMacro(name, type)                                \
-    virtual type * Get##name() { return this->m_##name.GetPointer(); } \
+#  define itkOptionallyVirtualGetObjectMacro(optionalVirtualKeyword, name, type)      \
+    optionalVirtualKeyword type * Get##name() { return this->m_##name.GetPointer(); } \
     ITK_MACROEND_NOOP_STATEMENT
-#  define itkGetModifiableObjectMacro(name, type)                                \
-    virtual type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
-    itkGetConstObjectMacro(name, type);                                          \
-    itkGetObjectMacro(name, type)
+#  define itkOptionallyVirtualGetModifiableObjectMacro(optionalVirtualKeyword, name, type)      \
+    optionalVirtualKeyword type * GetModifiable##name() { return this->m_##name.GetPointer(); } \
+    itkOptionallyVirtualGetConstObjectMacro(optionalVirtualKeyword, name, type);                \
+    itkOptionallyVirtualGetObjectMacro(optionalVirtualKeyword, name, type)
 #endif // defined ( ITK_FUTURE_LEGACY_REMOVE )
 
 // For backwards compatibility define ITK_EXPORT to nothing
@@ -1150,66 +1153,66 @@ compilers.
 
 /** Get a const reference to a smart pointer to an object.
  * Creates the member Get"name"() (e.g., GetPoints()). */
-#define itkGetConstReferenceObjectMacro(name, type)                                   \
-  virtual const typename type::Pointer & Get##name() const { return this->m_##name; } \
+#define itkOptionallyVirtualGetConstReferenceObjectMacro(optionalVirtualKeyword, name, type)         \
+  optionalVirtualKeyword const typename type::Pointer & Get##name() const { return this->m_##name; } \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set const pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using real pointers when setting input,
  * but returning smart pointers on output. */
-#define itkSetConstObjectMacro(name, type)             \
-  virtual void Set##name(const type * _arg)            \
-  {                                                    \
-    itkDebugMacro("setting " << #name " to " << _arg); \
-    if (this->m_##name != _arg)                        \
-    {                                                  \
-      this->m_##name = _arg;                           \
-      this->Modified();                                \
-    }                                                  \
-  }                                                    \
+#define itkOptionallyVirtualSetConstObjectMacro(optionalVirtualKeyword, name, type) \
+  optionalVirtualKeyword void Set##name(const type * _arg)                          \
+  {                                                                                 \
+    itkDebugMacro("setting " << #name " to " << _arg);                              \
+    if (this->m_##name != _arg)                                                     \
+    {                                                                               \
+      this->m_##name = _arg;                                                        \
+      this->Modified();                                                             \
+    }                                                                               \
+  }                                                                                 \
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Create members "name"On() and "name"Off() (e.g., DebugOn() DebugOff()).
  * Set method must be defined to use this macro. */
-#define itkBooleanMacro(name)                        \
-  virtual void name##On() { this->Set##name(true); } \
-  virtual void name##Off() { this->Set##name(false); }
+#define itkOptionallyVirtualBooleanMacro(optionalVirtualKeyword, name) \
+  optionalVirtualKeyword void name##On() { this->Set##name(true); }    \
+  optionalVirtualKeyword void name##Off() { this->Set##name(false); }
 
 // clang-format off
 /** General set vector macro creates a single method that copies specified
  * number of values into object.
  * Examples: void SetColor(c,3) */
-#define itkSetVectorMacro(name, type, count) \
-  virtual void Set##name(type data[])        \
-  {                                          \
-    unsigned int i;                          \
-    for (i = 0; i < count; ++i)              \
-    {                                        \
-      CLANG_PRAGMA_PUSH                      \
-      CLANG_SUPPRESS_Wfloat_equal            \
-      if (data[i] != this->m_##name[i])      \
-      {                                      \
-        break;                               \
-      }                                      \
-      CLANG_PRAGMA_POP                       \
-    }                                        \
-    if (i < count)                           \
-    {                                        \
-      this->Modified();                      \
-      for (i = 0; i < count; ++i)            \
-      {                                      \
-        this->m_##name[i] = data[i];         \
-      }                                      \
-    }                                        \
-  }                                          \
+#define itkOptionallyVirtualSetVectorMacro(optionalVirtualKeyword, name, type, count) \
+  optionalVirtualKeyword void Set##name(type data[])                                  \
+  {                                                                                   \
+    unsigned int i;                                                                   \
+    for (i = 0; i < count; ++i)                                                       \
+    {                                                                                 \
+      CLANG_PRAGMA_PUSH                                                               \
+      CLANG_SUPPRESS_Wfloat_equal                                                     \
+      if (data[i] != this->m_##name[i])                                               \
+      {                                                                               \
+        break;                                                                        \
+      }                                                                               \
+      CLANG_PRAGMA_POP                                                                \
+    }                                                                                 \
+    if (i < count)                                                                    \
+    {                                                                                 \
+      this->Modified();                                                               \
+      for (i = 0; i < count; ++i)                                                     \
+      {                                                                               \
+        this->m_##name[i] = data[i];                                                  \
+      }                                                                               \
+    }                                                                                 \
+  }                                                                                   \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
 /** Get vector macro. Returns pointer to type (i.e., array of type).
  * This is for efficiency. */
-#define itkGetVectorMacro(name, type, count)                  \
-  virtual type * Get##name() const { return this->m_##name; } \
+#define itkOptionallyVirtualGetVectorMacro(optionalVirtualKeyword, name, type, count) \
+  optionalVirtualKeyword type * Get##name() const { return this->m_##name; }          \
   ITK_MACROEND_NOOP_STATEMENT
 
 /**\def itkGPUKernelClassMacro
@@ -1252,8 +1255,8 @@ compilers.
 
 
 /** Set a decorated output. This defines the Set"name"() and a Set"name"Output() method */
-#define itkSetDecoratedOutputMacro(name, type)                                                                       \
-  virtual void Set##name##Output(const SimpleDataObjectDecorator<type> * _arg)                                       \
+#define itkOptionallyVirtualSetDecoratedOutputMacro(optionalVirtualKeyword, name, type)                              \
+  optionalVirtualKeyword void Set##name##Output(const SimpleDataObjectDecorator<type> * _arg)                        \
   {                                                                                                                  \
     itkDebugMacro("setting output " #name " to " << _arg);                                                           \
     if (_arg != itkDynamicCastInDebugMode<SimpleDataObjectDecorator<type> *>(this->ProcessObject::GetOutput(#name))) \
@@ -1262,7 +1265,7 @@ compilers.
       this->Modified();                                                                                              \
     }                                                                                                                \
   }                                                                                                                  \
-  virtual void Set##name(const type & _arg)                                                                          \
+  optionalVirtualKeyword void Set##name(const type & _arg)                                                           \
   {                                                                                                                  \
     using DecoratorType = SimpleDataObjectDecorator<type>;                                                           \
     itkDebugMacro("setting output " #name " to " << _arg);                                                           \
@@ -1288,13 +1291,13 @@ compilers.
   ITK_MACROEND_NOOP_STATEMENT
 
 /** Set a decorated output. This defines the Get"name"() and Get"name"Output() method */
-#define itkGetDecoratedOutputMacro(name, type)                                                                        \
-  virtual const SimpleDataObjectDecorator<type> * Get##name##Output() const                                           \
+#define itkOptionallyVirtualGetDecoratedOutputMacro(optionalVirtualKeyword, name, type)                               \
+  optionalVirtualKeyword const SimpleDataObjectDecorator<type> * Get##name##Output() const                            \
   {                                                                                                                   \
     itkDebugMacro("returning output " << #name " of " << this->ProcessObject::GetOutput(#name));                      \
     return itkDynamicCastInDebugMode<const SimpleDataObjectDecorator<type> *>(this->ProcessObject::GetOutput(#name)); \
   }                                                                                                                   \
-  virtual const type & Get##name() const                                                                              \
+  optionalVirtualKeyword const type & Get##name() const                                                               \
   {                                                                                                                   \
     itkDebugMacro("Getting output " #name);                                                                           \
     using DecoratorType = SimpleDataObjectDecorator<type>;                                                            \
@@ -1307,6 +1310,122 @@ compilers.
     return output->Get();                                                                                             \
   }                                                                                                                   \
   ITK_MACROEND_NOOP_STATEMENT
+
+// clang-format off
+#define itkVirtualGetObjectMacro(name, type) itkOptionallyVirtualGetObjectMacro(virtual, name, type)
+#define itkVirtualGetModifiableObjectMacro(name, type) itkOptionallyVirtualGetModifiableObjectMacro(virtual, name, type)
+#define itkVirtualSetInputMacro(name, type) itkOptionallyVirtualSetInputMacro(virtual, name, type)
+#define itkVirtualGetInputMacro(name, type) itkOptionallyVirtualGetInputMacro(virtual, name, type)
+#define itkVirtualSetDecoratedInputMacro(name, type) itkOptionallyVirtualSetDecoratedInputMacro(virtual, name, type)
+#define itkVirtualGetDecoratedInputMacro(name, type) itkOptionallyVirtualGetDecoratedInputMacro(virtual, name, type)
+#define itkVirtualSetGetDecoratedInputMacro(name, type) itkOptionallyVirtualSetGetDecoratedInputMacro(virtual, name, type)
+#define itkVirtualSetDecoratedObjectInputMacro(name, type) itkOptionallyVirtualSetDecoratedObjectInputMacro(virtual, name, type)
+#define itkVirtualGetDecoratedObjectInputMacro(name, type) itkOptionallyVirtualGetDecoratedObjectInputMacro(virtual, name, type)
+#define itkVirtualSetGetDecoratedObjectInputMacro(name, type) itkOptionallyVirtualSetGetDecoratedObjectInputMacro(virtual, name, type)
+#define itkVirtualSetMacro(name, type) itkOptionallyVirtualSetMacro(virtual, name, type)
+#define itkVirtualGetMacro(name, type) itkOptionallyVirtualGetMacro(virtual, name, type)
+#define itkVirtualGetConstMacro(name, type) itkOptionallyVirtualGetConstMacro(virtual, name, type)
+#define itkVirtualGetConstReferenceMacro(name, type) itkOptionallyVirtualGetConstReferenceMacro(virtual, name, type)
+#define itkVirtualSetEnumMacro(name, type) itkOptionallyVirtualSetEnumMacro(virtual, name, type)
+#define itkVirtualGetEnumMacro(name, type) itkOptionallyVirtualGetEnumMacro(virtual, name, type)
+#define itkVirtualSetStringMacro(name) itkOptionallyVirtualSetStringMacro(virtual, name)
+#define itkVirtualGetStringMacro(name) itkOptionallyVirtualGetStringMacro(virtual, name)
+#define itkVirtualSetClampMacro(name, type, min, max) itkOptionallyVirtualSetClampMacro(virtual, name, type, min, max)
+#define itkVirtualSetObjectMacro(name, type) itkOptionallyVirtualSetObjectMacro(virtual, name, type)
+#define itkVirtualGetConstObjectMacro(name, type) itkOptionallyVirtualGetConstObjectMacro(virtual, name, type)
+#define itkVirtualGetConstReferenceObjectMacro(name, type) itkOptionallyVirtualGetConstReferenceObjectMacro(virtual, name, type)
+#define itkVirtualSetConstObjectMacro(name, type) itkOptionallyVirtualSetConstObjectMacro(virtual, name, type)
+#define itkVirtualBooleanMacro(name) itkOptionallyVirtualBooleanMacro(virtual, name)
+#define itkVirtualSetVectorMacro(name, type, count) itkOptionallyVirtualSetVectorMacro(virtual, name, type, count)
+#define itkVirtualGetVectorMacro(name, type, count) itkOptionallyVirtualGetVectorMacro(virtual, name, type, count)
+#define itkVirtualSetDecoratedOutputMacro(name, type) itkOptionallyVirtualSetDecoratedOutputMacro(virtual, name, type)
+#define itkVirtualGetDecoratedOutputMacro(name, type) itkOptionallyVirtualGetDecoratedOutputMacro(virtual, name, type)
+
+#define itkNonVirtualGetObjectMacro(name, type) itkOptionallyVirtualGetObjectMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetModifiableObjectMacro(name, type) itkOptionallyVirtualGetModifiableObjectMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetInputMacro(name, type) itkOptionallyVirtualSetInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetInputMacro(name, type) itkOptionallyVirtualGetInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetDecoratedInputMacro(name, type) itkOptionallyVirtualSetDecoratedInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetDecoratedInputMacro(name, type) itkOptionallyVirtualGetDecoratedInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetGetDecoratedInputMacro(name, type) itkOptionallyVirtualSetGetDecoratedInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetDecoratedObjectInputMacro(name, type) itkOptionallyVirtualSetDecoratedObjectInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetDecoratedObjectInputMacro(name, type) itkOptionallyVirtualGetDecoratedObjectInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetGetDecoratedObjectInputMacro(name, type) itkOptionallyVirtualSetGetDecoratedObjectInputMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetMacro(name, type) itkOptionallyVirtualSetMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetMacro(name, type) itkOptionallyVirtualGetMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetConstMacro(name, type) itkOptionallyVirtualGetConstMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetConstReferenceMacro(name, type) itkOptionallyVirtualGetConstReferenceMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetEnumMacro(name, type) itkOptionallyVirtualSetEnumMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetEnumMacro(name, type) itkOptionallyVirtualGetEnumMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetStringMacro(name) itkOptionallyVirtualSetStringMacro(/* no virtual */, name)
+#define itkNonVirtualGetStringMacro(name) itkOptionallyVirtualGetStringMacro(/* no virtual */, name)
+#define itkNonVirtualSetClampMacro(name, type, min, max) itkOptionallyVirtualSetClampMacro(/* no virtual */, name, type, min, max)
+#define itkNonVirtualSetObjectMacro(name, type) itkOptionallyVirtualSetObjectMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetConstObjectMacro(name, type) itkOptionallyVirtualGetConstObjectMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetConstReferenceObjectMacro(name, type) itkOptionallyVirtualGetConstReferenceObjectMacro(/* no virtual */, name, type)
+#define itkNonVirtualSetConstObjectMacro(name, type) itkOptionallyVirtualSetConstObjectMacro(/* no virtual */, name, type)
+#define itkNonVirtualBooleanMacro(name) itkOptionallyVirtualBooleanMacro(/* no virtual */, name)
+#define itkNonVirtualSetVectorMacro(name, type, count) itkOptionallyVirtualSetVectorMacro(/* no virtual */, name, type, count)
+#define itkNonVirtualGetVectorMacro(name, type, count) itkOptionallyVirtualGetVectorMacro(/* no virtual */, name, type, count)
+#define itkNonVirtualSetDecoratedOutputMacro(name, type) itkOptionallyVirtualSetDecoratedOutputMacro(/* no virtual */, name, type)
+#define itkNonVirtualGetDecoratedOutputMacro(name, type) itkOptionallyVirtualGetDecoratedOutputMacro(/* no virtual */, name, type)
+// clang-format on
+
+// In a future ITK release, Get/Set member functions may no longer be `virtual` by default.
+#ifdef ITK_FUTURE_LEGACY_REMOVE
+#  define ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD /* As nothing: no virtual keyword */
+#else
+#  define ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD virtual
+#endif
+
+// clang-format off
+#define itkGetObjectMacro(name, type) \
+  itkOptionallyVirtualGetObjectMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetModifiableObjectMacro(name, type) \
+  itkOptionallyVirtualGetModifiableObjectMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetInputMacro(name, type) itkOptionallyVirtualSetInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetInputMacro(name, type) itkOptionallyVirtualGetInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetDecoratedInputMacro(name, type) \
+  itkOptionallyVirtualSetDecoratedInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetDecoratedInputMacro(name, type) \
+  itkOptionallyVirtualGetDecoratedInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetGetDecoratedInputMacro(name, type) \
+  itkOptionallyVirtualSetGetDecoratedInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetDecoratedObjectInputMacro(name, type) \
+  itkOptionallyVirtualSetDecoratedObjectInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetDecoratedObjectInputMacro(name, type) \
+  itkOptionallyVirtualGetDecoratedObjectInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetGetDecoratedObjectInputMacro(name, type) \
+  itkOptionallyVirtualSetGetDecoratedObjectInputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetMacro(name, type) itkOptionallyVirtualSetMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetMacro(name, type) itkOptionallyVirtualGetMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetConstMacro(name, type) itkOptionallyVirtualGetConstMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetConstReferenceMacro(name, type) \
+  itkOptionallyVirtualGetConstReferenceMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetEnumMacro(name, type) itkOptionallyVirtualSetEnumMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetEnumMacro(name, type) itkOptionallyVirtualGetEnumMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetStringMacro(name) itkOptionallyVirtualSetStringMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name)
+#define itkGetStringMacro(name) itkOptionallyVirtualGetStringMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name)
+#define itkSetClampMacro(name, type, min, max) \
+  itkOptionallyVirtualSetClampMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type, min, max)
+#define itkSetObjectMacro(name, type) \
+  itkOptionallyVirtualSetObjectMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetConstObjectMacro(name, type) \
+  itkOptionallyVirtualGetConstObjectMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetConstReferenceObjectMacro(name, type) \
+  itkOptionallyVirtualGetConstReferenceObjectMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkSetConstObjectMacro(name, type) \
+  itkOptionallyVirtualSetConstObjectMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkBooleanMacro(name) itkOptionallyVirtualBooleanMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name)
+#define itkSetVectorMacro(name, type, count) \
+  itkOptionallyVirtualSetVectorMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type, count)
+#define itkGetVectorMacro(name, type, count) \
+  itkOptionallyVirtualGetVectorMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type, count)
+#define itkSetDecoratedOutputMacro(name, type) \
+  itkOptionallyVirtualSetDecoratedOutputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+#define itkGetDecoratedOutputMacro(name, type) \
+  itkOptionallyVirtualGetDecoratedOutputMacro(ITK_OPTIONAL_GET_SET_VIRTUAL_KEYWORD, name, type)
+// clang-format on
 
 
 /** Defines to provide compatibility with derived iterators.
