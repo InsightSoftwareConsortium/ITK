@@ -1047,20 +1047,20 @@ compilers.
 /** Set built-in type where value is constrained between min/max limits.
  * Create member Set"name"() (e.q., SetRadius()). \#defines are
  * convenience for clamping open-ended values. */
-#define itkSetClampMacro(name, type, min, max)                                \
-  virtual void Set##name(type _arg)                                           \
-  {                                                                           \
-    const type temp_extrema = (_arg < min ? min : (_arg > max ? max : _arg)); \
-    itkDebugMacro("setting " << #name " to " << _arg);                        \
-    CLANG_PRAGMA_PUSH                                                         \
-    CLANG_SUPPRESS_Wfloat_equal                                               \
-    if (this->m_##name != temp_extrema)                                       \
-    {                                                                         \
-      this->m_##name = temp_extrema;                                          \
-      this->Modified();                                                       \
-    }                                                                         \
-    CLANG_PRAGMA_POP                                                          \
-  }                                                                           \
+#define itkSetClampMacro(name, type, min, max)                                  \
+  virtual void Set##name(type _arg)                                             \
+  {                                                                             \
+    const type temp_extrema = (_arg <= min ? min : (_arg >= max ? max : _arg)); \
+    itkDebugMacro("setting " << #name " to " << _arg);                          \
+    CLANG_PRAGMA_PUSH                                                           \
+    CLANG_SUPPRESS_Wfloat_equal                                                 \
+    if (this->m_##name != temp_extrema)                                         \
+    {                                                                           \
+      this->m_##name = temp_extrema;                                            \
+      this->Modified();                                                         \
+    }                                                                           \
+    CLANG_PRAGMA_POP                                                            \
+  }                                                                             \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
 
