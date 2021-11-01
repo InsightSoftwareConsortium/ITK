@@ -18,7 +18,7 @@
 ## ** On Linux, the default install directory is:
 ## /opt/intel/compilers_and_libraries/linux/
 ## ** On Windows, it is:
-## `C:\Program Files (x86)\IntelSWTools\compilers_and_libraries_2018.2.185\windows\mkl`
+## `C:\Program Files (x86)\Intel\oneAPI\mkl\2021.4.0`
 ## ** On Mac, it is:
 ## `/opt/intel/compilers_and_libraries/mac/mkl`
 ##
@@ -33,10 +33,15 @@
 if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
 
   if(ITK_USE_MKL)
-    if(DEFINED ENV{MKLROOT})
+    # If the user has provided the MKL include path then search nearby for library files
+    if(FFTW_INCLUDE_PATH)
+      # mkl/<version>/include/fftw -> mkl/<version>
+      get_filename_component(MKLROOT ${FFTW_INCLUDE_PATH} DIRECTORY)
+      get_filename_component(MKLROOT ${MKLROOT} DIRECTORY)
+    elseif(DEFINED ENV{MKLROOT})
       set(MKLROOT_default $ENV{MKLROOT})
     elseif(WIN32)
-      set(MKLROOT_default "C:/Program Files (x86)/IntelSWTools/compilers_and_libraries/windows/mkl")
+      set(MKLROOT_default "C:/Program Files (x86)/Intel/oneAPI/mkl/2021.4.0")
     elseif(APPLE)
       set(MKLROOT_default "/opt/intel/compilers_and_libraries/mac/mkl")
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
