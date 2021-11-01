@@ -107,6 +107,7 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   ThreadIdType
   GetMaximumNumberOfThreads() const
   {
+    std::unique_lock<std::mutex> lock(this->GetMutex());
     return static_cast<ThreadIdType>(m_Threads.size());
   }
 
@@ -117,7 +118,7 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
   /** Set/Get wait for threads.
   This function should be used carefully, probably only during static
   initialization phase to disable waiting for threads when ITK is built as a
-  static library and linked into a shared library (Windows only).*/
+  static library and linked into a shared library (Windows only). */
   static bool
   GetDoNotWaitForThreads();
   static void
@@ -125,9 +126,9 @@ auto result = pool->AddWork([](int param) { return param; }, 7);
 
 protected:
   /** We need access to the mutex in AddWork, and the variable is only
-   * visible in .cxx file, so this method returns it. */
+   * visible in the .cxx file, so this method returns it. */
   std::mutex &
-  GetMutex();
+  GetMutex() const;
 
   ThreadPool();
 
@@ -149,7 +150,7 @@ private:
   /** This is a list of jobs submitted to the thread pool.
    * This is the only place where the jobs are submitted.
    * Filled by AddWork, emptied by ThreadExecute. */
-  std::deque<std::function<void()>> m_WorkQueue;
+  std::deque<std::function<void()>> m_WorkQueue; // guarded by m_PimplGlobals->m_Mutex
 
   /** When a thread is idle, it is waiting on m_Condition.
    * AddWork signals it to resume a (random) thread. */
@@ -157,10 +158,10 @@ private:
 
   /** Vector to hold all thread handles.
    * Thread handles are used to delete (join) the threads. */
-  std::vector<std::thread> m_Threads;
+  std::vector<std::thread> m_Threads; // guarded by m_PimplGlobals->m_Mutex
 
   /* Has destruction started? */
-  bool m_Stopping{ false };
+  bool m_Stopping{ false }; // guarded by m_PimplGlobals->m_Mutex
 
   /** To lock on the internal variables */
   static ThreadPoolGlobals * m_PimplGlobals;
