@@ -15,7 +15,7 @@
    Memcheck:Param
    ioctl(generic)
    fun:ioctl
-   fun:_ZN6itksysL16CloneFileContentERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES7_
+   fun:_ZN6itksys11SystemTools16CloneFileContentERKNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES8_
 }
 # Offending line contains comment that the array may contain garbage
 {
