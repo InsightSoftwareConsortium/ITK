@@ -137,9 +137,10 @@ public:
   static constexpr unsigned int
   GetDefaultNumberOfBins()
   {
-    return NumericTraits<FeatureImagePixelType>::IsInteger && sizeof(FeatureImagePixelType) <= 2
-             ? 1 << (8 * sizeof(FeatureImagePixelType))
-             : 128;
+    constexpr size_t bitsShift = std::min(8 * sizeof(FeatureImagePixelType), 8 * sizeof(m_NumberOfBins) - 1);
+
+    return std::is_integral<FeatureImagePixelType>::value && sizeof(FeatureImagePixelType) <= 2 ? 1u << bitsShift
+                                                                                                : 128u;
   }
 
 protected:
