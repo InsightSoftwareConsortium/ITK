@@ -17,9 +17,12 @@
  *=========================================================================*/
 #include "itkSingleton.h"
 
+#include <mutex>
 
 namespace
 {
+std::once_flag globalSingletonOnceFlag;
+
 // This ensures that m_GlobalSingletonIndex has been initialized once the library
 // has been loaded. In some cases, this call will perform the initialization.
 // In other cases, static initializers like the IO factory initialization code
@@ -50,13 +53,14 @@ public:
   static SingletonIndex *
   GetGlobalSingletonIndex()
   {
-    if (m_GlobalSingletonIndex == nullptr)
-    {
+    std::call_once(globalSingletonOnceFlag, []() {
       m_GlobalSingletonIndex = new SingletonIndex;
+
       // To avoid being optimized out. The compiler does not like this
       // statement at a higher scope.
       Unused(initializedGlobalSingletonIndex);
-    }
+    });
+
     return m_GlobalSingletonIndex;
   }
 
