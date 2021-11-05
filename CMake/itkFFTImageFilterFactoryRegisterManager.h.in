@@ -21,11 +21,22 @@
 
 namespace itk {
 
+//
+//  The following code is intended to be expanded at the end of the
+//  itk<config>FFTImageFilter.h files
+//
+@LIST_OF_FACTORIES_REGISTRATION@
+
 class FFTImageFilterFactoryRegisterManager
 {
   public:
-  explicit FFTImageFilterFactoryRegisterManager(void (* const list[])(void))
-    {
+  explicit FFTImageFilterFactoryRegisterManager()
+  {
+    void (* const FFTImageFilterFactoryRegisterRegisterList[])(void) = {
+      @LIST_OF_FACTORY_NAMES@
+    nullptr};
+
+    auto list = FFTImageFilterFactoryRegisterRegisterList;
     for(;*list != nullptr; ++list)
       {
       (*list)();
@@ -33,23 +44,12 @@ class FFTImageFilterFactoryRegisterManager
     }
 };
 
-
 //
-//  The following code is intended to be expanded at the end of the
-//  itkTransformFileReader.h and itkTransformFileWriter.h files.
-//
-@LIST_OF_FACTORIES_REGISTRATION@
-
-//
-// The code below registers available IO helpers using static initialization in
+// The code below registers available FFT helpers using static initialization in
 // application translation units. Note that this code will be expanded in the
 // ITK-based applications and not in ITK itself.
 //
-
-void (* const FFTImageFilterFactoryRegisterRegisterList[])(void) = {
-  @LIST_OF_FACTORY_NAMES@
-  nullptr};
-const FFTImageFilterFactoryRegisterManager FFTImageFilterFactoryRegisterManagerInstance(FFTImageFilterFactoryRegisterRegisterList);
+const FFTImageFilterFactoryRegisterManager FFTImageFilterFactoryRegisterManagerInstance;
 
 }
 
