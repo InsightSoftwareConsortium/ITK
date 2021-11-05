@@ -26,6 +26,14 @@
 #include "itkTestingMacros.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
+#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
+#endif
+
 int
 itkFFTConvolutionImageFilterTest(int argc, char * argv[])
 {
@@ -57,6 +65,15 @@ itkFFTConvolutionImageFilterTest(int argc, char * argv[])
   reader2->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader2->Update());
+
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTWRealToHalfHermitianForwardFFTImageFilterFactory>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTWHalfHermitianToRealInverseFFTImageFilterFactory>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::VnlRealToHalfHermitianForwardFFTImageFilterFactory>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::VnlHalfHermitianToRealInverseFFTImageFilterFactory>();
+#endif
 
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   auto convoluter = ConvolutionFilterType::New();

@@ -22,6 +22,8 @@
 #include "itkFFTWCommonExtended.h"
 #include "itkImageRegionSplitterDirection.h"
 
+#include "itkFFTImageFilterFactory.h"
+
 #include <vector>
 
 
@@ -34,7 +36,7 @@ namespace itk
  * \ingroup ITKFFT
  * \ingroup FourierTransform
  */
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT FFTWComplexToComplex1DFFTImageFilter
   : public ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>
 {
@@ -97,6 +99,18 @@ private:
   unsigned int          m_LastImageSize;
   PlanBufferPointerType m_InputBufferArray;
   PlanBufferPointerType m_OutputBufferArray;
+};
+
+
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<FFTWComplexToComplex1DFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
 };
 
 } // namespace itk

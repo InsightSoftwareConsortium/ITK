@@ -20,12 +20,6 @@
 
 #include "itkForward1DFFTImageFilter.h"
 
-#include "itkVnlForward1DFFTImageFilter.h"
-
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWForward1DFFTImageFilter.h"
-#endif
-
 #include "itkMetaDataObject.h"
 
 namespace itk

@@ -20,51 +20,11 @@
 
 #include "itkInverse1DFFTImageFilter.h"
 
-#include "itkVnlInverse1DFFTImageFilter.h"
-
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWInverse1DFFTImageFilter.h"
-#endif
-
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 
 namespace itk
 {
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel>
-struct Dispatch_1DComplexConjugateToReal_New
-{
-  static TSelfPointer
-  Apply()
-  {
-    return VnlInverse1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-
-#ifdef ITK_USE_FFTWD
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_1DComplexConjugateToReal_New<TSelfPointer, TInputImage, TOutputImage, double>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWInverse1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif // ITK_USE_FFTWD
-
-
-#ifdef ITK_USE_FFTWF
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_1DComplexConjugateToReal_New<TSelfPointer, TInputImage, TOutputImage, float>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWInverse1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif // ITK_USE_FFTWF
 
 template <typename TInputImage, typename TOutputImage>
 typename Inverse1DFFTImageFilter<TInputImage, TOutputImage>::Pointer
@@ -72,15 +32,7 @@ Inverse1DFFTImageFilter<TInputImage, TOutputImage>::New()
 {
   Pointer smartPtr = ObjectFactory<Self>::Create();
 
-  if (smartPtr.IsNull())
-  {
-    smartPtr = Dispatch_1DComplexConjugateToReal_New<
-      Pointer,
-      TInputImage,
-      TOutputImage,
-      typename NumericTraits<typename TOutputImage::PixelType>::ValueType>::Apply();
-  }
-  else
+  if (smartPtr.IsNotNull())
   {
     smartPtr->UnRegister();
   }

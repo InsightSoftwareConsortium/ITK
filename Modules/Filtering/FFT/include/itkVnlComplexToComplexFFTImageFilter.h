@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkComplexToComplexFFTImageFilter.h"
-
 #ifndef itkVnlComplexToComplexFFTImageFilter_h
-#  define itkVnlComplexToComplexFFTImageFilter_h
+#define itkVnlComplexToComplexFFTImageFilter_h
+
+#include "itkComplexToComplexFFTImageFilter.h"
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -74,10 +75,19 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
+template <>
+struct FFTImageFilterTraits<VnlComplexToComplexFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
+};
+
 } // end namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkVnlComplexToComplexFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVnlComplexToComplexFFTImageFilter.hxx"
+#endif
 
 #endif // itkVnlComplexToComplexFFTImageFilter_h

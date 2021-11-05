@@ -30,50 +30,12 @@
  */
 #ifndef itkComplexToComplexFFTImageFilter_hxx
 #define itkComplexToComplexFFTImageFilter_hxx
+
+#include "itkComplexToComplexFFTImageFilter.h"
 #include "itkMetaDataObject.h"
-
-#include "itkVnlComplexToComplexFFTImageFilter.h"
-
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWComplexToComplexFFTImageFilter.h"
-#endif
 
 namespace itk
 {
-
-template <typename TSelfPointer, typename TImage, typename TPixel>
-struct DispatchFFTW_Complex_New
-{
-  static TSelfPointer
-  Apply()
-  {
-    return VnlComplexToComplexFFTImageFilter<TImage>::New().GetPointer();
-  }
-};
-
-#ifdef ITK_USE_FFTWD
-template <typename TSelfPointer, typename TImage>
-struct DispatchFFTW_Complex_New<TSelfPointer, TImage, double>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWComplexToComplexFFTImageFilter<TImage>::New().GetPointer();
-  }
-};
-#endif
-
-#ifdef ITK_USE_FFTWF
-template <typename TSelfPointer, typename TImage>
-struct DispatchFFTW_Complex_New<TSelfPointer, TImage, float>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWComplexToComplexFFTImageFilter<TImage>::New().GetPointer();
-  }
-};
-#endif
 
 template <typename TInputImage, typename TOutputImage>
 auto
@@ -81,12 +43,7 @@ ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
 {
   Pointer smartPtr = ObjectFactory<Self>::Create();
 
-  if (smartPtr.IsNull())
-  {
-    smartPtr =
-      DispatchFFTW_Complex_New<Pointer, TImage, typename NumericTraits<typename TImage::PixelType>::ValueType>::Apply();
-  }
-  else
+  if (smartPtr.IsNotNull())
   {
     // Correct extra reference count from ObjectFactory<Self>::Create()
     smartPtr->UnRegister();

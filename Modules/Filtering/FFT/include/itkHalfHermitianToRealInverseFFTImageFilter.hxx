@@ -18,49 +18,10 @@
 #ifndef itkHalfHermitianToRealInverseFFTImageFilter_hxx
 #define itkHalfHermitianToRealInverseFFTImageFilter_hxx
 
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
-
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
-#endif
+#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
 namespace itk
 {
-
-// Partial specialization allows avoiding runtime type choice
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel>
-struct Dispatch_C2R_New
-{
-  static TSelfPointer
-  Apply()
-  {
-    return VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-
-#ifdef ITK_USE_FFTWD
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, double>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif
-
-#ifdef ITK_USE_FFTWF
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_C2R_New<TSelfPointer, TInputImage, TOutputImage, float>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif
 
 template <typename TInputImage, typename TOutputImage>
 auto
@@ -68,11 +29,7 @@ HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Po
 {
   Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
-  if (smartPtr.IsNull())
-  {
-    smartPtr = Dispatch_C2R_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
-  }
-  else
+  if (smartPtr.IsNotNull())
   {
     // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
     smartPtr->UnRegister();

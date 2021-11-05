@@ -15,15 +15,16 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef itkVnlHalfHermitianToRealInverseFFTImageFilter_h
+#define itkVnlHalfHermitianToRealInverseFFTImageFilter_h
+
 #include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
-#ifndef itkVnlHalfHermitianToRealInverseFFTImageFilter_h
-#  define itkVnlHalfHermitianToRealInverseFFTImageFilter_h
+#include "itkVnlFFTCommon.h"
+#include "itkImage.h"
+#include "vnl/algo/vnl_fft_base.h"
 
-#  include "itkVnlFFTCommon.h"
-
-#  include "itkImage.h"
-#  include "vnl/algo/vnl_fft_base.h"
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -82,12 +83,12 @@ public:
   SizeValueType
   GetSizeGreatestPrimeFactor() const override;
 
-#  ifdef ITK_USE_CONCEPT_CHECKING
+#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(PixelUnsignedIntDivisionOperatorsCheck, (Concept::DivisionOperators<OutputPixelType, unsigned int>));
   itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   // End concept checking
-#  endif
+#endif
 
 protected:
   VnlHalfHermitianToRealInverseFFTImageFilter() = default;
@@ -99,10 +100,22 @@ protected:
 private:
   using SignalVectorType = vnl_vector<InputPixelType>;
 };
+
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<VnlHalfHermitianToRealInverseFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = TUnderlying;
+};
+
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkVnlHalfHermitianToRealInverseFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVnlHalfHermitianToRealInverseFFTImageFilter.hxx"
+#endif
 
 #endif

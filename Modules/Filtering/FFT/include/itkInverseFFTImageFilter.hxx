@@ -17,51 +17,12 @@
  *=========================================================================*/
 #ifndef itkInverseFFTImageFilter_hxx
 #define itkInverseFFTImageFilter_hxx
+
+#include "itkInverseFFTImageFilter.h"
 #include "itkMetaDataObject.h"
-
-#include "itkVnlInverseFFTImageFilter.h"
-
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWInverseFFTImageFilter.h"
-#endif
 
 namespace itk
 {
-
-// Partial specialization allows avoiding runtime type choice
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel>
-struct Dispatch_Inverse_New
-{
-  static TSelfPointer
-  Apply()
-  {
-    return VnlInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-
-#ifdef ITK_USE_FFTWD
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_Inverse_New<TSelfPointer, TInputImage, TOutputImage, double>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif
-
-#ifdef ITK_USE_FFTWF
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_Inverse_New<TSelfPointer, TInputImage, TOutputImage, float>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWInverseFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif
 
 template <typename TInputImage, typename TOutputImage>
 auto
@@ -69,11 +30,7 @@ InverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
 {
   Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
 
-  if (smartPtr.IsNull())
-  {
-    smartPtr = Dispatch_Inverse_New<Pointer, TInputImage, TOutputImage, OutputPixelType>::Apply();
-  }
-  else
+  if (smartPtr.IsNotNull())
   {
     // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
     smartPtr->UnRegister();

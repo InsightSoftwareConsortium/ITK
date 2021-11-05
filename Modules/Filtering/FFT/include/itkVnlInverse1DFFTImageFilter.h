@@ -21,6 +21,8 @@
 #include "itkInverse1DFFTImageFilter.h"
 #include <complex>
 
+#include "itkFFTImageFilterFactory.h"
+
 namespace itk
 {
 
@@ -62,6 +64,18 @@ protected:
 
   VnlInverse1DFFTImageFilter() = default;
   ~VnlInverse1DFFTImageFilter() override = default;
+};
+
+
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<VnlInverse1DFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = TUnderlying;
 };
 
 } // end namespace itk

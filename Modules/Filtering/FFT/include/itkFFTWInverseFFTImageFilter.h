@@ -15,12 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkInverseFFTImageFilter.h"
-
 #ifndef itkFFTWInverseFFTImageFilter_h
-#  define itkFFTWInverseFFTImageFilter_h
+#define itkFFTWInverseFFTImageFilter_h
 
-#  include "itkFFTWCommon.h"
+#include "itkInverseFFTImageFilter.h"
+#include "itkFFTWCommon.h"
+
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -95,10 +96,10 @@ public:
   virtual void
   SetPlanRigor(const int & value)
   {
-#  ifndef ITK_USE_CUFFTW
+#ifndef ITK_USE_CUFFTW
     // Use that method to check the value.
     FFTWGlobalConfiguration::GetPlanRigorName(value);
-#  endif
+#endif
     if (m_PlanRigor != value)
     {
       m_PlanRigor = value;
@@ -109,9 +110,9 @@ public:
   void
   SetPlanRigor(const std::string & name)
   {
-#  ifndef ITK_USE_CUFFTW
+#ifndef ITK_USE_CUFFTW
     this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
-#  endif
+#endif
   }
 
   SizeValueType
@@ -135,10 +136,21 @@ private:
 };
 
 
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<FFTWInverseFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = TUnderlying;
+};
+
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkFFTWInverseFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkFFTWInverseFFTImageFilter.hxx"
+#endif
 
 #endif // itkFFTWInverseFFTImageFilter_h

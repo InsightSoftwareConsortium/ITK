@@ -26,6 +26,7 @@
 #include "itkInverse1DFFTImageFilter.h"
 
 #include "itkObjectFactoryBase.h"
+#include "itkFFTImageFilterFactory.h"
 
 #include "itkVnlForward1DFFTImageFilter.h"
 #include "itkVnlInverse1DFFTImageFilter.h"
@@ -127,7 +128,7 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
     auto fft = FFTForwardType::New();
     if (dynamic_cast<FFTForwardSubtype *>(fft.GetPointer()) == nullptr)
     {
-      std::cerr << "Did not get " << defaultFFTBackend << " default backend as expected!" << std::endl;
+      std::cerr << "Did not get " << defaultFFTBackend << " default backend for inverse FFT as expected!" << std::endl;
       return EXIT_FAILURE;
     }
     return doTest<FFTForwardType, FFTInverseType>(argv[1], argv[2]);

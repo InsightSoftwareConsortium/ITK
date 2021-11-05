@@ -19,7 +19,9 @@
 #define itkVnlComplexToComplex1DFFTImageFilter_h
 
 #include "itkComplexToComplex1DFFTImageFilter.h"
+
 #include <complex>
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -32,7 +34,7 @@ namespace itk
  * \ingroup ITKFFT
  * \ingroup FourierTransform
  */
-template <typename TInputImage, typename TOutputImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT VnlComplexToComplex1DFFTImageFilter
   : public ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>
 {
@@ -63,6 +65,15 @@ protected:
 
   void
   GenerateData() override;
+};
+
+template <>
+struct FFTImageFilterTraits<VnlComplexToComplex1DFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
 };
 
 } // end namespace itk

@@ -114,4 +114,8 @@ protected:
 #  include "itkForwardFFTImageFilter.hxx"
 #endif
 
+#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
+#  include "itkFFTImageFilterFactoryRegisterManager.h"
+#endif
+
 #endif

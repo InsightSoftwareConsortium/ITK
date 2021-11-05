@@ -23,6 +23,8 @@
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
 
+#include "itkFFTImageFilterFactory.h"
+
 namespace itk
 {
 /** \class ComplexToComplex1DFFTImageFilter
@@ -112,6 +114,7 @@ protected:
 
 private:
 };
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
@@ -124,6 +127,10 @@ private:
 #      endif
 #    endif
 #  endif
+#endif
+
+#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
+#  include "itkFFTImageFilterFactoryRegisterManager.h"
 #endif
 
 #endif // itkComplexToComplex1DFFTImageFilter_h
