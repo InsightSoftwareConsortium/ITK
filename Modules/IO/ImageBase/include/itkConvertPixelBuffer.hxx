@@ -29,7 +29,7 @@ namespace itk
 
 template <typename InputPixelType, typename OutputPixelType, typename OutputConvertTraits>
 template <typename UComponentType>
-std::enable_if_t<!NumericTraits<UComponentType>::IsInteger, UComponentType>
+std::enable_if_t<!std::is_integral<UComponentType>::value, UComponentType>
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::DefaultAlphaValue()
 {
   return NumericTraits<UComponentType>::One;
@@ -37,7 +37,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Defaul
 
 template <typename InputPixelType, typename OutputPixelType, typename OutputConvertTraits>
 template <typename UComponentType>
-std::enable_if_t<NumericTraits<UComponentType>::IsInteger, UComponentType>
+std::enable_if_t<std::is_integral<UComponentType>::value, UComponentType>
 ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::DefaultAlphaValue()
 {
   return NumericTraits<UComponentType>::max();

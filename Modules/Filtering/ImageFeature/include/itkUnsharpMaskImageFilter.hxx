@@ -30,7 +30,7 @@ template <typename TInputImage, typename TOutputImage, typename TInternalPrecisi
 UnsharpMaskImageFilter<TInputImage, TOutputImage, TInternalPrecision>::UnsharpMaskImageFilter()
   : m_Amount(0.5)
   , m_Threshold(0)
-  , m_Clamp(NumericTraits<OutputPixelType>::IsInteger)
+  , m_Clamp(std::is_integral<OutputPixelType>::value)
 // clamping is on for integral types, and off for floating types
 // this gives intuitive behavior for integral types
 // and skips min/max checks for floating types

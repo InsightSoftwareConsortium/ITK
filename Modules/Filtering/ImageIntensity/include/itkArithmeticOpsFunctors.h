@@ -311,7 +311,7 @@ public:
   operator()(const TInput1 & A, const TInput2 & B) const
   {
     const double temp = std::floor(double(A) / double(B));
-    if (NumericTraits<TOutput>::IsInteger && Math::isinf(temp))
+    if (std::is_integral<TOutput>::value && Math::isinf(temp))
     {
       if (temp > 0)
       {
