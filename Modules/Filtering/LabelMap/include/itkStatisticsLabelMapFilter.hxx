@@ -73,8 +73,9 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   typename HistogramType::MeasurementVectorType featureImageMax(1);
 
 
-  if (NumericTraits<typename Self::FeatureImagePixelType>::IsInteger &&
-      m_NumberOfBins == 1 << (8 * sizeof(typename Self::FeatureImagePixelType)))
+  constexpr size_t bitsShift = std::min(8 * sizeof(FeatureImagePixelType), 8 * sizeof(m_NumberOfBins) - 1);
+  if (std::is_integral<FeatureImagePixelType>::value && sizeof(FeatureImagePixelType) <= 2 &&
+      m_NumberOfBins == 1 << bitsShift)
   {
     // Add padding so the center of bins are integers
     featureImageMin.Fill(NumericTraits<typename Self::FeatureImagePixelType>::min() - 0.5);
