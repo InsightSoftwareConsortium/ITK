@@ -210,8 +210,8 @@ CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
     std::cout << "\tERROR:  IsSigned definitions for itk::NumericTraits and std::numeric_limits do not match!! ERROR!!"
               << std::endl;
     std::cout << "\tFor type: \t" << name << std::endl;
-    std::cout << "\tITK signed Value for:\t<  " << name << "  >\tis:\t"
-              << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << std::endl;
+    std::cout << "\tITK signed Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed<T>::value ? "true" : "false")
+              << std::endl;
     std::cout << "\tstd signed Value for:\t<  " << name << "  >\tis:\t"
               << (std::numeric_limits<T>::is_signed ? "true" : "false") << std::endl;
     didTestPass = false;
@@ -219,8 +219,8 @@ CheckSignedAndIntegerTraitsSameAsSTDNumericLimits(const char * const name)
   else
   {
     std::cout << "\tSUCCESS:  IsSigned definition for itk::NumericTraits matches std::numeric_limits" << std::endl;
-    std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t"
-              << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << std::endl;
+    std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t" << (std::is_signed<T>::value ? "true" : "false")
+              << std::endl;
   }
 
   // test for IsInteger

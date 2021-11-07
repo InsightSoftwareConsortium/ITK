@@ -516,9 +516,9 @@ template <typename TInputType1, typename TInputType2>
 struct AlmostEqualsScalarImplementer
 {
   static constexpr bool TInputType1IsInteger = std::is_integral<TInputType1>::value;
-  static constexpr bool TInputType1IsSigned = itk::NumericTraits<TInputType1>::IsSigned;
+  static constexpr bool TInputType1IsSigned = std::is_signed<TInputType1>::value;
   static constexpr bool TInputType2IsInteger = std::is_integral<TInputType2>::value;
-  static constexpr bool TInputType2IsSigned = itk::NumericTraits<TInputType2>::IsSigned;
+  static constexpr bool TInputType2IsSigned = std::is_signed<TInputType2>::value;
 
   using SelectedVersion = typename AlmostEqualsFunctionSelector<TInputType1IsInteger,
                                                                 TInputType1IsSigned,
