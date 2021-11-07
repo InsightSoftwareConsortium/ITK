@@ -1924,7 +1924,7 @@ public:
     return val.real() >= 0;
   }
 
-  static constexpr bool IsSigned = NumericTraits<ValueType>::IsSigned;
+  static constexpr bool IsSigned = std::is_signed<ValueType>::value;
   static constexpr bool IsInteger = false;
   static constexpr bool IsComplex = true;
   static Self
