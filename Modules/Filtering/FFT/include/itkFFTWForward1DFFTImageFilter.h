@@ -21,6 +21,7 @@
 #include "itkForward1DFFTImageFilter.h"
 #include "itkFFTWCommonExtended.h"
 #include "itkImageRegionSplitterDirection.h"
+#include "itkVersion.h"
 
 #include <vector>
 
@@ -31,7 +32,8 @@ namespace itk
 /** \class FFTWForward1DFFTImageFilter
  * \brief only do FFT along one dimension using FFTW as a backend.
  *
- * \ingroup Ultrasound
+ * \ingroup FourierTransform
+ * \ingroup ITKFFT
  */
 template <typename TInputImage,
           typename TOutputImage = Image<std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension>>
@@ -95,6 +97,81 @@ private:
   unsigned int          m_LastImageSize;
   PlanBufferPointerType m_InputBufferArray;
   PlanBufferPointerType m_OutputBufferArray;
+};
+
+
+/** \class FFTWForward1DFFTImageFilterFactory
+ *
+ * \brief Object Factory implementation for FFTWForward1DFFTImageFilter
+ *
+ * \ingroup FourierTransform
+ * \ingroup ITKFFT
+ */
+class FFTWForward1DFFTImageFilterFactory : public itk::ObjectFactoryBase
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(FFTWForward1DFFTImageFilterFactory);
+
+  using Self = FFTWForward1DFFTImageFilterFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+
+  /** Class methods used to interface with the registered factories. */
+  const char *
+  GetITKSourceVersion() const override
+  {
+    return ITK_SOURCE_VERSION;
+  }
+  const char *
+  GetDescription() const override
+  {
+    return "A Factory for FFTWForward1DFFTImageFilterFactory";
+  }
+
+  /** Method for class instantiation. */
+  itkFactorylessNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(FFTWForward1DFFTImageFilterFactory, itk::ObjectFactoryBase);
+
+  /** Register one factory of this type  */
+  static void
+  RegisterOneFactory()
+  {
+    FFTWForward1DFFTImageFilterFactory::Pointer factory = FFTWForward1DFFTImageFilterFactory::New();
+
+    ObjectFactoryBase::RegisterFactory(factory);
+  }
+
+private:
+  template <typename InputPixelType, typename OutputPixelType, size_t ImageDimension>
+  void
+  OverrideFFTWForward1DFFTImageFilterTypeMacro()
+  {
+    using InputImageType = Image<InputPixelType, ImageDimension>;
+    using OutputImageType = Image<std::complex<OutputPixelType>, ImageDimension>;
+    this->RegisterOverride(typeid(Forward1DFFTImageFilter<InputImageType, OutputImageType>).name(),
+                           typeid(FFTWForward1DFFTImageFilter<InputImageType, OutputImageType>).name(),
+                           "FFTW Forward 1D FFT Image Filter Override",
+                           true,
+                           CreateObjectFunction<FFTWForward1DFFTImageFilter<InputImageType, OutputImageType>>::New());
+  }
+
+  FFTWForward1DFFTImageFilterFactory()
+  {
+#ifdef ITK_USE_FFTWF
+    OverrideFFTWForward1DFFTImageFilterTypeMacro<float, float, 1>();
+    OverrideFFTWForward1DFFTImageFilterTypeMacro<float, float, 2>();
+    OverrideFFTWForward1DFFTImageFilterTypeMacro<float, float, 3>();
+#endif // ITK_USE_FFTWF
+
+#ifdef ITK_USE_FFTWD
+    OverrideFFTWForward1DFFTImageFilterTypeMacro<double, double, 1>();
+    OverrideFFTWForward1DFFTImageFilterTypeMacro<double, double, 2>();
+    OverrideFFTWForward1DFFTImageFilterTypeMacro<double, double, 3>();
+#endif // ITK_USE_FFTWD
+  }
 };
 
 } // namespace itk

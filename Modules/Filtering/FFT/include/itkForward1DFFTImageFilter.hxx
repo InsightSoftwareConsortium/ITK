@@ -33,59 +33,15 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 class VnlForward1DFFTImageFilter;
 
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage, typename TPixel>
-struct Dispatch_1DRealToComplexConjugate_New
-{
-  static TSelfPointer
-  Apply()
-  {
-    return VnlForward1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-
-#ifdef ITK_USE_FFTWD
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_1DRealToComplexConjugate_New<TSelfPointer, TInputImage, TOutputImage, double>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif // ITK_USE_FFTWD
-
-#ifdef ITK_USE_FFTWF
-template <typename TSelfPointer, typename TInputImage, typename TOutputImage>
-struct Dispatch_1DRealToComplexConjugate_New<TSelfPointer, TInputImage, TOutputImage, float>
-{
-  static TSelfPointer
-  Apply()
-  {
-    return FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
-  }
-};
-#endif // ITK_USE_FFTWF
-
 template <typename TInputImage, typename TOutputImage>
 typename Forward1DFFTImageFilter<TInputImage, TOutputImage>::Pointer
 Forward1DFFTImageFilter<TInputImage, TOutputImage>::New()
 {
   Pointer smartPtr = ObjectFactory<Self>::Create();
-
-  if (smartPtr.IsNull())
-  {
-    smartPtr = Dispatch_1DRealToComplexConjugate_New<
-      Pointer,
-      TInputImage,
-      TOutputImage,
-      typename NumericTraits<typename TOutputImage::PixelType>::ValueType>::Apply();
-  }
-  else
+  if (smartPtr.IsNotNull())
   {
     smartPtr->UnRegister();
   }
-
   return smartPtr;
 }
 

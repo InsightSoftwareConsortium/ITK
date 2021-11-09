@@ -20,6 +20,7 @@
 
 #include "itkForward1DFFTImageFilter.h"
 #include <complex>
+#include "itkVersion.h"
 
 namespace itk
 {
@@ -62,6 +63,77 @@ protected:
   ~VnlForward1DFFTImageFilter() override = default;
 
 private:
+};
+
+
+/** \class VnlForward1DFFTImageFilterFactory
+ *
+ * \brief Object Factory implementation for VnlForward1DFFTImageFilter
+ *
+ * \ingroup FourierTransform
+ * \ingroup ITKFFT
+ */
+class VnlForward1DFFTImageFilterFactory : public itk::ObjectFactoryBase
+{
+public:
+  ITK_DISALLOW_COPY_AND_MOVE(VnlForward1DFFTImageFilterFactory);
+
+  using Self = VnlForward1DFFTImageFilterFactory;
+  using Superclass = ObjectFactoryBase;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+
+  /** Class methods used to interface with the registered factories. */
+  const char *
+  GetITKSourceVersion() const override
+  {
+    return ITK_SOURCE_VERSION;
+  }
+  const char *
+  GetDescription() const override
+  {
+    return "A Factory for VnlForward1DFFTImageFilterFactory";
+  }
+
+  /** Method for class instantiation. */
+  itkFactorylessNewMacro(Self);
+
+  /** Run-time type information (and related methods). */
+  itkTypeMacro(VnlForward1DFFTImageFilterFactory, itk::ObjectFactoryBase);
+
+  /** Register one factory of this type  */
+  static void
+  RegisterOneFactory()
+  {
+    VnlForward1DFFTImageFilterFactory::Pointer factory = VnlForward1DFFTImageFilterFactory::New();
+
+    ObjectFactoryBase::RegisterFactoryInternal(factory);
+  }
+
+private:
+  template <typename InputPixelType, typename OutputPixelType, size_t ImageDimension>
+  void
+  OverrideVnlForward1DFFTImageFilterTypeMacro()
+  {
+    using InputImageType = Image<InputPixelType, ImageDimension>;
+    using OutputImageType = Image<std::complex<OutputPixelType>, ImageDimension>;
+    this->RegisterOverride(typeid(Forward1DFFTImageFilter<InputImageType, OutputImageType>).name(),
+                           typeid(VnlForward1DFFTImageFilter<InputImageType, OutputImageType>).name(),
+                           "Vnl Forward 1D FFT Image Filter Override",
+                           true,
+                           CreateObjectFunction<VnlForward1DFFTImageFilter<InputImageType, OutputImageType>>::New());
+  }
+
+  VnlForward1DFFTImageFilterFactory()
+  {
+    OverrideVnlForward1DFFTImageFilterTypeMacro<float, float, 1>();
+    OverrideVnlForward1DFFTImageFilterTypeMacro<float, float, 2>();
+    OverrideVnlForward1DFFTImageFilterTypeMacro<float, float, 3>();
+
+    OverrideVnlForward1DFFTImageFilterTypeMacro<double, double, 1>();
+    OverrideVnlForward1DFFTImageFilterTypeMacro<double, double, 2>();
+    OverrideVnlForward1DFFTImageFilterTypeMacro<double, double, 3>();
+  }
 };
 
 } // end namespace itk

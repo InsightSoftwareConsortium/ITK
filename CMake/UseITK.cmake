@@ -168,7 +168,6 @@ link_directories(${ITK_LIBRARY_DIRS})
 function(_configure_FactoryRegisterManager factory_type formats)
   set(LIST_OF_FACTORIES_REGISTRATION "")
   set(LIST_OF_FACTORY_NAMES "")
-
   string(TOLOWER ${factory_type} _qualifier)
   foreach (format ${formats})
     set(_module_name ${${format}_${_qualifier}_module_name})
@@ -178,6 +177,12 @@ function(_configure_FactoryRegisterManager factory_type formats)
   endforeach()
 
   get_filename_component(_selfdir "${CMAKE_CURRENT_LIST_FILE}" PATH)
+
+  # Special case: FFT::<format> inputs are for "<format>FFTImageFilter" classes
+  if(factory_type STREQUAL "FFT")
+    set(factory_type "FFTImageFilter")
+  endif()
+
   configure_file(${_selfdir}/itk${factory_type}FactoryRegisterManager.h.in
    "${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration/itk${factory_type}FactoryRegisterManager.h" @ONLY)
 
@@ -194,6 +199,12 @@ macro(ADD_FACTORY_REGISTRATION _registration_list_var _names_list_var _module_na
   if(${_module_name}_ENABLE_SHARED AND ITK_BUILD_SHARED)
     set(_abi "ITK_ABI_IMPORT")
   endif()
+
+  # Special case: FFT::<format> inputs are for "<format>FFTImageFilter" classes
+  if(_factory_name STREQUAL "FFT")
+    set(_factory_name "FFTImageFilter")
+  endif()
+
   set(${_registration_list_var}
     "${${_registration_list_var}}void ${_abi} ${_factory_name}FactoryRegister__Private();")
   set(${_names_list_var} "${${_names_list_var}}${_factory_name}FactoryRegister__Private,")
@@ -228,8 +239,11 @@ foreach(_factory_name ${ITK_FACTORY_LIST})
 endforeach()
 #-----------------------------------------------------------------------------
 if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-
   set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_IO_FACTORY_REGISTER_MANAGER)
   include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration)
+endif()
 
+if(NOT ITK_NO_FFT_FACTORY_REGISTER_MANAGER)
+  set_property(DIRECTORY APPEND PROPERTY COMPILE_DEFINITIONS ITK_FFT_FACTORY_REGISTER_MANAGER)
+  include_directories(BEFORE ${CMAKE_CURRENT_BINARY_DIR}/ITKFactoryRegistration)
 endif()
