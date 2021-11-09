@@ -105,7 +105,9 @@ namespace Statistics
  * \endsphinx
  */
 
-template <typename TImageType, typename THistogramFrequencyContainer = DenseFrequencyContainer2>
+template <typename TImageType,
+          typename THistogramFrequencyContainer = DenseFrequencyContainer2,
+          typename TMaskImageType = TImageType>
 class ITK_TEMPLATE_EXPORT ScalarImageToTextureFeaturesFilter : public ProcessObject
 {
 public:
@@ -124,6 +126,9 @@ public:
   using FrequencyContainerType = THistogramFrequencyContainer;
   using ImageType = TImageType;
   using ImagePointer = typename ImageType::Pointer;
+  using MaskImageType = TMaskImageType;
+  using MaskPointer = typename MaskImageType::Pointer;
+  using MaskPixelType = typename MaskImageType::PixelType;
 
   using PixelType = typename ImageType::PixelType;
   using OffsetType = typename ImageType::OffsetType;
@@ -131,7 +136,8 @@ public:
   using OffsetVectorPointer = typename OffsetVector::Pointer;
   using OffsetVectorConstPointer = typename OffsetVector::ConstPointer;
 
-  using CooccurrenceMatrixFilterType = ScalarImageToCooccurrenceMatrixFilter<ImageType, FrequencyContainerType>;
+  using CooccurrenceMatrixFilterType =
+    ScalarImageToCooccurrenceMatrixFilter<ImageType, FrequencyContainerType, MaskImageType>;
 
   using HistogramType = typename CooccurrenceMatrixFilterType::HistogramType;
   using TextureFeaturesFilterType = HistogramToTextureFeaturesFilter<HistogramType>;
@@ -193,15 +199,15 @@ public:
   /** Connects the mask image for which the histogram is going to be computed.
       Optional; for default value see above. */
   void
-  SetMaskImage(const ImageType *);
+  SetMaskImage(const MaskImageType *);
 
-  const ImageType *
+  const MaskImageType *
   GetMaskImage() const;
 
   /** Set the pixel value of the mask that should be considered "inside" the
       object. Optional; for default value see above. */
   void
-  SetInsidePixelValue(PixelType insidePixelValue);
+  SetInsidePixelValue(MaskPixelType insidePixelValue);
 
   itkGetConstMacro(FastCalculations, bool);
   itkSetMacro(FastCalculations, bool);
