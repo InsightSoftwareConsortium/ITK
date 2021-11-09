@@ -26,8 +26,9 @@ namespace itk
 {
 namespace Statistics
 {
-template <typename TImage, typename THistogramFrequencyContainer>
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::ScalarImageToTextureFeaturesFilter()
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::
+  ScalarImageToTextureFeaturesFilter()
 {
   this->SetNumberOfRequiredInputs(1);
   this->SetNumberOfRequiredOutputs(1);
@@ -84,17 +85,17 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::Scalar
   m_FastCalculations = false;
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
-typename ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::DataObjectPointer
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::MakeOutput(
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
+typename ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::DataObjectPointer
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::MakeOutput(
   DataObjectPointerArraySizeType itkNotUsed(idx))
 {
   return FeatureValueVectorDataObjectType::New().GetPointer();
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::GenerateData()
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::GenerateData()
 {
   if (m_FastCalculations)
   {
@@ -106,9 +107,9 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::Genera
   }
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCompute()
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::FullCompute()
 {
   size_t    numOffsets = m_Offsets->size();
   size_t    numFeatures = m_RequestedFeatures->size();
@@ -202,9 +203,9 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FullCo
   delete[] features;
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FastCompute()
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::FastCompute()
 {
   // Compute the feature for the first offset
   typename OffsetVector::ConstIterator offsetIt = m_Offsets->Begin();
@@ -230,9 +231,10 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::FastCo
   standardDeviationOutputObject->Set(m_FeatureStandardDeviations);
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetInput(const ImageType * image)
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::SetInput(
+  const ImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
   this->ProcessObject::SetNthInput(0, const_cast<ImageType *>(image));
@@ -240,9 +242,9 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetInp
   m_GLCMGenerator->SetInput(image);
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetNumberOfBinsPerAxis(
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::SetNumberOfBinsPerAxis(
   unsigned int numberOfBins)
 {
   itkDebugMacro("setting NumberOfBinsPerAxis to " << numberOfBins);
@@ -250,70 +252,75 @@ ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetNum
   this->Modified();
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetPixelValueMinMax(PixelType min,
-                                                                                              PixelType max)
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::SetPixelValueMinMax(
+  PixelType min,
+  PixelType max)
 {
   itkDebugMacro("setting Min to " << min << "and Max to " << max);
   m_GLCMGenerator->SetPixelValueMinMax(min, max);
   this->Modified();
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetMaskImage(const ImageType * image)
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::SetMaskImage(
+  const MaskImageType * image)
 {
   // Process object is not const-correct so the const_cast is required here
-  this->ProcessObject::SetNthInput(1, const_cast<ImageType *>(image));
+  this->ProcessObject::SetNthInput(1, const_cast<MaskImageType *>(image));
 
   m_GLCMGenerator->SetMaskImage(image);
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
-const TImage *
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::GetInput() const
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
+const TImageType *
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::GetInput() const
 {
   return itkDynamicCastInDebugMode<const ImageType *>(this->GetPrimaryInput());
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
-const typename ScalarImageToTextureFeaturesFilter<TImage,
-                                                  THistogramFrequencyContainer>::FeatureValueVectorDataObjectType *
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::GetFeatureMeansOutput() const
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
+const typename ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::
+  FeatureValueVectorDataObjectType *
+  ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::GetFeatureMeansOutput()
+    const
 {
   return itkDynamicCastInDebugMode<const FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(0));
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
-const typename ScalarImageToTextureFeaturesFilter<TImage,
-                                                  THistogramFrequencyContainer>::FeatureValueVectorDataObjectType *
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::GetFeatureStandardDeviationsOutput() const
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
+const typename ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::
+  FeatureValueVectorDataObjectType *
+  ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::
+    GetFeatureStandardDeviationsOutput() const
 {
   return itkDynamicCastInDebugMode<const FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(1));
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
-const TImage *
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::GetMaskImage() const
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
+const TMaskImageType *
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::GetMaskImage() const
 {
-  return static_cast<const ImageType *>(this->ProcessObject::GetInput(1));
+  return static_cast<const MaskImageType *>(this->ProcessObject::GetInput(1));
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::SetInsidePixelValue(
-  PixelType insidePixelValue)
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::SetInsidePixelValue(
+  MaskPixelType insidePixelValue)
 {
   itkDebugMacro("setting InsidePixelValue to " << insidePixelValue);
   m_GLCMGenerator->SetInsidePixelValue(insidePixelValue);
   this->Modified();
 }
 
-template <typename TImage, typename THistogramFrequencyContainer>
+template <typename TImageType, typename THistogramFrequencyContainer, typename TMaskImageType>
 void
-ScalarImageToTextureFeaturesFilter<TImage, THistogramFrequencyContainer>::PrintSelf(std::ostream & os,
-                                                                                    Indent         indent) const
+ScalarImageToTextureFeaturesFilter<TImageType, THistogramFrequencyContainer, TMaskImageType>::PrintSelf(
+  std::ostream & os,
+  Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "RequestedFeatures: " << this->GetRequestedFeatures() << std::endl;

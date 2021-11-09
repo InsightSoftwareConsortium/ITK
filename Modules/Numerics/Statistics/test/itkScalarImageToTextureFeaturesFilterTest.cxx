@@ -36,8 +36,10 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   // Create a simple test images
   //------------------------------------------------------
   using InputImageType = itk::Image<unsigned char, NDIMENSION>;
+  using MaskImageType = itk::Image<bool, NDIMENSION>;
 
   using InputImageIterator = itk::ImageRegionIterator<InputImageType>;
+  using MaskImageIterator = itk::ImageRegionIterator<MaskImageType>;
 
 
   auto image = InputImageType::New();
@@ -81,17 +83,17 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   //  1 1 1 1 1
   //--------------------------------------------------------------------------
 
-  auto mask = InputImageType::New();
+  auto mask = MaskImageType::New();
   mask->SetRegions(region);
   mask->Allocate();
 
   // setup the iterator
-  InputImageIterator maskIt(mask, mask->GetBufferedRegion());
+  MaskImageIterator maskIt(mask, mask->GetBufferedRegion());
   maskIt.GoToBegin();
   for (int i = 0; i < 5; ++i)
     for (int j = 0; j < 5; j++, ++maskIt)
     {
-      maskIt.Set(1);
+      maskIt.Set(bool{ 1 });
     }
 
   //--------------------------------------------------------------------------
@@ -102,8 +104,8 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
   try
   {
 
-    using TextureFilterType =
-      itk::Statistics::ScalarImageToTextureFeaturesFilter<InputImageType, itk::Statistics::DenseFrequencyContainer2>;
+    using TextureFilterType = itk::Statistics::
+      ScalarImageToTextureFeaturesFilter<InputImageType, itk::Statistics::DenseFrequencyContainer2, MaskImageType>;
 
     // First test: just use the defaults.
     auto texFilter = TextureFilterType::New();
@@ -223,7 +225,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     {
       if (itk::Math::abs(expectedDeviations[counter] - sIt.Value()) > 0.0001)
       {
-        std::cerr << "Error. Deiviation for feature " << counter << " is " << sIt.Value() << ", expected "
+        std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
                   << expectedDeviations[counter] << "." << std::endl;
         passed = false;
       }
@@ -252,7 +254,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     {
       if (itk::Math::abs(expectedDeviations2[counter] - sIt.Value()) > 0.0001)
       {
-        std::cerr << "Error. Deiviation for feature " << counter << " is " << sIt.Value() << ", expected "
+        std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
                   << expectedDeviations2[counter] << "." << std::endl;
         passed = false;
       }
@@ -306,7 +308,7 @@ itkScalarImageToTextureFeaturesFilterTest(int, char *[])
     {
       if (itk::Math::abs(expectedDeviations3[counter] - sIt.Value()) > 0.0001)
       {
-        std::cerr << "Error. Deiviation for feature " << counter << " is " << sIt.Value() << ", expected "
+        std::cerr << "Error. Deviation for feature " << counter << " is " << sIt.Value() << ", expected "
                   << expectedDeviations3[counter] << "." << std::endl;
         passed = false;
       }
