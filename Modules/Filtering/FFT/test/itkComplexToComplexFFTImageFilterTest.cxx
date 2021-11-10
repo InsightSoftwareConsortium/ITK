@@ -39,6 +39,34 @@
 #include "itkInverseFFTImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlComplexToComplexFFTImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
+
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWComplexToComplexFFTImageFilter.h"
+#  include "itkFFTWForwardFFTImageFilter.h"
+#  include "itkFFTWInverseFFTImageFilter.h"
+#endif
+
+void
+registerFactories()
+{
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWComplexToComplexFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverseFFTImageFilter>>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlComplexToComplexFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>>();
+#endif
+}
+
 template <typename TPixel, unsigned int VDimension>
 int
 transformImage(const char * inputImageFileName, const char * outputImageFileName)
@@ -103,6 +131,8 @@ itkComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();
   const unsigned int dimension = imageIO->GetNumberOfDimensions();
+
+  registerFactories();
 
   if (pixelTypeString.compare("float") == 0)
   {

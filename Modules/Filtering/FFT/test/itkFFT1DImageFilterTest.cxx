@@ -108,25 +108,35 @@ itkFFT1DImageFilterTest(int argc, char * argv[])
 
   if (backend == 0) // Default backend
   {
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  ifndef ITK_FFT_FACTORY_REGISTER_MANAGER
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     // If the factory register manager is not defined then manually register default backend
-    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTWForward1DFFTImageFilterFactory>();
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForward1DFFTImageFilter>>();
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverse1DFFTImageFilter>>();
 #  endif
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForward1DFFTImageFilter>>();
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverse1DFFTImageFilter>>();
+#endif
+
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
     using FFTForwardSubtype = itk::FFTWForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using FFTInverseSubtype = itk::FFTWInverse1DFFTImageFilter<ComplexImageType, ImageType>;
     std::string defaultFFTBackend("FFTW");
 #else
-#  ifndef ITK_FFT_FACTORY_REGISTER_MANAGER
-    // If the factory register manager is not defined then manually register default backend
-    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::VnlForward1DFFTImageFilterFactory>();
-#  endif
     using FFTForwardSubtype = itk::VnlForward1DFFTImageFilter<ImageType, ComplexImageType>;
+    using FFTInverseSubtype = itk::VnlInverse1DFFTImageFilter<ComplexImageType, ImageType>;
     std::string defaultFFTBackend("Vnl");
 #endif
 
     // Verify that FFT class is instantiated with correct backend
-    auto fft = FFTForwardType::New();
-    if (dynamic_cast<FFTForwardSubtype *>(fft.GetPointer()) == nullptr)
+    auto forward = FFTForwardType::New();
+    if (dynamic_cast<FFTForwardSubtype *>(forward.GetPointer()) == nullptr)
+    {
+      std::cerr << "Did not get " << defaultFFTBackend << " default backend for forward FFT as expected!" << std::endl;
+      return EXIT_FAILURE;
+    }
+    auto inverse = FFTInverseType::New();
+    if (dynamic_cast<FFTInverseSubtype *>(inverse.GetPointer()) == nullptr)
     {
       std::cerr << "Did not get " << defaultFFTBackend << " default backend for inverse FFT as expected!" << std::endl;
       return EXIT_FAILURE;

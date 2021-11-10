@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-/** Example illustrating use of FFTComplexToComplexImageFilter
+/** Example illustrating use of FFTWComplexToComplexFFTImageFilter
  *
  * \author Simon K. Warfield simon.warfield\@childrens.harvard.edu
  *
@@ -34,9 +34,13 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkFFTWComplexToComplexFFTImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
+
+#include "itkObjectFactoryBase.h"
+#include "itkFFTWComplexToComplexFFTImageFilter.h"
+#include "itkFFTWForwardFFTImageFilter.h"
+#include "itkFFTWInverseFFTImageFilter.h"
 
 template <typename TPixel, unsigned int VDimension>
 int
@@ -107,6 +111,11 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();
   const unsigned int dimension = imageIO->GetNumberOfDimensions();
+
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWComplexToComplexFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverseFFTImageFilter>>();
 
   if (pixelTypeString.compare("float") == 0)
   {

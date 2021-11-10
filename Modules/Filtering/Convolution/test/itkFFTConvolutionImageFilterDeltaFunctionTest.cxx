@@ -69,11 +69,15 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 
 #ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
 #  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTWRealToHalfHermitianForwardFFTImageFilterFactory>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTWHalfHermitianToRealInverseFFTImageFilterFactory>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
 #  endif
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::VnlRealToHalfHermitianForwardFFTImageFilterFactory>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::VnlHalfHermitianToRealInverseFFTImageFilterFactory>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
 #endif
 
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;

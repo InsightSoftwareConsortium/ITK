@@ -50,7 +50,9 @@ namespace itk
  *
  * \ingroup FourierTransform
  *
- * \sa InverseFFTImageFilter, FFTComplexToComplexImageFilter
+ * \sa Forward1DFFTImageFilter
+ * \sa InverseFFTImageFilter
+ * \sa ComplexToComplexFFTImageFilter
  * \ingroup ITKFFT
  *
  * \sphinx

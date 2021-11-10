@@ -40,21 +40,21 @@ def wrongClassName(cl, name):
 # a list of classes to exclude. Typically, the classes with a custom New()
 # method, which return a subclass of the current class
 exclude = [
+    "OutputWindow",
+    "MultiThreaderBase",
+    "templated_class",
+    "CustomColormapFunction",
+    "ScanlineFilterCommon",  # Segfault
+    "cvar",
+    # FFT classes rely on object factory backend overrides
     "ForwardFFTImageFilter",
     "Forward1DFFTImageFilter",
     "InverseFFTImageFilter",
     "Inverse1DFFTImageFilter",
-    "OutputWindow",
-    "MultiThreaderBase",
-    "FFTComplexToComplexImageFilter",
     "ComplexToComplexFFTImageFilter",
-    "ComplexToComplex1DImageFilter",
-    "templated_class",
+    "ComplexToComplex1DFFTImageFilter",
     "HalfHermitianToRealInverseFFTImageFilter",
     "RealToHalfHermitianForwardFFTImageFilter",
-    "CustomColormapFunction",
-    "ScanlineFilterCommon",  # Segfault
-    "cvar",
 ]
 
 wrongName = 0

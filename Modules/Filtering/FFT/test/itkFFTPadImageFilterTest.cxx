@@ -26,6 +26,13 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWForwardFFTImageFilter.h"
+#endif
+
+
 int
 itkFFTPadImageFilterTest(int argc, char * argv[])
 {
@@ -58,6 +65,14 @@ itkFFTPadImageFilterTest(int argc, char * argv[])
   itk::ZeroFluxNeumannBoundaryCondition<ImageType> zfnCond;
   itk::ConstantBoundaryCondition<ImageType>        zeroCond;
   itk::PeriodicBoundaryCondition<ImageType>        wrapCond;
+
+  // FFTPadImageFilter requires backend for ForwardFFTImageFilter to get prime factor
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForwardFFTImageFilter>>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
+#endif
 
   // Create the filters
   auto fftpad = FFTPadType::New();

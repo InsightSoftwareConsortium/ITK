@@ -34,6 +34,32 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkFFTImageFilterFactory.h"
+#include "itkVnlComplexToComplexFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+
+// Tests do not include `UseITK.cmake` in their build process
+// and must manually register factories for FFT backends.
+// For brevity we rely on Vnl backends here
+void
+registerFactories()
+{
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlComplexToComplexFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
+#endif
+}
+
 template <typename TOutputImageType>
 static typename TOutputImageType::Pointer
 CreateImage(unsigned int size)
@@ -83,6 +109,8 @@ template <typename ImageType, typename ForwardFFTType, typename InverseFFTType, 
 typename ImageType::Pointer
 applyBandFilter(typename ImageType::Pointer image, bool shift = false)
 {
+  registerFactories();
+
   auto forwardFFT = ForwardFFTType::New();
   forwardFFT->SetInput(image);
   forwardFFT->Update();
@@ -129,6 +157,8 @@ template <typename ImageType>
 typename ImageType::Pointer
 applyBandFilterHermitian(typename ImageType::Pointer image)
 {
+  registerFactories();
+
   using ForwardFFTType = itk::RealToHalfHermitianForwardFFTImageFilter<ImageType>;
   using ComplexImageType = typename ForwardFFTType::OutputImageType;
   using InverseFFTType = itk::HalfHermitianToRealInverseFFTImageFilter<ComplexImageType, ImageType>;
@@ -161,6 +191,8 @@ template <typename TImageType>
 void
 compareAllTypesOfIterators(typename TImageType::Pointer image, double differenceHermitianThreshold = 0.0001)
 {
+  registerFactories();
+
   using ImageType = TImageType;
   // Full Forward FFT
   using ForwardFFTFilterType = itk::ForwardFFTImageFilter<ImageType>;
