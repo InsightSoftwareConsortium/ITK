@@ -129,7 +129,6 @@ ByteSwapper<T>::SwapRangeFromSystemToBigEndian(T * p, BufferSizeType num)
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
-      return;
   }
 }
 

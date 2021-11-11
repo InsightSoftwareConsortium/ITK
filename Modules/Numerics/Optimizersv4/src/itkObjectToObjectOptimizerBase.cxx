@@ -110,7 +110,6 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
   if (this->m_Metric.IsNull())
   {
     itkExceptionMacro("m_Metric must be set.");
-    return;
   }
 
   /* Estimate the parameter scales if requested. */

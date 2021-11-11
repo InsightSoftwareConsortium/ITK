@@ -52,7 +52,6 @@ RescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDa
   if (this->m_OutputMinimum > this->m_OutputMaximum)
   {
     itkExceptionMacro(<< "Minimum output value cannot be greater than Maximum output value.");
-    return;
   }
 
   using CalculatorType = MinimumMaximumImageCalculator<TInputImage>;

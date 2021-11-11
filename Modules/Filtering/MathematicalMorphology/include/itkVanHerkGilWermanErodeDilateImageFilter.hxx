@@ -42,7 +42,6 @@ VanHerkGilWermanErodeDilateImageFilter<TImage, TKernel, TFunction1>::DynamicThre
   if (!this->GetKernel().GetDecomposable())
   {
     itkExceptionMacro("VanHerkGilWerman morphology only works with decomposable structuring elements");
-    return;
   }
 
   // TFunction1 will be < for erosions

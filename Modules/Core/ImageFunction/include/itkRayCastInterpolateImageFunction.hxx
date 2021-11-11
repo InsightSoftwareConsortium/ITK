@@ -1197,7 +1197,6 @@ RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
       err.SetDescription("The ray traversal direction is unset "
                          "- InitialiseVoxelPointers().");
       throw err;
-      return;
     }
   }
 }

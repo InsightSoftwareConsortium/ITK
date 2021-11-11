@@ -302,7 +302,6 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   if (ImageDim > 3)
   {
     itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
-    return;
   }
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -530,7 +529,6 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   if (ImageDim > 3)
   {
     itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
-    return;
   }
   for (int i = 0; i < ImageDim; ++i)
   {

@@ -49,7 +49,6 @@ VectorRescaleIntensityImageFilter<TInputImage, TOutputImage>::BeforeThreadedGene
   if (m_OutputMaximumMagnitude < NumericTraits<OutputRealType>::ZeroValue())
   {
     itkExceptionMacro(<< "Maximum output value cannot be negative. You are passing " << m_OutputMaximumMagnitude);
-    return;
   }
 
   InputImagePointer inputImage = this->GetInput();

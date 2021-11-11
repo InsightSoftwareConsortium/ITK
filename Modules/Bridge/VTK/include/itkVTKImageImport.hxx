@@ -125,7 +125,6 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
   if (!output)
   {
     itkExceptionMacro(<< "Downcast from DataObject to my Image type failed.");
-    return;
   }
   Superclass::PropagateRequestedRegion(output);
   if (m_PropagateUpdateExtentCallback)
