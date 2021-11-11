@@ -67,7 +67,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     IndexType startIndex1;
     IndexType startIndex2;
 
-    double testFailed = false;
+    bool testFailed = false;
 
     for (double x = 0.0; x <= 2.0; x += 0.1)
     {
@@ -154,7 +154,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     IndexType startIndex1;
     IndexType startIndex2;
 
-    double testFailed = false;
+    bool testFailed = false;
 
     for (double x = 0.0; x <= 2.0; x += 0.1)
     {
