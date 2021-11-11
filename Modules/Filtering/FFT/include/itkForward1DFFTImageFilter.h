@@ -35,8 +35,8 @@ namespace itk
  * \sa itkVnlForward1DFFTImageFilter
  * \sa itkFFTWForward1DFFTImageFilter
  *
+ * \ingroup ITKFFT
  * \ingroup FourierTransform
- * \ingroup Ultrasound
  */
 template <typename TInputImage,
           typename TOutputImage = Image<std::complex<typename TInputImage::PixelType>, TInputImage::ImageDimension>>

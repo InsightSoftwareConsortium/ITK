@@ -29,7 +29,8 @@ namespace itk
  * \brief Perform the FFT along one dimension of an image using Vnl as a
  * backend.
  *
- * \ingroup Ultrasound
+ * \ingroup ITKFFT
+ * \ingroup FourierTransform
  */
 template <typename TInputImage,
           typename TOutputImage =

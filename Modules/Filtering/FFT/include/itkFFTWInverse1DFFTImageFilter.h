@@ -29,7 +29,8 @@ namespace itk
 /** \class FFTWInverse1DFFTImageFilter
  * \brief only do FFT along one dimension using FFTW as a backend.
  *
- * \ingroup Ultrasound
+ * \ingroup ITKFFT
+ * \ingroup FourierTransform
  */
 
 template <typename TInputImage,
