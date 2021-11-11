@@ -87,6 +87,7 @@ public:
 
   /** The support region size: a hypercube of length SplineOrder + 1 */
   static constexpr SizeType SupportSize{ SizeType::Filled(VSplineOrder + 1) };
+  // Declaration here, definition must be outside of class until C++17, see .hxx file for linker definition
 
   /** Evaluate the weights at specified ContinuousIndex position.
    * Subclasses must provide this method. */
