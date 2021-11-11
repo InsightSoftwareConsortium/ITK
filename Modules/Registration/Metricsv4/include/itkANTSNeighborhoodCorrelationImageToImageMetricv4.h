@@ -114,7 +114,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Self, Superclass);
+  itkTypeMacro(ANTSNeighborhoodCorrelationImageToImageMetricv4, ImageToImageMetricv4);
 
   /** superclass types */
   using typename Superclass::MeasureType;
