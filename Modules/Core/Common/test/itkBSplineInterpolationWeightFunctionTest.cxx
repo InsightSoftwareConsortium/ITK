@@ -145,6 +145,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
 
     auto function = FunctionType::New();
 
+
     WeightsType weights1;
     WeightsType weights2;
 
@@ -283,7 +284,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       if (itk::Math::abs(weights[counter] - value) > 1e-7)
       {
         std::cout << "Error at weights[" << counter << "]" << std::endl;
-        std::cout << "Compuated value: " << weights[counter] << std::endl;
+        std::cout << "Computed value: " << weights[counter] << std::endl;
         std::cout << "Expected value: " << value << std::endl;
         return EXIT_FAILURE;
       }
