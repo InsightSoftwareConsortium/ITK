@@ -522,6 +522,23 @@ str = str
                     import itk
                     itk.array_view_from_image(self).__setitem__(key, value)
 
+            def __getstate__(self):
+                """Get object state, necessary for serialization with pickle."""
+                import itk
+                state = itk.dict_from_image(self)
+                return state
+
+            def __setstate__(self, state):
+                """Set object state, necessary for serialization with pickle."""
+                import itk
+                import numpy as np
+                deserialized = itk.image_from_dict(state)
+                self.__dict__['this'] = deserialized
+                self.SetOrigin(state['origin'])
+                self.SetSpacing(state['spacing'])
+                direction = np.asarray(self.GetDirection())
+                self.SetDirection(direction)
+
             %}
 
         // TODO: also add that method. But with which types?

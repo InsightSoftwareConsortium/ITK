@@ -35,6 +35,8 @@ fileiotype = Union[str, bytes, os.PathLike]
 
 import itk.support.types as itkt
 
+from .helpers import wasm_type_from_image_type, image_type_from_wasm_type
+
 if TYPE_CHECKING:
     try:
         import xarray as xr
@@ -89,6 +91,8 @@ __all__ = [
     "image_from_xarray",
     "vtk_image_from_image",
     "image_from_vtk_image",
+    "dict_from_image",
+    "image_from_dict",
     "image_intensity_min_max",
     "imwrite",
     "imread",
@@ -799,6 +803,34 @@ def image_from_vtk_image(vtk_image: "vtk.vtkImageData") -> "itkt.ImageBase":
         l_direction = itk.matrix_from_array(direction_array)
         l_image.SetDirection(l_direction)
     return l_image
+
+
+def dict_from_image(image: "itkt.Image") -> Dict:
+    """Serialize a Python itk.Image object to a pickable Python dictionary."""
+    import itk
+
+    pixel_arr = itk.array_view_from_image(image)
+    imageType = wasm_type_from_image_type(image)
+    return dict(
+        imageType=imageType,
+        origin=tuple(image.GetOrigin()),
+        spacing=tuple(image.GetSpacing()),
+        size=tuple(image.GetBufferedRegion().GetSize()),
+        direction=np.asarray(image.GetDirection()),
+        data=pixel_arr
+    )
+
+
+def image_from_dict(image_dict: Dict) -> "itkt.Image":
+    """Deserialize an dictionary representing an itk.Image object."""
+    import itk
+
+    ImageType = image_type_from_wasm_type(image_dict['imageType'])
+    image = itk.PyBuffer[ImageType].GetImageViewFromArray(image_dict['data'])
+    image.SetOrigin(image_dict['origin'])
+    image.SetSpacing(image_dict['spacing'])
+    image.SetDirection(image_dict['direction'])
+    return image
 
 
 # return an image

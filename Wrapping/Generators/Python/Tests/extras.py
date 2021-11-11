@@ -22,6 +22,7 @@ import sys
 import os
 import numpy as np
 import pathlib
+import pickle
 
 import itk
 
@@ -161,6 +162,21 @@ except Exception as e:
         raise e
 image = itk.imread(filename, imageio=itk.PNGImageIO.New())
 assert type(image) == itk.Image[itk.RGBPixel[itk.UC], 2]
+
+# Test serialization with pickle
+array = np.random.randint(0, 256, (8, 12)).astype(np.uint8)
+image = itk.image_from_array(array)
+image.SetSpacing([1.0, 2.0])
+image.SetOrigin([11.0, 4.0])
+theta = np.radians(30)
+cosine = np.cos(theta)
+sine = np.sin(theta)
+rotation = np.array(((cosine, -sine), (sine, cosine)))
+image.SetDirection(rotation)
+serialize_deserialize = pickle.loads(pickle.dumps(image))
+# verify_input_information checks origin, spacing, direction consistency
+comparison = itk.comparison_image_filter(image, serialize_deserialize, verify_input_information=True)
+assert np.sum(comparison) == 0.0
 
 # Make sure we can read unsigned short, unsigned int, and cast
 image = itk.imread(filename, itk.UI)
