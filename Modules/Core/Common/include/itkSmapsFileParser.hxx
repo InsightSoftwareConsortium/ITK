@@ -149,7 +149,6 @@ VMMapFileParser<TVMMapDataType>::ReadFile(const std::string & mapFileLocation)
       if (inputFile.is_open() == false)
       {
         itkGenericExceptionMacro(<< "The VMap file " << mapFileLocation << " could not be open");
-        return;
       }
       // load the file
       inputFile >> this->m_MapData;

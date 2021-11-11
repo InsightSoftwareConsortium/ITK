@@ -181,7 +181,6 @@ DisplacementFieldTransformParametersAdaptor<TTransform>::AdaptTransformParameter
   if (!this->m_Transform)
   {
     itkExceptionMacro("Transform has not been set.");
-    return;
   }
 
   if (this->m_RequiredFixedParameters == this->m_Transform->GetFixedParameters())

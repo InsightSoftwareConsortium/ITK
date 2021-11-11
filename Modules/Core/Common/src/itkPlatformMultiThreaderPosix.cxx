@@ -60,7 +60,6 @@ PlatformMultiThreader::MultipleMethodExecute()
     if (m_MultipleMethod[thread_loop] == (ThreadFunctionType) nullptr)
     {
       itkExceptionMacro(<< "No multiple method set for: " << thread_loop);
-      return;
     }
   }
 

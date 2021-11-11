@@ -40,7 +40,6 @@ ImageDuplicator<TInputImage>::Update()
   if (!m_InputImage)
   {
     itkExceptionMacro(<< "Input image has not been connected");
-    return;
   }
 
   // Update only if the input image has been modified

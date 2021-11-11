@@ -132,7 +132,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
     }
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
-    return;
   }
 
   // Got to allocate space for the image. Determine the characteristics of
@@ -270,7 +269,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::TestFileExistanceAndReadabili
     msg << "The file doesn't exist. " << std::endl << "Filename = " << this->GetFileName() << std::endl;
     e.SetDescription(msg.str().c_str());
     throw e;
-    return;
   }
 
   // Test if the file can be open for reading access.
@@ -283,7 +281,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::TestFileExistanceAndReadabili
     msg << "The file couldn't be opened for reading. " << std::endl << "Filename: " << this->GetFileName() << std::endl;
     ImageFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);
     throw e;
-    return;
   }
   readTester.close();
 }
@@ -517,7 +514,6 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(void * inputD
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
     throw e;
-    return;
   }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 }

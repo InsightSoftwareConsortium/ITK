@@ -42,7 +42,6 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   if (!this->GetKernel().GetDecomposable())
   {
     itkExceptionMacro("Anchor morphology only works with decomposable structuring elements");
-    return;
   }
   // TFunction1 will be < for erosions
   // TFunction2 will be <=

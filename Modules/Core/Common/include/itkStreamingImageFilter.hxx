@@ -120,7 +120,6 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
   {
     itkExceptionMacro(<< "At least " << this->GetNumberOfRequiredInputs() << " inputs are required but only " << ninputs
                       << " are specified.");
-    return;
   }
 
   /**

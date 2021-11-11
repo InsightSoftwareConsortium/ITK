@@ -315,7 +315,6 @@ VideoFileReader<TOutputVideoStream>::DoConvertBuffer(void * inputData, FrameOffs
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
     throw e;
-    return;
   }
 #undef ITK_CONVERT_BUFFER_IF_BLOCK
 }

@@ -202,7 +202,6 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetUp(ScalarRealType sp
     default:
     {
       itkExceptionMacro(<< "Unknown Order");
-      return;
     }
   }
 }

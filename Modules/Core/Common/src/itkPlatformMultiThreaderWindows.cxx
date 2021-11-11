@@ -54,7 +54,6 @@ PlatformMultiThreader::MultipleMethodExecute()
     if (m_MultipleMethod[threadCount] == nullptr)
     {
       itkExceptionMacro(<< "No multiple method set for: " << threadCount);
-      return;
     }
   }
   // Using _beginthreadex on a PC

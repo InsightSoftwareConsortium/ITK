@@ -244,7 +244,6 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
   {
     itkExceptionMacro(<< "The number of filenames passed is " << m_FileNames.size() << " but " << expectedNumberOfFiles
                       << " were expected ");
-    return;
   }
 
   itkDebugMacro(<< "Number of files to write = " << m_FileNames.size());

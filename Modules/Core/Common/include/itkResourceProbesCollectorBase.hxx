@@ -44,7 +44,6 @@ ResourceProbesCollectorBase<TProbe>::Stop(const char * id)
   if (pos == this->m_Probes.end())
   {
     itkGenericExceptionMacro(<< "The probe \"" << id << "\" does not exist. It can not be stopped.");
-    return;
   }
   pos->second.Stop();
 }
