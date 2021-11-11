@@ -35,8 +35,8 @@ namespace itk
  * The dimension along which to apply to filter can be specified with
  * SetDirection() and GetDirection().
  *
+ * \ingroup ITKFFT
  * \ingroup FourierTransform
- * \ingroup Ultrasound
  */
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT ComplexToComplex1DFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
