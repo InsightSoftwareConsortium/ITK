@@ -43,3 +43,6 @@ CMakeLists.txt.user*
 
 # Ignore testing temporary files
 Testing/Temporary/
+
+# CMake user presets
+CMakeUserPresets.json
