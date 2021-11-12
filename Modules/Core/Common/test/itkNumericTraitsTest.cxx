@@ -259,10 +259,6 @@ CheckSignedAndIntegerTraitsForComplexTypes(const char * const name)
     std::cout << "\tERROR:  NumericTraits< " << name << " >::IsInteger definition is true." << std::endl;
     std::cout << "\tComplex types are not integers" << std::endl;
   }
-  else
-  {
-    didTestPass = true;
-  }
 
   // IsSigned same for complex and basic types??
   if (itk::NumericTraits<T>::IsSigned != itk::NumericTraits<typename itk::NumericTraits<T>::ValueType>::IsSigned)
@@ -283,7 +279,6 @@ CheckSignedAndIntegerTraitsForComplexTypes(const char * const name)
     std::cout << "\tSUCCESS:  IsSigned definition for complex type  matches value of basic type" << std::endl;
     std::cout << "\tSigned Value for:\t<  " << name << "  >\tis:\t"
               << (itk::NumericTraits<T>::IsSigned ? "true" : "false") << std::endl;
-    didTestPass = true;
   }
   std::cout << std::endl;
   return didTestPass;
@@ -338,7 +333,7 @@ CheckAllSignedAndIntegerTraits()
 
   if (didAllTestsPass)
   {
-    std::cout << "SUCESS!!:  All IsSigned and IsInteger tests Passed!!!" << std::endl;
+    std::cout << "SUCCESS!!:  All IsSigned and IsInteger tests Passed!!!" << std::endl;
   }
   else
   {
@@ -350,38 +345,27 @@ CheckAllSignedAndIntegerTraits()
 }
 
 // Check a few types and make sure that they have the correct value for IsComplex
-bool
+void
 CheckIsComplexTraits()
 {
-  bool didTestsPass = true;
-  std::cout << "Testing non complex types for IsComplex trait" << std::endl;
-  if (itk::NumericTraits<float>::IsComplex || itk::NumericTraits<double>::IsComplex ||
-      itk::NumericTraits<char>::IsComplex || itk::NumericTraits<int>::IsComplex ||
-      itk::NumericTraits<unsigned long>::IsComplex)
-  {
-    std::cout << "Test FAILED!!\n" << std::endl;
-    std::cout << "Not all non complex types have the correct IsComplex trait" << std::endl;
-    didTestsPass = false;
-  }
-  else
-  {
-    std::cout << "Test Passed\n" << std::endl;
-  }
+  // Use static asserts to do compile-time testing of traits
+  // std::cout << "Testing non complex types for IsComplex trait" << std::endl;
+  static_assert(!itk::NumericTraits<float>::IsComplex, "float is not complex");
+  static_assert(!itk::NumericTraits<double>::IsComplex, "double is not complex");
+  static_assert(!itk::NumericTraits<char>::IsComplex, "char is not complex");
+  static_assert(!itk::NumericTraits<int>::IsComplex, "int is not complex");
+  static_assert(!itk::NumericTraits<unsigned long>::IsComplex, "unsigned long is not complex");
 
-  std::cout << "Testing complex types for IsComplex trait" << std::endl;
-  if (!itk::NumericTraits<std::complex<float>>::IsComplex || !itk::NumericTraits<std::complex<double>>::IsComplex ||
-      !itk::NumericTraits<std::complex<char>>::IsComplex || !itk::NumericTraits<std::complex<int>>::IsComplex ||
-      !itk::NumericTraits<std::complex<unsigned long>>::IsComplex)
-  {
-    std::cout << "Test FAILED!!\n" << std::endl;
-    std::cout << "Not all complex types have the correct IsComplex trait" << std::endl;
-    didTestsPass = false;
-  }
-  else
-  {
-    std::cout << "Test Passed\n" << std::endl;
-  }
-  return didTestsPass;
+  static_assert(itk::NumericTraits<std::complex<float>>::IsComplex,
+                "std::complex<float> does not have the correct IsComplex trait");
+  static_assert(itk::NumericTraits<std::complex<double>>::IsComplex,
+                "std::complex<double> does not have the correct IsComplex trait");
+  static_assert(itk::NumericTraits<std::complex<char>>::IsComplex,
+                "std::complex<char> does not have the correct IsComplex trait");
+  static_assert(itk::NumericTraits<std::complex<int>>::IsComplex,
+                "std::complex<int> does not have the correct IsComplex trait");
+  static_assert(itk::NumericTraits<std::complex<unsigned long>>::IsComplex,
+                "std::complex<unsigned long> does not have the correct IsComplex trait");
 } // End CheckIsComplexTraits()
 
 } // end anonymous namespace
@@ -391,13 +375,13 @@ itkNumericTraitsTest(int, char *[])
 {
   bool testPassedStatus = true;
 
-  CheckTraits("char", static_cast<char>(0));
-  CheckTraits("signed char", static_cast<signed char>(0));
-  CheckTraits("unsigned char", static_cast<unsigned char>(0));
+  CheckTraits("char", static_cast<char>('a'));
+  CheckTraits("signed char", static_cast<signed char>('a'));
+  CheckTraits("unsigned char", static_cast<unsigned char>('a'));
 
-  CheckTraits("short", static_cast<short>(0));
-  CheckTraits("signed short", static_cast<signed short>(0));
-  CheckTraits("unsigned short", static_cast<unsigned short>(0));
+  CheckTraits("short", static_cast<short>(-1));
+  CheckTraits("signed short", static_cast<signed short>(-1));
+  CheckTraits("unsigned short", static_cast<unsigned short>(1));
 
   CheckTraits("int", static_cast<int>(0));
   CheckTraits("signed int", static_cast<signed int>(0));
@@ -1272,8 +1256,8 @@ itkNumericTraitsTest(int, char *[])
   //  check the new Integer and Signed traits
   testPassedStatus &= CheckAllSignedAndIntegerTraits();
 
-  // Check IsComplex traits
-  testPassedStatus &= CheckIsComplexTraits();
+  // CompileTime Checks IsComplex traits does not return
+  CheckIsComplexTraits();
 
   return (testPassedStatus) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
