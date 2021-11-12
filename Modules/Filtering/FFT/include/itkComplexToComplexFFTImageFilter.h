@@ -72,16 +72,16 @@ extern ITKFFT_EXPORT std::ostream &
  * \sa ForwardFFTImageFilter
  * \ingroup ITKFFT
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter : public ImageToImageFilter<TImage, TImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ComplexToComplexFFTImageFilter);
 
   /** Input and output image types. */
-  using ImageType = TImage;
-  using InputImageType = TImage;
-  using OutputImageType = TImage;
+  using ImageType = TInputImage;
+  using InputImageType = TInputImage;
+  using OutputImageType = TOutputImage;
 
   /** Standard class type aliases. */
   using Self = ComplexToComplexFFTImageFilter;

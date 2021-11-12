@@ -75,9 +75,9 @@ struct DispatchFFTW_Complex_New<TSelfPointer, TImage, float>
 };
 #endif
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 auto
-ComplexToComplexFFTImageFilter<TImage>::New() -> Pointer
+ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
 {
   Pointer smartPtr = ObjectFactory<Self>::Create();
 
@@ -96,9 +96,9 @@ ComplexToComplexFFTImageFilter<TImage>::New() -> Pointer
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-ComplexToComplexFFTImageFilter<TImage>::GenerateInputRequestedRegion()
+ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {
   Superclass::GenerateInputRequestedRegion();
   // get pointers to the input and output

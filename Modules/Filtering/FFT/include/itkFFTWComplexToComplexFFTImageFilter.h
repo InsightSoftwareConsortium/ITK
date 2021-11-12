@@ -55,19 +55,20 @@ namespace itk
  *
  * \sa FFTWGlobalConfiguration
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter
+  : public ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FFTWComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTWComplexToComplexFFTImageFilter;
-  using Superclass = ComplexToComplexFFTImageFilter<TImage>;
+  using Superclass = ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using ImageType = TImage;
+  using typename Superclass::ImageType;
   using PixelType = typename ImageType::PixelType;
   using typename Superclass::InputImageType;
   using typename Superclass::OutputImageType;
