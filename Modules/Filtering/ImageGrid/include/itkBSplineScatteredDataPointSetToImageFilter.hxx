@@ -226,17 +226,6 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     }
   }
 
-  unsigned int maximumNumberOfSpans = 0;
-  for (unsigned int d = 0; d < ImageDimension; ++d)
-  {
-    unsigned int numberOfSpans = this->m_NumberOfControlPoints[d] - this->m_SplineOrder[d];
-    numberOfSpans <<= (this->m_NumberOfLevels[d] - 1);
-    if (numberOfSpans > maximumNumberOfSpans)
-    {
-      maximumNumberOfSpans = numberOfSpans;
-    }
-  }
-
   this->m_InputPointData->Initialize();
   this->m_OutputPointData->Initialize();
   if (inputPointSet->GetNumberOfPoints() > 0)
