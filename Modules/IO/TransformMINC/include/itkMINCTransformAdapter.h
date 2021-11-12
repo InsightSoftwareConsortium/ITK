@@ -153,18 +153,16 @@ public:
 
   /**  Method to transform a vector. */
   OutputVectorType
-  TransformVector(const InputVectorType & vector, const InputPointType &) const override
+  TransformVector(const InputVectorType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Not Implemented");
-    return vector;
   }
 
   /**  Method to transform a vector. */
   OutputVnlVectorType
-  TransformVector(const InputVnlVectorType & vector, const InputPointType &) const override
+  TransformVector(const InputVnlVectorType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Not Implemented");
-    return vector;
   }
 
   /**  Method to transform a vector. */
@@ -190,18 +188,16 @@ public:
 
   /**  Method to transform a vector. */
   OutputVectorPixelType
-  TransformVector(const InputVectorPixelType & vector, const InputPointType &) const override
+  TransformVector(const InputVectorPixelType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Not Implemented");
-    return vector;
   }
 
   /**  Method to transform a CovariantVector. */
   OutputCovariantVectorType
-  TransformCovariantVector(const InputCovariantVectorType & vector, const InputPointType &) const override
+  TransformCovariantVector(const InputCovariantVectorType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Not Implemented");
-    return vector;
   }
 
   /**  Method to transform a CovariantVector. */
@@ -220,10 +216,9 @@ public:
 
   /**  Method to transform a CovariantVector. */
   OutputVectorPixelType
-  TransformCovariantVector(const InputVectorPixelType & vector, const InputPointType &) const override
+  TransformCovariantVector(const InputVectorPixelType &, const InputPointType &) const override
   {
     itkExceptionMacro(<< "Not Implemented");
-    return vector;
   }
 
   /** Set the transformation to an Identity
@@ -251,7 +246,6 @@ public:
   {
     // this transform is defined by XFM file
     itkExceptionMacro(<< "Not Defined");
-    return 0;
   }
 
   /** Set the Transformation Parameters
@@ -266,7 +260,6 @@ public:
   GetParameters() const override
   {
     itkExceptionMacro(<< "Not Implemented");
-    return m_Parameters;
   }
 
   void

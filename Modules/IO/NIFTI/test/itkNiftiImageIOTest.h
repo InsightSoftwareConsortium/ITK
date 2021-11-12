@@ -54,16 +54,10 @@ constexpr unsigned char LEFT = 128;    /*Bit pattern 1 0 0  00000*/
 constexpr unsigned char ANTERIOR = 64; /*Bit pattern 0 1 0  00000*/
 constexpr unsigned char SUPERIOR = 32; /*Bit pattern 0 0 1  00000*/
 
+// The only specializations of this function template that may be called are given below.
 template <unsigned int TDimension>
 typename itk::ImageBase<TDimension>::DirectionType
-PreFillDirection()
-{
-  typename itk::ImageBase<TDimension>::DirectionType myDirection;
-  myDirection.Fill(0.0);
-  myDirection.SetIdentity();
-  itkGenericExceptionMacro("This template should never be used. Only valid values are given below.");
-  return myDirection;
-}
+PreFillDirection() = delete;
 
 template <>
 itk::ImageBase<1>::DirectionType

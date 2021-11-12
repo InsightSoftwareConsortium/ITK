@@ -98,6 +98,16 @@ itkComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   const char *      outputImageFileName = argv[2];
   const std::string pixelTypeString(argv[3]);
 
+  // Test streaming enumeration for ComplexToComplexFFTImageFilterEnums::TransformDirection elements
+  const std::set<itk::ComplexToComplexFFTImageFilterEnums::TransformDirection> allTransformDirection{
+    itk::ComplexToComplexFFTImageFilterEnums::TransformDirection::FORWARD,
+    itk::ComplexToComplexFFTImageFilterEnums::TransformDirection::INVERSE
+  };
+  for (const auto & ee : allTransformDirection)
+  {
+    std::cout << "STREAMED ENUM VALUE ComplexToComplexFFTImageFilterEnums::TransformDirection: " << ee << std::endl;
+  }
+
   itk::ImageIOBase::Pointer imageIO =
     itk::ImageIOFactory::CreateImageIO(inputImageFileName, itk::ImageIOFactory::IOFileModeEnum::ReadMode);
   imageIO->SetFileName(inputImageFileName);
@@ -116,7 +126,6 @@ itkComplexToComplexFFTImageFilterTest(int argc, char * argv[])
         std::cerr << "Unknown image dimension." << std::endl;
         return EXIT_FAILURE;
     }
-    return EXIT_SUCCESS;
   }
   else if (pixelTypeString.compare("double") == 0)
   {
@@ -130,23 +139,10 @@ itkComplexToComplexFFTImageFilterTest(int argc, char * argv[])
         std::cerr << "Unknown image dimension." << std::endl;
         return EXIT_FAILURE;
     }
-    return EXIT_SUCCESS;
   }
   else
   {
     std::cerr << "Unknown pixel type string." << std::endl;
     return EXIT_FAILURE;
   }
-
-  // Test streaming enumeration for ComplexToComplexFFTImageFilterEnums::TransformDirection elements
-  const std::set<itk::ComplexToComplexFFTImageFilterEnums::TransformDirection> allTransformDirection{
-    itk::ComplexToComplexFFTImageFilterEnums::TransformDirection::FORWARD,
-    itk::ComplexToComplexFFTImageFilterEnums::TransformDirection::INVERSE
-  };
-  for (const auto & ee : allTransformDirection)
-  {
-    std::cout << "STREAMED ENUM VALUE ComplexToComplexFFTImageFilterEnums::TransformDirection: " << ee << std::endl;
-  }
-
-  return EXIT_FAILURE;
 }
