@@ -153,8 +153,4 @@ itkMINCImageIOTest_2D(int argc, char * argv[])
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
   }
-
-
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
 }
