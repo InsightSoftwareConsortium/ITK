@@ -109,7 +109,7 @@ itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
   SparseLevelSetType::Pointer level_set = adaptor->GetModifiableLevelSet();
 
 
-  input->TransformPhysicalPointToIndex(binary->GetOrigin(), index);
+  index = input->TransformPhysicalPointToIndex(binary->GetOrigin());
   OffsetType offset;
   for (unsigned int i = 0; i < Dimension; ++i)
   {

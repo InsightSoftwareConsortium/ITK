@@ -62,7 +62,7 @@ TestTransformPhysicalPointToIndex(T * image)
       for (int i = 0; i < 1000; ++i)
       {
         point3D[0] = static_cast<typename itk::NumericTraits<typename T::PointType>::ValueType>(i);
-        image->TransformPhysicalPointToIndex(point3D, index3D);
+        index3D = image->TransformPhysicalPointToIndex(point3D);
       }
     }
     if (k == 5)

@@ -202,8 +202,7 @@ itkImageMaskSpatialObjectTest2(int, char *[])
       const bool isZero = (itk::Math::ExactlyEquals(value, itk::NumericTraits<PixelType>::ZeroValue()));
       if ((isInside && isZero) || (!isInside && !isZero))
       {
-        ImageType::IndexType pointIndex;
-        image->TransformPhysicalPointToIndex(point, pointIndex);
+        ImageType::IndexType pointIndex = image->TransformPhysicalPointToIndex(point);
         std::cerr
           << "Error in the evaluation ValueAt and IsInside (all the points inside the mask shall have non-zero value) "
           << std::endl;

@@ -165,10 +165,9 @@ itkExpandImageFilterTest(int, char *[])
     {
 
       ImageType::PointType point;
-      ImageType::IndexType inputIndex;
       expanderOutput->TransformIndexToPhysicalPoint(outIter.GetIndex(), point);
-      input->TransformPhysicalPointToIndex(point, inputIndex);
-      double trueValue = pattern.Evaluate(inputIndex);
+      ImageType::IndexType inputIndex = input->TransformPhysicalPointToIndex(point);
+      double               trueValue = pattern.Evaluate(inputIndex);
 
       if (itk::Math::abs(trueValue - value) > 1e-4)
       {

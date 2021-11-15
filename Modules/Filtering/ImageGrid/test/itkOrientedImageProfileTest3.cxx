@@ -84,7 +84,7 @@ itkOrientedImageProfileTest3(int, char *[])
   while (!itr.IsAtEnd())
   {
     image->TransformIndexToPhysicalPoint(itr.GetIndex(), point);
-    image->TransformPhysicalPointToIndex(point, index);
+    index = image->TransformPhysicalPointToIndex(point);
     ++itr;
   }
 

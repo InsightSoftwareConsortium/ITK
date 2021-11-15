@@ -209,8 +209,8 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   {
     if (outputImage->TransformPhysicalPointToIndex(pointItr.Value(), index))
     {
-      OutputImageType::IndexType displ;
-      outputImage->TransformPhysicalPointToIndex(pointItr.Value() + displItr.Value(), displ);
+      OutputImageType::IndexType displ =
+        outputImage->TransformPhysicalPointToIndex(pointItr.Value() + displItr.Value());
 
       // draw line between old and new location of a point in blue
       itk::LineIterator<OutputImageType> lineIter(outputImage, index, displ);

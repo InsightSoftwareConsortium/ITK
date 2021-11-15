@@ -176,7 +176,7 @@ public:
     while (it != m_PointList.end())
     {
       PointType transformedPoint = this->m_Transform->TransformPoint(*it);
-      this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint, index);
+      index = this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint);
       if (index[0] > 0L && index[1] > 0L &&
           index[0] < static_cast<signed long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[0]) &&
           index[1] < static_cast<signed long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[1]))
