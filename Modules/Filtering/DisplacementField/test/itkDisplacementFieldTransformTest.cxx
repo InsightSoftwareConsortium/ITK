@@ -397,8 +397,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   DisplacementTransformType::OutputPointType deformOutput, deformTruth;
 
   // Test a point with non-zero displacement
-  FieldType::IndexType idx;
-  field->TransformPhysicalPointToIndex(testPoint, idx);
+  FieldType::IndexType idx = field->TransformPhysicalPointToIndex(testPoint);
   deformTruth = testPoint + field->GetPixel(idx);
 
   deformOutput = displacementTransform->TransformPoint(testPoint);

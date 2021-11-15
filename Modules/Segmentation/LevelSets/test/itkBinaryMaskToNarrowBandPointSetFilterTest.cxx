@@ -120,7 +120,7 @@ itkBinaryMaskToNarrowBandPointSetFilterTest(int, char *[])
 
     const PointType & p = point.Value();
 
-    binaryMask->TransformPhysicalPointToIndex(p, index);
+    index = binaryMask->TransformPhysicalPointToIndex(p);
 
     if ((!binaryMask->GetPixel(index) && data.Value() > 0) || (binaryMask->GetPixel(index) && data.Value() < 0))
     {

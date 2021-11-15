@@ -150,7 +150,7 @@ itkMultiLevelSetDenseImageSubset2DTest(int, char *[])
   adaptor3->Initialize();
   LevelSetType::Pointer levelSet3 = adaptor3->GetModifiableLevelSet();
 
-  input->TransformPhysicalPointToIndex(binary->GetOrigin(), index);
+  index = input->TransformPhysicalPointToIndex(binary->GetOrigin());
   InputImageType::OffsetType offset;
   for (unsigned int i = 0; i < Dimension; ++i)
   {

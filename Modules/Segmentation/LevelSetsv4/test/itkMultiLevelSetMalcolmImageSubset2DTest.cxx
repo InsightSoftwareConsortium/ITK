@@ -141,7 +141,7 @@ itkMultiLevelSetMalcolmImageSubset2DTest(int, char *[])
   adaptor1->Initialize();
   LevelSetType::Pointer levelSet1 = adaptor1->GetModifiableLevelSet();
 
-  input->TransformPhysicalPointToIndex(binary->GetOrigin(), index);
+  index = input->TransformPhysicalPointToIndex(binary->GetOrigin());
   InputImageType::OffsetType offset;
   for (unsigned int i = 0; i < Dimension; ++i)
   {
