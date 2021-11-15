@@ -117,7 +117,7 @@ protected:
         point[i] = static_cast<OffsetValueType>(position[i]); // FIXME: use next line instead.
         // point[i] = static_cast<CoordinateType>( position[i] );
       }
-      this->GetOutput()->TransformPhysicalPointToIndex(point, idx);
+      idx = this->GetOutput()->TransformPhysicalPointToIndex(point);
     }
     else
     {
