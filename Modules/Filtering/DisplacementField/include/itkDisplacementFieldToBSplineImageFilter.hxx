@@ -235,12 +235,13 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
         weight = static_cast<typename WeightsContainerType::Element>(confidenceImage->GetPixel(index));
       }
 
-      ContinuousIndexType                   cidx;
       PointType                             parametricPoint;
       typename InputPointSetType::PointType physicalPoint;
 
       inputField->TransformIndexToPhysicalPoint(index, physicalPoint);
-      bsplinePhysicalDomainField->TransformPhysicalPointToContinuousIndex(physicalPoint, cidx);
+      const ContinuousIndexType cidx =
+        bsplinePhysicalDomainField
+          ->template TransformPhysicalPointToContinuousIndex<typename InputFieldPointType::CoordRepType>(physicalPoint);
       bsplineParametricDomainField->TransformContinuousIndexToPhysicalPoint(cidx, parametricPoint);
 
       bool isInside = true;

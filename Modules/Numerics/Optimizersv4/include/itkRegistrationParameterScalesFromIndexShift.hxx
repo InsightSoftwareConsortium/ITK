@@ -91,17 +91,23 @@ void
 RegistrationParameterScalesFromIndexShift<TMetric>::TransformPointToContinuousIndex(const VirtualPointType & point,
                                                                                     TContinuousIndexType & mappedIndex)
 {
+  using ContinuousIndexValueType = typename TContinuousIndexType::ValueType;
+
   if (this->GetTransformForward())
   {
     MovingPointType mappedPoint;
     mappedPoint = this->m_Metric->GetMovingTransform()->TransformPoint(point);
-    this->m_Metric->GetMovingImage()->TransformPhysicalPointToContinuousIndex(mappedPoint, mappedIndex);
+    mappedIndex =
+      this->m_Metric->GetMovingImage()->template TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(
+        mappedPoint);
   }
   else
   {
     FixedPointType mappedPoint;
     mappedPoint = this->m_Metric->GetFixedTransform()->TransformPoint(point);
-    this->m_Metric->GetFixedImage()->TransformPhysicalPointToContinuousIndex(mappedPoint, mappedIndex);
+    mappedIndex =
+      this->m_Metric->GetFixedImage()->template TransformPhysicalPointToContinuousIndex<ContinuousIndexValueType>(
+        mappedPoint);
   }
 }
 

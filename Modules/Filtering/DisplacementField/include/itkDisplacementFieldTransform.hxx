@@ -76,8 +76,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::TransformPoint(co
     itkExceptionMacro("No interpolator is specified.");
   }
 
-  typename InterpolatorType::ContinuousIndexType cidx;
-  typename InterpolatorType::PointType           point;
+  typename InterpolatorType::PointType point;
   point.CastFrom(inputPoint);
 
   OutputPointType outputPoint;
@@ -85,7 +84,10 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::TransformPoint(co
 
   if (this->m_Interpolator->IsInsideBuffer(point))
   {
-    this->m_DisplacementField->TransformPhysicalPointToContinuousIndex(point, cidx);
+    const typename InterpolatorType::ContinuousIndexType cidx =
+      this->m_DisplacementField
+        ->template TransformPhysicalPointToContinuousIndex<typename InterpolatorType::ContinuousIndexType::ValueType>(
+          point);
     typename InterpolatorType::OutputType displacement = this->m_Interpolator->EvaluateAtContinuousIndex(cidx);
     for (unsigned int ii = 0; ii < NDimensions; ++ii)
     {

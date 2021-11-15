@@ -171,8 +171,7 @@ public:
   virtual bool
   IsInsideBuffer(const PointType & point) const
   {
-    ContinuousIndexType index;
-    m_Image->TransformPhysicalPointToContinuousIndex(point, index);
+    const ContinuousIndexType index = m_Image->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
     /* Call IsInsideBuffer to test against BufferedRegion bounds.
      * TransformPhysicalPointToContinuousIndex tests against
      * LargestPossibleRegion */
@@ -184,9 +183,7 @@ public:
   void
   ConvertPointToNearestIndex(const PointType & point, IndexType & index) const
   {
-    ContinuousIndexType cindex;
-
-    m_Image->TransformPhysicalPointToContinuousIndex(point, cindex);
+    const ContinuousIndexType cindex = m_Image->template TransformPhysicalPointToContinuousIndex<TCoordRep>(point);
     this->ConvertContinuousIndexToNearestIndex(cindex, index);
   }
 

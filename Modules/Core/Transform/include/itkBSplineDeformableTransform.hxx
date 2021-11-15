@@ -482,8 +482,8 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Tra
     itkExceptionMacro("B-spline coefficients have not been set");
   }
 
-  ContinuousIndexType index;
-  this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex(inputPoint, index);
+  ContinuousIndexType index =
+    this->m_CoefficientImages[0]->template TransformPhysicalPointToContinuousIndex<TParametersValueType>(inputPoint);
 
   // NOTE: if the support region does not lie totally within the grid
   // we assume zero displacement and return the input point
@@ -563,8 +563,9 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Com
   supportSize.Fill(SplineOrder + 1);
   supportRegion.SetSize(supportSize);
 
-  ContinuousIndexType index;
-  this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex(point, index);
+  ContinuousIndexType index =
+    this->m_CoefficientImages[0]
+      ->template TransformPhysicalPointToContinuousIndex<typename ContinuousIndexType::ValueType>(point);
 
   // NOTE: if the support region does not lie totally within the grid we assume
   // zero displacement and do no computations beyond zeroing out the value
