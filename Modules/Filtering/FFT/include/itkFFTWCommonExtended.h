@@ -38,7 +38,8 @@ namespace fftw
  * \class Interface
  * \brief Wrapper for FFTW API
  *
- * \ingroup Ultrasound
+ * \ingroup ITKFFT
+ * \ingroup FourierTransform
  */
 template <typename TPixel>
 class ComplexToComplexProxy
