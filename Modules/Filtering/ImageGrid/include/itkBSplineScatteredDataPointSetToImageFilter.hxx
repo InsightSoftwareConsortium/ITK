@@ -328,15 +328,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     ImageRegionIterator<PointDataImageType> ItPhi(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
     for (ItPsi.GoToBegin(), ItPhi.GoToBegin(); !ItPsi.IsAtEnd(); ++ItPsi, ++ItPhi)
     {
-      ItPsi.Set(ItPhi.Get() + ItPsi.Get());
+      ItPhi.Set(ItPhi.Get() + ItPsi.Get());
     }
-
-    using ImageDuplicatorType = ImageDuplicator<PointDataImageType>;
-    typename ImageDuplicatorType::Pointer duplicator = ImageDuplicatorType::New();
-    duplicator->SetInputImage(this->m_PsiLattice);
-    duplicator->Update();
-    this->m_PhiLattice = duplicator->GetOutput();
-
+  
     this->UpdatePointSet();
   }
 
