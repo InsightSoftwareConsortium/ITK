@@ -171,6 +171,17 @@ itkDataObjectAndProcessObjectTest(int, char *[])
   process->UpdateProgress(0.0);
   ITK_TEST_SET_GET_VALUE(0.0, process->GetProgress());
 
+  // verify no progress overflow
+  for (size_t i = 0; i < 10; ++i)
+  {
+    process->IncrementProgress(0.1);
+  }
+  if (!itk::Math::FloatAlmostEqual(process->GetProgress(), 1.0f))
+  {
+    std::cerr << "Progress is not reported correctly!" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   // shouldn't do anything: there is no output at this point
   mtime = process->GetMTime();
   process->Update();
