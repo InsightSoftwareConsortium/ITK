@@ -1157,9 +1157,9 @@ ProcessObject::IncrementProgress(float increment)
   // Clamp the value to be between 0 and 1.
   uint32_t integerIncrement = progressFloatToFixed(increment);
 
-  uint32_t oldProgress = m_Progress;
+  uint32_t oldProgress = m_Progress.fetch_add(integerIncrement);
 
-  uint32_t updatedProgress = m_Progress.fetch_add(integerIncrement);
+  uint32_t updatedProgress = m_Progress;
 
   // check if progress overflowed
   if (oldProgress > updatedProgress)
