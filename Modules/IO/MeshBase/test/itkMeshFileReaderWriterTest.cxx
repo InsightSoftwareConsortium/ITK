@@ -17,17 +17,18 @@
  *=========================================================================*/
 
 #include "itkMeshFileReader.h"
+#include "itkMeshFileWriter.h"
 #include "itkQuadEdgeMesh.h"
 #include "itkTestingMacros.h"
 
 
 int
-itkMeshFileReaderTest(int argc, char * argv[])
+itkMeshFileReaderWriterTest(int argc, char * argv[])
 {
-  if (argc < 2)
+  if (argc < 3)
   {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -53,6 +54,9 @@ itkMeshFileReaderTest(int argc, char * argv[])
 
   MeshType::Pointer readMesh = nullptr;
   ITK_TRY_EXPECT_NO_EXCEPTION(readMesh = itk::ReadMesh<MeshType>(inputFileName));
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh.GetPointer(), inputFileName));
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh, inputFileName));
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
