@@ -72,6 +72,10 @@ if(DCMTK_USE_ICU)
     )
     set(ICU_DEPENDENCY icu)
   endif()
+else(DCMTK_USE_ICU)
+  set(CHARSET_CONVERSION_ARGS
+     -DDCMTK_WITH_ICU:BOOL=OFF
+     )
 endif()
 
 if(APPLE)
