@@ -51,6 +51,8 @@ itkMeshFileReaderTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
+  MeshType::Pointer readMesh = nullptr;
+  ITK_TRY_EXPECT_NO_EXCEPTION(readMesh = itk::ReadMesh<MeshType>(inputFileName));
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
