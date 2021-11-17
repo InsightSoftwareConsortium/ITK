@@ -48,7 +48,6 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   this->SetNthOutput(1, similarities.GetPointer());
 
   // all inputs are required
-  this->AddRequiredInputName("FeaturePoints");
   this->SetPrimaryInputName("FeaturePoints");
   this->AddRequiredInputName("FixedImage");
   this->AddRequiredInputName("MovingImage");
