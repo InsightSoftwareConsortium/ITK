@@ -19,6 +19,7 @@
 #define itkLandmarkBasedTransformInitializer_hxx
 
 #include "itkLandmarkBasedTransformInitializer.h"
+#include "itkConversion.h"
 #include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
 
@@ -68,7 +69,7 @@ void
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::InternalInitializeTransform(
   BSplineTransformType *)
 {
-  auto * transform = dynamic_cast<BSplineTransformType *>(this->m_Transform.GetPointer());
+  auto * transform = Experimental::Conversion::Convert<BSplineTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
     itkExceptionMacro(<< "BSplineTransform Expected but transform is " << this->m_Transform->GetNameOfClass());
@@ -189,7 +190,7 @@ void
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::InternalInitializeTransform(
   AffineTransformType *)
 {
-  auto * transform = dynamic_cast<AffineTransformType *>(this->m_Transform.GetPointer());
+  auto * transform = Experimental::Conversion::Convert<AffineTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
     itkExceptionMacro(<< "AffineTransform Expected but transform is " << this->m_Transform->GetNameOfClass());
@@ -339,7 +340,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   VersorRigid3DTransformType *)
 {
   itkDebugMacro("Internal Initialize VersorRigid3DTransformType");
-  auto * transform = dynamic_cast<VersorRigid3DTransformType *>(this->m_Transform.GetPointer());
+  auto * transform = Experimental::Conversion::Convert<VersorRigid3DTransformType *>(this->m_Transform.GetPointer());
   if (transform == nullptr)
   {
     itkExceptionMacro(<< "VersorRigid3DTransformType Expected but transform is "
@@ -523,7 +524,7 @@ LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::Intern
   Rigid2DTransformType *)
 {
   itkDebugMacro("Internal Initialize VersorRigid3DTransformType");
-  auto * transform = dynamic_cast<Rigid2DTransformType *>(this->m_Transform.GetPointer());
+  auto * transform = Experimental::Conversion::Convert<Rigid2DTransformType *>(this->m_Transform.GetPointer());
 
   if (transform == nullptr)
   {

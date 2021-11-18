@@ -19,6 +19,7 @@
 #define itkQuadEdgeMeshFrontIterator_hxx
 
 #include "itkQuadEdgeMeshFrontIterator.h"
+#include "itkConversion.h"
 
 namespace itk
 {
@@ -132,12 +133,12 @@ template <typename TMesh, typename TQE>
 auto
 QuadEdgeMeshFrontBaseIterator<TMesh, TQE>::FindDefaultSeed() -> QEType *
 {
-  if (auto * edge = dynamic_cast<QEType *>(m_Mesh->GetEdge()))
+  if (auto * edge = Experimental::Conversion::Convert<QEType *>(m_Mesh->GetEdge()))
   {
     return edge;
   }
   using QEDual = typename QEType::DualType;
-  if (auto * edge = dynamic_cast<QEDual *>(m_Mesh->GetEdge()))
+  if (auto * edge = Experimental::Conversion::Convert<QEDual *>(m_Mesh->GetEdge()))
   {
     return edge->GetRot();
   }
