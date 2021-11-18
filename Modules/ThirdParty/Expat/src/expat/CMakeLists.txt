@@ -54,7 +54,7 @@ mark_as_advanced(EXPAT_LARGE_SIZE)
 option(EXPAT_MIN_SIZE "Get a smaller (but slower) parser (in particular avoid multiple copies of the tokenizer)" OFF)
 mark_as_advanced(EXPAT_MIN_SIZE)
 if(MSVC OR _EXPAT_HELP)
-    set(EXPAT_MSVC_STATIC_CRT OFF CACHE BOOL "Use /MT flag (static CRT) when compiling in MSVC")
+    set(EXPAT_MSVC_STATIC_CRT ${ITK_MSVC_STATIC_RUNTIME_LIBRARY} CACHE INTERNAL "Use /MT flag (static CRT) when compiling in MSVC")
 endif()
 
 #
