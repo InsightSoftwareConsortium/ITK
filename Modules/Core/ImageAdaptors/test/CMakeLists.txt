@@ -23,3 +23,9 @@ itk_add_test(NAME itkComplexConjugateImageAdaptorTest
       COMMAND ITKImageAdaptorsTestDriver itkComplexConjugateImageAdaptorTest)
 itk_add_test(NAME itkVectorImageToImageAdaptorTest
       COMMAND ITKImageAdaptorsTestDriver itkVectorImageToImageAdaptorTest)
+
+set(ITKImageAdaptorsGTests
+      itkImageAdaptorGTest.cxx
+)
+
+CreateGoogleTestDriver(ITKImageAdaptors "${ITKImageAdaptors-Test_LIBRARIES}" "${ITKImageAdaptorsGTests}")
