@@ -35,6 +35,7 @@ itkNewTest.cxx
 itkQuadrilateralCellTest.cxx
 itkTriangleCellTest.cxx
 itkMeshCellDataTest.cxx
+itkTriangleMeshCurvatureCalculatorTest.cxx
 )
 
 set(ITKMesh-Test_LIBRARIES ${ITKMesh-Test_LIBRARIES})
@@ -178,6 +179,9 @@ itk_add_test(NAME itkParametricSpaceToImageSpaceMeshFilterTest
       DATA{${ITK_DATA_ROOT}/Input/cthead1Label.png})
 itk_add_test(NAME itkTriangleMeshToSimplexMeshFilter2Test
       COMMAND ITKMeshTestDriver itkTriangleMeshToSimplexMeshFilter2Test)
+itk_add_test(NAME itkTriangleMeshCurvatureCalculatorTest
+      COMMAND ITKMeshTestDriver itkTriangleMeshCurvatureCalculatorTest
+      DATA{${ITK_DATA_ROOT}/Input/mushroom.vtk})
 
 itk_add_test(NAME itkNewTest COMMAND ITKMeshTestDriver itkNewTest)
 itk_add_test(NAME itkCellInterfaceTest COMMAND ITKMeshTestDriver itkCellInterfaceTest)
