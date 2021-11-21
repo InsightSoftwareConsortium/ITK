@@ -27,13 +27,8 @@
  *=========================================================================*/
 #include "itkTimeStamp.h"
 
-#include "itkSingleton.h"
-
 namespace itk
 {
-
-itkGetGlobalValueMacro(TimeStamp, TimeStamp::GlobalTimeStampType, GlobalTimeStamp, 0);
-
 
 /**
  * Instance creation.
@@ -51,12 +46,10 @@ TimeStamp::New()
 void
 TimeStamp::Modified()
 {
-  // This is called once, on-demand to ensure that m_GlobalTimeStamp is
-  // initialized.
-  itkInitGlobalsMacro(GlobalTimeStamp);
-  this->m_ModifiedTime = ++(*m_GlobalTimeStamp);
-}
+  // Initialization in a thread-safe way, by "magic statics" (as introduced with C++11).
+  static std::atomic<ModifiedTimeType> staticModifiedTime{};
 
-TimeStamp::GlobalTimeStampType * TimeStamp::m_GlobalTimeStamp;
+  this->m_ModifiedTime = ++staticModifiedTime;
+}
 
 } // end namespace itk
