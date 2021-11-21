@@ -30,6 +30,8 @@
 namespace itk
 {
 
+static std::atomic<ModifiedTimeType> modifiedTime{};
+
 /**
  * Instance creation.
  */
@@ -46,10 +48,7 @@ TimeStamp::New()
 void
 TimeStamp::Modified()
 {
-  // Initialization in a thread-safe way, by "magic statics" (as introduced with C++11).
-  static std::atomic<ModifiedTimeType> staticModifiedTime{};
-
-  this->m_ModifiedTime = ++staticModifiedTime;
+  this->m_ModifiedTime = ++modifiedTime;
 }
 
 } // end namespace itk
