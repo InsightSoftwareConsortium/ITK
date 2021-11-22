@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkExpectationMaximizationMixtureModelEstimator.h"
+#include "itkExpectationMaximizationMixtureModelEstimator.h"
 
 namespace itk
 {

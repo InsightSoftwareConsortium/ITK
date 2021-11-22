@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkNormalQuadEdgeMeshFilter.h"
+#include "itkNormalQuadEdgeMeshFilter.h"
 
 
 namespace itk

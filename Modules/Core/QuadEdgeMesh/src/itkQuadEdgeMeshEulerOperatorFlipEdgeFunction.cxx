@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
+#include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
 
 namespace itk
 {

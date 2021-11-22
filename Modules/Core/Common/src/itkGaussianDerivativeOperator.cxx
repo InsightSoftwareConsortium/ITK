@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkGaussianDerivativeOperator.h"
+#include "itkGaussianDerivativeOperator.h"
 
 namespace itk
 {

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkESMDemonsRegistrationFunction.h"
+#include "itkESMDemonsRegistrationFunction.h"
 
 int
 itkESMDemonsRegistrationFunctionTest(int, char *[])

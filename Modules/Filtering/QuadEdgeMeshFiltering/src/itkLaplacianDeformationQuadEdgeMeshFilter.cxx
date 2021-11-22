@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkLaplacianDeformationQuadEdgeMeshFilter.h"
+#include "itkLaplacianDeformationQuadEdgeMeshFilter.h"
 
 
 namespace itk

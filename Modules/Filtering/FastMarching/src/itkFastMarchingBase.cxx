@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkFastMarchingBase.h"
+#include "itkFastMarchingBase.h"
 
 namespace itk
 {

@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkComplexToComplexFFTImageFilter.h"
+#include "itkComplexToComplexFFTImageFilter.h"
 
 namespace itk
 {
