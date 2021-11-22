@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkContourSpatialObject.h"
+#include "itkContourSpatialObject.h"
 
 namespace itk
 {

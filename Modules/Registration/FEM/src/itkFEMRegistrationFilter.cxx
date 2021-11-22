@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkFEMRegistrationFilter.h"
+#include "itkFEMRegistrationFilter.h"
 
 namespace itk
 {

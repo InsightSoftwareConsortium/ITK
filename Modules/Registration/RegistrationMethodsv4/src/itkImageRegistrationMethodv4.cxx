@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkImageRegistrationMethodv4.h"
+#include "itkImageRegistrationMethodv4.h"
 
 namespace itk
 {

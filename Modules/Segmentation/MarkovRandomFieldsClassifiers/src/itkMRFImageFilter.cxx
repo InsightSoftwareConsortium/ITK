@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkMRFImageFilter.h"
+#include "itkMRFImageFilter.h"
 
 namespace itk
 {

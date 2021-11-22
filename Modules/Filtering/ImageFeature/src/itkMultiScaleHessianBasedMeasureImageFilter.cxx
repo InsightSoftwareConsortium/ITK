@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkMultiScaleHessianBasedMeasureImageFilter.h"
+#include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 
 namespace itk
 {

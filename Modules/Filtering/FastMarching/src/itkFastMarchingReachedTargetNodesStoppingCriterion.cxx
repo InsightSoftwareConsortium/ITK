@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkFastMarchingReachedTargetNodesStoppingCriterion.h"
+#include "itkFastMarchingReachedTargetNodesStoppingCriterion.h"
 
 namespace itk
 {

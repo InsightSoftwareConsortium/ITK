@@ -26,7 +26,7 @@
  *
  *=========================================================================*/
 
-#include "../include/itkTestingHashImageFilter.h"
+#include "itkTestingHashImageFilter.h"
 
 namespace itk
 {

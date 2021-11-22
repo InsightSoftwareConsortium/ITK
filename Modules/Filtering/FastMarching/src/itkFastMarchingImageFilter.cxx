@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkFastMarchingImageFilter.h"
+#include "itkFastMarchingImageFilter.h"
 
 namespace itk
 {

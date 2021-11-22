@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkDeformableSimplexMesh3DGradientConstraintForceFilter.h"
+#include "itkDeformableSimplexMesh3DGradientConstraintForceFilter.h"
 
 namespace itk
 {

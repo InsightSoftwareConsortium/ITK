@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "../include/itkConnectedThresholdImageFilter.h"
+#include "itkConnectedThresholdImageFilter.h"
 
 namespace itk
 {
