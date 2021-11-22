@@ -510,8 +510,7 @@ MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::ParallelizeArrayHelper(void * arg)
 {
-  using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *       workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  auto *       workUnitInfo = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
   ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
   ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
   auto *       acParams = static_cast<struct ArrayCallback *>(workUnitInfo->UserData);
@@ -565,8 +564,7 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
 {
-  using WorkUnitInfo = MultiThreaderBase::WorkUnitInfo;
-  auto *       workUnitInfo = static_cast<WorkUnitInfo *>(arg);
+  auto *       workUnitInfo = static_cast<MultiThreaderBase::WorkUnitInfo *>(arg);
   ThreadIdType workUnitID = workUnitInfo->WorkUnitID;
   ThreadIdType workUnitCount = workUnitInfo->NumberOfWorkUnits;
   auto *       rnc = static_cast<struct RegionAndCallback *>(workUnitInfo->UserData);
