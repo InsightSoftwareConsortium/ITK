@@ -26,6 +26,8 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkMultiThreaderBase.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 /** \class ImageToImageMetric
@@ -327,12 +329,12 @@ public:
   const TransformPointer *
   GetThreaderTransform()
   {
-    return m_ThreaderTransform;
+    return m_ThreaderTransform.get();
   }
 
 protected:
   ImageToImageMetric();
-  ~ImageToImageMetric() override;
+  ~ImageToImageMetric() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -398,7 +400,7 @@ protected:
   TransformPointer m_Transform;
   /** Copies of Transform helpers per thread (N-1 of them, since m_Transform
    * will do the work for thread=0. */
-  TransformPointer * m_ThreaderTransform;
+  std::unique_ptr<TransformPointer[]> m_ThreaderTransform;
 
   InterpolatorPointer m_Interpolator;
 
@@ -471,8 +473,8 @@ protected:
   mutable BSplineTransformWeightsType    m_BSplineTransformWeights;
   mutable BSplineTransformIndexArrayType m_BSplineTransformIndices;
 
-  mutable BSplineTransformWeightsType *    m_ThreaderBSplineTransformWeights;
-  mutable BSplineTransformIndexArrayType * m_ThreaderBSplineTransformIndices;
+  mutable std::unique_ptr<BSplineTransformWeightsType[]>    m_ThreaderBSplineTransformWeights;
+  mutable std::unique_ptr<BSplineTransformIndexArrayType[]> m_ThreaderBSplineTransformIndices;
 
   virtual void
   PreComputeTransformValues();
@@ -564,11 +566,11 @@ protected:
     const typename MultiThreaderType::WorkUnitInfo * m_WorkUnitInfo;
   };
 
-  MultiThreaderType::Pointer m_Threader;
-  ConstantPointerWrapper *   m_ConstSelfWrapper;
-  mutable unsigned int *     m_ThreaderNumberOfMovingImageSamples{ nullptr };
-  bool                       m_WithinThreadPreProcess{ false };
-  bool                       m_WithinThreadPostProcess{ false };
+  MultiThreaderType::Pointer              m_Threader;
+  std::unique_ptr<ConstantPointerWrapper> m_ConstSelfWrapper;
+  mutable std::unique_ptr<unsigned int[]> m_ThreaderNumberOfMovingImageSamples;
+  bool                                    m_WithinThreadPreProcess{ false };
+  bool                                    m_WithinThreadPostProcess{ false };
 
   void
   GetValueMultiThreadedInitiate() const;
