@@ -37,8 +37,6 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ImageToImageMetric()
   m_MovingImage(nullptr)
   , // has to be provided by the user.
   m_Transform(nullptr)
-  , // has to be provided by the user.
-  m_ThreaderTransform(nullptr)
   , // constructed at initialization.
   m_Interpolator(nullptr)
   , // metric computes gradient by default
@@ -55,13 +53,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ImageToImageMetric()
   , m_BSplineParametersOffset()
   , m_BSplineTransformWeights()
   , m_BSplineTransformIndices()
-  , m_ThreaderBSplineTransformWeights(nullptr)
-  , m_ThreaderBSplineTransformIndices(nullptr)
   , m_BSplineInterpolator(nullptr)
   , m_DerivativeCalculator(nullptr)
   , m_Threader(MultiThreaderType::New())
 {
-  m_ConstSelfWrapper = new ConstantPointerWrapper(this);
+  m_ConstSelfWrapper = std::make_unique<ConstantPointerWrapper>(this);
   this->m_NumberOfWorkUnits = this->m_Threader->GetNumberOfWorkUnits();
 
   /* if 100% backward compatible, we should include this...but...
@@ -75,23 +71,6 @@ ImageToImageMetric<TFixedImage, TMovingImage>::ImageToImageMetric()
   */
 }
 
-template <typename TFixedImage, typename TMovingImage>
-ImageToImageMetric<TFixedImage, TMovingImage>::~ImageToImageMetric()
-{
-  delete m_ConstSelfWrapper;
-
-  delete[] m_ThreaderNumberOfMovingImageSamples;
-  m_ThreaderNumberOfMovingImageSamples = nullptr;
-
-  delete[] m_ThreaderTransform;
-  m_ThreaderTransform = nullptr;
-
-  delete[] this->m_ThreaderBSplineTransformWeights;
-  this->m_ThreaderBSplineTransformWeights = nullptr;
-
-  delete[] this->m_ThreaderBSplineTransformIndices;
-  this->m_ThreaderBSplineTransformIndices = nullptr;
-}
 
 /**
  * Set the number of work units. This will be clamped by the
@@ -333,12 +312,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
 {
   this->SetNumberOfWorkUnits(m_NumberOfWorkUnits);
 
-  delete[] m_ThreaderNumberOfMovingImageSamples;
-  m_ThreaderNumberOfMovingImageSamples = new unsigned int[m_NumberOfWorkUnits - 1];
+  m_ThreaderNumberOfMovingImageSamples.reset(new unsigned int[m_NumberOfWorkUnits - 1]);
 
   // Allocate the array of transform clones to be used in every thread
-  delete[] m_ThreaderTransform;
-  m_ThreaderTransform = new TransformPointer[m_NumberOfWorkUnits - 1];
+  m_ThreaderTransform.reset(new TransformPointer[m_NumberOfWorkUnits - 1]);
   for (ThreadIdType ithread = 0; ithread < m_NumberOfWorkUnits - 1; ++ithread)
   {
     this->m_ThreaderTransform[ithread] = this->m_Transform->Clone();
@@ -438,11 +415,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     this->m_BSplinePreTransformPointsArray.resize(1);
     this->m_WithinBSplineSupportRegionArray.resize(1);
 
-    delete[] this->m_ThreaderBSplineTransformWeights;
-    this->m_ThreaderBSplineTransformWeights = nullptr;
-
-    delete[] this->m_ThreaderBSplineTransformIndices;
-    this->m_ThreaderBSplineTransformIndices = nullptr;
+    this->m_ThreaderBSplineTransformWeights.reset();
+    this->m_ThreaderBSplineTransformIndices.reset();
 
     if (this->m_UseCachingOfBSplineWeights)
     {
@@ -455,8 +429,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     }
     else
     {
-      this->m_ThreaderBSplineTransformWeights = new BSplineTransformWeightsType[m_NumberOfWorkUnits - 1];
-      this->m_ThreaderBSplineTransformIndices = new BSplineTransformIndexArrayType[m_NumberOfWorkUnits - 1];
+      this->m_ThreaderBSplineTransformWeights.reset(new BSplineTransformWeightsType[m_NumberOfWorkUnits - 1]);
+      this->m_ThreaderBSplineTransformIndices.reset(new BSplineTransformIndexArrayType[m_NumberOfWorkUnits - 1]);
     }
 
     for (unsigned int j = 0; j < FixedImageDimension; ++j)
@@ -1084,7 +1058,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueMultiThreadedInitiate() c
 {
   this->SynchronizeTransforms();
 
-  m_Threader->SetSingleMethod(GetValueMultiThreaded, static_cast<void *>(m_ConstSelfWrapper));
+  m_Threader->SetSingleMethod(GetValueMultiThreaded, static_cast<void *>(m_ConstSelfWrapper.get()));
   m_Threader->SingleMethodExecute();
 
   for (ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; ++threadId)
@@ -1097,7 +1071,7 @@ template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::GetValueMultiThreadedPostProcessInitiate() const
 {
-  m_Threader->SetSingleMethod(GetValueMultiThreadedPostProcess, static_cast<void *>(m_ConstSelfWrapper));
+  m_Threader->SetSingleMethod(GetValueMultiThreadedPostProcess, static_cast<void *>(m_ConstSelfWrapper.get()));
   m_Threader->SingleMethodExecute();
 }
 
@@ -1189,7 +1163,7 @@ ImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeMultiThreade
 {
   this->SynchronizeTransforms();
 
-  m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreaded, static_cast<void *>(m_ConstSelfWrapper));
+  m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreaded, static_cast<void *>(m_ConstSelfWrapper.get()));
   m_Threader->SingleMethodExecute();
 
   for (ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; ++threadId)
@@ -1202,7 +1176,8 @@ template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeMultiThreadedPostProcessInitiate() const
 {
-  m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreadedPostProcess, static_cast<void *>(m_ConstSelfWrapper));
+  m_Threader->SetSingleMethod(GetValueAndDerivativeMultiThreadedPostProcess,
+                              static_cast<void *>(m_ConstSelfWrapper.get()));
   m_Threader->SingleMethodExecute();
 }
 
