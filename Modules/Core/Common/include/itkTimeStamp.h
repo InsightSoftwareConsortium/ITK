@@ -70,10 +70,6 @@ public:
   static Self *
   New();
 
-  /** Constructor must remain public because classes instantiate
-   * TimeStamps implicitly in their construction.  */
-  TimeStamp() { m_ModifiedTime = 0; }
-
   /** Destoy this instance. */
   void
   Delete()
@@ -120,17 +116,12 @@ public:
   /** Allow for typecasting to unsigned long.  */
   operator ModifiedTimeType() const { return m_ModifiedTime; }
 
-  /** Assignment operator, allows to initialize one time stamp by copying from
-   * another. */
-  Self &
-  operator=(const Self & other) = default;
-
 private:
   /** Set/Get the pointer to GlobalTimeStamp.
    * Note that SetGlobalTimeStamp is not concurrent thread safe. */
   itkGetGlobalDeclarationMacro(GlobalTimeStampType, GlobalTimeStamp);
 
-  ModifiedTimeType m_ModifiedTime;
+  ModifiedTimeType m_ModifiedTime{ 0 };
 
   /** The static GlobalTimeStamp. This is initialized to NULL as the first
    * stage of static initialization. It is then populated on the first call to
