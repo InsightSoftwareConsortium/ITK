@@ -16,10 +16,16 @@
  *
  *=========================================================================*/
 
-#include <iostream>
 #include "itkTimeStamp.h"
 #include "itkMultiThreaderBase.h"
 
+#include <iostream>
+#include <type_traits>
+
+static_assert(std::is_nothrow_default_constructible<itk::TimeStamp>::value, "Check TimeStamp default-constructibility");
+static_assert(std::is_trivially_copy_constructible<itk::TimeStamp>::value, "Check TimeStamp copy-constructibility");
+static_assert(std::is_trivially_copy_assignable<itk::TimeStamp>::value, "Check TimeStamp copy-assignability");
+static_assert(std::is_trivially_destructible<itk::TimeStamp>::value, "Check TimeStamp destructibility");
 
 // A helper struct for the test, the idea is to have one timestamp per thread.
 // To ease the writing of the test, we use  MultiThreaderBase::SingleMethodExecute
