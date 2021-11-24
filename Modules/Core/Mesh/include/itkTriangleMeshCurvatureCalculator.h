@@ -107,7 +107,7 @@ public:
   itkSetObjectMacro(TriangleMesh, InputMeshType);
 
   /** Get Gauss curvature. */
-  itkGetObjectMacro(GaussCurvatureData, DoubleVectorContainer);
+  itkGetModifiableObjectMacro(GaussCurvatureData, DoubleVectorContainer);
 
   /** Set the curvature type to Guass. */
   void

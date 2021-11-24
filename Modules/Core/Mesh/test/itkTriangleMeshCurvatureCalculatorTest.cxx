@@ -42,7 +42,6 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(curvCalculator, TriangleMeshCurvatureCalculator, Object);
 
   using DoubleVectorContainerPointer = typename CurvatureCalculatorType::DoubleVectorContainerPointer;
-  DoubleVectorContainerPointer gaussCurvatureData;
 
   // Test for empty mesh, curvature data should be null.
   TriangleMeshType::Pointer triangleMesh = TriangleMeshType::New();
@@ -69,7 +68,7 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   curvCalculator->Compute();
 
   // Output should be null for empty mesh.
-  gaussCurvatureData = curvCalculator->GetGaussCurvatureData();
+  DoubleVectorContainerPointer gaussCurvatureData = curvCalculator->GetModifiableGaussCurvatureData();
   ITK_TEST_EXPECT_TRUE(gaussCurvatureData == nullptr);
 
 
