@@ -85,6 +85,7 @@ template <typename TInputMesh>
 void
 TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(MeshConstPointer inputMesh)
 {
+  MeshPointType v0, v1, v2;
   MeshPointType e0, e1, e2;
   double        A, alpha0, alpha1, alpha2;
 
@@ -99,6 +100,10 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(MeshConstPoin
     dA[k] = 0.0;
   }
 
+  v0.Fill(0);
+  v1.Fill(0);
+  v2.Fill(0);
+
   CellsContainerConstPointer  outCells = inputMesh->GetCells();
   CellsContainerConstIterator cellsItr = outCells->Begin();
 
@@ -107,9 +112,9 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(MeshConstPoin
     CellType *               cellPointer = cellsItr.Value();
     MeshPointIdConstIterator point_ids = cellPointer->GetPointIds();
 
-    MeshPointType v0 = inputMesh->GetPoint(point_ids[0]);
-    MeshPointType v1 = inputMesh->GetPoint(point_ids[1]);
-    MeshPointType v2 = inputMesh->GetPoint(point_ids[2]);
+    v0 = inputMesh->GetPoint(point_ids[0]);
+    v1 = inputMesh->GetPoint(point_ids[1]);
+    v2 = inputMesh->GetPoint(point_ids[2]);
 
     // Edges
     e0[0] = v1[0];
