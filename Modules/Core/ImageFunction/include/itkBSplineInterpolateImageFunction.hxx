@@ -139,48 +139,6 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetNum
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-typename BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::OutputType
-BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateAtContinuousIndex(
-  const ContinuousIndexType & x,
-  ThreadIdType                threadId) const
-{
-  vnl_matrix<long> *   evaluateIndex = &(m_ThreadedEvaluateIndex[threadId]);
-  vnl_matrix<double> * weights = &(m_ThreadedWeights[threadId]);
-  // Pass evaluateIndex, weights by reference. Different threadIDs get
-  // different instances.
-  return this->EvaluateAtContinuousIndexInternal(x, *evaluateIndex, *weights);
-}
-
-template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-typename BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::CovariantVectorType
-BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateDerivativeAtContinuousIndex(
-  const ContinuousIndexType & x,
-  ThreadIdType                threadId) const
-{
-  vnl_matrix<long> *   evaluateIndex = &(m_ThreadedEvaluateIndex[threadId]);
-  vnl_matrix<double> * weights = &(m_ThreadedWeights[threadId]);
-  vnl_matrix<double> * weightsDerivative = &(m_ThreadedWeightsDerivative[threadId]);
-
-  return this->EvaluateDerivativeAtContinuousIndexInternal(x, *evaluateIndex, *weights, *weightsDerivative);
-}
-
-template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-void
-BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::EvaluateValueAndDerivativeAtContinuousIndex(
-  const ContinuousIndexType & x,
-  OutputType &                value,
-  CovariantVectorType &       derivativeValue,
-  ThreadIdType                threadId) const
-{
-  vnl_matrix<long> *   evaluateIndex = &(m_ThreadedEvaluateIndex[threadId]);
-  vnl_matrix<double> * weights = &(m_ThreadedWeights[threadId]);
-  vnl_matrix<double> * weightsDerivative = &(m_ThreadedWeightsDerivative[threadId]);
-
-  this->EvaluateValueAndDerivativeAtContinuousIndexInternal(
-    x, value, derivativeValue, *evaluateIndex, *weights, *weightsDerivative);
-}
-
-template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInterpolationWeights(
   const ContinuousIndexType & x,
