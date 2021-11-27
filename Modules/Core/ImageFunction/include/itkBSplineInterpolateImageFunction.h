@@ -170,7 +170,11 @@ public:
   }
 
   virtual OutputType
-  EvaluateAtContinuousIndex(const ContinuousIndexType & x, ThreadIdType threadId) const;
+  EvaluateAtContinuousIndex(const ContinuousIndexType & x, ThreadIdType threadId) const
+  {
+    // Pass evaluateIndex, weights by reference. Different threadIDs get different instances.
+    return this->EvaluateAtContinuousIndexInternal(x, m_ThreadedEvaluateIndex[threadId], m_ThreadedWeights[threadId]);
+  }
 
   CovariantVectorType
   EvaluateDerivative(const PointType & point) const
@@ -208,7 +212,11 @@ public:
   }
 
   CovariantVectorType
-  EvaluateDerivativeAtContinuousIndex(const ContinuousIndexType & x, ThreadIdType threadId) const;
+  EvaluateDerivativeAtContinuousIndex(const ContinuousIndexType & x, ThreadIdType threadId) const
+  {
+    return this->EvaluateDerivativeAtContinuousIndexInternal(
+      x, m_ThreadedEvaluateIndex[threadId], m_ThreadedWeights[threadId], m_ThreadedWeightsDerivative[threadId]);
+  }
 
   void
   EvaluateValueAndDerivative(const PointType & point, OutputType & value, CovariantVectorType & deriv) const
@@ -256,7 +264,15 @@ public:
   EvaluateValueAndDerivativeAtContinuousIndex(const ContinuousIndexType & x,
                                               OutputType &                value,
                                               CovariantVectorType &       derivativeValue,
-                                              ThreadIdType                threadId) const;
+                                              ThreadIdType                threadId) const
+  {
+    this->EvaluateValueAndDerivativeAtContinuousIndexInternal(x,
+                                                              value,
+                                                              derivativeValue,
+                                                              m_ThreadedEvaluateIndex[threadId],
+                                                              m_ThreadedWeights[threadId],
+                                                              m_ThreadedWeightsDerivative[threadId]);
+  }
 
   /** Get/Sets the Spline Order, supports 0th - 5th order splines. The default
    *  is a 3rd order spline. */
