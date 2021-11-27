@@ -46,9 +46,6 @@ template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::BSplineInterpolateImageFunction()
 {
   m_NumberOfWorkUnits = 1;
-  m_ThreadedEvaluateIndex = nullptr;
-  m_ThreadedWeights = nullptr;
-  m_ThreadedWeightsDerivative = nullptr;
 
   m_CoefficientFilter = CoefficientFilter::New();
   m_Coefficients = CoefficientImageType::New();
@@ -57,19 +54,6 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::BSplin
   unsigned int SplineOrder = 3;
   this->SetSplineOrder(SplineOrder);
   this->m_UseImageDirection = true;
-}
-
-template <typename TImageType, typename TCoordRep, typename TCoefficientType>
-BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::~BSplineInterpolateImageFunction()
-{
-  delete[] m_ThreadedEvaluateIndex;
-  m_ThreadedEvaluateIndex = nullptr;
-
-  delete[] m_ThreadedWeights;
-  m_ThreadedWeights = nullptr;
-
-  delete[] m_ThreadedWeightsDerivative;
-  m_ThreadedWeightsDerivative = nullptr;
 }
 
 /**
@@ -385,12 +369,9 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::Genera
   // m_PointsToIndex is used to convert a sequential location to an N-dimension
   // index vector.  This is precomputed to save time during the interpolation
   // routine.
-  delete[] m_ThreadedEvaluateIndex;
-  m_ThreadedEvaluateIndex = new vnl_matrix<long>[m_NumberOfWorkUnits];
-  delete[] m_ThreadedWeights;
-  m_ThreadedWeights = new vnl_matrix<double>[m_NumberOfWorkUnits];
-  delete[] m_ThreadedWeightsDerivative;
-  m_ThreadedWeightsDerivative = new vnl_matrix<double>[m_NumberOfWorkUnits];
+  m_ThreadedEvaluateIndex = std::make_unique<vnl_matrix<long>[]>(m_NumberOfWorkUnits);
+  m_ThreadedWeights = std::make_unique<vnl_matrix<double>[]>(m_NumberOfWorkUnits);
+  m_ThreadedWeightsDerivative = std::make_unique<vnl_matrix<double>[]>(m_NumberOfWorkUnits);
   for (unsigned int i = 0; i < m_NumberOfWorkUnits; ++i)
   {
     m_ThreadedEvaluateIndex[i].set_size(ImageDimension, m_SplineOrder + 1);

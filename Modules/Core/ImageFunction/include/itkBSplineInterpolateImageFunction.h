@@ -28,14 +28,15 @@
 #ifndef itkBSplineInterpolateImageFunction_h
 #define itkBSplineInterpolateImageFunction_h
 
-#include <vector>
-
 #include "itkInterpolateImageFunction.h"
 #include "vnl/vnl_matrix.h"
 
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkConceptChecking.h"
 #include "itkCovariantVector.h"
+
+#include <memory> // For unique_ptr.
+#include <vector>
 
 namespace itk
 {
@@ -349,7 +350,7 @@ protected:
                                               vnl_matrix<double> &        weightsDerivative) const;
 
   BSplineInterpolateImageFunction();
-  ~BSplineInterpolateImageFunction() override;
+  ~BSplineInterpolateImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -413,10 +414,10 @@ private:
   // derivatives.
   bool m_UseImageDirection;
 
-  ThreadIdType         m_NumberOfWorkUnits;
-  vnl_matrix<long> *   m_ThreadedEvaluateIndex;
-  vnl_matrix<double> * m_ThreadedWeights;
-  vnl_matrix<double> * m_ThreadedWeightsDerivative;
+  ThreadIdType                          m_NumberOfWorkUnits;
+  std::unique_ptr<vnl_matrix<long>[]>   m_ThreadedEvaluateIndex;
+  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeights;
+  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeightsDerivative;
 };
 } // namespace itk
 
