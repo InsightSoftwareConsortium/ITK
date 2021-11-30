@@ -260,6 +260,9 @@ if(ITK_WRAPPING)
     # create the directory to avoid loosing case on windows
     file(MAKE_DIRECTORY ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR})
 
+    set(ITK_STUB_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk-stubs")
+    file(MAKE_DIRECTORY ${ITK_STUB_DIR})
+
     set(ITK_PYTHON_PACKAGE_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk")
     # create the directory to avoid loosing case on windows
     file(MAKE_DIRECTORY ${ITK_PYTHON_PACKAGE_DIR})
