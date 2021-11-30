@@ -1,7 +1,9 @@
 [hooks]
-	url = https://github.com/InsightSoftwareConsortium/ITK.git
+#	url = https://github.com/InsightSoftwareConsortium/ITK.git
+	url = https://github.com/josempozo/ITK.git
 [upstream]
-	url = https://github.com/InsightSoftwareConsortium/ITK.git
+#	url = https://github.com/InsightSoftwareConsortium/ITK.git
+	url = https://github.com/josempozo/ITK.git
 	remote = upstream
 [github]
 	organization-name = InsightSoftwareConsortium

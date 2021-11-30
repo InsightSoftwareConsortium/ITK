@@ -353,5 +353,7 @@ MakeVector(const TValue firstValue, const TVariadic... otherValues)
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkVector.hxx"
 #endif
+#include "itkNumericTraitsVectorPixel.h"
+
 
 #endif

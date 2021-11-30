@@ -65,6 +65,9 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   m_Interpolator = dynamic_cast<InterpolatorType *>(LinearInterpolatorType::New().GetPointer());
 
+  m_PixelTransformation = dynamic_cast<PixelTransformationType *>(
+    IdentityPixelTransformation<InterpolatorOutputType, TransformType, InputPointType>::New().GetPointer());
+
   m_DefaultPixelValue = NumericTraits<PixelType>::ZeroValue(m_DefaultPixelValue);
   this->DynamicMultiThreadingOn();
 }
@@ -170,6 +173,8 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   {
     m_Extrapolator->SetInputImage(this->GetInput());
   }
+
+  m_PixelTransformation->SetImageTransform(this->GetTransform());
 
   unsigned int nComponents = DefaultConvertPixelTraits<PixelType>::GetNumberOfComponents(m_DefaultPixelValue);
 
@@ -325,11 +330,18 @@ template <typename TInputImage,
           typename TOutputImage,
           typename TInterpolatorPrecisionType,
           typename TTransformPrecisionType>
+template <
+  typename TPixel,
+  std::enable_if_t<std::is_same<
+    TPixel,
+    typename ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+      PixelType>::value> *>
 auto
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
-  CastPixelWithBoundsChecking(const ComponentType value) -> PixelType
+  CastPixelWithBoundsChecking(const TPixel value) -> PixelType
 {
-  return CastComponentWithBoundsChecking(value);
+  // Just return the argument. In this case, there is no need to cast or clamp its value.
+  return value;
 }
 
 
@@ -337,7 +349,39 @@ template <typename TInputImage,
           typename TOutputImage,
           typename TInterpolatorPrecisionType,
           typename TTransformPrecisionType>
-template <typename TPixel>
+template <
+  typename TPixel,
+  std::enable_if_t<
+    std::is_same<
+      TPixel,
+      typename ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+        ComponentType>::value &&
+    !std::is_same<
+      TPixel,
+      typename ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+        PixelType>::value> *>
+auto
+ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+  CastPixelWithBoundsChecking(const TPixel value) -> PixelType
+{
+  return CastComponentWithBoundsChecking(value);
+}
+
+template <typename TInputImage,
+          typename TOutputImage,
+          typename TInterpolatorPrecisionType,
+          typename TTransformPrecisionType>
+template <
+  typename TPixel,
+  std::enable_if_t<
+    !std::is_same<
+      TPixel,
+      typename ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+        ComponentType>::value &&
+    !std::is_same<
+      TPixel,
+      typename ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
+        PixelType>::value> *>
 auto
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   CastPixelWithBoundsChecking(const TPixel value) -> PixelType
@@ -393,8 +437,6 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
 
   ContinuousInputIndexType inputIndex;
 
-  using OutputType = typename InterpolatorType::OutputType;
-
   // Walk the output region
   outIt.GoToBegin();
 
@@ -407,25 +449,29 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     inputPoint = transformPtr->TransformPoint(outputPoint);
     const bool isInsideInput = inputPtr->TransformPhysicalPointToContinuousIndex(inputPoint, inputIndex);
 
-    OutputType value;
+    PixelType value;
     // Evaluate input at right position and copy to the output
     if (m_Interpolator->IsInsideBuffer(inputIndex) && (!isSpecialCoordinatesImage || isInsideInput))
     {
-      value = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
-      outIt.Set(Self::CastPixelWithBoundsChecking(value));
+      //      InterpolatorOutputType inputValue = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
+      //      InterpolatorOutputType transformedValue = m_PixelTransformation->Transform(inputValue, inputPoint,
+      //      outputPoint); value = Self::CastPixelWithBoundsChecking(transformedValue);
+      InterpolatorOutputType inputValue = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
+      value = Self::CastPixelWithBoundsChecking(m_PixelTransformation->Transform(inputValue, inputPoint, outputPoint));
+      // TO DO (Jose): Check what to do with extrapolator.
     }
     else
     {
       if (m_Extrapolator.IsNull())
       {
-        outIt.Set(m_DefaultPixelValue); // default background value
+        value = m_DefaultPixelValue; // default background value
       }
       else
       {
-        value = m_Extrapolator->EvaluateAtContinuousIndex(inputIndex);
-        outIt.Set(Self::CastPixelWithBoundsChecking(value));
+        value = Self::CastPixelWithBoundsChecking(m_Extrapolator->EvaluateAtContinuousIndex(inputIndex));
       }
     }
+    outIt.Set(value);
     progress.CompletedPixel();
     ++outIt;
   }

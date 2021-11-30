@@ -6,6 +6,7 @@ shrinking, and changing its origin or spacing or orientation.")
 itk_module(ITKImageGrid
   COMPILE_DEPENDS
     ITKImageFunction
+    ITKPixelTransformation
   TEST_DEPENDS
     ITKTestKernel
     ITKSmoothing
@@ -18,3 +19,4 @@ itk_module(ITKImageGrid
 # ITKImageIntensity dependency introduced by itkBSplineScatteredDataPointSetToImageFilterTest4
 # ITKSmoothing dependency introduced by itkSliceBySliceImageFilterTest.
 # ITKIOImageBase dependency introduced by itkResampleImageFilter.
+# ITKPixelTransformation dependency introduced by itkResampleImageFilter.

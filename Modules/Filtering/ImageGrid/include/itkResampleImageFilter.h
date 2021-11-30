@@ -27,6 +27,7 @@
 #include "itkSize.h"
 #include "itkDefaultConvertPixelTraits.h"
 #include "itkDataObjectDecorator.h"
+#include "itkIdentityPixelTransformation.h"
 
 
 namespace itk
@@ -182,6 +183,11 @@ public:
   /** Typedef the reference image type to be the ImageBase of the OutputImageType */
   using ReferenceImageBaseType = ImageBase<OutputImageDimension>;
 
+  /** Typedef for the class to transform the pixel values in addition to the
+   *  (scalar-wise) wrapping. Typically, this is required for the approprite tensorial
+   *  transformation of vectors, covariant vectors, or symmetric rank-2 tensors. */
+  using PixelTransformationType = PixelTransformation<InterpolatorOutputType, TransformType, InputPointType>;
+
   /* See superclass for doxygen. This method adds the additional check
    * that the output space is set */
   void
@@ -270,6 +276,13 @@ public:
   itkBooleanMacro(UseReferenceImage);
   itkGetConstMacro(UseReferenceImage, bool);
 
+  /** Get/Set a class object to transform the pixel values in addition to the
+   *  (scalar-wise) wrapping. If not set no transformation is performed (the default).
+   *  Typically, this is required for the approprite tensorial transformation of
+   *  (contravariant) vectors, covariant vectors, or symmetric rank-2 tensors. */
+  itkSetMacro(PixelTransformation, typename PixelTransformationType::Pointer);
+  itkGetConstMacro(PixelTransformation, typename PixelTransformationType::Pointer);
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(OutputHasNumericTraitsCheck, (Concept::HasNumericTraits<PixelComponentType>));
@@ -357,10 +370,19 @@ private:
   static PixelComponentType
   CastComponentWithBoundsChecking(const TComponent value);
 
+  template <typename TPixel,
+            std::enable_if_t<!std::is_same<TPixel, ComponentType>::value && !std::is_same<TPixel, PixelType>::value> * =
+              nullptr>
   static PixelType
-  CastPixelWithBoundsChecking(const ComponentType value);
+  CastPixelWithBoundsChecking(const TPixel value);
 
-  template <typename TPixel>
+  template <
+    typename TPixel,
+    std::enable_if_t<std::is_same<TPixel, ComponentType>::value && !std::is_same<TPixel, PixelType>::value> * = nullptr>
+  static PixelType
+  CastPixelWithBoundsChecking(const TPixel value);
+
+  template <typename TPixel, std::enable_if_t<std::is_same<TPixel, PixelType>::value> * = nullptr>
   static PixelType
   CastPixelWithBoundsChecking(const TPixel value);
 
@@ -380,11 +402,33 @@ private:
   DirectionType   m_OutputDirection;      // output image direction cosines
   IndexType       m_OutputStartIndex;     // output image start index
   bool            m_UseReferenceImage{ false };
+
+  typename PixelTransformationType::Pointer m_PixelTransformation;
 };
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkResampleImageFilter.hxx"
 #endif
+
+/*
+#include "itkNumericTraitsVectorPixel.h"
+#include "itkResampleImageFilter.hxx"
+auto prova()
+{
+  using InputPixelType = double;
+  using OutputPixelType = itk::Vector<double, 2>;
+  itk::Image<InputPixelType, 3>::Pointer t_inputImage = itk::Image<InputPixelType, 3>::New();
+  itk::ResampleImageFilter<itk::Image<InputPixelType, 3>, itk::Image<OutputPixelType, 2>>::Pointer resampler =
+    itk::ResampleImageFilter<itk::Image<InputPixelType, 3>, itk::Image<OutputPixelType, 2>>::New();
+  resampler->SetInput(t_inputImage);
+  resampler->Update();
+  double *arr;
+  OutputPixelType v = static_cast<OutputPixelType>(arr);
+  std::cout << "v[1]" << std::endl;
+  v[1] += 2.6;
+  return v;
+}
+*/
 
 #endif
