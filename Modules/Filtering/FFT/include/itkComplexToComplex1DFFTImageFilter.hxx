@@ -20,12 +20,6 @@
 
 #include "itkComplexToComplex1DFFTImageFilter.h"
 
-#include "itkVnlComplexToComplex1DFFTImageFilter.h"
-
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWComplexToComplex1DFFTImageFilter.h"
-#endif
-
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"
 
@@ -42,32 +36,6 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New()
   {
     // Decrement ITK SmartPointer produced from object factory
     smartPtr->UnRegister();
-  }
-
-#ifdef ITK_USE_FFTWD
-  if (smartPtr.IsNull())
-  {
-    if (typeid(typename TInputImage::PixelType::value_type) == typeid(double))
-    {
-      smartPtr =
-        dynamic_cast<Self *>(FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer());
-    }
-  }
-#endif
-#ifdef ITK_USE_FFTWF
-  if (smartPtr.IsNull())
-  {
-    if (typeid(typename TInputImage::PixelType::value_type) == typeid(float))
-    {
-      smartPtr =
-        dynamic_cast<Self *>(FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer());
-    }
-  }
-#endif
-
-  if (smartPtr.IsNull())
-  {
-    smartPtr = VnlComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New().GetPointer();
   }
 
   return smartPtr;

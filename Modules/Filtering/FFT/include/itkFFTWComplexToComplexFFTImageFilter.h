@@ -15,13 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkComplexToComplexFFTImageFilter.h"
-
 #ifndef itkFFTWComplexToComplexFFTImageFilter_h
-#  define itkFFTWComplexToComplexFFTImageFilter_h
+#define itkFFTWComplexToComplexFFTImageFilter_h
 
-#  include "itkFFTWCommon.h"
+#include "itkComplexToComplexFFTImageFilter.h"
+#include "itkFFTWCommon.h"
 
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -55,19 +55,20 @@ namespace itk
  *
  * \sa FFTWGlobalConfiguration
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT FFTWComplexToComplexFFTImageFilter
+  : public ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(FFTWComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = FFTWComplexToComplexFFTImageFilter;
-  using Superclass = ComplexToComplexFFTImageFilter<TImage>;
+  using Superclass = ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using ImageType = TImage;
+  using typename Superclass::ImageType;
   using PixelType = typename ImageType::PixelType;
   using typename Superclass::InputImageType;
   using typename Superclass::OutputImageType;
@@ -106,10 +107,10 @@ public:
   virtual void
   SetPlanRigor(const int & value)
   {
-#  ifndef ITK_USE_CUFFTW
+#ifndef ITK_USE_CUFFTW
     // use that method to check the value
     FFTWGlobalConfiguration::GetPlanRigorName(value);
-#  endif
+#endif
     if (m_PlanRigor != value)
     {
       m_PlanRigor = value;
@@ -120,9 +121,9 @@ public:
   void
   SetPlanRigor(const std::string & name)
   {
-#  ifndef ITK_USE_CUFFTW
+#ifndef ITK_USE_CUFFTW
     this->SetPlanRigor(FFTWGlobalConfiguration::GetPlanRigorValue(name));
-#  endif
+#endif
   }
 
 protected:
@@ -148,10 +149,22 @@ private:
 };
 
 
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<FFTWComplexToComplexFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
+};
+
+
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkFFTWComplexToComplexFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkFFTWComplexToComplexFFTImageFilter.hxx"
+#endif
 
 #endif // itkFFTWComplexToComplexFFTImageFilter_h

@@ -23,6 +23,18 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWForwardFFTImageFilter.h"
+#  include "itkFFTWInverseFFTImageFilter.h"
+#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
+#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
+#endif
+
 int
 itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
 {
@@ -62,6 +74,23 @@ itkMaskedFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
 
   auto movingImageReader = ReaderType::New();
   movingImageReader->SetFileName(movingImageFileName);
+
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverseFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
+#endif
 
   auto filter = FilterType::New();
   filter->SetFixedImage(fixedImageReader->GetOutput());

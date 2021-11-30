@@ -15,12 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
-
 #ifndef itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
-#  define itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
+#define itkFFTWRealToHalfHermitianForwardFFTImageFilter_h
 
-#  include "itkFFTWCommon.h"
+#include "itkRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkFFTWCommon.h"
+
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -99,10 +100,10 @@ public:
   virtual void
   SetPlanRigor(const int & value)
   {
-#  ifndef ITK_USE_CUFFTW
+#ifndef ITK_USE_CUFFTW
     // Use that method to check the value
     FFTWGlobalConfiguration::GetPlanRigorName(value);
-#  endif
+#endif
     if (m_PlanRigor != value)
     {
       m_PlanRigor = value;
@@ -132,10 +133,23 @@ private:
 
   int m_PlanRigor;
 };
+
+
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<FFTWRealToHalfHermitianForwardFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = TUnderlying;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
+};
+
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.hxx"
+#endif
 
 #endif // itkFFTWRealToHalfHermitianForwardFFTImageFilter_h

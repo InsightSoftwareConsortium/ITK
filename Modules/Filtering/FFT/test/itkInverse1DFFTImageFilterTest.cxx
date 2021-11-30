@@ -96,6 +96,13 @@ itkInverse1DFFTImageFilterTest(int argc, char * argv[])
   {
     using FFTInverseType = itk::Inverse1DFFTImageFilter<ComplexImageType, ImageType>;
 
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverse1DFFTImageFilter>>();
+#  endif
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverse1DFFTImageFilter>>();
+#endif
+
     // Instantiate a filter to exercise basic object methods
     auto fft = FFTInverseType::New();
     ITK_EXERCISE_BASIC_OBJECT_METHODS(fft, Inverse1DFFTImageFilter, ImageToImageFilter);

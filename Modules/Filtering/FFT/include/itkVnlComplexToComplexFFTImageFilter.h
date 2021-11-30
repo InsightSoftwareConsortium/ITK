@@ -15,10 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "itkComplexToComplexFFTImageFilter.h"
-
 #ifndef itkVnlComplexToComplexFFTImageFilter_h
-#  define itkVnlComplexToComplexFFTImageFilter_h
+#define itkVnlComplexToComplexFFTImageFilter_h
+
+#include "itkComplexToComplexFFTImageFilter.h"
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -37,19 +38,20 @@ namespace itk
  * \sa VnlForwardFFTImageFilter
  * \sa VnlInverseFFTImageFilter
  */
-template <typename TImage>
-class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter : public ComplexToComplexFFTImageFilter<TImage>
+template <typename TInputImage, typename TOutputImage = TInputImage>
+class ITK_TEMPLATE_EXPORT VnlComplexToComplexFFTImageFilter
+  : public ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VnlComplexToComplexFFTImageFilter);
 
   /** Standard class type aliases. */
   using Self = VnlComplexToComplexFFTImageFilter;
-  using Superclass = ComplexToComplexFFTImageFilter<TImage>;
+  using Superclass = ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using ImageType = TImage;
+  using typename Superclass::ImageType;
   using PixelType = typename ImageType::PixelType;
   using typename Superclass::InputImageType;
   using typename Superclass::OutputImageType;
@@ -73,10 +75,19 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 };
 
+template <>
+struct FFTImageFilterTraits<VnlComplexToComplexFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
+};
+
 } // end namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkVnlComplexToComplexFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVnlComplexToComplexFFTImageFilter.hxx"
+#endif
 
 #endif // itkVnlComplexToComplexFFTImageFilter_h

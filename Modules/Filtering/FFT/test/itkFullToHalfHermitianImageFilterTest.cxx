@@ -25,6 +25,12 @@
 #include "itkRealToHalfHermitianForwardFFTImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
+#endif
+
 int
 itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
 {
@@ -60,6 +66,15 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
   indexShift[1] = 5;
   changer->SetOutputOffset(indexShift);
   changer->SetInput(source->GetOutput());
+
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
+#endif
 
   // Compute frequency image, yielding the non-redundant half of the
   // full complex image.

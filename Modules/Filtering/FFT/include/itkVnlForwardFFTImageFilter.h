@@ -15,12 +15,13 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+#ifndef itkVnlForwardFFTImageFilter_h
+#define itkVnlForwardFFTImageFilter_h
+
 #include "itkForwardFFTImageFilter.h"
 
-#ifndef itkVnlForwardFFTImageFilter_h
-#  define itkVnlForwardFFTImageFilter_h
-
-#  include "vnl/algo/vnl_fft_base.h"
+#include "vnl/algo/vnl_fft_base.h"
+#include "itkFFTImageFilterFactory.h"
 
 namespace itk
 {
@@ -74,11 +75,11 @@ public:
   SizeValueType
   GetSizeGreatestPrimeFactor() const override;
 
-#  ifdef ITK_USE_CONCEPT_CHECKING
+#ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(ImageDimensionsMatchCheck, (Concept::SameDimension<InputImageDimension, OutputImageDimension>));
   // End concept checking
-#  endif
+#endif
 
 protected:
   VnlForwardFFTImageFilter() = default;
@@ -90,10 +91,21 @@ protected:
 private:
   using SignalVectorType = vnl_vector<std::complex<InputPixelType>>;
 };
+
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<VnlForwardFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = TUnderlying;
+  template <typename TUnderlying>
+  using OutputPixelType = std::complex<TUnderlying>;
+};
 } // namespace itk
 
-#  ifndef ITK_MANUAL_INSTANTIATION
-#    include "itkVnlForwardFFTImageFilter.hxx"
-#  endif
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkVnlForwardFFTImageFilter.hxx"
+#endif
 
 #endif

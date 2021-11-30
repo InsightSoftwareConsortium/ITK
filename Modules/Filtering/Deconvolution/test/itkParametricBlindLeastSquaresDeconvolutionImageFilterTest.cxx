@@ -23,6 +23,14 @@
 #include "itkParametricBlindLeastSquaresDeconvolutionImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
+#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
+#endif
+
 // Define a version of the GaussianImageSource that has only the sigma
 // parameters
 namespace itk
@@ -156,6 +164,20 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   mean[0] = 0.5 * (size[0] - 1) * spacing[0];
   mean[1] = 0.5 * (size[1] - 1) * spacing[1];
   kernelSource->SetMean(mean);
+
+
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
+#endif
 
   // Generate a convolution of the input image with a kernel computed
   // from a parametric image source. We'll try to recover those

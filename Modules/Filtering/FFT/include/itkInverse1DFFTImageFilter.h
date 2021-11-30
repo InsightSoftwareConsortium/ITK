@@ -107,4 +107,8 @@ private:
 #  endif
 #endif
 
+#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
+#  include "itkFFTImageFilterFactoryRegisterManager.h"
+#endif
+
 #endif // itkInverse1DFFTImageFilter_h

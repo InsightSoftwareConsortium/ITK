@@ -50,7 +50,9 @@ namespace itk
  *
  * \ingroup FourierTransform
  *
- * \sa InverseFFTImageFilter, FFTComplexToComplexImageFilter
+ * \sa Forward1DFFTImageFilter
+ * \sa InverseFFTImageFilter
+ * \sa ComplexToComplexFFTImageFilter
  * \ingroup ITKFFT
  *
  * \sphinx
@@ -112,6 +114,10 @@ protected:
 
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkForwardFFTImageFilter.hxx"
+#endif
+
+#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
+#  include "itkFFTImageFilterFactoryRegisterManager.h"
 #endif
 
 #endif

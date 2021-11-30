@@ -22,6 +22,8 @@
 #include "itkFFTWCommonExtended.h"
 #include "itkImageRegionSplitterDirection.h"
 
+#include "itkFFTImageFilterFactory.h"
+
 #include <vector>
 
 namespace itk
@@ -95,6 +97,18 @@ private:
   unsigned int          m_LastImageSize;
   PlanBufferPointerType m_InputBufferArray;
   PlanBufferPointerType m_OutputBufferArray;
+};
+
+
+// Describe whether input/output are real- or complex-valued
+// for factory registration
+template <>
+struct FFTImageFilterTraits<FFTWInverse1DFFTImageFilter>
+{
+  template <typename TUnderlying>
+  using InputPixelType = std::complex<TUnderlying>;
+  template <typename TUnderlying>
+  using OutputPixelType = TUnderlying;
 };
 
 } // namespace itk

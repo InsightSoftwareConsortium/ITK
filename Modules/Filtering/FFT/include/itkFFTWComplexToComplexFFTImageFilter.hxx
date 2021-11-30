@@ -37,8 +37,8 @@
 namespace itk
 {
 
-template <typename TImage>
-FFTWComplexToComplexFFTImageFilter<TImage>::FFTWComplexToComplexFFTImageFilter()
+template <typename TInputImage, typename TOutputImage>
+FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::FFTWComplexToComplexFFTImageFilter()
 #ifndef ITK_USE_CUFFTW
   : m_PlanRigor(FFTWGlobalConfiguration::GetPlanRigor())
 #endif
@@ -47,9 +47,9 @@ FFTWComplexToComplexFFTImageFilter<TImage>::FFTWComplexToComplexFFTImageFilter()
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
+FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   // get pointers to the input and output
   const InputImageType * input = this->GetInput();
@@ -102,9 +102,9 @@ FFTWComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWComplexToComplexFFTImageFilter<TImage>::DynamicThreadedGenerateData(
+FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Normalize the output if backward transform
@@ -124,9 +124,9 @@ FFTWComplexToComplexFFTImageFilter<TImage>::DynamicThreadedGenerateData(
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWComplexToComplexFFTImageFilter<TImage>::UpdateOutputData(DataObject * output)
+FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * output)
 {
   // we need to catch that information now, because it is changed later
   // during the pipeline execution, and thus can't be grabbed in
@@ -136,9 +136,9 @@ FFTWComplexToComplexFFTImageFilter<TImage>::UpdateOutputData(DataObject * output
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-FFTWComplexToComplexFFTImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
+FFTWComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

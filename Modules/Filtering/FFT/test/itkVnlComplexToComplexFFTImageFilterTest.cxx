@@ -18,10 +18,14 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkVnlComplexToComplexFFTImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
 #include "itkTestingMacros.h"
+
+#include "itkObjectFactoryBase.h"
+#include "itkVnlComplexToComplexFFTImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
 
 template <typename TPixel, unsigned int VDimension>
 int
@@ -85,6 +89,11 @@ itkVnlComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();
   const unsigned int dimension = imageIO->GetNumberOfDimensions();
+
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlComplexToComplexFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>>();
 
   if (pixelTypeString.compare("float") == 0)
   {

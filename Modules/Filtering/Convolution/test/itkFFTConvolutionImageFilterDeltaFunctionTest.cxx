@@ -22,6 +22,14 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
+#include "itkObjectFactoryBase.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
+#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
+#endif
+
 int
 itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
 {
@@ -58,6 +66,19 @@ itkFFTConvolutionImageFilterDeltaFunctionTest(int argc, char * argv[])
     middleIndex[i] = itk::Math::Floor<ImageType::IndexValueType>(0.5 * sizeInDimension);
   }
   deltaFunctionImage->SetPixel(middleIndex, 1);
+
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
+#  endif
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
+  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
+    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
+#endif
 
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   auto convolver = ConvolutionFilterType::New();

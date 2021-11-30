@@ -29,6 +29,7 @@
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWForward1DFFTImageFilter.h"
 #endif
+#include "itkFFTImageFilterFactory.h"
 #include "itkTestingMacros.h"
 
 template <typename FFTType>
@@ -99,6 +100,13 @@ itkForward1DFFTImageFilterTest(int argc, char * argv[])
   if (backend == 0)
   {
     using FFTForwardType = itk::Forward1DFFTImageFilter<ImageType, ComplexImageType>;
+
+#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
+#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForward1DFFTImageFilter>>();
+#  endif
+    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForward1DFFTImageFilter>>();
+#endif
 
     // Instantiate a filter to exercise basic object methods
     auto fft = FFTForwardType::New();

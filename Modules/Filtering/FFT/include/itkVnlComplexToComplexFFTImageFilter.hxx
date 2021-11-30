@@ -28,16 +28,16 @@
 namespace itk
 {
 
-template <typename TImage>
-VnlComplexToComplexFFTImageFilter<TImage>::VnlComplexToComplexFFTImageFilter()
+template <typename TInputImage, typename TOutputImage>
+VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::VnlComplexToComplexFFTImageFilter()
 {
   this->DynamicMultiThreadingOn();
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-VnlComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
+VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
   const ImageType * input = this->GetInput();
   ImageType *       output = this->GetOutput();
@@ -75,9 +75,9 @@ VnlComplexToComplexFFTImageFilter<TImage>::BeforeThreadedGenerateData()
 }
 
 
-template <typename TImage>
+template <typename TInputImage, typename TOutputImage>
 void
-VnlComplexToComplexFFTImageFilter<TImage>::DynamicThreadedGenerateData(
+VnlComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   const OutputImageRegionType & outputRegionForThread)
 {
   // Normalize the output if backward transform
