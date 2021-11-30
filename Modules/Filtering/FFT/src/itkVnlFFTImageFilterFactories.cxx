@@ -34,51 +34,92 @@ namespace itk
 {
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-void ITKFFT_EXPORT
-     VnlComplexToComplex1DFFTFactoryRegister__Private()
+
+static bool VnlComplexToComplex1DFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlComplexToComplex1DFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlComplexToComplex1DFFTImageFilter>>();
+  if (!VnlComplexToComplex1DFFTHasBeenRegistered)
+  {
+    VnlComplexToComplex1DFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlComplexToComplex1DFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlComplexToComplexFFTFactoryRegister__Private()
+static bool VnlComplexToComplexFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlComplexToComplexFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlComplexToComplexFFTImageFilter>>();
+  if (!VnlComplexToComplexFFTHasBeenRegistered)
+  {
+    VnlComplexToComplexFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlComplexToComplexFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlForward1DFFTFactoryRegister__Private()
+static bool VnlForward1DFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlForward1DFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlForward1DFFTImageFilter>>();
+  if (!VnlForward1DFFTHasBeenRegistered)
+  {
+    VnlForward1DFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlForward1DFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlForwardFFTFactoryRegister__Private()
+static bool VnlForwardFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlForwardFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlForwardFFTImageFilter>>();
+  if (!VnlForwardFFTHasBeenRegistered)
+  {
+    VnlForwardFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlForwardFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlHalfHermitianToRealInverseFFTFactoryRegister__Private()
+static bool VnlHalfHermitianToRealInverseFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlHalfHermitianToRealInverseFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlHalfHermitianToRealInverseFFTImageFilter>>();
+  if (!VnlHalfHermitianToRealInverseFFTHasBeenRegistered)
+  {
+    VnlHalfHermitianToRealInverseFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlHalfHermitianToRealInverseFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlInverse1DFFTFactoryRegister__Private()
+static bool VnlInverse1DFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlInverse1DFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlInverse1DFFTImageFilter>>();
+  if (!VnlInverse1DFFTHasBeenRegistered)
+  {
+    VnlInverse1DFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlInverse1DFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlInverseFFTFactoryRegister__Private()
+static bool VnlInverseFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlInverseFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlInverseFFTImageFilter>>();
+  if (!VnlInverseFFTHasBeenRegistered)
+  {
+    VnlInverseFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlInverseFFTImageFilter>::RegisterOneFactory();
+  }
 }
 
-void ITKFFT_EXPORT
-     VnlRealToHalfHermitianForwardFFTFactoryRegister__Private()
+static bool VnlRealToHalfHermitianForwardFFTHasBeenRegistered;
+void        ITKFFT_EXPORT
+            VnlRealToHalfHermitianForwardFFTFactoryRegister__Private()
 {
-  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<VnlRealToHalfHermitianForwardFFTImageFilter>>();
+  if (!VnlRealToHalfHermitianForwardFFTHasBeenRegistered)
+  {
+    VnlRealToHalfHermitianForwardFFTHasBeenRegistered = true;
+    FFTImageFilterFactory<VnlRealToHalfHermitianForwardFFTImageFilter>::RegisterOneFactory();
+  }
 }
 } // end namespace itk
