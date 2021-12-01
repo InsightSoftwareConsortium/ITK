@@ -28,11 +28,6 @@
  */
 #include "H5pubconf.h" /* From configure */
 
-/* ITK --start */
-/* XXX(kitware): Mangle all HDF5 symbols */
-#include "itk_hdf5_mangle.h"
-/* ITK --stop */
-
 /* API Version macro wrapper definitions */
 #include "H5version.h"
 
