@@ -6,19 +6,15 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifdef OLD_HEADER_FILENAME
-#include <iostream.h>
-#else
 #include <iostream>
-#endif
 #include <string>
 
-#include "H5private.h"             // for HDfree
+#include "H5private.h" // for HDfree
 #include "H5Include.h"
 #include "H5Exception.h"
 #include "H5IdComponent.h"
@@ -41,14 +37,16 @@ namespace H5 {
 using std::cerr;
 using std::endl;
 
-class H5_DLLCPP H5Object;  // forward declaration for UserData4Aiterate
+class H5Object; // forward declaration for UserData4Aiterate
 
 //--------------------------------------------------------------------------
 // Function:    Attribute default constructor
 ///\brief       Default constructor: Creates a stub attribute
 // Programmer   Binh-Minh Ribler - May, 2004
 //--------------------------------------------------------------------------
-Attribute::Attribute() : AbstractDs(), H5Location(), id(H5I_INVALID_HID) {}
+Attribute::Attribute() : AbstractDs(), H5Location(), id(H5I_INVALID_HID)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    Attribute copy constructor
@@ -56,7 +54,7 @@ Attribute::Attribute() : AbstractDs(), H5Location(), id(H5I_INVALID_HID) {}
 ///\param       original  - IN: Original Attribute object to copy
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-Attribute::Attribute(const Attribute& original) : AbstractDs(), H5Location(), id(original.id)
+Attribute::Attribute(const Attribute &original) : AbstractDs(), H5Location(), id(original.id)
 {
     incRefCount(); // increment number of references to this id
 }
@@ -82,11 +80,11 @@ Attribute::Attribute(const hid_t existing_id) : AbstractDs(), H5Location(), id(e
 ///\exception   H5::AttributeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void Attribute::write(const DataType& mem_type, const void *buf) const
+void
+Attribute::write(const DataType &mem_type, const void *buf) const
 {
-   herr_t ret_value = H5Awrite(id, mem_type.getId(), buf);
-   if (ret_value < 0)
-    {
+    herr_t ret_value = H5Awrite(id, mem_type.getId(), buf);
+    if (ret_value < 0) {
         throw AttributeIException("Attribute::write", "H5Awrite failed");
     }
 }
@@ -100,32 +98,29 @@ void Attribute::write(const DataType& mem_type, const void *buf) const
 ///\exception   H5::AttributeIException
 // Programmer   Binh-Minh Ribler - Apr, 2003
 //--------------------------------------------------------------------------
-void Attribute::write(const DataType& mem_type, const H5std_string& strg) const
+void
+Attribute::write(const DataType &mem_type, const H5std_string &strg) const
 {
     // Check if this attribute has variable-len string or fixed-len string and
     // proceed appropriately.
     htri_t is_variable_len = H5Tis_variable_str(mem_type.getId());
-    if (is_variable_len < 0)
-    {
+    if (is_variable_len < 0) {
         throw AttributeIException("Attribute::write", "H5Tis_variable_str failed");
     }
     // Convert string to C-string
-    const char* strg_C;
-    strg_C = strg.c_str();  // strg_C refers to the contents of strg as a C-str
+    const char *strg_C;
+    strg_C           = strg.c_str(); // strg_C refers to the contents of strg as a C-str
     herr_t ret_value = 0;
 
     // Pass string in differently depends on variable or fixed length
-    if (!is_variable_len)
-    {
+    if (!is_variable_len) {
         ret_value = H5Awrite(id, mem_type.getId(), strg_C);
     }
-    else
-    {
+    else {
         // passing third argument by address
         ret_value = H5Awrite(id, mem_type.getId(), &strg_C);
     }
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw AttributeIException("Attribute::write", "H5Awrite failed");
     }
 }
@@ -138,11 +133,11 @@ void Attribute::write(const DataType& mem_type, const H5std_string& strg) const
 ///\exception   H5::AttributeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void Attribute::read(const DataType& mem_type, void *buf) const
+void
+Attribute::read(const DataType &mem_type, void *buf) const
 {
-   herr_t ret_value = H5Aread(id, mem_type.getId(), buf);
-   if (ret_value < 0)
-    {
+    herr_t ret_value = H5Aread(id, mem_type.getId(), buf);
+    if (ret_value < 0) {
         throw AttributeIException("Attribute::read", "H5Aread failed");
     }
 }
@@ -167,22 +162,21 @@ void Attribute::read(const DataType& mem_type, void *buf) const
 //              variable-len string data: p_read_fixed_len and
 //              p_read_variable_len.  This should improve readability. -BMR
 //--------------------------------------------------------------------------
-void Attribute::read(const DataType& mem_type, H5std_string& strg) const
+void
+Attribute::read(const DataType &mem_type, H5std_string &strg) const
 {
     // Check if this attribute has variable-len string or fixed-len string and
     // proceed appropriately.
     htri_t is_variable_len = H5Tis_variable_str(mem_type.getId());
-    if (is_variable_len < 0)
-    {
+    if (is_variable_len < 0) {
         throw AttributeIException("Attribute::read", "H5Tis_variable_str failed");
     }
 
-    if (!is_variable_len)       // only allocate for fixed-len string
+    if (!is_variable_len) // only allocate for fixed-len string
     {
         p_read_fixed_len(mem_type, strg);
     }
-    else
-    {
+    else {
         p_read_variable_len(mem_type, strg);
     }
 }
@@ -194,62 +188,55 @@ void Attribute::read(const DataType& mem_type, H5std_string& strg) const
 ///\exception   H5::AttributeIException
 // Programmer   Binh-Minh Ribler - Apr 2009
 //--------------------------------------------------------------------------
-size_t Attribute::getInMemDataSize() const
+size_t
+Attribute::getInMemDataSize() const
 {
     const char *func = "Attribute::getInMemDataSize";
 
     // Get the data type of this attribute
     hid_t mem_type_id = H5Aget_type(id);
-    if (mem_type_id < 0)
-    {
+    if (mem_type_id < 0) {
         throw AttributeIException(func, "H5Aget_type failed");
     }
 
     // Get the data type's size by first getting its native type then getting
     // the native type's size.
     hid_t native_type = H5Tget_native_type(mem_type_id, H5T_DIR_DEFAULT);
-    if (native_type < 0)
-    {
+    if (native_type < 0) {
         throw AttributeIException(func, "H5Tget_native_type failed");
     }
     size_t type_size = H5Tget_size(native_type);
-    if (type_size == 0)
-    {
+    if (type_size == 0) {
         throw AttributeIException(func, "H5Tget_size failed");
     }
 
     // Close the native type and the datatype of this attribute.
-    if (H5Tclose(native_type) < 0)
-    {
+    if (H5Tclose(native_type) < 0) {
         throw DataSetIException(func, "H5Tclose(native_type) failed");
     }
-    if (H5Tclose(mem_type_id) < 0)
-    {
+    if (H5Tclose(mem_type_id) < 0) {
         throw DataSetIException(func, "H5Tclose(mem_type_id) failed");
     }
 
     // Get number of elements of the attribute by first getting its dataspace
     // then getting the number of elements in the dataspace
     hid_t space_id = H5Aget_space(id);
-    if (space_id < 0)
-    {
+    if (space_id < 0) {
         throw AttributeIException(func, "H5Aget_space failed");
     }
     hssize_t num_elements = H5Sget_simple_extent_npoints(space_id);
-    if (num_elements < 0)
-    {
+    if (num_elements < 0) {
         throw AttributeIException(func, "H5Sget_simple_extent_npoints failed");
     }
 
     // Close the dataspace
-    if (H5Sclose(space_id) < 0)
-    {
+    if (H5Sclose(space_id) < 0) {
         throw DataSetIException(func, "H5Sclose failed");
     }
 
     // Calculate and return the size of the data
     size_t data_size = type_size * num_elements;
-    return(data_size);
+    return (data_size);
 }
 
 //--------------------------------------------------------------------------
@@ -259,20 +246,19 @@ size_t Attribute::getInMemDataSize() const
 ///\exception   H5::AttributeIException
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DataSpace Attribute::getSpace() const
+DataSpace
+Attribute::getSpace() const
 {
-   // Calls C function H5Aget_space to get the id of the dataspace
-   hid_t dataspace_id = H5Aget_space(id);
+    // Calls C function H5Aget_space to get the id of the dataspace
+    hid_t dataspace_id = H5Aget_space(id);
 
-   // If the dataspace id is valid, create and return the DataSpace object
-   if (dataspace_id > 0)
-    {
+    // If the dataspace id is valid, create and return the DataSpace object
+    if (dataspace_id > 0) {
         DataSpace dataspace;
         f_DataSpace_setId(&dataspace, dataspace_id);
-        return(dataspace);
+        return (dataspace);
     }
-   else
-    {
+    else {
         throw AttributeIException("Attribute::getSpace", "H5Aget_space failed");
     }
 }
@@ -294,22 +280,21 @@ DataSpace Attribute::getSpace() const
 ///             first argument and ignore the second argument.
 // Programmer   Binh-Minh Ribler - Mar, 2014
 //--------------------------------------------------------------------------
-ssize_t Attribute::getName(char* attr_name, size_t buf_size) const
+ssize_t
+Attribute::getName(char *attr_name, size_t buf_size) const
 {
     // H5Aget_name will get buf_size-1 chars of the name to null terminate it
     ssize_t name_size = H5Aget_name(id, buf_size, attr_name);
 
     // If H5Aget_name returns a negative value, raise an exception
-    if (name_size < 0)
-    {
+    if (name_size < 0) {
         throw AttributeIException("Attribute::getName", "H5Aget_name failed");
     }
-    else if (name_size == 0)
-    {
+    else if (name_size == 0) {
         throw AttributeIException("Attribute::getName", "Attribute must have a name, name length is 0");
     }
     // Return length of the name
-    return(name_size);
+    return (name_size);
 }
 
 //--------------------------------------------------------------------------
@@ -322,40 +307,37 @@ ssize_t Attribute::getName(char* attr_name, size_t buf_size) const
 //      Mar 2014 - BMR
 //              Revised to use the modified getName() above
 //--------------------------------------------------------------------------
-H5std_string Attribute::getName() const
+H5std_string
+Attribute::getName() const
 {
-    H5std_string attr_name(""); // attribute name to return
+    H5std_string attr_name; // attribute name to return
 
     // Preliminary call to get the size of the attribute name
     ssize_t name_size = H5Aget_name(id, static_cast<size_t>(0), NULL);
 
     // If H5Aget_name failed, throw exception
-    if (name_size < 0)
-    {
+    if (name_size < 0) {
         throw AttributeIException("Attribute::getName", "H5Aget_name failed");
     }
-    else if (name_size == 0)
-    {
+    else if (name_size == 0) {
         throw AttributeIException("Attribute::getName", "Attribute must have a name, name length is 0");
     }
     // Attribute's name exists, retrieve it
-    else if (name_size > 0)
-    {
-        char* name_C = new char[name_size+1];  // temporary C-string
-        HDmemset(name_C, 0, name_size+1); // clear buffer
+    else if (name_size > 0) {
+        char *name_C = new char[name_size + 1]; // temporary C-string
+        HDmemset(name_C, 0, name_size + 1);     // clear buffer
 
         // Use overloaded function
-        name_size = getName(name_C, name_size+1);
+        name_size = getName(name_C, name_size + 1);
 
         // Convert the C attribute name to return
         attr_name = name_C;
 
         // Clean up resource
-        delete []name_C;
-
+        delete[] name_C;
     }
     // Return attribute's name
-    return(attr_name);
+    return (attr_name);
 }
 
 //--------------------------------------------------------------------------
@@ -371,14 +353,15 @@ H5std_string Attribute::getName() const
 //      Mar 2014 - BMR
 //              Revised to use the new getName() below
 //--------------------------------------------------------------------------
-H5std_string Attribute::getName(size_t len) const
+H5std_string
+Attribute::getName(size_t len) const
 {
     H5std_string attr_name;
-    ssize_t name_size = getName(attr_name, len);
+    ssize_t      name_size = getName(attr_name, len);
     if (name_size < 0)
-        return("");
+        return ("");
     else
-        return(attr_name);
+        return (attr_name);
 }
 
 //--------------------------------------------------------------------------
@@ -398,35 +381,34 @@ H5std_string Attribute::getName(size_t len) const
 //              Added to replace getName(size_t, H5std_string&) so that it'll
 //              allow the argument "len" to be skipped.
 //--------------------------------------------------------------------------
-ssize_t Attribute::getName(H5std_string& attr_name, size_t len) const
+ssize_t
+Attribute::getName(H5std_string &attr_name, size_t len) const
 {
     ssize_t name_size = 0;
 
     // If no length is provided, get the entire attribute name
-    if (len == 0)
-    {
+    if (len == 0) {
         attr_name = getName();
         name_size = attr_name.length();
     }
     // If length is provided, get that number of characters in name
-    else
-    {
-        char* name_C = new char[len+1];  // temporary C-string
-        HDmemset(name_C, 0, len+1); // clear buffer
+    else {
+        char *name_C = new char[len + 1]; // temporary C-string
+        HDmemset(name_C, 0, len + 1);     // clear buffer
 
         // Use overloaded function
-        name_size = getName(name_C, len+1);
+        name_size = getName(name_C, len + 1);
 
         // Convert the C attribute name to return
         attr_name = name_C;
 
         // Clean up resource
-        delete []name_C;
+        delete[] name_C;
     }
     // Otherwise, keep attr_name intact
 
     // Return name size
-    return(name_size);
+    return (name_size);
 }
 
 //--------------------------------------------------------------------------
@@ -444,7 +426,7 @@ ssize_t Attribute::getName(H5std_string& attr_name, size_t len) const
 //              Removed from documentation. -BMR, 2016/03/07 1.8.17 and 1.10.0
 //              Removed from code. -BMR, 2016/08/11 1.8.18 and 1.10.1
 //--------------------------------------------------------------------------
-//ssize_t Attribute::getName(size_t len, H5std_string& attr_name) const
+// ssize_t Attribute::getName(size_t len, H5std_string& attr_name) const
 //{
 //    return (getName(attr_name, len));
 //}
@@ -458,10 +440,11 @@ ssize_t Attribute::getName(H5std_string& attr_name, size_t len) const
 //              function should have no failure. (from SLU)
 // Programmer   Binh-Minh Ribler - Mar, 2005
 //--------------------------------------------------------------------------
-hsize_t Attribute::getStorageSize() const
+hsize_t
+Attribute::getStorageSize() const
 {
-   hsize_t storage_size = H5Aget_storage_size(id);
-   return (storage_size);
+    hsize_t storage_size = H5Aget_storage_size(id);
+    return (storage_size);
 }
 
 //--------------------------------------------------------------------------
@@ -480,9 +463,10 @@ hsize_t Attribute::getStorageSize() const
 //              an attribute id can be used to specify a location in HDF5
 //              library.
 //--------------------------------------------------------------------------
-hid_t Attribute::getId() const
+hid_t
+Attribute::getId() const
 {
-   return(id);
+    return (id);
 }
 
 //--------------------------------------------------------------------------
@@ -494,13 +478,13 @@ hid_t Attribute::getId() const
 //              This private function is used in AbstractDs.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-hid_t Attribute::p_get_type() const
+hid_t
+Attribute::p_get_type() const
 {
     hid_t type_id = H5Aget_type(id);
     if (type_id > 0)
-        return(type_id);
-    else
-    {
+        return (type_id);
+    else {
         throw AttributeIException("", "H5Aget_type failed");
     }
 }
@@ -517,7 +501,8 @@ hid_t Attribute::p_get_type() const
 //              Separated the fixed length case from the original
 //              Attribute::read
 //--------------------------------------------------------------------------
-void Attribute::p_read_fixed_len(const DataType& mem_type, H5std_string& strg) const
+void
+Attribute::p_read_fixed_len(const DataType &mem_type, H5std_string &strg) const
 {
     // Only allocate for fixed-len string.
 
@@ -525,19 +510,17 @@ void Attribute::p_read_fixed_len(const DataType& mem_type, H5std_string& strg) c
     size_t attr_size = getInMemDataSize();
 
     // If there is data, allocate buffer and read it.
-    if (attr_size > 0)
-    {
-        char *strg_C = new char[attr_size+1];
+    if (attr_size > 0) {
+        char * strg_C    = new char[attr_size + 1];
         herr_t ret_value = H5Aread(id, mem_type.getId(), strg_C);
-        if (ret_value < 0)
-        {
-            delete []strg_C;        // de-allocate for fixed-len string
+        if (ret_value < 0) {
+            delete[] strg_C; // de-allocate for fixed-len string
             throw AttributeIException("Attribute::read", "H5Aread failed");
         }
         // Get string from the C char* and release resource allocated locally
         strg_C[attr_size] = '\0';
-        strg = strg_C;
-        delete []strg_C;
+        strg              = strg_C;
+        delete[] strg_C;
     }
 }
 
@@ -553,7 +536,8 @@ void Attribute::p_read_fixed_len(const DataType& mem_type, H5std_string& strg) c
 //              Separated the variable length case from the original
 //              Attribute::read. -BMR
 //--------------------------------------------------------------------------
-void Attribute::p_read_variable_len(const DataType& mem_type, H5std_string& strg) const
+void
+Attribute::p_read_variable_len(const DataType &mem_type, H5std_string &strg) const
 {
     // Prepare and call C API to read attribute.
     char *strg_C;
@@ -561,8 +545,7 @@ void Attribute::p_read_variable_len(const DataType& mem_type, H5std_string& strg
     // Read attribute, no allocation for variable-len string; C library will
     herr_t ret_value = H5Aread(id, mem_type.getId(), &strg_C);
 
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw AttributeIException("Attribute::read", "H5Aread failed");
     }
 
@@ -584,13 +567,14 @@ void Attribute::p_read_variable_len(const DataType& mem_type, H5std_string& strg
 //              Then the object's id is reset to the new id.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-void Attribute::p_setId(const hid_t new_id)
+void
+Attribute::p_setId(const hid_t new_id)
 {
     // handling references to this old id
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception &close_error) {
         throw AttributeIException("Attribute::p_setId", close_error.getDetailMsg());
     }
     // reset object's id to the given id
@@ -605,13 +589,12 @@ void Attribute::p_setId(const hid_t new_id)
 ///\exception   H5::AttributeIException
 // Programmer   Binh-Minh Ribler - Mar 9, 2005
 //--------------------------------------------------------------------------
-void Attribute::close()
+void
+Attribute::close()
 {
-    if (p_valid_id(id))
-    {
+    if (p_valid_id(id)) {
         herr_t ret_value = H5Aclose(id);
-        if (ret_value < 0)
-        {
+        if (ret_value < 0) {
             throw AttributeIException("Attribute::close", "H5Aclose failed");
         }
         // reset the id
@@ -634,9 +617,9 @@ Attribute::~Attribute()
     try {
         close();
     }
-    catch (Exception& close_error) {
+    catch (Exception &close_error) {
         cerr << "Attribute::~Attribute - " << close_error.getDetailMsg() << endl;
     }
 }
 
-} // end namespace
+} // namespace H5

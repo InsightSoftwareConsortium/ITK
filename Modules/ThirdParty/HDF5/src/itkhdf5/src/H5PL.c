@@ -5,7 +5,7 @@
  * This file is part of HDF5. The full HDF5 copyright notice, including      *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -14,48 +14,39 @@
 /* Module Setup */
 /****************/
 
-#include "H5PLmodule.h"          /* This source code file is part of the H5PL module */
-
+#include "H5PLmodule.h" /* This source code file is part of the H5PL module */
 
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"      /* Generic Functions            */
-#include "H5Eprivate.h"     /* Error handling               */
-#include "H5PLpkg.h"        /* Plugin                       */
-
+#include "H5private.h"  /* Generic Functions            */
+#include "H5Eprivate.h" /* Error handling               */
+#include "H5PLpkg.h"    /* Plugin                       */
 
 /****************/
 /* Local Macros */
 /****************/
 
-
 /******************/
 /* Local Typedefs */
 /******************/
-
 
 /********************/
 /* Local Prototypes */
 /********************/
 
-
 /*********************/
 /* Package Variables */
 /*********************/
-
 
 /*****************************/
 /* Library Private Variables */
 /*****************************/
 
-
 /*******************/
 /* Local Variables */
 /*******************/
 
-
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLset_loading_state
  *
@@ -83,20 +74,19 @@
 herr_t
 H5PLset_loading_state(unsigned int plugin_control_mask)
 {
-    herr_t  ret_value = SUCCEED;        /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "Iu", plugin_control_mask);
 
     /* Set the plugin control mask */
-    if(H5PL__set_plugin_control_mask(plugin_control_mask) < 0)
+    if (H5PL__set_plugin_control_mask(plugin_control_mask) < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_CANTSET, FAIL, "error setting plugin control mask")
 
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLset_loading_state() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLget_loading_state
  *
@@ -115,7 +105,7 @@ done:
 herr_t
 H5PLget_loading_state(unsigned int *plugin_control_mask)
 {
-    herr_t ret_value = SUCCEED;     /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "*Iu", plugin_control_mask);
@@ -124,14 +114,13 @@ H5PLget_loading_state(unsigned int *plugin_control_mask)
         HGOTO_ERROR(H5E_ARGS, H5E_BADVALUE, FAIL, "plugin_control_mask parameter cannot be NULL")
 
     /* Set the plugin control mask */
-    if(H5PL__get_plugin_control_mask(plugin_control_mask) < 0)
+    if (H5PL__get_plugin_control_mask(plugin_control_mask) < 0)
         HGOTO_ERROR(H5E_ARGS, H5E_CANTGET, FAIL, "error getting plugin control mask")
 
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLget_loading_state() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLappend
  *
@@ -164,7 +153,6 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLappend() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLprepend
  *
@@ -197,7 +185,6 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLprepend() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLreplace
  *
@@ -211,8 +198,8 @@ done:
 herr_t
 H5PLreplace(const char *search_path, unsigned int idx)
 {
-    unsigned    num_paths;              /* Current number of stored paths */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    unsigned num_paths;           /* Current number of stored paths */
+    herr_t   ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "*sIu", search_path, idx);
@@ -228,7 +215,8 @@ H5PLreplace(const char *search_path, unsigned int idx)
     if (0 == num_paths)
         HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "path table is empty")
     else if (idx >= num_paths)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "index path out of bounds for table - can't be more than %u", (num_paths - 1))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL,
+                    "index path out of bounds for table - can't be more than %u", (num_paths - 1))
 
     /* Insert the search path into the path table */
     if (H5PL__replace_path(search_path, idx) < 0)
@@ -238,7 +226,6 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLreplace() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLinsert
  *
@@ -253,8 +240,8 @@ done:
 herr_t
 H5PLinsert(const char *search_path, unsigned int idx)
 {
-    unsigned    num_paths;              /* Current number of stored paths */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    unsigned num_paths;           /* Current number of stored paths */
+    herr_t   ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE2("e", "*sIu", search_path, idx);
@@ -268,7 +255,8 @@ H5PLinsert(const char *search_path, unsigned int idx)
     /* Check index */
     num_paths = H5PL__get_num_paths();
     if ((0 != num_paths) && (idx >= num_paths))
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "index path out of bounds for table - can't be more than %u", (num_paths - 1))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL,
+                    "index path out of bounds for table - can't be more than %u", (num_paths - 1))
 
     /* Insert the search path into the path table */
     if (H5PL__insert_path(search_path, idx) < 0)
@@ -278,7 +266,6 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLinsert() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLremove
  *
@@ -288,15 +275,13 @@ done:
  * Return:      Success:    Non-negative
  *              Failture:   Negative
  *
- * Return:      Non-negative or success.
- *
  *-------------------------------------------------------------------------
  */
 herr_t
 H5PLremove(unsigned int idx)
 {
-    unsigned    num_paths;              /* Current number of stored paths */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    unsigned num_paths;           /* Current number of stored paths */
+    herr_t   ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE1("e", "Iu", idx);
@@ -306,7 +291,8 @@ H5PLremove(unsigned int idx)
     if (0 == num_paths)
         HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "path table is empty")
     else if (idx >= num_paths)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "index path out of bounds for table - can't be more than %u", (num_paths - 1))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL,
+                    "index path out of bounds for table - can't be more than %u", (num_paths - 1))
 
     /* Delete the search path from the path table */
     if (H5PL__remove_path(idx) < 0)
@@ -316,7 +302,6 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLremove() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLget
  *
@@ -344,10 +329,10 @@ done:
 ssize_t
 H5PLget(unsigned int idx, char *path_buf, size_t buf_size)
 {
-    unsigned    num_paths;              /* Current number of stored paths */
-    const char *path = NULL;            /* path from table */
-    size_t      path_len = 0;           /* Length of path */
-    ssize_t     ret_value = 0;          /* Return value */
+    unsigned    num_paths;        /* Current number of stored paths */
+    const char *path      = NULL; /* path from table */
+    size_t      path_len  = 0;    /* Length of path */
+    ssize_t     ret_value = 0;    /* Return value */
 
     FUNC_ENTER_API(FAIL)
     H5TRACE3("Zs", "Iu*sz", idx, path_buf, buf_size);
@@ -357,7 +342,8 @@ H5PLget(unsigned int idx, char *path_buf, size_t buf_size)
     if (0 == num_paths)
         HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "path table is empty")
     else if (idx >= num_paths)
-        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL, "index path out of bounds for table - can't be more than %u", (num_paths - 1))
+        HGOTO_ERROR(H5E_ARGS, H5E_BADRANGE, FAIL,
+                    "index path out of bounds for table - can't be more than %u", (num_paths - 1))
 
     /* Check if the search table is empty */
     if (H5PL__get_num_paths() == 0)
@@ -382,7 +368,6 @@ done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLget() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PLsize
  *
@@ -411,4 +396,3 @@ H5PLsize(unsigned int *num_paths)
 done:
     FUNC_LEAVE_API(ret_value)
 } /* end H5PLsize() */
-

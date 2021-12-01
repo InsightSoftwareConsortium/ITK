@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -49,7 +49,7 @@ endif ()
 
 message (STATUS "COMMAND: ${TEST_TESTER} -Xmx1024M -Dorg.slf4j.simpleLogger.defaultLog=${LOG_LEVEL} -Djava.library.path=\"${TEST_LIBRARY_DIRECTORY}\" -cp \"${TEST_CLASSPATH}\" ${TEST_ARGS} ${TEST_PROGRAM} ${ARGN}")
 
-if (WIN32 OR MINGW)
+if (WIN32)
   set (ENV{PATH} "$ENV{PATH}\\;${TEST_LIBRARY_DIRECTORY}")
 else ()
   set (ENV{LD_LIBRARY_PATH} "$ENV{LD_LIBRARY_PATH}:${TEST_LIBRARY_DIRECTORY}")
@@ -131,7 +131,7 @@ if (NOT TEST_SKIP_COMPARE)
     file (READ ${TEST_FOLDER}/${TEST_REFERENCE} TEST_STREAM)
     list (LENGTH TEST_STREAM test_len)
     if (test_len GREATER 0)
-      if (WIN32 OR MINGW)
+      if (WIN32)
         configure_file(${TEST_FOLDER}/${TEST_REFERENCE} ${TEST_FOLDER}/${TEST_REFERENCE}.tmp NEWLINE_STYLE CRLF)
         if (EXISTS "${TEST_FOLDER}/${TEST_REFERENCE}.tmp")
           file(RENAME ${TEST_FOLDER}/${TEST_REFERENCE}.tmp ${TEST_FOLDER}/${TEST_REFERENCE})
@@ -202,7 +202,7 @@ if (NOT TEST_SKIP_COMPARE)
     file (READ ${TEST_FOLDER}/${TEST_ERRREF} TEST_STREAM)
     list (LENGTH TEST_STREAM test_len)
     if (test_len GREATER 0)
-      if (WIN32 OR MINGW)
+      if (WIN32)
         configure_file(${TEST_FOLDER}/${TEST_ERRREF} ${TEST_FOLDER}/${TEST_ERRREF}.tmp NEWLINE_STYLE CRLF)
         if (EXISTS "${TEST_FOLDER}/${TEST_ERRREF}.tmp")
           file(RENAME ${TEST_FOLDER}/${TEST_ERRREF}.tmp ${TEST_FOLDER}/${TEST_ERRREF})

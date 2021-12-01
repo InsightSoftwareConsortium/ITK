@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -34,7 +34,9 @@ namespace H5 {
 ///\brief       Default constructor: Creates a stub ArrayType
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType() : DataType() {}
+ArrayType::ArrayType() : DataType()
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    ArrayType overloaded constructor
@@ -43,14 +45,18 @@ ArrayType::ArrayType() : DataType() {}
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType(const hid_t existing_id) : DataType(existing_id) {}
+ArrayType::ArrayType(const hid_t existing_id) : DataType(existing_id)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    ArrayType copy constructor
 ///\brief       Copy constructor: same HDF5 object as \a original
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType(const ArrayType& original) : DataType(original) {}
+ArrayType::ArrayType(const ArrayType &original) : DataType(original)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    ArrayType overloaded constructor
@@ -62,7 +68,7 @@ ArrayType::ArrayType(const ArrayType& original) : DataType(original) {}
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::ArrayType(const DataType& base_type, int ndims, const hsize_t* dims) : DataType()
+ArrayType::ArrayType(const DataType &base_type, int ndims, const hsize_t *dims) : DataType()
 {
     // Call C API to create an array data type
     hid_t new_type_id = H5Tarray_create2(base_type.getId(), ndims, dims);
@@ -87,7 +93,7 @@ ArrayType::ArrayType(const DataType& base_type, int ndims, const hsize_t* dims) 
 //              improve usability.
 //              -BMR, Dec 2016
 //--------------------------------------------------------------------------
-ArrayType::ArrayType(const H5Location& loc, const char *dtype_name) : DataType()
+ArrayType::ArrayType(const H5Location &loc, const char *dtype_name) : DataType()
 {
     id = p_opentype(loc, dtype_name);
 }
@@ -106,7 +112,7 @@ ArrayType::ArrayType(const H5Location& loc, const char *dtype_name) : DataType()
 //              to improve usability.
 //              -BMR, Dec 2016
 //--------------------------------------------------------------------------
-ArrayType::ArrayType(const H5Location& loc, const H5std_string& dtype_name) : DataType()
+ArrayType::ArrayType(const H5Location &loc, const H5std_string &dtype_name) : DataType()
 {
     id = p_opentype(loc, dtype_name.c_str());
 }
@@ -122,21 +128,21 @@ ArrayType::ArrayType(const H5Location& loc, const H5std_string& dtype_name) : Da
 //              each data member from the rhs object. (Issue HDFFV-9562)
 // Programmer   Binh-Minh Ribler - Mar 2016
 //--------------------------------------------------------------------------
-ArrayType& ArrayType::operator=(const ArrayType& rhs)
+ArrayType &
+ArrayType::operator=(const ArrayType &rhs)
 {
-    if (this != &rhs)
-    {
+    if (this != &rhs) {
         // handling references to this id
         try {
             setId(rhs.id);
             // Note: a = b, so there are two objects with the same hdf5 id
             // that's why incRefCount is needed, and it is called by setId
         }
-        catch (Exception& close_error) {
+        catch (Exception &close_error) {
             throw DataTypeIException(inMemFunc("operator="), close_error.getDetailMsg());
         }
     }
-    return(*this);
+    return (*this);
 }
 
 //--------------------------------------------------------------------------
@@ -147,7 +153,8 @@ ArrayType& ArrayType::operator=(const ArrayType& rhs)
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - Aug 2017
 //--------------------------------------------------------------------------
-DataType* ArrayType::decode() const
+DataType *
+ArrayType::decode() const
 {
     hid_t encoded_arrtype_id = H5I_INVALID_HID;
     try {
@@ -158,7 +165,7 @@ DataType* ArrayType::decode() const
     }
     ArrayType *encoded_arrtype = new ArrayType;
     encoded_arrtype->p_setId(encoded_arrtype_id);
-    return(encoded_arrtype);
+    return (encoded_arrtype);
 }
 
 //--------------------------------------------------------------------------
@@ -168,16 +175,16 @@ DataType* ArrayType::decode() const
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-int ArrayType::getArrayNDims() const
+int
+ArrayType::getArrayNDims() const
 {
     // Get the rank of the array type specified by id from the C API
     int ndims = H5Tget_array_ndims(id);
-    if (ndims < 0)
-    {
+    if (ndims < 0) {
         throw DataTypeIException("ArrayType::getArrayNDims", "H5Tget_array_ndims failed");
     }
 
-    return(ndims);
+    return (ndims);
 }
 
 //--------------------------------------------------------------------------
@@ -188,7 +195,8 @@ int ArrayType::getArrayNDims() const
 ///\exception   H5::DataTypeIException
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-int ArrayType::getArrayDims(hsize_t* dims) const
+int
+ArrayType::getArrayDims(hsize_t *dims) const
 {
     // Get the dimensions
     int ndims = H5Tget_array_dims2(id, dims);
@@ -196,7 +204,7 @@ int ArrayType::getArrayDims(hsize_t* dims) const
         throw DataTypeIException("ArrayType::getArrayDims", "H5Tget_array_dims2 failed");
 
     // Return the number of dimensions
-    return(ndims);
+    return (ndims);
 }
 
 //--------------------------------------------------------------------------
@@ -204,6 +212,8 @@ int ArrayType::getArrayDims(hsize_t* dims) const
 ///\brief       Properly terminates access to this array datatype.
 // Programmer   Binh-Minh Ribler - May 2004
 //--------------------------------------------------------------------------
-ArrayType::~ArrayType() {}
+ArrayType::~ArrayType()
+{
+}
 
-} // end namespace
+} // namespace H5

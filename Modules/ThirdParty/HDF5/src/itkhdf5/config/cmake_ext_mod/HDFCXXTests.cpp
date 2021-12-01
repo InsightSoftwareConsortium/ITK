@@ -5,66 +5,10 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
-
-#ifdef OLD_HEADER_FILENAME
-
-#include <iostream>
-
-int main(void) { return 0; }
-
-#endif
-
-
-#ifdef HDF_NO_NAMESPACE
-
-namespace HDF {
-int fnord;
-}
-
-int main(void) {
-   using namespace HDF;
-   fnord = 37;
-   return 0;
-}
-
-#endif
-
-#ifdef HDF_NO_STD
-
-#include <string>
-
-using namespace std;
-
-int main(void) {
-   string myString("testing namespace std");
-   return 0;
-}
-
-#endif
-
-#ifdef BOOL_NOTDEFINED
-int main(void) {
-   bool flag;
-   return 0;
-}
-
-#endif
-
-#ifdef NO_STATIC_CAST
-
-int main(void) {
-   float test_float;
-   int test_int;
-   test_float = 37.0;
-   test_int = static_cast <int> (test_float);
-   return 0;
-}
-
-#endif
 
 #ifdef CXX_HAVE_OFFSETOF
 

@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -27,7 +27,7 @@ namespace H5 {
 // in "H5PredType.cpp" for information.
 
 // Initialize a pointer for the constant
-LinkCreatPropList* LinkCreatPropList::DEFAULT_ = 0;
+LinkCreatPropList *LinkCreatPropList::DEFAULT_ = 0;
 
 //--------------------------------------------------------------------------
 // Function:    LinkCreatPropList::getConstant
@@ -40,13 +40,13 @@ LinkCreatPropList* LinkCreatPropList::DEFAULT_ = 0;
 //              happen.
 // December, 2016
 //--------------------------------------------------------------------------
-LinkCreatPropList* LinkCreatPropList::getConstant()
+LinkCreatPropList *
+LinkCreatPropList::getConstant()
 {
     // Tell the C library not to clean up, H5Library::termH5cpp will call
     // H5close - more dependency if use H5Library::dontAtExit()
-    if (!IdComponent::H5dontAtexit_called)
-     {
-        (void) H5dont_atexit();
+    if (!IdComponent::H5dontAtexit_called) {
+        (void)H5dont_atexit();
         IdComponent::H5dontAtexit_called = true;
     }
 
@@ -55,8 +55,9 @@ LinkCreatPropList* LinkCreatPropList::getConstant()
     if (DEFAULT_ == 0)
         DEFAULT_ = new LinkCreatPropList(H5P_LINK_CREATE);
     else
-        throw PropListIException("LinkCreatPropList::getConstant", "LinkCreatPropList::getConstant is being invoked on an allocated DEFAULT_");
-    return(DEFAULT_);
+        throw PropListIException("LinkCreatPropList::getConstant",
+                                 "LinkCreatPropList::getConstant is being invoked on an allocated DEFAULT_");
+    return (DEFAULT_);
 }
 
 //--------------------------------------------------------------------------
@@ -66,7 +67,8 @@ LinkCreatPropList* LinkCreatPropList::getConstant()
 // exception    H5::PropListIException
 // December, 2016
 //--------------------------------------------------------------------------
-void LinkCreatPropList::deleteConstants()
+void
+LinkCreatPropList::deleteConstants()
 {
     if (DEFAULT_ != 0)
         delete DEFAULT_;
@@ -75,7 +77,7 @@ void LinkCreatPropList::deleteConstants()
 //--------------------------------------------------------------------------
 // Purpose:     Constant for default property
 //--------------------------------------------------------------------------
-const LinkCreatPropList& LinkCreatPropList::DEFAULT = *getConstant();
+const LinkCreatPropList &LinkCreatPropList::DEFAULT = *getConstant();
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -84,7 +86,9 @@ const LinkCreatPropList& LinkCreatPropList::DEFAULT = *getConstant();
 ///\brief       Creates a file access property list
 // December, 2016
 //--------------------------------------------------------------------------
-LinkCreatPropList::LinkCreatPropList() : PropList(H5P_LINK_CREATE) {}
+LinkCreatPropList::LinkCreatPropList() : PropList(H5P_LINK_CREATE)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    LinkCreatPropList copy constructor
@@ -92,7 +96,9 @@ LinkCreatPropList::LinkCreatPropList() : PropList(H5P_LINK_CREATE) {}
 ///\param       original - IN: LinkCreatPropList instance to copy
 // December, 2016
 //--------------------------------------------------------------------------
-LinkCreatPropList::LinkCreatPropList(const LinkCreatPropList& original) : PropList(original) {}
+LinkCreatPropList::LinkCreatPropList(const LinkCreatPropList &original) : PropList(original)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    LinkCreatPropList overloaded constructor
@@ -100,7 +106,9 @@ LinkCreatPropList::LinkCreatPropList(const LinkCreatPropList& original) : PropLi
 ///             existing one.
 // December, 2016
 //--------------------------------------------------------------------------
-LinkCreatPropList::LinkCreatPropList(const hid_t plist_id) : PropList(plist_id) {}
+LinkCreatPropList::LinkCreatPropList(const hid_t plist_id) : PropList(plist_id)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    LinkCreatPropList::setCreateIntermediateGroup
@@ -111,12 +119,12 @@ LinkCreatPropList::LinkCreatPropList(const hid_t plist_id) : PropList(plist_id) 
 ///\exception   H5::PropListIException
 // April, 2019
 //--------------------------------------------------------------------------
-void LinkCreatPropList::setCreateIntermediateGroup(bool crt_intmd_group) const
+void
+LinkCreatPropList::setCreateIntermediateGroup(bool crt_intmd_group) const
 {
     herr_t ret_value = H5Pset_create_intermediate_group(id, (unsigned)crt_intmd_group);
     // Throw exception if H5Pset_create_intermediate_group returns failure
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("setCreateIntermediateGroup", "H5Pset_create_intermediate_group failed");
     }
 }
@@ -129,17 +137,17 @@ void LinkCreatPropList::setCreateIntermediateGroup(bool crt_intmd_group) const
 ///\exception   H5::PropListIException
 // April, 2019
 //--------------------------------------------------------------------------
-bool LinkCreatPropList::getCreateIntermediateGroup() const
+bool
+LinkCreatPropList::getCreateIntermediateGroup() const
 {
     unsigned crt_intmd_group;
-    herr_t ret_value = H5Pget_create_intermediate_group(id, &crt_intmd_group);
+    herr_t   ret_value = H5Pget_create_intermediate_group(id, &crt_intmd_group);
     // Throw exception if H5Pget_create_intermediate_group returns failure
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("getCreateIntermediateGroup", "H5Pget_create_intermediate_group failed");
     }
 
-    return((bool)crt_intmd_group);
+    return ((bool)crt_intmd_group);
 }
 
 //--------------------------------------------------------------------------
@@ -149,12 +157,12 @@ bool LinkCreatPropList::getCreateIntermediateGroup() const
 ///\exception   H5::PropListIException
 // March, 2018
 //--------------------------------------------------------------------------
-void LinkCreatPropList::setCharEncoding(H5T_cset_t encoding) const
+void
+LinkCreatPropList::setCharEncoding(H5T_cset_t encoding) const
 {
     herr_t ret_value = H5Pset_char_encoding(id, encoding);
     // Throw exception if H5Pset_char_encoding returns failure
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("setCharEncoding", "H5Pset_char_encoding failed");
     }
 }
@@ -166,16 +174,16 @@ void LinkCreatPropList::setCharEncoding(H5T_cset_t encoding) const
 ///\exception   H5::PropListIException
 // March, 2018
 //--------------------------------------------------------------------------
-H5T_cset_t LinkCreatPropList::getCharEncoding() const
+H5T_cset_t
+LinkCreatPropList::getCharEncoding() const
 {
     H5T_cset_t encoding;
-    herr_t ret_value = H5Pget_char_encoding(id, &encoding);
+    herr_t     ret_value = H5Pget_char_encoding(id, &encoding);
     // Throw exception if H5Pget_char_encoding returns failure
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("getCharEncoding", "H5Pget_char_encoding failed");
     }
-    return(encoding);
+    return (encoding);
 }
 
 //--------------------------------------------------------------------------
@@ -183,6 +191,8 @@ H5T_cset_t LinkCreatPropList::getCharEncoding() const
 ///\brief       Noop destructor
 // December, 2016
 //--------------------------------------------------------------------------
-LinkCreatPropList::~LinkCreatPropList() {}
+LinkCreatPropList::~LinkCreatPropList()
+{
+}
 
-} // end namespace
+} // namespace H5

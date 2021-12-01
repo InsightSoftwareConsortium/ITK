@@ -70,6 +70,7 @@ Parallel Filtered Dataset Writes: @PARALLEL_FILTERED_WRITES@
               High-level library: @HDF5_BUILD_HL_LIB@
                 Build HDF5 Tests: @BUILD_TESTING@
                 Build HDF5 Tools: @HDF5_BUILD_TOOLS@
+     Build High-level HDF5 Tools: @HDF5_BUILD_HL_TOOLS@
                     Threadsafety: @HDF5_ENABLE_THREADSAFE@
              Default API mapping: @DEFAULT_API_VERSION@
   With deprecated public symbols: @HDF5_ENABLE_DEPRECATED_SYMBOLS@

@@ -5,7 +5,7 @@
  * This file is part of HDF5. The full HDF5 copyright notice, including      *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -30,33 +30,29 @@
 /* Module Setup */
 /****************/
 
-#include "H5PLmodule.h"          /* This source code file is part of the H5PL module */
-
+#include "H5PLmodule.h" /* This source code file is part of the H5PL module */
 
 /***********/
 /* Headers */
 /***********/
-#include "H5private.h"      /* Generic Functions            */
-#include "H5Eprivate.h"     /* Error handling               */
-#include "H5MMprivate.h"    /* Memory management            */
-#include "H5PLpkg.h"        /* Plugin                       */
-
+#include "H5private.h"   /* Generic Functions            */
+#include "H5Eprivate.h"  /* Error handling               */
+#include "H5MMprivate.h" /* Memory management            */
+#include "H5PLpkg.h"     /* Plugin                       */
 
 /****************/
 /* Local Macros */
 /****************/
 
 /* Initial capacity of the path table */
-#define H5PL_INITIAL_PATH_CAPACITY      16
+#define H5PL_INITIAL_PATH_CAPACITY 16
 
 /* The amount to add to the capacity when the table is full */
-#define H5PL_PATH_CAPACITY_ADD          16
-
+#define H5PL_PATH_CAPACITY_ADD 16
 
 /******************/
 /* Local Typedefs */
 /******************/
-
 
 /********************/
 /* Local Prototypes */
@@ -66,33 +62,30 @@ static herr_t H5PL__insert_at(const char *path, unsigned int idx);
 static herr_t H5PL__make_space_at(unsigned int idx);
 static herr_t H5PL__replace_at(const char *path, unsigned int idx);
 static herr_t H5PL__expand_path_table(void);
-static herr_t H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found, const char *dir, const void **plugin_info);
+static herr_t H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found,
+                                        const char *dir, const void **plugin_info);
 
 /*********************/
 /* Package Variables */
 /*********************/
 
-
 /*****************************/
 /* Library Private Variables */
 /*****************************/
-
 
 /*******************/
 /* Local Variables */
 /*******************/
 
 /* Stored plugin paths to search */
-static char       **H5PL_paths_g = NULL;
+static char **H5PL_paths_g = NULL;
 
 /* The number of stored paths */
-static unsigned     H5PL_num_paths_g = 0;
+static unsigned H5PL_num_paths_g = 0;
 
 /* The capacity of the path table */
-static unsigned     H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
+static unsigned H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
 
-
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__insert_at()
  *
@@ -107,8 +100,8 @@ static unsigned     H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
 static herr_t
 H5PL__insert_at(const char *path, unsigned int idx)
 {
-    char    *path_copy = NULL;      /* copy of path string (for storing) */
-    herr_t  ret_value = SUCCEED;    /* Return value */
+    char * path_copy = NULL;    /* copy of path string (for storing) */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -127,7 +120,7 @@ H5PL__insert_at(const char *path, unsigned int idx)
 
 #ifdef H5_HAVE_WIN32_API
     /* Clean up Microsoft Windows environment variables in the path string */
-    if(H5_expand_windows_env_vars(&path_copy))
+    if (H5_expand_windows_env_vars(&path_copy))
         HGOTO_ERROR(H5E_PLUGIN, H5E_CANTCONVERT, FAIL, "can't expand environment variable string")
 #endif /* H5_HAVE_WIN32_API */
 
@@ -144,7 +137,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__insert_at() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__make_space_at()
  *
@@ -158,8 +150,8 @@ done:
 static herr_t
 H5PL__make_space_at(unsigned int idx)
 {
-    unsigned    u;                      /* iterator */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    unsigned u;                   /* iterator */
+    herr_t   ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC_NOERR
 
@@ -168,14 +160,13 @@ H5PL__make_space_at(unsigned int idx)
 
     /* Copy the paths back to make a space  */
     for (u = H5PL_num_paths_g; u > idx; u--)
-        H5PL_paths_g[u] = H5PL_paths_g[u-1];
+        H5PL_paths_g[u] = H5PL_paths_g[u - 1];
 
     H5PL_paths_g[idx] = NULL;
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__make_space_at() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__replace_at()
  *
@@ -190,8 +181,8 @@ H5PL__make_space_at(unsigned int idx)
 static herr_t
 H5PL__replace_at(const char *path, unsigned int idx)
 {
-    char    *path_copy = NULL;      /* copy of path string (for storing) */
-    herr_t  ret_value = SUCCEED;    /* Return value */
+    char * path_copy = NULL;    /* copy of path string (for storing) */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_STATIC
 
@@ -208,9 +199,9 @@ H5PL__replace_at(const char *path, unsigned int idx)
         HGOTO_ERROR(H5E_PLUGIN, H5E_CANTALLOC, FAIL, "can't make internal copy of path")
 
 #ifdef H5_HAVE_WIN32_API
-        /* Clean up Microsoft Windows environment variables in the path string */
-        if (H5_expand_windows_env_vars(&path_copy))
-            HGOTO_ERROR(H5E_PLUGIN, H5E_CANTCONVERT, FAIL, "can't expand environment variable string")
+    /* Clean up Microsoft Windows environment variables in the path string */
+    if (H5_expand_windows_env_vars(&path_copy))
+        HGOTO_ERROR(H5E_PLUGIN, H5E_CANTCONVERT, FAIL, "can't expand environment variable string")
 #endif /* H5_HAVE_WIN32_API */
 
     /* Free the existing path entry */
@@ -223,7 +214,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__replace_at() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__create_path_table
  *
@@ -237,18 +227,18 @@ done:
 herr_t
 H5PL__create_path_table(void)
 {
-    char        *env_var= NULL;         /* Path string from environment variable */
-    char        *paths = NULL;          /* Delimited paths string. Either from the
-                                         * environment variable or the default.
-                                         */
-    char        *next_path = NULL;      /* A path tokenized from the paths string */
-    char        *lasts = NULL;          /* Context pointer for strtok_r() call */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    char *env_var = NULL;       /* Path string from environment variable */
+    char *paths   = NULL;       /* Delimited paths string. Either from the
+                                 * environment variable or the default.
+                                 */
+    char * next_path = NULL;    /* A path tokenized from the paths string */
+    char * lasts     = NULL;    /* Context pointer for strtok_r() call */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
     /* Allocate memory for the path table */
-    H5PL_num_paths_g = 0;
+    H5PL_num_paths_g     = 0;
     H5PL_path_capacity_g = H5PL_INITIAL_PATH_CAPACITY;
     if (NULL == (H5PL_paths_g = (char **)H5MM_calloc((size_t)H5PL_path_capacity_g * sizeof(char *))))
         HGOTO_ERROR(H5E_PLUGIN, H5E_CANTALLOC, FAIL, "can't allocate memory for path table")
@@ -291,7 +281,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__create_path_table() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__close_path_table
  *
@@ -305,8 +294,8 @@ done:
 herr_t
 H5PL__close_path_table(void)
 {
-    unsigned    u;                      /* iterator */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    unsigned u;                   /* iterator */
+    herr_t   ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE_NOERR
 
@@ -325,7 +314,6 @@ H5PL__close_path_table(void)
 
 } /* end H5PL__close_path_table() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__get_num_paths
  *
@@ -344,7 +332,6 @@ H5PL__get_num_paths(void)
 
 } /* end H5PL__get_num_paths() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__expand_path_table
  *
@@ -357,7 +344,7 @@ H5PL__get_num_paths(void)
 static herr_t
 H5PL__expand_path_table(void)
 {
-    herr_t      ret_value = SUCCEED;
+    herr_t ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
 
@@ -365,7 +352,8 @@ H5PL__expand_path_table(void)
     H5PL_path_capacity_g += H5PL_PATH_CAPACITY_ADD;
 
     /* Resize the array */
-    if(NULL == (H5PL_paths_g = (char **)H5MM_realloc(H5PL_paths_g, (size_t)H5PL_path_capacity_g * sizeof(char *))))
+    if (NULL ==
+        (H5PL_paths_g = (char **)H5MM_realloc(H5PL_paths_g, (size_t)H5PL_path_capacity_g * sizeof(char *))))
         HGOTO_ERROR(H5E_PLUGIN, H5E_CANTALLOC, FAIL, "allocating additional memory for path table failed")
 
     /* Initialize the new memory */
@@ -379,7 +367,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__expand_path_table() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__append_path
  *
@@ -392,7 +379,7 @@ done:
 herr_t
 H5PL__append_path(const char *path)
 {
-    herr_t  ret_value = SUCCEED;    /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -408,7 +395,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__append_path() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__prepend_path
  *
@@ -421,7 +407,7 @@ done:
 herr_t
 H5PL__prepend_path(const char *path)
 {
-    herr_t  ret_value = SUCCEED;    /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -437,7 +423,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__prepend_path() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__replace_path
  *
@@ -450,7 +435,7 @@ done:
 herr_t
 H5PL__replace_path(const char *path, unsigned int idx)
 {
-    herr_t  ret_value = SUCCEED;    /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -467,7 +452,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__replace_path() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__insert_path
  *
@@ -481,7 +465,7 @@ done:
 herr_t
 H5PL__insert_path(const char *path, unsigned int idx)
 {
-    herr_t  ret_value = SUCCEED;    /* Return value */
+    herr_t ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -498,7 +482,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__insert_path() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__remove_path
  *
@@ -512,8 +495,8 @@ done:
 herr_t
 H5PL__remove_path(unsigned int idx)
 {
-    unsigned    u;                      /* iterator */
-    herr_t      ret_value = SUCCEED;    /* Return value */
+    unsigned u;                   /* iterator */
+    herr_t   ret_value = SUCCEED; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -530,7 +513,7 @@ H5PL__remove_path(unsigned int idx)
 
     /* Shift the paths down to close the gap */
     for (u = idx; u < H5PL_num_paths_g; u++)
-        H5PL_paths_g[u] = H5PL_paths_g[u+1];
+        H5PL_paths_g[u] = H5PL_paths_g[u + 1];
 
     /* Set the (former) last path to NULL */
     H5PL_paths_g[H5PL_num_paths_g] = NULL;
@@ -539,7 +522,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__remove_path() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__get_path
  *
@@ -553,7 +535,7 @@ done:
 const char *
 H5PL__get_path(unsigned int idx)
 {
-    char    *ret_value = NULL;    /* Return value */
+    char *ret_value = NULL; /* Return value */
 
     FUNC_ENTER_PACKAGE
 
@@ -566,7 +548,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__replace_path() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__find_plugin_in_path_table
  *
@@ -580,10 +561,11 @@ done:
  *-------------------------------------------------------------------------
  */
 herr_t
-H5PL__find_plugin_in_path_table(const H5PL_search_params_t *search_params, hbool_t *found, const void **plugin_info)
+H5PL__find_plugin_in_path_table(const H5PL_search_params_t *search_params, hbool_t *found,
+                                const void **plugin_info)
 {
-    unsigned int    u;                          /* iterator */
-    herr_t          ret_value = SUCCEED;
+    unsigned int u; /* iterator */
+    herr_t       ret_value = SUCCEED;
 
     FUNC_ENTER_PACKAGE
 
@@ -593,7 +575,7 @@ H5PL__find_plugin_in_path_table(const H5PL_search_params_t *search_params, hbool
     HDassert(plugin_info);
 
     /* Initialize output parameters */
-    *found = FALSE;
+    *found       = FALSE;
     *plugin_info = NULL;
 
     /* Loop over the paths in the table, checking for an appropriate plugin */
@@ -601,7 +583,8 @@ H5PL__find_plugin_in_path_table(const H5PL_search_params_t *search_params, hbool
 
         /* Search for the plugin in this path */
         if (H5PL__find_plugin_in_path(search_params, found, H5PL_paths_g[u], plugin_info) < 0)
-            HGOTO_ERROR(H5E_PLUGIN, H5E_CANTGET, FAIL, "search in path %s encountered an error", H5PL_paths_g[u])
+            HGOTO_ERROR(H5E_PLUGIN, H5E_CANTGET, FAIL, "search in path %s encountered an error",
+                        H5PL_paths_g[u])
 
         /* Break out if found */
         if (*found) {
@@ -615,7 +598,6 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__find_plugin_in_path_table() */
 
-
 /*-------------------------------------------------------------------------
  * Function:    H5PL__find_plugin_in_path
  *
@@ -633,11 +615,12 @@ done:
  */
 #ifndef H5_HAVE_WIN32_API
 static herr_t
-H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found, const char *dir, const void **plugin_info)
+H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found, const char *dir,
+                          const void **plugin_info)
 {
-    char           *path = NULL;
-    DIR            *dirp = NULL;            /* Directory stream */
-    struct dirent  *dp = NULL;              /* Directory entry */
+    char *         path      = NULL;
+    DIR *          dirp      = NULL; /* Directory stream */
+    struct dirent *dp        = NULL; /* Directory entry */
     herr_t         ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
@@ -663,17 +646,17 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
          */
 #ifndef __CYGWIN__
         if (!HDstrncmp(dp->d_name, "lib", (size_t)3) &&
-                (HDstrstr(dp->d_name, ".so") || HDstrstr(dp->d_name, ".dylib"))) {
+            (HDstrstr(dp->d_name, ".so") || HDstrstr(dp->d_name, ".dylib"))) {
 #else
-        if (!HDstrncmp(dp->d_name, "cyg", (size_t)3) &&
-                HDstrstr(dp->d_name, ".dll") ) {
+        if (!HDstrncmp(dp->d_name, "cyg", (size_t)3) && HDstrstr(dp->d_name, ".dll")) {
 #endif
 
-            h5_stat_t   my_stat;
-            size_t      len;
+            h5_stat_t my_stat;
+            size_t    len;
 
             /* Allocate & initialize the path name */
-            len = HDstrlen(dir) + HDstrlen(H5PL_PATH_SEPARATOR) + HDstrlen(dp->d_name) + 1 /*\0*/ + 4; /* Extra "+4" to quiet GCC warning - 2019/07/05, QAK */
+            len = HDstrlen(dir) + HDstrlen(H5PL_PATH_SEPARATOR) + HDstrlen(dp->d_name) + 1 /*\0*/ +
+                  4; /* Extra "+4" to quiet GCC warning - 2019/07/05, QAK */
 
             if (NULL == (path = (char *)H5MM_calloc(len)))
                 HGOTO_ERROR(H5E_PLUGIN, H5E_CANTALLOC, FAIL, "can't allocate memory for path")
@@ -682,7 +665,8 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
 
             /* Get info for directory entry */
             if (HDstat(path, &my_stat) == -1)
-                HGOTO_ERROR(H5E_FILE, H5E_CANTGET, FAIL, "can't stat file %s -- error was: %s", path, HDstrerror(errno))
+                HGOTO_ERROR(H5E_FILE, H5E_CANTGET, FAIL, "can't stat file %s -- error was: %s", path,
+                            HDstrerror(errno))
 
             /* If it is a directory, skip it */
             if (S_ISDIR(my_stat.st_mode))
@@ -696,7 +680,7 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
 
             path = (char *)H5MM_xfree(path);
         } /* end if */
-    } /* end while */
+    }     /* end while */
 
 done:
     if (dirp)
@@ -707,15 +691,16 @@ done:
 
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__find_plugin_in_path() */
-#else /* H5_HAVE_WIN32_API */
+#else  /* H5_HAVE_WIN32_API */
 static herr_t
-H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found, const char *dir, const void **plugin_info)
+H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *found, const char *dir,
+                          const void **plugin_info)
 {
-    WIN32_FIND_DATAA    fdFile;
-    HANDLE              hFind = INVALID_HANDLE_VALUE;
-    char                *path = NULL;
-    char                service[2048];
-    herr_t              ret_value = SUCCEED;
+    WIN32_FIND_DATAA fdFile;
+    HANDLE           hFind = INVALID_HANDLE_VALUE;
+    char *           path  = NULL;
+    char             service[2048];
+    herr_t           ret_value = SUCCEED;
 
     FUNC_ENTER_STATIC
 
@@ -740,7 +725,7 @@ H5PL__find_plugin_in_path(const H5PL_search_params_t *search_params, hbool_t *fo
 
             /* XXX: Probably just continue here and move the code below over one tab */
 
-            size_t      len;
+            size_t len;
 
             /* Allocate & initialize the path name */
             len = HDstrlen(dir) + HDstrlen(H5PL_PATH_SEPARATOR) + HDstrlen(fdFile.cFileName) + 1;
@@ -773,4 +758,3 @@ done:
     FUNC_LEAVE_NOAPI(ret_value)
 } /* end H5PL__find_plugin_in_path() */
 #endif /* H5_HAVE_WIN32_API */
-

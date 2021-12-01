@@ -7,13 +7,13 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
-#ifndef __H5IntType_H
-#define __H5IntType_H
+#ifndef H5IntType_H
+#define H5IntType_H
 
 namespace H5 {
 
@@ -23,43 +23,47 @@ namespace H5 {
 */
 //  Inheritance: AtomType -> DataType -> H5Object -> H5Location -> IdComponent
 class H5_DLLCPP IntType : public AtomType {
-   public:
-        // Creates an integer type using a predefined type
-        IntType(const PredType& pred_type);
+  public:
+    // Creates an integer type using a predefined type
+    IntType(const PredType &pred_type);
 
-        // Gets the integer datatype of the specified dataset
-        IntType(const DataSet& dataset);
+    // Gets the integer datatype of the specified dataset
+    IntType(const DataSet &dataset);
 
-        // Constructors that open an HDF5 integer datatype, given a location.
-        IntType(const H5Location& loc, const char* name);
-        IntType(const H5Location& loc, const H5std_string& name);
+    // Constructors that open an HDF5 integer datatype, given a location.
+    IntType(const H5Location &loc, const char *name);
+    IntType(const H5Location &loc, const H5std_string &name);
 
-        // Returns an IntType object via DataType* by decoding the
-        // binary object description of this type.
-        virtual DataType* decode() const;
+    // Returns an IntType object via DataType* by decoding the
+    // binary object description of this type.
+    virtual DataType *decode() const;
 
-        // Retrieves the sign type for an integer type
-        H5T_sign_t getSign() const;
+    // Retrieves the sign type for an integer type
+    H5T_sign_t getSign() const;
 
-        // Sets the sign proprety for an integer type.
-        void setSign(H5T_sign_t sign) const;
+    // Sets the sign proprety for an integer type.
+    void setSign(H5T_sign_t sign) const;
 
-        ///\brief Returns this class name.
-        virtual H5std_string fromClass () const { return("IntType"); }
+    ///\brief Returns this class name.
+    virtual H5std_string
+    fromClass() const
+    {
+        return ("IntType");
+    }
 
-        // Default constructor
-        IntType();
+    // Default constructor
+    IntType();
 
-        // Creates a integer datatype using an existing id
-        IntType(const hid_t existing_id);
+    // Creates a integer datatype using an existing id
+    IntType(const hid_t existing_id);
 
-        // Copy constructor: same as the original IntType.
-        IntType(const IntType& original);
+    // Copy constructor: same as the original IntType.
+    IntType(const IntType &original);
 
-        // Noop destructor.
-        virtual ~IntType();
+    // Noop destructor.
+    virtual ~IntType();
 
 }; // end of IntType
 } // namespace H5
 
-#endif // __H5IntType_H
+#endif // H5IntType_H
