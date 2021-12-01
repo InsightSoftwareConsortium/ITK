@@ -197,137 +197,148 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
 
   // Set vertex cells
   using VertexCellType = itk::VertexCell<CellType>;
-  const CellContainerType * inputVertices = inputPolyData->GetVertices();
-  inputCellItr = inputVertices->Begin();
-  inputCellEnd = inputVertices->End();
-
-  while (inputCellItr != inputCellEnd)
+  if (inputPolyData->GetVertices() != nullptr && !inputPolyData->GetVertices()->empty())
   {
-    auto numPoints = inputCellItr.Value();
-    ++inputCellItr;
+    const CellContainerType * inputVertices = inputPolyData->GetVertices();
+    inputCellItr = inputVertices->Begin();
+    inputCellEnd = inputVertices->End();
 
-    // Verify vertex contains exactly one point ID
-    itkAssertInDebugAndIgnoreInReleaseMacro(numPoints == VertexCellType::NumberOfPoints);
-
-    // Create cell
-    typename CellType::CellAutoPointer cell;
-    cell.TakeOwnership(new VertexCellType);
-
-    cell->SetPointId(0, inputCellItr.Value());
-    ++inputCellItr;
-
-    outputMesh->SetCell(cellId, cell);
-    cellId++;
-  }
-
-  // Set line cells
-  using LineCellType = itk::LineCell<CellType>;
-  const CellContainerType * inputLines = inputPolyData->GetLines();
-  inputCellItr = inputLines->Begin();
-  inputCellEnd = inputLines->End();
-
-  while (inputCellItr != inputCellEnd)
-  {
-    auto numPoints = inputCellItr.Value();
-    ++inputCellItr;
-
-    // Verify lines contain exactly two point IDs
-    itkAssertInDebugAndIgnoreInReleaseMacro(numPoints == LineCellType::NumberOfPoints);
-
-    // Create cell
-    typename CellType::CellAutoPointer cell;
-    cell.TakeOwnership(new LineCellType);
-
-    for (unsigned int i = 0; i < numPoints; i++)
+    while (inputCellItr != inputCellEnd)
     {
-      cell->SetPointId(i, inputCellItr.Value());
+      auto numPoints = inputCellItr.Value();
       ++inputCellItr;
-    }
 
-    outputMesh->SetCell(cellId, cell);
-    cellId++;
-  }
+      // Verify vertex contains exactly one point ID
+      itkAssertInDebugAndIgnoreInReleaseMacro(numPoints == VertexCellType::NumberOfPoints);
 
-  // Set triangle cells from strips
-  using TriangleCellType = itk::TriangleCell<CellType>;
-  const CellContainerType * inputStrips = inputPolyData->GetTriangleStrips();
-  inputCellItr = inputStrips->Begin();
-  inputCellEnd = inputStrips->End();
-
-  while (inputCellItr != inputCellEnd)
-  {
-    auto numPoints = inputCellItr.Value();
-    ++inputCellItr;
-
-    // Verify at least one strip is described
-    itkAssertInDebugAndIgnoreInReleaseMacro(numPoints >= TriangleCellType::NumberOfPoints);
-
-    // Create cell
-    typename CellContainerType::ConstIterator stripCellEnd = inputCellItr;
-
-    for (unsigned int i = 0; i < numPoints - 2; i++)
-    {
+      // Create cell
       typename CellType::CellAutoPointer cell;
-      cell.TakeOwnership(new TriangleCellType);
+      cell.TakeOwnership(new VertexCellType);
 
       cell->SetPointId(0, inputCellItr.Value());
-      inputCellItr++;
-      cell->SetPointId(1, inputCellItr.Value());
-      inputCellItr++;
-      cell->SetPointId(2, inputCellItr.Value());
-      inputCellItr--;
+      ++inputCellItr;
 
       outputMesh->SetCell(cellId, cell);
       cellId++;
     }
-    inputCellItr += 2;
+  }
+
+  // Set line cells
+  using LineCellType = itk::LineCell<CellType>;
+  if (inputPolyData->GetLines() != nullptr && !inputPolyData->GetLines()->empty())
+  {
+    const CellContainerType * inputLines = inputPolyData->GetLines();
+    inputCellItr = inputLines->Begin();
+    inputCellEnd = inputLines->End();
+
+    while (inputCellItr != inputCellEnd)
+    {
+      auto numPoints = inputCellItr.Value();
+      ++inputCellItr;
+
+      // Verify lines contain exactly two point IDs
+      itkAssertInDebugAndIgnoreInReleaseMacro(numPoints == LineCellType::NumberOfPoints);
+
+      // Create cell
+      typename CellType::CellAutoPointer cell;
+      cell.TakeOwnership(new LineCellType);
+
+      for (unsigned int i = 0; i < numPoints; i++)
+      {
+        cell->SetPointId(i, inputCellItr.Value());
+        ++inputCellItr;
+      }
+
+      outputMesh->SetCell(cellId, cell);
+      cellId++;
+    }
+  }
+
+  // Set triangle cells from strips
+  using TriangleCellType = itk::TriangleCell<CellType>;
+  if (inputPolyData->GetTriangleStrips() != nullptr && !inputPolyData->GetTriangleStrips()->empty())
+  {
+    const CellContainerType * inputStrips = inputPolyData->GetTriangleStrips();
+    inputCellItr = inputStrips->Begin();
+    inputCellEnd = inputStrips->End();
+
+    while (inputCellItr != inputCellEnd)
+    {
+      auto numPoints = inputCellItr.Value();
+      ++inputCellItr;
+
+      // Verify at least one strip is described
+      itkAssertInDebugAndIgnoreInReleaseMacro(numPoints >= TriangleCellType::NumberOfPoints);
+
+      // Create cell
+      typename CellContainerType::ConstIterator stripCellEnd = inputCellItr;
+
+      for (unsigned int i = 0; i < numPoints - 2; i++)
+      {
+        typename CellType::CellAutoPointer cell;
+        cell.TakeOwnership(new TriangleCellType);
+
+        cell->SetPointId(0, inputCellItr.Value());
+        inputCellItr++;
+        cell->SetPointId(1, inputCellItr.Value());
+        inputCellItr++;
+        cell->SetPointId(2, inputCellItr.Value());
+        inputCellItr--;
+
+        outputMesh->SetCell(cellId, cell);
+        cellId++;
+      }
+      inputCellItr += 2;
+    }
   }
 
   // Set polygons
-  const CellContainerType * inputPolygons = inputPolyData->GetPolygons();
-
-  inputCellItr = inputPolygons->Begin();
-  inputCellEnd = inputPolygons->End();
-
-  using QuadrilateralCellType = itk::QuadrilateralCell<CellType>;
-  using PolygonCellType = itk::PolygonCell<CellType>;
-
-  // Polygons are stored in a 1D list as [# points] [p1] [p2] ... [# points] [p1] [p2] ... etc
-  while (inputCellItr != inputCellEnd)
+  const auto * inputPolygons = inputPolyData->GetPolygons();
+  if (inputPolygons != nullptr && !inputPolygons->empty())
   {
-    auto numPoints = inputCellItr.Value();
-    ++inputCellItr;
+    inputCellItr = inputPolygons->Begin();
+    inputCellEnd = inputPolygons->End();
 
-    typename CellType::CellAutoPointer cell;
-    if (numPoints == VertexCellType::NumberOfPoints)
-    {
-      cell.TakeOwnership(new VertexCellType);
-    }
-    else if (numPoints == LineCellType::NumberOfPoints)
-    {
-      cell.TakeOwnership(new LineCellType);
-    }
-    else if (numPoints == TriangleCellType::NumberOfPoints)
-    {
-      cell.TakeOwnership(new TriangleCellType);
-    }
-    else if (numPoints == QuadrilateralCellType::NumberOfPoints)
-    {
-      cell.TakeOwnership(new QuadrilateralCellType);
-    }
-    else
-    {
-      cell.TakeOwnership(new PolygonCellType(numPoints));
-    }
+    using QuadrilateralCellType = itk::QuadrilateralCell<CellType>;
+    using PolygonCellType = itk::PolygonCell<CellType>;
 
-    for (unsigned int i = 0; i < numPoints; i++)
+    // Polygons are stored in a 1D list as [# points] [p1] [p2] ... [# points] [p1] [p2] ... etc
+    while (inputCellItr != inputCellEnd)
     {
-      cell->SetPointId(i, inputCellItr.Value());
+      auto numPoints = inputCellItr.Value();
       ++inputCellItr;
-    }
 
-    outputMesh->SetCell(cellId, cell);
-    cellId++;
+      typename CellType::CellAutoPointer cell;
+      if (numPoints == VertexCellType::NumberOfPoints)
+      {
+        cell.TakeOwnership(new VertexCellType);
+      }
+      else if (numPoints == LineCellType::NumberOfPoints)
+      {
+        cell.TakeOwnership(new LineCellType);
+      }
+      else if (numPoints == TriangleCellType::NumberOfPoints)
+      {
+        cell.TakeOwnership(new TriangleCellType);
+      }
+      else if (numPoints == QuadrilateralCellType::NumberOfPoints)
+      {
+        cell.TakeOwnership(new QuadrilateralCellType);
+      }
+      else
+      {
+        cell.TakeOwnership(new PolygonCellType(numPoints));
+      }
+
+      for (unsigned int i = 0; i < numPoints; i++)
+      {
+        cell->SetPointId(i, inputCellItr.Value());
+        ++inputCellItr;
+      }
+
+      outputMesh->SetCell(cellId, cell);
+      cellId++;
+    }
   }
 
   // Set cell data in output mesh
