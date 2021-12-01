@@ -1911,6 +1911,9 @@ if __name__ == "__main__":
 
     options = argParser.parse_args()
 
+    # Ensure that the requested stub file directory exists
+    Path(f"{options.pyi_dir}").mkdir(exist_ok=True, parents=True)
+
     sys.path.insert(1, options.pygccxml_path)
     import pygccxml
     import logging
