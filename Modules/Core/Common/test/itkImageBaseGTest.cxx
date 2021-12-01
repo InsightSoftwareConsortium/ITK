@@ -119,6 +119,44 @@ Check_New_ImageBase()
   EXPECT_TRUE(imageBase->GetInverseDirection().GetVnlMatrix().is_identity());
 }
 
+template <unsigned int VImageDimension>
+void
+CheckInvalidSpacingExceptions()
+{
+  using SpacingType = typename itk::ImageBase<VImageDimension>::SpacingType;
+  using DirectionType = typename itk::ImageBase<VImageDimension>::DirectionType;
+
+  const auto imageBase = itk::ImageBase<VImageDimension>::New();
+
+  // Test exceptions
+  const SpacingType initialSpacing = imageBase->GetSpacing();
+  const SpacingType negativeSpacing(-1.0);
+  const SpacingType zeroSpacing(0.0);
+
+#if !defined(ITK_LEGACY_REMOVE)
+  // Only a warning is displayed
+  imageBase->SetSpacing(negativeSpacing);
+  EXPECT_EQ(imageBase->GetSpacing(), negativeSpacing);
+
+  // Set the spacing value back to its default value
+  imageBase->SetSpacing(initialSpacing);
+#else
+  EXPECT_THROW(imageBase->SetSpacing(negativeSpacing), itk::ExceptionObject);
+  EXPECT_EQ(imageBase->GetSpacing(), initialSpacing);
+#endif
+
+  EXPECT_THROW(imageBase->SetSpacing(zeroSpacing), itk::ExceptionObject);
+  EXPECT_EQ(imageBase->GetSpacing(), initialSpacing);
+
+  const DirectionType initialDirection = imageBase->GetDirection();
+  const DirectionType zeroDirection{};
+
+  EXPECT_THROW(imageBase->SetDirection(zeroDirection), itk::ExceptionObject);
+
+  // The direction should be kept unmodified after the attempt
+  EXPECT_EQ(imageBase->GetDirection(), initialDirection);
+}
+
 } // end namespace
 
 
@@ -138,4 +176,10 @@ TEST(ImageBase, New)
 {
   Check_New_ImageBase<2>();
   Check_New_ImageBase<3>();
+}
+
+TEST(ImageBase, InvalidSpacingExceptions)
+{
+  CheckInvalidSpacingExceptions<2>();
+  CheckInvalidSpacingExceptions<3>();
 }
