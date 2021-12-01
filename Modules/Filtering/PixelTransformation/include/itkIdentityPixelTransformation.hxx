@@ -21,23 +21,18 @@
 #include "itkIdentityPixelTransformation.h"
 namespace itk
 {
-/*
-template <typename TPixelType,
-          typename TTransformType,
-          typename TOutputPointType>
-IdentityPixelTransformation<TPixelType, TTransformType, TOutputPointType>::
-  IdentityPixelTransformation()
+template <typename TPixelType, typename TTransformType, typename TOutputPointType>
+IdentityPixelTransformation<TPixelType, TTransformType, TOutputPointType>::IdentityPixelTransformation()
 {
   // initialize variables
 }
-*/
 
 template <typename TPixelType, typename TTransformType, typename TOutputPointType>
-typename IdentityPixelTransformation<TPixelType, TTransformType, TOutputPointType>::PixelType &
+auto
 IdentityPixelTransformation<TPixelType, TTransformType, TOutputPointType>::Transform(
   const PixelType &       value,
   const InputPointType &  itkNotUsed(inputPoint),
-  const OutputPointType & itkNotUsed(outputPoint))
+  const OutputPointType & itkNotUsed(outputPoint)) -> PixelType
 {
   return value;
 }
@@ -47,7 +42,8 @@ void
 IdentityPixelTransformation<TPixelType, TTransformType, TOutputPointType>::PrintSelf(std::ostream & os,
                                                                                      Indent         indent) const
 {
-  Superclass::PrintSelf(os, indent);
+  this->Superclass::PrintSelf(os, indent);
+  os << indent << "Es un IdentityPixelTransformation." << std::endl;
 }
 
 } // end namespace itk

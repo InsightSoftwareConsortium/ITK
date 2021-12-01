@@ -57,12 +57,21 @@ public:
   /** Run-time type information (and related methods) */
   itkTypeMacro(ContravariantVectorTransformation, PixelTransformation);
 
+  /** Method for creation through the object factory. */
+  itkNewMacro(Self);
+
   using TransformType = typename Superclass::TransformType;
   using PixelType = typename Superclass::PixelType;
   using InputPointType = typename Superclass::InputPointType;
   using OutputPointType = typename Superclass::OutputPointType;
 
-  PixelType &
+  static constexpr unsigned int Dimension = TPixelType::Dimension;
+  static_assert(Dimension == TransformType::InputPointType::Dimension &&
+                  Dimension == TransformType::OutputPointType::Dimension,
+                "ContravariantVectorTransformation requires that PixelType and input and output images have all the "
+                "same dimension");
+
+  PixelType
   Transform(const PixelType & value, const InputPointType & inputPoint, const OutputPointType & outputPoint) override;
 
 

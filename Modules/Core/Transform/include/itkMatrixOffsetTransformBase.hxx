@@ -602,7 +602,7 @@ void
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::
   ComputeInverseJacobianWithRespectToPosition(const InputPointType &, InverseJacobianPositionType & jac) const
 {
-  jac = this->GetMatrix().GetVnlMatrix();
+  jac = this->GetInverseMatrix().GetVnlMatrix();
 }
 
 

@@ -38,19 +38,19 @@ PixelTransformation<TPixelType, TTransformType, TOutputPointType>::PixelTransfor
   // than the output one is a projection ignoring the last coordinates.
   // The effect when the input dimension is smaller that the output one is
   // a linear embedding, where the additional coordinates are set to zero.
-  m_ImageTransform = dynamic_cast<TransformType *>(
+  auto defaultImageTransform =
     MatrixOffsetTransformBase<typename TransformType::ParametersValueType, // InputPointType::CoordRepType,
                               TransformType::InputSpaceDimension,
-                              TransformType::OutputSpaceDimension>::New()
-      .GetPointer());
-  m_ImageTransform->SetIdentity();
+                              TransformType::OutputSpaceDimension>::New();
+  defaultImageTransform->SetIdentity();
+  m_ImageTransform = dynamic_cast<TransformType *>(defaultImageTransform.GetPointer());
 }
 
 template <typename TPixelType, typename TTransformType, typename TOutputPointType>
 void
 PixelTransformation<TPixelType, TTransformType, TOutputPointType>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent);
+  this->Superclass::PrintSelf(os, indent);
 
   os << indent << "Transform: " << this->GetImageTransform() << std::endl;
 }

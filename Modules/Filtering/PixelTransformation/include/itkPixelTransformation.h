@@ -50,12 +50,12 @@ public:
 
   /** Standard class type aliases. */
   using Self = PixelTransformation;
-  using Superclass = LightObject;
+  using Superclass = Object;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(PixelTransformation, LightObject);
+  itkTypeMacro(PixelTransformation, Object);
 
   using TransformType = TTransformType;
   using PixelType = TPixelType;
@@ -64,10 +64,16 @@ public:
   using CoordValueType = typename InputPointType::CoordRepType;
 
   itkSetConstObjectMacro(ImageTransform, TransformType);
-  itkGetModifiableObjectMacro(ImageTransform, TransformType);
+  itkGetConstObjectMacro(ImageTransform, TransformType);
 
-  virtual PixelType &
-  Transform(const PixelType & value, const InputPointType & inputPoint, const OutputPointType & outputPoint) = 0;
+  /**
+   * The default values for the points are meant to be used for linear transformations,
+   * for which these points are irrelevant.
+   */
+  virtual PixelType
+  Transform(const PixelType &       value,
+            const InputPointType &  inputPoint = InputPointType(),
+            const OutputPointType & outputPoint = OutputPointType()) = 0;
 
 
 protected:

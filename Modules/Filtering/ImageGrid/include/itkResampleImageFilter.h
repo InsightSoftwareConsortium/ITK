@@ -18,6 +18,7 @@
 #ifndef itkResampleImageFilter_h
 #define itkResampleImageFilter_h
 
+#include <type_traits> // For std::enable_if
 #include "itkFixedArray.h"
 #include "itkTransform.h"
 #include "itkImageRegionIterator.h"
@@ -280,8 +281,8 @@ public:
    *  (scalar-wise) wrapping. If not set no transformation is performed (the default).
    *  Typically, this is required for the approprite tensorial transformation of
    *  (contravariant) vectors, covariant vectors, or symmetric rank-2 tensors. */
-  itkSetMacro(PixelTransformation, typename PixelTransformationType::Pointer);
-  itkGetConstMacro(PixelTransformation, typename PixelTransformationType::Pointer);
+  itkSetObjectMacro(PixelTransformation, PixelTransformationType);
+  itkGetConstObjectMacro(PixelTransformation, PixelTransformationType);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking

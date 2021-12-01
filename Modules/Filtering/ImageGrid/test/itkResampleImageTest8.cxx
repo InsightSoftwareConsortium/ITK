@@ -143,7 +143,6 @@ itkResampleImageTest8(int, char *[])
 
   std::cout << "Input Image Type\n";
 
-#ifdef ddwid
   // Create and configure an image
   InputImagePointerType inputImage = InputImageType::New();
   InputImageIndexType   inputIndex = { { 0, 0 } };
@@ -177,6 +176,7 @@ itkResampleImageTest8(int, char *[])
   InterpolatorType::Pointer interp = InterpolatorType::New();
   interp->SetInputImage(inputImage);
 
+#ifdef ddwid
   // Create and configure a resampling filter
   itk::ResampleImageFilter<InputImageType, OutputImageType>::Pointer resample =
     itk::ResampleImageFilter<InputImageType, OutputImageType>::New();

@@ -21,41 +21,38 @@
 #include "itkContravariantVectorTransformation.h"
 namespace itk
 {
-/*
-template <typename TPixelType,
-          typename TTransformType,
-          typename TOutputPointType>
-ContravariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>::
-  ContravariantVectorTransformation()
+
+template <typename TPixelType, typename TTransformType, typename TOutputPointType>
+ContravariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>::ContravariantVectorTransformation()
 {
   // initialize variables
 }
-*/
+
 
 template <typename TPixelType, typename TTransformType, typename TOutputPointType>
-typename ContravariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>::PixelType &
+auto
 ContravariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>::Transform(
   const PixelType &       value,
   const InputPointType &  inputPoint,
-  const OutputPointType & outputPoint)
+  const OutputPointType & outputPoint) -> PixelType
 {
-  TransformType * inverseTransform = m_ImageTransform->GetInverseTransform();
-  if (inverseTransform)
+  TransformType * inverseTransform = this->m_ImageTransform->GetInverseTransform();
+  if (false) // inverseTransform)
   {
+    std::cout << "C1" << std::endl;
     return inverseTransform->TransformVector(value, outputPoint);
   }
   else
   {
     typename TransformType::InverseJacobianPositionType jacobian;
-    m_ImageTransform->ComputeInverseJacobianWithRespectToPosition(inputPoint, jacobian);
+    this->m_ImageTransform->ComputeInverseJacobianWithRespectToPosition(inputPoint, jacobian);
     PixelType result;
-
-    for (unsigned int i = 0; i < NOutputDimensions; ++i)
+    for (unsigned int i = 0; i < Dimension; ++i)
     {
       result[i] = NumericTraits<typename PixelType::ValueType>::ZeroValue();
-      for (unsigned int j = 0; j < NInputDimensions; ++j)
+      for (unsigned int j = 0; j < Dimension; ++j)
       {
-        result[i] += jacobian[i][j] * vector[j];
+        result[i] += jacobian[i][j] * value[j];
       }
     }
     return result;
