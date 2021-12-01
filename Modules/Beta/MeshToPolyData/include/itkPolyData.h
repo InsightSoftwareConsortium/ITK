@@ -31,7 +31,7 @@ namespace itk
  *
  * \ingroup MeshToPolyData
  */
-template< typename TPixel >
+template< typename TPixel, typename TCellPixel = TPixel >
 class ITK_TEMPLATE_EXPORT PolyData: public DataObject
 {
 public:
@@ -53,7 +53,8 @@ public:
 
   /** Type of PointData or CellData */
   using PixelType = TPixel;
-  using MeshTraits = DefaultStaticMeshTraits< PixelType, PointDimension, PointDimension >;
+  using CellPixelType = TCellPixel;
+  using MeshTraits = DefaultStaticMeshTraits< PixelType, PointDimension, PointDimension, float, float, CellPixelType >;
 
   /** Convenient type alias obtained from TMeshTraits template parameter. */
   using CoordRepType = typename MeshTraits::CoordRepType;
@@ -121,8 +122,8 @@ public:
 
   /** Access routines to fill the CellData container, and get information
    *  from it.  */
-  void SetCellData(CellIdentifier, PixelType);
-  bool GetCellData(CellIdentifier, PixelType *) const;
+  void SetCellData(CellIdentifier, CellPixelType);
+  bool GetCellData(CellIdentifier, CellPixelType *) const;
 
 protected:
   PolyData();

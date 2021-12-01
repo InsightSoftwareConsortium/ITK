@@ -23,8 +23,8 @@
 namespace itk
 {
 
-template< typename TPixelType >
-PolyData< TPixelType >
+template< typename TPixelType, typename TCellPixel >
+PolyData< TPixelType, TCellPixel >
 ::PolyData():
   m_PointsContainer(nullptr),
   m_VerticesContainer(nullptr),
@@ -37,9 +37,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf( os, indent );
@@ -56,9 +56,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetPoints(PointsContainer *points)
 {
   itkDebugMacro("setting Points container to " << points);
@@ -70,10 +70,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::PointsContainer *
-PolyData< TPixelType >
-::GetPoints()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPoints() -> PointsContainer *
 {
   itkDebugMacro("Starting GetPoints()");
   if ( !m_PointsContainer )
@@ -85,19 +85,19 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::PointsContainer *
-PolyData< TPixelType >
-::GetPoints() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPoints() const -> const PointsContainer *
 {
   itkDebugMacro("returning Points container of " << m_PointsContainer);
   return m_PointsContainer.GetPointer();
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetVertices(CellsContainer *vertices)
 {
   itkDebugMacro("setting Vertices container to " << vertices);
@@ -109,10 +109,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetVertices()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetVertices() -> CellsContainer *
 {
   itkDebugMacro("Starting GetVertices()");
   if ( !m_VerticesContainer ) {
@@ -123,19 +123,19 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetVertices() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetVertices() const -> const CellsContainer *
 {
   itkDebugMacro("returning Vertices container of " << m_VerticesContainer);
   return m_VerticesContainer.GetPointer();
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetLines(CellsContainer *lines)
 {
   itkDebugMacro("setting Lines container to " << lines);
@@ -147,10 +147,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetLines()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetLines() -> CellsContainer *
 {
   itkDebugMacro("Starting GetLines()");
   if ( !m_LinesContainer ) {
@@ -161,19 +161,19 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetLines() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetLines() const -> const CellsContainer *
 {
   itkDebugMacro("returning Lines container of " << m_LinesContainer);
   return m_LinesContainer.GetPointer();
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetPolygons(CellsContainer *polygons)
 {
   itkDebugMacro("setting Polygons container to " << polygons);
@@ -185,10 +185,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetPolygons()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPolygons() -> CellsContainer *
 {
   itkDebugMacro("Starting GetPolygons()");
   if ( !m_PolygonsContainer ) {
@@ -199,19 +199,19 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetPolygons() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPolygons() const -> const CellsContainer *
 {
   itkDebugMacro("returning Polygons container of " << m_PolygonsContainer);
   return m_PolygonsContainer.GetPointer();
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetTriangleStrips(CellsContainer *polygons)
 {
   itkDebugMacro("setting TriangleStrips container to " << polygons);
@@ -223,10 +223,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetTriangleStrips()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetTriangleStrips() -> CellsContainer *
 {
   itkDebugMacro("Starting GetTriangleStrips()");
   if ( !m_TriangleStripsContainer ) {
@@ -237,19 +237,19 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::CellsContainer *
-PolyData< TPixelType >
-::GetTriangleStrips() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetTriangleStrips() const -> const CellsContainer *
 {
   itkDebugMacro("returning TriangleStrips container of " << m_TriangleStripsContainer);
   return m_TriangleStripsContainer.GetPointer();
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetPointData(PointDataContainer *pointData)
 {
   itkDebugMacro("setting PointData container to " << pointData);
@@ -261,10 +261,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::PointDataContainer *
-PolyData< TPixelType >
-::GetPointData()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPointData() -> PointDataContainer *
 {
   if ( !m_PointDataContainer )
     {
@@ -275,10 +275,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::PointDataContainer *
-PolyData< TPixelType >
-::GetPointData() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPointData() const -> const PointDataContainer *
 {
   itkDebugMacro("returning PointData container of "
                 << m_PointDataContainer);
@@ -286,9 +286,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetPoint(PointIdentifier ptId, PointType point)
 {
   /**
@@ -306,9 +306,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 bool
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::GetPoint(PointIdentifier ptId, PointType *point) const
 {
   /**
@@ -326,10 +326,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::PointType
-PolyData< TPixelType >
-::GetPoint(PointIdentifier ptId) const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetPoint(PointIdentifier ptId) const -> PointType
 {
   /**
    * If the points container doesn't exist, then the point doesn't either.
@@ -352,9 +352,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetPointData(PointIdentifier ptId, PixelType data)
 {
   /**
@@ -372,9 +372,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 bool
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::GetPointData(PointIdentifier ptId, PixelType *data) const
 {
   /**
@@ -393,10 +393,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::PointIdentifier
-PolyData< TPixelType >
-::GetNumberOfPoints() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetNumberOfPoints() const -> PointIdentifier
 {
   if ( m_PointsContainer )
     {
@@ -406,9 +406,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::SetCellData(CellDataContainer *cellData)
 {
   itkDebugMacro("setting CellData container to " << cellData);
@@ -420,10 +420,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-typename PolyData< TPixelType >::CellDataContainer *
-PolyData< TPixelType >
-::GetCellData()
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetCellData() -> CellDataContainer *
 {
   itkDebugMacro("returning CellData container of "
                 << m_CellDataContainer);
@@ -431,10 +431,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
-const typename PolyData< TPixelType >::CellDataContainer *
-PolyData< TPixelType >
-::GetCellData() const
+template< typename TPixelType, typename TCellPixel >
+auto
+PolyData< TPixelType, TCellPixel >
+::GetCellData() const -> const CellDataContainer *
 {
   itkDebugMacro("returning CellData container of "
                 << m_CellDataContainer);
@@ -442,10 +442,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
-::SetCellData(CellIdentifier cellId, PixelType data)
+PolyData< TPixelType, TCellPixel >
+::SetCellData(CellIdentifier cellId, TCellPixel data)
 {
   /**
    * Assign data to a cell identifier.  If a spot for the cell identifier
@@ -468,10 +468,10 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 bool
-PolyData< TPixelType >
-::GetCellData(CellIdentifier cellId, PixelType *data) const
+PolyData< TPixelType, TCellPixel >
+::GetCellData(CellIdentifier cellId, TCellPixel *data) const
 {
   /**
    * Check if cell data exists for a given cell identifier.  If a spot for
@@ -497,9 +497,9 @@ PolyData< TPixelType >
 }
 
 
-template< typename TPixelType >
+template< typename TPixelType, typename TCellPixel >
 void
-PolyData< TPixelType >
+PolyData< TPixelType, TCellPixel >
 ::Initialize()
 {
   Superclass::Initialize();
