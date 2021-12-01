@@ -25,13 +25,10 @@ readonly paths="
    COPYING
    src
    c++/CMakeLists.txt
-   c++/COPYING
    c++/src
    hl/CMakeLists.txt
-   hl/COPYING
    hl/src
    hl/c++/CMakeLists.txt
-   hl/c++/COPYING
    hl/c++/src
    UserMacros.cmake
 "
@@ -45,7 +42,7 @@ extract_source () {
     chmod a-x README.txt
     chmod a-x config/cmake/CTestScript.cmake
     chmod a-x config/cmake/HDF5_Examples_options.cmake
-    chmod a-x config/cmake/libhdf5.pc.in
+    chmod a-x config/libhdf5.pc.in
     chmod a-x config/cmake/scripts/*
     chmod a+x config/cmake/scripts/HPC
 
