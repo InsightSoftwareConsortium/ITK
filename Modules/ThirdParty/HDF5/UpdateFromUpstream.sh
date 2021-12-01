@@ -8,7 +8,7 @@ readonly name="HDF5"
 readonly ownership="HDF5 Maintainers <hdf5-maintainers@hdfgroup.org>"
 readonly subtree="Modules/ThirdParty/HDF5/src/itkhdf5"
 readonly repo="https://github.com/HDFGroup/hdf5.git"
-readonly tag="hdf5-1_10_7"
+readonly tag="hdf5-1_10_8"
 readonly shortlog=false
 readonly paths="
    ACKNOWLEDGMENTS
