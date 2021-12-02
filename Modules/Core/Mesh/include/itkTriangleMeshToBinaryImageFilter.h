@@ -143,7 +143,7 @@ public:
 
   itkGetConstReferenceMacro(Spacing, SpacingType);
 
-  /** The Direction is a matix of direction cosines
+  /** The Direction is a matrix of direction cosines
    *  that specify the direction between samples.
    * */
   itkSetMacro(Direction, DirectionType);
