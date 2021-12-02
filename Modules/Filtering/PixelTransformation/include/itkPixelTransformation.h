@@ -80,7 +80,7 @@ protected:
   PixelTransformation();
   ~PixelTransformation() override = default;
 
-  virtual void
+  void
   InitializeDefaultImageTransform();
 
   void

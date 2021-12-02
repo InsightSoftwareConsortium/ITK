@@ -75,9 +75,6 @@ protected:
   ~IdentityPixelTransformation() override = default;
 
   void
-  InitializeDefaultImageTransform() override{};
-
-  void
   PrintSelf(std::ostream & os, Indent indent) const override;
 };
 } // end namespace itk
