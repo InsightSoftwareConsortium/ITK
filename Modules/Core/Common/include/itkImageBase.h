@@ -146,7 +146,7 @@ public:
 
   /** Spacing type alias support.  Spacing holds the size of a pixel.
    * The spacing is the geometric distance between image samples along
-   * each dimension. ITK only supports positive spacing value:
+   * each dimension. ITK only supports positive spacing values:
    * negative values may cause undesirable results.  */
   using SpacingValueType = SpacePrecisionType;
   using SpacingType = Vector<SpacingValueType, VImageDimension>;
@@ -156,7 +156,7 @@ public:
   using PointValueType = SpacePrecisionType;
   using PointType = Point<PointValueType, VImageDimension>;
 
-  /** Direction type alias support.  The Direction is a matix of
+  /** Direction type alias support.  The Direction is a matrix of
    * direction cosines that specify the direction in physical space
    * between samples along each dimension. */
   using DirectionType = Matrix<SpacePrecisionType, VImageDimension, VImageDimension>;

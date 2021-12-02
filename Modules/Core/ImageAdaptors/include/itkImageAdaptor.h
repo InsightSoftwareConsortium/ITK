@@ -122,7 +122,7 @@ public:
    * of the index (0,0). */
   using typename Superclass::PointType;
 
-  /** Direction type alias support  The Direction is a matix of
+  /** Direction type alias support  The Direction is a matrix of
    * direction cosines that specify the direction between samples.
    * */
   using typename Superclass::DirectionType;
