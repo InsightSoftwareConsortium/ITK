@@ -72,14 +72,23 @@ ImageBase<VImageDimension>::SetSpacing(const SpacingType & spacing)
 {
   for (unsigned int i = 0; i < VImageDimension; ++i)
   {
-    if (this->m_Spacing[i] < 0.0)
+    // Check for zero-valued spacing
+    if (spacing[i] == 0.0)
     {
+      itkExceptionMacro(
+        "Zero-valued spacing is not supported and may result in undefined behavior.\nRefusing to change spacing from "
+        << this->m_Spacing << " to " << spacing);
+    }
+
+    // Check for negative-valued spacing
+    if (spacing[i] < 0.0)
+    {
+      constexpr char message[] = "Negative spacing is not supported and may result in undefined behavior.\n";
 #if !defined(ITK_LEGACY_REMOVE)
-      itkWarningMacro("Negative spacing is not supported and may result in undefined behavior. Spacing is "
-                      << this->m_Spacing);
+      itkWarningMacro(<< message << "Proceeding to set spacing to " << spacing);
       break;
 #else
-      itkExceptionMacro("Negative spacing is not allowed: Spacing is " << this->m_Spacing);
+      itkExceptionMacro(<< message << "Refusing to change spacing from " << this->m_Spacing << " to " << spacing);
 #endif
     }
   }
@@ -160,10 +169,6 @@ ImageBase<VImageDimension>::ComputeIndexToPhysicalPointMatrices()
 
   for (unsigned int i = 0; i < VImageDimension; ++i)
   {
-    if (this->m_Spacing[i] == 0.0)
-    {
-      itkExceptionMacro("A spacing of 0 is not allowed: Spacing is " << this->m_Spacing);
-    }
     scale[i][i] = this->m_Spacing[i];
   }
 
