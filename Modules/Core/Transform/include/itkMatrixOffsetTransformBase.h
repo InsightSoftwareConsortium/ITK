@@ -197,6 +197,11 @@ public:
   using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
+  using InverseTransformType = MatrixOffsetTransformBase<TParametersValueType, NOutputDimensions, NInputDimensions>;
+  /** InverseTransformType must be a friend to allow the generation of a transformation
+   * from its inverse (function GetInverse). */
+  friend class MatrixOffsetTransformBase<TParametersValueType, NOutputDimensions, NInputDimensions>;
+
   /** Set the transformation to an Identity
    *
    * This sets the matrix to identity and the Offset to null. */
@@ -471,7 +476,7 @@ public:
    *
    */
   bool
-  GetInverse(Self * inverse) const;
+  GetInverse(InverseTransformType * inverse) const;
 
   /** Return an inverse of this transform. */
   InverseTransformBasePointer

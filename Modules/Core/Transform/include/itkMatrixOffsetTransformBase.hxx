@@ -416,7 +416,8 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 bool
-MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverse(Self * inverse) const
+MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverse(
+  InverseTransformType * inverse) const
 {
   if (!inverse)
   {
@@ -445,7 +446,7 @@ typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutp
   InverseTransformBasePointer
   MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverseTransform() const
 {
-  Pointer inv = New();
+  typename InverseTransformType::Pointer inv = InverseTransformType::New();
 
   return GetInverse(inv) ? inv.GetPointer() : nullptr;
 }

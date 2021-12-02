@@ -412,24 +412,4 @@ private:
 #  include "itkResampleImageFilter.hxx"
 #endif
 
-/*
-#include "itkNumericTraitsVectorPixel.h"
-#include "itkResampleImageFilter.hxx"
-auto prova()
-{
-  using InputPixelType = double;
-  using OutputPixelType = itk::Vector<double, 2>;
-  itk::Image<InputPixelType, 3>::Pointer t_inputImage = itk::Image<InputPixelType, 3>::New();
-  itk::ResampleImageFilter<itk::Image<InputPixelType, 3>, itk::Image<OutputPixelType, 2>>::Pointer resampler =
-    itk::ResampleImageFilter<itk::Image<InputPixelType, 3>, itk::Image<OutputPixelType, 2>>::New();
-  resampler->SetInput(t_inputImage);
-  resampler->Update();
-  double *arr;
-  OutputPixelType v = static_cast<OutputPixelType>(arr);
-  std::cout << "v[1]" << std::endl;
-  v[1] += 2.6;
-  return v;
-}
-*/
-
 #endif

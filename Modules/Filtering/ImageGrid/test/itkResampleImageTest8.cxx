@@ -176,7 +176,6 @@ itkResampleImageTest8(int, char *[])
   InterpolatorType::Pointer interp = InterpolatorType::New();
   interp->SetInputImage(inputImage);
 
-#ifdef ddwid
   // Create and configure a resampling filter
   itk::ResampleImageFilter<InputImageType, OutputImageType>::Pointer resample =
     itk::ResampleImageFilter<InputImageType, OutputImageType>::New();
@@ -265,7 +264,7 @@ itkResampleImageTest8(int, char *[])
     std::cout << "Resampling test failed" << std::endl;
     return EXIT_FAILURE;
   }
-#endif
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }

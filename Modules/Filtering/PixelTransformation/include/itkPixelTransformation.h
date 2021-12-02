@@ -80,6 +80,9 @@ protected:
   PixelTransformation();
   ~PixelTransformation() override = default;
 
+  virtual void
+  InitializeDefaultImageTransform();
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -63,7 +63,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   Self::AddRequiredInputName("Transform");
   this->InitializeTransform();
 
-  m_Interpolator = (LinearInterpolatorType::New().GetPointer());
+  m_Interpolator = dynamic_cast<InterpolatorType *>(LinearInterpolatorType::New().GetPointer());
 
   m_PixelTransformation = dynamic_cast<PixelTransformationType *>(
     IdentityPixelTransformation<InterpolatorOutputType, TransformType, InputPointType>::New().GetPointer());
@@ -454,10 +454,10 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
     if (m_Interpolator->IsInsideBuffer(inputIndex) && (!isSpecialCoordinatesImage || isInsideInput))
     {
       //      InterpolatorOutputType inputValue = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
-      //      InterpolatorOutputType transformedValue = m_PixelTransformation->Transform(inputValue, inputPoint,
-      //      outputPoint); value = Self::CastPixelWithBoundsChecking(transformedValue);
+      //      InterpolatorOutputType transformedValue = m_PixelTransformation->Transform(inputValue, outputPoint,
+      //      inputPoint); value = Self::CastPixelWithBoundsChecking(transformedValue);
       InterpolatorOutputType inputValue = m_Interpolator->EvaluateAtContinuousIndex(inputIndex);
-      value = Self::CastPixelWithBoundsChecking(m_PixelTransformation->Transform(inputValue, inputPoint, outputPoint));
+      value = Self::CastPixelWithBoundsChecking(m_PixelTransformation->Transform(inputValue, outputPoint, inputPoint));
       // TO DO (Jose): Check what to do with extrapolator.
     }
     else

@@ -26,7 +26,13 @@ template <typename TPixelType, typename TTransformType, typename TOutputPointTyp
 PixelTransformation<TPixelType, TTransformType, TOutputPointType>::PixelTransformation()
 {
   // initialize variables
+  this->InitializeDefaultImageTransform();
+}
 
+template <typename TPixelType, typename TTransformType, typename TOutputPointType>
+void
+PixelTransformation<TPixelType, TTransformType, TOutputPointType>::InitializeDefaultImageTransform()
+{
   // The m_ImageTransform is meant to be set by the user.
   // However, to avoid run-time error in case it has not been set, or having
   // to check for every point, a default m_ImageTransform is initialized.
@@ -38,10 +44,10 @@ PixelTransformation<TPixelType, TTransformType, TOutputPointType>::PixelTransfor
   // than the output one is a projection ignoring the last coordinates.
   // The effect when the input dimension is smaller that the output one is
   // a linear embedding, where the additional coordinates are set to zero.
-  auto defaultImageTransform =
-    MatrixOffsetTransformBase<typename TransformType::ParametersValueType, // InputPointType::CoordRepType,
-                              TransformType::InputSpaceDimension,
-                              TransformType::OutputSpaceDimension>::New();
+
+  auto defaultImageTransform = MatrixOffsetTransformBase<typename TransformType::ParametersValueType,
+                                                         TransformType::InputSpaceDimension,
+                                                         TransformType::OutputSpaceDimension>::New();
   defaultImageTransform->SetIdentity();
   m_ImageTransform = dynamic_cast<TransformType *>(defaultImageTransform.GetPointer());
 }

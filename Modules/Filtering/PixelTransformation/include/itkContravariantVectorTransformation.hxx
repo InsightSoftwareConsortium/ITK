@@ -37,9 +37,8 @@ ContravariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>:
   const OutputPointType & outputPoint) -> PixelType
 {
   TransformType * inverseTransform = this->m_ImageTransform->GetInverseTransform();
-  if (false) // inverseTransform)
+  if (inverseTransform)
   {
-    std::cout << "C1" << std::endl;
     return inverseTransform->TransformVector(value, outputPoint);
   }
   else
