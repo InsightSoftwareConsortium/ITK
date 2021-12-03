@@ -315,9 +315,14 @@ macro(itk_end_wrap_module_swig_interface)
   set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
   set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
   set(module_interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}_ext.i")
-  set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
 
-  set(ITK_STUB_PYI_FILES )
+  if(${module_prefix}_WRAP_PYTHON)
+    set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
+    set(ITK_STUB_PYI_FILES)
+  else()
+    unset(ITK_STUB_DIR)
+    unset(ITK_STUB_PYI_FILES)
+  endif()
 
   foreach(module ${SWIG_INTERFACE_MODULES})
     # create the swig interface
@@ -326,7 +331,9 @@ macro(itk_end_wrap_module_swig_interface)
     list(APPEND idx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.idx")
     list(APPEND typedef_in_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
     list(APPEND typedef_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}SwigInterface.h")
-    list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${module}.pyi")
+    if(${module_prefix}_WRAP_PYTHON)
+      list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${module}.pyi")
+    endif()
 
 
     if(${module_prefix}_WRAP_EXPLICIT)
@@ -354,7 +361,10 @@ macro(itk_end_wrap_module_swig_interface)
 
   list(LENGTH i_files number_interface_files)
   if(number_interface_files GREATER 0)
+
       if(${module_prefix}_WRAP_PYTHON)
+        set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
+        set(ITK_STUB_PYI_FILE "${ITK_STUB_DIR}/${WRAPPER_LIBRARY_NAME}.pyi")
         # NOTE:  snake_case_config_file is both an input and an output to this command.
         #        the ${IGENERATOR} script appends to this file.
         # NOTE: The Configuration files should be placed in the itk package directory.
@@ -363,28 +373,46 @@ macro(itk_end_wrap_module_swig_interface)
         )
         set(snake_case_config_file
             "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+        add_custom_command(
+        OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file} ${ITK_STUB_PYI_FILES}
+        COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
+          ${mdx_opts}
+          ${swig_libs}
+          -w1 -w3 -w51 -w52 -w53 -w54
+          -A protected -A private
+          -p ${PYGCCXML_DIR}
+          -g ${CASTXML_EXECUTABLE}
+          --snake-case-file "${snake_case_config_file}"
+          --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
+          --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
+          --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
+          --pyi_dir "${ITK_STUB_DIR}"
+          DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
+          WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
+        VERBATIM
+      )
       else()
+        unset(ITK_STUB_DIR)
+        unset(ITK_STUB_PYI_FILE)
         unset(snake_case_config_file)
+        add_custom_command(
+          OUTPUT ${i_files} ${typedef_files} ${idx_files}
+          COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
+            ${mdx_opts}
+            ${swig_libs}
+            -w1 -w3 -w51 -w52 -w53 -w54
+            -A protected -A private
+            -p ${PYGCCXML_DIR}
+            -g ${CASTXML_EXECUTABLE}
+            --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
+            --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
+            --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
+            DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
+            WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
+          VERBATIM
+        )
       endif()
 
-      add_custom_command(
-      OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file} ${ITK_STUB_PYI_FILES}
-      COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
-        ${mdx_opts}
-        ${swig_libs}
-        -w1 -w3 -w51 -w52 -w53 -w54
-        -A protected -A private
-        -p ${PYGCCXML_DIR}
-        -g ${CASTXML_EXECUTABLE}
-        --snake-case-file "${snake_case_config_file}"
-        --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
-        --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
-        --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
-        --pyi_dir "${ITK_STUB_DIR}"
-        DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
-        WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
-      VERBATIM
-    )
   endif()
 
   # the ${WRAPPER_LIBRARY_NAME}Swig target

@@ -1906,13 +1906,16 @@ if __name__ == "__main__":
         "--pyi_dir",
         action="store",
         dest="pyi_dir",
+        default="",
+        type=str,
         help="The directory for .pyi files to be generated",
     )
 
     options = argParser.parse_args()
 
     # Ensure that the requested stub file directory exists
-    Path(f"{options.pyi_dir}").mkdir(exist_ok=True, parents=True)
+    if options.pyi_dir != "":
+        Path(options.pyi_dir).mkdir(exist_ok=True, parents=True)
 
     sys.path.insert(1, options.pygccxml_path)
     import pygccxml
@@ -2007,11 +2010,13 @@ if __name__ == "__main__":
 
     for submoduleName in ordered_submodule_list:
         generate_swig_input(submoduleName, classes)
-        init_submodule_pyi_file(
+        if options.pyi_dir != "":
+          init_submodule_pyi_file(
             Path(f"{options.pyi_dir}/{submoduleName}.pyi"), submoduleName
-        )
+          )
 
-    for itk_class in classes.keys():
+    if options.pyi_dir != "":
+      for itk_class in classes.keys():
         outputPYIHeaderFile = StringIO()
         outputPYIMethodFile = StringIO()
         generate_class_pyi_def(
@@ -2025,7 +2030,6 @@ if __name__ == "__main__":
             outputPYIMethodFile.getvalue(),
         )
 
-        write_common_init_interface_file(Path(options.pyi_dir))
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:
