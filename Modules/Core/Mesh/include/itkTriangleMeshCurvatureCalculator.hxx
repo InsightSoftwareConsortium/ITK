@@ -54,7 +54,7 @@ template <typename TInputMesh>
 void
 TriangleMeshCurvatureCalculator<TInputMesh>::Compute()
 {
-  MeshConstPointer inputMesh = this->m_TriangleMesh;
+  const InputMeshType * inputMesh = this->m_TriangleMesh;
   if (inputMesh == nullptr)
   {
     itkExceptionMacro("First set the Input Triangle Mesh to perform computation");
@@ -62,7 +62,10 @@ TriangleMeshCurvatureCalculator<TInputMesh>::Compute()
 
   if (this->GetCurvatureType() == TriangleMeshCurvatureCalculatorEnums::Curvatures::GaussCurvature)
   {
-    this->GetGaussCurvature(inputMesh);
+    if (inputMesh->GetNumberOfCells())
+    {
+      this->ComputeGaussCurvature(inputMesh);
+    }
   }
   else
   {
@@ -72,28 +75,17 @@ TriangleMeshCurvatureCalculator<TInputMesh>::Compute()
 
 template <typename TInputMesh>
 void
-TriangleMeshCurvatureCalculator<TInputMesh>::GetGaussCurvature(MeshConstPointer inputMesh)
-{
-  if (inputMesh->GetNumberOfCells())
-  {
-    this->ComputeGaussCurvature(inputMesh);
-  }
-}
-
-
-template <typename TInputMesh>
-void
-TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(MeshConstPointer inputMesh)
+TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMeshType * inputMesh)
 {
   MeshPointType e0, e1, e2;
   double        A, alpha0, alpha1, alpha2;
 
-  const unsigned int Nv = inputMesh->GetNumberOfPoints();
+  const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 
-  const std::unique_ptr<double[]> K(new double[Nv]);
-  const std::unique_ptr<double[]> dA(new double[Nv]);
-  double                          pi2 = 2.0 * itk::Math::pi;
-  for (unsigned int k = 0; k < Nv; ++k)
+  const std::unique_ptr<double[]> K(new double[numberOfPoints]);
+  const std::unique_ptr<double[]> dA(new double[numberOfPoints]);
+  double                          pi2 = itk::Math::twopi;
+  for (unsigned int k = 0; k < numberOfPoints; ++k)
   {
     K[k] = pi2;
     dA[k] = 0.0;
@@ -104,8 +96,13 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(MeshConstPoin
 
   while (cellsItr != outCells->End())
   {
-    CellType *               cellPointer = cellsItr.Value();
-    MeshPointIdConstIterator point_ids = cellPointer->GetPointIds();
+    CellType * cellPointer = cellsItr.Value();
+    auto *     triangleCellPointer = dynamic_cast<TriangleCellType *>(cellPointer);
+    if (triangleCellPointer == nullptr)
+    {
+      itkExceptionMacro("Input Mesh is not a Triangle Mesh");
+    }
+    MeshPointIdConstIterator point_ids = triangleCellPointer->GetPointIds();
 
     MeshPointType v0 = inputMesh->GetPoint(point_ids[0]);
     MeshPointType v1 = inputMesh->GetPoint(point_ids[1]);
@@ -152,10 +149,10 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(MeshConstPoin
 
   // Allocate Memory to store the curvature output.
   this->m_GaussCurvatureData = DoubleVectorContainer::New();
-  this->m_GaussCurvatureData->Reserve(Nv);
+  this->m_GaussCurvatureData->Reserve(numberOfPoints);
 
   // Put curvature in gaussCurvatureData.
-  for (unsigned int v = 0; v < Nv; ++v)
+  for (unsigned int v = 0; v < numberOfPoints; ++v)
   {
     if (dA[v] > 0.0)
     {

@@ -31,6 +31,7 @@
 
 #include <iostream>
 #include "itkMesh.h"
+#include "itkTriangleCell.h"
 #include "itkVectorContainer.h"
 
 namespace itk
@@ -95,6 +96,7 @@ public:
   using CellsContainerConstPointer = typename InputMeshType::CellsContainerConstPointer;
   using CellsContainerConstIterator = typename InputMeshType::CellsContainer::ConstIterator;
   using CellType = typename InputMeshType::CellType;
+  using TriangleCellType = itk::TriangleCell<CellType>;
   using DoubleVectorContainer = typename itk::VectorContainer<PointIdentifier, double>;
   using DoubleVectorContainerPointer = typename DoubleVectorContainer::Pointer;
   using CurvaturesEnum = TriangleMeshCurvatureCalculatorEnums::Curvatures;
@@ -129,10 +131,7 @@ protected:
 
   /** Discrete Gauss curvature (K) computation */
   void
-  GetGaussCurvature(MeshConstPointer input);
-
-  void
-  ComputeGaussCurvature(MeshConstPointer input);
+  ComputeGaussCurvature(const InputMeshType * input);
 
 private:
   CurvaturesEnum               m_CurvatureType = CurvaturesEnum::GaussCurvature;
