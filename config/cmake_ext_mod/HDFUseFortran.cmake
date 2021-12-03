@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -135,7 +135,9 @@ else ()
   # so this one is used for a sizeof test.
   #-----------------------------------------------------------------------------
   macro (CHECK_FORTRAN_FEATURE FUNCTION CODE VARIABLE)
-      message (STATUS "Testing Fortran ${FUNCTION}")
+      if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+        message (VERBOSE "Testing Fortran ${FUNCTION}")
+      endif ()
       if (HDF5_REQUIRED_LIBRARIES)
         set (CHECK_FUNCTION_EXISTS_ADD_LIBRARIES
             "-DLINK_LIBRARIES:STRING=${HDF5_REQUIRED_LIBRARIES}")
@@ -153,13 +155,17 @@ else ()
           OUTPUT_VARIABLE OUTPUT
       )
 
-  #    message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
-  #    message (STATUS "Test result ${OUTPUT}")
-  #    message (STATUS "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+  #    if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+  #      message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+  #      message (TRACE "Test result ${OUTPUT}")
+  #      message (TRACE "* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * ")
+  #    endif ()
 
       if (${RESULT_VAR})
         set (${VARIABLE} 1 CACHE INTERNAL "Have Fortran function ${FUNCTION}")
-        message (STATUS "Testing Fortran ${FUNCTION} - OK")
+        if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+          message (VERBOSE "Testing Fortran ${FUNCTION} - OK")
+        endif ()
         file (APPEND ${CMAKE_BINARY_DIR}${CMAKE_FILES_DIRECTORY}/CMakeOutput.log
             "Determining if the Fortran ${FUNCTION} exists passed with the following output:\n"
             "${OUTPUT}\n\n"

@@ -109,7 +109,7 @@ extern int H5LTyydebug;
 
 union YYSTYPE
 {
-#line 72 "hl/src/H5LTparse.y" /* yacc.c:1909  */
+#line 69 "hl/src/H5LTparse.y" /* yacc.c:1909  */
 
     int     ival;         /*for integer token*/
     char    *sval;        /*for name string*/
@@ -126,6 +126,6 @@ typedef union YYSTYPE YYSTYPE;
 
 extern YYSTYPE H5LTyylval;
 
-int H5LTyyparse (void);
+hid_t H5LTyyparse (void);
 
 #endif /* !YY_H5LTYY_HL_SRC_H5LTPARSE_H_INCLUDED  */

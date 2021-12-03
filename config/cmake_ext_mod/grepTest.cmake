@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -16,18 +16,12 @@
 if (NOT TEST_PROGRAM)
   message (FATAL_ERROR "Require TEST_PROGRAM to be defined")
 endif ()
-#if (NOT TEST_ARGS)
-#  message (STATUS "Require TEST_ARGS to be defined")
-#endif ()
 if (NOT TEST_FOLDER)
   message (FATAL_ERROR "Require TEST_FOLDER to be defined")
 endif ()
 if (NOT TEST_OUTPUT)
   message (FATAL_ERROR "Require TEST_OUTPUT to be defined")
 endif ()
-#if (NOT TEST_EXPECT)
-#  message (STATUS "Require TEST_EXPECT to be defined")
-#endif ()
 if (NOT TEST_FILTER)
   message (STATUS "Optional TEST_FILTER to be defined")
 endif ()
@@ -46,7 +40,7 @@ endif ()
 message (STATUS "COMMAND: ${TEST_EMULATOR} ${TEST_PROGRAM} ${TEST_ARGS}")
 
 if (TEST_LIBRARY_DIRECTORY)
-  if (WIN32 OR MINGW)
+  if (WIN32)
     set (ENV{PATH} "$ENV{PATH};${TEST_LIBRARY_DIRECTORY}")
   else ()
     set (ENV{LD_LIBRARY_PATH} "$ENV{LD_LIBRARY_PATH}:${TEST_LIBRARY_DIRECTORY}")
@@ -55,7 +49,9 @@ endif ()
 
 if (TEST_ENV_VAR)
   set (ENV{${TEST_ENV_VAR}} "${TEST_ENV_VALUE}")
-  #message (STATUS "ENV:${TEST_ENV_VAR}=$ENV{${TEST_ENV_VAR}}")
+  if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
+    message (TRACE "ENV:${TEST_ENV_VAR}=$ENV{${TEST_ENV_VAR}}")
+  endif ()
 endif ()
 
 # run the test program, capture the stdout/stderr and the result var
@@ -105,7 +101,7 @@ if (TEST_ERRREF)
       file (READ ${TEST_FOLDER}/${TEST_REFERENCE} TEST_STREAM)
       list (LENGTH TEST_STREAM test_len)
       if (test_len GREATER 0)
-        if (WIN32 OR MINGW)
+        if (WIN32)
           configure_file(${TEST_FOLDER}/${TEST_REFERENCE} ${TEST_FOLDER}/${TEST_REFERENCE}.tmp NEWLINE_STYLE CRLF)
           if (EXISTS "${TEST_FOLDER}/${TEST_REFERENCE}.tmp")
             file(RENAME ${TEST_FOLDER}/${TEST_REFERENCE}.tmp ${TEST_FOLDER}/${TEST_REFERENCE})

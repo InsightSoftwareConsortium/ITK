@@ -5,7 +5,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -44,59 +44,6 @@ main ()
 
 #endif
 
-#ifdef HAVE_C99_FUNC
-
-#ifdef FC_DUMMY_MAIN
-#ifndef FC_DUMMY_MAIN_EQ_F77
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int FC_DUMMY_MAIN() { return 1; }
-#endif
-#endif
-int
-main ()
-{
- const char *fname = __func__;
-  ;
-  return 0;
-}
-
-#endif
-
-#ifdef VSNPRINTF_WORKS
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdarg.h>
-
-int test_vsnprintf(const char *fmt,...)
-{
-    va_list     ap;
-    char *s = malloc(16);
-    int ret;
-
-    va_start(ap, fmt);
-    ret=vsnprintf(s,16,"%s",ap);
-    va_end(ap);
-
-    return(ret!=42 ? 1 : 0);
-}
-
-int main(void)
-{
-    return(test_vsnprintf("%s","A string that is longer than 16 characters"));
-}
-#endif
-
-#ifdef STDC_HEADERS
-#include <stdlib.h>
-#include <stdarg.h>
-#include <string.h>
-#include <float.h>
-int main() { return 0; }
-#endif /* STDC_HEADERS */
-
-
 #ifdef HAVE_ATTRIBUTE
 
 #if 0
@@ -122,26 +69,6 @@ int __attribute__((unused)) x
 
 
 #endif /* HAVE_ATTRIBUTE */
-
-#ifdef HAVE_FUNCTION
-
-#ifdef FC_DUMMY_MAIN
-#ifndef FC_DUMMY_MAIN_EQ_F77
-#  ifdef __cplusplus
-     extern "C"
-#  endif
-   int FC_DUMMY_MAIN() { return 1; }
-#endif
-#endif
-int
-main ()
-{
-(void)__FUNCTION__
-  ;
-  return 0;
-}
-
-#endif /* HAVE_FUNCTION */
 
 #ifdef HAVE_TIMEZONE
 
@@ -178,7 +105,7 @@ int DebugReport(int reportType, char* message, int* returnValue)
 
 int main(void)
 {
-  char *llwidthArgs[] = { "I64", "l64", "l", "L", "q", "ll", NULL };
+  char *llwidthArgs[] = { "I64", "l64", "ll", "l", "L", "q", NULL };
   char *s = malloc(128);
   char **currentArg = NULL;
   LL_TYPE x = (LL_TYPE)1048576 * (LL_TYPE)1048576;
@@ -364,20 +291,3 @@ int main ()
 }
 
 #endif /* HAVE_IOEO */
-
-#if defined( HAVE_INLINE ) || defined( HAVE___INLINE__ ) || defined( HAVE___INLINE )
-#ifndef __cplusplus
-#if defined( HAVE_INLINE )
-#  define INLINE_KW inline
-#elif defined ( HAVE___INLINE__ )
-#  define INLINE_KW __inline__
-#elif defined ( HAVE___INLINE )
-#  define INLINE_KW __inline
-#endif /* HAVE_INLINE */
-typedef int foo_t;
-static INLINE_KW foo_t static_foo () { return 0; }
-INLINE_KW foo_t foo () {return 0; }
-int main(void) { return 0; }
-#endif /* __cplusplus */
-#endif /* defined( HAVE_INLINE ) || defined( HAVE___INLINE__ ) || defined( HAVE___INLINE ) */
-
