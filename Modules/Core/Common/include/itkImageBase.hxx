@@ -141,6 +141,12 @@ ImageBase<VImageDimension>::SetDirection(const DirectionType & direction)
 {
   bool modified = false;
 
+  if (vnl_determinant(direction.GetVnlMatrix()) == 0.0)
+  {
+    itkExceptionMacro("Bad direction, determinant is 0. Refusing to change direction from " << this->m_Direction
+                                                                                            << " to " << direction);
+  }
+
   for (unsigned int r = 0; r < VImageDimension; ++r)
   {
     for (unsigned int c = 0; c < VImageDimension; ++c)
@@ -170,11 +176,6 @@ ImageBase<VImageDimension>::ComputeIndexToPhysicalPointMatrices()
   for (unsigned int i = 0; i < VImageDimension; ++i)
   {
     scale[i][i] = this->m_Spacing[i];
-  }
-
-  if (vnl_determinant(this->m_Direction.GetVnlMatrix()) == 0.0)
-  {
-    itkExceptionMacro(<< "Bad direction, determinant is 0. Direction is " << this->m_Direction);
   }
 
   this->m_IndexToPhysicalPoint = this->m_Direction * scale;
