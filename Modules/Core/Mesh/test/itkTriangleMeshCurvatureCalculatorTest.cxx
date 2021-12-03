@@ -145,6 +145,23 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
     }
   }
 
+  // Test for non-triangle Mesh. It should throw Exception
+  using CellType = TriangleMeshType::CellType;
+  using TetrahedronType = itk::TetrahedronCell<CellType>;
+  CellType::CellAutoPointer cellpointer;
+
+  // Insert a Tetrahedron Cell in the mesh
+  cellpointer.TakeOwnership(new TetrahedronType);
+  cellpointer->SetPointId(0, 0);
+  cellpointer->SetPointId(1, 1);
+  cellpointer->SetPointId(2, 2);
+  cellpointer->SetPointId(3, 3);
+  triangleMesh->SetCell(0, cellpointer);
+
+  curvCalculator->SetTriangleMesh(triangleMesh);
+  curvCalculator->SetCurvatureTypeToGaussian();
+  ITK_TRY_EXPECT_EXCEPTION(curvCalculator->Compute());
+
   // Test streaming enumeration for TriangleMeshCurvatureCalculatorEnums elements
   const std::set<itk::TriangleMeshCurvatureCalculatorEnums::Curvatures> allCurvatures{
     itk::TriangleMeshCurvatureCalculatorEnums::Curvatures::GaussCurvature,
