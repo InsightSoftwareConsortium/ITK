@@ -1,0 +1,14 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkPointSetToPointSetRegistrationMethod.h")
+itk_wrap_include("itkPointSet.h")
+
+UNIQUE(types "${WRAP_ITK_REAL};D")
+
+itk_wrap_class("itk::PointSetToPointSetRegistrationMethod" POINTER)
+  foreach(d ${ITK_WRAP_DIMS})
+    foreach(t ${WRAP_ITK_REAL})
+      itk_wrap_template("REG${ITKM_${t}}${d}${ITKM_${t}}${d}"
+                        "itk::PointSet< ${ITKT_${t}}, ${d} >, itk::PointSet< ${ITKT_${t}}, ${d} >")
+    endforeach()
+  endforeach()
+itk_end_wrap_class()
