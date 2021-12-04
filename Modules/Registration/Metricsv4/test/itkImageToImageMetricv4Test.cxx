@@ -472,6 +472,8 @@ itkImageToImageMetricv4Test(int, char ** const)
   // The simplistic test metric
   ImageToImageMetricv4TestMetricPointer metric = ImageToImageMetricv4TestMetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, ImageToImageMetricv4TestMetric, ImageToImageMetricv4);
+
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
@@ -646,9 +648,6 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->SetUseFloatingPointCorrection(false);
   metric->SetFloatingPointCorrectionResolution(1);
 
-  // exercise PrintSelf
-  std::cout << std::endl << "PrintSelf: " << std::endl;
-  metric->Print(std::cout);
 
   itk::Object::SetGlobalWarningDisplay(origGlobalWarningValue);
 
