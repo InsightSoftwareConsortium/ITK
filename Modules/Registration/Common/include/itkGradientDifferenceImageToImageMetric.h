@@ -135,10 +135,6 @@ public:
   void
   Initialize() override;
 
-  /** Write gradient images to a files for debugging purposes. */
-  void
-  WriteGradientImagesToFiles() const;
-
   /** Set/Get the value of Delta used for computing derivatives by finite
    * differences in the GetDerivative() method */
   itkSetMacro(DerivativeDelta, double);
