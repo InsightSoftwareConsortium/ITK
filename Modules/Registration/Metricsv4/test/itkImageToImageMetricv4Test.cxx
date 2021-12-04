@@ -594,7 +594,7 @@ itkImageToImageMetricv4Test(int, char ** const)
 
   // Test that using a displacemet field that does not match the virtual
   // domain space will throw an exception.
-  field->SetSpacing(fixedImage->GetSpacing() * -1.0);
+  field->SetSpacing(fixedImage->GetSpacing() * 2.0);
   std::cout << "Testing with displacement field in different space than "
             << "fixed image:" << std::endl;
   ITK_TRY_EXPECT_EXCEPTION(metric->Initialize());
