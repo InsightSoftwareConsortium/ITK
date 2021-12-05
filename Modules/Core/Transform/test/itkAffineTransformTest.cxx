@@ -24,6 +24,7 @@
 
 using Matrix2Type = itk::Matrix<double, 2, 2>;
 using Vector2Type = itk::Vector<double, 2>;
+using Matrix3Type = itk::Matrix<double, 3, 3>;
 
 namespace
 {
@@ -571,18 +572,55 @@ itkAffineTransformTest(int, char *[])
   }
 
   /* Test ComputeJacobianWithRespectToPosition. Should return Matrix. */
-  const Affine3DType::MatrixType     jaffMatrix = jaff->GetMatrix();
+  matrix3Truth[0][0] = 1;
+  matrix3Truth[0][1] = 2;
+  matrix3Truth[0][2] = 3;
+  matrix3Truth[1][0] = 4;
+  matrix3Truth[1][1] = 5;
+  matrix3Truth[1][2] = 6;
+  matrix3Truth[2][0] = 7;
+  matrix3Truth[2][1] = 8;
+  matrix3Truth[2][2] = 8;
+
+  jaff->SetMatrix(matrix3Truth);
   Affine3DType::JacobianPositionType jaffJacobianPosition;
   jaff->ComputeJacobianWithRespectToPosition(jpoint, jaffJacobianPosition);
   for (unsigned int i = 0; i < Affine3DType::MatrixType::RowDimensions; ++i)
   {
     for (unsigned int j = 0; j < Affine3DType::MatrixType::ColumnDimensions; ++j)
     {
-      if (!testValue(jaffJacobianPosition[i][j], jaffMatrix[i][j]))
+      if (!testValue(jaffJacobianPosition[i][j], matrix3Truth[i][j]))
       {
         std::cout << "Failed ComputeJacobianWithRespectToPosition." << std::endl
                   << "jaffJacobianPosition: " << jaffJacobianPosition << std::endl
-                  << "jaffMatrix: " << jaffMatrix << std::endl;
+                  << "matrix3Truth: " << matrix3Truth << std::endl;
+        return EXIT_FAILURE;
+      }
+    }
+  }
+
+  /* Test ComputeInverseJacobianWithRespectToPosition. Should return the inverse Matrix. */
+  Matrix3Type matrix3invTruth;
+  matrix3invTruth[0][0] = -8. / 3.;
+  matrix3invTruth[0][1] = 8. / 3.;
+  matrix3invTruth[0][2] = -1;
+  matrix3invTruth[1][0] = 10. / 3.;
+  matrix3invTruth[1][1] = -13. / 3.;
+  matrix3invTruth[1][2] = 2;
+  matrix3invTruth[2][0] = -1;
+  matrix3invTruth[2][1] = 2;
+  matrix3invTruth[2][2] = -1;
+  Affine3DType::JacobianPositionType jaffInverseJacobianPosition;
+  jaff->ComputeInverseJacobianWithRespectToPosition(jpoint, jaffInverseJacobianPosition);
+  for (unsigned int i = 0; i < Affine3DType::MatrixType::RowDimensions; ++i)
+  {
+    for (unsigned int j = 0; j < Affine3DType::MatrixType::ColumnDimensions; ++j)
+    {
+      if (abs(jaffInverseJacobianPosition[i][j] - matrix3invTruth[i][j]) > 1e-13)
+      {
+        std::cout << "Failed ComputeInverseJacobianWithRespectToPosition." << std::endl
+                  << "jaffInverseJacobianPosition: " << jaffInverseJacobianPosition << std::endl
+                  << "matrix3invTruth: " << matrix3invTruth << std::endl;
         return EXIT_FAILURE;
       }
     }
