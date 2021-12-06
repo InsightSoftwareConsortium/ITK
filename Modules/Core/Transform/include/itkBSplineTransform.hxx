@@ -522,13 +522,13 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
   {
     ContinuousIndexType index;
     this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex(point, index);
+    outputPoint = point;
 
     // NOTE: if the support region does not lie totally within the grid
     // we assume zero displacement and return the input point
     inside = this->InsideValidRegion(index);
     if (!inside)
     {
-      outputPoint = point;
       return;
     }
 
@@ -542,8 +542,6 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
     RegionType supportRegion;
     supportRegion.SetSize(supportSize);
     supportRegion.SetIndex(supportIndex);
-
-    outputPoint.Fill(NumericTraits<ScalarType>::ZeroValue());
 
     using IteratorType = ImageScanlineConstIterator<ImageType>;
     IteratorType                coeffIterator[SpaceDimension];
@@ -580,20 +578,10 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
         coeffIterator[j].NextLine();
       }
     }
-
-    // Return results
-    for (unsigned int j = 0; j < SpaceDimension; ++j)
-    {
-      outputPoint[j] += point[j];
-    }
   }
   else
   {
     itkWarningMacro("B-spline coefficients have not been set");
-    for (unsigned int j = 0; j < SpaceDimension; ++j)
-    {
-      outputPoint[j] = point[j];
-    }
   }
 }
 
