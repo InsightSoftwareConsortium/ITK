@@ -417,7 +417,8 @@ MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensi
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 bool
-MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverse(Self * inverse) const
+MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverse(
+  InverseTransformType * inverse) const
 {
   if (!inverse)
   {
@@ -446,7 +447,7 @@ typename MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutp
   InverseTransformBasePointer
   MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::GetInverseTransform() const
 {
-  Pointer inv = New();
+  auto inv = InverseTransformType::New();
 
   return GetInverse(inv) ? inv.GetPointer() : nullptr;
 }
@@ -604,7 +605,7 @@ void
 MatrixOffsetTransformBase<TParametersValueType, NInputDimensions, NOutputDimensions>::
   ComputeInverseJacobianWithRespectToPosition(const InputPointType &, InverseJacobianPositionType & jac) const
 {
-  jac = this->GetMatrix().GetVnlMatrix();
+  jac = this->GetInverseMatrix().GetVnlMatrix();
 }
 
 
