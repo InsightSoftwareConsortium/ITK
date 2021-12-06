@@ -24,10 +24,9 @@
 
 namespace itk
 {
-/* a simple class that will return an array of indexes that are
+/* A simple class that will return an array of indices that are
  * offsets along the line. The line will be described by a vector and a
- * length */
-
+ * length. */
 template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT BresenhamLine
 {
@@ -46,7 +45,7 @@ public:
 
   /** Build a line in a specified Direction. */
   OffsetArray
-  BuildLine(LType Direction, unsigned int length);
+  BuildLine(LType Direction, IdentifierType length);
 
   /** Build a line between two pixels. */
   IndexArray

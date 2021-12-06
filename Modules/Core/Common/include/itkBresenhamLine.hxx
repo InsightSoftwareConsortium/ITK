@@ -27,7 +27,7 @@ namespace itk
 {
 template <unsigned int VDimension>
 auto
-BresenhamLine<VDimension>::BuildLine(LType Direction, unsigned int length) -> OffsetArray
+BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> OffsetArray
 {
   // copied from the line iterator
   /** Variables that drive the Bresenham-Algorithm */
@@ -118,19 +118,29 @@ BresenhamLine<VDimension>::BuildLine(IndexType p0, IndexType p1) -> IndexArray
 {
   itk::Point<float, VDimension> point0;
   itk::Point<float, VDimension> point1;
+  IdentifierType                maxDistance = 0;
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     point0[i] = p0[i];
     point1[i] = p1[i];
+    IdentifierType distance = std::abs(p0[i] - p1[i]) + 1;
+    if (distance > maxDistance)
+    {
+      maxDistance = distance;
+    }
   }
 
-  const auto  distance = itk::Math::RoundHalfIntegerToEven<unsigned int, double>(point0.EuclideanDistanceTo(point1));
-  OffsetArray offsets = this->BuildLine(point1 - point0, distance);
+  OffsetArray offsets = this->BuildLine(point1 - point0, maxDistance + 1);
 
-  IndexArray indices(offsets.size());
+  IndexArray indices;
+  indices.reserve(offsets.size()); // we might not have to use the last one
   for (unsigned int i = 0; i < offsets.size(); ++i)
   {
-    indices[i] = p0 + offsets[i];
+    indices.push_back(p0 + offsets[i]);
+    if (indices.back() == p1)
+    {
+      break;
+    }
   }
   return indices;
 }
