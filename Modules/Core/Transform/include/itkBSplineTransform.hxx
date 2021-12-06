@@ -517,12 +517,12 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::TransformPoin
                                                                                   bool & inside) const
 {
   inside = true;
+  outputPoint = point;
 
   if (this->m_CoefficientImages[0]->GetBufferPointer())
   {
     ContinuousIndexType index;
     this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex(point, index);
-    outputPoint = point;
 
     // NOTE: if the support region does not lie totally within the grid
     // we assume zero displacement and return the input point
