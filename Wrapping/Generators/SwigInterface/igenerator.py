@@ -10,6 +10,7 @@ from pathlib import Path
 from keyword import iskeyword
 from typing import List
 
+
 class ITKClass:
     def __init__(self, class_name):
         self.python_method_headers = {}
@@ -22,6 +23,7 @@ class ITKClass:
         self.is_enum = False
         self.has_superclass = False
         self.enums = []
+        self.submodule_name = ""
 
 
 def remove_class_type(itkclass: str) -> (str, bool):
@@ -1628,6 +1630,7 @@ if _version_info < (3, 7, 0):
             elif self.current_class not in self.classes:
                 self.classes[self.current_class] = ITKClass(self.current_class)
                 self.classes[self.current_class].typed = typed
+                self.classes[self.current_class].submodule_name = self.submoduleName
                 if typedef.name.endswith("Enums"):
                     self.classes[self.current_class].is_enum = True
                 if typedef.name.endswith("_Superclass"):
@@ -1725,22 +1728,26 @@ if _version_info < (3, 7, 0):
                 f.write(content)
 
 
-def write_submodule_pyi_file(
-    pyiFile: Path, submodule_name: str, header_code: str, interfaces_code: str
-) -> None:
-    # Write interface files to the stub directory to support editor autocompletions
+def init_submodule_pyi_file(pyiFile: Path, submodule_name: str) -> None:
     with open(pyiFile, "w") as pyiFile:
         pyiFile.write(
-            """#
+            f"""# Interface and Interface methods for submodule: {submodule_name}
 from typing import Union, Any
 # additional imports
 from .support.template_class import itkTemplate as _itkTemplate
 
 \n"""
         )
-        pyiFile.write(f"# Interface for submodule: {submodule_name}\n")
+
+
+def write_class_pyi(
+    pyiFile: Path, class_name: str, header_code: str, interfaces_code: str
+) -> None:
+    # Write interface files to the stub directory to support editor autocompletions
+    with open(pyiFile, "a+") as pyiFile:
+        pyiFile.write(f"# Interface for class: {class_name}\n")
         pyiFile.write(header_code)
-        pyiFile.write(f"# Interface methods for submodule: {submodule_name}\n")
+        pyiFile.write(f"# Interface methods for class: {class_name}\n")
         pyiFile.write(interfaces_code)
 
 
@@ -1983,9 +1990,6 @@ if __name__ == "__main__":
             swig_input_generator.snakeCaseProcessObjectFunctions
         )
 
-    outputPYIHeaderFile = StringIO()
-    outputPYIMethodFile = StringIO()
-
     classes = {}
 
     ordered_submodule_list: List[str] = []
@@ -2000,15 +2004,20 @@ if __name__ == "__main__":
 
     for submoduleName in ordered_submodule_list:
         generate_swig_input(submoduleName, classes)
+        init_submodule_pyi_file(
+            Path(f"{options.pyi_dir}/{submoduleName}.pyi"), submoduleName
+        )
 
-        for itk_class in classes.keys():
-            generate_class_pyi_def(
-                outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
-            )
+    for itk_class in classes.keys():
+        outputPYIHeaderFile = StringIO()
+        outputPYIMethodFile = StringIO()
+        generate_class_pyi_def(
+            outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
+        )
 
-        write_submodule_pyi_file(
-            Path(f"{options.pyi_dir}/{submoduleName}.pyi"),
-            submoduleName,
+        write_class_pyi(
+            Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}.pyi"),
+            itk_class,
             outputPYIHeaderFile.getvalue(),
             outputPYIMethodFile.getvalue(),
         )
