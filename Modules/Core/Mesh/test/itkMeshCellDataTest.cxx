@@ -20,17 +20,16 @@
 #include <itkMesh.h>
 #include <itkTriangleCell.h>
 
-const unsigned int Dimension = 2;
-using TPixel = float;
-using TMeshTraits = itk::DefaultDynamicMeshTraits<TPixel>;
-using TMesh = itk::Mesh<TPixel, Dimension, TMeshTraits>;
-using TPoint = TMesh::PointType;
-using TCell = TMesh::CellType;
-using TTriangle = itk::TriangleCell<TCell>;
-
 int
 itkMeshCellDataTest(int, char *[])
 {
+  const unsigned int Dimension = 2;
+  using TPixel = float;
+  using TMeshTraits = itk::DefaultDynamicMeshTraits<TPixel>;
+  using TMesh = itk::Mesh<TPixel, Dimension, TMeshTraits>;
+  using TPoint = TMesh::PointType;
+  using TCell = TMesh::CellType;
+  using TTriangle = itk::TriangleCell<TCell>;
 
   // 1------3------5
   //   \    | \    |
