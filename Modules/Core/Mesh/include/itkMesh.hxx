@@ -145,6 +145,10 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData() -> CellDataContainer *
 {
+  if (!m_CellDataContainer)
+  {
+    this->SetCellData(CellDataContainer::New());
+  }
   itkDebugMacro("returning CellData container of " << m_CellDataContainer);
   return m_CellDataContainer;
 }

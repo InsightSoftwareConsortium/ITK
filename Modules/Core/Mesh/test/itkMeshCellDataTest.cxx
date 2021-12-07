@@ -16,9 +16,10 @@
  *
  *=========================================================================*/
 
-#include <itkDefaultDynamicMeshTraits.h>
-#include <itkMesh.h>
-#include <itkTriangleCell.h>
+#include "itkDefaultDynamicMeshTraits.h"
+#include "itkMesh.h"
+#include "itkTriangleCell.h"
+#include "itkTestingMacros.h"
 
 int
 itkMeshCellDataTest(int, char *[])
@@ -43,6 +44,8 @@ itkMeshCellDataTest(int, char *[])
   mesh->SetPoint(3, TPoint{ { { 1.0, 1.0 } } });
   mesh->SetPoint(4, TPoint{ { { 4.0, 0.0 } } });
   mesh->SetPoint(5, TPoint{ { { 5.0, 1.0 } } });
+
+  ITK_TEST_EXPECT_TRUE(mesh->GetCellData() != nullptr);
 
   {
     TCell::CellAutoPointer cellpointer;
