@@ -78,8 +78,6 @@ macro(itk_end_wrap_module_ruby)
   configure_file("${ITK_WRAP_RUBY_SOURCE_DIR}/main_module_ext.i.in"
     "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/${WRAPPER_LIBRARY_NAME}_ext.i"
     @ONLY)
-  )
-
 
   # set some var reused later
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}Module.i")
@@ -168,7 +166,6 @@ macro(itk_end_wrap_submodule_ruby group_name)
   configure_file("${ITK_WRAP_RUBY_SOURCE_DIR}/module_ext.i.in"
   "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/ruby/wrap_${group_name}_ext.i"
   @ONLY)
-  )
 
   # prepare dependencies
   set(DEPS )
