@@ -359,9 +359,11 @@ macro(itk_end_wrap_module_swig_interface)
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
     @ONLY)
 
+  set(WRAPPING_CONFIG_WORKING_DIR "${ITK_DIR}/Wrapping/WorkingDirectory")
   list(LENGTH i_files number_interface_files)
   if(number_interface_files GREATER 0)
 
+      FILE(MAKE_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}")
       if(${module_prefix}_WRAP_PYTHON)
         set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
         set(ITK_STUB_PYI_FILE "${ITK_STUB_DIR}/${WRAPPER_LIBRARY_NAME}.pyi")
@@ -388,9 +390,9 @@ macro(itk_end_wrap_module_swig_interface)
           --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
           --pyi_dir "${ITK_STUB_DIR}"
           DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
-          WORKING_DIRECTORY "${ITK_DIR}/Wrapping/$<CONFIG>" # Arguments to WORKING_DIRECTORY may use generator expressions
+          WORKING_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
         VERBATIM
-      )
+        )
       else()
         unset(ITK_STUB_DIR)
         unset(ITK_STUB_PYI_FILE)
@@ -408,9 +410,9 @@ macro(itk_end_wrap_module_swig_interface)
             --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
             --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
             DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
-            WORKING_DIRECTORY "${ITK_DIR}/Wrapping/$<CONFIG>" # Arguments to WORKING_DIRECTORY may use generator expressions
+            WORKING_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
           VERBATIM
-        )
+          )
       endif()
 
   endif()
