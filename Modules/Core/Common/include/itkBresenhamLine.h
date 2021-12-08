@@ -24,9 +24,21 @@
 
 namespace itk
 {
-/* A simple class that will return an array of indices that are
- * offsets along the line. The line will be described by a vector and a
- * length. */
+
+/** \class BresenhamLine
+ * \brief Compute indices along a line in n dimensions.
+ *
+ * Returns an array of indices that are offsets along the line.
+ * The line can be described by a direction vector and a length.
+ * The line can be described by starting and ending indices.
+ *
+ * \ingroup ImageAccess
+ * \ingroup ITKCommon
+ *
+ * \sphinx
+ * \sphinxexample{Core/Common/BresenhamLine,Bresenham Line}
+ * \endsphinx
+ */
 template <unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT BresenhamLine
 {
