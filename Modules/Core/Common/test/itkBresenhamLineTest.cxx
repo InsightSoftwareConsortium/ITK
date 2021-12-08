@@ -57,19 +57,19 @@ itkBresenhamLineTest(int, char *[])
     p0[1] = 0;
 
     itk::Index<2> p1;
-    p1[0] = 3;
-    p1[1] = 3;
+    p1[0] = 39;
+    p1[1] = 39;
 
     itk::BresenhamLine<2>      line;
     std::vector<itk::Index<2>> indices = line.BuildLine(p0, p1);
 
-    if (indices.size() != 4)
+    if (indices.size() != 40)
     {
-      std::cerr << "Test failed! 'indices' should be length 4 and it is " << indices.size() << std::endl;
+      std::cerr << "Test failed! 'indices' should be length 40 and it is " << indices.size() << std::endl;
       return EXIT_FAILURE;
     }
 
-    for (int i = 0; i < 4; ++i)
+    for (int i = 0; i < 40; ++i)
     {
       if (indices[i][0] != i || indices[i][1] != i)
       {
