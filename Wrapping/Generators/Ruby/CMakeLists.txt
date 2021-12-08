@@ -1019,10 +1019,10 @@ endmacro()
 # Create the RbUtils library
 
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  add_subdirectory(Tests)
+  # add_subdirectory(Tests)
 
   macro(itk_end_wrap_modules_ruby)
-    add_subdirectory(${ITK_WRAP_RUBY_SOURCE_DIR}/RbUtils)
+  #   add_subdirectory(${ITK_WRAP_RUBY_SOURCE_DIR}/RbUtils)
   endmacro()
 
   macro(itk_wrap_modules_ruby)
