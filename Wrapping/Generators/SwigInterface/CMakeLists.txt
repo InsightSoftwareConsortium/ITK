@@ -388,7 +388,7 @@ macro(itk_end_wrap_module_swig_interface)
           --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
           --pyi_dir "${ITK_STUB_DIR}"
           DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
-          WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
+          WORKING_DIRECTORY "${ITK_DIR}/Wrapping/$<CONFIG>" # Arguments to WORKING_DIRECTORY may use generator expressions
         VERBATIM
       )
       else()
@@ -408,7 +408,7 @@ macro(itk_end_wrap_module_swig_interface)
             --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
             --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
             DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
-            WORKING_DIRECTORY / # Arguments to WORKING_DIRECTORY may use generator expressions
+            WORKING_DIRECTORY "${ITK_DIR}/Wrapping/$<CONFIG>" # Arguments to WORKING_DIRECTORY may use generator expressions
           VERBATIM
         )
       endif()
