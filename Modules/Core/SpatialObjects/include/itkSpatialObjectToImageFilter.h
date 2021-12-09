@@ -50,6 +50,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   using OutputImageType = TOutputImage;
+  using IndexType = typename OutputImageType::IndexType;
   using SizeType = typename OutputImageType::SizeType;
   using PointType = typename OutputImageType::PointType;
   using OutputImagePointer = typename OutputImageType::Pointer;
@@ -100,6 +101,7 @@ public:
     this->SetOrigin(refImage->GetOrigin());
     this->SetSpacing(refImage->GetSpacing());
     this->SetDirection(refImage->GetDirection());
+    this->SetIndex(refImage->GetLargestPossibleRegion().GetIndex());
     this->SetSize(refImage->GetLargestPossibleRegion().GetSize());
   }
 
@@ -161,6 +163,12 @@ public:
   virtual const double *
   GetOrigin() const;
 
+  /** The index of the output image. The index is the pixel
+   * coordinates of the image region.
+   * \sa GetSize() */
+  itkSetMacro(Index, IndexType);
+  itkGetConstMacro(Index, IndexType);
+
   /** The spatial object being transformed can be part of a hierarchy.
    * How deep in the hierarchy should we descend in generating the
    * image?  A ChildrenDepth of 0 means to only include the object
@@ -188,6 +196,7 @@ protected:
   void
   GenerateData() override;
 
+  IndexType     m_Index;
   SizeType      m_Size;
   double        m_Spacing[OutputImageDimension];
   double        m_Origin[OutputImageDimension];
