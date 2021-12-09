@@ -15,6 +15,5 @@ FastBilateral
 Overview
 --------
 
-This is a template that serves as a starting point for a new module.
-
-ITK is an open-source, cross-platform library that provides developers with an extensive suite of software tools for image analysis. Developed through extreme programming methodologies, ITK employs leading-edge algorithms for registering and segmenting multidimensional scientific images.
+FastBilateral is an external ITK module performing a faster implementation of the itkBilateralImageFilter.
+Taken from the Insight Journal submission: https://www.insight-journal.org/browse/publication/692
