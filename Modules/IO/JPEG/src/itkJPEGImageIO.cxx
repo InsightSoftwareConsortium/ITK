@@ -22,6 +22,12 @@
 #include "itk_jpeg.h"
 #include <csetjmp>
 
+#define JPEGIO_JPEG_MESSAGES 1
+
+#if (defined JPEGIO_JPEG_MESSAGES && JPEGIO_JPEG_MESSAGES == 1)
+#  include <cstdio>
+#endif
+
 // create an error handler for jpeg that
 // can longjmp out of the jpeg library
 struct itk_jpeg_error_mgr
@@ -36,36 +42,30 @@ extern "C"
   {
     /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer
      */
-    auto * myerr = reinterpret_cast<itk_jpeg_error_mgr *>(cinfo->err);
+    itk_jpeg_error_mgr * myerr = (itk_jpeg_error_mgr *)cinfo->err;
 
     /* Always display the message. */
     /* We could postpone this until after returning, if we chose. */
     (*cinfo->err->output_message)(cinfo);
 
-    jpeg_abort(cinfo); /* clean up libjpeg state */
     /* Return control to the setjmp point */
     longjmp(myerr->setjmp_buffer, 1);
   }
 
-  METHODDEF(void) itk_jpeg_output_message(j_common_ptr) {}
+  METHODDEF(void) itk_jpeg_output_message(j_common_ptr cinfo)
+  {
+#if (defined JPEGIO_JPEG_MESSAGES && JPEGIO_JPEG_MESSAGES == 1)
+    char buffer[JMSG_LENGTH_MAX + 1];
+    (*cinfo->err->format_message)(cinfo, buffer);
+    printf("%s\n", buffer);
+#else
+    (void)cinfo;
+#endif
+  }
 }
 
 namespace itk
 {
-
-namespace
-{
-// Wrap setjmp call to avoid warnings about variable clobbering.
-bool
-wrapSetjmp(itk_jpeg_error_mgr & jerr)
-{
-  if (setjmp(jerr.setjmp_buffer))
-  {
-    return true;
-  }
-  return false;
-}
-} // namespace
 
 // simple class to call fopen on construct and
 // fclose on destruct
@@ -86,7 +86,7 @@ public:
     }
   }
 
-  FILE * m_FilePointer;
+  FILE * volatile m_FilePointer;
 };
 
 bool
@@ -142,7 +142,7 @@ JPEGImageIO::CanReadFile(const char * file)
   jerr.pub.output_message = itk_jpeg_output_message;
   // set the jump point, if there is a jpeg error or warning
   // this will evaluate to true
-  if (wrapSetjmp(jerr))
+  if (setjmp(jerr.setjmp_buffer))
   {
     // clean up
     jpeg_destroy_decompress(&cinfo);
@@ -166,13 +166,9 @@ void
 JPEGImageIO::ReadVolume(void *)
 {}
 
-//-----------------------------------------------------------------------------
-
 void
 JPEGImageIO::Read(void * buffer)
 {
-  unsigned int ui;
-
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(this->GetFileName(), "rb");
   FILE *          fp = JPEGfp.m_FilePointer;
@@ -193,7 +189,7 @@ JPEGImageIO::Read(void * buffer)
   jerr.pub.error_exit = itk_jpeg_error_exit;
   // for any output message call itk_jpeg_output_message
   jerr.pub.output_message = itk_jpeg_output_message;
-  if (wrapSetjmp(jerr))
+  if (setjmp(jerr.setjmp_buffer))
   {
     // clean up
     jpeg_destroy_decompress(&cinfo);
@@ -212,21 +208,26 @@ JPEGImageIO::Read(void * buffer)
   // prepare to read the bulk data
   jpeg_start_decompress(&cinfo);
 
-  SizeValueType rowbytes = cinfo.output_components * cinfo.output_width;
-  auto *        tempImage = static_cast<JSAMPLE *>(buffer);
+  const auto rowbytes = cinfo.output_width * cinfo.output_components;
+  auto *     tempImage = static_cast<JSAMPLE *>(buffer);
 
-  auto * row_pointers = new JSAMPROW[cinfo.output_height];
-  for (ui = 0; ui < cinfo.output_height; ++ui)
+  auto * volatile row_pointers = new JSAMPROW[cinfo.output_height];
+  for (size_t ui = 0; ui < cinfo.output_height; ++ui)
   {
     row_pointers[ui] = tempImage + rowbytes * ui;
   }
 
   // read the bulk data
-  unsigned int remainingRows;
   while (cinfo.output_scanline < cinfo.output_height)
   {
-    remainingRows = cinfo.output_height - cinfo.output_scanline;
-    jpeg_read_scanlines(&cinfo, &row_pointers[cinfo.output_scanline], remainingRows);
+    if (setjmp(jerr.setjmp_buffer))
+    {
+      itkWarningMacro("JPEG error in the file " << this->GetFileName());
+      jpeg_destroy_decompress(&cinfo);
+      delete[] row_pointers;
+      return;
+    }
+    jpeg_read_scanlines(&cinfo, &row_pointers[cinfo.output_scanline], cinfo.output_height - cinfo.output_scanline);
   }
 
   // finish the decompression step
@@ -398,7 +399,7 @@ JPEGImageIO::Write(const void * buffer)
 }
 
 void
-JPEGImageIO::WriteSlice(std::string & fileName, const void * buffer)
+JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
 {
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
@@ -410,22 +411,14 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * buffer)
                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 
-  // Call the correct templated function for the output
-
-  // overriding jpeg_error_mgr so we don't exit when an error happens
-  // Create the jpeg compression object and error handler
-  // struct jpeg_compress_struct cinfo;
-  // struct itk_jpeg_error_mgr jerr;
-
   struct itk_jpeg_error_mgr   jerr;
   struct jpeg_compress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
-  // set the jump point, if there is a jpeg error or warning
-  // this will evaluate to true
-  if (wrapSetjmp(jerr))
+  // set the jump point
+  if (setjmp(jerr.setjmp_buffer))
   {
     jpeg_destroy_compress(&cinfo);
-    itkExceptionMacro(<< "JPEG : Out of disk space");
+    itkExceptionMacro(<< "JPEG error, failed to write " << fileName);
   }
 
   jpeg_create_compress(&cinfo);
@@ -527,6 +520,7 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * buffer)
 
   if (fflush(fp) == EOF)
   {
+    delete[] row_pointers;
     itkExceptionMacro(<< "JPEG : Out of disk space");
   }
 

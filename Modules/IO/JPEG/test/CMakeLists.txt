@@ -2,6 +2,7 @@ itk_module_test()
 set(ITKIOJPEGTests
 itkJPEGImageIOTest.cxx
 itkJPEGImageIOTest2.cxx
+itkJPEGImageIODegenerateCasesTest.cxx
 )
 
 CreateTestDriver(ITKIOJPEG  "${ITKIOJPEG-Test_LIBRARIES}" "${ITKIOJPEGTests}")
@@ -19,3 +20,6 @@ itk_add_test(NAME itkJPEGImageIOTest2
 itk_add_test(NAME itkJPEGImageIOSpacing
       COMMAND ITKIOJPEGTestDriver
     itkJPEGImageIOTest2 ${ITK_TEST_OUTPUT_DIR}/itkJPEGImageIOSpacing.jpg)
+itk_add_test(NAME itkJPEGImageIOTestCorruptedImage
+      COMMAND ITKIOJPEGTestDriver
+    itkJPEGImageIODegenerateCasesTest DATA{Input/corrupted_image.jpg})
