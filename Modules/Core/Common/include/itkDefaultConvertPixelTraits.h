@@ -303,6 +303,11 @@ public:
   {
     return VRows * VCols;
   }
+  static unsigned int
+  GetNumberOfComponents(const TargetType pixel)
+  {
+    return VRows * VCols;
+  }
   static void
   SetNthComponent(int i, TargetType & pixel, const ComponentType & v)
   {
