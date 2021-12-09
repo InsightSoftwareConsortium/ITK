@@ -111,7 +111,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  WriteSlice(std::string & fileName, const void * buffer);
+  WriteSlice(std::string & fileName, const void * const buffer);
 
   /** Default = true*/
   bool m_Progressive;
