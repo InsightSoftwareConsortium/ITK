@@ -85,7 +85,7 @@ itkFEMElement2DC0LinearLineStressTest(int argc, char * argv[])
   for (int i = 0; i < numDOF; ++i)
   {
     soln[i] = solver->GetSolution(i);
-    if (std::fabs(expectedResult[i] - soln[i]) > 0.0000001)
+    if (itk::Math::abs(expectedResult[i] - soln[i]) > 0.0000001)
     {
       std::cout << "ERROR: Index " << i << ". Expected " << expectedResult[i] << " Solution " << soln[i] << std::endl;
       foundError = true;

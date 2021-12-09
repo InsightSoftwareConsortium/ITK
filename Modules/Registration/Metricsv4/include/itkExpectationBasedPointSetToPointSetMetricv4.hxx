@@ -102,7 +102,7 @@ ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInt
   }
 
   measure = measureSum.GetSum();
-  if (std::fabs(measure) <= NumericTraits<MeasureType>::epsilon())
+  if (itk::Math::abs(measure) <= NumericTraits<MeasureType>::epsilon())
   {
     return;
   }

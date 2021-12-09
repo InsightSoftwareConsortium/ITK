@@ -19,6 +19,7 @@
 #define itkInverseDeconvolutionImageFilter_h
 
 #include "itkFFTConvolutionImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -140,7 +141,7 @@ public:
   inline TOutput
   operator()(const TInput1 & I, const TInput2 & H) const
   {
-    const double absH = std::abs(H);
+    const double absH = itk::Math::abs(H);
     TOutput      value = NumericTraits<TOutput>::ZeroValue();
     if (absH >= m_KernelZeroMagnitudeThreshold)
     {

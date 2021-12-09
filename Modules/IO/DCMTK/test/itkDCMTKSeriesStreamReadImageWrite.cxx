@@ -37,11 +37,11 @@
 static bool
 IsEqualTolerant(const float lm, const float rm, double tol)
 {
-  tol = std::fabs(tol);
-  float temp = std::fabs(lm - rm);
-  return temp <= tol * std::fabs(lm) || temp <= tol * std::fabs(rm) ||
-         (std::fabs(lm) < std::numeric_limits<float>::epsilon() &&
-          std::fabs(rm) < std::numeric_limits<float>::epsilon());
+  tol = itk::Math::abs(tol);
+  float temp = itk::Math::abs(lm - rm);
+  return temp <= tol * itk::Math::abs(lm) || temp <= tol * itk::Math::abs(rm) ||
+         (itk::Math::abs(lm) < std::numeric_limits<float>::epsilon() &&
+          itk::Math::abs(rm) < std::numeric_limits<float>::epsilon());
 }
 
 int

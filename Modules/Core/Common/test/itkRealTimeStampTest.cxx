@@ -19,14 +19,15 @@
 #include <iostream>
 #include "itkRealTimeStamp.h"
 #include "itkNumericTraits.h"
+#include "itkMath.h"
 
 #define CHECK_FOR_VALUE(a, b)                                                            \
   {                                                                                      \
     double eps = 4.0 * itk::NumericTraits<double>::epsilon();                            \
     CLANG_PRAGMA_PUSH                                                                    \
-    CLANG_SUPPRESS_Wfloat_equal eps = (b == 0.0) ? eps : std::fabs(b * eps);             \
+    CLANG_SUPPRESS_Wfloat_equal eps = (b == 0.0) ? eps : itk::Math::abs(b * eps);        \
     CLANG_PRAGMA_POP                                                                     \
-    if (std::fabs(a - b) > eps)                                                          \
+    if (itk::Math::abs(a - b) > eps)                                                     \
     {                                                                                    \
       std::cerr << "Error in " #a << " expected " << b << " but got " << a << std::endl; \
       return EXIT_FAILURE;                                                               \

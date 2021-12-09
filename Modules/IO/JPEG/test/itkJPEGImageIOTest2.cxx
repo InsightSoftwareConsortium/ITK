@@ -84,7 +84,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
 
   const double tolerance = 1e-1;
 
-  if (std::abs(readSpacing[0] - spacing[0]) > tolerance)
+  if (itk::Math::abs(readSpacing[0] - spacing[0]) > tolerance)
   {
     std::cerr << "Spacing read/write failed !" << std::endl;
     std::cerr << "Expected spacing = " << spacing << std::endl;
@@ -92,7 +92,7 @@ itkJPEGImageIOTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  if (std::abs(readSpacing[1] - spacing[1]) > tolerance)
+  if (itk::Math::abs(readSpacing[1] - spacing[1]) > tolerance)
   {
     std::cerr << "Spacing read/write failed !" << std::endl;
     std::cerr << "Expected spacing = " << spacing << std::endl;

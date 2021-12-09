@@ -31,7 +31,7 @@ CorrelationCoefficientHistogramImageToImageMetric<TFixedImage, TMovingImage>::Ev
   const MeasureType varianceY = this->VarianceY(histogram);
   const MeasureType covariance = this->Covariance(histogram);
 
-  return std::fabs(covariance / (std::sqrt(varianceX) * std::sqrt(varianceY)));
+  return itk::Math::abs(covariance / (std::sqrt(varianceX) * std::sqrt(varianceY)));
 }
 
 template <typename TFixedImage, typename TMovingImage>

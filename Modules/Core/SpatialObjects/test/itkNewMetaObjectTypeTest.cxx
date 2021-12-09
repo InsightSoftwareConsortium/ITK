@@ -289,7 +289,7 @@ itkNewMetaObjectTypeTest(int, char *[])
       return EXIT_FAILURE;
     }
     float value = p->GetValue();
-    if (std::fabs(value - Pi) > 0.00001)
+    if (itk::Math::abs(value - Pi) > 0.00001)
     {
       std::cout << "Expected value " << Pi << "but found " << value << std::endl;
       delete metaScene;

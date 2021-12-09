@@ -18,6 +18,7 @@
 #ifndef itkQuadrilateralCell_hxx
 #define itkQuadrilateralCell_hxx
 #include "itkQuadrilateralCell.h"
+#include "itkMath.h"
 #include "vnl/algo/vnl_determinant.h"
 
 namespace itk
@@ -344,7 +345,7 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
 
     d = vnl_determinant(mat);
     // d=vtkMath::Determinant2x2(rcol,scol);
-    if (std::abs(d) < 1.e-20)
+    if (itk::Math::abs(d) < 1.e-20)
     {
       return false;
     }
@@ -373,14 +374,14 @@ QuadrilateralCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
     }
 
     //  check for convergence
-    if (((std::abs(pcoords[0] - params[0])) < ITK_QUAD_CONVERGED) &&
-        ((std::abs(pcoords[1] - params[1])) < ITK_QUAD_CONVERGED))
+    if (((itk::Math::abs(pcoords[0] - params[0])) < ITK_QUAD_CONVERGED) &&
+        ((itk::Math::abs(pcoords[1] - params[1])) < ITK_QUAD_CONVERGED))
     {
       converged = 1;
     }
 
     // Test for bad divergence (S.Hirschberg 11.12.2001)
-    else if ((std::abs(pcoords[0]) > ITK_DIVERGED) || (std::abs(pcoords[1]) > ITK_DIVERGED))
+    else if ((itk::Math::abs(pcoords[0]) > ITK_DIVERGED) || (itk::Math::abs(pcoords[1]) > ITK_DIVERGED))
     {
       return -1;
     }

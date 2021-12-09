@@ -60,7 +60,7 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
   std::cout.precision(16);
 
   const double epsilon = itk::NumericTraits<double>::epsilon() * 32;
-  if (order == 0 && std::abs(total - 1.0) > epsilon)
+  if (order == 0 && itk::Math::abs(total - 1.0) > epsilon)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in coefficients." << std::endl;
@@ -69,7 +69,7 @@ TestGaussianOperator(double variance, double error, unsigned int width, unsigned
     std::cerr << " differs from 1.0 ";
     std::cerr << " by more than " << epsilon << std::endl;
   }
-  else if (order != 0 && std::abs(total) > epsilon)
+  else if (order != 0 && itk::Math::abs(total) > epsilon)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in coefficients." << std::endl;

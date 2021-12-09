@@ -83,7 +83,7 @@ TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
   // Figure out which way we are looking - we want to construct our
   // line between the max index and the further of 1% and 99%
   IndexValueType ThreshIdx = 0;
-  if (fabs((float)MxIdx - (float)onePCIdx) > fabs((float)MxIdx - (float)nnPCIdx))
+  if (itk::Math::abs((float)MxIdx - (float)onePCIdx) > itk::Math::abs((float)MxIdx - (float)nnPCIdx))
   {
     // line to 1 %
     double slope = Mx / (MxIdx - onePCIdx);

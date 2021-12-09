@@ -166,7 +166,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   const double sigma = std::sqrt(variance);
   const double mean2 = mean * mean;
   double       skewness;
-  if (std::abs(variance * sigma) > itk::NumericTraits<double>::min())
+  if (itk::Math::abs(variance * sigma) > itk::NumericTraits<double>::min())
   {
     skewness = ((sum3 - 3.0 * mean * sum2) / totalFreq + 2.0 * mean * mean2) / (variance * sigma);
   }
@@ -175,7 +175,7 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
     skewness = 0.0;
   }
   double kurtosis;
-  if (std::abs(variance) > itk::NumericTraits<double>::min())
+  if (itk::Math::abs(variance) > itk::NumericTraits<double>::min())
   {
     kurtosis =
       ((sum4 - 4.0 * mean * sum3 + 6.0 * mean2 * sum2) / totalFreq - 3.0 * mean2 * mean2) / (variance * variance) - 3.0;

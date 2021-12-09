@@ -88,7 +88,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
 
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (std::abs(tensorPixelInput[i] - tensorPixelOutput[i]) > tolerance)
+        if (itk::Math::abs(tensorPixelInput[i] - tensorPixelOutput[i]) > tolerance)
         {
           std::cerr << "Tensor read does not match expected values " << std::endl;
           std::cerr << "Index " << inIt.GetIndex() << std::endl;

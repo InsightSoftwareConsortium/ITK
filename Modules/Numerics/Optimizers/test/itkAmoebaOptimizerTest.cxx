@@ -355,7 +355,7 @@ AmoebaTest1()
   // Get the final value of the optimizer
   std::cout << "Testing optimizers GetValue() : ";
   OptimizerType::MeasureType finalValue = itkOptimizer->GetValue();
-  if (std::fabs(finalValue + 9.99998) > 0.01)
+  if (itk::Math::abs(finalValue + 9.99998) > 0.01)
   {
     std::cerr << "failed\n";
     std::cerr << "[TEST 1 FAILURE]\n";
@@ -428,7 +428,7 @@ AmoebaTest1()
     // Get the final value of the optimizer
     std::cout << "Testing optimizer's GetValue() [invokes additional function evaluation]: ";
     finalValue = itkOptimizer->GetValue();
-    if (std::fabs(finalValue + 9.99998) > 0.01)
+    if (itk::Math::abs(finalValue + 9.99998) > 0.01)
     {
       std::cerr << "failed\n";
       std::cerr << "[TEST 1 FAILURE]\n";
@@ -504,7 +504,7 @@ AmoebaTest2()
   std::cout << "Known parameters   = " << knownParameters << "   ";
   std::cout << "Estimated parameters = " << finalParameters << std::endl;
   std::cout << "Converged to local minimum." << std::endl;
-  if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+  if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
   {
     std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
@@ -537,7 +537,7 @@ AmoebaTest2()
   std::cout << "Estimated parameters = " << finalParameters << std::endl;
   std::cout << "Converged to global minimum." << std::endl;
 
-  if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+  if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
   {
     std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;

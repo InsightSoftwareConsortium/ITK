@@ -98,10 +98,10 @@ double
 PolygonSpatialObject<TDimension>::MeasureAreaInObjectSpace() const
 {
   // To find the area of a planar polygon not in the x-y plane, use:
-  // 2 A(P) = std::abs(N . (sum_{i=0}^{n-1} (v_i x v_{i+1})))
+  // 2 A(P) = itk::Math::abs(N . (sum_{i=0}^{n-1} (v_i x v_{i+1})))
   // where N is a unit vector normal to the plane. The `.' represents the
   // dot product operator, the `x' represents the cross product operator,
-  //        and std::abs() is the absolute value function.
+  //        and itk::Math::abs() is the absolute value function.
   double area = 0.0;
   int    numpoints = this->GetNumberOfPoints();
   int    X = 0;

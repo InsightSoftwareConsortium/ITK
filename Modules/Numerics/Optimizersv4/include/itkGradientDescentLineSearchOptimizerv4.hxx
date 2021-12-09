@@ -125,7 +125,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Gol
   {
     x = b - this->m_Resphi * (b - a);
   }
-  if (std::abs(c - a) < this->m_Epsilon * (std::abs(b) + std::abs(x)))
+  if (itk::Math::abs(c - a) < this->m_Epsilon * (itk::Math::abs(b) + itk::Math::abs(x)))
   {
     return (c + a) / 2;
   }

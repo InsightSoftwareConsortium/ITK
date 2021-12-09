@@ -160,7 +160,7 @@ itkImageSpatialObjectTest(int, char *[])
 
 
   std::cout << "ValueAt() with interpolator...";
-  if (std::fabs(returnedValue - expectedValue) > 0.001)
+  if (itk::Math::abs(returnedValue - expectedValue) > 0.001)
   {
     std::cout << "Expected: " << expectedValue << " returned: " << returnedValue << std::endl;
     return EXIT_FAILURE;
@@ -176,9 +176,9 @@ itkImageSpatialObjectTest(int, char *[])
   expectedDerivative[1] = 10;
   expectedDerivative[2] = 100;
   std::cout << "DerivativeAt() with interpolator ...";
-  if (std::fabs(derivative[0] - expectedDerivative[0]) > 0.00001 ||
-      std::fabs(derivative[1] - expectedDerivative[1]) > 0.00001 ||
-      std::fabs(derivative[2] - expectedDerivative[2]) > 0.00001)
+  if (itk::Math::abs(derivative[0] - expectedDerivative[0]) > 0.00001 ||
+      itk::Math::abs(derivative[1] - expectedDerivative[1]) > 0.00001 ||
+      itk::Math::abs(derivative[2] - expectedDerivative[2]) > 0.00001)
   {
     std::cout << "Expected: " << derivative << " returned: " << expectedDerivative << std::endl;
     std::cout << "[FAILED]" << std::endl;

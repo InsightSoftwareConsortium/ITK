@@ -145,7 +145,7 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
     DisplacementFieldType::IndexType id2 = filter->GetOutput()->TransformPhysicalPointToIndex(p2);
     DisplacementFieldType::PixelType fp2 = filter->GetOutput()->GetPixel(id2);
 
-    if (std::abs(fp2[0] + fp1[0]) > 0.001 || std::abs(fp2[1] + fp1[1]) > 0.001)
+    if (itk::Math::abs(fp2[0] + fp1[0]) > 0.001 || itk::Math::abs(fp2[1] + fp1[1]) > 0.001)
     {
       std::cerr << "Loop invariant not satisfied for index " << it.GetIndex() << " : f^-1(f(p1) + p1 ) + f(p1)  = 0"
                 << std::endl;

@@ -106,7 +106,7 @@ TestDisplacementJacobianDeterminantValue()
   float jacobianDeterminant = output->GetPixel(index);
   // std::cout << "Output "  << output->GetPixel(index) << std::endl;
   double epsilon = 1e-13;
-  if (std::abs(jacobianDeterminant - expectedJacobianDeterminant) > epsilon)
+  if (itk::Math::abs(jacobianDeterminant - expectedJacobianDeterminant) > epsilon)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in pixel value at index [" << index << "]" << std::endl;

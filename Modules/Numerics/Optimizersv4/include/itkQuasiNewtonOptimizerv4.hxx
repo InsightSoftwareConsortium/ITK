@@ -247,7 +247,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ModifyCombinedNew
     }
   }
 
-  if (std::abs(this->m_LearningRate - NumericTraits<TInternalComputationValueType>::OneValue()) > 0.01)
+  if (itk::Math::abs(this->m_LearningRate - NumericTraits<TInternalComputationValueType>::OneValue()) > 0.01)
   {
     this->m_NewtonStep *= this->m_LearningRate;
   }
@@ -369,8 +369,8 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
   TInternalComputationValueType dot_dg_dx = inner_product(dg, dx);
   TInternalComputationValueType dot_edg_dx = inner_product(edg, dx);
 
-  if (std::abs(dot_dg_dx) <= NumericTraits<TInternalComputationValueType>::epsilon() ||
-      std::abs(dot_edg_dx) <= NumericTraits<TInternalComputationValueType>::epsilon())
+  if (itk::Math::abs(dot_dg_dx) <= NumericTraits<TInternalComputationValueType>::epsilon() ||
+      itk::Math::abs(dot_edg_dx) <= NumericTraits<TInternalComputationValueType>::epsilon())
   {
     return false;
   }
@@ -391,7 +391,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::ComputeHessianAnd
 
   TInternalComputationValueType threshold = NumericTraits<TInternalComputationValueType>::epsilon();
 
-  if (std::abs(vnl_determinant(newHessian)) <= threshold)
+  if (itk::Math::abs(vnl_determinant(newHessian)) <= threshold)
   {
     return false;
   }

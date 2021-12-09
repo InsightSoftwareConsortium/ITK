@@ -19,6 +19,7 @@
 #define itkWienerDeconvolutionImageFilter_h
 
 #include "itkInverseDeconvolutionImageFilter.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -173,7 +174,7 @@ public:
 
     TPixel denominator = std::norm(H) + (Pn / (Pf - Pn));
     TPixel value = NumericTraits<TPixel>::ZeroValue();
-    if (std::abs(denominator) >= m_KernelZeroMagnitudeThreshold)
+    if (itk::Math::abs(denominator) >= m_KernelZeroMagnitudeThreshold)
     {
       value = I * (std::conj(H) / denominator);
     }

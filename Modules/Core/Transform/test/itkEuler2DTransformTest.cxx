@@ -32,7 +32,7 @@ CheckEqual(itk::Point<double, 2> p1, itk::Point<double, 2> p2)
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (std::fabs(p1[i] - p2[i]) > epsilon)
+    if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
     {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -90,7 +90,7 @@ itkEuler2DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(q[i] - r[i]) > epsilon)
+    if (itk::Math::abs(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -122,7 +122,7 @@ itkEuler2DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(q[i] - r[i]) > epsilon)
+    if (itk::Math::abs(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -171,7 +171,7 @@ itkEuler2DTransformTest(int, char *[])
   auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if (std::fabs(t2->GetParameters()[0] - 0.2) > 0.0001)
+  if (itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001)
   {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
@@ -384,7 +384,7 @@ itkEuler2DTransformTest(int, char *[])
     std::cout << "Test Set/GetMatrix() and Set/GetOffset(): ";
     for (unsigned int j = 0; j < t1->GetNumberOfParameters(); ++j)
     {
-      if (std::fabs(parameters3[j] - pdash[j]) > epsilon)
+      if (itk::Math::abs(parameters3[j] - pdash[j]) > epsilon)
       {
         std::cout << "Expected: " << parameters3 << std::endl;
         std::cout << "Got: " << pdash << std::endl;

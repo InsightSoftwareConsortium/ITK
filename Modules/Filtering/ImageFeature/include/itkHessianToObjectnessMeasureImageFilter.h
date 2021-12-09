@@ -145,7 +145,7 @@ private:
   // functor used to sort the eigenvalues are to be sorted
   // |e1|<=|e2|<=...<=|eN|
   //
-  // Returns ( abs(a) < abs(b) )
+  // Returns ( itk::Math::abs(a) < itk::Math::abs(b) )
   struct AbsLessCompare
   {
     bool

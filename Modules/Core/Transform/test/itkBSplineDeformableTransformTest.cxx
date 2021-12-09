@@ -426,7 +426,7 @@ itkBSplineDeformableTransformTest1()
     std::cout << "numberOfParameters =  " << numberOfParameters2 << std::endl;
     for (unsigned int i = 0; i < numberOfParameters2; ++i)
     {
-      if (std::fabs(parameters2[i]) > 1e-10)
+      if (itk::Math::abs(parameters2[i]) > 1e-10)
       {
         std::cerr << "SetIdentity failed, parameters are not null "
                   << "after invoking SetIdentity() " << std::endl;

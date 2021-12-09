@@ -450,7 +450,7 @@ SPSAOptimizer::GuessParameters(SizeValueType numberOfGradientEstimates, double i
     this->ComputeGradient(initialPosition, m_Gradient);
     for (unsigned int j = 0; j < spaceDimension; ++j)
     {
-      averageAbsoluteGradient[j] += std::fabs(m_Gradient[j]);
+      averageAbsoluteGradient[j] += itk::Math::abs(m_Gradient[j]);
     }
   } // end for ++n
   averageAbsoluteGradient /= static_cast<double>(numberOfGradientEstimates);

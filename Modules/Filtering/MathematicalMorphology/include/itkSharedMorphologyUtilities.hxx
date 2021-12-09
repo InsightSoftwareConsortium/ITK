@@ -100,12 +100,13 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   unsigned                   perpdir = 0;
   for (unsigned i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
-    if (std::fabs(line[i]) > domdir)
+    const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
+    if (abs_line_elmt_tmp > domdir)
     {
-      domdir = std::fabs(line[i]);
+      domdir = abs_line_elmt_tmp;
       perpdir = i;
     }
-    if (std::fabs(line[i]) > tol)
+    if (abs_line_elmt_tmp > tol)
     {
       int   P1 = ImStart[i] - StartIndex[i];
       int   P2 = ImStart[i] + ImSize[i] - 1 - StartIndex[i];
@@ -138,8 +139,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
       }
     }
   }
-  sPos = (int)(Tnear * std::fabs(line[perpdir]) + 0.5);
-  ePos = (int)(Tfar * std::fabs(line[perpdir]) + 0.5);
+  sPos = (int)(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
+  ePos = (int)(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
 
   // std::cout << Tnear << " " << Tfar << std::endl;
   if (Tfar < Tnear) // seems to need some margin
@@ -335,9 +336,10 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   // figure out the dominant direction of the line
   for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
   {
-    if (std::fabs(line[i]) > MaxComp)
+    const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
+    if (abs_line_elmt_tmp > MaxComp)
     {
-      MaxComp = std::fabs(line[i]);
+      MaxComp = abs_line_elmt_tmp;
       DomDir = i;
     }
   }
@@ -392,11 +394,11 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     {
       if (i != NonFaceDim)
       {
-        auto Pad = Math::Ceil<int>((float)(NonFaceLen)*line[i] / std::fabs(line[NonFaceDim]));
+        auto Pad = Math::Ceil<int>((float)(NonFaceLen)*line[i] / itk::Math::abs(line[NonFaceDim]));
         if (Pad < 0)
         {
           // just increase the size - no need to change the start
-          NewSize[i] += abs(Pad) + 1;
+          NewSize[i] += itk::Math::abs(Pad) + 1;
         }
         else
         {
@@ -453,7 +455,7 @@ GetLinePixels(const TLine line)
 
   for (unsigned int i = 0; i < TLine::Dimension; ++i)
   {
-    float tt = std::fabs(line[i] / N);
+    const float tt = itk::Math::abs(line[i] / N);
     if (tt > correction)
     {
       correction = tt;

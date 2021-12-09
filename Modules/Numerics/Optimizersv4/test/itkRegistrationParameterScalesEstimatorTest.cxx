@@ -323,7 +323,7 @@ itkRegistrationParameterScalesEstimatorTest(int, char *[])
   bool randomPass = true;
   for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); ++p)
   {
-    if (std::abs((jacobianScales[p] - theoreticalJacobianScales[p]) / theoreticalJacobianScales[p]) > 0.3)
+    if (itk::Math::abs((jacobianScales[p] - theoreticalJacobianScales[p]) / theoreticalJacobianScales[p]) > 0.3)
     {
       randomPass = false;
       break;

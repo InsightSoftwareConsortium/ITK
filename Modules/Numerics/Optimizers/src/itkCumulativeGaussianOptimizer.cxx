@@ -137,11 +137,12 @@ CumulativeGaussianOptimizer::FindParametersOfGaussian(MeasureType * sampledGauss
     averageSumOfSquaredDifferences = FindAverageSumOfSquaredDifferences(extendedArray, extendedArrayCopy);
 
     // Stop if there is a very very very small change between iterations.
-    if (std::fabs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance)
+    if (itk::Math::abs(temp - averageSumOfSquaredDifferences) <= m_DifferenceTolerance)
     {
       m_StopConditionDescription.str("");
       m_StopConditionDescription << this->GetNameOfClass() << ": "
-                                 << "Change between iterations (" << std::fabs(temp - averageSumOfSquaredDifferences)
+                                 << "Change between iterations ("
+                                 << itk::Math::abs(temp - averageSumOfSquaredDifferences)
                                  << ") is less than DifferenceTolerance (" << m_DifferenceTolerance << ").";
       break;
     }

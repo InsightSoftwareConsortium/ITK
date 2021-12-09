@@ -215,7 +215,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::ConvertOutputIndexToInputIndex(
     // 18-connected voxels and second 6-connected layer having distance 2 etc.
     for (dimCtr = 0; dimCtr < ImageDimension; ++dimCtr)
     {
-      distanceFromEdge += (std::abs(outputIndex[dimCtr] - inputIndex[dimCtr]) + 1) / 2;
+      distanceFromEdge += (itk::Math::abs(outputIndex[dimCtr] - inputIndex[dimCtr]) + 1) / 2;
     }
     // TODO: see if precomputed pow look-up table will speed this up
     outDecayFactor = std::pow(this->m_DecayBase, distanceFromEdge);

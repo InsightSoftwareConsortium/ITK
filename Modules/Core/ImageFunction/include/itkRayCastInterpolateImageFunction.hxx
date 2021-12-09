@@ -793,9 +793,9 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
 
   // Calculate the number of voxels in each direction
 
-  xNum = std::fabs(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
-  yNum = std::fabs(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
-  zNum = std::fabs(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
+  xNum = itk::Math::abs(m_RayVoxelStartPosition[0] - m_RayVoxelEndPosition[0]);
+  yNum = itk::Math::abs(m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
+  zNum = itk::Math::abs(m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
 
   // The direction iterated in is that with the greatest number of voxels
   // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~

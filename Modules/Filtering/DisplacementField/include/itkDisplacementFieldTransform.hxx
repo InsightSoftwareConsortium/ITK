@@ -248,12 +248,12 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   dPixSign = doInverseJacobian ? -dPixSign : dPixSign;
   for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    TParametersValueType dist = fabs((float)index[row]);
+    TParametersValueType dist = itk::Math::abs((float)index[row]);
     if (dist < mindist)
     {
       isValidJacobianCalcLocat = false;
     }
-    dist = fabs((TParametersValueType)size[row] - (TParametersValueType)index[row]);
+    dist = itk::Math::abs((TParametersValueType)size[row] - (TParametersValueType)index[row]);
     if (dist < mindist)
     {
       isValidJacobianCalcLocat = false;

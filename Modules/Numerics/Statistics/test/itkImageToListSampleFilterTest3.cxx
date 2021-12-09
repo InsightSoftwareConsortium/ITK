@@ -127,7 +127,7 @@ itkImageToListSampleFilterTest3(int, char *[])
 
   const double epsilon = 1e-6;
 
-  if (std::fabs(sum - 420.0) > epsilon)
+  if (itk::Math::abs(sum - 420.0) > epsilon)
   {
     std::cerr << "Computed sum of pixels in the list sample (masked) is : " << sum << " but should be 420.0";
     return EXIT_FAILURE;

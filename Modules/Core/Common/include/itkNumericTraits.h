@@ -67,7 +67,7 @@ public:
   /** Return the type that can be printed. */
   using PrintType = T;
 
-  /** Return value of std::abs(). */
+  /** Return value of itk::Math::abs(). */
   using AbsType = T;
 
   /** Accumulation of addition and multiplication. */

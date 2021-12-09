@@ -525,7 +525,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   LocalRealType sFixedFixed_sMovingMoving = sFixedFixed * sMovingMoving;
 
-  if (fabs(sFixedFixed_sMovingMoving) > NumericTraits<LocalRealType>::epsilon())
+  if (itk::Math::abs(sFixedFixed_sMovingMoving) > NumericTraits<LocalRealType>::epsilon())
   {
     localCC = sFixedMoving * sFixedMoving / (sFixedFixed_sMovingMoving);
   }

@@ -168,11 +168,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (std::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < NumericTraits<RealType>::ZeroValue() && std::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<RealType>::ZeroValue();
     }
@@ -316,11 +316,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (std::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < NumericTraits<RealType>::ZeroValue() && std::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<RealType>::ZeroValue();
     }
@@ -482,11 +482,11 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     p[i] = params[i];
-    if (std::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
+    if (itk::Math::abs(p[i] - NumericTraits<CoordRepType>::OneValue()) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<CoordRepType>::OneValue() - this->m_BSplineEpsilon;
     }
-    if (p[i] < NumericTraits<RealType>::ZeroValue() && std::abs(p[i]) <= this->m_BSplineEpsilon)
+    if (p[i] < NumericTraits<RealType>::ZeroValue() && itk::Math::abs(p[i]) <= this->m_BSplineEpsilon)
     {
       p[i] = NumericTraits<RealType>::ZeroValue();
     }

@@ -115,7 +115,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   double metaMaximum = newMetaGaussian->Maximum();
 
   // if (metaMaximum != (float)maximum)
-  if (std::fabs(metaMaximum - maximum) > precisionLimit)
+  if (itk::Math::abs(metaMaximum - maximum) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert maximum" << std::endl;
     return EXIT_FAILURE;
@@ -126,7 +126,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   double metaRadius = newMetaGaussian->Radius();
 
   // if (metaRadius != (float)radius)
-  if (std::fabs(metaRadius - radius) > precisionLimit)
+  if (itk::Math::abs(metaRadius - radius) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert radius" << std::endl;
     return EXIT_FAILURE;
@@ -137,7 +137,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   double metaSigma = newMetaGaussian->Sigma();
 
   // if (metaSigma != (float)sigma)
-  if (std::fabs(metaSigma - sigma) > precisionLimit)
+  if (itk::Math::abs(metaSigma - sigma) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert sigma" << std::endl;
     return EXIT_FAILURE;
@@ -181,7 +181,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
 
 
   // Check maximum
-  if (std::fabs(newGaussianSpatialObj->GetMaximum() - metaGaussian->Maximum()) > precisionLimit)
+  if (itk::Math::abs(newGaussianSpatialObj->GetMaximum() - metaGaussian->Maximum()) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert maximum" << std::endl;
     return EXIT_FAILURE;
@@ -189,7 +189,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   std::cout << "[PASSED] MetaObject -> SpatialObject: maximum: " << newGaussianSpatialObj->GetMaximum() << std::endl;
 
   // Check radius
-  if (std::fabs(newGaussianSpatialObj->GetRadiusInObjectSpace() - metaGaussian->Radius()) > precisionLimit)
+  if (itk::Math::abs(newGaussianSpatialObj->GetRadiusInObjectSpace() - metaGaussian->Radius()) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert radius" << std::endl;
     return EXIT_FAILURE;
@@ -198,7 +198,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
             << std::endl;
 
   // Check sigma
-  if (std::fabs(newGaussianSpatialObj->GetSigmaInObjectSpace() - metaGaussian->Sigma()) > precisionLimit)
+  if (itk::Math::abs(newGaussianSpatialObj->GetSigmaInObjectSpace() - metaGaussian->Sigma()) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to SpatialObject failed to convert sigma" << std::endl;
     return EXIT_FAILURE;
@@ -253,7 +253,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   SpatialObjectType::Pointer reLoad = dynamic_cast<SpatialObjectType *>(converter->ReadMeta(argv[1]).GetPointer());
 
   // Check maximum
-  if (std::fabs(reLoad->GetMaximum() - maximum) > precisionLimit)
+  if (itk::Math::abs(reLoad->GetMaximum() - maximum) > precisionLimit)
   {
     std::cout << "[FAILED] Didn't read maximum properly" << std::endl;
     return EXIT_FAILURE;
@@ -261,7 +261,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   std::cout << "[PASSED] Reading: maximum: " << reLoad->GetMaximum() << std::endl;
 
   // Check radius
-  if (std::fabs(reLoad->GetRadiusInObjectSpace() - radius) > precisionLimit)
+  if (itk::Math::abs(reLoad->GetRadiusInObjectSpace() - radius) > precisionLimit)
   {
     std::cout << "[FAILED] Didn't read radius properly" << std::endl;
     return EXIT_FAILURE;
@@ -269,7 +269,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   std::cout << "[PASSED] Reading: radius: " << reLoad->GetRadiusInObjectSpace() << std::endl;
 
   // Check sigma
-  if (std::fabs(reLoad->GetSigmaInObjectSpace() - sigma) > precisionLimit)
+  if (itk::Math::abs(reLoad->GetSigmaInObjectSpace() - sigma) > precisionLimit)
   {
     std::cout << "[FAILED] Didn't read sigma properly" << std::endl;
     return EXIT_FAILURE;

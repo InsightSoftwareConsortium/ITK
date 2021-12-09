@@ -116,10 +116,10 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
 
   while (!oiter.IsAtEnd())
   {
-    if (maxLx < oiter.Get() * scaleFactor && std::abs(maxLx - oiter.Get() * scaleFactor) > tol)
+    if (maxLx < oiter.Get() * scaleFactor && itk::Math::abs(maxLx - oiter.Get() * scaleFactor) > tol)
     {
       std::cout << "FAIL: For period: " << 1.0 / frequency << " maxLx: " << maxLx
-                << " tolerance exceeded by: " << std::abs(maxLx - oiter.Get() * scaleFactor) << std::endl;
+                << " tolerance exceeded by: " << itk::Math::abs(maxLx - oiter.Get() * scaleFactor) << std::endl;
       return false;
     }
     ++oiter;
@@ -132,10 +132,10 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
 
   while (!oiter.IsAtEnd())
   {
-    if (maxLx < oiter.Get() * scaleFactor && std::abs(maxLx - oiter.Get() * scaleFactor) > tol)
+    if (maxLx < oiter.Get() * scaleFactor && itk::Math::abs(maxLx - oiter.Get() * scaleFactor) > tol)
     {
       std::cout << "FAIL:  For period: " << 1.0 / frequency << " maxLx: " << maxLx
-                << " tolerance exceeded by: " << std::abs(maxLx - oiter.Get() * scaleFactor) << std::endl;
+                << " tolerance exceeded by: " << itk::Math::abs(maxLx - oiter.Get() * scaleFactor) << std::endl;
       return false;
     }
     ++oiter;
@@ -144,7 +144,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
 
   std::cout << "f: " << frequencyPerImage << " max: " << maxLx << " expected max: " << expected_max << std::endl;
 
-  if (std::abs(maxLx - expected_max) > .01)
+  if (itk::Math::abs(maxLx - expected_max) > .01)
   {
     std::cout << "FAIL: tolerance of expected max exceeded!" << std::endl;
   }

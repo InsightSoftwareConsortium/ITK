@@ -109,7 +109,7 @@ itkEuler3DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(q[i] - r[i]) > epsilon)
+    if (itk::Math::abs(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -142,7 +142,7 @@ itkEuler3DTransformTest(int, char *[])
   r2 = eulerTransform2->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(r1[i] - r2[i]) > epsilon)
+    if (itk::Math::abs(r1[i] - r2[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -176,7 +176,7 @@ itkEuler3DTransformTest(int, char *[])
   r = eulerTransform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(q[i] - r[i]) > epsilon)
+    if (itk::Math::abs(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -337,8 +337,9 @@ itkEuler3DTransformTest(int, char *[])
   auto t2 = EulerTransformType::New();
   t2->SetIdentity();
   t2->Compose(eulerTransform);
-  if ((std::fabs(t2->GetParameters()[0] - 0.2) > 0.0001) || (std::fabs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
-      (std::fabs(t2->GetParameters()[2] - 0.3) > 0.0001))
+  if ((itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001) ||
+      (itk::Math::abs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
+      (itk::Math::abs(t2->GetParameters()[2] - 0.3) > 0.0001))
   {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
@@ -354,8 +355,9 @@ itkEuler3DTransformTest(int, char *[])
   t2->SetComputeZYX(true);
   t2->Compose(eulerTransform);
 
-  if ((std::fabs(t2->GetParameters()[0] - 0.2) > 0.0001) || (std::fabs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
-      (std::fabs(t2->GetParameters()[2] - 0.3) > 0.0001))
+  if ((itk::Math::abs(t2->GetParameters()[0] - 0.2) > 0.0001) ||
+      (itk::Math::abs(t2->GetParameters()[1] - 0.1) > 0.0001) ||
+      (itk::Math::abs(t2->GetParameters()[2] - 0.3) > 0.0001))
   {
     std::cout << " [ FAILED ] " << std::endl;
     return EXIT_FAILURE;
@@ -452,7 +454,7 @@ itkEuler3DTransformTest(int, char *[])
       ParametersType par0 = t3->GetParameters();
       for (unsigned int k = 0; k < e.GetSize(); ++k)
       {
-        if (std::fabs(e[k] - par0[k]) > epsilon)
+        if (itk::Math::abs(e[k] - par0[k]) > epsilon)
         {
           std::cout << " [ FAILED ] " << std::endl;
           std::cout << "Expected parameters: " << e << std::endl;
@@ -481,7 +483,7 @@ itkEuler3DTransformTest(int, char *[])
       ParametersType par1 = t_inv->GetParameters();
       for (unsigned int k = 0; k < par1.GetSize(); ++k)
       {
-        if (std::fabs(par1[k] - par0[k]) > epsilon)
+        if (itk::Math::abs(par1[k] - par0[k]) > epsilon)
         {
           std::cout << " [ FAILED ] " << std::endl;
           std::cout << "Expected parameters: " << par1 << std::endl;

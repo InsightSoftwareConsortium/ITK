@@ -90,7 +90,7 @@ itkExpectationBasedPointSetMetricTestRun()
   std::cout << "derivative: " << derivative << std::endl;
   for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
   {
-    if (std::fabs(derivative[d] - offset[d]) / offset[d] > 0.01)
+    if (itk::Math::abs(derivative[d] - offset[d]) / offset[d] > 0.01)
     {
       std::cerr << "derivative does not match expected offset of " << offset << std::endl;
       result = EXIT_FAILURE;

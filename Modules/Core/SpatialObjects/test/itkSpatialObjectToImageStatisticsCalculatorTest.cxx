@@ -101,8 +101,8 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
-  if ((std::fabs(calculator->GetMean()[0] - 140.0) > 1.0) ||
-      (std::fabs(calculator->GetCovarianceMatrix()[0][0] - 16141.0) > 1.0))
+  if ((itk::Math::abs(calculator->GetMean()[0] - 140.0) > 1.0) ||
+      (itk::Math::abs(calculator->GetCovarianceMatrix()[0][0] - 16141.0) > 1.0))
   {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -121,8 +121,8 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   std::cout << "Sample mean = " << calculator->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator->GetCovarianceMatrix();
 
-  if ((std::fabs(calculator->GetMean()[0] - 140.0) > 1.0) ||
-      (std::fabs(calculator->GetCovarianceMatrix()[0][0] - 16141.0) > 1.0))
+  if ((itk::Math::abs(calculator->GetMean()[0] - 140.0) > 1.0) ||
+      (itk::Math::abs(calculator->GetCovarianceMatrix()[0][0] - 16141.0) > 1.0))
   {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;
@@ -203,8 +203,9 @@ itkSpatialObjectToImageStatisticsCalculatorTest(int, char *[])
   std::cout << "Sample mean = " << calculator3D->GetMean() << std::endl;
   std::cout << "Sample covariance = " << calculator3D->GetCovarianceMatrix();
 
-  if ((std::fabs(calculator3D->GetMean()[0] - 0.0) > 1.0) || (std::fabs(calculator3D->GetMean()[1] - 1.0) > 1.0) ||
-      (std::fabs(calculator3D->GetMean()[2] - 2.0) > 1.0))
+  if ((itk::Math::abs(calculator3D->GetMean()[0] - 0.0) > 1.0) ||
+      (itk::Math::abs(calculator3D->GetMean()[1] - 1.0) > 1.0) ||
+      (itk::Math::abs(calculator3D->GetMean()[2] - 2.0) > 1.0))
   {
     std::cout << "[FAILED]" << std::endl;
     return EXIT_FAILURE;

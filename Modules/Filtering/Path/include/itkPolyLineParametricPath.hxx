@@ -121,14 +121,14 @@ PolyLineParametricPath<VDimension>::IncrementInput(InputType & input) const -> O
     unsigned int maxPartialDerivativeIndex = 0;
     for (unsigned int i = 1; i < VDimension; ++i)
     {
-      if (std::abs(partialDerivatives[i]) > std::abs(partialDerivatives[maxPartialDerivativeIndex]))
+      if (itk::Math::abs(partialDerivatives[i]) > itk::Math::abs(partialDerivatives[maxPartialDerivativeIndex]))
       {
         maxPartialDerivativeIndex = i;
       }
     }
 
     // Calculate the timestep required to effect a 1 pixel change
-    potentialTimestep = 1.0 / std::abs(partialDerivatives[maxPartialDerivativeIndex]);
+    potentialTimestep = 1.0 / itk::Math::abs(partialDerivatives[maxPartialDerivativeIndex]);
 
     // Check to make sure the timestep doesn't put the input past the next integral timestep
     //(since the derivatives can change)

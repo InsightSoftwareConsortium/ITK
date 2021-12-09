@@ -187,7 +187,7 @@ MultiStartOptimizerv4RunTest(itk::MultiStartOptimizerv4::Pointer & itkOptimizer)
   trueParameters[1] = -2.0;
   for (itk::SizeValueType j = 0; j < 2; ++j)
   {
-    if (fabs(bestPosition[j] - trueParameters[j]) > 0.01)
+    if (itk::Math::abs(bestPosition[j] - trueParameters[j]) > 0.01)
     {
       std::cerr << "Results do not match: " << std::endl
                 << "expected: " << trueParameters << std::endl

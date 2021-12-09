@@ -95,7 +95,7 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   double volume = 4.18879013333 * (uniqueAxisLength / 2) * (symmetricAxesLength / 2) * (symmetricAxesLength / 2);
 
   // Percent difference in volume measurement and calculation
-  double volumeError = (std::fabs(volume - interiorPixelCounter) / volume) * 100;
+  double volumeError = (itk::Math::abs(volume - interiorPixelCounter) / volume) * 100;
 
   // 5% error was randomly chosen as a successful ellipsoid fill.
   // This should actually be some function of the image/ellipsoid size.

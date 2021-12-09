@@ -232,7 +232,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
       {
         // Increment the offset, taking it through the range
         // (dist + rad - 1, ..., dist - rad), i.e. all x
-        // such that std::abs(x) <= rad
+        // such that itk::Math::abs(x) <= rad
         x -= 1.0;
 
         // Compute the weight for this m

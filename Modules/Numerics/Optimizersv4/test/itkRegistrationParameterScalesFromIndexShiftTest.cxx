@@ -191,7 +191,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   bool affinePass = true;
   for (itk::SizeValueType p = 0; p < theoreticalMovingScales.GetSize(); ++p)
   {
-    if (std::abs((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01)
+    if (itk::Math::abs((movingScales[p] - theoreticalMovingScales[p]) / theoreticalMovingScales[p]) > 0.01)
     {
       affinePass = false;
       break;
@@ -241,7 +241,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
 
   // compare truth and test
   bool stepScalePass = false;
-  if (std::abs((stepScale - theoreticalStepScale) / theoreticalStepScale) < 0.01)
+  if (itk::Math::abs((stepScale - theoreticalStepScale) / theoreticalStepScale) < 0.01)
   {
     stepScalePass = true;
   }
@@ -289,7 +289,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   bool displacementPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); ++p)
   {
-    if (std::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
+    if (itk::Math::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
     {
       displacementPass = false;
       break;
@@ -316,7 +316,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
 
   bool      localStepScalePass = false;
   FloatType theoreticalLocalStepScale = std::sqrt(2.0);
-  if (std::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
+  if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {
     localStepScalePass = true;
   }
@@ -347,7 +347,7 @@ itkRegistrationParameterScalesFromIndexShiftTest(int, char *[])
   bool translationPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalFixedScales.GetSize(); ++p)
   {
-    if (std::abs((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01)
+    if (itk::Math::abs((fixedScales[p] - theoreticalFixedScales[p]) / theoreticalFixedScales[p]) > 0.01)
     {
       translationPass = false;
       break;

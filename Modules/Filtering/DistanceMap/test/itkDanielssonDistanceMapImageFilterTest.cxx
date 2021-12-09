@@ -137,7 +137,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
 
   const double                    distance2 = outputDistance2D->GetPixel(index);
   const myImageType2D2::PixelType epsilon = 1e-5;
-  if (std::fabs(distance2 - distance1 * distance1) > epsilon)
+  if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
     return EXIT_FAILURE;
@@ -175,7 +175,7 @@ itkDanielssonDistanceMapImageFilterTest(int, char *[])
   auto expectedValue = static_cast<myImageType2D2::PixelType>(anisotropicSpacing[1]);
   expectedValue *= expectedValue;
   myImageType2D2::PixelType pixelValue = filter2D->GetOutput()->GetPixel(index2D);
-  if (std::fabs(expectedValue - pixelValue) > epsilon)
+  if (itk::Math::abs(expectedValue - pixelValue) > epsilon)
   {
     std::cerr << "Error when image spacing is anisotropic." << std::endl;
     std::cerr << "Pixel value was " << pixelValue << ", expected " << expectedValue << std::endl;

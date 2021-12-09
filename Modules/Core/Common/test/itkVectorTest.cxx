@@ -25,7 +25,7 @@ using Real = double;
 bool
 different(Real a, Real b)
 {
-  return std::fabs(a - b) > 1e-6;
+  return itk::Math::abs(a - b) > 1e-6;
 }
 
 int

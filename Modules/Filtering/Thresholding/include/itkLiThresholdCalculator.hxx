@@ -147,7 +147,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     new_thresh += bin_min;
 
 
-  } while (std::abs(new_thresh - old_thresh) > tolerance);
+  } while (itk::Math::abs(new_thresh - old_thresh) > tolerance);
 
   this->GetOutput()->Set(static_cast<OutputType>(histogram->GetMeasurement(histthresh, 0)));
 }

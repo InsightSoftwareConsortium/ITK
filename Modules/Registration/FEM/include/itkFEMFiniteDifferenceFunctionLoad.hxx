@@ -180,7 +180,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Eleme
       try
       {
         this->Fe(gPos);
-        tempe = std::fabs(0.0);
+        tempe = itk::Math::abs(0.0);
       }
       catch (...)
       {
@@ -196,7 +196,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Eleme
     defe += element->GetElementDeformationEnergy(solmat);
   }
 
-  return std::fabs((double)energy * (double)m_Gamma - (double)defe);
+  return itk::Math::abs((double)energy * (double)m_Gamma - (double)defe);
 }
 
 template <typename TMoving, typename TFixed>
@@ -236,7 +236,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::Fe(FEMVectorType Gpos) -> FEMVect
   bool inimage = true;
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
-    if (itk::Math::isnan(Gpos[k]) || itk::Math::isinf(Gpos[k]) || std::fabs(Gpos[k]) > 1.e33)
+    if (itk::Math::isnan(Gpos[k]) || itk::Math::isinf(Gpos[k]) || itk::Math::abs(Gpos[k]) > 1.e33)
     {
       return femVec;
     }

@@ -69,7 +69,7 @@ FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position)
 
     // Check planes along Y
     const double angleY = std::atan2(dy, distanceXZ);
-    if (std::fabs(angleY) > m_ApertureAngleY * deg2rad)
+    if (itk::Math::abs(angleY) > m_ApertureAngleY * deg2rad)
     {
       return 0;
     }
@@ -96,7 +96,7 @@ FrustumSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position)
 
     // Check planes along X
     const double angleX = std::atan2(dx, distanceYZ);
-    if (std::fabs(angleX) > m_ApertureAngleX * deg2rad)
+    if (itk::Math::abs(angleX) > m_ApertureAngleX * deg2rad)
     {
       return 0;
     }
