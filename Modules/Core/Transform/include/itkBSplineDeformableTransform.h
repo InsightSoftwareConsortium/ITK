@@ -260,6 +260,15 @@ public:
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
 
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
+  {
+    itkExceptionMacro(<< "ComputeJacobianWithRespectToPosition not yet implemented "
+                         "for "
+                      << this->GetNameOfClass());
+  }
+  using Superclass::ComputeJacobianWithRespectToPosition;
+
   /** Return the number of parameters that completely define the Transfom */
   NumberOfParametersType
   GetNumberOfParameters() const override;

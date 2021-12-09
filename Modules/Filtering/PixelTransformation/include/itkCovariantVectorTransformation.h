@@ -68,8 +68,8 @@ public:
   static constexpr unsigned int Dimension = TPixelType::Dimension;
   static_assert(Dimension == TransformType::InputPointType::Dimension &&
                   Dimension == TransformType::OutputPointType::Dimension,
-                "ContravariantVectorTransformation requires that PixelType and input and output images have all the "
-                "same dimension");
+                "CovariantVectorTransformation requires that PixelType and input and output "
+                "transformation spaces have all the same dimension");
 
   PixelType
   Transform(const PixelType & value, const InputPointType & inputPoint, const OutputPointType & outputPoint) override;

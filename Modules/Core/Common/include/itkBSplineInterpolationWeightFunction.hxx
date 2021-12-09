@@ -20,6 +20,7 @@
 
 #include "itkBSplineInterpolationWeightFunction.h"
 #include "itkBSplineKernelFunction.h"
+#include "itkBSplineDerivativeKernelFunction.h"
 #include "itkImage.h"
 #include "itkMatrix.h"
 #include "itkMath.h"
@@ -69,16 +70,9 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
   WeightsType &               weights,
   IndexType &                 startIndex) const
 {
-  unsigned int j, k;
+  startIndex = Self::StartIndex(index);
 
-  // Find the starting index of the support region
-  for (j = 0; j < SpaceDimension; ++j)
-  {
-    // Note that the expression passed to Math::Floor is adapted to work around
-    // a compiler bug which caused endless compilations (apparently), by
-    // Visual C++ 2015 Update 3, on 64-bit builds of Release configurations.
-    startIndex[j] = Math::Floor<IndexValueType>(index[j] + 0.5 - SplineOrder / 2.0);
-  }
+  unsigned int j, k;
 
   // Compute the weights
   Matrix<double, SpaceDimension, SplineOrder + 1> weights1D;
@@ -102,6 +96,71 @@ BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::Ev
       weights[k] *= weights1D[j][m_OffsetToIndexTable[k][j]];
     }
   }
+}
+
+/** Compute weights for obtaining the derivatives with respect to the continuous index position
+ * (normalized position coordinates) at specified continuous index position. */
+template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+auto
+BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::EvaluateDerivatives(
+  const ContinuousIndexType & index) const -> DerivativeWeightsType
+{
+  DerivativeWeightsType derivativeWeights;
+  IndexType             startIndex = Self::StartIndex(index);
+
+  // Compute the weights
+  Matrix<double, SpaceDimension, SplineOrder + 1> weights1D;
+  Matrix<double, SpaceDimension, SplineOrder + 1> derivativeWeights1D;
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
+  {
+    double x = index[j] - static_cast<double>(startIndex[j]);
+
+    for (unsigned int k = 0; k <= SplineOrder; ++k)
+    {
+      weights1D[j][k] = BSplineKernelFunction<SplineOrder>::FastEvaluate(x);
+      derivativeWeights1D[j][k] = BSplineDerivativeKernelFunction<SplineOrder>::FastEvaluate(x);
+      x -= 1.0;
+    }
+  }
+
+  for (unsigned int i = 0; i < SpaceDimension; ++i)
+  {
+    for (unsigned int k = 0; k < Self::NumberOfWeights; ++k)
+    {
+      derivativeWeights[i][k] = 1.0;
+      for (unsigned int j = 0; j < SpaceDimension; ++j)
+      {
+        if (i == j)
+        {
+          derivativeWeights[i][k] *= derivativeWeights1D[j][m_OffsetToIndexTable[k][j]];
+        }
+        else
+        {
+          derivativeWeights[i][k] *= weights1D[j][m_OffsetToIndexTable[k][j]];
+        }
+      }
+    }
+  }
+
+  return derivativeWeights;
+}
+
+/** Compute the index with lower value in all dimensions in the support of the BSpline control points
+ * influencing the point indicated by a continuous index. */
+template <typename TCoordRep, unsigned int VSpaceDimension, unsigned int VSplineOrder>
+auto
+BSplineInterpolationWeightFunction<TCoordRep, VSpaceDimension, VSplineOrder>::StartIndex(
+  const ContinuousIndexType & index) -> IndexType
+{
+  IndexType startIndex;
+  for (unsigned int j = 0; j < SpaceDimension; ++j)
+  {
+    // Note that the expression passed to Math::Floor is adapted to work around
+    // a compiler bug which caused endless compilations (apparently), by
+    // Visual C++ 2015 Update 3, on 64-bit builds of Release configurations.
+    startIndex[j] = Math::Floor<IndexValueType>(index[j] + 0.5 - SplineOrder / 2.0);
+  }
+  return startIndex;
 }
 } // end namespace itk
 

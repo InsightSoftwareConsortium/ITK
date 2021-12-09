@@ -21,16 +21,11 @@
 #include "itkCovariantVectorTransformation.h"
 namespace itk
 {
-/*
-template <typename TPixelType,
-          typename TTransformType,
-          typename TOutputPointType>
-CovariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>::
-  CovariantVectorTransformation()
+template <typename TPixelType, typename TTransformType, typename TOutputPointType>
+CovariantVectorTransformation<TPixelType, TTransformType, TOutputPointType>::CovariantVectorTransformation()
 {
   // initialize variables
 }
-*/
 
 template <typename TPixelType, typename TTransformType, typename TOutputPointType>
 auto

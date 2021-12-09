@@ -218,6 +218,7 @@ public:
   using WeightsFunctionType = typename Superclass::WeightsFunctionType;
 
   using WeightsType = typename Superclass::WeightsType;
+  using DerivativeWeightsType = typename Superclass::DerivativeWeightsType;
   using ContinuousIndexType = typename Superclass::ContinuousIndexType;
 
   /** Parameter index array type. */
@@ -242,6 +243,10 @@ public:
   /** Compute the Jacobian in one position. */
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
+
+  void
+  ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override;
+  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Return the number of parameters that completely define the Transfom. */
   NumberOfParametersType

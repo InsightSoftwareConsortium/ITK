@@ -232,6 +232,7 @@ public:
   using WeightsFunctionType = BSplineInterpolationWeightFunction<ScalarType, Self::SpaceDimension, Self::SplineOrder>;
 
   using WeightsType = typename WeightsFunctionType::WeightsType;
+  using DerivativeWeightsType = typename WeightsFunctionType::DerivativeWeightsType;
   using ContinuousIndexType = typename WeightsFunctionType::ContinuousIndexType;
 
   /** Number of weights. */
@@ -294,15 +295,6 @@ public:
 
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override = 0;
-
-  void
-  ComputeJacobianWithRespectToPosition(const InputPointType &, JacobianPositionType &) const override
-  {
-    itkExceptionMacro(<< "ComputeJacobianWithRespectToPosition not yet implemented "
-                         "for "
-                      << this->GetNameOfClass());
-  }
-  using Superclass::ComputeJacobianWithRespectToPosition;
 
   /** Return the number of parameters that completely define the Transfom */
   NumberOfParametersType

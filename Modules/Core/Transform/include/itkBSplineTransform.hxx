@@ -652,6 +652,76 @@ BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::ComputeJacobi
 
 template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
 void
+BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::ComputeJacobianWithRespectToPosition(
+  const InputPointType & point,
+  JacobianPositionType & jacobian) const
+{
+  jacobian.set_identity();
+
+  if (this->m_CoefficientImages[0]->GetBufferPointer())
+  {
+    ContinuousIndexType index;
+    this->m_CoefficientImages[0]->TransformPhysicalPointToContinuousIndex(point, index);
+
+    // NOTE: if the support region does not lie totally within the grid
+    // we assume zero displacement and return the identity matrix.
+    if (!this->InsideValidRegion(index))
+    {
+      return;
+    }
+
+    IndexType supportIndex;
+    // Compute interpolation weights
+    DerivativeWeightsType derivativeWeights = this->m_WeightsFunction->EvaluateDerivatives(index);
+
+    // For each dimension, correlate coefficient with weights
+    SizeType supportSize;
+    supportSize.Fill(SplineOrder + 1);
+    RegionType supportRegion;
+    supportRegion.SetSize(supportSize);
+    supportRegion.SetIndex(supportIndex);
+
+    const typename ImageType::SpacingType & spacing = this->m_CoefficientImages[0]->GetSpacing();
+
+    using IteratorType = ImageScanlineConstIterator<ImageType>;
+    IteratorType  coeffIterator[SpaceDimension];
+    unsigned long counter = 0;
+    for (unsigned int j = 0; j < SpaceDimension; ++j)
+    {
+      coeffIterator[j] = IteratorType(this->m_CoefficientImages[j], supportRegion);
+    }
+
+    while (!coeffIterator[0].IsAtEnd())
+    {
+      while (!coeffIterator[0].IsAtEndOfLine())
+      {
+        // Multiply weigth with coefficient
+        for (unsigned int i = 0; i < SpaceDimension; ++i)
+        {
+          for (unsigned int j = 0; j < SpaceDimension; ++j)
+          {
+            jacobian[i][j] +=
+              static_cast<ScalarType>(derivativeWeights[j][counter] / spacing[j] * coeffIterator[i].Get());
+          }
+          ++(coeffIterator[i]);
+        }
+        ++counter;
+      } // end scanline
+
+      for (unsigned int i = 0; i < SpaceDimension; ++i)
+      {
+        coeffIterator[i].NextLine();
+      }
+    }
+  }
+  else
+  {
+    itkWarningMacro("B-spline coefficients have not been set");
+  }
+}
+
+template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
+void
 BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>::PrintSelf(std::ostream & os, Indent indent) const
 {
   this->Superclass::PrintSelf(os, indent);

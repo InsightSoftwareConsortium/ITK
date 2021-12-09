@@ -22,6 +22,7 @@
 #include "itkContinuousIndex.h"
 #include "itkArray.h"
 #include "itkArray2D.h"
+#include "itkMatrix.h"
 #include "itkMath.h"
 
 namespace itk
@@ -74,6 +75,9 @@ public:
   /** OutputType type alias support. */
   using WeightsType = typename Superclass::OutputType;
 
+  /** Weights for derivatives type alias support. */
+  using DerivativeWeightsType = Matrix<double, VSpaceDimension, Math::UnsignedPower(VSplineOrder + 1, VSpaceDimension)>;
+
   /** Number of weights. */
   static constexpr unsigned int NumberOfWeights{ WeightsType::Length };
 
@@ -102,6 +106,17 @@ public:
    */
   virtual void
   Evaluate(const ContinuousIndexType & index, WeightsType & weights, IndexType & startIndex) const;
+
+  /** Evaluate the weights for the derivatives with respect to the ContinuousIndex position
+   * (normalized position coordinates) and at specified ContinuousIndex position.  */
+  DerivativeWeightsType
+  EvaluateDerivatives(const ContinuousIndexType & index) const;
+
+  /** Compute the index with lower value in all dimensions in the support of the BSpline control points
+   * influencing the point indicated by a continuous index. */
+  static IndexType
+  StartIndex(const ContinuousIndexType & index);
+
 
 #if !defined(ITK_LEGACY_REMOVE)
   /** Get support region size. */

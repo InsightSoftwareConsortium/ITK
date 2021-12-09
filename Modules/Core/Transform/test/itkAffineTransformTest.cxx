@@ -599,7 +599,7 @@ itkAffineTransformTest(int, char *[])
     }
   }
 
-  /* Test ComputeInverseJacobianWithRespectToPosition. Should return the inverse Matrix. */
+  /* Test ComputeInverseJacobianWithRespectToPosition. Should return Matrix. */
   Matrix3Type matrix3invTruth;
   matrix3invTruth[0][0] = -8. / 3.;
   matrix3invTruth[0][1] = 8. / 3.;
