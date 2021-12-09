@@ -124,7 +124,7 @@ itkAbsImageFilterAndAdaptorTest(int, char *[])
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error in itkAbsImageFilterTest " << std::endl;
-      std::cerr << " abs(" << input << ") = " << absolute << std::endl;
+      std::cerr << " itk::Math::abs(" << input << ") = " << absolute << std::endl;
       std::cerr << " differs from " << output;
       std::cerr << " by more than " << epsilon << std::endl;
       testStatus = EXIT_FAILURE;

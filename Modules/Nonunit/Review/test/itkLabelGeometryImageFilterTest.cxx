@@ -184,7 +184,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
 
     typename LabelGeometryType::RealType orientation = labelGeometryFilter->GetOrientation(labelValue);
     // If the orientation is very close pi, we set it to 0.
-    orientation = std::fabs(itk::Math::pi - orientation) < epsilon ? 0 : orientation;
+    orientation = itk::Math::abs(itk::Math::pi - orientation) < epsilon ? 0 : orientation;
     matrix(rowIndex, columnIndex++) = orientation;
 
     rowIndex++;
@@ -301,11 +301,11 @@ compareMatrices(const MatrixType & m1, const MatrixType & m2, double epsilon)
         pass = false;
         return pass;
       }
-      if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
+      if (itk::Math::abs(m1[i][j] - m2[i][j]) > epsilon)
       {
         std::cout << "Matrix difference:"
-                  << "abs(m2[" << i << "][" << j << "] - m1[" << i << "][" << j
-                  << "]): " << std::fabs(m1[i][j] - m2[i][j]) << std::endl;
+                  << "itk::Math::abs(m2[" << i << "][" << j << "] - m1[" << i << "][" << j
+                  << "]): " << itk::Math::abs(m1[i][j] - m2[i][j]) << std::endl;
         pass = false;
         return pass;
       }

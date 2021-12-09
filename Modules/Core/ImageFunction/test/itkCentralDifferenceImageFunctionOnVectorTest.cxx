@@ -29,7 +29,7 @@ IsEqual(T & m1, T & m2)
   {
     for (unsigned int c = 0; c < T::ColumnDimensions; ++c)
     {
-      if (std::fabs(m1(r, c) - m2(r, c)) > 1e-4)
+      if (itk::Math::abs(m1(r, c) - m2(r, c)) > 1e-4)
       {
         return false;
       }
@@ -283,7 +283,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
     result = EXIT_FAILURE;
   }
 
-  if (fabs((right[0][0] + left[0][0]) / 2.0 - center[0][0]) > 1e-06)
+  if (itk::Math::abs((right[0][0] + left[0][0]) / 2.0 - center[0][0]) > 1e-06)
   {
     std::cout << "ERROR: Failed for EvaluateAtContinuousIndex at non-integer incecies. Center index result is not "
                  "average of left and right."
@@ -309,7 +309,7 @@ itkCentralDifferenceImageFunctionOnVectorTestRun()
     result = EXIT_FAILURE;
   }
 
-  if (fabs((right[0][0] + left[0][0]) / 2.0 - center[0][0]) > 1e-06)
+  if (itk::Math::abs((right[0][0] + left[0][0]) / 2.0 - center[0][0]) > 1e-06)
   {
     std::cout
       << "ERROR: Failed for Evaluate at non-integer incecies. Center index result is not average of left and right."

@@ -161,7 +161,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
     DerivResultOfGetValueAndDerivativeTruth[p] *= totalMagnitude;
   }
 
-  if (std::fabs(weightedMetricValue - multiVariateMetric->GetWeightedValue()) > 1e-6)
+  if (itk::Math::abs(weightedMetricValue - multiVariateMetric->GetWeightedValue()) > 1e-6)
   {
     std::cerr << "Computed weighted metric value " << weightedMetricValue << " does match returned value "
               << multiVariateMetric->GetWeightedValue() << std::endl;
@@ -171,7 +171,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
   for (MultiMetricType::NumberOfParametersType p = 0; p < multiVariateMetric->GetNumberOfParameters(); ++p)
   {
     auto tolerance = static_cast<MultiMetricType::DerivativeValueType>(1e-6);
-    if (std::fabs(DerivResultOfGetValueAndDerivativeTruth[p] - DerivResultOfGetValueAndDerivative[p]) > tolerance)
+    if (itk::Math::abs(DerivResultOfGetValueAndDerivativeTruth[p] - DerivResultOfGetValueAndDerivative[p]) > tolerance)
     {
       std::cerr << "Error: DerivResultOfGetValueAndDerivative does not match expected result." << std::endl;
       if (useDisplacementTransform)
@@ -500,15 +500,16 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   // Check that results are the same for all three estimations
   bool passedEstimation = true;
   auto tolerance = static_cast<ScalesEstimatorMultiType::FloatType>(1e-6);
-  if (std::fabs(singleStep - multiSingleStep) > tolerance || std::fabs(singleStep - multiDoubleStep) > tolerance)
+  if (itk::Math::abs(singleStep - multiSingleStep) > tolerance ||
+      itk::Math::abs(singleStep - multiDoubleStep) > tolerance)
   {
     std::cerr << "Steps do not match as expected between estimation on same metric." << std::endl;
     passedEstimation = false;
   }
-  if (std::fabs(singleScales[0] - multiSingleScales[0]) > tolerance ||
-      std::fabs(singleScales[1] - multiSingleScales[1]) > tolerance ||
-      std::fabs(singleScales[0] - multiDoubleScales[0]) > tolerance ||
-      std::fabs(singleScales[1] - multiDoubleScales[1]) > tolerance)
+  if (itk::Math::abs(singleScales[0] - multiSingleScales[0]) > tolerance ||
+      itk::Math::abs(singleScales[1] - multiSingleScales[1]) > tolerance ||
+      itk::Math::abs(singleScales[0] - multiDoubleScales[0]) > tolerance ||
+      itk::Math::abs(singleScales[1] - multiDoubleScales[1]) > tolerance)
   {
     std::cerr << "Scales do not match as expected between estimation on same metric." << std::endl;
     passedEstimation = false;

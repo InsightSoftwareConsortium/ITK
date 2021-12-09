@@ -187,7 +187,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
       float tempe = 0.0;
       try
       {
-        tempe = std::fabs(GetMetric(InVec));
+        tempe = itk::Math::abs(GetMetric(InVec));
       }
       catch (itk::ExceptionObject &)
       {
@@ -205,7 +205,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
   }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return std::fabs((double)energy * (double)m_Gamma - (double)defe);
+  return itk::Math::abs((double)energy * (double)m_Gamma - (double)defe);
 }
 
 template <typename TMoving, typename TFixed>
@@ -254,7 +254,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
       float tempe = 0.0;
       try
       {
-        tempe = std::fabs(GetMetric(InVec));
+        tempe = itk::Math::abs(GetMetric(InVec));
       }
       catch (itk::ExceptionObject &)
       {
@@ -272,7 +272,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
   }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return std::fabs((double)energy * (double)m_Gamma - (double)defe);
+  return itk::Math::abs((double)energy * (double)m_Gamma - (double)defe);
 }
 
 template <typename TMoving, typename TFixed>
@@ -295,7 +295,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     if (itk::Math::isnan(Gpos[k]) || itk::Math::isinf(Gpos[k]) || itk::Math::isnan(Gsol[k]) ||
-        itk::Math::isinf(Gsol[k]) || std::fabs(Gpos[k]) > 1.e33 || std::fabs(Gsol[k]) > 1.e33)
+        itk::Math::isinf(Gsol[k]) || itk::Math::abs(Gpos[k]) > 1.e33 || itk::Math::abs(Gsol[k]) > 1.e33)
     {
       OutVec.set_size(ImageDimension);
       OutVec.fill(0.0);

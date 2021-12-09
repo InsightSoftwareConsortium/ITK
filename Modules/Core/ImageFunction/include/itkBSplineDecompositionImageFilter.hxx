@@ -188,7 +188,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   zn = z;
   if (m_Tolerance > 0.0)
   {
-    horizon = (typename TInputImage::SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(std::fabs(z)));
+    horizon = (typename TInputImage::SizeValueType)std::ceil(std::log(m_Tolerance) / std::log(itk::Math::abs(z)));
   }
   if (horizon < m_DataLength[m_IteratorDirection])
   {

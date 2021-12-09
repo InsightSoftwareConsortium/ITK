@@ -18,6 +18,7 @@
 
 #include "itkCSVArray2DFileReader.h"
 #include "itkTestingMacros.h"
+#include "itkMath.h"
 
 const double epsilon = 1e-10;
 
@@ -52,7 +53,7 @@ testMatrix(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
   {
     for (unsigned int j = 0; j < m1.cols(); ++j)
     {
-      if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
+      if (itk::Math::abs(m1[i][j] - m2[i][j]) > epsilon)
       {
         pass = false;
       }
@@ -70,7 +71,7 @@ testVector(const std::vector<T> & v1, const std::vector<T> & v2)
 
   for (unsigned int i = 0; i < v1.size(); ++i)
   {
-    if (std::fabs(v1[i] - v2[i]) > epsilon)
+    if (itk::Math::abs(v1[i] - v2[i]) > epsilon)
     {
       pass = false;
     }
@@ -100,7 +101,7 @@ bool
 testValue(const T & test, const T & real)
 {
   bool pass = true;
-  if (std::fabs(test - real) > epsilon)
+  if (itk::Math::abs(test - real) > epsilon)
   {
     pass = false;
   }

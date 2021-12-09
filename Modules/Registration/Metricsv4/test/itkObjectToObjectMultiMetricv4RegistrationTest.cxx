@@ -259,14 +259,14 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   // Comparison between single-metric and multi-variate metric registrations
   auto tolerance = static_cast<CorrelationMetricType::DerivativeValueType>(1e-6);
-  if (std::fabs(multiDerivativeResult[0] - singleDerivativeResult[0]) > tolerance ||
-      std::fabs(multiDerivativeResult[1] - singleDerivativeResult[1]) > tolerance)
+  if (itk::Math::abs(multiDerivativeResult[0] - singleDerivativeResult[0]) > tolerance ||
+      itk::Math::abs(multiDerivativeResult[1] - singleDerivativeResult[1]) > tolerance)
   {
     std::cerr << "multi-variate registration derivative: " << multiDerivativeResult
               << " are different from single-variate derivative: " << singleDerivativeResult << std::endl;
     return EXIT_FAILURE;
   }
-  if (std::fabs(multiValueResult - singleValueResult) > tolerance)
+  if (itk::Math::abs(multiValueResult - singleValueResult) > tolerance)
   {
     std::cerr << "multi-variate registration value: " << multiValueResult
               << " is different from single-variate value: " << singleValueResult << std::endl;
@@ -275,8 +275,8 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   // compare results with truth
   tolerance = static_cast<CorrelationMetricType::DerivativeValueType>(0.05);
-  if (std::fabs(multiDerivativeResult[0] - imageShift[0]) / imageShift[0] > tolerance ||
-      std::fabs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
+  if (itk::Math::abs(multiDerivativeResult[0] - imageShift[0]) / imageShift[0] > tolerance ||
+      itk::Math::abs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
   {
     std::cerr << "multi-variate registration results: " << multiDerivativeResult
               << " are not as expected: " << imageShift << std::endl;
@@ -298,14 +298,14 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
   ObjectToObjectMultiMetricv4RegistrationTestRun<MultiMetricType>(
     multiMetric, numberOfIterations, multiValueResult, multiDerivativeResult, 0.25, false);
 
-  if (std::fabs(multiDerivativeResult[0] - singleDerivativeResult[0]) > tolerance ||
-      std::fabs(multiDerivativeResult[1] - singleDerivativeResult[1]) > tolerance)
+  if (itk::Math::abs(multiDerivativeResult[0] - singleDerivativeResult[0]) > tolerance ||
+      itk::Math::abs(multiDerivativeResult[1] - singleDerivativeResult[1]) > tolerance)
   {
     std::cerr << "multi-variate registration derivative: " << multiDerivativeResult
               << " are different from single-variate derivative: " << singleDerivativeResult << std::endl;
     return EXIT_FAILURE;
   }
-  if (std::fabs(multiValueResult - singleValueResult) > tolerance)
+  if (itk::Math::abs(multiValueResult - singleValueResult) > tolerance)
   {
     std::cerr << "multi-variate registration value: " << multiValueResult
               << " is different from single-variate value: " << singleValueResult << std::endl;
@@ -314,8 +314,8 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   // compare results with truth
   tolerance = static_cast<CorrelationMetricType::DerivativeValueType>(0.05);
-  if (std::fabs(multiDerivativeResult[0] - imageShift[0]) / imageShift[0] > tolerance ||
-      std::fabs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
+  if (itk::Math::abs(multiDerivativeResult[0] - imageShift[0]) / imageShift[0] > tolerance ||
+      itk::Math::abs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
   {
     std::cerr << "multi-variate registration results: " << multiDerivativeResult
               << " are not as expected: " << imageShift << std::endl;
@@ -343,8 +343,8 @@ itkObjectToObjectMultiMetricv4RegistrationTest(int argc, char * argv[])
 
   // compare results with truth
   tolerance = static_cast<MeanSquaresMetricType::DerivativeValueType>(0.05);
-  if (std::fabs(multiDerivativeResult[0] - imageShift[0]) / imageShift[0] > tolerance ||
-      std::fabs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
+  if (itk::Math::abs(multiDerivativeResult[0] - imageShift[0]) / imageShift[0] > tolerance ||
+      itk::Math::abs(multiDerivativeResult[1] - imageShift[1]) / imageShift[1] > tolerance)
   {
     std::cerr << "multi-variate registration results: " << multiDerivativeResult
               << " are not as expected: " << imageShift << std::endl;

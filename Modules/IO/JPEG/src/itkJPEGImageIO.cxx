@@ -494,8 +494,9 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * buffer)
     densityPerCm[0] = static_cast<UINT16>(10.0 / m_Spacing[0] + 0.5);
     densityPerCm[1] = static_cast<UINT16>(10.0 / m_Spacing[1] + 0.5);
 
-    if (std::abs(25.4 / m_Spacing[0] - densityPerInch[0]) + std::abs(25.4 / m_Spacing[1] - densityPerInch[1]) <=
-        std::abs(10.0 / m_Spacing[0] - densityPerCm[0]) + std::abs(10.0 / m_Spacing[1] - densityPerCm[1]))
+    if (itk::Math::abs(25.4 / m_Spacing[0] - densityPerInch[0]) +
+          itk::Math::abs(25.4 / m_Spacing[1] - densityPerInch[1]) <=
+        itk::Math::abs(10.0 / m_Spacing[0] - densityPerCm[0]) + itk::Math::abs(10.0 / m_Spacing[1] - densityPerCm[1]))
     {
       cinfo.density_unit = 1;
       cinfo.X_density = densityPerInch[0];

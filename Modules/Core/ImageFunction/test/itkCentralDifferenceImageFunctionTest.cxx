@@ -216,7 +216,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
     result = EXIT_FAILURE;
   }
 
-  if (fabs((right[0] + left[0]) / 2.0 - center[0]) > 1e-06)
+  if (itk::Math::abs((right[0] + left[0]) / 2.0 - center[0]) > 1e-06)
   {
     std::cerr << "ERROR: Failed for EvaluateAtContinuousIndex at non-integer incecies. "
               << "Center index result is not average of left and right." << std::endl;
@@ -242,7 +242,7 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
     result = EXIT_FAILURE;
   }
 
-  if (fabs((right[0] + left[0]) / 2.0 - center[0]) > 1e-06)
+  if (itk::Math::abs((right[0] + left[0]) / 2.0 - center[0]) > 1e-06)
   {
     std::cerr << "ERROR: Failed for Evaluate at non-integer incecies. "
               << "Center index result is not average of left and right." << std::endl;

@@ -181,7 +181,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (std::fabs(meanOutput[i] - mean[i]) > epsilon)
+    if (itk::Math::abs(meanOutput[i] - mean[i]) > epsilon)
     {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       std::cerr << "computed mean = " << meanOutput << std::endl;
@@ -196,7 +196,7 @@ itkCovarianceSampleFilterTest3(int, char *[])
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
-      if (std::fabs(covariance[i][j] - covarianceOutput[i][j]) > epsilon)
+      if (itk::Math::abs(covariance[i][j] - covarianceOutput[i][j]) > epsilon)
       {
         std::cerr << "Computed covariance matrix value is incorrrect:" << i << "," << j << "=" << covariance[i][j]
                   << "," << covarianceOutput[i][j] << std::endl;

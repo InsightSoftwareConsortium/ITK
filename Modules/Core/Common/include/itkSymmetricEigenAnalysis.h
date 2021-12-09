@@ -75,10 +75,11 @@ sortEigenValuesByMagnitude(TArray & eigenValues, const unsigned int numberOfElem
   std::vector<int> indicesSortPermutations(numberOfElements, 0);
   std::iota(std::begin(indicesSortPermutations), std::end(indicesSortPermutations), 0);
 
-  std::sort(
-    std::begin(indicesSortPermutations),
-    std::end(indicesSortPermutations),
-    [&eigenValues](unsigned int a, unsigned int b) { return std::abs(eigenValues[a]) < std::abs(eigenValues[b]); });
+  std::sort(std::begin(indicesSortPermutations),
+            std::end(indicesSortPermutations),
+            [&eigenValues](unsigned int a, unsigned int b) {
+              return itk::Math::abs(eigenValues[a]) < itk::Math::abs(eigenValues[b]);
+            });
   auto tmpCopy = eigenValues;
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {

@@ -172,7 +172,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   while (!dt.IsAtEnd())
   {
     const OutputPixelType diff = dt.Get();
-    if (std::fabs(diff) > epsilon)
+    if (itk::Math::abs(diff) > epsilon)
     {
       std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error comparing results with Adaptors" << std::endl;

@@ -53,7 +53,7 @@ testArray(const itk::Array2D<T> & m1, const itk::Array2D<T> & m2)
         pass = false;
         return pass;
       }
-      if (std::fabs(m1[i][j] - m2[i][j]) > epsilon)
+      if (itk::Math::abs(m1[i][j] - m2[i][j]) > epsilon)
       {
         pass = false;
         return pass;

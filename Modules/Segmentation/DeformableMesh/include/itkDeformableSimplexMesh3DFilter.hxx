@@ -288,7 +288,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
     double phi = std::asin(sinphi);
 
     data->phi = phi;
-    data->meanCurvature = std::abs(sinphi / data->circleRadius);
+    data->meanCurvature = itk::Math::abs(sinphi / data->circleRadius);
     tmp = data->pos - data->neighbors[0];
 
     // compute the foot of p projection of p onto the triangle spanned by its
@@ -370,7 +370,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeInternalForce(Sim
     const double eps1Diff = epsRef[0] - eps[0];
     const double eps2Diff = epsRef[1] - eps[1];
     const double eps3Diff = epsRef[2] - eps[2];
-    //    diffAbsSum = std::abs(eps1Diff)+std::abs(eps2Diff)+std::abs(eps3Diff);
+    //    diffAbsSum = itk::Math::abs(eps1Diff)+itk::Math::abs(eps2Diff)+itk::Math::abs(eps3Diff);
 
     VectorType tangentForce;
     tangentForce.SetVnlVector(eps1Diff * (data->neighbors[0]).GetVnlVector() +

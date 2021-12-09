@@ -118,7 +118,7 @@ itkEdgePotentialImageFilterTest(int, char *[])
     const OutputImageType::PixelType pot = std::exp(-1.0 * (it.Get().GetNorm()));
     std::cout << ot.Get() << " = ";
     std::cout << pot << std::endl;
-    if (std::fabs(pot - output) > epsilon)
+    if (itk::Math::abs(pot - output) > epsilon)
     {
       std::cerr << "Error in itkEdgePotentialImageFilterTest " << std::endl;
       std::cerr << " potential( " << input << ") = " << pot << std::endl;

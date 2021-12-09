@@ -40,7 +40,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     std::cout << offset << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -70,7 +70,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     std::cout << translationVector << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(translationVector[i] - itransVector[i]) > epsilon)
+      if (itk::Math::abs(translationVector[i] - itransVector[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -92,7 +92,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -119,7 +119,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - p[i]) > epsilon)
+        if (itk::Math::abs(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -145,7 +145,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q = translation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - p[i]) > epsilon)
+        if (itk::Math::abs(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -173,7 +173,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       q = translation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - p[i]) > epsilon)
+        if (itk::Math::abs(q[i] - p[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -227,7 +227,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     std::cout << "Offset = " << offset << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -250,7 +250,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       for (unsigned int j = 0; j < N; ++j)
       {
-        if (std::fabs(matrix[i][j] - mrotation[j][i]) > epsilon)
+        if (itk::Math::abs(matrix[i][j] - mrotation[j][i]) > epsilon)
         {
           Ok = false;
           break;
@@ -278,7 +278,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -311,7 +311,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -344,7 +344,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -380,7 +380,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -562,7 +562,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     std::cout << "iOffset = " << ioffset << std::endl;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -585,7 +585,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     {
       for (unsigned int j = 0; j < N; ++j)
       {
-        if (std::fabs(matrix[i][j] - mrotation[j][i]) > epsilon)
+        if (itk::Math::abs(matrix[i][j] - mrotation[j][i]) > epsilon)
         {
           Ok = false;
           break;
@@ -617,7 +617,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -650,7 +650,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -683,7 +683,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -719,7 +719,7 @@ itkQuaternionRigidTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < N; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -835,7 +835,7 @@ itkQuaternionRigidTransformTest(int, char *[])
     ParametersType p = t2->GetParameters();
     for (unsigned int k = 0; k < e.GetSize(); ++k)
     {
-      if (std::fabs(e[k] - p[k]) > epsilon)
+      if (itk::Math::abs(e[k] - p[k]) > epsilon)
       {
         std::cout << " [ FAILED ] " << std::endl;
         std::cout << "Expected parameters: " << e << std::endl;

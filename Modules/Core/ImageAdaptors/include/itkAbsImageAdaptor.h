@@ -26,7 +26,7 @@ namespace Accessor
 {
 /**
  *\class AbsPixelAccessor
- * \brief Give access to the std::abs() function of a value
+ * \brief Give access to the itk::Math::abs() function of a value
  *
  * AbsPixelAccessor is templated over an internal type and an
  * external type representation. This class cast the input
@@ -64,7 +64,7 @@ public:
 
 /**
  *\class AbsImageAdaptor
- * \brief Presents an image as being composed of the std::abs() of its pixels
+ * \brief Presents an image as being composed of the itk::Math::abs() of its pixels
  *
  * Additional casting is performed according to the input and output image
  * types following C++ default casting rules.

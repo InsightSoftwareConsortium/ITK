@@ -124,7 +124,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     std::cout << offset << std::endl;
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if (std::fabs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -151,7 +151,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformPoint(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -181,7 +181,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -211,7 +211,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformCovariantVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -244,7 +244,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
       r = rotation->TransformVector(p);
       for (unsigned int i = 0; i < 3; ++i)
       {
-        if (std::fabs(q[i] - r[i]) > epsilon)
+        if (itk::Math::abs(q[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -287,7 +287,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     transformedPoint = transform->TransformPoint(center);
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if (std::fabs(center[i] - transformedPoint[i]) > epsilon)
+      if (itk::Math::abs(center[i] - transformedPoint[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -330,7 +330,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     const double tolerance = 1e-8;
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
@@ -451,7 +451,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     const double tolerance = 1e-8;
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;
@@ -494,7 +494,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     const double tolerance = 1e-8;
     for (unsigned int j = 0; j < 3; ++j)
     {
-      if (std::fabs(rscale[j] - scale[j]) > tolerance)
+      if (itk::Math::abs(rscale[j] - scale[j]) > tolerance)
       {
         std::cerr << "Error in Set/Get Scale() " << std::endl;
         std::cerr << "Input scale: " << scale << std::endl;
@@ -524,7 +524,7 @@ itkScaleSkewVersor3DTransformTest(int, char *[])
     ParametersType parameters2 = transform->GetParameters();
     for (unsigned int p = 0; p < np; ++p)
     {
-      if (std::fabs(parameters[p] - parameters2[p]) > tolerance)
+      if (itk::Math::abs(parameters[p] - parameters2[p]) > tolerance)
       {
         std::cerr << "Output parameter does not match input " << std::endl;
         return EXIT_FAILURE;

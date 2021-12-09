@@ -490,9 +490,9 @@ NiftiImageIO ::CanWriteFile(const char * FileNameToWrite)
 bool
 NiftiImageIO::MustRescale() const
 {
-  return std::abs(this->m_RescaleSlope) > std::numeric_limits<double>::epsilon() &&
-         (std::abs(this->m_RescaleSlope - 1.0) > std::numeric_limits<double>::epsilon() ||
-          std::abs(this->m_RescaleIntercept) > std::numeric_limits<double>::epsilon());
+  return itk::Math::abs(this->m_RescaleSlope) > std::numeric_limits<double>::epsilon() &&
+         (itk::Math::abs(this->m_RescaleSlope - 1.0) > std::numeric_limits<double>::epsilon() ||
+          itk::Math::abs(this->m_RescaleIntercept) > std::numeric_limits<double>::epsilon());
 }
 
 // Internal function to rescale pixel according to Rescale Slope/Intercept
@@ -1237,7 +1237,7 @@ NiftiImageIO ::ReadImageInformation()
   else
   {
     this->m_RescaleSlope = this->m_NiftiImage->scl_slope;
-    if (std::abs(this->m_RescaleSlope) < NumericTraits<double>::epsilon())
+    if (itk::Math::abs(this->m_RescaleSlope) < NumericTraits<double>::epsilon())
     {
       this->m_RescaleSlope = 1;
     }
@@ -1297,40 +1297,40 @@ NiftiImageIO ::ReadImageInformation()
     case 7:
       this->SetDimensions(6, this->m_NiftiImage->nw);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(6, ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dw) : this->m_NiftiImage->dw);
+      this->SetSpacing(6, ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->dw) : this->m_NiftiImage->dw);
       ITK_FALLTHROUGH;
     case 6:
       this->SetDimensions(5, this->m_NiftiImage->nv);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(5, ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dv) : this->m_NiftiImage->dv);
+      this->SetSpacing(5, ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->dv) : this->m_NiftiImage->dv);
       ITK_FALLTHROUGH;
     case 5:
       this->SetDimensions(4, this->m_NiftiImage->nu);
       // NOTE: Scaling is not defined in this dimension
-      this->SetSpacing(4, ignore_negative_pixdim ? std::abs(this->m_NiftiImage->du) : this->m_NiftiImage->du);
+      this->SetSpacing(4, ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->du) : this->m_NiftiImage->du);
       ITK_FALLTHROUGH;
     case 4:
       this->SetDimensions(3, this->m_NiftiImage->nt);
       this->SetSpacing(3,
-                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dt * timingscale)
+                       ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->dt * timingscale)
                                               : this->m_NiftiImage->dt * timingscale);
       ITK_FALLTHROUGH;
     case 3:
       this->SetDimensions(2, this->m_NiftiImage->nz);
       this->SetSpacing(2,
-                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dz * spacingscale)
+                       ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->dz * spacingscale)
                                               : this->m_NiftiImage->dz * spacingscale);
       ITK_FALLTHROUGH;
     case 2:
       this->SetDimensions(1, this->m_NiftiImage->ny);
       this->SetSpacing(1,
-                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dy * spacingscale)
+                       ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->dy * spacingscale)
                                               : this->m_NiftiImage->dy * spacingscale);
       ITK_FALLTHROUGH;
     case 1:
       this->SetDimensions(0, this->m_NiftiImage->nx);
       this->SetSpacing(0,
-                       ignore_negative_pixdim ? std::abs(this->m_NiftiImage->dx * spacingscale)
+                       ignore_negative_pixdim ? itk::Math::abs(this->m_NiftiImage->dx * spacingscale)
                                               : this->m_NiftiImage->dx * spacingscale);
       break;
     default:
@@ -1748,10 +1748,10 @@ IsAffine(const mat44 & nifti_mat)
   const vnl_matrix_fixed<float, 4, 4> mat(&(nifti_mat.m[0][0]));
   // First make sure the bottom row meets the condition that it is (0, 0, 0, 1)
   {
-    float bottom_row_error = std::fabs(mat[3][3] - 1.0f);
+    float bottom_row_error = itk::Math::abs(mat[3][3] - 1.0f);
     for (int i = 0; i < 3; ++i)
     {
-      bottom_row_error += fabs(mat[3][i]);
+      bottom_row_error += itk::Math::abs(mat[3][i]);
     }
     if (bottom_row_error > std::numeric_limits<float>::epsilon())
     {
@@ -1901,17 +1901,17 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
             vnl_vector_fixed<float, 3> scale;
             scale[0] = rotation.get_column(0).magnitude();
             constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
-            if (std::fabs(this->m_NiftiImage->dx - scale[0]) > large_value_tolerance)
+            if (itk::Math::abs(this->m_NiftiImage->dx - scale[0]) > large_value_tolerance)
             {
               return false;
             }
             scale[1] = rotation.get_column(1).magnitude();
-            if (std::fabs(this->m_NiftiImage->dy - scale[1]) > large_value_tolerance)
+            if (itk::Math::abs(this->m_NiftiImage->dy - scale[1]) > large_value_tolerance)
             {
               return false;
             }
             scale[2] = rotation.get_column(2).magnitude();
-            if (std::fabs(this->m_NiftiImage->dz - scale[2]) > large_value_tolerance)
+            if (itk::Math::abs(this->m_NiftiImage->dz - scale[2]) > large_value_tolerance)
             {
               return false;
             }

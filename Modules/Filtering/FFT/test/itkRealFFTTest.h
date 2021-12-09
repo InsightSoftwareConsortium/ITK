@@ -372,8 +372,8 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       unsigned int yStrideB = j * sizesB[0];
       for (unsigned int k = 0; k < std::min(sizesA[0], sizesB[0]); ++k)
       {
-        double val = std::abs(fftbufA[zStrideA + yStrideA + k]);
-        double diff = std::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
+        double val = itk::Math::abs(fftbufA[zStrideA + yStrideA + k]);
+        double diff = itk::Math::abs(fftbufA[zStrideA + yStrideA + k] - fftbufB[zStrideB + yStrideB + k]);
         if (itk::Math::NotAlmostEquals(val, 0.0))
         {
           diff /= itk::Math::abs(val);

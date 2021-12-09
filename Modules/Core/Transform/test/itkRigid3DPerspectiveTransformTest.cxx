@@ -47,7 +47,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(offset[i] - 0.0) > epsilon)
+      if (itk::Math::abs(offset[i] - 0.0) > epsilon)
       {
         Ok = false;
         break;
@@ -76,7 +76,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(offset[i] - ioffset[i]) > epsilon)
+      if (itk::Math::abs(offset[i] - ioffset[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -102,7 +102,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       r = translation->TransformPoint(p);
       for (unsigned int i = 0; i < N - 1; ++i)
       {
-        if (std::fabs(s[i] - r[i]) > epsilon)
+        if (itk::Math::abs(s[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;
@@ -161,7 +161,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       r = rigid->TransformPoint(p);
       for (unsigned int i = 0; i < N - 1; ++i)
       {
-        if (std::fabs(s[i] - r[i]) > epsilon)
+        if (itk::Math::abs(s[i] - r[i]) > epsilon)
         {
           Ok = false;
           break;

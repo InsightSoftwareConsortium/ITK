@@ -616,7 +616,7 @@ itkAffineTransformTest(int, char *[])
   {
     for (unsigned int j = 0; j < Affine3DType::MatrixType::ColumnDimensions; ++j)
     {
-      if (abs(jaffInverseJacobianPosition[i][j] - matrix3invTruth[i][j]) > 1e-13)
+      if (itk::Math::abs(jaffInverseJacobianPosition[i][j] - matrix3invTruth[i][j]) > 1e-13)
       {
         std::cout << "Failed ComputeInverseJacobianWithRespectToPosition." << std::endl
                   << "jaffInverseJacobianPosition: " << jaffInverseJacobianPosition << std::endl
@@ -676,7 +676,7 @@ itkAffineTransformTest(int, char *[])
     {
       const double v = (parameters1[q] - parameters1_inv_inv[q]);
       // Protect against numerical errors when v~=-0 with abs.
-      mag_error += sqrt(std::abs(v));
+      mag_error += sqrt(itk::Math::abs(v));
     }
     if (mag_error > 1e-4)
     {

@@ -195,7 +195,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   bool jacobianPass = true;
   for (itk::SizeValueType p = 0; p < jacobianScales.GetSize(); ++p)
   {
-    if (std::abs((jacobianScales[p] - theoreticalJacobianScales[p]) / theoreticalJacobianScales[p]) > 0.01)
+    if (itk::Math::abs((jacobianScales[p] - theoreticalJacobianScales[p]) / theoreticalJacobianScales[p]) > 0.01)
     {
       jacobianPass = false;
       break;
@@ -248,7 +248,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   theoreticalStepScale /= count;
 
   bool stepScalePass = false;
-  if (std::abs((stepScale - theoreticalStepScale) / theoreticalStepScale) < 0.01)
+  if (itk::Math::abs((stepScale - theoreticalStepScale) / theoreticalStepScale) < 0.01)
   {
     stepScalePass = true;
   }
@@ -294,7 +294,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
   bool displacementPass = true;
   for (itk::SizeValueType p = 0; p < theoreticalLocalScales.GetSize(); ++p)
   {
-    if (std::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
+    if (itk::Math::abs((localScales[p] - theoreticalLocalScales[p]) / theoreticalLocalScales[p]) > 0.01)
     {
       displacementPass = false;
       break;
@@ -321,7 +321,7 @@ itkRegistrationParameterScalesFromJacobianTest(int, char *[])
 
   bool      localStepScalePass = false;
   FloatType theoreticalLocalStepScale = std::sqrt(2.0);
-  if (std::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
+  if (itk::Math::abs((localStepScale - theoreticalLocalStepScale) / theoreticalLocalStepScale) < 0.01)
   {
     localStepScalePass = true;
   }

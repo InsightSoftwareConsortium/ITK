@@ -342,7 +342,7 @@ BSplineCenteredResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage
     outVal2 = 0;
     for (IndexValueType k = -k0; k < this->m_HSize; k += 2L)
     {
-      IndexValueType kk = std::abs(static_cast<int>(k));
+      IndexValueType kk = itk::Math::abs(static_cast<int>(k));
       i1 = inK + (k + 1L) / 2L;
       if (i1 < 0L)
       {

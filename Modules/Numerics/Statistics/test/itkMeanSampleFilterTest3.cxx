@@ -124,7 +124,7 @@ itkMeanSampleFilterTest3(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (std::fabs(meanOutput[i] - mean[i]) > epsilon)
+    if (itk::Math::abs(meanOutput[i] - mean[i]) > epsilon)
     {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       std::cerr << "computed mean = " << meanOutput << std::endl;

@@ -156,7 +156,7 @@ IBPSOTest1()
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -184,7 +184,7 @@ IBPSOTest1()
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -263,8 +263,8 @@ IBPSOTest2()
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 2 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -342,8 +342,8 @@ IBPSOTest3()
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -375,8 +375,8 @@ IBPSOTest3()
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -409,8 +409,8 @@ IBPSOTest3()
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
 
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;

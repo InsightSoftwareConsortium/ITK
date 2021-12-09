@@ -193,11 +193,12 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
           // thinning operation.
           // First find the total number of transitions, and then
           // divide by 2.
-          const PixelType transitions = (std::abs(static_cast<int>(p3 - p2)) + std::abs(static_cast<int>(p4 - p3)) +
-                                         std::abs(static_cast<int>(p5 - p4)) + std::abs(static_cast<int>(p6 - p5)) +
-                                         std::abs(static_cast<int>(p7 - p6)) + std::abs(static_cast<int>(p8 - p7)) +
-                                         std::abs(static_cast<int>(p9 - p8)) + std::abs(static_cast<int>(p2 - p9))) /
-                                        2;
+          const PixelType transitions =
+            (itk::Math::abs(static_cast<int>(p3 - p2)) + itk::Math::abs(static_cast<int>(p4 - p3)) +
+             itk::Math::abs(static_cast<int>(p5 - p4)) + itk::Math::abs(static_cast<int>(p6 - p5)) +
+             itk::Math::abs(static_cast<int>(p7 - p6)) + itk::Math::abs(static_cast<int>(p8 - p7)) +
+             itk::Math::abs(static_cast<int>(p9 - p8)) + itk::Math::abs(static_cast<int>(p2 - p9))) /
+            2;
 
           if (transitions == 1)
           {

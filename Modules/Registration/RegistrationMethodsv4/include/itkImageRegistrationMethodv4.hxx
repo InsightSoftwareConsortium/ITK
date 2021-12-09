@@ -273,7 +273,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       for (SizeValueType i = 0; i < this->m_OptimizerWeights.Size(); ++i)
       {
         OptimizerWeightsValueType difference =
-          std::fabs(NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i]);
+          itk::Math::abs(NumericTraits<OptimizerWeightsValueType>::OneValue() - this->m_OptimizerWeights[i]);
         if (difference > tolerance)
         {
           this->m_OptimizerWeightsAreIdentity = false;

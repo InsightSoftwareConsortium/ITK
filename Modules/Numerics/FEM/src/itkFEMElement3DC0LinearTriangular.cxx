@@ -166,7 +166,7 @@ Element3DC0LinearTriangular::GetLocalFromGlobalCoordinates(const VectorType & gl
   //
   for (maxComponent = 0.0, i = 0; i < 3; ++i)
   {
-    // trying to avoid an expensive call to fabs()
+    // trying to avoid an expensive call to itk::Math::abs()
     if (n[i] < 0)
     {
       fabsn = -n[i];

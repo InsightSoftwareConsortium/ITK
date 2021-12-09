@@ -136,7 +136,8 @@ FRPROptimizer::StartOptimization()
     fret = fp;
     this->LineOptimize(&p, xi, &fret, tempCoord);
 
-    if (2.0 * std::abs(fret - fp) <= this->GetValueTolerance() * (std::abs(fret) + std::abs(fp) + FRPR_TINY))
+    if (2.0 * itk::Math::abs(fret - fp) <=
+        this->GetValueTolerance() * (itk::Math::abs(fret) + itk::Math::abs(fp) + FRPR_TINY))
     {
       if (limitCount < this->GetSpaceDimension())
       {

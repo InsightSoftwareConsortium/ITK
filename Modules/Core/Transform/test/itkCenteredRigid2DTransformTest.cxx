@@ -31,7 +31,7 @@ CheckEqual(const itk::Point<double, 2> & p1, const itk::Point<double, 2> & p2)
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    if (std::fabs(p1[i] - p2[i]) > epsilon)
+    if (itk::Math::abs(p1[i] - p2[i]) > epsilon)
     {
       std::cout << p1 << " != " << p2 << ":[ FAILED ]" << std::endl;
       return false;
@@ -75,7 +75,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   CenteredRigidTransformType::OutputPointType r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(q[i] - r[i]) > epsilon)
+    if (itk::Math::abs(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -107,7 +107,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
   r = transform->TransformPoint(p);
   for (unsigned int i = 0; i < N; ++i)
   {
-    if (std::fabs(q[i] - r[i]) > epsilon)
+    if (itk::Math::abs(q[i] - r[i]) > epsilon)
     {
       Ok = false;
       break;
@@ -160,7 +160,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     Ok = true;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(p1[i] - p3[i]) > epsilon)
+      if (itk::Math::abs(p1[i] - p3[i]) > epsilon)
       {
         Ok = false;
         break;
@@ -194,7 +194,7 @@ itkCenteredRigid2DTransformTest(int, char *[])
     Ok = true;
     for (unsigned int i = 0; i < N; ++i)
     {
-      if (std::fabs(p1[i] - p3[i]) > epsilon)
+      if (itk::Math::abs(p1[i] - p3[i]) > epsilon)
       {
         Ok = false;
         break;

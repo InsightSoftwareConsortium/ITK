@@ -443,11 +443,11 @@ itkTubeSpatialObjectTest(int, char *[])
   TubePointType::CovariantVectorType n2 =
     static_cast<const TubePointType *>(tube1->GetPoint(1))->GetNormal2InWorldSpace();
 
-  if ((std::fabs(t[0] - 0.57735) > 0.0001) || (std::fabs(t[1] - 0.57735) > 0.0001) ||
-      (std::fabs(t[2] - 0.57735) > 0.0001) || (std::fabs(n1[0] - 0.707107) > 0.0001) ||
-      (std::fabs(n1[1] + 0.707107) > 0.0001) || (std::fabs(n1[2] - 0.0) > 0.0001) ||
-      (std::fabs(n2[0] - 0.408248) > 0.0001) || (std::fabs(n2[1] - 0.408248) > 0.0001) ||
-      (std::fabs(n2[2] + 0.816497) > 0.0001))
+  if ((itk::Math::abs(t[0] - 0.57735) > 0.0001) || (itk::Math::abs(t[1] - 0.57735) > 0.0001) ||
+      (itk::Math::abs(t[2] - 0.57735) > 0.0001) || (itk::Math::abs(n1[0] - 0.707107) > 0.0001) ||
+      (itk::Math::abs(n1[1] + 0.707107) > 0.0001) || (itk::Math::abs(n1[2] - 0.0) > 0.0001) ||
+      (itk::Math::abs(n2[0] - 0.408248) > 0.0001) || (itk::Math::abs(n2[1] - 0.408248) > 0.0001) ||
+      (itk::Math::abs(n2[2] + 0.816497) > 0.0001))
   {
     std::cout << "[FAILED]" << std::endl;
     std::cout << " t = " << t << std::endl;

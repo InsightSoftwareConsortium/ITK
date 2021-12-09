@@ -333,8 +333,8 @@ SolverCrankNicolson<VDimension>::FindBracketingTriplet(Float * a, Float * b, Flo
   ax = 0.0;
   bx = 1.;
   Float fc;
-  Float fa = std::fabs(EvaluateResidual(ax));
-  Float fb = std::fabs(EvaluateResidual(bx));
+  Float fa = itk::Math::abs(EvaluateResidual(ax));
+  Float fb = itk::Math::abs(EvaluateResidual(bx));
 
   Float ulim, u, r, q, fu, dum;
 
@@ -350,19 +350,19 @@ SolverCrankNicolson<VDimension>::FindBracketingTriplet(Float * a, Float * b, Flo
 
   cx = bx + Gold * (bx - ax); // first guess for c - the 3rd pt needed to
                               // bracket the min
-  fc = std::fabs(EvaluateResidual(cx));
+  fc = itk::Math::abs(EvaluateResidual(cx));
 
-  while( fb > fc /*&& std::fabs(ax) < 3. && std::fabs(bx) < 3. && std::fabs(cx) <
+  while( fb > fc /*&& itk::Math::abs(ax) < 3. && itk::Math::abs(bx) < 3. && itk::Math::abs(cx) <
                     3.*/)
   {
     r = (bx - ax) * (fb - fc);
     q = (bx - cx) * (fb - fa);
-    Float denom = (2.0 * GSSign(GSMax(std::fabs(q - r), Tiny), q - r));
+    Float denom = (2.0 * GSSign(GSMax(itk::Math::abs(q - r), Tiny), q - r));
     u = (bx) - ((bx - cx) * q - (bx - ax) * r) / denom;
     ulim = bx + Glimit * (cx - bx);
     if ((bx - u) * (u - cx) > 0.0)
     {
-      fu = std::fabs(EvaluateResidual(u));
+      fu = itk::Math::abs(EvaluateResidual(u));
       if (fu < fc)
       {
         ax = bx;
@@ -382,11 +382,11 @@ SolverCrankNicolson<VDimension>::FindBracketingTriplet(Float * a, Float * b, Flo
       }
 
       u = cx + Gold * (cx - bx);
-      fu = std::fabs(EvaluateResidual(u));
+      fu = itk::Math::abs(EvaluateResidual(u));
     }
     else if ((cx - u) * (u - ulim) > 0.0)
     {
-      fu = std::fabs(EvaluateResidual(u));
+      fu = itk::Math::abs(EvaluateResidual(u));
       if (fu < fc)
       {
         bx = cx;
@@ -394,18 +394,18 @@ SolverCrankNicolson<VDimension>::FindBracketingTriplet(Float * a, Float * b, Flo
         u = cx + Gold * (cx - bx);
         fb = fc;
         fc = fu;
-        fu = std::fabs(EvaluateResidual(u));
+        fu = itk::Math::abs(EvaluateResidual(u));
       }
     }
     else if ((u - ulim) * (ulim - cx) >= 0.0)
     {
       u = ulim;
-      fu = std::fabs(EvaluateResidual(u));
+      fu = itk::Math::abs(EvaluateResidual(u));
     }
     else
     {
       u = cx + Gold * (cx - bx);
-      fu = std::fabs(EvaluateResidual(u));
+      fu = itk::Math::abs(EvaluateResidual(u));
     }
 
     ax = bx;
@@ -416,7 +416,7 @@ SolverCrankNicolson<VDimension>::FindBracketingTriplet(Float * a, Float * b, Flo
     fc = fu;
   }
 
-  if (std::fabs(ax) > 1.e3 || std::fabs(bx) > 1.e3 || std::fabs(cx) > 1.e3)
+  if (itk::Math::abs(ax) > 1.e3 || itk::Math::abs(bx) > 1.e3 || itk::Math::abs(cx) > 1.e3)
   {
     ax = -2.0;
     bx = 1.0;
@@ -454,19 +454,19 @@ SolverCrankNicolson<VDimension>::BrentsMethod(Float tol, unsigned int MaxIters)
   b = ((ax > cx) ? ax : cx);
 
   x = w = v = bx;
-  fw = fv = fx = std::fabs(EvaluateResidual(x));
+  fw = fv = fx = itk::Math::abs(EvaluateResidual(x));
   for (iter = 1; iter <= MaxIters; ++iter)
   {
     xm = 0.5 * (a + b);
-    tol2 = 2.0 * (tol1 = tol * std::fabs(x) + ZEPS);
-    if (std::fabs(x - xm) <= (tol2 - 0.5 * (b - a)))
+    tol2 = 2.0 * (tol1 = tol * itk::Math::abs(x) + ZEPS);
+    if (itk::Math::abs(x - xm) <= (tol2 - 0.5 * (b - a)))
     {
       xmin = x;
       SetEnergyToMin(xmin);
       return fx;
     }
 
-    if (std::fabs(e) > tol1)
+    if (itk::Math::abs(e) > tol1)
     {
       r = (x - w) * (fx - fv);
       q = (x - v) * (fx - fw);
@@ -476,10 +476,10 @@ SolverCrankNicolson<VDimension>::BrentsMethod(Float tol, unsigned int MaxIters)
       {
         p = -1. * p;
       }
-      q = std::fabs(q);
+      q = itk::Math::abs(q);
       etemp = e;
       e = d;
-      if (std::fabs(p) >= std::fabs(0.5 * q * etemp) || p <= q * (a - x) || p >= q * (b - x))
+      if (itk::Math::abs(p) >= itk::Math::abs(0.5 * q * etemp) || p <= q * (a - x) || p >= q * (b - x))
       {
         d = CGOLD * (e = (x >= xm ? a - x : b - x));
       }
@@ -502,8 +502,8 @@ SolverCrankNicolson<VDimension>::BrentsMethod(Float tol, unsigned int MaxIters)
       d = CGOLD * (e = (x >= xm ? a - x : b - x));
     }
 
-    u = (std::fabs(d) >= tol1 ? x + d : x + GSSign(tol1, d));
-    fu = std::fabs(EvaluateResidual(u));
+    u = (itk::Math::abs(d) >= tol1 ? x + d : x + GSSign(tol1, d));
+    fu = itk::Math::abs(EvaluateResidual(u));
     if (fu <= fx)
     {
       if (u >= x)
@@ -569,7 +569,7 @@ SolverCrankNicolson<VDimension>::GoldenSection(Float tol, unsigned int MaxIters)
 
   x0 = ax;
   x3 = cx;
-  if (std::fabs(cx - bx) > std::fabs(bx - ax))
+  if (itk::Math::abs(cx - bx) > itk::Math::abs(bx - ax))
   {
     x1 = bx;
     x2 = bx + C * (cx - bx);
@@ -579,10 +579,10 @@ SolverCrankNicolson<VDimension>::GoldenSection(Float tol, unsigned int MaxIters)
     x2 = bx;
     x1 = bx - C * (bx - ax);
   }
-  f1 = std::fabs(EvaluateResidual(x1));
-  f2 = std::fabs(EvaluateResidual(x2));
+  f1 = itk::Math::abs(EvaluateResidual(x1));
+  f2 = itk::Math::abs(EvaluateResidual(x2));
   unsigned int iters = 0;
-  while (std::fabs(x3 - x0) > tol * (std::fabs(x1) + std::fabs(x2)) && iters < MaxIters)
+  while (itk::Math::abs(x3 - x0) > tol * (itk::Math::abs(x1) + itk::Math::abs(x2)) && iters < MaxIters)
   {
     iters++;
     if (f2 < f1)
@@ -591,7 +591,7 @@ SolverCrankNicolson<VDimension>::GoldenSection(Float tol, unsigned int MaxIters)
       x1 = x2;
       x2 = R * x1 + C * x3;
       f1 = f2;
-      f2 = std::fabs(EvaluateResidual(x2));
+      f2 = itk::Math::abs(EvaluateResidual(x2));
     }
     else
     {
@@ -599,7 +599,7 @@ SolverCrankNicolson<VDimension>::GoldenSection(Float tol, unsigned int MaxIters)
       x2 = x1;
       x1 = R * x2 + C * x0;
       f2 = f1;
-      f1 = std::fabs(EvaluateResidual(x1));
+      f1 = itk::Math::abs(EvaluateResidual(x1));
     }
   }
 
@@ -721,7 +721,7 @@ SolverCrankNicolson<VDimension>::EvaluateResidual(Float t)
     }
     DeformationEnergy += iSolVal * TempRowVal;
   }
-  auto Energy = (Float)std::fabs(DeformationEnergy - ForceEnergy);
+  auto Energy = (Float)itk::Math::abs(DeformationEnergy - ForceEnergy);
   return Energy;
 }
 
@@ -749,9 +749,9 @@ SolverCrankNicolson<VDimension>::AddToDisplacements(Float optimum)
     {
       maxs2 = CurrentSolution;
     }
-    if (std::fabs(CurrentSolution) > absmax)
+    if (itk::Math::abs(CurrentSolution) > absmax)
     {
-      absmax = std::fabs(CurrentSolution);
+      absmax = itk::Math::abs(CurrentSolution);
     }
 
 //  note: set rather than add - i.e. last solution of system not total solution
@@ -783,9 +783,9 @@ SolverCrankNicolson<VDimension>::AddToDisplacements(Float optimum)
     this->m_LinearSystem->AddVectorValue(i, CurrentForce, m_ForceTotalIndex);
     CurrentTotSolution = this->m_LinearSystem->GetSolutionValue(i, m_TotalSolutionIndex);
 
-    if (std::fabs(CurrentTotSolution) > maxs)
+    if (itk::Math::abs(CurrentTotSolution) > maxs)
     {
-      maxs = std::fabs(CurrentTotSolution);
+      maxs = itk::Math::abs(CurrentTotSolution);
     }
   }
 

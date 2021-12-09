@@ -570,7 +570,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * ol
       newCodeword[i] = addoffset * rand_num;
     }
 
-    else if (std::fabs(oldCodeword[i]) < 0.9 * addoffset)
+    else if (itk::Math::abs(oldCodeword[i]) < 0.9 * addoffset)
     {
       newCodeword[i] = oldCodeword[i];
 

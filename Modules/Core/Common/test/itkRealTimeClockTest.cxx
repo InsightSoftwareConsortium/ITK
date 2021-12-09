@@ -82,7 +82,7 @@ itkRealTimeClockTest(int, char *[])
       std::cout << realStamp2 << " - " << realStamp1 << " = ";
       std::cout << secondsD << " = " << secondsE << std::endl;
 
-      if (std::abs(secondsD - secondsE) / secondsE > tolerance)
+      if (itk::Math::abs(secondsD - secondsE) / secondsE > tolerance)
       {
         std::cerr << "Precision error in time difference" << std::endl;
         std::cerr << "Expected " << secondsE << " seconds " << std::endl;

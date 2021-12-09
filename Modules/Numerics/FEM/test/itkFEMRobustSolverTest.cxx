@@ -301,7 +301,7 @@ itkFEMRobustSolverTest(int, char *[])
 
     std::cout << "Solution[" << i << "]:" << solution[i] << std::endl;
 
-    if (std::fabs(groundTruthSolution[i] - solution[i]) > 0.0001)
+    if (itk::Math::abs(groundTruthSolution[i] - solution[i]) > 0.0001)
     {
       std::cerr << "ERROR: Index " << i << ". Groundtruth " << groundTruthSolution[i] << " Solution " << solution[i]
                 << std::endl;

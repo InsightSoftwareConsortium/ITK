@@ -892,10 +892,10 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::Compute3x3EigenAnalys
   RealTensorValueT phi;
   double           acos_arg = (s / n) * 1 / sqrtn;
   // When floating point exceptions are enabled, std::acos generates
-  // NaNs (domain errors) if std::abs(acos_arg) > 1.0
+  // NaNs (domain errors) if itk::Math::abs(acos_arg) > 1.0
   // We treat those out of domain arguments as 1.0 (the max allowed value
   // of the std::acos domain), in such case phi = acos(1.0) = acos(-1.0) = 0.0
-  if (std::abs(acos_arg) <= 1.0)
+  if (itk::Math::abs(acos_arg) <= 1.0)
   {
     phi = std::acos(acos_arg) / 3;
   }

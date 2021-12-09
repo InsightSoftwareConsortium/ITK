@@ -77,7 +77,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
   first_bin = 0;
   for (ih = 0; (unsigned)ih < size; ++ih)
   {
-    if (!(std::abs(P1[ih]) < tolerance))
+    if (!(itk::Math::abs(P1[ih]) < tolerance))
     {
       first_bin = ih;
       break;
@@ -88,7 +88,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
   last_bin = size - 1;
   for (ih = size - 1; ih >= first_bin; ih--)
   {
-    if (!(std::abs(P2[ih]) < tolerance))
+    if (!(itk::Math::abs(P2[ih]) < tolerance))
     {
       last_bin = ih;
       break;
@@ -120,7 +120,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
     ent_obj *= term;
 
     // Total entropy
-    tot_ent = std::abs(ent_back - ent_obj);
+    tot_ent = itk::Math::abs(ent_back - ent_obj);
 
     if (tot_ent < min_ent)
     {

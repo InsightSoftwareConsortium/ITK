@@ -189,7 +189,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
   {
     m_AngleY = -std::asin(this->GetMatrix()[2][0]);
     double C = std::cos(m_AngleY);
-    if (std::fabs(C) > 0.00005)
+    if (itk::Math::abs(C) > 0.00005)
     {
       double x = this->GetMatrix()[2][2] / C;
       double y = this->GetMatrix()[2][1] / C;
@@ -210,7 +210,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrixParameters()
   {
     m_AngleX = std::asin(this->GetMatrix()[2][1]);
     double A = std::cos(m_AngleX);
-    if (std::fabs(A) > 0.00005)
+    if (itk::Math::abs(A) > 0.00005)
     {
       double x = this->GetMatrix()[2][2] / A;
       double y = -this->GetMatrix()[2][0] / A;

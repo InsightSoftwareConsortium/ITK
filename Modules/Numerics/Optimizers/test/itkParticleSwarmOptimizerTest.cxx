@@ -152,7 +152,7 @@ PSOTest1()
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -176,7 +176,7 @@ PSOTest1()
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    if (fabs(finalParameters[0] - knownParameters) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters) > xTolerance)
     {
       std::cout << "[Test 1 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -251,8 +251,8 @@ PSOTest2()
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 2 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -332,7 +332,7 @@ PSOTest3()
   itkOptimizer->SetParametersConvergenceTolerance(xTolerance, costFunction->GetNumberOfParameters());
 
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
-  if (fabs(itkOptimizer->GetFunctionConvergenceTolerance() - fTolerance) > tolerance)
+  if (itk::Math::abs(itkOptimizer->GetFunctionConvergenceTolerance() - fTolerance) > tolerance)
   {
     std::cerr << "Error in Set/Get method for FunctionConvergenceTolerance";
     return EXIT_FAILURE;
@@ -341,7 +341,7 @@ PSOTest3()
 
   double percentageParticlesConverged = 0.6;
   itkOptimizer->SetPercentageParticlesConverged(percentageParticlesConverged);
-  if (fabs(itkOptimizer->GetPercentageParticlesConverged() - percentageParticlesConverged) > tolerance)
+  if (itk::Math::abs(itkOptimizer->GetPercentageParticlesConverged() - percentageParticlesConverged) > tolerance)
   {
     std::cerr << "Error in Set/Get methods for percentage particles converged parameter";
     return EXIT_FAILURE;
@@ -349,7 +349,7 @@ PSOTest3()
 
   double inertiaCoefficient = 0.7298;
   itkOptimizer->SetInertiaCoefficient(inertiaCoefficient);
-  if (fabs(itkOptimizer->GetInertiaCoefficient() - inertiaCoefficient))
+  if (itk::Math::abs(itkOptimizer->GetInertiaCoefficient() - inertiaCoefficient))
   {
     std::cerr << "Error in Set/Get method for inertia coefficent parameter";
     return EXIT_FAILURE;
@@ -357,7 +357,7 @@ PSOTest3()
 
   double personalCoefficient = 1.496;
   itkOptimizer->SetPersonalCoefficient(personalCoefficient);
-  if (fabs(itkOptimizer->GetPersonalCoefficient() - personalCoefficient))
+  if (itk::Math::abs(itkOptimizer->GetPersonalCoefficient() - personalCoefficient))
   {
     std::cerr << "Error in Set/Get method for personal coefficent parameter";
     return EXIT_FAILURE;
@@ -365,7 +365,7 @@ PSOTest3()
 
   double gobalCoefficient = 1.496;
   itkOptimizer->SetGlobalCoefficient(gobalCoefficient);
-  if (fabs(itkOptimizer->GetGlobalCoefficient() - gobalCoefficient))
+  if (itk::Math::abs(itkOptimizer->GetGlobalCoefficient() - gobalCoefficient))
   {
     std::cerr << "Error in Set/Get method for gobal coefficent parameter";
     return EXIT_FAILURE;
@@ -397,8 +397,8 @@ PSOTest3()
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -426,8 +426,8 @@ PSOTest3()
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;
@@ -462,8 +462,8 @@ PSOTest3()
     finalParameters = itkOptimizer->GetCurrentPosition();
     std::cout << "Known parameters   = " << knownParameters << "   ";
     std::cout << "Estimated parameters = " << finalParameters << std::endl;
-    if (fabs(finalParameters[0] - knownParameters[0]) > xTolerance ||
-        fabs(finalParameters[1] - knownParameters[1]) > xTolerance)
+    if (itk::Math::abs(finalParameters[0] - knownParameters[0]) > xTolerance ||
+        itk::Math::abs(finalParameters[1] - knownParameters[1]) > xTolerance)
     {
       std::cout << "[Test 3 FAILURE]" << std::endl;
       return EXIT_FAILURE;

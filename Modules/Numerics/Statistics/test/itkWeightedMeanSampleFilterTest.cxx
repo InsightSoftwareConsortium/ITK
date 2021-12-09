@@ -151,7 +151,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
 
   FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 
-  if ((std::fabs(meanOutput[0] - mean[0]) > epsilon) || (std::fabs(meanOutput[1] - mean[1]) > epsilon))
+  if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result " << std::endl;
     std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
@@ -180,7 +180,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  if ((std::fabs(meanOutput[0] - mean[0]) > epsilon) || (std::fabs(meanOutput[1] - mean[1]) > epsilon))
+  if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result " << std::endl;
     std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
@@ -207,7 +207,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 1.7777778;
   mean[1] = 1.7777778;
 
-  if ((std::fabs(meanOutput[0] - mean[0]) > epsilon) || (std::fabs(meanOutput[1] - mean[1]) > epsilon))
+  if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result" << std::endl;
     std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
@@ -235,7 +235,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  if ((std::fabs(meanOutput[0] - mean[0]) > epsilon) || (std::fabs(meanOutput[1] - mean[1]) > epsilon))
+  if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result" << std::endl;
     std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;

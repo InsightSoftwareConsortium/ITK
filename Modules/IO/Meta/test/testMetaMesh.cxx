@@ -144,7 +144,7 @@ TestingMetaMesh(MetaMesh * _mesh)
   auto                             f = (float)(0.1);
   for (j = 0; j < static_cast<int>(_mesh->GetCellData().size()); ++j)
   {
-    if (((*it_cd)->m_Id != j) || (std::fabs((float)(static_cast<MeshData<float> *>(*it_cd)->m_Data) - f) > 0.001))
+    if (((*it_cd)->m_Id != j) || (itk::Math::abs((float)(static_cast<MeshData<float> *>(*it_cd)->m_Data) - f) > 0.001))
     {
       std::cout << "CellData ID = " << (*it_cd)->m_Id << " : "
                 << (float)(static_cast<MeshData<float> *>(*it_cd)->m_Data) << " : " << f << std::endl;

@@ -92,7 +92,7 @@ itkSignedDanielssonDistanceMapImageFilterTest11(int, char *[])
   const double distance2 = outputDistance2D->GetPixel(index);
   std::cout << "distance2: " << distance2 << std::endl;
   const myImageType2D2::PixelType epsilon = 1e-5;
-  if (std::fabs(distance2 - distance1 * distance1) > epsilon)
+  if (itk::Math::abs(distance2 - distance1 * distance1) > epsilon)
   {
     std::cerr << "Error in use of the SetSquaredDistance() method" << std::endl;
     return EXIT_FAILURE;

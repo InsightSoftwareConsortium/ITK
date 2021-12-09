@@ -90,7 +90,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (std::fabs(meanExpected[i] - mean[i]) > epsilon)
+    if (itk::Math::abs(meanExpected[i] - mean[i]) > epsilon)
     {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
@@ -115,7 +115,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
-      if (std::fabs(matrixExpected[i][j] - covarianceOutput[i][j]) > epsilon)
+      if (itk::Math::abs(matrixExpected[i][j] - covarianceOutput[i][j]) > epsilon)
       {
         std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
@@ -177,7 +177,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (std::fabs(meanExpected2[i] - mean[i]) > epsilon)
+    if (itk::Math::abs(meanExpected2[i] - mean[i]) > epsilon)
     {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
@@ -202,7 +202,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
     {
-      if (std::fabs(matrixExpected2[i][j] - matrix[i][j]) > epsilon)
+      if (itk::Math::abs(matrixExpected2[i][j] - matrix[i][j]) > epsilon)
       {
         std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;
@@ -272,7 +272,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
 
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
-    if (std::fabs(meanExpected3[i] - mean[i]) > epsilon)
+    if (itk::Math::abs(meanExpected3[i] - mean[i]) > epsilon)
     {
       std::cerr << "The computed mean value is incorrect" << std::endl;
       return EXIT_FAILURE;
@@ -296,7 +296,7 @@ itkCovarianceSampleFilterTest2(int, char *[])
   for (unsigned int i = 0; i < MeasurementVectorSize; ++i)
   {
     for (unsigned int j = 0; j < MeasurementVectorSize; ++j)
-      if (std::fabs(matrixExpected3[i][j] - matrix[i][j]) > epsilon)
+      if (itk::Math::abs(matrixExpected3[i][j] - matrix[i][j]) > epsilon)
       {
         std::cerr << "Computed covariance matrix value is incorrect" << std::endl;
         return EXIT_FAILURE;

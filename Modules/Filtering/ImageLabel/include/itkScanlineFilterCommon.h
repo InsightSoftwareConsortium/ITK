@@ -238,7 +238,7 @@ protected:
     SizeValueType diffSum = 0;
     for (unsigned i = 1; i < OutputImageDimension; ++i)
     {
-      SizeValueType diff = Math::abs(A[i] - B[i]);
+      SizeValueType diff = itk::Math::abs(A[i] - B[i]);
       if (diff > 1)
       {
         return false;

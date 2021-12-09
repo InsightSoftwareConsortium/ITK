@@ -57,7 +57,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::Finalize()
   m_Kz = (m_Muncz + (m_Wxyz / 3.0) + ((m_Wxz + m_Wyz) / 2.0)) / m_NumberOfTriangles;
 
   m_Volume = (m_Kx * m_VolumeX + m_Ky * m_VolumeY + m_Kz * m_VolumeZ);
-  m_Volume = std::fabs(m_Volume);
+  m_Volume = itk::Math::abs(m_Volume);
 }
 
 template <typename TInputMesh>
@@ -141,9 +141,9 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
 
   // Determine max unit normal component...
   //
-  absu[0] = std::fabs(u[0]);
-  absu[1] = std::fabs(u[1]);
-  absu[2] = std::fabs(u[2]);
+  absu[0] = itk::Math::abs(u[0]);
+  absu[1] = itk::Math::abs(u[1]);
+  absu[2] = itk::Math::abs(u[2]);
   if ((absu[0] > absu[1]) && (absu[0] > absu[2]))
   {
     m_Muncx++;
@@ -197,7 +197,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
   b = std::sqrt(ii[0] + jj[0] + kk[0]);
   c = std::sqrt(ii[2] + jj[2] + kk[2]);
   s = 0.5 * (a + b + c);
-  area = std::sqrt(std::fabs(s * (s - a) * (s - b) * (s - c)));
+  area = std::sqrt(itk::Math::abs(s * (s - a) * (s - b) * (s - c)));
 
   // Volume elements ...
   //

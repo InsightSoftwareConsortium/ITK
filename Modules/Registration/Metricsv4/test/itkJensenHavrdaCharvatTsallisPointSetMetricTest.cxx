@@ -117,7 +117,7 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
     for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
     {
-      if (std::fabs(derivative[d] - normalizedOffset[d]) / normalizedOffset[d] > 0.01)
+      if (itk::Math::abs(derivative[d] - normalizedOffset[d]) / normalizedOffset[d] > 0.01)
       {
         std::cerr << "derivative does not match expected normalized offset of " << offset << std::endl;
         return EXIT_FAILURE;
@@ -126,21 +126,21 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
     if (Dimension == 2)
     {
-      if (std::fabs(value - metricValues2D[i]) > 0.01)
+      if (itk::Math::abs(value - metricValues2D[i]) > 0.01)
       {
         std::cerr << "calculated value is different than expected." << std::endl;
       }
     }
     else if (Dimension == 3)
     {
-      if (std::fabs(value - metricValues3D[i]) > 0.01)
+      if (itk::Math::abs(value - metricValues3D[i]) > 0.01)
       {
         std::cerr << "calculated value is different than expected." << std::endl;
       }
     }
 
     // Check for the same results from different methods
-    if (std::fabs(value - value2) > 0.01)
+    if (itk::Math::abs(value - value2) > 0.01)
     {
       std::cerr << "value does not match between calls to different methods: "
                 << "value: " << value << " value2: " << value2 << std::endl;

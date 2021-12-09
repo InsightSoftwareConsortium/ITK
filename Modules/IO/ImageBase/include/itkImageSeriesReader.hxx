@@ -438,7 +438,7 @@ ImageSeriesReader<TOutputImage>::GenerateData()
               outputSpacing[this->m_NumberOfDimensionsInImage])) // either non-uniform sampling or missing slice
         {
           nonUniformSampling = true;
-          spacingDeviation = Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
+          spacingDeviation = itk::Math::abs(outputSpacing[this->m_NumberOfDimensionsInImage] - dirNnorm);
           if (spacingDeviation > maxSpacingDeviation)
           {
             maxSpacingDeviation = spacingDeviation;

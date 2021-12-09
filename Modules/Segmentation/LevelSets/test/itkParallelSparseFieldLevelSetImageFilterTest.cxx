@@ -60,9 +60,9 @@ float
 cube(unsigned int x, unsigned int y, unsigned int z)
 {
   float X, Y, Z;
-  X = std::fabs(x - (float)WIDTH / 2.0);
-  Y = std::fabs(y - (float)HEIGHT / 2.0);
-  Z = std::fabs(z - (float)DEPTH / 2.0);
+  X = itk::Math::abs(x - (float)WIDTH / 2.0);
+  Y = itk::Math::abs(y - (float)HEIGHT / 2.0);
+  Z = itk::Math::abs(z - (float)DEPTH / 2.0);
   float dis;
   if (!((X > RADIUS) && (Y > RADIUS) && (Z > RADIUS)))
   {

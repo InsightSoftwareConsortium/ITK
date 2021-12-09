@@ -883,7 +883,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputeOrientedBoundingBox(LabelObject
   Vector<double, ImageDimension> rsize;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
-    rsize[i] = std::abs(maximumPrincipalAxis[i] - minimumPrincipalAxis[i]);
+    rsize[i] = itk::Math::abs(maximumPrincipalAxis[i] - minimumPrincipalAxis[i]);
   }
 
 

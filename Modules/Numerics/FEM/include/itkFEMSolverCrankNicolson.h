@@ -186,7 +186,7 @@ public:
   inline Float
   GSSign(Float a, Float b)
   {
-    return b > 0.0 ? std::fabs(a) : -1. * std::fabs(a);
+    return b > 0.0 ? itk::Math::abs(a) : -1. * itk::Math::abs(a);
   }
   inline Float
   GSMax(Float a, Float b)
