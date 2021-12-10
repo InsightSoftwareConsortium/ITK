@@ -65,7 +65,7 @@ vnl_levenberg_marquardt::~vnl_levenberg_marquardt()
 void
 vnl_levenberg_marquardt::lmdif_lsqfun(long * n,     // I   Number of residuals
                                       long * p,     // I   Number of unknowns
-                                      double * x,   // I   Solution vector, size n
+                                      double * x,   // I   Solution vector, size p
                                       double * fx,  // O   Residual vector f(x)
                                       long * iflag, // IO  0 ==> print, -1 ==> terminate
                                       void * userdata)
@@ -74,14 +74,28 @@ vnl_levenberg_marquardt::lmdif_lsqfun(long * n,     // I   Number of residuals
   vnl_least_squares_function * f = self->f_;
   assert(*p == (int)f->get_number_of_unknowns());
   assert(*n == (int)f->get_number_of_residuals());
+  assert(*p > 0);
+  assert(*n > *p);
   vnl_vector_ref<double> ref_x(*p, const_cast<double *>(x));
   vnl_vector_ref<double> ref_fx(*n, fx);
 
   if (*iflag == 0)
   {
     if (self->trace)
-      std::cerr << "lmdif: iter " << self->num_iterations_ << " err [" << x[0] << ", " << x[1] << ", " << x[2] << ", "
-                << x[3] << ", " << x[4] << ", ... ] = " << ref_fx.magnitude() << '\n';
+    {
+      std::cerr << "lmdif: iter " << self->num_iterations_ << " err [" << x[0];
+      if (*p > 1)
+        std::cerr << ", " << x[1];
+      if (*p > 2)
+        std::cerr << ", " << x[2];
+      if (*p > 3)
+        std::cerr << ", " << x[3];
+      if (*p > 4)
+        std::cerr << ", " << x[4];
+      if (*p > 5)
+        std::cerr << ", ... ";
+      std::cerr << "] = " << ref_fx.magnitude() << '\n';
+    }
 
     f->trace(self->num_iterations_, ref_x, ref_fx);
     ++(self->num_iterations_);
@@ -222,7 +236,7 @@ vnl_levenberg_marquardt::minimize_without_gradient(vnl_vector<double> & x)
 void
 vnl_levenberg_marquardt::lmder_lsqfun(long * n,    // I   Number of residuals
                                       long * p,    // I   Number of unknowns
-                                      double * x,  // I   Solution vector, size n
+                                      double * x,  // I   Solution vector, size p
                                       double * fx, // O   Residual vector f(x)
                                       double * fJ, // O   m * n Jacobian f(x)
                                       long *,
@@ -233,6 +247,8 @@ vnl_levenberg_marquardt::lmder_lsqfun(long * n,    // I   Number of residuals
   vnl_least_squares_function * f = self->f_;
   assert(*p == (int)f->get_number_of_unknowns());
   assert(*n == (int)f->get_number_of_residuals());
+  assert(*p > 0);
+  assert(*n > *p);
   vnl_vector_ref<double> ref_x(*p, (double *)x); // const violation!
   vnl_vector_ref<double> ref_fx(*n, fx);
   vnl_matrix_ref<double> ref_fJ(*n, *p, fJ);
@@ -240,8 +256,20 @@ vnl_levenberg_marquardt::lmder_lsqfun(long * n,    // I   Number of residuals
   if (*iflag == 0)
   {
     if (self->trace)
-      std::cerr << "lmder: iter " << self->num_iterations_ << " err [" << x[0] << ", " << x[1] << ", " << x[2] << ", "
-                << x[3] << ", " << x[4] << ", ... ] = " << ref_fx.magnitude() << '\n';
+    {
+      std::cerr << "lmder: iter " << self->num_iterations_ << " err [" << x[0];
+      if (*p > 1)
+        std::cerr << ", " << x[1];
+      if (*p > 2)
+        std::cerr << ", " << x[2];
+      if (*p > 3)
+        std::cerr << ", " << x[3];
+      if (*p > 4)
+        std::cerr << ", " << x[4];
+      if (*p > 5)
+        std::cerr << ", ... ";
+      std::cerr << "] = " << ref_fx.magnitude() << '\n';
+    }
     f->trace(self->num_iterations_, ref_x, ref_fx);
   }
   else if (*iflag == 1)
