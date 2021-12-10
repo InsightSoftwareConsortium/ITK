@@ -10,6 +10,7 @@ itk_wrap_class("itk::Mesh" POINTER)
     foreach(t ${types})
       itk_wrap_template("${ITKM_${t}}${d}" "${ITKT_${t}},${d}")
     endforeach()
+    itk_wrap_template("VL${ITKM_D}${d}" "itk::VariableLengthVector<${ITKT_D}>,${d}")
   endforeach()
 itk_end_wrap_class()
 
@@ -31,11 +32,15 @@ set(type_CellInterface_MapContainer "\${ITKT_\${pixel_type}},itk::CellTraitsInfo
 set(mangle_CellInterface_VectorContainer "\${ITKM_\${pixel_type}}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}VC\${ITKM_IT}\${ITKM_PF\${d}}")
 set(type_CellInterface_VectorContainer "\${ITKT_\${pixel_type}},itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::VectorContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >" )
 
+set(mangle_CellInterface_VariableLength_VectorContainer "VL\${ITKM_D}CTI\${d}\${ITKM_F}\${ITKM_F}\${ITKM_IT}\${ITKM_IT}\${ITKM_IT}\${ITKM_PF\${d}}VC\${ITKM_IT}\${ITKM_PF\${d}}")
+set(type_CellInterface_VariableLength_VectorContainer "itk::VariableLengthVector< \${ITKT_D} >,itk::CellTraitsInfo< \${d},\${ITKT_F},\${ITKT_F},\${ITKT_IT},\${ITKT_IT},\${ITKT_IT},\${ITKT_PF\${d}},itk::VectorContainer< \${ITKT_IT},\${ITKT_PF\${d}} >, std::set< \${ITKT_IT} > >" )
+
 itk_wrap_class("itk::CellInterface" AUTOPOINTER)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
     foreach(pixel_type ${types})
       itk_wrap_template("${mangle_CellInterface_MapContainer}" "${type_CellInterface_MapContainer}")
       itk_wrap_template("${mangle_CellInterface_VectorContainer}" "${type_CellInterface_VectorContainer}")
+      itk_wrap_template("${mangle_CellInterface_VariableLength_VectorContainer}" "${type_CellInterface_VariableLength_VectorContainer}")
     endforeach()
   endforeach()
 itk_end_wrap_class()
