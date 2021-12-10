@@ -8,6 +8,7 @@
 #include <complex>
 #include <iostream>
 #include <algorithm>
+#include <atomic>
 #include "vnl_svd.h"
 
 #include <cassert>
@@ -205,8 +206,8 @@ template <class T> void vnl_svd<T>::zero_out_relative(double tol) // sqrt(machin
   zero_out_absolute(tol * std::abs(sigma_max()));
 }
 
-static bool w=false;
-inline bool vnl_svn_warned() { if (w) return true; else { w=true; return false; } }
+static std::atomic_flag w=ATOMIC_FLAG_INIT;
+inline bool vnl_svn_warned() { return std::atomic_flag_test_and_set(&w); }
 
 //: Calculate determinant as product of diagonals in W.
 template <class T>
