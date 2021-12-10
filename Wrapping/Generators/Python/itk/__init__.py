@@ -89,6 +89,8 @@ def _initialize_module():
     from .support import lazy as _lazy
     from itkConfig import LazyLoading as _LazyLoading
     import sys
+    import os
+    import importlib
 
     if _LazyLoading:
         # If we are loading lazily (on-demand), make a dict mapping the available
@@ -133,6 +135,19 @@ def _initialize_module():
         itk_module = _lazy.LazyITKModule(module, attributes)
         setattr(sys.modules[__name__], module, itk_module)
 
+        # Check if the module installed its own init file and load it.
+        # ITK Modules __init__.py must be renamed to __init_{module_name}__.py before packaging
+        # the wheel to avoid overriding this file on installation.
+        module_init_file = os.path.join(os.path.dirname(__file__), "__init_" + module.lower() + "__.py")
+        if not os.path.isfile(module_init_file):
+            continue
+
+        # Load the module definition from file path
+        spec = importlib.util.spec_from_file_location(f"{module}.__init__", module_init_file)
+
+        # Import and execute the __init__ file (this call will add the module binaries to sys path)
+        loaded_module = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(loaded_module)
 
 # After 'lifting' external symbols into this itk namespace,
 # Now do the initialization, and conversion to LazyLoading if necessary
