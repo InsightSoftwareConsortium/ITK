@@ -70,6 +70,12 @@ itkSpatialObjectToImageFilterTest(int, char *[])
   imageFilter->SetChildrenDepth(childrenDepth);
   ITK_TEST_SET_GET_VALUE(childrenDepth, imageFilter->GetChildrenDepth());
 
+  ImageType::IndexType indx;
+  indx[0] = 10;
+  indx[1] = 10;
+  imageFilter->SetIndex(indx);
+  ITK_TEST_SET_GET_VALUE(indx, imageFilter->GetIndex());
+
   ImageType::SizeType size;
   size[0] = 50;
   size[1] = 50;
