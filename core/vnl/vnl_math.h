@@ -561,17 +561,12 @@ inline unsigned char      abs(signed char x)        { return x < 0 ? static_cast
 inline unsigned char      abs(char x)               { return static_cast<unsigned char>(x); }
 inline unsigned short     abs(short x)              { return x < 0 ? static_cast<unsigned short>(-x) : x; }
 inline unsigned short     abs(unsigned short x)     { return x; }
-inline unsigned int       abs(int x)                { return x < 0 ? -x : x; }
 inline unsigned int       abs(unsigned int x)       { return x; }
-inline unsigned long      abs(long x)               { return x < 0L ? -x : x; }
 inline unsigned long      abs(unsigned long x)      { return x; }
-//long long - target type will have width of at least 64 bits. (since C++11)
-inline unsigned long long abs(long long x)          { return x < 0LL ? -x : x; }
+////long long - target type will have width of at least 64 bits. (since C++11)
 inline unsigned long long abs(unsigned long long x) { return x; }
-
-inline float              abs(float x)              { return x < 0.0f ? -x : x; }
-inline double             abs(double x)             { return x < 0.0 ? -x : x; }
-inline long double        abs(long double x)        { return x < 0.0 ? -x : x; }
+//
+using std::abs; // (covers int, long, long long, float, double, long double
 
 // sqr (square)
 inline bool               sqr(bool x)               { return x; }
