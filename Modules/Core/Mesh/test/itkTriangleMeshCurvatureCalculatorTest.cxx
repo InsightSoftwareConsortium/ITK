@@ -151,6 +151,13 @@ itkTriangleMeshCurvatureCalculatorTest(int argc, char * argv[])
   CellType::CellAutoPointer cellpointer;
 
   // Insert a Tetrahedron Cell in the mesh
+
+  // First obtain the cell on that index to be deleted to avoid memory leak
+  CellType::CellAutoPointer cellToDelete;
+  triangleMesh->GetCell(0, cellToDelete);
+  cellToDelete.TakeOwnership();
+
+  // Next insert a Tetrahedron Cell on that index
   cellpointer.TakeOwnership(new TetrahedronType);
   cellpointer->SetPointId(0, 0);
   cellpointer->SetPointId(1, 1);
