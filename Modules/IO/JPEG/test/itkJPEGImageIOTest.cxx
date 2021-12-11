@@ -30,30 +30,25 @@ itkJPEGImageIOTest(int argc, char * argv[])
 
   if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input Output\n";
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputFilename outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 
   // ATTENTION THIS IS THE PIXEL TYPE FOR
   // THE RESULTING IMAGE
+  constexpr unsigned int Dimension = 2;
   using PixelType = unsigned char;
 
-  using myImage = itk::Image<PixelType, 2>;
+  using myImage = itk::Image<PixelType, Dimension>;
 
   itk::ImageFileReader<myImage>::Pointer reader = itk::ImageFileReader<myImage>::New();
 
   reader->SetFileName(argv[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "exception in file reader " << std::endl;
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   myImage::Pointer image = reader->GetOutput();
 
@@ -67,7 +62,9 @@ itkJPEGImageIOTest(int argc, char * argv[])
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(reader->GetOutput());
   writer->SetFileName(argv[2]);
-  writer->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }
