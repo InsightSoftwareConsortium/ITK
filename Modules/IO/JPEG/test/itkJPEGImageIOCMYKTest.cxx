@@ -46,11 +46,7 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
 
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-    if (!(io->GetPixelType() == itk::CommonEnums::IOPixel::RGB))
-    {
-      std::cout << "Expected RGB. Test failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TEST_EXPECT_TRUE(io->GetPixelType() == itk::CommonEnums::IOPixel::RGB);
   }
 
   {
@@ -66,11 +62,7 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
 
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
-    if (!(io->GetPixelType() == itk::CommonEnums::IOPixel::VECTOR))
-    {
-      std::cout << "Expected VECTOR. Test failed" << std::endl;
-      return EXIT_FAILURE;
-    }
+    ITK_TEST_EXPECT_TRUE(io->GetPixelType() == itk::CommonEnums::IOPixel::VECTOR);
   }
 
   std::cout << "Test finished." << std::endl;
