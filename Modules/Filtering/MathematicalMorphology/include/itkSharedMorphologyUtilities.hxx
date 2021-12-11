@@ -108,10 +108,10 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     }
     if (abs_line_elmt_tmp > tol)
     {
-      int   P1 = ImStart[i] - StartIndex[i];
-      int   P2 = ImStart[i] + ImSize[i] - 1 - StartIndex[i];
-      float T1 = ((float)(P1)) / line[i];
-      float T2 = ((float)(P2)) / line[i];
+      const float P1{ static_cast<float>(ImStart[i] - StartIndex[i]) };
+      const float P2{ P1 + static_cast<float>(ImSize[i]) - 1.0F };
+      float       T1 = P1 / line[i];
+      float       T2 = P2 / line[i];
 
       if (T1 > T2)
       {
