@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkNrrdImageIO.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -27,7 +28,7 @@ itkNrrdDiffusionTensor3DImageReadTest(int ac, char * av[])
 {
   if (ac < 1)
   {
-    std::cerr << "Usage: " << av[0] << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input\n";
     return EXIT_FAILURE;
   }
 

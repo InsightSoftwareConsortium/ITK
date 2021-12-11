@@ -20,6 +20,7 @@
 #include "itkBilateralImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -27,7 +28,7 @@ itkBilateralImageFilterTest3(int ac, char * av[])
 {
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BaselineImage\n";
     return -1;
   }
 

@@ -18,6 +18,7 @@
 
 #include "itkQuadEdgeMesh.h"
 #include "itkVTKPolyDataReader.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -26,7 +27,7 @@ itkVTKPolyDataReaderQuadEdgeMeshTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: itkVTKPolyDataReaderTest inputFilename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 

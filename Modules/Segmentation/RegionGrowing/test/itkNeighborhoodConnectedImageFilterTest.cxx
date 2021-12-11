@@ -21,13 +21,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkNeighborhoodConnectedImageFilterTest(int ac, char * av[])
 {
   if (ac < 5)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage seed_x seed_y\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage seed_x seed_y\n";
     return -1;
   }
 

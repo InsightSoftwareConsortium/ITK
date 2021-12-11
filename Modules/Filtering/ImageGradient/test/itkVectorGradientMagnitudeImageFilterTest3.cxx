@@ -37,7 +37,7 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
 
   if (ac < 4)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage Mode\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage Mode\n";
     return EXIT_FAILURE;
   }
 

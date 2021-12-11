@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 // Write a 2D SymmetricSecondRankTensor image to file and read it back again.
@@ -27,7 +28,7 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
 {
   if (ac < 1)
   {
-    std::cerr << "Usage: " << av[0] << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input\n";
     return EXIT_FAILURE;
   }
 

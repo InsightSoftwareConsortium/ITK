@@ -21,13 +21,14 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkIsolatedConnectedImageFilterTest(int ac, char * av[])
 {
   if (ac < 8)
   {
-    std::cerr << "Usage: " << av[0]
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
               << " InputImage OutputImage FindUpper(true,false) seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 "
                  "seed2_x2 seed2_y2]*\n";
     return -1;

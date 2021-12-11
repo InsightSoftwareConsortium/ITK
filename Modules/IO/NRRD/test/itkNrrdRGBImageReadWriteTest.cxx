@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 //
 // This test needs to use more than one file format,
@@ -30,7 +31,7 @@ itkNrrdRGBImageReadWriteTest(int ac, char * av[])
 {
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " Input Output\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input Output\n";
     return EXIT_FAILURE;
   }
 

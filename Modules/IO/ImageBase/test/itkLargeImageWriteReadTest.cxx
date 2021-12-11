@@ -19,6 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkTimeProbesCollectorBase.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -163,9 +164,8 @@ itkLargeImageWriteReadTest(int ac, char * argv[])
 
   if (ac < 3)
   {
-    std::cout
-      << "usage: itkIOTests itkLargeImageWriteReadTest outputFileName numberOfPixelsInOneDimension [numberOfZslices]"
-      << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " outputFileName numberOfPixelsInOneDimension [numberOfZslices]" << std::endl;
     return EXIT_FAILURE;
   }
 

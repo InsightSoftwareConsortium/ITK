@@ -29,7 +29,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int ac, char * av[])
 {
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage\n";
     return -1;
   }
 

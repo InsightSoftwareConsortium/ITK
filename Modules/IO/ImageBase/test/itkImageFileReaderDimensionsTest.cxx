@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 // This test is designed to test reading and writing of miss matched
 // dimensions
@@ -28,7 +29,8 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cout << "usage: itkIOTests itkImageFileReaderTest inputFileName outputDirectory outputExtension" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " itkIOTests itkImageFileReaderTest inputFileName outputDirectory outputExtension" << std::endl;
     return EXIT_FAILURE;
   }
 

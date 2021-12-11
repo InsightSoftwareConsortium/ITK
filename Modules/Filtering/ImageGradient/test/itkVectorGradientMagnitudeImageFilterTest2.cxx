@@ -41,7 +41,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
 
   if (ac < 5)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage Mode SliceToExtract\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage Mode SliceToExtract\n";
     return EXIT_FAILURE;
   }
 

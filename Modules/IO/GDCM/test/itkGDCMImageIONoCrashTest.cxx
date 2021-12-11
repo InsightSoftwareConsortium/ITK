@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkGDCMImageIO.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -30,7 +31,7 @@ itkGDCMImageIONoCrashTest(int ac, char * av[])
 
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " DicomImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage\n";
     return EXIT_FAILURE;
   }
 

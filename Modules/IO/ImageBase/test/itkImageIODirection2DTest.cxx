@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -27,7 +28,7 @@ itkImageIODirection2DTest(int ac, char * av[])
 
   if (ac < 6)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage  (4 direction cosines terms) "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage  (4 direction cosines terms) "
               << "[outputImage]" << std::endl;
     return EXIT_FAILURE;
   }

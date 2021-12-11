@@ -23,6 +23,7 @@
 #include "itkImageFileWriter.h"
 #include "itkChangeInformationImageFilter.h"
 #include "itkTestingComparisonImageFilter.h"
+#include "itkTestingMacros.h"
 #include <fstream>
 
 using PixelType = float;
@@ -68,7 +69,7 @@ itkGradientAnisotropicDiffusionImageFilterTest2(int ac, char * av[])
 {
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage OutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage\n";
     return -1;
   }
 

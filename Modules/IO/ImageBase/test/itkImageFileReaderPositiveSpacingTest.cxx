@@ -21,6 +21,7 @@
 #include <itkTestingComparisonImageFilter.h>
 #include <itkMath.h>
 #include <itkNumericTraits.h>
+#include "itkTestingMacros.h"
 #include "metaImage.h"
 
 int
@@ -29,7 +30,7 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
 
   if (ac < 1)
   {
-    std::cout << "usage: ITKImageIOBaseTestDriver itkImageFileReaderPositiveSpacingTest" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(av) << std::endl;
     return EXIT_FAILURE;
   }
 

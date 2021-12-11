@@ -22,6 +22,7 @@
 #include "itkTextOutput.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
@@ -31,7 +32,8 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
 
   if (ac < 6)
   {
-    std::cerr << "Usage: " << av[0] << " InputInitialImage InputColorImage BaselineImage threshold curvatureScaling\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+              << " InputInitialImage InputColorImage BaselineImage threshold curvatureScaling\n";
     return -1;
   }
 

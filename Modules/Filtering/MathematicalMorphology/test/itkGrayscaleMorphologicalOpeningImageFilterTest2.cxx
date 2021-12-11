@@ -23,6 +23,7 @@
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkFlatStructuringElement.h"
+#include "itkTestingMacros.h"
 
 int
 itkGrayscaleMorphologicalOpeningImageFilterTest2(int ac, char * av[])
@@ -32,7 +33,8 @@ itkGrayscaleMorphologicalOpeningImageFilterTest2(int ac, char * av[])
 
   if (ac < 7)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
+              << std::endl;
     return -1;
   }
 

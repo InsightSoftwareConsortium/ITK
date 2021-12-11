@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkMetaImageIO.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -28,7 +29,7 @@ itkMetaImageIOGzTest(int ac, char * av[])
 {
   if (ac < 2)
   {
-    std::cerr << "Usage: itkMetaImageIOGzTest testDataDirectory" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << "testDataDirectory" << std::endl;
   }
   int result(0);
   std::cout << "Test whether MetaIO will search for a compressed data file" << std::endl

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkImageSeriesReader.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -25,7 +26,7 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
 
   if (ac < 3)
   {
-    std::cerr << "usage: itkIOTests itkImageSeriesReaderDimensionsTest inputFileName(s)" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " inputFileName(s)" << std::endl;
     return EXIT_FAILURE;
   }
 
