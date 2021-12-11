@@ -34,7 +34,7 @@ itkMapGrayscaleErodeImageFilterTest(int argc, char * argv[])
   if (argc < 6)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   unsigned int const dim = 2;

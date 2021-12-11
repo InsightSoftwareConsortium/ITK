@@ -30,7 +30,7 @@ itkPasteImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DestinationImage SourceImage OutputImage\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int Dimension = 2;
@@ -92,20 +92,8 @@ itkPasteImageFilterTest(int argc, char * argv[])
   streamer->SetNumberOfStreamDivisions(25);
   streamer->SetRegionSplitter(splitter);
 
-  try
-  {
-    streamer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
-  catch (...)
-  {
-    std::cerr << "Some other exception occurred" << std::endl;
-    return -2;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(streamer->Update());
+
 
   // Generate test image
   itk::ImageFileWriter<ImageType>::Pointer writer;

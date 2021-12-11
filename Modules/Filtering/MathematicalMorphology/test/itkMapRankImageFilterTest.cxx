@@ -33,7 +33,7 @@ itkMapRankImageFilterTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage radius" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<unsigned short, 2>;

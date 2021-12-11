@@ -32,7 +32,7 @@ itkConnectedThresholdImageFilterTest(int argc, char * argv[])
               << "seed_x seed_y "
               << "LowerConnectedThreshold UpperConnectedThreshold "
               << "Connectivity[1=Full,0=Face]" << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
 

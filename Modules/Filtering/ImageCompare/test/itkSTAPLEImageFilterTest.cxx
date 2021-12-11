@@ -165,33 +165,20 @@ Stapler<VDimension>::Execute()
   // Set the inputs
   for (i = 0; i < number_of_files; ++i)
   {
-    try
-    {
-      reader = itk::ImageFileReader<InputImageType>::New();
-      reader->SetFileName(m_Files[i].c_str());
-      reader->Update();
-      m_Stapler->SetInput(itk::Math::CastWithRangeCheck<unsigned int>(i), reader->GetOutput());
-    }
-    catch (const itk::ExceptionObject & e)
-    {
-      std::cerr << e << std::endl;
-      return -1;
-    }
+    reader = itk::ImageFileReader<InputImageType>::New();
+    reader->SetFileName(m_Files[i].c_str());
+
+    ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
+    m_Stapler->SetInput(itk::Math::CastWithRangeCheck<unsigned int>(i), reader->GetOutput());
   }
 
-  try
-  {
-    writer->SetFileName(m_OutputFile.c_str());
-    writer->SetInput(m_Stapler->GetOutput());
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-    return -2;
-  }
+  writer->SetFileName(m_OutputFile.c_str());
+  writer->SetInput(m_Stapler->GetOutput());
 
-  return 0;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+  return EXIT_SUCCESS;
 }
 
 
@@ -207,7 +194,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
               << " file_dimensionality output.mhd foreground_value confidence_weight "
                  "file1 file2 ... fileN"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   if (::std::stoi(argv[1]) == 2)
@@ -221,7 +208,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   else
   {
     std::cerr << "Only 2D and 3D data is currently supported" << std::endl;
-    return -2;
+    return EXIT_FAILURE;
   }
 
   for (i = 0; i < argc - 5; ++i)
@@ -235,10 +222,10 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
 
   // Execute the stapler
   int ret = stapler->Execute();
-  if (ret != 0)
+  if (ret != EXIT_SUCCESS)
   {
-    std::cerr << "Stapler failed!  Returned error code " << ret << "." << std::endl;
-    return -3;
+    std::cerr << "Stapler failed!" << std::endl;
+    return EXIT_FAILURE;
   }
 
   double avg_p = 0.0;

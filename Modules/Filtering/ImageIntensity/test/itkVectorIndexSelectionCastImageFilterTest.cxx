@@ -20,8 +20,8 @@
 
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-
 #include "itkVectorIndexSelectionCastImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
@@ -62,15 +62,7 @@ itkVectorIndexSelectionCastImageFilterTest(int argc, char * argv[])
 
   filter->SetIndex(index);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e;
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
   std::cout << "Test the exception if the index is too large" << std::endl;

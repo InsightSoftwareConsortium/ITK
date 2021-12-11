@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkChangeInformationImageFilter.h"
+#include "itkTestingMacros.h"
 
 constexpr unsigned int ImageDimension = 3;
 using ImageType = itk::Image<float, ImageDimension>;
@@ -220,77 +221,71 @@ itkChangeInformationImageFilterTest(int, char *[])
   const itk::OffsetValueType * outputOffset = filter->GetOutputOffset().m_InternalArray;
   std::cout << "filter->GetOutputOffset(): " << outputOffset << std::endl;
 
-  // Catch any exceptions
-  try
-  {
-    std::cout << "-----------filter: " << filter << std::endl;
-    filter->Update();
-    std::cout << "-----------Default behavior: " << std::endl;
-    PrintInformation(inputImage, filter->GetOutput());
 
-    filter->ChangeAll();
-    filter->ChangeRegionOff();
-    filter->Update();
-    std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << std::endl;
-    PrintInformation(inputImage, filter->GetOutput());
+  std::cout << "-----------filter: " << filter << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------Default behavior: " << std::endl;
+  PrintInformation(inputImage, filter->GetOutput());
 
-    filter->CenterImageOn();
-    filter->Update();
-    std::cout << "-----------CenterImageOn(): " << std::endl;
-    PrintInformation(inputImage, filter->GetOutput());
+  filter->ChangeAll();
+  filter->ChangeRegionOff();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------ChangeAll(), ChangeRegionOff(): " << std::endl;
+  PrintInformation(inputImage, filter->GetOutput());
 
-    filter->CenterImageOn();
-    filter->ChangeSpacingOff();
-    filter->Update();
-    std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << std::endl;
-    PrintInformation(inputImage, filter->GetOutput());
+  filter->CenterImageOn();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------CenterImageOn(): " << std::endl;
+  PrintInformation(inputImage, filter->GetOutput());
 
-    filter->CenterImageOn();
-    filter->ChangeSpacingOn();
-    filter->ChangeOriginOff();
-    filter->Update();
-    std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << std::endl;
-    PrintInformation(inputImage, filter->GetOutput());
+  filter->CenterImageOn();
+  filter->ChangeSpacingOff();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------CenterImageOn(), ChangeSpacingOff(): " << std::endl;
+  PrintInformation(inputImage, filter->GetOutput());
 
-    filter->CenterImageOff();
-    filter->ChangeNone();
-    filter->Update();
-    std::cout << "-----------ChangeNone(): " << std::endl;
-    PrintInformation(inputImage, filter->GetOutput());
+  filter->CenterImageOn();
+  filter->ChangeSpacingOn();
+  filter->ChangeOriginOff();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------CenterImageOn(), ChangeOriginOff(): " << std::endl;
+  PrintInformation(inputImage, filter->GetOutput());
 
-    filter->CenterImageOff();
-    filter->UseReferenceImageOn();
-    filter->Update();
-    std::cout << "-----------ChangeNone(), UseReferenceOn(): " << std::endl;
-    PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
+  filter->CenterImageOff();
+  filter->ChangeNone();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------ChangeNone(): " << std::endl;
+  PrintInformation(inputImage, filter->GetOutput());
 
-    filter->ChangeOriginOn();
-    filter->Update();
-    std::cout << "-----------ChangeOriginOn(), UseReferenceOn(): " << std::endl;
-    PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
+  filter->CenterImageOff();
+  filter->UseReferenceImageOn();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------ChangeNone(), UseReferenceOn(): " << std::endl;
+  PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
-    filter->ChangeOriginOff();
-    filter->ChangeSpacingOn();
-    filter->Update();
-    std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;
-    PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
+  filter->ChangeOriginOn();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------ChangeOriginOn(), UseReferenceOn(): " << std::endl;
+  PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
-    filter->ChangeOriginOff();
-    filter->ChangeSpacingOff();
-    filter->ChangeDirectionOn();
-    filter->Update();
-    std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << std::endl;
-    PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
+  filter->ChangeOriginOff();
+  filter->ChangeSpacingOn();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------ChangeSpacingOn(), UseReferenceOn(): " << std::endl;
+  PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
 
-    filter->ChangeAll();
-    filter->UpdateLargestPossibleRegion();
-    std::cout << "-----------ChangeAll(), UseReferenceOn(): " << std::endl;
-    PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e;
-    return -1;
-  }
+  filter->ChangeOriginOff();
+  filter->ChangeSpacingOff();
+  filter->ChangeDirectionOn();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+  std::cout << "-----------ChangeDirectionOn(), UseReferenceOn(): " << std::endl;
+  PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
+
+  filter->ChangeAll();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
+  std::cout << "-----------ChangeAll(), UseReferenceOn(): " << std::endl;
+  PrintInformation3(inputImage, filter->GetOutput(), referenceImage);
+
+
   return EXIT_SUCCESS;
 }

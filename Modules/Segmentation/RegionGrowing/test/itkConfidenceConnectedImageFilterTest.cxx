@@ -33,7 +33,7 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage seed_x seed_y\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using PixelType = unsigned char;
@@ -68,16 +68,10 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
   }
   std::cout << std::endl;
 
-  try
-  {
-    input->Update();
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // Test the GetMacros
   double doubleMultiplier = filter->GetMultiplier();

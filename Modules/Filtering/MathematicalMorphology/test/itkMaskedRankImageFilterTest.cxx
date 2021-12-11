@@ -34,7 +34,7 @@ itkMaskedRankImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage maskImage BaselineImage radius"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using ImageType = itk::Image<unsigned char, 2>;

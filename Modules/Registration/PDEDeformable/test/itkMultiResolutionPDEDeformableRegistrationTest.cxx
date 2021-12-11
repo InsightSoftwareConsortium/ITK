@@ -155,7 +155,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   //--------------------------------------------------------

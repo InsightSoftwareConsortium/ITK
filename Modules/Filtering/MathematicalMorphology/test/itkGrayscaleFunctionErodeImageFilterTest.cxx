@@ -20,6 +20,7 @@
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkGrayscaleFunctionErodeImageFilterTest(int argc, char * argv[])
@@ -137,34 +138,25 @@ itkGrayscaleFunctionErodeImageFilterTest(int argc, char * argv[])
   // Get the Smart Pointer to the Filter Output
   myImageType::Pointer outputImage = filter->GetOutput();
 
-
   // Execute the filter
-  try
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
+  // Create an iterator for going through the image output
+  myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+
+  //  Print the content of the result image
+  std::cout << "Result " << std::endl;
+  i = 0;
+  while (!it2.IsAtEnd())
   {
+    std::cout << it2.Get() << "  ";
+    ++it2;
 
-    filter->Update();
-    // Create an iterator for going through the image output
-    myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
-
-    //  Print the content of the result image
-    std::cout << "Result " << std::endl;
-    i = 0;
-    while (!it2.IsAtEnd())
+    if (++i % 20 == 0)
     {
-      std::cout << it2.Get() << "  ";
-      ++it2;
-
-      if (++i % 20 == 0)
-      {
-        std::cout << std::endl;
-      }
+      std::cout << std::endl;
     }
-  }
-
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught during filter Update\n" << e;
-    return -1;
   }
 
   if (argc == 2)

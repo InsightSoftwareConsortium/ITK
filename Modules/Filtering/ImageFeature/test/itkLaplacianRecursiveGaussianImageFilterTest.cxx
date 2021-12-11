@@ -31,7 +31,7 @@ itkLaplacianRecursiveGaussianImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage outputImage " << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   const char * inputFilename = argv[1];
@@ -99,16 +99,8 @@ itkLaplacianRecursiveGaussianImageFilterTest(int argc, char * argv[])
   bool bNormalizeAcrossScale = lapFilter->GetNormalizeAcrossScale();
   std::cout << "lapFilter->GetNormalizeAcrossScale(): " << bNormalizeAcrossScale << std::endl;
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

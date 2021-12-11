@@ -34,7 +34,7 @@ itkVectorConfidenceConnectedImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " InputImage BaselineImage seed1X seed1Y seed2X seed2Y multiplier iterations\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int Dimension = 2;
@@ -77,16 +77,10 @@ itkVectorConfidenceConnectedImageFilterTest(int argc, char * argv[])
   filter->SetMultiplier(std::stod(argv[7]));
   filter->SetNumberOfIterations(std::stoi(argv[8]));
 
-  try
-  {
-    input->Update();
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // Test the GetMacros
   double doubleMultiplier = filter->GetMultiplier();

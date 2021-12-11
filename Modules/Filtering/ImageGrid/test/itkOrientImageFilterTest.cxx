@@ -104,7 +104,7 @@ itkOrientImageFilterTest(int, char *[])
         ImageType::PixelType orig = randImage->GetPixel(originalIndex);
         ImageType::PixelType xfrm = IRP->GetPixel(transformedIndex);
         if (orig != xfrm)
-          return -1;
+          return EXIT_FAILURE;
       }
     }
   }
@@ -135,7 +135,7 @@ itkOrientImageFilterTest(int, char *[])
         ImageType::PixelType orig = randImage->GetPixel(originalIndex);
         ImageType::PixelType xfrm = LIP->GetPixel(transformedIndex);
         if (orig != xfrm)
-          return -1;
+          return EXIT_FAILURE;
       }
     }
   }
