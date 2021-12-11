@@ -27,13 +27,13 @@
  *  computed in itkDCMTKImageIO are orthogonal
  */
 int
-itkDCMTKImageIOOrthoDirTest(int ac, char * av[])
+itkDCMTKImageIOOrthoDirTest(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -45,7 +45,7 @@ itkDCMTKImageIOOrthoDirTest(int ac, char * av[])
   auto dcmImageIO = ImageIOType::New();
 
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   reader->SetImageIO(dcmImageIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());

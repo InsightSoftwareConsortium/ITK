@@ -26,12 +26,12 @@
 // Specific ImageIO test
 
 int
-itkGDCMImageIONoCrashTest(int ac, char * av[])
+itkGDCMImageIONoCrashTest(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage\n";
     return EXIT_FAILURE;
   }
 
@@ -43,7 +43,7 @@ itkGDCMImageIONoCrashTest(int ac, char * av[])
   using ImageIOType = itk::GDCMImageIO;
   auto gdcmImageIO = ImageIOType::New();
 
-  const std::string inputFile{ av[1] };
+  const std::string inputFile{ argv[1] };
 
   auto reader = ReaderType::New();
   reader->SetFileName(inputFile);

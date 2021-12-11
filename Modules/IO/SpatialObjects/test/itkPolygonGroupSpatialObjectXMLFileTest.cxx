@@ -141,12 +141,12 @@ testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & 
   return EXIT_SUCCESS;
 }
 int
-itkPolygonGroupSpatialObjectXMLFileTest(int ac, char * av[])
+itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
 {
-  if (ac < 2)
+  if (argc < 2)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " XMLfile" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " XMLfile" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -159,7 +159,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int ac, char * av[])
     return EXIT_FAILURE;
   }
 
-  std::string xmlfilename(av[1]);
+  std::string xmlfilename(argv[1]);
   xmlfilename = xmlfilename + "/PolygonGroupSpatialObjectXMLFileTest.xml";
   try
   {

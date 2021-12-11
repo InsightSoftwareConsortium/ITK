@@ -26,14 +26,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkNoiseImageFilterTest(int ac, char * av[])
+itkNoiseImageFilterTest(int argc, char * argv[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage\n";
     return -1;
   }
 
@@ -42,7 +42,7 @@ itkNoiseImageFilterTest(int ac, char * av[])
   using myImageOut = itk::Image<float, 2>;
   using myImageChar = itk::Image<unsigned char, 2>;
   itk::ImageFileReader<myImageIn>::Pointer input = itk::ImageFileReader<myImageIn>::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::NoiseImageFilter<myImageIn, myImageOut>;
@@ -74,7 +74,7 @@ itkNoiseImageFilterTest(int ac, char * av[])
   itk::ImageFileWriter<myImageChar>::Pointer writer;
   writer = itk::ImageFileWriter<myImageChar>::New();
   writer->SetInput(rescale->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

@@ -761,14 +761,14 @@ MINCReadWriteTestVector(const char * fileName,
 }
 
 int
-itkMINCImageIOTest(int ac, char * av[])
+itkMINCImageIOTest(int argc, char * argv[])
 {
   std::string prefix("");
 
-  if (ac > 1)
+  if (argc > 1)
   {
-    prefix = *++av;
-    --ac;
+    prefix = *++argv;
+    --argc;
     itksys::SystemTools::ChangeDirectory(prefix.c_str());
   }
 

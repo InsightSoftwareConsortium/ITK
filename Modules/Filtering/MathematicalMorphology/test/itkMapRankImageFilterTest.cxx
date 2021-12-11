@@ -25,14 +25,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkMapRankImageFilterTest(int ac, char * av[])
+itkMapRankImageFilterTest(int argc, char * argv[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (ac < 4)
+  if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BaselineImage radius" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage radius" << std::endl;
     return -1;
   }
 
@@ -40,7 +40,7 @@ itkMapRankImageFilterTest(int ac, char * av[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto input = ReaderType::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
 
   // Create a filter
   using SEType = itk::FlatStructuringElement<2>;
@@ -92,7 +92,7 @@ itkMapRankImageFilterTest(int ac, char * av[])
 
   try
   {
-    int r = std::stoi(av[3]);
+    int r = std::stoi(argv[3]);
     filter->SetInput(input->GetOutput());
     filter->SetRadius(r);
     filter->SetRank(0.5);
@@ -108,7 +108,7 @@ itkMapRankImageFilterTest(int ac, char * av[])
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

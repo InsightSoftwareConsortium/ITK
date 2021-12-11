@@ -20,18 +20,18 @@
 #include "itkTestingMacros.h"
 
 int
-itkRegularExpressionSeriesFileNamesTest(int ac, char * av[])
+itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Directory\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Directory\n";
     return EXIT_FAILURE;
   }
 
 
   itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
-  fit->SetDirectory(av[1]);
+  fit->SetDirectory(argv[1]);
   fit->SetRegularExpression("[^.]*.(.*)");
   fit->SetSubMatch(1);
 

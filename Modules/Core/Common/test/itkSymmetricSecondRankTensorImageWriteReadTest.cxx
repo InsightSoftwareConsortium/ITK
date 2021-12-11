@@ -24,11 +24,11 @@
 
 // Write a 2D SymmetricSecondRankTensor image to file and read it back again.
 int
-itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
+itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
 {
-  if (ac < 1)
+  if (argc < 1)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input\n";
     return EXIT_FAILURE;
   }
 
@@ -70,8 +70,8 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int ac, char * av[])
 
   try
   {
-    itk::WriteImage(tensorImageInput, av[1]);
-    const TensorImageType::ConstPointer tensorImageOutput = itk::ReadImage<TensorImageType>(av[1]);
+    itk::WriteImage(tensorImageInput, argv[1]);
+    const TensorImageType::ConstPointer tensorImageOutput = itk::ReadImage<TensorImageType>(argv[1]);
 
     // Compare the read values to the original values
     const float tolerance = 1e-5;

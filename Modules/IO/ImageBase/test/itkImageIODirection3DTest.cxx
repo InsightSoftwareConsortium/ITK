@@ -23,12 +23,12 @@
 // Specific ImageIO test
 
 int
-itkImageIODirection3DTest(int ac, char * av[])
+itkImageIODirection3DTest(int argc, char * argv[])
 {
 
-  if (ac < 11)
+  if (argc < 11)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage  (9 direction cosines terms) "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage  (9 direction cosines terms) "
               << "[outputImage]" << std::endl;
     return EXIT_FAILURE;
   }
@@ -41,7 +41,7 @@ itkImageIODirection3DTest(int ac, char * av[])
 
   auto reader = ReaderType::New();
 
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   try
   {
@@ -66,7 +66,7 @@ itkImageIODirection3DTest(int ac, char * av[])
   {
     for (unsigned int col = 0; col < Dimension; ++col)
     {
-      const double expectedValue = std::stod(av[element++]);
+      const double expectedValue = std::stod(argv[element++]);
       const double currentValue = directionCosines[row][col];
       const double difference = currentValue - expectedValue;
       if (itk::Math::abs(difference) > tolerance)
@@ -80,11 +80,11 @@ itkImageIODirection3DTest(int ac, char * av[])
   }
 
 
-  if (ac > 11)
+  if (argc > 11)
   {
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
-    writer->SetFileName(av[11]);
+    writer->SetFileName(argv[11]);
     writer->SetInput(reader->GetOutput());
 
     try

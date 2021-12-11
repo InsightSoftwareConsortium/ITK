@@ -23,11 +23,11 @@
 
 
 int
-itkMatrixImageWriteReadTest(int ac, char * av[])
+itkMatrixImageWriteReadTest(int argc, char * argv[])
 {
-  if (ac < 1)
+  if (argc < 1)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input\n";
     return EXIT_FAILURE;
   }
 
@@ -85,7 +85,7 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
   auto matrixWriter = MatrixWriterType::New();
 
   matrixWriter->SetInput(matrixImage1);
-  matrixWriter->SetFileName(av[1]);
+  matrixWriter->SetFileName(argv[1]);
 
   try
   {
@@ -102,7 +102,7 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
 
   auto matrixReader = MatrixReaderType::New();
 
-  matrixReader->SetFileName(av[1]);
+  matrixReader->SetFileName(argv[1]);
 
   try
   {

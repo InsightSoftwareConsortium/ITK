@@ -26,14 +26,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkGrayscaleDilateImageFilterTest(int ac, char * av[])
+itkGrayscaleDilateImageFilterTest(int argc, char * argv[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (ac < 6)
+  if (argc < 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
     return -1;
   }
 
@@ -42,7 +42,7 @@ itkGrayscaleDilateImageFilterTest(int ac, char * av[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   // Create a filter
   using SRType = itk::FlatStructuringElement<dim>;
@@ -78,19 +78,19 @@ itkGrayscaleDilateImageFilterTest(int ac, char * av[])
     writer->SetInput(filter->GetOutput());
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
-    writer->SetFileName(av[2]);
+    writer->SetFileName(argv[2]);
     writer->Update();
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
-    writer->SetFileName(av[3]);
+    writer->SetFileName(argv[3]);
     writer->Update();
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
-    writer->SetFileName(av[4]);
+    writer->SetFileName(argv[4]);
     writer->Update();
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
-    writer->SetFileName(av[5]);
+    writer->SetFileName(argv[5]);
     writer->Update();
   }
   catch (const itk::ExceptionObject & e)
@@ -103,7 +103,7 @@ itkGrayscaleDilateImageFilterTest(int ac, char * av[])
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

@@ -27,12 +27,12 @@
  *  computed in itkGDCMImageIO are orthogonal
  */
 int
-itkGDCMImageIOOrthoDirTest(int ac, char * av[])
+itkGDCMImageIOOrthoDirTest(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage\n";
     return EXIT_FAILURE;
   }
 
@@ -44,7 +44,7 @@ itkGDCMImageIOOrthoDirTest(int ac, char * av[])
   auto dcmImageIO = ImageIOType::New();
 
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   reader->SetImageIO(dcmImageIO);
 
   try

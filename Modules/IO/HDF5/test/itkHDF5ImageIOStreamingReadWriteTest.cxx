@@ -229,13 +229,13 @@ HDF5ReadWriteTest2(const char * fileName)
 }
 
 int
-itkHDF5ImageIOStreamingReadWriteTest(int ac, char * av[])
+itkHDF5ImageIOStreamingReadWriteTest(int argc, char * argv[])
 {
   std::string prefix("");
-  if (ac > 1)
+  if (argc > 1)
   {
-    prefix = *++av;
-    --ac;
+    prefix = *++argv;
+    --argc;
     itksys::SystemTools::ChangeDirectory(prefix.c_str());
   }
   itk::ObjectFactoryBase::RegisterFactory(itk::HDF5ImageIOFactory::New());

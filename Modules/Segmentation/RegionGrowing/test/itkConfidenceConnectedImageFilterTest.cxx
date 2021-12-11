@@ -25,14 +25,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkConfidenceConnectedImageFilterTest(int ac, char * av[])
+itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (ac < 5)
+  if (argc < 5)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BaselineImage seed_x seed_y\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage seed_x seed_y\n";
     return -1;
   }
 
@@ -40,7 +40,7 @@ itkConfidenceConnectedImageFilterTest(int ac, char * av[])
   using myImage = itk::Image<PixelType, 2>;
 
   itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::ConfidenceConnectedImageFilter<myImage, myImage>;
@@ -52,8 +52,8 @@ itkConfidenceConnectedImageFilterTest(int ac, char * av[])
   filter->SetInitialNeighborhoodRadius(3); // measured in pixels
 
   FilterType::IndexType seed;
-  seed[0] = std::stoi(av[3]);
-  seed[1] = std::stoi(av[4]);
+  seed[0] = std::stoi(argv[3]);
+  seed[1] = std::stoi(argv[4]);
   //  FilterType::IndexType seed; seed[0] = 56; seed[1] = 90;
   //  FilterType::IndexType seed; seed[0] = 96; seed[1] = 214;
   filter->SetSeed(seed);
@@ -103,7 +103,7 @@ itkConfidenceConnectedImageFilterTest(int ac, char * av[])
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   // Exercise AddSeed() method

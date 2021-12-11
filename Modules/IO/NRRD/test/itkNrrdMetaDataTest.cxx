@@ -30,10 +30,10 @@
  * If this test succeeds, this bug has been fixed.
  */
 int
-itkNrrdMetaDataTest(int ac, char * av[])
+itkNrrdMetaDataTest(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
     std::cerr << "Missing data directory argument" << std::endl;
     return EXIT_FAILURE;
@@ -58,7 +58,7 @@ itkNrrdMetaDataTest(int ac, char * av[])
   using ImageReaderType = itk::ImageFileReader<ImageType>;
 
   // test uses 1st arg to specify where to drop data
-  std::string fname = av[1];
+  std::string fname = argv[1];
   fname += "/metadatatest.nrrd";
   // set up writer
   auto writer = ImageWriterType::New();

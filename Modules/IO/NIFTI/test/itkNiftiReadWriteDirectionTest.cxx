@@ -26,25 +26,25 @@
 #include <map>
 
 int
-itkNiftiReadWriteDirectionTest(int ac, char * av[])
+itkNiftiReadWriteDirectionTest(int argc, char * argv[])
 {
-  if (ac < 5)
+  if (argc < 5)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << "imageWithBothQAndSForms imageWithNoQform imageWithNoSform testOutputDir" << std::endl;
-    std::cerr << "5 arguments required, received " << ac << std::endl;
-    for (int i = 0; i < ac; ++i)
+    std::cerr << "5 arguments required, received " << argc << std::endl;
+    for (int i = 0; i < argc; ++i)
     {
-      std::cerr << "\t" << i << " : " << av[i] << std::endl;
+      std::cerr << "\t" << i << " : " << argv[i] << std::endl;
     }
     return EXIT_FAILURE;
   }
 
   using TestImageType = itk::Image<float, 3>;
-  TestImageType::Pointer inputImage = itk::ReadImage<TestImageType>(av[1]);
-  TestImageType::Pointer inputImageNoQform = itk::ReadImage<TestImageType>(av[2]);
-  TestImageType::Pointer inputImageNoSform = itk::ReadImage<TestImageType>(av[3]);
+  TestImageType::Pointer inputImage = itk::ReadImage<TestImageType>(argv[1]);
+  TestImageType::Pointer inputImageNoQform = itk::ReadImage<TestImageType>(argv[2]);
+  TestImageType::Pointer inputImageNoSform = itk::ReadImage<TestImageType>(argv[3]);
 
   const auto inputImageDirection = inputImage->GetDirection();
   const auto inputImageNoQformDirection = inputImageNoQform->GetDirection();
@@ -74,7 +74,7 @@ itkNiftiReadWriteDirectionTest(int ac, char * av[])
   }
 
   // Write image that originally had no sform direction representation into a file with both sform and qform
-  const std::string                            testOutputDir = av[4];
+  const std::string                            testOutputDir = argv[4];
   const std::string                            testFilename = testOutputDir + "/test_filled_sform.nii.gz";
   itk::ImageFileWriter<TestImageType>::Pointer writer = itk::ImageFileWriter<TestImageType>::New();
   ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(inputImageNoSform, testFilename));

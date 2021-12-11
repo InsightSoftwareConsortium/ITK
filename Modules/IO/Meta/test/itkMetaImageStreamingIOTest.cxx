@@ -25,12 +25,12 @@
 #include "itkTestingMacros.h"
 
 int
-itkMetaImageStreamingIOTest(int ac, char * av[])
+itkMetaImageStreamingIOTest(int argc, char * argv[])
 {
-  if (ac < 3)
+  if (argc < 3)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " inputFilename outputFilename [numberOfDataPieces]"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename [numberOfDataPieces]"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -63,8 +63,8 @@ itkMetaImageStreamingIOTest(int ac, char * av[])
   reader->SetImageIO(metaIn);
   writer->SetImageIO(metaOut);
 
-  const std::string inputFilename = av[1];
-  const std::string outputFilename = av[2];
+  const std::string inputFilename = argv[1];
+  const std::string outputFilename = argv[2];
 
   reader->SetFileName(inputFilename);
   reader->SetUseStreaming(true);
@@ -98,9 +98,9 @@ itkMetaImageStreamingIOTest(int ac, char * av[])
   // By default we decide to use 4 pieces, but this value can
   // be changed from the command line.
   unsigned int numberOfDataPieces = 4;
-  if (ac > 3)
+  if (argc > 3)
   {
-    numberOfDataPieces = std::stoi(av[3]);
+    numberOfDataPieces = std::stoi(argv[3]);
   }
 
   streamer->SetNumberOfStreamDivisions(numberOfDataPieces);

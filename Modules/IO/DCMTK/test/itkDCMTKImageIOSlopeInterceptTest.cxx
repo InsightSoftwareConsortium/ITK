@@ -26,12 +26,12 @@
 #include "itkTestingMacros.h"
 
 int
-itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
+itkDCMTKImageIOSlopeInterceptTest(int argc, char * argv[])
 {
-  if (ac < 3)
+  if (argc < 3)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " originalImage slopeInterceptImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " originalImage slopeInterceptImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -49,7 +49,7 @@ itkDCMTKImageIOSlopeInterceptTest(int ac, char * av[])
   for (unsigned i = 0; i < 2; ++i)
   {
     auto reader = ReaderType::New();
-    reader->SetFileName(av[i + 1]);
+    reader->SetFileName(argv[i + 1]);
     reader->SetImageIO(dcmImageIO);
 
     ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());

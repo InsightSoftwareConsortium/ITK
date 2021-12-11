@@ -27,13 +27,13 @@
 // Specific ImageIO test
 
 int
-itkDCMTKImageIOTest(int ac, char * av[])
+itkDCMTKImageIOTest(int argc, char * argv[])
 {
 
-  if (ac < 5)
+  if (argc < 5)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " DicomImage OutputDicomImage OutputImage RescalDicomImage" << std::endl;
     return EXIT_FAILURE;
   }
@@ -46,7 +46,7 @@ itkDCMTKImageIOTest(int ac, char * av[])
   auto dcmtkImageIO = ImageIOType::New();
 
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   reader->SetImageIO(dcmtkImageIO);
   // reader->DebugOn();
 
@@ -67,7 +67,7 @@ itkDCMTKImageIOTest(int ac, char * av[])
   using Writer2Type = itk::ImageFileWriter<WriteImageType>;
   auto writer2 = Writer2Type::New();
   // writer2->DebugOn();
-  writer2->SetFileName(av[3]);
+  writer2->SetFileName(argv[3]);
   writer2->SetInput(rescaler->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());

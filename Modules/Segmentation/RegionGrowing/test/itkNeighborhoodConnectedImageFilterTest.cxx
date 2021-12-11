@@ -24,18 +24,18 @@
 #include "itkTestingMacros.h"
 
 int
-itkNeighborhoodConnectedImageFilterTest(int ac, char * av[])
+itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
 {
-  if (ac < 5)
+  if (argc < 5)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage seed_x seed_y\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage seed_x seed_y\n";
     return -1;
   }
 
   using PixelType = unsigned char;
   using myImage = itk::Image<PixelType, 2>;
   itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::NeighborhoodConnectedImageFilter<myImage, myImage>;
@@ -47,8 +47,8 @@ itkNeighborhoodConnectedImageFilterTest(int ac, char * av[])
 
   FilterType::IndexType seed;
 
-  seed[0] = std::stoi(av[3]);
-  seed[1] = std::stoi(av[4]);
+  seed[0] = std::stoi(argv[3]);
+  seed[1] = std::stoi(argv[4]);
   filter->SetSeed(seed);
 
   filter->SetLower(0);
@@ -88,7 +88,7 @@ itkNeighborhoodConnectedImageFilterTest(int ac, char * av[])
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;
