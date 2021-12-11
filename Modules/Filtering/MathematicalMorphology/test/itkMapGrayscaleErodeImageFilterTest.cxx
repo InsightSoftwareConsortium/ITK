@@ -23,6 +23,7 @@
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkFlatStructuringElement.h"
+#include "itkTestingMacros.h"
 
 int
 itkMapGrayscaleErodeImageFilterTest(int ac, char * av[])
@@ -32,7 +33,7 @@ itkMapGrayscaleErodeImageFilterTest(int ac, char * av[])
 
   if (ac < 6)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BASIC HISTO ANCHOR VHGW" << std::endl;
     return -1;
   }
 

@@ -19,6 +19,7 @@
 #include "itkImageFileWriter.h"
 #include "itkImageFileReader.h"
 #include "itkTimeProbesCollectorBase.h"
+#include "itkTestingMacros.h"
 
 int
 itkLargeImageWriteConvertReadTest(int ac, char * av[])
@@ -26,7 +27,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
 
   if (ac < 3)
   {
-    std::cout << "usage: itkIOTests itkLargeImageWriteConvertReadTest outputFileName numberOfPixelsInOneDimension"
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(av) << " outputFileName numberOfPixelsInOneDimension"
               << std::endl;
     return EXIT_FAILURE;
   }

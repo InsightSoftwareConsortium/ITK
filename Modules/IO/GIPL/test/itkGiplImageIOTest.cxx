@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -29,7 +30,7 @@ itkGiplImageIOTest(int ac, char * av[])
 
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " Input Output\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input Output\n";
     return EXIT_FAILURE;
   }
 

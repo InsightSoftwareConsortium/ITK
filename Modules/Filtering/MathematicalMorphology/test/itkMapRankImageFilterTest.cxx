@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkMapRankImageFilterTest(int ac, char * av[])
@@ -31,7 +32,7 @@ itkMapRankImageFilterTest(int ac, char * av[])
 
   if (ac < 4)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage radius" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BaselineImage radius" << std::endl;
     return -1;
   }
 

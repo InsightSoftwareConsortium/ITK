@@ -18,6 +18,7 @@
 
 #include "itkImageFileReader.h"
 #include "itkCentralDifferenceImageFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkOrientedImage3DTest(int ac, char * av[])
@@ -25,7 +26,7 @@ itkOrientedImage3DTest(int ac, char * av[])
 
   if (ac < 20)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage  "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage  "
               << "corner1x corner1y corner1z "
               << "corner2x corner2y corner2z "
               << "corner3x corner3y corner3z "

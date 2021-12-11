@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkRegularExpressionSeriesFileNames.h"
+#include "itkTestingMacros.h"
 
 int
 itkRegularExpressionSeriesFileNamesTest(int ac, char * av[])
@@ -24,7 +25,7 @@ itkRegularExpressionSeriesFileNamesTest(int ac, char * av[])
 
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " Directory\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Directory\n";
     return EXIT_FAILURE;
   }
 

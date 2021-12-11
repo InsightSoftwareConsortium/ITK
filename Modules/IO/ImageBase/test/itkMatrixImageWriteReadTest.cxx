@@ -19,6 +19,7 @@
 #include <fstream>
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -26,7 +27,7 @@ itkMatrixImageWriteReadTest(int ac, char * av[])
 {
   if (ac < 1)
   {
-    std::cerr << "Usage: " << av[0] << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input\n";
     return EXIT_FAILURE;
   }
 

@@ -22,6 +22,7 @@
 #include "itkImageFileWriter.h"
 #include "itkTextOutput.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
@@ -31,7 +32,8 @@ itkVectorConfidenceConnectedImageFilterTest(int ac, char * av[])
 
   if (ac < 9)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage seed1X seed1Y seed2X seed2Y multiplier iterations\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+              << " InputImage BaselineImage seed1X seed1Y seed2X seed2Y multiplier iterations\n";
     return -1;
   }
 

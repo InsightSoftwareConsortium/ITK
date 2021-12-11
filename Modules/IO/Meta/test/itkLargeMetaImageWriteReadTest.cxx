@@ -20,6 +20,7 @@
 #include "itkImageFileReader.h"
 #include "itkTimeProbesCollectorBase.h"
 #include "itkMetaImageIO.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -164,7 +165,8 @@ itkLargeMetaImageWriteReadTest(int ac, char * argv[])
 
   if (ac < 3)
   {
-    std::cout << "usage: itkIOTests itkLargeMetaImageWriteReadTest outputFileName numberOfPixelsInOneDimension "
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " outputFileName numberOfPixelsInOneDimension "
                  "[numberOfZslices]"
               << std::endl;
     return EXIT_FAILURE;

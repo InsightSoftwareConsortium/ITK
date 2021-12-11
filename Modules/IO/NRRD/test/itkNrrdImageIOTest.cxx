@@ -19,6 +19,7 @@
 // Specific ImageIO test
 
 #include "itkNrrdImageIOTest.h"
+#include "itkTestingMacros.h"
 
 
 // This test is for the NRRD image IO.  The strategy is to generate random
@@ -30,7 +31,7 @@ itkNrrdImageIOTest(int ac, char * av[])
   std::string inputFile;
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " Output\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Output\n";
     return EXIT_FAILURE;
   }
 

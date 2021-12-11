@@ -23,6 +23,7 @@
 #include "itkTextOutput.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkNoiseImageFilterTest(int ac, char * av[])
@@ -32,7 +33,7 @@ itkNoiseImageFilterTest(int ac, char * av[])
 
   if (ac < 3)
   {
-    std::cerr << "Usage: " << av[0] << " InputImage BaselineImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BaselineImage\n";
     return -1;
   }
 

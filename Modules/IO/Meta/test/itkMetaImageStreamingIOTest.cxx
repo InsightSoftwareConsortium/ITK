@@ -22,10 +22,19 @@
 #include "itkStreamingImageFilter.h"
 #include "itkMedianImageFilter.h"
 #include "itkMetaImageIO.h"
+#include "itkTestingMacros.h"
 
 int
 itkMetaImageStreamingIOTest(int ac, char * av[])
 {
+  if (ac < 3)
+  {
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " inputFilename outputFilename [numberOfDataPieces]"
+              << std::endl;
+    return EXIT_FAILURE;
+  }
+
   //  Image types are defined below.
   using InputPixelType = unsigned char;
   using OutputPixelType = unsigned char;

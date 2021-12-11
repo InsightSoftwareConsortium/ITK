@@ -17,6 +17,8 @@
  *=========================================================================*/
 
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
+
 
 int
 itkImageFileWriterTest(int ac, char * av[])
@@ -24,7 +26,7 @@ itkImageFileWriterTest(int ac, char * av[])
 
   if (ac < 2)
   {
-    std::cout << "usage: itkIOTests itkImageFileWriterTest outputFileName" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(av) << " outputFileName " << std::endl;
     return EXIT_FAILURE;
   }
 

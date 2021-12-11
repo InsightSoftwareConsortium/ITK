@@ -19,6 +19,7 @@
 #include "itkImageFileReader.h"
 #include "itkGDCMImageIO.h"
 #include "itkVersor.h"
+#include "itkTestingMacros.h"
 
 // Specific ImageIO test
 
@@ -31,7 +32,7 @@ itkGDCMImageIOOrthoDirTest(int ac, char * av[])
 
   if (ac < 2)
   {
-    std::cerr << "Usage: " << av[0] << " DicomImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage\n";
     return EXIT_FAILURE;
   }
 
