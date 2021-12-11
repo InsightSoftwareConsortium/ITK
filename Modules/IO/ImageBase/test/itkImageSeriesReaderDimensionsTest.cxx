@@ -21,12 +21,12 @@
 
 
 int
-itkImageSeriesReaderDimensionsTest(int ac, char * av[])
+itkImageSeriesReaderDimensionsTest(int argc, char * argv[])
 {
 
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " inputFileName(s)" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s)" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -42,11 +42,11 @@ itkImageSeriesReaderDimensionsTest(int ac, char * av[])
   using Reader5DType = itk::ImageSeriesReader<Image5DType>;
 
   Reader2DType::FileNamesContainer fname;
-  fname.push_back(av[1]);
+  fname.push_back(argv[1]);
 
   Reader2DType::FileNamesContainer fnames;
-  for (int i = 1; i < ac; ++i)
-    fnames.push_back(av[i]);
+  for (int i = 1; i < argc; ++i)
+    fnames.push_back(argv[i]);
 
 
   std::cout << "testing reading a single 2D image to 2D" << std::endl;

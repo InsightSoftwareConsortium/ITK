@@ -98,24 +98,24 @@ Equal(const double a, const double b)
 }
 
 int
-itkNiftiImageIOTest(int ac, char * av[])
+itkNiftiImageIOTest(int argc, char * argv[])
 {
   itk::ObjectFactoryBase::UnRegisterAllFactories();
   itk::NiftiImageIOFactory::RegisterOneFactory();
   int rval = 0;
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
-    --ac;
+    char * testdir = *++argv;
+    --argc;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   std::string prefix = "";
-  if (ac > 1)
+  if (argc > 1)
   {
-    prefix = *++av;
-    --ac;
+    prefix = *++argv;
+    --argc;
   }
   static bool firstTime = true;
   if (firstTime)
@@ -123,7 +123,7 @@ itkNiftiImageIOTest(int ac, char * av[])
     itk::ObjectFactoryBase::RegisterFactory(itk::NiftiImageIOFactory::New());
     firstTime = false;
   }
-  if (ac > 1) // This is a mechanism for reading unsigned char images for testing.
+  if (argc > 1) // This is a mechanism for reading unsigned char images for testing.
   {
     using ImageType = itk::Image<unsigned char, 3>;
     ImageType::Pointer         input;
@@ -135,9 +135,9 @@ itkNiftiImageIOTest(int ac, char * av[])
     // Enable old behavior of NIFTI reader
     imageIO->SetLegacyAnalyze75Mode(itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4);
 
-    for (int imagenameindex = 1; imagenameindex < ac; ++imagenameindex)
+    for (int imagenameindex = 1; imagenameindex < argc; ++imagenameindex)
     {
-      auto fileName = std::string(av[imagenameindex]);
+      auto fileName = std::string(argv[imagenameindex]);
 
       // The way the test is structured, we cannot know the expected file
       // type, so just print it

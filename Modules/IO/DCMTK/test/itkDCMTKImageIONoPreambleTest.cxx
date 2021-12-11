@@ -26,13 +26,13 @@
  *  DICOM files that contain no preamble
  */
 int
-itkDCMTKImageIONoPreambleTest(int ac, char * av[])
+itkDCMTKImageIONoPreambleTest(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " DicomImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " DicomImage" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -42,7 +42,7 @@ itkDCMTKImageIONoPreambleTest(int ac, char * av[])
   using ImageIOType = itk::DCMTKImageIO;
 
   auto dcmImageIO = ImageIOType::New();
-  bool canRead = dcmImageIO->CanReadFile(av[1]);
+  bool canRead = dcmImageIO->CanReadFile(argv[1]);
   if (!canRead)
   {
     std::cerr << "Cannot read file " << std::endl;
@@ -50,7 +50,7 @@ itkDCMTKImageIONoPreambleTest(int ac, char * av[])
   }
 
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   reader->SetImageIO(dcmImageIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());

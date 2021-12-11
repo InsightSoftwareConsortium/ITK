@@ -24,11 +24,11 @@
 #include "itkTestingMacros.h"
 
 int
-itkIsolatedConnectedImageFilterTest(int ac, char * av[])
+itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
 {
-  if (ac < 8)
+  if (argc < 8)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " InputImage OutputImage FindUpper(true,false) seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 "
                  "seed2_x2 seed2_y2]*\n";
     return -1;
@@ -37,7 +37,7 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
   using PixelType = unsigned char;
   using myImage = itk::Image<PixelType, 2>;
   itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::IsolatedConnectedImageFilter<myImage, myImage>;
@@ -50,26 +50,26 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
   FilterType::IndexType seed1;
 
 #if !defined(ITK_LEGACY_REMOVE)
-  seed1[0] = std::stoi(av[4]);
-  seed1[1] = std::stoi(av[5]);
+  seed1[0] = std::stoi(argv[4]);
+  seed1[1] = std::stoi(argv[5]);
   filter->SetSeed1(seed1); // deprecated method
 
-  seed1[0] = std::stoi(av[6]);
-  seed1[1] = std::stoi(av[7]);
+  seed1[0] = std::stoi(argv[6]);
+  seed1[1] = std::stoi(argv[7]);
   filter->SetSeed2(seed1); // deprecated method
 #endif
 
   // Clear the seeds and then add all of the seeds
   filter->ClearSeeds1();
   filter->ClearSeeds2();
-  for (int i = 4; i < ac; i += 4)
+  for (int i = 4; i < argc; i += 4)
   {
-    seed1[0] = std::stoi(av[i]);
-    seed1[1] = std::stoi(av[i + 1]);
+    seed1[0] = std::stoi(argv[i]);
+    seed1[1] = std::stoi(argv[i + 1]);
     filter->AddSeed1(seed1);
 
-    seed1[0] = std::stoi(av[i + 2]);
-    seed1[1] = std::stoi(av[i + 3]);
+    seed1[0] = std::stoi(argv[i + 2]);
+    seed1[1] = std::stoi(argv[i + 3]);
     filter->AddSeed2(seed1);
   }
 
@@ -85,7 +85,7 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
   filter->SetIsolatedValueTolerance(1);
 
   // Test SetMacro
-  std::string findUpper = av[3];
+  std::string findUpper = argv[3];
   if (findUpper == "true")
   {
     filter->FindUpperThresholdOn();
@@ -140,7 +140,7 @@ itkIsolatedConnectedImageFilterTest(int ac, char * av[])
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
 

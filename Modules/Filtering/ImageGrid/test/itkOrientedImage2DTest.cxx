@@ -21,12 +21,12 @@
 #include "itkTestingMacros.h"
 
 int
-itkOrientedImage2DTest(int ac, char * av[])
+itkOrientedImage2DTest(int argc, char * argv[])
 {
 
-  if (ac < 12)
+  if (argc < 12)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage  "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage  "
               << "corner1x corner1y "
               << "corner2x corner2y "
               << "corner3x corner3y "
@@ -47,7 +47,7 @@ itkOrientedImage2DTest(int ac, char * av[])
 
   auto reader = ReaderType::New();
 
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   try
   {
@@ -98,7 +98,7 @@ itkOrientedImage2DTest(int ac, char * av[])
 
     for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
-      const double expectedValue = std::stod(av[element++]);
+      const double expectedValue = std::stod(argv[element++]);
       const double currentValue = physicalPoint[dim];
       const double difference = currentValue - expectedValue;
       if (itk::Math::abs(difference) > tolerance)
@@ -141,7 +141,7 @@ itkOrientedImage2DTest(int ac, char * av[])
 
     for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
-      const double expectedValue = std::stod(av[element++]);
+      const double expectedValue = std::stod(argv[element++]);
       const double currentValue = gradient1a[dim];
       const double difference = currentValue - expectedValue;
       if (itk::Math::abs(difference) > tolerance)
@@ -166,7 +166,7 @@ itkOrientedImage2DTest(int ac, char * av[])
 
     for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
-      const double expectedValue = std::stod(av[element++]);
+      const double expectedValue = std::stod(argv[element++]);
       const double currentValue = gradient1b[dim];
       const double difference = currentValue - expectedValue;
       if (itk::Math::abs(difference) > tolerance)

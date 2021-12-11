@@ -25,12 +25,12 @@
 // Specific ImageIO test
 
 int
-itkNrrdImageReadWriteTest(int ac, char * av[])
+itkNrrdImageReadWriteTest(int argc, char * argv[])
 {
-  if (ac < 3)
+  if (argc < 3)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input Output" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input Output" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -46,7 +46,7 @@ itkNrrdImageReadWriteTest(int ac, char * av[])
 
   reader->SetImageIO(itk::NrrdImageIO::New());
 
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 
@@ -60,7 +60,7 @@ itkNrrdImageReadWriteTest(int ac, char * av[])
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetImageIO(itk::NrrdImageIO::New());
   writer->SetInput(reader->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 

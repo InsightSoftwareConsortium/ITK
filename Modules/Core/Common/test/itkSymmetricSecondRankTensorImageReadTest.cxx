@@ -23,11 +23,11 @@
 
 
 int
-itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
+itkSymmetricSecondRankTensorImageReadTest(int argc, char * argv[])
 {
-  if (ac < 1)
+  if (argc < 1)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Input\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Input\n";
     return EXIT_FAILURE;
   }
 
@@ -85,8 +85,8 @@ itkSymmetricSecondRankTensorImageReadTest(int ac, char * av[])
 
   try
   {
-    itk::WriteImage(matrixImage, av[1]);
-    const TensorImageType::ConstPointer tensorImage = itk::ReadImage<TensorImageType>(av[1]);
+    itk::WriteImage(matrixImage, argv[1]);
+    const TensorImageType::ConstPointer tensorImage = itk::ReadImage<TensorImageType>(argv[1]);
 
     // Compare the read values to the original values
     const float tolerance = 1e-5;

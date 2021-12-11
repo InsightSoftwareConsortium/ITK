@@ -84,19 +84,19 @@ Equal(SpacingType spacing1, SpacingType spacing2)
 // known to exist in the test file in order to ensure that
 // they're properly read out of the functional group.
 int
-itkDCMTKImageIOMultiFrameImageTest(int ac, char * av[])
+itkDCMTKImageIOMultiFrameImageTest(int argc, char * argv[])
 {
-  if (ac < 2)
+  if (argc < 2)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " multiframeImage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " multiframeImage" << std::endl;
     return EXIT_FAILURE;
   }
 
   auto dcmImageIO = ImageIOType::New();
 
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   reader->SetImageIO(dcmImageIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());

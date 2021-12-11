@@ -26,18 +26,18 @@
 // images of various data types, dimensionalities and sizes, write these images
 // as NRRDs, read them back, and compare the read images with the originals.
 int
-itkNrrdImageIOTest(int ac, char * av[])
+itkNrrdImageIOTest(int argc, char * argv[])
 {
   std::string inputFile;
-  if (ac < 2)
+  if (argc < 2)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " Output\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Output\n";
     return EXIT_FAILURE;
   }
 
-  if (ac > 2)
+  if (argc > 2)
   {
-    inputFile = std::string(av[2]);
+    inputFile = std::string(argv[2]);
   }
   else
   {
@@ -46,61 +46,61 @@ itkNrrdImageIOTest(int ac, char * av[])
   constexpr int sz = 10;
   int           ret = EXIT_SUCCESS;
 
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<char, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<signed short, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<int, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<long, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<long long, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<float, 2>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<double, 2>(std::string(av[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<char, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<signed short, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<int, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<long, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<long long, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<float, 2>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<double, 2>(std::string(argv[1]), sz, inputFile);
 
-  ret += itkNrrdImageIOTestReadWriteTest<char, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<signed short, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<int, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<long, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<long long, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<float, 3>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<double, 3>(std::string(av[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<char, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<signed short, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<int, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<long, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<long long, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<float, 3>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<double, 3>(std::string(argv[1]), sz, inputFile);
 
-  ret += itkNrrdImageIOTestReadWriteTest<char, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<signed short, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<int, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<long, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<long long, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<float, 4>(std::string(av[1]), sz, inputFile);
-  ret += itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(av[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<char, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<signed short, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<int, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<long, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<long long, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<float, 4>(std::string(argv[1]), sz, inputFile);
+  ret += itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(argv[1]), sz, inputFile);
 
   // Test with compression on
-  ret += itkNrrdImageIOTestReadWriteTest<char, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<signed short, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<int, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<long, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<long long, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<float, 4>(std::string(av[1]), sz, inputFile, true);
-  ret += itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(av[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<char, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned char, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<signed short, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned short, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<int, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned int, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<long, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<long long, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<unsigned long long, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<float, 4>(std::string(argv[1]), sz, inputFile, true);
+  ret += itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(argv[1]), sz, inputFile, true);
 
   // Now we try to read a file which doen't exist
-  ret += !(itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(av[1]), sz, "IDontExist.nrrd"));
+  ret += !(itkNrrdImageIOTestReadWriteTest<double, 4>(std::string(argv[1]), sz, "IDontExist.nrrd"));
 
   if (ret == EXIT_SUCCESS)
   {

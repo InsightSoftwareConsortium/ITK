@@ -25,12 +25,12 @@
 #include "metaImage.h"
 
 int
-itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
+itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
 {
 
-  if (ac < 1)
+  if (argc < 1)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(av) << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -38,7 +38,7 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   reader->Update();
   ImageNDType::Pointer image = reader->GetOutput();
   image->DisconnectPipeline();
@@ -58,9 +58,9 @@ itkImageFileReaderPositiveSpacingTest(int ac, char * av[])
             << direction << std::endl;
 
   MetaImage metaImage;
-  if (!metaImage.Read(av[1], false))
+  if (!metaImage.Read(argv[1], false))
   {
-    std::cerr << "File cannot be opened " << av[1] << " for reading." << std::endl
+    std::cerr << "File cannot be opened " << argv[1] << " for reading." << std::endl
               << "Reason: " << itksys::SystemTools::GetLastSystemError();
     return EXIT_FAILURE;
   }

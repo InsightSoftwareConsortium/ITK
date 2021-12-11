@@ -25,14 +25,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
+itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (ac < 6)
+  if (argc < 6)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av)
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " InputInitialImage InputColorImage BaselineImage threshold curvatureScaling\n";
     return -1;
   }
@@ -56,8 +56,8 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
   auto rgbReader = RGBReaderType::New();
   auto inputReader = InputReaderType::New();
 
-  inputReader->SetFileName(av[1]);
-  rgbReader->SetFileName(av[2]);
+  inputReader->SetFileName(argv[1]);
+  rgbReader->SetFileName(argv[2]);
 
   // Create a filter
   using FilterType = itk::VectorThresholdSegmentationLevelSetImageFilter<InputImageType, RGBImageType, OutputPixelType>;
@@ -94,11 +94,11 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
 
   filter->SetCovariance(covariance);
 
-  const double threshold = std::stod(av[4]);
+  const double threshold = std::stod(argv[4]);
 
   filter->SetThreshold(threshold);
 
-  const double curvatureScaling = std::stod(av[5]);
+  const double curvatureScaling = std::stod(argv[5]);
 
   filter->SetCurvatureScaling(curvatureScaling);
 
@@ -137,7 +137,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int ac, char * av[])
   auto writer = WriterType::New();
 
   writer->SetInput(rescaler->GetOutput());
-  writer->SetFileName(av[3]);
+  writer->SetFileName(argv[3]);
   writer->Update();
 
   std::cout << "Test PASSED !" << std::endl;

@@ -160,10 +160,10 @@ ActualTest(std::string filename, typename TImageType::SizeType size)
 } // namespace
 
 int
-itkLargeMetaImageWriteReadTest(int ac, char * argv[])
+itkLargeMetaImageWriteReadTest(int argc, char * argv[])
 {
 
-  if (ac < 3)
+  if (argc < 3)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " outputFileName numberOfPixelsInOneDimension "
@@ -174,7 +174,7 @@ itkLargeMetaImageWriteReadTest(int ac, char * argv[])
 
   const std::string filename = argv[1];
 
-  if (ac == 3)
+  if (argc == 3)
   {
     constexpr unsigned int Dimension = 2;
 

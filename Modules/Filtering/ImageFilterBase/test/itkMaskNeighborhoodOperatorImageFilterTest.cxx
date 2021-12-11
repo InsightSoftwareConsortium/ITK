@@ -25,11 +25,11 @@
 #include "itkTestingMacros.h"
 
 int
-itkMaskNeighborhoodOperatorImageFilterTest(int ac, char * av[])
+itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
 {
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage\n";
     return -1;
   }
 
@@ -41,7 +41,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int ac, char * av[])
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
   itk::ImageFileReader<InputImageType>::Pointer input = itk::ImageFileReader<InputImageType>::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
   input->Update();
 
   // create a mask the size of the input file
@@ -126,7 +126,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int ac, char * av[])
   // Generate test image
   itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
   writer->SetInput(rescaler->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
 
   try
   {

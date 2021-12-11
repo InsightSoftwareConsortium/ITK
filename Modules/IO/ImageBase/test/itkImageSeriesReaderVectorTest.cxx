@@ -20,12 +20,12 @@
 #include "itkTestingMacros.h"
 
 int
-itkImageSeriesReaderVectorTest(int ac, char * av[])
+itkImageSeriesReaderVectorTest(int argc, char * argv[])
 {
 
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " inputFileName(s)" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName(s)" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -34,8 +34,8 @@ itkImageSeriesReaderVectorTest(int ac, char * av[])
   using VectorImageSeriesReader = itk::ImageSeriesReader<VectorImageType>;
 
   VectorImageSeriesReader::FileNamesContainer fnames;
-  for (int i = 1; i < ac; ++i)
-    fnames.push_back(av[i]);
+  for (int i = 1; i < argc; ++i)
+    fnames.push_back(argv[i]);
 
 
   std::cout << "testing reading a image series into VecorImage" << std::endl;

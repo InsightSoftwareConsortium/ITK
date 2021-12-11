@@ -22,12 +22,12 @@
 #include "itkTestingMacros.h"
 
 int
-itkLargeImageWriteConvertReadTest(int ac, char * av[])
+itkLargeImageWriteConvertReadTest(int argc, char * argv[])
 {
 
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(av) << " outputFileName numberOfPixelsInOneDimension"
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName numberOfPixelsInOneDimension"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -47,7 +47,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
     OutputImageType::SizeType   size;
 
 
-    const size_t numberOfPixelsInOneDimension = atol(av[2]);
+    const size_t numberOfPixelsInOneDimension = atol(argv[2]);
 
     size.Fill(static_cast<OutputImageType::SizeValueType>(numberOfPixelsInOneDimension));
     index.Fill(0);
@@ -82,7 +82,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
     {
       auto writer = WriterType::New();
       writer->SetInput(image);
-      writer->SetFileName(av[1]);
+      writer->SetFileName(argv[1]);
       chronometer.Start("Write");
       writer->Update();
       chronometer.Stop("Write");
@@ -97,7 +97,7 @@ itkLargeImageWriteConvertReadTest(int ac, char * av[])
 
   std::cout << "Trying to read the image back from disk" << std::endl;
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   try
   {
