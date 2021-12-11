@@ -30,7 +30,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int Dimension = 2;
@@ -128,20 +128,7 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   writer->SetInput(rescaler->GetOutput());
   writer->SetFileName(argv[2]);
 
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
-  catch (...)
-  {
-    std::cerr << "Some other exception occurred" << std::endl;
-    return -2;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
   return EXIT_SUCCESS;
 }

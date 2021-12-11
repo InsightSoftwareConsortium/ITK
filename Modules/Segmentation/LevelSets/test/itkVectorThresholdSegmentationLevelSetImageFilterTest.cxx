@@ -34,7 +34,7 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " InputInitialImage InputColorImage BaselineImage threshold curvatureScaling\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   constexpr unsigned int Dimension = 2;
@@ -102,16 +102,10 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
 
   filter->SetCurvatureScaling(curvatureScaling);
 
-  try
-  {
-    rgbReader->Update();
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(rgbReader->Update());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // Test the GetMacros
   if (itk::Math::NotExactlyEquals(filter->GetThreshold(), threshold))

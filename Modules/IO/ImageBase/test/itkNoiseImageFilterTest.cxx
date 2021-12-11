@@ -34,7 +34,7 @@ itkNoiseImageFilterTest(int argc, char * argv[])
   if (argc < 3)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BaselineImage\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   itk::Size<2> radius;

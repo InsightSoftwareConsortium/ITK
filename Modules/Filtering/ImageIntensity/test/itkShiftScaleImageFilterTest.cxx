@@ -21,8 +21,9 @@
 
 #include "itkShiftScaleImageFilter.h"
 #include "itkRandomImageSource.h"
-
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
+
 int
 itkShiftScaleImageFilterTest(int, char *[])
 {
@@ -90,15 +91,9 @@ itkShiftScaleImageFilterTest(int, char *[])
 
   filter->SetInput(source->GetOutput());
   filter->SetScale(4.0);
-  try
-  {
-    filter->UpdateLargestPossibleRegion();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e;
-    return -1;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
+
 
   return EXIT_SUCCESS;
 }

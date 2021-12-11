@@ -29,7 +29,7 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
   if (argc < 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage seed_x seed_y\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using PixelType = unsigned char;
@@ -72,17 +72,10 @@ itkNeighborhoodConnectedImageFilterTest(int argc, char * argv[])
   const SizeType & radius2 = filter->GetRadius();
   std::cout << "filter->GetRadius(): " << radius2 << std::endl;
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(input->Update());
 
-  try
-  {
-    input->Update();
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return -1;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   // Generate test image
   itk::ImageFileWriter<myImage>::Pointer writer;

@@ -19,6 +19,7 @@
 #include "itkErodeObjectMorphologyImageFilter.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
 itkErodeObjectMorphologyImageFilterTest(int, char *[])
@@ -158,31 +159,23 @@ itkErodeObjectMorphologyImageFilterTest(int, char *[])
   std::cout << "filter->GetErodeValue(): " << value << std::endl;
 
   // Execute the filter
-  try
-  {
-    filter->Update();
-    // Create an iterator for going through the image output
-    myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-    //  Print the content of the result image
-    std::cout << "Result " << std::endl;
-    i = 0;
-    while (!it2.IsAtEnd())
+  // Create an iterator for going through the image output
+  myIteratorType it2(outputImage, outputImage->GetBufferedRegion());
+
+  //  Print the content of the result image
+  std::cout << "Result " << std::endl;
+  i = 0;
+  while (!it2.IsAtEnd())
+  {
+    std::cout << it2.Get() << "  ";
+    ++it2;
+
+    if (++i % 20 == 0)
     {
-      std::cout << it2.Get() << "  ";
-      ++it2;
-
-      if (++i % 20 == 0)
-      {
-        std::cout << std::endl;
-      }
+      std::cout << std::endl;
     }
-  }
-
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught during filter Update\n" << e;
-    return -1;
   }
 
   // All objects should be automatically destroyed at this point

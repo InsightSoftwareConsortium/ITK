@@ -90,7 +90,7 @@ itkOctreeTest(int, char *[])
       if (mapped != y)
       {
         std::cerr << "Error comparing Input and Output of Octree" << std::endl;
-        return -1;
+        return EXIT_FAILURE;
       }
       ++ri;
       ++ri2;

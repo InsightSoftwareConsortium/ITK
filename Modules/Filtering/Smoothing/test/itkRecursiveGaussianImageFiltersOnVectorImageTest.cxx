@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkVectorImage.h"
+#include "itkTestingMacros.h"
 
 int
 itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char *[])
@@ -90,16 +91,9 @@ itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char *[])
   filterY->SetInput(filterX->GetOutput());
   filterX->SetSigma(sigma);
   filterY->SetSigma(sigma);
-  try
-  {
-    filterY->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught a !" << std::endl;
-    std::cout << err << std::endl;
-    return -1;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filterY->Update());
+
 
   // Test a few pixels of the  fitlered image
   //

@@ -31,7 +31,7 @@ itkIsolatedConnectedImageFilterTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " InputImage OutputImage FindUpper(true,false) seed1_x seed1_y seed2_x seed2_y [seed1_x2 seed1_y2 "
                  "seed2_x2 seed2_y2]*\n";
-    return -1;
+    return EXIT_FAILURE;
   }
 
   using PixelType = unsigned char;

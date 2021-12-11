@@ -35,7 +35,7 @@ itkMapGrayscaleMorphologicalClosingImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
               << std::endl;
-    return -1;
+    return EXIT_FAILURE;
   }
 
   unsigned int const dim = 2;
