@@ -312,26 +312,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
     region.SetSize(size);
   }
 
-  IndexType index;
-  index.Fill(0);
-  specified = false;
-  for (i = 0; i < OutputImageDimension; ++i)
-  {
-    if (m_Index[i] != 0)
-    {
-      specified = true;
-      break;
-    }
-  }
-
-  if (specified)
-  {
-    region.SetIndex(m_Index);
-  }
-  else
-  {
-    region.SetIndex(index);
-  }
+  region.SetIndex(m_Index);
 
   OutputImage->SetLargestPossibleRegion(region); //
   OutputImage->SetBufferedRegion(region);        // set the region
