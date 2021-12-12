@@ -29,7 +29,7 @@
 #define itkLabelMapFilter_hxx
 #include "itkLabelMapFilter.h"
 #include <mutex>
-#include <itkTotalProgressReporter.h>
+#include "itkTotalProgressReporter.h"
 
 namespace itk
 {

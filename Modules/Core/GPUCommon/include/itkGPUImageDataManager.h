@@ -19,10 +19,10 @@
 #ifndef itkGPUImageDataManager_h
 #define itkGPUImageDataManager_h
 
-#include <itkObject.h>
-#include <itkTimeStamp.h>
-#include <itkLightObject.h>
-#include <itkObjectFactory.h>
+#include "itkObject.h"
+#include "itkTimeStamp.h"
+#include "itkLightObject.h"
+#include "itkObjectFactory.h"
 #include "itkOpenCLUtil.h"
 #include "itkGPUDataManager.h"
 #include "itkGPUContextManager.h"

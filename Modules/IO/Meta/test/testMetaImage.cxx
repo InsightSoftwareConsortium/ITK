@@ -22,9 +22,9 @@
 #include "itkMacro.h"
 #include "itkMath.h"
 #include "itkIOTestHelper.h"
-#include <itkImage.h>
-#include <itkImageRegionIterator.h>
-#include <itkTestingComparisonImageFilter.h>
+#include "itkImage.h"
+#include "itkImageRegionIterator.h"
+#include "itkTestingComparisonImageFilter.h"
 #include "itkMetaImageIO.h"
 
 template <typename PixelType, unsigned int Dimension>

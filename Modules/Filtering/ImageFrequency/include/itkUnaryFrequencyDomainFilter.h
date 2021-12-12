@@ -18,8 +18,8 @@
 #ifndef itkUnaryFrequencyDomainFilter_h
 #define itkUnaryFrequencyDomainFilter_h
 
-#include <itkInPlaceImageFilter.h>
-#include <itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h>
+#include "itkInPlaceImageFilter.h"
+#include "itkFrequencyFFTLayoutImageRegionIteratorWithIndex.h"
 
 namespace itk
 {

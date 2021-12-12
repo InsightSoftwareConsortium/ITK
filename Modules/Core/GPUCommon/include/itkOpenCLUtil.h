@@ -25,7 +25,7 @@
 #include <iostream>
 #include <sstream>
 
-#include <itkVector.h>
+#include "itkVector.h"
 
 #ifndef CL_TARGET_OPENCL_VERSION
 #  define CL_TARGET_OPENCL_VERSION 120
@@ -41,7 +41,7 @@
 
 #endif
 
-#include <itkMacro.h>
+#include "itkMacro.h"
 
 namespace itk
 {

@@ -18,7 +18,7 @@
 #ifndef itkSTLConstContainerAdaptor_h
 #define itkSTLConstContainerAdaptor_h
 
-#include <itkMacro.h>
+#include "itkMacro.h"
 
 namespace itk
 {

@@ -25,7 +25,7 @@
 
 #include <set>
 #include <vector>
-#include <ITKDeformableMeshExport.h>
+#include "ITKDeformableMeshExport.h"
 
 namespace itk
 {

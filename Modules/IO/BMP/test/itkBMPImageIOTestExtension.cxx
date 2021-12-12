@@ -15,11 +15,11 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkImage.h>
-#include <itkImageFileReader.h>
-#include <itkImageRegion.h>
-#include <itkRGBPixel.h>
-#include <itkTestingMacros.h>
+#include "itkImage.h"
+#include "itkImageFileReader.h"
+#include "itkImageRegion.h"
+#include "itkRGBPixel.h"
+#include "itkTestingMacros.h"
 #include <fstream>
 #include <iostream>
 #include <string>

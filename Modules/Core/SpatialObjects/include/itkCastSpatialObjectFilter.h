@@ -21,23 +21,23 @@
 
 #include <list>
 
-#include <itkSpatialObject.h>
+#include "itkSpatialObject.h"
 
-#include <itkArrowSpatialObject.h>
-#include <itkBlobSpatialObject.h>
-#include <itkBoxSpatialObject.h>
-#include <itkContourSpatialObject.h>
-#include <itkEllipseSpatialObject.h>
-#include <itkGaussianSpatialObject.h>
-#include <itkGroupSpatialObject.h>
-#include <itkImageMaskSpatialObject.h>
-#include <itkImageSpatialObject.h>
-#include <itkLandmarkSpatialObject.h>
-#include <itkLineSpatialObject.h>
-#include <itkPointBasedSpatialObject.h>
-#include <itkPolygonSpatialObject.h>
-#include <itkSurfaceSpatialObject.h>
-#include <itkTubeSpatialObject.h>
+#include "itkArrowSpatialObject.h"
+#include "itkBlobSpatialObject.h"
+#include "itkBoxSpatialObject.h"
+#include "itkContourSpatialObject.h"
+#include "itkEllipseSpatialObject.h"
+#include "itkGaussianSpatialObject.h"
+#include "itkGroupSpatialObject.h"
+#include "itkImageMaskSpatialObject.h"
+#include "itkImageSpatialObject.h"
+#include "itkLandmarkSpatialObject.h"
+#include "itkLineSpatialObject.h"
+#include "itkPointBasedSpatialObject.h"
+#include "itkPolygonSpatialObject.h"
+#include "itkSurfaceSpatialObject.h"
+#include "itkTubeSpatialObject.h"
 
 namespace itk
 {

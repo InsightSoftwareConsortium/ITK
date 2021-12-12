@@ -17,8 +17,8 @@
  *=========================================================================*/
 // Disable warning for long symbol names in this file only
 
-#include <itkRecursiveGaussianImageFilter.h>
-#include <itkImageRegionIterator.h>
+#include "itkRecursiveGaussianImageFilter.h"
+#include "itkImageRegionIterator.h"
 
 namespace
 {

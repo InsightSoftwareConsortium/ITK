@@ -18,7 +18,7 @@
 #ifndef itkExpectationMaximizationMixtureModelEstimator_h
 #define itkExpectationMaximizationMixtureModelEstimator_h
 
-#include <ITKStatisticsExport.h>
+#include "ITKStatisticsExport.h"
 #include "itkMixtureModelComponentBase.h"
 #include "itkGaussianMembershipFunction.h"
 #include "itkSimpleDataObjectDecorator.h"
