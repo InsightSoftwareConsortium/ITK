@@ -19,7 +19,7 @@
 #define itkRegularStepGradientDescentOptimizerv4_h
 
 #include "itkGradientDescentOptimizerv4.h"
-#include <itkCompensatedSummation.h>
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {

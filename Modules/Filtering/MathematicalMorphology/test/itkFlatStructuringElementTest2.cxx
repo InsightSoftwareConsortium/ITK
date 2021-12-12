@@ -17,10 +17,10 @@
  *=========================================================================*/
 
 #include "itkFlatStructuringElement.h"
-#include <itkRescaleIntensityImageFilter.h>
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include <itkConstantPadImageFilter.h>
+#include "itkConstantPadImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkTestingMacros.h"
 

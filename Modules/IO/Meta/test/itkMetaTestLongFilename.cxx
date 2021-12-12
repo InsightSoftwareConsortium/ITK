@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkMetaImageIO.h>
+#include "itkMetaImageIO.h"
 
 int
 itkMetaTestLongFilename(int, char *[])

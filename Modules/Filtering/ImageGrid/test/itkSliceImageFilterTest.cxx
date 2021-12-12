@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include <itkSliceImageFilter.h>
+#include "itkSliceImageFilter.h"
 
 #include "itkGTest.h"
 #include "itkPhysicalPointImageSource.h"

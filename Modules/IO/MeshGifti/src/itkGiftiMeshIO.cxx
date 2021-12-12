@@ -19,7 +19,7 @@
 #include "itkGiftiMeshIO.h"
 #include "itkMetaDataObject.h"
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include "gifti_io.h"
 
 namespace itk

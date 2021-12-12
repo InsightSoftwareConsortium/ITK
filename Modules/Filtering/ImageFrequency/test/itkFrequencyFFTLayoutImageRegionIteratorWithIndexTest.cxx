@@ -21,7 +21,7 @@
 
 #include <iostream>
 #include <complex>
-#include <itkMath.h>
+#include "itkMath.h"
 
 template <typename TImage>
 class itkFrequencyFFTLayoutImageRegionIteratorWithIndexTester

@@ -24,8 +24,8 @@
 #define itkGPUKernelManager_h
 
 #include <vector>
-#include <itkLightObject.h>
-#include <itkObjectFactory.h>
+#include "itkLightObject.h"
+#include "itkObjectFactory.h"
 #include "itkOpenCLUtil.h"
 #include "itkGPUImage.h"
 #include "itkGPUContextManager.h"

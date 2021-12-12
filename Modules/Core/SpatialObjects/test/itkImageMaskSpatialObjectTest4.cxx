@@ -29,9 +29,9 @@
  *
  */
 
-#include <itkSpatialObjectToImageFilter.h>
-#include <itkBoxSpatialObject.h>
-#include <itkImageMaskSpatialObject.h>
+#include "itkSpatialObjectToImageFilter.h"
+#include "itkBoxSpatialObject.h"
+#include "itkImageMaskSpatialObject.h"
 
 namespace
 {

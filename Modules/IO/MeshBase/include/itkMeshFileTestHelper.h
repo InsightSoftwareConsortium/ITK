@@ -26,7 +26,7 @@
 
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 template <typename TMesh>
 int

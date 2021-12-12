@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include <itkCommonEnums.h>
+#include "itkCommonEnums.h"
 #include "itkLogicOpsFunctors.h"
 #include "itkBinaryFunctorImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"

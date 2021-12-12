@@ -19,7 +19,7 @@
 #define itkGPUContextManager_h
 
 #include "itkOpenCLUtil.h"
-#include <itkLightObject.h>
+#include "itkLightObject.h"
 
 namespace itk
 {

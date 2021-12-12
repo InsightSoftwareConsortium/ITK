@@ -18,7 +18,7 @@
 
 #include "itkOBJMeshIO.h"
 #include "itkNumericTraits.h"
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <locale>
 #include <vector>
 

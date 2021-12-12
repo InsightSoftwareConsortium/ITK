@@ -27,7 +27,7 @@
 #include "itkObjectFactory.h"
 #include "itkPixelTraits.h"
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 #include <fstream>
 
 namespace itk

@@ -18,7 +18,7 @@
 
 #include "itkFreeSurferAsciiMeshIO.h"
 
-#include <itksys/SystemTools.hxx>
+#include "itksys/SystemTools.hxx"
 
 namespace itk
 {

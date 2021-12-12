@@ -18,7 +18,7 @@
 #ifndef itkFrequencyBandImageFilter_h
 #define itkFrequencyBandImageFilter_h
 
-#include <itkUnaryFrequencyDomainFilter.h>
+#include "itkUnaryFrequencyDomainFilter.h"
 
 namespace itk
 {

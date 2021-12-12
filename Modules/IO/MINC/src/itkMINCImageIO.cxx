@@ -24,7 +24,7 @@
 #include "itkArray.h"
 #include "itkPrintHelper.h"
 
-#include <itk_minc2.h>
+#include "itk_minc2.h"
 
 
 namespace itk
