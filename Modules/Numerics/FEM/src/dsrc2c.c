@@ -3295,8 +3295,8 @@ L50:
 
   if (itcom3_1.omega <= 1.)
   {
-    itcom3_1.cme = sqrt((itk::Math::abs(itcom3_1.specr)));
-    omegap = 2. / (sqrt(itk::Math::abs(1. - itcom3_1.specr)) + 1.);
+    itcom3_1.cme = sqrt((abs(itcom3_1.specr)));
+    omegap = 2. / (sqrt(abs(1. - itcom3_1.specr)) + 1.);
     change = TRUE_;
     goto L70;
   }
@@ -3312,8 +3312,8 @@ L50:
 
   if (itcom3_1.specr + 5e-5 > spcrm1)
   {
-    itcom3_1.cme = (itcom3_1.specr + itcom3_1.omega - 1.) / (sqrt((itk::Math::abs(itcom3_1.specr))) * itcom3_1.omega);
-    omegap = 2. / (sqrt(itk::Math::abs(1. - itcom3_1.cme * itcom3_1.cme)) + 1.);
+    itcom3_1.cme = (itcom3_1.specr + itcom3_1.omega - 1.) / (sqrt((abs(itcom3_1.specr))) * itcom3_1.omega);
+    omegap = 2. / (sqrt(abs(1. - itcom3_1.cme * itcom3_1.cme)) + 1.);
     change = TRUE_;
   }
 
@@ -3857,7 +3857,7 @@ cheby_(doublereal * qa, doublereal * qt, doublereal * rrr, integer * ip, doubler
   /*          CME,   ESTIMATES FOR THE LARGEST AND SMALLEST EIGEN- */
   /*          SME      VALUES OF THE ITERATION MATRIX */
 
-  z = (*qa + sqrt(itk::Math::abs(*qa * *qa - *qt * *qt))) * .5 * (pow_di(rrr, ip) + 1.);
+  z = (*qa + sqrt(abs(*qa * *qa - *qt * *qt))) * .5 * (pow_di(rrr, ip) + 1.);
   d__1 = 1. / (doublereal)((real)(*ip));
   x = pow_dd(&z, &d__1);
   y = (x + *rrr / x) / (*rrr + 1.);

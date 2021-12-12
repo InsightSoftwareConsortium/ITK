@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFEMElement3DC0LinearHexahedron.h"
+#include "itkMath.h"
 
 namespace itk
 {
