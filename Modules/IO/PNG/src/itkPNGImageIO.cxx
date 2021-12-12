@@ -21,39 +21,21 @@
 #include <string>
 #include <csetjmp>
 
-namespace itk
-{
 extern "C"
 {
-  /* The PNG library does not expect the error function to return.
-     Therefore we must use this ugly longjmp call.  */
   void
   itkPNGWriteErrorFunction(png_structp png_ptr, png_const_charp itkNotUsed(error_msg))
   {
     longjmp(png_jmpbuf(png_ptr), 1);
   }
-}
 
-extern "C"
-{
   void
   itkPNGWriteWarningFunction(png_structp itkNotUsed(png_ptr), png_const_charp itkNotUsed(warning_msg))
   {}
 }
 
-namespace
+namespace itk
 {
-// Wrap setjmp call to avoid warnings about variable clobbering.
-bool
-wrapSetjmp(png_structp & png_ptr)
-{
-  if (setjmp(png_jmpbuf(png_ptr)))
-  {
-    return true;
-  }
-  return false;
-}
-} // namespace
 
 // simple class to call fopen on construct and
 // fclose on destruct
@@ -74,7 +56,7 @@ public:
     }
   }
 
-  FILE * m_FilePointer;
+  FILE * volatile m_FilePointer;
 };
 
 bool
@@ -180,10 +162,10 @@ PNGImageIO::Read(void * buffer)
     itkExceptionMacro("File is not png type " << this->GetFileName());
   }
 
-  if (wrapSetjmp(png_ptr))
+  if (setjmp(png_jmpbuf(png_ptr)))
   {
     png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
-    itkExceptionMacro("File is not png type " << this->GetFileName());
+    itkExceptionMacro("PNG critical error in " << this->GetFileName());
   }
 
   png_init_io(png_ptr, fp);
@@ -371,6 +353,12 @@ PNGImageIO::ReadImageInformation()
     return;
   }
 
+  if (setjmp(png_jmpbuf(png_ptr)))
+  {
+    png_destroy_read_struct(&png_ptr, &info_ptr, &end_info);
+    itkExceptionMacro("PNG critical error in " << this->GetFileName());
+  }
+
   png_init_io(png_ptr, fp);
   png_set_sig_bytes(png_ptr, 8);
 
@@ -511,7 +499,7 @@ PNGImageIO::Write(const void * buffer)
 }
 
 void
-PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
+PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
 {
   // use this class so return will call close
   PNGFileWrapper pngfp(fileName.c_str(), "wb");
@@ -571,7 +559,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * buffer)
   png_init_io(png_ptr, fp);
 
   png_set_error_fn(png_ptr, (png_voidp) nullptr, itkPNGWriteErrorFunction, itkPNGWriteWarningFunction);
-  if (wrapSetjmp(png_ptr))
+  if (setjmp(png_jmpbuf(png_ptr)))
   {
     itkExceptionMacro("Error while writing Slice to file: " << this->GetFileName() << std::endl
                                                             << "Reason: " << itksys::SystemTools::GetLastSystemError());

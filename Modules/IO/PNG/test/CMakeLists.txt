@@ -80,3 +80,7 @@ itk_add_test(NAME itkPNGImageIOTest3GreyPaletteExpandedGrey
 itk_add_test(NAME itkPNGImageIOTestCorrupt
       COMMAND ITKIOPNGTestDriver
     itkPNGImageIOTest3 DATA{Input/cthead1-257-corrupt.png})
+
+itk_add_test(NAME itkPNGImageIOTestCorrupt2
+      COMMAND ITKIOPNGTestDriver
+    itkPNGImageIOTest3 DATA{Input/corrupted.png})

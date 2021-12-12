@@ -114,7 +114,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   void
-  WriteSlice(const std::string & fileName, const void * buffer);
+  WriteSlice(const std::string & fileName, const void * const buffer);
 
 
   PaletteType m_ColorPalette;
