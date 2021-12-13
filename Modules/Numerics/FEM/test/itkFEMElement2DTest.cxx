@@ -259,7 +259,7 @@ itkFEMElement2DTest(int argc, char * argv[])
       }
     }
   }
-  catch (::itk::ExceptionObject & err)
+  catch (itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
     std::cout << "Test FAILED" << std::endl;

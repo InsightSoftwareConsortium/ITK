@@ -94,7 +94,7 @@ itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])
   //
   using DistanceMetricType = itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
   DistanceMetricType::OriginType origin;
-  ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, measurementVectorSize);
+  itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, measurementVectorSize);
   auto distanceMetric = DistanceMetricType::New();
 
   bool testFailed = false;

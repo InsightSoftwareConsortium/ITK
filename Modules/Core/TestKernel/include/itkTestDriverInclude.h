@@ -55,15 +55,15 @@
 #define ITK_TEST_DIMENSION_MAX 6
 
 extern int
-RegressionTestImage(const char *         testImageFilename,
-                    const char *         baselineImageFilename,
-                    int                  reportErrors,
-                    double               intensityTolerance,
-                    ::itk::SizeValueType numberOfPixelsTolerance = 0,
-                    unsigned int         radiusTolerance = 0,
-                    bool                 verifyInputInformation = true,
-                    double               coordinateTolerance = 1.0e-6,
-                    double               directionTolerance = 1.0e-6);
+RegressionTestImage(const char *       testImageFilename,
+                    const char *       baselineImageFilename,
+                    int                reportErrors,
+                    double             intensityTolerance,
+                    itk::SizeValueType numberOfPixelsTolerance = 0,
+                    unsigned int       radiusTolerance = 0,
+                    bool               verifyInputInformation = true,
+                    double             coordinateTolerance = 1.0e-6,
+                    double             directionTolerance = 1.0e-6);
 
 extern int
 HashTestImage(const char * testImageFilename, const std::string md5hash);
@@ -133,15 +133,15 @@ extern void
 GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOComponentEnum & componentType);
 
 extern int
-RegressionTestImage(const char *         testImageFilename,
-                    const char *         baselineImageFilename,
-                    int                  reportErrors,
-                    double               intensityTolerance,
-                    ::itk::SizeValueType numberOfPixelsTolerance,
-                    unsigned int         radiusTolerance,
-                    bool                 verifyInputInformation,
-                    double               coordinateTolerance,
-                    double               directionTolerance);
+RegressionTestImage(const char *       testImageFilename,
+                    const char *       baselineImageFilename,
+                    int                reportErrors,
+                    double             intensityTolerance,
+                    itk::SizeValueType numberOfPixelsTolerance,
+                    unsigned int       radiusTolerance,
+                    bool               verifyInputInformation,
+                    double             coordinateTolerance,
+                    double             directionTolerance);
 
 
 extern int

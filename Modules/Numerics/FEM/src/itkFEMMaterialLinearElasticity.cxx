@@ -23,11 +23,11 @@ namespace itk
 namespace fem
 {
 // Overload the CreateAnother() method
-::itk::LightObject::Pointer
+itk::LightObject::Pointer
 MaterialLinearElasticity::CreateAnother() const
 {
-  ::itk::LightObject::Pointer smartPtr;
-  Pointer                     copyPtr = Self::New();
+  itk::LightObject::Pointer smartPtr;
+  Pointer                   copyPtr = Self::New();
 
   copyPtr->SetYoungsModulus(this->GetYoungsModulus());
   copyPtr->SetCrossSectionalArea(this->GetCrossSectionalArea());

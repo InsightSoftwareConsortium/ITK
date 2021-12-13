@@ -197,11 +197,11 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  if (::std::stoi(argv[1]) == 2)
+  if (std::stoi(argv[1]) == 2)
   {
     stapler = new Stapler<2>;
   }
-  else if (::std::stoi(argv[1]) == 3)
+  else if (std::stoi(argv[1]) == 3)
   {
     stapler = new Stapler<3>;
   }

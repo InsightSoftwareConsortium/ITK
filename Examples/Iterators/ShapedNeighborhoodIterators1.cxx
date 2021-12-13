@@ -110,7 +110,7 @@ main(int argc, char ** argv)
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  unsigned int element_radius = ::std::stoi(argv[3]);
+  unsigned int element_radius = std::stoi(argv[3]);
   ShapedNeighborhoodIteratorType::RadiusType radius;
   radius.Fill(element_radius);
   // Software Guide : EndCodeSnippet

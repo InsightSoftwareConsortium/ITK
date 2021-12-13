@@ -147,7 +147,7 @@ public:
   using typename Superclass::SpeedImageType;
 
   /** Type of the segmentation function */
-  using CannyFunctionType = ::itk::CannySegmentationLevelSetFunction<OutputImageType, FeatureImageType>;
+  using CannyFunctionType = itk::CannySegmentationLevelSetFunction<OutputImageType, FeatureImageType>;
 
   using ScalarValueType = typename CannyFunctionType::ScalarValueType;
 

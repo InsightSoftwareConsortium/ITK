@@ -115,11 +115,11 @@ public:
   using TotalRelativeFrequencyType = typename FrequencyContainerType::TotalRelativeFrequencyType;
 
   /** Index type alias support An index is used to access pixel values. */
-  using IndexType = Array<::itk::IndexValueType>;
+  using IndexType = Array<itk::IndexValueType>;
   using IndexValueType = typename IndexType::ValueType;
 
   /** size array type */
-  using SizeType = Array<::itk::SizeValueType>;
+  using SizeType = Array<itk::SizeValueType>;
   using SizeValueType = typename SizeType::ValueType;
 
   /** bin min max value storage types */

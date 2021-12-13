@@ -46,7 +46,7 @@ public:
   itkTypeMacro(ImageIOFactory, Object);
 
   /** Convenient type alias. */
-  using ImageIOBasePointer = ::itk::ImageIOBase::Pointer;
+  using ImageIOBasePointer = itk::ImageIOBase::Pointer;
 
   using IOFileModeEnum = itk::IOFileModeEnum;
 #if !defined(ITK_LEGACY_REMOVE)

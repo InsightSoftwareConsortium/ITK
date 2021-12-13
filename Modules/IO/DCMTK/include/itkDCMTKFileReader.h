@@ -404,19 +404,19 @@ public:
   int
   GetElementIS(const unsigned short group,
                const unsigned short element,
-               ::itk::int32_t &     target,
+               itk::int32_t &       target,
                const bool           throwException = true) const;
 
   int
   GetElementSL(const unsigned short group,
                const unsigned short element,
-               ::itk::int32_t &     target,
+               itk::int32_t &       target,
                const bool           throwException = true) const;
 
   int
   GetElementISorOB(const unsigned short group,
                    const unsigned short element,
-                   ::itk::int32_t &     target,
+                   itk::int32_t &       target,
                    const bool           throwException = true) const;
 
   int

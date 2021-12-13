@@ -46,7 +46,7 @@ public:
   using VideoStreamType = TVideoStream;
   using Self = vidl_itk_istream<VideoStreamType>;
   using FrameType = typename VideoStreamType::FrameType;
-  using FrameOffsetType = ::itk::SizeValueType;
+  using FrameOffsetType = itk::SizeValueType;
   using PixelType = typename FrameType::PixelType;
   static constexpr unsigned int Dimensions = FrameType::ImageDimension;
 

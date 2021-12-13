@@ -54,8 +54,8 @@ public:
   using ElementType = TElement;
   using ElementPointer = typename ElementType::Pointer;
 
-  using SizeValueType = ::itk::SizeValueType;
-  using OffsetValueType = ::itk::OffsetValueType;
+  using SizeValueType = itk::SizeValueType;
+  using OffsetValueType = itk::OffsetValueType;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);

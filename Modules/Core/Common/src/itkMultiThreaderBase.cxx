@@ -406,7 +406,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreadsByPlatform()
 MultiThreaderBase::Pointer
 MultiThreaderBase::New()
 {
-  Pointer smartPtr = ::itk::ObjectFactory<MultiThreaderBase>::Create();
+  Pointer smartPtr = itk::ObjectFactory<MultiThreaderBase>::Create();
   if (smartPtr == nullptr)
   {
     ThreaderEnum threaderType = GetGlobalDefaultThreader();

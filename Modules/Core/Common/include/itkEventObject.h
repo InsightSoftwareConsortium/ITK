@@ -118,39 +118,39 @@ operator<<(std::ostream & os, const EventObject & e)
  *  Macros for creating new Events
  */
 
-#define itkEventMacroDeclaration(classname, super)           \
-  /** \class classname */                                    \
-  class ITKEvent_EXPORT classname : public super             \
-  {                                                          \
-  public:                                                    \
-    using Self = classname;                                  \
-    using Superclass = super;                                \
-    classname() = default;                                   \
-    classname(const Self & s);                               \
-    virtual ~classname() override;                           \
-    virtual const char *                                     \
-    GetEventName() const override;                           \
-    virtual bool                                             \
-    CheckEvent(const ::itk::EventObject * e) const override; \
-    virtual ::itk::EventObject *                             \
-    MakeObject() const override;                             \
-                                                             \
-  private:                                                   \
-    void                                                     \
-    operator=(const Self &);                                 \
-  };                                                         \
+#define itkEventMacroDeclaration(classname, super)         \
+  /** \class classname */                                  \
+  class ITKEvent_EXPORT classname : public super           \
+  {                                                        \
+  public:                                                  \
+    using Self = classname;                                \
+    using Superclass = super;                              \
+    classname() = default;                                 \
+    classname(const Self & s);                             \
+    virtual ~classname() override;                         \
+    virtual const char *                                   \
+    GetEventName() const override;                         \
+    virtual bool                                           \
+    CheckEvent(const itk::EventObject * e) const override; \
+    virtual itk::EventObject *                             \
+    MakeObject() const override;                           \
+                                                           \
+  private:                                                 \
+    void                                                   \
+    operator=(const Self &);                               \
+  };                                                       \
   static_assert(true, "Compile time eliminated. Used to require a semi-colon at end of macro.")
 
-#define itkEventMacroDefinition(classname, super)                              \
-  classname::classname(const classname & s)                                    \
-    : super(s){};                                                              \
-  classname::~classname() {}                                                   \
-  const char * classname::GetEventName() const { return #classname; }          \
-  bool         classname::CheckEvent(const ::itk::EventObject * e) const       \
-  {                                                                            \
-    return (dynamic_cast<const classname *>(e) != nullptr);                    \
-  }                                                                            \
-  ::itk::EventObject * classname::MakeObject() const { return new classname; } \
+#define itkEventMacroDefinition(classname, super)                            \
+  classname::classname(const classname & s)                                  \
+    : super(s){};                                                            \
+  classname::~classname() {}                                                 \
+  const char * classname::GetEventName() const { return #classname; }        \
+  bool         classname::CheckEvent(const itk::EventObject * e) const       \
+  {                                                                          \
+    return (dynamic_cast<const classname *>(e) != nullptr);                  \
+  }                                                                          \
+  itk::EventObject * classname::MakeObject() const { return new classname; } \
   static_assert(true, "Compile time eliminated. Used to require a semi-colon at end of macro.")
 
 #if !defined(ITK_LEGACY_REMOVE)
@@ -179,11 +179,11 @@ operator<<(std::ostream & os, const EventObject & e)
         return #classname;                                 \
       }                                                    \
       virtual bool                                         \
-      CheckEvent(const ::itk::EventObject * e) const       \
+      CheckEvent(const itk::EventObject * e) const         \
       {                                                    \
         return (dynamic_cast<const Self *>(e) != nullptr); \
       }                                                    \
-      virtual ::itk::EventObject *                         \
+      virtual itk::EventObject *                           \
       MakeObject() const                                   \
       {                                                    \
         return new Self;                                   \

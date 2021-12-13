@@ -98,11 +98,11 @@ main(int argc, char * argv[])
   ImageType::RegionType::IndexType inputStart;
   ImageType::RegionType::SizeType  size;
 
-  inputStart[0] = ::std::stoi(argv[3]);
-  inputStart[1] = ::std::stoi(argv[4]);
+  inputStart[0] = std::stoi(argv[3]);
+  inputStart[1] = std::stoi(argv[4]);
 
-  size[0] = ::std::stoi(argv[5]);
-  size[1] = ::std::stoi(argv[6]);
+  size[0] = std::stoi(argv[5]);
+  size[1] = std::stoi(argv[6]);
 
   inputRegion.SetSize(size);
   inputRegion.SetIndex(inputStart);

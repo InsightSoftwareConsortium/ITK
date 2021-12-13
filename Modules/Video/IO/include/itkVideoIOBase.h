@@ -75,7 +75,7 @@ public:
   using Self = VideoIOBase;
   using Superclass = ImageIOBase;
   using Pointer = SmartPointer<Self>;
-  using SizeValueType = ::itk::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
 
   /** Frame offset type alias */
   using TemporalOffsetType = double;

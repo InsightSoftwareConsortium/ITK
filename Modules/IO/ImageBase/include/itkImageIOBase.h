@@ -93,8 +93,8 @@ public:
   itkGetStringMacro(FileName);
 
   /** Types for managing image size and image index components. */
-  using IndexValueType = ::itk::IndexValueType;
-  using SizeValueType = ::itk::SizeValueType;
+  using IndexValueType = itk::IndexValueType;
+  using SizeValueType = itk::SizeValueType;
 
   /**
    * \class UnknownType
@@ -233,8 +233,8 @@ public:
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
    * Any other of PIXELTYPE will have more than one component. */
-  itkSetEnumMacro(PixelType, ::itk::CommonEnums::IOPixel);
-  itkGetEnumMacro(PixelType, ::itk::CommonEnums::IOPixel);
+  itkSetEnumMacro(PixelType, itk::CommonEnums::IOPixel);
+  itkGetEnumMacro(PixelType, itk::CommonEnums::IOPixel);
 
   /** Set/Get the component type of the image. This is always a native
    * type. */
@@ -379,11 +379,11 @@ public:
   std::string GetByteOrderAsString(IOByteOrderEnum) const;
 
   /** Type for representing size of bytes, and or positions along a file */
-  using SizeType = ::itk::intmax_t;
+  using SizeType = itk::intmax_t;
 
   /** Type for representing size of bytes, and or positions along a memory
     buffer */
-  using BufferSizeType = ::itk::OffsetValueType;
+  using BufferSizeType = itk::OffsetValueType;
 
   /** Convenient method for accessing the number of bytes to get to
    * the next pixel. Returns m_Strides[1];

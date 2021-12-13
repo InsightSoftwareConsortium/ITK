@@ -200,7 +200,7 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
   std::ostringstream itkmsg;
   itkmsg << "No DICOM magic number found, but the file appears to be DICOM without a preamble.\n"
          << "Proceeding without caution.";
-  ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
+  itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
 #endif
   return true;
 }
@@ -356,8 +356,8 @@ DCMTKImageIO::ReadImageInformation()
   }
 
   // check for multiframe > 3D
-  ::itk::int32_t numPhases;
-  unsigned       numDim(3);
+  itk::int32_t numPhases;
+  unsigned     numDim(3);
 
   if (reader.GetElementSL(0x2001, 0x1017, numPhases, false) != EXIT_SUCCESS)
   {

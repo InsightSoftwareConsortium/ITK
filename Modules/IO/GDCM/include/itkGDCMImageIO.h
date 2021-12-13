@@ -140,8 +140,8 @@ public:
   /** Set/Get the original component type of the image. This differs from
    * ComponentType which may change as a function of rescale slope and
    * intercept. */
-  itkGetEnumMacro(InternalComponentType, ::itk::CommonEnums::IOComponent);
-  itkSetEnumMacro(InternalComponentType, ::itk::CommonEnums::IOComponent);
+  itkGetEnumMacro(InternalComponentType, itk::CommonEnums::IOComponent);
+  itkSetEnumMacro(InternalComponentType, itk::CommonEnums::IOComponent);
 
   /*-------- This part of the interfaces deals with writing data. ----- */
 

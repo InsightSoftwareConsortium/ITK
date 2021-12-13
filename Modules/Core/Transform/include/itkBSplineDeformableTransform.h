@@ -128,11 +128,11 @@ public:
   // explicitly.
   // TODO: shouldn't it be done with the Clone() method?
   itkSimpleNewMacro(Self);
-  ::itk::LightObject::Pointer
+  itk::LightObject::Pointer
   CreateAnother() const override
   {
-    ::itk::LightObject::Pointer smartPtr;
-    Pointer                     copyPtr = Self::New().GetPointer();
+    itk::LightObject::Pointer smartPtr;
+    Pointer                   copyPtr = Self::New().GetPointer();
     // THE FOLLOWING LINE IS DIFFERENT FROM THE DEFAULT MACRO!
     copyPtr->m_BulkTransform = this->GetBulkTransform();
     smartPtr = static_cast<Pointer>(copyPtr);

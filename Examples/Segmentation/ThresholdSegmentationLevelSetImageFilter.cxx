@@ -235,8 +235,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  thresholdSegmentation->SetUpperThreshold(::std::stod(argv[7]));
-  thresholdSegmentation->SetLowerThreshold(::std::stod(argv[6]));
+  thresholdSegmentation->SetUpperThreshold(std::stod(argv[7]));
+  thresholdSegmentation->SetLowerThreshold(std::stod(argv[6]));
   thresholdSegmentation->SetIsoSurfaceValue(0.0);
   // Software Guide : EndCodeSnippet
 

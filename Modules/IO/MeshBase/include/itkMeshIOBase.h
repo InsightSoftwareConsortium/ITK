@@ -180,21 +180,21 @@ public:
    * SCALAR, RGB, RGBA, VECTOR, COVARIANTVECTOR, POINT, INDEX. If
    * the PIXELTYPE is SCALAR, then the NumberOfComponents should be 1.
    * Any other of PIXELTYPE will have more than one component. */
-  itkSetEnumMacro(PointPixelType, ::itk::CommonEnums::IOPixel);
-  itkGetEnumMacro(PointPixelType, ::itk::CommonEnums::IOPixel);
-  itkSetEnumMacro(CellPixelType, ::itk::CommonEnums::IOPixel);
-  itkGetEnumMacro(CellPixelType, ::itk::CommonEnums::IOPixel);
+  itkSetEnumMacro(PointPixelType, itk::CommonEnums::IOPixel);
+  itkGetEnumMacro(PointPixelType, itk::CommonEnums::IOPixel);
+  itkSetEnumMacro(CellPixelType, itk::CommonEnums::IOPixel);
+  itkGetEnumMacro(CellPixelType, itk::CommonEnums::IOPixel);
 
   /** Set/Get the component type of the point, cell, point data and cell data.
     This is always a native type. */
-  itkSetEnumMacro(PointComponentType, ::itk::CommonEnums::IOComponent);
-  itkGetEnumMacro(PointComponentType, ::itk::CommonEnums::IOComponent);
-  itkSetEnumMacro(CellComponentType, ::itk::CommonEnums::IOComponent);
-  itkGetEnumMacro(CellComponentType, ::itk::CommonEnums::IOComponent);
-  itkSetEnumMacro(PointPixelComponentType, ::itk::CommonEnums::IOComponent);
-  itkGetEnumMacro(PointPixelComponentType, ::itk::CommonEnums::IOComponent);
-  itkSetEnumMacro(CellPixelComponentType, ::itk::CommonEnums::IOComponent);
-  itkGetEnumMacro(CellPixelComponentType, ::itk::CommonEnums::IOComponent);
+  itkSetEnumMacro(PointComponentType, itk::CommonEnums::IOComponent);
+  itkGetEnumMacro(PointComponentType, itk::CommonEnums::IOComponent);
+  itkSetEnumMacro(CellComponentType, itk::CommonEnums::IOComponent);
+  itkGetEnumMacro(CellComponentType, itk::CommonEnums::IOComponent);
+  itkSetEnumMacro(PointPixelComponentType, itk::CommonEnums::IOComponent);
+  itkGetEnumMacro(PointPixelComponentType, itk::CommonEnums::IOComponent);
+  itkSetEnumMacro(CellPixelComponentType, itk::CommonEnums::IOComponent);
+  itkGetEnumMacro(CellPixelComponentType, itk::CommonEnums::IOComponent);
 
   template <typename T>
   struct MapComponentType

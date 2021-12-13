@@ -132,8 +132,8 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   ImageType::IndexType index;
-  index[0] = ::std::stoi(argv[2]);
-  index[1] = ::std::stoi(argv[3]);
+  index[0] = std::stoi(argv[2]);
+  index[1] = std::stoi(argv[3]);
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

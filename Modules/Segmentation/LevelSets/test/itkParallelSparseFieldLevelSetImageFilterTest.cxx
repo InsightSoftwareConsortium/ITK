@@ -77,9 +77,9 @@ cube(unsigned int x, unsigned int y, unsigned int z)
 
 // Evaluates a function at each pixel in the itk volume
 void
-evaluate_function(::itk::Image<float, 3> * im, float (*f)(unsigned int, unsigned int, unsigned int))
+evaluate_function(itk::Image<float, 3> * im, float (*f)(unsigned int, unsigned int, unsigned int))
 {
-  ::itk::Image<float, 3>::IndexType idx;
+  itk::Image<float, 3>::IndexType idx;
   for (unsigned int x = 0; x < WIDTH; ++x)
   {
     idx[0] = x;
@@ -101,26 +101,26 @@ evaluate_function(::itk::Image<float, 3> * im, float (*f)(unsigned int, unsigned
  *
  * See LevelSetFunction for more information.
  */
-class MorphFunction : public ::itk::LevelSetFunction<::itk::Image<float, 3>>
+class MorphFunction : public itk::LevelSetFunction<itk::Image<float, 3>>
 {
 public:
   void
-  SetDistanceTransform(::itk::Image<float, 3> * d)
+  SetDistanceTransform(itk::Image<float, 3> * d)
   {
     m_DistanceTransform = d;
   }
 
   using Self = MorphFunction;
 
-  using Superclass = ::itk::LevelSetFunction<::itk::Image<float, 3>>;
+  using Superclass = itk::LevelSetFunction<itk::Image<float, 3>>;
   using RadiusType = Superclass::RadiusType;
   using GlobalDataStruct = Superclass::GlobalDataStruct;
 
   /**
    * Smart pointer support for this class.
    */
-  using Pointer = ::itk::SmartPointer<Self>;
-  using ConstPointer = ::itk::SmartPointer<const Self>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -143,16 +143,16 @@ protected:
   }
 
 private:
-  ::itk::Image<float, 3>::Pointer m_DistanceTransform;
+  itk::Image<float, 3>::Pointer m_DistanceTransform;
   ScalarValueType
   PropagationSpeed(const NeighborhoodType & neighborhood, const FloatOffsetType &, GlobalDataStruct *) const override
   {
-    ::itk::Index<3> idx = neighborhood.GetIndex();
+    itk::Index<3> idx = neighborhood.GetIndex();
     return m_DistanceTransform->GetPixel(idx);
   }
 };
 
-class MorphFilter : public ::itk::ParallelSparseFieldLevelSetImageFilter<::itk::Image<float, 3>, ::itk::Image<float, 3>>
+class MorphFilter : public itk::ParallelSparseFieldLevelSetImageFilter<itk::Image<float, 3>, itk::Image<float, 3>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MorphFilter);
@@ -162,8 +162,8 @@ public:
   /**
    * Smart pointer support for this class.
    */
-  using Pointer = ::itk::SmartPointer<Self>;
-  using ConstPointer = ::itk::SmartPointer<const Self>;
+  using Pointer = itk::SmartPointer<Self>;
+  using ConstPointer = itk::SmartPointer<const Self>;
 
   /**
    * Run-time type information (and related methods)
@@ -178,7 +178,7 @@ public:
   itkSetMacro(Iterations, unsigned int);
 
   void
-  SetDistanceTransform(::itk::Image<float, 3> * im)
+  SetDistanceTransform(itk::Image<float, 3> * im)
   {
     auto * func = dynamic_cast<MorphFunction *>(this->GetDifferenceFunction().GetPointer());
     if (func == nullptr)
@@ -224,7 +224,7 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using ImageType = ::itk::Image<float, 3>;
+  using ImageType = itk::Image<float, 3>;
 
   constexpr int n = 100;                // Number of iterations
   constexpr int numberOfWorkUnits = 11; // Number of work units to be used

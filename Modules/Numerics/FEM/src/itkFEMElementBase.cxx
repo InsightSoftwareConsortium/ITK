@@ -497,11 +497,11 @@ Element::PrintSelf(std::ostream & os, Indent indent) const
   }
 }
 
-::itk::LightObject::Pointer
+itk::LightObject::Pointer
 Element::Node::CreateAnother() const
 {
-  ::itk::LightObject::Pointer smartPtr;
-  Pointer                     copyPtr = Self::New();
+  itk::LightObject::Pointer smartPtr;
+  Pointer                   copyPtr = Self::New();
 
   copyPtr->m_coordinates = this->m_coordinates;
   copyPtr->m_dof = this->m_dof;

@@ -230,7 +230,7 @@ public:
 
   /**  Return the type of the cell (one of the CellGeometryEnum enums
    *   listed above). */
-  virtual ::itk::CommonEnums::CellGeometry
+  virtual itk::CommonEnums::CellGeometry
   GetType() const = 0;
 
   /** Create a new copy of this cell.  This is provided so that a copy can

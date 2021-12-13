@@ -131,7 +131,7 @@ itkBarrierTest(int argc, char * argv[])
   itk::ThreadIdType number_of_threads = 4;
   if (argc > 1)
   {
-    number_of_threads = ::std::stoi(argv[1]);
+    number_of_threads = std::stoi(argv[1]);
   }
 
   BarrierTestUserData data(number_of_threads);

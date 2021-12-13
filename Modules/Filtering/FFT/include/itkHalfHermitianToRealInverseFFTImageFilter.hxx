@@ -27,11 +27,11 @@ template <typename TInputImage, typename TOutputImage>
 auto
 HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
 {
-  Pointer smartPtr = ::itk::ObjectFactory<Self>::Create();
+  Pointer smartPtr = itk::ObjectFactory<Self>::Create();
 
   if (smartPtr.IsNotNull())
   {
-    // Correct extra reference count from ::itk::ObjectFactory<Self>::Create()
+    // Correct extra reference count from itk::ObjectFactory<Self>::Create()
     smartPtr->UnRegister();
   }
 

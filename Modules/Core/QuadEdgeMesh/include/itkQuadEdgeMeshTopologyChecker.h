@@ -65,8 +65,8 @@ public:
 
   itkSetConstObjectMacro(Mesh, MeshType);
 
-  using IdentifierType = ::itk::IdentifierType;
-  using OffsetValueType = ::itk::OffsetValueType;
+  using IdentifierType = itk::IdentifierType;
+  using OffsetValueType = itk::OffsetValueType;
 
   itkSetMacro(ExpectedNumberOfPoints, PointIdentifier);
   itkSetMacro(ExpectedNumberOfEdges, CellIdentifier);

@@ -63,7 +63,7 @@ namespace itk
  * \li \/ITKImage\/\<name\>\/Origin     N-D point double
  * \li \/ITKImage\/\<name\>\/Directions N N-vectors double
  * \li \/ITKImage\/\<name\>\/Spacing    N-vector double
- * \li \/ITKImage\/\<name\>\/Dimensions N-vector ::itk::SizeValueType
+ * \li \/ITKImage\/\<name\>\/Dimensions N-vector itk::SizeValueType
  * \li \/ITKImage\/\<name\>\/VoxelType  String representing voxel type.
  *                             This can be inferred from the VoxelData
  *                             type info, but it makes the file more

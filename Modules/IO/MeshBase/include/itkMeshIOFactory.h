@@ -57,7 +57,7 @@ public:
   itkTypeMacro(MeshIOFactory, Object);
 
   /** Convenient type alias. */
-  using MeshIOBasePointer = ::itk::MeshIOBase::Pointer;
+  using MeshIOBasePointer = itk::MeshIOBase::Pointer;
 
   using IOFileModeEnum = itk::IOFileModeEnum;
 #if !defined(ITK_LEGACY_REMOVE)

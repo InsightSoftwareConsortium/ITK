@@ -199,7 +199,7 @@ public:
    */
   using BoundaryConditionType = ZeroFluxNeumannBoundaryCondition<OutputImageType>;
   using ListAdaptorType =
-    typename ::itk::Statistics::ImageToNeighborhoodSampleAdaptor<OutputImageType, BoundaryConditionType>;
+    typename itk::Statistics::ImageToNeighborhoodSampleAdaptor<OutputImageType, BoundaryConditionType>;
   using PatchRadiusType = typename ListAdaptorType::NeighborhoodRadiusType;
   using InputImagePatchIterator = ConstNeighborhoodIterator<InputImageType, BoundaryConditionType>;
 

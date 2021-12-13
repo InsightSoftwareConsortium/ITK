@@ -50,7 +50,7 @@ public:
   itkTypeMacro(TemporalRegion, Region);
 
   /** Typedef for frame offsets */
-  using FrameOffsetType = ::itk::SizeValueType;
+  using FrameOffsetType = itk::SizeValueType;
 
   /** Get/Set RealStart */
   void

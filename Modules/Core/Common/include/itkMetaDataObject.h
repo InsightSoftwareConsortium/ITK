@@ -227,11 +227,11 @@ ExposeMetaData(const MetaDataDictionary & Dictionary, const std::string key, T &
  * have operator<< defined.
  * \param TYPE_NAME the native type parameter type
  */
-#define ITK_NATIVE_TYPE_METADATAPRINT(TYPE_NAME)                        \
-  template <>                                                           \
-  void ::itk::MetaDataObject<TYPE_NAME>::Print(std::ostream & os) const \
-  {                                                                     \
-    os << this->m_MetaDataObjectValue << std::endl;                     \
+#define ITK_NATIVE_TYPE_METADATAPRINT(TYPE_NAME)                      \
+  template <>                                                         \
+  void itk::MetaDataObject<TYPE_NAME>::Print(std::ostream & os) const \
+  {                                                                   \
+    os << this->m_MetaDataObjectValue << std::endl;                   \
   }
 
 /**
