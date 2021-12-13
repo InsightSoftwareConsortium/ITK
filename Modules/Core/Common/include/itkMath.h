@@ -833,10 +833,65 @@ using vnl_math::sgn;
 using vnl_math::sgn0;
 using vnl_math::remainder_truncated;
 using vnl_math::remainder_floored;
-using vnl_math::abs;
 using vnl_math::sqr;
 using vnl_math::cube;
 using vnl_math::squared_magnitude;
+
+
+/*============================================
+Decouple dependance and exposure of vnl_math::abs operations
+in ITK.  Placing this small amount of duplicate vnl_math
+code directly in ITK removes backward compatibility
+issues with system installed VXL versions.
+*/
+inline bool
+abs(bool x)
+{
+  return x;
+}
+inline unsigned char
+abs(unsigned char x)
+{
+  return x;
+}
+inline unsigned char
+abs(signed char x)
+{
+  return x < 0 ? static_cast<unsigned char>(-x) : x;
+}
+inline unsigned char
+abs(char x)
+{
+  return static_cast<unsigned char>(x);
+}
+inline unsigned short
+abs(short x)
+{
+  return x < 0 ? static_cast<unsigned short>(-x) : x;
+}
+inline unsigned short
+abs(unsigned short x)
+{
+  return x;
+}
+inline unsigned int
+abs(unsigned int x)
+{
+  return x;
+}
+inline unsigned long
+abs(unsigned long x)
+{
+  return x;
+}
+// long long - target type will have width of at least 64 bits. (since C++11)
+inline unsigned long long
+abs(unsigned long long x)
+{
+  return x;
+}
+
+using std::abs;
 
 } // end namespace Math
 } // end namespace itk
