@@ -42,7 +42,7 @@ itkImageToVTKImageFilterTest(int, char *[])
 
   SpacingType spacing;
   spacing[0] = 0.5;
-  spacing[1] = -2;
+  spacing[1] = 2;
   spacing[2] = 1;
   OriginType origin;
   origin[0] = -1.5;
