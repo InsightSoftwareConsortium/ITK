@@ -75,7 +75,7 @@ public:
   static constexpr unsigned int SetDimension = LevelSetType::SetDimension;
 
   /** Index type alias support */
-  using Index = ::itk::Index<Self::SetDimension>;
+  using Index = itk::Index<Self::SetDimension>;
 
   /** AuxVarType type alias support */
   using AuxVarType = AuxVarTypeDefault<TAuxValue, VAuxDimension, Self::SetDimension>;

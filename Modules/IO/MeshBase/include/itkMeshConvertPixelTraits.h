@@ -345,10 +345,10 @@ ITK_MESH_DEFAULTCONVERTTRAITS_MATRIX_TYPE_ALL_TYPES_MACRO(Matrix);
 
 #define ITK_MESH_DEFAULTCONVERTTRAITS_COMPLEX_TYPE(componenttype)       \
   template <>                                                           \
-  class MeshConvertPixelTraits<::std::complex<componenttype>>           \
+  class MeshConvertPixelTraits<std::complex<componenttype>>             \
   {                                                                     \
   public:                                                               \
-    using TargetType = ::std::complex<componenttype>;                   \
+    using TargetType = std::complex<componenttype>;                     \
     using ComponentType = componenttype;                                \
     static unsigned int                                                 \
     GetNumberOfComponents()                                             \

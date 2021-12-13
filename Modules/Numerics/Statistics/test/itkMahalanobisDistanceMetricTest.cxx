@@ -43,7 +43,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // Test if the distance computed is correct
   DistanceMetricType::OriginType origin;
-  ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 3);
+  itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 3);
   origin[0] = 1.5;
   origin[1] = 2.3;
   origin[2] = 1.0;
@@ -60,7 +60,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   }
 
   MeasurementVectorType measurement;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, 3);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, 3);
   measurement[0] = 2.5;
   measurement[1] = 3.3;
   measurement[2] = 4.0;
@@ -190,7 +190,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   distance->SetMeasurementVectorSize(singleComponentMeasurementVectorSize);
 
-  ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 1);
+  itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 1);
   origin[0] = 1.5;
   distance->SetMean(origin);
 
@@ -204,7 +204,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   distance->SetCovariance(covarianceMatrix);
 
   MeasurementVectorType measurementSingleComponent;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurementSingleComponent, 1);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurementSingleComponent, 1);
   measurementSingleComponent[0] = 2.5;
 
   trueValue = 1.0;
@@ -219,7 +219,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // Compute distance between two measurement vectors
   MeasurementVectorType measurementSingleComponent2;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurementSingleComponent2, 1);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurementSingleComponent2, 1);
   measurementSingleComponent2[0] = 1.5;
 
   trueValue = 1.0;
@@ -234,7 +234,7 @@ itkMahalanobisDistanceMetricTest(int, char *[])
 
   // Attempt to compute distance between two unequal size measurement vectors
   MeasurementVectorType measurementSingleComponent3;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurementSingleComponent3, 2);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurementSingleComponent3, 2);
   measurementSingleComponent3[0] = 1.5;
   measurementSingleComponent3[1] = 2.5;
 

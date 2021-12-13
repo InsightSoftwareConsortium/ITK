@@ -34,7 +34,7 @@ itkManhattanDistanceMetricTest(int, char *[])
   distance->Print(std::cout);
 
   MeasurementVectorType measurementNew;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurementNew, 3);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurementNew, 3);
   measurementNew[0] = 2.5;
   measurementNew[1] = 3.3;
   measurementNew[2] = 4.0;
@@ -65,14 +65,14 @@ itkManhattanDistanceMetricTest(int, char *[])
 
   // Test if the distance computed is correct
   DistanceMetricType::OriginType origin;
-  ::itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 3);
+  itk::NumericTraits<DistanceMetricType::OriginType>::SetLength(origin, 3);
   origin[0] = 1.5;
   origin[1] = 2.3;
   origin[2] = 1.0;
   distance->SetOrigin(origin);
 
   MeasurementVectorType measurement;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, 3);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurement, 3);
   measurement[0] = 2.5;
   measurement[1] = 3.3;
   measurement[2] = 4.0;
@@ -90,7 +90,7 @@ itkManhattanDistanceMetricTest(int, char *[])
 
   // Compute distance between two measurement vectors
   MeasurementVectorType measurement2;
-  ::itk::NumericTraits<MeasurementVectorType>::SetLength(measurement2, 3);
+  itk::NumericTraits<MeasurementVectorType>::SetLength(measurement2, 3);
   measurement2[0] = 1.5;
   measurement2[1] = 3.5;
   measurement2[2] = 3.5;

@@ -58,9 +58,9 @@ public:
 
   /** these types correspond to those of itk::Size, itk::Offset and itk::Index
    */
-  using SizeValueType = ::itk::SizeValueType;
-  using IndexValueType = ::itk::IndexValueType;
-  using OffsetValueType = ::itk::OffsetValueType;
+  using SizeValueType = itk::SizeValueType;
+  using IndexValueType = itk::IndexValueType;
+  using OffsetValueType = itk::OffsetValueType;
 
   /** Index type alias support An index is used to access pixel values. */
   using IndexType = std::vector<IndexValueType>;

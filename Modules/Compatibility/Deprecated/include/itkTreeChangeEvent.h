@@ -60,13 +60,13 @@ public:
 
   /** Check the event */
   bool
-  CheckEvent(const ::itk::EventObject * e) const override
+  CheckEvent(const itk::EventObject * e) const override
   {
     return (dynamic_cast<const Self *>(e) != nullptr);
   }
 
   /** Make the event object */
-  ::itk::EventObject *
+  itk::EventObject *
   MakeObject() const override
   {
     return new Self(*m_ChangePosition);
@@ -113,13 +113,13 @@ public:
   }
 
   bool
-  CheckEvent(const ::itk::EventObject * e) const override
+  CheckEvent(const itk::EventObject * e) const override
   {
     auto eSelf = dynamic_cast<const Self *>(e);
     return eSelf != nullptr;
   }
 
-  ::itk::EventObject *
+  itk::EventObject *
   MakeObject() const override
   {
     return new Self(*this->m_ChangePosition);
@@ -162,13 +162,13 @@ public:
 
   /** Check event function */
   bool
-  CheckEvent(const ::itk::EventObject * e) const override
+  CheckEvent(const itk::EventObject * e) const override
   {
     return (dynamic_cast<const Self *>(e) != nullptr);
   }
 
   /** Make the event object */
-  ::itk::EventObject *
+  itk::EventObject *
   MakeObject() const override
   {
     return new Self(*this->m_ChangePosition);
@@ -211,13 +211,13 @@ public:
 
   /** Check the event */
   bool
-  CheckEvent(const ::itk::EventObject * e) const override
+  CheckEvent(const itk::EventObject * e) const override
   {
     return (dynamic_cast<const Self *>(e) != nullptr);
   }
 
   /** Make the event object */
-  ::itk::EventObject *
+  itk::EventObject *
   MakeObject() const override
   {
     return new Self(*this->m_ChangePosition);
@@ -256,12 +256,12 @@ public:
   }
 
   bool
-  CheckEvent(const ::itk::EventObject * e) const override
+  CheckEvent(const itk::EventObject * e) const override
   {
     return (dynamic_cast<const Self *>(e) != nullptr);
   }
 
-  ::itk::EventObject *
+  itk::EventObject *
   MakeObject() const override
   {
     return new Self(*this->m_ChangePosition);

@@ -23,11 +23,11 @@ namespace itk
 namespace fem
 {
 
-::itk::LightObject::Pointer
+itk::LightObject::Pointer
 LoadPoint::CreateAnother() const
 {
-  ::itk::LightObject::Pointer smartPtr;
-  Pointer                     copyPtr = Self::New();
+  itk::LightObject::Pointer smartPtr;
+  Pointer                   copyPtr = Self::New();
 
   copyPtr->m_Point = this->m_Point;
   copyPtr->m_ForcePoint = this->m_ForcePoint;

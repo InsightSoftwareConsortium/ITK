@@ -771,7 +771,7 @@ WriteTensorBuffer(std::ostream &              os,
   }
   else
   {
-    ::itk::ExceptionObject e_(
+    itk::ExceptionObject e_(
       __FILE__, __LINE__, "itk::ERROR: VTKImageIO: Unsupported number of components in tensor.", ITK_LOCATION);
     throw e_;
   }

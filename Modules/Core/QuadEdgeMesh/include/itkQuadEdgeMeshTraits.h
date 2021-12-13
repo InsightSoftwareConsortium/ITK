@@ -59,8 +59,8 @@ public:
   static constexpr unsigned int PointDimension = VPointDimension;
   static constexpr unsigned int MaxTopologicalDimension = VPointDimension;
 
-  using PointIdentifier = ::itk::IdentifierType;
-  using CellIdentifier = ::itk::IdentifierType;
+  using PointIdentifier = itk::IdentifierType;
+  using CellIdentifier = itk::IdentifierType;
 
   using CellFeatureIdentifier = unsigned char; // made small in purpose
 

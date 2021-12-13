@@ -753,7 +753,7 @@ DCMTKFileReader::GetElementPN(const unsigned short group,
 int
 DCMTKFileReader::GetElementIS(const unsigned short group,
                               const unsigned short element,
-                              ::itk::int32_t &     target,
+                              itk::int32_t &       target,
                               const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
@@ -775,14 +775,14 @@ DCMTKFileReader::GetElementIS(const unsigned short group,
     DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag " << std::hex << group << " " << element
                                 << std::dec);
   }
-  target = static_cast<::itk::int32_t>(_target);
+  target = static_cast<itk::int32_t>(_target);
   return EXIT_SUCCESS;
 }
 
 int
 DCMTKFileReader::GetElementSL(const unsigned short group,
                               const unsigned short element,
-                              ::itk::int32_t &     target,
+                              itk::int32_t &       target,
                               const bool           throwException) const
 {
   DcmTagKey    tagkey(group, element);
@@ -804,14 +804,14 @@ DCMTKFileReader::GetElementSL(const unsigned short group,
     DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag " << std::hex << group << " " << element
                                 << std::dec);
   }
-  target = static_cast<::itk::int32_t>(_target);
+  target = static_cast<itk::int32_t>(_target);
   return EXIT_SUCCESS;
 }
 
 int
 DCMTKFileReader::GetElementISorOB(const unsigned short group,
                                   const unsigned short element,
-                                  ::itk::int32_t &     target,
+                                  itk::int32_t &       target,
                                   const bool           throwException) const
 {
   if (this->GetElementIS(group, element, target, false) == EXIT_SUCCESS)

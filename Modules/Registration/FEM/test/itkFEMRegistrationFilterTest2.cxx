@@ -317,7 +317,7 @@ itkFEMRegistrationFilterTest2(int argc, char * argv[])
       // Register the images
       registrator->RunRegistration();
     }
-    catch (::itk::ExceptionObject & err)
+    catch (itk::ExceptionObject & err)
     {
       std::cerr << "ITK exception detected: " << err;
       std::cout << "Test failed!" << std::endl;

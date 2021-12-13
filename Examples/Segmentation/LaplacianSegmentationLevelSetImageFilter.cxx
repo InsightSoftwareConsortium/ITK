@@ -187,7 +187,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginCodeSnippet
   laplacianSegmentation->SetCurvatureScaling(1.0);
-  laplacianSegmentation->SetPropagationScaling(::std::stod(argv[6]));
+  laplacianSegmentation->SetPropagationScaling(std::stod(argv[6]));
   //  Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -200,7 +200,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   laplacianSegmentation->SetMaximumRMSError(0.002);
-  laplacianSegmentation->SetNumberOfIterations(::std::stoi(argv[8]));
+  laplacianSegmentation->SetNumberOfIterations(std::stoi(argv[8]));
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -212,7 +212,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  laplacianSegmentation->SetIsoSurfaceValue(::std::stod(argv[7]));
+  laplacianSegmentation->SetIsoSurfaceValue(std::stod(argv[7]));
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

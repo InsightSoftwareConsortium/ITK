@@ -129,16 +129,16 @@ public:
   using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** Different kinds of cells. */
-  using VertexCell = ::itk::VertexCell<CellType>;
-  using LineCell = ::itk::LineCell<CellType>;
-  using TriangleCell = ::itk::TriangleCell<CellType>;
-  using QuadrilateralCell = ::itk::QuadrilateralCell<CellType>;
-  using TetrahedronCell = ::itk::TetrahedronCell<CellType>;
-  using HexahedronCell = ::itk::HexahedronCell<CellType>;
+  using VertexCell = itk::VertexCell<CellType>;
+  using LineCell = itk::LineCell<CellType>;
+  using TriangleCell = itk::TriangleCell<CellType>;
+  using QuadrilateralCell = itk::QuadrilateralCell<CellType>;
+  using TetrahedronCell = itk::TetrahedronCell<CellType>;
+  using HexahedronCell = itk::HexahedronCell<CellType>;
 
-  /** This class requires that the mesh being built use ::itk::IdentifierType
+  /** This class requires that the mesh being built use itk::IdentifierType
    * as the identifier type for all its elements. */
-  using IdentifierType = ::itk::IdentifierType;
+  using IdentifierType = itk::IdentifierType;
 
   /** Array of IdentifierType objects used to specify cells. */
   using IdentifierArrayType = Array<IdentifierType>;

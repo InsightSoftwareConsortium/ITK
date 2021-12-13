@@ -89,7 +89,7 @@ public:
           message << "itk::ERROR: "
                   << "FEMFactoryBase"
                   << " instance not created";
-          ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
+          itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
           throw e_; /* Explicit naming to work around for Intel compiler bug. */
         }
         ObjectFactoryBase::RegisterFactory(p);

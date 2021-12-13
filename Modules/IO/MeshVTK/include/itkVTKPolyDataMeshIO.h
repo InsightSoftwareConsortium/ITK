@@ -835,7 +835,7 @@ protected:
       }
       else
       {
-        ::itk::ExceptionObject e_(
+        itk::ExceptionObject e_(
           __FILE__, __LINE__, "itk::ERROR: VTKImageIO2: Unsupported number of components in tensor.", ITK_LOCATION);
         throw e_;
       }

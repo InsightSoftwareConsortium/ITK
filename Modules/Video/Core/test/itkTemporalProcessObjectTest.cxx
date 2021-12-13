@@ -28,8 +28,8 @@ namespace itk
 namespace TemporalProcessObjectTest
 {
 
-using SizeValueType = ::itk::SizeValueType;
-using OffsetValueType = ::itk::OffsetValueType;
+using SizeValueType = itk::SizeValueType;
+using OffsetValueType = itk::OffsetValueType;
 
 /**\class CallRecordEnumms
  * \brief Contains all enum classes for CallRecord class.
@@ -528,8 +528,8 @@ int
 itkTemporalProcessObjectTest(int, char *[])
 {
 
-  using SizeValueType = ::itk::SizeValueType;
-  using OffsetValueType = ::itk::OffsetValueType;
+  using SizeValueType = itk::SizeValueType;
+  using OffsetValueType = itk::OffsetValueType;
   //////
   // Set up pipeline
   //////

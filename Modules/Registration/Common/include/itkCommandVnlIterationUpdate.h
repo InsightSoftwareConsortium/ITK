@@ -93,7 +93,7 @@ public:
   /**
    * Run-time type information (and related methods).
    */
-  itkTypeMacro(CommandVnlIterationUpdate, ::itk::Command);
+  itkTypeMacro(CommandVnlIterationUpdate, itk::Command);
 
 
   /**

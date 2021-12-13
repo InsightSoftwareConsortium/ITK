@@ -190,7 +190,7 @@ readNoPreambleDicom(std::ifstream & file) // NOTE: This file is duplicated in it
   std::ostringstream itkmsg;
   itkmsg << "No DICOM magic number found, but the file appears to be DICOM without a preamble.\n"
          << "Proceeding without caution.";
-  ::itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
+  itk::OutputWindowDisplayDebugText(itkmsg.str().c_str());
 #endif
   return true;
 }

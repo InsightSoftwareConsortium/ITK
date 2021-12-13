@@ -107,7 +107,7 @@ template <typename TPixel>
 void
 Expect_ResampleImageFilter_thows_on_incomplete_configuration(const TPixel inputPixel)
 {
-  EXPECT_THROW(TestThrowErrorOnEmptyResampleSpace(inputPixel, false), ::itk::ExceptionObject);
+  EXPECT_THROW(TestThrowErrorOnEmptyResampleSpace(inputPixel, false), itk::ExceptionObject);
   EXPECT_EQ(TestThrowErrorOnEmptyResampleSpace(inputPixel, true), inputPixel);
 }
 

@@ -81,7 +81,7 @@ public:
 
   /** CreateAnother method will clone the existing instance of this type,
    * including its internal member variables. */
-  ::itk::LightObject::Pointer
+  itk::LightObject::Pointer
   CreateAnother() const override;
 
   vnl_vector<Float> GetGravitationalForceAtPoint(vnl_vector<Float>) override;

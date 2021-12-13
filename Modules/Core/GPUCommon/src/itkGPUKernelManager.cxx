@@ -141,7 +141,7 @@ GPUKernelManager::LoadProgramFromFile(const char * filename, const char * cPream
            << this->GetNameOfClass() << " (" << this << "): "
            << "OpenCL program build error:" << paramValue
            << "\n\n";
-    ::itk::OutputWindowDisplayErrorText( itkmsg.str().c_str() );
+    itk::OutputWindowDisplayErrorText( itkmsg.str().c_str() );
     */
 
     std::cerr << paramValue << std::endl;
@@ -217,7 +217,7 @@ GPUKernelManager::LoadProgramFromString(const char * cSource, const char * cPrea
            << this->GetNameOfClass() << " (" << this << "): "
            << "OpenCL program build error:" << paramValue
            << "\n\n";
-    ::itk::OutputWindowDisplayErrorText( itkmsg.str().c_str() );
+    itk::OutputWindowDisplayErrorText( itkmsg.str().c_str() );
     */
 
     std::cerr << paramValue << std::endl;

@@ -292,7 +292,7 @@ Object::Pointer
 Object::New()
 {
   Pointer  smartPtr;
-  Object * rawPtr = ::itk::ObjectFactory<Object>::Create();
+  Object * rawPtr = itk::ObjectFactory<Object>::Create();
 
   if (rawPtr == nullptr)
   {
@@ -422,7 +422,7 @@ Object::UnRegister() const noexcept
       {
         if (GetGlobalWarningDisplay())
         {
-          ::itk::OutputWindowDisplayWarningText("WARNING: Exception occurred in DeleteEvent Observer!");
+          itk::OutputWindowDisplayWarningText("WARNING: Exception occurred in DeleteEvent Observer!");
         }
       }
       catch (...)

@@ -329,10 +329,10 @@ public:
 //
 
 template <typename TComponent>
-class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<::std::complex<TComponent>>
+class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<std::complex<TComponent>>
 {
 public:
-  using TargetType = ::std::complex<TComponent>;
+  using TargetType = std::complex<TComponent>;
   using ComponentType = TComponent;
   static unsigned int
   GetNumberOfComponents()

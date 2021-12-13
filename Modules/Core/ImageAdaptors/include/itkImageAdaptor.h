@@ -508,7 +508,7 @@ private:
   // to have the correct vector length of the image.
   template <typename TPixelType>
   void
-  UpdateAccessor(typename ::itk::VectorImage<TPixelType, ImageDimension> * itkNotUsed(dummy))
+  UpdateAccessor(typename itk::VectorImage<TPixelType, ImageDimension> * itkNotUsed(dummy))
   {
     this->m_PixelAccessor.SetVectorLength(this->m_Image->GetNumberOfComponentsPerPixel());
   }

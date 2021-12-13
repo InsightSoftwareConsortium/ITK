@@ -456,15 +456,15 @@ GetImageType(const char * fileName, itk::IOPixelEnum & pixelType, itk::IOCompone
 //  otherwise zero is returned if the difference is with in tolerances
 template <typename PixelType>
 int
-RegressionTestHelper(const char *         testImageFilename,
-                     const char *         baselineImageFilename,
-                     int                  reportErrors,
-                     double               intensityTolerance,
-                     ::itk::SizeValueType numberOfPixelsTolerance,
-                     unsigned int         radiusTolerance,
-                     bool                 verifyInputInformation,
-                     double               coordinateTolerance,
-                     double               directionTolerance)
+RegressionTestHelper(const char *       testImageFilename,
+                     const char *       baselineImageFilename,
+                     int                reportErrors,
+                     double             intensityTolerance,
+                     itk::SizeValueType numberOfPixelsTolerance,
+                     unsigned int       radiusTolerance,
+                     bool               verifyInputInformation,
+                     double             coordinateTolerance,
+                     double             directionTolerance)
 {
   // Use the factory mechanism to read the test and baseline files and convert
   // them to double
@@ -706,15 +706,15 @@ RegressionTestHelper(const char *         testImageFilename,
 }
 
 int
-RegressionTestImage(const char *         testImageFilename,
-                    const char *         baselineImageFilename,
-                    int                  reportErrors,
-                    double               intensityTolerance,
-                    ::itk::SizeValueType numberOfPixelsTolerance,
-                    unsigned int         radiusTolerance,
-                    bool                 verifyInputInformation,
-                    double               coordinateTolerance,
-                    double               directionTolerance)
+RegressionTestImage(const char *       testImageFilename,
+                    const char *       baselineImageFilename,
+                    int                reportErrors,
+                    double             intensityTolerance,
+                    itk::SizeValueType numberOfPixelsTolerance,
+                    unsigned int       radiusTolerance,
+                    bool               verifyInputInformation,
+                    double             coordinateTolerance,
+                    double             directionTolerance)
 {
   itk::IOPixelEnum     pixelType;
   itk::IOComponentEnum componentType;

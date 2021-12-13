@@ -95,7 +95,7 @@ main(int argc, char ** argv)
   output->Allocate();
 
   itk::SobelOperator<PixelType, 2> sobelOperator;
-  sobelOperator.SetDirection(::std::stoi(argv[3]));
+  sobelOperator.SetDirection(std::stoi(argv[3]));
   sobelOperator.CreateDirectional();
 
   itk::NeighborhoodInnerProduct<ImageType> innerProduct;

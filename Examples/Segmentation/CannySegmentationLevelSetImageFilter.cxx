@@ -193,7 +193,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  cannySegmentation->SetAdvectionScaling(::std::stod(argv[6]));
+  cannySegmentation->SetAdvectionScaling(std::stod(argv[6]));
   cannySegmentation->SetCurvatureScaling(1.0);
   cannySegmentation->SetPropagationScaling(0.0);
   //  Software Guide : EndCodeSnippet
@@ -209,7 +209,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   cannySegmentation->SetMaximumRMSError(0.01);
-  cannySegmentation->SetNumberOfIterations(::std::stoi(argv[8]));
+  cannySegmentation->SetNumberOfIterations(std::stoi(argv[8]));
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -225,8 +225,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  cannySegmentation->SetThreshold(::std::stod(argv[4]));
-  cannySegmentation->SetVariance(::std::stod(argv[5]));
+  cannySegmentation->SetThreshold(std::stod(argv[4]));
+  cannySegmentation->SetVariance(std::stod(argv[5]));
   // Software Guide : EndCodeSnippet
 
 
@@ -239,7 +239,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  cannySegmentation->SetIsoSurfaceValue(::std::stod(argv[7]));
+  cannySegmentation->SetIsoSurfaceValue(std::stod(argv[7]));
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

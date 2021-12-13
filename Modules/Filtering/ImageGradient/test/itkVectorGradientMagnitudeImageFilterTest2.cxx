@@ -81,7 +81,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
     // Extract one slice to write for regression testing
     CharImage3Type::RegionType extractedRegion = rescale->GetOutput()->GetRequestedRegion();
     extractedRegion.SetSize(2, 1);
-    extractedRegion.SetIndex(2, ::std::stoi(av[4]));
+    extractedRegion.SetIndex(2, std::stoi(av[4]));
 
     auto                       extractedImage = CharImage2Type::New();
     CharImage2Type::RegionType reg;

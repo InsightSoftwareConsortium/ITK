@@ -31,7 +31,7 @@ using SubsampleType = itk::Statistics::Subsample<SampleType>;
 
 constexpr unsigned int testDimension = 1;
 
-void resetData(::itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
+void resetData(itk::Image<PixelType, 3>::Pointer image, std::vector<int> & refVector)
 {
   ImageType::IndexType index;
   ImageType::SizeType  size;
@@ -79,7 +79,7 @@ void resetData(::itk::Image<PixelType, 3>::Pointer image, std::vector<int> & ref
 }
 
 bool
-isSortedOrderCorrect(std::vector<int> & ref, ::itk::Statistics::Subsample<SampleType>::Pointer subsample)
+isSortedOrderCorrect(std::vector<int> & ref, itk::Statistics::Subsample<SampleType>::Pointer subsample)
 {
   bool                    ret = true;
   auto                    viter = ref.begin();

@@ -370,7 +370,7 @@ itkFEMElementTest(int ac, char * av[])
       std::cout << comment << "Test PASSED" << std::endl;
     }
   }
-  catch (::itk::ExceptionObject & err)
+  catch (itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
     std::cout << "Test FAILED" << std::endl;
@@ -503,9 +503,9 @@ PrintU(itk::fem::Solver & S, int s, char comment)
   std::cout << std::endl << comment << "Displacements: " << std::endl;
   std::cout << "u" << s << "=[";
   // changes made - kiran
-  // for( ::itk::fem::Solver::NodeArray::iterator n = S.node.begin();
+  // for( itk::fem::Solver::NodeArray::iterator n = S.node.begin();
   // n!=S.node.end(); n++) {
-  for (::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n)
+  for (itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n)
   {
     // changes made - kiran
     if (IDL_OUTPUT)
@@ -513,10 +513,10 @@ PrintU(itk::fem::Solver & S, int s, char comment)
       std::cout << " [";
     }
     /** For each DOF in the node... */
-    for (unsigned int d = 0, dof; (dof = (*n)->GetDegreeOfFreedom(d)) != ::itk::fem::Element::InvalidDegreeOfFreedomID;
+    for (unsigned int d = 0, dof; (dof = (*n)->GetDegreeOfFreedom(d)) != itk::fem::Element::InvalidDegreeOfFreedomID;
          d++)
     {
-      if (d > 0 && d != ::itk::fem::Element::InvalidDegreeOfFreedomID)
+      if (d > 0 && d != itk::fem::Element::InvalidDegreeOfFreedomID)
       {
         std::cout << ", ";
       }
@@ -553,9 +553,9 @@ CheckDisplacements(itk::fem::Solver & S, int s, char comment, double * expectedR
   bool foundError = false;
 
   std::cout << std::endl << comment << "NodeArray: " << std::endl;
-  for (::itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n)
+  for (itk::fem::Solver::NodeArray::iterator n = S.GetNodeArray().begin(); n != S.GetNodeArray().end(); ++n)
   {
-    for (unsigned int d = 0, dof; (dof = (*n)->GetDegreeOfFreedom(d)) != ::itk::fem::Element::InvalidDegreeOfFreedomID;
+    for (unsigned int d = 0, dof; (dof = (*n)->GetDegreeOfFreedom(d)) != itk::fem::Element::InvalidDegreeOfFreedomID;
          d++)
     {
       double result = S.GetSolution(dof);

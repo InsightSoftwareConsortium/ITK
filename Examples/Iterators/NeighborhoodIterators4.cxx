@@ -124,7 +124,7 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   itk::GaussianOperator<PixelType, 2> gaussianOperator;
-  gaussianOperator.SetVariance(::std::stod(argv[3]) * ::std::stod(argv[3]));
+  gaussianOperator.SetVariance(std::stod(argv[3]) * std::stod(argv[3]));
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

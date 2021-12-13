@@ -76,7 +76,7 @@ public:
 
   /** Compatible Size and value type alias */
   using SizeType = Size<VDimension>;
-  using SizeValueType = ::itk::SizeValueType;
+  using SizeValueType = itk::SizeValueType;
 
   /** Dimension constant */
   static constexpr unsigned int Dimension = VDimension;
@@ -232,7 +232,7 @@ public:
    * so that the Size class can be treated as a container
    * class in a way that is similar to the std::array.
    */
-  using value_type = ::itk::SizeValueType;
+  using value_type = itk::SizeValueType;
   using reference = value_type &;
   using const_reference = const value_type &;
   using iterator = value_type *;

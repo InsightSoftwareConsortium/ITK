@@ -161,7 +161,7 @@ FFTWGlobalConfiguration::GetInstance()
         message << "itk::ERROR: "
                 << "FFTWGlobalConfiguration"
                 << " Valid FFTWGlobalConfiguration instance not created";
-        ::itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
+        itk::ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);
         throw e_; /* Explicit naming to work around Intel compiler bug.  */
       }
     }

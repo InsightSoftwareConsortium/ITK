@@ -348,7 +348,7 @@ OpenCLCheckError(cl_int error, const char * filename, int lineno, const char * l
     {
       errorMsg << "OpenCL Error : Unspecified Error" << std::endl;
     }
-    ::itk::ExceptionObject e_(filename, lineno, errorMsg.str().c_str(), location);
+    itk::ExceptionObject e_(filename, lineno, errorMsg.str().c_str(), location);
     throw e_;
   }
 }

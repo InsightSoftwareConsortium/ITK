@@ -39,7 +39,7 @@
 namespace
 {
 
-using FactoryListType = std::list<::itk::ObjectFactoryBase *>;
+using FactoryListType = std::list<itk::ObjectFactoryBase *>;
 
 // Convenience function to synchronize lists and register the new factory,
 // either with `RegisterFactoryInternal()` or with `RegisterFactory()`. Avoid
@@ -72,11 +72,11 @@ SynchronizeList(FactoryListType * output, FactoryListType * input, bool internal
     {
       if (internal == true)
       {
-        ::itk::ObjectFactoryBase::RegisterFactoryInternal(factory);
+        itk::ObjectFactoryBase::RegisterFactoryInternal(factory);
       }
       else
       {
-        ::itk::ObjectFactoryBase::RegisterFactory(factory);
+        itk::ObjectFactoryBase::RegisterFactory(factory);
       }
     }
   }
@@ -103,7 +103,7 @@ struct ObjectFactoryBasePrivate
 {
   ~ObjectFactoryBasePrivate()
   {
-    ::itk::ObjectFactoryBase::UnRegisterAllFactories();
+    itk::ObjectFactoryBase::UnRegisterAllFactories();
     if (m_InternalFactories)
     {
       for (auto & m_InternalFactorie : *m_InternalFactories)
@@ -117,10 +117,10 @@ struct ObjectFactoryBasePrivate
 
   ObjectFactoryBasePrivate() = default;
 
-  std::list<::itk::ObjectFactoryBase *> * m_RegisteredFactories{ nullptr };
-  std::list<::itk::ObjectFactoryBase *> * m_InternalFactories{ nullptr };
-  bool                                    m_Initialized{ false };
-  bool                                    m_StrictVersionChecking{ false };
+  std::list<itk::ObjectFactoryBase *> * m_RegisteredFactories{ nullptr };
+  std::list<itk::ObjectFactoryBase *> * m_InternalFactories{ nullptr };
+  bool                                  m_Initialized{ false };
+  bool                                  m_StrictVersionChecking{ false };
 };
 
 ObjectFactoryBasePrivate *

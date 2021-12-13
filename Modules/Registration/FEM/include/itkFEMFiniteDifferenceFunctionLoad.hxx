@@ -37,11 +37,11 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::FiniteDifferenceFunctionLoad()
 }
 
 template <typename TMoving, typename TFixed>
-::itk::LightObject::Pointer
+itk::LightObject::Pointer
 FiniteDifferenceFunctionLoad<TMoving, TFixed>::CreateAnother() const
 {
-  ::itk::LightObject::Pointer smartPtr;
-  Pointer                     copyPtr = Self::New();
+  itk::LightObject::Pointer smartPtr;
+  Pointer                   copyPtr = Self::New();
 
   copyPtr->m_MovingImage = this->m_MovingImage;
   copyPtr->m_FixedImage = this->m_FixedImage;

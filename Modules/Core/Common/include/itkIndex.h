@@ -74,14 +74,14 @@ public:
 
   /** Compatible Index and value type alias */
   using IndexType = Index<VDimension>;
-  using IndexValueType = ::itk::IndexValueType;
+  using IndexValueType = itk::IndexValueType;
 
   /** Compatible Size type alias. */
   using SizeType = Size<VDimension>;
 
   /** Compatible Offset and Offset value type alias. */
   using OffsetType = Offset<VDimension>;
-  using OffsetValueType = ::itk::OffsetValueType;
+  using OffsetValueType = itk::OffsetValueType;
 
   /** Dimension constant */
   static constexpr unsigned int Dimension = VDimension;
@@ -320,7 +320,7 @@ public:
    * so that the Index class can be treated as a container
    * class in a way that is similar to the std::array.
    */
-  using value_type = ::itk::IndexValueType;
+  using value_type = itk::IndexValueType;
   using reference = value_type &;
   using const_reference = const value_type &;
   using iterator = value_type *;

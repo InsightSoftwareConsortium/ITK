@@ -76,11 +76,11 @@ public:
   using ConstIterator = typename AllocatorType::const_iterator;
 
   /** Size and value type alias support */
-  using SizeType = ::itk::Size<VDimension>;
+  using SizeType = itk::Size<VDimension>;
   using SizeValueType = typename SizeType::SizeValueType;
 
   /** Radius type alias support */
-  using RadiusType = ::itk::Size<VDimension>;
+  using RadiusType = itk::Size<VDimension>;
 
   /** Offset type used to reference neighbor locations */
   using OffsetType = Offset<VDimension>;

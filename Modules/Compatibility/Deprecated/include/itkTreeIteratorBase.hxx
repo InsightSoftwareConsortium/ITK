@@ -335,7 +335,7 @@ TreeIteratorBase<TTreeType> *
 TreeIteratorBase<TTreeType>::Children()
 {
   itkGenericOutputMacro("Not implemented yet");
-  ::itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
+  itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
   throw e_; /* Explicit naming to work around Intel compiler bug.  */
   return nullptr;
 }
@@ -359,7 +359,7 @@ TreeIteratorBase<TTreeType> *
 TreeIteratorBase<TTreeType>::Parents()
 {
   itkGenericOutputMacro("Not implemented yet");
-  ::itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
+  itk::ExceptionObject e_(__FILE__, __LINE__, "Not implemented yet", ITK_LOCATION);
   throw e_; /* Explicit naming to work around Intel compiler bug.  */
   return nullptr;
 }
