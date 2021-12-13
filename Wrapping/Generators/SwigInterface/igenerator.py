@@ -1541,8 +1541,8 @@ if _version_info < (3, 7, 0):
     def create_typedefheader(self, usedSources):
         # create the typedef header
         typedefFile = StringIO()
-        typedefFile.write(f"#ifndef __{self.submoduleName}SwigInterface_h\n")
-        typedefFile.write(f"#define __{self.submoduleName}SwigInterface_h\n")
+        typedefFile.write(f"#ifndef {self.submoduleName}SwigInterface_h\n")
+        typedefFile.write(f"#define {self.submoduleName}SwigInterface_h\n")
         typedefInput = os.path.join(
             options.library_output_dir, self.submoduleName + "SwigInterface.h.in"
         )

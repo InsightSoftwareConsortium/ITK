@@ -1,4 +1,4 @@
-#define __@WRAPPER_LIBRARY_NAME@Explicit_@module@
+#define @WRAPPER_LIBRARY_NAME@Explicit_@module@
 #include "@WRAPPER_LIBRARY_NAME@Explicit.h"
 
 @EXPLICIT_INSTANTIATES@

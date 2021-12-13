@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef __makeRandomImageBsplineInterpolator_h
-#define __makeRandomImageBsplineInterpolator_h
+#ifndef makeRandomImageBsplineInterpolator_h
+#define makeRandomImageBsplineInterpolator_h
 
 #include "itkBSplineResampleImageFunction.h"
 #include "itkRandomImageSource.h"

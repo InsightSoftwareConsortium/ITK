@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __VNLSparseLUSolverTraits_h
-#define __VNLSparseLUSolverTraits_h
+#ifndef VNLSparseLUSolverTraits_h
+#define VNLSparseLUSolverTraits_h
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_sparse_matrix.h"
