@@ -75,7 +75,7 @@ vnl_levenberg_marquardt::lmdif_lsqfun(long * n,     // I   Number of residuals
   assert(*p == (int)f->get_number_of_unknowns());
   assert(*n == (int)f->get_number_of_residuals());
   assert(*p > 0);
-  assert(*n > *p);
+  assert(*n >= *p);
   vnl_vector_ref<double> ref_x(*p, const_cast<double *>(x));
   vnl_vector_ref<double> ref_fx(*n, fx);
 
@@ -248,7 +248,7 @@ vnl_levenberg_marquardt::lmder_lsqfun(long * n,    // I   Number of residuals
   assert(*p == (int)f->get_number_of_unknowns());
   assert(*n == (int)f->get_number_of_residuals());
   assert(*p > 0);
-  assert(*n > *p);
+  assert(*n >= *p);
   vnl_vector_ref<double> ref_x(*p, (double *)x); // const violation!
   vnl_vector_ref<double> ref_fx(*n, fx);
   vnl_matrix_ref<double> ref_fJ(*n, *p, fJ);
