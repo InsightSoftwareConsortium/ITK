@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __LittleEndian_hdr_h
-#define __LittleEndian_hdr_h
+#ifndef LittleEndian_hdr_h
+#define LittleEndian_hdr_h
 
 static unsigned char LittleEndian_hdr[] = {
   92, 1, 0, 0,   70, 76, 79, 65,  84, 0,   0, 0,   0,  0, 0,  0,   0,  0, 0, 0,   0,   0,  0, 0, 0,   0,  0, 0, 0,

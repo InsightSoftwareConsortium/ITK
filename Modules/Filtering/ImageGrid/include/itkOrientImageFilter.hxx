@@ -329,8 +329,8 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
   return false;
 }
 
-//#define __DEBUG_ORIENT__
-#if defined(__DEBUG_ORIENT__)
+//#define DefinedDebugOrient
+#if defined(DefinedDebugOrient)
 #  define DEBUG_EXECUTE(X) X
 
 using SO_OrientationType = itk::SpatialOrientation::ValidCoordinateOrientationFlags;
@@ -461,7 +461,7 @@ DumpDirections(const std::string & prompt, const typename ImageType::Pointer & i
   }
 }
 
-#else //__DEBUG_ORIENT__
+#else // DefinedDebugOrient
 #  define DEBUG_EXECUTE(X)
 #endif
 

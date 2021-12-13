@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __vidl_itk_istream_hxx
-#define __vidl_itk_istream_hxx
+#ifndef vidl_itk_istream_hxx
+#define vidl_itk_istream_hxx
 
 #include "itkNumericTraits.h"
 #include "vidl_itk_istream.h"

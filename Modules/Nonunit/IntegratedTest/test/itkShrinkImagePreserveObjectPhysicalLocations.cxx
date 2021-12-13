@@ -211,8 +211,8 @@ itkShrinkImagePreserveObjectPhysicalLocations(int, char *[])
   smootherShrinkfilter->Update();
   TImageType::Pointer GaussianShrinkSmallImage = smootherShrinkfilter->GetOutput();
 
-//#define __WRITE_DEBUG_IMAGING__
-#ifdef __WRITE_DEBUG_IMAGING__
+//#define WriteDebugImaging
+#ifdef WriteDebugImaging
   using WriterType = itk::ImageFileWriter<WImageType>;
   auto                                                  writer = WriterType::New();
   itk::CastImageFilter<TImageType, WImageType>::Pointer castFilter =

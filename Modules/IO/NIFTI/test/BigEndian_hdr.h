@@ -15,8 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef __BigEndian_hdr_h
-#define __BigEndian_hdr_h
+#ifndef BigEndian_hdr_h
+#define BigEndian_hdr_h
 
 static unsigned char BigEndian_hdr[] = {
   0, 0,  1,   92, 70, 76, 79,  65, 84, 0,   0,   0, 0, 0,  0,   0, 0, 0,  0,   0,   0, 0, 0,  0,   0, 0, 0,  0,   0,
