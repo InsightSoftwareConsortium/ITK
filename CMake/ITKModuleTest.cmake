@@ -56,7 +56,7 @@ EM_ASM(
   set(CMAKE_TESTDRIVER_AFTER_TESTMAIN "#include \"itkTestDriverAfterTest.inc\"${emscripten_after}")
   create_test_sourcelist(Tests ${KIT}TestDriver.cxx
     ${KitTests}
-    EXTRA_INCLUDE itkTestDriverIncludeRequiredIOFactories.h
+    EXTRA_INCLUDE itkTestDriverIncludeRequiredFactories.h
     FUNCTION  ProcessArgumentsAndRegisterRequiredFactories
     )
   add_executable(${KIT}TestDriver ${KIT}TestDriver.cxx ${Tests} ${ADDITIONAL_SRC})

@@ -10,7 +10,7 @@ if(NOT DO_NOT_INSTALL_ITK_TEST_DRIVER) # used only by vcpkg
 endif()
 
 set(ITKTestKernel_SRCS
-  itkTestDriverIncludeRequiredIOFactories.cxx
+  itkTestDriverIncludeRequiredFactories.cxx
   itkTestDriverInclude.cxx
   itkTestingExtractSliceImageFilter.cxx
   itkTestingHashImageFilter.cxx)

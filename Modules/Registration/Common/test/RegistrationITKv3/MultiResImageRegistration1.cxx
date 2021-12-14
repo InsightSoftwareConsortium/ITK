@@ -243,7 +243,7 @@ public:
 };
 
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 int
 main(int argc, const char * argv[])
 {

@@ -70,23 +70,6 @@ itkFFTNormalizedCorrelationImageFilterTest(int argc, char * argv[])
   auto movingImageReader = ReaderType::New();
   movingImageReader->SetFileName(movingImageFileName);
 
-#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
-#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverseFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
-#  endif
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
-#endif
-
   auto filter = FilterType::New();
   filter->SetFixedImage(fixedImageReader->GetOutput());
   filter->SetMovingImage(movingImageReader->GetOutput());

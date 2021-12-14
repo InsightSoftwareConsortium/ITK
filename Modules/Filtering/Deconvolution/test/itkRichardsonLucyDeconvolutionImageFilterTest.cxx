@@ -24,14 +24,6 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
 
-#include "itkObjectFactoryBase.h"
-#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
-#if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-#  include "itkFFTWRealToHalfHermitianForwardFFTImageFilter.h"
-#  include "itkFFTWHalfHermitianToRealInverseFFTImageFilter.h"
-#endif
-
 int
 itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
 {
@@ -55,19 +47,6 @@ itkRichardsonLucyDeconvolutionImageFilterTest(int argc, char * argv[])
   auto kernelReader = ReaderType::New();
   kernelReader->SetFileName(argv[2]);
   kernelReader->Update();
-
-#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
-#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
-#  endif
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
-#endif
 
   // Generate a convolution of the input image with the kernel image
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;

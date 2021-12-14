@@ -22,7 +22,7 @@
 // itkDeformationFieldJacobianDeterminantFilter.h -> itkDisplacementFieldJacobianDeterminantFilter.h
 #include "itkDisplacementFieldJacobianDeterminantFilter.h"
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 int
 main(int argc, char * argv[])
 {

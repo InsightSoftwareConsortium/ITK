@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 
 // ImageIO
 #include "itkGDCMImageIOFactory.h"
@@ -41,12 +41,31 @@
 #include "itkOFFMeshIOFactory.h"
 #include "itkVTKPolyDataMeshIOFactory.h"
 
+// FFT
+#include "itkFFTImageFilterFactory.h"
+#include "itkVnlComplexToComplex1DFFTImageFilter.h"
+#include "itkVnlComplexToComplexFFTImageFilter.h"
+#include "itkVnlForward1DFFTImageFilter.h"
+#include "itkVnlForwardFFTImageFilter.h"
+#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
+#include "itkVnlInverse1DFFTImageFilter.h"
+#include "itkVnlInverseFFTImageFilter.h"
+#include "itkVnlRealToHalfHermitianForwardFFTImageFilter.h"
+
 #ifdef __EMSCRIPTEN__
 #  include <emscripten.h>
 #endif
 
 void
 RegisterRequiredFactories()
+{
+  RegisterRequiredIOFactories();
+
+  RegisterRequiredFFTFactories();
+}
+
+void
+RegisterRequiredIOFactories()
 {
   // ImageIO
   itk::ObjectFactoryBase::RegisterFactory(itk::MetaImageIOFactory::New());
@@ -68,6 +87,21 @@ RegisterRequiredFactories()
   itk::ObjectFactoryBase::RegisterFactory(itk::OBJMeshIOFactory::New());
   itk::ObjectFactoryBase::RegisterFactory(itk::OFFMeshIOFactory::New());
   itk::ObjectFactoryBase::RegisterFactory(itk::VTKPolyDataMeshIOFactory::New());
+}
+
+void
+RegisterRequiredFFTFactories()
+{
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlComplexToComplex1DFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlComplexToComplexFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlForward1DFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(
+    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlInverse1DFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>::New());
+  itk::ObjectFactoryBase::RegisterFactory(
+    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>::New());
 }
 
 void

@@ -19,6 +19,7 @@
 #ifndef itkFFTImageFilterFactory_h
 #define itkFFTImageFilterFactory_h
 
+#include "itkImage.h"
 #include "itkObjectFactoryBase.h"
 #include "itkVersion.h"
 

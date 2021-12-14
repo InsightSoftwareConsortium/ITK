@@ -21,7 +21,7 @@
 #include "itkPasteImageFilter.h"
 #include "itkVectorImage.h"
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 #include "itkTestingHashImageFilter.h"
 
 namespace
