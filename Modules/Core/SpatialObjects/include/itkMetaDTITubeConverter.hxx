@@ -18,7 +18,6 @@
 #ifndef itkMetaDTITubeConverter_hxx
 #define itkMetaDTITubeConverter_hxx
 
-#include "itkMetaDTITubeConverter.h"
 #include "itkMath.h"
 
 namespace itk

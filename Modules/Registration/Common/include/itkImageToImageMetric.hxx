@@ -18,7 +18,6 @@
 #ifndef itkImageToImageMetric_hxx
 #define itkImageToImageMetric_hxx
 
-#include "itkImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkMath.h"
 

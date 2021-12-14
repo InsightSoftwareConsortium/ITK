@@ -18,7 +18,6 @@
 #ifndef itkVariableSizeMatrix_hxx
 #define itkVariableSizeMatrix_hxx
 
-#include "itkVariableSizeMatrix.h"
 #include "itkNumericTraits.h"
 
 namespace itk

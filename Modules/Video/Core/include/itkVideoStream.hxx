@@ -18,7 +18,6 @@
 #ifndef itkVideoStream_hxx
 #define itkVideoStream_hxx
 
-#include "itkVideoStream.h"
 
 namespace itk
 {

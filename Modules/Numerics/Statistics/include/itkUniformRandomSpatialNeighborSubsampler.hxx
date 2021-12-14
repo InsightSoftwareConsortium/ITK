@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkUniformRandomSpatialNeighborSubsampler_hxx
 #define itkUniformRandomSpatialNeighborSubsampler_hxx
-#include "itkUniformRandomSpatialNeighborSubsampler.h"
 #include <set>
 
 namespace itk

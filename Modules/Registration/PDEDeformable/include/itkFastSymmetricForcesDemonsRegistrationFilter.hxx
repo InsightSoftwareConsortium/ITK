@@ -18,7 +18,6 @@
 #ifndef itkFastSymmetricForcesDemonsRegistrationFilter_hxx
 #define itkFastSymmetricForcesDemonsRegistrationFilter_hxx
 
-#include "itkFastSymmetricForcesDemonsRegistrationFilter.h"
 
 namespace itk
 {

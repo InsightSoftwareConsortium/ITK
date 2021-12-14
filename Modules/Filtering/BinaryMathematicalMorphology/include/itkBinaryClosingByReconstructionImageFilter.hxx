@@ -18,7 +18,6 @@
 #ifndef itkBinaryClosingByReconstructionImageFilter_hxx
 #define itkBinaryClosingByReconstructionImageFilter_hxx
 
-#include "itkBinaryClosingByReconstructionImageFilter.h"
 #include "itkBinaryReconstructionByErosionImageFilter.h"
 #include "itkBinaryDilateImageFilter.h"
 #include "itkProgressAccumulator.h"

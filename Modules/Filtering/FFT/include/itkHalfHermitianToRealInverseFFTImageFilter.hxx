@@ -18,7 +18,6 @@
 #ifndef itkHalfHermitianToRealInverseFFTImageFilter_hxx
 #define itkHalfHermitianToRealInverseFFTImageFilter_hxx
 
-#include "itkHalfHermitianToRealInverseFFTImageFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkPathConstIterator_hxx
 #define itkPathConstIterator_hxx
 
-#include "itkPathConstIterator.h"
 #include "itkOffset.h" // for operator++
 
 namespace itk

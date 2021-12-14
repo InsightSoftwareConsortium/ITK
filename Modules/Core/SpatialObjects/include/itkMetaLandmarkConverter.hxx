@@ -18,7 +18,6 @@
 #ifndef itkMetaLandmarkConverter_hxx
 #define itkMetaLandmarkConverter_hxx
 
-#include "itkMetaLandmarkConverter.h"
 
 namespace itk
 {

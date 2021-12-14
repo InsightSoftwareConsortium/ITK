@@ -18,7 +18,6 @@
 #ifndef itkRichardsonLucyDeconvolutionImageFilter_hxx
 #define itkRichardsonLucyDeconvolutionImageFilter_hxx
 
-#include "itkRichardsonLucyDeconvolutionImageFilter.h"
 
 namespace itk
 {

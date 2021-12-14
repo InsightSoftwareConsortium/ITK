@@ -20,7 +20,6 @@
 
 #include <iostream>
 
-#include "itkFastChamferDistanceImageFilter.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
 

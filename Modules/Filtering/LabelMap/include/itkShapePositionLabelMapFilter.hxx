@@ -18,7 +18,6 @@
 #ifndef itkShapePositionLabelMapFilter_hxx
 #define itkShapePositionLabelMapFilter_hxx
 
-#include "itkShapePositionLabelMapFilter.h"
 #include "itkLabelMapUtilities.h"
 #include "itkShapeLabelObjectAccessors.h"
 

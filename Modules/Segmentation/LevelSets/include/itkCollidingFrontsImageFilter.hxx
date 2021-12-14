@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkCollidingFrontsImageFilter_hxx
 #define itkCollidingFrontsImageFilter_hxx
-#include "itkCollidingFrontsImageFilter.h"
 
 #include "itkMultiplyImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"

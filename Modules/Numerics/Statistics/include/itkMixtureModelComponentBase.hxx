@@ -18,7 +18,6 @@
 #ifndef itkMixtureModelComponentBase_hxx
 #define itkMixtureModelComponentBase_hxx
 
-#include "itkMixtureModelComponentBase.h"
 
 namespace itk
 {

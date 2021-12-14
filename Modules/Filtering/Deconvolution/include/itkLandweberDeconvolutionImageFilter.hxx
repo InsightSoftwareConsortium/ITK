@@ -18,7 +18,6 @@
 #ifndef itkLandweberDeconvolutionImageFilter_hxx
 #define itkLandweberDeconvolutionImageFilter_hxx
 
-#include "itkLandweberDeconvolutionImageFilter.h"
 
 namespace itk
 {

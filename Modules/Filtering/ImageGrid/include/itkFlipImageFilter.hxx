@@ -18,7 +18,6 @@
 #ifndef itkFlipImageFilter_hxx
 #define itkFlipImageFilter_hxx
 
-#include "itkFlipImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 

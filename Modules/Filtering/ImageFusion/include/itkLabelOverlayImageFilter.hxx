@@ -18,7 +18,6 @@
 #ifndef itkLabelOverlayImageFilter_hxx
 #define itkLabelOverlayImageFilter_hxx
 
-#include "itkLabelOverlayImageFilter.h"
 
 namespace itk
 {

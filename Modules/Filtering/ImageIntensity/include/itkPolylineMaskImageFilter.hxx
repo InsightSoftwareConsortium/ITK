@@ -18,7 +18,6 @@
 #ifndef itkPolylineMaskImageFilter_hxx
 #define itkPolylineMaskImageFilter_hxx
 
-#include "itkPolylineMaskImageFilter.h"
 #include "itkRigid3DPerspectiveTransform.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkProgressReporter.h"

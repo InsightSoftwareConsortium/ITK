@@ -18,7 +18,6 @@
 #ifndef itkImageRegionIteratorWithIndex_hxx
 #define itkImageRegionIteratorWithIndex_hxx
 
-#include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk
 {

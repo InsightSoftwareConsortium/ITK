@@ -19,7 +19,6 @@
 #ifndef itkFEMElement1DStress_hxx
 #define itkFEMElement1DStress_hxx
 
-#include "itkFEMElement1DStress.h"
 #include "itkFEMMaterialLinearElasticity.h"
 
 namespace itk

@@ -19,7 +19,6 @@
 #ifndef itkFastMarchingImageFilterBase_hxx
 #define itkFastMarchingImageFilterBase_hxx
 
-#include "itkFastMarchingImageFilterBase.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkConnectedComponentImageFilter.h"

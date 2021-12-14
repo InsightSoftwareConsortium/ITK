@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkCannyEdgeDetectionImageFilter_hxx
 #define itkCannyEdgeDetectionImageFilter_hxx
-#include "itkCannyEdgeDetectionImageFilter.h"
 
 #include "itkZeroCrossingImageFilter.h"
 #include "itkNeighborhoodInnerProduct.h"

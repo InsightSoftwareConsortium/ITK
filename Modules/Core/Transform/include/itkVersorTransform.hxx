@@ -18,7 +18,6 @@
 #ifndef itkVersorTransform_hxx
 #define itkVersorTransform_hxx
 
-#include "itkVersorTransform.h"
 #include "itkMath.h"
 
 namespace itk

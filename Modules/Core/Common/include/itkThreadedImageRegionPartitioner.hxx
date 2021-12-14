@@ -18,7 +18,6 @@
 #ifndef itkThreadedImageRegionPartitioner_hxx
 #define itkThreadedImageRegionPartitioner_hxx
 
-#include "itkThreadedImageRegionPartitioner.h"
 
 namespace itk
 {

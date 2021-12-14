@@ -19,7 +19,6 @@
 #ifndef itkRenyiEntropyThresholdCalculator_hxx
 #define itkRenyiEntropyThresholdCalculator_hxx
 
-#include "itkRenyiEntropyThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

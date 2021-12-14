@@ -18,7 +18,6 @@
 #ifndef itkLabelObjectLine_hxx
 #define itkLabelObjectLine_hxx
 
-#include "itkLabelObjectLine.h"
 
 namespace itk
 {

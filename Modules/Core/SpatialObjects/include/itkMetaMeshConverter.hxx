@@ -18,7 +18,6 @@
 #ifndef itkMetaMeshConverter_hxx
 #define itkMetaMeshConverter_hxx
 
-#include "itkMetaMeshConverter.h"
 #include "itkTetrahedronCell.h"
 #include "itkPolygonCell.h"
 #include "itkHexahedronCell.h"

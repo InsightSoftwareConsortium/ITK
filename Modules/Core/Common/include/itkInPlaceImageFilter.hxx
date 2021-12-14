@@ -28,7 +28,6 @@
 #ifndef itkInPlaceImageFilter_hxx
 #define itkInPlaceImageFilter_hxx
 
-#include "itkInPlaceImageFilter.h"
 
 namespace itk
 {

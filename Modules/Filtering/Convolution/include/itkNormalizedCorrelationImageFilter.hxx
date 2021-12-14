@@ -18,7 +18,6 @@
 #ifndef itkNormalizedCorrelationImageFilter_hxx
 #define itkNormalizedCorrelationImageFilter_hxx
 
-#include "itkNormalizedCorrelationImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"

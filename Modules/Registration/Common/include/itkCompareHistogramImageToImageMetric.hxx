@@ -18,7 +18,6 @@
 #ifndef itkCompareHistogramImageToImageMetric_hxx
 #define itkCompareHistogramImageToImageMetric_hxx
 
-#include "itkCompareHistogramImageToImageMetric.h"
 #include "itkHistogram.h"
 
 namespace itk

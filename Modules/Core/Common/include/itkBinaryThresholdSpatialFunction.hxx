@@ -18,7 +18,6 @@
 #ifndef itkBinaryThresholdSpatialFunction_hxx
 #define itkBinaryThresholdSpatialFunction_hxx
 
-#include "itkBinaryThresholdSpatialFunction.h"
 
 namespace itk
 {

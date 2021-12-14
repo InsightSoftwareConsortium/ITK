@@ -18,7 +18,6 @@
 #ifndef itkImageGaussianModelEstimator_hxx
 #define itkImageGaussianModelEstimator_hxx
 
-#include "itkImageGaussianModelEstimator.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 

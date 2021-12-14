@@ -18,7 +18,6 @@
 #ifndef itkTransformMeshFilter_hxx
 #define itkTransformMeshFilter_hxx
 
-#include "itkTransformMeshFilter.h"
 #include "itkMacro.h"
 
 namespace itk

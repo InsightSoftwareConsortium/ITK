@@ -18,7 +18,6 @@
 #ifndef itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {

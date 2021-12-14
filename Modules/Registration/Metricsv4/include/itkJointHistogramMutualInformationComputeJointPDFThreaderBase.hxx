@@ -18,7 +18,6 @@
 #ifndef itkJointHistogramMutualInformationComputeJointPDFThreaderBase_hxx
 #define itkJointHistogramMutualInformationComputeJointPDFThreaderBase_hxx
 
-#include "itkJointHistogramMutualInformationComputeJointPDFThreaderBase.h"
 
 #include "itkImageRegionIterator.h"
 

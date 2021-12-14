@@ -19,7 +19,6 @@
 #ifndef itkMaximumEntropyThresholdCalculator_hxx
 #define itkMaximumEntropyThresholdCalculator_hxx
 
-#include "itkMaximumEntropyThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

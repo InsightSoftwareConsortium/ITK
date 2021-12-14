@@ -18,7 +18,6 @@
 #ifndef itkStatisticsAlgorithm_hxx
 #define itkStatisticsAlgorithm_hxx
 
-#include "itkStatisticsAlgorithm.h"
 #include "itkNumericTraits.h"
 
 namespace itk

@@ -22,7 +22,6 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkDerivativeOperator.h"
-#include "itkScalarAnisotropicDiffusionFunction.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkMetaGroupConverter_hxx
 #define itkMetaGroupConverter_hxx
 
-#include "itkMetaGroupConverter.h"
 
 namespace itk
 {

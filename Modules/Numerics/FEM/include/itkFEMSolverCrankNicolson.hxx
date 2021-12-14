@@ -18,7 +18,6 @@
 #ifndef itkFEMSolverCrankNicolson_hxx
 #define itkFEMSolverCrankNicolson_hxx
 
-#include "itkFEMSolverCrankNicolson.h"
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"

@@ -18,7 +18,6 @@
 #ifndef itkMahalanobisDistanceMetric_hxx
 #define itkMahalanobisDistanceMetric_hxx
 
-#include "itkMahalanobisDistanceMetric.h"
 
 namespace itk
 {

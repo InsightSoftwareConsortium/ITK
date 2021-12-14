@@ -18,7 +18,6 @@
 #ifndef itkLBFGSOptimizerBasev4_hxx
 #define itkLBFGSOptimizerBasev4_hxx
 
-#include "itkLBFGSOptimizerBasev4.h"
 
 extern "C"
 {

@@ -18,7 +18,6 @@
 #ifndef itkParametricSpaceToImageSpaceMeshFilter_hxx
 #define itkParametricSpaceToImageSpaceMeshFilter_hxx
 
-#include "itkParametricSpaceToImageSpaceMeshFilter.h"
 #include "itkMacro.h"
 #include "itkProgressReporter.h"
 

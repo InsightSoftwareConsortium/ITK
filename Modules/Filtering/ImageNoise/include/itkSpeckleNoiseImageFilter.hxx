@@ -19,7 +19,6 @@
 #ifndef itkSpeckleNoiseImageFilter_hxx
 #define itkSpeckleNoiseImageFilter_hxx
 
-#include "itkSpeckleNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"

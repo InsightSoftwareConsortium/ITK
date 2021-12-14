@@ -18,7 +18,6 @@
 #ifndef itkImageFilterToVideoFilterWrapper_hxx
 #define itkImageFilterToVideoFilterWrapper_hxx
 
-#include "itkImageFilterToVideoFilterWrapper.h"
 
 namespace itk
 {

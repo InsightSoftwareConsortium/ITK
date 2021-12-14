@@ -18,7 +18,6 @@
 #ifndef itkPathToPathFilter_hxx
 #define itkPathToPathFilter_hxx
 
-#include "itkPathToPathFilter.h"
 
 namespace itk
 {

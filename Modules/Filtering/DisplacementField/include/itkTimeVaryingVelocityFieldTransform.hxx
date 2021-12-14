@@ -18,7 +18,6 @@
 #ifndef itkTimeVaryingVelocityFieldTransform_hxx
 #define itkTimeVaryingVelocityFieldTransform_hxx
 
-#include "itkTimeVaryingVelocityFieldTransform.h"
 
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
 

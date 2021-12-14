@@ -18,7 +18,6 @@
 #ifndef itkLabelShapeOpeningImageFilter_hxx
 #define itkLabelShapeOpeningImageFilter_hxx
 
-#include "itkLabelShapeOpeningImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

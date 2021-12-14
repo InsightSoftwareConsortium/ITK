@@ -18,7 +18,6 @@
 #ifndef itkImageKmeansModelEstimator_hxx
 #define itkImageKmeansModelEstimator_hxx
 
-#include "itkImageKmeansModelEstimator.h"
 
 namespace itk
 {

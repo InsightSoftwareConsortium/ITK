@@ -29,7 +29,6 @@
 #define itkMeshToMeshFilter_hxx
 
 #include "itkMesh.h"
-#include "itkMeshToMeshFilter.h"
 
 namespace itk
 {

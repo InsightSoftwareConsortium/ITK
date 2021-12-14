@@ -18,7 +18,6 @@
 #ifndef itkSymmetricEigenAnalysis_hxx
 #define itkSymmetricEigenAnalysis_hxx
 
-#include "itkSymmetricEigenAnalysis.h"
 #include "itkMath.h"
 
 namespace itk

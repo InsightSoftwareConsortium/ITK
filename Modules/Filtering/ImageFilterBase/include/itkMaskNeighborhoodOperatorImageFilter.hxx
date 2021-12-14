@@ -18,7 +18,6 @@
 #ifndef itkMaskNeighborhoodOperatorImageFilter_hxx
 #define itkMaskNeighborhoodOperatorImageFilter_hxx
 
-#include "itkMaskNeighborhoodOperatorImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"

@@ -18,7 +18,6 @@
 #ifndef itkNormalVectorFunctionBase_hxx
 #define itkNormalVectorFunctionBase_hxx
 
-#include "itkNormalVectorFunctionBase.h"
 #include "itkNumericTraits.h"
 
 namespace itk

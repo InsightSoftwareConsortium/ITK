@@ -18,7 +18,6 @@
 #ifndef itkHoughTransform2DLinesImageFilter_hxx
 #define itkHoughTransform2DLinesImageFilter_hxx
 
-#include "itkHoughTransform2DLinesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"

@@ -18,7 +18,6 @@
 #ifndef itkMetaContourConverter_hxx
 #define itkMetaContourConverter_hxx
 
-#include "itkMetaContourConverter.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGaussianOperator_hxx
 #define itkGaussianOperator_hxx
-#include "itkGaussianOperator.h"
 #include "itkOutputWindow.h"
 #include "itkMacro.h"
 namespace itk

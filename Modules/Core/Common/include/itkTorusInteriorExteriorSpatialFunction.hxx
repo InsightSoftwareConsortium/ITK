@@ -18,7 +18,6 @@
 #ifndef itkTorusInteriorExteriorSpatialFunction_hxx
 #define itkTorusInteriorExteriorSpatialFunction_hxx
 
-#include "itkTorusInteriorExteriorSpatialFunction.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkComposeDisplacementFieldsImageFilter_hxx
 #define itkComposeDisplacementFieldsImageFilter_hxx
 
-#include "itkComposeDisplacementFieldsImageFilter.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"

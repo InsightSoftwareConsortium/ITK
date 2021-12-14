@@ -18,7 +18,6 @@
 #ifndef itkWatershedSegmentTree_hxx
 #define itkWatershedSegmentTree_hxx
 
-#include "itkWatershedSegmentTree.h"
 
 namespace itk
 {

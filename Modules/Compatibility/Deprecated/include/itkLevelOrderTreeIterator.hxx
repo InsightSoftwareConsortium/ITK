@@ -18,7 +18,6 @@
 #ifndef itkLevelOrderTreeIterator_hxx
 #define itkLevelOrderTreeIterator_hxx
 
-#include "itkLevelOrderTreeIterator.h"
 
 namespace itk
 {

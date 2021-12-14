@@ -18,7 +18,6 @@
 #ifndef itkSymmetricForcesDemonsRegistrationFunction_hxx
 #define itkSymmetricForcesDemonsRegistrationFunction_hxx
 
-#include "itkSymmetricForcesDemonsRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

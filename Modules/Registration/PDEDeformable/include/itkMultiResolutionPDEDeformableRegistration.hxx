@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMultiResolutionPDEDeformableRegistration_hxx
 #define itkMultiResolutionPDEDeformableRegistration_hxx
-#include "itkMultiResolutionPDEDeformableRegistration.h"
 
 #include "itkRecursiveGaussianImageFilter.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"

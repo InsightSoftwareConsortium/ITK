@@ -18,7 +18,6 @@
 #ifndef itkPatchBasedDenoisingBaseImageFilter_hxx
 #define itkPatchBasedDenoisingBaseImageFilter_hxx
 
-#include "itkPatchBasedDenoisingBaseImageFilter.h"
 #include "itkEventObject.h"
 
 namespace itk

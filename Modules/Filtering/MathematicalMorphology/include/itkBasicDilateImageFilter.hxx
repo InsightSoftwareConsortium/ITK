@@ -18,7 +18,6 @@
 #ifndef itkBasicDilateImageFilter_hxx
 #define itkBasicDilateImageFilter_hxx
 
-#include "itkBasicDilateImageFilter.h"
 
 namespace itk
 {

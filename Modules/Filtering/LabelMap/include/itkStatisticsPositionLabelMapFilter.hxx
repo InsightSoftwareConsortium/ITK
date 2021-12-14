@@ -18,7 +18,6 @@
 #ifndef itkStatisticsPositionLabelMapFilter_hxx
 #define itkStatisticsPositionLabelMapFilter_hxx
 
-#include "itkStatisticsPositionLabelMapFilter.h"
 #include "itkLabelMapUtilities.h"
 #include "itkStatisticsLabelObjectAccessors.h"
 

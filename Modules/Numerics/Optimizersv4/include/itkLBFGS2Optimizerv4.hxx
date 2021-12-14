@@ -18,7 +18,6 @@
 #ifndef itkLBFGS2Optimizerv4_hxx
 #define itkLBFGS2Optimizerv4_hxx
 
-#include "itkLBFGS2Optimizerv4.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

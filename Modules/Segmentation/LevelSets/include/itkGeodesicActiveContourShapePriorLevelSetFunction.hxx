@@ -18,7 +18,6 @@
 #ifndef itkGeodesicActiveContourShapePriorLevelSetFunction_hxx
 #define itkGeodesicActiveContourShapePriorLevelSetFunction_hxx
 
-#include "itkGeodesicActiveContourShapePriorLevelSetFunction.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"
 #include "itkImageAlgorithm.h"

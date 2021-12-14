@@ -28,7 +28,6 @@
 #ifndef itkChangeLabelImageFilter_hxx
 #define itkChangeLabelImageFilter_hxx
 
-#include "itkChangeLabelImageFilter.h"
 
 namespace itk
 {

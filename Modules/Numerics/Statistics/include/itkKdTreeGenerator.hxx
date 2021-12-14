@@ -18,7 +18,6 @@
 #ifndef itkKdTreeGenerator_hxx
 #define itkKdTreeGenerator_hxx
 
-#include "itkKdTreeGenerator.h"
 
 namespace itk
 {

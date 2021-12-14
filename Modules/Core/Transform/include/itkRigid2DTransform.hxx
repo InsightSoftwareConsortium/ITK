@@ -18,7 +18,6 @@
 #ifndef itkRigid2DTransform_hxx
 #define itkRigid2DTransform_hxx
 
-#include "itkRigid2DTransform.h"
 #include "vnl/algo/vnl_svd.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkSpatialObjectToImageFilter_hxx
 #define itkSpatialObjectToImageFilter_hxx
 
-#include "itkSpatialObjectToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"

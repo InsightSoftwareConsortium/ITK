@@ -18,7 +18,6 @@
 #ifndef itkStatisticsOpeningLabelMapFilter_hxx
 #define itkStatisticsOpeningLabelMapFilter_hxx
 
-#include "itkStatisticsOpeningLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include "itkLabelMapUtilities.h"
 

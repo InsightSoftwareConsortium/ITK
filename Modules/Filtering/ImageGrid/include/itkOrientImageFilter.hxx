@@ -19,7 +19,6 @@
 #define itkOrientImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkOrientImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkConstantPadImageFilter.h"
 #include "itkMetaDataObject.h"

@@ -19,8 +19,6 @@
 #define itkGroupSpatialObject_hxx
 
 
-#include "itkGroupSpatialObject.h"
-
 namespace itk
 {
 /** Constructor */

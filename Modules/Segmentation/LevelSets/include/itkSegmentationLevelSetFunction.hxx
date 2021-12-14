@@ -18,7 +18,6 @@
 #ifndef itkSegmentationLevelSetFunction_hxx
 #define itkSegmentationLevelSetFunction_hxx
 
-#include "itkSegmentationLevelSetFunction.h"
 
 namespace itk
 {

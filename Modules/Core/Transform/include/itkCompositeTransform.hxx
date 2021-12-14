@@ -18,7 +18,6 @@
 #ifndef itkCompositeTransform_hxx
 #define itkCompositeTransform_hxx
 
-#include "itkCompositeTransform.h"
 
 namespace itk
 {

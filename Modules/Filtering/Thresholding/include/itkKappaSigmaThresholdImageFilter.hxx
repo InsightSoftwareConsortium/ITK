@@ -18,7 +18,6 @@
 #ifndef itkKappaSigmaThresholdImageFilter_hxx
 #define itkKappaSigmaThresholdImageFilter_hxx
 
-#include "itkKappaSigmaThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkLabelOverlapMeasuresImageFilter_hxx
 #define itkLabelOverlapMeasuresImageFilter_hxx
 
-#include "itkLabelOverlapMeasuresImageFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkTotalProgressReporter.h"

@@ -18,7 +18,6 @@
 #ifndef itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkMeanSquaresImageToImageMetricv4GetValueAndDerivativeThreader.h"
 #include "itkDefaultConvertPixelTraits.h"
 
 namespace itk

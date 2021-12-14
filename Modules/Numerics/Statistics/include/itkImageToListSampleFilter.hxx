@@ -18,7 +18,6 @@
 #ifndef itkImageToListSampleFilter_hxx
 #define itkImageToListSampleFilter_hxx
 
-#include "itkImageToListSampleFilter.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

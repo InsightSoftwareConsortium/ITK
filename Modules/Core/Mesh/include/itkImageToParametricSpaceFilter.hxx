@@ -18,7 +18,6 @@
 #ifndef itkImageToParametricSpaceFilter_hxx
 #define itkImageToParametricSpaceFilter_hxx
 
-#include "itkImageToParametricSpaceFilter.h"
 #include "itkNumericTraits.h"
 #include "itkImageIterator.h"
 #include "itkImageRegionConstIterator.h"

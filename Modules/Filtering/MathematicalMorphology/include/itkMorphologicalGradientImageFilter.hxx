@@ -18,7 +18,6 @@
 #ifndef itkMorphologicalGradientImageFilter_hxx
 #define itkMorphologicalGradientImageFilter_hxx
 
-#include "itkMorphologicalGradientImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>

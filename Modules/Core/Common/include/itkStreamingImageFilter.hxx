@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkStreamingImageFilter_hxx
 #define itkStreamingImageFilter_hxx
-#include "itkStreamingImageFilter.h"
 #include "itkCommand.h"
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionSplitterSlowDimension.h"

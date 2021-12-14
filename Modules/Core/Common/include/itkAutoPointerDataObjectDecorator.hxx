@@ -28,7 +28,6 @@
 #ifndef itkAutoPointerDataObjectDecorator_hxx
 #define itkAutoPointerDataObjectDecorator_hxx
 
-#include "itkAutoPointerDataObjectDecorator.h"
 
 namespace itk
 {

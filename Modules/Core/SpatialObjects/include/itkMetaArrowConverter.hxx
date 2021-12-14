@@ -18,7 +18,6 @@
 #ifndef itkMetaArrowConverter_hxx
 #define itkMetaArrowConverter_hxx
 
-#include "itkMetaArrowConverter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkLabelMapContourOverlayImageFilter_hxx
 #define itkLabelMapContourOverlayImageFilter_hxx
 
-#include "itkLabelMapContourOverlayImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkImageScanlineIterator.h"

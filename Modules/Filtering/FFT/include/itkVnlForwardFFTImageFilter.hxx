@@ -21,7 +21,6 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkVnlFFTCommon.h"
-#include "itkVnlForwardFFTImageFilter.h"
 
 namespace itk
 {

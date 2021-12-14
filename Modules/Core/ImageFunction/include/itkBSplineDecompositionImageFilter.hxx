@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBSplineDecompositionImageFilter_hxx
 #define itkBSplineDecompositionImageFilter_hxx
-#include "itkBSplineDecompositionImageFilter.h"
 #include "itkImageAlgorithm.h"
 #include "itkProgressReporter.h"
 #include "itkVector.h"

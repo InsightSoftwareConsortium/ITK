@@ -18,7 +18,6 @@
 #ifndef itkCyclicShiftImageFilter_hxx
 #define itkCyclicShiftImageFilter_hxx
 
-#include "itkCyclicShiftImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"

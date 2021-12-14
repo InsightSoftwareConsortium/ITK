@@ -18,7 +18,6 @@
 #ifndef itkMetaTubeConverter_hxx
 #define itkMetaTubeConverter_hxx
 
-#include "itkMetaTubeConverter.h"
 
 namespace itk
 {

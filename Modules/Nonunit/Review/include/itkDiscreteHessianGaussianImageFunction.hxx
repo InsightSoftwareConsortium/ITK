@@ -18,7 +18,6 @@
 #ifndef itkDiscreteHessianGaussianImageFunction_hxx
 #define itkDiscreteHessianGaussianImageFunction_hxx
 
-#include "itkDiscreteHessianGaussianImageFunction.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 
 namespace itk

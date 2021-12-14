@@ -18,7 +18,6 @@
 #ifndef itkRGBGibbsPriorFilter_hxx
 #define itkRGBGibbsPriorFilter_hxx
 
-#include "itkRGBGibbsPriorFilter.h"
 #include <cstdlib>
 #include <cstdio>
 #include <ctime>

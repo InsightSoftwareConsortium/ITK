@@ -18,7 +18,6 @@
 #ifndef itkWarpMeshFilter_hxx
 #define itkWarpMeshFilter_hxx
 
-#include "itkWarpMeshFilter.h"
 #include "itkMacro.h"
 
 namespace itk

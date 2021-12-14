@@ -18,7 +18,6 @@
 #ifndef itkGrayscaleFunctionErodeImageFilter_hxx
 #define itkGrayscaleFunctionErodeImageFilter_hxx
 
-#include "itkGrayscaleFunctionErodeImageFilter.h"
 
 namespace itk
 {

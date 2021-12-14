@@ -18,7 +18,6 @@
 #ifndef itkCenteredRigid2DTransform_hxx
 #define itkCenteredRigid2DTransform_hxx
 
-#include "itkCenteredRigid2DTransform.h"
 
 namespace itk
 {

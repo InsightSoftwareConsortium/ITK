@@ -18,7 +18,6 @@
 #ifndef itkShapePriorSegmentationLevelSetFunction_hxx
 #define itkShapePriorSegmentationLevelSetFunction_hxx
 
-#include "itkShapePriorSegmentationLevelSetFunction.h"
 #include "itkMath.h"
 
 namespace itk

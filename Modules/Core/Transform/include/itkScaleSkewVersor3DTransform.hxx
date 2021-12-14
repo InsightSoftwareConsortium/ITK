@@ -18,7 +18,6 @@
 #ifndef itkScaleSkewVersor3DTransform_hxx
 #define itkScaleSkewVersor3DTransform_hxx
 
-#include "itkScaleSkewVersor3DTransform.h"
 #include "itkMath.h"
 
 namespace itk

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkSimilarityIndexImageFilter_hxx
 #define itkSimilarityIndexImageFilter_hxx
-#include "itkSimilarityIndexImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"

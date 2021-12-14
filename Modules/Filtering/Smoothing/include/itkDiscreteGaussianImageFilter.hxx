@@ -18,7 +18,6 @@
 #ifndef itkDiscreteGaussianImageFilter_hxx
 #define itkDiscreteGaussianImageFilter_hxx
 
-#include "itkDiscreteGaussianImageFilter.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkImageRegionIterator.h"

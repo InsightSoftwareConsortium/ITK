@@ -18,7 +18,6 @@
 #ifndef itkMeanSquaresImageToImageMetricv4_hxx
 #define itkMeanSquaresImageToImageMetricv4_hxx
 
-#include "itkMeanSquaresImageToImageMetricv4.h"
 
 namespace itk
 {

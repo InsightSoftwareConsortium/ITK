@@ -18,7 +18,6 @@
 #ifndef itkDirectedHausdorffDistanceImageFilter_hxx
 #define itkDirectedHausdorffDistanceImageFilter_hxx
 
-#include "itkDirectedHausdorffDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkProgressReporter.h"

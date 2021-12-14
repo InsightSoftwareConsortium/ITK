@@ -18,7 +18,6 @@
 #ifndef itkBinaryReconstructionLabelMapFilter_hxx
 #define itkBinaryReconstructionLabelMapFilter_hxx
 
-#include "itkBinaryReconstructionLabelMapFilter.h"
 #include "itkProgressReporter.h"
 
 

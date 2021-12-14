@@ -18,7 +18,6 @@
 #ifndef itkSmartPointerForwardReference_hxx
 #define itkSmartPointerForwardReference_hxx
 
-#include "itkSmartPointerForwardReference.h"
 
 namespace itk
 {

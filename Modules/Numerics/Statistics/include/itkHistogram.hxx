@@ -18,7 +18,6 @@
 #ifndef itkHistogram_hxx
 #define itkHistogram_hxx
 
-#include "itkHistogram.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 

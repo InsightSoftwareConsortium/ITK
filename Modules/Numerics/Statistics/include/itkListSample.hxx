@@ -18,7 +18,6 @@
 #ifndef itkListSample_hxx
 #define itkListSample_hxx
 
-#include "itkListSample.h"
 
 namespace itk
 {

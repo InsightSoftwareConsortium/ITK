@@ -18,7 +18,6 @@
 #ifndef itkBresenhamLine_hxx
 #define itkBresenhamLine_hxx
 
-#include "itkBresenhamLine.h"
 #include "itkPoint.h"
 #include "itkMath.h"
 #include "itkMath.h"

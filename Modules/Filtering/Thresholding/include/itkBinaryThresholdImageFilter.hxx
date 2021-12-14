@@ -28,7 +28,6 @@
 #ifndef itkBinaryThresholdImageFilter_hxx
 #define itkBinaryThresholdImageFilter_hxx
 
-#include "itkBinaryThresholdImageFilter.h"
 #include "itkMath.h"
 
 namespace itk

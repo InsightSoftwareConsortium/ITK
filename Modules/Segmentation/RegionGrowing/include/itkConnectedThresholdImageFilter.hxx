@@ -18,7 +18,6 @@
 #ifndef itkConnectedThresholdImageFilter_hxx
 #define itkConnectedThresholdImageFilter_hxx
 
-#include "itkConnectedThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"

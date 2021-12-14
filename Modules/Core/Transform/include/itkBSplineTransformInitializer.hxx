@@ -18,7 +18,6 @@
 #ifndef itkBSplineTransformInitializer_hxx
 #define itkBSplineTransformInitializer_hxx
 
-#include "itkBSplineTransformInitializer.h"
 
 #include "itkContinuousIndex.h"
 #include "itkPointSet.h"

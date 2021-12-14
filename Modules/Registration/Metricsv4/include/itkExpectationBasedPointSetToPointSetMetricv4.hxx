@@ -18,7 +18,6 @@
 #ifndef itkExpectationBasedPointSetToPointSetMetricv4_hxx
 #define itkExpectationBasedPointSetToPointSetMetricv4_hxx
 
-#include "itkExpectationBasedPointSetToPointSetMetricv4.h"
 #include "itkArray.h"
 #include "itkCompensatedSummation.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkShiftScaleLabelMapFilter_hxx
 #define itkShiftScaleLabelMapFilter_hxx
 
-#include "itkShiftScaleLabelMapFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk

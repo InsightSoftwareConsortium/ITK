@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBSplineUpsampleImageFilter_hxx
 #define itkBSplineUpsampleImageFilter_hxx
-#include "itkBSplineUpsampleImageFilter.h"
 
 namespace itk
 {

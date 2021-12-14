@@ -18,7 +18,6 @@
 #ifndef itkPointSetToSpatialObjectDemonsRegistration_hxx
 #define itkPointSetToSpatialObjectDemonsRegistration_hxx
 
-#include "itkPointSetToSpatialObjectDemonsRegistration.h"
 
 namespace itk
 {

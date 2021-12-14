@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkBinaryCrossStructuringElement_hxx
 #define itkBinaryCrossStructuringElement_hxx
-#include "itkBinaryCrossStructuringElement.h"
 
 #include "itkFlatStructuringElement.h"
 

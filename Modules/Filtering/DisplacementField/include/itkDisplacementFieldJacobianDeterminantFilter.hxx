@@ -18,7 +18,6 @@
 #ifndef itkDisplacementFieldJacobianDeterminantFilter_hxx
 #define itkDisplacementFieldJacobianDeterminantFilter_hxx
 
-#include "itkDisplacementFieldJacobianDeterminantFilter.h"
 
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"

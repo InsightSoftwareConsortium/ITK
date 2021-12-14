@@ -18,7 +18,6 @@
 #ifndef itkAnnulusOperator_hxx
 #define itkAnnulusOperator_hxx
 
-#include "itkAnnulusOperator.h"
 #include "itkMath.h"
 #include "itkSphereSpatialFunction.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkCoolColormapFunction_hxx
 #define itkCoolColormapFunction_hxx
 
-#include "itkCoolColormapFunction.h"
 
 namespace itk
 {

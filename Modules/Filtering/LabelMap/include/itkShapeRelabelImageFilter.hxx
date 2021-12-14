@@ -18,7 +18,6 @@
 #ifndef itkShapeRelabelImageFilter_hxx
 #define itkShapeRelabelImageFilter_hxx
 
-#include "itkShapeRelabelImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

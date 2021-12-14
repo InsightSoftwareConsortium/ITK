@@ -18,7 +18,6 @@
 #ifndef itkAccumulateImageFilter_hxx
 #define itkAccumulateImageFilter_hxx
 
-#include "itkAccumulateImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

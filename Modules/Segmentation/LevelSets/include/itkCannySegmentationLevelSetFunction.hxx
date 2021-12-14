@@ -18,7 +18,6 @@
 #ifndef itkCannySegmentationLevelSetFunction_hxx
 #define itkCannySegmentationLevelSetFunction_hxx
 
-#include "itkCannySegmentationLevelSetFunction.h"
 #include "itkGradientImageFilter.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkImageRegionIterator.h"

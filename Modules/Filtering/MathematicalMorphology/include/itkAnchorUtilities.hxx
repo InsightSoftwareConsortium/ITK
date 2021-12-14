@@ -18,7 +18,6 @@
 #ifndef itkAnchorUtilities_hxx
 #define itkAnchorUtilities_hxx
 
-#include "itkAnchorUtilities.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNeighborhoodAlgorithm.h"

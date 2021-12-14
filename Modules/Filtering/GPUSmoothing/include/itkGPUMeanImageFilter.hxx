@@ -18,7 +18,6 @@
 #ifndef itkGPUMeanImageFilter_hxx
 #define itkGPUMeanImageFilter_hxx
 
-#include "itkGPUMeanImageFilter.h"
 
 namespace itk
 {

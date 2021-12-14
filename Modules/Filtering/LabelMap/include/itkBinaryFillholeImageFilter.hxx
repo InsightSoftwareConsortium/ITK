@@ -18,7 +18,6 @@
 #ifndef itkBinaryFillholeImageFilter_hxx
 #define itkBinaryFillholeImageFilter_hxx
 
-#include "itkBinaryFillholeImageFilter.h"
 #include "itkBinaryNotImageFilter.h"
 #include "itkBinaryImageToShapeLabelMapFilter.h"
 #include "itkShapeOpeningLabelMapFilter.h"

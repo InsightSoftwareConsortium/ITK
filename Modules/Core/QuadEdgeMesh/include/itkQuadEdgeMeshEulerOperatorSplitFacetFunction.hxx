@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshEulerOperatorSplitFacetFunction_hxx
 #define itkQuadEdgeMeshEulerOperatorSplitFacetFunction_hxx
 
-#include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 
 namespace itk
 {

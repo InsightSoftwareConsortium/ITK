@@ -18,7 +18,6 @@
 #ifndef itkProjectedIterativeDeconvolutionImageFilter_hxx
 #define itkProjectedIterativeDeconvolutionImageFilter_hxx
 
-#include "itkProjectedIterativeDeconvolutionImageFilter.h"
 
 namespace itk
 {

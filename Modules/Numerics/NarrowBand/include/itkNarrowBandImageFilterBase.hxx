@@ -18,7 +18,6 @@
 #ifndef itkNarrowBandImageFilterBase_hxx
 #define itkNarrowBandImageFilterBase_hxx
 
-#include "itkNarrowBandImageFilterBase.h"
 #include "itkShiftScaleImageFilter.h"
 
 namespace itk

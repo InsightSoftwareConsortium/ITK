@@ -18,7 +18,6 @@
 #ifndef itkScaleLogarithmicTransform_hxx
 #define itkScaleLogarithmicTransform_hxx
 
-#include "itkScaleLogarithmicTransform.h"
 
 namespace itk
 {

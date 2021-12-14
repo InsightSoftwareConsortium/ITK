@@ -18,7 +18,6 @@
 #ifndef itkPowellOptimizerv4_hxx
 #define itkPowellOptimizerv4_hxx
 
-#include "itkPowellOptimizerv4.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkNormalizedMutualInformationHistogramImageToImageMetric_hxx
 #define itkNormalizedMutualInformationHistogramImageToImageMetric_hxx
 
-#include "itkNormalizedMutualInformationHistogramImageToImageMetric.h"
 #include "itkHistogram.h"
 
 namespace itk

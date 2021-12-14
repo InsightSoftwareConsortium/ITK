@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkCurvatureFlowFunction_hxx
 #define itkCurvatureFlowFunction_hxx
-#include "itkCurvatureFlowFunction.h"
 
 #include "itkMath.h"
 

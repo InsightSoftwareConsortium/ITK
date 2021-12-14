@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkRegionConstrainedSubsampler_hxx
 #define itkRegionConstrainedSubsampler_hxx
-#include "itkRegionConstrainedSubsampler.h"
 
 namespace itk
 {

@@ -19,7 +19,6 @@
 #define itkGPUGradientNDAnisotropicDiffusionFunction_hxx
 
 #include "itkNumericTraits.h"
-#include "itkGPUGradientNDAnisotropicDiffusionFunction.h"
 
 #include "itkOpenCLUtil.h"
 

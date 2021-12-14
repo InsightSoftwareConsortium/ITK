@@ -18,7 +18,6 @@
 #ifndef itkWindowConvergenceMonitoringFunction_hxx
 #define itkWindowConvergenceMonitoringFunction_hxx
 
-#include "itkWindowConvergenceMonitoringFunction.h"
 
 #include "itkBSplineControlPointImageFunction.h"
 #include "itkBSplineScatteredDataPointSetToImageFilter.h"

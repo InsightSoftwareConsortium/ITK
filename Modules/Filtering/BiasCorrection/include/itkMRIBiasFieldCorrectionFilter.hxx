@@ -18,7 +18,6 @@
 #ifndef itkMRIBiasFieldCorrectionFilter_hxx
 #define itkMRIBiasFieldCorrectionFilter_hxx
 
-#include "itkMRIBiasFieldCorrectionFilter.h"
 
 namespace itk
 {

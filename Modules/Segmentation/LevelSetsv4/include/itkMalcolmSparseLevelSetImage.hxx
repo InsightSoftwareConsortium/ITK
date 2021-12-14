@@ -19,7 +19,6 @@
 #ifndef itkMalcolmSparseLevelSetImage_hxx
 #define itkMalcolmSparseLevelSetImage_hxx
 
-#include "itkMalcolmSparseLevelSetImage.h"
 
 namespace itk
 {

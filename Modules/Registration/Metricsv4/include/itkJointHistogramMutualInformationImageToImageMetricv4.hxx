@@ -19,7 +19,6 @@
 #define itkJointHistogramMutualInformationImageToImageMetricv4_hxx
 
 #include "itkCompensatedSummation.h"
-#include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkImageIterator.h"
 #include "itkDiscreteGaussianImageFilter.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkScalarChanAndVeseSparseLevelSetImageFilter_hxx
 #define itkScalarChanAndVeseSparseLevelSetImageFilter_hxx
 
-#include "itkScalarChanAndVeseSparseLevelSetImageFilter.h"
 
 namespace itk
 {

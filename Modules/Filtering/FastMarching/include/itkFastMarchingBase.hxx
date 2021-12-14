@@ -19,7 +19,6 @@
 #ifndef itkFastMarchingBase_hxx
 #define itkFastMarchingBase_hxx
 
-#include "itkFastMarchingBase.h"
 
 #include "itkProgressReporter.h"
 #include "itkMath.h"

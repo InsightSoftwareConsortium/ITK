@@ -18,7 +18,6 @@
 #ifndef itkVectorMeanImageFunction_hxx
 #define itkVectorMeanImageFunction_hxx
 
-#include "itkVectorMeanImageFunction.h"
 #include "itkConstNeighborhoodIterator.h"
 
 namespace itk

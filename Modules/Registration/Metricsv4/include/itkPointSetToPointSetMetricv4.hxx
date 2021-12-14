@@ -18,7 +18,6 @@
 #ifndef itkPointSetToPointSetMetricv4_hxx
 #define itkPointSetToPointSetMetricv4_hxx
 
-#include "itkPointSetToPointSetMetricv4.h"
 
 namespace itk
 {

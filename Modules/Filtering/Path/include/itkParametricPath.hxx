@@ -18,7 +18,6 @@
 #ifndef itkParametricPath_hxx
 #define itkParametricPath_hxx
 
-#include "itkParametricPath.h"
 #include "itkMath.h"
 
 namespace itk

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMRFImageFilter_hxx
 #define itkMRFImageFilter_hxx
-#include "itkMRFImageFilter.h"
 #include "itkPrintHelper.h"
 
 namespace itk

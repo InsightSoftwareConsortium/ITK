@@ -18,7 +18,6 @@
 #ifndef itkStatisticsUniqueLabelMapFilter_hxx
 #define itkStatisticsUniqueLabelMapFilter_hxx
 
-#include "itkStatisticsUniqueLabelMapFilter.h"
 #include "itkStatisticsLabelObjectAccessors.h"
 #include "itkLabelMapUtilities.h"
 

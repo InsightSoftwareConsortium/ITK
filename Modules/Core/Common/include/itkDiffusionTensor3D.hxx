@@ -18,7 +18,6 @@
 #ifndef itkDiffusionTensor3D_hxx
 #define itkDiffusionTensor3D_hxx
 
-#include "itkDiffusionTensor3D.h"
 #include "itkNumericTraits.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_hxx
 #define itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader_hxx
 
-#include "itkGradientDescentOptimizerBasev4ModifyGradientByScalesThreader.h"
 
 namespace itk
 {

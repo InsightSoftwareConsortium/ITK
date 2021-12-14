@@ -18,7 +18,6 @@
 #ifndef itkVectorContainerToListSampleAdaptor_hxx
 #define itkVectorContainerToListSampleAdaptor_hxx
 
-#include "itkVectorContainerToListSampleAdaptor.h"
 
 namespace itk
 {

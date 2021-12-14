@@ -19,7 +19,6 @@
 #ifndef itkStringTools_hxx
 #define itkStringTools_hxx
 
-#include "itkStringTools.h"
 
 #include <sstream>
 

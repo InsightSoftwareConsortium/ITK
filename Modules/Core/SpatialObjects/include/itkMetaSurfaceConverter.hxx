@@ -18,7 +18,6 @@
 #ifndef itkMetaSurfaceConverter_hxx
 #define itkMetaSurfaceConverter_hxx
 
-#include "itkMetaSurfaceConverter.h"
 
 namespace itk
 {

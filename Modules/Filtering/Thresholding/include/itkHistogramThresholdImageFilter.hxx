@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHistogramThresholdImageFilter_hxx
 #define itkHistogramThresholdImageFilter_hxx
-#include "itkHistogramThresholdImageFilter.h"
 
 #include "itkMaskedImageToHistogramFilter.h"
 #include "itkBinaryThresholdImageFilter.h"

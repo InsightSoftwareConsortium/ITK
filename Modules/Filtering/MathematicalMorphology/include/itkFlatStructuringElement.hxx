@@ -18,7 +18,6 @@
 #ifndef itkFlatStructuringElement_hxx
 #define itkFlatStructuringElement_hxx
 #include "itkMath.h"
-#include "itkFlatStructuringElement.h"
 #include <cmath>
 #include <vector>
 

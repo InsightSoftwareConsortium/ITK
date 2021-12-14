@@ -18,7 +18,6 @@
 #ifndef itkPCAShapeSignedDistanceFunction_hxx
 #define itkPCAShapeSignedDistanceFunction_hxx
 
-#include "itkPCAShapeSignedDistanceFunction.h"
 #include "itkTranslationTransform.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkNearestNeighborExtrapolateImageFunction.h"

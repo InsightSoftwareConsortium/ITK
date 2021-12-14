@@ -19,7 +19,6 @@
 #ifndef itkGenerateImageSource_hxx
 #define itkGenerateImageSource_hxx
 
-#include "itkGenerateImageSource.h"
 
 namespace itk
 {

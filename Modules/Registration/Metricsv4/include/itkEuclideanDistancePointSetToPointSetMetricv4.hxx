@@ -18,7 +18,6 @@
 #ifndef itkEuclideanDistancePointSetToPointSetMetricv4_hxx
 #define itkEuclideanDistancePointSetToPointSetMetricv4_hxx
 
-#include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkRobustAutomaticThresholdImageFilter_hxx
 #define itkRobustAutomaticThresholdImageFilter_hxx
 
-#include "itkRobustAutomaticThresholdImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"
 

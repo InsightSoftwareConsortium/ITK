@@ -28,7 +28,6 @@
 #ifndef itkIntensityWindowingImageFilter_hxx
 #define itkIntensityWindowingImageFilter_hxx
 
-#include "itkIntensityWindowingImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 
 namespace itk

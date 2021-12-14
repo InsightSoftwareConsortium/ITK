@@ -18,7 +18,6 @@
 #ifndef itkImageRegionExclusionIteratorWithIndex_hxx
 #define itkImageRegionExclusionIteratorWithIndex_hxx
 
-#include "itkImageRegionExclusionIteratorWithIndex.h"
 
 namespace itk
 {

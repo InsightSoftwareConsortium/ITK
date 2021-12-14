@@ -31,7 +31,6 @@
 #ifndef itkComplexToComplexFFTImageFilter_hxx
 #define itkComplexToComplexFFTImageFilter_hxx
 
-#include "itkComplexToComplexFFTImageFilter.h"
 #include "itkMetaDataObject.h"
 
 namespace itk

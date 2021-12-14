@@ -18,7 +18,6 @@
 #ifndef itkDirectFourierReconstructionImageToImageFilter_hxx
 #define itkDirectFourierReconstructionImageToImageFilter_hxx
 
-#include "itkDirectFourierReconstructionImageToImageFilter.h"
 
 namespace itk
 {

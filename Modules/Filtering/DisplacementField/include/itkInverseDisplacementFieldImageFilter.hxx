@@ -18,7 +18,6 @@
 #ifndef itkInverseDisplacementFieldImageFilter_hxx
 #define itkInverseDisplacementFieldImageFilter_hxx
 
-#include "itkInverseDisplacementFieldImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"

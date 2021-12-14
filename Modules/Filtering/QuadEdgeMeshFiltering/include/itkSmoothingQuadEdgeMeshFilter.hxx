@@ -18,7 +18,6 @@
 #ifndef itkSmoothingQuadEdgeMeshFilter_hxx
 #define itkSmoothingQuadEdgeMeshFilter_hxx
 
-#include "itkSmoothingQuadEdgeMeshFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk

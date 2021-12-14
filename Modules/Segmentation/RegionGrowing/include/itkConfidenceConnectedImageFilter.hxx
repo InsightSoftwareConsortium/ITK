@@ -19,7 +19,6 @@
 #define itkConfidenceConnectedImageFilter_hxx
 
 #include "itkMath.h"
-#include "itkConfidenceConnectedImageFilter.h"
 #include "itkMacro.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageNeighborhoodOffsets.h"

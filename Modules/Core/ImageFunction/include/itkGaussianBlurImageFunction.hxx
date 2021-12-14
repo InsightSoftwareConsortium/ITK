@@ -18,7 +18,6 @@
 #ifndef itkGaussianBlurImageFunction_hxx
 #define itkGaussianBlurImageFunction_hxx
 
-#include "itkGaussianBlurImageFunction.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkMath.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkHessianRecursiveGaussianImageFilter_hxx
 #define itkHessianRecursiveGaussianImageFilter_hxx
 
-#include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 

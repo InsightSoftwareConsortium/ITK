@@ -18,7 +18,6 @@
 #ifndef itkCenteredEuler3DTransform_hxx
 #define itkCenteredEuler3DTransform_hxx
 
-#include "itkCenteredEuler3DTransform.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkHistogramToRunLengthFeaturesFilter_hxx
 #define itkHistogramToRunLengthFeaturesFilter_hxx
 
-#include "itkHistogramToRunLengthFeaturesFilter.h"
 
 #include "itkNumericTraits.h"
 #include "itkMath.h"

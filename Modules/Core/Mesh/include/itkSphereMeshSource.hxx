@@ -19,7 +19,6 @@
 #define itkSphereMeshSource_hxx
 
 #include "itkIntTypes.h"
-#include "itkSphereMeshSource.h"
 
 namespace itk
 {

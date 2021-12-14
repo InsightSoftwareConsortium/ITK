@@ -29,7 +29,6 @@
 #ifndef itkGaussianInterpolateImageFunction_hxx
 #define itkGaussianInterpolateImageFunction_hxx
 
-#include "itkGaussianInterpolateImageFunction.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 

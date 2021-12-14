@@ -18,7 +18,6 @@
 #ifndef itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_hxx
 #define itkGaussianExponentialDiffeomorphicTransformParametersAdaptor_hxx
 
-#include "itkGaussianExponentialDiffeomorphicTransformParametersAdaptor.h"
 #include "itkMath.h"
 
 namespace itk

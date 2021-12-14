@@ -18,7 +18,6 @@
 #ifndef itkSubsample_hxx
 #define itkSubsample_hxx
 
-#include "itkSubsample.h"
 
 #include "itkObject.h"
 

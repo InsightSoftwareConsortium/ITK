@@ -18,7 +18,6 @@
 #ifndef itkTikhonovDeconvolutionImageFilter_hxx
 #define itkTikhonovDeconvolutionImageFilter_hxx
 
-#include "itkTikhonovDeconvolutionImageFilter.h"
 
 #include "itkBinaryGeneratorImageFilter.h"
 

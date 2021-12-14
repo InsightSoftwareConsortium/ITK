@@ -18,7 +18,6 @@
 #ifndef itkPointSetToImageRegistrationMethod_hxx
 #define itkPointSetToImageRegistrationMethod_hxx
 
-#include "itkPointSetToImageRegistrationMethod.h"
 
 namespace itk
 {

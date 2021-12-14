@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkRGBPixel_hxx
 #define itkRGBPixel_hxx
-#include "itkRGBPixel.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include <algorithm>

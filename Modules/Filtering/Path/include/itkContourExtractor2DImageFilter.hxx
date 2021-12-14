@@ -21,7 +21,6 @@
 #include <algorithm>
 
 #include "itkConstantBoundaryImageNeighborhoodPixelAccessPolicy.h"
-#include "itkContourExtractor2DImageFilter.h"
 #include "itkMultiThreaderBase.h"
 #include "itkShapedImageNeighborhoodRange.h"
 #include "itkTotalProgressReporter.h"

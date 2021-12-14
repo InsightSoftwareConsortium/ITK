@@ -18,7 +18,6 @@
 #ifndef itkTobogganImageFilter_hxx
 #define itkTobogganImageFilter_hxx
 
-#include "itkTobogganImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

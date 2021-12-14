@@ -18,7 +18,6 @@
 #ifndef itkImageRandomConstIteratorWithIndex_hxx
 #define itkImageRandomConstIteratorWithIndex_hxx
 
-#include "itkImageRandomConstIteratorWithIndex.h"
 
 namespace itk
 {

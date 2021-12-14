@@ -18,7 +18,6 @@
 #ifndef itkDemonsImageToImageMetricv4_hxx
 #define itkDemonsImageToImageMetricv4_hxx
 
-#include "itkDemonsImageToImageMetricv4.h"
 
 namespace itk
 {

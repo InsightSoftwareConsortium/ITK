@@ -18,7 +18,6 @@
 #ifndef itkTransform_hxx
 #define itkTransform_hxx
 
-#include "itkTransform.h"
 #include "itkCrossHelper.h"
 #include "vnl/algo/vnl_svd_fixed.h"
 #include "itkMetaProgrammingLibrary.h"

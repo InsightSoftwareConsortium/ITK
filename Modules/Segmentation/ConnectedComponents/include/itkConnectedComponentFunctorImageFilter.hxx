@@ -18,7 +18,6 @@
 #ifndef itkConnectedComponentFunctorImageFilter_hxx
 #define itkConnectedComponentFunctorImageFilter_hxx
 
-#include "itkConnectedComponentFunctorImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"
 #include "itkEquivalencyTable.h"

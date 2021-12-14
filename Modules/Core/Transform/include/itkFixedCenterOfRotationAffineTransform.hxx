@@ -19,7 +19,6 @@
 #define itkFixedCenterOfRotationAffineTransform_hxx
 
 #include "itkNumericTraits.h"
-#include "itkFixedCenterOfRotationAffineTransform.h"
 #include "itkAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkBSplineTransform_hxx
 #define itkBSplineTransform_hxx
 
-#include "itkBSplineTransform.h"
 
 #include "itkContinuousIndex.h"
 #include "itkImageScanlineConstIterator.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHardConnectedComponentImageFilter_hxx
 #define itkHardConnectedComponentImageFilter_hxx
-#include "itkHardConnectedComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"

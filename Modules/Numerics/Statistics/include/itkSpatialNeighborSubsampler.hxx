@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkSpatialNeighborSubsampler_hxx
 #define itkSpatialNeighborSubsampler_hxx
-#include "itkSpatialNeighborSubsampler.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

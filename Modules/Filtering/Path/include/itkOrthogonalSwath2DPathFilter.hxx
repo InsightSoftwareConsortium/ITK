@@ -18,7 +18,6 @@
 #ifndef itkOrthogonalSwath2DPathFilter_hxx
 #define itkOrthogonalSwath2DPathFilter_hxx
 
-#include "itkOrthogonalSwath2DPathFilter.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 

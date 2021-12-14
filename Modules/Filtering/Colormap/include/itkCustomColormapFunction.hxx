@@ -18,7 +18,6 @@
 #ifndef itkCustomColormapFunction_hxx
 #define itkCustomColormapFunction_hxx
 
-#include "itkCustomColormapFunction.h"
 
 namespace itk
 {

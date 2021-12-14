@@ -18,7 +18,6 @@
 #ifndef itkMultiResolutionImageRegistrationMethod_hxx
 #define itkMultiResolutionImageRegistrationMethod_hxx
 
-#include "itkMultiResolutionImageRegistrationMethod.h"
 #include "itkRecursiveMultiResolutionPyramidImageFilter.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkComplexToComplex1DFFTImageFilter_hxx
 #define itkComplexToComplex1DFFTImageFilter_hxx
 
-#include "itkComplexToComplex1DFFTImageFilter.h"
 
 #include "itkMetaDataDictionary.h"
 #include "itkMetaDataObject.h"

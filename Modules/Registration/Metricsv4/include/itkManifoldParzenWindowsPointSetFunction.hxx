@@ -18,7 +18,6 @@
 #ifndef itkManifoldParzenWindowsPointSetFunction_hxx
 #define itkManifoldParzenWindowsPointSetFunction_hxx
 
-#include "itkManifoldParzenWindowsPointSetFunction.h"
 
 #include "itkMath.h"
 #include "itkCompensatedSummation.h"

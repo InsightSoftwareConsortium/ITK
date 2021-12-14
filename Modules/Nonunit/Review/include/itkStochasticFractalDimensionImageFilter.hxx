@@ -18,7 +18,6 @@
 #ifndef itkStochasticFractalDimensionImageFilter_hxx
 #define itkStochasticFractalDimensionImageFilter_hxx
 
-#include "itkStochasticFractalDimensionImageFilter.h"
 
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressReporter.h"

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkImageTransformer_hxx
 #define itkImageTransformer_hxx
-#include "itkImageTransformer.h"
 
 #include "itkMath.h"
 

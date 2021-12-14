@@ -18,7 +18,6 @@
 #ifndef itkAttributeUniqueLabelMapFilter_hxx
 #define itkAttributeUniqueLabelMapFilter_hxx
 
-#include "itkAttributeUniqueLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include <queue>
 

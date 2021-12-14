@@ -19,7 +19,6 @@
 #define itkLinearInterpolateImageFunction_hxx
 
 #include "itkConceptChecking.h"
-#include "itkLinearInterpolateImageFunction.h"
 
 #include "itkMath.h"
 

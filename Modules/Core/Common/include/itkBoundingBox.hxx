@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBoundingBox_hxx
 #define itkBoundingBox_hxx
-#include "itkBoundingBox.h"
 
 namespace itk
 {

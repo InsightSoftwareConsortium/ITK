@@ -18,7 +18,6 @@
 #ifndef itkEigenAnalysis2DImageFilter_hxx
 #define itkEigenAnalysis2DImageFilter_hxx
 
-#include "itkEigenAnalysis2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkScaleTransform_hxx
 #define itkScaleTransform_hxx
 
-#include "itkScaleTransform.h"
 #include "itkMath.h"
 
 namespace itk

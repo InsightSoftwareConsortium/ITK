@@ -21,7 +21,6 @@
 
 #include "itkConvertPixelBuffer.h"
 
-#include "itkVideoFileReader.h"
 
 namespace itk
 {

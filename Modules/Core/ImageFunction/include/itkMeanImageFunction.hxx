@@ -18,7 +18,6 @@
 #ifndef itkMeanImageFunction_hxx
 #define itkMeanImageFunction_hxx
 
-#include "itkMeanImageFunction.h"
 
 #include "itkImage.h"
 #include "itkShapedImageNeighborhoodRange.h"

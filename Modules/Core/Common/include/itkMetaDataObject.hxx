@@ -28,7 +28,6 @@
 #ifndef itkMetaDataObject_hxx
 #define itkMetaDataObject_hxx
 
-#include "itkMetaDataObject.h"
 
 namespace itk
 {

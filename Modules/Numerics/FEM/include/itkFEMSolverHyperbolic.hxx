@@ -19,7 +19,6 @@
 #ifndef itkFEMSolverHyperbolic_hxx
 #define itkFEMSolverHyperbolic_hxx
 
-#include "itkFEMSolverHyperbolic.h"
 #include "itkMath.h"
 
 namespace itk

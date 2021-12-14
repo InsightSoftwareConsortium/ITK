@@ -18,7 +18,6 @@
 #ifndef itkImageToVideoFilter_hxx
 #define itkImageToVideoFilter_hxx
 
-#include "itkImageToVideoFilter.h"
 
 #include "itkExtractImageFilter.h"
 #include "itkMacro.h"

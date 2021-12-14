@@ -18,7 +18,6 @@
 #ifndef itkBinaryMaskToNarrowBandPointSetFilter_hxx
 #define itkBinaryMaskToNarrowBandPointSetFilter_hxx
 
-#include "itkBinaryMaskToNarrowBandPointSetFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 

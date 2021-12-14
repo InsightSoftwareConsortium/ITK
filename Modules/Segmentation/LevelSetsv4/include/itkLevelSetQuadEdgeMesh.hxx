@@ -19,7 +19,6 @@
 #ifndef itkLevelSetQuadEdgeMesh_hxx
 #define itkLevelSetQuadEdgeMesh_hxx
 
-#include "itkLevelSetQuadEdgeMesh.h"
 
 namespace itk
 {

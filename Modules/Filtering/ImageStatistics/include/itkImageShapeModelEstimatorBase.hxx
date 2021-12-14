@@ -18,7 +18,6 @@
 #ifndef itkImageShapeModelEstimatorBase_hxx
 #define itkImageShapeModelEstimatorBase_hxx
 
-#include "itkImageShapeModelEstimatorBase.h"
 #include "itkCommand.h"
 
 namespace itk

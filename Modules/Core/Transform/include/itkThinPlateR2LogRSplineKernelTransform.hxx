@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkThinPlateR2LogRSplineKernelTransform_hxx
 #define itkThinPlateR2LogRSplineKernelTransform_hxx
-#include "itkThinPlateR2LogRSplineKernelTransform.h"
 
 namespace itk
 {

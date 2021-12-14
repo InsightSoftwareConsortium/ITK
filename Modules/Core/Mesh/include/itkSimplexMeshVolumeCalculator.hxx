@@ -18,7 +18,6 @@
 #ifndef itkSimplexMeshVolumeCalculator_hxx
 #define itkSimplexMeshVolumeCalculator_hxx
 
-#include "itkSimplexMeshVolumeCalculator.h"
 #include "itkMath.h"
 
 namespace itk

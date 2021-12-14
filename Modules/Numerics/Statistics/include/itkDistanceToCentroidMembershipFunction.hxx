@@ -18,7 +18,6 @@
 #ifndef itkDistanceToCentroidMembershipFunction_hxx
 #define itkDistanceToCentroidMembershipFunction_hxx
 
-#include "itkDistanceToCentroidMembershipFunction.h"
 #include "itkEuclideanDistanceMetric.h"
 
 namespace itk

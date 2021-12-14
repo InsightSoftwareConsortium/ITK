@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction_hxx
 #define itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction_hxx
 
-#include "itkQuadEdgeMeshEulerOperatorCreateCenterVertexFunction.h"
 
 namespace itk
 {

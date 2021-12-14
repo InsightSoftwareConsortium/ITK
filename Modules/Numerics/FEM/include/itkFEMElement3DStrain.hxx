@@ -19,7 +19,6 @@
 #ifndef itkFEMElement3DStrain_hxx
 #define itkFEMElement3DStrain_hxx
 
-#include "itkFEMElement3DStrain.h"
 
 namespace itk
 {

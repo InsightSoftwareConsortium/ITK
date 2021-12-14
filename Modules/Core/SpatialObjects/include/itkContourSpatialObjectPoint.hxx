@@ -18,7 +18,6 @@
 #ifndef itkContourSpatialObjectPoint_hxx
 #define itkContourSpatialObjectPoint_hxx
 
-#include "itkContourSpatialObjectPoint.h"
 
 namespace itk
 {

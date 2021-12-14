@@ -18,7 +18,6 @@
 #ifndef itkNCCRegistrationFunction_hxx
 #define itkNCCRegistrationFunction_hxx
 
-#include "itkNCCRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkMath.h"

@@ -18,7 +18,6 @@
 #ifndef itkImageToRectilinearFEMObjectFilter_hxx
 #define itkImageToRectilinearFEMObjectFilter_hxx
 
-#include "itkImageToRectilinearFEMObjectFilter.h"
 #include "itkFEMElement2DC0LinearQuadrilateral.h"
 #include "itkFEMElement3DC0LinearHexahedron.h"
 #include <cmath>

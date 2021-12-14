@@ -18,7 +18,6 @@
 #ifndef itkMultiTransform_hxx
 #define itkMultiTransform_hxx
 
-#include "itkMultiTransform.h"
 
 namespace itk
 {

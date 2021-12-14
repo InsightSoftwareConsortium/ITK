@@ -18,7 +18,6 @@
 #ifndef itkDoubleThresholdImageFilter_hxx
 #define itkDoubleThresholdImageFilter_hxx
 
-#include "itkDoubleThresholdImageFilter.h"
 #include "itkReconstructionByDilationImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkProgressAccumulator.h"

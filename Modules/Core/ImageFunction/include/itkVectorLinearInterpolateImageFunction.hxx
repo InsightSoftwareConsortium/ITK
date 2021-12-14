@@ -18,7 +18,6 @@
 #ifndef itkVectorLinearInterpolateImageFunction_hxx
 #define itkVectorLinearInterpolateImageFunction_hxx
 
-#include "itkVectorLinearInterpolateImageFunction.h"
 
 #include "itkMath.h"
 

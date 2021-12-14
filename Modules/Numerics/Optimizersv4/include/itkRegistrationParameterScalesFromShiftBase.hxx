@@ -18,7 +18,6 @@
 #ifndef itkRegistrationParameterScalesFromShiftBase_hxx
 #define itkRegistrationParameterScalesFromShiftBase_hxx
 
-#include "itkRegistrationParameterScalesFromShiftBase.h"
 
 namespace itk
 {

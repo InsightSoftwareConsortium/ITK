@@ -18,7 +18,6 @@
 #ifndef itkMeanSampleFilter_hxx
 #define itkMeanSampleFilter_hxx
 
-#include "itkMeanSampleFilter.h"
 
 #include <vector>
 #include "itkCompensatedSummation.h"

@@ -35,7 +35,6 @@
 #include <functional>
 #include <utility>
 
-#include "itkResourceProbe.h"
 #include "itkNumericTraits.h"
 #include "itksys/SystemInformation.hxx"
 #include "itkMath.h"

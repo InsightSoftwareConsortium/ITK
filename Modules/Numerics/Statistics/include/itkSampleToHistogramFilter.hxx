@@ -18,7 +18,6 @@
 #ifndef itkSampleToHistogramFilter_hxx
 #define itkSampleToHistogramFilter_hxx
 
-#include "itkSampleToHistogramFilter.h"
 #include "itkStatisticsAlgorithm.h"
 
 namespace itk

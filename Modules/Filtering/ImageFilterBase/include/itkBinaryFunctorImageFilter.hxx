@@ -18,7 +18,6 @@
 #ifndef itkBinaryFunctorImageFilter_hxx
 #define itkBinaryFunctorImageFilter_hxx
 
-#include "itkBinaryFunctorImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkFrameAverageVideoFilter_hxx
 #define itkFrameAverageVideoFilter_hxx
 
-#include "itkFrameAverageVideoFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

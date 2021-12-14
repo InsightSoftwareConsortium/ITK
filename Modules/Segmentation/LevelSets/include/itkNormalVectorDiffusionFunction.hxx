@@ -18,7 +18,6 @@
 #ifndef itkNormalVectorDiffusionFunction_hxx
 #define itkNormalVectorDiffusionFunction_hxx
 
-#include "itkNormalVectorDiffusionFunction.h"
 #include "itkVector.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkLabelImageToStatisticsLabelMapFilter_hxx
 #define itkLabelImageToStatisticsLabelMapFilter_hxx
 
-#include "itkLabelImageToStatisticsLabelMapFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

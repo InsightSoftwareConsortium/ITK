@@ -18,7 +18,6 @@
 #ifndef itkAdditiveGaussianNoiseImageFilter_hxx
 #define itkAdditiveGaussianNoiseImageFilter_hxx
 
-#include "itkAdditiveGaussianNoiseImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 #include "itkNormalVariateGenerator.h"

@@ -18,7 +18,6 @@
 #ifndef itkFloodFilledFunctionConditionalConstIterator_hxx
 #define itkFloodFilledFunctionConditionalConstIterator_hxx
 
-#include "itkFloodFilledFunctionConditionalConstIterator.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

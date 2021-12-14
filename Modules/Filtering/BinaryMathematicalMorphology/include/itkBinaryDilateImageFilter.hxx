@@ -25,7 +25,6 @@
 #include "itkConstantBoundaryCondition.h"
 #include "itkOffset.h"
 #include "itkProgressReporter.h"
-#include "itkBinaryDilateImageFilter.h"
 #include "itkMath.h"
 
 namespace itk

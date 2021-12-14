@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkShiftScaleImageFilter_hxx
 #define itkShiftScaleImageFilter_hxx
-#include "itkShiftScaleImageFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"

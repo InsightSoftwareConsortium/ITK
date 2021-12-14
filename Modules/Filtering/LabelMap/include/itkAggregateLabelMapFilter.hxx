@@ -18,7 +18,6 @@
 #ifndef itkAggregateLabelMapFilter_hxx
 #define itkAggregateLabelMapFilter_hxx
 
-#include "itkAggregateLabelMapFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk

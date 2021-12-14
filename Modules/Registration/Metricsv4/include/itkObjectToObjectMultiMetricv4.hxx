@@ -18,7 +18,6 @@
 #ifndef itkObjectToObjectMultiMetricv4_hxx
 #define itkObjectToObjectMultiMetricv4_hxx
 
-#include "itkObjectToObjectMultiMetricv4.h"
 #include "itkCompositeTransform.h"
 
 namespace itk

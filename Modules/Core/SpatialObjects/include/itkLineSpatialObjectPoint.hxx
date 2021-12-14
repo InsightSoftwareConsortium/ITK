@@ -18,7 +18,6 @@
 #ifndef itkLineSpatialObjectPoint_hxx
 #define itkLineSpatialObjectPoint_hxx
 
-#include "itkLineSpatialObjectPoint.h"
 
 namespace itk
 {

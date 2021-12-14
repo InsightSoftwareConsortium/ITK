@@ -18,7 +18,6 @@
 #ifndef itkImageSpatialObject_hxx
 #define itkImageSpatialObject_hxx
 
-#include "itkImageSpatialObject.h"
 #include "itkSize.h"
 #include "itkDefaultConvertPixelTraits.h"
 

@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEquationBinaryMaskTerm_hxx
 #define itkLevelSetEquationBinaryMaskTerm_hxx
 
-#include "itkLevelSetEquationBinaryMaskTerm.h"
 
 namespace itk
 {

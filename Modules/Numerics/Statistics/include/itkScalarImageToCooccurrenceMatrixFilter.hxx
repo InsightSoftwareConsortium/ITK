@@ -18,7 +18,6 @@
 #ifndef itkScalarImageToCooccurrenceMatrixFilter_hxx
 #define itkScalarImageToCooccurrenceMatrixFilter_hxx
 
-#include "itkScalarImageToCooccurrenceMatrixFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkMath.h"

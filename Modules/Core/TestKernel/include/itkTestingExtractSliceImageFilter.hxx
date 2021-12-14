@@ -18,7 +18,6 @@
 #ifndef itkTestingExtractSliceImageFilter_hxx
 #define itkTestingExtractSliceImageFilter_hxx
 
-#include "itkTestingExtractSliceImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"

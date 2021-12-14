@@ -18,7 +18,6 @@
 #ifndef itkVnlFFTCommon_hxx
 #define itkVnlFFTCommon_hxx
 
-#include "itkVnlFFTCommon.h"
 
 namespace itk
 {

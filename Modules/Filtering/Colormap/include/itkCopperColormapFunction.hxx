@@ -18,7 +18,6 @@
 #ifndef itkCopperColormapFunction_hxx
 #define itkCopperColormapFunction_hxx
 
-#include "itkCopperColormapFunction.h"
 
 namespace itk
 {

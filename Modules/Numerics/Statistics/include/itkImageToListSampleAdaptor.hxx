@@ -18,7 +18,6 @@
 #ifndef itkImageToListSampleAdaptor_hxx
 #define itkImageToListSampleAdaptor_hxx
 
-#include "itkImageToListSampleAdaptor.h"
 
 namespace itk
 {

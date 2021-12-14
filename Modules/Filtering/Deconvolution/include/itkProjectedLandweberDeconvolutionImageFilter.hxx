@@ -18,7 +18,6 @@
 #ifndef itkProjectedLandweberDeconvolutionImageFilter_hxx
 #define itkProjectedLandweberDeconvolutionImageFilter_hxx
 
-#include "itkProjectedLandweberDeconvolutionImageFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkLevelSetFunctionWithRefitTerm_hxx
 #define itkLevelSetFunctionWithRefitTerm_hxx
 
-#include "itkLevelSetFunctionWithRefitTerm.h"
 #include "itkVector.h"
 
 namespace itk

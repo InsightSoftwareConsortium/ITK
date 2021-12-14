@@ -18,7 +18,6 @@
 #ifndef itkErodeObjectMorphologyImageFilter_hxx
 #define itkErodeObjectMorphologyImageFilter_hxx
 
-#include "itkErodeObjectMorphologyImageFilter.h"
 
 namespace itk
 {

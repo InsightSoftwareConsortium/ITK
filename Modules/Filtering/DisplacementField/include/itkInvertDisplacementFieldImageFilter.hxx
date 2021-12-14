@@ -18,7 +18,6 @@
 #ifndef itkInvertDisplacementFieldImageFilter_hxx
 #define itkInvertDisplacementFieldImageFilter_hxx
 
-#include "itkInvertDisplacementFieldImageFilter.h"
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkImageDuplicator.h"

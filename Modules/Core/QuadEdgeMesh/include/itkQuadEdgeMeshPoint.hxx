@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshPoint_hxx
 #define itkQuadEdgeMeshPoint_hxx
 
-#include "itkQuadEdgeMeshPoint.h"
 
 namespace itk
 {

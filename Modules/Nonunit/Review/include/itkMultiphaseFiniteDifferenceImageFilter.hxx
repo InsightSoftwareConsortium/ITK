@@ -18,7 +18,6 @@
 #ifndef itkMultiphaseFiniteDifferenceImageFilter_hxx
 #define itkMultiphaseFiniteDifferenceImageFilter_hxx
 
-#include "itkMultiphaseFiniteDifferenceImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkEventObject.h"
 

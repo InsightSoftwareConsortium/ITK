@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMeanImageFilter_hxx
 #define itkMeanImageFilter_hxx
-#include "itkMeanImageFilter.h"
 
 #include "itkBufferedImageNeighborhoodPixelAccessPolicy.h"
 #include "itkImageNeighborhoodOffsets.h"

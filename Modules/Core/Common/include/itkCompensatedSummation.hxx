@@ -18,7 +18,6 @@
 #ifndef itkCompensatedSummation_hxx
 #define itkCompensatedSummation_hxx
 
-#include "itkCompensatedSummation.h"
 
 namespace itk
 {

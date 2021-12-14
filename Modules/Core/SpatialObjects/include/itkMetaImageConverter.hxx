@@ -18,7 +18,6 @@
 #ifndef itkMetaImageConverter_hxx
 #define itkMetaImageConverter_hxx
 
-#include "itkMetaImageConverter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"

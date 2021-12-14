@@ -18,7 +18,6 @@
 #ifndef itkMultiResolutionPyramidImageFilter_hxx
 #define itkMultiResolutionPyramidImageFilter_hxx
 
-#include "itkMultiResolutionPyramidImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkCastImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"

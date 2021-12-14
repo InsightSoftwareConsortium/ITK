@@ -18,7 +18,6 @@
 #ifndef itkReinitializeLevelSetImageFilter_hxx
 #define itkReinitializeLevelSetImageFilter_hxx
 
-#include "itkReinitializeLevelSetImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 

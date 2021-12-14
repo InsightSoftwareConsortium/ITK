@@ -18,7 +18,6 @@
 #ifndef itkSparseImage_hxx
 #define itkSparseImage_hxx
 
-#include "itkSparseImage.h"
 #include "itkDataObject.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkNeighborhoodIterator_hxx
 #define itkNeighborhoodIterator_hxx
 
-#include "itkNeighborhoodIterator.h"
 
 namespace itk
 {

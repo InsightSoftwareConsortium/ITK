@@ -18,7 +18,6 @@
 #ifndef itkOpenCVImageBridge_hxx
 #define itkOpenCVImageBridge_hxx
 
-#include "itkOpenCVImageBridge.h"
 #include "itkNumericTraits.h"
 
 #if !defined(CV_VERSION_EPOCH)

@@ -18,7 +18,6 @@
 #ifndef itkScalarToRGBColormapImageFilter_hxx
 #define itkScalarToRGBColormapImageFilter_hxx
 
-#include "itkScalarToRGBColormapImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkTotalProgressReporter.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHexahedronCell_hxx
 #define itkHexahedronCell_hxx
-#include "itkHexahedronCell.h"
 #include "itkMath.h"
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/algo/vnl_determinant.h"

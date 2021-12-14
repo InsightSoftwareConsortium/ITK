@@ -18,7 +18,6 @@
 #ifndef itkMeanReciprocalSquareDifferenceImageToImageMetric_hxx
 #define itkMeanReciprocalSquareDifferenceImageToImageMetric_hxx
 
-#include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

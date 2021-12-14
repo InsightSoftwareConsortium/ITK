@@ -19,7 +19,6 @@
 #define itkThreadedIteratorRangePartitioner_hxx
 
 #include "itkNumericTraits.h"
-#include "itkThreadedIteratorRangePartitioner.h"
 #include "itkMath.h"
 
 #include <iterator>

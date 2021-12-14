@@ -18,7 +18,6 @@
 #ifndef itkConvertArrayPixelBuffer_hxx
 #define itkConvertArrayPixelBuffer_hxx
 
-#include "itkConvertArrayPixelBuffer.h"
 
 namespace itk
 {

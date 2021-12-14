@@ -18,7 +18,6 @@
 #ifndef itkStatisticsKeepNObjectsLabelMapFilter_hxx
 #define itkStatisticsKeepNObjectsLabelMapFilter_hxx
 
-#include "itkStatisticsKeepNObjectsLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include "itkLabelMapUtilities.h"
 

@@ -19,7 +19,6 @@
 #ifndef itkLevelSetContainerBase_hxx
 #define itkLevelSetContainerBase_hxx
 
-#include "itkLevelSetContainerBase.h"
 
 namespace itk
 {

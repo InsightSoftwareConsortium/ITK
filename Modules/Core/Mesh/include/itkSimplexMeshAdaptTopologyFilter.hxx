@@ -28,7 +28,6 @@
 #ifndef itkSimplexMeshAdaptTopologyFilter_hxx
 #define itkSimplexMeshAdaptTopologyFilter_hxx
 
-#include "itkSimplexMeshAdaptTopologyFilter.h"
 
 namespace itk
 {

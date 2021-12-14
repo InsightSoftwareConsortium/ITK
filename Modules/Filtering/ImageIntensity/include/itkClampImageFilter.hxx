@@ -18,7 +18,6 @@
 #ifndef itkClampImageFilter_hxx
 #define itkClampImageFilter_hxx
 
-#include "itkClampImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

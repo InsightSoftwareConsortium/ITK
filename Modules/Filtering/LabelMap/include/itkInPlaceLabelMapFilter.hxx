@@ -28,7 +28,6 @@
 #ifndef itkInPlaceLabelMapFilter_hxx
 #define itkInPlaceLabelMapFilter_hxx
 
-#include "itkInPlaceLabelMapFilter.h"
 
 /*
  *

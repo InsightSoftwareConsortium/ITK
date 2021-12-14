@@ -18,7 +18,6 @@
 #ifndef itkKernelImageFilter_hxx
 #define itkKernelImageFilter_hxx
 
-#include "itkKernelImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

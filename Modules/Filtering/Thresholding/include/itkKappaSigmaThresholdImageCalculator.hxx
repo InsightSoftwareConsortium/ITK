@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkKappaSigmaThresholdImageCalculator_hxx
 #define itkKappaSigmaThresholdImageCalculator_hxx
-#include "itkKappaSigmaThresholdImageCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"

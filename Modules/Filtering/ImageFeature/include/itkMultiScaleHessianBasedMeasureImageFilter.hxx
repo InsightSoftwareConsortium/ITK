@@ -18,7 +18,6 @@
 #ifndef itkMultiScaleHessianBasedMeasureImageFilter_hxx
 #define itkMultiScaleHessianBasedMeasureImageFilter_hxx
 
-#include "itkMultiScaleHessianBasedMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkMath.h"
 

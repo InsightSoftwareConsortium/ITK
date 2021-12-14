@@ -18,7 +18,6 @@
 #ifndef itkZeroFluxNeumannPadImageFilter_hxx
 #define itkZeroFluxNeumannPadImageFilter_hxx
 
-#include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkObjectFactory.h"
 
 namespace itk

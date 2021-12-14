@@ -18,7 +18,6 @@
 #ifndef itkScalarImageToRunLengthFeaturesFilter_hxx
 #define itkScalarImageToRunLengthFeaturesFilter_hxx
 
-#include "itkScalarImageToRunLengthFeaturesFilter.h"
 #include "itkNeighborhood.h"
 #include "itkMath.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkFrameDifferenceVideoFilter_hxx
 #define itkFrameDifferenceVideoFilter_hxx
 
-#include "itkFrameDifferenceVideoFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

@@ -18,7 +18,6 @@
 #ifndef itkMetaSceneConverter_hxx
 #define itkMetaSceneConverter_hxx
 
-#include "itkMetaSceneConverter.h"
 #include "itkMetaEllipseConverter.h"
 #include "itkMetaTubeConverter.h"
 #include "itkMetaDTITubeConverter.h"

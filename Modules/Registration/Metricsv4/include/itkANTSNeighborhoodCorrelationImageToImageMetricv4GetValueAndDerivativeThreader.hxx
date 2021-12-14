@@ -18,7 +18,6 @@
 #ifndef itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {

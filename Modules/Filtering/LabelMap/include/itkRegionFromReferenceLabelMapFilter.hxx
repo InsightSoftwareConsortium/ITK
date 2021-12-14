@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkRegionFromReferenceLabelMapFilter_hxx
 #define itkRegionFromReferenceLabelMapFilter_hxx
-#include "itkRegionFromReferenceLabelMapFilter.h"
 
 namespace itk
 {

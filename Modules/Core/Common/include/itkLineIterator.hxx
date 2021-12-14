@@ -18,7 +18,6 @@
 #ifndef itkLineIterator_hxx
 #define itkLineIterator_hxx
 
-#include "itkLineIterator.h"
 
 namespace itk
 {

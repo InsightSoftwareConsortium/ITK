@@ -20,7 +20,6 @@
 
 
 #include "itkMath.h"
-#include "itkTubeSpatialObject.h"
 
 namespace itk
 {

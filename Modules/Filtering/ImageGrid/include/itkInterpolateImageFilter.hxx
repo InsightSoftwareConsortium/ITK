@@ -18,7 +18,6 @@
 #ifndef itkInterpolateImageFilter_hxx
 #define itkInterpolateImageFilter_hxx
 
-#include "itkInterpolateImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTotalProgressReporter.h"

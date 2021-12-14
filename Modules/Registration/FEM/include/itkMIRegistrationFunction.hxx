@@ -18,7 +18,6 @@
 #ifndef itkMIRegistrationFunction_hxx
 #define itkMIRegistrationFunction_hxx
 
-#include "itkMIRegistrationFunction.h"
 #include "itkImageRandomIteratorWithIndex.h"
 #include "itkMacro.h"
 #include "itkMath.h"

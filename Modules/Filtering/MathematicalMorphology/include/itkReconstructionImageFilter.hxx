@@ -19,7 +19,6 @@
 #define itkReconstructionImageFilter_hxx
 
 #include "itkMath.h"
-#include "itkReconstructionImageFilter.h"
 #include "itkConstantBoundaryCondition.h"
 #include "itkConnectedComponentAlgorithm.h"
 

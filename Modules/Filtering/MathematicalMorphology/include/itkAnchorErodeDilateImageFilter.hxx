@@ -18,8 +18,6 @@
 #ifndef itkAnchorErodeDilateImageFilter_hxx
 #define itkAnchorErodeDilateImageFilter_hxx
 
-#include "itkAnchorErodeDilateImageFilter.h"
-
 
 #include "itkAnchorUtilities.h"
 namespace itk

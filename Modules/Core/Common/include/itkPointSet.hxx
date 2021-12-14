@@ -28,7 +28,6 @@
 #ifndef itkPointSet_hxx
 #define itkPointSet_hxx
 
-#include "itkPointSet.h"
 #include "itkProcessObject.h"
 #include <algorithm>
 

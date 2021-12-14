@@ -18,7 +18,6 @@
 #ifndef itkCorrelationImageToImageMetricv4_hxx
 #define itkCorrelationImageToImageMetricv4_hxx
 
-#include "itkCorrelationImageToImageMetricv4.h"
 
 namespace itk
 {

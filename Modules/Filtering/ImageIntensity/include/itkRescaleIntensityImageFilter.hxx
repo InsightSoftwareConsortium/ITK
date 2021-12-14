@@ -28,7 +28,6 @@
 #ifndef itkRescaleIntensityImageFilter_hxx
 #define itkRescaleIntensityImageFilter_hxx
 
-#include "itkRescaleIntensityImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMath.h"
 

@@ -19,7 +19,6 @@
 #define itkOtsuMultipleThresholdsCalculator_hxx
 
 #include "itkMath.h"
-#include "itkOtsuMultipleThresholdsCalculator.h"
 
 namespace itk
 {

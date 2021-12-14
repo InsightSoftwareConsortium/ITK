@@ -20,7 +20,6 @@
 
 #include "itkMath.h"
 #include "itkNumericTraits.h"
-#include "itkScalableAffineTransform.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "itkMath.h"
 

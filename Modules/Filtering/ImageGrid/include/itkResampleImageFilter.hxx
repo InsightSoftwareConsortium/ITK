@@ -18,7 +18,6 @@
 #ifndef itkResampleImageFilter_hxx
 #define itkResampleImageFilter_hxx
 
-#include "itkResampleImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkIdentityTransform.h"
 #include "itkTotalProgressReporter.h"

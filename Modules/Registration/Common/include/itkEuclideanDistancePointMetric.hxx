@@ -18,7 +18,6 @@
 #ifndef itkEuclideanDistancePointMetric_hxx
 #define itkEuclideanDistancePointMetric_hxx
 
-#include "itkEuclideanDistancePointMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

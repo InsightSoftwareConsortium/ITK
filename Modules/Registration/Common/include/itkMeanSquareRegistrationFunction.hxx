@@ -18,7 +18,6 @@
 #ifndef itkMeanSquareRegistrationFunction_hxx
 #define itkMeanSquareRegistrationFunction_hxx
 
-#include "itkMeanSquareRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 #include "itkMath.h"

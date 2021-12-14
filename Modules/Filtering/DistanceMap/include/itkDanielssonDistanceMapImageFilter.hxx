@@ -20,7 +20,6 @@
 
 #include <iostream>
 
-#include "itkDanielssonDistanceMapImageFilter.h"
 #include "itkReflectiveImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 

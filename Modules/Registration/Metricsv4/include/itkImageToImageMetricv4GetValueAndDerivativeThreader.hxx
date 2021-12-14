@@ -19,7 +19,6 @@
 #define itkImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
 #include "itkImageRegionConstIteratorWithIndex.h"
-#include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {

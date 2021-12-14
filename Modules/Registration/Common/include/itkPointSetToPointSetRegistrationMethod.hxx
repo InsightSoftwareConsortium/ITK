@@ -18,7 +18,6 @@
 #ifndef itkPointSetToPointSetRegistrationMethod_hxx
 #define itkPointSetToPointSetRegistrationMethod_hxx
 
-#include "itkPointSetToPointSetRegistrationMethod.h"
 
 namespace itk
 {

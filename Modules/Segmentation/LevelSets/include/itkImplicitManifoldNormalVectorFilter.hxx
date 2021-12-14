@@ -18,7 +18,6 @@
 #ifndef itkImplicitManifoldNormalVectorFilter_hxx
 #define itkImplicitManifoldNormalVectorFilter_hxx
 
-#include "itkImplicitManifoldNormalVectorFilter.h"
 #include "itkNumericTraits.h"
 
 namespace itk

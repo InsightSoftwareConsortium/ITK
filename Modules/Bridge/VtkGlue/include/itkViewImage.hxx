@@ -30,7 +30,6 @@
 #include "itkImageToVTKImageFilter.h"
 #include "itkStatisticsImageFilter.h"
 #include "itkFixedArray.h"
-#include "itkViewImage.h"
 
 namespace itk
 {

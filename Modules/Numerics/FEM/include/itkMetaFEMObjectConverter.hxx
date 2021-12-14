@@ -18,7 +18,6 @@
 #ifndef itkMetaFEMObjectConverter_hxx
 #define itkMetaFEMObjectConverter_hxx
 
-#include "itkMetaFEMObjectConverter.h"
 
 #include "itkFEMElementBase.h"
 #include "itkFEMLightObject.h"

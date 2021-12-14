@@ -19,7 +19,6 @@
 #ifndef itkUpdateShiSparseLevelSet_hxx
 #define itkUpdateShiSparseLevelSet_hxx
 
-#include "itkUpdateShiSparseLevelSet.h"
 #include "itkConnectedImageNeighborhoodShape.h"
 
 namespace itk

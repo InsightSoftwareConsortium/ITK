@@ -18,7 +18,6 @@
 #ifndef itkGPUDenseFiniteDifferenceImageFilter_hxx
 #define itkGPUDenseFiniteDifferenceImageFilter_hxx
 
-#include "itkGPUDenseFiniteDifferenceImageFilter.h"
 
 #include <list>
 #include "itkImageRegionIterator.h"

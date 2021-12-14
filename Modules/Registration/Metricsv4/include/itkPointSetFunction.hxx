@@ -18,7 +18,6 @@
 #ifndef itkPointSetFunction_hxx
 #define itkPointSetFunction_hxx
 
-#include "itkPointSetFunction.h"
 
 namespace itk
 {

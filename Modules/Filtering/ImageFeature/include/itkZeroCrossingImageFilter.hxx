@@ -19,7 +19,6 @@
 #define itkZeroCrossingImageFilter_hxx
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkZeroCrossingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkFixedArray.h"

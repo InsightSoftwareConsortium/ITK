@@ -18,7 +18,6 @@
 #ifndef itkBSplineSmoothingOnUpdateDisplacementFieldTransform_hxx
 #define itkBSplineSmoothingOnUpdateDisplacementFieldTransform_hxx
 
-#include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 
 #include "itkImageAlgorithm.h"
 #include "itkContinuousIndex.h"

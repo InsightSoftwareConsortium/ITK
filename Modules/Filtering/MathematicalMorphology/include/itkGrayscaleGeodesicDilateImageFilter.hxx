@@ -22,7 +22,6 @@
 
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkNumericTraits.h"
-#include "itkGrayscaleGeodesicDilateImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkProgressAccumulator.h"
 #include "itkProgressReporter.h"

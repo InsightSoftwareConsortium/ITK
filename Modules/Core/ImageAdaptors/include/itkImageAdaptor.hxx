@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageAdaptor_hxx
 #define itkImageAdaptor_hxx
-#include "itkImageAdaptor.h"
 #include "itkProcessObject.h"
 
 namespace itk

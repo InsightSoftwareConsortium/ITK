@@ -19,7 +19,6 @@
 #ifndef itkLevelSetTestFunction_hxx
 #define itkLevelSetTestFunction_hxx
 
-#include "itkLevelSetTestFunction.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkJointHistogramMutualInformationGetValueAndDerivativeThreader_hxx
 #define itkJointHistogramMutualInformationGetValueAndDerivativeThreader_hxx
 
-#include "itkJointHistogramMutualInformationGetValueAndDerivativeThreader.h"
 
 namespace itk
 {

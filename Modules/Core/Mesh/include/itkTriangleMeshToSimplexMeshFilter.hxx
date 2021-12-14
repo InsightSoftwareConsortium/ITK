@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkTriangleMeshToSimplexMeshFilter_hxx
 #define itkTriangleMeshToSimplexMeshFilter_hxx
-#include "itkTriangleMeshToSimplexMeshFilter.h"
 
 namespace itk
 {

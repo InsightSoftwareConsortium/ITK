@@ -18,7 +18,6 @@
 #ifndef itkPadImageFilterBase_hxx
 #define itkPadImageFilterBase_hxx
 
-#include "itkPadImageFilterBase.h"
 
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"

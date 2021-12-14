@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkByteSwapper_hxx
 #define itkByteSwapper_hxx
-#include "itkByteSwapper.h"
 #include <memory>
 #include <cstring>
 

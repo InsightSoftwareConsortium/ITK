@@ -18,7 +18,6 @@
 #ifndef itkBinaryStatisticsKeepNObjectsImageFilter_hxx
 #define itkBinaryStatisticsKeepNObjectsImageFilter_hxx
 
-#include "itkBinaryStatisticsKeepNObjectsImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

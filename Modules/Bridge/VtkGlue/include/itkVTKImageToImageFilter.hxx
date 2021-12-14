@@ -19,7 +19,6 @@
 #ifndef itkVTKImageToImageFilter_hxx
 #define itkVTKImageToImageFilter_hxx
 
-#include "itkVTKImageToImageFilter.h"
 
 #include "vtkVersion.h"
 

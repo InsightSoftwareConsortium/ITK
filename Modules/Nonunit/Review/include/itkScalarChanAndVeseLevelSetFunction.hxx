@@ -18,7 +18,6 @@
 #ifndef itkScalarChanAndVeseLevelSetFunction_hxx
 #define itkScalarChanAndVeseLevelSetFunction_hxx
 
-#include "itkScalarChanAndVeseLevelSetFunction.h"
 
 namespace itk
 {

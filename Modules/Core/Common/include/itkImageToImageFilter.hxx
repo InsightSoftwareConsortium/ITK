@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkImageToImageFilter_hxx
 #define itkImageToImageFilter_hxx
-#include "itkImageToImageFilter.h"
 #include "itkInputDataObjectIterator.h"
 #include "itkInputDataObjectConstIterator.h"
 

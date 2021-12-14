@@ -18,7 +18,6 @@
 #ifndef itkSharedMorphologyUtilities_hxx
 #define itkSharedMorphologyUtilities_hxx
 
-#include "itkSharedMorphologyUtilities.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNeighborhoodAlgorithm.h"

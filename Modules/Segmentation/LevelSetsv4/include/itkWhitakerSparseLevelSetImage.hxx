@@ -19,7 +19,6 @@
 #ifndef itkWhitakerSparseLevelSetImage_hxx
 #define itkWhitakerSparseLevelSetImage_hxx
 
-#include "itkWhitakerSparseLevelSetImage.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkLabelMapToAttributeImageFilter_hxx
 #define itkLabelMapToAttributeImageFilter_hxx
 
-#include "itkLabelMapToAttributeImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

@@ -18,7 +18,6 @@
 #ifndef itkMultiStartOptimizerv4_hxx
 #define itkMultiStartOptimizerv4_hxx
 
-#include "itkMultiStartOptimizerv4.h"
 
 namespace itk
 {

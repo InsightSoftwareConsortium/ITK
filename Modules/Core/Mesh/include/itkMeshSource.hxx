@@ -18,7 +18,6 @@
 #ifndef itkMeshSource_hxx
 #define itkMeshSource_hxx
 
-#include "itkMeshSource.h"
 
 namespace itk
 {

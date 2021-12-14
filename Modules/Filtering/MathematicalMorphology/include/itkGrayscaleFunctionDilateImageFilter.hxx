@@ -18,7 +18,6 @@
 #ifndef itkGrayscaleFunctionDilateImageFilter_hxx
 #define itkGrayscaleFunctionDilateImageFilter_hxx
 
-#include "itkGrayscaleFunctionDilateImageFilter.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGradientVectorFlowImageFilter_hxx
 #define itkGradientVectorFlowImageFilter_hxx
-#include "itkGradientVectorFlowImageFilter.h"
 #include "itkImageAlgorithm.h"
 
 namespace itk

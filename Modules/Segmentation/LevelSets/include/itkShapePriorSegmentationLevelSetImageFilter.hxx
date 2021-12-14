@@ -18,7 +18,6 @@
 #ifndef itkShapePriorSegmentationLevelSetImageFilter_hxx
 #define itkShapePriorSegmentationLevelSetImageFilter_hxx
 
-#include "itkShapePriorSegmentationLevelSetImageFilter.h"
 
 namespace itk
 {

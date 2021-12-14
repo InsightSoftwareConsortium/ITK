@@ -18,7 +18,6 @@
 #ifndef itkSpatialObjectDuplicator_hxx
 #define itkSpatialObjectDuplicator_hxx
 
-#include "itkSpatialObjectDuplicator.h"
 
 namespace itk
 {

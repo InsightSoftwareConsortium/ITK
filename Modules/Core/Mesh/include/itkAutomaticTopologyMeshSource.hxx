@@ -22,7 +22,6 @@
 #include <iostream>
 #include <algorithm>
 
-#include "itkAutomaticTopologyMeshSource.h"
 #include "itkNumericTraits.h"
 
 namespace itk

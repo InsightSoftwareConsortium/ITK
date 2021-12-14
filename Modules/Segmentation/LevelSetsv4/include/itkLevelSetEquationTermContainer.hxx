@@ -20,7 +20,6 @@
 #define itkLevelSetEquationTermContainer_hxx
 
 #include "itkMath.h"
-#include "itkLevelSetEquationTermContainer.h"
 #include "itkObject.h"
 
 namespace itk

@@ -28,7 +28,6 @@
 #ifndef itkTestingStretchIntensityImageFilter_hxx
 #define itkTestingStretchIntensityImageFilter_hxx
 
-#include "itkTestingStretchIntensityImageFilter.h"
 #include "itkImageBufferRange.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"

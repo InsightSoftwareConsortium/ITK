@@ -18,7 +18,6 @@
 #ifndef itkFastMarchingUpwindGradientImageFilterBase_hxx
 #define itkFastMarchingUpwindGradientImageFilterBase_hxx
 
-#include "itkFastMarchingUpwindGradientImageFilterBase.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"

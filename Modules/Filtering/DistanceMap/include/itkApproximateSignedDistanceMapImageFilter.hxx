@@ -18,7 +18,6 @@
 #ifndef itkApproximateSignedDistanceMapImageFilter_hxx
 #define itkApproximateSignedDistanceMapImageFilter_hxx
 
-#include "itkApproximateSignedDistanceMapImageFilter.h"
 
 #include "itkNumericTraits.h"
 #include "itkImageScanlineIterator.h"

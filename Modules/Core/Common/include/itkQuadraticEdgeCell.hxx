@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkQuadraticEdgeCell_hxx
 #define itkQuadraticEdgeCell_hxx
-#include "itkQuadraticEdgeCell.h"
 
 namespace itk
 {

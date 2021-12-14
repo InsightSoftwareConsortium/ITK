@@ -19,7 +19,6 @@
 #ifndef itkBinaryImageToLevelSetImageAdaptor_hxx
 #define itkBinaryImageToLevelSetImageAdaptor_hxx
 
-#include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkConnectedImageNeighborhoodShape.h"
 #include "itkSignedMaurerDistanceMapImageFilter.h"
 

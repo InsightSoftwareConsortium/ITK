@@ -18,7 +18,6 @@
 #ifndef itkGPUImage_hxx
 #define itkGPUImage_hxx
 
-#include "itkGPUImage.h"
 
 namespace itk
 {

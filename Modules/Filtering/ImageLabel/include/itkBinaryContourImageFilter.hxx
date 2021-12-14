@@ -18,7 +18,6 @@
 #ifndef itkBinaryContourImageFilter_hxx
 #define itkBinaryContourImageFilter_hxx
 
-#include "itkBinaryContourImageFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"

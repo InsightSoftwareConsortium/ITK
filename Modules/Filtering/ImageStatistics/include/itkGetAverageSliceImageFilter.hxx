@@ -18,7 +18,6 @@
 #ifndef itkGetAverageSliceImageFilter_hxx
 #define itkGetAverageSliceImageFilter_hxx
 
-#include "itkGetAverageSliceImageFilter.h"
 
 namespace itk
 {

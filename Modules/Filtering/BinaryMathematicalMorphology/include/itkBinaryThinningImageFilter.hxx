@@ -20,7 +20,6 @@
 
 #include <iostream>
 
-#include "itkBinaryThinningImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include <vector>
 

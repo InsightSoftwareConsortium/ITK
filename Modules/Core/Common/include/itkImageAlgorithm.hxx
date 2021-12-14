@@ -18,7 +18,6 @@
 #ifndef itkImageAlgorithm_hxx
 #define itkImageAlgorithm_hxx
 
-#include "itkImageAlgorithm.h"
 #include "itkArray.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageScanlineIterator.h"

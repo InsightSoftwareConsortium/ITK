@@ -18,7 +18,6 @@
 #ifndef itkDomainThreader_hxx
 #define itkDomainThreader_hxx
 
-#include "itkDomainThreader.h"
 
 namespace itk
 {

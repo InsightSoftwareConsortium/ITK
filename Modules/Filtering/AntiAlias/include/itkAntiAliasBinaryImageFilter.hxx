@@ -18,7 +18,6 @@
 #ifndef itkAntiAliasBinaryImageFilter_hxx
 #define itkAntiAliasBinaryImageFilter_hxx
 
-#include "itkAntiAliasBinaryImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkMath.h"
 

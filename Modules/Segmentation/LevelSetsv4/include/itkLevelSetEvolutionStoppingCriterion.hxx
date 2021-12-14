@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEvolutionStoppingCriterion_hxx
 #define itkLevelSetEvolutionStoppingCriterion_hxx
 
-#include "itkLevelSetEvolutionStoppingCriterion.h"
 
 namespace itk
 {

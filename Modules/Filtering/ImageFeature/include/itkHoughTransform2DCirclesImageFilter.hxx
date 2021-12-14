@@ -18,7 +18,6 @@
 #ifndef itkHoughTransform2DCirclesImageFilter_hxx
 #define itkHoughTransform2DCirclesImageFilter_hxx
 
-#include "itkHoughTransform2DCirclesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkGaussianDerivativeImageFunction.h"

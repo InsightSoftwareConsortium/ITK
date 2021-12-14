@@ -18,7 +18,6 @@
 #ifndef itkRingBuffer_hxx
 #define itkRingBuffer_hxx
 
-#include "itkRingBuffer.h"
 #include "itkMath.h"
 
 namespace itk

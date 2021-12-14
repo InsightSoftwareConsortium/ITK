@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkBinaryMinMaxCurvatureFlowImageFilter_hxx
 #define itkBinaryMinMaxCurvatureFlowImageFilter_hxx
-#include "itkBinaryMinMaxCurvatureFlowImageFilter.h"
 
 #include "itkMacro.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_hxx
 #define itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform_hxx
 
-#include "itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.h"
 
 #include "itkImageAlgorithm.h"
 #include "itkImageDuplicator.h"

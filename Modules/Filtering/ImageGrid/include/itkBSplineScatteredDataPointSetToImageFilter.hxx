@@ -18,7 +18,6 @@
 #ifndef itkBSplineScatteredDataPointSetToImageFilter_hxx
 #define itkBSplineScatteredDataPointSetToImageFilter_hxx
 
-#include "itkBSplineScatteredDataPointSetToImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageDuplicator.h"

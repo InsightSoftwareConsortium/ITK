@@ -18,7 +18,6 @@
 #ifndef itkOpenCVVideoCapture_hxx
 #define itkOpenCVVideoCapture_hxx
 
-#include "itkOpenCVVideoCapture.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 

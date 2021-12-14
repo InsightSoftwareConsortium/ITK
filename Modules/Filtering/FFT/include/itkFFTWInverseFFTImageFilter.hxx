@@ -19,7 +19,6 @@
 #define itkFFTWInverseFFTImageFilter_hxx
 
 #include "itkFullToHalfHermitianImageFilter.h"
-#include "itkFFTWInverseFFTImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"

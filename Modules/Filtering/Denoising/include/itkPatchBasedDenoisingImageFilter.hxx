@@ -18,7 +18,6 @@
 #ifndef itkPatchBasedDenoisingImageFilter_hxx
 #define itkPatchBasedDenoisingImageFilter_hxx
 
-#include "itkPatchBasedDenoisingImageFilter.h"
 #include "itkNthElementImageAdaptor.h"
 #include "itkMinimumMaximumImageFilter.h"
 #include "itkResampleImageFilter.h"

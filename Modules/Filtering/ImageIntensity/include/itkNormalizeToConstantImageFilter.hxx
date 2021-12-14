@@ -18,7 +18,6 @@
 #ifndef itkNormalizeToConstantImageFilter_hxx
 #define itkNormalizeToConstantImageFilter_hxx
 
-#include "itkNormalizeToConstantImageFilter.h"
 
 #include "itkDivideImageFilter.h"
 #include "itkNumericTraits.h"

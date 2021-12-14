@@ -18,7 +18,6 @@
 #ifndef itkFourierSeriesPath_hxx
 #define itkFourierSeriesPath_hxx
 
-#include "itkFourierSeriesPath.h"
 #include <cmath>
 
 namespace itk

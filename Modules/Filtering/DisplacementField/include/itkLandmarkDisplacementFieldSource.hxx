@@ -18,7 +18,6 @@
 #ifndef itkLandmarkDisplacementFieldSource_hxx
 #define itkLandmarkDisplacementFieldSource_hxx
 
-#include "itkLandmarkDisplacementFieldSource.h"
 #include "itkProgressReporter.h"
 #include "itkThinPlateSplineKernelTransform.h"
 

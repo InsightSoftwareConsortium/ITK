@@ -18,7 +18,6 @@
 #ifndef itkSparseFieldLevelSetImageFilter_hxx
 #define itkSparseFieldLevelSetImageFilter_hxx
 
-#include "itkSparseFieldLevelSetImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkShiftScaleImageFilter.h"

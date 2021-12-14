@@ -18,7 +18,6 @@
 #ifndef itkConicShellInteriorExteriorSpatialFunction_hxx
 #define itkConicShellInteriorExteriorSpatialFunction_hxx
 
-#include "itkConicShellInteriorExteriorSpatialFunction.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkDemonsRegistrationFilter_hxx
 #define itkDemonsRegistrationFilter_hxx
-#include "itkDemonsRegistrationFilter.h"
 
 namespace itk
 {

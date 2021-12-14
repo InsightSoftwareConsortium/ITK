@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEquationOverlapPenaltyTerm_hxx
 #define itkLevelSetEquationOverlapPenaltyTerm_hxx
 
-#include "itkLevelSetEquationOverlapPenaltyTerm.h"
 
 namespace itk
 {

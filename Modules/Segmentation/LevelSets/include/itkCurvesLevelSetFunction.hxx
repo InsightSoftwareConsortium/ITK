@@ -19,7 +19,6 @@
 #define itkCurvesLevelSetFunction_hxx
 
 #include "itkMath.h"
-#include "itkCurvesLevelSetFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"

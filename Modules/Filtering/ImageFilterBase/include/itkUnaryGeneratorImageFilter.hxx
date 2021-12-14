@@ -18,7 +18,6 @@
 #ifndef itkUnaryGeneratorImageFilter_hxx
 #define itkUnaryGeneratorImageFilter_hxx
 
-#include "itkUnaryGeneratorImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
 #include "itkTotalProgressReporter.h"

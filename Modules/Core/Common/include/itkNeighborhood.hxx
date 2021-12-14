@@ -18,7 +18,6 @@
 #ifndef itkNeighborhood_hxx
 #define itkNeighborhood_hxx
 
-#include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
 
 namespace itk

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBSplineCenteredL2ResampleImageFilterBase_hxx
 #define itkBSplineCenteredL2ResampleImageFilterBase_hxx
-#include "itkBSplineCenteredL2ResampleImageFilterBase.h"
 
 #include "itkImageLinearIteratorWithIndex.h"
 namespace itk

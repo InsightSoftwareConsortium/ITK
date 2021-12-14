@@ -18,7 +18,6 @@
 #ifndef itkJointDomainImageToListSampleAdaptor_hxx
 #define itkJointDomainImageToListSampleAdaptor_hxx
 
-#include "itkJointDomainImageToListSampleAdaptor.h"
 
 namespace itk
 {

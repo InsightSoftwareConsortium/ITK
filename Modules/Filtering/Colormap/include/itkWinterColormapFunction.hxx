@@ -18,7 +18,6 @@
 #ifndef itkWinterColormapFunction_hxx
 #define itkWinterColormapFunction_hxx
 
-#include "itkWinterColormapFunction.h"
 
 namespace itk
 {

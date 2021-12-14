@@ -18,7 +18,6 @@
 #ifndef itkWeightedCentroidKdTreeGenerator_hxx
 #define itkWeightedCentroidKdTreeGenerator_hxx
 
-#include "itkWeightedCentroidKdTreeGenerator.h"
 
 namespace itk
 {

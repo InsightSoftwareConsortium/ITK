@@ -18,7 +18,6 @@
 #ifndef itkProjectionImageFilter_hxx
 #define itkProjectionImageFilter_hxx
 
-#include "itkProjectionImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkTotalProgressReporter.h"

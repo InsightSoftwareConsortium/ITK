@@ -31,7 +31,6 @@
 #define itkTriangleMeshCurvatureCalculator_hxx
 
 #include <memory> // For unique_ptr
-#include "itkTriangleMeshCurvatureCalculator.h"
 #include "itkObjectFactory.h"
 #include "itkMath.h"
 #include "vnl/vnl_cross.h"

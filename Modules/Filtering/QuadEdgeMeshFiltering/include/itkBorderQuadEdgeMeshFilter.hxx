@@ -18,7 +18,6 @@
 #ifndef itkBorderQuadEdgeMeshFilter_hxx
 #define itkBorderQuadEdgeMeshFilter_hxx
 
-#include "itkBorderQuadEdgeMeshFilter.h"
 
 namespace itk
 {

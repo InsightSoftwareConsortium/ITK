@@ -19,7 +19,6 @@
 #define itkGaborImageSource_hxx
 
 #include "itkGaborKernelFunction.h"
-#include "itkGaborImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkObjectFactory.h"

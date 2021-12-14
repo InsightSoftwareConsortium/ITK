@@ -18,7 +18,6 @@
 #ifndef itkImageReverseIterator_hxx
 #define itkImageReverseIterator_hxx
 
-#include "itkImageReverseIterator.h"
 
 namespace itk
 {

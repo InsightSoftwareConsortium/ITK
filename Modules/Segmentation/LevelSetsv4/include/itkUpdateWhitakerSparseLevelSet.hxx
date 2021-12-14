@@ -19,7 +19,6 @@
 #ifndef itkUpdateWhitakerSparseLevelSet_hxx
 #define itkUpdateWhitakerSparseLevelSet_hxx
 
-#include "itkUpdateWhitakerSparseLevelSet.h"
 #include "itkConnectedImageNeighborhoodShape.h"
 
 namespace itk

@@ -28,7 +28,6 @@
 #ifndef itkShrinkImageFilter_hxx
 #define itkShrinkImageFilter_hxx
 
-#include "itkShrinkImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"

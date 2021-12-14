@@ -18,7 +18,6 @@
 #ifndef itkRegionBasedLevelSetFunctionData_hxx
 #define itkRegionBasedLevelSetFunctionData_hxx
 
-#include "itkRegionBasedLevelSetFunctionData.h"
 
 namespace itk
 {

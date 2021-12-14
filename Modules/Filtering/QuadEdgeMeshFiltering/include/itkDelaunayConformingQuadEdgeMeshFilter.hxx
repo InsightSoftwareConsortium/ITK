@@ -18,7 +18,6 @@
 #ifndef itkDelaunayConformingQuadEdgeMeshFilter_hxx
 #define itkDelaunayConformingQuadEdgeMeshFilter_hxx
 
-#include "itkDelaunayConformingQuadEdgeMeshFilter.h"
 
 namespace itk
 {

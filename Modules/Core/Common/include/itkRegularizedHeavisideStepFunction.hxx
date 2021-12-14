@@ -18,7 +18,6 @@
 #ifndef itkRegularizedHeavisideStepFunction_hxx
 #define itkRegularizedHeavisideStepFunction_hxx
 
-#include "itkRegularizedHeavisideStepFunction.h"
 
 namespace itk
 {

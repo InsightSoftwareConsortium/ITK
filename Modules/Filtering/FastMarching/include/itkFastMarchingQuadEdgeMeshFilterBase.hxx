@@ -19,7 +19,6 @@
 #ifndef itkFastMarchingQuadEdgeMeshFilterBase_hxx
 #define itkFastMarchingQuadEdgeMeshFilterBase_hxx
 
-#include "itkFastMarchingQuadEdgeMeshFilterBase.h"
 
 #include "itkMath.h"
 #include "itkVector.h"

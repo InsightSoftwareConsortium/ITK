@@ -24,7 +24,6 @@
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkOffset.h"
 #include "itkTotalProgressReporter.h"
-#include "itkSimpleContourExtractorImageFilter.h"
 
 namespace itk
 {

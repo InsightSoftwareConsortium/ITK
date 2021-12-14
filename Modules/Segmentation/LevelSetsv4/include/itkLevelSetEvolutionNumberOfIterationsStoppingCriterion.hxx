@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_hxx
 #define itkLevelSetEvolutionNumberOfIterationsStoppingCriterion_hxx
 
-#include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 
 namespace itk
 {

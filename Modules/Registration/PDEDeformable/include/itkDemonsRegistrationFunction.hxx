@@ -18,7 +18,6 @@
 #ifndef itkDemonsRegistrationFunction_hxx
 #define itkDemonsRegistrationFunction_hxx
 
-#include "itkDemonsRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

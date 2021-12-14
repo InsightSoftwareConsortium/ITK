@@ -18,7 +18,6 @@
 #ifndef itkRawImageIO_hxx
 #define itkRawImageIO_hxx
 
-#include "itkRawImageIO.h"
 #include "itkIntTypes.h"
 
 

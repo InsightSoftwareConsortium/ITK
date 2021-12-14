@@ -18,7 +18,6 @@
 #ifndef itkConstantVelocityFieldTransform_hxx
 #define itkConstantVelocityFieldTransform_hxx
 
-#include "itkConstantVelocityFieldTransform.h"
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
 #include "itkImageRegionConstIterator.h"

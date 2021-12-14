@@ -18,7 +18,6 @@
 #ifndef itkImageSink_hxx
 #define itkImageSink_hxx
 
-#include "itkImageSink.h"
 #include "itkProgressTransformer.h"
 #include "itkInputDataObjectConstIterator.h"
 #include "itkMultiThreaderBase.h"

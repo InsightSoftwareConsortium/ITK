@@ -28,7 +28,6 @@
 #ifndef itkVectorRescaleIntensityImageFilter_hxx
 #define itkVectorRescaleIntensityImageFilter_hxx
 
-#include "itkVectorRescaleIntensityImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkMatrix_hxx
 #define itkMatrix_hxx
 
-#include "itkMatrix.h"
 #include "itkNumericTraits.h"
 
 namespace itk

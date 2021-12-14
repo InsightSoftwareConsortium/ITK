@@ -18,7 +18,6 @@
 #ifndef itkQuasiNewtonOptimizerv4_hxx
 #define itkQuasiNewtonOptimizerv4_hxx
 
-#include "itkQuasiNewtonOptimizerv4.h"
 #include "itkQuasiNewtonOptimizerv4EstimateNewtonStepThreader.h"
 
 namespace itk

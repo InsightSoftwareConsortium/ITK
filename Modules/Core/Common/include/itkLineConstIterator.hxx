@@ -18,7 +18,6 @@
 #ifndef itkLineConstIterator_hxx
 #define itkLineConstIterator_hxx
 
-#include "itkLineConstIterator.h"
 
 namespace itk
 {

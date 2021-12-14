@@ -18,7 +18,6 @@
 #ifndef itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
 #define itkKullbackLeiblerCompareHistogramImageToImageMetric_hxx
 
-#include "itkKullbackLeiblerCompareHistogramImageToImageMetric.h"
 #include "itkHistogram.h"
 
 // Todo: need to access Use_Padding in parent. Make in protected

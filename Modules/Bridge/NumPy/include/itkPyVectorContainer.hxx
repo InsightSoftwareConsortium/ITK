@@ -18,7 +18,6 @@
 #ifndef itkPyVectorContainer_hxx
 #define itkPyVectorContainer_hxx
 
-#include "itkPyVectorContainer.h"
 #include <stdexcept>
 
 namespace itk

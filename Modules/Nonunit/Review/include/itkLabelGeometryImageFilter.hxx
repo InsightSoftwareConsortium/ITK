@@ -18,7 +18,6 @@
 #ifndef itkLabelGeometryImageFilter_hxx
 #define itkLabelGeometryImageFilter_hxx
 
-#include "itkLabelGeometryImageFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

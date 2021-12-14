@@ -18,7 +18,6 @@
 #ifndef itkExtractImageFilter_hxx
 #define itkExtractImageFilter_hxx
 
-#include "itkExtractImageFilter.h"
 #include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"

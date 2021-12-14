@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVotingBinaryHoleFillingImageFilter_hxx
 #define itkVotingBinaryHoleFillingImageFilter_hxx
-#include "itkVotingBinaryHoleFillingImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

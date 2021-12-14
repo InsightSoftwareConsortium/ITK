@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageFileReader_hxx
 #define itkImageFileReader_hxx
-#include "itkImageFileReader.h"
 
 #include "itkObjectFactory.h"
 #include "itkImageIOFactory.h"

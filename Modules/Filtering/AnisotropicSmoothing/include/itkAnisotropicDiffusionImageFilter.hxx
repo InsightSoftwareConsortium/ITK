@@ -18,7 +18,6 @@
 #ifndef itkAnisotropicDiffusionImageFilter_hxx
 #define itkAnisotropicDiffusionImageFilter_hxx
 
-#include "itkAnisotropicDiffusionImageFilter.h"
 
 namespace itk
 {

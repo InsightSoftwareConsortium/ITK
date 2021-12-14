@@ -18,7 +18,6 @@
 #ifndef itkManhattanDistanceMetric_hxx
 #define itkManhattanDistanceMetric_hxx
 
-#include "itkManhattanDistanceMetric.h"
 
 namespace itk
 {

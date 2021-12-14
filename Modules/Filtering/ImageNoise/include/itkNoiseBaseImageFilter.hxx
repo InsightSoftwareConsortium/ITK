@@ -18,7 +18,6 @@
 #ifndef itkNoiseBaseImageFilter_hxx
 #define itkNoiseBaseImageFilter_hxx
 
-#include "itkNoiseBaseImageFilter.h"
 #include <ctime>
 
 namespace itk

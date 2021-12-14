@@ -18,7 +18,6 @@
 #ifndef itkRegistrationParameterScalesEstimator_hxx
 #define itkRegistrationParameterScalesEstimator_hxx
 
-#include "itkRegistrationParameterScalesEstimator.h"
 
 #include "itkCompositeTransform.h"
 #include "itkPointSet.h"

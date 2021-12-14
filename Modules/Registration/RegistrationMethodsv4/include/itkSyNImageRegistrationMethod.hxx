@@ -18,7 +18,6 @@
 #ifndef itkSyNImageRegistrationMethod_hxx
 #define itkSyNImageRegistrationMethod_hxx
 
-#include "itkSyNImageRegistrationMethod.h"
 
 #include "itkComposeDisplacementFieldsImageFilter.h"
 #include "itkGaussianOperator.h"

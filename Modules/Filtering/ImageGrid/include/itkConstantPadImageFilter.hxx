@@ -18,7 +18,6 @@
 #ifndef itkConstantPadImageFilter_hxx
 #define itkConstantPadImageFilter_hxx
 
-#include "itkConstantPadImageFilter.h"
 #include "itkObjectFactory.h"
 
 namespace itk

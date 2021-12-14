@@ -18,7 +18,6 @@
 #ifndef itkUnaryFunctorImageFilter_hxx
 #define itkUnaryFunctorImageFilter_hxx
 
-#include "itkUnaryFunctorImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 

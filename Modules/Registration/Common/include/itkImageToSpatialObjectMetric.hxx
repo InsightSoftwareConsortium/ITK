@@ -18,7 +18,6 @@
 #ifndef itkImageToSpatialObjectMetric_hxx
 #define itkImageToSpatialObjectMetric_hxx
 
-#include "itkImageToSpatialObjectMetric.h"
 
 namespace itk
 {

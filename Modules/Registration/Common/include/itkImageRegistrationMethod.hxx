@@ -18,7 +18,6 @@
 #ifndef itkImageRegistrationMethod_hxx
 #define itkImageRegistrationMethod_hxx
 
-#include "itkImageRegistrationMethod.h"
 
 namespace itk
 {

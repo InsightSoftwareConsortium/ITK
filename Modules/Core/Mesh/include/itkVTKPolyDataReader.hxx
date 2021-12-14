@@ -18,7 +18,6 @@
 #ifndef itkVTKPolyDataReader_hxx
 #define itkVTKPolyDataReader_hxx
 
-#include "itkVTKPolyDataReader.h"
 #include "itkMath.h"
 #include <fstream>
 #include <cstdio>

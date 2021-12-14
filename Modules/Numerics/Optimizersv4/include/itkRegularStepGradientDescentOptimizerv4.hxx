@@ -18,7 +18,6 @@
 #ifndef itkRegularStepGradientDescentOptimizerv4_hxx
 #define itkRegularStepGradientDescentOptimizerv4_hxx
 
-#include "itkRegularStepGradientDescentOptimizerv4.h"
 
 namespace itk
 {

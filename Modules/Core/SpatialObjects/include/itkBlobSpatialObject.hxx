@@ -19,8 +19,6 @@
 #define itkBlobSpatialObject_hxx
 
 
-#include "itkBlobSpatialObject.h"
-
 #include "itkNumericTraits.h"
 
 namespace itk

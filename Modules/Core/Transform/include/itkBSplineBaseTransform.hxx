@@ -18,7 +18,6 @@
 #ifndef itkBSplineBaseTransform_hxx
 #define itkBSplineBaseTransform_hxx
 
-#include "itkBSplineBaseTransform.h"
 
 #include "itkContinuousIndex.h"
 #include "itkImageRegionIterator.h"

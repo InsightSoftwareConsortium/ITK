@@ -18,7 +18,6 @@
 #ifndef itkExtensionVelocitiesImageFilter_hxx
 #define itkExtensionVelocitiesImageFilter_hxx
 
-#include "itkExtensionVelocitiesImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 

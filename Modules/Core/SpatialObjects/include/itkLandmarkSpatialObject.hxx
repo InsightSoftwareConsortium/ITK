@@ -19,7 +19,6 @@
 #define itkLandmarkSpatialObject_hxx
 
 
-#include "itkLandmarkSpatialObject.h"
 #include "itkNumericTraits.h"
 
 namespace itk

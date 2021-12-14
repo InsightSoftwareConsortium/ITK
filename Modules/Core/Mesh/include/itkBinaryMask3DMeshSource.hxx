@@ -18,7 +18,6 @@
 #ifndef itkBinaryMask3DMeshSource_hxx
 #define itkBinaryMask3DMeshSource_hxx
 
-#include "itkBinaryMask3DMeshSource.h"
 #include "itkContinuousIndex.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"

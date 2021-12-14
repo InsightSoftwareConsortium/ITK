@@ -20,7 +20,6 @@
 
 #include <cmath>
 #include "itkProgressReporter.h"
-#include "itkDifferenceOfGaussiansGradientImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

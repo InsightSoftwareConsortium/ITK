@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkRobustAutomaticThresholdCalculator_hxx
 #define itkRobustAutomaticThresholdCalculator_hxx
-#include "itkRobustAutomaticThresholdCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"

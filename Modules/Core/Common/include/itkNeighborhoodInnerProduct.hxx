@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkNeighborhoodInnerProduct_hxx
 #define itkNeighborhoodInnerProduct_hxx
-#include "itkNeighborhoodInnerProduct.h"
 
 #include "itkNumericTraits.h"
 

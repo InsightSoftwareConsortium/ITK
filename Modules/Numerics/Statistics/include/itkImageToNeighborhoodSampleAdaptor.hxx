@@ -18,7 +18,6 @@
 #ifndef itkImageToNeighborhoodSampleAdaptor_hxx
 #define itkImageToNeighborhoodSampleAdaptor_hxx
 
-#include "itkImageToNeighborhoodSampleAdaptor.h"
 
 namespace itk
 {

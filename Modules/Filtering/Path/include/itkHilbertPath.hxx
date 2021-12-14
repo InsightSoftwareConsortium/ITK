@@ -18,7 +18,6 @@
 #ifndef itkHilbertPath_hxx
 #define itkHilbertPath_hxx
 
-#include "itkHilbertPath.h"
 
 namespace itk
 {

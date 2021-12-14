@@ -18,7 +18,6 @@
 #ifndef itkGrayscaleDilateImageFilter_hxx
 #define itkGrayscaleDilateImageFilter_hxx
 
-#include "itkGrayscaleDilateImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>

@@ -18,7 +18,6 @@
 #ifndef itkLabelImageToShapeLabelMapFilter_hxx
 #define itkLabelImageToShapeLabelMapFilter_hxx
 
-#include "itkLabelImageToShapeLabelMapFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

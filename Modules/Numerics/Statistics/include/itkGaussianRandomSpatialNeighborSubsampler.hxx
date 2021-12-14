@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGaussianRandomSpatialNeighborSubsampler_hxx
 #define itkGaussianRandomSpatialNeighborSubsampler_hxx
-#include "itkGaussianRandomSpatialNeighborSubsampler.h"
 
 namespace itk
 {

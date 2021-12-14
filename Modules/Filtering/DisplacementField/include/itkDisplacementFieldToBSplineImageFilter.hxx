@@ -18,7 +18,6 @@
 #ifndef itkDisplacementFieldToBSplineImageFilter_hxx
 #define itkDisplacementFieldToBSplineImageFilter_hxx
 
-#include "itkDisplacementFieldToBSplineImageFilter.h"
 
 #include "itkContinuousIndex.h"
 #include "itkImportImageFilter.h"

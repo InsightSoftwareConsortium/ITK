@@ -18,7 +18,6 @@
 #ifndef itkTransformToDisplacementFieldFilter_hxx
 #define itkTransformToDisplacementFieldFilter_hxx
 
-#include "itkTransformToDisplacementFieldFilter.h"
 
 #include "itkIdentityTransform.h"
 #include "itkTotalProgressReporter.h"

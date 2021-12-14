@@ -18,7 +18,6 @@
 #ifndef itkLevelSetDomainPartitionImage_hxx
 #define itkLevelSetDomainPartitionImage_hxx
 
-#include "itkLevelSetDomainPartitionImage.h"
 
 namespace itk
 {

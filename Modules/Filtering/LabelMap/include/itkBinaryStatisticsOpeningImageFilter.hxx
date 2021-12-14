@@ -18,7 +18,6 @@
 #ifndef itkBinaryStatisticsOpeningImageFilter_hxx
 #define itkBinaryStatisticsOpeningImageFilter_hxx
 
-#include "itkBinaryStatisticsOpeningImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

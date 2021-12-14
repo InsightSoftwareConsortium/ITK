@@ -19,7 +19,6 @@
 #ifndef itkTubeSpatialObjectPoint_hxx
 #define itkTubeSpatialObjectPoint_hxx
 
-#include "itkTubeSpatialObjectPoint.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkCorrespondenceDataStructureIterator_hxx
 #define itkCorrespondenceDataStructureIterator_hxx
 
-#include "itkCorrespondenceDataStructureIterator.h"
 
 namespace itk
 {

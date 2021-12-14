@@ -18,7 +18,6 @@
 #ifndef itkBoxImageFilter_hxx
 #define itkBoxImageFilter_hxx
 
-#include "itkBoxImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

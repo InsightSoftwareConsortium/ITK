@@ -19,7 +19,6 @@
 #define vidl_itk_istream_hxx
 
 #include "itkNumericTraits.h"
-#include "vidl_itk_istream.h"
 
 namespace itk
 {

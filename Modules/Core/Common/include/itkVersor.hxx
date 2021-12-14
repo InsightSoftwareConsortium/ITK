@@ -18,7 +18,6 @@
 #ifndef itkVersor_hxx
 #define itkVersor_hxx
 
-#include "itkVersor.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include <vnl/vnl_det.h>

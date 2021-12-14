@@ -18,7 +18,6 @@
 #ifndef itkBoxMeanImageFilter_hxx
 #define itkBoxMeanImageFilter_hxx
 
-#include "itkBoxMeanImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkBoxUtilities.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkCoxDeBoorBSplineKernelFunction_hxx
 #define itkCoxDeBoorBSplineKernelFunction_hxx
 
-#include "itkCoxDeBoorBSplineKernelFunction.h"
 #include "itkMath.h"
 
 namespace itk

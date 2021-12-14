@@ -18,7 +18,6 @@
 #ifndef itkDiffeomorphicDemonsRegistrationFilter_hxx
 #define itkDiffeomorphicDemonsRegistrationFilter_hxx
 
-#include "itkDiffeomorphicDemonsRegistrationFilter.h"
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 
 namespace itk

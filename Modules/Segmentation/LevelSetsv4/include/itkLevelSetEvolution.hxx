@@ -20,7 +20,6 @@
 #ifndef itkLevelSetEvolution_hxx
 #define itkLevelSetEvolution_hxx
 
-#include "itkLevelSetEvolution.h"
 
 namespace itk
 {

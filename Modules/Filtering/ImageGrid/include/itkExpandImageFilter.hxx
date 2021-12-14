@@ -18,7 +18,6 @@
 #ifndef itkExpandImageFilter_hxx
 #define itkExpandImageFilter_hxx
 
-#include "itkExpandImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkObjectFactory.h"
 #include "itkProgressReporter.h"

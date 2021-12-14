@@ -19,7 +19,6 @@
 #define itkQuadEdgeMeshLineCell_hxx
 
 #include "itkCellInterfaceVisitor.h"
-#include "itkQuadEdgeMeshLineCell.h"
 
 namespace itk
 {

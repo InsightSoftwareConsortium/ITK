@@ -18,7 +18,6 @@
 #ifndef itkCenteredTransformInitializer_hxx
 #define itkCenteredTransformInitializer_hxx
 
-#include "itkCenteredTransformInitializer.h"
 
 namespace itk
 {

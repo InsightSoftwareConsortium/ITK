@@ -18,7 +18,6 @@
 #ifndef itkFiniteDifferenceSparseImageFunction_hxx
 #define itkFiniteDifferenceSparseImageFunction_hxx
 
-#include "itkFiniteDifferenceSparseImageFunction.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkHistogramToTextureFeaturesFilter_hxx
 #define itkHistogramToTextureFeaturesFilter_hxx
 
-#include "itkHistogramToTextureFeaturesFilter.h"
 
 #include "itkNumericTraits.h"
 #include "itkMath.h"

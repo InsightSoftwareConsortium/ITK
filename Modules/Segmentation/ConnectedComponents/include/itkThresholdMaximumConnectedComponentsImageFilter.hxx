@@ -18,7 +18,6 @@
 #ifndef itkThresholdMaximumConnectedComponentsImageFilter_hxx
 #define itkThresholdMaximumConnectedComponentsImageFilter_hxx
 
-#include "itkThresholdMaximumConnectedComponentsImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"

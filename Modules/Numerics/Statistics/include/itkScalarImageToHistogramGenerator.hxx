@@ -18,7 +18,6 @@
 #ifndef itkScalarImageToHistogramGenerator_hxx
 #define itkScalarImageToHistogramGenerator_hxx
 
-#include "itkScalarImageToHistogramGenerator.h"
 
 namespace itk
 {

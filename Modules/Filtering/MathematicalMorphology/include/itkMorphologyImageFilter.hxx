@@ -21,7 +21,6 @@
 #include <climits>
 
 #include "itkNumericTraits.h"
-#include "itkMorphologyImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkTotalProgressReporter.h"
 

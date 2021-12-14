@@ -28,7 +28,6 @@
 #ifndef itkPath_hxx
 #define itkPath_hxx
 
-#include "itkPath.h"
 #include "itkProcessObject.h"
 
 /* ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** ** */

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkQuadEdgeMesh_hxx
 #define itkQuadEdgeMesh_hxx
-#include "itkQuadEdgeMesh.h"
 #include <limits>
 #include <vector>
 

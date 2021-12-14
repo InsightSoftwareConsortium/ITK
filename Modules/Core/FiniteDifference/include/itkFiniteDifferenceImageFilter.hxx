@@ -21,7 +21,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkMacro.h"
 #include "itkEventObject.h"
-#include "itkFiniteDifferenceImageFilter.h"
 
 namespace itk
 {

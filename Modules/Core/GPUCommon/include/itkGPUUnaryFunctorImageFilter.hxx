@@ -18,7 +18,6 @@
 #ifndef itkGPUUnaryFunctorImageFilter_hxx
 #define itkGPUUnaryFunctorImageFilter_hxx
 
-#include "itkGPUUnaryFunctorImageFilter.h"
 
 namespace itk
 {

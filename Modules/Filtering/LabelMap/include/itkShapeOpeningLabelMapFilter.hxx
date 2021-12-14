@@ -18,7 +18,6 @@
 #ifndef itkShapeOpeningLabelMapFilter_hxx
 #define itkShapeOpeningLabelMapFilter_hxx
 
-#include "itkShapeOpeningLabelMapFilter.h"
 #include "itkLabelMapUtilities.h"
 
 namespace itk

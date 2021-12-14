@@ -18,7 +18,6 @@
 #ifndef itkMiniPipelineSeparableImageFilter_hxx
 #define itkMiniPipelineSeparableImageFilter_hxx
 
-#include "itkMiniPipelineSeparableImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 /*

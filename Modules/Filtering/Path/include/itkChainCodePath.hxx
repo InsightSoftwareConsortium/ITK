@@ -18,7 +18,6 @@
 #ifndef itkChainCodePath_hxx
 #define itkChainCodePath_hxx
 
-#include "itkChainCodePath.h"
 #include "itkNumericTraits.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkConstNeighborhoodIteratorWithOnlyIndex_hxx
 #define itkConstNeighborhoodIteratorWithOnlyIndex_hxx
 
-#include "itkConstNeighborhoodIteratorWithOnlyIndex.h"
 
 namespace itk
 {

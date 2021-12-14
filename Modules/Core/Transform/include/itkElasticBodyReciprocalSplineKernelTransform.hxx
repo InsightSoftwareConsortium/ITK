@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkElasticBodyReciprocalSplineKernelTransform_hxx
 #define itkElasticBodyReciprocalSplineKernelTransform_hxx
-#include "itkElasticBodyReciprocalSplineKernelTransform.h"
 
 namespace itk
 {

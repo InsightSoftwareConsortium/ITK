@@ -18,7 +18,6 @@
 #ifndef itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_hxx
 #define itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod_hxx
 
-#include "itkTimeVaryingBSplineVelocityFieldImageRegistrationMethod.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkContinuousIndex.h"

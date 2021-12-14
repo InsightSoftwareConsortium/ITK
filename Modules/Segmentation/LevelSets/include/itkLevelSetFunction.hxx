@@ -18,7 +18,6 @@
 #ifndef itkLevelSetFunction_hxx
 #define itkLevelSetFunction_hxx
 
-#include "itkLevelSetFunction.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 
 namespace itk

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkQuadraticTriangleCell_hxx
 #define itkQuadraticTriangleCell_hxx
-#include "itkQuadraticTriangleCell.h"
 
 namespace itk
 {

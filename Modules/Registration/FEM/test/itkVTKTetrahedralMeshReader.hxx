@@ -17,7 +17,6 @@
 #ifndef itkVTKTetrahedralMeshReader_hxx
 #define itkVTKTetrahedralMeshReader_hxx
 
-#include "itkVTKTetrahedralMeshReader.h"
 #include <fstream>
 #include <cstdio>
 #include <cstring>

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkPointsLocator_hxx
 #define itkPointsLocator_hxx
-#include "itkPointsLocator.h"
 
 namespace itk
 {

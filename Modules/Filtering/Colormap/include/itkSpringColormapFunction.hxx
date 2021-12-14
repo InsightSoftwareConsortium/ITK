@@ -18,7 +18,6 @@
 #ifndef itkSpringColormapFunction_hxx
 #define itkSpringColormapFunction_hxx
 
-#include "itkSpringColormapFunction.h"
 
 namespace itk
 {

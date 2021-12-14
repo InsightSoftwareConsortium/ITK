@@ -18,7 +18,6 @@
 #ifndef itkFrustumSpatialFunction_hxx
 #define itkFrustumSpatialFunction_hxx
 
-#include "itkFrustumSpatialFunction.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkIsotropicFourthOrderLevelSetImageFilter_hxx
 #define itkIsotropicFourthOrderLevelSetImageFilter_hxx
 
-#include "itkIsotropicFourthOrderLevelSetImageFilter.h"
 
 namespace itk
 {

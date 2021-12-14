@@ -18,7 +18,6 @@
 #ifndef itkVoronoiSegmentationImageFilterBase_hxx
 #define itkVoronoiSegmentationImageFilterBase_hxx
 
-#include "itkVoronoiSegmentationImageFilterBase.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkVoronoiDiagram2DGenerator.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVectorNeighborhoodInnerProduct_hxx
 #define itkVectorNeighborhoodInnerProduct_hxx
-#include "itkVectorNeighborhoodInnerProduct.h"
 
 namespace itk
 {

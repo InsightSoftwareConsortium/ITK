@@ -18,7 +18,6 @@
 #ifndef itkImageRegistrationMethodv4_hxx
 #define itkImageRegistrationMethodv4_hxx
 
-#include "itkImageRegistrationMethodv4.h"
 
 #include "itkSmoothingRecursiveGaussianImageFilter.h"
 #include "itkGradientDescentOptimizerv4.h"

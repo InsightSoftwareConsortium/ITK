@@ -20,7 +20,6 @@
 #define itkLevelSetEquationAdvectionTerm_hxx
 
 #include "itkMath.h"
-#include "itkLevelSetEquationAdvectionTerm.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"
 #include "itkCastImageFilter.h"

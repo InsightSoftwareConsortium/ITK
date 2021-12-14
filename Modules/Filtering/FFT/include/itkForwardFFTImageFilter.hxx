@@ -18,7 +18,6 @@
 #ifndef itkForwardFFTImageFilter_hxx
 #define itkForwardFFTImageFilter_hxx
 
-#include "itkForwardFFTImageFilter.h"
 #include "itkMetaDataObject.h"
 
 namespace itk

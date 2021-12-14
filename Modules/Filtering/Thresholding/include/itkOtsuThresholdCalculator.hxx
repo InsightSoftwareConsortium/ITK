@@ -18,7 +18,6 @@
 #ifndef itkOtsuThresholdCalculator_hxx
 #define itkOtsuThresholdCalculator_hxx
 
-#include "itkOtsuThresholdCalculator.h"
 #include "itkMath.h"
 
 namespace itk

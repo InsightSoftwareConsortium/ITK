@@ -18,7 +18,6 @@
 #ifndef itkBSplineDeformableTransform_hxx
 #define itkBSplineDeformableTransform_hxx
 
-#include "itkBSplineDeformableTransform.h"
 #include "itkContinuousIndex.h"
 #include "itkImageScanlineConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

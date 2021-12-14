@@ -18,7 +18,6 @@
 #ifndef itkFiniteCylinderSpatialFunction_hxx
 #define itkFiniteCylinderSpatialFunction_hxx
 
-#include "itkFiniteCylinderSpatialFunction.h"
 #include "itkFloatingPointExceptions.h"
 #include <cmath>
 

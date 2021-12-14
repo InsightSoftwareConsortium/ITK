@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkSubsamplerBase_hxx
 #define itkSubsamplerBase_hxx
-#include "itkSubsamplerBase.h"
 
 namespace itk
 {

@@ -19,8 +19,6 @@
 #define itkDTITubeSpatialObject_hxx
 
 
-#include "itkDTITubeSpatialObject.h"
-
 namespace itk
 {
 /** Constructor */

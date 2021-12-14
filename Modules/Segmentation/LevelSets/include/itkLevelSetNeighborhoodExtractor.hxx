@@ -18,7 +18,6 @@
 #ifndef itkLevelSetNeighborhoodExtractor_hxx
 #define itkLevelSetNeighborhoodExtractor_hxx
 
-#include "itkLevelSetNeighborhoodExtractor.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"

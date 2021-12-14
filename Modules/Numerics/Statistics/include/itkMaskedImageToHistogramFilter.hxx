@@ -18,7 +18,6 @@
 #ifndef itkMaskedImageToHistogramFilter_hxx
 #define itkMaskedImageToHistogramFilter_hxx
 
-#include "itkMaskedImageToHistogramFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 

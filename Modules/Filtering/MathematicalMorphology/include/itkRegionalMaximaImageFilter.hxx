@@ -18,7 +18,6 @@
 #ifndef itkRegionalMaximaImageFilter_hxx
 #define itkRegionalMaximaImageFilter_hxx
 
-#include "itkRegionalMaximaImageFilter.h"
 #include "itkValuedRegionalMaximaImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkNumericTraits.h"

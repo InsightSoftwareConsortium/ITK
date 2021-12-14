@@ -19,8 +19,6 @@
 #define itkPointBasedSpatialObject_hxx
 
 
-#include "itkPointBasedSpatialObject.h"
-
 namespace itk
 {
 /** Constructor */

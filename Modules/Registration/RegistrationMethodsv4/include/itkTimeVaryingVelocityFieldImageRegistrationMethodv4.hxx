@@ -18,7 +18,6 @@
 #ifndef itkTimeVaryingVelocityFieldImageRegistrationMethodv4_hxx
 #define itkTimeVaryingVelocityFieldImageRegistrationMethodv4_hxx
 
-#include "itkTimeVaryingVelocityFieldImageRegistrationMethodv4.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkDisplacementFieldTransform.h"

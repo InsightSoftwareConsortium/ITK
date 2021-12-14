@@ -21,7 +21,6 @@
 
 #include <map>
 #include "vnl/vnl_trace.h"
-#include "itkMaskFeaturePointSelectionFilter.h"
 #include "itkNeighborhood.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkNarrowBand_hxx
 #define itkNarrowBand_hxx
-#include "itkNarrowBand.h"
 #include <cmath>
 
 namespace itk

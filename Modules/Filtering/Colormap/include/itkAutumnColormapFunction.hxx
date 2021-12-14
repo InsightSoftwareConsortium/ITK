@@ -18,7 +18,6 @@
 #ifndef itkAutumnColormapFunction_hxx
 #define itkAutumnColormapFunction_hxx
 
-#include "itkAutumnColormapFunction.h"
 
 namespace itk
 {

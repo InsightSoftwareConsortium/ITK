@@ -18,7 +18,6 @@
 #ifndef itkDisplacementFieldTransformParametersAdaptor_hxx
 #define itkDisplacementFieldTransformParametersAdaptor_hxx
 
-#include "itkDisplacementFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"

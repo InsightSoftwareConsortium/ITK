@@ -18,7 +18,6 @@
 #ifndef itkPermuteAxesImageFilter_hxx
 #define itkPermuteAxesImageFilter_hxx
 
-#include "itkPermuteAxesImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMacro.h"
 #include "itkTotalProgressReporter.h"

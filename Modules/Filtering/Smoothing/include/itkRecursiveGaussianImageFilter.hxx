@@ -18,7 +18,6 @@
 #ifndef itkRecursiveGaussianImageFilter_hxx
 #define itkRecursiveGaussianImageFilter_hxx
 
-#include "itkRecursiveGaussianImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include <new>

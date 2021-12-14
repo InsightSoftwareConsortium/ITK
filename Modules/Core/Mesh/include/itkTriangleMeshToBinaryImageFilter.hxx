@@ -18,7 +18,6 @@
 #ifndef itkTriangleMeshToBinaryImageFilter_hxx
 #define itkTriangleMeshToBinaryImageFilter_hxx
 
-#include "itkTriangleMeshToBinaryImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 #include <cstdlib>

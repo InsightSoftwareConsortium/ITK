@@ -18,7 +18,6 @@
 #ifndef itkContourSpatialObject_hxx
 #define itkContourSpatialObject_hxx
 
-#include "itkContourSpatialObject.h"
 #include "itkNumericTraits.h"
 
 namespace itk

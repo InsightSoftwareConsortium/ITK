@@ -19,7 +19,6 @@
 #ifndef itkFEMElementStd_hxx
 #define itkFEMElementStd_hxx
 
-#include "itkFEMElementStd.h"
 
 namespace itk
 {

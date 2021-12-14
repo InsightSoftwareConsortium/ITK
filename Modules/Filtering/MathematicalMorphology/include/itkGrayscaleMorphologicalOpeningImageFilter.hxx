@@ -18,7 +18,6 @@
 #ifndef itkGrayscaleMorphologicalOpeningImageFilter_hxx
 #define itkGrayscaleMorphologicalOpeningImageFilter_hxx
 
-#include "itkGrayscaleMorphologicalOpeningImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>

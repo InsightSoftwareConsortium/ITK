@@ -19,7 +19,6 @@
 #define itkMatchCardinalityImageToImageMetric_hxx
 
 #include "itkMath.h"
-#include "itkMatchCardinalityImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

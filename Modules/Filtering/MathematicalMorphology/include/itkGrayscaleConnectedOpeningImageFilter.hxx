@@ -19,7 +19,6 @@
 #define itkGrayscaleConnectedOpeningImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkGrayscaleConnectedOpeningImageFilter.h"
 #include "itkReconstructionByDilationImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkProgressAccumulator.h"
