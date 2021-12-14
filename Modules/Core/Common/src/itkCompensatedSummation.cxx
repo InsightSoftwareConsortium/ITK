@@ -20,7 +20,7 @@
 #define itkCompensatedSummation_cxx
 
 #include "itkNumericTraits.h"
-#include "itkCompensatedSummation.hxx"
+#include "itkCompensatedSummation.h"
 
 namespace itk
 {
