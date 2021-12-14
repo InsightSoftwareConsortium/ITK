@@ -18,7 +18,6 @@
 #ifndef itkUnsharpMaskLevelSetImageFilter_hxx
 #define itkUnsharpMaskLevelSetImageFilter_hxx
 
-#include "itkUnsharpMaskLevelSetImageFilter.h"
 
 namespace itk
 {

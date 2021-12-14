@@ -19,7 +19,6 @@
 #define itkMatrixOffsetTransformBase_hxx
 
 #include "itkNumericTraits.h"
-#include "itkMatrixOffsetTransformBase.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
 #include "itkMath.h"
 #include "itkCrossHelper.h"

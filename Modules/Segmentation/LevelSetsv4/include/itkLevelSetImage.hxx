@@ -19,7 +19,6 @@
 #ifndef itkLevelSetImage_hxx
 #define itkLevelSetImage_hxx
 
-#include "itkLevelSetImage.h"
 
 namespace itk
 {

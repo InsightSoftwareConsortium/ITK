@@ -18,7 +18,6 @@
 #ifndef itkLabelObject_hxx
 #define itkLabelObject_hxx
 
-#include "itkLabelObject.h"
 #include "itkLabelObjectLineComparator.h"
 #include "itkMath.h"
 #include <algorithm>

@@ -18,7 +18,6 @@
 #ifndef itkImageToVTKImageFilter_hxx
 #define itkImageToVTKImageFilter_hxx
 
-#include "itkImageToVTKImageFilter.h"
 
 namespace itk
 {

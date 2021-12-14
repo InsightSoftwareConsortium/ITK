@@ -18,7 +18,6 @@
 #ifndef itkObjectToObjectMetricBase_hxx
 #define itkObjectToObjectMetricBase_hxx
 
-#include "itkObjectToObjectMetricBase.h"
 
 namespace itk
 {

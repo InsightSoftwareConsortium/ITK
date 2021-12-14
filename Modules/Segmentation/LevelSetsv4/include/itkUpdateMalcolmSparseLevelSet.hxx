@@ -21,7 +21,6 @@
 
 #include "itkConnectedImageNeighborhoodShape.h"
 #include "itkMath.h"
-#include "itkUpdateMalcolmSparseLevelSet.h"
 
 
 namespace itk

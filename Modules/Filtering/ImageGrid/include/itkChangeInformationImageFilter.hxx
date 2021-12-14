@@ -18,7 +18,6 @@
 #ifndef itkChangeInformationImageFilter_hxx
 #define itkChangeInformationImageFilter_hxx
 
-#include "itkChangeInformationImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkContinuousIndex.h"
 #include "itkObjectFactory.h"

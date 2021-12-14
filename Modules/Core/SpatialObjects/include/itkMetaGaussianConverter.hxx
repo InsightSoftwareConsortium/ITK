@@ -18,7 +18,6 @@
 #ifndef itkMetaGaussianConverter_hxx
 #define itkMetaGaussianConverter_hxx
 
-#include "itkMetaGaussianConverter.h"
 
 namespace itk
 {

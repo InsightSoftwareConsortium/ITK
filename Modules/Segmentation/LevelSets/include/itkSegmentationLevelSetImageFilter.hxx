@@ -18,7 +18,6 @@
 #ifndef itkSegmentationLevelSetImageFilter_hxx
 #define itkSegmentationLevelSetImageFilter_hxx
 
-#include "itkSegmentationLevelSetImageFilter.h"
 #include "itkMath.h"
 
 namespace itk

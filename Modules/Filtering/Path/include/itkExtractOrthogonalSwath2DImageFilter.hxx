@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkExtractOrthogonalSwath2DImageFilter_hxx
 #define itkExtractOrthogonalSwath2DImageFilter_hxx
-#include "itkExtractOrthogonalSwath2DImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkLinearInterpolateImageFunction.h"
 #include "itkProgressReporter.h"

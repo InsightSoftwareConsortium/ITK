@@ -18,7 +18,6 @@
 #ifndef itkCostFunction_hxx
 #define itkCostFunction_hxx
 
-#include "itkCostFunction.h"
 
 namespace itk
 {

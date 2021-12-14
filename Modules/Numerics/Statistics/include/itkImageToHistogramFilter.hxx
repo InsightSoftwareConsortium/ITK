@@ -18,7 +18,6 @@
 #ifndef itkImageToHistogramFilter_hxx
 #define itkImageToHistogramFilter_hxx
 
-#include "itkImageToHistogramFilter.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

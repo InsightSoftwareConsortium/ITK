@@ -18,7 +18,6 @@
 #ifndef itkMetaVesselTubeConverter_hxx
 #define itkMetaVesselTubeConverter_hxx
 
-#include "itkMetaVesselTubeConverter.h"
 
 namespace itk
 {

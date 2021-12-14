@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWatershedBoundary_hxx
 #define itkWatershedBoundary_hxx
-#include "itkWatershedBoundary.h"
 
 
 #include "itkImageRegionIterator.h"

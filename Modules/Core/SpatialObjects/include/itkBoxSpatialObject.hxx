@@ -18,7 +18,6 @@
 #ifndef itkBoxSpatialObject_hxx
 #define itkBoxSpatialObject_hxx
 
-#include "itkBoxSpatialObject.h"
 #include "itkNumericTraits.h"
 
 namespace itk

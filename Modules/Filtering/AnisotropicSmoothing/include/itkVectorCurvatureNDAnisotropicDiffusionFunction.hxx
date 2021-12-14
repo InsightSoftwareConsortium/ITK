@@ -18,7 +18,6 @@
 #ifndef itkVectorCurvatureNDAnisotropicDiffusionFunction_hxx
 #define itkVectorCurvatureNDAnisotropicDiffusionFunction_hxx
 
-#include "itkVectorCurvatureNDAnisotropicDiffusionFunction.h"
 
 namespace itk
 {

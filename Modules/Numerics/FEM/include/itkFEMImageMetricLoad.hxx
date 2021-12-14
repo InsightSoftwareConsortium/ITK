@@ -18,7 +18,6 @@
 #ifndef itkFEMImageMetricLoad_hxx
 #define itkFEMImageMetricLoad_hxx
 
-#include "itkFEMImageMetricLoad.h"
 
 namespace itk
 {

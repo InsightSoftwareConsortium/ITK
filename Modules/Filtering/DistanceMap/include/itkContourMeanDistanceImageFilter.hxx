@@ -18,7 +18,6 @@
 #ifndef itkContourMeanDistanceImageFilter_hxx
 #define itkContourMeanDistanceImageFilter_hxx
 
-#include "itkContourMeanDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"

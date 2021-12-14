@@ -18,7 +18,6 @@
 #ifndef itkVTKPolyDataWriter_hxx
 #define itkVTKPolyDataWriter_hxx
 
-#include "itkVTKPolyDataWriter.h"
 #include "itkCellInterface.h"
 
 #include <fstream>

@@ -28,7 +28,6 @@
 #ifndef itkBayesianClassifierInitializationImageFilter_hxx
 #define itkBayesianClassifierInitializationImageFilter_hxx
 
-#include "itkBayesianClassifierInitializationImageFilter.h"
 #include "itkScalarImageKmeansImageFilter.h"
 
 #include "itkGaussianMembershipFunction.h"

@@ -18,7 +18,6 @@
 #ifndef itkShapePriorMAPCostFunctionBase_hxx
 #define itkShapePriorMAPCostFunctionBase_hxx
 
-#include "itkShapePriorMAPCostFunctionBase.h"
 
 namespace itk
 {

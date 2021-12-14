@@ -18,7 +18,6 @@
 #ifndef itkRegistrationParameterScalesFromJacobian_hxx
 #define itkRegistrationParameterScalesFromJacobian_hxx
 
-#include "itkRegistrationParameterScalesFromJacobian.h"
 
 namespace itk
 {

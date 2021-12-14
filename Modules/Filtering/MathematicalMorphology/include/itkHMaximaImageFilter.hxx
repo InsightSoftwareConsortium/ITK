@@ -19,7 +19,6 @@
 #define itkHMaximaImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkHMaximaImageFilter.h"
 #include "itkShiftScaleImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkProgressAccumulator.h"

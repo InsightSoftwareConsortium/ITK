@@ -18,7 +18,6 @@
 #ifndef itkScaleVersor3DTransform_hxx
 #define itkScaleVersor3DTransform_hxx
 
-#include "itkScaleVersor3DTransform.h"
 
 namespace itk
 {

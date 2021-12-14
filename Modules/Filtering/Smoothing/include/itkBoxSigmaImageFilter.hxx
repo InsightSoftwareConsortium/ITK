@@ -18,7 +18,6 @@
 #ifndef itkBoxSigmaImageFilter_hxx
 #define itkBoxSigmaImageFilter_hxx
 
-#include "itkBoxSigmaImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkNumericTraits.h"
 #include "itkBoxUtilities.h"

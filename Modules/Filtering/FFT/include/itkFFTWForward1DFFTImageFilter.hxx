@@ -19,7 +19,6 @@
 #define itkFFTWForward1DFFTImageFilter_hxx
 
 #include "itkForward1DFFTImageFilter.hxx"
-#include "itkFFTWForward1DFFTImageFilter.h"
 
 #include "itkFFTWCommonExtended.h"
 #include "itkIndent.h"

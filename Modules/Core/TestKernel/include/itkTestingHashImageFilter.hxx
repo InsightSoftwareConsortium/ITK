@@ -18,7 +18,6 @@
 #ifndef itkTestingHashImageFilter_hxx
 #define itkTestingHashImageFilter_hxx
 
-#include "itkTestingHashImageFilter.h"
 #include "itkByteSwapper.h"
 
 #include "itksys/MD5.h"

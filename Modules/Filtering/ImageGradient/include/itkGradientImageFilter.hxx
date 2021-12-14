@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGradientImageFilter_hxx
 #define itkGradientImageFilter_hxx
-#include "itkGradientImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

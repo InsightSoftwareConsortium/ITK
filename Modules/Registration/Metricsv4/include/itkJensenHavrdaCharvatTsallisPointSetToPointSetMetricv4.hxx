@@ -19,7 +19,6 @@
 #define itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4_hxx
 
 #include "itkMath.h"
-#include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 
 namespace itk
 {

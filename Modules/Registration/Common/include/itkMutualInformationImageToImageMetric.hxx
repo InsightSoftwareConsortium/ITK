@@ -18,7 +18,6 @@
 #ifndef itkMutualInformationImageToImageMetric_hxx
 #define itkMutualInformationImageToImageMetric_hxx
 
-#include "itkMutualInformationImageToImageMetric.h"
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkGaussianKernelFunction.h"

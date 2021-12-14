@@ -18,7 +18,6 @@
 #ifndef itkObjectByObjectLabelMapFilter_hxx
 #define itkObjectByObjectLabelMapFilter_hxx
 
-#include "itkObjectByObjectLabelMapFilter.h"
 #include "itkNumericTraits.h"
 
 #include "itkLabelObject.h"

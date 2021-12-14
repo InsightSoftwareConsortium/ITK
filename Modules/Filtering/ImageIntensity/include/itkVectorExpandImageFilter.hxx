@@ -18,7 +18,6 @@
 #ifndef itkVectorExpandImageFilter_hxx
 #define itkVectorExpandImageFilter_hxx
 
-#include "itkVectorExpandImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"

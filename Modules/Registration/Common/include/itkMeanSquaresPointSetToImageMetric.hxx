@@ -18,7 +18,6 @@
 #ifndef itkMeanSquaresPointSetToImageMetric_hxx
 #define itkMeanSquaresPointSetToImageMetric_hxx
 
-#include "itkMeanSquaresPointSetToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkAutoCropLabelMapFilter_hxx
 #define itkAutoCropLabelMapFilter_hxx
-#include "itkAutoCropLabelMapFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkAnchorErodeDilateLine_hxx
 #define itkAnchorErodeDilateLine_hxx
 
-#include "itkAnchorErodeDilateLine.h"
 
 namespace itk
 {

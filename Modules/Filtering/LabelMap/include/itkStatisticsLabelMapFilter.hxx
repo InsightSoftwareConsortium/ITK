@@ -19,7 +19,6 @@
 #define itkStatisticsLabelMapFilter_hxx
 
 #include "itkMath.h"
-#include "itkStatisticsLabelMapFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkProgressReporter.h"
 #include "vnl/algo/vnl_real_eigensystem.h"

@@ -23,7 +23,6 @@
 #include "itkImageRegionIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkProgressReporter.h"
-#include "itkGPUNeighborhoodOperatorImageFilter.h"
 
 namespace itk
 {

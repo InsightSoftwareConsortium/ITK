@@ -18,7 +18,6 @@
 #ifndef itkVanHerkGilWermanUtilities_hxx
 #define itkVanHerkGilWermanUtilities_hxx
 
-#include "itkVanHerkGilWermanUtilities.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNeighborhoodAlgorithm.h"

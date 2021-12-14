@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkChangeRegionLabelMapFilter_hxx
 #define itkChangeRegionLabelMapFilter_hxx
-#include "itkChangeRegionLabelMapFilter.h"
 #include "itkProgressReporter.h"
 /*
  *

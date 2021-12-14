@@ -18,7 +18,6 @@
 #ifndef itkPolygonSpatialObject_hxx
 #define itkPolygonSpatialObject_hxx
 
-#include "itkPolygonSpatialObject.h"
 #include "itkMath.h"
 
 namespace itk

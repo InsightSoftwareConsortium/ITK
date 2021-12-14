@@ -18,7 +18,6 @@
 #ifndef itkGaussianSmoothingOnUpdateDisplacementFieldTransform_hxx
 #define itkGaussianSmoothingOnUpdateDisplacementFieldTransform_hxx
 
-#include "itkGaussianSmoothingOnUpdateDisplacementFieldTransform.h"
 
 #include "itkAddImageFilter.h"
 #include "itkGaussianOperator.h"

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkSpecialCoordinatesImage_hxx
 #define itkSpecialCoordinatesImage_hxx
-#include "itkSpecialCoordinatesImage.h"
 #include "itkProcessObject.h"
 
 namespace itk

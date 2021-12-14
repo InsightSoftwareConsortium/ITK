@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_hxx
 #define itkQuadEdgeMeshEulerOperatorFlipEdgeFunction_hxx
 
-#include "itkQuadEdgeMeshEulerOperatorFlipEdgeFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 

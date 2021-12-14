@@ -18,7 +18,6 @@
 #ifndef itkMinMaxCurvatureFlowImageFilter_hxx
 #define itkMinMaxCurvatureFlowImageFilter_hxx
 
-#include "itkMinMaxCurvatureFlowImageFilter.h"
 
 #include "itkMacro.h"
 

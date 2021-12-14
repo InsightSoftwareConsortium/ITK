@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWarpImageFilter_hxx
 #define itkWarpImageFilter_hxx
-#include "itkWarpImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"

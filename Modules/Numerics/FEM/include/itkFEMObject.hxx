@@ -18,7 +18,6 @@
 #ifndef itkFEMObject_hxx
 #define itkFEMObject_hxx
 
-#include "itkFEMObject.h"
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"

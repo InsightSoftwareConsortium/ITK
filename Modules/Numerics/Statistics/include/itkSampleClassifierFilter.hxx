@@ -18,7 +18,6 @@
 #ifndef itkSampleClassifierFilter_hxx
 #define itkSampleClassifierFilter_hxx
 
-#include "itkSampleClassifierFilter.h"
 
 namespace itk
 {

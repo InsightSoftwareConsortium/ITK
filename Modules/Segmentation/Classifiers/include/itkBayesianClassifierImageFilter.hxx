@@ -28,7 +28,6 @@
 #ifndef itkBayesianClassifierImageFilter_hxx
 #define itkBayesianClassifierImageFilter_hxx
 
-#include "itkBayesianClassifierImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

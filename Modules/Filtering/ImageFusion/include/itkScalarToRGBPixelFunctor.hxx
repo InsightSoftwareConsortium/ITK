@@ -18,7 +18,6 @@
 #ifndef itkScalarToRGBPixelFunctor_hxx
 #define itkScalarToRGBPixelFunctor_hxx
 
-#include "itkScalarToRGBPixelFunctor.h"
 #include "itkByteSwapper.h"
 
 namespace itk

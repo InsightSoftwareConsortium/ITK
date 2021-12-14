@@ -18,7 +18,6 @@
 #ifndef itkMultiphaseDenseFiniteDifferenceImageFilter_hxx
 #define itkMultiphaseDenseFiniteDifferenceImageFilter_hxx
 
-#include "itkMultiphaseDenseFiniteDifferenceImageFilter.h"
 
 namespace itk
 {

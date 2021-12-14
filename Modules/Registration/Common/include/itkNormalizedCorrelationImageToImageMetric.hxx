@@ -18,7 +18,6 @@
 #ifndef itkNormalizedCorrelationImageToImageMetric_hxx
 #define itkNormalizedCorrelationImageToImageMetric_hxx
 
-#include "itkNormalizedCorrelationImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkGPUPDEDeformableRegistrationFilter_hxx
 #define itkGPUPDEDeformableRegistrationFilter_hxx
 
-#include "itkGPUPDEDeformableRegistrationFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkImageLinearIteratorWithIndex.h"

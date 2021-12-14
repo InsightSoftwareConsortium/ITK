@@ -18,7 +18,6 @@
 #ifndef itkIterativeInverseDisplacementFieldImageFilter_hxx
 #define itkIterativeInverseDisplacementFieldImageFilter_hxx
 
-#include "itkIterativeInverseDisplacementFieldImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

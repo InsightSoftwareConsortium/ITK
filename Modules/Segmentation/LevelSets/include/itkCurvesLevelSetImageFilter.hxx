@@ -18,7 +18,6 @@
 #ifndef itkCurvesLevelSetImageFilter_hxx
 #define itkCurvesLevelSetImageFilter_hxx
 
-#include "itkCurvesLevelSetImageFilter.h"
 #include "itkMath.h"
 
 namespace itk

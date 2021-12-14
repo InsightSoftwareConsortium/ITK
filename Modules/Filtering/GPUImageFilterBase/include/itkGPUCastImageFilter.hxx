@@ -18,7 +18,6 @@
 #ifndef itkGPUCastImageFilter_hxx
 #define itkGPUCastImageFilter_hxx
 
-#include "itkGPUCastImageFilter.h"
 #include "itkOpenCLUtil.h"
 
 namespace itk

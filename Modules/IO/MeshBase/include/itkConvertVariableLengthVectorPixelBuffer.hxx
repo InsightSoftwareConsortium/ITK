@@ -18,7 +18,6 @@
 #ifndef itkConvertVariableLengthVectorPixelBuffer_hxx
 #define itkConvertVariableLengthVectorPixelBuffer_hxx
 
-#include "itkConvertVariableLengthVectorPixelBuffer.h"
 
 namespace itk
 {

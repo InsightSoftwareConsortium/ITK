@@ -18,7 +18,6 @@
 #ifndef itkLevelSetDomainPartitionBase_hxx
 #define itkLevelSetDomainPartitionBase_hxx
 
-#include "itkLevelSetDomainPartitionBase.h"
 #include "itkNumericTraits.h"
 
 namespace itk

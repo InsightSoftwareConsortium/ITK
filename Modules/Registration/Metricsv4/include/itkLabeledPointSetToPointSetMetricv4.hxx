@@ -18,7 +18,6 @@
 #ifndef itkLabeledPointSetToPointSetMetricv4_hxx
 #define itkLabeledPointSetToPointSetMetricv4_hxx
 
-#include "itkLabeledPointSetToPointSetMetricv4.h"
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 

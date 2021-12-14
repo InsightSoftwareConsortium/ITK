@@ -18,7 +18,6 @@
 #ifndef itkGradientRecursiveGaussianImageFilter_hxx
 #define itkGradientRecursiveGaussianImageFilter_hxx
 
-#include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"

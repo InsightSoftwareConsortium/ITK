@@ -19,7 +19,6 @@
 #ifndef itkDOMWriter_hxx
 #define itkDOMWriter_hxx
 
-#include "itkDOMWriter.h"
 #include "itksys/SystemTools.hxx"
 #include "itkStdStreamLogOutput.h"
 #include "itkFileTools.h"

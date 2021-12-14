@@ -18,7 +18,6 @@
 #ifndef itkNeighborhoodOperator_hxx
 #define itkNeighborhoodOperator_hxx
 
-#include "itkNeighborhoodOperator.h"
 #include "itkIntTypes.h"
 
 namespace itk

@@ -19,7 +19,6 @@
 #define itkGrayscaleConnectedClosingImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkGrayscaleConnectedClosingImageFilter.h"
 #include "itkReconstructionByErosionImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkProgressAccumulator.h"

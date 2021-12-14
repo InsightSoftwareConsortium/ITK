@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkNoiseImageFilter_hxx
 #define itkNoiseImageFilter_hxx
-#include "itkNoiseImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

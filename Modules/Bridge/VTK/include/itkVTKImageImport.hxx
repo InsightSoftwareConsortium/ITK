@@ -18,7 +18,6 @@
 #ifndef itkVTKImageImport_hxx
 #define itkVTKImageImport_hxx
 
-#include "itkVTKImageImport.h"
 #include "itkPixelTraits.h"
 #include "itkNumericTraits.h"
 #include "itkNumericTraitsArrayPixel.h"

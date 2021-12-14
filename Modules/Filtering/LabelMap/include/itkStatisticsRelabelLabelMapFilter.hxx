@@ -18,7 +18,6 @@
 #ifndef itkStatisticsRelabelLabelMapFilter_hxx
 #define itkStatisticsRelabelLabelMapFilter_hxx
 
-#include "itkStatisticsRelabelLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include "itkLabelMapUtilities.h"
 

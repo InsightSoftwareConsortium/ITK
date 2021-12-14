@@ -18,7 +18,6 @@
 #ifndef itkPolyLineParametricPath_hxx
 #define itkPolyLineParametricPath_hxx
 
-#include "itkPolyLineParametricPath.h"
 #include "itkMacro.h"
 #include <cmath>
 #include "itkMath.h"

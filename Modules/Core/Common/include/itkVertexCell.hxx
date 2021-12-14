@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVertexCell_hxx
 #define itkVertexCell_hxx
-#include "itkVertexCell.h"
 
 namespace itk
 {

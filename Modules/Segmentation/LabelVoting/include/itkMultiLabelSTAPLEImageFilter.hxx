@@ -18,7 +18,6 @@
 #ifndef itkMultiLabelSTAPLEImageFilter_hxx
 #define itkMultiLabelSTAPLEImageFilter_hxx
 
-#include "itkMultiLabelSTAPLEImageFilter.h"
 
 #include "itkLabelVotingImageFilter.h"
 

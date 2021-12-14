@@ -19,7 +19,6 @@
 #define itkGPUAnisotropicDiffusionImageFilter_hxx
 
 #include "itkGPUAnisotropicDiffusionFunction.h"
-#include "itkGPUAnisotropicDiffusionImageFilter.h"
 
 namespace itk
 {

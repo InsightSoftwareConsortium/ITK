@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEquationCurvatureTerm_hxx
 #define itkLevelSetEquationCurvatureTerm_hxx
 
-#include "itkLevelSetEquationCurvatureTerm.h"
 
 namespace itk
 {

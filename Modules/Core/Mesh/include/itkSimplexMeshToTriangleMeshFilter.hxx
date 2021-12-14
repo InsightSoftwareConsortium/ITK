@@ -18,7 +18,6 @@
 #ifndef itkSimplexMeshToTriangleMeshFilter_hxx
 #define itkSimplexMeshToTriangleMeshFilter_hxx
 
-#include "itkSimplexMeshToTriangleMeshFilter.h"
 
 namespace itk
 {

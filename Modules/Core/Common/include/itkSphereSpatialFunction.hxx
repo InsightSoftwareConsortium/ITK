@@ -18,7 +18,6 @@
 #ifndef itkSphereSpatialFunction_hxx
 #define itkSphereSpatialFunction_hxx
 
-#include "itkSphereSpatialFunction.h"
 
 namespace itk
 {

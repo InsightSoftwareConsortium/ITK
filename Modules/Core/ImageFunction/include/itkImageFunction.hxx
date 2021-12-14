@@ -18,7 +18,6 @@
 #ifndef itkImageFunction_hxx
 #define itkImageFunction_hxx
 
-#include "itkImageFunction.h"
 
 namespace itk
 {

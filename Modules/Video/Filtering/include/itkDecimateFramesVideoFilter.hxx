@@ -18,7 +18,6 @@
 #ifndef itkDecimateFramesVideoFilter_hxx
 #define itkDecimateFramesVideoFilter_hxx
 
-#include "itkDecimateFramesVideoFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 

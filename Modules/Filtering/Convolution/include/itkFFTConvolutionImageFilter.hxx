@@ -19,7 +19,6 @@
 #ifndef itkFFTConvolutionImageFilter_hxx
 #define itkFFTConvolutionImageFilter_hxx
 
-#include "itkFFTConvolutionImageFilter.h"
 
 #include "itkCastImageFilter.h"
 #include "itkChangeInformationImageFilter.h"

@@ -18,7 +18,6 @@
 #ifndef itkBlockMatchingImageFilter_hxx
 #define itkBlockMatchingImageFilter_hxx
 
-#include "itkBlockMatchingImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkConstNeighborhoodIterator.h"
 #include <limits>

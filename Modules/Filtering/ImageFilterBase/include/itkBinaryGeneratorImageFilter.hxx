@@ -18,7 +18,6 @@
 #ifndef itkBinaryGeneratorImageFilter_hxx
 #define itkBinaryGeneratorImageFilter_hxx
 
-#include "itkBinaryGeneratorImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 

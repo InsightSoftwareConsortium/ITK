@@ -19,7 +19,6 @@
 #ifndef itkFFTPadImageFilter_hxx
 #define itkFFTPadImageFilter_hxx
 
-#include "itkFFTPadImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkNumericTraits.h"
 #include "itkPadImageFilter.h"

@@ -18,7 +18,6 @@
 #ifndef itkShapeDetectionLevelSetFunction_hxx
 #define itkShapeDetectionLevelSetFunction_hxx
 
-#include "itkShapeDetectionLevelSetFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageAlgorithm.h"
 

@@ -20,7 +20,6 @@
 
 #include <iostream>
 
-#include "itkGaussianMixtureModelComponent.h"
 #include "itkMath.h"
 
 namespace itk

@@ -18,7 +18,6 @@
 #ifndef itkThresholdSegmentationLevelSetFunction_hxx
 #define itkThresholdSegmentationLevelSetFunction_hxx
 
-#include "itkThresholdSegmentationLevelSetFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkGradientAnisotropicDiffusionImageFilter.h"
 #include "itkLaplacianImageFilter.h"

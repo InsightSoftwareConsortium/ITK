@@ -19,7 +19,6 @@
 #ifndef itkImageVectorOptimizerParametersHelper_hxx
 #define itkImageVectorOptimizerParametersHelper_hxx
 
-#include "itkImageVectorOptimizerParametersHelper.h"
 
 namespace itk
 {

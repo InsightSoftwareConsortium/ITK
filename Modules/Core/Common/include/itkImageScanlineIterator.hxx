@@ -18,7 +18,6 @@
 #ifndef itkImageScanlineIterator_hxx
 #define itkImageScanlineIterator_hxx
 
-#include "itkImageScanlineIterator.h"
 
 namespace itk
 {

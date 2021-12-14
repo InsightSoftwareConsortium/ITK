@@ -18,7 +18,6 @@
 #ifndef itkMetaEllipseConverter_hxx
 #define itkMetaEllipseConverter_hxx
 
-#include "itkMetaEllipseConverter.h"
 
 namespace itk
 {

@@ -28,7 +28,6 @@
 #ifndef itkInterpolateImagePointsFilter_hxx
 #define itkInterpolateImagePointsFilter_hxx
 
-#include "itkInterpolateImagePointsFilter.h"
 #include "itkTotalProgressReporter.h"
 
 namespace itk

@@ -19,7 +19,6 @@
 #ifndef itkIsoDataThresholdCalculator_hxx
 #define itkIsoDataThresholdCalculator_hxx
 
-#include "itkIsoDataThresholdCalculator.h"
 #include "itkMath.h"
 #include "itkProgressReporter.h"
 

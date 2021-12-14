@@ -28,7 +28,6 @@
 #ifndef itkImageRegion_hxx
 #define itkImageRegion_hxx
 
-#include "itkImageRegion.h"
 
 namespace itk
 {

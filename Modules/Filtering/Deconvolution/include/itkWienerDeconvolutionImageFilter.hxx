@@ -18,7 +18,6 @@
 #ifndef itkWienerDeconvolutionImageFilter_hxx
 #define itkWienerDeconvolutionImageFilter_hxx
 
-#include "itkWienerDeconvolutionImageFilter.h"
 
 #include "itkBinaryGeneratorImageFilter.h"
 

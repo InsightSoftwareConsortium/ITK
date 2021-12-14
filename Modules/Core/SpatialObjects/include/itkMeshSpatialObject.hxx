@@ -18,7 +18,6 @@
 #ifndef itkMeshSpatialObject_hxx
 #define itkMeshSpatialObject_hxx
 
-#include "itkMeshSpatialObject.h"
 #include "itkSize.h"
 
 namespace itk

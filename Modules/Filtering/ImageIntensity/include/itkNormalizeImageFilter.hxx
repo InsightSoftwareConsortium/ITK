@@ -18,7 +18,6 @@
 #ifndef itkNormalizeImageFilter_hxx
 #define itkNormalizeImageFilter_hxx
 
-#include "itkNormalizeImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"
 

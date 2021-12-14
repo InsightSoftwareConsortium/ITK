@@ -18,7 +18,6 @@
 #ifndef itkMetaBlobConverter_hxx
 #define itkMetaBlobConverter_hxx
 
-#include "itkMetaBlobConverter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkOctree_hxx
 #define itkOctree_hxx
 
-#include "itkOctree.h"
 
 namespace itk
 {

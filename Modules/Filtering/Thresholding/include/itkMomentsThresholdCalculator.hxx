@@ -19,7 +19,6 @@
 #ifndef itkMomentsThresholdCalculator_hxx
 #define itkMomentsThresholdCalculator_hxx
 
-#include "itkMomentsThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

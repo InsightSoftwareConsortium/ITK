@@ -18,7 +18,6 @@
 #ifndef itkVnlComplexToComplex1DFFTImageFilter_hxx
 #define itkVnlComplexToComplex1DFFTImageFilter_hxx
 
-#include "itkVnlComplexToComplex1DFFTImageFilter.h"
 
 #include "itkComplexToComplex1DFFTImageFilter.hxx"
 #include "itkImageLinearConstIteratorWithIndex.h"

@@ -18,7 +18,6 @@
 #ifndef itkShapeRelabelLabelMapFilter_hxx
 #define itkShapeRelabelLabelMapFilter_hxx
 
-#include "itkShapeRelabelLabelMapFilter.h"
 #include "itkLabelMapUtilities.h"
 
 namespace itk

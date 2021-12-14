@@ -18,7 +18,6 @@
 #ifndef itkNeighborhoodOperatorImageFunction_hxx
 #define itkNeighborhoodOperatorImageFunction_hxx
 
-#include "itkNeighborhoodOperatorImageFunction.h"
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkConstNeighborhoodIterator.h"
 

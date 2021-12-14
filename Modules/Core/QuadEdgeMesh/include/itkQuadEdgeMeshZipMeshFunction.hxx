@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshZipMeshFunction_hxx
 #define itkQuadEdgeMeshZipMeshFunction_hxx
 
-#include "itkQuadEdgeMeshZipMeshFunction.h"
 
 namespace itk
 {

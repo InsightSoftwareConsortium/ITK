@@ -18,7 +18,6 @@
 #ifndef itkTreeContainer_hxx
 #define itkTreeContainer_hxx
 
-#include "itkTreeContainer.h"
 
 namespace itk
 {

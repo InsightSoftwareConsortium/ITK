@@ -19,7 +19,6 @@
 #ifndef itkConvolutionImageFilter_hxx
 #define itkConvolutionImageFilter_hxx
 
-#include "itkConvolutionImageFilter.h"
 
 #include "itkConstantPadImageFilter.h"
 #include "itkCropImageFilter.h"

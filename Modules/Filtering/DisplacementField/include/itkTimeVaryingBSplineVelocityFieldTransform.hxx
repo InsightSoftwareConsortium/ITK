@@ -18,7 +18,6 @@
 #ifndef itkTimeVaryingBSplineVelocityFieldTransform_hxx
 #define itkTimeVaryingBSplineVelocityFieldTransform_hxx
 
-#include "itkTimeVaryingBSplineVelocityFieldTransform.h"
 
 #include "itkAddImageFilter.h"
 #include "itkBSplineControlPointImageFilter.h"

@@ -18,7 +18,6 @@
 #ifndef itkGeodesicActiveContourLevelSetFunction_hxx
 #define itkGeodesicActiveContourLevelSetFunction_hxx
 
-#include "itkGeodesicActiveContourLevelSetFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkGradientImageFilter.h"

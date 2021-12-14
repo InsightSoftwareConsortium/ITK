@@ -18,7 +18,6 @@
 #ifndef itkWarpHarmonicEnergyCalculator_hxx
 #define itkWarpHarmonicEnergyCalculator_hxx
 
-#include "itkWarpHarmonicEnergyCalculator.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"

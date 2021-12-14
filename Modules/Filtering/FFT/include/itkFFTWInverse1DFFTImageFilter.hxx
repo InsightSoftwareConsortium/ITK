@@ -19,7 +19,6 @@
 #define itkFFTWInverse1DFFTImageFilter_hxx
 
 #include "itkInverse1DFFTImageFilter.hxx"
-#include "itkFFTWInverse1DFFTImageFilter.h"
 
 #include "itkFFTWCommonExtended.h"
 #include "itkIndent.h"

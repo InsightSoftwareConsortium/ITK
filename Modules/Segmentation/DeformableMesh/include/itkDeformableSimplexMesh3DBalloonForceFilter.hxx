@@ -28,7 +28,6 @@
 #ifndef itkDeformableSimplexMesh3DBalloonForceFilter_hxx
 #define itkDeformableSimplexMesh3DBalloonForceFilter_hxx
 
-#include "itkDeformableSimplexMesh3DBalloonForceFilter.h"
 #include "itkNumericTraits.h"
 
 #include <set>

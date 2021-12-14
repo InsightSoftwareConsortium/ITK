@@ -19,7 +19,6 @@
 #ifndef itkFEMElement3DMembrane_hxx
 #define itkFEMElement3DMembrane_hxx
 
-#include "itkFEMElement3DMembrane.h"
 
 namespace itk
 {

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkPadLabelMapFilter_hxx
 #define itkPadLabelMapFilter_hxx
-#include "itkPadLabelMapFilter.h"
 
 namespace itk
 {

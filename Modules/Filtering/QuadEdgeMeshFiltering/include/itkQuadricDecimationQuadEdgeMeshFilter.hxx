@@ -18,7 +18,6 @@
 #ifndef itkQuadricDecimationQuadEdgeMeshFilter_hxx
 #define itkQuadricDecimationQuadEdgeMeshFilter_hxx
 
-#include "itkQuadricDecimationQuadEdgeMeshFilter.h"
 
 namespace itk
 {

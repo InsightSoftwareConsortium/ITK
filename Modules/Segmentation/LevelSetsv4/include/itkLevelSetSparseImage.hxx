@@ -19,7 +19,6 @@
 #ifndef itkLevelSetSparseImage_hxx
 #define itkLevelSetSparseImage_hxx
 
-#include "itkLevelSetSparseImage.h"
 
 namespace itk
 {

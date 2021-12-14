@@ -18,7 +18,6 @@
 #ifndef itkExpectationMaximizationMixtureModelEstimator_hxx
 #define itkExpectationMaximizationMixtureModelEstimator_hxx
 
-#include "itkExpectationMaximizationMixtureModelEstimator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 

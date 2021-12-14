@@ -19,7 +19,6 @@
 #define itkOpeningByReconstructionImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkOpeningByReconstructionImageFilter.h"
 #include "itkGrayscaleErodeImageFilter.h"
 #include "itkReconstructionByDilationImageFilter.h"
 #include "itkSubtractImageFilter.h"

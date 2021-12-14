@@ -18,7 +18,6 @@
 #ifndef itkMirrorPadImageFilter_hxx
 #define itkMirrorPadImageFilter_hxx
 
-#include "itkMirrorPadImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkObjectFactory.h"

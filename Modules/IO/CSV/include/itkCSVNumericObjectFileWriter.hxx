@@ -18,7 +18,6 @@
 #ifndef itkCSVNumericObjectFileWriter_hxx
 #define itkCSVNumericObjectFileWriter_hxx
 
-#include "itkCSVNumericObjectFileWriter.h"
 #include "itksys/SystemTools.hxx"
 
 #include <fstream>

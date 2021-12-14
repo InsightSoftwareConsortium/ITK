@@ -18,7 +18,6 @@
 #ifndef itkPathSource_hxx
 #define itkPathSource_hxx
 
-#include "itkPathSource.h"
 
 namespace itk
 {

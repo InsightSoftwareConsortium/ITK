@@ -18,7 +18,6 @@
 #ifndef itkCleanQuadEdgeMeshFilter_hxx
 #define itkCleanQuadEdgeMeshFilter_hxx
 
-#include "itkCleanQuadEdgeMeshFilter.h"
 #include "itkMath.h"
 
 namespace itk

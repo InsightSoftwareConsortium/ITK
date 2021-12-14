@@ -18,7 +18,6 @@
 #ifndef itkBinaryGrindPeakImageFilter_hxx
 #define itkBinaryGrindPeakImageFilter_hxx
 
-#include "itkBinaryGrindPeakImageFilter.h"
 #include "itkBinaryImageToShapeLabelMapFilter.h"
 #include "itkShapeOpeningLabelMapFilter.h"
 #include "itkLabelMapToBinaryImageFilter.h"

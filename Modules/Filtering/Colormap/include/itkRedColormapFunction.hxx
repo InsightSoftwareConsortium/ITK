@@ -18,7 +18,6 @@
 #ifndef itkRedColormapFunction_hxx
 #define itkRedColormapFunction_hxx
 
-#include "itkRedColormapFunction.h"
 
 namespace itk
 {

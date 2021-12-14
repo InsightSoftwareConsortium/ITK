@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVoronoiPartitioningImageFilter_hxx
 #define itkVoronoiPartitioningImageFilter_hxx
-#include "itkVoronoiPartitioningImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 

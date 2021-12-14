@@ -19,8 +19,6 @@
 #define itkLineSpatialObject_hxx
 
 
-#include "itkLineSpatialObject.h"
-
 namespace itk
 {
 /** Constructor */

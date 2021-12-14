@@ -18,7 +18,6 @@
 #ifndef itkColorTable_hxx
 #define itkColorTable_hxx
 
-#include "itkColorTable.h"
 #include "itkNumericTraits.h"
 #include "vnl/vnl_sample.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkParametricBlindLeastSquaresDeconvolutionImageFilter_hxx
 #define itkParametricBlindLeastSquaresDeconvolutionImageFilter_hxx
 
-#include "itkParametricBlindLeastSquaresDeconvolutionImageFilter.h"
 
 #include "itkComplexConjugateImageAdaptor.h"
 #include "itkImageDuplicator.h"

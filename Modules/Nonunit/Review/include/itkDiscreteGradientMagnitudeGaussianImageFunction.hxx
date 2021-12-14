@@ -18,7 +18,6 @@
 #ifndef itkDiscreteGradientMagnitudeGaussianImageFunction_hxx
 #define itkDiscreteGradientMagnitudeGaussianImageFunction_hxx
 
-#include "itkDiscreteGradientMagnitudeGaussianImageFunction.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
 
 namespace itk

@@ -29,7 +29,6 @@
 #ifndef itkLabelImageGaussianInterpolateImageFunction_hxx
 #define itkLabelImageGaussianInterpolateImageFunction_hxx
 
-#include "itkLabelImageGaussianInterpolateImageFunction.h"
 
 namespace itk
 {

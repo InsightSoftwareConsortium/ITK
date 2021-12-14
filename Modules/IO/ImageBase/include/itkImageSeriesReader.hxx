@@ -18,7 +18,6 @@
 #ifndef itkImageSeriesReader_hxx
 #define itkImageSeriesReader_hxx
 
-#include "itkImageSeriesReader.h"
 
 #include "itkImageAlgorithm.h"
 #include "itkArray.h"

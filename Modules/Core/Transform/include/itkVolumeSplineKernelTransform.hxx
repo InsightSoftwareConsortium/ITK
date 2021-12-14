@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVolumeSplineKernelTransform_hxx
 #define itkVolumeSplineKernelTransform_hxx
-#include "itkVolumeSplineKernelTransform.h"
 
 namespace itk
 {

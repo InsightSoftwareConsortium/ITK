@@ -18,7 +18,6 @@
 #ifndef itkLaplacianSegmentationLevelSetImageFilter_hxx
 #define itkLaplacianSegmentationLevelSetImageFilter_hxx
 
-#include "itkLaplacianSegmentationLevelSetImageFilter.h"
 
 namespace itk
 {

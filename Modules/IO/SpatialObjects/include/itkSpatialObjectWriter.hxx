@@ -18,7 +18,6 @@
 #ifndef itkSpatialObjectWriter_hxx
 #define itkSpatialObjectWriter_hxx
 
-#include "itkSpatialObjectWriter.h"
 
 namespace itk
 {

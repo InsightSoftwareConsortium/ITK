@@ -18,7 +18,6 @@
 #ifndef itkMergeLabelMapFilter_hxx
 #define itkMergeLabelMapFilter_hxx
 
-#include "itkMergeLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include <deque>
 

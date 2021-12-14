@@ -18,7 +18,6 @@
 #ifndef itkMaskedFFTNormalizedCorrelationImageFilter_hxx
 #define itkMaskedFFTNormalizedCorrelationImageFilter_hxx
 
-#include "itkMaskedFFTNormalizedCorrelationImageFilter.h"
 #include "itkFlipImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"

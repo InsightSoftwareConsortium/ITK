@@ -18,7 +18,6 @@
 #ifndef itkLabelVotingImageFilter_hxx
 #define itkLabelVotingImageFilter_hxx
 
-#include "itkLabelVotingImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkTotalProgressReporter.h"

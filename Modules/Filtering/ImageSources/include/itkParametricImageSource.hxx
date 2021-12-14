@@ -18,7 +18,6 @@
 #ifndef itkParametricImageSource_hxx
 #define itkParametricImageSource_hxx
 
-#include "itkParametricImageSource.h"
 
 namespace itk
 {

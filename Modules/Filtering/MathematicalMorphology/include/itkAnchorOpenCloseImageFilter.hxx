@@ -18,7 +18,6 @@
 #ifndef itkAnchorOpenCloseImageFilter_hxx
 #define itkAnchorOpenCloseImageFilter_hxx
 
-#include "itkAnchorOpenCloseImageFilter.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkAnchorUtilities.h"

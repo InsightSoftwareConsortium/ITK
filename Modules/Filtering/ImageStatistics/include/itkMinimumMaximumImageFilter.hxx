@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMinimumMaximumImageFilter_hxx
 #define itkMinimumMaximumImageFilter_hxx
-#include "itkMinimumMaximumImageFilter.h"
 
 
 #include "itkImageScanlineIterator.h"

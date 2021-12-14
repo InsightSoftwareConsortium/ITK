@@ -18,7 +18,6 @@
 #ifndef itkFFTWComplexToComplexFFTImageFilter_hxx
 #define itkFFTWComplexToComplexFFTImageFilter_hxx
 
-#include "itkFFTWComplexToComplexFFTImageFilter.h"
 #include "itkIndent.h"
 #include "itkMetaDataObject.h"
 #include "itkImageRegionIterator.h"

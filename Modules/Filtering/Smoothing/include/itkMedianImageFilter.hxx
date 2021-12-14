@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMedianImageFilter_hxx
 #define itkMedianImageFilter_hxx
-#include "itkMedianImageFilter.h"
 
 #include "itkBufferedImageNeighborhoodPixelAccessPolicy.h"
 #include "itkImageNeighborhoodOffsets.h"

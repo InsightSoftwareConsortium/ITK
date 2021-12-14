@@ -19,8 +19,6 @@
 #define itkFEMObjectSpatialObject_hxx
 
 
-#include "itkFEMObjectSpatialObject.h"
-
 namespace itk
 {
 

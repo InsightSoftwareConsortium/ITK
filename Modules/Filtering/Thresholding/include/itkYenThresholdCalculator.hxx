@@ -19,7 +19,6 @@
 #ifndef itkYenThresholdCalculator_hxx
 #define itkYenThresholdCalculator_hxx
 
-#include "itkYenThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

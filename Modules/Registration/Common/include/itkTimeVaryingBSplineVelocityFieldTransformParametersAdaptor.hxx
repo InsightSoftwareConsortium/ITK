@@ -18,7 +18,6 @@
 #ifndef itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_hxx
 #define itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor_hxx
 
-#include "itkTimeVaryingBSplineVelocityFieldTransformParametersAdaptor.h"
 
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkBSplineResampleImageFunction.h"

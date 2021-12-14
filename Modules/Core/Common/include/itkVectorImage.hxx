@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkVectorImage_hxx
 #define itkVectorImage_hxx
-#include "itkVectorImage.h"
 #include "itkProcessObject.h"
 
 namespace itk

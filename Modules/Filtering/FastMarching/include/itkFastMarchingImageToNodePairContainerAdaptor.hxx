@@ -20,7 +20,6 @@
 #define itkFastMarchingImageToNodePairContainerAdaptor_hxx
 
 #include "itkMath.h"
-#include "itkFastMarchingImageToNodePairContainerAdaptor.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 namespace itk

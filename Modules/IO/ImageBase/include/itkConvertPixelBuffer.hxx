@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkConvertPixelBuffer_hxx
 #define itkConvertPixelBuffer_hxx
-#include "itkConvertPixelBuffer.h"
 
 #include "itkRGBPixel.h"
 #include "itkDefaultConvertPixelTraits.h"

@@ -18,7 +18,6 @@
 #ifndef itkScalarImageToTextureFeaturesFilter_hxx
 #define itkScalarImageToTextureFeaturesFilter_hxx
 
-#include "itkScalarImageToTextureFeaturesFilter.h"
 #include "itkNeighborhood.h"
 #include "itkMath.h"
 

@@ -19,7 +19,6 @@
 #define itkRayCastInterpolateImageFunction_hxx
 
 #include "itkCompensatedSummation.h"
-#include "itkRayCastInterpolateImageFunction.h"
 
 #include "itkMath.h"
 

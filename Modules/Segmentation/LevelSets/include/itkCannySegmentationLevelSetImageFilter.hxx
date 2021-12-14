@@ -18,7 +18,6 @@
 #ifndef itkCannySegmentationLevelSetImageFilter_hxx
 #define itkCannySegmentationLevelSetImageFilter_hxx
 
-#include "itkCannySegmentationLevelSetImageFilter.h"
 
 namespace itk
 {

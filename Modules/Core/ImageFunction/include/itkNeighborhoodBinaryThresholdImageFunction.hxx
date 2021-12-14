@@ -18,7 +18,6 @@
 #ifndef itkNeighborhoodBinaryThresholdImageFunction_hxx
 #define itkNeighborhoodBinaryThresholdImageFunction_hxx
 
-#include "itkNeighborhoodBinaryThresholdImageFunction.h"
 #include "itkNumericTraits.h"
 #include "itkConstNeighborhoodIterator.h"
 

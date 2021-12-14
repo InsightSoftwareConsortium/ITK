@@ -28,7 +28,6 @@
 #ifndef itkThresholdLabelerImageFilter_hxx
 #define itkThresholdLabelerImageFilter_hxx
 
-#include "itkThresholdLabelerImageFilter.h"
 #include "itkPrintHelper.h"
 
 namespace itk

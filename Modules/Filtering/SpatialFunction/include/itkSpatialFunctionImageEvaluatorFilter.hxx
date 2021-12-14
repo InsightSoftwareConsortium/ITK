@@ -19,7 +19,6 @@
 #define itkSpatialFunctionImageEvaluatorFilter_hxx
 
 #include "itkImageRegion.h"
-#include "itkSpatialFunctionImageEvaluatorFilter.h"
 
 namespace itk
 {

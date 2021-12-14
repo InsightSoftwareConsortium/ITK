@@ -18,7 +18,6 @@
 #ifndef itkShapeDetectionLevelSetImageFilter_hxx
 #define itkShapeDetectionLevelSetImageFilter_hxx
 
-#include "itkShapeDetectionLevelSetImageFilter.h"
 #include "itkMath.h"
 
 namespace itk

@@ -28,7 +28,6 @@
 #ifndef itkModulusImageFilter_hxx
 #define itkModulusImageFilter_hxx
 
-#include "itkModulusImageFilter.h"
 
 namespace itk
 {

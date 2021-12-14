@@ -18,7 +18,6 @@
 #ifndef itkRigid3DTransform_hxx
 #define itkRigid3DTransform_hxx
 
-#include "itkRigid3DTransform.h"
 
 namespace itk
 {

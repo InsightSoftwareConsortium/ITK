@@ -20,7 +20,6 @@
 
 #include <stack>
 #include "itkOneWayEquivalencyTable.h"
-#include "itkWatershedSegmentTreeGenerator.h"
 
 namespace itk
 {

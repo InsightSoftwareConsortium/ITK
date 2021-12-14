@@ -18,7 +18,6 @@
 #ifndef itkImageToImageMetricv4_hxx
 #define itkImageToImageMetricv4_hxx
 
-#include "itkImageToImageMetricv4.h"
 #include "itkPixelTraits.h"
 #include "itkDisplacementFieldTransform.h"
 #include "itkCompositeTransform.h"

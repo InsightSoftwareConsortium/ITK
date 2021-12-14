@@ -18,7 +18,6 @@
 #ifndef itkImageKernelOperator_hxx
 #define itkImageKernelOperator_hxx
 
-#include "itkImageKernelOperator.h"
 
 #include "itkImageBufferRange.h"
 #include "itkImageRegionConstIterator.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkLevelSetMotionRegistrationFilter_hxx
 #define itkLevelSetMotionRegistrationFilter_hxx
-#include "itkLevelSetMotionRegistrationFilter.h"
 
 namespace itk
 {

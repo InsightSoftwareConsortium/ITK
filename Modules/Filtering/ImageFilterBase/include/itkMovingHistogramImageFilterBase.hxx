@@ -18,7 +18,6 @@
 #ifndef itkMovingHistogramImageFilterBase_hxx
 #define itkMovingHistogramImageFilterBase_hxx
 
-#include "itkMovingHistogramImageFilterBase.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkOffset.h"
 #include "itkProgressReporter.h"

@@ -19,7 +19,6 @@
 #define itkPeriodicBoundaryCondition_hxx
 
 #include "itkConstNeighborhoodIterator.h"
-#include "itkPeriodicBoundaryCondition.h"
 
 namespace itk
 {

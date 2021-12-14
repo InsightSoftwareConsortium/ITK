@@ -22,7 +22,6 @@
 #include "itkConvertArrayPixelBuffer.h"
 #include "itkConvertVariableLengthVectorPixelBuffer.h"
 #include "itkMeshIOFactory.h"
-#include "itkMeshFileReader.h"
 #include "itkMeshRegion.h"
 #include "itkObjectFactory.h"
 #include "itkPixelTraits.h"

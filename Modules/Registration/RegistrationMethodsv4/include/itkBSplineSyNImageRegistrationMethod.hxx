@@ -18,7 +18,6 @@
 #ifndef itkBSplineSyNImageRegistrationMethod_hxx
 #define itkBSplineSyNImageRegistrationMethod_hxx
 
-#include "itkBSplineSyNImageRegistrationMethod.h"
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkComposeDisplacementFieldsImageFilter.h"

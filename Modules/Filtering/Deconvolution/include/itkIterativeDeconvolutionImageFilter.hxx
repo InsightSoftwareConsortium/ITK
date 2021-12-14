@@ -19,7 +19,6 @@
 #define itkIterativeDeconvolutionImageFilter_hxx
 
 #include "itkCastImageFilter.h"
-#include "itkIterativeDeconvolutionImageFilter.h"
 
 namespace itk
 {

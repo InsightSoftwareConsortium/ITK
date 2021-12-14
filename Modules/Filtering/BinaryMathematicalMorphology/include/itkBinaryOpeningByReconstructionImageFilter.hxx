@@ -18,7 +18,6 @@
 #ifndef itkBinaryOpeningByReconstructionImageFilter_hxx
 #define itkBinaryOpeningByReconstructionImageFilter_hxx
 
-#include "itkBinaryOpeningByReconstructionImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryReconstructionByDilationImageFilter.h"
 #include "itkProgressAccumulator.h"

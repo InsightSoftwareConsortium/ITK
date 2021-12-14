@@ -18,7 +18,6 @@
 #ifndef itkGPUImageDataManager_hxx
 #define itkGPUImageDataManager_hxx
 
-#include "itkGPUImageDataManager.h"
 #include "itkOpenCLUtil.h"
 
 namespace itk

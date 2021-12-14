@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEquationContainer_hxx
 #define itkLevelSetEquationContainer_hxx
 
-#include "itkLevelSetEquationContainer.h"
 #include "itkNumericTraits.h"
 
 namespace itk

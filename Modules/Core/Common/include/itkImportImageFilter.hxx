@@ -18,7 +18,6 @@
 #ifndef itkImportImageFilter_hxx
 #define itkImportImageFilter_hxx
 
-#include "itkImportImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkMath.h"
 

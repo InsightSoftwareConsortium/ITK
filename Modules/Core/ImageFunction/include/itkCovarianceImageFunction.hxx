@@ -18,7 +18,6 @@
 #ifndef itkCovarianceImageFunction_hxx
 #define itkCovarianceImageFunction_hxx
 
-#include "itkCovarianceImageFunction.h"
 #include "itkMatrix.h"
 #include "itkConstNeighborhoodIterator.h"
 

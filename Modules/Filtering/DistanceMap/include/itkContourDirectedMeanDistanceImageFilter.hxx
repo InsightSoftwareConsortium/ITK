@@ -18,7 +18,6 @@
 #ifndef itkContourDirectedMeanDistanceImageFilter_hxx
 #define itkContourDirectedMeanDistanceImageFilter_hxx
 
-#include "itkContourDirectedMeanDistanceImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

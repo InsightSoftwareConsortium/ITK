@@ -19,7 +19,6 @@
 #define itkGridImageSource_hxx
 
 #include "itkGaussianKernelFunction.h"
-#include "itkGridImageSource.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkTotalProgressReporter.h"

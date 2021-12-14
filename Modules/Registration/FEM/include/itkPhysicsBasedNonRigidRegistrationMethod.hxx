@@ -20,7 +20,6 @@
 
 #include <iostream>
 #include "itkTimeProbe.h"
-#include "itkPhysicsBasedNonRigidRegistrationMethod.h"
 
 
 namespace itk

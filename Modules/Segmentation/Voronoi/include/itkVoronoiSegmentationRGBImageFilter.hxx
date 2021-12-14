@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVoronoiSegmentationRGBImageFilter_hxx
 #define itkVoronoiSegmentationRGBImageFilter_hxx
-#include "itkVoronoiSegmentationRGBImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include <cmath>

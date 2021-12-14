@@ -18,7 +18,6 @@
 #ifndef itkQuaternionRigidTransform_hxx
 #define itkQuaternionRigidTransform_hxx
 
-#include "itkQuaternionRigidTransform.h"
 
 namespace itk
 {

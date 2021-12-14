@@ -18,7 +18,6 @@
 #ifndef itkBinaryReconstructionByErosionImageFilter_hxx
 #define itkBinaryReconstructionByErosionImageFilter_hxx
 
-#include "itkBinaryReconstructionByErosionImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageClassifierBase_hxx
 #define itkImageClassifierBase_hxx
-#include "itkImageClassifierBase.h"
 
 namespace itk
 {

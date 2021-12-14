@@ -18,7 +18,6 @@
 #ifndef itkPointSetToListSampleAdaptor_hxx
 #define itkPointSetToListSampleAdaptor_hxx
 
-#include "itkPointSetToListSampleAdaptor.h"
 
 namespace itk
 {

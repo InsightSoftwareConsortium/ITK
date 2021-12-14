@@ -18,7 +18,6 @@
 #ifndef itkParameterizationQuadEdgeMeshFilter_hxx
 #define itkParameterizationQuadEdgeMeshFilter_hxx
 
-#include "itkParameterizationQuadEdgeMeshFilter.h"
 
 namespace itk
 {

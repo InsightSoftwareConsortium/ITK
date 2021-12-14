@@ -18,7 +18,6 @@
 #ifndef itkBinaryMorphologicalOpeningImageFilter_hxx
 #define itkBinaryMorphologicalOpeningImageFilter_hxx
 
-#include "itkBinaryMorphologicalOpeningImageFilter.h"
 #include "itkBinaryErodeImageFilter.h"
 #include "itkBinaryDilateImageFilter.h"
 #include "itkProgressAccumulator.h"

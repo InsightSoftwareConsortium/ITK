@@ -18,7 +18,6 @@
 #ifndef itkObjectToObjectMetric_hxx
 #define itkObjectToObjectMetric_hxx
 
-#include "itkObjectToObjectMetric.h"
 #include "itkTransform.h"
 #include "itkIdentityTransform.h"
 #include "itkCompositeTransform.h"

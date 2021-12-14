@@ -18,7 +18,6 @@
 #ifndef itkOverUnderColormapFunction_hxx
 #define itkOverUnderColormapFunction_hxx
 
-#include "itkOverUnderColormapFunction.h"
 
 namespace itk
 {

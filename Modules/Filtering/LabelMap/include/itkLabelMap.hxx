@@ -28,7 +28,6 @@
 #ifndef itkLabelMap_hxx
 #define itkLabelMap_hxx
 
-#include "itkLabelMap.h"
 #include "itkProcessObject.h"
 
 #include <algorithm>

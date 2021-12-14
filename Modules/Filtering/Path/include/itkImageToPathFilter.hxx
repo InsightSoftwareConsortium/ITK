@@ -18,7 +18,6 @@
 #ifndef itkImageToPathFilter_hxx
 #define itkImageToPathFilter_hxx
 
-#include "itkImageToPathFilter.h"
 
 /*
  * This code was contributed in the Insight Journal paper:

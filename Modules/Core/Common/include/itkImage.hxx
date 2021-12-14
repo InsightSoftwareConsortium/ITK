@@ -28,7 +28,6 @@
 #ifndef itkImage_hxx
 #define itkImage_hxx
 
-#include "itkImage.h"
 #include "itkProcessObject.h"
 #include <algorithm>
 

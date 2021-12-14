@@ -18,7 +18,6 @@
 #ifndef itkMinimumMaximumImageCalculator_hxx
 #define itkMinimumMaximumImageCalculator_hxx
 
-#include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 

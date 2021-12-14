@@ -18,7 +18,6 @@
 #ifndef itkVectorConfidenceConnectedImageFilter_hxx
 #define itkVectorConfidenceConnectedImageFilter_hxx
 
-#include "itkVectorConfidenceConnectedImageFilter.h"
 #include "itkMacro.h"
 #include "itkImageRegionIterator.h"
 #include "itkVectorMeanImageFunction.h"

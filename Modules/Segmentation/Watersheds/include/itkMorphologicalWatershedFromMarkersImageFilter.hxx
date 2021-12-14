@@ -21,7 +21,6 @@
 #include <algorithm>
 #include <queue>
 #include <list>
-#include "itkMorphologicalWatershedFromMarkersImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

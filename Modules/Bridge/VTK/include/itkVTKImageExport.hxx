@@ -18,7 +18,6 @@
 #ifndef itkVTKImageExport_hxx
 #define itkVTKImageExport_hxx
 
-#include "itkVTKImageExport.h"
 
 #include "itkPixelTraits.h"
 #include "itkNumericTraits.h"

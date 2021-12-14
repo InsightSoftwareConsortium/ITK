@@ -18,7 +18,6 @@
 #ifndef itkSignedMaurerDistanceMapImageFilter_hxx
 #define itkSignedMaurerDistanceMapImageFilter_hxx
 
-#include "itkSignedMaurerDistanceMapImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkBinaryThresholdImageFilter.h"

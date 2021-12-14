@@ -18,7 +18,6 @@
 #ifndef itkRegistrationParameterScalesFromIndexShift_hxx
 #define itkRegistrationParameterScalesFromIndexShift_hxx
 
-#include "itkRegistrationParameterScalesFromIndexShift.h"
 
 namespace itk
 {

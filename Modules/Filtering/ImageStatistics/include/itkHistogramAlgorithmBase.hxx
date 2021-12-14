@@ -18,7 +18,6 @@
 #ifndef itkHistogramAlgorithmBase_hxx
 #define itkHistogramAlgorithmBase_hxx
 
-#include "itkHistogramAlgorithmBase.h"
 
 namespace itk
 {

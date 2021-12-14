@@ -18,7 +18,6 @@
 #ifndef itkANTSNeighborhoodCorrelationImageToImageMetricv4_hxx
 #define itkANTSNeighborhoodCorrelationImageToImageMetricv4_hxx
 
-#include "itkANTSNeighborhoodCorrelationImageToImageMetricv4.h"
 #include "itkNumericTraits.h"
 
 namespace itk

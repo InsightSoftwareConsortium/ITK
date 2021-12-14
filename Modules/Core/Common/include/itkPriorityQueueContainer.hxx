@@ -22,7 +22,6 @@
 #include <utility>
 
 #include "itkNumericTraits.h"
-#include "itkPriorityQueueContainer.h"
 
 namespace itk
 {

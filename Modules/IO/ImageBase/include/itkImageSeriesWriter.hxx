@@ -18,7 +18,6 @@
 #ifndef itkImageSeriesWriter_hxx
 #define itkImageSeriesWriter_hxx
 
-#include "itkImageSeriesWriter.h"
 #include "itkDataObject.h"
 #include "itkImageIOFactory.h"
 #include "itkIOCommon.h"

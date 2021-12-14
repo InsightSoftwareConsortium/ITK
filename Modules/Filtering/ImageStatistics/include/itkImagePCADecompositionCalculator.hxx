@@ -18,7 +18,6 @@
 #ifndef itkImagePCADecompositionCalculator_hxx
 #define itkImagePCADecompositionCalculator_hxx
 
-#include "itkImagePCADecompositionCalculator.h"
 #include "itkImageRegionConstIterator.h"
 
 namespace itk

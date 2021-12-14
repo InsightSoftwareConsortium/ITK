@@ -18,7 +18,6 @@
 #ifndef itkNeighborhoodSampler_hxx
 #define itkNeighborhoodSampler_hxx
 
-#include "itkNeighborhoodSampler.h"
 
 namespace itk
 {

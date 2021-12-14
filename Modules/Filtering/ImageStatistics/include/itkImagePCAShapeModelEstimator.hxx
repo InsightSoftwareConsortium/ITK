@@ -18,7 +18,6 @@
 #ifndef itkImagePCAShapeModelEstimator_hxx
 #define itkImagePCAShapeModelEstimator_hxx
 
-#include "itkImagePCAShapeModelEstimator.h"
 #include "itkPrintHelper.h"
 
 namespace itk

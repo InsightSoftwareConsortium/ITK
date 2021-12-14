@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVectorNeighborhoodOperatorImageFilter_hxx
 #define itkVectorNeighborhoodOperatorImageFilter_hxx
-#include "itkVectorNeighborhoodOperatorImageFilter.h"
 
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkVectorNeighborhoodInnerProduct.h"

@@ -18,7 +18,6 @@
 #ifndef itkConstantBoundaryCondition_hxx
 #define itkConstantBoundaryCondition_hxx
 
-#include "itkConstantBoundaryCondition.h"
 
 namespace itk
 {

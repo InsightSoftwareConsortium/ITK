@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkThinPlateSplineKernelTransform_hxx
 #define itkThinPlateSplineKernelTransform_hxx
-#include "itkThinPlateSplineKernelTransform.h"
 
 namespace itk
 {

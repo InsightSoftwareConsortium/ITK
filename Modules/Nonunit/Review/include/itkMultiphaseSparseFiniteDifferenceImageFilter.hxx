@@ -18,7 +18,6 @@
 #ifndef itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
 #define itkMultiphaseSparseFiniteDifferenceImageFilter_hxx
 
-#include "itkMultiphaseSparseFiniteDifferenceImageFilter.h"
 #include "itkPrintHelper.h"
 
 

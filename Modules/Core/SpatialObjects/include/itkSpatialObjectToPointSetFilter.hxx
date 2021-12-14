@@ -18,7 +18,6 @@
 #ifndef itkSpatialObjectToPointSetFilter_hxx
 #define itkSpatialObjectToPointSetFilter_hxx
 
-#include "itkSpatialObjectToPointSetFilter.h"
 
 namespace itk
 {

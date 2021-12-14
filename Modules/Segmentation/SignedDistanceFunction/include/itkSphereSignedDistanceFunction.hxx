@@ -18,7 +18,6 @@
 #ifndef itkSphereSignedDistanceFunction_hxx
 #define itkSphereSignedDistanceFunction_hxx
 
-#include "itkSphereSignedDistanceFunction.h"
 #include "itkMath.h"
 
 namespace itk

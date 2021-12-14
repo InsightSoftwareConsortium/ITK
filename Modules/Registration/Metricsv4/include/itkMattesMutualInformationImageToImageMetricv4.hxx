@@ -18,7 +18,6 @@
 #ifndef itkMattesMutualInformationImageToImageMetricv4_hxx
 #define itkMattesMutualInformationImageToImageMetricv4_hxx
 
-#include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkCompensatedSummation.h"
 #include <mutex>
 

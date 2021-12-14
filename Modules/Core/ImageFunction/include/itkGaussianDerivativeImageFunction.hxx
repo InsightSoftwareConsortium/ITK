@@ -18,7 +18,6 @@
 #ifndef itkGaussianDerivativeImageFunction_hxx
 #define itkGaussianDerivativeImageFunction_hxx
 
-#include "itkGaussianDerivativeImageFunction.h"
 
 #include "itkImageNeighborhoodOffsets.h"
 #include "itkShapedImageNeighborhoodRange.h"

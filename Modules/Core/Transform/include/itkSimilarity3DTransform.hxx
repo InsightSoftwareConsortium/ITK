@@ -18,7 +18,6 @@
 #ifndef itkSimilarity3DTransform_hxx
 #define itkSimilarity3DTransform_hxx
 
-#include "itkSimilarity3DTransform.h"
 #include "itkMath.h"
 #include "vnl/vnl_det.h"
 

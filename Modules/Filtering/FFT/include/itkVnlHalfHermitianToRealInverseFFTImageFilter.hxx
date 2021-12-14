@@ -20,7 +20,6 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
-#include "itkVnlHalfHermitianToRealInverseFFTImageFilter.h"
 
 namespace itk
 {

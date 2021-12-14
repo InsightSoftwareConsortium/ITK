@@ -18,7 +18,6 @@
 #ifndef itkDisplacementFieldTransform_hxx
 #define itkDisplacementFieldTransform_hxx
 
-#include "itkDisplacementFieldTransform.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 #include "itkImageToImageFilter.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkKittlerIllingworthThresholdCalculator_hxx
 #define itkKittlerIllingworthThresholdCalculator_hxx
 
-#include "itkKittlerIllingworthThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 #include "itkMath.h"

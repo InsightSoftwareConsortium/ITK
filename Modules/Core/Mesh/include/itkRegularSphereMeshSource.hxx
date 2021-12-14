@@ -18,7 +18,6 @@
 #ifndef itkRegularSphereMeshSource_hxx
 #define itkRegularSphereMeshSource_hxx
 
-#include "itkRegularSphereMeshSource.h"
 
 namespace itk
 {

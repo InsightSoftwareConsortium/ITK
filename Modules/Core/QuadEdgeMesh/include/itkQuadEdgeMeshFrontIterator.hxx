@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshFrontIterator_hxx
 #define itkQuadEdgeMeshFrontIterator_hxx
 
-#include "itkQuadEdgeMeshFrontIterator.h"
 
 namespace itk
 {

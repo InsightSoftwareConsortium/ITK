@@ -23,7 +23,6 @@
 #include "itkImageRegion.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionReverseIterator.h"
-#include "itkBinomialBlurImageFilter.h"
 
 namespace itk
 {

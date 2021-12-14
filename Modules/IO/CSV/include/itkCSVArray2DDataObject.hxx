@@ -18,7 +18,6 @@
 #ifndef itkCSVArray2DDataObject_hxx
 #define itkCSVArray2DDataObject_hxx
 
-#include "itkCSVArray2DDataObject.h"
 #include <fstream>
 #include <vector>
 #include <algorithm>

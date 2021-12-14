@@ -18,7 +18,6 @@
 #ifndef itkFastMarchingExtensionImageFilterBase_hxx
 #define itkFastMarchingExtensionImageFilterBase_hxx
 
-#include "itkFastMarchingExtensionImageFilterBase.h"
 
 namespace itk
 {

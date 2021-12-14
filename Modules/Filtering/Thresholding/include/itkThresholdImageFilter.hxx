@@ -28,7 +28,6 @@
 #ifndef itkThresholdImageFilter_hxx
 #define itkThresholdImageFilter_hxx
 
-#include "itkThresholdImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"

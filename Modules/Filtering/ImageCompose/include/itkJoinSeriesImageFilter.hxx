@@ -18,7 +18,6 @@
 #ifndef itkJoinSeriesImageFilter_hxx
 #define itkJoinSeriesImageFilter_hxx
 
-#include "itkJoinSeriesImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
 #include "itkTotalProgressReporter.h"

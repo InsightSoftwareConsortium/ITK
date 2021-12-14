@@ -18,7 +18,6 @@
 #ifndef itkLevelSetVelocityNeighborhoodExtractor_hxx
 #define itkLevelSetVelocityNeighborhoodExtractor_hxx
 
-#include "itkLevelSetVelocityNeighborhoodExtractor.h"
 #include "itkMath.h"
 
 namespace itk

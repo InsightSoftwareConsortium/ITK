@@ -28,7 +28,6 @@
 #ifndef itkSimpleDataObjectDecorator_hxx
 #define itkSimpleDataObjectDecorator_hxx
 
-#include "itkSimpleDataObjectDecorator.h"
 #include "itkMath.h"
 
 namespace itk

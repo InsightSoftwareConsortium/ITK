@@ -18,7 +18,6 @@
 #ifndef itkSmapsFileParser_hxx
 #define itkSmapsFileParser_hxx
 
-#include "itkSmapsFileParser.h"
 
 #if defined(_WIN32)
 #  include <io.h>

@@ -18,7 +18,6 @@
 #ifndef itkFrequencyBandImageFilter_hxx
 #define itkFrequencyBandImageFilter_hxx
 
-#include "itkFrequencyBandImageFilter.h"
 
 #include "itkMath.h"
 #include "itkImageAlgorithm.h"

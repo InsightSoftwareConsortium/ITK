@@ -18,7 +18,6 @@
 #ifndef itkRecursiveSeparableImageFilter_hxx
 #define itkRecursiveSeparableImageFilter_hxx
 
-#include "itkRecursiveSeparableImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include <memory> // For unique_ptr

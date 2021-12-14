@@ -18,7 +18,6 @@
 #ifndef itkRegionBasedLevelSetFunction_hxx
 #define itkRegionBasedLevelSetFunction_hxx
 
-#include "itkRegionBasedLevelSetFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk

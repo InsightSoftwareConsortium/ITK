@@ -19,7 +19,6 @@
 #ifndef itkPhysicalPointImageSource_hxx
 #define itkPhysicalPointImageSource_hxx
 
-#include "itkPhysicalPointImageSource.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 

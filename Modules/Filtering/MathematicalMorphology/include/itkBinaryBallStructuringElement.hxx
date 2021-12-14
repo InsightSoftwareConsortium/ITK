@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkBinaryBallStructuringElement_hxx
 #define itkBinaryBallStructuringElement_hxx
-#include "itkBinaryBallStructuringElement.h"
 
 #include "itkFlatStructuringElement.h"
 

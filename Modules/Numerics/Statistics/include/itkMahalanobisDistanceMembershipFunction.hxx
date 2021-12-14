@@ -18,7 +18,6 @@
 #ifndef itkMahalanobisDistanceMembershipFunction_hxx
 #define itkMahalanobisDistanceMembershipFunction_hxx
 
-#include "itkMahalanobisDistanceMembershipFunction.h"
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"

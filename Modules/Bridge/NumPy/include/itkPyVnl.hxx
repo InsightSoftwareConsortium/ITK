@@ -18,7 +18,6 @@
 #ifndef itkPyVnl_hxx
 #define itkPyVnl_hxx
 
-#include "itkPyVnl.h"
 #include <stdexcept>
 
 namespace itk

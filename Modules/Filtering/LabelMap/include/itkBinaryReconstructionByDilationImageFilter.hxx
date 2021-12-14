@@ -18,7 +18,6 @@
 #ifndef itkBinaryReconstructionByDilationImageFilter_hxx
 #define itkBinaryReconstructionByDilationImageFilter_hxx
 
-#include "itkBinaryReconstructionByDilationImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 

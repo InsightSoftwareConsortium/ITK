@@ -18,7 +18,6 @@
 #ifndef itkFFTNormalizedCorrelationImageFilter_hxx
 #define itkFFTNormalizedCorrelationImageFilter_hxx
 
-#include "itkFFTNormalizedCorrelationImageFilter.h"
 
 namespace itk
 {

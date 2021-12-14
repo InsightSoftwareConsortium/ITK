@@ -19,7 +19,6 @@
 #define itkHConcaveImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkHConcaveImageFilter.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkSubtractImageFilter.h"
 

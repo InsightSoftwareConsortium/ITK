@@ -18,7 +18,6 @@
 #ifndef itkSobelOperator_hxx
 #define itkSobelOperator_hxx
 
-#include "itkSobelOperator.h"
 #include "itkObject.h"
 
 namespace itk

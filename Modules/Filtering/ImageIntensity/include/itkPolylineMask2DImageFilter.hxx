@@ -18,7 +18,6 @@
 #ifndef itkPolylineMask2DImageFilter_hxx
 #define itkPolylineMask2DImageFilter_hxx
 
-#include "itkPolylineMask2DImageFilter.h"
 #include "itkLineIterator.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkPathIterator.h"

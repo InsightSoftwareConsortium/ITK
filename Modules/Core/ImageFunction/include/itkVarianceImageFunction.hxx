@@ -18,7 +18,6 @@
 #ifndef itkVarianceImageFunction_hxx
 #define itkVarianceImageFunction_hxx
 
-#include "itkVarianceImageFunction.h"
 
 #include "itkConstNeighborhoodIterator.h"
 

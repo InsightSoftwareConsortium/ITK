@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkDerivativeOperator_hxx
 #define itkDerivativeOperator_hxx
-#include "itkDerivativeOperator.h"
 
 #include "itkNumericTraits.h"
 

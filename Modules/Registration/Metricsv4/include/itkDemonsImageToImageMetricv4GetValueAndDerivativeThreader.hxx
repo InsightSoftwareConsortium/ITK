@@ -18,7 +18,6 @@
 #ifndef itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
-#include "itkDemonsImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
 namespace itk
 {

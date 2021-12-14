@@ -20,7 +20,6 @@
 
 #include "itkImageToImageFilter.h"
 
-#include "itkVideoToVideoFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkCorrelationCoefficientHistogramImageToImageMetric_hxx
 #define itkCorrelationCoefficientHistogramImageToImageMetric_hxx
 
-#include "itkCorrelationCoefficientHistogramImageToImageMetric.h"
 
 namespace itk
 {

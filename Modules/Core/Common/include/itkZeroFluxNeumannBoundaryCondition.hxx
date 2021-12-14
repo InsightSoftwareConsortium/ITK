@@ -18,7 +18,6 @@
 #ifndef itkZeroFluxNeumannBoundaryCondition_hxx
 #define itkZeroFluxNeumannBoundaryCondition_hxx
 
-#include "itkZeroFluxNeumannBoundaryCondition.h"
 
 namespace itk
 {

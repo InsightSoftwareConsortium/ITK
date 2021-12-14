@@ -18,7 +18,6 @@
 #ifndef itkShapeUniqueLabelMapFilter_hxx
 #define itkShapeUniqueLabelMapFilter_hxx
 
-#include "itkShapeUniqueLabelMapFilter.h"
 #include "itkLabelMapUtilities.h"
 
 namespace itk

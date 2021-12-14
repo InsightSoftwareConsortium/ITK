@@ -22,7 +22,6 @@
 #include "itkDataObject.h"
 #include "itkMeshConvertPixelTraits.h"
 #include "itkMeshIOFactory.h"
-#include "itkMeshFileWriter.h"
 #include "itkObjectFactoryBase.h"
 
 #include "vnl/vnl_vector.h"

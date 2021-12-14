@@ -18,7 +18,6 @@
 #ifndef itkScalarRegionBasedLevelSetFunction_hxx
 #define itkScalarRegionBasedLevelSetFunction_hxx
 
-#include "itkScalarRegionBasedLevelSetFunction.h"
 
 namespace itk
 {

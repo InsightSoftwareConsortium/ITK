@@ -18,7 +18,6 @@
 #ifndef itkConstantVelocityFieldTransformParametersAdaptor_hxx
 #define itkConstantVelocityFieldTransformParametersAdaptor_hxx
 
-#include "itkConstantVelocityFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"

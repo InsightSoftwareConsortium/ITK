@@ -18,7 +18,6 @@
 #ifndef itkMeanSquaresImageToImageMetric_hxx
 #define itkMeanSquaresImageToImageMetric_hxx
 
-#include "itkMeanSquaresImageToImageMetric.h"
 #include "itkCovariantVector.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"

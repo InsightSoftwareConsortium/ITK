@@ -18,7 +18,6 @@
 #ifndef itkLabelContourImageFilter_hxx
 #define itkLabelContourImageFilter_hxx
 
-#include "itkLabelContourImageFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkConnectedComponentAlgorithm.h"

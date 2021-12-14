@@ -18,7 +18,6 @@
 #ifndef itkCovariantVector_hxx
 #define itkCovariantVector_hxx
 
-#include "itkCovariantVector.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 

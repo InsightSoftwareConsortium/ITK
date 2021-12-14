@@ -19,7 +19,6 @@
 #ifndef itkLevelSetDenseImage_hxx
 #define itkLevelSetDenseImage_hxx
 
-#include "itkLevelSetDenseImage.h"
 
 namespace itk
 {

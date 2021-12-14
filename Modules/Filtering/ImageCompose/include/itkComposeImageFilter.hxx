@@ -18,7 +18,6 @@
 #ifndef itkComposeImageFilter_hxx
 #define itkComposeImageFilter_hxx
 
-#include "itkComposeImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkTotalProgressReporter.h"
 

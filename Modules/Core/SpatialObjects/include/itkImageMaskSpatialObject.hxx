@@ -19,7 +19,6 @@
 #define itkImageMaskSpatialObject_hxx
 
 #include "itkMath.h"
-#include "itkImageMaskSpatialObject.h"
 #include "itkImageRegionRange.h"
 
 #include <cstdint> // For uintmax_t.

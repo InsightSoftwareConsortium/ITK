@@ -18,7 +18,6 @@
 #ifndef itkShotNoiseImageFilter_hxx
 #define itkShotNoiseImageFilter_hxx
 
-#include "itkShotNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"

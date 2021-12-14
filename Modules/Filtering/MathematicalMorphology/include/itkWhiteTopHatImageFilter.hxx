@@ -19,7 +19,6 @@
 #define itkWhiteTopHatImageFilter_hxx
 
 #include "itkImageRegionIterator.h"
-#include "itkWhiteTopHatImageFilter.h"
 #include "itkGrayscaleMorphologicalOpeningImageFilter.h"
 #include "itkSubtractImageFilter.h"
 #include "itkProgressAccumulator.h"

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkKernelTransform_hxx
 #define itkKernelTransform_hxx
-#include "itkKernelTransform.h"
 
 namespace itk
 {

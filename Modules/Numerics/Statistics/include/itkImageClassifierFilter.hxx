@@ -18,7 +18,6 @@
 #ifndef itkImageClassifierFilter_hxx
 #define itkImageClassifierFilter_hxx
 
-#include "itkImageClassifierFilter.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

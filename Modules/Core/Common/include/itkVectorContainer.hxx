@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVectorContainer_hxx
 #define itkVectorContainer_hxx
-#include "itkVectorContainer.h"
 
 #include "itkNumericTraits.h"
 

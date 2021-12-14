@@ -18,7 +18,6 @@
 #ifndef itkPyBuffer_hxx
 #define itkPyBuffer_hxx
 
-#include "itkPyBuffer.h"
 
 #include "itkImportImageContainer.h"
 

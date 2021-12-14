@@ -19,7 +19,6 @@
 #ifndef itkHuangThresholdCalculator_hxx
 #define itkHuangThresholdCalculator_hxx
 
-#include "itkHuangThresholdCalculator.h"
 #include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"

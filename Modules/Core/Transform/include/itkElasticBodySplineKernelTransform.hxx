@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkElasticBodySplineKernelTransform_hxx
 #define itkElasticBodySplineKernelTransform_hxx
-#include "itkElasticBodySplineKernelTransform.h"
 
 namespace itk
 {

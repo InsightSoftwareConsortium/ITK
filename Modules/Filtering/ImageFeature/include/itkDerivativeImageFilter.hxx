@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkDerivativeImageFilter_hxx
 #define itkDerivativeImageFilter_hxx
-#include "itkDerivativeImageFilter.h"
 
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodOperatorImageFilter.h"

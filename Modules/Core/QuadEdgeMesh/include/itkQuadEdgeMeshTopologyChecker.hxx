@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshTopologyChecker_hxx
 #define itkQuadEdgeMeshTopologyChecker_hxx
 
-#include "itkQuadEdgeMeshTopologyChecker.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkGrayscaleErodeImageFilter_hxx
 #define itkGrayscaleErodeImageFilter_hxx
 
-#include "itkGrayscaleErodeImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"
 #include <string>

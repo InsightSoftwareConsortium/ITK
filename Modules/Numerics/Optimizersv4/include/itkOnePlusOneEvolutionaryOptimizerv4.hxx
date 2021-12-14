@@ -19,7 +19,6 @@
 #define itkOnePlusOneEvolutionaryOptimizerv4_hxx
 
 #include "itkMath.h"
-#include "itkOnePlusOneEvolutionaryOptimizerv4.h"
 #include "vnl/vnl_matrix.h"
 namespace itk
 {

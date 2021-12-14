@@ -19,7 +19,6 @@
 #define itkLoggerThreadWrapper_hxx
 
 #include <iostream>
-#include "itkLoggerThreadWrapper.h"
 #include "itksys/SystemTools.hxx"
 
 namespace itk

@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEquationTermBase_hxx
 #define itkLevelSetEquationTermBase_hxx
 
-#include "itkLevelSetEquationTermBase.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 

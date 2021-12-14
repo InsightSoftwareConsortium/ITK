@@ -18,7 +18,6 @@
 #ifndef itkKdTree_hxx
 #define itkKdTree_hxx
 
-#include "itkKdTree.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkNeighborhoodConnectedImageFilter_hxx
 #define itkNeighborhoodConnectedImageFilter_hxx
 
-#include "itkNeighborhoodConnectedImageFilter.h"
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"

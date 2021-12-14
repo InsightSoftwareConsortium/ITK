@@ -19,7 +19,6 @@
 #ifndef itkTransformGeometryImageFilter_hxx
 #define itkTransformGeometryImageFilter_hxx
 
-#include "itkTransformGeometryImageFilter.h"
 #include "itkCastImageFilter.h"
 
 namespace itk

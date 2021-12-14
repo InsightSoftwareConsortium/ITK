@@ -18,7 +18,6 @@
 #ifndef itkShapeLabelMapFilter_hxx
 #define itkShapeLabelMapFilter_hxx
 
-#include "itkShapeLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include "itkConstNeighborhoodIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"

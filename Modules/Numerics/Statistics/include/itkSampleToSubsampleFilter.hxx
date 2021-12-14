@@ -18,7 +18,6 @@
 #ifndef itkSampleToSubsampleFilter_hxx
 #define itkSampleToSubsampleFilter_hxx
 
-#include "itkSampleToSubsampleFilter.h"
 
 namespace itk
 {

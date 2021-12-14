@@ -18,7 +18,6 @@
 #ifndef itkRegionalMinimaImageFilter_hxx
 #define itkRegionalMinimaImageFilter_hxx
 
-#include "itkRegionalMinimaImageFilter.h"
 #include "itkValuedRegionalMinimaImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkNumericTraits.h"

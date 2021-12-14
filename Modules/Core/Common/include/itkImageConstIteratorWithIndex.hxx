@@ -18,7 +18,6 @@
 #ifndef itkImageConstIteratorWithIndex_hxx
 #define itkImageConstIteratorWithIndex_hxx
 
-#include "itkImageConstIteratorWithIndex.h"
 
 namespace itk
 {

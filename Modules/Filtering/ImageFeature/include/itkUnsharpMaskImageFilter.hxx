@@ -18,7 +18,6 @@
 #ifndef itkUnsharpMaskImageFilter_hxx
 #define itkUnsharpMaskImageFilter_hxx
 
-#include "itkUnsharpMaskImageFilter.h"
 #include "itkBinaryGeneratorImageFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressAccumulator.h"

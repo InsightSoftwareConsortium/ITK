@@ -18,7 +18,6 @@
 #ifndef itkThresholdSegmentationLevelSetImageFilter_hxx
 #define itkThresholdSegmentationLevelSetImageFilter_hxx
 
-#include "itkThresholdSegmentationLevelSetImageFilter.h"
 
 namespace itk
 {

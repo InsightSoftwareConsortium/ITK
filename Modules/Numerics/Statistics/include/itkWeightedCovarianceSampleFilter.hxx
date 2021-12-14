@@ -18,7 +18,6 @@
 #ifndef itkWeightedCovarianceSampleFilter_hxx
 #define itkWeightedCovarianceSampleFilter_hxx
 
-#include "itkWeightedCovarianceSampleFilter.h"
 #include "itkWeightedMeanSampleFilter.h"
 
 namespace itk

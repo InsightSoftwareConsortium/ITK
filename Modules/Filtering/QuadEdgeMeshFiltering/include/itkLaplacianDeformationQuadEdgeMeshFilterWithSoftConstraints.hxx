@@ -18,7 +18,6 @@
 #ifndef itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints_hxx
 #define itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints_hxx
 
-#include "itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints.h"
 
 namespace itk
 {

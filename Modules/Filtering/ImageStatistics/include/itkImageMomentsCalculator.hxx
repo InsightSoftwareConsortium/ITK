@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageMomentsCalculator_hxx
 #define itkImageMomentsCalculator_hxx
-#include "itkImageMomentsCalculator.h"
 
 #include "vnl/algo/vnl_real_eigensystem.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"

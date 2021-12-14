@@ -18,7 +18,6 @@
 #ifndef itkCenteredSimilarity2DTransform_hxx
 #define itkCenteredSimilarity2DTransform_hxx
 
-#include "itkCenteredSimilarity2DTransform.h"
 
 namespace itk
 {

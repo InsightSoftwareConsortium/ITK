@@ -19,7 +19,6 @@
 #ifndef itkPyImageFilter_hxx
 #define itkPyImageFilter_hxx
 
-#include "itkPyImageFilter.h"
 
 namespace itk
 {

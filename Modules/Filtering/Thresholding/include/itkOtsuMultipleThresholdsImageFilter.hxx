@@ -18,7 +18,6 @@
 #ifndef itkOtsuMultipleThresholdsImageFilter_hxx
 #define itkOtsuMultipleThresholdsImageFilter_hxx
 
-#include "itkOtsuMultipleThresholdsImageFilter.h"
 #include "itkThresholdLabelerImageFilter.h"
 #include "itkProgressAccumulator.h"
 

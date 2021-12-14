@@ -18,7 +18,6 @@
 #ifndef itkESMDemonsRegistrationFunction_hxx
 #define itkESMDemonsRegistrationFunction_hxx
 
-#include "itkESMDemonsRegistrationFunction.h"
 #include "itkMath.h"
 
 namespace itk

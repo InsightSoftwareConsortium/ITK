@@ -22,7 +22,6 @@
 #include <set>
 #include "itkMath.h"
 
-#include "itkAdaptiveHistogramEqualizationImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkConstNeighborhoodIterator.h"

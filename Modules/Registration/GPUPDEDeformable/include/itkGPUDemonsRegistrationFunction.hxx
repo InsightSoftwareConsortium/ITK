@@ -18,7 +18,6 @@
 #ifndef itkGPUDemonsRegistrationFunction_hxx
 #define itkGPUDemonsRegistrationFunction_hxx
 
-#include "itkGPUDemonsRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

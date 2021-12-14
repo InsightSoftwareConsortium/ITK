@@ -18,7 +18,6 @@
 #ifndef itkIsolatedConnectedImageFilter_hxx
 #define itkIsolatedConnectedImageFilter_hxx
 
-#include "itkIsolatedConnectedImageFilter.h"
 #include "itkBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"

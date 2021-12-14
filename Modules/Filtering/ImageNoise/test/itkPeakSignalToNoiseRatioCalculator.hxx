@@ -18,7 +18,6 @@
 #ifndef itkPeakSignalToNoiseRatioCalculator_hxx
 #define itkPeakSignalToNoiseRatioCalculator_hxx
 
-#include "itkPeakSignalToNoiseRatioCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"

@@ -18,7 +18,6 @@
 #ifndef itkCovarianceSampleFilter_hxx
 #define itkCovarianceSampleFilter_hxx
 
-#include "itkCovarianceSampleFilter.h"
 #include "itkMeanSampleFilter.h"
 
 namespace itk

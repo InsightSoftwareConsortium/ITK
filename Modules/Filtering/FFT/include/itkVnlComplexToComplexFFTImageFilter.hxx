@@ -18,7 +18,6 @@
 #ifndef itkVnlComplexToComplexFFTImageFilter_hxx
 #define itkVnlComplexToComplexFFTImageFilter_hxx
 
-#include "itkVnlComplexToComplexFFTImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkVnlFFTCommon.h"
 #include "itkImageRegionIteratorWithIndex.h"

@@ -19,7 +19,6 @@
 #define itkDiffusionTensor3DReconstructionImageFilter_hxx
 
 #include "itkMath.h"
-#include "itkDiffusionTensor3DReconstructionImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkArray.h"

@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkPolygonCell_hxx
 #define itkPolygonCell_hxx
-#include "itkPolygonCell.h"
 
 namespace itk
 {

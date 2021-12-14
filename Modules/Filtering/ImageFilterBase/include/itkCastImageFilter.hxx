@@ -18,7 +18,6 @@
 #ifndef itkCastImageFilter_hxx
 #define itkCastImageFilter_hxx
 
-#include "itkCastImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
 

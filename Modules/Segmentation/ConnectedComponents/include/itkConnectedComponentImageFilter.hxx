@@ -18,7 +18,6 @@
 #ifndef itkConnectedComponentImageFilter_hxx
 #define itkConnectedComponentImageFilter_hxx
 
-#include "itkConnectedComponentImageFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"

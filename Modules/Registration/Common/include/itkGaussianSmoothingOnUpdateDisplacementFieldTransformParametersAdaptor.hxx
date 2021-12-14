@@ -18,7 +18,6 @@
 #ifndef itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 #define itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 
-#include "itkGaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 #include "itkMath.h"
 
 namespace itk

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkGeometricalQuadEdge_hxx
 #define itkGeometricalQuadEdge_hxx
-#include "itkGeometricalQuadEdge.h"
 #include <limits>
 #include <iostream>
 

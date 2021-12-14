@@ -18,7 +18,6 @@
 #ifndef itkLandmarkBasedTransformInitializer_hxx
 #define itkLandmarkBasedTransformInitializer_hxx
 
-#include "itkLandmarkBasedTransformInitializer.h"
 #include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
 

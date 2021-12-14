@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkStatisticsImageFilter_hxx
 #define itkStatisticsImageFilter_hxx
-#include "itkStatisticsImageFilter.h"
 
 
 #include "itkImageScanlineIterator.h"

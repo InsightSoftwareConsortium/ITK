@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkTriangleCell_hxx
 #define itkTriangleCell_hxx
-#include "itkTriangleCell.h"
 #include "vnl/algo/vnl_determinant.h"
 
 namespace itk

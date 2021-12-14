@@ -18,7 +18,6 @@
 #ifndef itkNumberToString_hxx
 #define itkNumberToString_hxx
 
-#include "itkNumberToString.h"
 #include "itkNumericTraits.h"
 
 #include <sstream>

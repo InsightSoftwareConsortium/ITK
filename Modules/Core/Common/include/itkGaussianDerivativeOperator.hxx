@@ -18,7 +18,6 @@
 #ifndef itkGaussianDerivativeOperator_hxx
 #define itkGaussianDerivativeOperator_hxx
 
-#include "itkGaussianDerivativeOperator.h"
 #include "itkCompensatedSummation.h"
 #include "itkOutputWindow.h"
 #include "itkMacro.h"

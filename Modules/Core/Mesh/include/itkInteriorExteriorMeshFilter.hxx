@@ -18,7 +18,6 @@
 #ifndef itkInteriorExteriorMeshFilter_hxx
 #define itkInteriorExteriorMeshFilter_hxx
 
-#include "itkInteriorExteriorMeshFilter.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 

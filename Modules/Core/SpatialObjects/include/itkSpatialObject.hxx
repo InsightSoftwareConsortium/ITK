@@ -18,7 +18,6 @@
 #ifndef itkSpatialObject_hxx
 #define itkSpatialObject_hxx
 
-#include "itkSpatialObject.h"
 #include "itkNumericTraits.h"
 #include <algorithm>
 #include <string>

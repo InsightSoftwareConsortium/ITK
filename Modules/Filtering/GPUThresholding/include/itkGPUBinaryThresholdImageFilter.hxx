@@ -18,7 +18,6 @@
 #ifndef itkGPUBinaryThresholdImageFilter_hxx
 #define itkGPUBinaryThresholdImageFilter_hxx
 
-#include "itkGPUBinaryThresholdImageFilter.h"
 
 namespace itk
 {

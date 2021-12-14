@@ -18,7 +18,6 @@
 #ifndef itkKdTreeBasedKmeansEstimator_hxx
 #define itkKdTreeBasedKmeansEstimator_hxx
 
-#include "itkKdTreeBasedKmeansEstimator.h"
 #include "itkStatisticsAlgorithm.h"
 
 namespace itk

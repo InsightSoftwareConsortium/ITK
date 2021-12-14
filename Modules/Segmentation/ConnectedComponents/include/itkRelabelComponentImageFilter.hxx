@@ -18,7 +18,6 @@
 #ifndef itkRelabelComponentImageFilter_hxx
 #define itkRelabelComponentImageFilter_hxx
 
-#include "itkRelabelComponentImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"

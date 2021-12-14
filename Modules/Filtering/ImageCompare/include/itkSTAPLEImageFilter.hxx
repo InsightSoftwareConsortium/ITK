@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkSTAPLEImageFilter_hxx
 #define itkSTAPLEImageFilter_hxx
-#include "itkSTAPLEImageFilter.h"
 
 #include "itkImageScanlineIterator.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkSparseFieldFourthOrderLevelSetImageFilter_hxx
 #define itkSparseFieldFourthOrderLevelSetImageFilter_hxx
 
-#include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
 #include "itkNeighborhoodIterator.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkNumericTraits.h"

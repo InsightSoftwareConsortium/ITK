@@ -18,7 +18,6 @@
 #ifndef itkHistogramMatchingImageFilter_hxx
 #define itkHistogramMatchingImageFilter_hxx
 
-#include "itkHistogramMatchingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"

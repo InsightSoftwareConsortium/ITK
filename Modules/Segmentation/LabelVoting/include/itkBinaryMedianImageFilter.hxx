@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkBinaryMedianImageFilter_hxx
 #define itkBinaryMedianImageFilter_hxx
-#include "itkBinaryMedianImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

@@ -18,7 +18,6 @@
 #ifndef itkTranslationTransform_hxx
 #define itkTranslationTransform_hxx
 
-#include "itkTranslationTransform.h"
 #include "itkMath.h"
 #include "itkMath.h"
 

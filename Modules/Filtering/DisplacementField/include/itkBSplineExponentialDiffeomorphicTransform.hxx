@@ -18,7 +18,6 @@
 #ifndef itkBSplineExponentialDiffeomorphicTransform_hxx
 #define itkBSplineExponentialDiffeomorphicTransform_hxx
 
-#include "itkBSplineExponentialDiffeomorphicTransform.h"
 
 #include "itkAddImageFilter.h"
 #include "itkImageDuplicator.h"

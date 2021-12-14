@@ -18,7 +18,6 @@
 #ifndef itkCellInterface_hxx
 #define itkCellInterface_hxx
 
-#include "itkCellInterface.h"
 
 namespace itk
 {

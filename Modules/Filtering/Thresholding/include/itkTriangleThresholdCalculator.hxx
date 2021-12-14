@@ -18,7 +18,6 @@
 #ifndef itkTriangleThresholdCalculator_hxx
 #define itkTriangleThresholdCalculator_hxx
 
-#include "itkTriangleThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

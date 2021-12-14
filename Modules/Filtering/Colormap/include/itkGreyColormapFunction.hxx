@@ -18,7 +18,6 @@
 #ifndef itkGreyColormapFunction_hxx
 #define itkGreyColormapFunction_hxx
 
-#include "itkGreyColormapFunction.h"
 
 namespace itk
 {

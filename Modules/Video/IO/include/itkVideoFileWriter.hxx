@@ -19,7 +19,6 @@
 #ifndef itkVideoFileWriter_hxx
 #define itkVideoFileWriter_hxx
 
-#include "itkVideoFileWriter.h"
 
 #include "itkNumericTraits.h"
 #include "itkTemporalDataObject.h"

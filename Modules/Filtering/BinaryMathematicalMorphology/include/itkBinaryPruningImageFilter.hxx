@@ -20,7 +20,6 @@
 
 #include <iostream>
 
-#include "itkBinaryPruningImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk

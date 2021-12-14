@@ -18,7 +18,6 @@
 #ifndef itkDilateObjectMorphologyImageFilter_hxx
 #define itkDilateObjectMorphologyImageFilter_hxx
 
-#include "itkDilateObjectMorphologyImageFilter.h"
 
 namespace itk
 {

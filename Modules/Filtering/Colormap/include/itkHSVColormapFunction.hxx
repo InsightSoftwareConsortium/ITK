@@ -18,7 +18,6 @@
 #ifndef itkHSVColormapFunction_hxx
 #define itkHSVColormapFunction_hxx
 
-#include "itkHSVColormapFunction.h"
 
 namespace itk
 {

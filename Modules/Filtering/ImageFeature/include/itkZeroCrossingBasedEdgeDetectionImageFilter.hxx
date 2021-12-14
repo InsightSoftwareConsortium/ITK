@@ -18,7 +18,6 @@
 #ifndef itkZeroCrossingBasedEdgeDetectionImageFilter_hxx
 #define itkZeroCrossingBasedEdgeDetectionImageFilter_hxx
 
-#include "itkZeroCrossingBasedEdgeDetectionImageFilter.h"
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkZeroCrossingImageFilter.h"

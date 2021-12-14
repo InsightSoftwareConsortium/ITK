@@ -18,7 +18,6 @@
 #ifndef itkFloodFilledSpatialFunctionConditionalConstIterator_hxx
 #define itkFloodFilledSpatialFunctionConditionalConstIterator_hxx
 
-#include "itkFloodFilledSpatialFunctionConditionalConstIterator.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkGaussianExponentialDiffeomorphicTransform_hxx
 #define itkGaussianExponentialDiffeomorphicTransform_hxx
 
-#include "itkGaussianExponentialDiffeomorphicTransform.h"
 
 #include "itkAddImageFilter.h"
 #include "itkImageDuplicator.h"

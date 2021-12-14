@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVectorAnisotropicDiffusionFunction_hxx
 #define itkVectorAnisotropicDiffusionFunction_hxx
-#include "itkVectorAnisotropicDiffusionFunction.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkVectorNeighborhoodInnerProduct.h"

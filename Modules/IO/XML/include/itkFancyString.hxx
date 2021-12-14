@@ -19,7 +19,6 @@
 #ifndef itkFancyString_hxx
 #define itkFancyString_hxx
 
-#include "itkFancyString.h"
 #include "itkStringTools.h"
 
 namespace itk

@@ -19,7 +19,6 @@
 #ifndef itkShanbhagThresholdCalculator_hxx
 #define itkShanbhagThresholdCalculator_hxx
 
-#include "itkShanbhagThresholdCalculator.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
 

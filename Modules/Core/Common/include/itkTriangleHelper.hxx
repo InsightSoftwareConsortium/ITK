@@ -18,7 +18,6 @@
 #ifndef itkTriangleHelper_hxx
 #define itkTriangleHelper_hxx
 
-#include "itkTriangleHelper.h"
 #include "itkMath.h"
 
 namespace itk

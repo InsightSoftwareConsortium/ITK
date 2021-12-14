@@ -28,7 +28,6 @@
 #ifndef itkImageBase_hxx
 #define itkImageBase_hxx
 
-#include "itkImageBase.h"
 
 #include <mutex>
 #include "itkProcessObject.h"

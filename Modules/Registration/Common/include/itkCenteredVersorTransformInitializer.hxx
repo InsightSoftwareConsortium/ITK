@@ -18,7 +18,6 @@
 #ifndef itkCenteredVersorTransformInitializer_hxx
 #define itkCenteredVersorTransformInitializer_hxx
 
-#include "itkCenteredVersorTransformInitializer.h"
 
 namespace itk
 {

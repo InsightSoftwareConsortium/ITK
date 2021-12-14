@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshPolygonCell_hxx
 #define itkQuadEdgeMeshPolygonCell_hxx
 
-#include "itkQuadEdgeMeshPolygonCell.h"
 
 #include "itkCellInterfaceVisitor.h"
 

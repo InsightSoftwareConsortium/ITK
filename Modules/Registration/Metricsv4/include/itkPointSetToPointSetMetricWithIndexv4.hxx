@@ -18,7 +18,6 @@
 #ifndef itkPointSetToPointSetMetricWithIndexv4_hxx
 #define itkPointSetToPointSetMetricWithIndexv4_hxx
 
-#include "itkPointSetToPointSetMetricWithIndexv4.h"
 #include "itkIdentityTransform.h"
 #include "itkCompensatedSummation.h"
 

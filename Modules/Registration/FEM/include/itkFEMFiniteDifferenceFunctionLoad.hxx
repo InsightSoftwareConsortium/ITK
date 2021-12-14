@@ -18,7 +18,6 @@
 #ifndef itkFEMFiniteDifferenceFunctionLoad_hxx
 #define itkFEMFiniteDifferenceFunctionLoad_hxx
 
-#include "itkFEMFiniteDifferenceFunctionLoad.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkTileImageFilter_hxx
 #define itkTileImageFilter_hxx
-#include "itkTileImageFilter.h"
 
 #include "itkMacro.h"
 #include "itkImageRegionIteratorWithIndex.h"

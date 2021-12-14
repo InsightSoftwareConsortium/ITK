@@ -18,7 +18,6 @@
 #ifndef itkRigid3DPerspectiveTransform_hxx
 #define itkRigid3DPerspectiveTransform_hxx
 
-#include "itkRigid3DPerspectiveTransform.h"
 
 namespace itk
 {

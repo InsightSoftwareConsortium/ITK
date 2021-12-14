@@ -28,7 +28,6 @@
 #ifndef itkInvertIntensityImageFilter_hxx
 #define itkInvertIntensityImageFilter_hxx
 
-#include "itkInvertIntensityImageFilter.h"
 #include "itkMinimumMaximumImageCalculator.h"
 
 namespace itk

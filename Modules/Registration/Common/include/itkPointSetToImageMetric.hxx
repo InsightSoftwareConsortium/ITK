@@ -18,7 +18,6 @@
 #ifndef itkPointSetToImageMetric_hxx
 #define itkPointSetToImageMetric_hxx
 
-#include "itkPointSetToImageMetric.h"
 
 namespace itk
 {

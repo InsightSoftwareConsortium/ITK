@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshScalarDataVTKPolyDataWriter_hxx
 #define itkQuadEdgeMeshScalarDataVTKPolyDataWriter_hxx
 
-#include "itkQuadEdgeMeshScalarDataVTKPolyDataWriter.h"
 
 namespace itk
 {

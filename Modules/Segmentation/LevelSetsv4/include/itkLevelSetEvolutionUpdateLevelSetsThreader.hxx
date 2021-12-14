@@ -18,7 +18,6 @@
 #ifndef itkLevelSetEvolutionUpdateLevelSetsThreader_hxx
 #define itkLevelSetEvolutionUpdateLevelSetsThreader_hxx
 
-#include "itkLevelSetEvolutionUpdateLevelSetsThreader.h"
 
 #include "itkImageRegionIterator.h"
 

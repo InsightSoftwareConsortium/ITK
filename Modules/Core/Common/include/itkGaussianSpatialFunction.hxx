@@ -20,7 +20,6 @@
 
 #include <cmath>
 #include "itkMath.h"
-#include "itkGaussianSpatialFunction.h"
 
 namespace itk
 {

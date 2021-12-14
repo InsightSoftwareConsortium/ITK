@@ -18,7 +18,6 @@
 #ifndef itkExhaustiveOptimizerv4_hxx
 #define itkExhaustiveOptimizerv4_hxx
 
-#include "itkExhaustiveOptimizerv4.h"
 
 namespace itk
 {

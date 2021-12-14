@@ -18,7 +18,6 @@
 #ifndef itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 #define itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor_hxx
 
-#include "itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
 
 namespace itk
 {

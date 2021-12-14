@@ -28,7 +28,6 @@
 #ifndef itkDeformableSimplexMesh3DFilter_hxx
 #define itkDeformableSimplexMesh3DFilter_hxx
 
-#include "itkDeformableSimplexMesh3DFilter.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 

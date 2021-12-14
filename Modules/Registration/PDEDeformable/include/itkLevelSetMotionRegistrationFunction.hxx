@@ -18,7 +18,6 @@
 #ifndef itkLevelSetMotionRegistrationFunction_hxx
 #define itkLevelSetMotionRegistrationFunction_hxx
 
-#include "itkLevelSetMotionRegistrationFunction.h"
 #include "itkMacro.h"
 #include "itkMath.h"
 

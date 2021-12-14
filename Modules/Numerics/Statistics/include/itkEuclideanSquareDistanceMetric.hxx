@@ -18,7 +18,6 @@
 #ifndef itkEuclideanSquareDistanceMetric_hxx
 #define itkEuclideanSquareDistanceMetric_hxx
 
-#include "itkEuclideanSquareDistanceMetric.h"
 
 namespace itk
 {

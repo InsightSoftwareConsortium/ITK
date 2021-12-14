@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHausdorffDistanceImageFilter_hxx
 #define itkHausdorffDistanceImageFilter_hxx
-#include "itkHausdorffDistanceImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkProgressAccumulator.h"

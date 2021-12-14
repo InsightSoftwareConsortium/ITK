@@ -18,7 +18,6 @@
 #ifndef itkSpatialObjectToImageStatisticsCalculator_hxx
 #define itkSpatialObjectToImageStatisticsCalculator_hxx
 
-#include "itkSpatialObjectToImageStatisticsCalculator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 
 #include "itkMeanSampleFilter.h"

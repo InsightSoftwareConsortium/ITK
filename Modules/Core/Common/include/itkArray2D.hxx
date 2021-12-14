@@ -18,7 +18,6 @@
 #ifndef itkArray2D_hxx
 #define itkArray2D_hxx
 
-#include "itkArray2D.h"
 
 namespace itk
 {

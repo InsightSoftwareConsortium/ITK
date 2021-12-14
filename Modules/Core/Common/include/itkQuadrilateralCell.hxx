@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkQuadrilateralCell_hxx
 #define itkQuadrilateralCell_hxx
-#include "itkQuadrilateralCell.h"
 #include "itkMath.h"
 #include "vnl/algo/vnl_determinant.h"
 

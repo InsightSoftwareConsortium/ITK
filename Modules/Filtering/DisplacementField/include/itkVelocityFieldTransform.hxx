@@ -18,7 +18,6 @@
 #ifndef itkVelocityFieldTransform_hxx
 #define itkVelocityFieldTransform_hxx
 
-#include "itkVelocityFieldTransform.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

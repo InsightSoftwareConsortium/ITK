@@ -18,7 +18,6 @@
 #ifndef itkBSplineTransformParametersAdaptor_hxx
 #define itkBSplineTransformParametersAdaptor_hxx
 
-#include "itkBSplineTransformParametersAdaptor.h"
 
 #include "itkBSplineDecompositionImageFilter.h"
 #include "itkBSplineResampleImageFunction.h"

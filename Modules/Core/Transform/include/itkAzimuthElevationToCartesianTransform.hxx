@@ -18,7 +18,6 @@
 #ifndef itkAzimuthElevationToCartesianTransform_hxx
 #define itkAzimuthElevationToCartesianTransform_hxx
 
-#include "itkAzimuthElevationToCartesianTransform.h"
 
 namespace itk
 {

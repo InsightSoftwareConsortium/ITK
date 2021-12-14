@@ -28,7 +28,6 @@
 #ifndef itkRandomImageSource_hxx
 #define itkRandomImageSource_hxx
 
-#include "itkRandomImageSource.h"
 #include "itkImageRegionIterator.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"

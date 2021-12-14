@@ -18,7 +18,6 @@
 #ifndef itkFEMRobustSolver_hxx
 #define itkFEMRobustSolver_hxx
 
-#include "itkFEMRobustSolver.h"
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"

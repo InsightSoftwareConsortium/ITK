@@ -19,7 +19,6 @@
 #ifndef itkShiSparseLevelSetImage_hxx
 #define itkShiSparseLevelSetImage_hxx
 
-#include "itkShiSparseLevelSetImage.h"
 
 namespace itk
 {

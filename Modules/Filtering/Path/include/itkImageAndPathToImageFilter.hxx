@@ -18,7 +18,6 @@
 #ifndef itkImageAndPathToImageFilter_hxx
 #define itkImageAndPathToImageFilter_hxx
 
-#include "itkImageAndPathToImageFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkWindowedSincInterpolateImageFunction_hxx
 #define itkWindowedSincInterpolateImageFunction_hxx
 
-#include "itkWindowedSincInterpolateImageFunction.h"
 
 #include "itkMath.h"
 

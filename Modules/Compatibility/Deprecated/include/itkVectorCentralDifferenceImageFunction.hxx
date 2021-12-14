@@ -18,7 +18,6 @@
 #ifndef itkVectorCentralDifferenceImageFunction_hxx
 #define itkVectorCentralDifferenceImageFunction_hxx
 
-#include "itkVectorCentralDifferenceImageFunction.h"
 
 namespace itk
 {

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkLabelStatisticsImageFilter_hxx
 #define itkLabelStatisticsImageFilter_hxx
-#include "itkLabelStatisticsImageFilter.h"
 
 #include "itkImageLinearConstIteratorWithIndex.h"
 #include "itkImageScanlineConstIterator.h"

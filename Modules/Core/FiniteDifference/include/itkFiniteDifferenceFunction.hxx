@@ -18,7 +18,6 @@
 #ifndef itkFiniteDifferenceFunction_hxx
 #define itkFiniteDifferenceFunction_hxx
 
-#include "itkFiniteDifferenceFunction.h"
 
 namespace itk
 {

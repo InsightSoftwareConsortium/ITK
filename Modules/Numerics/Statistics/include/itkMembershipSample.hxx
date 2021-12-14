@@ -18,7 +18,6 @@
 #ifndef itkMembershipSample_hxx
 #define itkMembershipSample_hxx
 
-#include "itkMembershipSample.h"
 
 namespace itk
 {

@@ -28,7 +28,6 @@
 #ifndef itkImportImageContainer_hxx
 #define itkImportImageContainer_hxx
 
-#include "itkImportImageContainer.h"
 #include <algorithm> // For copy_n.
 
 namespace itk

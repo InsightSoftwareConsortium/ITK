@@ -18,7 +18,6 @@
 #ifndef itkMovingHistogramMorphologyImageFilter_hxx
 #define itkMovingHistogramMorphologyImageFilter_hxx
 
-#include "itkMovingHistogramMorphologyImageFilter.h"
 #include "itkNumericTraits.h"
 
 namespace itk

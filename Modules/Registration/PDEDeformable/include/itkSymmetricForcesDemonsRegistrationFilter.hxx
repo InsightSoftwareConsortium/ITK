@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkSymmetricForcesDemonsRegistrationFilter_hxx
 #define itkSymmetricForcesDemonsRegistrationFilter_hxx
-#include "itkSymmetricForcesDemonsRegistrationFilter.h"
 
 namespace itk
 {

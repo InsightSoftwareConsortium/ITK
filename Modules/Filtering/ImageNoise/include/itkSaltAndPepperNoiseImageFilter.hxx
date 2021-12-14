@@ -18,7 +18,6 @@
 #ifndef itkSaltAndPepperNoiseImageFilter_hxx
 #define itkSaltAndPepperNoiseImageFilter_hxx
 
-#include "itkSaltAndPepperNoiseImageFilter.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"

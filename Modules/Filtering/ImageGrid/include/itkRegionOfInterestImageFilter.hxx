@@ -18,7 +18,6 @@
 #ifndef itkRegionOfInterestImageFilter_hxx
 #define itkRegionOfInterestImageFilter_hxx
 
-#include "itkRegionOfInterestImageFilter.h"
 #include "itkImageAlgorithm.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"

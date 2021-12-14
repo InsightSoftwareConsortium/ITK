@@ -18,7 +18,6 @@
 #ifndef itkCentralDifferenceImageFunction_hxx
 #define itkCentralDifferenceImageFunction_hxx
 
-#include "itkCentralDifferenceImageFunction.h"
 #include "itkLinearInterpolateImageFunction.h"
 
 namespace itk

@@ -21,7 +21,6 @@
 #include <algorithm>
 #include <vector>
 #include <queue>
-#include "itkMRASlabIdentifier.h"
 #include "itkImageRegionIterator.h"
 #include "itkMath.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkShapeKeepNObjectsLabelMapFilter_hxx
 #define itkShapeKeepNObjectsLabelMapFilter_hxx
 
-#include "itkShapeKeepNObjectsLabelMapFilter.h"
 #include "itkShapeLabelObject.h"
 #include "itkLabelMapUtilities.h"
 

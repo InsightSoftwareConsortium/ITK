@@ -18,7 +18,6 @@
 #ifndef itkPathToChainCodePathFilter_hxx
 #define itkPathToChainCodePathFilter_hxx
 
-#include "itkPathToChainCodePathFilter.h"
 
 namespace itk
 {

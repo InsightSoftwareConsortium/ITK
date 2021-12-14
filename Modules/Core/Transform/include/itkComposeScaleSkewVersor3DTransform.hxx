@@ -18,7 +18,6 @@
 #ifndef itkComposeScaleSkewVersor3DTransform_hxx
 #define itkComposeScaleSkewVersor3DTransform_hxx
 
-#include "itkComposeScaleSkewVersor3DTransform.h"
 #include "itkMath.h"
 
 #include "vnl/vnl_inverse.h"

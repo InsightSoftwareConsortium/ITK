@@ -18,7 +18,6 @@
 #ifndef itkObjectStore_hxx
 #define itkObjectStore_hxx
 
-#include "itkObjectStore.h"
 
 namespace itk
 {

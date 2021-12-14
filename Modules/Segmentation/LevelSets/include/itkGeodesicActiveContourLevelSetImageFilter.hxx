@@ -18,7 +18,6 @@
 #ifndef itkGeodesicActiveContourLevelSetImageFilter_hxx
 #define itkGeodesicActiveContourLevelSetImageFilter_hxx
 
-#include "itkGeodesicActiveContourLevelSetImageFilter.h"
 #include "itkMath.h"
 
 namespace itk

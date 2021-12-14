@@ -18,7 +18,6 @@
 #ifndef itkWrapPadImageFilter_hxx
 #define itkWrapPadImageFilter_hxx
 
-#include "itkWrapPadImageFilter.h"
 #include "itkProgressReporter.h"
 
 namespace itk

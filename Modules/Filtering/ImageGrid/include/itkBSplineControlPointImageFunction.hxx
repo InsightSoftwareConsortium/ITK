@@ -18,7 +18,6 @@
 #ifndef itkBSplineControlPointImageFunction_hxx
 #define itkBSplineControlPointImageFunction_hxx
 
-#include "itkBSplineControlPointImageFunction.h"
 
 #include "itkMath.h"
 #include "itkImageRegionIteratorWithIndex.h"

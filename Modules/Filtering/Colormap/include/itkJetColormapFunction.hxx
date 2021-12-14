@@ -18,7 +18,6 @@
 #ifndef itkJetColormapFunction_hxx
 #define itkJetColormapFunction_hxx
 
-#include "itkJetColormapFunction.h"
 
 namespace itk
 {

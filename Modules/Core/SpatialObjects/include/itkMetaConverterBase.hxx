@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMetaConverterBase_hxx
 #define itkMetaConverterBase_hxx
-#include "itkMetaConverterBase.h"
 
 #include "metaObject.h"
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMinMaxCurvatureFlowFunction_hxx
 #define itkMinMaxCurvatureFlowFunction_hxx
-#include "itkMinMaxCurvatureFlowFunction.h"
 
 #include "itkMath.h"
 #include "itkNeighborhoodInnerProduct.h"

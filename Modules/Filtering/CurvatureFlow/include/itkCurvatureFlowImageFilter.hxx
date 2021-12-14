@@ -18,7 +18,6 @@
 #ifndef itkCurvatureFlowImageFilter_hxx
 #define itkCurvatureFlowImageFilter_hxx
 
-#include "itkCurvatureFlowImageFilter.h"
 #include "itkMacro.h"
 
 namespace itk

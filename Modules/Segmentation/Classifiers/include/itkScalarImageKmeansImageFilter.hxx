@@ -18,7 +18,6 @@
 #ifndef itkScalarImageKmeansImageFilter_hxx
 #define itkScalarImageKmeansImageFilter_hxx
 
-#include "itkScalarImageKmeansImageFilter.h"
 #include "itkImageRegionExclusionIteratorWithIndex.h"
 
 #include "itkDistanceToCentroidMembershipFunction.h"

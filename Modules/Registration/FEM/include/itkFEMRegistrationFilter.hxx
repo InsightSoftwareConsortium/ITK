@@ -18,7 +18,6 @@
 #ifndef itkFEMRegistrationFilter_hxx
 #define itkFEMRegistrationFilter_hxx
 
-#include "itkFEMRegistrationFilter.h"
 
 #include "itkFEMElements.h"
 #include "itkFEMLoadBC.h"

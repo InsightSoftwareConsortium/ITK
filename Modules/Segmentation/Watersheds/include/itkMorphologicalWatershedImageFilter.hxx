@@ -18,7 +18,6 @@
 #ifndef itkMorphologicalWatershedImageFilter_hxx
 #define itkMorphologicalWatershedImageFilter_hxx
 
-#include "itkMorphologicalWatershedImageFilter.h"
 #include "itkRegionalMinimaImageFilter.h"
 #include "itkHMinimaImageFilter.h"
 #include "itkConnectedComponentImageFilter.h"

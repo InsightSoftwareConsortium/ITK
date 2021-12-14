@@ -18,7 +18,6 @@
 #ifndef itkQuadEdgeMeshBoundaryEdgesMeshFunction_hxx
 #define itkQuadEdgeMeshBoundaryEdgesMeshFunction_hxx
 
-#include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
 #include "itkQuadEdgeMesh.h" // Just to mark the dependence towards this class.
 
 namespace itk

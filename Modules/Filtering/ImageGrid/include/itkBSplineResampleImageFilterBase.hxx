@@ -28,7 +28,6 @@
 #ifndef itkBSplineResampleImageFilterBase_hxx
 #define itkBSplineResampleImageFilterBase_hxx
 
-#include "itkBSplineResampleImageFilterBase.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkReflectiveImageRegionConstIterator_hxx
 #define itkReflectiveImageRegionConstIterator_hxx
 
-#include "itkReflectiveImageRegionConstIterator.h"
 
 namespace itk
 {

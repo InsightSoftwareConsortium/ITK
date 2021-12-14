@@ -28,7 +28,6 @@
 #ifndef itkConnectedRegionsMeshFilter_hxx
 #define itkConnectedRegionsMeshFilter_hxx
 
-#include "itkConnectedRegionsMeshFilter.h"
 #include "itkNumericTraits.h"
 #include "itkObjectFactory.h"
 

@@ -18,7 +18,6 @@
 #ifndef itkChainCodeToFourierSeriesPathFilter_hxx
 #define itkChainCodeToFourierSeriesPathFilter_hxx
 
-#include "itkChainCodeToFourierSeriesPathFilter.h"
 #include <cmath>
 
 namespace itk

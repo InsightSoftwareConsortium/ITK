@@ -18,7 +18,6 @@
 #ifndef itkHeavisideStepFunction_hxx
 #define itkHeavisideStepFunction_hxx
 
-#include "itkHeavisideStepFunction.h"
 #include "itkMath.h"
 
 namespace itk

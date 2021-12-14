@@ -18,7 +18,6 @@
 #ifndef itkImageDuplicator_hxx
 #define itkImageDuplicator_hxx
 
-#include "itkImageDuplicator.h"
 #include "itkImageAlgorithm.h"
 
 namespace itk

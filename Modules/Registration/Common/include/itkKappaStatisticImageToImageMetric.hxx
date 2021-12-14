@@ -18,7 +18,6 @@
 #ifndef itkKappaStatisticImageToImageMetric_hxx
 #define itkKappaStatisticImageToImageMetric_hxx
 
-#include "itkKappaStatisticImageToImageMetric.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 

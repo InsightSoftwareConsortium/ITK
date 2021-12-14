@@ -19,7 +19,6 @@
 #define itkHistogramImageToImageMetric_hxx
 
 #include "itkArray.h"
-#include "itkHistogramImageToImageMetric.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"

@@ -18,7 +18,6 @@
 #ifndef itkVnlInverse1DFFTImageFilter_hxx
 #define itkVnlInverse1DFFTImageFilter_hxx
 
-#include "itkVnlInverse1DFFTImageFilter.h"
 
 #include "itkInverse1DFFTImageFilter.hxx"
 #include "itkImageLinearConstIteratorWithIndex.h"

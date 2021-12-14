@@ -20,7 +20,6 @@
 
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
-#include "itkValuedRegionalExtremaImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkConnectedComponentAlgorithm.h"
 

@@ -19,7 +19,6 @@
 #ifndef itkLevelSetEquationChanAndVeseExternalTerm_hxx
 #define itkLevelSetEquationChanAndVeseExternalTerm_hxx
 
-#include "itkLevelSetEquationChanAndVeseExternalTerm.h"
 
 namespace itk
 {

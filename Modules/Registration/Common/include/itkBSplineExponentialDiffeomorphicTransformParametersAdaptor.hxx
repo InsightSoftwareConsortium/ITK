@@ -18,7 +18,6 @@
 #ifndef itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_hxx
 #define itkBSplineExponentialDiffeomorphicTransformParametersAdaptor_hxx
 
-#include "itkBSplineExponentialDiffeomorphicTransformParametersAdaptor.h"
 
 namespace itk
 {

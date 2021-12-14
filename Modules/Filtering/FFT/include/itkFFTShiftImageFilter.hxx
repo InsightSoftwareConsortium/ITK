@@ -18,7 +18,6 @@
 #ifndef itkFFTShiftImageFilter_hxx
 #define itkFFTShiftImageFilter_hxx
 
-#include "itkFFTShiftImageFilter.h"
 
 namespace itk
 {

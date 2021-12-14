@@ -18,7 +18,6 @@
 #ifndef itkFEMSolver_hxx
 #define itkFEMSolver_hxx
 
-#include "itkFEMSolver.h"
 
 #include "itkFEMLoadNode.h"
 #include "itkFEMLoadElementBase.h"

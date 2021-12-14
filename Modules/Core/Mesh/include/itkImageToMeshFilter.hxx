@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkImageToMeshFilter_hxx
 #define itkImageToMeshFilter_hxx
-#include "itkImageToMeshFilter.h"
 
 namespace itk
 {

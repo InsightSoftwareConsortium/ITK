@@ -18,7 +18,6 @@
 #ifndef itkGradientDifferenceImageToImageMetric_hxx
 #define itkGradientDifferenceImageToImageMetric_hxx
 
-#include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"

@@ -18,7 +18,6 @@
 #ifndef itkConvolutionImageFilterBase_hxx
 #define itkConvolutionImageFilterBase_hxx
 
-#include "itkConvolutionImageFilterBase.h"
 
 namespace itk
 {

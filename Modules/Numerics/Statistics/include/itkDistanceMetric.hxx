@@ -18,7 +18,6 @@
 #ifndef itkDistanceMetric_hxx
 #define itkDistanceMetric_hxx
 
-#include "itkDistanceMetric.h"
 
 namespace itk
 {

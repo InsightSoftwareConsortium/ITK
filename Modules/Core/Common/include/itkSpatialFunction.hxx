@@ -18,7 +18,6 @@
 #ifndef itkSpatialFunction_hxx
 #define itkSpatialFunction_hxx
 
-#include "itkSpatialFunction.h"
 
 namespace itk
 {

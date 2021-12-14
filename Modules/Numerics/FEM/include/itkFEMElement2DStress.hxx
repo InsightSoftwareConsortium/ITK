@@ -19,7 +19,6 @@
 #ifndef itkFEMElement2DStress_hxx
 #define itkFEMElement2DStress_hxx
 
-#include "itkFEMElement2DStress.h"
 
 namespace itk
 {

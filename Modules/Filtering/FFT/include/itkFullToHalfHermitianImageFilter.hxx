@@ -18,7 +18,6 @@
 #ifndef itkFullToHalfHermitianImageFilter_hxx
 #define itkFullToHalfHermitianImageFilter_hxx
 
-#include "itkFullToHalfHermitianImageFilter.h"
 
 #include "itkImageAlgorithm.h"
 #include "itkProgressReporter.h"

@@ -18,7 +18,6 @@
 #ifndef itkSignedDanielssonDistanceMapImageFilter_hxx
 #define itkSignedDanielssonDistanceMapImageFilter_hxx
 
-#include "itkSignedDanielssonDistanceMapImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkBinaryBallStructuringElement.h"
 #include "itkBinaryDilateImageFilter.h"

@@ -18,7 +18,6 @@
 #ifndef itkIntermodesThresholdCalculator_hxx
 #define itkIntermodesThresholdCalculator_hxx
 
-#include "itkIntermodesThresholdCalculator.h"
 #include "itkProgressReporter.h"
 
 namespace itk

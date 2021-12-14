@@ -20,7 +20,6 @@
 
 
 #include "itkMath.h"
-#include "itkSurfaceSpatialObject.h"
 
 namespace itk
 {

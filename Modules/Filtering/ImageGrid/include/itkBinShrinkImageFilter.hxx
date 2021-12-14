@@ -18,7 +18,6 @@
 #ifndef itkBinShrinkImageFilter_hxx
 #define itkBinShrinkImageFilter_hxx
 
-#include "itkBinShrinkImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
 #include <numeric>

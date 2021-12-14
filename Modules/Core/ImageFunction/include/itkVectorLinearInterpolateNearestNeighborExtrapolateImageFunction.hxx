@@ -18,7 +18,6 @@
 #ifndef itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction_hxx
 #define itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction_hxx
 
-#include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
 
 #include "itkMath.h"
 

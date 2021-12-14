@@ -19,7 +19,6 @@
 #define itkGPUReduction_hxx
 
 #include "itkMacro.h"
-#include "itkGPUReduction.h"
 
 //#define CPU_VERIFY
 

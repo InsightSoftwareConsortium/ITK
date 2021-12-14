@@ -18,7 +18,6 @@
 #ifndef itkSimplexMesh_hxx
 #define itkSimplexMesh_hxx
 
-#include "itkSimplexMesh.h"
 
 #include "itkProcessObject.h"
 #include <algorithm>

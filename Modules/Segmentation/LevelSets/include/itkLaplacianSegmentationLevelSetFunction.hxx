@@ -18,7 +18,6 @@
 #ifndef itkLaplacianSegmentationLevelSetFunction_hxx
 #define itkLaplacianSegmentationLevelSetFunction_hxx
 
-#include "itkLaplacianSegmentationLevelSetFunction.h"
 #include "itkLaplacianImageFilter.h"
 #include "itkCastImageFilter.h"
 

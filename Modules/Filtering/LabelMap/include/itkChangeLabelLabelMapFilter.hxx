@@ -18,7 +18,6 @@
 #ifndef itkChangeLabelLabelMapFilter_hxx
 #define itkChangeLabelLabelMapFilter_hxx
 
-#include "itkChangeLabelLabelMapFilter.h"
 #include "itkProgressReporter.h"
 #include <deque>
 

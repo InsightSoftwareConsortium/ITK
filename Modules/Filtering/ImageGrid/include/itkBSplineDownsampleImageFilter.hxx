@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkBSplineDownsampleImageFilter_hxx
 #define itkBSplineDownsampleImageFilter_hxx
-#include "itkBSplineDownsampleImageFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkClassifierBase_hxx
 #define itkClassifierBase_hxx
 
-#include "itkClassifierBase.h"
 #include "itkCommand.h"
 
 namespace itk

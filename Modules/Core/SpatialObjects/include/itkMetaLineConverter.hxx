@@ -18,7 +18,6 @@
 #ifndef itkMetaLineConverter_hxx
 #define itkMetaLineConverter_hxx
 
-#include "itkMetaLineConverter.h"
 
 namespace itk
 {

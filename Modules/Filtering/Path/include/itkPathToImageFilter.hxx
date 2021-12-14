@@ -18,7 +18,6 @@
 #ifndef itkPathToImageFilter_hxx
 #define itkPathToImageFilter_hxx
 
-#include "itkPathToImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkPathIterator.h"
 #include "itkNumericTraits.h"

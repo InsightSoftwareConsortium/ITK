@@ -18,7 +18,6 @@
 #ifndef itkIsoContourDistanceImageFilter_hxx
 #define itkIsoContourDistanceImageFilter_hxx
 
-#include "itkIsoContourDistanceImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkIndex.h"
 #include <mutex>

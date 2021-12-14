@@ -18,7 +18,6 @@
 #ifndef itkMedianImageFunction_hxx
 #define itkMedianImageFunction_hxx
 
-#include "itkMedianImageFunction.h"
 #include "itkImage.h"
 #include "itkShapedImageNeighborhoodRange.h"
 

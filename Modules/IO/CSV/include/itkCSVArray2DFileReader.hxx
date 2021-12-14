@@ -18,7 +18,6 @@
 #ifndef itkCSVArray2DFileReader_hxx
 #define itkCSVArray2DFileReader_hxx
 
-#include "itkCSVArray2DFileReader.h"
 
 #include "itksys/SystemTools.hxx"
 #include <limits>

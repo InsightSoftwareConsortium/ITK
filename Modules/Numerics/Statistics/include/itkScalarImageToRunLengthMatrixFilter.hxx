@@ -18,7 +18,6 @@
 #ifndef itkScalarImageToRunLengthMatrixFilter_hxx
 #define itkScalarImageToRunLengthMatrixFilter_hxx
 
-#include "itkScalarImageToRunLengthMatrixFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhood.h"

@@ -18,7 +18,6 @@
 #ifndef itkSinRegularizedHeavisideStepFunction_hxx
 #define itkSinRegularizedHeavisideStepFunction_hxx
 
-#include "itkSinRegularizedHeavisideStepFunction.h"
 #include "itkMath.h"
 
 namespace itk

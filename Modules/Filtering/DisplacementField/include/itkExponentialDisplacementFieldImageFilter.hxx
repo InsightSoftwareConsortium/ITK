@@ -18,7 +18,6 @@
 #ifndef itkExponentialDisplacementFieldImageFilter_hxx
 #define itkExponentialDisplacementFieldImageFilter_hxx
 
-#include "itkExponentialDisplacementFieldImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageRegionConstIterator.h"
 

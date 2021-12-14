@@ -18,7 +18,6 @@
 #ifndef itkVectorGradientNDAnisotropicDiffusionFunction_hxx
 #define itkVectorGradientNDAnisotropicDiffusionFunction_hxx
 
-#include "itkVectorGradientNDAnisotropicDiffusionFunction.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkAttributeMorphologyBaseImageFilter_hxx
 #define itkAttributeMorphologyBaseImageFilter_hxx
 
-#include "itkAttributeMorphologyBaseImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkNumericTraits.h"

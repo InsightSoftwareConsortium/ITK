@@ -19,7 +19,6 @@
 #ifndef itkDOMReader_hxx
 #define itkDOMReader_hxx
 
-#include "itkDOMReader.h"
 #include "itksys/SystemTools.hxx"
 #include "itkStdStreamLogOutput.h"
 

@@ -21,7 +21,6 @@
 
 #include <iostream>
 
-#include "itkCastSpatialObjectFilter.h"
 
 namespace itk
 {

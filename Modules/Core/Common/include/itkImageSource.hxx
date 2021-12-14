@@ -27,7 +27,6 @@
  *=========================================================================*/
 #ifndef itkImageSource_hxx
 #define itkImageSource_hxx
-#include "itkImageSource.h"
 
 #include "itkOutputDataObjectIterator.h"
 #include "itkImageRegionSplitterBase.h"

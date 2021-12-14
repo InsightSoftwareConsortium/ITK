@@ -19,7 +19,6 @@
 #ifndef itkLevelSetDomainMapImageFilter_hxx
 #define itkLevelSetDomainMapImageFilter_hxx
 
-#include "itkLevelSetDomainMapImageFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkGaussianMembershipFunction_hxx
 #define itkGaussianMembershipFunction_hxx
 
-#include "itkGaussianMembershipFunction.h"
 
 namespace itk
 {

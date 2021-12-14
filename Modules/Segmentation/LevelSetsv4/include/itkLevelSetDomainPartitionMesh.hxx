@@ -18,7 +18,6 @@
 #ifndef itkLevelSetDomainPartitionMesh_hxx
 #define itkLevelSetDomainPartitionMesh_hxx
 
-#include "itkLevelSetDomainPartitionMesh.h"
 
 namespace itk
 {

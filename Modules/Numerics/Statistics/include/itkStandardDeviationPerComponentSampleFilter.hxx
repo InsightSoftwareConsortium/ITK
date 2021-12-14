@@ -18,7 +18,6 @@
 #ifndef itkStandardDeviationPerComponentSampleFilter_hxx
 #define itkStandardDeviationPerComponentSampleFilter_hxx
 
-#include "itkStandardDeviationPerComponentSampleFilter.h"
 #include "itkMeasurementVectorTraits.h"
 #include "itkMath.h"
 

@@ -28,7 +28,6 @@
 #ifndef itkSliceImageFilter_hxx
 #define itkSliceImageFilter_hxx
 
-#include "itkSliceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkContinuousIndex.h"

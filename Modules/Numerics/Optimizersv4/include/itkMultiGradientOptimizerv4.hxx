@@ -18,7 +18,6 @@
 #ifndef itkMultiGradientOptimizerv4_hxx
 #define itkMultiGradientOptimizerv4_hxx
 
-#include "itkMultiGradientOptimizerv4.h"
 
 namespace itk
 {

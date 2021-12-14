@@ -18,7 +18,6 @@
 #ifndef itkBSplineInterpolationWeightFunction_hxx
 #define itkBSplineInterpolationWeightFunction_hxx
 
-#include "itkBSplineInterpolationWeightFunction.h"
 #include "itkBSplineKernelFunction.h"
 #include "itkImage.h"
 #include "itkMatrix.h"

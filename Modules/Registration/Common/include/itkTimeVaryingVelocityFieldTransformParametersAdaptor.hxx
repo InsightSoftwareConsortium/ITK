@@ -18,7 +18,6 @@
 #ifndef itkTimeVaryingVelocityFieldTransformParametersAdaptor_hxx
 #define itkTimeVaryingVelocityFieldTransformParametersAdaptor_hxx
 
-#include "itkTimeVaryingVelocityFieldTransformParametersAdaptor.h"
 
 #include "itkIdentityTransform.h"
 #include "itkResampleImageFilter.h"

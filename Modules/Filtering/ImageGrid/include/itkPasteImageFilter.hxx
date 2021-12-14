@@ -18,7 +18,6 @@
 #ifndef itkPasteImageFilter_hxx
 #define itkPasteImageFilter_hxx
 
-#include "itkPasteImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"
 #include "itkImageAlgorithm.h"

@@ -19,7 +19,6 @@
 #define itkFFTWComplexToComplex1DFFTImageFilter_hxx
 
 #include "itkComplexToComplex1DFFTImageFilter.hxx"
-#include "itkFFTWComplexToComplex1DFFTImageFilter.h"
 
 #include "itkFFTWCommonExtended.h"
 #include "itkIndent.h"

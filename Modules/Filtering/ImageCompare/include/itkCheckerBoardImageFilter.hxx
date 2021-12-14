@@ -18,7 +18,6 @@
 #ifndef itkCheckerBoardImageFilter_hxx
 #define itkCheckerBoardImageFilter_hxx
 
-#include "itkCheckerBoardImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkObjectFactory.h"
 #include "itkTotalProgressReporter.h"

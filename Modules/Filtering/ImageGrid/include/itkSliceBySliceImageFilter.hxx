@@ -18,7 +18,6 @@
 #ifndef itkSliceBySliceImageFilter_hxx
 #define itkSliceBySliceImageFilter_hxx
 
-#include "itkSliceBySliceImageFilter.h"
 #include "itkProgressReporter.h"
 #include "itkImageAlgorithm.h"
 

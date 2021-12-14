@@ -18,7 +18,6 @@
 #ifndef itkMahalanobisDistanceThresholdImageFunction_hxx
 #define itkMahalanobisDistanceThresholdImageFunction_hxx
 
-#include "itkMahalanobisDistanceThresholdImageFunction.h"
 
 namespace itk
 {

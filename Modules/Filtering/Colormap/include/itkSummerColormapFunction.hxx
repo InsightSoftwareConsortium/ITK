@@ -18,7 +18,6 @@
 #ifndef itkSummerColormapFunction_hxx
 #define itkSummerColormapFunction_hxx
 
-#include "itkSummerColormapFunction.h"
 
 namespace itk
 {

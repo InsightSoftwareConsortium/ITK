@@ -18,7 +18,6 @@
 #ifndef itkBasicErodeImageFilter_hxx
 #define itkBasicErodeImageFilter_hxx
 
-#include "itkBasicErodeImageFilter.h"
 
 namespace itk
 {

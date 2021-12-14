@@ -18,7 +18,6 @@
 #ifndef itkHessianToObjectnessMeasureImageFilter_hxx
 #define itkHessianToObjectnessMeasureImageFilter_hxx
 
-#include "itkHessianToObjectnessMeasureImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkSymmetricEigenAnalysis.h"
 #include "itkProgressReporter.h"

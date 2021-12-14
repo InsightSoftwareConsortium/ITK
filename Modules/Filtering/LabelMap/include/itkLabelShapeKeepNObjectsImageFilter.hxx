@@ -18,7 +18,6 @@
 #ifndef itkLabelShapeKeepNObjectsImageFilter_hxx
 #define itkLabelShapeKeepNObjectsImageFilter_hxx
 
-#include "itkLabelShapeKeepNObjectsImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

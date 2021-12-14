@@ -18,7 +18,6 @@
 #ifndef itkAnchorOpenCloseLine_hxx
 #define itkAnchorOpenCloseLine_hxx
 
-#include "itkAnchorOpenCloseLine.h"
 
 namespace itk
 {

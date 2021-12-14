@@ -18,7 +18,6 @@
 #ifndef itkRegistrationParameterScalesFromPhysicalShift_hxx
 #define itkRegistrationParameterScalesFromPhysicalShift_hxx
 
-#include "itkRegistrationParameterScalesFromPhysicalShift.h"
 
 namespace itk
 {

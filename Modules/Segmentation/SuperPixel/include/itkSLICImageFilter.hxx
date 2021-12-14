@@ -18,7 +18,6 @@
 #ifndef itkSLICImageFilter_hxx
 #define itkSLICImageFilter_hxx
 
-#include "itkSLICImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"

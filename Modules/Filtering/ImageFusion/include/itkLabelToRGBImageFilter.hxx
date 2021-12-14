@@ -18,7 +18,6 @@
 #ifndef itkLabelToRGBImageFilter_hxx
 #define itkLabelToRGBImageFilter_hxx
 
-#include "itkLabelToRGBImageFilter.h"
 
 /*
  *

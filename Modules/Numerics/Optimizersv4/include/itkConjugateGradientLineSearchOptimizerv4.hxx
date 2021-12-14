@@ -18,7 +18,6 @@
 #ifndef itkConjugateGradientLineSearchOptimizerv4_hxx
 #define itkConjugateGradientLineSearchOptimizerv4_hxx
 
-#include "itkConjugateGradientLineSearchOptimizerv4.h"
 
 namespace itk
 {

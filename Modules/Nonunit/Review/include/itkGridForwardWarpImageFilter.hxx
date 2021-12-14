@@ -18,7 +18,6 @@
 #ifndef itkGridForwardWarpImageFilter_hxx
 #define itkGridForwardWarpImageFilter_hxx
 
-#include "itkGridForwardWarpImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionConstIterator.h"

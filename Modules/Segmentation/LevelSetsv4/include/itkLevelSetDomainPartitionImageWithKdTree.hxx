@@ -18,7 +18,6 @@
 #ifndef itkLevelSetDomainPartitionImageWithKdTree_hxx
 #define itkLevelSetDomainPartitionImageWithKdTree_hxx
 
-#include "itkLevelSetDomainPartitionImageWithKdTree.h"
 
 namespace itk
 {

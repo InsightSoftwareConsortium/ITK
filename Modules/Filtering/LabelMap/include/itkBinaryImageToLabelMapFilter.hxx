@@ -18,7 +18,6 @@
 #ifndef itkBinaryImageToLabelMapFilter_hxx
 #define itkBinaryImageToLabelMapFilter_hxx
 
-#include "itkBinaryImageToLabelMapFilter.h"
 #include "itkNumericTraits.h"
 #include "itkImageScanlineIterator.h"
 #include "itkConstShapedNeighborhoodIterator.h"

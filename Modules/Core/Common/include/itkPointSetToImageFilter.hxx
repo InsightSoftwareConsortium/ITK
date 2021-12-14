@@ -18,7 +18,6 @@
 #ifndef itkPointSetToImageFilter_hxx
 #define itkPointSetToImageFilter_hxx
 
-#include "itkPointSetToImageFilter.h"
 
 #include "itkBoundingBox.h"
 #include "itkImageRegionIteratorWithIndex.h"

@@ -18,7 +18,6 @@
 #ifndef itkComplexBSplineInterpolateImageFunction_hxx
 #define itkComplexBSplineInterpolateImageFunction_hxx
 
-#include "itkComplexBSplineInterpolateImageFunction.h"
 
 namespace itk
 {

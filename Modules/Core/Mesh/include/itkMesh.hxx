@@ -28,7 +28,6 @@
 #ifndef itkMesh_hxx
 #define itkMesh_hxx
 
-#include "itkMesh.h"
 #include "itkProcessObject.h"
 #include <algorithm>
 #include <iterator>

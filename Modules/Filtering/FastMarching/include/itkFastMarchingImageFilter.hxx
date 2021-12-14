@@ -18,7 +18,6 @@
 #ifndef itkFastMarchingImageFilter_hxx
 #define itkFastMarchingImageFilter_hxx
 
-#include "itkFastMarchingImageFilter.h"
 #include "itkImageRegionIterator.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"

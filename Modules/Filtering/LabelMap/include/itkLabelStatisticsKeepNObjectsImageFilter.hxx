@@ -18,7 +18,6 @@
 #ifndef itkLabelStatisticsKeepNObjectsImageFilter_hxx
 #define itkLabelStatisticsKeepNObjectsImageFilter_hxx
 
-#include "itkLabelStatisticsKeepNObjectsImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk

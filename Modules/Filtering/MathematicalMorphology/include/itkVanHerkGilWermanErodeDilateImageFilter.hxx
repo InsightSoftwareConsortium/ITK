@@ -18,7 +18,6 @@
 #ifndef itkVanHerkGilWermanErodeDilateImageFilter_hxx
 #define itkVanHerkGilWermanErodeDilateImageFilter_hxx
 
-#include "itkVanHerkGilWermanErodeDilateImageFilter.h"
 #include "itkImageRegionIterator.h"
 
 #include "itkVanHerkGilWermanUtilities.h"

@@ -18,7 +18,6 @@
 #ifndef itkMaskedRankImageFilter_hxx
 #define itkMaskedRankImageFilter_hxx
 
-#include "itkMaskedRankImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkOffset.h"
 #include "itkProgressReporter.h"

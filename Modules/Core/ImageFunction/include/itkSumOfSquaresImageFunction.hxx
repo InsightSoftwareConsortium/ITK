@@ -18,7 +18,6 @@
 #ifndef itkSumOfSquaresImageFunction_hxx
 #define itkSumOfSquaresImageFunction_hxx
 
-#include "itkSumOfSquaresImageFunction.h"
 
 #include "itkShapedImageNeighborhoodRange.h"
 
