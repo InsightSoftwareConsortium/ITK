@@ -187,7 +187,6 @@
 #endif
 
 #if defined(ITK_COMPILER_SUPPORTS_SSE2_64) || \
-    defined(__i386__) || \
     (defined(_M_IX86_FP) && (_M_IX86_FP >= 2))
 #  define ITK_COMPILER_SUPPORTS_SSE2_32
 #endif
