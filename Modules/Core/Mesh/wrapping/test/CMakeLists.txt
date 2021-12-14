@@ -25,4 +25,6 @@ if(ITK_WRAP_PYTHON)
    EXPRESSION "instance = itk.RegularSphereMeshSource.New()")
   itk_python_expression_add_test(NAME itkSphereMeshSourcePythonTest
    EXPRESSION "instance = itk.SphereMeshSource.New()")
+
+  itk_python_add_test(NAME itkMeshArrayPixelTypePythonTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkMeshArrayPixelTypeTest.py)
 endif()
