@@ -97,8 +97,8 @@ protected:
 
 } // end namespace itk
 
+#ifndef ITK_MANUAL_INSTANTIATION
+#  include "itkJointHistogramMutualInformationComputeJointPDFThreaderBase.hxx"
 #endif
 
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkJointHistogramMutualInformationComputeJointPDFThreaderBase.hxx"
 #endif

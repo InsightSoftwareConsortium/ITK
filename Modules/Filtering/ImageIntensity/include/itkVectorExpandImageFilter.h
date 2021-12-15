@@ -187,10 +187,10 @@ private:
   InterpolatorPointer    m_Interpolator;
 };
 } // end namespace itk
+
+#  ifndef ITK_MANUAL_INSTANTIATION
+#    include "itkVectorExpandImageFilter.hxx"
+#  endif
+
 #endif // ITK_LEGACY_REMOVE
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkVectorExpandImageFilter.hxx"
-#endif
-
 #endif
