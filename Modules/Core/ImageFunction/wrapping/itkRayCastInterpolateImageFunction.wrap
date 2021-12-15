@@ -2,7 +2,7 @@ itk_wrap_filter_dims(has_d_3 3)
 
 if(has_d_3)
     set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
-    itk_wrap_include("itkRayCastInterpolateImageFunction.hxx")
+    itk_wrap_include("itkRayCastInterpolateImageFunction.h")
     itk_wrap_simple_class("RayCastHelperEnums")
     itk_wrap_class("itk::RayCastInterpolateImageFunction" POINTER)
       foreach(t ${WRAP_ITK_SCALAR})

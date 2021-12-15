@@ -167,6 +167,27 @@ protected:
   friend class LBFGSOptimizerBaseHelperv4<TInternalVnlOptimizerType>;
   friend class LBFGSBOptimizerHelperv4;
 };
+
+template <typename TInternalVnlOptimizerType>
+class ITK_TEMPLATE_EXPORT LBFGSOptimizerBaseHelperv4 : public TInternalVnlOptimizerType
+{
+public:
+  using Self = LBFGSOptimizerBaseHelperv4;
+  using Superclass = TInternalVnlOptimizerType;
+
+  LBFGSOptimizerBaseHelperv4(vnl_cost_function & f, LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * itkObj)
+    : TInternalVnlOptimizerType(f)
+    , m_ItkObj(itkObj)
+  {}
+
+protected:
+  LBFGSOptimizerBasev4<TInternalVnlOptimizerType> * m_ItkObj;
+
+  /** Handle new iteration event */
+  bool
+  report_iter() override;
+};
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
