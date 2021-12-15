@@ -51,9 +51,6 @@ ScancoImageIO::ScancoImageIO()
   this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
 
   this->AddSupportedWriteExtension(".isq");
-  this->AddSupportedWriteExtension(".rsq");
-  this->AddSupportedWriteExtension(".rad");
-  this->AddSupportedWriteExtension(".aim");
 
   this->AddSupportedReadExtension(".isq");
   this->AddSupportedReadExtension(".rsq");
