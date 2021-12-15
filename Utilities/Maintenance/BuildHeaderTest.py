@@ -130,15 +130,11 @@ def main():
         else:
             max_idx = added_header_idx + maximum_number_of_headers
         for i in range(added_header_idx, max_idx):
-            # Use the .hxx if possible.
-            hxx_file = h_files[i][:-1] + "hxx"
             # Files that include VTK headers need to link to VTK.
             if h_files[i] in BANNED_HEADERS or h_files[i].lower().find("vtk") != -1:
                 to_include = (
                     '// #include "' + h_files[i] + '" // Banned in BuildHeaderTest.py\n'
                 )
-            elif os.path.exists(os.path.join(module_source_path, "include", hxx_file)):
-                to_include = '#include "' + hxx_file + '"\n'
             else:
                 to_include = '#include "' + h_files[i] + '"\n'
 
