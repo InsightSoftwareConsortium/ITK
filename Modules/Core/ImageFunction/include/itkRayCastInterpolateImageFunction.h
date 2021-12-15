@@ -194,6 +194,36 @@ protected:
 };
 } // namespace itk
 
+
+/**\class RayCastHelperEnums
+ * \brief Contains all enum classes used by RayCastHelper class.
+ * \ingroup ITKImageFunction
+ * @tparam TInputImage
+ * @tparam TCoordRep
+ */
+class RayCastHelperEnums
+{
+public:
+  /**
+   * \class TraversalDirection
+   * \ingroup ITKImageFunction
+   * The ray is traversed by stepping in the axial direction
+   * that enables the greatest number of planes in the volume to be
+   * intercepted.
+   *
+   * This enumeration is not exposed to the user, so no need to
+   * create an ostream operator<< for it.
+   */
+  enum class TraversalDirection : uint8_t
+  {
+    UNDEFINED_DIRECTION = 0, //!< Undefined
+    TRANSVERSE_IN_X,         //!< x
+    TRANSVERSE_IN_Y,         //!< y
+    TRANSVERSE_IN_Z,         //!< z
+    LAST_DIRECTION
+  };
+};
+
 #ifndef ITK_MANUAL_INSTANTIATION
 #  include "itkRayCastInterpolateImageFunction.hxx"
 #endif
