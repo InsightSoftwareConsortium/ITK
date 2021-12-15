@@ -502,26 +502,14 @@ MetaImageIO::GetMetaImagePointer()
 bool
 MetaImageIO::CanWriteFile(const char * name)
 {
-  std::string filename = name;
+  const std::string filename = name;
 
   if (filename.empty())
   {
     return false;
   }
 
-  std::string::size_type mhaPos = filename.rfind(".mha");
-  if ((mhaPos != std::string::npos) && (mhaPos == filename.length() - 4))
-  {
-    return true;
-  }
-
-  std::string::size_type mhdPos = filename.rfind(".mhd");
-  if ((mhdPos != std::string::npos) && (mhdPos == filename.length() - 4))
-  {
-    return true;
-  }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, true);
 }
 
 void
