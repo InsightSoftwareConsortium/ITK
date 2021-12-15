@@ -166,8 +166,8 @@ private:
 //  Software Guide : EndLatex
 
 
-#ifndef CustomTriangleVisitor
-#  define CustomTriangleVisitor
+#ifndef CustomTriangleVisitorDefine
+#  define CustomTriangleVisitorDefine
 // Software Guide : BeginCodeSnippet
 class CustomTriangleVisitor
 {
