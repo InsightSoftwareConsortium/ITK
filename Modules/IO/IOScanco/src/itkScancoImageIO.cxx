@@ -1364,15 +1364,7 @@ ScancoImageIO::CanWriteFile(const char * name)
     return false;
   }
 
-  std::string filenameLower = filename;
-  std::transform(filenameLower.begin(), filenameLower.end(), filenameLower.begin(), ::tolower);
-  std::string::size_type isqPos = filenameLower.rfind(".isq");
-  if ((isqPos != std::string::npos) && (isqPos == filename.length() - 4))
-  {
-    return true;
-  }
-
-  return false;
+  return this->HasSupportedWriteExtension(name, true);
 }
 
 
