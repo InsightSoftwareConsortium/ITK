@@ -84,8 +84,8 @@ using TetrahedronType = itk::TetrahedronCell<CellType>;
 //  Software Guide : EndLatex
 
 
-#ifndef CustomTriangleVisitor
-#  define CustomTriangleVisitor
+#ifndef CustomTriangleVisitorDefine
+#  define CustomTriangleVisitorDefine
 // Software Guide : BeginCodeSnippet
 class CustomTriangleVisitor
 {
@@ -101,7 +101,7 @@ public:
   virtual ~CustomTriangleVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
-#endif
+#endif // CustomTriangleVisitorDefine
 
 int
 main(int, char *[])
