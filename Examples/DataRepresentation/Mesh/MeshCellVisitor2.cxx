@@ -166,8 +166,8 @@ private:
 //  Software Guide : EndLatex
 
 
-#ifndef CustomTriangleVisitor
-#  define CustomTriangleVisitor
+#ifndef CustomTriangleVisitor_Class
+#  define CustomTriangleVisitor_Class
 // Software Guide : BeginCodeSnippet
 class CustomTriangleVisitor
 {
@@ -183,7 +183,7 @@ public:
       std::cout << "  point id = " << *pit << std::endl;
       ++pit;
     }
-  }
+  };
   virtual ~CustomTriangleVisitor() = default;
 };
 // Software Guide : EndCodeSnippet
