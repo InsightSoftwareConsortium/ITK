@@ -110,15 +110,15 @@ namespace itk
 #    define CLANG_SUPPRESS_Wfloat_equal
 #  endif
 #  if __has_warning("-Wc++14-extensions")
-#    define CLANG_SUPPRESS_Wc__14_extensions ITK_PRAGMA(clang diagnostic ignored "-Wc++14-extensions")
+#    define CLANG_SUPPRESS_Wcpp14_extensions ITK_PRAGMA(clang diagnostic ignored "-Wc++14-extensions")
 #  else
-#    define CLANG_SUPPRESS_Wc__14_extensions
+#    define CLANG_SUPPRESS_Wcpp14_extensions
 #  endif
 #else
 #  define CLANG_PRAGMA_PUSH
 #  define CLANG_PRAGMA_POP
 #  define CLANG_SUPPRESS_Wfloat_equal
-#  define CLANG_SUPPRESS_Wc__14_extensions
+#  define CLANG_SUPPRESS_Wcpp14_extensions
 #endif
 
 // Intel compiler convenience macros
