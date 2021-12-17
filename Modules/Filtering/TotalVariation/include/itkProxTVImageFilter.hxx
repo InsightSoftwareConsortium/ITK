@@ -18,7 +18,6 @@
 #ifndef itkProxTVImageFilter_hxx
 #define itkProxTVImageFilter_hxx
 
-#include "itkProxTVImageFilter.h"
 
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
