@@ -36,7 +36,6 @@ CIT 6, 89-94 (1998).
 #ifndef itkSiddonJacobsRayCastInterpolateImageFunction_hxx
 #define itkSiddonJacobsRayCastInterpolateImageFunction_hxx
 
-#include "itkSiddonJacobsRayCastInterpolateImageFunction.h"
 
 #include "itkMath.h"
 #include <cstdlib>

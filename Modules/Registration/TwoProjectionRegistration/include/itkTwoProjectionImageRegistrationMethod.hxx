@@ -18,8 +18,6 @@
 #ifndef itkTwoProjectionImageRegistrationMethod_hxx
 #define itkTwoProjectionImageRegistrationMethod_hxx
 
-#include "itkTwoProjectionImageRegistrationMethod.h"
-
 
 namespace itk
 {
