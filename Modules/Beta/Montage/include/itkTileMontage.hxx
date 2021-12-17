@@ -492,7 +492,7 @@ TileMontage<TImageType, TCoordinate>::OptimizeTiles()
       for (unsigned d = 0; d < ImageDimension; d++)
       {
         TCoordinate trOverDev = translations(i, d) / stdDev0(d);
-        outlierScore[i] += std::abs(trOverDev);
+        outlierScore[i] += itk::Math::abs(trOverDev);
       }
       if (outlierScore[i] > m_RelativeThreshold) // more than this many standard deviations
       {

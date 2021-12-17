@@ -484,7 +484,7 @@ TileMergeImageFilter<TImageType, TPixelAccumulateType, TInterpolator>::ResampleS
       for (unsigned d = 0; d < ImageDimension; d++)
       {
         ContinuousValueType translation = (oOrigin[d] - iOrigin[d]) / spacing[d] + continuousIndexDifferences[t][d];
-        ContinuousValueType absDiff = std::abs(translation - std::round(translation));
+        ContinuousValueType absDiff = itk::Math::abs(translation - std::round(translation));
         if (absDiff > eps)
         {
           interpolate = true;
