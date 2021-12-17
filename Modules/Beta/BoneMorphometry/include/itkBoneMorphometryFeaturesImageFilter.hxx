@@ -18,7 +18,6 @@
 #ifndef itkBoneMorphometryFeaturesImageFilter_hxx
 #define itkBoneMorphometryFeaturesImageFilter_hxx
 
-#include "itkBoneMorphometryFeaturesImageFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
@@ -210,7 +209,7 @@ BoneMorphometryFeaturesImageFilter<TInputImage, TOutputImage, TMaskImage>::IsIns
   bool insideNeighborhood = true;
   for (unsigned int i = 0; i < this->m_NeighborhoodRadius.Dimension; ++i)
   {
-    int boundDistance = m_NeighborhoodRadius[i] - Math::abs(iteratedOffset[i]);
+    int boundDistance = m_NeighborhoodRadius[i] - itk::Math::abs(iteratedOffset[i]);
     if (boundDistance < 0)
     {
       insideNeighborhood = false;
