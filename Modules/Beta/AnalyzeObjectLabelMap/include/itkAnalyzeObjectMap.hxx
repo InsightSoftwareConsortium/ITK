@@ -21,7 +21,6 @@
 #ifndef itkAnalyzeObjectMap_hxx
 #define itkAnalyzeObjectMap_hxx
 
-#include "itkAnalyzeObjectMap.h"
 #include "itkImageRegionIterator.h"
 
 namespace itk
