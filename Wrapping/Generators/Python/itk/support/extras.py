@@ -592,7 +592,12 @@ array_from_matrix = GetArrayFromMatrix
 def GetMatrixFromArray(arr: ArrayLike) -> "itkt.Matrix":
     import itk
 
+    # Verify inputs
+    if not isinstance(arr, np.ndarray):
+        arr = np.asarray(arr)
+
     vnl_matrix = GetVnlMatrixFromArray(arr)
+
     dims = arr.shape
     PixelType = _get_itk_pixelid(arr)
     m = itk.Matrix[PixelType, dims[0], dims[1]](vnl_matrix)

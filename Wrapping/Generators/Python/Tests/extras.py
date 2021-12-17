@@ -415,6 +415,14 @@ assert m_itk(0, 0) == 1
 assert repr(m_itk) == "itkMatrixD33 ([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])"
 # Test __array__
 assert np.array_equal(np.asarray(m_itk), np.eye(3))
+# Test array like input
+arr3 = [[0., 0.], [0., 0.]]
+m_itk = itk.matrix_from_array(arr3)
+m_itk.SetIdentity()
+# Test that the array like has not changed,...
+assert arr3[0][0] == 0
+# but that the ITK matrix has the correct value.
+assert m_itk(0, 0) == 1
 
 # test .astype for itk.Image
 numpyImage = np.random.randint(0, 256, (8, 12, 5)).astype(np.uint8)
