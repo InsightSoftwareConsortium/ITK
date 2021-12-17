@@ -449,11 +449,11 @@ ScancoImageIO::ReadISQHeader(std::ifstream * file, unsigned long bytesRead)
   if (physdim[2] != 0)
   {
     double computedSpacing = physdim[2] * 1e-3 / pixdim[2];
-    if (fabs(computedSpacing - this->m_SliceThickness) < 1.1e-3)
+    if (itk::Math::abs(computedSpacing - this->m_SliceThickness) < 1.1e-3)
     {
       this->m_SliceThickness = computedSpacing;
     }
-    if (fabs(computedSpacing - this->m_SliceIncrement) < 1.1e-3)
+    if (itk::Math::abs(computedSpacing - this->m_SliceIncrement) < 1.1e-3)
     {
       this->m_SliceIncrement = computedSpacing;
     }
