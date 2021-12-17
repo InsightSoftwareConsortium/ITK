@@ -18,7 +18,6 @@
 #ifndef itkNMinimaMaximaImageCalculator_hxx
 #define itkNMinimaMaximaImageCalculator_hxx
 
-#include "itkNMinimaMaximaImageCalculator.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkMultiThreaderBase.h"

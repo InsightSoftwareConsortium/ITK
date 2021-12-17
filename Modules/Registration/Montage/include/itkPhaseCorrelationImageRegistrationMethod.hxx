@@ -18,7 +18,6 @@
 #ifndef itkPhaseCorrelationImageRegistrationMethod_hxx
 #define itkPhaseCorrelationImageRegistrationMethod_hxx
 
-#include "itkPhaseCorrelationImageRegistrationMethod.h"
 
 #include "itkMath.h"
 #include "itkNumericTraits.h"

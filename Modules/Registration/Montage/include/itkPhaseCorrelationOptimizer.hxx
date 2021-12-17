@@ -18,7 +18,6 @@
 #ifndef itkPhaseCorrelationOptimizer_hxx
 #define itkPhaseCorrelationOptimizer_hxx
 
-#include "itkPhaseCorrelationOptimizer.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIteratorWithIndex.h"

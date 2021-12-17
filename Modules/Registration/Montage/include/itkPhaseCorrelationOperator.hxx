@@ -18,7 +18,6 @@
 #ifndef itkPhaseCorrelationOperator_hxx
 #define itkPhaseCorrelationOperator_hxx
 
-#include "itkPhaseCorrelationOperator.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkMetaDataObject.h"

@@ -19,7 +19,6 @@
 #ifndef itkTileMergeImageFilter_hxx
 #define itkTileMergeImageFilter_hxx
 
-#include "itkTileMergeImageFilter.h"
 
 #include "itkMultiThreaderBase.h"
 
