@@ -20,7 +20,6 @@
 #define itkCuberilleImageToMeshFilter_hxx
 
 #include "itkMath.h"
-#include "itkCuberilleImageToMeshFilter.h"
 #include "itkNumericTraits.h"
 #include <itkConnectedComponentImageFilter.h>
 #include <array>
