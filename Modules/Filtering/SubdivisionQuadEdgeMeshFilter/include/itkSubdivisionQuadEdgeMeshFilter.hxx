@@ -19,7 +19,6 @@
 #ifndef itkSubdivisionQuadEdgeMeshFilter_hxx
 #define itkSubdivisionQuadEdgeMeshFilter_hxx
 
-#include "itkSubdivisionQuadEdgeMeshFilter.h"
 
 namespace itk
 {

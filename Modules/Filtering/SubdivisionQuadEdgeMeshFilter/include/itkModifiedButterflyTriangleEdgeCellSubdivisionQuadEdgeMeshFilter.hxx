@@ -18,7 +18,6 @@
 #ifndef itkModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
 #define itkModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter_hxx
 
-#include "itkModifiedButterflyTriangleEdgeCellSubdivisionQuadEdgeMeshFilter.h"
 
 namespace itk
 {

@@ -18,7 +18,6 @@
 #ifndef itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 #define itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
-#include "itkModifiedButterflyTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 #include "itkNumericTraits.h"
 
 namespace itk

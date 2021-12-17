@@ -18,7 +18,6 @@
 #ifndef itkLinearTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 #define itkLinearTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
-#include "itkLinearTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 
 namespace itk
 {

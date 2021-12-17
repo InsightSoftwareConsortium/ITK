@@ -18,7 +18,6 @@
 #ifndef itkLoopTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 #define itkLoopTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
-#include "itkLoopTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 #include "itkMath.h"
 #include <set>
 

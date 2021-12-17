@@ -19,7 +19,6 @@
 #ifndef itkIterativeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 #define itkIterativeTriangleCellSubdivisionQuadEdgeMeshFilter_hxx
 
-#include "itkIterativeTriangleCellSubdivisionQuadEdgeMeshFilter.h"
 #include <algorithm>
 
 namespace itk

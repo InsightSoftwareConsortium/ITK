@@ -19,7 +19,6 @@
 #ifndef itkEdgeLengthTriangleEdgeCellSubdivisionCriterion_hxx
 #define itkEdgeLengthTriangleEdgeCellSubdivisionCriterion_hxx
 
-#include "itkEdgeLengthTriangleEdgeCellSubdivisionCriterion.h"
 
 namespace itk
 {

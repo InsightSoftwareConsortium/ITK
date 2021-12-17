@@ -19,7 +19,6 @@
 #ifndef itkCellAreaTriangleCellSubdivisionCriterion_hxx
 #define itkCellAreaTriangleCellSubdivisionCriterion_hxx
 
-#include "itkCellAreaTriangleCellSubdivisionCriterion.h"
 
 namespace itk
 {
