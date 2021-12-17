@@ -310,7 +310,7 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::DijkstraBasedClassificationAH
         NodeIndexType    indexNgbh = index + m_NeighborIndexOffsets[i];
         NodeKeyValueType neighborCurrentDistance = distanceVolumePtr[indexNgbh];
         NodeKeyValueType neighborNewDistance =
-          fabs(pixCenter - imSrc[indexNgbh]) + currentDistance + m_NeighborDistancePenalties[i];
+          itk::Math::abs(pixCenter - imSrc[indexNgbh]) + currentDistance + m_NeighborDistancePenalties[i];
         if (neighborCurrentDistance > neighborNewDistance)
         {
           distanceVolumePtr[indexNgbh] = neighborNewDistance;
@@ -348,7 +348,7 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::DijkstraBasedClassificationAH
         NodeIndexType    indexNgbh = index + m_NeighborIndexOffsets[i];
         NodeKeyValueType neighborCurrentDistance = distanceVolumePtr[indexNgbh];
         NodeKeyValueType neighborNewDistance =
-          fabs(pixCenter - imSrc[indexNgbh]) + currentDistance + m_NeighborDistancePenalties[i];
+          itk::Math::abs(pixCenter - imSrc[indexNgbh]) + currentDistance + m_NeighborDistancePenalties[i];
         if (neighborCurrentDistance > neighborNewDistance)
         {
           distanceVolumePtr[indexNgbh] = neighborNewDistance;
