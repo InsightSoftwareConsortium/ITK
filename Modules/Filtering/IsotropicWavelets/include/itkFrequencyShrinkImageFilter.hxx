@@ -18,7 +18,6 @@
 #ifndef itkFrequencyShrinkImageFilter_hxx
 #define itkFrequencyShrinkImageFilter_hxx
 
-#include <itkFrequencyShrinkImageFilter.h>
 #include <itkProgressReporter.h>
 #include <numeric>
 #include <functional>

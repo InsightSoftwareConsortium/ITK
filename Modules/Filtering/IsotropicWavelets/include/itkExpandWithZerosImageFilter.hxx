@@ -18,7 +18,6 @@
 #ifndef itkExpandWithZerosImageFilter_hxx
 #define itkExpandWithZerosImageFilter_hxx
 
-#include "itkExpandWithZerosImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkObjectFactory.h"

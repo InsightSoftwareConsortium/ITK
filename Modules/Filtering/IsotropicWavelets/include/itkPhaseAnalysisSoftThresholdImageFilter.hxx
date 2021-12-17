@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkPhaseAnalysisSoftThresholdImageFilter_hxx
 #define itkPhaseAnalysisSoftThresholdImageFilter_hxx
-#include "itkPhaseAnalysisSoftThresholdImageFilter.h"
 #include "itkImageScanlineConstIterator.h"
 #include "itkImageScanlineIterator.h"
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkMonogenicSignalFrequencyImageFilter_hxx
 #define itkMonogenicSignalFrequencyImageFilter_hxx
-#include "itkMonogenicSignalFrequencyImageFilter.h"
 #include "itkImageRegionIterator.h"
 namespace itk
 {

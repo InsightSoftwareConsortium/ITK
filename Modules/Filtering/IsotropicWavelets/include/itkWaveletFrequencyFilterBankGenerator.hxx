@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWaveletFrequencyFilterBankGenerator_hxx
 #define itkWaveletFrequencyFilterBankGenerator_hxx
-#include "itkWaveletFrequencyFilterBankGenerator.h"
 #include "itkNumericTraits.h"
 
 namespace itk

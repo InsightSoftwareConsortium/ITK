@@ -20,7 +20,6 @@
 
 #include <cmath>
 #include <itkMath.h>
-#include <itkVowIsotropicWavelet.h>
 
 namespace itk
 {

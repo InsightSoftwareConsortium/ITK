@@ -18,7 +18,6 @@
 #ifndef itkFrequencyExpandImageFilter_hxx
 #define itkFrequencyExpandImageFilter_hxx
 
-#include <itkFrequencyExpandImageFilter.h>
 #include <itkProgressReporter.h>
 #include "itkInd2Sub.h"
 #include <itkPasteImageFilter.h>

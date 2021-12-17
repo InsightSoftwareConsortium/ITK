@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkStructureTensorImageFilter_hxx
 #define itkStructureTensorImageFilter_hxx
-#include "itkStructureTensorImageFilter.h"
 #include "itkImageScanlineConstIterator.h"
 #include "itkImageScanlineIterator.h"
 #include <itkMultiplyImageFilter.h>

@@ -18,7 +18,6 @@
 #ifndef itkIsotropicWaveletFrequencyFunction_hxx
 #define itkIsotropicWaveletFrequencyFunction_hxx
 
-#include "itkIsotropicWaveletFrequencyFunction.h"
 #include <cmath>
 #include <itkMath.h>
 

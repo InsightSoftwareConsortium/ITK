@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWaveletFrequencyInverse_hxx
 #define itkWaveletFrequencyInverse_hxx
-#include <itkWaveletFrequencyInverse.h>
 #include <itkCastImageFilter.h>
 #include <itkImage.h>
 #include <algorithm>

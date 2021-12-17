@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWaveletCoeffsSpatialDomainImageFilter_hxx
 #define itkWaveletCoeffsSpatialDomainImageFilter_hxx
-#include "itkWaveletCoeffsSpatialDomainImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
 #include "itkFFTPadImageFilter.h"

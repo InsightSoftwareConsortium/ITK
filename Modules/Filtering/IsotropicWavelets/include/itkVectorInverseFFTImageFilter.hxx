@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVectorInverseFFTImageFilter_hxx
 #define itkVectorInverseFFTImageFilter_hxx
-#include "itkVectorInverseFFTImageFilter.h"
 #include <itkVectorIndexSelectionCastImageFilter.h>
 #include <itkComposeImageFilter.h>
 #include <itkProgressAccumulator.h>

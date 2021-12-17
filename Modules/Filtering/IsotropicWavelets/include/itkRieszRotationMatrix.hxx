@@ -18,7 +18,6 @@
 #ifndef itkRieszRotationMatrix_hxx
 #define itkRieszRotationMatrix_hxx
 
-#include "itkRieszRotationMatrix.h"
 #include "itkNumericTraits.h"
 #include "itkMultiplyImageFilter.h"
 #include "itkAddImageFilter.h"

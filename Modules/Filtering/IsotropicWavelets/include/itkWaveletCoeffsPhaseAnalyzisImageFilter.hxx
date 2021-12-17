@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWaveletCoeffsPhaseAnalyzisImageFilter_hxx
 #define itkWaveletCoeffsPhaseAnalyzisImageFilter_hxx
-#include "itkWaveletCoeffsPhaseAnalyzisImageFilter.h"
 #include "itkForwardFFTImageFilter.h"
 #include "itkInverseFFTImageFilter.h"
 #include "itkFFTPadImageFilter.h"

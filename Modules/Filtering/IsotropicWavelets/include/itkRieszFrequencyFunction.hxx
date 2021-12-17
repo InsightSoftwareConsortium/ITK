@@ -20,8 +20,6 @@
 
 #include <cmath>
 #include <itkMath.h>
-#include "itkRieszFrequencyFunction.h"
-#include "itkRieszFrequencyFunction.h"
 #include <algorithm>
 
 namespace itk

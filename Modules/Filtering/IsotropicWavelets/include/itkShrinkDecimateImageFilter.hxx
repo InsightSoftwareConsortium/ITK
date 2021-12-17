@@ -18,7 +18,6 @@
 #ifndef itkShrinkDecimateImageFilter_hxx
 #define itkShrinkDecimateImageFilter_hxx
 
-#include "itkShrinkDecimateImageFilter.h"
 #include "itkImageScanlineIterator.h"
 #include <numeric>
 #include <functional>

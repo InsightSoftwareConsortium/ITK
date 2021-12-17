@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkRieszFrequencyFilterBankGenerator_hxx
 #define itkRieszFrequencyFilterBankGenerator_hxx
-#include "itkRieszFrequencyFilterBankGenerator.h"
 #include "itkNumericTraits.h"
 
 namespace itk

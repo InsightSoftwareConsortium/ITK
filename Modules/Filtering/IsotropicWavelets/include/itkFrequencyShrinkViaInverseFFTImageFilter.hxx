@@ -18,7 +18,6 @@
 #ifndef itkFrequencyShrinkViaInverseFFTImageFilter_hxx
 #define itkFrequencyShrinkViaInverseFFTImageFilter_hxx
 
-#include <itkFrequencyShrinkViaInverseFFTImageFilter.h>
 
 namespace itk
 {

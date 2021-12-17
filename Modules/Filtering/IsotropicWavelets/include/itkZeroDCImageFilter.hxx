@@ -18,7 +18,6 @@
 #ifndef itkZeroDCImageFilter_hxx
 #define itkZeroDCImageFilter_hxx
 
-#include "itkZeroDCImageFilter.h"
 #include <itkSubtractImageFilter.h>
 #include <itkStatisticsImageFilter.h>
 #include "itkProgressAccumulator.h"

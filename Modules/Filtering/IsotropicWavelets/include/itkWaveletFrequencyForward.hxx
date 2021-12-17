@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkWaveletFrequencyForward_hxx
 #define itkWaveletFrequencyForward_hxx
-#include <itkWaveletFrequencyForward.h>
 #include <itkCastImageFilter.h>
 #include <itkImage.h>
 #include <algorithm>
