@@ -18,7 +18,6 @@
 #ifndef itkAdaptiveNonLocalMeansDenoisingImageFilter_hxx
 #define itkAdaptiveNonLocalMeansDenoisingImageFilter_hxx
 
-#include "itkAdaptiveNonLocalMeansDenoisingImageFilter.h"
 
 #include "itkArray.h"
 #include "itkDiscreteGaussianImageFilter.h"

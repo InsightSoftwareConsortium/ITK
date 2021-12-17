@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkVarianceImageFilter_hxx
 #define itkVarianceImageFilter_hxx
-#include "itkVarianceImageFilter.h"
 
 #include "itkConstNeighborhoodIterator.h"
 #include "itkNeighborhoodInnerProduct.h"

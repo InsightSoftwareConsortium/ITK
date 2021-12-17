@@ -18,7 +18,6 @@
 #ifndef itkNonLocalPatchBasedImageFilter_hxx
 #define itkNonLocalPatchBasedImageFilter_hxx
 
-#include "itkNonLocalPatchBasedImageFilter.h"
 
 #include "itkNeighborhood.h"
 
