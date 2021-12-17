@@ -19,7 +19,6 @@
 #ifndef itkHessianGaussianImageFilter_hxx
 #define itkHessianGaussianImageFilter_hxx
 
-#include "itkHessianGaussianImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressAccumulator.h"
 #include "itkGaussianDerivativeOperator.h"

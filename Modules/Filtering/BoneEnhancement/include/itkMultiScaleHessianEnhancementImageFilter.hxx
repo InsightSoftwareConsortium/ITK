@@ -18,7 +18,6 @@
 #ifndef itkMultiScaleHessianEnhancementImageFilter_hxx
 #define itkMultiScaleHessianEnhancementImageFilter_hxx
 
-#include "itkMultiScaleHessianEnhancementImageFilter.h"
 #include "itkMath.h"
 #include "itkProgressAccumulator.h"
 

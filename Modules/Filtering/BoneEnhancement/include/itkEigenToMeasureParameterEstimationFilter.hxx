@@ -19,7 +19,6 @@
 #ifndef itkEigenToMeasureParameterEstimationFilter_hxx
 #define itkEigenToMeasureParameterEstimationFilter_hxx
 
-#include "itkEigenToMeasureParameterEstimationFilter.h"
 #include "itkCommand.h"
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionSplitterSlowDimension.h"

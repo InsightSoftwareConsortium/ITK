@@ -19,7 +19,6 @@
 #ifndef itkDescoteauxEigenToMeasureParameterEstimationFilter_hxx
 #define itkDescoteauxEigenToMeasureParameterEstimationFilter_hxx
 
-#include "itkDescoteauxEigenToMeasureParameterEstimationFilter.h"
 
 namespace itk
 {
