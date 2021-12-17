@@ -29,7 +29,6 @@
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkCastImageFilter.h"
 #include "itkExtractImageFilter.h"
-#include "itkLinearAnisotropicDiffusionLBRImageFilter.h"
 #include "itkUnaryFunctorWithIndexImageFilter.h"
 #include "itkTernaryFunctorImageFilter.h"
 
