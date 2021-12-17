@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHigherOrderAccurateDerivativeOperator_hxx
 #define itkHigherOrderAccurateDerivativeOperator_hxx
-#include "itkHigherOrderAccurateDerivativeOperator.h"
 
 #include "itkNumericTraits.h"
 

@@ -17,7 +17,6 @@
  *=========================================================================*/
 #ifndef itkHigherOrderAccurateDerivativeImageFilter_hxx
 #define itkHigherOrderAccurateDerivativeImageFilter_hxx
-#include "itkHigherOrderAccurateDerivativeImageFilter.h"
 
 #include "itkNumericTraits.h"
 #include "itkNeighborhoodOperatorImageFilter.h"
