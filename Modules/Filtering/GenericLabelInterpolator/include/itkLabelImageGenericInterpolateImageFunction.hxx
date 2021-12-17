@@ -18,7 +18,6 @@
 #ifndef itkLabelImageGenericInterpolateImageFunction_hxx
 #define itkLabelImageGenericInterpolateImageFunction_hxx
 
-#include "itkLabelImageGenericInterpolateImageFunction.h"
 #include <itkImageRegionConstIterator.h>
 
 namespace itk
