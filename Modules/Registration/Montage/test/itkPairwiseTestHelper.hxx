@@ -154,7 +154,7 @@ calculateError(const itk::TileConfiguration<Dimension> &                        
     {
       out << '\t' << (tr[d] - ta[d]);
       std::cout << "  " << std::setw(8) << std::setprecision(8) << (tr[d] - ta[d]);
-      translationError += std::abs(tr[d] - ta[d]);
+      translationError += itk::Math::abs(tr[d] - ta[d]);
     }
     std::cout << std::endl;
     out << std::endl;

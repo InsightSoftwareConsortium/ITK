@@ -339,8 +339,8 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
         {
           registrationErrors << '\t' << (tr[d] - ta[d]);
           std::cout << "  " << std::setw(8) << std::setprecision(3) << (tr[d] - ta[d]);
-          singleError += std::abs(tr[d] - ta[d]);
-          alternativeError += std::abs(avgPos[t][d] - ta[d]);
+          singleError += itk::Math::abs(tr[d] - ta[d]);
+          alternativeError += itk::Math::abs(avgPos[t][d] - ta[d]);
         }
 
         if (alternativeError >= 5.0 && alternativeError < singleError)
