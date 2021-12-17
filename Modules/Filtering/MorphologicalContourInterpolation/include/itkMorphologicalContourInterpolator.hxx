@@ -26,7 +26,6 @@
 #include "itkImageAlgorithm.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkMorphologicalContourInterpolator.h"
 #include "itkMultiThreaderBase.h"
 #include "itkObjectFactory.h"
 #include "itkOrImageFilter.h"
