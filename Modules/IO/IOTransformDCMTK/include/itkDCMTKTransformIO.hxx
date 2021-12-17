@@ -18,7 +18,6 @@
 #ifndef itkDCMTKTransformIO_hxx
 #define itkDCMTKTransformIO_hxx
 
-#include "itkDCMTKTransformIO.h"
 
 #include "itkAffineTransform.h"
 #include "itkCompositeTransform.h"
