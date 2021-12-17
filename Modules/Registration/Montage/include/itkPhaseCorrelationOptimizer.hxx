@@ -412,7 +412,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
         SizeValueType dist = 0;
         for (unsigned d = 0; d < ImageDimension; d++)
         {
-          SizeValueType d1 = std::abs(m_MaxIndices[i][d] - m_MaxIndices[k][d]);
+          SizeValueType d1 = itk::Math::abs(m_MaxIndices[i][d] - m_MaxIndices[k][d]);
           if (d1 > size[d] / 2) // wrap around
           {
             d1 = size[d] - d1;
@@ -484,7 +484,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
         (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
       const OffsetScalarType mirrorOffset =
         (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
-      if (std::abs(directOffset) <= std::abs(mirrorOffset))
+      if (itk::Math::abs(directOffset) <= itk::Math::abs(mirrorOffset))
       {
         offset[i] = directOffset;
       }
@@ -562,7 +562,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
           (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
         const OffsetScalarType mirrorOffset =
           (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
-        if (std::abs(directOffset) <= std::abs(mirrorOffset))
+        if (itk::Math::abs(directOffset) <= itk::Math::abs(mirrorOffset))
         {
           this->m_Offsets[offsetIndex][i] = directOffset;
         }
@@ -625,7 +625,7 @@ PhaseCorrelationOptimizer<TRealPixelType, VImageDimension>::ComputeOffset()
             (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - oIndex[i]);
           const OffsetScalarType mirrorOffset =
             (movingOrigin[i] - fixedOrigin[i]) - 1 * spacing[i] * (maxIndex[i] - adjustedSize[i]);
-          if (std::abs(directOffset) <= std::abs(mirrorOffset))
+          if (itk::Math::abs(directOffset) <= itk::Math::abs(mirrorOffset))
           {
             this->m_Offsets[peak][i] = directOffset;
           }
