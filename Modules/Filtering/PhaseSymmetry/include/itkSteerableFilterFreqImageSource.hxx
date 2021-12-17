@@ -18,7 +18,6 @@
 #ifndef itkSteerableFilterFreqImageSource_hxx
 #define itkSteerableFilterFreqImageSource_hxx
 
-#include "itkSteerableFilterFreqImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkProgressReporter.h"
 #include "itkObjectFactory.h"

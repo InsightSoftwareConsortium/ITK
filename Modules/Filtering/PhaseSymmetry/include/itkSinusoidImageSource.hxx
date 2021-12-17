@@ -18,7 +18,6 @@
 #ifndef itkSinusoidImageSource_hxx
 #define itkSinusoidImageSource_hxx
 
-#include "itkSinusoidImageSource.h"
 #include "itkSinusoidSpatialFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkProgressReporter.h"

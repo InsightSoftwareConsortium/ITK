@@ -20,7 +20,6 @@
 
 #include <cmath>
 #include "vnl/vnl_math.h"
-#include "itkSinusoidSpatialFunction.h"
 
 namespace itk
 {

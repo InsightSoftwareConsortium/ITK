@@ -18,7 +18,6 @@
 #ifndef itkLogGaborFreqImageSource_hxx
 #define itkLogGaborFreqImageSource_hxx
 
-#include "itkLogGaborFreqImageSource.h"
 #include "itkImageRegionIteratorWithIndex.h"
 
 namespace itk

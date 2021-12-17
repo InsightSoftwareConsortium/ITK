@@ -19,7 +19,6 @@
 #ifndef itkPhaseSymmetryImageFilter_hxx
 #define itkPhaseSymmetryImageFilter_hxx
 
-#include "itkPhaseSymmetryImageFilter.h"
 #include <string>
 #include <sstream>
 
