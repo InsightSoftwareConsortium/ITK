@@ -21,7 +21,6 @@
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
-#include "itkParabolicOpenCloseImageFilter.h"
 // #define NOINDEX
 #ifndef NOINDEX
 #  include "itkImageLinearIteratorWithIndex.h"

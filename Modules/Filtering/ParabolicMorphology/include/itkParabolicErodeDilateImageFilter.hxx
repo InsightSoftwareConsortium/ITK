@@ -18,7 +18,6 @@
 #ifndef itkParabolicErodeDilateImageFilter_hxx
 #define itkParabolicErodeDilateImageFilter_hxx
 
-#include "itkParabolicErodeDilateImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 

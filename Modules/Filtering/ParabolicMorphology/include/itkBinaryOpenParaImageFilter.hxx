@@ -19,7 +19,6 @@
 #define itkBinaryOpenParaImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
-#include "itkBinaryOpenParaImageFilter.h"
 #include "itkParabolicErodeImageFilter.h"
 #include "itkProgressAccumulator.h"
 #include "itkCropImageFilter.h"

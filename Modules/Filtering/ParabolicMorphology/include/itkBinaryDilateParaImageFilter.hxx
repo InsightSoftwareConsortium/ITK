@@ -19,7 +19,6 @@
 #define itkBinaryDilateParaImageFilter_hxx
 
 #include "itkProgressAccumulator.h"
-#include "itkBinaryDilateParaImageFilter.h"
 #include "itkParabolicDilateImageFilter.h"
 #include "itkProgressAccumulator.h"
 

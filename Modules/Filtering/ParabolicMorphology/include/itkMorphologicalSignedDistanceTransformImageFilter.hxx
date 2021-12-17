@@ -18,7 +18,6 @@
 #ifndef itkMorphologicalSignedDistanceTransformImageFilter_hxx
 #define itkMorphologicalSignedDistanceTransformImageFilter_hxx
 
-#include "itkMorphologicalSignedDistanceTransformImageFilter.h"
 #include "itkProgressAccumulator.h"
 
 namespace itk
