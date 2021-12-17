@@ -264,7 +264,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
   /* Calculate alpha incremental values when the ray intercepts with x, y, and z-planes */
   if (rayVector[0] != 0)
   {
-    alphaUx = ctPixelSpacing[0] / fabs(rayVector[0]);
+    alphaUx = ctPixelSpacing[0] / itk::Math::abs(rayVector[0]);
   }
   else
   {
@@ -272,7 +272,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
   }
   if (rayVector[1] != 0)
   {
-    alphaUy = ctPixelSpacing[1] / fabs(rayVector[1]);
+    alphaUy = ctPixelSpacing[1] / itk::Math::abs(rayVector[1]);
   }
   else
   {
@@ -280,7 +280,7 @@ SiddonJacobsRayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(co
   }
   if (rayVector[2] != 0)
   {
-    alphaUz = ctPixelSpacing[2] / fabs(rayVector[2]);
+    alphaUz = ctPixelSpacing[2] / itk::Math::abs(rayVector[2]);
   }
   else
   {
