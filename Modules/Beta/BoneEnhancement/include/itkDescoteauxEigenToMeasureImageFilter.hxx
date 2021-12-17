@@ -19,7 +19,6 @@
 #ifndef itkDescoteauxEigenToMeasureImageFilter_hxx
 #define itkDescoteauxEigenToMeasureImageFilter_hxx
 
-#include "itkDescoteauxEigenToMeasureImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 
@@ -56,9 +55,9 @@ DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(con
   auto   a1 = static_cast<double>(pixel[0]);
   auto   a2 = static_cast<double>(pixel[1]);
   auto   a3 = static_cast<double>(pixel[2]);
-  double l1 = Math::abs(a1);
-  double l2 = Math::abs(a2);
-  double l3 = Math::abs(a3);
+  double l1 = itk::Math::abs(a1);
+  double l2 = itk::Math::abs(a2);
+  double l3 = itk::Math::abs(a3);
 
   /* Deal with l3 > 0 */
   if (m_EnhanceType * a3 < 0)
@@ -74,7 +73,7 @@ DescoteauxEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(con
 
   /* Compute measures */
   const double Rsheet = l2 / l3;
-  const double Rblob = Math::abs(2 * l3 - l2 - l1) / l3;
+  const double Rblob = itk::Math::abs(2 * l3 - l2 - l1) / l3;
   const double Rnoise = sqrt(l1 * l1 + l2 * l2 + l3 * l3);
 
   /* Multiply together to get sheetness */

@@ -62,7 +62,7 @@ public:
   inline TOutputPixel
   operator()(const TInputPixel1 A, const TInputPixel2 B)
   {
-    return static_cast<TOutputPixel>(Math::abs(A) > Math::abs(B) ? A : B);
+    return static_cast<TOutputPixel>(itk::Math::abs(A) > itk::Math::abs(B) ? A : B);
   }
 }; // end of class
 } // namespace Functor

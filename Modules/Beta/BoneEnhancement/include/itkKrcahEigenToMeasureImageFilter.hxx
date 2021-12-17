@@ -19,7 +19,6 @@
 #ifndef itkKrcahEigenToMeasureImageFilter_hxx
 #define itkKrcahEigenToMeasureImageFilter_hxx
 
-#include "itkKrcahEigenToMeasureImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 
@@ -57,9 +56,9 @@ KrcahEigenToMeasureImageFilter<TInputImage, TOutputImage>::ProcessPixel(const In
   auto   a1 = static_cast<double>(pixel[0]);
   auto   a2 = static_cast<double>(pixel[1]);
   auto   a3 = static_cast<double>(pixel[2]);
-  double l1 = Math::abs(a1);
-  double l2 = Math::abs(a2);
-  double l3 = Math::abs(a3);
+  double l1 = itk::Math::abs(a1);
+  double l2 = itk::Math::abs(a2);
+  double l3 = itk::Math::abs(a3);
 
   /* Avoid divisions by zero (or close to zero) */
   if (static_cast<double>(l3) < Math::eps || static_cast<double>(l2) < Math::eps)

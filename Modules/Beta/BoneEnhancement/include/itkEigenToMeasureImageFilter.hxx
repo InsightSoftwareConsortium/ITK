@@ -19,7 +19,6 @@
 #ifndef itkEigenToMeasureImageFilter_hxx
 #define itkEigenToMeasureImageFilter_hxx
 
-#include "itkEigenToMeasureImageFilter.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 

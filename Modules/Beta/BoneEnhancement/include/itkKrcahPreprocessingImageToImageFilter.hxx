@@ -19,7 +19,6 @@
 #ifndef itkKrcahPreprocessingImageToImageFilter_hxx
 #define itkKrcahPreprocessingImageToImageFilter_hxx
 
-#include "itkKrcahPreprocessingImageToImageFilter.h"
 #include "itkGaussianOperator.h"
 #include "itkMath.h"
 
