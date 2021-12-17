@@ -247,7 +247,7 @@ JPEGImageIO::JPEGImageIO()
 #if BITS_IN_JSAMPLE == 8
   m_ComponentType = IOComponentEnum::UCHAR;
 #else
-  m_ComponentType = IOComponentEnum::UINT;
+#  error
 #endif
   m_UseCompression = false;
   this->Self::SetQuality(95);
