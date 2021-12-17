@@ -18,7 +18,6 @@
 #ifndef itkReplaceFeatureMapNanInfImageFilter_hxx
 #define itkReplaceFeatureMapNanInfImageFilter_hxx
 
-#include "itkReplaceFeatureMapNanInfImageFilter.h"
 
 namespace itk
 {

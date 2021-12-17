@@ -18,7 +18,6 @@
 #ifndef itkBoneMorphometryFeaturesFilter_hxx
 #define itkBoneMorphometryFeaturesFilter_hxx
 
-#include "itkBoneMorphometryFeaturesFilter.h"
 
 #include "itkImageScanlineIterator.h"
 #include "itkProgressReporter.h"
