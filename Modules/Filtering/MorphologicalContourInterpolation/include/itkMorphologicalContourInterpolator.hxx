@@ -375,7 +375,7 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDilations(typename Bool
   {
     IdentifierType iS = CardinalSymmetricDifference(seq[x], iMask);
     IdentifierType jS = CardinalSymmetricDifference(seq[x], jMask);
-    IdentifierType xScore = iS >= jS ? iS - jS : jS - iS; // abs(iS-jS)
+    IdentifierType xScore = iS >= jS ? iS - jS : jS - iS; // itk::Math::abs(iS-jS)
     if (xScore < min)
     {
       min = xScore;
@@ -479,9 +479,9 @@ MorphologicalContourInterpolator<TImage>::FindMedianImageDistances(typename Bool
   long long bestDiff = LLONG_MAX;
   for (unsigned b = 0; b < maxSize; b++)
   {
-    long long iS = Math::abs(iTotal - iSum[b] + jSum[b]);
-    long long jS = Math::abs(jTotal - jSum[b] + iSum[b]);
-    long long diff = Math::abs(iS - jS);
+    long long iS = itk::Math::abs(iTotal - iSum[b] + jSum[b]);
+    long long jS = itk::Math::abs(jTotal - jSum[b] + iSum[b]);
+    long long diff = itk::Math::abs(iS - jS);
     if (diff < bestDiff)
     {
       bestDiff = diff;
@@ -755,7 +755,7 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
   } // iterator destroyed here
 
   // recurse if needed
-  if (Math::abs(i - j) > 2)
+  if (itk::Math::abs(i - j) > 2)
   {
     PixelList regionIDs;
     regionIDs.push_back(1);
@@ -769,8 +769,8 @@ MorphologicalContourInterpolator<TImage>::Interpolate1to1(int                   
     int  mReq = mid < reqRegion.GetIndex(axis)
                   ? -1
                   : (mid > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
-    bool first = Math::abs(i - mid) > 1 && Math::abs(iReq + mReq) <= 1;  // i-mid?
-    bool second = Math::abs(j - mid) > 1 && Math::abs(jReq + mReq) <= 1; // j-mid?
+    bool first = itk::Math::abs(i - mid) > 1 && itk::Math::abs(iReq + mReq) <= 1;  // i-mid?
+    bool second = itk::Math::abs(j - mid) > 1 && itk::Math::abs(jReq + mReq) <= 1; // j-mid?
 
     if (first)
     {
@@ -1487,9 +1487,9 @@ MorphologicalContourInterpolator<TImage>::InterpolateAlong(int      axis,
                      ? -1
                      : (*next > reqRegion.GetIndex(axis) + IndexValueType(reqRegion.GetSize(axis)) ? +1 : 0);
 
-        if (*prev + 1 < *next               // only if they are not adjacent slices
-            && Math::abs(iReq + jReq) <= 1) // and not out of the requested region
-                                            // unless they are on opposite ends
+        if (*prev + 1 < *next                    // only if they are not adjacent slices
+            && itk::Math::abs(iReq + jReq) <= 1) // and not out of the requested region
+                                                 // unless they are on opposite ends
         {
           SegmentBetweenTwo<TImage> s;
           s.axis = axis;
