@@ -18,7 +18,6 @@
 #ifndef itkLabelSetMorphBaseImageFilter_hxx
 #define itkLabelSetMorphBaseImageFilter_hxx
 
-#include "itkLabelSetMorphBaseImageFilter.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 
