@@ -19,7 +19,6 @@
 #ifndef itkRecursiveLineYvvGaussianImageFilter_hxx
 #define itkRecursiveLineYvvGaussianImageFilter_hxx
 
-#include "itkRecursiveLineYvvGaussianImageFilter.h"
 #include "itkObjectFactory.h"
 #include "itkImageLinearIteratorWithIndex.h"
 #include "itkImageLinearConstIteratorWithIndex.h"
