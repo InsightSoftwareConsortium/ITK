@@ -18,7 +18,6 @@
 #ifndef itkPhysicalCentralDifferenceImageFunction_hxx
 #define itkPhysicalCentralDifferenceImageFunction_hxx
 
-#include "itkPhysicalCentralDifferenceImageFunction.h"
 
 namespace itk
 {

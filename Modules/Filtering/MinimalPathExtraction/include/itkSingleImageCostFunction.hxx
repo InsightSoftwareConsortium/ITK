@@ -19,7 +19,6 @@
 #define itkSingleImageCostFunction_hxx
 
 #include "itkMath.h"
-#include "itkSingleImageCostFunction.h"
 
 namespace itk
 {

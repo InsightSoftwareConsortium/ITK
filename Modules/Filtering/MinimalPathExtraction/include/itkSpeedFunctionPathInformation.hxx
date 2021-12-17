@@ -18,7 +18,6 @@
 #ifndef itkSpeedFunctionPathInformation_hxx
 #define itkSpeedFunctionPathInformation_hxx
 
-#include "itkSpeedFunctionPathInformation.h"
 
 namespace itk
 {

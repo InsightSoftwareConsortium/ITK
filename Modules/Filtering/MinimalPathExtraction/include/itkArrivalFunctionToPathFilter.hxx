@@ -20,7 +20,6 @@
 #define itkArrivalFunctionToPathFilter_hxx
 
 #include "itkMath.h"
-#include "itkArrivalFunctionToPathFilter.h"
 
 namespace itk
 {
