@@ -18,7 +18,6 @@
 #ifndef itkSplitComponentsImageFilter_hxx
 #define itkSplitComponentsImageFilter_hxx
 
-#include "itkSplitComponentsImageFilter.h"
 
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"

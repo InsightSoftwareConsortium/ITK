@@ -19,7 +19,6 @@
 #define itkTransformToStrainFilter_hxx
 
 #include "itkImageRegionIteratorWithIndex.h"
-#include "itkTransformToStrainFilter.h"
 
 namespace itk
 {

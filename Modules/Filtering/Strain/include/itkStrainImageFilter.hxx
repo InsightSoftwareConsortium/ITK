@@ -18,7 +18,6 @@
 #ifndef itkStrainImageFilter_hxx
 #define itkStrainImageFilter_hxx
 
-#include "itkStrainImageFilter.h"
 
 #include "itkGradientImageFilter.h"
 #include "itkImageRegionConstIterator.h"
