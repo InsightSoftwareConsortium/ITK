@@ -19,7 +19,6 @@
 #define itkBinaryThinningImageFilter3D_hxx
 
 
-#include "itkBinaryThinningImageFilter3D.h"
 #include "itkImageRegionConstIterator.h"
 #include "itkImageRegionIterator.h"
 #include "itkNeighborhoodIterator.h"

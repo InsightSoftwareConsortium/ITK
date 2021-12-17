@@ -19,8 +19,6 @@
 #define itkMedialThicknessImageFilter3D_hxx
 
 
-#include "itkMedialThicknessImageFilter3D.h"
-
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
 
