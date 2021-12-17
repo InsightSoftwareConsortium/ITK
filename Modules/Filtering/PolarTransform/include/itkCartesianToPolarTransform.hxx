@@ -18,7 +18,6 @@
 #ifndef itkCartesianToPolarTransform_hxx
 #define itkCartesianToPolarTransform_hxx
 
-#include "itkCartesianToPolarTransform.h"
 #include "itkMath.h"
 
 namespace itk
