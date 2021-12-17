@@ -19,7 +19,6 @@
 #ifndef itkVectorFieldPCA_hxx
 #define itkVectorFieldPCA_hxx
 
-#include "itkVectorFieldPCA.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/vnl_c_vector.h"
 #include "itkMath.h"
