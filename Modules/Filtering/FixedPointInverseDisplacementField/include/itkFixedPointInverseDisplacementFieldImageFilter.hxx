@@ -18,7 +18,6 @@
 #ifndef itkFixedPointInverseDisplacementFieldImageFilter_hxx
 #define itkFixedPointInverseDisplacementFieldImageFilter_hxx
 
-#include "itkFixedPointInverseDisplacementFieldImageFilter.h"
 #include <iostream>
 
 namespace itk
