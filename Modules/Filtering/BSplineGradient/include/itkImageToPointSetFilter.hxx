@@ -18,7 +18,6 @@
 #ifndef itkImageToPointSetFilter_hxx
 #define itkImageToPointSetFilter_hxx
 
-#include "itkImageToPointSetFilter.h"
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkProgressReporter.h"

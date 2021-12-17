@@ -18,7 +18,6 @@
 #ifndef itkBSplineGradientImageFilter_hxx
 #define itkBSplineGradientImageFilter_hxx
 
-#include "itkBSplineGradientImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 

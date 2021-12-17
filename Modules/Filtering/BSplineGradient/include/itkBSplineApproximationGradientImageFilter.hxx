@@ -18,7 +18,6 @@
 #ifndef itkBSplineApproximationGradientImageFilter_hxx
 #define itkBSplineApproximationGradientImageFilter_hxx
 
-#include "itkBSplineApproximationGradientImageFilter.h"
 
 namespace itk
 {

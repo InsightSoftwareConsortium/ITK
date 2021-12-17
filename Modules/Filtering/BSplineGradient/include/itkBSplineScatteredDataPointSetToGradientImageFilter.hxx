@@ -18,7 +18,6 @@
 #ifndef itkBSplineScatteredDataPointSetToGradientImageFilter_hxx
 #define itkBSplineScatteredDataPointSetToGradientImageFilter_hxx
 
-#include "itkBSplineScatteredDataPointSetToGradientImageFilter.h"
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkNeighborhoodAlgorithm.h" // face calculator

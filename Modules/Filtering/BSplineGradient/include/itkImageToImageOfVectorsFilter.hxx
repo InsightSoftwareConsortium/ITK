@@ -18,7 +18,6 @@
 #ifndef itkImageToImageOfVectorsFilter_hxx
 #define itkImageToImageOfVectorsFilter_hxx
 
-#include "itkImageToImageOfVectorsFilter.h"
 
 #include "itkImageRegionIterator.h"
 
