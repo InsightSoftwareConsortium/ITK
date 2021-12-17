@@ -18,7 +18,6 @@
 #ifndef itkAdditiveGaussianNoiseMeshFilter_hxx
 #define itkAdditiveGaussianNoiseMeshFilter_hxx
 
-#include "itkAdditiveGaussianNoiseMeshFilter.h"
 #include "itkNormalVariateGenerator.h"
 
 namespace itk
