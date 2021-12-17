@@ -18,7 +18,6 @@
 #ifndef itkRLERegionOfInterestImageFilter_hxx
 #define itkRLERegionOfInterestImageFilter_hxx
 
-#include "itkRLERegionOfInterestImageFilter.h"
 
 #include "itkImage.h"
 #include "itkImageAlgorithm.h"
