@@ -321,8 +321,15 @@ JPEGImageIO::ReadImageInformation()
   // read the header
   jpeg_read_header(&cinfo, TRUE);
 
-  // calculate cinfo.output_component
+  // calculate cinfo.output_components
   jpeg_calc_output_dimensions(&cinfo);
+  if ((static_cast<unsigned long long>(cinfo.output_width) * cinfo.output_height * cinfo.output_components) >
+        0xffffffff &&
+      sizeof(size_t) < 8)
+  {
+    jpeg_destroy_decompress(&cinfo);
+    itkExceptionMacro(<< "JPEG image is too big " << this->GetFileName());
+  }
 
   // pull out the width/height
   this->SetNumberOfDimensions(2);
