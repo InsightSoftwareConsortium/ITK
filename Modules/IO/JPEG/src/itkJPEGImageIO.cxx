@@ -343,14 +343,17 @@ JPEGImageIO::ReadImageInformation()
     case 1:
       m_PixelType = IOPixelEnum::SCALAR;
       break;
-    case 2:
-      m_PixelType = IOPixelEnum::VECTOR;
-      break;
     case 3:
       m_PixelType = IOPixelEnum::RGB;
       break;
     case 4:
+      // FIXME
       m_PixelType = IOPixelEnum::RGBA;
+      itkWarningMacro("JPEG image may be opened incorrectly");
+      break;
+    default:
+      m_PixelType = IOPixelEnum::VECTOR;
+      itkWarningMacro("JPEG image may be opened incorrectly");
       break;
   }
 
