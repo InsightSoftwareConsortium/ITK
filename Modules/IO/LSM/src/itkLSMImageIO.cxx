@@ -28,7 +28,6 @@
 #include "itkLSMImageIO.h"
 #include "itkByteSwapper.h"
 
-#include "itk_kwiml.h"
 #include "itk_tiff.h"
 
 /* Structure with LSM-specific data ( only in the first image directory). */

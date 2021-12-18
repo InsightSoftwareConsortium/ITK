@@ -5,13 +5,7 @@
 /* Define to 1 if you have the <stdint.h> header file. */
 #cmakedefine HAVE_STDINT_H @HAVE_STDINT_H@
 
-#if defined( HAVE_STDINT_H )
 #include <stdint.h>
-#else
-// the system doesn't have the C or C++ version of stdint so lets use
-// KWIML's macros for fixed widths
-#include "itk_kwiml.h"
-#endif
 
 /* Define if building universal (internal helper macro) */
 #if defined(__APPLE__)
