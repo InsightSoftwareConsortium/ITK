@@ -18,8 +18,6 @@
 #ifndef itkFastBilateralImageFilter_hxx
 #define itkFastBilateralImageFilter_hxx
 
-#include "itkFastBilateralImageFilter.h"
-
 #include "itkMinimumMaximumImageCalculator.h"
 #include "itkImageDuplicator.h"
 #include <cmath>
