@@ -140,20 +140,17 @@ JPEGImageIO::CanReadFile(const char * file)
   jerr.pub.error_exit = itk_jpeg_error_exit;
   // for any output message call itk_jpeg_output_message
   jerr.pub.output_message = itk_jpeg_output_message;
-  // set the jump point, if there is a jpeg error or warning
-  // this will evaluate to true
+  // set the jump point
   if (setjmp(jerr.setjmp_buffer))
   {
-    // clean up
     jpeg_destroy_decompress(&cinfo);
-    // this is not a valid jpeg file
     return false;
   }
-  /* Now we can initialize the JPEG decompression object. */
+  // initialize the JPEG decompression object
   jpeg_create_decompress(&cinfo);
-  /* Step 2: specify data source (eg, a file) */
+  // specify data source
   jpeg_stdio_src(&cinfo, JPEGfp.m_FilePointer);
-  /* Step 3: read file parameters with jpeg_read_header() */
+  // read file parameters
   jpeg_read_header(&cinfo, TRUE);
 
   // if no errors have occurred yet, then it must be jpeg
@@ -191,10 +188,8 @@ JPEGImageIO::Read(void * buffer)
   jerr.pub.output_message = itk_jpeg_output_message;
   if (setjmp(jerr.setjmp_buffer))
   {
-    // clean up
     jpeg_destroy_decompress(&cinfo);
     itkExceptionMacro("libjpeg could not read file: " << this->GetFileName());
-    // this is not a valid jpeg file
   }
 
   jpeg_create_decompress(&cinfo);
@@ -205,8 +200,8 @@ JPEGImageIO::Read(void * buffer)
   // read the header
   jpeg_read_header(&cinfo, TRUE);
 
-  // jpeg_calc_output_dimensions was used in ReadImageInformation,
-  // has to be used here too to ensure same parameters
+  // jpeg_calc_output_dimensions used in ReadImageInformation,
+  // so has to be used here too
   jpeg_calc_output_dimensions(&cinfo);
 
   // prepare to read the bulk data
@@ -251,7 +246,7 @@ JPEGImageIO::JPEGImageIO()
 #if BITS_IN_JSAMPLE == 8
   m_ComponentType = IOComponentEnum::UCHAR;
 #else
-#  error
+#  error "JPEG files with more than 8 bits per sample are not supported"
 #endif
   m_UseCompression = false;
   this->Self::SetQuality(95);
@@ -308,9 +303,7 @@ JPEGImageIO::ReadImageInformation()
   jerr.pub.error_exit = itk_jpeg_error_exit;
   if (setjmp(jerr.setjmp_buffer))
   {
-    // clean up
     jpeg_destroy_decompress(&cinfo);
-    // this is not a valid jpeg file
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName());
   }
   jpeg_create_decompress(&cinfo);
@@ -321,11 +314,10 @@ JPEGImageIO::ReadImageInformation()
   // read the header
   jpeg_read_header(&cinfo, TRUE);
 
-  // calculate cinfo.output_components
+  // jpeg_calc_output_dimensions to calculate cinfo.output_components
   jpeg_calc_output_dimensions(&cinfo);
-  if ((static_cast<unsigned long long>(cinfo.output_width) * cinfo.output_height * cinfo.output_components) >
-        0xffffffff &&
-      sizeof(size_t) < 8)
+  if (sizeof(void *) < 8 && (static_cast<unsigned long long>(cinfo.output_width) * cinfo.output_height *
+                             cinfo.output_components) > 0xffffffff)
   {
     jpeg_destroy_decompress(&cinfo);
     itkExceptionMacro(<< "JPEG image is too big " << this->GetFileName());
