@@ -435,20 +435,23 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
     itkExceptionMacro(<< "JPEG: too many components");
   }
 
+  auto * volatile row_pointers = new JSAMPROW[height];
+
   struct itk_jpeg_error_mgr   jerr;
   struct jpeg_compress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
+
   // set the jump point
   if (setjmp(jerr.setjmp_buffer))
   {
     jpeg_destroy_compress(&cinfo);
+    delete[] row_pointers;
     itkExceptionMacro(<< "JPEG error, failed to write " << fileName);
   }
 
   jpeg_create_compress(&cinfo);
 
   // set the destination file
-  // struct jpeg_destination_mgr compressionDestination;
   jpeg_stdio_dest(&cinfo, fp);
 
   cinfo.image_width = static_cast<JDIMENSION>(width);
@@ -465,11 +468,12 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
       break;
     default:
       cinfo.in_color_space = JCS_UNKNOWN;
+      itkWarningMacro("Image may be saved incorrectly as JPEG");
       break;
   }
 
   // set the compression parameters
-  jpeg_set_defaults(&cinfo); // start with reasonable defaults
+  jpeg_set_defaults(&cinfo);
   jpeg_set_quality(&cinfo, this->GetQuality(), TRUE);
   if (m_Progressive)
   {
@@ -507,29 +511,26 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   // start compression
   jpeg_start_compress(&cinfo, TRUE);
 
-  volatile const JSAMPLE * outPtr = ((const JSAMPLE *)buffer);
-
-  // write the data. in jpeg, the first row is the top row of the image
-  auto *    row_pointers = new JSAMPROW[height];
-  const int rowInc = numComp * width;
-  for (unsigned int ui = 0; ui < height; ++ui)
   {
-    row_pointers[ui] = const_cast<JSAMPROW>(outPtr);
-    outPtr = const_cast<JSAMPLE *>(outPtr) + rowInc;
+    const auto * ptr = static_cast<const JSAMPLE *>(buffer);
+    const auto   rowbytes = num_comp * width;
+    for (size_t ui = 0; ui < height; ++ui)
+    {
+      row_pointers[ui] = const_cast<JSAMPLE *>(ptr) + rowbytes * ui;
+    }
   }
-  jpeg_write_scanlines(&cinfo, row_pointers, height);
-
-  if (fflush(fp) == EOF)
+  while (cinfo.next_scanline < cinfo.image_height)
   {
-    delete[] row_pointers;
-    itkExceptionMacro(<< "JPEG : Out of disk space");
+    // usually one iteration
+    const auto remaining = cinfo.image_height - cinfo.next_scanline;
+    jpeg_write_scanlines(&cinfo, &row_pointers[cinfo.next_scanline], remaining);
   }
 
   // finish the compression
   jpeg_finish_compress(&cinfo);
 
-  // clean up and close the file
-  delete[] row_pointers;
+  // clean up
   jpeg_destroy_compress(&cinfo);
+  delete[] row_pointers;
 }
 } // end namespace itk
