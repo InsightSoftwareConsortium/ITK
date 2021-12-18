@@ -20,22 +20,16 @@
 #include "itkImageFileReader.h"
 #include "itkTestingMacros.h"
 
-
 int
 itkJPEGImageIODegenerateCasesTest(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " inputFilename" << std::endl;
+    std::cerr << "Missing parameters.\nUsage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename\n";
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int Dimension = 2;
-  using PixelType = unsigned char;
-
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using ImageType = itk::Image<unsigned char, 2>;
 
   itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
 
@@ -44,8 +38,14 @@ itkJPEGImageIODegenerateCasesTest(int argc, char * argv[])
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
-
+  try
+  {
+    reader->Update();
+  }
+  catch (itk::ExceptionObject & ex)
+  {
+    std::cout << "Corrupted file " << argv[1] << " triggered exception\n" << ex.GetDescription() << std::endl;
+  }
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

@@ -23,3 +23,6 @@ itk_add_test(NAME itkJPEGImageIOSpacing
 itk_add_test(NAME itkJPEGImageIOTestCorruptedImage
       COMMAND ITKIOJPEGTestDriver
     itkJPEGImageIODegenerateCasesTest DATA{Input/corrupted_image.jpg})
+itk_add_test(NAME itkJPEGImageIOTestCorruptedImage2
+      COMMAND ITKIOJPEGTestDriver
+    itkJPEGImageIODegenerateCasesTest DATA{Input/corrupted2.jpg})
