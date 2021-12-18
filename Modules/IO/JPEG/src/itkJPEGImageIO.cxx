@@ -406,11 +406,23 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
   FILE *          fp = JPEGfp.m_FilePointer;
-
   if (!fp)
   {
     itkExceptionMacro("Unable to open file " << fileName << " for writing." << std::endl
                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
+  }
+
+  // set the information about image
+  const SizeValueType width = m_Dimensions[0];
+  const SizeValueType height = m_Dimensions[1];
+  if (width > JPEG_MAX_DIMENSION || height > JPEG_MAX_DIMENSION)
+  {
+    itkExceptionMacro(<< "JPEG: image is too large");
+  }
+  const int num_comp = this->GetNumberOfComponents();
+  if (num_comp > MAX_COMPONENTS)
+  {
+    itkExceptionMacro(<< "JPEG: too many components");
   }
 
   struct itk_jpeg_error_mgr   jerr;
@@ -429,32 +441,9 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   // struct jpeg_destination_mgr compressionDestination;
   jpeg_stdio_dest(&cinfo, fp);
 
-  // set the information about image
-  const SizeValueType width = m_Dimensions[0];
-  const SizeValueType height = m_Dimensions[1];
-
-  // The JPEG standard only supports images up to 64K*64K due to 16-bit fields
-  // in SOF markers.
-  cinfo.image_width = width;
-  cinfo.image_height = height;
-  if (cinfo.image_width > 65536 || cinfo.image_height > 65536)
-  {
-    itkExceptionMacro(<< "JPEG : Image is too large for JPEG");
-  }
-
-  cinfo.input_components = this->GetNumberOfComponents();
-  const unsigned int numComp = this->GetNumberOfComponents();
-
-  // Maximum number of components (color channels) allowed in JPEG image.
-  // JPEG spec set this to 255. However ijg default it to 10.
-  if (cinfo.input_components > 255)
-  {
-    itkExceptionMacro(<< "JPEG : Too many components for JPEG");
-  }
-  if (cinfo.input_components > MAX_COMPONENTS)
-  {
-    itkExceptionMacro(<< "JPEG : Too many components for IJG. Recompile IJG.");
-  }
+  cinfo.image_width = static_cast<JDIMENSION>(width);
+  cinfo.image_height = static_cast<JDIMENSION>(height);
+  cinfo.input_components = num_comp;
 
   switch (cinfo.input_components)
   {
