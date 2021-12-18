@@ -390,9 +390,9 @@ JPEGImageIO::Write(const void * buffer)
     itkExceptionMacro(<< "JPEG Writer can only write 2-dimensional images");
   }
 
-  if (this->GetComponentType() != IOComponentEnum::UCHAR && this->GetComponentType() != IOComponentEnum::UINT)
+  if (this->GetComponentType() != IOComponentEnum::UCHAR)
   {
-    itkExceptionMacro(<< "JPEG supports unsigned char/int only");
+    itkExceptionMacro(<< "JPEG supports unsigned char only");
   }
 
   this->WriteSlice(m_FileName, buffer);
