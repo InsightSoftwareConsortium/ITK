@@ -205,6 +205,10 @@ JPEGImageIO::Read(void * buffer)
   // read the header
   jpeg_read_header(&cinfo, TRUE);
 
+  // jpeg_calc_output_dimensions was used in ReadImageInformation,
+  // has to be used here too to ensure same parameters
+  jpeg_calc_output_dimensions(&cinfo);
+
   // prepare to read the bulk data
   jpeg_start_decompress(&cinfo);
 
@@ -317,9 +321,7 @@ JPEGImageIO::ReadImageInformation()
   // read the header
   jpeg_read_header(&cinfo, TRUE);
 
-  // force the output image size to be calculated (we could have used
-  // cinfo.image_height etc. but that would preclude using libjpeg's
-  // ability to scale an image on input).
+  // calculate cinfo.output_component
   jpeg_calc_output_dimensions(&cinfo);
 
   // pull out the width/height
