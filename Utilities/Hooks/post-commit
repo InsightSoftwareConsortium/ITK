@@ -29,7 +29,6 @@ third_party_contrib_urls=( "DCMTK:https://github.com/InsightSoftwareConsortium/D
   "GDCM:http://gdcm.sourceforge.net/wiki/index.php/Git"
   "GoogleTest:https://github.com/google/googletest/blob/master/CONTRIBUTING.md"
   "HDF5:https://github.com/HDFGroup/hdf5"
-  "KWIML:https://gitlab.kitware.com/utils/kwiml.git"
   "KWSys:https://gitlab.kitware.com/utils/kwsys/-/blob/master/CONTRIBUTING.rst"
   "libLBFGS:https://github.com/chokkan/liblbfgs"
   "MetaIO:https://github.com/Kitware/MetaIO/blob/master/CONTRIBUTING.rst"
