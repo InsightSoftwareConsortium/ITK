@@ -58,6 +58,7 @@ itk_wrap_class("itk::VectorContainer" POINTER)
     foreach(pixel_type ${types})
       itk_wrap_template("${ITKM_IT}CI${mangle_CellInterface_VectorContainer}" "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_VectorContainer} > *")
     endforeach()
+    itk_wrap_template("${ITKM_IT}CI${mangle_CellInterface_Array_VectorContainer}" "${ITKT_IT}, itk::CellInterface< ${type_CellInterface_Array_VectorContainer} > *")
   endforeach()
 itk_end_wrap_class()
 
