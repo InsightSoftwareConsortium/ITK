@@ -441,6 +441,11 @@ GDCMImageIO::Read(void * pointer)
 void
 GDCMImageIO::InternalReadImageInformation()
 {
+  // Reset, a user can re-use IO.
+  m_RescaleIntercept = 0.0;
+  m_RescaleSlope = 1.0;
+  m_SingleBit = false;
+
   // ensure file can be opened for reading, before doing any more work
   std::ifstream inputFileStream;
   // let any exceptions propagate
