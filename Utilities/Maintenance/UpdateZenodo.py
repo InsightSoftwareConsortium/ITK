@@ -20,7 +20,6 @@ skip = {
     "HDF5 Maintainers",
     "Google double-conversion Maintainers",
     "GoogleTest Upstream",
-    "KWIML Upstream",
     "LIBPNG Upstream",
     "Zlib Upstream",
     "ITK Developers",

@@ -335,41 +335,25 @@ the sizes can be different.*/
 
 /* Signed 16-bit type */
 #undef TIFF_INT16_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_INT16_T  int16_t
-#else
-#define TIFF_INT16_T  KWIML_INT_int16_t
-#endif
 
 /* Signed 32-bit type formatter */
 #define TIFF_INT32_FORMAT "%d"
 
 /* Signed 32-bit type */
 #undef TIFF_INT32_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_INT32_T  int32_t
-#else
-#define TIFF_INT32_T  KWIML_INT_int32_t
-#endif
 
 /* Signed 64-bit type formatter */
 #define TIFF_INT64_FORMAT "%ld"
 
 /* Signed 64-bit type */
 #undef TIFF_INT64_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_INT64_T  int64_t
-#else
-#define TIFF_INT64_T  KWIML_INT_int64_t
-#endif
 
 /* Signed 8-bit type */
 #undef TIFF_INT8_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_INT8_T  int8_t
-#else
-#define TIFF_INT8_T  KWIML_INT_int8_t
-#endif
 
 /* Pointer difference type formatter */
 #define TIFF_PTRDIFF_FORMAT "%ld"
@@ -386,41 +370,25 @@ the sizes can be different.*/
 
 /* Unsigned 16-bit type */
 #undef TIFF_UINT16_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_UINT16_T  uint16_t
-#else
-#define TIFF_UINT16_T  KWIML_INT_uint16_t
-#endif
 
 /* Unsigned 32-bit type formatter */
 #define TIFF_UINT32_FORMAT "%d"
 
 /* Unsigned 32-bit type */
 #undef TIFF_UINT32_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_UINT32_T  uint32_t
-#else
-#define TIFF_UINT32_T  KWIML_INT_uint32_t
-#endif
 
 /* Unsigned 64-bit type formatter */
 #define TIFF_UINT64_FORMAT  "%ld"
 
 /* Unsigned 64-bit type */
 #undef TIFF_UINT64_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_UINT64_T  uint64_t
-#else
-#define TIFF_UINT64_T  KWIML_INT_uint64_t
-#endif
 
 /* Unsigned 8-bit type */
 #undef TIFF_UINT8_T
-#if defined( HAVE_STDINT_H )
 #define TIFF_UINT8_T  uint8_t
-#else
-#define TIFF_UINT8_T  KWIML_INT_uint8_t
-#endif
 
 /* Define to 1 if you can safely include both <sys/time.h> and <time.h>. */
 #cmakedefine TIME_WITH_SYS_TIME
