@@ -20,6 +20,7 @@
 #include "itkMeshFileWriter.h"
 #include "itkQuadEdgeMesh.h"
 #include "itkTestingMacros.h"
+#include "itkMeshFileTestHelper.h"
 
 
 int
@@ -46,6 +47,7 @@ itkMeshFileReaderWriterTest(int argc, char * argv[])
   // Test exceptions
   std::string inputFileName = "";
   reader->SetFileName(inputFileName);
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
   inputFileName = argv[1];
   reader->SetFileName(inputFileName);
@@ -55,8 +57,19 @@ itkMeshFileReaderWriterTest(int argc, char * argv[])
   MeshType::Pointer readMesh = nullptr;
   ITK_TRY_EXPECT_NO_EXCEPTION(readMesh = itk::ReadMesh<MeshType>(inputFileName));
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh.GetPointer(), inputFileName));
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh, inputFileName));
+  const std::string outputFileName = argv[2];
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh.GetPointer(), outputFileName));
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh, outputFileName));
+
+  MeshType::Pointer writeReadMesh = nullptr;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writeReadMesh = itk::ReadMesh<MeshType>(outputFileName));
+
+  ITK_TEST_EXPECT_EQUAL(TestPointsContainer<MeshType>(readMesh->GetPoints(), writeReadMesh->GetPoints()), EXIT_SUCCESS);
+  ITK_TEST_EXPECT_EQUAL(TestCellsContainer<MeshType>(readMesh->GetCells(), writeReadMesh->GetCells()), EXIT_SUCCESS);
+  ITK_TEST_EXPECT_EQUAL(TestPointDataContainer<MeshType>(readMesh->GetPointData(), writeReadMesh->GetPointData()),
+                        EXIT_SUCCESS);
+  ITK_TEST_EXPECT_EQUAL(TestCellDataContainer<MeshType>(readMesh->GetCellData(), writeReadMesh->GetCellData()),
+                        EXIT_SUCCESS);
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
