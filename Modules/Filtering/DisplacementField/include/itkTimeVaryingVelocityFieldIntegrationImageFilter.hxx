@@ -181,11 +181,6 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     }
   }
 
-  if (this->m_UpperTimeBound == this->m_LowerTimeBound)
-  {
-    return displacement;
-  }
-
   // Perform the integration
   // Need to know how to map the time dimension of the input image to the
   // assumed domain of [0,1].
