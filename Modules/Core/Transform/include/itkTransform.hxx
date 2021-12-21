@@ -26,16 +26,6 @@ namespace itk
 {
 
 template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::Transform()
-  : m_Parameters(1)
-  , m_FixedParameters()
-{
-  itkWarningMacro(
-    << "Using default transform constructor.  Should specify NOutputDims and NParameters as args to constructor.");
-}
-
-
-template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
 Transform<TParametersValueType, NInputDimensions, NOutputDimensions>::Transform(
   NumberOfParametersType numberOfParameters)
   : m_Parameters(numberOfParameters)
