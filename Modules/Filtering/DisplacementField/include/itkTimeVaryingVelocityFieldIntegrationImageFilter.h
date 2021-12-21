@@ -144,6 +144,18 @@ public:
    */
   itkGetConstMacro(NumberOfIntegrationSteps, unsigned int);
 
+  /**
+   * Get/Set a flag to interpret LowerTimeBound and UpperTimeBound as rates
+   * in the velocity field time span. This is equivalent to consider that the velocity
+   * field is defined in the normalized time interval [0, 1], ignoring the input origin
+   * and spacing in the temporal dimension.
+   *
+   * The default is true for backwards compatibility.
+   */
+  itkSetMacro(TimeBoundsAsRates, bool);
+  itkGetConstMacro(TimeBoundsAsRates, bool);
+  itkBooleanMacro(TimeBoundsAsRates);
+
 protected:
   TimeVaryingVelocityFieldIntegrationImageFilter();
   ~TimeVaryingVelocityFieldIntegrationImageFilter() override = default;
@@ -174,6 +186,8 @@ protected:
   unsigned int m_NumberOfTimePoints;
 
   DisplacementFieldInterpolatorPointer m_DisplacementFieldInterpolator;
+
+  bool m_TimeBoundsAsRates{ true };
 
 private:
   VelocityFieldInterpolatorPointer m_VelocityFieldInterpolator;

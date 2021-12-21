@@ -181,42 +181,40 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
     }
   }
 
-  // Perform the integration
-  // Need to know how to map the time dimension of the input image to the
-  // assumed domain of [0,1].
+  // Perform the integration.
+  // With TimeBoundsAsRates On, we need to map the time dimension of the input image to the
+  // normalized domain of [0,1].
 
-
-  typename TimeVaryingVelocityFieldType::PointType spaceTimeOrigin = inputField->GetOrigin();
-
-  using RegionType = typename TimeVaryingVelocityFieldType::RegionType;
-
-  RegionType region = inputField->GetLargestPossibleRegion();
-
-  typename RegionType::IndexType lastIndex = region.GetIndex();
-  typename RegionType::SizeType  size = region.GetSize();
-  for (unsigned d = 0; d < InputImageDimension; ++d)
+  RealType timeOrigin = 0.;
+  RealType timeScale = 1.;
+  if (m_TimeBoundsAsRates)
   {
-    lastIndex[d] += (size[d] - 1);
+    typename TimeVaryingVelocityFieldType::PointType spaceTimeOrigin = inputField->GetOrigin();
+
+    using RegionType = typename TimeVaryingVelocityFieldType::RegionType;
+    RegionType region = inputField->GetLargestPossibleRegion();
+
+    typename RegionType::IndexType lastIndex = region.GetIndex();
+    typename RegionType::SizeType  size = region.GetSize();
+    for (unsigned d = 0; d < InputImageDimension; ++d)
+    {
+      lastIndex[d] += (size[d] - 1);
+    }
+
+    typename TimeVaryingVelocityFieldType::PointType spaceTimeEnd;
+    inputField->TransformIndexToPhysicalPoint(lastIndex, spaceTimeEnd);
+
+    timeOrigin = spaceTimeOrigin[InputImageDimension - 1];
+    const RealType timeEnd = spaceTimeEnd[InputImageDimension - 1];
+    timeScale = timeEnd - timeOrigin;
   }
 
-  typename TimeVaryingVelocityFieldType::PointType spaceTimeEnd;
-  inputField->TransformIndexToPhysicalPoint(lastIndex, spaceTimeEnd);
-
-  const RealType timeOrigin = spaceTimeOrigin[InputImageDimension - 1];
-  const RealType timeEnd = spaceTimeEnd[InputImageDimension - 1];
-  const RealType timeSpan = timeEnd - timeOrigin;
-  RealType       timeSign = 1.0;
-  if (this->m_UpperTimeBound < this->m_LowerTimeBound)
-  {
-    timeSign = -1.0;
-  }
-
-  RealType timePointInImage = timeOrigin + this->m_LowerTimeBound * timeSpan;
+  RealType timePointInImage = timeOrigin + this->m_LowerTimeBound * timeScale;
 
   // Calculate the delta time used for integration
-  const RealType deltaTime = timeSign * itk::Math::abs(this->m_UpperTimeBound - this->m_LowerTimeBound) /
-                             static_cast<RealType>(this->m_NumberOfIntegrationSteps);
-  const RealType deltaTimeInImage = timeSpan * deltaTime;
+  const RealType deltaTime =
+    (this->m_UpperTimeBound - this->m_LowerTimeBound) / static_cast<RealType>(this->m_NumberOfIntegrationSteps);
+  const RealType deltaTimeInImage = timeScale * deltaTime;
 
   for (unsigned int n = 0; n < this->m_NumberOfIntegrationSteps; ++n)
   {
