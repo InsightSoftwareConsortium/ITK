@@ -140,20 +140,17 @@ JPEGImageIO::CanReadFile(const char * file)
   jerr.pub.error_exit = itk_jpeg_error_exit;
   // for any output message call itk_jpeg_output_message
   jerr.pub.output_message = itk_jpeg_output_message;
-  // set the jump point, if there is a jpeg error or warning
-  // this will evaluate to true
+  // set the jump point
   if (setjmp(jerr.setjmp_buffer))
   {
-    // clean up
     jpeg_destroy_decompress(&cinfo);
-    // this is not a valid jpeg file
     return false;
   }
-  /* Now we can initialize the JPEG decompression object. */
+  // initialize the JPEG decompression object
   jpeg_create_decompress(&cinfo);
-  /* Step 2: specify data source (eg, a file) */
+  // specify data source
   jpeg_stdio_src(&cinfo, JPEGfp.m_FilePointer);
-  /* Step 3: read file parameters with jpeg_read_header() */
+  // read file parameters
   jpeg_read_header(&cinfo, TRUE);
 
   // if no errors have occurred yet, then it must be jpeg
@@ -191,10 +188,8 @@ JPEGImageIO::Read(void * buffer)
   jerr.pub.output_message = itk_jpeg_output_message;
   if (setjmp(jerr.setjmp_buffer))
   {
-    // clean up
     jpeg_destroy_decompress(&cinfo);
     itkExceptionMacro("libjpeg could not read file: " << this->GetFileName());
-    // this is not a valid jpeg file
   }
 
   jpeg_create_decompress(&cinfo);
@@ -204,6 +199,10 @@ JPEGImageIO::Read(void * buffer)
 
   // read the header
   jpeg_read_header(&cinfo, TRUE);
+
+  // jpeg_calc_output_dimensions used in ReadImageInformation,
+  // so has to be used here too
+  jpeg_calc_output_dimensions(&cinfo);
 
   // prepare to read the bulk data
   jpeg_start_decompress(&cinfo);
@@ -247,7 +246,7 @@ JPEGImageIO::JPEGImageIO()
 #if BITS_IN_JSAMPLE == 8
   m_ComponentType = IOComponentEnum::UCHAR;
 #else
-  m_ComponentType = IOComponentEnum::UINT;
+#  error "JPEG files with more than 8 bits per sample are not supported"
 #endif
   m_UseCompression = false;
   this->Self::SetQuality(95);
@@ -304,9 +303,7 @@ JPEGImageIO::ReadImageInformation()
   jerr.pub.error_exit = itk_jpeg_error_exit;
   if (setjmp(jerr.setjmp_buffer))
   {
-    // clean up
     jpeg_destroy_decompress(&cinfo);
-    // this is not a valid jpeg file
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName());
   }
   jpeg_create_decompress(&cinfo);
@@ -317,10 +314,14 @@ JPEGImageIO::ReadImageInformation()
   // read the header
   jpeg_read_header(&cinfo, TRUE);
 
-  // force the output image size to be calculated (we could have used
-  // cinfo.image_height etc. but that would preclude using libjpeg's
-  // ability to scale an image on input).
+  // jpeg_calc_output_dimensions to calculate cinfo.output_components
   jpeg_calc_output_dimensions(&cinfo);
+  if (sizeof(void *) < 8 && (static_cast<unsigned long long>(cinfo.output_width) * cinfo.output_height *
+                             cinfo.output_components) > 0xffffffff)
+  {
+    jpeg_destroy_decompress(&cinfo);
+    itkExceptionMacro(<< "JPEG image is too big " << this->GetFileName());
+  }
 
   // pull out the width/height
   this->SetNumberOfDimensions(2);
@@ -334,14 +335,17 @@ JPEGImageIO::ReadImageInformation()
     case 1:
       m_PixelType = IOPixelEnum::SCALAR;
       break;
-    case 2:
-      m_PixelType = IOPixelEnum::VECTOR;
-      break;
     case 3:
       m_PixelType = IOPixelEnum::RGB;
       break;
     case 4:
+      // FIXME
       m_PixelType = IOPixelEnum::RGBA;
+      itkWarningMacro("JPEG image may be opened incorrectly");
+      break;
+    default:
+      m_PixelType = IOPixelEnum::VECTOR;
+      itkWarningMacro("JPEG image may be opened incorrectly");
       break;
   }
 
@@ -390,9 +394,9 @@ JPEGImageIO::Write(const void * buffer)
     itkExceptionMacro(<< "JPEG Writer can only write 2-dimensional images");
   }
 
-  if (this->GetComponentType() != IOComponentEnum::UCHAR && this->GetComponentType() != IOComponentEnum::UINT)
+  if (this->GetComponentType() != IOComponentEnum::UCHAR)
   {
-    itkExceptionMacro(<< "JPEG supports unsigned char/int only");
+    itkExceptionMacro(<< "JPEG supports unsigned char only");
   }
 
   this->WriteSlice(m_FileName, buffer);
@@ -404,55 +408,47 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(fileName.c_str(), "wb");
   FILE *          fp = JPEGfp.m_FilePointer;
-
   if (!fp)
   {
     itkExceptionMacro("Unable to open file " << fileName << " for writing." << std::endl
                                              << "Reason: " << itksys::SystemTools::GetLastSystemError());
   }
 
+  // set the information about image
+  const SizeValueType width = m_Dimensions[0];
+  const SizeValueType height = m_Dimensions[1];
+  if (width > JPEG_MAX_DIMENSION || height > JPEG_MAX_DIMENSION)
+  {
+    itkExceptionMacro(<< "JPEG: image is too large");
+  }
+  const int num_comp = this->GetNumberOfComponents();
+  if (num_comp > MAX_COMPONENTS)
+  {
+    itkExceptionMacro(<< "JPEG: too many components");
+  }
+
+  auto * volatile row_pointers = new JSAMPROW[height];
+
   struct itk_jpeg_error_mgr   jerr;
   struct jpeg_compress_struct cinfo;
   cinfo.err = jpeg_std_error(&jerr.pub);
+
   // set the jump point
   if (setjmp(jerr.setjmp_buffer))
   {
     jpeg_destroy_compress(&cinfo);
+    delete[] row_pointers;
     itkExceptionMacro(<< "JPEG error, failed to write " << fileName);
   }
 
   jpeg_create_compress(&cinfo);
 
   // set the destination file
-  // struct jpeg_destination_mgr compressionDestination;
   jpeg_stdio_dest(&cinfo, fp);
 
-  // set the information about image
-  const SizeValueType width = m_Dimensions[0];
-  const SizeValueType height = m_Dimensions[1];
-
-  // The JPEG standard only supports images up to 64K*64K due to 16-bit fields
-  // in SOF markers.
-  cinfo.image_width = width;
-  cinfo.image_height = height;
-  if (cinfo.image_width > 65536 || cinfo.image_height > 65536)
-  {
-    itkExceptionMacro(<< "JPEG : Image is too large for JPEG");
-  }
-
-  cinfo.input_components = this->GetNumberOfComponents();
-  const unsigned int numComp = this->GetNumberOfComponents();
-
-  // Maximum number of components (color channels) allowed in JPEG image.
-  // JPEG spec set this to 255. However ijg default it to 10.
-  if (cinfo.input_components > 255)
-  {
-    itkExceptionMacro(<< "JPEG : Too many components for JPEG");
-  }
-  if (cinfo.input_components > MAX_COMPONENTS)
-  {
-    itkExceptionMacro(<< "JPEG : Too many components for IJG. Recompile IJG.");
-  }
+  cinfo.image_width = static_cast<JDIMENSION>(width);
+  cinfo.image_height = static_cast<JDIMENSION>(height);
+  cinfo.input_components = num_comp;
 
   switch (cinfo.input_components)
   {
@@ -464,11 +460,12 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
       break;
     default:
       cinfo.in_color_space = JCS_UNKNOWN;
+      itkWarningMacro("Image may be saved incorrectly as JPEG");
       break;
   }
 
   // set the compression parameters
-  jpeg_set_defaults(&cinfo); // start with reasonable defaults
+  jpeg_set_defaults(&cinfo);
   jpeg_set_quality(&cinfo, this->GetQuality(), TRUE);
   if (m_Progressive)
   {
@@ -506,29 +503,26 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   // start compression
   jpeg_start_compress(&cinfo, TRUE);
 
-  volatile const JSAMPLE * outPtr = ((const JSAMPLE *)buffer);
-
-  // write the data. in jpeg, the first row is the top row of the image
-  auto *    row_pointers = new JSAMPROW[height];
-  const int rowInc = numComp * width;
-  for (unsigned int ui = 0; ui < height; ++ui)
   {
-    row_pointers[ui] = const_cast<JSAMPROW>(outPtr);
-    outPtr = const_cast<JSAMPLE *>(outPtr) + rowInc;
+    const auto * ptr = static_cast<const JSAMPLE *>(buffer);
+    const auto   rowbytes = num_comp * width;
+    for (size_t ui = 0; ui < height; ++ui)
+    {
+      row_pointers[ui] = const_cast<JSAMPLE *>(ptr) + rowbytes * ui;
+    }
   }
-  jpeg_write_scanlines(&cinfo, row_pointers, height);
-
-  if (fflush(fp) == EOF)
+  while (cinfo.next_scanline < cinfo.image_height)
   {
-    delete[] row_pointers;
-    itkExceptionMacro(<< "JPEG : Out of disk space");
+    // usually one iteration
+    const auto remaining = cinfo.image_height - cinfo.next_scanline;
+    jpeg_write_scanlines(&cinfo, &row_pointers[cinfo.next_scanline], remaining);
   }
 
   // finish the compression
   jpeg_finish_compress(&cinfo);
 
-  // clean up and close the file
-  delete[] row_pointers;
+  // clean up
   jpeg_destroy_compress(&cinfo);
+  delete[] row_pointers;
 }
 } // end namespace itk
