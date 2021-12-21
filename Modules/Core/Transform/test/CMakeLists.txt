@@ -190,6 +190,7 @@ set(ITKTransformGTests
   itkEuler3DTransformGTest.cxx
   itkMatrixOffsetTransformBaseGTest.cxx
   itkSimilarityTransformGTest.cxx
+  itkTransformGTest.cxx
   itkTranslationTransformGTest.cxx
 )
 CreateGoogleTestDriver(ITKTransform "${ITKTransform-Test_LIBRARIES}" "${ITKTransformGTests}")

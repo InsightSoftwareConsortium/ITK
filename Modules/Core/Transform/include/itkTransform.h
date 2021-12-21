@@ -571,7 +571,9 @@ protected:
   typename LightObject::Pointer
   InternalClone() const override;
 
-  Transform();
+  /** Default-constructor. Creates a transform, having empty `Parameters` and `FixedParameters`. */
+  Transform() = default;
+
   Transform(NumberOfParametersType numberOfParameters);
 #if defined(__GNUC__)
   // A bug in some versions of the GCC and Clang compilers
