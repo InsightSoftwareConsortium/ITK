@@ -169,7 +169,6 @@ JPEGImageIO::Read(void * buffer)
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(this->GetFileName(), "rb");
   FILE *          fp = JPEGfp.m_FilePointer;
-
   if (!fp)
   {
     itkExceptionMacro("Error JPEGImageIO could not open file: " << this->GetFileName() << std::endl
@@ -186,10 +185,11 @@ JPEGImageIO::Read(void * buffer)
   jerr.pub.error_exit = itk_jpeg_error_exit;
   // for any output message call itk_jpeg_output_message
   jerr.pub.output_message = itk_jpeg_output_message;
+
   if (setjmp(jerr.setjmp_buffer))
   {
     jpeg_destroy_decompress(&cinfo);
-    itkExceptionMacro("libjpeg could not read file: " << this->GetFileName());
+    itkExceptionMacro("JPEG fatal error in the file: " << this->GetFileName());
   }
 
   jpeg_create_decompress(&cinfo);
@@ -207,33 +207,82 @@ JPEGImageIO::Read(void * buffer)
   // prepare to read the bulk data
   jpeg_start_decompress(&cinfo);
 
-  const auto rowbytes = cinfo.output_width * cinfo.output_components;
-  auto *     tempImage = static_cast<JSAMPLE *>(buffer);
-
   auto * volatile row_pointers = new JSAMPROW[cinfo.output_height];
-  for (size_t ui = 0; ui < cinfo.output_height; ++ui)
+
   {
-    row_pointers[ui] = tempImage + rowbytes * ui;
+    const auto rowbytes = cinfo.output_width * this->GetNumberOfComponents();
+    auto *     tempImage = static_cast<JSAMPLE *>(buffer);
+    for (size_t ui = 0; ui < cinfo.output_height; ++ui)
+    {
+      row_pointers[ui] = tempImage + rowbytes * ui;
+    }
   }
 
   // read the bulk data
-  while (cinfo.output_scanline < cinfo.output_height)
+  if (m_IsCMYK && m_CMYKtoRGB)
   {
-    if (setjmp(jerr.setjmp_buffer))
+    JSAMPROW buf1[1];
+    auto * volatile buf0 = new JSAMPLE[cinfo.output_width * 4];
+    buf1[0] = buf0;
+
+    while (cinfo.output_scanline < cinfo.output_height)
     {
-      itkWarningMacro("JPEG error in the file " << this->GetFileName());
-      jpeg_destroy_decompress(&cinfo);
-      delete[] row_pointers;
-      return;
+      if (setjmp(jerr.setjmp_buffer))
+      {
+        jpeg_destroy_decompress(&cinfo);
+        delete[] row_pointers;
+        delete[] buf0;
+        itkWarningMacro(<< "JPEG error in the file " << this->GetFileName());
+        return;
+      }
+
+      jpeg_read_scanlines(&cinfo, buf1, 1);
+
+      if (cinfo.output_scanline > 0)
+      {
+        const size_t scanline = cinfo.output_scanline - 1;
+        for (size_t i = 0; i < cinfo.output_width; ++i)
+        {
+          // Gimp approach: the following code assumes inverted CMYK values,
+          // even when an APP14 marker doesn't exist. This is the behavior
+          // of recent versions of PhotoShop as well.
+          const float K = buf1[0][4 * i + 3];
+          row_pointers[scanline][3 * i + 0] = static_cast<JSAMPLE>(buf1[0][4 * i + 0] * K / 255.0f);
+          row_pointers[scanline][3 * i + 1] = static_cast<JSAMPLE>(buf1[0][4 * i + 1] * K / 255.0f);
+          row_pointers[scanline][3 * i + 2] = static_cast<JSAMPLE>(buf1[0][4 * i + 2] * K / 255.0f);
+        }
+      }
     }
-    jpeg_read_scanlines(&cinfo, &row_pointers[cinfo.output_scanline], cinfo.output_height - cinfo.output_scanline);
+
+    // finish the decompression step
+    jpeg_finish_decompress(&cinfo);
+
+    // destroy the decompression object
+    jpeg_destroy_decompress(&cinfo);
+
+    delete[] buf0;
   }
+  else
+  {
+    while (cinfo.output_scanline < cinfo.output_height)
+    {
+      if (setjmp(jerr.setjmp_buffer))
+      {
+        jpeg_destroy_decompress(&cinfo);
+        delete[] row_pointers;
+        itkWarningMacro(<< "JPEG error in the file " << this->GetFileName());
+        return;
+      }
 
-  // finish the decompression step
-  jpeg_finish_decompress(&cinfo);
+      jpeg_read_scanlines(&cinfo, &row_pointers[cinfo.output_scanline], cinfo.output_height - cinfo.output_scanline);
+    }
 
-  // destroy the decompression object
-  jpeg_destroy_decompress(&cinfo);
+    // finish the decompression step
+    jpeg_finish_decompress(&cinfo);
+
+    // destroy the decompression object
+    jpeg_destroy_decompress(&cinfo);
+  }
 
   delete[] row_pointers;
 }
@@ -241,16 +290,17 @@ JPEGImageIO::Read(void * buffer)
 JPEGImageIO::JPEGImageIO()
 {
   this->SetNumberOfDimensions(2);
-  m_PixelType = IOPixelEnum::SCALAR;
+
   // 12bits is not working right now, but this should be doable
 #if BITS_IN_JSAMPLE == 8
   m_ComponentType = IOComponentEnum::UCHAR;
 #else
 #  error "JPEG files with more than 8 bits per sample are not supported"
 #endif
+
   m_UseCompression = false;
   this->Self::SetQuality(95);
-  m_Progressive = true;
+
   m_Spacing[0] = 1.0;
   m_Spacing[1] = 1.0;
 
@@ -274,6 +324,8 @@ JPEGImageIO::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   os << indent << "Quality : " << this->GetQuality() << "\n";
   os << indent << "Progressive : " << m_Progressive << "\n";
+  os << indent << "CMYK to RGB : " << m_CMYKtoRGB << "\n";
+  os << indent << "IsCMYK : " << m_IsCMYK << "\n";
 }
 
 void
@@ -284,6 +336,8 @@ JPEGImageIO::ReadImageInformation()
 
   m_Origin[0] = 0.0;
   m_Origin[1] = 0.0;
+
+  m_IsCMYK = false;
 
   // use this class so return will call close
   JPEGFileWrapper JPEGfp(m_FileName.c_str(), "rb");
@@ -328,23 +382,36 @@ JPEGImageIO::ReadImageInformation()
   m_Dimensions[0] = cinfo.output_width;
   m_Dimensions[1] = cinfo.output_height;
 
-  this->SetNumberOfComponents(cinfo.output_components);
-
-  switch (this->GetNumberOfComponents())
+  switch (cinfo.output_components)
   {
     case 1:
       m_PixelType = IOPixelEnum::SCALAR;
+      this->SetNumberOfComponents(1);
       break;
     case 3:
       m_PixelType = IOPixelEnum::RGB;
+      this->SetNumberOfComponents(3);
       break;
     case 4:
-      // FIXME
-      m_PixelType = IOPixelEnum::RGBA;
-      itkWarningMacro("JPEG image may be opened incorrectly");
-      break;
+      if (cinfo.out_color_space == JCS_CMYK)
+      {
+        m_IsCMYK = true;
+        if (m_CMYKtoRGB)
+        {
+          m_PixelType = IOPixelEnum::RGB;
+          this->SetNumberOfComponents(3);
+        }
+        else
+        {
+          m_PixelType = IOPixelEnum::VECTOR;
+          this->SetNumberOfComponents(4);
+        }
+        break;
+      }
+      // else fallthrough
     default:
       m_PixelType = IOPixelEnum::VECTOR;
+      this->SetNumberOfComponents(cinfo.output_components);
       itkWarningMacro("JPEG image may be opened incorrectly");
       break;
   }
