@@ -40,7 +40,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   VectorType constantVelocity;
   constantVelocity.Fill(0.1);
 
-  TimeVaryingVelocityFieldType::Pointer constantVelocityField = TimeVaryingVelocityFieldType::New();
+  auto constantVelocityField = TimeVaryingVelocityFieldType::New();
 
   constantVelocityField->SetOrigin(origin);
   constantVelocityField->SetSpacing(spacing);
@@ -51,7 +51,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
 
   using IntegratorType =
     itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType>;
-  IntegratorType::Pointer integrator = IntegratorType::New();
+  auto integrator = IntegratorType::New();
   integrator->SetInput(constantVelocityField);
   integrator->SetLowerTimeBound(0.3);
   integrator->SetUpperTimeBound(0.75);
@@ -64,7 +64,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   index.Fill(0);
   VectorType displacement;
 
-  IntegratorType::Pointer inverseIntegrator = IntegratorType::New();
+  auto = IntegratorType::New();
   inverseIntegrator->SetInput(constantVelocityField);
   inverseIntegrator->SetLowerTimeBound(1.0);
   inverseIntegrator->SetUpperTimeBound(0.0);
@@ -115,7 +115,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
    */
   using ImportFilterType = itk::ImportImageFilter<VectorType, 4>;
 
-  ImportFilterType::Pointer importFilter = ImportFilterType::New();
+  auto importFilter = ImportFilterType::New();
 
   /* Size is made denser on the z and t coordinates, for which
    * the velocity field is rapidly changing.
@@ -174,6 +174,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   integrator->SetLowerTimeBound(0.2);
   integrator->SetUpperTimeBound(0.8);
   integrator->TimeBoundsAsRatesOff();
+
   integrator->SetNumberOfIntegrationSteps(50);
   integrator->Update();
 
