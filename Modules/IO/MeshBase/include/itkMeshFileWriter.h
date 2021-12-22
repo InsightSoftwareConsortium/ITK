@@ -185,6 +185,28 @@ private:
   bool m_UseCompression;
   bool m_FileTypeIsBINARY;
 };
+
+
+/** Convenience function for writing a mesh.
+ *
+ * The mesh parameter may be a either SmartPointer or a raw pointer and const or non-const.
+ * */
+template <typename TMeshPointer>
+ITK_TEMPLATE_EXPORT void
+WriteMesh(TMeshPointer && mesh, const std::string & filename, bool compress = false)
+{
+  using NonReferenceMeshPointer = std::remove_reference_t<TMeshPointer>;
+  static_assert(std::is_pointer<NonReferenceMeshPointer>::value || mpl::IsSmartPointer<NonReferenceMeshPointer>::Value,
+                "WriteMesh requires a raw pointer or SmartPointer.");
+
+  using MeshType = std::remove_const_t<std::remove_reference_t<decltype(*mesh)>>;
+  auto writer = MeshFileWriter<MeshType>::New();
+  writer->SetInput(mesh);
+  writer->SetFileName(filename);
+  writer->SetUseCompression(compress);
+  writer->Update();
+}
+
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
