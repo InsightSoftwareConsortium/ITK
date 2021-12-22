@@ -5,7 +5,7 @@ itk_wrap_class("itk::SyNImageRegistrationMethod" POINTER)
     foreach(t ${WRAP_ITK_REAL})
       itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}"
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
-      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}BSOUDFT${ITKT_D}${d}"
+      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}BSOUDFT${ITKM_D}${d}"
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >")
     endforeach()
   endforeach()
