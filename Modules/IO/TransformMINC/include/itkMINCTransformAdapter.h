@@ -286,7 +286,6 @@ public:
 
 protected:
   MINCTransformAdapter()
-    : Transform<TParametersValueType, NInputDimensions, NOutputDimensions>(0)
   {
     if (NInputDimensions != 3 || NOutputDimensions != 3)
       itkExceptionMacro(<< "Sorry, only 3D to 3d minc xfm transform is currently implemented");

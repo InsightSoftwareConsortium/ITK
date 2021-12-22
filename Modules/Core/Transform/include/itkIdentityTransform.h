@@ -240,10 +240,7 @@ public:
   {}
 
 protected:
-  IdentityTransform()
-    : Transform<TParametersValueType, NDimensions, NDimensions>(0)
-  {}
-
+  IdentityTransform() = default;
   ~IdentityTransform() override = default;
 };
 } // end namespace itk
