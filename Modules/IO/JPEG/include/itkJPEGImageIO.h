@@ -68,6 +68,10 @@ public:
   itkSetMacro(Progressive, bool);
   itkGetConstMacro(Progressive, bool);
 
+  /** Convert to RGB if out_color_space is CMYK, default is true */
+  itkSetMacro(CMYKtoRGB, bool);
+  itkGetConstMacro(CMYKtoRGB, bool);
+
   /*-------- This part of the interface deals with reading data. ------ */
 
   /** Determine the file type. Returns true if this ImageIO can read the
@@ -113,8 +117,11 @@ protected:
   void
   WriteSlice(std::string & fileName, const void * const buffer);
 
-  /** Default = true*/
-  bool m_Progressive;
+  bool m_Progressive{ true };
+
+  bool m_CMYKtoRGB{ true };
+
+  bool m_IsCMYK{ false };
 };
 } // end namespace itk
 

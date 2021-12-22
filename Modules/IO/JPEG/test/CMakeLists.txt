@@ -4,7 +4,7 @@ itkJPEGImageIOTest.cxx
 itkJPEGImageIOTest2.cxx
 itkJPEGImageIODegenerateCasesTest.cxx
 itkJPEGImageIOBrokenCasesTest.cxx
-
+itkJPEGImageIOCMYKTest.cxx
 )
 
 CreateTestDriver(ITKIOJPEG  "${ITKIOJPEG-Test_LIBRARIES}" "${ITKIOJPEGTests}")
@@ -28,3 +28,6 @@ itk_add_test(NAME itkJPEGImageIOTestCorruptedImage
 itk_add_test(NAME itkJPEGImageIOTestCorruptedImage2
       COMMAND ITKIOJPEGTestDriver
     itkJPEGImageIOBrokenCasesTest DATA{Input/corrupted2.jpg})
+itk_add_test(NAME itkJPEGImageIOTestCMYKImage
+      COMMAND ITKIOJPEGTestDriver
+    itkJPEGImageIOCMYKTest DATA{Input/cmyk.jpg})
