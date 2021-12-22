@@ -18,8 +18,6 @@
 #ifndef itkTimeVaryingVelocityFieldIntegrationImageFilter_hxx
 #define itkTimeVaryingVelocityFieldIntegrationImageFilter_hxx
 
-#include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
-
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkVectorLinearInterpolateImageFunction.h"
 
