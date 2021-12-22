@@ -123,7 +123,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   size[0] = 3;
   size[1] = 3;
   size[2] = 401;
-  size[3] = 41;
+  size[3] = 61;
   ImportFilterType::IndexType start;
   start.Fill(0);
 
@@ -136,7 +136,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   origin.Fill(0.);
   importFilter->SetOrigin(origin);
 
-  double spaceTimeSpan[4] = { 20., 20., 20., 1. };
+  double spaceTimeSpan[4] = { 20., 20., 20., 1.5 };
   for (unsigned int i = 0; i < 4; i++)
   {
     spacing[i] = spaceTimeSpan[i] / (size[i] - 1);
@@ -151,8 +151,8 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   {
     for (unsigned int z = 0; z < size[2]; ++z)
     {
-      const double zz = static_cast<double>(z) * spacing[2];
-      const double kappa = zz / (1 + t * spacing[3]);
+      const double zz = spacing[2] * z;
+      const double kappa = zz / (1 + spacing[3] * t);
       for (unsigned int y = 0; y < size[1]; ++y)
       {
         for (unsigned int x = 0; x < size[0]; ++x, ++it)
@@ -173,6 +173,11 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   integrator->SetInput(timeVaryingVelocityField);
   integrator->SetLowerTimeBound(0.2);
   integrator->SetUpperTimeBound(0.8);
+  /* This time bounds are meant to be absolute
+   * for the velocity field original time span [0, 1.5].
+   * Thus, we need to switch off the default rescaling
+   * to the normalized time span [0, 1] */
+  integrator->TimeBoundsAsRatesOff();
   integrator->SetNumberOfIntegrationSteps(50);
   integrator->Update();
 
