@@ -21,15 +21,15 @@
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkDiscreteGaussianCurvatureQuadEdgeMeshFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkDiscreteGaussianCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cout << "*** GaussianCurvature ***" << std::endl;
-    std::cout << "This example requires at least one argument:" << std::endl;
-    std::cout << " 1- FileName" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 

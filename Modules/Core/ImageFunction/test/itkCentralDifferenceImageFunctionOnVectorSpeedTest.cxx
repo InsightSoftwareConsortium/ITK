@@ -18,6 +18,7 @@
 
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 template <unsigned int vecLength>
 int
@@ -125,7 +126,8 @@ itkCentralDifferenceImageFunctionOnVectorSpeedTest(int argc, char * argv[])
 {
   if (argc != 7)
   {
-    std::cerr << "usage: size reps doEAI doEACI doE vecLength" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps doEAI doEACI doE vecLength"
+              << std::endl;
     return EXIT_FAILURE;
   }
   int vecLength = std::stoi(argv[6]);

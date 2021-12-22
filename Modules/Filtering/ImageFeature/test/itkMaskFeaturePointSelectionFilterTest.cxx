@@ -26,6 +26,7 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkRGBPixel.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -34,7 +35,7 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << " itkMaskFeaturePointSelectionFilterTest inputImageFile outputImageFile [Mask File] ";
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile [Mask File] ";
     return EXIT_FAILURE;
   }
 

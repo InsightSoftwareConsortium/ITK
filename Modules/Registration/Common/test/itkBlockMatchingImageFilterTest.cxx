@@ -33,6 +33,7 @@
 #include "itkScalarToRGBColormapImageFilter.h"
 #include "itkTranslationTransform.h"
 #include "itkResampleImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -41,7 +42,7 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   if (argc < 2)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << " itkitkBlockMatchingImageFilterTest inputImageFile outputImageFile [Mask File]" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile [Mask File]" << std::endl;
     return EXIT_FAILURE;
   }
 

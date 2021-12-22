@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -24,7 +25,7 @@ itkGradientRecursiveGaussianFilterSpeedTest(int argc, char * argv[])
 {
   if (argc != 3)
   {
-    std::cerr << "usage: size reps" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps" << std::endl;
     return EXIT_FAILURE;
   }
 
