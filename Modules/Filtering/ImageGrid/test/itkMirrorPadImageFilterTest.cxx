@@ -78,7 +78,7 @@ itkMirrorPadImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage:\n itkMirrorPadImageFilterTest";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " float | uchar in.png out.nrrd [decayFactor [lowerPad [upperPad]]]" << std::endl;
     return EXIT_FAILURE;
   }

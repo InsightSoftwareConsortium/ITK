@@ -21,6 +21,7 @@
 #include "itkRandomImageSource.h"
 #include "itkMetaDataObject.h"
 #include "itkMetaImageIO.h"
+#include "itkTestingMacros.h"
 
 
 // Specific ImageIO test
@@ -150,7 +151,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "Usage: metadatatest outputimage" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " metadatatest outputimage" << std::endl;
     return 1;
   }
   // write out an image -- using a random image source, but

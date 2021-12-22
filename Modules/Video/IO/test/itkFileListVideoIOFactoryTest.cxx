@@ -20,6 +20,7 @@
 
 #include "itkVideoIOFactory.h"
 #include "itkFileListVideoIOFactory.h"
+#include "itkTestingMacros.h"
 
 ///////////////////////////////////////////////////////////////////////////////
 // This tests all of the functionality of the FileListVideoIO
@@ -75,7 +76,8 @@ itkFileListVideoIOFactoryTest(int argc, char * argv[])
 {
   if (argc != 8)
   {
-    std::cerr << "Usage: [Video Input] [Video Output] [Webcam Number]" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [Video Input] [Video Output] [Webcam Number]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

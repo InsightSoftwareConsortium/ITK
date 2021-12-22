@@ -26,8 +26,7 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Usage: "
-              << "<OutputMesh2D.vtk> "
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << "<OutputMesh2D.vtk> "
               << "<OutputMesh3D.vtk> " << std::endl;
     return EXIT_FAILURE;
   }

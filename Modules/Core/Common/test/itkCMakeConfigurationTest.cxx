@@ -35,6 +35,7 @@
 #include <sys/stat.h>
 #include <ctime>
 #include <cstring>
+#include "itkTestingMacros.h"
 
 void
 itkCMakeInformationPrintFile(const char * name, std::ostream & os)
@@ -74,7 +75,7 @@ main(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: itkCMakeInformationTest <top-of-build-tree>\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <top-of-build-tree>\n";
     return EXIT_FAILURE;
   }
   std::string build_dir = argv[1];

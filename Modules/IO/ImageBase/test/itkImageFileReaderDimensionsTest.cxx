@@ -29,8 +29,8 @@ itkImageFileReaderDimensionsTest(int argc, char * argv[])
 
   if (argc < 4)
   {
-    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " itkIOTests itkImageFileReaderTest inputFileName outputDirectory outputExtension" << std::endl;
+    std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputDirectory outputExtension"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

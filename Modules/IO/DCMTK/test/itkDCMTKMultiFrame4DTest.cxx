@@ -29,8 +29,7 @@ itkDCMTKMultiFrame4DTest(int argc, char * argv[])
   if (argc != 3)
   {
     std::cerr << "Missing Parameters" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " itkDCMTKMultiFram4DTest"
-              << " inputDicomFile" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputDicomFile" << std::endl;
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned short, 4>;

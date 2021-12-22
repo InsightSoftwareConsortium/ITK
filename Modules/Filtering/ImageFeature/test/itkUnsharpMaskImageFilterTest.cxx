@@ -98,7 +98,7 @@ itkUnsharpMaskImageFilterTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Usage:\n itkUnsharpMaskImageFilterTest";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " float | uchar in.png out.nrrd [amount [sigma [threshold]]]" << std::endl;
     return EXIT_FAILURE;
   }

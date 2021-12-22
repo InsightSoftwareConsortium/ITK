@@ -18,13 +18,14 @@
 
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 int
 itkCentralDifferenceImageFunctionSpeedTest(int argc, char * argv[])
 {
   if (argc != 6)
   {
-    std::cerr << "usage: size reps doEAI doEACI doE" << std::endl;
+    std::cerr << "usage: " << itkNameOfTestExecutableMacro(argv) << " size reps doEAI doEACI doE" << std::endl;
     return EXIT_FAILURE;
   }
 
