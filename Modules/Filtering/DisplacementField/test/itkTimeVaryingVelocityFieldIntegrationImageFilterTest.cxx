@@ -173,6 +173,10 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   integrator->SetInput(timeVaryingVelocityField);
   integrator->SetLowerTimeBound(0.2);
   integrator->SetUpperTimeBound(0.8);
+  /* This time bounds are meant to be absolute
+   * for the velocity field original time span [0, 1.5].
+   * Thus, we need to switch off the default rescaling
+   * to the normalized time span [0, 1] */
   integrator->TimeBoundsAsRatesOff();
 
   integrator->SetNumberOfIntegrationSteps(50);
