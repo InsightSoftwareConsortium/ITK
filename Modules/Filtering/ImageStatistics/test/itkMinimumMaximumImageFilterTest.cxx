@@ -20,6 +20,7 @@
 #include "itkSimpleFilterWatcher.h"
 #include "itkMacro.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkMinimumMaximumImageFilterTest(int, char *[])
@@ -77,7 +78,11 @@ itkMinimumMaximumImageFilterTest(int, char *[])
   image->SetPixel(index, maximum);
 
   // Create and initialize the filter
-  auto                     filter = MinMaxFilterType::New();
+  auto filter = MinMaxFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MinimumMaximumImageFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter);
 
   filter->SetInput(image);

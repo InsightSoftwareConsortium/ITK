@@ -59,6 +59,9 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
 
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelStatisticsImageFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher filterWatch(filter);
 
   filter->SetInput(reader1->GetOutput());

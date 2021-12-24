@@ -37,6 +37,10 @@ LabelOverlapMeasures(int, char * argv[])
 
   using FilterType = itk::LabelOverlapMeasuresImageFilter<ImageType>;
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LabelOverlapMeasuresImageFilter, ImageToImageFilter);
+
+
   filter->SetSourceImage(reader1->GetOutput());
   filter->SetTargetImage(reader2->GetOutput());
   filter->Update();
