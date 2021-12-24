@@ -64,7 +64,7 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   index.Fill(0);
   VectorType displacement;
 
-  auto = IntegratorType::New();
+  auto inverseIntegrator = IntegratorType::New();
   inverseIntegrator->SetInput(constantVelocityField);
   inverseIntegrator->SetLowerTimeBound(1.0);
   inverseIntegrator->SetUpperTimeBound(0.0);
