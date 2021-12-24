@@ -57,7 +57,11 @@ doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, co
   readerImag->SetFileName(inputImaginaryFullImage);
   joinFilter->SetInput1(readerReal->GetOutput());
   joinFilter->SetInput2(readerImag->GetOutput());
-  fft->SetTransformDirection(FFTType::INVERSE);
+
+  auto transformDirection = FFTType::INVERSE;
+  fft->SetTransformDirection(transformDirection);
+  ITK_TEST_SET_GET_VALUE(transformDirection, fft->GetTransformDirection());
+
   fft->SetInput(joinFilter->GetOutput());
   toReal->SetInput(fft->GetOutput());
   writer->SetInput(toReal->GetOutput());
@@ -65,8 +69,6 @@ doTest(const char * inputRealFullImage, const char * inputImaginaryFullImage, co
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-
-  fft.Print(std::cout);
 
   return EXIT_SUCCESS;
 }
@@ -110,11 +112,14 @@ itkComplexToComplex1DFFTImageFilterTest(int argc, char * argv[])
 #endif
     using FFTInverseType = itk::ComplexToComplex1DFFTImageFilter<ComplexImageType, ComplexImageType>;
     auto inverse = FFTInverseType::New();
+
     if (inverse == nullptr)
     {
       std::cerr << "Failed to register a backend for ComplexToComplex1DFFTImageFilter" << std::endl;
       return EXIT_FAILURE;
     }
+
+    // ITK_EXERCISE_BASIC_OBJECT_METHODS(inverse, ComplexToComplex1DFFTImageFilter, ImageToImageFilter);
 
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
   }

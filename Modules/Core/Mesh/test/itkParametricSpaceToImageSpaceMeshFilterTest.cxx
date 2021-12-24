@@ -152,6 +152,9 @@ InternalTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(parametricFilter, ParametricSpaceToImageSpaceMeshFilter, MeshToMeshFilter);
+
+
   // Set the input mesh for the parametric filter
   parametricFilter->SetInput(mesh);
 

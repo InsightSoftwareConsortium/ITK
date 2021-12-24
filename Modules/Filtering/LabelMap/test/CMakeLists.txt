@@ -192,12 +192,12 @@ itk_add_test(NAME itkBinaryReconstructionByDilationImageFilterTest
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/itkBinaryReconstructionByDilationImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByDilationImageFilterTest.png
-    itkBinaryReconstructionByDilationImageFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} DATA{${ITK_DATA_ROOT}/Input/Spots-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByDilationImageFilterTest.png 255 100)
+    itkBinaryReconstructionByDilationImageFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} DATA{${ITK_DATA_ROOT}/Input/Spots-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByDilationImageFilterTest.png 255 100 0)
 itk_add_test(NAME itkBinaryReconstructionByErosionImageFilterTest
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/itkBinaryReconstructionByErosionImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByErosionImageFilterTest.png
-    itkBinaryReconstructionByErosionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/Spots-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByErosionImageFilterTest.png 0 255)
+    itkBinaryReconstructionByErosionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/Spots-markers.png} ${ITK_TEST_OUTPUT_DIR}/itkBinaryReconstructionByErosionImageFilterTest.png 0 255 0)
 itk_add_test(NAME itkBinaryReconstructionLabelMapFilterTest
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/itkBinaryReconstructionLabelMapFilterTest.png}

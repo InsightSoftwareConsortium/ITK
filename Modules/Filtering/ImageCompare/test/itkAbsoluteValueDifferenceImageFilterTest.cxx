@@ -18,6 +18,7 @@
 
 #include "itkAbsoluteValueDifferenceImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -112,12 +113,14 @@ itkAbsoluteValueDifferenceImageFilterTest(int, char *[])
   }
 
 
-  // Declare the type for the Magnitude Filter
+  // Declare the type for the filter
   using myFilterType = itk::AbsoluteValueDifferenceImageFilter<myImageType1, myImageType2, myImageType4>;
 
 
-  // Create a MagnitudeImageFilter
+  // Create the filter
   auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, AbsoluteValueDifferenceImageFilter, BinaryGeneratorImageFilter);
 
 
   // Connect the input images

@@ -18,6 +18,7 @@
 
 #include "itkJensenHavrdaCharvatTsallisPointSetToPointSetMetricv4.h"
 #include "itkTranslationTransform.h"
+#include "itkTestingMacros.h"
 
 #include <fstream>
 
@@ -90,6 +91,10 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
   float        metricValues2D[] = { 0.143842f, -0.0129571f, -0.00105768f, -0.000115118f, -1.40956e-05f, -1.84099e-06f };
   float metricValues3D[] = { 0.175588f, -0.0086854f, -0.000475248f, -3.46729e-05f, -2.84585e-06f, -2.49151e-07f };
 
+  unsigned int evaluationKNeighborhood = 50;
+  auto         useAnisotropicCovariances = false;
+  unsigned int covarianceKNeighborhood = 5;
+
   for (unsigned int i = 0; i < numberOfAlphaValues; ++i)
   {
 
@@ -98,10 +103,34 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
     // Instantiate the metric ( alpha = 1.0 )
     using PointSetMetricType = itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<PointSetType>;
     auto metric = PointSetMetricType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      metric, JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
+
+
+    metric->SetAlpha(alphaValues[i]);
+    ITK_TEST_SET_GET_VALUE(alphaValues[i], metric->GetAlpha());
+
+    typename PointSetMetricType::RealType pointSetSigma = 1.0;
+    metric->SetPointSetSigma(pointSetSigma);
+    ITK_TEST_SET_GET_VALUE(pointSetSigma, metric->GetPointSetSigma());
+
+    metric->SetEvaluationKNeighborhood(evaluationKNeighborhood);
+    ITK_TEST_SET_GET_VALUE(evaluationKNeighborhood, metric->GetEvaluationKNeighborhood());
+
+    ITK_TEST_SET_GET_BOOLEAN(metric, UseAnisotropicCovariances, useAnisotropicCovariances);
+
+    metric->SetCovarianceKNeighborhood(covarianceKNeighborhood);
+    ITK_TEST_SET_GET_VALUE(covarianceKNeighborhood, metric->GetCovarianceKNeighborhood());
+
+    typename PointSetMetricType::RealType kernelSigma = 10.0;
+    metric->SetKernelSigma(kernelSigma);
+    ITK_TEST_SET_GET_VALUE(kernelSigma, metric->GetKernelSigma());
+
     metric->SetFixedPointSet(fixedPoints);
     metric->SetMovingPointSet(movingPoints);
     metric->SetMovingTransform(translationTransform);
-    metric->SetAlpha(alphaValues[i]);
+
     metric->Initialize();
 
     typename PointSetMetricType::MeasureType    value = metric->GetValue(), value2;

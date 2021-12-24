@@ -43,6 +43,7 @@ TestBayesianClassifierImageFilterWithNoPriors(typename TInputImage::Pointer imag
 
   bayesianInitializer->SetInput(image);
   bayesianInitializer->SetNumberOfClasses(numberOfClasses);
+  ITK_TEST_SET_GET_VALUE(numberOfClasses, bayesianInitializer->GetNumberOfClasses());
 
   auto bayesianClassifier = BayesianClassifierFilterType::New();
 

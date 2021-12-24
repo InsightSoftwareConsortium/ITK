@@ -21,8 +21,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkHausdorffDistanceImageFilterTest(int, char *[])
+itkHausdorffDistanceImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageSpacing" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   constexpr unsigned int ImageDimension = 3;
 
@@ -159,9 +165,12 @@ itkHausdorffDistanceImageFilterTest(int, char *[])
     using FilterType = itk::HausdorffDistanceImageFilter<Image2Type, Image1Type>;
     auto filter = FilterType::New();
 
+    auto useImageSpacing = static_cast<bool>(std::stoi(argv[1]));
+    filter->SetUseImageSpacing(useImageSpacing);
+    ITK_TEST_SET_GET_VALUE(useImageSpacing, filter->GetUseImageSpacing());
+
     filter->SetInput1(image2);
     filter->SetInput2(image1);
-    filter->SetUseImageSpacing(true);
     filter->Update();
 
     // Check results

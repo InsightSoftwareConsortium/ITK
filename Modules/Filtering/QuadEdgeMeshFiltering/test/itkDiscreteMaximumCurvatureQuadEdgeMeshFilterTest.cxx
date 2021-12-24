@@ -58,6 +58,11 @@ itkDiscreteMaximumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   MeshType::Pointer mesh = reader->GetOutput();
 
   auto max_curvature = CurvatureFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    max_curvature, DiscreteMaximumCurvatureQuadEdgeMeshFilter, DiscretePrincipalCurvaturesQuadEdgeMeshFilter);
+
+
   max_curvature->SetInput(mesh);
   max_curvature->Update();
 

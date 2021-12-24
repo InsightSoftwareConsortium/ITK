@@ -129,6 +129,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   using BlockMatchingFilterType = itk::BlockMatchingImageFilter<InputImageType>;
   auto blockMatchingFilter = BlockMatchingFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(blockMatchingFilter, BlockMatchingImageFilter, MeshToMeshFilter);
+
+
   // inputs (all required)
   blockMatchingFilter->SetFixedImage(resampleFilter->GetOutput());
   blockMatchingFilter->SetMovingImage(reader->GetOutput());
@@ -136,7 +139,10 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   // parameters (all optional)
   blockMatchingFilter->SetBlockRadius(blockRadius);
+  ITK_TEST_SET_GET_VALUE(blockRadius, blockMatchingFilter->GetBlockRadius());
+
   blockMatchingFilter->SetSearchRadius(searchRadius);
+  ITK_TEST_SET_GET_VALUE(searchRadius, blockMatchingFilter->GetSearchRadius());
 
   std::cout << "Block matching: " << blockMatchingFilter << std::endl;
   try

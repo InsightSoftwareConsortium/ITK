@@ -29,11 +29,11 @@
 int
 itkDoubleThresholdImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 7)
+  if (argc < 8)
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImageFile  ";
-    std::cerr << " outputImageFile threshold1 threshold2 threshold3 threshold4 " << std::endl;
+    std::cerr << " outputImageFile threshold1 threshold2 threshold3 threshold4 fullyConnected" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -68,7 +68,11 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
   auto rescaler = RescaleType::New();
 
   // Create the filter
-  auto                     threshold = DoubleThresholdFilterType::New();
+  auto threshold = DoubleThresholdFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(threshold, DoubleThresholdImageFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(threshold, "threshold");
 
   // Setup the input and output files
@@ -129,7 +133,8 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
     error = EXIT_FAILURE;
   }
 
-  threshold->SetFullyConnected(false);
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[7]));
+  ITK_TEST_SET_GET_BOOLEAN(threshold, FullyConnected, fullyConnected);
 
   // Run the filter
   rescaler->SetInput(threshold->GetOutput());

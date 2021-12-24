@@ -58,6 +58,11 @@ itkDiscreteMinimumCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   MeshType::Pointer mesh = reader->GetOutput();
 
   auto min_curvature = CurvatureFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    min_curvature, DiscreteMinimumCurvatureQuadEdgeMeshFilter, DiscretePrincipalCurvaturesQuadEdgeMeshFilter);
+
+
   min_curvature->SetInput(mesh);
   min_curvature->Update();
 

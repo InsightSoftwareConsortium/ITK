@@ -19,6 +19,7 @@
 #include "itkWarpMeshFilter.h"
 #include "itkRegularSphereMeshSource.h"
 #include "itkImage.h"
+#include "itkTestingMacros.h"
 
 int
 itkWarpMeshFilterTest(int, char *[])
@@ -101,6 +102,9 @@ itkWarpMeshFilterTest(int, char *[])
   using WarpFilterType = itk::WarpMeshFilter<MeshType, MeshType, DisplacementFieldType>;
 
   auto warpFilter = WarpFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(warpFilter, WarpMeshFilter, MeshToMeshFilter);
+
 
   warpFilter->SetInput(sphereMeshSource->GetOutput());
 

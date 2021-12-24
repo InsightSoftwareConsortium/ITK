@@ -16,41 +16,50 @@
  *
  *=========================================================================*/
 
-#include <iostream>
+#include "itkImageFileReader.h"
+#include "itkImageFileWriter.h"
+#include "itkRescaleIntensityImageFilter.h"
 #include "itkSobelEdgeDetectionImageFilter.h"
-#include "itkNullImageToImageFilterDriver.hxx"
+#include "itkTestingMacros.h"
 
-inline std::ostream &
-operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
-{
-  o << "[" << v[0] << " " << v[1] << " " << v[2] << "]";
-  return o;
-}
 
 int
-itkSobelEdgeDetectionImageFilterTest(int, char *[])
+itkSobelEdgeDetectionImageFilterTest(int argc, char * argv[])
 {
-  try
+  if (argc != 3)
   {
-    using ImageType = itk::Image<float, 2>;
-
-    // Set up filter
-    itk::SobelEdgeDetectionImageFilter<ImageType, ImageType>::Pointer filter =
-      itk::SobelEdgeDetectionImageFilter<ImageType, ImageType>::New();
-
-    // Run Test
-    itk::Size<2> sz;
-    sz[0] = 100;
-    sz[1] = 100;
-    itk::NullImageToImageFilterDriver<ImageType, ImageType> test1;
-    test1.SetImageSize(sz);
-    test1.SetFilter(filter);
-    test1.Execute();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    (&err)->Print(std::cerr);
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
+
+  constexpr unsigned int Dimension = 2;
+  using InputPixelType = unsigned char;
+  using OutputPixelType = float;
+
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
+
+  itk::SobelEdgeDetectionImageFilter<InputImageType, OutputImageType>::Pointer filter =
+    itk::SobelEdgeDetectionImageFilter<InputImageType, OutputImageType>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SobelEdgeDetectionImageFilter, ImageToImageFilter);
+
+  InputImageType::Pointer inputImagePtr;
+  ITK_TRY_EXPECT_NO_EXCEPTION(inputImagePtr = itk::ReadImage<InputImageType>(argv[1]));
+
+  filter->SetInput(inputImagePtr);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+  using RescaleIntensityImageFilterFilterType = itk::RescaleIntensityImageFilter<OutputImageType, InputImageType>;
+  auto rescaler = RescaleIntensityImageFilterFilterType::New();
+  rescaler->SetInput(filter->GetOutput());
+
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteImage(rescaler->GetOutput(), argv[2]));
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

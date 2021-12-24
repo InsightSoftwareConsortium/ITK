@@ -195,7 +195,7 @@ itk_add_test(NAME itkOrientedImageProfileTest2
 itk_add_test(NAME itkOrientedImageProfileTest3
       COMMAND ITKImageGridTestDriver itkOrientedImageProfileTest3)
 itk_add_test(NAME itkOrientImageFilterTest
-      COMMAND ITKImageGridTestDriver itkOrientImageFilterTest)
+      COMMAND ITKImageGridTestDriver itkOrientImageFilterTest 0)
 itk_add_test(NAME itkOrientImageFilterTest2
       COMMAND ITKImageGridTestDriver itkOrientImageFilterTest2)
 itk_add_test(NAME itkWarpImageFilterTest

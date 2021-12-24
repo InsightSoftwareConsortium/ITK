@@ -18,6 +18,7 @@
 
 #include "itkVectorMagnitudeImageFilter.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorMagnitudeImageFilterTest(int, char *[])
@@ -61,6 +62,9 @@ itkVectorMagnitudeImageFilterTest(int, char *[])
 
   // Create the filter
   auto magnitude = myMagnitudeFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(magnitude, VectorMagnitudeImageFilter, UnaryGeneratorImageFilter);
+
 
   magnitude->SetInput(image);
 

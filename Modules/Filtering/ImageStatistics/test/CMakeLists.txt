@@ -42,17 +42,17 @@ itk_add_test(NAME itkStatisticsImageFilterTest_3
 itk_add_test(NAME itkLabelStatisticsImageFilterTest_1
       COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/peppers.png}
-              DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png})
+              DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png} 1)
 itk_add_test(NAME itkLabelStatisticsImageFilterTest_2
       COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/peppers.png}
               DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
-      10 )
+      1 10 )
 itk_add_test(NAME itkLabelStatisticsImageFilterTest_3
       COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/peppers.png}
               DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
-      20 )
+      1 20 )
 itk_add_test(NAME itkSumProjectionImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeSumProjection.tif}
@@ -68,7 +68,7 @@ itk_add_test(NAME itkImageMomentsNoMaskTest
 itk_add_test(NAME itkImageMomentsWithMaskTest
       COMMAND ITKImageStatisticsTestDriver itkImageMomentsTest mask)
 itk_add_test(NAME itkMinimumMaximumImageFilterTest
-      COMMAND ITKImageStatisticsTestDriver itkMinimumMaximumImageFilterTest)
+      COMMAND ITKImageStatisticsTestDriver itkMinimumMaximumImageFilterTest 1)
 itk_add_test(NAME itkImagePCAShapeModelEstimatorTest
       COMMAND ITKImageStatisticsTestDriver itkImagePCAShapeModelEstimatorTest)
 itk_add_test(NAME itkMaximumProjectionImageFilterTest2_1
@@ -157,7 +157,7 @@ itk_add_test(NAME itkGetAverageSliceImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/AccumulateImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png
-    itkGetAverageSliceImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm} ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png)
+    itkGetAverageSliceImageFilterTest DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm} ${ITK_TEST_OUTPUT_DIR}/GetAverageSliceImageFilterTest.png 2)
 itk_add_test(NAME itkBinaryProjectionImageFilterTest1
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeBinaryProjection100.tif}

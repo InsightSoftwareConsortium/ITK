@@ -25,11 +25,11 @@
 int
 itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
 {
-  if (argc != 6)
+  if (argc != 7)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " input marker output";
-    std::cerr << " fg bg";
+    std::cerr << " fg bg fullyConnected";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
@@ -50,6 +50,8 @@ itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
   using LabelReconstructionType = itk::BinaryReconstructionByDilationImageFilter<ImageType>;
   auto reconstruction = LabelReconstructionType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(reconstruction, BinaryReconstructionByDilationImageFilter, ImageToImageFilter);
+
   // testing get and set macros for Lambda
   int fg = std::stoi(argv[4]);
   reconstruction->SetForegroundValue(fg);
@@ -58,6 +60,9 @@ itkBinaryReconstructionByDilationImageFilterTest(int argc, char * argv[])
   int bg = std::stoi(argv[5]);
   reconstruction->SetBackgroundValue(bg);
   ITK_TEST_SET_GET_VALUE(bg, reconstruction->GetBackgroundValue());
+
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[6]));
+  ITK_TEST_SET_GET_BOOLEAN(reconstruction, FullyConnected, fullyConnected);
 
   reconstruction->SetMaskImage(reader->GetOutput());
   reconstruction->SetInput("MaskImage", reader->GetOutput());

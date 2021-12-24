@@ -50,7 +50,11 @@ itk_add_test(NAME itkLaplacianImageFilterWithSpacingTest
       ${ITK_TEST_OUTPUT_DIR}/itkLaplacianImageFilterWithSpacingTest.png
       1)
 itk_add_test(NAME itkSobelEdgeDetectionImageFilterTest
-      COMMAND ITKImageFeatureTestDriver itkSobelEdgeDetectionImageFilterTest)
+      COMMAND ITKImageFeatureTestDriver
+      --compare DATA{Baseline/itkSobelEdgeDetectionImageFilterTestBaseline.png}
+                ${ITK_TEST_OUTPUT_DIR}/itkSobelEdgeDetectionImageFilterTest.png
+      itkSobelEdgeDetectionImageFilterTest
+      DATA{Input/Swirled.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelEdgeDetectionImageFilterTest.png)
 itk_add_test(NAME itkUnsharpMaskImageFilterTestSimple
       COMMAND ITKImageFeatureTestDriver itkUnsharpMaskImageFilterTestSimple)
 itk_add_test(NAME itkUnsharpMaskImageFilterTest_DefaultsUChar
@@ -108,7 +112,7 @@ itk_add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
 
 itk_add_test(NAME itkHessianRecursiveGaussianFilterTest
       COMMAND ITKImageFeatureTestDriver --redirectOutput ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt
-          itkHessianRecursiveGaussianFilterTest 0)
+          itkHessianRecursiveGaussianFilterTest 2.5 0)
 set_tests_properties(itkHessianRecursiveGaussianFilterTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt)
 
 itk_add_test(NAME itkHoughTransform2DCirclesImageTest
@@ -176,7 +180,7 @@ itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
     --compare DATA{Baseline/itkMaskFeaturePointSelectionFilterTest.mha}
               ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha
     itkMaskFeaturePointSelectionFilterTest
-DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha)
+DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTest.mha 0 2 0 0.01)
 itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest
       COMMAND ITKImageFeatureTestDriver itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest)
 itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest01

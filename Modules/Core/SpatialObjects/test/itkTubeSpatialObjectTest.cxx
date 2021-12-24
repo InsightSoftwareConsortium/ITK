@@ -59,6 +59,9 @@ itkTubeSpatialObjectTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(tube1, TubeSpatialObject, PointBasedSpatialObject);
 
 
+  auto root = false;
+  ITK_TEST_SET_GET_BOOLEAN(tube1, Root, root);
+
   tube1->GetProperty().SetName("Tube 1");
   tube1->SetId(1);
 
@@ -458,10 +461,11 @@ itkTubeSpatialObjectTest(int, char *[])
 
   std::cout << "[PASSED]" << std::endl;
 
-  // Testing IsInside() with m_EndType set to rounded end-type;
-  std::cout << "IsInside() with m_RoundedEnd=True: ";
+  // Testing IsInside() with different end types
+  auto endRounded = false;
+  ITK_TEST_SET_GET_BOOLEAN(tube1, EndRounded, endRounded);
+
   p1.Fill(19.5);
-  tube1->SetEndRounded(false);
 
   if (tube1->IsInsideInWorldSpace(p1))
   {
@@ -469,7 +473,8 @@ itkTubeSpatialObjectTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  tube1->SetEndRounded(true);
+  endRounded = true;
+  ITK_TEST_SET_GET_BOOLEAN(tube1, EndRounded, endRounded);
 
   if (!tube1->IsInsideInWorldSpace(p1))
   {

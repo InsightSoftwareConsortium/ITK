@@ -19,6 +19,7 @@
 #include "itkLandmarkDisplacementFieldSource.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkThinPlateSplineKernelTransform.h"
 
 #include <fstream>
 #include "itkTestingMacros.h"
@@ -47,6 +48,9 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
 
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LandmarkDisplacementFieldSource, ImageSource);
+
+
   itk::SimpleFilterWatcher watcher(filter);
 
   DisplacementFieldType::SpacingType spacing;
@@ -71,11 +75,21 @@ itkLandmarkDisplacementFieldSourceTest(int argc, char * argv[])
   DisplacementFieldType::DirectionType direction;
   direction.SetIdentity();
 
+  auto kernelTransform = itk::ThinPlateSplineKernelTransform<double, FilterType::ImageDimension>::New();
+  filter->SetKernelTransform(kernelTransform);
+  ITK_TEST_SET_GET_VALUE(kernelTransform, filter->GetKernelTransform());
 
   filter->SetOutputSpacing(spacing);
+  ITK_TEST_SET_GET_VALUE(spacing, filter->GetOutputSpacing());
+
   filter->SetOutputOrigin(origin);
+  ITK_TEST_SET_GET_VALUE(origin, filter->GetOutputOrigin());
+
   filter->SetOutputRegion(region);
+  ITK_TEST_SET_GET_VALUE(region, filter->GetOutputRegion());
+
   filter->SetOutputDirection(direction);
+  ITK_TEST_SET_GET_VALUE(direction, filter->GetOutputDirection());
 
   //  Create source and target landmarks.
   //

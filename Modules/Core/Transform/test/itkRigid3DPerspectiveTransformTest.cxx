@@ -19,7 +19,7 @@
 #include <iostream>
 
 #include "itkRigid3DPerspectiveTransform.h"
-
+#include "itkTestingMacros.h"
 
 int
 itkRigid3DPerspectiveTransformTest(int, char *[])
@@ -35,6 +35,44 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
   bool Ok = true;
 
+  // Test exceptions
+  {
+    auto transform = TransformType::New();
+
+    typename TransformType::InputVectorType vector{ { 1.0, 4.0, 9.0 } };
+    ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vector));
+
+    typename TransformType::InputVnlVectorType vnlVector;
+    vnlVector.fill(1.0);
+    ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vnlVector));
+
+    typename TransformType::InputCovariantVectorType covVector;
+    covVector.Fill(1.0);
+    ITK_TRY_EXPECT_EXCEPTION(transform->TransformCovariantVector(covVector));
+
+    typename TransformType::InputPointType       point{ { 1.0, 1.0, 1.0 } };
+    typename TransformType::JacobianPositionType jacobianPosition;
+    ITK_TRY_EXPECT_EXCEPTION(transform->ComputeJacobianWithRespectToPosition(point, jacobianPosition));
+  }
+
+  // Exercise basic object methods and test Set/Get macros
+  {
+    auto transform = TransformType::New();
+
+    EXERCISE_BASIC_OBJECT_METHODS(transform, Rigid3DPerspectiveTransform, Transform);
+
+
+    typename TransformType::OffsetType fixedOffset;
+    fixedOffset.Fill(0);
+
+    transform->SetFixedOffset(fixedOffset);
+    ITK_TEST_SET_GET_VALUE(fixedOffset, transform->GetFixedOffset());
+
+    typename TransformType::InputPointType centerOfRotation;
+    centerOfRotation.Fill(0);
+    transform->SetCenterOfRotation(centerOfRotation);
+    ITK_TEST_SET_GET_VALUE(centerOfRotation, transform->GetCenterOfRotation());
+  }
 
   /* Create a 3D identity transformation and show its parameters */
   {

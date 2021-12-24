@@ -55,6 +55,6 @@ itk_add_test(NAME itkAmoebaOptimizerTest
 itk_add_test(NAME itkParticleSwarmOptimizerTest
       COMMAND ITKOptimizersTestDriver itkParticleSwarmOptimizerTest)
 itk_add_test(NAME itkInitializationBiasedParticleSwarmOptimizerTest
-      COMMAND ITKOptimizersTestDriver itkInitializationBiasedParticleSwarmOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkInitializationBiasedParticleSwarmOptimizerTest 0.7298 1.49609 1.49609 1.49609)
 itk_add_test(NAME itkOnePlusOneEvolutionaryOptimizerTest
       COMMAND ITKOptimizersTestDriver itkOnePlusOneEvolutionaryOptimizerTest)

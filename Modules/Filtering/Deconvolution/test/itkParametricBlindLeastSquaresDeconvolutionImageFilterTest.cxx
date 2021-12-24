@@ -195,7 +195,14 @@ itkParametricBlindLeastSquaresDeconvolutionImageFilterTest(int argc, char * argv
   // Create an instance of the deconvolution filter
   using DeconvolutionFilterType = itk::ParametricBlindLeastSquaresDeconvolutionImageFilter<ImageType, KernelSourceType>;
   auto deconvolutionFilter = DeconvolutionFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    deconvolutionFilter, ParametricBlindLeastSquaresDeconvolutionImageFilter, IterativeDeconvolutionImageFilter);
+
+
   deconvolutionFilter->SetKernelSource(kernelSource);
+  ITK_TEST_SET_GET_VALUE(kernelSource, deconvolutionFilter->GetKernelSource());
+
   deconvolutionFilter->SetSizeGreatestPrimeFactor(5);
 
   // Change the sigma settings here to something different

@@ -88,6 +88,10 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
 
   using ComplexFilterType = itk::ComplexToComplexFFTImageFilter<ComplexImageType>;
   auto inverseComplexFilter = ComplexFilterType::New();
+
+  // ITK_EXERCISE_BASIC_OBJECT_METHODS(inverseComplexFilter, ComplexToComplexFFTImageFilter, ImageToImageFilter);
+
+
   inverseComplexFilter->SetInput(forwardFilter->GetOutput());
   inverseComplexFilter->SetTransformDirection(ComplexFilterType::TransformDirectionEnum::INVERSE);
 

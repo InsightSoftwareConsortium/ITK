@@ -32,10 +32,10 @@
 int
 itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
 {
-  if (argc < 2)
+  if (argc < 6)
   {
-    std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile outputImageFile [Mask File] ";
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << " inputImageFile outputImageFile nonConnectivity blockRadius computeStructureTensors selectFraction";
     return EXIT_FAILURE;
   }
 
@@ -59,12 +59,27 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   // Set up filter
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MaskFeaturePointSelectionFilter, ImageToMeshFilter);
+
+
+  auto nonConnectivity = static_cast<unsigned int>(std::stoi(argv[3]));
+  filter->SetNonConnectivity(nonConnectivity);
+  ITK_TEST_SET_GET_VALUE(nonConnectivity, filter->GetNonConnectivity());
+
+  auto blockRadiusValue = static_cast<typename FilterType::SizeType::SizeValueType>(std::stod(argv[4]));
+  typename FilterType::SizeType blockRadius;
+  blockRadius.Fill(blockRadiusValue);
+  filter->SetBlockRadius(blockRadius);
+  ITK_TEST_SET_GET_VALUE(blockRadius, filter->GetBlockRadius());
+
+  auto computeStructureTensors = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, ComputeStructureTensors, computeStructureTensors);
+
+  auto selectFraction = std::stod(argv[6]);
+  filter->SetSelectFraction(selectFraction);
+  ITK_TEST_SET_GET_VALUE(selectFraction, filter->GetSelectFraction());
+
   filter->SetInput(reader->GetOutput());
-
-  filter->SetSelectFraction(0.01);
-  filter->ComputeStructureTensorsOff();
-
-  std::cout << "Filter: " << filter << std::endl;
 
   try
   {

@@ -24,6 +24,7 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
+#include "itkTestingMacros.h"
 
 /* Uncomment to write out image files */
 /*
@@ -135,6 +136,10 @@ itkShapeDetectionLevelSetImageFilterTest(int, char *[])
     using ShapeDetectionFilterType = itk::ShapeDetectionLevelSetImageFilter<InternalImageType, InternalImageType>;
 
     auto shapeDetection = ShapeDetectionFilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      shapeDetection, ShapeDetectionLevelSetImageFilter, SegmentationLevelSetImageFilter);
+
 
     // set the initial level set
     shapeDetection->SetInput(fastMarching->GetOutput());

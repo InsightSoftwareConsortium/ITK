@@ -30,10 +30,11 @@
 int
 itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 6)
   {
     std::cerr << "Missing arguments" << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " Inputimage OutputImage Height" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " Inputimage OutputImage Height fullyConnected runOneIteration" << std::endl;
     return EXIT_FAILURE;
   }
   constexpr int Dimension = 2;
@@ -52,8 +53,15 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   auto writer = WriterType::New();
   auto shiftErode = ShiftFilterType::New();
   auto shiftDilate = ShiftFilterType::New();
+
   auto erode = ErodeFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(erode, GrayscaleGeodesicErodeImageFilter, ImageToImageFilter);
+
+
   auto dilate = DilateFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(dilate, GrayscaleGeodesicDilateImageFilter, ImageToImageFilter);
 
   // Create the reader and writer
   reader->SetFileName(argv[1]);
@@ -66,7 +74,14 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   // Dilate
   dilate->SetMarkerImage(shiftDilate->GetOutput());
   dilate->SetMaskImage(reader->GetOutput());
-  dilate->FullyConnectedOn();
+  auto fullyConnected = static_cast<bool>(std::stoi(argv[4]));
+
+  ITK_TEST_SET_GET_BOOLEAN(dilate, FullyConnected, fullyConnected);
+
+  auto runOneIteration = static_cast<bool>(std::stoi(argv[5]));
+
+  ITK_TEST_SET_GET_BOOLEAN(dilate, RunOneIteration, runOneIteration);
+
 
   // Create the marker image for erode
   shiftErode->SetInput(dilate->GetOutput());
@@ -75,7 +90,10 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   // Erode
   erode->SetMarkerImage(shiftErode->GetOutput());
   erode->SetMaskImage(dilate->GetOutput());
-  erode->FullyConnectedOn();
+
+  ITK_TEST_SET_GET_BOOLEAN(erode, FullyConnected, fullyConnected);
+
+  ITK_TEST_SET_GET_BOOLEAN(erode, RunOneIteration, runOneIteration);
 
   writer->SetInput(erode->GetOutput());
 

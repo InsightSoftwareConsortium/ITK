@@ -244,6 +244,16 @@ itkNewMetaObjectTypeTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(converter, MetaSceneConverter, Object);
 
 
+  auto binaryPoints = false;
+  ITK_TEST_SET_GET_BOOLEAN(converter, BinaryPoints, binaryPoints);
+
+  unsigned int transformPrecision = 6;
+  converter->SetTransformPrecision(transformPrecision);
+  ITK_TEST_SET_GET_VALUE(transformPrecision, converter->GetTransformPrecision());
+
+  auto writeImagesInSeparateFile = false;
+  ITK_TEST_SET_GET_BOOLEAN(converter, WriteImagesInSeparateFile, writeImagesInSeparateFile);
+
   converter->RegisterMetaConverter("Dummy", "DummySpatialObject", dummyConverter);
 
   MetaScene * metaScene = converter->CreateMetaScene(group);

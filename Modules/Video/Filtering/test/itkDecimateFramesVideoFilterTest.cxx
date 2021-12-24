@@ -93,6 +93,9 @@ itkDecimateFramesVideoFilterTest(int argc, char * argv[])
   auto writer = WriterType::New();
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, DecimateFramesVideoFilter, VideoToVideoFilter);
+
+
   // Connect the pipeline
   filter->SetInput(reader->GetOutput());
   writer->SetInput(filter->GetOutput());

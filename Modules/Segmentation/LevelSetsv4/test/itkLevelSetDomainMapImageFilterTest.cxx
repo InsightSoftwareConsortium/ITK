@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkLevelSetDomainMapImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkLevelSetDomainMapImageFilterTest(int, char *[])
@@ -61,6 +62,10 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
   }
 
   auto filter = DomainMapImageFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, LevelSetDomainMapImageFilter, ImageToImageFilter);
+
+
   filter->SetInput(input);
   filter->Update();
 

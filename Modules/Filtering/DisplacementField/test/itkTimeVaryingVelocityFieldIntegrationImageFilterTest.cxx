@@ -18,10 +18,26 @@
 
 #include "itkTimeVaryingVelocityFieldIntegrationImageFilter.h"
 #include "itkImportImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
-itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
+itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 10)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " homoConstLowerTimeBound"
+              << " homoConstUpperTimeBound"
+              << " homoConstNumberOfIntegrationSteps"
+              << " heterogVarConstLowerTimeBound"
+              << " heterogVarConstUpperTimeBound"
+              << " heterogVarNumberOfIntegrationSteps"
+              << " invLowerTimeBound"
+              << " invUpperTimeBound"
+              << " invNumberOfIntegrationSteps" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   /* First test with homogeneous and constant velocity field
    */
   using VectorType = itk::Vector<double, 3>;
@@ -52,23 +68,49 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   using IntegratorType =
     itk::TimeVaryingVelocityFieldIntegrationImageFilter<TimeVaryingVelocityFieldType, DisplacementFieldType>;
   auto integrator = IntegratorType::New();
-  integrator->SetInput(constantVelocityField);
-  integrator->SetLowerTimeBound(0.3);
-  integrator->SetUpperTimeBound(0.75);
-  integrator->SetNumberOfIntegrationSteps(100);
-  integrator->Update();
 
-  integrator->Print(std::cout, 3);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(integrator, TimeVaryingVelocityFieldIntegrationImageFilter, ImageToImageFilter);
+
+
+  auto lowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[1]));
+  integrator->SetLowerTimeBound(lowerTimeBound);
+  ITK_TEST_SET_GET_VALUE(lowerTimeBound, integrator->GetLowerTimeBound());
+
+  auto upperTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[2]));
+  integrator->SetUpperTimeBound(upperTimeBound);
+  ITK_TEST_SET_GET_VALUE(upperTimeBound, integrator->GetUpperTimeBound());
+
+  auto numberOfIntegrationSteps = static_cast<unsigned int>(std::stoi(argv[3]));
+  integrator->SetNumberOfIntegrationSteps(numberOfIntegrationSteps);
+  ITK_TEST_SET_GET_VALUE(numberOfIntegrationSteps, integrator->GetNumberOfIntegrationSteps());
+
+  auto timeBoundsAsRates = true;
+  ITK_TEST_SET_GET_BOOLEAN(integrator, TimeBoundsAsRates, timeBoundsAsRates);
+
+  integrator->SetInput(constantVelocityField);
+
+  integrator->Update();
 
   DisplacementFieldType::IndexType index;
   index.Fill(0);
   VectorType displacement;
 
   auto inverseIntegrator = IntegratorType::New();
+
+  auto invLowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[7]));
+  inverseIntegrator->SetLowerTimeBound(invLowerTimeBound);
+  ITK_TEST_SET_GET_VALUE(invLowerTimeBound, inverseIntegrator->GetLowerTimeBound());
+
+  auto invUpperTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[8]));
+  inverseIntegrator->SetUpperTimeBound(invUpperTimeBound);
+  ITK_TEST_SET_GET_VALUE(invUpperTimeBound, inverseIntegrator->GetUpperTimeBound());
+
+  auto invNumberOfIntegrationSteps = static_cast<unsigned int>(std::stoi(argv[9]));
+  inverseIntegrator->SetNumberOfIntegrationSteps(invNumberOfIntegrationSteps);
+  ITK_TEST_SET_GET_VALUE(invNumberOfIntegrationSteps, inverseIntegrator->GetNumberOfIntegrationSteps());
+
   inverseIntegrator->SetInput(constantVelocityField);
-  inverseIntegrator->SetLowerTimeBound(1.0);
-  inverseIntegrator->SetUpperTimeBound(0.0);
-  inverseIntegrator->SetNumberOfIntegrationSteps(100);
+
   inverseIntegrator->Update();
 
   // This integration should result in a constant image of value
@@ -83,10 +125,6 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
     std::cerr << "Failed to produce the correct inverse integration." << std::endl;
     return EXIT_FAILURE;
   }
-
-  inverseIntegrator->Print(std::cout, 3);
-
-  std::cout << inverseIntegrator->GetNameOfClass() << std::endl;
 
   // This integration should result in a constant image of value
   // 0.75 * 0.1 - 0.3 * 0.1 = 0.045 with ~epsilon deviation
@@ -170,19 +208,23 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
 
   TimeVaryingVelocityFieldType::Pointer timeVaryingVelocityField = importFilter->GetOutput();
 
+  lowerTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[4]));
+  integrator->SetLowerTimeBound(lowerTimeBound);
+
+  upperTimeBound = static_cast<typename IntegratorType::RealType>(std::stod(argv[5]));
+  integrator->SetUpperTimeBound(upperTimeBound);
+
   integrator->SetInput(timeVaryingVelocityField);
-  integrator->SetLowerTimeBound(0.2);
-  integrator->SetUpperTimeBound(0.8);
   /* This time bounds are meant to be absolute
    * for the velocity field original time span [0, 1.5].
    * Thus, we need to switch off the default rescaling
    * to the normalized time span [0, 1] */
   integrator->TimeBoundsAsRatesOff();
 
-  integrator->SetNumberOfIntegrationSteps(50);
-  integrator->Update();
+  numberOfIntegrationSteps = static_cast<unsigned int>(std::stod(argv[6]));
+  integrator->SetNumberOfIntegrationSteps(numberOfIntegrationSteps);
 
-  integrator->Print(std::cout, 3);
+  integrator->Update();
 
   index[0] = (size[0] - 1) / 2;  // Corresponding to x = 10.
   index[1] = (size[1] - 1) / 2;  // Corresponding to y = 10.
@@ -200,8 +242,8 @@ itkTimeVaryingVelocityFieldIntegrationImageFilterTest(int, char *[])
   }
 
   /* The same integrator is used backwards in time. */
-  integrator->SetLowerTimeBound(1.0);
-  integrator->SetUpperTimeBound(0.0);
+  integrator->SetLowerTimeBound(invLowerTimeBound);
+  integrator->SetUpperTimeBound(invUpperTimeBound);
   integrator->Update();
 
   inverseField = integrator->GetOutput();

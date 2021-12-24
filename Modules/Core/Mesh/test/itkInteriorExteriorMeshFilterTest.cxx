@@ -19,6 +19,7 @@
 #include "itkInteriorExteriorMeshFilter.h"
 #include "itkMesh.h"
 #include "itkSphereSpatialFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkInteriorExteriorMeshFilterTest(int, char *[])
@@ -81,6 +82,9 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
   // Create a Filter
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, InteriorExteriorMeshFilter, MeshToMeshFilter);
+
+
   // Create the Spatial Function
   auto spatialFunction = SpatialFunctionType::New();
 
@@ -94,9 +98,11 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
   spatialFunction->SetCenter(center);
   spatialFunction->SetRadius(radius);
 
+  filter->SetSpatialFunction(spatialFunction);
+  ITK_TEST_SET_GET_VALUE(spatialFunction, filter->GetSpatialFunction());
+
   // Connect the inputs
   filter->SetInput(inputMesh);
-  filter->SetSpatialFunction(spatialFunction);
 
   // Execute the filter
   filter->Update();

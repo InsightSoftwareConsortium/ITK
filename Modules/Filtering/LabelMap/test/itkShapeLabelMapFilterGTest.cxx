@@ -20,6 +20,7 @@
 
 #include "itkImage.h"
 #include "itkLabelImageToShapeLabelMapFilter.h"
+#include "itkTestingMacros.h"
 
 
 namespace Math = itk::Math;
@@ -96,6 +97,27 @@ protected:
       }
       return false;
     }
+
+    static bool
+    TestBasicObjectProperties()
+    {
+      using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType>;
+      auto l2s = L2SType::New();
+
+      ITK_EXERCISE_BASIC_OBJECT_METHODS(l2s, LabelImageToShapeLabelMapFilter, ImageToImageFilter);
+
+
+      auto computeFeretDiameter = true;
+      ITK_TEST_SET_GET_BOOLEAN(l2s, ComputeFeretDiameter, computeFeretDiameter);
+
+      auto computePerimeter = true;
+      ITK_TEST_SET_GET_BOOLEAN(l2s, ComputePerimeter, computePerimeter);
+
+      auto computeOrientedBoundingBox = true;
+      ITK_TEST_SET_GET_BOOLEAN(l2s, ComputeOrientedBoundingBox, computeOrientedBoundingBox);
+
+      return EXIT_SUCCESS;
+    }
   };
 };
 } // namespace
@@ -104,6 +126,12 @@ protected:
 // the test is marked with the "resulting value" comment. In which
 // case the baseline value was just what was computed by the method.
 
+
+TEST_F(ShapeLabelMapFixture, BasicObjectProperties)
+{
+  FixtureUtilities<2>::TestBasicObjectProperties();
+  FixtureUtilities<3>::TestBasicObjectProperties();
+}
 
 TEST_F(ShapeLabelMapFixture, 3D_T1x1x1)
 {

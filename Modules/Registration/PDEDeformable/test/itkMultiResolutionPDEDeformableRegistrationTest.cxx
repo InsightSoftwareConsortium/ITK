@@ -233,13 +233,21 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 
   auto registrator = RegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(registrator, MultiResolutionPDEDeformableRegistration, ImageToImageFilter);
+
+
   registrator->SetMovingImage(moving);
+  ITK_TEST_SET_GET_VALUE(moving, registrator->GetMovingImage());
+
   registrator->SetFixedImage(fixed);
+  ITK_TEST_SET_GET_VALUE(fixed, registrator->GetFixedImage());
+
   registrator->GetModifiableFixedImagePyramid()->UseShrinkImageFilterOn();
   registrator->GetModifiableMovingImagePyramid()->UseShrinkImageFilterOn();
 
-  unsigned int numLevel = 3;
-  unsigned int numIterations[10];
+  unsigned int     numLevel = 3;
+  constexpr size_t arraySize = 10;
+  unsigned int     numIterations[arraySize];
   numIterations[0] = 64;
 
   unsigned int ilevel;
@@ -249,9 +257,12 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   }
 
   registrator->SetNumberOfLevels(numLevel);
-  registrator->SetNumberOfIterations(numIterations);
+  ITK_TEST_SET_GET_VALUE(numLevel, registrator->GetNumberOfLevels());
 
-  registrator->Print(std::cout);
+  registrator->SetNumberOfIterations(numIterations);
+  RegistrationType::NumberOfIterationsType numIterationsArr;
+  numIterationsArr.SetData(numIterations, numLevel);
+  ITK_TEST_SET_GET_VALUE(numIterationsArr, registrator->GetNumberOfIterations());
 
   using CommandType = itk::SimpleMemberCommand<ShowProgressPDEObject>;
 
@@ -342,16 +353,6 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // Exercise Get Methods
-  std::cout << "RegistrationFilter: " << registrator->GetRegistrationFilter() << std::endl;
-  std::cout << "FixedImage: " << registrator->GetFixedImage() << std::endl;
-  std::cout << "MovingImage: " << registrator->GetMovingImage() << std::endl;
-  std::cout << "FixedImagePyramid: " << registrator->GetFixedImagePyramid() << std::endl;
-  std::cout << "MovingImagePyramid: " << registrator->GetMovingImagePyramid() << std::endl;
-  std::cout << "NumberOfLevels: " << registrator->GetNumberOfLevels() << std::endl;
-  std::cout << "CurrentLevel: " << registrator->GetCurrentLevel() << std::endl;
-  std::cout << "NumberOfIterations[0]: " << registrator->GetNumberOfIterations()[0] << std::endl;
-
   // Exercise error handling
   bool passed;
 
@@ -371,6 +372,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     passed = true;
     registrator->ResetPipeline();
     registrator->SetRegistrationFilter(demons);
+    ITK_TEST_SET_GET_VALUE(demons, registrator->GetRegistrationFilter());
   }
 
   if (!passed)
@@ -394,6 +396,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     passed = true;
     registrator->ResetPipeline();
     registrator->SetFixedImagePyramid(fixedPyramid);
+    ITK_TEST_SET_GET_VALUE(fixedPyramid, registrator->GetFixedImagePyramid());
   }
 
   if (!passed)
@@ -418,6 +421,7 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
     passed = true;
     registrator->ResetPipeline();
     registrator->SetMovingImagePyramid(movingPyramid);
+    ITK_TEST_SET_GET_VALUE(movingPyramid, registrator->GetMovingImagePyramid());
   }
 
   if (!passed)
