@@ -104,8 +104,7 @@ itkIntermodesThresholdImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(maximumSmoothingIterations, filter->GetMaximumSmoothingIterations());
 
   bool useInterMode = static_cast<bool>(std::stoi(argv[6]));
-  filter->SetUseInterMode(useInterMode);
-  ITK_TEST_SET_GET_VALUE(useInterMode, filter->GetUseInterMode());
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseInterMode, useInterMode);
 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());

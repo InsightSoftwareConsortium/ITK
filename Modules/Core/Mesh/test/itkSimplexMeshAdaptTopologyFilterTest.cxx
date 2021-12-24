@@ -19,10 +19,17 @@
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshAdaptTopologyFilter.h"
 #include "itkDefaultDynamicMeshTraits.h"
+#include "itkTestingMacros.h"
 
 int
-itkSimplexMeshAdaptTopologyFilterTest(int, char *[])
+itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
 {
+  if (argc != 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " threshold selectionMethod" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Declare the type of the input and output mesh
   using TriangleMeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3, double, double>;
@@ -62,9 +69,20 @@ itkSimplexMeshAdaptTopologyFilterTest(int, char *[])
   using FilterType = itk::SimplexMeshAdaptTopologyFilter<SimplexMeshType, SimplexMeshType>;
 
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SimplexMeshAdaptTopologyFilter, MeshToMeshFilter);
+
+
+  auto threshold = std::stod(argv[1]);
+  filter->SetThreshold(threshold);
+  ITK_TEST_SET_GET_VALUE(threshold, filter->GetThreshold());
+
+  auto selectionMethod = std::stoi(argv[2]);
+  filter->SetSelectionMethod(selectionMethod);
+  ITK_TEST_SET_GET_VALUE(selectionMethod, filter->GetSelectionMethod());
+
   filter->SetInput(simplexMesh);
   filter->Update();
-  filter->Print(std::cout);
 
   std::cout << "[TEST DONE]" << std::endl;
 

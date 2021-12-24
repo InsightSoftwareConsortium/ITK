@@ -48,6 +48,11 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
 
   using ComplexFilterType = itk::VnlComplexToComplexFFTImageFilter<ComplexImageType>;
   auto inverseComplexFilter = ComplexFilterType::New();
+
+  // ITK_EXERCISE_BASIC_OBJECT_METHODS(
+  //  inverseComplexFilter, VnlComplexToComplexFFTImageFilter, ComplexToComplexFFTImageFilter);
+
+
   inverseComplexFilter->SetInput(forwardFilter->GetOutput());
   inverseComplexFilter->SetTransformDirection(ComplexFilterType::TransformDirectionEnum::INVERSE);
 

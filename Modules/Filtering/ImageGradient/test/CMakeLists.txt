@@ -54,7 +54,7 @@ itk_add_test(NAME itkVectorGradientMagnitudeImageFilterTest3
       COMMAND ITKImageGradientTestDriver itkVectorGradientMagnitudeImageFilterTest3
               DATA{${ITK_DATA_ROOT}/Input/VHFColor.mhd,VHFColor.raw} ${ITK_TEST_OUTPUT_DIR}/VectorGradientMagnitudeImageFilterTest3.mha 1)
 itk_add_test(NAME itkGradientMagnitudeRecursiveGaussianFilterTest
-      COMMAND ITKImageGradientTestDriver itkGradientMagnitudeRecursiveGaussianFilterTest 0)
+      COMMAND ITKImageGradientTestDriver itkGradientMagnitudeRecursiveGaussianFilterTest 2.5 0)
 itk_add_test(NAME itkGradientRecursiveGaussianFilterTest
       COMMAND ITKImageGradientTestDriver itkGradientRecursiveGaussianFilterTest)
 itk_add_test(NAME itkGradientRecursiveGaussianFilterTest2

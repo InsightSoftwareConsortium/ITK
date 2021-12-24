@@ -30,11 +30,12 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
 {
   std::cout << "itkLabelStatisticsImageFilterTest Start" << std::endl;
 
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage labeledImage [numberOfStreamDivision]" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImage labeledImage useHistograms [numberOfStreamDivision]"
+              << std::endl;
     return EXIT_FAILURE;
   }
   using ImageType = itk::Image<unsigned char, 2>;
@@ -50,9 +51,9 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
 
   unsigned int numberOfStreamDivisions = 1;
 
-  if (argc > 3)
+  if (argc > 4)
   {
-    numberOfStreamDivisions = std::max(std::stoi(argv[3]), 1);
+    numberOfStreamDivisions = std::max(std::stoi(argv[4]), 1);
   }
 
   using FilterType = itk::LabelStatisticsImageFilter<ImageType, ImageType>;
@@ -64,10 +65,15 @@ itkLabelStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher filterWatch(filter);
 
+  auto useHistograms = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseHistograms, useHistograms);
+
+  filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
+  ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
+
   filter->SetInput(reader1->GetOutput());
   filter->SetLabelInput(reader2->GetOutput());
-  filter->UseHistogramsOn();
-  filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
+
   try
   {
     filter->Update();

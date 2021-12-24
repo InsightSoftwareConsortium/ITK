@@ -73,8 +73,10 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
 
   itk::SimpleFilterWatcher filterWatch(filter);
 
-  filter->SetInput(image);
   filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
+  ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
+
+  filter->SetInput(image);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 

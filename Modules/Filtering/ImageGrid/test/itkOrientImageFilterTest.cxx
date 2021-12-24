@@ -64,8 +64,15 @@ PrintImg(ImageType::Pointer img)
 }
 
 int
-itkOrientImageFilterTest(int, char *[])
+itkOrientImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useImageDirection" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   itk::MultiThreaderBase::SetGlobalMaximumNumberOfThreads(1);
   ImageType::Pointer randImage = CreateRandomImage();
   std::cerr << "Original" << std::endl;
@@ -74,6 +81,10 @@ itkOrientImageFilterTest(int, char *[])
   itk::OrientImageFilter<ImageType, ImageType>::Pointer orienter = itk::OrientImageFilter<ImageType, ImageType>::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(orienter, OrientImageFilter, ImageToImageFilter);
+
+
+  auto useImageDirection = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(orienter, UseImageDirection, useImageDirection);
 
   orienter->SetGivenCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   orienter->SetInput(randImage);

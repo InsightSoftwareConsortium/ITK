@@ -20,6 +20,7 @@
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkBinaryMedianImageFilter.h"
 #include "itkTextOutput.h"
+#include "itkTestingMacros.h"
 
 int
 itkBinaryMedianImageFilterTest(int, char *[])
@@ -59,9 +60,16 @@ itkBinaryMedianImageFilterTest(int, char *[])
   // Create a median image
   itk::BinaryMedianImageFilter<ImageType, ImageType>::Pointer median;
   median = itk::BinaryMedianImageFilter<ImageType, ImageType>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(median, BinaryMedianImageFilter, ImageToImageFilter);
+
+
   median->SetInput(thresholder->GetOutput());
   median->SetForegroundValue(foreground);
+  ITK_TEST_SET_GET_VALUE(foreground, median->GetForegroundValue());
+
   median->SetBackgroundValue(background);
+  ITK_TEST_SET_GET_VALUE(background, median->GetBackgroundValue());
 
 
   // define the neighborhood size used for the median filter (5x5)
@@ -69,6 +77,7 @@ itkBinaryMedianImageFilterTest(int, char *[])
   neighRadius[0] = 1;
   neighRadius[1] = 1;
   median->SetRadius(neighRadius);
+  ITK_TEST_SET_GET_VALUE(neighRadius, median->GetRadius());
 
   // run the algorithm
   median->Update();

@@ -58,7 +58,7 @@ itk_add_test(NAME itkRegularSphereMeshSourceTest
 itk_add_test(NAME itkRegularSphereMeshSourceTest2
       COMMAND ITKMeshTestDriver itkRegularSphereMeshSourceTest2)
 itk_add_test(NAME itkSimplexMeshAdaptTopologyFilterTest
-      COMMAND ITKMeshTestDriver itkSimplexMeshAdaptTopologyFilterTest)
+      COMMAND ITKMeshTestDriver itkSimplexMeshAdaptTopologyFilterTest 0.5 0)
 itk_add_test(NAME itkSimplexMeshToTriangleMeshFilterTest
       COMMAND ITKMeshTestDriver itkSimplexMeshToTriangleMeshFilterTest)
 itk_add_test(NAME itkSimplexMeshVolumeCalculatorTest

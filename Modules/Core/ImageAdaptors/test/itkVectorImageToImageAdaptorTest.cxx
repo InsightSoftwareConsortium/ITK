@@ -62,6 +62,10 @@ itkVectorImageToImageAdaptorTest(int, char *[])
 
   // run the adaptor
   auto vectorImageToImageAdaptor = VectorImageToImageAdaptorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(vectorImageToImageAdaptor, VectorImageToImageAdaptor, ImageAdaptor);
+
+
   vectorImageToImageAdaptor->SetExtractComponentIndex(componentToExtract);
 
   vectorImageToImageAdaptor->SetImage(vectorImage);

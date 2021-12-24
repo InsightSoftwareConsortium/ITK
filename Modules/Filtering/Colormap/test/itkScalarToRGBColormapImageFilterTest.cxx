@@ -30,10 +30,10 @@
 int
 itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 4)
+  if (argc < 5)
   {
     std::cout << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " inputImage outputImage colormap [customColormapFile]" << std::endl;
+              << " inputImage outputImage colormap useInputImageExtremaForScaling [customColormapFile]" << std::endl;
     std::cout << "  Possible colormaps: grey, red, green, blue, copper, jet, hsv, ";
     std::cout << "spring, summer, autumn, winter, hot, cool, custom" << std::endl;
     return EXIT_FAILURE;
@@ -63,6 +63,10 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
   auto rgbfilter = RGBFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(rgbfilter, ScalarToRGBColormapImageFilter, ImageToImageFilter);
+
+
+  auto useInputImageExtremaForScaling = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(rgbfilter, UseInputImageExtremaForScaling, useInputImageExtremaForScaling);
 
   rgbfilter->SetInput(reader->GetOutput());
   vfilter->SetInput(reader->GetOutput());
@@ -186,6 +190,8 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
     vcolormap->SetBlueChannel(channel);
     rgbfilter->SetColormap(colormap);
     vfilter->SetColormap(vcolormap);
+
+    ITK_TEST_SET_GET_VALUE(colormap, rgbfilter->GetColormap());
   }
 
   using RGBHasher = itk::Testing::HashImageFilter<RGBImageType>;

@@ -21,6 +21,7 @@
 #include "itkVideoFileReader.h"
 #include "itkVideoFileWriter.h"
 #include "itkFileListVideoIOFactory.h"
+#include "itkTestingMacros.h"
 
 
 // Set up type alias for test
@@ -86,6 +87,8 @@ itkFrameDifferenceVideoFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   // Instantiate the filter
   using FilterType = itk::FrameDifferenceVideoFilter<InputVideoType, OutputVideoType>;
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FrameDifferenceVideoFilter, VideoToVideoFilter);
 
 
   // Set up an input VideoStream

@@ -11,7 +11,7 @@ CreateTestDriver(ITKDeformableMesh  "${ITKDeformableMesh-Test_LIBRARIES}" "${ITK
 itk_add_test(NAME itkDeformableSimplexMesh3DFilterTest
       COMMAND ITKDeformableMeshTestDriver itkDeformableSimplexMesh3DFilterTest)
 itk_add_test(NAME itkDeformableSimplexMesh3DBalloonForceFilterTest
-      COMMAND ITKDeformableMeshTestDriver itkDeformableSimplexMesh3DBalloonForceFilterTest)
+      COMMAND ITKDeformableMeshTestDriver itkDeformableSimplexMesh3DBalloonForceFilterTest 0.01)
 itk_add_test(NAME itkDeformableSimplexMesh3DGradientConstaintForceFilterTest
       COMMAND ITKDeformableMeshTestDriver itkDeformableSimplexMesh3DGradientConstraintForceFilterTest)
 itk_add_test(NAME itkSimplexMeshWithFloatCoordRepTest

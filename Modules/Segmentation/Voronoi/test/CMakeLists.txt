@@ -9,7 +9,7 @@ itkVoronoiPartitioningImageFilterTest.cxx
 CreateTestDriver(ITKVoronoi  "${ITKVoronoi-Test_LIBRARIES}" "${ITKVoronoiTests}")
 
 itk_add_test(NAME itkVoronoiSegmentationImageFilterTest
-      COMMAND ITKVoronoiTestDriver itkVoronoiSegmentationImageFilterTest)
+      COMMAND ITKVoronoiTestDriver itkVoronoiSegmentationImageFilterTest 520.0 20.0 10.0 20.0 400 5 0.1 1.5)
 itk_add_test(NAME itkVoronoiSegmentationRGBImageFilterTest
       COMMAND ITKVoronoiTestDriver itkVoronoiSegmentationRGBImageFilterTest)
 itk_add_test(NAME itkVoronoiDiagram2DTest

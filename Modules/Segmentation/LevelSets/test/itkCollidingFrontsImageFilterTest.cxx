@@ -21,10 +21,18 @@
 #include "itkCastImageFilter.h"
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 int
 itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 {
+  if (argc < 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " applyConnectivity stopOnTargets [inputFilename] [outputFilename]" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   constexpr unsigned int ImageDimension = 2;
   using PixelType = unsigned char;
@@ -56,8 +64,10 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   using CollidingFrontsFilterType = itk::CollidingFrontsImageFilter<InternalImageType, InternalImageType>;
   auto collidingFronts = CollidingFrontsFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(collidingFronts, CollidingFrontsImageFilter, ImageToImageFilter);
+
   using NodeContainer = CollidingFrontsFilterType::NodeContainer;
-  using NodeType = CollidingFrontsFilterType::NodeType;
+  using NodeType = typename CollidingFrontsFilterType::NodeType;
 
   // select seeds 20 pixels apart
 
@@ -93,7 +103,10 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   collidingFronts->SetInput(caster->GetOutput());
   collidingFronts->SetSeedPoints1(seeds1);
   collidingFronts->SetSeedPoints2(seeds2);
-  collidingFronts->ApplyConnectivityOn();
+
+  auto applyConnectivity = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(collidingFronts, ApplyConnectivity, applyConnectivity);
+
   try
   {
     collidingFronts->Update();
@@ -145,7 +158,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   }
 
   // Optionally writing out the two images
-  if (argc > 2)
+  if (argc > 3)
   {
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
@@ -153,7 +166,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     using RescaleFilterType = itk::RescaleIntensityImageFilter<InternalImageType, ImageType>;
     auto rescaler = RescaleFilterType::New();
 
-    writer->SetFileName(argv[1]);
+    writer->SetFileName(argv[3]);
     writer->SetInput(inputImage);
     writer->Update();
 
@@ -161,7 +174,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     rescaler->SetOutputMinimum(0);
     rescaler->SetOutputMaximum(255);
 
-    writer->SetFileName(argv[2]);
+    writer->SetFileName(argv[4]);
     writer->SetInput(rescaler->GetOutput());
     writer->Update();
   }
@@ -172,7 +185,9 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  collidingFronts->StopOnTargetsOn();
+  auto stopOnTargets = static_cast<bool>(std::stoi(argv[2]));
+  ITK_TEST_SET_GET_BOOLEAN(collidingFronts, StopOnTargets, stopOnTargets);
+
   try
   {
     collidingFronts->Update();

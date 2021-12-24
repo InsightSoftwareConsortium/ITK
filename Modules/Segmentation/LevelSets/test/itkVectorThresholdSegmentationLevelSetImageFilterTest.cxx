@@ -64,6 +64,10 @@ itkVectorThresholdSegmentationLevelSetImageFilterTest(int argc, char * argv[])
 
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, VectorThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+
+
   filter->SetInput(inputReader->GetOutput());
 
   filter->SetFeatureImage(rgbReader->GetOutput());

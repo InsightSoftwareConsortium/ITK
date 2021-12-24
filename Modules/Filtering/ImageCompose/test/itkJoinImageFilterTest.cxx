@@ -20,6 +20,7 @@
 #include "itkRGBAPixel.h"
 #include "vnl/vnl_sample.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 int
 itkJoinImageFilterTest(int, char *[])
@@ -148,6 +149,10 @@ itkJoinImageFilterTest(int, char *[])
 
   // Setup a JoinImageFilter
   auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, JoinImageFilter, BinaryGeneratorImageFilter);
+
+
   filter->SetInput1(inputImageA);
   filter->SetInput2(inputImageB);
 

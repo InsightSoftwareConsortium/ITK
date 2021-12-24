@@ -21,8 +21,17 @@
 #include "itkTestingMacros.h"
 
 int
-itkVoronoiSegmentationImageFilterTest(int, char *[])
+itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 9)
+  {
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " mean std meanTolerance stdTolerance numberOfSeeds steps meanPercentError stdPercentError"
+              << std::endl;
+    return EXIT_FAILURE;
+  }
+
   constexpr int width = 256;
   constexpr int height = 256;
 
@@ -91,26 +100,37 @@ itkVoronoiSegmentationImageFilterTest(int, char *[])
 
   voronoiSegmenter->SetInput(inputImage);
 
-  double mean = 520;
-  double std = 20;
-  double meanTolerance = 10;
-  double stdTolerance = 20;
-  int    numberOfSeeds = 400;
-  int    steps = 5;
-
+  auto mean = std::stod(argv[1]);
   voronoiSegmenter->SetMean(mean);
-  voronoiSegmenter->SetSTD(std);
-  voronoiSegmenter->SetMeanTolerance(meanTolerance);
-  voronoiSegmenter->SetSTDTolerance(stdTolerance);
-  voronoiSegmenter->SetNumberOfSeeds(numberOfSeeds);
-  voronoiSegmenter->SetSteps(steps);
-
   ITK_TEST_SET_GET_VALUE(mean, voronoiSegmenter->GetMean());
+
+  auto std = std::stod(argv[2]);
+  voronoiSegmenter->SetSTD(std);
   ITK_TEST_SET_GET_VALUE(std, voronoiSegmenter->GetSTD());
+
+  auto meanTolerance = std::stod(argv[3]);
+  voronoiSegmenter->SetMeanTolerance(meanTolerance);
   ITK_TEST_SET_GET_VALUE(meanTolerance, voronoiSegmenter->GetMeanTolerance());
+
+  auto stdTolerance = std::stod(argv[4]);
+  voronoiSegmenter->SetSTDTolerance(stdTolerance);
   ITK_TEST_SET_GET_VALUE(stdTolerance, voronoiSegmenter->GetSTDTolerance());
+
+  auto numberOfSeeds = std::stoi(argv[5]);
+  voronoiSegmenter->SetNumberOfSeeds(numberOfSeeds);
   ITK_TEST_SET_GET_VALUE(numberOfSeeds, voronoiSegmenter->GetNumberOfSeeds());
+
+  auto steps = std::stoi(argv[6]);
+  voronoiSegmenter->SetSteps(steps);
   ITK_TEST_SET_GET_VALUE(steps, voronoiSegmenter->GetSteps());
+
+  auto meanPercentError = std::stod(argv[7]);
+  voronoiSegmenter->SetMeanPercentError(meanPercentError);
+  ITK_TEST_SET_GET_VALUE(meanPercentError, voronoiSegmenter->GetMeanPercentError());
+
+  auto stdPercentError = std::stod(argv[8]);
+  voronoiSegmenter->SetSTDPercentError(stdPercentError);
+  ITK_TEST_SET_GET_VALUE(stdPercentError, voronoiSegmenter->GetSTDPercentError());
 
   std::cout << "Running algorithm" << std::endl;
   voronoiSegmenter->Update();

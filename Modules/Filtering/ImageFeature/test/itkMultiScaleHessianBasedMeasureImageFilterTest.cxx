@@ -83,8 +83,14 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
 
 
   auto multiScaleEnhancementFilter = MultiScaleEnhancementFilterType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    multiScaleEnhancementFilter, MultiScaleHessianBasedMeasureImageFilter, ImageToImageFilter);
+
+
   multiScaleEnhancementFilter->SetInput(imageReader->GetOutput());
   multiScaleEnhancementFilter->SetHessianToMeasureFilter(objectnessFilter);
+  ITK_TEST_SET_GET_VALUE(objectnessFilter, multiScaleEnhancementFilter->GetHessianToMeasureFilter());
+
   multiScaleEnhancementFilter->SetSigmaStepMethodToLogarithmic();
 
   itk::SimpleFilterWatcher watcher(multiScaleEnhancementFilter);
@@ -166,6 +172,10 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   }
   multiScaleEnhancementFilter->SetGenerateHessianOutput(true);
 
+  bool nonNegativeHessianBasedMeasure = true;
+  ITK_TEST_SET_GET_BOOLEAN(multiScaleEnhancementFilter, NonNegativeHessianBasedMeasure, nonNegativeHessianBasedMeasure);
+
+
   try
   {
     multiScaleEnhancementFilter->Update();
@@ -207,14 +217,13 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   std::cout << "Hessian Image Buffered Region = " << std::endl;
   std::cout << hessianImage->GetBufferedRegion() << std::endl;
 
-  // Print out
-  multiScaleEnhancementFilter->Print(std::cout);
-
   if (argc > 9)
   {
     // Change sigma step to equispaced type and regnerate vesselness image
-    multiScaleEnhancementFilter->SetSigmaStepMethod(
+    auto sigmaStepMethod = static_cast<MultiScaleEnhancementFilterType::SigmaStepMethodEnum>(
       MultiScaleEnhancementFilterType::SigmaStepMethodEnum::EquispacedSigmaSteps);
+    multiScaleEnhancementFilter->SetSigmaStepMethod(sigmaStepMethod);
+    ITK_TEST_SET_GET_VALUE(sigmaStepMethod, multiScaleEnhancementFilter->GetSigmaStepMethod());
 
     try
     {
@@ -243,9 +252,9 @@ itkMultiScaleHessianBasedMeasureImageFilterTest(int argc, char * argv[])
   if (argc > 10)
   {
     // Change NonNegativeHessianBasedMeasure to Off and regnerate vesselness image
-    multiScaleEnhancementFilter->NonNegativeHessianBasedMeasureOff();
-
-    multiScaleEnhancementFilter->Print(std::cout);
+    nonNegativeHessianBasedMeasure = false;
+    ITK_TEST_SET_GET_BOOLEAN(
+      multiScaleEnhancementFilter, NonNegativeHessianBasedMeasure, nonNegativeHessianBasedMeasure);
 
     try
     {

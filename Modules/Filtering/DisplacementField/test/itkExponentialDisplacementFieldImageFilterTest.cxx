@@ -17,7 +17,7 @@
  *=========================================================================*/
 
 #include "itkExponentialDisplacementFieldImageFilter.h"
-
+#include "itkTestingMacros.h"
 #include "vnl/vnl_random.h"
 
 
@@ -91,11 +91,17 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   // Create one filter
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ExponentialDisplacementFieldImageFilter, ImageToImageFilter);
 
   // Connect the input images
   filter->SetInput(inputImage);
 
-  filter->SetMaximumNumberOfIterations(20);
+  auto automaticNumberOfIterations = true;
+  ITK_TEST_SET_GET_BOOLEAN(filter, AutomaticNumberOfIterations, automaticNumberOfIterations);
+
+  unsigned int maximumNumberOfIterations = 20;
+  filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, filter->GetMaximumNumberOfIterations());
 
   // Execute the filter
   filter->Update();
@@ -129,7 +135,8 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
 
   // Ask for the inverse deformation
-  filter->ComputeInverseOn();
+  auto computeInverse = true;
+  ITK_TEST_SET_GET_BOOLEAN(filter, ComputeInverse, computeInverse);
 
   // Execute the filter
   filter->Update();
@@ -160,8 +167,10 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
 
   // Try with 0 iterations
-  filter->ComputeInverseOff();
-  filter->SetMaximumNumberOfIterations(0);
+  computeInverse = false;
+  filter->SetComputeInverse(computeInverse);
+  maximumNumberOfIterations = 0;
+  filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
 
   // Execute the filter
   filter->Update();
@@ -192,8 +201,9 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
 
 
   // Try inverse with 0 iterations
-  filter->ComputeInverseOn();
-  filter->SetMaximumNumberOfIterations(0);
+  computeInverse = true;
+  filter->SetComputeInverse(computeInverse);
+  filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
 
   // Execute the filter
   filter->Update();
@@ -234,8 +244,10 @@ itkExponentialDisplacementFieldImageFilterTest(int, char *[])
   }
 
   filter->SetInput(inputImage);
-  filter->SetMaximumNumberOfIterations(20);
-  filter->ComputeInverseOff();
+  maximumNumberOfIterations = 20;
+  filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
+  computeInverse = false;
+  filter->SetComputeInverse(computeInverse);
 
   // Random number generator
   vnl_random       rng;

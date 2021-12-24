@@ -91,13 +91,16 @@ itkContourMeanDistanceImageFilterTest(int argc, char * argv[])
   // compute the directed Mean distance h(image1,image2)
   {
     using FilterType = itk::ContourMeanDistanceImageFilter<Image1Type, Image2Type>;
-    auto                     filter = FilterType::New();
+    auto filter = FilterType::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ContourMeanDistanceImageFilter, ImageToImageFilter);
+
+
     itk::SimpleFilterWatcher watcher(filter, "filter");
 
     filter->SetInput1(image1);
     filter->SetInput2(image2);
     filter->Update();
-    filter->Print(std::cout);
 
 
     // check results

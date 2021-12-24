@@ -38,10 +38,11 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
   using SeriesFileNames = itk::GDCMSeriesFileNames;
   using ImageIOType = itk::GDCMImageIO;
 
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputDICOMDirectory outputFile averagedOutDimension"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -69,8 +70,13 @@ itkGetAverageSliceImageFilterTest(int argc, char * argv[])
 
   // GetAverage the input images
   auto average = GetAveragerType::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(average, GetAverageSliceImageFilter, AccumulateImageFilter);
+
+  auto averagedOutDimension = static_cast<unsigned int>(std::stoi(argv[3]));
+  average->SetAveragedOutDimension(averagedOutDimension);
+  ITK_TEST_SET_GET_VALUE(averagedOutDimension, average->GetAveragedOutDimension());
+
   average->SetInput(reader->GetOutput());
-  average->SetAveragedOutDimension(2);
 
   try
   {

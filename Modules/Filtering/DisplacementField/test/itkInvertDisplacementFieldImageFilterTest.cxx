@@ -23,10 +23,11 @@
 int
 itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
 {
-  if (argc != 2)
+  if (argc != 5)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " enforceBoundaryCondition" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " numberOfIterations meanTolerance maxTolerance enforceBoundaryCondition" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -87,27 +88,28 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
     }
   }
 
-  unsigned int numberOfIterations = 50;
-  float        maxTolerance = 0.1;
-  float        meanTolerance = 0.001;
-
   using InverterType = itk::InvertDisplacementFieldImageFilter<DisplacementFieldType>;
   auto inverter = InverterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(inverter, InvertDisplacementFieldImageFilter, ImageToImageFilter);
 
 
-  inverter->SetInput(field);
+  auto numberOfIterations = static_cast<unsigned int>(std::stoi(argv[1]));
   inverter->SetMaximumNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, inverter->GetMaximumNumberOfIterations());
+
+  auto meanTolerance = static_cast<typename InverterType::RealType>(std::stod(argv[2]));
   inverter->SetMeanErrorToleranceThreshold(meanTolerance);
+  ITK_TEST_SET_GET_VALUE(meanTolerance, inverter->GetMeanErrorToleranceThreshold());
+
+  auto maxTolerance = static_cast<typename InverterType::RealType>(std::stod(argv[3]));
   inverter->SetMaxErrorToleranceThreshold(maxTolerance);
+  ITK_TEST_SET_GET_VALUE(maxTolerance, inverter->GetMaxErrorToleranceThreshold());
 
-  std::cout << "number of iterations: " << inverter->GetMaximumNumberOfIterations() << std::endl;
-  std::cout << "mean error tolerance: " << inverter->GetMeanErrorToleranceThreshold() << std::endl;
-  std::cout << "max error tolerance: " << inverter->GetMaxErrorToleranceThreshold() << std::endl;
-
-  auto enforceBoundaryCondition = static_cast<bool>(std::stoi(argv[1]));
+  auto enforceBoundaryCondition = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(inverter, EnforceBoundaryCondition, enforceBoundaryCondition);
+
+  inverter->SetInput(field);
 
   try
   {

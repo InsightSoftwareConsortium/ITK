@@ -26,11 +26,11 @@ int
 itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 {
 
-  if (argc < 2)
+  if (argc < 4)
   {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " outputImage" << std::endl;
+    std::cerr << " outputImage numberOfIterations stopValue" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -45,7 +45,19 @@ itkIterativeInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, IterativeInverseDisplacementFieldImageFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter);
+
+  auto numberOfIterations = static_cast<unsigned int>(std::stoi(argv[2]));
+  filter->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, filter->GetNumberOfIterations());
+
+  auto stopValue = std::stod(argv[3]);
+  filter->SetStopValue(stopValue);
+  ITK_TEST_SET_GET_VALUE(stopValue, filter->GetStopValue());
+
 
   // Creating an input displacement field
   auto field = DisplacementFieldType::New();

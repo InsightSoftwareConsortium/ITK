@@ -25,10 +25,18 @@
 
 #include "itkSobelEdgeDetectionImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
-itkDeformableSimplexMesh3DBalloonForceFilterTest(int, char *[])
+itkDeformableSimplexMesh3DBalloonForceFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " kappa" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Declare the type of the input and output mesh
   using TriangleMeshTraits = itk::DefaultDynamicMeshTraits<double, 3, 3, double, double>;
@@ -116,11 +124,20 @@ itkDeformableSimplexMesh3DBalloonForceFilterTest(int, char *[])
   std::cout << "done." << std::endl;
 
   auto deformFilter = DeformFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    deformFilter, DeformableSimplexMesh3DBalloonForceFilter, DeformableSimplexMesh3DFilter);
+
+
   deformFilter->SetInput(simplexFilter->GetOutput());
   deformFilter->SetGradient(gradientFilter->GetOutput());
   deformFilter->SetAlpha(0.2);
   deformFilter->SetBeta(0.1);
-  deformFilter->SetKappa(0.01);
+
+  auto kappa = std::stod(argv[1]);
+  deformFilter->SetKappa(kappa);
+  ITK_TEST_SET_GET_VALUE(kappa, deformFilter->GetKappa());
+
   deformFilter->SetIterations(100);
   deformFilter->SetRigidity(0);
   deformFilter->Update();

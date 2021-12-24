@@ -23,8 +23,15 @@
 #include "itkTestingMacros.h"
 
 int
-itkMinimumMaximumImageFilterTest(int, char *[])
+itkMinimumMaximumImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " numberOfStreamDivisions" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   using SizeType = itk::Size<3>;
   using ImageType = itk::Image<float, 3>;
   using MinMaxFilterType = itk::MinimumMaximumImageFilter<ImageType>;
@@ -84,6 +91,10 @@ itkMinimumMaximumImageFilterTest(int, char *[])
 
 
   itk::SimpleFilterWatcher watcher(filter);
+
+  const auto numberOfStreamDivisions = static_cast<unsigned int>(std::stoi(argv[1]));
+  filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
+  ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
 
   filter->SetInput(image);
   filter->Update();

@@ -46,10 +46,10 @@ public:
 int
 itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
 {
-  if (argc != 2)
+  if (argc != 3)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " normalizeAcrossScale" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " sigma normalizeAcrossScale" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -149,18 +149,22 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
 
 
   // Create a  Filter
-  auto                     filter = myFilterType::New();
+  auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientMagnitudeRecursiveGaussianImageFilter, InPlaceImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter);
 
-  auto normalizeAcrossScale = static_cast<bool>(std::stoi(argv[1]));
+  auto sigma = static_cast<typename myFilterType::RealType>(std::stod(argv[1]));
+  filter->SetSigma(sigma);
+  ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigma());
+
+  auto normalizeAcrossScale = static_cast<bool>(std::stoi(argv[2]));
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
   // Connect the input images
   filter->SetInput(inputImage);
-
-  // Select the value of Sigma
-  filter->SetSigma(2.5);
-
 
   // Execute the filter
   try

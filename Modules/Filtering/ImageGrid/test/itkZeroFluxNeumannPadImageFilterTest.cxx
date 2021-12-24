@@ -20,6 +20,7 @@
 #include "itkMath.h"
 #include "itkZeroFluxNeumannPadImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 using ShortImage = itk::Image<short, 2>;
 using FloatImage = itk::Image<float, 2>;
@@ -193,6 +194,10 @@ itkZeroFluxNeumannPadImageFilterTest(int, char *[])
 
   // Create a filter
   auto padFilter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(padFilter, ZeroFluxNeumannPadImageFilter, PadImageFilter);
+
+
   padFilter->SetInput(inputImage);
 
   // itk::SimpleFilterWatcher watcher( padFilter );

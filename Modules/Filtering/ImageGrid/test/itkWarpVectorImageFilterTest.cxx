@@ -21,6 +21,7 @@
 #include "itkWarpVectorImageFilter.h"
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
+#include "itkTestingMacros.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -171,9 +172,15 @@ itkWarpVectorImageFilterTest(int, char *[])
   using WarperType = itk::WarpVectorImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(warper, WarpVectorImageFilter, ImageToImageFilter);
+
+
   warper->SetInput(input);
   warper->SetDisplacementField(field);
+  ITK_TEST_SET_GET_VALUE(field, warper->GetDisplacementField());
+
   warper->SetEdgePaddingValue(PixelType(padValue));
+  ITK_TEST_SET_GET_VALUE(PixelType(padValue), warper->GetEdgePaddingValue());
 
   ShowProgressObject                                    progressWatch(warper);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -181,24 +188,27 @@ itkWarpVectorImageFilterTest(int, char *[])
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   warper->AddObserver(itk::ProgressEvent(), command);
 
-  warper->Print(std::cout);
-
-  // exercise Get methods
-  std::cout << "Interpolator: " << warper->GetInterpolator() << std::endl;
-  std::cout << "DisplacementField: " << warper->GetDisplacementField() << std::endl;
-  std::cout << "EdgePaddingValue: " << warper->GetEdgePaddingValue() << std::endl;
-
-  // exercise Set methods
   itk::FixedArray<double, ImageDimension> array;
   array.Fill(2.0);
   warper->SetOutputSpacing(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputSpacing());
+
   array.Fill(1.0);
   warper->SetOutputSpacing(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputSpacing());
 
   array.Fill(-10.0);
   warper->SetOutputOrigin(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputOrigin());
+
   array.Fill(0.0);
   warper->SetOutputOrigin(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputOrigin());
+
+  typename WarperType::DirectionType outputDirection;
+  outputDirection.SetIdentity();
+  warper->SetOutputDirection(outputDirection);
+  ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());
 
   // Update the filter
   warper->Update();
@@ -355,6 +365,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     testPassed = true;
     warper->ResetPipeline();
     warper->SetInterpolator(interp);
+    ITK_TEST_SET_GET_VALUE(interp, warper->GetInterpolator());
   }
 
   if (!testPassed)

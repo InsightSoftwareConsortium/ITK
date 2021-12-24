@@ -20,6 +20,7 @@
 #include "itkVectorGradientAnisotropicDiffusionImageFilter.h"
 #include "itkVectorCurvatureAnisotropicDiffusionImageFilter.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkTestingMacros.h"
 
 inline std::ostream &
 operator<<(std::ostream & o, const itk::Vector<float, 3> & v)
@@ -38,6 +39,11 @@ itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNot
     // Set up Gradient diffusion filter
     itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter =
       itk::VectorGradientAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      filter, VectorGradientAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
+
+
     filter->SetNumberOfIterations(1);
     filter->SetConductanceParameter(3.0f);
     filter->SetTimeStep(0.125f);

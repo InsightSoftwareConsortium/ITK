@@ -28,7 +28,7 @@ CreateTestDriver(ITKFastMarching "${ITKFastMarching-Test_LIBRARIES}" "${ITKFastM
 itk_add_test(NAME itkFastMarchingExtensionImageFilterTest
       COMMAND ITKFastMarchingTestDriver itkFastMarchingExtensionImageFilterTest)
 itk_add_test(NAME itkFastMarchingTest
-      COMMAND ITKFastMarchingTestDriver itkFastMarchingTest)
+      COMMAND ITKFastMarchingTestDriver itkFastMarchingTest 1.0 1.0 100.0 0 0 1.0 0.0 0)
 itk_add_test(NAME itkFastMarchingTest2
       COMMAND ITKFastMarchingTestDriver itkFastMarchingTest2)
 itk_add_test(NAME itkFastMarchingUpwindGradientTest

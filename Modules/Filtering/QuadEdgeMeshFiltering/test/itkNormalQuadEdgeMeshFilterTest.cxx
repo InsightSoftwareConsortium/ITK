@@ -20,6 +20,7 @@
 
 #include "itkQuadEdgeMeshExtendedTraits.h"
 #include "itkNormalQuadEdgeMeshFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
@@ -95,8 +96,14 @@ itkNormalQuadEdgeMeshFilterTest(int argc, char * argv[])
   InputMeshType::Pointer mesh = reader->GetOutput();
 
   auto normals = NormalFilterType::New();
-  normals->SetInput(mesh);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(normals, NormalQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+
+
   normals->SetWeight(weight_type);
+  ITK_TEST_SET_GET_VALUE(weight_type, normals->GetWeight());
+
+  normals->SetInput(mesh);
+
   normals->Update();
 
   OutputMeshType::Pointer output = normals->GetOutput();

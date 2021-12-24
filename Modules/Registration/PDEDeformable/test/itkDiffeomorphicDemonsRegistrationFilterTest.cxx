@@ -196,6 +196,10 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   auto registrator = RegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    registrator, DiffeomorphicDemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+
+
   registrator->SetInitialDisplacementField(caster->GetOutput());
 
   registrator->SetMovingImage(moving);
@@ -237,16 +241,8 @@ itkDiffeomorphicDemonsRegistrationFilterTest(int argc, char * argv[])
 
   std::cout << "GradientEnum = " << static_cast<char>(registrator->GetUseGradientType()) << std::endl;
 
-  const int useFirstOrderExponential = std::stoi(argv[2]);
-
-  if (useFirstOrderExponential == 0)
-  {
-    registrator->SetUseFirstOrderExp(false);
-  }
-  else
-  {
-    registrator->SetUseFirstOrderExp(true);
-  }
+  auto useFirstOrderExponential = static_cast<bool>(std::stoi(argv[2]));
+  ITK_TEST_SET_GET_BOOLEAN(registrator, UseFirstOrderExp, useFirstOrderExponential);
 
 
   // turn on inplace execution

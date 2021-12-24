@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNarrowBandThresholdSegmentationLevelSetImageFilter.h"
+#include "itkTestingMacros.h"
 
 namespace NBTS
 {
@@ -147,6 +148,11 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
   itk::NarrowBandThresholdSegmentationLevelSetImageFilter<::NBTS::SeedImageType, ::NBTS::ImageType>::Pointer filter =
     itk::NarrowBandThresholdSegmentationLevelSetImageFilter<::NBTS::SeedImageType, ::NBTS::ImageType>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, NarrowBandThresholdSegmentationLevelSetImageFilter, NarrowBandLevelSetImageFilter);
+
+
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
   filter->SetNumberOfWorkUnits(2);

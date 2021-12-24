@@ -99,6 +99,9 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   using FilterType = itk::FrameAverageVideoFilter<InputVideoType, OutputVideoType>;
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FrameAverageVideoFilter, VideoToVideoFilter);
+
+
   // Set up an input VideoStream
   auto          inputVideo = InputVideoType::New();
   SizeValueType numInputFrames = 50;

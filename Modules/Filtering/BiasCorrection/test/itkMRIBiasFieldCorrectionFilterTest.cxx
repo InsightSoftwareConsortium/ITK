@@ -201,10 +201,6 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   double              optimizerGrowthFactor = 1.01;
   bool                usingInterSliceIntensityCorrection = true;
 
-  filter->SetBiasFieldMultiplicative(isBiasFieldMultiplicative);
-  filter->SetUsingSlabIdentification(usingSlabIdentification);
-  filter->SetUsingBiasFieldCorrection(usingBiasFieldCorrection);
-  filter->SetGeneratingOutput(generatingOutput);
   filter->SetSlabNumberOfSamples(slabNumberOfSamples);
   filter->SetSlabBackgroundMinimumThreshold(slabBackgroundMinimumThreshold);
   filter->SetSlabTolerance(slabTolerance);
@@ -213,12 +209,11 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   filter->SetInterSliceCorrectionMaximumIteration(interSliceCorrectionMaximumIteration);
   filter->SetOptimizerInitialRadius(optimizerInitialRadius);
   filter->SetOptimizerGrowthFactor(optimizerGrowthFactor);
-  filter->SetUsingInterSliceIntensityCorrection(usingInterSliceIntensityCorrection);
 
-  ITK_TEST_SET_GET_VALUE(isBiasFieldMultiplicative, filter->GetBiasFieldMultiplicative());
-  ITK_TEST_SET_GET_VALUE(usingSlabIdentification, filter->GetUsingSlabIdentification());
-  ITK_TEST_SET_GET_VALUE(usingBiasFieldCorrection, filter->GetUsingBiasFieldCorrection());
-  ITK_TEST_SET_GET_VALUE(generatingOutput, filter->GetGeneratingOutput());
+  ITK_TEST_SET_GET_BOOLEAN(filter, BiasFieldMultiplicative, isBiasFieldMultiplicative);
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingSlabIdentification, usingSlabIdentification);
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingBiasFieldCorrection, usingBiasFieldCorrection);
+  ITK_TEST_SET_GET_BOOLEAN(filter, GeneratingOutput, generatingOutput);
   ITK_TEST_SET_GET_VALUE(slabNumberOfSamples, filter->GetSlabNumberOfSamples());
   ITK_TEST_SET_GET_VALUE(slabBackgroundMinimumThreshold, filter->GetSlabBackgroundMinimumThreshold());
   ITK_TEST_SET_GET_VALUE(slabTolerance, filter->GetSlabTolerance());
@@ -227,15 +222,14 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration());
   ITK_TEST_SET_GET_VALUE(optimizerInitialRadius, filter->GetOptimizerInitialRadius());
   ITK_TEST_SET_GET_VALUE(optimizerGrowthFactor, filter->GetOptimizerGrowthFactor());
-  ITK_TEST_SET_GET_VALUE(usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection());
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingInterSliceIntensityCorrection, usingInterSliceIntensityCorrection);
 
-  filter->SetBiasFieldMultiplicative(true); // correct with multiplicative bias
-  filter->SetBiasFieldDegree(biasDegree);   // default value = 3
+  filter->SetBiasFieldDegree(biasDegree); // default value = 3
   filter->SetTissueClassStatistics(classMeans, classSigmas);
   // ITK_TEST_SET_GET_VALUE( classMeans, classSigmas, filter->GetTissueClassStatistics() );
 
   filter->SetSlicingDirection(slicingDirection);
-  // ITK_TEST_SET_GET_VALUE( slicingDirection, filter->GetSlicingDirection() );
+  ITK_TEST_SET_GET_VALUE(slicingDirection, filter->GetSlicingDirection());
 
   filter->SetInitialBiasFieldCoefficients(initCoefficients);
   // ITK_TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
@@ -286,8 +280,12 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
 
   std::cout << "Computing bias correction with mask" << std::endl;
   filter->SetInput(imageWithBias);
+
   filter->SetInputMask(image);
+  ITK_TEST_SET_GET_VALUE(image, filter->GetInputMask());
+
   filter->SetOutputMask(image);
+  ITK_TEST_SET_GET_VALUE(image, filter->GetOutputMask());
 
   volumeCorrectionMaximumIteration = 200;
   interSliceCorrectionMaximumIteration = 100;
@@ -338,15 +336,13 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   interSliceCorrectionMaximumIteration = 100;
   optimizerInitialRadius = 0.02;
 
-  filter->SetUsingInterSliceIntensityCorrection(usingInterSliceIntensityCorrection);
-  filter->SetUsingSlabIdentification(usingSlabIdentification);
   filter->SetOptimizerInitialRadius(optimizerInitialRadius);
   filter->SetVolumeCorrectionMaximumIteration(volumeCorrectionMaximumIteration);
   filter->SetInterSliceCorrectionMaximumIteration(interSliceCorrectionMaximumIteration);
   filter->SetOptimizerInitialRadius(optimizerInitialRadius);
 
-  ITK_TEST_SET_GET_VALUE(usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection());
-  ITK_TEST_SET_GET_VALUE(usingSlabIdentification, filter->GetUsingSlabIdentification());
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingInterSliceIntensityCorrection, usingInterSliceIntensityCorrection);
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingSlabIdentification, usingSlabIdentification);
   ITK_TEST_SET_GET_VALUE(optimizerInitialRadius, filter->GetOptimizerInitialRadius());
   ITK_TEST_SET_GET_VALUE(volumeCorrectionMaximumIteration, filter->GetVolumeCorrectionMaximumIteration());
   ITK_TEST_SET_GET_VALUE(interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration());
@@ -402,8 +398,6 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   volumeCorrectionMaximumIteration = 200;
   interSliceCorrectionMaximumIteration = 100;
 
-  filter->SetUsingInterSliceIntensityCorrection(usingInterSliceIntensityCorrection);
-  filter->SetUsingSlabIdentification(usingSlabIdentification);
   filter->SetOptimizerInitialRadius(optimizerInitialRadius);
   filter->SetVolumeCorrectionMaximumIteration(volumeCorrectionMaximumIteration);
   filter->SetInterSliceCorrectionMaximumIteration(interSliceCorrectionMaximumIteration);
@@ -413,8 +407,8 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   filter->SetNumberOfLevels(numberOfLevels);
   filter->SetSchedule(schedule);
 
-  ITK_TEST_SET_GET_VALUE(usingInterSliceIntensityCorrection, filter->GetUsingInterSliceIntensityCorrection());
-  ITK_TEST_SET_GET_VALUE(usingSlabIdentification, filter->GetUsingSlabIdentification());
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingInterSliceIntensityCorrection, usingInterSliceIntensityCorrection);
+  ITK_TEST_SET_GET_BOOLEAN(filter, UsingSlabIdentification, usingSlabIdentification);
   ITK_TEST_SET_GET_VALUE(numberOfLevels, filter->GetNumberOfLevels());
   ITK_TEST_SET_GET_VALUE(optimizerInitialRadius, filter->GetOptimizerInitialRadius());
   ITK_TEST_SET_GET_VALUE(schedule, filter->GetSchedule());

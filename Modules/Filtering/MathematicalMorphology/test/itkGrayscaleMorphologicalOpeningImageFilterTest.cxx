@@ -26,11 +26,11 @@
 int
 itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing arguments." << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImage outputImage " << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << "  inputImage outputImage safeBorder" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -67,6 +67,9 @@ itkGrayscaleMorphologicalOpeningImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GrayscaleMorphologicalOpeningImageFilter, KernelImageFilter);
 
   itk::SimpleFilterWatcher watcher(filter, "filter");
+
+  auto safeBorder = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, SafeBorder, safeBorder);
 
   // Connect the pipeline
   filter->SetInput(reader->GetOutput());
