@@ -48,6 +48,8 @@ template <typename TScalar>
 class ITK_TEMPLATE_EXPORT SegmentTree : public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(SegmentTree);
+
   /** Define itk Smart Pointers for this object */
   using Self = SegmentTree;
   using Superclass = DataObject;
@@ -212,10 +214,7 @@ public:
 protected:
   SegmentTree() = default;
   ~SegmentTree() override = default;
-  SegmentTree(const Self &) {}
-  void
-  operator=(const Self &)
-  {}
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

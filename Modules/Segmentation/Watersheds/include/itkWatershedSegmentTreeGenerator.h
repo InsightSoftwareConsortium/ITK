@@ -78,6 +78,8 @@ template <typename TScalar>
 class ITK_TEMPLATE_EXPORT SegmentTreeGenerator : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(SegmentTreeGenerator);
+
   /**  Standard itk smart pointer declarations    */
   using Self = SegmentTreeGenerator;
   using Superclass = ProcessObject;
@@ -200,10 +202,7 @@ public:
 protected:
   SegmentTreeGenerator();
   ~SegmentTreeGenerator() override = default;
-  SegmentTreeGenerator(const Self &) {}
-  void
-  operator=(const Self &)
-  {}
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
