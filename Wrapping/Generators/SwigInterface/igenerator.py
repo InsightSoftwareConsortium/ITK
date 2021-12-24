@@ -478,6 +478,7 @@ class SwigInputGenerator(object):
         # used internally in itkImageRegistrationMethodv4
         "itk::SmartPointer< const itk::Image.+ >",
         "itk::SmartPointer< const itk::PointSet.+ >",
+        "itk::SmartPointer< const itk::Mesh.+ >",
         "itk::ObjectFactoryBasePrivate",
         "itk::ThreadPoolGlobals",
         "itk::MultiThreaderBaseGlobals",
