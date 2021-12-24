@@ -21,8 +21,15 @@
 #include "itkTestingMacros.h"
 
 int
-itkInvertDisplacementFieldImageFilterTest(int, char *[])
+itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " enforceBoundaryCondition" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   constexpr unsigned int ImageDimension = 2;
 
   using VectorType = itk::Vector<float, ImageDimension>;
@@ -94,10 +101,13 @@ itkInvertDisplacementFieldImageFilterTest(int, char *[])
   inverter->SetMaximumNumberOfIterations(numberOfIterations);
   inverter->SetMeanErrorToleranceThreshold(meanTolerance);
   inverter->SetMaxErrorToleranceThreshold(maxTolerance);
-  inverter->SetEnforceBoundaryCondition(false);
+
   std::cout << "number of iterations: " << inverter->GetMaximumNumberOfIterations() << std::endl;
   std::cout << "mean error tolerance: " << inverter->GetMeanErrorToleranceThreshold() << std::endl;
   std::cout << "max error tolerance: " << inverter->GetMaxErrorToleranceThreshold() << std::endl;
+
+  auto enforceBoundaryCondition = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(inverter, EnforceBoundaryCondition, enforceBoundaryCondition);
 
   try
   {

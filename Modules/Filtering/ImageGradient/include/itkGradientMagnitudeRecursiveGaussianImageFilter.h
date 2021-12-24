@@ -122,6 +122,7 @@ public:
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
+  itkBooleanMacro(NormalizeAcrossScale);
 
   void
   SetNumberOfWorkUnits(ThreadIdType nb) override;

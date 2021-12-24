@@ -108,7 +108,7 @@ itk_add_test(NAME itkHessianRecursiveGaussianFilterScaleSpaceTest
 
 itk_add_test(NAME itkHessianRecursiveGaussianFilterTest
       COMMAND ITKImageFeatureTestDriver --redirectOutput ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt
-          itkHessianRecursiveGaussianFilterTest)
+          itkHessianRecursiveGaussianFilterTest 0)
 set_tests_properties(itkHessianRecursiveGaussianFilterTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/itkHessianRecursiveGaussianFilterTest.txt)
 
 itk_add_test(NAME itkHoughTransform2DCirclesImageTest
