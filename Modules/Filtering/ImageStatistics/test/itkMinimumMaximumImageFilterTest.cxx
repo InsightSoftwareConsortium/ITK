@@ -80,7 +80,7 @@ itkMinimumMaximumImageFilterTest(int, char *[])
   // Create and initialize the filter
   auto filter = MinMaxFilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MinimumMaximumImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MinimumMaximumImageFilter, ImageSink);
 
 
   itk::SimpleFilterWatcher watcher(filter);

@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(MinimumMaximumImageFilter, ImageToImageFilter);
+  itkTypeMacro(MinimumMaximumImageFilter, ImageSink);
 
   /** Image type alias support */
   using InputImageType = TInputImage;
