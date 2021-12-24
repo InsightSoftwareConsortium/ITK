@@ -73,7 +73,7 @@ public:
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
-  itkTypeMacro(WatershedRelabeler, ProcessObject);
+  itkTypeMacro(Relabeler, ProcessObject);
 
   /** Expose the ImageDimension template parameter at run time */
   static constexpr unsigned int ImageDimension = TImageDimension;

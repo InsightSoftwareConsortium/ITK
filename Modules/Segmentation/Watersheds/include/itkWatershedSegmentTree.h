@@ -54,7 +54,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(WatershedSegmentTree, DataObject);
+  itkTypeMacro(SegmentTree, DataObject);
   using ScalarType = TScalar;
 
   /** Elements of the list (nodes of the tree).  A record of a merge

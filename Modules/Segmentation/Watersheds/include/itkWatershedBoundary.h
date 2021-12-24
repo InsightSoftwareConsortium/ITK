@@ -127,7 +127,7 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
   itkNewMacro(Self);
-  itkTypeMacro(WatershedBoundary, DataObject);
+  itkTypeMacro(Boundary, DataObject);
 
   /** The following averts an internal compiler error on microsoft compilers */
   using FacePointer = typename face_t::Pointer;
