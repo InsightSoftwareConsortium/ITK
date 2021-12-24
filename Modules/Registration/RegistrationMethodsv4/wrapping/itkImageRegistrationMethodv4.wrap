@@ -22,6 +22,8 @@ itk_wrap_class("itk::ImageRegistrationMethodv4" POINTER)
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
       itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}T${ITKM_D}${d}${ITKM_${t}}${d}M${ITKM_D}${d}"
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Transform< ${ITKT_D}, ${d}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::Mesh< ${ITKT_D}, ${d} >")
+      itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}DFT${ITKM_D}${d}${ITKM_${t}}${d}M${ITKM_D}${d}"
+                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::DisplacementFieldTransform< ${ITKT_D}, ${d}>, itk::Image< ${ITKT_${t}}, ${d} >, itk::Mesh< ${ITKT_D}, ${d} >")
       itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}DFT${ITKM_D}${d}"
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::DisplacementFieldTransform< ${ITKT_D}, ${d} >")
       itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}BSOUDFT${ITKM_D}${d}"
