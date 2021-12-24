@@ -54,6 +54,8 @@ template <typename TScalar, unsigned int TImageDimension>
 class ITK_TEMPLATE_EXPORT EquivalenceRelabeler : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(EquivalenceRelabeler);
+
   /** Expose templated image dimension parameter at run time */
   static constexpr unsigned int ImageDimension = TImageDimension;
 
@@ -129,10 +131,7 @@ protected:
   }
 
   ~EquivalenceRelabeler() override = default;
-  EquivalenceRelabeler(const Self &) {}
-  void
-  operator=(const Self &)
-  {}
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -65,6 +65,8 @@ template <typename TPixelType, unsigned int TDimension>
 class ITK_TEMPLATE_EXPORT BoundaryResolver : public ProcessObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(BoundaryResolver);
+
   /** Set up smart pointer and object factory definitions.   */
   using Self = BoundaryResolver;
   using Superclass = ProcessObject;
@@ -146,10 +148,7 @@ protected:
   }
 
   ~BoundaryResolver() override = default;
-  BoundaryResolver(const Self &) {}
-  void
-  operator=(const Self &)
-  {}
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

@@ -54,6 +54,8 @@ template <typename TScalar, unsigned int TDimension>
 class ITK_TEMPLATE_EXPORT Boundary : public DataObject
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(Boundary);
+
   /** The dimensionality of this boundary.  For example, if the boundary
    * of a set of planes, it has dimensionality 2.  If the boundary is
    * a set of lines, it has dimensionality 1.  Dimensionality is one less
@@ -257,10 +259,7 @@ public:
 protected:
   Boundary();
   ~Boundary() override = default;
-  Boundary(const Self &) {}
-  void
-  operator=(const Self &)
-  {}
+
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
