@@ -68,7 +68,7 @@ itkStatisticsImageFilterTest(int argc, char * argv[])
   using FilterType = itk::StatisticsImageFilter<FloatImage>;
   auto filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, StatisticsImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, StatisticsImageFilter, ImageSink);
 
 
   itk::SimpleFilterWatcher filterWatch(filter);
