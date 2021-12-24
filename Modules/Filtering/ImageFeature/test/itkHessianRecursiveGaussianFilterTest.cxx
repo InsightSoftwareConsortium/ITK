@@ -17,10 +17,17 @@
  *=========================================================================*/
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
-itkHessianRecursiveGaussianFilterTest(int, char *[])
+itkHessianRecursiveGaussianFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " normalizeAcrossScale" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -102,6 +109,9 @@ itkHessianRecursiveGaussianFilterTest(int, char *[])
   // Create a  Filter
   auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
+
+  auto normalizeAcrossScale = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
 
   // Connect the input images

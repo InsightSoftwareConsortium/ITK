@@ -57,7 +57,7 @@ itk_add_test(NAME itkTimeVaryingVelocityFieldIntegrationImageFilterTest
 itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldTransformTest
       COMMAND ITKDisplacementFieldTestDriver itkTimeVaryingBSplineVelocityFieldTransformTest )
 itk_add_test(NAME itkInvertDisplacementFieldImageFilterTest
-      COMMAND ITKDisplacementFieldTestDriver itkInvertDisplacementFieldImageFilterTest )
+      COMMAND ITKDisplacementFieldTestDriver itkInvertDisplacementFieldImageFilterTest 0)
 itk_add_test(NAME itkDisplacementFieldToBSplineImageFilterTest
       COMMAND ITKDisplacementFieldTestDriver itkDisplacementFieldToBSplineImageFilterTest )
 itk_add_test(NAME itkTransformToDisplacementFieldFilterTest01

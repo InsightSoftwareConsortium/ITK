@@ -124,6 +124,7 @@ public:
   void
   SetNormalizeAcrossScale(bool normalize);
   itkGetConstMacro(NormalizeAcrossScale, bool);
+  itkBooleanMacro(NormalizeAcrossScale);
 
   /** HessianRecursiveGaussianImageFilter needs all of the input to produce an
    * output. Therefore, HessianRecursiveGaussianImageFilter needs to provide

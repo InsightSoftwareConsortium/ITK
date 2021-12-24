@@ -18,6 +18,7 @@
 
 #include "itkGradientMagnitudeRecursiveGaussianImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 template <typename TImage1Type, typename TImage2Type>
 class ImageInformationIsEqual
@@ -43,8 +44,14 @@ public:
 };
 
 int
-itkGradientMagnitudeRecursiveGaussianFilterTest(int, char *[])
+itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " normalizeAcrossScale" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -145,6 +152,8 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int, char *[])
   auto                     filter = myFilterType::New();
   itk::SimpleFilterWatcher watcher(filter);
 
+  auto normalizeAcrossScale = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
   // Connect the input images
   filter->SetInput(inputImage);
