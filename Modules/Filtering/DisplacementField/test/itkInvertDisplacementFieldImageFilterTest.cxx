@@ -18,6 +18,7 @@
 
 #include "itkInvertDisplacementFieldImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 int
 itkInvertDisplacementFieldImageFilterTest(int, char *[])
@@ -85,6 +86,10 @@ itkInvertDisplacementFieldImageFilterTest(int, char *[])
 
   using InverterType = itk::InvertDisplacementFieldImageFilter<DisplacementFieldType>;
   auto inverter = InverterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(inverter, InvertDisplacementFieldImageFilter, ImageToImageFilter);
+
+
   inverter->SetInput(field);
   inverter->SetMaximumNumberOfIterations(numberOfIterations);
   inverter->SetMeanErrorToleranceThreshold(meanTolerance);
