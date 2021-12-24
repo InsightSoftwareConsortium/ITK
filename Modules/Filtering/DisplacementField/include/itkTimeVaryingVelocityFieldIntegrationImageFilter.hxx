@@ -293,12 +293,8 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
   os << indent << "LowerTimeBound: " << this->m_LowerTimeBound << std::endl;
   os << indent << "UpperTimeBound: " << this->m_UpperTimeBound << std::endl;
   os << indent << "NumberOfIntegrationSteps: " << this->m_NumberOfIntegrationSteps << std::endl;
-
-  if (!this->m_InitialDiffeomorphism.IsNull())
-  {
-    os << indent << "InitialDiffeomorphism: " << this->m_InitialDiffeomorphism << std::endl;
-    os << indent << "DisplacementFieldInterpolator: " << this->m_DisplacementFieldInterpolator << std::endl;
-  }
+  itkPrintSelfObjectMacro(InitialDiffeomorphism);
+  itkPrintSelfObjectMacro(DisplacementFieldInterpolator);
 }
 
 } // end namespace itk

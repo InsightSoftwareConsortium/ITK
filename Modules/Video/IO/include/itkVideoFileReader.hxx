@@ -325,11 +325,7 @@ VideoFileReader<TOutputVideoStream>::PrintSelf(std::ostream & os, Indent indent)
   Superclass::PrintSelf(os, indent);
 
   os << indent << "FileName: " << this->m_FileName << std::endl;
-  if (m_VideoIO)
-  {
-    os << indent << "VideoIO:" << std::endl;
-    this->m_VideoIO->Print(os, indent.GetNextIndent());
-  }
+  itkPrintSelfObjectMacro(VideoIO);
 }
 
 } // end namespace itk
