@@ -1,5 +1,5 @@
-#ifndef vcl_compiler_h__
-#define vcl_compiler_h__
+#ifndef vcl_compiler_h_
+#define vcl_compiler_h_
 
 //:
 // \file
@@ -203,4 +203,4 @@
 #include "vcl_legacy_aliases.h"
 #endif
 
-#endif // vcl_compiler_h__
+#endif // vcl_compiler_h_
