@@ -120,7 +120,7 @@ main(int, char *[])
   constexpr unsigned int measurementVectorLength = 1;
   using MeasurementVectorType = itk::Vector<double, measurementVectorLength>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   // length of measurement vectors in the sample.
   sample->SetMeasurementVectorSize(measurementVectorLength);
 
@@ -154,7 +154,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize(101);
 
@@ -253,7 +253,7 @@ main(int, char *[])
   using MembershipFunctionType =
     itk::Statistics::GaussianMembershipFunction<MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::PriorProbabilityVectorType aPrioris;
   aPrioris.push_back((double)classSamples[0]->GetTotalFrequency() /
@@ -263,7 +263,7 @@ main(int, char *[])
   decisionRule->SetPriorProbabilities(aPrioris);
 
   using ClassifierType = itk::Statistics::SampleClassifierFilter<SampleType>;
-  ClassifierType::Pointer classifier = ClassifierType::New();
+  auto classifier = ClassifierType::New();
 
   classifier->SetDecisionRule(decisionRule);
   classifier->SetInput(sample);
@@ -273,8 +273,7 @@ main(int, char *[])
     ClassifierType::ClassLabelVectorObjectType;
   using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
 
-  ClassLabelVectorObjectType::Pointer classLabelVectorObject =
-    ClassLabelVectorObjectType::New();
+  auto classLabelVectorObject = ClassLabelVectorObjectType::New();
   ClassLabelVectorType classLabelVector = classLabelVectorObject->Get();
 
   ClassifierType::ClassLabelType class1 = 100;
@@ -315,15 +314,14 @@ main(int, char *[])
   using MembershipFunctionVectorType =
     ClassifierType::MembershipFunctionVectorType;
 
-  MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
+  auto membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();
   MembershipFunctionVectorType membershipFunctionVector =
     membershipFunctionVectorObject->Get();
 
   for (unsigned int i = 0; i < 2; ++i)
   {
-    MembershipFunctionType::Pointer membershipFunction =
-      MembershipFunctionType::New();
+    auto membershipFunction = MembershipFunctionType::New();
     membershipFunction->SetMean(covarianceEstimators[i]->GetMean());
     membershipFunction->SetCovariance(
       covarianceEstimators[i]->GetCovarianceMatrix());

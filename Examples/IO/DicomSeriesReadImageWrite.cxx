@@ -119,7 +119,7 @@ main(int argc, char * argv[])
     }
     std::cout << std::endl << std::endl;
 
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileNames(fileNames);
     reader->SetImageIO(dicomIO);
 
@@ -134,7 +134,7 @@ main(int argc, char * argv[])
     }
 
     using WriterType = itk::ImageFileWriter<ImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     std::cout << "Writing the image as " << std::endl << std::endl;
     std::cout << argv[2] << std::endl << std::endl;

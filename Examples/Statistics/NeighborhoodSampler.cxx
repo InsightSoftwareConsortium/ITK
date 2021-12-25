@@ -67,7 +67,7 @@ main()
   using MeasurementVectorType =
     itk::Vector<MeasurementType, MeasurementVectorLength>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(MeasurementVectorLength);
 
   MeasurementVectorType mv;
@@ -99,7 +99,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using SamplerType = itk::Statistics::NeighborhoodSampler<SampleType>;
-  SamplerType::Pointer sampler = SamplerType::New();
+  auto sampler = SamplerType::New();
 
   sampler->SetInputSample(sample);
   SamplerType::CenterType center(MeasurementVectorLength);

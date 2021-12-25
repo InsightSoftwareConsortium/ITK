@@ -104,15 +104,15 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using PointSetType = itk::PointSet<float, Dimension>;
 
-  PointSetType::Pointer fixedPointSet = PointSetType::New();
-  PointSetType::Pointer movingPointSet = PointSetType::New();
+  auto fixedPointSet = PointSetType::New();
+  auto movingPointSet = PointSetType::New();
 
   using PointType = PointSetType::PointType;
 
   using PointsContainer = PointSetType::PointsContainer;
 
-  PointsContainer::Pointer fixedPointContainer = PointsContainer::New();
-  PointsContainer::Pointer movingPointContainer = PointsContainer::New();
+  auto fixedPointContainer = PointsContainer::New();
+  auto movingPointContainer = PointsContainer::New();
 
   PointType fixedPoint;
   PointType movingPoint;
@@ -174,7 +174,7 @@ main(int argc, char * argv[])
   using MetricType =
     itk::EuclideanDistancePointMetric<PointSetType, PointSetType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -186,13 +186,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::Euler3DTransform<double>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
 
   // Optimizer Type
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   optimizer->SetUseCostFunctionGradient(false);
 
   // Registration Method
@@ -200,7 +200,7 @@ main(int argc, char * argv[])
     itk::PointSetToPointSetRegistrationMethod<PointSetType, PointSetType>;
 
 
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -273,7 +273,7 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
   //
   // Connect an observer
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   try

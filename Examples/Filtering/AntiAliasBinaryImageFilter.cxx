@@ -127,15 +127,15 @@ main(int argc, char * argv[])
 
   // Setting the IO
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
-  CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
-  RescaleFilter::Pointer        rescale = RescaleFilter::New();
+  auto toReal = CastToRealFilterType::New();
+  auto rescale = RescaleFilter::New();
 
   // Setting the ITK pipeline filter
 
   // Software Guide : BeginCodeSnippet
-  AntiAliasFilterType::Pointer antiAliasFilter = AntiAliasFilterType::New();
+  auto antiAliasFilter = AntiAliasFilterType::New();
 
   reader->SetFileName(inputFilename);
 
@@ -150,7 +150,7 @@ main(int argc, char * argv[])
   antiAliasFilter->SetNumberOfIterations(numberOfIterations);
   antiAliasFilter->SetNumberOfLayers(2);
 
-  RealWriterType::Pointer realWriter = RealWriterType::New();
+  auto realWriter = RealWriterType::New();
   realWriter->SetInput(antiAliasFilter->GetOutput());
   realWriter->SetFileName(outputFilename1);
 
@@ -166,7 +166,7 @@ main(int argc, char * argv[])
   }
 
 
-  WriterType::Pointer rescaledWriter = WriterType::New();
+  auto rescaledWriter = WriterType::New();
   rescale->SetInput(antiAliasFilter->GetOutput());
   rescaledWriter->SetInput(rescale->GetOutput());
   rescaledWriter->SetFileName(outputFilename2);

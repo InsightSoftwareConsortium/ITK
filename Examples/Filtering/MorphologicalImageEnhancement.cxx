@@ -99,9 +99,9 @@ main(int argc, char * argv[])
   structuringElement.CreateStructuringElement();
 
   // Setup the input and output files
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
 
   // reading input image
@@ -118,31 +118,30 @@ main(int argc, char * argv[])
   }
 
   // Create the opening closing filters
-  OpeningFilterType::Pointer opening = OpeningFilterType::New();
-  ClosingFilterType::Pointer closing = ClosingFilterType::New();
+  auto opening = OpeningFilterType::New();
+  auto closing = ClosingFilterType::New();
   // Setup the opening and closing methods
   opening->SetKernel(structuringElement);
   closing->SetKernel(structuringElement);
   // Setup minnimum and maximum of rescale filter
-  RescaleFilterType::Pointer rescaleFilter = RescaleFilterType::New();
+  auto rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);
   // creation of the pipeline. The enhancement operation is given by:
   // Original Image + Top Hat Image - Bottom Hat Image
   opening->SetInput(reader->GetOutput());
   closing->SetInput(reader->GetOutput());
-  SubtractionFilterType::Pointer topHat = SubtractionFilterType::New();
+  auto topHat = SubtractionFilterType::New();
   topHat->SetInput1(reader->GetOutput());
   topHat->SetInput2(opening->GetOutput());
-  SubtractionFilterType::Pointer bottomHat = SubtractionFilterType::New();
+  auto bottomHat = SubtractionFilterType::New();
   bottomHat->SetInput1(closing->GetOutput());
   bottomHat->SetInput2(reader->GetOutput());
-  AdditionFilterType::Pointer internalAddition = AdditionFilterType::New();
+  auto internalAddition = AdditionFilterType::New();
   internalAddition->SetInput1(reader->GetOutput());
   internalAddition->SetInput2(topHat->GetOutput());
 
-  SubtractionFilterType::Pointer imageEnhancement =
-    SubtractionFilterType::New();
+  auto imageEnhancement = SubtractionFilterType::New();
   imageEnhancement->SetInput1(internalAddition->GetOutput());
   imageEnhancement->SetInput2(bottomHat->GetOutput());
   rescaleFilter->SetInput(imageEnhancement->GetOutput());

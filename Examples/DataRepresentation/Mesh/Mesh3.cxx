@@ -97,7 +97,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
   using PointType = MeshType::PointType;
   PointType point;

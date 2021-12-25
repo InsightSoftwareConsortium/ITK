@@ -72,7 +72,7 @@ main()
   using HistogramType =
     itk::Statistics::Histogram<MeasurementType, FrequencyContainerType>;
 
-  HistogramType::Pointer histogram = HistogramType::New();
+  auto histogram = HistogramType::New();
   histogram->SetMeasurementVectorSize(numberOfComponents);
   // Software Guide : EndCodeSnippet
 

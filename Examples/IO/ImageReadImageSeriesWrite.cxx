@@ -67,7 +67,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   // Software Guide : EndCodeSnippet
 
@@ -85,7 +85,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageSeriesWriter<ImageType, Image2DType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -101,7 +101,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using NameGeneratorType = itk::NumericSeriesFileNames;
 
-  NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
+  auto nameGenerator = NameGeneratorType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

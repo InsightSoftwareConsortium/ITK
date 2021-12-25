@@ -296,22 +296,20 @@ main(int argc, char * argv[])
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<FixedImageType, MovingImageType>;
 
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetOptimizer(optimizer);
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   registration->SetMetric(metric);
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -352,7 +350,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -485,7 +483,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(registration->GetTransform());
   resample->SetInput(movingImageReader->GetOutput());
@@ -511,8 +509,8 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);

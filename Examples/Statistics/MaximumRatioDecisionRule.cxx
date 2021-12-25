@@ -62,7 +62,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
 

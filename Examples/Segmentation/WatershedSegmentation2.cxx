@@ -61,8 +61,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<RGBImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -75,8 +75,7 @@ main(int argc, char * argv[])
     itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType,
                                                        InternalImageType>;
 
-  GradientMagnitudeFilterType::Pointer gradienMagnitudeFilter =
-    GradientMagnitudeFilterType::New();
+  auto gradienMagnitudeFilter = GradientMagnitudeFilterType::New();
 
   gradienMagnitudeFilter->SetInput(reader->GetOutput());
   gradienMagnitudeFilter->SetSigma(1.0);
@@ -88,7 +87,7 @@ main(int argc, char * argv[])
 
   using WatershedFilterType = itk::WatershedImageFilter<InternalImageType>;
 
-  WatershedFilterType::Pointer watershedFilter = WatershedFilterType::New();
+  auto watershedFilter = WatershedFilterType::New();
 
   watershedFilter->SetInput(gradienMagnitudeFilter->GetOutput());
 
@@ -111,7 +110,7 @@ main(int argc, char * argv[])
                                  RGBImageType,
                                  ColormapFunctorType>;
 
-  ColormapFilterType::Pointer colorMapFilter = ColormapFilterType::New();
+  auto colorMapFilter = ColormapFilterType::New();
 
   colorMapFilter->SetInput(watershedFilter->GetOutput());
 

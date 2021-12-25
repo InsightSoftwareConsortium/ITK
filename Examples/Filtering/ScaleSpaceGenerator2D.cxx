@@ -58,10 +58,10 @@ main(int argc, char * argv[])
                                                OutputImageType>;
 
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  FilterType::Pointer laplacian = FilterType::New();
+  auto laplacian = FilterType::New();
 
   laplacian->SetNormalizeAcrossScale(true);
 
@@ -70,7 +70,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(laplacian->GetOutput());
 

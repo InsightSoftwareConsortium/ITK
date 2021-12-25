@@ -169,9 +169,9 @@ main(int argc, char * argv[])
   using RegistrationType = itk::
     ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetMetric(metric);
   registration->SetOptimizer(optimizer);
@@ -187,17 +187,15 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -223,8 +221,7 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       MovingImageType>;
 
-  TransformInitializerType::Pointer initializer =
-    TransformInitializerType::New();
+  auto initializer = TransformInitializerType::New();
 
   initializer->SetTransform(transform);
 
@@ -336,7 +333,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   // One level registration process without shrinking and smoothing.
@@ -488,7 +485,7 @@ main(int argc, char * argv[])
 
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
 
   resampler->SetTransform(transform);
   resampler->SetInput(movingImageReader->GetOutput());
@@ -511,8 +508,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -526,13 +523,13 @@ main(int argc, char * argv[])
   using DifferenceFilterType =
     itk::SubtractImageFilter<FixedImageType, FixedImageType, FixedImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
 
 
   using RescalerType =
     itk::RescaleIntensityImageFilter<FixedImageType, OutputImageType>;
 
-  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  auto intensityRescaler = RescalerType::New();
 
   intensityRescaler->SetInput(difference->GetOutput());
   intensityRescaler->SetOutputMinimum(0);
@@ -543,7 +540,7 @@ main(int argc, char * argv[])
 
   resampler->SetDefaultPixelValue(1);
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(intensityRescaler->GetOutput());
 
 
@@ -557,7 +554,7 @@ main(int argc, char * argv[])
 
 
   using IdentityTransformType = itk::IdentityTransform<double, Dimension>;
-  IdentityTransformType::Pointer identity = IdentityTransformType::New();
+  auto identity = IdentityTransformType::New();
 
   // Compute the difference image between the
   // fixed and moving image before registration.

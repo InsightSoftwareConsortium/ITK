@@ -50,7 +50,7 @@ main(int, char *[])
   using TriangleType = itk::TriangleCell<CellType>;
   using TetrahedronType = itk::TetrahedronCell<CellType>;
 
-  MeshType::Pointer mesh = MeshType::New();
+  auto mesh = MeshType::New();
 
 
   // Creating the points and inserting them in the mesh

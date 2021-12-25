@@ -83,7 +83,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
   try
@@ -111,14 +111,14 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using CastingFilterType =
     itk::CastImageFilter<ImageType, AccumulatorImageType>;
-  CastingFilterType::Pointer caster = CastingFilterType::New();
+  auto caster = CastingFilterType::New();
 
   std::cout << "Applying gradient magnitude filter" << std::endl;
 
   using GradientFilterType =
     itk::GradientMagnitudeImageFilter<AccumulatorImageType,
                                       AccumulatorImageType>;
-  GradientFilterType::Pointer gradFilter = GradientFilterType::New();
+  auto gradFilter = GradientFilterType::New();
 
   caster->SetInput(localImage);
   gradFilter->SetInput(caster->GetOutput());
@@ -137,7 +137,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   std::cout << "Thresholding" << std::endl;
   using ThresholdFilterType = itk::ThresholdImageFilter<AccumulatorImageType>;
-  ThresholdFilterType::Pointer threshFilter = ThresholdFilterType::New();
+  auto threshFilter = ThresholdFilterType::New();
 
   threshFilter->SetInput(gradFilter->GetOutput());
   threshFilter->SetOutsideValue(0);
@@ -159,8 +159,7 @@ main(int argc, char * argv[])
     itk::HoughTransform2DLinesImageFilter<AccumulatorPixelType,
                                           AccumulatorPixelType>;
 
-  HoughTransformFilterType::Pointer houghFilter =
-    HoughTransformFilterType::New();
+  auto houghFilter = HoughTransformFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -217,7 +216,7 @@ main(int argc, char * argv[])
   using OutputPixelType = unsigned char;
   using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  OutputImageType::Pointer localOutputImage = OutputImageType::New();
+  auto localOutputImage = OutputImageType::New();
 
   OutputImageType::RegionType region(localImage->GetLargestPossibleRegion());
   localOutputImage->SetRegions(region);
@@ -305,7 +304,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(localOutputImage);
 

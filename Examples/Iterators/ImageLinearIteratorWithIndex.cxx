@@ -142,7 +142,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  ReaderType::Pointer     reader = ReaderType::New();
+  auto                    reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -164,7 +164,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageType::Pointer outputImage = ImageType::New();
+  auto outputImage = ImageType::New();
   outputImage->SetRegions(inputImage->GetRequestedRegion());
   outputImage->CopyInformation(inputImage);
   outputImage->Allocate();
@@ -209,7 +209,7 @@ main(int argc, char * argv[])
   }
   // Software Guide : EndCodeSnippet
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(outputImage);
   try

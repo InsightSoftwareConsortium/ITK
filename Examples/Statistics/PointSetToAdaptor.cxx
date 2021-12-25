@@ -99,7 +99,7 @@ main()
   using CasterType = itk::ScalarToArrayCastPointSetFilter<FloatPointSet2DType,
                                                           ArrayPointSetType>;
 
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
   caster->SetInput(random->GetOutput());
   caster->Update();
   // Software Guide : EndCodeSnippet
@@ -116,7 +116,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using SampleType =
     itk::Statistics::PointSetToListSampleAdaptor<ArrayPointSetType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

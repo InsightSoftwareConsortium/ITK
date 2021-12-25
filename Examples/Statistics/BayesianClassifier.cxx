@@ -77,7 +77,7 @@ main(int argc, char * argv[])
   using InputImageType = itk::VectorImage<InputPixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(membershipImageFileName);
 
   using LabelType = unsigned char;
@@ -91,7 +91,7 @@ main(int argc, char * argv[])
                                        PosteriorType,
                                        PriorType>;
 
-  ClassifierFilterType::Pointer filter = ClassifierFilterType::New();
+  auto filter = ClassifierFilterType::New();
 
 
   filter->SetInput(reader->GetOutput());
@@ -104,7 +104,7 @@ main(int argc, char * argv[])
     using SmoothingFilterType = itk::GradientAnisotropicDiffusionImageFilter<
       ExtractedComponentImageType,
       ExtractedComponentImageType>;
-    SmoothingFilterType::Pointer smoother = SmoothingFilterType::New();
+    auto smoother = SmoothingFilterType::New();
     smoother->SetNumberOfIterations(1);
     smoother->SetTimeStep(0.125);
     smoother->SetConductanceParameter(3);
@@ -125,14 +125,14 @@ main(int argc, char * argv[])
   using RescalerType =
     itk::RescaleIntensityImageFilter<ClassifierOutputImageType,
                                      OutputImageType>;
-  RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
   rescaler->SetInput(filter->GetOutput());
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(labelMapImageFileName);
 
   //

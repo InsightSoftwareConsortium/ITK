@@ -126,7 +126,7 @@ main(int argc, char * argv[])
   using ThresholdingFilterType =
     itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
 
-  ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
 
   thresholder->SetUpperThreshold(10.0);
   thresholder->SetLowerThreshold(0.0);
@@ -137,9 +137,9 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader1 = ReaderType::New();
-  ReaderType::Pointer reader2 = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader1 = ReaderType::New();
+  auto reader2 = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader1->SetFileName(argv[1]);
   reader2->SetFileName(argv[2]);
@@ -157,7 +157,7 @@ main(int argc, char * argv[])
   using DiffusionFilterType =
     itk::GradientAnisotropicDiffusionImageFilter<InternalImageType,
                                                  InternalImageType>;
-  DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
+  auto diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(5);
   diffusion->SetTimeStep(0.125);
   diffusion->SetConductanceParameter(1.0);
@@ -174,8 +174,7 @@ main(int argc, char * argv[])
   using CannySegmentationLevelSetImageFilterType =
     itk::CannySegmentationLevelSetImageFilter<InternalImageType,
                                               InternalImageType>;
-  CannySegmentationLevelSetImageFilterType::Pointer cannySegmentation =
-    CannySegmentationLevelSetImageFilterType::New();
+  auto cannySegmentation = CannySegmentationLevelSetImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -359,7 +358,7 @@ main(int argc, char * argv[])
     using SpeedImageType =
       CannySegmentationLevelSetImageFilterType::SpeedImageType;
     using SpeedWriterType = itk::ImageFileWriter<SpeedImageType>;
-    SpeedWriterType::Pointer speedWriter = SpeedWriterType::New();
+    auto speedWriter = SpeedWriterType::New();
 
     speedWriter->SetInput(cannySegmentation->GetSpeedImage());
     //  Software Guide : EndCodeSnippet

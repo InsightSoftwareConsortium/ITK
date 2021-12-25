@@ -85,7 +85,7 @@ main(int, char *[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PointSetType::Pointer pointsSet = PointSetType::New();
+  auto pointsSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
 

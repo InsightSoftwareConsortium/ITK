@@ -144,7 +144,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::Vector<double, 1>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(1);
   // Software Guide : EndCodeSnippet
 
@@ -178,7 +178,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize(101);
 
@@ -212,7 +212,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using TreeGeneratorType =
     itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample(sample);
   treeGenerator->SetBucketSize(16);
@@ -250,7 +250,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using TreeType = TreeGeneratorType::KdTreeType;
   using EstimatorType = itk::Statistics::KdTreeBasedKmeansEstimator<TreeType>;
-  EstimatorType::Pointer estimator = EstimatorType::New();
+  auto estimator = EstimatorType::New();
 
   EstimatorType::ParametersType initialMeans(2);
   initialMeans[0] = 0.0;
@@ -306,10 +306,10 @@ main()
     itk::Statistics::DistanceToCentroidMembershipFunction<
       MeasurementVectorType>;
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
 
   using ClassifierType = itk::Statistics::SampleClassifierFilter<SampleType>;
-  ClassifierType::Pointer classifier = ClassifierType::New();
+  auto classifier = ClassifierType::New();
 
   classifier->SetDecisionRule(decisionRule);
   classifier->SetInput(sample);
@@ -320,8 +320,7 @@ main()
   using ClassLabelVectorType = ClassifierType::ClassLabelVectorType;
   using ClassLabelType = ClassifierType::ClassLabelType;
 
-  ClassLabelVectorObjectType::Pointer classLabelsObject =
-    ClassLabelVectorObjectType::New();
+  auto classLabelsObject = ClassLabelVectorObjectType::New();
   ClassLabelVectorType & classLabelsVector = classLabelsObject->Get();
 
   ClassLabelType class1 = 200;
@@ -355,7 +354,7 @@ main()
   using MembershipFunctionVectorType =
     ClassifierType::MembershipFunctionVectorType;
 
-  MembershipFunctionVectorObjectType::Pointer membershipFunctionVectorObject =
+  auto membershipFunctionVectorObject =
     MembershipFunctionVectorObjectType::New();
   MembershipFunctionVectorType & membershipFunctionVector =
     membershipFunctionVectorObject->Get();
@@ -363,8 +362,7 @@ main()
   int index = 0;
   for (unsigned int i = 0; i < 2; ++i)
   {
-    MembershipFunctionType::Pointer membershipFunction =
-      MembershipFunctionType::New();
+    auto membershipFunction = MembershipFunctionType::New();
     MembershipFunctionType::CentroidType centroid(
       sample->GetMeasurementVectorSize());
     for (unsigned int j = 0; j < sample->GetMeasurementVectorSize(); ++j)

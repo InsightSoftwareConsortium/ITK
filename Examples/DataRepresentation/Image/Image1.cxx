@@ -62,7 +62,7 @@ main(int, char *[])
   // Software Guide : EndLatex
   //
   // Software Guide : BeginCodeSnippet
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
   // Software Guide : EndCodeSnippet
 
 

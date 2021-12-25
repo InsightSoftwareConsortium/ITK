@@ -105,7 +105,7 @@ main(int argc, char * argv[])
 
   using PointsContainer = itk::VectorContainer<unsigned int, PointType>;
 
-  PointsContainer::Pointer points = PointsContainer::New();
+  auto points = PointsContainer::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

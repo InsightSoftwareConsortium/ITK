@@ -50,7 +50,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
   generator->Initialize((int)2003);
 
   for (unsigned int i = 0; i < 50; ++i)

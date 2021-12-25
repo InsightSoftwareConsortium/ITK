@@ -49,12 +49,11 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  HessianFilterType::Pointer hessianFilter = HessianFilterType::New();
-  VesselnessMeasureFilterType::Pointer vesselnessFilter =
-    VesselnessMeasureFilterType::New();
+  auto hessianFilter = HessianFilterType::New();
+  auto vesselnessFilter = VesselnessMeasureFilterType::New();
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   hessianFilter->SetInput(reader->GetOutput());

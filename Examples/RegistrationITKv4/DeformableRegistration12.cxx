@@ -146,16 +146,14 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
   fixedImageReader->SetFileName(argv[1]);
   fixedImageReader->Update();
   FixedImageType::ConstPointer fixedImage = fixedImageReader->GetOutput();
   FixedImageType::RegionType   fixedRegion = fixedImage->GetBufferedRegion();
 
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
   movingImageReader->SetFileName(argv[2]);
   movingImageReader->Update();
   MovingImageType::ConstPointer movingImage = movingImageReader->GetOutput();
@@ -171,7 +169,7 @@ main(int argc, char * argv[])
 
   using RegistrationType =
     itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -180,7 +178,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
   //
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
   unsigned int numberOfGridNodesInOneDimension = 7;
@@ -227,14 +225,14 @@ main(int argc, char * argv[])
   using MetricType =
     itk::MattesMutualInformationImageToImageMetricv4<FixedImageType,
                                                      MovingImageType>;
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   metric->SetNumberOfHistogramBins(32);
   metric->SetUseMovingImageGradientFilter(false);
   metric->SetUseFixedImageGradientFilter(false);
   metric->SetUseSampledPointSet(false);
 
   using OptimizerType = itk::LBFGSBOptimizerv4;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
 
   // Software Guide : BeginCodeSnippet
   const unsigned int numParameters = transform->GetNumberOfParameters();
@@ -259,7 +257,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   // One level registration is performed using the shrink factor 1 and
@@ -332,7 +330,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(transform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -358,8 +356,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -385,9 +383,9 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
 
@@ -438,7 +436,7 @@ main(int argc, char * argv[])
     using VectorType = itk::Vector<float, ImageDimension>;
     using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
-    DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+    auto field = DisplacementFieldType::New();
     field->SetRegions(fixedRegion);
     field->SetOrigin(fixedImage->GetOrigin());
     field->SetSpacing(fixedImage->GetSpacing());
@@ -467,7 +465,7 @@ main(int argc, char * argv[])
     }
 
     using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-    FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+    auto fieldWriter = FieldWriterType::New();
 
     fieldWriter->SetInput(field);
 

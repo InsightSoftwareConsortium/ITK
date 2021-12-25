@@ -115,8 +115,8 @@ main(int argc, char ** argv)
   //
   //  Software Guide : EndLatex
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -145,7 +145,7 @@ main(int argc, char ** argv)
   // Software Guide : BeginCodeSnippet
   using ExtractFilterType =
     itk::ExtractImageFilter<InputImageType, MiddleImageType>;
-  ExtractFilterType::Pointer extractFilter = ExtractFilterType::New();
+  auto extractFilter = ExtractFilterType::New();
   extractFilter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet
 
@@ -229,12 +229,12 @@ main(int argc, char ** argv)
   // Software Guide : BeginCodeSnippet
   using PasteFilterType =
     itk::PasteImageFilter<MiddleImageType, OutputImageType>;
-  PasteFilterType::Pointer pasteFilter = PasteFilterType::New();
+  auto pasteFilter = PasteFilterType::New();
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginCodeSnippet
   using MedianFilterType =
     itk::MedianImageFilter<MiddleImageType, MiddleImageType>;
-  MedianFilterType::Pointer medianFilter = MedianFilterType::New();
+  auto medianFilter = MedianFilterType::New();
   // Software Guide : EndCodeSnippet
   //  Software Guide : BeginLatex
   //

@@ -54,7 +54,7 @@ main(int, char *[])
 
   using PointType = VesselTubeType::PointType;
 
-  VesselTubeType::Pointer vesselTube = VesselTubeType::New();
+  auto vesselTube = VesselTubeType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

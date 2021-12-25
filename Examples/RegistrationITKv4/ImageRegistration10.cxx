@@ -184,11 +184,11 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MetricType::Pointer       metric = MetricType::New();
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -223,10 +223,8 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -362,7 +360,7 @@ main(int argc, char * argv[])
   //
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   //  Software Guide : BeginLatex
@@ -482,7 +480,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  TransformType::Pointer finalTransform = TransformType::New();
+  auto finalTransform = TransformType::New();
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
   //  Software Guide : EndCodeSnippet
@@ -495,7 +493,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
   //  Software Guide : EndCodeSnippet
@@ -547,8 +545,8 @@ main(int argc, char * argv[])
   // SoftwareGuide : EndLatex
 
   // SoftwareGuide : BeginCodeSnippet
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
   // SoftwareGuide : EndCodeSnippet
 
   writer->SetFileName(argv[3]);
@@ -581,14 +579,14 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
   difference->SetInput1(fixedImageReader->GetOutput());
   difference->SetInput2(resample->GetOutput());
   // SoftwareGuide : EndCodeSnippet
 
   //  Its output can be passed to another writer.
   //
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
   if (argc > 4)

@@ -139,10 +139,10 @@ main(int argc, char * argv[])
                                                      MovingImageType>;
   // Software Guide : EndCodeSnippet
 
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  MetricType::Pointer       metric = MetricType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto metric = MetricType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetOptimizer(optimizer);
   registration->SetMetric(metric);
@@ -187,10 +187,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -228,7 +226,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
 
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -276,7 +274,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
 
@@ -333,7 +331,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(transform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -353,8 +351,8 @@ main(int argc, char * argv[])
     itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);
 

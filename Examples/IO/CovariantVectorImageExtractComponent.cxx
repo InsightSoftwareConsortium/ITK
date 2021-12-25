@@ -112,7 +112,7 @@ main(int argc, char ** argv)
     itk::VectorIndexSelectionCastImageFilter<InputImageType,
                                              ComponentImageType>;
 
-  FilterType::Pointer componentExtractor = FilterType::New();
+  auto componentExtractor = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -159,7 +159,7 @@ main(int argc, char ** argv)
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<ComponentImageType, OutputImageType>;
 
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   //  Software Guide : EndCodeSnippet
 
 
@@ -195,8 +195,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -264,7 +264,7 @@ main(int argc, char ** argv)
   // file
   //
   using ComponentWriterType = itk::ImageFileWriter<ComponentImageType>;
-  ComponentWriterType::Pointer componentWriter = ComponentWriterType::New();
+  auto componentWriter = ComponentWriterType::New();
   componentWriter->SetInput(componentExtractor->GetOutput());
   componentWriter->SetFileName(argv[2]);
   componentWriter->Update();

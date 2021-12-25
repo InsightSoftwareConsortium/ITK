@@ -104,7 +104,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using FFTFilterType = itk::VnlForwardFFTImageFilter<ImageType>;
 
-  FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -115,7 +115,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   fftFilter->SetInput(reader->GetOutput());
@@ -157,7 +157,7 @@ main(int argc, char * argv[])
 
   using ComplexWriterType = itk::ImageFileWriter<ComplexImageType>;
 
-  ComplexWriterType::Pointer complexWriter = ComplexWriterType::New();
+  auto complexWriter = ComplexWriterType::New();
   complexWriter->SetFileName(argv[4]);
 
   complexWriter->SetInput(fftFilter->GetOutput());
@@ -205,7 +205,7 @@ main(int argc, char * argv[])
   using RealFilterType =
     itk::ComplexToRealImageFilter<ComplexImageType, ImageType>;
 
-  RealFilterType::Pointer realFilter = RealFilterType::New();
+  auto realFilter = RealFilterType::New();
 
   realFilter->SetInput(fftFilter->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -231,7 +231,7 @@ main(int argc, char * argv[])
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
-  RescaleFilterType::Pointer intensityRescaler = RescaleFilterType::New();
+  auto intensityRescaler = RescaleFilterType::New();
 
   intensityRescaler->SetInput(realFilter->GetOutput());
 
@@ -241,7 +241,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
 
@@ -275,7 +275,7 @@ main(int argc, char * argv[])
   using ImaginaryFilterType =
     itk::ComplexToImaginaryImageFilter<ComplexImageType, ImageType>;
 
-  ImaginaryFilterType::Pointer imaginaryFilter = ImaginaryFilterType::New();
+  auto imaginaryFilter = ImaginaryFilterType::New();
 
   imaginaryFilter->SetInput(fftFilter->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -317,7 +317,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using ComplexReaderType = itk::ImageFileReader<ComplexImageType>;
 
-  ComplexReaderType::Pointer complexReader = ComplexReaderType::New();
+  auto complexReader = ComplexReaderType::New();
 
   complexReader->SetFileName(argv[4]);
   complexReader->Update();

@@ -134,11 +134,11 @@ main(int argc, char * argv[])
 
 
   // Creation of Reader and Writer filters
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writerDilation = WriterType::New();
-  WriterType::Pointer writerErosion = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writerDilation = WriterType::New();
+  auto writerErosion = WriterType::New();
 
-  ThresholdFilterType::Pointer thresholder = ThresholdFilterType::New();
+  auto thresholder = ThresholdFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -153,8 +153,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ErodeFilterType::Pointer  binaryErode = ErodeFilterType::New();
-  DilateFilterType::Pointer binaryDilate = DilateFilterType::New();
+  auto binaryErode = ErodeFilterType::New();
+  auto binaryDilate = DilateFilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex

@@ -106,7 +106,7 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  auto fixedReader = FixedReaderType::New();
   fixedReader->SetFileName(argv[2]);
 
   try
@@ -128,8 +128,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   //  Software Guide : BeginCodeSnippet
-  MovingReaderType::Pointer movingReader = MovingReaderType::New();
-  MovingWriterType::Pointer movingWriter = MovingWriterType::New();
+  auto movingReader = MovingReaderType::New();
+  auto movingWriter = MovingWriterType::New();
 
   movingReader->SetFileName(argv[3]);
   movingWriter->SetFileName(argv[4]);
@@ -141,12 +141,12 @@ main(int argc, char * argv[])
   using FilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  FilterType::Pointer resampler = FilterType::New();
+  auto resampler = FilterType::New();
 
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   resampler->SetInterpolator(interpolator);
 
@@ -198,7 +198,7 @@ main(int argc, char * argv[])
   using TransformType =
     itk::BSplineTransform<CoordinateRepType, SpaceDimension, SplineOrder>;
 
-  TransformType::Pointer bsplineTransform = TransformType::New();
+  auto bsplineTransform = TransformType::New();
   //  Software Guide : EndCodeSnippet
 
 
@@ -280,7 +280,7 @@ main(int argc, char * argv[])
   bsplineTransform->SetParameters(parameters);
   //  Software Guide : EndCodeSnippet
 
-  CommandProgressUpdate::Pointer observer = CommandProgressUpdate::New();
+  auto observer = CommandProgressUpdate::New();
 
   resampler->AddObserver(itk::ProgressEvent(), observer);
 
@@ -312,7 +312,7 @@ main(int argc, char * argv[])
   using VectorType = itk::Vector<float, ImageDimension>;
   using DisplacementFieldType = itk::Image<VectorType, ImageDimension>;
 
-  DisplacementFieldType::Pointer field = DisplacementFieldType::New();
+  auto field = DisplacementFieldType::New();
   field->SetRegions(fixedRegion);
   field->SetOrigin(fixedOrigin);
   field->SetSpacing(fixedSpacing);
@@ -341,7 +341,7 @@ main(int argc, char * argv[])
   }
 
   using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  auto fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput(field);
 
@@ -366,8 +366,7 @@ main(int argc, char * argv[])
     try
     {
       using TransformWriterType = itk::TransformFileWriter;
-      TransformWriterType::Pointer transformWriter =
-        TransformWriterType::New();
+      auto transformWriter = TransformWriterType::New();
       transformWriter->AddTransform(bsplineTransform);
       transformWriter->SetFileName(argv[6]);
       transformWriter->Update();

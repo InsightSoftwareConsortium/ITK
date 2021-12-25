@@ -117,10 +117,10 @@ main(int argc, char * argv[])
 
   using FileWriterType = itk::ImageFileWriter<RGBImageType>;
 
-  FileReaderType::Pointer reader = FileReaderType::New();
+  auto reader = FileReaderType::New();
   reader->SetFileName(argv[1]);
 
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto caster = CastFilterType::New();
 
   // Software Guide : BeginLatex
   //
@@ -137,7 +137,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  DiffusionFilterType::Pointer diffusion = DiffusionFilterType::New();
+  auto diffusion = DiffusionFilterType::New();
   diffusion->SetNumberOfIterations(std::stoi(argv[4]));
   diffusion->SetConductanceParameter(std::stod(argv[3]));
   diffusion->SetTimeStep(0.125);
@@ -152,8 +152,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientMagnitudeFilterType::Pointer gradient =
-    GradientMagnitudeFilterType::New();
+  auto gradient = GradientMagnitudeFilterType::New();
   gradient->SetUsePrincipleComponents(std::stoi(argv[7]));
   // Software Guide : EndCodeSnippet
 
@@ -168,7 +167,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  WatershedFilterType::Pointer watershed = WatershedFilterType::New();
+  auto watershed = WatershedFilterType::New();
   watershed->SetLevel(std::stod(argv[6]));
   watershed->SetThreshold(std::stod(argv[5]));
   // Software Guide : EndCodeSnippet
@@ -196,11 +195,11 @@ main(int argc, char * argv[])
     itk::UnaryFunctorImageFilter<LabeledImageType,
                                  RGBImageType,
                                  ColormapFunctorType>;
-  ColormapFilterType::Pointer colormapper = ColormapFilterType::New();
+  auto colormapper = ColormapFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
-  FileWriterType::Pointer writer = FileWriterType::New();
+  auto writer = FileWriterType::New();
   writer->SetFileName(argv[2]);
 
   // Software Guide : BeginLatex

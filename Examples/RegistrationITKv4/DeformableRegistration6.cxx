@@ -178,9 +178,9 @@ main(int argc, char * argv[])
   using RegistrationType =
     itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
 
 
   registration->SetMetric(metric);
@@ -189,10 +189,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -214,14 +212,14 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer outputBSplineTransform = TransformType::New();
+  auto outputBSplineTransform = TransformType::New();
 
   // Initialize the fixed parameters of transform (grid size, etc).
   //
   using InitializerType =
     itk::BSplineTransformInitializer<TransformType, FixedImageType>;
 
-  InitializerType::Pointer transformInitializer = InitializerType::New();
+  auto transformInitializer = InitializerType::New();
 
   unsigned int numberOfGridNodesInOneDimension = 8;
 
@@ -299,7 +297,7 @@ main(int argc, char * argv[])
   {
     using ShrinkFilterType =
       itk::ShrinkImageFilter<FixedImageType, FixedImageType>;
-    ShrinkFilterType::Pointer shrinkFilter = ShrinkFilterType::New();
+    auto shrinkFilter = ShrinkFilterType::New();
     shrinkFilter->SetShrinkFactors(shrinkFactorsPerLevel[level]);
     shrinkFilter->SetInput(fixedImage);
     shrinkFilter->Update();
@@ -315,7 +313,7 @@ main(int argc, char * argv[])
 
     using BSplineAdaptorType =
       itk::BSplineTransformParametersAdaptor<TransformType>;
-    BSplineAdaptorType::Pointer bsplineAdaptor = BSplineAdaptorType::New();
+    auto bsplineAdaptor = BSplineAdaptorType::New();
     bsplineAdaptor->SetTransform(outputBSplineTransform);
     bsplineAdaptor->SetRequiredTransformDomainMeshSize(requiredMeshSize);
     bsplineAdaptor->SetRequiredTransformDomainOrigin(
@@ -334,7 +332,7 @@ main(int argc, char * argv[])
   // Scale estimator
   using ScalesEstimatorType =
     itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
-  ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
+  auto scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric(metric);
   scalesEstimator->SetTransformForward(true);
   scalesEstimator->SetSmallParameterVariation(1.0);
@@ -347,7 +345,7 @@ main(int argc, char * argv[])
   optimizer->SetMaximumLineSearchEvaluations(10);
 
   // Connect an observer
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   std::cout << "Starting Registration " << std::endl;
@@ -371,7 +369,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(outputBSplineTransform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -392,8 +390,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -419,9 +417,9 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
 
@@ -475,8 +473,7 @@ main(int argc, char * argv[])
                                             CoordinateRepType>;
 
   /** Create an setup displacement field generator. */
-  DisplacementFieldGeneratorType::Pointer dispfieldGenerator =
-    DisplacementFieldGeneratorType::New();
+  auto dispfieldGenerator = DisplacementFieldGeneratorType::New();
   dispfieldGenerator->UseReferenceImageOn();
   dispfieldGenerator->SetReferenceImage(fixedImage);
   dispfieldGenerator->SetTransform(outputBSplineTransform);
@@ -492,7 +489,7 @@ main(int argc, char * argv[])
   }
 
   using FieldWriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
-  FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+  auto fieldWriter = FieldWriterType::New();
 
   fieldWriter->SetInput(dispfieldGenerator->GetOutput());
 

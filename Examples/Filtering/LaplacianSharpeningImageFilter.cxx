@@ -50,14 +50,13 @@ main(int argc, char * argv[])
 
 
   // Setting the IO
-  ReaderType::Pointer    reader = ReaderType::New();
-  WriterType::Pointer    writer = WriterType::New();
-  RescaleFilter::Pointer rescale = RescaleFilter::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
+  auto rescale = RescaleFilter::New();
 
   // Setting the ITK pipeline filter
 
-  LaplacianSharpeningFilter::Pointer lapFilter =
-    LaplacianSharpeningFilter::New();
+  auto lapFilter = LaplacianSharpeningFilter::New();
 
   reader->SetFileName(inputFilename);
   writer->SetFileName(outputFilename);

@@ -149,7 +149,7 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType2D>;
 
   ImageType3D::ConstPointer inputImage;
-  ReaderType::Pointer       reader = ReaderType::New();
+  auto                      reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {
@@ -215,7 +215,7 @@ main(int argc, char * argv[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  ImageType2D::Pointer outputImage = ImageType2D::New();
+  auto outputImage = ImageType2D::New();
 
   outputImage->SetRegions(region);
   outputImage->Allocate();
@@ -286,7 +286,7 @@ main(int argc, char * argv[])
   }
   // Software Guide : EndCodeSnippet
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(outputImage);
   try

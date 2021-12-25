@@ -68,7 +68,7 @@ main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -85,7 +85,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   ImageType::ConstPointer image = reader->GetOutput();
-  PathType::Pointer       path = PathType::New();
+  auto                    path = PathType::New();
   path->Initialize();
 
   using ContinuousIndexType = PathType::ContinuousIndexType;

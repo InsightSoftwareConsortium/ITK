@@ -41,7 +41,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using ArrowType = itk::ArrowSpatialObject<3>;
-  ArrowType::Pointer myArrow = ArrowType::New();
+  auto myArrow = ArrowType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

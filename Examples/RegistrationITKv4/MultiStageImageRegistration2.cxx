@@ -223,9 +223,9 @@ main(int argc, char * argv[])
   //  All the components are instantiated using their \code{New()} method
   //  and connected to the registration object as in previous example.
   //
-  TOptimizerType::Pointer    transOptimizer = TOptimizerType::New();
-  MetricType::Pointer        transMetric = MetricType::New();
-  TRegistrationType::Pointer transRegistration = TRegistrationType::New();
+  auto transOptimizer = TOptimizerType::New();
+  auto transMetric = MetricType::New();
+  auto transRegistration = TRegistrationType::New();
 
   transRegistration->SetOptimizer(transOptimizer);
   transRegistration->SetMetric(transMetric);
@@ -242,7 +242,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TTransformType::Pointer translationTx = TTransformType::New();
+  auto translationTx = TTransformType::New();
 
   transRegistration->SetInitialTransform(translationTx);
   transRegistration->InPlaceOn();
@@ -257,10 +257,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -311,14 +309,14 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer1 = CommandIterationUpdate::New();
+  auto observer1 = CommandIterationUpdate::New();
   transOptimizer->AddObserver(itk::IterationEvent(), observer1);
 
   // Create the Command interface observer and register it with the optimizer.
   //
   using TranslationCommandType =
     RegistrationInterfaceCommand<TRegistrationType>;
-  TranslationCommandType::Pointer command1 = TranslationCommandType::New();
+  auto command1 = TranslationCommandType::New();
   transRegistration->AddObserver(itk::MultiResolutionIterationEvent(),
                                  command1);
 
@@ -355,9 +353,9 @@ main(int argc, char * argv[])
   //
   //  Software Guide : EndLatex
 
-  AOptimizerType::Pointer    affineOptimizer = AOptimizerType::New();
-  MetricType::Pointer        affineMetric = MetricType::New();
-  ARegistrationType::Pointer affineRegistration = ARegistrationType::New();
+  auto affineOptimizer = AOptimizerType::New();
+  auto affineMetric = MetricType::New();
+  auto affineRegistration = ARegistrationType::New();
 
   affineRegistration->SetOptimizer(affineOptimizer);
   affineRegistration->SetMetric(affineMetric);
@@ -377,8 +375,7 @@ main(int argc, char * argv[])
   using FixedImageCalculatorType =
     itk::ImageMomentsCalculator<FixedImageType>;
 
-  FixedImageCalculatorType::Pointer fixedCalculator =
-    FixedImageCalculatorType::New();
+  auto fixedCalculator = FixedImageCalculatorType::New();
   fixedCalculator->SetImage(fixedImage);
   fixedCalculator->Compute();
 
@@ -394,7 +391,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ATransformType::Pointer affineTx = ATransformType::New();
+  auto affineTx = ATransformType::New();
 
   const unsigned int numberOfFixedParameters =
     affineTx->GetFixedParameters().Size();
@@ -435,7 +432,7 @@ main(int argc, char * argv[])
 
   using ScalesEstimatorType =
     itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
-  ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
+  auto scalesEstimator = ScalesEstimatorType::New();
   scalesEstimator->SetMetric(affineMetric);
   scalesEstimator->SetTransformForward(true);
 
@@ -451,7 +448,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer2 = CommandIterationUpdate::New();
+  auto observer2 = CommandIterationUpdate::New();
   affineOptimizer->AddObserver(itk::IterationEvent(), observer2);
 
   //  Software Guide : BeginLatex
@@ -480,7 +477,7 @@ main(int argc, char * argv[])
   // Create the Command interface observer and register it with the optimizer.
   //
   using AffineCommandType = RegistrationInterfaceCommand<ARegistrationType>;
-  AffineCommandType::Pointer command2 = AffineCommandType::New();
+  auto command2 = AffineCommandType::New();
   affineRegistration->AddObserver(itk::MultiResolutionIterationEvent(),
                                   command2);
 
@@ -523,8 +520,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using CompositeTransformType = itk::CompositeTransform<double, Dimension>;
-  CompositeTransformType::Pointer compositeTransform =
-    CompositeTransformType::New();
+  auto compositeTransform = CompositeTransformType::New();
   compositeTransform->AddTransform(translationTx);
   compositeTransform->AddTransform(affineTx);
   // Software Guide : EndCodeSnippet
@@ -598,7 +594,7 @@ main(int argc, char * argv[])
 
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(compositeTransform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -621,8 +617,8 @@ main(int argc, char * argv[])
     itk::CastImageFilter<FixedImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);
 
@@ -655,7 +651,7 @@ main(int argc, char * argv[])
   //
   using CheckerBoardFilterType = itk::CheckerBoardImageFilter<FixedImageType>;
 
-  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+  auto checker = CheckerBoardFilterType::New();
 
   checker->SetInput1(fixedImage);
   checker->SetInput2(resample->GetOutput());

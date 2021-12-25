@@ -121,23 +121,21 @@ main(int argc, char * argv[])
   using RegistrationType = itk::
     ImageRegistrationMethodv4<FixedImageType, MovingImageType, TransformType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetMetric(metric);
   registration->SetOptimizer(optimizer);
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   registration->SetInitialTransform(transform);
   registration->InPlaceOn();
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -150,8 +148,7 @@ main(int argc, char * argv[])
     itk::CenteredTransformInitializer<TransformType,
                                       FixedImageType,
                                       MovingImageType>;
-  TransformInitializerType::Pointer initializer =
-    TransformInitializerType::New();
+  auto initializer = TransformInitializerType::New();
 
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
@@ -179,7 +176,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   //  Software Guide : BeginLatex
@@ -206,7 +203,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MaskType::Pointer spatialObjectMask = MaskType::New();
+  auto spatialObjectMask = MaskType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -230,7 +227,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MaskReaderType::Pointer maskReader = MaskReaderType::New();
+  auto maskReader = MaskReaderType::New();
 
   maskReader->SetFileName(argv[3]);
   // Software Guide : EndCodeSnippet
@@ -387,12 +384,12 @@ main(int argc, char * argv[])
 
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
-  TransformType::Pointer finalTransform = TransformType::New();
+  auto finalTransform = TransformType::New();
 
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -414,8 +411,8 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   writer->SetFileName(argv[4]);
 
@@ -428,9 +425,9 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
   // Compute the difference image between the

@@ -67,13 +67,12 @@ main(int argc, char ** argv)
   using FastMarchingFilterType =
     itk::FastMarchingImageFilter<ImageType, ImageType>;
 
-  FastMarchingFilterType::Pointer fastMarching =
-    FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
 
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
 
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
 
   ImageType::IndexType seedPosition;
 
@@ -215,13 +214,13 @@ main(int argc, char ** argv)
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<ImageType, WriteImageType>;
 
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
 
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
   rescaler->SetInput(input);
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[1]);
   writer->SetInput(rescaler->GetOutput());
   try

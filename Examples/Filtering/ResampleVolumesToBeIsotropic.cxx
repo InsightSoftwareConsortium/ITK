@@ -193,7 +193,7 @@ main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -210,8 +210,7 @@ main(int argc, char * argv[])
   using IntensityFilterType =
     itk::IntensityWindowingImageFilter<InputImageType, InternalImageType>;
 
-  IntensityFilterType::Pointer intensityWindowing =
-    IntensityFilterType::New();
+  auto intensityWindowing = IntensityFilterType::New();
 
   intensityWindowing->SetWindowMinimum(std::stoi(argv[3]));
   intensityWindowing->SetWindowMaximum(std::stoi(argv[4]));
@@ -248,8 +247,8 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GaussianFilterType::Pointer smootherX = GaussianFilterType::New();
-  GaussianFilterType::Pointer smootherY = GaussianFilterType::New();
+  auto smootherX = GaussianFilterType::New();
+  auto smootherY = GaussianFilterType::New();
 
   smootherX->SetInput(intensityWindowing->GetOutput());
   smootherY->SetInput(smootherX->GetOutput());
@@ -332,7 +331,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<InternalImageType, OutputImageType>;
 
-  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -346,7 +345,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::IdentityTransform<double, Dimension>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   transform->SetIdentity();
 
   resampler->SetTransform(transform);
@@ -364,7 +363,7 @@ main(int argc, char * argv[])
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<InternalImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   resampler->SetInterpolator(interpolator);
   // Software Guide : EndCodeSnippet
@@ -477,7 +476,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
   writer->SetInput(resampler->GetOutput());

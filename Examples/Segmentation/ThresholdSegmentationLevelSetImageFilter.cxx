@@ -138,7 +138,7 @@ main(int argc, char * argv[])
   using ThresholdingFilterType =
     itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
 
-  ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
 
   thresholder->SetLowerThreshold(-1000.0);
   thresholder->SetUpperThreshold(0.0);
@@ -149,8 +149,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -163,8 +163,7 @@ main(int argc, char * argv[])
   using FastMarchingFilterType =
     itk::FastMarchingImageFilter<InternalImageType, InternalImageType>;
 
-  FastMarchingFilterType::Pointer fastMarching =
-    FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -273,7 +272,7 @@ main(int argc, char * argv[])
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
 
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
 
   InternalImageType::IndexType seedPosition;
 
@@ -375,12 +374,12 @@ main(int argc, char * argv[])
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
-  InternalWriterType::Pointer mapWriter = InternalWriterType::New();
+  auto mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName("fastMarchingImage.mha");
   mapWriter->Update();
 
-  InternalWriterType::Pointer speedWriter = InternalWriterType::New();
+  auto speedWriter = InternalWriterType::New();
   speedWriter->SetInput(thresholdSegmentation->GetSpeedImage());
   speedWriter->SetFileName("speedTermImage.mha");
   speedWriter->Update();

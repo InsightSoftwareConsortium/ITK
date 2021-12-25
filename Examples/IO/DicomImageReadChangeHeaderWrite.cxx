@@ -92,7 +92,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   // Software Guide : EndCodeSnippet
 
@@ -106,7 +106,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ImageIOType = itk::GDCMImageIO;
-  ImageIOType::Pointer gdcmImageIO = ImageIOType::New();
+  auto gdcmImageIO = ImageIOType::New();
   reader->SetImageIO(gdcmImageIO);
   // Software Guide : EndCodeSnippet
 
@@ -184,7 +184,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using Writer1Type = itk::ImageFileWriter<InputImageType>;
 
-  Writer1Type::Pointer writer1 = Writer1Type::New();
+  auto writer1 = Writer1Type::New();
 
   writer1->SetInput(reader->GetOutput());
   writer1->SetFileName(argv[2]);

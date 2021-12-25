@@ -51,7 +51,7 @@ main(int argc, char * argv[])
   using PointSetType = itk::PointSet<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   const char * inputFilename = argv[1];
   reader->SetFileName(inputFilename);
@@ -67,7 +67,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
 
 
   using IteratorType = itk::ImageRegionConstIterator<ImageType>;

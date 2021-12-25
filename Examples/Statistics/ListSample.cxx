@@ -64,7 +64,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::Vector<float, 3>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

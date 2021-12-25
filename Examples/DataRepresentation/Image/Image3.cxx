@@ -40,7 +40,7 @@ main(int, char *[])
   using ImageType = itk::Image<unsigned short, 3>;
 
   // Then the image object can be created
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   // The image region should be initialized
   const ImageType::SizeType size = {

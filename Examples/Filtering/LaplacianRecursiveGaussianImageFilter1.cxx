@@ -114,7 +114,7 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
 
@@ -136,11 +136,11 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FilterType::Pointer filterX1 = FilterType::New();
-  FilterType::Pointer filterY1 = FilterType::New();
+  auto filterX1 = FilterType::New();
+  auto filterY1 = FilterType::New();
 
-  FilterType::Pointer filterX2 = FilterType::New();
-  FilterType::Pointer filterY2 = FilterType::New();
+  auto filterX2 = FilterType::New();
+  auto filterY2 = FilterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -288,7 +288,7 @@ main(int argc, char * argv[])
   using AddFilterType =
     itk::AddImageFilter<OutputImageType, OutputImageType, OutputImageType>;
 
-  AddFilterType::Pointer addFilter = AddFilterType::New();
+  auto addFilter = AddFilterType::New();
 
   addFilter->SetInput1(filterY1->GetOutput());
   addFilter->SetInput2(filterX2->GetOutput());
@@ -330,7 +330,7 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<WriteImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(addFilter->GetOutput());
 
@@ -365,12 +365,12 @@ main(int argc, char * argv[])
     using RescaleFilterType =
       itk::RescaleIntensityImageFilter<OutputImageType, CharImageType>;
 
-    RescaleFilterType::Pointer rescale = RescaleFilterType::New();
+    auto rescale = RescaleFilterType::New();
     rescale->SetInput(addFilter->GetOutput());
     rescale->SetOutputMinimum(0);
     rescale->SetOutputMaximum(255);
     using CharWriterType = itk::ImageFileWriter<CharImageType>;
-    CharWriterType::Pointer charWriter = CharWriterType::New();
+    auto charWriter = CharWriterType::New();
     charWriter->SetFileName(argv[4]);
     charWriter->SetInput(rescale->GetOutput());
     charWriter->Update();

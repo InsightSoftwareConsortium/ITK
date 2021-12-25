@@ -47,7 +47,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
 

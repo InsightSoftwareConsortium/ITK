@@ -120,7 +120,7 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
   // Software Guide : EndCodeSnippet
 
@@ -140,7 +140,7 @@ main(int argc, char * argv[])
   using LabelImageType = itk::Image<LabelPixelType, Dimension>;
 
   using LabelReaderType = itk::ImageFileReader<LabelImageType>;
-  LabelReaderType::Pointer labelReader = LabelReaderType::New();
+  auto labelReader = LabelReaderType::New();
   labelReader->SetFileName(inputLabelImageFileName);
   // Software Guide : EndCodeSnippet
 
@@ -165,8 +165,7 @@ main(int argc, char * argv[])
   using ScalarToArrayFilterType =
     itk::ComposeImageFilter<ImageType, ArrayImageType>;
 
-  ScalarToArrayFilterType::Pointer scalarToArrayFilter =
-    ScalarToArrayFilterType::New();
+  auto scalarToArrayFilter = ScalarToArrayFilterType::New();
   scalarToArrayFilter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
 
@@ -183,7 +182,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using MRFFilterType = itk::MRFImageFilter<ArrayImageType, LabelImageType>;
 
-  MRFFilterType::Pointer mrfFilter = MRFFilterType::New();
+  auto mrfFilter = MRFFilterType::New();
 
   mrfFilter->SetInput(scalarToArrayFilter->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -236,8 +235,7 @@ main(int argc, char * argv[])
   using SupervisedClassifierType =
     itk::ImageClassifierBase<ArrayImageType, LabelImageType>;
 
-  SupervisedClassifierType::Pointer classifier =
-    SupervisedClassifierType::New();
+  auto classifier = SupervisedClassifierType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -255,7 +253,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
 
-  DecisionRuleType::Pointer classifierDecisionRule = DecisionRuleType::New();
+  auto classifierDecisionRule = DecisionRuleType::New();
 
   classifier->SetDecisionRule(classifierDecisionRule);
   // Software Guide : EndCodeSnippet
@@ -421,7 +419,7 @@ main(int argc, char * argv[])
     itk::RescaleIntensityImageFilter<OutputImageType,
                                      RescaledOutputImageType>;
 
-  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  auto intensityRescaler = RescalerType::New();
   intensityRescaler->SetOutputMinimum(0);
   intensityRescaler->SetOutputMaximum(255);
   intensityRescaler->SetInput(mrfFilter->GetOutput());
@@ -429,7 +427,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(intensityRescaler->GetOutput());
 

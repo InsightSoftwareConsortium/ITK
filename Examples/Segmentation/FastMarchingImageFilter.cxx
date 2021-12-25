@@ -240,7 +240,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using ThresholdingFilterType =
     itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
-  ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -277,8 +277,8 @@ main(int argc, char * argv[])
   // Software Guide : EndCodeSnippet
 
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -312,7 +312,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
+  auto smoothing = SmoothingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -342,8 +342,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientFilterType::Pointer gradientMagnitude = GradientFilterType::New();
-  SigmoidFilterType::Pointer  sigmoid = SigmoidFilterType::New();
+  auto gradientMagnitude = GradientFilterType::New();
+  auto sigmoid = SigmoidFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -385,8 +385,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FastMarchingFilterType::Pointer fastMarching =
-    FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -518,7 +517,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginCodeSnippet
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
   //  Software Guide : EndCodeSnippet
 
 
@@ -583,8 +582,8 @@ main(int argc, char * argv[])
   //
   try
   {
-    CastFilterType::Pointer caster1 = CastFilterType::New();
-    WriterType::Pointer     writer1 = WriterType::New();
+    auto caster1 = CastFilterType::New();
+    auto writer1 = WriterType::New();
     caster1->SetInput(smoothing->GetOutput());
     writer1->SetInput(caster1->GetOutput());
     writer1->SetFileName(argv[10]);
@@ -601,8 +600,8 @@ main(int argc, char * argv[])
 
   try
   {
-    CastFilterType::Pointer caster2 = CastFilterType::New();
-    WriterType::Pointer     writer2 = WriterType::New();
+    auto caster2 = CastFilterType::New();
+    auto writer2 = WriterType::New();
     caster2->SetInput(gradientMagnitude->GetOutput());
     writer2->SetInput(caster2->GetOutput());
     writer2->SetFileName(argv[11]);
@@ -619,8 +618,8 @@ main(int argc, char * argv[])
 
   try
   {
-    CastFilterType::Pointer caster3 = CastFilterType::New();
-    WriterType::Pointer     writer3 = WriterType::New();
+    auto caster3 = CastFilterType::New();
+    auto writer3 = WriterType::New();
     caster3->SetInput(sigmoid->GetOutput());
     writer3->SetInput(caster3->GetOutput());
     writer3->SetFileName(argv[12]);
@@ -696,8 +695,8 @@ main(int argc, char * argv[])
 
   try
   {
-    CastFilterType::Pointer caster4 = CastFilterType::New();
-    WriterType::Pointer     writer4 = WriterType::New();
+    auto caster4 = CastFilterType::New();
+    auto writer4 = WriterType::New();
     caster4->SetInput(fastMarching->GetOutput());
     writer4->SetInput(caster4->GetOutput());
     writer4->SetFileName("FastMarchingFilterOutput4.png");
@@ -721,17 +720,17 @@ main(int argc, char * argv[])
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
-  InternalWriterType::Pointer mapWriter = InternalWriterType::New();
+  auto mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName("FastMarchingFilterOutput4.mha");
   mapWriter->Update();
 
-  InternalWriterType::Pointer speedWriter = InternalWriterType::New();
+  auto speedWriter = InternalWriterType::New();
   speedWriter->SetInput(sigmoid->GetOutput());
   speedWriter->SetFileName("FastMarchingFilterOutput3.mha");
   speedWriter->Update();
 
-  InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
+  auto gradientWriter = InternalWriterType::New();
   gradientWriter->SetInput(gradientMagnitude->GetOutput());
   gradientWriter->SetFileName("FastMarchingFilterOutput2.mha");
   gradientWriter->Update();

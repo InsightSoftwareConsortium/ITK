@@ -181,16 +181,14 @@ main(int argc, char * argv[])
   //  All the components are instantiated using their \code{New()} method
   //  and connected to the registration object as in previous example.
   //
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
-  MetricType::Pointer       metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
+  auto metric = MetricType::New();
 
-  FixedImagePyramidType::Pointer fixedImagePyramid =
-    FixedImagePyramidType::New();
-  MovingImagePyramidType::Pointer movingImagePyramid =
-    MovingImagePyramidType::New();
+  auto fixedImagePyramid = FixedImagePyramidType::New();
+  auto movingImagePyramid = MovingImagePyramidType::New();
 
   registration->SetOptimizer(optimizer);
   registration->SetTransform(transform);
@@ -203,10 +201,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -217,8 +213,8 @@ main(int argc, char * argv[])
   using MovingCastFilterType =
     itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedCastFilterType::Pointer  fixedCaster = FixedCastFilterType::New();
-  MovingCastFilterType::Pointer movingCaster = MovingCastFilterType::New();
+  auto fixedCaster = FixedCastFilterType::New();
+  auto movingCaster = MovingCastFilterType::New();
 
   fixedCaster->SetInput(fixedImageReader->GetOutput());
   movingCaster->SetInput(movingImageReader->GetOutput());
@@ -278,11 +274,11 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   using CommandType = RegistrationInterfaceCommand<RegistrationType>;
-  CommandType::Pointer command = CommandType::New();
+  auto command = CommandType::New();
   registration->AddObserver(itk::IterationEvent(), command);
 
 
@@ -325,12 +321,12 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  TransformType::Pointer finalTransform = TransformType::New();
+  auto finalTransform = TransformType::New();
 
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -360,8 +356,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -376,7 +372,7 @@ main(int argc, char * argv[])
   //
   using CheckerBoardFilterType = itk::CheckerBoardImageFilter<FixedImageType>;
 
-  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+  auto checker = CheckerBoardFilterType::New();
 
   checker->SetInput1(fixedImage);
   checker->SetInput2(resample->GetOutput());
@@ -387,7 +383,7 @@ main(int argc, char * argv[])
   resample->SetDefaultPixelValue(0);
 
   // Before registration
-  TransformType::Pointer identityTransform = TransformType::New();
+  auto identityTransform = TransformType::New();
   identityTransform->SetIdentity();
   resample->SetTransform(identityTransform);
 

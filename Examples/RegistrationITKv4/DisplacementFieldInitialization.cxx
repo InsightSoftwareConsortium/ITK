@@ -72,7 +72,7 @@ main(int argc, char * argv[])
   using FixedReaderType = itk::ImageFileReader<FixedImageType>;
 
 
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  auto fixedReader = FixedReaderType::New();
 
   fixedReader->SetFileName(argv[2]);
 
@@ -93,7 +93,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetOutputSpacing(fixedImage->GetSpacing());
   filter->SetOutputOrigin(fixedImage->GetOrigin());
@@ -105,10 +105,8 @@ main(int argc, char * argv[])
   using LandmarkContainerType = FilterType::LandmarkContainer;
   using LandmarkPointType = FilterType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks =
-    LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks =
-    LandmarkContainerType::New();
+  auto          sourceLandmarks = LandmarkContainerType::New();
+  auto          targetLandmarks = LandmarkContainerType::New();
   std::ifstream pointsFile;
   pointsFile.open(argv[1]);
 
@@ -145,7 +143,7 @@ main(int argc, char * argv[])
   // Write an image for regression testing
   using WriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[3]);
   filter->Print(std::cout);

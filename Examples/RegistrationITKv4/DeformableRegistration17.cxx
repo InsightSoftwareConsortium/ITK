@@ -220,17 +220,17 @@ main(int argc, char * argv[])
 
   // setup input file readers
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer targetReader = ReaderType::New();
+  auto targetReader = ReaderType::New();
   targetReader->SetFileName(argv[1]);
   targetReader->Update();
 
-  ReaderType::Pointer sourceReader = ReaderType::New();
+  auto sourceReader = ReaderType::New();
   sourceReader->SetFileName(argv[2]);
   sourceReader->Update();
 
   // cast target and source to float
-  ImageCasterType::Pointer targetImageCaster = ImageCasterType::New();
-  ImageCasterType::Pointer sourceImageCaster = ImageCasterType::New();
+  auto targetImageCaster = ImageCasterType::New();
+  auto sourceImageCaster = ImageCasterType::New();
   targetImageCaster->SetInput(targetReader->GetOutput());
   sourceImageCaster->SetInput(sourceReader->GetOutput());
 
@@ -238,7 +238,7 @@ main(int argc, char * argv[])
   using MatchingFilterType =
     itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
 
-  MatchingFilterType::Pointer matcher = MatchingFilterType::New();
+  auto matcher = MatchingFilterType::New();
 
   matcher->SetInput(sourceImageCaster->GetOutput());
   matcher->SetReferenceImage(targetImageCaster->GetOutput());
@@ -256,14 +256,14 @@ main(int argc, char * argv[])
                                                  InternalImageType,
                                                  DisplacementFieldType>;
 
-  RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
+  auto filter = RegistrationFilterType::New();
 
   filter->SetStandardDeviations(1.0);
 
   //
   // Create the Command observer and register it with the registration filter.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   filter->AddObserver(itk::IterationEvent(), observer);
 
 
@@ -273,8 +273,7 @@ main(int argc, char * argv[])
                                                   InternalImageType,
                                                   DisplacementFieldType>;
 
-  MultiResRegistrationFilterType::Pointer multires =
-    MultiResRegistrationFilterType::New();
+  auto multires = MultiResRegistrationFilterType::New();
 
   multires->SetRegistrationFilter(filter);
   multires->SetNumberOfLevels(4);
@@ -286,8 +285,7 @@ main(int argc, char * argv[])
   //
   // Create the Command observer and register it with the registration filter.
   //
-  CommandResolutionLevelUpdate::Pointer levelobserver =
-    CommandResolutionLevelUpdate::New();
+  auto levelobserver = CommandResolutionLevelUpdate::New();
   multires->AddObserver(itk::IterationEvent(), levelobserver);
 
   // apply the registration filter
@@ -315,9 +313,9 @@ main(int argc, char * argv[])
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<ImageType, InterpolatorPrecisionType>;
 
-  WarperType::Pointer warper = WarperType::New();
+  auto warper = WarperType::New();
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   ImageType::Pointer targetImage = targetReader->GetOutput();
   warper->SetInput(sourceReader->GetOutput());
@@ -328,7 +326,7 @@ main(int argc, char * argv[])
   warper->SetTransform(displacementTransform);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(warper->GetOutput());
 
@@ -345,7 +343,7 @@ main(int argc, char * argv[])
 
   // write the deformation field
   using DeformationWriterType = itk::ImageFileWriter<DisplacementFieldType>;
-  DeformationWriterType::Pointer defwriter = DeformationWriterType::New();
+  auto defwriter = DeformationWriterType::New();
   defwriter->SetFileName(argv[4]);
   defwriter->SetInput(multires->GetOutput());
 

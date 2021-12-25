@@ -131,11 +131,11 @@ main(int argc, char * argv[])
 
   // Setting the IO
 
-  ReaderType::Pointer           reader = ReaderType::New();
-  CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
-  CannyFilterType::Pointer      cannyFilter = CannyFilterType::New();
-  RescaleFilterType::Pointer    rescale = RescaleFilterType::New();
-  WriterType::Pointer           writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto toReal = CastToRealFilterType::New();
+  auto cannyFilter = CannyFilterType::New();
+  auto rescale = RescaleFilterType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inputFilename);
   writer->SetFileName(outputFilename);

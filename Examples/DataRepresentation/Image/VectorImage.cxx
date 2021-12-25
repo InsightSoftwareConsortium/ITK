@@ -68,7 +68,7 @@ main(int, char *[])
   // Software Guide : EndCodeSnippet
 
   // Then the image object can be created
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   // The image region should be initialized
   const ImageType::IndexType start = {

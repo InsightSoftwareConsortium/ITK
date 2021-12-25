@@ -107,12 +107,12 @@ main(int argc, char * argv[])
     scalarImageToHistogramGenerator =
       ScalarImageToHistogramGeneratorType::New();
 
-  CalculatorType::Pointer calculator = CalculatorType::New();
-  FilterType::Pointer     filter = FilterType::New();
+  auto calculator = CalculatorType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   // Software Guide : BeginLatex
   //

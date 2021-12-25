@@ -153,7 +153,7 @@ main(int argc, char * argv[])
     itk::NormalizeImageFilter<InputImageType, OutputImageType>;
   // Software Guide : EndCodeSnippet
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
 
   //  Software Guide : BeginLatex
@@ -174,10 +174,10 @@ main(int argc, char * argv[])
 
 
   // Software Guide : BeginCodeSnippet
-  CastFilterType::Pointer       castFilter = CastFilterType::New();
-  RescaleFilterType::Pointer    rescaleFilter = RescaleFilterType::New();
-  ShiftScaleFilterType::Pointer shiftFilter = ShiftScaleFilterType::New();
-  NormalizeFilterType::Pointer  normalizeFilter = NormalizeFilterType::New();
+  auto castFilter = CastFilterType::New();
+  auto rescaleFilter = RescaleFilterType::New();
+  auto shiftFilter = ShiftScaleFilterType::New();
+  auto normalizeFilter = NormalizeFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

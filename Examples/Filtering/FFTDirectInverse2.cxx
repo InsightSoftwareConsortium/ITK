@@ -78,8 +78,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer inputreader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto inputreader = ReaderType::New();
+  auto writer = WriterType::New();
 
   inputreader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -90,7 +90,7 @@ main(int argc, char * argv[])
   // Forward FFT filter
   using FFTFilterType = itk::FFTWForwardFFTImageFilter<InputImageType>;
 
-  FFTFilterType::Pointer fftinput = FFTFilterType::New();
+  auto fftinput = FFTFilterType::New();
   fftinput->SetInput(inputreader->GetOutput());
   fftinput->Update();
 
@@ -100,7 +100,7 @@ main(int argc, char * argv[])
   // Do the inverse transform = forward transform + flip all axes
   using invFFTFilterType = itk::FFTWInverseFFTImageFilter<ComplexImageType>;
 
-  invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
+  auto fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(
     fftinput->GetOutput()); // try to recover the input image
   fftoutput->Update();
@@ -109,7 +109,7 @@ main(int argc, char * argv[])
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<WorkImageType, OutputImageType>;
 
-  RescaleFilterType::Pointer intensityrescaler = RescaleFilterType::New();
+  auto intensityrescaler = RescaleFilterType::New();
 
   std::cout << fftoutput->GetOutput()->GetLargestPossibleRegion().GetSize()
             << std::endl;

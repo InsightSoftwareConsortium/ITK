@@ -330,14 +330,13 @@ public:
                                    RescaledOutputImageType,
                                    RescaleDynamicRangeFunctorType>;
 
-    RescaleDynamicRangeFilterType::Pointer rescaler =
-      RescaleDynamicRangeFilterType::New();
+    auto rescaler = RescaleDynamicRangeFilterType::New();
 
     rescaler->SetInput(m_Filter->GetOutput());
 
     using RescaledWriterType = itk::ImageFileWriter<RescaledOutputImageType>;
 
-    RescaledWriterType::Pointer rescaledWriter = RescaledWriterType::New();
+    auto rescaledWriter = RescaledWriterType::New();
 
     rescaledWriter->SetInput(rescaler->GetOutput());
 
@@ -509,11 +508,11 @@ main(int argc, char * argv[])
   //
   // Software Guide : EndLatex
 
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
-  MetricType::Pointer       metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
+  auto metric = MetricType::New();
 
 
   registration->SetOptimizer(optimizer);
@@ -550,7 +549,7 @@ main(int argc, char * argv[])
   scales.Fill(1.0);
   metric->SetDerivativeStepLengthScales(scales);
 
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
 
   // Set the metric for the joint histogram writer
   observer->m_JointHistogramWriter.SetMetric(metric);
@@ -560,10 +559,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -575,16 +572,14 @@ main(int argc, char * argv[])
   using MovingNormalizeFilterType =
     itk::NormalizeImageFilter<MovingImageType, InternalImageType>;
 
-  FixedNormalizeFilterType::Pointer fixedNormalizer =
-    FixedNormalizeFilterType::New();
+  auto fixedNormalizer = FixedNormalizeFilterType::New();
 
-  MovingNormalizeFilterType::Pointer movingNormalizer =
-    MovingNormalizeFilterType::New();
+  auto movingNormalizer = MovingNormalizeFilterType::New();
   using GaussianFilterType =
     itk::DiscreteGaussianImageFilter<InternalImageType, InternalImageType>;
 
-  GaussianFilterType::Pointer fixedSmoother = GaussianFilterType::New();
-  GaussianFilterType::Pointer movingSmoother = GaussianFilterType::New();
+  auto fixedSmoother = GaussianFilterType::New();
+  auto movingSmoother = GaussianFilterType::New();
 
   fixedSmoother->SetVariance(2.0);
   movingSmoother->SetVariance(2.0);
@@ -684,12 +679,12 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  TransformType::Pointer finalTransform = TransformType::New();
+  auto finalTransform = TransformType::New();
 
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -713,8 +708,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);

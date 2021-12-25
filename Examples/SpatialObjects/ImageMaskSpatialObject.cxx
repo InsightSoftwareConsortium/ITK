@@ -67,7 +67,7 @@ main(int, char *[])
   using ImageType = ImageMaskSpatialObject::ImageType;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
-  ImageType::Pointer    image = ImageType::New();
+  auto                  image = ImageType::New();
   ImageType::SizeType   size = { { 50, 50, 50 } };
   ImageType::IndexType  index = { { 0, 0, 0 } };
   ImageType::RegionType region;
@@ -101,7 +101,7 @@ main(int, char *[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
+  auto maskSO = ImageMaskSpatialObject::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

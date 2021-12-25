@@ -94,7 +94,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
   //
   // Software Guide : BeginCodeSnippet
-  ImportFilterType::Pointer importFilter = ImportFilterType::New();
+  auto importFilter = ImportFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -241,7 +241,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
   writer->SetInput(importFilter->GetOutput());

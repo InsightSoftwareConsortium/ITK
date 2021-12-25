@@ -98,9 +98,9 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ClassImageType>;
   using WriterType = itk::ImageFileWriter<ClassImageType>;
 
-  ReaderType::Pointer inputimagereader = ReaderType::New();
-  ReaderType::Pointer trainingimagereader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto inputimagereader = ReaderType::New();
+  auto trainingimagereader = ReaderType::New();
+  auto writer = WriterType::New();
 
   inputimagereader->SetFileName(argv[1]);
   trainingimagereader->SetFileName(argv[2]);
@@ -109,7 +109,7 @@ main(int argc, char * argv[])
 
   // We convert the input into vector images
   //
-  VecImageType::Pointer vecImage = VecImageType::New();
+  auto vecImage = VecImageType::New();
   using VecImagePixelType = VecImageType::PixelType;
   VecImageType::SizeType vecImgSize = { { 181, 217, 1 } };
 
@@ -178,8 +178,7 @@ main(int argc, char * argv[])
                                      MembershipFunctionType,
                                      ClassImageType>;
 
-  ImageGaussianModelEstimatorType::Pointer applyEstimateModel =
-    ImageGaussianModelEstimatorType::New();
+  auto applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
   applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
   applyEstimateModel->SetInputImage(vecImage);
@@ -204,7 +203,7 @@ main(int argc, char * argv[])
   using DecisionRuleBasePointer = itk::Statistics::DecisionRule::Pointer;
 
   using DecisionRuleType = itk::Statistics::MinimumDecisionRule;
-  DecisionRuleType::Pointer myDecisionRule = DecisionRuleType::New();
+  auto myDecisionRule = DecisionRuleType::New();
 
   std::cout << " site 3 " << std::endl;
 
@@ -251,8 +250,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using GibbsPriorFilterType =
     itk::RGBGibbsPriorFilter<VecImageType, ClassImageType>;
-  GibbsPriorFilterType::Pointer applyGibbsImageFilter =
-    GibbsPriorFilterType::New();
+  auto applyGibbsImageFilter = GibbsPriorFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Set the MRF labeller parameters

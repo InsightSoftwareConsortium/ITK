@@ -222,7 +222,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using ThresholdingFilterType =
     itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
-  ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -250,8 +250,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(inputImageFile);
   writer->SetFileName(outputImageFile);
@@ -285,7 +285,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
+  auto smoothing = SmoothingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -315,8 +315,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GradientFilterType::Pointer gradientMagnitude = GradientFilterType::New();
-  SigmoidFilterType::Pointer  sigmoid = SigmoidFilterType::New();
+  auto gradientMagnitude = GradientFilterType::New();
+  auto sigmoid = SigmoidFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -360,8 +360,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FastMarchingFilterType::Pointer fastMarching =
-    FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -377,8 +376,7 @@ main(int argc, char * argv[])
   using ShapeDetectionFilterType =
     itk::ShapeDetectionLevelSetImageFilter<InternalImageType,
                                            InternalImageType>;
-  ShapeDetectionFilterType::Pointer shapeDetection =
-    ShapeDetectionFilterType::New();
+  auto shapeDetection = ShapeDetectionFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -483,7 +481,7 @@ main(int argc, char * argv[])
   //  Software Guide : BeginCodeSnippet
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
   //  Software Guide : EndCodeSnippet
 
 
@@ -569,15 +567,15 @@ main(int argc, char * argv[])
   //  be relevant.  Observing intermediate output is helpful in the process
   //  of fine tuning the parameters of filters in the pipeline.
   //
-  CastFilterType::Pointer caster1 = CastFilterType::New();
-  CastFilterType::Pointer caster2 = CastFilterType::New();
-  CastFilterType::Pointer caster3 = CastFilterType::New();
-  CastFilterType::Pointer caster4 = CastFilterType::New();
+  auto caster1 = CastFilterType::New();
+  auto caster2 = CastFilterType::New();
+  auto caster3 = CastFilterType::New();
+  auto caster4 = CastFilterType::New();
 
-  WriterType::Pointer writer1 = WriterType::New();
-  WriterType::Pointer writer2 = WriterType::New();
-  WriterType::Pointer writer3 = WriterType::New();
-  WriterType::Pointer writer4 = WriterType::New();
+  auto writer1 = WriterType::New();
+  auto writer2 = WriterType::New();
+  auto writer3 = WriterType::New();
+  auto writer4 = WriterType::New();
 
   const std::string outputImageFilePrefix =
     itksys::SystemTools::GetFilenameWithoutExtension(outputImageFile);
@@ -725,17 +723,17 @@ main(int argc, char * argv[])
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
-  InternalWriterType::Pointer mapWriter = InternalWriterType::New();
+  auto mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName("ShapeDetectionLevelSetFilterOutput4.mha");
   mapWriter->Update();
 
-  InternalWriterType::Pointer speedWriter = InternalWriterType::New();
+  auto speedWriter = InternalWriterType::New();
   speedWriter->SetInput(sigmoid->GetOutput());
   speedWriter->SetFileName("ShapeDetectionLevelSetFilterOutput3.mha");
   speedWriter->Update();
 
-  InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
+  auto gradientWriter = InternalWriterType::New();
   gradientWriter->SetInput(gradientMagnitude->GetOutput());
   gradientWriter->SetFileName("ShapeDetectionLevelSetFilterOutput2.mha");
   gradientWriter->Update();

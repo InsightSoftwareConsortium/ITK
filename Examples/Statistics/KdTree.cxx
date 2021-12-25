@@ -51,7 +51,7 @@ main()
   using MeasurementVectorType = itk::Vector<float, 2>;
 
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(2);
 
   MeasurementVectorType mv;
@@ -89,7 +89,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
-  TreeGeneratorType::Pointer treeGenerator = TreeGeneratorType::New();
+  auto treeGenerator = TreeGeneratorType::New();
 
   treeGenerator->SetSample(sample);
   treeGenerator->SetBucketSize(16);
@@ -98,8 +98,7 @@ main()
   using CentroidTreeGeneratorType =
     itk::Statistics::WeightedCentroidKdTreeGenerator<SampleType>;
 
-  CentroidTreeGeneratorType::Pointer centroidTreeGenerator =
-    CentroidTreeGeneratorType::New();
+  auto centroidTreeGenerator = CentroidTreeGeneratorType::New();
 
   centroidTreeGenerator->SetSample(sample);
   centroidTreeGenerator->SetBucketSize(16);
@@ -194,7 +193,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using DistanceMetricType =
     itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  auto distanceMetric = DistanceMetricType::New();
 
   DistanceMetricType::OriginType origin(2);
   for (unsigned int i = 0; i < sample->GetMeasurementVectorSize(); ++i)

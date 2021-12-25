@@ -156,9 +156,9 @@ main(int argc, char * argv[])
   using RegistrationType =
     itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
 
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
 
 
   registration->SetMetric(metric);
@@ -167,10 +167,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -193,7 +191,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
   // Initialize the transform
@@ -207,7 +205,7 @@ main(int argc, char * argv[])
   using InitializerType =
     itk::BSplineTransformInitializer<TransformType, FixedImageType>;
 
-  InitializerType::Pointer transformInitializer = InitializerType::New();
+  auto transformInitializer = InitializerType::New();
 
   TransformType::MeshSizeType meshSize;
   meshSize.Fill(numberOfGridNodesInOneDimension - SplineOrder);
@@ -255,7 +253,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   //  A single level registration process is run using
@@ -326,7 +324,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(transform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -352,8 +350,8 @@ main(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -379,9 +377,9 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
 
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
 
@@ -437,8 +435,7 @@ main(int argc, char * argv[])
                                               CoordinateRepType>;
 
     /** Create an setup displacement field generator. */
-    DisplacementFieldGeneratorType::Pointer dispfieldGenerator =
-      DisplacementFieldGeneratorType::New();
+    auto dispfieldGenerator = DisplacementFieldGeneratorType::New();
     dispfieldGenerator->UseReferenceImageOn();
     dispfieldGenerator->SetReferenceImage(fixedImage);
     dispfieldGenerator->SetTransform(transform);
@@ -454,7 +451,7 @@ main(int argc, char * argv[])
     }
 
     using FieldWriterType = itk::ImageFileWriter<DisplacementFieldImageType>;
-    FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+    auto fieldWriter = FieldWriterType::New();
 
     fieldWriter->SetInput(dispfieldGenerator->GetOutput());
 

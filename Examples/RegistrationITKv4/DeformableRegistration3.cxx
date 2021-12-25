@@ -118,10 +118,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -144,10 +142,8 @@ main(int argc, char * argv[])
   using MovingImageCasterType =
     itk::CastImageFilter<MovingImageType, InternalImageType>;
 
-  FixedImageCasterType::Pointer fixedImageCaster =
-    FixedImageCasterType::New();
-  MovingImageCasterType::Pointer movingImageCaster =
-    MovingImageCasterType::New();
+  auto fixedImageCaster = FixedImageCasterType::New();
+  auto movingImageCaster = MovingImageCasterType::New();
 
   fixedImageCaster->SetInput(fixedImageReader->GetOutput());
   movingImageCaster->SetInput(movingImageReader->GetOutput());
@@ -174,7 +170,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using MatchingFilterType =
     itk::HistogramMatchingImageFilter<InternalImageType, InternalImageType>;
-  MatchingFilterType::Pointer matcher = MatchingFilterType::New();
+  auto matcher = MatchingFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -242,12 +238,12 @@ main(int argc, char * argv[])
     itk::SymmetricForcesDemonsRegistrationFilter<InternalImageType,
                                                  InternalImageType,
                                                  DisplacementFieldType>;
-  RegistrationFilterType::Pointer filter = RegistrationFilterType::New();
+  auto filter = RegistrationFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Create the Command observer and register it with the registration filter.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   filter->AddObserver(itk::IterationEvent(), observer);
 
   // Software Guide : BeginLatex
@@ -320,9 +316,9 @@ main(int argc, char * argv[])
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<MovingImageType,
                                         InterpolatorPrecisionType>;
-  WarperType::Pointer       warper = WarperType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  FixedImageType::Pointer   fixedImage = fixedImageReader->GetOutput();
+  auto                    warper = WarperType::New();
+  auto                    interpolator = InterpolatorType::New();
+  FixedImageType::Pointer fixedImage = fixedImageReader->GetOutput();
 
   warper->SetInput(movingImageReader->GetOutput());
   warper->SetInterpolator(interpolator);
@@ -359,8 +355,8 @@ main(int argc, char * argv[])
     itk::CastImageFilter<MovingImageType, OutputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);
 
@@ -408,7 +404,7 @@ main(int argc, char * argv[])
     // Software Guide : BeginCodeSnippet
     using FieldWriterType = itk::ImageFileWriter<DisplacementFieldType>;
 
-    FieldWriterType::Pointer fieldWriter = FieldWriterType::New();
+    auto fieldWriter = FieldWriterType::New();
     fieldWriter->SetFileName(argv[4]);
     fieldWriter->SetInput(filter->GetOutput());
 

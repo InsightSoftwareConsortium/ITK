@@ -99,7 +99,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   // Software Guide : EndCodeSnippet
 
@@ -144,7 +144,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using MeshSourceType = itk::BinaryMask3DMeshSource<ImageType, MeshType>;
 
-  MeshSourceType::Pointer meshSource = MeshSourceType::New();
+  auto meshSource = MeshSourceType::New();
   // Software Guide : EndCodeSnippet
 
 

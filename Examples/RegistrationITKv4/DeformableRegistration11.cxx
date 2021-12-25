@@ -58,7 +58,7 @@ main(int argc, char * argv[])
   }
 
   // Setup registration parameters
-  RegistrationType::Pointer registrationFilter = RegistrationType::New();
+  auto registrationFilter = RegistrationType::New();
   registrationFilter->SetMaxLevel(1);
   registrationFilter->SetUseNormalizedGradient(true);
   registrationFilter->ChooseMetric(0);
@@ -82,9 +82,9 @@ main(int argc, char * argv[])
 
   // Read the image files
   using FileSourceType = itk::ImageFileReader<FileImageType>;
-  FileSourceType::Pointer movingfilter = FileSourceType::New();
+  auto movingfilter = FileSourceType::New();
   movingfilter->SetFileName(movingImageName);
-  FileSourceType::Pointer fixedfilter = FileSourceType::New();
+  auto fixedfilter = FileSourceType::New();
   fixedfilter->SetFileName(fixedImageName);
 
   std::cout << " reading moving ";
@@ -119,8 +119,8 @@ main(int argc, char * argv[])
   using FilterType =
     itk::RescaleIntensityImageFilter<FileImageType, ImageType>;
 
-  FilterType::Pointer movingrescalefilter = FilterType::New();
-  FilterType::Pointer fixedrescalefilter = FilterType::New();
+  auto movingrescalefilter = FilterType::New();
+  auto fixedrescalefilter = FilterType::New();
 
   movingrescalefilter->SetInput(movingfilter->GetOutput());
   fixedrescalefilter->SetInput(fixedfilter->GetOutput());
@@ -139,7 +139,7 @@ main(int argc, char * argv[])
   // Histogram match the images
   using HEFilterType =
     itk::HistogramMatchingImageFilter<ImageType, ImageType>;
-  HEFilterType::Pointer IntensityEqualizeFilter = HEFilterType::New();
+  auto IntensityEqualizeFilter = HEFilterType::New();
 
   IntensityEqualizeFilter->SetReferenceImage(fixedrescalefilter->GetOutput());
   IntensityEqualizeFilter->SetInput(movingrescalefilter->GetOutput());
@@ -180,7 +180,7 @@ main(int argc, char * argv[])
   m->SetDensityHeatProduct(1.0); // Density-Heat capacity product
 
   // Create the element type
-  ElementType::Pointer e1 = ElementType::New();
+  auto e1 = ElementType::New();
   e1->SetMaterial(m);
   registrationFilter->SetElement(e1);
   registrationFilter->SetMaterial(m);
@@ -203,7 +203,7 @@ main(int argc, char * argv[])
 
   // output the displacement field
   using DispWriterType = itk::ImageFileWriter<RegistrationType::FieldType>;
-  DispWriterType::Pointer dispWriter = DispWriterType::New();
+  auto dispWriter = DispWriterType::New();
   dispWriter->SetInput(registrationFilter->GetDisplacementField());
   dispWriter->SetFileName("displacement.mha");
   try

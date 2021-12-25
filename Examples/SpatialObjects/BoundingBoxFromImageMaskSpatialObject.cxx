@@ -53,7 +53,7 @@ main(int argc, char * argv[])
   using ImageType = ImageMaskSpatialObject::ImageType;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -67,7 +67,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  ImageMaskSpatialObject::Pointer maskSO = ImageMaskSpatialObject::New();
+  auto maskSO = ImageMaskSpatialObject::New();
 
   maskSO->SetImage(reader->GetOutput());
   maskSO->Update();

@@ -39,7 +39,7 @@ main(int argc, char * argv[])
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   using ConstIteratorType = itk::ImageRegionConstIterator<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
@@ -49,7 +49,7 @@ main(int argc, char * argv[])
 
   ConstIteratorType it(inputImage, region);
 
-  ImageType::Pointer output = ImageType::New();
+  auto output = ImageType::New();
 
   output->SetRegions(region);
   output->SetOrigin(inputImage->GetOrigin());
@@ -59,7 +59,7 @@ main(int argc, char * argv[])
   IteratorType out(output, region);
 
   using GFunctionType = itk::GaussianBlurImageFunction<ImageType>;
-  GFunctionType::Pointer gaussianFunction = GFunctionType::New();
+  auto gaussianFunction = GFunctionType::New();
   gaussianFunction->SetInputImage(inputImage);
 
   GFunctionType::ErrorArrayType setError;
@@ -79,7 +79,7 @@ main(int argc, char * argv[])
   }
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(output);
   writer->Update();
