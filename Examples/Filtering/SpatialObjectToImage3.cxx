@@ -92,8 +92,7 @@ main(int argc, char * argv[])
   using SpatialObjectToImageFilterType =
     itk::SpatialObjectToImageFilter<PolygonType, ImageType>;
 
-  SpatialObjectToImageFilterType::Pointer imageFilter =
-    SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -131,7 +130,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  PolygonType::Pointer polygon = PolygonType::New();
+  auto polygon = PolygonType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -198,7 +197,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
   writer->SetInput(imageFilter->GetOutput());

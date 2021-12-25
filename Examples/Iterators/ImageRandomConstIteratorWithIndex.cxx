@@ -74,7 +74,7 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  ReaderType::Pointer     reader = ReaderType::New();
+  auto                    reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   try
   {

@@ -90,8 +90,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -111,7 +111,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::DerivativeImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -178,9 +178,8 @@ main(int argc, char * argv[])
 
   using NormalizedWriterType = itk::ImageFileWriter<WriteImageType>;
 
-  NormalizeFilterType::Pointer  normalizer = NormalizeFilterType::New();
-  NormalizedWriterType::Pointer normalizedWriter =
-    NormalizedWriterType::New();
+  auto normalizer = NormalizeFilterType::New();
+  auto normalizedWriter = NormalizedWriterType::New();
 
   normalizer->SetInput(filter->GetOutput());
   normalizedWriter->SetInput(normalizer->GetOutput());

@@ -66,8 +66,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<IOImageType>;
   using WriterType = itk::ImageFileWriter<IOImageType>;
 
-  ReaderType::Pointer inputreader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto inputreader = ReaderType::New();
+  auto writer = WriterType::New();
 
   inputreader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -75,7 +75,7 @@ main(int argc, char * argv[])
   // Handle padding of the image with resampling
   using ResamplerType = itk::ResampleImageFilter<IOImageType, WorkImageType>;
 
-  ResamplerType::Pointer inputresampler = ResamplerType::New();
+  auto inputresampler = ResamplerType::New();
   inputresampler->SetDefaultPixelValue(0);
 
   // Read the image and get its size
@@ -107,7 +107,7 @@ main(int argc, char * argv[])
 
   // Forward FFT filter
   using FFTFilterType = itk::VnlForwardFFTImageFilter<WorkImageType>;
-  FFTFilterType::Pointer fftinput = FFTFilterType::New();
+  auto fftinput = FFTFilterType::New();
   fftinput->SetInput(inputresampler->GetOutput());
 
   // This is the output type from the FFT filters
@@ -115,14 +115,14 @@ main(int argc, char * argv[])
 
   // Do the inverse transform = forward transform / num voxels
   using invFFTFilterType = itk::VnlInverseFFTImageFilter<ComplexImageType>;
-  invFFTFilterType::Pointer fftoutput = invFFTFilterType::New();
+  auto fftoutput = invFFTFilterType::New();
   fftoutput->SetInput(
     fftinput->GetOutput()); // try to recover the input image
 
   // undo the padding
   using ResampleOutType =
     itk::ResampleImageFilter<WorkImageType, IOImageType>;
-  ResampleOutType::Pointer outputResampler = ResampleOutType::New();
+  auto outputResampler = ResampleOutType::New();
   outputResampler->SetDefaultPixelValue(0);
   outputResampler->SetSize(inputsize);
   outputResampler->SetInput(fftoutput->GetOutput());

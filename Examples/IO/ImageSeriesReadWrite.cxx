@@ -89,8 +89,8 @@ main(int argc, char ** argv)
   using ReaderType = itk::ImageSeriesReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -110,7 +110,7 @@ main(int argc, char ** argv)
   // Software Guide : BeginCodeSnippet
   using NameGeneratorType = itk::NumericSeriesFileNames;
 
-  NameGeneratorType::Pointer nameGenerator = NameGeneratorType::New();
+  auto nameGenerator = NameGeneratorType::New();
   // Software Guide : EndCodeSnippet
 
 

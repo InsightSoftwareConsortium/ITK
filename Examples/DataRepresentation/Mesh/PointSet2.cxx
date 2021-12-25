@@ -74,7 +74,7 @@ main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  PointsContainer::Pointer points = PointsContainer::New();
+  auto points = PointsContainer::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -117,7 +117,7 @@ main(int, char *[])
   points->InsertElement(pointId++, p1);
   // Software Guide : EndCodeSnippet
 
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
 
   //  Software Guide : BeginLatex
   //

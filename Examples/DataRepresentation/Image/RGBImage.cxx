@@ -83,8 +83,8 @@ main(int, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   // Software Guide : EndCodeSnippet
 
-  ReaderType::Pointer reader = ReaderType::New();
-  const char * const  filename = argv[1];
+  auto               reader = ReaderType::New();
+  const char * const filename = argv[1];
   reader->SetFileName(filename);
   reader->Update();
 

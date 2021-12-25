@@ -81,10 +81,10 @@ main(int argc, char * argv[])
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<OutputImageType, CharImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -92,7 +92,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::ZeroCrossingBasedEdgeDetectionImageFilter<InputImageType,
                                                    OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
 
   //  Software Guide : BeginLatex

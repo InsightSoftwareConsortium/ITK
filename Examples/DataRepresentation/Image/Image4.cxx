@@ -79,7 +79,7 @@ main(int, char *[])
 {
   constexpr unsigned int Dimension = 3;
   using ImageType = itk::Image<unsigned short, Dimension>;
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   const ImageType::SizeType size = {
     { 200, 200, 200 }

@@ -72,7 +72,7 @@ main()
     itk::Vector<MeasurementType, MeasurementVectorLength>;
 
   using ListSampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  ListSampleType::Pointer listSample = ListSampleType::New();
+  auto listSample = ListSampleType::New();
   listSample->SetMeasurementVectorSize(MeasurementVectorLength);
 
   MeasurementVectorType mv;
@@ -129,7 +129,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using FilterType =
     itk::Statistics::SampleToHistogramFilter<ListSampleType, HistogramType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(listSample);
   filter->SetHistogramSize(size);

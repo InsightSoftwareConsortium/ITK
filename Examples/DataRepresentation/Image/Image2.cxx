@@ -81,7 +81,7 @@ main(int, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

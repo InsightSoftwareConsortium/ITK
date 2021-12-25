@@ -130,8 +130,7 @@ main(int argc, char * argv[])
   using SpatialObjectToImageFilterType =
     itk::SpatialObjectToImageFilter<GroupType, ImageType>;
 
-  SpatialObjectToImageFilterType::Pointer imageFilter =
-    SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -170,9 +169,9 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  EllipseType::Pointer ellipse = EllipseType::New();
-  TubeType::Pointer    tube1 = TubeType::New();
-  TubeType::Pointer    tube2 = TubeType::New();
+  auto ellipse = EllipseType::New();
+  auto tube1 = TubeType::New();
+  auto tube2 = TubeType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -235,9 +234,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using TransformType = GroupType::TransformType;
 
-  TransformType::Pointer transform1 = TransformType::New();
-  TransformType::Pointer transform2 = TransformType::New();
-  TransformType::Pointer transform3 = TransformType::New();
+  auto transform1 = TransformType::New();
+  auto transform2 = TransformType::New();
+  auto transform3 = TransformType::New();
 
   transform1->SetIdentity();
   transform2->SetIdentity();
@@ -284,7 +283,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  GroupType::Pointer group = GroupType::New();
+  auto group = GroupType::New();
   group->AddChild(ellipse);
   group->AddChild(tube1);
   group->AddChild(tube2);
@@ -339,7 +338,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[1]);
   writer->SetInput(imageFilter->GetOutput());

@@ -61,7 +61,7 @@ main(int, char *[])
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginCodeSnippet
-  MeshType::Pointer myMesh = MeshType::New();
+  auto myMesh = MeshType::New();
 
   MeshType::CoordRepType testPointCoords[4][3] = {
     { 0, 0, 0 }, { 9, 0, 0 }, { 9, 9, 0 }, { 0, 0, 9 }
@@ -96,8 +96,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using MeshSpatialObjectType = itk::MeshSpatialObject<MeshType>;
-  MeshSpatialObjectType::Pointer myMeshSpatialObject =
-    MeshSpatialObjectType::New();
+  auto myMeshSpatialObject = MeshSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -152,7 +151,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::SpatialObjectWriter<3, float, MeshTrait>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -177,7 +176,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::SpatialObjectReader<3, float, MeshTrait>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -205,8 +204,7 @@ main(int, char *[])
   using GroupType = itk::GroupSpatialObject<3>;
   using SpatialObjectToImageFilterType =
     itk::SpatialObjectToImageFilter<GroupType, ImageType>;
-  SpatialObjectToImageFilterType::Pointer imageFilter =
-    SpatialObjectToImageFilterType::New();
+  auto imageFilter = SpatialObjectToImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

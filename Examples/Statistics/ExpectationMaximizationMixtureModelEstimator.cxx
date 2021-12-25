@@ -125,7 +125,7 @@ main()
   unsigned int numberOfClasses = 2;
   using MeasurementVectorType = itk::Vector<double, 1>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   sample->SetMeasurementVectorSize(1); // length of measurement vectors
                                        // in the sample.
   // Software Guide : EndCodeSnippet
@@ -151,7 +151,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using NormalGeneratorType = itk::Statistics::NormalVariateGenerator;
-  NormalGeneratorType::Pointer normalGenerator = NormalGeneratorType::New();
+  auto normalGenerator = NormalGeneratorType::New();
 
   normalGenerator->Initialize(101);
 
@@ -218,7 +218,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using EstimatorType =
     itk::Statistics::ExpectationMaximizationMixtureModelEstimator<SampleType>;
-  EstimatorType::Pointer estimator = EstimatorType::New();
+  auto estimator = EstimatorType::New();
 
   estimator->SetSample(sample);
   estimator->SetMaximumIteration(200);

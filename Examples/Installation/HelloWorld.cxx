@@ -32,7 +32,7 @@ main()
 {
   using ImageType = itk::Image<unsigned short, 3>;
 
-  ImageType::Pointer image = ImageType::New();
+  auto image = ImageType::New();
 
   std::cout << "ITK Hello World !" << std::endl;
 

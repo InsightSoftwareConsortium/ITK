@@ -86,14 +86,14 @@ main(int argc, char * argv[])
   using FieldReaderType = itk::ImageFileReader<DisplacementFieldType>;
   // Software Guide : EndCodeSnippet
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[3]);
 
   // Software Guide : BeginCodeSnippet
-  FieldReaderType::Pointer fieldReader = FieldReaderType::New();
+  auto fieldReader = FieldReaderType::New();
   fieldReader->SetFileName(argv[2]);
   fieldReader->Update();
 
@@ -112,7 +112,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::WarpImageFilter<ImageType, ImageType, DisplacementFieldType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -129,7 +129,7 @@ main(int argc, char * argv[])
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<ImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);
   // Software Guide : EndCodeSnippet

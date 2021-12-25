@@ -329,7 +329,7 @@ main(int argc, char * argv[])
   {
 
     using ReaderType = itk::ImageFileReader<InputImageType>;
-    ReaderType::Pointer reader = ReaderType::New();
+    auto reader = ReaderType::New();
     reader->SetFileName(input_name);
 
 
@@ -436,7 +436,7 @@ main(int argc, char * argv[])
 #ifdef WRITE_CUBE_IMAGE_TO_FILE
     const char * filename = "cube.gipl";
     using WriterType = itk::ImageFileWriter<InputImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->SetFileName(filename);
     writer->SetInput(image);
@@ -501,7 +501,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using FilterType = itk::ResampleImageFilter<InputImageType, InputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(image);
   filter->SetDefaultPixelValue(0);
@@ -518,7 +518,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::CenteredEuler3DTransform<double>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   transform->SetComputeZYX(true);
 
@@ -581,7 +581,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using InterpolatorType =
     itk::RayCastInterpolateImageFunction<InputImageType, double>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   interpolator->SetTransform(transform);
   // Software Guide : EndCodeSnippet
 
@@ -716,13 +716,13 @@ main(int argc, char * argv[])
     // Software Guide : BeginCodeSnippet
     using RescaleFilterType =
       itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
-    RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+    auto rescaler = RescaleFilterType::New();
     rescaler->SetOutputMinimum(0);
     rescaler->SetOutputMaximum(255);
     rescaler->SetInput(filter->GetOutput());
 
     using WriterType = itk::ImageFileWriter<OutputImageType>;
-    WriterType::Pointer writer = WriterType::New();
+    auto writer = WriterType::New();
 
     writer->SetFileName(output_name);
     writer->SetInput(rescaler->GetOutput());

@@ -89,7 +89,7 @@ main(int argc, char * argv[])
 
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
 
@@ -109,7 +109,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::VectorCurvatureAnisotropicDiffusionImageFilter<VectorImageType,
                                                         VectorImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -117,7 +117,7 @@ main(int argc, char * argv[])
     itk::GradientRecursiveGaussianImageFilter<InputImageType,
                                               VectorImageType>;
 
-  GradientFilterType::Pointer gradient = GradientFilterType::New();
+  auto gradient = GradientFilterType::New();
 
 
   //  Software Guide : BeginLatex
@@ -182,7 +182,7 @@ main(int argc, char * argv[])
   using ComponentFilterType =
     itk::VectorIndexSelectionCastImageFilter<VectorImageType,
                                              OutputImageType>;
-  ComponentFilterType::Pointer component = ComponentFilterType::New();
+  auto component = ComponentFilterType::New();
 
   // Select the component to extract.
   component->SetIndex(0);
@@ -191,12 +191,12 @@ main(int argc, char * argv[])
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using RescaleFilterType =
     itk::RescaleIntensityImageFilter<OutputImageType, WriteImageType>;
-  RescaleFilterType::Pointer rescaler = RescaleFilterType::New();
+  auto rescaler = RescaleFilterType::New();
   rescaler->SetOutputMinimum(0);
   rescaler->SetOutputMaximum(255);
 
   using WriterType = itk::ImageFileWriter<WriteImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   rescaler->SetInput(component->GetOutput());
   writer->SetInput(rescaler->GetOutput());
 

@@ -62,7 +62,7 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<PixelType, Dimension>;
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -80,7 +80,7 @@ main(int argc, char * argv[])
   using ImageIOType = itk::GDCMImageIO;
   using NamesGeneratorType = itk::NumericSeriesFileNames;
 
-  ImageIOType::Pointer gdcmIO = ImageIOType::New();
+  auto gdcmIO = ImageIOType::New();
 
   const char * outputDirectory = argv[2];
 
@@ -94,7 +94,7 @@ main(int argc, char * argv[])
 
   using SeriesWriterType = itk::ImageSeriesWriter<ImageType, Image2DType>;
 
-  NamesGeneratorType::Pointer namesGenerator = NamesGeneratorType::New();
+  auto namesGenerator = NamesGeneratorType::New();
 
   itk::MetaDataDictionary & dict = gdcmIO->GetMetaDataDictionary();
   std::string               tagkey, value;
@@ -109,7 +109,7 @@ main(int argc, char * argv[])
   itk::EncapsulateMetaData<std::string>(dict, tagkey, value);
 
 
-  SeriesWriterType::Pointer seriesWriter = SeriesWriterType::New();
+  auto seriesWriter = SeriesWriterType::New();
 
   seriesWriter->SetInput(reader->GetOutput());
   seriesWriter->SetImageIO(gdcmIO);

@@ -139,7 +139,7 @@ main(int argc, char * argv[])
     itk::GradientRecursiveGaussianImageFilter<InputImageType,
                                               VectorImageType>;
 
-  GradientFilterType::Pointer gradient = GradientFilterType::New();
+  auto gradient = GradientFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -155,7 +155,7 @@ main(int argc, char * argv[])
   using ImageAdaptorType =
     itk::ImageAdaptor<VectorImageType, itk::VectorPixelAccessor>;
 
-  ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
+  auto adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -186,7 +186,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   gradient->SetInput(reader->GetOutput());
 
   reader->SetFileName(argv[1]);
@@ -211,9 +211,9 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<unsigned char, Dimension>;
   using RescalerType =
     itk::RescaleIntensityImageFilter<ImageAdaptorType, OutputImageType>;
-  RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
   using WriterType = itk::ImageFileWriter<OutputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetFileName(argv[2]);
 

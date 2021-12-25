@@ -208,7 +208,7 @@ template <typename TImage>
 void
 CompositeExampleImageFilter<TImage>::GenerateData()
 {
-  typename ImageType::Pointer input = ImageType::New();
+  auto input = ImageType::New();
   input->Graft(const_cast<ImageType *>(this->GetInput()));
   m_GradientFilter->SetInput(input);
 
@@ -271,16 +271,16 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<short, 2>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   using FilterType = itk::CompositeExampleImageFilter<ImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetThreshold(20);
 
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   writer->SetFileName(argv[2]);
 

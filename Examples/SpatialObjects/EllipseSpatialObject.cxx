@@ -44,7 +44,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
-  EllipseType::Pointer myEllipse = EllipseType::New();
+  auto myEllipse = EllipseType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

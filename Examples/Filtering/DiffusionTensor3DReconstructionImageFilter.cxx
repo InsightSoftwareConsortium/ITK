@@ -216,7 +216,7 @@ main(int argc, char * argv[])
   //
   for (unsigned int i = 0; i < numberOfImages; ++i)
   {
-    GradientImageType::Pointer image = GradientImageType::New();
+    auto image = GradientImageType::New();
     image->CopyInformation(img);
     image->SetBufferedRegion(img->GetBufferedRegion());
     image->SetRequestedRegion(img->GetRequestedRegion());
@@ -244,7 +244,7 @@ main(int argc, char * argv[])
     using GradientWriterType = itk::ImageFileWriter<GradientImageType>;
     for (unsigned int i = 0; i < numberOfImages; ++i)
     {
-      GradientWriterType::Pointer gradientWriter = GradientWriterType::New();
+      auto gradientWriter = GradientWriterType::New();
       gradientWriter->SetInput(imageContainer[i]);
       char filename[100];
       if (DiffusionVectors->ElementAt(i).two_norm() <=
@@ -266,7 +266,7 @@ main(int argc, char * argv[])
 
 
   // -------------------------------------------------------------------------
-  TensorReconstructionImageFilterType::Pointer tensorReconstructionFilter =
+  auto tensorReconstructionFilter =
     TensorReconstructionImageFilterType::New();
 
   // The reference and the gradient images are conveniently provided as
@@ -305,7 +305,7 @@ main(int argc, char * argv[])
   //
   using TensorWriterType = itk::ImageFileWriter<
     TensorReconstructionImageFilterType::OutputImageType>;
-  TensorWriterType::Pointer tensorWriter = TensorWriterType::New();
+  auto tensorWriter = TensorWriterType::New();
   tensorWriter->SetFileName(argv[3]);
   tensorWriter->SetInput(tensorReconstructionFilter->GetOutput());
   tensorWriter->Update();
@@ -324,14 +324,14 @@ main(int argc, char * argv[])
     TensorReconstructionImageFilterType::OutputImageType,
     FAImageType>;
 
-  FAFilterType::Pointer fractionalAnisotropyFilter = FAFilterType::New();
+  auto fractionalAnisotropyFilter = FAFilterType::New();
   fractionalAnisotropyFilter->SetInput(
     tensorReconstructionFilter->GetOutput());
 
   // Write the FA image
   //
   using FAWriterType = itk::ImageFileWriter<FAFilterType::OutputImageType>;
-  FAWriterType::Pointer faWriter = FAWriterType::New();
+  auto faWriter = FAWriterType::New();
   faWriter->SetInput(fractionalAnisotropyFilter->GetOutput());
   faWriter->SetFileName(argv[4]);
   faWriter->Update();
@@ -346,11 +346,11 @@ main(int argc, char * argv[])
     TensorReconstructionImageFilterType::OutputImageType,
     RAImageType>;
 
-  RAFilterType::Pointer relativeAnisotropyFilter = RAFilterType::New();
+  auto relativeAnisotropyFilter = RAFilterType::New();
   relativeAnisotropyFilter->SetInput(tensorReconstructionFilter->GetOutput());
 
   using RAWriterType = itk::ImageFileWriter<RAFilterType::OutputImageType>;
-  RAWriterType::Pointer raWriter = RAWriterType::New();
+  auto raWriter = RAWriterType::New();
   raWriter->SetInput(relativeAnisotropyFilter->GetOutput());
   raWriter->SetFileName(argv[5]);
   raWriter->Update();

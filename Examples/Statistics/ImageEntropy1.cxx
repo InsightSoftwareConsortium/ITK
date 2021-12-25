@@ -86,7 +86,7 @@ main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -113,8 +113,7 @@ main(int argc, char * argv[])
   using HistogramGeneratorType =
     itk::Statistics::ScalarImageToHistogramGenerator<ImageType>;
 
-  HistogramGeneratorType::Pointer histogramGenerator =
-    HistogramGeneratorType::New();
+  auto histogramGenerator = HistogramGeneratorType::New();
   // Software Guide : EndCodeSnippet
 
 

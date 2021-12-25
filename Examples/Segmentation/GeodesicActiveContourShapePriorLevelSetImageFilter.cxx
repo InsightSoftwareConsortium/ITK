@@ -236,7 +236,7 @@ main(int argc, char * argv[])
   using ThresholdingFilterType =
     itk::BinaryThresholdImageFilter<InternalImageType, OutputImageType>;
 
-  ThresholdingFilterType::Pointer thresholder = ThresholdingFilterType::New();
+  auto thresholder = ThresholdingFilterType::New();
 
   thresholder->SetLowerThreshold(-1000.0);
   thresholder->SetUpperThreshold(0.0);
@@ -250,8 +250,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -271,7 +271,7 @@ main(int argc, char * argv[])
     itk::CurvatureAnisotropicDiffusionImageFilter<InternalImageType,
                                                   InternalImageType>;
 
-  SmoothingFilterType::Pointer smoothing = SmoothingFilterType::New();
+  auto smoothing = SmoothingFilterType::New();
 
 
   //  The types of the
@@ -282,7 +282,7 @@ main(int argc, char * argv[])
     itk::GradientMagnitudeRecursiveGaussianImageFilter<InternalImageType,
                                                        InternalImageType>;
 
-  GradientFilterType::Pointer gradientMagnitude = GradientFilterType::New();
+  auto gradientMagnitude = GradientFilterType::New();
 
 
   //  We declare now the type of the FastMarchingImageFilter that
@@ -296,8 +296,7 @@ main(int argc, char * argv[])
   //  Next we construct one filter of this class using the \code{New()}
   //  method.
   //
-  FastMarchingFilterType::Pointer fastMarching =
-    FastMarchingFilterType::New();
+  auto fastMarching = FastMarchingFilterType::New();
 
   //  Software Guide : BeginLatex
   //
@@ -312,8 +311,7 @@ main(int argc, char * argv[])
     itk::GeodesicActiveContourShapePriorLevelSetImageFilter<
       InternalImageType,
       InternalImageType>;
-  GeodesicActiveContourFilterType::Pointer geodesicActiveContour =
-    GeodesicActiveContourFilterType::New();
+  auto geodesicActiveContour = GeodesicActiveContourFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -331,7 +329,7 @@ main(int argc, char * argv[])
   using CenterFilterType =
     itk::ChangeInformationImageFilter<InternalImageType>;
 
-  CenterFilterType::Pointer center = CenterFilterType::New();
+  auto center = CenterFilterType::New();
   center->CenterImageOn();
   // Software Guide : EndCodeSnippet
 
@@ -346,7 +344,7 @@ main(int argc, char * argv[])
   using ReciprocalFilterType =
     itk::BoundedReciprocalImageFilter<InternalImageType, InternalImageType>;
 
-  ReciprocalFilterType::Pointer reciprocal = ReciprocalFilterType::New();
+  auto reciprocal = ReciprocalFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -469,7 +467,7 @@ main(int argc, char * argv[])
   using NodeContainer = FastMarchingFilterType::NodeContainer;
   using NodeType = FastMarchingFilterType::NodeType;
 
-  NodeContainer::Pointer seeds = NodeContainer::New();
+  auto seeds = NodeContainer::New();
 
   InternalImageType::IndexType seedPosition;
 
@@ -536,15 +534,15 @@ main(int argc, char * argv[])
   //  relevant.  Observing intermediate output is helpful in the process of
   //  fine tuning the parameters of filters in the pipeline.
   //
-  CastFilterType::Pointer caster1 = CastFilterType::New();
-  CastFilterType::Pointer caster2 = CastFilterType::New();
-  CastFilterType::Pointer caster3 = CastFilterType::New();
-  CastFilterType::Pointer caster4 = CastFilterType::New();
+  auto caster1 = CastFilterType::New();
+  auto caster2 = CastFilterType::New();
+  auto caster3 = CastFilterType::New();
+  auto caster4 = CastFilterType::New();
 
-  WriterType::Pointer writer1 = WriterType::New();
-  WriterType::Pointer writer2 = WriterType::New();
-  WriterType::Pointer writer3 = WriterType::New();
-  WriterType::Pointer writer4 = WriterType::New();
+  auto writer1 = WriterType::New();
+  auto writer2 = WriterType::New();
+  auto writer3 = WriterType::New();
+  auto writer4 = WriterType::New();
 
   caster1->SetInput(smoothing->GetOutput());
   writer1->SetInput(caster1->GetOutput());
@@ -622,7 +620,7 @@ main(int argc, char * argv[])
   using ShapeFunctionType =
     itk::PCAShapeSignedDistanceFunction<double, Dimension, InternalImageType>;
 
-  ShapeFunctionType::Pointer shape = ShapeFunctionType::New();
+  auto shape = ShapeFunctionType::New();
 
   shape->SetNumberOfPrincipalComponents(numberOfPCAModes);
   // Software Guide : EndCodeSnippet
@@ -640,14 +638,13 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer meanShapeReader = ReaderType::New();
+  auto meanShapeReader = ReaderType::New();
   meanShapeReader->SetFileName(argv[13]);
   meanShapeReader->Update();
 
   std::vector<InternalImageType::Pointer> shapeModeImages(numberOfPCAModes);
 
-  itk::NumericSeriesFileNames::Pointer fileNamesCreator =
-    itk::NumericSeriesFileNames::New();
+  auto fileNamesCreator = itk::NumericSeriesFileNames::New();
 
   fileNamesCreator->SetStartIndex(0);
   fileNamesCreator->SetEndIndex(numberOfPCAModes - 1);
@@ -657,7 +654,7 @@ main(int argc, char * argv[])
 
   for (unsigned int k = 0; k < numberOfPCAModes; ++k)
   {
-    ReaderType::Pointer shapeModeReader = ReaderType::New();
+    auto shapeModeReader = ReaderType::New();
     shapeModeReader->SetFileName(shapeModeFileNames[k].c_str());
     shapeModeReader->Update();
     shapeModeImages[k] = shapeModeReader->GetOutput();
@@ -699,7 +696,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::Euler2DTransform<double>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   shape->SetTransform(transform);
   // Software Guide : EndCodeSnippet
@@ -720,7 +717,7 @@ main(int argc, char * argv[])
   using CostFunctionType =
     itk::ShapePriorMAPCostFunction<InternalImageType, InternalPixelType>;
 
-  CostFunctionType::Pointer costFunction = CostFunctionType::New();
+  auto costFunction = CostFunctionType::New();
 
   CostFunctionType::WeightsType weights;
   weights[0] = 1.0;  // weight for contour fit term
@@ -784,7 +781,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -802,7 +799,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
 
   generator->Initialize(20020702);
 
@@ -891,7 +888,7 @@ main(int argc, char * argv[])
   geodesicActiveContour->SetInitialParameters(parameters);
 
   using CommandType = CommandIterationUpdate<GeodesicActiveContourFilterType>;
-  CommandType::Pointer observer = CommandType::New();
+  auto observer = CommandType::New();
   geodesicActiveContour->AddObserver(itk::IterationEvent(), observer);
   // Software Guide : EndCodeSnippet
 
@@ -942,19 +939,19 @@ main(int argc, char * argv[])
   //
   using InternalWriterType = itk::ImageFileWriter<InternalImageType>;
 
-  InternalWriterType::Pointer mapWriter = InternalWriterType::New();
+  auto mapWriter = InternalWriterType::New();
   mapWriter->SetInput(fastMarching->GetOutput());
   mapWriter->SetFileName(
     "GeodesicActiveContourShapePriorImageFilterOutput4.mha");
   mapWriter->Update();
 
-  InternalWriterType::Pointer speedWriter = InternalWriterType::New();
+  auto speedWriter = InternalWriterType::New();
   speedWriter->SetInput(reciprocal->GetOutput());
   speedWriter->SetFileName(
     "GeodesicActiveContourShapePriorImageFilterOutput3.mha");
   speedWriter->Update();
 
-  InternalWriterType::Pointer gradientWriter = InternalWriterType::New();
+  auto gradientWriter = InternalWriterType::New();
   gradientWriter->SetInput(gradientMagnitude->GetOutput());
   gradientWriter->SetFileName(
     "GeodesicActiveContourShapePriorImageFilterOutput2.mha");
@@ -966,7 +963,7 @@ main(int argc, char * argv[])
                                              InternalImageType,
                                              InternalImageType>;
 
-  EvaluatorFilterType::Pointer evaluator = EvaluatorFilterType::New();
+  auto evaluator = EvaluatorFilterType::New();
   evaluator->SetInput(geodesicActiveContour->GetOutput());
   evaluator->SetFunction(shape);
   shape->SetParameters(geodesicActiveContour->GetInitialParameters());

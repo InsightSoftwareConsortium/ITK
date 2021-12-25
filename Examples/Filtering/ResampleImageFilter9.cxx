@@ -63,10 +63,9 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writerNearest =
-    WriterType::New(); // writer for nearest neighbor
-  WriterType::Pointer writerLinear = WriterType::New(); // writer for linear
+  auto reader = ReaderType::New();
+  auto writerNearest = WriterType::New(); // writer for nearest neighbor
+  auto writerLinear = WriterType::New();  // writer for linear
 
   reader->SetFileName(argv[1]);
   writerNearest->SetFileName(argv[2]);
@@ -74,25 +73,23 @@ main(int argc, char * argv[])
 
   using FilterType = itk::ResampleImageFilter<ImageType, ImageType>;
 
-  FilterType::Pointer nearestFilter = FilterType::New();
-  FilterType::Pointer linearFilter = FilterType::New();
+  auto nearestFilter = FilterType::New();
+  auto linearFilter = FilterType::New();
 
   // Interpolators
   using NearestInterpolatorType =
     itk::NearestNeighborInterpolateImageFunction<ImageType, double>;
-  NearestInterpolatorType::Pointer interpolatorNearest =
-    NearestInterpolatorType::New();
+  auto interpolatorNearest = NearestInterpolatorType::New();
 
   using LinearInterpolatorType =
     itk::LinearInterpolateImageFunction<ImageType, double>;
-  LinearInterpolatorType::Pointer interpolatorLinear =
-    LinearInterpolatorType::New();
+  auto interpolatorLinear = LinearInterpolatorType::New();
 
   nearestFilter->SetInterpolator(interpolatorNearest);
   linearFilter->SetInterpolator(interpolatorLinear);
 
   using TransformType = itk::IdentityTransform<double, Dimension>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   nearestFilter->SetTransform(transform);
   linearFilter->SetTransform(transform);

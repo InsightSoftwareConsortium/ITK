@@ -132,7 +132,7 @@ main(int argc, char * argv[])
 
   using CastingFilterType =
     itk::CastImageFilter<InternalImageType, OutputImageType>;
-  CastingFilterType::Pointer caster = CastingFilterType::New();
+  auto caster = CastingFilterType::New();
 
 
   // We instantiate reader and writer types
@@ -140,8 +140,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -168,8 +168,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  CurvatureFlowImageFilterType::Pointer smoothing =
-    CurvatureFlowImageFilterType::New();
+  auto smoothing = CurvatureFlowImageFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -193,8 +192,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConnectedFilterType::Pointer confidenceConnected =
-    ConnectedFilterType::New();
+  auto confidenceConnected = ConnectedFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

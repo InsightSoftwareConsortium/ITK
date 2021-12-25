@@ -100,7 +100,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -112,7 +112,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ImageIOType = itk::GDCMImageIO;
-  ImageIOType::Pointer dicomIO = ImageIOType::New();
+  auto dicomIO = ImageIOType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

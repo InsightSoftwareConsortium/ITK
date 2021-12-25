@@ -124,7 +124,7 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->SetOutputMinimum(0);
   filter->SetOutputMaximum(255);
   // Software Guide : EndCodeSnippet
@@ -142,8 +142,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   filter->SetInput(reader->GetOutput());
   writer->SetInput(filter->GetOutput());

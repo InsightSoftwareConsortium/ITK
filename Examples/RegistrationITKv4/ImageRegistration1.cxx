@@ -200,9 +200,9 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MetricType::Pointer       metric = MetricType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -256,10 +256,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  FixedLinearInterpolatorType::Pointer fixedInterpolator =
-    FixedLinearInterpolatorType::New();
-  MovingLinearInterpolatorType::Pointer movingInterpolator =
-    MovingLinearInterpolatorType::New();
+  auto fixedInterpolator = FixedLinearInterpolatorType::New();
+  auto movingInterpolator = MovingLinearInterpolatorType::New();
 
   metric->SetFixedInterpolator(fixedInterpolator);
   metric->SetMovingInterpolator(movingInterpolator);
@@ -267,10 +265,8 @@ main(int argc, char * argv[])
 
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -309,7 +305,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer movingInitialTransform = TransformType::New();
+  auto movingInitialTransform = TransformType::New();
 
   TransformType::ParametersType initialParameters(
     movingInitialTransform->GetNumberOfParameters());
@@ -369,7 +365,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  TransformType::Pointer identityTransform = TransformType::New();
+  auto identityTransform = TransformType::New();
   identityTransform->SetIdentity();
 
   registration->SetFixedInitialTransform(identityTransform);
@@ -455,7 +451,7 @@ main(int argc, char * argv[])
   {
     using ScalesEstimatorType =
       itk::RegistrationParameterScalesFromPhysicalShift<MetricType>;
-    ScalesEstimatorType::Pointer scalesEstimator = ScalesEstimatorType::New();
+    auto scalesEstimator = ScalesEstimatorType::New();
     scalesEstimator->SetMetric(metric);
     scalesEstimator->SetTransformForward(true);
     optimizer->SetScalesEstimator(scalesEstimator);
@@ -480,7 +476,7 @@ main(int argc, char * argv[])
 
 
   // Connect an observer
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   //  Software Guide : BeginLatex
@@ -664,8 +660,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using CompositeTransformType = itk::CompositeTransform<double, Dimension>;
-  CompositeTransformType::Pointer outputCompositeTransform =
-    CompositeTransformType::New();
+  auto outputCompositeTransform = CompositeTransformType::New();
   outputCompositeTransform->AddTransform(movingInitialTransform);
   outputCompositeTransform->AddTransform(
     registration->GetModifiableTransform());
@@ -698,7 +693,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ResampleFilterType::Pointer resampler = ResampleFilterType::New();
+  auto resampler = ResampleFilterType::New();
   resampler->SetInput(movingImageReader->GetOutput());
   // Software Guide : EndCodeSnippet
 
@@ -786,8 +781,8 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -834,7 +829,7 @@ main(int argc, char * argv[])
   using DifferenceFilterType =
     itk::SubtractImageFilter<FixedImageType, FixedImageType, FixedImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
 
   difference->SetInput1(fixedImageReader->GetOutput());
   difference->SetInput2(resampler->GetOutput());
@@ -870,7 +865,7 @@ main(int argc, char * argv[])
   using RescalerType =
     itk::RescaleIntensityImageFilter<FixedImageType, OutputImageType>;
 
-  RescalerType::Pointer intensityRescaler = RescalerType::New();
+  auto intensityRescaler = RescalerType::New();
 
   intensityRescaler->SetInput(difference->GetOutput());
   intensityRescaler->SetOutputMinimum(0);
@@ -887,7 +882,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(intensityRescaler->GetOutput());
   // Software Guide : EndCodeSnippet
 

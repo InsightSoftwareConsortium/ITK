@@ -66,7 +66,7 @@ main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -74,14 +74,14 @@ main(int argc, char * argv[])
   using FilterType =
     itk::RGBToLuminanceImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
   filter->SetInput(reader->GetOutput());
 
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
   writer->SetInput(filter->GetOutput());
 

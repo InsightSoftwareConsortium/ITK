@@ -51,7 +51,7 @@ main(int, char *[])
 
 
   // A point set is instantiated here
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
 
 
   //  Software Guide : BeginLatex
@@ -137,7 +137,7 @@ main(int, char *[])
 
 
   // Software Guide : BeginCodeSnippet
-  PointDataContainer::Pointer pointData = PointDataContainer::New();
+  auto pointData = PointDataContainer::New();
   // Software Guide : EndCodeSnippet
 
 

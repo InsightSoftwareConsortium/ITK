@@ -58,27 +58,25 @@ main(int argc, char * argv[])
 
   using CastingFilterType =
     itk::CastImageFilter<InternalImageType, OutputImageType>;
-  CastingFilterType::Pointer caster = CastingFilterType::New();
+  auto caster = CastingFilterType::New();
 
 
   using ReaderType = itk::ImageFileReader<InternalImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
 
   using CurvatureFlowImageFilterType =
     itk::CurvatureFlowImageFilter<InternalImageType, InternalImageType>;
-  CurvatureFlowImageFilterType::Pointer smoothing =
-    CurvatureFlowImageFilterType::New();
+  auto smoothing = CurvatureFlowImageFilterType::New();
 
   using ConnectedFilterType =
     itk::ConfidenceConnectedImageFilter<InternalImageType, InternalImageType>;
-  ConnectedFilterType::Pointer confidenceConnected =
-    ConnectedFilterType::New();
+  auto confidenceConnected = ConnectedFilterType::New();
 
   smoothing->SetInput(reader->GetOutput());
   confidenceConnected->SetInput(smoothing->GetOutput());

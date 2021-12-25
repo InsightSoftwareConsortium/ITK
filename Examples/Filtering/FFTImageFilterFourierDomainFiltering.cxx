@@ -107,8 +107,8 @@ main(int argc, char * argv[])
   using InputReaderType = itk::ImageFileReader<InputImageType>;
   using MaskReaderType = itk::ImageFileReader<MaskImageType>;
 
-  InputReaderType::Pointer inputReader = InputReaderType::New();
-  MaskReaderType::Pointer  maskReader = MaskReaderType::New();
+  auto inputReader = InputReaderType::New();
+  auto maskReader = MaskReaderType::New();
 
   inputReader->SetFileName(argv[1]);
   maskReader->SetFileName(argv[2]);
@@ -126,7 +126,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using FFTFilterType = itk::VnlForwardFFTImageFilter<InputImageType>;
 
-  FFTFilterType::Pointer fftFilter = FFTFilterType::New();
+  auto fftFilter = FFTFilterType::New();
 
   fftFilter->SetInput(inputReader->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -148,7 +148,7 @@ main(int argc, char * argv[])
   using MaskFilterType =
     itk::MaskImageFilter<SpectralImageType, MaskImageType, SpectralImageType>;
 
-  MaskFilterType::Pointer maskFilter = MaskFilterType::New();
+  auto maskFilter = MaskFilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -175,7 +175,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using SpectralWriterType = itk::ImageFileWriter<SpectralImageType>;
-  SpectralWriterType::Pointer spectralWriter = SpectralWriterType::New();
+  auto spectralWriter = SpectralWriterType::New();
   spectralWriter->SetFileName("filteredSpectrum.mhd");
   spectralWriter->SetInput(maskFilter->GetOutput());
   spectralWriter->Update();
@@ -194,7 +194,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using IFFTFilterType = itk::VnlInverseFFTImageFilter<SpectralImageType>;
 
-  IFFTFilterType::Pointer fftInverseFilter = IFFTFilterType::New();
+  auto fftInverseFilter = IFFTFilterType::New();
 
   fftInverseFilter->SetInput(maskFilter->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -232,7 +232,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<InputImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(fftInverseFilter->GetOutput());
   // Software Guide : EndCodeSnippet

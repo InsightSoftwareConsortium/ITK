@@ -123,11 +123,11 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
-  FilterType::Pointer filter = FilterType::New();
+  auto reader = ReaderType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
   reader->SetFileName(argv[1]);
 

@@ -285,7 +285,7 @@ main(int argc, char * argv[])
   if (argc > 4)
   {
     using MaskWriterType = itk::ImageFileWriter<MaskImageType>;
-    MaskWriterType::Pointer maskWriter = MaskWriterType::New();
+    auto maskWriter = MaskWriterType::New();
     maskWriter->SetInput(rasterizationFilter->GetOutput());
     maskWriter->SetFileName(argv[4]);
     maskWriter->Update();

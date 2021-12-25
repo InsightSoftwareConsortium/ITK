@@ -46,7 +46,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using GroupType = itk::GroupSpatialObject<3>;
-  GroupType::Pointer myGroup = GroupType::New();
+  auto myGroup = GroupType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -58,7 +58,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
-  EllipseType::Pointer myEllipse = EllipseType::New();
+  auto myEllipse = EllipseType::New();
   myEllipse->SetRadiusInObjectSpace(2);
 
   myGroup->AddChild(myEllipse);

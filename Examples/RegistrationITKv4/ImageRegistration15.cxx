@@ -124,17 +124,17 @@ main(int argc, char * argv[])
       FixedImageType,
       MovingImageType>;
 
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetOptimizer(optimizer);
   registration->SetTransform(transform);
   registration->SetInterpolator(interpolator);
 
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   registration->SetMetric(metric);
 
 
@@ -164,10 +164,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -209,7 +207,7 @@ main(int argc, char * argv[])
   optimizer->SetScales(optimizerScales);
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
-  GeneratorType::Pointer generator = GeneratorType::New();
+  auto generator = GeneratorType::New();
   generator->Initialize(12345);
 
   optimizer->MaximizeOn();
@@ -232,7 +230,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
   try
   {
@@ -264,11 +262,11 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  TransformType::Pointer finalTransform = TransformType::New();
+  auto finalTransform = TransformType::New();
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
@@ -281,7 +279,7 @@ main(int argc, char * argv[])
   using OutputImageType = itk::Image<PixelType, Dimension>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[3]);
   writer->SetInput(resample->GetOutput());
   writer->Update();

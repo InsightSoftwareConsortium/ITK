@@ -146,7 +146,7 @@ main(int argc, char * argv[])
   using ImageAdaptorType =
     itk::ImageAdaptor<ImageType, itk::ThresholdingPixelAccessor>;
 
-  ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
+  auto adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -176,7 +176,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   reader->Update();
 
@@ -187,9 +187,9 @@ main(int argc, char * argv[])
   using RescalerType =
     itk::RescaleIntensityImageFilter<ImageAdaptorType, ImageType>;
 
-  RescalerType::Pointer rescaler = RescalerType::New();
+  auto rescaler = RescalerType::New();
   using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
 
 
   writer->SetFileName(argv[2]);

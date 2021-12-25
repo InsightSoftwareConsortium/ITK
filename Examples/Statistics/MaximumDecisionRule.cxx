@@ -49,7 +49,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using DecisionRuleType = itk::Statistics::MaximumDecisionRule;
-  DecisionRuleType::Pointer decisionRule = DecisionRuleType::New();
+  auto decisionRule = DecisionRuleType::New();
   // Software Guide : EndCodeSnippet
 
 

@@ -49,7 +49,7 @@ main(int argc, char ** argv)
     itk::ConstShapedNeighborhoodIterator<ImageType>;
   using IteratorType = itk::ImageRegionIterator<ImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
   unsigned int element_radius = std::stoi(argv[3]);
@@ -65,7 +65,7 @@ main(int argc, char ** argv)
     return EXIT_FAILURE;
   }
 
-  ImageType::Pointer output = ImageType::New();
+  auto output = ImageType::New();
   output->SetRegions(reader->GetOutput()->GetRequestedRegion());
   output->Allocate();
 
@@ -171,7 +171,7 @@ main(int argc, char ** argv)
 
   using WriterType = itk::ImageFileWriter<ImageType>;
 
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   writer->SetFileName(argv[2]);
   writer->SetInput(output);
   try

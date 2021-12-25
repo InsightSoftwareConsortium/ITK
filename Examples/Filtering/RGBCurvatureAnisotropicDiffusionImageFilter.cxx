@@ -118,7 +118,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::VectorCurvatureAnisotropicDiffusionImageFilter<InputImageType,
                                                         InputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -131,7 +131,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<InputImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
   filter->SetInput(reader->GetOutput());
   // Software Guide : EndCodeSnippet
@@ -179,7 +179,7 @@ main(int argc, char * argv[])
   using WritePixelType = itk::RGBPixel<unsigned char>;
   using WriteImageType = itk::Image<WritePixelType, 2>;
   using CasterType = itk::CastImageFilter<InputImageType, WriteImageType>;
-  CasterType::Pointer caster = CasterType::New();
+  auto caster = CasterType::New();
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -191,7 +191,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::ImageFileWriter<WriteImageType>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   caster->SetInput(filter->GetOutput());
   writer->SetInput(caster->GetOutput());
   writer->SetFileName(argv[2]);

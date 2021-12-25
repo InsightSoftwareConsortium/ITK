@@ -56,7 +56,7 @@ main(int argc, char * argv[])
   //  we begin by creating a reader for the file just written that is
   //  capable of streaming
   using ImageReaderType = itk::ImageFileReader<RGB2DImageType>;
-  ImageReaderType::Pointer reader = ImageReaderType::New();
+  auto reader = ImageReaderType::New();
   reader->SetFileName(inputImageFile);
 
   // The pipeline is continued through a gradient magnitude filter,
@@ -65,8 +65,7 @@ main(int argc, char * argv[])
   // and blue channels.
   using GradientMagnitudeImageFilter =
     itk::VectorGradientMagnitudeImageFilter<RGB2DImageType>;
-  GradientMagnitudeImageFilter::Pointer grad =
-    GradientMagnitudeImageFilter::New();
+  auto grad = GradientMagnitudeImageFilter::New();
   grad->SetInput(reader->GetOutput());
 
   grad->UseImageSpacingOn();
@@ -76,7 +75,7 @@ main(int argc, char * argv[])
 
   using ComposeRGBFilterType =
     itk::ComposeImageFilter<GradientMagnitudeOutputImageType, RGB2DImageType>;
-  ComposeRGBFilterType::Pointer composeRGB = ComposeRGBFilterType::New();
+  auto composeRGB = ComposeRGBFilterType::New();
   composeRGB->SetInput1(grad->GetOutput());
   composeRGB->SetInput2(grad->GetOutput());
   composeRGB->SetInput3(grad->GetOutput());
@@ -107,11 +106,11 @@ main(int argc, char * argv[])
   // regions
   using ToVectorImageAdaptorType =
     itk::RGBToVectorImageAdaptor<RGB2DImageType>;
-  ToVectorImageAdaptorType::Pointer adaptor = ToVectorImageAdaptorType::New();
+  auto adaptor = ToVectorImageAdaptorType::New();
   adaptor->SetImage(composeRGB->GetOutput());
 
   using ImageWriterType = itk::ImageFileWriter<ToVectorImageAdaptorType>;
-  ImageWriterType::Pointer writer = ImageWriterType::New();
+  auto writer = ImageWriterType::New();
   writer->SetFileName(outputImageFile);
   writer->SetNumberOfStreamDivisions(10);
   writer->SetIORegion(halfIO);

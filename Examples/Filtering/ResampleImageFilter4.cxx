@@ -70,8 +70,8 @@ main(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<InputImageType>;
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
   reader->SetFileName(argv[1]);
   writer->SetFileName(argv[2]);
@@ -81,7 +81,7 @@ main(int argc, char * argv[])
   using FilterType =
     itk::ResampleImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
 
 
   //  Software Guide : BeginLatex
@@ -98,13 +98,13 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::AffineTransform<double, Dimension>;
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
   // Software Guide : EndCodeSnippet
 
 
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<InputImageType, double>;
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   filter->SetInterpolator(interpolator);
 

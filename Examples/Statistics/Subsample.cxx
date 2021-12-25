@@ -72,7 +72,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::Vector<float, 3>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer   sample = SampleType::New();
+  auto                  sample = SampleType::New();
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;
@@ -123,7 +123,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using SubsampleType = itk::Statistics::Subsample<SampleType>;
-  SubsampleType::Pointer subsample = SubsampleType::New();
+  auto subsample = SubsampleType::New();
   subsample->SetSample(sample);
 
   subsample->AddInstance(0UL);

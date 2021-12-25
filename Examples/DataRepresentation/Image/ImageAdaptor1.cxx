@@ -111,7 +111,7 @@ main(int argc, char * argv[])
   using ImageType = itk::Image<InputPixelType, Dimension>;
 
   using ImageAdaptorType = itk::ImageAdaptor<ImageType, CastPixelAccessor>;
-  ImageAdaptorType::Pointer adaptor = ImageAdaptorType::New();
+  auto adaptor = ImageAdaptorType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -124,7 +124,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::ImageFileReader<ImageType>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
 

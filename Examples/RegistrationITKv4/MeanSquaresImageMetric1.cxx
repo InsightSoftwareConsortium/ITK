@@ -77,8 +77,8 @@ main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
 
-  ReaderType::Pointer fixedReader = ReaderType::New();
-  ReaderType::Pointer movingReader = ReaderType::New();
+  auto fixedReader = ReaderType::New();
+  auto movingReader = ReaderType::New();
 
   fixedReader->SetFileName(argv[1]);
   movingReader->SetFileName(argv[2]);
@@ -106,7 +106,7 @@ main(int argc, char * argv[])
   using MetricType =
     itk::MeanSquaresImageToImageMetricv4<ImageType, ImageType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -120,13 +120,13 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using TransformType = itk::TranslationTransform<double, Dimension>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
 
   using InterpolatorType =
     itk::NearestNeighborInterpolateImageFunction<ImageType, double>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
   // Software Guide : EndCodeSnippet
 
 

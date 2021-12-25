@@ -117,8 +117,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -150,7 +150,7 @@ main(int argc, char ** argv)
 
   // Software Guide : BeginCodeSnippet
   using FilterType = itk::ExtractImageFilter<InputImageType, OutputImageType>;
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   filter->InPlaceOn();
   filter->SetDirectionCollapseToSubmatrix();
   // Software Guide : EndCodeSnippet

@@ -72,7 +72,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using DistanceMetricType =
     itk::Statistics::EuclideanDistanceMetric<MeasurementVectorType>;
-  DistanceMetricType::Pointer distanceMetric = DistanceMetricType::New();
+  auto distanceMetric = DistanceMetricType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

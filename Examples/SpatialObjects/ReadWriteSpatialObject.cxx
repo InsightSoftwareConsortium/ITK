@@ -53,7 +53,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using WriterType = itk::SpatialObjectWriter<3>;
-  WriterType::Pointer writer = WriterType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -64,7 +64,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
-  EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(3);
   // Software Guide : EndCodeSnippet
   // Software Guide : BeginLatex
@@ -93,7 +93,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using ReaderType = itk::SpatialObjectReader<3>;
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

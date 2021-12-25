@@ -83,7 +83,7 @@ main(int argc, char * argv[])
 
   using ReaderType = itk::ImageFileReader<RGBImageType>;
 
-  ReaderType::Pointer reader = ReaderType::New();
+  auto reader = ReaderType::New();
 
   reader->SetFileName(argv[1]);
 
@@ -112,7 +112,7 @@ main(int argc, char * argv[])
   using HistogramFilterType =
     itk::Statistics::ImageToHistogramFilter<RGBImageType>;
 
-  HistogramFilterType::Pointer histogramFilter = HistogramFilterType::New();
+  auto histogramFilter = HistogramFilterType::New();
   // Software Guide : EndCodeSnippet
 
 

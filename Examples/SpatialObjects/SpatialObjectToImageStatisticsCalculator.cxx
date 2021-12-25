@@ -46,8 +46,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using ImageType = itk::Image<unsigned char, 2>;
   using RandomImageSourceType = itk::RandomImageSource<ImageType>;
-  RandomImageSourceType::Pointer randomImageSource =
-    RandomImageSourceType::New();
+  auto                     randomImageSource = RandomImageSourceType::New();
   ImageType::SizeValueType size[2];
   size[0] = 10;
   size[1] = 10;
@@ -65,7 +64,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<2>;
-  EllipseType::Pointer ellipse = EllipseType::New();
+  auto ellipse = EllipseType::New();
   ellipse->SetRadiusInObjectSpace(2);
   EllipseType::PointType offset;
   offset.Fill(5);
@@ -83,7 +82,7 @@ main(int, char *[])
   // Software Guide : BeginCodeSnippet
   using CalculatorType =
     itk::SpatialObjectToImageStatisticsCalculator<ImageType, EllipseType>;
-  CalculatorType::Pointer calculator = CalculatorType::New();
+  auto calculator = CalculatorType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

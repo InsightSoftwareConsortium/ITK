@@ -105,7 +105,7 @@ main(int argc, char ** argv)
   using FilterType =
     itk::RegionOfInterestImageFilter<InputImageType, OutputImageType>;
 
-  FilterType::Pointer filter = FilterType::New();
+  auto filter = FilterType::New();
   // Software Guide : EndCodeSnippet
 
 
@@ -177,8 +177,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
   // Software Guide : EndCodeSnippet
 
 

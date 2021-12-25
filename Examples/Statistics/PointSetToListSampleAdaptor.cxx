@@ -68,7 +68,7 @@ main()
 
   // Software Guide : BeginCodeSnippet
   using PointSetType = itk::PointSet<short>;
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -123,7 +123,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using SampleType =
     itk::Statistics::PointSetToListSampleAdaptor<PointSetType>;
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

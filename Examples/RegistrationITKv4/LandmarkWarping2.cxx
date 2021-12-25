@@ -70,7 +70,7 @@ main(int argc, char * argv[])
   using MovingWriterType = itk::ImageFileWriter<MovingImageType>;
 
 
-  FixedReaderType::Pointer fixedReader = FixedReaderType::New();
+  auto fixedReader = FixedReaderType::New();
   fixedReader->SetFileName(argv[2]);
 
   try
@@ -85,8 +85,8 @@ main(int argc, char * argv[])
   }
 
 
-  MovingReaderType::Pointer movingReader = MovingReaderType::New();
-  MovingWriterType::Pointer movingWriter = MovingWriterType::New();
+  auto movingReader = MovingReaderType::New();
+  auto movingWriter = MovingWriterType::New();
 
   movingReader->SetFileName(argv[3]);
   movingWriter->SetFileName(argv[4]);
@@ -107,7 +107,7 @@ main(int argc, char * argv[])
   using DisplacementSourceType =
     itk::LandmarkDisplacementFieldSource<DisplacementFieldType>;
 
-  DisplacementSourceType::Pointer deformer = DisplacementSourceType::New();
+  auto deformer = DisplacementSourceType::New();
 
   deformer->SetOutputSpacing(fixedImage->GetSpacing());
   deformer->SetOutputOrigin(fixedImage->GetOrigin());
@@ -128,10 +128,8 @@ main(int argc, char * argv[])
   using LandmarkContainerType = DisplacementSourceType::LandmarkContainer;
   using LandmarkPointType = DisplacementSourceType::LandmarkPointType;
 
-  LandmarkContainerType::Pointer sourceLandmarks =
-    LandmarkContainerType::New();
-  LandmarkContainerType::Pointer targetLandmarks =
-    LandmarkContainerType::New();
+  auto sourceLandmarks = LandmarkContainerType::New();
+  auto targetLandmarks = LandmarkContainerType::New();
 
   LandmarkPointType sourcePoint;
   LandmarkPointType targetPoint;
@@ -199,13 +197,13 @@ main(int argc, char * argv[])
                                               MovingImageType,
                                               InterpolatorPrecisionType,
                                               TransformPrecisionType>;
-  FilterType::Pointer warper = FilterType::New();
+  auto warper = FilterType::New();
 
   using InterpolatorType =
     itk::LinearInterpolateImageFunction<MovingImageType,
                                         InterpolatorPrecisionType>;
 
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
+  auto interpolator = InterpolatorType::New();
 
   warper->SetInterpolator(interpolator);
 

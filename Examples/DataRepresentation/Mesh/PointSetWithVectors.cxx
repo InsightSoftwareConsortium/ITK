@@ -79,7 +79,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using PointSetType = itk::PointSet<PixelType, Dimension>;
-  PointSetType::Pointer pointSet = PointSetType::New();
+  auto pointSet = PointSetType::New();
   // Software Guide : EndCodeSnippet
 
 

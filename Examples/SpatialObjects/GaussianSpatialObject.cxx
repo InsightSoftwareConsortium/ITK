@@ -43,7 +43,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using GaussianType = itk::GaussianSpatialObject<3>;
-  GaussianType::Pointer myGaussian = GaussianType::New();
+  auto myGaussian = GaussianType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

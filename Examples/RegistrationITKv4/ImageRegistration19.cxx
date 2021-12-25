@@ -128,11 +128,11 @@ main(int argc, char * argv[])
   //  \code{New()} method and is assigned to its respective
   //  \doxygen{SmartPointer}.
   //
-  MetricType::Pointer       metric = MetricType::New();
-  TransformType::Pointer    transform = TransformType::New();
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  InterpolatorType::Pointer interpolator = InterpolatorType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto metric = MetricType::New();
+  auto transform = TransformType::New();
+  auto optimizer = OptimizerType::New();
+  auto interpolator = InterpolatorType::New();
+  auto registration = RegistrationType::New();
 
   metric->MeasureMatchesOff();
 
@@ -153,10 +153,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -198,8 +196,7 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       MovingImageType>;
 
-  TransformInitializerType::Pointer initializer =
-    TransformInitializerType::New();
+  auto initializer = TransformInitializerType::New();
 
   initializer->SetTransform(transform);
   initializer->SetFixedImage(fixedImageReader->GetOutput());
@@ -282,8 +279,7 @@ main(int argc, char * argv[])
   //
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate19::Pointer observer =
-    CommandIterationUpdate19::New();
+  auto observer = CommandIterationUpdate19::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
 
@@ -375,7 +371,7 @@ main(int argc, char * argv[])
   //
   //  \index{itk::ImageRegistrationMethod!Resampling image}
   //
-  TransformType::Pointer finalTransform = TransformType::New();
+  auto finalTransform = TransformType::New();
   finalTransform->SetParameters(finalParameters);
   finalTransform->SetFixedParameters(transform->GetFixedParameters());
 
@@ -385,7 +381,7 @@ main(int argc, char * argv[])
   //  Then a resampling filter is created and the corresponding transform and
   //  moving image connected as inputs.
   //
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
   resample->SetTransform(finalTransform);
   resample->SetInput(movingImageReader->GetOutput());
 
@@ -419,8 +415,8 @@ main(int argc, char * argv[])
   //  The filters are created by invoking their \code{New()}
   //  method.
   //
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
 
   writer->SetFileName(argv[3]);
@@ -445,13 +441,13 @@ main(int argc, char * argv[])
                                       FixedImageType,
                                       OutputImageType>;
 
-  DifferenceFilterType::Pointer difference = DifferenceFilterType::New();
+  auto difference = DifferenceFilterType::New();
   difference->SetInput1(fixedImageReader->GetOutput());
   difference->SetInput2(resample->GetOutput());
 
   //  Its output can be passed to another writer.
   //
-  WriterType::Pointer writer2 = WriterType::New();
+  auto writer2 = WriterType::New();
   writer2->SetInput(difference->GetOutput());
 
   if (argc > 4)

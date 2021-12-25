@@ -55,7 +55,7 @@ main(int, char *[])
   using DTITubePointType = DTITubeType::DTITubePointType;
   using PointType = DTITubeType::PointType;
 
-  DTITubeType::Pointer dtiTube = DTITubeType::New();
+  auto dtiTube = DTITubeType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex

@@ -63,7 +63,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using MeasurementVectorType = itk::Vector<float, 3>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;
-  SampleType::Pointer   sample = SampleType::New();
+  auto                  sample = SampleType::New();
   MeasurementVectorType mv;
   mv[0] = 1.0;
   mv[1] = 2.0;
@@ -110,8 +110,7 @@ main()
   // Software Guide : BeginCodeSnippet
   using MembershipSampleType = itk::Statistics::MembershipSample<SampleType>;
 
-  MembershipSampleType::Pointer membershipSample =
-    MembershipSampleType::New();
+  auto membershipSample = MembershipSampleType::New();
 
   membershipSample->SetSample(sample);
   membershipSample->SetNumberOfClasses(2);

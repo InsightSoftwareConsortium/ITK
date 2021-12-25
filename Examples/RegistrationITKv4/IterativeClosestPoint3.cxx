@@ -70,15 +70,15 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   using PointSetType = itk::PointSet<float, Dimension>;
 
-  PointSetType::Pointer fixedPointSet = PointSetType::New();
-  PointSetType::Pointer movingPointSet = PointSetType::New();
+  auto fixedPointSet = PointSetType::New();
+  auto movingPointSet = PointSetType::New();
 
   using PointType = PointSetType::PointType;
 
   using PointsContainer = PointSetType::PointsContainer;
 
-  PointsContainer::Pointer fixedPointContainer = PointsContainer::New();
-  PointsContainer::Pointer movingPointContainer = PointsContainer::New();
+  auto fixedPointContainer = PointsContainer::New();
+  auto movingPointContainer = PointsContainer::New();
 
   PointType fixedPoint;
   PointType movingPoint;
@@ -138,7 +138,7 @@ main(int argc, char * argv[])
   using MetricType =
     itk::EuclideanDistancePointMetric<PointSetType, PointSetType>;
 
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
 
   //-----------------------------------------------------------
   // Set up a Transform
@@ -146,19 +146,19 @@ main(int argc, char * argv[])
 
   using TransformType = itk::TranslationTransform<double, Dimension>;
 
-  TransformType::Pointer transform = TransformType::New();
+  auto transform = TransformType::New();
 
   // Optimizer Type
   using OptimizerType = itk::LevenbergMarquardtOptimizer;
 
-  OptimizerType::Pointer optimizer = OptimizerType::New();
+  auto optimizer = OptimizerType::New();
   optimizer->SetUseCostFunctionGradient(false);
 
   // Registration Method
   using RegistrationType =
     itk::PointSetToPointSetRegistrationMethod<PointSetType, PointSetType>;
 
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto registration = RegistrationType::New();
 
   // Scale the translation components of the Transform in the Optimizer
   OptimizerType::ScalesType scales(transform->GetNumberOfParameters());
@@ -213,8 +213,7 @@ main(int argc, char * argv[])
   using PointsToImageFilterType =
     itk::PointSetToImageFilter<PointSetType, BinaryImageType>;
 
-  PointsToImageFilterType::Pointer pointsToImageFilter =
-    PointsToImageFilterType::New();
+  auto pointsToImageFilter = PointsToImageFilterType::New();
 
   pointsToImageFilter->SetInput(fixedPointSet);
 
@@ -242,7 +241,7 @@ main(int argc, char * argv[])
   using DistanceFilterType =
     itk::DanielssonDistanceMapImageFilter<BinaryImageType, DistanceImageType>;
 
-  DistanceFilterType::Pointer distanceFilter = DistanceFilterType::New();
+  auto distanceFilter = DistanceFilterType::New();
   distanceFilter->SetInput(binaryImage);
   distanceFilter->Update();
   metric->SetDistanceMap(distanceFilter->GetOutput());

@@ -136,8 +136,8 @@ main(int argc, char * argv[])
                                                      MovingImageType>;
   // Software Guide : EndCodeSnippet
 
-  OptimizerType::Pointer    optimizer = OptimizerType::New();
-  RegistrationType::Pointer registration = RegistrationType::New();
+  auto optimizer = OptimizerType::New();
+  auto registration = RegistrationType::New();
 
   registration->SetOptimizer(optimizer);
 
@@ -150,7 +150,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  MetricType::Pointer metric = MetricType::New();
+  auto metric = MetricType::New();
   registration->SetMetric(metric);
   // Software Guide : EndCodeSnippet
 
@@ -197,10 +197,8 @@ main(int argc, char * argv[])
   using FixedImageReaderType = itk::ImageFileReader<FixedImageType>;
   using MovingImageReaderType = itk::ImageFileReader<MovingImageType>;
 
-  FixedImageReaderType::Pointer fixedImageReader =
-    FixedImageReaderType::New();
-  MovingImageReaderType::Pointer movingImageReader =
-    MovingImageReaderType::New();
+  auto fixedImageReader = FixedImageReaderType::New();
+  auto movingImageReader = MovingImageReaderType::New();
 
   fixedImageReader->SetFileName(argv[1]);
   movingImageReader->SetFileName(argv[2]);
@@ -269,7 +267,7 @@ main(int argc, char * argv[])
 
   // Create the Command observer and register it with the optimizer.
   //
-  CommandIterationUpdate::Pointer observer = CommandIterationUpdate::New();
+  auto observer = CommandIterationUpdate::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
   // One level registration process without shrinking and smoothing.
@@ -450,7 +448,7 @@ main(int argc, char * argv[])
   using ResampleFilterType =
     itk::ResampleImageFilter<MovingImageType, FixedImageType>;
 
-  ResampleFilterType::Pointer resample = ResampleFilterType::New();
+  auto resample = ResampleFilterType::New();
 
   resample->SetTransform(registration->GetTransform());
   resample->SetInput(movingImageReader->GetOutput());
@@ -480,8 +478,8 @@ main(int argc, char * argv[])
 
   using WriterType = itk::ImageFileWriter<OutputImageType>;
 
-  WriterType::Pointer     writer = WriterType::New();
-  CastFilterType::Pointer caster = CastFilterType::New();
+  auto writer = WriterType::New();
+  auto caster = CastFilterType::New();
 
   writer->SetFileName(argv[3]);
 
@@ -515,7 +513,7 @@ main(int argc, char * argv[])
   //
   using CheckerBoardFilterType = itk::CheckerBoardImageFilter<FixedImageType>;
 
-  CheckerBoardFilterType::Pointer checker = CheckerBoardFilterType::New();
+  auto checker = CheckerBoardFilterType::New();
 
   checker->SetInput1(fixedImage);
   checker->SetInput2(resample->GetOutput());
@@ -526,7 +524,7 @@ main(int argc, char * argv[])
   resample->SetDefaultPixelValue(0);
 
   // Before registration
-  TransformType::Pointer identityTransform = TransformType::New();
+  auto identityTransform = TransformType::New();
   identityTransform->SetIdentity();
   resample->SetTransform(identityTransform);
 

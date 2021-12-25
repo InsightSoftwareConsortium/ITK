@@ -62,17 +62,17 @@ main(int argc, char * argv[])
     itk::ZeroCrossingImageFilter<RealImageType, RealImageType>;
 
   // Setting the IO
-  ReaderType::Pointer reader = ReaderType::New();
-  WriterType::Pointer writer = WriterType::New();
+  auto reader = ReaderType::New();
+  auto writer = WriterType::New();
 
-  CastToRealFilterType::Pointer toReal = CastToRealFilterType::New();
-  CastToCharFilterType::Pointer toChar = CastToCharFilterType::New();
-  RescaleFilter::Pointer        rescale = RescaleFilter::New();
+  auto toReal = CastToRealFilterType::New();
+  auto toChar = CastToCharFilterType::New();
+  auto rescale = RescaleFilter::New();
 
   // Setting the ITK pipeline filter
 
-  LaplacianFilter::Pointer    lapFilter = LaplacianFilter::New();
-  ZeroCrossingFilter::Pointer zeroFilter = ZeroCrossingFilter::New();
+  auto lapFilter = LaplacianFilter::New();
+  auto zeroFilter = ZeroCrossingFilter::New();
 
   reader->SetFileName(inputFilename);
   writer->SetFileName(outputFilename);

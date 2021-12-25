@@ -47,7 +47,7 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using GroupSpatialObjectType = itk::GroupSpatialObject<3>;
-  GroupSpatialObjectType::Pointer scene = GroupSpatialObjectType::New();
+  auto scene = GroupSpatialObjectType::New();
   // Software Guide : EndCodeSnippet
 
   // Software Guide : BeginLatex
@@ -58,10 +58,10 @@ main(int, char *[])
 
   // Software Guide : BeginCodeSnippet
   using EllipseType = itk::EllipseSpatialObject<3>;
-  EllipseType::Pointer ellipse1 = EllipseType::New();
+  auto ellipse1 = EllipseType::New();
   ellipse1->SetRadiusInObjectSpace(1);
   ellipse1->SetId(1);
-  EllipseType::Pointer ellipse2 = EllipseType::New();
+  auto ellipse2 = EllipseType::New();
   ellipse2->SetId(2);
   ellipse2->SetRadiusInObjectSpace(2);
   // Software Guide : EndCodeSnippet

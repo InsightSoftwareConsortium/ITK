@@ -140,7 +140,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SampleType::Pointer sample = SampleType::New();
+  auto sample = SampleType::New();
 
   MeasurementVectorType mv;
   for (unsigned int i = 5; i > 0; --i)
@@ -163,7 +163,7 @@ main()
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  SubsampleType::Pointer subsample = SubsampleType::New();
+  auto subsample = SubsampleType::New();
   subsample->SetSample(sample);
   initializeSubsample(subsample, sample);
   printSubsample(subsample, "Unsorted");
