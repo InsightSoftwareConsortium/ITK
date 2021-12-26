@@ -67,10 +67,12 @@ public:
   /**  */
   itkSetMacro(Progressive, bool);
   itkGetConstMacro(Progressive, bool);
+  itkBooleanMacro(Progressive);
 
   /** Convert to RGB if out_color_space is CMYK, default is true */
   itkSetMacro(CMYKtoRGB, bool);
   itkGetConstMacro(CMYKtoRGB, bool);
+  itkBooleanMacro(CMYKtoRGB);
 
   /*-------- This part of the interface deals with reading data. ------ */
 

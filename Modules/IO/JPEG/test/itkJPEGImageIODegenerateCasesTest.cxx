@@ -39,6 +39,9 @@ itkJPEGImageIODegenerateCasesTest(int argc, char * argv[])
 
   itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
 
+  auto progressive = true;
+  ITK_TEST_SET_GET_BOOLEAN(io, Progressive, progressive);
+
   itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
 
   reader->SetFileName(argv[1]);
