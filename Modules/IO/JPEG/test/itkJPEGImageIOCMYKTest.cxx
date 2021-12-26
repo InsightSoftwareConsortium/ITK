@@ -54,7 +54,8 @@ itkJPEGImageIOCMYKTest(int argc, char * argv[])
 
     itk::ImageFileReader<ImageType>::Pointer reader = itk::ImageFileReader<ImageType>::New();
 
-    io->SetCMYKtoRGB(false);
+    auto cmykToRGB = false;
+    ITK_TEST_SET_GET_BOOLEAN(io, CMYKtoRGB, cmykToRGB);
 
     reader->SetFileName(argv[1]);
 
