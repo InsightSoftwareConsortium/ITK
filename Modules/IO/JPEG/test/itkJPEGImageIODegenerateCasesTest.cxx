@@ -39,6 +39,9 @@ itkJPEGImageIODegenerateCasesTest(int argc, char * argv[])
 
   itk::JPEGImageIO::Pointer io = itk::JPEGImageIO::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(io, JPEGImageIO, ImageIOBase);
+
+
   auto progressive = true;
   ITK_TEST_SET_GET_BOOLEAN(io, Progressive, progressive);
 
