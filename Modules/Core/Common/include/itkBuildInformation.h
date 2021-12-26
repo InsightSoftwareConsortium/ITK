@@ -33,7 +33,7 @@ namespace itk
  * that describe this version of ITK.
  *
  * Values in in the map provide information about
- * the ITK (i.e. it's version, the build options,
+ * the ITK (i.e. its version, the build options,
  * configuration options, the home URL for the project,
  * and other static information) that can be gathered
  * at configuration time.
