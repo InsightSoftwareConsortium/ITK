@@ -117,6 +117,9 @@ protected:
     OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
                                typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>,
                                3>();
+    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
+                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>,
+                               4>();
 
     OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
                                typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
@@ -127,6 +130,9 @@ protected:
     OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
                                typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
                                3>();
+    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
+                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
+                               4>();
   }
 };
 
