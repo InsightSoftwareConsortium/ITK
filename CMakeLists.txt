@@ -45,6 +45,8 @@ set(ITK_VERSION
     "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}.${ITK_VERSION_PATCH}")
 project(ITK
   VERSION ${ITK_VERSION}
+  DESCRIPTION "The Insight Toolkit (ITK) is an open-source, cross-platform toolkit for N-dimensional scientific image processing, segmentation, and registration."
+  HOMEPAGE_URL "https://itk.org"
   LANGUAGES CXX C)
 
 set(ITK_CMAKE_DIR "${ITK_SOURCE_DIR}/CMake")
