@@ -49,10 +49,15 @@ TEST(ITKBuildInformation, InformationFeatures)
 
   for (auto mapEntry : localMap)
   {
+    const auto & key = mapEntry.first;
+
     std::cout << "--------------------------------------------------------------------" << std::endl
-              << "Key: " << mapEntry.first << std::endl
+              << "Key: " << key << std::endl
               << "\tValue: " << mapEntry.second.m_Value << std::endl
               << "\tDescription: " << mapEntry.second.m_Description << std::endl;
+
+    EXPECT_EQ(itk::BuildInformation::GetValue(key), mapEntry.second.m_Value);
+    EXPECT_EQ(itk::BuildInformation::GetDescription(key), mapEntry.second.m_Description);
   }
 
   EXPECT_EQ(itk::BuildInformation::GetValue("PROJECT_URL"), "http://www.itk.org");
