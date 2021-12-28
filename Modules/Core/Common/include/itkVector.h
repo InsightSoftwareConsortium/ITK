@@ -129,6 +129,10 @@ public:
   Vector(const Vector<TVectorValueType, NVectorDimension> & r)
     : BaseArray(r)
   {}
+  template <typename TVectorValueType>
+  Vector(const FixedArray<TVectorValueType, NVectorDimension> & r)
+    : BaseArray(r)
+  {}
   Vector(const ValueType r[Dimension])
     : BaseArray(r)
   {}
