@@ -78,7 +78,7 @@ BuildInformation::GetMap()
 }
 
 const BuildInformation::MapValueType
-BuildInformation::GetValue(const MapKeyType &&key)
+BuildInformation::GetValue(const MapKeyType & key)
 {
   const MapType &localMap = BuildInformation::GetInstance()->GetMap();
 
@@ -91,7 +91,7 @@ BuildInformation::GetValue(const MapKeyType &&key)
 }
 
 const BuildInformation::MapValueDescriptionType
-BuildInformation::GetDescription(const MapKeyType && key)
+BuildInformation::GetDescription(const MapKeyType & key)
 {
   const MapType &localMap = BuildInformation::GetInstance()->GetMap();
 
