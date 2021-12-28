@@ -47,7 +47,7 @@ set(BASELINE_ROOT ${ITK_DATA_ROOT}/Baseline)
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
-CreateTestDriver_SupportBuildInIOFactories(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
+CreateTestDriver(ITKReview  "${ITKReview-Test_LIBRARIES}" "${ITKReviewTests}")
 
 itk_add_test(NAME itkReviewPrintTest COMMAND ITKReviewTestDriver itkReviewPrintTest)
 

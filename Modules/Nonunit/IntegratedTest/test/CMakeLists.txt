@@ -11,7 +11,7 @@ itkSpatialObjectPrintTest.cxx
 itkShrinkImagePreserveObjectPhysicalLocations.cxx
 )
 
-CreateTestDriver_SupportBuildInIOFactories(ITKIntegratedTest  "${ITKIntegratedTest-Test_LIBRARIES}" "${ITKIntegratedTestTests}")
+CreateTestDriver(ITKIntegratedTest  "${ITKIntegratedTest-Test_LIBRARIES}" "${ITKIntegratedTestTests}")
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
