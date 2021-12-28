@@ -90,9 +90,9 @@ public:
   static const MapType &
   GetMap();
   static const MapValueType
-  GetValue(const MapKeyType &&);
+  GetValue(const MapKeyType &);
   static const MapValueDescriptionType
-  GetDescription(const MapKeyType &&);
+  GetDescription(const MapKeyType &);
   static const std::vector<MapKeyType>
   GetAllKeys();
 
