@@ -34,6 +34,25 @@
 #include "itkTestingComparisonImageFilter.h"
 #include "itkTestingMacros.h"
 
+#include "itkTestDriverIncludeRequiredFactories.h"
+
+namespace
+{
+class FrequencyIterators : public ::testing::Test
+{
+public:
+  FrequencyIterators() = default;
+  ~FrequencyIterators() override = default;
+
+protected:
+  void
+  SetUp() override
+  {
+    RegisterRequiredFactories();
+  }
+};
+} // namespace
+
 template <typename TOutputImageType>
 static typename TOutputImageType::Pointer
 CreateImage(unsigned int size)
@@ -195,7 +214,7 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
   EXPECT_TRUE(fullAndHermitian);
 }
 
-TEST(FrequencyIterators, Even3D)
+TEST_F(FrequencyIterators, Even3D)
 {
   constexpr unsigned int ImageDimension = 3;
   using PixelType = float;
@@ -205,7 +224,7 @@ TEST(FrequencyIterators, Even3D)
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
-TEST(FrequencyIterators, Even2D)
+TEST_F(FrequencyIterators, Even2D)
 {
   constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
@@ -215,7 +234,7 @@ TEST(FrequencyIterators, Even2D)
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
-TEST(FrequencyIterators, Odd3D)
+TEST_F(FrequencyIterators, Odd3D)
 {
   constexpr unsigned int ImageDimension = 3;
   using PixelType = float;
@@ -225,7 +244,7 @@ TEST(FrequencyIterators, Odd3D)
   compareAllTypesOfIterators<ImageType>(image, differenceHermitianThreshold);
 }
 
-TEST(FrequencyIterators, Odd2D)
+TEST_F(FrequencyIterators, Odd2D)
 {
   constexpr unsigned int ImageDimension = 2;
   using PixelType = float;
