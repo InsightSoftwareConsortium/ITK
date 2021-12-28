@@ -129,7 +129,6 @@ public:
   using PointVector = std::vector<PointType>;
   using PointArray = std::vector<std::vector<PointType>>;
 
-  using StencilIndexVector = std::vector<int>;
   /** Spacing (size of a pixel) of the output image. The
    * spacing is the geometric distance between image samples.
    * It is stored internally as double, but may be set from
@@ -244,8 +243,6 @@ protected:
   ValueType m_OutsideValue;
 
   DirectionType m_Direction;
-
-  StencilIndexVector m_StencilIndex;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
