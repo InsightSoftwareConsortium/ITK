@@ -206,7 +206,7 @@ StreamingProcessObject::ResetPipeline()
 }
 
 
-StreamingProcessObject::StreamingProcessObject(void) = default;
+StreamingProcessObject::StreamingProcessObject() = default;
 
 
 StreamingProcessObject::~StreamingProcessObject() = default;

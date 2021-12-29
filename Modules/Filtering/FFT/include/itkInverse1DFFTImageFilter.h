@@ -60,7 +60,7 @@ public:
    * Default implementation is VnlFFT1D.
    */
   static Pointer
-  New(void);
+  New();
 
   /** Get the direction in which the filter is to be applied. */
   itkGetConstMacro(Direction, unsigned int);
