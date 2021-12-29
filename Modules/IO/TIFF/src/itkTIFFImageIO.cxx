@@ -488,6 +488,12 @@ TIFFImageIO::ReadImageInformation()
 
   if (!m_InternalImage->CanRead())
   {
+    if (!(m_InternalImage->m_Orientation == ORIENTATION_TOPLEFT ||
+          m_InternalImage->m_Orientation == ORIENTATION_BOTLEFT))
+    {
+      itkExceptionMacro(<< "Only ORIENTATION_TOPLEFT and ORIENTATION_BOTLEFT are supported");
+    }
+
     //  exception if compression is not supported
     if (TIFFIsCODECConfigured(this->m_InternalImage->m_Compression) != 1)
     {
