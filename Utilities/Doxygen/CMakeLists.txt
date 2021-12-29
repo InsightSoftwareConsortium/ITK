@@ -140,6 +140,16 @@ if (ITK_BUILD_DOCUMENTATION)
   file(COPY workbox-cli-config.js serviceWorker.js.in
     DESTINATION ${ITK_BINARY_DIR}/Utilities/Doxygen/)
 
+  execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_LIST_DIR}/datetime.py"
+     RESULT_VARIABLE CMD_RESULT
+     OUTPUT_VARIABLE _DATETIME)
+
+   if (CMD_RESULT)
+     message(FATAL_ERROR "Datetime failed!")
+   endif()
+
+   configure_file(${CMAKE_CURRENT_LIST_DIR}/build_text.js.in
+     "${ITK_BINARY_DIR}/Utilities/Doxygen//html/build_text.js")
 
   find_package( LATEX )
 
