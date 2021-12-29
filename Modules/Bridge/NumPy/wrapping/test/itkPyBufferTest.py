@@ -62,7 +62,7 @@ class TestNumpyITKMemoryviewInterface(unittest.TestCase):
         try:
             import dask
             from distributed.protocol.serialize import dask_dumps, dask_loads
-        except ImportError:
+        except (ImportError, RuntimeError):
             pass
         else:
             header, frames = dask_dumps(ndarray_itk_base)
