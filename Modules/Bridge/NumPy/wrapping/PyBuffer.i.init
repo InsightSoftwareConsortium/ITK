@@ -16,7 +16,7 @@ class NDArrayITKBase(np.ndarray):
 try:
     from distributed.protocol import dask_serialize, dask_deserialize
     from typing import Dict, List, Tuple
-except ImportError:
+except (ImportError, RuntimeError):
     pass
 else:
     @dask_serialize.register(NDArrayITKBase)
