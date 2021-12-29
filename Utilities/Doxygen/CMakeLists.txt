@@ -140,11 +140,8 @@ if (ITK_BUILD_DOCUMENTATION)
   file(COPY workbox-cli-config.js serviceWorker.js.in
     DESTINATION ${ITK_BINARY_DIR}/Utilities/Doxygen/)
 
-  find_package( LATEX )
 
-  if( NOT LATEX_COMPILER )
-    message( "Warning: LaTeX not found. Formulas will not be generated in documentation." )
-  endif()
+  find_package( LATEX )
 
   # Custom command to generate a examples page which include all ITK examples
   add_custom_command( OUTPUT "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
