@@ -102,7 +102,7 @@ bool
 SingletonIndex::SetGlobalInstancePrivate(const char *                globalName,
                                          void *                      global,
                                          std::function<void(void *)> func,
-                                         std::function<void(void)>   deleteFunc)
+                                         std::function<void()>       deleteFunc)
 {
   m_GlobalObjects.erase(globalName);
   m_GlobalObjects.insert(std::make_pair(globalName, std::make_tuple(global, func, deleteFunc)));
