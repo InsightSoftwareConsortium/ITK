@@ -45,7 +45,7 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
   using TriangleMeshPointer = TriangleMeshType::Pointer;
   auto      mySphereMeshSource = SphereMeshSourceType::New();
   PointType center;
-  center.Fill(50);
+  center.Fill(-5);
   PointType::ValueType scaleInit[3] = { 10, 10, 10 };
   VectorType           scale = scaleInit;
 
@@ -95,7 +95,8 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
   size[2] = 100;
   imageFilter->SetSize(size);
 
-  std::cout << "[PASSED]" << std::endl;
+  auto index = ImageType::IndexType::Filled(-50);
+  imageFilter->SetIndex(index);
 
   // Testing PrintSelf
   std::cout << imageFilter << std::endl;
@@ -105,7 +106,7 @@ itkTriangleMeshToBinaryImageFilterTest2(int argc, char * argv[])
 
   if (argc > 1)
   {
-    itk::WriteImage(imageFilter->GetOutput(), argv[1]);
+    itk::WriteImage(imageFilter->GetOutput(), argv[1], true);
   }
 
   std::cout << "[TEST DONE]" << std::endl;

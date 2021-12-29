@@ -76,6 +76,9 @@ itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest1
 itk_add_test(NAME itkTriangleMeshToBinaryImageFilterTest2
       COMMAND ITKMeshTestDriver
               --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.txt
+              --compare DATA{Baseline/itkTriangleMeshToBinaryImageFilterTest2.mha}
+               ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.mha
+              --compareIntensityTolerance 0
       itkTriangleMeshToBinaryImageFilterTest2
               ${ITK_TEST_OUTPUT_DIR}/itkTriangleMeshToBinaryImageFilterTest2.mha)
 set_tests_properties(itkTriangleMeshToBinaryImageFilterTest2 PROPERTIES
