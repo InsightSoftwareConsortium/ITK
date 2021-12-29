@@ -80,9 +80,9 @@ namespace itk
 #else // not GCC
 #define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \
   object->Print(std::cout);                                                                                            \
-  std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;                                            \
+  std::cout << "Name of Class = " << object->Self::GetNameOfClass() << std::endl;                                            \
   std::cout << "Name of Superclass = " << object->Superclass::GetNameOfClass() << std::endl;                           \
-  if (!std::strcmp(object->GetNameOfClass(), #ClassName))                                                              \
+  if (!std::strcmp(object->Self::GetNameOfClass(), #ClassName))                                                              \
   {                                                                                                                    \
     std::cout << "Class name is correct" << std::endl;                                                                 \
   }                                                                                                                    \
