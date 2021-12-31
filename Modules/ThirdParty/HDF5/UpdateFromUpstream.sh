@@ -25,13 +25,10 @@ readonly paths="
    COPYING
    src
    c++/CMakeLists.txt
-   c++/COPYING
    c++/src
    hl/CMakeLists.txt
-   hl/COPYING
    hl/src
    hl/c++/CMakeLists.txt
-   hl/c++/COPYING
    hl/c++/src
    UserMacros.cmake
 "
