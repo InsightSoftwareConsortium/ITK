@@ -12,11 +12,11 @@
 #
 # This file provides functions for C++ support.
 #
-# ITK --start
+# ITK --start added code
 if(POLICY CMP0075)
   cmake_policy(SET CMP0075 NEW) # CMake 3.12.1: Include file check macros honor CMAKE_REQUIRED_LIBRARIES.
 endif()
-# ITK --stop
+# ITK --stop added code
 
 #-------------------------------------------------------------------------------
 ENABLE_LANGUAGE (CXX)

@@ -130,10 +130,10 @@ configure_file (
 )
 install (
     FILES ${HDF5_BINARY_DIR}/libhdf5.settings
-# ITK --start
+# ITK --start added code
     DESTINATION ${ITK_INSTALL_LIBRARY_DIR}
     COMPONENT RuntimeLibraries
-# ITK --stop
+# ITK --stop added code
 )
 
 #-----------------------------------------------------------------------------
@@ -249,9 +249,9 @@ if (NOT HDF5_EXTERNALLY_CONFIGURED)
   endif ()
 endif ()
 
-# ITK --start
+# ITK --start added code
 set(CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT 0)
-# ITK --stop
+# ITK --stop added code
 if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
   if (CMAKE_HOST_UNIX)
     set (CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/HDF_Group/${HDF5_PACKAGE_NAME}/${HDF5_PACKAGE_VERSION}"

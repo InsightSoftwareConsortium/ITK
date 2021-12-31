@@ -1,10 +1,10 @@
 cmake_minimum_required (VERSION 3.12)
 project (HDF5_SRC C)
-#ITK --start
+#ITK --start added code
 if(POLICY CMP0083)
   cmake_policy(SET CMP0083 NEW) # CMake 3.14.0: Add PIE options when linking executable.
 endif()
-#ITK --stop
+#ITK --stop added code
 
 #-----------------------------------------------------------------------------
 # List Source Files
@@ -25,9 +25,9 @@ set (H5_HDRS
     ${HDF5_SRC_DIR}/H5public.h
     #${HDF5_SRC_DIR}/H5version.h
     #${HDF5_SRC_DIR}/H5overflow.h
-#ITK --start
+#ITK --start added code
     ${HDF5_SRC_DIR}/itk_hdf5_mangle.h
-#ITK --stop
+#ITK --stop added code
 )
 IDE_GENERATED_PROPERTIES ("H5" "${H5_HDRS}" "${H5_SOURCES}" )
 
@@ -750,9 +750,9 @@ set (H5_PUBLIC_HEADERS
     ${H5SM_HDRS}
     ${H5T_HDRS}
     ${H5Z_HDRS}
-#ITK --start
+#ITK --start added code
     ${HDF5_SRC_DIR}/itk_hdf5_mangle.h
-#ITK --stop
+#ITK --stop added code
 )
 
 set (H5_PRIVATE_HEADERS
