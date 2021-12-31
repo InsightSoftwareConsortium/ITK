@@ -43,10 +43,12 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     typename std::priority_queue<LineOfLabelObject, std::vector<LineOfLabelObject>, LineOfLabelObjectComparator>;
   PriorityQueueType pq;
 
-  ProgressReporter progress(this, 0, 1);
-  // TODO: really report the progress
+  auto           labelMap = this->GetLabelMap();
+  IdentifierType numberOfLines = 0;
 
-  for (typename ImageType::Iterator it2(this->GetLabelMap()); !it2.IsAtEnd(); ++it2)
+  ProgressReporter progress(this, 0, labelMap->GetNumberOfLabelObjects(), 100, 0.0f, 0.3f);
+
+  for (typename ImageType::Iterator it2(labelMap); !it2.IsAtEnd(); ++it2)
   {
     LabelObjectType * lo = it2.GetLabelObject();
 
@@ -57,6 +59,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     while (!lit.IsAtEnd())
     {
       pq.push(LineOfLabelObject(lit.GetLine(), lo));
+      ++numberOfLines;
       ++lit;
     }
 
@@ -64,7 +67,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     lo->Clear();
 
     // go to the next label
-    // progress.CompletedPixel();
+    progress.CompletedPixel();
   }
 
   if (pq.empty())
@@ -72,6 +75,8 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     // nothing to do
     return;
   }
+
+  ProgressReporter progress2(this, 0, numberOfLines, 100, 0.3f, 0.60f);
 
   using LinesType = typename std::deque<LineOfLabelObject>;
   LinesType lines;
@@ -213,6 +218,9 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     // store the current line as the previous one, and go to the next one.
     prev = lines.back();
     prevIdx = prev.line.GetIndex();
+
+    --numberOfLines;
+    progress2.CompletedPixel();
   }
 
   // put the lines in their object
@@ -221,6 +229,8 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     LineOfLabelObject & l = lines[i];
     l.labelObject->AddLine(l.line);
   }
+
+  this->UpdateProgress(0.95f);
 
   // remove objects without lines
   typename ImageType::Iterator it(this->GetLabelMap());
@@ -241,6 +251,8 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
       ++it;
     }
   }
+
+  this->UpdateProgress(1.0f);
 }
 
 

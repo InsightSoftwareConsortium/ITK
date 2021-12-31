@@ -34,9 +34,9 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 LabelMapFilter<TInputImage, TOutputImage>::LabelMapFilter()
-
 {
   this->DynamicMultiThreadingOn();
+  this->ThreaderUpdateProgressOff();
 }
 
 template <typename TInputImage, typename TOutputImage>
