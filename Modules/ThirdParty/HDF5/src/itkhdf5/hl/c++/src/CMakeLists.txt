@@ -9,9 +9,9 @@ set (HDF5_HL_CPP_SOURCES ${HDF5_HL_CPP_SRC_SOURCE_DIR}/H5PacketTable.cpp)
 set (HDF5_HL_CPP_HDRS ${HDF5_HL_CPP_SRC_SOURCE_DIR}/H5PacketTable.h)
 
 if (NOT ONLY_SHARED_LIBS)
-  add_library (${HDF5_HL_CPP_LIB_TARGET} STATIC ${HDF5_HL_CPP_SOURCES})
+  add_library (${HDF5_HL_CPP_LIB_TARGET} STATIC ${HDF5_HL_CPP_SOURCES} ${HDF5_HL_CPP_HDRS})
   target_include_directories (${HDF5_HL_CPP_LIB_TARGET}
-      PRIVATE "${HDF5_SRC_DIR};${HDF5_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>"
+      PRIVATE "${HDF5_SRC_DIR};${HDF5_SRC_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>"
       INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
   )
   target_compile_options(${HDF5_HL_CPP_LIB_TARGET} PRIVATE "${HDF5_CMAKE_CXX_FLAGS}")
@@ -26,7 +26,7 @@ endif ()
 if (BUILD_SHARED_LIBS)
   add_library (${HDF5_HL_CPP_LIBSH_TARGET} SHARED ${HDF5_HL_CPP_SOURCES})
   target_include_directories (${HDF5_HL_CPP_LIBSH_TARGET}
-      PRIVATE "${HDF5_SRC_DIR};${HDF5_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>"
+      PRIVATE "${HDF5_SRC_DIR};${HDF5_SRC_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>"
       INTERFACE "$<INSTALL_INTERFACE:$<INSTALL_PREFIX>/include>"
   )
   target_compile_options(${HDF5_HL_CPP_LIBSH_TARGET} PRIVATE "${HDF5_CMAKE_CXX_FLAGS}")
@@ -37,6 +37,17 @@ if (BUILD_SHARED_LIBS)
   H5_SET_LIB_OPTIONS (${HDF5_HL_CPP_LIBSH_TARGET} ${HDF5_HL_CPP_LIB_NAME} SHARED "HL_CXX")
   set_target_properties (${HDF5_HL_CPP_LIBSH_TARGET} PROPERTIES FOLDER libraries/hl)
   set (install_targets ${install_targets} ${HDF5_HL_CPP_LIBSH_TARGET})
+endif ()
+
+#-----------------------------------------------------------------------------
+# Add Target to clang-format
+#-----------------------------------------------------------------------------
+if (HDF5_ENABLE_FORMATTERS)
+  if (NOT ONLY_SHARED_LIBS)
+    clang_format (HDF5_HL_CPP_SRC_FORMAT ${HDF5_HL_CPP_LIB_TARGET})
+  else ()
+    clang_format (HDF5_HL_CPP_SRC_FORMAT ${HDF5_HL_CPP_LIBSH_TARGET})
+  endif ()
 endif ()
 
 #-----------------------------------------------------------------------------
@@ -94,22 +105,26 @@ if (BUILD_SHARED_LIBS)
   set (_PKG_CONFIG_SH_LIBS "${_PKG_CONFIG_SH_LIBS} -l${HDF5_HL_CPP_LIB_CORENAME}")
 endif ()
 
-set (_PKG_CONFIG_REQUIRES "${HDF5_HL_LIB_CORENAME}")
-set (_PKG_CONFIG_REQUIRES_PRIVATE "${HDF5_HL_LIB_CORENAME}")
+set (_PKG_CONFIG_REQUIRES "${HDF5_HL_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}")
+set (_PKG_CONFIG_REQUIRES_PRIVATE "${HDF5_HL_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}")
 
 configure_file (
-    ${HDF_RESOURCES_DIR}/libhdf5.pc.in
-    ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_HL_CPP_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}.pc
+    ${HDF_CONFIG_DIR}/libhdf5.pc.in
+    ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_HL_CPP_LIB_CORENAME}.pc
     @ONLY
 )
 install (
-    FILES ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_HL_CPP_LIB_CORENAME}-${HDF5_PACKAGE_VERSION}.pc
+    FILES ${HDF5_BINARY_DIR}/CMakeFiles/${HDF5_HL_CPP_LIB_CORENAME}.pc
     DESTINATION ${HDF5_INSTALL_LIB_DIR}/pkgconfig
     COMPONENT hlcpplibraries
 )
 
 if (NOT WIN32 AND NOT MINGW)
-  set (_PKG_CONFIG_COMPILER ${CMAKE_CXX_COMPILER})
+  if (HDF5_ENABLE_PARALLEL AND MPI_CXX_FOUND)
+    set (_PKG_CONFIG_COMPILER ${MPI_CXX_COMPILER})
+  else ()
+    set (_PKG_CONFIG_COMPILER ${CMAKE_CXX_COMPILER})
+  endif ()
   configure_file (
       ${HDF_RESOURCES_DIR}/libh5cc.in
       ${HDF5_BINARY_DIR}/CMakeFiles/h5hlc++
@@ -122,4 +137,3 @@ if (NOT WIN32 AND NOT MINGW)
       COMPONENT hlcpplibraries
   )
 endif ()
-

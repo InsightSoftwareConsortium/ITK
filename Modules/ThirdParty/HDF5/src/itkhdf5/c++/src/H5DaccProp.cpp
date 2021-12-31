@@ -6,7 +6,7 @@
  * This file is part of HDF5.  The full HDF5 copyright notice, including     *
  * terms governing use, modification, and redistribution, is contained in    *
  * the COPYING file, which can be found at the root of the source code       *
- * distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.  *
+ * distribution tree, or in https://www.hdfgroup.org/licenses.               *
  * If you do not have access to either file, you may request a copy from     *
  * help@hdfgroup.org.                                                        *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
@@ -29,7 +29,7 @@ namespace H5 {
 // in "H5PredType.cpp" for information.
 
 // Initialize a pointer for the constant
-DSetAccPropList* DSetAccPropList::DEFAULT_ = 0;
+DSetAccPropList *DSetAccPropList::DEFAULT_ = 0;
 
 //--------------------------------------------------------------------------
 // Function:    DSetAccPropList::getConstant
@@ -43,13 +43,13 @@ DSetAccPropList* DSetAccPropList::DEFAULT_ = 0;
 //              not happen.
 // Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
-DSetAccPropList* DSetAccPropList::getConstant()
+DSetAccPropList *
+DSetAccPropList::getConstant()
 {
     // Tell the C library not to clean up, H5Library::termH5cpp will call
     // H5close - more dependency if use H5Library::dontAtExit()
-    if (!IdComponent::H5dontAtexit_called)
-    {
-        (void) H5dont_atexit();
+    if (!IdComponent::H5dontAtexit_called) {
+        (void)H5dont_atexit();
         IdComponent::H5dontAtexit_called = true;
     }
 
@@ -58,8 +58,9 @@ DSetAccPropList* DSetAccPropList::getConstant()
     if (DEFAULT_ == 0)
         DEFAULT_ = new DSetAccPropList(H5P_DATASET_ACCESS);
     else
-        throw PropListIException("DSetAccPropList::getConstant", "DSetAccPropList::getConstant is being invoked on an allocated DEFAULT_");
-    return(DEFAULT_);
+        throw PropListIException("DSetAccPropList::getConstant",
+                                 "DSetAccPropList::getConstant is being invoked on an allocated DEFAULT_");
+    return (DEFAULT_);
 }
 
 //--------------------------------------------------------------------------
@@ -68,16 +69,16 @@ DSetAccPropList* DSetAccPropList::getConstant()
 //              points to.
 // Programmer   Binh-Minh Ribler - 2015
 //--------------------------------------------------------------------------
-void DSetAccPropList::deleteConstants()
+void
+DSetAccPropList::deleteConstants()
 {
-    if (DEFAULT_ != 0)
-        delete DEFAULT_;
+    delete DEFAULT_;
 }
 
 //--------------------------------------------------------------------------
 // Purpose      Constant for dataset creation default property
 //--------------------------------------------------------------------------
-const DSetAccPropList& DSetAccPropList::DEFAULT = *getConstant();
+const DSetAccPropList &DSetAccPropList::DEFAULT = *getConstant();
 
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
@@ -86,7 +87,9 @@ const DSetAccPropList& DSetAccPropList::DEFAULT = *getConstant();
 ///\brief       Default constructor: creates a stub dataset creation property list
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetAccPropList::DSetAccPropList() : LinkAccPropList(H5P_DATASET_ACCESS) {}
+DSetAccPropList::DSetAccPropList() : LinkAccPropList(H5P_DATASET_ACCESS)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    DSetAccPropList copy constructor
@@ -94,7 +97,9 @@ DSetAccPropList::DSetAccPropList() : LinkAccPropList(H5P_DATASET_ACCESS) {}
 ///             DSetAccPropList object
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetAccPropList::DSetAccPropList(const DSetAccPropList& orig) : LinkAccPropList(orig) {}
+DSetAccPropList::DSetAccPropList(const DSetAccPropList &orig) : LinkAccPropList(orig)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    DSetAccPropList overloaded constructor
@@ -102,7 +107,9 @@ DSetAccPropList::DSetAccPropList(const DSetAccPropList& orig) : LinkAccPropList(
 ///             existing dataset creation property list.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetAccPropList::DSetAccPropList(const hid_t plist_id) : LinkAccPropList(plist_id) {}
+DSetAccPropList::DSetAccPropList(const hid_t plist_id) : LinkAccPropList(plist_id)
+{
+}
 
 //--------------------------------------------------------------------------
 // Function:    DSetAccPropList::setChunkCache
@@ -122,11 +129,11 @@ DSetAccPropList::DSetAccPropList(const hid_t plist_id) : LinkAccPropList(plist_i
 ///             the HDF5 C Reference Manual.
 // July 2018
 //--------------------------------------------------------------------------
-void DSetAccPropList::setChunkCache(size_t rdcc_nslots, size_t rdcc_nbytes, double rdcc_w0) const
+void
+DSetAccPropList::setChunkCache(size_t rdcc_nslots, size_t rdcc_nbytes, double rdcc_w0) const
 {
     herr_t ret_value = H5Pset_chunk_cache(id, rdcc_nslots, rdcc_nbytes, rdcc_w0);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("DSetAccPropList::setChunkCache", "H5Pset_chunk_cache failed");
     }
 }
@@ -143,11 +150,11 @@ void DSetAccPropList::setChunkCache(size_t rdcc_nslots, size_t rdcc_nbytes, doub
 ///             the HDF5 C Reference Manual.
 // July 2018
 //--------------------------------------------------------------------------
-void  DSetAccPropList::getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, double &rdcc_w0) const
+void
+DSetAccPropList::getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, double &rdcc_w0) const
 {
     herr_t ret_value = H5Pget_chunk_cache(id, &rdcc_nslots, &rdcc_nbytes, &rdcc_w0);
-    if (ret_value < 0)
-    {
+    if (ret_value < 0) {
         throw PropListIException("DSetAccPropList::getChunkCache", "H5Pget_chunk_cache failed");
     }
 }
@@ -157,6 +164,8 @@ void  DSetAccPropList::getChunkCache(size_t &rdcc_nslots, size_t &rdcc_nbytes, d
 ///\brief       Noop destructor.
 // Programmer   Binh-Minh Ribler - 2000
 //--------------------------------------------------------------------------
-DSetAccPropList::~DSetAccPropList() {}
+DSetAccPropList::~DSetAccPropList()
+{
+}
 
-} // end namespace
+} // namespace H5
