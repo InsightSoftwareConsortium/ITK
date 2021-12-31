@@ -31,6 +31,7 @@ readonly paths="
    hl/c++/CMakeLists.txt
    hl/c++/src
    UserMacros.cmake
+   .clang-format
 "
 
 extract_source () {
