@@ -39,7 +39,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
   {
     auto transform = TransformType::New();
 
-    typename TransformType::InputVectorType vector{ { 1.0, 4.0, 9.0 } };
+    typename TransformType::InputVectorType vector = itk::MakeVector(1.0, 4.0, 9.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformVector(vector));
 
     typename TransformType::InputVnlVectorType vnlVector;
@@ -50,7 +50,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     covVector.Fill(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformCovariantVector(covVector));
 
-    typename TransformType::InputPointType       point{ { 1.0, 1.0, 1.0 } };
+    typename TransformType::InputPointType       point{ 1.0 };
     typename TransformType::JacobianPositionType jacobianPosition;
     ITK_TRY_EXPECT_EXCEPTION(transform->ComputeJacobianWithRespectToPosition(point, jacobianPosition));
   }
@@ -59,7 +59,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
   {
     auto transform = TransformType::New();
 
-    EXERCISE_BASIC_OBJECT_METHODS(transform, Rigid3DPerspectiveTransform, Transform);
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(transform, Rigid3DPerspectiveTransform, Transform);
 
 
     typename TransformType::OffsetType fixedOffset;

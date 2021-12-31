@@ -152,8 +152,9 @@ itkFastMarchingTest(int argc, char * argv[])
 
   auto outputRegionIndexValue =
     static_cast<typename FloatFMType::LevelSetImageType::IndexType::IndexValueType>(std::stoi(argv[5]));
-  typename FloatFMType::LevelSetImageType::IndexType outputRegionIndex{ outputRegionIndexValue };
-  typename FloatFMType::OutputRegionType             outputRegion;
+  typename FloatFMType::LevelSetImageType::IndexType outputRegionIndex;
+  outputRegionIndex.Fill(outputRegionIndexValue);
+  typename FloatFMType::OutputRegionType outputRegion;
   outputRegion.SetSize(size);
   outputRegion.SetIndex(outputRegionIndex);
   marcher->SetOutputRegion(outputRegion);
