@@ -53,30 +53,16 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
-
-  // Declare the types of the images
   using myImageType = itk::Image<float, myDimension>;
-
-  // Declare the type of the index to access images
   using myIndexType = itk::Index<myDimension>;
-
-  // Declare the type of the size
   using mySizeType = itk::Size<myDimension>;
-
-  // Declare the type of the Region
   using myRegionType = itk::ImageRegion<myDimension>;
 
-  // Create the image
   auto inputImage = myImageType::New();
 
-
-  // Define their size, and start index
   mySizeType size;
-  size[0] = 8;
-  size[1] = 8;
-  size[2] = 8;
+  size.Fill(8);
 
   myIndexType start;
   start.Fill(0);
@@ -85,11 +71,9 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  // Initialize Image A
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
-  inputImage->Allocate();
+  // initialize the image with default-valued pixels (in this case, 0.0)
+  inputImage->SetRegions(region);
+  inputImage->Allocate(true);
 
   // Set the metadata for the image
   myImageType::PointType     origin;
@@ -112,23 +96,8 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   // Declare Iterator type for the input image
   using myIteratorType = itk::ImageRegionIteratorWithIndex<myImageType>;
 
-  // Create one iterator for the Input Image A (this is a light object)
-  myIteratorType it(inputImage, inputImage->GetRequestedRegion());
-
-  // Initialize the content of Image A
-  while (!it.IsAtEnd())
-  {
-    it.Set(0.0);
-    ++it;
-  }
-
-  size[0] = 4;
-  size[1] = 4;
-  size[2] = 4;
-
-  start[0] = 2;
-  start[1] = 2;
-  start[2] = 2;
+  size.Fill(4);
+  start.Fill(2);
 
   // Create one iterator for an internal region
   region.SetSize(size);
@@ -142,13 +111,10 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
     ++itb;
   }
 
-  // Declare the type for the
   using myFilterType = itk::GradientMagnitudeRecursiveGaussianImageFilter<myImageType>;
-
   using myGradientImageType = myFilterType::OutputImageType;
 
 
-  // Create a  Filter
   auto filter = myFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientMagnitudeRecursiveGaussianImageFilter, InPlaceImageFilter);
@@ -163,19 +129,10 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   auto normalizeAcrossScale = static_cast<bool>(std::stoi(argv[2]));
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
-  // Connect the input images
   filter->SetInput(inputImage);
 
   // Execute the filter
-  try
-  {
-    filter->Update();
-  }
-  catch (...)
-  {
-    std::cerr << "Exception thrown during Update() " << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
   // Get the Smart Pointer to the Filter Output
@@ -184,7 +141,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   // by another during GenerateData() call
   myGradientImageType::Pointer outputImage = filter->GetOutput();
 
-  // Declare Iterator type for the output image
+#ifndef NDEBUG
   using myOutputIteratorType = itk::ImageRegionIteratorWithIndex<myGradientImageType>;
 
   // Create an iterator for going through the output image
@@ -198,6 +155,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
     std::cout << itg.Get() << std::endl;
     ++itg;
   }
+#endif
 
   if (!ImageInformationIsEqual<myImageType, myImageType>::Check(inputImage, outputImage))
   {
@@ -220,15 +178,7 @@ itkGradientMagnitudeRecursiveGaussianFilterTest(int argc, char * argv[])
   inputImage->FillBuffer(1);
 
   // Execute the filter
-  try
-  {
-    filter->UpdateLargestPossibleRegion();
-  }
-  catch (...)
-  {
-    std::cerr << "Exception thrown during Update() " << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->UpdateLargestPossibleRegion());
 
   // All objects should be automatically destroyed at this point
   std::cout << std::endl << "Test PASSED ! " << std::endl;
