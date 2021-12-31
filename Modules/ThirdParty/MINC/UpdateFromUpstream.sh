@@ -1,16 +1,15 @@
 #!/usr/bin/env bash
 
-thirdparty_module_name='MINC'
+set -e
+set -x
+shopt -s dotglob
 
-upstream_git_url='https://github.com/BIC-MNI/libminc.git'
-upstream_git_branch='develop'
-
-snapshot_author_name='Vladimir S. FONOV'
-snapshot_author_email='vladimir.fonov@gmail.com'
-
-snapshot_redact_cmd='chmod u-x volume_io/Geometry/tensors.c'
-snapshot_relative_path='src/libminc'
-snapshot_paths='
+readonly name="MINC"
+readonly ownership="Vladimir S. FONOV <vladimir.fonov@gmail.com>"
+readonly subtree="Modules/ThirdParty/MINC/src/libminc"
+readonly repo="https://github.com/BIC-MNI/libminc.git"
+readonly tag="develop"
+readonly paths="
 ./ChangeLog
 ./volume_io
 ./libsrc
@@ -85,7 +84,16 @@ snapshot_paths='
 ./INSTALL
 ./config.h.cmake
 ./README
-./check_clock_gettime.c'
+./check_clock_gettime.c
+"
 
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
-update_from_upstream
+
+extract_source () {
+    git_archive
+    pushd "${extractdir}/${name}-reduced"
+	git update-index --chmod=+x 'src/libminc/libsrc/Make.com'
+    # chmod u-x volume_io/Geometry/tensors.c
+    popd
+}
+
+. "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
