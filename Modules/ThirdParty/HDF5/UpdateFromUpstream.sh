@@ -31,6 +31,8 @@ readonly paths="
    hl/c++/CMakeLists.txt
    hl/c++/src
    UserMacros.cmake
+   config/libhdf5.pc.in
+   CMakePlugins.cmake
 "
 
 extract_source () {
