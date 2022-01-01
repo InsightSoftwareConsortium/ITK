@@ -344,28 +344,28 @@ VIOAPI  void  alloc_multidim_array(
     {
     case  1:
         ASSIGN_PTR(p1) = alloc_memory_1d( sizes[0], type_size
-                                          _ALLOC_SOURCE_LINE );
+                                          ALLOC_SOURCE_LINE );
         array->data = (void *) p1;
         break;
     case  2:
         ASSIGN_PTR(p2) = alloc_memory_2d( sizes[0], sizes[1], type_size
-                                          _ALLOC_SOURCE_LINE);
+                                          ALLOC_SOURCE_LINE);
         array->data = (void *) p2;
         break;
     case  3:
         ASSIGN_PTR(p3) = alloc_memory_3d( sizes[0], sizes[1], sizes[2],
-                                          type_size _ALLOC_SOURCE_LINE );
+                                          type_size ALLOC_SOURCE_LINE );
         array->data = (void *) p3;
         break;
     case  4:
         ASSIGN_PTR(p4) = alloc_memory_4d( sizes[0], sizes[1],
-                             sizes[2], sizes[3], type_size _ALLOC_SOURCE_LINE );
+                             sizes[2], sizes[3], type_size ALLOC_SOURCE_LINE );
         array->data = (void *) p4;
         break;
     case  5:
         ASSIGN_PTR(p5) = alloc_memory_5d( sizes[0], sizes[1],
                               sizes[2], sizes[3], sizes[4], type_size
-                              _ALLOC_SOURCE_LINE );
+                              ALLOC_SOURCE_LINE );
         array->data = (void *) p5;
         break;
     }
@@ -422,15 +422,15 @@ VIOAPI  void  delete_multidim_array(
 
     switch( array->n_dimensions )
     {
-    case  1:  free_memory_1d( (void **) &array->data _ALLOC_SOURCE_LINE );
+    case  1:  free_memory_1d( (void **) &array->data ALLOC_SOURCE_LINE );
               break;
-    case  2:  free_memory_2d( (void ***) &array->data _ALLOC_SOURCE_LINE );
+    case  2:  free_memory_2d( (void ***) &array->data ALLOC_SOURCE_LINE );
               break;
-    case  3:  free_memory_3d( (void ****) &array->data _ALLOC_SOURCE_LINE );
+    case  3:  free_memory_3d( (void ****) &array->data ALLOC_SOURCE_LINE );
               break;
-    case  4:  free_memory_4d( (void *****) &array->data _ALLOC_SOURCE_LINE );
+    case  4:  free_memory_4d( (void *****) &array->data ALLOC_SOURCE_LINE );
               break;
-    case  5:  free_memory_5d( (void ******) &array->data _ALLOC_SOURCE_LINE );
+    case  5:  free_memory_5d( (void ******) &array->data ALLOC_SOURCE_LINE );
               break;
     }
 

@@ -32,15 +32,15 @@
 #include  <volume_io/basic.h>
 #include  <stdlib.h>
 
-#define  _ALLOC_SOURCE_LINE
-#define  _ALLOC_SOURCE_LINE_ARG_DEF
-#define  _ALLOC_SOURCE_LINE_ARGUMENTS
+#define  ALLOC_SOURCE_LINE
+#define  ALLOC_SOURCE_LINE_ARG_DEF
+#define  ALLOC_SOURCE_LINE_ARGUMENTS
 #define  PRINT_ALLOC_SOURCE_LINE
 
 #if 0
-#define  _ALLOC_SOURCE_LINE    , __FILE__, __LINE__
-#define  _ALLOC_SOURCE_LINE_ARG_DEF   , char  filename[], int line_number
-#define  _ALLOC_SOURCE_LINE_ARGUMENTS   , filename, line_number
+#define  ALLOC_SOURCE_LINE    , __FILE__, __LINE__
+#define  ALLOC_SOURCE_LINE_ARG_DEF   , char  filename[], int line_number
+#define  ALLOC_SOURCE_LINE_ARGUMENTS   , filename, line_number
 #define  PRINT_ALLOC_SOURCE_LINE   print_alloc_source_line( filename, line_number );
 #endif
 
@@ -62,7 +62,7 @@
 #define  ALLOC( ptr, n_items )                                                \
              ASSIGN_PTR(ptr) =                                                \
                      alloc_memory_1d( (size_t) (n_items),                     \
-                                      sizeof(*(ptr)) _ALLOC_SOURCE_LINE )
+                                      sizeof(*(ptr)) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : FREE
@@ -78,7 +78,7 @@
 ---------------------------------------------------------------------------- */
 
 #define  FREE( ptr )                                                          \
-         free_memory_1d( (void **) &(ptr) _ALLOC_SOURCE_LINE )
+         free_memory_1d( (void **) &(ptr) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : REALLOC
@@ -97,7 +97,7 @@
 
 #define  REALLOC( ptr, n_items )                                              \
            realloc_memory( (void **) &(ptr), (size_t) (n_items),              \
-                           sizeof(*(ptr)) _ALLOC_SOURCE_LINE )
+                           sizeof(*(ptr)) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : ALLOC_VAR_SIZED_STRUCT
@@ -139,7 +139,7 @@
 #define  ALLOC_VAR_SIZED_STRUCT( ptr, element_type, n_elements )              \
   ASSIGN_PTR(ptr) = alloc_memory_in_bytes(                                    \
   (size_t) (sizeof(*(ptr))+((size_t)(n_elements)-1) * sizeof(element_type))   \
-  _ALLOC_SOURCE_LINE )
+  ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : VIO_ALLOC2D
@@ -160,7 +160,7 @@
 
 #define  VIO_ALLOC2D( ptr, n1, n2 )                                               \
    ASSIGN_PTR(ptr) = alloc_memory_2d( (size_t) (n1), (size_t) (n2),           \
-                          sizeof(**(ptr)) _ALLOC_SOURCE_LINE )
+                          sizeof(**(ptr)) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : VIO_FREE2D
@@ -176,7 +176,7 @@
 ---------------------------------------------------------------------------- */
 
 #define  VIO_FREE2D( ptr )                                                        \
-         free_memory_2d( (void ***) &(ptr) _ALLOC_SOURCE_LINE )
+         free_memory_2d( (void ***) &(ptr) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : VIO_ALLOC3D
@@ -196,7 +196,7 @@
 
 #define  VIO_ALLOC3D( ptr, n1, n2, n3 )                                           \
          ASSIGN_PTR(ptr) = alloc_memory_3d( (size_t) (n1), (size_t) (n2),     \
-                          (size_t) (n3), sizeof(***(ptr)) _ALLOC_SOURCE_LINE )
+                          (size_t) (n3), sizeof(***(ptr)) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : VIO_FREE3D
@@ -212,7 +212,7 @@
 ---------------------------------------------------------------------------- */
 
 #define  VIO_FREE3D( ptr )                                                        \
-         free_memory_3d( (void ****) &(ptr) _ALLOC_SOURCE_LINE )
+         free_memory_3d( (void ****) &(ptr) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : ALLOC4D
@@ -234,7 +234,7 @@
 #define  VIO_ALLOC4D( ptr, n1, n2, n3, n4 )                                       \
        ASSIGN_PTR(ptr) = alloc_memory_4d( (size_t) (n1), (size_t) (n2),       \
                           (size_t) (n3), (size_t) (n4),                       \
-                          sizeof(****(ptr)) _ALLOC_SOURCE_LINE )
+                          sizeof(****(ptr)) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : FREE4D
@@ -250,7 +250,7 @@
 ---------------------------------------------------------------------------- */
 
 #define  VIO_FREE4D( ptr )                                                        \
-         free_memory_4d( (void *****) &(ptr) _ALLOC_SOURCE_LINE )
+         free_memory_4d( (void *****) &(ptr) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : ALLOC5D
@@ -274,7 +274,7 @@
 #define  VIO_ALLOC5D( ptr, n1, n2, n3, n4, n5 )                                   \
      ASSIGN_PTR(ptr) = alloc_memory_5d( (size_t) (n1), (size_t) (n2),         \
                           (size_t) (n3), (size_t) (n4), (size_t) (n5),        \
-                          sizeof(*****(ptr)) _ALLOC_SOURCE_LINE )
+                          sizeof(*****(ptr)) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : FREE5D
@@ -290,6 +290,6 @@
 ---------------------------------------------------------------------------- */
 
 #define  VIO_FREE5D( ptr )                                                        \
-         free_memory_5d( (void ******) &(ptr) _ALLOC_SOURCE_LINE )
+         free_memory_5d( (void ******) &(ptr) ALLOC_SOURCE_LINE )
 
 #endif /*VOL_IO_ALLOC_H*/

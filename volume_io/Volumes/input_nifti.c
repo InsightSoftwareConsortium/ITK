@@ -6,10 +6,15 @@
 #include "config.h"
 #endif /*HAVE_CONFIG_H*/
 
+#include <math.h>
+
 #include "input_nifti.h"
 
 #include "nifti1.h"
 #include "nifti1_io.h"
+#ifdef DEBUG
+#include <stdio.h>
+#endif
 
 #define NUM_BYTE_VALUES (UCHAR_MAX + 1)
 

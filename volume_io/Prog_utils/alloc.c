@@ -238,7 +238,7 @@ static VIO_Status private_alloc_memory_5d(
 
 VIOAPI  void  *alloc_memory_in_bytes(
     size_t       n_bytes
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     void         *ptr;
 
@@ -277,7 +277,7 @@ VIOAPI  void  *alloc_memory_in_bytes(
 VIOAPI  void  *alloc_memory_1d(
     size_t       n_elements,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     void   *ptr;
 
@@ -320,7 +320,7 @@ VIOAPI  void  *alloc_memory_2d(
     size_t       n1,
     size_t       n2,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     void   **ptr;
 
@@ -368,7 +368,7 @@ VIOAPI  void  *alloc_memory_3d(
     size_t       n2,
     size_t       n3,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     void         ***ptr;
 
@@ -421,7 +421,7 @@ VIOAPI  void  *alloc_memory_4d(
     size_t       n3,
     size_t       n4,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     void         ****ptr;
 
@@ -477,7 +477,7 @@ VIOAPI  void  *alloc_memory_5d(
     size_t       n4,
     size_t       n5,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     void         *****ptr;
 
@@ -529,7 +529,7 @@ VIOAPI  void  realloc_memory(
     void      **ptr,
     size_t    n_elements,
     size_t    type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
 #ifndef  NO_DEBUG_ALLOC
     void   *old_ptr = *ptr;
@@ -682,7 +682,7 @@ static  void  private_free_memory_5d(
 
 VIOAPI  void  free_memory_1d(
     void   **ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
 #if 0
 #ifndef  NO_DEBUG_ALLOC
@@ -709,7 +709,7 @@ VIOAPI  void  free_memory_1d(
 
 VIOAPI  void  free_memory_2d(
     void   ***ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
 #if 0
 #ifndef  NO_DEBUG_ALLOC
@@ -737,7 +737,7 @@ VIOAPI  void  free_memory_2d(
 
 VIOAPI  void  free_memory_3d(
     void   ****ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
 #if 0  
 #ifndef  NO_DEBUG_ALLOC
@@ -766,7 +766,7 @@ VIOAPI  void  free_memory_3d(
 
 VIOAPI  void  free_memory_4d(
     void   *****ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
 #if 0  
 #ifndef  NO_DEBUG_ALLOC
@@ -796,7 +796,7 @@ VIOAPI  void  free_memory_4d(
 
 VIOAPI  void  free_memory_5d(
     void   ******ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
 #if 0  
 #ifndef  NO_DEBUG_ALLOC

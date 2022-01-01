@@ -43,7 +43,7 @@ VIOAPI  void  set_array_size(
     size_t    previous_n_elems,
     size_t    new_n_elems,
     size_t    chunk_size
-    _ALLOC_SOURCE_LINE_ARG_DEF )
+    ALLOC_SOURCE_LINE_ARG_DEF )
 {
     size_t  new_chunk, previous_chunk;
 
@@ -53,7 +53,7 @@ VIOAPI  void  set_array_size(
         if( previous_n_elems == 0 )
         {
             *array = alloc_memory_1d( new_chunk, type_size
-                                      _ALLOC_SOURCE_LINE_ARGUMENTS );
+                                      ALLOC_SOURCE_LINE_ARGUMENTS );
         }
         else
         {
@@ -62,9 +62,9 @@ VIOAPI  void  set_array_size(
 
             if( new_chunk != previous_chunk )
                 realloc_memory( array, new_chunk, type_size
-                                 _ALLOC_SOURCE_LINE_ARGUMENTS );
+                                 ALLOC_SOURCE_LINE_ARGUMENTS );
         }
     }
     else if( previous_n_elems != 0 )
-        free_memory_1d( array _ALLOC_SOURCE_LINE_ARGUMENTS );
+        free_memory_1d( array ALLOC_SOURCE_LINE_ARGUMENTS );
 }
