@@ -12,6 +12,7 @@ itkSampleClassifierFilterTest4.cxx
 itkSampleClassifierFilterTest5.cxx
 itkSampleClassifierFilterTest6.cxx
 itkSampleClassifierFilterTest7.cxx
+itkScalarImageKmeansImageFilterTest.cxx
 itkScalarImageKmeansImageFilter3DTest.cxx
 )
 
@@ -53,6 +54,11 @@ itk_add_test(NAME itkSampleClassifierFilterTest7
               DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat} DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussianTesting.dat})
 itk_add_test(NAME itkSupervisedImageClassifierTest
       COMMAND ITKClassifiersTestDriver itkSupervisedImageClassifierTest)
+itk_add_test(NAME itkScalarImageKmeansImageFilterTest
+      COMMAND ITKClassifiersTestDriver
+    --compare DATA{Baseline/itkScalarImageKmeansImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTest.png
+    itkScalarImageKmeansImageFilterTest ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySlice.png ${ITK_TEST_OUTPUT_DIR}/itkScalarImageKmeansImageFilterTest.png 0 5 10 80 165 190 220)
 itk_add_test(NAME itkScalarImageKmeansImageFilter3DTest
       COMMAND ITKClassifiersTestDriver
     --compare ${ITK_EXAMPLE_DATA_ROOT}/KmeansTest_T1KmeansPrelimSegmentation.nii.gz

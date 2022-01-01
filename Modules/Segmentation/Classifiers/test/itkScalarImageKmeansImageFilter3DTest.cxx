@@ -185,7 +185,7 @@ itkScalarImageKmeansImageFilter3DTest(int argc, char * argv[])
   auto kmeansFilter = KMeansFilterType::New();
   kmeansFilter->SetInput(clippedBrainT1Pointer);
 
-  constexpr unsigned int useNonContiguousLabels = 1;
+  constexpr bool useNonContiguousLabels = true;
 
   RealPixelType backgroundInitialMean = imageExclusion;
   //  RealPixelType bloodInitialMean = imageMax;    // ARTERIAL blood.
