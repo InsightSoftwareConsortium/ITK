@@ -23,6 +23,7 @@
 #include "itkBSplineTransform.h"
 #include "itkImageMaskSpatialObject.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This templated function test the MattesMutualInformationImageToMetric
@@ -193,6 +194,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
 
   auto metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MattesMutualInformationImageToImageMetric, ImageToImageMetric);
+
+
   // Sanity check before metric is run, these should be nullptr;
   if (metric->GetJointPDFDerivatives().IsNotNull())
   {
@@ -214,9 +218,12 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   metric->SetMovingImage(imgMoving);
 
   // set the number of histogram bins
-  metric->SetNumberOfHistogramBins(50);
+  itk::SizeValueType numberOfHistogramBins = 50;
+  metric->SetNumberOfHistogramBins(numberOfHistogramBins);
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins())
 
-  metric->SetUseExplicitPDFDerivatives(useExplicitJointPDFDerivatives);
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseExplicitPDFDerivatives, useExplicitJointPDFDerivatives);
+
   metric->SetUseCachingOfBSplineWeights(useCachingBSplineWeights);
   metric->ReinitializeSeed(121212);
 

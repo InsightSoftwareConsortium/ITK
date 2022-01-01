@@ -20,6 +20,7 @@
 #include "itkLevelSetContainer.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest(int, char *[])
@@ -33,19 +34,17 @@ itkLevelSetEvolutionNumberOfIterationsStoppingCriterionTest(int, char *[])
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   auto criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations(5);
 
-  if (criterion->GetNumberOfIterations() != 5)
-  {
-    return EXIT_FAILURE;
-  }
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    criterion, LevelSetEvolutionNumberOfIterationsStoppingCriterion, LevelSetEvolutionStoppingCriterion);
 
-  criterion->SetRMSChangeAccumulator(0.1);
+  typename StoppingCriterionType::IterationIdType numberOfIterations = 5;
+  criterion->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, criterion->GetNumberOfIterations());
 
-  if (itk::Math::NotExactlyEquals(criterion->GetRMSChangeAccumulator(), 0.1))
-  {
-    return EXIT_FAILURE;
-  }
+  typename StoppingCriterionType::OutputRealType rmsChangeAccumulator = 0.1;
+  criterion->SetRMSChangeAccumulator(rmsChangeAccumulator);
+  ITK_TEST_SET_GET_VALUE(rmsChangeAccumulator, criterion->GetRMSChangeAccumulator());
 
   for (StoppingCriterionType::IterationIdType iter = 0; iter < 10; ++iter)
   {

@@ -109,6 +109,7 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(filter->SetSplineOrder(unsupportedSplineOrder));
 
   filter->SetSplineOrder(interpolator->GetSplineOrder());
+  ITK_TEST_SET_GET_VALUE(interpolator->GetSplineOrder(), filter->GetSplineOrder());
 
   FilterType::SplinePolesVectorType expectedSplinePoles = ParseSplinePoles<FilterType>(argv[2]);
 

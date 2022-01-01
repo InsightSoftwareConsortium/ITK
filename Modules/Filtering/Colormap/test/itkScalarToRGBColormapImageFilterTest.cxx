@@ -67,79 +67,262 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
 
   auto useInputImageExtremaForScaling = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(rgbfilter, UseInputImageExtremaForScaling, useInputImageExtremaForScaling);
+  ITK_TEST_SET_GET_BOOLEAN(vfilter, UseInputImageExtremaForScaling, useInputImageExtremaForScaling);
 
   rgbfilter->SetInput(reader->GetOutput());
   vfilter->SetInput(reader->GetOutput());
 
   if (colormapString == "red")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Red);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Red);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Red;
+
+    using RGBSpecificColormapType =
+      itk::Function::RedColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType =
+      itk::Function::RedColormapFunction<VectorFilterType::InputImagePixelType, VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "green")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Green);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Green);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Green;
+
+    using RGBSpecificColormapType =
+      itk::Function::GreenColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::GreenColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                            VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "blue")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Blue);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Blue);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Blue;
+
+    using RGBSpecificColormapType =
+      itk::Function::BlueColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::BlueColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                           VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "grey")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey;
+
+    using RGBSpecificColormapType =
+      itk::Function::GreyColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::GreyColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                           VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "cool")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Cool);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Cool);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Cool;
+
+    using RGBSpecificColormapType =
+      itk::Function::CoolColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::CoolColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                           VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "hot")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Hot);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Hot);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Hot;
+
+    using RGBSpecificColormapType =
+      itk::Function::HotColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType =
+      itk::Function::HotColormapFunction<VectorFilterType::InputImagePixelType, VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "spring")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Spring);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Spring);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Spring;
+
+    using RGBSpecificColormapType =
+      itk::Function::SpringColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::SpringColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                             VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "autumn")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Autumn);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Autumn);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Autumn;
+
+    using RGBSpecificColormapType =
+      itk::Function::WinterColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::AutumnColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                             VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "winter")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Winter);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Winter);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Winter;
+
+    using RGBSpecificColormapType =
+      itk::Function::WinterColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::WinterColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                             VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "copper")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Copper);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Copper);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Copper;
+
+    using RGBSpecificColormapType =
+      itk::Function::CopperColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::CopperColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                             VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "summer")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Summer);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Summer);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Summer;
+
+    using RGBSpecificColormapType =
+      itk::Function::SummerColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::SummerColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                             VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "jet")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Jet);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Jet);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Jet;
+
+    using RGBSpecificColormapType =
+      itk::Function::JetColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType =
+      itk::Function::JetColormapFunction<VectorFilterType::InputImagePixelType, VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "hsv")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::HSV);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::HSV);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::HSV;
+
+    using RGBSpecificColormapType =
+      itk::Function::HSVColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType =
+      itk::Function::HSVColormapFunction<VectorFilterType::InputImagePixelType, VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "overunder")
   {
-    rgbfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::OverUnder);
-    vfilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::OverUnder);
+    auto colormapEnumVal = itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::OverUnder;
+
+    using RGBSpecificColormapType =
+      itk::Function::OverUnderColormapFunction<RGBFilterType::InputImagePixelType, RGBFilterType::OutputImagePixelType>;
+    auto rgbColormap = RGBSpecificColormapType::New();
+
+    rgbfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(rgbColormap->GetNameOfClass(), rgbfilter->GetColormap()->GetNameOfClass());
+
+    using VectorSpecificColormapType = itk::Function::OverUnderColormapFunction<VectorFilterType::InputImagePixelType,
+                                                                                VectorFilterType::OutputImagePixelType>;
+    auto vColormap = VectorSpecificColormapType::New();
+
+    vfilter->SetColormap(colormapEnumVal);
+    ITK_TEST_EXPECT_EQUAL(vColormap->GetNameOfClass(), vfilter->GetColormap()->GetNameOfClass());
   }
   else if (colormapString == "custom")
   {
@@ -192,6 +375,7 @@ itkScalarToRGBColormapImageFilterTest(int argc, char * argv[])
     vfilter->SetColormap(vcolormap);
 
     ITK_TEST_SET_GET_VALUE(colormap, rgbfilter->GetColormap());
+    ITK_TEST_SET_GET_VALUE(vcolormap, vfilter->GetColormap());
   }
 
   using RGBHasher = itk::Testing::HashImageFilter<RGBImageType>;

@@ -72,6 +72,10 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   using FilterType = itk::SliceBySliceImageFilter<ImageType, ImageType>;
 
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, SliceBySliceImageFilter, ImageToImageFilter);
+
+
   filter->DebugOn();
 
   filter->SetInput(reader->GetOutput());
@@ -80,6 +84,8 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   auto median = MedianType::New();
   filter->SetFilter(median);
+  ITK_TEST_SET_GET_VALUE(median, filter->GetFilter());
+
 
   using MonitorType = itk::PipelineMonitorImageFilter<FilterType::InternalOutputImageType>;
   auto monitor = MonitorType::New();
@@ -101,8 +107,7 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   std::istringstream istrm(argv[3]);
   istrm >> slicingDimension;
   filter->SetDimension(slicingDimension);
-  std::cout << "Slicing dimension: " << slicingDimension << std::endl;
-  std::cout << "Slicing dimension: " << filter->GetDimension() << std::endl;
+  ITK_TEST_SET_GET_VALUE(slicingDimension, filter->GetDimension());
 
   try
   {
@@ -131,7 +136,10 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
 
   monitor->SetInput(median->GetOutput());
+
   filter->SetOutputFilter(monitor);
+  ITK_TEST_SET_GET_VALUE(monitor, filter->GetOutputFilter());
+
   filter->GetOutput()->SetRequestedRegion(rr);
 
 
@@ -194,11 +202,6 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
   ITK_TEST_EXPECT_EQUAL(monitor->GetUpdatedOutputOrigin(), expectedInternalOrigin);
 
   //
-  // Exercise PrintSelf()
-  //
-  filter->Print(std::cout);
-
-  //
   // Exercise exceptions
   //
   bool caughtException;
@@ -224,7 +227,10 @@ itkSliceBySliceImageFilterTest(int argc, char * argv[])
 
   std::cout << "Testing with no output filter set..." << std::endl;
   badFilter->SetInput(reader->GetOutput());
+
   badFilter->SetInputFilter(median);
+  ITK_TEST_SET_GET_VALUE(median, badFilter->GetInputFilter());
+
   caughtException = false;
   try
   {

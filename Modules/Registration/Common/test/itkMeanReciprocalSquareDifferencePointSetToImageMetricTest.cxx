@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -153,6 +154,12 @@ itkMeanReciprocalSquareDifferencePointSetToImageMetricTest(int, char *[])
 
   auto metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MeanReciprocalSquareDifferencePointSetToImageMetric, PointSetToImageMetric);
+
+
+  double lambda = 1.0;
+  metric->SetLambda(lambda);
+  ITK_TEST_SET_GET_VALUE(lambda, metric->GetLambda());
 
   //-----------------------------------------------------------
   // Plug the Images into the metric

@@ -24,6 +24,7 @@
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkImageMaskSpatialObject.h"
 #include "itkTimeProbe.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -201,6 +202,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
   auto metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MattesMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
+
+
   // Sanity check before metric is run, these should be nullptr;
   if (metric->GetJointPDFDerivatives().IsNotNull())
   {
@@ -222,7 +226,9 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   metric->SetMovingImage(imgMoving);
 
   // set the number of histogram bins
-  metric->SetNumberOfHistogramBins(50);
+  itk::SizeValueType numberOfHistogramBins = 50;
+  metric->SetNumberOfHistogramBins(numberOfHistogramBins);
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins())
 
   // this test doesn't pass when using gradient image filters,
   // presumably because of different deriviative scaling created
@@ -235,8 +241,6 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   //-------------------------------------------------------
   // exercise misc member functions
   //-------------------------------------------------------
-  std::cout << "Name of class: " << metric->GetNameOfClass() << std::endl;
-  std::cout << "No. of histogram bin used = " << metric->GetNumberOfHistogramBins() << std::endl;
   if (metric->GetJointPDF().IsNotNull())
   {
     std::cout << "JointPDF image info: " << metric->GetJointPDF() << std::endl;

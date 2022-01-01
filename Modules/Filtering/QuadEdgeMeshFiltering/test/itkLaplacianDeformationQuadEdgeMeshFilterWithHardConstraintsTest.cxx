@@ -49,6 +49,11 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
   using FilterType = itk::LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints<MeshType, MeshType, SolverType>;
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, LaplacianDeformationQuadEdgeMeshFilterWithHardConstraints, LaplacianDeformationQuadEdgeMeshFilter);
+
+
   filter->SetInput(reader->GetOutput());
   filter->SetOrder(2);
 

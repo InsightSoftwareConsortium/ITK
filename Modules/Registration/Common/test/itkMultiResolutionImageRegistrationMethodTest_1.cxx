@@ -20,6 +20,8 @@
 
 #include "itkTextOutput.h"
 #include "itkSimpleMultiResolutionImageRegistrationUI.h"
+#include "itkTestingMacros.h"
+
 namespace
 {
 
@@ -497,6 +499,9 @@ itkMultiResolutionImageRegistrationMethodTest_1(int, char *[])
     {
       metric->ReinitializeSeed(121212);
       registration->SetSchedules(fixedImageSchedule, movingImageSchedule);
+      ITK_TEST_SET_GET_VALUE(fixedImageSchedule, registration->GetFixedImagePyramidSchedule());
+      ITK_TEST_SET_GET_VALUE(movingImageSchedule, registration->GetMovingImagePyramidSchedule());
+
       registration->SetInitialTransformParameters(initialParameters);
 
       registration->Update();

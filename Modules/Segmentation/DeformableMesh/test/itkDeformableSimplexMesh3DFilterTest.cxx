@@ -27,6 +27,7 @@
 #include "itkSigmoidImageFilter.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
 #include "itkSimplexMeshVolumeCalculator.h"
+#include "itkTestingMacros.h"
 
 int
 itkDeformableSimplexMesh3DFilterTest(int, char *[])
@@ -157,7 +158,16 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
 
   auto deformFilter = DeformFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(deformFilter, DeformableSimplexMesh3DFilter, MeshToMeshFilter);
+
+
   constexpr unsigned int numberOfCycles = 100;
+  double                 alpha = 0.1;
+  double                 beta = -0.1;
+  double                 gamma = 0.05;
+  double                 damping = 0.65;
+  int                    iterations = 5;
+  unsigned int           rigidity = 1;
 
   for (unsigned int i = 0; i < numberOfCycles; ++i)
   {
@@ -165,12 +175,30 @@ itkDeformableSimplexMesh3DFilterTest(int, char *[])
     simplexMesh->DisconnectPipeline();
     deformFilter->SetInput(simplexMesh);
     deformFilter->SetGradient(gradientFilter->GetOutput());
-    deformFilter->SetAlpha(0.1);
-    deformFilter->SetBeta(-0.1);
-    deformFilter->SetIterations(5);
-    deformFilter->SetRigidity(1);
+
+    deformFilter->SetAlpha(alpha);
+    ITK_TEST_SET_GET_VALUE(alpha, deformFilter->GetAlpha());
+
+    deformFilter->SetBeta(beta);
+    ITK_TEST_SET_GET_VALUE(beta, deformFilter->GetBeta());
+
+    deformFilter->SetGamma(gamma);
+    ITK_TEST_SET_GET_VALUE(gamma, deformFilter->GetGamma());
+
+    deformFilter->SetDamping(damping);
+    ITK_TEST_SET_GET_VALUE(damping, deformFilter->GetDamping());
+
+    deformFilter->SetIterations(iterations);
+    ITK_TEST_SET_GET_VALUE(iterations, deformFilter->GetIterations());
+
+    deformFilter->SetRigidity(rigidity);
+    ITK_TEST_SET_GET_VALUE(rigidity, deformFilter->GetRigidity());
+
     deformFilter->Update();
   }
+
+  std::cout << "Deform filter Step: " << deformFilter->GetStep() << std::endl;
+
   SimplexMeshType::Pointer deformResult = deformFilter->GetOutput();
 
   // calculate the volume of the mesh

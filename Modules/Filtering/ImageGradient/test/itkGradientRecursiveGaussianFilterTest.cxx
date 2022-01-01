@@ -18,10 +18,18 @@
 
 #include "itkGradientRecursiveGaussianImageFilter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkTestingMacros.h"
 
 int
-itkGradientRecursiveGaussianFilterTest(int, char *[])
+itkGradientRecursiveGaussianFilterTest(int argc, char * argv[])
 {
+  if (argc != 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " normalizeAcrossScale useImageDirection" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -102,15 +110,27 @@ itkGradientRecursiveGaussianFilterTest(int, char *[])
 
 
   // Create a  Filter
-  auto                     filter = myFilterType::New();
+  auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GradientRecursiveGaussianImageFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher watcher(filter);
+
+  auto normalizeAcrossScale = static_cast<bool>(std::stoi(argv[1]));
+  filter->SetNormalizeAcrossScale(normalizeAcrossScale);
+  ITK_TEST_SET_GET_VALUE(normalizeAcrossScale, filter->GetNormalizeAcrossScale());
+
+  auto useImageDirection = static_cast<bool>(std::stoi(argv[2]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageDirection, useImageDirection);
+
+  // Select the value of Sigma
+  typename myFilterType::ScalarRealType sigma = 2.5;
+  filter->SetSigma(sigma);
+  ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigma());
 
   // Connect the input images
   filter->SetInput(inputImage);
-
-  // Select the value of Sigma
-  filter->SetSigma(2.5);
-
 
   // Execute the filter
   filter->Update();

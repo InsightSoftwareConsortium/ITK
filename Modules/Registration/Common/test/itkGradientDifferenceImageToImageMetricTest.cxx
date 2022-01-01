@@ -19,6 +19,7 @@
 #include "itkGradientDifferenceImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 #include "itkTranslationTransform.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -76,6 +77,13 @@ itkGradientDifferenceImageToImageMetricTest(int, char *[])
   using ParametersType = TransformBaseType::ParametersType;
 
   auto metric = MetricType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, GradientDifferenceImageToImageMetric, ImageToImageMetric);
+
+
+  double derivativeDelta = 0.001;
+  metric->SetDerivativeDelta(derivativeDelta);
+  ITK_TEST_SET_GET_VALUE(derivativeDelta, metric->GetDerivativeDelta());
 
   // Plug the images into the metric.
   metric->SetFixedImage(fixedImage);

@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkAmoebaOptimizerv4.h"
+#include "itkTestingMacros.h"
 #include "vnl/vnl_vector_fixed.h"
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
@@ -339,14 +340,27 @@ AmoebaTest1()
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, AmoebaOptimizerv4, SingleValuedNonLinearVnlOptimizerv4);
+
+
   // set optimizer parameters
-  itkOptimizer->SetNumberOfIterations(10);
+  itk::SizeValueType numberOfIterations = 10;
+  itkOptimizer->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
-  double xTolerance = 0.01;
+  auto automaticInitialSimplex = true;
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, AutomaticInitialSimplex, automaticInitialSimplex);
+
+  auto optimizeWithRestarts = false;
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, OptimizeWithRestarts, optimizeWithRestarts);
+
+  double xTolerance = -0.01;
   itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
+  ITK_TEST_SET_GET_VALUE(xTolerance, itkOptimizer->GetParametersConvergenceTolerance());
 
-  double fTolerance = 0.001;
+  double fTolerance = -0.001;
   itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
+  ITK_TEST_SET_GET_VALUE(fTolerance, itkOptimizer->GetFunctionConvergenceTolerance());
 
   auto metric = itkAmoebaOptimizerv4TestMetric1::New();
   itkOptimizer->SetMetric(metric);
@@ -361,6 +375,19 @@ AmoebaTest1()
   // parameters.
   std::cout << "Set metric parameters." << std::endl;
   metric->SetParameters(initialValue);
+
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
+
+  xTolerance = 0.01;
+  itkOptimizer->SetParametersConvergenceTolerance(xTolerance);
+  ITK_TEST_SET_GET_VALUE(xTolerance, itkOptimizer->GetParametersConvergenceTolerance());
+
+  ITK_TRY_EXPECT_EXCEPTION(itkOptimizer->StartOptimization());
+
+  fTolerance = 0.001;
+  itkOptimizer->SetFunctionConvergenceTolerance(fTolerance);
+  ITK_TEST_SET_GET_VALUE(fTolerance, itkOptimizer->GetFunctionConvergenceTolerance());
 
   try
   {
@@ -457,6 +484,7 @@ AmoebaTest2()
   OptimizerType::ParametersType initialSimplexDelta(1);
   initialSimplexDelta[0] = 10;
   itkOptimizer->SetInitialSimplexDelta(initialSimplexDelta);
+  ITK_TEST_SET_GET_VALUE(initialSimplexDelta, itkOptimizer->GetInitialSimplexDelta());
 
   OptimizerType::ParametersType initialParameters(1), finalParameters;
   // starting position
@@ -485,6 +513,8 @@ AmoebaTest2()
     std::cerr << "[TEST 2 FAILURE]\n";
     return EXIT_FAILURE;
   }
+
+  std::cout << "StopConditionDescription: " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   // we should have converged to the local minimum, -2
   finalParameters = itkOptimizer->GetCurrentPosition();

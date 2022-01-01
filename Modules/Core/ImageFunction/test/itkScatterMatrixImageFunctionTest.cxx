@@ -18,6 +18,7 @@
 
 
 #include "itkScatterMatrixImageFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkScatterMatrixImageFunctionTest(int, char *[])
@@ -60,9 +61,14 @@ itkScatterMatrixImageFunctionTest(int, char *[])
 
   auto function = FunctionType::New();
 
-  function->SetInputImage(image);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, ScatterMatrixImageFunction, ImageFunction);
 
-  function->SetNeighborhoodRadius(5);
+
+  unsigned int neighborhoodRadius = 5;
+  function->SetNeighborhoodRadius(neighborhoodRadius);
+  ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
+
+  function->SetInputImage(image);
 
   ImageType::IndexType index;
 
@@ -94,8 +100,8 @@ itkScatterMatrixImageFunctionTest(int, char *[])
   std::cout << "function->EvaluateAtContinuousIndex(cindex): " << covariance3 << std::endl;
 
   // Test GetConstReferenceMacro
-  const unsigned int & neighborhoodRadius = function->GetNeighborhoodRadius();
-  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadius << std::endl;
+  const unsigned int & neighborhoodRadiusConst = function->GetNeighborhoodRadius();
+  std::cout << "function->GetNeighborhoodRadius(): " << neighborhoodRadiusConst << std::endl;
 
   std::cout << "Scatter Matrix = " << std::endl;
   std::cout << scatterMatrix << std::endl;

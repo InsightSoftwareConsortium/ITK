@@ -99,7 +99,18 @@ ThresholdLabelerImageFilterTestHelper(bool useRealTypeThresholds)
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(labelerFilter, ThresholdLabelerImageFilter, UnaryFunctorImageFilter);
 
+
   labelerFilter->SetInput(inputImage);
+
+  // Test exception when providing unsorted thresholds
+  std::vector<LabelerFilterType::RealThresholdType> unsrtThresholds;
+  unsrtThresholds.push_back(2.0);
+  unsrtThresholds.push_back(1.0);
+  unsrtThresholds.push_back(3.0);
+
+  labelerFilter->SetRealThresholds(unsrtThresholds);
+
+  ITK_TRY_EXPECT_EXCEPTION(labelerFilter->Update());
 
   if (!useRealTypeThresholds)
   {

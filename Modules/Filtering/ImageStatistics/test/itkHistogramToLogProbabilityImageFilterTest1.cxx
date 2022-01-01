@@ -79,6 +79,10 @@ itkHistogramToLogProbabilityImageFilterTest1(int argc, char * argv[])
 
   auto histogramToImageFilter = HistogramToImageFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    histogramToImageFilter, HistogramToLogProbabilityImageFilter, HistogramToImageFilter);
+
+
   histogramToImageFilter->SetInput(histogram);
 
   using OutputImageType = HistogramToImageFilterType::OutputImageType;

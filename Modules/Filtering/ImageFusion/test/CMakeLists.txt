@@ -92,17 +92,17 @@ itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest0
       COMMAND ITKImageFusionTestDriver
     --compare DATA{Baseline/itkLabelMapContourOverlayImageFilterTest0.png}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest0.png
-    itkLabelMapContourOverlayImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest0.png 0.6 0 0 10 1)
+    itkLabelMapContourOverlayImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest0.png 0.6 0 0 10 1 1)
 itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest1
       COMMAND ITKImageFusionTestDriver
     --compare DATA{Baseline/itkLabelMapContourOverlayImageFilterTest1.png}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest1.png
-    itkLabelMapContourOverlayImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest1.png 0.7 1 2 15 0)
+    itkLabelMapContourOverlayImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest1.png 0.7 1 2 15 0 1)
 itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest2
       COMMAND ITKImageFusionTestDriver
     --compare DATA{Baseline/itkLabelMapContourOverlayImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest2.png
-    itkLabelMapContourOverlayImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest2.png 0.8 2 3 12 1)
+    itkLabelMapContourOverlayImageFilterTest1 DATA{${ITK_DATA_ROOT}/Input/SpotsLabeled.png} DATA{${ITK_DATA_ROOT}/Input/SpotsInverted.png} ${ITK_TEST_OUTPUT_DIR}/itkLabelMapContourOverlayImageFilterTest2.png 0.8 2 3 12 1 1)
 itk_add_test(NAME itkLabelMapContourOverlayImageFilterTest3
       COMMAND ITKImageFusionTestDriver
     --compare DATA{Baseline/itkLabelMapContourOverlayImageFilterTest2.png}

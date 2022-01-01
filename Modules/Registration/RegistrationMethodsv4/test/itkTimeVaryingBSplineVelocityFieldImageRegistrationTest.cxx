@@ -278,12 +278,28 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
     itk::TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TransformType>;
   typename VelocityFieldTransformAdaptorType::Pointer initialFieldTransformAdaptor =
     VelocityFieldTransformAdaptorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(initialFieldTransformAdaptor,
+                                    TimeVaryingBSplineVelocityFieldTransformParametersAdaptor,
+                                    TransformParametersAdaptor);
+
   initialFieldTransformAdaptor->SetSplineOrder(outputTransform->GetSplineOrder());
+  ITK_TEST_SET_GET_VALUE(outputTransform->GetSplineOrder(), initialFieldTransformAdaptor->GetSplineOrder());
+
   initialFieldTransformAdaptor->SetRequiredTransformDomainOrigin(transformDomainOrigin);
+  ITK_TEST_SET_GET_VALUE(transformDomainOrigin, initialFieldTransformAdaptor->GetRequiredTransformDomainOrigin());
+
   initialFieldTransformAdaptor->SetRequiredTransformDomainSpacing(transformDomainSpacing);
+  ITK_TEST_SET_GET_VALUE(transformDomainSpacing, initialFieldTransformAdaptor->GetRequiredTransformDomainSpacing());
+
   initialFieldTransformAdaptor->SetRequiredTransformDomainSize(transformDomainSize);
+  ITK_TEST_SET_GET_VALUE(transformDomainSize, initialFieldTransformAdaptor->GetRequiredTransformDomainSize());
+
   initialFieldTransformAdaptor->SetRequiredTransformDomainMeshSize(transformDomainMeshSize);
+  ITK_TEST_SET_GET_VALUE(transformDomainMeshSize, initialFieldTransformAdaptor->GetRequiredTransformDomainMeshSize());
+
   initialFieldTransformAdaptor->SetRequiredTransformDomainDirection(transformDomainDirection);
+  ITK_TEST_SET_GET_VALUE(transformDomainDirection, initialFieldTransformAdaptor->GetRequiredTransformDomainDirection());
 
   VectorType zeroVector(0.0);
 

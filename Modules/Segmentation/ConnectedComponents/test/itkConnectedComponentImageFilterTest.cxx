@@ -59,6 +59,10 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   auto writer = WriterType::New();
   auto threshold = ThresholdFilterType::New();
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ConnectedComponentImageFilter, ImageToImageFilter);
+
+
   auto relabel = RelabelType::New();
 
   itk::SimpleFilterWatcher watcher(filter);
@@ -78,11 +82,21 @@ itkConnectedComponentImageFilterTest(int argc, char * argv[])
   threshold->Update();
 
   filter->SetInput(threshold->GetOutput());
+  bool fullyConnected = false;
   if (argc > 5)
   {
-    int fullyConnected = std::stoi(argv[5]);
-    filter->SetFullyConnected(fullyConnected);
+    fullyConnected = static_cast<bool>(std::stoi(argv[5]));
   }
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
+
+  auto backgroundValue = itk::NumericTraits<typename FilterType::OutputPixelType>::ZeroValue();
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+  std::cout << "ConnectedComponent filter ObjectCount: " << filter->GetObjectCount() << std::endl;
+
   relabel->SetInput(filter->GetOutput());
   if (argc > 6)
   {

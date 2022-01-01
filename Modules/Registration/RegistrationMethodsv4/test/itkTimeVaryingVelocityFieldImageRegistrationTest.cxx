@@ -246,6 +246,10 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
     itk::TimeVaryingVelocityFieldImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   auto velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    velocityFieldRegistration, TimeVaryingVelocityFieldImageRegistrationMethodv4, ImageRegistrationMethodv4);
+
+
   using OutputTransformType = typename VelocityFieldRegistrationType::OutputTransformType;
   auto outputTransform = OutputTransformType::New();
 
@@ -255,7 +259,8 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldRegistration->SetNumberOfLevels(3);
   velocityFieldRegistration->SetMetric(correlationMetric);
   velocityFieldRegistration->SetLearningRate(learningRate);
-  std::cout << "learningRate: " << learningRate << std::endl;
+  ITK_TEST_SET_GET_VALUE(learningRate, velocityFieldRegistration->GetLearningRate());
+
   outputTransform->SetGaussianSpatialSmoothingVarianceForTheTotalField(0.0);
   outputTransform->SetGaussianSpatialSmoothingVarianceForTheUpdateField(3.0);
   outputTransform->SetGaussianTemporalSmoothingVarianceForTheTotalField(0.0);
@@ -275,8 +280,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   numberOfIterationsPerLevel[1] = numberOfDeformableIterationsLevel1;
   numberOfIterationsPerLevel[2] = numberOfDeformableIterationsLevel2;
   velocityFieldRegistration->SetNumberOfIterationsPerLevel(numberOfIterationsPerLevel);
-  std::cout << "iterations per level: " << numberOfIterationsPerLevel[0] << ", " << numberOfIterationsPerLevel[1]
-            << ", " << numberOfIterationsPerLevel[2] << std::endl;
+  ITK_TEST_SET_GET_VALUE(numberOfIterationsPerLevel, velocityFieldRegistration->GetNumberOfIterationsPerLevel());
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize(3);
@@ -291,6 +295,16 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   smoothingSigmasPerLevel[1] = 1;
   smoothingSigmasPerLevel[2] = 0;
   velocityFieldRegistration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+
+  typename VelocityFieldRegistrationType::RealType convergenceThreshold = 1.0e-7;
+  velocityFieldRegistration->SetConvergenceThreshold(convergenceThreshold);
+  ITK_TEST_SET_GET_VALUE(convergenceThreshold, velocityFieldRegistration->GetConvergenceThreshold());
+
+  unsigned int convergenceWindowSize = 10;
+  velocityFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
+  ITK_TEST_SET_GET_VALUE(convergenceWindowSize, velocityFieldRegistration->GetConvergenceWindowSize());
+
+  velocityFieldRegistration->DebugOn();
 
   using VelocityFieldTransformAdaptorType =
     itk::TimeVaryingVelocityFieldTransformParametersAdaptor<OutputTransformType>;

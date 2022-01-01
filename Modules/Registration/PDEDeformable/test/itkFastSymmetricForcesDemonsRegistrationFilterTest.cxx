@@ -21,6 +21,7 @@
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
 #include "itkCastImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -175,6 +176,10 @@ itkFastSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
 
   using RegistrationType = itk::FastSymmetricForcesDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    registrator, FastSymmetricForcesDemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+
 
   registrator->SetInitialDisplacementField(caster->GetOutput());
   registrator->SetMovingImage(moving);

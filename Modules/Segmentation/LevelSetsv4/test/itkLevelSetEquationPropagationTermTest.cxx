@@ -138,6 +138,10 @@ itkLevelSetEquationPropagationTermTest(int argc, char * argv[])
 
   // Create ChanAndVese External term for phi_{1}
   auto term = PropagationTermType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(term, LevelSetEquationPropagationTerm, LevelSetEquationTermBase);
+
+
   term->SetInput(binary);
   term->SetCoefficient(1.0);
   term->SetCurrentLevelSetId(0);

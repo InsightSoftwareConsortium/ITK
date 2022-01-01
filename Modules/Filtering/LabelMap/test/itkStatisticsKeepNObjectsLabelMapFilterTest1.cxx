@@ -62,6 +62,9 @@ itkStatisticsKeepNObjectsLabelMapFilterTest1(int argc, char * argv[])
   using LabelOpeningType = itk::StatisticsKeepNObjectsLabelMapFilter<LabelMapType>;
   auto opening = LabelOpeningType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(opening, StatisticsKeepNObjectsLabelMapFilter, ShapeKeepNObjectsLabelMapFilter);
+
+
   // testing boolean macro for ReverseOrdering
   opening->ReverseOrderingOn();
   ITK_TEST_SET_GET_VALUE(true, opening->GetReverseOrdering());

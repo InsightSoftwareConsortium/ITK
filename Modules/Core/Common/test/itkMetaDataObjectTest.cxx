@@ -19,6 +19,7 @@
 #include "itkMetaDataObject.h"
 #include "itkImage.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 template <typename TMetaData>
 int
@@ -29,6 +30,9 @@ testMetaData(const TMetaData & value)
   using MetaDataObjectType = itk::MetaDataObject<MetaDataType>;
 
   auto metaDataObject = MetaDataObjectType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metaDataObject, MetaDataObject, MetaDataObjectBase);
+
 
   metaDataObject->SetMetaDataObjectValue(value);
   if (itk::Math::NotExactlyEquals(metaDataObject->GetMetaDataObjectValue(), value))

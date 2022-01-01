@@ -19,6 +19,7 @@
 #include <iostream>
 #include "itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunction.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 enum
 {
@@ -210,8 +211,12 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
 
   // Create the interpolator
   auto interp = InterpolatorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    interp, VectorLinearInterpolateNearestNeighborExtrapolateImageFunction, VectorInterpolateImageFunction);
+
+
   interp->SetInputImage(image);
-  interp->Print(std::cout);
 
   using GenericInterpolatorType = InterpolatorType::Superclass;
   std::cout << interp->GenericInterpolatorType::GetNameOfClass() << std::endl;

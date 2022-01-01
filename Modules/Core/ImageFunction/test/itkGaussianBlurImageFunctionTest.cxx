@@ -18,6 +18,7 @@
 
 #include "itkMath.h"
 #include "itkGaussianBlurImageFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkGaussianBlurImageFunctionTest(int, char *[])
@@ -75,6 +76,9 @@ itkGaussianBlurImageFunctionTest(int, char *[])
   }
   std::cout << "[PASSED] " << std::endl;
 
+  gaussianFunction->SetSigma(sigma);
+  ITK_TEST_SET_GET_VALUE(sigma, gaussianFunction->GetSigma());
+
   // Testing Set/GetExtent()
   std::cout << "Testing Set/GetExtent(): ";
 
@@ -90,6 +94,9 @@ itkGaussianBlurImageFunctionTest(int, char *[])
     }
   }
   std::cout << "[PASSED] " << std::endl;
+
+  gaussianFunction->SetExtent(ext);
+  ITK_TEST_SET_GET_VALUE(ext, gaussianFunction->GetExtent());
 
 
   // Testing Set/GetMaximumError()

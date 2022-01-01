@@ -106,7 +106,13 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter1->SetInput(input->GetOutput());
   filter1->SetMaskImage(mask1);
   filter1->SetOperator(sobelHorizontal);
-  filter1->UseDefaultValueOff();
+
+  auto defaultValue = itk::NumericTraits<typename FilterType::OutputPixelType>::ZeroValue();
+  filter1->SetDefaultValue(defaultValue);
+  ITK_TEST_SET_GET_VALUE(defaultValue, filter1->GetDefaultValue());
+
+  bool useDefaultValue = false;
+  ITK_TEST_SET_GET_BOOLEAN(filter1, UseDefaultValue, useDefaultValue);
 
   auto filter2 = FilterType::New();
 
@@ -115,7 +121,11 @@ itkMaskNeighborhoodOperatorImageFilterTest(int argc, char * argv[])
   filter2->SetInput(filter1->GetOutput());
   filter2->SetMaskImage(mask2);
   filter2->SetOperator(sobelVertical);
-  filter2->UseDefaultValueOff();
+
+  filter2->SetDefaultValue(defaultValue);
+  ITK_TEST_SET_GET_VALUE(defaultValue, filter2->GetDefaultValue());
+
+  ITK_TEST_SET_GET_BOOLEAN(filter2, UseDefaultValue, useDefaultValue);
 
   using RescaleFilterType = itk::RescaleIntensityImageFilter<InputImageType, OutputImageType>;
   auto rescaler = RescaleFilterType::New();

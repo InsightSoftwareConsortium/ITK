@@ -21,6 +21,7 @@
 
 #include <fstream>
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 template <unsigned int Dimension>
 int
@@ -75,6 +76,17 @@ itkExpectationBasedPointSetMetricTestRun()
   // Instantiate the metric
   using PointSetMetricType = itk::ExpectationBasedPointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, ExpectationBasedPointSetToPointSetMetricv4, PointSetToPointSetMetricv4);
+
+  typename PointSetMetricType::CoordRepType pointSetSigma = 1.0;
+  metric->SetPointSetSigma(pointSetSigma);
+  ITK_TEST_SET_GET_VALUE(pointSetSigma, metric->GetPointSetSigma());
+
+  unsigned int evaluationKNeighborhood = 50;
+  metric->SetEvaluationKNeighborhood(evaluationKNeighborhood);
+  ITK_TEST_SET_GET_VALUE(evaluationKNeighborhood, metric->GetEvaluationKNeighborhood());
+
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);
   metric->SetMovingTransform(translationTransform);

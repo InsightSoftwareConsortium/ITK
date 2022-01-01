@@ -146,9 +146,17 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
 
   // Create Advection term for phi_{1}
   auto advectionTerm = AdvectionTermType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(advectionTerm, LevelSetEquationAdvectionTerm, LevelSetEquationTermBase);
+
+
   advectionTerm->SetInput(input);
   advectionTerm->SetCoefficient(1.0);
-  advectionTerm->SetDerivativeSigma(std::stod(argv[6]));
+
+  auto derivativeSigma = static_cast<typename AdvectionTermType::LevelSetOutputRealType>(std::stod(argv[6]));
+  advectionTerm->SetDerivativeSigma(derivativeSigma);
+  ITK_TEST_SET_GET_VALUE(derivativeSigma, advectionTerm->GetDerivativeSigma());
+
   std::cout << "LevelSet 1: Advection term created" << std::endl;
 
   // **************** CREATE ALL EQUATIONS ****************
@@ -187,6 +195,7 @@ itkSingleLevelSetDenseAdvectionImage2DTest(int argc, char * argv[])
 
   AdvectionTermType::AdvectionImageType * advectionImage = advectionTerm->GetModifiableAdvectionImage();
   advectionTerm->SetAdvectionImage(advectionImage);
+  ITK_TEST_SET_GET_VALUE(advectionImage, advectionTerm->GetAdvectionImage());
 
   auto outputImage = ImageType::New();
   outputImage->SetRegions(input->GetLargestPossibleRegion());

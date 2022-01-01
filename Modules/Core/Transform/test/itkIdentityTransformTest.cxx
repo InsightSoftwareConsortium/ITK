@@ -170,6 +170,12 @@ itkIdentityTransformTest(int, char *[])
     std::cout << " [ PASSED ] " << std::endl;
   }
 
+  IdentityTransformType::JacobianPositionType jacobianWrtPos;
+  transform->ComputeJacobianWithRespectToPosition(p, jacobianWrtPos);
+  IdentityTransformType::JacobianPositionType identity;
+  identity.set_identity();
+  ITK_TEST_EXPECT_EQUAL(identity, jacobianWrtPos);
+
   auto inv = IdentityTransformType::New();
   ITK_TEST_EXPECT_TRUE(transform->GetInverse(inv));
   ITK_TEST_EXPECT_TRUE(!transform->GetInverse(nullptr));

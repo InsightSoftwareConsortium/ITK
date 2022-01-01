@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFastMarchingNumberOfElementsStoppingCriterion.h"
+#include "itkTestingMacros.h"
 
 int
 itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
@@ -30,6 +31,14 @@ itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
   {
     return EXIT_FAILURE;
   }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    image_criterion, FastMarchingNumberOfElementsStoppingCriterion, FastMarchingStoppingCriterionBase);
+
+
+  itk::IdentifierType targetNumberOfElements = 10;
+  image_criterion->SetTargetNumberOfElements(targetNumberOfElements);
+  ITK_TEST_SET_GET_VALUE(targetNumberOfElements, image_criterion->GetTargetNumberOfElements());
 
   using MeshType = itk::QuadEdgeMesh<float, 3>;
 

@@ -59,8 +59,14 @@ BSpline(int argc, char * argv[])
 
   bspliner->SetInput(reader->GetOutput());
 
+  typename BSplinerType::ArrayType::ValueType closeDimensionVal = 0;
+  typename BSplinerType::ArrayType            closeDimension;
+  closeDimension.Fill(closeDimensionVal);
+  bspliner->SetCloseDimension(closeDimension);
+  ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
+
   typename BSplinerType::ArrayType splineOrder = 3;
-  bspliner->SetSplineOrder(3);
+  bspliner->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 
   bspliner->SetSize(size);

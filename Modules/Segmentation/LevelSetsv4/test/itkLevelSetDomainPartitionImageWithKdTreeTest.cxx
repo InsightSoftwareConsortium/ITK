@@ -101,10 +101,19 @@ itkLevelSetDomainPartitionImageWithKdTreeTest(int, char *[])
   TreeType::Pointer kdtree = treeGenerator->GetOutput();
 
   auto partitionSource = DomainPartitionSourceType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    partitionSource, LevelSetDomainPartitionImageWithKdTree, LevelSetDomainPartitionImage);
+
+
   partitionSource->SetNumberOfLevelSetFunctions(numberOfLevelSetFunctions);
   partitionSource->SetImage(binary);
   partitionSource->SetLevelSetDomainRegionVector(regionVector);
-  partitionSource->SetNumberOfNeighbors(3);
+
+  typename DomainPartitionSourceType::NeighborsIdType numberOfNeighbors = 3;
+  partitionSource->SetNumberOfNeighbors(numberOfNeighbors);
+  ITK_TEST_SET_GET_VALUE(numberOfNeighbors, partitionSource->GetNumberOfNeighbors());
+
   partitionSource->SetKdTree(kdtree);
   partitionSource->PopulateListDomain();
 

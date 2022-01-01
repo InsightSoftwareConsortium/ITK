@@ -18,6 +18,7 @@
 #include <iostream>
 
 #include "itkRingBuffer.h"
+#include "itkTestingMacros.h"
 
 /**
  * This test is basically a duplicate of RingBufferImageSetTest with a few
@@ -32,6 +33,9 @@ itkRingBufferTest(int, char *[])
   //////
   using RingBufferType = itk::RingBuffer<itk::Object>;
   auto ringBuffer = RingBufferType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(ringBuffer, RingBuffer, Object);
+
 
   // Check that the default number of buffers (3) was properly set
   if (ringBuffer->GetNumberOfBuffers() != 3)

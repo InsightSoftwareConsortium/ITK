@@ -21,6 +21,7 @@
 #include "itkMeanReciprocalSquareDifferenceImageToImageMetric.h"
 #include "itkGaussianImageSource.h"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -100,7 +101,9 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   using ParametersType = TransformBaseType::ParametersType;
 
   auto metric = MetricType::New();
-  metric->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MeanReciprocalSquareDifferenceImageToImageMetric, ImageToImageMetric);
+
 
   //-----------------------------------------------------------
   // Plug the Images into the metric
@@ -143,7 +146,13 @@ itkMeanReciprocalSquareDifferenceImageMetricTest(int, char *[])
   // The lambda value is the intensity difference that should
   // make the metric drop by 50%
   //------------------------------------------------------------
-  metric->SetLambda(10);
+  double lambda = 10.0;
+  metric->SetLambda(lambda);
+  ITK_TEST_SET_GET_VALUE(lambda, metric->GetLambda());
+
+  double delta = 0.00011;
+  metric->SetDelta(delta);
+  ITK_TEST_SET_GET_VALUE(delta, metric->GetDelta());
 
 
   //------------------------------------------------------------

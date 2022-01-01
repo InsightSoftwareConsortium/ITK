@@ -19,6 +19,7 @@
 #include "itkQuadEdgeMeshEulerOperatorSplitFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkQuadEdgeMeshEulerOperatorSplitFaceTest(int, char *[])
@@ -41,6 +42,10 @@ itkQuadEdgeMeshEulerOperatorSplitFaceTest(int, char *[])
   std::cout << "Checking SplitFacet." << std::endl;
 
   auto splitFacet = SplitFacet::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(splitFacet, QuadEdgeMeshEulerOperatorSplitFacetFunction, QuadEdgeMeshFunctionBase);
+
+
   std::cout << "     "
             << "Test No Mesh Input";
   if (splitFacet->Evaluate((QEType *)1, (QEType *)2))

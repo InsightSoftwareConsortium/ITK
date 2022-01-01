@@ -146,8 +146,9 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
         inputImage->SetPixel(idx, val);
       }
 
-  itk::NarrowBandThresholdSegmentationLevelSetImageFilter<::NBTS::SeedImageType, ::NBTS::ImageType>::Pointer filter =
-    itk::NarrowBandThresholdSegmentationLevelSetImageFilter<::NBTS::SeedImageType, ::NBTS::ImageType>::New();
+  using FilterType = itk::NarrowBandThresholdSegmentationLevelSetImageFilter<::NBTS::SeedImageType, ::NBTS::ImageType>;
+
+  auto filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     filter, NarrowBandThresholdSegmentationLevelSetImageFilter, NarrowBandLevelSetImageFilter);
@@ -155,10 +156,33 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
+  ITK_TEST_SET_GET_VALUE(inputImage, filter->GetFeatureImage());
+
   filter->SetNumberOfWorkUnits(2);
 
-  filter->SetUpperThreshold(63);
-  filter->SetLowerThreshold(50);
+  typename FilterType::ValueType upperThreshold = 63;
+  filter->SetUpperThreshold(upperThreshold);
+  ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
+
+  typename FilterType::ValueType lowerThredhold = 50;
+  filter->SetLowerThreshold(lowerThredhold);
+  ITK_TEST_SET_GET_VALUE(lowerThredhold, filter->GetLowerThreshold());
+
+  typename FilterType::ValueType edgeWeight = 0.0;
+  filter->SetEdgeWeight(edgeWeight);
+  ITK_TEST_SET_GET_VALUE(edgeWeight, filter->GetEdgeWeight());
+
+  int smoothingIterations = 5;
+  filter->SetSmoothingIterations(smoothingIterations);
+  ITK_TEST_SET_GET_VALUE(smoothingIterations, filter->GetSmoothingIterations());
+
+  typename FilterType::ValueType smoothingTimeStep = 0.1;
+  filter->SetSmoothingTimeStep(smoothingTimeStep);
+  ITK_TEST_SET_GET_VALUE(smoothingTimeStep, filter->GetSmoothingTimeStep());
+
+  typename FilterType::ValueType smoothingConductance = 0.8;
+  filter->SetSmoothingConductance(smoothingConductance);
+  ITK_TEST_SET_GET_VALUE(smoothingConductance, filter->GetSmoothingConductance());
 
   filter->SetMaximumRMSError(0.04); // Does not have any effect
   filter->SetNumberOfIterations(10);

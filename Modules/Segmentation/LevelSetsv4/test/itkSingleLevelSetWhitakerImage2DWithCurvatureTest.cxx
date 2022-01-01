@@ -26,6 +26,7 @@
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetEquationCurvatureTerm.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
+#include "itkTestingMacros.h"
 
 int
 itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
@@ -174,39 +175,25 @@ itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
 
   using StoppingCriterionType = itk::LevelSetEvolutionNumberOfIterationsStoppingCriterion<LevelSetContainerType>;
   auto criterion = StoppingCriterionType::New();
-  criterion->SetNumberOfIterations(5);
+
+  typename StoppingCriterionType::IterationIdType numberOfIterations = 5;
+  criterion->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, criterion->GetNumberOfIterations());
 
   auto evolution = LevelSetEvolutionType::New();
+
   evolution->SetEquationContainer(equationContainer);
-
-  if (evolution->GetEquationContainer() != equationContainer)
-  {
-    std::cerr << "evolution->GetEquationContainer() != equationContainer" << std::endl;
-
-    return EXIT_FAILURE;
-  }
-  std::cout << "evolution->GetEquationContainer() == equationContainer" << std::endl;
+  ITK_TEST_SET_GET_VALUE(equationContainer, evolution->GetEquationContainer());
 
   evolution->SetStoppingCriterion(criterion);
-
-  if (evolution->GetStoppingCriterion() != criterion)
-  {
-    std::cerr << "evolution->GetStoppingCriterion( ) != criterion" << std::endl;
-
-    return EXIT_FAILURE;
-  }
-  std::cout << "evolution->GetStoppingCriterion( ) == criterion" << std::endl;
+  ITK_TEST_SET_GET_VALUE(criterion, evolution->GetStoppingCriterion());
 
   evolution->SetLevelSetContainer(lscontainer);
+  ITK_TEST_SET_GET_VALUE(lscontainer, evolution->GetLevelSetContainer());
 
-  if (evolution->GetLevelSetContainer() != lscontainer)
-  {
-    std::cerr << "evolution->GetLevelSetContainer( ) != lscontainer" << std::endl;
-
-    return EXIT_FAILURE;
-  }
-  std::cerr << "evolution->GetLevelSetContainer( ) == lscontainer" << std::endl;
-
+  typename LevelSetEvolutionType::LevelSetOutputRealType alpha = 0.9;
+  evolution->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, evolution->GetAlpha());
 
   try
   {
@@ -218,20 +205,6 @@ itkSingleLevelSetWhitakerImage2DWithCurvatureTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  if (evolution->GetNumberOfIterations() != 5)
-  {
-    std::cerr << "evolution->GetNumberOfIterations() != 5" << std::endl;
-    std::cerr << "evolution->GetNumberOfIterations() = " << evolution->GetNumberOfIterations() << std::endl;
-
-    return EXIT_FAILURE;
-  }
-
-  if (itk::Math::NotAlmostEquals(evolution->GetAlpha(), 0.9))
-  {
-    std::cerr << "evolution->GetAlpha() != 0.9" << std::endl;
-
-    return EXIT_FAILURE;
-  }
 
   return EXIT_SUCCESS;
 }

@@ -141,10 +141,17 @@ private:
 
 
 int
-itkPowellOptimizerv4Test(int, char *[])
+itkPowellOptimizerv4Test(int argc, char * argv[])
 {
-  std::cout << "PowellOptimizerv4 Test ";
-  std::cout << std::endl << std::endl;
+  if (argc != 7)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " stepLength stepTolerance valueTolerance maximumIteration maximumLineIteration "
+                 " metricWorstPossibleValue"
+              << std::endl;
+    return EXIT_FAILURE;
+  }
 
   using OptimizerType = itk::PowellOptimizerv4<double>;
 
@@ -176,10 +183,30 @@ itkPowellOptimizerv4Test(int, char *[])
   std::cout << "Set metric parameters." << std::endl;
   metric->SetParameters(initialPosition);
 
-  itkOptimizer->SetStepLength(10);
-  itkOptimizer->SetStepTolerance(0.01);
-  itkOptimizer->SetValueTolerance(0.1);
-  itkOptimizer->SetMaximumIteration(100);
+
+  auto stepLength = std::stod(argv[1]);
+  itkOptimizer->SetStepLength(stepLength);
+  ITK_TEST_SET_GET_VALUE(stepLength, itkOptimizer->GetStepLength());
+
+  auto stepTolerance = std::stod(argv[2]);
+  itkOptimizer->SetStepTolerance(stepTolerance);
+  ITK_TEST_SET_GET_VALUE(stepTolerance, itkOptimizer->GetStepTolerance());
+
+  auto valueTolerance = std::stod(argv[3]);
+  itkOptimizer->SetValueTolerance(valueTolerance);
+  ITK_TEST_SET_GET_VALUE(valueTolerance, itkOptimizer->GetValueTolerance());
+
+  auto maximumIteration = static_cast<unsigned int>(std::stoi(argv[4]));
+  itkOptimizer->SetMaximumIteration(maximumIteration);
+  ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
+
+  auto maximumLineIteration = static_cast<unsigned int>(std::stoi(argv[5]));
+  itkOptimizer->SetMaximumLineIteration(maximumLineIteration);
+  ITK_TEST_SET_GET_VALUE(maximumLineIteration, itkOptimizer->GetMaximumLineIteration());
+
+  auto metricWorstPossibleValue = std::stod(argv[6]);
+  itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
+  ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
 
   try
   {
@@ -212,12 +239,10 @@ itkPowellOptimizerv4Test(int, char *[])
   }
 
   // Exercise various member functions.
-  std::cout << "StepLength: " << itkOptimizer->GetStepLength();
-  std::cout << std::endl;
   std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
   std::cout << std::endl;
-
-  itkOptimizer->Print(std::cout);
+  std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << std::endl;
+  std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << std::endl;
 
   std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << std::endl;
 

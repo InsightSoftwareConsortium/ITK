@@ -24,6 +24,7 @@
 #include "itkStreamingImageFilter.h"
 #include "itkVectorImage.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -182,34 +183,60 @@ itkWarpImageFilterTest(int, char *[])
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
 
-  warper->SetInput(input);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(warper, WarpImageFilter, ImageToImageFilter);
+
+
   warper->SetDisplacementField(field);
+  ITK_TEST_SET_GET_VALUE(field, warper->GetDisplacementField());
+
+  auto interpolator = WarperType::DefaultInterpolatorType::New();
+  warper->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, warper->GetInterpolator());
+
   warper->SetEdgePaddingValue(padValue);
+  ITK_TEST_SET_GET_VALUE(padValue, warper->GetEdgePaddingValue());
+
+  itk::FixedArray<double, ImageDimension> array;
+  array.Fill(2.0);
+  warper->SetOutputSpacing(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputSpacing());
+
+  array.Fill(1.0);
+  warper->SetOutputSpacing(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputSpacing());
+
+  array.Fill(-10.0);
+  warper->SetOutputOrigin(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputOrigin());
+
+  array.Fill(0.0);
+  warper->SetOutputOrigin(array.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputOrigin());
+
+  typename WarperType::DirectionType outputDirection;
+  outputDirection.SetIdentity();
+  warper->SetOutputDirection(outputDirection);
+  ITK_TEST_SET_GET_VALUE(outputDirection, warper->GetOutputDirection());
+
+  typename WarperType::IndexType::value_type outputStartIndexVal = 0;
+  typename WarperType::IndexType             outputStartIndex;
+  outputStartIndex.Fill(outputStartIndexVal);
+  warper->SetOutputStartIndex(outputStartIndex);
+  ITK_TEST_SET_GET_VALUE(outputStartIndex, warper->GetOutputStartIndex());
+
+  typename WarperType::SizeType::value_type outputSizeVal = 0;
+  typename WarperType::SizeType             outputSize;
+  outputSize.Fill(outputSizeVal);
+  warper->SetOutputSize(outputSize);
+  ITK_TEST_SET_GET_VALUE(outputSize, warper->GetOutputSize());
+
+  warper->SetInput(input);
 
   ShowProgressObject                                    progressWatch(warper);
   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   warper->AddObserver(itk::ProgressEvent(), command);
-
-  warper->Print(std::cout);
-
-  // exercise Get methods
-  std::cout << "Interpolator: " << warper->GetInterpolator() << std::endl;
-  std::cout << "DisplacementField: " << warper->GetDisplacementField() << std::endl;
-  std::cout << "EdgePaddingValue: " << warper->GetEdgePaddingValue() << std::endl;
-
-  // exercise Set methods
-  itk::FixedArray<double, ImageDimension> array;
-  array.Fill(2.0);
-  warper->SetOutputSpacing(array.GetDataPointer());
-  array.Fill(1.0);
-  warper->SetOutputSpacing(array.GetDataPointer());
-
-  array.Fill(-10.0);
-  warper->SetOutputOrigin(array.GetDataPointer());
-  array.Fill(0.0);
-  warper->SetOutputOrigin(array.GetDataPointer());
 
   // Update the filter
   warper->Update();

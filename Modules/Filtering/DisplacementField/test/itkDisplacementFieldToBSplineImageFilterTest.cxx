@@ -91,24 +91,54 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
 
 
   bspliner->SetDisplacementField(field);
+  ITK_TEST_SET_GET_VALUE(field, bspliner->GetDisplacementField());
+
   bspliner->SetConfidenceImage(confidenceImage);
+  ITK_TEST_SET_GET_VALUE(confidenceImage, bspliner->GetConfidenceImage());
+
   bspliner->SetPointSet(pointSet);
-  bspliner->SetUseInputFieldToDefineTheBSplineDomain(true);
+  ITK_TEST_SET_GET_VALUE(pointSet, bspliner->GetPointSet());
+
+  ITK_TEST_SET_GET_BOOLEAN(bspliner, UseInputFieldToDefineTheBSplineDomain, true);
+
   bspliner->SetNumberOfControlPoints(numberOfControlPoints);
-  bspliner->SetSplineOrder(3);
-  bspliner->SetNumberOfFittingLevels(8);
-  bspliner->EnforceStationaryBoundaryOff();
-  bspliner->EnforceStationaryBoundaryOn();
-  bspliner->SetEnforceStationaryBoundary(false);
-  bspliner->EstimateInverseOff();
-  bspliner->EstimateInverseOn();
-  bspliner->SetEstimateInverse(false);
-  bspliner->Update();
-  std::cout << "spline order: " << bspliner->GetSplineOrder() << std::endl;
-  std::cout << "number of control points: " << bspliner->GetNumberOfControlPoints() << std::endl;
-  std::cout << "number of fitting levels: " << bspliner->GetNumberOfFittingLevels() << std::endl;
-  std::cout << "enforce stationary boundary: " << bspliner->GetEnforceStationaryBoundary() << std::endl;
-  std::cout << "estimate inverse: " << bspliner->GetEstimateInverse() << std::endl;
+  ITK_TEST_SET_GET_VALUE(numberOfControlPoints, bspliner->GetNumberOfControlPoints());
+
+  unsigned int splineOrder = 3;
+  bspliner->SetSplineOrder(splineOrder);
+  ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
+
+  typename BSplineFilterType::ArrayType::ValueType numberOfFittingLevelsVal = 8;
+  typename BSplineFilterType::ArrayType            numberOfFittingLevels;
+  numberOfFittingLevels.Fill(numberOfFittingLevelsVal);
+  bspliner->SetNumberOfFittingLevels(numberOfFittingLevelsVal);
+  ITK_TEST_SET_GET_VALUE(numberOfFittingLevels, bspliner->GetNumberOfFittingLevels());
+
+  bspliner->SetNumberOfFittingLevels(numberOfFittingLevels);
+  ITK_TEST_SET_GET_VALUE(numberOfFittingLevels, bspliner->GetNumberOfFittingLevels());
+
+  ITK_TEST_SET_GET_BOOLEAN(bspliner, EnforceStationaryBoundary, false);
+
+  ITK_TEST_SET_GET_BOOLEAN(bspliner, EstimateInverse, false);
+
+  typename BSplineFilterType::OriginType::ValueType bSplineDomainOriginVal = 0.0;
+  typename BSplineFilterType::OriginType            bSplineDomainOrigin;
+  bSplineDomainOrigin.Fill(bSplineDomainOriginVal);
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainOrigin, bspliner->GetBSplineDomainOrigin());
+
+  typename BSplineFilterType::SpacingType::ValueType bSplineDomainSpacingVal = 1.0;
+  typename BSplineFilterType::SpacingType            bSplineDomainSpacing;
+  bSplineDomainSpacing.Fill(bSplineDomainSpacingVal);
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner->GetBSplineDomainSpacing());
+
+  typename BSplineFilterType::SizeType::value_type bSplineDomainSizeVal = 0;
+  typename BSplineFilterType::SizeType             bSplineDomainSize;
+  bSplineDomainSize.Fill(bSplineDomainSizeVal);
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainSize, bspliner->GetBSplineDomainSize());
+
+  typename BSplineFilterType::DirectionType bSplineDomainDirection;
+  bSplineDomainDirection.SetIdentity();
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainDirection, bspliner->GetBSplineDomainDirection());
 
   try
   {
@@ -119,6 +149,18 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
     std::cerr << "Exception thrown " << std::endl;
     std::cerr << excp << std::endl;
   }
+
+  bSplineDomainOrigin = field->GetOrigin();
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainOrigin, bspliner->GetBSplineDomainOrigin());
+
+  bSplineDomainSpacing = field->GetSpacing();
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner->GetBSplineDomainSpacing());
+
+  bSplineDomainSize = field->GetRequestedRegion().GetSize();
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainSize, bspliner->GetBSplineDomainSize());
+
+  bSplineDomainDirection = field->GetDirection();
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainDirection, bspliner->GetBSplineDomainDirection());
 
   DisplacementFieldType::IndexType index;
   index[0] = 50;
@@ -132,13 +174,10 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  bspliner->SetNumberOfControlPoints(numberOfControlPoints);
-  bspliner->SetSplineOrder(3);
-  bspliner->SetNumberOfFittingLevels(5);
-  bspliner->EnforceStationaryBoundaryOff();
-  bspliner->EnforceStationaryBoundaryOn();
-  bspliner->SetEnforceStationaryBoundary(false);
-  bspliner->SetEstimateInverse(true);
+  numberOfFittingLevelsVal = 5;
+  bspliner->SetNumberOfFittingLevels(numberOfFittingLevelsVal);
+  bspliner->EstimateInverseOn();
+
   bspliner->Update();
 
   v = bspliner->GetOutput()->GetPixel(index);
@@ -149,25 +188,29 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  bspliner->Print(std::cout, 3);
-
-
   /** do a second run using only the point set. */
 
   auto bspliner2 = BSplineFilterType::New();
   bspliner2->SetPointSet(pointSet);
-  bspliner2->SetUseInputFieldToDefineTheBSplineDomain(false);
+
+  bspliner2->UseInputFieldToDefineTheBSplineDomainOff();
+
   bspliner2->SetBSplineDomainFromImage(field);
+
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainOrigin, bspliner2->GetBSplineDomainOrigin());
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainSpacing, bspliner2->GetBSplineDomainSpacing());
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainSize, bspliner2->GetBSplineDomainSize());
+  ITK_TEST_EXPECT_EQUAL(bSplineDomainDirection, bspliner2->GetBSplineDomainDirection());
+
   bspliner2->SetNumberOfControlPoints(numberOfControlPoints);
-  bspliner2->SetSplineOrder(3);
-  bspliner2->SetNumberOfFittingLevels(8);
+  bspliner2->SetSplineOrder(splineOrder);
+
+  numberOfFittingLevelsVal = 8;
+  bspliner2->SetNumberOfFittingLevels(numberOfFittingLevelsVal);
+
   bspliner2->EnforceStationaryBoundaryOff();
-  bspliner2->EnforceStationaryBoundaryOn();
-  bspliner2->SetEnforceStationaryBoundary(false);
+
   bspliner2->EstimateInverseOff();
-  bspliner2->EstimateInverseOn();
-  bspliner2->SetEstimateInverse(false);
-  bspliner2->Update();
 
   try
   {

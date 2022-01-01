@@ -85,6 +85,14 @@ itkTubeSpatialObjectTest(int, char *[])
   p.SetRadiusInObjectSpace(1);
   p.Print(std::cout);
 
+  // Test TubeSpatialObjectPoint exceptions: no spatial object exists so far
+  ITK_TRY_EXPECT_EXCEPTION(p.GetTangentInWorldSpace());
+
+  ITK_TRY_EXPECT_EXCEPTION(p.GetNormal1InWorldSpace());
+
+  ITK_TRY_EXPECT_EXCEPTION(p.GetNormal2InWorldSpace());
+
+
   tube1->SetPoints(list);
   tube1->Update();
 

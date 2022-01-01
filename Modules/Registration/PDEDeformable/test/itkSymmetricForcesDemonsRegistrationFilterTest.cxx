@@ -21,6 +21,7 @@
 #include "itkWarpImageFilter.h"
 #include "itkNearestNeighborInterpolateImageFunction.h"
 #include "itkCommand.h"
+#include "itkTestingMacros.h"
 
 
 namespace
@@ -163,14 +164,20 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   using RegistrationType = itk::SymmetricForcesDemonsRegistrationFilter<ImageType, ImageType, FieldType>;
   auto registrator = RegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    registrator, SymmetricForcesDemonsRegistrationFilter, PDEDeformableRegistrationFilter);
+
   registrator->SetInitialDisplacementField(initField);
   registrator->SetMovingImage(moving);
   registrator->SetFixedImage(fixed);
   registrator->SetNumberOfIterations(150);
   registrator->SetStandardDeviations(2.0);
   registrator->SetStandardDeviations(1.0);
-  registrator->SetIntensityDifferenceThreshold(0.001);
-  registrator->Print(std::cout);
+
+  double intensityDifferenceThreshold = 0.001;
+  registrator->SetIntensityDifferenceThreshold(intensityDifferenceThreshold);
+  ITK_TEST_SET_GET_VALUE(intensityDifferenceThreshold, registrator->GetIntensityDifferenceThreshold());
+
 
   std::cout << "\n\n\nPrinting function" << std::endl;
   using FunctionType = RegistrationType::DemonsRegistrationFunctionType;
@@ -196,6 +203,8 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   command->SetCallbackFunction(&progressWatch, &ShowProgressObject::ShowProgress);
   registrator->AddObserver(itk::ProgressEvent(), command);
 
+  std::cout << "Registration metric: " << registrator->GetMetric() << std::endl;
+
   // warp moving image
   using WarperType = itk::WarpImageFilter<ImageType, ImageType, FieldType>;
   auto warper = WarperType::New();
@@ -214,6 +223,9 @@ itkSymmetricForcesDemonsRegistrationFilterTest(int, char *[])
   warper->Print(std::cout);
 
   warper->Update();
+
+
+  std::cout << "Registration RMS change: " << registrator->GetRMSChange() << std::endl;
 
   // ---------------------------------------------------------
   std::cout << "Compare warped moving and fixed." << std::endl;

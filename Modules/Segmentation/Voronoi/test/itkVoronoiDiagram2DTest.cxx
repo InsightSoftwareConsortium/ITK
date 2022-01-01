@@ -47,6 +47,7 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
   using NeighborIdIterator = VoronoiDiagram::NeighborIdIterator;
 
   auto voronoiDiagram = VoronoiDiagram::New();
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(voronoiDiagram, VoronoiDiagram2D, Mesh);
 
   auto voronoiDiagramGenerator = VoronoiDiagramGenerator::New();
   ITK_EXERCISE_BASIC_OBJECT_METHODS(voronoiDiagramGenerator, VoronoiDiagram2DGenerator, MeshSource);
@@ -61,6 +62,8 @@ itkVoronoiDiagram2DTest(int argc, char * argv[])
 
   voronoiDiagramGenerator->Update();
   voronoiDiagram = voronoiDiagramGenerator->GetOutput();
+
+  ITK_TEST_SET_GET_VALUE(numberOfSeeds, voronoiDiagram->GetNumberOfSeeds());
 
   for (unsigned int i = 0; i < voronoiDiagramGenerator->GetNumberOfSeeds(); ++i)
   {

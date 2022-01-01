@@ -18,6 +18,7 @@
 
 #include "itkFrustumSpatialFunction.h"
 #include "itkTestingMacros.h"
+#include <set>
 
 
 int
@@ -200,6 +201,16 @@ itkFrustumSpatialFunctionTest(int, char *[])
     std::cerr << " is inside frustum" << std::endl;
     std::cerr << "Test FAILED ! " << std::endl;
     testStatus = EXIT_FAILURE;
+  }
+
+  // Test streaming enumeration for FrustumSpatialFunctionEnums elements
+  const std::set<itk::FrustumSpatialFunctionEnums::RotationPlane> allRotationPlanes{
+    itk::FrustumSpatialFunctionEnums::RotationPlane::RotateInXZPlane,
+    itk::FrustumSpatialFunctionEnums::RotationPlane::RotateInYZPlane
+  };
+  for (const auto & ee : allRotationPlanes)
+  {
+    std::cout << "STREAMED ENUM VALUE itk::FrustumSpatialFunctionEnums::RotationPlane: " << ee << std::endl;
   }
 
   return testStatus;

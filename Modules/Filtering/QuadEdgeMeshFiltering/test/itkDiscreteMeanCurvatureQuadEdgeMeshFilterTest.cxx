@@ -58,6 +58,11 @@ itkDiscreteMeanCurvatureQuadEdgeMeshFilterTest(int argc, char * argv[])
   MeshType::Pointer mesh = reader->GetOutput();
 
   auto mean_curvature = CurvatureFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    mean_curvature, DiscreteMeanCurvatureQuadEdgeMeshFilter, DiscreteCurvatureQuadEdgeMeshFilter);
+
+
   mean_curvature->SetInput(mesh);
   mean_curvature->Update();
 

@@ -22,6 +22,7 @@
 #include "itkExhaustiveOptimizer.h"
 
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  *  The objectif function is the quadratic form:
@@ -154,6 +155,8 @@ itkExhaustiveOptimizerTest(int, char *[])
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);
+
 
   // Index observer (enables us to check if all positions were indeed visisted):
   auto idxObserver = IndexObserver::New();
@@ -184,7 +187,9 @@ itkExhaustiveOptimizerTest(int, char *[])
   itkOptimizer->SetScales(parametersScale);
 
 
-  itkOptimizer->SetStepLength(1.0);
+  auto stepLength = 1.0;
+  itkOptimizer->SetStepLength(stepLength);
+  ITK_TEST_SET_GET_VALUE(stepLength, itkOptimizer->GetStepLength());
 
 
   using StepsType = OptimizerType::StepsType;
@@ -193,7 +198,10 @@ itkExhaustiveOptimizerTest(int, char *[])
   steps[1] = 10;
 
   itkOptimizer->SetNumberOfSteps(steps);
+  ITK_TEST_SET_GET_VALUE(steps, itkOptimizer->GetNumberOfSteps());
 
+
+  std::cout << "MaximumNumberOfIterations: " << itkOptimizer->GetMaximumNumberOfIterations() << std::endl;
 
   try
   {
@@ -267,9 +275,6 @@ itkExhaustiveOptimizerTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-
-  std::cout << "Testing PrintSelf " << std::endl;
-  itkOptimizer->Print(std::cout);
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

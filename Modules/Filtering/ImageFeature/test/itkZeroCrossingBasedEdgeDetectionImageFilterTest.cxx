@@ -25,10 +25,11 @@
 int
 itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 5)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " varianceValue maximumErrorValue" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " varianceValue maximumErrorValue backgroundValue foregroundValue" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -79,6 +80,14 @@ itkZeroCrossingBasedEdgeDetectionImageFilterTest(int argc, char * argv[])
   maximumError.Fill(maximumErrorValue);
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
+
+  auto backgroundValue = static_cast<typename FilterType::OutputImagePixelType>(std::stod(argv[3]));
+  filter->SetBackgroundValue(backgroundValue);
+  ITK_TEST_SET_GET_VALUE(backgroundValue, filter->GetBackgroundValue());
+
+  auto foregroundValue = static_cast<typename FilterType::OutputImagePixelType>(std::stod(argv[4]));
+  filter->SetForegroundValue(foregroundValue);
+  ITK_TEST_SET_GET_VALUE(foregroundValue, filter->GetForegroundValue());
 
   // Run Test
   itk::Size<2> sz;

@@ -203,7 +203,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
       }
     }
 
-    initializer->ComputeRotationOn();
+    auto computeRotation = true;
+    ITK_TEST_SET_GET_BOOLEAN(initializer, ComputeRotation, computeRotation);
+
     initializer->InitializeTransform();
 
     std::cout << "Initialized Transform is" << std::endl;

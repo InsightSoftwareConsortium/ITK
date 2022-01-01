@@ -138,10 +138,28 @@ itkLevelSetEquationLaplacianTermTest(int argc, char * argv[])
 
   // Create ChanAndVese External term for phi_{1}
   auto term = LaplacianTermType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(term, LevelSetEquationLaplacianTerm, LevelSetEquationTermBase);
+
+
   term->SetInput(binary);
-  term->SetCoefficient(1.0);
-  term->SetCurrentLevelSetId(0);
+  ITK_TEST_SET_GET_VALUE(binary, term->GetInput());
+
+  typename LaplacianTermType::LevelSetOutputRealType coefficient = 1.0;
+  term->SetCoefficient(coefficient);
+  ITK_TEST_SET_GET_VALUE(coefficient, term->GetCoefficient());
+
+  typename LaplacianTermType::LevelSetIdentifierType currentLevelSetId = 0;
+  term->SetCurrentLevelSetId(currentLevelSetId);
+  ITK_TEST_SET_GET_VALUE(currentLevelSetId, term->GetCurrentLevelSetId());
+
   term->SetLevelSetContainer(lscontainer);
+  ITK_TEST_SET_GET_VALUE(lscontainer, term->GetLevelSetContainer());
+
+  std::string termName = "Laplacia term";
+  term->SetTermName(termName);
+  ITK_TEST_SET_GET_VALUE(termName, term->GetTermName());
+
   std::cout << "Laplacian term created" << std::endl;
 
   // Initialize the ChanAndVese term here

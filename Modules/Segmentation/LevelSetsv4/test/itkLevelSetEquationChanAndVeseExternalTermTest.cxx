@@ -57,9 +57,6 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
   using CacheImageType = itk::Image<short, Dimension>;
   using DomainMapImageFilterType = itk::LevelSetDomainMapImageFilter<IdListImageType, CacheImageType>;
 
-  using ChanAndVeseExternalTermType =
-    itk::LevelSetEquationChanAndVeseExternalTerm<InputImageType, LevelSetContainerType>;
-
   using LevelSetOutputRealType = SparseLevelSetType::OutputRealType;
   using HeavisideFunctionBaseType =
     itk::SinRegularizedHeavisideStepFunction<LevelSetOutputRealType, LevelSetOutputRealType>;
@@ -144,6 +141,11 @@ itkLevelSetEquationChanAndVeseExternalTermTest(int argc, char * argv[])
 
   // Create ChanAndVese External term for phi_{1}
   auto cvExternalTerm0 = ChanAndVeseExternalTermType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    cvExternalTerm0, LevelSetEquationChanAndVeseExternalTerm, LevelSetEquationChanAndVeseInternalTerm);
+
+
   cvExternalTerm0->SetInput(binary);
   cvExternalTerm0->SetCoefficient(1.0);
   cvExternalTerm0->SetCurrentLevelSetId(0);

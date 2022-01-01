@@ -24,6 +24,7 @@
 
 #include <iostream>
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This test uses two 2D-Gaussians (standard deviation RegionSize/2)
@@ -144,6 +145,7 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
 
   auto metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, NormalizedCorrelationPointSetToImageMetric, PointSetToImageMetric);
 
   //-----------------------------------------------------------
   // Plug the Images into the metric
@@ -217,7 +219,8 @@ itkNormalizedCorrelationPointSetToImageMetricTest(int, char *[])
 
   std::cout << "param[1]   Metric    d(Metric)/d(param[1] " << std::endl;
 
-  metric->SubtractMeanOn();
+  bool subtractMean = true;
+  ITK_TEST_SET_GET_BOOLEAN(metric, SubtractMean, subtractMean);
 
   parameters[1] = -10.2;
   metric->GetValueAndDerivative(parameters, measure, derivative);

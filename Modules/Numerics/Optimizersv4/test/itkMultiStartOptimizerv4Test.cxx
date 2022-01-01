@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkMultiStartOptimizerv4.h"
+#include "itkTestingMacros.h"
 
 /**
  *  \class MultiStartOptimizerv4TestMetric for test
@@ -210,6 +211,12 @@ itkMultiStartOptimizerv4Test(int, char *[])
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, MultiStartOptimizerv4Template, ObjectToObjectOptimizerBaseTemplate);
+
+
+  auto stopCondition = itk::StopConditionObjectToObjectOptimizerEnum::MAXIMUM_NUMBER_OF_ITERATIONS;
+  ITK_TEST_EXPECT_EQUAL(stopCondition, itkOptimizer->GetStopCondition());
+
   // Declaration of the Metric
   auto metric = MultiStartOptimizerv4TestMetric::New();
 
@@ -290,6 +297,7 @@ itkMultiStartOptimizerv4Test(int, char *[])
   optimizer->SetLearningRate(1.e-1);
   optimizer->SetNumberOfIterations(25);
   itkOptimizer->SetLocalOptimizer(optimizer);
+  ITK_TEST_SET_GET_VALUE(optimizer, itkOptimizer->GetLocalOptimizer());
   if (MultiStartOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
   {
     return EXIT_FAILURE;

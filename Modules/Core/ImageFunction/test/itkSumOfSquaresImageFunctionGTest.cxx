@@ -22,6 +22,7 @@
 #include "itkImage.h"
 #include "itkImageBufferRange.h"
 #include "itkIndexRange.h"
+#include "itkTestingMacros.h"
 
 #include <gtest/gtest.h>
 #include <numeric>     // For std::accumulate.
@@ -92,7 +93,28 @@ Expect_EvaluateAtIndex_returns_number_of_neigbors_when_all_pixels_are_one(const 
   }
 }
 
+template <typename TImage>
+int
+TestBasicObjectProperties()
+{
+  const auto imageFunction = itk::SumOfSquaresImageFunction<TImage>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(imageFunction, SumOfSquaresImageFunction, ImageFunction);
+
+  unsigned int radius = 1;
+  imageFunction->SetNeighborhoodRadius(radius);
+  ITK_TEST_SET_GET_VALUE(radius, imageFunction->GetNeighborhoodRadius());
+
+  return EXIT_SUCCESS;
+}
 } // namespace
+
+
+TEST(SumOfSquaresImageFunction, BasicObjectProperties)
+{
+  TestBasicObjectProperties<itk::Image<double, 2>>();
+  TestBasicObjectProperties<itk::Image<unsigned char, 3>>();
+}
 
 
 // Tests that EvaluateAtIndex returns zero when all pixels are zero.

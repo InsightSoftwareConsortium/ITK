@@ -126,6 +126,10 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
   }
 
   auto interpolator = InterpolatorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(interpolator, NearestNeighborInterpolateImageFunction, InterpolateImageFunction);
+
+
   interpolator->SetInputImage(image);
 
   typename ImageType::SizeType radius;

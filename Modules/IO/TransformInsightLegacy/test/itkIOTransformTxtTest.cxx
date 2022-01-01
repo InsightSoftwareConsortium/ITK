@@ -26,6 +26,7 @@
 #include "itkTransformFactory.h"
 #include "itkSimilarity2DTransform.h"
 #include "itkBSplineTransform.h"
+#include "itkTestingMacros.h"
 #include "itksys/SystemTools.hxx"
 
 template <typename ScalarType>
@@ -60,11 +61,19 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   typename itk::TransformFileReaderTemplate<ScalarType>::Pointer reader;
 
   reader = itk::TransformFileReaderTemplate<ScalarType>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(reader, TransformFileReaderTemplate, LightProcessObject);
+
+
   writer = itk::TransformFileWriterTemplate<ScalarType>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, TransformFileWriterTemplate, LightProcessObject);
+
   writer->AddTransform(affine);
 
   writer->SetFileName(outputDirectory + goodname);
   reader->SetFileName(outputDirectory + goodname);
+  ITK_TEST_SET_GET_VALUE(outputDirectory + goodname, reader->GetFileName());
 
   // Testing writing std::cout << "Testing write : ";
   affine->Print(std::cout);

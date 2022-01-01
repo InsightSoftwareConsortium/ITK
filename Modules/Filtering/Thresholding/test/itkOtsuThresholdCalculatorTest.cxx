@@ -93,6 +93,13 @@ itkOtsuThresholdCalculatorTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, OtsuThresholdCalculator, HistogramThresholdCalculator);
 
+#if defined(ITKV4_COMPATIBILITY)
+  bool returnBinMidpoint{ true };
+#else
+  bool returnBinMidpoint{ false };
+#endif
+  ITK_TEST_SET_GET_BOOLEAN(calculator, ReturnBinMidpoint, returnBinMidpoint);
+
   calculator->SetInput(histGenerator->GetOutput());
 
   calculator->Update();

@@ -204,7 +204,7 @@ itk_add_test(NAME itkPowImageFilterTest
 itk_add_test(NAME itkMultiplyImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkMultiplyImageFilterTest)
 itk_add_test(NAME itkWeightedAddImageFilterTest
-      COMMAND ITKImageIntensityTestDriver itkWeightedAddImageFilterTest)
+      COMMAND ITKImageIntensityTestDriver itkWeightedAddImageFilterTest 0.4)
 itk_add_test(NAME itkRescaleIntensityImageFilterTest
       COMMAND ITKImageIntensityTestDriver itkRescaleIntensityImageFilterTest)
 

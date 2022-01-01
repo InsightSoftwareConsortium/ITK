@@ -24,6 +24,7 @@
 #include "itkFastMarchingImageFilter.h"
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkSimilarityIndexImageFilter.h"
+#include "itkTestingMacros.h"
 
 /* Uncomment to write out image files */
 #ifdef WRITING_OUT_IMAGES
@@ -135,6 +136,9 @@ itkCurvesLevelSetImageFilterTest(int, char *[])
   using CurvesFilterType = itk::CurvesLevelSetImageFilter<InternalImageType, InternalImageType>;
 
   auto curvesFilter = CurvesFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(curvesFilter, CurvesLevelSetImageFilter, SegmentationLevelSetImageFilter);
+
 
   // set the initial level set
   curvesFilter->SetInput(fastMarching->GetOutput());

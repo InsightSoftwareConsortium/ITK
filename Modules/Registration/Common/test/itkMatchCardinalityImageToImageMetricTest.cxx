@@ -44,6 +44,10 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
 
   auto reader = ReaderType::New();
   auto metric = MetricType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, MatchCardinalityImageToImageMetric, ImageToImageMetric);
+
+
   auto transform = TransformType::New();
   auto interpolator = InterpolatorType::New();
 
@@ -80,7 +84,8 @@ itkMatchCardinalityImageToImageMetricTest(int argc, char * argv[])
   }
 
   std::cout << "Now measure mismatches..." << std::endl;
-  metric->MeasureMatchesOff();
+  bool measureMatches = false;
+  ITK_TEST_SET_GET_BOOLEAN(metric, MeasureMatches, measureMatches);
 
   for (float x = -200.0; x <= 200.0; x += 50.0)
   {

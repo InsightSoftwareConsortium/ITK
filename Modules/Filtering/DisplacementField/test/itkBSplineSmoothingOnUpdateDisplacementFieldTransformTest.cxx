@@ -19,6 +19,7 @@
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /**
  * Test the UpdateTransformParameters and related methods,
@@ -36,6 +37,20 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
 
   /* Create a displacement field transform */
   auto displacementTransform = DisplacementTransformType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    displacementTransform, BSplineSmoothingOnUpdateDisplacementFieldTransform, DisplacementFieldTransform);
+
+
+  typename DisplacementTransformType::ArrayType::ValueType controlPointsUpdateFieldVal = 4;
+  typename DisplacementTransformType::ArrayType            controlPointsUpdateField;
+  controlPointsUpdateField.Fill(controlPointsUpdateFieldVal);
+  ITK_TEST_SET_GET_VALUE(controlPointsUpdateField, displacementTransform->GetNumberOfControlPointsForTheUpdateField());
+
+  typename DisplacementTransformType::ArrayType::ValueType controlPointsTotalFieldVal = 0;
+  typename DisplacementTransformType::ArrayType            controlPointsTotalField;
+  controlPointsTotalField.Fill(controlPointsTotalFieldVal);
+  ITK_TEST_SET_GET_VALUE(controlPointsTotalField, displacementTransform->GetNumberOfControlPointsForTheTotalField());
 
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image
@@ -71,10 +86,18 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   DisplacementTransformType::ArrayType meshSizeForUpdateField;
   meshSizeForUpdateField.Fill(15);
   displacementTransform->SetMeshSizeForTheUpdateField(meshSizeForUpdateField);
+
   DisplacementTransformType::ArrayType meshSizeForTotalField;
   meshSizeForTotalField.Fill(30);
   displacementTransform->SetMeshSizeForTheTotalField(meshSizeForTotalField);
-  displacementTransform->SetSplineOrder(3);
+
+  typename DisplacementTransformType::SplineOrderType splineOrder = 3;
+  displacementTransform->SetSplineOrder(splineOrder);
+  ITK_TEST_SET_GET_VALUE(splineOrder, displacementTransform->GetSplineOrder());
+
+  auto enforceStationaryBoundary = true;
+  ITK_TEST_SET_GET_BOOLEAN(displacementTransform, EnforceStationaryBoundary, enforceStationaryBoundary);
+
   displacementTransform->SetParameters(paramsFill);
 
   DisplacementTransformType::NumberOfParametersType numberOfParameters = displacementTransform->GetNumberOfParameters();
@@ -207,9 +230,6 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
     }
     std::cout << std::endl;
   }
-
-  /* Exercise Get/Set sigma */
-  displacementTransform->Print(std::cout, 5);
 
   return EXIT_SUCCESS;
 }

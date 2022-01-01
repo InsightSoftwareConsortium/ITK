@@ -82,6 +82,9 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
 
   ITK_TEST_SET_GET_BOOLEAN(dilate, RunOneIteration, runOneIteration);
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(dilate->Update());
+
+  std::cout << "Dilate filter NumberOfIterationsUsed: " << dilate->GetNumberOfIterationsUsed() << std::endl;
 
   // Create the marker image for erode
   shiftErode->SetInput(dilate->GetOutput());
@@ -94,6 +97,10 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(erode, FullyConnected, fullyConnected);
 
   ITK_TEST_SET_GET_BOOLEAN(erode, RunOneIteration, runOneIteration);
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(erode->Update());
+
+  std::cout << "Erode filter NumberOfIterationsUsed: " << erode->GetNumberOfIterationsUsed() << std::endl;
 
   writer->SetInput(erode->GetOutput());
 

@@ -78,6 +78,9 @@ itkHistogramToIntensityImageFilterTest1(int argc, char * argv[])
   using HistogramToImageFilterType = itk::HistogramToIntensityImageFilter<HistogramType>;
   auto histogramToImageFilter = HistogramToImageFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(histogramToImageFilter, HistogramToIntensityImageFilter, HistogramToImageFilter);
+
+
   histogramToImageFilter->SetInput(histogram);
 
   using OutputImageType = HistogramToImageFilterType::OutputImageType;

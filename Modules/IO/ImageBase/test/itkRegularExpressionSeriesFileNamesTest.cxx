@@ -31,9 +31,24 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
 
 
   itk::RegularExpressionSeriesFileNames::Pointer fit = itk::RegularExpressionSeriesFileNames::New();
-  fit->SetDirectory(argv[1]);
-  fit->SetRegularExpression("[^.]*.(.*)");
-  fit->SetSubMatch(1);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(fit, RegularExpressionSeriesFileNames, Object);
+
+
+  const char * directory = argv[1];
+  fit->SetDirectory(directory);
+  ITK_TEST_SET_GET_VALUE(*directory, *(fit->GetDirectory()));
+
+  std::string regularExpression = "[^.]*.(.*)";
+  fit->SetRegularExpression(regularExpression);
+  ITK_TEST_SET_GET_VALUE(regularExpression, fit->GetRegularExpression());
+
+  unsigned int subMatch = 1;
+  fit->SetSubMatch(subMatch);
+  ITK_TEST_SET_GET_VALUE(subMatch, fit->GetSubMatch());
+
+  bool numericSort = false;
+  ITK_TEST_SET_GET_BOOLEAN(fit, NumericSort, numericSort);
 
   std::vector<std::string>           names = fit->GetFileNames();
   std::vector<std::string>::iterator nit;
@@ -46,9 +61,14 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   }
 
   // Show only those files with numbers in the names
-  fit->SetRegularExpression("([0-9]+)");
-  fit->NumericSortOn();
-  fit->SetSubMatch(1);
+  regularExpression = "([0-9]+)";
+  fit->SetRegularExpression(regularExpression);
+  ITK_TEST_SET_GET_VALUE(regularExpression, fit->GetRegularExpression());
+
+  numericSort = true;
+  ITK_TEST_SET_GET_BOOLEAN(fit, NumericSort, numericSort);
+
+  fit->SetSubMatch(subMatch);
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names--------" << std::endl;
   for (nit = names.begin(); nit != names.end(); ++nit)
@@ -61,9 +81,12 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
 
   // Show only those files with numbers in the names followed by other
   // numbers.  Sort them by the first set of numbers.
-  fit->SetRegularExpression("([0-9]+)[^0-9]+([0-9]+)");
+  regularExpression = "([0-9]+)[^0-9]+([0-9]+)";
+  fit->SetRegularExpression(regularExpression);
+  ITK_TEST_SET_GET_VALUE(regularExpression, fit->GetRegularExpression());
+
   fit->NumericSortOn();
-  fit->SetSubMatch(1);
+  fit->SetSubMatch(subMatch);
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the first set of numbers.--------"
             << std::endl;
@@ -76,7 +99,11 @@ itkRegularExpressionSeriesFileNamesTest(int argc, char * argv[])
   // numbers.  Sort them by the second set of numbers.
   fit->SetRegularExpression("([0-9]+)[^0-9]+([0-9]+)");
   fit->NumericSortOn();
-  fit->SetSubMatch(2);
+
+  subMatch = 2;
+  fit->SetSubMatch(subMatch);
+  ITK_TEST_SET_GET_VALUE(subMatch, fit->GetSubMatch());
+
   names = fit->GetFileNames();
   std::cout << "Numeric sort on only files with numbers in the names.  Sort on the second set of numbers.--------"
             << std::endl;

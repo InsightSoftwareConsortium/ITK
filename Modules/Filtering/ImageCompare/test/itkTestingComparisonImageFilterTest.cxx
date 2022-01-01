@@ -27,11 +27,12 @@
 int
 itkTestingComparisonImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 7)
+  if (argc < 11)
   {
     std::cerr << "Usage: " << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "  inputImageFile1 inputImageFile2 outputImage threshold radius numberOfPixelsWithDifferences"
+    std::cerr << "  inputImageFile1 inputImageFile2 outputImage threshold radius numberOfPixelsWithDifferences "
+                 "minimumDifference maximumDifference meanDifference totalDifference"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -61,9 +62,17 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   auto filter = FilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ComparisonImageFilter, ImageToImageFilter);
+
+
   // setup the filter
-  filter->SetDifferenceThreshold(std::stoi(argv[4]));
-  filter->SetToleranceRadius(std::stoi(argv[5]));
+  auto differenceThreshold = std::stoi(argv[4]);
+  filter->SetDifferenceThreshold(differenceThreshold);
+  TEST_SET_GET_VALUE(differenceThreshold, filter->GetDifferenceThreshold());
+
+  auto toleranceRadius = std::stoi(argv[5]);
+  filter->SetToleranceRadius(toleranceRadius);
+  TEST_SET_GET_VALUE(toleranceRadius, filter->GetToleranceRadius());
 
   itk::SimpleFilterWatcher watcher(filter, "Difference");
 
@@ -86,6 +95,30 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   char * end;
   ITK_TEST_EXPECT_EQUAL(numberOfPixelsWithDifferences, std::strtoul(argv[6], &end, 10));
+
+  auto minimumDifference = static_cast<typename FilterType::OutputPixelType>(std::stod(argv[7]));
+  ITK_TEST_EXPECT_EQUAL(minimumDifference, filter->GetMinimumDifference());
+
+  auto maximumDifference = static_cast<typename FilterType::OutputPixelType>(std::stod(argv[8]));
+  ITK_TEST_EXPECT_EQUAL(maximumDifference, filter->GetMaximumDifference());
+
+  auto meanDifference = static_cast<typename FilterType::RealType>(std::stod(argv[9]));
+
+  const double epsilon = 1e-4;
+  std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+  if (!itk::Math::FloatAlmostEqual(meanDifference, filter->GetMeanDifference(), 10, epsilon))
+  {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetMeanDifference" << std::endl;
+    std::cerr << "Expected value " << meanDifference << std::endl;
+    std::cerr << " differs from " << filter->GetMeanDifference();
+    std::cerr << " by more than " << epsilon << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  auto totalDifference = static_cast<typename FilterType::AccumulateType>(std::stod(argv[10]));
+  ITK_TEST_EXPECT_EQUAL(totalDifference, filter->GetTotalDifference());
 
   // Change test input spacing to test that comparison filter fails if spacings are different
   InputImageType::SpacingType spacing;

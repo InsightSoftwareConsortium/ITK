@@ -71,14 +71,28 @@ itkLevelSetDomainPartitionImageTest(int, char *[])
   regionVector[1] = region;
 
   auto partitionSource = DomainPartitionSourceType::New();
-  partitionSource->SetNumberOfLevelSetFunctions(numberOfLevelSetFunctions);
 
-  partitionSource->SetLevelSetDomainRegionVector(regionVector);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(partitionSource, LevelSetDomainPartitionImage, LevelSetDomainPartitionBase);
+
 
   // Exercise exceptions
   ITK_TRY_EXPECT_EXCEPTION(partitionSource->PopulateListDomain());
 
+  partitionSource->SetNumberOfLevelSetFunctions(numberOfLevelSetFunctions);
+
+  partitionSource->SetLevelSetDomainRegionVector(regionVector);
+
+  LevelSetDomainRegionVectorType regionVectorObtained = partitionSource->GetLevelSetDomainRegionVector();
+
+  ITK_TEST_EXPECT_EQUAL(regionVector.size(), regionVectorObtained.size());
+  for (size_t i = 0; i < regionVector.size(); ++i)
+  {
+    ITK_TEST_EXPECT_EQUAL(regionVector[i], regionVectorObtained[i]);
+  }
+
   partitionSource->SetImage(binary);
+  ITK_TEST_SET_GET_VALUE(binary, partitionSource->GetImage());
+
   partitionSource->PopulateListDomain();
 
 

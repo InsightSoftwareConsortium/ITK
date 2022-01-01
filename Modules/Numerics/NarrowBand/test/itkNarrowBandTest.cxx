@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNarrowBand.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -30,6 +31,10 @@ itkNarrowBandTest(int, char *[])
   using RegionType = BandType::RegionType;
 
   auto band = BandType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(band, NarrowBand, LightObject);
+
+
   band->Reserve(100);
   // Create nodes
   BandNodeType node;

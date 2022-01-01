@@ -110,6 +110,13 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_BOOLEAN(inverter, EnforceBoundaryCondition, enforceBoundaryCondition);
 
   inverter->SetInput(field);
+  ITK_TEST_SET_GET_VALUE(field, inverter->GetDisplacementField());
+
+  inverter->SetDisplacementField(field);
+  ITK_TEST_SET_GET_VALUE(field, inverter->GetDisplacementField());
+
+  typename InverterType::RealType maxErrorNorm = 0.0;
+  ITK_TEST_EXPECT_EQUAL(maxErrorNorm, inverter->GetMaxErrorNorm());
 
   try
   {
@@ -139,8 +146,6 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
     std::cerr << "Failed to converge properly." << std::endl;
     return EXIT_FAILURE;
   }
-
-  inverter->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }

@@ -49,9 +49,18 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
 
   using FilterType = itk::LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints<MeshType, MeshType, SolverType>;
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, LaplacianDeformationQuadEdgeMeshFilterWithSoftConstraints, LaplacianDeformationQuadEdgeMeshFilter);
+
+
   filter->SetInput(reader->GetOutput());
   filter->SetOrder(1);
-  filter->SetLambda(1.);
+
+  typename FilterType::OutputCoordRepType lambda = 1.0;
+  filter->SetLambda(lambda);
+  ITK_TEST_SET_GET_VALUE(lambda, filter->GetLambda());
+
   if (std::stoi(argv[3]) == 1)
   {
     filter->SetAreaComputationType(FilterType::AreaEnum::MIXEDAREA);

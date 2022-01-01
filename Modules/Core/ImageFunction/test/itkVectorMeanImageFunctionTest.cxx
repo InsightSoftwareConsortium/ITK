@@ -18,6 +18,7 @@
 
 
 #include "itkVectorMeanImageFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkVectorMeanImageFunctionTest(int, char *[])
@@ -60,6 +61,9 @@ itkVectorMeanImageFunctionTest(int, char *[])
   image->FillBuffer(initialValue);
 
   auto function = FunctionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, VectorMeanImageFunction, ImageFunction);
+
 
   function->SetInputImage(image);
 

@@ -166,6 +166,7 @@ itkTransformToDisplacementFieldFilterTest(int argc, char * argv[])
 
   DisplacementFieldGeneratorType::DirectionType direction;
   direction.SetIdentity();
+  defGenerator->SetOutputDirection(direction);
   ITK_TEST_SET_GET_VALUE(direction, defGenerator->GetOutputDirection());
 
   if (transformName == "Affine")

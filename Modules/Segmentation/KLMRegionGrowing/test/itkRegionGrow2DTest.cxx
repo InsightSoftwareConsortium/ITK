@@ -22,6 +22,7 @@
 #include "itkKLMRegionGrowImageFilter.h"
 #include "itkScalarImageToHistogramGenerator.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 #define NUMBANDS1 1
 #define NUMBANDS2 2
@@ -141,13 +142,19 @@ test_RegionGrowKLMExceptionHandling()
 
   auto exceptionTestingFilter5D = KLMRegionGrowImageFilterType5D::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(exceptionTestingFilter5D, KLMRegionGrowImageFilter, RegionGrowImageFilter);
+
+
   KLMRegionGrowImageFilterType5D::GridSizeType gridSize5D;
   gridSize5D.Fill(1);
 
   exceptionTestingFilter5D->SetInput(image5D);
   exceptionTestingFilter5D->SetGridSize(gridSize5D);
   exceptionTestingFilter5D->SetMaximumNumberOfRegions(2);
-  exceptionTestingFilter5D->SetMaximumLambda(1000);
+
+  double maximumLambda = 1000.0;
+  exceptionTestingFilter5D->SetMaximumLambda(maximumLambda);
+  ITK_TEST_SET_GET_VALUE(maximumLambda, exceptionTestingFilter5D->GetMaximumLambda());
 
   std::cout << "Test error handling" << std::endl;
 
@@ -278,6 +285,9 @@ test_regiongrowKLM1D()
 
   auto KLMFilter = KLMRegionGrowImageFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(KLMFilter, KLMRegionGrowImageFilter, RegionGrowImageFilter);
+
+
   KLMRegionGrowImageFilterType::GridSizeType gridSize;
   gridSize.Fill(1);
 
@@ -300,7 +310,10 @@ test_regiongrowKLM1D()
 
   std::cout << std::endl << "First test, lambda = 0" << std::endl;
 
-  KLMFilter->SetMaximumLambda(0);
+  double maximumLambda = 0;
+  KLMFilter->SetMaximumLambda(maximumLambda);
+  ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
+
   int nregions = 2;
   KLMFilter->SetMaximumNumberOfRegions(nregions);
 
@@ -395,7 +408,9 @@ test_regiongrowKLM1D()
 
   std::cout << std::endl << "Second test, merge to " << nregions << " regions" << std::endl;
 
-  KLMFilter->SetMaximumLambda(1e51);
+  maximumLambda = 1e51;
+  KLMFilter->SetMaximumLambda(maximumLambda);
+  ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
   LOCAL_TEST_EXCEPTION_MACRO(KLMFilter);
 
@@ -699,7 +714,10 @@ test_regiongrowKLM1D()
   gridSize.Fill(gridWidth);
   std::cout << std::endl << "Fifth test, gridSize = " << gridWidth << " no merging" << std::endl;
 
-  KLMFilter->SetMaximumLambda(-1);
+  maximumLambda = -1;
+  KLMFilter->SetMaximumLambda(maximumLambda);
+  ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
+
   KLMFilter->SetGridSize(gridSize);
 
   LOCAL_TEST_EXCEPTION_MACRO(KLMFilter);
@@ -1115,7 +1133,10 @@ test_regiongrowKLM2D()
   KLMFilter->SetInput(image);
   KLMFilter->SetMaximumNumberOfRegions(25);
   KLMFilter->SetGridSize(gridSize);
-  KLMFilter->SetMaximumLambda(1e45);
+
+  double maximumLambda = 1e45;
+  KLMFilter->SetMaximumLambda(maximumLambda);
+  ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
   // Kick off the Region grow function
 
