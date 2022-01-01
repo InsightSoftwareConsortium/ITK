@@ -1046,7 +1046,9 @@ if (LOCAL_BATCH_TEST)
 endif ()
 
 set (lib_prog_deps)
+#[[ ITK -- start
 if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
+# ITK -- stop ]]
   add_executable (H5detect ${HDF5_SRC_DIR}/H5detect.c)
   target_include_directories (H5detect PRIVATE "${HDF5_SRC_DIR};${HDF5_SRC_BINARY_DIR};$<$<BOOL:${HDF5_ENABLE_PARALLEL}>:${MPI_C_INCLUDE_DIRS}>")
   target_compile_definitions(H5detect PUBLIC ${HDF_EXTRA_C_FLAGS} ${HDF_EXTRA_FLAGS})
@@ -1059,13 +1061,14 @@ if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
   )
   set (lib_prog_deps ${lib_prog_deps} H5detect)
 
+#[[ ITK -- start
   if (HDF5_BATCH_H5DETECT)
     configure_file (
         ${HDF5_SOURCE_DIR}/bin/batch/${HDF5_BATCH_H5DETECT_SCRIPT}.in.cmake
         ${HDF5_BINARY_DIR}/${HDF5_BATCH_H5DETECT_SCRIPT} ESCAPE_QUOTES @ONLY
     )
     add_custom_command (
-        OUTPUT     gen_SRCS.stamp1
+        OUTPUT     gen_SRCS.stamp1 H5Tinit.c
         COMMAND    ${HDF5_BATCH_CMD}
         ARGS       ${HDF5_BINARY_DIR}/${HDF5_BATCH_H5DETECT_SCRIPT}
         BYPRODUCTS H5Tinit.c gen_SRCS.stamp1
@@ -1081,6 +1084,7 @@ if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
     )
     set_source_files_properties (${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c PROPERTIES GENERATED TRUE)
   else ()
+# ITK -- stop ]]
     add_custom_command (TARGET H5detect POST_BUILD
         COMMAND    ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:H5detect>
         ARGS       H5Tinit.c
@@ -1105,7 +1109,10 @@ if (NOT EXISTS "${HDF5_GENERATED_SOURCE_DIR}/H5Tinit.c")
       )
       set_source_files_properties (${HDF5_GENERATED_SOURCE_DIR}/shared/H5Tinit.c PROPERTIES GENERATED TRUE)
     endif ()
+#[[ ITK -- start
   endif ()
+# ITK -- stop ]]
+#[[ ITK -- start
 else ()
   add_custom_command (
       OUTPUT     gen_SRCS.stamp1
@@ -1131,6 +1138,7 @@ else ()
     set_source_files_properties (${HDF5_GENERATED_SOURCE_DIR}/shared/H5Tinit.c PROPERTIES GENERATED TRUE)
   endif ()
 endif ()
+# ITK -- stop ]]
 
 #-----------------------------------------------------------------------------
 # Add Target to clang-format
