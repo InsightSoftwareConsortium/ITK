@@ -131,6 +131,7 @@ public:
   itkGetConstMacro(NormalizeAcrossScale, bool);
   itkBooleanMacro(NormalizeAcrossScale);
 
+  /** Set the number of work units to create. */
   void
   SetNumberOfWorkUnits(ThreadIdType nb) override;
 
