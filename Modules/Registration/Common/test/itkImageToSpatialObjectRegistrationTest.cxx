@@ -311,6 +311,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   }
 
   registration->SetFixedImage(image);
+  ITK_TEST_SET_GET_VALUE(image, registration->GetFixedImage());
 
   try
   {
@@ -329,6 +330,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   }
 
   registration->SetMovingSpatialObject(group);
+  ITK_TEST_SET_GET_VALUE(group, registration->GetMovingSpatialObject());
 
   try
   {
@@ -347,6 +349,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   }
 
   registration->SetMetric(metric);
+  ITK_TEST_SET_GET_VALUE(metric, registration->GetMetric());
 
   try
   {
@@ -387,6 +390,8 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   std::cout << "Initial Parameters  : " << initialParameters << std::endl;
 
   registration->SetInitialTransformParameters(initialParameters);
+  ITK_TEST_SET_GET_VALUE(initialParameters, registration->GetInitialTransformParameters());
+
   optimizer->MaximizeOn();
 
   itk::Statistics::NormalVariateGenerator::Pointer generator = itk::Statistics::NormalVariateGenerator::New();
@@ -402,6 +407,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   callback->SetOptimizer(optimizer);
 
   registration->SetOptimizer(optimizer);
+  ITK_TEST_SET_GET_VALUE(optimizer, registration->GetOptimizer());
 
   try
   {
@@ -421,6 +427,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
 
 
   registration->SetTransform(transform);
+  ITK_TEST_SET_GET_VALUE(transform, registration->GetTransform());
 
 
   try
@@ -440,6 +447,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   }
 
   registration->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, registration->GetInterpolator());
 
   registration->Update();
 

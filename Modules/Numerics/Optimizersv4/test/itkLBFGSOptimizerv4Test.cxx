@@ -171,20 +171,29 @@ itkLBFGSOptimizerv4Test(int, char *[])
   auto metric = itkLBFGSOptimizerv4TestMetric::New();
 
   // Set some optimizer parameters
-  itkOptimizer->SetTrace(false);
-  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(1000);
-  itkOptimizer->SetGradientConvergenceTolerance(1e-3);
-  itkOptimizer->SetLineSearchAccuracy(0.1);
-  itkOptimizer->SetDefaultStepLength(5.0);
+  bool trace = false;
+  itkOptimizer->SetTrace(trace);
+  ITK_TEST_SET_GET_VALUE(trace, itkOptimizer->GetTrace());
+
+  unsigned int maximumNumberOfFunctionEvaluations = 1000;
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(maximumNumberOfFunctionEvaluations);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfFunctionEvaluations, itkOptimizer->GetMaximumNumberOfFunctionEvaluations());
+
+  double gradientConvergenceTolerance = 1e-3;
+  itkOptimizer->SetGradientConvergenceTolerance(gradientConvergenceTolerance);
+  ITK_TEST_SET_GET_VALUE(gradientConvergenceTolerance, itkOptimizer->GetGradientConvergenceTolerance());
+
+  double lineSearchAccuracy = 0.1;
+  itkOptimizer->SetLineSearchAccuracy(lineSearchAccuracy);
+  ITK_TEST_SET_GET_VALUE(lineSearchAccuracy, itkOptimizer->GetLineSearchAccuracy());
+
+  double defaultStepLength = 5.0;
+  itkOptimizer->SetDefaultStepLength(defaultStepLength);
+  ITK_TEST_SET_GET_VALUE(defaultStepLength, itkOptimizer->GetDefaultStepLength());
+
   std::cout << "GetValue() before optimizer starts: " << itkOptimizer->GetValue() << std::endl;
   std::cout << "SetMetric." << std::endl;
   itkOptimizer->SetMetric(metric);
-
-  const double     G_Tolerance = 1e-4;   // Gradient magnitude tolerance
-  constexpr int    Max_Iterations = 100; // Maximum number of iterations
-  const bool       Trace = false;        // Tracing
-  constexpr double LineSearch_Tol = 0.9; // Line search tolerance
-  constexpr double Step_Length = 1.0;    // Default step length
 
   std::cout << "Get vnl optimizer." << std::endl;
   vnlOptimizerType * vnlOptimizer = itkOptimizer->GetOptimizer();
@@ -204,13 +213,21 @@ itkLBFGSOptimizerv4Test(int, char *[])
   metric->SetParameters(initialValue);
 
   // Set some optimizer parameters
-  itkOptimizer->SetTrace(Trace);
-  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(Max_Iterations);
-  itkOptimizer->SetGradientConvergenceTolerance(G_Tolerance);
-  itkOptimizer->SetLineSearchAccuracy(LineSearch_Tol);
-  itkOptimizer->SetDefaultStepLength(Step_Length);
-  itkOptimizer->Print(std::cout);
-  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+  maximumNumberOfFunctionEvaluations = 100;
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(maximumNumberOfFunctionEvaluations);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfFunctionEvaluations, itkOptimizer->GetMaximumNumberOfFunctionEvaluations());
+
+  gradientConvergenceTolerance = 1e-4;
+  itkOptimizer->SetGradientConvergenceTolerance(gradientConvergenceTolerance);
+  ITK_TEST_SET_GET_VALUE(gradientConvergenceTolerance, itkOptimizer->GetGradientConvergenceTolerance());
+
+  lineSearchAccuracy = 0.9;
+  itkOptimizer->SetLineSearchAccuracy(lineSearchAccuracy);
+  ITK_TEST_SET_GET_VALUE(lineSearchAccuracy, itkOptimizer->GetLineSearchAccuracy());
+
+  defaultStepLength = 1.0;
+  itkOptimizer->SetDefaultStepLength(defaultStepLength);
+  ITK_TEST_SET_GET_VALUE(defaultStepLength, itkOptimizer->GetDefaultStepLength());
 
   std::cout << "Start optimization." << std::endl;
   try
@@ -226,6 +243,8 @@ itkLBFGSOptimizerv4Test(int, char *[])
     return EXIT_FAILURE;
   }
 
+  std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
+
   std::cout << "End condition   = " << vnlOptimizer->get_failure_code() << std::endl;
   std::cout << "Number of iters = " << vnlOptimizer->get_num_iterations() << std::endl;
   std::cout << "Number of evals = " << vnlOptimizer->get_num_evaluations() << std::endl;
@@ -237,12 +256,6 @@ itkLBFGSOptimizerv4Test(int, char *[])
   std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
 
   std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "Trace   = " << itkOptimizer->GetTrace() << std::endl;
-  std::cout << "LineSearchAccuracy   = " << itkOptimizer->GetLineSearchAccuracy() << std::endl;
-  std::cout << "GradientConvergenceTolerance   = " << itkOptimizer->GetGradientConvergenceTolerance() << std::endl;
-  std::cout << "DefaultStepLength   = " << itkOptimizer->GetDefaultStepLength() << std::endl;
-  std::cout << "MaximumNumberOfFunctionEvaluations   = " << itkOptimizer->GetMaximumNumberOfFunctionEvaluations()
-            << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   //

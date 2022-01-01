@@ -291,6 +291,8 @@ MultiGradientOptimizerv4RunTest(itk::MultiGradientOptimizerv4::Pointer & itkOpti
     return EXIT_FAILURE;
   }
 
+  std::cout << "StopCondition: " << itkOptimizer->GetStopCondition() << std::endl;
+
   using ParametersType = MultiGradientOptimizerv4TestMetric::ParametersType;
   ParametersType finalPosition = itkOptimizer->GetMetric()->GetParameters();
 

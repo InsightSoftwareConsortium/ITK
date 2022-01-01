@@ -122,7 +122,13 @@ itkProjectionImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(change->GetOutput());
 
-  unsigned int projectionDimension = ImageType::ImageDimension - 1;
+  // Test exceptions
+  unsigned int projectionDimension = ImageType::ImageDimension;
+  filter->SetProjectionDimension(projectionDimension);
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+
+  projectionDimension = ImageType::ImageDimension - 1;
   filter->SetProjectionDimension(projectionDimension);
   ITK_TEST_SET_GET_VALUE(projectionDimension, filter->GetProjectionDimension());
 

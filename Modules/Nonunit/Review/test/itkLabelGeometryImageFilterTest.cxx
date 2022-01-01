@@ -121,10 +121,17 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   labelGeometryFilter->SetIntensityInput(intensityReader->GetOutput());
 
   // These generate optional outputs.
-  labelGeometryFilter->CalculatePixelIndicesOn();
-  labelGeometryFilter->CalculateOrientedBoundingBoxOn();
-  labelGeometryFilter->CalculateOrientedLabelRegionsOn();
-  labelGeometryFilter->CalculateOrientedIntensityRegionsOn();
+  auto calculatePixelIndices = true;
+  ITK_TEST_SET_GET_BOOLEAN(labelGeometryFilter, CalculatePixelIndices, calculatePixelIndices);
+
+  auto calculateOrientedBoundingBox = true;
+  ITK_TEST_SET_GET_BOOLEAN(labelGeometryFilter, CalculateOrientedBoundingBox, calculateOrientedBoundingBox);
+
+  auto calculateOrientedLabelRegions = true;
+  ITK_TEST_SET_GET_BOOLEAN(labelGeometryFilter, CalculateOrientedLabelRegions, calculateOrientedLabelRegions);
+
+  auto calculateOrientedIntensityRegions = true;
+  ITK_TEST_SET_GET_BOOLEAN(labelGeometryFilter, CalculateOrientedIntensityRegions, calculateOrientedIntensityRegions);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(labelGeometryFilter->Update());
 

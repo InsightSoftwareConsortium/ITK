@@ -580,8 +580,12 @@ itkImageToImageMetricv4Test(int, char ** const)
   fixedTransform->SetIdentity();
   metric->SetFixedTransform(fixedTransform);
 
-  metric->SetUseFixedImageGradientFilter(true);
-  metric->SetUseMovingImageGradientFilter(true);
+  bool useFixedImageGradientFilter = true;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseFixedImageGradientFilter, useFixedImageGradientFilter);
+
+  bool useMovingImageGradientFilter = true;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseMovingImageGradientFilter, useMovingImageGradientFilter);
+
   // Tell the metric to compute image gradients for both fixed and moving.
   metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
 
@@ -610,8 +614,12 @@ itkImageToImageMetricv4Test(int, char ** const)
   metric->SetMovingTransform(movingTransform);
   metric->SetFixedTransform(fixedTransform);
   metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
-  metric->SetUseFixedImageGradientFilter(false);
-  metric->SetUseMovingImageGradientFilter(false);
+
+  useFixedImageGradientFilter = false;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseFixedImageGradientFilter, useFixedImageGradientFilter);
+
+  useMovingImageGradientFilter = false;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseMovingImageGradientFilter, useMovingImageGradientFilter);
 
   // create a point set, size of image for basic testing
   using PointSetType = ImageToImageMetricv4TestMetricType::FixedSampledPointSetType;

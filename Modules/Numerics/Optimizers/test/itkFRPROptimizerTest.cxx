@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include <set>
 #include "itkFRPROptimizer.h"
+#include "itkTestingMacros.h"
 
 
 /**
@@ -116,6 +117,7 @@ itkFRPROptimizerTest(int, char *[])
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, FRPROptimizer, PowellOptimizer);
 
   // Declaration of the CostFunction
   auto costFunction = FRPRGradientCostFunction::New();

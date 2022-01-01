@@ -18,11 +18,20 @@
 
 #include "itkWeightedAddImageFilter.h"
 #include "itkImageRegionIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 
 int
-itkWeightedAddImageFilterTest(int, char *[])
+itkWeightedAddImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " alpha" << std::endl;
+    return EXIT_FAILURE;
+  }
+
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -115,13 +124,16 @@ itkWeightedAddImageFilterTest(int, char *[])
   // Create an ADD Filter
   myFilterTypePointer filter = myFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, WeightedAddImageFilter, BinaryGeneratorImageFilter);
+
 
   // Connect the input images
   filter->SetInput1(inputImageA);
   filter->SetInput2(inputImageB);
 
-  filter->SetAlpha(0.4);
-
+  auto alpha = static_cast<typename myFilterType::RealType>(std::stod(argv[1]));
+  filter->SetAlpha(alpha);
+  ITK_TEST_SET_GET_VALUE(alpha, filter->GetAlpha());
 
   // Get the Smart Pointer to the Filter Output
   myImageType3Pointer outputImage = filter->GetOutput();

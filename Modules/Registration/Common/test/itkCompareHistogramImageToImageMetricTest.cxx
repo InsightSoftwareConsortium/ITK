@@ -138,10 +138,20 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
 
   // Now set up the Training Stuff
   metric->SetTrainingTransform(transform);
+  ITK_TEST_SET_GET_VALUE(transform, metric->GetTrainingTransform());
+
   metric->SetTrainingFixedImage(fixedImage);
+
   metric->SetTrainingFixedImageRegion(fixedImage->GetBufferedRegion());
+  ITK_TEST_SET_GET_VALUE(fixedImage->GetBufferedRegion(), metric->GetTrainingFixedImageRegion());
+
   metric->SetTrainingMovingImage(movingImage);
+  ITK_TEST_SET_GET_VALUE(movingImage, metric->GetTrainingMovingImage());
+
   metric->SetTrainingInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, metric->GetTrainingInterpolator());
+
+  ITK_TEST_EXPECT_EQUAL(transform->GetNumberOfParameters(), metric->GetNumberOfParameters());
 
   // Initialize the metric.
   metric->Initialize();

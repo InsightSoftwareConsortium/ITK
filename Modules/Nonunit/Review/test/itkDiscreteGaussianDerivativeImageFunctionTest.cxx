@@ -50,10 +50,12 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
 
 
   // Set up operator parameters
+  auto orderVal =
+    static_cast<typename GaussianDerivativeImageFunctionType::OrderArrayType::ValueType>(std::stoi(argv[3]));
   typename GaussianDerivativeImageFunctionType::OrderArrayType order;
   for (unsigned int i = 0; i < order.Size(); ++i)
   {
-    order[i] = static_cast<typename GaussianDerivativeImageFunctionType::OrderArrayType::ValueType>(std::stoi(argv[3]));
+    order[i] = orderVal;
   }
 
   double sigma = std::stod(argv[4]);
@@ -78,13 +80,21 @@ itkDiscreteGaussianDerivativeImageFunctionTestND(int argc, char * argv[])
   }
 
 
+  function->SetOrder(orderVal);
+  ITK_TEST_SET_GET_VALUE(order, function->GetOrder());
+
   function->SetOrder(order);
   ITK_TEST_SET_GET_VALUE(order, function->GetOrder());
 
+  auto sigmaVal =
+    static_cast<typename GaussianDerivativeImageFunctionType::VarianceArrayType::ValueType>(sigma * sigma);
   typename GaussianDerivativeImageFunctionType::VarianceArrayType variance;
-  variance.Fill(sigma * sigma);
+  variance.Fill(sigmaVal);
 
-  function->SetSigma(sigma);
+  function->SetVariance(sigmaVal);
+  ITK_TEST_SET_GET_VALUE(variance, function->GetVariance());
+
+  function->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, function->GetVariance());
 
   function->SetMaximumError(maxError);

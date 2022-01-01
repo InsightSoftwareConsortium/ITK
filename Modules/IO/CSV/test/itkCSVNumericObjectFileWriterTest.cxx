@@ -59,6 +59,10 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(array_writer, CSVNumericObjectFileWriter, LightProcessObject);
 
+
+  const char delimiterCharacter = ',';
+  array_writer->SetFieldDelimiterCharacter(delimiterCharacter);
+
   // should throw an exception as there is no input file nor any object
   // to write out
   bool caught = false;

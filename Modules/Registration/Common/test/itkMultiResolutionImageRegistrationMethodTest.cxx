@@ -22,6 +22,7 @@
 #include "itkRegularStepGradientDescentOptimizer.h"
 
 #include "itkTextOutput.h"
+#include "itkTestingMacros.h"
 
 
 /**
@@ -79,7 +80,11 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   auto interpolator = InterpolatorType::New();
   auto fixedImagePyramid = FixedImagePyramidType::New();
   auto movingImagePyramid = MovingImagePyramidType::New();
+
   auto registration = RegistrationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(registration, MultiResolutionImageRegistrationMethod, ProcessObject);
+
 
   FixedImageType::SizeType size;
   size.Fill(8);
@@ -94,42 +99,49 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   movingImage->FillBuffer(4.0);
 
   registration->SetMetric(metric);
+  ITK_TEST_SET_GET_VALUE(metric, registration->GetMetric());
+
   registration->SetOptimizer(optimizer);
+  ITK_TEST_SET_GET_VALUE(optimizer, registration->GetOptimizer());
+
   registration->SetTransform(transform);
+  ITK_TEST_SET_GET_VALUE(transform, registration->GetTransform());
+
   registration->SetFixedImage(fixedImage);
+  ITK_TEST_SET_GET_VALUE(fixedImage, registration->GetFixedImage());
+
   registration->SetMovingImage(movingImage);
+  ITK_TEST_SET_GET_VALUE(movingImage, registration->GetMovingImage());
+
   registration->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, registration->GetInterpolator());
+
   registration->SetFixedImagePyramid(fixedImagePyramid);
+  ITK_TEST_SET_GET_VALUE(fixedImagePyramid, registration->GetFixedImagePyramid());
+
   registration->SetMovingImagePyramid(movingImagePyramid);
+  ITK_TEST_SET_GET_VALUE(movingImagePyramid, registration->GetMovingImagePyramid());
+
   registration->SetFixedImageRegion(fixedImage->GetBufferedRegion());
+  ITK_TEST_SET_GET_VALUE(fixedImage->GetBufferedRegion(), registration->GetFixedImageRegion());
+
+  itk::SizeValueType numberOfLevels = 2;
+  registration->SetNumberOfLevels(numberOfLevels);
+  ITK_TEST_SET_GET_VALUE(numberOfLevels, registration->GetNumberOfLevels());
 
   using ParametersType = RegistrationType::ParametersType;
   ParametersType initialParameters(transform->GetNumberOfParameters());
   initialParameters.Fill(0);
-
   registration->SetInitialTransformParameters(initialParameters);
+  ITK_TEST_SET_GET_VALUE(initialParameters, registration->GetInitialTransformParameters());
 
-  registration->SetNumberOfLevels(2);
-
-  registration->Print(std::cout);
-
+  ParametersType initialTransformParametersOfNextLevel(1);
+  registration->SetInitialTransformParametersOfNextLevel(initialTransformParametersOfNextLevel);
+  ITK_TEST_SET_GET_VALUE(initialTransformParametersOfNextLevel,
+                         registration->GetInitialTransformParametersOfNextLevel());
 
   // Exercise Get methods
-  std::cout << "metric: " << registration->GetMetric() << std::endl;
-  std::cout << "optimizer: " << registration->GetOptimizer() << std::endl;
-  std::cout << "transform: " << registration->GetTransform() << std::endl;
-  std::cout << "fixed image: " << registration->GetFixedImage() << std::endl;
-  std::cout << "moving image: " << registration->GetMovingImage() << std::endl;
-  std::cout << "interpolator: " << registration->GetInterpolator() << std::endl;
-  std::cout << "fixed image region: " << registration->GetFixedImageRegion() << std::endl;
-  std::cout << "fixed image pyramid: " << registration->GetFixedImagePyramid() << std::endl;
-  std::cout << "moving image pyramid: " << registration->GetMovingImagePyramid() << std::endl;
-
-  std::cout << "initial parameters: ";
-  std::cout << registration->GetInitialTransformParameters() << std::endl;
-
-  std::cout << "no. levels: " << registration->GetNumberOfLevels() << std::endl;
-  std::cout << "current level: " << registration->GetCurrentLevel() << std::endl;
+  std::cout << "CurrentLevel: " << registration->GetCurrentLevel() << std::endl;
 
 
   /****************************************************

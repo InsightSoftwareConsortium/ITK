@@ -23,6 +23,7 @@
 #include "itkRandomImageSource.h"
 #include "itkCastImageFilter.h"
 #include "itkTestingMacros.h"
+#include <set>
 
 namespace
 {
@@ -342,6 +343,18 @@ itkExtractImageTest(int, char *[])
   {
     std::cout << "ExtractImageFilter case 3 failed." << std::endl;
     return EXIT_FAILURE;
+  }
+
+  // Test streaming enumeration for ExtractImageFilterEnums::DirectionCollapseStrategy elements
+  const std::set<itk::ExtractImageFilterEnums::DirectionCollapseStrategy> allDirectionCollapseStrategy{
+    itk::ExtractImageFilterEnums::DirectionCollapseStrategy::DIRECTIONCOLLAPSETOUNKOWN,
+    itk::ExtractImageFilterEnums::DirectionCollapseStrategy::DIRECTIONCOLLAPSETOIDENTITY,
+    itk::ExtractImageFilterEnums::DirectionCollapseStrategy::DIRECTIONCOLLAPSETOSUBMATRIX,
+    itk::ExtractImageFilterEnums::DirectionCollapseStrategy::DIRECTIONCOLLAPSETOGUESS
+  };
+  for (const auto & ee : allDirectionCollapseStrategy)
+  {
+    std::cout << "STREAMED ENUM VALUE ExtractImageFilterEnums::DirectionCollapseStrategy: " << ee << std::endl;
   }
 
   return ExtractImageInPlaceTest();

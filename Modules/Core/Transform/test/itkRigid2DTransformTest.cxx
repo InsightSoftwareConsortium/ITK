@@ -257,6 +257,18 @@ itkRigid2DTransformTest(int, char *[])
     ITK_TRY_EXPECT_EXCEPTION(rotation->SetMatrix(mrotation, 1e-8));
     mrotation[0][0] -= 1e-7;
 
+    std::cout.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    if (!itk::Math::FloatAlmostEqual(-angle, rotation->GetRotation(), 10, epsilon))
+    {
+      std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error in GetRotation" << std::endl;
+      std::cerr << "Expected value " << -angle << std::endl;
+      std::cerr << " differs from " << rotation->GetRotation();
+      std::cerr << " by more than " << epsilon << std::endl;
+      return EXIT_FAILURE;
+    }
+
     TransformType::OffsetType ioffset;
     ioffset.Fill(0.0f);
 

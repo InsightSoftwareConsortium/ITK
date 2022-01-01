@@ -182,6 +182,10 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
   typename DisplacementFieldRegistrationType::Pointer displacementFieldRegistration =
     DisplacementFieldRegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    displacementFieldRegistration, BSplineSyNImageRegistrationMethod, SyNImageRegistrationMethod);
+
+
   typename DisplacementFieldRegistrationType::OptimizerWeightsType optimizerWeights;
   optimizerWeights.SetSize(TDimension);
   optimizerWeights.Fill(0.995);

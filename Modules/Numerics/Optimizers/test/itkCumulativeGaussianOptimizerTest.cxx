@@ -18,6 +18,7 @@
 
 #include "itkCumulativeGaussianOptimizer.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -44,6 +45,9 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
   // Typedef and initialization for the Cumulative Gaussian Optimizer.
   using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
   auto optimizer = CumulativeGaussianOptimizerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(optimizer, CumulativeGaussianOptimizer, MultipleValuedNonLinearOptimizer);
+
 
   // Typedef and initialization for the Cumulative Gaussian Cost Function.
   using CostFunctionType = itk::CumulativeGaussianCostFunction;
@@ -75,6 +79,7 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
 
   // Set the tolerance for the Gaussian iteration error.
   optimizer->SetDifferenceTolerance(differenceTolerance);
+  ITK_TEST_SET_GET_VALUE(differenceTolerance, optimizer->GetDifferenceTolerance());
 
   // Print results after each iteration.
   optimizer->SetVerbose(true);
@@ -101,6 +106,9 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
     std::cerr << "Fitted standard deviation = " << optimizer->GetComputedStandardDeviation() << std::endl;
     std::cerr << "Fitted upper intensity = " << optimizer->GetUpperAsymptote() << std::endl;
     std::cerr << "Fitted lower intensity = " << optimizer->GetLowerAsymptote() << std::endl;
+
+    std::cerr << "FinalSampledArray: " << optimizer->GetFinalSampledArray() << std::endl;
+
     std::cout << "[TEST DONE]" << std::endl;
     return EXIT_SUCCESS;
   }

@@ -57,9 +57,9 @@ itk_add_test(NAME itkBinaryThresholdImageFilterTest
 itk_add_test(NAME itkThresholdImageFilterTest
       COMMAND ITKThresholdingTestDriver itkThresholdImageFilterTest)
 itk_add_test(NAME itkOtsuMultipleThresholdsCalculatorTest1
-      COMMAND ITKThresholdingTestDriver itkOtsuMultipleThresholdsCalculatorTest 0)
+      COMMAND ITKThresholdingTestDriver itkOtsuMultipleThresholdsCalculatorTest 0 0)
 itk_add_test(NAME itkOtsuMultipleThresholdsCalculatorTest2
-      COMMAND ITKThresholdingTestDriver itkOtsuMultipleThresholdsCalculatorTest 1)
+      COMMAND ITKThresholdingTestDriver itkOtsuMultipleThresholdsCalculatorTest 1 0)
 itk_add_test(NAME itkBinaryThresholdImageFilterTest2
       COMMAND ITKThresholdingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/BinaryThresholdImageFilterTest2.png}

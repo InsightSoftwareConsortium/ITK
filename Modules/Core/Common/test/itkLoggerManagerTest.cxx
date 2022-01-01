@@ -21,6 +21,7 @@
 #include "itkStdStreamLogOutput.h"
 #include "itkLoggerManager.h"
 #include "itkLogTester.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -43,6 +44,9 @@ itkLoggerManagerTest(int argc, char * argv[])
 
     // Create an ITK Loggers using itk::LoggerManager
     itk::LoggerManager::Pointer manager = itk::LoggerManager::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(manager, LoggerManager, Object);
+
 
     itk::Logger::Pointer logger = manager->CreateLogger("org.itk.logTester.logger",
                                                         itk::LoggerBase::PriorityLevelEnum::DEBUG,

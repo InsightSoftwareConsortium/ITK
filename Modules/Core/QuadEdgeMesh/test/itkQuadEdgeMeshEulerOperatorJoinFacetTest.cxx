@@ -18,6 +18,7 @@
 
 #include "itkQuadEdgeMeshEulerOperatorJoinFacetFunction.h"
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char * argv[])
@@ -69,6 +70,10 @@ itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char * argv[])
   std::cout << "Checking JointFacet." << std::endl;
 
   auto joinFacet = JoinFacet::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(joinFacet, QuadEdgeMeshEulerOperatorJoinFacetFunction, QuadEdgeMeshFunctionBase);
+
+
 #ifndef NDEBUG
   std::cout << "     "
             << "Test No Mesh Input";

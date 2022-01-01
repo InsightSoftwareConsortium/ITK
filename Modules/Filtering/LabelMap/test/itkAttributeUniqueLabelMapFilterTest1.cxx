@@ -72,8 +72,15 @@ itkAttributeUniqueLabelMapFilterTest1(int argc, char * argv[])
   using UniqueType =
     itk::AttributeUniqueLabelMapFilter<LabelMapType, itk::Functor::NumberOfPixelsLabelObjectAccessor<LabelObjectType>>;
   auto unique = UniqueType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(unique, AttributeUniqueLabelMapFilter, InPlaceLabelMapFilter);
+
+
+  auto reverseOrdering = static_cast<bool>(std::stoi(argv[3]));
+  ITK_TEST_SET_GET_BOOLEAN(unique, ReverseOrdering, reverseOrdering);
+
   unique->SetInput(oi->GetOutput());
-  unique->SetReverseOrdering(std::stoi(argv[3]));
+
   itk::SimpleFilterWatcher watcher(unique, "filter");
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;

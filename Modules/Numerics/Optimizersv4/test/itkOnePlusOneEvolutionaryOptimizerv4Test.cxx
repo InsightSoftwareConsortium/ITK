@@ -20,6 +20,7 @@
 #include "itkNormalVariateGenerator.h"
 #include "itkCommand.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -200,6 +201,10 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    itkOptimizer, OnePlusOneEvolutionaryOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
+
+
   itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
@@ -218,8 +223,30 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   initialPosition[1] = -100;
 
   itkOptimizer->Initialize(10);
-  itkOptimizer->SetEpsilon(0.1);
-  itkOptimizer->SetMaximumIteration(8000);
+
+  double growthFactor = 1.05;
+  itkOptimizer->SetGrowthFactor(growthFactor);
+  ITK_TEST_SET_GET_VALUE(growthFactor, itkOptimizer->GetGrowthFactor());
+
+  double shrinkFactor = std::pow(growthFactor, -0.25);
+  itkOptimizer->SetShrinkFactor(shrinkFactor);
+  ITK_TEST_SET_GET_VALUE(shrinkFactor, itkOptimizer->GetShrinkFactor());
+
+  double initialRadius = 1.01;
+  itkOptimizer->SetInitialRadius(initialRadius);
+  ITK_TEST_SET_GET_VALUE(initialRadius, itkOptimizer->GetInitialRadius());
+
+  double epsilon = 0.1;
+  itkOptimizer->SetEpsilon(epsilon);
+  ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
+
+  unsigned int maximumIteration = 8000;
+  itkOptimizer->SetMaximumIteration(maximumIteration);
+  ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
+
+  double metricWorstPossibleValue = 0;
+  itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
+  ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
   auto generator = GeneratorType::New();

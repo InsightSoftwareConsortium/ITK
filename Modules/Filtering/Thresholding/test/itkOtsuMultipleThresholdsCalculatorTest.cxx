@@ -23,11 +23,11 @@
 int
 itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 {
-  if (argc != 2)
+  if (argc != 3)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " valleyEmphasis" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " valleyEmphasis returnBinMidpoint" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -97,6 +97,9 @@ itkOtsuMultipleThresholdsCalculatorTest(int argc, char * argv[])
 
   bool valleyEmphasis = std::stoi(argv[1]);
   ITK_TEST_SET_GET_BOOLEAN(otsuThresholdCalculator, ValleyEmphasis, valleyEmphasis);
+
+  bool returnBinMidpoint = std::stoi(argv[2]);
+  ITK_TEST_SET_GET_BOOLEAN(otsuThresholdCalculator, ReturnBinMidpoint, returnBinMidpoint);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(otsuThresholdCalculator->Compute());
 

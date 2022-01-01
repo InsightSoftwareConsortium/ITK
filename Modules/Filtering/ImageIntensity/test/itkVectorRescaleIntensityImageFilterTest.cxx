@@ -64,7 +64,12 @@ itkVectorRescaleIntensityImageFilterTest(int, char *[])
 
   filter->SetInput(inputImage);
 
-  constexpr double desiredMaximum = 2.0;
+  // Test exceptions
+  double desiredMaximum = -1.0;
+  filter->SetOutputMaximumMagnitude(desiredMaximum);
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+  desiredMaximum = 2.0;
   filter->SetOutputMaximumMagnitude(desiredMaximum);
   ITK_TEST_SET_GET_VALUE(desiredMaximum, filter->GetOutputMaximumMagnitude());
 

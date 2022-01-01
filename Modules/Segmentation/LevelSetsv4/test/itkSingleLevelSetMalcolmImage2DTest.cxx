@@ -160,8 +160,16 @@ itkSingleLevelSetMalcolmImage2DTest(int argc, char * argv[])
   criterion->SetNumberOfIterations(std::stoi(argv[2]));
 
   auto evolution = LevelSetEvolutionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(evolution, LevelSetEvolution, LevelSetEvolutionBase);
+
+
   evolution->SetEquationContainer(equationContainer);
+  ITK_TEST_SET_GET_VALUE(equationContainer, evolution->GetEquationContainer());
+
   evolution->SetStoppingCriterion(criterion);
+  ITK_TEST_SET_GET_VALUE(criterion, evolution->GetStoppingCriterion());
+
   evolution->SetLevelSetContainer(lscontainer);
 
   try

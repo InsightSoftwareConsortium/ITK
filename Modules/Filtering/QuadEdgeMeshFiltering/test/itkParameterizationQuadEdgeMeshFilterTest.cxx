@@ -90,8 +90,14 @@ ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
 
   using ParametrizationType = itk::ParameterizationQuadEdgeMeshFilter<MeshType, MeshType, TSolver>;
   auto param = ParametrizationType::New();
-  param->SetInput(mesh);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(param, ParameterizationQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+
+
   param->SetBorderTransform(border_transform);
+  ITK_TEST_SET_GET_VALUE(border_transform, param->GetBorderTransform());
+
+  param->SetInput(mesh);
 
   switch (coefficientType)
   {

@@ -67,6 +67,10 @@ itkObjectByObjectLabelMapFilterTest(int argc, char * argv[])
 
   obo->SetInput(i2l->GetOutput());
   obo->SetFilter(dilate);
+  ITK_TEST_SET_GET_VALUE(dilate, obo->GetFilter());
+
+  obo->SetInputFilter(dilate);
+  ITK_TEST_SET_GET_VALUE(dilate, obo->GetInputFilter());
 
   obo->SetPadSize(rad);
   ITK_TEST_SET_GET_VALUE(rad, obo->GetPadSize());

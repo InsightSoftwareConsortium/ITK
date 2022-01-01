@@ -18,11 +18,19 @@
 
 #include "itkHessianRecursiveGaussianImageFilter.h"
 #include "itkHessian3DToVesselnessMeasureImageFilter.h"
+#include "itkTestingMacros.h"
 
 
 int
-itkHessian3DToVesselnessMeasureImageFilterTest(int, char *[])
+itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
 {
+  if (argc != 4)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " sigma alpha1 alpha2" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   // Define the dimension of the images
   constexpr unsigned int myDimension = 3;
@@ -110,14 +118,24 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int, char *[])
   // Create a vesselness Filter
   auto filterVesselness = myVesselnessFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filterVesselness, Hessian3DToVesselnessMeasureImageFilter, ImageToImageFilter);
+
 
   // Connect the input images
   filterHessian->SetInput(inputImage);
   filterVesselness->SetInput(filterHessian->GetOutput());
 
   // Select the value of Sigma
-  filterHessian->SetSigma(0.5);
+  auto sigma = static_cast<typename myHessianFilterType::RealType>(std::stod(argv[1]));
+  filterHessian->SetSigma(sigma);
 
+  auto alpha1 = std::stod(argv[2]);
+  filterVesselness->SetAlpha1(alpha1);
+  ITK_TEST_SET_GET_VALUE(alpha1, filterVesselness->GetAlpha1());
+
+  auto alpha2 = std::stod(argv[3]);
+  filterVesselness->SetAlpha2(alpha2);
+  ITK_TEST_SET_GET_VALUE(alpha2, filterVesselness->GetAlpha2());
 
   // Execute the filter
   filterVesselness->Update();

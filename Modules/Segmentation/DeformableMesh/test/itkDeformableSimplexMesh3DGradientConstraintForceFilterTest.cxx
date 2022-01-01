@@ -25,6 +25,7 @@
 
 #include "itkSobelEdgeDetectionImageFilter.h"
 #include "itkGradientRecursiveGaussianImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
@@ -118,12 +119,21 @@ itkDeformableSimplexMesh3DGradientConstraintForceFilterTest(int, char *[])
   std::cout << "done." << std::endl;
 
   auto deformFilter = DeformFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    deformFilter, DeformableSimplexMesh3DGradientConstraintForceFilter, DeformableSimplexMesh3DFilter);
+
+
   deformFilter->SetInput(simplexFilter->GetOutput());
   deformFilter->SetImage(originalImage);
   deformFilter->SetGradient(gradientFilter->GetOutput());
   deformFilter->SetAlpha(0.2);
   deformFilter->SetBeta(0.1);
-  deformFilter->SetRange(1);
+
+  int range = 1;
+  deformFilter->SetRange(range);
+  ITK_TEST_SET_GET_VALUE(range, deformFilter->GetRange());
+
   deformFilter->SetIterations(100);
   deformFilter->SetRigidity(0);
   deformFilter->Update();

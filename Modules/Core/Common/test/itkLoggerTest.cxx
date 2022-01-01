@@ -46,6 +46,9 @@ itkLoggerTest(int argc, char * argv[])
     // Create an ITK Logger
     itk::Logger::Pointer logger = itk::Logger::New();
 
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(logger, Logger, LoggerBase);
+
+
     std::cout << "Testing itk::Logger" << std::endl;
 
     // Setting the logger

@@ -21,6 +21,7 @@
 #include "itkTextOutput.h"
 
 #include "itkImagePCADecompositionCalculator.h"
+#include "itkTestingMacros.h"
 
 // class to support progress feedback
 
@@ -266,6 +267,9 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
 
   auto decomposer = ImagePCAShapeModelEstimatorType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(decomposer, ImagePCADecompositionCalculator, Object);
+
+
   //----------------------------------------------------------------------
   // Set the parameters of the clusterer
   //----------------------------------------------------------------------
@@ -275,9 +279,19 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   basis.push_back(image2);
   decomposer->SetBasisImages(basis);
 
+  ImagePCAShapeModelEstimatorType::BasisImagePointerVector basisObtained = decomposer->GetBasisImages();
+
+  ITK_TEST_EXPECT_EQUAL(basis.size(), basisObtained.size());
+  for (size_t i = 0; i < basis.size(); ++i)
+  {
+    ITK_TEST_EXPECT_EQUAL(basis[i], basisObtained[i]);
+  }
+
   // compute some projections!
   ImagePCAShapeModelEstimatorType::BasisVectorType proj3, proj4;
   decomposer->SetImage(image3);
+  ITK_TEST_SET_GET_VALUE(image3, decomposer->GetImage());
+
   decomposer->Compute();
   proj3 = decomposer->GetProjection();
 

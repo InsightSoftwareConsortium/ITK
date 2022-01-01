@@ -38,7 +38,8 @@ itkGrayscaleErodeImageFilterTest(int argc, char * argv[])
   }
 
   unsigned int const dim = 2;
-  using ImageType = itk::Image<unsigned char, dim>;
+  using PixelType = unsigned char;
+  using ImageType = itk::Image<PixelType, dim>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
@@ -48,6 +49,14 @@ itkGrayscaleErodeImageFilterTest(int argc, char * argv[])
   using SRType = itk::FlatStructuringElement<dim>;
   using FilterType = itk::GrayscaleErodeImageFilter<ImageType, ImageType, SRType>;
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, GrayscaleErodeImageFilter, KernelImageFilter);
+
+
+  auto boundary = itk::NumericTraits<PixelType>::max();
+  filter->SetBoundary(boundary);
+  ITK_TEST_SET_GET_VALUE(boundary, filter->GetBoundary());
+
   filter->SetInput(reader->GetOutput());
 
   itk::SimpleFilterWatcher watcher(filter, "filter");

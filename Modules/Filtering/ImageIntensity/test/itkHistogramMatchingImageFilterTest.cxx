@@ -19,6 +19,7 @@
 #include <iomanip>
 #include "itkHistogramMatchingImageFilter.h"
 #include "itkCommand.h"
+#include "itkTestingMacros.h"
 
 /**
  * This file tests the functionality of the HistogramMatchingImageFilter.
@@ -205,15 +206,32 @@ itkHistogramMatchingImageFilterTest()
   using FilterType = itk::HistogramMatchingImageFilter<ImageType, ImageType>;
   typename FilterType::HistogramType::ConstPointer refHistogram = nullptr;
 
+
   // Test with historical reference image input, and then capture the histogram as cached
   // value for other tests
   {
     auto filterWithReferenceImage = FilterType::New();
 
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filterWithReferenceImage, HistogramMatchingImageFilter, ImageToImageFilter);
+
+
+    bool generateReferenceHistogramFromImage = true;
+    ITK_TEST_SET_GET_BOOLEAN(
+      filterWithReferenceImage, GenerateReferenceHistogramFromImage, generateReferenceHistogramFromImage);
+
     filterWithReferenceImage->SetReferenceImage(reference);
+    ITK_TEST_SET_GET_VALUE(reference, filterWithReferenceImage->GetReferenceImage());
+
     filterWithReferenceImage->SetSourceImage(source);
-    filterWithReferenceImage->SetNumberOfHistogramLevels(50);
-    filterWithReferenceImage->SetNumberOfMatchPoints(8);
+    ITK_TEST_SET_GET_VALUE(source, filterWithReferenceImage->GetSourceImage());
+
+    itk::SizeValueType numberOfHistogramLevels = 50;
+    filterWithReferenceImage->SetNumberOfHistogramLevels(numberOfHistogramLevels);
+    ITK_TEST_SET_GET_VALUE(numberOfHistogramLevels, filterWithReferenceImage->GetNumberOfHistogramLevels());
+
+    itk::SizeValueType numberOfMatchPoints = 8;
+    filterWithReferenceImage->SetNumberOfMatchPoints(numberOfMatchPoints);
+    ITK_TEST_SET_GET_VALUE(numberOfMatchPoints, filterWithReferenceImage->GetNumberOfMatchPoints());
 
     ShowProgressObject                                    progressWatch(filterWithReferenceImage);
     itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
@@ -223,28 +241,24 @@ itkHistogramMatchingImageFilterTest()
 
     {
       // Exercise and test with ThresholdAtMeanIntensityOff
-      filterWithReferenceImage->ThresholdAtMeanIntensityOff();
+      bool thresholdAtMeanIntensity = false;
+      ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
+
       filterWithReferenceImage->Update();
-      filterWithReferenceImage->Print(std::cout);
     }
     {
       // Exercise auxiliary functions
       std::cout << "Exercise auxiliary functions" << std::endl;
-      std::cout << filterWithReferenceImage->GetNumberOfHistogramLevels() << std::endl;
-      std::cout << filterWithReferenceImage->GetNumberOfMatchPoints() << std::endl;
 
       std::cout << "Source Histogram: " << filterWithReferenceImage->GetSourceHistogram() << std::endl;
-      std::cout << "Reference Histogram: " << filterWithReferenceImage->GetReferenceHistogram() << std::endl;
       std::cout << "Output Histogram: " << filterWithReferenceImage->GetOutputHistogram() << std::endl;
-
-      std::cout << "Threshold At Mean Intensity? ";
-      std::cout << filterWithReferenceImage->GetThresholdAtMeanIntensity() << std::endl;
     }
     {
       // Exercise and test with ThresholdAtMeanIntensityOn
-      filterWithReferenceImage->ThresholdAtMeanIntensityOn();
+      bool thresholdAtMeanIntensity = true;
+      ITK_TEST_SET_GET_BOOLEAN(filterWithReferenceImage, ThresholdAtMeanIntensity, thresholdAtMeanIntensity);
+
       filterWithReferenceImage->Update();
-      filterWithReferenceImage->Print(std::cout);
 
       // Walk the output and compare with reference
       Iterator outIter(filterWithReferenceImage->GetOutput(), region);
@@ -264,6 +278,8 @@ itkHistogramMatchingImageFilterTest()
     auto filterWithSameSizeHistogram = FilterType::New();
 
     filterWithSameSizeHistogram->SetReferenceHistogram(refHistogram);
+    ITK_TEST_SET_GET_VALUE(refHistogram, filterWithSameSizeHistogram->GetReferenceHistogram());
+
     filterWithSameSizeHistogram->GenerateReferenceHistogramFromImageOff();
     filterWithSameSizeHistogram->SetSourceImage(source);
     filterWithSameSizeHistogram->SetNumberOfHistogramLevels(50);
@@ -278,7 +294,6 @@ itkHistogramMatchingImageFilterTest()
 
     filterWithSameSizeHistogram->ThresholdAtMeanIntensityOn();
     filterWithSameSizeHistogram->Update();
-    filterWithSameSizeHistogram->Print(std::cout);
 
     // Walk the output and compare with reference
     Iterator outIter(filterWithSameSizeHistogram->GetOutput(), region);
@@ -305,7 +320,6 @@ itkHistogramMatchingImageFilterTest()
 
     filterWithSmallerHistogram->ThresholdAtMeanIntensityOn();
     filterWithSmallerHistogram->Update();
-    filterWithSmallerHistogram->Print(std::cout);
 
     // Walk the output and compare with reference
     Iterator outIter(filterWithSmallerHistogram->GetOutput(), region);
@@ -333,7 +347,6 @@ itkHistogramMatchingImageFilterTest()
 
     filterWithLargerHistogram->ThresholdAtMeanIntensityOn();
     filterWithLargerHistogram->Update();
-    filterWithLargerHistogram->Print(std::cout);
 
     // Walk the output and compare with reference
     Iterator outIter(filterWithLargerHistogram->GetOutput(), region);

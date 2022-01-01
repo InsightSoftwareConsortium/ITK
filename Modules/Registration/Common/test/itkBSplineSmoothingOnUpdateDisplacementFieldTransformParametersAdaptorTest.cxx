@@ -18,6 +18,7 @@
 
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h"
 #include "itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor.h"
+#include "itkTestingMacros.h"
 
 int
 itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, char *[])
@@ -98,6 +99,12 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
 
   using AdaptorType = itk::BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TransformType>;
   auto adaptor = AdaptorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor,
+                                    BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor,
+                                    DisplacementFieldTransformParametersAdaptor);
+
+
   adaptor->SetTransform(transform);
   adaptor->SetRequiredSize(requiredSize);
   adaptor->SetRequiredSpacing(requiredSpacing);
@@ -173,8 +180,6 @@ itkBSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptorTest(int, 
     std::cerr << "output points don't match up before and after adapt call." << std::endl;
     return EXIT_FAILURE;
   }
-
-  adaptor->Print(std::cout, 5);
 
   return EXIT_SUCCESS;
 }

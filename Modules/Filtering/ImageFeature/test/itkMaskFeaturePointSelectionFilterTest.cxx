@@ -39,14 +39,16 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  constexpr unsigned int Dimension = 3;
+
   using InputPixelType = unsigned char;
   using OutputPixelType = itk::RGBPixel<InputPixelType>;
 
-  using InputImageType = itk::Image<InputPixelType, 3>;
-  using OutputImageType = itk::Image<OutputPixelType, 3>;
+  using InputImageType = itk::Image<InputPixelType, Dimension>;
+  using OutputImageType = itk::Image<OutputPixelType, Dimension>;
 
-  using PointSetPixelType = itk::Matrix<itk::SpacePrecisionType, 3, 3>;
-  using PointSetType = itk::PointSet<PointSetPixelType, 3>;
+  using PointSetPixelType = itk::Matrix<itk::SpacePrecisionType, Dimension, Dimension>;
+  using PointSetType = itk::PointSet<PointSetPixelType, Dimension>;
 
   using ReaderType = itk::ImageFileReader<InputImageType>;
 
@@ -62,7 +64,14 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MaskFeaturePointSelectionFilter, ImageToMeshFilter);
 
 
-  auto nonConnectivity = static_cast<unsigned int>(std::stoi(argv[3]));
+  filter->SetInput(reader->GetOutput());
+
+  // Test exceptions
+  unsigned int nonConnectivity = Dimension;
+  filter->SetNonConnectivity(nonConnectivity);
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+  nonConnectivity = static_cast<unsigned int>(std::stoi(argv[3]));
   filter->SetNonConnectivity(nonConnectivity);
   ITK_TEST_SET_GET_VALUE(nonConnectivity, filter->GetNonConnectivity());
 
@@ -78,8 +87,6 @@ itkMaskFeaturePointSelectionFilterTest(int argc, char * argv[])
   auto selectFraction = std::stod(argv[6]);
   filter->SetSelectFraction(selectFraction);
   ITK_TEST_SET_GET_VALUE(selectFraction, filter->GetSelectFraction());
-
-  filter->SetInput(reader->GetOutput());
 
   try
   {

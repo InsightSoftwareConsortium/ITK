@@ -73,6 +73,10 @@ itkWatershedImageFilterTest(int, char *[])
 
   itk::watershed::EquivalenceRelabeler<LongImageType2D::PixelType, Dimension>::Pointer eq =
     itk::watershed::EquivalenceRelabeler<LongImageType2D::PixelType, Dimension>::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(eq, EquivalenceRelabeler, ProcessObject);
+
+
   eq->SetInputImage(longimage2D);
 
   eq->SetEquivalencyTable(table);
@@ -111,6 +115,9 @@ itkWatershedImageFilterTest(int, char *[])
     std::cout << "Null itk::watershed::BoundaryResolver." << std::endl;
     return EXIT_FAILURE;
   }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(br, BoundaryResolver, ProcessObject);
+
   itk::watershed::Boundary<PixelType, 1>::Pointer boundaryA = itk::watershed::Boundary<PixelType, 1>::New();
   if (boundaryA.IsNull())
   {
@@ -118,6 +125,9 @@ itkWatershedImageFilterTest(int, char *[])
     std::cout << "Null itk::watershed::Boundary." << std::endl;
     return EXIT_FAILURE;
   }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(boundaryA, Boundary, DataObject);
+
   itk::watershed::Boundary<PixelType, 1>::Pointer boundaryB = itk::watershed::Boundary<PixelType, 1>::New();
   if (boundaryB.IsNull())
   {
@@ -141,7 +151,16 @@ itkWatershedImageFilterTest(int, char *[])
   watershedFilter->SetLevel(level);
   ITK_TEST_SET_GET_VALUE(level, watershedFilter->GetLevel());
 
+  unsigned int inputId = 1;
+  ITK_TRY_EXPECT_EXCEPTION(watershedFilter->SetInput(inputId, image2D));
+
   watershedFilter->SetInput(image2D);
+  const ImageType2D * input = watershedFilter->GetInput();
+
+  inputId = 0;
+  watershedFilter->SetInput(inputId, image2D);
+  ITK_TEST_SET_GET_VALUE(input, watershedFilter->GetInput());
+
 
   ITK_TRY_EXPECT_NO_EXCEPTION(watershedFilter->Update());
 

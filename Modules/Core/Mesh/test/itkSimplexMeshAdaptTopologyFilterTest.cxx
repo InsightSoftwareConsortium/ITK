@@ -84,6 +84,8 @@ itkSimplexMeshAdaptTopologyFilterTest(int argc, char * argv[])
   filter->SetInput(simplexMesh);
   filter->Update();
 
+  std::cout << "ModifiedCount: " << filter->GetModifiedCount() << std::endl;
+
   std::cout << "[TEST DONE]" << std::endl;
 
   return EXIT_SUCCESS;

@@ -19,6 +19,7 @@
 #include "itkInverseDisplacementFieldImageFilter.h"
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
+#include "itkThinPlateSplineKernelTransform.h"
 #include "itkTestingMacros.h"
 
 int
@@ -48,6 +49,11 @@ itkInverseDisplacementFieldImageFilterTest(int argc, char * argv[])
 
 
   itk::SimpleFilterWatcher watcher(filter);
+
+
+  auto kernelTransform = itk::ThinPlateSplineKernelTransform<double, FilterType::ImageDimension>::New();
+  filter->SetKernelTransform(kernelTransform);
+  ITK_TEST_SET_GET_VALUE(kernelTransform, filter->GetKernelTransform());
 
   // Creating an input displacement field
   auto field = DisplacementFieldType::New();

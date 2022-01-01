@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkPowellOptimizer.h"
+#include "itkTestingMacros.h"
 
 int POWELL_CALLS_TO_GET_VALUE = 0;
 
@@ -91,15 +92,24 @@ private:
 };
 
 int
-itkPowellOptimizerTest(int, char *[])
+itkPowellOptimizerTest(int argc, char * argv[])
 {
-  std::cout << "Powell Optimizer Test ";
-  std::cout << std::endl << std::endl;
+  if (argc != 9)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " maximize stepLength stepTolerance valueTolerance maximumIteration maximumLineIteration "
+                 "catchGetValueException metricWorstPossibleValue"
+              << std::endl;
+    return EXIT_FAILURE;
+  }
 
   using OptimizerType = itk::PowellOptimizer;
 
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, PowellOptimizer, SingleValuedNonLinearOptimizer);
 
 
   // Declaration of the CostFunction
@@ -119,11 +129,36 @@ itkPowellOptimizerTest(int, char *[])
   initialPosition[0] = 100;
   initialPosition[1] = -100;
 
-  itkOptimizer->SetMaximize(false);
-  itkOptimizer->SetStepLength(10);
-  itkOptimizer->SetStepTolerance(0.01);
-  itkOptimizer->SetValueTolerance(0.1);
-  itkOptimizer->SetMaximumIteration(100);
+  auto maximize = static_cast<bool>(std::stoi(argv[1]));
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
+
+  auto stepLength = std::stod(argv[2]);
+  itkOptimizer->SetStepLength(stepLength);
+  ITK_TEST_SET_GET_VALUE(stepLength, itkOptimizer->GetStepLength());
+
+  auto stepTolerance = std::stod(argv[3]);
+  itkOptimizer->SetStepTolerance(stepTolerance);
+  ITK_TEST_SET_GET_VALUE(stepTolerance, itkOptimizer->GetStepTolerance());
+
+  auto valueTolerance = std::stod(argv[4]);
+  itkOptimizer->SetValueTolerance(valueTolerance);
+  ITK_TEST_SET_GET_VALUE(valueTolerance, itkOptimizer->GetValueTolerance());
+
+  auto maximumIteration = static_cast<unsigned int>(std::stoi(argv[5]));
+  itkOptimizer->SetMaximumIteration(maximumIteration);
+  ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
+
+  auto maximumLineIteration = static_cast<unsigned int>(std::stoi(argv[6]));
+  itkOptimizer->SetMaximumLineIteration(maximumLineIteration);
+  ITK_TEST_SET_GET_VALUE(maximumLineIteration, itkOptimizer->GetMaximumLineIteration());
+
+  auto catchGetValueException = static_cast<bool>(std::stoi(argv[7]));
+  itkOptimizer->SetCatchGetValueException(catchGetValueException);
+  ITK_TEST_SET_GET_VALUE(catchGetValueException, itkOptimizer->GetCatchGetValueException());
+
+  auto metricWorstPossibleValue = std::stod(argv[8]);
+  itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
+  ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
 
   itkOptimizer->SetInitialPosition(initialPosition);
 
@@ -157,13 +192,10 @@ itkPowellOptimizerTest(int, char *[])
   }
 
   // Exercise various member functions.
-  std::cout << "Maximize: " << itkOptimizer->GetMaximize() << std::endl;
-  std::cout << "StepLength: " << itkOptimizer->GetStepLength();
-  std::cout << std::endl;
   std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
   std::cout << std::endl;
-
-  itkOptimizer->Print(std::cout);
+  std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << std::endl;
+  std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << std::endl;
 
   std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << std::endl;
 

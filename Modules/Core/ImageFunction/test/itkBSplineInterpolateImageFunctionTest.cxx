@@ -31,6 +31,7 @@
 #include "itkBSplineInterpolateImageFunction.h"
 
 #include "makeRandomImageBsplineInterpolator.h"
+#include "itkTestingMacros.h"
 
 
 using InputPixelType = double;
@@ -263,6 +264,17 @@ test1DCubicSpline()
 
   // Create and initialize the interpolator
   auto interp = InterpolatorType1D::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(interp, BSplineInterpolateImageFunction, InterpolateImageFunction);
+
+
+  itk::ThreadIdType numberOfWorkUnits = 1;
+  interp->SetNumberOfWorkUnits(numberOfWorkUnits);
+  ITK_TEST_SET_GET_VALUE(numberOfWorkUnits, interp->GetNumberOfWorkUnits());
+
+  bool useImageDirection = true;
+  ITK_TEST_SET_GET_BOOLEAN(interp, UseImageDirection, useImageDirection);
+
   interp->SetInputImage(image);
   interp->Print(std::cout);
 
@@ -326,6 +338,7 @@ test2DSpline()
   {
     auto interp = InterpolatorType2D::New();
     interp->SetSplineOrder(splineOrder);
+    ITK_TEST_SET_GET_VALUE(splineOrder, interp->GetSplineOrder());
 
     std::cout << "SplineOrder: " << interp->GetSplineOrder() << std::endl;
 

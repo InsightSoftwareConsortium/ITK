@@ -20,6 +20,7 @@
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 #include "itkDerivativeOperator.h"
 #include "itkNullImageToImageFilterDriver.hxx"
+#include "itkTestingMacros.h"
 
 int
 itkVectorNeighborhoodOperatorImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
@@ -38,6 +39,10 @@ itkVectorNeighborhoodOperatorImageFilterTest(int itkNotUsed(argc), char * itkNot
     // Set up filter
     itk::VectorNeighborhoodOperatorImageFilter<ImageType, ImageType>::Pointer filter =
       itk::VectorNeighborhoodOperatorImageFilter<ImageType, ImageType>::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorNeighborhoodOperatorImageFilter, ImageToImageFilter);
+
+
     filter->SetOperator(oper);
 
     // Run Test

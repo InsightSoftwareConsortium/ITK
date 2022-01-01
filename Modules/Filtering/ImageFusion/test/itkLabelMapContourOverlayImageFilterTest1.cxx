@@ -26,7 +26,7 @@
 int
 itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
 {
-  if (argc != 9)
+  if (argc != 10)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
@@ -56,16 +56,34 @@ itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
 
 
   colorizer->SetInput(converter->GetOutput());
+
   colorizer->SetFeatureImage(reader2->GetOutput());
-  colorizer->SetOpacity(std::stod(argv[4]));
-  colorizer->SetType(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_VALUE(reader2->GetOutput(), colorizer->GetFeatureImage());
+
+  auto opacity = std::stod(argv[4]);
+  colorizer->SetOpacity(opacity);
+  ITK_TEST_SET_GET_VALUE(opacity, colorizer->GetOpacity());
+
+  auto type = std::stoi(argv[5]);
+  colorizer->SetType(type);
+  ITK_TEST_SET_GET_VALUE(type, colorizer->GetType());
+
   ColorizerType::SizeType r;
   r.Fill(std::stoi(argv[6]));
   colorizer->SetContourThickness(r);
+  ITK_TEST_SET_GET_VALUE(r, colorizer->GetContourThickness());
+
   r.Fill(std::stoi(argv[7]));
   colorizer->SetDilationRadius(r);
-  colorizer->SetPriority(std::stoi(argv[8]));
+  ITK_TEST_SET_GET_VALUE(r, colorizer->GetDilationRadius());
 
+  auto priority = std::stoi(argv[8]);
+  colorizer->SetPriority(priority);
+  ITK_TEST_SET_GET_VALUE(priority, colorizer->GetPriority());
+
+  auto sliceDimension = std::stoi(argv[9]);
+  colorizer->SetSliceDimension(sliceDimension);
+  ITK_TEST_SET_GET_VALUE(sliceDimension, colorizer->GetSliceDimension());
 
   itk::SimpleFilterWatcher watcher(colorizer, "filter");
 

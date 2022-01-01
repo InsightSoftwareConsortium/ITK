@@ -773,6 +773,7 @@ itkCompositeTransformTest(int, char *[])
 
     /* Update partially two transforms, with a scaling factor */
     compositeTransform->SetNthTransformToOptimizeOn(0);
+    compositeTransform->SetNthTransformToOptimizeOff(1);
     truth = compositeTransform->GetParameters();
     update.SetSize(compositeTransform->GetNumberOfParameters());
     AffineType::ScalarType factor = 0.5;

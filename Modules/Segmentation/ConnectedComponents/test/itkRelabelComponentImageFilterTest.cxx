@@ -110,12 +110,22 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   // numbers increase as the size of the objects decrease.
   connected->SetInput(threshold->GetOutput());
   relabel->SetInput(connected->GetOutput());
-  relabel->SetNumberOfObjectsToPrint(5);
+
+  itk::SizeValueType numberOfObjectsToPrint = 5;
+  relabel->SetNumberOfObjectsToPrint(numberOfObjectsToPrint);
+  ITK_TEST_SET_GET_VALUE(numberOfObjectsToPrint, relabel->GetNumberOfObjectsToPrint());
+
+  typename RelabelComponentType::ObjectSizeType minimumObjectSize = 0;
+  relabel->SetMinimumObjectSize(minimumObjectSize);
+  ITK_TEST_SET_GET_VALUE(minimumObjectSize, relabel->GetMinimumObjectSize());
+
+  bool sortByObjectSize = true;
+  ITK_TEST_SET_GET_BOOLEAN(relabel, SortByObjectSize, sortByObjectSize);
+
   std::cout << "Modified time of relabel's output = " << relabel->GetOutput()->GetMTime() << std::endl;
   relabel->Update();
   std::cout << "NumberOfObjects: " << relabel->GetNumberOfObjects()
-            << " OriginalNumberOfObjects: " << relabel->GetOriginalNumberOfObjects()
-            << " MinimumObjectSize: " << relabel->GetMinimumObjectSize() << std::endl;
+            << " OriginalNumberOfObjects: " << relabel->GetOriginalNumberOfObjects() << std::endl;
 
   // pull out the largest object
   finalThreshold->SetInput(relabel->GetOutput());

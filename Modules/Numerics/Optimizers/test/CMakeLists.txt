@@ -27,7 +27,7 @@ itk_add_test(NAME itkOptimizersHierarchyTest
 itk_add_test(NAME itkFRPROptimizerTest
       COMMAND ITKOptimizersTestDriver itkFRPROptimizerTest)
 itk_add_test(NAME itkPowellOptimizerTest
-      COMMAND ITKOptimizersTestDriver itkPowellOptimizerTest)
+      COMMAND ITKOptimizersTestDriver itkPowellOptimizerTest 0 10 0.01 0.1 100 100 0 0.0)
 itk_add_test(NAME itkGradientDescentOptimizerTest
       COMMAND ITKOptimizersTestDriver itkGradientDescentOptimizerTest)
 itk_add_test(NAME itkVersorTransformOptimizerTest

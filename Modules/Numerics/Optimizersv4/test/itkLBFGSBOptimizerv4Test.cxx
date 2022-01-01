@@ -244,14 +244,29 @@ itkLBFGSBOptimizerv4Test(int, char *[])
 
   itkOptimizer->SetMetric(metric);
 
+  bool trace = false;
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
+
   const double  F_Convergence_Factor = 1e+7;  // Function value tolerance
   const double  Projected_G_Tolerance = 1e-5; // Proj gradient tolerance
   constexpr int Max_Iterations = 25;          // Maximum number of iterations
 
   itkOptimizer->SetCostFunctionConvergenceFactor(F_Convergence_Factor);
+  ITK_TEST_SET_GET_VALUE(F_Convergence_Factor, itkOptimizer->GetCostFunctionConvergenceFactor());
+
   itkOptimizer->SetGradientConvergenceTolerance(Projected_G_Tolerance);
+  ITK_TEST_SET_GET_VALUE(Projected_G_Tolerance, itkOptimizer->GetGradientConvergenceTolerance());
+
   itkOptimizer->SetNumberOfIterations(Max_Iterations);
-  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(100);
+  ITK_TEST_SET_GET_VALUE(Max_Iterations, itkOptimizer->GetNumberOfIterations());
+
+  unsigned int maximumNumberOfEvaluations = 100;
+  itkOptimizer->SetMaximumNumberOfFunctionEvaluations(maximumNumberOfEvaluations);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfEvaluations, itkOptimizer->GetMaximumNumberOfFunctionEvaluations());
+
+  unsigned int maximumNumberOfCorrections = 5;
+  itkOptimizer->SetMaximumNumberOfCorrections(maximumNumberOfCorrections);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfCorrections, itkOptimizer->GetMaximumNumberOfCorrections());
 
   constexpr unsigned int        SpaceDimension = 2;
   OptimizerType::ParametersType initialValue(SpaceDimension);
@@ -269,6 +284,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   currentValue = initialValue;
 
   itkOptimizer->SetInitialPosition(currentValue);
+  ITK_TEST_SET_GET_VALUE(currentValue, itkOptimizer->GetInitialPosition());
 
   /**
    * Set the boundary condition for each variable, where
@@ -286,10 +302,13 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   select.Fill(itk::LBFGSBOptimizerv4::BOTHBOUNDED);
 
   itkOptimizer->SetLowerBound(lower);
-  itkOptimizer->SetUpperBound(upper);
-  itkOptimizer->SetBoundSelection(select);
+  ITK_TEST_SET_GET_VALUE(lower, itkOptimizer->GetLowerBound());
 
-  itkOptimizer->Print(std::cout);
+  itkOptimizer->SetUpperBound(upper);
+  ITK_TEST_SET_GET_VALUE(upper, itkOptimizer->GetUpperBound());
+
+  itkOptimizer->SetBoundSelection(select);
+  ITK_TEST_SET_GET_VALUE(select, itkOptimizer->GetBoundSelection());
 
   auto eventChecker = EventChecker::New();
   itkOptimizer->AddObserver(itk::StartEvent(), eventChecker);
@@ -317,12 +336,6 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   std::cout << "Infinity Norm of Projected Gradient = " << itkOptimizer->GetInfinityNormOfProjectedGradient()
             << std::endl;
   std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
-  std::cout << "Trace   = " << itkOptimizer->GetTrace() << std::endl;
-  std::cout << "metricConvergenceFactor   = " << itkOptimizer->GetCostFunctionConvergenceFactor() << std::endl;
-  std::cout << "ProjectedGradientTolerance   = " << itkOptimizer->GetGradientConvergenceTolerance() << std::endl;
-  std::cout << "NumberOfIterations   = " << itkOptimizer->GetNumberOfIterations() << std::endl;
-  std::cout << "MaximumNumberOfEvaluations   = " << itkOptimizer->GetMaximumNumberOfFunctionEvaluations() << std::endl;
-  std::cout << "MaximumNumberOfCorrections   = " << itkOptimizer->GetMaximumNumberOfCorrections() << std::endl;
   std::cout << "CurrentOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   if (!eventChecker->GetHadStartEvent())

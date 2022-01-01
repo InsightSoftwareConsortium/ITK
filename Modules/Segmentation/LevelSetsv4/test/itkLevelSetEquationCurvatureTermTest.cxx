@@ -139,6 +139,10 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
 
   // Create ChanAndVese External term for phi_{1}
   auto term = CurvatureTermType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(term, LevelSetEquationCurvatureTerm, LevelSetEquationTermBase);
+
+
   term->SetInput(binary);
   term->SetCoefficient(1.0);
   term->SetCurrentLevelSetId(0);
@@ -188,7 +192,8 @@ itkLevelSetEquationCurvatureTermTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  term->SetUseCurvatureImage(false);
+  bool useCurvatureImage = false;
+  ITK_TEST_SET_GET_BOOLEAN(term, UseCurvatureImage, useCurvatureImage);
 
   if (itk::Math::NotAlmostEquals(term->Evaluate(index), value))
   {

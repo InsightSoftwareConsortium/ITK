@@ -167,8 +167,16 @@ itkVectorConnectedComponentImageFilterTest(int argc, char * argv[])
   using VectorFilterType = itk::VectorConnectedComponentImageFilter<ImageType, OutputImageType>;
 
   auto filter = VectorFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, VectorConnectedComponentImageFilter, ConnectedComponentFunctorImageFilter);
+
+
+  typename VectorFilterType::InputValueType distanceThreshold = 0.01;
+  filter->SetDistanceThreshold(distanceThreshold);
+  ITK_TEST_SET_GET_VALUE(distanceThreshold, filter->GetDistanceThreshold());
+
   filter->SetInput(image);
-  filter->SetDistanceThreshold(.01);
+
   using RelabelComponentType = itk::RelabelComponentImageFilter<OutputImageType, LabelImageType>;
   auto relabel = RelabelComponentType::New();
   relabel->SetInput(filter->GetOutput());

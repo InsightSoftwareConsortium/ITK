@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkFixedCenterOfRotationAffineTransform.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -101,11 +102,23 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   }
 
   /** Test set matrix after setting components */
-  double scale[2];
-  scale[0] = 2.0;
-  scale[1] = 4.0;
+  double scale1[2];
+  scale1[0] = 2.0;
+  scale1[1] = 4.0;
 
-  aff2->SetScaleComponent(scale);
+  aff2->SetScaleComponent(scale1);
+  const double * scale2 = aff2->GetScaleComponent();
+  const double * scale3 = aff2->GetScale();
+  for (unsigned int i = 0; i < 2; ++i)
+  {
+    ITK_TEST_EXPECT_EQUAL(scale1[i], scale2[i]);
+    ITK_TEST_EXPECT_EQUAL(scale1[i], scale3[i]);
+  }
+
+  typename FCoRAffine2DType::InputVectorType vScale = itk::MakeVector(2.0, 4.0);
+  aff2->SetScaleComponent(vScale);
+  ITK_TEST_SET_GET_VALUE(vScale, aff2->GetScaleComponent());
+
   aff2->SetMatrix(matrix2);
 
   matrix2 = aff2->GetMatrixComponent();
@@ -129,7 +142,7 @@ itkFixedCenterOfRotationAffineTransformTest(int, char *[])
   /** Try scaling */
   std::cout << "Testing scaling: ";
   aff2->SetIdentity();
-  aff2->SetScaleComponent(scale);
+  aff2->SetScaleComponent(scale1);
 
   matrix2 = aff2->GetMatrix();
 

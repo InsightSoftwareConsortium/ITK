@@ -112,14 +112,38 @@ itkDirectFourierReconstructionImageToImageFilterTest(int argc, char * argv[])
   {
     reconstruct->SetInput(smoother->GetOutput());
   }
-  reconstruct->SetRDirection(std::stoi(argv[3]));
-  reconstruct->SetZDirection(std::stoi(argv[4]));
-  reconstruct->SetAlphaDirection(std::stoi(argv[5]));
-  reconstruct->SetZeroPadding(std::stoi(argv[6]));
-  reconstruct->SetOverSampling(std::stoi(argv[7]));
-  reconstruct->SetCutoff(std::stod(argv[8]));
-  reconstruct->SetRadialSplineOrder(std::stoi(argv[9]));
-  reconstruct->SetAlphaRange(std::stoi(argv[10]));
+
+  unsigned short rDirection = std::stoi(argv[3]);
+  reconstruct->SetRDirection(rDirection);
+  ITK_TEST_SET_GET_VALUE(rDirection, reconstruct->GetRDirection());
+
+  unsigned short zDirection = std::stoi(argv[4]);
+  reconstruct->SetZDirection(zDirection);
+  ITK_TEST_SET_GET_VALUE(zDirection, reconstruct->GetZDirection());
+
+  unsigned short alphaDirection = std::stoi(argv[5]);
+  reconstruct->SetAlphaDirection(alphaDirection);
+  ITK_TEST_SET_GET_VALUE(alphaDirection, reconstruct->GetAlphaDirection());
+
+  unsigned short zeroPadding = std::stoi(argv[6]);
+  reconstruct->SetZeroPadding(zeroPadding);
+  ITK_TEST_SET_GET_VALUE(zeroPadding, reconstruct->GetZeroPadding());
+
+  unsigned short overSampling = std::stoi(argv[7]);
+  reconstruct->SetOverSampling(overSampling);
+  ITK_TEST_SET_GET_VALUE(overSampling, reconstruct->GetOverSampling());
+
+  auto cutoff = std::stod(argv[8]);
+  reconstruct->SetCutoff(cutoff);
+  ITK_TEST_SET_GET_VALUE(cutoff, reconstruct->GetCutoff());
+
+  unsigned short radialSplineOrder = std::stoi(argv[9]);
+  reconstruct->SetRadialSplineOrder(radialSplineOrder);
+  ITK_TEST_SET_GET_VALUE(radialSplineOrder, reconstruct->GetRadialSplineOrder());
+
+  auto alphaRange = std::stod(argv[10]);
+  reconstruct->SetAlphaRange(alphaRange);
+  ITK_TEST_SET_GET_VALUE(alphaRange, reconstruct->GetAlphaRange());
 
   auto observer = CommandProgressUpdate::New();
   reconstruct->AddObserver(itk::ProgressEvent(), observer);

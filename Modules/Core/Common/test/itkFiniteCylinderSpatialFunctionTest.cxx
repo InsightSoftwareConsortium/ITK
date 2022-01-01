@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFiniteCylinderSpatialFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkFiniteCylinderSpatialFunctionTest(int, char *[])
@@ -33,8 +34,12 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   // cylinder
   auto spatialFunc = TCylinderFunctionType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(spatialFunc, FiniteCylinderSpatialFunction, InteriorExteriorSpatialFunction);
+
+
   double axis = 40.0;
   spatialFunc->SetAxisLength(axis);
+  ITK_TEST_SET_GET_VALUE(axis, spatialFunc->GetAxisLength());
 
   // Define function, which encapsulates cylinder.
   int xExtent = 50;
@@ -46,15 +51,18 @@ itkFiniteCylinderSpatialFunctionTest(int, char *[])
   center[1] = yExtent / 2;
   center[2] = zExtent / 2;
   spatialFunc->SetCenter(center);
+  ITK_TEST_SET_GET_VALUE(center, spatialFunc->GetCenter());
 
   TCylinderFunctionVectorType orientation;
   orientation[0] = .35;
   orientation[1] = .35;
   orientation[2] = .30;
   spatialFunc->SetOrientation(orientation);
+  ITK_TEST_SET_GET_VALUE(orientation, spatialFunc->GetOrientation());
 
   double radius = 5.0;
   spatialFunc->SetRadius(radius);
+  ITK_TEST_SET_GET_VALUE(radius, spatialFunc->GetRadius());
 
   // Evaluate all points in the spatial function and count the number of
   // pixels that are inside the cylinder.

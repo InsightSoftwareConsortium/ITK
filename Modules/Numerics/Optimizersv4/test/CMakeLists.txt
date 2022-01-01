@@ -140,7 +140,7 @@ itk_add_test(NAME itkExhaustiveOptimizerv4Test
 
 itk_add_test(NAME itkPowellOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver
-  itkPowellOptimizerv4Test)
+  itkPowellOptimizerv4Test 10 0.01 0.1 100 100 0.0)
 
 itk_add_test(NAME itkOnePlusOneEvolutionaryOptimizerv4Test
   COMMAND ITKOptimizersv4TestDriver
