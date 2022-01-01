@@ -19,6 +19,7 @@ itkZeroCrossingImageFilterTest.cxx
 itkCannyEdgeDetectionImageFilterTest2.cxx
 itkDerivativeImageFilterTest.cxx
 itkLaplacianRecursiveGaussianImageFilterTest.cxx
+itkLaplacianSharpeningImageFilterTest.cxx
 itkMaskFeaturePointSelectionFilterTest.cxx
 itkUnsharpMaskImageFilterTestSimple.cxx
 itkUnsharpMaskImageFilterTest.cxx
@@ -175,6 +176,11 @@ itk_add_test(NAME itkLaplacianRecursiveGaussianImageFilterTest
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/LaplacianRecursiveGaussianImageFilterTest.png,:}
               ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png
     itkLaplacianRecursiveGaussianImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/LaplacianRecursiveGaussianImageFilterTest.png)
+itk_add_test(NAME itkLaplacianSharpeningImageFilterTest
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{Baseline/itkLaplacianSharpeningImageFilterTest.png}
+              ${ITK_TEST_OUTPUT_DIR}/itkLaplacianSharpeningImageFilterTest.png
+    itkLaplacianSharpeningImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} ${ITK_TEST_OUTPUT_DIR}/itkLaplacianSharpeningImageFilterTest.png 1)
 itk_add_test(NAME itkMaskFeaturePointSelectionFilterTest
       COMMAND ITKImageFeatureTestDriver
     --compare DATA{Baseline/itkMaskFeaturePointSelectionFilterTest.mha}
