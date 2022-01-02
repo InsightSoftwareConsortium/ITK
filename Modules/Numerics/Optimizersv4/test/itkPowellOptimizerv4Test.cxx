@@ -143,12 +143,12 @@ private:
 int
 itkPowellOptimizerv4Test(int argc, char * argv[])
 {
-  if (argc != 7)
+  if (argc != 8)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
               << " stepLength stepTolerance valueTolerance maximumIteration maximumLineIteration "
-                 " metricWorstPossibleValue"
+                 "catchGetValueException metricWorstPossibleValue"
               << std::endl;
     return EXIT_FAILURE;
   }
@@ -204,7 +204,10 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
   itkOptimizer->SetMaximumLineIteration(maximumLineIteration);
   ITK_TEST_SET_GET_VALUE(maximumLineIteration, itkOptimizer->GetMaximumLineIteration());
 
-  auto metricWorstPossibleValue = std::stod(argv[6]);
+  auto catchGetValueException = static_cast<bool>(std::stoi(argv[6]));
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, CatchGetValueException, catchGetValueException);
+
+  auto metricWorstPossibleValue = std::stod(argv[7]);
   itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
   ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
 

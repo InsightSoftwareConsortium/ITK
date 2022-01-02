@@ -252,6 +252,9 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
   auto generator = GeneratorType::New();
   itkOptimizer->SetNormalVariateGenerator(generator);
 
+  bool catchGetValueException = false;
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, CatchGetValueException, catchGetValueException);
+
   // Set the initial position by setting the metric
   // parameters.
   std::cout << "Set metric parameters." << std::endl;

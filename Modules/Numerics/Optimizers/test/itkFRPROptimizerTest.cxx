@@ -140,6 +140,9 @@ itkFRPROptimizerTest(int, char *[])
   itkOptimizer->SetMaximize(false);
   itkOptimizer->SetMaximumIteration(50);
 
+  bool useUnitLengthGradient = false;
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, UseUnitLengthGradient, useUnitLengthGradient);
+
   {
     // Exercise the methods that set the optimization mode
     std::cout << "Testing Fletch Reeves Mode" << std::endl;
