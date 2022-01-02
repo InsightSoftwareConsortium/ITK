@@ -19,13 +19,16 @@
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
+#include "itkTestingMacros.h"
 
 int
 itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Missing Arguments" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename [debugPrint]" << std::endl;
     return EXIT_FAILURE;
   }
 

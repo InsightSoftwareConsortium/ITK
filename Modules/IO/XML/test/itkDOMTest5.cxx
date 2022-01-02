@@ -26,13 +26,14 @@ especially the change of working directory for reading/writing external files in
 
 #include <iostream>
 #include "itkMacro.h"
+#include "itkTestingMacros.h"
 
 int
 itkDOMTest5(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "arguments expected: <output>.DOMTestObject.xml" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <output>.DOMTestObject.xml" << std::endl;
     return EXIT_FAILURE;
   }
 

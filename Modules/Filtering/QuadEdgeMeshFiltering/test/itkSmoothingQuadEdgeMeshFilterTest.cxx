@@ -26,14 +26,12 @@ int
 itkSmoothingQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
   // ** ERROR MESSAGE AND HELP ** //
-  if (argc < 4)
+  if (argc != 6)
   {
-    std::cout << "Requires 3 argument: " << std::endl;
-    std::cout << "1-Input file name " << std::endl;
-    std::cout << "2-Number Of Iterations " << std::endl;
-    std::cout << "3-Relaxation Factor" << std::endl;
-    std::cout << "4-Use Delaunay Conforming filter" << std::endl;
-    std::cout << "5-Output file name " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputFilename numberOfIterations relaxationFactor useDelaunayConformingFilter outputFilename"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

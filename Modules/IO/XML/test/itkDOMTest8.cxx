@@ -25,13 +25,14 @@ This program tests operations of itk::FileTools.
 #include <iostream>
 #include <string>
 #include "itkMacro.h"
+#include "itkTestingMacros.h"
 
 int
 itkDOMTest8(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "arguments expected: <OutputFolder> <OutputFile>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <OutputFolder> <OutputFile>" << std::endl;
     return EXIT_FAILURE;
   }
 

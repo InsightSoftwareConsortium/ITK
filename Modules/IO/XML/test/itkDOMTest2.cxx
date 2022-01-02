@@ -30,13 +30,14 @@ It also demonstrates
 
 #include <iostream>
 #include "itkMacro.h"
+#include "itkTestingMacros.h"
 
 int
 itkDOMTest2(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "arguments expected: input.xml output.xml" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input.xml output.xml" << std::endl;
     return EXIT_FAILURE;
   }
 

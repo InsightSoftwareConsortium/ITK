@@ -29,13 +29,14 @@ so it is important to supply the correct input during the testing process.
 
 #include <iostream>
 #include "itkMacro.h"
+#include "itkTestingMacros.h"
 
 int
 itkDOMTest3(int argc, char * argv[])
 {
   if (argc < 2)
   {
-    std::cerr << "arguments expected: test.xml" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " test.xml" << std::endl;
     return EXIT_FAILURE;
   }
 

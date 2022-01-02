@@ -26,13 +26,15 @@ because it is used here to verify the correctness of the query output.
 
 #include <iostream>
 #include "itkMacro.h"
+#include "itkTestingMacros.h"
 
 int
 itkDOMTest4(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "arguments expected: <test>.xml <QueryString> <GroundTruthPathString>" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " <test>.xml <QueryString> <GroundTruthPathString>"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

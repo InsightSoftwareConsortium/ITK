@@ -22,32 +22,15 @@
 #include "VNLIterativeSparseSolverTraits.h"
 
 #include "itkParameterizationQuadEdgeMeshFilter.h"
+#include "itkTestingMacros.h"
 
 template <typename TSolver>
 int
-ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
+ParameterizationQuadEdgeMeshFilterTest(const char * inputFilename,
+                                       unsigned int borderType,
+                                       unsigned int coefficientType,
+                                       const char * outputFilename)
 {
-  // ** ERROR MESSAGE AND HELP ** //
-  if (argc < 5)
-  {
-    std::cout << "Requires 4 arguments: " << std::endl;
-    std::cout << "1-Input file name " << std::endl;
-    std::cout << "2-Border Type" << std::endl;
-    std::cout << "   * 0: SQUARE" << std::endl;
-    std::cout << "   * 1: DISK" << std::endl;
-    std::cout << "3-CoefficientType Type" << std::endl;
-    std::cout << "   * 0: OnesMatrixCoefficients" << std::endl;
-    std::cout << "   * 1: InverseEuclideanDistanceMatrixCoefficients" << std::endl;
-    std::cout << "   * 2: ConformalMatrixCoefficients" << std::endl;
-    std::cout << "   * 3: AuthalicMatrixCoefficients" << std::endl;
-    std::cout << "   * 4: HarmonicMatrixCoefficients" << std::endl;
-    std::cout << "4-Solver type (0: iterative, 1: LU decomposition)" << std::endl;
-    std::cout << "5-Output file name " << std::endl;
-
-    return EXIT_FAILURE;
-  }
-
-
   // ** TYPEDEF **
   using Coord = typename TSolver::ValueType;
 
@@ -59,7 +42,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   // ** READ THE FILE IN **
   auto reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
+  reader->SetFileName(inputFilename);
 
   try
   {
@@ -81,10 +64,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   border_transform->SetRadius(border_transform->GetRadius());
   border_transform->GetNameOfClass();
 
-  int               border;
-  std::stringstream ssout(argv[2]);
-  ssout >> border;
-  switch (border) // choose border type
+  switch (borderType) // choose border type
   {
     case 0: // square shaped domain
       border_transform->SetTransformType(itk::BorderQuadEdgeMeshFilterEnums::BorderTransform::SQUARE_BORDER_TRANSFORM);
@@ -113,11 +93,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   param->SetInput(mesh);
   param->SetBorderTransform(border_transform);
 
-  int               param_type;
-  std::stringstream ssout3(argv[3]);
-  ssout3 >> param_type;
-
-  switch (param_type)
+  switch (coefficientType)
   {
     case 0:
       param->SetCoefficientsMethod(&coeff0);
@@ -137,7 +113,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
     default:
       std::cerr << "3rd argument must be " << std::endl;
       std::cerr << "0, 1, 2, 3 or 4" << std::endl;
-      std::cerr << "Here it is: " << param_type << std::endl;
+      std::cerr << "Here it is: " << coefficientType << std::endl;
       return EXIT_FAILURE;
   }
 
@@ -148,7 +124,7 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** WRITE OUTPUT **
   auto writer = WriterType::New();
   writer->SetInput(param->GetOutput());
-  writer->SetFileName(argv[5]);
+  writer->SetFileName(outputFilename);
   writer->Update();
 
   // ** PRINT **
@@ -162,17 +138,36 @@ ParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
 int
 itkParameterizationQuadEdgeMeshFilterTest(int argc, char * argv[])
 {
+  if (argc != 6)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputFilename borderType (0: SQUARE; 1: DISK)" << std::endl;
+    std::cerr << " coefficientType" << std::endl;
+    std::cerr << "   * 0: OnesMatrixCoefficients" << std::endl;
+    std::cerr << "   * 1: InverseEuclideanDistanceMatrixCoefficients" << std::endl;
+    std::cerr << "   * 2: ConformalMatrixCoefficients" << std::endl;
+    std::cerr << "   * 3: AuthalicMatrixCoefficients" << std::endl;
+    std::cerr << "   * 4: HarmonicMatrixCoefficients" << std::endl;
+    std::cerr << " solverType (0: iterative; 1: LU decomposition)" << std::endl;
+    std::cerr << " outputFilename" << std::endl;
+
+    return EXIT_FAILURE;
+  }
+
   using TCoord = double;
   using IterativeSolverTraits = VNLIterativeSparseSolverTraits<TCoord>;
   using LUSolverTraits = VNLSparseLUSolverTraits<TCoord>;
 
   if (std::stoi(argv[4]) == 0)
   {
-    return ParameterizationQuadEdgeMeshFilterTest<IterativeSolverTraits>(argc, argv);
+    return ParameterizationQuadEdgeMeshFilterTest<IterativeSolverTraits>(
+      argv[1], std::stoi(argv[2]), std::stoi(argv[3]), argv[5]);
   }
   else if (std::stoi(argv[4]) == 1)
   {
-    return ParameterizationQuadEdgeMeshFilterTest<LUSolverTraits>(argc, argv);
+    return ParameterizationQuadEdgeMeshFilterTest<LUSolverTraits>(
+      argv[1], std::stoi(argv[2]), std::stoi(argv[3]), argv[5]);
   }
   else
   {
