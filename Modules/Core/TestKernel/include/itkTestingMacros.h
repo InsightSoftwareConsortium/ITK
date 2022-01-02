@@ -67,15 +67,6 @@ namespace itk
 #define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \
   object->Print(std::cout);                                                                                            \
   std::cout << "Name of Class = " << object->GetNameOfClass() << std::endl;                                            \
-  if (!std::strcmp(object->GetNameOfClass(), #ClassName))                                                              \
-  {                                                                                                                    \
-    std::cout << "Class name is correct" << std::endl;                                                                 \
-  }                                                                                                                    \
-  else                                                                                                                 \
-  {                                                                                                                    \
-    std::cerr << "Class name provided does not match object's NameOfClass" << std::endl;                               \
-    return EXIT_FAILURE;                                                                                               \
-  }                                                                                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 #else // not GCC
 #define ITK_EXERCISE_BASIC_OBJECT_METHODS(object, ClassName, SuperclassName)                                           \

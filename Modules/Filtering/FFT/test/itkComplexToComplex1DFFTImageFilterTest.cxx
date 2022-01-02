@@ -109,7 +109,7 @@ itkComplexToComplex1DFFTImageFilterTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
 
-    // ITK_EXERCISE_BASIC_OBJECT_METHODS(inverse, ComplexToComplex1DFFTImageFilter, ImageToImageFilter);
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(inverse, ComplexToComplex1DFFTImageFilter, ImageToImageFilter);
 
     return doTest<FFTInverseType>(argv[1], argv[2], argv[3]);
   }
