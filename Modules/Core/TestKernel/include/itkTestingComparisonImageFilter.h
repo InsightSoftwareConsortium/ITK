@@ -93,6 +93,7 @@ public:
    *    Default = false */
   itkSetMacro(IgnoreBoundaryPixels, bool);
   itkGetConstMacro(IgnoreBoundaryPixels, bool);
+  itkBooleanMacro(IgnoreBoundaryPixels);
 
   /** Get statistical attributes for those pixels which exceed the
    * tolerance and radius parameters */

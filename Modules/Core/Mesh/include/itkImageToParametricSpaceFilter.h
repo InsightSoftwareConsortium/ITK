@@ -95,6 +95,8 @@ public:
    * mesh is capable of accepting an itk::Index through
    * an operator=(). Default value = true */
   itkSetMacro(ComputeIndices, bool);
+  itkGetConstMacro(ComputeIndices, bool);
+  itkBooleanMacro(ComputeIndices);
 
 protected:
   ImageToParametricSpaceFilter();

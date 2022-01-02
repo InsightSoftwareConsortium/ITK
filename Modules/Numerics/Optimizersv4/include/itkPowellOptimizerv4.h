@@ -126,6 +126,7 @@ public:
 
   itkGetConstReferenceMacro(CatchGetValueException, bool);
   itkSetMacro(CatchGetValueException, bool);
+  itkBooleanMacro(CatchGetValueException);
 
   itkGetConstReferenceMacro(MetricWorstPossibleValue, double);
   itkSetMacro(MetricWorstPossibleValue, double);
