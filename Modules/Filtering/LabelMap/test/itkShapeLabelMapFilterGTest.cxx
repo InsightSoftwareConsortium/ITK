@@ -98,7 +98,7 @@ protected:
       return false;
     }
 
-    static bool
+    static int
     TestBasicObjectProperties()
     {
       using L2SType = itk::LabelImageToShapeLabelMapFilter<ImageType>;
