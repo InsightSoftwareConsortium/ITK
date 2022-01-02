@@ -624,9 +624,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   }
   else
   {
-    typename TOutputImage::RegionType outputLargestPossibleRegion;
-    outputLargestPossibleRegion.SetSize(m_Size);
-    outputLargestPossibleRegion.SetIndex(m_OutputStartIndex);
+    const typename TOutputImage::RegionType outputLargestPossibleRegion(m_OutputStartIndex, m_Size);
     outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
   }
 

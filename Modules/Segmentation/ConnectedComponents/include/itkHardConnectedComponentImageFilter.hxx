@@ -43,15 +43,13 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   SizeType  size;
 
   typename ListType::iterator iter;
-  RegionType                  region;
 
   TOutputImage *      output = this->GetOutput();
   const TInputImage * input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
   index.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(index);
+  const RegionType region(index, size);
   output->SetLargestPossibleRegion(region);
   output->SetBufferedRegion(region);
   output->SetRequestedRegion(region);

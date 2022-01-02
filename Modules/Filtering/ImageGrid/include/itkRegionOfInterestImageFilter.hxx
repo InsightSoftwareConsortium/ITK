@@ -78,12 +78,10 @@ RegionOfInterestImageFilter<TInputImage, TOutputImage>::GenerateOutputInformatio
   }
 
   // Set the output image size to the same value as the region of interest.
-  RegionType region;
-  IndexType  start;
+  IndexType start;
   start.Fill(0);
 
-  region.SetSize(m_RegionOfInterest.GetSize());
-  region.SetIndex(start);
+  const RegionType region(start, m_RegionOfInterest.GetSize());
 
   // Copy Information without modification.
   outputPtr->CopyInformation(inputPtr);

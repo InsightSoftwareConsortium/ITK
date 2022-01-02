@@ -65,11 +65,9 @@ MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::AllocateImage(co
     }
   }
 
-  RegionType region;
-  region.SetSize(size);
   itk::Index<NDimensions> zeroIndex;
   zeroIndex.Fill(0);
-  region.SetIndex(zeroIndex);
+  const RegionType region(zeroIndex, size);
   rval->SetLargestPossibleRegion(region);
   rval->SetBufferedRegion(region);
   rval->SetRequestedRegion(region);

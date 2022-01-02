@@ -156,10 +156,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
       itkExceptionMacro(<< "Must Set Image Size");
     }
 
-    typename OutputImageType::RegionType region;
-
-    region.SetSize(m_Size);
-    region.SetIndex(m_Index);
+    const typename OutputImageType::RegionType region(m_Index, m_Size);
 
     OutputImage->SetLargestPossibleRegion(region); //
     OutputImage->SetBufferedRegion(region);        // set the region

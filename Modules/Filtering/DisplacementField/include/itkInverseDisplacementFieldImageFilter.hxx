@@ -135,9 +135,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrepareKernelBas
     spacing[i] *= m_SubsamplingFactor;
   }
 
-  InputRegionType subsampledRegion;
-  subsampledRegion.SetSize(size);
-  subsampledRegion.SetIndex(region.GetIndex());
+  const InputRegionType subsampledRegion(region.GetIndex(), size);
 
   resampler->SetSize(size);
   resampler->SetOutputStartIndex(subsampledRegion.GetIndex());

@@ -498,10 +498,8 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Tra
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
   // For each dimension, correlate coefficient with weights
-  RegionType         supportRegion;
   constexpr SizeType supportSize = WeightsFunctionType::SupportSize;
-  supportRegion.SetSize(supportSize);
-  supportRegion.SetIndex(supportIndex);
+  const RegionType   supportRegion(supportIndex, supportSize);
 
   outputPoint.Fill(NumericTraits<ScalarType>::ZeroValue());
 
@@ -557,10 +555,8 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Com
   // Zero all components of jacobian
   jacobian.SetSize(SpaceDimension, this->GetNumberOfParameters());
   jacobian.Fill(0.0);
-  RegionType supportRegion;
-  SizeType   supportSize;
+  SizeType supportSize;
   supportSize.Fill(SplineOrder + 1);
-  supportRegion.SetSize(supportSize);
 
   ContinuousIndexType index =
     this->m_CoefficientImages[0]
@@ -580,7 +576,7 @@ BSplineDeformableTransform<TParametersValueType, NDimensions, VSplineOrder>::Com
   IndexType supportIndex;
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
-  supportRegion.SetIndex(supportIndex);
+  const RegionType supportRegion(supportIndex, supportSize);
 
   IndexType startIndex = this->m_CoefficientImages[0]->GetLargestPossibleRegion().GetIndex();
 

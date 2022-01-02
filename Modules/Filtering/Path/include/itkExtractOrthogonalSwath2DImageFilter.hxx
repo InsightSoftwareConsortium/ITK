@@ -136,12 +136,10 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateOutputInformation()
 {
   ImagePointer outputPtr = this->GetOutput(0);
 
-  ImageRegionType outputRegion;
-  ImageIndexType  index;
+  ImageIndexType index;
 
   index.Fill(0);
-  outputRegion.SetSize(this->m_Size);
-  outputRegion.SetIndex(index);
+  const ImageRegionType outputRegion(index, this->m_Size);
   outputPtr->SetLargestPossibleRegion(outputRegion);
   outputPtr->SetSpacing(this->m_Spacing);
   outputPtr->SetOrigin(this->m_Origin);

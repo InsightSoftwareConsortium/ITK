@@ -265,12 +265,10 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::
   this->m_WeightsFunction->Evaluate(index, weights, supportIndex);
 
   // For each dimension, copy the weight to the support region
-  RegionType supportRegion;
-  SizeType   supportSize;
+  SizeType supportSize;
   supportSize.Fill(SplineOrder + 1);
-  supportRegion.SetSize(supportSize);
-  supportRegion.SetIndex(supportIndex);
-  unsigned long counter = 0;
+  const RegionType supportRegion(supportIndex, supportSize);
+  unsigned long    counter = 0;
 
   using IteratorType = ImageRegionIterator<ImageType>;
 

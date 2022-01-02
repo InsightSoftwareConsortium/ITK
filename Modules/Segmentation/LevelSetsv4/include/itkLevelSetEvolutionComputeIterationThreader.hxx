@@ -37,11 +37,9 @@ LevelSetEvolutionComputeIterationThreader<LevelSetDenseImage<TImage>,
   typename LevelSetImageType::ConstPointer levelSetImage = levelSet->GetImage();
 
   // Identify the level-set region
-  OffsetType offset = levelSet->GetDomainOffset();
-  IndexType  index = imageSubRegion.GetIndex() - offset;
-  RegionType subRegion;
-  subRegion.SetSize(imageSubRegion.GetSize());
-  subRegion.SetIndex(index);
+  OffsetType       offset = levelSet->GetDomainOffset();
+  IndexType        index = imageSubRegion.GetIndex() - offset;
+  const RegionType subRegion(index, imageSubRegion.GetSize());
 
   ImageRegionConstIteratorWithIndex<LevelSetImageType> imageIt(levelSetImage, subRegion);
   imageIt.GoToBegin();

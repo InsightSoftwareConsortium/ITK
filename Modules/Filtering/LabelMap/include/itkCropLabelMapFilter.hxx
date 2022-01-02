@@ -43,9 +43,8 @@ CropLabelMapFilter<TInputImage>::GenerateOutputInformation()
   }
 
   // Compute the new region size.
-  RegionType croppedRegion;
-  SizeType   size;
-  IndexType  index;
+  SizeType  size;
+  IndexType index;
 
   SizeType  inputSize = inputPtr->GetLargestPossibleRegion().GetSize();
   IndexType inputIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
@@ -55,8 +54,7 @@ CropLabelMapFilter<TInputImage>::GenerateOutputInformation()
   index = inputIndex + m_LowerBoundaryCropSize;
   size = inputSize - (originalCropSize);
 
-  croppedRegion.SetSize(size);
-  croppedRegion.SetIndex(index);
+  const RegionType croppedRegion(index, size);
 
   // Set extraction region in the superclass.
   this->SetRegion(croppedRegion);

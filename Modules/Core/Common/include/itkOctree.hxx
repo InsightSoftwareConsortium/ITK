@@ -265,11 +265,9 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetImage() -> ImageTypePoin
   sizes[1] = m_TrueDims[1];
   sizes[2] = m_TrueDims[2];
   imageSize.SetSize(sizes);
-  const typename ImageType::IndexType imageIndex = { { 0, 0, 0 } };
-  typename ImageType::RegionType      region;
-  region.SetSize(imageSize);
-  region.SetIndex(imageIndex);
-  auto img = ImageType::New();
+  const typename ImageType::IndexType  imageIndex = { { 0, 0, 0 } };
+  const typename ImageType::RegionType region(imageIndex, imageSize);
+  auto                                 img = ImageType::New();
   img->SetLargestPossibleRegion(region);
   img->SetBufferedRegion(region);
   img->SetRequestedRegion(region);

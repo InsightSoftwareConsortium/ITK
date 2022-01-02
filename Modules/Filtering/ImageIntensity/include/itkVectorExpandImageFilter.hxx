@@ -269,9 +269,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->SetSpacing(outputSpacing);
   outputPtr->SetOrigin(outputOrigin);
 
-  typename TOutputImage::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputStartIndex, outputSize);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }

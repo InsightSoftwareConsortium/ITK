@@ -358,9 +358,7 @@ VTKImageExport<TInputImage>::PropagateUpdateExtentCallback(int * extent)
     size[i] = (extent[i * 2 + 1] - extent[i * 2]) + 1;
   }
 
-  InputRegionType region;
-  region.SetSize(size);
-  region.SetIndex(index);
+  const InputRegionType region(index, size);
 
   InputImagePointer input = this->GetInput();
   if (!input)

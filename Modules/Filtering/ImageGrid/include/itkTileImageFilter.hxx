@@ -349,10 +349,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     ++it;
   }
 
-  typename TOutputImage::RegionType outputLargestPossibleRegion;
-
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputIndex);
+  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputIndex, outputSize);
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
   // Support VectorImages by setting number of components on output.

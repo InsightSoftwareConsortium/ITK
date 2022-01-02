@@ -33,9 +33,8 @@ CropImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   }
 
   // Compute the new region size
-  OutputImageRegionType croppedRegion;
-  SizeType              sz;
-  OutputImageIndexType  idx;
+  SizeType             sz;
+  OutputImageIndexType idx;
 
   InputImageSizeType  input_sz = inputPtr->GetLargestPossibleRegion().GetSize();
   InputImageIndexType input_idx = inputPtr->GetLargestPossibleRegion().GetIndex();
@@ -48,8 +47,7 @@ CropImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     sz[i] = input_sz[i] - (m_UpperBoundaryCropSize[i] + m_LowerBoundaryCropSize[i]);
   }
 
-  croppedRegion.SetSize(sz);
-  croppedRegion.SetIndex(idx);
+  const OutputImageRegionType croppedRegion(idx, sz);
 
   // Set extraction region in the superclass
   this->SetExtractionRegion(croppedRegion);

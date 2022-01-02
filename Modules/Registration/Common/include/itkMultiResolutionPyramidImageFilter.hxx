@@ -394,9 +394,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
       outputOrigin[idim] = inputOrigin[idim] + outputOriginOffset[idim];
     }
 
-    typename OutputImageType::RegionType outputLargestPossibleRegion;
-    outputLargestPossibleRegion.SetSize(outputSize);
-    outputLargestPossibleRegion.SetIndex(outputStartIndex);
+    const typename OutputImageType::RegionType outputLargestPossibleRegion(outputStartIndex, outputSize);
 
     outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
     outputPtr->SetOrigin(outputOrigin);
@@ -527,7 +525,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
   unsigned int refLevel = m_NumberOfLevels - 1;
   SizeType     baseSize = this->GetOutput(refLevel)->GetRequestedRegion().GetSize();
   IndexType    baseIndex = this->GetOutput(refLevel)->GetRequestedRegion().GetIndex();
-  RegionType   baseRegion;
 
   unsigned int idim;
   for (idim = 0; idim < ImageDimension; ++idim)
@@ -536,8 +533,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputReque
     baseIndex[idim] *= static_cast<IndexValueType>(factor);
     baseSize[idim] *= static_cast<SizeValueType>(factor);
   }
-  baseRegion.SetIndex(baseIndex);
-  baseRegion.SetSize(baseSize);
+  const RegionType baseRegion(baseIndex, baseSize);
 
   // compute requirements for the smoothing part
   using OutputPixelType = typename TOutputImage::PixelType;

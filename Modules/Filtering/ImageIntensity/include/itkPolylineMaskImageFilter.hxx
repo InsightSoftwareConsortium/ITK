@@ -201,8 +201,6 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   using ProjectionImageRegionType = typename ProjectionImageType::RegionType;
   using ProjectionImageSizeType = typename ProjectionImageType::SizeType;
 
-  ProjectionImageRegionType projectionRegion;
-
   // Determine the projection image size by transforming the eight corners
   // of the 3D input image
 
@@ -308,8 +306,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   projectionSize[0] = (IndexValueType)(bounds[1] - bounds[0]) + pad;
   projectionSize[1] = (IndexValueType)(bounds[3] - bounds[2]) + pad;
 
-  projectionRegion.SetIndex(projectionStart);
-  projectionRegion.SetSize(projectionSize);
+  const ProjectionImageRegionType projectionRegion(projectionStart, projectionSize);
 
   auto projectionImagePtr = ProjectionImageType::New();
 
