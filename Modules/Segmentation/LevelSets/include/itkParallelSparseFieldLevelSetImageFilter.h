@@ -712,8 +712,10 @@ protected:
 
   /** Thread-specific data */
   std::vector<TimeStepType> m_TimeStepList;
-  std::vector<bool>         m_ValidTimeStepList;
-  TimeStepType              m_TimeStep;
+  // NB: although semantically boolean, vector<bool> is not thread safe due to the possibility of multiple bits being
+  // packed together in the same memory location.
+  std::vector<uint8_t> m_ValidTimeStepList;
+  TimeStepType         m_TimeStep;
 
   /** The number of work units to use. */
   ThreadIdType m_NumOfWorkUnits{ 0 };

@@ -172,7 +172,10 @@ private:
     DenseFiniteDifferenceImageFilter * Filter;
     TimeStepType                       TimeStep;
     std::vector<TimeStepType>          TimeStepList;
-    std::vector<bool>                  ValidTimeStepList;
+
+    // NB: although semantically boolean, vector<bool> is not thread safe due to the possibility of multiple bits being
+    // packed together in the same memory location.
+    std::vector<uint8_t> ValidTimeStepList;
   };
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
