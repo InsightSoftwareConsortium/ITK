@@ -420,11 +420,9 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // Extract the relevant part out of the image.
   // The input FFT image may be bigger than the desired output image
   // because specific sizes are required for the FFT calculation.
-  typename LocalOutputImageType::RegionType imageRegion;
-  typename LocalOutputImageType::IndexType  imageIndex;
+  typename LocalOutputImageType::IndexType imageIndex;
   imageIndex.Fill(0);
-  imageRegion.SetIndex(imageIndex);
-  imageRegion.SetSize(combinedImageSize);
+  const typename LocalOutputImageType::RegionType imageRegion(imageIndex, combinedImageSize);
   using ExtractType = itk::RegionOfInterestImageFilter<LocalOutputImageType, LocalOutputImageType>;
   auto extracter = ExtractType::New();
   extracter->SetInput(FFTFilter->GetOutput());
@@ -688,15 +686,13 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   OutputImagePointer     output = this->GetOutput();
 
   // Compute the size of the output image.
-  typename OutputImageType::RegionType region;
-  typename OutputImageType::SizeType   size;
+  typename OutputImageType::SizeType size;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     size[i] =
       fixedImage->GetLargestPossibleRegion().GetSize()[i] + movingImage->GetLargestPossibleRegion().GetSize()[i] - 1;
   }
-  region.SetSize(size);
-  region.SetIndex(fixedImage->GetLargestPossibleRegion().GetIndex());
+  const typename OutputImageType::RegionType region(fixedImage->GetLargestPossibleRegion().GetIndex(), size);
 
   output->SetLargestPossibleRegion(region);
 
@@ -730,15 +726,13 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   InputImageConstPointer movingImage = this->GetMovingImage();
 
   // Compute the size of the output image.
-  typename OutputImageType::RegionType region;
-  typename OutputImageType::SizeType   size;
+  typename OutputImageType::SizeType size;
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     size[i] =
       fixedImage->GetLargestPossibleRegion().GetSize()[i] + movingImage->GetLargestPossibleRegion().GetSize()[i] - 1;
   }
-  region.SetSize(size);
-  region.SetIndex(fixedImage->GetLargestPossibleRegion().GetIndex());
+  const typename OutputImageType::RegionType region(fixedImage->GetLargestPossibleRegion().GetIndex(), size);
 
   auto * optr = dynamic_cast<OutputImageType *>(output);
   if (optr)

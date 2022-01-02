@@ -73,9 +73,8 @@ Forward1DFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   const typename InputImageType::IndexType & inputLargeIndex = input->GetLargestPossibleRegion().GetIndex();
   inputRequestedRegionStartIndex[direction] = inputLargeIndex[direction];
 
-  typename InputImageType::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize(inputRequestedRegionSize);
-  inputRequestedRegion.SetIndex(inputRequestedRegionStartIndex);
+  const typename InputImageType::RegionType inputRequestedRegion(inputRequestedRegionStartIndex,
+                                                                 inputRequestedRegionSize);
 
   input->SetRequestedRegion(inputRequestedRegion);
 }
@@ -101,9 +100,7 @@ Forward1DFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion
   enlargedSize[this->m_Direction] = outputLargeSize[this->m_Direction];
   enlargedIndex[this->m_Direction] = outputLargeIndex[this->m_Direction];
 
-  typename OutputImageType::RegionType enlargedRegion;
-  enlargedRegion.SetSize(enlargedSize);
-  enlargedRegion.SetIndex(enlargedIndex);
+  const typename OutputImageType::RegionType enlargedRegion(enlargedIndex, enlargedSize);
   output->SetRequestedRegion(enlargedRegion);
 }
 

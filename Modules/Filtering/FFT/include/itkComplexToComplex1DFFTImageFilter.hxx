@@ -81,9 +81,8 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::GenerateInputReques
   const typename InputImageType::IndexType & inputLargeIndex = inputPtr->GetLargestPossibleRegion().GetIndex();
   inputRequestedRegionStartIndex[direction] = inputLargeIndex[direction];
 
-  typename InputImageType::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetSize(inputRequestedRegionSize);
-  inputRequestedRegion.SetIndex(inputRequestedRegionStartIndex);
+  const typename InputImageType::RegionType inputRequestedRegion(inputRequestedRegionStartIndex,
+                                                                 inputRequestedRegionSize);
 
   inputPtr->SetRequestedRegion(inputRequestedRegion);
 }
@@ -109,9 +108,7 @@ ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::EnlargeOutputReques
   enlargedSize[this->m_Direction] = outputLargeSize[this->m_Direction];
   enlargedIndex[this->m_Direction] = outputLargeIndex[this->m_Direction];
 
-  typename OutputImageType::RegionType enlargedRegion;
-  enlargedRegion.SetSize(enlargedSize);
-  enlargedRegion.SetIndex(enlargedIndex);
+  const typename OutputImageType::RegionType enlargedRegion(enlargedIndex, enlargedSize);
   outputPtr->SetRequestedRegion(enlargedRegion);
 }
 

@@ -241,9 +241,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   IndexType start;
   start.Fill(0);
 
-  ImageRegionType region;
-  region.SetSize(dimSize);
-  region.SetIndex(start);
+  const ImageRegionType region(start, dimSize);
 
   // If a VectorImage, this requires us to set the
   // VectorLength before allocate

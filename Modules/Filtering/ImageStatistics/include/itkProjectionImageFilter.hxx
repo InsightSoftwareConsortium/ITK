@@ -45,7 +45,6 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
                       << " but input ImageDimension is " << TInputImage::ImageDimension);
   }
 
-  typename TOutputImage::RegionType    outputRegion;
   typename TInputImage::IndexType      inputIndex;
   typename TInputImage::SizeType       inputSize;
   typename TInputImage::DirectionType  inDirection;
@@ -115,8 +114,7 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateOutputIn
     outDirection.SetIdentity();
   }
 
-  outputRegion.SetSize(outputSize);
-  outputRegion.SetIndex(outputIndex);
+  const typename TOutputImage::RegionType outputRegion(outputIndex, outputSize);
   output->SetOrigin(outOrigin);
   output->SetSpacing(outSpacing);
   output->SetDirection(outDirection);
@@ -141,7 +139,6 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
 
   if (this->GetInput())
   {
-    typename TInputImage::RegionType RequestedRegion;
     typename TInputImage::SizeType   inputSize;
     typename TInputImage::IndexType  inputIndex;
     typename TInputImage::SizeType   inputLargSize;
@@ -191,9 +188,8 @@ ProjectionImageFilter<TInputImage, TOutputImage, TAccumulator>::GenerateInputReq
       inputIndex[m_ProjectionDimension] = inputLargIndex[m_ProjectionDimension];
     }
 
-    RequestedRegion.SetSize(inputSize);
-    RequestedRegion.SetIndex(inputIndex);
-    InputImagePointer input = const_cast<TInputImage *>(this->GetInput());
+    const typename TInputImage::RegionType RequestedRegion(inputIndex, inputSize);
+    InputImagePointer                      input = const_cast<TInputImage *>(this->GetInput());
     input->SetRequestedRegion(RequestedRegion);
   }
 

@@ -123,17 +123,15 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   /** Create GPU memory for operator coefficients */
   m_NeighborhoodGPUBuffer->Initialize();
 
-  typename NeighborhoodGPUBufferType::IndexType  index;
-  typename NeighborhoodGPUBufferType::SizeType   size;
-  typename NeighborhoodGPUBufferType::RegionType region;
+  typename NeighborhoodGPUBufferType::IndexType index;
+  typename NeighborhoodGPUBufferType::SizeType  size;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     index[i] = 0;
     size[i] = (unsigned int)(p.GetSize(i));
   }
-  region.SetSize(size);
-  region.SetIndex(index);
+  const typename NeighborhoodGPUBufferType::RegionType region(index, size);
 
   m_NeighborhoodGPUBuffer->SetRegions(region);
   m_NeighborhoodGPUBuffer->Allocate();

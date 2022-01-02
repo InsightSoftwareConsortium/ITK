@@ -316,9 +316,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->SetOrigin(outputOrigin);
 
   // Set region
-  typename TOutputImage::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputStartIndex, outputSize);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }

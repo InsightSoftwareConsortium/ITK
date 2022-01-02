@@ -80,9 +80,7 @@ RealToHalfHermitianForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateOut
     outputStartIndex[i] = inputStartIndex[i];
   }
 
-  typename OutputImageType::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  const typename OutputImageType::RegionType outputLargestPossibleRegion(outputStartIndex, outputSize);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
   this->SetActualXDimensionIsOdd(inputSize[0] % 2 != 0);

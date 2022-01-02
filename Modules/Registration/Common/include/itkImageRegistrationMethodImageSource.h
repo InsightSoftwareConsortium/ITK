@@ -81,9 +81,7 @@ public:
   {
     typename MovingImageType::IndexType index;
     index.Fill(0);
-    typename MovingImageType::RegionType region;
-    region.SetSize(size);
-    region.SetIndex(index);
+    const typename MovingImageType::RegionType region(index, size);
 
     m_MovingImage->SetLargestPossibleRegion(region);
     m_MovingImage->SetBufferedRegion(region);

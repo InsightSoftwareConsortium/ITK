@@ -249,9 +249,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
     inputSize[i] = outputRequestedRegionSize[i] * m_ShrinkFactors[i];
   }
 
-  typename TInputImage::RegionType inputRequestedRegion;
-  inputRequestedRegion.SetIndex(inputIndex0);
-  inputRequestedRegion.SetSize(inputSize);
+  const typename TInputImage::RegionType inputRequestedRegion(inputIndex0, inputSize);
 
   // actually if we need to crop an exceptions should be thrown!
   // inputRequestedRegion.Crop( inputPtr->GetLargestPossibleRegion() );
@@ -318,9 +316,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   outputPtr->SetOrigin(outputOrigin);
 
   // Set region
-  typename TOutputImage::RegionType outputLargestPossibleRegion;
-  outputLargestPossibleRegion.SetSize(outputSize);
-  outputLargestPossibleRegion.SetIndex(outputStartIndex);
+  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputStartIndex, outputSize);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }

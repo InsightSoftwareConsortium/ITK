@@ -82,7 +82,6 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
   //
 
   // Set up largest possible spatial region
-  RegionType    region;
   SizeType      size;
   IndexType     start;
   PointType     origin;
@@ -100,8 +99,7 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
     }
   }
   start.Fill(0);
-  region.SetSize(size);
-  region.SetIndex(start);
+  const RegionType region(start, size);
 
   VideoStreamPointer output = this->GetOutput();
 

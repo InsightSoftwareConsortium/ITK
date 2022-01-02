@@ -512,9 +512,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
     lIdx[i] = boundingBox.GetIndex()[i + 1];
     lSize[i] = boundingBox.GetSize()[i + 1];
   }
-  typename LineImageType::RegionType lRegion;
-  lRegion.SetIndex(lIdx);
-  lRegion.SetSize(lSize);
+  const typename LineImageType::RegionType lRegion(lIdx, lSize);
   // enlarge the region a bit to avoid boundary problems
   typename LineImageType::RegionType elRegion(lRegion);
   lSize.Fill(1);

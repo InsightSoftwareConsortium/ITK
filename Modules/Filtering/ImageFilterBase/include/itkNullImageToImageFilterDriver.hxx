@@ -138,14 +138,12 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   };
 
   // Set up input images
-  auto                              ip = TInputImage::New();
-  typename TOutputImage::IndexType  index;
-  typename TOutputImage::RegionType region;
+  auto                             ip = TInputImage::New();
+  typename TOutputImage::IndexType index;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
     index[i] = 0;
-  region.SetSize(m_ImageSize);
-  region.SetIndex(index);
+  const typename TOutputImage::RegionType region(index, m_ImageSize);
 
   // Allocate the input
   ip->SetLargestPossibleRegion(region);

@@ -140,10 +140,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Allocate()
   typename TClassifiedImage::IndexType classifiedImageIndex;
   classifiedImageIndex.Fill(0);
 
-  typename TClassifiedImage::RegionType classifiedImageRegion;
-
-  classifiedImageRegion.SetSize(inputImageSize);
-  classifiedImageRegion.SetIndex(classifiedImageIndex);
+  const typename TClassifiedImage::RegionType classifiedImageRegion(classifiedImageIndex, inputImageSize);
 
   classifiedImage->SetLargestPossibleRegion(classifiedImageRegion);
   classifiedImage->SetBufferedRegion(classifiedImageRegion);

@@ -201,10 +201,7 @@ auto
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegion() const -> RegionType
 {
   const IndexValueType zero = NumericTraits<IndexValueType>::ZeroValue();
-  RegionType           ans;
-
-  ans.SetIndex(this->GetIndex(zero));
-  ans.SetSize(this->GetSize());
+  const RegionType     ans(this->GetIndex(zero), this->GetSize());
 
   return ans;
 }

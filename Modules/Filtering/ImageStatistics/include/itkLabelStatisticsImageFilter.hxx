@@ -434,9 +434,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetRegion(LabelPixelType l
       index[i] = bbox[2 * i];
       size[i] = bbox[2 * i + 1] - bbox[2 * i] + 1;
     }
-    RegionType region;
-    region.SetSize(size);
-    region.SetIndex(index);
+    const RegionType region(index, size);
 
     return region;
   }

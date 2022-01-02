@@ -595,11 +595,9 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
 
 
   // convert virtualPoint to a single point region
-  ImageRegionType singlePointRegion;
-  singlePointRegion.SetIndex(virtualIndex);
   typename ImageRegionType::SizeType singlePointSize;
   singlePointSize.Fill(1);
-  singlePointRegion.SetSize(singlePointSize);
+  const ImageRegionType singlePointRegion(virtualIndex, singlePointSize);
 
   // use scanning variables just for a single point region
   // iterate over the single point and initialize the scanning variables

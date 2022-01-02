@@ -204,9 +204,7 @@ RandomImageSource<TOutputImage>::GenerateOutputInformation()
 
   output = this->GetOutput(0);
 
-  typename TOutputImage::RegionType largestPossibleRegion;
-  largestPossibleRegion.SetSize(this->m_Size);
-  largestPossibleRegion.SetIndex(index);
+  const typename TOutputImage::RegionType largestPossibleRegion(index, this->m_Size);
   output->SetLargestPossibleRegion(largestPossibleRegion);
 
   output->SetSpacing(m_Spacing);

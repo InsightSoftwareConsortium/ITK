@@ -79,7 +79,6 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
 
   this->m_MattesAssociate->m_JointPDFSum = 0;
 
-  JointPDFRegionType jointPDFRegion;
   // For the joint PDF define a region starting from {0,0}
   // with size {m_NumberOfHistogramBins, this->m_NumberOfHistogramBins}.
   // The dimension represents fixed image bin size
@@ -89,8 +88,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   JointPDFSizeType jointPDFSize;
   jointPDFSize.Fill(this->m_MattesAssociate->m_NumberOfHistogramBins);
 
-  jointPDFRegion.SetIndex(jointPDFIndex);
-  jointPDFRegion.SetSize(jointPDFSize);
+  const JointPDFRegionType jointPDFRegion(jointPDFIndex, jointPDFSize);
 
   /*
    * Allocate memory for the joint PDF and joint PDF derivatives accumulator caches

@@ -165,9 +165,7 @@ PermuteAxesImageFilter<TImage>::GenerateOutputInformation()
   outputPtr->SetOrigin(outputOrigin);
   outputPtr->SetDirection(outputDirection);
 
-  typename TImage::RegionType outputRegion;
-  outputRegion.SetSize(outputSize);
-  outputRegion.SetIndex(outputStartIndex);
+  const typename TImage::RegionType outputRegion(outputStartIndex, outputSize);
 
   outputPtr->SetLargestPossibleRegion(outputRegion);
 }
@@ -205,9 +203,7 @@ PermuteAxesImageFilter<TImage>::GenerateInputRequestedRegion()
     inputIndex[j] = outputIndex[m_InverseOrder[j]];
   }
 
-  typename TImage::RegionType inputRegion;
-  inputRegion.SetSize(inputSize);
-  inputRegion.SetIndex(inputIndex);
+  const typename TImage::RegionType inputRegion(inputIndex, inputSize);
 
   inputPtr->SetRequestedRegion(inputRegion);
 }
