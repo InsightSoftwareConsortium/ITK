@@ -46,16 +46,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  if (m_MeshIO)
-  {
-    os << indent << "MeshIO: \n";
-    m_MeshIO->Print(os, indent.GetNextIndent());
-  }
-  else
-  {
-    os << indent << "MeshIO: (null)"
-       << "\n";
-  }
+  itkPrintSelfObjectMacro(MeshIO);
 
   os << indent << "UserSpecifiedMeshIO flag: " << m_UserSpecifiedMeshIO << "\n";
   os << indent << "FileName: " << m_FileName << "\n";

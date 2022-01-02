@@ -265,14 +265,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::PrintS
   os << indent << "NoiseLevel: " << m_NoiseLevel << std::endl;
   os << indent << "IterationNum: " << m_IterationNum << std::endl;
   os << indent << "TimeStep: " << m_TimeStep << std::endl;
-  if (m_LaplacianFilter)
-  {
-    os << indent << "LaplacianFilter: " << m_LaplacianFilter << std::endl;
-  }
-  else
-  {
-    os << indent << "LaplacianFilter: (None)" << std::endl;
-  }
+  itkPrintSelfObjectMacro(LaplacianFilter);
 }
 } // namespace itk
 
