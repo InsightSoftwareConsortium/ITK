@@ -49,7 +49,7 @@ IF(NOT LIBMINC_EXTERNALLY_CONFIGURED)
 
 
   OPTION(LIBMINC_MINC1_SUPPORT           "Support minc1 file format, requires NETCDF" OFF)
-  OPTION(LIBMINC_BUILD_EZMINC            "Build C++ EMINC library based on libminc1" ON)
+  OPTION(LIBMINC_BUILD_EZMINC            "Build C++ EMINC library based on libminc1" OFF)
   OPTION(LIBMINC_BUILD_EZMINC_EXAMPLES   "Build EZminc examples" OFF)
   OPTION(LIBMINC_USE_NIFTI               "Build with NIfTI support" OFF)
   OPTION(LIBMINC_USE_SYSTEM_NIFTI        "Use system NIfTI-1 library" OFF)
