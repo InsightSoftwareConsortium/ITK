@@ -292,7 +292,9 @@ protected:
 
   bool m_Touched;
 
-  std::vector<bool> m_TouchedForThread;
+  // NB: although semantically boolean, vector<bool> is not thread safe due to the possibility of multiple bits being
+  // packed together in the same memory location.
+  std::vector<uint8_t> m_TouchedForThread;
 
   ValueType m_IsoSurfaceValue;
 
