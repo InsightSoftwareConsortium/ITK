@@ -102,9 +102,9 @@ itkDelaunayConformingQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc < 3)
   {
-    std::cout << "Requires 2 arguments: " << std::endl;
-    std::cout << "1-Input file name " << std::endl;
-    std::cout << "2-Output file name " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputFilename outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 

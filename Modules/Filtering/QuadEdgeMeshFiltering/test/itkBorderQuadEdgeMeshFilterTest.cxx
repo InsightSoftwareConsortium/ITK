@@ -19,6 +19,7 @@
 #include "itkMeshFileWriter.h"
 
 #include "itkBorderQuadEdgeMeshFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
@@ -26,16 +27,11 @@ itkBorderQuadEdgeMeshFilterTest(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc < 5)
   {
-    std::cout << "Requires 4 arguments: " << std::endl;
-    std::cout << "1-Input file name " << std::endl;
-    std::cout << "2-Border Type" << std::endl;
-    std::cout << "   * 0: SQUARE" << std::endl;
-    std::cout << "   * 1: DISK" << std::endl;
-    std::cout << "3-Border Pick" << std::endl;
-    std::cout << "   * 0: LONGEST" << std::endl;
-    std::cout << "   * 1: LARGEST" << std::endl;
-    std::cout << "4-Output file name " << std::endl;
-
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " inputFilename borderType (0: SQUARE; 1: DISK)" << std::endl;
+    std::cerr << " borderPick (0: LONGEST; 1: LARGEST)" << std::endl;
+    std::cerr << " outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 

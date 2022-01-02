@@ -26,13 +26,16 @@
 #include "itkLevelSetEvolution.h"
 #include "itkBinaryImageToLevelSetImageAdaptor.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
+#include "itkTestingMacros.h"
 
 int
 itkSingleLevelSetShiImage2DTest(int argc, char * argv[])
 {
   if (argc < 4)
   {
-    std::cerr << "Missing Arguments" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputFilename numberOfIterations outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 

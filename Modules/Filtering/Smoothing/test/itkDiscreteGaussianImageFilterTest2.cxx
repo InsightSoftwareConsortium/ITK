@@ -20,26 +20,17 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
+#include "itkTestingMacros.h"
 
 template <typename TIMAGE>
 int
-itkDiscreteGaussianImageFilterTestA(int argc, char * argv[])
+itkDiscreteGaussianImageFilterTestA(const char * inputFilename, float sigma, const char * outputFilename)
 {
-  if (argc < 6)
-  {
-    std::cerr << "Missing Arguments" << std::endl;
-    return EXIT_FAILURE;
-  }
-
   using ImageType = TIMAGE;
-
-  const char * input_file_name = argv[3];
-  float        sigma = std::stod(argv[4]);
-  const char * output_file_name = argv[5];
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
-  reader->SetFileName(input_file_name);
+  reader->SetFileName(inputFilename);
 
   using FilterType = itk::DiscreteGaussianImageFilter<ImageType, ImageType>;
 
@@ -51,7 +42,7 @@ itkDiscreteGaussianImageFilterTestA(int argc, char * argv[])
   using WriterType = itk::ImageFileWriter<ImageType>;
 
   auto writer = WriterType::New();
-  writer->SetFileName(output_file_name);
+  writer->SetFileName(outputFilename);
   writer->SetInput(filter->GetOutput());
   writer->UseCompressionOn();
   writer->Update();
@@ -62,18 +53,12 @@ itkDiscreteGaussianImageFilterTestA(int argc, char * argv[])
 int
 itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
 {
-
-  if (argc < 3)
+  if (argc != 6)
   {
-    std::cerr << "Test DiscreteGaussianImageFilter working on both vector type and scalar type images on one 2D RGB "
-                 "image and 2D scalar image."
-              << std::endl
-              << "DiscreteGaussianImageFilterTest #image_dim #vector_dim #image_file_name #sigma #output_file_name"
-              << std::endl
-              << "e.g. test on a vector image: " << std::endl
-              << "DiscreteGaussianImageFilterTest 2 3 ShapesRGB.mha 4.5 ShapesRGB_Smoothed.mha" << std::endl
-              << "test on a scalar image: " << std::endl
-              << "DiscreteGaussianImageFilterTest 2 3 Shapes.mha 4.5 Shapes_Smoothed.mha" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << " imageDimension vectorDimension inputFilename sigma outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -100,10 +85,10 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
   switch (vec_dim)
   {
     case 1:
-      itkDiscreteGaussianImageFilterTestA<ScalarImageType>(argc, argv);
+      itkDiscreteGaussianImageFilterTestA<ScalarImageType>(argv[3], std::stod(argv[4]), argv[5]);
       break;
     case 3:
-      itkDiscreteGaussianImageFilterTestA<VectorImageType>(argc, argv);
+      itkDiscreteGaussianImageFilterTestA<VectorImageType>(argv[3], std::stod(argv[4]), argv[5]);
       break;
   }
 

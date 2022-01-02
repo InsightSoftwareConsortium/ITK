@@ -25,13 +25,17 @@
 #include "itkAtanRegularizedHeavisideStepFunction.h"
 #include "itkLevelSetEvolutionNumberOfIterationsStoppingCriterion.h"
 #include "itkLevelSetEvolution.h"
+#include "itkTestingMacros.h"
 
 int
 itkTwoLevelSetDenseImage2DTest(int argc, char * argv[])
 {
-  if (argc < 6)
+  if (argc != 6)
   {
-    std::cerr << "Missing Arguments" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage:" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << " inputFilename seedPosition0 seedPosition1 initialDistance outputFilename" << std::endl;
     return EXIT_FAILURE;
   }
 

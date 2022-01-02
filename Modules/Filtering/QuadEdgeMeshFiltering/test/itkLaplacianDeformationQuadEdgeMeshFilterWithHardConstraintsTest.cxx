@@ -22,6 +22,7 @@
 #include "itkQuadEdgeMeshParamMatrixCoefficients.h"
 #include "itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraints.h"
 #include "VNLSparseLUSolverTraits.h"
+#include "itkTestingMacros.h"
 
 int
 itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char * argv[])
@@ -29,10 +30,9 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 4)
   {
-    std::cout << "Requires 3 argument: " << std::endl;
-    std::cout << "1-Input file name " << std::endl;
-    std::cout << "2-Output file name " << std::endl;
-    std::cout << "3-Use Mixed Area" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName useMixedArea"
+              << std::endl;
     return EXIT_FAILURE;
   }
 

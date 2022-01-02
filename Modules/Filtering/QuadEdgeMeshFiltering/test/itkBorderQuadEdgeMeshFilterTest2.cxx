@@ -30,11 +30,9 @@ itkBorderQuadEdgeMeshFilterTest2(int argc, char * argv[])
   // ** ERROR MESSAGE AND HELP ** //
   if (argc != 2)
   {
-    std::cout << "Requires 1 arguments: " << std::endl;
-    std::cout << "- Border Pick" << std::endl;
-    std::cout << "   * 0: LONGEST" << std::endl;
-    std::cout << "   * 1: LARGEST" << std::endl;
-
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
+    std::cerr << " borderPick (0: LONGEST; 1: LARGEST)" << std::endl;
     return EXIT_FAILURE;
   }
 
