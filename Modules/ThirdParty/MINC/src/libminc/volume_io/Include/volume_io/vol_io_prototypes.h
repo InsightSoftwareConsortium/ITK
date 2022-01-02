@@ -553,25 +553,25 @@ VIOAPI  VIO_Status  transform_vector(
 
 VIOAPI  void  *alloc_memory_in_bytes(
     size_t       n_bytes
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  *alloc_memory_1d(
     size_t       n_elements,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  *alloc_memory_2d(
     size_t       n1,
     size_t       n2,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  *alloc_memory_3d(
     size_t       n1,
     size_t       n2,
     size_t       n3,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  *alloc_memory_4d(
     size_t       n1,
@@ -579,7 +579,7 @@ VIOAPI  void  *alloc_memory_4d(
     size_t       n3,
     size_t       n4,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  *alloc_memory_5d(
     size_t       n1,
@@ -588,33 +588,33 @@ VIOAPI  void  *alloc_memory_5d(
     size_t       n4,
     size_t       n5,
     size_t       type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  realloc_memory(
     void      **ptr,
     size_t    n_elements,
     size_t    type_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  free_memory_1d(
     void   **ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  free_memory_2d(
     void   ***ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  free_memory_3d(
     void   ****ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  free_memory_4d(
     void   *****ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  void  free_memory_5d(
     void   ******ptr
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 #if 0
 VIOAPI  size_t  get_total_memory_alloced( void );
@@ -655,7 +655,7 @@ VIOAPI  void  set_array_size(
     size_t    previous_n_elems,
     size_t    new_n_elems,
     size_t    chunk_size
-    _ALLOC_SOURCE_LINE_ARG_DEF );
+    ALLOC_SOURCE_LINE_ARG_DEF );
 
 VIOAPI  VIO_BOOL real_is_double( void );
 

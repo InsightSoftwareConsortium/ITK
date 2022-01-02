@@ -6,6 +6,8 @@
 #include "config.h"
 #endif /*HAVE_CONFIG_H*/
 
+#include <math.h>
+
 #include "input_mgh.h"
 
 #ifdef _WIN32

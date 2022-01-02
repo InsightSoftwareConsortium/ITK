@@ -54,7 +54,7 @@
          set_array_size( (void **) (&(array)), sizeof(*(array)),              \
                          (size_t) (previous_n_elems),                         \
                          (size_t) (new_n_elems),                              \
-                         (size_t) (chunk_size) _ALLOC_SOURCE_LINE )
+                         (size_t) (chunk_size) ALLOC_SOURCE_LINE )
 
 /* ----------------------------- MNI Header -----------------------------------
 @NAME       : ADD_ELEMENT_TO_ARRAY
