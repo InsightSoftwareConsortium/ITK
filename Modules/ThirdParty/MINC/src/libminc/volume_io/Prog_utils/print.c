@@ -246,7 +246,7 @@ VIOAPI  void   handle_internal_error( char  str[] )
 {
     /*print_error( "Internal error:  %s\n", str );
     abort_if_allowed();*/
-    MI_LOG_ERROR(MI_MSG_VOLUME_IO,"Internal error:  %s", str);
+    MI_LOG_ERROR(MI_MSG_VOLUME_IO, str);
 }
 
 /* ----------------------------- MNI Header -----------------------------------
