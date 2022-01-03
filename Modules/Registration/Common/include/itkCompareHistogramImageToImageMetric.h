@@ -105,6 +105,7 @@ public:
 
   /** Get/Set the Training Fixed Image.  */
   itkSetConstObjectMacro(TrainingFixedImage, FixedImageType);
+  itkGetConstObjectMacro(TrainingFixedImage, FixedImageType);
 
   /** Get/Set the Training Moving Image.  */
   itkSetConstObjectMacro(TrainingMovingImage, MovingImageType);
