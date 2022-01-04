@@ -242,6 +242,11 @@ protected:
   DynamicThreadedGenerateDataWithFunctor(const TFunctor &, const OutputImageRegionType & outputRegionForThread);
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+  void
+  AfterThreadedGenerateData() override
+  {
+    this->UpdateProgress(1.0);
+  }
 
   // Needed to take the image information from the 2nd input, if the first one is
   // a simple decorated object.
