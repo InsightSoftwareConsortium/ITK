@@ -15,7 +15,9 @@
 ### ctest -S HDF5config.cmake,BUILD_GENERATOR=VS201764 -C Release -VV -O hdf5.log         ###
 #############################################################################################
 
+#[[ ITK --start
 cmake_minimum_required (VERSION 3.12)
+# ITK --stop ]]
 ############################################################################
 # Usage:
 #     ctest -S HDF5config.cmake,OPTION=VALUE -C Release -VV -O test.log
