@@ -137,8 +137,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Allocate()
 
   this->SetClassifiedImage(classifiedImage);
 
-  typename TClassifiedImage::IndexType classifiedImageIndex;
-  classifiedImageIndex.Fill(0);
+  constexpr typename TClassifiedImage::IndexType classifiedImageIndex = { { 0 } };
 
   const typename TClassifiedImage::RegionType classifiedImageRegion(classifiedImageIndex, inputImageSize);
 

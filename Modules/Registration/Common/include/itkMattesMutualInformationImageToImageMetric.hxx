@@ -241,9 +241,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
       // with size {m_NumberOfHistogramBins, this->m_NumberOfHistogramBins}.
       // The dimension represents fixed image bin size
       // and moving image bin size , respectively.
-      JointPDFIndexType jointPDFIndex;
-      jointPDFIndex.Fill(0);
-      JointPDFSizeType jointPDFSize;
+      constexpr JointPDFIndexType jointPDFIndex = { { 0 } };
+      JointPDFSizeType            jointPDFSize;
       jointPDFSize.Fill(m_NumberOfHistogramBins);
 
       jointPDFRegion.SetIndex(jointPDFIndex);
@@ -292,9 +291,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
         // this->m_NumberOfHistogramBins}. The dimension represents
         // transform parameters, fixed image parzen window index and
         // moving image parzen window index, respectively.
-        JointPDFDerivativesIndexType jointPDFDerivativesIndex;
-        jointPDFDerivativesIndex.Fill(0);
-        JointPDFDerivativesSizeType jointPDFDerivativesSize;
+        constexpr JointPDFDerivativesIndexType jointPDFDerivativesIndex = { { 0 } };
+        JointPDFDerivativesSizeType            jointPDFDerivativesSize;
         jointPDFDerivativesSize[0] = this->m_NumberOfParameters;
         jointPDFDerivativesSize[1] = this->m_NumberOfHistogramBins;
         jointPDFDerivativesSize[2] = this->m_NumberOfHistogramBins;

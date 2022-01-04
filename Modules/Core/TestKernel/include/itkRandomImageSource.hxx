@@ -197,10 +197,8 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::GenerateOutputInformation()
 {
-  TOutputImage * output;
-  IndexType      index;
-
-  index.Fill(0);
+  TOutputImage *      output;
+  constexpr IndexType index = { { 0 } };
 
   output = this->GetOutput(0);
 

@@ -200,8 +200,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // be large enough to accommodate left-over images.
   OutputSizeType outputSize;
   outputSize.Fill(1);
-  OutputIndexType outputIndex;
-  outputIndex.Fill(0);
+  constexpr OutputIndexType outputIndex = { { 0 } };
 
   if (m_Layout[OutputImageDimension - 1] == 0)
   {
@@ -221,8 +220,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   OutputSizeType tileSize;
   tileSize.Fill(1);
-  OutputIndexType tileIndex;
-  tileIndex.Fill(0);
+  constexpr OutputIndexType tileIndex = { { 0 } };
 
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {

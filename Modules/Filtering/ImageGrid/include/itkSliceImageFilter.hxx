@@ -244,8 +244,7 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename TOutputImage::SpacingType outputSpacing;
   typename TOutputImage::SizeType    outputSize;
 
-  typename TOutputImage::IndexType outputStartIndex;
-  outputStartIndex.Fill(0);
+  constexpr typename TOutputImage::IndexType outputStartIndex = { { 0 } };
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {

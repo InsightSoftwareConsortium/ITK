@@ -210,9 +210,8 @@ template <typename TImage, typename TBoundaryCondition>
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ConstNeighborhoodIterator()
 
 {
-  IndexType zeroIndex;
-  zeroIndex.Fill(0);
-  SizeType zeroSize;
+  constexpr IndexType zeroIndex = { { 0 } };
+  SizeType            zeroSize;
   zeroSize.Fill(0);
 
   m_Bound.Fill(0);

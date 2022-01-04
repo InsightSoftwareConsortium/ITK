@@ -167,8 +167,7 @@ ImageSeriesReader<TOutputImage>::GenerateOutputInformation()
     // dimensions we are going to use
     this->m_NumberOfDimensionsInImage = ComputeMovingDimensionIndex(firstReader);
     dimSize[this->m_NumberOfDimensionsInImage] = static_cast<typename SizeType::SizeValueType>(numberOfFiles);
-    IndexType start;
-    start.Fill(0);
+    constexpr IndexType start = { { 0 } };
     largestRegion.SetSize(dimSize);
     largestRegion.SetIndex(start);
 

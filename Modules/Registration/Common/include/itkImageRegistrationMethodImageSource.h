@@ -79,9 +79,8 @@ public:
   void
   GenerateImages(const typename MovingImageType::SizeType & size)
   {
-    typename MovingImageType::IndexType index;
-    index.Fill(0);
-    const typename MovingImageType::RegionType region(index, size);
+    constexpr typename MovingImageType::IndexType index = { { 0 } };
+    const typename MovingImageType::RegionType    region(index, size);
 
     m_MovingImage->SetLargestPossibleRegion(region);
     m_MovingImage->SetBufferedRegion(region);

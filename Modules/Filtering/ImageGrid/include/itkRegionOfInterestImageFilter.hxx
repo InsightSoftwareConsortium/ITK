@@ -78,8 +78,7 @@ RegionOfInterestImageFilter<TInputImage, TOutputImage>::GenerateOutputInformatio
   }
 
   // Set the output image size to the same value as the region of interest.
-  IndexType start;
-  start.Fill(0);
+  constexpr IndexType start = { { 0 } };
 
   const RegionType region(start, m_RegionOfInterest.GetSize());
 

@@ -513,10 +513,9 @@ private:
                       VariableLengthVector<RealTypeScalarRealType> & tempZeros) const
   {
     // Variable length vector version to get the size of the pixel correct.
-    typename TInputImage::IndexType idx;
-    idx.Fill(0);
-    const typename TInputImage::PixelType & tempPixel = inputImagePtr->GetPixel(idx);
-    const unsigned int                      sizeOfVarLengthVector = tempPixel.GetSize();
+    constexpr typename TInputImage::IndexType idx = { { 0 } };
+    const typename TInputImage::PixelType &   tempPixel = inputImagePtr->GetPixel(idx);
+    const unsigned int                        sizeOfVarLengthVector = tempPixel.GetSize();
     tempZeros.SetSize(sizeOfVarLengthVector);
     tempZeros.Fill(NumericTraits<RealTypeScalarRealType>::ZeroValue());
   }

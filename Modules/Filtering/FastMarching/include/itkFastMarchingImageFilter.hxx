@@ -34,8 +34,7 @@ FastMarchingImageFilter<TLevelSet, TSpeedImage>::FastMarchingImageFilter()
 
   OutputSizeType outputSize;
   outputSize.Fill(16);
-  typename LevelSetImageType::IndexType outputIndex;
-  outputIndex.Fill(0);
+  constexpr typename LevelSetImageType::IndexType outputIndex = { { 0 } };
 
   m_OutputRegion.SetSize(outputSize);
   m_OutputRegion.SetIndex(outputIndex);
