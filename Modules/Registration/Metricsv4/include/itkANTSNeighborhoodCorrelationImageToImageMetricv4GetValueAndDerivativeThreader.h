@@ -24,6 +24,7 @@
 #include "itkConstNeighborhoodIterator.h"
 
 #include <deque>
+#include <mutex>
 
 namespace itk
 {
@@ -299,6 +300,7 @@ private:
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
   TNeighborhoodCorrelationMetric * m_ANTSAssociate;
+  std::once_flag                   m_ANTSAssociateOnceFlag;
 };
 
 
