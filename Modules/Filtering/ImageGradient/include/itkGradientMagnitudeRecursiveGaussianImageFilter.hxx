@@ -187,6 +187,16 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
 
   typename TOutputImage::Pointer outputImage(this->GetOutput());
 
+  // Reset progress of internal filters to zero,
+  // otherwise progress starts from non-zero value the second time the filter is invoked.
+  m_DerivativeFilter->UpdateProgress(0.0);
+  for (unsigned int k = 0; k < ImageDimension - 1; ++k)
+  {
+    m_SmoothingFilters[k]->UpdateProgress(0.0);
+  }
+  m_SqrSpacingFilter->UpdateProgress(0.0);
+  m_SqrtFilter->UpdateProgress(0.0);
+
   // Create a process accumulator for tracking the progress of this minipipeline
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
@@ -208,13 +218,14 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::Genera
 
   m_DerivativeFilter->SetInput(inputImage);
 
-  const unsigned int numberOfFilterRuns = ImageDimension * ImageDimension;
+  const unsigned int numberOfFilterRuns = 1 + ImageDimension * (ImageDimension + 1);
   progress->RegisterInternalFilter(m_DerivativeFilter, 1.0f / numberOfFilterRuns);
-
   for (unsigned int k = 0; k < ImageDimension - 1; ++k)
   {
     progress->RegisterInternalFilter(m_SmoothingFilters[k], 1.0f / numberOfFilterRuns);
   }
+  progress->RegisterInternalFilter(m_SqrSpacingFilter, 1.0f / numberOfFilterRuns);
+  progress->RegisterInternalFilter(m_SqrtFilter, 1.0f / numberOfFilterRuns);
 
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
