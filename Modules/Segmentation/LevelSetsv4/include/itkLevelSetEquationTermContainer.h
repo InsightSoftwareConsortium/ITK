@@ -22,10 +22,10 @@
 #include "itkLevelSetEquationTermBase.h"
 #include "itkObject.h"
 
-#include <unordered_map>
-
+#include <atomic>
 #include <map>
 #include <string>
+#include <unordered_map>
 
 namespace itk
 {
@@ -320,7 +320,7 @@ protected:
 
   MapTermContainerType m_Container;
 
-  using MapCFLContainerType = std::map<TermIdType, LevelSetOutputRealType>;
+  using MapCFLContainerType = std::map<TermIdType, std::atomic<LevelSetOutputRealType>>;
   using MapCFLContainerIterator = typename MapCFLContainerType::iterator;
   using MapCFLContainerConstIterator = typename MapCFLContainerType::const_iterator;
 

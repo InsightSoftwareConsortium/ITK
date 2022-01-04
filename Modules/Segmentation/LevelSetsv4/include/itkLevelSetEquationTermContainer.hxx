@@ -271,7 +271,14 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
   {
     LevelSetOutputRealType temp_val = (term_it->second)->Evaluate(iP);
 
-    cfl_it->second = std::max(itk::Math::abs(temp_val), cfl_it->second);
+    LevelSetOutputRealType abs_temp_value = itk::Math::abs(temp_val);
+
+    // This is a thread-safe equivalent of:
+    // cfl_it->second = std::max(abs_temp_value, cfl_it->second);
+    LevelSetOutputRealType previous_value = cfl_it->second;
+    while ((abs_temp_value > previous_value) && !cfl_it->second.compare_exchange_strong(previous_value, abs_temp_value))
+    {
+    }
 
     oValue += temp_val;
     ++term_it;
@@ -298,7 +305,14 @@ LevelSetEquationTermContainer<TInputImage, TLevelSetContainer>::Evaluate(const L
   {
     LevelSetOutputRealType temp_val = (term_it->second)->Evaluate(iP, iData);
 
-    cfl_it->second = std::max(itk::Math::abs(temp_val), cfl_it->second);
+    LevelSetOutputRealType abs_temp_value = itk::Math::abs(temp_val);
+
+    // This is a thread-safe equivalent of:
+    // cfl_it->second = std::max(abs_temp_value, cfl_it->second);
+    LevelSetOutputRealType previous_value = cfl_it->second;
+    while ((abs_temp_value > previous_value) && !cfl_it->second.compare_exchange_strong(previous_value, abs_temp_value))
+    {
+    }
 
     oValue += temp_val;
     ++term_it;
