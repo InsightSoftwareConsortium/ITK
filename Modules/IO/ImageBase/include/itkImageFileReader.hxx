@@ -270,7 +270,12 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::TestFileExistanceAndReadabili
 
   // Test if the file can be open for reading access.
   std::ifstream readTester;
+#ifdef _MSC_VER
+  const std::wstring uncpath = itksys::SystemTools::ConvertToWindowsExtendedPath(this->GetFileName().c_str());
+  readTester.open(uncpath.c_str(), std::ios::binary);
+#else
   readTester.open(this->GetFileName().c_str());
+#endif
   if (readTester.fail())
   {
     readTester.close();
