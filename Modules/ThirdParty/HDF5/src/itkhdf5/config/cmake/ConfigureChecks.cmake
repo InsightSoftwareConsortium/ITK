@@ -22,19 +22,43 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option for --enable-strict-format-checks
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_STRICT_FORMAT_CHECKS "Whether to perform strict file format checks" OFF)
+else ()
+set(HDF5_STRICT_FORMAT_CHECKS OFF)
+endif ()
 if (HDF5_STRICT_FORMAT_CHECKS)
   set (${HDF_PREFIX}_STRICT_FORMAT_CHECKS 1)
 endif ()
 MARK_AS_ADVANCED (HDF5_STRICT_FORMAT_CHECKS)
 
+#-----------------------------------------------------------------------------
+# Option for --enable-threadsafe
+#-----------------------------------------------------------------------------
+# Recursive RW locks are not supported on Windows (yet)
+if (NOT WINDOWS)
+  if (FALSE) # XXX(kitware): Hardcode settings.
+  option (HDF5_USE_RECURSIVE_RW_LOCKS "Whether to use recursive RW locks for thread-safety" OFF)
+  else ()
+  set(HDF5_USE_RECURSIVE_RW_LOCKS OFF)
+  endif ()
+  if (HDF5_USE_RECURSIVE_RW_LOCKS)
+    set (${HDF_PREFIX}_USE_RECURSIVE_RW_LOCKS 1)
+  endif ()
+  MARK_AS_ADVANCED (HDF5_USE_RECURSIVE_RW_LOCKS)
+endif ()
+
 # ----------------------------------------------------------------------
 # Decide whether the data accuracy has higher priority during data
-# conversions.  If not, some hard conversions will still be preferred even
+# conversions.  If not, some hard conversions will still be prefered even
 # though the data may be wrong (for example, some compilers don't
 # support denormalized floating values) to maximize speed.
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_WANT_DATA_ACCURACY "IF data accuracy is guaranteed during data conversions" ON)
+else ()
+set(HDF5_WANT_DATA_ACCURACY ON)
+endif ()
 if (HDF5_WANT_DATA_ACCURACY)
   set (${HDF_PREFIX}_WANT_DATA_ACCURACY 1)
 endif ()
@@ -46,7 +70,11 @@ MARK_AS_ADVANCED (HDF5_WANT_DATA_ACCURACY)
 # for the speed optimization of hard conversions.  Soft conversions can
 # actually benefit little.
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_WANT_DCONV_EXCEPTION "exception handling functions is checked during data conversions" ON)
+else ()
+set(HDF5_WANT_DCONV_EXCEPTION ON)
+endif ()
 if (HDF5_WANT_DCONV_EXCEPTION)
   set (${HDF_PREFIX}_WANT_DCONV_EXCEPTION 1)
 endif ()
@@ -55,7 +83,11 @@ MARK_AS_ADVANCED (HDF5_WANT_DCONV_EXCEPTION)
 # ----------------------------------------------------------------------
 # Check if they would like the function stack support compiled in
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_CODESTACK "Enable the function stack tracing (for developer debugging)." OFF)
+else ()
+set(HDF5_ENABLE_CODESTACK OFF)
+endif ()
 if (HDF5_ENABLE_CODESTACK)
   set (${HDF_PREFIX}_HAVE_CODESTACK 1)
 endif ()
@@ -64,7 +96,11 @@ MARK_AS_ADVANCED (HDF5_ENABLE_CODESTACK)
 # ----------------------------------------------------------------------
 # Check if they would like to use file locking by default
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_USE_FILE_LOCKING "Use file locking by default (mainly for SWMR)" ON)
+else ()
+set(HDF5_USE_FILE_LOCKING ON)
+endif ()
 if (HDF5_USE_FILE_LOCKING)
   set (${HDF_PREFIX}_USE_FILE_LOCKING 1)
 endif ()
@@ -72,7 +108,11 @@ endif ()
 # ----------------------------------------------------------------------
 # Check if they would like to ignore file locks when disabled on a file system
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_IGNORE_DISABLED_FILE_LOCKS "Ignore file locks when disabled on file system" ON)
+else ()
+set(HDF5_IGNORE_DISABLED_FILE_LOCKS ON)
+endif ()
 if (HDF5_IGNORE_DISABLED_FILE_LOCKS)
   set (${HDF_PREFIX}_IGNORE_DISABLED_FILE_LOCKS 1)
 endif ()
@@ -84,6 +124,18 @@ elseif (HDF5_IGNORE_DISABLED_FILE_LOCKS)
   set (HDF5_FILE_LOCKING_SETTING "yes")
 else ()
   set (HDF5_FILE_LOCKING_SETTING "no")
+endif ()
+
+#-----------------------------------------------------------------------------
+#  Are we going to use HSIZE_T
+#-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
+option (HDF5_ENABLE_HSIZET "Enable datasets larger than memory" ON)
+else ()
+set(HDF5_ENABLE_HSIZET OFF)
+endif ()
+if (HDF5_ENABLE_HSIZET)
+  set (${HDF_PREFIX}_HAVE_LARGE_HSIZET 1)
 endif ()
 
 # so far we have no check for this
@@ -138,7 +190,11 @@ endif ()
 #  Check if Direct I/O driver works
 #-----------------------------------------------------------------------------
 if (NOT WINDOWS)
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_ENABLE_DIRECT_VFD "Build the Direct I/O Virtual File Driver" OFF)
+  else ()
+  set(HDF5_ENABLE_DIRECT_VFD OFF)
+  endif ()
   if (HDF5_ENABLE_DIRECT_VFD)
     set (msg "Performing TEST_DIRECT_VFD_WORKS")
     set (MACRO_CHECK_FUNCTION_DEFINITIONS "-DTEST_DIRECT_VFD_WORKS -D_GNU_SOURCE ${CMAKE_REQUIRED_FLAGS}")
@@ -177,7 +233,11 @@ endif ()
 #-----------------------------------------------------------------------------
 #  Check if ROS3 driver can be built
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_ROS3_VFD "Build the ROS3 Virtual File Driver" OFF)
+else ()
+set(HDF5_ENABLE_ROS3_VFD OFF)
+endif ()
   if (HDF5_ENABLE_ROS3_VFD)
     find_package(CURL REQUIRED)
     find_package(OpenSSL REQUIRED)
@@ -194,8 +254,12 @@ endif ()
 # Check whether we can build the Mirror VFD
 # Header-check flags set in config/cmake_ext_mod/ConfigureChecks.cmake
 # ----------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_MIRROR_VFD "Build the Mirror Virtual File Driver" OFF)
-if (HDF5_ENABLE_MIRROR_VFD)
+else ()
+set(HDF5_ENABLE_MIRROR_VFD OFF)
+endif ()
+if (H5FD_ENABLE_MIRROR_VFD)
   if ( ${HDF_PREFIX}_HAVE_NETINET_IN_H AND
        ${HDF_PREFIX}_HAVE_NETDB_H      AND
        ${HDF_PREFIX}_HAVE_ARPA_INET_H  AND

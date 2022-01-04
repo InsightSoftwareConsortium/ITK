@@ -3,6 +3,22 @@ cmake_minimum_required (VERSION 3.12)
 # ITK --stop ]]
 project (HDF5 C)
 
+if (POLICY CMP0074)
+  cmake_policy (SET CMP0074 NEW)
+endif ()
+
+if (POLICY CMP0083)
+  cmake_policy (SET CMP0083 NEW)
+endif ()
+
+# XXX(kitware): Set to avoid cmake complaining
+if (POLICY CMP0007)
+  cmake_policy (SET CMP0007 NEW)
+endif ()
+
+# XXX(kitware): Hardcode settings.
+set(DISABLE_PDB_FILES ON)
+
 #-----------------------------------------------------------------------------
 # Instructions for use : Normal Build
 #
@@ -113,6 +129,7 @@ mark_as_advanced (HDF5_LIB_INFIX)
 #-----------------------------------------------------------------------------
 string (TIMESTAMP CONFIG_DATE "%Y-%m-%d")
 
+if (FALSE) # XXX(kitware): Hardcode settings.
 #-----------------------------------------------------------------------------
 # Allow Visual Studio solution directories
 #-----------------------------------------------------------------------------
@@ -129,6 +146,11 @@ option (HDF5_NO_PACKAGES "CPACK - Disable packaging" OFF)
 mark_as_advanced (HDF5_NO_PACKAGES)
 option (ALLOW_UNSUPPORTED "Allow unsupported combinations of configure options" OFF)
 mark_as_advanced (ALLOW_UNSUPPORTED)
+else ()
+set(HDF5_USE_FOLDERS OFF)
+set(HDF5_NO_PACKAGES ON)
+set(ALLOW_UNSUPPORTED OFF)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Set the core names of all the libraries
@@ -293,7 +315,7 @@ if (H5_CXX_SOVERS_EXISTS)
 # ITK --stop ]]
 endif ()
 string (REGEX MATCH ".*LT_F_VERS_INTERFACE[ \t]+=[ \t]+([0-9]*).*$" H5_F_SOVERS_EXISTS ${_lt_vers_am_contents})
-if (H5_F_SOVERS_EXISTS)
+if (H5_F_SOVERS_EXISTS AND FALSE) # XXX(kitware): VTK doesn't need Fortran support.
   string (REGEX REPLACE ".*LT_F_VERS_INTERFACE[ \t]+=[ \t]+([0-9]*).*$"
       "\\1" H5_F_SOVERS_INTERFACE ${_lt_vers_am_contents})
   string (REGEX REPLACE ".*LT_F_VERS_REVISION[ \t]+=[ \t]+([0-9]*).*$"
@@ -338,7 +360,7 @@ if (H5_HL_CXX_SOVERS_EXISTS)
 # ITK --stop ]]
 endif ()
 string (REGEX MATCH ".*LT_HL_F_VERS_INTERFACE[ \t]+=[ \t]+([0-9]*).*$" H5_HL_F_SOVERS_EXISTS ${_lt_vers_am_contents})
-if (H5_HL_F_SOVERS_EXISTS)
+if (H5_HL_F_SOVERS_EXISTS AND FALSE) # XXX(kitware): VTK doesn't need Fortran support.
   string (REGEX REPLACE ".*LT_HL_F_VERS_INTERFACE[ \t]+=[ \t]+([0-9]*).*$"
       "\\1" H5_HL_F_SOVERS_INTERFACE ${_lt_vers_am_contents})
   string (REGEX REPLACE ".*LT_HL_F_VERS_REVISION[ \t]+=[ \t]+([0-9]*).*$"
@@ -353,7 +375,7 @@ if (H5_HL_F_SOVERS_EXISTS)
 # ITK --stop ]]
 endif ()
 string (REGEX MATCH ".*LT_JAVA_VERS_INTERFACE[ \t]+=[ \t]+([0-9]*).*$" H5_JAVA_SOVERS_EXISTS ${_lt_vers_am_contents})
-if(H5_JAVA_SOVERS_EXISTS)
+if(H5_JAVA_SOVERS_EXISTS AND FALSE) # XXX(kitware): VTK doesn't need Java support.
   string (REGEX REPLACE ".*LT_JAVA_VERS_INTERFACE[ \t]+=[ \t]+([0-9]*).*$"
       "\\1" H5_JAVA_SOVERS_INTERFACE ${_lt_vers_am_contents})
   string (REGEX REPLACE ".*LT_JAVA_VERS_REVISION[ \t]+=[ \t]+([0-9]*).*$"
@@ -523,9 +545,11 @@ endif ()
 
 #-----------------------------------------------------------------------------
 # perl is used in some optional src and tests, check availability
+if (FALSE) # VTK doesn't expose where this is used anyways.
 find_package (Perl)
 if (PERL_FOUND)
   set (H5_PERL_FOUND YES)
+endif ()
 endif ()
 #-----------------------------------------------------------------------------
 
@@ -539,6 +563,7 @@ if (BUILD_STATIC_EXECS)
     set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -static")
   endif ()
 endif ()
+if (FALSE) # XXX(kitware): Hide settings VTK doesn't need.
 
 option (HDF5_ENABLE_ANALYZER_TOOLS "enable the use of Clang tools" OFF)
 mark_as_advanced (HDF5_ENABLE_ANALYZER_TOOLS)
@@ -633,6 +658,13 @@ if (HDF5_ENABLE_DEPRECATED_SYMBOLS)
 else ()
   set (H5_NO_DEPRECATED_SYMBOLS 1)
 endif ()
+else ()
+set(HDF5_ENABLE_COVERAGE OFF)
+set(HDF5_ENABLE_USING_MEMCHECKER OFF)
+set(HDF5_MEMORY_ALLOC_SANITY_CHECK OFF)
+set(HDF5_ENABLE_DEPRECATED_SYMBOLS OFF)
+set(H5_NO_DEPRECATED_SYMBOLS 0)
+endif ()
 
 #-----------------------------------------------------------------------------
 # When building utility executables that generate other (source) files :
@@ -643,11 +675,19 @@ endif ()
 if (WIN32)
   add_compile_definitions (_CRT_SECURE_NO_WARNINGS)
   if (MSVC)
-    add_compile_definitions (_BIND_TO_CURRENT_VCLIBS_VERSION=1 _CONSOLE)
+    if (TRUE) # XXX(kitware): this is not what we want for VTK.
+      add_compile_definitions (_CRT_SECURE_NO_WARNINGS _CONSOLE)
+    else ()
+      add_compile_definitions (_BIND_TO_CURRENT_VCLIBS_VERSION=1 _CONSOLE)
+    endif ()
   endif ()
 endif ()
 
+if (FALSE) # XXX(kitware): Hide settings VTK doesn't need.
 option (HDF5_MINGW_STATIC_GCC_LIBS "Statically link libgcc/libstdc++" OFF)
+else ()
+set(HDF5_MINGW_STATIC_GCC_LIBS OFF)
+endif ()
 
 if (MSVC)
   set (CMAKE_MFC_FLAG 0)
@@ -665,6 +705,7 @@ if (MAKE_SYSTEM)
   set (CFG_INIT "")
 endif ()
 
+if (FALSE) # XXX(kitware): Hide settings VTK doesn't need.
 # Do not generate test programs by default
 option (HDF5_BUILD_GENERATORS "Build Test Generators" OFF)
 
@@ -681,6 +722,10 @@ if (${HDF_CFG_NAME} MATCHES "Debug")
   endif ()
   mark_as_advanced (HDF5_ENABLE_INSTRUMENT)
 endif ()
+else ()
+set(HDF5_BUILD_GENERATORS OFF)
+set(HDF5_ENABLE_TRACE OFF)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Option to embed library info into executables
@@ -688,9 +733,13 @@ endif ()
 if (CMAKE_SYSTEM_NAME STREQUAL "Emscripten")
   set (H5_HAVE_EMBEDDED_LIBINFO 0)
 else ()
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_ENABLE_EMBEDDED_LIBINFO "embed library info into executables" ON)
   if (HDF5_ENABLE_EMBEDDED_LIBINFO)
     set (H5_HAVE_EMBEDDED_LIBINFO 1)
+  endif ()
+  else ()
+  set(HDF5_ENABLE_EMBEDDED_LIBINFO 1)
   endif ()
 endif ()
 
@@ -700,7 +749,11 @@ set (CMAKE_MODULE_PATH ${HDF_RESOURCES_DIR} ${HDF_RESOURCES_EXT_DIR} ${CMAKE_MOD
 #-----------------------------------------------------------------------------
 # Option to Enable HDFS
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_HDFS "Enable HDFS" OFF)
+else ()
+set(HDF5_ENABLE_HDFS OFF)
+endif ()
 if (HDF5_ENABLE_HDFS)
   find_package(JNI REQUIRED)
   if (JNI_FOUND)
@@ -721,11 +774,13 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to Enable MPI Parallel
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_PARALLEL "Enable parallel build (requires MPI)" OFF)
 if (HDF5_ENABLE_PARALLEL)
   find_package(MPI REQUIRED)
   if (MPI_C_FOUND)
     set (H5_HAVE_PARALLEL 1)
+    if (FALSE) # XXX(kitware): VTK doesn't need Fortran support.
     # MPI checks, only do these if MPI_C_FOUND is true, otherwise they always fail
     # and once set, they are cached as false and not regenerated
     set (CMAKE_REQUIRED_LIBRARIES "${MPI_C_LIBRARIES}")
@@ -733,6 +788,7 @@ if (HDF5_ENABLE_PARALLEL)
     # Used by Fortran + MPI
     CHECK_SYMBOL_EXISTS (MPI_Comm_c2f "mpi.h"  H5_HAVE_MPI_MULTI_LANG_Comm)
     CHECK_SYMBOL_EXISTS (MPI_Info_c2f "mpi.h"  H5_HAVE_MPI_MULTI_LANG_Info)
+  endif ()
 
     # Used by Parallel Compression feature
     set (PARALLEL_FILTERED_WRITES ON)
@@ -765,7 +821,11 @@ if (H5_HAVE_PARALLEL)
     set (CMAKE_EXE_LINKER_FLAGS "${MPI_C_LINK_FLAGS} ${CMAKE_EXE_LINKER_FLAGS}")
   endif ()
 endif ()
+else ()
+set(HDF5_ENABLE_PARALLEL OFF)
+endif ()
 
+if (FALSE) # XXX(kitware): Hardcode settings.
 #option (DEFAULT_API_VERSION "Enable v1.12 API (v16, v18, v110, v112)" "v112")
 set (DEFAULT_API_VERSION "v112" CACHE STRING "Enable v1.12 API (v16, v18, v110, v112)")
 set_property (CACHE DEFAULT_API_VERSION PROPERTY STRINGS v16 v18 v110 v112)
@@ -803,6 +863,13 @@ set (H5_USE_112_API_DEFAULT 0)
 if (DEFAULT_API_VERSION MATCHES "v112")
   set (H5_USE_112_API_DEFAULT 1)
 endif ()
+else ()
+set (H5_USE_16_API_DEFAULT 0)
+set (H5_USE_18_API_DEFAULT 0)
+set (H5_USE_110_API_DEFAULT 0)
+set (H5_USE_112_API_DEFAULT 0)
+set (DEFAULT_API_VERSION "v112")
+endif ()
 
 #-----------------------------------------------------------------------------
 # Include user macros
@@ -814,6 +881,7 @@ include (UserMacros.cmake)
 #-----------------------------------------------------------------------------
 include (CMakeFilters.cmake)
 
+if (FALSE) # XXX(kitware): Disable packaging.
 #-----------------------------------------------------------------------------
 # Option for external libraries on windows
 #-----------------------------------------------------------------------------
@@ -895,11 +963,18 @@ if (HDF5_ENABLE_THREADSAFE)
     set (H5_HAVE_THREADSAFE 1)
   endif ()
 endif ()
+else ()
+set(HDF5_ENABLE_THREADSAFE OFF)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Option to build the map API
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_MAP_API "Build the map API" OFF)
+else ()
+set (HDF5_ENABLE_MAP_API OFF)
+endif ()
 if (HDF5_ENABLE_MAP_API)
   set (H5_HAVE_MAP_API 1)
 endif ()
@@ -909,6 +984,7 @@ endif ()
 #-----------------------------------------------------------------------------
 add_subdirectory (src)
 
+if (FALSE) # XXX(kitware): Hardcode settings.
 if (HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "GIT" OR HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "TGZ")
   if (ZLIB_FOUND AND ZLIB_USE_EXTERNAL)
     if (NOT ONLY_SHARED_LIBS)
@@ -927,7 +1003,9 @@ if (HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "GIT" OR HDF5_ALLOW_EXTERNAL_SUPPORT MAT
     endif ()
   endif ()
 endif ()
+endif ()
 
+if (FALSE) # XXX(kitware): Disable testing of HDF5.
 #-----------------------------------------------------------------------------
 # Dashboard and Testing Settings
 #-----------------------------------------------------------------------------
@@ -1012,11 +1090,17 @@ if (EXISTS "${HDF5_SOURCE_DIR}/utils" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/utils
   endif ()
 endif ()
 
+endif () # end IF (FALSE) # XXX(kitware)
+
 #-----------------------------------------------------------------------------
 # Option to build HDF5 Tools
 #-----------------------------------------------------------------------------
 if (EXISTS "${HDF5_SOURCE_DIR}/tools" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/tools")
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_BUILD_TOOLS  "Build HDF5 Tools" ON)
+  else ()
+  set(HDF5_BUILD_TOOLS OFF)
+  endif ()
   if (HDF5_BUILD_TOOLS)
     add_subdirectory (tools)
   endif ()
@@ -1041,7 +1125,11 @@ endif ()
 # Option to build examples
 #-----------------------------------------------------------------------------
 if (EXISTS "${HDF5_SOURCE_DIR}/examples" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/examples")
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_BUILD_EXAMPLES  "Build HDF5 Library Examples" ON)
+  else ()
+  set(HDF5_BUILD_EXAMPLES OFF)
+  endif ()
   if (HDF5_BUILD_EXAMPLES)
     add_subdirectory (examples)
   endif ()
@@ -1051,7 +1139,11 @@ endif ()
 # Option to build High Level API's
 #-----------------------------------------------------------------------------
 if (EXISTS "${HDF5_SOURCE_DIR}/hl" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/hl")
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_BUILD_HL_LIB  "Build HIGH Level HDF5 Library" ON)
+  else ()
+  set(HDF5_BUILD_HL_LIB ON)
+  endif ()
   if (HDF5_BUILD_HL_LIB)
     set (H5_INCLUDE_HL 1)
     add_subdirectory (hl)
@@ -1066,7 +1158,8 @@ endif ()
 # Set default name mangling : overridden by Fortran detection in fortran dir
 set (H5_FC_FUNC  "H5_FC_FUNC(name,NAME) name ## _")
 set (H5_FC_FUNC_ "H5_FC_FUNC_(name,NAME) name ## _")
-if (EXISTS "${HDF5_SOURCE_DIR}/fortran" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/fortran")
+# XXX(kitware): VTK doesn't need Fortran support.
+if (EXISTS "${HDF5_SOURCE_DIR}/fortran" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/fortran" AND FALSE)
   option (HDF5_BUILD_FORTRAN "Build FORTRAN support" OFF)
   if (HDF5_BUILD_FORTRAN)
     include (${HDF_RESOURCES_EXT_DIR}/HDFUseFortran.cmake)
@@ -1154,11 +1247,18 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to build HDF5 Java Library
 #-----------------------------------------------------------------------------
-if (EXISTS "${HDF5_SOURCE_DIR}/java" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/java")
+# XXX(kitware): VTK doesn't need Java support.
+if (EXISTS "${HDF5_SOURCE_DIR}/java" AND IS_DIRECTORY "${HDF5_SOURCE_DIR}/java" AND FALSE)
   option (HDF5_BUILD_JAVA  "Build Java HDF5 Library" OFF)
   if (HDF5_BUILD_JAVA)
     add_subdirectory (java)
   endif ()
+endif ()
+
+# XXX(kitware): needed for various headers.
+set(H5_STDC_HEADERS 1)
+if (NOT WIN32)
+  set(H5_TIME_WITH_SYS_TIME 1)
 endif ()
 
 #-----------------------------------------------------------------------------
@@ -1169,7 +1269,12 @@ configure_file (${HDF_RESOURCES_DIR}/H5pubconf.h.in ${HDF5_SRC_BINARY_DIR}/H5pub
 #-----------------------------------------------------------------------------
 # Options for use by cross compiling and toolchains
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_USE_PREGEN "Use pre-generated Files" OFF)
 option (HDF5_BATCH_H5DETECT "Use a batch command for running h5detect" OFF)
+else ()
+set(HDF5_USE_PREGEN OFF)
+set(HDF5_BATCH_H5DETECT OFF)
+endif ()
 
 include (CMakeInstallation.cmake)

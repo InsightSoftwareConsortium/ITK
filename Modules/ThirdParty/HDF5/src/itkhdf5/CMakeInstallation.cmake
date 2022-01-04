@@ -141,7 +141,11 @@ install (
 #-----------------------------------------------------------------------------
 # Configure the HDF5_Examples.cmake file and the examples
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_PACK_EXAMPLES  "Package the HDF5 Library Examples Compressed File" OFF)
+else ()
+set(HDF5_PACK_EXAMPLES OFF)
+endif ()
 if (HDF5_PACK_EXAMPLES)
   configure_file (
       ${HDF_RESOURCES_DIR}/HDF5_Examples.cmake.in
@@ -186,7 +190,9 @@ endif ()
 #-----------------------------------------------------------------------------
 # Configure the README.txt file for the binary package
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): skip unnecessary installation rules.
 HDF_README_PROPERTIES(HDF5_BUILD_FORTRAN)
+endif ()
 
 #-----------------------------------------------------------------------------
 # Configure the COPYING.txt file for the windows binary package

@@ -9,14 +9,22 @@
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
+if (FALSE) # XXX(kitware): avoid this showing up in VTK's cache file
 option (USE_LIBAEC "Use AEC library as SZip Filter" OFF)
+else ()
+set (USE_LIBAEC OFF)
+endif ()
 
+if (FALSE) # XXX(kitware): Hardcode settings.
 include (ExternalProject)
 include (FetchContent)
 
 #option (HDF5_ALLOW_EXTERNAL_SUPPORT "Allow External Library Building (NO GIT TGZ)" "NO")
 set (HDF5_ALLOW_EXTERNAL_SUPPORT "NO" CACHE STRING "Allow External Library Building (NO GIT TGZ)")
 set_property (CACHE HDF5_ALLOW_EXTERNAL_SUPPORT PROPERTY STRINGS NO GIT TGZ)
+else ()
+set(HDF5_ALLOW_EXTERNAL_SUPPORT NO)
+endif ()
 if (HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "GIT" OR HDF5_ALLOW_EXTERNAL_SUPPORT MATCHES "TGZ")
   option (ZLIB_USE_EXTERNAL "Use External Library Building for ZLIB" 1)
   option (SZIP_USE_EXTERNAL "Use External Library Building for SZIP" 1)
@@ -55,7 +63,11 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option for ZLib support
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_Z_LIB_SUPPORT "Enable Zlib Filters" OFF)
+else ()
+set(HDF5_ENABLE_Z_LIB_SUPPORT ON)
+endif ()
 if (HDF5_ENABLE_Z_LIB_SUPPORT)
   if (NOT H5_ZLIB_HEADER)
     if (NOT ZLIB_USE_EXTERNAL)
@@ -106,6 +118,7 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option for SzLib support
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): no need for szip support.
 option (HDF5_ENABLE_SZIP_SUPPORT "Use SZip Filter" OFF)
 if (HDF5_ENABLE_SZIP_SUPPORT)
   option (HDF5_ENABLE_SZIP_ENCODING "Use SZip Encoding" OFF)
@@ -157,4 +170,5 @@ if (HDF5_ENABLE_SZIP_SUPPORT)
     set (H5_HAVE_SZIP_ENCODER 1)
     set (EXTERNAL_FILTERS "${EXTERNAL_FILTERS} ENCODE")
   endif ()
+endif ()
 endif ()

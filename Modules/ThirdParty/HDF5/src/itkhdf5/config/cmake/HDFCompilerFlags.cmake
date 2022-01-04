@@ -16,12 +16,16 @@ set (CMAKE_C_FLAGS "${CMAKE_C99_STANDARD_COMPILE_OPTION} ${CMAKE_C_FLAGS}")
 set (CMAKE_C_FLAGS "${CMAKE_C_SANITIZER_FLAGS} ${CMAKE_C_FLAGS}")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_SANITIZER_FLAGS} ${CMAKE_CXX_FLAGS}")
 
+#[[ ITK --start
 if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
   message (VERBOSE "Warnings Configuration: default: ${CMAKE_C_FLAGS} : ${CMAKE_CXX_FLAGS}")
 endif ()
+# ITK --stop ]]
 #-----------------------------------------------------------------------------
 # Compiler specific flags : Shouldn't there be compiler tests for these
 #-----------------------------------------------------------------------------
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_EXTENSIONS ON)
 if (CMAKE_COMPILER_IS_GNUCC)
   set (CMAKE_C_FLAGS "${CMAKE_ANSI_CFLAGS} ${CMAKE_C_FLAGS}")
   if (${HDF_CFG_NAME} MATCHES "Debug")
@@ -29,7 +33,8 @@ if (CMAKE_COMPILER_IS_GNUCC)
       set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Og -ftrapv -fno-common")
     endif ()
   else ()
-    if (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_C_COMPILER_VERSION VERSION_LESS 5.0)
+    if (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_C_COMPILER_VERSION VERSION_LESS 5.0 AND
+        NOT CMAKE_C_CLANG_TIDY)
       set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fstdarg-opt")
     endif ()
     if (CMAKE_C_COMPILER_ID STREQUAL "GNU" AND NOT CMAKE_C_COMPILER_VERSION VERSION_LESS 10.0)
@@ -38,13 +43,19 @@ if (CMAKE_COMPILER_IS_GNUCC)
       #
       # This should NOT be on by default as it can cause process issues.
       #-----------------------------------------------------------------------------
+      if (FALSE) # XXX(kitware): Hardcode settings.
       option (HDF5_ENABLE_BUILD_DIAGS "Enable color and URL extended diagnostic messages" OFF)
+      else ()
+      set(HDF5_ENABLE_BUILD_DIAGS OFF)
+      endif ()
+      #[[ ITK --start
       if (HDF5_ENABLE_BUILD_DIAGS)
         message (STATUS "... default color and URL extended diagnostic messages enabled")
       else ()
         message (STATUS "... disable color and URL extended diagnostic messages")
         set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fdiagnostics-urls=never -fno-diagnostics-color")
       endif ()
+      # ITK --stop ]]
     endif ()
   endif ()
 endif ()
@@ -52,7 +63,11 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to allow the user to disable compiler warnings
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_DISABLE_COMPILER_WARNINGS "Disable compiler warnings" OFF)
+else ()
+set(HDF5_DISABLE_COMPILER_WARNINGS OFF)
+endif ()
 if (HDF5_DISABLE_COMPILER_WARNINGS)
   message (STATUS "....Compiler warnings are suppressed")
   # MSVC uses /w to suppress warnings.  It also complains if another
@@ -89,7 +104,11 @@ if (NOT MSVC AND NOT MINGW)
   # new operating systems and compiler versions. Header files that are out of
   # our control (MPI, HDFS, etc.) can also raise warnings.
   #-----------------------------------------------------------------------------
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_ENABLE_WARNINGS_AS_ERRORS "Interpret some warnings as errors" OFF)
+  else ()
+  set(HDF5_ENABLE_WARNINGS_AS_ERRORS OFF)
+  endif ()
   if (HDF5_ENABLE_WARNINGS_AS_ERRORS)
     message (STATUS "...some warnings will be interpreted as errors")
   endif ()
@@ -139,16 +158,22 @@ if (NOT MSVC AND NOT MINGW)
     elseif (CMAKE_C_COMPILER_ID STREQUAL "PGI")
       list (APPEND HDF5_CMAKE_C_FLAGS "-Minform=inform")
     endif ()
+    #[[ ITK --start
     if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
       message (VERBOSE "CMAKE_C_FLAGS_GENERAL=${HDF5_CMAKE_C_FLAGS}")
     endif ()
+    # ITK --stop ]]
   endif ()
 
   #-----------------------------------------------------------------------------
   # Option to allow the user to enable developer warnings
   # Developer warnings (suggestions from gcc, not code problems)
   #-----------------------------------------------------------------------------
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF5_ENABLE_DEV_WARNINGS "Enable HDF5 developer group warnings" OFF)
+  else ()
+  set(HDF5_ENABLE_DEV_WARNINGS OFF)
+  endif ()
   if (HDF5_ENABLE_DEV_WARNINGS)
     message (STATUS "....HDF5 developer group warnings are enabled")
     if (CMAKE_C_COMPILER_ID STREQUAL "Intel")
@@ -250,7 +275,11 @@ endif ()
 #-----------------------------------------------------------------------------
 # Option to allow the user to enable all warnings
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_ALL_WARNINGS "Enable all warnings" ON)
+else ()
+set(HDF5_ENABLE_ALL_WARNINGS OFF)
+endif ()
 if (HDF5_ENABLE_ALL_WARNINGS)
   message (STATUS "....All Warnings are enabled")
   if (MSVC)
@@ -279,54 +308,70 @@ endif ()
 # By default, CMake adds NDEBUG to CMAKE_${lang}_FLAGS for Release build types
 # This option will force/override the default setting for all configurations
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 #option (HDF5_ENABLE_ASSERTS "Determines whether NDEBUG is defined to control assertions." OFF)
 set (HDF5_ENABLE_ASSERTS "OFF" CACHE STRING "Determines whether NDEBUG is defined to control assertions (OFF NO YES)")
 set_property (CACHE HDF5_ENABLE_ASSERTS PROPERTY STRINGS OFF NO YES)
+mark_as_advanced (HDF5_ENABLE_ASSERTS)
+else ()
+set(HDF5_ENABLE_ASSERTS OFF)
+endif ()
 if (HDF5_ENABLE_ASSERTS MATCHES "YES")
   add_compile_options ("-UNDEBUG")
 elseif (HDF5_ENABLE_ASSERTS MATCHES "NO")
   add_compile_options ("-DNDEBUG")
 endif ()
-MARK_AS_ADVANCED (HDF5_ENABLE_ASSERTS)
 
 #-----------------------------------------------------------------------------
 # Option for --enable-symbols
 # This option will force/override the default setting for all configurations
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 #option (HDF5_ENABLE_SYMBOLS "Add debug symbols to the library independent of the build mode and optimization level." OFF)
 set (HDF5_ENABLE_SYMBOLS "OFF" CACHE STRING "Add debug symbols to the library independent of the build mode and optimization level (OFF NO YES)")
 set_property (CACHE HDF5_ENABLE_SYMBOLS PROPERTY STRINGS OFF NO YES)
-if (HDF5_ENABLE_SYMBOLS MATCHES "YES")
+mark_as_advanced (HDF5_ENABLE_SYMBOLS)
+else ()
+set(HDF5_ENABLE_SYMBOLS OFF)
+endif ()
+if (HDF5_ENABLE_SYMBOLS STREQUAL "YES")
   if (CMAKE_C_COMPILER_ID STREQUAL "Intel")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g")
   elseif (CMAKE_C_COMPILER_ID STREQUAL "GNU")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fno-omit-frame-pointer")
   endif ()
-elseif (HDF5_ENABLE_SYMBOLS MATCHES "NO")
+elseif (HDF5_ENABLE_SYMBOLS STREQUAL "NO")
   if (CMAKE_C_COMPILER_ID STREQUAL "Intel")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wl,-s")
   elseif (CMAKE_C_COMPILER_ID STREQUAL "GNU")
     set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -s")
   endif ()
 endif ()
-MARK_AS_ADVANCED (HDF5_ENABLE_SYMBOLS)
 
 #-----------------------------------------------------------------------------
 # Option for --enable-profiling
 # This option will force/override the default setting for all configurations
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_PROFILING "Enable profiling flags independently from the build mode." OFF)
+mark_as_advanced (HDF5_ENABLE_PROFILING)
+else ()
+set(HDF5_ENABLE_PROFILING OFF)
+endif ()
 if (HDF5_ENABLE_PROFILING)
   list (APPEND HDF5_CMAKE_C_FLAGS "${PROFILE_CFLAGS}")
 endif ()
-MARK_AS_ADVANCED (HDF5_ENABLE_PROFILING)
 
 #-----------------------------------------------------------------------------
 # Option for --enable-optimization
 # This option will force/override the default setting for all configurations
 #-----------------------------------------------------------------------------
+if (FALSE) # XXX(kitware): Hardcode settings.
 option (HDF5_ENABLE_OPTIMIZATION "Enable optimization flags/settings independently from the build mode" OFF)
+mark_as_advanced (HDF5_ENABLE_OPTIMIZATION)
+else ()
+set(HDF5_ENABLE_OPTIMIZATION OFF)
+endif ()
 if (HDF5_ENABLE_OPTIMIZATION)
   list (APPEND HDF5_CMAKE_C_FLAGS "${OPTIMIZE_CFLAGS}")
 endif ()
-MARK_AS_ADVANCED (HDF5_ENABLE_OPTIMIZATION)

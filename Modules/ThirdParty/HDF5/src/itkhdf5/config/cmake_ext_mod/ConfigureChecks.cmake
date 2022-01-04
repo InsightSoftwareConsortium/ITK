@@ -270,7 +270,11 @@ if (MINGW OR NOT WINDOWS)
   # VFD on Linux systems.
   set (HDF_EXTRA_C_FLAGS ${HDF_EXTRA_C_FLAGS} -D_GNU_SOURCE)
 
+  if (FALSE) # XXX(kitware): Hardcode settings.
   option (HDF_ENABLE_LARGE_FILE "Enable support for large (64-bit) files on Linux." ON)
+  else ()
+  set(HDF_ENABLE_LARGE_FILE ON)
+  endif ()
   if (HDF_ENABLE_LARGE_FILE AND NOT DEFINED TEST_LFS_WORKS_RUN)
     set (msg "Performing TEST_LFS_WORKS")
     try_run (TEST_LFS_WORKS_RUN   TEST_LFS_WORKS_COMPILE
@@ -575,9 +579,11 @@ endif ()
 #-----------------------------------------------------------------------------
 if (WINDOWS)
   if (NOT HDF_NO_IOEO_TEST)
+    #[[ ITK --start
     if (CMAKE_VERSION VERSION_GREATER_EQUAL "3.15.0")
       message (VERBOSE "Checking for InitOnceExecuteOnce:")
     endif ()
+    # ITK --stop ]]
   if (NOT DEFINED ${HDF_PREFIX}_HAVE_IOEO)
     if (LARGEFILE)
       set (CMAKE_REQUIRED_DEFINITIONS
