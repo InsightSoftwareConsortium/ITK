@@ -2,11 +2,6 @@
 cmake_minimum_required (VERSION 3.12)
 # ITK --stop ]]
 project (HDF5_SRC C)
-# ITK --start
-if(POLICY CMP0083)
-  cmake_policy(SET CMP0083 NEW) # CMake 3.14.0: Add PIE options when linking executable.
-endif()
-# ITK --stop
 
 #-----------------------------------------------------------------------------
 # List Source Files
