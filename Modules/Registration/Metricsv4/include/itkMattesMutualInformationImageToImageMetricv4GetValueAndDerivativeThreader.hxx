@@ -83,9 +83,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
   // with size {m_NumberOfHistogramBins, this->m_NumberOfHistogramBins}.
   // The dimension represents fixed image bin size
   // and moving image bin size , respectively.
-  JointPDFIndexType jointPDFIndex;
-  jointPDFIndex.Fill(0);
-  JointPDFSizeType jointPDFSize;
+  constexpr JointPDFIndexType jointPDFIndex = { { 0 } };
+  JointPDFSizeType            jointPDFSize;
   jointPDFSize.Fill(this->m_MattesAssociate->m_NumberOfHistogramBins);
 
   const JointPDFRegionType jointPDFRegion(jointPDFIndex, jointPDFSize);
@@ -179,9 +178,8 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<
       // parameters,
       // fixed image parzen window index and moving image parzen window index,
       // respectively.
-      JointPDFDerivativesIndexType jointPDFDerivativesIndex;
-      jointPDFDerivativesIndex.Fill(0);
-      JointPDFDerivativesSizeType jointPDFDerivativesSize;
+      constexpr JointPDFDerivativesIndexType jointPDFDerivativesIndex = { { 0 } };
+      JointPDFDerivativesSizeType            jointPDFDerivativesSize;
       jointPDFDerivativesSize[0] = this->GetCachedNumberOfLocalParameters();
       jointPDFDerivativesSize[1] = this->m_MattesAssociate->m_NumberOfHistogramBins;
       jointPDFDerivativesSize[2] = this->m_MattesAssociate->m_NumberOfHistogramBins;

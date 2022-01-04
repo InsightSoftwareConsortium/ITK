@@ -238,8 +238,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   output->SetMetaDataDictionary(thisDic);
   this->SetMetaDataDictionary(thisDic);
 
-  IndexType start;
-  start.Fill(0);
+  constexpr IndexType start = { { 0 } };
 
   const ImageRegionType region(start, dimSize);
 

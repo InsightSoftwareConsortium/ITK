@@ -39,7 +39,6 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto *    equivalenceTable = new LabelType[NumericTraits<LabelType>::max()];
   LabelType label = 0;
   LabelType maxLabel = 0;
-  IndexType index;
   SizeType  size;
 
   typename ListType::iterator iter;
@@ -48,8 +47,8 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   const TInputImage * input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
-  index.Fill(0);
-  const RegionType region(index, size);
+  constexpr IndexType index = { { 0 } };
+  const RegionType    region(index, size);
   output->SetLargestPossibleRegion(region);
   output->SetBufferedRegion(region);
   output->SetRequestedRegion(region);

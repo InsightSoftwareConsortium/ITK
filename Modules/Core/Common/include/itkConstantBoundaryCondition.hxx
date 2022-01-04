@@ -73,9 +73,8 @@ ConstantBoundaryCondition<TInputImage, TOutputImage>::GetInputRequestedRegion(
 
   if (!cropped)
   {
-    IndexType index;
-    index.Fill(0);
-    SizeType size;
+    constexpr IndexType index = { { 0 } };
+    SizeType            size;
     size.Fill(0);
     inputRequestedRegion.SetIndex(index);
     inputRequestedRegion.SetSize(size);

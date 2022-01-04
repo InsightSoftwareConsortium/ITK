@@ -420,9 +420,8 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // Extract the relevant part out of the image.
   // The input FFT image may be bigger than the desired output image
   // because specific sizes are required for the FFT calculation.
-  typename LocalOutputImageType::IndexType imageIndex;
-  imageIndex.Fill(0);
-  const typename LocalOutputImageType::RegionType imageRegion(imageIndex, combinedImageSize);
+  constexpr typename LocalOutputImageType::IndexType imageIndex = { { 0 } };
+  const typename LocalOutputImageType::RegionType    imageRegion(imageIndex, combinedImageSize);
   using ExtractType = itk::RegionOfInterestImageFilter<LocalOutputImageType, LocalOutputImageType>;
   auto extracter = ExtractType::New();
   extracter->SetInput(FFTFilter->GetOutput());
@@ -579,8 +578,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   calculator->SetImage(inputImage);
   calculator->ComputeMaximum();
 
-  typename LocalInputImageType::IndexType index;
-  index.Fill(0);
+  constexpr typename LocalInputImageType::IndexType index = { { 0 } };
 
   double precisionTolerance = 0.0F;
   if (typeid(inputImage->GetPixel(index)) == typeid(double))

@@ -210,9 +210,8 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
     origin[i] = 0;
   }
 
-  typename OutputImageType::IndexType index;
-  index.Fill(0);
-  typename OutputImageType::RegionType region;
+  constexpr typename OutputImageType::IndexType index = { { 0 } };
+  typename OutputImageType::RegionType          region;
 
   // If the size of the output has been explicitly specified, the filter
   // will set the output size to the explicit size, otherwise the size from the

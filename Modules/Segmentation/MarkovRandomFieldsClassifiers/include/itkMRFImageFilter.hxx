@@ -364,8 +364,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::Allocate()
   }
 
   // Allocate the label image status
-  LabelStatusIndexType index;
-  index.Fill(0);
+  constexpr LabelStatusIndexType index = { { 0 } };
 
   const LabelStatusRegionType region(index, inputImageSize);
 
