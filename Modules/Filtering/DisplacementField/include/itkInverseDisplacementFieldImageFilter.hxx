@@ -281,8 +281,7 @@ InverseDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateInputReq
   InputImagePointer inputPtr = const_cast<InputImageType *>(this->GetInput());
 
   // Request the entire input image
-  InputImageRegionType inputRegion;
-  inputRegion = inputPtr->GetLargestPossibleRegion();
+  const InputImageRegionType inputRegion = inputPtr->GetLargestPossibleRegion();
   inputPtr->SetRequestedRegion(inputRegion);
 }
 

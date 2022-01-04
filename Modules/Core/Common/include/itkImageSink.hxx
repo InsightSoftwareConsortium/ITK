@@ -159,7 +159,6 @@ ImageSink<TInputImage>::GenerateNthInputRequestedRegion(unsigned int inputReques
         continue;
       }
       // copy the requested region of the first input to the others
-      InputImageRegionType inputRegion;
       input->SetRequestedRegion(m_CurrentInputRegion);
     }
   }

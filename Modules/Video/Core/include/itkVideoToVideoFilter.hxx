@@ -189,9 +189,7 @@ VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::GenerateInputRequeste
   OutputFrameSpatialRegionType outputRegion = this->GetOutput()->GetFrameRequestedSpatialRegion(outputStart);
 
   // Convert to input spatial region (TODO: handle dificult cases)
-  InputFrameSpatialRegionType inputRegion;
-  inputRegion.SetSize(outputRegion.GetSize());
-  inputRegion.SetIndex(outputRegion.GetIndex());
+  const InputFrameSpatialRegionType inputRegion = outputRegion;
 
   // Create input spatial regions for each frame of each input
   for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
