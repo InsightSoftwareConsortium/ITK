@@ -114,10 +114,7 @@ FrameAverageVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGenerate
   std::vector<IterType> inputIters;
   for (SizeValueType i = inputStart; i < inputStart + numFrames; ++i)
   {
-    OutputFrameSpatialRegionType inputRegion;
-    inputRegion.SetSize(outputRegionForThread.GetSize());
-    inputRegion.SetIndex(outputRegionForThread.GetIndex());
-    inputIters.push_back(IterType(input->GetFrame(i), inputRegion));
+    inputIters.push_back(IterType(input->GetFrame(i), outputRegionForThread));
   }
 
   // Get the output frame and its iterator

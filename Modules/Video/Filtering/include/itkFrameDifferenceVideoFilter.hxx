@@ -114,11 +114,8 @@ FrameDifferenceVideoFilter<TInputVideoStream, TOutputVideoStream>::ThreadedGener
 
   // Get iterators for the input frames
   using ConstIterType = ImageRegionConstIterator<InputFrameType>;
-  OutputFrameSpatialRegionType inputRegion;
-  inputRegion.SetSize(outputRegionForThread.GetSize());
-  inputRegion.SetIndex(outputRegionForThread.GetIndex());
-  ConstIterType I0Iter(input->GetFrame(inputStart), inputRegion);
-  ConstIterType I1Iter(input->GetFrame(inputStart + numFrames - 1), inputRegion);
+  ConstIterType I0Iter(input->GetFrame(inputStart), outputRegionForThread);
+  ConstIterType I1Iter(input->GetFrame(inputStart + numFrames - 1), outputRegionForThread);
 
   // Get the output frame and its iterator
   OutputFrameType *                         outFrame = output->GetFrame(outputFrameNumber);

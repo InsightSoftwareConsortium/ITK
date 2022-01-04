@@ -651,7 +651,6 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // is bigger than our input.
 
   // Cast away the constness so we can set the requested region.
-  InputRegionType   inputRegion;
   InputImagePointer inputPtr;
   inputPtr = const_cast<InputImageType *>(this->GetFixedImage());
   inputPtr->SetRequestedRegion(this->GetFixedImage()->GetLargestPossibleRegion());
