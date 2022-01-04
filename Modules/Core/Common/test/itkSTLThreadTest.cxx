@@ -108,9 +108,13 @@ itkSTLThreadTest(int argc, char * argv[])
 #if !defined(ITK_LEGACY_REMOVE)
   // test deprecated methods too!
   itk::ThreadIdType threadId = threader->SpawnThread(itkSTLThreadTestImpl::Runner, nullptr);
+  itkSTLThreadTestImpl::threadMutex.lock();
   std::cout << "SpawnThread(itkSTLThreadTestImpl::Runner, results): " << threadId << std::endl;
+  itkSTLThreadTestImpl::threadMutex.unlock();
   threader->TerminateThread(threadId);
+  itkSTLThreadTestImpl::threadMutex.lock();
   std::cout << "Spawned thread terminated." << std::endl;
+  itkSTLThreadTestImpl::threadMutex.unlock();
 #endif
 
   return result;
