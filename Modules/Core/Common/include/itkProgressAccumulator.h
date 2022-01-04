@@ -138,6 +138,8 @@ private:
     // The tags for adding/removing observers to mini-pipeline filter
     unsigned long ProgressObserverTag;
     unsigned long StartObserverTag;
+
+    float AccumulatedProgress{ 0.0 };
   };
 
   /** A callback function that is called by the progressing filters */

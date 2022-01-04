@@ -116,7 +116,13 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
     FilterRecordVector::iterator it;
     for (it = m_FilterRecord.begin(); it != m_FilterRecord.end(); ++it)
     {
-      m_AccumulatedProgress += it->Filter->GetProgress() * it->Weight;
+      float progress = it->Filter->GetProgress();
+      if (progress != it->AccumulatedProgress)
+      {
+        m_AccumulatedProgress += progress * it->Weight;
+        it->AccumulatedProgress = 0.0; // this filter is now active
+      }
+      // else skip this filter, as it has finished
     }
 
     // Update the progress of the client mini-pipeline filter
@@ -154,7 +160,8 @@ ProgressAccumulator::ReportProgress(Object * who, const EventObject & event)
         // and then reset this filter's progress.
         // It is not necessary to call UpdateProgress(0.0f) explicitly on the filter because this is done
         // automatically when the filter is restarted.
-        m_BaseAccumulatedProgress += it->Filter->GetProgress() * it->Weight;
+        it->AccumulatedProgress = it->Filter->GetProgress();
+        m_BaseAccumulatedProgress += it->AccumulatedProgress * it->Weight;
       }
     }
   }
