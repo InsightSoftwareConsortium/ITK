@@ -488,7 +488,7 @@ JPEGImageIO::WriteSlice(std::string & fileName, const void * const buffer)
   {
     itkExceptionMacro(<< "JPEG: image is too large");
   }
-  const int num_comp = this->GetNumberOfComponents();
+  const volatile int num_comp = this->GetNumberOfComponents();
   if (num_comp > MAX_COMPONENTS)
   {
     itkExceptionMacro(<< "JPEG: too many components");
