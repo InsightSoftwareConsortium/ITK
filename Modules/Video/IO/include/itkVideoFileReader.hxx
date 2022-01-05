@@ -97,8 +97,7 @@ VideoFileReader<TOutputVideoStream>::UpdateOutputInformation()
       direction[j][i] = directionInI[j];
     }
   }
-  constexpr IndexType start = { { 0 } };
-  const RegionType    region(start, size);
+  const RegionType region(size);
 
   VideoStreamPointer output = this->GetOutput();
 

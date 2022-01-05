@@ -244,8 +244,6 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   typename TOutputImage::SpacingType outputSpacing;
   typename TOutputImage::SizeType    outputSize;
 
-  constexpr typename TOutputImage::IndexType outputStartIndex = { { 0 } };
-
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     outputSpacing[i] = inputSpacing[i] * itk::Math::abs(m_Step[i]);
@@ -296,7 +294,7 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   // Set region
 
-  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputStartIndex, outputSize);
+  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputSize);
 
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 }

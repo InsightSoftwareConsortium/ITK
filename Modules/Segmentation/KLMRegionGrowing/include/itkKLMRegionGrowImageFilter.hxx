@@ -174,11 +174,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GetLabelledImage() -> Label
 
   LabelImagePointer labelImagePtr = LabelImageType::New();
 
-  typename LabelImageType::SizeType labelImageSize = this->GetInput()->GetBufferedRegion().GetSize();
-
-  constexpr LabelImageIndexType labelImageIndex = { { 0 } };
-
-  const typename LabelImageType::RegionType labelImageRegion(labelImageIndex, labelImageSize);
+  const typename LabelImageType::RegionType labelImageRegion(this->GetInput()->GetBufferedRegion().GetSize());
 
   labelImagePtr->SetLargestPossibleRegion(labelImageRegion);
   labelImagePtr->SetBufferedRegion(labelImageRegion);

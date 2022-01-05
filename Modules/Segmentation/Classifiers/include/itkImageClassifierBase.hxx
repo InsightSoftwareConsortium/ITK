@@ -137,9 +137,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Allocate()
 
   this->SetClassifiedImage(classifiedImage);
 
-  constexpr typename TClassifiedImage::IndexType classifiedImageIndex = { { 0 } };
-
-  const typename TClassifiedImage::RegionType classifiedImageRegion(classifiedImageIndex, inputImageSize);
+  const typename TClassifiedImage::RegionType classifiedImageRegion(inputImageSize);
 
   classifiedImage->SetLargestPossibleRegion(classifiedImageRegion);
   classifiedImage->SetBufferedRegion(classifiedImageRegion);

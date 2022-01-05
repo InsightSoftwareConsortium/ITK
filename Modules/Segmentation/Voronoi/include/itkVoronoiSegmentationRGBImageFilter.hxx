@@ -87,8 +87,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
   this->Superclass::SetInput(input);
 
   this->SetSize(this->GetInput()->GetLargestPossibleRegion().GetSize());
-  constexpr IndexType index = { { 0 } };
-  const RegionType    region(index, this->GetSize());
+  const RegionType region(this->GetSize());
 
   m_WorkingImage = RGBHCVImage::New();
   m_WorkingImage->SetLargestPossibleRegion(region);

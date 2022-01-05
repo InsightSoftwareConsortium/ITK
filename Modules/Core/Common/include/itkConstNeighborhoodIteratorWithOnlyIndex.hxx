@@ -129,17 +129,10 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::GetBoundingBoxAsImageRegion() co
 template <typename TImage>
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::ConstNeighborhoodIteratorWithOnlyIndex()
 {
-  constexpr IndexType zeroIndex = { { 0 } };
-
-  SizeType zeroSize;
-  zeroSize.Fill(0);
-
   m_Bound.Fill(0);
   m_BeginIndex.Fill(0);
   m_EndIndex.Fill(0);
   m_Loop.Fill(0);
-  m_Region.SetIndex(zeroIndex);
-  m_Region.SetSize(zeroSize);
 
   for (DimensionValueType i = 0; i < Dimension; ++i)
   {

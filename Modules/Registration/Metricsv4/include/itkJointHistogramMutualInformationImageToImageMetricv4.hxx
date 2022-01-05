@@ -147,13 +147,10 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
 
   // Allocate memory for the joint PDF.
 
-  // Instantiate a region, index, size
-  constexpr JointPDFIndexType jointPDFIndex = { { 0 } };
-  JointPDFSizeType            jointPDFSize;
+  // Instantiate a region
 
   // the jointPDF is of size NumberOfBins x NumberOfBins
-  jointPDFSize.Fill(m_NumberOfHistogramBins);
-  const JointPDFRegionType jointPDFRegion(jointPDFIndex, jointPDFSize);
+  const JointPDFRegionType jointPDFRegion(JointPDFSizeType::Filled(m_NumberOfHistogramBins));
 
   // Set the regions and allocate
   this->m_JointPDF->SetRegions(jointPDFRegion);
@@ -175,15 +172,12 @@ JointHistogramMutualInformationImageToImageMetricv4<TFixedImage,
   this->m_FixedImageMarginalPDF = MarginalPDFType::New();
   this->m_MovingImageMarginalPDF = MarginalPDFType::New();
 
-  // Instantiate a region, index, size
+  // Instantiate a region
   using MarginalPDFRegionType = typename MarginalPDFType::RegionType;
   using MarginalPDFSizeType = typename MarginalPDFType::SizeType;
-  constexpr MarginalPDFIndexType marginalPDFIndex = { { 0 } };
-  MarginalPDFSizeType            marginalPDFSize;
 
   // the marginalPDF is of size NumberOfBins x NumberOfBins
-  marginalPDFSize.Fill(m_NumberOfHistogramBins);
-  const MarginalPDFRegionType marginalPDFRegion(marginalPDFIndex, marginalPDFSize);
+  const MarginalPDFRegionType marginalPDFRegion(MarginalPDFSizeType::Filled(m_NumberOfHistogramBins));
 
   // Set the regions and allocate
   this->m_FixedImageMarginalPDF->SetRegions(marginalPDFRegion);

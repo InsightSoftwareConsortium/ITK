@@ -47,8 +47,7 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
   const TInputImage * input = this->GetInput();
 
   size = input->GetLargestPossibleRegion().GetSize();
-  constexpr IndexType index = { { 0 } };
-  const RegionType    region(index, size);
+  const RegionType region(size);
   output->SetLargestPossibleRegion(region);
   output->SetBufferedRegion(region);
   output->SetRequestedRegion(region);
