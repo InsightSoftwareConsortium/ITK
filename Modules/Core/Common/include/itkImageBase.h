@@ -820,7 +820,7 @@ protected:
   DirectionType m_IndexToPhysicalPoint{ DirectionType::GetIdentity() };
   DirectionType m_PhysicalPointToIndex{ DirectionType::GetIdentity() };
 
-  /** Restores the buffered region to it's default state
+  /** Restores the buffered region to its default state
    *  This method does not call Modify because Initialization is
    *  called by ReleaseData and can not modify the MTime
    * \sa  ReleaseData, Initialize, SetBufferedRegion */

@@ -183,7 +183,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   using AffineTransformTypeNotRegistered = typename itk::AffineTransform<TParametersValueType, 10>;
   auto affine = AffineTransformType::New();
 
-  // Set it's parameters
+  // Set its parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
     for (unsigned int i = 0; i < p.GetSize(); ++i)
@@ -252,7 +252,7 @@ oneTest(const std::string goodname, const std::string badname, const bool UseCom
   std::cout << "Creating bad writer" << std::endl;
   auto Bogus = AffineTransformTypeNotRegistered::New();
 
-  // Set it's parameters
+  // Set its parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
     for (unsigned int i = 0; i < p.GetSize(); ++i)

@@ -37,7 +37,7 @@
 // constructs a second control point grid from a permuted version of the
 // given image (using the itkPermuteAxesImageFilter class) the second control
 // point grid will be oriented completely different from the first image
-// even though the image and it's permuted counterpart are situated in physical
+// even though the image and its permuted counterpart are situated in physical
 // domain precisely the same way.
 
 int

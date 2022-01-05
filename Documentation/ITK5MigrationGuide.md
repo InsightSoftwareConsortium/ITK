@@ -318,7 +318,7 @@ point-based SpatialObjects, it is the inherent space in which the Point coordina
 extracted from an Image, the parameters/coordinates of the SpatialObject are the space as the physical space of the source Image.   Any
 children of a SpatialObject are defined within the ObjectSpace of that parent SpatialObject.
 
-* ObjectToParent transform is the transform applied to move a SpatialObject within it's parent object's ObjectSpace.   An ObjectToParent
+* ObjectToParent transform is the transform applied to move a SpatialObject within its parent object's ObjectSpace.   An ObjectToParent
 transform is an invertible affine transform.  It is used to, for example, align a SpatialObject with a parent image (e.g., if an object
 is extracted from one ImageSpatialObject but then aligned to and made a child of another ImageSpatialObject as is needed for atlas-based
 image segmentation or for image-to-image registration).    If an object does not have a parent, then its ObjectToParent transform

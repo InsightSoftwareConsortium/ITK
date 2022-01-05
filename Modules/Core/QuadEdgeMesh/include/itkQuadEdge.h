@@ -216,7 +216,7 @@ public:
    * \warning This class only handles of the connectivity and is not aware
    *    of the geometry that lies at the \ref GeometricalQuadEdge level.
    *    It is strongly discouraged to use this method. Instead you should
-   *    use itk::QuadEdgeMesh::Splice it's geometry aware version.
+   *    use itk::QuadEdgeMesh::Splice its geometry aware version.
    *
    */
   // TODO fix this ref

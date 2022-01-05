@@ -420,7 +420,7 @@ public:
 
   /** Set/Get the coordinate tolerance.
    *  This tolerance is used when comparing the space defined
-   *  by deformation fields and it's inverse to ensure they occupy the
+   *  by deformation fields and its inverse to ensure they occupy the
    *  same physical space.
    *
    * \sa ImageToImageFilterCommon::SetGlobalDefaultCoordinateTolerance
@@ -430,7 +430,7 @@ public:
 
   /** Set/Get the direction tolerance.
    *  This tolerance is used to when comparing the orientation of the
-   *  deformation fields and it's inverse to ensure they occupy the
+   *  deformation fields and its inverse to ensure they occupy the
    *  same physical space.
    *
    * \sa ImageToImageFilterCommon::SetGlobalDefaultDirectionTolerance

@@ -62,7 +62,7 @@ def itk_load_swig_module(name: str, namespace=None):
     # find the module's name in sys.modules, or create a new module so named
     this_module = sys.modules.setdefault(swig_module_name, create_itk_module(name))
 
-    # if this library and it's template_feature instantiations have already been loaded
+    # if this library and its template_feature instantiations have already been loaded
     # into sys.modules, bail out after loading the defined symbols into
     # 'namespace'
     if hasattr(this_module, "__templates_loaded"):

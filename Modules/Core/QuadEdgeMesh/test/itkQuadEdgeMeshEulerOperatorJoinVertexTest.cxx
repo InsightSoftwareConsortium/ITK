@@ -485,8 +485,8 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     }
    std::cout << "OK" << std::endl;
   // Just to make sure, we now consider a boundary edge with the surface
-  // on it's left (as opposed to the previous one which had the surface
-  // on it's right) i.e. we consider [2, 3]:
+  // on its left (as opposed to the previous one which had the surface
+  // on its right) i.e. we consider [2, 3]:
   //
   //   20 --------- 21 --------- 22 --------- 23 --------- 24
   //    |        __/ |        __/ |        __/ |        __/ |
@@ -538,7 +538,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     }
    std::cout << "OK" << std::endl;
   // Now try with a wire edge (a pathological edge which has no face
-  // neither on it's left nor on it's right).
+  // neither on its left nor on its right).
   // Create this situation by manually deleting two faces sharing the
   // same edge which will thus become a wire edge.
   //

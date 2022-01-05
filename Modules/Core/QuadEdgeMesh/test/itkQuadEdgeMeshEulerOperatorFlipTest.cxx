@@ -115,7 +115,7 @@ itkQuadEdgeMeshEulerOperatorFlipTest(int, char *[])
     return EXIT_FAILURE;
   }
   std::cout << ".OK" << std::endl;
-  // Checking invariance (i.e. FlipEdge is it's own inverse):
+  // Checking invariance (i.e. FlipEdge is its own inverse):
   std::cout << "     "
             << "Check FlipEdge(FlipEdge()) invariance (possible for triangles).";
   if (!flipEdge->Evaluate(tempFlippedEdge))

@@ -220,7 +220,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   // Definition: an edge is said to be a boundary edge when it is adjacent to
   // noface i.e. when at least one of the faces edge->GetLeft() or
   // edge->GetRight() is unset.  Definition: an point is said to be a boundary
-  // point when at least one of the edges of it's Onext() ring is a boundary
+  // point when at least one of the edges of its Onext() ring is a boundary
   // edge.
   //
   // Assume "this" edge belongs to a triangulation (i.e. it belongs to a QEMesh
@@ -446,7 +446,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
   // b4.Onext() to be b1. In other terms, when considering the
   // additional information that b4.Onext() is b1, and before
   // building the triangle [P, A, B], we need to reorder
-  // the Onext() ring of P from it's current state
+  // the Onext() ring of P from its current state
   //    b1, b2, b3, b4, b5, b6, b1...
   // to an order coherent with the [P, A, B] request, i.e.
   //     b1, b2, b5, b6, b3, b4, b1...

@@ -408,7 +408,7 @@ public:
    * a derived class is assumed to call its source's
    * ProcessObject::UpdateOutputInformation() which determines modified
    * times, LargestPossibleRegions, and any extra meta data like spacing,
-   * origin, etc. Default implementation simply call's it's source's
+   * origin, etc. Default implementation simply calls its source's
    * UpdateOutputInformation(). */
   virtual void
   UpdateOutputInformation();

@@ -194,7 +194,7 @@ VideoToVideoFilter<TInputVideoStream, TOutputVideoStream>::GenerateInputRequeste
   // Create input spatial regions for each frame of each input
   for (unsigned int i = 0; i < this->GetNumberOfInputs(); ++i)
   {
-    // Get the input and it's requeted temporal region
+    // Get the input and its requeted temporal region
     auto * input = dynamic_cast<InputVideoStreamType *>(this->ProcessObject::GetInput(i));
     if (!input)
     {

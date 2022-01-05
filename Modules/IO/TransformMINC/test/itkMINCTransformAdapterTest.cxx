@@ -67,7 +67,7 @@ compare_linear(const char * linear_transform)
   rot_axis[0] = 1.0;
   rot_axis[1] = 1.0;
   rot_axis[2] = 0.0;
-  // Set it's parameters
+  // Set its parameters
   affine->Rotate3D(rot_axis, itk::Math::pi / 12);
 
   AffineTransformType::OutputVectorType offset;

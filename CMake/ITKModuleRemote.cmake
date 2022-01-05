@@ -178,7 +178,7 @@ function(itk_fetch_module _name _description)
   if(NOT DEFINED Module_${_name} )
     option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF)
   else()
-    # If Module_${_name} is set manually, put it's value in the CACHE
+    # If Module_${_name} is set manually, put its value in the CACHE
     option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" ${Module_${_name}})
   endif()
 

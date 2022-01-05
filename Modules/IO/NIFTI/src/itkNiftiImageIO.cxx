@@ -1430,7 +1430,7 @@ NiftiImageIO ::WriteImageInformation()
   { // NOTE: LegacyMode is only valid for header extensions .hdr and .img
     if (this->GetUseLegacyModeForTwoFileWriting() == false)
     {
-      // This filter needs to write nifti files in it's default mode
+      // This filter needs to write nifti files in its default mode
       // , not default to legacy analyze files.
       this->m_NiftiImage->nifti_type = NIFTI_FTYPE_NIFTI1_2;
     }

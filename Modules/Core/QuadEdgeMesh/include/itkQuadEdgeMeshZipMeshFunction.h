@@ -24,7 +24,7 @@ namespace itk
 {
 /**
  * \class QuadEdgeMeshZipMeshFunction
- * \brief Fuse the incoming edge and it's Onext() follower (like a zipper does).
+ * \brief Fuse the incoming edge and its Onext() follower (like a zipper does).
  *
  * \ingroup QEMeshModifierFunctions
  * \ingroup ITKQuadEdgeMesh

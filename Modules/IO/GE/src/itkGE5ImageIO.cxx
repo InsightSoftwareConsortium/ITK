@@ -571,7 +571,7 @@ GE5ImageIO::ModifyImageInformation()
     delete hdr2;
   }
   else
-  // If there is only one slice, the use it's origin
+  // If there is only one slice, the use its origin
   {
     this->SetOrigin(0, -m_ImageHeader->tlhcR);
     this->SetOrigin(1, -m_ImageHeader->tlhcA);

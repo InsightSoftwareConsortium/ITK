@@ -195,7 +195,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
               {
                 if (inputImage->GetPixel(NeighborIndex) <= SeedValue)
                 {
-                  // Found a match, check it's class
+                  // Found a match, check its class
                   OutputImagePixelType NeighborClass = outputImage->GetPixel(NeighborIndex);
                   // We've never seen this pixel before, so add it to the open
                   // list
