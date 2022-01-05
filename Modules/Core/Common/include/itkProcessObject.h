@@ -983,6 +983,9 @@ private:
   /** Friends of ProcessObject */
   friend class DataObject;
 
+  friend class ProgressReporter;
+  friend class TotalProgressReporter;
+
   friend class DataObjectConstIterator;
   friend class InputDataObjectConstIterator;
   friend class OutputDataObjectConstIterator;
