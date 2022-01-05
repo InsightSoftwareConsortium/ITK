@@ -347,6 +347,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
             outCellData->InsertElement(cellId, cellData->Value());
             ++cellData;
           }
+          inReg = false;
         }
       }
     }
