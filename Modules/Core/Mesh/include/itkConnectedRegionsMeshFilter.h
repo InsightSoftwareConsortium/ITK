@@ -242,7 +242,7 @@ public:
   SizeValueType
   GetNumberOfExtractedRegions()
   {
-    return m_RegionList.size();
+    return m_RegionNumber;
   }
 
 protected:
