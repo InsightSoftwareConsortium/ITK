@@ -39,7 +39,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
 
   itk::ObjectFactoryBase::RegisterFactory(itk::TxtTransformIOFactory::New());
 
-  // Set it's parameters
+  // Set its parameters
   {
     typename AffineTransformType::ParametersType p = affine->GetParameters();
     for (i = 0; i < p.GetSize(); ++i)
@@ -118,7 +118,7 @@ oneTest(const std::string & outputDirectory, const char * goodname, const char *
   std::cout << "Creating bad writer" << std::endl;
   auto Bogus = AffineTransformTypeNotRegistered::New();
 
-  // Set it's parameters
+  // Set its parameters
   {
     typename AffineTransformType::ParametersType p = Bogus->GetParameters();
     for (i = 0; i < p.GetSize(); ++i)

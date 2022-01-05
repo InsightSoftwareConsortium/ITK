@@ -35,7 +35,7 @@ namespace itk
  * constrained iterative k-means method.
  *
  * The original algorithm was designed to cluster on the joint
- * domain of the images index space and it's CIELAB color space. This
+ * domain of the images index space and its CIELAB color space. This
  * implementation works with images of arbitrary dimension
  * as well as scalar, single channel, images and most multi-component image
  * types including ITK's arbitrary length VectorImage.

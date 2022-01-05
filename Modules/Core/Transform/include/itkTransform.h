@@ -330,7 +330,7 @@ public:
   /** Set the transformation parameters and update internal transformation.
    * SetParameters gives the transform the option to set it's
    * parameters by keeping a reference to the parameters, or by
-   * copying.  To force the transform to copy it's parameters call
+   * copying.  To force the transform to copy its parameters call
    * SetParametersByValue.
    * \sa SetParametersByValue
    */

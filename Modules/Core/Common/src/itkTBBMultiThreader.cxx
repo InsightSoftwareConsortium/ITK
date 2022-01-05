@@ -83,7 +83,7 @@ TBBMultiThreader::SingleMethodExecute()
   //   value onto active head of the FIFO stack for 'max_allowed_parallelism'
   //   type, and destruction of the "global_control" object pops
   //   the 'max_allowed_parallelism' type and returns the active value
-  //   to it's original state.
+  //   to its original state.
   tbb::global_control l_SingleMethodExecute_tbb_global_context(
     tbb::global_control::max_allowed_parallelism,
     std::min<int>(tbb_utility::get_default_num_threads(), m_MaximumNumberOfThreads));

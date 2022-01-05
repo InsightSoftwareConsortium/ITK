@@ -90,7 +90,7 @@ protected:
 /**
  *\class XMLReader
  * \brief template base class for an XMLReader
- * It's purpose really is just to define the simple interface for
+ * Its purpose really is just to define the simple interface for
  * extracting the object resulting from reading the XML File.
  * Since it doesn't define any of the pure virtual methods in XMLReaderBase,
  * It can't be instantiated by itself

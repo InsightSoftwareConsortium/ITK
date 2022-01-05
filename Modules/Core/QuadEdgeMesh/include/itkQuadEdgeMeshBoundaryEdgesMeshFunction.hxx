@@ -50,7 +50,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) c
   while (!boundaryList.empty())
   {
     // Pop the first edge of list and make sure it has no face
-    // on it's left [because we want to follow the boundary with
+    // on its left [because we want to follow the boundary with
     // GeometricalQuadEdge::Lnext()]:
     auto       b = boundaryList.begin();
     QEPrimal * bdryEdge = *b;
@@ -66,7 +66,7 @@ QuadEdgeMeshBoundaryEdgesMeshFunction<TMesh>::Evaluate(const InputType & mesh) c
       return ((OutputType) nullptr);
     }
 
-    // Store this edge as representative of it's Lnext() ring i.e.
+    // Store this edge as representative of its Lnext() ring i.e.
     // representative of the boundary:
     ResultList->push_back(bdryEdge);
 

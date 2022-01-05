@@ -111,7 +111,7 @@ QuadEdgeMeshZipMeshFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
     }
   }
 
-  // Delete the Edge e and it's right face:
+  // Delete the Edge e and its right face:
   if (wasFacePresent)
   {
     this->m_Mesh->DeleteFace(e->GetRight());

@@ -156,7 +156,7 @@ public:
    *
    * The combination of the OBB origin, OBB size and OBB direction (
    * principal axes ) defines a coordinate system suitable to use
-   * resample the OBB onto it's own image.
+   * resample the OBB onto its own image.
    */
   static constexpr AttributeType ORIENTED_BOUNDING_BOX_SIZE = 120;
 

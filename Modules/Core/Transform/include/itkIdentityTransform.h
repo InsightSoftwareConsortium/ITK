@@ -189,7 +189,7 @@ public:
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
-  /* Always returns true if not null, as an identity is it's own inverse */
+  /* Always returns true if not null, as an identity is its own inverse */
   bool
   GetInverse(Self * inverseTransform) const
   {
