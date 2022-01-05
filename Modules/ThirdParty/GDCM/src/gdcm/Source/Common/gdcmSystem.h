@@ -28,7 +28,7 @@ class GDCM_EXPORT System
 public:
   /// Create a directory name path
   static bool MakeDirectory(const char *path);
-  /// Check whether the specified file exist on the sytem
+  /// Check whether the specified file exist on the system
   static bool FileExists(const char* filename);
   /// Check whether the file specified is a directory:
   static bool FileIsDirectory(const char* name);
@@ -73,7 +73,7 @@ public:
   // Chdir
   // copy a file
 
-  /// Retrieve the hostname, only the first 255 byte are copyied.
+  /// Retrieve the hostname, only the first 255 byte are copied.
   /// This may come handy to specify the Station Name
   static bool GetHostName(char hostname[255]);
 

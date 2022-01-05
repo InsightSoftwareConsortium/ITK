@@ -316,7 +316,7 @@ bool RLECodec::Code(DataElement const &in, DataElement &out)
   SmartPointer<SequenceOfFragments> sq = new SequenceOfFragments;
   const Tag itemStart(0xfffe, 0xe000);
   //sq->GetTable().SetTag( itemStart );
-  // FIXME  ? Is this compulsary ?
+  // FIXME  ? Is this compulsory ?
   //const char dummy[4] = {};
   //sq->GetTable().SetByteValue( dummy, sizeof(dummy) );
 
@@ -788,7 +788,7 @@ bool RLECodec::DecodeByStreams(std::istream &is, std::ostream &os)
   // A footnote:
   // RLE *by definition* with more than one component will have applied the
   // Planar Configuration because it simply does not make sense to do it
-  // otherwise. So implicitely RLE is indeed PlanarConfiguration == 1. However
+  // otherwise. So implicitly RLE is indeed PlanarConfiguration == 1. However
   // when the image says: "hey I am PlanarConfiguration = 0 AND RLE", then
   // apply the PlanarConfiguration internally so that people don't get lost
   // Because GDCM internally set PlanarConfiguration == 0 by default, even if

@@ -205,9 +205,9 @@ bool SerieHelper::AddFile(FileWithName &header)
 
   if ( allrules ) // all rules are respected:
     {
-    // Allright! we have a found a DICOM that matches the user expectation.
-    // Let's add it to the specific 'id' which by default is uid (Serie UID)
-    // but can be `refined` by user with more paramater (see AddRestriction(g,e))
+    // All right! we have a found a DICOM that matches the user expectation.
+    // Let's add it to the specific 'id' which by default is uid (Series UID)
+    // but can be `refined` by user with more parameter (see AddRestriction(g,e))
 
     std::string id = CreateUniqueSeriesIdentifier( &header );
     // if id == GDCM_UNFOUND then consistently we should find GDCM_UNFOUND
@@ -215,11 +215,11 @@ bool SerieHelper::AddFile(FileWithName &header)
 
     if ( SingleSerieUIDFileSetHT.count(id) == 0 )
       {
-      gdcmDebugMacro(" New Serie UID :[" << id << "]");
+      gdcmDebugMacro(" New Series UID :[" << id << "]");
       // create a std::list in 'id' position
       SingleSerieUIDFileSetHT[id] = new FileList;
       }
-    // Current Serie UID and DICOM header seems to match add the file:
+    // Current Series UID and DICOM header seems to match add the file:
     SingleSerieUIDFileSetHT[id]->push_back( header );
     }
   else

@@ -133,7 +133,7 @@ fill_input_buffer (j_decompress_ptr cinfo)
   assert(gcount < INT_MAX);
   nbytes = (size_t)gcount;
 
-  if (nbytes <= 0) {
+  if (gcount <= 0) {
     if (src->start_of_file)  /* Treat empty input file as fatal error */
       ERREXIT(cinfo, JERR_INPUT_EMPTY);
     WARNMS(cinfo, JWRN_JPEG_EOF);
@@ -272,7 +272,7 @@ typedef struct my_error_mgr* my_error_ptr;
 class JPEGInternals
 {
 public:
-  JPEGInternals():cinfo(),jerr(),StateSuspension(0),SampBuffer(nullptr) {}
+  JPEGInternals():cinfo(),cinfo_comp(),jerr(),StateSuspension(0),SampBuffer(nullptr) {}
   jpeg_decompress_struct cinfo;
   jpeg_compress_struct cinfo_comp;
   my_error_mgr jerr;
@@ -1274,7 +1274,7 @@ bool JPEGBITSCodec::InternalCode(const char* input, unsigned long len, std::ostr
    * predictor = 1
    * point_transform = 0
    * => lossless transformation.
-   * Basicaly you need to have point_transform = 0, but you can pick whichever predictor [1...7] you want
+   * Basically you need to have point_transform = 0, but you can pick whichever predictor [1...7] you want
    * TODO: is there a way to pick the right predictor (best compression/fastest ?)
    */
   if( !LossyFlag )
@@ -1499,7 +1499,7 @@ bool JPEGBITSCodec::EncodeBuffer(std::ostream &os, const char *data, size_t data
    * predictor = 1
    * point_transform = 0
    * => lossless transformation.
-   * Basicaly you need to have point_transform = 0, but you can pick whichever predictor [1...7] you want
+   * Basically you need to have point_transform = 0, but you can pick whichever predictor [1...7] you want
    * TODO: is there a way to pick the right predictor (best compression/fastest ?)
    */
   if( Internals->StateSuspension == 0 )

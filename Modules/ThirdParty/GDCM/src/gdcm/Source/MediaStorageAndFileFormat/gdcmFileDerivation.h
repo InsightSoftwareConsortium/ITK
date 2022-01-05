@@ -34,7 +34,7 @@ class DataSet;
  * applied to the new image data from the original. Both these context groups
  * are extensible.
  *
- * File Derivation is compulsary when creating a lossy derived image.
+ * File Derivation is compulsory when creating a lossy derived image.
  */
 class GDCM_EXPORT FileDerivation
 {

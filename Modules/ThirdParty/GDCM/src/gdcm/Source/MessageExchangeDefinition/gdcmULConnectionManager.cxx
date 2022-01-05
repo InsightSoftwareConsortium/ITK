@@ -93,7 +93,7 @@ bool ULConnectionManager::EstablishConnection(const std::string& inAETitle,
   // if one push_pack
   //  (1, Secondary)
   //  (1, Verification)
-  // Then the last one is prefered (DCMTK 3.5.5)
+  // Then the last one is preferred (DCMTK 3.5.5)
 
   // The following only works for C-STORE / C-ECHO
   // however it does not make much sense to add a lot of abstract syntax
@@ -278,7 +278,7 @@ bool ULConnectionManager::EstablishConnectionMove(const std::string& inAETitle,
   // if one push_pack
   //  (1, Secondary)
   //  (1, Verification)
-  // Then the last one is prefered (DCMTK 3.5.5)
+  // Then the last one is preferred (DCMTK 3.5.5)
 
   // The following only works for C-STORE / C-ECHO
   // however it does not make much sense to add a lot of abstract syntax

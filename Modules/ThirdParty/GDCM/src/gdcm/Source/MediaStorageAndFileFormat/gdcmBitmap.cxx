@@ -152,7 +152,7 @@ void Bitmap::SetPlanarConfiguration(unsigned int pc)
     // LEADTOOLS_FLOWERS-8-MONO2-Uncompressed.dcm
     if( PF.GetSamplesPerPixel() != 3 ) // Please set PixelFormat first
       {
-      gdcmWarningMacro( "Cant have Planar Configuration in non RGB input. Discarding" );
+      gdcmWarningMacro( "Cannot have Planar Configuration in non RGB input. Discarding" );
       PlanarConfiguration = 0;
       }
     const TransferSyntax &ts = GetTransferSyntax();
@@ -176,7 +176,7 @@ void Bitmap::SetPlanarConfiguration(unsigned int pc)
       // manner of encoding components is specified in the JPEG 2000 standard,
       // hence it shall be set to 0.
       // By extension, this behavior has been applied also to JPEG and JPEG-LS
-      gdcmWarningMacro( "Cant have Planar Configuration in JPEG/JPEG-LS/JPEG 2000. Discarding" );
+      gdcmWarningMacro( "Cannot have Planar Configuration in JPEG/JPEG-LS/JPEG 2000. Discarding" );
       PlanarConfiguration = 0;
       }
     }
@@ -434,7 +434,7 @@ bool Bitmap::TryJPEGCodec(char *buffer, bool &lossyflag) const
               i->GetPixelFormat().SetBitsAllocated( cpf.GetBitsAllocated() );
               i->GetPixelFormat().SetBitsStored( cpf.GetBitsStored() );
               }
-            else if( cpf.GetBitsStored() < pf.GetBitsStored() )
+            else if( cpf.GetBitsStored() > pf.GetBitsStored() )
               {
               Bitmap *i = const_cast<Bitmap*>(this);
               gdcmWarningMacro( "Encapsulated stream has more bits actually stored on disk. correcting." );
@@ -731,7 +731,7 @@ bool Bitmap::TryJPEGLSCodec(char *buffer, bool &lossyflag) const
     assert( len <= outbv->GetLength() );
     // DermaColorLossLess.dcm has a len of 63531, but DICOM will give us: 63532 ...
     assert( len <= outbv->GetLength() );
-    if(buffer) memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
+    memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
     //assert( codec.IsLossy() == ts.IsLossy() );
     lossyflag = codec.IsLossy();
@@ -886,7 +886,7 @@ bool Bitmap::TryJPEG2000Codec(char *buffer, bool &lossyflag) const
     unsigned long check = outbv->GetLength();  // FIXME
     (void)check;
     assert( len <= outbv->GetLength() );
-    if(buffer) memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
+    memcpy(buffer, outbv->GetPointer(), len /*outbv->GetLength()*/ );  // FIXME
 
     lossyflag = codec.IsLossy();
     if( codec.IsLossy() && !ts.IsLossy() )
@@ -989,7 +989,7 @@ bool Bitmap::TryRLECodec(char *buffer, bool &lossyflag ) const
   return false;
 }
 
-// Acces the raw data
+// Access the raw data
 bool Bitmap::GetBuffer(char *buffer) const
 {
   bool dummy;

@@ -103,7 +103,7 @@ public:
   /// Execute a C-MOVE, based on query, returned Files are stored in vector
   bool SendMove(const BaseRootQuery* query, std::vector<File> &retFile);
 
-  /// for wrapped language: instanciate a reference counted object
+  /// for wrapped language: instantiate a reference counted object
   static SmartPointer<ServiceClassUser> New() { return new ServiceClassUser; }
 
 private:

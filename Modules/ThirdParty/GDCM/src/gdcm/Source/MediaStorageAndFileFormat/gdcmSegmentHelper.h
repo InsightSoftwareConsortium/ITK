@@ -67,7 +67,7 @@ struct GDCM_EXPORT BasicCodedEntry
   {}
 
   /**
-    * \brief  Check if each attibutes of the basic coded entry is defined.
+    * \brief  Check if each attributes of the basic coded entry is defined.
     *
     * \param  checkOptionalAttributes Check also type 1C attributes.
     */

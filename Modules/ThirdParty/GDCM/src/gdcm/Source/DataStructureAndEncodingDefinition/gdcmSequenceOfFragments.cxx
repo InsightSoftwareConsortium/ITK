@@ -50,7 +50,7 @@ VL SequenceOfFragments::ComputeLength() const
     length += fraglen;
     }
   assert( SequenceLengthField.IsUndefined() );
-  length += 8; // seq end delimitor (tag + vl)
+  length += 8; // seq end delimiter (tag + vl)
   return length;
 }
 

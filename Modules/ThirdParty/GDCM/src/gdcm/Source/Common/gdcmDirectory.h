@@ -27,7 +27,7 @@ namespace gdcm
  * \brief Class for manipulation directories
  *
  * \note This implementation provide a cross platform implementation
- * for manipulating directores: basically traversing directories
+ * for manipulating directories: basically traversing directories
  * and harvesting files
  *
  * \note

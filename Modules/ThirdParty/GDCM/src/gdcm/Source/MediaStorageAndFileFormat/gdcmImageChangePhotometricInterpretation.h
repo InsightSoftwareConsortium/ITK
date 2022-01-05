@@ -24,7 +24,7 @@ namespace gdcm
 class DataElement;
 /**
  * \brief ImageChangePhotometricInterpretation class
- * \details Class to change the Photometric Interpetation of an input DICOM
+ * \details Class to change the Photometric Interpretation of an input DICOM
  */
 class GDCM_EXPORT ImageChangePhotometricInterpretation : public ImageToImageFilter
 {
@@ -39,7 +39,7 @@ public:
   /// Change
   bool Change();
 
-  /// colorspace converstion (based on CCIR Recommendation 601-2)
+  /// colorspace conversion (based on CCIR Recommendation 601-2)
   /// -> T.871
   template <typename T>
   static void RGB2YBR(T ybr[3], const T rgb[3], unsigned short storedbits = 8);

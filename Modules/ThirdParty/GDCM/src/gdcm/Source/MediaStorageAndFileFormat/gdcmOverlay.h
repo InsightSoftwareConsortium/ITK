@@ -31,7 +31,7 @@ class DataElement;
  *
  * \todo
  *  Is there actually any way to recognize an overlay ? On images with multiple overlay I do not see
- *  any way to differenciate them (other than the group tag).
+ *  any way to differentiate them (other than the group tag).
  *
  *  Example:
  */

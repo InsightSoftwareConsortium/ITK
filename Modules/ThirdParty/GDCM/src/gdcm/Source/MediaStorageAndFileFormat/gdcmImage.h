@@ -58,7 +58,7 @@ public:
   ~Image() override = default;
 
   /// Return a 3-tuples specifying the spacing
-  /// NOTE: 3rd value can be an aribtrary 1 value when the spacing was not specified (ex. 2D image).
+  /// NOTE: 3rd value can be an arbitrary 1 value when the spacing was not specified (ex. 2D image).
   /// WARNING: when the spacing is not specifier, a default value of 1 will be returned
   const double *GetSpacing() const;
   double GetSpacing(unsigned int idx) const;

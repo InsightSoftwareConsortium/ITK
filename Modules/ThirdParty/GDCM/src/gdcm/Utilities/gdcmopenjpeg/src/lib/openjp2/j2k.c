@@ -1925,7 +1925,7 @@ static OPJ_BOOL opj_j2k_read_soc(opj_j2k_t *p_j2k,
     /* FIXME move it in a index structure included in p_j2k*/
     p_j2k->cstr_index->main_head_start = opj_stream_tell(p_stream) - 2;
 
-    opj_event_msg(p_manager, EVT_INFO, "Start to read j2k main header (%d).\n",
+    opj_event_msg(p_manager, EVT_INFO, "Start to read j2k main header (%ld).\n",
                   p_j2k->cstr_index->main_head_start);
 
     /* Add the marker to the codestream index*/

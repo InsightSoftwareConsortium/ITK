@@ -32,7 +32,7 @@ class DataSet;
  * You simply need to provide a function of type: Sorter::SortFunction
  *
  * \warning implementation details. For now there is no cache mechanism. Which means
- * that everytime you call Sort, all files specified as input paramater are *read*
+ * that every time you call Sort, all files specified as input parameter are *read*
  *
  * \see Scanner
  */
