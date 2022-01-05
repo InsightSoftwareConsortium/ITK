@@ -28,7 +28,7 @@ class DictConverterInternal;
 /**
  * \brief Class to convert a .dic file into something else:
  * \details 
- *  - CXX code : embeded dict into shared lib (DICT_DEFAULT)
+ *  - CXX code : embed dict into shared lib (DICT_DEFAULT)
  *  - Debug mode (DICT_DEBUG)
  *  - XML dict (DICT_XML)
  * \note
@@ -55,7 +55,7 @@ public:
   void Convert();
 
   // Leaving them public for now. Not really user oriented but may be
-  // usefull
+  // useful
   static bool ReadVR(const char *raw, VR::VRType &type);
   static bool ReadVM(const char *raw, VM::VMType &type);
   static bool Readuint16(const char *raw, uint16_t &ov);

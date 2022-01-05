@@ -369,7 +369,7 @@ void Printer::PrintDataSet(std::ostream& os, const DataSet<ImplicitDataElement> 
       {
       // TODO It would be nice to have a TagToVR<0x0028,0x0103>::VRType
       // and TagToVM<0x0028,0x0103>::VMType ...
-      // to be able to have an independant Standard from implementation :)
+      // to be able to have an independent Standard from implementation :)
       const ImplicitDataElement &pixel_rep =
         ds.GetDataElement( Tag(0x0028, 0x0103) );
       const Value &value = pixel_rep.GetValue();

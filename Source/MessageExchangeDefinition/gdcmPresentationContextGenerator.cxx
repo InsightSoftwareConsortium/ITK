@@ -77,7 +77,7 @@ bool PresentationContextGenerator::AddFromFile(const File &file)
 
     const DataElement &tsde = ds.GetDataElement( sopclass );
     // Passing pointer directly. We do not try to analyze what Media Storage
-    // it is. We should be able to support to send/receive unknwon media storage
+    // it is. We should be able to support to send/receive unknown media storage
     const ByteValue *bv = tsde.GetByteValue();
     std::string buffer( bv->GetPointer(), bv->GetLength() );
     const char *sopclassvalue = buffer.c_str();
@@ -95,7 +95,7 @@ bool PresentationContextGenerator::GenerateFromFilenames(const Directory::Filena
   // By design GDCM C-STORE implementation only setup the association for any dataset we are
   // about to send. This is therefore very important to gather all possible SOP Class
   // we are about to send otherwise the other end will simply disconnect us
-  // this imply that C-STORE will refuse any DataSet without SOP Clas or SOP Instances
+  // this imply that C-STORE will refuse any DataSet without SOP Class or SOP Instances
   Tag tsuid(0x2,0x10);
   Tag mediasopclass(0x2,0x2);
   Tag sopclass(0x8,0x16);

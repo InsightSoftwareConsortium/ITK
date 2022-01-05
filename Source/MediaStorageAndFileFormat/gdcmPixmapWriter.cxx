@@ -403,7 +403,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     }
 
 
-  // Cleanup LUT here since cant be done within gdcm::ImageApplyLookupTable
+  // Cleanup LUT here since cannot be done within gdcm::ImageApplyLookupTable
   if( pi == PhotometricInterpretation::RGB )
     {
     // usual tags:
@@ -683,7 +683,7 @@ bool PixmapWriter::PrepareWrite( MediaStorage const & ref_ms )
     const ByteValue *bv = ds.GetDataElement( Tag(0x0008,0x0016) ).GetByteValue();
     if( !bv )
       {
-      gdcmErrorMacro( "Cant be empty" );
+      gdcmErrorMacro( "Cannot be empty" );
       return false;
       }
     if( strncmp( bv->GetPointer(), msstr, bv->GetLength() ) != 0 )

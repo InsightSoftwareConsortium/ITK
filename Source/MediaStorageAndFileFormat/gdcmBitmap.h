@@ -130,7 +130,7 @@ public:
   /// thus you need to multiply this length by 3 if computing the size of equivalent RGB image
   unsigned long GetBufferLength() const;
 
-  /// Acces the raw data
+  /// Access the raw data
   bool GetBuffer(char *buffer) const;
 
   /// Return whether or not the image was compressed using a lossy compressor or not

@@ -233,7 +233,7 @@ bool FindStudyRootQuery::ValidateQuery(bool inStrict) const
     if( thePresentTagCount != hiertags.size() )
       {
       assert( !hiertags.empty() );
-      gdcmWarningMacro( "Missing Key found (within the hierachical search ones): " << hiertags[0] );
+      gdcmWarningMacro( "Missing Key found (within the hierarchical search ones): " << hiertags[0] );
       gdcmDebugMacro( "Current DataSet is: " << ds );
       theReturn = false;
       }

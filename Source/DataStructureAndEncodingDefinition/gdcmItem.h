@@ -34,7 +34,7 @@ class DataSet;
  * Sequence of Items.
  * An Item contains a Data Set .
  * See PS 3.5 7.5.1 Item Encoding Rules
- * Each Item of a Data Element of VR SQ shall be encoded as a DICOM Standart
+ * Each Item of a Data Element of VR SQ shall be encoded as a DICOM Standard
  * Data Element with a specific Data Element Tag of Value (FFFE,E000). The Item
  * Tag is followed by a 4 byte Item Length field encoded in one of the
  * following two ways Explicit/ Implicit
@@ -123,7 +123,7 @@ public:
         return is;
         }
       // Self
-      // Some file written by GDCM 1.0 we writting 0xFFFFFFFF instead of 0x0
+      // Some file written by GDCM 1.0 we write 0xFFFFFFFF instead of 0x0
       if( TagField == Tag(0xfffe,0xe0dd) )
         {
         if( ValueLengthField )

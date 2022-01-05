@@ -24,7 +24,7 @@ namespace gdcm
  * \brief String
  *
  * \note TDelimiter template parameter is used to separate multiple String (VM1 >)
- *      TMaxLength is only a hint. Noone actually respect the max length
+ *      TMaxLength is only a hint. No one actually respect the max length
  *      TPadChar is the string padding (0 or space)
  */
 template <char TDelimiter = '\\', unsigned int TMaxLength = 64, char TPadChar = ' '>
@@ -57,7 +57,7 @@ public:
   }
   String(const value_type* s, size_type n): std::string(s, n)
   {
-  // We are being passed a const char* pointer, so s[n] == 0 (garanteed!)
+  // We are being passed a const char* pointer, so s[n] == 0 (guaranteed!)
   if( n % 2 )
     {
     push_back( TPadChar );

@@ -593,7 +593,7 @@ bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
   assert( PI != PhotometricInterpretation::UNKNOWN );
   std::stringstream bs_os; // ByteSwap
   std::stringstream pcpc_os; // Padded Composite Pixel Code
-  std::stringstream pi_os; // PhotometricInterpretation
+  //std::stringstream pi_os; // PhotometricInterpretation
   std::stringstream pl_os; // PlanarConf
   std::istream *cur_is = &is;
 
@@ -665,7 +665,6 @@ bool ImageCodec::DecodeByStreams(std::istream &is, std::ostream &os)
   default:
     gdcmErrorMacro( "Unhandled PhotometricInterpretation: " << PI );
     return false;
-    assert(0);
     }
 
   if( /*PlanarConfiguration ||*/ RequestPlanarConfiguration )

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:output method="text" indent="yes"/>
-<!-- XSL to convert XML GDCM2 data dictionay into
+<!-- XSL to convert XML GDCM2 data dictionary into
      David Clunie's dicom3tools data dictionary
 Checked against:
      dicom3tools_1.00.snapshot.20120808/libsrc/standard/elmdict/dicom3.tpl

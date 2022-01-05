@@ -106,7 +106,9 @@ namespace gdcm
     }
   template <> inline float SwapperNoOp::Swap<float>(float val)
     {
-    return Swap((uint32_t)val);
+    uint32_t temp;
+    memcpy(&temp, &val, sizeof(uint32_t));
+    return static_cast<float>(Swap(temp));
     }
   template <> inline uint64_t SwapperNoOp::Swap<uint64_t>(uint64_t val)
     {
@@ -118,7 +120,9 @@ namespace gdcm
     }
   template <> inline double SwapperNoOp::Swap<double>(double val)
     {
-    return Swap((uint64_t)val);
+    uint64_t temp;
+    memcpy(&temp, &val, sizeof(uint64_t));
+    return static_cast<double>(Swap(temp));
     }
 
   template <> inline Tag SwapperNoOp::Swap<Tag>(Tag val)
@@ -172,7 +176,9 @@ namespace gdcm
     }
   template <> inline float SwapperDoOp::Swap<float>(float val)
     {
-    return static_cast<float>(Swap((uint32_t)val));
+    uint32_t temp;
+    memcpy(&temp, &val, sizeof(uint32_t));
+    return static_cast<float>(Swap(temp));
     }
   template <> inline uint64_t SwapperDoOp::Swap<uint64_t>(uint64_t val)
     {
@@ -184,7 +190,9 @@ namespace gdcm
     }
   template <> inline double SwapperDoOp::Swap<double>(double val)
     {
-    return static_cast<double>(Swap((uint64_t)val));
+    uint64_t temp;
+    memcpy(&temp, &val, sizeof(uint64_t));
+    return static_cast<double>(Swap(temp));
     }
 
   template <> inline Tag SwapperDoOp::Swap<Tag>(Tag val)

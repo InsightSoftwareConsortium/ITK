@@ -26,7 +26,7 @@ namespace gdcm
 /**
  * \brief Parser ala XML_Parser from expat (SAX)
  *
- * \details Detailled description here
+ * \details Detailed description here
  * \note Simple API for DICOM
  */
 class GDCM_EXPORT Parser /*: private IStream*/

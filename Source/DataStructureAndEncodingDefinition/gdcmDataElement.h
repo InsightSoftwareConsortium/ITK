@@ -137,7 +137,7 @@ public:
   }
 
   /// Interpret the Value stored in the DataElement. This is more robust (but also more
-  /// expensive) to call this function rather than the simpliest form: GetSequenceOfItems()
+  /// expensive) to call this function rather than the simplest form: GetSequenceOfItems()
   /// It also return NULL when the Value is NOT of type SequenceOfItems
   /// \warning in case GetSequenceOfItems() succeed the function return this value, otherwise
   /// it creates a new SequenceOfItems, you should handle that in your case, for instance:
@@ -186,7 +186,7 @@ public:
     return false;
     }
 
-  // The following fonctionalities are dependant on:
+  // The following functionalities are dependent on:
   // # The Transfer Syntax: Explicit or Implicit
   // # The Byte encoding: Little Endian / Big Endian
 

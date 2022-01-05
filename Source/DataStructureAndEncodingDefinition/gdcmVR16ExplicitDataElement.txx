@@ -97,7 +97,7 @@ std::istream &VR16ExplicitDataElement::ReadPreValue(std::istream &is)
     // gdcm-MR-PHILIPS-16-Multi-Seq.dcm
     if( TagField == Tag(0xfffe, 0xe000) )
       {
-      gdcmWarningMacro( "Found item delimitor in item" );
+      gdcmWarningMacro( "Found item delimiter in item" );
       ParseException pe;
       pe.SetLastElement( *this );
       throw pe;

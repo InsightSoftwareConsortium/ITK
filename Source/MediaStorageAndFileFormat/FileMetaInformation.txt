@@ -33,7 +33,7 @@ version of PS 3.10. All other bits shall not be checked.
 Note: A bit field where each bit identifies a version, allows
 explicit indication of the support of multiple previous
 versions. Future versions of the File Meta Information
-that can be read by verson 1 readers will have bit 0 of
+that can be read by version 1 readers will have bit 0 of
 the second byte set to 1
 Media Storage
 SOP Class UID

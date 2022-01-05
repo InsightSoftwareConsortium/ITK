@@ -11,7 +11,7 @@ version="1.0">
 <xsl:output method="xml" indent="yes"
 encoding="iso-8859-1"/-->
 
-<!-- XSL to convert XML GDCM2 data dictionay into HTML form -->
+<!-- XSL to convert XML GDCM2 data dictionary into HTML form -->
 <!--
   Program: GDCM (Grassroots DICOM). A DICOM library
 
