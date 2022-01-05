@@ -349,7 +349,7 @@ HexahedronCell<TCellInterface>::EvaluatePosition(CoordRepType *            x,
   double                  tcol[Self::PointDimension3D];
   double                  d;
   PointType               pt;
-  CoordRepType            derivs[CellDimension3D * Self::NumberOfPoints];
+  CoordRepType            derivs[CellDimension3D * Self::NumberOfPoints]{ 0 };
   InterpolationWeightType weights[Self::NumberOfPoints];
 
   //  set initial position for Newton's method
