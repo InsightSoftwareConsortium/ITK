@@ -197,12 +197,10 @@ template <typename TOutputImage>
 void
 RandomImageSource<TOutputImage>::GenerateOutputInformation()
 {
-  TOutputImage *      output;
-  constexpr IndexType index = { { 0 } };
-
+  TOutputImage * output;
   output = this->GetOutput(0);
 
-  const typename TOutputImage::RegionType largestPossibleRegion(index, this->m_Size);
+  const typename TOutputImage::RegionType largestPossibleRegion(this->m_Size);
   output->SetLargestPossibleRegion(largestPossibleRegion);
 
   output->SetSpacing(m_Spacing);

@@ -200,7 +200,6 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // be large enough to accommodate left-over images.
   OutputSizeType outputSize;
   outputSize.Fill(1);
-  constexpr OutputIndexType outputIndex = { { 0 } };
 
   if (m_Layout[OutputImageDimension - 1] == 0)
   {
@@ -220,7 +219,6 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   OutputSizeType tileSize;
   tileSize.Fill(1);
-  constexpr OutputIndexType tileIndex = { { 0 } };
 
   for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
@@ -230,7 +228,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   // Determine the size of the output. Each "row" size is determined
   // and the maximum size for each "row" will be the size for that
   // dimension.
-  RegionType tileRegion(tileIndex, tileSize);
+  RegionType tileRegion(tileSize);
   m_TileImage->SetRegions(tileRegion);
   m_TileImage->Allocate();
 
@@ -347,7 +345,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     ++it;
   }
 
-  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputIndex, outputSize);
+  const typename TOutputImage::RegionType outputLargestPossibleRegion(outputSize);
   outputPtr->SetLargestPossibleRegion(outputLargestPossibleRegion);
 
   // Support VectorImages by setting number of components on output.

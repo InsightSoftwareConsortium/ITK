@@ -33,11 +33,8 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::ImageToNeighborhoo
   m_Radius.Fill(0);
   m_NeighborIndexInternal.Fill(0);
 
-  constexpr NeighborhoodIndexType start = { { 0 } };
-  NeighborhoodSizeType            sz;
-  sz.Fill(0);
-  m_Region.SetIndex(start);
-  m_Region.SetSize(sz);
+  m_Region.SetIndex({ { 0 } });
+  m_Region.SetSize({ { 0 } });
   this->SetMeasurementVectorSize(1);
 }
 

@@ -420,8 +420,7 @@ MaskedFFTNormalizedCorrelationImageFilter<TInputImage, TOutputImage, TMaskImage>
   // Extract the relevant part out of the image.
   // The input FFT image may be bigger than the desired output image
   // because specific sizes are required for the FFT calculation.
-  constexpr typename LocalOutputImageType::IndexType imageIndex = { { 0 } };
-  const typename LocalOutputImageType::RegionType    imageRegion(imageIndex, combinedImageSize);
+  const typename LocalOutputImageType::RegionType imageRegion(combinedImageSize);
   using ExtractType = itk::RegionOfInterestImageFilter<LocalOutputImageType, LocalOutputImageType>;
   auto extracter = ExtractType::New();
   extracter->SetInput(FFTFilter->GetOutput());

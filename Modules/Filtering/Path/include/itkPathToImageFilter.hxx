@@ -210,8 +210,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
     origin[i] = 0;
   }
 
-  constexpr typename OutputImageType::IndexType index = { { 0 } };
-  typename OutputImageType::RegionType          region;
+  typename OutputImageType::RegionType region;
 
   // If the size of the output has been explicitly specified, the filter
   // will set the output size to the explicit size, otherwise the size from the
@@ -237,7 +236,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
     itkExceptionMacro(<< "Currently, the user MUST specify an image size");
     // region.SetSize( size );
   }
-  region.SetIndex(index);
+  region.SetIndex({ { 0 } });
 
   OutputImage->SetLargestPossibleRegion(region); //
   OutputImage->SetBufferedRegion(region);        // set the region

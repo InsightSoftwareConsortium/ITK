@@ -65,8 +65,7 @@ MetaImageConverter<NDimensions, PixelType, TSpatialObjectType>::AllocateImage(co
     }
   }
 
-  constexpr itk::Index<NDimensions> zeroIndex = { { 0 } };
-  const RegionType                  region(zeroIndex, size);
+  const RegionType region(size);
   rval->SetLargestPossibleRegion(region);
   rval->SetBufferedRegion(region);
   rval->SetRequestedRegion(region);

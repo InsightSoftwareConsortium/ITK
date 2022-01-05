@@ -79,8 +79,7 @@ public:
   void
   GenerateImages(const typename MovingImageType::SizeType & size)
   {
-    constexpr typename MovingImageType::IndexType index = { { 0 } };
-    const typename MovingImageType::RegionType    region(index, size);
+    const typename MovingImageType::RegionType region(size);
 
     m_MovingImage->SetLargestPossibleRegion(region);
     m_MovingImage->SetBufferedRegion(region);

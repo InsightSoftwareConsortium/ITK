@@ -238,9 +238,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
   output->SetMetaDataDictionary(thisDic);
   this->SetMetaDataDictionary(thisDic);
 
-  constexpr IndexType start = { { 0 } };
-
-  const ImageRegionType region(start, dimSize);
+  const ImageRegionType region(dimSize);
 
   // If a VectorImage, this requires us to set the
   // VectorLength before allocate
