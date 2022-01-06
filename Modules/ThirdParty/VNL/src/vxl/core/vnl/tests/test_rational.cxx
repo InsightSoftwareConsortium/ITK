@@ -260,7 +260,7 @@ test_frac()
   TEST_NEAR("large division with overflow", p, double(r) / double(s), 1e-12);
 }
 
-#if VXL_INT_64_IS_LONG || VXL_INT_64_IS_LONGLONG
+#if VXL_INT_64_IS_LONG
 static void
 test_long_64()
 {
