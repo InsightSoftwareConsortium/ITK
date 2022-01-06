@@ -287,8 +287,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   CellsContainerConstIterator    cell;
   CellDataContainerConstIterator cellData;
   bool                           CellDataPresent = (nullptr != inCellData && !inCellData->empty());
-  InputMeshCellPointer           cellCopy; // need an autopointer to duplicate
-                                           // a cell
+  InputMeshCellPointer           cellCopy; // need an autopointer to duplicate a cell
+  int                            inserted_count = 0;
 
   if (m_ExtractionMode == PointSeededRegions || m_ExtractionMode == CellSeededRegions ||
       m_ExtractionMode == ClosestPointRegion || m_ExtractionMode == AllRegions)
@@ -302,7 +302,8 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
       if (m_Visited[cellId] >= 0)
       {
         cell->Value()->MakeCopy(cellCopy);
-        outCells->InsertElement(cellId, cellCopy.GetPointer());
+        outCells->InsertElement(inserted_count, cellCopy.GetPointer());
+        ++inserted_count;
         cellCopy.ReleaseOwnership(); // Pass cell ownership to output mesh
         if (CellDataPresent)
         {
@@ -340,8 +341,9 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
         if (inReg)
         {
           cell->Value()->MakeCopy(cellCopy);
-          outCells->InsertElement(cellId, cellCopy.GetPointer());
+          outCells->InsertElement(inserted_count, cellCopy.GetPointer());
           cellCopy.ReleaseOwnership(); // Pass cell ownership to output mesh
+          ++inserted_count;
           if (CellDataPresent)
           {
             outCellData->InsertElement(cellId, cellData->Value());
@@ -358,13 +360,15 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     {
       cellData = inCellData->Begin();
     }
+
     for (cell = inCells->Begin(); cell != inCells->End(); ++cell, ++cellId)
     {
       if (m_Visited[cellId] == static_cast<OffsetValueType>(largestRegionId))
       {
         cell->Value()->MakeCopy(cellCopy);
-        outCells->InsertElement(cellId, cellCopy.GetPointer());
+        outCells->InsertElement(inserted_count, cellCopy.GetPointer());
         cellCopy.ReleaseOwnership(); // Pass cell ownership to output mesh
+        ++inserted_count;
         if (CellDataPresent)
         {
           outCellData->InsertElement(cellId, cellData->Value());
