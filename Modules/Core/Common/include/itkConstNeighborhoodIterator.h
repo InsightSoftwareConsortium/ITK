@@ -581,26 +581,26 @@ protected:
 
   /** The starting index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIterator is defined. */
-  IndexType m_BeginIndex;
+  IndexType m_BeginIndex{ { 0 } };
 
   /** An array of upper looping boundaries used during iteration. */
-  IndexType m_Bound;
+  IndexType m_Bound{ { 0 } };
 
   /** A pointer to the first pixel in the iteration region. */
-  const InternalPixelType * m_Begin;
+  const InternalPixelType * m_Begin{ nullptr };
 
   /** The image on which iteration is defined. */
   typename ImageType::ConstWeakPointer m_ConstImage;
 
   /** A pointer to one past the last pixel in the iteration region. */
-  const InternalPixelType * m_End;
+  const InternalPixelType * m_End{ nullptr };
 
   /** The end index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIterator is defined. */
-  IndexType m_EndIndex;
+  IndexType m_EndIndex{ { 0 } };
 
   /** Array of loop counters used during iteration. */
-  IndexType m_Loop;
+  IndexType m_Loop{ { 0 } };
 
   /** The region over which iteration is defined. */
   RegionType m_Region;
@@ -610,7 +610,7 @@ protected:
    *  An offset for each dimension is necessary to shift pointers when wrapping
    *  around region edges because region memory is not necessarily contiguous
    *  within the buffer. */
-  OffsetType m_WrapOffset;
+  OffsetType m_WrapOffset{ { 0 } };
 
   /** Pointer to the actual boundary condition that will be used.
    * By default this points to m_BoundaryCondition, but
@@ -619,8 +619,8 @@ protected:
   ImageBoundaryConditionPointerType m_BoundaryCondition;
 
   /** Denotes which of the iterators dimensional sides spill outside
-   * region of interest boundaries. */
-  mutable bool m_InBounds[Dimension];
+   * region of interest boundaries. By default `false` for each dimension. */
+  mutable bool m_InBounds[Dimension]{ false };
 
   /** Denotes if iterator is entirely within bounds */
   mutable bool m_IsInBounds{ false };
