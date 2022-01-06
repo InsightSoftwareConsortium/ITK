@@ -193,7 +193,7 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
   typename CellContainerType::ConstIterator inputCellItr;
   typename CellContainerType::ConstIterator inputCellEnd;
 
-  IdentifierType numPoints = 0, cellId = 0;
+  IdentifierType cellId = 0;
 
   // Set vertex cells
   using VertexCellType = itk::VertexCell<CellType>;
