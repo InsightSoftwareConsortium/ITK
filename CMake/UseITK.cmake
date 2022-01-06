@@ -243,7 +243,11 @@ foreach(_factory_name ${ITK_FACTORY_LIST})
     set(${_format}_${factory_lc}_module_name ${Module})
     set(${_format}_${factory_lc}_factory_name ${_format}${_factory_name})
   endforeach()
-  if(NOT ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+  if(_factory_name MATCHES "IO" AND ITK_NO_IO_FACTORY_REGISTER_MANAGER)
+    # pass generation IO factory registration
+  elseif(_factory_name MATCHES "FFT" AND ITK_NO_FFT_FACTORY_REGISTER_MANAGER)
+    # pass generation of FFT factory registration
+  else()
     _configure_FactoryRegisterManager("${_factory_name}" "${LIST_OF_${factory_uc}_FORMATS}")
   endif()
 endforeach()
