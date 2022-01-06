@@ -37,6 +37,10 @@ ProgressAccumulator::RegisterInternalFilter(GenericFilterType * filter, float we
   const unsigned long progressTag = filter->AddObserver(ProgressEvent(), m_CallbackCommand);
   const unsigned long startTag = filter->AddObserver(StartEvent(), m_CallbackCommand);
 
+  // we want to receive updates as they come, and MiniPipelineFilter
+  // is expected to restrict progress updates to its invoking thread
+  filter->RestrictProgressUpdatesToInvokingThreadOff();
+
   // Create a record for the filter
   struct FilterRecord record;
 

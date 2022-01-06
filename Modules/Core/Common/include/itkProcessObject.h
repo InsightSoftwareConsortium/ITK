@@ -500,6 +500,23 @@ public:
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
   /** @ITKEndGrouping */
 
+  /** Should progress be updated only by the invoking thread? Yes by default. */
+  itkSetMacro(RestrictProgressUpdatesToInvokingThread, bool);
+  itkGetConstReferenceMacro(RestrictProgressUpdatesToInvokingThread, bool);
+  itkBooleanMacro(RestrictProgressUpdatesToInvokingThread);
+
+#if !defined(ITK_LEGACY_REMOVE) || defined(ITKV4_COMPATIBILITY)
+  itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count))
+  {
+    this->SetNumberOfWorkUnits(count);
+  }
+
+  itkLegacyMacro(ThreadIdType GetNumberOfThreads() const)
+  {
+    return this->GetNumberOfWorkUnits();
+  }
+#endif // !ITK_LEGACY_REMOVE
+
   /** Return the multithreader used by this class. */
   MultiThreaderType *
   GetMultiThreader() const
@@ -997,7 +1014,7 @@ private:
   bool                  m_AbortGenerateData{};
   std::atomic<uint32_t> m_Progress{};
 
-
+  bool            m_RestrictProgressUpdatesToInvokingThread{ true };
   std::thread::id m_UpdateThreadID{};
 
   /** Support processing data in multiple threads. Used by subclasses

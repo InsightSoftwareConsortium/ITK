@@ -1158,7 +1158,7 @@ ProcessObject::IncrementProgress(float increment)
     m_Progress = std::numeric_limits<uint32_t>::max();
   }
 
-  if (std::this_thread::get_id() == this->m_UpdateThreadID)
+  if (!m_RestrictProgressUpdatesToInvokingThread || std::this_thread::get_id() == this->m_UpdateThreadID)
   {
     this->InvokeEvent(ProgressEvent());
   }
