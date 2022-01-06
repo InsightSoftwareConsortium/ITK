@@ -17,9 +17,11 @@
  *=========================================================================*/
 
 #include "itkMeshToPolyDataFilter.h"
+#include "itkPolyDataToMeshFilter.h"
 
 #include "itkCommand.h"
 #include "itkMeshFileReader.h"
+#include "itkMeshFileWriter.h"
 #include "itkMesh.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"
@@ -109,6 +111,16 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
   ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 4 ), 252 );
   ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 5 ), 4 );
   ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->GetElement( 6 ), 252 );
+
+  using PolyDataToMeshFilterType = itk::PolyDataToMeshFilter<PolyDataType>;
+  auto polyDataToMeshFilter = PolyDataToMeshFilterType::New();
+  polyDataToMeshFilter->SetInput( polyData );
+
+  using MeshWriterType = itk::MeshFileWriter<MeshType>;
+  auto meshWriter = MeshWriterType::New();
+  meshWriter->SetFileName( outputPolyDataFileName );
+  meshWriter->SetInput( polyDataToMeshFilter->GetOutput() );
+  ITK_TRY_EXPECT_NO_EXCEPTION( meshWriter->Update() );
 
   return EXIT_SUCCESS;
 }
