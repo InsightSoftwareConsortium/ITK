@@ -27,4 +27,5 @@ if(ITK_WRAP_PYTHON)
    EXPRESSION "instance = itk.SphereMeshSource.New()")
 
   itk_python_add_test(NAME itkMeshArrayPixelTypePythonTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkMeshArrayPixelTypeTest.py)
+  itk_python_add_test(NAME itkConnectedRegionsMeshFilterPythonTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkConnectedRegionsMeshFilterTest.py DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} 15 2154)
 endif()

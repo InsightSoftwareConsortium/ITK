@@ -17,6 +17,7 @@ itk_module(ITKMesh
     ITKIOMesh
     ITKMetaIO
     ITKTransform
+    ITKThresholding
   DESCRIPTION
     "${DOCUMENTATION}"
 )
