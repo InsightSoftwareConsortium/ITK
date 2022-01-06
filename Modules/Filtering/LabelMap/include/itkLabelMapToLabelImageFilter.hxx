@@ -25,12 +25,6 @@
 namespace itk
 {
 
-template <typename TInputImage, typename TOutputImage>
-LabelMapToLabelImageFilter<TInputImage, TOutputImage>::LabelMapToLabelImageFilter()
-{
-  m_OutputImage = nullptr;
-}
-
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -41,7 +35,6 @@ LabelMapToLabelImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateDat
 
   output->FillBuffer(input->GetBackgroundValue());
   Superclass::BeforeThreadedGenerateData();
-  this->m_OutputImage = this->GetOutput();
 }
 
 
@@ -49,12 +42,13 @@ template <typename TInputImage, typename TOutputImage>
 void
 LabelMapToLabelImageFilter<TInputImage, TOutputImage>::ThreadedProcessLabelObject(LabelObjectType * labelObject)
 {
+  OutputImageType *                            output = this->GetOutput();
   const typename LabelObjectType::LabelType &  label = labelObject->GetLabel();
   typename LabelObjectType::ConstIndexIterator it(labelObject);
 
   while (!it.IsAtEnd())
   {
-    this->m_OutputImage->SetPixel(it.GetIndex(), label);
+    output->SetPixel(it.GetIndex(), label);
     ++it;
   }
 }

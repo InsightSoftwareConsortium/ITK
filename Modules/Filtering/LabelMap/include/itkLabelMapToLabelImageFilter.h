@@ -84,7 +84,7 @@ public:
 #endif
 
 protected:
-  LabelMapToLabelImageFilter();
+  LabelMapToLabelImageFilter() = default;
   ~LabelMapToLabelImageFilter() override = default;
 
   void
@@ -92,9 +92,6 @@ protected:
 
   void
   ThreadedProcessLabelObject(LabelObjectType * labelObject) override;
-
-private:
-  OutputImageType * m_OutputImage;
 }; // end of class
 } // end namespace itk
 
