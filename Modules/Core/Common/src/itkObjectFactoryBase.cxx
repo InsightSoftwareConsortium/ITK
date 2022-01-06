@@ -31,6 +31,7 @@
 #  include "itkDynamicLoader.h"
 #endif
 #include "itkDirectory.h"
+#include "itkLightObject.h"
 #include "itkSingleton.h"
 #include "itkVersion.h"
 #include <cstring>
@@ -60,7 +61,7 @@ SynchronizeList(FactoryListType * output, FactoryListType * input, bool internal
       int curr = 0;
       for (auto & i : *output)
       {
-        if (i->GetNameOfClass() == factory->GetNameOfClass())
+        if (typeid(*i) == typeid(*factory))
         {
           pos = curr;
           break; // factory already in internal factories.
@@ -99,8 +100,9 @@ namespace itk
  *
  */
 
-struct ObjectFactoryBasePrivate
+class ObjectFactoryBasePrivate : public LightObject
 {
+public:
   ~ObjectFactoryBasePrivate()
   {
     itk::ObjectFactoryBase::UnRegisterAllFactories();
@@ -126,11 +128,12 @@ struct ObjectFactoryBasePrivate
 ObjectFactoryBasePrivate *
 ObjectFactoryBase::GetPimplGlobalsPointer()
 {
-  if (m_PimplGlobals == nullptr)
+  static auto                deleteLambda = []() { m_PimplGlobals->UnRegister(); };
+  ObjectFactoryBasePrivate * globalInstance =
+    Singleton<ObjectFactoryBasePrivate>("ObjectFactoryBase", SynchronizeObjectFactoryBase, deleteLambda);
+  if (globalInstance != m_PimplGlobals)
   {
-    static auto deleteLambda = []() { delete m_PimplGlobals; };
-    m_PimplGlobals =
-      Singleton<ObjectFactoryBasePrivate>("ObjectFactoryBase", SynchronizeObjectFactoryBase, deleteLambda);
+    SynchronizeObjectFactoryBase(globalInstance);
   }
   return m_PimplGlobals;
 }
@@ -867,15 +870,20 @@ ObjectFactoryBase::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
   // We keep track of the previoulsy registered factory in `previousObjectFactoryBasePrivate`
   // but assign the new pointer to `m_PimplGlobals` so factories can be
   // registered directly with the new pointer.
-  ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate;
-  previousObjectFactoryBasePrivate = GetPimplGlobalsPointer();
-
+  ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate = m_PimplGlobals;
   m_PimplGlobals = static_cast<ObjectFactoryBasePrivate *>(objectFactoryBasePrivate);
+
   if (m_PimplGlobals && previousObjectFactoryBasePrivate)
   {
     SynchronizeList(m_PimplGlobals->m_InternalFactories, previousObjectFactoryBasePrivate->m_InternalFactories, true);
     SynchronizeList(
       m_PimplGlobals->m_RegisteredFactories, previousObjectFactoryBasePrivate->m_RegisteredFactories, false);
+  }
+
+  if (m_PimplGlobals && previousObjectFactoryBasePrivate && previousObjectFactoryBasePrivate != m_PimplGlobals)
+  {
+    m_PimplGlobals->Register();
+    previousObjectFactoryBasePrivate->UnRegister();
   }
 }
 
