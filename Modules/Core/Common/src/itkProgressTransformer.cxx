@@ -47,6 +47,10 @@ ProgressTransformer::ProgressTransformer(float start, float end, ProcessObject *
   m_End = std::min(m_End, 1.0f);
   m_Dummy = DummyProcess::New();
 
+  // we want to receive updates as they come, and target filter
+  // is expected to restrict progress updates to its invoking thread
+  m_Dummy->RestrictProgressUpdatesToInvokingThreadOff();
+
   m_ProgressCommand = CommandType::New();
   m_ProgressCommand->SetCallbackFunction(this, &ProgressTransformer::UpdateProgress);
   m_ProgressTag = m_Dummy->AddObserver(ProgressEvent(), m_ProgressCommand);
