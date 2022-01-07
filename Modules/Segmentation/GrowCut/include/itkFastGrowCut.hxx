@@ -291,7 +291,6 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::DijkstraBasedClassificationAH
   {
     // Full computation
     NodeKeyValueType * distanceVolumePtr = m_DistanceVolume->GetBufferPointer();
-    LabelPixelType *   resultLabelVolumePtr = resultLabelVolume->GetBufferPointer();
 
     // Normal Dijkstra (to be used in initializing the segmenter for the current image)
     while (!m_Heap->IsEmpty())
