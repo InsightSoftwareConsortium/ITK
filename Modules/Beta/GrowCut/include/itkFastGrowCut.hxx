@@ -95,9 +95,9 @@ FastGrowCut<TInputImage, TLabelImage, TMaskImage>::InitializationAHP()
 
   RegionType region = resultLabelVolume->GetRequestedRegion();
 
-  NodeIndexType m_DimX = region.GetSize(0);
-  NodeIndexType m_DimY = region.GetSize(1);
-  NodeIndexType m_DimZ = region.GetSize(2);
+  m_DimX = region.GetSize(0);
+  m_DimY = region.GetSize(1);
+  m_DimZ = region.GetSize(2);
   NodeIndexType dimXYZ = m_DimX * m_DimY * m_DimZ;
 
   m_HeapNodes = new FibHeapNode[dimXYZ + 1]; // size is +1 for storing the zeroValueElement
