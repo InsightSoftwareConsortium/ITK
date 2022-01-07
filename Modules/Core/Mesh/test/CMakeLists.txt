@@ -25,7 +25,7 @@ itkWarpMeshFilterTest.cxx
 itkMeshTest.cxx
 itkBinaryMask3DMeshSourceTest.cxx
 itkDynamicMeshTest.cxx
-itkExtractMeshConnectedRegionsTest.cxx
+itkConnectedRegionsMeshFilterTest1.cxx
 itkConnectedRegionsMeshFilterTest2.cxx
 itkMeshFstreamTest.cxx
 itkMeshSourceGraftOutputTest.cxx
@@ -162,8 +162,8 @@ itk_add_test(NAME itkWarpMeshFilterTest
       COMMAND ITKMeshTestDriver itkWarpMeshFilterTest)
 itk_add_test(NAME itkDynamicMeshTest
       COMMAND ITKMeshTestDriver itkDynamicMeshTest)
-itk_add_test(NAME itkExtractMeshConnectedRegionsTest
-      COMMAND ITKMeshTestDriver itkExtractMeshConnectedRegionsTest)
+itk_add_test(NAME itkConnectedRegionsMeshFilterTest1
+      COMMAND ITKMeshTestDriver itkConnectedRegionsMeshFilterTest1)
 itk_add_test(NAME itkConnectedRegionsMeshFilterTest2
       COMMAND ITKMeshTestDriver itkConnectedRegionsMeshFilterTest2
               DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} 15 2154)
