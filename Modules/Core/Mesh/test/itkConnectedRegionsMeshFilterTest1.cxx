@@ -26,7 +26,7 @@
  * Test the mesh connectivity class.
  */
 int
-itkExtractMeshConnectedRegionsTest(int, char *[])
+itkConnectedRegionsMeshFilterTest1(int, char *[])
 {
 
   /**
