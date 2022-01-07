@@ -61,7 +61,7 @@
 // NOTE: the LBFGSOptimizer does not invoke events
 
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 int
 main(int argc, char * argv[])
 {

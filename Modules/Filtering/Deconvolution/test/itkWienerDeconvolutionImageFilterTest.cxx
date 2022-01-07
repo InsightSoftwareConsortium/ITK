@@ -58,19 +58,6 @@ itkWienerDeconvolutionImageFilterTest(int argc, char * argv[])
   itk::ConstantBoundaryCondition<ImageType> cbc;
   cbc.SetConstant(0.0);
 
-#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK FFT tests
-#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWRealToHalfHermitianForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWHalfHermitianToRealInverseFFTImageFilter>>();
-#  endif
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlRealToHalfHermitianForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlHalfHermitianToRealInverseFFTImageFilter>>();
-#endif
-
   using ConvolutionFilterType = itk::FFTConvolutionImageFilter<ImageType>;
   auto convolutionFilter = ConvolutionFilterType::New();
   convolutionFilter->SetInput(reader1->GetOutput());

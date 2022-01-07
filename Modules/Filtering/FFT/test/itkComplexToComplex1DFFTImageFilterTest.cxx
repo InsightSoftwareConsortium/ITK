@@ -29,7 +29,6 @@
 #if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
 #  include "itkFFTWComplexToComplex1DFFTImageFilter.h"
 #endif
-#include "itkFFTImageFilterFactory.h"
 
 #include "itkTestingMacros.h"
 
@@ -101,15 +100,6 @@ itkComplexToComplex1DFFTImageFilterTest(int argc, char * argv[])
 
   if (backend == 0)
   {
-#ifndef ITK_FFT_FACTORY_REGISTER_MANAGER // Manual factory registration is required for ITK tests
-#  if defined(ITK_USE_FFTWD) || defined(ITK_USE_FFTWF)
-    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-      itk::FFTImageFilterFactory<itk::FFTWComplexToComplex1DFFTImageFilter>>();
-#  else
-    itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-      itk::FFTImageFilterFactory<itk::VnlComplexToComplex1DFFTImageFilter>>();
-#  endif
-#endif
     using FFTInverseType = itk::ComplexToComplex1DFFTImageFilter<ComplexImageType, ComplexImageType>;
     auto inverse = FFTInverseType::New();
 

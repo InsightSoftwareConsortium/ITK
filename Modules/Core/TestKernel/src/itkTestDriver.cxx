@@ -26,7 +26,7 @@
  *
  *=========================================================================*/
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 
 
 /* Select the environment variable holding the shared library runtime

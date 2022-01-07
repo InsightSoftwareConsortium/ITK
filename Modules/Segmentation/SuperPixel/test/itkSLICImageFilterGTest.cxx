@@ -23,7 +23,7 @@
 
 #include "itkCommand.h"
 
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 #include "itkTestingHashImageFilter.h"
 
 namespace

@@ -42,7 +42,7 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
   auto reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
 
-  using ForwardFilterType = itk::ForwardFFTImageFilter<RealImageType, ComplexImageType>;
+  using ForwardFilterType = itk::VnlForwardFFTImageFilter<RealImageType, ComplexImageType>;
   auto forwardFilter = ForwardFilterType::New();
   forwardFilter->SetInput(reader->GetOutput());
 
@@ -60,7 +60,7 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
   forwardComplexFilter->SetInput(inverseComplexFilter->GetOutput());
   forwardComplexFilter->SetTransformDirection(ComplexFilterType::TransformDirectionEnum::FORWARD);
 
-  using InverseFilterType = itk::InverseFFTImageFilter<ComplexImageType, RealImageType>;
+  using InverseFilterType = itk::VnlInverseFFTImageFilter<ComplexImageType, RealImageType>;
   auto inverseFilter = InverseFilterType::New();
   inverseFilter->SetInput(forwardComplexFilter->GetOutput());
 
@@ -94,11 +94,6 @@ itkVnlComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();
   const unsigned int dimension = imageIO->GetNumberOfDimensions();
-
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::VnlComplexToComplexFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::VnlInverseFFTImageFilter>>();
 
   if (pixelTypeString.compare("float") == 0)
   {

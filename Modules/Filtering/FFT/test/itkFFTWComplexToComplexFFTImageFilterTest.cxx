@@ -57,7 +57,7 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
   auto reader = ReaderType::New();
   reader->SetFileName(inputImageFileName);
 
-  using ForwardFilterType = itk::ForwardFFTImageFilter<RealImageType, ComplexImageType>;
+  using ForwardFilterType = itk::FFTWForwardFFTImageFilter<RealImageType, ComplexImageType>;
   auto forwardFilter = ForwardFilterType::New();
   forwardFilter->SetInput(reader->GetOutput());
 
@@ -72,7 +72,7 @@ transformImage(const char * inputImageFileName, const char * outputImageFileName
   // This tests the CanUseDestructiveAlgorithm state with the FFTW version.
   forwardComplexFilter->ReleaseDataFlagOn();
 
-  using InverseFilterType = itk::InverseFFTImageFilter<ComplexImageType, RealImageType>;
+  using InverseFilterType = itk::FFTWInverseFFTImageFilter<ComplexImageType, RealImageType>;
   auto inverseFilter = InverseFilterType::New();
   inverseFilter->SetInput(forwardComplexFilter->GetOutput());
 
@@ -111,11 +111,6 @@ itkFFTWComplexToComplexFFTImageFilterTest(int argc, char * argv[])
   imageIO->SetFileName(inputImageFileName);
   imageIO->ReadImageInformation();
   const unsigned int dimension = imageIO->GetNumberOfDimensions();
-
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<
-    itk::FFTImageFilterFactory<itk::FFTWComplexToComplexFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWForwardFFTImageFilter>>();
-  itk::ObjectFactoryBase::RegisterInternalFactoryOnce<itk::FFTImageFilterFactory<itk::FFTWInverseFFTImageFilter>>();
 
   if (pixelTypeString.compare("float") == 0)
   {

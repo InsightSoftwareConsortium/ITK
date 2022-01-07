@@ -21,7 +21,7 @@
 
 #include "itkGTest.h"
 #include "itksys/SystemTools.hxx"
-#include "itkTestDriverIncludeRequiredIOFactories.h"
+#include "itkTestDriverIncludeRequiredFactories.h"
 
 #define STRING(s) #s
 
