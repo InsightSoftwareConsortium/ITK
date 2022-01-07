@@ -89,7 +89,7 @@ public:
   using NeighborIndexType = typename NeighborhoodType::NeighborIndexType;
 
   /** Default constructor */
-  ConstNeighborhoodIteratorWithOnlyIndex();
+  ConstNeighborhoodIteratorWithOnlyIndex() = default;
 
   /** Virtual destructor */
   ~ConstNeighborhoodIteratorWithOnlyIndex() override = default;
@@ -369,35 +369,35 @@ protected:
 
   /** The starting index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIteratorWithOnlyIndex is defined. */
-  IndexType m_BeginIndex;
+  IndexType m_BeginIndex{ { 0 } };
 
   /** An array of upper looping boundaries used during iteration. */
-  IndexType m_Bound;
+  IndexType m_Bound{ { 0 } };
 
   /** The image on which iteration is defined. */
   typename ImageType::ConstPointer m_ConstImage;
 
   /** The end index for iteration within the itk::Image region
    * on which this ConstNeighborhoodIteratorWithOnlyIndex is defined. */
-  IndexType m_EndIndex;
+  IndexType m_EndIndex{ { 0 } };
 
   /** Array of loop counters used during iteration. */
-  IndexType m_Loop;
+  IndexType m_Loop{ { 0 } };
 
   /** The region over which iteration is defined. */
   RegionType m_Region;
 
   /** Denotes which of the iterators dimensional sides spill outside
-   * region of interest boundaries. */
-  mutable bool m_InBounds[Dimension];
+   * region of interest boundaries. By default `false` for each dimension. */
+  mutable bool m_InBounds[Dimension]{ false };
 
   /** Denotes if iterator is entirely within bounds */
-  mutable bool m_IsInBounds;
+  mutable bool m_IsInBounds{ false };
 
   /** Is the m_InBounds and m_IsInBounds variables up to date? Set to
    * false whenever the iterator is repositioned.  Set to true within
    * InBounds(). */
-  mutable bool m_IsInBoundsValid;
+  mutable bool m_IsInBoundsValid{ false };
 
   /** Lower threshold of in-bounds loop counter values. */
   IndexType m_InnerBoundsLow;
@@ -406,7 +406,7 @@ protected:
   IndexType m_InnerBoundsHigh;
 
   /** Does the specified region need to worry about boundary conditions? */
-  bool m_NeedToUseBoundaryCondition;
+  bool m_NeedToUseBoundaryCondition{ false };
 };
 
 template <typename TImage>

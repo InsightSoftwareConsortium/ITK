@@ -208,25 +208,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::GetBoundingBoxAsImageRegi
 
 template <typename TImage, typename TBoundaryCondition>
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::ConstNeighborhoodIterator()
-
 {
-  m_Bound.Fill(0);
-  m_Begin = nullptr;
-  m_BeginIndex.Fill(0);
-
-  m_End = nullptr;
-  m_EndIndex.Fill(0);
-  m_Loop.Fill(0);
-
-  m_WrapOffset.Fill(0);
-
-  for (DimensionValueType i = 0; i < Dimension; ++i)
-  {
-    m_InBounds[i] = false;
-  }
-
-  this->ResetBoundaryCondition();
-
   m_BoundaryCondition = &m_InternalBoundaryCondition;
 }
 
