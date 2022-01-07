@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkDisplacementFieldToBSplineImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
@@ -85,6 +86,10 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   numberOfControlPoints.Fill(4);
 
   auto bspliner = BSplineFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(bspliner, DisplacementFieldToBSplineImageFilter, ImageToImageFilter);
+
+
   bspliner->SetDisplacementField(field);
   bspliner->SetConfidenceImage(confidenceImage);
   bspliner->SetPointSet(pointSet);
