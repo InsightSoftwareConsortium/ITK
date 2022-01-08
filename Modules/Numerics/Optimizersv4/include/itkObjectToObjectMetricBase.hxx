@@ -64,22 +64,7 @@ ObjectToObjectMetricBaseTemplate<TInternalComputationValueType>::PrintSelf(std::
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Value: " << m_Value << std::endl;
-  os << indent << "GradientSourceEnum: ";
-  switch (m_GradientSource)
-  {
-    case GradientSourceEnum::GRADIENT_SOURCE_FIXED:
-      os << "GRADIENT_SOURCE_FIXED";
-      break;
-    case GradientSourceEnum::GRADIENT_SOURCE_MOVING:
-      os << "GRADIENT_SOURCE_MOVING";
-      break;
-    case GradientSourceEnum::GRADIENT_SOURCE_BOTH:
-      os << "GRADIENT_SOURCE_BOTH";
-      break;
-    default:
-      itkExceptionMacro(<< "Unknown GradientSource.");
-  }
-  os << std::endl;
+  os << indent << "GradientSourceEnum: " << m_GradientSource << std::endl;
 }
 
 } // namespace itk
