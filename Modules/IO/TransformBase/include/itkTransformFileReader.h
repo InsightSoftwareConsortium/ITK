@@ -113,13 +113,13 @@ using TransformFileReader = itk::TransformFileReaderTemplate<double>;
 
 } // namespace itk
 
-#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#if defined ITK_TRANSFORMIO_FACTORY_REGISTER_MANAGER || defined ITK_IO_FACTORY_REGISTER_MANAGER
 #  include "itkTransformIOFactoryRegisterManager.h"
 #endif
 
 // Note: Explicit instantiation is done in itkTransformFileReader.cxx
 
-#endif // itkTransformFileReade_h
+#endif // itkTransformFileReader_h
 
 /** Explicit instantiations */
 #ifndef ITK_TEMPLATE_EXPLICIT_TransformFileReader
