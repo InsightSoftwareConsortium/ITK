@@ -20,6 +20,7 @@
 #if defined(ITK_USE_FFTWF) || defined(ITK_USE_FFTWD)
 
 #  include "ITKFFTExport.h"
+
 #  include "itkFFTWComplexToComplex1DFFTImageFilter.h"
 #  include "itkFFTWComplexToComplexFFTImageFilter.h"
 #  include "itkFFTWForward1DFFTImageFilter.h"
@@ -37,93 +38,52 @@ namespace itk
 {
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-
-static bool FFTWComplexToComplex1DFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWComplexToComplex1DFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWComplexToComplex1DFFTFactoryRegister__Private()
 {
-  if (!FFTWComplexToComplex1DFFTHasBeenRegistered)
-  {
-    FFTWComplexToComplex1DFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWComplexToComplex1DFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWComplexToComplex1DFFTImageFilter>>();
 }
 
-static bool FFTWComplexToComplexFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWComplexToComplexFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWComplexToComplexFFTFactoryRegister__Private()
 {
-  if (!FFTWComplexToComplexFFTHasBeenRegistered)
-  {
-    FFTWComplexToComplexFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWComplexToComplexFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWComplexToComplexFFTImageFilter>>();
 }
 
-static bool FFTWForward1DFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWForward1DFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWForward1DFFTFactoryRegister__Private()
 {
-  if (!FFTWForward1DFFTHasBeenRegistered)
-  {
-    FFTWForward1DFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWForward1DFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWForward1DFFTImageFilter>>();
 }
 
-static bool FFTWForwardFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWForwardFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWForwardFFTFactoryRegister__Private()
 {
-  if (!FFTWForwardFFTHasBeenRegistered)
-  {
-    FFTWForwardFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWForwardFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWForwardFFTImageFilter>>();
 }
 
-static bool FFTWHalfHermitianToRealInverseFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWHalfHermitianToRealInverseFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWHalfHermitianToRealInverseFFTFactoryRegister__Private()
 {
-  if (!FFTWHalfHermitianToRealInverseFFTHasBeenRegistered)
-  {
-    FFTWHalfHermitianToRealInverseFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWHalfHermitianToRealInverseFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWHalfHermitianToRealInverseFFTImageFilter>>();
 }
 
-static bool FFTWInverse1DFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWInverse1DFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWInverse1DFFTFactoryRegister__Private()
 {
-  if (!FFTWInverse1DFFTHasBeenRegistered)
-  {
-    FFTWInverse1DFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWInverse1DFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWInverse1DFFTImageFilter>>();
 }
 
-static bool FFTWInverseFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWInverseFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWInverseFFTFactoryRegister__Private()
 {
-  if (!FFTWInverseFFTHasBeenRegistered)
-  {
-    FFTWInverseFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWInverseFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWInverseFFTImageFilter>>();
 }
 
-static bool FFTWRealToHalfHermitianForwardFFTHasBeenRegistered;
-void        ITKFFT_EXPORT
-            FFTWRealToHalfHermitianForwardFFTFactoryRegister__Private()
+void ITKFFT_EXPORT
+     FFTWRealToHalfHermitianForwardFFTFactoryRegister__Private()
 {
-  if (!FFTWRealToHalfHermitianForwardFFTHasBeenRegistered)
-  {
-    FFTWRealToHalfHermitianForwardFFTHasBeenRegistered = true;
-    FFTImageFilterFactory<FFTWRealToHalfHermitianForwardFFTImageFilter>::RegisterOneFactory();
-  }
+  ObjectFactoryBase::RegisterInternalFactoryOnce<FFTImageFilterFactory<FFTWRealToHalfHermitianForwardFFTImageFilter>>();
 }
 } // end namespace itk
 
