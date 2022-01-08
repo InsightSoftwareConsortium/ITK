@@ -164,6 +164,9 @@ itkLBFGSOptimizerv4Test(int, char *[])
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, LBFGSOptimizerv4, LBFGSOptimizerBasev4);
+
+
   // Declaration of the metric
   auto metric = itkLBFGSOptimizerv4TestMetric::New();
 

@@ -102,7 +102,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(LBFGSOptimizerv4, Superclass);
+  itkTypeMacro(LBFGSOptimizerv4, LBFGSOptimizerBasev4);
 
   /** Start optimization with an initial value. */
   void

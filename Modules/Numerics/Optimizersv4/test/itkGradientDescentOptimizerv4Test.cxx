@@ -205,6 +205,10 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    itkOptimizer, GradientDescentOptimizerv4Template, GradientDescentOptimizerBasev4Template);
+
+
   // Declaration of the Metric
   auto metric = GradientDescentOptimizerv4TestMetric::New();
 
