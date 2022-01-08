@@ -42,7 +42,7 @@ namespace itk
  * a file.
  * \sa StreamReadBufferAsBinary StreamWriteBufferAsBinary
  *
- * This implementation was taken fron the Insight Joural:
+ * This implementation was taken fron the Insight Journal:
  * https://www.insight-journal.org/browse/publication/729
  *
  * \sa itk::ImageFileReader itk::ImageFileWriter
