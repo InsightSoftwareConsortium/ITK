@@ -51,6 +51,10 @@ itkLabelMapContourOverlayImageFilterTest1(int argc, char * argv[])
 
   using ColorizerType = itk::LabelMapContourOverlayImageFilter<ConverterType::OutputImageType, IType>;
   auto colorizer = ColorizerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(colorizer, LabelMapContourOverlayImageFilter, LabelMapFilter);
+
+
   colorizer->SetInput(converter->GetOutput());
   colorizer->SetFeatureImage(reader2->GetOutput());
   colorizer->SetOpacity(std::stod(argv[4]));

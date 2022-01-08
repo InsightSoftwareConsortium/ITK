@@ -77,7 +77,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastIncrementalBinaryDilateImageFilter, ImageToImageFilter);
+  itkTypeMacro(FastIncrementalBinaryDilateImageFilter, BinaryDilateImageFilter);
 
 protected:
   FastIncrementalBinaryDilateImageFilter() = default;

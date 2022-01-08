@@ -73,6 +73,10 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
   auto threshold = ThresholdFilterType::New();
   auto connected = ConnectedComponentType::New();
   auto relabel = RelabelComponentType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(relabel, RelabelComponentImageFilter, InPlaceImageFilter);
+
+
   auto finalThreshold = FinalThresholdFilterType::New();
   auto statistics = StatisticsFilterType::New();
 

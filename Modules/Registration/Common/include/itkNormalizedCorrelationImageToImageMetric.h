@@ -58,7 +58,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(NormalizedCorrelationImageToImageMetric, Object);
+  itkTypeMacro(NormalizedCorrelationImageToImageMetric, ImageToImageMetric);
 
   /** Types transferred from the base class */
   using typename Superclass::RealType;
