@@ -93,46 +93,34 @@ protected:
    * with distinct specialization.
    * Requires TFFTImageFilter to have the template signature <InputImageType, OutputImageType>.
    */
-  template <typename InputPixelType, typename OutputPixelType, size_t ImageDimension>
+  template <typename InputPixelType, typename OutputPixelType, unsigned int D, unsigned int... ImageDimensions>
   void
-  OverrideFFTImageFilterType()
+  OverrideFFTImageFilterType(const std::integer_sequence<unsigned int, D, ImageDimensions...> &)
   {
-    using InputImageType = Image<InputPixelType, ImageDimension>;
-    using OutputImageType = Image<OutputPixelType, ImageDimension>;
+    using InputImageType = Image<InputPixelType, D>;
+    using OutputImageType = Image<OutputPixelType, D>;
     this->RegisterOverride(typeid(typename TFFTImageFilter<InputImageType, OutputImageType>::Superclass).name(),
                            typeid(TFFTImageFilter<InputImageType, OutputImageType>).name(),
                            "FFT Image Filter Override",
                            true,
                            CreateObjectFunction<TFFTImageFilter<InputImageType, OutputImageType>>::New());
+    OverrideFFTImageFilterType<InputPixelType, OutputPixelType>(
+      std::integer_sequence<unsigned int, ImageDimensions...>{});
   }
+  template <typename InputPixelType, typename OutputPixelType>
+  void
+  OverrideFFTImageFilterType(const std::integer_sequence<unsigned int> &)
+  {}
 
   FFTImageFilterFactory()
   {
     OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>,
-                               1>();
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>,
-                               2>();
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>,
-                               3>();
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<float>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>,
-                               4>();
+                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<float>>(
+      std::integer_sequence<unsigned int, 4, 3, 2, 1>{});
 
     OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
-                               1>();
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
-                               2>();
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
-                               3>();
-    OverrideFFTImageFilterType<typename FFTImageFilterTraits<TFFTImageFilter>::template InputPixelType<double>,
-                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>,
-                               4>();
+                               typename FFTImageFilterTraits<TFFTImageFilter>::template OutputPixelType<double>>(
+      std::integer_sequence<unsigned int, 4, 3, 2, 1>{});
   }
 };
 
