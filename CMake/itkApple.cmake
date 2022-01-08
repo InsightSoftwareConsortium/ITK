@@ -1,12 +1,3 @@
-# Objective-C++ compile flags.
-# CMake has no equivalent of CMAKE_CXX_FLAGS for Objective-C++ (bug #4756)
-# so we provide this in case the user needs to specify flags specifically
-# for Objective-C++ source files.  For example, to build with garbage
-# collection support, the -fobjc-gc flag would be used.
-set(ITK_OBJCXX_FLAGS_DEFAULT "")
-set(ITK_REQUIRED_OBJCXX_FLAGS ${ITK_OBJCXX_FLAGS_DEFAULT} CACHE STRING "Extra flags for Objective-C++ compilation")
-mark_as_advanced(ITK_REQUIRED_OBJCXX_FLAGS)
-
 mark_as_advanced(
   CMAKE_OSX_ARCHITECTURES
   CMAKE_OSX_DEPLOYMENT_TARGET
