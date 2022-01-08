@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkPowellOptimizerv4.h"
+#include "itkTestingMacros.h"
 
 int POWELL_CALLS_TO_GET_VALUE = 0;
 
@@ -149,6 +150,8 @@ itkPowellOptimizerv4Test(int, char *[])
 
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, PowellOptimizerv4, ObjectToObjectOptimizerBaseTemplate);
 
 
   // Declaration of the CostFunction

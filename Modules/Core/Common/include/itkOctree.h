@@ -138,7 +138,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Octree, Superclass);
+  itkTypeMacro(Octree, OctreeBase);
 
   ImageTypePointer
   GetImage();

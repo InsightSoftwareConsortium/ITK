@@ -19,6 +19,7 @@
 #include "itkOctree.h"
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 #include <cstdlib>
 #include <ctime>
 #include <cmath>
@@ -74,6 +75,10 @@ itkOctreeTest(int, char *[])
 
   using OctreeType = itk::Octree<unsigned int, 16384, IdentityMap<unsigned int, 16384>>;
   auto octree = OctreeType::New();
+
+  // ITK_EXERCISE_BASIC_OBJECT_METHODS(octree, Octree, OctreeBase);
+
+
   octree->BuildFromImage(img);
   ImageType::Pointer                  output = octree->GetImage();
   itk::ImageRegionIterator<ImageType> ri2(output, region);
