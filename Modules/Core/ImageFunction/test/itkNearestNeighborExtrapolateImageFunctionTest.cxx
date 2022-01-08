@@ -19,6 +19,7 @@
 #include "itkMath.h"
 #include "itkNearestNeighborExtrapolateImageFunction.h"
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 /**
  * This module tests the functionality of the
@@ -75,6 +76,9 @@ itkNearestNeighborExtrapolateImageFunctionTest(int, char *[])
   // set up the extrapolator
   using FunctionType = itk::NearestNeighborExtrapolateImageFunction<ImageType, CoordRep>;
   auto function = FunctionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, NearestNeighborExtrapolateImageFunction, ExtrapolateImageFunction);
+
 
   using VectorFunctionType = itk::NearestNeighborExtrapolateImageFunction<VectorImageType, CoordRep>;
   auto vectorfunction = VectorFunctionType::New();

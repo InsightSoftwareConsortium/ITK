@@ -124,7 +124,7 @@ public:
   /**
    * Run-time type information (and related methods)
    */
-  itkTypeMacro(RelabelComponentImageFilter, ImageToImageFilter);
+  itkTypeMacro(RelabelComponentImageFilter, InPlaceImageFilter);
 
   /**
    * Method for creation through the object factory.

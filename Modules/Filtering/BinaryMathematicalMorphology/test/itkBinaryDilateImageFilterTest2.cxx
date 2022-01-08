@@ -18,6 +18,7 @@
 
 #include "itkFastIncrementalBinaryDilateImageFilter.h"
 #include "itkBinaryCrossStructuringElement.h"
+#include "itkTestingMacros.h"
 
 int
 itkBinaryDilateImageFilterTest2(int, char *[])
@@ -125,6 +126,9 @@ itkBinaryDilateImageFilterTest2(int, char *[])
 
   // Create the filter
   auto filter = myFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, FastIncrementalBinaryDilateImageFilter, BinaryDilateImageFilter);
+
 
   // Create the structuring element
   myKernelType cross;

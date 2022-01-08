@@ -19,6 +19,7 @@
 #include "itkCenteredVersorTransformInitializer.h"
 
 #include "itkImageRegionIterator.h"
+#include "itkTestingMacros.h"
 
 
 /**
@@ -154,6 +155,9 @@ itkCenteredVersorTransformInitializerTest(int, char *[])
   using InitializerType = itk::CenteredVersorTransformInitializer<FixedImageType, MovingImageType>;
 
   auto initializer = InitializerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(initializer, CenteredVersorTransformInitializer, CenteredTransformInitializer);
+
 
   initializer->SetFixedImage(fixedImage);
   initializer->SetMovingImage(movingImage);
