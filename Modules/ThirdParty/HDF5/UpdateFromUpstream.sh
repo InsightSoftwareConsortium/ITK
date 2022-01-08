@@ -8,7 +8,7 @@ readonly name="HDF5"
 readonly ownership="HDF5 Maintainers <hdf5-maintainers@hdfgroup.org>"
 readonly subtree="Modules/ThirdParty/HDF5/src/itkhdf5"
 readonly repo="https://github.com/HDFGroup/hdf5.git"
-readonly tag="hdf5-1_10_7"
+readonly tag="hdf5-1_12_1"
 readonly shortlog=false
 readonly paths="
    ACKNOWLEDGMENTS
@@ -25,15 +25,13 @@ readonly paths="
    COPYING
    src
    c++/CMakeLists.txt
-   c++/COPYING
    c++/src
    hl/CMakeLists.txt
-   hl/COPYING
    hl/src
    hl/c++/CMakeLists.txt
-   hl/c++/COPYING
    hl/c++/src
    UserMacros.cmake
+   .clang-format
 "
 
 extract_source () {

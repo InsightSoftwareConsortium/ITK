@@ -1,4 +1,6 @@
+#[[ ITK --start
 cmake_minimum_required (VERSION 3.12)
+# ITK --stop ]]
 project (HDF5_CPP CXX)
 
 add_subdirectory (src)
@@ -13,6 +15,9 @@ endif ()
 #-----------------------------------------------------------------------------
 # Build the CPP unit tests
 #-----------------------------------------------------------------------------
-#ITK REMOVED if (BUILD_TESTING)
-#ITK REMOVED  add_subdirectory (test)
-#ITK REMOVEDendif ()
+# ITK --start
+# ITK removed
+#if (BUILD_TESTING)
+#  add_subdirectory (test)
+#endif ()
+# ITK --stop

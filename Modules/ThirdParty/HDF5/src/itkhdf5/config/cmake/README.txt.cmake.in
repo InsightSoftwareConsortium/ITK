@@ -26,7 +26,7 @@ The official ZLIB and SZIP/Libaec pages are at:
     ZLIB: https://git.savannah.gnu.org/cgit/gzip.git/
         https://git.savannah.gnu.org/cgit/gzip.git/tree/COPYING
     SZIP/Libaec: https://gitlab.dkrz.de/k202009/libaec
-        https://gitlab.dkrz.de/k202009/libaec/-/blob/master/Copyright.txt
+        https://gitlab.dkrz.de/k202009/libaec/-/blob/master/LICENSE.txt
 
 
 Installation

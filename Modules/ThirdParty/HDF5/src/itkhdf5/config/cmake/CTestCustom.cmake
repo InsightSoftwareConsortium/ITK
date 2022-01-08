@@ -5,7 +5,7 @@
 # This file is part of HDF5.  The full HDF5 copyright notice, including
 # terms governing use, modification, and redistribution, is contained in
 # the COPYING file, which can be found at the root of the source code
-# distribution tree, or in https://support.hdfgroup.org/ftp/HDF5/releases.
+# distribution tree, or in https://www.hdfgroup.org/licenses.
 # If you do not have access to either file, you may request a copy from
 # help@hdfgroup.org.
 #
@@ -27,7 +27,7 @@ set (CTEST_CUSTOM_WARNING_EXCEPTION
     "config.cmake.xlatefile.c"
     "warning.*unknown pragma"
     "warning.*unrecognized .pragma"
-    "note: expanded from macro"
+#    "note: expanded from macro"
     # HDDFFV-11074
     "This directive is not standard"
 )
@@ -130,7 +130,9 @@ set (CTEST_CUSTOM_MEMCHECK_IGNORE
     H5REPACK-szip_individual-clear-objects
     H5REPACK-szip_remove-clear-objects
     H5REPACK-upgrade_layout-clear-objects
+    H5REPACK_DMP-attrregion-clear-objects
     H5REPACK_DMP-crtorder-clear-objects
+    H5REPACK_DMP-dataregion-clear-objects
     H5REPACK_DMP-deflate_limit-clear-objects
     H5REPACK-bug1814-clear-objects
     H5REPACK-HDFFV-5932-clear-objects

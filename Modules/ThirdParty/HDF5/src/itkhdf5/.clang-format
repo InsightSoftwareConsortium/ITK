@@ -1,0 +1,96 @@
+---
+Language:        Cpp
+BasedOnStyle:  LLVM
+AlignConsecutiveAssignments: true
+#llvm11: AlignConsecutiveBitFields: false
+AlignConsecutiveDeclarations: true
+AlignConsecutiveMacros: true
+#llvm10-11: AlignOperands:   true - Align
+#llvm11: AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: None
+AlwaysBreakAfterReturnType: AllDefinitions
+# Can enable the following section when llvm 12.x is out
+#AttributeMacros:
+#  - H5_ATTR_FORMAT
+#  - H5_ATTR_UNUSED
+#  - H5_ATTR_DEPRECATED_USED
+#  - H5_ATTR_NDEBUG_UNUSED
+#  - H5_ATTR_DEBUG_API_USED
+#  - H5_ATTR_PARALLEL_UNUSED
+#  - H5_ATTR_PARALLEL_USED
+#  - H5_ATTR_NORETURN
+#  - H5_ATTR_CONST
+#  - H5_ATTR_PURE
+#  - H5_ATTR_FALLTHROUGH
+BraceWrapping:
+  AfterFunction:   true
+  #llvm10-11: AfterControlStatement: false - Never
+  BeforeCatch:     true
+  BeforeElse:      true
+  #llvm11:   BeforeLambdaBody: false
+  #llvm11:   BeforeWhile:     false
+BreakBeforeBraces: Stroustrup
+BreakAfterJavaFieldAnnotations: true
+BreakStringLiterals: true
+ColumnLimit:     110    # Update $max_trace_macro_line_len in bin/trace also
+ForEachMacros: ['ALL_MEMBERS', 'UNIQUE_MEMBERS']
+IncludeCategories:
+  - Regex:           '^"(llvm|llvm-c|clang|clang-c)/'
+    Priority:        3
+    SortPriority:    0
+  - Regex:           '^(<|"(gtest|gmock|isl|json)/)'
+    Priority:        4
+    SortPriority:    0
+  - Regex:           '.*'
+    Priority:        0
+    SortPriority:    0
+  - Regex:           '^H5*.*'
+    Priority:        1
+    SortPriority:    0
+  - Regex:           'private.*'
+    Priority:        2
+    SortPriority:    0
+IncludeIsMainRegex: '(public)?$'
+IndentCaseLabels: true
+#llvm11: IndentCaseBlocks: false
+IndentGotoLabels: false
+#llvm11: IndentExternBlock: AfterExternBlock
+IndentWidth:     4
+#llvm11: InsertTrailingCommas: None
+MacroBlockBegin: "^BEGIN_FUNC"
+MacroBlockEnd: "^END_FUNC"
+ObjCBlockIndentWidth: 4
+#llvm11: ObjCBreakBeforeNestedBlockParam: true
+ReflowComments:  true
+SortIncludes:    false
+StatementMacros:
+  - FUNC_ENTER_API
+  - FUNC_LEAVE_API
+  - FUNC_ENTER_NOAPI_NOINIT_NOERR
+  - FUNC_LEAVE_NOAPI
+  - H5_BEGIN_TAG
+  - HGOTO_DONE_TAG
+  - H5_END_TAG
+  - HSYS_DONE_ERROR
+  - HSYS_GOTO_ERROR
+  - HDONE_ERROR
+  - HERROR
+  - H5_LEAVE
+  - H5E_PRINTF
+  - H5E_THROW
+  - HGOTO_DONE
+  - HGOTO_ERROR
+  - HMPI_ERROR
+  - HMPI_DONE_ERROR
+  - HMPI_GOTO_ERROR
+  - H5_GCC_DIAG_OFF
+  - H5_GCC_DIAG_ON
+  - CATCH
+#llvm10: TypenameMacros:
+#llvm10:   - STACK_OF
+#llvm10:   - LIST
+#llvm11: WhitespaceSensitiveMacros:
+#llvm11:   - STRINGIZE
+#llvm11:   - PP_STRINGIZE
+...
+

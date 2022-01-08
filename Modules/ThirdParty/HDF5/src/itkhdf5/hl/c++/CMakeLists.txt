@@ -1,4 +1,6 @@
+#[[ ITK --start
 cmake_minimum_required (VERSION 3.12)
+# ITK --stop ]]
 project (HDF5_HL_CPP CXX)
 
 #-----------------------------------------------------------------------------
@@ -6,6 +8,7 @@ project (HDF5_HL_CPP CXX)
 #-----------------------------------------------------------------------------
 add_subdirectory (src)
 
+#[[ ITK --start
 # --------------------------------------------------------------------
 #  Add in the examples for the Packet Table codes
 # --------------------------------------------------------------------
@@ -20,3 +23,4 @@ endif ()
 if (BUILD_TESTING)
   add_subdirectory (test)
 endif ()
+# ITK --stop ]]
