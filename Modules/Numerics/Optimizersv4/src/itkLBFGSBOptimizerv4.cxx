@@ -71,7 +71,6 @@ LBFGSBOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
 
   os << indent << "InitialPosition: " << m_InitialPosition << std::endl;
-  os << indent << "CurrentPosition: " << this->GetCurrentPosition() << std::endl;
 
   os << indent << "LowerBound: " << m_LowerBound << std::endl;
   os << indent << "UpperBound: " << m_UpperBound << std::endl;
