@@ -670,7 +670,7 @@ ObjectFactoryBase::PrintSelf(std::ostream & os, Indent indent) const
   for (auto & i : *m_OverrideMap)
   {
     os << indent << "Class : " << i.first.c_str() << "\n";
-    os << indent << "Overriden with: " << i.second.m_OverrideWithName.c_str() << std::endl;
+    os << indent << "Overridden with: " << i.second.m_OverrideWithName.c_str() << std::endl;
     os << indent << "Enable flag: " << i.second.m_EnabledFlag << std::endl;
     os << indent << "Create object: " << i.second.m_CreateObject << std::endl;
     os << std::endl;
