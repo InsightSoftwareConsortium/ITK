@@ -20,6 +20,7 @@ itk_module(ITKFFT
   TEST_DEPENDS
     ITKTestKernel
     ITKImageCompare
+    ITKImageIntensity
   FACTORY_NAMES
     ${_fft_backends}
   DESCRIPTION
