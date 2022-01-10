@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkMultiGradientOptimizerv4.h"
+#include "itkTestingMacros.h"
 
 /**
  *  \class MultiGradientOptimizerv4TestMetric
@@ -328,6 +329,9 @@ itkMultiGradientOptimizerv4Test(int, char *[])
 
   // Declaration of a itkOptimizer
   auto itkOptimizer = OptimizerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, MultiGradientOptimizerv4Template, GradientDescentOptimizerv4Template);
+
 
   // Declaration of the Metric
   auto                   metric = MultiGradientOptimizerv4TestMetric::New();
