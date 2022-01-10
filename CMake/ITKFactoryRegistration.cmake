@@ -177,8 +177,20 @@ endmacro()
 
 #-----------------------------------------------------------------------------
 # Factory registration
+#
+# Arguments are factory names of factory registration mangers to be
+# generated, if no arguments are provided then ITK_FACTORY_LIST is
+# used for the list of managers generated.
+#
 #-----------------------------------------------------------------------------
-function(itk_generate_factory_registration)
+macro(itk_generate_factory_registration)
+  set(_factory_list ${ITK_FACTORY_LIST})
+
+  set(variadic_args ${ARGN})
+  list(LENGTH variadic_args _argc)
+  if (${_argc} GREATER 0)
+    set(_factory_list ${variadic_args})
+  endif()
   foreach(_factory_name ${ITK_FACTORY_LIST})
     string(TOUPPER ${_factory_name} factory_uc)
     string(TOLOWER ${_factory_name} factory_lc)
@@ -207,4 +219,4 @@ function(itk_generate_factory_registration)
       _itk_configure_FactoryRegisterManager("${_factory_name}" "${LIST_OF_${factory_uc}_FORMATS}")
     endif()
   endforeach()
-endfunction()
+endmacro()
