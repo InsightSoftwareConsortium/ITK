@@ -8,7 +8,7 @@ if( GIT_LOCAL_MODIFICATIONS MATCHES ".*files changed.*")
    set(GIT_LOCAL_MODIFICATIONS " (with uncommitted code modifications ${GIT_LOCAL_MODIFICATIONS} )")
 endif()
 
-string(TIMESTAMP CONFIGURE_DATE "%Y-%m-%d %H:%M")
+string(TIMESTAMP CONFIGURE_DATE "%Y-%m-%d %H:%M" UTC)
 
 ## MAKE_MAP_ENTRY is a macro to facilitate placing items in the itk::BuildInformation class
 ##                /--------------------------_---------------------------_-------------------------------------------------/
