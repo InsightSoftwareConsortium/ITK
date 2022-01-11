@@ -57,6 +57,7 @@ jobs:
           ITK_WRAP_PYTHON:BOOL=ON
           ITK_BUILD_DEFAULT_MODULES:BOOL=OFF
           ITKGroup_Core:BOOL=ON
+          Module_ITKThresholding:BOOL=ON
           Module_ITKImageIntensity:BOOL=ON
           Module_ITKBridgeNumPy:BOOL=ON
           Python3_FIND_REGISTRY=LAST
