@@ -280,7 +280,7 @@ public:
   void
   SetSplineOrder(unsigned int SplineOrder);
 
-  itkGetConstMacro(SplineOrder, int);
+  itkGetConstMacro(SplineOrder, unsigned int);
 
   void
   SetNumberOfWorkUnits(ThreadIdType numThreads);

@@ -122,7 +122,7 @@ public:
   void
   SetSplineOrder(unsigned int SplineOrder);
 
-  itkGetConstMacro(SplineOrder, int);
+  itkGetConstMacro(SplineOrder, unsigned int);
 
   /** Set the input image.  This must be set by the user, after setting the
     spline order! */

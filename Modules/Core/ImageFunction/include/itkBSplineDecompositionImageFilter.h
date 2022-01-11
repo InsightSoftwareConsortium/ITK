@@ -110,7 +110,7 @@ public:
   void
   SetSplineOrder(unsigned int SplineOrder);
 
-  itkGetConstMacro(SplineOrder, int);
+  itkGetConstMacro(SplineOrder, unsigned int);
 
   /** Get the poles calculated for a given spline order. */
   itkGetConstMacro(SplinePoles, SplinePolesVectorType);
