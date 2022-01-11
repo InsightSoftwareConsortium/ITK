@@ -81,7 +81,7 @@ endif()
 else() # build proxTV here with the selected Eigen3
   # Build proxTV with C++11
   if(NOT CMAKE_CXX_STANDARD)
-    set(CMAKE_CXX_STANDARD 11)
+    set(CMAKE_CXX_STANDARD 14)
   endif()
   if(NOT CMAKE_CXX_STANDARD_REQUIRED)
     set(CMAKE_CXX_STANDARD_REQUIRED ON)
