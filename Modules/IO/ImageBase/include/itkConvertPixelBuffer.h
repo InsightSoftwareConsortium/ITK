@@ -139,6 +139,13 @@ protected:
                               OutputPixelType * outputData,
                               size_t            size);
 
+  /** This is meant for many component vectors, e.g. converting 31-component float to 31-component double. */
+  static void
+  ConvertVectorToVector(InputPixelType *  inputData,
+                        int               inputNumberOfComponents,
+                        OutputPixelType * outputData,
+                        size_t            size);
+
   /** Convert tensor output. */
   /** Each input is made into a 6 component symmetric pixel */
   static void
