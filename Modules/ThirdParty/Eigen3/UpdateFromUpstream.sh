@@ -1,21 +1,20 @@
 #!/usr/bin/env bash
 
-thirdparty_module_name="Eigen3"
+set -e
+set -x
+shopt -s dotglob
 
+readonly name="Eigen3"
+readonly ownership="Eigen Upstream <kwrobot@kitware.com>"
+readonly subtree="Modules/ThirdParty/Eigen3/src/itkeigen"
+# readonly repo="https://github.com/eigenteam/eigen-git-mirror"
 # readonly repo="https://gitlab.kitware.com/third-party/eigen.git"
-upstream_git_url="https://gitlab.kitware.com/phcerdan/eigen.git"
-upstream_git_branch="for/itk-3.3-find_package"
-
-snapshot_author_name="Eigen Upstream"
-snapshot_author_email="kwrobot@kitware.com"
-
-snapshot_redact_cmd=''
-snapshot_relative_path="src/itkeigen"
-
-snapshot_paths="
+readonly repo="https://gitlab.kitware.com/phcerdan/eigen.git"
+readonly tag="for/itk-eigen-3.3"
+readonly paths="
+Eigen/CMakeLists.txt
 Eigen/Cholesky
 Eigen/CholmodSupport
-Eigen/CMakeLists.txt
 Eigen/Core
 Eigen/Dense
 Eigen/Eigen
@@ -27,34 +26,42 @@ Eigen/Jacobi
 Eigen/LU
 Eigen/MetisSupport
 Eigen/OrderingMethods
-Eigen/PardisoSupport
 Eigen/PaStiXSupport
+Eigen/PardisoSupport
 Eigen/QR
 Eigen/QtAlignedMalloc
+Eigen/SPQRSupport
+Eigen/SVD
 Eigen/Sparse
 Eigen/SparseCholesky
 Eigen/SparseCore
 Eigen/SparseLU
 Eigen/SparseQR
-Eigen/SPQRSupport
 Eigen/StdDeque
 Eigen/StdList
 Eigen/StdVector
 Eigen/SuperLUSupport
-Eigen/SVD
 Eigen/UmfPackSupport
 Eigen/src
+
 COPYING.BSD
 COPYING.MINPACK
 COPYING.MPL2
 COPYING.README
 README.md
 README.kitware.md
+
 CMakeLists.txt
 cmake/FindStandardMathLibrary.cmake
 cmake/Eigen3Config.cmake.in
+
 .gitattributes
 "
 
-source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/UpdateThirdPartyFromUpstream.sh"
-update_from_upstream
+extract_source () {
+    git_archive
+    pushd "$extractdir"
+    popd
+}
+
+source "${BASH_SOURCE%/*}/../../../Utilities/Maintenance/update-third-party.bash"
