@@ -51,8 +51,9 @@ and add the symbols to the list below.
 
 Note that running the above procedure will give somewhat different results on
 different platforms and also with different build options. When updating this file
-one should run the procudure on all major platforms and union the results. Or at the
-least, be wary of removing symbols just because they were not output in your environment.
+one should run the procudure on all major platforms and in both debug and release builds,
+and merge the results. Or at the very least, be wary of removing symbols just because they
+were not output in your environment.
 
 After building, note any duplicate symbol warnings and remove corresponding definitions that are delegated to versioned definitions,
 e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_info2
@@ -387,6 +388,8 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_def_auto_resize_rpt_fcn itk_H5C_def_auto_resize_rpt_fcn
 #define H5C_dest itk_H5C_dest
 #define H5C_destroy_flush_dependency itk_H5C_destroy_flush_dependency
+#define H5C_dump_cache itk_H5C_dump_cache
+#define H5C_dump_cache_LRU itk_H5C_dump_cache_LRU
 #define H5C_evict itk_H5C_evict
 #define H5C_evict_tagged_entries itk_H5C_evict_tagged_entries
 #define H5C_expunge_entry itk_H5C_expunge_entry
@@ -464,6 +467,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_unsettle_ring itk_H5C_unsettle_ring
 #define H5C_validate_cache_image_config itk_H5C_validate_cache_image_config
 #define H5C_validate_resize_config itk_H5C_validate_resize_config
+#define H5C_verify_tag itk_H5C_verify_tag
 #define H5D_BT2 itk_H5D_BT2
 #define H5D_BT2_FILT itk_H5D_BT2_FILT
 #define H5D_COPS_BT2 itk_H5D_COPS_BT2
