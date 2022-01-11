@@ -22,8 +22,7 @@
 
 #include "itkImage.h"
 #include "itkImageToImageFilter.h"
-
-#include "itkFFTImageFilterFactory.h"
+#include "itkMacro.h"
 
 namespace itk
 {
@@ -66,8 +65,7 @@ public:
    *
    * Default implementation is VnlFFT1D.
    */
-  static Pointer
-  New();
+  itkFactoryOnlyNewMacro(Self);
 
   /** Transform direction. */
   using TransformDirectionType = enum { DIRECT = 1, INVERSE };

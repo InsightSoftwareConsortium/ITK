@@ -37,22 +37,6 @@ namespace itk
 {
 
 template <typename TInputImage, typename TOutputImage>
-auto
-ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
-{
-  Pointer smartPtr = ObjectFactory<Self>::Create();
-
-  if (smartPtr.IsNotNull())
-  {
-    // Correct extra reference count from ObjectFactory<Self>::Create()
-    smartPtr->UnRegister();
-  }
-
-  return smartPtr;
-}
-
-
-template <typename TInputImage, typename TOutputImage>
 void
 ComplexToComplexFFTImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
 {

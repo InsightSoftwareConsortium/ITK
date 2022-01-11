@@ -24,23 +24,6 @@
 
 namespace itk
 {
-
-template <typename TInputImage, typename TOutputImage>
-typename ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::Pointer
-ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::New()
-{
-  Pointer smartPtr = ObjectFactory<Self>::Create();
-
-  if (smartPtr.IsNotNull())
-  {
-    // Decrement ITK SmartPointer produced from object factory
-    smartPtr->UnRegister();
-  }
-
-  return smartPtr;
-}
-
-
 template <typename TInputImage, typename TOutputImage>
 ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ComplexToComplex1DFFTImageFilter()
   : m_Direction(0)

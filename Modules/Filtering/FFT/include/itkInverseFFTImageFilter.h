@@ -19,6 +19,7 @@
 #define itkInverseFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkMacro.h"
 
 namespace itk
 {
@@ -73,8 +74,7 @@ public:
    * selection of FFT implementation.
    *
    * Default implementation is VnlFFT. */
-  static Pointer
-  New();
+  itkFactoryOnlyNewMacro(Self);
 
   /* Return the preferred greatest prime factor supported for the input image
    * size. Defaults to 2 as many implementations work only for sizes that are

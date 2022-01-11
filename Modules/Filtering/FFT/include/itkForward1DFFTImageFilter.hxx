@@ -24,22 +24,6 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-class VnlForward1DFFTImageFilter;
-
-template <typename TInputImage, typename TOutputImage>
-typename Forward1DFFTImageFilter<TInputImage, TOutputImage>::Pointer
-Forward1DFFTImageFilter<TInputImage, TOutputImage>::New()
-{
-  Pointer smartPtr = ObjectFactory<Self>::Create();
-  if (smartPtr.IsNotNull())
-  {
-    smartPtr->UnRegister();
-  }
-  return smartPtr;
-}
-
-
-template <typename TInputImage, typename TOutputImage>
 Forward1DFFTImageFilter<TInputImage, TOutputImage>::Forward1DFFTImageFilter()
   : m_Direction(0)
 {}
