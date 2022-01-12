@@ -133,7 +133,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   itkDebugMacro(<< "LaplacianRecursiveGaussianImageFilter generating data ");
 
   // Set the number of threads on all the filters
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     m_SmoothingFilters[i]->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
   }

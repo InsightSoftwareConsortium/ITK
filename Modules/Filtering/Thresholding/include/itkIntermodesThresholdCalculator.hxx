@@ -30,7 +30,7 @@ IntermodesThresholdCalculator<THistogram, TOutput>::BimodalTest(const std::vecto
   int modes = 0;
 
   const size_t len = h.size();
-  for (size_t k = 1; k < len - 1; ++k)
+  for (size_t k = 1; k + 1 < len; ++k)
   {
     if ((h[k - 1] < h[k]) && (h[k + 1] < h[k]))
     {

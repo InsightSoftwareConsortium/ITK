@@ -106,7 +106,7 @@ itkObjectFactoryTest2(int argc, char * argv[])
   std::string pathSeparator = ":";
 #endif
   std::string path = "";
-  for (int ac = 1; ac < argc - 1; ++ac)
+  for (int ac = 1; ac + 1 < argc; ++ac)
   {
     path += argv[ac];
 #ifdef CMAKE_INTDIR

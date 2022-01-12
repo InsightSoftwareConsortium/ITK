@@ -211,7 +211,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  for (i = 0; i < argc - 5; ++i)
+  for (i = 0; i + 5 < argc; ++i)
   {
     stapler->AddFileName(argv[i + 5]);
   }

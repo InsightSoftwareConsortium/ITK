@@ -204,7 +204,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   if (m_Layout[OutputImageDimension - 1] == 0)
   {
     int used = 1;
-    for (unsigned int d = 0; d < OutputImageDimension - 1; ++d)
+    for (unsigned int d = 0; d + 1 < OutputImageDimension; ++d)
     {
       used *= m_Layout[d];
     }

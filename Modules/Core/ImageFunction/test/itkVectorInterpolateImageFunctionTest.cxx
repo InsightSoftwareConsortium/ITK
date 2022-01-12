@@ -61,7 +61,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
     int        k;
     OutputType value = interp->Evaluate(point);
     std::cout << " Value: ";
-    for (k = 0; k < VectorDimension - 1; ++k)
+    for (k = 0; k + 1 < VectorDimension; ++k)
     {
       std::cout << value[k] << ", ";
     }
@@ -78,7 +78,7 @@ TestGeometricPoint(const InterpolatorType * interp, const PointType & point, boo
     if (k != VectorDimension)
     {
       std::cout << " *** Error: Value should be: ";
-      for (k = 0; k < VectorDimension - 1; ++k)
+      for (k = 0; k + 1 < VectorDimension; ++k)
       {
         std::cout << trueValue[k] << ", ";
       }
@@ -119,7 +119,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
     int        k;
     OutputType value = interp->EvaluateAtContinuousIndex(index);
     std::cout << " Value: ";
-    for (k = 0; k < VectorDimension - 1; ++k)
+    for (k = 0; k + 1 < VectorDimension; ++k)
     {
       std::cout << value[k] << ", ";
     }
@@ -136,7 +136,7 @@ TestContinuousIndex(const InterpolatorType *    interp,
     if (k != VectorDimension)
     {
       std::cout << " *** Error: Value should be: ";
-      for (k = 0; k < VectorDimension - 1; ++k)
+      for (k = 0; k + 1 < VectorDimension; ++k)
       {
         std::cout << trueValue[k] << ", ";
       }

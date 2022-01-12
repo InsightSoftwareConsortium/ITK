@@ -59,7 +59,7 @@ itkTileImageFilterTest(int argc, char * argv[])
   auto                     tiler = TilerType::New();
   itk::SimpleFilterWatcher tileWatcher(tiler, "Tiler");
   int                      f = 0;
-  for (int i = 4; i < argc - 1; ++i)
+  for (int i = 4; i + 1 < argc; ++i)
   {
     auto reader = ImageReaderType::New();
     reader->SetFileName(argv[i]);

@@ -111,7 +111,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
     origin = static_cast<LabelType>(m_InputImage->GetPixel(Index3D)[rgb]);
     unsigned int j = 0;
 
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
     {
       Index3D[i]--;
       neighbors[j] = static_cast<LabelType>(m_InputImage->GetPixel(Index3D)[rgb]);

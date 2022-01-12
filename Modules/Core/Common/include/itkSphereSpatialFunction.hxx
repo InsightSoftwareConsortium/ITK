@@ -60,7 +60,7 @@ SphereSpatialFunction<VImageDimension, TInput>::PrintSelf(std::ostream & os, Ind
 
   unsigned int i;
   os << indent << "Center: [";
-  for (i = 0; i < VImageDimension - 1; ++i)
+  for (i = 0; i + 1 < VImageDimension; ++i)
   {
     os << m_Center[i] << ", ";
   }

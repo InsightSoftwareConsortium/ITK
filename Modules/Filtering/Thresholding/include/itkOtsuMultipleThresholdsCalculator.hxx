@@ -100,7 +100,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::IncrementThresholds(InstanceI
       classFrequency[numberOfClasses - 1] = histogram->GetTotalFrequency();
       classMean[numberOfClasses - 1] = globalMean * histogram->GetTotalFrequency();
 
-      for (k = 0; k < numberOfClasses - 1; ++k)
+      for (k = 0; k + 1 < numberOfClasses; ++k)
       {
         classFrequency[numberOfClasses - 1] -= classFrequency[k];
         classMean[numberOfClasses - 1] -= classMean[k] * static_cast<MeanType>(classFrequency[k]);
@@ -175,7 +175,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   // Compute frequency and mean of initial classes
   FrequencyType       freqSum = NumericTraits<FrequencyType>::ZeroValue();
   FrequencyVectorType classFrequency(numberOfClasses);
-  for (j = 0; j < numberOfClasses - 1; ++j)
+  for (j = 0; j + 1 < numberOfClasses; ++j)
   {
     classFrequency[j] = histogram->GetFrequency(thresholdIndexes[j]);
     freqSum += classFrequency[j];
@@ -192,7 +192,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
 
   MeanType       meanSum = NumericTraits<MeanType>::ZeroValue();
   MeanVectorType classMean(numberOfClasses);
-  for (j = 0; j < numberOfClasses - 1; ++j)
+  for (j = 0; j + 1 < numberOfClasses; ++j)
   {
     if (NumericTraits<FrequencyType>::IsPositive(classFrequency[j]))
     {
@@ -243,7 +243,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   WeightType valleyEmphasisFactor = NumericTraits<WeightType>::ZeroValue();
   if (m_ValleyEmphasis)
   {
-    for (j = 0; j < numberOfClasses - 1; ++j)
+    for (j = 0; j + 1 < numberOfClasses; ++j)
     {
       valleyEmphasisFactor = imgPDF[thresholdIndexes[j]];
     }
@@ -298,7 +298,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     {
       // Sum relevant weights to get valley emphasis factor
       valleyEmphasisFactor = NumericTraits<WeightType>::ZeroValue();
-      for (j = 0; j < numberOfClasses - 1; ++j)
+      for (j = 0; j + 1 < numberOfClasses; ++j)
       {
         valleyEmphasisFactor += imgPDF[thresholdIndexes[j]];
       }

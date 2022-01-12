@@ -677,7 +677,7 @@ TIFFImageIO::InternalWrite(const void * buffer)
       uint16_t extra_samples = scomponents - 3;
       auto *   sample_info = new uint16_t[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
-      for (uint16_t cc = 1; cc < scomponents - 3; ++cc)
+      for (uint16_t cc = 1; cc + 3 < scomponents; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }

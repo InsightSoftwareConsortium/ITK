@@ -138,7 +138,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = translation->TransformPoint(p);
-      for (unsigned int i = 0; i < N - 1; ++i)
+      for (unsigned int i = 0; i + 1 < N; ++i)
       {
         if (itk::Math::abs(s[i] - r[i]) > epsilon)
         {
@@ -197,7 +197,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
       s[1] = q[1] * factor;
       TransformType::OutputPointType r;
       r = rigid->TransformPoint(p);
-      for (unsigned int i = 0; i < N - 1; ++i)
+      for (unsigned int i = 0; i + 1 < N; ++i)
       {
         if (itk::Math::abs(s[i] - r[i]) > epsilon)
         {

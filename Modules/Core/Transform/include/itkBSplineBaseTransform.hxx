@@ -232,7 +232,7 @@ BSplineBaseTransform<TParametersValueType, NDimensions, VSplineOrder>::PrintSelf
   this->Superclass::PrintSelf(os, indent);
 
   os << indent << "CoefficientImage: [ ";
-  for (unsigned int j = 0; j < SpaceDimension - 1; ++j)
+  for (unsigned int j = 0; j + 1 < SpaceDimension; ++j)
   {
     os << this->m_CoefficientImages[j].GetPointer() << ", ";
   }

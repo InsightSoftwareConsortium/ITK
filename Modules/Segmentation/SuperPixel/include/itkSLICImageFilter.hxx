@@ -729,7 +729,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::Distance(const Clust
   DistanceType       d1 = 0.0;
   DistanceType       d2 = 0.0;
   unsigned int       i = 0;
-  for (; i < s - ImageDimension; ++i)
+  for (; i + ImageDimension < s; ++i)
   {
     const DistanceType d = (cluster1[i] - cluster2[i]);
     d1 += d * d;
@@ -755,7 +755,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::Distance(const Clust
   DistanceType                                                          d2 = 0.0;
   unsigned int                                                          i = 0;
   const typename NumericTraits<InputPixelType>::MeasurementVectorType & v = _v;
-  for (; i < s - ImageDimension; ++i)
+  for (; i + ImageDimension < s; ++i)
   {
     const DistanceType d = (cluster[i] - v[i]);
     d1 += d * d;

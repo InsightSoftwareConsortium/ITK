@@ -507,7 +507,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   typename LineImageType::IndexType lIdx;
   typename LineImageType::SizeType  lSize;
   RegionType                        boundingBox = labelObject->GetBoundingBox();
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     lIdx[i] = boundingBox.GetIndex()[i + 1];
     lSize[i] = boundingBox.GetSize()[i + 1];
@@ -530,7 +530,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   while (!lit.IsAtEnd())
   {
     const IndexType & idx = lit.GetLine().GetIndex();
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
     {
       lIdx[i] = idx[i + 1];
     }
@@ -569,7 +569,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
       // prepare the offset to be stored in the intercepts map
       typename LineImageType::OffsetType lno = ci.GetNeighborhoodOffset();
       no[0] = 0;
-      for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+      for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
       {
         no[i + 1] = itk::Math::abs(lno[i]);
       }

@@ -157,7 +157,7 @@ RingBuffer<TElement>::SetNumberOfBuffers(SizeValueType n)
   // If larger than current size, insert difference after tail
   if (n > currentSize)
   {
-    for (size_t i = 0; i < n - currentSize; ++i)
+    for (size_t i = 0; i + currentSize < n; ++i)
     {
       ElementPointer newPointer = nullptr;
       this->m_PointerVector.insert(this->m_PointerVector.begin() + this->m_HeadIndex, newPointer);
@@ -173,7 +173,7 @@ RingBuffer<TElement>::SetNumberOfBuffers(SizeValueType n)
   // If smaller than current size, remove difference starting at tail
   else if (n < currentSize)
   {
-    for (size_t i = 0; i < currentSize - n; ++i)
+    for (size_t i = 0; i + n < currentSize; ++i)
     {
       const auto tailIndex = static_cast<SizeValueType>(this->GetOffsetBufferIndex(1));
       this->m_PointerVector.erase(this->m_PointerVector.begin() + tailIndex);

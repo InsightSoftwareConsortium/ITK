@@ -279,7 +279,7 @@ TimeVaryingBSplineVelocityFieldTransformParametersAdaptor<TTransform>::AdaptTran
   requiredLattice->FillBuffer(zeroVector);
 
   // Loop over dimension: each direction is upsampled separately.
-  for (SizeValueType j = 0; j < TotalDimension - 1; ++j)
+  for (SizeValueType j = 0; j + 1 < TotalDimension; ++j)
   {
     using SelectionFilterType =
       VectorIndexSelectionCastImageFilter<TimeVaryingVelocityFieldControlPointLatticeType, ComponentImageType>;

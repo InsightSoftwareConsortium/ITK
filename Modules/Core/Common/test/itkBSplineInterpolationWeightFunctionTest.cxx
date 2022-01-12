@@ -86,7 +86,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       const double tolerance = 1e-6;
       bool         symmetryForXBroken = false;
 
-      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
+      for (unsigned int nw = 0; nw + indexDifference < numberOfWeigts; ++nw)
       {
         if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {
@@ -174,7 +174,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
       const double tolerance = 1e-6;
       bool         symmetryForXBroken = false;
 
-      for (unsigned int nw = 0; nw < numberOfWeigts - indexDifference; ++nw)
+      for (unsigned int nw = 0; nw + indexDifference < numberOfWeigts; ++nw)
       {
         if (itk::Math::abs(weights1[nw] - weights2[numberOfWeigts - nw - 1 - indexDifference]) > tolerance)
         {

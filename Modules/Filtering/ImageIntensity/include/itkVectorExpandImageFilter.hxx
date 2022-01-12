@@ -53,7 +53,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os,
 
   unsigned int j;
   os << indent << "ExpandFactors: [";
-  for (j = 0; j < ImageDimension - 1; ++j)
+  for (j = 0; j + 1 < ImageDimension; ++j)
   {
     os << m_ExpandFactors[j] << ", ";
   }

@@ -51,14 +51,14 @@ PermuteAxesImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) cons
   unsigned int j;
 
   os << indent << "Order: [";
-  for (j = 0; j < ImageDimension - 1; ++j)
+  for (j = 0; j + 1 < ImageDimension; ++j)
   {
     os << m_Order[j] << ", ";
   }
   os << m_Order[j] << "]" << std::endl;
 
   os << indent << "InverseOrder: [";
-  for (j = 0; j < ImageDimension - 1; ++j)
+  for (j = 0; j + 1 < ImageDimension; ++j)
   {
     os << m_InverseOrder[j] << ", ";
   }

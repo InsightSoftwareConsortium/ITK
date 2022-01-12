@@ -633,7 +633,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcRayIntercepts()
   if (nSidesCrossed >= 3)
   {
     double maxInterDist = 0.0;
-    for (unsigned int j = 0; j < nSidesCrossed - 1; ++j)
+    for (unsigned int j = 0; j + 1 < nSidesCrossed; ++j)
     {
       for (unsigned int k = j + 1; k < nSidesCrossed; ++k)
       {

@@ -57,7 +57,7 @@ TorusInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream
   unsigned int i;
 
   os << indent << "Origin: [";
-  for (i = 0; i < VDimension - 1; ++i)
+  for (i = 0; i + 1 < VDimension; ++i)
   {
     os << m_Origin[i] << ", ";
   }

@@ -144,7 +144,7 @@ protected:
     {
       auto numberOfCellPoints = static_cast<unsigned int>(buffer[++index]);
       index++;
-      for (unsigned int jj = 0; jj < numberOfCellPoints - 1; ++jj)
+      for (unsigned int jj = 0; jj + 1 < numberOfCellPoints; ++jj)
       {
         outputFile << indent << buffer[index++] + 1;
       }

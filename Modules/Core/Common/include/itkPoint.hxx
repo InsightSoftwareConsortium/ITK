@@ -199,7 +199,7 @@ Point<T, TPointDimension>::SetToBarycentricCombination(const Self * P, const dou
 {
   this->Fill(NumericTraits<T>::ZeroValue()); // put this point to null
   double weightSum = 0.0;
-  for (unsigned int j = 0; j < N - 1; ++j)
+  for (unsigned int j = 0; j + 1 < N; ++j)
   {
     const double weight = weights[j];
     weightSum += weight;

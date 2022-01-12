@@ -41,7 +41,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   m_FirstSmoothingFilter->ReleaseDataFlagOn();
   // InPlace will be set conditionally in the GenerateData method.
 
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     m_SmoothingFilters[i] = InternalGaussianFilterType::New();
     m_SmoothingFilters[i]->SetOrder(GaussianOrderEnum::ZeroOrder);
@@ -52,7 +52,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SmoothingRecur
   }
 
   m_SmoothingFilters[0]->SetInput(m_FirstSmoothingFilter->GetOutput());
-  for (unsigned int i = 1; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 1; i + 1 < ImageDimension; ++i)
   {
     m_SmoothingFilters[i]->SetInput(m_SmoothingFilters[i - 1]->GetOutput());
   }
@@ -77,7 +77,7 @@ void
 SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNumberOfWorkUnits(ThreadIdType nb)
 {
   Superclass::SetNumberOfWorkUnits(nb);
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     m_SmoothingFilters[i]->SetNumberOfWorkUnits(nb);
   }
@@ -124,7 +124,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(
   if (this->m_Sigma != sigma)
   {
     this->m_Sigma = sigma;
-    for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+    for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
     {
       m_SmoothingFilters[i]->SetSigma(m_Sigma[i]);
     }
@@ -157,7 +157,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAc
 {
   m_NormalizeAcrossScale = normalize;
 
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     m_SmoothingFilters[i]->SetNormalizeAcrossScale(normalize);
   }
@@ -246,7 +246,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   // Register the filter with the with progress accumulator using
   // equal weight proportion.
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     progress->RegisterInternalFilter(m_SmoothingFilters[i], 1.0 / (ImageDimension));
   }
@@ -269,7 +269,7 @@ SmoothingRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std:
 {
   Superclass::PrintSelf(os, indent);
 
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     itkPrintSelfObjectMacro(SmoothingFilters[i]);
   }

@@ -44,7 +44,7 @@ itkCoxDeBoorBSplineKernelFunctionTest2(int, char *[])
       }
 
       // try calculating the nth derivative
-      for (unsigned int d = 2; d < order - 1; ++d)
+      for (unsigned int d = 2; d + 1 < order; ++d)
       {
         try
         {

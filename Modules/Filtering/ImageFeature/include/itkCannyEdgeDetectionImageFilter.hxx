@@ -161,7 +161,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ComputeCannyEdge(const
 
   int k = 0;
   // Calculate the 2nd derivative
-  for (unsigned int i = 0; i < ImageDimension - 1; ++i)
+  for (unsigned int i = 0; i + 1 < ImageDimension; ++i)
   {
     for (unsigned int j = i + 1; j < ImageDimension; ++j)
     {

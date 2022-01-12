@@ -37,7 +37,7 @@ DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Co
   for (i = 0; i < m_Order / 2; ++i)
   {
     previous = coeff[1] - 2 * coeff[0];
-    for (j = 1; j < w - 1; ++j)
+    for (j = 1; j + 1 < w; ++j)
     {
       next = coeff[j - 1] + coeff[j + 1] - 2 * coeff[j];
       coeff[j - 1] = previous;
@@ -50,7 +50,7 @@ DerivativeOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Co
   for (i = 0; i < m_Order % 2; ++i)
   {
     previous = 0.5 * coeff[1];
-    for (j = 1; j < w - 1; ++j)
+    for (j = 1; j + 1 < w; ++j)
     {
       next = -0.5 * coeff[j - 1] + 0.5 * coeff[j + 1];
       coeff[j - 1] = previous;

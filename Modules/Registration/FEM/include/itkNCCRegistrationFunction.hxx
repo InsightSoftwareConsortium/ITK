@@ -103,7 +103,7 @@ NCCRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeU
   }
 
   unsigned int hoodlen = hoodIt.Size();
-  for (unsigned int indct = 0; indct < hoodlen - 1; ++indct)
+  for (unsigned int indct = 0; indct + 1 < hoodlen; ++indct)
   {
     const IndexType index = hoodIt.GetIndex(indct);
     bool            inimage = true;

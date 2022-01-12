@@ -211,7 +211,7 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   // axis of whatever spatial interpretation, and 2 is the highest order axis.
   //  Perhaps rename them moving_image_reader_axis_i, etc.
 
-  for (unsigned int i = 0; i < NumDims - 1; ++i)
+  for (unsigned int i = 0; i + 1 < NumDims; ++i)
   {
     if ((fixed_codes[i] & CodeAxisField) != (moving_codes[i] & CodeAxisField))
     {

@@ -73,7 +73,7 @@ PrintImageData(ImageTypePtr2D imgPtr)
   SizeType2D size = imgPtr->GetLargestPossibleRegion().GetSize();
 
   std::cout << "Data: " << std::endl;
-  for (int n = 0; n < dim - 1; ++n)
+  for (int n = 0; n + 1 < dim; ++n)
   {
     for (unsigned int jj = 0; jj < size[n + 1]; ++jj)
     {

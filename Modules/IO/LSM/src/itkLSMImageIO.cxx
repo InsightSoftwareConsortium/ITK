@@ -305,7 +305,7 @@ LSMImageIO::Write(const void * buffer)
       auto *   sample_info = new uint16_t[scomponents - 3];
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       int cc;
-      for (cc = 1; cc < scomponents - 3; ++cc)
+      for (cc = 1; cc + 3 < scomponents; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }

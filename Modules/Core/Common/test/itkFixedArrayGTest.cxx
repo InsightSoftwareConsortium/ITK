@@ -209,7 +209,7 @@ Check_iterators_increment_return_value()
 
   index = 0;
   reverseIndex = VLength - 1;
-  for (unsigned int i = 0; i < VLength - 1; ++i)
+  for (unsigned int i = 0; i + 1 < VLength; ++i)
   {
     index++;
     reverseIndex--;

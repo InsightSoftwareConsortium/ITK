@@ -247,7 +247,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     std::vector<IntermediateFilterPointer> intermediateFilters;
     if (filterDimensionality > 2)
     {
-      for (i = 1; i < filterDimensionality - 1; ++i)
+      for (i = 1; i + 1 < filterDimensionality; ++i)
       {
         IntermediateFilterPointer f = IntermediateFilterType::New();
         f->SetOperator(oper[i]);

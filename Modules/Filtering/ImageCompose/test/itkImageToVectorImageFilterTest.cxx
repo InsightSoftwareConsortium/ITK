@@ -45,7 +45,7 @@ itkImageToVectorImageFilterTest(int argc, char * argv[])
 
   auto filter = FilterType::New();
   int  f = 0;
-  for (int i = 1; i < argc - 1; ++i)
+  for (int i = 1; i + 1 < argc; ++i)
   {
     auto reader = ReaderType::New();
     reader->SetFileName(argv[i]);

@@ -718,7 +718,7 @@ RobustSolver<VDimension>::AssembleLandmarkStiffnessMatrix()
       }
 
       // Fill the extradiagonal matrices
-      for (FEMIndexType i = 0; i < numberOfNodes - 1; ++i)
+      for (FEMIndexType i = 0; i + 1 < numberOfNodes; ++i)
       {
         for (FEMIndexType j = i + 1; j < numberOfNodes; ++j)
         {
@@ -803,7 +803,7 @@ RobustSolver<VDimension>::RemoveUnselectedLandmarkContributionInPointStiffnessMa
         }
       }
 
-      for (FEMIndexType i = 0; i < numberOfNodes - 1; ++i)
+      for (FEMIndexType i = 0; i + 1 < numberOfNodes; ++i)
       {
         for (FEMIndexType j = i + 1; j < numberOfNodes; ++j)
         {

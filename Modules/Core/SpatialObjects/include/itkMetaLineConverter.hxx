@@ -69,7 +69,7 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 
     pnt.SetPositionInObjectSpace(point);
 
-    for (unsigned int ii = 0; ii < NDimensions - 1; ++ii)
+    for (unsigned int ii = 0; ii + 1 < NDimensions; ++ii)
     {
       NormalType normal;
       for (unsigned int jj = 0; jj < NDimensions; ++jj)
@@ -118,7 +118,7 @@ MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
 
-    for (unsigned int n = 0; n < NDimensions - 1; ++n)
+    for (unsigned int n = 0; n + 1 < NDimensions; ++n)
     {
       for (unsigned int d = 0; d < NDimensions; ++d)
       {
