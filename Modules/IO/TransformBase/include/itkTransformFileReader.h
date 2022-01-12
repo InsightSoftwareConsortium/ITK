@@ -41,6 +41,7 @@ public:
 
   /** SmartPointer type alias support */
   using Self = TransformFileReaderTemplate;
+  using Superclass = LightProcessObject;
   using Pointer = SmartPointer<Self>;
   using TransformType = TransformBaseTemplate<TParametersValueType>;
 
@@ -57,7 +58,6 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  using Superclass = Object;
   itkTypeMacro(TransformFileReaderTemplate, LightProcessObject);
 
   /** Set the filename  */
