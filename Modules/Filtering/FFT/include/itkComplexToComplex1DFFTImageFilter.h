@@ -118,15 +118,7 @@ private:
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  ifndef itkVnlComplexToComplex1DFFTImageFilter_h
-#    ifndef itkVnlComplexToComplex1DFFTImageFilter_hxx
-#      ifndef itkFFTWComplexToComplex1DFFTImageFilter_h
-#        ifndef itkFFTWComplexToComplex1DFFTImageFilter_hxx
-#          include "itkComplexToComplex1DFFTImageFilter.hxx"
-#        endif
-#      endif
-#    endif
-#  endif
+#  include "itkComplexToComplex1DFFTImageFilter.hxx"
 #endif
 
 #ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
