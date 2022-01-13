@@ -37,6 +37,7 @@ itkMatrixImageWriteReadTest.cxx
 itkReadWriteImageWithDictionaryTest.cxx
 itkVectorImageReadWriteTest.cxx
 itk64bitTest.cxx
+itkImageFileReaderManyComponentVectorTest.cxx
 )
 
 
@@ -351,6 +352,10 @@ itk_add_test(NAME itkVectorImageReadWriteTest
 itk_add_test(NAME itkVectorImageReadWriteTest2
       COMMAND ITKIOImageBaseTestDriver itkVectorImageReadWriteTest
               ${ITK_TEST_OUTPUT_DIR}/VectorImageReadWriteTest.nrrd)
+
+itk_add_test(NAME itkImageFileReaderManyComponentVectorTest
+      COMMAND ITKIOImageBaseTestDriver itkImageFileReaderManyComponentVectorTest
+              DATA{Input/rf_voltage_15_freq_0005000000_2017-5-31_12-36-44_ReferenceSpectrum_side_lines_03_fft1d_size_128.mha})
 
 add_executable(itkUnicodeIOTest itkUnicodeIOTest.cxx)
 itk_module_target_label(itkUnicodeIOTest)
