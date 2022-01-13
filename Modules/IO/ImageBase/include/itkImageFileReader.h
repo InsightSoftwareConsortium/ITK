@@ -196,7 +196,7 @@ ReadImage(const std::string & filename)
 #  include "itkImageFileReader.hxx"
 #endif
 
-#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#if defined ITK_IMAGEIO_FACTORY_REGISTER_MANAGER || defined ITK_IO_FACTORY_REGISTER_MANAGER
 #  include "itkImageIOFactoryRegisterManager.h"
 #endif
 

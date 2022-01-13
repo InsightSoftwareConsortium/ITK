@@ -141,7 +141,7 @@ ITK_GCC_PRAGMA_DIAG_POP()
 
 } // namespace itk
 
-#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#if defined ITK_TRANSFORMIO_FACTORY_REGISTER_MANAGER || defined ITK_IO_FACTORY_REGISTER_MANAGER
 #  include "itkTransformIOFactoryRegisterManager.h"
 #endif
 

@@ -90,6 +90,9 @@ else()
   set(ITK_MODULES_REQUESTED ${ITK_MODULES_ENABLED})
 endif()
 
+# Load factory registration manager functions
+include( "${ITK_CMAKE_DIR}/ITKFactoryRegistration.cmake" )
+
 # Add configuration with FFTW
 set(ITK_USE_FFTWD "@ITK_USE_FFTWD@")
 set(ITK_USE_FFTWF "@ITK_USE_FFTWF@")

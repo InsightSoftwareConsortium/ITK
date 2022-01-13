@@ -213,7 +213,7 @@ WriteMesh(TMeshPointer && mesh, const std::string & filename, bool compress = fa
 #  include "itkMeshFileWriter.hxx"
 #endif
 
-#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#if defined ITK_MESHIO_FACTORY_REGISTER_MANAGER || defined ITK_IO_FACTORY_REGISTER_MANAGER
 #  include "itkMeshIOFactoryRegisterManager.h"
 #endif
 

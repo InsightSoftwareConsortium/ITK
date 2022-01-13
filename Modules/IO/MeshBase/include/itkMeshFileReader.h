@@ -216,7 +216,7 @@ ReadMesh(const std::string & filename)
 #  include "itkMeshFileReader.hxx"
 #endif
 
-#ifdef ITK_IO_FACTORY_REGISTER_MANAGER
+#if defined ITK_MESHIO_FACTORY_REGISTER_MANAGER || defined ITK_IO_FACTORY_REGISTER_MANAGER
 #  include "itkMeshIOFactoryRegisterManager.h"
 #endif
 
