@@ -19,6 +19,7 @@
 #define itkPyITKCommonCAPI_h
 
 #include "itkSingleton.h"
+#include "itkObjectFactoryBase.h"
 
 /* Header file for the _ITKCommonPython C API exposed via an PyCapsule.
  *

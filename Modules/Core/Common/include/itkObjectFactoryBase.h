@@ -57,7 +57,7 @@ namespace itk
 
 // Forward reference because of private implementation
 class OverRideMap;
-struct ObjectFactoryBasePrivate;
+class ObjectFactoryBasePrivate;
 
 class ITKCommon_EXPORT ObjectFactoryBase : public Object
 {
@@ -237,6 +237,10 @@ public:
     (void)staticFactoryRegistration;
   }
 
+  /** Initialize the static members of ObjectFactoryBase.
+   *  RegisterInternal() and InitializeFactoryList() are called here. */
+  static void
+  Initialize();
 
 protected:
   void
@@ -277,11 +281,6 @@ private:
   /** Initialize the static list of Factories. */
   static void
   InitializeFactoryList();
-
-  /** Initialize the static members of ObjectFactoryBase.
-   *  RegisterInternal() and InitializeFactoryList() are called here. */
-  static void
-  Initialize();
 
   /** Register default factories which are not loaded at run time. */
   static void

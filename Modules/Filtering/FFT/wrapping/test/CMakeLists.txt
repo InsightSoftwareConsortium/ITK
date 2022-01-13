@@ -9,4 +9,8 @@ if(ITK_WRAP_PYTHON AND ITK_WRAP_float AND wrap_2_index GREATER -1)
       ${ITK_TEST_OUTPUT_DIR}/PythonFFTImageFilterRealTest.png
       ${ITK_TEST_OUTPUT_DIR}/PythonFFTImageFilterImaginaryTest.png
   )
+
+  itk_python_add_test(NAME PythonFFTObjectFactoryTest
+    COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/FFTObjectFactoryTest.py
+  )
 endif()

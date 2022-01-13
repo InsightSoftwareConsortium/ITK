@@ -358,6 +358,7 @@ _ITKCommonPython_GetGlobalSingletonIndex_RETURN
 _ITKCommonPython_GetGlobalSingletonIndex
 _ITKCommonPython_GetGlobalSingletonIndex_PROTO
 {
+  itk::ObjectFactoryBase::Initialize();
   return itk::SingletonIndex::GetInstance();
 }
 
@@ -394,6 +395,7 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
 #endif
     }
   itk::SingletonIndex::SetInstance( _ITKCommonPython_GetGlobalSingletonIndex() );
+  itk::ObjectFactoryBase::Initialize();
   ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 ")
     endif()
