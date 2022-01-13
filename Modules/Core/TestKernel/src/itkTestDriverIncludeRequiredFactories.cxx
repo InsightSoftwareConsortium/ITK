@@ -105,7 +105,7 @@ RegisterRequiredFFTFactories()
 }
 
 void
-ProcessArgumentsAndRegisterRequiredFactories(int * ac, ArgumentStringType * av)
+ProcessArgumentsAndRegisterRequiredFactories(int * argc, ArgumentStringType * argv)
 {
   try
   {
@@ -115,5 +115,5 @@ ProcessArgumentsAndRegisterRequiredFactories(int * ac, ArgumentStringType * av)
   {
     std::cerr << "Error during registration of required factories: " << error << std::endl;
   }
-  ProcessArguments(ac, av);
+  ProcessArguments(argc, argv);
 }

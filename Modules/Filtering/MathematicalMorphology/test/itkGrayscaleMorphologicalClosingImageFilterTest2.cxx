@@ -26,14 +26,14 @@
 #include "itkTestingMacros.h"
 
 int
-itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char * av[])
+itkGrayscaleMorphologicalClosingImageFilterTest2(int argc, char * argv[])
 {
   // Comment the following if you want to use the itk text output window
   itk::OutputWindow::SetInstance(itk::TextOutput::New());
 
-  if (ac < 7)
+  if (argc < 7)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage BASIC HISTO ANCHOR VHGW SafeBorder"
               << std::endl;
     return -1;
   }
@@ -43,7 +43,7 @@ itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char * av[])
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   // Create a filter
   using SRType = itk::FlatStructuringElement<dim>;
@@ -79,26 +79,26 @@ itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char * av[])
   try
   {
     filter->SetRadius(20);
-    filter->SetSafeBorder(std::stoi(av[6]));
+    filter->SetSafeBorder(std::stoi(argv[6]));
 
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
     writer->SetInput(filter->GetOutput());
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::BASIC);
-    writer->SetFileName(av[2]);
+    writer->SetFileName(argv[2]);
     writer->Update();
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::HISTO);
-    writer->SetFileName(av[3]);
+    writer->SetFileName(argv[3]);
     writer->Update();
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::ANCHOR);
-    writer->SetFileName(av[4]);
+    writer->SetFileName(argv[4]);
     writer->Update();
 
     filter->SetAlgorithm(FilterType::AlgorithmEnum::VHGW);
-    writer->SetFileName(av[5]);
+    writer->SetFileName(argv[5]);
     writer->Update();
   }
   catch (const itk::ExceptionObject & e)
@@ -111,7 +111,7 @@ itkGrayscaleMorphologicalClosingImageFilterTest2(int ac, char * av[])
   using WriterType = itk::ImageFileWriter<ImageType>;
   auto writer = WriterType::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

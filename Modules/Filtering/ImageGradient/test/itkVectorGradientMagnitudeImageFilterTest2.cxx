@@ -26,7 +26,7 @@
 
 
 int
-itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
+itkVectorGradientMagnitudeImageFilterTest2(int argc, char * argv[])
 {
   using RGBPixelType = itk::RGBPixel<unsigned char>;
   using RGBImageType = itk::Image<RGBPixelType, 3>;
@@ -39,21 +39,21 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
   using WriterType = itk::ImageFileWriter<CharImage2Type>;
 
 
-  if (ac < 5)
+  if (argc < 5)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage Mode SliceToExtract\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage Mode SliceToExtract\n";
     return EXIT_FAILURE;
   }
 
   // Create a reader and filter
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
   auto adaptor = AdaptorType::New();
   adaptor->SetImage(reader->GetOutput());
   auto filter = FilterType::New();
   filter->SetInput(adaptor);
 
-  auto mode = static_cast<bool>(std::stoi(av[3]));
+  auto mode = static_cast<bool>(std::stoi(argv[3]));
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   if (mode)
   {
@@ -72,7 +72,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
   rescale->SetInput(filter->GetOutput());
 
   auto writer = WriterType::New();
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
 
   try
   {
@@ -81,7 +81,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int ac, char * av[])
     // Extract one slice to write for regression testing
     CharImage3Type::RegionType extractedRegion = rescale->GetOutput()->GetRequestedRegion();
     extractedRegion.SetSize(2, 1);
-    extractedRegion.SetIndex(2, std::stoi(av[4]));
+    extractedRegion.SetIndex(2, std::stoi(argv[4]));
 
     auto                       extractedImage = CharImage2Type::New();
     CharImage2Type::RegionType reg;

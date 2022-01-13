@@ -21,13 +21,13 @@
 /** Test writing and reading a Vector Image
  */
 int
-itkNiftiImageIOTest7(int ac, char * av[])
+itkNiftiImageIOTest7(int argc, char * argv[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else

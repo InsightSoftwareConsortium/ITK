@@ -19,21 +19,21 @@
 #include "itkNiftiImageIOTest.h"
 
 int
-itkNiftiImageIOTest2(int ac, char * av[])
+itkNiftiImageIOTest2(int argc, char * argv[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
-    --ac;
+    char * testdir = *++argv;
+    --argc;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
-  if (ac != 4)
+  if (argc != 4)
     return EXIT_FAILURE;
-  char * arg1 = av[1];
-  char * arg2 = av[2];
-  char * prefix = av[3];
+  char * arg1 = argv[1];
+  char * arg2 = argv[2];
+  char * prefix = argv[3];
   int    test_success = 0;
 
   using ImageType = itk::Image<signed short, 3>;

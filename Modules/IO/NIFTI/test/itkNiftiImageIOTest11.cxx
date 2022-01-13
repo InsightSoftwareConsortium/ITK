@@ -22,21 +22,21 @@
 // Specific ImageIO test
 
 int
-itkNiftiImageIOTest11(int ac, char * av[])
+itkNiftiImageIOTest11(int argc, char * argv[])
 {
   std::string testfilename;
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else
   {
     return EXIT_FAILURE;
   }
-  if (ac > 2)
+  if (argc > 2)
   {
-    testfilename = *++av;
+    testfilename = *++argv;
   }
   else
   {

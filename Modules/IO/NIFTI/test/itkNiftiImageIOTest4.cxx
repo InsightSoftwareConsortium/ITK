@@ -35,13 +35,13 @@ PrintDir(Test4ImageType::DirectionType & dir)
 }
 
 int
-itkNiftiImageIOTest4(int ac, char * av[])
+itkNiftiImageIOTest4(int argc, char * argv[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else

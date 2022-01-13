@@ -471,18 +471,18 @@ Equal(const double a, const double b);
 
 template <typename RGBPixelType>
 int
-RGBTest(int ac, char * av[])
+RGBTest(int argc, char * argv[])
 {
-  if (ac > 2)
+  if (argc > 2)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else
   {
     return EXIT_FAILURE;
   }
-  char * tmpImage = *++av;
+  char * tmpImage = *++argv;
   int    success(EXIT_SUCCESS);
   using RGBImageType = typename itk::Image<RGBPixelType, 3>;
   typename RGBImageType::RegionType  imageRegion;

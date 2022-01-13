@@ -21,21 +21,21 @@
 #include "itkTestingMacros.h"
 
 int
-itkNiftiImageIOTest12(int ac, char * av[])
+itkNiftiImageIOTest12(int argc, char * argv[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac != 3)
+  if (argc != 3)
   {
     std::cerr << "Incorrect command line usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(av) << " <TempOutputDirectory> <filename>" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " <TempOutputDirectory> <filename>" << std::endl;
     return EXIT_FAILURE;
   }
   constexpr unsigned int CmdLineTestDirPos = 1;
-  const std::string      testdir{ av[CmdLineTestDirPos] };
+  const std::string      testdir{ argv[CmdLineTestDirPos] };
   itksys::SystemTools::ChangeDirectory(testdir);
   constexpr unsigned int CmdLineFilenamePos = 2;
-  const std::string      imgfilename{ av[CmdLineFilenamePos] };
+  const std::string      imgfilename{ argv[CmdLineFilenamePos] };
 
   using ImageType = itk::VectorImage<unsigned char, 3>;
 

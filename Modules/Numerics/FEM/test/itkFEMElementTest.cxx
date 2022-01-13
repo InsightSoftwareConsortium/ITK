@@ -20,7 +20,7 @@
 #include "itksys/SystemTools.hxx"
 
 int
-itkFEMElementTest(int ac, char * av[])
+itkFEMElementTest(int argc, char * argv[])
 {
   // Need to register default FEM object types,
   // and setup SpatialReader to recognize FEM types
@@ -76,7 +76,7 @@ itkFEMElementTest(int ac, char * av[])
   //    1. by specifying an input file as a run-time argument
   //    2. by using the built-in menu of input files
 
-  if (ac < 2)
+  if (argc < 2)
   // Display the menu
   {
     std::cout << "Loading menu..." << std::endl;
@@ -128,16 +128,16 @@ itkFEMElementTest(int ac, char * av[])
   {
     std::cout << "User-specified file..." << std::endl;
 
-    fname = new char[strlen(av[1]) + 5];
-    strcpy(fname, av[1]);
+    fname = new char[strlen(argv[1]) + 5];
+    strcpy(fname, argv[1]);
 
     // Print the name of the user-specified problem
     std::cout << std::endl << comment << "FEM Input: " << fname << std::endl;
 
     // Check if a solver is specified as well
-    if (ac == 3)
+    if (argc == 3)
     {
-      currsolver = *av[2];
+      currsolver = *argv[2];
       std::cout << "currsolver = " << currsolver << std::endl;
     }
   }

@@ -24,7 +24,7 @@
 #include "itkTestingMacros.h"
 
 int
-itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
+itkVectorGradientMagnitudeImageFilterTest3(int argc, char * argv[])
 {
   using RGBPixelType = itk::RGBPixel<unsigned char>;
   using RGBImageType = itk::Image<RGBPixelType, 3>;
@@ -35,15 +35,15 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
   using Monitor2Filter = itk::PipelineMonitorImageFilter<FilterType::OutputImageType>;
   using WriterType = itk::ImageFileWriter<FilterType::OutputImageType>;
 
-  if (ac < 4)
+  if (argc < 4)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage Mode\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage Mode\n";
     return EXIT_FAILURE;
   }
 
   // Create a reader and filter
   auto reader = ReaderType::New();
-  reader->SetFileName(av[1]);
+  reader->SetFileName(argv[1]);
 
   auto monitor1 = Monitor1Filter::New();
   monitor1->SetInput(reader->GetOutput());
@@ -55,7 +55,7 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
   auto filter = FilterType::New();
   filter->SetInput(adaptor);
 
-  auto mode = static_cast<bool>(std::stoi(av[3]));
+  auto mode = static_cast<bool>(std::stoi(argv[3]));
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
   if (mode)
   {
@@ -72,7 +72,7 @@ itkVectorGradientMagnitudeImageFilterTest3(int ac, char * av[])
   monitor2->SetInput(filter->GetOutput());
 
   auto writer = WriterType::New();
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->SetInput(monitor2->GetOutput());
   writer->SetNumberOfStreamDivisions(4);
 

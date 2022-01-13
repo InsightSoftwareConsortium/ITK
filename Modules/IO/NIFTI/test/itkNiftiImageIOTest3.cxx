@@ -263,13 +263,13 @@ TestImageOfVectors(const std::string & fname)
 /** Test writing and reading a Vector Image
  */
 int
-itkNiftiImageIOTest3(int ac, char * av[])
+itkNiftiImageIOTest3(int argc, char * argv[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else

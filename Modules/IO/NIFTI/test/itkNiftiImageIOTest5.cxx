@@ -218,13 +218,13 @@ SlopeInterceptWriteTest()
 //
 // test vector images
 int
-itkNiftiImageIOTest5(int ac, char * av[])
+itkNiftiImageIOTest5(int argc, char * argv[])
 {
   //
   // first argument is passing in the writable directory to do all testing
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else

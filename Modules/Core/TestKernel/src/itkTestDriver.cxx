@@ -263,7 +263,7 @@ TestDriverInvokeProcess(const ArgumentsList & args)
 
 
 int
-main(int ac, char * av[])
+main(int argc, char * argv[])
 {
   try
   {
@@ -278,7 +278,7 @@ main(int ac, char * av[])
 
   ProcessedOutputType po;
 
-  int result = ProcessArguments(&ac, &av, &po);
+  int result = ProcessArguments(&argc, &argv, &po);
 
   if (result)
   {

@@ -19,11 +19,11 @@
 #include "itkNiftiImageIOTest.h"
 
 int
-itkNiftiImageIOTest8(int ac, char * av[])
+itkNiftiImageIOTest8(int argc, char * argv[])
 {
-  if (ac > 1)
+  if (argc > 1)
   {
-    char * testdir = *++av;
+    char * testdir = *++argv;
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   else

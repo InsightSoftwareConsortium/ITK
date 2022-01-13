@@ -20,10 +20,10 @@
 
 
 int
-itkImageFileReaderTest1(int ac, char * av[])
+itkImageFileReaderTest1(int argc, char * argv[])
 {
 
-  if (ac < 1)
+  if (argc < 1)
   {
     std::cout << "usage: ITKImageIOBaseTestDriver itkImageFileReaderTest" << std::endl;
     return EXIT_FAILURE;
@@ -78,7 +78,7 @@ itkImageFileReaderTest1(int ac, char * av[])
   {
     auto reader = ReaderType::New();
     // this is the executable and no reader should be able to read it
-    reader->SetFileName(av[0]);
+    reader->SetFileName(argv[0]);
     reader->Update();
   }
   catch (const itk::ExceptionObject & ex)

@@ -152,7 +152,7 @@ usage()
 
 
 int
-ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * processedOutput)
+ProcessArguments(int * argc, ArgumentStringType * argv, ProcessedOutputType * processedOutput)
 {
 #if defined(LINUX) && !defined(__MINGW32__) && defined(ITK_HAS_FEENABLEEXCEPT)
   itk::FloatingPointExceptions::Enable();
@@ -173,28 +173,28 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
   // parse the command line
   int  i = 1;
   bool skip = false;
-  while (i < *ac)
+  while (i < *argc)
   {
-    if (!skip && strcmp((*av)[i], "--compare") == 0)
+    if (!skip && strcmp((*argv)[i], "--compare") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 2 >= *argc)
       {
         usage();
         return 1;
       }
-      regressionTestParameters.compareList.emplace_back((*av)[i + 1], (*av)[i + 2]);
-      (*av) += 3;
-      *ac -= 3;
+      regressionTestParameters.compareList.emplace_back((*argv)[i + 1], (*argv)[i + 2]);
+      (*argv) += 3;
+      *argc -= 3;
     }
-    else if (!skip && strcmp((*av)[i], "--compare-MD5") == 0)
+    else if (!skip && strcmp((*argv)[i], "--compare-MD5") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 2 >= *argc)
       {
         usage();
         return 1;
       }
-      const char * filename = (*av)[i + 1];
-      std::string  md5hash0 = (*av)[i + 2];
+      const char * filename = (*argv)[i + 1];
+      std::string  md5hash0 = (*argv)[i + 2];
 
       // convert hash to all lowercase letters
       std::transform(md5hash0.begin(), md5hash0.end(), md5hash0.begin(), my_to_lower);
@@ -208,13 +208,13 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
       std::vector<std::string> hashVector;
       hashVector.push_back(md5hash0);
 
-      (*av) += 3;
-      (*ac) -= 3;
+      (*argv) += 3;
+      (*argc) -= 3;
 
       // continue eating hash values
-      while (*ac - i > 0)
+      while (*argc - i > 0)
       {
-        std::string md5hashN = (*av)[i];
+        std::string md5hashN = (*argv)[i];
 
         // convert hash to all lowercase letters
         std::transform(md5hashN.begin(), md5hashN.end(), md5hashN.begin(), my_to_lower);
@@ -230,173 +230,173 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
 
         // successful hash,
         // move the arguments along
-        ++(*av);
-        --(*ac);
+        ++(*argv);
+        --(*argc);
       }
 
       hashTestList.emplace_back(filename, hashVector);
     }
-    else if (!skip && strcmp((*av)[i], "--") == 0)
+    else if (!skip && strcmp((*argv)[i], "--") == 0)
     {
       skip = true;
       i += 1;
     }
-    else if (!skip && strcmp((*av)[i], "--help") == 0)
+    else if (!skip && strcmp((*argv)[i], "--help") == 0)
     {
       usage();
       return 1;
     }
-    else if (!skip && strcmp((*av)[i], "--with-threads") == 0)
+    else if (!skip && strcmp((*argv)[i], "--with-threads") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
       // set the environment which will be read by the subprocess
       std::string threadEnv = "ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=";
-      threadEnv += (*av)[i + 1];
+      threadEnv += (*argv)[i + 1];
       itksys::SystemTools::PutEnv(threadEnv.c_str());
       // and set the number of threads locally for the comparison
-      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(std::stoi((*av)[i + 1]));
-      *av += 2;
-      *ac -= 2;
+      itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(std::stoi((*argv)[i + 1]));
+      *argv += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--without-threads") == 0)
+    else if (!skip && strcmp((*argv)[i], "--without-threads") == 0)
     {
       itksys::SystemTools::PutEnv("ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1");
       itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
-      *av += 1;
-      *ac -= 1;
+      *argv += 1;
+      *argc -= 1;
     }
-    else if (!skip && strcmp((*av)[i], "--compareNumberOfPixelsTolerance") == 0)
+    else if (!skip && strcmp((*argv)[i], "--compareNumberOfPixelsTolerance") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
-      regressionTestParameters.numberOfPixelsTolerance = std::stoi((*av)[i + 1]);
-      *av += 2;
-      *ac -= 2;
+      regressionTestParameters.numberOfPixelsTolerance = std::stoi((*argv)[i + 1]);
+      *argv += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--compareRadiusTolerance") == 0)
+    else if (!skip && strcmp((*argv)[i], "--compareRadiusTolerance") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
-      regressionTestParameters.radiusTolerance = std::stoi((*av)[i + 1]);
-      (*av) += 2;
-      *ac -= 2;
+      regressionTestParameters.radiusTolerance = std::stoi((*argv)[i + 1]);
+      (*argv) += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--compareIntensityTolerance") == 0)
+    else if (!skip && strcmp((*argv)[i], "--compareIntensityTolerance") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
-      regressionTestParameters.intensityTolerance = std::stod((*av)[i + 1]);
-      (*av) += 2;
-      *ac -= 2;
+      regressionTestParameters.intensityTolerance = std::stod((*argv)[i + 1]);
+      (*argv) += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--compareCoordinateTolerance") == 0)
+    else if (!skip && strcmp((*argv)[i], "--compareCoordinateTolerance") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
-      regressionTestParameters.coordinateTolerance = std::stod((*av)[i + 1]);
-      (*av) += 2;
-      *ac -= 2;
+      regressionTestParameters.coordinateTolerance = std::stod((*argv)[i + 1]);
+      (*argv) += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--compareDirectionTolerance") == 0)
+    else if (!skip && strcmp((*argv)[i], "--compareDirectionTolerance") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
-      regressionTestParameters.directionTolerance = std::stod((*av)[i + 1]);
-      (*av) += 2;
-      *ac -= 2;
+      regressionTestParameters.directionTolerance = std::stod((*argv)[i + 1]);
+      (*argv) += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--ignoreInputInformation") == 0)
+    else if (!skip && strcmp((*argv)[i], "--ignoreInputInformation") == 0)
     {
       regressionTestParameters.verifyInputInformation = false;
-      (*av) += 1;
-      *ac -= 1;
+      (*argv) += 1;
+      *argc -= 1;
     }
-    else if (!skip && strcmp((*av)[i], "--add-before-libpath") == 0)
+    else if (!skip && strcmp((*argv)[i], "--add-before-libpath") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
       if (processedOutput)
       {
-        processedOutput->add_before_libpath.push_back((*av)[i + 1]);
+        processedOutput->add_before_libpath.push_back((*argv)[i + 1]);
       }
-      (*av) += 2;
-      *ac -= 2;
+      (*argv) += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--add-before-env") == 0)
+    else if (!skip && strcmp((*argv)[i], "--add-before-env") == 0)
     {
-      if (i + 2 >= *ac)
+      if (i + 2 >= *argc)
       {
         usage();
         return 1;
       }
       if (processedOutput)
       {
-        processedOutput->add_before_env.push_back((*av)[i + 1]);
-        processedOutput->add_before_env.push_back((*av)[i + 2]);
+        processedOutput->add_before_env.push_back((*argv)[i + 1]);
+        processedOutput->add_before_env.push_back((*argv)[i + 2]);
       }
-      (*av) += 3;
-      *ac -= 3;
+      (*argv) += 3;
+      *argc -= 3;
     }
-    else if (!skip && strcmp((*av)[i], "--add-before-env-with-sep") == 0)
+    else if (!skip && strcmp((*argv)[i], "--add-before-env-with-sep") == 0)
     {
-      if (i + 3 >= *ac)
+      if (i + 3 >= *argc)
       {
         usage();
         return 1;
       }
       if (processedOutput)
       {
-        processedOutput->add_before_env_with_sep.push_back((*av)[i + 1]);
-        processedOutput->add_before_env_with_sep.push_back((*av)[i + 2]);
-        processedOutput->add_before_env_with_sep.push_back((*av)[i + 3]);
+        processedOutput->add_before_env_with_sep.push_back((*argv)[i + 1]);
+        processedOutput->add_before_env_with_sep.push_back((*argv)[i + 2]);
+        processedOutput->add_before_env_with_sep.push_back((*argv)[i + 3]);
       }
-      (*av) += 4;
-      *ac -= 4;
+      (*argv) += 4;
+      *argc -= 4;
     }
-    else if (!skip && strcmp((*av)[i], "--remove-env") == 0)
+    else if (!skip && strcmp((*argv)[i], "--remove-env") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
 
-      itksys::SystemTools::UnPutEnv((*av)[i + 1]);
+      itksys::SystemTools::UnPutEnv((*argv)[i + 1]);
 
-      (*av) += 2;
-      *ac -= 2;
+      (*argv) += 2;
+      *argc -= 2;
     }
-    else if (!skip && strcmp((*av)[i], "--full-output") == 0)
+    else if (!skip && strcmp((*argv)[i], "--full-output") == 0)
     {
       // emit the string to tell ctest that the full output should be
       // passed to cdash.
       std::cout << "CTEST_FULL_OUTPUT" << std::endl;
-      (*av) += 1;
-      *ac -= 1;
+      (*argv) += 1;
+      *argc -= 1;
     }
-    else if (!skip && strcmp((*av)[i], "--no-process") == 0)
+    else if (!skip && strcmp((*argv)[i], "--no-process") == 0)
     {
       // The test driver needs to invoke another executable
       // For example, the python interpreter to run Wrapping tests.
@@ -404,26 +404,26 @@ ProcessArguments(int * ac, ArgumentStringType * av, ProcessedOutputType * proces
       {
         processedOutput->externalProcessMustBeCalled = false;
       }
-      (*av) += 1;
-      *ac -= 1;
+      (*argv) += 1;
+      *argc -= 1;
     }
-    else if (!skip && strcmp((*av)[i], "--redirectOutput") == 0)
+    else if (!skip && strcmp((*argv)[i], "--redirectOutput") == 0)
     {
-      if (i + 1 >= *ac)
+      if (i + 1 >= *argc)
       {
         usage();
         return 1;
       }
       redirectOutputParameters.redirect = true;
-      redirectOutputParameters.fileName = (*av)[i + 1];
-      *av += 2;
-      *ac -= 2;
+      redirectOutputParameters.fileName = (*argv)[i + 1];
+      *argv += 2;
+      *argc -= 2;
     }
     else
     {
       if (processedOutput)
       {
-        processedOutput->args.push_back((*av)[i]);
+        processedOutput->args.push_back((*argv)[i]);
       }
       i += 1;
     }

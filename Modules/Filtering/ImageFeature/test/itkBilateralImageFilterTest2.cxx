@@ -24,11 +24,11 @@
 #include "itkTestingMacros.h"
 
 int
-itkBilateralImageFilterTest2(int ac, char * av[])
+itkBilateralImageFilterTest2(int argc, char * argv[])
 {
-  if (ac < 3)
+  if (argc < 3)
   {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(av) << " InputImage OutputImage\n";
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " InputImage OutputImage\n";
     return -1;
   }
 
@@ -36,7 +36,7 @@ itkBilateralImageFilterTest2(int ac, char * av[])
   constexpr unsigned int dimension = 2;
   using myImage = itk::Image<PixelType, dimension>;
   itk::ImageFileReader<myImage>::Pointer input = itk::ImageFileReader<myImage>::New();
-  input->SetFileName(av[1]);
+  input->SetFileName(argv[1]);
 
   // Create a filter
   using FilterType = itk::BilateralImageFilter<myImage, myImage>;
@@ -99,7 +99,7 @@ itkBilateralImageFilterTest2(int ac, char * av[])
   itk::ImageFileWriter<myImage>::Pointer writer;
   writer = itk::ImageFileWriter<myImage>::New();
   writer->SetInput(filter->GetOutput());
-  writer->SetFileName(av[2]);
+  writer->SetFileName(argv[2]);
   writer->Update();
 
   return EXIT_SUCCESS;

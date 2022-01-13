@@ -20,10 +20,10 @@
 #include "itkImageFileReader.h"
 
 int
-itkImageFileWriterTest2(int ac, char * av[])
+itkImageFileWriterTest2(int argc, char * argv[])
 {
 
-  if (ac < 2)
+  if (argc < 2)
   {
     std::cout << "usage: itkIOTests itkImageFileWriterTest2 outputFileName" << std::endl;
     return EXIT_FAILURE;
@@ -61,11 +61,11 @@ itkImageFileWriterTest2(int ac, char * av[])
   try
   {
     writer->SetInput(image);
-    writer->SetFileName(av[1]);
+    writer->SetFileName(argv[1]);
     writer->Update();
 
 
-    reader->SetFileName(av[1]);
+    reader->SetFileName(argv[1]);
     reader->Update();
     index = reader->GetOutput()->GetLargestPossibleRegion().GetIndex();
     reader->GetOutput()->TransformIndexToPhysicalPoint(index, readPoint);

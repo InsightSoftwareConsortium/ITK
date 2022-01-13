@@ -151,12 +151,12 @@ PrintSolution(FEMSolverType * S)
 }
 
 int
-itkFEMSolverHyperbolicTest(int ac, char * av[])
+itkFEMSolverHyperbolicTest(int argc, char * argv[])
 {
 
-  if (ac < 4)
+  if (argc < 4)
   {
-    std::cout << "Usage: " << av[0];
+    std::cout << "Usage: " << argv[0];
     std::cout << " input-file iterations lsw (0=VNL, 1=Dense VNL, 2=Itpack)";
     std::cout << std::endl;
     return EXIT_FAILURE;
@@ -164,29 +164,29 @@ itkFEMSolverHyperbolicTest(int ac, char * av[])
 
   itk::FEMFactoryBase::GetFactory()->RegisterDefaultTypes();
 
-  unsigned int        niter = std::stoi(av[2]);
-  unsigned int        w = std::stoi(av[3]);
+  unsigned int        niter = std::stoi(argv[2]);
+  unsigned int        w = std::stoi(argv[3]);
   std::vector<double> solution;
-  if (ac > 4)
+  if (argc > 4)
   {
-    solution.resize(ac - 4);
-    for (int i = 4; i < ac; ++i)
+    solution.resize(argc - 4);
+    for (int i = 4; i < argc; ++i)
     {
-      solution[i - 4] = std::stod(av[i]);
+      solution[i - 4] = std::stod(argv[i]);
     }
   }
 
   using FEMSpatialObjectReaderType = itk::FEMSpatialObjectReader<2>;
   using FEMSpatialObjectReaderPointer = FEMSpatialObjectReaderType::Pointer;
   FEMSpatialObjectReaderPointer SpatialReader = FEMSpatialObjectReaderType::New();
-  SpatialReader->SetFileName(av[1]);
+  SpatialReader->SetFileName(argv[1]);
   try
   {
     SpatialReader->Update();
   }
   catch (itk::fem::FEMException & e)
   {
-    std::cout << "Error reading FEM problem: " << av[1] << "!\n";
+    std::cout << "Error reading FEM problem: " << argv[1] << "!\n";
     e.Print(std::cout);
     return EXIT_FAILURE;
   }
@@ -256,7 +256,7 @@ itkFEMSolverHyperbolicTest(int ac, char * av[])
   PrintNodalCoordinates(SH);
   PrintSolution(SH);
 
-  if (ac > 4)
+  if (argc > 4)
   {
     int                numberOfNodes = SH->GetInput()->GetNumberOfNodes();
     const unsigned int invalidID = itk::fem::Element::InvalidDegreeOfFreedomID;
