@@ -328,6 +328,9 @@ assert np.any(arr != itk.array_from_image(image))
 image = itk.GetImageViewFromArray(arr)
 image.FillBuffer(2)
 assert np.all(arr == itk.array_from_image(image))
+arr_fortran = arr.copy(order="F")
+image = itk.GetImageViewFromArray(arr_fortran)
+assert np.array_equal(arr_fortran.shape, image.shape)
 image = itk.image_from_array(arr, is_vector=True)
 assert image.GetImageDimension() == 2
 image = itk.GetImageViewFromArray(arr, is_vector=True)
@@ -337,6 +340,7 @@ assert arr.shape[0] == 2
 assert arr.shape[1] == 3
 assert arr[1, 1] == 5
 image = itk.image_from_array(arr)
+assert np.array_equal(arr.shape, image.shape)
 arrKeepAxes = itk.array_from_image(image, keep_axes=True)
 assert arrKeepAxes.shape[0] == 3
 assert arrKeepAxes.shape[1] == 2
