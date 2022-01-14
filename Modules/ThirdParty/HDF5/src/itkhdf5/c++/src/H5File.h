@@ -117,7 +117,7 @@ class H5_DLLCPP H5File : public Group {
     virtual hid_t getId() const H5_OVERRIDE;
 
     // H5File destructor.
-    virtual ~H5File();
+    virtual ~H5File() H5_OVERRIDE;
 
   protected:
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

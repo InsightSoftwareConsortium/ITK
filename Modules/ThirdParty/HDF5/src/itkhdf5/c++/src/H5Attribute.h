@@ -38,7 +38,7 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     Attribute(const hid_t attr_id);
 
     // Closes this attribute.
-    virtual void close();
+    virtual void close() H5_OVERRIDE;
 
     // Gets the name of this attribute.
     ssize_t      getName(char *attr_name, size_t buf_size = 0) const;
@@ -50,13 +50,13 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     ssize_t getName(size_t buf_size, H5std_string &attr_name) const;
 
     // Gets a copy of the dataspace for this attribute.
-    virtual DataSpace getSpace() const;
+    virtual DataSpace getSpace() const H5_OVERRIDE;
 
     // Returns the amount of storage size required for this attribute.
-    virtual hsize_t getStorageSize() const;
+    virtual hsize_t getStorageSize() const H5_OVERRIDE;
 
     // Returns the in memory size of this attribute's data.
-    virtual size_t getInMemDataSize() const;
+    virtual size_t getInMemDataSize() const H5_OVERRIDE;
 
     // Reads data from this attribute.
     void read(const DataType &mem_type, void *buf) const;
@@ -68,21 +68,21 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const H5_OVERRIDE
     {
         return ("Attribute");
     }
 
     // Gets the attribute id.
-    virtual hid_t getId() const;
+    virtual hid_t getId() const H5_OVERRIDE;
 
     // Destructor: properly terminates access to this attribute.
-    virtual ~Attribute();
+    virtual ~Attribute() H5_OVERRIDE;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
   protected:
     // Sets the attribute id.
-    virtual void p_setId(const hid_t new_id);
+    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   private:
@@ -92,7 +92,7 @@ class H5_DLLCPP Attribute : public AbstractDs, public H5Location {
     // getTypeClass and various API functions getXxxType
     // defined in AbstractDs for generic datatype and specific
     // sub-types
-    virtual hid_t p_get_type() const;
+    virtual hid_t p_get_type() const H5_OVERRIDE;
 
     // Reads variable or fixed len strings from this attribute.
     void p_read_variable_len(const DataType &mem_type, H5std_string &strg) const;

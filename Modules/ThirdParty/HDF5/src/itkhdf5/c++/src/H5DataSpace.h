@@ -127,7 +127,7 @@ class H5_DLLCPP DataSpace : public IdComponent {
     static void deleteConstants();
 
     // Destructor: properly terminates access to this dataspace.
-    virtual ~DataSpace();
+    virtual ~DataSpace() H5_OVERRIDE;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

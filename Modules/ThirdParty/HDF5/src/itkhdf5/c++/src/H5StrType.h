@@ -42,7 +42,7 @@ class H5_DLLCPP StrType : public AtomType {
 
     // Returns an StrType object via DataType* by decoding the
     // binary object description of this type.
-    virtual DataType *decode() const;
+    virtual DataType *decode() const H5_OVERRIDE;
 
     // Retrieves the character set type of this string datatype.
     H5T_cset_t getCset() const;
@@ -58,7 +58,7 @@ class H5_DLLCPP StrType : public AtomType {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const H5_OVERRIDE
     {
         return ("StrType");
     }
@@ -73,7 +73,7 @@ class H5_DLLCPP StrType : public AtomType {
     StrType(const StrType &original);
 
     // Noop destructor.
-    virtual ~StrType();
+    virtual ~StrType() H5_OVERRIDE;
 
 }; // end of StrType
 } // namespace H5

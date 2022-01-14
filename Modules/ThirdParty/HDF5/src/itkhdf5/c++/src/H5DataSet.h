@@ -28,7 +28,7 @@ namespace H5 {
 class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
   public:
     // Close this dataset.
-    virtual void close();
+    virtual void close() H5_OVERRIDE;
 
     // Extends the dataset with unlimited dimension.
     void extend(const hsize_t *size) const;
@@ -53,16 +53,16 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     haddr_t getOffset() const;
 
     // Gets the dataspace of this dataset.
-    virtual DataSpace getSpace() const;
+    virtual DataSpace getSpace() const H5_OVERRIDE;
 
     // Determines whether space has been allocated for a dataset.
     void getSpaceStatus(H5D_space_status_t &status) const;
 
     // Returns the amount of storage size required for this dataset.
-    virtual hsize_t getStorageSize() const;
+    virtual hsize_t getStorageSize() const H5_OVERRIDE;
 
     // Returns the in memory size of this attribute's data.
-    virtual size_t getInMemDataSize() const;
+    virtual size_t getInMemDataSize() const H5_OVERRIDE;
 
     // Returns the number of bytes required to store VL data.
     hsize_t getVlenBufSize(const DataType &type, const DataSpace &space) const;
@@ -100,7 +100,7 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const H5_OVERRIDE
     {
         return ("DataSet");
     }
@@ -124,15 +124,15 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     DataSet(const hid_t existing_id);
 
     // Gets the dataset id.
-    virtual hid_t getId() const;
+    virtual hid_t getId() const H5_OVERRIDE;
 
     // Destructor: properly terminates access to this dataset.
-    virtual ~DataSet();
+    virtual ~DataSet() H5_OVERRIDE;
 
   protected:
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
     // Sets the dataset id.
-    virtual void p_setId(const hid_t new_id);
+    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
 #endif // DOXYGEN_SHOULD_SKIP_THIS
 
   private:
@@ -142,7 +142,7 @@ class H5_DLLCPP DataSet : public H5Object, public AbstractDs {
     // getTypeClass and various API functions getXxxType
     // defined in AbstractDs for generic datatype and specific
     // sub-types
-    virtual hid_t p_get_type() const;
+    virtual hid_t p_get_type() const H5_OVERRIDE;
 
     // Reads variable or fixed len strings from this dataset.
     void p_read_fixed_len(const hid_t mem_type_id, const hid_t mem_space_id, const hid_t file_space_id,
