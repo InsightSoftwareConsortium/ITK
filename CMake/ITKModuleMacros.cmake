@@ -9,6 +9,7 @@ include(${_ITKModuleMacros_DIR}/ITKModuleKWStyleTest.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleClangFormat.cmake)
 include(${_ITKModuleMacros_DIR}/CppcheckTargets.cmake)
 include(${_ITKModuleMacros_DIR}/ITKModuleCPPCheckTest.cmake)
+include(${_ITKModuleMacros_DIR}/ITKFactoryRegistration.cmake)
 
 # With Apple's (GGC <=4.2 and LLVM-GCC <=4.2) or (Clang < 3.2)
 # visibility of template  don't work. Set the option to off and hide it.
