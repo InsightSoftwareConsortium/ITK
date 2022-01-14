@@ -154,9 +154,9 @@ protected:
 
   ParametersType m_CurrentIndex;
 
-  SizeValueType m_MaximumNumberOfIterations;
+  SizeValueType m_MaximumNumberOfIterations{ 1 };
 
-  MeasureType m_MaximumMetricValue;
+  MeasureType m_MaximumMetricValue{ itk::NumericTraits<MeasureType>::max() };
 
   MeasureType m_MinimumMetricValue;
 
