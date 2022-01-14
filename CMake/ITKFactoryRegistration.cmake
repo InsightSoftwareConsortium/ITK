@@ -204,7 +204,7 @@ macro(itk_generate_factory_registration)
     set(_factory_list ${variadic_args})
   endif()
 
-  foreach(_factory_name ${ITK_FACTORY_LIST})
+  foreach(_factory_name ${_factory_list})
     string(TOUPPER ${_factory_name} factory_uc)
     string(TOLOWER ${_factory_name} factory_lc)
     set(LIST_OF_${factory_uc}_FORMATS "")
@@ -227,8 +227,9 @@ macro(itk_generate_factory_registration)
     if(ITK_NO_${factory_uc}_FACTORY_REGISTER_MANAGER)
       # pass generation this factory registration
     elseif(_factory_name MATCHES "IO" AND ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-      message(WARNING "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable
-      is deprecated.  Use ITK_NO_${_factory_name}_FACTORY_REGISTER_MANAGER")
+      message(WARNING
+        "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable is "
+        "deprecated. Use ITK_NO_${factory_uc}_FACTORY_REGISTER_MANAGER")
     else()
       _itk_configure_FactoryRegisterManager("${_factory_name}" "${LIST_OF_${factory_uc}_FORMATS}")
     endif()
