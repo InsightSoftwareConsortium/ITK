@@ -166,7 +166,7 @@ itkDisplacementFieldJacobianDeterminantFilterTest(int, char *[])
     filter->Print(std::cout);
 
     // Run the test again with specified weights
-    typename FilterType::WeightsType weights{ { 1.0, 2.0, 3.0 } };
+    typename FilterType::WeightsType weights{ { { 1.0, 2.0, 3.0 } } };
     filter->SetDerivativeWeights(weights);
     ITK_TEST_SET_GET_VALUE(weights, filter->GetDerivativeWeights());
 
