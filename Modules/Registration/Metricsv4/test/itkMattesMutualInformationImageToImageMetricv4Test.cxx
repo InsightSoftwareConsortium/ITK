@@ -228,7 +228,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   // set the number of histogram bins
   itk::SizeValueType numberOfHistogramBins = 50;
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
-  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins())
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
   // this test doesn't pass when using gradient image filters,
   // presumably because of different deriviative scaling created
