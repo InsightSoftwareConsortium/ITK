@@ -21,6 +21,7 @@
 #include <complex>
 
 #include "itkImageToImageFilter.h"
+#include "itkMacro.h"
 
 namespace itk
 {
@@ -59,8 +60,7 @@ public:
    *
    * Default implementation is VnlFFT1D.
    */
-  static Pointer
-  New();
+  itkFactoryOnlyNewMacro(Self);
 
   /** Get the direction in which the filter is to be applied. */
   itkGetConstMacro(Direction, unsigned int);

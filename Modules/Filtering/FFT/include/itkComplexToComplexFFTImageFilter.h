@@ -19,6 +19,7 @@
 #define itkComplexToComplexFFTImageFilter_h
 
 #include "itkImageToImageFilter.h"
+#include "itkMacro.h"
 #include "ITKFFTExport.h"
 #include <complex>
 
@@ -97,10 +98,9 @@ public:
   /** Customized object creation methods that support configuration-based
    * selection of FFT implementation.
    *
-   * Default implementation is FFTW.
+   * Default implementation is VnlFFT.
    */
-  static Pointer
-  New();
+  itkFactoryOnlyNewMacro(Self);
 
   using TransformDirectionEnum = ComplexToComplexFFTImageFilterEnums::TransformDirection;
 #if !defined(ITK_LEGACY_REMOVE)

@@ -21,22 +21,6 @@
 
 namespace itk
 {
-
-template <typename TInputImage, typename TOutputImage>
-auto
-HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::New() -> Pointer
-{
-  Pointer smartPtr = itk::ObjectFactory<Self>::Create();
-
-  if (smartPtr.IsNotNull())
-  {
-    // Correct extra reference count from itk::ObjectFactory<Self>::Create()
-    smartPtr->UnRegister();
-  }
-
-  return smartPtr;
-}
-
 template <typename TInputImage, typename TOutputImage>
 HalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::HalfHermitianToRealInverseFFTImageFilter()
 {

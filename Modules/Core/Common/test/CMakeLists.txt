@@ -153,6 +153,7 @@ itkNeighborhoodTest.cxx
 itkVersorTest.cxx
 itkObjectFactoryTest2.cxx
 itkObjectFactoryTest3.cxx
+itkObjectFactoryOnlyNewTest.cxx
 itkMinimumMaximumImageCalculatorTest.cxx
 itkSliceIteratorTest.cxx
 itkImageRegionExclusionIteratorWithIndexTest.cxx
@@ -462,6 +463,7 @@ set_tests_properties(itkObjectFactoryTest2 PROPERTIES RUN_SERIAL 1)
 endif()
 
 itk_add_test(NAME itkObjectFactoryTest3 COMMAND ITKCommon2TestDriver itkObjectFactoryTest3)
+itk_add_test(NAME itkObjectFactoryOnlyNewTest COMMAND ITKCommon2TestDriver itkObjectFactoryOnlyNewTest)
 itk_add_test(NAME itkPeriodicBoundaryConditionTest COMMAND ITKCommon2TestDriver itkPeriodicBoundaryConditionTest)
 itk_add_test(NAME itkPhasedArray3DSpecialCoordinatesImageTest COMMAND ITKCommon1TestDriver itkPhasedArray3DSpecialCoordinatesImageTest)
 itk_add_test(NAME itkPriorityQueueTest COMMAND ITKCommon1TestDriver itkPriorityQueueTest)

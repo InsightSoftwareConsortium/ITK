@@ -24,22 +24,6 @@
 
 namespace itk
 {
-
-template <typename TInputImage, typename TOutputImage>
-typename Inverse1DFFTImageFilter<TInputImage, TOutputImage>::Pointer
-Inverse1DFFTImageFilter<TInputImage, TOutputImage>::New()
-{
-  Pointer smartPtr = ObjectFactory<Self>::Create();
-
-  if (smartPtr.IsNotNull())
-  {
-    smartPtr->UnRegister();
-  }
-
-  return smartPtr;
-}
-
-
 template <typename TInputImage, typename TOutputImage>
 Inverse1DFFTImageFilter<TInputImage, TOutputImage>::Inverse1DFFTImageFilter()
   : m_Direction(0)

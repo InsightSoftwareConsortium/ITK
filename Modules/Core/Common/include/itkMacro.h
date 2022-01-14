@@ -343,6 +343,29 @@ namespace itk
   }                                                                       \
   ITK_MACROEND_NOOP_STATEMENT
 
+/** Define an object creation method throwing an exception if the object
+ * is not created through the object factory, for use in base classes that
+ * do not fully implement a backend. */
+#define itkFactoryOnlyNewMacro(x)  \
+  itkSimpleFactoryOnlyNewMacro(x); \
+  itkCreateAnotherMacro(x);        \
+  itkCloneMacro(x);                \
+  ITK_MACROEND_NOOP_STATEMENT
+
+#define itkSimpleFactoryOnlyNewMacro(x)                                                                 \
+  static auto New()->Pointer                                                                            \
+  {                                                                                                     \
+    Pointer smartPtr = itk::ObjectFactory<x>::Create();                                                 \
+    if (smartPtr == nullptr)                                                                            \
+    {                                                                                                   \
+      itkSpecializedMessageExceptionMacro(ExceptionObject,                                              \
+                                          "Object factory failed to instantiate " << typeid(x).name()); \
+    }                                                                                                   \
+    smartPtr->UnRegister();                                                                             \
+    return smartPtr;                                                                                    \
+  }                                                                                                     \
+  ITK_MACROEND_NOOP_STATEMENT
+
 /** Define two object creation methods.  The first method, New(),
  * creates an object from a class but does not defer to a factory.
  * The second method, CreateAnother(), creates an object from an
