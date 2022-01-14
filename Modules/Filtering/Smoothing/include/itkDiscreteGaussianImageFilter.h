@@ -298,15 +298,6 @@ public:
   itkLegacyMacro(unsigned int GetInternalNumberOfStreamDivisions() const);
   itkLegacyMacro(void SetInternalNumberOfStreamDivisions(unsigned int));
 
-  /** DiscreteGaussianImageFilter needs a larger input requested region
-   * than the output requested region (larger by the size of the
-   * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
-   * provide an implementation for GenerateInputRequestedRegion() in
-   * order to inform the pipeline execution model.
-   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
-  void
-  GenerateInputRequestedRegion() override;
-
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
 
@@ -330,6 +321,15 @@ protected:
   ~DiscreteGaussianImageFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
+
+  /** DiscreteGaussianImageFilter needs a larger input requested region
+   * than the output requested region (larger by the size of the
+   * Gaussian kernel).  As such, DiscreteGaussianImageFilter needs to
+   * provide an implementation for GenerateInputRequestedRegion() in
+   * order to inform the pipeline execution model.
+   * \sa ImageToImageFilter::GenerateInputRequestedRegion() */
+  void
+  GenerateInputRequestedRegion() override;
 
   /** Standard pipeline method. While this class does not implement a
    * ThreadedGenerateData(), its GenerateData() delegates all
