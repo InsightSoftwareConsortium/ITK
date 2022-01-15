@@ -96,28 +96,20 @@ public:
   using NeighborIndexType = SizeValueType;
 
   /** Default constructor. */
-  Neighborhood()
-  {
-    m_Radius.Fill(0);
-    m_Size.Fill(0);
-    for (DimensionValueType i = 0; i < VDimension; ++i)
-    {
-      m_StrideTable[i] = 0;
-    }
-  }
+  Neighborhood() = default;
 
   /** Default destructor. */
   virtual ~Neighborhood() = default;
 
   /** Copy constructor. */
-  Neighborhood(const Self & other);
+  Neighborhood(const Self &) = default;
 
   /** Move-constructor. */
   Neighborhood(Self &&) = default;
 
   /** Assignment operator. */
   Self &
-  operator=(const Self & other);
+  operator=(const Self &) = default;
 
   /** Move-assignment. */
   Self &
@@ -314,18 +306,18 @@ protected:
 private:
   /** Number of neighbors to include (symmetrically) along each axis.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1). */
-  SizeType m_Radius;
+  SizeType m_Radius{ { 0 } };
 
   /** Actual length of each dimension, calculated from m_Radius.
    * A neighborhood will always have odd-length axes (m_Radius[n]*2+1). */
-  SizeType m_Size;
+  SizeType m_Size{ { 0 } };
 
   /** The buffer in which data is stored. */
   AllocatorType m_DataBuffer;
 
   /** A lookup table for keeping track of stride lengths in a neighborhood
       i.e. the memory offsets between pixels along each dimensional axis */
-  OffsetValueType m_StrideTable[VDimension];
+  OffsetValueType m_StrideTable[VDimension]{ 0 };
 
   /** */
   std::vector<OffsetType> m_OffsetTable;

@@ -98,31 +98,6 @@ Neighborhood<TPixel, VDimension, TContainer>::SetRadius(const SizeType & r)
 }
 
 template <typename TPixel, unsigned int VDimension, typename TContainer>
-Neighborhood<TPixel, VDimension, TContainer>::Neighborhood(const Self & other)
-  : m_Radius(other.m_Radius)
-  , m_Size(other.m_Size)
-  , m_DataBuffer(other.m_DataBuffer)
-  , m_OffsetTable(other.m_OffsetTable)
-{
-  std::copy_n(other.m_StrideTable, VDimension, m_StrideTable);
-}
-
-template <typename TPixel, unsigned int VDimension, typename TContainer>
-Neighborhood<TPixel, VDimension, TContainer> &
-Neighborhood<TPixel, VDimension, TContainer>::operator=(const Self & other)
-{
-  if (this != &other)
-  {
-    m_Radius = other.m_Radius;
-    m_Size = other.m_Size;
-    m_DataBuffer = other.m_DataBuffer;
-    std::copy(other.m_StrideTable, other.m_StrideTable + VDimension, m_StrideTable);
-    m_OffsetTable = other.m_OffsetTable;
-  }
-  return *this;
-}
-
-template <typename TPixel, unsigned int VDimension, typename TContainer>
 std::slice
 Neighborhood<TPixel, VDimension, TContainer>::GetSlice(unsigned int d) const
 {
