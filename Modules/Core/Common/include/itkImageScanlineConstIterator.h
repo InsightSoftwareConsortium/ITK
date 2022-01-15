@@ -226,11 +226,8 @@ public:
    * \sa operator++
    * \sa IsAtEndOfLine
    */
-  inline void
-  NextLine()
-  {
-    this->Increment();
-  };
+  void
+  NextLine();
 
   /** Increment (prefix) along the scanline the iterator's index.
    *
@@ -262,12 +259,6 @@ public:
 protected:
   OffsetValueType m_SpanBeginOffset; // one pixel the beginning of the scanline
   OffsetValueType m_SpanEndOffset;   // one pixel past the end of the scanline
-
-private:
-  /* Move to the beginning of the next scanline
-   */
-  void
-  Increment();
 };
 } // end namespace itk
 
