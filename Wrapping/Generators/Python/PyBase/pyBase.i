@@ -413,7 +413,17 @@ str = str
 
                 if(self.GetNumberOfComponentsPerPixel() > 1):
                     result = [self.GetNumberOfComponentsPerPixel(), ] + result
-                result.reverse()
+                # ITK is C-order. The shape needs to be reversed unless we are a view on
+                # a NumPy array that is Fortran-order.
+                reverse = True
+                base = self
+                while hasattr(base, 'base'):
+                    if hasattr(base, 'flags'):
+                        reverse = not base.flags.f_contiguous
+                        break
+                    base = base.base
+                if reverse:
+                    result.reverse()
                 return tuple(result)
 
             @property
