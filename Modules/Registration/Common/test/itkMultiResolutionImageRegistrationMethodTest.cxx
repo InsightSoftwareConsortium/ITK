@@ -135,7 +135,8 @@ itkMultiResolutionImageRegistrationMethodTest(int, char *[])
   registration->SetInitialTransformParameters(initialParameters);
   ITK_TEST_SET_GET_VALUE(initialParameters, registration->GetInitialTransformParameters());
 
-  ParametersType initialTransformParametersOfNextLevel(1);
+  typename ParametersType::ValueType initialTransformParametersOfNextLevelVal(0.0);
+  ParametersType                     initialTransformParametersOfNextLevel(1, initialTransformParametersOfNextLevelVal);
   registration->SetInitialTransformParametersOfNextLevel(initialTransformParametersOfNextLevel);
   ITK_TEST_SET_GET_VALUE(initialTransformParametersOfNextLevel,
                          registration->GetInitialTransformParametersOfNextLevel());
