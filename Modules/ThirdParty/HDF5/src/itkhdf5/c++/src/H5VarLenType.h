@@ -33,11 +33,11 @@ class H5_DLLCPP VarLenType : public DataType {
 
     // Returns an VarLenType object via DataType* by decoding the
     // binary object description of this type.
-    virtual DataType *decode() const;
+    virtual DataType *decode() const H5_OVERRIDE;
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const H5_OVERRIDE
     {
         return ("VarLenType");
     }
@@ -53,7 +53,7 @@ class H5_DLLCPP VarLenType : public DataType {
     VarLenType(const H5Location &loc, const H5std_string &name);
 
     // Noop destructor
-    virtual ~VarLenType();
+    virtual ~VarLenType() H5_OVERRIDE;
 
     // Default constructor
     VarLenType();

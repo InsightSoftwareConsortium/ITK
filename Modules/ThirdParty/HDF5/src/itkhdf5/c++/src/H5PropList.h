@@ -38,7 +38,7 @@ class H5_DLLCPP PropList : public IdComponent {
     bool operator==(const PropList &rhs) const;
 
     // Close this property list.
-    virtual void close();
+    virtual void close() H5_OVERRIDE;
 
     // Close a property list class.
     void closeClass() const;
@@ -102,7 +102,7 @@ class H5_DLLCPP PropList : public IdComponent {
 
     ///\brief Returns this class name.
     virtual H5std_string
-    fromClass() const
+    fromClass() const H5_OVERRIDE
     {
         return ("PropList");
     }
@@ -114,10 +114,10 @@ class H5_DLLCPP PropList : public IdComponent {
     PropList(const PropList &original);
 
     // Gets the property list id.
-    virtual hid_t getId() const;
+    virtual hid_t getId() const H5_OVERRIDE;
 
     // Destructor: properly terminates access to this property list.
-    virtual ~PropList();
+    virtual ~PropList() H5_OVERRIDE;
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -128,7 +128,7 @@ class H5_DLLCPP PropList : public IdComponent {
     hid_t id; // HDF5 property list id
 
     // Sets the property list id.
-    virtual void p_setId(const hid_t new_id);
+    virtual void p_setId(const hid_t new_id) H5_OVERRIDE;
 
   private:
     static PropList *DEFAULT_;
