@@ -24,7 +24,7 @@ namespace itk
 
 template <typename TImage>
 void
-ImageScanlineConstIterator<TImage>::Increment()
+ImageScanlineConstIterator<TImage>::NextLine()
 {
   // increment to the next scanline
 
