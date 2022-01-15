@@ -758,6 +758,12 @@ if(ITK_USE_EIGEN_MPL2_ONLY)
   target_compile_definitions (eigen_internal INTERFACE "EIGEN_MPL2_ONLY")
 endif()
 
+# Hack to disable warning. To remove when/if fixed upstream.
+# See issue: https://gitlab.com/libeigen/eigen/-/issues/2416
+if(CMAKE_CXX_STANDARD GREATER_EQUAL 17 AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  target_compile_options(eigen_internal INTERFACE "-Wno-used-but-marked-unused")
+endif()
+
 # BUILD: go one directory before to localize the headers:
 #   #include <itkeigen/Eigen/x>
 # INSTALL: headers require pre-prend itkeigen/Eigen/X.
