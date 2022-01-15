@@ -384,6 +384,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   m_Visited.clear();
 
   // Report some statistics
+#ifndef NDEBUG
   if (this->GetDebug())
   {
     SizeValueType count = 0;
@@ -394,6 +395,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     itkDebugMacro(<< "Total #of cells accounted for: " << count);
     itkDebugMacro(<< "Extracted " << output->GetNumberOfCells() << " cells");
   }
+#endif
 
   // This prevents unnecessary re-executions of the pipeline.
   output->SetBufferedRegion(output->GetRequestedRegion());
