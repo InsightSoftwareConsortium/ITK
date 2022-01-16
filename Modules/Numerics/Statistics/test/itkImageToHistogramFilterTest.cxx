@@ -84,8 +84,11 @@ itkImageToHistogramFilterTest(int, char *[])
   itk::SimpleFilterWatcher watcher(filter, "filter");
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ImageToHistogramFilter, ImageSink);
-  // Exercise the method NameOfClass();
-  std::cout << filter->GetNameOfClass() << std::endl;
+
+
+  unsigned int numberOfStreamDivisions = 1;
+  filter->SetNumberOfStreamDivisions(numberOfStreamDivisions);
+  ITK_TEST_SET_GET_VALUE(numberOfStreamDivisions, filter->GetNumberOfStreamDivisions());
 
   // Testing the settings of the BinMaximum and BinMinimum methods.
   HistogramMeasurementVectorType histogramBinMinimum1(MeasurementVectorSize);

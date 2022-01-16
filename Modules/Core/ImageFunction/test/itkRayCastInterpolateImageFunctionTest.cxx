@@ -124,7 +124,17 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   ITK_TEST_SET_GET_VALUE(threshold, interp->GetThreshold());
 
   /* Evaluate the function */
-  double    integral;
+  double integral;
+
+
+  // Evaluate the ray casting function at the same point as the focal point:
+  //   - Allows to increase coverage.
+  //   - Makes the ray be invalid.
+  //   - Sets the traversal direction to TraversalDirectionEnum::UNDEFINED_DIRECTION
+  //   - The integral should equal to 0.
+  integral = interp->Evaluate(focus);
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(integral, 0.0));
+
   PointType query;
   query[0] = 15.;
   query[1] = 15.;

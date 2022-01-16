@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkMultiLabelSTAPLEImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkMultiLabelSTAPLEImageFilterTest(int, char *[])
@@ -118,6 +119,8 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   // Create an LabelVoting Filter
   myFilterTypePointer filter = myFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MultiLabelSTAPLEImageFilter, ImageToImageFilter);
+
   // Get the Smart Pointer to the Filter Output
   myImageTypePointer outputImage = filter->GetOutput();
 
@@ -127,11 +130,46 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   filter->SetInput(0, inputImageA);
   filter->SetInput(1, inputImageB);
 
+  ITK_TEST_EXPECT_TRUE(!filter->GetHasMaximumNumberOfIterations());
+
+  unsigned int maximumNumberOfIterations = 0;
+  filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
+  ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, filter->GetMaximumNumberOfIterations());
+
+  ITK_TEST_EXPECT_TRUE(filter->GetHasMaximumNumberOfIterations());
+
+  ITK_TEST_EXPECT_TRUE(!filter->GetHasLabelForUndecidedPixels());
+
+  typename myFilterType::WeightsType terminationUpdateThreshold = 1e-5;
+  filter->SetTerminationUpdateThreshold(terminationUpdateThreshold);
+  ITK_TEST_SET_GET_VALUE(terminationUpdateThreshold, filter->GetTerminationUpdateThreshold());
+
   // Set label for undecided pixels
-  filter->SetLabelForUndecidedPixels(255);
+  typename myFilterType::OutputPixelType labelForUndecidedPixels = 255;
+  filter->SetLabelForUndecidedPixels(labelForUndecidedPixels);
+  ITK_TEST_SET_GET_VALUE(labelForUndecidedPixels, filter->GetLabelForUndecidedPixels());
+
+  ITK_TEST_EXPECT_TRUE(filter->GetHasLabelForUndecidedPixels());
+
+  ITK_TEST_EXPECT_TRUE(!filter->GetHasPriorProbabilities());
+
+  typename myFilterType::PriorProbabilitiesType::ValueType priorProbabilitiesVal(0.0);
+  typename myFilterType::PriorProbabilitiesType            priorProbabilities(1);
+  priorProbabilities.Fill(priorProbabilitiesVal);
+  filter->SetPriorProbabilities(priorProbabilities);
+  ITK_TEST_SET_GET_VALUE(priorProbabilities, filter->GetPriorProbabilities());
+
+  ITK_TEST_EXPECT_TRUE(filter->GetHasPriorProbabilities());
+
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
+
+  filter->UnsetPriorProbabilities();
 
   // Execute the filter
-  filter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+  std::cout << "ElapsedNumberOfIterations: " << filter->GetElapsedNumberOfIterations() << std::endl;
 
   // compare to correct results
   it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
@@ -139,7 +177,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   {
     if (combinationABundecided255[i] != it.Get())
     {
-      std::cout << "Incorrect result using images A,B and undecided=255: "
+      std::cout << "Incorrect result using images A,B and undecided=" << labelForUndecidedPixels << ": "
                 << "i = " << i << ", correct = " << combinationABundecided255[i] << ", got = " << it.Get() << "\n";
       return EXIT_FAILURE;
     }
@@ -185,7 +223,6 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     }
   }
 
-  filter->Print(std::cout, 3);
 
   std::cout << "Prior probabilities: " << filter->GetPriorProbabilities() << std::endl;
   std::cout << "Confusion matrix 0 " << std::endl << filter->GetConfusionMatrix(0) << std::endl;
