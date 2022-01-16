@@ -616,6 +616,7 @@ set(ITKCommonGTests
       itkImageBufferRangeGTest.cxx
       itkImageRegionRangeGTest.cxx
       itkImageIORegionGTest.cxx
+      itkImageRegionGTest.cxx
       itkIndexGTest.cxx
       itkIndexRangeGTest.cxx
       itkMatrixGTest.cxx
