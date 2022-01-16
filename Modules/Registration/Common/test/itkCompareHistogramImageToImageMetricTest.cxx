@@ -141,6 +141,7 @@ itkCompareHistogramImageToImageMetricTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(transform, metric->GetTrainingTransform());
 
   metric->SetTrainingFixedImage(fixedImage);
+  ITK_TEST_SET_GET_VALUE(fixedImage, metric->GetTrainingFixedImage());
 
   metric->SetTrainingFixedImageRegion(fixedImage->GetBufferedRegion());
   ITK_TEST_SET_GET_VALUE(fixedImage->GetBufferedRegion(), metric->GetTrainingFixedImageRegion());
