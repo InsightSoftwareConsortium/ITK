@@ -283,10 +283,7 @@ public:
     return true;
   }
 
-  /** Test if a region (the argument) is completely inside of this region. If
-   * the region that is passed as argument to this method, has a size of value
-   * zero, then it will not be considered to be inside of the current region,
-   * even its starting index is inside. */
+  /** Test if a region (the argument) is completely inside of this region. */
   bool
   IsInside(const Self & region) const
   {
