@@ -240,11 +240,7 @@ public:
   {
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      if (index[i] < m_Index[i])
-      {
-        return false;
-      }
-      if (index[i] >= (m_Index[i] + static_cast<IndexValueType>(m_Size[i])))
+      if (index[i] < m_Index[i] || index[i] >= m_Index[i] + static_cast<IndexValueType>(m_Size[i]))
       {
         return false;
       }
@@ -255,27 +251,16 @@ public:
   /** Test if a continuous index is inside the region.
    * We take into account the fact that each voxel has its
    * center at the integer coordinate and extends half way
-   * to the next integer coordinate. */
+   * to the next integer coordinate, inclusive on all sides. */
   template <typename TCoordRepType>
   bool
   IsInside(const ContinuousIndex<TCoordRepType, VImageDimension> & index) const
   {
+    constexpr TCoordRepType half = 0.5;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      if (Math::RoundHalfIntegerUp<IndexValueType>(index[i]) < static_cast<IndexValueType>(m_Index[i]))
-      {
-        return false;
-      }
-      // bound is the last valid pixel location
-      const auto bound = static_cast<TCoordRepType>(m_Index[i] + m_Size[i] - 0.5);
-
-      /* Note for NaN: test using negation of a positive test in order
-       * to always evaluate to true (and thus return false) when index[i]
-       * is NaN. The cast above to integer via RoundHalfIntegerUp will cast
-       * NaN into a platform-dependent value (large negative, -1 or large
-       * positive, empirically). Thus this test here is relied on
-       * to 'catch' NaN's. */
-      if (!(index[i] <= bound))
+      // Use negation of tests so that index[i]==NaN leads to returning false.
+      if (!(index[i] >= m_Index[i] - half && index[i] <= (m_Index[i] + static_cast<IndexValueType>(m_Size[i])) - half))
       {
         return false;
       }
