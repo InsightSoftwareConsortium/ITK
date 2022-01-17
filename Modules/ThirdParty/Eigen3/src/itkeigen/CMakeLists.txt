@@ -760,7 +760,7 @@ endif()
 
 # Hack to disable warning. To remove when/if fixed upstream.
 # See issue: https://gitlab.com/libeigen/eigen/-/issues/2416
-if(CMAKE_CXX_STANDARD GREATER_EQUAL 17 AND CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+if(CMAKE_CXX_STANDARD GREATER_EQUAL 17 AND (CMAKE_CXX_COMPILER_ID MATCHES "Clang" OR CMAKE_CXX_COMPILER_ID MATCHES "AppleClang"))
   target_compile_options(eigen_internal INTERFACE "-Wno-used-but-marked-unused")
 endif()
 
