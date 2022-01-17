@@ -35,6 +35,7 @@
 #include "itkImageRegion.h"
 #include "itkImageIORegion.h"
 #include "itkSingletonMacro.h"
+#include <atomic>
 #include <functional>
 #include <thread>
 #include "itkProgressReporter.h"
@@ -484,7 +485,7 @@ private:
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(MultiThreaderBaseGlobals, PimplGlobals);
 
-  bool m_UpdateProgress{ true };
+  std::atomic<bool> m_UpdateProgress{ true };
 
   static MultiThreaderBaseGlobals * m_PimplGlobals;
   /** Friends of Multithreader.
