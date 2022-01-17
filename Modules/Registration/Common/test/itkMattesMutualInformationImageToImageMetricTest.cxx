@@ -220,7 +220,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   // set the number of histogram bins
   itk::SizeValueType numberOfHistogramBins = 50;
   metric->SetNumberOfHistogramBins(numberOfHistogramBins);
-  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins())
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
 
   ITK_TEST_SET_GET_BOOLEAN(metric, UseExplicitPDFDerivatives, useExplicitJointPDFDerivatives);
 
