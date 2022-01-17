@@ -81,7 +81,7 @@ itkTriangleThresholdImageFilterTest(int argc, char * argv[])
   filter->SetInput(reader->GetOutput());
 
   // Test no calculator set exception
-  filter->SetCalculator(0);
+  filter->SetCalculator(nullptr);
   ITK_TRY_EXPECT_EXCEPTION(filter->Update());
 
 
