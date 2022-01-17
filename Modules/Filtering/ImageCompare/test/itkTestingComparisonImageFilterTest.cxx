@@ -71,11 +71,11 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   auto differenceThreshold = static_cast<typename FilterType::OutputPixelType>(std::stoi(argv[5]));
   filter->SetDifferenceThreshold(differenceThreshold);
-  TEST_SET_GET_VALUE(differenceThreshold, filter->GetDifferenceThreshold());
+  ITK_TEST_SET_GET_VALUE(differenceThreshold, filter->GetDifferenceThreshold());
 
   int toleranceRadius = std::stoi(argv[6]);
   filter->SetToleranceRadius(toleranceRadius);
-  TEST_SET_GET_VALUE(toleranceRadius, filter->GetToleranceRadius());
+  ITK_TEST_SET_GET_VALUE(toleranceRadius, filter->GetToleranceRadius());
 
   itk::SimpleFilterWatcher watcher(filter, "Difference");
 
