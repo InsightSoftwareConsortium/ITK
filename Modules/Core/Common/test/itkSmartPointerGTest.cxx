@@ -129,9 +129,11 @@ TEST(SmartPointer, EmptyAndNull)
   cptr = nullptr;
   EXPECT_TRUE(cptr.IsNull());
 
+  // NOLINTNEXTLINE(modernize-use-nullptr)
   ptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
   EXPECT_TRUE(ptr.IsNull());
 
+  // NOLINTNEXTLINE(modernize-use-nullptr)
   cptr = NULL; // Do not change NULL, null, Null in this file. This file intentionally contains usage of legacy NULL
   EXPECT_TRUE(cptr.IsNull());
 
