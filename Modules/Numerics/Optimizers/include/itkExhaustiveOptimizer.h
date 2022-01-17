@@ -158,7 +158,7 @@ protected:
 
   MeasureType m_MaximumMetricValue{ itk::NumericTraits<MeasureType>::max() };
 
-  MeasureType m_MinimumMetricValue;
+  MeasureType m_MinimumMetricValue{ itk::NumericTraits<MeasureType>::Zero };
 
   ParametersType m_MinimumMetricValuePosition;
 
