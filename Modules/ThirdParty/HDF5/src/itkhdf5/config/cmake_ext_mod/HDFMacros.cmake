@@ -434,7 +434,9 @@ macro (HDF_DIR_PATHS package_prefix)
     endif ()
   endif ()
 
-  if (CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# ITK --start. Do not let HDF5 set the CMAKE_INSTALL_PREFIX for externally configured projects. Submitted upstream: https://github.com/HDFGroup/hdf5/pull/1380
+  if (NOT ${package_prefix}_EXTERNALLY_CONFIGURED AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+# ITK -- stop
     if (CMAKE_HOST_UNIX)
       set (CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/HDF_Group/${HDF5_PACKAGE_NAME}/${HDF5_PACKAGE_VERSION}"
         CACHE PATH "Install path prefix, prepended onto install directories." FORCE)
