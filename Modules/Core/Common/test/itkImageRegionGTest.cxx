@@ -20,7 +20,6 @@
 #include "itkImageRegion.h"
 #include "itkIndexRange.h"
 #include <gtest/gtest.h>
-#include <algorithm>   // For count.
 #include <type_traits> // For remove_const_t and remove_reference_t.
 
 
@@ -32,29 +31,17 @@ TEST(ImageRegion, ZeroSizedRegionIsInside)
     using SizeType = typename RegionType::SizeType;
 
     auto paddedRegion = region;
-    paddedRegion.PadByRadius(1);
+    paddedRegion.PadByRadius(2);
+
+    // Extend the specified region (in 2D, by an extra column).
+    const RegionType extendedRegion(region.GetIndex(), region.GetSize() + SizeType::Filled(1));
 
     for (const auto & index : itk::ImageRegionIndexRange<RegionType::ImageDimension>(paddedRegion))
     {
       const RegionType zeroSizedRegion(index, SizeType{ { 0 } });
 
-      const auto offset = index - region.GetIndex();
-
-      if (std::count(offset.begin(), offset.end(), 0) == 0)
-      {
-        // In this case (the most common case) the one-sized region is considered inside this region if and only if its
-        // index is inside this region.
-        EXPECT_EQ(region.IsInside(zeroSizedRegion), region.IsInside(index));
-      }
-      else
-      {
-        // In this border case, at least one of the index values of the zero-sized region appears equal to the
-        // corresponding index value of this region. (Which means for 2D that the zero-sized region is on the left or
-        // upper border of this region.) For historical reasons (based on the original implementation of
-        // `itk::ImageRegion::IsInside` from 5 February 2002), the zero-sized region is then considered _outside_ of
-        // this region.
-        EXPECT_FALSE(region.IsInside(zeroSizedRegion));
-      }
+      // The zero-sized region is considered inside this region if and only if its index is inside the extended region.
+      EXPECT_EQ(region.IsInside(zeroSizedRegion), extendedRegion.IsInside(index));
     }
   };
 

@@ -285,23 +285,18 @@ public:
 
   /** Test if a region (the argument) is completely inside of this region. */
   bool
-  IsInside(const Self & region) const
+  IsInside(const Self & otherRegion) const
   {
-    IndexType beginCorner = region.GetIndex();
+    const auto otherIndex = otherRegion.m_Index;
+    const auto otherSize = otherRegion.m_Size;
 
-    if (!this->IsInside(beginCorner))
-    {
-      return false;
-    }
-    IndexType        endCorner;
-    const SizeType & size = region.GetSize();
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      endCorner[i] = beginCorner[i] + static_cast<OffsetValueType>(size[i]) - 1;
-    }
-    if (!this->IsInside(endCorner))
-    {
-      return false;
+      if (otherIndex[i] < m_Index[i] || otherIndex[i] + static_cast<IndexValueType>(otherSize[i]) >
+                                          m_Index[i] + static_cast<IndexValueType>(m_Size[i]))
+      {
+        return false;
+      }
     }
     return true;
   }
