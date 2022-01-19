@@ -10,6 +10,7 @@ else()
 endif()
 cmake_policy(VERSION ${NIFTI_CMAKE_POLICY_VERSION})
 
+if(0) # ITK -- start: do not use Git to get the version
 set(NIFTI_HOMEPAGE_URL "https://nifti-imaging.github.io")
 execute_process(COMMAND git "describe" "--tags"
   OUTPUT_VARIABLE GIT_REPO_VERSION_UNCLEANED
@@ -27,6 +28,9 @@ if( NOT GIT_REPO_VERSION )
   #       to set the repo string for non-git repos.
   set(GIT_REPO_VERSION "0.0.0.0") #Manually set the version string for testing purposes
 endif()
+else() # ITK
+set(GIT_REPO_VERSION "0.0.0.0")
+endif() # ITK -- end: do not use Git to get the version
 project(NIFTI
         VERSION ${GIT_REPO_VERSION}
         DESCRIPTION "Niftilib is a set of i/o libraries for reading and writing files in the nifti-1 data format. nifti-1 is a binary file format for storing medical image data, e.g. magnetic resonance image (MRI) and functional MRI (fMRI) brain images."
