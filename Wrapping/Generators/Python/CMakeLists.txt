@@ -289,6 +289,13 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
   )
 
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "${WRAPPER_LIBRARY_NAME}" "${python_file}")
+  get_filename_component(python_file_basename "${python_file}" NAME)
+  # Each wrapped submodule has a Python stub file, except for pyBase
+  if(NOT "${WRAPPER_LIBRARY_NAME}" STREQUAL "ITKPyBase" AND NOT "${WRAPPER_LIBRARY_NAME}Python.py" STREQUAL "${python_file_basename}")
+    string(REPLACE "Python.py" ".pyi" python_stub_file "${python_file_basename}")
+    set(python_stub_file "${ITK_STUB_DIR}/${python_stub_file}")
+    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "${WRAPPER_LIBRARY_NAME}" "${python_stub_file}")
+  endif()
 
 endmacro()
 

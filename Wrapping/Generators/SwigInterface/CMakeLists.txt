@@ -317,10 +317,8 @@ macro(itk_end_wrap_module_swig_interface)
   set(module_interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}_ext.i")
 
   if(${module_prefix}_WRAP_PYTHON)
-    set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
     set(ITK_STUB_PYI_FILES)
   else()
-    unset(ITK_STUB_DIR)
     unset(ITK_STUB_PYI_FILES)
   endif()
 
@@ -334,7 +332,6 @@ macro(itk_end_wrap_module_swig_interface)
     if(${module_prefix}_WRAP_PYTHON)
       list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${module}.pyi")
     endif()
-
 
     if(${module_prefix}_WRAP_EXPLICIT)
       list(APPEND opts --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
@@ -365,7 +362,6 @@ macro(itk_end_wrap_module_swig_interface)
 
       FILE(MAKE_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}")
       if(${module_prefix}_WRAP_PYTHON)
-        set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
         set(ITK_STUB_PYI_FILE "${ITK_STUB_DIR}/${WRAPPER_LIBRARY_NAME}.pyi")
         # NOTE:  snake_case_config_file is both an input and an output to this command.
         #        the ${IGENERATOR} script appends to this file.
@@ -394,7 +390,6 @@ macro(itk_end_wrap_module_swig_interface)
         VERBATIM
         )
       else()
-        unset(ITK_STUB_DIR)
         unset(ITK_STUB_PYI_FILE)
         unset(snake_case_config_file)
         add_custom_command(
