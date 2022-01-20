@@ -200,6 +200,10 @@ str = str
                 """Internal method to pass a pointer to the Python object wrapper, then call UpdateLargestPossibleRegion() on the filter."""
                 self._SetSelf(self)
                 super().UpdateLargestPossibleRegion()
+            def UpdateOutputInformation(self):
+                """Internal method to pass a pointer to the Python object wrapper, then call UpdateOutputInformation() on the filter."""
+                self._SetSelf(self)
+                super().UpdateOutputInformation()
         }
     }
 %enddef
