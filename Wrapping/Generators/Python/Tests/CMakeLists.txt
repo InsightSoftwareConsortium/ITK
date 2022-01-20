@@ -24,6 +24,7 @@ itk_python_add_test(NAME PythonDICOMSeries COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/d
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0077.dcm})
+itk_python_add_test(NAME PyImageFilterTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/PyImageFilterTest.py)
 
 # some tests will fail if dim=2 and unsigned short are not wrapped
 INTERSECTION(WRAP_2 2 "${ITK_WRAP_IMAGE_DIMS}")
