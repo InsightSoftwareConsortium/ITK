@@ -189,6 +189,20 @@ str = str
 //    $1 = ptr;
 //    }
 
+%define DECL_PYIMAGEFILTER_CLASS(swig_name)
+    %extend swig_name {
+        %pythoncode {
+            def Update(self):
+                """Internal method to pass a pointer to the Python object wrapper, then call Update() on the filter."""
+                self._SetSelf(self)
+                super().Update()
+            def UpdateLargestPossibleRegion(self):
+                """Internal method to pass a pointer to the Python object wrapper, then call UpdateLargestPossibleRegion() on the filter."""
+                self._SetSelf(self)
+                super().UpdateLargestPossibleRegion()
+        }
+    }
+%enddef
 
 %extend itkComponentTreeNode {
     %pythoncode {
