@@ -22,7 +22,11 @@ import functools
 
 input_image = itk.image_from_array(np.random.randint(0,255,size=(6,6), dtype=np.uint8))
 
-py_filter = itk.PyImageFilter.New(input_image)
+def constant_output(py_image_filter, constant=42):
+    output = py_image_filter.GetOutput()
+    output.SetBufferedRegion(output.GetRequestedRegion())
+    output.Allocate()
+    output.FillBuffer(constant)
 
 def constant_wrapper(f, constant=42):
     @functools.wraps(f)
@@ -30,12 +34,7 @@ def constant_wrapper(f, constant=42):
         return f(*args, constant=constant)
     return wrapper
 
-def constant_output(py_image_filter, constant=42):
-    output = py_image_filter.GetOutput()
-    output.SetBufferedRegion(output.GetRequestedRegion())
-    output.Allocate()
-    output.FillBuffer(constant)
-
+py_filter = itk.PyImageFilter.New(input_image)
 py_filter.SetPyGenerateData(constant_output)
 py_filter.Update()
 output_image = py_filter.GetOutput()
@@ -51,3 +50,18 @@ assert np.all(np.asarray(output_image) == 10)
 output_image = itk.py_image_filter(input_image,
                                    py_generate_data=constant_wrapper(constant_output, 7))
 assert np.all(np.asarray(output_image) == 7)
+
+class CheckCalled(object):
+    called = False
+
+    def __call__(self, py_image_filter):
+        self.called = True
+
+check_called = CheckCalled()
+assert check_called.called == False
+
+py_filter.SetPyGenerateInputRequestedRegion(check_called)
+py_filter.Update()
+assert check_called.called == True
+
+py_filter.UpdateOutputInformation()

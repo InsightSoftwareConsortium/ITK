@@ -27,6 +27,7 @@ template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage, TOutputImage>::PyImageFilter()
 {
   this->m_GenerateDataCallable = nullptr;
+  this->m_GenerateInputRequestedRegionCallable = nullptr;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -37,6 +38,11 @@ PyImageFilter<TInputImage, TOutputImage>::~PyImageFilter()
     Py_DECREF(this->m_GenerateDataCallable);
   }
   this->m_GenerateDataCallable = nullptr;
+  if (this->m_GenerateInputRequestedRegionCallable)
+  {
+    Py_DECREF(this->m_GenerateInputRequestedRegionCallable);
+  }
+  this->m_GenerateInputRequestedRegionCallable = nullptr;
 }
 
 template <class TInputImage, class TOutputImage>
@@ -64,6 +70,63 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateData(PyObject * o)
   }
 }
 
+
+template <class TInputImage, class TOutputImage>
+void
+PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateInputRequestedRegion(PyObject * o)
+{
+  if (o != this->m_GenerateInputRequestedRegionCallable)
+  {
+    if (this->m_GenerateInputRequestedRegionCallable)
+    {
+      // get rid of our reference
+      Py_DECREF(this->m_GenerateInputRequestedRegionCallable);
+    }
+
+    // store the new object
+    this->m_GenerateInputRequestedRegionCallable = o;
+    this->Modified();
+
+    if (this->m_GenerateInputRequestedRegionCallable)
+    {
+      // take out reference (so that the calling code doesn't
+      // have to keep a binding to the callable around)
+      Py_INCREF(this->m_GenerateInputRequestedRegionCallable);
+    }
+  }
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
+PyImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
+{
+  Superclass::GenerateInputRequestedRegion();
+
+  // make sure that the CommandCallable is in fact callable
+  if (PyCallable_Check(this->m_GenerateInputRequestedRegionCallable))
+  {
+    PyObject * result;
+
+    PyObject * args = PyTuple_Pack(1, this->m_Self);
+    result = PyObject_Call(this->m_GenerateInputRequestedRegionCallable, args, (PyObject *)NULL);
+    Py_DECREF(args);
+
+    if (result)
+    {
+      Py_DECREF(result);
+    }
+    else
+    {
+      // there was a Python error.  Clear the error by printing to stdout
+      PyErr_Print();
+      // make sure the invoking Python code knows there was a problem
+      // by raising an exception
+      itkExceptionMacro(<< "There was an error executing the "
+                        << "CommandCallable.");
+    }
+  }
+}
 
 template <class TInputImage, class TOutputImage>
 void

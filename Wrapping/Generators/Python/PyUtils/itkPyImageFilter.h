@@ -72,6 +72,10 @@ public:
   void
   SetPyGenerateData(PyObject * obj);
 
+  /** Python callable called during the filter's GenerateInputRequestedRegion. */
+  void
+  SetPyGenerateInputRequestedRegion(PyObject * obj);
+
   /** Python internal method to pass a pointer to the wrapping Python object. */
   void
   _SetSelf(PyObject * self)
@@ -82,12 +86,17 @@ public:
 protected:
   PyImageFilter();
   virtual ~PyImageFilter();
+
+  void
+  GenerateInputRequestedRegion() override;
+
   void
   GenerateData() override;
 
 private:
   PyObject * m_Self;
   PyObject * m_GenerateDataCallable;
+  PyObject * m_GenerateInputRequestedRegionCallable;
 };
 
 } // end namespace itk
