@@ -36,22 +36,25 @@
   #pragma warning disable 2196 279 1684 2259
 
 #elif defined __clang__
-  // -Wconstant-logical-operand - warning: use of logical && with constant operand; switch to bitwise & or remove constant
-  //     this is really a stupid warning as it warns on compile-time expressions involving enums
   #ifndef EIGEN_PERMANENTLY_DISABLE_STUPID_WARNINGS
     #pragma clang diagnostic push
   #endif
-  #pragma clang diagnostic ignored "-Wconstant-logical-operand"
-  #if __clang_major__ >= 3 && __clang_minor__ >= 5
-    #pragma clang diagnostic ignored "-Wabsolute-value"
-  #endif
-  #if __clang_major__ >= 10
-    #pragma clang diagnostic ignored "-Wimplicit-int-float-conversion"
-  #endif
-  #if ( defined(__ALTIVEC__) || defined(__VSX__) ) && __cplusplus < 201103L
-    // warning: generic selections are a C11-specific feature
-    // ignoring warnings thrown at vec_ctf in Altivec/PacketMath.h
-    #pragma clang diagnostic ignored "-Wc11-extensions"
+  #if defined(__has_warning)
+    // -Wconstant-logical-operand - warning: use of logical && with constant operand; switch to bitwise & or remove constant
+    //     this is really a stupid warning as it warns on compile-time expressions involving enums
+    #if __has_warning("-Wconstant-logical-operand")
+      #pragma clang diagnostic ignored "-Wconstant-logical-operand"
+    #endif
+    #if __has_warning("-Wimplicit-int-float-conversion")
+      #pragma clang diagnostic ignored "-Wimplicit-int-float-conversion"
+    #endif
+    #if ( defined(__ALTIVEC__) || defined(__VSX__) ) && __cplusplus < 201103L
+      // warning: generic selections are a C11-specific feature
+      // ignoring warnings thrown at vec_ctf in Altivec/PacketMath.h
+      #if __has_warning("-Wc11-extensions")
+        #pragma clang diagnostic ignored "-Wc11-extensions"
+      #endif
+    #endif
   #endif
 
 #elif defined __GNUC__
