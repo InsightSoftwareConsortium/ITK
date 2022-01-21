@@ -18,6 +18,7 @@
 #ifndef itkDiscreteGaussianImageFilter_h
 #define itkDiscreteGaussianImageFilter_h
 
+#include "itkGaussianOperator.h"
 #include "itkImageToImageFilter.h"
 #include "itkImage.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
@@ -113,6 +114,10 @@ public:
   using SigmaArrayType = ArrayType;
   using ScalarRealType = double;
 
+  /** Type of kernel to be used in blurring */
+  using KernelType = GaussianOperator<RealOutputPixelValueType, ImageDimension>;
+  using RadiusType = typename KernelType::RadiusType;
+
   /** The variance for the discrete Gaussian kernel.  Sets the variance
    * independently for each dimension, but
    * see also SetVariance(const double v). The default is 0.0 in each
@@ -130,8 +135,8 @@ public:
 
   /** Set the kernel to be no wider than MaximumKernelWidth pixels,
    *  even if MaximumError demands it. The default is 32 pixels. */
-  itkGetConstMacro(MaximumKernelWidth, int);
-  itkSetMacro(MaximumKernelWidth, int);
+  itkGetConstMacro(MaximumKernelWidth, unsigned int);
+  itkSetMacro(MaximumKernelWidth, unsigned int);
 
   /** Set the number of dimensions to smooth. Defaults to the image
    * dimension. Can be set to less than ImageDimension, smoothing all
@@ -334,6 +339,18 @@ protected:
   void
   GenerateData() override;
 
+  /** Build a directional kernel to match user specifications */
+  void
+  GenerateKernel(const unsigned int dimension, KernelType & oper) const;
+
+  /** Get the radius of the generated directional kernel */
+  unsigned int
+  GetKernelRadius(const unsigned int dimension) const;
+
+  /** Get the variance, optionally adjusted for pixel spacing */
+  ArrayType
+  GetKernelVarianceArray() const;
+
 private:
   /** The variance of the gaussian blurring kernel in each dimensional
     direction. */
@@ -346,7 +363,7 @@ private:
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */
-  int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth;
 
   /** Number of dimensions to process. Default is all dimensions */
   unsigned int m_FilterDimensionality;
