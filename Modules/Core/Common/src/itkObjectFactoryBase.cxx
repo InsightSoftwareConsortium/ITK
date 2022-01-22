@@ -103,7 +103,7 @@ namespace itk
 class ObjectFactoryBasePrivate : public LightObject
 {
 public:
-  ~ObjectFactoryBasePrivate()
+  ~ObjectFactoryBasePrivate() override
   {
     itk::ObjectFactoryBase::UnRegisterAllFactories();
     if (m_InternalFactories)
