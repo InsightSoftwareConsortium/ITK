@@ -22,9 +22,15 @@
 #include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
+/** Execute the filter on user-provided input */
+
 template <typename TIMAGE>
 int
-itkDiscreteGaussianImageFilterTestA(const char * inputFilename, float sigma, const char * outputFilename)
+itkDiscreteGaussianImageFilterTestA(const char * inputFilename,
+                                    const char * outputFilename,
+                                    const float  sigma,
+                                    const float  kernelError,
+                                    const float  kernelWidth)
 {
   using ImageType = TIMAGE;
 
@@ -36,7 +42,9 @@ itkDiscreteGaussianImageFilterTestA(const char * inputFilename, float sigma, con
 
   auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
-  filter->SetVariance(sigma);
+  filter->SetSigma(sigma);
+  filter->SetMaximumError(kernelError);
+  filter->SetMaximumKernelWidth(kernelWidth);
   filter->Update();
 
   using WriterType = itk::ImageFileWriter<ImageType>;
@@ -53,29 +61,32 @@ itkDiscreteGaussianImageFilterTestA(const char * inputFilename, float sigma, con
 int
 itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
 {
-  if (argc != 6)
+  if (argc < 5)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " imageDimension vectorDimension inputFilename sigma outputFilename" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv) << " imageDimension vectorDimension inputFilename outputFilename"
+              << " [sigma] [kernelError] [kernelWidth] " << std::endl;
     return EXIT_FAILURE;
   }
 
   unsigned int img_dim = std::stoi(argv[1]);
-  unsigned int vec_dim = std::stoi(argv[2]);
-
   if (img_dim != 2)
   {
     std::cerr << "This test only supports 2D image for demo! exiting ..." << std::endl;
     return EXIT_FAILURE;
   }
 
+  unsigned int vec_dim = std::stoi(argv[2]);
   if (vec_dim != 1 && vec_dim != 3)
   {
     std::cerr << "This test only supports 3-channel image or 1-channel image for demo! Exiting ... " << std::endl;
     return EXIT_FAILURE;
   }
+
+  float        sigma = (argc >= 6) ? std::stof(argv[5]) : 0.0;
+  float        kernelError = (argc >= 7) ? std::stof(argv[6]) : 0.01;
+  unsigned int kernelWidth = (argc >= 8) ? static_cast<unsigned int>(std::stoi(argv[7])) : 32;
 
   using ScalarPixelType = float;
   using ScalarImageType = itk::Image<ScalarPixelType, 2>;
@@ -85,10 +96,10 @@ itkDiscreteGaussianImageFilterTest2(int argc, char * argv[])
   switch (vec_dim)
   {
     case 1:
-      itkDiscreteGaussianImageFilterTestA<ScalarImageType>(argv[3], std::stod(argv[4]), argv[5]);
+      itkDiscreteGaussianImageFilterTestA<ScalarImageType>(argv[3], argv[4], sigma, kernelError, kernelWidth);
       break;
     case 3:
-      itkDiscreteGaussianImageFilterTestA<VectorImageType>(argv[3], std::stod(argv[4]), argv[5]);
+      itkDiscreteGaussianImageFilterTestA<VectorImageType>(argv[3], argv[4], sigma, kernelError, kernelWidth);
       break;
   }
 

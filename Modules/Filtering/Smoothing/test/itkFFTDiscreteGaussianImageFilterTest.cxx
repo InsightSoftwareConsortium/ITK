@@ -32,7 +32,8 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage:" << std::endl;
     std::cerr << itkNameOfTestExecutableMacro(argv)
-              << " inputFilename sigma kernelWidth outputFilename filterDimensionality" << std::endl;
+              << " inputFilename outputFilename sigma kernelError kernelWidth filterDimensionality kernelSource"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -40,9 +41,11 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
   const size_t ImageDimension = 2;
   using ImageType = itk::Image<ScalarPixelType, ImageDimension>;
 
-  double       sigma = std::stod(argv[2]);
-  unsigned int kernelWidth = std::stoi(argv[3]);
-  unsigned int filterDimensionality = (argc < 6 ? ImageDimension : std::stoi(argv[5]));
+  float        sigma = (argc >= 4) ? std::stof(argv[3]) : 0.0;
+  float        kernelError = (argc >= 5) ? std::stof(argv[4]) : 0.01;
+  unsigned int kernelWidth = (argc >= 6) ? std::stoi(argv[5]) : 32;
+  unsigned int filterDimensionality = (argc >= 7) ? std::stoi(argv[6]) : ImageDimension;
+  unsigned int kernelSource = (argc >= 8) ? std::stoi(argv[7]) : ImageDimension;
 
   typename ImageType::Pointer inputImage = itk::ReadImage<ImageType>(argv[1]);
 
@@ -54,35 +57,17 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   filter->SetInput(inputImage);
 
-  filter->SetVariance(sigma);
+  filter->SetSigma(sigma);
+  for (auto & param : filter->GetSigmaArray())
+  {
+    ITK_TEST_EXPECT_EQUAL(sigma, param);
+  }
   for (auto & param : filter->GetVariance())
   {
-    ITK_TEST_EXPECT_EQUAL(sigma, param);
+    double tolerance = 1e-6;
+    ITK_TEST_EXPECT_TRUE(std::fabs((sigma * sigma) - param) < tolerance);
   }
 
-  filter->SetUseImageSpacingOff();
-  for (auto & param : filter->GetImageSpacingVarianceArray())
-  {
-    ITK_TEST_EXPECT_EQUAL(sigma, param);
-  }
-
-  using SpacingType = typename ImageType::SpacingType;
-  SpacingType spacing;
-  spacing[0] = 0.5;
-  spacing[1] = 0.25;
-  inputImage->SetSpacing(spacing);
-  filter->SetUseImageSpacingOn();
-  for (size_t dim = 0; dim < ImageDimension; ++dim)
-  {
-    ITK_TEST_EXPECT_EQUAL(sigma, filter->GetVariance()[dim])
-    ITK_TEST_EXPECT_EQUAL(sigma / (spacing[dim] * spacing[dim]), filter->GetImageSpacingVarianceArray()[dim]);
-  }
-
-  spacing[0] = 1.0;
-  spacing[1] = 1.0;
-  inputImage->SetSpacing(spacing);
-
-  const float kernelError = 0.05;
   filter->SetMaximumError(kernelError);
   for (size_t dim = 0; dim < ImageDimension; ++dim)
   {
@@ -99,6 +84,18 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
   filter->SetRealBoundaryCondition(&zfnBoundaryCondition);
   ITK_TEST_SET_GET_VALUE(&zfnBoundaryCondition, filter->GetRealBoundaryCondition());
 
+  itk::FFTDiscreteGaussianImageFilterEnums::KernelSource source;
+  if (kernelSource == 0)
+  {
+    source = itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::COMBINED_OPERATORS;
+  }
+  else
+  {
+    source = itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::IMAGE_SOURCE;
+  }
+  filter->SetKernelSource(source);
+  ITK_TEST_SET_GET_VALUE(filter->GetKernelSource(), source);
+
   // Test that attempting to set unused interface parameters throws warnings
   // Ignore values from "Get" methods as these are unused
 
@@ -109,7 +106,7 @@ itkFFTDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  itk::WriteImage(filter->GetOutput(), argv[4], true);
+  itk::WriteImage(filter->GetOutput(), argv[2], true);
 
   return EXIT_SUCCESS;
 }

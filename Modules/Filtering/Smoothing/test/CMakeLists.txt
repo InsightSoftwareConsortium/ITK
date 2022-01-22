@@ -43,7 +43,10 @@ itk_add_test(NAME itkDiscreteGaussianImageFilterTest2
       COMMAND ITKSmoothingTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/DiscreteGaussianImageFilterTest2_OutputA.mha}
               ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
-    itkDiscreteGaussianImageFilterTest2 2 3 DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} 3.5 ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha)
+    itkDiscreteGaussianImageFilterTest2 2 3
+    DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
+    ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterTest2_OutputA.mha
+    1.870829)
 itk_add_test(NAME itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn
       COMMAND ITKSmoothingTestDriver
     --compare-MD5 ${ITK_TEST_OUTPUT_DIR}/itkSmoothingRecursiveGaussianImageFilterTestNormalizeScalesOn.png
@@ -61,15 +64,43 @@ itk_add_test(NAME itkDiscreteGaussianImageFilterTest1a
       COMMAND ITKSmoothingTestDriver itkDiscreteGaussianImageFilterTest 1)
 itk_add_test(NAME itkDiscreteGaussianImageFilterTest1b
       COMMAND ITKSmoothingTestDriver itkDiscreteGaussianImageFilterTest 0)
-itk_add_test(NAME itkFFTDiscreteGaussianImageFilterTest
+
+# Use equivalent input parameters to compare standard and FFT
+# procedures to a common baseline for equivalent output
+itk_add_test(NAME itkDiscreteGaussianImageFilterComparisonTest
       COMMAND ITKSmoothingTestDriver
-      --compare DATA{Baseline/FFTDiscreteGaussianImageFilterTestOutput.mha}
-                ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestOutput.mha
-        itkFFTDiscreteGaussianImageFilterTest
+      --compare DATA{Baseline/DiscreteGaussianImageFilterComparisonTestOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterComparisonTestOutput.mha
+      itkDiscreteGaussianImageFilterTest2 2 1
         DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
-        3.5
-        35
-        ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestOutput.mha)
+        ${ITK_TEST_OUTPUT_DIR}/DiscreteGaussianImageFilterComparisonTestOutput.mha
+        3.5 0.05 35)
+itk_add_test(NAME itkFFTDiscreteGaussianImageFilterComparisonTest
+      COMMAND ITKSmoothingTestDriver
+      --compare DATA{Baseline/DiscreteGaussianImageFilterComparisonTestOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterComparisonTestOutput.mha
+      itkFFTDiscreteGaussianImageFilterTest
+        DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+        ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterComparisonTestOutput.mha
+        3.5 0.05 35 2 0)
+
+itk_add_test(NAME itkFFTDiscreteGaussianImageFilterImageSourceTest
+      COMMAND ITKSmoothingTestDriver
+      --compare DATA{Baseline/FFTDiscreteGaussianImageFilterTestImageSourceOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestImageSourceOutput.mha
+      itkFFTDiscreteGaussianImageFilterTest
+        DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+        ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestImageSourceOutput.mha
+        3.5 0.05 35 2 1)
+itk_add_test(NAME itkFFTDiscreteGaussianImageFilterKernelDimensionalityTest
+      COMMAND ITKSmoothingTestDriver
+      --compare DATA{Baseline/FFTDiscreteGaussianImageFilterTestKernelDimensionalityOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestKernelDimensionalityOutput.mha
+      itkFFTDiscreteGaussianImageFilterTest
+        DATA{${ITK_DATA_ROOT}/Input/2th_cthead1.png}
+        ${ITK_TEST_OUTPUT_DIR}/FFTDiscreteGaussianImageFilterTestKernelDimensionalityOutput.mha
+        1.2 0.25 11 1 0)
+
 itk_add_test(NAME itkFFTDiscreteGaussianImageFilterFactoryTest
       COMMAND ITKSmoothingTestDriver itkFFTDiscreteGaussianImageFilterFactoryTest)
 itk_add_test(NAME itkMedianImageFilterTest

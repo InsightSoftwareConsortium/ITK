@@ -24,7 +24,9 @@
 
 #include "itkProgressAccumulator.h"
 #include "itkImageAlgorithm.h"
+#include "itkImageRegionIteratorWithIndex.h"
 #include "itkMacro.h"
+#include "itkVariableLengthVector.h"
 
 namespace itk
 {
@@ -73,6 +75,97 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::SetInputBoundaryCondi
 }
 
 template <typename TInputImage, typename TOutputImage>
+auto
+FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage() -> RealImagePointerType
+{
+  RealImagePointerType kernelImage;
+  if (m_KernelSource == FFTDiscreteGaussianImageFilterEnums::KernelSource::COMBINED_OPERATORS)
+  {
+    // Get directional 1D Gaussian kernels to compose image
+    itk::VariableLengthVector<KernelType> directionalOperators;
+    directionalOperators.SetSize(this->GetFilterDimensionality());
+    RadiusType kernelSize;
+    kernelSize.Fill(1);
+    for (size_t dim = 0; dim < this->GetFilterDimensionality(); ++dim)
+    {
+      this->GenerateKernel(dim, directionalOperators[dim]);
+      kernelSize[dim] = directionalOperators[dim].GetRadius(dim) * 2 + 1;
+    }
+
+    // Set up kernel image
+    kernelImage = RealImageType::New();
+    typename RealImageType::IndexType index;
+    index.Fill(0);
+    typename RealImageType::RegionType region;
+    region.SetSize(kernelSize);
+    region.SetIndex(index);
+    kernelImage->SetRegions(region);
+    kernelImage->Allocate();
+    kernelImage->CopyInformation(this->GetInput());
+
+    // Compute kernel image as product of vectors
+    itk::ImageRegionIteratorWithIndex<RealImageType> kernelIt(kernelImage, region);
+    while (!kernelIt.IsAtEnd())
+    {
+      auto   imageIndex = kernelIt.GetIndex();
+      double val = 1;
+      for (size_t dim = 0; dim < directionalOperators.GetSize(); ++dim)
+      {
+        val *= directionalOperators[dim].GetElement(imageIndex[dim]);
+      }
+      kernelIt.Set(val);
+
+      ++kernelIt;
+    }
+  }
+  else if (m_KernelSource == FFTDiscreteGaussianImageFilterEnums::KernelSource::IMAGE_SOURCE)
+  {
+    // Create kernel image for blurring in requested dimensions
+    using GaussianImageSourceType = GaussianImageSource<RealImageType>;
+    using KernelSizeType = typename GaussianImageSourceType::SizeType;
+    using KernelMeanType = typename GaussianImageSourceType::ArrayType;
+
+    typename GaussianImageSourceType::Pointer kernelSource = GaussianImageSourceType::New();
+
+    auto inputSpacing = this->GetInput()->GetSpacing();
+    auto inputOrigin = this->GetInput()->GetOrigin();
+
+    kernelSource->SetScale(1.0);
+    kernelSource->SetNormalized(true);
+
+    kernelSource->SetSpacing(inputSpacing);
+    kernelSource->SetOrigin(inputOrigin);
+    kernelSource->SetDirection(this->GetInput()->GetDirection());
+
+    KernelSizeType kernelSize;
+    kernelSize.Fill(1);
+    for (size_t dim = 0; dim < this->GetFilterDimensionality(); ++dim)
+    {
+      kernelSize[dim] = static_cast<SizeValueType>(this->GetKernelRadius(dim)) * 2 + 1;
+    }
+    kernelSource->SetSize(kernelSize);
+
+    KernelMeanType mean;
+    for (size_t dim = 0; dim < ImageDimension; ++dim)
+    {
+      double radius = (kernelSize[dim] - 1) / 2;
+      mean[dim] = inputSpacing[dim] * radius + inputOrigin[dim]; // center pixel pos
+    }
+    kernelSource->SetMean(mean);
+    kernelSource->SetSigma(this->GetSigmaArray());
+    kernelSource->Update();
+    kernelImage = kernelSource->GetOutput();
+    kernelImage->DisconnectPipeline();
+  }
+  else
+  {
+    itkExceptionMacro("Unknown kernel source enum");
+  }
+
+  return kernelImage;
+}
+
+template <typename TInputImage, typename TOutputImage>
 void
 FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
 {
@@ -107,53 +200,18 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  // Create kernel image for blurring in requested dimensions
-  using GaussianImageSourceType = GaussianImageSource<RealImageType>;
-  using KernelSizeType = typename GaussianImageSourceType::SizeType;
-  using KernelMeanType = typename GaussianImageSourceType::ArrayType;
-
-  typename GaussianImageSourceType::Pointer kernelSource = GaussianImageSourceType::New();
-
-  kernelSource->SetScale(1.0);
-  kernelSource->SetNormalized(true);
-
-  kernelSource->SetSpacing(localInput->GetSpacing());
-  kernelSource->SetOrigin(localInput->GetOrigin());
-  kernelSource->SetDirection(localInput->GetDirection());
-
-  KernelSizeType kernelSize;
-  kernelSize.Fill(1);
-  for (size_t dim = 0; dim < filterDimensionality; ++dim)
-  {
-    kernelSize[dim] = static_cast<SizeValueType>(this->GetKernelRadius(dim)) * 2 + 1;
-  }
-  kernelSource->SetSize(kernelSize);
-
-  KernelMeanType mean;
-  auto           inputSpacing = localInput->GetSpacing();
-  auto           inputOrigin = localInput->GetOrigin();
-  for (size_t dim = 0; dim < ImageDimension; ++dim)
-  {
-    double radius = (kernelSize[dim] - 1) / 2;
-    mean[dim] = inputSpacing[dim] * radius + inputOrigin[dim]; // center pixel pos
-  }
-  kernelSource->SetMean(mean);
-  kernelSource->SetSigma(this->GetSigmaArray());
-
-  // Estimate kernel generation to be roughly 5% of effort
-  progress->RegisterInternalFilter(kernelSource, 0.05f);
+  RealImagePointerType kernelImage = GenerateKernelImage();
 
   // Perform image convolution by FFT
   using ConvolutionImageFilterType = FFTConvolutionImageFilter<RealImageType, RealImageType, OutputImageType>;
 
   typename ConvolutionImageFilterType::Pointer convolutionFilter = ConvolutionImageFilterType::New();
   convolutionFilter->SetInput(this->GetInput());
-  convolutionFilter->SetKernelImage(kernelSource->GetOutput());
+  convolutionFilter->SetKernelImage(kernelImage);
   convolutionFilter->SetBoundaryCondition(this->GetRealBoundaryCondition());
   convolutionFilter->SetNormalize(false); // Kernel is already normalized
 
-  // Estimate kernel generation to be roughly 95% of effort
-  progress->RegisterInternalFilter(convolutionFilter, 0.95f);
+  progress->RegisterInternalFilter(convolutionFilter, 1.0f);
 
   // Graft this filters output onto the mini-pipeline so the mini-pipeline
   // has the correct region ivars and will write to this filters bulk data

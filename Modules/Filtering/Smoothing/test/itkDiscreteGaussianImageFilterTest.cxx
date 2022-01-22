@@ -23,6 +23,8 @@
 #include "itkTestingMacros.h"
 #include "itkConstantBoundaryCondition.h"
 
+/** Check basic image filter parameters and operations */
+
 int
 itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 {
@@ -70,10 +72,6 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   filter->SetSigmaArray(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigmaArray());
-
-  // Verify spacing-adjusted variance is not available without input image
-  filter->SetUseImageSpacing(true);
-  ITK_TRY_EXPECT_EXCEPTION(filter->GetImageSpacingVarianceArray());
 
   // Set the boundary condition used by the filter
   itk::ConstantBoundaryCondition<ImageType> constantBoundaryCondition;
@@ -127,29 +125,6 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   test1.SetFilter(filter);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
-
-  // Test variance adjustments for image spacing
-  ImageType::Pointer              inputImage = ImageType::New();
-  typename ImageType::SpacingType spacing;
-  spacing[0] = 1.5;
-  spacing[1] = 1.0;
-  spacing[2] = 0.5;
-  inputImage->SetSpacing(spacing);
-  filter->SetInput(inputImage);
-
-  filter->SetUseImageSpacing(false);
-  for (itk::IndexValueType dim = 0; dim < Dimension; ++dim)
-  {
-    ITK_TEST_EXPECT_EQUAL(sigmaValue, filter->GetVariance()[dim])
-    ITK_TEST_EXPECT_EQUAL(sigmaValue, filter->GetImageSpacingVarianceArray()[dim]);
-  }
-
-  filter->SetUseImageSpacing(true);
-  for (itk::IndexValueType dim = 0; dim < Dimension; ++dim)
-  {
-    ITK_TEST_EXPECT_EQUAL(sigmaValue, filter->GetVariance()[dim]);
-    ITK_TEST_EXPECT_EQUAL((sigmaValue / (spacing[dim] * spacing[dim])), filter->GetImageSpacingVarianceArray()[dim]);
-  }
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;

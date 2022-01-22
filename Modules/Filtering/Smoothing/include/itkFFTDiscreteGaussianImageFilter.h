@@ -21,9 +21,42 @@
 #include "itkDiscreteGaussianImageFilter.h"
 #include "itkImage.h"
 #include "itkMacro.h"
+#include "ITKSmoothingExport.h"
 
 namespace itk
 {
+/**\class FFTDiscreteGaussianImageFilterEnums
+ * \brief Contains all enum classes used by FFTDiscreteGaussianImageFilter class.
+ * \ingroup ITKSmoothing
+ */
+class FFTDiscreteGaussianImageFilterEnums
+{
+public:
+  /**
+   * \class KernelSource
+   * \ingroup ITKSmoothing
+   * ITK defines multiple possible sources for generating a
+   * Gaussian kernel for smoothing.
+   *
+   * Generating an ND kernel by multiplying
+   * N 1D directional operators produces nearly identical
+   * results to the DiscreteGaussianImageFilter class.
+   *
+   * Generating an ND kernel image directly with
+   * GaussianImageSource relies on a slightly different
+   * spatial function and will produce different smoothing,
+   * but kernel generation will be faster.
+   */
+  enum class KernelSource : uint8_t
+  {
+    COMBINED_OPERATORS = 0,
+    IMAGE_SOURCE,
+  };
+};
+// Define how to print enumeration
+extern ITKSmoothing_EXPORT std::ostream &
+                           operator<<(std::ostream & out, const FFTDiscreteGaussianImageFilterEnums::KernelSource value);
+
 /**
  * \class FFTDiscreteGaussianImageFilter
  * \brief Blurs an image by convolution with a discrete gaussian kernel
@@ -82,23 +115,24 @@ public:
   static constexpr unsigned int ImageDimension = Superclass::ImageDimension;
 
   /** Type of the pixel to use for intermediate results */
-  using RealOutputPixelType = typename Superclass::RealOutputPixelType;
-  using RealOutputImageType = typename Superclass::RealOutputImageType;
-  using RealOutputPixelValueType = typename Superclass::RealOutputPixelValueType;
+  using typename Superclass::RealOutputPixelType;
+  using typename Superclass::RealOutputImageType;
+  using typename Superclass::RealOutputPixelValueType;
   using RealPixelType = RealOutputPixelType;
   using RealImageType = RealOutputImageType;
+  using RealImagePointerType = typename RealImageType::Pointer;
 
   /** Typedef to describe the boundary condition. */
-  using BoundaryConditionType = typename Superclass::BoundaryConditionType;
-  using InputBoundaryConditionPointerType = typename Superclass::InputBoundaryConditionPointerType;
-  using InputDefaultBoundaryConditionType = typename Superclass::InputDefaultBoundaryConditionType;
-  using RealBoundaryConditionPointerType = typename Superclass::RealBoundaryConditionPointerType;
-  using RealDefaultBoundaryConditionType = typename Superclass::RealDefaultBoundaryConditionType;
+  using typename Superclass::BoundaryConditionType;
+  using typename Superclass::InputBoundaryConditionPointerType;
+  using typename Superclass::InputDefaultBoundaryConditionType;
+  using typename Superclass::RealBoundaryConditionPointerType;
+  using typename Superclass::RealDefaultBoundaryConditionType;
 
   /** Typedef of double containers */
-  using ArrayType = typename Superclass::ArrayType;
-  using SigmaArrayType = typename Superclass::SigmaArrayType;
-  using ScalarRealType = typename Superclass::ScalarRealType;
+  using typename Superclass::ArrayType;
+  using typename Superclass::SigmaArrayType;
+  using typename Superclass::ScalarRealType;
 
   /** Typedef to describe kernel parameters */
   using typename Superclass::KernelType;
@@ -108,6 +142,13 @@ public:
 
   void
   SetInputBoundaryCondition(const InputBoundaryConditionPointerType) override;
+
+  auto
+  GenerateKernelImage() -> RealImagePointerType;
+
+
+  itkSetMacro(KernelSource, FFTDiscreteGaussianImageFilterEnums::KernelSource);
+  itkGetConstMacro(KernelSource, FFTDiscreteGaussianImageFilterEnums::KernelSource);
 
 protected:
   FFTDiscreteGaussianImageFilter() = default;
@@ -124,6 +165,9 @@ protected:
    * multithreaded by default. */
   void
   GenerateData() override;
+
+private:
+  FFTDiscreteGaussianImageFilterEnums::KernelSource m_KernelSource;
 };
 } // end namespace itk
 
