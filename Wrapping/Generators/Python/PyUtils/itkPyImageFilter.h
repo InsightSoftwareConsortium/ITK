@@ -68,13 +68,17 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  /** Python callable called during the filter's GenerateData. */
+  /** Python callable called during the filter's GenerateOutputInformation. */
   void
-  SetPyGenerateData(PyObject * obj);
+  SetPyGenerateOutputInformation(PyObject * obj);
 
   /** Python callable called during the filter's GenerateInputRequestedRegion. */
   void
   SetPyGenerateInputRequestedRegion(PyObject * obj);
+
+  /** Python callable called during the filter's GenerateData. */
+  void
+  SetPyGenerateData(PyObject * obj);
 
   /** Python internal method to pass a pointer to the wrapping Python object. */
   void
@@ -88,6 +92,9 @@ protected:
   virtual ~PyImageFilter();
 
   void
+  GenerateOutputInformation() override;
+
+  void
   GenerateInputRequestedRegion() override;
 
   void
@@ -95,8 +102,9 @@ protected:
 
 private:
   PyObject * m_Self;
-  PyObject * m_GenerateDataCallable;
-  PyObject * m_GenerateInputRequestedRegionCallable;
+  PyObject * m_GenerateOutputInformationCallable{ nullptr };
+  PyObject * m_GenerateInputRequestedRegionCallable{ nullptr };
+  PyObject * m_GenerateDataCallable{ nullptr };
 };
 
 } // end namespace itk

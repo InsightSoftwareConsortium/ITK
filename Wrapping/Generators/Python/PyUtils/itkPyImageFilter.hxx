@@ -25,10 +25,7 @@ namespace itk
 
 template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage, TOutputImage>::PyImageFilter()
-{
-  this->m_GenerateDataCallable = nullptr;
-  this->m_GenerateInputRequestedRegionCallable = nullptr;
-}
+{}
 
 template <class TInputImage, class TOutputImage>
 PyImageFilter<TInputImage, TOutputImage>::~PyImageFilter()
@@ -73,6 +70,32 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateData(PyObject * o)
 
 template <class TInputImage, class TOutputImage>
 void
+PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateOutputInformation(PyObject * o)
+{
+  if (o != this->m_GenerateOutputInformationCallable)
+  {
+    if (this->m_GenerateOutputInformationCallable)
+    {
+      // get rid of our reference
+      Py_DECREF(this->m_GenerateOutputInformationCallable);
+    }
+
+    // store the new object
+    this->m_GenerateOutputInformationCallable = o;
+    this->Modified();
+
+    if (this->m_GenerateOutputInformationCallable)
+    {
+      // take out reference (so that the calling code doesn't
+      // have to keep a binding to the callable around)
+      Py_INCREF(this->m_GenerateOutputInformationCallable);
+    }
+  }
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
 PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateInputRequestedRegion(PyObject * o)
 {
   if (o != this->m_GenerateInputRequestedRegionCallable)
@@ -92,6 +115,38 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateInputRequestedRegion(PyOb
       // take out reference (so that the calling code doesn't
       // have to keep a binding to the callable around)
       Py_INCREF(this->m_GenerateInputRequestedRegionCallable);
+    }
+  }
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
+PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
+{
+  Superclass::GenerateOutputInformation();
+
+  // make sure that the CommandCallable is in fact callable
+  if (PyCallable_Check(this->m_GenerateOutputInformationCallable))
+  {
+    PyObject * result;
+
+    PyObject * args = PyTuple_Pack(1, this->m_Self);
+    result = PyObject_Call(this->m_GenerateOutputInformationCallable, args, (PyObject *)NULL);
+    Py_DECREF(args);
+
+    if (result)
+    {
+      Py_DECREF(result);
+    }
+    else
+    {
+      // there was a Python error.  Clear the error by printing to stdout
+      PyErr_Print();
+      // make sure the invoking Python code knows there was a problem
+      // by raising an exception
+      itkExceptionMacro(<< "There was an error executing the "
+                        << "CommandCallable.");
     }
   }
 }
