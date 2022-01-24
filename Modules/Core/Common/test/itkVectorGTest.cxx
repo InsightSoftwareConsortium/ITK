@@ -27,7 +27,7 @@
 
 namespace
 {
-template <unsigned VDimension>
+template <unsigned int VDimension>
 void
 Expect_itk_Vector_can_be_constructed_by_std_array()
 {

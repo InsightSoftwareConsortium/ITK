@@ -208,7 +208,7 @@ public:
   void
   AddGradientImage(const GradientDirectionType &, const GradientImageType * gradientImage);
   const GradientImageType *
-  GetGradientImage(unsigned index) const;
+  GetGradientImage(unsigned int index) const;
 
   /** Another set method to add a gradient directions and its corresponding
    * image. The image here is a VectorImage. The user is expected to pass the

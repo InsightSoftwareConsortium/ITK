@@ -66,7 +66,7 @@ public:
    * The IndexType.first is the dimension of the face and IndexType.second is a
    * binary value 0 or 1 indicating the LOW face or the HIGH face,
    * respectively.    */
-  using IndexType = std::pair<unsigned, unsigned>;
+  using IndexType = std::pair<unsigned int, unsigned int>;
   using ImageType = Image<IdentifierType, TDimension>;
   using ImageIndexType = typename ImageType::IndexType;
   using ScalarType = TScalar;
@@ -145,7 +145,7 @@ public:
    * the number of the axial dimension and highlow is 0 for the LOW
    * face and 1 for the HIGH face.   */
   FacePointer
-  GetFace(unsigned dimension, unsigned highlow)
+  GetFace(unsigned int dimension, unsigned int highlow)
   {
     if (highlow == 0)
     {
@@ -164,7 +164,7 @@ public:
   }
 
   void
-  SetFace(FacePointer f, unsigned dimension, unsigned highlow)
+  SetFace(FacePointer f, unsigned int dimension, unsigned int highlow)
   {
     if (highlow == 0)
     {
@@ -184,7 +184,7 @@ public:
     return this->GetFlatHash(idx.first, idx.second);
   }
   flat_hash_t *
-  GetFlatHash(unsigned dimension, unsigned highlow)
+  GetFlatHash(unsigned int dimension, unsigned int highlow)
   {
     if (highlow == 0)
     {
@@ -202,7 +202,7 @@ public:
     this->SetFlatHash(l, idx.first, idx.second);
   }
   void
-  SetFlatHash(flat_hash_t & l, unsigned dimension, unsigned highlow)
+  SetFlatHash(flat_hash_t & l, unsigned int dimension, unsigned int highlow)
   {
     if (highlow == 0)
     {
@@ -225,7 +225,7 @@ public:
     this->SetValid(l, idx.first, idx.second);
   }
   void
-  SetValid(bool b, unsigned dimension, unsigned highlow)
+  SetValid(bool b, unsigned int dimension, unsigned int highlow)
   {
     if (highlow == 0)
     {
@@ -244,7 +244,7 @@ public:
     return this->GetValid(idx.first, idx.second);
   }
   bool
-  GetValid(unsigned dimension, unsigned highlow) const
+  GetValid(unsigned int dimension, unsigned int highlow) const
   {
     if (highlow == 0)
     {

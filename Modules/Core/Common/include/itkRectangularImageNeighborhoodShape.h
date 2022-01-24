@@ -87,7 +87,7 @@ public:
       {
         offsets[i] = offset;
 
-        for (unsigned dimensionIndex = 0; dimensionIndex < ImageDimension; ++dimensionIndex)
+        for (unsigned int dimensionIndex = 0; dimensionIndex < ImageDimension; ++dimensionIndex)
         {
           OffsetValueType & offsetValue = offset[dimensionIndex];
 
@@ -114,7 +114,7 @@ private:
   // Private helper function to calculate the number of Offsets by a recursive
   // function call. Recursion is necessary for C++11 constexpr.
   constexpr std::size_t
-  CalculateNumberOfOffsets(const unsigned dimension) const noexcept
+  CalculateNumberOfOffsets(const unsigned int dimension) const noexcept
   {
     return (dimension == 0)
              ? 1

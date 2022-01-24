@@ -89,7 +89,7 @@ itkRegularSphereMeshSourceTest(int, char *[])
 
   CellsContainerPointer cells = myMesh->GetCells();
 
-  unsigned faceId = 0;
+  unsigned int faceId = 0;
 
   MeshType::CellsContainerIterator cellsItr = cells->Begin();
 

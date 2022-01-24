@@ -124,7 +124,7 @@ itkHoughTransform2DLinesImageTest(int, char *[])
   bool success = true;
 
   // Define the dimension of the images
-  constexpr unsigned Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   // Declare the pixel types of the images
   using PixelType = unsigned char;

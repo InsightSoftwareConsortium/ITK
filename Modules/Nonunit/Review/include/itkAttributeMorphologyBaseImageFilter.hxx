@@ -163,7 +163,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     else
     {
       // need a bounds check for each neighbour
-      for (unsigned i = 0; i < TheseOffsets.size(); ++i)
+      for (unsigned int i = 0; i < TheseOffsets.size(); ++i)
       {
         if (output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]))
         {
@@ -209,7 +209,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     if (fit->IsInside(ThisWhere))
     {
       // no need for neighbor bounds check
-      for (unsigned i = 0; i < TheseDirectOffsets.size(); ++i)
+      for (unsigned int i = 0; i < TheseDirectOffsets.size(); ++i)
       {
         OffsetValueType NeighInd = ThisPos + TheseDirectOffsets[i];
         if (m_Processed[NeighInd])
@@ -220,7 +220,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     }
     else
     {
-      for (unsigned i = 0; i < TheseOffsets.size(); ++i)
+      for (unsigned int i = 0; i < TheseOffsets.size(); ++i)
       {
         if (output->GetRequestedRegion().IsInside(ThisWhere + TheseOffsets[i]))
         {

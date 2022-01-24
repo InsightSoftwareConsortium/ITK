@@ -59,14 +59,14 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   int total = histogram->GetTotalFrequency();
 
-  for (ih = 0; (unsigned)ih < size; ++ih)
+  for (ih = 0; (unsigned int)ih < size; ++ih)
   {
     norm_histo[ih] = (double)histogram->GetFrequency(ih, 0) / total;
   }
 
   P1[0] = norm_histo[0];
   P2[0] = 1.0 - P1[0];
-  for (ih = 1; (unsigned)ih < size; ++ih)
+  for (ih = 1; (unsigned int)ih < size; ++ih)
   {
     P1[ih] = P1[ih - 1] + norm_histo[ih];
     P2[ih] = 1.0 - P1[ih];
@@ -74,7 +74,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Determine the first non-zero bin
   first_bin = 0;
-  for (ih = 0; (unsigned)ih < size; ++ih)
+  for (ih = 0; (unsigned int)ih < size; ++ih)
   {
     if (!(itk::Math::abs(P1[ih]) < tolerance))
     {
@@ -112,7 +112,7 @@ ShanbhagThresholdCalculator<THistogram, TOutput>::GenerateData()
     // Entropy of the object pixels
     ent_obj = 0.0;
     term = 0.5 / P2[it];
-    for (ih = it + 1; (unsigned)ih < size; ++ih)
+    for (ih = it + 1; (unsigned int)ih < size; ++ih)
     {
       ent_obj -= norm_histo[ih] * std::log(1.0 - term * P2[ih]);
     }

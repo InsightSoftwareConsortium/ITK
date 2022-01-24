@@ -242,7 +242,7 @@ inline void
 print_vector(std::ofstream & s, vnl_vector<TParametersValueType> const & v)
 {
   NumberToString<TParametersValueType> convert;
-  for (unsigned i = 0; i + 1 < v.size(); ++i)
+  for (unsigned int i = 0; i + 1 < v.size(); ++i)
   {
     s << convert(v[i]) << ' ';
   }

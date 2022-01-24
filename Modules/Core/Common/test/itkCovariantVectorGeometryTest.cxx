@@ -247,7 +247,7 @@ itkCovariantVectorGeometryTest(int, char *[])
     }
     auto * compp = reinterpret_cast<char *>(&comp);
     auto * xp = reinterpret_cast<char *>(&x);
-    for (unsigned i = 0; i < sizeof(CovariantVectorType::ComponentType); ++i)
+    for (unsigned int i = 0; i < sizeof(CovariantVectorType::ComponentType); ++i)
     {
       if (compp[i] != xp[i])
       {

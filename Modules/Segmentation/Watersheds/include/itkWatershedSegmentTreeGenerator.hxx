@@ -204,7 +204,7 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
   // possible merges and pushes it onto the heap.
   auto threshold = static_cast<ScalarType>(m_FloodLevel * segments->GetMaximumDepth());
 
-  unsigned counter;
+  unsigned int counter;
   using MergeComparison = typename SegmentTreeType::merge_comp;
   typename SegmentTableType::DataType * toSeg;
   typename SegmentTreeType::ValueType   tempMerge;

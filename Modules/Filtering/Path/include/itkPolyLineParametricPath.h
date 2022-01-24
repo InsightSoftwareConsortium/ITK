@@ -81,7 +81,7 @@ public:
   using PointType = Point<double, VDimension>;
   using VectorType = Vector<double, VDimension>;
   using VertexType = ContinuousIndexType;
-  using VertexListType = VectorContainer<unsigned, VertexType>;
+  using VertexListType = VectorContainer<unsigned int, VertexType>;
   using VertexListPointer = typename VertexListType::Pointer;
 
   /** Return the location of the parametric path at the specified location. */

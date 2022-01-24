@@ -53,9 +53,9 @@ CloseEnough(double a, double b)
 bool
 Equal(DirectionType dir1, DirectionType dir2)
 {
-  for (unsigned i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
-    for (unsigned j = 0; j < 3; ++j)
+    for (unsigned int j = 0; j < 3; ++j)
     {
       if (!CloseEnough(dir1(i, j), dir2(i, j)))
       {
@@ -69,7 +69,7 @@ Equal(DirectionType dir1, DirectionType dir2)
 bool
 Equal(SpacingType spacing1, SpacingType spacing2)
 {
-  for (unsigned i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     if (!CloseEnough(spacing1[i], spacing2[i]))
     {

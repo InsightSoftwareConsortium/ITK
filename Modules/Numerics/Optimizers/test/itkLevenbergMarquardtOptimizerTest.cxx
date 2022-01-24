@@ -82,7 +82,7 @@ public:
     m_TheoreticalData.SetSize(RangeDimension);
 
     // Compute points of the function over a square region
-    unsigned valueindex = 0;
+    unsigned int valueindex = 0;
     for (int y = -YRange; y <= YRange; ++y)
     {
       const auto yd = (double)y;
@@ -110,7 +110,7 @@ public:
     std::cout << c << ")  " << std::endl;
 
     // Compute points of the function over a square region
-    unsigned valueindex = 0;
+    unsigned int valueindex = 0;
     for (int y = -YRange; y <= YRange; ++y)
     {
       const auto yd = (double)y;
@@ -141,7 +141,7 @@ public:
     std::cout << c << ") " << std::endl;
 
     // Compute points of the function over a square region
-    unsigned valueindex = 0;
+    unsigned int valueindex = 0;
     for (int y = -YRange; y <= YRange; ++y)
     {
       const auto yd = (double)y;

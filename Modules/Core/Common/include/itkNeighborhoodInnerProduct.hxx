@@ -26,8 +26,8 @@ template <typename TImage, typename TOperator, typename TComputation>
 typename NeighborhoodInnerProduct<TImage, TOperator, TComputation>::OutputPixelType
 NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(const ConstNeighborhoodIterator<TImage> & it,
                                                                    const OperatorType &                      op,
-                                                                   const unsigned                            start,
-                                                                   const unsigned                            stride)
+                                                                   const unsigned int                        start,
+                                                                   const unsigned int                        stride)
 {
   typename OperatorType::ConstIterator o_it;
 
@@ -57,8 +57,8 @@ NeighborhoodInnerProduct<TImage, TOperator, TComputation>::Compute(
   /*           const ImageBoundaryCondition<TImage> *,*/
   const NeighborhoodType & N,
   const OperatorType &     op,
-  const unsigned           start,
-  const unsigned           stride)
+  const unsigned int       start,
+  const unsigned int       stride)
 {
   typename OperatorType::ConstIterator o_it;
 

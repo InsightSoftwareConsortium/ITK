@@ -118,7 +118,7 @@ RenyiEntropyThresholdCalculator<THistogram, TOutput>::GenerateData()
   double beta3 = 0.;
 
   // Adjust beta values.
-  // Note that t_star1, t_star2, t_star3 are unsigned.
+  // Note that t_star1, t_star2, t_star3 are unsigned int.
   if (itk::Math::abs(static_cast<double>(t_star1) - static_cast<double>(t_star2)) <= 5.)
   {
     if (itk::Math::abs(static_cast<double>(t_star2) - static_cast<double>(t_star3)) <= 5.)

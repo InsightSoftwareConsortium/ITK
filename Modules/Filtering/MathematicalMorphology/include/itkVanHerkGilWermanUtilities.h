@@ -36,14 +36,14 @@ void
 FillReverseExt(std::vector<PixelType> & pixbuffer,
                std::vector<PixelType> & rExtBuffer,
                const unsigned int       KernLen,
-               unsigned                 len);
+               unsigned int             len);
 
 template <typename PixelType, typename TFunction>
 void
 FillForwardExt(std::vector<PixelType> & pixbuffer,
                std::vector<PixelType> & fExtBuffer,
                const unsigned int       KernLen,
-               unsigned                 len);
+               unsigned int             len);
 
 template <typename TImage, typename TBres, typename TFunction, typename TLine>
 void

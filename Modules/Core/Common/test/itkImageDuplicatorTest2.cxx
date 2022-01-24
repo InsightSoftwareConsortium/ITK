@@ -49,7 +49,7 @@ itkImageDuplicatorTest2(int argc, char * argv[])
 
     ImageType::RegionType lpr = inImage->GetLargestPossibleRegion();
     ImageType::RegionType region = lpr;
-    for (unsigned d = 0; d < Dimension; ++d)
+    for (unsigned int d = 0; d < Dimension; ++d)
     {
       itk::IndexValueType size = region.GetSize(d);
       region.SetIndex(d, size / 4);

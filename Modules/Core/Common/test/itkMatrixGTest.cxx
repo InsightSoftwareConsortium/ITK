@@ -38,9 +38,9 @@ Expect_Matrix_default_constructor_zero_initializes_all_elements()
 #endif
     TMatrix defaultConstructedMatrix;
 
-  for (unsigned row{}; row < TMatrix::RowDimensions; ++row)
+  for (unsigned int row{}; row < TMatrix::RowDimensions; ++row)
   {
-    for (unsigned column{}; column < TMatrix::ColumnDimensions; ++column)
+    for (unsigned int column{}; column < TMatrix::ColumnDimensions; ++column)
     {
       EXPECT_EQ(defaultConstructedMatrix(row, column), 0);
     }

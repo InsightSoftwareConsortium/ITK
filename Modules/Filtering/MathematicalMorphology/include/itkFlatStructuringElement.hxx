@@ -39,7 +39,7 @@ namespace itk
 
 template <unsigned int NDimension>
 FlatStructuringElement<NDimension>
-FlatStructuringElement<NDimension>::Polygon(RadiusType radius, unsigned lines)
+FlatStructuringElement<NDimension>::Polygon(RadiusType radius, unsigned int lines)
 {
   Self res = Self();
   GeneratePolygon(res, radius, lines);
@@ -49,7 +49,7 @@ FlatStructuringElement<NDimension>::Polygon(RadiusType radius, unsigned lines)
 template <unsigned int VDimension>
 template <typename TStructuringElement, typename TRadius>
 void
-FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadius, unsigned)
+FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadius, unsigned int)
 {
   itkGenericExceptionMacro("Only dimension 2 and 3 are supported.");
 }
@@ -57,7 +57,7 @@ FlatStructuringElement<VDimension>::GeneratePolygon(TStructuringElement &, TRadi
 template <unsigned int VDimension>
 void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<2> & res,
                                                          itk::Size<2>                     radius,
-                                                         unsigned                         lines)
+                                                         unsigned int                     lines)
 {
   // radial decomposition method from "Radial Decomposition of Discs
   // and Spheres" - CVGIP: Graphical Models and Image Processing
@@ -66,7 +66,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
   res.SetDecomposable(true);
 
   unsigned int rr = 0;
-  for (unsigned i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     if (radius[i] > rr)
     {
@@ -128,7 +128,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
 template <unsigned int VDimension>
 void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringElement<3> & res,
                                                          itk::Size<3>                     radius,
-                                                         unsigned                         lines)
+                                                         unsigned int                     lines)
 {
   res.SetRadius(radius);
   res.SetDecomposable(true);
@@ -137,7 +137,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
   unsigned int rr = 0;
   int          iterations = 1;
   int          faces = lines * 2;
-  for (unsigned i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     if (radius[i] > rr)
     {
@@ -149,10 +149,10 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
     case 12:
     {
       // dodecahedron
-      float    phi = (1.0 + std::sqrt(5.0)) / 2.0;
-      float    b = 1.0 / phi;
-      float    c = 2.0 - phi;
-      unsigned facets = 12;
+      float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
+      float        b = 1.0 / phi;
+      float        c = 2.0 - phi;
+      unsigned int facets = 12;
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
@@ -331,7 +331,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       PP[2] = b;
       Fc.P3 = PP;
       FacetArray[11] = Fc;
-      for (unsigned j = 0; j < facets; ++j)
+      for (unsigned int j = 0; j < facets; ++j)
       {
         // Find a line perpendicular to each face
         LType3 L, A, B;
@@ -404,10 +404,10 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
     case 20:
     {
       // Icosahedron
-      float    phi = (1.0 + std::sqrt(5.0)) / 2.0;
-      float    a = 0.5;
-      float    b = 1.0 / (2.0 * phi);
-      unsigned facets = 20;
+      float        phi = (1.0 + std::sqrt(5.0)) / 2.0;
+      float        a = 0.5;
+      float        b = 1.0 / (2.0 * phi);
+      unsigned int facets = 20;
       using FacetArrayType = std::vector<FacetType3>;
       FacetArrayType FacetArray;
       FacetArray.resize(facets);
@@ -697,7 +697,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       Fc.P3 = PP;
       FacetArray[19] = Fc;
 
-      for (unsigned j = 0; j < facets; ++j)
+      for (unsigned int j = 0; j < facets; ++j)
       {
         // Find a line perpendicular to each face
         LType3 L, A, B;
@@ -789,14 +789,14 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       FacetArray[7] = F7;
       int pos = 8;
       // now subdivide the octahedron
-      for (unsigned it = 0; it < (unsigned)iterations; ++it)
+      for (unsigned int it = 0; it < (unsigned int)iterations; ++it)
       {
         // Bisect edges and move to sphere
-        unsigned ntold = pos;
-        for (unsigned i = 0; i < ntold; ++i)
+        unsigned int ntold = pos;
+        for (unsigned int i = 0; i < ntold; ++i)
         {
           LType3 Pa, Pb, Pc;
-          for (unsigned d = 0; d < 3; ++d)
+          for (unsigned int d = 0; d < 3; ++d)
           {
             Pa[d] = (FacetArray[i].P1[d] + FacetArray[i].P2[d]) / 2;
             Pb[d] = (FacetArray[i].P2[d] + FacetArray[i].P3[d]) / 2;
@@ -823,7 +823,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
         }
       }
 
-      for (unsigned j = 0; j < facets; ++j)
+      for (unsigned int j = 0; j < facets; ++j)
       {
         // Find a line perpendicular to each face
         LType3 L, A, B;
@@ -858,7 +858,7 @@ FlatStructuringElement<VDimension>::Box(RadiusType radius)
 
   res.SetDecomposable(true);
   res.SetRadius(radius);
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (radius[i] != 0)
     {
@@ -1145,7 +1145,7 @@ FlatStructuringElement<VDimension>::CheckParallel(LType NewVec) const
   LType NN = NewVec;
 
   NN.Normalize();
-  for (unsigned i = 0; i < m_Lines.size(); ++i)
+  for (unsigned int i = 0; i < m_Lines.size(); ++i)
   {
     LType LL = m_Lines[i];
     LL.Normalize();
@@ -1166,7 +1166,7 @@ FlatStructuringElement<VDimension>::PrintSelf(std::ostream & os, Indent indent) 
   if (m_Decomposable)
   {
     os << indent << "SE decomposition:" << std::endl;
-    for (unsigned i = 0; i < m_Lines.size(); ++i)
+    for (unsigned int i = 0; i < m_Lines.size(); ++i)
     {
       os << indent << m_Lines[i] << std::endl;
     }

@@ -150,7 +150,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
   while (!it.IsAtEnd())
   {
     const size_t ln = shrunkImage->GetLargestPossibleRegion().GetSize(0);
-    for (unsigned x = 0; x < ln; ++x)
+    for (unsigned int x = 0; x < ln; ++x)
     {
       // construct vector as reference to the scalar array
       ClusterType cluster(numberOfClusterComponents, &m_Clusters[cnt * numberOfClusterComponents]);
@@ -287,7 +287,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
   while (!itOut.IsAtEnd())
   {
     const size_t ln = updateRegionForThread.GetSize(0);
-    for (unsigned x = 0; x < ln; ++x)
+    for (unsigned int x = 0; x < ln; ++x)
     {
       const IndexType &                         idx = itOut.GetIndex();
       const InputPixelType &                    v = itIn.Get();

@@ -186,7 +186,7 @@ itkByteSwapTest(int, char *[])
     {
       return EXIT_FAILURE;
     }
-    std::cout << "Passed unsigned d: " << d << std::endl;
+    std::cout << "Passed unsigned int d: " << d << std::endl;
   }
   catch (const itk::ExceptionObject & err)
   {

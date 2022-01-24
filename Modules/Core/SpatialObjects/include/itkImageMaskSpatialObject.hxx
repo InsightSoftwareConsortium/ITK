@@ -96,7 +96,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBox()
 
       auto continuousIndex = minContinuousIndex;
 
-      for (unsigned dim{}; dim < TDimension; ++dim)
+      for (unsigned int dim{}; dim < TDimension; ++dim)
       {
         const std::uintmax_t bitMask{ std::uintmax_t{ 1 } << dim };
 
@@ -171,7 +171,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() c
   const auto CreateRegion = [](const IndexType & minIndex, const IndexType & maxIndex) {
     SizeType regionSize;
 
-    for (unsigned dim = 0; dim < SizeType::Dimension; ++dim)
+    for (unsigned int dim = 0; dim < SizeType::Dimension; ++dim)
     {
       regionSize[dim] = static_cast<SizeValueType>(maxIndex[dim] + 1 - minIndex[dim]);
     }

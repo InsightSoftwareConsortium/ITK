@@ -220,7 +220,7 @@ private:
   InputPixelType    m_Threshold;
   MaskPixelType     m_MaskValue;
   CalculatorPointer m_Calculator;
-  unsigned          m_NumberOfHistogramBins{ 256 };
+  unsigned int      m_NumberOfHistogramBins{ 256 };
   bool              m_AutoMinimumMaximum;
   bool              m_MaskOutput{ true };
 };

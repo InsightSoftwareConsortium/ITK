@@ -107,7 +107,7 @@ itkTransformCloneTest(int, char *[])
     std::cerr << "Number of transforms doesn't match" << std::endl;
     return EXIT_FAILURE;
   }
-  for (unsigned i = 0; i < compositeXfrm->GetNumberOfTransforms(); ++i)
+  for (unsigned int i = 0; i < compositeXfrm->GetNumberOfTransforms(); ++i)
   {
     AffineTransformType::ConstPointer originalXfrm =
       dynamic_cast<const AffineTransformType *>(compositeXfrm->GetNthTransformConstPointer(i));

@@ -76,7 +76,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::ActivateIndex(Neigh
 
   // Set the pointer in the neighborhood location just activated.
   this->GetElement(n) = this->GetCenterPointer();
-  for (unsigned i = 0; i < Dimension; ++i)
+  for (unsigned int i = 0; i < Dimension; ++i)
   {
     this->GetElement(n) += OffsetTable[i] * this->GetOffset(n)[i];
   }

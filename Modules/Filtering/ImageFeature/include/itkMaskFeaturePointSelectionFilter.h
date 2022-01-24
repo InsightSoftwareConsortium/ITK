@@ -77,7 +77,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(MaskFeaturePointSelectionFilter, ImageToMeshFilter);
 
-  static constexpr unsigned ImageDimension = 3u;
+  static constexpr unsigned int ImageDimension = 3u;
 
   /** Not input specific type alias */
   using RegionType = ImageRegion<ImageDimension>;
@@ -113,8 +113,8 @@ public:
    * 0 <= connect < ImageDimension; 0 is vertex connectivity (e.g., 26 in 3D),
    * 1 is edge connectivity (e.g., 18 in 3D), 2 is face connectivity
    * (e.g., 6 in 3D), etc */
-  itkSetMacro(NonConnectivity, unsigned);
-  itkGetMacro(NonConnectivity, unsigned);
+  itkSetMacro(NonConnectivity, unsigned int);
+  itkGetMacro(NonConnectivity, unsigned int);
 
   /** set/get mask */
   itkSetInputMacro(MaskImage, MaskType);
@@ -158,7 +158,7 @@ protected:
   ComputeConnectivityOffsets();
 
 private:
-  unsigned                m_NonConnectivity;
+  unsigned int            m_NonConnectivity;
   std::vector<OffsetType> m_NonConnectivityOffsets;
   SizeType                m_BlockRadius;
   double                  m_SelectFraction;

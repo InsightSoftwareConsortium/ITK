@@ -39,7 +39,7 @@ namespace itk
   *
   * The following example prints all indices of an 2-D grid space of size 2x3.
     \code
-    constexpr unsigned Dimension = 2;
+    constexpr unsigned int Dimension = 2;
     const Size<Dimension> size = { {2, 3} };
     const ZeroBasedIndexRange<Dimension> indexRange{ size };
 
@@ -74,11 +74,11 @@ namespace itk
   * \ingroup ImageIterators
   * \ingroup ITKCommon
   */
-template <unsigned VDimension, bool VBeginAtZero>
+template <unsigned int VDimension, bool VBeginAtZero>
 class IndexRange final
 {
 public:
-  static constexpr unsigned Dimension = VDimension;
+  static constexpr unsigned int Dimension = VDimension;
   using SizeType = Size<VDimension>;
   using IndexType = Index<VDimension>;
 
@@ -112,7 +112,7 @@ public:
     const_iterator &
     operator++() noexcept
     {
-      for (unsigned i = 0; i < (VDimension - 1); ++i)
+      for (unsigned int i = 0; i < (VDimension - 1); ++i)
       {
         auto & indexValue = m_Index[i];
 
@@ -145,7 +145,7 @@ public:
     const_iterator &
     operator--() noexcept
     {
-      for (unsigned i = 0; i < (VDimension - 1); ++i)
+      for (unsigned int i = 0; i < (VDimension - 1); ++i)
       {
         auto & indexValue = m_Index[i];
 
@@ -198,7 +198,7 @@ public:
     friend bool
     operator<(const const_iterator & lhs, const const_iterator & rhs) noexcept
     {
-      for (unsigned i = VDimension; i > 0; --i)
+      for (unsigned int i = VDimension; i > 0; --i)
       {
         const auto difference = lhs.m_Index[i - 1] - rhs.m_Index[i - 1];
 
@@ -250,7 +250,7 @@ public:
     struct ZeroIndex
     {
       // The "index" operator.
-      constexpr IndexValueType operator[](unsigned) const { return 0; }
+      constexpr IndexValueType operator[](unsigned int) const { return 0; }
 
       // Implicitly converts to a default-initialized itk::Index<N>.
       constexpr operator IndexType() const { return IndexType(); }
@@ -391,7 +391,7 @@ public:
   {
     std::size_t result = 1;
 
-    for (unsigned i = 0; i < VDimension; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       result *= ((m_MaxIndex[i] + 1) - m_MinIndex[i]);
     }
@@ -433,7 +433,7 @@ private:
 
     IndexType index;
 
-    for (unsigned i = 0; i < VDimension; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       index[i] = minIndex[i] + static_cast<IndexValueType>(normalizedSize[i]) - 1;
     }
@@ -450,10 +450,10 @@ private:
   IndexType m_MaxIndex = IndexType::Filled(-1);
 };
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 using ImageRegionIndexRange = IndexRange<VDimension, false>;
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 using ZeroBasedIndexRange = IndexRange<VDimension, true>;
 
 } // namespace itk

@@ -571,7 +571,7 @@ MultiThreaderBase::ParallelizeImageRegionHelper(void * arg)
 
   const ImageRegionSplitterBase * splitter = ImageSourceCommon::GetGlobalDefaultSplitter();
   ImageIORegion                   region(rnc->dimension);
-  for (unsigned d = 0; d < rnc->dimension; ++d)
+  for (unsigned int d = 0; d < rnc->dimension; ++d)
   {
     region.SetIndex(d, rnc->index[d]);
     region.SetSize(d, rnc->size[d]);

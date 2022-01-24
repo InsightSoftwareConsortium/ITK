@@ -49,7 +49,7 @@ itkFastMarchingImageFilterRealTest1(int itkNotUsed(argc), char * itkNotUsed(argv
 
   // Create a Fast Marching image filter object
   using PixelType = float;
-  constexpr unsigned Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using FloatImageType = itk::Image<PixelType, Dimension>;
 

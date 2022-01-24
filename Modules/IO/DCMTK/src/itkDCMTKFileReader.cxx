@@ -165,7 +165,7 @@ DCMTKSequence::GetElementOB(const unsigned short group,
   obItem->getUint8Array(bytes);
   Uint32      length = obItem->getLength();
   std::string val;
-  for (unsigned i = 0; i < length; ++i)
+  for (unsigned int i = 0; i < length; ++i)
   {
     val += bytes[i];
   }
@@ -867,7 +867,7 @@ DCMTKFileReader::GetElementOB(const unsigned short group,
   obItem->getUint8Array(bytes);
   Uint32      length = obItem->getLength();
   std::string val;
-  for (unsigned i = 0; i < length; ++i)
+  for (unsigned int i = 0; i < length; ++i)
   {
     val += bytes[i];
   }

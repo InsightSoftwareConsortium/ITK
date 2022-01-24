@@ -199,7 +199,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTy
   {
     for (unsigned int j = 0; j < bsplineWeights[i].size(); ++j)
     {
-      CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned>(p[i]) + j) +
+      CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned int>(p[i]) + j) +
                        0.5 * static_cast<CoordRepType>(this->m_SplineOrder[i] - 1);
 
       CoordRepType B = 1.0;
@@ -356,7 +356,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateGradient(const
     {
       for (unsigned int j = 0; j < bsplineWeights[i].size(); ++j)
       {
-        CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned>(p[i]) + j) +
+        CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned int>(p[i]) + j) +
                          0.5 * static_cast<CoordRepType>(this->m_SplineOrder[i] - 1);
 
         CoordRepType B = 1.0;
@@ -525,7 +525,7 @@ BSplineControlPointImageFunction<TInputImage, TCoordRep>::EvaluateHessian(const 
       {
         for (unsigned int h = 0; h < bsplineWeights[i].size(); ++h)
         {
-          CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned>(p[i]) + h) +
+          CoordRepType u = p[i] - static_cast<CoordRepType>(static_cast<unsigned int>(p[i]) + h) +
                            0.5 * static_cast<CoordRepType>(this->m_SplineOrder[i] - 1);
 
           CoordRepType B = 1.0;

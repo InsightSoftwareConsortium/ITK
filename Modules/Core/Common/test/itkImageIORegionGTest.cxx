@@ -147,9 +147,9 @@ SetRandomIndexAndSize(itk::ImageIORegion & region)
   std::uniform_int_distribution<itk::IndexValueType> indexDistribution(std::numeric_limits<itk::IndexValueType>::min());
   std::uniform_int_distribution<itk::SizeValueType>  sizeDistribution(std::numeric_limits<itk::SizeValueType>::min());
 
-  const unsigned imageDimension{ region.GetImageDimension() };
+  const unsigned int imageDimension{ region.GetImageDimension() };
 
-  for (unsigned i{}; i < imageDimension; ++i)
+  for (unsigned int i{}; i < imageDimension; ++i)
   {
     region.SetIndex(i, indexDistribution(randomNumberEngine));
     region.SetSize(i, sizeDistribution(randomNumberEngine));
@@ -158,7 +158,7 @@ SetRandomIndexAndSize(itk::ImageIORegion & region)
 
 
 itk::ImageIORegion
-GenerateRandomRegion(const unsigned imageDimension)
+GenerateRandomRegion(const unsigned int imageDimension)
 {
   itk::ImageIORegion region(imageDimension);
   SetRandomIndexAndSize(region);

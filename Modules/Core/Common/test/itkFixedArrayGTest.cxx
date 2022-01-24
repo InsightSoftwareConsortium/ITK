@@ -88,7 +88,7 @@ Check_FixedArray_supports_modifying_elements_by_range_based_for_loop()
   // Now check if the array has got the expected values.
   TValue expectedValue{};
 
-  for (unsigned i = 0; i < VLength; ++i)
+  for (unsigned int i = 0; i < VLength; ++i)
   {
     ++expectedValue;
     EXPECT_EQ(fixedArray[i], expectedValue);
@@ -230,7 +230,7 @@ Is_Filled_FixedArray_correctly_filled()
 
   constexpr auto filledFixedArray = FixedArrayType::Filled(VFillValue);
 
-  for (unsigned i{}; i < FixedArrayType::Length; ++i)
+  for (unsigned int i{}; i < FixedArrayType::Length; ++i)
   {
     if (filledFixedArray[i] != VFillValue)
     {

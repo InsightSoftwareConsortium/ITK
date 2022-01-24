@@ -75,7 +75,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   InputImageRegionType OReg = outputRegionForThread;
   // maximum buffer length is sum of dimensions
   unsigned int bufflength = 0;
-  for (unsigned i = 0; i < TImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
   {
     bufflength += IReg.GetSize()[i];
   }
@@ -91,7 +91,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   BresType                        BresLine;
 
   // first stage -- all of the erosions if we are doing an opening
-  for (unsigned i = 0; i < decomposition.size() - 1; ++i)
+  for (unsigned int i = 0; i < decomposition.size() - 1; ++i)
   {
     KernelLType     ThisLine = decomposition[i];
     BresOffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
@@ -112,7 +112,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DynamicThread
   }
   // now do the opening in the middle of the chain
   {
-    unsigned                       i = static_cast<unsigned>(decomposition.size()) - 1;
+    unsigned int                   i = static_cast<unsigned int>(decomposition.size()) - 1;
     KernelLType                    ThisLine = decomposition[i];
     typename BresType::OffsetArray TheseOffsets = BresLine.BuildLine(ThisLine, bufflength);
     unsigned int                   SELength = GetLinePixels<KernelLType>(ThisLine);
@@ -196,7 +196,7 @@ AnchorOpenCloseImageFilter<TImage, TKernel, TCompare1, TCompare2>::DoFaceOpen(
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned                   start, end, len;
+    unsigned int               start, end, len;
     if (FillLineBuffer<TImage, BresType, KernelLType>(
           input, Ind, NormLine, tol, LineOffsets, AllImage, outbuffer, start, end))
     {

@@ -145,13 +145,13 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetValue(const unsigned int
 template <typename TPixel, unsigned int ColorTableSize, typename MappingFunctionType>
 OctreeNodeBranch *
 Octree<TPixel, ColorTableSize, MappingFunctionType>::maskToOctree(const TPixel * Mask,
-                                                                  unsigned       width,
-                                                                  unsigned       x,
-                                                                  unsigned       y,
-                                                                  unsigned       z,
-                                                                  unsigned       xsize,
-                                                                  unsigned       ysize,
-                                                                  unsigned       zsize)
+                                                                  unsigned int   width,
+                                                                  unsigned int   x,
+                                                                  unsigned int   y,
+                                                                  unsigned int   z,
+                                                                  unsigned int   xsize,
+                                                                  unsigned int   ysize,
+                                                                  unsigned int   zsize)
 {
   if ((x >= xsize) || (y >= ysize) || (z >= zsize))
   {
@@ -225,9 +225,9 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromBuffer(const void 
                                                                      const unsigned int ysize,
                                                                      const unsigned int zsize)
 {
-  unsigned maxSize = xsize >= ysize ? (xsize >= zsize ? xsize : zsize) : (ysize >= zsize ? ysize : zsize);
-  unsigned width = 1;
-  unsigned depth = 0;
+  unsigned int maxSize = xsize >= ysize ? (xsize >= zsize ? xsize : zsize) : (ysize >= zsize ? ysize : zsize);
+  unsigned int width = 1;
+  unsigned int depth = 0;
 
   while (width < maxSize)
   {

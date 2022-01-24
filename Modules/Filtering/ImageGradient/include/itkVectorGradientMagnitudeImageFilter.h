@@ -317,8 +317,8 @@ protected:
   TRealType
   NonPCEvaluateAtNeighborhood(const ConstNeighborhoodIteratorType & it) const
   {
-    unsigned  i, j;
-    TRealType dx, sum, accum;
+    unsigned int i, j;
+    TRealType    dx, sum, accum;
 
     accum = NumericTraits<TRealType>::ZeroValue();
     for (i = 0; i < ImageDimension; ++i)

@@ -70,8 +70,8 @@ itkNrrdImageIOTestReadWriteTest(std::string fn, unsigned int size, std::string i
 
   ITK_TEST_EXPECT_TRUE(io->SupportsDimension(VImageDimension));
 
-  constexpr unsigned NRRD_DIM_MAX = 16; // taken from NrrdIO.h which is not in the include path
-  unsigned long      dim = NRRD_DIM_MAX + 1;
+  constexpr unsigned int NRRD_DIM_MAX = 16; // taken from NrrdIO.h which is not in the include path
+  unsigned long          dim = NRRD_DIM_MAX + 1;
   ITK_TEST_EXPECT_TRUE(!io->SupportsDimension(dim));
 
   // Binary files have no image information to read

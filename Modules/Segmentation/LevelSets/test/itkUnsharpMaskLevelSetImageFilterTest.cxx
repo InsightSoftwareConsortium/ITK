@@ -26,7 +26,7 @@ const unsigned int WIDTH = (128);
 
 // Distance transform function for square
 float
-square(unsigned x, unsigned y)
+square(unsigned int x, unsigned int y)
 {
   float X, Y;
   X = itk::Math::abs(x - (float)WIDTH / 2.0);

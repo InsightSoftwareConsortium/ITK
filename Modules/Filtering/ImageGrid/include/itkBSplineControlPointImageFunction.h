@@ -95,7 +95,7 @@ public:
   using HessianComponentType = VariableSizeMatrix<CoordRepType>;
 
   /** Other type alias */
-  using ArrayType = FixedArray<unsigned, ImageDimension>;
+  using ArrayType = FixedArray<unsigned int, ImageDimension>;
   using RealImageType = Image<CoordRepType, ImageDimension>;
   using RealImagePointer = typename RealImageType::Pointer;
   using typename Superclass::ContinuousIndexType;

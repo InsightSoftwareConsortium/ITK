@@ -25,7 +25,7 @@
 namespace
 {
 
-template <typename TParametersValueType, unsigned NDimensions>
+template <typename TParametersValueType, unsigned int NDimensions>
 void
 Check_New_MatrixOffsetTransformBase()
 {

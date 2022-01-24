@@ -63,7 +63,7 @@ ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
 
   // determine which splitted region we are in
   unsigned int offset = splitI;
-  for (unsigned i = dim - 1; i > 0; --i)
+  for (unsigned int i = dim - 1; i > 0; --i)
   {
     unsigned int dimensionOffset = 1;
     for (unsigned int j = 0; j < i; ++j)

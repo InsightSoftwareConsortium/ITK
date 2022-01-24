@@ -95,7 +95,7 @@ public:
   using RealImageType = Image<RealType, Self::ImageDimension>;
   using RealImagePointer = typename RealImageType::Pointer;
 
-  using ArrayType = FixedArray<unsigned, Self::ImageDimension>;
+  using ArrayType = FixedArray<unsigned int, Self::ImageDimension>;
   using RealArrayType = FixedArray<RealType, Self::ImageDimension>;
 
   /** PointSet type alias support */

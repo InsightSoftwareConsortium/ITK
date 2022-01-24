@@ -22,7 +22,7 @@
 #include "itkImageAlgorithm.h"
 #include "itkTransform.h"
 
-template <unsigned InputDimension>
+template <unsigned int InputDimension>
 class TestTransform
 {
 public:
@@ -35,7 +35,7 @@ public:
     outputPoint.Fill(0.0);
     // if InputPoint Dimension < 2 then embed point in 2D space
     // else project the point to 2D space.
-    for (unsigned d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
+    for (unsigned int d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
     {
       outputPoint[d] = inputPoint[d];
     }

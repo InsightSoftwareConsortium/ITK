@@ -176,7 +176,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       // Please note: direction cosines are stored as columns of the
       // direction matrix
       axis = directionIO[i];
-      for (unsigned j = 0; j < TOutputImage::ImageDimension; ++j)
+      for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
       {
         if (j < numberOfDimensionsIO)
         {
@@ -196,7 +196,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
       dimSize[i] = 1;
       spacing[i] = 1.0;
       origin[i] = 0.0;
-      for (unsigned j = 0; j < TOutputImage::ImageDimension; ++j)
+      for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
       {
         if (i == j)
         {
@@ -224,7 +224,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
     if (spacing[i] < 0)
     {
       spacing[i] = -spacing[i];
-      for (unsigned j = 0; j < TOutputImage::ImageDimension; ++j)
+      for (unsigned int j = 0; j < TOutputImage::ImageDimension; ++j)
       {
         direction[j][i] = -direction[j][i];
       }

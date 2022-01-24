@@ -309,7 +309,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   typename ImageType::PointType   origin;
 
   std::cout << "Testing:" << fileName << std::endl;
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = 5;
     index[i] = 0;
@@ -565,7 +565,7 @@ MINCReadWriteTestVector(const char * fileName,
 
   std::cout << "Testing:" << fileName << std::endl;
 
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = 5;
     index[i] = 0;

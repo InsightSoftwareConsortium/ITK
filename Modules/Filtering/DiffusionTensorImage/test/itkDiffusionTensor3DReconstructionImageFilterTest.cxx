@@ -39,7 +39,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
 
   int result(EXIT_SUCCESS);
 
-  for (unsigned pass = 0; pass < 2; ++pass)
+  for (unsigned int pass = 0; pass < 2; ++pass)
   {
     using TensorReconstructionImageFilterType =
       itk::DiffusionTensor3DReconstructionImageFilter<ReferencePixelType, GradientPixelType, TensorPrecisionType>;

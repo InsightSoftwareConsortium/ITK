@@ -41,19 +41,19 @@ void
 FillForwardExt(std::vector<PixelType> & pixbuffer,
                std::vector<PixelType> & fExtBuffer,
                const unsigned int       KernLen,
-               unsigned                 len)
+               unsigned int             len)
 {
-  unsigned  size = len;
-  unsigned  blocks = size / KernLen;
-  unsigned  i = 0;
-  TFunction m_TF;
+  unsigned int size = len;
+  unsigned int blocks = size / KernLen;
+  unsigned int i = 0;
+  TFunction    m_TF;
 
-  for (unsigned j = 0; j < blocks; ++j)
+  for (unsigned int j = 0; j < blocks; ++j)
   {
     PixelType Ext = pixbuffer[i];
     fExtBuffer[i] = Ext;
     ++i;
-    for (unsigned k = 1; k < KernLen; ++k)
+    for (unsigned int k = 1; k < KernLen; ++k)
     {
       PixelType V = pixbuffer[i];
       fExtBuffer[i] = m_TF(V, fExtBuffer[i - 1]);
@@ -80,7 +80,7 @@ void
 FillReverseExt(std::vector<PixelType> & pixbuffer,
                std::vector<PixelType> & rExtBuffer,
                const unsigned int       KernLen,
-               unsigned                 len)
+               unsigned int             len)
 {
   auto           size = (IndexValueType)(len);
   IndexValueType blocks = size / (int)KernLen;
@@ -98,12 +98,12 @@ FillReverseExt(std::vector<PixelType> & pixbuffer,
       --i;
     }
   }
-  for (unsigned j = 0; j < (unsigned)blocks; ++j)
+  for (unsigned int j = 0; j < (unsigned int)blocks; ++j)
   {
     PixelType Ext = pixbuffer[i];
     rExtBuffer[i] = Ext;
     --i;
-    for (unsigned k = 1; k < KernLen; ++k)
+    for (unsigned int k = 1; k < KernLen; ++k)
     {
       PixelType V = pixbuffer[i];
       rExtBuffer[i] = m_TF(V, rExtBuffer[i + 1]);
@@ -150,10 +150,10 @@ DoFace(typename TImage::ConstPointer             input,
   for (unsigned int it = 0; it < face.GetNumberOfPixels(); ++it)
   {
     typename TImage::IndexType Ind = dumbImg->ComputeIndex(it);
-    unsigned                   start, end;
+    unsigned int               start, end;
     if (FillLineBuffer<TImage, TBres, TLine>(input, Ind, NormLine, tol, LineOffsets, AllImage, pixbuffer, start, end))
     {
-      const unsigned len = end - start + 1;
+      const unsigned int len = end - start + 1;
       // compat
       pixbuffer[0] = border;
       pixbuffer[len + 1] = border;
@@ -163,22 +163,22 @@ DoFace(typename TImage::ConstPointer             input,
       unsigned int size = len + 2;
       if (size <= KernLen / 2)
       {
-        for (unsigned j = 0; j < size; ++j)
+        for (unsigned int j = 0; j < size; ++j)
         {
           pixbuffer[j] = fExtBuffer[size - 1];
         }
       }
       else if (size <= KernLen)
       {
-        for (unsigned j = 0; j < size - KernLen / 2; ++j)
+        for (unsigned int j = 0; j < size - KernLen / 2; ++j)
         {
           pixbuffer[j] = fExtBuffer[j + KernLen / 2];
         }
-        for (unsigned j = size - KernLen / 2; j <= KernLen / 2; ++j)
+        for (unsigned int j = size - KernLen / 2; j <= KernLen / 2; ++j)
         {
           pixbuffer[j] = fExtBuffer[size - 1];
         }
-        for (unsigned j = KernLen / 2 + 1; j < size; ++j)
+        for (unsigned int j = KernLen / 2 + 1; j < size; ++j)
         {
           pixbuffer[j] = rExtBuffer[j - KernLen / 2];
         }
@@ -186,11 +186,11 @@ DoFace(typename TImage::ConstPointer             input,
       else
       {
         // line beginning
-        for (unsigned j = 0; j < KernLen / 2; ++j)
+        for (unsigned int j = 0; j < KernLen / 2; ++j)
         {
           pixbuffer[j] = fExtBuffer[j + KernLen / 2];
         }
-        for (unsigned j = KernLen / 2, k = KernLen / 2 + KernLen / 2, l = KernLen / 2 - KernLen / 2;
+        for (unsigned int j = KernLen / 2, k = KernLen / 2 + KernLen / 2, l = KernLen / 2 - KernLen / 2;
              j < size - KernLen / 2;
              j++, k++, l++)
         {
@@ -201,11 +201,11 @@ DoFace(typename TImage::ConstPointer             input,
         }
         // line end -- involves reseting the end of the reverse
         // extreme array
-        for (unsigned j = size - 2; (j > 0) && (j >= (size - KernLen - 1)); j--)
+        for (unsigned int j = size - 2; (j > 0) && (j >= (size - KernLen - 1)); j--)
         {
           rExtBuffer[j] = m_TF(rExtBuffer[j + 1], rExtBuffer[j]);
         }
-        for (unsigned j = size - KernLen / 2; j < size; ++j)
+        for (unsigned int j = size - KernLen / 2; j < size; ++j)
         {
           pixbuffer[j] = rExtBuffer[j - KernLen / 2];
         }

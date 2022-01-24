@@ -26,7 +26,7 @@ using ThreaderEnum = itk::MultiThreaderBase::ThreaderEnum;
 bool
 checkThreaderByName(ThreaderEnum expectedThreaderType)
 {
-  using ImageType = itk::Image<unsigned, 3>;
+  using ImageType = itk::Image<unsigned int, 3>;
   // any filter type which does not manually specify threader type will do
   using FilterType = itk::AbsImageFilter<ImageType, ImageType>;
   auto filter = FilterType::New();

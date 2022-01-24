@@ -45,7 +45,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
 
   // Create a random generator per thread
   IndexValueType indSeed = 0;
-  for (unsigned d = 0; d < TOutputImage::ImageDimension; ++d)
+  for (unsigned int d = 0; d < TOutputImage::ImageDimension; ++d)
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }

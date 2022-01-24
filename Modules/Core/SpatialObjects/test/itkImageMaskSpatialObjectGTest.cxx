@@ -44,7 +44,7 @@ ComputeAxisAlignedBoundingBoxRegionInImageGridSpace(const TImage & image)
 }
 
 
-template <typename TPixel, unsigned VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void
 Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero(
   const itk::ImageRegion<VImageDimension> & imageRegion)
@@ -58,7 +58,7 @@ Expect_AxisAlignedBoundingBoxRegion_is_empty_when_all_pixel_values_are_zero(
 }
 
 
-template <typename TPixel, unsigned VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void
 Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_are_non_zero(
   const itk::ImageRegion<VImageDimension> & imageRegion)
@@ -79,7 +79,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_all_pixel_values_ar
 }
 
 
-template <typename TPixel, unsigned VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void
 Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the_only_non_zero_pixel(
   const itk::ImageRegion<VImageDimension> & imageRegion)
@@ -112,7 +112,7 @@ Expect_AxisAlignedBoundingBoxRegion_equals_region_of_single_pixel_when_it_is_the
 }
 
 
-template <typename TPixel, unsigned VImageDimension>
+template <typename TPixel, unsigned int VImageDimension>
 void
 Expect_AxisAlignedBoundingBoxRegion_equals_image_region_when_only_a_single_pixel_has_value_zero(
   const itk::ImageRegion<VImageDimension> & imageRegion)

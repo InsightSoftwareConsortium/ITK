@@ -162,7 +162,7 @@ public:
 //
 
 #define ITK_DEFAULTCONVERTTRAITS_FIXEDARRAY_TYPE(type)                                  \
-  template <typename TComponentType, unsigned VDimension>                               \
+  template <typename TComponentType, unsigned int VDimension>                           \
   class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<type<TComponentType, VDimension>> \
   {                                                                                     \
   public:                                                                               \
@@ -292,7 +292,7 @@ public:
 //  Default traits for the pixel types deriving from Matrix<>
 //
 
-template <typename VComponent, unsigned VRows, unsigned VCols>
+template <typename VComponent, unsigned int VRows, unsigned int VCols>
 class ITK_TEMPLATE_EXPORT DefaultConvertPixelTraits<Matrix<VComponent, VRows, VCols>>
 {
 public:

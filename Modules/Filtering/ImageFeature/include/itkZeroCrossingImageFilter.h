@@ -34,7 +34,7 @@ namespace itk
  *  \par Inputs and Outputs
  *  The input to this filter is an itk::Image of arbitrary dimension.  The
  *  algorithm assumes a signed data type (zero-crossings are not defined for
- *  unsigned data types), and requires that operator>, operator<, operator==,
+ *  unsigned int data types), and requires that operator>, operator<, operator==,
  *  and operator!= are defined.
  *
  *  \par

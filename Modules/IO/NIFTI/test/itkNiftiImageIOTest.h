@@ -229,9 +229,9 @@ CORDirCosines()
   typename itk::SpatialOrientationAdapter::DirectionType CORdir =
     itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
   typename ImageType::DirectionType dir;
-  for (unsigned i = 0; i < ImageType::ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
   {
-    for (unsigned j = 0; j < ImageType::ImageDimension; ++j)
+    for (unsigned int j = 0; j < ImageType::ImageDimension; ++j)
     {
       dir[i][j] = CORdir[i][j];
     }
@@ -247,7 +247,7 @@ CORDirCosines()
  *
  * Could probably be made to fo the image of vector test as well
  */
-template <typename PixelType, unsigned VDimension>
+template <typename PixelType, unsigned int VDimension>
 int
 TestImageOfSymMats(const std::string & fname)
 {
@@ -282,7 +282,7 @@ TestImageOfSymMats(const std::string & fname)
             << "======================== Initialized Direction" << std::endl
             << myDirection << std::endl;
 
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = dimsize;
     index[i] = 0;
@@ -299,11 +299,11 @@ TestImageOfSymMats(const std::string & fname)
 
   int dims[7];
   int _index[7];
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     dims[i] = size[i];
   }
-  for (unsigned i = VDimension; i < 7; ++i)
+  for (unsigned int i = VDimension; i < 7; ++i)
   {
     dims[i] = 1;
   }
@@ -491,7 +491,7 @@ RGBTest(int argc, char * argv[])
   typename RGBImageType::SpacingType spacing;
   typename RGBImageType::PointType   origin;
 
-  for (unsigned i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     size[i] = 5;
     index[i] = 0;

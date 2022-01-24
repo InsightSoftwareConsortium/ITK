@@ -59,7 +59,8 @@ itkDCMTKLoggerTest(int, char *[])
   }
 
   // use C-style cast because C++ casts complain.
-  auto illegalVal = (itk::DCMTKImageIO::LogLevelEnum)((unsigned)itk::DCMTKImageIO::LogLevelEnum::OFF_LOG_LEVEL + 99);
+  auto illegalVal =
+    (itk::DCMTKImageIO::LogLevelEnum)((unsigned int)itk::DCMTKImageIO::LogLevelEnum::OFF_LOG_LEVEL + 99);
 
   ITK_TRY_EXPECT_EXCEPTION(TestLogLevel(io, illegalVal));
 

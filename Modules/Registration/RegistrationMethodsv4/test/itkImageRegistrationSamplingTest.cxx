@@ -43,7 +43,7 @@ itkImageRegistrationSamplingTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned         NUM_ERRORS = 3;
+  constexpr unsigned int     NUM_ERRORS = 3;
   RegistrationType::RealType errorValues[NUM_ERRORS] = { -0.1, 0.0, 1.1 };
   for (double errorValue : errorValues)
   {

@@ -82,7 +82,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   it3.SetLocation(loc);
 
   it3.Print(std::cout);
-  unsigned x, y, i;
+  unsigned int x, y, i;
   for (y = 0, i = 0; y < 5; ++y)
   {
     for (x = 0; x < 5; ++x, ++i)

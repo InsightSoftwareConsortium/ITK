@@ -151,7 +151,7 @@ public:
   SwapSolutions(unsigned int solutionIndex1, unsigned int solutionIndex2) override;
 
   void
-  CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex) override;
+  CopySolution2Vector(unsigned int solutionIndex, unsigned int vectorIndex) override;
 
   void
   CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex) override;

@@ -34,8 +34,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
                 const float                       tol,
                 const typename TBres::OffsetArray LineOffsets,
                 const typename TImage::RegionType AllImage,
-                unsigned &                        start,
-                unsigned &                        end);
+                unsigned int &                    start,
+                unsigned int &                    end);
 
 template <typename TImage, typename TBres, typename TLine>
 int
@@ -55,8 +55,8 @@ CopyLineToImage(const typename TImage::Pointer            output,
                 const typename TImage::IndexType          StartIndex,
                 const typename TBres::OffsetArray         LineOffsets,
                 std::vector<typename TImage::PixelType> & outbuffer,
-                const unsigned                            start,
-                const unsigned                            end);
+                const unsigned int                        start,
+                const unsigned int                        end);
 
 // This returns a face with a normal between +/- 45 degrees of the
 // line. The face is enlarged so that AllImage is entirely filled by

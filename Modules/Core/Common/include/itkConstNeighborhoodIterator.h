@@ -239,7 +239,7 @@ public:
    *  center in the positive specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetNext(const unsigned axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
+                       GetNext(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() + (i * this->GetStride(axis))));
   }
@@ -248,7 +248,7 @@ public:
    *  center in the specified positive axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetNext(const unsigned axis) const ITK_ITERATOR_FINAL
+                       GetNext(const unsigned int axis) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() + this->GetStride(axis)));
   }
@@ -257,7 +257,7 @@ public:
    *  center in the negative specified "axis" direction. No bounds checking
    *  is done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPrevious(const unsigned axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
+                       GetPrevious(const unsigned int axis, NeighborIndexType i) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() - (i * this->GetStride(axis))));
   }
@@ -266,7 +266,7 @@ public:
    *  center in the specified negative axis direction. No bounds checking is
    *  done on the size of the neighborhood. */
   ITK_ITERATOR_VIRTUAL PixelType
-                       GetPrevious(const unsigned axis) const ITK_ITERATOR_FINAL
+                       GetPrevious(const unsigned int axis) const ITK_ITERATOR_FINAL
   {
     return (this->GetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis)));
   }

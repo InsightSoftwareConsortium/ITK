@@ -38,8 +38,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
                 const float                       tol,
                 const typename TBres::OffsetArray LineOffsets,
                 const typename TImage::RegionType AllImage,
-                unsigned &                        start,
-                unsigned &                        end);
+                unsigned int &                    start,
+                unsigned int &                    end);
 
 template <typename TImage, typename TBres, typename TAnchor, typename TLine>
 void

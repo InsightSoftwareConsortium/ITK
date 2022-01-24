@@ -224,7 +224,7 @@ RandomImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRe
   TotalProgressReporter progress(this, image->GetRequestedRegion().GetNumberOfPixels());
 
   IndexValueType indSeed = outputRegionForThread.GetIndex(0);
-  for (unsigned d = 1; d < OutputImageDimension; ++d)
+  for (unsigned int d = 1; d < OutputImageDimension; ++d)
   {
     indSeed += outputRegionForThread.GetIndex(d);
   }

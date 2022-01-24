@@ -39,7 +39,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
 
   std::cout << "Output from operator()(const OffsetType &, const OffsetType &, const NeighborhoodType *) const"
             << std::endl;
-  unsigned x, y, i = 0;
+  unsigned int x, y, i = 0;
   for (y = 0; y < p.GetSize()[1]; ++y)
   {
     for (x = 0; x < p.GetSize()[0]; ++x, ++i)

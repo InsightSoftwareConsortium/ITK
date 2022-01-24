@@ -255,7 +255,7 @@ ImageAlgorithm::EnlargeRegionOverBox(const typename InputImageType::RegionType &
       // else if InputDimension == OutputDimension copy the points.
       // else if InputDimension > OutputDimension project the point to first N-Dimensions of Output space.
       outputPoint.Fill(0.0);
-      for (unsigned d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
+      for (unsigned int d = 0; d < std::min(inputPoint.GetPointDimension(), outputPoint.GetPointDimension()); ++d)
       {
         outputPoint[d] = inputPoint[d];
       }

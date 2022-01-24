@@ -247,8 +247,8 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
   {
     // Add short
-    std::string key("unsigned_short");
-    unsigned    value(8192);
+    std::string  key("unsigned_short");
+    unsigned int value(8192);
     itk::EncapsulateMetaData<unsigned short>(dict, key, value);
   }
   {
@@ -327,7 +327,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
     return 1; // error
   }
   // Add short
-  if (!TestMatch<unsigned>(dict, "unsigned_short", 8192))
+  if (!TestMatch<unsigned int>(dict, "unsigned_short", 8192))
   {
     return 1; // error
   }

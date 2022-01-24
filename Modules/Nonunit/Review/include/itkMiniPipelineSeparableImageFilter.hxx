@@ -36,7 +36,7 @@ template <typename TInputImage, typename TOutputImage, typename TFilter>
 MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::MiniPipelineSeparableImageFilter()
 {
   // create the pipeline
-  for (unsigned i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Filters[i] = FilterType::New();
     m_Filters[i]->ReleaseDataFlagOn();
@@ -56,7 +56,7 @@ void
 MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::Modified() const
 {
   Superclass::Modified();
-  for (unsigned i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Filters[i]->Modified();
   }
@@ -68,7 +68,7 @@ void
 MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::SetNumberOfWorkUnits(ThreadIdType nb)
 {
   Superclass::SetNumberOfWorkUnits(nb);
-  for (unsigned i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     m_Filters[i]->SetNumberOfWorkUnits(nb);
   }
@@ -82,7 +82,7 @@ MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::SetRadius(
   Superclass::SetRadius(radius);
 
   // set up the kernels
-  for (unsigned i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     RadiusType rad;
     rad.Fill(0);
@@ -103,7 +103,7 @@ MiniPipelineSeparableImageFilter<TInputImage, TOutputImage, TFilter>::GenerateDa
   // Create a process accumulator for tracking the progress of this minipipeline
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
-  for (unsigned i = 0; i < ImageDimension; ++i)
+  for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     progress->RegisterInternalFilter(m_Filters[i], 1.0 / ImageDimension);
   }

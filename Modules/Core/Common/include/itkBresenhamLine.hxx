@@ -59,14 +59,14 @@ BresenhamLine<VDimension>::BuildLine(LType Direction, IdentifierType length) -> 
   // we are going to start at 0
   m_CurrentImageIndex.Fill(0);
   constexpr IndexType StartIndex = { { 0 } };
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     LastIndex[i] = (IndexValueType)(length * Direction[i]);
   }
   // Find the dominant direction
   IndexValueType maxDistance = 0;
   unsigned int   maxDistanceDimension = 0;
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     auto distance = static_cast<long>(itk::Math::abs(LastIndex[i]));
     if (distance > maxDistance)

@@ -484,10 +484,10 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
   dim[1] = dir.size();
   dim[0] = dir[0].size();
   const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
-  unsigned                        k(0);
-  for (unsigned i = 0; i < dim[1]; ++i)
+  unsigned int                    k(0);
+  for (unsigned int i = 0; i < dim[1]; ++i)
   {
-    for (unsigned j = 0; j < dim[0]; ++j)
+    for (unsigned int j = 0; j < dim[0]; ++j)
     {
       buf[k] = dir[i][j];
       k++;
@@ -514,7 +514,7 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
   }
   dirSpace.getSimpleExtentDims(dim, nullptr);
   rval.resize(dim[1]);
-  for (unsigned i = 0; i < dim[1]; ++i)
+  for (unsigned int i = 0; i < dim[1]; ++i)
   {
     rval[i].resize(dim[0]);
   }
@@ -524,9 +524,9 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
     const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
     dirSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     int k = 0;
-    for (unsigned i = 0; i < dim[1]; ++i)
+    for (unsigned int i = 0; i < dim[1]; ++i)
     {
-      for (unsigned j = 0; j < dim[0]; ++j)
+      for (unsigned int j = 0; j < dim[0]; ++j)
       {
         rval[i][j] = buf[k];
         k++;
@@ -538,9 +538,9 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
     const std::unique_ptr<float[]> buf(new float[dim[0] * dim[1]]);
     dirSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     int k = 0;
-    for (unsigned i = 0; i < dim[1]; ++i)
+    for (unsigned int i = 0; i < dim[1]; ++i)
     {
-      for (unsigned j = 0; j < dim[0]; ++j)
+      for (unsigned int j = 0; j < dim[0]; ++j)
       {
         rval[i][j] = buf[k];
         k++;
@@ -988,7 +988,7 @@ HDF5ImageIO ::WriteMetaArray(const std::string & name, MetaDataObjectBase * meta
   }
   Array<TType>       val = metaObj->GetMetaDataObjectValue();
   std::vector<TType> vecVal(val.GetSize());
-  for (unsigned i = 0; i < val.size(); ++i)
+  for (unsigned int i = 0; i < val.size(); ++i)
   {
     vecVal[i] = val[i];
   }

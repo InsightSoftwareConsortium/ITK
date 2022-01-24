@@ -78,7 +78,7 @@ public:
 
   LaplacianOperator()
   {
-    for (unsigned i = 0; i < VDimension; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       m_DerivativeScalings[i] = 1.0;
     }

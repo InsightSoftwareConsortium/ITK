@@ -808,7 +808,7 @@ LinearSystemWrapperItpack::SwapSolutions(unsigned int solutionIndex1, unsigned i
 }
 
 void
-LinearSystemWrapperItpack::CopySolution2Vector(unsigned solutionIndex, unsigned int vectorIndex)
+LinearSystemWrapperItpack::CopySolution2Vector(unsigned int solutionIndex, unsigned int vectorIndex)
 {
   /* error checking */
   if (!m_Vectors)
@@ -841,7 +841,7 @@ LinearSystemWrapperItpack::CopySolution2Vector(unsigned solutionIndex, unsigned 
 }
 
 void
-LinearSystemWrapperItpack::CopyVector2Solution(unsigned vectorIndex, unsigned int solutionIndex)
+LinearSystemWrapperItpack::CopyVector2Solution(unsigned int vectorIndex, unsigned int solutionIndex)
 {
   /* error checking */
   if (!m_Vectors)

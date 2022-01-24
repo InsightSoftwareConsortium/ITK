@@ -41,7 +41,7 @@ static_assert(sizeof(ZeroBasedIndexRange<3>) < sizeof(ImageRegionIndexRange<3>),
 
 namespace
 {
-template <unsigned VDimension>
+template <unsigned int VDimension>
 itk::Index<VDimension>
 GenerateRandomIndex()
 {
@@ -87,7 +87,7 @@ ExpectRangeIsEmptyWhenDefaultConstructed()
   RangeGTestUtilities::ExpectRangeIsEmptyWhenDefaultConstructed<IndexRange<3, VBeginAtZero>>();
 }
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 void
 ExpectRangeIsEmptyWhenRegionSizeIsZero()
 {
@@ -113,13 +113,13 @@ ExpectRangeBeginIsEnd(const TRange & range)
 }
 
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 void
 ExpectRangeBeginIsEndWhenSizeHasZeroValue()
 {
   const itk::Index<VDimension> randomIndex = GenerateRandomIndex<VDimension>();
 
-  for (unsigned i{}; i < VDimension; ++i)
+  for (unsigned int i{}; i < VDimension; ++i)
   {
     auto size = itk::Size<VDimension>::Filled(2);
 
@@ -208,7 +208,7 @@ TEST(IndexRange, IteratorsCanBePassedToStdReverseCopy)
   using IndexType = RangeType::IndexType;
   RangeType range(RangeType::SizeType{ { 2, 3 } });
 
-  const unsigned numberOfIndices = range.size();
+  const unsigned int numberOfIndices = range.size();
 
   const std::vector<IndexType> stdVector(range.begin(), range.end());
   std::vector<IndexType>       reversedStdVector1(numberOfIndices);
@@ -260,7 +260,7 @@ TEST(IndexRange, CanBeUsedAsExpressionOfRangeBasedForLoop)
 
 TEST(IndexRange, SupportsImageRegion)
 {
-  constexpr unsigned Dimension = 2;
+  constexpr unsigned int Dimension = 2;
 
   using ImageRegionIndexRangeType = ImageRegionIndexRange<Dimension>;
   using IndexType = ImageRegionIndexRangeType::IndexType;

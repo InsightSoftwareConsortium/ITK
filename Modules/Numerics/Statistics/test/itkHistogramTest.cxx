@@ -384,7 +384,7 @@ itkHistogramTest(int, char *[])
 
   index.Fill(0);
   MeasurementVectorType measurement = histogram->GetMeasurementVector(index);
-  for (unsigned kid0 = 0; kid0 < numberOfComponents; ++kid0)
+  for (unsigned int kid0 = 0; kid0 < numberOfComponents; ++kid0)
   {
     if (itk::Math::NotAlmostEquals(measurement[kid0], 8))
     {
@@ -399,7 +399,7 @@ itkHistogramTest(int, char *[])
   histogram->SetClipBinsAtEnds(true);
 
   measurement = histogram->GetMeasurementVector(index);
-  for (unsigned kid1 = 0; kid1 < numberOfComponents; ++kid1)
+  for (unsigned int kid1 = 0; kid1 < numberOfComponents; ++kid1)
   {
     if (itk::Math::NotAlmostEquals(measurement[kid1], 8))
     {
@@ -413,7 +413,7 @@ itkHistogramTest(int, char *[])
 
   constexpr InstanceIdentifier instanceId = 0;
   measurement = histogram->GetMeasurementVector(instanceId);
-  for (unsigned kid2 = 0; kid2 < numberOfComponents; ++kid2)
+  for (unsigned int kid2 = 0; kid2 < numberOfComponents; ++kid2)
   {
     if (itk::Math::NotAlmostEquals(measurement[kid2], 8))
     {
@@ -449,7 +449,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for outOfLowerRange";
   }
 
-  for (unsigned k1 = 0; k1 < numberOfComponents; ++k1)
+  for (unsigned int k1 = 0; k1 < numberOfComponents; ++k1)
   {
     if (index1[k1] != 0)
     {
@@ -486,7 +486,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for outOfUpperRange";
   }
 
-  for (unsigned k2 = 0; k2 < numberOfComponents; ++k2)
+  for (unsigned int k2 = 0; k2 < numberOfComponents; ++k2)
   {
     if (index2[k2] != (long)size[k2] - 1)
     {
@@ -562,7 +562,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for upper bound";
   }
 
-  for (unsigned k1 = 0; k1 < numberOfComponents; ++k1)
+  for (unsigned int k1 = 0; k1 < numberOfComponents; ++k1)
   {
     if (upperIndex[k1] != 63)
     {
@@ -579,7 +579,7 @@ itkHistogramTest(int, char *[])
     whereFail = "GetIndex() returned boolean failed for lower bound";
   }
 
-  for (unsigned k1 = 0; k1 < numberOfComponents; ++k1)
+  for (unsigned int k1 = 0; k1 < numberOfComponents; ++k1)
   {
     if (lowerIndex[k1] != 0)
     {

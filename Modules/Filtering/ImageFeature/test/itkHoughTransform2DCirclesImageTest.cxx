@@ -254,7 +254,7 @@ Test_RadiusImage_and_OutputImage_may_have_different_types()
 bool
 Test_Center_IsInside_SpatialObject_from_GetCircles()
 {
-  using PixelType = unsigned;
+  using PixelType = unsigned int;
   using ImageType = itk::Image<PixelType>;
   const auto                image = ImageType::New();
   const ImageType::SizeType imageSize = { { 16, 32 } };
@@ -264,7 +264,7 @@ Test_Center_IsInside_SpatialObject_from_GetCircles()
   const double radius = 1.0;
   CreateCircle<ImageType>(image, center, radius);
 
-  using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, unsigned, double>;
+  using FilterType = itk::HoughTransform2DCirclesImageFilter<PixelType, unsigned int, double>;
   const auto filter = FilterType::New();
   filter->SetInput(image);
   filter->Update();

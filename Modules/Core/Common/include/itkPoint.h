@@ -363,7 +363,7 @@ MakePoint(const TValue firstValue, const TVariadic... otherValues)
   (void)assertions;
   (void)assertSameType;
 
-  constexpr unsigned                  dimension{ 1 + sizeof...(TVariadic) };
+  constexpr unsigned int              dimension{ 1 + sizeof...(TVariadic) };
   const std::array<TValue, dimension> stdArray{ { firstValue, otherValues... } };
   return Point<TValue, dimension>{ stdArray };
 }

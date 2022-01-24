@@ -172,7 +172,7 @@ TileImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
   SpacePrecisionType spacing[OutputImageDimension];
   SpacePrecisionType origin[OutputImageDimension];
 
-  for (unsigned i = 0; i < OutputImageDimension; ++i)
+  for (unsigned int i = 0; i < OutputImageDimension; ++i)
   {
     if (i < InputImageDimension)
     {

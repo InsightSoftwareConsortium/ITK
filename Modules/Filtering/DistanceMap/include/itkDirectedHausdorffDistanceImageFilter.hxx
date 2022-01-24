@@ -171,7 +171,7 @@ DirectedHausdorffDistanceImageFilter<TInputImage1, TInputImage2>::DynamicThreade
     if (Math::NotExactlyEquals(it1.Get(), NumericTraits<InputImage1PixelType>::ZeroValue()))
     {
       // The signed distance map is calculated, but we want the calculation based on the
-      // unsigned distance map.  Therefore, we set all distance map values less than 0 to 0.
+      // unsigned int distance map.  Therefore, we set all distance map values less than 0 to 0.
       const RealType val2 = std::max(static_cast<RealType>(it2.Get()), NumericTraits<RealType>::ZeroValue());
       maxDistance = std::max(maxDistance, val2);
       sum += val2;

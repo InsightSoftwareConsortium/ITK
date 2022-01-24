@@ -41,7 +41,7 @@ namespace
 {
 template <typename TImage>
 typename TImage::Pointer
-CreateImage(const unsigned sizeX, const unsigned sizeY)
+CreateImage(const unsigned int sizeX, const unsigned int sizeY)
 {
   const auto                      image = TImage::New();
   const typename TImage::SizeType imageSize = { { sizeX, sizeY } };
@@ -54,16 +54,16 @@ CreateImage(const unsigned sizeX, const unsigned sizeY)
 // Creates a test image, filled with a sequence of natural numbers, 1, 2, 3, ..., N.
 template <typename TImage>
 typename TImage::Pointer
-CreateImageFilledWithSequenceOfNaturalNumbers(const unsigned sizeX, const unsigned sizeY)
+CreateImageFilledWithSequenceOfNaturalNumbers(const unsigned int sizeX, const unsigned int sizeY)
 {
   using PixelType = typename TImage::PixelType;
   const auto image = CreateImage<TImage>(sizeX, sizeY);
 
-  const unsigned numberOfPixels = sizeX * sizeY;
+  const unsigned int numberOfPixels = sizeX * sizeY;
 
   PixelType * const bufferPointer = image->GetBufferPointer();
 
-  for (unsigned i = 0; i < numberOfPixels; ++i)
+  for (unsigned int i = 0; i < numberOfPixels; ++i)
   {
     bufferPointer[i] = static_cast<typename TImage::PixelType>(i + 1);
   }

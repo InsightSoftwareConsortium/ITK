@@ -151,7 +151,7 @@ void
 CastCopy(float * to, void * from, size_t pixelCount)
 {
   auto * tempFrom = static_cast<PixelType *>(from);
-  for (unsigned i = 0; i < pixelCount; ++i)
+  for (unsigned int i = 0; i < pixelCount; ++i)
   {
     to[i] = static_cast<float>(tempFrom[i]);
   }

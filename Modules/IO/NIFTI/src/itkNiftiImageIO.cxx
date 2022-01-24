@@ -1066,7 +1066,7 @@ NiftiImageIO ::ReadImageInformation()
     // with T = 1; this causes ImageFileReader to erroneously ignore the
     // reported
     // direction cosines.
-    unsigned realdim;
+    unsigned int realdim;
     for (realdim = this->m_NiftiImage->dim[0]; this->m_NiftiImage->dim[realdim] == 1 && realdim > 3; realdim--)
     {
     }
@@ -2234,7 +2234,7 @@ NiftiImageIO ::Write(const void * buffer)
     else
     {
       vecOrder = new int[numComponents];
-      for (unsigned i = 0; i < numComponents; ++i)
+      for (unsigned int i = 0; i < numComponents; ++i)
       {
         vecOrder[i] = i;
       }

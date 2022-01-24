@@ -38,7 +38,7 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
                                                    SpatialOrientation::ITK_COORDINATE_UNKNOWN };
 
 
-  std::multimap<double, std::pair<unsigned, unsigned>> value_to_idx;
+  std::multimap<double, std::pair<unsigned int, unsigned int>> value_to_idx;
   for (unsigned int c = 0; c < 3; ++c)
   {
     for (unsigned int r = 0; r < 3; ++r)
@@ -47,7 +47,7 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
     }
   }
 
-  for (unsigned i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
 
     auto               max_idx = value_to_idx.rbegin()->second;

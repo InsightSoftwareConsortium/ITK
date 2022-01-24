@@ -565,7 +565,7 @@ MetaImageIO ::WriteImageInformation()
     long long           llval = 0LL;
     unsigned long long  ullval = 0uLL;
     int                 ival = 0;
-    unsigned            uval = 0;
+    unsigned int        uval = 0;
     short               shval = 0;
     unsigned short      ushval = 0;
     char                cval = 0;
@@ -811,7 +811,7 @@ MetaImageIO ::Write(const void * buffer)
     dirx = this->GetDirection(0);
     diry = this->GetDirection(1);
     dirz = this->GetDirection(2);
-    for (unsigned ii = 0; ii < 3; ++ii)
+    for (unsigned int ii = 0; ii < 3; ++ii)
     {
       dir[ii][0] = dirx[ii];
       dir[ii][1] = diry[ii];
