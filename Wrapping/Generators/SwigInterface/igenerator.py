@@ -1752,45 +1752,6 @@ def write_class_pyi(
         pyiFile.write(interfaces_code)
 
 
-def write_common_init_interface_file(interface_dir_path: Path) -> None:
-    # This code may still be problematic due to possible parallel runs overwriting
-    # the file each time.  As long as the last write is successful, this code
-    # works.  Initial testing demonstrated that igenerator.py was never run
-    # in parallel, so that also makes this OK.
-    with open(interface_dir_path / "__init__.pyi", "w") as pyiIndexFile:
-        # This is a bit of a hack to re-write this file every time
-        # a new .pyi file is written.
-        # Keeping track of these generated files from CMake is
-        # very convoluted, and the cmake custom command dependencies
-        # caused circular dependencies.
-        #
-        # This __init__.pyi file needs a small preamble
-        # and then import all the auto-generated .pyi files
-        # statically.
-        preamble = """
-# Create/Clear .pyi file and add boilerplate import content
-# Python Header Interface File
-# imports as they appear in __init__.py
-from typing import Union, Any
-from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__Ï
-
-## Must import using relative paths so that symbols are imported successfully
-from .support.extras import *
-from .support.types import *
-
-### All items below are written out statically during
-
-"""
-        pyiIndexFile.write(preamble)
-
-        # If we could keep track of the interface files in CMake, we could avoid
-        # rewriting the __init__.pyi file every time a new version is created.
-        for interface_file in Path(f"{interface_dir_path}").glob(f"i*.pyi"):
-            pyiIndexFile.write(
-                f"from .{interface_file.name.replace('.pyi', '')} import *\n"
-            )
-
-
 if __name__ == "__main__":
     argParser = ArgumentParser()
     argParser.add_argument(

@@ -636,6 +636,12 @@ set(ITK_DIR "${ITK_BINARY_DIR}")
 
 if(ITK_WRAPPING)
   add_subdirectory(Wrapping)
+  if(ITK_WRAP_PYTHON)
+    set(ITK_STUB_IMPORTS "$ENV{ITK_STUB_IMPORTS}")
+    list(SORT ITK_STUB_IMPORTS CASE INSENSITIVE)
+    list(JOIN ITK_STUB_IMPORTS "\n" ITK_STUB_IMPORTS)
+    configure_file(Wrapping/Generators/Python/itk/__init__.pyi.in Wrapping/Generators/Python/itk-stubs/__init__.pyi)
+  endif()
 endif()
 
 if(BUILD_EXAMPLES)
