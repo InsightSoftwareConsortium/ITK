@@ -52,9 +52,7 @@ using ThreadProcessIdType = pthread_t;
 constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
 using ITK_THREAD_RETURN_TYPE = void *;
 
-/* ITK_THREAD_RETURN_DEFAULT_VALUE is from a c library, and always needs to be NULL, not nullptr */
-// NOLINTNEXTLINE(modernize-use-nullptr)
-constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = NULL;
+constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = nullptr;
 using itk::ITK_THREAD_RETURN_DEFAULT_VALUE; // We need this out of the itk namespace for #define to work below
 using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #elif defined(ITK_USE_WIN32_THREADS)
