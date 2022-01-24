@@ -112,7 +112,7 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
   if (std::stoi(argv[1]) == 0)
   {
-    constexpr unsigned Dimension = 3;
+    constexpr unsigned int Dimension = 3;
     using ImageType = itk::Image<PixelType, Dimension>;
 
     auto input = ImageType::New();

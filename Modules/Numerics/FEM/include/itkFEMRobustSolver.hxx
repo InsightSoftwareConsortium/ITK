@@ -418,8 +418,8 @@ RobustSolver<VDimension>::ComputeLandmarkTensor()
         {
           for (FEMIndexType dofYId = 0; dofYId < numberOfDOFs; ++dofYId)
           {
-            unsigned nx = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofXId);
-            unsigned ny = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofYId);
+            unsigned int nx = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofXId);
+            unsigned int ny = element->GetDegreeOfFreedom(nodeId * numberOfDOFs + dofYId);
             nodeTensor[dofXId][dofYId] = this->m_LinearSystem->GetMatrixValue(nx, ny, m_MeshStiffnessMatrixIndex);
           }
         }

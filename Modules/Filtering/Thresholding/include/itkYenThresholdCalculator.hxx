@@ -54,32 +54,32 @@ YenThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   int total = histogram->GetTotalFrequency();
 
-  for (ih = 0; (unsigned)ih < size; ++ih)
+  for (ih = 0; (unsigned int)ih < size; ++ih)
   {
     norm_histo[ih] = (double)histogram->GetFrequency(ih, 0) / total;
   }
 
   P1[0] = norm_histo[0];
-  for (ih = 1; (unsigned)ih < size; ++ih)
+  for (ih = 1; (unsigned int)ih < size; ++ih)
   {
     P1[ih] = P1[ih - 1] + norm_histo[ih];
   }
 
   P1_sq[0] = norm_histo[0] * norm_histo[0];
-  for (ih = 1; (unsigned)ih < size; ++ih)
+  for (ih = 1; (unsigned int)ih < size; ++ih)
   {
     P1_sq[ih] = P1_sq[ih - 1] + norm_histo[ih] * norm_histo[ih];
   }
 
   P2_sq[size - 1] = 0.0;
-  for (ih = (unsigned)size - 2; ih >= 0; ih--)
+  for (ih = (unsigned int)size - 2; ih >= 0; ih--)
   {
     P2_sq[ih] = P2_sq[ih + 1] + norm_histo[ih + 1] * norm_histo[ih + 1];
   }
 
   // Find the threshold that maximizes the criterion
   max_crit = itk::NumericTraits<double>::NonpositiveMin();
-  for (it = 0; (unsigned)it < size; ++it)
+  for (it = 0; (unsigned int)it < size; ++it)
   {
     crit = -1.0 * ((P1_sq[it] * P2_sq[it]) > 0.0 ? std::log(P1_sq[it] * P2_sq[it]) : 0.0) +
            2 * ((P1[it] * (1.0 - P1[it])) > 0.0 ? std::log(P1[it] * (1.0 - P1[it])) : 0.0);

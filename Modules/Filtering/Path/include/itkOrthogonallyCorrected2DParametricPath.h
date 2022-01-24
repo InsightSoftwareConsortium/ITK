@@ -69,7 +69,7 @@ public:
   using VectorType = Superclass::VectorType;
   using OriginalPathType = ParametricPath<2>;
   using OriginalPathConstPointer = OriginalPathType::ConstPointer;
-  using OrthogonalCorrectionTableType = VectorContainer<unsigned, double>;
+  using OrthogonalCorrectionTableType = VectorContainer<unsigned int, double>;
   using OrthogonalCorrectionTablePointer = OrthogonalCorrectionTableType::Pointer;
 
   using OrthogonalCorrectionTableSizeType = OrthogonalCorrectionTableType::ElementIdentifier;

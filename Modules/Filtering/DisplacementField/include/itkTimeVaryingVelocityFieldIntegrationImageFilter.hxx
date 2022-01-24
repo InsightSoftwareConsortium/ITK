@@ -194,7 +194,7 @@ TimeVaryingVelocityFieldIntegrationImageFilter<TTimeVaryingVelocityField, TDispl
 
     typename RegionType::IndexType lastIndex = region.GetIndex();
     typename RegionType::SizeType  size = region.GetSize();
-    for (unsigned d = 0; d < InputImageDimension; ++d)
+    for (unsigned int d = 0; d < InputImageDimension; ++d)
     {
       lastIndex[d] += (size[d] - 1);
     }

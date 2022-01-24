@@ -53,7 +53,7 @@ ReadWrite(const std::string & inputImage, const std::string & outputImage)
   return EXIT_SUCCESS;
 }
 
-template <unsigned Dimension>
+template <unsigned int Dimension>
 int
 internalMain(const std::string &       inputImage,
              const std::string &       outputImage,
@@ -108,7 +108,7 @@ itkGDCMImageReadWriteTest(int argc, char * argv[])
 
   std::cout << gdcmImageIO << std::endl;
 
-  unsigned dimension = gdcmImageIO->GetNumberOfDimensions();
+  unsigned int dimension = gdcmImageIO->GetNumberOfDimensions();
 
   switch (dimension)
   {

@@ -80,14 +80,14 @@ const bool             smoothUpdateField = true;
 itk::TimeProbe m_GPUTime;
 itk::TimeProbe m_CPUTime;
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 int
 GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[]);
 
-template <unsigned VDimension, typename TDisplacementFieldPointer>
+template <unsigned int VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer
 itkGPUDemons(int argc, char * argv[]);
-template <unsigned VDimension, typename TDisplacementFieldPointer>
+template <unsigned int VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer
 itkCPUDemons(int argc, char * argv[]);
 
@@ -221,7 +221,7 @@ GPUDemonsRegistrationFilterTestTemplate(int argc, char * argv[])
   return EXIT_SUCCESS;
 }
 
-template <unsigned VDimension, typename TDisplacementFieldPointer>
+template <unsigned int VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer
 itkGPUDemons(int, char * argv[])
 {
@@ -336,7 +336,7 @@ itkGPUDemons(int, char * argv[])
   return ret;
 }
 
-template <unsigned VDimension, typename TDisplacementFieldPointer>
+template <unsigned int VDimension, typename TDisplacementFieldPointer>
 TDisplacementFieldPointer
 itkCPUDemons(int, char * argv[])
 {

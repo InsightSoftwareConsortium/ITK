@@ -82,7 +82,7 @@ public:
   Plan_dft_c2r_1d(int           n,
                   ComplexType * in,
                   PixelType *   out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -94,7 +94,7 @@ public:
                   int           ny,
                   ComplexType * in,
                   PixelType *   out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -112,7 +112,7 @@ public:
                   int           nz,
                   ComplexType * in,
                   PixelType *   out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -130,7 +130,7 @@ public:
                const int *   n,
                ComplexType * in,
                PixelType *   out,
-               unsigned      flags,
+               unsigned int  flags,
                int           threads = 1,
                bool          canDestroyInput = false)
   {
@@ -142,7 +142,7 @@ public:
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
-    unsigned roflags = flags;
+    unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
       roflags = flags | FFTW_WISDOM_ONLY;
@@ -183,7 +183,7 @@ public:
   Plan_dft_r2c_1d(int           n,
                   PixelType *   in,
                   ComplexType * out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -195,7 +195,7 @@ public:
                   int           ny,
                   PixelType *   in,
                   ComplexType * out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -213,7 +213,7 @@ public:
                   int           nz,
                   PixelType *   in,
                   ComplexType * out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -231,7 +231,7 @@ public:
                const int *   n,
                PixelType *   in,
                ComplexType * out,
-               unsigned      flags,
+               unsigned int  flags,
                int           threads = 1,
                bool          canDestroyInput = false)
   {
@@ -244,7 +244,7 @@ public:
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
-    unsigned roflags = flags;
+    unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
       roflags = flags | FFTW_WISDOM_ONLY;
@@ -285,7 +285,7 @@ public:
               ComplexType * in,
               ComplexType * out,
               int           sign,
-              unsigned      flags,
+              unsigned int  flags,
               int           threads = 1,
               bool          canDestroyInput = false)
   {
@@ -298,7 +298,7 @@ public:
               ComplexType * in,
               ComplexType * out,
               int           sign,
-              unsigned      flags,
+              unsigned int  flags,
               int           threads = 1,
               bool          canDestroyInput = false)
   {
@@ -317,7 +317,7 @@ public:
               ComplexType * in,
               ComplexType * out,
               int           sign,
-              unsigned      flags,
+              unsigned int  flags,
               int           threads = 1,
               bool          canDestroyInput = false)
   {
@@ -336,7 +336,7 @@ public:
            ComplexType * in,
            ComplexType * out,
            int           sign,
-           unsigned      flags,
+           unsigned int  flags,
            int           threads = 1,
            bool          canDestroyInput = false)
   {
@@ -348,7 +348,7 @@ public:
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
-    unsigned roflags = flags;
+    unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
       roflags = flags | FFTW_WISDOM_ONLY;
@@ -424,7 +424,7 @@ public:
   Plan_dft_c2r_1d(int           n,
                   ComplexType * in,
                   PixelType *   out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -436,7 +436,7 @@ public:
                   int           ny,
                   ComplexType * in,
                   PixelType *   out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -454,7 +454,7 @@ public:
                   int           nz,
                   ComplexType * in,
                   PixelType *   out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -472,7 +472,7 @@ public:
                const int *   n,
                ComplexType * in,
                PixelType *   out,
-               unsigned      flags,
+               unsigned int  flags,
                int           threads = 1,
                bool          canDestroyInput = false)
   {
@@ -484,7 +484,7 @@ public:
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
-    unsigned roflags = flags;
+    unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
       roflags = flags | FFTW_WISDOM_ONLY;
@@ -525,7 +525,7 @@ public:
   Plan_dft_r2c_1d(int           n,
                   PixelType *   in,
                   ComplexType * out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -537,7 +537,7 @@ public:
                   int           ny,
                   PixelType *   in,
                   ComplexType * out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -555,7 +555,7 @@ public:
                   int           nz,
                   PixelType *   in,
                   ComplexType * out,
-                  unsigned      flags,
+                  unsigned int  flags,
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
@@ -573,7 +573,7 @@ public:
                const int *   n,
                PixelType *   in,
                ComplexType * out,
-               unsigned      flags,
+               unsigned int  flags,
                int           threads = 1,
                bool          canDestroyInput = false)
   {
@@ -585,7 +585,7 @@ public:
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
-    unsigned roflags = flags;
+    unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
       roflags = flags | FFTW_WISDOM_ONLY;
@@ -626,7 +626,7 @@ public:
               ComplexType * in,
               ComplexType * out,
               int           sign,
-              unsigned      flags,
+              unsigned int  flags,
               int           threads = 1,
               bool          canDestroyInput = false)
   {
@@ -639,7 +639,7 @@ public:
               ComplexType * in,
               ComplexType * out,
               int           sign,
-              unsigned      flags,
+              unsigned int  flags,
               int           threads = 1,
               bool          canDestroyInput = false)
   {
@@ -658,7 +658,7 @@ public:
               ComplexType * in,
               ComplexType * out,
               int           sign,
-              unsigned      flags,
+              unsigned int  flags,
               int           threads = 1,
               bool          canDestroyInput = false)
   {
@@ -677,7 +677,7 @@ public:
            ComplexType * in,
            ComplexType * out,
            int           sign,
-           unsigned      flags,
+           unsigned int  flags,
            int           threads = 1,
            bool          canDestroyInput = false)
   {
@@ -689,7 +689,7 @@ public:
 #  endif
     // don't add FFTW_WISDOM_ONLY if the plan rigor is FFTW_ESTIMATE
     // because FFTW_ESTIMATE guarantee to not destroy the input
-    unsigned roflags = flags;
+    unsigned int roflags = flags;
     if (!(flags & FFTW_ESTIMATE))
     {
       roflags = flags | FFTW_WISDOM_ONLY;

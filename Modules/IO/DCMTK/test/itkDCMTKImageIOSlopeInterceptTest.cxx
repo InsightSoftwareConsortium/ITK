@@ -46,7 +46,7 @@ itkDCMTKImageIOSlopeInterceptTest(int argc, char * argv[])
   auto dcmImageIO = ImageIOType::New();
 
   ImageType::Pointer images[2];
-  for (unsigned i = 0; i < 2; ++i)
+  for (unsigned int i = 0; i < 2; ++i)
   {
     auto reader = ReaderType::New();
     reader->SetFileName(argv[i + 1]);

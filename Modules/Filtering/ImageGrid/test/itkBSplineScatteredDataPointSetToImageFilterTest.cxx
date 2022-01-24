@@ -103,7 +103,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(splineOrderArray, filter->GetSplineOrder());
 
 
-  unsigned numberOfLevels = 0u;
+  unsigned int numberOfLevels = 0u;
   ITK_TRY_EXPECT_EXCEPTION(filter->SetNumberOfLevels(numberOfLevels));
 
   FilterType::ArrayType numberOfLevelsArray;

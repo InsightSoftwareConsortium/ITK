@@ -79,7 +79,7 @@ void
 ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os) const
 {
   os << "ParallelSparseFieldCityBlockNeighborList: " << std::endl;
-  for (unsigned i = 0; i < this->GetSize(); ++i)
+  for (unsigned int i = 0; i < this->GetSize(); ++i)
   {
     os << "m_ArrayIndex[" << i << "]: " << m_ArrayIndex[i] << std::endl
        << "m_NeighborhoodOffset[" << i << "]: " << m_NeighborhoodOffset[i] << std::endl;
@@ -1160,7 +1160,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
         // Update the RMS difference here
         unsigned int count = 0;
         this->SetRMSChange(static_cast<double>(m_ValueZero));
-        for (unsigned i = 0; i < this->m_NumOfWorkUnits; ++i)
+        for (unsigned int i = 0; i < this->m_NumOfWorkUnits; ++i)
         {
           this->SetRMSChange(this->GetRMSChange() + this->m_Data[i].m_RMSChange);
           count += this->m_Data[i].m_Count;
@@ -1174,7 +1174,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       // Should we stop iterating ? (in case there are too few pixels to
       // process for every thread)
       this->m_Stop = true;
-      for (unsigned i = 0; i < this->m_NumOfWorkUnits; ++i)
+      for (unsigned int i = 0; i < this->m_NumOfWorkUnits; ++i)
       {
         if (this->m_Data[i].m_Layers[0]->Size() > 10)
         {
@@ -1187,7 +1187,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Iterate()
       this->InvokeEvent(ProgressEvent());
       this->SetElapsedIterations(++iter);
 
-      for (unsigned i = 0; i < this->m_NumOfWorkUnits; ++i)
+      for (unsigned int i = 0; i < this->m_NumOfWorkUnits; ++i)
       {
         m_TimeStepList[i] = this->m_Data[i].TimeStep;
       }
@@ -2308,7 +2308,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedLoadBalance2(ThreadIdType ThreadId)
 {
-  for (unsigned i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
+  for (unsigned int i = 0; i < 2 * static_cast<unsigned int>(m_NumberOfLayers) + 1; ++i)
   {
     // check all other threads
     for (ThreadIdType tid = 0; tid < m_NumOfWorkUnits; ++tid)

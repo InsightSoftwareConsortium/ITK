@@ -47,7 +47,7 @@ public:
   /** Single-threaded version of GenerateData.  This filter delegates
    * to GrayscaleGeodesicErodeImageFilter. */
   void
-  DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength);
+  DoLine(std::vector<InputImagePixelType> & buffer, unsigned int bufflength);
 
   void
   SetSize(unsigned int size)
@@ -63,14 +63,14 @@ private:
   bool
   StartLine(std::vector<InputImagePixelType> & buffer,
             InputImagePixelType &              Extreme,
-            unsigned &                         outLeftP,
-            unsigned &                         outRightP);
+            unsigned int &                     outLeftP,
+            unsigned int &                     outRightP);
 
   void
   FinishLine(std::vector<InputImagePixelType> & buffer,
              InputImagePixelType &              Extreme,
-             unsigned &                         outLeftP,
-             unsigned &                         outRightP);
+             unsigned int &                     outLeftP,
+             unsigned int &                     outRightP);
 
   inline bool
   Compare1(const InputImagePixelType & a, const InputImagePixelType & b)

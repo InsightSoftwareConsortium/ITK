@@ -530,7 +530,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
         typename DisplacementFieldType::IndexType index = ItF.GetIndex();
 
         bool isOnBoundary = false;
-        for (unsigned d = 0; d < ImageDimension; ++d)
+        for (unsigned int d = 0; d < ImageDimension; ++d)
         {
           if (index[d] == fixedDomainIndex[d] ||
               index[d] == fixedDomainIndex[d] + static_cast<int>(fixedDomainSize[d]) - 1)

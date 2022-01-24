@@ -845,7 +845,7 @@ itkVectorImageTest(int, char * argv[])
         std::cerr << "  SetNext() [FAILED]" << std::endl;
         failed = true;
       }
-      for (unsigned i = 0; i < Dimension; ++i)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         p[i] = p[Dimension + i] = (float)index1[i];
       }
@@ -859,7 +859,7 @@ itkVectorImageTest(int, char * argv[])
       // Test SetNeighborhood() and GetPrevious()
       nit.SetLocation(index1);
       nit.SetNeighborhood(neighborhood);
-      for (unsigned i = 0; i < Dimension; ++i)
+      for (unsigned int i = 0; i < Dimension; ++i)
       {
         p[i] = p[Dimension + i] = i + 1;
       }

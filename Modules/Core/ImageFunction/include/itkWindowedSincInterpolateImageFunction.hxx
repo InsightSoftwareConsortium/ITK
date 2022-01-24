@@ -194,7 +194,7 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
 
   // Compute the integer index based on the continuous one by
   // 'flooring' the index
-  for (unsigned dim = 0; dim < ImageDimension; ++dim)
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {
     baseIndex[dim] = Math::Floor<IndexValueType>(index[dim]);
     distance[dim] = index[dim] - static_cast<double>(baseIndex[dim]);

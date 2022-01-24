@@ -28,14 +28,14 @@
 namespace
 {
 
-template <unsigned NDimensions>
+template <unsigned int NDimensions>
 void
 Expect_SetParameters_throws_when_size_is_less_than_SpaceDimension()
 {
   using TransformType = itk::TranslationTransform<double, NDimensions>;
   const auto transform = TransformType::New();
 
-  for (unsigned size{}; size < TransformType::SpaceDimension; ++size)
+  for (unsigned int size{}; size < TransformType::SpaceDimension; ++size)
   {
     const typename TransformType::ParametersType parameters(size, 0.0);
     EXPECT_THROW(transform->SetParameters(parameters), itk::ExceptionObject);
@@ -43,7 +43,7 @@ Expect_SetParameters_throws_when_size_is_less_than_SpaceDimension()
 }
 
 
-template <unsigned NDimensions>
+template <unsigned int NDimensions>
 void
 Expect_SetParameters_sets_translation_offset()
 {

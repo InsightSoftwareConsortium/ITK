@@ -151,7 +151,7 @@ WarpImageFilter<TInputImage, TOutputImage, TDisplacementField>::BeforeThreadedGe
   if (!m_DefFieldSameInformation)
   {
     m_StartIndex = fieldPtr->GetBufferedRegion().GetIndex();
-    for (unsigned i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       m_EndIndex[i] = m_StartIndex[i] + fieldPtr->GetBufferedRegion().GetSize()[i] - 1;
     }

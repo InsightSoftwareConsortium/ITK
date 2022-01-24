@@ -425,7 +425,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
   // initialize nodes
   while (it != meshPoints->End())
   {
-    for (unsigned i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       point[i] = it.Value()[i];
     }
@@ -723,7 +723,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
     if (element.IsNull())
     {
-      for (unsigned i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         displacement[i] = 0.0;
       }
@@ -754,7 +754,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         simulatedDisplacement += shape[m] * nodeSolution;
       }
 
-      for (unsigned i = 0; i < ImageDimension; ++i)
+      for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         displacement[i] = simulatedDisplacement[i];
       }

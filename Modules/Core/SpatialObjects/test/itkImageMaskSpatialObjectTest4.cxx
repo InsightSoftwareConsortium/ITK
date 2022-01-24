@@ -152,7 +152,7 @@ Test3dImageMask()
 
   constexpr std::array<double, MaskBoundsArrayType::Length> expectedBounds{ { 6.75, 8.25, 6.75, 8.25, 6.75, 8.25 } };
 
-  for (unsigned i = 0; i < MaskBoundsArrayType::Length; ++i)
+  for (unsigned int i = 0; i < MaskBoundsArrayType::Length; ++i)
   {
     if (itk::Math::NotAlmostEquals(maskBounds[i], expectedBounds[i]))
     {
@@ -270,7 +270,7 @@ Test2dImageMask()
 
   constexpr std::array<double, MaskBoundsArrayType::Length> expectedBounds{ { 6.75, 8.15, 6.75, 8.15 } };
 
-  for (unsigned i = 0; i < MaskBoundsArrayType::Length; ++i)
+  for (unsigned int i = 0; i < MaskBoundsArrayType::Length; ++i)
   {
     if (itk::Math::NotAlmostEquals(maskBounds[i], expectedBounds[i]))
     {

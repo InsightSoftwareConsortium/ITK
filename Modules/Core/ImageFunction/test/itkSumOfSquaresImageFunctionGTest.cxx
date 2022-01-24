@@ -129,7 +129,7 @@ TEST(SumOfSquaresImageFunction, EvaluateAtIndexReturnsZeroWhenAllPixelsAreZero)
 // Tests that EvaluateAtIndex returns the number of neighborhood pixels when all pixels are one.
 TEST(SumOfSquaresImageFunction, EvaluateAtIndexReturnsNumberOfNeighborsWhenAllPixelsAreOne)
 {
-  for (unsigned radius{}; radius <= 2; ++radius)
+  for (unsigned int radius{}; radius <= 2; ++radius)
   {
     Expect_EvaluateAtIndex_returns_number_of_neigbors_when_all_pixels_are_one<itk::Image<double, 2>>(
       itk::Size<2>{ { 2, 3 } }, radius);

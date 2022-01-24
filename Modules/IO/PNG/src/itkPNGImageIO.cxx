@@ -622,8 +622,8 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
   bool        paletteAllocated = false;
   if (colorType == PNG_COLOR_TYPE_PALETTE)
   {
-    auto     inputPaletteLength = static_cast<unsigned>(m_ColorPalette.size());
-    unsigned PNGPaletteLength = inputPaletteLength;
+    auto         inputPaletteLength = static_cast<unsigned int>(m_ColorPalette.size());
+    unsigned int PNGPaletteLength = inputPaletteLength;
 
     // discard colors exceeding PNG max number
     PNGPaletteLength = (PNGPaletteLength <= PNG_MAX_PALETTE_LENGTH) ? PNGPaletteLength : PNG_MAX_PALETTE_LENGTH;
@@ -634,7 +634,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
     palette = static_cast<png_color *>(png_malloc(png_ptr, PNGPaletteLength * sizeof(png_color)));
     paletteAllocated = true;
 
-    for (unsigned i = 0; i < PNGPaletteLength; ++i)
+    for (unsigned int i = 0; i < PNGPaletteLength; ++i)
     {
       if (i < inputPaletteLength)
       {

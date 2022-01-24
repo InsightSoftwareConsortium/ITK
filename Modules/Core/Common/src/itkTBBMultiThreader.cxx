@@ -131,7 +131,7 @@ TBBMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
-    const unsigned      count = lastIndexPlus1 - firstIndex;
+    const unsigned int  count = lastIndexPlus1 - firstIndex;
     tbb::global_control l_ParallelizeArray_tbb_global_context(
       tbb::global_control::max_allowed_parallelism,
       std::min<int>(tbb_utility::get_default_num_threads(), m_MaximumNumberOfThreads));
@@ -211,7 +211,7 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
   bool
   empty() const
   {
-    for (unsigned d = 0; d < this->GetImageDimension(); ++d)
+    for (unsigned int d = 0; d < this->GetImageDimension(); ++d)
     {
       if (this->GetSize(d) == 0)
       {
@@ -224,7 +224,7 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
   bool
   is_divisible() const
   {
-    for (unsigned d = 0; d < this->GetImageDimension(); ++d)
+    for (unsigned int d = 0; d < this->GetImageDimension(); ++d)
     {
       if (this->GetSize(d) > 1)
       {
@@ -259,7 +259,7 @@ TBBMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   else
   {
     ImageIORegion region(dimension);
-    for (unsigned d = 0; d < dimension; ++d)
+    for (unsigned int d = 0; d < dimension; ++d)
     {
       region.SetIndex(d, index[d]);
       region.SetSize(d, size[d]);

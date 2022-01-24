@@ -38,7 +38,7 @@ namespace itk
  *
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned VDimension = 3>
+template <unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT MetaConverterBase : public Object
 {
 public:

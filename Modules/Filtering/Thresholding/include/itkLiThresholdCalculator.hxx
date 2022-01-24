@@ -67,7 +67,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Calculate the mean gray-level
   mean = 0.0;
-  for (ih = 0; (unsigned)ih < size; ++ih) // 0 + 1?
+  for (ih = 0; (unsigned int)ih < size; ++ih) // 0 + 1?
   {
     mean += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
   }
@@ -108,7 +108,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     // Object
     sum_obj = 0;
     num_obj = 0;
-    for (ih = histthresh + 1; (unsigned)ih < size; ++ih)
+    for (ih = histthresh + 1; (unsigned int)ih < size; ++ih)
     {
       sum_obj += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
       num_obj += histogram->GetFrequency(ih, 0);

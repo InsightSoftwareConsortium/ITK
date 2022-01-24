@@ -515,7 +515,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       typename RealImageType::IndexType idx = ItW.GetIndex();
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        RealType u = static_cast<RealType>(p[i] - static_cast<unsigned>(p[i]) - idx[i]) +
+        RealType u = static_cast<RealType>(p[i] - static_cast<unsigned int>(p[i]) - idx[i]) +
                      0.5 * static_cast<RealType>(this->m_SplineOrder[i] - 1);
 
         switch (this->m_SplineOrder[i])
@@ -559,7 +559,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       typename RealImageType::IndexType idx = ItW.GetIndex();
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
-        idx[i] += static_cast<unsigned>(p[i]);
+        idx[i] += static_cast<unsigned int>(p[i]);
         if (this->m_CloseDimension[i])
         {
           idx[i] %= size[i];

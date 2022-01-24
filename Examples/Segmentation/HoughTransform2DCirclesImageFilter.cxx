@@ -74,7 +74,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginCodeSnippet
   using PixelType = unsigned char;
-  using AccumulatorPixelType = unsigned;
+  using AccumulatorPixelType = unsigned int;
   using RadiusPixelType = float;
   constexpr unsigned int Dimension = 2;
   using ImageType = itk::Image<PixelType, Dimension>;

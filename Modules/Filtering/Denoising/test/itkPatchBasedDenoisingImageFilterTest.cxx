@@ -265,7 +265,7 @@ doDenoising(const std::string & inputFileName,
       double                                        tolerance = 1e-2 * expectedValue;
       if (!itk::Math::FloatAlmostEqual(expectedValue, resultValue, 10, tolerance))
       {
-        std::cout.precision(unsigned(itk::Math::abs(std::log10(tolerance))));
+        std::cout.precision((unsigned int)(itk::Math::abs(std::log10(tolerance))));
         std::cout << "Error in GetKernelBandwidthSigma() "
                   << "at index: [" << i << "]" << std::endl;
         std::cout << "Expected value: " << expectedValue << ", but got: " << resultValue << std::endl;

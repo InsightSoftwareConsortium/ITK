@@ -599,7 +599,7 @@ private:
   void
   SubtractIndex(IndexType & index1, const IndexType & index2)
   {
-    for (unsigned i = 0; i < ImageDimension; ++i)
+    for (unsigned int i = 0; i < ImageDimension; ++i)
     {
       index1[i] -= index2[i];
     }

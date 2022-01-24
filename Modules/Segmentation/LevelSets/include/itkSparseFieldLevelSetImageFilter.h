@@ -122,7 +122,7 @@ private:
 
   /** An internal table for keeping track of stride lengths in a neighborhood,
       i.e. the memory offsets between pixels along each dimensional axis. */
-  unsigned m_StrideTable[Dimension];
+  unsigned int m_StrideTable[Dimension];
 };
 
 /**

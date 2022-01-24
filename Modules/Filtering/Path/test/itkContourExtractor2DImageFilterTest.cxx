@@ -449,7 +449,7 @@ ShowExtractorAsVariables(itkContourExtractor2DImageFilterTestNamespace::Extracto
     itkContourExtractor2DImageFilterTestNamespace::ExtractorType::VertexListConstPointer vertices =
       extractor->GetOutput(i)->GetVertexList();
     std::cout << "itkContourExtractor2DImageFilterTestNamespace::MyVertexType _" << name << i << "[] = {" << std::endl;
-    for (unsigned j = 0; j < vertices->Size(); ++j)
+    for (unsigned int j = 0; j < vertices->Size(); ++j)
     {
       std::cout << "  itkContourExtractor2DImageFilterTestNamespace::MyVertexType(" << vertices->ElementAt(j)[0] << ", "
                 << vertices->ElementAt(j)[1] << ")," << std::endl;

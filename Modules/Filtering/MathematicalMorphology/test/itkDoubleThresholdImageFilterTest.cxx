@@ -93,7 +93,7 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
   }
 
   int thresholds[4];
-  for (unsigned i = 0; i < 4; ++i)
+  for (unsigned int i = 0; i < 4; ++i)
   {
     thresholds[i] = std::stoi(argv[i + 3]);
   }
@@ -101,7 +101,7 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
   threshold->SetThreshold2(thresholds[1]);
   threshold->SetThreshold3(thresholds[2]);
   threshold->SetThreshold4(thresholds[3]);
-  unsigned error = EXIT_SUCCESS;
+  unsigned int error = EXIT_SUCCESS;
 
   if (threshold->GetThreshold1() != thresholds[0])
   {

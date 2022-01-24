@@ -168,14 +168,14 @@ public:
 
   /** Other type alias. */
   using RealType = float;
-  using WeightsContainerType = VectorContainer<unsigned, RealType>;
+  using WeightsContainerType = VectorContainer<unsigned int, RealType>;
 
   /** Image types. */
   using PointDataImageType = Image<PointDataType, Self::ImageDimension>;
   using RealImageType = Image<RealType, Self::ImageDimension>;
   using RealImagePointer = typename RealImageType::Pointer;
   using PointDataImagePointer = typename PointDataImageType::Pointer;
-  using ArrayType = FixedArray<unsigned, Self::ImageDimension>;
+  using ArrayType = FixedArray<unsigned int, Self::ImageDimension>;
   using RealArrayType = FixedArray<RealType, Self::ImageDimension>;
 
   /** Interpolation kernel type (default spline order = 3). */

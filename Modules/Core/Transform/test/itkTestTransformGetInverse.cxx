@@ -106,7 +106,7 @@ TransformTest()
 int
 itkTestTransformGetInverse(int, char *[])
 {
-  unsigned errorCount;
+  unsigned int errorCount;
   errorCount = TransformTest<itk::AffineTransform<double, 3>>();
   errorCount += TransformTest<itk::AzimuthElevationToCartesianTransform<double, 3>>();
   errorCount += TransformTest<itk::BSplineTransform<double, 3>>();

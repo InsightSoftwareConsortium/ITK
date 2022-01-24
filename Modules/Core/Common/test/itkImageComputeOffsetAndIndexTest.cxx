@@ -26,7 +26,7 @@ void
 ComputeIndex(TImage * image, unsigned int count, unsigned int repeat)
 {
   typename TImage::IndexType index;
-  for (unsigned j = 0; j < repeat; ++j)
+  for (unsigned int j = 0; j < repeat; ++j)
   {
     for (unsigned int i = 0; i < count; ++i)
     {
@@ -66,7 +66,7 @@ ComputeOffset(TImage * image, unsigned int count, unsigned int repeat)
   typename TImage::OffsetType      indexIncr;
   indexIncr.Fill(1);
 
-  for (unsigned j = 0; j < repeat; ++j)
+  for (unsigned int j = 0; j < repeat; ++j)
   {
     index.Fill(0);
     for (unsigned int i = 0; i < count; ++i)
@@ -92,7 +92,7 @@ ComputeFastOffset(TImage * image, unsigned int count, unsigned int repeat)
 
   const typename TImage::OffsetValueType * offsetTable = image->GetOffsetTable();
 
-  for (unsigned j = 0; j < repeat; ++j)
+  for (unsigned int j = 0; j < repeat; ++j)
   {
     index.Fill(0);
     for (unsigned int i = 0; i < count; ++i)

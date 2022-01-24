@@ -24,7 +24,7 @@
 
 namespace
 {
-template <unsigned VDimension>
+template <unsigned int VDimension>
 void
 Expect_Filled_returns_Index_with_specified_value_for_each_element()
 {

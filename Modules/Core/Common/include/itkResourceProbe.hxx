@@ -364,7 +364,7 @@ void
 ResourceProbe<ValueType, MeanType>::PrintJSONvar(std::ostream & os,
                                                  const char *   varName,
                                                  T              varValue,
-                                                 unsigned       indent,
+                                                 unsigned int   indent,
                                                  bool           comma)
 {
   bool varIsNumber = mpl::IsNumber<T>::Value;

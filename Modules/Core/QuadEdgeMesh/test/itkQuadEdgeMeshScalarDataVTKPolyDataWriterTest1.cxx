@@ -80,7 +80,7 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
 
   CellsContainerPointer cells = myMesh->GetCells();
 
-  unsigned faceId = 0;
+  unsigned int faceId = 0;
 
   for (MeshType::CellsContainerIterator cells_it = cells->Begin(); cells_it != cells->End(); ++cells_it, faceId++)
   {

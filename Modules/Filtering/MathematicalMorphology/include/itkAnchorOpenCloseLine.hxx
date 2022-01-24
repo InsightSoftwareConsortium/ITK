@@ -29,7 +29,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::AnchorOpenCloseLine()
 
 template <typename TInputPix, typename TCompare>
 void
-AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType> & buffer, unsigned bufflength)
+AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType> & buffer, unsigned int bufflength)
 {
   // TFunction1 will be >= for openings
   // TFunction2 will be <=
@@ -45,7 +45,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
     // No point doing anything fancy - just look for the extreme value
     // This is important for angled structuring elements
     InputImagePixelType Extreme = buffer[0];
-    for (unsigned i = 0; i < bufflength; ++i)
+    for (unsigned int i = 0; i < bufflength; ++i)
     {
       if (Compare1(Extreme, buffer[i]))
       {
@@ -53,7 +53,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
       }
     }
 
-    for (unsigned i = 0; i < bufflength; ++i)
+    for (unsigned int i = 0; i < bufflength; ++i)
     {
       buffer[i] = Extreme;
     }
@@ -62,7 +62,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
 
   // start the real work - everything here will be done with index
   // arithmetic rather than pointer arithmetic
-  unsigned outLeftP = 0, outRightP = bufflength - 1;
+  unsigned int outLeftP = 0, outRightP = bufflength - 1;
   // left side
   while ((outLeftP < outRightP) && Compare1(buffer[outLeftP], buffer[outLeftP + 1]))
   {
@@ -113,14 +113,14 @@ template <typename TInputPix, typename TCompare>
 bool
 AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelType> & buffer,
                                                     InputImagePixelType &              Extreme,
-                                                    unsigned &                         outLeftP,
-                                                    unsigned &                         outRightP)
+                                                    unsigned int &                     outLeftP,
+                                                    unsigned int &                     outRightP)
 {
   // This returns true to indicate return to startLine label in pseudo
   // code, and false to indicate finshLine
   Extreme = buffer[outLeftP];
-  unsigned currentP = outLeftP + 1;
-  unsigned sentinel, endP;
+  unsigned int currentP = outLeftP + 1;
+  unsigned int sentinel, endP;
 
   while ((currentP < outRightP) && Compare2(buffer[currentP], Extreme))
   {
@@ -142,7 +142,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     if (Compare2(buffer[currentP], Extreme))
     {
       endP = currentP;
-      for (unsigned PP = outLeftP + 1; PP < endP; ++PP)
+      for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
       {
         buffer[PP] = Extreme;
       }
@@ -158,7 +158,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
   if (Compare2(buffer[currentP], Extreme))
   {
     endP = currentP;
-    for (unsigned PP = outLeftP + 1; PP < endP; ++PP)
+    for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
     {
       buffer[PP] = Extreme;
     }
@@ -170,7 +170,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     // Now we need a histogram
     // Initialise it
     outLeftP++;
-    for (unsigned aux = outLeftP; aux <= currentP; ++aux)
+    for (unsigned int aux = outLeftP; aux <= currentP; ++aux)
     {
       histo.AddPixel(buffer[aux]);
     }
@@ -191,7 +191,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     {
       // Found a new extrem
       endP = currentP;
-      for (unsigned PP = outLeftP + 1; PP < endP; ++PP)
+      for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
       {
         buffer[PP] = Extreme;
       }
@@ -227,8 +227,8 @@ template <typename TInputPix, typename TCompare>
 void
 AnchorOpenCloseLine<TInputPix, TCompare>::FinishLine(std::vector<InputImagePixelType> & buffer,
                                                      InputImagePixelType &              Extreme,
-                                                     unsigned &                         outLeftP,
-                                                     unsigned &                         outRightP)
+                                                     unsigned int &                     outLeftP,
+                                                     unsigned int &                     outRightP)
 {
   while (outLeftP < outRightP)
   {

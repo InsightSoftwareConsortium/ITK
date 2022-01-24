@@ -75,7 +75,7 @@ void
 SparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os) const
 {
   os << "SparseFieldCityBlockNeighborList: " << std::endl;
-  for (unsigned i = 0; i < this->GetSize(); ++i)
+  for (unsigned int i = 0; i < this->GetSize(); ++i)
   {
     os << "m_ArrayIndex[" << i << "]: " << m_ArrayIndex[i] << std::endl;
     os << "m_NeighborhoodOffset[" << i << "]: " << m_NeighborhoodOffset[i] << std::endl;
@@ -849,9 +849,9 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::CalculateChange() -> 
 {
   const typename Superclass::FiniteDifferenceFunctionType::Pointer   df = this->GetDifferenceFunction();
   typename Superclass::FiniteDifferenceFunctionType::FloatOffsetType offset;
-  ValueType norm_grad_phi_squared, dx_forward, dx_backward, forwardValue, backwardValue, centerValue;
-  unsigned  i;
-  ValueType MIN_NORM = 1.0e-6;
+  ValueType    norm_grad_phi_squared, dx_forward, dx_backward, forwardValue, backwardValue, centerValue;
+  unsigned int i;
+  ValueType    MIN_NORM = 1.0e-6;
   if (this->GetUseImageSpacing())
   {
     SpacePrecisionType minSpacing = NumericTraits<SpacePrecisionType>::max();

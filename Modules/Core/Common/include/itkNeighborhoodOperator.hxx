@@ -26,7 +26,7 @@ template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 NeighborhoodOperator<TPixel, VDimension, TAllocator>::ScaleCoefficients(PixelRealType s)
 {
-  for (unsigned i = 0; i < this->Size(); ++i)
+  for (unsigned int i = 0; i < this->Size(); ++i)
   {
     this->operator[](i) = static_cast<TPixel>(this->operator[](i) * s);
   }
@@ -38,12 +38,12 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FlipAxes()
 {
   // To flip the operator across all of its axes, all we have to do is reverse
   // the order of all coefficients.
-  const unsigned size = this->Size();
-  PixelType      temp;
+  const unsigned int size = this->Size();
+  PixelType          temp;
 
-  for (unsigned i = 0; i < size / 2; ++i)
+  for (unsigned int i = 0; i < size / 2; ++i)
   {
-    unsigned     swap_with = size - 1 - i;
+    unsigned int swap_with = size - 1 - i;
     temp = this->operator[](i);
 
     this->operator[](i) = this->operator[](swap_with);

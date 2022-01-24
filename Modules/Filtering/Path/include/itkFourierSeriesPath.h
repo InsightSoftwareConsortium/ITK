@@ -81,7 +81,7 @@ public:
   using IndexType = Index<VDimension>;
   using OffsetType = Offset<VDimension>;
   using VectorType = Vector<double, VDimension>;
-  using CoefficientsType = VectorContainer<unsigned, VectorType>;
+  using CoefficientsType = VectorContainer<unsigned int, VectorType>;
   using CoefficientsPointer = typename CoefficientsType::Pointer;
 
   /** Return the location of the parametric path at the specified location. */

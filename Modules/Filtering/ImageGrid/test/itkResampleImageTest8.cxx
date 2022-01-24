@@ -100,7 +100,7 @@ public:
   {
     OutputPointType outputPoint;
     outputPoint.Fill(std::numeric_limits<typename OutputPointType::ValueType>::max());
-    for (unsigned d = 0; d < 2; ++d)
+    for (unsigned int d = 0; d < 2; ++d)
     {
       outputPoint[d] = inputPoint[d] * 0.5;
     }

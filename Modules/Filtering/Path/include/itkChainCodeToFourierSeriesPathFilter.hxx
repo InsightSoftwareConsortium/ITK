@@ -72,7 +72,7 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
     numHarmonics = numSteps / 2;
   }
 
-  for (unsigned n = 0; n < numHarmonics; ++n)
+  for (unsigned int n = 0; n < numHarmonics; ++n)
   {
     index = inputPtr->GetStart();
     cosCoefficient.Fill(0.0);

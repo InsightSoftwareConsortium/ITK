@@ -30,8 +30,8 @@ itkImageFileReaderManyComponentVectorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned Channels = 31;
-  constexpr unsigned Dimension = 2;
+  constexpr unsigned int Channels = 31;
+  constexpr unsigned int Dimension = 2;
   using ImageNDType = itk::Image<itk::Vector<double, Channels>, Dimension>;
 
   ImageNDType::Pointer image;

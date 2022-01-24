@@ -77,7 +77,7 @@ itkMeanImageFunctionTest(int, char *[])
   double epsilon = 1e-7;
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean, 10, epsilon))
   {
-    std::cout.precision(unsigned(itk::Math::abs(std::log10(epsilon))));
+    std::cout.precision((unsigned int)(itk::Math::abs(std::log10(epsilon))));
     std::cout << "Mean value (" << mean << ") does not equal initialValue (" << initialValue << ")" << std::endl;
     testStatus = EXIT_FAILURE;
   }
@@ -92,7 +92,7 @@ itkMeanImageFunctionTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean2, 10, epsilon))
   {
-    std::cout.precision(unsigned(itk::Math::abs(std::log10(epsilon))));
+    std::cout.precision((unsigned int)(itk::Math::abs(std::log10(epsilon))));
     std::cout << "Mean value (" << mean2 << ") does not equal initialValue (" << initialValue << ")" << std::endl;
     testStatus = EXIT_FAILURE;
   }
@@ -107,7 +107,7 @@ itkMeanImageFunctionTest(int, char *[])
 
   if (!itk::Math::FloatAlmostEqual(static_cast<FunctionType::RealType>(initialValue), mean3, 10, epsilon))
   {
-    std::cout.precision(unsigned(itk::Math::abs(std::log10(epsilon))));
+    std::cout.precision((unsigned int)(itk::Math::abs(std::log10(epsilon))));
     std::cout << "Mean value (" << mean3 << ") does not equal initialValue (" << initialValue << ")" << std::endl;
     testStatus = EXIT_FAILURE;
   }

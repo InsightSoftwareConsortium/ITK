@@ -81,7 +81,7 @@ class ITK_TEMPLATE_EXPORT BlockMatchingImageFilter : public MeshToMeshFilter<TFe
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BlockMatchingImageFilter);
 
-  static constexpr unsigned ImageDimension = TFixedImage::ImageDimension;
+  static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Not input specific type alias */
   using ImageRegionType = ImageRegion<ImageDimension>;

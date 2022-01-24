@@ -33,7 +33,7 @@ void
 Barrier::Wait()
 {
   std::unique_lock<std::mutex> lockHolder{ m_Mutex };
-  unsigned                     lGeneration = m_Generation;
+  unsigned int                 lGeneration = m_Generation;
   ++m_NumberArrived;
   if (m_NumberArrived == m_NumberExpected)
   {

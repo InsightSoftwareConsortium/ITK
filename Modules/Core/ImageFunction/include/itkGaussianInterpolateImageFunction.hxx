@@ -197,7 +197,7 @@ GaussianInterpolateImageFunction<TImageType, TCoordRep>::ComputeErrorFunctionArr
     g_last = itk::Math::two_over_sqrtpi * std::exp(-itk::Math::sqr(t));
   }
 
-  for (unsigned i = 0; i < region.GetSize()[dimension]; ++i)
+  for (unsigned int i = 0; i < region.GetSize()[dimension]; ++i)
   {
     t += this->m_ScalingFactor[dimension];
     RealType e_now = vnl_erf(t);

@@ -62,10 +62,10 @@ using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 constexpr std::size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
 using MutexType = HANDLE;
 using FastMutexType = CRITICAL_SECTION;
-using ThreadFunctionType = unsigned(__stdcall *)(void *);
+using ThreadFunctionType = (unsigned int)(__stdcall *)(void *);
 using ThreadProcessIdType = HANDLE;
 static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
-using ITK_THREAD_RETURN_TYPE = unsigned;
+using ITK_THREAD_RETURN_TYPE = unsigned int;
 constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = 0;
 // WINAPI expands to __stdcall which specifies a function call convention and has little no meaning on variable
 // declarations

@@ -681,7 +681,7 @@ GDCMImageIO::InternalReadImageInformation()
   }
 
   const double * origin = image.GetOrigin();
-  for (unsigned i = 0; i < 3; ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     m_Spacing[i] = spacing[i];
     m_Origin[i] = origin[i];

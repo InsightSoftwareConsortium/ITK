@@ -281,7 +281,7 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
 
   // start constructing block iterator
   SizeValueType numberOfVoxelInBlock = 1;
-  for (unsigned i = 0; i < ImageSizeType::Dimension; ++i)
+  for (unsigned int i = 0; i < ImageSizeType::Dimension; ++i)
   {
     numberOfVoxelInBlock *= m_BlockRadius[i] + 1 + m_BlockRadius[i];
   }

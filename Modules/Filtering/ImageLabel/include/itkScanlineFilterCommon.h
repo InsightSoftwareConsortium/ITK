@@ -143,7 +143,7 @@ protected:
     SizeValueType stride = 1;
     RegionType    requestedRegion = m_EnclosingFilter->GetOutput()->GetRequestedRegion();
     // ignore x axis, which is always full size
-    for (unsigned dim = 1; dim < ImageDimension; ++dim)
+    for (unsigned int dim = 1; dim < ImageDimension; ++dim)
     {
       itkAssertOrThrowMacro(requestedRegion.GetIndex(dim) <= index[dim], "Index must be within the requested region!");
       linearIndex += (index[dim] - requestedRegion.GetIndex(dim)) * stride;
@@ -236,7 +236,7 @@ protected:
     // This checks whether the line encodings are really neighbors. The first
     // dimension gets ignored because the encodings are along that axis.
     SizeValueType diffSum = 0;
-    for (unsigned i = 1; i < OutputImageDimension; ++i)
+    for (unsigned int i = 1; i < OutputImageDimension; ++i)
     {
       SizeValueType diff = itk::Math::abs(A[i] - B[i]);
       if (diff > 1)

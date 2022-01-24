@@ -27,7 +27,7 @@
 
 namespace
 {
-template <unsigned VDimension>
+template <unsigned int VDimension>
 void
 Expect_Point_can_be_constructed_by_std_array()
 {

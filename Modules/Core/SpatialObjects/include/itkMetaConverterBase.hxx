@@ -23,7 +23,7 @@
 namespace itk
 {
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 auto
 MetaConverterBase<VDimension>::ReadMeta(const char * name) -> SpatialObjectPointer
 {
@@ -36,7 +36,7 @@ MetaConverterBase<VDimension>::ReadMeta(const char * name) -> SpatialObjectPoint
   return rval;
 }
 
-template <unsigned VDimension>
+template <unsigned int VDimension>
 bool
 MetaConverterBase<VDimension>::WriteMeta(const SpatialObjectType * spatialObject, const char * name)
 {

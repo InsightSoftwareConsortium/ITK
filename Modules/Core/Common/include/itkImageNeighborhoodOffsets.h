@@ -37,7 +37,7 @@ GenerateImageNeighborhoodOffsets(const TImageNeighborhoodShape & shape)
 
 
 /** Generates the offsets for a hyperrectangular (box shaped) neighborhood. */
-template <unsigned VImageDimension>
+template <unsigned int VImageDimension>
 std::vector<Offset<VImageDimension>>
 GenerateRectangularImageNeighborhoodOffsets(const Size<VImageDimension> & radius)
 {

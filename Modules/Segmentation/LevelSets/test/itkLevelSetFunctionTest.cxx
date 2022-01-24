@@ -43,7 +43,7 @@ const unsigned int WIDTH = (256);
 
 // Distance transform function for circle
 float
-circle(unsigned x, unsigned y)
+circle(unsigned int x, unsigned int y)
 {
   float dis;
   dis = (x - (float)WIDTH / 2.0) * (x - (float)WIDTH / 2.0) + (y - (float)HEIGHT / 2.0) * (y - (float)HEIGHT / 2.0);
@@ -53,7 +53,7 @@ circle(unsigned x, unsigned y)
 
 // Distance transform function for square
 float
-square(unsigned x, unsigned y)
+square(unsigned int x, unsigned int y)
 {
   float X, Y;
   X = itk::Math::abs(x - (float)WIDTH / 2.0);

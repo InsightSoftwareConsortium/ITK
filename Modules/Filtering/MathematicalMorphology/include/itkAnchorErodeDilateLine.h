@@ -41,7 +41,7 @@ public:
   using InputImagePixelType = TInputPix;
 
   void
-  DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer, unsigned bufflength);
+  DoLine(std::vector<TInputPix> & buffer, std::vector<TInputPix> & inbuffer, unsigned int bufflength);
 
   void
   SetSize(unsigned int size)

@@ -195,7 +195,7 @@ ProcessObject::AddInput(DataObject * input)
    * Adds an input to the first null position in the input list.
    * Expands the list memory if necessary
    */
-  for (unsigned idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx)
+  for (unsigned int idx = 0; idx < this->GetNumberOfIndexedInputs(); ++idx)
   {
     if (!this->GetInput(idx))
     {

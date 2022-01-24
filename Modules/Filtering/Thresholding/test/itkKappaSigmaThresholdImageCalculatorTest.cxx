@@ -63,7 +63,7 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
   calculator->SetSigmaFactor(sigmaFactor);
   ITK_TEST_SET_GET_VALUE(sigmaFactor, calculator->GetSigmaFactor());
 
-  auto numberOfIterations = static_cast<unsigned>(std::stoi(argv[5]));
+  auto numberOfIterations = static_cast<unsigned int>(std::stoi(argv[5]));
   calculator->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, calculator->GetNumberOfIterations());
 

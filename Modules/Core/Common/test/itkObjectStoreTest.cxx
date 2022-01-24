@@ -29,7 +29,7 @@ struct TestObject
 int
 itkObjectStoreTest(int, char *[])
 {
-  unsigned                              i, j;
+  unsigned int                          i, j;
   itk::ObjectStore<TestObject>::Pointer store = itk::ObjectStore<TestObject>::New();
 
   std::list<TestObject *> borrowed_list;

@@ -116,7 +116,7 @@ Neighborhood<TPixel, VDimension, TContainer>::GetNeighborhoodIndex(const OffsetT
 {
   unsigned int idx = (this->Size() / 2);
 
-  for (unsigned i = 0; i < VDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     idx += o[i] * m_StrideTable[i];
   }

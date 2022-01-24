@@ -48,8 +48,8 @@ NeedToDoFace(const TRegion AllImage, const TRegion face, const TLine line)
   typename TRegion::SizeType  FSz = face.GetSize();
   typename TRegion::IndexType FSt = face.GetIndex();
 
-  unsigned smallDim = 0;
-  for (unsigned i = 0; i < AllImage.GetImageDimension(); ++i)
+  unsigned int smallDim = 0;
+  for (unsigned int i = 0; i < AllImage.GetImageDimension(); ++i)
   {
     if (FSz[i] == 1)
     {
@@ -86,8 +86,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
                 const float                       tol,
                 const typename TBres::OffsetArray LineOffsets,
                 const typename TImage::RegionType AllImage,
-                unsigned &                        start,
-                unsigned &                        end)
+                unsigned int &                    start,
+                unsigned int &                    end)
 {
   // compute intersection between ray and box
   typename TImage::IndexType ImStart = AllImage.GetIndex();
@@ -96,8 +96,8 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   float                      Tnear = NumericTraits<float>::NonpositiveMin();
   float                      domdir = NumericTraits<float>::NonpositiveMin();
   int                        sPos, ePos;
-  unsigned                   perpdir = 0;
-  for (unsigned i = 0; i < TImage::RegionType::ImageDimension; ++i)
+  unsigned int               perpdir = 0;
+  for (unsigned int i = 0; i < TImage::RegionType::ImageDimension; ++i)
   {
     const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
     if (abs_line_elmt_tmp > domdir)
@@ -274,12 +274,12 @@ CopyLineToImage(const typename TImage::Pointer            output,
                 const typename TImage::IndexType          StartIndex,
                 const typename TBres::OffsetArray         LineOffsets,
                 std::vector<typename TImage::PixelType> & outbuffer,
-                const unsigned                            start,
-                const unsigned                            end)
+                const unsigned int                        start,
+                const unsigned int                        end)
 {
-  unsigned size = end - start + 1;
+  unsigned int size = end - start + 1;
 
-  for (unsigned i = 0; i < size; ++i)
+  for (unsigned int i = 0; i < size; ++i)
   {
     // itkAssertInDebugAndIgnoreInReleaseMacro(start + i >= 0);
     itkAssertInDebugAndIgnoreInReleaseMacro(start + i < LineOffsets.size());
@@ -303,7 +303,7 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   using FaceListType = std::list<RegionType>;
   FaceListType faceList;
 
-  for (unsigned i = 0; i < TInputImage::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TInputImage::ImageDimension; ++i)
   {
     RegionType R1, R2;
     SizeType   S1 = AllImage.GetSize();
@@ -330,10 +330,10 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
   typename TInputImage::RegionType RelevantRegion;
   bool                             foundFace = false;
   float                            MaxComp = NumericTraits<float>::NonpositiveMin();
-  unsigned                         DomDir = 0;
+  unsigned int                     DomDir = 0;
   // std::cout << "------------" << std::endl;
   // figure out the dominant direction of the line
-  for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
+  for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
   {
     const auto abs_line_elmt_tmp = itk::Math::abs(line[i]);
     if (abs_line_elmt_tmp > MaxComp)
@@ -348,9 +348,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // check whether this face is suitable for parallel sweeping - i.e
     // whether the line is within 45 degrees of the perpendicular
     // Figure out the perpendicular using the region size
-    unsigned FaceDir = 0;
+    unsigned int FaceDir = 0;
     //    std::cout << "Face " << *fit << std::endl;
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
+    for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (fit->GetSize()[i] == 1)
       {
@@ -374,9 +374,9 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // enlarge the region so that sweeping the line across it will
     // cause all pixels to be visited.
     // find the dimension not within the face
-    unsigned NonFaceDim = 0;
+    unsigned int NonFaceDim = 0;
 
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
+    for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (RelevantRegion.GetSize()[i] == 1)
       {
@@ -388,8 +388,8 @@ MakeEnlargedFace(const typename TInputImage::ConstPointer itkNotUsed(input),
     // figure out how much extra each other dimension needs to be extended
     typename TInputImage::SizeType  NewSize = RelevantRegion.GetSize();
     typename TInputImage::IndexType NewStart = RelevantRegion.GetIndex();
-    unsigned                        NonFaceLen = AllImage.GetSize()[NonFaceDim];
-    for (unsigned i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
+    unsigned int                    NonFaceLen = AllImage.GetSize()[NonFaceDim];
+    for (unsigned int i = 0; i < TInputImage::RegionType::ImageDimension; ++i)
     {
       if (i != NonFaceDim)
       {
@@ -435,9 +435,9 @@ FillLineBuffer(typename TImage::ConstPointer             input,
   {
     return (status);
   }
-  unsigned size = end - start + 1;
+  unsigned int size = end - start + 1;
   // compat
-  for (unsigned i = 0; i < size; ++i)
+  for (unsigned int i = 0; i < size; ++i)
   {
     itkAssertInDebugAndIgnoreInReleaseMacro(start + i < LineOffsets.size());
     inbuffer[i + 1] = input->GetPixel(StartIndex + LineOffsets[start + i]);
