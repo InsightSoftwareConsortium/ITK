@@ -72,6 +72,10 @@
         inverts the indexing scheme, the Image representation will be the
         same for an array and its transpose. If flipping is desired, see
         *np.reshape*.
+
+        By default, a warning is issued if this function is called on a non-contiguous
+        array, since a copy is performed and care must be taken to keep a reference
+        to the copied array. This warning can be suppressed with need_contiguous=False
         """
 
         assert ndarr.ndim in (1, 2, 3, 4, 5), \
