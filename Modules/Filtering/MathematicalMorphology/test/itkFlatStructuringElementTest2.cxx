@@ -81,7 +81,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr static unsigned int Dimension = 2;
+  static constexpr unsigned int Dimension = 2;
 
   // Read test image as unsigned char
   using ImageUCType = itk::Image<unsigned char, Dimension>;

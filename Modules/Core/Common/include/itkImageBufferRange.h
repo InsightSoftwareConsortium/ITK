@@ -82,13 +82,13 @@ private:
   // iterator::operator*() returns a reference to the internally stored pixel,
   // otherwise iterator::operator*() returns a proxy, which internally uses the
   // AccessorFunctor of the image to access the pixel indirectly.
-  constexpr static bool SupportsDirectPixelAccess =
+  static constexpr bool SupportsDirectPixelAccess =
     std::is_same<PixelType, InternalPixelType>::value &&
     std::is_same<typename TImage::AccessorType, DefaultPixelAccessor<PixelType>>::value &&
     std::is_same<AccessorFunctorType, DefaultPixelAccessorFunctor<std::remove_const_t<TImage>>>::value;
 
   // Tells whether or not this range is using a pointer as iterator.
-  constexpr static bool UsingPointerAsIterator = SupportsDirectPixelAccess;
+  static constexpr bool UsingPointerAsIterator = SupportsDirectPixelAccess;
 
   struct EmptyAccessorFunctor
   {};

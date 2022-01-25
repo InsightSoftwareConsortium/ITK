@@ -170,7 +170,7 @@ public:
   using Rigid2DTransformType = Rigid2DTransform<ParametersValueType>;
   using AffineTransformType = AffineTransform<ParametersValueType, FixedImageType::ImageDimension>;
 
-  constexpr static unsigned int SplineOrder = 3;
+  static constexpr unsigned int SplineOrder = 3;
   using BSplineTransformType = BSplineTransform<ParametersValueType, FixedImageType::ImageDimension, SplineOrder>;
 
   /** Initialize the transform from the landmarks */

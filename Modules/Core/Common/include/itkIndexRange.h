@@ -78,7 +78,7 @@ template <unsigned VDimension, bool VBeginAtZero>
 class IndexRange final
 {
 public:
-  constexpr static unsigned Dimension = VDimension;
+  static constexpr unsigned Dimension = VDimension;
   using SizeType = Size<VDimension>;
   using IndexType = Index<VDimension>;
 
