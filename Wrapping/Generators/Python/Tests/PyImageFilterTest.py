@@ -73,3 +73,27 @@ assert check_called.called == False
 py_filter.SetPyGenerateOutputInformation(check_called)
 py_filter.UpdateOutputInformation()
 assert check_called.called == True
+
+
+# PyEnlargeOutputRequestedRegion
+def enlarge_output_requested_region(py_image_filter, data):
+    data.SetRequestedRegionToLargestPossibleRegion()
+
+py_filter = itk.PyImageFilter.New(input_image)
+py_filter.SetPyGenerateData(constant_output)
+requested_region = itk.ImageRegion[2]([2,2], [3,3])
+py_filter.GetOutput().SetRequestedRegion(requested_region)
+py_filter.Update()
+region = py_filter.GetOutput().GetRequestedRegion()
+assert region.GetIndex()[0] == 2
+assert region.GetIndex()[1] == 2
+assert region.GetSize()[0] == 3
+assert region.GetSize()[1] == 3
+
+py_filter.SetPyEnlargeOutputRequestedRegion(enlarge_output_requested_region)
+py_filter.Update()
+region = py_filter.GetOutput().GetRequestedRegion()
+assert region.GetIndex()[0] == 0
+assert region.GetIndex()[1] == 0
+assert region.GetSize()[0] == 6
+assert region.GetSize()[1] == 6

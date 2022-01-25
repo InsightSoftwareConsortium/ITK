@@ -68,15 +68,27 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  /** Python callable called during the filter's GenerateOutputInformation. */
-  void
-  SetPyGenerateOutputInformation(PyObject * obj);
-
-  /** Python callable called during the filter's GenerateInputRequestedRegion. */
+  /** Python callable called during the filter's GenerateInputRequestedRegion.
+   *
+   *  The callable takes one argument: the PyImageFilter Python instance. */
   void
   SetPyGenerateInputRequestedRegion(PyObject * obj);
 
-  /** Python callable called during the filter's GenerateData. */
+  /** Python callable called during the filter's GenerateOutputInformation.
+   *
+   *  The callable takes one argument: the PyImageFilter Python instance. */
+  void
+  SetPyGenerateOutputInformation(PyObject * obj);
+
+  /** Python callable called during the filter's EnlargeOutputRequestedRegion.
+   *
+   *  The callable takes two arguments: the PyImageFilter Python instance and the output image instance.*/
+  void
+  SetPyEnlargeOutputRequestedRegion(PyObject * obj);
+
+  /** Python callable called during the filter's GenerateData.
+   *
+   * The callable takes one argument: the PyImageFilter Python instance. */
   void
   SetPyGenerateData(PyObject * obj);
 
@@ -92,18 +104,22 @@ protected:
   virtual ~PyImageFilter();
 
   void
+  GenerateInputRequestedRegion() override;
+
+  void
   GenerateOutputInformation() override;
 
   void
-  GenerateInputRequestedRegion() override;
+  EnlargeOutputRequestedRegion(DataObject * dataObject) override;
 
   void
   GenerateData() override;
 
 private:
   PyObject * m_Self;
-  PyObject * m_GenerateOutputInformationCallable{ nullptr };
   PyObject * m_GenerateInputRequestedRegionCallable{ nullptr };
+  PyObject * m_GenerateOutputInformationCallable{ nullptr };
+  PyObject * m_EnlargeOutputRequestedRegionCallable{ nullptr };
   PyObject * m_GenerateDataCallable{ nullptr };
 };
 

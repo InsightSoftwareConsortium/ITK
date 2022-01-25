@@ -96,6 +96,32 @@ PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateOutputInformation(PyObjec
 
 template <class TInputImage, class TOutputImage>
 void
+PyImageFilter<TInputImage, TOutputImage>::SetPyEnlargeOutputRequestedRegion(PyObject * o)
+{
+  if (o != this->m_EnlargeOutputRequestedRegionCallable)
+  {
+    if (this->m_EnlargeOutputRequestedRegionCallable)
+    {
+      // get rid of our reference
+      Py_DECREF(this->m_EnlargeOutputRequestedRegionCallable);
+    }
+
+    // store the new object
+    this->m_EnlargeOutputRequestedRegionCallable = o;
+    this->Modified();
+
+    if (this->m_EnlargeOutputRequestedRegionCallable)
+    {
+      // take out reference (so that the calling code doesn't
+      // have to keep a binding to the callable around)
+      Py_INCREF(this->m_EnlargeOutputRequestedRegionCallable);
+    }
+  }
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
 PyImageFilter<TInputImage, TOutputImage>::SetPyGenerateInputRequestedRegion(PyObject * o)
 {
   if (o != this->m_GenerateInputRequestedRegionCallable)
@@ -134,6 +160,39 @@ PyImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     PyObject * args = PyTuple_Pack(1, this->m_Self);
     result = PyObject_Call(this->m_GenerateOutputInformationCallable, args, (PyObject *)NULL);
     Py_DECREF(args);
+
+    if (result)
+    {
+      Py_DECREF(result);
+    }
+    else
+    {
+      // there was a Python error.  Clear the error by printing to stdout
+      PyErr_Print();
+      // make sure the invoking Python code knows there was a problem
+      // by raising an exception
+      itkExceptionMacro(<< "There was an error executing the "
+                        << "CommandCallable.");
+    }
+  }
+}
+
+
+template <class TInputImage, class TOutputImage>
+void
+PyImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * data)
+{
+  Superclass::EnlargeOutputRequestedRegion(data);
+
+  // make sure that the CommandCallable is in fact callable
+  if (PyCallable_Check(this->m_EnlargeOutputRequestedRegionCallable))
+  {
+    // For an ImageToImageFilter, we have one output, the output image
+    PyObject * pyDataObject = PyObject_CallMethod(this->m_Self, "GetOutput", (const char *)NULL);
+    PyObject * args = PyTuple_Pack(2, this->m_Self, pyDataObject);
+    PyObject * result = PyObject_Call(this->m_EnlargeOutputRequestedRegionCallable, args, (PyObject *)NULL);
+    Py_DECREF(args);
+    Py_DECREF(pyDataObject);
 
     if (result)
     {
