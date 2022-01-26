@@ -19,6 +19,7 @@
 #define itkFFTDiscreteGaussianImageFilter_h
 
 #include "itkDiscreteGaussianImageFilter.h"
+#include "itkFFTConvolutionImageFilter.h"
 #include "itkImage.h"
 #include "itkMacro.h"
 #include "ITKSmoothingExport.h"
@@ -49,7 +50,7 @@ public:
    */
   enum class KernelSource : uint8_t
   {
-    COMBINED_OPERATORS = 0,
+    OPERATORS = 0,
     IMAGE_SOURCE,
   };
 };
@@ -120,7 +121,6 @@ public:
   using typename Superclass::RealOutputPixelValueType;
   using RealPixelType = RealOutputPixelType;
   using RealImageType = RealOutputImageType;
-  using RealImagePointerType = typename RealImageType::Pointer;
 
   /** Typedef to describe the boundary condition. */
   using typename Superclass::BoundaryConditionType;
@@ -138,23 +138,24 @@ public:
   using typename Superclass::KernelType;
   using typename Superclass::RadiusType;
 
+  /** Typedef for convolution */
+  using ConvolutionImageFilterType = FFTConvolutionImageFilter<RealImageType, RealImageType, OutputImageType>;
+
   /** Overridden accessors for unused parameters */
 
   void
   SetInputBoundaryCondition(const InputBoundaryConditionPointerType) override;
 
-  auto
-  GenerateKernelImage() -> RealImagePointerType;
-
-
   itkSetMacro(KernelSource, FFTDiscreteGaussianImageFilterEnums::KernelSource);
   itkGetConstMacro(KernelSource, FFTDiscreteGaussianImageFilterEnums::KernelSource);
+
+  itkGetConstMacro(KernelImage, typename RealImageType::Pointer);
 
 protected:
   FFTDiscreteGaussianImageFilter() = default;
   ~FFTDiscreteGaussianImageFilter() override = default;
 
-  // Pad input region to kernel image size
+  /** Pad input region to kernel image size */
   void
   GenerateInputRequestedRegion() override;
 
@@ -166,8 +167,22 @@ protected:
   void
   GenerateData() override;
 
+  /** Create a kernel image matching user input specifications.
+   *  Returns a reference to the member m_KernelImage. */
+  auto
+  GenerateKernelImage() -> RealImageType *;
+
 private:
-  FFTDiscreteGaussianImageFilterEnums::KernelSource m_KernelSource;
+  /* Enum for choosing among available kernel generation methods */
+  FFTDiscreteGaussianImageFilterEnums::KernelSource m_KernelSource =
+    FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS;
+
+  /* Kernel image is allocated with GenerateKernelImage() */
+  typename RealImageType::Pointer m_KernelImage;
+
+  /* Persist mini-pipeline filter to minimize construction costs
+   * on repeated calls to GenerateData() */
+  typename ConvolutionImageFilterType::Pointer m_ConvolutionImageFilter = ConvolutionImageFilterType::New();
 };
 } // end namespace itk
 

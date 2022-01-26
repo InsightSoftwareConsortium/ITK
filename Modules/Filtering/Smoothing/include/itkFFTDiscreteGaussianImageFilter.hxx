@@ -30,7 +30,6 @@
 
 namespace itk
 {
-
 template <typename TInputImage, typename TOutputImage>
 void
 FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -76,10 +75,10 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::SetInputBoundaryCondi
 
 template <typename TInputImage, typename TOutputImage>
 auto
-FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage() -> RealImagePointerType
+FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage() -> RealImageType *
 {
-  RealImagePointerType kernelImage;
-  if (m_KernelSource == FFTDiscreteGaussianImageFilterEnums::KernelSource::COMBINED_OPERATORS)
+  m_KernelImage = RealImageType::New();
+  if (m_KernelSource == FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS)
   {
     // Get directional 1D Gaussian kernels to compose image
     itk::VariableLengthVector<KernelType> directionalOperators;
@@ -93,18 +92,17 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     }
 
     // Set up kernel image
-    kernelImage = RealImageType::New();
     typename RealImageType::IndexType index;
     index.Fill(0);
     typename RealImageType::RegionType region;
     region.SetSize(kernelSize);
     region.SetIndex(index);
-    kernelImage->SetRegions(region);
-    kernelImage->Allocate();
-    kernelImage->CopyInformation(this->GetInput());
+    m_KernelImage->SetRegions(region);
+    m_KernelImage->Allocate();
+    m_KernelImage->CopyInformation(this->GetInput());
 
     // Compute kernel image as product of vectors
-    itk::ImageRegionIteratorWithIndex<RealImageType> kernelIt(kernelImage, region);
+    itk::ImageRegionIteratorWithIndex<RealImageType> kernelIt(m_KernelImage, region);
     while (!kernelIt.IsAtEnd())
     {
       auto   imageIndex = kernelIt.GetIndex();
@@ -154,15 +152,15 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateKernelImage()
     kernelSource->SetMean(mean);
     kernelSource->SetSigma(this->GetSigmaArray());
     kernelSource->Update();
-    kernelImage = kernelSource->GetOutput();
-    kernelImage->DisconnectPipeline();
+    m_KernelImage = kernelSource->GetOutput();
+    m_KernelImage->DisconnectPipeline();
   }
   else
   {
     itkExceptionMacro("Unknown kernel source enum");
   }
 
-  return kernelImage;
+  return m_KernelImage.GetPointer();
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -200,26 +198,24 @@ FFTDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   auto progress = ProgressAccumulator::New();
   progress->SetMiniPipelineFilter(this);
 
-  RealImagePointerType kernelImage = GenerateKernelImage();
+  RealImageType * kernelImage = GenerateKernelImage();
 
   // Perform image convolution by FFT
-  using ConvolutionImageFilterType = FFTConvolutionImageFilter<RealImageType, RealImageType, OutputImageType>;
 
-  typename ConvolutionImageFilterType::Pointer convolutionFilter = ConvolutionImageFilterType::New();
-  convolutionFilter->SetInput(this->GetInput());
-  convolutionFilter->SetKernelImage(kernelImage);
-  convolutionFilter->SetBoundaryCondition(this->GetRealBoundaryCondition());
-  convolutionFilter->SetNormalize(false); // Kernel is already normalized
+  m_ConvolutionImageFilter->SetInput(this->GetInput());
+  m_ConvolutionImageFilter->SetKernelImage(kernelImage);
+  m_ConvolutionImageFilter->SetBoundaryCondition(this->GetRealBoundaryCondition());
+  m_ConvolutionImageFilter->SetNormalize(false); // Kernel is already normalized
 
-  progress->RegisterInternalFilter(convolutionFilter, 1.0f);
+  progress->RegisterInternalFilter(m_ConvolutionImageFilter, 1.0f);
 
   // Graft this filters output onto the mini-pipeline so the mini-pipeline
   // has the correct region ivars and will write to this filters bulk data
   // output.
-  convolutionFilter->GraftOutput(output);
+  m_ConvolutionImageFilter->GraftOutput(output);
 
   // Update the last filter in the mini-pipeline
-  convolutionFilter->Update();
+  m_ConvolutionImageFilter->Update();
 
   // Graft the last output of the mini-pipeline onto this filters output so
   // the final output has the correct region ivars and a handle to the final

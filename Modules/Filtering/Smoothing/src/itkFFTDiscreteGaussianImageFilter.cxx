@@ -26,8 +26,8 @@ operator<<(std::ostream & out, const FFTDiscreteGaussianImageFilterEnums::Kernel
   return out << [value] {
     switch (value)
     {
-      case FFTDiscreteGaussianImageFilterEnums::KernelSource::COMBINED_OPERATORS:
-        return "itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::COMBINED_OPERATORS";
+      case FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS:
+        return "itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS";
       case FFTDiscreteGaussianImageFilterEnums::KernelSource::IMAGE_SOURCE:
         return "itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::IMAGE_SOURCE";
       default:
