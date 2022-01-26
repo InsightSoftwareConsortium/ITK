@@ -37,7 +37,7 @@ EuclideanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x) cons
                                   measurementVectorSize,
                                   "EuclideanDistanceMetric::Evaluate Origin and input vector have different lengths");
 
-  double sumOfSquares = NumericTraits<double>::ZeroValue();
+  double sumOfSquares = 0.0;
 
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {
@@ -63,7 +63,7 @@ EuclideanDistanceMetric<TVector>::Evaluate(const MeasurementVectorType & x1, con
                       << NumericTraits<MeasurementVectorType>::GetLength(x2) << ")");
   }
 
-  double sumOfSquares = NumericTraits<double>::ZeroValue();
+  double sumOfSquares = 0.0;
 
   for (unsigned int i = 0; i < measurementVectorSize; ++i)
   {

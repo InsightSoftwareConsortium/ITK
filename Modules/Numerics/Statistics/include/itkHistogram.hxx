@@ -605,7 +605,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   if (p < 0.5)
   {
     n = 0;
-    p_n = NumericTraits<double>::ZeroValue();
+    p_n = 0.0;
     do
     {
       f_n = this->GetFrequency(n, dimension);

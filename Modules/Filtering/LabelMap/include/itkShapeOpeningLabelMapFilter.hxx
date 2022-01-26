@@ -25,7 +25,7 @@ namespace itk
 template <typename TImage>
 ShapeOpeningLabelMapFilter<TImage>::ShapeOpeningLabelMapFilter()
 {
-  m_Lambda = NumericTraits<double>::ZeroValue();
+  m_Lambda = 0.0;
   m_ReverseOrdering = false;
   m_Attribute = LabelObjectType::NUMBER_OF_PIXELS;
 

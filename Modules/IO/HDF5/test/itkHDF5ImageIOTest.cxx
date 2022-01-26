@@ -282,7 +282,7 @@ HDF5ReadWriteTest(const char * fileName)
   }
 
   itk::Array<double> metaDataDoubleArray2;
-  metaDataDoubleArray2.Fill(itk::NumericTraits<double>::ZeroValue());
+  metaDataDoubleArray2.Fill(0.0);
   if (!itk::ExposeMetaData<itk::Array<double>>(metaDict2, "TestDoubleArray", metaDataDoubleArray2) ||
       metaDataDoubleArray2 != metaDataDoubleArray)
   {

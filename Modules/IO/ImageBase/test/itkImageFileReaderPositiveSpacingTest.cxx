@@ -112,7 +112,7 @@ itkImageFileReaderPositiveSpacingTest(int argc, char * argv[])
     ImageNDType::IndexType baselineIndex;
     for (unsigned int ii = 0; ii < ImageNDType::ImageDimension; ++ii)
     {
-      double sum = itk::NumericTraits<double>::ZeroValue();
+      double sum = 0.0;
       for (unsigned int jj = 0; jj < ImageNDType::ImageDimension; ++jj)
       {
         sum += physicalPointToIndex[ii][jj] * (point[jj] - ioOrigin[jj]);

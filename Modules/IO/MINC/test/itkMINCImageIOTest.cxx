@@ -433,7 +433,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   // Check MetaData
   itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary());
 
-  double metaDataDouble = itk::NumericTraits<double>::ZeroValue();
+  double metaDataDouble = 0.0;
   if (!itk::ExposeMetaData<double>(metaDict2, "acquisition:TestDouble", metaDataDouble) || metaDataDouble != 1.23)
   {
     std::cerr << "Failure reading metaData "
@@ -681,7 +681,7 @@ MINCReadWriteTestVector(const char * fileName,
   // Check MetaData
   itk::MetaDataDictionary & metaDict2(im2->GetMetaDataDictionary());
 
-  double metaDataDouble = itk::NumericTraits<double>::ZeroValue();
+  double metaDataDouble = 0.0;
   if (!itk::ExposeMetaData<double>(metaDict2, "acquisition:TestDouble", metaDataDouble) || metaDataDouble != 1.23)
   {
     std::cerr << "Failure reading metaData "

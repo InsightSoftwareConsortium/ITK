@@ -72,7 +72,7 @@ itkRegularSphereMeshSourceTest2(int, char *[])
   while (it != end)
   {
     const MeshType::PointType p = it->Value();
-    double                    d = itk::NumericTraits<double>::ZeroValue();
+    double                    d = 0.0;
     for (unsigned int dim = 0; dim < Dimension; ++dim)
     {
       d += (center[dim] - p[dim]) * (center[dim] - p[dim]) / (scale[dim] * scale[dim]);

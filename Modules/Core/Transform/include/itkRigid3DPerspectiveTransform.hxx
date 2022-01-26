@@ -75,7 +75,7 @@ Rigid3DPerspectiveTransform<TParametersValueType>::SetParameters(const Parameter
   axis[1] = parameters[1];
   norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if (norm > NumericTraits<double>::ZeroValue())
+  if (norm > 0.0)
   {
     norm = std::sqrt(norm);
   }

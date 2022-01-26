@@ -313,7 +313,7 @@ FreeSurferAsciiMeshIO ::WritePoints(void * buffer)
     }
     case IOComponentEnum::DOUBLE:
     {
-      WritePoints(static_cast<double *>(buffer), outputFile, itk::NumericTraits<double>::ZeroValue());
+      WritePoints(static_cast<double *>(buffer), outputFile, 0.0);
 
       break;
     }
