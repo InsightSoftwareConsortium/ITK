@@ -444,7 +444,7 @@ Versor<T>::Set(const VectorType & axis)
     throw exception;
   }
 
-  const ValueType cosangle2 = std::sqrt(NumericTraits<double>::OneValue() - sinangle2 * sinangle2);
+  const ValueType cosangle2 = std::sqrt(1.0 - sinangle2 * sinangle2);
 
   m_X = axis[0];
   m_Y = axis[1];

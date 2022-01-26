@@ -622,8 +622,8 @@ main(int, char *[])
     }
 
     // Test comparison values of different types
-    if (itk::Math::NotExactlyEquals(itk::NumericTraits<float>::OneValue(), itk::NumericTraits<double>::OneValue()) ||
-        itk::Math::NotExactlyEquals(itk::NumericTraits<double>::OneValue(), static_cast<float>(1)))
+    if (itk::Math::NotExactlyEquals(itk::NumericTraits<float>::OneValue(), 1.0) ||
+        itk::Math::NotExactlyEquals(1.0, static_cast<float>(1)))
     {
       std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
@@ -633,8 +633,8 @@ main(int, char *[])
     FloatRepresentationD oneExact;
     FloatRepresentationD oneAlmost;
 
-    oneExact.asFloat = itk::NumericTraits<double>::OneValue();
-    oneAlmost.asFloat = itk::NumericTraits<double>::OneValue();
+    oneExact.asFloat = 1.0;
+    oneAlmost.asFloat = 1.0;
     oneAlmost.asInt += 1;
 
     // Very close values should be AlmostEqual
