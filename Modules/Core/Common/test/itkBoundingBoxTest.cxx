@@ -62,7 +62,7 @@ itkBoundingBoxTest(int, char *[])
   }
 
 
-  if (itk::Math::NotExactlyEquals(myBox->GetDiagonalLength2(), itk::NumericTraits<double>::ZeroValue()))
+  if (itk::Math::NotExactlyEquals(myBox->GetDiagonalLength2(), 0.0))
   {
     return EXIT_FAILURE;
   }

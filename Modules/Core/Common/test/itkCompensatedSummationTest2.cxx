@@ -82,7 +82,7 @@ public:
     void
     AfterThreadedExecution() override
     {
-      this->m_Associate->m_UncompensatedSumOfThreads = itk::NumericTraits<double>::ZeroValue();
+      this->m_Associate->m_UncompensatedSumOfThreads = 0.0;
       this->m_Associate->m_CompensatedSumOfThreads.ResetToZero();
 
       for (itk::ThreadIdType i = 0, numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed(); i < numWorkUnitsUsed; ++i)

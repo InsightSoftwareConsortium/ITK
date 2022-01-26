@@ -235,7 +235,7 @@ itkGradientDescentOptimizerv4Test(int, char *[])
   itkOptimizer->SetNumberOfIterations(numberOfIterations);
   ITK_TEST_SET_GET_VALUE(numberOfIterations, itkOptimizer->GetNumberOfIterations());
 
-  double maximumStepSizeInPhysicalUnits = itk::NumericTraits<double>::ZeroValue();
+  double maximumStepSizeInPhysicalUnits = 0.0;
   itkOptimizer->SetMaximumStepSizeInPhysicalUnits(maximumStepSizeInPhysicalUnits);
   ITK_TEST_SET_GET_VALUE(maximumStepSizeInPhysicalUnits, itkOptimizer->GetMaximumStepSizeInPhysicalUnits());
 

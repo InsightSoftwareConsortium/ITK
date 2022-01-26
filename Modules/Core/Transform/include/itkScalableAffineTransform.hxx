@@ -178,7 +178,7 @@ ScalableAffineTransform<TParametersValueType, NDimensions>::ComputeMatrix()
     {
       if (Math::NotAlmostEquals(m_MatrixScale[i],
                                 NumericTraits<typename NumericTraits<InputVectorType>::ValueType>::ZeroValue()) &&
-          Math::NotAlmostEquals(m_Scale[i], NumericTraits<double>::ZeroValue()))
+          Math::NotAlmostEquals(m_Scale[i], 0.0))
       {
         imat.put(i, i, m_Scale[i] / m_MatrixScale[i] * this->GetMatrix()[i][i]);
         m_MatrixScale[i] = m_Scale[i];

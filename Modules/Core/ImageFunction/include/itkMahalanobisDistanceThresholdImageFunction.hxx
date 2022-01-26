@@ -23,7 +23,7 @@ namespace itk
 {
 template <typename TInputImage, typename TCoordRep>
 MahalanobisDistanceThresholdImageFunction<TInputImage, TCoordRep>::MahalanobisDistanceThresholdImageFunction()
-  : m_Threshold(NumericTraits<double>::ZeroValue())
+  : m_Threshold(0.0)
   , m_MahalanobisDistanceMembershipFunction(MahalanobisDistanceFunctionType::New())
 {}
 
