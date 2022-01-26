@@ -307,7 +307,7 @@ FreeSurferAsciiMeshIO ::WritePoints(void * buffer)
     }
     case IOComponentEnum::FLOAT:
     {
-      WritePoints(static_cast<float *>(buffer), outputFile, itk::NumericTraits<float>::ZeroValue());
+      WritePoints(static_cast<float *>(buffer), outputFile, 0.0f);
 
       break;
     }

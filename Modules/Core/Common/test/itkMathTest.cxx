@@ -622,8 +622,7 @@ main(int, char *[])
     }
 
     // Test comparison values of different types
-    if (itk::Math::NotExactlyEquals(itk::NumericTraits<float>::OneValue(), 1.0) ||
-        itk::Math::NotExactlyEquals(1.0, static_cast<float>(1)))
+    if (itk::Math::NotExactlyEquals(1.0f, 1.0) || itk::Math::NotExactlyEquals(1.0, 1.0f))
     {
       std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
