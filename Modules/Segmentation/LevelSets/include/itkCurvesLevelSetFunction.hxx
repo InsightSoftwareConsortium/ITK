@@ -57,7 +57,7 @@ CurvesLevelSetFunction<TImageType, TFeatureImageType>::CalculateAdvectionImage()
 
   typename VectorImageType::Pointer gradientImage;
 
-  if (Math::NotAlmostEquals(m_DerivativeSigma, NumericTraits<float>::ZeroValue()))
+  if (Math::NotAlmostEquals(m_DerivativeSigma, 0.0f))
   {
     using DerivativeFilterType = GradientRecursiveGaussianImageFilter<FeatureImageType, VectorImageType>;
 

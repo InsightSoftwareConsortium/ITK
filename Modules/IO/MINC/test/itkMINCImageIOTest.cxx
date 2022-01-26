@@ -441,7 +441,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
     success = EXIT_FAILURE;
   }
 
-  float metaDataFloat = itk::NumericTraits<float>::ZeroValue();
+  float metaDataFloat = 0.0f;
   if (!itk::ExposeMetaData<float>(metaDict2, "acquisition:TestFloat", metaDataFloat) || metaDataFloat != 1.2f)
   {
     std::cerr << "Failure reading metaData "
