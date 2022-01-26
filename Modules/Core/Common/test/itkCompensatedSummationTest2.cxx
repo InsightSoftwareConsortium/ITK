@@ -74,7 +74,7 @@ public:
       itk::CompensatedSummation<double> compensatedSum;
       for (DomainType::IndexValueType i = subdomain[0]; i <= subdomain[1]; ++i)
       {
-        double value = itk::NumericTraits<double>::OneValue() / 7;
+        double value = 1.0 / 7;
         this->m_PerThreadCompensatedSum[threadId].AddElement(value);
       }
     }

@@ -626,13 +626,13 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
   {
     n = size - 1;
     InstanceIdentifier m = NumericTraits<InstanceIdentifier>::ZeroValue();
-    p_n = NumericTraits<double>::OneValue();
+    p_n = 1.0;
     do
     {
       f_n = this->GetFrequency(n, dimension);
       cumulated += f_n;
       p_n_prev = p_n;
-      p_n = NumericTraits<double>::OneValue() - cumulated / totalFrequency;
+      p_n = 1.0 - cumulated / totalFrequency;
       n--;
       m++;
     } while (m < size && p_n > p);

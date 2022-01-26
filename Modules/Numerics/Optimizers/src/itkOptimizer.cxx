@@ -45,7 +45,7 @@ Optimizer::SetScales(const ScalesType & scales)
     {
       itkExceptionMacro("ERROR: Scales must have value greater than epsilon! Scale[" << i << "] = " << m_Scales[i]);
     }
-    m_InverseScales[i] = NumericTraits<double>::OneValue() / m_Scales[i];
+    m_InverseScales[i] = 1.0 / m_Scales[i];
   }
   m_ScalesInitialized = true;
   this->Modified();
