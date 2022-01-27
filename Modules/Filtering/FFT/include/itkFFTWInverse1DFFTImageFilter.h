@@ -109,6 +109,7 @@ struct FFTImageFilterTraits<FFTWInverse1DFFTImageFilter>
   using InputPixelType = std::complex<TUnderlying>;
   template <typename TUnderlying>
   using OutputPixelType = TUnderlying;
+  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
 };
 
 } // namespace itk
