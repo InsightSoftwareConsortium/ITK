@@ -49,7 +49,9 @@ using MutexType = pthread_mutex_t;
 using FastMutexType = pthread_mutex_t;
 using ThreadFunctionType = void * (*)(void *);
 using ThreadProcessIdType = pthread_t;
+#  if !defined(ITK_FUTURE_LEGACY_REMOVE)
 constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
+#  endif
 using ITK_THREAD_RETURN_TYPE = void *;
 
 constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = nullptr;
@@ -62,7 +64,9 @@ using MutexType = HANDLE;
 using FastMutexType = CRITICAL_SECTION;
 using ThreadFunctionType = unsigned int(__stdcall *)(void *);
 using ThreadProcessIdType = HANDLE;
+#  if !defined(ITK_FUTURE_LEGACY_REMOVE)
 static const ThreadProcessIdType ITK_DEFAULT_THREAD_ID = INVALID_HANDLE_VALUE;
+#  endif
 using ITK_THREAD_RETURN_TYPE = unsigned int;
 constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = 0;
 // WINAPI expands to __stdcall which specifies a function call convention and has little no meaning on variable
@@ -75,7 +79,9 @@ using MutexType = int;
 using FastMutexType = int;
 using ThreadFunctionType = void (*)(void *);
 using ThreadProcessIdType = int;
+#  if !defined(ITK_FUTURE_LEGACY_REMOVE)
 constexpr ThreadProcessIdType ITK_DEFAULT_THREAD_ID = 0;
+#  endif
 using ITK_THREAD_RETURN_TYPE = void;
 #  define ITK_THREAD_RETURN_DEFAULT_VALUE
 using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;

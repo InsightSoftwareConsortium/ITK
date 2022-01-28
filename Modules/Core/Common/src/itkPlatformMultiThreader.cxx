@@ -119,13 +119,6 @@ PlatformMultiThreader::SingleMethodExecute()
   // obey the global maximum number of threads limit
   m_NumberOfWorkUnits = std::min(MultiThreaderBase::GetGlobalMaximumNumberOfThreads(), m_NumberOfWorkUnits);
 
-  // Init process_id table because a valid process_id (i.e., non-zero), is
-  // checked in the WaitForSingleMethodThread loops
-  for (thread_loop = 1; thread_loop < m_NumberOfWorkUnits; ++thread_loop)
-  {
-    process_id[thread_loop] = ITK_DEFAULT_THREAD_ID;
-  }
-
   // Spawn a set of threads through the SingleMethodProxy. Exceptions
   // thrown from a thread will be caught by the SingleMethodProxy. A
   // naive mechanism is in place for determining whether a thread
