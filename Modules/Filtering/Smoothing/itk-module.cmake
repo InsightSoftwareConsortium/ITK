@@ -5,8 +5,12 @@ interesting to look at the ITKAnisotropicSmoothing group of filters.")
 itk_module(ITKSmoothing
   ENABLE_SHARED
   COMPILE_DEPENDS
+    ITKConvolution
+    ITKFFT
     ITKImageFunction
+    ITKImageSources
   TEST_DEPENDS
+    ITKConvolution
     ITKTestKernel
   DESCRIPTION
     "${DOCUMENTATION}"
