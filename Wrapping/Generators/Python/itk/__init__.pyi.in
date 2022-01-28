@@ -8,4 +8,4 @@ from .support.extras import *
 from .support.types import *
 
 # Begin stub imports
-${ITK_STUB_IMPORTS}
+${ITK_STUB_TEMPLATE_IMPORTS}

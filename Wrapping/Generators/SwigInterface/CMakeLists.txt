@@ -333,8 +333,10 @@ macro(itk_end_wrap_module_swig_interface)
     list(APPEND typedef_in_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
     list(APPEND typedef_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}SwigInterface.h")
     if(${module_prefix}_WRAP_PYTHON)
-      list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${module}.pyi")
-      set(ENV{ITK_STUB_IMPORTS} "$ENV{ITK_STUB_IMPORTS}from .${module} import *;")
+      list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${module}Template.pyi")
+      list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${module}Proxy.pyi")
+      set(ENV{ITK_STUB_TEMPLATE_IMPORTS} "$ENV{ITK_STUB_TEMPLATE_IMPORTS}from .${module}Template import *;")
+      set(ENV{ITK_STUB_PROXY_IMPORTS} "$ENV{ITK_STUB_PROXY_IMPORTS}from .${module}Proxy import *;")
     endif()
 
 
