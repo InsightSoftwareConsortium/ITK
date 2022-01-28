@@ -1,0 +1,11 @@
+# the naming scheme of the header and class has been broken
+# so we need to do this manually
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkMultiGradientOptimizerv4.h")
+
+itk_wrap_class("itk::MultiGradientOptimizerv4Template" POINTER)
+  UNIQUE(types "D;${WRAP_ITK_REAL}")
+  foreach(t ${types})
+    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+  endforeach()
+itk_end_wrap_class()

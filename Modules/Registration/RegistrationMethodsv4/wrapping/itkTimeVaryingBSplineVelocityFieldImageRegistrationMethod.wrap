@@ -1,7 +1,7 @@
-itk_wrap_class("itk::BSplineSyNImageRegistrationMethod" POINTER_WITH_2_SUPERCLASSES)
+itk_wrap_class("itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod" POINTER_WITH_2_SUPERCLASSES)
   foreach(d ${ITK_WRAP_DIMS})
     foreach(t ${WRAP_ITK_REAL})
-      itk_wrap_template("${ITKM_${t}}${d}${ITKM_${t}}${d}"
+      itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}"
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >")
     endforeach()
   endforeach()

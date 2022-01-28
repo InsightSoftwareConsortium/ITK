@@ -10,12 +10,3 @@ itk_wrap_class("itk::LabeledPointSetToPointSetMetricv4" POINTER_WITH_2_SUPERCLAS
     endforeach()
   endforeach()
 itk_end_wrap_class()
-
-itk_wrap_class("itk::RegistrationParameterScalesFromPhysicalShift" POINTER_WITH_2_SUPERCLASSES)
-  foreach(d ${ITK_WRAP_IMAGE_DIMS})
-    foreach(t ${types})
-      itk_wrap_template("LPSTPSMPS${ITKM_${t}}${d}"
-        "itk::LabeledPointSetToPointSetMetricv4< itk::PointSet< ${ITKT_${t}},${d} > >")
-    endforeach()
-  endforeach()
-itk_end_wrap_class()

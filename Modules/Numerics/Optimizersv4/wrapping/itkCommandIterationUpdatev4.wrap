@@ -1,0 +1,55 @@
+# skipping abstract base classes like itkGradientDescentOptimizerBasev4
+# setting any no-default internal types to double
+
+itk_wrap_include("itkAmoebaOptimizerv4.h")
+itk_wrap_include("itkLBFGSOptimizerv4.h")
+itk_wrap_include("itkLBFGS2Optimizerv4.h")
+itk_wrap_include("itkLBFGSBOptimizerv4.h")
+itk_wrap_include("itkConjugateGradientLineSearchOptimizerv4.h")
+itk_wrap_include("itkExhaustiveOptimizerv4.h")
+itk_wrap_include("itkGradientDescentLineSearchOptimizerv4.h")
+itk_wrap_include("itkMultiGradientOptimizerv4.h")
+itk_wrap_include("itkMultiStartOptimizerv4.h")
+itk_wrap_include("itkOnePlusOneEvolutionaryOptimizerv4.h")
+itk_wrap_include("itkPowellOptimizerv4.h")
+itk_wrap_include("itkQuasiNewtonOptimizerv4.h")
+itk_wrap_include("itkRegularStepGradientDescentOptimizerv4.h")
+
+
+itk_wrap_class("itk::CommandIterationUpdatev4" POINTER)
+  # these types aren't templated
+  set(simple_types
+    "AmoebaOptimizerv4"
+    "LBFGSOptimizerv4"
+    "LBFGSBOptimizerv4")
+  set(internal_types
+    "ConjugateGradientLineSearchOptimizerv4Template"
+    "ExhaustiveOptimizerv4"
+    "GradientDescentLineSearchOptimizerv4Template"
+    "MultiGradientOptimizerv4Template"
+    "MultiStartOptimizerv4Template"
+    "PowellOptimizerv4"
+    "QuasiNewtonOptimizerv4Template"
+    "RegularStepGradientDescentOptimizerv4"
+  )
+
+  # mangle string then c++ type
+  # e.g. itk_wrap_template("itkAmoebaOptimizerv4" "itk::AmoebaOptimizerv4")
+  foreach(t ${simple_types})
+    itk_wrap_template("itk${t}" "itk::${t}")
+  endforeach()
+
+  # mangle string then c++ type, but each optimizer instantiated with a real type
+  # e.g. itk_wrap_template("ExhaustiveOptimizerv4D" "itk::ExhaustiveOptimizerv4<double>")
+  foreach(t ${internal_types})
+    # saw this forced double (D) in itkRegularStepGradientDescentOptimizerv4.wrap
+	# we need to cover the internal type instantiations these optimizers might have
+    UNIQUE(types "D;${WRAP_ITK_REAL}")
+    foreach(t2 ${types})
+      itk_wrap_template("itk${t}${ITKM_${t2}}" "itk::${t}< ${ITKT_${t2}} >")
+    endforeach()
+  endforeach()
+
+  # current issue where this can't be instantiated over float
+  itk_wrap_template("itkOnePlusOneEvolutionaryOptimizerv4${ITKM_D}" "itk::OnePlusOneEvolutionaryOptimizerv4< ${ITKT_D} >")
+itk_end_wrap_class()
