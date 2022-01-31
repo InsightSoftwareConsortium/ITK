@@ -636,19 +636,6 @@ set(ITK_DIR "${ITK_BINARY_DIR}")
 
 if(ITK_WRAPPING)
   add_subdirectory(Wrapping)
-  if(ITK_WRAP_PYTHON)
-    # Generate __init__.pyi file with wrapped templates/interfaces
-    set(ITK_STUB_TEMPLATE_IMPORTS "$ENV{ITK_STUB_TEMPLATE_IMPORTS}")
-    list(SORT ITK_STUB_TEMPLATE_IMPORTS CASE INSENSITIVE)
-    list(JOIN ITK_STUB_TEMPLATE_IMPORTS "\n" ITK_STUB_TEMPLATE_IMPORTS)
-    configure_file(Wrapping/Generators/Python/itk/__init__.pyi.in Wrapping/Generators/Python/itk-stubs/__init__.pyi)
-
-    # Generate _proxies.pyi file with wrapped proxy classes and method
-    set(ITK_STUB_PROXY_IMPORTS "$ENV{ITK_STUB_PROXY_IMPORTS}")
-    list(SORT ITK_STUB_PROXY_IMPORTS CASE INSENSITIVE)
-    list(JOIN ITK_STUB_PROXY_IMPORTS "\n" ITK_STUB_PROXY_IMPORTS)
-    configure_file(Wrapping/Generators/Python/itk/_proxies.pyi.in Wrapping/Generators/Python/itk-stubs/_proxies.pyi)
-  endif()
 endif()
 
 if(BUILD_EXAMPLES)
