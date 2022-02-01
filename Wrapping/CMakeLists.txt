@@ -116,3 +116,21 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Modules" "${CMAKE_CURRENT_BINARY_D
 ###############################################################################
 
 itk_end_wrap_modules()
+
+
+###############################################################################
+# Generate Python typehints when wrapped
+###############################################################################
+if(ITK_WRAP_PYTHON)
+  # Generate __init__.pyi file with wrapped templates/interfaces
+  set(ITK_STUB_TEMPLATE_IMPORTS "$ENV{ITK_STUB_TEMPLATE_IMPORTS}")
+  list(SORT ITK_STUB_TEMPLATE_IMPORTS CASE INSENSITIVE)
+  list(JOIN ITK_STUB_TEMPLATE_IMPORTS "\n" ITK_STUB_TEMPLATE_IMPORTS)
+  configure_file(Generators/Python/itk/__init__.pyi.in Generators/Python/itk-stubs/__init__.pyi)
+
+  # Generate _proxies.pyi file with wrapped proxy classes and methods
+  set(ITK_STUB_PROXY_IMPORTS "$ENV{ITK_STUB_PROXY_IMPORTS}")
+  list(SORT ITK_STUB_PROXY_IMPORTS CASE INSENSITIVE)
+  list(JOIN ITK_STUB_PROXY_IMPORTS "\n" ITK_STUB_PROXY_IMPORTS)
+  configure_file(Generators/Python/itk/_proxies.pyi.in Generators/Python/itk-stubs/_proxies.pyi)
+endif()
