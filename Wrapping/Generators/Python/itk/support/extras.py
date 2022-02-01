@@ -469,7 +469,10 @@ def vector_container_from_array(arr: ArrayLike, ttype=None) -> "itkt.VectorConta
         arr = np.asarray(arr)
 
     # Return VectorContainer with 64-bit index type
-    IndexType = itk.ULL
+    if os.name == 'nt':
+        IndexType = itk.ULL
+    else:
+        IndexType = itk.UL
 
     # Find container type
     if ttype is not None:
