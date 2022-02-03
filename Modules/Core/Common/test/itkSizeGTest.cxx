@@ -19,11 +19,16 @@
 // First include the header file to be tested:
 #include "itkSize.h"
 #include <gtest/gtest.h>
-#include <initializer_list>
 #include <limits>
+#include <type_traits> // For integral_constant.
+
 
 namespace
 {
+template <unsigned int NDimension>
+constexpr std::integral_constant<unsigned int, NDimension> DimensionConstant{};
+
+
 template <unsigned int VDimension>
 void
 Expect_Filled_returns_Size_with_specified_value_for_each_element()
@@ -93,4 +98,27 @@ TEST(Size, Make)
   const auto itkSize = itk::MakeSize(1, 2, 3, 4);
   const auto values = { 1, 2, 3, 4 };
   EXPECT_TRUE(std::equal(itkSize.begin(), itkSize.end(), values.begin(), values.end()));
+}
+
+
+// Tests that `Size<dimension>::Fill(sizeValue)` corresponds with `Size<dimension>::Filled(sizeValue)`.
+TEST(Size, Fill)
+{
+  const auto check = [](const auto dimensionConstant) {
+    for (const auto sizeValue : { itk::SizeValueType{ 0 },
+                                  itk::SizeValueType{ 1 },
+                                  itk::SizeValueType{ 2 },
+                                  std::numeric_limits<itk::SizeValueType>::max() })
+    {
+      itk::Size<dimensionConstant> actualSize;
+      actualSize.Fill(sizeValue);
+      const auto expectedSize = itk::Size<dimensionConstant>::Filled(sizeValue);
+      EXPECT_EQ(actualSize, expectedSize);
+    }
+  };
+
+  // Check Size::Fill for 1D, 2D, and 3D:
+  check(DimensionConstant<1>);
+  check(DimensionConstant<2>);
+  check(DimensionConstant<3>);
 }
