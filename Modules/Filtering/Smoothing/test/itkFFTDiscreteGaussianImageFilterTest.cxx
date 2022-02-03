@@ -95,6 +95,13 @@ itkFFTDiscreteGaussianImageFilterTestProcedure(int argc, char ** argv)
 
   itk::WriteImage(filter->GetOutput(), argv[3], true);
 
+  // Test streaming enumeration for FFTDiscreteGaussianImageFilterEnums::KernelSource elements
+  for (const auto val : { itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS,
+                          itk::FFTDiscreteGaussianImageFilterEnums::KernelSource::IMAGE_SOURCE })
+  {
+    std::cout << "STREAMED ENUM VALUE FFTDiscreteGaussianImageFilterEnums::KernelSource: " << val << std::endl;
+  }
+
   return EXIT_SUCCESS;
 }
 
