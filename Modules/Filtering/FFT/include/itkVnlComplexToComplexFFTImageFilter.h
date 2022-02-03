@@ -82,6 +82,7 @@ struct FFTImageFilterTraits<VnlComplexToComplexFFTImageFilter>
   using InputPixelType = std::complex<TUnderlying>;
   template <typename TUnderlying>
   using OutputPixelType = std::complex<TUnderlying>;
+  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
 };
 
 } // end namespace itk
