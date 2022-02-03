@@ -554,6 +554,7 @@ class itkTemplate(Mapping):
             namespace = {}
             if not hasattr(this_module, "__templates_loaded"):
                 base.itk_load_swig_module(module, namespace)
+                base.load_module_needed_factories(module)
 
     def __dir__(self):
         """Returns the list of the attributes available in the current template.

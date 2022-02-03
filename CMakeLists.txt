@@ -582,7 +582,7 @@ install(FILES ${ITK_BINARY_DIR}/CMakeFiles/ITKConfig.cmake
               CMake/ITKModuleAPI.cmake
               CMake/UseITK.cmake
               CMake/ITKFactoryRegistration.cmake
-              CMake/itkFFTImageFilterFactoryRegisterManager.h.in
+              CMake/itkFFTImageFilterInitFactoryRegisterManager.h.in
               CMake/itkImageIOFactoryRegisterManager.h.in
               CMake/itkTransformIOFactoryRegisterManager.h.in
               CMake/itkMeshIOFactoryRegisterManager.h.in

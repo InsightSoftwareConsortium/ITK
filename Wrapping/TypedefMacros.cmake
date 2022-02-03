@@ -314,6 +314,13 @@ macro(itk_end_wrap_module)
     endif()
     set(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}Config.py")
 
+    # Pass module factory names into module configuration
+    set(ITK_WRAP_PYTHON_CONFIGURATION_FACTORIES)
+    foreach(factory IN LISTS ITK_MODULE_${WRAPPER_LIBRARY_NAME}_FACTORY_NAMES)
+      string(REPLACE "::" "\",\"" factory_list ${factory})
+      set(ITK_WRAP_PYTHON_CONFIGURATION_FACTORIES "${ITK_WRAP_PYTHON_CONFIGURATION_FACTORIES}(\"${factory_list}\"),")
+    endforeach()
+
     # and create the file, with the var ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES and
     # ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS created earlier
     configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/itk/support/ModuleConfig.py.in"

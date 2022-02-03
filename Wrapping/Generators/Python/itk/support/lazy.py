@@ -139,6 +139,7 @@ class LazyITKModule(types.ModuleType):
                     for k, v in namespace.items():
                         setattr(self, k, v)
                     value = namespace[attr]
+                    base.load_module_needed_factories(module)
                 else:  # one of the other threads that had been blocking
                     # waiting for first thread to complete. Now the
                     # attribute is REQUIRED to be available
@@ -156,7 +157,6 @@ class LazyITKModule(types.ModuleType):
     def __getstate__(self):
         state = self.__dict__.copy()
         lazy_modules = list()
-        # import ipdb; ipdb.set_trace()
         for key in self.itk_base_global_lazy_attributes:
             if isinstance(state[key], LazyITKModule):
                 lazy_modules.append((key, state[key].itk_base_global_lazy_attributes))
@@ -177,3 +177,4 @@ class LazyITKModule(types.ModuleType):
             base.itk_load_swig_module(module, namespace)
             for k, v in namespace.items():
                 setattr(self, k, v)
+            base.load_module_needed_factories(module)

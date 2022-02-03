@@ -104,8 +104,8 @@ private:
 #  include "itkForward1DFFTImageFilter.hxx"
 #endif
 
-#ifdef ITK_FFT_FACTORY_REGISTER_MANAGER
-#  include "itkFFTImageFilterFactoryRegisterManager.h"
+#ifdef ITK_FFTIMAGEFILTERINIT_FACTORY_REGISTER_MANAGER
+#  include "itkFFTImageFilterInitFactoryRegisterManager.h"
 #endif
 
 #endif // itkForward1DFFTImageFilter_h
