@@ -49,8 +49,10 @@
 # Disabling static registration
 # -----------------------------
 #
-# Setting variable `ITK_NO_<factory_name_uc>_FACTORY_REGISTER_MANAGER` to `OFF` prior calling
+# Setting variable `ITK_NO_<factory_name_uc>_FACTORY_REGISTER_MANAGER` to `ON` prior calling
 # `include(${ITK_USE_FILE})` disables the static registration.
+# Here <factory_name_uc> is the upper case name of the factory. For example,
+# `IMAGEIO`, `MESHIO`, `TRANSFORMIO`, or `FFT`.
 #
 # All factories can be disabled with the following CMake code:
 #  foreach(_factory_name ${ITK_FACTORY_LIST})
