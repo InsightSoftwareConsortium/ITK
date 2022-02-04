@@ -22,10 +22,7 @@ namespace itk
 /**
  * Constructor
  */
-ExhaustiveOptimizer::ExhaustiveOptimizer()
-{
-  itkDebugMacro("Constructor");
-}
+ExhaustiveOptimizer::ExhaustiveOptimizer() = default;
 
 /**
  * Start walking
