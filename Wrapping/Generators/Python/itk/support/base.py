@@ -187,9 +187,7 @@ def itk_load_swig_module(name: str, namespace=None):
                     template_feature.get_cpp_class_name(), swig_class
                 )
                 setattr(
-                    this_module,
-                    template_feature.get_python_class_name(),
-                    swig_class,
+                    this_module, template_feature.get_python_class_name(), swig_class
                 )
                 if namespace is not None:
                     current_value = namespace.get(

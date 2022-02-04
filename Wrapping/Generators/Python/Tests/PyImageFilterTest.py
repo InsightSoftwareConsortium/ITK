@@ -20,7 +20,10 @@ import itk
 import numpy as np
 import functools
 
-input_image = itk.image_from_array(np.random.randint(0,255,size=(6,6), dtype=np.uint8))
+input_image = itk.image_from_array(
+    np.random.randint(0, 255, size=(6, 6), dtype=np.uint8)
+)
+
 
 def constant_output(py_image_filter, constant=42):
     output = py_image_filter.GetOutput()
@@ -28,11 +31,14 @@ def constant_output(py_image_filter, constant=42):
     output.Allocate()
     output.FillBuffer(constant)
 
+
 def constant_wrapper(f, constant=42):
     @functools.wraps(f)
     def wrapper(*args):
         return f(*args, constant=constant)
+
     return wrapper
+
 
 py_filter = itk.PyImageFilter.New(input_image)
 py_filter.SetPyGenerateData(constant_output)
@@ -47,8 +53,9 @@ output_image = py_filter.GetOutput()
 assert np.all(np.asarray(output_image) == 10)
 
 # Functional interface
-output_image = itk.py_image_filter(input_image,
-                                   py_generate_data=constant_wrapper(constant_output, 7))
+output_image = itk.py_image_filter(
+    input_image, py_generate_data=constant_wrapper(constant_output, 7)
+)
 assert np.all(np.asarray(output_image) == 7)
 
 # PyGenerateInputRequestedRegion
@@ -57,6 +64,7 @@ class CheckCalled(object):
 
     def __call__(self, py_image_filter):
         self.called = True
+
 
 check_called = CheckCalled()
 assert check_called.called == False
@@ -79,9 +87,10 @@ assert check_called.called == True
 def enlarge_output_requested_region(py_image_filter, data):
     data.SetRequestedRegionToLargestPossibleRegion()
 
+
 py_filter = itk.PyImageFilter.New(input_image)
 py_filter.SetPyGenerateData(constant_output)
-requested_region = itk.ImageRegion[2]([2,2], [3,3])
+requested_region = itk.ImageRegion[2]([2, 2], [3, 3])
 py_filter.GetOutput().SetRequestedRegion(requested_region)
 py_filter.Update()
 region = py_filter.GetOutput().GetRequestedRegion()

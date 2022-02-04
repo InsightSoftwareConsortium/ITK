@@ -175,7 +175,9 @@ rotation = np.array(((cosine, -sine), (sine, cosine)))
 image.SetDirection(rotation)
 serialize_deserialize = pickle.loads(pickle.dumps(image))
 # verify_input_information checks origin, spacing, direction consistency
-comparison = itk.comparison_image_filter(image, serialize_deserialize, verify_input_information=True)
+comparison = itk.comparison_image_filter(
+    image, serialize_deserialize, verify_input_information=True
+)
 assert np.sum(comparison) == 0.0
 
 # Make sure we can read unsigned short, unsigned int, and cast
@@ -416,11 +418,13 @@ assert arr2[0, 0] == 2
 # and make sure that the matrix hasn't changed.
 assert m_itk(0, 0) == 1
 # Test __repr__
-assert repr(m_itk) == "itkMatrixD33 ([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])"
+assert (
+    repr(m_itk) == "itkMatrixD33 ([[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]])"
+)
 # Test __array__
 assert np.array_equal(np.asarray(m_itk), np.eye(3))
 # Test array like input
-arr3 = [[0., 0.], [0., 0.]]
+arr3 = [[0.0, 0.0], [0.0, 0.0]]
 m_itk = itk.matrix_from_array(arr3)
 m_itk.SetIdentity()
 # Test that the array like has not changed,...

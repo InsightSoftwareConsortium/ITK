@@ -183,73 +183,87 @@ def wasm_type_from_image_type(itkimage):  # noqa: C901
 
     component = itk.template(itkimage)[1][0]
     if component == itk.UL:
-        if os.name == 'nt':
-            return 'uint32', 'Scalar'
+        if os.name == "nt":
+            return "uint32", "Scalar"
         else:
-            return 'uint64', 'Scalar'
+            return "uint64", "Scalar"
     mangle = None
-    pixelType = 'Scalar'
+    pixelType = "Scalar"
     if component == itk.SL:
-        if os.name == 'nt':
-            return 'int32', 'Scalar',
+        if os.name == "nt":
+            return "int32", "Scalar"
         else:
-            return 'int64', 'Scalar',
-    if component in (itk.SC, itk.UC, itk.SS, itk.US, itk.SI, itk.UI, itk.F,
-            itk.D, itk.B, itk.SL, itk.SLL, itk.UL, itk.ULL):
+            return "int64", "Scalar"
+    if component in (
+        itk.SC,
+        itk.UC,
+        itk.SS,
+        itk.US,
+        itk.SI,
+        itk.UI,
+        itk.F,
+        itk.D,
+        itk.B,
+        itk.SL,
+        itk.SLL,
+        itk.UL,
+        itk.ULL,
+    ):
         mangle = component
     elif component in [i[1] for i in itk.Vector.items()]:
         mangle = itk.template(component)[1][0]
-        pixelType = 'Vector'
+        pixelType = "Vector"
     elif component == itk.complex[itk.F]:
-        return 'float32', 'Complex'
+        return "float32", "Complex"
     elif component == itk.complex[itk.D]:
-        return 'float64', 'Complex'
+        return "float64", "Complex"
     elif component in [i[1] for i in itk.CovariantVector.items()]:
         mangle = itk.template(component)[1][0]
-        pixelType = 'CovariantVector',
+        pixelType = ("CovariantVector",)
     elif component in [i[1] for i in itk.Offset.items()]:
-        return 'int64', 'Offset'
+        return "int64", "Offset"
     elif component in [i[1] for i in itk.FixedArray.items()]:
         mangle = itk.template(component)[1][0]
-        pixelType = 'FixedArray'
+        pixelType = "FixedArray"
     elif component in [i[1] for i in itk.RGBAPixel.items()]:
         mangle = itk.template(component)[1][0]
-        pixelType = 'RGBA'
+        pixelType = "RGBA"
     elif component in [i[1] for i in itk.RGBPixel.items()]:
         mangle = itk.template(component)[1][0]
-        pixelType = 'RGB'
+        pixelType = "RGB"
     elif component in [i[1] for i in itk.SymmetricSecondRankTensor.items()]:
         # SymmetricSecondRankTensor
         mangle = itk.template(component)[1][0]
-        pixelType = 'SymmetrySecondRankTensor'
+        pixelType = "SymmetrySecondRankTensor"
     else:
-        raise RuntimeError('Unrecognized component type: {0}'.format(str(component)))
+        raise RuntimeError("Unrecognized component type: {0}".format(str(component)))
 
     def _long_type():
-        if os.name == 'nt':
-            return 'int32'
+        if os.name == "nt":
+            return "int32"
         else:
-            return 'int64'
+            return "int64"
+
     _python_to_js = {
-        itk.SC: 'int8',
-        itk.UC: 'uint8',
-        itk.SS: 'int16',
-        itk.US: 'uint16',
-        itk.SI: 'int32',
-        itk.UI: 'uint32',
-        itk.F: 'float32',
-        itk.D: 'float64',
-        itk.B: 'uint8',
+        itk.SC: "int8",
+        itk.UC: "uint8",
+        itk.SS: "int16",
+        itk.US: "uint16",
+        itk.SI: "int32",
+        itk.UI: "uint32",
+        itk.F: "float32",
+        itk.D: "float64",
+        itk.B: "uint8",
         itk.SL: _long_type(),
-        itk.UL: 'u' + _long_type(),
-        itk.SLL: 'int64',
-        itk.ULL: 'uint64',
+        itk.UL: "u" + _long_type(),
+        itk.SLL: "int64",
+        itk.ULL: "uint64",
     }
     imageType = dict(
         dimension=itkimage.GetImageDimension(),
         componentType=_python_to_js[mangle],
         pixelType=pixelType,
-        components=itkimage.GetNumberOfComponentsPerPixel()
+        components=itkimage.GetNumberOfComponentsPerPixel(),
     )
     return imageType
 
@@ -258,44 +272,45 @@ def image_type_from_wasm_type(jstype):
     import itk
 
     _pixelType_to_prefix = {
-        'Scalar': '',
-        'RGB': 'RGB',
-        'RGBA': 'RGBA',
-        'Offset': 'O',
-        'Vector': 'V',
-        'CovariantVector': 'CV',
-        'SymmetricSecondRankTensor': 'SSRT',
-        'FixedArray': 'FA'
+        "Scalar": "",
+        "RGB": "RGB",
+        "RGBA": "RGBA",
+        "Offset": "O",
+        "Vector": "V",
+        "CovariantVector": "CV",
+        "SymmetricSecondRankTensor": "SSRT",
+        "FixedArray": "FA",
     }
-    pixelType = jstype['pixelType']
-    dimension = jstype['dimension']
-    if pixelType == 'Complex':
-        if jstype['componentType'] == 'float32':
+    pixelType = jstype["pixelType"]
+    dimension = jstype["dimension"]
+    if pixelType == "Complex":
+        if jstype["componentType"] == "float32":
             return itk.Image[itk.complex, itk.F], np.float32
         else:
             return itk.Image[itk.complex, itk.D], np.float64
 
     def _long_type():
-        if os.name == 'nt':
-            return 'LL'
+        if os.name == "nt":
+            return "LL"
         else:
-            return 'L'
+            return "L"
+
     prefix = _pixelType_to_prefix[pixelType]
     _js_to_python = {
-        'int8': 'SC',
-        'uint8': 'UC',
-        'int16': 'SS',
-        'uint16': 'US',
-        'int32': 'SI',
-        'uint32': 'UI',
-        'int64': 'S' + _long_type(),
-        'uint64': 'U' + _long_type(),
-        'float32': 'F',
-        'float64': 'D'
+        "int8": "SC",
+        "uint8": "UC",
+        "int16": "SS",
+        "uint16": "US",
+        "int32": "SI",
+        "uint32": "UI",
+        "int64": "S" + _long_type(),
+        "uint64": "U" + _long_type(),
+        "float32": "F",
+        "float64": "D",
     }
-    if pixelType != 'Offset':
-        prefix += _js_to_python[jstype['componentType']]
-    if pixelType not in ('Scalar', 'RGB', 'RGBA', 'Complex'):
+    if pixelType != "Offset":
+        prefix += _js_to_python[jstype["componentType"]]
+    if pixelType not in ("Scalar", "RGB", "RGBA", "Complex"):
         prefix += str(dimension)
     prefix += str(dimension)
     return getattr(itk.Image, prefix)
