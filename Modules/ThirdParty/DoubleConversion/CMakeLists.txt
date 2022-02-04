@@ -7,7 +7,7 @@ option(ITK_USE_SYSTEM_DOUBLECONVERSION
 mark_as_advanced(ITK_USE_SYSTEM_DOUBLECONVERSION)
 
 if(ITK_USE_SYSTEM_DOUBLECONVERSION)
-  find_package(double-conversion REQUIRED)
+  find_package(double-conversion 3.1.6 REQUIRED)
   get_target_property(ITKDoubleConversion_INCLUDE_DIRS double-conversion::double-conversion INTERFACE_INCLUDE_DIRECTORIES)
   get_target_property(ITKDoubleConversion_LIBRARIES double-conversion::double-conversion LOCATION)
 else()
