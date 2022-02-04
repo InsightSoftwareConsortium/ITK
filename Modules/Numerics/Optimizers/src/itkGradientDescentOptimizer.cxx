@@ -26,8 +26,6 @@ namespace itk
 GradientDescentOptimizer::GradientDescentOptimizer()
 
 {
-  itkDebugMacro("Constructor");
-
   m_StopConditionDescription << this->GetNameOfClass() << ": ";
 }
 

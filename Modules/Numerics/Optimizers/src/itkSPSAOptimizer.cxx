@@ -27,8 +27,6 @@ namespace itk
 SPSAOptimizer ::SPSAOptimizer()
 
 {
-  itkDebugMacro("Constructor");
-
   m_CurrentIteration = 0;
   m_Maximize = false;
   m_StopCondition = StopConditionSPSAOptimizerEnum::Unknown;
