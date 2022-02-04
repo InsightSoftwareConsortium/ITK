@@ -27,7 +27,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 Inverse1DFFTImageFilter<TInputImage, TOutputImage>::Inverse1DFFTImageFilter()
 
-{}
+  = default;
 
 
 template <typename TInputImage, typename TOutputImage>
