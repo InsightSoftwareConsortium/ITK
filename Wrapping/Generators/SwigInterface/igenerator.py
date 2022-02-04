@@ -1617,17 +1617,9 @@ if _version_info < (3, 7, 0):
                 typedef.name.replace("_Superclass", "")
             )
             # Skip wrapping for the following
-            if (
-                typedef.name.endswith(
-                    (
-                        "_Pointer",
-                        "_AutoPointer",
-                        "_ConstPointer",
-                        "Factory",
-                    )
-                )
-                or self.current_class in ["stdcomplex", "stdnumeric_limits"]
-            ):
+            if typedef.name.endswith(
+                ("_Pointer", "_AutoPointer", "_ConstPointer", "Factory")
+            ) or self.current_class in ["stdcomplex", "stdnumeric_limits"]:
                 self.current_class = None
             elif self.current_class not in self.classes:
                 self.classes[self.current_class] = ITKClass(self.current_class)
@@ -1745,7 +1737,9 @@ from .support.template_class import itkTemplate as _itkTemplate
         )
 
 
-def init_submodule_pyi_proxy_file(pyiFile: Path, submodule_name: str, parent_imports) -> None:
+def init_submodule_pyi_proxy_file(
+    pyiFile: Path, submodule_name: str, parent_imports
+) -> None:
     with open(pyiFile, "w") as pyiFile:
         pyiFile.write(
             f"""# Interface methods for submodule: {submodule_name}
@@ -1758,19 +1752,17 @@ from .support.template_class import itkTemplate as _itkTemplate
         )
 
 
-def write_class_template_pyi(
-        pyiFile: Path, class_name: str, header_code: str
-) -> None:
+def write_class_template_pyi(pyiFile: Path, class_name: str, header_code: str) -> None:
     # Write interface files to the stub directory to support editor autocompletion
     with open(pyiFile, "a+") as pyiFile:
         pyiFile.write(f"# Interface for class: {class_name}\n")
-        pyiFile.write(f"from ._proxies import {class_name}Proxy as _{class_name}Proxy\n")
+        pyiFile.write(
+            f"from ._proxies import {class_name}Proxy as _{class_name}Proxy\n"
+        )
         pyiFile.write(header_code)
 
 
-def write_class_proxy_pyi(
-        pyiFile: Path, class_name: str, interfaces_code: str
-) -> None:
+def write_class_proxy_pyi(pyiFile: Path, class_name: str, interfaces_code: str) -> None:
     # Write interface files to the stub directory to support editor autocompletion
     with open(pyiFile, "a+") as pyiFile:
         pyiFile.write(f"# Interface methods for class: {class_name}\n")
@@ -2005,27 +1997,31 @@ if __name__ == "__main__":
                 Path(f"{options.pyi_dir}/{submoduleName}Template.pyi"), submoduleName
             )
             init_submodule_pyi_proxy_file(
-                Path(f"{options.pyi_dir}/{submoduleName}Proxy.pyi"), submoduleName, parent_imports
+                Path(f"{options.pyi_dir}/{submoduleName}Proxy.pyi"),
+                submoduleName,
+                parent_imports,
             )
 
     if options.pyi_dir != "":
-      for itk_class in classes.keys():
-        outputPYIHeaderFile = StringIO()
-        outputPYIMethodFile = StringIO()
-        generate_class_pyi_def(
-            outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
-        )
+        for itk_class in classes.keys():
+            outputPYIHeaderFile = StringIO()
+            outputPYIMethodFile = StringIO()
+            generate_class_pyi_def(
+                outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
+            )
 
-        write_class_template_pyi(
-            Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}Template.pyi"),
-            itk_class,
-            outputPYIHeaderFile.getvalue(),
-        )
-        write_class_proxy_pyi(
-            Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}Proxy.pyi"),
-            itk_class,
-            outputPYIMethodFile.getvalue(),
-        )
+            write_class_template_pyi(
+                Path(
+                    f"{options.pyi_dir}/{classes[itk_class].submodule_name}Template.pyi"
+                ),
+                itk_class,
+                outputPYIHeaderFile.getvalue(),
+            )
+            write_class_proxy_pyi(
+                Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}Proxy.pyi"),
+                itk_class,
+                outputPYIMethodFile.getvalue(),
+            )
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:

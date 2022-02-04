@@ -28,7 +28,7 @@ mesh = MeshType.New()
 
 # Create Vector Container and Store values in it for each Point
 # For windows use itk.ULL
-if hasattr(itk.VectorContainer, 'ULAD'):
+if hasattr(itk.VectorContainer, "ULAD"):
     IdentifierType = itk.UL
 else:
     IdentifierType = itk.ULL
@@ -41,7 +41,7 @@ for i in range(NumberOfPoints):
     pixel_data_reference.SetSize(PixelDataSize)
     pixel_data_reference.Fill(0)
     pixel_data_reference[0] = i
-    pixel_data_reference[4] = i+4
+    pixel_data_reference[4] = i + 4
 
 # Set the point data container
 mesh.SetPointData(v)
@@ -49,8 +49,8 @@ mesh.SetPointData(v)
 assert mesh.GetPointData().Size() == NumberOfPoints
 assert mesh.GetPointData().ElementAt(0)[0] == 0
 assert mesh.GetPointData().ElementAt(0)[4] == 4
-assert mesh.GetPointData().ElementAt(2)[0] == 2+0
-assert mesh.GetPointData().ElementAt(2)[4] == 2+4
+assert mesh.GetPointData().ElementAt(2)[0] == 2 + 0
+assert mesh.GetPointData().ElementAt(2)[4] == 2 + 4
 
 # resize the PixelDataSize to see if it can be altered succesfully
 PixelDataSize = 10
@@ -59,10 +59,10 @@ for i in range(NumberOfPoints):
     pixel_data_reference.SetSize(PixelDataSize)
     pixel_data_reference.Fill(0)
     pixel_data_reference[0] = i
-    pixel_data_reference[9] = i+10
+    pixel_data_reference[9] = i + 10
 
 assert mesh.GetPointData().Size() == NumberOfPoints
 assert mesh.GetPointData().ElementAt(0)[0] == 0
 assert mesh.GetPointData().ElementAt(0)[9] == 10
-assert mesh.GetPointData().ElementAt(2)[0] == 2+0
-assert mesh.GetPointData().ElementAt(2)[9] == 2+10
+assert mesh.GetPointData().ElementAt(2)[0] == 2 + 0
+assert mesh.GetPointData().ElementAt(2)[9] == 2 + 10
