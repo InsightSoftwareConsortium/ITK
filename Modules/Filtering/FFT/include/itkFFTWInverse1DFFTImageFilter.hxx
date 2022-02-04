@@ -34,8 +34,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 FFTWInverse1DFFTImageFilter<TInputImage, TOutputImage>::FFTWInverse1DFFTImageFilter()
-  : m_PlanComputed(false)
-  , m_LastImageSize(0)
+
 {
   // We cannot split over the FFT direction
   this->m_ImageRegionSplitter = ImageRegionSplitterDirection::New();

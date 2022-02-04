@@ -33,8 +33,7 @@ namespace itk
 
 template <typename TInputImage, typename TOutputImage>
 FFTWForward1DFFTImageFilter<TInputImage, TOutputImage>::FFTWForward1DFFTImageFilter()
-  : m_PlanComputed(false)
-  , m_LastImageSize(0)
+
 {
   // We cannot split over the FFT direction
   this->m_ImageRegionSplitter = ImageRegionSplitterDirection::New();

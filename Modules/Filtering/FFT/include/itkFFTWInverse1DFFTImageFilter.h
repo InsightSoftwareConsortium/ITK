@@ -92,9 +92,9 @@ private:
   void
   DestroyPlans();
 
-  bool                  m_PlanComputed;
+  bool                  m_PlanComputed{ false };
   PlanArrayType         m_PlanArray;
-  unsigned int          m_LastImageSize;
+  unsigned int          m_LastImageSize{ 0 };
   PlanBufferPointerType m_InputBufferArray;
   PlanBufferPointerType m_OutputBufferArray;
 };

@@ -25,7 +25,7 @@ namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
 Forward1DFFTImageFilter<TInputImage, TOutputImage>::Forward1DFFTImageFilter()
-  : m_Direction(0)
+
 {}
 
 
