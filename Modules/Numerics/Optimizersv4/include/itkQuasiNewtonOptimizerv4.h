@@ -151,8 +151,11 @@ protected:
   /** The Hessian with local support */
   HessianArrayType m_HessianArray;
 
-  /** Valid flag for the Quasi-Newton steps */
-  std::vector<bool> m_NewtonStepValidFlags;
+  /** Valid flag for the Quasi-Newton steps.
+   * NB: although semantically boolean, vector<bool> is not thread safe due to the possibility of multiple bits being
+   * packed together in the same memory location.
+   */
+  std::vector<uint8_t> m_NewtonStepValidFlags;
 
   /** Estimate a Newton step */
   virtual void
