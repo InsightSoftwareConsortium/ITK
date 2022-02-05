@@ -112,16 +112,21 @@ NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>::VectorizeImagePatch(co
 
   if (normalize)
   {
+    // Convert the current image patch to a z-score.
     RealType mean = 0.0;
     RealType standardDeviation = 0.0;
     this->GetMeanAndStandardDeviationOfVectorizedImagePatch(patchVector, mean, standardDeviation);
-
-    standardDeviation = std::max(standardDeviation, NumericTraits<RealType>::OneValue());
-
-    typename InputImagePixelVectorType::iterator it;
-    for (it = patchVector.begin(); it != patchVector.end(); ++it)
+    if (standardDeviation < NumericTraits<RealType>::epsilon())
     {
-      *it = (*it - mean) / standardDeviation;
+      for (auto & it : patchVector)
+      {
+        it = 0.;
+      }
+    }
+    const auto inv_standardDeviation = 1. / standardDeviation;
+    for (auto & it : patchVector)
+    {
+      it = (it - mean) * inv_standardDeviation;
     }
   }
   return patchVector;
@@ -138,13 +143,13 @@ NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>::GetMeanAndStandardDevi
   RealType sumOfSquares = 0.0;
   RealType count = 0.0;
 
-  typename InputImagePixelVectorType::const_iterator it;
-  for (it = patchVector.begin(); it != patchVector.end(); ++it)
+  for (const auto it : patchVector)
   {
-    if (std::isfinite(*it))
+    if (std::isfinite(it)) // Silently skip non-finite values used to indicate
+                           // out-of-bounds.
     {
-      sum += *it;
-      sumOfSquares += itk::Math::sqr(*it);
+      sum += it;
+      sumOfSquares += itk::Math::sqr(it);
       count += itk::NumericTraits<RealType>::OneValue();
     }
   }
@@ -204,13 +209,11 @@ NonLocalPatchBasedImageFilter<TInputImage, TOutputImage>::ComputeNeighborhoodPat
   {
     return NumericTraits<RealType>::max();
   }
-
   if (this->m_SimilarityMetric == SimilarityMetricEnum::PEARSON_CORRELATION)
   {
-    RealType varianceX = sumOfSquaresX - itk::Math::sqr(sumX) / N;
-    varianceX = std::max(varianceX, static_cast<RealType>(1.0e-6));
-
-    RealType measure = itk::Math::sqr(sumXY) / varianceX;
+    const RealType varianceX = sumOfSquaresX - itk::Math::sqr(sumX) / N;
+    const RealType measure =
+      (varianceX > std::numeric_limits<RealType>::epsilon()) ? itk::Math::sqr(sumXY) / varianceX : 0.;
     if (sumXY > 0)
     {
       return -measure;
