@@ -471,16 +471,7 @@ macro(itk_module_add_library _name)
     set(_LIBRARY_BUILD_TYPE)
   endif()
   add_library(${_name} ${_LIBRARY_BUILD_TYPE} ${ARGN})
-  target_compile_features(${_name} PUBLIC cxx_nullptr
-                                          cxx_override
-                                          cxx_constexpr
-                                          cxx_range_for
-                                          cxx_rvalue_references
-                                          cxx_static_assert
-                                          cxx_strong_enums
-                                          cxx_lambdas
-                                          cxx_noexcept
-                                          cxx_alias_templates )
+  target_compile_features(${_name} PUBLIC cxx_std_${CMAKE_CXX_STANDARD})
   itk_module_link_dependencies()
   itk_module_target(${_name})
 endmacro()
