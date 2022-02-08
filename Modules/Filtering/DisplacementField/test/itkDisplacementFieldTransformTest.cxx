@@ -299,6 +299,14 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   anisotropicSpacing[1] = 0.8;
   field->SetSpacing(anisotropicSpacing);
 
+  /* and non-trivial image grid orientation */
+  FieldType::DirectionType gridDirection;
+  gridDirection(0, 0) = 3. / 5;
+  gridDirection(0, 1) = 4. / 5;
+  gridDirection(1, 0) = -4. / 5;
+  gridDirection(1, 1) = 3. / 5;
+  field->SetDirection(gridDirection);
+
   itk::ImageRegionIteratorWithIndex<FieldType> it(field, field->GetLargestPossibleRegion());
   it.GoToBegin();
 
@@ -319,8 +327,10 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(field, displacementTransform->GetDisplacementField());
 
   DisplacementTransformType::InputPointType testPoint;
-  testPoint[0] = 10;
-  testPoint[1] = 8;
+  testPoint[0] = 12;
+  testPoint[1] = 4;
+  /* With the anisotropicSpacing and gridDirection set above
+   * this point corresponds exactly to index = { 4, 15 }. */
 
   // Test LocalJacobian methods
   DisplacementTransformType::JacobianPositionType jacobian;
