@@ -224,6 +224,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
 {
 
   typename DisplacementFieldType::SizeType    size = this->m_DisplacementField->GetLargestPossibleRegion().GetSize();
+  typename DisplacementFieldType::IndexType   startingIndex = this->m_DisplacementField->GetLargestPossibleRegion().GetIndex();
   typename DisplacementFieldType::SpacingType spacing = this->m_DisplacementField->GetSpacing();
 
   IndexType ddrindex;
@@ -237,7 +238,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   TParametersValueType space = NumericTraits<TParametersValueType>::OneValue();
 
   // Minimum distance between neighbors
-  TParametersValueType mindist = NumericTraits<TParametersValueType>::OneValue();
+  IndexValueType mindist = NumericTraits<IndexValueType>::OneValue();
 
   // Flag indicating a valid location for Jacobian calculation
   bool isValidJacobianCalcLocat = true;
@@ -247,12 +248,12 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   dPixSign = doInverseJacobian ? -dPixSign : dPixSign;
   for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    TParametersValueType dist = itk::Math::abs((float)index[row]);
+    IndexValueType dist = index[row] - startingIndex[row];
     if (dist < mindist)
     {
       isValidJacobianCalcLocat = false;
     }
-    dist = itk::Math::abs((TParametersValueType)size[row] - (TParametersValueType)index[row]);
+    dist = static_cast<IndexValueType>(size[row]) - dist;
     if (dist < mindist)
     {
       isValidJacobianCalcLocat = false;
