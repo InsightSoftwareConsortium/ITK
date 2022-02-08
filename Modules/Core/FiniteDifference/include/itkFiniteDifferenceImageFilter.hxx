@@ -167,7 +167,7 @@ FiniteDifferenceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRe
 template <typename TInputImage, typename TOutputImage>
 typename FiniteDifferenceImageFilter<TInputImage, TOutputImage>::TimeStepType
 FiniteDifferenceImageFilter<TInputImage, TOutputImage>::ResolveTimeStep(const std::vector<TimeStepType> & timeStepList,
-                                                                        const std::vector<uint8_t> &      valid) const
+                                                                        const BooleanStdVectorType &      valid) const
 {
   TimeStepType oMin = NumericTraits<TimeStepType>::ZeroValue();
   bool         flag = false;

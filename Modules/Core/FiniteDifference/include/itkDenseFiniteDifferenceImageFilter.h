@@ -18,6 +18,7 @@
 #ifndef itkDenseFiniteDifferenceImageFilter_h
 #define itkDenseFiniteDifferenceImageFilter_h
 
+#include "itkBooleanStdVector.h"
 #include "itkFiniteDifferenceImageFilter.h"
 #include "itkMultiThreaderBase.h"
 
@@ -173,9 +174,7 @@ private:
     TimeStepType                       TimeStep;
     std::vector<TimeStepType>          TimeStepList;
 
-    // NB: although semantically boolean, vector<bool> is not thread safe due to the possibility of multiple bits being
-    // packed together in the same memory location.
-    std::vector<uint8_t> ValidTimeStepList;
+    BooleanStdVectorType ValidTimeStepList;
   };
 
   /** This callback method uses ImageSource::SplitRequestedRegion to acquire an
