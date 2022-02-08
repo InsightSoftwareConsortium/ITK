@@ -408,16 +408,20 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   switch (GE_Plane)
   {
     case GE_CORONAL:
-      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+      curImage->coordinateOrientation =
+        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
       break;
     case GE_SAGITTAL:
-      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
+      curImage->coordinateOrientation =
+        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
       break;
     case GE_AXIAL:
-      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+      curImage->coordinateOrientation =
+        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
       break;
     default:
-      curImage->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+      curImage->coordinateOrientation =
+        itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
       break;
   }
 

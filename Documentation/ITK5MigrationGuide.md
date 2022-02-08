@@ -448,6 +448,14 @@ With ITK 5.3, the `GetNumberOfWeights()` member functions of `itk::BSplineBaseTr
 are replaced by static constexpr data members named `NumberOfWeights`, and the `GetSupportSize()` member function of
 `itk::BSplineInterpolationWeightFunction` is replaced by a static constexpr data member named `SupportSize`.
 
+With ITK 5.3, SpatialOrientation was updated to a strongly typed enumeration (see below for details).
+The namespece itself is only available in legacy mode. Some classes were renamed:
+* `itk::SpatialOrientation::CoordinateTerms` became `itk::SpatialOrientationEnums::CoordinateTerms`.
+* `itk::SpatialOrientation::CoordinateMajornessTerms` became `itk::SpatialOrientationEnums::CoordinateMajornessTerms`.
+* `itk::SpatialOrientation::ValidCoordinateOrientationFlags` became `itk::SpatialOrientationEnums::ValidCoordinateOrientations`.
+
+Enumeration member names (`ITK_COORDINATE_UNKNOWN`, `ITK_COORDINATE_Right`, `ITK_COORDINATE_PrimaryMinor`, `ITK_COORDINATE_ORIENTATION_RIP` etc) are unchanged.
+
 Consolidated Vector Filter
 --------------------------
 

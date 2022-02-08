@@ -49,8 +49,8 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
   inputImage->Allocate();
   inputImage->FillBuffer(0);
 
-  inputImage->SetDirection(
-    itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP));
+  inputImage->SetDirection(itk::SpatialOrientationAdapter().ToDirectionCosines(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP));
 
   // Add some metadata in the dictionary
   itk::MetaDataDictionary & inputDictionary = inputImage->GetMetaDataDictionary();

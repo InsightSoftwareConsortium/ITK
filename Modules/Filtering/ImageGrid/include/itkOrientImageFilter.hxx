@@ -31,104 +31,104 @@ OrientImageFilter<TInputImage, TOutputImage>::OrientImageFilter()
   : m_FlipAxes(false)
 {
   // Map between axis string labels and SpatialOrientation
-  m_StringToCode["RIP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
-  m_StringToCode["LIP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP;
-  m_StringToCode["RSP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
-  m_StringToCode["LSP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP;
-  m_StringToCode["RIA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA;
-  m_StringToCode["LIA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA;
-  m_StringToCode["RSA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
-  m_StringToCode["LSA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA;
-  m_StringToCode["IRP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP;
-  m_StringToCode["ILP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP;
-  m_StringToCode["SRP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP;
-  m_StringToCode["SLP"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP;
-  m_StringToCode["IRA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA;
-  m_StringToCode["ILA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA;
-  m_StringToCode["SRA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA;
-  m_StringToCode["SLA"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA;
-  m_StringToCode["RPI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
-  m_StringToCode["LPI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI;
-  m_StringToCode["RAI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
-  m_StringToCode["LAI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI;
-  m_StringToCode["RPS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS;
-  m_StringToCode["LPS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS;
-  m_StringToCode["RAS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS;
-  m_StringToCode["LAS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS;
-  m_StringToCode["PRI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI;
-  m_StringToCode["PLI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI;
-  m_StringToCode["ARI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI;
-  m_StringToCode["ALI"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI;
-  m_StringToCode["PRS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS;
-  m_StringToCode["PLS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS;
-  m_StringToCode["ARS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS;
-  m_StringToCode["ALS"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS;
-  m_StringToCode["IPR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR;
-  m_StringToCode["SPR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR;
-  m_StringToCode["IAR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR;
-  m_StringToCode["SAR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR;
-  m_StringToCode["IPL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL;
-  m_StringToCode["SPL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL;
-  m_StringToCode["IAL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL;
-  m_StringToCode["SAL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL;
-  m_StringToCode["PIR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
-  m_StringToCode["PSR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR;
-  m_StringToCode["AIR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
-  m_StringToCode["ASR"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR;
-  m_StringToCode["PIL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL;
-  m_StringToCode["PSL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL;
-  m_StringToCode["AIL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL;
-  m_StringToCode["ASL"] = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL;
+  m_StringToCode["RIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
+  m_StringToCode["LIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP;
+  m_StringToCode["RSP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
+  m_StringToCode["LSP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSP;
+  m_StringToCode["RIA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIA;
+  m_StringToCode["LIA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIA;
+  m_StringToCode["RSA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA;
+  m_StringToCode["LSA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSA;
+  m_StringToCode["IRP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRP;
+  m_StringToCode["ILP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILP;
+  m_StringToCode["SRP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRP;
+  m_StringToCode["SLP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLP;
+  m_StringToCode["IRA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRA;
+  m_StringToCode["ILA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILA;
+  m_StringToCode["SRA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRA;
+  m_StringToCode["SLA"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLA;
+  m_StringToCode["RPI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI;
+  m_StringToCode["LPI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPI;
+  m_StringToCode["RAI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
+  m_StringToCode["LAI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAI;
+  m_StringToCode["RPS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPS;
+  m_StringToCode["LPS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPS;
+  m_StringToCode["RAS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAS;
+  m_StringToCode["LAS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAS;
+  m_StringToCode["PRI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRI;
+  m_StringToCode["PLI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLI;
+  m_StringToCode["ARI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARI;
+  m_StringToCode["ALI"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALI;
+  m_StringToCode["PRS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRS;
+  m_StringToCode["PLS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLS;
+  m_StringToCode["ARS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARS;
+  m_StringToCode["ALS"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALS;
+  m_StringToCode["IPR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPR;
+  m_StringToCode["SPR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPR;
+  m_StringToCode["IAR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAR;
+  m_StringToCode["SAR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAR;
+  m_StringToCode["IPL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPL;
+  m_StringToCode["SPL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPL;
+  m_StringToCode["IAL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAL;
+  m_StringToCode["SAL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAL;
+  m_StringToCode["PIR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR;
+  m_StringToCode["PSR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSR;
+  m_StringToCode["AIR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
+  m_StringToCode["ASR"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASR;
+  m_StringToCode["PIL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL;
+  m_StringToCode["PSL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSL;
+  m_StringToCode["AIL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL;
+  m_StringToCode["ASL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL;
 
   // Map between axis string labels and SpatialOrientation
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP] = "RIP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP] = "LIP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP] = "RSP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP] = "LSP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA] = "RIA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA] = "LIA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA] = "RSA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA] = "LSA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP] = "IRP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP] = "ILP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP] = "SRP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP] = "SLP";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA] = "IRA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA] = "ILA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA] = "SRA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA] = "SLA";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI] = "RPI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI] = "LPI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI] = "RAI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI] = "LAI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS] = "RPS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS] = "LPS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS] = "RAS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS] = "LAS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI] = "PRI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI] = "PLI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI] = "ARI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI] = "ALI";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS] = "PRS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS] = "PLS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS] = "ARS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS] = "ALS";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR] = "IPR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR] = "SPR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR] = "IAR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR] = "SAR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL] = "IPL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL] = "SPL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL] = "IAL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL] = "SAL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR] = "PIR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR] = "PSR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR] = "AIR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR] = "ASR";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL] = "PIL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL] = "PSL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL] = "AIL";
-  m_CodeToString[SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP] = "RIP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP] = "LIP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP] = "RSP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSP] = "LSP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIA] = "RIA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIA] = "LIA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA] = "RSA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSA] = "LSA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRP] = "IRP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILP] = "ILP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRP] = "SRP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLP] = "SLP";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRA] = "IRA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILA] = "ILA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRA] = "SRA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLA] = "SLA";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI] = "RPI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPI] = "LPI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI] = "RAI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAI] = "LAI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPS] = "RPS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPS] = "LPS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAS] = "RAS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAS] = "LAS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRI] = "PRI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLI] = "PLI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARI] = "ARI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALI] = "ALI";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRS] = "PRS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLS] = "PLS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARS] = "ARS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALS] = "ALS";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPR] = "IPR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPR] = "SPR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAR] = "IAR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAR] = "SAR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPL] = "IPL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPL] = "SPL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAL] = "IAL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAL] = "SAL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR] = "PIR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSR] = "PSR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR] = "AIR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASR] = "ASR";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL] = "PIL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSL] = "PSL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL] = "AIL";
+  m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL] = "ASL";
 
   for (unsigned int dimension = 0; dimension < InputImageDimension; ++dimension)
   {
@@ -186,8 +186,8 @@ OrientImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataO
 template <typename TInputImage, typename TOutputImage>
 void
 OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
-  const SpatialOrientation::ValidCoordinateOrientationFlags fixed_orient,
-  const SpatialOrientation::ValidCoordinateOrientationFlags moving_orient)
+  const SpatialOrientationEnums::ValidCoordinateOrientations fixed_orient,
+  const SpatialOrientationEnums::ValidCoordinateOrientations moving_orient)
 {
   // 3-dimensional version of code system only. The 3-axis testing is unrolled.
   constexpr unsigned int NumDims = 3;        // InputImageDimension is
@@ -196,15 +196,33 @@ OrientImageFilter<TInputImage, TOutputImage>::DeterminePermutationsAndFlips(
   constexpr unsigned int CodeAxisField = 14; // 3 bits wide, above the
                                              // 0-place bit.
   constexpr unsigned int CodeAxisIncreasingField = 1;
-  unsigned int           fixed_codes[NumDims];
-  unsigned int           moving_codes[NumDims];
+  uint32_t               fixed_codes[NumDims];
+  uint32_t               moving_codes[NumDims];
 
-  fixed_codes[0] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  fixed_codes[1] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  fixed_codes[2] = (fixed_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
-  moving_codes[0] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & CodeField;
-  moving_codes[1] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & CodeField;
-  moving_codes[2] = (moving_orient >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & CodeField;
+  fixed_codes[0] =
+    (static_cast<uint32_t>(fixed_orient) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_PrimaryMinor)) &
+    CodeField;
+  fixed_codes[1] =
+    (static_cast<uint32_t>(fixed_orient) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_SecondaryMinor)) &
+    CodeField;
+  fixed_codes[2] =
+    (static_cast<uint32_t>(fixed_orient) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)) &
+    CodeField;
+  moving_codes[0] =
+    (static_cast<uint32_t>(moving_orient) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_PrimaryMinor)) &
+    CodeField;
+  moving_codes[1] =
+    (static_cast<uint32_t>(moving_orient) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_SecondaryMinor)) &
+    CodeField;
+  moving_codes[2] =
+    (static_cast<uint32_t>(moving_orient) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)) &
+    CodeField;
 
   // i, j, k will be the indexes in the Majorness code of the axes to flip;
   // they encode the axes as the reader will find them, 0 is the lowest order
@@ -332,107 +350,108 @@ OrientImageFilter<TInputImage, TOutputImage>::NeedToFlip()
 #if defined(DefinedDebugOrient)
 #  define DEBUG_EXECUTE(X) X
 
-using SO_OrientationType = itk::SpatialOrientation::ValidCoordinateOrientationFlags;
+using SO_OrientationType = itk::SpatialOrientationEnums::ValidCoordinateOrientations;
+
 std::string
 SO_OrientationToString(SO_OrientationType in)
 {
   switch (in)
   {
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RIP:
       return std::string("RIP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LIP:
       return std::string("LIP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RSP:
       return std::string("RSP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LSP:
       return std::string("LSP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RIA:
       return std::string("RIA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LIA:
       return std::string("LIA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RSA:
       return std::string("RSA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LSA:
       return std::string("LSA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_IRP:
       return std::string("IRP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ILP:
       return std::string("ILP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SRP:
       return std::string("SRP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SLP:
       return std::string("SLP");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_IRA:
       return std::string("IRA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ILA:
       return std::string("ILA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SRA:
       return std::string("SRA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SLA:
       return std::string("SLA");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RPI:
       return std::string("RPI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LPI:
       return std::string("LPI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RAI:
       return std::string("RAI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LAI:
       return std::string("LAI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RPS:
       return std::string("RPS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LPS:
       return std::string("LPS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_RAS:
       return std::string("RAS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_LAS:
       return std::string("LAS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PRI:
       return std::string("PRI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PLI:
       return std::string("PLI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ARI:
       return std::string("ARI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ALI:
       return std::string("ALI");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PRS:
       return std::string("PRS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PLS:
       return std::string("PLS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ARS:
       return std::string("ARS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ALS:
       return std::string("ALS");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_IPR:
       return std::string("IPR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SPR:
       return std::string("SPR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_IAR:
       return std::string("IAR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SAR:
       return std::string("SAR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_IPL:
       return std::string("IPL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SPL:
       return std::string("SPL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_IAL:
       return std::string("IAL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_SAL:
       return std::string("SAL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PIR:
       return std::string("PIR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PSR:
       return std::string("PSR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_AIR:
       return std::string("AIR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ASR:
       return std::string("ASR");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PIL:
       return std::string("PIL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_PSL:
       return std::string("PSL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_AIL:
       return std::string("AIL");
-    case itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
+    case SO_OrientationType::ITK_COORDINATE_ORIENTATION_ASL:
       return "ASL";
     default:
     {

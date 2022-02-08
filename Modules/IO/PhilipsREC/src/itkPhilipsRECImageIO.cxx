@@ -713,7 +713,7 @@ PhilipsRECImageIO::ReadImageInformation()
   AffineMatrix spacing;
   spacing.SetIdentity();
 
-  SpatialOrientation::ValidCoordinateOrientationFlags coord_orient;
+  SpatialOrientationEnums::ValidCoordinateOrientations coord_orient;
 
   switch (par.sliceorient)
   {

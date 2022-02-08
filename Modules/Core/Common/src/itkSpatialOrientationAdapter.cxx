@@ -32,10 +32,11 @@ namespace itk
 SpatialOrientationAdapter::OrientationType
 SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
 {
+  using SpatialOrientationTerms = SpatialOrientationEnums::CoordinateTerms;
 
-  SpatialOrientation::CoordinateTerms terms[3] = { SpatialOrientation::ITK_COORDINATE_UNKNOWN,
-                                                   SpatialOrientation::ITK_COORDINATE_UNKNOWN,
-                                                   SpatialOrientation::ITK_COORDINATE_UNKNOWN };
+  SpatialOrientationTerms terms[3] = { SpatialOrientationTerms::ITK_COORDINATE_UNKNOWN,
+                                       SpatialOrientationTerms::ITK_COORDINATE_UNKNOWN,
+                                       SpatialOrientationTerms::ITK_COORDINATE_UNKNOWN };
 
 
   std::multimap<double, std::pair<unsigned int, unsigned int>> value_to_idx;
@@ -68,26 +69,25 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
       }
     }
 
-
     switch (max_c)
     {
       case 0:
       {
         // When the dominant axis sign is positive, assign the coordinate for the direction we are increasing away from.
         terms[max_r] =
-          (max_sgn == 1) ? SpatialOrientation::ITK_COORDINATE_Right : SpatialOrientation::ITK_COORDINATE_Left;
+          (max_sgn == 1) ? SpatialOrientationTerms::ITK_COORDINATE_Right : SpatialOrientationTerms::ITK_COORDINATE_Left;
         break;
       }
       case 1:
       {
-        terms[max_r] =
-          (max_sgn == 1) ? SpatialOrientation::ITK_COORDINATE_Anterior : SpatialOrientation::ITK_COORDINATE_Posterior;
+        terms[max_r] = (max_sgn == 1) ? SpatialOrientationTerms::ITK_COORDINATE_Anterior
+                                      : SpatialOrientationTerms::ITK_COORDINATE_Posterior;
         break;
       }
       case 2:
       {
-        terms[max_r] =
-          (max_sgn == 1) ? SpatialOrientation::ITK_COORDINATE_Inferior : SpatialOrientation::ITK_COORDINATE_Superior;
+        terms[max_r] = (max_sgn == 1) ? SpatialOrientationTerms::ITK_COORDINATE_Inferior
+                                      : SpatialOrientationTerms::ITK_COORDINATE_Superior;
         break;
       }
       default:
@@ -98,64 +98,77 @@ SpatialOrientationAdapter::FromDirectionCosines(const DirectionType & Dir)
 
   //
   // all terms must be defined, otherwise just punt
-  if (terms[0] == SpatialOrientation::ITK_COORDINATE_UNKNOWN ||
-      terms[1] == SpatialOrientation::ITK_COORDINATE_UNKNOWN || terms[2] == SpatialOrientation::ITK_COORDINATE_UNKNOWN)
+  if (terms[0] == SpatialOrientationTerms::ITK_COORDINATE_UNKNOWN ||
+      terms[1] == SpatialOrientationTerms::ITK_COORDINATE_UNKNOWN ||
+      terms[2] == SpatialOrientationTerms::ITK_COORDINATE_UNKNOWN)
   {
-    return SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+    return SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
   }
 
-  return static_cast<SpatialOrientation::ValidCoordinateOrientationFlags>(
-    (terms[0] << SpatialOrientation::ITK_COORDINATE_PrimaryMinor) +
-    (terms[1] << SpatialOrientation::ITK_COORDINATE_SecondaryMinor) +
-    (terms[2] << SpatialOrientation::ITK_COORDINATE_TertiaryMinor));
+  return static_cast<SpatialOrientationEnums::ValidCoordinateOrientations>(
+    (static_cast<uint32_t>(terms[0]) << static_cast<uint32_t>(
+       SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_PrimaryMinor)) +
+    (static_cast<uint32_t>(terms[1]) << static_cast<uint32_t>(
+       SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_SecondaryMinor)) +
+    (static_cast<uint32_t>(terms[2]) << static_cast<uint32_t>(
+       SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)));
 }
 
 SpatialOrientationAdapter::DirectionType
 SpatialOrientationAdapter::ToDirectionCosines(const OrientationType & Or)
 {
-  using CoordinateTerms = SpatialOrientation::CoordinateTerms;
+  using CoordinateTerms = SpatialOrientationEnums::CoordinateTerms;
 
   CoordinateTerms terms[3];
-  terms[0] = static_cast<CoordinateTerms>((Or >> SpatialOrientation::ITK_COORDINATE_PrimaryMinor) & 0xff);
-  terms[1] = static_cast<CoordinateTerms>((Or >> SpatialOrientation::ITK_COORDINATE_SecondaryMinor) & 0xff);
-  terms[2] = static_cast<CoordinateTerms>((Or >> SpatialOrientation::ITK_COORDINATE_TertiaryMinor) & 0xff);
+  terms[0] = static_cast<CoordinateTerms>(
+    (static_cast<uint32_t>(Or) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_PrimaryMinor)) &
+    0xff);
+  terms[1] = static_cast<CoordinateTerms>(
+    (static_cast<uint32_t>(Or) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_SecondaryMinor)) &
+    0xff);
+  terms[2] = static_cast<CoordinateTerms>(
+    (static_cast<uint32_t>(Or) >>
+     static_cast<uint32_t>(SpatialOrientationEnums::CoordinateMajornessTerms::ITK_COORDINATE_TertiaryMinor)) &
+    0xff);
   DirectionType direction;
   direction.Fill(0.0);
   for (unsigned int i = 0; i < DirectionType::ColumnDimensions; ++i)
   {
     switch (terms[i])
     {
-      case SpatialOrientation::ITK_COORDINATE_Right:
+      case CoordinateTerms::ITK_COORDINATE_Right:
         direction[0][i] = 1;
         break;
-      case SpatialOrientation::ITK_COORDINATE_Left:
+      case CoordinateTerms::ITK_COORDINATE_Left:
         direction[0][i] = -1;
         break;
-      case SpatialOrientation::ITK_COORDINATE_Anterior:
+      case CoordinateTerms::ITK_COORDINATE_Anterior:
         if (DirectionType::RowDimensions > 1)
         {
           direction[1][i] = 1;
         }
         break;
-      case SpatialOrientation::ITK_COORDINATE_Posterior:
+      case CoordinateTerms::ITK_COORDINATE_Posterior:
         if (DirectionType::RowDimensions > 1)
         {
           direction[1][i] = -1;
         }
         break;
-      case SpatialOrientation::ITK_COORDINATE_Inferior:
+      case CoordinateTerms::ITK_COORDINATE_Inferior:
         if (DirectionType::RowDimensions > 2)
         {
           direction[2][i] = 1;
         }
         break;
-      case SpatialOrientation::ITK_COORDINATE_Superior:
+      case CoordinateTerms::ITK_COORDINATE_Superior:
         if (DirectionType::RowDimensions > 2)
         {
           direction[2][i] = -1;
         }
         break;
-      case SpatialOrientation::ITK_COORDINATE_UNKNOWN:
+      case CoordinateTerms::ITK_COORDINATE_UNKNOWN:
       default:
         // TODO:  Should there be a default?  Throw an exception?
         break;

@@ -226,8 +226,8 @@ template <typename ImageType>
 typename ImageType::DirectionType
 CORDirCosines()
 {
-  typename itk::SpatialOrientationAdapter::DirectionType CORdir =
-    itk::SpatialOrientationAdapter().ToDirectionCosines(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  typename itk::SpatialOrientationAdapter::DirectionType CORdir = itk::SpatialOrientationAdapter().ToDirectionCosines(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP);
   typename ImageType::DirectionType dir;
   for (unsigned int i = 0; i < ImageType::ImageDimension; ++i)
   {

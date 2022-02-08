@@ -162,7 +162,8 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
     // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRP; // was SLA in the
     // brains2 filter.
-    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+    hdr->coordinateOrientation =
+      itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
   }
   else if (strstr(tmpStr, "SAGITTAL") != nullptr)
   {
@@ -170,7 +171,8 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
     // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRA;  //was SLP in the
     // brains2 filter.
-    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR;
+    hdr->coordinateOrientation =
+      itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
   }
   else if (strstr(tmpStr, "AXIAL") != nullptr)
   {
@@ -178,14 +180,16 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
     // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRA;  //was SLP in the
     // brains2 filter.
-    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+    hdr->coordinateOrientation =
+      itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
   }
   else
   {
     // hdr->imagePlane =
     // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
     // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRP; // was SLA
-    hdr->coordinateOrientation = itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+    hdr->coordinateOrientation =
+      itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
   }
   // RGEDEBUG(std::sprintf (debugbuf, "Plane = %d\n", hdr->imagePlane); cerr <<
   // debugbuf;)

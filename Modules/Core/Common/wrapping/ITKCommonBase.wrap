@@ -87,3 +87,6 @@ itk_wrap_simple_class("itk::MeshEnums")
 itk_wrap_simple_class("itk::OctreeEnums")
 itk_wrap_simple_class("itk::ObjectEnums")
 itk_wrap_simple_class("itk::ObjectFactoryEnums")
+
+itk_wrap_include("itkSpatialOrientation.h")
+itk_wrap_simple_class("itk::SpatialOrientationEnums")

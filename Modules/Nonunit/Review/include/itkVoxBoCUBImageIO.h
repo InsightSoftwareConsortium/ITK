@@ -116,7 +116,7 @@ private:
   InitializeOrientationMap();
 
   // Orientation stuff
-  using OrientationFlags = SpatialOrientation::ValidCoordinateOrientationFlags;
+  using OrientationFlags = SpatialOrientationEnums::ValidCoordinateOrientations;
   using OrientationMap = std::map<std::string, OrientationFlags>;
   using InverseOrientationMap = std::map<OrientationFlags, std::string>;
 
