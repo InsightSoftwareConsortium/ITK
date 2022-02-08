@@ -237,9 +237,9 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   // Multiplier for getting inverse Jacobian
   TParametersValueType dPixSign = NumericTraits<TParametersValueType>::OneValue();
   dPixSign = doInverseJacobian ? -dPixSign : dPixSign;
-  for (unsigned int row = 0; row < NDimensions; ++row)
+  for (unsigned int i = 0; i < NDimensions; ++i)
   {
-    if (index[row] <= startingIndex[row] || index[row] >= upperIndex[row])
+    if (index[i] <= startingIndex[i] || index[i] >= upperIndex[i])
     {
       isValidJacobianCalcLocat = false;
       break;
@@ -250,44 +250,50 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   {
     // itkCentralDifferenceImageFunction does not support 4th order so
     // do manually here
-    for (unsigned int row = 0; row < NDimensions; ++row)
+    for (unsigned int col = 0; col < NDimensions; ++col)
     {
       IndexType difIndex[4] = {index, index, index, index};
-      difIndex[0][row] -= 2;
-      difIndex[1][row] -= 1;
-      difIndex[2][row] += 1;
-      difIndex[3][row] += 2;
-      if (difIndex[0][row] < startingIndex[row])
+      difIndex[0][col] -= 2;
+      difIndex[1][col] -= 1;
+      difIndex[2][col] += 1;
+      difIndex[3][col] += 2;
+      if (difIndex[0][col] < startingIndex[col])
       {
-        difIndex[0][row] = startingIndex[row];
+        difIndex[0][col] = startingIndex[col];
       }
-      if (difIndex[3][row] > upperIndex[row])
+      if (difIndex[3][col] > upperIndex[col])
       {
-        difIndex[3][row] = upperIndex[row];
+        difIndex[3][col] = upperIndex[col];
       }
 
       OutputVectorType pixDisp[4];
       for(unsigned int i = 0; i < 4; ++i)
       {
-        const OutputVectorType tempPix = m_DisplacementField->GetPixel(difIndex[i]);
-        pixDisp[i] = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
+        pixDisp[i] = m_DisplacementField->GetPixel(difIndex[i]);
       }
 
       // 4th order centered difference
-      OutputVectorType dPix = (pixDisp[0] - pixDisp[1] * 8.0 + pixDisp[2] * 8.0 - pixDisp[3]) / (12.0 * space * spacing[row]) * dPixSign;
+      OutputVectorType dPix = (pixDisp[0] - pixDisp[1] * 8.0 + pixDisp[2] * 8.0 - pixDisp[3]) / (12.0 * space * spacing[col]) * dPixSign;
 
-      dPix[row] += 1.0;
-      for (unsigned int col = 0; col < NDimensions; ++col)
+      for (unsigned int row = 0; row < NDimensions; ++row)
       {
-        jacobian(col, row) = dPix[col];
+        jacobian(row, col) = dPix[row];
         // Verify it's a real number
-        if (!itk::Math::isfinite(dPix[col]))
+        if (!itk::Math::isfinite(dPix[row]))
         {
           isValidJacobianCalcLocat = false;
           break;
         }
       }
-    } // for row
+    } // for col
+    
+    for (unsigned int row = 0; row < NDimensions; ++row)
+    {
+      FixedArray<TParametersValueType, NDimensions> localComponentGrad(jacobian[row]);
+      FixedArray<TParametersValueType, NDimensions>  physicalComponentGrad = m_DisplacementField->TransformLocalVectorToPhysicalVector(localComponentGrad);
+      jacobian.set_row(row, physicalComponentGrad.data());
+      jacobian(row, row) += 1.;
+    }
   }   // if isValidJacobianCalcLocat
 
   if (!isValidJacobianCalcLocat)
