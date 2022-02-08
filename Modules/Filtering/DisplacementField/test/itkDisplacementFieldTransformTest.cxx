@@ -293,6 +293,12 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   fieldJTruth(0, 1) = 0.02;
   fieldJTruth(1, 1) = 1.1;
 
+  /* Test the correctness of the Jacobian computation with anisotropic spacing */
+  FieldType::SpacingType anisotropicSpacing;
+  anisotropicSpacing[0] = 1.0;
+  anisotropicSpacing[1] = 0.8;
+  field->SetSpacing(anisotropicSpacing);
+
   itk::ImageRegionIteratorWithIndex<FieldType> it(field, field->GetLargestPossibleRegion());
   it.GoToBegin();
 

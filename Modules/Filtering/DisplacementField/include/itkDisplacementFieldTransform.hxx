@@ -303,7 +303,7 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
       //      ( lpix - rpix )*space/(2.0*h); //2nd order centered difference
       for (unsigned int col = 0; col < NDimensions; ++col)
       {
-        TParametersValueType val = dPix[col] / spacing[col];
+        TParametersValueType val = dPix[col] / spacing[row];
         if (row == col)
         {
           val += 1.0;
