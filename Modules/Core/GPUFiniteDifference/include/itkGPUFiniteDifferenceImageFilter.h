@@ -241,11 +241,11 @@ protected:
    * \param timeStepList The set of time changes compiled from all the threaded calls
    * to ThreadedGenerateData.
    * \param valid The set of flags indicating which of "timeStepList" elements are
-   *  valid. Although they are uint8_t, they should be treated like bools.
+   *  valid.
    *
    * The default is to return the minimum value in the list. */
   TimeStepType
-  ResolveTimeStep(const std::vector<TimeStepType> & timeStepList, const std::vector<uint8_t> & valid) const override;
+  ResolveTimeStep(const std::vector<TimeStepType> & timeStepList, const BooleanStdVectorType & valid) const override;
 
   /** This method is called after the solution has been generated to allow
    * subclasses to apply some further processing to the output. */

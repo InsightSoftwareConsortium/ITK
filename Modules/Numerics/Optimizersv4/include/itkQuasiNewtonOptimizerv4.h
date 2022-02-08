@@ -19,6 +19,7 @@
 #define itkQuasiNewtonOptimizerv4_h
 
 #include "itkArray2D.h"
+#include "itkBooleanStdVector.h"
 #include "itkGradientDescentOptimizerv4.h"
 
 #include "vnl/algo/vnl_matrix_inverse.h"
@@ -152,10 +153,8 @@ protected:
   HessianArrayType m_HessianArray;
 
   /** Valid flag for the Quasi-Newton steps.
-   * NB: although semantically boolean, vector<bool> is not thread safe due to the possibility of multiple bits being
-   * packed together in the same memory location.
    */
-  std::vector<uint8_t> m_NewtonStepValidFlags;
+  BooleanStdVectorType m_NewtonStepValidFlags;
 
   /** Estimate a Newton step */
   virtual void
