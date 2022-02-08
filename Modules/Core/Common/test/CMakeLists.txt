@@ -605,6 +605,7 @@ endif()
 
 set(ITKCommonGTests
       itkAggregateTypesGTest.cxx
+      itkBooleanStdVectorGTest.cxx
       itkBuildInformationGTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
       itkConstantBoundaryImageNeighborhoodPixelAccessPolicyGTest.cxx
