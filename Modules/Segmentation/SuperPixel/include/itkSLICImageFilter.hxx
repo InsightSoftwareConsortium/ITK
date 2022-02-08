@@ -128,7 +128,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::BeforeThreadedGenera
 
     shrunkImage = shrinker->GetOutput();
   }
-  itkDebugMacro("Shinking Completed");
+  itkDebugMacro("Shrinking Completed");
 
   const typename InputImageType::RegionType region = inputImage->GetBufferedRegion();
   const unsigned int                        numberOfComponents = inputImage->GetNumberOfComponentsPerPixel();
