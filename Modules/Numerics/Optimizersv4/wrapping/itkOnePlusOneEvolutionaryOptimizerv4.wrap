@@ -1,0 +1,12 @@
+itk_wrap_class("itk::OnePlusOneEvolutionaryOptimizerv4" POINTER)
+
+  # can't include ${WRAP_ITK_REAL} because of issue where
+  # OnePlusOneEvolutionaryOptimizerv4 can't be instantiated with float
+#  UNIQUE(types "D")
+#  foreach(t ${types})
+#    itk_wrap_template("${ITKM_${t}}" "${ITKT_${t}}")
+#  endforeach()
+
+  itk_wrap_template("${ITKM_D}" "${ITKT_D}")
+
+itk_end_wrap_class()

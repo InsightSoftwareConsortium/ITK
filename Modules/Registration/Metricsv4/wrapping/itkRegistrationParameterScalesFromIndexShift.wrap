@@ -1,0 +1,15 @@
+include("itkMetricv4Types.wrap")
+
+foreach(h ${ITK_METRICV4_HEADERS})
+   itk_wrap_include(${h})
+endforeach()
+
+# this class doesn't work with PointSetToPoinSet metrics and so only instantiate with ImageToImage metrics
+itk_wrap_class("itk::RegistrationParameterScalesFromIndexShift" POINTER_WITH_2_SUPERCLASSES)
+  foreach(z ${ITK_METRICV4_IMAGE_TYPES})
+    itk_sublist_to_list(y ${z})
+    list(GET y 0 my_mangle)
+    list(GET y 1 my_cpp)
+    itk_wrap_template(${my_mangle} ${my_cpp})
+  endforeach()
+itk_end_wrap_class()

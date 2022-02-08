@@ -4,6 +4,18 @@ set(WRAPPER_SUBMODULE_ORDER
   itkLBFGSOptimizerBasev4
   itkLBFGSOptimizerBaseHelperv4
   itkLBFGSBOptimizerv4
+  itkLBFGSOptimizerv4
+  itkAmoebaOptimizerv4
+  itkGradientDescentLineSearchOptimizerv4
+  itkConjugateGradientLineSearchOptimizerv4
+  itkExhaustiveOptimizerv4
+  itkMultiGradientOptimizerv4
+  itkMultiStartOptimizerv4
+  itkPowellOptimizerv4
+  itkQuasiNewtonOptimizerv4
+  itkRegularStepGradientDescentOptimizerv4
+  itkOnePlusOneEvolutionaryOptimizerv4
+  itkCommandIterationUpdatev4
 )
 itk_auto_load_submodules()
 itk_end_wrap_module()
