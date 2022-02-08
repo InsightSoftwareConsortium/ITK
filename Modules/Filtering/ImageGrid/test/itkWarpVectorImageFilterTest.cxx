@@ -197,13 +197,14 @@ itkWarpVectorImageFilterTest(int, char *[])
   warper->SetOutputSpacing(array.GetDataPointer());
   ITK_TEST_SET_GET_VALUE(array, warper->GetOutputSpacing());
 
-  array.Fill(-10.0);
-  warper->SetOutputOrigin(array.GetDataPointer());
-  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputOrigin());
+  WarperType::PointType ptarray;
+  ptarray.Fill(-10.0);
+  warper->SetOutputOrigin(ptarray.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(ptarray, warper->GetOutputOrigin());
 
-  array.Fill(0.0);
-  warper->SetOutputOrigin(array.GetDataPointer());
-  ITK_TEST_SET_GET_VALUE(array, warper->GetOutputOrigin());
+  ptarray.Fill(0.0);
+  warper->SetOutputOrigin(ptarray.GetDataPointer());
+  ITK_TEST_SET_GET_VALUE(ptarray, warper->GetOutputOrigin());
 
   typename WarperType::DirectionType outputDirection;
   outputDirection.SetIdentity();
