@@ -804,8 +804,9 @@ MetaImageIO ::Write(const void * buffer)
 
   if (numberOfDimensions == 3)
   {
-    SpatialOrientation::ValidCoordinateOrientationFlags coordOrient =
-      SpatialOrientation::ITK_COORDINATE_ORIENTATION_INVALID;
+    using SpatialOrientations = SpatialOrientationEnums::ValidCoordinateOrientations;
+    SpatialOrientations coordOrient = SpatialOrientations::ITK_COORDINATE_ORIENTATION_INVALID;
+
     std::vector<double>                      dirx, diry, dirz;
     SpatialOrientationAdapter::DirectionType dir;
     dirx = this->GetDirection(0);
@@ -822,74 +823,74 @@ MetaImageIO ::Write(const void * buffer)
     switch (coordOrient)
     {
       default:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP:
       {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_RL);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSP:
       {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_LR);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ALI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ALS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ARI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ARS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASR:
       {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_AP);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PLI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PLS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PRI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PRS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSR:
       {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_PA);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP:
       {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_IS);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP:
       {
         m_MetaImage.AnatomicalOrientation(0, MET_ORIENTATION_SI);
         break;
@@ -897,75 +898,75 @@ MetaImageIO ::Write(const void * buffer)
     }
     switch (coordOrient)
     {
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PRI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PRS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ARI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ARS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP:
       {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_RL);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PLI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PLS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ALI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ALS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP:
       {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_LR);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAR:
       {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_AP);
         break;
       }
       default:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR:
       {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_PA);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIP:
       {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_IS);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP:
       {
         m_MetaImage.AnatomicalOrientation(1, MET_ORIENTATION_SI);
         break;
@@ -973,75 +974,75 @@ MetaImageIO ::Write(const void * buffer)
     }
     switch (coordOrient)
     {
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAR:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPR:
       {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_RL);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PIL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PSL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_AIL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ASL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IAL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IPL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SAL:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SPL:
       {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_LR);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLA:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRA:
       {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_AP);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LIP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LSP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RIP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RSP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ILP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_IRP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SLP:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_SRP:
       {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_PA);
         break;
       }
       default:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PLI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PRI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ALI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ARI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAI:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPI:
       {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_IS);
         break;
       }
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS:
-      case SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PLS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_PRS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ALS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_ARS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LAS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_LPS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RAS:
+      case SpatialOrientations::ITK_COORDINATE_ORIENTATION_RPS:
       {
         m_MetaImage.AnatomicalOrientation(2, MET_ORIENTATION_SI);
         break;

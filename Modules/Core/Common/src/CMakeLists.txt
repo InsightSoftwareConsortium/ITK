@@ -144,7 +144,8 @@ set(ITKCommon_SRCS
   itkLoggerThreadWrapper.cxx
   itkFrustumSpatialFunction.cxx
   itkObjectStore.cxx
-        itkGaussianDerivativeOperator.cxx
+  itkGaussianDerivativeOperator.cxx
+  itkSpatialOrientation.cxx
   )
 
 if(WIN32)

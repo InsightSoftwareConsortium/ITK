@@ -229,242 +229,290 @@ itkOrientImageFilterTest2(int, char *[])
 
   orienter->SetInput(axialImage);
   std::cout << "RIP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LIP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RSP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LSP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RIA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LIA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LIA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RSA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LSA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LSA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LSA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "IRP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ILP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SRP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SLP" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLP);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLP);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "IRA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IRA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IRA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ILA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ILA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ILA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SRA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SRA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SRA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SLA" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SLA);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SLA);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RPI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LPI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RAI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LAI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RPS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LPS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LPS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LPS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "RAS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "LAS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_LAS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LAS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PRI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PLI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ARI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ALI" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALI);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALI);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PRS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PRS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PRS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PLS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PLS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PLS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ARS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ARS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ARS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ALS" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ALS);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ALS);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "IPR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SPR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "IAR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SAR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "IPL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IPL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IPL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SPL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SPL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SPL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "IAL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_IAL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_IAL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "SAL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_SAL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_SAL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PIR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PSR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "AIR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ASR" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASR);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASR);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PIL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "PSL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_PSL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PSL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "AIL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_AIL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 
   std::cout << "ASL" << std::endl;
-  orienter->SetDesiredCoordinateOrientation(itk::SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL);
+  orienter->SetDesiredCoordinateOrientation(
+    itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL);
   orienter->Update();
   std::cout << orienter->GetOutput()->GetDirection() << std::endl;
 

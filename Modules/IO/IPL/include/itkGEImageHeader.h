@@ -85,13 +85,13 @@ struct GEImageHeader
   short int imageYsize;
   float     imageXres;
   float     imageYres;
-  itk::SpatialOrientation::ValidCoordinateOrientationFlags coordinateOrientation;
-  short int                                                numberOfSlices;
-  short int                                                offset;
-  char                                                     filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
-  char                                                     hospital[35];
-  char                                                     modality[4];
-  short int                                                imagesPerSlice;
+  itk::SpatialOrientationEnums::ValidCoordinateOrientations coordinateOrientation;
+  short int                                                 numberOfSlices;
+  short int                                                 offset;
+  char                                                      filename[itk::IOCommon::ITK_MAXPATHLEN + 1];
+  char                                                      hospital[35];
+  char                                                      modality[4];
+  short int                                                 imagesPerSlice;
   short int turboFactor; // This is only relevant for the geADW image format, but
                          // is put here for convenience
 };

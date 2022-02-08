@@ -1812,25 +1812,25 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
       switch (this->m_NiftiImage->analyze75_orient)
       {
         case a75_transverse_unflipped:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RPI;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RPI;
           break;
         case a75_sagittal_unflipped:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIR;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIR;
           break;
         case a75_coronal_unflipped:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
           break;
         case a75_transverse_flipped:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
           break;
         case a75_sagittal_flipped:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_PIL;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_PIL;
           break;
         case a75_coronal_flipped:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSP;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
           break;
         case a75_orient_unknown:
-          orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RIP;
+          orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
           break;
       }
       const SpatialOrientationAdapter::DirectionType dir = OrientAdapterType().ToDirectionCosines(orient);

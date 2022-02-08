@@ -75,19 +75,19 @@ Sign(double x)
 } // namespace Function
 
 /** \class SpatialOrientationAdapter
- *  \brief Converts SpatialOrientation flags to/from direction cosines.
+ *  \brief Converts SpatialOrientationEnums to/from direction cosines.
  * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT SpatialOrientationAdapter
-  : public OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags, 3>
+  : public OrientationAdapterBase<SpatialOrientationEnums::ValidCoordinateOrientations, 3>
 {
 public:
   /** type alias for superclass */
   using Self = SpatialOrientationAdapter;
 
-  using Superclass = OrientationAdapterBase<SpatialOrientation::ValidCoordinateOrientationFlags, 3>;
+  using Superclass = OrientationAdapterBase<SpatialOrientationEnums::ValidCoordinateOrientations, 3>;
 
-  using OrientationType = SpatialOrientation::ValidCoordinateOrientationFlags;
+  using OrientationType = SpatialOrientationEnums::ValidCoordinateOrientations;
 
   /** type alias for direction cosines */
   using DirectionType = Superclass::DirectionType;
