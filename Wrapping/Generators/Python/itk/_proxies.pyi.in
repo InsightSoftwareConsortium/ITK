@@ -1,0 +1,5 @@
+# Python proxy import file
+# This file allows the wrapped classes (both templates and proxies)
+# to import proxy classes without exposing the Proxy classes to a user
+# This also allows the imports to be done in other files without knowing the classes file name
+${ITK_STUB_PROXY_IMPORTS}

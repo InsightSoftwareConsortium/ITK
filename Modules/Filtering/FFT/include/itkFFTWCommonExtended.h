@@ -46,8 +46,8 @@ class ComplexToComplexProxy
 {
   // empty -- only double and float specializations work
 protected:
-  ComplexToComplexProxy(){};
-  ~ComplexToComplexProxy(){};
+  ComplexToComplexProxy() = default;
+  ~ComplexToComplexProxy() = default;
 };
 
 #if defined(ITK_USE_FFTWF)

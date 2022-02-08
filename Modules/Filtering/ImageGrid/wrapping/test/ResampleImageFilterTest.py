@@ -130,11 +130,7 @@ ImageType = itk.Image[itk.F, 3]
 
 resample = itk.ResampleImageFilter[ImageType, ImageType].New()
 interpolator = itk.WindowedSincInterpolateImageFunction[
-    ImageType,
-    3,
-    itk.HammingWindowFunction[
-        3,
-    ],
+    ImageType, 3, itk.HammingWindowFunction[3,]
 ].New()
 resample.SetInterpolator(interpolator)
 

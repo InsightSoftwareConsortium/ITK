@@ -25,10 +25,7 @@
 namespace itk
 {
 template <typename TInputImage, typename TOutputImage>
-ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ComplexToComplex1DFFTImageFilter()
-  : m_Direction(0)
-  , m_TransformDirection(DIRECT)
-{}
+ComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::ComplexToComplex1DFFTImageFilter() = default;
 
 
 template <typename TInputImage, typename TOutputImage>

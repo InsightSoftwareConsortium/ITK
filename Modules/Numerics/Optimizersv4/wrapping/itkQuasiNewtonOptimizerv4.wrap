@@ -1,4 +1,5 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+
 itk_wrap_include("itkQuasiNewtonOptimizerv4.h")
 itk_wrap_class("itk::QuasiNewtonOptimizerv4Template" POINTER)
   UNIQUE(types "D;${WRAP_ITK_REAL}")

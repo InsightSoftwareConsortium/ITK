@@ -200,7 +200,7 @@ def generate_class_pyi_def(
         )
 
     outputPYIMethodFile.write(
-        f"class _{class_name}Proxy({itk_class.parent_class}):\n"  # if
+        f"class {class_name}Proxy({itk_class.parent_class}):\n"  # if
     )
 
     if itk_class.is_enum and len(itk_class.enums) > 0:
@@ -647,6 +647,7 @@ class SwigInputGenerator(object):
 
         # A dict of sets containing the .pyi python equivalent for all class methods and params
         self.classes = classes
+        self.python_parent_imports = []
         self.current_class = ""
 
         # a dict to let us use the alias name instead of the full c++ name. Without
@@ -1616,17 +1617,9 @@ if _version_info < (3, 7, 0):
                 typedef.name.replace("_Superclass", "")
             )
             # Skip wrapping for the following
-            if (
-                typedef.name.endswith(
-                    (
-                        "_Pointer",
-                        "_AutoPointer",
-                        "_ConstPointer",
-                        "Factory",
-                    )
-                )
-                or self.current_class in ["stdcomplex", "stdnumeric_limits"]
-            ):
+            if typedef.name.endswith(
+                ("_Pointer", "_AutoPointer", "_ConstPointer", "Factory")
+            ) or self.current_class in ["stdcomplex", "stdnumeric_limits"]:
                 self.current_class = None
             elif self.current_class not in self.classes:
                 self.classes[self.current_class] = ITKClass(self.current_class)
@@ -1664,6 +1657,9 @@ if _version_info < (3, 7, 0):
                     # just ignore it
                     if ":" in base:
                         continue
+
+                    if base not in self.python_parent_imports:
+                        self.python_parent_imports.append(base)
 
                     if self.classes[self.current_class].parent_class == "":
                         self.classes[self.current_class].parent_class = f"_{base}Proxy"
@@ -1729,10 +1725,10 @@ if _version_info < (3, 7, 0):
                 f.write(content)
 
 
-def init_submodule_pyi_file(pyiFile: Path, submodule_name: str) -> None:
+def init_submodule_pyi_template_file(pyiFile: Path, submodule_name: str) -> None:
     with open(pyiFile, "w") as pyiFile:
         pyiFile.write(
-            f"""# Interface and Interface methods for submodule: {submodule_name}
+            f"""# Interface for submodule: {submodule_name}
 from typing import Union, Any
 # additional imports
 from .support.template_class import itkTemplate as _itkTemplate
@@ -1741,54 +1737,36 @@ from .support.template_class import itkTemplate as _itkTemplate
         )
 
 
-def write_class_pyi(
-    pyiFile: Path, class_name: str, header_code: str, interfaces_code: str
+def init_submodule_pyi_proxy_file(
+    pyiFile: Path, submodule_name: str, parent_imports
 ) -> None:
-    # Write interface files to the stub directory to support editor autocompletions
+    with open(pyiFile, "w") as pyiFile:
+        pyiFile.write(
+            f"""# Interface methods for submodule: {submodule_name}
+from typing import Union, Any
+# additional imports
+from .support.template_class import itkTemplate as _itkTemplate
+{ f"from ._proxies import {', '.join(parent_imports)}" if len(parent_imports) > 0 else ""}
+
+\n"""
+        )
+
+
+def write_class_template_pyi(pyiFile: Path, class_name: str, header_code: str) -> None:
+    # Write interface files to the stub directory to support editor autocompletion
     with open(pyiFile, "a+") as pyiFile:
         pyiFile.write(f"# Interface for class: {class_name}\n")
+        pyiFile.write(
+            f"from ._proxies import {class_name}Proxy as _{class_name}Proxy\n"
+        )
         pyiFile.write(header_code)
+
+
+def write_class_proxy_pyi(pyiFile: Path, class_name: str, interfaces_code: str) -> None:
+    # Write interface files to the stub directory to support editor autocompletion
+    with open(pyiFile, "a+") as pyiFile:
         pyiFile.write(f"# Interface methods for class: {class_name}\n")
         pyiFile.write(interfaces_code)
-
-
-def write_common_init_interface_file(interface_dir_path: Path) -> None:
-    # This code may still be problematic due to possible parallel runs overwriting
-    # the file each time.  As long as the last write is successful, this code
-    # works.  Initial testing demonstrated that igenerator.py was never run
-    # in parallel, so that also makes this OK.
-    with open(interface_dir_path / "__init__.pyi", "w") as pyiIndexFile:
-        # This is a bit of a hack to re-write this file every time
-        # a new .pyi file is written.
-        # Keeping track of these generated files from CMake is
-        # very convoluted, and the cmake custom command dependencies
-        # caused circular dependencies.
-        #
-        # This __init__.pyi file needs a small preamble
-        # and then import all the auto-generated .pyi files
-        # statically.
-        preamble = """
-# Create/Clear .pyi file and add boilerplate import content
-# Python Header Interface File
-# imports as they appear in __init__.py
-from typing import Union, Any
-from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__Ï
-
-## Must import using relative paths so that symbols are imported successfully
-from .support.extras import *
-from .support.types import *
-
-### All items below are written out statically during
-
-"""
-        pyiIndexFile.write(preamble)
-
-        # If we could keep track of the interface files in CMake, we could avoid
-        # rewriting the __init__.pyi file every time a new version is created.
-        for interface_file in Path(f"{interface_dir_path}").glob(f"i*.pyi"):
-            pyiIndexFile.write(
-                f"from .{interface_file.name.replace('.pyi', '')} import *\n"
-            )
 
 
 if __name__ == "__main__":
@@ -1997,6 +1975,8 @@ if __name__ == "__main__":
             swig_input_generator.snakeCaseProcessObjectFunctions
         )
 
+        return swig_input_generator.python_parent_imports
+
     classes = {}
 
     ordered_submodule_list: List[str] = []
@@ -2010,27 +1990,38 @@ if __name__ == "__main__":
     del submoduleNames
 
     for submoduleName in ordered_submodule_list:
-        generate_swig_input(submoduleName, classes)
+        parents = generate_swig_input(submoduleName, classes)
+        parent_imports = [f"{p}Proxy as _{p}Proxy" for p in parents]
         if options.pyi_dir != "":
-          init_submodule_pyi_file(
-            Path(f"{options.pyi_dir}/{submoduleName}.pyi"), submoduleName
-          )
+            init_submodule_pyi_template_file(
+                Path(f"{options.pyi_dir}/{submoduleName}Template.pyi"), submoduleName
+            )
+            init_submodule_pyi_proxy_file(
+                Path(f"{options.pyi_dir}/{submoduleName}Proxy.pyi"),
+                submoduleName,
+                parent_imports,
+            )
 
     if options.pyi_dir != "":
-      for itk_class in classes.keys():
-        outputPYIHeaderFile = StringIO()
-        outputPYIMethodFile = StringIO()
-        generate_class_pyi_def(
-            outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
-        )
+        for itk_class in classes.keys():
+            outputPYIHeaderFile = StringIO()
+            outputPYIMethodFile = StringIO()
+            generate_class_pyi_def(
+                outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
+            )
 
-        write_class_pyi(
-            Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}.pyi"),
-            itk_class,
-            outputPYIHeaderFile.getvalue(),
-            outputPYIMethodFile.getvalue(),
-        )
-
+            write_class_template_pyi(
+                Path(
+                    f"{options.pyi_dir}/{classes[itk_class].submodule_name}Template.pyi"
+                ),
+                itk_class,
+                outputPYIHeaderFile.getvalue(),
+            )
+            write_class_proxy_pyi(
+                Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}Proxy.pyi"),
+                itk_class,
+                outputPYIMethodFile.getvalue(),
+            )
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:

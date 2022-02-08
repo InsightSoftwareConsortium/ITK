@@ -1,0 +1,11 @@
+# Python Header Interface File
+# imports as they appear in __init__.py
+from typing import Union, Any
+from itkConfig import ITK_GLOBAL_VERSION_STRING as __version__
+
+# Must import using relative paths so that symbols are imported successfully
+from .support.extras import *
+from .support.types import *
+
+# Begin stub imports
+${ITK_STUB_TEMPLATE_IMPORTS}

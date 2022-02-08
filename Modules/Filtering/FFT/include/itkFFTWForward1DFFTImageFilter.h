@@ -93,9 +93,9 @@ private:
   void
   DestroyPlans();
 
-  bool                  m_PlanComputed;
+  bool                  m_PlanComputed{ false };
   PlanArrayType         m_PlanArray;
-  unsigned int          m_LastImageSize;
+  unsigned int          m_LastImageSize{ 0 };
   PlanBufferPointerType m_InputBufferArray;
   PlanBufferPointerType m_OutputBufferArray;
 };
@@ -110,6 +110,7 @@ struct FFTImageFilterTraits<FFTWForward1DFFTImageFilter>
   using InputPixelType = TUnderlying;
   template <typename TUnderlying>
   using OutputPixelType = std::complex<TUnderlying>;
+  using FilterDimensions = std::integer_sequence<unsigned int, 4, 3, 2, 1>;
 };
 
 } // namespace itk

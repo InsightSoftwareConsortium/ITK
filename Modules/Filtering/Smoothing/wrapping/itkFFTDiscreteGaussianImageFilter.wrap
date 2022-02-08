@@ -1,0 +1,8 @@
+set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
+itk_wrap_include("itkFFTDiscreteGaussianImageFilter.h")
+
+itk_wrap_simple_class("itk::FFTDiscreteGaussianImageFilterEnums")
+
+itk_wrap_class("itk::FFTDiscreteGaussianImageFilter" POINTER)
+  itk_wrap_image_filter("${WRAP_ITK_SCALAR}" 2)
+itk_end_wrap_class()

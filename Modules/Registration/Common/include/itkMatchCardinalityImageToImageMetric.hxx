@@ -29,13 +29,7 @@ namespace itk
 template <typename TFixedImage, typename TMovingImage>
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MatchCardinalityImageToImageMetric()
 {
-  itkDebugMacro("Constructor");
-
   this->SetComputeGradient(false); // don't use the default gradients
-  m_MeasureMatches = true;         // default to measure percentage of pixel
-                                   // matches
-
-  m_Threader = MultiThreaderBase::New();
 }
 
 /*

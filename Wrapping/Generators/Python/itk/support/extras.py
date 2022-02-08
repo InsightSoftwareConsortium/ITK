@@ -469,7 +469,10 @@ def vector_container_from_array(arr: ArrayLike, ttype=None) -> "itkt.VectorConta
         arr = np.asarray(arr)
 
     # Return VectorContainer with 64-bit index type
-    IndexType = itk.ULL
+    if os.name == "nt":
+        IndexType = itk.ULL
+    else:
+        IndexType = itk.UL
 
     # Find container type
     if ttype is not None:
@@ -822,7 +825,7 @@ def dict_from_image(image: "itkt.Image") -> Dict:
         spacing=tuple(image.GetSpacing()),
         size=tuple(image.GetBufferedRegion().GetSize()),
         direction=np.asarray(image.GetDirection()),
-        data=pixel_arr
+        data=pixel_arr,
     )
 
 
@@ -830,11 +833,11 @@ def image_from_dict(image_dict: Dict) -> "itkt.Image":
     """Deserialize an dictionary representing an itk.Image object."""
     import itk
 
-    ImageType = image_type_from_wasm_type(image_dict['imageType'])
-    image = itk.PyBuffer[ImageType].GetImageViewFromArray(image_dict['data'])
-    image.SetOrigin(image_dict['origin'])
-    image.SetSpacing(image_dict['spacing'])
-    image.SetDirection(image_dict['direction'])
+    ImageType = image_type_from_wasm_type(image_dict["imageType"])
+    image = itk.PyBuffer[ImageType].GetImageViewFromArray(image_dict["data"])
+    image.SetOrigin(image_dict["origin"])
+    image.SetSpacing(image_dict["spacing"])
+    image.SetDirection(image_dict["direction"])
     return image
 
 

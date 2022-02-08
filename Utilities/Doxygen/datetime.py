@@ -16,6 +16,7 @@
 
 # Writes the date and time in RFC 2822 format to stdout
 
-import  time
+import time
 import sys
-sys.stdout.write(time.strftime('%a, %d %b %Y %H:%M:%S +0000', time.gmtime()))
+
+sys.stdout.write(time.strftime("%a, %d %b %Y %H:%M:%S +0000", time.gmtime()))

@@ -23,6 +23,8 @@
 #include "itkTestingMacros.h"
 #include "itkConstantBoundaryCondition.h"
 
+/** Check basic image filter parameters and operations */
+
 int
 itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 {
@@ -92,7 +94,7 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 
-  int maximumKernelWidth = 32;
+  unsigned int maximumKernelWidth = 32;
   filter->SetMaximumKernelWidth(maximumKernelWidth);
   ITK_TEST_SET_GET_VALUE(maximumKernelWidth, filter->GetMaximumKernelWidth());
 
@@ -123,7 +125,6 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   test1.SetFilter(filter);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(test1.Execute());
-
 
   std::cout << "Test finished" << std::endl;
   return EXIT_SUCCESS;
