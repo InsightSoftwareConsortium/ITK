@@ -225,20 +225,11 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
 
   typename DisplacementFieldType::SizeType    size = this->m_DisplacementField->GetLargestPossibleRegion().GetSize();
   typename DisplacementFieldType::IndexType   startingIndex = this->m_DisplacementField->GetLargestPossibleRegion().GetIndex();
+  typename DisplacementFieldType::IndexType   upperIndex = this->m_DisplacementField->GetLargestPossibleRegion().GetUpperIndex();
   typename DisplacementFieldType::SpacingType spacing = this->m_DisplacementField->GetSpacing();
 
-  IndexType ddrindex;
-  IndexType ddlindex;
-  IndexType difIndex[NDimensions][2];
-
-  // Index offset
-  unsigned int posoff = NumericTraits<unsigned int>::OneValue();
-
-  // Apace between indices
+  // Space between indices
   TParametersValueType space = NumericTraits<TParametersValueType>::OneValue();
-
-  // Minimum distance between neighbors
-  IndexValueType mindist = NumericTraits<IndexValueType>::OneValue();
 
   // Flag indicating a valid location for Jacobian calculation
   bool isValidJacobianCalcLocat = true;
@@ -248,15 +239,10 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   dPixSign = doInverseJacobian ? -dPixSign : dPixSign;
   for (unsigned int row = 0; row < NDimensions; ++row)
   {
-    IndexValueType dist = index[row] - startingIndex[row];
-    if (dist < mindist)
+    if (index[row] <= startingIndex[row] || index[row] >= upperIndex[row])
     {
       isValidJacobianCalcLocat = false;
-    }
-    dist = static_cast<IndexValueType>(size[row]) - dist;
-    if (dist < mindist)
-    {
-      isValidJacobianCalcLocat = false;
+      break;
     }
   }
 
@@ -266,51 +252,36 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
     // do manually here
     for (unsigned int row = 0; row < NDimensions; ++row)
     {
-      difIndex[row][0] = index;
-      difIndex[row][1] = index;
-      ddrindex = index;
-      ddlindex = index;
-      if ((int)index[row] < (int)(size[row] - 2))
+      IndexType difIndex[4] = {index, index, index, index};
+      difIndex[0][row] -= 2;
+      difIndex[1][row] -= 1;
+      difIndex[2][row] += 1;
+      difIndex[3][row] += 2;
+      if (difIndex[0][row] < startingIndex[row])
       {
-        difIndex[row][0][row] = index[row] + posoff;
-        ddrindex[row] = index[row] + posoff * 2;
+        difIndex[0][row] = startingIndex[row];
       }
-      if (index[row] > 1)
+      if (difIndex[3][row] > upperIndex[row])
       {
-        difIndex[row][1][row] = index[row] - 1;
-        ddlindex[row] = index[row] - 2;
+        difIndex[3][row] = upperIndex[row];
       }
 
-      OutputVectorType tempPix;
-
-      tempPix = m_DisplacementField->GetPixel(difIndex[row][1]);
-      const auto rpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
-
-      tempPix = m_DisplacementField->GetPixel(difIndex[row][0]);
-      const auto lpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
-
-      tempPix = m_DisplacementField->GetPixel(ddrindex);
-      const auto rrpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
-
-      tempPix = m_DisplacementField->GetPixel(ddlindex);
-      const auto llpix = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
-
+      OutputVectorType pixDisp[4];
+      for(unsigned int i = 0; i < 4; ++i)
+      {
+        const OutputVectorType tempPix = m_DisplacementField->GetPixel(difIndex[i]);
+        pixDisp[i] = m_DisplacementField->TransformLocalVectorToPhysicalVector(tempPix);
+      }
 
       // 4th order centered difference
-      OutputVectorType dPix = (lpix * 8.0 + llpix - rrpix - rpix * 8.0) * space / (12.0) * dPixSign;
+      OutputVectorType dPix = (pixDisp[0] - pixDisp[1] * 8.0 + pixDisp[2] * 8.0 - pixDisp[3]) / (12.0 * space * spacing[row]) * dPixSign;
 
-      // typename DisplacementFieldType::PixelType dPix=
-      //      ( lpix - rpix )*space/(2.0*h); //2nd order centered difference
+      dPix[row] += 1.0;
       for (unsigned int col = 0; col < NDimensions; ++col)
       {
-        TParametersValueType val = dPix[col] / spacing[row];
-        if (row == col)
-        {
-          val += 1.0;
-        }
-        jacobian(col, row) = val;
+        jacobian(col, row) = dPix[col];
         // Verify it's a real number
-        if (!itk::Math::isfinite(val))
+        if (!itk::Math::isfinite(dPix[col]))
         {
           isValidJacobianCalcLocat = false;
           break;
