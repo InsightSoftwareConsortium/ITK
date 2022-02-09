@@ -223,7 +223,6 @@ DisplacementFieldTransform<TParametersValueType, NDimensions>::ComputeJacobianWi
   bool                   doInverseJacobian) const
 {
 
-  typename DisplacementFieldType::SizeType  size = this->m_DisplacementField->GetLargestPossibleRegion().GetSize();
   typename DisplacementFieldType::IndexType startingIndex =
     this->m_DisplacementField->GetLargestPossibleRegion().GetIndex();
   typename DisplacementFieldType::IndexType upperIndex =
