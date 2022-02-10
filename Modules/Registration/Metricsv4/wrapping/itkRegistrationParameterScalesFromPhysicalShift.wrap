@@ -1,0 +1,14 @@
+include("itkMetricv4Types.wrap")
+
+foreach(h ${ITK_METRICV4_HEADERS})
+   itk_wrap_include(${h})
+endforeach()
+
+itk_wrap_class("itk::RegistrationParameterScalesFromPhysicalShift" POINTER_WITH_2_SUPERCLASSES)
+  foreach(z ${ITK_METRICV4_TYPES})
+    itk_sublist_to_list(y ${z})
+    list(GET y 0 my_mangle)
+    list(GET y 1 my_cpp)
+    itk_wrap_template(${my_mangle} ${my_cpp})
+  endforeach()
+itk_end_wrap_class()

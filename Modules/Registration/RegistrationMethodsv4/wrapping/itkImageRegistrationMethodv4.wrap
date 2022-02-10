@@ -3,6 +3,8 @@ itk_wrap_include("itkImageRegistrationMethodv4.h")
 itk_wrap_simple_class("itk::ImageRegistrationMethodv4Enums")
 itk_wrap_include("itkDisplacementFieldTransform.h")
 itk_wrap_include("itkBSplineSmoothingOnUpdateDisplacementFieldTransform.h")
+itk_wrap_include("itkTimeVaryingBSplineVelocityFieldTransform.h")
+itk_wrap_include("itkGaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform.h")
 itk_wrap_include("itkDataObjectDecorator.h")
 itk_wrap_include("itkMesh.h")
 
@@ -12,6 +14,12 @@ itk_wrap_class("itk::DataObjectDecorator" POINTER)
                         "itk::DisplacementFieldTransform< ${ITKT_D}, ${d} >")
       itk_wrap_template("BSOUDFT${ITKM_D}${d}"
                         "itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >")
+      # necessary for TimeVaryingVelocityFieldImageRegistrationMethodv4
+      itk_wrap_template("GSOUTVVFT${ITKM_D}${d}"
+                        "itk::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform< ${ITKT_D}, ${d} >")
+      # necessary for TimeVaryingBSplineVelocityFieldImageRegistrationMethodv4
+      itk_wrap_template("TVBVFT${ITKM_D}${d}"
+                        "itk::TimeVaryingBSplineVelocityFieldTransform< ${ITKT_D}, ${d} >")
   endforeach()
 itk_end_wrap_class()
 
@@ -28,6 +36,10 @@ itk_wrap_class("itk::ImageRegistrationMethodv4" POINTER)
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::DisplacementFieldTransform< ${ITKT_D}, ${d} >")
       itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}BSOUDFT${ITKM_D}${d}"
                         "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::BSplineSmoothingOnUpdateDisplacementFieldTransform< ${ITKT_D}, ${d} >")
+      itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}GSOUTVVFT${ITKM_D}${d}"
+                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform< ${ITKT_D}, ${d} >")
+      itk_wrap_template("REGv4${ITKM_${t}}${d}${ITKM_${t}}${d}TVBVFT${ITKM_D}${d}"
+                        "itk::Image< ${ITKT_${t}}, ${d} >, itk::Image< ${ITKT_${t}}, ${d} >, itk::TimeVaryingBSplineVelocityFieldTransform< ${ITKT_D}, ${d} >")
     endforeach()
   endforeach()
 itk_end_wrap_class()
