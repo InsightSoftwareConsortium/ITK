@@ -5,6 +5,7 @@ $ingroup = 0;
 $semicount =0;
 $endbracecount = 0;
 $endparencount = 0;
+$leading_space = "  ";
 while(<>)
 {
     chomp;
@@ -17,7 +18,7 @@ while(<>)
             # I guess it was not a group, dump savebuffer
             if($ingroup)
             {
-                print "/**" . $savebuffer . "\n";
+                print $leading_space . "/**" . $savebuffer . "\n";
             }
             # if it is a class or brief then output the line but
             # do not start a group
@@ -28,11 +29,15 @@ while(<>)
             # must be a group so start saving
             else
             {
+
                 $savebuffer = "$1" . "\n";
                 $ingroup = 1;
                 $semicount = 0;
                 $endbracecount = 0;
                 $endparencount = 0;
+
+                $line =~ /(^\s*)/;
+                $leading_space = $1;
             }
         }
         else
@@ -67,11 +72,11 @@ while(<>)
         {
             if($endparencount > 1 && ($semicount > 1 || $endbracecount > 1))
             {
-                print "/**@\{" . $savebuffer . "//@}\n\n";
+                print $leading_space . "/**@\{" . $savebuffer . $leading_space . "/**@}*/\n\n";
             }
             else
             {
-                print "/**" . $savebuffer . "\n";
+                print $leading_space . "/**" . $savebuffer . "\n";
             }
             $savebuffer = "";
             $ingroup = 0;
