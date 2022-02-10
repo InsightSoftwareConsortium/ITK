@@ -196,6 +196,7 @@ INSTALL(FILES
   ${ITK3P_EXPAT_BINARY_DIR}/expatDllConfig.h
   ${ITK3P_EXPAT_SOURCE_DIR}/expat.h
   ${ITK3P_EXPAT_BINARY_DIR}/expat_config.h
+  ${ITK3P_EXPAT_SOURCE_DIR}/expat_external.h
   ${ITK3P_EXPAT_SOURCE_DIR}/itk_expat_mangle.h
   DESTINATION ${ITK3P_INSTALL_INCLUDE_DIR} # TODO: itk_expat.h #include "itkexpat/expat.h"
   COMPONENT Development)
