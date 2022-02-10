@@ -76,15 +76,15 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0032", value.str());
 
   Image3DType::DirectionType direction3D;
-  direction3D[0][0] = .6;
-  direction3D[1][0] = .0;
-  direction3D[2][0] = .8;
-  direction3D[0][1] = -.8;
-  direction3D[1][1] = .0;
-  direction3D[2][1] = .6;
-  direction3D[0][2] = 0;
-  direction3D[1][2] = 1;
-  direction3D[2][2] = 0;
+  direction3D[0][0] = 0.5;
+  direction3D[1][0] = 0.2;
+  direction3D[2][0] = 0.2;
+  direction3D[0][1] = 0.5;
+  direction3D[1][1] = 0.4;
+  direction3D[2][1] = 0.3;
+  direction3D[0][2] = 0.6;
+  direction3D[1][2] = 0.6;
+  direction3D[2][2] = 0.6;
   value.str("");
   value << direction3D[0][0] << "\\" << direction3D[1][0] << "\\" << direction3D[2][0] << "\\" << direction3D[0][1]
         << "\\" << direction3D[1][1] << "\\" << direction3D[2][1];
@@ -103,17 +103,27 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   writer2D->SetInput(src2D->GetOutput());
   writer2D->SetFileName(filename.str().c_str());
 
-  try
-  {
-    writer2D->SetImageIO(gdcmIO);
-    writer2D->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown while writing the file: " << filename.str() << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Cause intentional error, non-orthogonal direction cosine,
+  // write should fail.
+  writer2D->SetImageIO(gdcmIO);
+  ITK_TRY_EXPECT_EXCEPTION(writer2D->Update())
+
+  // Now write using valid direction cosine
+  direction3D[0][0] = .6;
+  direction3D[1][0] = .0;
+  direction3D[2][0] = .8;
+  direction3D[0][1] = -.8;
+  direction3D[1][1] = .0;
+  direction3D[2][1] = .6;
+  direction3D[0][2] = 0;
+  direction3D[1][2] = 1;
+  direction3D[2][2] = 0;
+  value.str("");
+  value << direction3D[0][0] << "\\" << direction3D[1][0] << "\\" << direction3D[2][0] << "\\" << direction3D[0][1]
+        << "\\" << direction3D[1][1] << "\\" << direction3D[2][1];
+  itk::EncapsulateMetaData<std::string>(dictionary, "0020|0037", value.str());
+  src2D->GetOutput()->SetMetaDataDictionary(dictionary);
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer2D->Update())
 
   // Now read the dicom back and check its origin
   auto reader = ReaderType::New();

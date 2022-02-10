@@ -53,6 +53,7 @@
 #include "gdcmAttribute.h"
 #include "gdcmGlobal.h"
 #include "gdcmMediaStorage.h"
+#include "gdcmDirectionCosines.h"
 
 #include <fstream>
 #include <sstream>
@@ -1103,6 +1104,11 @@ GDCMImageIO::Write(const void * buffer)
     {
       image.SetDirectionCosines(5, 0);
     }
+  }
+  gdcm::DirectionCosines gdcmDirection(image.GetDirectionCosines());
+  if (!gdcmDirection.IsValid())
+  {
+    itkExceptionMacro("Invalid direction cosines, non-orthogonal or unit length.");
   }
 
   // reset any previous value:
