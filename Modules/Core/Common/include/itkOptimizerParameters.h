@@ -154,7 +154,7 @@ public:
    * TODO Determine behavior when copying from obj pointing to image parameters.
    *  By default should copy image param data into Array portion of new object,
    *  i.e. into data_block. Is that what we want? */
-  const Self &
+  Self &
   operator=(const Self & rhs)
   {
     // Note: there's no need to copy the OptimizerParametersHelper.
@@ -163,7 +163,7 @@ public:
     return *this;
   }
 
-  const Self &
+  Self &
   operator=(const ArrayType & rhs)
   {
     // Call the superclass implementation
@@ -171,7 +171,7 @@ public:
     return *this;
   }
 
-  const Self &
+  Self &
   operator=(const VnlVectorType & rhs)
   {
     // Call the superclass implementation

@@ -116,7 +116,7 @@ public:
   Versor(const Self & v);
 
   /** Assignment operator =.  Copy the versor argument. */
-  const Self &
+  Self &
   operator=(const Self & v);
 
   /** Composition operator *=.  Compose the current versor

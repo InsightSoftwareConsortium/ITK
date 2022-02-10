@@ -179,7 +179,7 @@ public:
     {
       m_Axis = axis;
     }
-    const AxisNodeType &
+    AxisNodeType &
     operator=(const NodeType & node)
     {
       this->NodeType::operator=(node);

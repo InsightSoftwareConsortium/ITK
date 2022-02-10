@@ -45,7 +45,7 @@ Versor<T>::Versor(const Self & v)
 
 /** Assignment Operator */
 template <typename T>
-const Versor<T> &
+Versor<T> &
 Versor<T>::operator=(const Self & v)
 {
   m_X = v.m_X;

@@ -55,10 +55,10 @@ public:
   Array2D(const Self & array);
   Array2D(const VnlMatrixType & matrix);
 
-  const Self &
+  Self &
   operator=(const Self & array);
 
-  const Self &
+  Self &
   operator=(const VnlMatrixType & matrix);
 
   void

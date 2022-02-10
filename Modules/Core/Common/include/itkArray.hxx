@@ -148,7 +148,7 @@ Array<TValue>::SetSize(SizeValueType sz)
 
 template <typename TValue>
 auto
-Array<TValue>::operator=(const Self & rhs) -> const Self &
+Array<TValue>::operator=(const Self & rhs) -> Self &
 {
   if (this != &rhs)
   {
@@ -167,7 +167,7 @@ Array<TValue>::operator=(const Self & rhs) -> const Self &
 
 template <typename TValue>
 auto
-Array<TValue>::operator=(const VnlVectorType & rhs) -> const Self &
+Array<TValue>::operator=(const VnlVectorType & rhs) -> Self &
 {
   if (this != &rhs)
   {
