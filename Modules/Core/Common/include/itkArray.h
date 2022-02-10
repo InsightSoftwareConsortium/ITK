@@ -115,10 +115,10 @@ public:
   }
 
   /** Copy operator */
-  const Self &
+  Self &
   operator=(const Self & rhs);
 
-  const Self &
+  Self &
   operator=(const VnlVectorType & rhs);
 
   /** Return the number of elements in the Array  */

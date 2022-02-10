@@ -211,7 +211,7 @@ public:
   }
 
   /** Assignment operator. */
-  inline const Self &
+  inline Self &
   operator=(const vnl_matrix<T> & matrix)
   {
     m_Matrix = matrix;
@@ -247,7 +247,7 @@ public:
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
 
-  inline const Self &
+  inline Self &
   operator=(const InternalMatrixType & matrix)
   {
     this->m_Matrix = matrix;
