@@ -651,7 +651,7 @@ MetaImageIO ::WriteImageInformation()
     {
       // if the value is an empty string then the resulting entry in
       // the header will not be able to be read by the metaIO
-      // library, which results is a unreadable/corrupt file.
+      // library, which results is an unreadable/corrupt file.
       itkWarningMacro("Unsupported or empty metaData item " << *keyIt << " of type "
                                                             << metaDict[*keyIt]->GetMetaDataObjectTypeName()
                                                             << "found, won't be written to image file");

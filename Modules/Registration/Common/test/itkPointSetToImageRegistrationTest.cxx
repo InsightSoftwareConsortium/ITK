@@ -143,14 +143,14 @@ itkPointSetToImageRegistrationTest(int, char *[])
   scales.Fill(1.0);
 
   unsigned long numberOfIterations = 50;
-  double        maximumStepLenght = 1.0; // no step will be larger than this
-  double        minimumStepLenght = 0.01;
+  double        maximumStepLength = 1.0; // no step will be larger than this
+  double        minimumStepLength = 0.01;
   double        gradientTolerance = 1e-6; // convergence criterion
 
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);
-  optimizer->SetMinimumStepLength(minimumStepLenght);
-  optimizer->SetMaximumStepLength(maximumStepLenght);
+  optimizer->SetMinimumStepLength(minimumStepLength);
+  optimizer->SetMaximumStepLength(maximumStepLength);
   optimizer->SetGradientMagnitudeTolerance(gradientTolerance);
   optimizer->MinimizeOn();
 

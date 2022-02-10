@@ -497,7 +497,7 @@ public:
   Self &
   operator=(VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const & rhs);
 
-  /** Set the all the elements of the array to the specified value.
+  /** Set all the elements of the array to the specified value.
    * \pre This function may be called on empty vectors, it's a no-op.
    */
   void

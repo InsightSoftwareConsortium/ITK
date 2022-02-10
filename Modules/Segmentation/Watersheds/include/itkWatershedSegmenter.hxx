@@ -1197,7 +1197,7 @@ Segmenter<TInputImage>::Threshold(InputImageTypePointer destination,
     // value for the data type, then drop the value by one intensity
     // value. This the watershed algorithm to construct a "barrier" or
     // "wall" around the image that will stop the watershed without
-    // requiring a expensive boundary condition checks.
+    // requiring an expensive boundary condition checks.
     while (!dIt.IsAtEnd())
     {
       InputPixelType tmp = sIt.Get();

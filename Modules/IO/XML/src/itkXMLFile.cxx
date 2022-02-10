@@ -29,7 +29,7 @@ extern "C"
   itkXMLParserStartElement(void * parser, const char * name, const char ** atts)
   {
     // Begin element handler that is registered with the XML_Parser.
-    // This just casts the user data to a itkXMLParser and calls
+    // This just casts the user data to an itkXMLParser and calls
     // StartElement.
     static_cast<XMLReaderBase *>(parser)->StartElement(name, atts);
   }
@@ -42,7 +42,7 @@ extern "C"
   itkXMLParserEndElement(void * parser, const char * name)
   {
     // End element handler that is registered with the XML_Parser.  This
-    // just casts the user data to a itkXMLParser and calls EndElement.
+    // just casts the user data to an itkXMLParser and calls EndElement.
     static_cast<XMLReaderBase *>(parser)->EndElement(name);
   }
 }
@@ -54,7 +54,7 @@ extern "C"
   itkXMLParserCharacterDataHandler(void * parser, const char * data, int length)
   {
     // Character data handler that is registered with the XML_Parser.
-    // This just casts the user data to a itkXMLParser and calls
+    // This just casts the user data to an itkXMLParser and calls
     // CharacterDataHandler.
     static_cast<XMLReaderBase *>(parser)->CharacterDataHandler(data, length);
   }

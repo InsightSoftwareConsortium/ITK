@@ -92,7 +92,7 @@ itkTimeProbeTest2(int, char *[])
   std::cout << std::endl << "Print a normal report" << std::endl;
   localTimer.Report();
 
-  // Print a expanded report (including nameOfProbe, Iteration, Total, Min, Mean-Min
+  // Print an expanded report (including nameOfProbe, Iteration, Total, Min, Mean-Min
   //                          Mean/Min *100 (%), Mean, Max, Max- Mean, Max/Mean(%),
   //                          Total Diff(:Max - Min) and STD)
   std::cout << std::endl << "Print an expanded report" << std::endl;

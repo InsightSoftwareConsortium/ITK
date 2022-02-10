@@ -20,7 +20,7 @@
 //
 // \index{itk::EllipseSpatialObject}
 //
-// \doxygen{EllipseSpatialObject} defines an n-Dimensional ellipse. Like
+// \doxygen{EllipseSpatialObject} defines an n-dimensional ellipse. Like
 // other spatial objects this class derives from
 // \doxygen{SpatialObject}. Let's start by including the appropriate header
 // file.

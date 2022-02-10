@@ -46,7 +46,7 @@ namespace itk
 
 namespace Functor
 {
-template <typename TInputPixel, typename TOuputPixel>
+template <typename TInputPixel, typename TOutputPixel>
 class SumAccumulator
 {
 public:
@@ -56,7 +56,7 @@ public:
   inline void
   Initialize()
   {
-    m_Sum = NumericTraits<TOuputPixel>::ZeroValue();
+    m_Sum = NumericTraits<TOutputPixel>::ZeroValue();
   }
 
   inline void
@@ -65,13 +65,13 @@ public:
     m_Sum = m_Sum + input;
   }
 
-  inline TOuputPixel
+  inline TOutputPixel
   GetValue()
   {
     return m_Sum;
   }
 
-  TOuputPixel m_Sum;
+  TOutputPixel m_Sum;
 };
 } // namespace Functor
 

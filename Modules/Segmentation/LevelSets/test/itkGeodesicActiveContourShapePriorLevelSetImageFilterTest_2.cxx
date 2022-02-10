@@ -253,7 +253,7 @@ itkGeodesicActiveContourShapePriorLevelSetImageFilterTest_2(int, char *[])
   //
   // There is 1 PCA component image(s).
   //
-  // Component[0] is a image of all ones representing scale.
+  // Component[0] is an image of all ones representing scale.
   //
   using ImageVectorType = ShapeFunctionType::ImagePointerVector;
   ImageVectorType pca;

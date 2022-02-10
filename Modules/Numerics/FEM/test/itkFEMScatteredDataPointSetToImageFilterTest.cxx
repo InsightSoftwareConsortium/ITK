@@ -76,7 +76,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   // point is on the bottom boundary
   p0[0] = 1.0;
   p0[1] = 0.0;
-  // point is inside a element
+  // point is inside an element
   p1[0] = 3.0;
   p1[1] = 1.0;
   // point is the node

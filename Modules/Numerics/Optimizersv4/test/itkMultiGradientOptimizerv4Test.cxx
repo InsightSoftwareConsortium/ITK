@@ -329,7 +329,7 @@ itkMultiGradientOptimizerv4Test(int, char *[])
   using OptimizerType = itk::MultiGradientOptimizerv4;
   using ParametersType = MultiGradientOptimizerv4TestMetric::ParametersType;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, MultiGradientOptimizerv4Template, GradientDescentOptimizerv4Template);

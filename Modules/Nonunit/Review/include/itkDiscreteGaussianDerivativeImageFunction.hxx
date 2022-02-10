@@ -94,7 +94,7 @@ DiscreteGaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussian
     m_OperatorArray[direction].CreateDirectional();
   }
 
-  // Now precompute the N-dimensional kernel. This fastest as we don't
+  // Now precompute the n-dimensional kernel. This fastest as we don't
   // have to perform N convolutions for each point we calculate but
   // only one.
 

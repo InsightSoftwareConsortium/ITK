@@ -363,7 +363,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long long & v
   // HDF5 can't distinguish
   // between unsigned long and unsigned long long
   // datasets in a disk file. So add an attribute
-  // labeling this as a unsigned long long
+  // labeling this as an unsigned long long
   const std::string isULLongName("isULLong");
   H5::Attribute     isULLong = scalarSet.createAttribute(isULLongName, attrType, scalarSpace);
   bool              trueVal(true);

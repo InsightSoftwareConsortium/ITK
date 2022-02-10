@@ -53,7 +53,7 @@
 #define itkAssertLengthSameValueReturn(m1, type1, m2)                                                             \
   if (itk::Statistics::MeasurementVectorTraits::Assert((m1), (m2)) != itk::NumericTraits<type1>::GetLength((m1))) \
   {                                                                                                               \
-    std::cerr << "Failed to get expected VLenght for Assert() ";                                                  \
+    std::cerr << "Failed to get expected VLength for Assert() ";                                                  \
     std::cerr << std::endl;                                                                                       \
     return EXIT_FAILURE;                                                                                          \
   }                                                                                                               \

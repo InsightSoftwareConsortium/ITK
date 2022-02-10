@@ -844,7 +844,7 @@ CompositeTransform<TParametersValueType, NDimensions>::UpdateTransformParameters
   /* NOTE: We might want to thread this over each sub-transform, if we
    * find we're working with longer lists of sub-transforms that do
    * not implement any threading of their own for UpdateTransformParameters.
-   * Since the plan is for a UpdateTransformParameters functor that is
+   * Since the plan is for an UpdateTransformParameters functor that is
    * user-assignable, we would need a method in the
    * functor to return whether or not it does therading. If all sub-transforms
    * return that they don't thread, we could do each sub-transform in its

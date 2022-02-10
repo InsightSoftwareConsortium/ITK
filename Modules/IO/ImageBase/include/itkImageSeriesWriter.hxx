@@ -300,7 +300,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
         typename InputImageType::SpacingType spacing2 = inputImage->GetSpacing();
 
         // origin of the output slice in the
-        // N-Dimensional space of the input image.
+        // n-dimensional space of the input image.
         typename InputImageType::PointType origin2;
 
         inputImage->TransformIndexToPhysicalPoint(inIndex, origin2);

@@ -123,7 +123,7 @@ ExampleImageFilter<TInputImage, TOutputImage>::Update()
 
 
 /**
- * General N-dimensional implementation of example filter.
+ * General n-dimensional implementation of example filter.
  * The Dispatch parameter is not used.  It is just used to control
  * instantiation.
  */

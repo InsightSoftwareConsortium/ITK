@@ -628,7 +628,7 @@ itkVectorImageTest(int, char * argv[])
   }
 
   {
-    // Now read it as a itk::VectorImage.
+    // Now read it as an itk::VectorImage.
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
     using ReaderType = itk::ImageFileReader<VectorImageType>;
     auto reader = ReaderType::New();
@@ -672,7 +672,7 @@ itkVectorImageTest(int, char * argv[])
 
 
   {
-    // Now read it as a itk::VectorImage.
+    // Now read it as an itk::VectorImage.
     using VectorImageType = itk::VectorImage<PixelType, Dimension>;
     using ReaderType = itk::ImageFileReader<VectorImageType>;
     auto reader = ReaderType::New();

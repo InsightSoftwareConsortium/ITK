@@ -155,7 +155,7 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
 
   using OptimizerType = itk::PowellOptimizerv4<double>;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, PowellOptimizerv4, ObjectToObjectOptimizerBaseTemplate);

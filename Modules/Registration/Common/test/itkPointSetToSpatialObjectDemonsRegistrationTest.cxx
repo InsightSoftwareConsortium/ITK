@@ -30,7 +30,7 @@ itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
 
   using EllipseType = itk::EllipseSpatialObject<Dimension>;
 
-  // Create a ellipse.
+  // Create an ellipse.
   auto ellipse = EllipseType::New();
 
   // Set the radius

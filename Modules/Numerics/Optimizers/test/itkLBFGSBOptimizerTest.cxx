@@ -30,7 +30,7 @@
  *  f(x) = 1/2 x^T A x - b^T x  subject to  -1 <= x <= 10
  *
  *  Where A is represented as an itkMatrix and
- *  b is represented as a itkVector
+ *  b is represented as an itkVector
  *
  *  The system in this example is:
  *
@@ -183,7 +183,7 @@ itkLBFGSBOptimizerTest(int, char *[])
 
   using OptimizerType = itk::LBFGSBOptimizer;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, LBFGSBOptimizer, SingleValuedNonLinearVnlOptimizer);

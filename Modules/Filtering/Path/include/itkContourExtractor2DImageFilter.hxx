@@ -362,7 +362,7 @@ ContourExtractor2DImageFilter<TInputImage>::GenerateDataForLabels()
     for (InputPixelType label : allLabels)
     {
       const BoundingBoxType & bbox = labelBoundingBoxes[label];
-      // Compute a extendedRegion that includes one-pixel border on all
+      // Compute an extendedRegion that includes one-pixel border on all
       // sides. However, we don't want the 3-by-3 SquareIterator to be centered
       // in the bottom row or right column of this one-pixel-extended region
       // because then its lower-right 2-by-2 sub-square won't be wholly within

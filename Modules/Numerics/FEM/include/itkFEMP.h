@@ -96,7 +96,7 @@ public:
   ~FEMP() { m_Data = nullptr; }
 
   /**
-   * Asignment operator
+   * Assignment operator
    */
   const FEMP<T> &
   operator=(const FEMP<T> & rhs);

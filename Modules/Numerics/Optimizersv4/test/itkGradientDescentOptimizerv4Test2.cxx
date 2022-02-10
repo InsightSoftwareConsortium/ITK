@@ -144,7 +144,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
 
   using ScalesType = OptimizerType::ScalesType;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   // Declaration of the Metric

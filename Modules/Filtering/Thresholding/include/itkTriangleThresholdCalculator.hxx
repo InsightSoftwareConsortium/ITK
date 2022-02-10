@@ -50,7 +50,7 @@ TriangleThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Triangle method needs the maximum and minimum indexes
   // Minimum indexes for this purpose are poorly defined - can't just
-  // take a index with zero entries.
+  // take an index with zero entries.
   double         Mx = itk::NumericTraits<double>::min();
   IndexValueType MxIdx = 0;
 

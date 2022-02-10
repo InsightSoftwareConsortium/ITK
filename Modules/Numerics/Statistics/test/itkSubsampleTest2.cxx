@@ -101,7 +101,7 @@ itkSubsampleTest2(int, char *[])
 
   for (unsigned int i = 0; i < subSample2->Size(); ++i)
   {
-    std::cout << "Measurment Vector: " << i << "\t" << subSample2->GetMeasurementVector(i) << std::endl;
+    std::cout << "Measurement Vector: " << i << "\t" << subSample2->GetMeasurementVector(i) << std::endl;
 
     if (subSample2->GetMeasurementVector(i) != sample->GetMeasurementVector(i * 4))
     {

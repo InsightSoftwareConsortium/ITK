@@ -104,7 +104,7 @@ StringTools::FromData(std::string & s, const std::vector<T> & data)
 }
 
 /////////////////////////////////////////////////////////////////////////////
-// helper functions for converting a string to/from a itk::Array
+// helper functions for converting a string to/from an itk::Array
 /////////////////////////////////////////////////////////////////////////////
 
 /**

@@ -106,7 +106,7 @@ itkPowellOptimizerTest(int argc, char * argv[])
 
   using OptimizerType = itk::PowellOptimizer;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, PowellOptimizer, SingleValuedNonLinearOptimizer);

@@ -114,7 +114,7 @@ itkFRPROptimizerTest(int, char *[])
 
   using OptimizerType = itk::FRPROptimizer;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, FRPROptimizer, PowellOptimizer);

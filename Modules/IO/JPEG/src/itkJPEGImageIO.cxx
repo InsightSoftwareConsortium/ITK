@@ -40,7 +40,7 @@ extern "C"
 {
   METHODDEF(void) itk_jpeg_error_exit(j_common_ptr cinfo)
   {
-    /* cinfo->err really points to a itk_jpeg_error_mgr struct, so coerce pointer
+    /* cinfo->err really points to an itk_jpeg_error_mgr struct, so coerce pointer
      */
     itk_jpeg_error_mgr * myerr = (itk_jpeg_error_mgr *)cinfo->err;
 

@@ -62,7 +62,7 @@ itkDenseFrequencyContainer2Test(int, char *[])
       }
     }
 
-    // Test Set/Get frequency of a out of bound bin
+    // Test Set/Get frequency of an out of bound bin
     unsigned int binOutOfBound = numberOfBins;
     const auto   frequency = static_cast<AbsoluteFrequencyType>(binOutOfBound * binOutOfBound);
 

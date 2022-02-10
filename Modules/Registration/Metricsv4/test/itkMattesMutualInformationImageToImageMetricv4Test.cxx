@@ -285,7 +285,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
   metric->Initialize();
 
   //------------------------------------------------------------
-  // Set up a affine transform parameters
+  // Set up affine transform parameters
   //------------------------------------------------------------
   transformer->SetIdentity();
   const unsigned int numberOfParameters = transformer->GetNumberOfParameters();

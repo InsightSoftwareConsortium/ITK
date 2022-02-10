@@ -35,7 +35,7 @@ OpenCVImageBridge::IplImageToITKImage(const IplImage * in)
   // Typedefs
   using ImageType = TOutputImageType;
 
-  // IplImage::depth is defined as a int, but it is treated as a unsigned
+  // IplImage::depth is defined as an int, but it is treated as an unsigned
   // integer bit field which causes a compilation error in clang 6.0 when
   // trying to implicit cast some IPL_DEPTH_* values
   using DepthIDType = unsigned int;

@@ -195,7 +195,7 @@ TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsRegionOfSinglePixelWh
 
 
 // Tests that the AABB region is equal to the image region when only a single pixel has value 0.
-// (This condition should hold for N-dimensional image regions, with N >= 2, and region size >= 2^N.)
+// (This condition should hold for n-dimensional image regions, with N >= 2, and region size >= 2^N.)
 TEST(ImageMaskSpatialObject, AxisAlignedBoundingBoxRegionIsImageRegionWhenOnlyOnePixelIsZero)
 {
   // Test 2D images:

@@ -117,7 +117,7 @@ MorphologicalWatershedImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
   else
   {
-    // don't insert the h-minima to save some ressources
+    // don't insert the h-minima to save some resources
     progress->RegisterInternalFilter(rmin, 0.167f);
     progress->RegisterInternalFilter(label, .333f);
     progress->RegisterInternalFilter(wshed, .5f);

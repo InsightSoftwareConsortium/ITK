@@ -34,7 +34,7 @@ namespace itk
  *  \brief Class for container holding the terms of a given level set update equation
  *
  *  \tparam TInputImage Input image or speed image or feature image for segmentation
- *  \tparam TLevelSetContainer Container holding the all the level set functions
+ *  \tparam TLevelSetContainer Container holding all the level set functions
  *
  *  \ingroup ITKLevelSetsv4
  */
