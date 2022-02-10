@@ -208,7 +208,7 @@ itkMultiStartOptimizerv4Test(int, char *[])
 
   using OptimizerType = itk::MultiStartOptimizerv4;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, MultiStartOptimizerv4Template, ObjectToObjectOptimizerBaseTemplate);

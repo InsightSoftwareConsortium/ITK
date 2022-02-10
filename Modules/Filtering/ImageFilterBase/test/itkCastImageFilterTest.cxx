@@ -343,7 +343,7 @@ bool
 TestVectorImageCast2()
 {
   // This function casts a VectorImage<float, 2>
-  // to a Image<Vector<unsigned char, 2>, 2>
+  // to an Image<Vector<unsigned char, 2>, 2>
   std::cout << "Casting from a VectorImage<float, 2> to Image<Vector<unsigned char, 2>, 2> ... ";
 
   using UnsignedCharVectorImageType = itk::Image<itk::Vector<unsigned char, 2>, 2>;

@@ -57,7 +57,7 @@ GPUDiscreteGaussianImageFilter<TInputImage, TOutputImage>::GPUDiscreteGaussianIm
   }
   else
   {
-    itkExceptionMacro("GPUDiscreteGaussianImageFilter only supports n-Dimensional image.");
+    itkExceptionMacro("GPUDiscreteGaussianImageFilter only supports n-dimensional image.");
   }
 }
 

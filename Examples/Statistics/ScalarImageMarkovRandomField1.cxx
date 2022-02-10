@@ -321,7 +321,7 @@ main(int argc, char * argv[])
   // classification of any given pixel. Note that despite the fact that we
   // call this a radius, it is actually the half size of an hypercube. That
   // is, the actual region of influence will not be circular but rather an
-  // N-Dimensional box. For example, a neighborhood radius of 2 in a 3D image
+  // n-dimensional box. For example, a neighborhood radius of 2 in a 3D image
   // will result in a clique of size 5x5x5 pixels, and a radius of 1 will
   // result in a clique of size 3x3x3 pixels.
   //

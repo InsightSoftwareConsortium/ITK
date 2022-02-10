@@ -72,7 +72,7 @@ main(int argc, char * argv[])
   nameGenerator->SetEndIndex(2878);
   nameGenerator->SetIncrementIndex(1);
 
-  // create a ImageIO for the red channel
+  // create an ImageIO for the red channel
   using ImageIOType = itk::RawImageIO<PixelType, 2>;
   auto rimageio = ImageIOType::New();
   rimageio->SetDimensions(0, 2048);
@@ -82,7 +82,7 @@ main(int argc, char * argv[])
   rimageio->SetHeaderSize(rimageio->GetImageSizeInPixels() * 0);
 
 
-  // create a ImageIO for the green channel
+  // create an ImageIO for the green channel
   auto gimageio = ImageIOType::New();
   gimageio->SetDimensions(0, 2048);
   gimageio->SetDimensions(1, 1216);
@@ -91,7 +91,7 @@ main(int argc, char * argv[])
   gimageio->SetHeaderSize(gimageio->GetImageSizeInPixels() * 1);
 
 
-  // create a ImageIO for the blue channel
+  // create an ImageIO for the blue channel
   auto bimageio = ImageIOType::New();
   bimageio->SetDimensions(0, 2048);
   bimageio->SetDimensions(1, 1216);

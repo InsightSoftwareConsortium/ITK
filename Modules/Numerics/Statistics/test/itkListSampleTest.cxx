@@ -406,13 +406,13 @@ itkListSampleTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  VariableSizeMeasurementVectorType variableLenghtVector;
+  VariableSizeMeasurementVectorType variableLengthVector;
   constexpr unsigned int            newsize = 42;
-  variableLenghtVector.SetSize(newsize);
+  variableLengthVector.SetSize(newsize);
 
   variableSizeSample->Clear();
   variableSizeSample->SetMeasurementVectorSize(newsize);
-  variableSizeSample->PushBack(variableLenghtVector);
+  variableSizeSample->PushBack(variableLengthVector);
 
   // Attempt to resize a non-empty ListSample should throw an exception.
   try

@@ -652,7 +652,7 @@ MINCImageIO::ReadImageInformation()
   this->SetNumberOfComponents(numberOfComponents);
   this->ComputeStrides();
 
-  // create metadata object to store usefull additional information
+  // create metadata object to store useful additional information
   MetaDataDictionary & thisDic = GetMetaDataDictionary();
   thisDic.Clear();
 

@@ -24,7 +24,7 @@
 #include "itkWeightedCentroidKdTreeGenerator.h"
 
 
-// run sample classifier using itk::FixedArray type measurment vector
+// run sample classifier using itk::FixedArray type measurement vector
 int
 itkSampleClassifierFilterTest4(int, char *[])
 {

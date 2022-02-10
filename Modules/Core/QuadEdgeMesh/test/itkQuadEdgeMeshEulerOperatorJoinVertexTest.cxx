@@ -442,7 +442,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     }
   std::cout << "OK" << std::endl;
   // We now consider a boundary edge (here we consider [0, 5] but still
-  // with a an adjacent face.
+  // with an adjacent face.
   //
   //   20 --------- 21 --------- 22 --------- 23 --------- 24
   //    |        __/ |        __/ |        __/ |        __/ |

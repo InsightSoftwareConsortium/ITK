@@ -107,7 +107,7 @@ DiscreteGradientMagnitudeGaussianImageFunction<TInputImage, TOutput>::RecomputeG
     }
   }
 
-  // Now precompute the N-dimensional kernel. This fastest as we don't have to
+  // Now precompute the n-dimensional kernel. This fastest as we don't have to
   // perform
   // N convolutions for each point we calculate but only one.
 

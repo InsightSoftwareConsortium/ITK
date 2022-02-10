@@ -107,7 +107,7 @@ public:
     }
   }
 
-  /** Set the all the elements of the array to the specified value */
+  /** Set all the elements of the array to the specified value */
   void
   Fill(TValue const & v)
   {

@@ -30,7 +30,7 @@
 #include <type_traits>
 
 // info: is_pod (c++20 deprecated) is equivalent to is_trivial && is_standard_layout
-// info: type_traits cannot differentiate if a explicit move constructible/assignmet exist.
+// info: type_traits cannot differentiate if an explicit move constructible/assignmet exist.
 
 TEST(CommonTypeTraits, FixedArrayIsPOD)
 {

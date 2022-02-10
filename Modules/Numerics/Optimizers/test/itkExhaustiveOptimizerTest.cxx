@@ -152,7 +152,7 @@ itkExhaustiveOptimizerTest(int, char *[])
   using ScalesType = OptimizerType::ScalesType;
 
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, ExhaustiveOptimizer, SingleValuedNonLinearOptimizer);

@@ -314,7 +314,7 @@ VariableLengthVector<TValue>::SetSize(unsigned int sz, TReallocatePolicy realloc
   m_NumElements = sz;
 }
 
-/** Set the all the elements of the array to the specified value */
+/** Set all the elements of the array to the specified value */
 template <typename TValue>
 void
 VariableLengthVector<TValue>::Fill(TValue const & v)

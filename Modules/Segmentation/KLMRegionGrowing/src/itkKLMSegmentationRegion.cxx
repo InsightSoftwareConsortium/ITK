@@ -144,7 +144,7 @@ KLMSegmentationRegion::InsertRegionBorder(KLMSegmentationBorder * pBorderCandida
     itkExceptionMacro(<< "Null pointer to segmentation region border");
   }
 
-  // The m_RegionBorderVec is a ordered vector of pointers to the borders.
+  // The m_RegionBorderVec is an ordered vector of pointers to the borders.
   // Ordering is based on regions labels.
 
   // The region border vector is empty, there is only one region border
@@ -196,7 +196,7 @@ KLMSegmentationRegion::InsertRegionBorder(RegionBorderVectorIterator RegionBorde
     itkExceptionMacro(<< "Null pointer to segmentation region border");
   }
 
-  // The m_RegionBorderVec is a ordered vector of pointers to the
+  // The m_RegionBorderVec is an ordered vector of pointers to the
   // borders. Insert a valid region border into the region border vector
   // assuming calling function has correctly identified the new
   // element position.

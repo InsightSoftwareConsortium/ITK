@@ -18,7 +18,7 @@
 
 //  Software Guide : BeginLatex
 //
-//  Setting up a pipeline of $m$ filters in order to smooth an N-dimensional
+//  Setting up a pipeline of $m$ filters in order to smooth an n-dimensional
 //  image may be a lot of work to do for achieving a simple goal. In order to
 //  avoid this inconvenience, a filter packaging this $m$ filters internally
 //  is available. This filter is the

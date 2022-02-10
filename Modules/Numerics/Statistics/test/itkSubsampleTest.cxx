@@ -151,7 +151,7 @@ itkSubsampleTest(int, char *[])
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
 
-  // try swaping indices out of range
+  // try swapping indices out of range
   try
   {
     subsample->Swap(2000000, 50);
@@ -201,7 +201,7 @@ itkSubsampleTest(int, char *[])
     std::cerr << "Expected Exception caught: " << excp << std::endl;
   }
 
-  // try accessing a instance identifier of a measurement vector
+  // try accessing an instance identifier of a measurement vector
   // using an index that is out of range
   try
   {

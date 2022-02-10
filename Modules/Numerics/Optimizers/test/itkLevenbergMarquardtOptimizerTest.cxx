@@ -235,7 +235,7 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
 
   using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto optimizer = OptimizerType::New();
 
   // Declaration of the CostFunction adaptor

@@ -30,7 +30,7 @@
  *  1/2 x^T A x - b^T x
  *
  *  Where A is represented as an itkMatrix and
- *  b is represented as a itkVector
+ *  b is represented as an itkVector
  *
  *  The system in this example is:
  *
@@ -159,7 +159,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
 
   using OptimizerType = itk::LBFGS2Optimizerv4;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, LBFGS2Optimizerv4Template, GradientDescentOptimizerv4Template);

@@ -215,7 +215,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  The output of the filter is connected here to a intensity rescaler
+  //  The output of the filter is connected here to an intensity rescaler
   //  filter and then to a writer. Invoking \code{Update()} on the writer
   //  triggers the execution of both filters.
   //

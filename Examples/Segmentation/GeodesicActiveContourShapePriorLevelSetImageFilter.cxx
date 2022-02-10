@@ -75,7 +75,7 @@
 // potential image.
 //
 // The \doxygen{FastMarchingImageFilter} creates an initial level set using
-// three user specified seed positions and a initial contour radius. Three
+// three user specified seed positions and an initial contour radius. Three
 // seeds are used in this example to facilitate the segmentation of long
 // narrow objects in a smaller number of iterations. The output of the
 // FastMarchingImageFilter is passed as the input to the

@@ -121,7 +121,7 @@ itkMutualInformationMetricTest(int, char *[])
   auto transformer = TransformType::New();
 
   //------------------------------------------------------------
-  // Set up a interpolator
+  // Set up an interpolator
   //------------------------------------------------------------
   using InterpolatorType = itk::LinearInterpolateImageFunction<MovingImageType, double>;
 
@@ -158,7 +158,7 @@ itkMutualInformationMetricTest(int, char *[])
   metric->Initialize();
 
   //------------------------------------------------------------
-  // Set up a affine transform parameters
+  // Set up an affine transform parameters
   //------------------------------------------------------------
   unsigned int   numberOfParameters = transformer->GetNumberOfParameters();
   ParametersType parameters(numberOfParameters);
@@ -229,7 +229,7 @@ itkMutualInformationMetricTest(int, char *[])
   metric->SetKernelFunction(theKernel);
   theKernel->Print(std::cout);
 
-  std::cout << "Try causing a exception by making std dev too small";
+  std::cout << "Try causing an exception by making std dev too small";
   std::cout << std::endl;
   metric->SetFixedImageStandardDeviation(0.001);
   try
@@ -247,7 +247,7 @@ itkMutualInformationMetricTest(int, char *[])
   // reset standard deviation
   metric->SetFixedImageStandardDeviation(5.0);
 
-  std::cout << "Try causing a exception by making fixed image nullptr";
+  std::cout << "Try causing an exception by making fixed image nullptr";
   std::cout << std::endl;
   metric->SetFixedImage(nullptr);
   try

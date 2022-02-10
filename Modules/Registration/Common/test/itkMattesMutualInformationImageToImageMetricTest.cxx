@@ -306,7 +306,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   metric->DebugOff();
 
   //------------------------------------------------------------
-  // Set up a affine transform parameters
+  // Set up an affine transform parameters
   //------------------------------------------------------------
   unsigned int   numberOfParameters = transformer->GetNumberOfParameters();
   ParametersType parameters(numberOfParameters);

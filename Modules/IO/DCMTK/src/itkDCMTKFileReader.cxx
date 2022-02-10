@@ -769,7 +769,7 @@ DCMTKFileReader::GetElementIS(const unsigned short group,
                                 << std::dec);
   }
   Sint32 _target; // MSVC seems to have type conversion problems with
-                  // using int32_t as a an argument to getSint32
+                  // using int32_t as an argument to getSint32
   if (isItem->getSint32(_target) != EC_Normal)
   {
     DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag " << std::hex << group << " " << element
@@ -798,7 +798,7 @@ DCMTKFileReader::GetElementSL(const unsigned short group,
                                 << std::dec);
   }
   Sint32 _target; // MSVC seems to have type conversion problems with
-                  // using int32_t as a an argument to getSint32
+                  // using int32_t as an argument to getSint32
   if (isItem->getSint32(_target) != EC_Normal)
   {
     DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Value at tag " << std::hex << group << " " << element

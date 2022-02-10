@@ -91,7 +91,7 @@ main(int, char *[])
   // the image grid starts. These two parameters make it possible to process
   // selected regions.
   //
-  // The \code{Index} is represented by a n-dimensional array where each
+  // The \code{Index} is represented by an n-dimensional array where each
   // component is an integer
   // indicating---in topological image coordinates---the initial pixel
   // of the image.

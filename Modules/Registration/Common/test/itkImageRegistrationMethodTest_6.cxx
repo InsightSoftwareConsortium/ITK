@@ -112,8 +112,8 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
 
   unsigned long numberOfIterations = 30;
   double        translationScale = 1e-8;
-  double        maximumStepLenght = 30.0; // no step will be larger than this
-  double        minimumStepLenght = 0.01; // convergence criterion
+  double        maximumStepLength = 30.0; // no step will be larger than this
+  double        minimumStepLength = 0.01; // convergence criterion
   double        gradientTolerance = 0.01; // convergence criterion
 
   if (argc > 1)
@@ -128,13 +128,13 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
   }
   if (argc > 3)
   {
-    maximumStepLenght = std::stod(argv[3]);
-    std::cout << "maximumStepLenght = " << maximumStepLenght << std::endl;
+    maximumStepLength = std::stod(argv[3]);
+    std::cout << "maximumStepLength = " << maximumStepLength << std::endl;
   }
   if (argc > 4)
   {
-    minimumStepLenght = std::stod(argv[4]);
-    std::cout << "minimumStepLenght = " << minimumStepLenght << std::endl;
+    minimumStepLength = std::stod(argv[4]);
+    std::cout << "minimumStepLength = " << minimumStepLength << std::endl;
   }
   if (argc > 5)
   {
@@ -149,8 +149,8 @@ itkImageRegistrationMethodTest_6(int argc, char * argv[])
   optimizer->SetScales(scales);
   optimizer->SetNumberOfIterations(numberOfIterations);
   optimizer->SetMaximize(false);
-  optimizer->SetMinimumStepLength(minimumStepLenght);
-  optimizer->SetMaximumStepLength(maximumStepLenght);
+  optimizer->SetMinimumStepLength(minimumStepLength);
+  optimizer->SetMaximumStepLength(maximumStepLength);
   optimizer->SetGradientMagnitudeTolerance(gradientTolerance);
 
   // Start from an Identity transform (in a normal case, the user

@@ -51,9 +51,9 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   delete m_BoundaryCondition;
 }
 
-template <typename TInputImage, typename TOperatorValueType, typename TOuputValue, typename TOuputImage>
+template <typename TInputImage, typename TOperatorValueType, typename TOutputValue, typename TOutputImage>
 void
-GradientImageFilter<TInputImage, TOperatorValueType, TOuputValue, TOuputImage>::OverrideBoundaryCondition(
+GradientImageFilter<TInputImage, TOperatorValueType, TOutputValue, TOutputImage>::OverrideBoundaryCondition(
   ImageBoundaryCondition<TInputImage> * boundaryCondition)
 {
   delete m_BoundaryCondition;

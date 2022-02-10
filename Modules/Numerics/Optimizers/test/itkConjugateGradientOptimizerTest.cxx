@@ -26,7 +26,7 @@
  *  1/2 x^T A x - b^T x
  *
  *  Where A is represented as an itkMatrix and
- *  b is represented as a itkVector
+ *  b is represented as an itkVector
  *
  *  The system in this example is:
  *
@@ -163,7 +163,7 @@ itkConjugateGradientOptimizerTest(int, char *[])
 
   using vnlOptimizerType = OptimizerType::InternalOptimizerType;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
 

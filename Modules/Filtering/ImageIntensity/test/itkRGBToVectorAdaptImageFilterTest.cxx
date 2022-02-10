@@ -24,7 +24,7 @@
  *  convert an RGBPixel image to an image that has
  *  vector pixel type.
  *
- *  This allows to access an RGB image a an image of vectors.
+ *  This allows access to an RGB image as an image of vectors.
  *
  */
 

@@ -314,7 +314,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::EnlargeOutputRequestedRegion(
   // support reading the "first slice" of a larger image
   // see bug 9212
 
-  // convert the IORegion to a ImageRegion (which is dimension templated)
+  // convert the IORegion to an ImageRegion (which is dimension templated)
   // if the ImageIO must read a higher dimension region, this will
   // truncate the last dimensions
   ImageIOAdaptor::Convert(m_ActualIORegion, streamableRegion, largestRegion.GetIndex());
@@ -326,7 +326,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::EnlargeOutputRequestedRegion(
   // pass the region propagation phase of the pipeline.
   if (!streamableRegion.IsInside(imageRequestedRegion) && imageRequestedRegion.GetNumberOfPixels() != 0)
   {
-    // we must use a InvalidRequestedRegionError since
+    // we must use an InvalidRequestedRegionError since
     // DataObject::PropagateRequestedRegion() has an exception
     // specification
     std::ostringstream message;

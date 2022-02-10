@@ -30,7 +30,7 @@
  *  1/2 x^T A x - b^T x
  *
  *  Where A is represented as an itkMatrix and
- *  b is represented as a itkVector
+ *  b is represented as an itkVector
  *
  *  The system in this example is:
  *
@@ -337,7 +337,7 @@ AmoebaTest1()
 
   using OptimizerType = itk::AmoebaOptimizerv4;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, AmoebaOptimizerv4, SingleValuedNonLinearVnlOptimizerv4);

@@ -456,7 +456,7 @@ MRCImageIO::UpdateHeaderFromImageIO()
   header.yorg = (this->GetNumberOfDimensions() >= 2) ? m_Origin[1] : 0;
   header.zorg = (this->GetNumberOfDimensions() >= 3) ? m_Origin[2] : 0;
 
-  // the SetHeader method is used to set the all the internal variable
+  // the SetHeader method is used to set all the internal variable
   // of the header object correctly, and the data is verified
   m_MRCHeader = MRCHeaderObject::New();
   if (!m_MRCHeader->SetHeader(&header))

@@ -123,7 +123,7 @@ template <typename TInputImage, typename TOutputImage>
 void
 BilateralImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
 {
-  // Build a small image of the N-dimensional Gaussian used for domain filter
+  // Build a small image of the n-dimensional Gaussian used for domain filter
   //
   // Gaussian image size will be (2*std::ceil(2.5*sigma)+1) x
   // (2*std::ceil(2.5*sigma)+1)

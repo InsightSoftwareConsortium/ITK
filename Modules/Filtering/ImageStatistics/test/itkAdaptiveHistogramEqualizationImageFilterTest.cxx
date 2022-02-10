@@ -67,7 +67,7 @@ itkAdaptiveHistogramEqualizationImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(beta, filter->GetBeta());
 
   //
-  //  The output of the filter is connected here to a intensity rescaler filter
+  //  The output of the filter is connected here to an intensity rescaler filter
   //  and then to a writer. Invoking \code{Update()} on the writer triggers the
   //  execution of both filters.
   //

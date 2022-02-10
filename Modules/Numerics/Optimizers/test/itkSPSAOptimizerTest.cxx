@@ -110,7 +110,7 @@ itkSPSAOptimizerTest(int, char *[])
   using OptimizerType = itk::SPSAOptimizer;
   using ScalesType = OptimizerType::ScalesType;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, SPSAOptimizer, SingleValuedNonLinearOptimizer);

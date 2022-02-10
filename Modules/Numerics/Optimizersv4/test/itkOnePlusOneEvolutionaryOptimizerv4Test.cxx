@@ -198,7 +198,7 @@ itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
 
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizerv4<double>;
 
-  // Declaration of a itkOptimizer
+  // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(

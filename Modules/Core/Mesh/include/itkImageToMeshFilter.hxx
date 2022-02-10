@@ -35,7 +35,7 @@ ImageToMeshFilter<TInputImage, TOutputMesh>::ImageToMeshFilter()
 }
 
 /**
- *   Make Ouput
+ *   Make Output
  */
 template <typename TInputImage, typename TOutputMesh>
 DataObject::Pointer ImageToMeshFilter<TInputImage, TOutputMesh>::MakeOutput(DataObjectPointerArraySizeType)
