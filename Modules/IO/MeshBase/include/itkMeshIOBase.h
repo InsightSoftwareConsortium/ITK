@@ -346,19 +346,19 @@ public:
     }
   }
 
-  template <typename T, unsigned int NR, unsigned int NC>
+  template <typename T, unsigned int VRows, unsigned int VColumns>
   void
-  SetPixelType(const Matrix<T, NR, NC> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const Matrix<T, VRows, VColumns> & itkNotUsed(dummy), bool UsePointPixel = true)
   {
     if (UsePointPixel)
     {
-      SetNumberOfPointPixelComponents(NR * NC);
+      SetNumberOfPointPixelComponents(VRows * VColumns);
       SetPointPixelComponentType(MapComponentType<T>::CType);
       SetPointPixelType(IOPixelEnum::MATRIX);
     }
     else
     {
-      SetNumberOfCellPixelComponents(NR * NC);
+      SetNumberOfCellPixelComponents(VRows * VColumns);
       SetCellPixelComponentType(MapComponentType<T>::CType);
       SetCellPixelType(IOPixelEnum::MATRIX);
     }

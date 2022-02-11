@@ -38,7 +38,7 @@ itkResampleImageTest6(int argc, char * argv[])
 
 
   // Resample a Vector image
-  constexpr unsigned int NDimensions = 2;
+  constexpr unsigned int VDimension = 2;
 
   using ValueType = unsigned char;
 
@@ -52,7 +52,7 @@ itkResampleImageTest6(int argc, char * argv[])
 
   using CoordRepType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType, NDimensions>;
+  using AffineTransformType = itk::AffineTransform<CoordRepType, VDimension>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 

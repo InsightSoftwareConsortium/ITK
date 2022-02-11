@@ -173,15 +173,15 @@ public:
    *
    * \deprecated Use RebindImageType instead
    */
-  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
+  template <typename UPixelType, unsigned int VUImageDimension = VImageDimension>
   struct Rebind
   {
-    using Type = itk::Image<UPixelType, NUImageDimension>;
+    using Type = itk::Image<UPixelType, VUImageDimension>;
   };
 
 
-  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
-  using RebindImageType = itk::Image<UPixelType, NUImageDimension>;
+  template <typename UPixelType, unsigned int VUImageDimension = VImageDimension>
+  using RebindImageType = itk::Image<UPixelType, VUImageDimension>;
 
 
   /** Allocate the image memory. The size of the image must

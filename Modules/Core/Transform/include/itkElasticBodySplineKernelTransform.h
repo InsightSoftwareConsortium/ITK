@@ -36,15 +36,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType = double, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform : public KernelTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT ElasticBodySplineKernelTransform : public KernelTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ElasticBodySplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ElasticBodySplineKernelTransform;
-  using Superclass = KernelTransform<TParametersValueType, NDimensions>;
+  using Superclass = KernelTransform<TParametersValueType, VDimension>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;

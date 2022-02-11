@@ -31,11 +31,11 @@ int
 itkResampleImageTest7(int, char *[])
 {
 
-  constexpr unsigned int NDimensions = 2;
+  constexpr unsigned int VDimension = 2;
 
   using PixelType = float;
 
-  using ImageType = itk::Image<PixelType, NDimensions>;
+  using ImageType = itk::Image<PixelType, VDimension>;
   using ImageIndexType = ImageType::IndexType;
   using ImagePointerType = ImageType::Pointer;
   using ImageRegionType = ImageType::RegionType;
@@ -43,7 +43,7 @@ itkResampleImageTest7(int, char *[])
 
   using CoordRepType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType, NDimensions>;
+  using AffineTransformType = itk::AffineTransform<CoordRepType, VDimension>;
 
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
 

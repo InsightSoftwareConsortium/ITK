@@ -31,15 +31,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType = float, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform : public ScaleTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = float, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT ScaleLogarithmicTransform : public ScaleTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ScaleLogarithmicTransform);
 
   /** Standard class type aliases.   */
   using Self = ScaleLogarithmicTransform;
-  using Superclass = ScaleTransform<TParametersValueType, NDimensions>;
+  using Superclass = ScaleTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -50,8 +50,8 @@ public:
   itkTypeMacro(ScaleLogarithmicTransform, ScaleTransform);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions;
+  static constexpr unsigned int SpaceDimension = VDimension;
+  static constexpr unsigned int ParametersDimension = VDimension;
 
   /** Scalar type. */
   using typename Superclass::ScalarType;

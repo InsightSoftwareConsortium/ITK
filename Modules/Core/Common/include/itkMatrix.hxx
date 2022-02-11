@@ -25,14 +25,14 @@ namespace itk
 /**
  *  Product by a Vector
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-Vector<T, NRows> Matrix<T, NRows, NColumns>::operator*(const Vector<T, NColumns> & vect) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+Vector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Vector<T, VColumns> & vect) const
 {
-  Vector<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; ++r)
+  Vector<T, VRows> result;
+  for (unsigned int r = 0; r < VRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * vect[c];
     }
@@ -44,14 +44,14 @@ Vector<T, NRows> Matrix<T, NRows, NColumns>::operator*(const Vector<T, NColumns>
 /**
  *  Product by a Point
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-Point<T, NRows> Matrix<T, NRows, NColumns>::operator*(const Point<T, NColumns> & pnt) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+Point<T, VRows> Matrix<T, VRows, VColumns>::operator*(const Point<T, VColumns> & pnt) const
 {
-  Point<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; ++r)
+  Point<T, VRows> result;
+  for (unsigned int r = 0; r < VRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * pnt[c];
     }
@@ -63,14 +63,14 @@ Point<T, NRows> Matrix<T, NRows, NColumns>::operator*(const Point<T, NColumns> &
 /**
  *  Product by a vnl_vector_fixed
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-vnl_vector_fixed<T, NRows> Matrix<T, NRows, NColumns>::operator*(const vnl_vector_fixed<T, NColumns> & inVNLvect) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+vnl_vector_fixed<T, VRows> Matrix<T, VRows, VColumns>::operator*(const vnl_vector_fixed<T, VColumns> & inVNLvect) const
 {
-  vnl_vector_fixed<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; ++r)
+  vnl_vector_fixed<T, VRows> result;
+  for (unsigned int r = 0; r < VRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * inVNLvect[c];
     }
@@ -82,14 +82,14 @@ vnl_vector_fixed<T, NRows> Matrix<T, NRows, NColumns>::operator*(const vnl_vecto
 /**
  *  Product by a CovariantVector
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-CovariantVector<T, NRows> Matrix<T, NRows, NColumns>::operator*(const CovariantVector<T, NColumns> & covect) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+CovariantVector<T, VRows> Matrix<T, VRows, VColumns>::operator*(const CovariantVector<T, VColumns> & covect) const
 {
-  CovariantVector<T, NRows> result;
-  for (unsigned int r = 0; r < NRows; ++r)
+  CovariantVector<T, VRows> result;
+  for (unsigned int r = 0; r < VRows; ++r)
   {
     T sum = NumericTraits<T>::ZeroValue();
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       sum += m_Matrix(r, c) * covect[c];
     }
@@ -101,8 +101,8 @@ CovariantVector<T, NRows> Matrix<T, NRows, NColumns>::operator*(const CovariantV
 /**
  *  Product by a matrix
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-Matrix<T, NRows, NColumns> Matrix<T, NRows, NColumns>::operator*(const CompatibleSquareMatrixType & matrix) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+Matrix<T, VRows, VColumns> Matrix<T, VRows, VColumns>::operator*(const CompatibleSquareMatrixType & matrix) const
 {
   const Self result(m_Matrix * matrix.GetVnlMatrix());
   return result;
@@ -111,15 +111,15 @@ Matrix<T, NRows, NColumns> Matrix<T, NRows, NColumns>::operator*(const Compatibl
 /**
  *  Matrix Addition
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-Matrix<T, NRows, NColumns>
-Matrix<T, NRows, NColumns>::operator+(const Self & matrix) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+Matrix<T, VRows, VColumns>
+Matrix<T, VRows, VColumns>::operator+(const Self & matrix) const
 {
   Self result;
 
-  for (unsigned int r = 0; r < NRows; ++r)
+  for (unsigned int r = 0; r < VRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       result.m_Matrix(r, c) = m_Matrix(r, c) + matrix.m_Matrix(r, c);
     }
@@ -130,13 +130,13 @@ Matrix<T, NRows, NColumns>::operator+(const Self & matrix) const
 /**
  *  Matrix Addition in-place
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-const Matrix<T, NRows, NColumns> &
-Matrix<T, NRows, NColumns>::operator+=(const Self & matrix)
+template <typename T, unsigned int VRows, unsigned int VColumns>
+const Matrix<T, VRows, VColumns> &
+Matrix<T, VRows, VColumns>::operator+=(const Self & matrix)
 {
-  for (unsigned int r = 0; r < NRows; ++r)
+  for (unsigned int r = 0; r < VRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       m_Matrix(r, c) += matrix.m_Matrix(r, c);
     }
@@ -147,15 +147,15 @@ Matrix<T, NRows, NColumns>::operator+=(const Self & matrix)
 /**
  *  Matrix Subtraction
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-Matrix<T, NRows, NColumns>
-Matrix<T, NRows, NColumns>::operator-(const Self & matrix) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+Matrix<T, VRows, VColumns>
+Matrix<T, VRows, VColumns>::operator-(const Self & matrix) const
 {
   Self result;
 
-  for (unsigned int r = 0; r < NRows; ++r)
+  for (unsigned int r = 0; r < VRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       result.m_Matrix(r, c) = m_Matrix(r, c) - matrix.m_Matrix(r, c);
     }
@@ -166,13 +166,13 @@ Matrix<T, NRows, NColumns>::operator-(const Self & matrix) const
 /**
  *  Matrix subtraction in-place
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-const Matrix<T, NRows, NColumns> &
-Matrix<T, NRows, NColumns>::operator-=(const Self & matrix)
+template <typename T, unsigned int VRows, unsigned int VColumns>
+const Matrix<T, VRows, VColumns> &
+Matrix<T, VRows, VColumns>::operator-=(const Self & matrix)
 {
-  for (unsigned int r = 0; r < NRows; ++r)
+  for (unsigned int r = 0; r < VRows; ++r)
   {
-    for (unsigned int c = 0; c < NColumns; ++c)
+    for (unsigned int c = 0; c < VColumns; ++c)
     {
       m_Matrix(r, c) -= matrix.m_Matrix(r, c);
     }
@@ -183,8 +183,8 @@ Matrix<T, NRows, NColumns>::operator-=(const Self & matrix)
 /**
  *  Product by a vnl_matrix
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-vnl_matrix<T> Matrix<T, NRows, NColumns>::operator*(const vnl_matrix<T> & matrix) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+vnl_matrix<T> Matrix<T, VRows, VColumns>::operator*(const vnl_matrix<T> & matrix) const
 {
   return m_Matrix * matrix;
 }
@@ -192,9 +192,9 @@ vnl_matrix<T> Matrix<T, NRows, NColumns>::operator*(const vnl_matrix<T> & matrix
 /**
  *  Product by a matrix
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
+template <typename T, unsigned int VRows, unsigned int VColumns>
 void
-Matrix<T, NRows, NColumns>::operator*=(const CompatibleSquareMatrixType & matrix)
+Matrix<T, VRows, VColumns>::operator*=(const CompatibleSquareMatrixType & matrix)
 {
   m_Matrix *= matrix.GetVnlMatrix();
 }
@@ -202,9 +202,9 @@ Matrix<T, NRows, NColumns>::operator*=(const CompatibleSquareMatrixType & matrix
 /**
  *  Product by a vnl_matrix
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
+template <typename T, unsigned int VRows, unsigned int VColumns>
 void
-Matrix<T, NRows, NColumns>::operator*=(const vnl_matrix<T> & matrix)
+Matrix<T, VRows, VColumns>::operator*=(const vnl_matrix<T> & matrix)
 {
   m_Matrix *= matrix;
 }
@@ -212,8 +212,8 @@ Matrix<T, NRows, NColumns>::operator*=(const vnl_matrix<T> & matrix)
 /**
  *  Product by a vnl_vector
  */
-template <typename T, unsigned int NRows, unsigned int NColumns>
-vnl_vector<T> Matrix<T, NRows, NColumns>::operator*(const vnl_vector<T> & vc) const
+template <typename T, unsigned int VRows, unsigned int VColumns>
+vnl_vector<T> Matrix<T, VRows, VColumns>::operator*(const vnl_vector<T> & vc) const
 {
   return m_Matrix * vc;
 }

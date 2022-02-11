@@ -40,15 +40,15 @@ namespace itk
  * \ingroup ITKFEM
  */
 
-template <unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT MetaFEMObjectConverter : public MetaConverterBase<NDimensions>
+template <unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT MetaFEMObjectConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaFEMObjectConverter);
 
   /** Standard class type aliases */
   using Self = MetaFEMObjectConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -63,7 +63,7 @@ public:
   using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using FEMObjectSpatialObjectType = FEMObjectSpatialObject<NDimensions>;
+  using FEMObjectSpatialObjectType = FEMObjectSpatialObject<VDimension>;
   using FEMObjectSpatialObjectPointer = typename FEMObjectSpatialObjectType::Pointer;
   using FEMObjectSpatialObjectConstPointer = typename FEMObjectSpatialObjectType::ConstPointer;
   using FEMObjectMetaObjectType = MetaFEMObject;

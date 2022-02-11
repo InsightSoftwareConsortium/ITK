@@ -20,24 +20,24 @@
 
 namespace itk
 {
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-VolumeSplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType & x,
-                                                                         GMatrixType &           gmatrix) const
+VolumeSplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType & x,
+                                                                        GMatrixType &           gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
 
   gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
   const TParametersValueType r3 = r * r * r;
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     gmatrix[i][i] = r3;
   }
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-VolumeSplineKernelTransform<TParametersValueType, NDimensions>::ComputeDeformationContribution(
+VolumeSplineKernelTransform<TParametersValueType, VDimension>::ComputeDeformationContribution(
   const InputPointType & thisPoint,
   OutputPointType &      result) const
 {
@@ -51,7 +51,7 @@ VolumeSplineKernelTransform<TParametersValueType, NDimensions>::ComputeDeformati
     const TParametersValueType r = position.GetNorm();
     const TParametersValueType r3 = r * r * r;
 
-    for (unsigned int odim = 0; odim < NDimensions; ++odim)
+    for (unsigned int odim = 0; odim < VDimension; ++odim)
     {
       result[odim] += r3 * this->m_DMatrix(odim, lnd);
     }

@@ -32,15 +32,15 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template <typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT VelocityFieldTransform : public DisplacementFieldTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT VelocityFieldTransform : public DisplacementFieldTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(VelocityFieldTransform);
 
   /** Standard class type aliases. */
   using Self = VelocityFieldTransform;
-  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -83,10 +83,10 @@ public:
   using typename Superclass::DerivativeType;
 
   /** Dimension of the velocity field . */
-  static constexpr unsigned int VelocityFieldDimension = NDimensions + 1;
+  static constexpr unsigned int VelocityFieldDimension = VDimension + 1;
 
   /** Dimension of the vector spaces. */
-  static constexpr unsigned int Dimension = NDimensions;
+  static constexpr unsigned int Dimension = VDimension;
 
   /** Define the displacement field type and corresponding interpolator type. */
   using typename Superclass::DisplacementFieldType;

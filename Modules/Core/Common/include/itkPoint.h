@@ -35,7 +35,7 @@ namespace itk
  * Point can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The NPointDimension defines the number of
+ * short, float, complex).  The VPointDimension defines the number of
  * components in the point array.
  *
  * \ingroup Geometry
@@ -49,13 +49,13 @@ namespace itk
  * \sphinxexample{Core/Common/DistanceBetweenIndices,Distance between two indices}
  * \endsphinx
  */
-template <typename TCoordRep, unsigned int NPointDimension = 3>
-class ITK_TEMPLATE_EXPORT Point : public FixedArray<TCoordRep, NPointDimension>
+template <typename TCoordRep, unsigned int VPointDimension = 3>
+class ITK_TEMPLATE_EXPORT Point : public FixedArray<TCoordRep, VPointDimension>
 {
 public:
   /** Standard class type aliases. */
   using Self = Point;
-  using Superclass = FixedArray<TCoordRep, NPointDimension>;
+  using Superclass = FixedArray<TCoordRep, VPointDimension>;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Point.   */
@@ -65,10 +65,10 @@ public:
   using RealType = typename NumericTraits<ValueType>::RealType;
 
   /** Dimension of the Space */
-  static constexpr unsigned int PointDimension = NPointDimension;
+  static constexpr unsigned int PointDimension = VPointDimension;
 
   /** The Array type from which this Vector is derived. */
-  using BaseArray = FixedArray<TCoordRep, NPointDimension>;
+  using BaseArray = FixedArray<TCoordRep, VPointDimension>;
   using Iterator = typename BaseArray::Iterator;
   using ConstIterator = typename BaseArray::ConstIterator;
 
@@ -76,11 +76,11 @@ public:
   static unsigned int
   GetPointDimension()
   {
-    return NPointDimension;
+    return VPointDimension;
   }
 
   /** VectorType define the difference between two Points */
-  using VectorType = Vector<ValueType, NPointDimension>;
+  using VectorType = Vector<ValueType, VPointDimension>;
 
   /** Default constructor, assignments */
   Point() = default;
@@ -93,15 +93,15 @@ public:
   ~Point() = default;
   /** Pass-through constructors for different type points. */
   template <typename TPointValueType>
-  Point(const Point<TPointValueType, NPointDimension> & r)
+  Point(const Point<TPointValueType, VPointDimension> & r)
     : BaseArray(r)
   {}
   /** Pass-through constructors for plain arrays. */
   template <typename TPointValueType>
-  Point(const TPointValueType r[NPointDimension])
+  Point(const TPointValueType r[VPointDimension])
     : BaseArray(r)
   {}
-  Point(const ValueType r[NPointDimension])
+  Point(const ValueType r[VPointDimension])
     : BaseArray(r)
   {}
   /** Pass-through constructors for single values */
@@ -114,13 +114,13 @@ public:
   {}
 
   /** Explicit constructor for std::array. */
-  explicit Point(const std::array<ValueType, NPointDimension> & stdArray)
+  explicit Point(const std::array<ValueType, VPointDimension> & stdArray)
     : BaseArray(stdArray)
   {}
 
   /** Pass-through assignment operator for a plain array. */
   Point &
-  operator=(const ValueType r[NPointDimension]);
+  operator=(const ValueType r[VPointDimension]);
 
   /** Compare two points for equality. */
   bool
@@ -128,7 +128,7 @@ public:
   {
     bool same = true;
 
-    for (unsigned int i = 0; i < NPointDimension && same; ++i)
+    for (unsigned int i = 0; i < VPointDimension && same; ++i)
     {
       same = (Math::ExactlyEquals((*this)[i], pt[i]));
     }
@@ -249,9 +249,9 @@ public:
    *  Casting is done with C-Like rules  */
   template <typename TCoordRepB>
   void
-  CastFrom(const Point<TCoordRepB, NPointDimension> & pa)
+  CastFrom(const Point<TCoordRepB, VPointDimension> & pa)
   {
-    for (unsigned int i = 0; i < NPointDimension; ++i)
+    for (unsigned int i = 0; i < VPointDimension; ++i)
     {
       (*this)[i] = static_cast<TCoordRep>(pa[i]);
     }
@@ -263,11 +263,11 @@ public:
 
   template <typename TCoordRepB>
   RealType
-  SquaredEuclideanDistanceTo(const Point<TCoordRepB, NPointDimension> & pa) const
+  SquaredEuclideanDistanceTo(const Point<TCoordRepB, VPointDimension> & pa) const
   {
     RealType sum = NumericTraits<RealType>::ZeroValue();
 
-    for (unsigned int i = 0; i < NPointDimension; ++i)
+    for (unsigned int i = 0; i < VPointDimension; ++i)
     {
       const auto     component = static_cast<RealType>(pa[i]);
       const RealType difference = static_cast<RealType>((*this)[i]) - component;
@@ -281,7 +281,7 @@ public:
    * C-Like rules */
   template <typename TCoordRepB>
   RealType
-  EuclideanDistanceTo(const Point<TCoordRepB, NPointDimension> & pa) const
+  EuclideanDistanceTo(const Point<TCoordRepB, VPointDimension> & pa) const
   {
     const double distance = std::sqrt(static_cast<double>(this->SquaredEuclideanDistanceTo(pa)));
 
@@ -289,13 +289,13 @@ public:
   }
 };
 
-template <typename T, unsigned int NPointDimension>
+template <typename T, unsigned int VPointDimension>
 std::ostream &
-operator<<(std::ostream & os, const Point<T, NPointDimension> & vct);
+operator<<(std::ostream & os, const Point<T, VPointDimension> & vct);
 
-template <typename T, unsigned int NPointDimension>
+template <typename T, unsigned int VPointDimension>
 std::istream &
-operator>>(std::istream & is, Point<T, NPointDimension> & vct);
+operator>>(std::istream & is, Point<T, VPointDimension> & vct);
 
 /**
  *\class BarycentricCombination
@@ -341,9 +341,9 @@ public:
 };
 
 
-template <typename TCoordRep, unsigned int NPointDimension>
+template <typename TCoordRep, unsigned int VPointDimension>
 inline void
-swap(Point<TCoordRep, NPointDimension> & a, Point<TCoordRep, NPointDimension> & b)
+swap(Point<TCoordRep, VPointDimension> & a, Point<TCoordRep, VPointDimension> & b)
 {
   a.swap(b);
 }

@@ -86,32 +86,32 @@ public:
  * \tparam TParametersValueType The type to be used for scalar numeric values.  Either
  *    float or double.
  *
- * \tparam NInputDimensions   The number of dimensions of the input vector space.
+ * \tparam VInputDimension   The number of dimensions of the input vector space.
  *
- * \tparam NOutputDimensions  The number of dimensions of the output vector space.
+ * \tparam VOutputDimension  The number of dimensions of the output vector space.
  *
  * This class provides several methods for setting the matrix and offset
  * defining the transform. To support the registration framework, the
  * transform parameters can also be set as an Array<TParametersValueType> of size
- * (NInputDimension + 1) * NOutputDimension using method SetParameters().
- * The first (NOutputDimension x NInputDimension) parameters defines the
+ * (VInputDimension + 1) * VOutputDimension using method SetParameters().
+ * The first (VOutputDimension x VInputDimension) parameters defines the
  * matrix in row-major order (where the column index varies the fastest).
- * The last NOutputDimension parameters defines the translation
+ * The last VOutputDimension parameters defines the translation
  * in each dimensions.
  *
  * \ingroup ITKTransform
  */
 
-template <typename TParametersValueType = double, unsigned int NInputDimensions = 3, unsigned int NOutputDimensions = 3>
+template <typename TParametersValueType = double, unsigned int VInputDimension = 3, unsigned int VOutputDimension = 3>
 class ITK_TEMPLATE_EXPORT MatrixOffsetTransformBase
-  : public Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
+  : public Transform<TParametersValueType, VInputDimension, VOutputDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MatrixOffsetTransformBase);
 
   /** Standard type alias   */
   using Self = MatrixOffsetTransformBase;
-  using Superclass = Transform<TParametersValueType, NInputDimensions, NOutputDimensions>;
+  using Superclass = Transform<TParametersValueType, VInputDimension, VOutputDimension>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -123,9 +123,9 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int InputSpaceDimension = NInputDimensions;
-  static constexpr unsigned int OutputSpaceDimension = NOutputDimensions;
-  static constexpr unsigned int ParametersDimension = NOutputDimensions * (NInputDimensions + 1);
+  static constexpr unsigned int InputSpaceDimension = VInputDimension;
+  static constexpr unsigned int OutputSpaceDimension = VOutputDimension;
+  static constexpr unsigned int ParametersDimension = VOutputDimension * (VInputDimension + 1);
 
   /** Parameters Type   */
   using typename Superclass::FixedParametersType;
@@ -197,10 +197,10 @@ public:
   using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-  using InverseTransformType = MatrixOffsetTransformBase<TParametersValueType, NOutputDimensions, NInputDimensions>;
+  using InverseTransformType = MatrixOffsetTransformBase<TParametersValueType, VOutputDimension, VInputDimension>;
   /** InverseTransformType must be a friend to allow the generation of a transformation
    * from its inverse (function GetInverse). */
-  friend class MatrixOffsetTransformBase<TParametersValueType, NOutputDimensions, NInputDimensions>;
+  friend class MatrixOffsetTransformBase<TParametersValueType, VOutputDimension, VInputDimension>;
 
   /** Set the transformation to an Identity
    *
@@ -351,8 +351,8 @@ public:
   }
 
   /** Set the transformation from a container of parameters.
-   * The first (NOutputDimension x NInputDimension) parameters define the
-   * matrix and the last NOutputDimension parameters the translation.
+   * The first (VOutputDimension x VInputDimension) parameters define the
+   * matrix and the last VOutputDimension parameters the translation.
    * Offset is updated based on current center. */
   void
   SetParameters(const ParametersType & parameters) override;

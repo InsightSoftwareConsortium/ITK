@@ -31,15 +31,15 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT MetaLineConverter : public MetaConverterBase<NDimensions>
+template <unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT MetaLineConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaLineConverter);
 
   /** Standard class type aliases */
   using Self = MetaLineConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -54,7 +54,7 @@ public:
   using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using LineSpatialObjectType = LineSpatialObject<NDimensions>;
+  using LineSpatialObjectType = LineSpatialObject<VDimension>;
   using LineSpatialObjectPointer = typename LineSpatialObjectType::Pointer;
   using LineSpatialObjectConstPointer = typename LineSpatialObjectType::ConstPointer;
   using LineMetaObjectType = MetaLine;

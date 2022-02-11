@@ -29,9 +29,9 @@ namespace itk
  * \brief TODO
  * \ingroup ITKIOSpatialObjects
  */
-template <unsigned int NDimensions = 3,
+template <unsigned int VDimension = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, VDimension, VDimension>>
 class ITK_TEMPLATE_EXPORT SpatialObjectWriter : public Object
 {
 public:
@@ -44,16 +44,16 @@ public:
   /** Run-time type information (and related methods). */
   using Superclass = Object;
 
-  using SpatialObjectType = SpatialObject<NDimensions>;
+  using SpatialObjectType = SpatialObject<VDimension>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
   using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
-  using MetaConverterBaseType = MetaConverterBase<NDimensions>;
+  using MetaConverterBaseType = MetaConverterBase<VDimension>;
 
-  using MetaSceneConverterType = MetaSceneConverter<NDimensions, PixelType, TMeshTraits>;
+  using MetaSceneConverterType = MetaSceneConverter<VDimension, PixelType, TMeshTraits>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

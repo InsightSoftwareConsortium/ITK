@@ -42,7 +42,7 @@ namespace itk
 template <typename TFixedImageType,
           typename TMovingImageType,
           typename TVirtualImageType,
-          unsigned int NumberOfComponents,
+          unsigned int VNumberOfComponents,
           typename TCoordRep = typename ObjectToObjectMetricBase::CoordinateRepresentationType>
 class VectorImageToImageMetricTraitsv4
 {
@@ -65,9 +65,9 @@ public:
   static constexpr ImageDimensionType MovingImageDimension = MovingImageType::ImageDimension;
   static constexpr ImageDimensionType VirtualImageDimension = VirtualImageType::ImageDimension;
 
-  using FixedImageGradientType = Vector<CoordinateRepresentationType, FixedImageDimension * NumberOfComponents>;
-  using MovingImageGradientType = Vector<CoordinateRepresentationType, MovingImageDimension * NumberOfComponents>;
-  using VirtualImageGradientType = Vector<CoordinateRepresentationType, VirtualImageDimension * NumberOfComponents>;
+  using FixedImageGradientType = Vector<CoordinateRepresentationType, FixedImageDimension * VNumberOfComponents>;
+  using MovingImageGradientType = Vector<CoordinateRepresentationType, MovingImageDimension * VNumberOfComponents>;
+  using VirtualImageGradientType = Vector<CoordinateRepresentationType, VirtualImageDimension * VNumberOfComponents>;
 
   using FixedImageGradientConvertType = DefaultConvertPixelTraits<FixedImageGradientType>;
   using MovingImageGradientConvertType = DefaultConvertPixelTraits<MovingImageGradientType>;

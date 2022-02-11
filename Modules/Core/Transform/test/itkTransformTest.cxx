@@ -26,12 +26,12 @@ namespace itk
 namespace itkTransformTestHelpers
 {
 
-template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-class TransformTestHelper : public Transform<TScalar, NInputDimensions, NOutputDimensions>
+template <typename TScalar, unsigned int VInputDimension, unsigned int VOutputDimension>
+class TransformTestHelper : public Transform<TScalar, VInputDimension, VOutputDimension>
 {
 public:
   using Self = TransformTestHelper;
-  using Superclass = Transform<TScalar, NInputDimensions, NOutputDimensions>;
+  using Superclass = Transform<TScalar, VInputDimension, VOutputDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -165,13 +165,13 @@ public:
   }
 };
 
-template <typename TScalar, unsigned int NInputDimensions, unsigned int NOutputDimensions>
+template <typename TScalar, unsigned int VInputDimension, unsigned int VOutputDimension>
 class TransformTester
 {
 public:
   using Self = TransformTester;
 
-  using TransformType = TransformTestHelper<double, NInputDimensions, NOutputDimensions>;
+  using TransformType = TransformTestHelper<double, VInputDimension, VOutputDimension>;
 
   using JacobianType = typename TransformType::JacobianType;
   using ParametersType = typename TransformType::ParametersType;
@@ -195,7 +195,7 @@ public:
   bool
   RunTests()
   {
-    std::cout << "Testing itkTransform<" << NInputDimensions << "," << NOutputDimensions << ">" << std::endl;
+    std::cout << "Testing itkTransform<" << VInputDimension << "," << VOutputDimension << ">" << std::endl;
     auto transform = TransformType::New();
 
     InputPointType pnt;
@@ -209,7 +209,7 @@ public:
     transform->TransformVector(vec, pnt);
 
     InputVectorPixelType vecpix;
-    vecpix.SetSize(NInputDimensions);
+    vecpix.SetSize(VInputDimension);
     vecpix.Fill(1.7);
     transform->TransformVector(vecpix);
     transform->TransformVector(vecpix, pnt);
@@ -236,7 +236,7 @@ public:
     std::cout << "TransformDiffusionTensor3D()                  OK" << std::endl;
 
     InputSymmetricSecondRankTensorType ssrten;
-    vecpix.SetSize(NInputDimensions * NInputDimensions);
+    vecpix.SetSize(VInputDimension * VInputDimension);
     vecpix.Fill(0);
     transform->TransformSymmetricSecondRankTensor(ssrten);
     transform->TransformSymmetricSecondRankTensor(ssrten, pnt);

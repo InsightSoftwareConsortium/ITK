@@ -183,22 +183,22 @@ public:
    * \sa Image::Rebind
    * \deprecated Use template alias RebindImageType instead
    */
-  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
+  template <typename UPixelType, unsigned int VUImageDimension = VImageDimension>
   struct Rebind
   {
-    using Type = itk::VectorImage<UPixelType, NUImageDimension>;
+    using Type = itk::VectorImage<UPixelType, VUImageDimension>;
   };
 
   /// \cond HIDE_SPECIALIZATION_DOCUMENTATION
-  template <typename UElementType, unsigned int NUImageDimension>
-  struct Rebind<VariableLengthVector<UElementType>, NUImageDimension>
+  template <typename UElementType, unsigned int VUImageDimension>
+  struct Rebind<VariableLengthVector<UElementType>, VUImageDimension>
   {
-    using Type = itk::VectorImage<UElementType, NUImageDimension>;
+    using Type = itk::VectorImage<UElementType, VUImageDimension>;
   };
   /// \endcond
 
-  template <typename UPixelType, unsigned int NUImageDimension = VImageDimension>
-  using RebindImageType = typename Rebind<UPixelType, NUImageDimension>::Type;
+  template <typename UPixelType, unsigned int VUImageDimension = VImageDimension>
+  using RebindImageType = typename Rebind<UPixelType, VUImageDimension>::Type;
 
   /** Allocate the image memory. The size of the image must
    * already be set, e.g. by calling SetRegions(). */

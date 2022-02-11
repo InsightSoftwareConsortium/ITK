@@ -30,7 +30,7 @@
 
 namespace itk
 {
-template <typename TPixel, unsigned int NDimension>
+template <typename TPixel, unsigned int VDimension>
 class GPUImage;
 
 /**

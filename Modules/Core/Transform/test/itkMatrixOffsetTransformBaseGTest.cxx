@@ -25,11 +25,11 @@
 namespace
 {
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
 Check_New_MatrixOffsetTransformBase()
 {
-  using MatrixOffsetTransformBaseType = itk::MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
+  using MatrixOffsetTransformBaseType = itk::MatrixOffsetTransformBase<TParametersValueType, VDimension, VDimension>;
 
   const auto transformBase = MatrixOffsetTransformBaseType::New();
 
@@ -45,13 +45,13 @@ Check_New_MatrixOffsetTransformBase()
 }
 
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 void
 Assert_SetFixedParameters_throws_when_size_is_less_than_NDimensions()
 {
-  for (unsigned int size{}; size < NDimensions; ++size)
+  for (unsigned int size{}; size < VDimension; ++size)
   {
-    using TransformBaseType = itk::MatrixOffsetTransformBase<double, NDimensions, NDimensions>;
+    using TransformBaseType = itk::MatrixOffsetTransformBase<double, VDimension, VDimension>;
     using FixedParametersType = typename TransformBaseType::FixedParametersType;
 
     const auto                transformBase = TransformBaseType::New();

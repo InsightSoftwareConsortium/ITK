@@ -30,16 +30,16 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType, unsigned int NDimensions = 3>
+template <typename TParametersValueType, unsigned int VDimension = 3>
 // Number of dimensions
-class ITK_TEMPLATE_EXPORT ThinPlateSplineKernelTransform : public KernelTransform<TParametersValueType, NDimensions>
+class ITK_TEMPLATE_EXPORT ThinPlateSplineKernelTransform : public KernelTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ThinPlateSplineKernelTransform);
 
   /** Standard class type aliases. */
   using Self = ThinPlateSplineKernelTransform;
-  using Superclass = KernelTransform<TParametersValueType, NDimensions>;
+  using Superclass = KernelTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

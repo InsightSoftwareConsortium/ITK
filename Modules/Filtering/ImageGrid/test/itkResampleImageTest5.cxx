@@ -37,7 +37,7 @@ itkResampleImageTest5(int argc, char * argv[])
   }
 
   // Resample an RGB image
-  constexpr unsigned int NDimensions = 2;
+  constexpr unsigned int VDimension = 2;
 
   using PixelType = unsigned char;
   using RGBPixelType = itk::RGBPixel<unsigned char>;
@@ -50,7 +50,7 @@ itkResampleImageTest5(int argc, char * argv[])
 
   using CoordRepType = double;
 
-  using AffineTransformType = itk::AffineTransform<CoordRepType, NDimensions>;
+  using AffineTransformType = itk::AffineTransform<CoordRepType, VDimension>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
   using WriterType = itk::ImageFileWriter<ImageType>;
 

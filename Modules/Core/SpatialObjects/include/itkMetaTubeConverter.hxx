@@ -21,17 +21,17 @@
 
 namespace itk
 {
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaTubeConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaTubeConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new TubeMetaObjectType);
 }
 
 /** Convert a metaTube into an Tube SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaTubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * tubeMO = dynamic_cast<const TubeMetaObjectType *>(mo);
   if (tubeMO == nullptr)
@@ -50,19 +50,19 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
   tubeSO->GetProperty().SetBlue(tubeMO->Color()[2]);
   tubeSO->GetProperty().SetAlpha(tubeMO->Color()[3]);
 
-  using TubePointType = itk::TubeSpatialObjectPoint<NDimensions>;
+  using TubePointType = itk::TubeSpatialObjectPoint<VDimension>;
 
   auto it2 = tubeMO->GetPoints().begin();
 
-  itk::CovariantVector<double, NDimensions> v;
-  itk::Vector<double, NDimensions>          t;
+  itk::CovariantVector<double, VDimension> v;
+  itk::Vector<double, VDimension>          t;
 
   for (unsigned int identifier = 0; identifier < tubeMO->GetPoints().size(); ++identifier)
   {
     TubePointType pnt;
 
     typename TubePointType::PointType pos;
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pos[d] = (*it2)->m_X[d] * tubeMO->ElementSpacing(d);
     }
@@ -76,19 +76,19 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
     pnt.SetRoundness((*it2)->m_Roundness);
     pnt.SetIntensity((*it2)->m_Intensity);
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       v[i] = (*it2)->m_V1[i];
     }
     pnt.SetNormal1InObjectSpace(v);
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       v[i] = (*it2)->m_V2[i];
     }
     pnt.SetNormal2InObjectSpace(v);
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       t[i] = (*it2)->m_T[i];
     }
@@ -121,9 +121,9 @@ MetaTubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 }
 
 /** Convert a Tube SpatialObject into a metaTube */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
+MetaTubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   TubeSpatialObjectConstPointer tubeSO = dynamic_cast<const TubeSpatialObjectType *>(spatialObject);
   if (tubeSO.IsNull())
@@ -131,15 +131,15 @@ MetaTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
     itkExceptionMacro(<< "Can't downcast SpatialObject to TubeSpatialObject");
   }
 
-  auto * tubeMO = new MetaTube(NDimensions);
+  auto * tubeMO = new MetaTube(VDimension);
 
   // fill in the tube information
   typename TubeSpatialObjectType::TubePointListType::const_iterator it;
   for (it = tubeSO->GetPoints().begin(); it != tubeSO->GetPoints().end(); ++it)
   {
-    auto * pnt = new TubePnt(NDimensions);
+    auto * pnt = new TubePnt(VDimension);
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
@@ -164,17 +164,17 @@ MetaTubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
       ++iter;
     }
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_V1[d] = (*it).GetNormal1InObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_V2[d] = (*it).GetNormal2InObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_T[d] = (*it).GetTangentInObjectSpace()[d];
     }

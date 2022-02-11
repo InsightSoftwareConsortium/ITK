@@ -169,16 +169,16 @@ Size2ConversionTest()
 int
 MatrixConversionTest()
 {
-  constexpr unsigned int NRows = 2;
-  constexpr unsigned int NColumns = 3;
-  using ITKMatrixType = itk::Matrix<double, NRows, NColumns>;
-  using CVMatrixType = cv::Matx<double, NRows, NColumns>;
+  constexpr unsigned int NumberOfRows = 2;
+  constexpr unsigned int NumberOfColumns = 3;
+  using ITKMatrixType = itk::Matrix<double, NumberOfRows, NumberOfColumns>;
+  using CVMatrixType = cv::Matx<double, NumberOfRows, NumberOfColumns>;
 
   CVMatrixType cvA;
   int          k = 1;
-  for (unsigned int i = 0; i < NRows; ++i)
+  for (unsigned int i = 0; i < NumberOfRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; ++j)
+    for (unsigned int j = 0; j < NumberOfColumns; ++j)
     {
       cvA(i, j) = static_cast<double>(k++);
     }
@@ -188,9 +188,9 @@ MatrixConversionTest()
 
   int oResult = EXIT_SUCCESS;
 
-  for (unsigned int i = 0; i < NRows; ++i)
+  for (unsigned int i = 0; i < NumberOfRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; ++j)
+    for (unsigned int j = 0; j < NumberOfColumns; ++j)
     {
       if (cvA(i, j) != ITKA[i][j])
       {
@@ -442,16 +442,16 @@ Size2ConversionTest()
 int
 MatrixConversionTest()
 {
-  constexpr unsigned int NRows = 2;
-  constexpr unsigned int NColumns = 3;
-  using ITKMatrixType = itk::Matrix<double, NRows, NColumns>;
-  using CVMatrixType = cv::Matx<double, NRows, NColumns>;
+  constexpr unsigned int NumberOfRows = 2;
+  constexpr unsigned int NumberOfColumns = 3;
+  using ITKMatrixType = itk::Matrix<double, NumberOfRows, NumberOfColumns>;
+  using CVMatrixType = cv::Matx<double, NumberOfRows, NumberOfColumns>;
 
   ITKMatrixType itkA;
   int           k = 1;
-  for (unsigned int i = 0; i < NRows; ++i)
+  for (unsigned int i = 0; i < NumberOfRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; ++j)
+    for (unsigned int j = 0; j < NumberOfColumns; ++j)
     {
       itkA[i][j] = static_cast<double>(k++);
     }
@@ -461,9 +461,9 @@ MatrixConversionTest()
 
   int oResult = EXIT_SUCCESS;
 
-  for (unsigned int i = 0; i < NRows; ++i)
+  for (unsigned int i = 0; i < NumberOfRows; ++i)
   {
-    for (unsigned int j = 0; j < NColumns; ++j)
+    for (unsigned int j = 0; j < NumberOfColumns; ++j)
     {
       if (cvA(i, j) != itkA[i][j])
       {

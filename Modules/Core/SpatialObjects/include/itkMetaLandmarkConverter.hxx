@@ -22,17 +22,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaLandmarkConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaLandmarkConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new LandmarkMetaObjectType);
 }
 
 /** Convert a metaLandmark into an Landmark SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaLandmarkConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * landmarkMO = dynamic_cast<const LandmarkMetaObjectType *>(mo);
   if (landmarkMO == nullptr)
@@ -50,7 +50,7 @@ MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTy
   landmarkSO->GetProperty().SetBlue(landmarkMO->Color()[2]);
   landmarkSO->GetProperty().SetAlpha(landmarkMO->Color()[3]);
 
-  using LandmarkPointType = itk::SpatialObjectPoint<NDimensions>;
+  using LandmarkPointType = itk::SpatialObjectPoint<VDimension>;
 
   auto it2 = landmarkMO->GetPoints().begin();
 
@@ -61,7 +61,7 @@ MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTy
     using PointType = typename LandmarkSpatialObjectType::PointType;
     PointType point;
 
-    for (unsigned int ii = 0; ii < NDimensions; ++ii)
+    for (unsigned int ii = 0; ii < VDimension; ++ii)
     {
       point[ii] = (*it2)->m_X[ii] * landmarkMO->ElementSpacing(ii);
     }
@@ -81,9 +81,9 @@ MetaLandmarkConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTy
 }
 
 /** Convert a Landmark SpatialObject into a metaLandmark */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaLandmarkConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
+MetaLandmarkConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   const LandmarkSpatialObjectConstPointer landmarkSO = dynamic_cast<const LandmarkSpatialObjectType *>(so);
 
@@ -92,15 +92,15 @@ MetaLandmarkConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjec
     itkExceptionMacro(<< "Can't downcast SpatialObject to LandmarkSpatialObject");
   }
 
-  auto * landmarkMO = new MetaLandmark(NDimensions);
+  auto * landmarkMO = new MetaLandmark(VDimension);
 
   // fill in the Landmark information
   typename LandmarkSpatialObjectType::LandmarkPointListType::const_iterator it;
   for (it = landmarkSO->GetPoints().begin(); it != landmarkSO->GetPoints().end(); ++it)
   {
-    auto * pnt = new LandmarkPnt(NDimensions);
+    auto * pnt = new LandmarkPnt(VDimension);
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
@@ -112,7 +112,7 @@ MetaLandmarkConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjec
     landmarkMO->GetPoints().push_back(pnt);
   }
 
-  if (NDimensions == 2)
+  if (VDimension == 2)
   {
     landmarkMO->PointDim("x y red green blue alpha");
   }

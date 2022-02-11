@@ -37,9 +37,9 @@ class VanHerkGilWermanDilateImageFilter;
 namespace itk
 {
 
-template <unsigned int NDimension>
-FlatStructuringElement<NDimension>
-FlatStructuringElement<NDimension>::Polygon(RadiusType radius, unsigned int lines)
+template <unsigned int VDimension>
+FlatStructuringElement<VDimension>
+FlatStructuringElement<VDimension>::Polygon(RadiusType radius, unsigned int lines)
 {
   Self res = Self();
   GeneratePolygon(res, radius, lines);
@@ -1013,9 +1013,9 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
   return res;
 }
 
-template <unsigned int NDimension>
-FlatStructuringElement<NDimension>
-FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
+template <unsigned int VDimension>
+FlatStructuringElement<VDimension>
+FlatStructuringElement<VDimension>::Annulus(RadiusType   radius,
                                             unsigned int thickness,
                                             bool         includeCenter,
                                             bool         radiusIsParametric)
@@ -1031,7 +1031,7 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
   auto                           kernelImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = radius;
-  for (unsigned int i = 0; i < NDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     size[i] = 2 * size[i] + 1;
   }
@@ -1053,7 +1053,7 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
   //
 
   // Ellipsoid spatial function typedef
-  using EllipsoidType = EllipsoidInteriorExteriorSpatialFunction<NDimension>;
+  using EllipsoidType = EllipsoidInteriorExteriorSpatialFunction<VDimension>;
 
   // Create an ellipsoid spatial function for the source image
   auto ellipsoidOuter = EllipsoidType::New();
@@ -1062,7 +1062,7 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
   // Define and set the axes lengths for the ellipsoid
   typename EllipsoidType::InputType axesOuter;
   typename EllipsoidType::InputType axesInner;
-  for (unsigned int i = 0; i < NDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     if (result.GetRadiusIsParametric())
     {
@@ -1080,7 +1080,7 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
 
   // Define and set the center of the ellipsoid in physical space
   typename EllipsoidType::InputType center;
-  for (unsigned int i = 0; i < NDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     // put the center of ellipse in the middle of the center pixel
     center[i] = result.GetRadius(i) + 0.5;
@@ -1098,7 +1098,7 @@ FlatStructuringElement<NDimension>::Annulus(RadiusType   radius,
 
   // Create the starting seed
   typename ImageType::IndexType seed;
-  for (unsigned int i = 0; i < NDimension; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     seed[i] = result.GetRadius(i);
   }

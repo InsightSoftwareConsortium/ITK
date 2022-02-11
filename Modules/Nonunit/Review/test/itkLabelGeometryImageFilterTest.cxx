@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 
 // Helper function declaration.
-template <const unsigned int NDimension>
+template <const unsigned int VDimension>
 int
 LabelGeometryImageFilterTest(std::string labelImageName,
                              std::string intensityImageName,
@@ -83,7 +83,7 @@ itkLabelGeometryImageFilterTest(int argc, char * argv[])
   return EXIT_SUCCESS;
 }
 
-template <const unsigned int NDimension>
+template <const unsigned int VDimension>
 int
 LabelGeometryImageFilterTest(std::string labelImageName,
                              std::string intensityImageName,
@@ -97,8 +97,8 @@ LabelGeometryImageFilterTest(std::string labelImageName,
   using LabelPixelType = unsigned short;
   using IntensityPixelType = unsigned char;
 
-  using LabelImageType = itk::Image<LabelPixelType, NDimension>;
-  using IntensityImageType = itk::Image<IntensityPixelType, NDimension>;
+  using LabelImageType = itk::Image<LabelPixelType, VDimension>;
+  using IntensityImageType = itk::Image<IntensityPixelType, VDimension>;
 
   // Read the label image.
   using LabelReaderType = itk::ImageFileReader<LabelImageType>;
@@ -166,7 +166,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
 
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetCentroid(labelValue)[0];
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetCentroid(labelValue)[1];
-    if (NDimension == 3)
+    if (VDimension == 3)
     {
       matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetCentroid(labelValue)[2];
     }
@@ -176,7 +176,7 @@ LabelGeometryImageFilterTest(std::string labelImageName,
     }
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetWeightedCentroid(labelValue)[0];
     matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetWeightedCentroid(labelValue)[1];
-    if (NDimension == 3)
+    if (VDimension == 3)
     {
       matrix(rowIndex, columnIndex++) = labelGeometryFilter->GetWeightedCentroid(labelValue)[2];
     }

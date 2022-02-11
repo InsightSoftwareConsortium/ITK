@@ -52,16 +52,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT GaussianExponentialDiffeomorphicTransform
-  : public ConstantVelocityFieldTransform<TParametersValueType, NDimensions>
+  : public ConstantVelocityFieldTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GaussianExponentialDiffeomorphicTransform);
 
   /** Standard class type aliases. */
   using Self = GaussianExponentialDiffeomorphicTransform;
-  using Superclass = ConstantVelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Superclass = ConstantVelocityFieldTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -72,10 +72,10 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the velocity field . */
-  static constexpr unsigned int ConstantVelocityFieldDimension = NDimensions;
+  static constexpr unsigned int ConstantVelocityFieldDimension = VDimension;
 
   /** Dimension of the vector spaces. */
-  static constexpr unsigned int Dimension = NDimensions;
+  static constexpr unsigned int Dimension = VDimension;
 
   /** Types from superclass */
   using typename Superclass::ScalarType;
@@ -121,7 +121,7 @@ protected:
 
   /** Type of Gaussian Operator used during smoothing. Define here
    * so we can use a member var during the operation. */
-  using GaussianSmoothingOperatorType = GaussianOperator<ScalarType, NDimensions>;
+  using GaussianSmoothingOperatorType = GaussianOperator<ScalarType, VDimension>;
 
   using GaussianSmoothingSmootherType =
     VectorNeighborhoodOperatorImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType>;

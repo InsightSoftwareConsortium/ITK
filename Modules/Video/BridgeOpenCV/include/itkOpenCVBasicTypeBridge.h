@@ -167,11 +167,11 @@ struct OpenCVBasicTypeBridge<itk::Size<2>, cv::Size>
   }
 };
 
-template <typename T, unsigned int NRows, unsigned int NColumns>
-struct OpenCVBasicTypeBridge<itk::Matrix<T, NRows, NColumns>, cv::Matx<T, NRows, NColumns>>
+template <typename T, unsigned int VRows, unsigned int VColumns>
+struct OpenCVBasicTypeBridge<itk::Matrix<T, VRows, VColumns>, cv::Matx<T, VRows, VColumns>>
 {
-  using ITKDataType = itk::Matrix<T, NRows, NColumns>;
-  using OpenCVDataType = cv::Matx<T, NRows, NColumns>;
+  using ITKDataType = itk::Matrix<T, VRows, VColumns>;
+  using OpenCVDataType = cv::Matx<T, VRows, VColumns>;
 
   static ITKDataType
   FromOpenCVToITK(const OpenCVDataType & iP)

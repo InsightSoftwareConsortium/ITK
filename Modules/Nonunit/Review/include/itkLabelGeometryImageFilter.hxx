@@ -35,11 +35,11 @@ namespace
 //
 // Private Helper functions
 //
-template <unsigned int NDimension>
+template <unsigned int VDimension>
 vnl_matrix<double> inline CalculateRotationMatrix(const vnl_symmetric_eigensystem<double> & eig)
 {
-  vnl_matrix<double> rotationMatrix(NDimension, NDimension, 0);
-  for (unsigned int i = 0; i < NDimension; ++i)
+  vnl_matrix<double> rotationMatrix(VDimension, VDimension, 0);
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     rotationMatrix.set_column(i, eig.get_eigenvector(i));
   }
@@ -53,11 +53,11 @@ vnl_matrix<double> inline CalculateRotationMatrix(const vnl_symmetric_eigensyste
   // can fix this by making one of them negative.  Make the last
   // eigenvector (with smallest eigenvalue) negative.
   float matrixDet;
-  if (NDimension == 2)
+  if (VDimension == 2)
   {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1]);
   }
-  else if (NDimension == 3)
+  else if (VDimension == 3)
   {
     matrixDet = vnl_det(rotationMatrix[0], rotationMatrix[1], rotationMatrix[2]);
   }
@@ -69,7 +69,7 @@ vnl_matrix<double> inline CalculateRotationMatrix(const vnl_symmetric_eigensyste
 
   if (matrixDet < 0)
   {
-    rotationMatrix.set_column(NDimension - 1, -rotationMatrix.get_column(NDimension - 1));
+    rotationMatrix.set_column(VDimension - 1, -rotationMatrix.get_column(VDimension - 1));
   }
 
   // Transpose the matrix to yield the rotation matrix.

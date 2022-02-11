@@ -30,15 +30,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType = double, unsigned int NDimensions = 3, unsigned int VSplineOrder = 3>
-class ITK_TEMPLATE_EXPORT BSplineBaseTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
+template <typename TParametersValueType = double, unsigned int VDimension = 3, unsigned int VSplineOrder = 3>
+class ITK_TEMPLATE_EXPORT BSplineBaseTransform : public Transform<TParametersValueType, VDimension, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineBaseTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineBaseTransform;
-  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Superclass = Transform<TParametersValueType, VDimension, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -46,7 +46,7 @@ public:
   itkTypeMacro(BSplineBaseTransform, Transform);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int SpaceDimension = VDimension;
 
   /** The BSpline order. */
   static constexpr unsigned int SplineOrder = VSplineOrder;
@@ -177,7 +177,7 @@ public:
   using ParametersValueType = typename ParametersType::ValueType;
   using ImageType = Image<ParametersValueType, Self::SpaceDimension>;
   using ImagePointer = typename ImageType::Pointer;
-  using CoefficientImageArray = FixedArray<ImagePointer, NDimensions>;
+  using CoefficientImageArray = FixedArray<ImagePointer, VDimension>;
 
   /** Set the array of coefficient images.
    *

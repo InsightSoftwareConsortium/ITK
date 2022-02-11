@@ -32,8 +32,8 @@ namespace itk
  */
 
 /* Can we template of Image type instead, but require that Image be of type
- * Image< Vector< TValue, NVectorDimension >, VImageDimension > ? */
-template <typename TValue, unsigned int NVectorDimension, unsigned int VImageDimension>
+ * Image< Vector< TValue, VVectorDimension >, VImageDimension > ? */
+template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT ImageVectorOptimizerParametersHelper : public OptimizerParametersHelper<TValue>
 {
 public:
@@ -43,7 +43,7 @@ public:
   using Superclass = OptimizerParametersHelper<TValue>;
 
   /** Image type that this class expects. */
-  using ParameterImageType = Image<Vector<TValue, NVectorDimension>, VImageDimension>;
+  using ParameterImageType = Image<Vector<TValue, VVectorDimension>, VImageDimension>;
   using ParameterImagePointer = typename ParameterImageType::Pointer;
 
   /** Type of the common data object used in OptimizerParameters */

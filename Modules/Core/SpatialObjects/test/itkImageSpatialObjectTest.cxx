@@ -35,14 +35,14 @@
 int
 itkImageSpatialObjectTest(int, char *[])
 {
-#define NDimensions 3
+#define VDimension 3
 
   using ScalarType = double;
   using Pixel = unsigned short;
-  using ImageType = itk::Image<Pixel, NDimensions>;
-  using ImageSpatialObject = itk::ImageSpatialObject<NDimensions, Pixel>;
+  using ImageType = itk::Image<Pixel, VDimension>;
+  using ImageSpatialObject = itk::ImageSpatialObject<VDimension, Pixel>;
   using Iterator = itk::ImageRegionIterator<ImageType>;
-  using PointType = itk::Point<ScalarType, NDimensions>;
+  using PointType = itk::Point<ScalarType, VDimension>;
 
   auto                  image = ImageType::New();
   ImageType::SizeType   size = { { 10, 10, 10 } };

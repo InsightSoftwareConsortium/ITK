@@ -25,8 +25,8 @@
 
 namespace
 {
-template <unsigned int NDimension>
-constexpr std::integral_constant<unsigned int, NDimension> DimensionConstant{};
+template <unsigned int VDimension>
+constexpr std::integral_constant<unsigned int, VDimension> DimensionConstant{};
 
 
 template <unsigned int VDimension>

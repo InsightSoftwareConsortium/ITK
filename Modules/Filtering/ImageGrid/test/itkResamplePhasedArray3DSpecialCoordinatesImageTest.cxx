@@ -26,12 +26,12 @@
 
 enum
 {
-  NDimensions = 3
+  VDimension = 3
 };
 
 using PixelType = float;
 using InputImageType = itk::PhasedArray3DSpecialCoordinatesImage<PixelType>;
-using ImageType = itk::Image<PixelType, NDimensions>;
+using ImageType = itk::Image<PixelType, VDimension>;
 using InputImagePointerType = InputImageType::Pointer;
 using ImagePointerType = ImageType::Pointer;
 using ImageRegionType = ImageType::RegionType;

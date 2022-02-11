@@ -32,9 +32,9 @@ namespace fem
 template <typename TInputImage>
 ImageToRectilinearFEMObjectFilter<TInputImage>::ImageToRectilinearFEMObjectFilter()
 {
-  this->m_NumberOfElements.set_size(NDimensions);
+  this->m_NumberOfElements.set_size(VDimension);
   this->m_NumberOfElements.fill(0);
-  this->m_PixelsPerElement.set_size(NDimensions);
+  this->m_PixelsPerElement.set_size(VDimension);
   this->m_PixelsPerElement.fill(1);
   this->m_Material = nullptr;
   this->m_Element = nullptr;
@@ -137,7 +137,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GenerateData()
     itkWarningMacro(<< "GenerateData() found no input objects");
   }
 
-  if (NDimensions == 2)
+  if (VDimension == 2)
   {
     Generate2DRectilinearMesh();
   }

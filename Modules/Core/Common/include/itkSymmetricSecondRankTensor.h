@@ -71,27 +71,27 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template <typename TComponent, unsigned int NDimension = 3>
-class ITK_TEMPLATE_EXPORT SymmetricSecondRankTensor : public FixedArray<TComponent, NDimension *(NDimension + 1) / 2>
+template <typename TComponent, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT SymmetricSecondRankTensor : public FixedArray<TComponent, VDimension *(VDimension + 1) / 2>
 {
 public:
   /** Standard class type aliases. */
   using Self = SymmetricSecondRankTensor;
-  using Superclass = FixedArray<TComponent, NDimension *(NDimension + 1) / 2>;
+  using Superclass = FixedArray<TComponent, VDimension *(VDimension + 1) / 2>;
 
   /** Dimension of the vector space. */
-  static constexpr unsigned int Dimension = NDimension;
-  static constexpr unsigned int InternalDimension = NDimension * (NDimension + 1) / 2;
+  static constexpr unsigned int Dimension = VDimension;
+  static constexpr unsigned int InternalDimension = VDimension * (VDimension + 1) / 2;
 
   /** Convenience type alias. */
   using BaseArray = FixedArray<TComponent, Self::InternalDimension>;
 
   /** Array of eigen-values. */
-  using EigenValuesArrayType = FixedArray<TComponent, NDimension>;
+  using EigenValuesArrayType = FixedArray<TComponent, VDimension>;
 
   /** Matrix of eigen-vectors. */
-  using MatrixType = Matrix<TComponent, NDimension, NDimension>;
-  using EigenVectorsMatrixType = Matrix<TComponent, NDimension, NDimension>;
+  using MatrixType = Matrix<TComponent, VDimension, VDimension>;
+  using EigenVectorsMatrixType = Matrix<TComponent, VDimension, VDimension>;
 
   /**  Define the component type. */
   using ComponentType = TComponent;
@@ -116,7 +116,7 @@ public:
 
   /** Constructor to enable casting...  */
   template <typename TCoordRepB>
-  SymmetricSecondRankTensor(const SymmetricSecondRankTensor<TCoordRepB, NDimension> & pa)
+  SymmetricSecondRankTensor(const SymmetricSecondRankTensor<TCoordRepB, VDimension> & pa)
     : BaseArray(pa)
   {}
 
@@ -130,7 +130,7 @@ public:
   /** Templated Pass-through assignment  for the Array base class. */
   template <typename TCoordRepB>
   Self &
-  operator=(const SymmetricSecondRankTensor<TCoordRepB, NDimension> & pa)
+  operator=(const SymmetricSecondRankTensor<TCoordRepB, VDimension> & pa)
   {
     BaseArray::operator=(pa);
     return *this;
@@ -220,12 +220,12 @@ public:
    */
   template <typename TMatrixValueType>
   Self
-  Rotate(const Matrix<TMatrixValueType, NDimension, NDimension> & m) const;
+  Rotate(const Matrix<TMatrixValueType, VDimension, VDimension> & m) const;
   template <typename TMatrixValueType>
   Self
-  Rotate(const vnl_matrix_fixed<TMatrixValueType, NDimension, NDimension> & m) const
+  Rotate(const vnl_matrix_fixed<TMatrixValueType, VDimension, VDimension> & m) const
   {
-    return this->Rotate(static_cast<Matrix<TMatrixValueType, NDimension, NDimension>>(m));
+    return this->Rotate(static_cast<Matrix<TMatrixValueType, VDimension, VDimension>>(m));
   }
   template <typename TMatrixValueType>
   Self
@@ -250,13 +250,13 @@ private:
 using OutputStreamType = std::ostream;
 using InputStreamType = std::istream;
 
-template <typename TComponent, unsigned int NDimension>
+template <typename TComponent, unsigned int VDimension>
 OutputStreamType &
-operator<<(OutputStreamType & os, const SymmetricSecondRankTensor<TComponent, NDimension> & c);
+operator<<(OutputStreamType & os, const SymmetricSecondRankTensor<TComponent, VDimension> & c);
 
-template <typename TComponent, unsigned int NDimension>
+template <typename TComponent, unsigned int VDimension>
 InputStreamType &
-operator>>(InputStreamType & is, SymmetricSecondRankTensor<TComponent, NDimension> & dt);
+operator>>(InputStreamType & is, SymmetricSecondRankTensor<TComponent, VDimension> & dt);
 
 template <typename T>
 inline void

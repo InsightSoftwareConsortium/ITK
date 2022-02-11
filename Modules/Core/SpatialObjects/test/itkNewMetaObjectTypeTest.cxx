@@ -130,15 +130,15 @@ private:
  *\class MetaConverterBase
  *  Dummy converter class
  */
-template <unsigned int NDimensions = 3>
-class MetaDummyConverter : public MetaConverterBase<NDimensions>
+template <unsigned int VDimension = 3>
+class MetaDummyConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaDummyConverter);
 
   /** Standard class type aliases */
   using Self = MetaDummyConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -153,7 +153,7 @@ public:
   using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using DummySpatialObjectType = DummySpatialObject<NDimensions>;
+  using DummySpatialObjectType = DummySpatialObject<VDimension>;
   using DummySpatialObjectPointer = typename DummySpatialObjectType::Pointer;
   using DummySpatialObjectConstPointer = typename DummySpatialObjectType::ConstPointer;
   using DummyMetaObjectType = MetaDummy;

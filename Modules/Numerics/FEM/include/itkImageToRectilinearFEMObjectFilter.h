@@ -69,7 +69,7 @@ public:
   using ImageIndexType = typename InputImageType::IndexType;
 
   /** Typedefs for Output FEMObject */
-  using FEMObjectType = typename itk::fem::FEMObject<NDimensions>;
+  using FEMObjectType = typename itk::fem::FEMObject<VDimension>;
   using FEMObjectPointer = typename FEMObjectType::Pointer;
   using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
   using DataObjectPointer = typename DataObject::Pointer;
@@ -85,7 +85,7 @@ public:
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
 //  itkConceptMacro(SameDimensionOrMinusOne,
-//    (Concept::SameDimensionOrMinusOne<NDimensions, 3>));
+//    (Concept::SameDimensionOrMinusOne<VDimension, 3>));
 // End concept checking
 #endif
 

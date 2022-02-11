@@ -21,17 +21,17 @@
 
 namespace itk
 {
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaGroupConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaGroupConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new GroupMetaObjectType);
 }
 
 /** Convert a metaGroup into an group SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaGroupConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaGroupConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * group = dynamic_cast<const GroupMetaObjectType *>(mo);
   if (group == nullptr)
@@ -52,9 +52,9 @@ MetaGroupConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType 
 }
 
 /** Convert a group SpatialObject into a metaGroup */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaGroupConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
+MetaGroupConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   GroupSpatialObjectConstPointer groupSO = dynamic_cast<const GroupSpatialObjectType *>(so);
   if (groupSO.IsNull())
@@ -62,7 +62,7 @@ MetaGroupConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTy
     itkExceptionMacro(<< "Can't downcast SpatialObject to GroupSpatialObject");
   }
 
-  auto * group = new GroupMetaObjectType(NDimensions);
+  auto * group = new GroupMetaObjectType(VDimension);
 
   float color[4];
 

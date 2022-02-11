@@ -140,8 +140,8 @@ public:
     using Type = Image<UPixelType, UImageDimension>;
   };
 
-  template <typename UPixelType, unsigned int NUImageDimension = TImage::ImageDimension>
-  using RebindImageType = itk::Image<UPixelType, NUImageDimension>;
+  template <typename UPixelType, unsigned int VUImageDimension = TImage::ImageDimension>
+  using RebindImageType = itk::Image<UPixelType, VUImageDimension>;
 
 
   /** Set the region object that defines the size and starting index

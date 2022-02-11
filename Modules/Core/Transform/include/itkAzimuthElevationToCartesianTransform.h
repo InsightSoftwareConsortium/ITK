@@ -65,7 +65,7 @@ r = std::sqrt(x^2 + y^2 + z^2)
  * TParametersValueType  The type to be used for scalar numeric
  *                       values.  Either float or double.
  *
- * NDimensions   The number of dimensions of the vector space (must be >=3).
+ * VDimension   The number of dimensions of the vector space (must be >=3).
  *
  * \todo Is there any real value in allowing the user to template
  * over the scalar type?  Perhaps it should always be double, unless
@@ -84,22 +84,22 @@ r = std::sqrt(x^2 + y^2 + z^2)
  * \sphinxexample{Core/Transform/CartesianToAzimuthElevation,Cartesian To Azimuth Elevation}
  * \endsphinx
  */
-template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+template <typename TParametersValueType = double, unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT AzimuthElevationToCartesianTransform
-  : public AffineTransform<TParametersValueType, NDimensions>
+  : public AffineTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(AzimuthElevationToCartesianTransform);
 
   /** Standard class type aliases.   */
   using Self = AzimuthElevationToCartesianTransform;
-  using Superclass = AffineTransform<TParametersValueType, NDimensions>;
+  using Superclass = AffineTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 1);
+  static constexpr unsigned int SpaceDimension = VDimension;
+  static constexpr unsigned int ParametersDimension = VDimension * (VDimension + 1);
 
   /** Run-time type information (and related methods).   */
   itkTypeMacro(AzimuthElevationToCartesianTransform, AffineTransform);

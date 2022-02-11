@@ -108,10 +108,10 @@ testVectorArray(const TVector & v1, const TVector & v2)
 int
 itkCompositeTransformTest(int, char *[])
 {
-  constexpr unsigned int NDimensions = 2;
+  constexpr unsigned int VDimension = 2;
 
   /* Create composite transform */
-  using CompositeType = itk::CompositeTransform<double, NDimensions>;
+  using CompositeType = itk::CompositeTransform<double, VDimension>;
   using ScalarType = CompositeType::ScalarType;
 
   auto compositeTransform = CompositeType::New();
@@ -119,8 +119,8 @@ itkCompositeTransformTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(compositeTransform, CompositeTransform, MultiTransform);
 
   /* Test obects */
-  using Matrix2Type = itk::Matrix<ScalarType, NDimensions, NDimensions>;
-  using Vector2Type = itk::Vector<ScalarType, NDimensions>;
+  using Matrix2Type = itk::Matrix<ScalarType, VDimension, VDimension>;
+  using Vector2Type = itk::Vector<ScalarType, VDimension>;
 
 
   /* Test that we have an empty the queue */
@@ -159,7 +159,7 @@ itkCompositeTransformTest(int, char *[])
 
 
   /* Add an affine transform */
-  using AffineType = itk::AffineTransform<ScalarType, NDimensions>;
+  using AffineType = itk::AffineTransform<ScalarType, VDimension>;
   auto        affine = AffineType::New();
   Matrix2Type matrix2;
   Vector2Type vector2;
@@ -841,14 +841,14 @@ itkCompositeTransformTest(int, char *[])
   auto compositeTransform3 = CompositeType::New();
   auto compositeTransform4 = CompositeType::New();
 
-  using TranslationTransformType = itk::TranslationTransform<double, NDimensions>;
+  using TranslationTransformType = itk::TranslationTransform<double, VDimension>;
   using TranslationTransformPointer = TranslationTransformType::Pointer;
   using TranslationTransformVector = std::vector<TranslationTransformPointer>;
   TranslationTransformVector translationTransformVector(12);
   for (itk::SizeValueType n = 0; n < 12; ++n)
   {
     translationTransformVector[n] = TranslationTransformType::New();
-    TranslationTransformType::ParametersType params(NDimensions);
+    TranslationTransformType::ParametersType params(VDimension);
     params.Fill(n);
     translationTransformVector[n]->SetParameters(params);
   }

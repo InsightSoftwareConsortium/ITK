@@ -57,15 +57,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType, unsigned int NDimensions>
-class ITK_TEMPLATE_EXPORT KernelTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT KernelTransform : public Transform<TParametersValueType, VDimension, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(KernelTransform);
 
   /** Standard class type aliases. */
   using Self = KernelTransform;
-  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Superclass = Transform<TParametersValueType, VDimension, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -76,7 +76,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int SpaceDimension = NDimensions;
+  static constexpr unsigned int SpaceDimension = VDimension;
 
   /** Scalar type. */
   using typename Superclass::ScalarType;
@@ -115,8 +115,8 @@ public:
   /** PointList type alias. This type is used for maintaining lists of points,
    * specifically, the source and target landmark lists. */
   using PointSetTraitsType =
-    DefaultStaticMeshTraits<TParametersValueType, NDimensions, NDimensions, TParametersValueType, TParametersValueType>;
-  using PointSetType = PointSet<InputPointType, NDimensions, PointSetTraitsType>;
+    DefaultStaticMeshTraits<TParametersValueType, VDimension, VDimension, TParametersValueType, TParametersValueType>;
+  using PointSetType = PointSet<InputPointType, VDimension, PointSetTraitsType>;
 
   using PointSetPointer = typename PointSetType::Pointer;
   using PointsContainer = typename PointSetType::PointsContainer;
@@ -174,7 +174,7 @@ public:
   }
 
   /** 'I' (identity) matrix type alias. */
-  using IMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
+  using IMatrixType = vnl_matrix_fixed<TParametersValueType, VDimension, VDimension>;
 
   /** Compute the Jacobian Matrix of the transformation at one point */
   void
@@ -191,7 +191,7 @@ public:
 
   /** Set the Transformation Parameters and update the internal transformation.
    * The parameters represent the source landmarks. Each landmark point is
-   * represented by NDimensions doubles. All the landmarks are concatenated to
+   * represented by VDimension doubles. All the landmarks are concatenated to
    * form one flat Array<double>. */
   void
   SetParameters(const ParametersType &) override;
@@ -246,7 +246,7 @@ protected:
 
 public:
   /** 'G' matrix type alias. */
-  using GMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
+  using GMatrixType = vnl_matrix_fixed<TParametersValueType, VDimension, VDimension>;
 
   /** 'L' matrix type alias. */
   using LMatrixType = vnl_matrix<TParametersValueType>;
@@ -267,16 +267,16 @@ public:
   using DMatrixType = vnl_matrix<TParametersValueType>;
 
   /** 'A' matrix type alias. Rotational part of the Affine component */
-  using AMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, NDimensions>;
+  using AMatrixType = vnl_matrix_fixed<TParametersValueType, VDimension, VDimension>;
 
   /** 'B' matrix type alias. Translational part of the Affine component */
-  using BMatrixType = vnl_vector_fixed<TParametersValueType, NDimensions>;
+  using BMatrixType = vnl_vector_fixed<TParametersValueType, VDimension>;
 
   /** Row matrix type alias. */
-  using RowMatrixType = vnl_matrix_fixed<TParametersValueType, 1, NDimensions>;
+  using RowMatrixType = vnl_matrix_fixed<TParametersValueType, 1, VDimension>;
 
   /** Column matrix type alias. */
-  using ColumnMatrixType = vnl_matrix_fixed<TParametersValueType, NDimensions, 1>;
+  using ColumnMatrixType = vnl_matrix_fixed<TParametersValueType, VDimension, 1>;
 
 protected:
   /** Compute G(x)

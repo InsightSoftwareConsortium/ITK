@@ -34,9 +34,9 @@
 int
 itkImageMaskSpatialObjectTest(int, char *[])
 {
-  constexpr unsigned int NDimensions = 3;
+  constexpr unsigned int VDimension = 3;
 
-  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<NDimensions>;
+  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<VDimension>;
   using PixelType = ImageMaskSpatialObject::PixelType;
   using ImageType = ImageMaskSpatialObject::ImageType;
   using Iterator = itk::ImageRegionIterator<ImageType>;

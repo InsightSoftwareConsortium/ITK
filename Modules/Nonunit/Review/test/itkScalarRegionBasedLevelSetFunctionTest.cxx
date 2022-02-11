@@ -86,7 +86,7 @@ protected:
   ~ScalarRegionBasedLevelSetFunctionTestHelper() override = default;
 };
 
-template <unsigned int NDimension>
+template <unsigned int VDimension>
 class ScalarRegionBasedLevelSetFunctionSharedDataHelper : public DataObject
 {
 public:
@@ -103,14 +103,14 @@ public:
 
   unsigned long m_FunctionCount;
 
-  using IndexType = Index<NDimension>;
+  using IndexType = Index<VDimension>;
   using ListPixelType = std::list<unsigned int>;
 
-  using ImageType = Image<ListPixelType, NDimension>;
+  using ImageType = Image<ListPixelType, VDimension>;
   typename ImageType::Pointer m_NearestNeighborListImage;
 
   using PixelType = double;
-  using InputImageType = Image<PixelType, NDimension>;
+  using InputImageType = Image<PixelType, VDimension>;
 
   struct SingleData
   {

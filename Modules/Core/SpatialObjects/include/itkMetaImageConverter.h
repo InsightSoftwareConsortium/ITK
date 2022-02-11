@@ -34,17 +34,17 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3,
+template <unsigned int VDimension = 3,
           typename TPixel = unsigned char,
-          typename TSpatialObjectType = ImageSpatialObject<NDimensions, TPixel>>
-class ITK_TEMPLATE_EXPORT MetaImageConverter : public MetaConverterBase<NDimensions>
+          typename TSpatialObjectType = ImageSpatialObject<VDimension, TPixel>>
+class ITK_TEMPLATE_EXPORT MetaImageConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaImageConverter);
 
   /** Standard class type aliases */
   using Self = MetaImageConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -63,7 +63,7 @@ public:
   using ImageSpatialObjectPointer = typename ImageSpatialObjectType::Pointer;
   using ImageSpatialObjectConstPointer = typename ImageSpatialObjectType::ConstPointer;
   using ImageMetaObjectType = MetaImage;
-  using ImageType = Image<TPixel, NDimensions>;
+  using ImageType = Image<TPixel, VDimension>;
   /** Convert the MetaObject to Spatial Object */
   SpatialObjectPointer
   MetaObjectToSpatialObject(const MetaObjectType * mo) override;

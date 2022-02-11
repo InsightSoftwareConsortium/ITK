@@ -31,17 +31,17 @@
 namespace itk
 {
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType,
-                                                    NDimensions>::GaussianSmoothingOnUpdateDisplacementFieldTransform()
+                                                    VDimension>::GaussianSmoothingOnUpdateDisplacementFieldTransform()
 {
   this->m_GaussianSmoothingVarianceForTheUpdateField = 3.0;
   this->m_GaussianSmoothingVarianceForTheTotalField = 0.5;
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::UpdateTransformParameters(
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   const DerivativeType & update,
   ScalarType             factor)
 {
@@ -50,7 +50,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   const typename DisplacementFieldType::RegionType & bufferedRegion = displacementField->GetBufferedRegion();
   const SizeValueType                                numberOfPixels = bufferedRegion.GetNumberOfPixels();
 
-  using ImporterType = ImportImageFilter<DisplacementVectorType, NDimensions>;
+  using ImporterType = ImportImageFilter<DisplacementVectorType, VDimension>;
   const bool importFilterWillReleaseMemory = false;
 
   //
@@ -125,10 +125,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   }
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
-typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType,
-                                                             NDimensions>::DisplacementFieldPointer
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::GaussianSmoothDisplacementField(
+template <typename TParametersValueType, unsigned int VDimension>
+typename GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::DisplacementFieldPointer
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::GaussianSmoothDisplacementField(
   DisplacementFieldType * field,
   ScalarType              variance)
 {
@@ -217,9 +216,9 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   return field;
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 typename LightObject::Pointer
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::InternalClone() const
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::InternalClone() const
 {
   LightObject::Pointer loPtr = Superclass::InternalClone();
 
@@ -240,10 +239,10 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimen
   return loPtr;
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os,
-                                                                                                  Indent indent) const
+GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
+                                                                                                 Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

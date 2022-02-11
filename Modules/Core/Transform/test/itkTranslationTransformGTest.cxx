@@ -28,11 +28,11 @@
 namespace
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 void
 Expect_SetParameters_throws_when_size_is_less_than_SpaceDimension()
 {
-  using TransformType = itk::TranslationTransform<double, NDimensions>;
+  using TransformType = itk::TranslationTransform<double, VDimension>;
   const auto transform = TransformType::New();
 
   for (unsigned int size{}; size < TransformType::SpaceDimension; ++size)
@@ -43,21 +43,21 @@ Expect_SetParameters_throws_when_size_is_less_than_SpaceDimension()
 }
 
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 void
 Expect_SetParameters_sets_translation_offset()
 {
-  using TransformType = itk::TranslationTransform<double, NDimensions>;
+  using TransformType = itk::TranslationTransform<double, VDimension>;
   using ParametersType = typename TransformType::ParametersType;
 
   const auto transform = TransformType::New();
 
   // Check setting the offset to (0, 0, 0, ...).
-  transform->SetParameters(ParametersType(NDimensions, 0.0));
+  transform->SetParameters(ParametersType(VDimension, 0.0));
   EXPECT_EQ(transform->GetOffset(), typename TransformType::OutputVectorType());
 
   // Check setting the offset to (1, 2, 3, ...).
-  ParametersType parameters(NDimensions);
+  ParametersType parameters(VDimension);
   std::iota(parameters.begin(), parameters.end(), 1.0);
   transform->SetParameters(parameters);
   EXPECT_TRUE(std::equal(parameters.begin(), parameters.end(), transform->GetOffset().begin()));

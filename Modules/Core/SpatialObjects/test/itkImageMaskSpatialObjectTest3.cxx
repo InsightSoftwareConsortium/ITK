@@ -36,11 +36,11 @@
 int
 itkImageMaskSpatialObjectTest3(int, char *[])
 {
-  constexpr unsigned int NDimensions = 3;
+  constexpr unsigned int VDimension = 3;
 
-  using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<NDimensions>;
+  using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<VDimension>;
   using PixelType = ImageMaskSpatialObjectType::PixelType;
-  using ImageType = itk::Image<PixelType, NDimensions>;
+  using ImageType = itk::Image<PixelType, VDimension>;
 
   auto                 image = ImageType::New();
   ImageType::SizeType  size = { { 5, 5, 5 } };
@@ -81,7 +81,7 @@ itkImageMaskSpatialObjectTest3(int, char *[])
 
   ImageMaskSpatialObjectType::RegionType::SizeType regionSize;
   ImageMaskSpatialObjectType::IndexType::IndexType regionIndex;
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     regionIndex[i] = bndMinI[i];
     regionSize[i] = bndMaxI[i] - bndMinI[i];

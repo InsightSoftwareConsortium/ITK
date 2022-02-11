@@ -30,9 +30,9 @@ namespace itk
  *
  * \ingroup ITKIOSpatialObjects
  */
-template <unsigned int NDimensions = 3,
+template <unsigned int VDimension = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, VDimension, VDimension>>
 class ITK_TEMPLATE_EXPORT SpatialObjectReader : public Object
 {
 public:
@@ -41,16 +41,16 @@ public:
   /** SmartPointer type alias support */
   using Self = SpatialObjectReader;
   using Pointer = SmartPointer<Self>;
-  using SpatialObjectType = SpatialObject<NDimensions>;
+  using SpatialObjectType = SpatialObject<VDimension>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
-  using GroupType = GroupSpatialObject<NDimensions>;
+  using GroupType = GroupSpatialObject<VDimension>;
   using GroupPointer = typename GroupType::Pointer;
 
   /** base type for MetaConverters -- bidirections conversion btw
    *  SpatialObject & MetaObject
    */
-  using MetaConverterBaseType = MetaConverterBase<NDimensions>;
-  using MetaSceneConverterType = MetaSceneConverter<NDimensions, PixelType, TMeshTraits>;
+  using MetaConverterBaseType = MetaConverterBase<VDimension>;
+  using MetaSceneConverterType = MetaSceneConverter<VDimension, PixelType, TMeshTraits>;
 
   /** Method for creation through the object factory */
   itkNewMacro(Self);

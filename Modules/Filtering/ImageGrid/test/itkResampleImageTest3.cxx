@@ -43,13 +43,13 @@ itkResampleImageTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int NDimensions = 2;
+  constexpr unsigned int VDimension = 2;
 
   using PixelType = unsigned char;
-  using ImageType = itk::Image<PixelType, NDimensions>;
+  using ImageType = itk::Image<PixelType, VDimension>;
   using CoordRepType = double;
 
-  using TransformType = itk::IdentityTransform<CoordRepType, NDimensions>;
+  using TransformType = itk::IdentityTransform<CoordRepType, VDimension>;
   using InterpolatorType = itk::LinearInterpolateImageFunction<ImageType, CoordRepType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;

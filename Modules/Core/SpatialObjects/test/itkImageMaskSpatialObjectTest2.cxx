@@ -38,12 +38,12 @@
 int
 itkImageMaskSpatialObjectTest2(int, char *[])
 {
-  constexpr unsigned int NDimensions = 3;
+  constexpr unsigned int VDimension = 3;
   int                    retval = EXIT_SUCCESS;
 
-  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<NDimensions>;
+  using ImageMaskSpatialObject = itk::ImageMaskSpatialObject<VDimension>;
   using PixelType = ImageMaskSpatialObject::PixelType;
-  using ImageType = itk::Image<PixelType, NDimensions>;
+  using ImageType = itk::Image<PixelType, VDimension>;
   using Iterator = itk::ImageRegionIterator<ImageType>;
 
   // Direction was not taken into account in the image spatial object

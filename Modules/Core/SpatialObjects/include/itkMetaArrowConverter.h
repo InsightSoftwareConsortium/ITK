@@ -31,15 +31,15 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT MetaArrowConverter : public MetaConverterBase<NDimensions>
+template <unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT MetaArrowConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaArrowConverter);
 
   /** Standard class type aliases */
   using Self = MetaArrowConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -54,7 +54,7 @@ public:
   using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using ArrowSpatialObjectType = ArrowSpatialObject<NDimensions>;
+  using ArrowSpatialObjectType = ArrowSpatialObject<VDimension>;
   using ArrowSpatialObjectPointer = typename ArrowSpatialObjectType::Pointer;
   using ArrowSpatialObjectConstPointer = typename ArrowSpatialObjectType::ConstPointer;
   using ArrowMetaObjectType = MetaArrow;

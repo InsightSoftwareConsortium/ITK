@@ -23,17 +23,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaDTITubeConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaDTITubeConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new DTITubeMetaObjectType);
 }
 
 /** Convert a MetaDTITube into an Tube SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * tube = dynamic_cast<const MetaDTITube *>(mo);
   if (tube == nullptr)
@@ -52,13 +52,13 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
   tubeSO->GetProperty().SetBlue(tube->Color()[2]);
   tubeSO->GetProperty().SetAlpha(tube->Color()[3]);
 
-  using TubePointType = itk::DTITubeSpatialObjectPoint<NDimensions>;
+  using TubePointType = itk::DTITubeSpatialObjectPoint<VDimension>;
 
   auto it2 = tube->GetPoints().begin();
 
-  itk::CovariantVector<double, NDimensions> v;
+  itk::CovariantVector<double, VDimension> v;
   v.Fill(0.0);
-  itk::Vector<double, NDimensions> t;
+  itk::Vector<double, VDimension> t;
   t.Fill(0.0);
 
   for (unsigned int identifier = 0; identifier < tube->GetPoints().size(); ++identifier)
@@ -68,7 +68,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     using PointType = typename DTITubeSpatialObjectType::PointType;
     PointType point;
 
-    for (unsigned int ii = 0; ii < NDimensions; ++ii)
+    for (unsigned int ii = 0; ii < VDimension; ++ii)
     {
       point[ii] = (*it2)->m_X[ii] * tube->ElementSpacing(ii);
     }
@@ -112,7 +112,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     if (Math::NotExactlyEquals((*it2)->GetField(vnd), -1))
     {
       v[0] = (*it2)->GetField(vnd);
-      for (unsigned int ii = 1; ii < NDimensions; ++ii)
+      for (unsigned int ii = 1; ii < VDimension; ++ii)
       {
         ++(vnd[2]); // x -> y -> z
         v[ii] = (*it2)->GetField(vnd);
@@ -125,7 +125,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     if (Math::NotExactlyEquals((*it2)->GetField(vnd), -1))
     {
       v[0] = (*it2)->GetField(vnd);
-      for (unsigned int ii = 1; ii < NDimensions; ++ii)
+      for (unsigned int ii = 1; ii < VDimension; ++ii)
       {
         ++(vnd[2]); // x -> y -> z
         v[ii] = (*it2)->GetField(vnd);
@@ -137,7 +137,7 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     if (Math::NotExactlyEquals((*it2)->GetField(td), -1))
     {
       t[0] = (*it2)->GetField(td);
-      for (unsigned int ii = 1; ii < NDimensions; ++ii)
+      for (unsigned int ii = 1; ii < VDimension; ++ii)
       {
         ++(td[1]); // x -> y -> z
         t[ii] = (*it2)->GetField(td);
@@ -178,10 +178,9 @@ MetaDTITubeConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 }
 
 /** Convert a Tube SpatialObject into a MetaDTITube */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject)
-  -> MetaObjectType *
+MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   DTITubeSpatialObjectConstPointer DTITubeSO = dynamic_cast<const DTITubeSpatialObjectType *>(spatialObject);
   if (DTITubeSO.IsNull())
@@ -189,7 +188,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     itkExceptionMacro(<< "Can't downcast SpatialObject to DTITubeSpatialObject");
   }
 
-  auto * tube = new MetaDTITube(NDimensions);
+  auto * tube = new MetaDTITube(VDimension);
 
   // Check what are the fields to be written
   bool writeNormal1 = false;
@@ -215,7 +214,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     }
 
     unsigned int d;
-    for (d = 0; d < NDimensions; ++d)
+    for (d = 0; d < VDimension; ++d)
     {
       if (Math::NotExactlyEquals((*it).GetNormal1InObjectSpace()[d], 0))
       {
@@ -246,9 +245,9 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   // fill in the tube information
   for (it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it)
   {
-    auto * pnt = new DTITubePnt(NDimensions);
+    auto * pnt = new DTITubePnt(VDimension);
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
@@ -281,7 +280,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     {
       pnt->AddField("v1x", (*it).GetNormal1InObjectSpace()[0]);
       pnt->AddField("v1y", (*it).GetNormal1InObjectSpace()[1]);
-      if (NDimensions == 3)
+      if (VDimension == 3)
       {
         pnt->AddField("v1z", (*it).GetNormal1InObjectSpace()[2]);
       }
@@ -291,7 +290,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     {
       pnt->AddField("v2x", (*it).GetNormal2InObjectSpace()[0]);
       pnt->AddField("v2y", (*it).GetNormal2InObjectSpace()[1]);
-      if (NDimensions == 3)
+      if (VDimension == 3)
       {
         pnt->AddField("v2z", (*it).GetNormal2InObjectSpace()[2]);
       }
@@ -301,7 +300,7 @@ MetaDTITubeConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     {
       pnt->AddField("tx", (*it).GetTangentInObjectSpace()[0]);
       pnt->AddField("ty", (*it).GetTangentInObjectSpace()[1]);
-      if (NDimensions == 3)
+      if (VDimension == 3)
       {
         pnt->AddField("tz", (*it).GetTangentInObjectSpace()[2]);
       }

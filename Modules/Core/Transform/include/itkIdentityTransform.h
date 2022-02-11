@@ -46,15 +46,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, NDimensions, NDimensions>
+template <typename TParametersValueType, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT IdentityTransform : public Transform<TParametersValueType, VDimension, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(IdentityTransform);
 
   /** Standard class type aliases. */
   using Self = IdentityTransform;
-  using Superclass = Transform<TParametersValueType, NDimensions, NDimensions>;
+  using Superclass = Transform<TParametersValueType, VDimension, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -65,8 +65,8 @@ public:
   itkTypeMacro(IdentityTransform, Transform);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int InputSpaceDimension = NDimensions;
-  static constexpr unsigned int OutputSpaceDimension = NDimensions;
+  static constexpr unsigned int InputSpaceDimension = VDimension;
+  static constexpr unsigned int OutputSpaceDimension = VDimension;
 
   /** Type of the input parameters. */
   using typename Superclass::ParametersType;
@@ -174,7 +174,7 @@ public:
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType & jacobian) const override
   {
-    jacobian.SetSize(NDimensions, 0);
+    jacobian.SetSize(VDimension, 0);
   }
 
 
