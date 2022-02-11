@@ -382,6 +382,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C__verify_cork_tag_test itk_H5C__verify_cork_tag_test
 #define H5C_cache_image_pending itk_H5C_cache_image_pending
 #define H5C_cache_image_status itk_H5C_cache_image_status
+#define H5C_cache_is_clean itk_H5C_cache_is_clean
 #define H5C_cork itk_H5C_cork
 #define H5C_create itk_H5C_create
 #define H5C_create_flush_dependency itk_H5C_create_flush_dependency
@@ -390,11 +391,13 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_destroy_flush_dependency itk_H5C_destroy_flush_dependency
 #define H5C_dump_cache itk_H5C_dump_cache
 #define H5C_dump_cache_LRU itk_H5C_dump_cache_LRU
+#define H5C_dump_cache_skip_list itk_H5C_dump_cache_skip_list
 #define H5C_evict itk_H5C_evict
 #define H5C_evict_tagged_entries itk_H5C_evict_tagged_entries
 #define H5C_expunge_entry itk_H5C_expunge_entry
 #define H5C_expunge_tag_type_metadata itk_H5C_expunge_tag_type_metadata
 #define H5C_flush_cache itk_H5C_flush_cache
+#define H5C_flush_dependency_exists itk_H5C_flush_dependency_exists
 #define H5C_flush_tagged_entries itk_H5C_flush_tagged_entries
 #define H5C_flush_to_min_clean itk_H5C_flush_to_min_clean
 #define H5C_get_aux_ptr itk_H5C_get_aux_ptr
@@ -403,6 +406,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_get_cache_hit_rate itk_H5C_get_cache_hit_rate
 #define H5C_get_cache_image_config itk_H5C_get_cache_image_config
 #define H5C_get_cache_size itk_H5C_get_cache_size
+#define H5C_get_entry_ptr_from_addr itk_H5C_get_entry_ptr_from_addr
 #define H5C_get_entry_ring itk_H5C_get_entry_ring
 #define H5C_get_entry_status itk_H5C_get_entry_status
 #define H5C_get_evictions_enabled itk_H5C_get_evictions_enabled
@@ -410,6 +414,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_get_logging_status itk_H5C_get_logging_status
 #define H5C_get_mdc_image_info itk_H5C_get_mdc_image_info
 #define H5C_get_num_objs_corked itk_H5C_get_num_objs_corked
+#define H5C_get_serialization_in_progress itk_H5C_get_serialization_in_progress
 #define H5C_get_tag itk_H5C_get_tag
 #define H5C_ignore_tags itk_H5C_ignore_tags
 #define H5C_image_stats itk_H5C_image_stats
@@ -466,7 +471,9 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5C_unsettle_entry_ring itk_H5C_unsettle_entry_ring
 #define H5C_unsettle_ring itk_H5C_unsettle_ring
 #define H5C_validate_cache_image_config itk_H5C_validate_cache_image_config
+#define H5C_validate_index_list itk_H5C_validate_index_list
 #define H5C_validate_resize_config itk_H5C_validate_resize_config
+#define H5C_verify_entry_type itk_H5C_verify_entry_type
 #define H5C_verify_tag itk_H5C_verify_tag
 #define H5D_BT2 itk_H5D_BT2
 #define H5D_BT2_FILT itk_H5D_BT2_FILT
