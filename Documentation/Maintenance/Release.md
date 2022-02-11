@@ -477,7 +477,7 @@ cd ..
 
 For Linux ARM builds, the steps are similar, but the wheel build step is:
 
-```
+```sh
 docker run --privileged --rm tonistiigi/binfmt --install all
 docker run -it -v $(pwd):/work/ quay.io/pypa/manylinux2014_aarch64:latest bash
 # In the container
@@ -645,7 +645,7 @@ update the guide and make it available:
 To create `ItkSoftwareGuide.pdf` to deposit at itk.org/ItkSoftwareGuide.pdf from
 `InsightSoftwareGuide-Book{1,2}-5.X.0.pdf`, use `pdftk`:
 
-```
+```sh
    pdftk ITKSoftwareGuideSinglePDFCoverPage.pdf ITKSoftwareGuide-Book1.pdf ITKSoftwareGuide-Book2.pdf cat output /tmp/ItkSoftwareGuide.pdf
 ```
 
@@ -809,7 +809,7 @@ Release Notes Posts
 To get started with the release notes, first use the download link
 cookiecutter to generate Markdown and webpage Download page HTML:
 
-```
+```sh
 pip install cookiecutter
 cookiecutter ~/src/ITK/Utilities/Maintenance/DownloadLinksCookieCutter/
 ```
