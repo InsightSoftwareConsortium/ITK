@@ -22,9 +22,9 @@
 namespace itk
 {
 // Set the parameters
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>::SetParameters(const ParametersType & parameters)
+ScaleLogarithmicTransform<TParametersValueType, VDimension>::SetParameters(const ParametersType & parameters)
 {
   ScaleType scales;
 
@@ -45,9 +45,9 @@ ScaleLogarithmicTransform<TParametersValueType, NDimensions>::SetParameters(cons
 }
 
 // Get Parameters
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
+ScaleLogarithmicTransform<TParametersValueType, VDimension>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
 
@@ -64,16 +64,16 @@ ScaleLogarithmicTransform<TParametersValueType, NDimensions>::GetParameters() co
 }
 
 // Print self
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
+ScaleLogarithmicTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleLogarithmicTransform<TParametersValueType, NDimensions>::ComputeJacobianWithRespectToParameters(
+ScaleLogarithmicTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParameters(
   const InputPointType & p,
   JacobianType &         jacobian) const
 {

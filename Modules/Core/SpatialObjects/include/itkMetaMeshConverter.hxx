@@ -27,17 +27,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 auto
-MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::CreateMetaObject() -> MetaObjectType *
+MetaMeshConverter<VDimension, PixelType, TMeshTraits>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new MeshMetaObjectType);
 }
 
 /** Convert a metaMesh into an Mesh SpatialObject  */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 auto
-MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObject(const MetaObjectType * mo)
+MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject(const MetaObjectType * mo)
   -> SpatialObjectPointer
 {
   const auto * _mesh = dynamic_cast<const MeshMetaObjectType *>(mo);
@@ -67,7 +67,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
   while (it_points != points.end())
   {
     typename MeshType::PointType pt;
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       pt[i] = ((*it_points)->m_X)[i] * _mesh->ElementSpacing(i);
     }
@@ -201,9 +201,9 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::MetaObjectToSpatialObjec
 }
 
 /** Convert a Mesh SpatialObject into a metaMesh */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 auto
-MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectToMetaObject(const SpatialObjectType * so)
+MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject(const SpatialObjectType * so)
   -> MetaObjectType *
 {
   const MeshSpatialObjectConstPointer meshSO = dynamic_cast<const MeshSpatialObjectType *>(so);
@@ -212,7 +212,7 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectToMetaObjec
   {
     itkExceptionMacro(<< "Can't downcast SpatialObject to MeshSpatialObject");
   }
-  auto * metamesh = new MeshMetaObjectType(NDimensions);
+  auto * metamesh = new MeshMetaObjectType(VDimension);
 
   typename MeshType::ConstPointer mesh = meshSO->GetMesh();
 
@@ -232,8 +232,8 @@ MetaMeshConverter<NDimensions, PixelType, TMeshTraits>::SpatialObjectToMetaObjec
 
   while (it_points != points->End())
   {
-    auto * pnt = new MeshPoint(NDimensions);
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    auto * pnt = new MeshPoint(VDimension);
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       pnt->m_X[i] = (*it_points)->Value()[i];
     }

@@ -20,23 +20,23 @@
 
 namespace itk
 {
-template <typename TParametersValueType, unsigned int NDimensions>
-ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ElasticBodySplineKernelTransform()
+template <typename TParametersValueType, unsigned int VDimension>
+ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::ElasticBodySplineKernelTransform()
 {
   // Alpha = 12 ( 1 - \nu ) - 1
   m_Alpha = 12.0 * (1.0 - .25) - 1;
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType & x,
-                                                                              GMatrixType &           gmatrix) const
+ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType & x,
+                                                                             GMatrixType &           gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
   const TParametersValueType factor = -3.0 * r;
   const TParametersValueType radial = m_Alpha * (r * r) * r;
 
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     const typename InputVectorType::ValueType xi = x[i] * factor;
     // G is symmetric
@@ -50,9 +50,9 @@ ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(co
   }
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ElasticBodySplineKernelTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
+ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "m_Alpha: " << m_Alpha << std::endl;

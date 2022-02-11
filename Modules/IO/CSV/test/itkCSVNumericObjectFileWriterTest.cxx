@@ -166,10 +166,10 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int NRows = 3;
-  constexpr unsigned int NCols = 3;
+  constexpr unsigned int VRows = 3;
+  constexpr unsigned int VColumns = 3;
 
-  using fixedMatrixType = itk::Matrix<double, NRows, NCols>;
+  using fixedMatrixType = itk::Matrix<double, VRows, VColumns>;
   fixedMatrixType fixedmatrix;
   fixedmatrix[0][0] = nan;
   fixedmatrix[0][1] = 1e+09;
@@ -191,7 +191,7 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   RowHeaders.emplace_back("Row2");
   RowHeaders.emplace_back("Row3");
 
-  using fixedMatrixWriterType = itk::CSVNumericObjectFileWriter<double, NRows, NCols>;
+  using fixedMatrixWriterType = itk::CSVNumericObjectFileWriter<double, VRows, VColumns>;
   auto fixed_matrix_writer = fixedMatrixWriterType::New();
 
   fixed_matrix_writer->SetFileName(filename);

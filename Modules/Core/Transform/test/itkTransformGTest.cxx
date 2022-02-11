@@ -23,14 +23,14 @@
 
 namespace
 {
-template <typename TParametersValueType, unsigned int NInputDimensions, unsigned int NOutputDimensions>
-class DerivedTransform : public itk::Transform<TParametersValueType, NInputDimensions, NOutputDimensions>
+template <typename TParametersValueType, unsigned int VInputDimension, unsigned int VOutputDimension>
+class DerivedTransform : public itk::Transform<TParametersValueType, VInputDimension, VOutputDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(DerivedTransform);
 
   using Self = DerivedTransform;
-  using Superclass = itk::Transform<TParametersValueType, NInputDimensions, NOutputDimensions>;
+  using Superclass = itk::Transform<TParametersValueType, VInputDimension, VOutputDimension>;
   using Pointer = itk::SmartPointer<Self>;
 
   itkNewMacro(Self);

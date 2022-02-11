@@ -25,7 +25,7 @@
 namespace StochasticFractalDimensionImageFilterTest
 {
 
-template <unsigned int NDimension>
+template <unsigned int VDimension>
 class Helper
 {
 public:
@@ -33,7 +33,7 @@ public:
   Run(int argc, char * argv[])
   {
     using PixelType = float;
-    using ImageType = itk::Image<PixelType, NDimension>;
+    using ImageType = itk::Image<PixelType, VDimension>;
 
     using ReaderType = itk::ImageFileReader<ImageType>;
     auto imageReader = ReaderType::New();

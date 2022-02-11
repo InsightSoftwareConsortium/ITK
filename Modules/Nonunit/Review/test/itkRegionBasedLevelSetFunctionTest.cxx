@@ -77,7 +77,7 @@ protected:
   ~RegionBasedLevelSetFunctionTestHelper() override = default;
 };
 
-template <unsigned int NDimension>
+template <unsigned int VDimension>
 class RegionBasedLevelSetFunctionSharedDataHelper : public DataObject
 {
 public:
@@ -94,7 +94,7 @@ public:
 
   unsigned long m_FunctionCount;
 
-  using IndexType = Index<NDimension>;
+  using IndexType = Index<VDimension>;
 
   struct SingleData
   {

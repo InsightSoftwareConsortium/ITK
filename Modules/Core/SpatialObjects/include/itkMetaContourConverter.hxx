@@ -22,17 +22,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaContourConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaContourConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new ContourMetaObjectType);
 }
 
 /** Convert a metaContour into an Contour SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaContourConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * contourMO = dynamic_cast<const MetaContour *>(mo);
   if (contourMO == nullptr)
@@ -68,17 +68,17 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     using CovariantVectorType = typename ControlPointType::CovariantVectorType;
     CovariantVectorType normal;
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       point[i] = (*itCP)->m_X[i] * contourMO->ElementSpacing(i);
     }
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       pickedPoint[i] = (*itCP)->m_XPicked[i] * contourMO->ElementSpacing(i);
     }
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       normal[i] = (*itCP)->m_V[i];
     }
@@ -108,7 +108,7 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
     using PointType = typename ControlPointType::PointType;
     PointType point;
 
-    for (unsigned int i = 0; i < NDimensions; ++i)
+    for (unsigned int i = 0; i < VDimension; ++i)
     {
       point[i] = (*itI)->m_X[i];
     }
@@ -128,16 +128,16 @@ MetaContourConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 }
 
 /** Convert a Contour SpatialObject into a metaContour */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
+MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   ContourSpatialObjectConstPointer contourSO = dynamic_cast<const ContourSpatialObjectType *>(so);
   if (contourSO.IsNull())
   {
     itkExceptionMacro(<< "Can't downcast SpatialObject to ContourSpatialObject");
   }
-  auto * contourMO = new MetaContour(NDimensions);
+  auto * contourMO = new MetaContour(VDimension);
 
 
   // fill in the control points information
@@ -145,21 +145,21 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
 
   for (itCP = contourSO->GetControlPoints().begin(); itCP != contourSO->GetControlPoints().end(); ++itCP)
   {
-    auto * pnt = new ContourControlPnt(NDimensions);
+    auto * pnt = new ContourControlPnt(VDimension);
 
     pnt->m_Id = (*itCP).GetId();
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_X[d] = (*itCP).GetPositionInObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_XPicked[d] = (*itCP).GetPickedPointInObjectSpace()[d];
     }
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_V[d] = (*itCP).GetNormalInObjectSpace()[d];
     }
@@ -172,11 +172,11 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     contourMO->GetControlPoints().push_back(pnt);
   }
 
-  if (NDimensions == 2)
+  if (VDimension == 2)
   {
     contourMO->ControlPointDim("id x y xp yp v1 v2 r g b a");
   }
-  else if (NDimensions == 3)
+  else if (VDimension == 3)
   {
     contourMO->ControlPointDim("id x y z xp yp zp v1 v2 v3 r gn be a");
   }
@@ -185,10 +185,10 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
   typename ContourSpatialObjectType::ContourPointListType::const_iterator itI;
   for (itI = contourSO->GetPoints().begin(); itI != contourSO->GetPoints().end(); ++itI)
   {
-    auto * pnt = new ContourInterpolatedPnt(NDimensions);
+    auto * pnt = new ContourInterpolatedPnt(VDimension);
 
     pnt->m_Id = (*itI).GetId();
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_X[d] = (*itI).GetPositionInObjectSpace()[d];
     }
@@ -201,11 +201,11 @@ MetaContourConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     contourMO->GetInterpolatedPoints().push_back(pnt);
   }
 
-  if (NDimensions == 2)
+  if (VDimension == 2)
   {
     contourMO->InterpolatedPointDim("id x y r g b a");
   }
-  else if (NDimensions == 3)
+  else if (VDimension == 3)
   {
     contourMO->InterpolatedPointDim("id x y z r g b a");
   }

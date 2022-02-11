@@ -83,15 +83,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType = double, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT CompositeTransform : public MultiTransform<TParametersValueType, NDimensions, NDimensions>
+template <typename TParametersValueType = double, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT CompositeTransform : public MultiTransform<TParametersValueType, VDimension, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(CompositeTransform);
 
   /** Standard class type aliases. */
   using Self = CompositeTransform;
-  using Superclass = MultiTransform<TParametersValueType, NDimensions, NDimensions>;
+  using Superclass = MultiTransform<TParametersValueType, VDimension, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -153,8 +153,8 @@ public:
   using TransformsToOptimizeFlagsType = std::deque<bool>;
 
   /** Dimension of the domain spaces. */
-  static constexpr unsigned int InputDimension = NDimensions;
-  static constexpr unsigned int OutputDimension = NDimensions;
+  static constexpr unsigned int InputDimension = VDimension;
+  static constexpr unsigned int OutputDimension = VDimension;
 
   /** Active Transform state manipulation */
 
@@ -398,7 +398,7 @@ public:
    * transform using Jacobian rule. This version takes in temporary
    * variables to avoid excessive constructions and memory allocations.
    * NOTE: outJacobian MUST be sized correctly prior to the call;
-   * outJacobian's size should be [NDimensions, this->GetNumberOfLocalParameters() ]
+   * outJacobian's size should be [VDimension, this->GetNumberOfLocalParameters() ]
    * jacobianCache may be resized internally and will be reused between calls
    */
   void

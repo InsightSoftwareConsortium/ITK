@@ -31,15 +31,15 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT MetaEllipseConverter : public MetaConverterBase<NDimensions>
+template <unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT MetaEllipseConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaEllipseConverter);
 
   /** Standard class type aliases */
   using Self = MetaEllipseConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -54,7 +54,7 @@ public:
   using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using EllipseSpatialObjectType = EllipseSpatialObject<NDimensions>;
+  using EllipseSpatialObjectType = EllipseSpatialObject<VDimension>;
   using EllipseSpatialObjectPointer = typename EllipseSpatialObjectType::Pointer;
   using EllipseSpatialObjectConstPointer = typename EllipseSpatialObjectType::ConstPointer;
   using EllipseMetaObjectType = MetaEllipse;

@@ -23,16 +23,16 @@
 namespace itk
 {
 /** Default contstructor */
-template <typename TValue, unsigned int NVectorDimension, unsigned int VImageDimension>
-ImageVectorOptimizerParametersHelper<TValue, NVectorDimension, VImageDimension>::ImageVectorOptimizerParametersHelper()
+template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDimension>
+ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>::ImageVectorOptimizerParametersHelper()
 {
   m_ParameterImage = nullptr;
 }
 
 /** Move the data pointer */
-template <typename TValue, unsigned int NVectorDimension, unsigned int VImageDimension>
+template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDimension>
 void
-ImageVectorOptimizerParametersHelper<TValue, NVectorDimension, VImageDimension>::MoveDataPointer(
+ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>::MoveDataPointer(
   CommonContainerType * container,
   TValue *              pointer)
 {
@@ -53,9 +53,9 @@ ImageVectorOptimizerParametersHelper<TValue, NVectorDimension, VImageDimension>:
 }
 
 /** Set parameter image */
-template <typename TValue, unsigned int NVectorDimension, unsigned int VImageDimension>
+template <typename TValue, unsigned int VVectorDimension, unsigned int VImageDimension>
 void
-ImageVectorOptimizerParametersHelper<TValue, NVectorDimension, VImageDimension>::SetParametersObject(
+ImageVectorOptimizerParametersHelper<TValue, VVectorDimension, VImageDimension>::SetParametersObject(
   CommonContainerType * container,
   LightObject *         object)
 {
@@ -77,7 +77,7 @@ ImageVectorOptimizerParametersHelper<TValue, NVectorDimension, VImageDimension>:
     // The PixelContainer for Image<Vector> points to type Vector, so we have
     // to determine the number of raw elements of type TValue in the buffer
     // and cast a pointer to it for assignment to the Array data pointer.
-    typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * NVectorDimension;
+    typename CommonContainerType::SizeValueType sz = image->GetPixelContainer()->Size() * VVectorDimension;
     auto * valuePointer = reinterpret_cast<TValue *>(image->GetPixelContainer()->GetBufferPointer());
     // Set the Array's pointer to the image data buffer. By default it will
     // not manage the memory.

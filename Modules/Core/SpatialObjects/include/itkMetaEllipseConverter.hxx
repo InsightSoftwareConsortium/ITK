@@ -22,17 +22,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaEllipseConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaEllipseConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new EllipseMetaObjectType);
 }
 
 /** Convert a metaEllipse into an ellipse SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaEllipseConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * ellipseMO = dynamic_cast<const EllipseMetaObjectType *>(mo);
   if (ellipseMO == nullptr)
@@ -43,7 +43,7 @@ MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
   EllipseSpatialObjectPointer ellipseSO = EllipseSpatialObjectType::New();
 
   typename EllipseSpatialObjectType::ArrayType radii;
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     radii[i] = ellipseMO->Radius()[i];
   }
@@ -61,9 +61,9 @@ MetaEllipseConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectTyp
 }
 
 /** Convert an ellipse SpatialObject into a metaEllipse */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaEllipseConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
+MetaEllipseConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   EllipseSpatialObjectConstPointer ellipseSO = dynamic_cast<const EllipseSpatialObjectType *>(so);
   if (ellipseSO.IsNull())
@@ -71,11 +71,11 @@ MetaEllipseConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObject
     itkExceptionMacro(<< "Can't downcast SpatialObject to EllipseSpatialObject");
   }
 
-  auto * ellipseMO = new EllipseMetaObjectType(NDimensions);
+  auto * ellipseMO = new EllipseMetaObjectType(VDimension);
 
-  auto * radii = new float[NDimensions];
+  auto * radii = new float[VDimension];
 
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     radii[i] = ellipseSO->GetRadiusInObjectSpace()[i];
   }

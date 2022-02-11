@@ -42,9 +42,9 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3,
+template <unsigned int VDimension = 3,
           typename PixelType = unsigned char,
-          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, NDimensions, NDimensions>>
+          typename TMeshTraits = DefaultStaticMeshTraits<PixelType, VDimension, VDimension>>
 class ITK_TEMPLATE_EXPORT MetaSceneConverter : public Object
 {
 public:
@@ -60,12 +60,12 @@ public:
   itkTypeMacro(MetaSceneConverter, Object);
 
   /** SpatialObject Scene types */
-  using SpatialObjectType = itk::SpatialObject<NDimensions>;
+  using SpatialObjectType = itk::SpatialObject<VDimension>;
   using SpatialObjectPointer = typename SpatialObjectType::Pointer;
   using SpatialObjectConstPointer = typename SpatialObjectType::ConstPointer;
 
   /** Typedef for auxiliary conversion classes */
-  using MetaConverterBaseType = MetaConverterBase<NDimensions>;
+  using MetaConverterBaseType = MetaConverterBase<VDimension>;
   using MetaConverterPointer = typename MetaConverterBaseType::Pointer;
   using ConverterMapType = std::map<std::string, MetaConverterPointer>;
 

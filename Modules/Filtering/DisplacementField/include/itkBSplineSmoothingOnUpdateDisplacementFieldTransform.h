@@ -48,16 +48,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT BSplineSmoothingOnUpdateDisplacementFieldTransform
-  : public DisplacementFieldTransform<TParametersValueType, NDimensions>
+  : public DisplacementFieldTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(BSplineSmoothingOnUpdateDisplacementFieldTransform);
 
   /** Standard class type aliases. */
   using Self = BSplineSmoothingOnUpdateDisplacementFieldTransform;
-  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain spaces. */
-  static constexpr unsigned int Dimension = NDimensions;
+  static constexpr unsigned int Dimension = VDimension;
 
   /** Types from superclass */
   using typename Superclass::ScalarType;
@@ -78,7 +78,7 @@ public:
   using typename Superclass::DisplacementFieldPointer;
   using typename Superclass::DisplacementFieldConstPointer;
 
-  using TransformPointer = typename Transform<TParametersValueType, NDimensions, NDimensions>::Pointer;
+  using TransformPointer = typename Transform<TParametersValueType, VDimension, VDimension>::Pointer;
 
   /**
    * type alias for projecting the input displacement field onto a

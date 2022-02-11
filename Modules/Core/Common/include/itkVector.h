@@ -31,7 +31,7 @@ namespace itk
  * of values).  Vector can be used as the data type held at each pixel in
  * an Image or at each vertex of an Mesh. The template parameter T can
  * be any data type that behaves like a primitive (or atomic) data type (int,
- * short, float, complex).  The NVectorDimension defines the number of
+ * short, float, complex).  The VVectorDimension defines the number of
  * components in the vector array.
  *
  * Vector is not a dynamically extendible array like std::vector. It is
@@ -58,13 +58,13 @@ namespace itk
  * \sphinxexample{Core/Common/VectorDotProduct,Dot product (inner product) of two vectors}
  * \endsphinx
  */
-template <typename T, unsigned int NVectorDimension = 3>
-class ITK_TEMPLATE_EXPORT Vector : public FixedArray<T, NVectorDimension>
+template <typename T, unsigned int VVectorDimension = 3>
+class ITK_TEMPLATE_EXPORT Vector : public FixedArray<T, VVectorDimension>
 {
 public:
   /** Standard class type aliases. */
   using Self = Vector;
-  using Superclass = FixedArray<T, NVectorDimension>;
+  using Superclass = FixedArray<T, VVectorDimension>;
 
   /** ValueType can be used to declare a variable that is the same type
    * as a data element held in an Vector.   */
@@ -72,7 +72,7 @@ public:
   using RealValueType = typename NumericTraits<ValueType>::RealType;
 
   /** Dimension of the vector space. */
-  static constexpr unsigned int Dimension = NVectorDimension;
+  static constexpr unsigned int Dimension = VVectorDimension;
 
   /** I am a vector type. */
   using VectorType = Self;
@@ -81,13 +81,13 @@ public:
   using ComponentType = T;
 
   /** The Array type from which this vector is derived. */
-  using BaseArray = FixedArray<T, NVectorDimension>;
+  using BaseArray = FixedArray<T, VVectorDimension>;
 
   /** Get the dimension (size) of the vector. */
   static unsigned int
   GetVectorDimension()
   {
-    return NVectorDimension;
+    return VVectorDimension;
   }
 
   /** Set a vnl_vector_ref referencing the same memory block. */
@@ -126,7 +126,7 @@ public:
 
   /** Pass-through constructor for the Array base class. */
   template <typename TVectorValueType>
-  Vector(const Vector<TVectorValueType, NVectorDimension> & r)
+  Vector(const Vector<TVectorValueType, VVectorDimension> & r)
     : BaseArray(r)
   {}
   Vector(const ValueType r[Dimension])
@@ -138,28 +138,28 @@ public:
   {}
 
   /** Explicit constructor for std::array. */
-  explicit Vector(const std::array<ValueType, NVectorDimension> & stdArray)
+  explicit Vector(const std::array<ValueType, VVectorDimension> & stdArray)
     : BaseArray(stdArray)
   {}
 
   /** Pass-through assignment operator for the Array base class. */
   template <typename TVectorValueType>
   Vector &
-  operator=(const Vector<TVectorValueType, NVectorDimension> & r)
+  operator=(const Vector<TVectorValueType, VVectorDimension> & r)
   {
     BaseArray::operator=(r);
     return *this;
   }
 
   Vector &
-  operator=(const ValueType r[NVectorDimension]);
+  operator=(const ValueType r[VVectorDimension]);
 
   /** Scalar operator*=.  Scales elements by a scalar. */
   template <typename Tt>
   inline const Self &
   operator*=(const Tt & value)
   {
-    for (unsigned int i = 0; i < NVectorDimension; ++i)
+    for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
       (*this)[i] = static_cast<ValueType>((*this)[i] * value);
     }
@@ -171,7 +171,7 @@ public:
   inline const Self &
   operator/=(const Tt & value)
   {
-    for (unsigned int i = 0; i < NVectorDimension; ++i)
+    for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
       (*this)[i] = static_cast<ValueType>((*this)[i] / value);
     }
@@ -209,7 +209,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < NVectorDimension; ++i)
+    for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
       result[i] = static_cast<ValueType>((*this)[i] * value);
     }
@@ -224,7 +224,7 @@ public:
   {
     Self result;
 
-    for (unsigned int i = 0; i < NVectorDimension; ++i)
+    for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
       result[i] = static_cast<ValueType>((*this)[i] / value);
     }
@@ -255,7 +255,7 @@ public:
   static unsigned int
   GetNumberOfComponents()
   {
-    return NVectorDimension;
+    return VVectorDimension;
   }
 
   /** Divides the vector components by the vector norm (when the norm is not
@@ -273,19 +273,19 @@ public:
    *  Casting is done with C-Like rules  */
   template <typename TCoordRepB>
   void
-  CastFrom(const Vector<TCoordRepB, NVectorDimension> & pa)
+  CastFrom(const Vector<TCoordRepB, VVectorDimension> & pa)
   {
-    for (unsigned int i = 0; i < NVectorDimension; ++i)
+    for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
       (*this)[i] = static_cast<T>(pa[i]);
     }
   }
 
   template <typename TCoordRepB>
-  operator Vector<TCoordRepB, NVectorDimension>()
+  operator Vector<TCoordRepB, VVectorDimension>()
   {
-    Vector<TCoordRepB, NVectorDimension> r;
-    for (unsigned int i = 0; i < NVectorDimension; ++i)
+    Vector<TCoordRepB, VVectorDimension> r;
+    for (unsigned int i = 0; i < VVectorDimension; ++i)
     {
       r[i] = static_cast<TCoordRepB>((*this)[i]);
     }
@@ -295,21 +295,21 @@ public:
 
 /** Premultiply Operator for product of a vector and a scalar.
  *  Vector< T, N >  =  T * Vector< T,N > */
-template <typename T, unsigned int NVectorDimension>
-inline Vector<T, NVectorDimension> operator*(const T & scalar, const Vector<T, NVectorDimension> & v)
+template <typename T, unsigned int VVectorDimension>
+inline Vector<T, VVectorDimension> operator*(const T & scalar, const Vector<T, VVectorDimension> & v)
 {
   return v.operator*(scalar);
 }
 
 /** Print content to an ostream */
-template <typename T, unsigned int NVectorDimension>
+template <typename T, unsigned int VVectorDimension>
 std::ostream &
-operator<<(std::ostream & os, const Vector<T, NVectorDimension> & vct);
+operator<<(std::ostream & os, const Vector<T, VVectorDimension> & vct);
 
 /** Read content from an istream */
-template <typename T, unsigned int NVectorDimension>
+template <typename T, unsigned int VVectorDimension>
 std::istream &
-operator>>(std::istream & is, Vector<T, NVectorDimension> & vct);
+operator>>(std::istream & is, Vector<T, VVectorDimension> & vct);
 
 ITKCommon_EXPORT Vector<double, 3>
                  CrossProduct(const Vector<double, 3> &, const Vector<double, 3> &);
@@ -321,9 +321,9 @@ ITKCommon_EXPORT Vector<int, 3>
                  CrossProduct(const Vector<int, 3> &, const Vector<int, 3> &);
 
 
-template <typename T, unsigned int NVectorDimension>
+template <typename T, unsigned int VVectorDimension>
 inline void
-swap(Vector<T, NVectorDimension> & a, Vector<T, NVectorDimension> & b)
+swap(Vector<T, VVectorDimension> & a, Vector<T, VVectorDimension> & b)
 {
   a.swap(b);
 }

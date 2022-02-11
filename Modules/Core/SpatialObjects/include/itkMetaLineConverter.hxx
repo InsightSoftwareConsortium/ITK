@@ -22,17 +22,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaLineConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaLineConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new LineMetaObjectType);
 }
 
 /** Convert a metaLine into an Line SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaLineConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * lineMO = dynamic_cast<const LineMetaObjectType *>(mo);
   if (lineMO == nullptr)
@@ -50,7 +50,7 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
   lineSO->GetProperty().SetBlue(lineMO->Color()[2]);
   lineSO->GetProperty().SetAlpha(lineMO->Color()[3]);
 
-  using LinePointType = itk::LineSpatialObjectPoint<NDimensions>;
+  using LinePointType = itk::LineSpatialObjectPoint<VDimension>;
 
   auto it2 = lineMO->GetPoints().begin();
 
@@ -62,17 +62,17 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
     PointType point;
     using NormalType = typename LinePointType::CovariantVectorType;
 
-    for (unsigned int ii = 0; ii < NDimensions; ++ii)
+    for (unsigned int ii = 0; ii < VDimension; ++ii)
     {
       point[ii] = (*it2)->m_X[ii] * lineMO->ElementSpacing(ii);
     }
 
     pnt.SetPositionInObjectSpace(point);
 
-    for (unsigned int ii = 0; ii < NDimensions - 1; ++ii)
+    for (unsigned int ii = 0; ii < VDimension - 1; ++ii)
     {
       NormalType normal;
-      for (unsigned int jj = 0; jj < NDimensions; ++jj)
+      for (unsigned int jj = 0; jj < VDimension; ++jj)
       {
         normal[jj] = (*it2)->m_V[ii][jj];
       }
@@ -91,9 +91,9 @@ MetaLineConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType *
 }
 
 /** Convert a Line SpatialObject into a metaLine */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
+MetaLineConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   LineSpatialObjectConstPointer lineSO = dynamic_cast<const LineSpatialObjectType *>(spatialObject);
   if (lineSO.IsNull())
@@ -101,7 +101,7 @@ MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
     itkExceptionMacro(<< "Can't downcast SpatialObject to LineSpatialObject");
   }
 
-  auto * lineMO = new MetaLine(NDimensions);
+  auto * lineMO = new MetaLine(VDimension);
 
   // due to a Visual Studio stupidity, can't seem to define
   // a const method to return the points list.
@@ -111,16 +111,16 @@ MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
   typename LineSpatialObjectType::LinePointListType::const_iterator it;
   for (it = linePoints.begin(); it != linePoints.end(); ++it)
   {
-    auto * pnt = new LinePnt(NDimensions);
+    auto * pnt = new LinePnt(VDimension);
 
-    for (unsigned int d = 0; d < NDimensions; ++d)
+    for (unsigned int d = 0; d < VDimension; ++d)
     {
       pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
     }
 
-    for (unsigned int n = 0; n < NDimensions - 1; ++n)
+    for (unsigned int n = 0; n < VDimension - 1; ++n)
     {
-      for (unsigned int d = 0; d < NDimensions; ++d)
+      for (unsigned int d = 0; d < VDimension; ++d)
       {
         pnt->m_V[n][d] = ((*it).GetNormalInObjectSpace(n))[d];
       }
@@ -134,11 +134,11 @@ MetaLineConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTyp
     lineMO->GetPoints().push_back(pnt);
   }
 
-  if (NDimensions == 2)
+  if (VDimension == 2)
   {
     lineMO->PointDim("x y v1x v1y v2x v2y red green blue alpha");
   }
-  else if (NDimensions == 3)
+  else if (VDimension == 3)
   {
     lineMO->PointDim("x y z v1x v1y v1z v2x v2y v2z red green blue alpha");
   }

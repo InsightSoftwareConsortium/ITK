@@ -42,16 +42,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateDisplacementFieldTransform
-  : public DisplacementFieldTransform<TParametersValueType, NDimensions>
+  : public DisplacementFieldTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GaussianSmoothingOnUpdateDisplacementFieldTransform);
 
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateDisplacementFieldTransform;
-  using Superclass = DisplacementFieldTransform<TParametersValueType, NDimensions>;
+  using Superclass = DisplacementFieldTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -69,7 +69,7 @@ public:
   using typename Superclass::DisplacementFieldPointer;
   using DisplacementVectorType = typename DisplacementFieldType::PixelType;
 
-  using TransformPointer = typename Transform<TParametersValueType, NDimensions, NDimensions>::Pointer;
+  using TransformPointer = typename Transform<TParametersValueType, VDimension, VDimension>::Pointer;
 
   /**
    * Get/Set the Gaussian smoothing standard deviation for the update field.

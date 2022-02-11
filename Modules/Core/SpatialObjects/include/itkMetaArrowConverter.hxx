@@ -22,17 +22,17 @@
 namespace itk
 {
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaArrowConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaArrowConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new ArrowMetaObjectType);
 }
 
 /** Convert a metaArrow into an arrow SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaArrowConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * metaArrow = dynamic_cast<const MetaArrow *>(mo);
   if (metaArrow == nullptr)
@@ -48,7 +48,7 @@ MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType 
   const double *                         metaDirection = metaArrow->Direction();
   typename SpatialObjectType::PointType  positionInObjectSpace;
   typename SpatialObjectType::VectorType directionInObjectSpace;
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     positionInObjectSpace[i] = metaPosition[i];
     directionInObjectSpace[i] = metaDirection[i];
@@ -70,9 +70,9 @@ MetaArrowConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType 
 }
 
 /** Convert an arrow SpatialObject into a metaArrow */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaArrowConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
+MetaArrowConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * spatialObject) -> MetaObjectType *
 {
   ArrowSpatialObjectConstPointer arrowSO = dynamic_cast<const ArrowSpatialObjectType *>(spatialObject);
   if (arrowSO.IsNull())
@@ -80,7 +80,7 @@ MetaArrowConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTy
     itkExceptionMacro(<< "Can't downcast SpatialObject to ArrowSpatialObject");
   }
 
-  auto * mo = new MetaArrow(NDimensions);
+  auto * mo = new MetaArrow(VDimension);
 
   float metaLength = arrowSO->GetLengthInObjectSpace();
 
@@ -90,11 +90,11 @@ MetaArrowConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectTy
   }
 
   // convert position and direction
-  double                                 metaPosition[NDimensions];
-  double                                 metaDirection[NDimensions];
+  double                                 metaPosition[VDimension];
+  double                                 metaDirection[VDimension];
   typename SpatialObjectType::PointType  spPositionInObjectSpace = arrowSO->GetPositionInObjectSpace();
   typename SpatialObjectType::VectorType spDirectionInObjectSpace = arrowSO->GetDirectionInObjectSpace();
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     metaPosition[i] = spPositionInObjectSpace[i];
     metaDirection[i] = spDirectionInObjectSpace[i];

@@ -58,13 +58,13 @@ printnb(const TIteratorType & nb, bool full)
   }
 }
 
-template <unsigned int N>
+template <unsigned int VDimension>
 void
-FillImage(itk::Image<itk::Index<N>, N> * img)
+FillImage(itk::Image<itk::Index<VDimension>, VDimension> * img)
 {
-  using IndexType = itk::Index<N>;
-  using ImageType = itk::Image<IndexType, N>;
-  const itk::Size<N> size = img->GetRequestedRegion().GetSize();
+  using IndexType = itk::Index<VDimension>;
+  using ImageType = itk::Image<IndexType, VDimension>;
+  const itk::Size<VDimension> size = img->GetRequestedRegion().GetSize();
 
   unsigned int i;
   IndexType    loop;
@@ -74,7 +74,7 @@ FillImage(itk::Image<itk::Index<N>, N> * img)
   while (!it.IsAtEnd())
   {
     it.Value() = loop;
-    for (i = 0; i < N; ++i)
+    for (i = 0; i < VDimension; ++i)
     {
       loop[i]++;
       if ((unsigned int)(loop[i]) == size[i])

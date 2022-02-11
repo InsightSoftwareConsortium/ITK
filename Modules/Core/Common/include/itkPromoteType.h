@@ -37,17 +37,17 @@ namespace Details
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template <int N, typename TA, typename TB>
+template <int VTypeEnum, typename TA, typename TB>
 struct SizeToType;
 
 /** Helper class to implement \c itk::PromoteType<>.
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-template <int N>
+template <int VCharacters>
 struct Identity
 {
-  using Type = char[N];
+  using Type = char[VCharacters];
 };
 
 /** Helper macro to implement \c itk::PromoteType<>.
@@ -55,11 +55,11 @@ struct Identity
  * \ingroup MetaProgrammingLibrary
  * \ingroup ITKCommon
  */
-#define ITK_ASSOCIATE(N, Typed)       \
-  template <typename TA, typename TB> \
-  struct SizeToType<N, TA, TB>        \
-  {                                   \
-    using Type = Typed;               \
+#define ITK_ASSOCIATE(VTypeEnum, Typed) \
+  template <typename TA, typename TB>   \
+  struct SizeToType<VTypeEnum, TA, TB>  \
+  {                                     \
+    using Type = Typed;                 \
   };
 
 ITK_ASSOCIATE(1, TA);

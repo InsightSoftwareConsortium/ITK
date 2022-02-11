@@ -77,15 +77,15 @@ namespace itk
  * TParametersValueType The type to be used for scalar numeric
  *                      values.  Either float or double.
  *
- * NDimensions   The number of dimensions of the vector space.
+ * VDimension   The number of dimensions of the vector space.
  *
  * This class provides several methods for setting the matrix and vector
  * defining the transform. To support the registration framework, the
  * transform parameters can also be set as an Array<double> of size
- * (NDimension + 1) * NDimension using method SetParameters().
- * The first (NDimension x NDimension) parameters defines the matrix in
+ * (VDimension + 1) * VDimension using method SetParameters().
+ * The first (VDimension x VDimension) parameters defines the matrix in
  * row-major order (where the column index varies the fastest).
- * The last NDimension parameters defines the translation
+ * The last VDimension parameters defines the translation
  * in each dimensions.
  *
  * This class also supports the specification of a center of rotation (center)
@@ -95,17 +95,17 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template <typename TParametersValueType = double, unsigned int NDimensions = 3>
+template <typename TParametersValueType = double, unsigned int VDimension = 3>
 // Number of dimensions in the input space
 class ITK_TEMPLATE_EXPORT AffineTransform
-  : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
+  : public MatrixOffsetTransformBase<TParametersValueType, VDimension, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(AffineTransform);
 
   /** Standard type alias   */
   using Self = AffineTransform;
-  using Superclass = MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
+  using Superclass = MatrixOffsetTransformBase<TParametersValueType, VDimension, VDimension>;
 
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -117,10 +117,10 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int InputSpaceDimension = NDimensions;
-  static constexpr unsigned int OutputSpaceDimension = NDimensions;
-  static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 1);
+  static constexpr unsigned int InputSpaceDimension = VDimension;
+  static constexpr unsigned int OutputSpaceDimension = VDimension;
+  static constexpr unsigned int SpaceDimension = VDimension;
+  static constexpr unsigned int ParametersDimension = VDimension * (VDimension + 1);
 
   /** Parameters Type   */
   using typename Superclass::ParametersType;
@@ -204,7 +204,7 @@ public:
    * \warning Only to be use in two dimensions
    *
    * \todo Find a way to generate a compile-time error
-   *       is this is used with NDimensions != 2. */
+   *       is this is used with VDimension != 2. */
   void
   Rotate2D(TParametersValueType angle, bool pre = false);
 
@@ -220,7 +220,7 @@ public:
    * \warning Only to be used in dimension 3
    *
    * \todo Find a way to generate a compile-time error
-   * is this is used with NDimensions != 3. */
+   * is this is used with VDimension != 3. */
   void
   Rotate3D(const OutputVectorType & axis, TParametersValueType angle, bool pre = false);
 

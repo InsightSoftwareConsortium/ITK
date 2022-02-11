@@ -33,9 +33,9 @@ namespace itk
 namespace detail
 {
 /* Helper functions returning pointer to matrix data for different types.  */
-template <typename TValueType, unsigned int NRows, unsigned int NCols>
+template <typename TValueType, unsigned int VRows, unsigned int VColumns>
 const TValueType *
-GetPointerToMatrixData(const vnl_matrix_fixed<TValueType, NRows, NCols> & inputMatrix)
+GetPointerToMatrixData(const vnl_matrix_fixed<TValueType, VRows, VColumns> & inputMatrix)
 {
   return inputMatrix.data_block();
 };
@@ -46,9 +46,9 @@ GetPointerToMatrixData(const vnl_matrix<TValueType> & inputMatrix)
   return inputMatrix.data_block();
 };
 
-template <typename TValueType, unsigned int NRows, unsigned int NCols>
+template <typename TValueType, unsigned int VRows, unsigned int VColumns>
 const TValueType *
-GetPointerToMatrixData(const itk::Matrix<TValueType, NRows, NCols> & inputMatrix)
+GetPointerToMatrixData(const itk::Matrix<TValueType, VRows, VColumns> & inputMatrix)
 {
   return inputMatrix.GetVnlMatrix().data_block();
 };

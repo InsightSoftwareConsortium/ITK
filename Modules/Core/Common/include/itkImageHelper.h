@@ -47,14 +47,14 @@ namespace itk
  */
 
 // Forward reference because of circular dependencies
-template <unsigned int NImageDimension>
+template <unsigned int VImageDimension>
 class ITK_TEMPLATE_EXPORT ImageBase;
 
-template <unsigned int NImageDimension, unsigned int NLoop>
+template <unsigned int VImageDimension, unsigned int VLoop>
 class ImageHelper
 {
 public:
-  using ImageType = ImageBase<NImageDimension>;
+  using ImageType = ImageBase<VImageDimension>;
   using IndexType = typename ImageType::IndexType;
   using OffsetType = typename ImageType::OffsetType;
   using OffsetValueType = typename ImageType::OffsetValueType;
@@ -67,8 +67,8 @@ public:
                const OffsetValueType offsetTable[],
                IndexType &           index)
   {
-    ImageHelper<NImageDimension, NLoop - 1>::ComputeIndexInner(
-      bufferedRegionIndex, offset, offsetTable, index, std::integral_constant<bool, NLoop == 1>{});
+    ImageHelper<VImageDimension, VLoop - 1>::ComputeIndexInner(
+      bufferedRegionIndex, offset, offsetTable, index, std::integral_constant<bool, VLoop == 1>{});
   }
 
   inline static void
@@ -78,11 +78,11 @@ public:
                     IndexType &           index,
                     std::false_type)
   {
-    index[NLoop] = static_cast<IndexValueType>(offset / offsetTable[NLoop]);
-    offset -= (index[NLoop] * offsetTable[NLoop]);
-    index[NLoop] += bufferedRegionIndex[NLoop];
-    ImageHelper<NImageDimension, NLoop - 1>::ComputeIndexInner(
-      bufferedRegionIndex, offset, offsetTable, index, std::integral_constant<bool, NLoop == 1>{});
+    index[VLoop] = static_cast<IndexValueType>(offset / offsetTable[VLoop]);
+    offset -= (index[VLoop] * offsetTable[VLoop]);
+    index[VLoop] += bufferedRegionIndex[VLoop];
+    ImageHelper<VImageDimension, VLoop - 1>::ComputeIndexInner(
+      bufferedRegionIndex, offset, offsetTable, index, std::integral_constant<bool, VLoop == 1>{});
   }
 
   inline static void
@@ -104,8 +104,8 @@ public:
                 const OffsetValueType offsetTable[],
                 OffsetValueType &     offset)
   {
-    ImageHelper<NImageDimension, NLoop - 1>::ComputeOffsetInner(
-      bufferedRegionIndex, index, offsetTable, offset, std::integral_constant<bool, NLoop == 1>{});
+    ImageHelper<VImageDimension, VLoop - 1>::ComputeOffsetInner(
+      bufferedRegionIndex, index, offsetTable, offset, std::integral_constant<bool, VLoop == 1>{});
   }
 
   inline static void
@@ -115,9 +115,9 @@ public:
                      OffsetValueType &     offset,
                      std::false_type)
   {
-    offset += (index[NLoop] - bufferedRegionIndex[NLoop]) * offsetTable[NLoop];
-    ImageHelper<NImageDimension, NLoop - 1>::ComputeOffsetInner(
-      bufferedRegionIndex, index, offsetTable, offset, std::integral_constant<bool, NLoop == 1>{});
+    offset += (index[VLoop] - bufferedRegionIndex[VLoop]) * offsetTable[VLoop];
+    ImageHelper<VImageDimension, VLoop - 1>::ComputeOffsetInner(
+      bufferedRegionIndex, index, offsetTable, offset, std::integral_constant<bool, VLoop == 1>{});
   }
 
   inline static void

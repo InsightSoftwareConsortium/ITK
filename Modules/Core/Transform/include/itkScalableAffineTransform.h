@@ -30,15 +30,15 @@ namespace itk
  * \ingroup ITKTransform
  */
 
-template <typename TParametersValueType = double, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT ScalableAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT ScalableAffineTransform : public AffineTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ScalableAffineTransform);
 
   /** Standard type alias   */
   using Self = ScalableAffineTransform;
-  using Superclass = AffineTransform<TParametersValueType, NDimensions>;
+  using Superclass = AffineTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -49,10 +49,10 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int InputSpaceDimension = NDimensions;
-  static constexpr unsigned int OutputSpaceDimension = NDimensions;
-  static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 1);
+  static constexpr unsigned int InputSpaceDimension = VDimension;
+  static constexpr unsigned int OutputSpaceDimension = VDimension;
+  static constexpr unsigned int SpaceDimension = VDimension;
+  static constexpr unsigned int ParametersDimension = VDimension * (VDimension + 1);
 
   /** Types taken from the Superclass */
   using typename Superclass::ParametersType;
@@ -101,10 +101,10 @@ public:
 
   /** Set the scale of the transform */
   virtual void
-  SetScale(const double scale[NDimensions]);
+  SetScale(const double scale[VDimension]);
 
   virtual void
-  SetScaleComponent(const double scale[NDimensions])
+  SetScaleComponent(const double scale[VDimension])
   {
     this->SetScale(scale);
   }
@@ -162,7 +162,7 @@ protected:
   }
 
 private:
-  double          m_Scale[NDimensions];
+  double          m_Scale[VDimension];
   InputVectorType m_MatrixScale;
 }; // class ScalableAffineTransform
 } // namespace itk

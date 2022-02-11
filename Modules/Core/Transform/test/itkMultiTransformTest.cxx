@@ -71,15 +71,15 @@ testVectorArray(const TVector & v1, const TVector & v2)
 
 constexpr unsigned int itkMultiTransformTestNDimensions = 2;
 
-template <class TScalar = double, unsigned int NDimensions = itkMultiTransformTestNDimensions>
-class MultiTransformTestTransform : public itk::MultiTransform<TScalar, NDimensions>
+template <class TScalar = double, unsigned int VDimension = itkMultiTransformTestNDimensions>
+class MultiTransformTestTransform : public itk::MultiTransform<TScalar, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MultiTransformTestTransform);
 
   /** Standard class type aliases. */
   using Self = MultiTransformTestTransform;
-  using Superclass = itk::MultiTransform<TScalar, NDimensions, NDimensions>;
+  using Superclass = itk::MultiTransform<TScalar, VDimension, VDimension>;
   using Pointer = itk::SmartPointer<Self>;
   using ConstPointer = itk::SmartPointer<const Self>;
 
@@ -122,18 +122,18 @@ protected:
 int
 itkMultiTransformTest(int, char *[])
 {
-  const unsigned int NDimensions = itkMultiTransformTestNDimensions;
+  const unsigned int VDimension = itkMultiTransformTestNDimensions;
 
   /* Create multi-transform */
-  using MultiTransformType = MultiTransformTestTransform<double, NDimensions>;
+  using MultiTransformType = MultiTransformTestTransform<double, VDimension>;
   using Superclass = MultiTransformType::Superclass;
   using ScalarType = Superclass::ScalarType;
 
   auto multiTransform = MultiTransformType::New();
 
   /* Test obects */
-  using Matrix2Type = itk::Matrix<ScalarType, NDimensions, NDimensions>;
-  using Vector2Type = itk::Vector<ScalarType, NDimensions>;
+  using Matrix2Type = itk::Matrix<ScalarType, VDimension, VDimension>;
+  using Vector2Type = itk::Vector<ScalarType, VDimension>;
 
   /* Test that we have an empty the queue */
   if (multiTransform->GetNumberOfTransforms() != 0)
@@ -149,7 +149,7 @@ itkMultiTransformTest(int, char *[])
   }
 
   /* Add an affine transform */
-  using AffineType = itk::AffineTransform<ScalarType, NDimensions>;
+  using AffineType = itk::AffineTransform<ScalarType, VDimension>;
   auto        affine = AffineType::New();
   Matrix2Type matrix2;
   Vector2Type vector2;
@@ -320,7 +320,7 @@ itkMultiTransformTest(int, char *[])
    */
 
   /* Create a displacement field transform */
-  using DisplacementTransformType = itk::DisplacementFieldTransform<double, NDimensions>;
+  using DisplacementTransformType = itk::DisplacementFieldTransform<double, VDimension>;
   auto displacementTransform = DisplacementTransformType::New();
   using FieldType = DisplacementTransformType::DisplacementFieldType;
   auto field = FieldType::New(); // This is based on itk::Image

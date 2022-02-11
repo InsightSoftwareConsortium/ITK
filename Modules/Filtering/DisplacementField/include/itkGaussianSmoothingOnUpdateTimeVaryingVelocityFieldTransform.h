@@ -35,16 +35,16 @@ namespace itk
  *
  * \ingroup ITKDisplacementField
  */
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform
-  : public TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>
+  : public TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform);
 
   /** Standard class type aliases. */
   using Self = GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform;
-  using Superclass = TimeVaryingVelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Superclass = TimeVaryingVelocityFieldTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -55,7 +55,7 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the time varying velocity field. */
-  static constexpr unsigned int TimeVaryingVelocityFieldDimension = NDimensions + 1;
+  static constexpr unsigned int TimeVaryingVelocityFieldDimension = VDimension + 1;
 
   /** Types from superclass */
   using typename Superclass::ScalarType;

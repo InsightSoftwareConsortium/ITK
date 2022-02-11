@@ -20,23 +20,23 @@
 
 namespace itk
 {
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ThinPlateSplineKernelTransform<TParametersValueType, NDimensions>::ComputeG(const InputVectorType & x,
-                                                                            GMatrixType &           gmatrix) const
+ThinPlateSplineKernelTransform<TParametersValueType, VDimension>::ComputeG(const InputVectorType & x,
+                                                                           GMatrixType &           gmatrix) const
 {
   const TParametersValueType r = x.GetNorm();
 
   gmatrix.fill(NumericTraits<TParametersValueType>::ZeroValue());
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     gmatrix[i][i] = r;
   }
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ThinPlateSplineKernelTransform<TParametersValueType, NDimensions>::ComputeDeformationContribution(
+ThinPlateSplineKernelTransform<TParametersValueType, VDimension>::ComputeDeformationContribution(
   const InputPointType & thisPoint,
   OutputPointType &      result) const
 {
@@ -49,7 +49,7 @@ ThinPlateSplineKernelTransform<TParametersValueType, NDimensions>::ComputeDeform
     InputVectorType            position = thisPoint - sp->Value();
     const TParametersValueType r = position.GetNorm();
 
-    for (unsigned int odim = 0; odim < NDimensions; ++odim)
+    for (unsigned int odim = 0; odim < VDimension; ++odim)
     {
       result[odim] += r * this->m_DMatrix(odim, lnd);
     }

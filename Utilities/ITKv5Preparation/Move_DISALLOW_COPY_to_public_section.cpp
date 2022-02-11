@@ -108,15 +108,15 @@ GoToFirstNonSpace(const char * ptr)
   return ptr;
 }
 
-template <unsigned int N>
+template <unsigned int VLength>
 bool
-StringStartsWithPrefix(const char *& str, const char (&prefix)[N])
+StringStartsWithPrefix(const char *& str, const char (&prefix)[VLength])
 {
-  assert(prefix[N - 1] == '\0');
-  if ((std::strlen(str) + 1 >= N) && (std::memcmp(str, prefix, N - 1) == 0))
+  assert(prefix[VLength - 1] == '\0');
+  if ((std::strlen(str) + 1 >= VLength) && (std::memcmp(str, prefix, VLength - 1) == 0))
   {
     // Move the 'str' pointer beyond the prefix.
-    str += N - 1;
+    str += VLength - 1;
     return true;
   }
   return false;

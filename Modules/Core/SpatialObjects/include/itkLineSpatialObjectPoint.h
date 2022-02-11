@@ -31,7 +31,7 @@ namespace itk
  * This class contains all the functions necessary to define a point
  * that can be used to build lines.
  * This Class derives from SpatialObjectPoint.
- * A LineSpatialObjectPoint has NDimension-1 normals.
+ * A LineSpatialObjectPoint has VDimension-1 normals.
  * \ingroup ITKSpatialObjects
  *
  * \sphinx

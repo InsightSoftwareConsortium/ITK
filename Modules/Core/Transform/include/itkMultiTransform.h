@@ -59,17 +59,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType = double,
-          unsigned int NDimensions = 3,
-          unsigned int NSubDimensions = NDimensions>
-class ITK_TEMPLATE_EXPORT MultiTransform : public Transform<TParametersValueType, NDimensions, NSubDimensions>
+template <typename TParametersValueType = double, unsigned int VDimension = 3, unsigned int VSubDimensions = VDimension>
+class ITK_TEMPLATE_EXPORT MultiTransform : public Transform<TParametersValueType, VDimension, VSubDimensions>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MultiTransform);
 
   /** Standard class type aliases. */
   using Self = MultiTransform;
-  using Superclass = Transform<TParametersValueType, NDimensions, NSubDimensions>;
+  using Superclass = Transform<TParametersValueType, VDimension, VSubDimensions>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -77,7 +75,7 @@ public:
   itkTypeMacro(MultiTransform, Transform);
 
   /** Sub transform type **/
-  using TransformType = Transform<TParametersValueType, NSubDimensions, NSubDimensions>;
+  using TransformType = Transform<TParametersValueType, VSubDimensions, VSubDimensions>;
   using TransformTypePointer = typename TransformType::Pointer;
 
   /* Types common to both container and sub transforms */
@@ -136,11 +134,11 @@ public:
   using typename Superclass::NumberOfParametersType;
 
   /** Dimension of the domain spaces. */
-  static constexpr unsigned int InputDimension = NDimensions;
-  static constexpr unsigned int OutputDimension = NDimensions;
+  static constexpr unsigned int InputDimension = VDimension;
+  static constexpr unsigned int OutputDimension = VDimension;
 
-  static constexpr unsigned int SubInputDimension = NSubDimensions;
-  static constexpr unsigned int SubOutputDimension = NSubDimensions;
+  static constexpr unsigned int SubInputDimension = VSubDimensions;
+  static constexpr unsigned int SubOutputDimension = VSubDimensions;
 
   /** Functionality for sub transforms */
 

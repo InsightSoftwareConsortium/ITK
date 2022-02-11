@@ -30,15 +30,15 @@ namespace itk
  *
  * \ingroup ITKTransform
  */
-template <typename TParametersValueType = double, unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType, NDimensions>
+template <typename TParametersValueType = double, unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT CenteredAffineTransform : public AffineTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(CenteredAffineTransform);
 
   /** Standard type alias   */
   using Self = CenteredAffineTransform;
-  using Superclass = AffineTransform<TParametersValueType, NDimensions>;
+  using Superclass = AffineTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -49,8 +49,8 @@ public:
   itkNewMacro(Self);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions * (NDimensions + 2);
+  static constexpr unsigned int SpaceDimension = VDimension;
+  static constexpr unsigned int ParametersDimension = VDimension * (VDimension + 2);
 
   /** Types taken from the Superclass */
   using typename Superclass::ParametersType;
@@ -82,7 +82,7 @@ public:
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
   /** Set/Get the transformation from a container of parameters.
-   * The first (NDimension x NDimension) parameters define the
+   * The first (VDimension x VDimension) parameters define the
    * matrix, the next N parameters define the center of rotation
    * and the last N parameters define the translation to be applied
    * after the coordinate system has been restored to the rotation center.

@@ -34,16 +34,15 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3>
-class MetaImageMaskConverter
-  : public MetaImageConverter<NDimensions, unsigned char, ImageMaskSpatialObject<NDimensions>>
+template <unsigned int VDimension = 3>
+class MetaImageMaskConverter : public MetaImageConverter<VDimension, unsigned char, ImageMaskSpatialObject<VDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaImageMaskConverter);
 
   /** Standard class type aliases */
   using Self = MetaImageMaskConverter;
-  using Superclass = MetaImageConverter<NDimensions, unsigned char>;
+  using Superclass = MetaImageConverter<VDimension, unsigned char>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 

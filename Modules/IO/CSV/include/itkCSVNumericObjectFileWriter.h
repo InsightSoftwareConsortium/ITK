@@ -58,7 +58,7 @@ namespace itk
  *
  * \ingroup ITKIOCSV
  */
-template <typename TValue, unsigned int NRows = 0, unsigned int NColumns = 0>
+template <typename TValue, unsigned int VRows = 0, unsigned int VColumns = 0>
 class ITK_TEMPLATE_EXPORT CSVNumericObjectFileWriter : public LightProcessObject
 {
 public:
@@ -78,8 +78,8 @@ public:
 
   // Matrix types
   using vnlMatrixType = vnl_matrix<TValue>;
-  using vnlFixedMatrixType = vnl_matrix_fixed<TValue, NRows, NColumns>;
-  using itkMatrixType = itk::Matrix<TValue, NRows, NColumns>;
+  using vnlFixedMatrixType = vnl_matrix_fixed<TValue, VRows, VColumns>;
+  using itkMatrixType = itk::Matrix<TValue, VRows, VColumns>;
 
   using StringVectorType = std::vector<std::string>;
 

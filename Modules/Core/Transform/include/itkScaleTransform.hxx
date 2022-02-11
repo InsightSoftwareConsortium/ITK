@@ -23,16 +23,16 @@
 namespace itk
 {
 
-template <typename TParametersValueType, unsigned int NDimensions>
-ScaleTransform<TParametersValueType, NDimensions>::ScaleTransform()
+template <typename TParametersValueType, unsigned int VDimension>
+ScaleTransform<TParametersValueType, VDimension>::ScaleTransform()
   : Superclass(ParametersDimension)
 {
   m_Scale.Fill(NumericTraits<ScalarType>::OneValue());
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::SetParameters(const ParametersType & parameters)
+ScaleTransform<TParametersValueType, VDimension>::SetParameters(const ParametersType & parameters)
 {
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -53,9 +53,9 @@ ScaleTransform<TParametersValueType, NDimensions>::SetParameters(const Parameter
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleTransform<TParametersValueType, NDimensions>::GetParameters() const -> const ParametersType &
+ScaleTransform<TParametersValueType, VDimension>::GetParameters() const -> const ParametersType &
 {
   itkDebugMacro(<< "Getting parameters ");
   // Transfer the translation part
@@ -70,9 +70,9 @@ ScaleTransform<TParametersValueType, NDimensions>::GetParameters() const -> cons
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, Indent indent) const
+ScaleTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -80,9 +80,9 @@ ScaleTransform<TParametersValueType, NDimensions>::PrintSelf(std::ostream & os, 
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::Compose(const Self * other, bool)
+ScaleTransform<TParametersValueType, VDimension>::Compose(const Self * other, bool)
 {
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -91,9 +91,9 @@ ScaleTransform<TParametersValueType, NDimensions>::Compose(const Self * other, b
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::Scale(const ScaleType & scale, bool)
+ScaleTransform<TParametersValueType, VDimension>::Scale(const ScaleType & scale, bool)
 {
   for (unsigned int i = 0; i < SpaceDimension; ++i)
   {
@@ -102,9 +102,9 @@ ScaleTransform<TParametersValueType, NDimensions>::Scale(const ScaleType & scale
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPointType & point) const -> OutputPointType
+ScaleTransform<TParametersValueType, VDimension>::TransformPoint(const InputPointType & point) const -> OutputPointType
 {
   OutputPointType        result;
   const InputPointType & center = this->GetCenter();
@@ -117,9 +117,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformPoint(const InputPoi
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVectorType & vect) const
+ScaleTransform<TParametersValueType, VDimension>::TransformVector(const InputVectorType & vect) const
   -> OutputVectorType
 {
   OutputVectorType result;
@@ -132,9 +132,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVe
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVnlVectorType & vect) const
+ScaleTransform<TParametersValueType, VDimension>::TransformVector(const InputVnlVectorType & vect) const
   -> OutputVnlVectorType
 {
   OutputVnlVectorType result;
@@ -147,9 +147,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformVector(const InputVn
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleTransform<TParametersValueType, NDimensions>::TransformCovariantVector(const InputCovariantVectorType & vect) const
+ScaleTransform<TParametersValueType, VDimension>::TransformCovariantVector(const InputCovariantVectorType & vect) const
   -> OutputCovariantVectorType
 {
   // Covariant Vectors are scaled by the inverse
@@ -163,9 +163,9 @@ ScaleTransform<TParametersValueType, NDimensions>::TransformCovariantVector(cons
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 bool
-ScaleTransform<TParametersValueType, NDimensions>::GetInverse(Self * inverse) const
+ScaleTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) const
 {
   if (!inverse)
   {
@@ -181,9 +181,9 @@ ScaleTransform<TParametersValueType, NDimensions>::GetInverse(Self * inverse) co
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 auto
-ScaleTransform<TParametersValueType, NDimensions>::GetInverseTransform() const -> InverseTransformBasePointer
+ScaleTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
 {
   Pointer inv = New();
 
@@ -194,9 +194,9 @@ ScaleTransform<TParametersValueType, NDimensions>::GetInverseTransform() const -
   return nullptr;
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::SetIdentity()
+ScaleTransform<TParametersValueType, VDimension>::SetIdentity()
 {
   Superclass::SetIdentity();
   ScaleType i;
@@ -205,10 +205,10 @@ ScaleTransform<TParametersValueType, NDimensions>::SetIdentity()
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
-                                                                                          JacobianType & j) const
+ScaleTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToParameters(const InputPointType & p,
+                                                                                         JacobianType &         j) const
 {
   j.SetSize(SpaceDimension, this->GetNumberOfLocalParameters());
   j.Fill(0.0);
@@ -220,22 +220,21 @@ ScaleTransform<TParametersValueType, NDimensions>::ComputeJacobianWithRespectToP
 }
 
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::ComputeJacobianWithRespectToPosition(
-  const InputPointType &,
-  JacobianPositionType & jac) const
+ScaleTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespectToPosition(const InputPointType &,
+                                                                                       JacobianPositionType & jac) const
 {
   jac.fill(0.0);
-  for (unsigned int dim = 0; dim < NDimensions; ++dim)
+  for (unsigned int dim = 0; dim < VDimension; ++dim)
   {
     jac[dim][dim] = m_Scale[dim];
   }
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::SetScale(const ScaleType & scale)
+ScaleTransform<TParametersValueType, VDimension>::SetScale(const ScaleType & scale)
 {
   m_Scale = scale;
   this->ComputeMatrix();
@@ -243,9 +242,9 @@ ScaleTransform<TParametersValueType, NDimensions>::SetScale(const ScaleType & sc
   this->Modified();
 }
 
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 void
-ScaleTransform<TParametersValueType, NDimensions>::ComputeMatrix()
+ScaleTransform<TParametersValueType, VDimension>::ComputeMatrix()
 {
 
   MatrixType matrix;
@@ -261,9 +260,9 @@ ScaleTransform<TParametersValueType, NDimensions>::ComputeMatrix()
 
 
 // Back transform a point
-template <typename TParametersValueType, unsigned int NDimensions>
-inline typename ScaleTransform<TParametersValueType, NDimensions>::InputPointType
-ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputPointType & point) const
+template <typename TParametersValueType, unsigned int VDimension>
+inline typename ScaleTransform<TParametersValueType, VDimension>::InputPointType
+ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputPointType & point) const
 {
   InputPointType         result;
   const InputPointType & center = this->GetCenter();
@@ -276,9 +275,9 @@ ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputPoi
 }
 
 // Back transform a vector
-template <typename TParametersValueType, unsigned int NDimensions>
-inline typename ScaleTransform<TParametersValueType, NDimensions>::InputVectorType
-ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVectorType & vect) const
+template <typename TParametersValueType, unsigned int VDimension>
+inline typename ScaleTransform<TParametersValueType, VDimension>::InputVectorType
+ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVectorType & vect) const
 {
   InputVectorType result;
 
@@ -290,9 +289,9 @@ ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVec
 }
 
 // Back transform a vnl_vector
-template <typename TParametersValueType, unsigned int NDimensions>
-inline typename ScaleTransform<TParametersValueType, NDimensions>::InputVnlVectorType
-ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVnlVectorType & vect) const
+template <typename TParametersValueType, unsigned int VDimension>
+inline typename ScaleTransform<TParametersValueType, VDimension>::InputVnlVectorType
+ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputVnlVectorType & vect) const
 {
   InputVnlVectorType result;
 
@@ -304,9 +303,9 @@ ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputVnl
 }
 
 // Back Transform a CovariantVector
-template <typename TParametersValueType, unsigned int NDimensions>
-inline typename ScaleTransform<TParametersValueType, NDimensions>::InputCovariantVectorType
-ScaleTransform<TParametersValueType, NDimensions>::BackTransform(const OutputCovariantVectorType & vect) const
+template <typename TParametersValueType, unsigned int VDimension>
+inline typename ScaleTransform<TParametersValueType, VDimension>::InputCovariantVectorType
+ScaleTransform<TParametersValueType, VDimension>::BackTransform(const OutputCovariantVectorType & vect) const
 {
   // Covariant Vectors are scaled by the inverse
   InputCovariantVectorType result;

@@ -21,8 +21,8 @@
 
 namespace itk
 {
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::SpatialObjectWriter()
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::SpatialObjectWriter()
 {
   m_FileName = "";
   m_SpatialObject = nullptr;
@@ -32,24 +32,24 @@ SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::SpatialObjectWriter()
 }
 
 /** Set the precision at which the transform should be written */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::SetTransformPrecision(unsigned int precision)
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::SetTransformPrecision(unsigned int precision)
 {
   m_MetaToSpatialConverter->SetTransformPrecision(precision);
 }
 
 /** Get the precision at which the transform should be written */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 unsigned int
-SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::GetTransformPrecision()
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::GetTransformPrecision()
 {
   return m_MetaToSpatialConverter->GetTransformPrecision();
 }
 
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::Update()
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::Update()
 {
   m_MetaToSpatialConverter->SetBinaryPoints(m_BinaryPoints);
   m_MetaToSpatialConverter->SetWriteImagesInSeparateFile(m_WriteImagesInSeparateFile);
@@ -62,11 +62,11 @@ SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::Update()
 }
 
 /** Add a converter for a new MetaObject/SpatialObject type */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectWriter<NDimensions, PixelType, TMeshTraits>::RegisterMetaConverter(const char * metaTypeName,
-                                                                                const char * spatialObjectTypeName,
-                                                                                MetaConverterBaseType * converter)
+SpatialObjectWriter<VDimension, PixelType, TMeshTraits>::RegisterMetaConverter(const char * metaTypeName,
+                                                                               const char * spatialObjectTypeName,
+                                                                               MetaConverterBaseType * converter)
 {
   this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName, spatialObjectTypeName, converter);
 }

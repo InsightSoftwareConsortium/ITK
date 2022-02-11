@@ -21,8 +21,8 @@
 
 namespace itk
 {
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
-SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::SpatialObjectReader()
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
+SpatialObjectReader<VDimension, PixelType, TMeshTraits>::SpatialObjectReader()
 {
   m_FileName = "";
   m_SpatialObject = nullptr;
@@ -30,9 +30,9 @@ SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::SpatialObjectReader()
   m_MetaToSpatialConverter = MetaSceneConverterType::New();
 }
 
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::Update()
+SpatialObjectReader<VDimension, PixelType, TMeshTraits>::Update()
 {
   m_SpatialObject = m_MetaToSpatialConverter->ReadMeta(m_FileName.c_str());
   m_Group = nullptr;
@@ -44,11 +44,11 @@ SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::Update()
 }
 
 /** Add a converter for a new MetaObject/SpatialObject type */
-template <unsigned int NDimensions, typename PixelType, typename TMeshTraits>
+template <unsigned int VDimension, typename PixelType, typename TMeshTraits>
 void
-SpatialObjectReader<NDimensions, PixelType, TMeshTraits>::RegisterMetaConverter(const char * metaTypeName,
-                                                                                const char * spatialObjectTypeName,
-                                                                                MetaConverterBaseType * converter)
+SpatialObjectReader<VDimension, PixelType, TMeshTraits>::RegisterMetaConverter(const char * metaTypeName,
+                                                                               const char * spatialObjectTypeName,
+                                                                               MetaConverterBaseType * converter)
 {
   this->m_MetaToSpatialConverter->RegisterMetaConverter(metaTypeName, spatialObjectTypeName, converter);
 }

@@ -50,16 +50,16 @@ namespace itk
  * \ingroup Transforms
  * \ingroup ITKDisplacementField
  */
-template <typename TParametersValueType, unsigned int NDimensions>
+template <typename TParametersValueType, unsigned int VDimension>
 class ITK_TEMPLATE_EXPORT TimeVaryingVelocityFieldTransform
-  : public VelocityFieldTransform<TParametersValueType, NDimensions>
+  : public VelocityFieldTransform<TParametersValueType, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(TimeVaryingVelocityFieldTransform);
 
   /** Standard class type aliases. */
   using Self = TimeVaryingVelocityFieldTransform;
-  using Superclass = VelocityFieldTransform<TParametersValueType, NDimensions>;
+  using Superclass = VelocityFieldTransform<TParametersValueType, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -96,7 +96,7 @@ public:
   /** Derivative type */
   using typename Superclass::DerivativeType;
 
-  using TransformPointer = typename Transform<TParametersValueType, NDimensions, NDimensions>::Pointer;
+  using TransformPointer = typename Transform<TParametersValueType, VDimension, VDimension>::Pointer;
 
   /** Get the time-varying velocity field. */
 #if !defined(ITK_LEGACY_REMOVE)

@@ -31,15 +31,15 @@ namespace itk
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects
  */
-template <unsigned int NDimensions = 3>
-class ITK_TEMPLATE_EXPORT MetaTubeConverter : public MetaConverterBase<NDimensions>
+template <unsigned int VDimension = 3>
+class ITK_TEMPLATE_EXPORT MetaTubeConverter : public MetaConverterBase<VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MetaTubeConverter);
 
   /** Standard class type aliases */
   using Self = MetaTubeConverter;
-  using Superclass = MetaConverterBase<NDimensions>;
+  using Superclass = MetaConverterBase<VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -54,7 +54,7 @@ public:
   using typename Superclass::MetaObjectType;
 
   /** Specific class types for conversion */
-  using TubeSpatialObjectType = TubeSpatialObject<NDimensions>;
+  using TubeSpatialObjectType = TubeSpatialObject<VDimension>;
   using TubeSpatialObjectPointer = typename TubeSpatialObjectType::Pointer;
   using TubeSpatialObjectConstPointer = typename TubeSpatialObjectType::ConstPointer;
   using TubeMetaObjectType = MetaTube;

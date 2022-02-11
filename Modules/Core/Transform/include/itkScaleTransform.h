@@ -37,16 +37,16 @@ namespace itk
  * \sphinxexample{Core/Transform/ScaleAnImage,Scale An Image}
  * \endsphinx
  */
-template <typename TParametersValueType = float, unsigned int NDimensions = 3>
+template <typename TParametersValueType = float, unsigned int VDimension = 3>
 class ITK_TEMPLATE_EXPORT ScaleTransform
-  : public MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>
+  : public MatrixOffsetTransformBase<TParametersValueType, VDimension, VDimension>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ScaleTransform);
 
   /** Standard class type aliases.   */
   using Self = ScaleTransform;
-  using Superclass = MatrixOffsetTransformBase<TParametersValueType, NDimensions, NDimensions>;
+  using Superclass = MatrixOffsetTransformBase<TParametersValueType, VDimension, VDimension>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -57,8 +57,8 @@ public:
   itkTypeMacro(ScaleTransform, Transform);
 
   /** Dimension of the domain space. */
-  static constexpr unsigned int SpaceDimension = NDimensions;
-  static constexpr unsigned int ParametersDimension = NDimensions;
+  static constexpr unsigned int SpaceDimension = VDimension;
+  static constexpr unsigned int ParametersDimension = VDimension;
 
   /** Scalar type. */
   using typename Superclass::ScalarType;
@@ -73,23 +73,23 @@ public:
   using typename Superclass::InverseJacobianPositionType;
 
   /** Standard vector type for this class. */
-  using ScaleType = FixedArray<TParametersValueType, NDimensions>;
+  using ScaleType = FixedArray<TParametersValueType, VDimension>;
 
   /** Standard vector type for this class. */
-  using InputVectorType = Vector<TParametersValueType, NDimensions>;
-  using OutputVectorType = Vector<TParametersValueType, NDimensions>;
+  using InputVectorType = Vector<TParametersValueType, VDimension>;
+  using OutputVectorType = Vector<TParametersValueType, VDimension>;
 
   /** Standard covariant vector type for this class. */
-  using InputCovariantVectorType = CovariantVector<TParametersValueType, NDimensions>;
-  using OutputCovariantVectorType = CovariantVector<TParametersValueType, NDimensions>;
+  using InputCovariantVectorType = CovariantVector<TParametersValueType, VDimension>;
+  using OutputCovariantVectorType = CovariantVector<TParametersValueType, VDimension>;
 
   /** Standard vnl_vector type for this class. */
-  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, NDimensions>;
-  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, NDimensions>;
+  using InputVnlVectorType = vnl_vector_fixed<TParametersValueType, VDimension>;
+  using OutputVnlVectorType = vnl_vector_fixed<TParametersValueType, VDimension>;
 
   /** Standard coordinate point type for this class. */
-  using InputPointType = Point<TParametersValueType, NDimensions>;
-  using OutputPointType = Point<TParametersValueType, NDimensions>;
+  using InputPointType = Point<TParametersValueType, VDimension>;
+  using OutputPointType = Point<TParametersValueType, VDimension>;
 
   /** Base inverse transform type. This type should not be changed to the
    * concrete inverse transform type or inheritance would be lost.*/

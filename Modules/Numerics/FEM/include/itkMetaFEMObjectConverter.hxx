@@ -30,20 +30,20 @@ namespace itk
 {
 
 /** Constructor */
-template <unsigned int NDimensions>
-MetaFEMObjectConverter<NDimensions>::MetaFEMObjectConverter() = default;
+template <unsigned int VDimension>
+MetaFEMObjectConverter<VDimension>::MetaFEMObjectConverter() = default;
 
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaFEMObjectConverter<NDimensions>::CreateMetaObject() -> MetaObjectType *
+MetaFEMObjectConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
 {
   return dynamic_cast<MetaObjectType *>(new FEMObjectMetaObjectType);
 }
 
 /** Convert a metaFEMObject into an FEMObject SpatialObject  */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaFEMObjectConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
+MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
 {
   const auto * FEMmo = dynamic_cast<const MetaFEMObject *>(mo);
   if (FEMmo == nullptr)
@@ -53,7 +53,7 @@ MetaFEMObjectConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectT
 
   FEMObjectSpatialObjectPointer FEMSO = FEMObjectSpatialObjectType::New();
 
-  using FEMObjectType = fem::FEMObject<NDimensions>;
+  using FEMObjectType = fem::FEMObject<VDimension>;
   using FEMObjectPointer = typename FEMObjectType::Pointer;
 
   FEMObjectPointer myFEMObject = FEMObjectType::New();
@@ -313,9 +313,9 @@ MetaFEMObjectConverter<NDimensions>::MetaObjectToSpatialObject(const MetaObjectT
 }
 
 /** Convert an FEMObject SpatialObject into a metaFEMObject */
-template <unsigned int NDimensions>
+template <unsigned int VDimension>
 auto
-MetaFEMObjectConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
+MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *
 {
   FEMObjectSpatialObjectConstPointer FEMSO = dynamic_cast<const FEMObjectSpatialObjectType *>(so);
   if (FEMSO.IsNull())
@@ -323,12 +323,12 @@ MetaFEMObjectConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObje
     itkExceptionMacro(<< "Can't downcast SpatialObject to FEMObjectSpatialObject");
   }
 
-  using FEMObjectType = fem::FEMObject<NDimensions>;
+  using FEMObjectType = fem::FEMObject<VDimension>;
   using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
 
   FEMObjectConstPointer curFEMObject = FEMSO->GetFEMObject();
 
-  auto * FEMmo = new MetaFEMObject(NDimensions);
+  auto * FEMmo = new MetaFEMObject(VDimension);
 
   // copy the relevant info from spatial object to femobject
 
@@ -336,12 +336,12 @@ MetaFEMObjectConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObje
   const int numSONodes = curFEMObject->GetNumberOfNodes();
   for (int i = 0; i < numSONodes; ++i)
   {
-    auto *                           Node = new FEMObjectNode(NDimensions);
+    auto *                           Node = new FEMObjectNode(VDimension);
     fem::Element::Node::ConstPointer SONode = curFEMObject->GetNode(i);
     fem::Element::VectorType         pt = SONode->GetCoordinates();
 
     Node->m_GN = SONode->GetGlobalNumber();
-    for (unsigned int j = 0; j < NDimensions; ++j)
+    for (unsigned int j = 0; j < VDimension; ++j)
     {
       Node->m_X[j] = pt[j];
     }
@@ -383,7 +383,7 @@ MetaFEMObjectConverter<NDimensions>::SpatialObjectToMetaObject(const SpatialObje
     auto *                     Element = new FEMObjectElement(numNodes);
 
     Element->m_GN = SOElement->GetGlobalNumber();
-    Element->m_Dim = NDimensions;
+    Element->m_Dim = VDimension;
     Element->m_NumNodes = numNodes;
 
     std::string element_name = SOElement->GetNameOfClass();

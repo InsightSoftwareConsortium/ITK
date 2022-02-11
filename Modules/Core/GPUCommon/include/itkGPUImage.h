@@ -293,11 +293,11 @@ public:
   using Type = T;
 };
 
-template <typename TPixelType, unsigned int NDimension>
-class ITK_TEMPLATE_EXPORT GPUTraits<Image<TPixelType, NDimension>>
+template <typename TPixelType, unsigned int VDimension>
+class ITK_TEMPLATE_EXPORT GPUTraits<Image<TPixelType, VDimension>>
 {
 public:
-  using Type = GPUImage<TPixelType, NDimension>;
+  using Type = GPUImage<TPixelType, VDimension>;
 };
 
 } // end namespace itk

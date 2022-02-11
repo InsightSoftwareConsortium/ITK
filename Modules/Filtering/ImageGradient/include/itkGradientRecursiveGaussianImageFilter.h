@@ -235,9 +235,9 @@ private:
     it.Set(correctedGradient);
   }
 
-  template <template <typename, unsigned int> class P, class T, unsigned int N>
+  template <template <typename, unsigned int> class P, class T, unsigned int VDimension>
   void
-  TransformOutputPixel(ImageRegionIterator<Image<P<T, N>, N>> & it)
+  TransformOutputPixel(ImageRegionIterator<Image<P<T, VDimension>, VDimension>> & it)
   {
     const OutputPixelType gradient = it.Get();
     // This uses the more efficient set by reference method

@@ -27,14 +27,14 @@ namespace
 
 
 // Method which checks that two BSpline are exactly equal
-template <typename TParametersValueType, unsigned int NDimensions, unsigned int VSplineOrder>
+template <typename TParametersValueType, unsigned int VDimension, unsigned int VSplineOrder>
 void
-bspline_eq(const itk::BSplineTransform<TParametersValueType, NDimensions, VSplineOrder> * bspline1,
-           const itk::BSplineTransform<TParametersValueType, NDimensions, VSplineOrder> * bspline2,
-           const std::string &                                                            description = "",
-           double                                                                         tolerance = 1e-15)
+bspline_eq(const itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder> * bspline1,
+           const itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder> * bspline2,
+           const std::string &                                                           description = "",
+           double                                                                        tolerance = 1e-15)
 {
-  using BSplineType = itk::BSplineTransform<TParametersValueType, NDimensions, VSplineOrder>;
+  using BSplineType = itk::BSplineTransform<TParametersValueType, VDimension, VSplineOrder>;
   // Compare Transform Domain interface
 
   EXPECT_EQ(bspline1->GetNumberOfFixedParameters(), bspline2->GetNumberOfFixedParameters()) << description;
@@ -50,10 +50,10 @@ bspline_eq(const itk::BSplineTransform<TParametersValueType, NDimensions, VSplin
   ITK_EXPECT_VECTOR_NEAR(bspline1->GetParameters(), bspline2->GetParameters(), tolerance) << description;
   ITK_EXPECT_VECTOR_NEAR(bspline1->GetFixedParameters(), bspline2->GetFixedParameters(), tolerance) << description;
 
-  ASSERT_EQ(bspline1->GetCoefficientImages().Size(), NDimensions) << description;
-  ASSERT_EQ(bspline2->GetCoefficientImages().Size(), NDimensions) << description;
+  ASSERT_EQ(bspline1->GetCoefficientImages().Size(), VDimension) << description;
+  ASSERT_EQ(bspline2->GetCoefficientImages().Size(), VDimension) << description;
 
-  for (unsigned int i = 0; i < NDimensions; ++i)
+  for (unsigned int i = 0; i < VDimension; ++i)
   {
     using ImageType = typename BSplineType::ImageType;
     using ImageConstIterator = typename itk::ImageRegionConstIterator<ImageType>;
