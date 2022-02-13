@@ -67,6 +67,25 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsContainer * point
 }
 
 /**
+ * Access routine to set the points container using 1D vector for Python usage.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsVectorContainer * points)
+{
+
+  itkDebugMacro("setting Points container to " << points);
+  if (points->Size() % PointDimension != 0)
+  {
+    itkExceptionMacro("Number of entries in given 1d array incompatible with the point dimension");
+  }
+  auto * pointsPtr = reinterpret_cast<PointsContainer *>(points);
+
+  m_PointsContainer = pointsPtr;
+  this->Modified();
+}
+
+/**
  * Access routine to get the points container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
@@ -81,6 +100,7 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() -> PointsContainer *
   itkDebugMacro("returning Points container of " << m_PointsContainer);
   return m_PointsContainer;
 }
+
 
 /**
  * Access routine to get the points container.
