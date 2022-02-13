@@ -106,7 +106,7 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
   // Cause intentional error, non-orthogonal direction cosine,
   // write should fail.
   writer2D->SetImageIO(gdcmIO);
-  ITK_TRY_EXPECT_EXCEPTION(writer2D->Update())
+  ITK_TRY_EXPECT_EXCEPTION(writer2D->Update());
 
   // Now write using valid direction cosine
   direction3D[0][0] = .6;
@@ -123,7 +123,7 @@ itkGDCMImageOrientationPatientTest(int argc, char * argv[])
         << "\\" << direction3D[1][1] << "\\" << direction3D[2][1];
   itk::EncapsulateMetaData<std::string>(dictionary, "0020|0037", value.str());
   src2D->GetOutput()->SetMetaDataDictionary(dictionary);
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer2D->Update())
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer2D->Update());
 
   // Now read the dicom back and check its origin
   auto reader = ReaderType::New();
