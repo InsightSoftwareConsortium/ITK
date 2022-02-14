@@ -620,6 +620,60 @@ str = str
   }
 %enddef
 
+%define DECL_PYTHON_MESH_CLASS(swig_name)
+    %extend swig_name {
+        %pythoncode %{
+            def keys(self):
+                """
+                Return keys related to the mesh's metadata.
+                These keys are used in the dictionary resulting from dict(mesh).
+                """
+                result = ['meshType', 'name', 'dimension', 'numberOfPoints', 'points', 'numberOfPointPixels', 'pointData',
+                            'numberOfCells', 'cells', 'numberOfCellPixels', 'cellData', 'cellBufferSize']
+                return result
+
+            def __getitem__(self, key):
+                """Access metadata keys, see help(mesh.keys), for string keys."""
+                import itk
+                if isinstance(key, str):
+                    state = itk.dict_from_mesh(self)
+                    return state[key]
+
+            def __setitem__(self, key, value):
+                """Set metadata keys, see help(image.keys), for string
+                keys, otherwise provide NumPy indexing to the pixel buffer
+                array view. The index order follows NumPy array indexing
+                order, i.e. [z, y, x] versus [x, y, z]."""
+                if isinstance(key, str):
+                    import numpy as np
+                    if key == 'name':
+                        self.SetObjectName(value)
+                    elif key == 'points':
+                        self.SetPointsArray(itk.vector_container_from_array(value))
+                    elif key == 'cells':
+                        self.SetCellsArray(itk.vector_container_from_array(value))
+                    elif key == 'pointData':
+                        self.SetPointData(itk.vector_container_from_array(value))
+                    elif key == 'cellData':
+                        self.SetCellData(itk.vector_container_from_array(value))
+
+            def __getstate__(self):
+                """Get object state, necessary for serialization with pickle."""
+                import itk
+                state = itk.dict_from_mesh(self)
+                return state
+
+            def __setstate__(self, state):
+                """Set object state, necessary for serialization with pickle."""
+                import itk
+                import numpy as np
+                deserialized = itk.mesh_from_dict(state)
+                self.__dict__['this'] = deserialized
+            %}
+    }
+
+%enddef
+
 
 %define DECL_PYTHON_ITK_MATRIX(class_name)
   %rename(__GetVnlMatrix_orig__) class_name::GetVnlMatrix;
