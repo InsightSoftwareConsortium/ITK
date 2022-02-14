@@ -876,6 +876,7 @@ def imwrite(
     filename: fileiotype,
     compression: bool = False,
     imageio: Optional["itkt.ImageIOBase"] = None,
+    metadata_dict: Optional["itkt.MetaDataDictionary"] = None,
 ) -> None:
     """Write a image or the output image of a filter to a file.
 
@@ -894,6 +895,9 @@ def imwrite(
     imageio :
         Use the provided itk.ImageIOBase derived instance to write the file.
 
+    metadata_dict :
+        Save the provided itk.MetaDataDictionary extra headers to the file.
+
     The writer is instantiated with the image type of the image in
     parameter (or, again, with the output image of the filter in parameter).
     """
@@ -910,6 +914,8 @@ def imwrite(
     auto_pipeline.current = tmp_auto_pipeline
     if imageio:
         writer.SetImageIO(imageio)
+    if metadata_dict:
+        writer.SetMetaDataDict(metadata_dict)
     writer.Update()
 
 

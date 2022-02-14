@@ -142,6 +142,12 @@ assert itk.range(reader.GetOutput()) == (0, 255)
 itk.imwrite(reader, sys.argv[4])
 itk.imwrite(reader, sys.argv[4], imageio=itk.PNGImageIO.New())
 itk.imwrite(reader, sys.argv[4], True)
+# exercise metadata_dict
+metadata_dict = itk.MetaDataDictionary.New()
+metadata_str = itk.MetaDataObject[str].New()
+metadata_str.Set("A custom name")
+metadata_dict.Set("Segment0_Name", metadata_str)
+itk.imwrite(reader, sys.argv[4], True, metadata_dict=metadata_dict)
 
 # test read
 image = itk.imread(pathlib.Path(filename))
