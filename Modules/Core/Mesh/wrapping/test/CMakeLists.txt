@@ -28,4 +28,5 @@ if(ITK_WRAP_PYTHON)
 
   itk_python_add_test(NAME itkMeshArrayPixelTypePythonTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkMeshArrayPixelTypeTest.py)
   itk_python_add_test(NAME itkConnectedRegionsMeshFilterPythonTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkConnectedRegionsMeshFilterTest.py DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} 15 2154)
+  itk_python_add_test(NAME itkMeshSerializationTest COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/itkMeshSerializationTest.py DATA{${ITK_DATA_ROOT}/mushroom.vtk)
 endif()
