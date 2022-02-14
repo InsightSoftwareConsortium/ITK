@@ -38,6 +38,17 @@
 #include "ITKMeshExport.h"
 #include <vector>
 #include <set>
+#include "itkVectorContainer.h"
+#include "itkVertexCell.h"
+#include "itkLineCell.h"
+#include "itkTriangleCell.h"
+#include "itkQuadrilateralCell.h"
+#include "itkPolygonCell.h"
+#include "itkTetrahedronCell.h"
+#include "itkHexahedronCell.h"
+#include "itkQuadraticEdgeCell.h"
+#include "itkQuadraticTriangleCell.h"
+
 
 namespace itk
 {
@@ -171,6 +182,10 @@ public:
   using PointDataContainer = typename MeshTraits::PointDataContainer;
   using CellDataContainer = typename MeshTraits::CellDataContainer;
 
+  /** For improving Python support for Triangle Meshes **/
+  using CellsVectorContainer = typename itk::VectorContainer<IdentifierType, IdentifierType>;
+  using CellsVectorContainerPointer = typename CellsVectorContainer::Pointer;
+
   /** Used to support geometric operations on the toolkit. */
   using BoundingBoxType = BoundingBox<PointIdentifier, Self::PointDimension, CoordRepType, PointsContainer>;
 
@@ -200,6 +215,15 @@ public:
 
   /** The base cell type for cells in this mesh. */
   using CellType = CellInterface<CellPixelType, CellTraits>;
+  using OutputVertexCellType = itk::VertexCell<CellType>;
+  using OutputLineCellType = itk::LineCell<CellType>;
+  using OutputTriangleCellType = itk::TriangleCell<CellType>;
+  using OutputQuadrilateralCellType = itk::QuadrilateralCell<CellType>;
+  using OutputPolygonCellType = itk::PolygonCell<CellType>;
+  using OutputTetrahedronCellType = itk::TetrahedronCell<CellType>;
+  using OutputHexahedronCellType = itk::HexahedronCell<CellType>;
+  using OutputQuadraticEdgeCellType = itk::QuadraticEdgeCell<CellType>;
+  using OutputQuadraticTriangleCellType = itk::QuadraticTriangleCell<CellType>;
   using CellAutoPointer = typename CellType::CellAutoPointer;
 
   /** Visiting cells. */
@@ -268,6 +292,7 @@ protected:
    *  through cell identifiers.  */
   CellsContainerPointer m_CellsContainer;
 
+  CellsVectorContainerPointer cellOutputVectorContainer;
   /** An object containing data associated with the mesh's cells.
    *  Optionally, this can be nullptr, indicating that no data are associated
    *  with the cells.  The data for a cell can be accessed through its cell
@@ -330,6 +355,16 @@ public:
    *  Individual cells are accessed through cell identifiers.  */
   void
   SetCells(CellsContainer *);
+
+  virtual void
+  SetCellsArray(CellsVectorContainer *);
+
+  // Convenience method for inserting cells when they are all of same type
+  virtual void
+  SetCellsArray(CellsVectorContainer *, int cellType);
+
+  virtual CellsVectorContainer *
+  GetCellsArray();
 
   CellsContainer *
   GetCells();
@@ -497,6 +532,9 @@ protected:
 
 private:
   MeshClassCellsAllocationMethodEnum m_CellsAllocationMethod;
+
+  void
+  CreateCell(int cellType, CellAutoPointer &);
 }; // End Class: Mesh
 
 /** Define how to print enumeration */

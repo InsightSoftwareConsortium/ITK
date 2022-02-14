@@ -21,7 +21,7 @@
 #include "itkHexahedronCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include "itkFileOutputWindow.h"
-
+#include "itkTestingMacros.h"
 #include <iostream>
 
 namespace itkMeshTestTypes
@@ -166,6 +166,7 @@ itkMeshTest(int, char *[])
   auto mesh = MeshType::New();
   mesh->DebugOn();
 
+
   /**
    * Add our test points to the mesh.
    * mesh->SetPoint(pointId, point)
@@ -181,6 +182,86 @@ itkMeshTest(int, char *[])
    * Specify the method used for allocating cells
    */
   mesh->SetCellsAllocationMethod(itk::MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell);
+
+  // map to get number of points for each type of cell
+  // Using 7 points in the polygon cell for testing purpose
+  std::map<itk::CellGeometryEnum, unsigned int> cellPointMap = { { itk::CellGeometryEnum::VERTEX_CELL, 1 },
+                                                                 { itk::CellGeometryEnum::LINE_CELL, 2 },
+                                                                 { itk::CellGeometryEnum::TRIANGLE_CELL, 3 },
+                                                                 { itk::CellGeometryEnum::QUADRILATERAL_CELL, 4 },
+                                                                 { itk::CellGeometryEnum::POLYGON_CELL, 7 },
+                                                                 { itk::CellGeometryEnum::TETRAHEDRON_CELL, 4 },
+                                                                 { itk::CellGeometryEnum::HEXAHEDRON_CELL, 8 },
+                                                                 { itk::CellGeometryEnum::QUADRATIC_EDGE_CELL, 3 },
+                                                                 { itk::CellGeometryEnum::QUADRATIC_TRIANGLE_CELL,
+                                                                   6 } };
+
+  // Insert cell of each kind
+  auto              cellVectorContainer = MeshType::CellsVectorContainer::New();
+  int               index = 0;
+  unsigned long int value = 1;
+  for (std::map<itk::CellGeometryEnum, unsigned int>::iterator iter = cellPointMap.begin(); iter != cellPointMap.end();
+       ++iter)
+  {
+    itk::CellGeometryEnum cellType = iter->first;
+    unsigned int          numOfPoints = iter->second;
+
+    // Insert cell type
+    cellVectorContainer->InsertElement(index++, static_cast<unsigned long int>(cellType));
+
+    // Insert number of points
+    cellVectorContainer->InsertElement(index++, static_cast<unsigned long int>(numOfPoints));
+
+    // Insert the points
+    for (unsigned int i = 0; i < numOfPoints; ++i)
+    {
+      cellVectorContainer->InsertElement(index++, value++);
+    }
+  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(mesh->SetCellsArray(cellVectorContainer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(mesh->GetCellsArray());
+
+  // Check if right cells are recovered
+  index = 0;
+  for (std::map<itk::CellGeometryEnum, unsigned int>::iterator iter = cellPointMap.begin(); iter != cellPointMap.end();
+       ++iter)
+  {
+    unsigned int    numOfPoints = iter->second;
+    CellAutoPointer temp_cell;
+
+    if (mesh->GetCell(index++, temp_cell))
+    {
+      std::cout << "Cell recovered " << std::endl;
+      std::cout << "GetNameOfClass()    = " << temp_cell->GetNameOfClass() << std::endl;
+      std::cout << "GetNumberOfPoints() = " << temp_cell->GetNumberOfPoints() << std::endl;
+      ITK_TEST_EXPECT_TRUE(temp_cell->GetNumberOfPoints() == numOfPoints);
+    }
+  }
+
+  // Test the SetCellsArray with same cell type functionality
+  index = 0;
+  unsigned int numOfCells = 3;
+  cellVectorContainer->Initialize();
+
+  for (unsigned int i = 0; i < numOfCells; ++i)
+  {
+    // Insert the points
+    for (unsigned int j = 0; j < 3; ++j)
+    {
+      cellVectorContainer->InsertElement(index++, j);
+    }
+  }
+
+  // Test with wrong cell type
+  ITK_TRY_EXPECT_EXCEPTION(
+    mesh->SetCellsArray(cellVectorContainer, static_cast<int>(itk::CellGeometryEnum::LAST_ITK_CELL)));
+  // Test with right cell type
+  ITK_TRY_EXPECT_NO_EXCEPTION(
+    mesh->SetCellsArray(cellVectorContainer, static_cast<int>(itk::CellGeometryEnum::TRIANGLE_CELL)));
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(mesh->GetCellsArray());
+  ITK_TEST_EXPECT_TRUE(mesh->GetNumberOfCells() == numOfCells);
 
   /**
    * Create the test cell. Note that testCell is a generic auto
