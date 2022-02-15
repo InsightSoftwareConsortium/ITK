@@ -2,13 +2,13 @@
 
 Install [ITK Python packages](https://itkpythonpackage.readthedocs.io/en/latest/Quick_start_guide.html) with:
 
-```
+```sh
 pip install --upgrade itk
 ```
 
 or:
 
-```
+```sh
 conda install -c conda-forge itk
 ```
 

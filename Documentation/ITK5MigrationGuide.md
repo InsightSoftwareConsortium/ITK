@@ -154,24 +154,24 @@ how to remove dependence on barrier by using ParallelizeImageRegion.
 ```cpp
 ThreadedGenerateData()
 {
-  //code1 (parallel)
+  // code1 (parallel)
   myBarrier->Wait();
-  if (threadId==0)
-    {
-    //code2 single-threaded
-    }
-  //code3 (parallel)
+  if (threadId == 0)
+  {
+    // code2 single-threaded
+  }
+  // code3 (parallel)
 }
 ```
 
 after refactoring to not use barrier:
 ```cpp
-GenerateData() //Not Threaded
+GenerateData() // Not Threaded
 {
   this->AllocateOutputs();
   this->BeforeThreadedGenerateData();
   ParallelizeImageRegion(code1 as lambda)
-  //code2 single-threaded
+  // code2 single-threaded
   ParallelizeImageRegion(code3 as lambda)
   this->AfterThreadedGenerateData();
 }
@@ -212,7 +212,7 @@ An external module example that demonstrates this can be found in
 [this commit](https://github.com/InsightSoftwareConsortium/ITKBoneMorphometry/pull/32/commits/a8014c186ac53837362a0cb9db46ae224b8e9584).
 
 Before, using `itk::Array`:
-```C++
+```cpp
 // Members:
 Array<SizeValueType> m_NumVoxelsInsideMask;
 BeforeThreadedGenerateData()
@@ -222,8 +222,7 @@ BeforeThreadedGenerateData()
   m_NumVoxelsInsideMask.Fill(0);
 }
 
-ThreadedGenerateData(const RegionType & outputRegionForThread,
-                     ThreadIdType threadId)
+ThreadedGenerateData(const RegionType & outputRegionForThread, ThreadIdType threadId)
 {
   // Do algorithm per threadId
   // Store the results per thread at the end
@@ -233,17 +232,16 @@ ThreadedGenerateData(const RegionType & outputRegionForThread,
 AfterThreadedGenerateData()
 {
   // Retrieve and sum all the results per thread.
-  ThreadIdType numberOfThreads = this->GetNumberOfThreads();
+  ThreadIdType  numberOfThreads = this->GetNumberOfThreads();
   SizeValueType numVoxelsInsideMask = 0;
-  for (unsigned int i = 0; i < numberOfThreads; ++i )
-    {
+  for (unsigned int i = 0; i < numberOfThreads; ++i)
+  {
     numVoxelsInsideMask += m_NumVoxelsInsideMask[i];
-    }
+  }
 }
-
 ```
 After, using `std::atomic`:
-```C++
+```cpp
 // Members:
 std::atomic<SizeValueType> m_NumVoxelsInsideMask;
 BeforeThreadedGenerateData()
@@ -296,7 +294,7 @@ an external module that transitioned to the new threading model can be found in
 The variables `ITK_MAX_THREADS` and `ITK_DEFAULT_THREAD_ID` are now in the `itk::` namespace.
 Backwards compatibility is currently supported by exposing these to the global namespace
 with
-```C++
+```cpp
   using itk::ITK_MAX_THREADS;
   using itk::ITK_DEFAULT_THREAD_ID;
 ```
@@ -508,7 +506,7 @@ scoping, provide clean, readable code, facilitate wrapping in languages such
 as Python, and enable printing enum values to `std::ostream` with
 `operator<<`, and support templates, enums that we previously declared as:
 
-```
+```cpp
 // itkClassName.h
 namespace itk
 {
@@ -516,21 +514,20 @@ namespace itk
 class ClassName
 {
 public:
-
   enum Choices
   {
-     One,
-     Two,
-     Three
+    One,
+    Two,
+    Three
   };
 };
 
-}
+} // namespace itk
 ```
 
 are now declared as:
 
-```
+```cpp
 // itkClassName.h
 namespace itk
 {
@@ -538,7 +535,7 @@ namespace itk
 class ClassNameEnums
 {
 public:
-  enum class Choices: uint8_t
+  enum class Choices : uint8_t
   {
     One,
     Two,
@@ -551,7 +548,6 @@ operator<<(std::ostream & out, const ClassNameEnums::Choices value);
 class ClassName
 {
 public:
-
   using ChoicesEnum = ClassNameEnums::Choices;
 #if !defined(ITK_LEGACY_REMOVE)
   using Choices = ChoicesEnum;
@@ -561,7 +557,7 @@ public:
 #endif
 };
 
-}
+} // namespace itk
 
 // itkClassName.cxx
 namespace itk

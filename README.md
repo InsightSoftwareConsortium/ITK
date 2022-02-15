@@ -60,13 +60,13 @@ pay for developer time, professional services, travel, workshops, and a variety 
 
 ITK is distributed in binary Python packages. To install:
 
-```
+```sh
 pip install itk
 ```
 
 or
 
-```
+```sh
 conda install -c conda-forge itk
 ```
 
