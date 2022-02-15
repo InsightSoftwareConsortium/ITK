@@ -231,14 +231,14 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
       if (strcmp(tmpStr2, "Sag") == 0)
       {
         // hdr->imagePlane =
-        // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
         hdr->coordinateOrientation =
           itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
       }
       else
       {
         // hdr->imagePlane =
-        // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
         hdr->coordinateOrientation =
           itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
       }
@@ -249,7 +249,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
     if (text_angle_len.empty() || itk::Math::abs(std::stod(text_angle_len)) <= 45.0)
     {
       // hdr->imagePlane =
-      // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
       hdr->coordinateOrientation =
         itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
     }
@@ -258,14 +258,14 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
       if (strcmp(tmpStr2, "Cor") == 0)
       {
         // hdr->imagePlane =
-        // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
         hdr->coordinateOrientation =
           itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
       }
       else
       {
         // hdr->imagePlane =
-        // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
         hdr->coordinateOrientation =
           itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
       }
@@ -276,7 +276,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
     if (text_angle_len.empty() || itk::Math::abs(std::stod(text_angle_len)) <= 45.0)
     {
       // hdr->imagePlane =
-      // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
       hdr->coordinateOrientation =
         itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
     }
@@ -285,14 +285,14 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
       if (strcmp(tmpStr2, "Cor") == 0)
       {
         // hdr->imagePlane =
-        // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
         hdr->coordinateOrientation =
           itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
       }
       else
       {
         // hdr->imagePlane =
-        // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+        // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
         hdr->coordinateOrientation =
           itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
       }

@@ -159,35 +159,34 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   if (strstr(tmpStr, "CORONAL") != nullptr)
   {
     // hdr->imagePlane =
-    // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-    // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRP; // was SLA in the
-    // brains2 filter.
+    // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+    // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SRP;
+    // hdr->origin was SLA in the brains2 filter.
     hdr->coordinateOrientation =
       itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
   }
   else if (strstr(tmpStr, "SAGITTAL") != nullptr)
   {
     // hdr->imagePlane =
-    // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-    // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRA;  //was SLP in the
-    // brains2 filter.
+    // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+    // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SRA;
+    // hdr->origin was SLP in the brains2 filter.
     hdr->coordinateOrientation =
       itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
   }
   else if (strstr(tmpStr, "AXIAL") != nullptr)
   {
     // hdr->imagePlane =
-    // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-    // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRA;  //was SLP in the
-    // brains2 filter.
+    // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+    // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SRA; // was SLP
     hdr->coordinateOrientation =
       itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
   }
   else
   {
     // hdr->imagePlane =
-    // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-    // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SRP; // was SLA
+    // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+    // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SRP; // was SLA
     hdr->coordinateOrientation =
       itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
   }

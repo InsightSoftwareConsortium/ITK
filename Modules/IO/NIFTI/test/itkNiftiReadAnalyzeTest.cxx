@@ -120,7 +120,7 @@ const unsigned char LittleEndian_img[] = {
   0x00, 0x00, 0xe0, 0x42, 0x00, 0x00, 0xe0, 0x42, 0x00, 0x00, 0xe0, 0x42,
 };
 
-// Map between axis string labels and SpatialOrientation
+// Map between axis string labels and spatial orientation
 std::map<itk::SpatialOrientationEnums::ValidCoordinateOrientations, std::string> codeToString = {
   { itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP, "RIP" },
   { itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP, "LIP" },

@@ -172,22 +172,22 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
       break;
     case GE_SAGITTAL:
       // hdr->imagePlane =
-      // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
-      // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SLA;
+      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_SAGITTAL;
+      // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SLA;
       hdr->coordinateOrientation =
         itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIR;
       break;
     case GE_AXIAL:
       // hdr->imagePlane =
-      // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
-      // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SLA;
+      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_TRANSVERSE;
+      // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SLA;
       hdr->coordinateOrientation =
         itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
       break;
     default:
       // hdr->imagePlane =
-      // itk::SpatialOrientation::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
-      // hdr->origin = itk::SpatialOrientation::ITK_ORIGIN_SLA;
+      // itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ANALYZE_ORIENTATION_IRP_CORONAL;
+      // hdr->origin = itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_ORIGIN_SLA;
       hdr->coordinateOrientation =
         itk::SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
       break;

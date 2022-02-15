@@ -30,7 +30,7 @@ template <typename TInputImage, typename TOutputImage>
 OrientImageFilter<TInputImage, TOutputImage>::OrientImageFilter()
   : m_FlipAxes(false)
 {
-  // Map between axis string labels and SpatialOrientation
+  // Map between axis string labels and spatial orientation
   m_StringToCode["RIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
   m_StringToCode["LIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP;
   m_StringToCode["RSP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP;
@@ -80,7 +80,7 @@ OrientImageFilter<TInputImage, TOutputImage>::OrientImageFilter()
   m_StringToCode["AIL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_AIL;
   m_StringToCode["ASL"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL;
 
-  // Map between axis string labels and SpatialOrientation
+  // Map between spatial orientation and axis string labels
   m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP] = "RIP";
   m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP] = "LIP";
   m_CodeToString[SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSP] = "RSP";

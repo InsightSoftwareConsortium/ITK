@@ -37,7 +37,7 @@ namespace itk
 {
 /** \class SpatialOrientationEnums
  *
- * \brief enums for SpatialOrientation
+ * \brief Enums for spatial orientation of images.
  *
  * Enums used in itk::OrientImageFilter and related classes.
  *
