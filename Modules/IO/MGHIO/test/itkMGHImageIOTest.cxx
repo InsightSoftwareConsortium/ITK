@@ -28,25 +28,25 @@
 #include <iomanip>
 
 int
-itkMGHImageIOTest(int ac, char * av[])
+itkMGHImageIOTest(int argc, char * argv[])
 {
   itk::ObjectFactoryBase::UnRegisterAllFactories();
   itk::MGHImageIOFactory::RegisterOneFactory();
-  if (ac < 3)
+  if (argc < 3)
   {
     std::cerr
       << "ERROR:  Incorrect number of arguments <TestDirectory> <TestMode> [ImageFileNameRead ImageFileNameWrite]"
       << std::endl;
-    std::cerr << "Only " << ac << " arguments given." << std::endl;
+    std::cerr << "Only " << argc << " arguments given." << std::endl;
     return EXIT_FAILURE;
   }
-  for (int i = 0; i < ac; ++i)
+  for (int i = 0; i < argc; ++i)
   {
-    std::cout << i << "  av= " << av[i] << std::endl;
+    std::cout << i << "  argv= " << argv[i] << std::endl;
   }
   //
   // first argument is passing in the writable directory to do all testing
-  itksys::SystemTools::ChangeDirectory(av[1]);
+  itksys::SystemTools::ChangeDirectory(argv[1]);
 
   static bool firstTime = true;
   if (firstTime)
@@ -54,7 +54,7 @@ itkMGHImageIOTest(int ac, char * av[])
     itk::ObjectFactoryBase::RegisterFactory(itk::MGHImageIOFactory::New());
     firstTime = false;
   }
-  const std::string TestMode(av[2]);
+  const std::string TestMode(argv[2]);
 
   bool returnSucceeded = true;
   if (TestMode == std::string("FactoryCreationTest"))
@@ -81,8 +81,8 @@ itkMGHImageIOTest(int ac, char * av[])
                                                       // testing.
   {
     using ImageType = itk::Image<int, 3>;
-    const std::string imageToBeRead(av[3]);
-    const std::string imageToBeWritten(av[4]);
+    const std::string imageToBeRead(argv[3]);
+    const std::string imageToBeWritten(argv[4]);
     try
     {
       std::cout << "Reading Image: " << imageToBeRead << std::endl;
@@ -107,8 +107,8 @@ itkMGHImageIOTest(int ac, char * av[])
   {
     using ImageType = itk::Image<int, 3>;
     ImageType::Pointer input;
-    const std::string  imageToBeRead(av[3]);
-    const std::string  imageToBeWritten(av[4]);
+    const std::string  imageToBeRead(argv[3]);
+    const std::string  imageToBeWritten(argv[4]);
     try
     {
       std::cout << "Reading Image: " << imageToBeRead << std::endl;
