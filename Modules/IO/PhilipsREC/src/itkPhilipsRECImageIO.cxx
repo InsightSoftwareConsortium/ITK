@@ -721,7 +721,7 @@ PhilipsRECImageIO::ReadImageInformation()
       // Transverse - the REC data appears to be stored as right-left,
       // anterior-posterior, and inferior-superior.
       // Verified using a marker on right side of brain.
-      coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RAI;
+      coord_orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RAI;
       spacing[0][0] = par.vox[0];
       spacing[1][1] = par.vox[1];
       spacing[2][2] = par.vox[2];
@@ -730,7 +730,7 @@ PhilipsRECImageIO::ReadImageInformation()
       // Sagittal - the REC data appears to be stored as anterior-posterior,
       // superior-inferior, and right-left.
       // Verified using marker on right side of brain.
-      coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_ASL;
+      coord_orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_ASL;
       spacing[0][0] = par.vox[2];
       spacing[1][1] = par.vox[0];
       spacing[2][2] = par.vox[1];
@@ -741,14 +741,13 @@ PhilipsRECImageIO::ReadImageInformation()
     // Verified using marker on right side of brain.
     // fall thru
     default:
-      coord_orient = SpatialOrientation::ITK_COORDINATE_ORIENTATION_RSA;
+      coord_orient = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RSA;
       spacing[0][0] = par.vox[0];
       spacing[1][1] = par.vox[2];
       spacing[2][2] = par.vox[1];
   }
 
-  using OrientAdapterType = SpatialOrientationAdapter;
-  SpatialOrientationAdapter::DirectionType dir = OrientAdapterType().ToDirectionCosines(coord_orient);
+  SpatialOrientationAdapter::DirectionType dir = SpatialOrientationAdapter().ToDirectionCosines(coord_orient);
 
   AffineMatrix direction;
   direction.SetIdentity();
