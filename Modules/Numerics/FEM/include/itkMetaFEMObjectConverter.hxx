@@ -509,7 +509,7 @@ MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjec
 
       Load->m_GN = SOLoadCast->GetGlobalNumber();
 
-      const auto numLoadElements = static_cast<const int>(SOLoadCast->GetElementArray().size());
+      const int numLoadElements = static_cast<int>(SOLoadCast->GetElementArray().size());
       Load->m_NumElements = numLoadElements;
       for (int i = 0; i < numLoadElements; ++i)
       {
