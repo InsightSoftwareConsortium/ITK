@@ -69,7 +69,7 @@ public:
   using ImageIndexType = typename InputImageType::IndexType;
 
   /** Typedefs for Output FEMObject */
-  using FEMObjectType = typename itk::fem::FEMObject<VDimension>;
+  using FEMObjectType = typename itk::fem::FEMObject<NDimensions>;
   using FEMObjectPointer = typename FEMObjectType::Pointer;
   using FEMObjectConstPointer = typename FEMObjectType::ConstPointer;
   using DataObjectPointer = typename DataObject::Pointer;
