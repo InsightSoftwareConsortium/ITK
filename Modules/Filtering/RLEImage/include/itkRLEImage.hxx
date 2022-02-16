@@ -96,7 +96,7 @@ template <typename TPixel, unsigned int VImageDimension, typename CounterType>
 void
 RLEImage<TPixel, VImageDimension, CounterType>::CleanUp() const
 {
-  assert(!m_Buffer.empty());
+  assert(m_Buffer->GetBufferedRegion().GetNumberOfPixels() > 0);
   if (this->GetLargestPossibleRegion().GetSize(0) == 0)
   {
     return;
