@@ -54,5 +54,5 @@ https://www.insight-journal.org/browse/publication/846
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/KitwareMedical/ITKPhaseSymmetry.git
-  GIT_TAG 324417f1b3e8420c51e03f031a1ff625a5d8bc46
+  GIT_TAG cb1d6b5b3258985709a1fd681748971062fe12f1
   )
