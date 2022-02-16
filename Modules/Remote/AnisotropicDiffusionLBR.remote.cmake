@@ -63,5 +63,5 @@ itk_fetch_module(AnisotropicDiffusionLBR
   "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKAnisotropicDiffusionLBR.git
-  GIT_TAG ff20d70088c87ecd0231b3f21a3b8faf6a268d07
+  GIT_TAG b66464f9ebe74cc8dcd65a556ae7758a3a8f05bc
   )

@@ -56,5 +56,5 @@ For more information, see:
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKTextureFeatures.git
-  GIT_TAG a840bc7b8a5bbeb969fedf0c7e22200bcc7d0037
+  GIT_TAG 8ff51060a2b2bda7b2e1068908afce266ea71b3f
   )
