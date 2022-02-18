@@ -19,9 +19,20 @@ macro(itk_wrap_modules)
 endmacro()
 
 macro(itk_end_wrap_modules)
-  itk_end_wrap_modules_all_generators()
+  itk_wrap_modules_set_prefix()
+  if(${module_prefix}_WRAP_PYTHON)
+    itk_end_wrap_modules_python()
+  endif()
+  if(${module_prefix}_WRAP_TCL)
+    itk_end_wrap_modules_tcl()
+  endif()
+  if(${module_prefix}_WRAP_JAVA)
+    itk_end_wrap_modules_java()
+  endif()
+  if(${module_prefix}_WRAP_RUBY)
+    itk_end_wrap_modules_ruby()
+  endif()
 endmacro()
-
 
 
 # Support for additional include directories of each module
