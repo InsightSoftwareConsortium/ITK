@@ -20,6 +20,7 @@
 #include "itkMultiThreaderBase.h"
 
 #include <iostream>
+#include <memory> // For make_unique.
 #include <type_traits>
 
 static_assert(std::is_nothrow_default_constructible<itk::TimeStamp>::value, "Check TimeStamp default-constructibility");
@@ -89,7 +90,7 @@ itkTimeStampTest(int, char *[])
 
     // Declare an array to test whether the all modified times have
     // been used
-    std::vector<bool> istimestamped(numberOfWorkUnits);
+    const auto istimestamped = std::make_unique<bool[]>(numberOfWorkUnits);
 
     // Call Modified once  on any object to make it up-to-date
     multithreader->Modified();
