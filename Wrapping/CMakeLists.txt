@@ -115,7 +115,7 @@ add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Modules" "${CMAKE_CURRENT_BINARY_D
 # modules
 ###############################################################################
 
-itk_end_wrap_modules()
+itk_end_wrap_modules_all_generators()
 
 
 ###############################################################################

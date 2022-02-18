@@ -18,19 +18,64 @@ macro(itk_wrap_modules)
   itk_wrap_modules_all_generators()
 endmacro()
 
-macro(itk_end_wrap_modules)
+macro(itk_end_wrap_modules_all_generators)
   itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_PYTHON)
-    itk_end_wrap_modules_python()
+    # Wrap PyUtils
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
+    endif()
   endif()
   if(${module_prefix}_WRAP_TCL)
-    itk_end_wrap_modules_tcl()
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      ###############################################################################
+      # Configure pkgIndex.tcl for the build tree.
+      if(CMAKE_CONFIGURATION_TYPES)
+        foreach(config ${CMAKE_CONFIGURATION_TYPES})
+          set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${config}")
+          configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
+                         "${ITK_WRAP_TCL_BINARY_DIR}/${config}/pkgIndex.tcl"
+                         @ONLY)
+        endforeach()
+      else()
+        set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
+        configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
+                       "${ITK_WRAP_TCL_BINARY_DIR}/pkgIndex.tcl"
+                       @ONLY)
+      endif()
+
+      # configure pkgIndex.tcl for the installed tree
+      set(ITK_WRAP_TCL_PACKAGE_DIR "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
+      configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
+                     "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
+                    @ONLY)
+      WRAP_ITK_BINDINGS_INSTALL(/Tcl "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
+
+      #install the actual executable
+      install(FILES ${ITK_WRAP_TCL_SOURCE_DIR}/itkinteraction.tcl
+                    ${ITK_WRAP_TCL_SOURCE_DIR}/itktesting.tcl
+                    ${ITK_WRAP_TCL_SOURCE_DIR}/itkdata.tcl
+                    ${ITK_WRAP_TCL_SOURCE_DIR}/itkutils.tcl
+                    DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
+                    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+             )
+    endif()
+
   endif()
   if(${module_prefix}_WRAP_JAVA)
-    itk_end_wrap_modules_java()
+    ###############################################################################
+    # Create the JavaUtils library
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/Tests)
+      #  add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/JavaUtils)
+    endif()
   endif()
   if(${module_prefix}_WRAP_RUBY)
-    itk_end_wrap_modules_ruby()
+    ###############################################################################
+    # Create the RbUtils library
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      #  add_subdirectory(${ITK_WRAP_RUBY_SOURCE_DIR}/RbUtils)
+    endif()
   endif()
 endmacro()
 
@@ -111,7 +156,7 @@ macro(itk_wrap_module library_name)
 
   if("${WRAPPER_LIBRARY_itk_wrap_modules_STATUS}" STREQUAL "NOT_EXECUTED")
     itk_wrap_modules()
-    # change the status of WRAPPER_LIBRARY_itk_wrap_modules_STATUS, so we can call itk_end_wrap_modules when
+    # change the status of WRAPPER_LIBRARY_itk_wrap_modules_STATUS, so we can call itk_end_wrap_modules_all_generators when
     # itk_end_wrap_module will be called
     set(WRAPPER_LIBRARY_itk_wrap_modules_STATUS "EXECUTED_IN_itk_wrap_module" CACHE INTERNAL "status var used to avoid the use of itk_wrap_modules in simple contributions.")
   endif()
@@ -124,10 +169,35 @@ endmacro()
 
 macro(itk_end_wrap_module)
   if("${WRAPPER_LIBRARY_itk_wrap_modules_STATUS}" STREQUAL "EXECUTED_IN_itk_wrap_module")
-    itk_end_wrap_modules()
+    itk_end_wrap_modules_all_generators()
   endif()
 
-  itk_end_wrap_module_all_generators()
+  itk_wrap_modules_set_prefix()
+  if(${module_prefix}_WRAP_EXPLICIT)
+    itk_end_wrap_module_explicit()
+  endif()
+  if(${module_prefix}_WRAP_CASTXML)
+    itk_end_wrap_module_castxml()
+  endif()
+  if(${module_prefix}_WRAP_SWIGINTERFACE)
+    itk_end_wrap_module_swig_interface()
+  endif()
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    itk_end_wrap_module_python()
+  endif()
+  if(${module_prefix}_WRAP_TCL AND WRAPPER_LIBRARY_TCL)
+    itk_end_wrap_module_tcl()
+  endif()
+  if(${module_prefix}_WRAP_RUBY AND WRAPPER_LIBRARY_RUBY)
+    itk_end_wrap_module_ruby()
+  endif()
+  if(${module_prefix}_WRAP_JAVA AND WRAPPER_LIBRARY_JAVA)
+    itk_end_wrap_module_java()
+  endif()
+  if(${module_prefix}_WRAP_DOC)
+    itk_end_wrap_module_DOC()
+  endif()
+
   # Add testing
   set(wrapping_test_directory ${CMAKE_CURRENT_SOURCE_DIR}/test)
   if(BUILD_TESTING AND EXISTS ${wrapping_test_directory}/CMakeLists.txt)
