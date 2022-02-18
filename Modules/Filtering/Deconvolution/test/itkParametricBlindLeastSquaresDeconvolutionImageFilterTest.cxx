@@ -53,7 +53,6 @@ public:
 
   using typename Superclass::ParametersValueType;
   using typename Superclass::ParametersType;
-  using EnabledArrayType = std::vector<bool>;
 
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
