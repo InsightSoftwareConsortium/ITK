@@ -1013,29 +1013,3 @@ macro(ADD_RUBY_POINTER_TYPEMAP template_params)
 
   set(ITK_WRAP_RUBY_SWIG_EXT "${text}${ITK_WRAP_RUBY_SWIG_EXT}")
 endmacro()
-
-
-###############################################################################
-# Create the RbUtils library
-
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  # add_subdirectory(Tests)
-
-  macro(itk_end_wrap_modules_ruby)
-  #   add_subdirectory(${ITK_WRAP_RUBY_SOURCE_DIR}/RbUtils)
-  endmacro()
-
-  macro(itk_wrap_modules_ruby)
-    add_subdirectory(${ITK_WRAP_RUBY_SOURCE_DIR}/RbBase)
-  endmacro()
-
-else()
-  macro(itk_end_wrap_modules_ruby)
-    # just do nothing
-  endmacro()
-
-  macro(itk_wrap_modules_ruby)
-    # just do nothing
-  endmacro()
-
-endif()

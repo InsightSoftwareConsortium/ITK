@@ -385,28 +385,3 @@ macro(itk_wrap_one_type_java wrap_method wrap_class swig_name template_params)
   list(APPEND ITK_WRAP_SUBMODULE_JAVA_CLASS_NAMES ${swig_name})
 
 endmacro()
-
-
-###############################################################################
-# Create the JavaUtils library
-
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-  macro(itk_end_wrap_modules_java)
-    add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/Tests)
-#    add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/JavaUtils)
-  endmacro()
-
-  macro(itk_wrap_modules_java)
-    add_subdirectory(${ITK_WRAP_JAVA_SOURCE_DIR}/JavaBase)
-  endmacro()
-
-else()
-  macro(itk_end_wrap_modules_java)
-    # just do nothing
-  endmacro()
-
-  macro(itk_wrap_modules_java)
-    # just do nothing
-  endmacro()
-
-endif()

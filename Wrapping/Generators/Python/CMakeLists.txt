@@ -946,32 +946,7 @@ macro(ADD_PYTHON_POINTER_TYPEMAP typemap_name)
 endmacro()
 
 ###############################################################################
-
-if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-
-  # Add the Python tests
-  if(BUILD_TESTING AND ITK_SOURCE_DIR)
-    add_subdirectory(Tests)
-  endif()
-
-  # Wrap PyUtils
-  macro(itk_end_wrap_modules_python)
-    add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
-  endmacro()
-
-  # Wrap PyBase
-  macro(itk_wrap_modules_python)
-    add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyBase)
-  endmacro()
-
-else()
-
-  macro(itk_end_wrap_modules_python)
-    # just do nothing
-  endmacro()
-
-  macro(itk_wrap_modules_python)
-    # just do nothing
-  endmacro()
-
+# Add the Python tests
+if(BUILD_TESTING AND ITK_SOURCE_DIR AND NOT EXTERNAL_WRAP_ITK_PROJECT)
+  add_subdirectory(Tests)
 endif()
