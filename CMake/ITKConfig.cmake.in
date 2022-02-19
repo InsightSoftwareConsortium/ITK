@@ -125,9 +125,6 @@ endif()
 if(NOT DEFINED ITK_WRAP_RUBY)
   set(ITK_WRAP_RUBY "@ITK_WRAP_RUBY@")
 endif()
-if( NOT DEFINED ITK_WRAP_PERL)
-  set(ITK_WRAP_PERL "@ITK_WRAP_PERL@")
-endif()
 
 # Set up the rest of the variables that WrapITK was built with.
 set(ITK_WRAP_unsigned_char @ITK_WRAP_unsigned_char@)
