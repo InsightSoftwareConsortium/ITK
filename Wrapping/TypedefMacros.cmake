@@ -26,42 +26,6 @@ macro(itk_end_wrap_modules_all_generators)
       add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
     endif()
   endif()
-  if(${module_prefix}_WRAP_TCL)
-    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
-      ###############################################################################
-      # Configure pkgIndex.tcl for the build tree.
-      if(CMAKE_CONFIGURATION_TYPES)
-        foreach(config ${CMAKE_CONFIGURATION_TYPES})
-          set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}/${config}")
-          configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
-                         "${ITK_WRAP_TCL_BINARY_DIR}/${config}/pkgIndex.tcl"
-                         @ONLY)
-        endforeach()
-      else()
-        set(ITK_WRAP_TCL_PACKAGE_DIR "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
-        configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
-                       "${ITK_WRAP_TCL_BINARY_DIR}/pkgIndex.tcl"
-                       @ONLY)
-      endif()
-
-      # configure pkgIndex.tcl for the installed tree
-      set(ITK_WRAP_TCL_PACKAGE_DIR "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl")
-      configure_file("${ITK_WRAP_TCL_SOURCE_DIR}/pkgIndex.tcl.in"
-                     "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl"
-                    @ONLY)
-      WRAP_ITK_BINDINGS_INSTALL(/Tcl "${ITK_WRAP_TCL_BINARY_DIR}/InstallOnly/itkwish_wont_find_me_here/pkgIndex.tcl")
-
-      #install the actual executable
-      install(FILES ${ITK_WRAP_TCL_SOURCE_DIR}/itkinteraction.tcl
-                    ${ITK_WRAP_TCL_SOURCE_DIR}/itktesting.tcl
-                    ${ITK_WRAP_TCL_SOURCE_DIR}/itkdata.tcl
-                    ${ITK_WRAP_TCL_SOURCE_DIR}/itkutils.tcl
-                    DESTINATION "${ITK_INSTALL_LIBRARY_DIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Tcl"
-                    COMPONENT ${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
-             )
-    endif()
-
-  endif()
   if(${module_prefix}_WRAP_JAVA)
     ###############################################################################
     # Create the JavaUtils library
@@ -184,9 +148,6 @@ macro(itk_end_wrap_module)
   endif()
   if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
     itk_end_wrap_module_python()
-  endif()
-  if(${module_prefix}_WRAP_TCL AND WRAPPER_LIBRARY_TCL)
-    itk_end_wrap_module_tcl()
   endif()
   if(${module_prefix}_WRAP_RUBY AND WRAPPER_LIBRARY_RUBY)
     itk_end_wrap_module_ruby()

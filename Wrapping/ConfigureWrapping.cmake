@@ -5,7 +5,6 @@
 # projects.
 #
 # The following variables should be set before including this file:
-# ITK_WRAP_TCL
 # ITK_WRAP_PYTHON
 # ITK_WRAP_JAVA
 # ITK_WRAP_unsigned_char
