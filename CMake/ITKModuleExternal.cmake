@@ -193,10 +193,6 @@ endif()
 if(ITK_WRAPPING)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_PYTHON "Build Python support." ${ITK_WRAP_PYTHON}
                        "ITK_WRAP_PYTHON" OFF)
-  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_JAVA "Build Java support." ${ITK_WRAP_JAVA}
-                       "ITK_WRAP_JAVA" OFF)
-  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_RUBY "Build Ruby support." ${ITK_WRAP_RUBY}
-                       "ITK_WRAP_RUBY" OFF)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_EXPLICIT "Build Explicit support." OFF
                        "ITK_WRAP_EXPLICIT" OFF)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_DOC "Build Doxygen support." OFF
@@ -204,8 +200,6 @@ if(ITK_WRAPPING)
   set(${itk-module}_WRAP_CASTXML ${ITK_WRAPPING})
   set(${itk-module}_WRAP_SWIGINTERFACE ${ITK_WRAPPING})
   if( (${itk-module}_WRAP_PYTHON OR
-       ${itk-module}_WRAP_JAVA OR
-       ${itk-module}_WRAP_RUBY OR
        ${itk-module}_WRAP_EXPLICIT OR
        ${itk-module}_WRAP_DOC
       )

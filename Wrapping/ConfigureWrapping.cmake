@@ -6,7 +6,6 @@
 #
 # The following variables should be set before including this file:
 # ITK_WRAP_PYTHON
-# ITK_WRAP_JAVA
 # ITK_WRAP_unsigned_char
 # ITK_WRAP_unsigned_short
 # ITK_WRAP_unsigned_long_long
@@ -20,7 +19,6 @@
 # ITK_WRAP_covariant_vector_float
 # ITK_WRAP_covariant_vector_double
 # ITK_WRAP_IMAGE_DIMS
-# ITK_WRAP_JAVA_DIR -- directory for java classes to be placed
 # WRAP_ITK_CONFIG_DIR -- directory where XXX.in files for CONFIGURE_FILE
 #                        commands are to be found.
 # WRAP_ITK_CMAKE_DIR -- directory where XXX.cmake files are to be found

@@ -1,12 +1,8 @@
 # Set up wrapping options
 
 option(ITK_WRAP_PYTHON "Build Python support" OFF)
-option(ITK_WRAP_JAVA "Build Java support (Currently not supported)" OFF)
-option(ITK_WRAP_RUBY "Build Ruby support (Currently not supported)" OFF)
-mark_as_advanced(ITK_WRAP_JAVA)
-mark_as_advanced(ITK_WRAP_RUBY)
 
-if(ITK_WRAP_PYTHON OR ITK_WRAP_JAVA OR ITK_WRAP_RUBY)
+if(ITK_WRAP_PYTHON)
   if(NOT ITK_DYNAMIC_LOADING)
     message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
   endif()

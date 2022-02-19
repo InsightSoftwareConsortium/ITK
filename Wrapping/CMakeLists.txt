@@ -47,7 +47,6 @@ set(WRAP_ITK_INSTALL_PREFIX "${path}" CACHE INTERNAL "subpath where where most o
 # Output directories.
 set(WRAP_ITK_CONFIG_DIR "${WrapITK_SOURCE_DIR}/")
 set(WRAP_ITK_CMAKE_DIR "${WrapITK_SOURCE_DIR}")
-set(ITK_WRAP_JAVA_DIR "${WrapITK_BINARY_DIR}/Java")
 set(WRAPPER_MASTER_INDEX_OUTPUT_DIR "${ITK_DIR}/Wrapping/Typedefs" CACHE INTERNAL "typedefs dir")
 
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)

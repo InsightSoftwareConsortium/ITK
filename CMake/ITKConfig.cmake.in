@@ -119,12 +119,6 @@ set(ITK_WRAPPING "@ITK_WRAPPING@")
 if( NOT DEFINED ITK_WRAP_PYTHON)
   set(ITK_WRAP_PYTHON "@ITK_WRAP_PYTHON@")
 endif()
-if( NOT DEFINED ITK_WRAP_JAVA)
-  set(ITK_WRAP_JAVA "@ITK_WRAP_JAVA@")
-endif()
-if(NOT DEFINED ITK_WRAP_RUBY)
-  set(ITK_WRAP_RUBY "@ITK_WRAP_RUBY@")
-endif()
 
 # Set up the rest of the variables that WrapITK was built with.
 set(ITK_WRAP_unsigned_char @ITK_WRAP_unsigned_char@)
