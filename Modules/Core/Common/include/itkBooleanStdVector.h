@@ -18,7 +18,7 @@
 #ifndef itkBooleanStdVector_h
 #define itkBooleanStdVector_h
 
-#include "itkIntTypes.h"
+#include "itkBoolean.h"
 #include <vector>
 
 namespace itk
@@ -30,11 +30,8 @@ namespace itk
  * `std::vector<bool>`, but unlike `std::vector<bool>`, it does "avoid data races when the contents of the contained
  * object in different elements in the same container [...] are modified concurrently", according to the C++ Standard,
  * section [container.requirements.dataraces], "Container data races".
- *
- * \note BooleanStdVectorType is only intended to be used for the storage of Boolean values (true and false), not for
- * arbitrary integer values.
  */
-using BooleanStdVectorType = std::vector<uint8_t>;
+using BooleanStdVectorType = std::vector<Boolean>;
 
 } // namespace itk
 
