@@ -69,8 +69,6 @@ macro(itk_wrap_module library_name)
   # that should be included/wrapped before the rest in the given order.
   # Just the submodule group name is needed, not the full path or file name.
   set(WRAPPER_SUBMODULE_ORDER )
-  # WRAPPER_LIBRARY_GROUPS is a deprecated variable for this specification.
-  unset(WRAPPER_LIBRARY_GROUPS )
 
   # WRAPPER_LIBRARY_SWIG_INPUTS. List of C++ source files to be used
   # as input for Swig. This list is then appended to by
@@ -159,11 +157,6 @@ macro(itk_auto_load_submodules)
   # library and each wrapper language to be created.
   # Finally, this macro causes the language support files for the templates and
   # library here defined to be created.
-
-  # For backwards compatibility
-  if(WRAPPER_LIBRARY_GROUPS)
-    set(WRAPPER_SUBMODULE_ORDER ${WRAPPER_LIBRARY_GROUPS})
-  endif()
 
   # Next, include modules already in WRAPPER_SUBMODULE_ORDER, because those are
   # guaranteed to be processed first.
