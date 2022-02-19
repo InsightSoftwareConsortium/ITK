@@ -81,9 +81,6 @@ macro(itk_end_wrap_submodule_all_generators module)
 endmacro()
 
 
-macro(itk_wrap_class_all_generators class)
-endmacro()
-
 macro(itk_wrap_named_class_all_generators class swig_name)
   itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
