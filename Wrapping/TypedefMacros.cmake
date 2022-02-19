@@ -296,8 +296,6 @@ macro(itk_wrap_class class)
   if(WRAPPER_AUTO_INCLUDE_HEADERS)
     itk_wrap_include("${swig_name}.h")
   endif()
-
-  itk_wrap_class_all_generators("${class}")
 endmacro()
 
 macro(itk_wrap_named_class class swig_name)
