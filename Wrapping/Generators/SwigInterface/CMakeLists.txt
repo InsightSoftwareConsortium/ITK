@@ -337,11 +337,6 @@ macro(itk_end_wrap_module_swig_interface)
       set(ENV{ITK_STUB_TEMPLATE_IMPORTS} "$ENV{ITK_STUB_TEMPLATE_IMPORTS}from .${module}Template import *;")
       set(ENV{ITK_STUB_PROXY_IMPORTS} "$ENV{ITK_STUB_PROXY_IMPORTS}from .${module}Proxy import *;")
     endif()
-
-
-    if(${module_prefix}_WRAP_EXPLICIT)
-      list(APPEND opts --include "${WRAPPER_LIBRARY_NAME}Explicit.h")
-    endif()
   endforeach()
 
   # the master idx file (mdx file)
