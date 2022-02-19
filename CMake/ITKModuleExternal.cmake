@@ -199,8 +199,6 @@ if(ITK_WRAPPING)
                        "ITK_WRAP_RUBY" OFF)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_PERL "Build Perl support." ${ITK_WRAP_PERL}
                        "ITK_WRAP_PERL" OFF)
-  CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_TCL "Build Tcl support." ${ITK_WRAP_TCL}
-                       "ITK_WRAP_TCL" OFF)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_EXPLICIT "Build Explicit support." OFF
                        "ITK_WRAP_EXPLICIT" OFF)
   CMAKE_DEPENDENT_OPTION(${itk-module}_WRAP_DOC "Build Doxygen support." OFF
@@ -211,7 +209,6 @@ if(ITK_WRAPPING)
        ${itk-module}_WRAP_JAVA OR
        ${itk-module}_WRAP_RUBY OR
        ${itk-module}_WRAP_PERL OR
-       ${itk-module}_WRAP_TCL OR
        ${itk-module}_WRAP_EXPLICIT OR
        ${itk-module}_WRAP_DOC
       )
