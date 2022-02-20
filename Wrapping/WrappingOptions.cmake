@@ -6,7 +6,8 @@ if(ITK_WRAP_PYTHON)
   if(NOT ITK_DYNAMIC_LOADING)
     message(FATAL_ERROR "Wrapping requires ITK_DYNAMIC_LOADING to be ON")
   endif()
-  # ITK_WRAPPING is an internal variable
+  # ITK_WRAPPING is an internal variable that is always the same value as ITK_WRAP_PYTHON
+  # since python is the only valid wrapped language
   set(ITK_WRAPPING ON CACHE INTERNAL "Build external languages support" FORCE)
 else()
   set(ITK_WRAPPING OFF CACHE INTERNAL "Build external languages support" FORCE)
