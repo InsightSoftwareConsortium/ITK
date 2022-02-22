@@ -726,6 +726,12 @@ macro(itk_wrap_simple_type_python wrap_class swig_name)
     ADD_PYTHON_CONFIG_TEMPLATE("list" "std::list" "listitkLightObject" "itk::LightObject")
   endif()
 
+  if("${cpp_name}" STREQUAL "itk::VariableLengthVector")
+    if(NOT ("${template_params}" MATCHES "std::complex")) # TODO cover complex types
+      set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VARIABLELENGTHVECTOR_CLASS(${swig_name}, ${template_params})\n")
+    endif()
+  endif()
+
   if("${swig_name}" STREQUAL "itkObject")
     set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_OBJECT_CLASS(${swig_name})\n")
   endif()
