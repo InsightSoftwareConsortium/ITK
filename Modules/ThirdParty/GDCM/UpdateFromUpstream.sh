@@ -11,6 +11,7 @@ readonly repo="https://github.com/malaterre/GDCM.git"
 readonly tag="release"
 readonly shortlog=false
 readonly paths="
+  .gitattributes
   CMake/UseCopyright.cmake
   CMake/InstallMacros.cmake
   CMake/COPYING-CMAKE-SCRIPTS
@@ -40,8 +41,6 @@ readonly paths="
 extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
-    echo "* -whitespace" > .gitattributes
-    echo "Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000" >> .gitattributes
     popd
 }
 
