@@ -189,15 +189,9 @@ public:
   using SizeType = unsigned int;
 
 public:
-  /** Constructors */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   FixedArray() = default;
-  FixedArray(const FixedArray &) = default;
-  FixedArray &
-  operator=(const FixedArray &) = default;
-  FixedArray(FixedArray &&) = default;
-  FixedArray &
-  operator=(FixedArray &&) = default;
-  ~FixedArray() = default;
 
   /** Conversion constructors */
   FixedArray(const ValueType r[VLength]);

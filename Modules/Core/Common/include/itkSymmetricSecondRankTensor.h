@@ -102,15 +102,9 @@ public:
   using SymmetricEigenAnalysisType =
     SymmetricEigenAnalysisFixedDimension<Dimension, MatrixType, EigenValuesArrayType, EigenVectorsMatrixType>;
 
-  /** Constructors */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   SymmetricSecondRankTensor() { this->Fill(0); }
-  SymmetricSecondRankTensor(const SymmetricSecondRankTensor &) = default;
-  SymmetricSecondRankTensor(SymmetricSecondRankTensor &&) = default;
-  SymmetricSecondRankTensor &
-  operator=(const SymmetricSecondRankTensor &) = default;
-  SymmetricSecondRankTensor &
-  operator=(SymmetricSecondRankTensor &&) = default;
-  ~SymmetricSecondRankTensor() = default;
 
   SymmetricSecondRankTensor(const ComponentType & r) { this->Fill(r); }
 

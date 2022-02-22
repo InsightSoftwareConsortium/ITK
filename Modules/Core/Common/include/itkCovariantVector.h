@@ -109,15 +109,9 @@ public:
   vnl_vector<T>
   GetVnlVector() const;
 
-  /** Default constructor. */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   CovariantVector() = default;
-  CovariantVector(const CovariantVector &) = default;
-  CovariantVector(CovariantVector &&) = default;
-  CovariantVector &
-  operator=(const CovariantVector &) = default;
-  CovariantVector &
-  operator=(CovariantVector &&) = default;
-  ~CovariantVector() = default;
 
   /**
    * Constructor to initialize entire vector to one value.

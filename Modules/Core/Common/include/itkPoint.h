@@ -82,15 +82,10 @@ public:
   /** VectorType define the difference between two Points */
   using VectorType = Vector<ValueType, VPointDimension>;
 
-  /** Default constructor, assignments */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   Point() = default;
-  Point(const Point &) = default;
-  Point(Point &&) = default;
-  Point &
-  operator=(const Point &) = default;
-  Point &
-  operator=(Point &&) = default;
-  ~Point() = default;
+
   /** Pass-through constructors for different type points. */
   template <typename TPointValueType>
   Point(const Point<TPointValueType, VPointDimension> & r)

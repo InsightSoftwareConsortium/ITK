@@ -69,15 +69,9 @@ public:
   using Iterator = typename BaseArray::Iterator;
   using ConstIterator = typename BaseArray::ConstIterator;
 
-  /** Constructors */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   ContinuousIndex() = default;
-  ContinuousIndex(const ContinuousIndex &) = default;
-  ContinuousIndex(ContinuousIndex &&) = default;
-  ContinuousIndex &
-  operator=(const ContinuousIndex &) = default;
-  ContinuousIndex &
-  operator=(ContinuousIndex &&) = default;
-  ~ContinuousIndex() = default;
 
   /** Pass-through constructor to the Point base class. */
   ContinuousIndex(const ValueType r[IndexDimension])

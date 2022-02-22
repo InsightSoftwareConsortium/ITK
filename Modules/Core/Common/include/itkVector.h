@@ -102,15 +102,9 @@ public:
   vnl_vector<T>
   GetVnlVector() const;
 
-  /** Default constructors, assignments and destructor */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   Vector() = default;
-  Vector(const Vector &) = default;
-  Vector(Vector &&) = default;
-  Vector &
-  operator=(const Vector &) = default;
-  Vector &
-  operator=(Vector &&) = default;
-  ~Vector() = default;
 
 #if !defined(ITK_LEGACY_FUTURE_REMOVE)
   /** Constructor to initialize entire vector to one value.
