@@ -75,15 +75,9 @@ public:
   using ComponentType = TComponent;
   using LuminanceType = typename NumericTraits<ComponentType>::RealType;
 
-  /** Default constructors */
+  /** Default-constructor.
+   * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   RGBPixel() { this->Fill(0); }
-  RGBPixel(const RGBPixel &) = default;
-  RGBPixel(RGBPixel &&) = default;
-  RGBPixel &
-  operator=(const RGBPixel &) = default;
-  RGBPixel &
-  operator=(RGBPixel &&) = default;
-  ~RGBPixel() = default;
 
   /** Constructor to fill Red=Blug=Green= r. */
   RGBPixel(const ComponentType & r) { this->Fill(r); }
