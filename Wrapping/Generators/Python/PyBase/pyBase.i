@@ -271,6 +271,36 @@ str = str
 %enddef
 
 
+%define DECL_PYTHON_VARIABLELENGTHVECTOR_CLASS(swig_name, type)
+
+    %extend swig_name {
+        swig_name __add__(swig_name v2) {
+            return *self + v2;
+        }
+        swig_name __sub__(swig_name v2) {
+            return *self - v2;
+        }
+        type __getitem__(unsigned long d) {
+            if (d >= self->GetNumberOfElements()) { throw std::out_of_range("swig_name index out of range."); }
+            return self->operator[]( d );
+        }
+        void __setitem__(unsigned long d, type v) {
+            if (d >= self->GetNumberOfElements()) { throw std::out_of_range("swig_name index out of range."); }
+            self->operator[]( d ) = v;
+        }
+        unsigned int __len__() {
+            return self->GetNumberOfElements();
+        }
+        std::string __repr__() {
+            std::ostringstream msg;
+            msg << "swig_name (" << *self << ")";
+            return msg.str();
+        }
+    }
+
+%enddef
+
+
 %define DECL_PYTHON_OBJECT_CLASS(swig_name)
 
     %pythonprepend itkObject::AddObserver %{
