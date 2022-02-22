@@ -52,11 +52,6 @@ Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-
 Documentation/ReleaseNotes/* hooks-max-size=300000
 Utilities/Doxygen/doxygen.config.in hooks-max-size=150000
 
-Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/gdcmPrivateDefaultDicts.cxx hooks-max-size=1021501
-Modules/ThirdParty/GDCM/src/gdcm/Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000
-Source/DataDictionary/gdcmDefaultDicts.cxx hooks-max-size=1200000
-Modules/ThirdParty/GDCM/src/gdcm/Utilities/gdcmopenjpeg/src/lib/openjp2/j2k.c hooks-max-size=654063
-Modules/ThirdParty/GDCM/src/gdcm/Source/InformationObjectDefinition/Part3.xml hooks-max-size=4336000
-Source/InformationObjectDefinition/Part3.xml hooks-max-size=4336000
+# GDCM-specific .gitattributes should go into Modules/ThirdParty/GDCM/src/gdcm/.gitattributes
 
 # HDF5-specific .gitattributes should go into Modules/ThirdParty/HDF5/.gitattributes
