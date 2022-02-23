@@ -350,47 +350,32 @@ endmacro()
 ################################################################################
 
 macro(itk_auto_load_submodules)
+  # Global vars used: WRAPPER_LIBRARY_SOURCE_DIR
+  # Global vars modified: WRAPPER_SUBMODULE_ORDER
 
   # Include the *.wrap files in WRAPPER_LIBRARY_SOURCE_DIR. This causes
   # corresponding wrap_*.cxx files to be generated WRAPPER_LIBRARY_OUTPUT_DIR,
   # and added to the WRAPPER_LIBRARY_SWIG_INPUTS list.
   # In addition, this causes the other required wrap_*.cxx files for the entire
   # library and each wrapper language to be created.
-  # Finally, this macro causes the language support files for the templates and
+  # This macro causes the language support files for the templates and
   # library here defined to be created.
 
-  # Next, include modules already in WRAPPER_SUBMODULE_ORDER, because those are
-  # guaranteed to be processed first.
-  foreach(module ${WRAPPER_SUBMODULE_ORDER})
-    itk_load_submodule("${module}")
-  endforeach()
-
   # Now search for other *.wrap files to include
-  file(GLOB wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/*.wrap")
+  file(GLOB _wrap_cmake_files "${WRAPPER_LIBRARY_SOURCE_DIR}/*.wrap")
   # sort the list of files so we are sure to always get the same order on all system
   # and for all builds. That's important for several reasons:
   # - the order is important for the order of creation of python template
   # - the typemaps files are always the same, and the rebuild can be avoided
-  list(SORT wrap_cmake_files)
-  foreach(_file ${wrap_cmake_files})
+  list(SORT _wrap_cmake_files)
+  foreach(_file ${_wrap_cmake_files})
     # get the module name from module.wrap
-    get_filename_component(module "${_file}" NAME_WE)
-
-    # if the module is already in the list, it means that it is already included
-    # ... and do not include excluded modules
-    set(will_include 1)
-    foreach(already_included ${WRAPPER_SUBMODULE_ORDER})
-      if("${already_included}" STREQUAL "${module}")
-        set(will_include 0)
-      endif()
-    endforeach()
-
-    if(${will_include})
-      # Add the module name to the list. WRITE_MODULE_FILES uses this list
-      # to create the master library wrapper file.
-      list(APPEND WRAPPER_SUBMODULE_ORDER "${module}")
-      itk_load_submodule("${module}")
-    endif()
+    get_filename_component(_module "${_file}" NAME_WE)
+    list(APPEND WRAPPER_SUBMODULE_ORDER "${_module}")
+  endforeach()
+  list(REMOVE_DUPLICATES WRAPPER_SUBMODULE_ORDER)
+  foreach(_module ${WRAPPER_SUBMODULE_ORDER})
+    itk_load_submodule("${_module}")
   endforeach()
 endmacro()
 
