@@ -321,7 +321,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedUpdateCluste
     itOut.NextLine();
   }
 
-  // TODO improve merge algoithm
+  // TODO improve merge algorithm
   std::lock_guard<std::mutex> mutexHolder(m_Mutex);
   m_UpdateClusterPerThread.push_back(clusterMap);
 }
@@ -404,7 +404,7 @@ SLICImageFilter<TInputImage, TOutputImage, TDistancePixel>::ThreadedPerturbClust
       // convert to a type that has the operator[], for scalars this
       // will be FixedArray, for VectorImages, this will be the same
       // type as the pixel and not conversion or allocation will occur.
-      const typename NumericTraits<InputPixelType>::MeasurementVectorType & vG = J[i];
+      const typename NumericTraits<typename NumericTraits<InputPixelType>::RealType>::MeasurementVectorType & vG = J[i];
       for (unsigned int j = 0; j < numberOfComponents; ++j)
       {
         gNorm += vG[j] * vG[j];
