@@ -127,7 +127,211 @@ macro(itk_end_wrap_module)
     itk_end_wrap_module_swig_interface()
   endif()
   if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
-    itk_end_wrap_module_python()
+    # Loop over the extra swig input files and add them to the generated files
+    # lists. Guess that the generated cxx output will have the same name as
+    # the .i input file.
+    set(ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS ON)
+    foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
+      get_filename_component(base_name ${source} NAME_WE)
+      itk_wrap_submodule_python("${base_name}" "${WRAPPER_LIBRARY_NAME}")
+      itk_end_wrap_submodule_python("${base_name}")
+    endforeach()
+    set(ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS OFF)
+
+    # create the python config file
+    # this file store all the name - type association and a dependencies list for the modules
+    #
+    # first build the dependency list
+    set(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "")
+
+    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+      set(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "'${dep}', ${ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS}")
+      set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import itk.${dep}Python\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
+    endforeach()
+
+    # ITKPyBase is always included, excepted ITKPyBase itself
+    if(NOT "${WRAPPER_LIBRARY_NAME}" STREQUAL "ITKPyBase")
+      set(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS "'ITKPyBase', ${ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS}")
+      set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "import itk.ITKPyBasePython\n${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}")
+      set(ITK_WRAP_PYTHON_SNAKE_CASE "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+    else()
+      unset(ITK_WRAP_PYTHON_SNAKE_CASE)
+    endif()
+    set(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk/Configuration/${WRAPPER_LIBRARY_NAME}Config.py")
+
+    # and create the file, with the var ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES and
+    # ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS created earlier
+    configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/itk/support/ModuleConfig.py.in"
+      "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
+      @ONLY)
+    unset(ITK_WRAP_PYTHON_CONFIGURATION_DEPENDS)
+
+    WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration
+      "${WRAPPER_LIBRARY_NAME}"
+      "${ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE}"
+      "${ITK_WRAP_PYTHON_SNAKE_CASE}"
+    )
+    unset(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE)
+    unset(ITK_WRAP_PYTHON_SNAKE_CASE)
+
+    set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
+    set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS )
+    if(NOT BUILD_SHARED_LIBS)
+      if(WRAPPER_LIBRARY_NAME STREQUAL "ITKCommon")
+
+        if(WIN32)
+          set(DO_NOT_WAIT_FOR_THREADS_DECLS "#include \"itkThreadPool.h\"")
+          set(DO_NOT_WAIT_FOR_THREADS_CALLS "itk::ThreadPool::SetDoNotWaitForThreads( true );")
+        endif()
+
+        set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
+#define _ITKCommonPython_MODULE
+#include \"itkPyITKCommonCAPI.h\"
+${DO_NOT_WAIT_FOR_THREADS_DECLS}
+
+static
+_ITKCommonPython_GetGlobalSingletonIndex_RETURN
+_ITKCommonPython_GetGlobalSingletonIndex
+_ITKCommonPython_GetGlobalSingletonIndex_PROTO
+{
+  itk::ObjectFactoryBase::Initialize();
+  return itk::SingletonIndex::GetInstance();
+}
+
+")
+
+        set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
+  static void * _ITKCommonPython_API[_ITKCommonPython_API_pointers];
+
+  /* Initialize the C API pointer array */
+  _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM] = (void *)_ITKCommonPython_GetGlobalSingletonIndex;
+
+  /* Create a Capsule containing the API pointer array's address */
+  PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
+    \"_ITKCommonPython._C_API\", NULL);
+
+  if( cAPIObject != NULL )
+    {
+    PyModule_AddObject( m, \"_C_API\", cAPIObject );
+    }
+  ${DO_NOT_WAIT_FOR_THREADS_CALLS}
+")
+      elseif("ITKCommon" IN_LIST WRAPPER_LIBRARY_LINK_LIBRARIES)
+        set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
+#include \"itkPyITKCommonCAPI.h\"
+${DO_NOT_WAIT_FOR_THREADS_DECLS}
+")
+        set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
+  if( import__ITKCommonPython() < 0 )
+    {
+#if PY_VERSION_HEX >= 0x03000000
+    return NULL;
+#else
+    return;
+#endif
+    }
+  itk::SingletonIndex::SetInstance( _ITKCommonPython_GetGlobalSingletonIndex() );
+  itk::ObjectFactoryBase::Initialize();
+  ${DO_NOT_WAIT_FOR_THREADS_CALLS}
+")
+      endif()
+    endif()
+
+    # Create the Python customization stuff in the main module
+    # It allows to group the python submodules in a single shared lib (.so),
+    # by loading the init functions of the module.
+    # The objects from the submodules are also loaded in the main module.
+    #
+    # It uses:
+    # ITK_WRAP_PYTHON_LIBRARY_DECLS, ITK_WRAP_PYTHON_LIBRARY_CALLS,
+    # ITK_WRAP_PYTHON_LIBRARY_IMPORTS,
+    # ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS, ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS
+    configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/main_module_ext.i.in"
+      "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/python/${WRAPPER_LIBRARY_NAME}_ext.i"
+      @ONLY)
+
+    # set some var reused later
+    set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+    set(lib ${WRAPPER_LIBRARY_NAME}Python)
+    set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${lib}.py")
+    set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Python.cpp")
+
+    # if this is for an external library, let the user add extra swig args
+    if(EXTERNAL_WRAP_ITK_PROJECT)
+      set(WRAP_ITK_SWIG_ARGS_PYTHON "" CACHE STRING "Extra user-defined swig arguments to be to the swig executable.")
+      mark_as_advanced(WRAP_ITK_SWIG_ARGS_PYTHON)
+    endif()
+
+    # Run swig to produce the *Python.cpp and the *Python.py file
+    itk_setup_swig_python("Module" ${base_name} ${interface_file} ${python_file} ${cpp_file} "")
+
+    # build all the c++ files from this module in a common lib
+    if(NOT TARGET ${lib})
+      add_library(${lib} MODULE ${cpp_file} ${ITK_WRAP_PYTHON_CXX_FILES} ${WRAPPER_LIBRARY_CXX_SOURCES})
+      set_target_properties(${lib} PROPERTIES PREFIX "_")
+
+      # gcc 4.4 complains a lot without this flag when building in release mode
+      if (CMAKE_CXX_COMPILER_ID MATCHES "GNU|Clang")
+        set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "-fno-strict-aliasing -w")
+      endif()
+      # extension is not the same on windows
+      if(WIN32)
+        # normally need *.pyd
+        # python_d requires libraries named *_d.pyd
+        set_target_properties(${lib} PROPERTIES SUFFIX .pyd)
+        set_target_properties(${lib} PROPERTIES DEBUG_POSTFIX "_d")
+
+        if(MSVC)
+          # Disables 'conversion from 'type1' to 'type2', possible loss of data warnings
+          set_target_properties(${lib} PROPERTIES COMPILE_FLAGS "/wd4244")
+        endif()
+      endif()
+      if (NOT MSVC)
+        include(CheckIPOSupported)
+        check_ipo_supported(RESULT ipo_is_supported)
+        if (ipo_is_supported)
+          set_property(TARGET ${lib} PROPERTY INTERPROCEDURAL_OPTIMIZATION_RELEASE TRUE)
+        endif()
+      endif()
+
+      # Link the modules together
+      target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
+      itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${PYTHON_LIBRARY})
+
+      if(USE_COMPILER_HIDDEN_VISIBILITY)
+        # Prefer to use target properties supported by newer cmake
+        set_target_properties(${lib} PROPERTIES CXX_VISIBILITY_PRESET hidden)
+        set_target_properties(${lib} PROPERTIES C_VISIBILITY_PRESET hidden)
+        set_target_properties(${lib} PROPERTIES VISIBILITY_INLINES_HIDDEN 1)
+      endif()
+
+      add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Swig)
+      if(${module_prefix}_WRAP_DOC)
+        add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
+      endif()
+      set(_component_module "")
+      if(WRAP_ITK_INSTALL_COMPONENT_PER_MODULE)
+        if("${WRAPPER_LIBRARY_NAME}" MATCHES "^ITK(PyUtils|PyBase)$")
+          set(_component_module "ITKCommon")
+        else()
+          set(_component_module "${WRAPPER_LIBRARY_NAME}")
+        endif()
+      endif()
+      install(TARGETS "${lib}"
+        DESTINATION "${PY_SITE_PACKAGES_PATH}/itk"
+        COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
+        )
+      if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+        # don't depends on the targets from wrapitk in external projects
+        foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+          add_dependencies(${lib} ${dep}Swig)
+          if(${module_prefix}_WRAP_DOC)
+            add_dependencies(${lib} ${dep}Doxygen)
+          endif()
+        endforeach()
+      endif()
+    endif()
+
   endif()
   if(${module_prefix}_WRAP_DOC)
     itk_end_wrap_module_DOC()
@@ -196,11 +400,27 @@ macro(itk_load_submodule module)
   # This basically sets the global vars that will be added to or modified
   # by the commands in the included *.wrap module.
   #
-  # Global vars used: none
-  # Global vars modified: WRAPPER_MODULE_NAME WRAPPER_TYPEDEFS
+  # Global vars used: WRAPPER_LIBRARY_NAME WRAPPER_DEFAULT_INCLUDE
+  # Global vars modified: WRAPPER_TYPEDEFS
   #                       WRAPPER_INCLUDE_FILES WRAPPER_AUTO_INCLUDE_HEADERS
+  message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${module} submodule.")
 
-  itk_wrap_submodule(${module})
+  # We run into some trouble if there's a module with the same name as the
+  # wrapper library. Fix this.
+  string(TOUPPER "${module}" upper_module)
+  string(TOUPPER "${WRAPPER_LIBRARY_NAME}" upper_lib)
+  if("${upper_module}" STREQUAL "${upper_lib}")
+    message(FATAL_ERROR "The module ${module} can't have the same name as its library. Note that the names are not case sensitive.")
+  endif()
+
+  # call generators specific macros
+  itk_wrap_submodule_all_generators("${module}")
+
+  set(WRAPPER_INCLUDE_FILES )
+  foreach(inc ${WRAPPER_DEFAULT_INCLUDE})
+    itk_wrap_include("${inc}")
+  endforeach()
+  set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
   # Now include the file.
   if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
@@ -214,36 +434,10 @@ macro(itk_load_submodule module)
     endif()
   endif()
 
-  # Call generator specific macros
-  itk_end_wrap_submodule_all_generators("${WRAPPER_MODULE_NAME}")
+  itk_end_wrap_submodule_all_generators("${module}")
 
 endmacro()
 
-macro(itk_wrap_submodule module)
-
-  message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${module} submodule.")
-
-  # We run into some trouble if there's a module with the same name as the
-  # wrapper library. Fix this.
-  string(TOUPPER "${module}" upper_module)
-  string(TOUPPER "${WRAPPER_LIBRARY_NAME}" upper_lib)
-  if("${upper_module}" STREQUAL "${upper_lib}")
-    message(FATAL_ERROR "The module ${module} can't have the same name than its library. Note that the names are not case sensitive.")
-  endif()
-
-  # preset the vars before include the file
-  set(WRAPPER_MODULE_NAME "${module}")
-
-  # call generators specific macros
-  itk_wrap_submodule_all_generators("${module}")
-
-  set(WRAPPER_INCLUDE_FILES )
-  foreach(inc ${WRAPPER_DEFAULT_INCLUDE})
-    itk_wrap_include("${inc}")
-  endforeach()
-  set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
-
-endmacro()
 
 ################################################################################
 # Macros to be used in the *.wrap files themselves.

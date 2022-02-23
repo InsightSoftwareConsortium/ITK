@@ -352,6 +352,7 @@ macro(itk_end_wrap_module_swig_interface)
   set(CONFIG_INDEX_FILE_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in" "${mdx_file}"
      @ONLY)
+  unset(CONFIG_INDEX_FILE_CONTENT)
 
   set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
@@ -364,7 +365,6 @@ macro(itk_end_wrap_module_swig_interface)
       FILE(MAKE_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}")
       if(${module_prefix}_WRAP_PYTHON)
         set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
-        set(ITK_STUB_PYI_FILE "${ITK_STUB_DIR}/${WRAPPER_LIBRARY_NAME}.pyi")
         # NOTE:  snake_case_config_file is both an input and an output to this command.
         #        the ${IGENERATOR} script appends to this file.
         # NOTE: The Configuration files should be placed in the itk package directory.
@@ -373,6 +373,7 @@ macro(itk_end_wrap_module_swig_interface)
         )
         set(snake_case_config_file
             "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+        unset(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR)
         add_custom_command(
         OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file} ${ITK_STUB_PYI_FILES}
         COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
@@ -393,7 +394,6 @@ macro(itk_end_wrap_module_swig_interface)
         )
       else()
         unset(ITK_STUB_DIR)
-        unset(ITK_STUB_PYI_FILE)
         unset(snake_case_config_file)
         add_custom_command(
           OUTPUT ${i_files} ${typedef_files} ${idx_files}
@@ -412,7 +412,6 @@ macro(itk_end_wrap_module_swig_interface)
           VERBATIM
           )
       endif()
-
   endif()
 
   # the ${WRAPPER_LIBRARY_NAME}Swig target
@@ -427,6 +426,7 @@ macro(itk_end_wrap_module_swig_interface)
       add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${dep}Swig)
     endforeach()
   endif()
+  unset(ITK_STUB_PYI_FILES)
 
   set(${WRAPPER_LIBRARY_NAME}IdxFiles ${idx_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
   set(${WRAPPER_LIBRARY_NAME}SwigFiles ${i_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
