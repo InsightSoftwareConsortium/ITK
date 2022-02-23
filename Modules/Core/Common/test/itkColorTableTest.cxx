@@ -108,23 +108,23 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Poin
 
   char       rgb = 'r';
   TComponent zeroComponent(0);
-  pixel = colors->GetColorComponent(numberOfColors, rgb);
-  if (pixel != zeroComponent)
+  TComponent colorComponent = colors->GetColorComponent(numberOfColors, rgb);
+  if (colorComponent != zeroComponent)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in itk::ColorTable::GetColorComponent" << std::endl;
     std::cerr << "Expected: 0 "
-              << ", but got: " << pixel << std::endl;
+              << ", but got: " << colorComponent << std::endl;
     return EXIT_FAILURE;
   }
   rgb = 'a';
-  pixel = colors->GetColorComponent(numberOfColors - 1, rgb);
-  if (pixel != zeroComponent)
+  colorComponent = colors->GetColorComponent(numberOfColors - 1, rgb);
+  if (colorComponent != zeroComponent)
   {
     std::cerr << "Test failed!" << std::endl;
     std::cerr << "Error in itk::ColorTable::GetColorComponent" << std::endl;
     std::cerr << "Expected: 0 "
-              << ", but got: " << pixel << std::endl;
+              << ", but got: " << colorComponent << std::endl;
     return EXIT_FAILURE;
   }
 
