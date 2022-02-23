@@ -214,13 +214,18 @@ ContourSpatialObject<TDimension>::Update()
         {
           step[d] = (pnt2[d] - pnt[d]) / m_InterpolationFactor;
         }
+
+        // TODO There is an issue regarding this code, from 24 February 2022:
+        // "`ContourSpatialObject<TDimension>::Update()` LINEAR_INTERPOLATION case may need some adjustment"
+        // https://github.com/InsightSoftwareConsortium/ITK/issues/3222
+
         PointType newPoint;
         newPoint.Fill(NumericTraits<double>::max());
         for (unsigned int i = 0; i < m_InterpolationFactor; ++i)
         {
           for (unsigned int d = 0; d < TDimension; ++d)
           {
-            newPoint = pnt[d] + i * step[d];
+            newPoint[d] = pnt[d] + i * step[d];
           }
         }
         typename Superclass::SpatialObjectPointType newSOPoint;
