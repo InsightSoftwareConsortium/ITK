@@ -565,16 +565,15 @@ macro(itk_load_submodule module)
   endforeach()
   set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
-  # Now include the file.
+  # Now include the .wrap file.
   if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
       include("${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
   else()
-    # for backward compatibility
+    # for backward compatibility, to be removed in ITKv6
     if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
-        include("${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
-    else()
-      message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap or ${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake not found.")
+        message(FATAL_ERROR "INCORRECT FILE NAME PATTERN: ${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake should be named ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.cmake")
     endif()
+    message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap not found.")
   endif()
 
   itk_wrap_modules_set_prefix()
