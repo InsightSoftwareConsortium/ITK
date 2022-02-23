@@ -22,12 +22,12 @@
 #include "itkTestingMacros.h"
 
 
-template <typename TPixel>
+template <typename TComponent>
 int
-ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TPixel>::Pointer colors,
-                                       unsigned int                              colorId,
-                                       itk::RGBPixel<TPixel>                     rgbPixel,
-                                       const char *                              name)
+ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TComponent>::Pointer colors,
+                                       unsigned int                                  colorId,
+                                       itk::RGBPixel<TComponent>                     rgbPixel,
+                                       const char *                                  name)
 {
   if (colors->GetColor(colorId) != rgbPixel)
   {
@@ -47,7 +47,7 @@ ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TPixel>::Pointer
   std::string rgb = "rgb";
   for (unsigned int i = 0; i < rgb.length(); ++i)
   {
-    TPixel resultPixelComponentValue = colors->GetColorComponent(colorId, rgb.at(i));
+    TComponent resultPixelComponentValue = colors->GetColorComponent(colorId, rgb.at(i));
     if (resultPixelComponentValue != rgbPixel[i])
     {
       std::cerr << "Test failed!" << std::endl;
@@ -61,11 +61,11 @@ ColorTableTestExpectedConditionChecker(typename itk::ColorTable<TPixel>::Pointer
   return EXIT_SUCCESS;
 }
 
-template <typename TPixel>
+template <typename TComponent>
 int
-ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TPixel>::Pointer colors, unsigned int numberOfColors)
+ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TComponent>::Pointer colors, unsigned int numberOfColors)
 {
-  using RGBPixelType = itk::RGBPixel<TPixel>;
+  using RGBPixelType = itk::RGBPixel<TComponent>;
 
   RGBPixelType zeroPixel;
   zeroPixel.Set(0, 0, 0);
@@ -106,8 +106,8 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TPixel>::Pointer 
     return EXIT_FAILURE;
   }
 
-  char   rgb = 'r';
-  TPixel zeroComponent(0);
+  char       rgb = 'r';
+  TComponent zeroComponent(0);
   pixel = colors->GetColorComponent(numberOfColors, rgb);
   if (pixel != zeroComponent)
   {
@@ -131,13 +131,13 @@ ColorTableTestSpecialConditionChecker(typename itk::ColorTable<TPixel>::Pointer 
   return EXIT_SUCCESS;
 }
 
-template <typename TPixel>
+template <typename TComponent>
 int
 ColorTableTestHelper(const char * name, unsigned int numberOfColors)
 {
   int testStatus = EXIT_SUCCESS;
 
-  using ColorTableType = itk::ColorTable<TPixel>;
+  using ColorTableType = itk::ColorTable<TComponent>;
   auto colors = ColorTableType::New();
 
   std::cout << "Testing for type: " << name << std::endl;
@@ -146,25 +146,25 @@ ColorTableTestHelper(const char * name, unsigned int numberOfColors)
   colors->UseRandomColors(numberOfColors);
   colors->Print(std::cout);
   std::cout << std::endl;
-  testStatus |= ColorTableTestSpecialConditionChecker<TPixel>(colors, numberOfColors);
+  testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, numberOfColors);
 
   std::cout << "Heat Colors" << std::endl;
   colors->UseHeatColors(numberOfColors);
   colors->Print(std::cout);
   std::cout << std::endl;
-  testStatus |= ColorTableTestSpecialConditionChecker<TPixel>(colors, numberOfColors);
+  testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, numberOfColors);
 
   std::cout << "Gray Colors" << std::endl;
   colors->UseGrayColors(numberOfColors);
   colors->Print(std::cout);
   std::cout << std::endl;
-  testStatus |= ColorTableTestSpecialConditionChecker<TPixel>(colors, numberOfColors);
+  testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, numberOfColors);
 
   colors->UseDiscreteColors();
   std::cout << "Discrete Colors" << std::endl;
   colors->Print(std::cout);
   std::cout << std::endl;
-  testStatus |= ColorTableTestSpecialConditionChecker<TPixel>(colors, 8);
+  testStatus |= ColorTableTestSpecialConditionChecker<TComponent>(colors, 8);
 
   return testStatus;
 }

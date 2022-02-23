@@ -36,7 +36,7 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-template <typename TPixel>
+template <typename TComponent>
 class ITK_TEMPLATE_EXPORT ColorTable : public Object
 {
 public:
@@ -88,7 +88,7 @@ public:
   itkGetConstMacro(NumberOfColors, unsigned int);
 
   /** Get the color stored at a given index. */
-  RGBPixel<TPixel>
+  RGBPixel<TComponent>
   GetColor(unsigned int c);
 
   /** Set the color at a given index. Optionally provide a name for
@@ -96,14 +96,14 @@ public:
    * used.
    */
   bool
-  SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const char * name = "UserDefined");
+  SetColor(unsigned int c, TComponent r, TComponent g, TComponent b, const char * name = "UserDefined");
   bool
-  SetColor(unsigned int c, RGBPixel<TPixel> pixel, const char * name = "UserDefined");
+  SetColor(unsigned int c, RGBPixel<TComponent> pixel, const char * name = "UserDefined");
 
   /** Given the position in the table and the color
    * returns the value.
    */
-  TPixel
+  TComponent
   GetColorComponent(unsigned int c, char rgb);
 
   /** Get the name of the color at a given index. */
@@ -114,7 +114,7 @@ public:
    * metric.
    */
   unsigned int
-  GetClosestColorTableId(TPixel r, TPixel g, TPixel b);
+  GetClosestColorTableId(TComponent r, TComponent g, TComponent b);
 
 protected:
   ColorTable() = default;
@@ -123,7 +123,7 @@ protected:
 
 private:
   using ColorNameVectorType = std::vector<std::string>;
-  using ColorVectorType = std::vector<RGBPixel<TPixel>>;
+  using ColorVectorType = std::vector<RGBPixel<TComponent>>;
 
   void
   DeleteColors();

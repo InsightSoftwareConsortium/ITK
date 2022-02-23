@@ -27,17 +27,17 @@
 namespace itk
 {
 
-template <typename TPixel>
+template <typename TComponent>
 void
-ColorTable<TPixel>::DeleteColors()
+ColorTable<TComponent>::DeleteColors()
 {
   m_Color.resize(0);
   m_ColorName.resize(0);
 }
 
-template <typename TPixel>
+template <typename TComponent>
 void
-ColorTable<TPixel>::UseDiscreteColors()
+ColorTable<TComponent>::UseDiscreteColors()
 {
   this->DeleteColors();
 
@@ -45,62 +45,63 @@ ColorTable<TPixel>::UseDiscreteColors()
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
 
-  typename NumericTraits<TPixel>::RealType scale;
-  typename NumericTraits<TPixel>::RealType shift;
-  if (NumericTraits<TPixel>::is_integer)
+  typename NumericTraits<TComponent>::RealType scale;
+  typename NumericTraits<TComponent>::RealType shift;
+  if (NumericTraits<TComponent>::is_integer)
   {
-    scale = static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max()) -
-            static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::NonpositiveMin());
-    shift = static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::NonpositiveMin());
+    scale = static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max()) -
+            static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::NonpositiveMin());
+    shift = static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::NonpositiveMin());
   }
   else
   {
-    scale = NumericTraits<TPixel>::OneValue();
-    shift = NumericTraits<TPixel>::ZeroValue();
+    scale = NumericTraits<TComponent>::OneValue();
+    shift = NumericTraits<TComponent>::ZeroValue();
   }
 
-  m_Color[0].Set((TPixel)(0.9 * scale + shift), (TPixel)(shift), (TPixel)(shift));
+  m_Color[0].Set((TComponent)(0.9 * scale + shift), (TComponent)(shift), (TComponent)(shift));
   m_ColorName[0] = "Red";
 
-  m_Color[1].Set((TPixel)(0.8 * scale + shift), (TPixel)(shift), (TPixel)(0.8 * scale + shift));
+  m_Color[1].Set((TComponent)(0.8 * scale + shift), (TComponent)(shift), (TComponent)(0.8 * scale + shift));
   m_ColorName[1] = "Purple";
 
-  m_Color[2].Set((TPixel)(shift), (TPixel)(0.8 * scale + shift), (TPixel)(0.8 * scale + shift));
+  m_Color[2].Set((TComponent)(shift), (TComponent)(0.8 * scale + shift), (TComponent)(0.8 * scale + shift));
   m_ColorName[2] = "Aqua";
 
-  m_Color[3].Set((TPixel)(0.8 * scale + shift), (TPixel)(0.8 * scale + shift), (TPixel)(shift));
+  m_Color[3].Set((TComponent)(0.8 * scale + shift), (TComponent)(0.8 * scale + shift), (TComponent)(shift));
   m_ColorName[3] = "Yellow";
 
-  m_Color[4].Set((TPixel)(shift), (TPixel)(0.9 * scale + shift), (TPixel)(shift));
+  m_Color[4].Set((TComponent)(shift), (TComponent)(0.9 * scale + shift), (TComponent)(shift));
   m_ColorName[4] = "Green";
 
-  m_Color[5].Set((TPixel)(shift), (TPixel)(shift), (TPixel)(0.9 * scale + shift));
+  m_Color[5].Set((TComponent)(shift), (TComponent)(shift), (TComponent)(0.9 * scale + shift));
   m_ColorName[5] = "Blue";
 
-  m_Color[6].Set((TPixel)(0.7 * scale + shift), (TPixel)(0.7 * scale + shift), (TPixel)(0.7 * scale + shift));
+  m_Color[6].Set(
+    (TComponent)(0.7 * scale + shift), (TComponent)(0.7 * scale + shift), (TComponent)(0.7 * scale + shift));
   m_ColorName[6] = "Grey0.70";
   //
   // to avoid numeric exception, need to make
   // sure that the value assigned is clamped at
-  // max for TPixel.  Exceptions were happening
+  // max for TComponent.  Exceptions were happening
   // on this assignment, even if realMax was
-  // set to NumericTraits<TPixel>::max().
-  typename NumericTraits<TPixel>::RealType realMax(1.0 * scale + shift);
-  TPixel                                   pixelMax(NumericTraits<TPixel>::max());
-  // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
+  // set to NumericTraits<TComponent>::max().
+  typename NumericTraits<TComponent>::RealType realMax(1.0 * scale + shift);
+  TComponent                                   pixelMax(NumericTraits<TComponent>::max());
+  // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
-    static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
+    static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
   if (realMax < max_value_converted)
   {
-    pixelMax = static_cast<TPixel>(realMax);
+    pixelMax = static_cast<TComponent>(realMax);
   }
   m_Color[7].Set(pixelMax, pixelMax, pixelMax);
   m_ColorName[7] = "White";
 }
 
-template <typename TPixel>
+template <typename TComponent>
 void
-ColorTable<TPixel>::UseGrayColors(unsigned int n)
+ColorTable<TComponent>::UseGrayColors(unsigned int n)
 {
   unsigned int i;
 
@@ -110,20 +111,20 @@ ColorTable<TPixel>::UseGrayColors(unsigned int n)
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
 
-  typename NumericTraits<TPixel>::RealType range;
-  typename NumericTraits<TPixel>::RealType minimum;
-  if (NumericTraits<TPixel>::is_integer)
+  typename NumericTraits<TComponent>::RealType range;
+  typename NumericTraits<TComponent>::RealType minimum;
+  if (NumericTraits<TComponent>::is_integer)
   {
-    range = static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max()) -
-            static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::NonpositiveMin());
-    minimum = NumericTraits<TPixel>::NonpositiveMin();
+    range = static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max()) -
+            static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::NonpositiveMin());
+    minimum = NumericTraits<TComponent>::NonpositiveMin();
   }
   else
   {
-    range = NumericTraits<TPixel>::OneValue();
-    minimum = NumericTraits<TPixel>::ZeroValue();
+    range = NumericTraits<TComponent>::OneValue();
+    minimum = NumericTraits<TComponent>::ZeroValue();
   }
-  typename NumericTraits<TPixel>::RealType delta;
+  typename NumericTraits<TComponent>::RealType delta;
   if (m_NumberOfColors > 1)
   {
     delta = range / (m_NumberOfColors - 1);
@@ -133,17 +134,17 @@ ColorTable<TPixel>::UseGrayColors(unsigned int n)
     delta = 0.0;
   }
 
-  // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
+  // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
-    static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
+    static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
   for (i = 0; i < m_NumberOfColors; ++i)
   {
-    typename NumericTraits<TPixel>::RealType realGray(minimum + i * delta);
+    typename NumericTraits<TComponent>::RealType realGray(minimum + i * delta);
 
-    TPixel gray = NumericTraits<TPixel>::max();
+    TComponent gray = NumericTraits<TComponent>::max();
     if (realGray < max_value_converted)
     {
-      gray = static_cast<TPixel>(realGray);
+      gray = static_cast<TComponent>(realGray);
     }
 
     m_Color[i].Set(gray, gray, gray);
@@ -153,9 +154,9 @@ ColorTable<TPixel>::UseGrayColors(unsigned int n)
   }
 }
 
-template <typename TPixel>
+template <typename TComponent>
 void
-ColorTable<TPixel>::UseHeatColors(unsigned int n)
+ColorTable<TComponent>::UseHeatColors(unsigned int n)
 {
   unsigned int i;
 
@@ -165,34 +166,34 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
 
-  typename NumericTraits<TPixel>::RealType scale;
-  typename NumericTraits<TPixel>::RealType shift;
-  if (NumericTraits<TPixel>::is_integer)
+  typename NumericTraits<TComponent>::RealType scale;
+  typename NumericTraits<TComponent>::RealType shift;
+  if (NumericTraits<TComponent>::is_integer)
   {
-    scale = static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max()) -
-            static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::NonpositiveMin());
-    shift = static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::NonpositiveMin());
+    scale = static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max()) -
+            static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::NonpositiveMin());
+    shift = static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::NonpositiveMin());
   }
   else
   {
-    scale = NumericTraits<TPixel>::OneValue();
-    shift = NumericTraits<TPixel>::ZeroValue();
+    scale = NumericTraits<TComponent>::OneValue();
+    shift = NumericTraits<TComponent>::ZeroValue();
   }
-  // Converting from TPixel to RealType may introduce a rounding error, so do static_cast
+  // Converting from TComponent to RealType may introduce a rounding error, so do static_cast
   constexpr auto max_value_converted =
-    static_cast<typename NumericTraits<TPixel>::RealType>(NumericTraits<TPixel>::max());
+    static_cast<typename NumericTraits<TComponent>::RealType>(NumericTraits<TComponent>::max());
   for (i = 0; i < n / 2.0; ++i)
   {
     //
     // avoid overflow
-    typename NumericTraits<TPixel>::RealType realR(((i + 1) / (n / 2.0 + 1)) * scale + shift);
-    TPixel                                   r(NumericTraits<TPixel>::max());
+    typename NumericTraits<TComponent>::RealType realR(((i + 1) / (n / 2.0 + 1)) * scale + shift);
+    TComponent                                   r(NumericTraits<TComponent>::max());
     if (realR < max_value_converted)
     {
-      r = static_cast<TPixel>(realR);
+      r = static_cast<TComponent>(realR);
     }
-    auto g(static_cast<TPixel>(shift));
-    auto b(static_cast<TPixel>(shift));
+    auto g(static_cast<TComponent>(shift));
+    auto b(static_cast<TComponent>(shift));
     m_Color[i].Set(r, g, b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2) << i / static_cast<float>(n);
@@ -201,14 +202,14 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
 
   for (i = 0; i < n / 2; ++i)
   {
-    typename NumericTraits<TPixel>::RealType rdouble(1.0 * scale + shift);
-    TPixel                                   r(NumericTraits<TPixel>::max());
+    typename NumericTraits<TComponent>::RealType rdouble(1.0 * scale + shift);
+    TComponent                                   r(NumericTraits<TComponent>::max());
     if (rdouble < max_value_converted)
     {
-      r = static_cast<TPixel>(rdouble);
+      r = static_cast<TComponent>(rdouble);
     }
-    auto g = static_cast<TPixel>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
-    auto b = static_cast<TPixel>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
+    auto g = static_cast<TComponent>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
+    auto b = static_cast<TComponent>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
     m_Color[(size_t)(i + n / 2.0)].Set(r, g, b);
     std::ostringstream name;
     name << "Heat" << std::fixed << std::setprecision(2) << (i + n / 2.0) / (float)n;
@@ -216,9 +217,9 @@ ColorTable<TPixel>::UseHeatColors(unsigned int n)
   }
 }
 
-template <typename TPixel>
+template <typename TComponent>
 void
-ColorTable<TPixel>::UseRandomColors(unsigned int n)
+ColorTable<TComponent>::UseRandomColors(unsigned int n)
 {
   unsigned int i;
 
@@ -227,25 +228,25 @@ ColorTable<TPixel>::UseRandomColors(unsigned int n)
   m_NumberOfColors = n;
   m_Color.resize(m_NumberOfColors);
   m_ColorName.resize(m_NumberOfColors);
-  TPixel r, g, b;
-  TPixel minimum, maximum;
-  if (NumericTraits<TPixel>::is_integer)
+  TComponent r, g, b;
+  TComponent minimum, maximum;
+  if (NumericTraits<TComponent>::is_integer)
   {
-    minimum = NumericTraits<TPixel>::NonpositiveMin();
-    maximum = NumericTraits<TPixel>::max();
+    minimum = NumericTraits<TComponent>::NonpositiveMin();
+    maximum = NumericTraits<TComponent>::max();
   }
   else
   {
-    minimum = NumericTraits<TPixel>::ZeroValue();
-    maximum = NumericTraits<TPixel>::OneValue();
+    minimum = NumericTraits<TComponent>::ZeroValue();
+    maximum = NumericTraits<TComponent>::OneValue();
   }
   for (i = 0; i < n; ++i)
   {
-    r = static_cast<TPixel>(vnl_sample_uniform(minimum, maximum));
+    r = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][0] = r;
-    g = static_cast<TPixel>(vnl_sample_uniform(minimum, maximum));
+    g = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][1] = g;
-    b = static_cast<TPixel>(vnl_sample_uniform(minimum, maximum));
+    b = static_cast<TComponent>(vnl_sample_uniform(minimum, maximum));
     m_Color[i][2] = b;
     std::ostringstream name;
     name << "Random(" << std::fixed << std::setprecision(2) << static_cast<float>(r) << "," << static_cast<float>(g)
@@ -254,16 +255,16 @@ ColorTable<TPixel>::UseRandomColors(unsigned int n)
   }
 }
 
-template <typename TPixel>
+template <typename TComponent>
 bool
-ColorTable<TPixel>::SetColor(unsigned int c, RGBPixel<TPixel> pixel, const char * name)
+ColorTable<TComponent>::SetColor(unsigned int c, RGBPixel<TComponent> pixel, const char * name)
 {
   return this->SetColor(c, pixel[0], pixel[1], pixel[2], name);
 }
 
-template <typename TPixel>
+template <typename TComponent>
 bool
-ColorTable<TPixel>::SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const char * name)
+ColorTable<TComponent>::SetColor(unsigned int c, TComponent r, TComponent g, TComponent b, const char * name)
 {
   if (c < m_NumberOfColors)
   {
@@ -276,9 +277,9 @@ ColorTable<TPixel>::SetColor(unsigned int c, TPixel r, TPixel g, TPixel b, const
   return false;
 }
 
-template <typename TPixel>
-RGBPixel<TPixel>
-ColorTable<TPixel>::GetColor(unsigned int c)
+template <typename TComponent>
+RGBPixel<TComponent>
+ColorTable<TComponent>::GetColor(unsigned int c)
 {
   if (c < m_NumberOfColors)
   {
@@ -286,15 +287,15 @@ ColorTable<TPixel>::GetColor(unsigned int c)
   }
   else
   {
-    RGBPixel<TPixel> pixel;
+    RGBPixel<TComponent> pixel;
     pixel.Set(0, 0, 0);
     return pixel;
   }
 }
 
-template <typename TPixel>
-TPixel
-ColorTable<TPixel>::GetColorComponent(unsigned int c, char rgb)
+template <typename TComponent>
+TComponent
+ColorTable<TComponent>::GetColorComponent(unsigned int c, char rgb)
 {
   if (c < m_NumberOfColors)
   {
@@ -324,9 +325,9 @@ ColorTable<TPixel>::GetColorComponent(unsigned int c, char rgb)
   }
 }
 
-template <typename TPixel>
+template <typename TComponent>
 std::string
-ColorTable<TPixel>::GetColorName(unsigned int c)
+ColorTable<TComponent>::GetColorName(unsigned int c)
 {
   if (c < m_NumberOfColors)
   {
@@ -338,9 +339,9 @@ ColorTable<TPixel>::GetColorName(unsigned int c)
   }
 }
 
-template <typename TPixel>
+template <typename TComponent>
 unsigned int
-ColorTable<TPixel>::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
+ColorTable<TComponent>::GetClosestColorTableId(TComponent r, TComponent g, TComponent b)
 {
   double       bestMatch = 0.0;
   unsigned int bestMatchColor = 0;
@@ -360,9 +361,9 @@ ColorTable<TPixel>::GetClosestColorTableId(TPixel r, TPixel g, TPixel b)
   return bestMatchColor;
 }
 
-template <typename TPixel>
+template <typename TComponent>
 void
-ColorTable<TPixel>::PrintSelf(std::ostream & os, Indent indent) const
+ColorTable<TComponent>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
