@@ -65,7 +65,7 @@ BSpline(int argc, char * argv[])
   bspliner->SetCloseDimension(closeDimension);
   ITK_TEST_SET_GET_VALUE(closeDimension, bspliner->GetCloseDimension());
 
-  typename BSplinerType::ArrayType splineOrder = 3;
+  typename BSplinerType::ArrayType splineOrder(3);
   bspliner->SetSplineOrder(splineOrder);
   ITK_TEST_SET_GET_VALUE(splineOrder, bspliner->GetSplineOrder());
 

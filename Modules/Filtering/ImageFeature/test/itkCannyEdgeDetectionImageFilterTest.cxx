@@ -63,11 +63,11 @@ itkCannyEdgeDetectionImageFilterTest(int argc, char * argv[])
   filter->SetLowerThreshold(lowerThreshold);
   ITK_TEST_SET_GET_VALUE(lowerThreshold, filter->GetLowerThreshold());
 
-  CannyEdgeDetectionImageFilterType::ArrayType variance = 1.0f;
+  CannyEdgeDetectionImageFilterType::ArrayType variance(1.0f);
   filter->SetVariance(variance);
   ITK_TEST_SET_GET_VALUE(variance, filter->GetVariance());
 
-  CannyEdgeDetectionImageFilterType::ArrayType maximumError = .01f;
+  CannyEdgeDetectionImageFilterType::ArrayType maximumError(.01f);
   filter->SetMaximumError(maximumError);
   ITK_TEST_SET_GET_VALUE(maximumError, filter->GetMaximumError());
 

@@ -54,7 +54,7 @@ itkGaborImageSourceTestHelper(char * outputFilename, bool calculcateImaginaryPar
   gaborImage->SetSigma(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, gaborImage->GetSigma());
 
-  typename GaborSourceType::ArrayType mean = 0.1;
+  typename GaborSourceType::ArrayType mean(0.1);
   gaborImage->SetMean(mean);
   ITK_TEST_SET_GET_VALUE(mean, gaborImage->GetMean());
 
