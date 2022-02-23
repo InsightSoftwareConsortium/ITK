@@ -44,7 +44,7 @@ itkEllipseSpatialObjectTest(int, char *[])
 
   ITK_TEST_SET_GET_VALUE(radii, myEllipse->GetRadiusInObjectSpace());
 
-  EllipseType::ArrayType objectSpaceRadius = 3;
+  EllipseType::ArrayType objectSpaceRadius(3);
   myEllipse->SetRadiusInObjectSpace(objectSpaceRadius);
   myEllipse->Update();
 
