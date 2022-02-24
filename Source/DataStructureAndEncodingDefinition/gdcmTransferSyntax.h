@@ -46,7 +46,7 @@ public:
   } NegociatedType;
 
 #if 0
-  //NOT FLEXIBLE, since force user to update lib everytime new module
+  //NOT FLEXIBLE, since forces user to update lib every time new module
   //comes out...
   // TODO
   typedef enum {

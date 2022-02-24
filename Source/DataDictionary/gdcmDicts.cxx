@@ -87,18 +87,9 @@ const DictEntry &Dicts::GetDictEntry(const Tag& tag, const char *owner) const
         }
       else
         {
-        if( owner && *owner )
-          {
-          static const DictEntry Dummy("Private Element Without Private Creator",
-                                       "PrivateElementWithoutPrivateCreator", VR::INVALID, VM::VM0);
-          return Dummy;
-          }
-        else
-          {
-          static const DictEntry Dummy("Private Element With Empty Private Creator",
-                                       "PrivateElementWithEmptyPrivateCreator", VR::INVALID, VM::VM0);
-          return Dummy;
-          }
+        static const DictEntry Dummy("Private Element With Empty Private Creator",
+                                     "PrivateElementWithEmptyPrivateCreator", VR::INVALID, VM::VM0);
+        return Dummy;
         }
       }
   }

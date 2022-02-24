@@ -120,7 +120,7 @@ bool TagPath::ConstructFromString(const char *path)
         pos++;
         Path.push_back( t );
         }
-      else if( sscanf(path+pos, "%d/", &value) == 1 )
+      else if( sscanf(path+pos, "%u/", &value) == 1 )
         {
         }
       }

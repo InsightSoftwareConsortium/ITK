@@ -118,7 +118,7 @@ unsigned int Directory::Explore(FilenameType const &name, bool recursive)
     }
 
   // According to POSIX, the dirent structure contains a field char d_name[]
-  // of unspecified size, with at most NAME_MAX characters preceeding the
+  // of unspecified size, with at most NAME_MAX characters preceding the
   // terminating null character. Use of other fields will harm the  porta-
   // bility of your programs.
 

@@ -287,7 +287,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
     {
     // Very bad !!
     //throw Exception( "No (0002,0010) element found" );
-    // Constuct it from DataSetTS
+    // Construct it from DataSetTS
     if( DataSetTS == TransferSyntax::TS_END )
       {
       throw gdcm::Exception( "No TransferSyntax specified." );
@@ -358,7 +358,7 @@ void FileMetaInformation::FillFromDataSet(DataSet const &ds)
 }
 
 // FIXME
-// This code should clearly be rewritten with some template meta programing to
+// This code should clearly be rewritten with some template meta-programming to
 // enable reuse of code...
 //
 // \postcondition after the file meta information (well before the dataset...)

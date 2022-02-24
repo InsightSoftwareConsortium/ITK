@@ -251,7 +251,7 @@ bool MovePatientRootQuery::ValidateQuery(bool inStrict) const
       }
     if( thePresentTagCount != hiertags.size() )
       {
-      gdcmWarningMacro( "Missing Key found (within the hierachical search ones)" );
+      gdcmWarningMacro( "Missing Key found (within the hierarchical search ones)" );
       theReturn = false;
       }
     }

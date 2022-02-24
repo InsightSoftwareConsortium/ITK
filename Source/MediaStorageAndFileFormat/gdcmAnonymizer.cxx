@@ -225,7 +225,7 @@ bool Anonymizer::Replace( Tag const &t, const char *value, VL const & vl )
       }
     else
       {
-      // vr from dict seems to be ascii, so it seems resonable to write a ByteValue here:
+      // vr from dict seems to be ascii, so it seems reasonable to write a ByteValue here:
       assert( dictentry.GetVR() & VR::VRASCII );
       if( value )
         {

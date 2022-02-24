@@ -11,6 +11,497 @@
      PURPOSE.  See the above copyright notice for more information.
 -->
 <dict>
+<entry group="0009" element="0002" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="0003" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="0004" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="0005" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="0006" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="0007" vr="US" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="0008" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0011" element="000c" vr="SS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0000" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0001" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0001" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0002" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0002" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0002" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0002" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="0003" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0003" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0003" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="0003" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0004" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0004" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0004" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0004" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="0005" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0005" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0005" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="0006" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0006" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0007" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0007" vr="UL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0008" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0008" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="0008" vr="UL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0008" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0009" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0009" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0009" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0009" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="000a" vr="FD" vm="3" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="000a" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="000a" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="000a" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="000b" vr="FD" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="000b" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="000b" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="000b" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="000c" vr="FD" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="000c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="000c" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="000c" vr="US" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="000d" vr="SL" vm="6" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="000d" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="000e" vr="SL" vm="6" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="000e" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="000f" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="0019" element="000f" vr="SL" vm="6" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0010" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0010" vr="US" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0011" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0011" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0012" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0012" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0013" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0013" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0014" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0014" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0015" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0016" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0017" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0018" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0018" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0019" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0019" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="001a" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="001b" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="001c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="001d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="001e" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0024" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0025" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0026" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0027" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0028" vr="DS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0028" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0028" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0029" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0029" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="002a" vr="DS" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="002a" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="002b" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="002b" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="002b" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="002c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="002c" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="002d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="002d" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="002e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="002e" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="002f" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0030" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0030" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0031" vr="OF" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0031" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0032" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0032" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0032" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0033" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0034" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0034" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0034" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0035" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0035" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0036" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0036" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0037" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0038" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0038" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0039" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="003a" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="003a" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="003b" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="003c" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="003c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="003d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="003e" vr="FL" vm="9" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="003e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="003f" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="003f" vr="UI" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0040" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0041" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0042" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0042" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0043" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0043" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0044" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0044" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0045" vr="SS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0046" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0046" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0047" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0048" vr="LT" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0048" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0049" vr="LT" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0049" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="004b" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="004c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="004c" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="004d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="004e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="004e" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="004f" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0050" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0051" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0052" vr="FL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0052" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0054" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0055" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0055" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0057" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0057" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0058" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0058" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0059" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0059" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="005a" vr="FL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="005c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="005d" vr="FL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="005d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="005e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="005f" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="005f" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0060" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0060" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0061" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0061" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0062" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0062" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0063" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0063" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0064" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0065" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0067" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0068" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0069" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="006a" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="006b" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="006c" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="006d" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="006d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="006e" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="006e" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="006f" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="006f" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0070" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0071" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0071" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0072" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0073" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0075" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0076" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0076" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0078" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0078" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0079" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="007a" vr="SL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="007b" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="007c" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="007c" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="007d" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="007d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="007e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="007e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="007f" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="007f" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0080" vr="FD" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0080" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0084" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0085" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0085" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0086" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0086" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0087" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0087" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0087" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0088" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0088" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0089" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="008a" vr="SL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="008a" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="008a" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="008b" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="008c" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="008e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="008f" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="008f" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0091" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0092" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0092" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0093" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0093" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0094" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="0094" vr="UI" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0095" vr="UI" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0096" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="0098" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="0099" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="009a" vr="DS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="009a" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="009b" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="009b" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="009c" vr="DS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="009c" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="009c" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="009d" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="009d" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="009e" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="009e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="009f" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="009f" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00a0" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a0" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00a0" vr="SL" vm="4" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a1" vr="DS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a1" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a2" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a2" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a3" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a3" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a4" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a4" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a5" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a5" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a5" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00a6" vr="FL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a6" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a6" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00a7" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a8" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00a8" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00a8" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00a9" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00aa" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ab" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ab" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ac" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ac" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ad" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ad" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ad" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00ae" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ae" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ae" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00af" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00af" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00b0" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b0" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00b1" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00b1" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b2" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b3" vr="FD" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00b3" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b4" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00b4" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00b4" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b5" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b6" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00b6" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b7" vr="FL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00b7" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00b9" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00ba" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00bb" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00bb" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00bc" vr="FL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00bc" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00bd" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00bd" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00be" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00be" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00bf" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00c0" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00c1" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00c1" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00c2" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00c3" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00c3" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00c3" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00c4" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00c4" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00c5" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00c6" vr="FL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00c6" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00c7" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00c9" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ca" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00cb" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00cc" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00cd" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00cd" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00cd" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00ce" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ce" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00cf" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00cf" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d0" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d1" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d1" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d2" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d2" vr="US" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d3" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d3" vr="SS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d4" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d4" vr="US" vm="2" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d5" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d6" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d7" vr="US" vm="2" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d8" vr="FL" vm="1-n" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00d8" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00d9" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00da" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00db" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00dc" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00de" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00df" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00e0" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00e0" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00e1" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00e1" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00e1" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00e2" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00e3" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00e3" vr="TM" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00e4" vr="DS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00e4" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00e4" vr="US" vm="2" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00e5" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00e5" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00e6" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00e6" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00e9" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ea" vr="UI" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00eb" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00eb" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ec" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ec" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ee" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00ef" vr="DS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ef" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f0" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00f0" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f0" vr="SL" vm="4" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f1" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f1" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00f1" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f2" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f2" vr="FL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f3" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f3" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f4" vr="FD" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f4" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f5" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f5" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f6" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f6" vr="UI" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f7" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f8" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00f8" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f9" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00f9" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00fa" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00fa" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00fb" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00fb" vr="UL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00fc" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00fc" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00fd" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00fd" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00fd" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00fe" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0019" element="00fe" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00fe" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^12"/>
+<entry group="0019" element="00ff" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^11"/>
+<entry group="0019" element="00ff" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0002" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0003" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0004" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0008" vr="DS" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0009" vr="DS" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="000a" vr="DS" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="000b" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="000c" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="000d" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="000f" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0012" vr="DS" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0014" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0015" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0016" vr="FL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0018" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="001d" vr="IS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="001f" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0021" element="0022" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0001" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0005" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0006" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0007" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="001c" vr="FL" vm="2" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0021" vr="SL" vm="3" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="004e" vr="SL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0050" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0051" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0052" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0054" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0067" vr="FD" vm="4" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0068" vr="SS" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="006e" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="0029" element="0089" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3"/>
+<entry group="700d" element="0010" vr="DS" vm="1" name="2nd Flip Angle [degree]" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0011" vr="US" vm="2" name="Acquisition Inner Matrix" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0012" vr="US" vm="1" name="MP2RAGE Flag" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0013" vr="FL" vm="1" name="Inversion efficiency of inversion recovery pulse" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0014" vr="SL" vm="1" name="Number of dummy shot" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0015" vr="FL" vm="1" name="FFE total repetition time[s]" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0016" vr="LO" vm="3" name="PAS Name" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0017" vr="LT" vm="1" name="Intended Processing" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0018" vr="SS" vm="1-n" name="Scanned Orientation IDs" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0019" vr="OB" vm="1" name="PAS Reproduct Information" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="700d" element="0080" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e201" element="0002" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e301" element="0000" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0000" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0001" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0002" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0003" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0004" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0005" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0008" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0012" vr="FL" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0013" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0020" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0021" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0022" vr="LO" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0023" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e401" element="0024" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e403" element="0000" vr="SH" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="e403" element="0000" vr="SQ" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="e403" element="0001" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="e403" element="0002" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="e403" element="0003" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^13"/>
+<entry group="ee01" element="0000" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="ee01" element="0001" vr="OB" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
+<entry group="ee01" element="0002" vr="US" vm="1" name="?" owner="TOSHIBA_MEC_MR3^10"/>
 <entry group="0009" element="0002" vr="SH" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
 <entry group="0011" element="0003" vr="US" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
 <entry group="0011" element="0004" vr="SQ" vm="1" name="?" owner="PMTF INFORMATION DATA^10"/>
@@ -746,7 +1237,7 @@
   <entry owner="AMI Sequence Annotations_01" group="3103" element="xxa0" vr="DA" vm="1" name="AMI Annotation Creation Date (RET)"/>
   <entry owner="AMI Sequence Annotations_01" group="3103" element="xxb0" vr="TM" vm="1" name="AMI Annotation Creation Time (RET)"/>
   <entry owner="AMI Sequence Annotations_01" group="3103" element="xxc0" vr="DA" vm="1" name="AMI Annotation Modification Dates (RET)"/>
-  <entry owner="AMI Sequence Annotations_01" group="3103" element="xxd0" vr="TM" vm="1" name="AMI Annotation Mofification Times (RET)"/>
+  <entry owner="AMI Sequence Annotations_01" group="3103" element="xxd0" vr="TM" vm="1" name="AMI Annotation Modification Times (RET)"/>
   <entry owner="AMI Sequence Annotations_01" group="3103" element="xxe0" vr="US" vm="1" name="AMI Annotation Frame Number (RET)"/>
   <entry owner="AMI Sequence Annotations_02" group="3103" element="xx10" vr="CS" vm="1" name="AMI Annotation Sequence (RET)"/>
   <entry owner="AMI Sequence Annotations_02" group="3103" element="xx20" vr="UI" vm="1" name="AMI Annotation UID (RET)"/>
@@ -1406,83 +1897,83 @@
   <entry owner="EMAGEON JPEG2K INFO" group="0009" element="xx01" vr="DT" vm="1" name="?"/>
   <entry owner="EMAGEON STUDY HOME" group="0009" element="xx00" vr="LO" vm="1" name="?"/>
   <entry owner="EMAGEON STUDY HOME" group="0009" element="xx01" vr="LO" vm="1" name="?"/>
-  <entry owner="Eclispe 60" group="0029" element="xx30" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx31" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx32" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx33" vr="DS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx34" vr="DS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx36" vr="SL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx40" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx50" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx51" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx52" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx53" vr="DS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx54" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx55" vr="FL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx56" vr="US" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0029" element="xx60" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0031" element="xx30" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0031" element="xx31" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0031" element="xx32" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0031" element="xx33" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0031" element="xx34" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="0031" element="xx35" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx01" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx02" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx03" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx04" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx05" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx06" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx07" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx08" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx09" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx0a" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx0b" vr="OB" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx0c" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx0d" vr="UL" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx0e" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx0f" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx10" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx11" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx12" vr="OB" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx13" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx14" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx15" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx1a" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx1b" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx20" vr="SQ" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx27" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx28" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx30" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx31" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx32" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx33" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx34" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx35" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx36" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx37" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx38" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx39" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx3a" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx50" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx51" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx52" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx53" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx54" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx55" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx56" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx57" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx58" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx59" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx5a" vr="FD" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx5d" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xx5e" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="200d" element="xxff" vr="IS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="7777" element="xx01" vr="DA" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="7777" element="xx02" vr="CS" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="7777" element="xx03" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="7777" element="xx10" vr="LO" vm="1" name="Private data"/>
-  <entry owner="Eclispe 60" group="7777" element="xx14" vr="LT" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx30" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx31" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx32" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx33" vr="DS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx34" vr="DS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx36" vr="SL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx40" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx50" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx51" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx52" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx53" vr="DS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx54" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx55" vr="FL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx56" vr="US" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0029" element="xx60" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0031" element="xx30" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0031" element="xx31" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0031" element="xx32" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0031" element="xx33" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0031" element="xx34" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="0031" element="xx35" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx01" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx02" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx03" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx04" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx05" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx06" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx07" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx08" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx09" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx0a" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx0b" vr="OB" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx0c" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx0d" vr="UL" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx0e" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx0f" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx10" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx11" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx12" vr="OB" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx13" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx14" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx15" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx1a" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx1b" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx20" vr="SQ" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx27" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx28" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx30" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx31" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx32" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx33" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx34" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx35" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx36" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx37" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx38" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx39" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx3a" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx50" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx51" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx52" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx53" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx54" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx55" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx56" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx57" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx58" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx59" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx5a" vr="FD" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx5d" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xx5e" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="200d" element="xxff" vr="IS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="7777" element="xx01" vr="DA" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="7777" element="xx02" vr="CS" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="7777" element="xx03" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="7777" element="xx10" vr="LO" vm="1" name="Private data"/>
+  <entry owner="Eclipse 60" group="7777" element="xx14" vr="LT" vm="1" name="Private data"/>
   <entry owner="FDMS 1.0" group="0009" element="xx04" vr="SH" vm="1" name="Image Control Unit"/>
   <entry owner="FDMS 1.0" group="0009" element="xx05" vr="OW" vm="1" name="Image UID"/>
   <entry owner="FDMS 1.0" group="0009" element="xx06" vr="OW" vm="1" name="Route Image UID"/>
@@ -2203,7 +2694,7 @@
   <entry owner="GEMS_DL_IMG_01" group="0019" element="xxdd" vr="DS" vm="1-n" name="DRM Strength"/>
   <entry owner="GEMS_DL_IMG_01" group="0019" element="xxde" vr="CS" vm="1" name="Acquisition Plane"/>
   <entry owner="GEMS_DL_IMG_01" group="0019" element="xxdf" vr="FL" vm="1-n" name="LP off longitudinal position Z"/>
-  <entry owner="GEMS_DL_IMG_01" group="0019" element="xxe0" vr="FL" vm="1" name="DAP of currect record"/>
+  <entry owner="GEMS_DL_IMG_01" group="0019" element="xxe0" vr="FL" vm="1" name="DAP of current record"/>
   <entry owner="GEMS_DL_IMG_01" group="0019" element="xxe1" vr="FL" vm="1" name="Pivot Lateral Angle"/>
   <entry owner="GEMS_DL_IMG_01" group="0019" element="xxe2" vr="FL" vm="1" name="Carm Lateral Angle"/>
   <entry owner="GEMS_DL_IMG_01" group="0019" element="xxe3" vr="FL" vm="1-n" name="Pivot Lateral Angle increment"/>
@@ -2306,7 +2797,7 @@
   <entry owner="GEMS_DL_STUDY_01" group="0015" element="xx9b" vr="IS" vm="1" name="Study fluoro time lateral"/>
   <entry owner="GEMS_DL_STUDY_01" group="0015" element="xx9c" vr="FL" vm="1" name="Study record dap leteral"/>
   <entry owner="GEMS_DL_STUDY_01" group="0015" element="xx9d" vr="IS" vm="1" name="Study record time lateral"/>
-  <entry owner="GEMS_DRS_1" group="0037" element="xx10" vr="LO" vm="1" name="Refering Department"/>
+  <entry owner="GEMS_DRS_1" group="0037" element="xx10" vr="LO" vm="1" name="Referring Department"/>
   <entry owner="GEMS_DRS_1" group="0037" element="xx20" vr="US" vm="1" name="Screen Number"/>
   <entry owner="GEMS_DRS_1" group="0037" element="xx40" vr="SH" vm="1" name="Left Orientation"/>
   <entry owner="GEMS_DRS_1" group="0037" element="xx42" vr="SH" vm="1" name="Right Orientation"/>
@@ -2663,7 +3154,7 @@
   <entry owner="GEMS_HELIOS_01" group="0045" element="xx02" vr="FL" vm="1" name="Macro width at ISO Center"/>
   <entry owner="GEMS_HELIOS_01" group="0045" element="xx03" vr="SS" vm="1" name="DAS type"/>
   <entry owner="GEMS_HELIOS_01" group="0045" element="xx04" vr="SS" vm="1" name="DAS gain"/>
-  <entry owner="GEMS_HELIOS_01" group="0045" element="xx05" vr="SS" vm="1" name="DAS Temprature"/>
+  <entry owner="GEMS_HELIOS_01" group="0045" element="xx05" vr="SS" vm="1" name="DAS Temperature"/>
   <entry owner="GEMS_HELIOS_01" group="0045" element="xx06" vr="CS" vm="1" name="Table Direction"/>
   <entry owner="GEMS_HELIOS_01" group="0045" element="xx07" vr="FL" vm="1" name="Z smoothing Factor"/>
   <entry owner="GEMS_HELIOS_01" group="0045" element="xx08" vr="SS" vm="1" name="View Weighting Mode"/>
@@ -3689,7 +4180,7 @@
   <entry owner="GEMS_XELPRV_01" group="0057" element="xx02" vr="UI" vm="1" name="SOPClassUID"/>
   <entry owner="GEMS_XELPRV_01" group="0057" element="xx03" vr="UI" vm="1" name="SOPInstanceUID"/>
   <entry owner="GEMS_XELPRV_01" group="0057" element="xx10" vr="IS" vm="1" name="ROINumber"/>
-  <entry owner="GEMS_XELPRV_01" group="0057" element="xx11" vr="UI" vm="1" name="Dimentions"/>
+  <entry owner="GEMS_XELPRV_01" group="0057" element="xx11" vr="UI" vm="1" name="Dimensions"/>
   <entry owner="GEMS_XELPRV_01" group="0057" element="xx12" vr="UI" vm="1" name="Points"/>
   <entry owner="GEMS_XELPRV_01" group="0057" element="xx13" vr="UI" vm="1" name="Type"/>
   <entry owner="GEMS_XELPRV_01" group="0057" element="xx14" vr="UI" vm="1" name="Description"/>
@@ -3791,8 +4282,8 @@
   <entry owner="HOLOGIC, Inc." group="0019" element="xx37" vr="LO" vm="1" name="?"/>
   <entry owner="HOLOGIC, Inc." group="0019" element="xx40" vr="DS" vm="1" name="?"/>
   <entry owner="HOLOGIC, Inc." group="0019" element="xx41" vr="DS" vm="1" name="?"/>
-  <entry owner="HOLOGIC, Inc." group="0019" element="xx42" vr="IS" vm="1" name="?"/>
-  <entry owner="HOLOGIC, Inc." group="0019" element="xx43" vr="IS" vm="1" name="?"/>
+  <entry owner="HOLOGIC, Inc." group="0019" element="xx42" vr="DS" vm="1" name="?"/>
+  <entry owner="HOLOGIC, Inc." group="0019" element="xx43" vr="DS" vm="1" name="?"/>
   <entry owner="HOLOGIC, Inc." group="0019" element="xx44" vr="IS" vm="1" name="?"/>
   <entry owner="HOLOGIC, Inc." group="0019" element="xx45" vr="IS" vm="1" name="?"/>
   <entry owner="HOLOGIC, Inc." group="0019" element="xx46" vr="IS" vm="1" name="?"/>
@@ -3972,31 +4463,46 @@
   <entry owner="MEDIFACE" group="0029" element="xx22" vr="DS" vm="2" name="?"/>
   <entry owner="MEDIFACE" group="0029" element="xx30" vr="LT" vm="1" name="?"/>
   <entry owner="MERGE TECHNOLOGIES, INC." group="0009" element="xx00" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA LINKED ATTRIBUTES 1.0" group="0031" element="xx20" vr="IS" vm="1" name="?"/>
+  <entry owner="MITRA LINKED ATTRIBUTES 1.0" group="0031" element="xx20" vr="LO" vm="1" name="Global Patient ID"/>
+<!--
   <entry owner="MITRA MARKUP 1.0" group="0029" element="xx00" vr="LO" vm="1-n" name="?"/>
   <entry owner="MITRA MARKUP 1.0" group="0029" element="xx01" vr="LO" vm="1-n" name="?"/>
+-->
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx02" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx04" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx06" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx08" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT ATTRIBUTES 1.0" group="0033" element="xx0a" vr="LO" vm="1" name="?"/>
   <entry owner="MITRA OBJECT DOCUMENT 1.0" group="0029" element="xx00" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx02" vr="OB" vm="1" name="?"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx02" vr="PN" vm="1" name="Patient's Name"/>
   <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx04" vr="CS" vm="1" name="Study Description"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx06" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx08" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0a" vr="OB" vm="1" name="?"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx06" vr="PN" vm="1" name="Referring Physician's Name"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx08" vr="PN" vm="1" name="Requesting Physician's Name"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0a" vr="PN" vm="1" name="Performing Physician's Name"/>
   <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0c" vr="LO" vm="1" name="Reason for Study"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0e" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx13" vr="PN" vm="1" name="Patient's Name"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx14" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx15" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx16" vr="OB" vm="1" name="?"/>
-  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx19" vr="PN" vm="1" name="Referring Physician's Name"/>
-  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx00" vr="LO" vm="1" name="?"/>
-  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx01" vr="UN" vm="1" name="?"/>
-  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx02" vr="UN" vm="1" name="?"/>
-  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx03" vr="LO" vm="1" name="?"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx0e" vr="LT" vm="1" name="Study Comments"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx13" vr="PN" vm="1" name="Patient's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx14" vr="PN" vm="1" name="Patient's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx15" vr="PN" vm="1" name="Patient's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx16" vr="PN" vm="1" name="Referring Physician's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx17" vr="PN" vm="1" name="Referring Physician's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx18" vr="PN" vm="1" name="Referring Physician's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx19" vr="PN" vm="1" name="Requesting Physician's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1a" vr="PN" vm="1" name="Requesting Physician's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1b" vr="PN" vm="1" name="Requesting Physician's Name Phonetic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1c" vr="PN" vm="1" name="Performing Physician's Name Single Byte"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1d" vr="PN" vm="1" name="Performing Physician's Name Ideographic"/>
+  <entry owner="MITRA OBJECT UTF8 ATTRIBUTES 1.0" group="0033" element="xx1e" vr="PN" vm="1" name="Performing Physician's Name Phonetic"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx00" vr="CS" vm="1" name="Mitra Rotation"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx01" vr="LO" vm="1" name="Mitra Window Width"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx02" vr="LO" vm="1" name="Mitra Window Centre"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx03" vr="IS" vm="1" name="Mitra Invert"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx04" vr="IS" vm="1" name="Mitra Has Tabstop"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx05" vr="CS" vm="1" name="Smooth Rotation"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx10" vr="CS" vm="1" name="Breast Box x0"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx11" vr="CS" vm="1" name="Breast Box y0"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx12" vr="CS" vm="1" name="Breast Box x1"/>
+  <entry owner="MITRA PRESENTATION 1.0" group="0029" element="xx13" vr="CS" vm="1" name="Breast Box y1"/>
   <entry owner="MMCPrivate" group="0009" element="xx48" vr="LO" vm="1" name="?"/>
   <entry owner="MMCPrivate" group="0009" element="xx4e" vr="LO" vm="1" name="?"/>
   <entry owner="MMCPrivate" group="0011" element="xx01" vr="LO" vm="1" name="?"/>
@@ -4581,7 +5087,7 @@
   <entry owner="Philips Imaging DD 001" group="2001" element="xx3a" vr="CS" vm="1" name="Pixel Shift"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx3d" vr="UL" vm="1" name="?"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx3f" vr="CS" vm="1" name="Interpolation Method"/>
-  <entry owner="Philips Imaging DD 001" group="2001" element="xx42" vr="CS" vm="1" name="Substraction Land Marking Active"/>
+  <entry owner="Philips Imaging DD 001" group="2001" element="xx42" vr="CS" vm="1" name="Subtraction Land Marking Active"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx46" vr="CS" vm="1" name="Graphic Line Style"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx47" vr="FL" vm="1" name="Graphic Line Width"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx48" vr="SS" vm="1" name="Graphic Annotation ID"/>
@@ -4642,10 +5148,10 @@
   <entry owner="Philips Imaging DD 001" group="2001" element="xx9a" vr="SQ" vm="1" name="Graphic Number Sequence"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx9b" vr="UL" vm="1" name="Graphic Number"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx9c" vr="LO" vm="1" name="?"/>
-  <entry owner="Philips Imaging DD 001" group="2001" element="xx9d" vr="LO" vm="1" name="PIIM Substraction Type"/>
+  <entry owner="Philips Imaging DD 001" group="2001" element="xx9d" vr="LO" vm="1" name="PIIM Subtraction Type"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xx9f" vr="US" vm="2" name="Pixel Processing Kernel Size"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xxa1" vr="CS" vm="1" name="Is Raw Image"/>
-  <entry owner="Philips Imaging DD 001" group="2001" element="xxa2" vr="US" vm="1" name="LOG Substraction Curve Taste"/>
+  <entry owner="Philips Imaging DD 001" group="2001" element="xxa2" vr="US" vm="1" name="LOG Subtraction Curve Taste"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xxa3" vr="UL" vm="1" name="Text Color Foreground"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xxa4" vr="UL" vm="1" name="Text Color Background"/>
   <entry owner="Philips Imaging DD 001" group="2001" element="xxa5" vr="UL" vm="1" name="Text Color Shadow"/>
@@ -5703,7 +6209,7 @@
   <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx42" vr="US" vm="1-n" name="Processing Mask"/>
   <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx44" vr="UL" vm="1-n" name="IRS Data Number"/>
   <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx45" vr="UL" vm="1-n" name="IRS Data Length"/>
-  <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx62" vr="IS" vm="1" name="Number of Virtuell Channels"/>
+  <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx62" vr="IS" vm="1" name="Number of Virtual Channels"/>
   <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx70" vr="IS" vm="1" name="Number of Reading"/>
   <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx71" vr="CS" vm="1" name="Reading Code"/>
   <entry owner="SIEMENS CT VA0  GEN" group="0019" element="xx74" vr="IS" vm="1" name="Number of Projections"/>
@@ -5818,9 +6324,9 @@
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx71" vr="LO" vm="1" name="Landmark Current"/>
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx72" vr="US" vm="1" name="Zoom Factor"/>
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx73" vr="US" vm="1" name="Roam Horizontal"/>
-  <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx74" vr="US" vm="1" name="Roam Vertikal"/>
+  <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx74" vr="US" vm="1" name="Roam Vertical"/>
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx77" vr="IS" vm="1" name="Pixel Shift Horizontal"/>
-  <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx78" vr="IS" vm="1" name="Pixel Shift Vertikal"/>
+  <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx78" vr="IS" vm="1" name="Pixel Shift Vertical"/>
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx79" vr="US" vm="1" name="Image Flip"/>
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx7a" vr="US" vm="1" name="Invers Current"/>
   <entry owner="SIEMENS DFR.01 MANIPULATED" group="0017" element="xx80" vr="US" vm="1" name="?"/>
@@ -6528,8 +7034,8 @@
   <entry owner="SIEMENS MED NM" group="0031" element="xx17" vr="SS" vm="1-n" name="?"/>
   <entry owner="SIEMENS MED NM" group="0031" element="xx20" vr="ST" vm="1" name="?"/>
   <entry owner="SIEMENS MED NM" group="0031" element="xx21" vr="SS" vm="1" name="?"/>
-  <entry owner="SIEMENS MED NM" group="0033" element="xx00" vr="FL" vm="1-n" name="Flood correction Matrix Det 1 upto SR 2.0"/>
-  <entry owner="SIEMENS MED NM" group="0033" element="xx01" vr="FL" vm="1-n" name="Flood correction Matrix Det 2 upto SR 2.0"/>
+  <entry owner="SIEMENS MED NM" group="0033" element="xx00" vr="FL" vm="1-n" name="Flood correction Matrix Det 1 up to SR 2.0"/>
+  <entry owner="SIEMENS MED NM" group="0033" element="xx01" vr="FL" vm="1-n" name="Flood correction Matrix Det 2 up to SR 2.0"/>
   <entry owner="SIEMENS MED NM" group="0033" element="xx10" vr="FL" vm="1-n" name="COR Data for Detector 1"/>
   <entry owner="SIEMENS MED NM" group="0033" element="xx11" vr="FL" vm="1-n" name="COR Data for Detector 2"/>
   <entry owner="SIEMENS MED NM" group="0033" element="xx14" vr="FL" vm="1" name="MHR ( Y-Shift) data for detector 1"/>
@@ -7752,7 +8258,7 @@
   <entry owner="SPI-P Release 1" group="0019" element="xx50" vr="US" vm="1" name="Video Scan Mode"/>
   <entry owner="SPI-P Release 1" group="0019" element="xx51" vr="US" vm="1" name="Video LineRate"/>
   <entry owner="SPI-P Release 1" group="0019" element="xx60" vr="US" vm="1" name="Xray Technique"/>
-  <entry owner="SPI-P Release 1" group="0019" element="xx61" vr="DS" vm="1" name="Image Identifier Fromat"/>
+  <entry owner="SPI-P Release 1" group="0019" element="xx61" vr="DS" vm="1" name="Image Identifier Format"/>
   <entry owner="SPI-P Release 1" group="0019" element="xx62" vr="US" vm="1" name="Iris Diaphragm"/>
   <entry owner="SPI-P Release 1" group="0019" element="xx63" vr="CS" vm="1" name="Filter"/>
   <entry owner="SPI-P Release 1" group="0019" element="xx64" vr="CS" vm="1" name="Cine Parallel"/>
@@ -8293,7 +8799,7 @@
   <entry owner="SVISION" group="0029" element="xx01" vr="IS" vm="1" name="Storage State"/>
   <entry owner="SVISION" group="0029" element="xx02" vr="IS" vm="1" name="Referenced Image SOP Class"/>
   <entry owner="SVISION" group="0029" element="xx03" vr="LO" vm="1" name="Ref. Image Instance UID"/>
-  <entry owner="SVISION" group="0029" element="xx04" vr="IS" vm="1" name="Rel. Pres. State Number"/>
+  <entry owner="SVISION" group="0029" element="xx04" vr="IS" vm="1" name="Rel. Presentation State Number"/>
   <entry owner="SVISION" group="0029" element="xx05" vr="LO" vm="1" name="Rel. Presentation State UID"/>
   <entry owner="Siemens Ultrasound Miscellaneous" group="0019" element="xx20" vr="SH" vm="1" name="?"/>
   <entry owner="Siemens: Thorax/Multix FD Image Stamp" group="0023" element="xx00" vr="US" vm="1" name="?"/>
@@ -8671,11 +9177,13 @@
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx02" vr="DS" vm="9" name="Orientation Vector"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx03" vr="SS" vm="1" name="Flip Flag"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx04" vr="OB" vm="1" name="Rotate Information"/>
-  <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx05" vr="DS" vm="4" name="FOV"/>
+  <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx05" vr="DS" vm="1" name="FOV"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx06" vr="US" vm="4" name="Image Matrix"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx07" vr="OB" vm="1" name="Image Information"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx08" vr="OB" vm="1" name="Original Data"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx09" vr="SS" vm="1" name="Original Data Flag"/>
+  <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx0c" vr="CS" vm="1" name="Receiver Gain Correction Check Flag"/>
+  <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx20" vr="SH" vm="1" name="Identification Flag of 3D GDC"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx80" vr="US" vm="1" name="Number of PAC channel"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx81" vr="US" vm="1" name="Reference mode"/>
   <entry owner="TOSHIBA_MEC_MR3" group="700d" element="xx82" vr="SQ" vm="1" name="Gain value group for MRS"/>

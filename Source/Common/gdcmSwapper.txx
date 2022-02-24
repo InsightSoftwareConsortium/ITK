@@ -14,6 +14,8 @@
 #ifndef GDCMSWAPPER_TXX
 #define GDCMSWAPPER_TXX
 
+#include <cstring>
+
 #if defined(_MSC_VER)
 
 // http://msdn.microsoft.com/en-us/library/a3140177
@@ -106,7 +108,12 @@ namespace gdcm
     }
   template <> inline float SwapperNoOp::Swap<float>(float val)
     {
-    return Swap((uint32_t)val);
+    uint32_t tempI;
+    memcpy(&tempI, &val, sizeof(uint32_t));
+    tempI = Swap(tempI);
+    float tempF;
+    memcpy(&tempF, &tempI, sizeof(uint32_t));
+    return tempF;
     }
   template <> inline uint64_t SwapperNoOp::Swap<uint64_t>(uint64_t val)
     {
@@ -118,17 +125,19 @@ namespace gdcm
     }
   template <> inline double SwapperNoOp::Swap<double>(double val)
     {
-    return Swap((uint64_t)val);
+    uint64_t tempI;
+    memcpy(&tempI, &val, sizeof(uint64_t));
+    tempI = Swap(tempI);
+    double tempF;
+    memcpy(&tempF, &tempI, sizeof(uint64_t));
+    return tempF;
     }
 
-  template <> inline Tag SwapperNoOp::Swap<Tag>(Tag val)
-    {
-    return Tag( Swap(val.GetGroup()), Swap(val.GetElement()) );
-    }
+  template <> inline Tag SwapperNoOp::Swap<Tag>(Tag val);
 
-  template <> inline void SwapperNoOp::SwapArray(uint8_t *, unsigned int ) {}
+  template <> inline void SwapperNoOp::SwapArray(uint8_t *, size_t ) {}
 
-  template <> inline void SwapperNoOp::SwapArray(float *array, unsigned int n)
+  template <> inline void SwapperNoOp::SwapArray(float *array, size_t n)
     {
     switch( sizeof(float) )
       {
@@ -140,7 +149,7 @@ namespace gdcm
       }
     }
 
-  template <> inline void SwapperNoOp::SwapArray(double *array, unsigned int n)
+  template <> inline void SwapperNoOp::SwapArray(double *array, size_t n)
     {
     switch( sizeof(double) )
       {
@@ -172,7 +181,12 @@ namespace gdcm
     }
   template <> inline float SwapperDoOp::Swap<float>(float val)
     {
-    return static_cast<float>(Swap((uint32_t)val));
+    uint32_t tempI;
+    memcpy(&tempI, &val, sizeof(uint32_t));
+    tempI = Swap(tempI);
+    float tempF;
+    memcpy(&tempF, &tempI, sizeof(uint32_t));
+    return tempF;
     }
   template <> inline uint64_t SwapperDoOp::Swap<uint64_t>(uint64_t val)
     {
@@ -184,13 +198,15 @@ namespace gdcm
     }
   template <> inline double SwapperDoOp::Swap<double>(double val)
     {
-    return static_cast<double>(Swap((uint64_t)val));
+    uint64_t tempI;
+    memcpy(&tempI, &val, sizeof(uint64_t));
+    tempI = Swap(tempI);
+    double tempF;
+    memcpy(&tempF, &tempI, sizeof(uint64_t));
+    return tempF;
     }
 
-  template <> inline Tag SwapperDoOp::Swap<Tag>(Tag val)
-    {
-    return Tag( Swap((uint32_t)val.GetElementTag()) );
-    }
+  template <> inline Tag SwapperDoOp::Swap<Tag>(Tag val);
 
   template <> inline void SwapperDoOp::SwapArray(uint8_t *, size_t ) {}
 

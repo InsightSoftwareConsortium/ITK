@@ -327,7 +327,7 @@ static const OWNER_VERSION OwnerVersionTable[] ={
 {"Viewing Protocol",""},
 {"http://www.gemedicalsystems.com/it_solutions/rad_pacs/","GEM"},
 
-// Manualy added:
+// Manually added:
 { "GEMS_Ultrasound_ImageGroup_001", "GEM" },
 { "GEMS_Ultrasound_MovieGroup_001", "GEM" },
 { "SIEMENS MED OCS SITE NAME ", "SSPI" },

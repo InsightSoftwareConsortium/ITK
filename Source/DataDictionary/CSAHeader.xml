@@ -51,11 +51,11 @@ sKSpace.ucPhasePartialFourier = 0x10
   <!--entry name="ReferencedImageSequence" type="3" vr="link" vm="1" description="A sequence which provides reference to a set of Image SOP Class/Instance identifying other images significantly related to this image (localizer images)"/-->
   <entry name="&gt;Referenced SOP Class UID" type="1C" vr="UI" vm="1" description="Uniquely identifies the referenced SOP Class"/>
   <entry name="&gt;Referenced SOP Instance UID" type="1C" vr="UI" vm="1" description="Uniquely identifies the referenced SOP Instance"/>
-  <entry name="&gt; Referenced Frame Number" type="3" vr="IS" vm="1-n" description="References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are siginificantly related to this image"/>
+  <entry name="&gt; Referenced Frame Number" type="3" vr="IS" vm="1-n" description="References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are significantly related to this image"/>
   <!--entry name="SourceImageSequence" type="3" vr="link" vm="1" description="A sequence which identifies the set of Image SOP Class/Instance pairs of the images which were use to derive this image"/-->
   <entry name="&gt;Referenced SOP Class UID" type="1C" vr="UI" vm="1" description="Uniquely identifies the referenced SOP Class"/>
   <entry name="&gt;Referenced SOP Instance UID" type="1C" vr="UI" vm="1" description="Uniquely identifies the referenced SOP Instance"/>
-  <entry name="&gt; Referenced Frame Number" type="3" vr="IS" vm="1-n" description="References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are siginificantly related to this image"/>
+  <entry name="&gt; Referenced Frame Number" type="3" vr="IS" vm="1-n" description="References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are significantly related to this image"/>
   <entry name="ImageType" type="3" vr="CS" vm="1-n" description="Image identification characteristics"/>
   <entry name="Lossy Image Compression" type="3" vr="CS" vm="1" description="Specifies whether an image has undergone lossy compression. Enumerated values: 00 = image has not been subjected to lossy compression. 01 = image has been subjected to lossy compression"/>
   <entry name="Quality Control Image" type="1C" vr="CS" vm="1" description="Indicates whether or not this image is a quality control or phantom image. Enumerated values: YES, NO"/>
@@ -177,7 +177,7 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="PixelFileName" type="1" vr="UN" vm="1" description="Used raw data file name for the performed acquisition"/>
   <entry name="SliceMeasurementDuration" type="1" vr="DS" vm="1" description="Time duration between two slices of the performed acquisition"/>
   <entry name="AcquisitionMatrixText" type="1" vr="SH" vm="1" description="Used acquisition matrix description"/>
-  <entry name="SequenceMask" type="1" vr="UL" vm="1" description="Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens seqence ...."/>
+  <entry name="SequenceMask" type="1" vr="UL" vm="1" description="Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens sequence ...."/>
   <entry name="MeasuredFourierLines" type="1" vr="IS" vm="1" description="Number of performed fourier lines"/>
   <entry name="FlowEncodingDirection" type="1" vr="IS" vm="1" description="Flow encoding direction"/>
   <entry name="FlowVenc" type="1" vr="FD" vm="1" description="Flow Quant attribute"/>
@@ -187,7 +187,7 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="ImageGroup" type="1" vr="US" vm="1" description="Group of images"/>
   <entry name="SliceNormalVector" type="1" vr="FD" vm="3" description="X,y and z normal vector of the slices"/>
   <entry name="DiffusionDirection" type="1" vr="CS" vm="1" description="Diffusion direction"/>
-  <entry name="TimeAfterStart" type="1" vr="DS" vm="1" description="Time delay after start of measurment"/>
+  <entry name="TimeAfterStart" type="1" vr="DS" vm="1" description="Time delay after start of measurement"/>
   <entry name="FlipAngle" type="1" vr="DS" vm="1" description="Flip angle for SC images"/>
   <entry name="SequenceName" type="1" vr="SH" vm="1" description="Sequence name for SC images"/>
   <entry name="RepetitionTime" type="1" vr="DS" vm="1" description="Repetition time for SC images"/>
@@ -249,7 +249,7 @@ sKSpace.ucPhasePartialFourier = 0x10
   <entry name="SourceImageSequence" type="1" vr="UI" vm="1_n" description="A sequence which identifies the set of Image SOP Class/Instance pairs of the images which were use to derive this image"/>
   <entry name="PixelBandwidth" type="1" vr="DS" vm="1" description="Reciprocal of the total sampling period, in hertz per pixel"/>
   <entry name="SliceMeasurementDuration" type="1" vr="DS" vm="1" description="Time duration between two slices of the performed acquisition"/>
-  <entry name="SequenceMask" type="1" vr="UL" vm="1" description="Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens seqence .&#xB7;"/>
+  <entry name="SequenceMask" type="1" vr="UL" vm="1" description="Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens sequence .&#xB7;"/>
   <entry name="AcquisitionMatrixText" type="1" vr="SH" vm="1" description="Used acquisition matrix description"/>
   <entry name="MeasuredFourierLines" type="1" vr="IS" vm="1" description="Number of performed fourier lines"/>
   <!--entry name="MR Protocol" type="1" vr="&#xA0;" vm="&#xA0;" description="&#xA0;"/-->

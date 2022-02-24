@@ -46,7 +46,7 @@ bool MD5::Compute(const char *buffer, size_t buf_len, char digest_str[33])
   md5_byte_t digest[16];
   md5_state_t state;
   md5_init(&state);
-  md5_append(&state, (const md5_byte_t *)buffer, (int)buf_len);
+  md5_append(&state, (const md5_byte_t *)buffer, buf_len);
   md5_finish(&state, digest);
   for (int di = 0; di < 16; ++di)
     sprintf(digest_str+2*di, "%02x", digest[di]);
@@ -95,7 +95,7 @@ static bool process_file(const char *filename, md5_byte_t *digest)
 
   md5_state_t state;
   md5_init(&state);
-  md5_append(&state, (const md5_byte_t *)buffer, (int)file_size);
+  md5_append(&state, (const md5_byte_t *)buffer, file_size);
   md5_finish(&state, digest);
 
   return true;
