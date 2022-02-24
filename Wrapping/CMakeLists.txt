@@ -94,8 +94,30 @@ itk_wrap_modules()
 # Configure specific wrapper modules
 ###############################################################################
 
-add_subdirectory("${CMAKE_CURRENT_SOURCE_DIR}/Modules" "${CMAKE_CURRENT_BINARY_DIR}/Modules")
+unset(WRAP_ITK_MODULES CACHE)
 
+file(MAKE_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR}/Modules/)
+if(ITK_SOURCE_DIR)
+  foreach(m ${ITK_CONFIG_MODULES_ENABLED})
+    if(EXISTS "${${m}_SOURCE_DIR}/wrapping/CMakeLists.txt")
+      list(APPEND WRAP_ITK_MODULES ${m})
+      set(itk-module_SOURCE_DIR ${${m}_SOURCE_DIR})
+      add_subdirectory("${${m}_SOURCE_DIR}/wrapping" ${CMAKE_CURRENT_BINARY_DIR}/Modules/${m})
+      unset(itk-module_SOURCE_DIR)
+    endif()
+  endforeach()
+else() # Building a module externally
+  if(EXISTS "${${itk-module}_SOURCE_DIR}/wrapping/CMakeLists.txt")
+    foreach(module ${ITK_MODULE_${itk-module}_DEPENDS})
+      if(EXISTS ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module}.mdx)
+        list(APPEND WRAP_ITK_MODULES ${module})
+      endif()
+    endforeach()
+    list(APPEND WRAP_ITK_MODULES ${itk-module})
+    add_subdirectory("${${itk-module}_SOURCE_DIR}/wrapping" ${CMAKE_CURRENT_BINARY_DIR}/Modules/${itk-module})
+  endif()
+endif()
+set(WRAP_ITK_MODULES ${WRAP_ITK_MODULES} CACHE INTERNAL "Internal library list.")
 
 ###############################################################################
 # let the different generators running some code after have parsed all the
