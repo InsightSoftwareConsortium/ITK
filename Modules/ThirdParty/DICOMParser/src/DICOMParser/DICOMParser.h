@@ -50,52 +50,38 @@ template <class T> class DICOMMemberCallback;
 
 class DICOMParserImplementation;
 
-//
 // We should keep a map with the implicit types for the groups and elements
 // separate from the callbacks.  We can use this for the implicit types.
-//
-//
 
 class DICOM_EXPORT DICOMParser
 {
  public:
 
-  //
   // Default constructor
-  //
   DICOMParser();
 
-  //
   // Default destructor.
-  //
   virtual ~DICOMParser();
 
-  //
   // Opens a file and initializes the parser.
-  //
   bool OpenFile(const dicom_stl::string& filename);
 
-  //
+  // Closes the currently opened file.
+  void CloseFile();
+
   // Return the name of the file last processed.
-  //
   const dicom_stl::string& GetFileName();
-  
-  //
+
   // This method kicks off the parser.
   // OpenFile needs to be called first.
-  //
   bool ReadHeader();
 
-  //
   // This method can kick off the parser on a provided DICOM source
   // (either a DICOMFile or DICOMBuffer)
-  //
   bool ReadHeader(DICOMSource &source);
 
-  //
   // Static method that returns true if a DICOMSource
   // contains a DICOM image.
-  //
   static bool IsDICOMFile(DICOMSource &file);
 
   bool IsDICOMFile()
@@ -107,14 +93,10 @@ class DICOM_EXPORT DICOMParser
     return DICOMParser::IsDICOMFile(*(this->DataFile));
     }
 
-  //
   // Static method that checks the DICOM magic number.
-  //
   static bool CheckMagic(char* magic_number);
 
-  //
   // Defined DICOM types.
-  //
   enum VRTypes 
     {
       VR_UNKNOWN = 0x0,
@@ -147,9 +129,7 @@ class DICOM_EXPORT DICOMParser
       VR_FD=0x4446  // Floating point double precision
     };
 
-  //
   // Callback for the modality tag.
-  //
   void ModalityTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* tempdata, quadbyte length);
 
   void SetDICOMTagCallbacks(doublebyte group, doublebyte element, VRTypes datatype, dicom_stl::vector<DICOMCallback*>* cbVector);
@@ -185,9 +165,8 @@ class DICOM_EXPORT DICOMParser
   bool ParseImplicitRecord(doublebyte group, doublebyte element,
                            quadbyte& length,
                            VRTypes& represent);
-  //
+
   // Print a tag.
-  //
   // void DumpTag(doublebyte group, doublebyte element, VRTypes datatype, unsigned char* data, quadbyte length);
   void DumpTag(dicom_stream::ostream& out, doublebyte group, doublebyte element, VRTypes vrtype, unsigned char* tempdata, quadbyte length);
 
@@ -198,59 +177,41 @@ class DICOM_EXPORT DICOMParser
     VRTypes datatype;
     };
 
-  //
   // Check to see if the type is a valid DICOM type.  If not, figure
   // out the right thing to do next (i.e. compute the element length).
-  //
   bool IsValidRepresentation(DICOMSource &source, doublebyte rep, quadbyte& len, VRTypes &mytype);
-  
-  //
+
   // Reads a record.
-  //
   void ReadNextRecord(DICOMSource &source, doublebyte& group, doublebyte& element, DICOMParser::VRTypes& mytype);
 
-  //
   // Parse a sequence from a memory block
-  //
   void ParseSequence(unsigned char *buffer, quadbyte len);
-  
-  //
+
   // Sets up the type map.
-  //
   void InitTypeMap();
-  
-  //
+
   // Flags for byte swaping header values and 
   // image data.
-  // 
   bool ByteSwap;
   bool ByteSwapData;
 
-  //
   // Stores a map from pair<group, element> keys to
   // values of pair<vector<DICOMCallback*>, datatype>
-  //
   // DICOMParserMap Map;
 
-  //
   // Stores a map from pair<group, element> keys to
   // values of datatype.  We use this to store the 
   // datatypes for implicit keys that we are 
   // interested in.
-  //
   // DICOMImplicitTypeMap TypeMap;
 
-  //
   // Used for outputting debug information.
-  //
   dicom_stream::ofstream ParserOutputFile;
 
-  //
   // Pointer to the DICOMFile we're parsing.
-  //
   DICOMFile* DataFile;
   dicom_stl::string FileName;
-  
+
   bool ToggleByteSwapImageData;
 
   //dicom_stl::vector<doublebyte> Groups;
@@ -259,12 +220,10 @@ class DICOM_EXPORT DICOMParser
 
   DICOMMemberCallback<DICOMParser>* TransferSyntaxCB;
 
-  //
   // Implementation contains stl templated classes that 
   // can't be exported from a DLL in Windows. We hide
   // them in the implementation to get rid of annoying
   // compile warnings.
-  //
   DICOMParserImplementation* Implementation;
 
  private:
