@@ -334,10 +334,3 @@ macro(itk_wrap_module_castxml library_name)
 
   set(CastXML_OUTPUT_FILES )
 endmacro()
-
-macro(itk_end_wrap_module_castxml)
-  if(NOT TARGET ${WRAPPER_LIBRARY_NAME}CastXML)
-    add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${CastXML_OUTPUT_FILES})
-    set(${WRAPPER_LIBRARY_NAME}XmlFiles ${CastXML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
-  endif()
-endmacro()
