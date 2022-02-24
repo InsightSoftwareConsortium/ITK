@@ -16,7 +16,6 @@ set(WRAPPER_LIBRARY_itk_wrap_modules_STATUS "NOT_EXECUTED" CACHE INTERNAL "statu
 macro(itk_wrap_modules)
   set(WRAPPER_LIBRARY_itk_wrap_modules_STATUS "EXECUTED" CACHE INTERNAL "status var used to avoid the use of itk_wrap_modules in simple contributions.")
 
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_PYTHON)
     # Wrap PyBase
     if(NOT EXTERNAL_WRAP_ITK_PROJECT)
@@ -27,7 +26,6 @@ macro(itk_wrap_modules)
 endmacro()
 
 macro(itk_end_wrap_modules_all_generators)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_PYTHON)
     # Wrap PyUtils
     if(NOT EXTERNAL_WRAP_ITK_PROJECT)
@@ -127,7 +125,6 @@ macro(itk_end_wrap_module)
     itk_end_wrap_modules_all_generators()
   endif()
 
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     if(NOT TARGET ${WRAPPER_LIBRARY_NAME}CastXML)
       add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${CastXML_OUTPUT_FILES})
@@ -576,7 +573,6 @@ macro(itk_load_submodule module)
     message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap not found.")
   endif()
 
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     # write the wrap_*.cxx file
     #
