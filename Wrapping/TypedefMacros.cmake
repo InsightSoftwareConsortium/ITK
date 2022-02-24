@@ -15,7 +15,15 @@ set(WRAPPER_LIBRARY_itk_wrap_modules_STATUS "NOT_EXECUTED" CACHE INTERNAL "statu
 
 macro(itk_wrap_modules)
   set(WRAPPER_LIBRARY_itk_wrap_modules_STATUS "EXECUTED" CACHE INTERNAL "status var used to avoid the use of itk_wrap_modules in simple contributions.")
-  itk_wrap_modules_all_generators()
+
+  itk_wrap_modules_set_prefix()
+  if(${module_prefix}_WRAP_PYTHON)
+    # Wrap PyBase
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyBase)
+    endif()
+  endif()
+
 endmacro()
 
 macro(itk_end_wrap_modules_all_generators)
@@ -121,10 +129,160 @@ macro(itk_end_wrap_module)
 
   itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
-    itk_end_wrap_module_castxml()
+    if(NOT TARGET ${WRAPPER_LIBRARY_NAME}CastXML)
+      add_custom_target(${WRAPPER_LIBRARY_NAME}CastXML DEPENDS ${CastXML_OUTPUT_FILES})
+      set(${WRAPPER_LIBRARY_NAME}XmlFiles ${CastXML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
+    endif()
   endif()
   if(${module_prefix}_WRAP_SWIGINTERFACE)
-    itk_end_wrap_module_swig_interface()
+    # Loop over the extra swig input files and copy them to the Typedefs directory
+    foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
+      file(COPY "${source}"
+              DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
+      get_filename_component(basename ${source} NAME)
+      set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
+    endforeach()
+
+    # prepare dependencies
+    set(DEPS )
+    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+      set(SWIG_INTERFACE_MDX_CONTENT "${dep}.mdx\n${SWIG_INTERFACE_MDX_CONTENT}")
+    endforeach()
+
+    # add some libs required by this module
+    set(swig_libs )
+    foreach(swig_lib ${WRAPPER_SWIG_LIBRARY_FILES})
+      get_filename_component(basename ${swig_lib} NAME)
+      list(APPEND swig_libs --swig-include ${basename})
+      file(COPY "${swig_lib}"
+              DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
+      set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
+    endforeach()
+
+    # the list of files generated for the module
+    set(i_files )
+    set(xml_files )
+    set(idx_files )
+    set(typedef_in_files )
+    set(typedef_files )
+    set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+    set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
+    set(module_interface_ext_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}_ext.i")
+
+    if(${module_prefix}_WRAP_PYTHON)
+      set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
+      set(ITK_STUB_PYI_FILES)
+    else()
+      unset(ITK_STUB_DIR)
+      unset(ITK_STUB_PYI_FILES)
+    endif()
+
+    foreach(_module ${SWIG_INTERFACE_MODULES})
+      # create the swig interface
+      list(APPEND i_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}.i")
+      list(APPEND xml_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${_module}.xml")
+      list(APPEND idx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}.idx")
+      list(APPEND typedef_in_files "${WRAPPER_LIBRARY_OUTPUT_DIR}/${_module}SwigInterface.h.in")
+      list(APPEND typedef_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${_module}SwigInterface.h")
+      if(${module_prefix}_WRAP_PYTHON)
+        list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${_module}Template.pyi")
+        list(APPEND ITK_STUB_PYI_FILES "${ITK_STUB_DIR}/${_module}Proxy.pyi")
+        set(ENV{ITK_STUB_TEMPLATE_IMPORTS} "$ENV{ITK_STUB_TEMPLATE_IMPORTS}from .${_module}Template import *;")
+        set(ENV{ITK_STUB_PROXY_IMPORTS} "$ENV{ITK_STUB_PROXY_IMPORTS}from .${_module}Proxy import *;")
+      endif()
+    endforeach()
+
+    # the master idx file (mdx file)
+    set(mdx_opts )
+    set(deps_imports )
+
+    list(APPEND mdx_opts --mdx "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
+
+    foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+      list(APPEND mdx_opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
+      list(APPEND deps_imports "%import ${dep}.i\n")
+    endforeach()
+    set(CONFIG_INDEX_FILE_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}")
+    configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in" "${mdx_file}"
+            @ONLY)
+    unset(CONFIG_INDEX_FILE_CONTENT)
+
+    set(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
+    configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
+            @ONLY)
+
+    set(WRAPPING_CONFIG_WORKING_DIR "${ITK_DIR}/Wrapping/WorkingDirectory")
+    list(LENGTH i_files number_interface_files)
+    if(number_interface_files GREATER 0)
+
+      FILE(MAKE_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}")
+      if(${module_prefix}_WRAP_PYTHON)
+        set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs")
+        # NOTE:  snake_case_config_file is both an input and an output to this command.
+        #        the ${IGENERATOR} script appends to this file.
+        # NOTE: The Configuration files should be placed in the itk package directory.
+        set(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR
+                "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python/itk/Configuration"
+                )
+        set(snake_case_config_file
+                "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
+        unset(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR)
+        add_custom_command(
+                OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file} ${ITK_STUB_PYI_FILES}
+                COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
+                ${mdx_opts}
+                ${swig_libs}
+                -w1 -w3 -w51 -w52 -w53 -w54
+                -A protected -A private
+                -p ${PYGCCXML_DIR}
+                -g ${CASTXML_EXECUTABLE}
+                --snake-case-file "${snake_case_config_file}"
+                --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
+                --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
+                --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
+                --pyi_dir "${ITK_STUB_DIR}"
+                DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
+                WORKING_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
+                VERBATIM
+        )
+      else()
+        unset(ITK_STUB_DIR)
+        unset(snake_case_config_file)
+        add_custom_command(
+                OUTPUT ${i_files} ${typedef_files} ${idx_files}
+                COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
+                ${mdx_opts}
+                ${swig_libs}
+                -w1 -w3 -w51 -w52 -w53 -w54
+                -A protected -A private
+                -p ${PYGCCXML_DIR}
+                -g ${CASTXML_EXECUTABLE}
+                --interface-output-dir "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}"
+                --library-output-dir "${WRAPPER_LIBRARY_OUTPUT_DIR}"
+                --submodule-order "${WRAPPER_SUBMODULE_ORDER}"
+                DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${xml_files} ${IGENERATOR} ${typedef_in_files}
+                WORKING_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
+                VERBATIM
+        )
+      endif()
+    endif()
+    unset(mdx_opts)
+    # the ${WRAPPER_LIBRARY_NAME}Swig target
+    if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Swig)
+      add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${mdx_file} ${i_files} ${typedef_files} ${idx_files})
+      add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}CastXML)
+    endif()
+
+    if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+      # don't depend on the targets from wrapitk in external projects
+      foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
+        add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${dep}Swig)
+      endforeach()
+    endif()
+    unset(ITK_STUB_PYI_FILES)
+
+    set(${WRAPPER_LIBRARY_NAME}IdxFiles ${idx_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
+    set(${WRAPPER_LIBRARY_NAME}SwigFiles ${i_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
   endif()
   if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
     # Loop over the extra swig input files and add them to the generated files
@@ -419,7 +577,112 @@ macro(itk_load_submodule module)
     endif()
   endif()
 
-  itk_end_wrap_submodule_all_generators("${module}")
+  itk_wrap_modules_set_prefix()
+  if(${module_prefix}_WRAP_CASTXML)
+    # write the wrap_*.cxx file
+    #
+
+    # Create the cxx file which will be given to castxml.
+    set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
+    configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
+
+    # generate the xml file
+    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
+
+    set(_castxml_depends)
+    if(NOT ITK_USE_SYSTEM_CASTXML)
+      # ExternalProject target for CastXML.
+      set(_castxml_depends castxml)
+    endif()
+    set(ccache_cmd)
+    if(ITK_USE_CCACHE)
+      set(_ccache_cmd ${CCACHE_EXECUTABLE})
+    endif()
+    set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
+    # Avoid missing omp.h include
+    if(CMAKE_CXX_EXTENSIONS)
+      set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_EXTENSION_COMPILE_OPTION}")
+    else()
+      set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_STANDARD_COMPILE_OPTION}")
+    endif()
+
+    # Agressive optimization flags cause cast_xml to give invalid error conditions
+    set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
+    foreach( rmmatch ${INVALID_OPTIMIZATION_FLAGS})
+      string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
+    endforeach()
+    unset(INVALID_OPTIMIZATION_FLAGS)
+
+    separate_arguments(_castxml_cc_flags)
+    if(MSVC)
+      set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)
+      if(MSVC90)
+        # needed for VS2008 64 bit
+        set(_castxml_cc ${_castxml_cc} "-D_HAS_TR1=0")
+      endif()
+    else()
+      set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ))
+    endif()
+    set(_target)
+    if(CMAKE_CROSSCOMPILING)
+      if(NOT CMAKE_CXX_COMPILER_TARGET)
+        message(FATAL_ERROR "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
+                " as described in http://clang.llvm.org/docs/CrossCompilation.html")
+      endif()
+      set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
+    endif()
+    set(_build_env)
+    if(APPLE)
+      # If building on OS X, make sure that CastXML's calls to the compiler have the
+      # settings that the output files will be compiled with.  This prevents headers
+      # from one version of OS X from being used when building for another version.
+      list(APPEND _build_env
+              env
+              "SDKROOT=${CMAKE_OSX_SYSROOT}"
+              "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+              )
+    endif()
+
+    set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include)
+    set(_hdrs )
+    set(glob_hdrs )
+    if(EXISTS ${_include})
+      file(GLOB_RECURSE glob_hdrs ${_include}/*.h)
+    endif()
+    foreach(header IN LISTS glob_hdrs)
+      get_filename_component(header_name ${header} NAME)
+      if(${header_name} IN_LIST WRAPPER_INCLUDE_FILES)
+        list(APPEND _hdrs ${header})
+      endif()
+    endforeach()
+
+    add_custom_command(
+            OUTPUT ${xml_file}
+            COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE}
+            -o ${xml_file}
+            --castxml-gccxml
+            ${_target}
+            --castxml-start _wrapping_
+            ${_castxml_cc}
+            -w
+            -c # needed for ccache to think we are not calling for link
+            @${castxml_inc_file}
+            ${cxx_file}
+            VERBATIM
+            DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs}
+    )
+
+    list(APPEND CastXML_OUTPUT_FILES ${xml_file})
+  endif()
+  if(${module_prefix}_WRAP_SWIGINTERFACE)
+    itk_end_wrap_submodule_swig_interface("${module}")
+  endif()
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    itk_end_wrap_submodule_python("${module}")
+  endif()
+  if(${module_prefix}_WRAP_DOC)
+    itk_end_wrap_submodule_DOC()
+  endif()
 
 endmacro()
 
