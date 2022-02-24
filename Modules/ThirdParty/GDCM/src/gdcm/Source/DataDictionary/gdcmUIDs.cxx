@@ -454,7 +454,7 @@ namespace gdcm
 {"1.2.840.113619.4.30","GE Advance (PET) Raw Data Storage" },
 {"2.16.840.1.113709.1.5.1","GEPACS_PRIVATE_IMS_INFO Storage" },
 {"2.16.840.1.113709.1.2.2","COMPRESS_EXPRESS TRANSFER SYNTAX" },
-{"1.2.840.113543.6.6.1.3.10002","Unregistred (?) Philips3D" },
+{"1.2.840.113543.6.6.1.3.10002","Unregistered (?) Philips3D" },
 {"1.2.392.200036.9116.7.8.1.1.1","Toshiba Private Data Storage" },
 // business.fujifilm.co.uk/medical/downloads/DICOM_xg1.pdf
 {"1.2.392.200036.9125.1.1.2","Fuji Private CR Image Storage"},

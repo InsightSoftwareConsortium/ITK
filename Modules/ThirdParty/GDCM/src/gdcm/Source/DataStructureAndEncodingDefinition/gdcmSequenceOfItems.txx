@@ -28,7 +28,7 @@ VL SequenceOfItems::ComputeLength() const
     }
   if( SequenceLengthField.IsUndefined() )
     {
-    length += 8; // item end delimitor (tag + vl)
+    length += 8; // item end delimiter (tag + vl)
     }
   // For defined length SQ, make sure computation is correct (compare
   // to original length)

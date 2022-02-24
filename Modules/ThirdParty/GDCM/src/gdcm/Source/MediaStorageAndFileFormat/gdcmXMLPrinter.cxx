@@ -488,7 +488,7 @@ void XMLPrinter::PrintDataSet(const DataSet &ds, const TransferSyntax & ts, std:
       {
       /*I have appended all fragments into one by calling the GetBuffer method in 
       gdcmSequenceOfFragments which does not write the Table to the buffer.
-      It is slightly buggy as the size returnes includes that of the table.
+      It is slightly buggy as the size returns includes that of the table.
       Should I get the Table size and subtract it?
       Or should I append the table as well in the BulkData??
       */

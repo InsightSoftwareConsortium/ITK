@@ -49,7 +49,7 @@ namespace gdcm
  * Because VR:DS is closer to a 64bits floating point type FLOAT64 is thus a
  * best matching pixel type for the floating point transformation.
  *
- * Example: Let say input is FLOAT64, and we want UINT16 as ouput, we would do:
+ * Example: Let say input is FLOAT64, and we want UINT16 as output, we would do:
  *
  *\code
     Rescaler ir;

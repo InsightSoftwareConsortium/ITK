@@ -44,7 +44,7 @@ namespace gdcm {
  *   over all files using the same input Series Instance UID so that a proper mapping
  *   from the old Series UID is done to the new one.
  *   Since a new Series Instance UID is generated, there is no sense to
- *   preserve the original Frame of Reference UID, altough it would have made
+ *   preserve the original Frame of Reference UID, although it would have made
  *   sense here.
  */
 class GDCM_EXPORT EmptyMaskGenerator

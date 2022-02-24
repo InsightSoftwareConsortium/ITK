@@ -105,10 +105,10 @@ template<class T>
 void Swap4(T &a, SwapCode const &swapcode)
 {
 #ifndef GDCM_WORDS_BIGENDIAN
-  if ( swapcode == 4321 || swapcode == 2143 )
-    a = (T)(( a << 8 ) | ( a >> 8 ));
+  if ( swapcode == gdcm::SwapCode::BigEndian || swapcode == gdcm::SwapCode::BadBigEndian )
+    a = ( a << 8 ) | ( a >> 8 );
 #else
-  if ( swapcode == 1234 || swapcode == 3412 )
+  if ( swapcode == gdcm::SwapCode::LittleEndian || swapcode == gdcm::SwapCode::BadLittleEndian )
     a = ( a << 8 ) | ( a >> 8 );
   // On big endian as long as the SwapCode is Unknown let's pretend we were
   // on a LittleEndian system (might introduce overhead on those system).
@@ -129,20 +129,20 @@ inline void Swap8(T &a, SwapCode const &swapcode)
     a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
 #endif
     break;
-  case 1234 :
+  case gdcm::SwapCode::LittleEndian :
 #ifdef GDCM_WORDS_BIGENDIAN
     a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
 #endif
     break;
-  case 4321 :
+  case gdcm::SwapCode::BigEndian :
 #ifndef GDCM_WORDS_BIGENDIAN
     a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
 #endif
     break;
-  case 3412 :
+  case gdcm::SwapCode::BadLittleEndian :
     a= ((a<<16) | (a>>16)  );
     break;
-  case 2143 :
+  case gdcm::SwapCode::BadBigEndian :
     a= (((a<< 8) & 0xff00ff00) | ((a>>8) & 0x00ff00ff) );
     break;
   default :
@@ -160,21 +160,21 @@ inline void Swap8<uint16_t>(uint16_t &a, SwapCode const &swapcode)
     a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
 #endif
     break;
-  case 1234 :
+  case gdcm::SwapCode::LittleEndian :
 #ifdef GDCM_WORDS_BIGENDIAN
     a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
 #endif
     break;
-  case 4321 :
+  case gdcm::SwapCode::BigEndian :
 #ifndef GDCM_WORDS_BIGENDIAN
 //    probably not really useful since the lowest 0x0000 are what's used in unsigned shorts
 //    a= (( a<<24) | ((a<<8)  & 0x00ff0000) | ((a>>8) & 0x0000ff00) | (a>>24) );
 #endif
     break;
-  case 3412 :
+  case gdcm::SwapCode::BadLittleEndian :
     //a= ((a<<16) | (a>>16)  );//do nothing, a = a
     break;
-  case 2143 :
+  case gdcm::SwapCode::BadBigEndian :
     a= (uint16_t)(((a<< 8) & 0xff00) | ((a>>8) & 0x00ff) );
     break;
   default :

@@ -411,7 +411,7 @@ bool CompositeNetworkFunctions::CStore( const char *remote, uint16_t portno,
       // Table W.4-1 C-STORE RESPONSE STATUS VALUES
       const uint16_t theVal = at.GetValue();
       // http://dicom.nema.org/medical/dicom/current/output/chtml/part07/chapter_C.html
-      if( theVal == 0x0 ) // Sucess
+      if( theVal == 0x0 ) // Success
         {
         gdcmDebugMacro( "C-Store of file " << filename << " was successful." );
         }

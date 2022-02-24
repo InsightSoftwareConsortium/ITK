@@ -17,7 +17,7 @@ namespace gdcm
 {
   // Don't ask why, but this is EXTREMELY important on Win32
   // Apparently the compiler is doing something special the first time it compiles
-  // this instanciation unit
+  // this instantiation unit
   // If this fake file is not present I get an unresolved symbol for each function
   // of the gdcm::Object class
 

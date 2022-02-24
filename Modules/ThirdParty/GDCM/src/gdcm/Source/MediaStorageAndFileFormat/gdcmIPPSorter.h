@@ -49,7 +49,7 @@ public:
   /// Main entry point to the sorter.
   /// It will execute the filter, option should be set before
   /// running this function (SetZSpacingTolerance, ...)
-  /// Return value indicate if sorting could be achived. Warning this does *NOT* imply
+  /// Return value indicate if sorting could be achieved,. Warning this does *NOT* imply
   /// that spacing is consistent, it only means the file are sorted according to IPP
   /// You should check if ZSpacing is 0 or not to deduce if file are actually a 3D volume
   bool Sort(std::vector<std::string> const & filenames) override;
@@ -63,7 +63,7 @@ public:
   /// will not be found to be regular along the Series
   void SetComputeZSpacing(bool b) { ComputeZSpacing = b; }
   /// 2. Another reason for failure is that that Z-Spacing is only
-  /// slightly changing (eg 1e-3) along the serie, a human can determine
+  /// slightly changing (eg 1e-3) along the series, a human can determine
   /// that this is ok and change the tolerance from its default value: 1e-6
   void SetZSpacingTolerance(double tol) { ZTolerance = tol; }
   double GetZSpacingTolerance() const { return ZTolerance; }

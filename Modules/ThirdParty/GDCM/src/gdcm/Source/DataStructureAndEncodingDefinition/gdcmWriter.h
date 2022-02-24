@@ -26,7 +26,7 @@ class FileMetaInformation;
  * \details This class is a non-validating writer, it will only performs well-
  * formedness check only.
  *
- * \details Detailled description here
+ * \details Detailed description here
  * To avoid GDCM being yet another broken DICOM lib we try to
  * be user level and avoid writing illegal stuff (odd length,
  * non-zero value for Item start/end length ...)
@@ -36,7 +36,7 @@ class FileMetaInformation;
  * - Correct Meta Information Header (see gdcm::FileMetaInformation)
  * - Zero value for Item Length (0xfffe, 0xe00d/0xe0dd)
  * - Even length for any elements
- * - Alphabetical order for elements (garanteed by design of internals)
+ * - Alphabetical order for elements (guaranteed by design of internals)
  * - 32bits VR will be rewritten with 00
  *
  * \warning

@@ -96,7 +96,7 @@ extern "C"
 void MD5_EXPORT md5_init(md5_state_t *pms);
 
 /* Append a string to the message. */
-void MD5_EXPORT md5_append(md5_state_t *pms, const md5_byte_t *data, int nbytes);
+void MD5_EXPORT md5_append(md5_state_t *pms, const md5_byte_t *data, size_t nbytes);
 
 /* Finish the message and return the digest. */
 void MD5_EXPORT md5_finish(md5_state_t *pms, md5_byte_t digest[16]);

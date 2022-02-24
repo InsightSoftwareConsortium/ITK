@@ -114,7 +114,7 @@ public:
   // FIXME FIXME FIXME TODO
   // the following is pretty dumb. Since we have control over who is group
   // and who is element, we should reverse them in little endian and big endian case
-  // since what we really want is fast comparison and not garantee that group is in #0
+  // since what we really want is fast comparison and not guarantee that group is in #0
   // ...
   bool operator<(const Tag &_val) const
     {
@@ -237,7 +237,7 @@ public:
     }
 
   /// Read from a comma separated string.
-  /// This is a highly user oriented function, the string should be formated as:
+  /// This is a highly user oriented function, the string should be formatted as:
   /// 1234,5678 to specify the tag (0x1234,0x5678)
   /// The notation comes from the DICOM standard, and is handy to use from a
   /// command line program

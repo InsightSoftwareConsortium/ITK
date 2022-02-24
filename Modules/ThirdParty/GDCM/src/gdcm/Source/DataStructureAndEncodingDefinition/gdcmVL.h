@@ -73,7 +73,7 @@ public:
 
   friend std::ostream& operator<<(std::ostream& os, const VL& vl);
 
-  // PURPOSELY not implemented (could not differenciate 16bits vs 32bits VL)
+  // PURPOSELY not implemented (could not differentiate 16bits vs 32bits VL)
   //friend std::istream& operator>>(std::istream& is, VL& n);
 
   template <typename TSwap>

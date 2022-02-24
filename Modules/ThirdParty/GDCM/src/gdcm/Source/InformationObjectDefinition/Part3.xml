@@ -2261,7 +2261,7 @@ Zero or more Items may be included in the sequence. The sequence items are order
     </entry>
     <include ref="&gt; Include Code Sequence Macro Table 8.8-1" description="Baseline Context ID is CID 5000 - Languages."/>
     <entry group="0010" element="0102" name="&gt; Patient's Primary Language Code Modifier Sequence">
-      <description>A modifer for a Patient's Primary Language. Can be used to specify a national language variant.
+      <description>A modifier for a Patient's Primary Language. Can be used to specify a national language variant.
 Exactly one Item may be included in the sequence.</description>
     </entry>
     <include ref="&gt;&gt; Include Code Sequence Macro Table 8.8-1" description="Baseline Context ID is CID 5001 - Countries."/>
@@ -3897,7 +3897,7 @@ The sequence may have one or more Items.</description>
     <entry group="0020" element="0011" name="Series Number" type="1">
       <description>A number that identifies this Series.
 Notes: 1. The value of this attribute should be unique for all series in a study created on the same equipment.
-2. Because series can be created on more than one equipment, it can not be guranteed that the value of Series Number (0020,0011) is unique in a study.</description>
+2. Because series can be created on more than one equipment, it can not be guaranteed that the value of Series Number (0020,0011) is unique in a study.</description>
     </entry>
     <entry group="0008" element="1111" name="Referenced Performed Procedure Step Sequence" type="1C">
       <description>Uniquely identifies the Performed Procedure Step SOP Instance to which the Series is related (e.g. a Modality or General-Purpose Performed Procedure Step SOP Instance). Only a single Item is permitted in this sequence.
@@ -5209,7 +5209,7 @@ Required if Concatenation UID (0020,9161) is present.</description>
 Required if a group of multi-frame image SOP Instances within a Series are part of a Concatenation.</description>
     </entry>
     <entry group="0020" element="9162" name="In-concatenation Number" type="1C">
-      <description>Identifier for one SOP Instance belonging to a concatenation. See C.7.6.16.2.2.4 for further specification. The first instance in a concatentation (that with the lowest Concatenation Frame Offset Number (0020,9228) value) shall have an In-concatenation Number (0020,9162) value of 1, and subsequent instances shall have values monotonically increasing by 1.
+      <description>Identifier for one SOP Instance belonging to a concatenation. See C.7.6.16.2.2.4 for further specification. The first instance in a concatenation (that with the lowest Concatenation Frame Offset Number (0020,9228) value) shall have an In-concatenation Number (0020,9162) value of 1, and subsequent instances shall have values monotonically increasing by 1.
 Required if Concatenation UID (0020,9161) is present.</description>
       <section ref="C.7.6.16.2.2.4" name="">Due to implementation specific reasons (such as maximum object size) the information of a multi-frame image may be split into more than one SOP Instance. These SOP Instances form together a Concatenation. This is a group of SOP Instances within a Series that is uniquely identified by the Concatenation UID (0020,9161).
 The Dimension Index Sequence (0020,9222) for each SOP Instance with the same Concatenation UID (0020,9161) shall contain exactly the same tags and values.
@@ -13070,7 +13070,7 @@ DOUBLE_SIDED = the Compensator has a shaped (i.e. non-flat) surface on both side
       <description>Compensator Linear Stopping Power Ratio, relative to water, at the beam energy specified by the Nominal Beam Energy (300A,0114) of the first Control Point of the Ion Control Point Sequence (300A,03A8).</description>
     </entry>
     <entry group="300A" element="02E8" name="&gt;&gt;Compensator Milling Tool Diameter" type="3">
-      <description>The diameter (in mm) of the milling tool to be used to create the compensator. The diameter is expressed as the actual physcial size and not a projected size at isocenter.</description>
+      <description>The diameter (in mm) of the milling tool to be used to create the compensator. The diameter is expressed as the actual physical size and not a projected size at isocenter.</description>
     </entry>
     <entry group="300A" element="00ED" name="&gt;Number of Boli" type="1">
       <description>Number of boli associated with current Beam.</description>
@@ -14112,13 +14112,13 @@ c)   Table Angle moves from 170 degrees to 160 degrees, Table Rotation Direction
       <description>Introduces sequence of parameters that were overridden during the administration of the beam segment immediately prior to the current control point. The sequence may contain one or more items.</description>
     </entry>
     <entry group="3008" element="0061" name="&gt;&gt;&gt;Parameter Sequence Pointer" type="1">
-      <description>Contains the Data Element Tag of the parent sequence containing the attribute that was overriden. The value is limited in scope to the Treatment Session Ion Beam Sequence (3008,0021) and all nested sequences therein.</description>
+      <description>Contains the Data Element Tag of the parent sequence containing the attribute that was overridden. The value is limited in scope to the Treatment Session Ion Beam Sequence (3008,0021) and all nested sequences therein.</description>
     </entry>
     <entry group="3008" element="0062" name="&gt;&gt;&gt;Override Parameter Pointer" type="1">
       <description>Contains the Data Element Tag of the attribute that was overridden.</description>
     </entry>
     <entry group="3008" element="0063" name="&gt;&gt;&gt;Parameter Item Index" type="1">
-      <description>Contains the ones-based sequence item index of the overriden attributes within it's parent sequence. The value is limited in scope to the Treatment Session Ion Beam Sequence (3008,0021) and all nested sequences therein.</description>
+      <description>Contains the ones-based sequence item index of the overridden attributes within it's parent sequence. The value is limited in scope to the Treatment Session Ion Beam Sequence (3008,0021) and all nested sequences therein.</description>
     </entry>
     <entry group="0008" element="1070" name="&gt;&gt;&gt;Operators' Name" type="2">
       <description>Name of operator who authorized override.</description>
@@ -20620,7 +20620,7 @@ Note: Values of 0\0 indicate that the overlay pixels start 1 row above and one c
     </entry>
     <entry group="60xx" element="0100" name="Overlay Bits Allocated" type="1">
       <description>Number of Bits Allocated in the Overlay.
-Tthe value of this Attribute shall be 1.
+The value of this Attribute shall be 1.
 Note: Formerly the standard described embedding the overlay data in the Image Pixel Data (7FE0,0010), in which case the value of this Attribute was required to be the same as Bits Allocated (0028,0100). This usage has been retired. See PS 3.3 2004.</description>
     </entry>
     <entry group="60xx" element="0102" name="Overlay Bit Position" type="1">
@@ -22672,7 +22672,7 @@ BASIC FILM BOX PRESENTATION MODULE ATTRIBUTES
       <description>Maximum density that can be printed, expressed in hundredths of OD.</description>
     </entry>
     <entry group="2000" element="00A4" name="&gt;Other Media Available Sequence">
-      <description>A sequence which specifies combinations of Medium Type and Film Size ID for which the printer will accept an N-CREATE of a Film Box, but are not physically installed in the printer at this time. It also specifies the Min and Max Densities supported by these media. User intervention may be required to instal these media in the printer.
+      <description>A sequence which specifies combinations of Medium Type and Film Size ID for which the printer will accept an N-CREATE of a Film Box, but are not physically installed in the printer at this time. It also specifies the Min and Max Densities supported by these media. User intervention may be required to install these media in the printer.
 One item for each Medium Type and Film Size ID available, but not installed shall be included.</description>
     </entry>
     <entry group="2000" element="0030" name="&gt;&gt;Medium Type">
@@ -27591,7 +27591,7 @@ Notes:  1. The following attributes from image IODs are examples of some possibl
     </entry>
     <entry group="0072" element="0600" name="&gt;Sorting Operations Sequence" type="2">
       <description>Sequence that defines sorting criteria to be applied to the result of filter and reformat operations, to define the order in which to present the images in the Image Boxes. Zero or more items shall be included in this sequence. See C.23.3.1.2.</description>
-      <section ref="C.23.3.1.2" name="">The Items in the Sorting Operations Sequence (0072,0600) define the order in which the images resulting from the filter and reformat operations on the Image Set are to be displayed in the associated Image Boxes of the Display Set. The sorting criteria may include the value of a numeric, date, or time Attribute that is expected to be present in each of the image objects in the filtered Image Set, and/or an abstract sorting category. A sorting direction shall be associated with each sorting criterion. If a textual Attribute is used for sorting, then the INCREASING sorting direction indicates alpabetical order, and DECREASING indicates reverse alphabetical order.
+      <section ref="C.23.3.1.2" name="">The Items in the Sorting Operations Sequence (0072,0600) define the order in which the images resulting from the filter and reformat operations on the Image Set are to be displayed in the associated Image Boxes of the Display Set. The sorting criteria may include the value of a numeric, date, or time Attribute that is expected to be present in each of the image objects in the filtered Image Set, and/or an abstract sorting category. A sorting direction shall be associated with each sorting criterion. If a textual Attribute is used for sorting, then the INCREASING sorting direction indicates alphabetical order, and DECREASING indicates reverse alphabetical order.
 If a code sequence Attribute is used for sorting, then the Code Meaning (0008,0104) shall be sorted alphabetically. If a string numeric Attribute is used for sorting (VR of IS or DS), then sorting shall be on the numeric value, and padding shall be ignored. When sorting by date or time Attribute, then sorting shall be on the temporal value, not the alphabetic string.
 If there are multiple Items in the Sorting Operations Sequence (0072,0600), then the sorting operations shall be applied in Item order. The least rapidly varying attribute for the sorting operation shall be the first Item in the sequence.
 Note:  For example, a Sorting Operations Sequence (0072,0600) with two Items:
@@ -27609,7 +27609,7 @@ Notes:  1. The following attributes from image IODs are examples of some possibl
     <entry group="0072" element="0026" name="&gt;&gt;Selector Attribute" type="1C">
       <description>Data Element Tag of an Attribute from an Image IOD to be used for sorting. See C.23.3.1.2 for potential attributes.
 Required if Sort-by Category (0072,0602) is not present.</description>
-      <section ref="C.23.3.1.2" name="">The Items in the Sorting Operations Sequence (0072,0600) define the order in which the images resulting from the filter and reformat operations on the Image Set are to be displayed in the associated Image Boxes of the Display Set. The sorting criteria may include the value of a numeric, date, or time Attribute that is expected to be present in each of the image objects in the filtered Image Set, and/or an abstract sorting category. A sorting direction shall be associated with each sorting criterion. If a textual Attribute is used for sorting, then the INCREASING sorting direction indicates alpabetical order, and DECREASING indicates reverse alphabetical order.
+      <section ref="C.23.3.1.2" name="">The Items in the Sorting Operations Sequence (0072,0600) define the order in which the images resulting from the filter and reformat operations on the Image Set are to be displayed in the associated Image Boxes of the Display Set. The sorting criteria may include the value of a numeric, date, or time Attribute that is expected to be present in each of the image objects in the filtered Image Set, and/or an abstract sorting category. A sorting direction shall be associated with each sorting criterion. If a textual Attribute is used for sorting, then the INCREASING sorting direction indicates alphabetical order, and DECREASING indicates reverse alphabetical order.
 If a code sequence Attribute is used for sorting, then the Code Meaning (0008,0104) shall be sorted alphabetically. If a string numeric Attribute is used for sorting (VR of IS or DS), then sorting shall be on the numeric value, and padding shall be ignored. When sorting by date or time Attribute, then sorting shall be on the temporal value, not the alphabetic string.
 If there are multiple Items in the Sorting Operations Sequence (0072,0600), then the sorting operations shall be applied in Item order. The least rapidly varying attribute for the sorting operation shall be the first Item in the sequence.
 Note:  For example, a Sorting Operations Sequence (0072,0600) with two Items:
@@ -27635,7 +27635,7 @@ Defined terms:
 ALONG_AXIS: for CT, MR, other cross-sectional image sets
 BY_ACQ_TIME
 Required if Selector Attribute (0072,0026) is not present.</description>
-      <section ref="C.23.3.1.2" name="">The Items in the Sorting Operations Sequence (0072,0600) define the order in which the images resulting from the filter and reformat operations on the Image Set are to be displayed in the associated Image Boxes of the Display Set. The sorting criteria may include the value of a numeric, date, or time Attribute that is expected to be present in each of the image objects in the filtered Image Set, and/or an abstract sorting category. A sorting direction shall be associated with each sorting criterion. If a textual Attribute is used for sorting, then the INCREASING sorting direction indicates alpabetical order, and DECREASING indicates reverse alphabetical order.
+      <section ref="C.23.3.1.2" name="">The Items in the Sorting Operations Sequence (0072,0600) define the order in which the images resulting from the filter and reformat operations on the Image Set are to be displayed in the associated Image Boxes of the Display Set. The sorting criteria may include the value of a numeric, date, or time Attribute that is expected to be present in each of the image objects in the filtered Image Set, and/or an abstract sorting category. A sorting direction shall be associated with each sorting criterion. If a textual Attribute is used for sorting, then the INCREASING sorting direction indicates alphabetical order, and DECREASING indicates reverse alphabetical order.
 If a code sequence Attribute is used for sorting, then the Code Meaning (0008,0104) shall be sorted alphabetically. If a string numeric Attribute is used for sorting (VR of IS or DS), then sorting shall be on the numeric value, and padding shall be ignored. When sorting by date or time Attribute, then sorting shall be on the temporal value, not the alphabetic string.
 If there are multiple Items in the Sorting Operations Sequence (0072,0600), then the sorting operations shall be applied in Item order. The least rapidly varying attribute for the sorting operation shall be the first Item in the sequence.
 Note:  For example, a Sorting Operations Sequence (0072,0600) with two Items:

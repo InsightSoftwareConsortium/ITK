@@ -207,7 +207,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
           if( !dc2.SetFromString( value2 ) )
             {
             if( value2 ) {
-              gdcmWarningMacro( filename << " cant read IOP: " << value2 );
+              gdcmWarningMacro( filename << " cannot read IOP: " << value2 );
             }
             return false;
             }
@@ -216,7 +216,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
           if( fabs(1 - cd) > DirCosTolerance )
             {
             gdcmWarningMacro( filename << " Problem with DirCosTolerance: " );
-            // Cant print cd since 0.9999 is printed as 1... may confuse user
+            // Cannot print cd since 0.9999 is printed as 1... may confuse user
             return false;
             }
           //dc2.Normalize();
@@ -229,7 +229,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
         ipp.Read( ss );
         double dist = 0;
         for (int i = 0; i < 3; ++i) dist += normal[i]*ipp[i];
-        // FIXME: This test is weak, since implicitely we are doing a != on floating point value
+        // FIXME: This test is weak, since implicitly we are doing a != on floating point value
         if( sorted.find(dist) != sorted.end() )
           {
             if( this->DropDuplicatePositions )
@@ -311,7 +311,7 @@ bool IPPSorter::Sort(std::vector<std::string> const & filenames)
     }
 }
 
-  // return true: means sorting succeed, it does not mean spacing computation succeded !
+  // return true: means sorting succeed, it does not mean spacing computation succeeded !
   return true;
 }
 

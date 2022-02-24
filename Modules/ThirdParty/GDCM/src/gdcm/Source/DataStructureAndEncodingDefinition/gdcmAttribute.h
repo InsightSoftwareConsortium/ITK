@@ -66,7 +66,7 @@ public:
 /**
  * \brief Attribute class
  * This class use template metaprograming tricks to let the user know when the template
- * instanciation does not match the public dictionary.
+ * instantiation does not match the public dictionary.
  *
  * Typical example that compile is:
  * Attribute<0x0008,0x9007> a = {"ORIGINAL","PRIMARY","T1","NONE"};
@@ -118,7 +118,7 @@ public:
     os << GetTag() << " ";
     os << TagToType<Group,Element>::GetVRString()  << " ";
     os << TagToType<Group,Element>::GetVMString()  << " ";
-    os << Internal[0]; // VM is at least garantee to be one
+    os << Internal[0]; // VM is at least guarantee to be one
     for(unsigned int i=1; i<GetNumberOfValues(); ++i)
       os << "," << Internal[i];
     }
@@ -353,7 +353,7 @@ public:
     os << GetTag() << " ";
     os << TagToType<Group,Element>::GetVRString()  << " ";
     os << TagToType<Group,Element>::GetVMString()  << " ";
-    os << Internal; // VM is at least garantee to be one
+    os << Internal; // VM is at least guarantee to be one
   }
   // copy:
   //ArrayType GetValue(unsigned int idx = 0) {
@@ -593,7 +593,7 @@ public:
     os << GetTag() << " ";
     os << GetVR()  << " ";
     os << GetVM()  << " ";
-    os << Internal[0]; // VM is at least garantee to be one
+    os << Internal[0]; // VM is at least guarantee to be one
     for(unsigned int i=1; i<GetNumberOfValues(); ++i)
       os << "," << Internal[i];
     }
@@ -763,7 +763,7 @@ public:
 
 
 // For particular case for ASCII string
-// WARNING: This template explicitly instanciates a particular
+// WARNING: This template explicitly instantiates a particular
 // EncodingImplementation THEREFORE it is required to be declared after the
 // EncodingImplementation is needs (doh!)
 #if 0
@@ -795,7 +795,7 @@ public:
   }
   // Implementation of Print is common to all Mode (ASCII/Binary)
   void Print(std::ostream &_os) const {
-    _os << Internal[0]; // VM is at least garantee to be one
+    _os << Internal[0]; // VM is at least guarantee to be one
     for(int i=1; i<VMToLength<TVM>::Length; ++i)
       _os << "," << Internal[i];
     }
@@ -869,7 +869,7 @@ public:
   void Print(std::ostream &_os) const {
     assert( Length );
     assert( Internal );
-    _os << Internal[0]; // VM is at least garantee to be one
+    _os << Internal[0]; // VM is at least guarantee to be one
     const unsigned long length = GetLength() < 25 ? GetLength() : 25;
     for(unsigned long i=1; i<length; ++i)
       _os << "," << Internal[i];

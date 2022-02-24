@@ -120,7 +120,7 @@ const DataSet* inDataSet = &file.GetDataSet();
   // the following make sure that the accepted Presentation Context match the actual encoding
   // of the current File
   // ADV: technically we could use an explicit VR encoded dataset and send it over
-  // an implicit TS accecpted Transfer syntax. However thing do not interchange well
+  // an implicit TS accepted Transfer syntax. However thing do not interchange well
   // so we really need a filter to check whether conversion is ok or not.
   if( acpc == nullptr )
     {

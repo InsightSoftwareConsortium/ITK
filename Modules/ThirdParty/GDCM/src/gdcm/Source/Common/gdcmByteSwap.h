@@ -22,7 +22,7 @@ namespace gdcm
 
 /**
  * \brief ByteSwap
- * \details Perform machine dependent byte swaping (Little Endian,
+ * \details Perform machine dependent byte swapping (Little Endian,
  * Big Endian, Bad Little Endian, Bad Big Endian).
  * TODO: bswap_32 / bswap_64 ...
  */

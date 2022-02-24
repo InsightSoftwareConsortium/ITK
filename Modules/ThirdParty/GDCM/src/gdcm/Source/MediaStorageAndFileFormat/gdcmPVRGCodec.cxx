@@ -134,7 +134,7 @@ bool PVRGCodec::Decode(DataElement const &in, DataElement &out)
     std::ostringstream os;
     os << input;
     os << ".";
-    os << file; // dont ask
+    os << file; // don't ask
     const std::string altfile = os.str();
     const size_t len = System::FileSize(altfile.c_str());
     if( !len )

@@ -62,7 +62,7 @@ public:
 
   // Set MergeMode
   // Merge is done on a per AbstractSyntax basis. Any new TransferSyntax for a
-  // given AbstractSyntax is merge to the existing PresentationContext refering
+  // given AbstractSyntax is merge to the existing PresentationContext referring
   // to that AbstractSyntax
   void SetMergeModeToTransferSyntax();
 

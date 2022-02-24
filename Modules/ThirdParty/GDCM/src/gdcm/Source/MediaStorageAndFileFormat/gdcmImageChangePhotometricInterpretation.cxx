@@ -35,7 +35,7 @@ compression ratio at given image quality. A JFIF header would contain that
 information, but the JFIF header is neither required nor recommended in the
 DICOM JPEG bitstream. In the absence of that information, and with a JPEG
 compressed DICOM file where Photometric Interpretation is "RGB", the parser
-needs to decide whether the encoder did something unsual but legal and
+needs to decide whether the encoder did something unusual but legal and
 decompress the JPEG bitstream as RGB, or whether the encoder just failed to
 correctly encode the color model of the JPEG bitstream (which in my experience
 is in most cases the correct assumption) and ignore Photometric Interpretation

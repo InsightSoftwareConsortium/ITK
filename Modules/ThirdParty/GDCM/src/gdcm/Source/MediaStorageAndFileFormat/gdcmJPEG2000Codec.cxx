@@ -1718,7 +1718,7 @@ bool JPEG2000Codec::DecodeExtent(
     if( pf.GetSamplesPerPixel() != pf2.GetSamplesPerPixel()
      || pf.GetBitsAllocated() != pf2.GetBitsAllocated()
 /*
-     || pf.GetPixelRepresentation() != pf2.GetPixelRepresentation() // TODO, we are a bit too agressive here
+     || pf.GetPixelRepresentation() != pf2.GetPixelRepresentation() // TODO, we are a bit too aggressive here
 */
     )
       {

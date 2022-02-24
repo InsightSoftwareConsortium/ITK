@@ -347,7 +347,7 @@ static bool GetSpacingValueFromSequence(const DataSet& ds, const Tag& tfgs, std:
   sp.push_back( at.GetValue(1) );
   sp.push_back( at.GetValue(0) );
 
-  // BUG ! Check for instace:
+  // BUG ! Check for instance:
   // gdcmData/BRTUM001.dcm
   // Slice Thickness is 5.0 while the Zspacing should be 6.0 !
 #if 0
@@ -925,7 +925,7 @@ std::vector<unsigned int> ImageHelper::GetDimensionsValue(const File& f)
           }
         else
           {
-          gdcmWarningMacro( "Sorry cant read attribute (wrong VR): " << at.GetTag() );
+          gdcmWarningMacro( "Sorry cannot read attribute (wrong VR): " << at.GetTag() );
           }
         }
       }
@@ -978,6 +978,9 @@ void ImageHelper::SetDimensionsValue(File& f, const Pixmap & img)
            ds.Replace(numframes.GetAsDataElement());
         }
       }
+      else if( ms.MediaStorage::GetModalityDimension() == 2 /*&& dims[2] == 1*/ )
+        ds.Remove( numframes.GetTag() );
+
     }
     else // cleanup
       ds.Remove( numframes.GetTag() );
@@ -1121,7 +1124,7 @@ std::vector<double> ImageHelper::GetRescaleInterceptSlopeValue(File const & f)
           {
           gdcmAssertAlwaysMacro(0); // Not supported !
           }
-        // dont know how to handle multiples:
+        // don't know how to handle multiples:
         gdcmAssertAlwaysMacro( sqi->GetNumberOfItems() == 1 );
         const Item &item = sqi->GetItem(1);
         const DataSet & subds = item.GetNestedDataSet();
@@ -1208,7 +1211,7 @@ Tag ImageHelper::GetSpacingTagFromMediaStorage(MediaStorage const &ms)
   switch(ms)
     {
   case MediaStorage::EnhancedUSVolumeStorage:
-  // Enhanced stuff are handled elsewere... look carefully :)
+  // Enhanced stuff are handled elsewhere... look carefully :)
   //case MediaStorage::EnhancedMRImageStorage:
   //case MediaStorage::EnhancedCTImageStorage:
   //case MediaStorage::XRay3DAngiographicImageStorage
@@ -1455,7 +1458,7 @@ std::vector<double> ImageHelper::GetSpacingValue(File const & f)
         ss.str( s );
         // Stupid file: CT-MONO2-8-abdo.dcm
         // The spacing is something like that: [0.2\0\0.200000]
-        // I would need to throw an expection that VM is not compatible
+        // I would need to throw an exception that VM is not compatible
         el.SetLength( entry.GetVM().GetLength() * entry.GetVR().GetSizeof() );
         std::string::size_type found = s.find('\\');
         if( found != std::string::npos )
@@ -1470,7 +1473,7 @@ std::vector<double> ImageHelper::GetSpacingValue(File const & f)
               }
             else
               {
-              gdcmWarningMacro( "Cant have a spacing of 0" );
+              gdcmWarningMacro( "Cannot have a spacing of 0" );
               sp.push_back( 1.0 );
               }
             }
@@ -1506,7 +1509,7 @@ std::vector<double> ImageHelper::GetSpacingValue(File const & f)
             sp.push_back( el.GetValue(i) );
           else
             {
-            gdcmWarningMacro( "Cant have a spacing of 0" );
+            gdcmWarningMacro( "Cannot have a spacing of 0" );
             sp.push_back( 1.0 );
             }
         }
@@ -2478,7 +2481,7 @@ bool ImageHelper::GetRealWorldValueMappingContent(File const & f, RealWorldValue
 			  {
 				  gdcmAssertAlwaysMacro(0); // Not supported !
 			  }
-			  // dont know how to handle multiples:
+			  // don't know how to handle multiples:
 			  gdcmAssertAlwaysMacro( sqi0->GetNumberOfItems() == 1 );
 			  const Item &item0 = sqi0->GetItem(1);
 			  const DataSet & subds0 = item0.GetNestedDataSet();

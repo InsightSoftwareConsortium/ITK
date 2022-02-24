@@ -255,8 +255,8 @@ EStateID ULActionDT1::PerformAction(Subject *s, ULEvent& inEvent, ULConnection& 
       }
     delete [] contents ;
     }
-  // When doing a C-MOVE we recevie the Requested DataSet over
-  // another chanel (technically this is send to an SCP)
+  // When doing a C-MOVE we receive the Requested DataSet over
+  // another channel (technically this is send to an SCP)
   // in our case we use another port to receive it.
 
 #if USE_PROCESS_INPUT
