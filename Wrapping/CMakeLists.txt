@@ -21,6 +21,18 @@ project(WrapITK)
 
 enable_testing()
 
+# Set the module prefix once upon loading this files
+# Case 1:  An external module is loading this file from
+#          ${ITK_SOURCE_DIR}/CMake/ITKModuleExternal.cmake
+# Case 2:  ITK is including this file from
+#          ${ITK_SOURCE_DIR}/CMakeLists.txt
+# module_prefix is a global variable
+if(EXTERNAL_WRAP_ITK_PROJECT)
+  set(module_prefix ${itk-module})
+else()
+  set(module_prefix ITK)
+endif()
+
 ###############################################################################
 # Configure installation
 ###############################################################################

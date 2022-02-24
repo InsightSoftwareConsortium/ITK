@@ -1,18 +1,7 @@
-
-# Macro to set the module prefix
-macro(itk_wrap_modules_set_prefix)
-  if(EXTERNAL_WRAP_ITK_PROJECT)
-    set(module_prefix ${itk-module})
-  else()
-    set(module_prefix ITK)
-  endif()
-endmacro()
-
 ###############################################################################
 # the macros in charge of dispatching to the language specific macros
 
 macro(itk_wrap_module_all_generators library_name)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     itk_wrap_module_castxml("${library_name}")
   endif()
@@ -29,7 +18,6 @@ endmacro()
 
 
 macro(itk_wrap_submodule_all_generators module)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     itk_wrap_submodule_castxml("${module}")
   endif()
@@ -46,7 +34,6 @@ endmacro()
 
 
 macro(itk_wrap_named_class_all_generators class swig_name)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
     itk_wrap_named_class_python("${class}" "${swig_name}")
   endif()
@@ -68,7 +55,6 @@ endmacro()
 
 
 macro(itk_wrap_include_all_generators inc)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     itk_wrap_include_castxml("${inc}")
   endif()
@@ -78,7 +64,6 @@ macro(itk_wrap_include_all_generators inc)
 endmacro()
 
 macro(itk_wrap_template_all_generators name types)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
     itk_wrap_template_python("${name}" "${types}")
   endif()
@@ -86,7 +71,6 @@ endmacro()
 
 
 macro(itk_wrap_one_type_all_generators wrap_method wrap_class swig_name template_params)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     itk_wrap_one_type_castxml("${wrap_method}" "${wrap_class}" "${swig_name}" "${template_params}")
   endif()
@@ -103,7 +87,6 @@ endmacro()
 
 
 macro(itk_wrap_simple_type_all_generators wrap_class swig_name)
-  itk_wrap_modules_set_prefix()
   if(${module_prefix}_WRAP_CASTXML)
     itk_wrap_simple_type_castxml("${wrap_class}" "${swig_name}")
   endif()
@@ -126,7 +109,6 @@ endif()
 
 ###############################################################################
 # build the generators list
-itk_wrap_modules_set_prefix()
 if(EXTERNAL_WRAP_ITK_PROJECT)
   # generators there have been turned on while building wrapitk
   set(default OFF)
@@ -179,8 +161,7 @@ mark_as_advanced(${module_prefix}_WRAP_DOC)
 set(WRAP_ITK_GENERATORS ${WRAP_ITK_GENERATORS} CACHE INTERNAL "Internal generators list.")
 set(WRAP_ITK_UNUSED_GENERATORS ${WRAP_ITK_UNUSED_GENERATORS} CACHE INTERNAL "Internal unused generators list.")
 
-# The include_directories are added here to be used by
-# Wrapping/ConfigureWrapping.cmake
+# The include_directories are added here to be used by Wrapping/ConfigureWrapping.cmake
 foreach(lang ${generators})
   string(TOUPPER "${lang}" lang_upper)
   if(${module_prefix}_WRAP_${lang_upper})
