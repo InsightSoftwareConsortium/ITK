@@ -80,8 +80,6 @@ else()
   set(WRAP_ITK_LIBNAME_PREFIX "")
 endif()
 
-# generators dir
-set(GENERATORS_SRC_DIR "${WRAP_ITK_CMAKE_DIR}/Generators" CACHE INTERNAL "generators source directory")
 
 ###############################################################################
 # Define install files macro. If we are building WrapITK, the generated files
