@@ -223,17 +223,18 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   ellipse3->SetRadiusInObjectSpace(10);
 
   // Place each ellipse at the right position to form a triangle
-  EllipseType::TransformType::OffsetType offset;
-  offset[0] = 100;
-  offset[1] = 40;
-  ellipse1->SetCenterInObjectSpace(offset);
+  EllipseType::PointType point;
+  point[0] = 100;
+  point[1] = 40;
+  ellipse1->SetCenterInObjectSpace(point);
   ellipse1->Update();
 
-  offset[0] = 40;
-  offset[1] = 150;
-  ellipse2->SetCenterInObjectSpace(offset);
+  point[0] = 40;
+  point[1] = 150;
+  ellipse2->SetCenterInObjectSpace(point);
   ellipse2->Update();
 
+  EllipseType::TransformType::OffsetType offset;
   offset[0] = 150;
   offset[1] = 150;
   // Moving the object using the ObjectToParentTransform should
