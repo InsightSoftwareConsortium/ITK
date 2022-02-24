@@ -19,6 +19,7 @@ namespace gdcm
 
 ImageConverter::ImageConverter()
 {
+  Input = nullptr;
   Output = new Image;
 }
 

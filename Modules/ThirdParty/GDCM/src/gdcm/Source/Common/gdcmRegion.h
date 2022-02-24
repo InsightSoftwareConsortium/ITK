@@ -43,7 +43,7 @@ public :
   /// compute the area
   virtual size_t Area() const = 0;
 
-  // implementation detail of heterogenous container in C++
+  // implementation detail of heterogeneous container in C++
   virtual Region *Clone() const = 0;
 
   /// Return the Axis-Aligned minimum bounding box for all regions

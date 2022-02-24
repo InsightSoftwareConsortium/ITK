@@ -27,7 +27,7 @@ class TransferSyntax;
 /**
  * \brief PixelFormat
  * \details 
- * By default the Pixel Type will be instanciated with the following
+ * By default the Pixel Type will be instantiated with the following
  * parameters:
  * - SamplesPerPixel : 1
  * - BitsAllocated : 8

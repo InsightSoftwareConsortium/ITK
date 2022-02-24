@@ -17,7 +17,7 @@ endif()
 #----------------------------------------------------------------------------
 
 project(GDCM
-  VERSION 3.0.9
+  VERSION 3.0.10
   LANGUAGES CXX C
 )
 ## NOTE: the "DESCRIPTION" feature of project() was introduced in cmake 3.10.0
@@ -180,22 +180,11 @@ macro(CHECK_INCLUDE_FILE_CONCAT FILE VARIABLE)
   endif()
 endmacro()
 
-CHECK_INCLUDE_FILE("stdint.h"       GDCM_HAVE_STDINT_H)
-if(UNIX) #Avoid polluting Win32 cmakecache
-  CHECK_INCLUDE_FILE("inttypes.h"     GDCM_HAVE_INTTYPES_H)
-endif()
-
 #include(${GDCM_SOURCE_DIR}/CMake/gdcmPlatformCxxTests.cmake)
 #
 #GDCM_PLATFORM_CXX_TEST(GDCM_CXX_HAS_FUNCTION
 #    "Checking whether compiler has __FUNCTION__" DIRECT)
 
-
-#-----------------------------------------------------------------------------
-# Build the main lib...
-if(NOT GDCM_HAVE_STDINT_H)
-  message(FATAL_ERROR "You system does not have stdint.h")
-endif()
 
 # --------------------------------------------------------------------------
 # Configure the export configuration
@@ -800,7 +789,7 @@ if(GDCM_STANDALONE) # disabled for ITK distribution of gdcm
       set(CPACK_NUGET_PACKAGE_DESCRIPTION "Grassroots DiCoM is a C++ library for DICOM medical files. It is accessible from Python, C#, Java and PHP. It supports RAW, JPEG, JPEG 2000, JPEG-LS, RLE and deflated transfer syntax.
       It comes with a super fast scanner implementation to quickly scan hundreds of DICOM files.
       It supports SCU network operations (C-ECHO, C-FIND, C-STORE, C-MOVE). PS 3.3 & 3.6 are distributed as XML files.
-      It also provides PS 3.15 certificates and password based mecanism to anonymize and de-identify DICOM datasets.")
+      It also provides PS 3.15 certificates and password based mechanism to anonymize and de-identify DICOM datasets.")
       set(CPACK_NUGET_PACKAGE_LICENSEURL "http://gdcm.sourceforge.net/Copyright.html")
       set(CPACK_NUGET_PACKAGE_HOMEPAGE_URL "http://gdcm.sourceforge.net")
       set(CPACK_NUGET_PACKAGE_TAGS "dicom" "medical")

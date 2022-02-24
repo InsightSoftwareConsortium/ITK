@@ -39,7 +39,7 @@ class Subject;
  *
  * This ULEvent is passed to the ULState, so that the transition to the next state can occur.
  *
- * Actions are associated with Payloads-- be thos filestreams, AETitles to establish connections,
+ * Actions are associated with Payloads -- be those filestreams, AETitles to establish connections,
  * whatever.  The actual parameters that the user will pass via an action will come through
  * a Payload object, which should, in itself, be some gdcm-based object (but not all objects can
  * be payloads; sending a single dataelement as a payload isn't meaningful).  As such, each action

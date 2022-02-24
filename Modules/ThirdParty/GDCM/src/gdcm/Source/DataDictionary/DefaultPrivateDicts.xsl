@@ -36,8 +36,8 @@
 
 =========================================================================*/
 
-#ifndef GDCMDEFAULTDICTS_CXX
-#define GDCMDEFAULTDICTS_CXX
+#ifndef GDCMPRIVATEDEFAULTDICTS_CXX
+#define GDCMPRIVATEDEFAULTDICTS_CXX
 
 #include "gdcmDicts.h"
 #include "gdcmVR.h"
@@ -153,7 +153,7 @@ generating group length for arbitrary even group number seems to get my xsltproc
       </xsl:if>
     </xsl:for-each>
     <xsl:text>
-  {0xffff,0xffff,0,VR::INVALID,VM::VM0,0,true } // Gard
+  {0xffff,0xffff,0,VR::INVALID,VM::VM0,0,true } // Guard
 };
 
 void Dict::LoadDefault()
@@ -191,7 +191,7 @@ void PrivateDict::LoadDefault()
 }
 
 } // end namespace gdcm
-#endif // GDCMDEFAULTDICTS_CXX
+#endif // GDCMPRIVATEDEFAULTDICTS_CXX
 </xsl:text>
   </xsl:template>
   <xsl:template name="do-group-length">

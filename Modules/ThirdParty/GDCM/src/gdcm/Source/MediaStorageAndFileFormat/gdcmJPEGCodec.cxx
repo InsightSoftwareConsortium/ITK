@@ -92,7 +92,7 @@ void JPEGCodec::SetPixelFormat(PixelFormat const &pt)
 
   // We have the choice to decide to use Bits Stored or Bits Allocated, however in the case of
   // such an image as: gdcmData/MR16BitsAllocated_8BitsStored.dcm we are required to use
-  // bits allocated to deal with the logic to decide withe the encoder
+  // bits allocated to deal with the logic to decide with the encoder
   SetBitSample( pt.GetBitsAllocated() );
   //SetBitSample( pt.GetBitsStored() );
 }
@@ -274,7 +274,7 @@ bool JPEGCodec::GetHeaderInfo( std::istream & is, TransferSyntax &ts )
       SetupJPEGBitCodec( Internal->BitSample );
       if( Internal && Internal->GetHeaderInfo(is, ts) )
         {
-        // Foward everything back to meta jpeg codec:
+        // Forward everything back to meta jpeg codec:
         this->SetLossyFlag( Internal->GetLossyFlag() );
         this->SetDimensions( Internal->GetDimensions() );
         this->SetPhotometricInterpretation( Internal->GetPhotometricInterpretation() );
@@ -293,7 +293,7 @@ bool JPEGCodec::GetHeaderInfo( std::istream & is, TransferSyntax &ts )
     return false;
     }
   // else
-  // Foward everything back to meta jpeg codec:
+  // Forward everything back to meta jpeg codec:
   this->SetLossyFlag( Internal->GetLossyFlag() );
   this->SetDimensions( Internal->GetDimensions() );
   this->SetPhotometricInterpretation( Internal->GetPhotometricInterpretation() );

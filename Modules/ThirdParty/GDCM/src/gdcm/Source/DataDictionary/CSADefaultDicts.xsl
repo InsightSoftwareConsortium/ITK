@@ -166,7 +166,7 @@ generating group length for arbitrary even group number seems to get my xsltproc
       </xsl:if>
     </xsl:for-each>
     <xsl:text>
-  {0,0,VR::INVALID,VM::VM0,0 } // Gard
+  {0,0,VR::INVALID,VM::VM0,0 } // Guard
 };
 
 void CSAHeaderDict::LoadDefault()

@@ -51,7 +51,7 @@ public:
 
   void Clear() { ModuleInternal.clear(); }
 
-  /// Will add a ModuleEntry direcly at root-level. See Macro for nested-included level.
+  /// Will add a ModuleEntry directly at root-level. See Macro for nested-included level.
   void AddMacroEntry(const Tag& tag, const MacroEntry & module)
     {
     ModuleInternal.insert(

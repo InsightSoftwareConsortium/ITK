@@ -46,7 +46,7 @@ public:
     // PALETTE_COLOR ?
     //MONOCHROME = MONOCHROME1 | MONOCHROME2,
     //COLOR      = RGB | HSV | ARGB | CMYK | YBR_FULL | YBR_FULL_422 | YBR_PARTIAL_422 | YBR_PARTIAL_420 | YBR_ICT | YBR_RCT,
-    PI_END  // Helpfull for internal implementation
+    PI_END  // Helpful for internal implementation
   } PIType; // PhotometricInterpretationType
 
   PhotometricInterpretation(PIType pi = UNKNOWN):PIField(pi) {}

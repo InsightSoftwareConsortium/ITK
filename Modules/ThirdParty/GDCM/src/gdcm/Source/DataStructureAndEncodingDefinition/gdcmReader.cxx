@@ -172,7 +172,7 @@ TransferSyntax Reader::GuessTransferSyntax()
       {
       nts = TransferSyntax::Implicit;
       // We are reading a private creator (0x0010) so it's LO, it's
-      // difficult to come up with someting to check, maybe that
+      // difficult to come up with something to check, maybe that
       // VL < 256 ...
       gdcmWarningMacro( "Very dangerous assertion needs some work" );
       }
@@ -735,6 +735,8 @@ static inline bool isasciiupper( char c ) {
 // scope of this function.
 bool Reader::CanRead() const
 {
+  if( !Stream ) return false;
+
   // fastpath
   std::istream &is = *Stream;
   if( is.bad() ) return false;

@@ -48,10 +48,10 @@ static const CSA_DICT_ENTRY CSAHeaderDataDict [] = {
   {"ImageInAcquisition","3",VR::IS,VM::VM1,"Number of images that resulted from this acquisition of data"},
   {">Referenced SOP Class UID","1C",VR::UI,VM::VM1,"Uniquely identifies the referenced SOP Class"},
   {">Referenced SOP Instance UID","1C",VR::UI,VM::VM1,"Uniquely identifies the referenced SOP Instance"},
-  {"> Referenced Frame Number","3",VR::IS,VM::VM1_n,"References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are siginificantly related to this image"},
+  {"> Referenced Frame Number","3",VR::IS,VM::VM1_n,"References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are significantly related to this image"},
   //{">Referenced SOP Class UID","1C",VR::UI,VM::VM1,"Uniquely identifies the referenced SOP Class"},
   //{">Referenced SOP Instance UID","1C",VR::UI,VM::VM1,"Uniquely identifies the referenced SOP Instance"},
-  //{"> Referenced Frame Number","3",VR::IS,VM::VM1_n,"References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are siginificantly related to this image"},
+  //{"> Referenced Frame Number","3",VR::IS,VM::VM1_n,"References one or more image frames of a Multi-frame Image SOP Instance, identifying which frames are significantly related to this image"},
   {"ImageType","3",VR::CS,VM::VM1_n,"Image identification characteristics"},
   {"Lossy Image Compression","3",VR::CS,VM::VM1,"Specifies whether an image has undergone lossy compression. Enumerated values: 00 = image has not been subjected to lossy compression. 01 = image has been subjected to lossy compression"},
   {"Quality Control Image","1C",VR::CS,VM::VM1,"Indicates whether or not this image is a quality control or phantom image. Enumerated values: YES, NO"},
@@ -162,7 +162,7 @@ static const CSA_DICT_ENTRY CSAHeaderDataDict [] = {
   {"PixelFileName","1",VR::UN,VM::VM1,"Used raw data file name for the performed acquisition"},
   {"SliceMeasurementDuration","1",VR::DS,VM::VM1,"Time duration between two slices of the performed acquisition"},
   {"AcquisitionMatrixText","1",VR::SH,VM::VM1,"Used acquisition matrix description"},
-  {"SequenceMask","1",VR::UL,VM::VM1,"Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens seqence ...."},
+  {"SequenceMask","1",VR::UL,VM::VM1,"Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens sequence ...."},
   {"MeasuredFourierLines","1",VR::IS,VM::VM1,"Number of performed fourier lines"},
   {"FlowEncodingDirection","1",VR::IS,VM::VM1,"Flow encoding direction"},
   {"FlowVenc","1",VR::FD,VM::VM1,"Flow Quant attribute"},
@@ -172,7 +172,7 @@ static const CSA_DICT_ENTRY CSAHeaderDataDict [] = {
   {"ImageGroup","1",VR::US,VM::VM1,"Group of images"},
   {"SliceNormalVector","1",VR::FD,VM::VM3,"X,y and z normal vector of the slices"},
   {"DiffusionDirection","1",VR::CS,VM::VM1,"Diffusion direction"},
-  {"TimeAfterStart","1",VR::DS,VM::VM1,"Time delay after start of measurment"},
+  {"TimeAfterStart","1",VR::DS,VM::VM1,"Time delay after start of measurement"},
   //{"FlipAngle","1",VR::DS,VM::VM1,"Flip angle for SC images"},
   //{"SequenceName","1",VR::SH,VM::VM1,"Sequence name for SC images"},
   //{"RepetitionTime","1",VR::DS,VM::VM1,"Repetition time for SC images"},
@@ -233,7 +233,7 @@ static const CSA_DICT_ENTRY CSAHeaderDataDict [] = {
   {"SourceImageSequence","1",VR::UI,VM::VM1_n,"A sequence which identifies the set of Image SOP Class/Instance pairs of the images which were use to derive this image"},
   //{"PixelBandwidth","1",VR::DS,VM::VM1,"Reciprocal of the total sampling period, in hertz per pixel"},
   //{"SliceMeasurementDuration","1",VR::DS,VM::VM1,"Time duration between two slices of the performed acquisition"},
-  //{"SequenceMask","1",VR::UL,VM::VM1,"Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens seqence .·"},
+  //{"SequenceMask","1",VR::UL,VM::VM1,"Parameters used for acquisition, e.g. door open, interpolation, raw filter, Siemens sequence .·"},
   //{"AcquisitionMatrixText","1",VR::SH,VM::VM1,"Used acquisition matrix description"},
   //{"MeasuredFourierLines","1",VR::IS,VM::VM1,"Number of performed fourier lines"},
   {"ulVersion","3",VR::UL,VM::VM1,"Protocol version"},
@@ -336,7 +336,7 @@ docstrings, so ping me if you need clarification.
 */
   {"sSliceArray.ucMode","1",VR::US,VM::VM1,"slice ordering 0x1,0x2,0x4 resp. asc,desc,inter"},
 
-  {nullptr,nullptr,VR::INVALID,VM::VM0,nullptr } // Gard
+  {nullptr,nullptr,VR::INVALID,VM::VM0,nullptr } // Guard
 };
 
 void CSAHeaderDict::LoadDefault()

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
   <xsl:output method="xml" encoding="UTF-8" indent="yes"/>
-<!-- XSL to convert XML GDCM2 data dictionay into
+<!-- XSL to convert XML GDCM2 data dictionary into
      dcm4che data dictionary
 Checked against:
     http://dcm4che.svn.sourceforge.net/viewvc/dcm4che/dcm4che2/trunk/dcm4che-core/src/xml/dictionary.xml

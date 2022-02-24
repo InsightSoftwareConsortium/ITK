@@ -195,7 +195,7 @@ void Overlay::Update(const DataElement & de)
     // if OverlayBitsAllocated is 16 it imply Overlay in unused pixel bits
     if( at.GetValue() != 1 )
       {
-      gdcmDebugMacro( "Unsuported OverlayBitsAllocated: " << at.GetValue() );
+      gdcmDebugMacro( "Unsupported OverlayBitsAllocated: " << at.GetValue() );
       }
     SetBitsAllocated( at.GetValue() );
     }
@@ -205,7 +205,7 @@ void Overlay::Update(const DataElement & de)
     at.SetFromDataElement( de );
     if( at.GetValue() != 0 ) // For old ACR when using unused bits...
       {
-      gdcmDebugMacro( "Unsuported OverlayBitPosition: " << at.GetValue() );
+      gdcmDebugMacro( "Unsupported OverlayBitPosition: " << at.GetValue() );
       }
     SetBitPosition( at.GetValue() );
     }

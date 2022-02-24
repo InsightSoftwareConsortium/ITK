@@ -66,7 +66,8 @@ void UpdatePhotometricInterpretation( Bitmap const &input, Bitmap &output )
     output.SetPhotometricInterpretation( PhotometricInterpretation::RGB );
     }
   // when decompressing loss jpeg, need to revert to proper photo inter in uncompressed TS:
-  if( input.GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 )
+  if( input.GetPhotometricInterpretation() == PhotometricInterpretation::YBR_FULL_422 
+   || input.GetPhotometricInterpretation() == PhotometricInterpretation::YBR_PARTIAL_422 )
     {
     output.SetPhotometricInterpretation( PhotometricInterpretation::YBR_FULL );
     }

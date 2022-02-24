@@ -41,7 +41,7 @@ public:
         {
         gdcmDebugMacro( "Odd length" );
         Internal.resize(vl+1);
-        Length++;
+        ++Length;
         }
   }
 

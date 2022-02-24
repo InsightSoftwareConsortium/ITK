@@ -62,7 +62,7 @@ public:
   const std::ostream &WriteHelpFile(std::ostream &os);
 
   //this function allows writing of the query to disk for storing for future use
-  //virtual in case it needs to be overiden
+  //virtual in case it needs to be overridden
   //returns false if the operation failed
   bool WriteQuery(const std::string& inFileName);
 

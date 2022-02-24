@@ -776,7 +776,7 @@ Series shadow data (0029,xx20)
 54 - 'MrEvaProtocol' VM 1, VR UN, SyngoDT 0, NoOfItems 0, Data
 *
 *
-WARNING: I think this is context dependant so 0029,1010 and 0029,1110 are not supposed to mean the same thing, eg:
+WARNING: I think this is context dependent so 0029,1010 and 0029,1110 are not supposed to mean the same thing, eg:
 (CSA image data)
 
 (0029,0010)siemens csa header

@@ -158,7 +158,7 @@ std::streamsize basic_zip_streambuf<charT, traits>::flush()
         {
             written_byte_size = static_cast<std::streamsize>(_output_buffer.size()) - _zip_stream.avail_out;
             total_written_byte_size += written_byte_size;
-            // ouput buffer is full, dumping to ostream
+            // output buffer is full, dumping to ostream
             _ostream.write( (const char_type*) &(_output_buffer[0]),
                             static_cast<std::streamsize>(written_byte_size/sizeof(char_type)*sizeof(char)));
 
@@ -263,7 +263,7 @@ bool basic_zip_streambuf<charT, traits>::zip_to_stream(
             written_byte_size= static_cast<std::streamsize>(_output_buffer.size()) -
                 _zip_stream.avail_out;
             total_written_byte_size += written_byte_size;
-            // ouput buffer is full, dumping to ostream
+            // output buffer is full, dumping to ostream
 
             _ostream.write((const char_type*) &_output_buffer[0],
                            static_cast<std::streamsize>(written_byte_size / sizeof(char_type)));
@@ -711,7 +711,7 @@ basic_zip_istream<charT, traits>::is_gzip() const
  * This must be called after the reading of compressed data is finished!  This
  * method compares it to the crc of the uncompressed data.
  *
- *    \return true if crc check is succesful
+ *    \return true if crc check is successful
  */
 template <class charT, class traits> inline
 bool

@@ -84,7 +84,7 @@ bool FilenameGenerator::Generate()
     if ( num_percent != 1 )
       {
       // Bug: what if someone wants to output file such as %%%02 ... oh well
-      gdcmDebugMacro( "No more than one % in string formating please" );
+      gdcmDebugMacro( "No more than one % in string formatting please" );
       return false;
       }
     bool success = true;

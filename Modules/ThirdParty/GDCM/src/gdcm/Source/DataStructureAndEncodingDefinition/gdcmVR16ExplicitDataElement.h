@@ -21,7 +21,7 @@ namespace gdcm
 // Data Element (Explicit)
 /**
  * \brief Class to read/write a DataElement as Explicit Data Element
- * \note This class support 16 bits when finding an unkown VR:
+ * \note This class support 16 bits when finding an unknown VR:
  * For instance:
  * Siemens_CT_Sensation64_has_VR_RT.dcm
  */

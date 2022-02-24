@@ -240,7 +240,7 @@ typedef struct opj_cp {
   char *comment;
   /** number of tiles in width */
   int tw;
-  /** number of tiles in heigth */
+  /** number of tiles in height */
   int th;
   /** ID number of the tiles present in the codestream */
   int *tileno;
@@ -317,7 +317,7 @@ typedef struct opj_j2k {
 
   /** locate in which part of the codestream the decoder is (main header, tile header, end) */
   int state;
-  /** number of the tile curently concern by coding/decoding */
+  /** number of the tile currently concern by coding/decoding */
   int curtileno;
   /** Tile part number*/
   int tp_num;

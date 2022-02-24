@@ -61,7 +61,7 @@ class Scanner;
 /**
  * \brief SerieHelper
  * DO NOT USE this class, it is only a temporary solution for ITK migration from GDCM 1.x to GDCM 2.x
- * It will disapear soon, you've been warned.
+ * It will disappear soon, you've been warned.
  *
  * Instead see ImageHelper or IPPSorter
  */
