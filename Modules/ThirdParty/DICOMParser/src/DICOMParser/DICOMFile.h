@@ -27,8 +27,8 @@
 #include <string>
 
 #include "DICOMConfig.h"
-#include "DICOMSource.h"
 #include "DICOMTypes.h"
+#include "DICOMSource.h"
 
 namespace DICOMPARSER_NAMESPACE
 {

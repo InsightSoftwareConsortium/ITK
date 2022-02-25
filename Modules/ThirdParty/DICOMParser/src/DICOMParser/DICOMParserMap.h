@@ -43,8 +43,9 @@ class DICOMCallback;
 struct group_element_compare
 {
   group_element_compare() {}
-  bool operator()(const dicom_stl::pair<doublebyte, doublebyte> p1,
-    const dicom_stl::pair<doublebyte, doublebyte> p2) const
+
+  bool operator()(const dicom_stl::pair<doublebyte, doublebyte>& p1,
+    const dicom_stl::pair<doublebyte, doublebyte>& p2) const
   {
     if (p1.first < p2.first)
     {
@@ -104,7 +105,9 @@ class DICOMMapValue : public DICOMMapValueOverride
 {
 public:
   DICOMMapValue()
-    : dicom_stl::pair<doublebyte, dicom_stl::vector<DICOMCallback*>*>(){};
+    : dicom_stl::pair<doublebyte, dicom_stl::vector<DICOMCallback*>*>()
+  {
+  }
 
   DICOMMapValue(doublebyte v1, dicom_stl::vector<DICOMCallback*>* v2)
     : dicom_stl::pair<doublebyte, dicom_stl::vector<DICOMCallback*>*>(v1, v2)

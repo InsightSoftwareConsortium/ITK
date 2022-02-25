@@ -101,8 +101,8 @@ public:
 
 struct lt_pair_int_string
 {
-  bool operator()(const dicom_stl::pair<int, dicom_stl::string> s1,
-    const dicom_stl::pair<int, dicom_stl::string> s2) const
+  bool operator()(const dicom_stl::pair<int, dicom_stl::string>& s1,
+    const dicom_stl::pair<int, dicom_stl::string>& s2) const
   {
     return s1.first < s2.first;
   }
@@ -110,8 +110,8 @@ struct lt_pair_int_string
 
 struct lt_pair_float_string
 {
-  bool operator()(const dicom_stl::pair<float, dicom_stl::string> s1,
-    const dicom_stl::pair<float, dicom_stl::string> s2) const
+  bool operator()(const dicom_stl::pair<float, dicom_stl::string>& s1,
+    const dicom_stl::pair<float, dicom_stl::string>& s2) const
   {
     return s1.first < s2.first;
   }
@@ -119,8 +119,8 @@ struct lt_pair_float_string
 
 struct gt_pair_int_string
 {
-  bool operator()(const dicom_stl::pair<int, dicom_stl::string> s1,
-    const dicom_stl::pair<int, dicom_stl::string> s2) const
+  bool operator()(const dicom_stl::pair<int, dicom_stl::string>& s1,
+    const dicom_stl::pair<int, dicom_stl::string>& s2) const
   {
     return s1.first > s2.first;
   }
@@ -128,8 +128,8 @@ struct gt_pair_int_string
 
 struct gt_pair_float_string
 {
-  bool operator()(const dicom_stl::pair<float, dicom_stl::string> s1,
-    const dicom_stl::pair<float, dicom_stl::string> s2) const
+  bool operator()(const dicom_stl::pair<float, dicom_stl::string>& s1,
+    const dicom_stl::pair<float, dicom_stl::string>& s2) const
   {
     return s1.first > s2.first;
   }
@@ -140,16 +140,16 @@ DICOMAppHelper::DICOMAppHelper()
   this->FileCount = 0;
   this->BitsAllocated = 8;
   this->ByteSwapData = false;
-  this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0f;
+  this->PixelSpacing[0] = this->PixelSpacing[1] = this->PixelSpacing[2] = 1.0;
   this->Dimensions[0] = this->Dimensions[1] = 0;
   this->Width = this->Height = 0;
-  this->PhotometricInterpretation = NULL;
-  this->TransferSyntaxUID = NULL;
+  this->PhotometricInterpretation = nullptr;
+  this->TransferSyntaxUID = nullptr;
   this->CurrentSeriesUID = "";
   this->InstanceUID = "";
-  this->RescaleOffset = 0.0f;
-  this->RescaleSlope = 1.0f;
-  this->ImageData = NULL;
+  this->RescaleOffset = 0.0;
+  this->RescaleSlope = 1.0;
+  this->ImageData = nullptr;
   this->ImageDataLengthInBytes = 0;
 
   // Initialize the arrays
@@ -600,7 +600,7 @@ void DICOMAppHelper::ContourImageSequenceCallback(
 }
 
 void DICOMAppHelper::SeriesUIDCallback(
-  DICOMParser*, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte len)
+  DICOMParser* parser, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte len)
 {
   if (len == 0)
   {
@@ -771,8 +771,8 @@ void DICOMAppHelper::ArrayCallback(DICOMParser* parser, doublebyte group, double
   int t2 = int((0x0000FF00 & datatype) >> 8);
   int t1 = int((0x000000FF & datatype));
 
-  char ct2(t2);
-  char ct1(t1);
+  char ct2 = static_cast<char>(t2);
+  char ct1 = static_cast<char>(t1);
 
   HeaderFile << "(0x";
 
@@ -868,7 +868,7 @@ void DICOMAppHelper::ArrayCallback(DICOMParser* parser, doublebyte group, double
 }
 
 void DICOMAppHelper::SliceNumberCallback(
-  DICOMParser*, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte len)
+  DICOMParser* parser, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte len)
 {
   // Look for the current instance UID in the map of slice ordering data
   DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
@@ -936,7 +936,7 @@ void DICOMAppHelper::SliceLocationCallback(
 }
 
 void DICOMAppHelper::ImagePositionPatientCallback(
-  DICOMParser*, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte)
+  DICOMParser*, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte len)
 {
   // Look for the current instance UID in the map of slice ordering data
   DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
@@ -954,9 +954,9 @@ void DICOMAppHelper::ImagePositionPatientCallback(
     else
     {
       // no actual position specified, default to the origin
-      ord.ImagePositionPatient[0] = 0.0f;
-      ord.ImagePositionPatient[1] = 0.0f;
-      ord.ImagePositionPatient[2] = 0.0f;
+      ord.ImagePositionPatient[0] = 0.0;
+      ord.ImagePositionPatient[1] = 0.0;
+      ord.ImagePositionPatient[2] = 0.0;
     }
 
     // insert into the map
@@ -977,9 +977,9 @@ void DICOMAppHelper::ImagePositionPatientCallback(
     else
     {
       // no actual position specified, default to the origin
-      (*it).second.ImagePositionPatient[0] = 0.0f;
-      (*it).second.ImagePositionPatient[1] = 0.0f;
-      (*it).second.ImagePositionPatient[2] = 0.0f;
+      (*it).second.ImagePositionPatient[0] = 0.0;
+      (*it).second.ImagePositionPatient[1] = 0.0;
+      (*it).second.ImagePositionPatient[2] = 0.0;
     }
 
     // cache the value
@@ -988,7 +988,7 @@ void DICOMAppHelper::ImagePositionPatientCallback(
 }
 
 void DICOMAppHelper::ImageOrientationPatientCallback(
-  DICOMParser*, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte)
+  DICOMParser*, doublebyte, doublebyte, DICOMParser::VRTypes, unsigned char* val, quadbyte len)
 {
   // Look for the current instance UID in the map of slice ordering data
   DICOMAppHelperImplementation::InstanceUIDToSliceOrderingMapType::iterator it;
@@ -1007,12 +1007,12 @@ void DICOMAppHelper::ImageOrientationPatientCallback(
     else
     {
       // no orientation defined, default to an standard axial orientation
-      ord.ImageOrientationPatient[0] = 1.0f;
-      ord.ImageOrientationPatient[1] = 0.0f;
-      ord.ImageOrientationPatient[2] = 0.0f;
-      ord.ImageOrientationPatient[3] = 0.0f;
-      ord.ImageOrientationPatient[4] = 1.0f;
-      ord.ImageOrientationPatient[5] = 0.0f;
+      ord.ImageOrientationPatient[0] = 1.0;
+      ord.ImageOrientationPatient[1] = 0.0;
+      ord.ImageOrientationPatient[2] = 0.0;
+      ord.ImageOrientationPatient[3] = 0.0;
+      ord.ImageOrientationPatient[4] = 1.0;
+      ord.ImageOrientationPatient[5] = 0.0;
     }
 
     // insert into the map
@@ -1032,12 +1032,12 @@ void DICOMAppHelper::ImageOrientationPatientCallback(
     else
     {
       // no orientation defined, default to an standard axial orientation
-      (*it).second.ImageOrientationPatient[0] = 1.0f;
-      (*it).second.ImageOrientationPatient[1] = 0.0f;
-      (*it).second.ImageOrientationPatient[2] = 0.0f;
-      (*it).second.ImageOrientationPatient[3] = 0.0f;
-      (*it).second.ImageOrientationPatient[4] = 1.0f;
-      (*it).second.ImageOrientationPatient[5] = 0.0f;
+      (*it).second.ImageOrientationPatient[0] = 1.0;
+      (*it).second.ImageOrientationPatient[1] = 0.0;
+      (*it).second.ImageOrientationPatient[2] = 0.0;
+      (*it).second.ImageOrientationPatient[3] = 0.0;
+      (*it).second.ImageOrientationPatient[4] = 1.0;
+      (*it).second.ImageOrientationPatient[5] = 0.0;
     }
   }
 }
@@ -1058,7 +1058,7 @@ void DICOMAppHelper::TransferSyntaxCallback(
   static const char* TRANSFER_UID_EXPLICIT_BIG_ENDIAN = "1.2.840.10008.1.2.2";
 
   // Only add the ToggleSwapBytes callback when we need it.
-  if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, (char*)val) == 0)
+  if (strcmp(TRANSFER_UID_EXPLICIT_BIG_ENDIAN, reinterpret_cast<char*>(val)) == 0)
   {
     this->ByteSwapData = true;
     parser->AddDICOMTagCallback(0x0800, 0x0000, DICOMParser::VR_UNKNOWN, ToggleSwapBytesCB);
@@ -1125,7 +1125,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser* parser, doublebyte group,
 
   if (group == 0x0028 && element == 0x0030)
   {
-    float fval = 1.0f; // defaul of 1mm
+    float fval = 1.0; // defaul of 1mm
     if (len > 0)
     {
       fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
@@ -1151,7 +1151,7 @@ void DICOMAppHelper::PixelSpacingCallback(DICOMParser* parser, doublebyte group,
   }
   else if (group == 0x0018 && element == 0x0050)
   {
-    float fval = 1.0f; // defaul of 1mm
+    float fval = 1.0; // defaul of 1mm
     if (len > 0)
     {
       fval = DICOMFile::ReturnAsFloat(val, parser->GetDICOMFile()->GetPlatformIsBigEndian());
@@ -1229,7 +1229,7 @@ void DICOMAppHelper::PhotometricInterpretationCallback(
   }
   else
   {
-    this->PhotometricInterpretation = NULL;
+    this->PhotometricInterpretation = nullptr;
   }
 }
 
@@ -1263,7 +1263,7 @@ void DICOMAppHelper::PixelDataCallback(
   unsigned char* ucharInputData = data;
   short* shortInputData = reinterpret_cast<short*>(data);
 
-  float* floatOutputData; // = NULL;
+  float* floatOutputData; // = nullptr;
 
   bool isFloat = this->RescaledImageDataIsFloat();
 
@@ -1444,13 +1444,13 @@ void DICOMAppHelper::ContourDataCallback(
     {
       sscanf((char*)(tPtr), "%f", &p);
       contour[i] = p;
-      tPtr = (unsigned char*)strtok(NULL, "\\");
+      tPtr = (unsigned char*)strtok(nullptr, "\\");
       sscanf((char*)(tPtr), "%f", &p);
       contour[i + 1] = p;
-      tPtr = (unsigned char*)strtok(NULL, "\\");
+      tPtr = (unsigned char*)strtok(nullptr, "\\");
       sscanf((char*)(tPtr), "%f", &p);
       contour[i + 2] = p;
-      tPtr = (unsigned char*)strtok(NULL, "\\");
+      tPtr = (unsigned char*)strtok(nullptr, "\\");
     }
 
     delete[] tdata;
@@ -1561,7 +1561,7 @@ const char* DICOMAppHelper::TransferSyntaxUIDDescription(const char* uid)
 void DICOMAppHelper::RescaleOffsetCallback(DICOMParser* parser, doublebyte, doublebyte,
   DICOMParser::VRTypes, unsigned char* val, quadbyte len)
 {
-  float fval = 0.0f;
+  float fval = 0.0;
 
   if (len > 0)
   {
@@ -1577,7 +1577,7 @@ void DICOMAppHelper::RescaleOffsetCallback(DICOMParser* parser, doublebyte, doub
 void DICOMAppHelper::RescaleSlopeCallback(DICOMParser* parser, doublebyte, doublebyte,
   DICOMParser::VRTypes, unsigned char* val, quadbyte len)
 {
-  float fval = 1.0f;
+  float fval = 1.0;
 
   if (len > 0)
   {

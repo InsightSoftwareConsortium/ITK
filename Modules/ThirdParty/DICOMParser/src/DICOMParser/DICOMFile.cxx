@@ -20,11 +20,11 @@
 #pragma warning(push, 3)
 #endif
 
+#include "DICOMFile.h"
+#include "DICOMConfig.h"
+
 #include <stdio.h>
 #include <string>
-
-#include "DICOMConfig.h"
-#include "DICOMFile.h"
 
 namespace DICOMPARSER_NAMESPACE
 {
@@ -119,7 +119,7 @@ void DICOMFile::SkipToStart()
 
 void DICOMFile::Read(void* ptr, long nbytes)
 {
-  InputStream.read((char*)ptr, nbytes);
+  InputStream.read(static_cast<char*>(ptr), nbytes);
   // dicom_stream::cout << "DICOMFile::Read " <<  (char*) ptr << dicom_stream::endl;
 }
 } // namespace DICOMPARSER_NAMESPACE
