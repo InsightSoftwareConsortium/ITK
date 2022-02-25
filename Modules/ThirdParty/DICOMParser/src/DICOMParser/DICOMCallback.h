@@ -45,10 +45,10 @@ namespace DICOMPARSER_NAMESPACE
 class DICOM_EXPORT DICOMCallback
 {
 public:
+  virtual ~DICOMCallback() {}
   virtual void Execute(DICOMParser* parser, doublebyte group, doublebyte element,
     DICOMParser::VRTypes type, unsigned char* val, quadbyte len) = 0;
   DICOMCallback() {}
-  virtual ~DICOMCallback() {}
 };
 
 //
@@ -76,7 +76,7 @@ public:
   // Execute method implementation from DICOMCallback.
   //
   void Execute(DICOMParser* parser, doublebyte group, doublebyte element, DICOMParser::VRTypes type,
-    unsigned char* val, quadbyte len)
+    unsigned char* val, quadbyte len) override
   {
     if (MemberFunction)
     {

@@ -38,7 +38,10 @@ class DICOMParser;
 struct ltstdstr
 {
   ltstdstr() {}
-  bool operator()(const dicom_stl::string s1, const dicom_stl::string s2) const { return s1 < s2; }
+  bool operator()(const dicom_stl::string& s1, const dicom_stl::string& s2) const
+  {
+    return s1 < s2;
+  }
 };
 
 // Helper structure for DICOM elements
@@ -59,16 +62,16 @@ public:
   {
     // Default values to something "valid"
     SliceNumber = -1;
-    SliceLocation = 0.0f;
-    ImagePositionPatient[0] = 0.0f;
-    ImagePositionPatient[1] = 0.0f;
-    ImagePositionPatient[2] = 0.0f;
-    ImageOrientationPatient[0] = 1.0f;
-    ImageOrientationPatient[1] = 0.0f;
-    ImageOrientationPatient[2] = 0.0f;
-    ImageOrientationPatient[3] = 0.0f;
-    ImageOrientationPatient[4] = 1.0f;
-    ImageOrientationPatient[5] = 0.0f;
+    SliceLocation = 0.0;
+    ImagePositionPatient[0] = 0.0;
+    ImagePositionPatient[1] = 0.0;
+    ImagePositionPatient[2] = 0.0;
+    ImageOrientationPatient[0] = 1.0;
+    ImageOrientationPatient[1] = 0.0;
+    ImageOrientationPatient[2] = 0.0;
+    ImageOrientationPatient[3] = 0.0;
+    ImageOrientationPatient[4] = 1.0;
+    ImageOrientationPatient[5] = 0.0;
   }
 
   int SliceNumber;

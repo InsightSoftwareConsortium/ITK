@@ -31,25 +31,17 @@ project(${DICOMPARSER_NAMESPACE})
 include_directories(${PROJECT_BINARY_DIR})
 include_directories(${PROJECT_SOURCE_DIR})
 
-if(WIN32)
-  if(BUILD_SHARED_LIBS)
+if (WIN32)
+  if (BUILD_SHARED_LIBS)
     set(DICOM_DLL 1)
-  else()
+  else ()
     set(DICOM_STATIC 1)
-  endif()
-endif()
+  endif ()
+endif ()
+set(DICOM_ANSI_STDLIB 1)
 
-if(ITK_SOURCE_DIR)
-   # Inside ITK, use its setting.
-   set(DICOM_ANSI_STDLIB 1)
-else()
-   # Not inside ITK, use ANSI streams.
-   set(DICOM_ANSI_STDLIB 1)
-endif()
-
-include(${CMAKE_ROOT}/Modules/TestForSTDNamespace.cmake)
 set(DICOM_NO_STD_NAMESPACE ${CMAKE_NO_STD_NAMESPACE})
-
+include(${CMAKE_ROOT}/Modules/TestForSTDNamespace.cmake)
 
 configure_file(${PROJECT_SOURCE_DIR}/DICOMCMakeConfig.h.in
                ${PROJECT_BINARY_DIR}/DICOMCMakeConfig.h)
