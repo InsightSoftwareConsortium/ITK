@@ -10,40 +10,38 @@
   All rights reserved.
   See Copyright.txt for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
 
 #ifdef _MSC_VER
-#pragma warning ( disable : 4514 )
-#pragma warning ( disable : 4710 )
-#pragma warning ( push, 3 )
-#endif 
+#pragma warning(disable : 4514)
+#pragma warning(disable : 4710)
+#pragma warning(push, 3)
+#endif
 
-#include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <iostream>
 #include <stdio.h>
 #include <string.h>
 
-#include "DICOMConfig.h"
 #include "DICOMBuffer.h"
+#include "DICOMConfig.h"
 
 namespace DICOMPARSER_NAMESPACE
 {
-DICOMBuffer::DICOMBuffer(unsigned char *buffer, long length)
-  : DICOMSource(),
-    Buffer(buffer),
-    Length(length),
-    Position(0)
+DICOMBuffer::DICOMBuffer(unsigned char* buffer, long length)
+  : DICOMSource()
+  , Buffer(buffer)
+  , Length(length)
+  , Position(0)
 {
 }
 
-DICOMBuffer::~DICOMBuffer()
-{
-}
+DICOMBuffer::~DICOMBuffer() {}
 
 DICOMBuffer::DICOMBuffer(const DICOMBuffer& in)
   : DICOMSource(in)
@@ -62,39 +60,38 @@ void DICOMBuffer::operator=(const DICOMBuffer& in)
   Position = in.Position;
 }
 
-
-long DICOMBuffer::Tell() 
+long DICOMBuffer::Tell()
 {
   return Position;
 }
 
-void DICOMBuffer::SkipToPos(long increment) 
+void DICOMBuffer::SkipToPos(long increment)
 {
   Position = increment;
 }
 
-long DICOMBuffer::GetSize() 
+long DICOMBuffer::GetSize()
 {
   return Length;
 }
 
-void DICOMBuffer::Skip(long increment) 
+void DICOMBuffer::Skip(long increment)
 {
   Position += increment;
 }
 
-void DICOMBuffer::SkipToStart() 
+void DICOMBuffer::SkipToStart()
 {
   Position = 0;
 }
 
-void DICOMBuffer::Read(void* ptr, long nbytes) 
+void DICOMBuffer::Read(void* ptr, long nbytes)
 {
-  memcpy(ptr, Buffer+Position, nbytes);
+  memcpy(ptr, Buffer + Position, nbytes);
   Position += nbytes;
 }
 
-}
+} // namespace DICOMPARSER_NAMESPACE
 #ifdef _MSC_VER
-#pragma warning ( pop )
+#pragma warning(pop)
 #endif
