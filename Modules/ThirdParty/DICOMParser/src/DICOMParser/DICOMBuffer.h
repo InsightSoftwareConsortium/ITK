@@ -10,8 +10,8 @@
   All rights reserved.
   See Copyright.txt for details.
 
-     This software is distributed WITHOUT ANY WARRANTY; without even 
-     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR 
+     This software is distributed WITHOUT ANY WARRANTY; without even
+     the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
      PURPOSE.  See the above copyright notice for more information.
 
 =========================================================================*/
@@ -20,20 +20,20 @@
 #define __DICOMBUFFER_H_
 
 #ifdef _MSC_VER
-#pragma warning ( disable : 4514 )
-#pragma warning ( push, 3 )
-#endif 
+#pragma warning(disable : 4514)
+#pragma warning(push, 3)
+#endif
 
+#include <cstring>
+#include <fstream>
+#include <iostream>
 #include <stdio.h>
 #include <stdlib.h>
-#include <iostream>
-#include <fstream>
 #include <string>
-#include <cstring>
 
-#include "DICOMTypes.h"
 #include "DICOMConfig.h"
 #include "DICOMSource.h"
+#include "DICOMTypes.h"
 
 namespace DICOMPARSER_NAMESPACE
 {
@@ -42,57 +42,54 @@ namespace DICOMPARSER_NAMESPACE
 //
 class DICOM_EXPORT DICOMBuffer : public DICOMSource
 {
- public:
-  DICOMBuffer(unsigned char *buffer, long length);
+public:
+  DICOMBuffer(unsigned char* buffer, long length);
   virtual ~DICOMBuffer();
-  
+
   //
   // Return the position in the buffer.
   //
   long Tell();
-  
-  // 
+
+  //
   // Move to a particular position in the buffer.
   //
   void SkipToPos(long);
-  
+
   //
   // Return the size of the buffer.
   //
   long GetSize();
-  
+
   //
   // Skip a number of bytes.
-  // 
+  //
   void Skip(long);
-  
+
   //
   // Skip to the beginning of the buffer.
   //
   void SkipToStart();
-  
+
   //
   // Read data of length len.
   //
   void Read(void* data, long len);
-  
- protected:
-  DICOMBuffer(const DICOMBuffer&);
-  void operator=(const DICOMBuffer&);  
 
-  unsigned char *Buffer;
+protected:
+  DICOMBuffer(const DICOMBuffer&);
+  void operator=(const DICOMBuffer&);
+
+  unsigned char* Buffer;
   long Length;
   long Position;
-  
+
 private:
   DICOMBuffer();
-
 };
-}
+} // namespace DICOMPARSER_NAMESPACE
 #ifdef _MSC_VER
-#pragma warning ( pop )
+#pragma warning(pop)
 #endif
 
 #endif // __DICOMBUFFER_H_
-
-
