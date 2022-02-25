@@ -19,7 +19,7 @@ if(NOT DICOMPARSER_NAMESPACE)
    set(DICOMPARSER_NAMESPACE dicomparser)
    set(DICOMPARSER_LIBRARY dicomparser)
    set(DICOMPARSER_STANDALONE 1)
-endif(NOT DICOMPARSER_NAMESPACE)
+endif()
 
 
 #-----------------------------------------------------------------------------
@@ -34,18 +34,18 @@ include_directories(${PROJECT_SOURCE_DIR})
 if(WIN32)
   if(BUILD_SHARED_LIBS)
     set(DICOM_DLL 1)
-  else(BUILD_SHARED_LIBS)
+  else()
     set(DICOM_STATIC 1)
-  endif(BUILD_SHARED_LIBS)
-endif(WIN32)
+  endif()
+endif()
 
 if(ITK_SOURCE_DIR)
    # Inside ITK, use its setting.
    set(DICOM_ANSI_STDLIB 1)
-else(ITK_SOURCE_DIR)
+else()
    # Not inside ITK, use ANSI streams.
    set(DICOM_ANSI_STDLIB 1)
-endif(ITK_SOURCE_DIR)
+endif()
 
 include(${CMAKE_ROOT}/Modules/TestForSTDNamespace.cmake)
 set(DICOM_NO_STD_NAMESPACE ${CMAKE_NO_STD_NAMESPACE})
@@ -58,7 +58,7 @@ add_library(${DICOMPARSER_LIBRARY} DICOMSource.cxx DICOMBuffer.cxx DICOMFile.cxx
 
 if(ITK_LIBRARY_PROPERTIES)
   set_target_properties(${DICOMPARSER_LIBRARY} PROPERTIES ${ITK_LIBRARY_PROPERTIES})
-endif(ITK_LIBRARY_PROPERTIES)
+endif()
 
 install(TARGETS ${DICOMPARSER_LIBRARY}
   EXPORT ${ITK3P_INSTALL_EXPORT_NAME}
