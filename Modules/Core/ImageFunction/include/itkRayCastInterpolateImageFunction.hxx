@@ -1416,10 +1416,17 @@ RayCastInterpolateImageFunction<TInputImage, TCoordRep>::Evaluate(const PointTyp
   ray.ZeroState();
   ray.Initialise();
 
-  PointType origin = this->m_Image->GetOrigin();
-  for (unsigned int i = 0; i < origin.Length; ++i)
-    origin[i] -= 0.5 * this->m_Image->GetSpacing()[i];
-  ray.SetRay(point - origin, direction);
+  const PointType origin = this->m_Image->GetOrigin();
+  const auto      spacing = this->m_Image->GetSpacing();
+
+  PointType rayPosition = point;
+
+  for (unsigned int i = 0; i < PointType::Length; ++i)
+  {
+    rayPosition[i] -= origin[i] - 0.5 * spacing[i];
+  }
+
+  ray.SetRay(rayPosition, direction);
   ray.IntegrateAboveThreshold(integral, m_Threshold);
 
   return (static_cast<OutputType>(integral));
