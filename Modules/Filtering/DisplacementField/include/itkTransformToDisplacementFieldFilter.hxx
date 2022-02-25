@@ -185,7 +185,6 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
   // to an output pixel
   PointType outputPoint;       // Coordinates of output pixel
   PointType transformedPoint;  // Coordinates of transformed pixel
-  PointType displacementPoint; // the difference
   PixelType displacementPixel; // the difference, cast to pixel type
 
 
@@ -203,11 +202,11 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::Nonlinea
       // Compute corresponding input pixel position
       transformedPoint = transform->TransformPoint(outputPoint);
 
-      displacementPoint = transformedPoint - outputPoint;
+      const typename PointType::VectorType displacementVector = transformedPoint - outputPoint;
       // Cast PointType -> PixelType
       for (IndexValueType idx = 0; idx < ImageDimension; ++idx)
       {
-        displacementPixel[idx] = static_cast<typename PixelType::ValueType>(displacementPoint[idx]);
+        displacementPixel[idx] = static_cast<typename PixelType::ValueType>(displacementVector[idx]);
       }
       outIt.Set(displacementPixel);
       ++outIt;
