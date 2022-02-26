@@ -299,6 +299,12 @@ public:
     std::swap(m_InternalArray, other.m_InternalArray);
   }
 
+  const_iterator
+  cbegin() const
+  {
+    return &m_InternalArray[0];
+  }
+
   iterator
   begin()
   {
@@ -309,6 +315,12 @@ public:
   begin() const
   {
     return &m_InternalArray[0];
+  }
+
+  const_iterator
+  cend() const
+  {
+    return &m_InternalArray[VDimension];
   }
 
   iterator
