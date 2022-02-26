@@ -73,8 +73,9 @@ protected:
     itk::ImageRegionIteratorWithIndex<TOutputImage> it(out, out->GetRequestedRegion());
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)
     {
-      typename TOutputImage::IndexType idx = it.GetIndex();
-      it.Set(idx[2] * 100 + idx[1] * 10 + idx[0]);
+      typename TOutputImage::IndexType       idx = it.GetIndex();
+      const typename TOutputImage::PixelType pixel(idx[2] * 100 + idx[1] * 10 + idx[0]);
+      it.Set(pixel);
     }
   };
 
@@ -188,11 +189,10 @@ HDF5ReadWriteTest2(const char * fileName)
   // Check image pixel values.
   itk::ImageRegionIterator<ImageType> it(image, image->GetLargestPossibleRegion());
   typename ImageType::IndexType       idx;
-  TPixel                              origValue;
   for (it.GoToBegin(); !it.IsAtEnd(); ++it)
   {
     idx = it.GetIndex();
-    origValue = idx[2] * 100 + idx[1] * 10 + idx[0];
+    const TPixel origValue(idx[2] * 100 + idx[1] * 10 + idx[0]);
     if (itk::Math::NotAlmostEquals(it.Get(), origValue))
     {
       std::cout << "Original Pixel (" << origValue << ") doesn't match read-in Pixel (" << it.Get() << std::endl;
