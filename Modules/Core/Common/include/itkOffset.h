@@ -302,25 +302,25 @@ public:
   iterator
   begin()
   {
-    return iterator(&m_InternalArray[0]);
+    return &m_InternalArray[0];
   }
 
   const_iterator
   begin() const
   {
-    return const_iterator(&m_InternalArray[0]);
+    return &m_InternalArray[0];
   }
 
   iterator
   end()
   {
-    return iterator(&m_InternalArray[VDimension]);
+    return &m_InternalArray[VDimension];
   }
 
   const_iterator
   end() const
   {
-    return const_iterator(&m_InternalArray[VDimension]);
+    return &m_InternalArray[VDimension];
   }
 
   reverse_iterator
