@@ -346,37 +346,37 @@ public:
     std::swap(m_InternalArray, other.m_InternalArray);
   }
 
-  const_iterator
+  constexpr const_iterator
   cbegin() const
   {
     return &m_InternalArray[0];
   }
 
-  iterator
+  constexpr iterator
   begin()
   {
     return &m_InternalArray[0];
   }
 
-  const_iterator
+  constexpr const_iterator
   begin() const
   {
     return &m_InternalArray[0];
   }
 
-  const_iterator
+  constexpr const_iterator
   cend() const
   {
     return &m_InternalArray[VDimension];
   }
 
-  iterator
+  constexpr iterator
   end()
   {
     return &m_InternalArray[VDimension];
   }
 
-  const_iterator
+  constexpr const_iterator
   end() const
   {
     return &m_InternalArray[VDimension];

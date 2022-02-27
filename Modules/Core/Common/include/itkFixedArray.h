@@ -322,37 +322,37 @@ public:
 
   itkLegacyMacro(ConstReverseIterator rEnd() const);
 
-  const_iterator
+  constexpr const_iterator
   cbegin() const noexcept
   {
     return m_InternalArray;
   }
 
-  iterator
+  constexpr iterator
   begin() noexcept
   {
     return m_InternalArray;
   }
 
-  const_iterator
+  constexpr const_iterator
   begin() const noexcept
   {
     return this->cbegin();
   }
 
-  const_iterator
+  constexpr const_iterator
   cend() const noexcept
   {
     return m_InternalArray + VLength;
   }
 
-  iterator
+  constexpr iterator
   end() noexcept
   {
     return m_InternalArray + VLength;
   }
 
-  const_iterator
+  constexpr const_iterator
   end() const noexcept
   {
     return this->cend();
