@@ -87,7 +87,16 @@ public:
   RGBAPixel(const ComponentType r[4])
     : BaseArray(r)
   {}
+
+#if defined(ITK_LEGACY_REMOVE)
+  /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
+  RGBAPixel(std::nullptr_t) = delete;
+
+  /** Explicit constructor */
+  explicit RGBAPixel(const ComponentType & r) { this->Fill(r); }
+#else
   RGBAPixel(const ComponentType & r) { this->Fill(r); }
+#endif
 
   /** Pass-through assignment operator for the Array base class. */
   RGBAPixel &
