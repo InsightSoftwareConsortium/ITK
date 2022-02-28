@@ -21,6 +21,7 @@
 
 // First include the header file to be tested:
 #include "itkFixedArray.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 
 #include <array>
@@ -247,6 +248,10 @@ static_assert(Is_Filled_FixedArray_correctly_filled<0>() && Is_Filled_FixedArray
                 Is_Filled_FixedArray_correctly_filled<std::numeric_limits<int>::min()>() &&
                 Is_Filled_FixedArray_correctly_filled<std::numeric_limits<int>::max()>(),
               "itk::FixedArray::Filled(value) should be correctly filled at compile-time");
+
+static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::FixedArray<int>>() &&
+                itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::FixedArray<double, 1>>(),
+              "Check constexpr begin() and end() of FixedArray.");
 
 
 // Tests that the values of a FixedArray (either const or non-const) can be retrieved by a

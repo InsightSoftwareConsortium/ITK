@@ -103,6 +103,40 @@ public:
     ExpectRangesHaveEqualBeginAndEnd(moveAssignedRange, originalRangeBeforeMove);
   }
 
+
+  // Checks the `constexpr` member functions begin() and end() of a container like FixedArray, Index, Offset and Size.
+  template <typename TContainer>
+  static constexpr bool
+  CheckConstexprBeginAndEndOfContainer()
+  {
+    using ConstContainerType = const TContainer;
+    using ValueType = std::remove_reference_t<decltype(*(TContainer().begin()))>;
+
+    static_assert(std::is_same<decltype(*(TContainer().begin())), ValueType &>::value,
+                  "For a non-const container, begin() should return a non-const reference");
+    static_assert(std::is_same<decltype(*(ConstContainerType().begin())), const ValueType &>::value,
+                  "For a const container, begin() should return a const reference");
+    static_assert(std::is_same<decltype(*(TContainer().cbegin())), const ValueType &>::value &&
+                    std::is_same<decltype(*(ConstContainerType().cbegin())), const ValueType &>::value,
+                  "For any container, cbegin() should return a const reference");
+
+    static_assert(std::is_same<decltype(*(TContainer().end())), ValueType &>::value,
+                  "For a non-const container, end() should return a non-const reference");
+    static_assert(std::is_same<decltype(*(ConstContainerType().end())), const ValueType &>::value,
+                  "For a const container, end() should return a const reference");
+    static_assert(std::is_same<decltype(*(TContainer().cend())), const ValueType &>::value &&
+                    std::is_same<decltype(*(ConstContainerType().cend())), const ValueType &>::value,
+                  "For any container, cend() should return a const reference");
+
+    constexpr TContainer container{};
+
+    static_assert(container.cbegin() == container.begin(), "cbegin() should return the same iterator as begin().");
+    static_assert(container.cend() == container.end(), "cend() should return the same iterator as end().");
+
+    // Just return true to ease calling this function inside a static_assert.
+    return true;
+  }
+
 private:
   template <typename TRange>
   static void

@@ -18,6 +18,7 @@
 
 // First include the header file to be tested:
 #include "itkSize.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 #include <limits>
 #include <type_traits> // For integral_constant.
@@ -74,6 +75,10 @@ Is_Filled_Size_correctly_filled()
 static_assert(Is_Filled_Size_correctly_filled<0>() && Is_Filled_Size_correctly_filled<1>() &&
                 Is_Filled_Size_correctly_filled<std::numeric_limits<itk::IndexValueType>::max()>(),
               "itk::Size::Filled(value) should be correctly filled at compile-time");
+
+static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Size<>>() &&
+                itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Size<1>>(),
+              "Check constexpr begin() and end() of Size.");
 
 
 // Tests that itk::Size::Filled(value) returns an itk::Size with the

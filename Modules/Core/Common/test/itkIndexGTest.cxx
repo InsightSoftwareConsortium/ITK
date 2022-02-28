@@ -18,6 +18,7 @@
 
 // First include the header file to be tested:
 #include "itkIndex.h"
+#include "itkRangeGTestUtilities.h"
 #include <gtest/gtest.h>
 #include <initializer_list>
 #include <limits>
@@ -69,6 +70,10 @@ static_assert(Is_Filled_Index_correctly_filled<0>() && Is_Filled_Index_correctly
                 Is_Filled_Index_correctly_filled<std::numeric_limits<itk::IndexValueType>::min()>() &&
                 Is_Filled_Index_correctly_filled<std::numeric_limits<itk::IndexValueType>::max()>(),
               "itk::Index::Filled(value) should be correctly filled at compile-time");
+
+static_assert(itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Index<>>() &&
+                itk::RangeGTestUtilities::CheckConstexprBeginAndEndOfContainer<itk::Index<1>>(),
+              "Check constexpr begin() and end() of Index.");
 
 
 // Tests that itk::Index::Filled(value) returns an itk::Index with the
