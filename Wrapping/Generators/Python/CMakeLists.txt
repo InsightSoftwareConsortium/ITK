@@ -74,6 +74,7 @@ macro(WRAP_ITK_PYTHON_BINDINGS_INSTALL path wrapper_library_name)
     DESTINATION "${PY_SITE_PACKAGES_PATH}/${path}"
     COMPONENT ${_component_module}${WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER}RuntimeLibraries
     )
+  unset(_component_module)
 endmacro()
 
 
@@ -206,6 +207,7 @@ macro(itk_wrap_module_python library_name)
     # `target_link_directories()` was only added to CMake 3.13.
     # target_link_directories(${lib} PUBLIC ${python_library_directory})
     link_directories(${python_library_directory})
+    unset(python_library_directory)
   endif()
 endmacro()
 
@@ -233,6 +235,8 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
     "${DEPS}"
     "${interface_file}"
     "${_swig_depend}")
+
+  unset(_swig_depend)
 
   if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     configure_file(${WrapITK_SOURCE_DIR}/Generators/Python/PyBase/pyBase.i
@@ -290,6 +294,8 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
 
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "${WRAPPER_LIBRARY_NAME}" "${python_file}")
 
+  unset(dependencies)
+  unset(swig_command)
 endmacro()
 
 macro(itk_end_wrap_submodule_python group_name)
@@ -408,6 +414,8 @@ macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
     set(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES "${ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES}  ('${base_name}', '${wrap_class}', '${swig_name}', ${class_in_module}, '${template_params}'),\n")
   endif()
 
+  unset(class_in_module)
+  unset(_include)
 endmacro()
 
 

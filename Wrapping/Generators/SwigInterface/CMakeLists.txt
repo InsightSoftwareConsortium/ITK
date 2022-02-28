@@ -293,12 +293,13 @@ macro(itk_wrap_submodule_swig_interface module)
 endmacro()
 
 macro(itk_end_wrap_submodule_swig_interface module)
-  # variables used:
-  # WRAPPER_LIBRARY_NAME
+  # Global variables used:
   # WRAPPER_LIBRARY_OUTPUT_DIR
-  # WRAPPER_LIBRARY_DEPENDS
-  # WRAPPER_MASTER_INDEX_OUTPUT_DIR
-  # MODULE_INCLUDES
+  # SWIG_INTERFACE_INCLUDES
+  # Global variables set:
+  # SWIG_INTERFACE_MDX_CONTENT:
+  #	SWIG_INTERFACE_MDX_CONTENT
+  # SWIG_INTERFACE_MODULES
 
   set(SWIG_INTERFACE_INCLUDES_CONTENT )
   if(SWIG_INTERFACE_INCLUDES)
@@ -311,11 +312,14 @@ macro(itk_end_wrap_submodule_swig_interface module)
       endif()
     endforeach()
   endif()
-  # create the file which store all the includes
+
+  # create the file which stores all of the includes
   set(includes_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
   configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
      ${includes_file}
      @ONLY)
+  unset(includes_file)
+  unset(SWIG_INTERFACE_INCLUDES_CONTENT)
 
   # store the path of the idx file to store it in the mdx file
   set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")

@@ -109,4 +109,8 @@ macro(itk_end_wrap_submodule_DOC module_name)
   #    COMMENT "-- Wrapping library ${module_name}: Generating swig interface for inline documentation."
     )
     list(APPEND ITK_WRAP_DOC_DOCSTRING_FILES ${swig_doc_interface_file})
+
+    unset(swig_doc_interface_file)
+    unset(itk_doxy2swig_py)
+    unset(doxy2swig_config_file)
 endmacro()

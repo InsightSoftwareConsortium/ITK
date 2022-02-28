@@ -331,6 +331,10 @@ macro(itk_wrap_module_castxml library_name)
 
   configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in" "${castxml_inc_file}" @ONLY)
   unset(CONFIG_CASTXML_INC_CONTENTS)
+  unset(compile_definition_list_at_module)
+  unset(module_folder)
+  unset(compile_definition_list)
+  unset(include_dir_list)
 
   set(CastXML_OUTPUT_FILES )
 endmacro()
