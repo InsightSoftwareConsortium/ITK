@@ -79,8 +79,17 @@ public:
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   RGBPixel() { this->Fill(0); }
 
-  /** Constructor to fill Red=Blug=Green= r. */
+#if defined(ITK_LEGACY_REMOVE)
+  /** Explicit constructor to fill Red=Blug=Green= r. */
+  explicit RGBPixel(const ComponentType & r) { this->Fill(r); }
+
+  /** Prevents copy-initialization from `nullptr`, as well as from `0` (NULL). */
+  RGBPixel(std::nullptr_t) = delete;
+#else
+  /** Constructor to fill Red=Blug=Green= r.
+   * \note ITK_LEGACY_REMOVE=ON will disallow implicit conversion from a component value. */
   RGBPixel(const ComponentType & r) { this->Fill(r); }
+#endif
 
   /** Pass-through constructor for the Array base class. */
   template <typename TRGBPixelValueType>
