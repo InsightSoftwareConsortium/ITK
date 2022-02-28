@@ -106,6 +106,7 @@ macro(itk_wrap_module library_name)
       set(WRAPPER_LIBRARY_${LANG} ON)
     endforeach()
   endif()
+  unset(LANG)
 
   if("${WRAPPER_LIBRARY_itk_wrap_modules_STATUS}" STREQUAL "NOT_EXECUTED")
     itk_wrap_modules()
@@ -560,13 +561,20 @@ macro(itk_load_submodule module)
     message(FATAL_ERROR "The module ${module} can't have the same name as its library. Note that the names are not case sensitive.")
   endif()
 
-  # call generators specific macros
+  # call generators specific macros which set several associated global variables
   itk_wrap_submodule_all_generators("${module}")
 
+  # WRAPPER_INCLUDE_FILES: contains a list of all files to include in the final cxx file
   set(WRAPPER_INCLUDE_FILES )
+
+  # Add  to the list of files
+  # to be #included in the final cxx file.
   foreach(inc ${WRAPPER_DEFAULT_INCLUDE})
     itk_wrap_include("${inc}")
   endforeach()
+
+  # Indicates that the appropriate itk header for this class will be automatically included
+  # in later stages of the wrapping process
   set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
   # Now include the .wrap file.
@@ -582,13 +590,11 @@ macro(itk_load_submodule module)
 
   if(${module_prefix}_WRAP_CASTXML)
     # write the wrap_*.cxx file
-    #
-
     # Create the cxx file which will be given to castxml.
     set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
     configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
 
-    # generate the xml file
+    # the xml file to be generated
     set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
 
     set(_castxml_depends)
@@ -596,26 +602,30 @@ macro(itk_load_submodule module)
       # ExternalProject target for CastXML.
       set(_castxml_depends castxml)
     endif()
-    set(ccache_cmd)
+
+    set(_ccache_cmd)
     if(ITK_USE_CCACHE)
       set(_ccache_cmd ${CCACHE_EXECUTABLE})
     endif()
-    set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
+
     # Avoid missing omp.h include
+    set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
     if(CMAKE_CXX_EXTENSIONS)
       set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_EXTENSION_COMPILE_OPTION}")
     else()
       set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_STANDARD_COMPILE_OPTION}")
     endif()
 
-    # Agressive optimization flags cause cast_xml to give invalid error conditions
+    # Aggressive optimization flags cause cast_xml to give invalid error conditions
     set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
     foreach( rmmatch ${INVALID_OPTIMIZATION_FLAGS})
       string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
     endforeach()
     unset(INVALID_OPTIMIZATION_FLAGS)
 
+    # Configure the internal Clang preprocessor and target platform to match that of the given compiler command.
     separate_arguments(_castxml_cc_flags)
+    set(_castxml_cc)
     if(MSVC)
       set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)
       if(MSVC90)
@@ -625,6 +635,8 @@ macro(itk_load_submodule module)
     else()
       set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ))
     endif()
+
+    # Override castxml target platform when cross compiling
     set(_target)
     if(CMAKE_CROSSCOMPILING)
       if(NOT CMAKE_CXX_COMPILER_TARGET)
@@ -633,6 +645,7 @@ macro(itk_load_submodule module)
       endif()
       set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
     endif()
+
     set(_build_env)
     if(APPLE)
       # If building on OS X, make sure that CastXML's calls to the compiler have the
@@ -646,8 +659,8 @@ macro(itk_load_submodule module)
     endif()
 
     set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include)
-    set(_hdrs )
-    set(glob_hdrs )
+    set(_hdrs)
+    set(glob_hdrs)
     if(EXISTS ${_include})
       file(GLOB_RECURSE glob_hdrs ${_include}/*.h)
     endif()
@@ -657,7 +670,10 @@ macro(itk_load_submodule module)
         list(APPEND _hdrs ${header})
       endif()
     endforeach()
+    unset(glob_hdrs)
+    unset(_include)
 
+    # write the module.xml file using castxml
     add_custom_command(
             OUTPUT ${xml_file}
             COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE}
@@ -676,6 +692,7 @@ macro(itk_load_submodule module)
 
     list(APPEND CastXML_OUTPUT_FILES ${xml_file})
   endif()
+
   if(${module_prefix}_WRAP_SWIGINTERFACE)
     itk_end_wrap_submodule_swig_interface("${module}")
   endif()
@@ -686,6 +703,15 @@ macro(itk_load_submodule module)
     itk_end_wrap_submodule_DOC("${module}")
   endif()
 
+  unset(_hdrs)
+  unset(_build_env)
+  unset(_target)
+  unset(_castxml_cc)
+  unset(_castxml_cc_flags)
+  unset(_ccache_cmd)
+  unset(_castxml_depends)
+  unset(xml_file)
+  unset(cxx_file)
 endmacro()
 
 
@@ -847,6 +873,8 @@ macro(itk_wrap_include include_file)
     )
     itk_wrap_include_all_generators("${include_file}")
   endif()
+
+  unset(already_included)
 endmacro()
 
 macro(itk_end_wrap_class)
