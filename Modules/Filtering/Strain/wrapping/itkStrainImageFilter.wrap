@@ -9,10 +9,6 @@ foreach(d ${ITK_WRAP_IMAGE_DIMS})
         "${ITKM_IV${p}${vector_dim}${d}}${ITKM_ISSRT${p}${d}${d}}"
         "${ITKT_IV${p}${vector_dim}${d}}, ${ITKT_ISSRT${p}${d}${d}}"
     )
-    itk_wrap_template(
-        "${ITKM_IV${p}${vector_dim}${d}}${ITKM_ICV${p}${d}${d}}"
-        "${ITKT_IV${p}${vector_dim}${d}}, ${ITKT_ICV${p}${d}${d}}"
-    )
   endforeach()
 endforeach()
 itk_end_wrap_class()
