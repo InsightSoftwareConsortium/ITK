@@ -1,6 +1,7 @@
 itk_wrap_module(BoneMorphometry)
 
 set(WRAPPER_SUBMODULE_ORDER
+   itkBoneCommon
    itkBoneMorphometryFeaturesFilter
    itkBoneMorphometryFeaturesImageFilter
    itkReplaceFeatureMapNanInfImageFilter)
