@@ -994,6 +994,20 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   std::ostringstream intent_name;
   intent_name << nim->intent_name;
   EncapsulateMetaData<std::string>(thisDic, "intent_name", intent_name.str());
+
+  // The below were added after ITK 5.3rc2.
+
+  EncapsulateMetaData<float>(thisDic, "qfac", nim->qfac);
+
+  std::vector<float> qto_xyz;
+  for (int row = 0; row < 4; ++row)
+  {
+    for (int column = 0; column < 4; ++column)
+    {
+      qto_xyz.push_back(nim->qto_xyz.m[row][column]);
+    }
+  }
+  EncapsulateMetaData<std::vector<float>>(thisDic, "qto_xyz", qto_xyz);
 }
 
 void
