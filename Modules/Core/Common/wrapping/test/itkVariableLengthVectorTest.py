@@ -17,6 +17,7 @@
 # ==========================================================================*/
 
 import itk
+
 itk.auto_progress(2)
 
 n_channels = 31
@@ -32,7 +33,7 @@ for idx in range(n_channels):
     vector2[idx] = idx
 
 sum = vector1 + vector2
-print(f'UC sum: {sum}')
+print(f"UC sum: {sum}")
 
 for idx in range(n_channels):
     assert sum[idx] == 16 + idx, "Got unexpected result from vector sum"
@@ -48,10 +49,10 @@ for idx in range(n_channels):
     vector4.SetElement(idx, 0.1 * idx)
 
 float_sum = vector3 + vector4
-print(f'float sum: {float_sum}')
+print(f"float sum: {float_sum}")
 
 tolerance = 1e-6
 for idx in range(n_channels):
     diff = abs(float_sum[idx] - (0.5 + 0.1 * idx))
-    print(f'float sum[{idx}]: {float_sum[idx]:0.9f} diff: {diff:0.2e}')
+    print(f"float sum[{idx}]: {float_sum[idx]:0.9f} diff: {diff:0.2e}")
     assert diff < tolerance, "Got unexpected result from vector float sum"

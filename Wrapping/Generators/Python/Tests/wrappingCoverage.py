@@ -66,16 +66,13 @@ for d in args:
         ),
         [],
     )
-classes = (
-    {
-            f[len("itk") : -len(".h")]
-            for f in headers
-            if f.startswith("itk")
-            and not f.startswith("itkv3")
-            and f.endswith(opts.base + ".h")
-    }
-    - excluded
-)
+classes = {
+    f[len("itk") : -len(".h")]
+    for f in headers
+    if f.startswith("itk")
+    and not f.startswith("itkv3")
+    and f.endswith(opts.base + ".h")
+} - excluded
 
 # get filter from wrapper files
 # remove classes which are not in the toolkit (external projects,

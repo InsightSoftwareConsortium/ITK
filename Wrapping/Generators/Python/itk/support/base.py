@@ -369,9 +369,7 @@ def _initialize(l_module_data):
         raise RuntimeError(error_message)
 
     files = os.listdir(candidate_config_path)
-    known_modules: List[str] = sorted(
-        f[:-9] for f in files if f.endswith("Config.py")
-    )
+    known_modules: List[str] = sorted(f[:-9] for f in files if f.endswith("Config.py"))
     for module in known_modules:
         conf: str = f"{module}Config.py"
         snake_conf = f"{module}_snake_case.py"

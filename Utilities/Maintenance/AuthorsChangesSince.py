@@ -311,9 +311,9 @@ for remote in changed_remotes.split():
 
     remote_old_tag = remote_tag(remote_spec)
 
-    remote_spec = subprocess.check_output(
-        f"git show HEAD:{remote}", shell=True
-    ).decode("utf-8")
+    remote_spec = subprocess.check_output(f"git show HEAD:{remote}", shell=True).decode(
+        "utf-8"
+    )
     remote_new_tag = remote_tag(remote_spec)
     remote_repo = remote_repository(remote_spec)
 

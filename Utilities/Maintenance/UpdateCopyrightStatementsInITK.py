@@ -69,7 +69,9 @@ ITKVTKOldHeader = """ */\\* *==.*Program:.*Insight Segmentation & Registration T
 ITKVTKOldRE = re.compile(ITKVTKOldHeader, re.MULTILINE | re.DOTALL | re.IGNORECASE)
 
 ## Looking for new files.
-NewITKHeader = r""" */\* *==.*http://www.apache.org/licenses/LICENSE-2.0.txt.*=== *\*/"""
+NewITKHeader = (
+    r""" */\* *==.*http://www.apache.org/licenses/LICENSE-2.0.txt.*=== *\*/"""
+)
 NewITKHeaderRE = re.compile(NewITKHeader, re.MULTILINE | re.DOTALL | re.IGNORECASE)
 
 eolSpaceRemove = re.compile(r"  *$", re.MULTILINE)

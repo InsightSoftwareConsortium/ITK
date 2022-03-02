@@ -1247,7 +1247,9 @@ def {snakeCase}_init_docstring():
         content = [f" {key}" for key, value in enum.values]
         self.outputFile.write("  " * indent)
         self.outputFile.write(
-            "    enum class {}: uint8_t {{ {} }};\n\n".format(enum.name, ", ".join(content))
+            "    enum class {}: uint8_t {{ {} }};\n\n".format(
+                enum.name, ", ".join(content)
+            )
         )
 
         if self.current_class is not None and self.classes[self.current_class].is_enum:
