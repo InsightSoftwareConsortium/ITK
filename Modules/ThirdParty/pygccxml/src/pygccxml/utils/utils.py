@@ -86,7 +86,7 @@ def _create_logger_(name):
     return logger
 
 
-class loggers(object):
+class loggers:
     """Class-namespace, defines a few loggers classes, used in the project."""
 
     cxx_parser = _create_logger_('pygccxml.cxx_parser')
@@ -156,7 +156,7 @@ def remove_file_no_raise(file_name, config):
     try:
         if os.path.exists(file_name):
             os.remove(file_name)
-    except IOError as error:
+    except OSError as error:
         loggers.root.error(
             "Error occurred while removing temporary created file('%s'): %s",
             file_name, str(error))
@@ -246,7 +246,7 @@ class cached(property):
 
         def fdel(s):
             del s.__dict__[private]
-        super(cached, self).__init__(fget, fdel=fdel)
+        super().__init__(fget, fdel=fdel)
 
     def reset(self):
         cls = self.__class__
@@ -274,7 +274,7 @@ def get_tr1(name):
     return tr1
 
 
-class cxx_standard(object):
+class cxx_standard:
     """Helper class for parsing the C++ standard version.
 
     This class holds the C++ standard version the XML generator has been
@@ -310,7 +310,7 @@ class cxx_standard(object):
             cflags (str): cflags command line arguments passed to the XML
                 generator
         """
-        super(cxx_standard, self).__init__()
+        super().__init__()
 
         self._stdcxx = None
         self._is_implicit = False
@@ -369,7 +369,7 @@ class cxx_standard(object):
         return self._cplusplus == cxx_standard.__STD_CXX['-std=c++1z']
 
 
-class DeprecationWrapper(object):
+class DeprecationWrapper:
     """
     A small wrapper class useful when deprecation classes.
 

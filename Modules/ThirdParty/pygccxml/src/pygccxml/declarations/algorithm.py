@@ -12,7 +12,7 @@ from . import declaration_utils
 from . import runtime_errors
 
 
-class match_declaration_t(object):
+class match_declaration_t:
     """
     Helper class for different search algorithms.
 

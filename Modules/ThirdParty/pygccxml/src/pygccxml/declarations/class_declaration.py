@@ -21,7 +21,7 @@ from . import elaborated_info
 from . import type_traits
 
 
-class ACCESS_TYPES(object):
+class ACCESS_TYPES:
 
     """class that defines "access" constants"""
     PUBLIC = "public"
@@ -30,7 +30,7 @@ class ACCESS_TYPES(object):
     ALL = [PUBLIC, PRIVATE, PROTECTED]
 
 
-class CLASS_TYPES(object):
+class CLASS_TYPES:
 
     """class that defines "class" type constants"""
     CLASS = "class"
@@ -55,7 +55,7 @@ def get_partial_name(name):
     return name
 
 
-class hierarchy_info_t(object):
+class hierarchy_info_t:
 
     """describes class relationship"""
 
@@ -217,7 +217,7 @@ class class_t(
         name = declaration_utils.full_name(self)
         if name[:2] == "::":
             name = name[2:]
-        return "%s [%s]" % (name, self.class_type)
+        return f"{name} [{self.class_type}]"
 
     def _get__cmp__scope_items(self):
         """implementation details"""
@@ -454,7 +454,7 @@ class class_t(
         answer = []
         for mem in members:
             answer.extend(mem.i_depend_on_them(recursive=True))
-        member_ids = set([id(m) for m in members])
+        member_ids = {id(m) for m in members}
         for dependency in answer:
             if id(dependency.declaration) in member_ids:
                 dependency.access_type = access_type

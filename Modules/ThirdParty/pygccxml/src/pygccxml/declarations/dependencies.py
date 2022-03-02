@@ -57,14 +57,14 @@ def __find_out_member_dependencies(members, access_type):
     answer = []
     for mem in members:
         answer.extend(get_dependencies_from_decl(mem, recursive=True))
-    member_ids = set([id(m) for m in members])
+    member_ids = {id(m) for m in members}
     for dependency in answer:
         if id(dependency.declaration) in member_ids:
             dependency.access_type = access_type
     return answer
 
 
-class dependency_info_t(object):
+class dependency_info_t:
 
     def __init__(self, decl, depend_on_it, access_type=None, hint=None):
         object.__init__(self)
@@ -134,7 +134,7 @@ class dependency_info_t(object):
         return to_be_included
 
 
-class impl_details(object):
+class impl_details:
 
     @staticmethod
     def dig_declarations(depend_on_it):

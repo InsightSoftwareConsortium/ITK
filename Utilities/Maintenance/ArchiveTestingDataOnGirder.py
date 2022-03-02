@@ -101,7 +101,7 @@ class GirderExternalDataCli(GirderClient):
                     + " Items can only be added to folders."
                 )
             else:
-                with open(content_link, "r") as fp:
+                with open(content_link) as fp:
                     hash_value = fp.readline().strip()
                 self._uploadAsItem(
                     name,

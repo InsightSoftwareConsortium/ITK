@@ -27,10 +27,10 @@ class free_calldef_t(calldef.calldef_t):
             name = name[2:]
         # Add the arguments...
         args = [str(a) for a in self.arguments]
-        res = "%s(%s)" % (name, ", ".join(args))
+        res = "{}({})".format(name, ", ".join(args))
         # Add the return type...
         if self.return_type is not None:
-            res = "%s %s" % (self.return_type, res)
+            res = f"{self.return_type} {res}"
         # extern?
         if self.has_extern:
             res = "extern " + res
@@ -39,7 +39,7 @@ class free_calldef_t(calldef.calldef_t):
         if cls[-2:] == "_t":
             cls = cls[:-2]
         cls = cls.replace('_', ' ')
-        return "%s [%s]" % (res, cls)
+        return f"{res} [{cls}]"
 
     def _get__cmp__call_items(self):
         """implementation details"""

@@ -22,7 +22,7 @@ from . import calldef_types
 
 
 # First level in hierarchy of calldef
-class argument_t(object):
+class argument_t:
 
     """
     class, that describes argument of "callable" declaration
@@ -62,9 +62,9 @@ class argument_t(object):
             return "..."
 
         if self.default_value is None:
-            return "%s %s" % (self.decl_type, self.name)
+            return f"{self.decl_type} {self.name}"
 
-        return "%s %s=%s" % (self.decl_type, self.name, self.default_value)
+        return f"{self.decl_type} {self.name}={self.default_value}"
 
     def __eq__(self, other):
         if not isinstance(other, self.__class__):
@@ -202,7 +202,7 @@ class calldef_t(declaration.declaration_t):
             and self.exceptions.sort() == other.exceptions.sort()
 
     def __hash__(self):
-        return (super(calldef_t, self).__hash__() ^
+        return (super().__hash__() ^
                 hash(self.return_type) ^
                 hash(self.name))
 

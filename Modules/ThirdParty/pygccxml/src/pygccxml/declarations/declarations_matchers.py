@@ -207,7 +207,7 @@ class variable_matcher_t(declaration_matcher_t):
         self._decl_type = decl_type
 
     def __call__(self, decl):
-        if not super(variable_matcher_t, self).__call__(decl):
+        if not super().__call__(decl):
             return False
         if self._decl_type is not None:
             if isinstance(self._decl_type, cpptypes.type_t):
@@ -219,7 +219,7 @@ class variable_matcher_t(declaration_matcher_t):
         return True
 
     def __str__(self):
-        msg = [super(variable_matcher_t, self).__str__()]
+        msg = [super().__str__()]
         if msg == ['any']:
             msg = []
         if self._decl_type is not None:
@@ -245,7 +245,7 @@ class namespace_matcher_t(declaration_matcher_t):
             # prevent this happens. The price is: user should search for
             # unnamed namespace directly.
             return False
-        return super(namespace_matcher_t, self).__call__(decl)
+        return super().__call__(decl)
 
 
 class calldef_matcher_t(declaration_matcher_t):
@@ -300,7 +300,7 @@ class calldef_matcher_t(declaration_matcher_t):
         self.arg_types = arg_types
 
     def __call__(self, decl):
-        if not super(calldef_matcher_t, self).__call__(decl):
+        if not super().__call__(decl):
             return False
         if self.return_type is not None \
            and not self.__compare_types(self.return_type, decl.return_type):
@@ -332,7 +332,7 @@ class calldef_matcher_t(declaration_matcher_t):
         return True
 
     def __str__(self):
-        msg = [super(calldef_matcher_t, self).__str__()]
+        msg = [super().__str__()]
         if msg == ['any']:
             msg = []
         if self.return_type is not None:
@@ -382,7 +382,7 @@ class operator_matcher_t(calldef_matcher_t):
         self.symbol = symbol
 
     def __call__(self, decl):
-        if not super(operator_matcher_t, self).__call__(decl):
+        if not super().__call__(decl):
             return False
         if self.symbol is not None:
             if self.symbol != decl.symbol:
@@ -390,7 +390,7 @@ class operator_matcher_t(calldef_matcher_t):
         return True
 
     def __str__(self):
-        msg = [super(operator_matcher_t, self).__str__()]
+        msg = [super().__str__()]
         if msg == ['any']:
             msg = []
         if self.symbol is not None:

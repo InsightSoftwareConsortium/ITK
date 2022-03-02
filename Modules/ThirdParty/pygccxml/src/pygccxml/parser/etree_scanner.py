@@ -6,7 +6,7 @@
 # keep py2exe happy
 import xml.etree.ElementTree  # pylint: disable=W0611
 
-import xml.etree.cElementTree as ElementTree
+import xml.etree.ElementTree as ElementTree
 
 from . import scanner
 

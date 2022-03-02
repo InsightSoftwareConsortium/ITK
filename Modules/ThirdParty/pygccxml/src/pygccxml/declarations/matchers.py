@@ -12,7 +12,7 @@ import re
 from . import class_declaration
 
 
-class matcher_base_t(object):
+class matcher_base_t:
 
     """matcher_base_t class defines interface for classes that will implement
        compare functionality according to some criteria.

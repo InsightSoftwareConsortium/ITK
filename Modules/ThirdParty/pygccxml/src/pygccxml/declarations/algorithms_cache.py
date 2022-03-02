@@ -9,7 +9,7 @@ Defines classes that will keep results of different calculations.
 """
 
 
-class declaration_algs_cache_t(object):
+class declaration_algs_cache_t:
 
     def __init__(self):
         object.__init__(self)
@@ -203,7 +203,7 @@ class declaration_algs_cache_t(object):
         self.access_type = None
 
 
-class type_algs_cache_t(object):
+class type_algs_cache_t:
     enabled = True
 
     @staticmethod

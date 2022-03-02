@@ -59,7 +59,7 @@ output_image = itk.py_image_filter(
 assert np.all(np.asarray(output_image) == 7)
 
 # PyGenerateInputRequestedRegion
-class CheckCalled(object):
+class CheckCalled:
     called = False
 
     def __call__(self, py_image_filter):

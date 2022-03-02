@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# vim: set fileencoding=iso-8859-1
 
 """
 $ pdftotext -layout -nopgbrk -f 303 -l 305 07_03pu.pdf page303.txt
@@ -23,7 +22,7 @@ class Attribute:
   def SetInit(self,s):
     # Should be something like:
     # Blue Palette Color Lookup Table       (0028,1103)     1C   Specifies the format of the Blue Palette
-    patt = re.compile("^(.*)(\\([0-9A-Fx]+,[0-9A-F]+\\))\s+([1-3C]+)\s+(.*)\s*$")
+    patt = re.compile("^(.*)(\\([0-9A-Fx]+,[0-9A-F]+\\))\\s+([1-3C]+)\\s+(.*)\\s*$")
     m = patt.match(s)
     if not m:
       print s
@@ -72,10 +71,10 @@ class Part3Parser:
   def IsComment(self,s):
     if len(s) == 0:
       return True
-    patt1 = re.compile("^\s+- Standard -\s*$")
-    patt2 = re.compile("^\s*PS 3.3 - 2007\s*")
-    patt3 = re.compile("^\s*Page\s+[0-9]+\s*$")
-    patt4 = re.compile("^\s*Notes:$")
+    patt1 = re.compile(r"^\s+- Standard -\s*$")
+    patt2 = re.compile(r"^\s*PS 3.3 - 2007\s*")
+    patt3 = re.compile(r"^\s*Page\s+[0-9]+\s*$")
+    patt4 = re.compile(r"^\s*Notes:$")
     m1 = patt1.match(s)
     m2 = patt2.match(s)
     m3 = patt3.match(s)
@@ -89,7 +88,7 @@ class Part3Parser:
 
   def IsStartTable(self,s):
     #patt = re.compile("^\s+Table C[0-9a-z\.-]+.*\s+$")
-    patt = re.compile("^\s+Table\s+C.[0-9A-Za-z-.]+\s*$")
+    patt = re.compile(r"^\s+Table\s+C.[0-9A-Za-z-.]+\s*$")
     m = patt.match(s)
     assert self._IsInTable != True
     self._IsInTable = False
@@ -155,7 +154,7 @@ class Part3Parser:
       self._IsInTable = True
       return True
     # grrrrr: Table C.8-37 - RT SERIES MODULE ATTRIBUTES
-    patt = re.compile("^\s+Table\s+C.[0-9A-Za-z-]+\s*[-]*\s*([A-Z/\s-]+)\s*$")
+    patt = re.compile(r"^\s+Table\s+C.[0-9A-Za-z-]+\s*[-]*\s*([A-Z/\s-]+)\s*$")
     #patt = re.compile("^\s+Table\s+C.[0-9A-Za-z-]+[-\s]+([A-Z/\s-]+)\s*$")
     m = patt.match(s)
     if(m):
@@ -172,30 +171,30 @@ class Part3Parser:
     return True
 
   def IsTableName(self,s):
-    patt = re.compile("^\s*[A-Z/\s-]+ATTRIBUTES\s*$") #MACRO/MODULE
+    patt = re.compile(r"^\s*[A-Z/\s-]+ATTRIBUTES\s*$") #MACRO/MODULE
     m = patt.match(s)
     if(m):
       print "Table Name", s
       return True
-    patt = re.compile("^\s+[A-Za-z\s]+Attributes\s*$") #MACRO/MODULE
+    patt = re.compile(r"^\s+[A-Za-z\s]+Attributes\s*$") #MACRO/MODULE
     m = patt.match(s)
     if(m):
       print "Table Name", s
       return True
     # PALETTE COLOR LOOKUP MODULE
-    patt = re.compile("^\s+[A-Z\s]+MODULE\s*$") #MACRO/MODULE
+    patt = re.compile(r"^\s+[A-Z\s]+MODULE\s*$") #MACRO/MODULE
     m = patt.match(s)
     if(m):
       print "Table Name", s
       return True
     # MR IMAGE AND SPECTROSCOPY INSTANCE MACRO
-    patt = re.compile("^\s+[A-Z\s]+MACRO\s*$") #MACRO/MODULE
+    patt = re.compile(r"^\s+[A-Z\s]+MACRO\s*$") #MACRO/MODULE
     m = patt.match(s)
     if(m):
       print "Table Name", s
       return True
     # Enhanced XA/XRF Image Module Table
-    patt = re.compile("^\s+[A-Z/a-z\s]+Module Table\s*$")
+    patt = re.compile(r"^\s+[A-Z/a-z\s]+Module Table\s*$")
     m = patt.match(s)
     if(m):
       print "Table Name", s
@@ -212,7 +211,7 @@ class Part3Parser:
   def IsTableName2(self,s):
     # grrrrr: Table C.8-37 - RT SERIES MODULE ATTRIBUTES
     # Table C.8-39--RT DOSE MODULE ATTRIBUTES
-    patt = re.compile("^\s+Table\s+C.[0-9A-Za-z-]+\s*[-]*\s*([A-Z/\s-]+)\s*$")
+    patt = re.compile(r"^\s+Table\s+C.[0-9A-Za-z-]+\s*[-]*\s*([A-Z/\s-]+)\s*$")
     m = patt.match(s)
     # The previous regex would think : Table C.7-17A
     # is correct...I don't know how to fix the regex, so discard result if
@@ -225,13 +224,13 @@ class Part3Parser:
     return False
 
   def IsTableDescription(self,s):
-    patt  = re.compile("^\s*Attribute Name\s+Tag\s+Type\s+Attribute Description\s*$")
+    patt  = re.compile(r"^\s*Attribute Name\s+Tag\s+Type\s+Attribute Description\s*$")
     m = patt.match(s)
     if(m):
       print "Table Description:", s
       return True
     # Around page 574
-    patt  = re.compile("^\s*Attribute [Nn]ame\s+Tag\s+Type\s+Description\s*$")
+    patt  = re.compile(r"^\s*Attribute [Nn]ame\s+Tag\s+Type\s+Description\s*$")
     m = patt.match(s)
     if(m):
       print "Table Description:", s
@@ -241,7 +240,7 @@ class Part3Parser:
   def IsFirstLineAttribute(self,s):
     # Line should look like:
     # Bits Stored ... (0028,0101) ... 1 ... Number of bits stored for each pixel
-    patt = re.compile("^\s*(.*)\\([0-9A-Fx]+,[0-9A-F]+\\)\s+([1-3C]+).*\s*$") #MACRO/MODULE
+    patt = re.compile("^\\s*(.*)\\([0-9A-Fx]+,[0-9A-F]+\\)\\s+([1-3C]+).*\\s*$") #MACRO/MODULE
     m = patt.match(s)
     if(m):
       s1 = m.group(1).strip()
@@ -264,7 +263,7 @@ class Part3Parser:
     #m = patt.match(s)
     #return m
     #print "FALLBACK"
-    patt = re.compile("^>*\s*Include [`'\"]*([A-Za-z/ -]*)['\"]* \\(*Table [A-Z0-9a-z-.]+\\)*.*$")
+    patt = re.compile("^>*\\s*Include [`'\"]*([A-Za-z/ -]*)['\"]* \\(*Table [A-Z0-9a-z-.]+\\)*.*$")
     m = patt.match(s)
     #if not m:
     #  print "FAIL", s
@@ -443,7 +442,7 @@ class Part3Parser:
   def FindShiftValue(self,s):
     # Line should look like:
     # Bits Stored ... (0028,0101) ... 1 ... Number of bits stored for each pixel
-    patt = re.compile("^[A-Za-z0-9µ /()'>-]+\s+\\([0-9A-Fx]+,[0-9A-F]+\\)\s+[1-3][C]*\s+(.*)$")
+    patt = re.compile("^[A-Za-z0-9µ /()'>-]+\\s+\\([0-9A-Fx]+,[0-9A-F]+\\)\\s+[1-3][C]*\\s+(.*)$")
     m = patt.match(s)
     if(m):
       # worse case happen around page 448 with `Required`

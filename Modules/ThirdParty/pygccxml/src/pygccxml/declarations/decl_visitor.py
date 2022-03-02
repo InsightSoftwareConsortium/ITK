@@ -8,7 +8,7 @@ defines declarations visitor class interface
 """
 
 
-class decl_visitor_t(object):
+class decl_visitor_t:
 
     """
     declarations visitor interface

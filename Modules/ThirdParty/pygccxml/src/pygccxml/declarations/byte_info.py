@@ -4,7 +4,7 @@
 # See http://www.boost.org/LICENSE_1_0.txt
 
 
-class byte_info(object):
+class byte_info:
 
     """
     This class stores information about the byte size and byte align

@@ -4,7 +4,7 @@
 # See http://www.boost.org/LICENSE_1_0.txt
 
 
-class location_t(object):
+class location_t:
     """
     Provides information about the location of the declaration within the
     source file.

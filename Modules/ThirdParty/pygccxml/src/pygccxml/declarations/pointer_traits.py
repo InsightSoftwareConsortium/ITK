@@ -12,7 +12,7 @@ from . import traits_impl_details
 from . import runtime_errors
 
 
-class internal_type_traits(object):
+class internal_type_traits:
 
     """small convenience class, which provides access to internal types"""
     # TODO: add exists function
@@ -39,7 +39,7 @@ class internal_type_traits(object):
                  "in type '%s'.") % (name, type_.decl_string))
 
 
-class smart_pointer_traits(object):
+class smart_pointer_traits:
 
     """implements functionality, needed for convenient work with
     smart pointers"""
@@ -79,7 +79,7 @@ class smart_pointer_traits(object):
             return _search_in_bases(type_)
 
 
-class auto_ptr_traits(object):
+class auto_ptr_traits:
 
     """implements functionality, needed for convenient work with
     `std::auto_ptr` pointers"""

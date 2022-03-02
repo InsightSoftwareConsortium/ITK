@@ -15,7 +15,7 @@ from . import declaration_utils
 from . import algorithms_cache
 
 
-class declaration_t(object):
+class declaration_t:
     """
     Base class for all classes that represent a C++ declaration.
 
@@ -61,7 +61,7 @@ class declaration_t(object):
             cls = cls[:-2]
         cls = cls.replace('_', ' ')
 
-        return "%s [%s]" % (name, cls)
+        return f"{name} [{cls}]"
 
     def _get__cmp__items(self):
         """

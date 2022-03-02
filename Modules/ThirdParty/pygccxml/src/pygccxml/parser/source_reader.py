@@ -19,7 +19,7 @@ from .etree_scanner import ietree_scanner_t as scanner_t
 from .. import utils
 
 
-class source_reader_t(object):
+class source_reader_t:
     """
     This class reads C++ source code and returns the declarations tree.
 
@@ -264,7 +264,7 @@ class source_reader_t(object):
                         raise RuntimeError(
                             "Error occurred while running " +
                             self.__config.xml_generator.upper() +
-                            ": %s status:%s" % (msg, exit_status))
+                            f": {msg} status:{exit_status}")
         except Exception:
             utils.remove_file_no_raise(xml_file, self.__config)
             raise
@@ -320,9 +320,9 @@ class source_reader_t(object):
                 self.__dcache.update(
                     ffname, self.__config, decls, files)
             else:
-                self.logger.debug((
+                self.logger.debug(
                     "File has not been changed, reading declarations " +
-                    "from cache."))
+                    "from cache.")
         except Exception:
             if xml_file:
                 utils.remove_file_no_raise(xml_file, self.__config)

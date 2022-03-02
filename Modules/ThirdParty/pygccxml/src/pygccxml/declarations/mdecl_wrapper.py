@@ -14,7 +14,7 @@ within the code.
 import os
 
 
-class call_redirector_t(object):
+class call_redirector_t:
 
     """Internal class used to call some function of objects"""
 
@@ -37,7 +37,7 @@ class call_redirector_t(object):
             callable_(*arguments, **keywords)
 
 
-class mdecl_wrapper_t(object):
+class mdecl_wrapper_t:
 
     """
     multiple declarations class wrapper

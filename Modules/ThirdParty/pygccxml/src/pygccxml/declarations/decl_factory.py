@@ -22,7 +22,7 @@ from .typedef import typedef_t
 from .variable import variable_t
 
 
-class decl_factory_t(object):
+class decl_factory_t:
 
     """
     declarations factory class

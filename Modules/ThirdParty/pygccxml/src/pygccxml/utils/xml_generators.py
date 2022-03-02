@@ -4,7 +4,7 @@
 # See http://www.boost.org/LICENSE_1_0.txt
 
 
-class xml_generators(object):
+class xml_generators:
     """
     Helper class for the xml generator versions
     """

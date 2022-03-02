@@ -8,7 +8,7 @@ defines types visitor class interface
 """
 
 
-class type_visitor_t(object):
+class type_visitor_t:
 
     """
     types visitor interface

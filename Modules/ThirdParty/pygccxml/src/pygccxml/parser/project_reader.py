@@ -14,12 +14,12 @@ from . import declarations_joiner
 from .. import utils
 
 
-class COMPILATION_MODE(object):
+class COMPILATION_MODE:
     ALL_AT_ONCE = 'all at once'
     FILE_BY_FILE = 'file by file'
 
 
-class file_configuration_t(object):
+class file_configuration_t:
 
     """
     source code location configuration.
@@ -56,7 +56,7 @@ class file_configuration_t(object):
 
     """
 
-    class CONTENT_TYPE(object):
+    class CONTENT_TYPE:
         STANDARD_SOURCE_FILE = 'standard source file'
         CACHED_SOURCE_FILE = 'cached source file'
         GCCXML_GENERATED_FILE = 'gccxml generated file'
@@ -166,7 +166,7 @@ def create_cached_source_fc(header, cached_source_file):
         content_type=file_configuration_t.CONTENT_TYPE.CACHED_SOURCE_FILE)
 
 
-class project_reader_t(object):
+class project_reader_t:
 
     """parses header files and returns the contained declarations"""
 
@@ -406,7 +406,7 @@ class project_reader_t(object):
                     xml_file_path = fc.cached_source_file
             else:
                 xml_file_path = reader.create_xml_file_from_string(fc.data)
-            with open(xml_file_path, "r") as xml_file:
+            with open(xml_file_path) as xml_file:
                 xml = xml_file.read()
             utils.remove_file_no_raise(xml_file_path, self.__config)
             self.__xml_generator_from_xml_file = \
@@ -553,15 +553,15 @@ class project_reader_t(object):
                     msg.append(
                         "Unable to find out actual class definition: '%s'." %
                         decl_wrapper_type.declaration._name)
-                    msg.append((
+                    msg.append(
                         "Class definition has been changed from one " +
-                        "compilation to an other."))
-                    msg.append((
+                        "compilation to an other.")
+                    msg.append(
                         "Why did it happen to me? Here is a short list " +
-                        "of reasons: "))
-                    msg.append((
+                        "of reasons: ")
+                    msg.append(
                         "    1. There are different preprocessor " +
-                        "definitions applied on same file during compilation"))
+                        "definitions applied on same file during compilation")
                     msg.append("    2. Bug in pygccxml.")
                     raise Exception(os.linesep.join(msg))
             elif isinstance(

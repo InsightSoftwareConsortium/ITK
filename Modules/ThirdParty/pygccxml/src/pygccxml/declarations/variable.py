@@ -96,9 +96,9 @@ class variable_t(declaration.declaration_t):
     @property
     def access_type(self):
         if not isinstance(self.parent, class_declaration.class_t):
-            raise RuntimeError((
+            raise RuntimeError(
                 "access_type functionality only available on member" +
-                "variables and not on global variables"))
+                "variables and not on global variables")
         return self.parent.find_out_member_access_type(self)
 
     @property

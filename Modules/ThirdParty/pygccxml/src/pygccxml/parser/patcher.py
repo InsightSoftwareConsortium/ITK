@@ -9,7 +9,7 @@ from .. import declarations
 from ..declarations import type_traits
 
 
-class default_argument_patcher_t(object):
+class default_argument_patcher_t:
 
     def __init__(self, enums, cxx_std):
         object.__init__(self)
@@ -234,7 +234,7 @@ class default_argument_patcher_t(object):
         return call_invocation.join(f_q_name, args)
 
 
-class casting_operator_patcher_t(object):
+class casting_operator_patcher_t:
 
     def __init__(self):
         object.__init__(self)

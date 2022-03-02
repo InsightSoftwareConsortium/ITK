@@ -33,7 +33,7 @@ usage: mdoc.py massive-check [ITK-source]
 
 def setGroup(fname, group):
     # sys.stderr.write("Processing "+ fname +"\n")
-    f = io.open(fname, "r", encoding="utf-8")
+    f = open(fname, "r", encoding="utf-8")
     out = io.StringIO()
     # load everything in memory
     fcontent = f.read()
@@ -46,16 +46,16 @@ def setGroup(fname, group):
         last = m.end(1)
         dcontent = m.group(1)
         # we don't care about doxygen fields not about a class
-        if r"\class" in dcontent and dcontent != " \class classname ":
+        if r"\class" in dcontent and dcontent != r" \class classname ":
             # do we have a line with the expected content?
-            if re.search(r"\ingroup .*" + group + "(\s|$)", dcontent, re.MULTILINE):
+            if re.search(r"\ingroup .*" + group + r"(\s|$)", dcontent, re.MULTILINE):
                 # yes - just keep the content unchanged
                 out.write(dcontent)
             else:
                 # add the expected group
                 if "\n" in dcontent:
                     # this is a multiline content. Find the indent
-                    indent = re.search("( *)(\*|$)", dcontent).group(1)
+                    indent = re.search(r"( *)(\*|$)", dcontent).group(1)
                     lastLine = dcontent.splitlines()[-1]
                     if re.match(r"^ *$", lastLine):
                         out.write(dcontent + "* \\ingroup " + group + "\n" + indent)
@@ -75,14 +75,14 @@ def setGroup(fname, group):
             out.write(dcontent)
     out.write(fcontent[last:])
     # we can save the content to the original file
-    f = io.open(fname, "w", encoding="utf-8")
+    f = open(fname, "w", encoding="utf-8")
     f.write(out.getvalue())
     f.close()
 
 
 def checkGroup(fname, group):
     # sys.stderr.write("Checking"+ fname + "\n")
-    f = io.open(fname, "r", encoding="utf-8")
+    f = open(fname, "r", encoding="utf-8")
     # load everything in memory
     fcontent = f.read()
     f.close()
@@ -91,10 +91,10 @@ def checkGroup(fname, group):
     for m in re.finditer(r"/\*\*(.*?)\*/", fcontent, re.DOTALL):
         dcontent = m.group(1)
         # we don't care about doxygen fields not about a class
-        if r"\class" in dcontent and dcontent != " \class classname ":
+        if r"\class" in dcontent and dcontent != r" \class classname ":
             # do we have a line with the expected content?
             if not re.search(
-                r"\\ingroup .*" + group + "(\s|$)", dcontent, re.MULTILINE
+                r"\\ingroup .*" + group + r"(\s|$)", dcontent, re.MULTILINE
             ):
                 # get class name and the line for debug output
                 cname = re.search(r"\\class +([^ ]*)", dcontent).group(1).strip()

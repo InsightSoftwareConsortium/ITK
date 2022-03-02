@@ -34,10 +34,10 @@ class member_calldef_t(calldef.calldef_t):
             name = name[2:]
         # Add the arguments...
         args = [str(a) for a in self.arguments]
-        res = "%s(%s)" % (name, ", ".join(args))
+        res = "{}({})".format(name, ", ".join(args))
         # Add the return type...
         if self.return_type is not None:
-            res = "%s %s" % (self.return_type, res)
+            res = f"{self.return_type} {res}"
         # const?
         if self.has_const:
             res += " const"
@@ -49,7 +49,7 @@ class member_calldef_t(calldef.calldef_t):
         if cls[-2:] == "_t":
             cls = cls[:-2]
         cls = cls.replace('_', ' ')
-        return "%s [%s]" % (res, cls)
+        return f"{res} [{cls}]"
 
     def _get__cmp__call_items(self):
         """implementation details"""
@@ -183,10 +183,10 @@ class constructor_t(member_calldef_t):
             name = name[2:]
         # Add the arguments...
         args = [str(a) for a in self.arguments]
-        res = "%s(%s)" % (name, ", ".join(args))
+        res = "{}({})".format(name, ", ".join(args))
         # Append the declaration class
         cls = 'constructor'
-        return "%s [%s]" % (res, cls)
+        return f"{res} [{cls}]"
 
 
 class destructor_t(member_calldef_t):

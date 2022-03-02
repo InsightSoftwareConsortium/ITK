@@ -45,7 +45,6 @@ includesToSkip = [
 ]  # keep those headers
 #######################################################################
 
-from __future__ import print_function
 
 import os
 
@@ -90,7 +89,7 @@ def checkIfDef(line, ifDefCounter):
 def processFile(directory, fileName):
 
     absFileName = "/".join([sourceDir, directory, fileName])
-    lines = open(absFileName, "r").read().splitlines()
+    lines = open(absFileName).read().splitlines()
     removedLines = []
     ifDefCounter = 0
     for i, line in enumerate(lines):
@@ -150,7 +149,7 @@ def processFileList(fileList):
 
 def main():
 
-    fileList = open(relativeFileList, "r").read().splitlines()
+    fileList = open(relativeFileList).read().splitlines()
     processFileList(fileList)
 
 

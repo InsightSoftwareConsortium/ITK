@@ -80,7 +80,7 @@ for line in info_for_conversion.splitlines():
 cfile = sys.argv[1]
 
 file_as_string = ""
-with open(cfile, "r") as rfp:
+with open(cfile) as rfp:
     original_string = rfp.read()
 file_as_string = original_string
 

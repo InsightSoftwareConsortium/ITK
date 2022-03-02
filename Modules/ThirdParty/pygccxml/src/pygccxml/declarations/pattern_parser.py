@@ -11,7 +11,7 @@ Implementation details
 import re
 
 
-class parser_t(object):
+class parser_t:
 
     """implementation details"""
 

@@ -70,7 +70,7 @@ for number_of_work_units in range(1, 9):
     cpu_timer.Stop()
 
     print(
-        "CPU NeighborhoodFilter took {0} seconds with {1} work units.\n".format(
+        "CPU NeighborhoodFilter took {} seconds with {} work units.\n".format(
             cpu_timer.GetMean(), cpu_filter.GetNumberOfWorkUnits()
         )
     )

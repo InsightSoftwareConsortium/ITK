@@ -24,7 +24,7 @@ except ImportError:
 from .. import utils
 
 
-class parser_configuration_t(object):
+class parser_configuration_t:
 
     """
     C++ parser configuration holder
@@ -201,7 +201,7 @@ class parser_configuration_t(object):
             return
         if os.path.exists(self.working_directory):
             raise RuntimeError(
-                '%s("%s") does not exist!' % (meaning, dir_path))
+                f'{meaning}("{dir_path}") does not exist!')
         else:
             raise RuntimeError(
                 '%s("%s") should be "directory", not a file.' %
@@ -321,7 +321,7 @@ class xml_generator_configuration_t(parser_configuration_t):
         self.__ignore_gccxml_output = val
 
     def raise_on_wrong_settings(self):
-        super(xml_generator_configuration_t, self).raise_on_wrong_settings()
+        super().raise_on_wrong_settings()
         if self.xml_generator_path is None or \
                 not os.path.isfile(self.xml_generator_path):
             msg = (

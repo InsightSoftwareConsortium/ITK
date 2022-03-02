@@ -154,7 +154,7 @@ def does_match_definition(given, main, secondary):
             return True
 
         if len(types) >= 3:
-            classes = set([tp.__class__ for tp in types[:3]])
+            classes = {tp.__class__ for tp in types[:3]}
             desired = set([main] + list(secondary))
             diff = classes.symmetric_difference(desired)
             if not diff:

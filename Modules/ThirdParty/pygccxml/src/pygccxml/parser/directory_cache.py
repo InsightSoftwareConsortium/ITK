@@ -28,7 +28,7 @@ except ImportError:
 from . import declarations_cache
 
 
-class index_entry_t(object):
+class index_entry_t:
 
     """
     Entry of the index table in the directory cache index.
@@ -381,7 +381,7 @@ class directory_cache_t(declarations_cache.cache_base_t):
         return m.digest()
 
 
-class filename_entry_t(object):
+class filename_entry_t:
 
     """This is a record stored in the filename_repository_t class.
 
@@ -428,7 +428,7 @@ class filename_entry_t(object):
         return self.refcount
 
 
-class filename_repository_t(object):
+class filename_repository_t:
 
     """File name repository.
 
@@ -534,10 +534,10 @@ class filename_repository_t(object):
             if not os.path.exists(entry.filename):
                 return None
             try:
-                with open(entry.filename, "r") as f:
+                with open(entry.filename) as f:
                     data = f.read()
                     return hashlib.sha1(data.encode("utf-8")).digest()
-            except IOError as e:
+            except OSError as e:
                 print("Cannot determine sha1 digest:", e)
                 return None
         else:

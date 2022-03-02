@@ -6,7 +6,7 @@
 import re
 
 
-class VIRTUALITY_TYPES(object):
+class VIRTUALITY_TYPES:
 
     """class that defines "virtuality" constants"""
     NOT_VIRTUAL = 'not virtual'
@@ -19,7 +19,7 @@ class VIRTUALITY_TYPES(object):
 FUNCTION_VIRTUALITY_TYPES = VIRTUALITY_TYPES
 
 
-class CALLING_CONVENTION_TYPES(object):
+class CALLING_CONVENTION_TYPES:
 
     """class that defines "calling convention" constants"""
     UNKNOWN = ''

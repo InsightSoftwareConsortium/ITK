@@ -21,7 +21,7 @@ from . import runtime_errors
 from .. import utils
 
 
-class matcher(object):
+class matcher:
 
     """Class-namespace, contains implementation of a few "find" algorithms"""
 
@@ -442,14 +442,14 @@ class scopedef_t(declaration.declaration_t):
             return self._type2decls_nr[decl_type]
         else:
             if recursive:
-                self._logger.debug((
+                self._logger.debug(
                     'query has not been optimized ( hint: query does not ' +
-                    'contain type and/or name )'))
+                    'contain type and/or name )')
                 return self._all_decls
 
-            self._logger.debug((
+            self._logger.debug(
                 'non recursive query has not been optimized ( hint: ' +
-                'query does not contain type and/or name )'))
+                'query does not contain type and/or name )')
             return self._all_decls_not_recursive
 
     def _find_single(self, match_class, **keywds):

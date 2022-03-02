@@ -61,7 +61,7 @@ def configuration_signature(config):
     return sig.hexdigest()
 
 
-class cache_base_t(object):
+class cache_base_t:
     logger = utils.loggers.declarations_cache
 
     def __init__(self):
@@ -98,7 +98,7 @@ class cache_base_t(object):
         raise NotImplementedError()
 
 
-class record_t(object):
+class record_t:
 
     def __init__(
             self,

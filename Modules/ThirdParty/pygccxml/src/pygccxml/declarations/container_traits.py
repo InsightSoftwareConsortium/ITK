@@ -20,7 +20,7 @@ from .. import utils
 std_namespaces = ('std', 'stdext', '__gnu_cxx')
 
 
-class defaults_eraser(object):
+class defaults_eraser:
 
     def __init__(self, unordered_maps_and_sets):
         self.unordered_maps_and_sets = unordered_maps_and_sets
@@ -324,7 +324,7 @@ class defaults_eraser(object):
                      self.erase_recursive(mapped_type)])
 
 
-class container_traits_impl_t(object):
+class container_traits_impl_t:
 
     """
     Implements the functionality needed for convenient work with STD container

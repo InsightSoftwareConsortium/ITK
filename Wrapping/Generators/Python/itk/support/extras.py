@@ -649,7 +649,7 @@ def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
     direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
     attrs = {"direction": direction}
     metadata = dict(l_image)
-    ignore_keys = set(["direction", "origin", "spacing"])
+    ignore_keys = {"direction", "origin", "spacing"}
     for key in metadata:
         if not key in ignore_keys:
             attrs[key] = metadata[key]
@@ -701,7 +701,7 @@ def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
     if "direction" in data_array.attrs:
         direction = data_array.attrs["direction"]
         itk_image.SetDirection(np.flip(direction))
-    ignore_keys = set(["direction", "origin", "spacing"])
+    ignore_keys = {"direction", "origin", "spacing"}
     for key in data_array.attrs:
         if not key in ignore_keys:
             itk_image[key] = data_array.attrs[key]
@@ -1453,8 +1453,7 @@ class templated_class:
     # and is a copy/paste from DictMixin
     # only methods to edit dictionary are not there
     def __iter__(self) -> str:
-        for k in self.keys():
-            yield k
+        yield from self.keys()
 
     def has_key(self, key: str):
         return key in self.__templates__

@@ -9,8 +9,7 @@ from .. import utils
 
 class linker_t(
         declarations.decl_visitor_t,
-        declarations.type_visitor_t,
-        object):
+        declarations.type_visitor_t):
 
     def __init__(
             self, decls, types, access, membership,

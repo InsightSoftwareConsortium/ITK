@@ -312,7 +312,7 @@ for remote in changed_remotes.split():
     remote_old_tag = remote_tag(remote_spec)
 
     remote_spec = subprocess.check_output(
-        "git show HEAD:{1}".format(revision, remote), shell=True
+        f"git show HEAD:{remote}", shell=True
     ).decode("utf-8")
     remote_new_tag = remote_tag(remote_spec)
     remote_repo = remote_repository(remote_spec)
@@ -328,7 +328,7 @@ for remote in changed_remotes.split():
 
     try:
         log = subprocess.check_output(
-            "git shortlog --format=%s:%h --topo-order --no-merges {0}..{1}".format(
+            "git shortlog --format=%s:%h --topo-order --no-merges {}..{}".format(
                 remote_old_tag, remote_new_tag
             ),
             shell=True,

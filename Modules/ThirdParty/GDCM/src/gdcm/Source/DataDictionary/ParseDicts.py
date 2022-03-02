@@ -61,10 +61,10 @@ class PdfTextParser:
     patt = re.compile('^(.*)PS 3.6-2007(.*)$')
     if( patt.match(s) ):
       return True
-    patt = re.compile('^\s*(- Standard -)\s*')
+    patt = re.compile(r'^\s*(- Standard -)\s*')
     if( patt.match(s) ):
       return True
-    patt = re.compile('^\s*Tag\s+Name\s+VR\s+VM\s*$')
+    patt = re.compile(r'^\s*Tag\s+Name\s+VR\s+VM\s*$')
     if( patt.match(s) ):
       return True
     return False
@@ -77,10 +77,10 @@ class PdfTextParser:
 
   def IsAFullLine(self,s):
     #patt = re.compile('^\\([0-9a-fA-Fx]+,[0-9a-fA-F]+\\) (.*) [A-Z][A-Z] [0-9]$')
-    patt = re.compile('^\\([0-9a-fA-Fx]+,[0-9a-fA-F]+\\)\s+(.*)\s+[A-Z][A-Z]\s+([0-9n-]+)\s*$')
+    patt = re.compile('^\\([0-9a-fA-Fx]+,[0-9a-fA-F]+\\)\\s+(.*)\\s+[A-Z][A-Z]\\s+([0-9n-]+)\\s*$')
     if( patt.match(s) ):
       return True
-    patt = re.compile('^\\([0-9a-fA-Fx]+,[0-9a-fA-F]+\\)\s+(.*)\s+[A-Z][A-Z]\s+([0-9n-]+)\s+RET\s*$')
+    patt = re.compile('^\\([0-9a-fA-Fx]+,[0-9a-fA-F]+\\)\\s+(.*)\\s+[A-Z][A-Z]\\s+([0-9n-]+)\\s+RET\\s*$')
     if( patt.match(s) ):
       return True
     print "IsAFullLine failed on", s
@@ -344,14 +344,14 @@ class Converter:
         print "Convert pb:", line
 
   def IsAFullLine(self,s):
-    patt = re.compile('^\\(([0-9a-fA-Fx]+),([0-9a-fA-F]+)\\)\s+(.*)\s+([A-Z][A-Z])\s+([0-9n-]+)\s*$')
+    patt = re.compile('^\\(([0-9a-fA-Fx]+),([0-9a-fA-F]+)\\)\\s+(.*)\\s+([A-Z][A-Z])\\s+([0-9n-]+)\\s*$')
     m = patt.match(s)
     if( m ):
       output = ''
       output = m.group(1).lower() + ' ' + m.group(2).lower() + ' ' + m.group(4) + ' ' + m.group(5) + ' ' + m.group(3).strip()
       self.AddOutputLine( output )
       return True
-    patt_ret = re.compile('^\\(([0-9a-fA-Fx]+),([0-9a-fA-F]+)\\)\s+(.*)\s+([A-Z][A-Z])\s+([0-9n-]+)\s+(RET)\s*$')
+    patt_ret = re.compile('^\\(([0-9a-fA-Fx]+),([0-9a-fA-F]+)\\)\\s+(.*)\\s+([A-Z][A-Z])\\s+([0-9n-]+)\\s+(RET)\\s*$')
     m = patt_ret.match(s)
     if( m ):
       output = ''

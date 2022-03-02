@@ -10,7 +10,7 @@ from . import type_traits
 from . import class_declaration
 
 
-class impl_details(object):
+class impl_details:
 
     """implementation details"""
     @staticmethod

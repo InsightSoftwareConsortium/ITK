@@ -179,7 +179,7 @@ def exploreMethods(obj, cl):
     isin = isinstance(i, str)
     ls = excludedMethodsList
     attrNameList = sorted(
-        [i for i in dir(obj) if isin and i[0].isupper() and i not in ls]
+        i for i in dir(obj) if isin and i[0].isupper() and i not in ls
     )
 
     for attrName in attrNameList:

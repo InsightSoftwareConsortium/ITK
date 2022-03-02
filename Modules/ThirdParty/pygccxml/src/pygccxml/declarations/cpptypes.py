@@ -646,7 +646,7 @@ class array_t(compound_t):
         return array_t(self.base.clone(), self.size)
 
 
-class calldef_type_t(object):
+class calldef_type_t:
 
     """base class for all types that describes "callable" declaration"""
 
@@ -910,7 +910,7 @@ class declarated_t(type_t, byte_info.byte_info):
         return declarated_t(self._declaration)
 
 
-class type_qualifiers_t(object):
+class type_qualifiers_t:
 
     """contains additional information about type: mutable, static, extern"""
 

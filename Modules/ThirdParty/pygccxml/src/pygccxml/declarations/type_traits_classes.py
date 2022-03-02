@@ -47,7 +47,7 @@ def is_struct(declaration):
     return decl.class_type == class_declaration.CLASS_TYPES.STRUCT
 
 
-class declaration_xxx_traits(object):
+class declaration_xxx_traits:
     """this class implements the functionality needed for convenient work with
     declaration classes
 
@@ -327,7 +327,7 @@ def has_any_non_copyconstructor(decl_type):
         return decls
 
 
-class __is_convertible_t(object):
+class __is_convertible_t:
 
     """implementation details"""
 

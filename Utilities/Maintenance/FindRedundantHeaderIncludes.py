@@ -25,7 +25,6 @@
 ## you can remove the sibling include.
 
 ## in the ITK/Code directory issue the following command
-from __future__ import print_function
 
 import os
 import sys
@@ -73,7 +72,7 @@ class FileToPathMapping:
         for line in ff:
             if line.find(remove_header) != -1:
                 print(
-                    "          Removing {0} from {1}".format(
+                    "          Removing {} from {}".format(
                         line, self.filePathBaseDirs[filename] + "/" + filename
                     )
                 )
@@ -108,7 +107,7 @@ class FileToPathMapping:
             for currEdge in nodeEdges:
                 if dupcandidate in myDependTree[currEdge]:
                     print(
-                        "Remove {0} from {1}:  found hereditary same include in {2}".format(
+                        "Remove {} from {}:  found hereditary same include in {}".format(
                             dupcandidate, starting_child, currEdge
                         )
                     )

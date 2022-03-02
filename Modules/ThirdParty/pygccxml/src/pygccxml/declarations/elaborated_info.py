@@ -4,7 +4,7 @@
 # See http://www.boost.org/LICENSE_1_0.txt
 
 
-class elaborated_info(object):
+class elaborated_info:
     """
     This class stores the name of the elaborated type specifier.
 

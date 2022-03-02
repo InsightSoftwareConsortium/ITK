@@ -124,7 +124,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
         if self.__print_details:
             curr_level = self.level + 1
             if self.__inst.location:
-                location = 'location: [%s]:%s' % (
+                location = 'location: [{}]:{}'.format(
                     self.__inst.location.file_name, self.__inst.location.line)
                 self.writer(
                     ' ' *
@@ -270,7 +270,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
                     "align: not implemented".ljust(self.JUSTIFY))
 
         if self.__inst.aliases:
-            aliases = sorted([typedef.name for typedef in self.__inst.aliases])
+            aliases = sorted(typedef.name for typedef in self.__inst.aliases)
             msg = 'aliases: ' + repr(aliases)
             self.writer(
                 ' ' *
@@ -353,7 +353,7 @@ class decl_printer_t(decl_visitor.decl_visitor_t):
         value_level = ' ' * (curr_level + 1) * self.INDENT_SIZE
         self.writer(os.linesep + os.linesep)
         for name, value in self.__inst.values:
-            self.writer(value_level + "%s : %s" % (name, value) + os.linesep)
+            self.writer(value_level + f"{name} : {value}" + os.linesep)
 
     def visit_namespace(self):
         if not self.verbose and not self.__inst.declarations:

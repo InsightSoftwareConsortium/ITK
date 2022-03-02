@@ -226,7 +226,7 @@ def debug_print_error(error):
         raise RuntimeError(error)
 
 
-class LibraryLoader(object):
+class LibraryLoader:
 
     """Do all the work to set up the environment so that a SWIG-generated
     library can be properly loaded. This involves setting paths defined in
@@ -370,7 +370,7 @@ def _initialize(l_module_data):
 
     files = os.listdir(candidate_config_path)
     known_modules: List[str] = sorted(
-        [f[:-9] for f in files if f.endswith("Config.py")]
+        f[:-9] for f in files if f.endswith("Config.py")
     )
     for module in known_modules:
         conf: str = f"{module}Config.py"

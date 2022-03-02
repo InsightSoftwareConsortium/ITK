@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 
 import sys
 import os
@@ -416,7 +415,7 @@ def getType(v):
     return v
 
 
-class IdxGenerator(object):
+class IdxGenerator:
     """Generates a the .idx file for an ITK wrapping submodule (which usually
     corresponds to a class)."""
 
@@ -433,7 +432,7 @@ class IdxGenerator(object):
             # drop the :: prefix - it make swig produce invalid code
             if s.startswith("::"):
                 s = s[2:]
-            self.outputFile.write("{%s} {%s} {%s}\n" % (s, n, self.submoduleName))
+            self.outputFile.write(f"{{{s}}} {{{n}}} {{{self.submoduleName}}}\n")
 
         content = self.outputFile.getvalue()
 
@@ -441,7 +440,7 @@ class IdxGenerator(object):
             f.write(content)
 
 
-class SwigInputGenerator(object):
+class SwigInputGenerator:
     """Generates a swig input .i file for an ITK module."""
 
     notWrapped = [
@@ -471,7 +470,7 @@ class SwigInputGenerator(object):
         # require to wrap too more type
         "itk::SmartPointer< itk::VoronoiDiagram2D<.+> >",
         # used internally in ImageToImageMetric
-        "itk::Image< itk::CovariantVector< double, \d+u >, \d+u >",
+        r"itk::Image< itk::CovariantVector< double, \d+u >, \d+u >",
         "itk::FixedArray< itk::SmartPointer.+ >",
         # used internally in itkMattesMutualInformationImageToImageMetric
         "itk::SmartPointer< itk::Image.+ >",
@@ -875,7 +874,7 @@ class SwigInputGenerator(object):
         return s + end
 
     def load_idx(self, file_name):
-        with open(file_name, "r") as f:
+        with open(file_name) as f:
             for line in f:
                 (full_name, alias, module) = re.findall(r"{(.*)} {(.*)} {(.*)}", line)[
                     0
@@ -914,7 +913,7 @@ class SwigInputGenerator(object):
             # already loaded - no need to do it again
             return
         self.mdx_loaded.add(file_name)
-        with open(file_name, "r") as f:
+        with open(file_name) as f:
             lines = f.readlines()
         for line in lines:
             line_stripped = line.strip()
@@ -992,7 +991,7 @@ class SwigInputGenerator(object):
             if super_classes:
                 s = " : " + ", ".join(super_classes)
             self.outputFile.write("  " * indent)
-            self.outputFile.write("class %s%s {\n" % (typedef.name, s))
+            self.outputFile.write(f"class {typedef.name}{s} {{\n")
 
             # iterate over access
             for access in decls.ACCESS_TYPES.ALL:
@@ -1059,7 +1058,7 @@ class SwigInputGenerator(object):
             # stdcomplex is too difficult to wrap in some cases. Only wrap the
             # constructor.
             self.outputFile.write("  " * indent)
-            self.outputFile.write("class %s%s {\n" % (typedef.name, s))
+            self.outputFile.write(f"class {typedef.name}{s} {{\n")
 
             # iterate over access
             for access in pygccxml.declarations.ACCESS_TYPES.ALL:
@@ -1122,7 +1121,7 @@ class SwigInputGenerator(object):
                             if member.name in kwargs_of_interest:
                                 kwargs_of_interest[member.name].add(arg_type)
                             else:
-                                kwargs_of_interest[member.name] = set([arg_type])
+                                kwargs_of_interest[member.name] = {arg_type}
                 base_index = 0
                 while recursive_bases[base_index].related_class.name != "ProcessObject":
                     base_class = recursive_bases[base_index].related_class
@@ -1137,7 +1136,7 @@ class SwigInputGenerator(object):
                                 if member.name in kwargs_of_interest:
                                     kwargs_of_interest[member.name].add(arg_type)
                                 else:
-                                    kwargs_of_interest[member.name] = set([arg_type])
+                                    kwargs_of_interest[member.name] = {arg_type}
                     base_index += 1
                     if base_index >= len(recursive_bases):
                         # ImageDuplicator, ...
@@ -1241,14 +1240,14 @@ def {snakeCase}_init_docstring():
         self.outputFile.write("%}\n")
         content = [f" {key}" for key, value in enum.values]
         self.outputFile.write(
-            "enum class %s: uint8_t { %s };\n\n" % (name, ", ".join(content))
+            "enum class {}: uint8_t {{ {} }};\n\n".format(name, ", ".join(content))
         )
 
     def generate_nested_enum(self, typedef, enum, indent, w):
         content = [f" {key}" for key, value in enum.values]
         self.outputFile.write("  " * indent)
         self.outputFile.write(
-            "    enum class %s: uint8_t { %s };\n\n" % (enum.name, ", ".join(content))
+            "    enum class {}: uint8_t {{ {} }};\n\n".format(enum.name, ", ".join(content))
         )
 
         if self.current_class is not None and self.classes[self.current_class].is_enum:
@@ -1356,7 +1355,7 @@ def {snakeCase}_init_docstring():
 
         self.outputFile.write("  " * indent)
 
-        method_definition = "    %s%s %s(%s)%s;\n" % (
+        method_definition = "    {}{} {}({}){};\n".format(
             static,
             self.get_alias(self.getDeclarationString(method.return_type), w),
             method.name,
@@ -1548,7 +1547,7 @@ if _version_info < (3, 7, 0):
         typedefInput = os.path.join(
             options.library_output_dir, self.submoduleName + "SwigInterface.h.in"
         )
-        with open(typedefInput, "r") as f:
+        with open(typedefInput) as f:
             typedefFile.write(f.read() + "\n")
         for src in usedSources:
             typedefFile.write(f'#include "{src}SwigInterface.h"\n')
@@ -1710,7 +1709,7 @@ if _version_info < (3, 7, 0):
         )
 
         if self.options.keep and os.path.exists(interfaceFile):
-            with open(interfaceFile, "r") as f:
+            with open(interfaceFile) as f:
                 filecontent = f.read()
 
         if (
@@ -1911,7 +1910,7 @@ if __name__ == "__main__":
 
     submoduleNames = []
     # The first mdx file is the master index file for this module.
-    with open(options.mdx[0], "r") as ff:
+    with open(options.mdx[0]) as ff:
         for line in ff.readlines():
             stripped = line.strip()
             if line.startswith("%") or line.isspace():
