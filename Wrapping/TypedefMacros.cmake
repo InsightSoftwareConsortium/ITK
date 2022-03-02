@@ -416,7 +416,7 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
     set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
     set(lib ${WRAPPER_LIBRARY_NAME}Python)
     set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${lib}.py")
-    set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}Python.cpp")
+    set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${lib}.cpp")
 
     # if this is for an external library, let the user add extra swig args
     if(EXTERNAL_WRAP_ITK_PROJECT)
