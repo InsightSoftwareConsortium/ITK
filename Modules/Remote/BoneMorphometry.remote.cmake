@@ -51,5 +51,5 @@ itk_fetch_module(BoneMorphometry
   "
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKBoneMorphometry.git
-  GIT_TAG 2a71b2b11e27af670889d24f66b03383024f859a
+  GIT_TAG 391e5bcc5c57209447bf5b2f3a77ba59d3edfe57
 )
