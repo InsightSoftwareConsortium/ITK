@@ -14,7 +14,6 @@ Currently, the tarball needs to be uploaded manually to data.kitware.com.
 In the future, the Python girder client can be used for automatic upload.
 """
 
-from __future__ import print_function
 
 import os
 import subprocess

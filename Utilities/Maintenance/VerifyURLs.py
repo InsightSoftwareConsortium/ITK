@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
 
 import sys
 import re
@@ -9,13 +8,13 @@ import os
 
 # compile regular expression to pull out URLs in ITK
 # The ignored characters an common delineators, and not strick to the standard
-http_re = re.compile('(http://[^\s<>\{\}\|\]\[\)\("]*)')
+http_re = re.compile(r'(http://[^\s<>\{\}\|\]\[\)\("]*)')
 http_dict = dict()
 
 for arg in sys.argv[1:]:
     if not os.path.isfile(arg):
         continue
-    f = open(arg, "r")
+    f = open(arg)
     for l in f.readlines():
         mo = http_re.search(l)
         if mo is not None:
@@ -27,7 +26,7 @@ if len(http_dict) > 1:
     print("Found ", len(http_dict), " unique URLS.")
 
 # compile regular expression to pull out the server address and path
-server_re = re.compile("http://([^/]+)(/?[^\s]*)")
+server_re = re.compile(r"http://([^/]+)(/?[^\s]*)")
 
 for url, filename in http_dict.items():
     mo = server_re.search(url)

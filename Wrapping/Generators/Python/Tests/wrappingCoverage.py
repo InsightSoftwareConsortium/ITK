@@ -49,9 +49,9 @@ parser.add_option(
 opts, args = parser.parse_args()
 
 # declares classes which will not be wrapped
-excluded = set([])
+excluded = set()
 if opts.exclude:
-    with open(opts.exclude, "r") as fp:
+    with open(opts.exclude) as fp:
         to_exclude = [c.strip() for c in fp.readlines()]
         excluded.update(set(to_exclude))
 
@@ -59,30 +59,25 @@ if opts.exclude:
 headers = []
 for d in args:
     headers += sum(
-        [
+        (
             f
             for p, d, f in os.walk(d)
             if "Deprecated" not in p and "TestKernel" not in p
-        ],
+        ),
         [],
     )
-classes = (
-    set(
-        [
-            f[len("itk") : -len(".h")]
-            for f in headers
-            if f.startswith("itk")
-            and not f.startswith("itkv3")
-            and f.endswith(opts.base + ".h")
-        ]
-    )
-    - excluded
-)
+classes = {
+    f[len("itk") : -len(".h")]
+    for f in headers
+    if f.startswith("itk")
+    and not f.startswith("itkv3")
+    and f.endswith(opts.base + ".h")
+} - excluded
 
 # get filter from wrapper files
 # remove classes which are not in the toolkit (external projects,
 # PyImageFilter, ...)
-wrapped = set([a for a in dir(itk) if a.endswith(opts.base)]).intersection(classes)
+wrapped = {a for a in dir(itk) if a.endswith(opts.base)}.intersection(classes)
 
 nonWrapped = classes - wrapped
 

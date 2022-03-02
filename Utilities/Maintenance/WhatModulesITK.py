@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
 
 import os, sys
 import re
@@ -58,11 +57,11 @@ def IncludesToPaths(path):
 def FindModules(path):
     pathToModule = dict()
     fileProg = re.compile(r"itk-module.cmake")
-    moduleProg = re.compile(".*itk_module[^(]*\(([^ \n]*)", re.S)
+    moduleProg = re.compile(".*itk_module[^(]*\\(([^ \n]*)", re.S)
     for root, dirs, files in os.walk(path):
         for f in files:
             if fileProg.match(f):
-                fid = open(root + os.sep + f, "r")
+                fid = open(root + os.sep + f)
                 contents = fid.read()
                 m = moduleProg.match(contents)
                 if m:
@@ -79,7 +78,7 @@ def FindModules(path):
 def FindIncludes(path):
     includes = set()
     includeProg = re.compile(r"(itk.*\.h)")
-    fid = open(path, "r")
+    fid = open(path)
     contents = fid.read()
     incs = includeProg.findall(contents)
     includes.update(incs)

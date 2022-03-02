@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 
-from __future__ import print_function
 
 description = """
 Upload all the ExternalData files to Azure Blob storage.
@@ -31,7 +30,7 @@ def upload_to_azure(
 ):
     # get the MD5 checksum
     print("Uploading " + content_link + " ...")
-    with open(content_link, "r") as fp:
+    with open(content_link) as fp:
         md5hash = fp.readline().strip()
     print("Checksum: " + md5hash)
 
