@@ -746,8 +746,7 @@ or via one of the following keyword arguments: %s"""
     # and is a copy/paste from DictMixin
     # only methods to edit dictionary are not there
     def __iter__(self):
-        for k in self.keys():
-            yield k
+        yield from self.keys()
 
     def __contains__(self, key):
         return key in self

@@ -11,7 +11,7 @@ import sys
 from collections import OrderedDict
 
 if len(sys.argv) != 2:
-    usage = """
+    usage = r"""
 INCORRECT USAGE:
    {0}
 
@@ -713,7 +713,7 @@ for line in info_for_conversion.splitlines():
 cfile = sys.argv[1]
 
 file_as_string = ""
-with open(cfile, "r") as rfp:
+with open(cfile) as rfp:
     file_as_string = rfp.read()
 orig_file = file_as_string
 

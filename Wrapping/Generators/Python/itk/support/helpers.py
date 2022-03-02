@@ -236,7 +236,7 @@ def wasm_type_from_image_type(itkimage):  # noqa: C901
         mangle = itk.template(component)[1][0]
         pixelType = "SymmetrySecondRankTensor"
     else:
-        raise RuntimeError("Unrecognized component type: {0}".format(str(component)))
+        raise RuntimeError(f"Unrecognized component type: {str(component)}")
 
     def _long_type():
         if os.name == "nt":

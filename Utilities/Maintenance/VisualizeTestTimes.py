@@ -8,7 +8,6 @@ Run from the top of the build tree after the ctest has been run at least once.
 
 Pass the --modular-grouping flag to group by module."""
 
-from __future__ import print_function
 
 import os
 import pprint
@@ -32,7 +31,7 @@ if not os.path.exists(test_cost_data_file):
     sys.exit(1)
 
 # Read the input data
-with open(test_cost_data_file, "r") as fp:
+with open(test_cost_data_file) as fp:
     test_cost_data_lines = fp.readlines()
 failed_tests_index = test_cost_data_lines.index("---\n")
 
@@ -97,19 +96,19 @@ if modular:
 print("RUNS_LONG tests:")
 pprint.pprint(runs_long)
 print(
-    "RUNS_LONG time percentage: {0:.4}%".format(
+    "RUNS_LONG time percentage: {:.4}%".format(
         str(has_runs_long_time / (has_runs_long_time + no_runs_long_time) * 100)
     )
 )
 print(
-    "RUNS_LONG test percentage: {0:.4}%".format(
+    "RUNS_LONG test percentage: {:.4}%".format(
         str((len(runs_long)) / (failed_tests_index - 1.0) * 100)
     )
 )
 
 # Convert the vtkTable to a vtkTree
 table_to_tree = vtk.vtkTableToTreeFilter()
-if vtk_major_version is 5:
+if vtk_major_version == 5:
     table_to_tree.SetInput(table)
 else:
     table_to_tree.SetInputData(table)

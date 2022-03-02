@@ -37,7 +37,7 @@ NUMBER_OF_PROCESSES = 8
 
 def main():
 
-    fileList = open(relativeFileList, "r").read().splitlines()
+    fileList = open(relativeFileList).read().splitlines()
 
     args = []
     for i in xrange(0, len(fileList), FILES_PER_PROCESS):

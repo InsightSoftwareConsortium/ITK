@@ -44,7 +44,7 @@ def _ThreadingRLock(*args, **kwargs):
         pass
 
 
-class ITKLazyLoadLock(object):
+class ITKLazyLoadLock:
     """Need to use a recursive lock for thread ownership
     within the given thread you can acquire a RLock as often as you like.
     Other threads need to wait until this thread releases the resource again.
@@ -104,9 +104,9 @@ class LazyITKModule(types.ModuleType):
         types.ModuleType.__init__(self, name)
         for k, v in lazy_attributes.items():
             base.itk_base_global_lazy_attributes.setdefault(k, _builtin_set()).update(v)
-        self.__belong_lazy_attributes = dict(
-            (k, v[0]) for k, v in lazy_attributes.items() if len(v) > 0
-        )
+        self.__belong_lazy_attributes = {
+            k: v[0] for k, v in lazy_attributes.items() if len(v) > 0
+        }
         for k in lazy_attributes:
             setattr(self, k, not_loaded)  # use default known value
         # For PEP 366
