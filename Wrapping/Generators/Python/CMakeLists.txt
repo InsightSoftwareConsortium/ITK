@@ -334,8 +334,8 @@ macro(itk_end_wrap_submodule_python group_name)
   # create the swig interface for all the groups in the module
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${base_name}.i")
   set(lib ${base_name}Python)
-  set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${lib}.py")
-  set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${base_name}Python.cpp")
+  set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${base_name}.py")
+  set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${lib}.cpp")
 
   # create the python customization for that wrap_*.cmake file.
   configure_file("${ITK_WRAP_PYTHON_SOURCE_DIR}/module_ext.i.in"
