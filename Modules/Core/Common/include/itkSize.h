@@ -20,6 +20,7 @@
 
 #include "itkIntTypes.h"
 #include "itkMacro.h"
+#include "itkMakeFilled.h"
 #include <algorithm>   // For copy_n.
 #include <type_traits> // For is_integral.
 #include <memory>
@@ -406,12 +407,7 @@ public:
   static constexpr Self
   Filled(const SizeValueType value)
   {
-    Self result{};
-    for (SizeValueType & sizeValue : result.m_InternalArray)
-    {
-      sizeValue = value;
-    }
-    return result;
+    return MakeFilled<Self>(value);
   }
 
 }; //------------ End struct Size

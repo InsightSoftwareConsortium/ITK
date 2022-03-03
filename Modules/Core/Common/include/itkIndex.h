@@ -18,6 +18,7 @@
 #ifndef itkIndex_h
 #define itkIndex_h
 
+#include "itkMakeFilled.h"
 #include "itkOffset.h"
 #include <type_traits> // For is_integral.
 
@@ -484,12 +485,7 @@ public:
   static constexpr Self
   Filled(const IndexValueType value)
   {
-    Self result{};
-    for (IndexValueType & indexValue : result.m_InternalArray)
-    {
-      indexValue = value;
-    }
-    return result;
+    return MakeFilled<Self>(value);
   }
 
 
