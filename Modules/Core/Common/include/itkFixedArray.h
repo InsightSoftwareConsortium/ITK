@@ -19,6 +19,7 @@
 #define itkFixedArray_h
 
 #include "itkMacro.h"
+#include "itkMakeFilled.h"
 #include <algorithm>
 #include <array>
 
@@ -423,12 +424,7 @@ public:
   static constexpr FixedArray
   Filled(const ValueType & value)
   {
-    FixedArray result{};
-    for (ValueType & element : result.m_InternalArray)
-    {
-      element = value;
-    }
-    return result;
+    return MakeFilled<FixedArray>(value);
   }
 };
 
