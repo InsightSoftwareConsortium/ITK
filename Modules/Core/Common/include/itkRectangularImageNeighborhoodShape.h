@@ -63,7 +63,7 @@ public:
 
 
   /** Returns the number of offsets needed to represent this shape. */
-  constexpr std::size_t
+  constexpr size_t
   GetNumberOfOffsets() const noexcept
   {
     return m_NumberOfOffsets;
@@ -83,7 +83,7 @@ public:
         return -static_cast<OffsetValueType>(radiusValue);
       });
 
-      for (std::size_t i = 0; i < m_NumberOfOffsets; ++i)
+      for (size_t i = 0; i < m_NumberOfOffsets; ++i)
       {
         offsets[i] = offset;
 
@@ -108,12 +108,12 @@ private:
   Size<ImageDimension> m_Radius;
 
   // The number of offsets needed to represent this shape.
-  std::size_t m_NumberOfOffsets;
+  size_t m_NumberOfOffsets;
 
 
   // Private helper function to calculate the number of Offsets by a recursive
   // function call. Recursion is necessary for C++11 constexpr.
-  constexpr std::size_t
+  constexpr size_t
   CalculateNumberOfOffsets(const unsigned int dimension) const noexcept
   {
     return (dimension == 0)

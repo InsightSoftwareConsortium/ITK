@@ -86,7 +86,7 @@ public:
   {
   public:
     // Types conforming the iterator requirements of the C++ standard library:
-    using difference_type = std::ptrdiff_t;
+    using difference_type = ptrdiff_t;
     using value_type = IndexType;
     using reference = const IndexType &;
     using pointer = const IndexType *;
@@ -386,10 +386,10 @@ public:
 
 
   /** Returns the size of the range, that is the number of indices. */
-  std::size_t
+  size_t
   size() const noexcept
   {
-    std::size_t result = 1;
+    size_t result = 1;
 
     for (unsigned int i = 0; i < VDimension; ++i)
     {

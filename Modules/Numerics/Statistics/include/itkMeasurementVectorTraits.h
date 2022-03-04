@@ -55,7 +55,7 @@ public:
   using TotalAbsoluteFrequencyType = NumericTraits<AbsoluteFrequencyType>::AccumulateType;
   using TotalRelativeFrequencyType = NumericTraits<RelativeFrequencyType>::AccumulateType;
 
-  using MeasurementVectorLength = std::size_t;
+  using MeasurementVectorLength = size_t;
 
   template <typename TVectorType>
   static bool

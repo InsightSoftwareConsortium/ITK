@@ -24,7 +24,7 @@
 #include <string>
 
 // The tested ElementIdentifier type.
-using TestedElementIdentifierType = std::size_t;
+using TestedElementIdentifierType = size_t;
 
 // Test template instantiations for various TElement template arguments:
 template class itk::VectorContainer<TestedElementIdentifierType, int>;

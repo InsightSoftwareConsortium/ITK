@@ -203,13 +203,13 @@ public:
   }
 
   T *
-  operator+=(std::ptrdiff_t val)
+  operator+=(ptrdiff_t val)
   {
     return reinterpret_cast<T *>(m_Object += val * sizeof(T));
   }
 
   T *
-  operator-=(std::ptrdiff_t val)
+  operator-=(ptrdiff_t val)
   {
     return reinterpret_cast<T *>(m_Object -= val * sizeof(T));
   }

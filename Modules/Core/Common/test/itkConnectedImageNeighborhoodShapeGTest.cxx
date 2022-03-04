@@ -35,9 +35,9 @@
 namespace
 {
 template <unsigned int VImageDimension,
-          std::size_t  VMaximumCityblockDistance,
+          size_t       VMaximumCityblockDistance,
           bool         VIncludeCenterPixel,
-          std::size_t  VExpectedNumberOfOffsets>
+          size_t       VExpectedNumberOfOffsets>
 void
 Assert_GetNumberOfOffsets_returns_expected_number()
 {
@@ -55,8 +55,8 @@ Assert_GetNumberOfOffsets_returns_expected_number()
 
 
 template <unsigned int VImageDimension,
-          std::size_t  VMaximumCityblockDistance,
-          std::size_t  VExpectedNumberOfOffsetsExcludingCenterPixel>
+          size_t       VMaximumCityblockDistance,
+          size_t       VExpectedNumberOfOffsetsExcludingCenterPixel>
 void
 Assert_GetNumberOfOffsets_returns_expected_number()
 {
@@ -75,7 +75,7 @@ Assert_GetNumberOfOffsets_returns_expected_number()
 
 // Asserts that GenerateImageNeighborhoodOffsets(shape) returns the expected
 // result for a shape with the specified ImageDimension and MaximumCityblockDistance,
-template <unsigned int VImageDimension, std::size_t VMaximumCityblockDistance>
+template <unsigned int VImageDimension, size_t VMaximumCityblockDistance>
 void
 Assert_GenerateImageNeighborhoodOffsets_returns_expected_offsets_excluding_center_pixel(
   const std::vector<itk::Offset<VImageDimension>> & expectedOffsets)
@@ -103,7 +103,7 @@ Assert_The_middle_offset_is_all_zero_when_center_pixel_is_included()
        ++maximumCityblockDistance)
   {
     const ShapeType               shape{ maximumCityblockDistance, includeCenterPixel };
-    const std::size_t             numberOfOffsets = shape.GetNumberOfOffsets();
+    const size_t                  numberOfOffsets = shape.GetNumberOfOffsets();
     const std::vector<OffsetType> offsets = GenerateImageNeighborhoodOffsets(shape);
 
     ASSERT_FALSE(offsets.empty());
@@ -288,8 +288,8 @@ TEST(ConnectedImageNeighborhoodShape, SupportsConstShapedNeighborhoodIterator)
 
   // Define a shape that should generate the same offsets as in the
   // previous ActivateOffset(offset) calls.
-  constexpr std::size_t cityBlockDistance = 1;
-  constexpr bool        includeCenterPixel = false;
+  constexpr size_t cityBlockDistance = 1;
+  constexpr bool   includeCenterPixel = false;
 
   shapedNeighborhoodIterator.ActivateOffsets(
     itk::GenerateConnectedImageNeighborhoodShapeOffsets<ImageDimension, cityBlockDistance, includeCenterPixel>());

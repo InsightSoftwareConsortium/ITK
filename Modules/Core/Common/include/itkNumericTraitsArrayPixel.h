@@ -125,7 +125,7 @@ public:
   }
 
   /** Get the length of the input array. */
-  static std::size_t
+  static size_t
   GetLength(const Array<T> & m)
   {
     return m.GetSize();

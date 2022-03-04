@@ -139,13 +139,13 @@ public:
   class CoefficientVectorSizeMismatch
   {
   public:
-    CoefficientVectorSizeMismatch(const std::size_t given, const std::size_t required)
+    CoefficientVectorSizeMismatch(const size_t given, const size_t required)
       : m_Required{ required }
       , m_Given{ given }
     {}
 
-    std::size_t m_Required;
-    std::size_t m_Given;
+    size_t m_Required;
+    size_t m_Given;
   };
 
   /** \brief Sets the Legendre polynomials' parameters.

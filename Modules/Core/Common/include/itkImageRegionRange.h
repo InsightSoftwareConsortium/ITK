@@ -145,7 +145,7 @@ private:
       , m_IterationRegionSize(regionSize)
     {}
 
-    template <std::size_t VIndex>
+    template <size_t VIndex>
     void Increment(std::true_type) noexcept
     {
       static_assert(VIndex < (ImageDimension - 1), "For a larger index value, the other overload should be picked");
@@ -160,7 +160,7 @@ private:
       }
     }
 
-    template <std::size_t VIndex>
+    template <size_t VIndex>
     void Increment(std::false_type) noexcept
     {
       static_assert(VIndex == (ImageDimension - 1), "For a smaller index value, the other overload should be picked");
@@ -170,7 +170,7 @@ private:
     }
 
 
-    template <std::size_t VIndex>
+    template <size_t VIndex>
     void Decrement(std::true_type) noexcept
     {
       static_assert(VIndex < (ImageDimension - 1), "For a larger index value, the other overload should be picked");
@@ -185,7 +185,7 @@ private:
       }
     }
 
-    template <std::size_t VIndex>
+    template <size_t VIndex>
     void Decrement(std::false_type) noexcept
     {
       static_assert(VIndex == (ImageDimension - 1), "For a smaller index value, the other overload should be picked");
@@ -197,7 +197,7 @@ private:
 
   public:
     // Types conforming the iterator requirements of the C++ standard library:
-    using difference_type = std::ptrdiff_t;
+    using difference_type = ptrdiff_t;
     using value_type = typename std::iterator_traits<QualifiedBufferIteratorType>::value_type;
     using reference = typename std::iterator_traits<QualifiedBufferIteratorType>::reference;
     using pointer = typename std::iterator_traits<QualifiedBufferIteratorType>::pointer;
@@ -439,11 +439,11 @@ public:
 
 
   /** Returns the size of the range, that is the number of pixels in the region. */
-  std::size_t
+  size_t
   size() const noexcept
   {
     return std::accumulate(
-      m_IterationRegionSize.begin(), m_IterationRegionSize.end(), std::size_t{ 1 }, std::multiplies<std::size_t>{});
+      m_IterationRegionSize.begin(), m_IterationRegionSize.end(), size_t{ 1 }, std::multiplies<size_t>{});
   }
 
 

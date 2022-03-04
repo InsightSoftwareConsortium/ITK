@@ -79,7 +79,7 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
 {
   const itk::NumberToString<TValue> numberToString{};
 
-  for (std::int8_t exponent{ 20 }; exponent > 0; --exponent)
+  for (int8_t exponent{ 20 }; exponent > 0; --exponent)
   {
     const auto power_of_ten = std::pow(TValue{ 10 }, static_cast<TValue>(exponent));
 
@@ -88,7 +88,7 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
     EXPECT_EQ(numberToString(-power_of_ten), "-1" + std::string(exponent, '0'));
   }
 
-  for (std::int8_t exponent{ -6 }; exponent < 0; ++exponent)
+  for (int8_t exponent{ -6 }; exponent < 0; ++exponent)
   {
     const auto power_of_ten = std::pow(TValue{ 10 }, static_cast<TValue>(exponent));
 

@@ -22,7 +22,7 @@ namespace itk
 CompositeValleyFunction::CompositeValleyFunction(const MeasureArrayType & classMeans,
                                                  const MeasureArrayType & classSigmas)
 {
-  const std::size_t length = classMeans.size();
+  const size_t length = classMeans.size();
 
   if (length != classSigmas.size())
   {
@@ -40,7 +40,7 @@ CompositeValleyFunction::CompositeValleyFunction(const MeasureArrayType & classM
     throw ex;
   }
 
-  for (std::size_t i = 0; i < length; ++i)
+  for (size_t i = 0; i < length; ++i)
   {
     this->AddNewClass(classMeans[i], classSigmas[i]);
   }

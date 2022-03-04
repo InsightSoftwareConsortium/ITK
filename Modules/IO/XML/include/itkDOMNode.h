@@ -80,7 +80,7 @@ public:
   /** Container to return the attributes of a DOM node. */
   using AttributesListType = std::list<AttributeItemType>;
 
-  using SizeType = std::size_t;
+  using SizeType = size_t;
   using IdentifierType = int;
   using OffsetType = int;
 

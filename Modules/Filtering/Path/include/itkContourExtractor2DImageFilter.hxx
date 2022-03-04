@@ -569,7 +569,7 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
     allContours.splice(allContours.end(), labelsContoursOutput[label]);
   }
   this->SetNumberOfIndexedOutputs(allContours.size());
-  std::size_t NumberOutputsWritten{ 0 };
+  size_t NumberOutputsWritten{ 0 };
 
   for (ContourContainerConstIterator it{ allContours.cbegin() }; it != allContours.cend(); ++it, ++NumberOutputsWritten)
   {

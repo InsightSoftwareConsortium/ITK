@@ -121,12 +121,12 @@ CLANG_SUPPRESS_Wfloat_equal
     const bool          useMaskLabel = this->GetUseMaskLabel();
 
     const ImageBufferRange<RealImageType> logInputImageBufferRange{ *logInputImage };
-    const std::size_t                     numberOfPixels = logInputImageBufferRange.size();
+    const size_t                          numberOfPixels = logInputImageBufferRange.size();
 
     // Number of pixels of the input image that are included with the filter.
-    std::size_t numberOfIncludedPixels = 0;
+    size_t numberOfIncludedPixels = 0;
 
-    for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
+    for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
            (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
@@ -272,10 +272,10 @@ CLANG_SUPPRESS_Wfloat_equal
     RealType binMaximum = NumericTraits<RealType>::NonpositiveMin();
     RealType binMinimum = NumericTraits<RealType>::max();
 
-    const auto        unsharpenedImageBufferRange = MakeImageBufferRange(unsharpenedImage);
-    const std::size_t numberOfPixels = unsharpenedImageBufferRange.size();
+    const auto   unsharpenedImageBufferRange = MakeImageBufferRange(unsharpenedImage);
+    const size_t numberOfPixels = unsharpenedImageBufferRange.size();
 
-    for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
+    for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
            (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
@@ -299,7 +299,7 @@ CLANG_SUPPRESS_Wfloat_equal
 
     vnl_vector<RealType> H(this->m_NumberOfHistogramBins, 0.0);
 
-    for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
+    for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
            (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
@@ -447,7 +447,7 @@ CLANG_SUPPRESS_Wfloat_equal
 
     const ImageBufferRange<RealImageType> sharpenedImageBufferRange{ *sharpenedImage };
 
-    for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
+    for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
            (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
@@ -473,7 +473,7 @@ CLANG_SUPPRESS_Wfloat_equal
   template <typename TInputImage, typename TMaskImage, typename TOutputImage>
   typename N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::RealImagePointer
   N4BiasFieldCorrectionImageFilter<TInputImage, TMaskImage, TOutputImage>::UpdateBiasFieldEstimate(
-    RealImageType * fieldEstimate, const std::size_t numberOfIncludedPixels)
+    RealImageType * fieldEstimate, const size_t numberOfIncludedPixels)
   {
     // Temporarily set the direction cosine to identity since the B-spline
     // approximation algorithm works in parametric space and not physical
@@ -516,7 +516,7 @@ CLANG_SUPPRESS_Wfloat_equal
     ImageRegionConstIteratorWithIndex<RealImageType> It(parametricFieldEstimate,
                                                         parametricFieldEstimate->GetRequestedRegion());
 
-    for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
+    for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue, ++It)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
            (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&
@@ -660,10 +660,10 @@ CLANG_SUPPRESS_Wfloat_equal
     const MaskPixelType maskLabel = this->GetMaskLabel();
     const bool          useMaskLabel = this->GetUseMaskLabel();
 
-    const auto        subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
-    const std::size_t numberOfPixels = subtracterImageBufferRange.size();
+    const auto   subtracterImageBufferRange = MakeImageBufferRange(subtracter->GetOutput());
+    const size_t numberOfPixels = subtracterImageBufferRange.size();
 
-    for (std::size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
+    for (size_t indexValue = 0; indexValue < numberOfPixels; ++indexValue)
     {
       if ((maskImageBufferRange.empty() || (useMaskLabel && maskImageBufferRange[indexValue] == maskLabel) ||
            (!useMaskLabel && maskImageBufferRange[indexValue] != NumericTraits<MaskPixelType>::ZeroValue())) &&

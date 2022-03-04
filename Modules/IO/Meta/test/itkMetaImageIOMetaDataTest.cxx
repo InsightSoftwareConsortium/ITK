@@ -182,8 +182,7 @@ itkMetaImageIOMetaDataTest(int argc, char * argv[])
   }
 
   const auto maxSupportedStringSize = (MET_MAX_NUMBER_OF_FIELD_VALUES * sizeof(double)) - 1;
-  static_assert(maxSupportedStringSize == std::numeric_limits<std::int16_t>::max(),
-                "Assert that this max value is 32767");
+  static_assert(maxSupportedStringSize == std::numeric_limits<int16_t>::max(), "Assert that this max value is 32767");
 
   {
     // Add string of the maximum supported size.

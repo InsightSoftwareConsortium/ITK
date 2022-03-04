@@ -412,7 +412,7 @@ private:
    * bias field estimate.
    */
   RealImagePointer
-  UpdateBiasFieldEstimate(RealImageType *, std::size_t);
+  UpdateBiasFieldEstimate(RealImageType *, size_t);
 
   /**
    * Convergence is determined by the coefficient of variation of the difference

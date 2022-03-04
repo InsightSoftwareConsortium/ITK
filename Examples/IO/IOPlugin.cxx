@@ -58,7 +58,7 @@ main(int argc, char * argv[])
   // List all registered factories
   std::list<itk::ObjectFactoryBase *> factories =
     itk::ObjectFactoryBase::GetRegisteredFactories();
-  const std::size_t numFactories = factories.size();
+  const size_t numFactories = factories.size();
 
   std::cout << "----- Registered factories -----" << std::endl;
   std::cout << "Count: " << numFactories << std::endl;

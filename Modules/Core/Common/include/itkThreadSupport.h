@@ -44,7 +44,7 @@ namespace itk
 /** Platform specific type alias for simple types
  */
 #if defined(ITK_USE_PTHREADS)
-constexpr std::size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
+constexpr size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
 using MutexType = pthread_mutex_t;
 using FastMutexType = pthread_mutex_t;
 using ThreadFunctionType = void * (*)(void *);
@@ -59,7 +59,7 @@ using itk::ITK_THREAD_RETURN_DEFAULT_VALUE; // We need this out of the itk names
 using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #elif defined(ITK_USE_WIN32_THREADS)
 
-constexpr std::size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
+constexpr size_t ITK_MAX_THREADS = ITK_DEFAULT_MAX_THREADS;
 using MutexType = HANDLE;
 using FastMutexType = CRITICAL_SECTION;
 using ThreadFunctionType = unsigned int(__stdcall *)(void *);
@@ -74,7 +74,7 @@ constexpr ITK_THREAD_RETURN_TYPE ITK_THREAD_RETURN_DEFAULT_VALUE = 0;
 #  define ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION itk::ITK_THREAD_RETURN_TYPE __stdcall
 #else
 
-constexpr std::size_t ITK_MAX_THREADS = 1;
+constexpr size_t ITK_MAX_THREADS = 1;
 using MutexType = int;
 using FastMutexType = int;
 using ThreadFunctionType = void (*)(void *);

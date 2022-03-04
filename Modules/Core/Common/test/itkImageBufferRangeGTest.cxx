@@ -458,13 +458,13 @@ TEST(ImageBufferRange, DistanceBetweenIteratorsCanBeObtainedBySubtraction)
 
   ImageBufferRange<ImageType>::iterator it1 = range.begin();
 
-  const std::size_t numberOfPixels = range.size();
+  const size_t numberOfPixels = range.size();
 
-  for (std::size_t i1 = 0; i1 < numberOfPixels; ++i1, ++it1)
+  for (size_t i1 = 0; i1 < numberOfPixels; ++i1, ++it1)
   {
     ImageBufferRange<ImageType>::iterator it2 = it1;
 
-    for (std::size_t i2 = 0; i2 < numberOfPixels; ++i2, ++it2)
+    for (size_t i2 = 0; i2 < numberOfPixels; ++i2, ++it2)
     {
       EXPECT_EQ(it2 - it1, std::distance(it1, it2));
     }
@@ -784,11 +784,11 @@ TEST(ImageBufferRange, SupportsSubscript)
 
   RangeType range{ *image };
 
-  const std::size_t numberOfNeighbors = range.size();
+  const size_t numberOfNeighbors = range.size();
 
   RangeType::iterator it = range.begin();
 
-  for (std::size_t i = 0; i < numberOfNeighbors; ++i)
+  for (size_t i = 0; i < numberOfNeighbors; ++i)
   {
     std::iterator_traits<RangeType::iterator>::reference neighbor = range[i];
     EXPECT_EQ(neighbor, *it);
