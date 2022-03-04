@@ -144,9 +144,9 @@ TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
   std::default_random_engine randomEngine;
 
   // The number of iterations is arbitrarily chosen.
-  const std::size_t numberOfIterations = 11;
+  const size_t numberOfIterations = 11;
 
-  for (std::size_t i = 0; i < numberOfIterations; ++i)
+  for (size_t i = 0; i < numberOfIterations; ++i)
   {
     const double randomNumber1 = std::uniform_real_distribution<>{}(randomEngine);
     const double randomNumber2 = std::uniform_real_distribution<>{ 0.0, NumericLimits::max() }(randomEngine);
@@ -161,10 +161,10 @@ TEST(ResampleImageFilter, FilterPreservesAnyDoublePixelValueByDefault)
 
 TEST(ResampleImageFilter, FilterPreservesMinAndMaxInt64PixelValuesByDefault)
 {
-  Expect_ResampleImageFilter_preserves_pixel_value(std::numeric_limits<std::int64_t>::min());
+  Expect_ResampleImageFilter_preserves_pixel_value(std::numeric_limits<int64_t>::min());
 
   // Note: The following expectation would fail on ITK version <= 4.13.1:
-  Expect_ResampleImageFilter_preserves_pixel_value(std::numeric_limits<std::int64_t>::max());
+  Expect_ResampleImageFilter_preserves_pixel_value(std::numeric_limits<int64_t>::max());
 }
 
 

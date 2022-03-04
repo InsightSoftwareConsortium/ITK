@@ -26,11 +26,11 @@ std::ostream & operator<<<double>(std::ostream & os, const Array<double> & arr)
 {
   NumberToString<double> convert;
   os << "[";
-  const std::size_t length = arr.size();
+  const size_t length = arr.size();
   if (length >= 1)
   {
-    const std::size_t last = length - 1;
-    for (std::size_t i = 0; i < last; ++i)
+    const size_t last = length - 1;
+    for (size_t i = 0; i < last; ++i)
     {
       os << convert(arr[i]) << ", ";
     }
@@ -45,11 +45,11 @@ std::ostream & operator<<<float>(std::ostream & os, const Array<float> & arr)
 {
   NumberToString<float> convert;
   os << "[";
-  const std::size_t length = arr.size();
+  const size_t length = arr.size();
   if (length >= 1)
   {
-    const std::size_t last = length - 1;
-    for (std::size_t i = 0; i < last; ++i)
+    const size_t last = length - 1;
+    for (size_t i = 0; i < last; ++i)
     {
       os << convert(static_cast<float>(arr[i])) << ", ";
     }

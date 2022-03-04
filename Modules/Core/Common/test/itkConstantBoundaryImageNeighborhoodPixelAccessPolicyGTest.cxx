@@ -138,7 +138,7 @@ TEST(ConstantBoundaryImageNeighborhoodPixelAccessPolicy, YieldsSpecifiedConstant
     ASSERT_EQ(range.size(), numberOfExpectedNeighbors);
 
     // Test by using RangeType::operator[]:
-    for (std::size_t i = 0; i < numberOfExpectedNeighbors; ++i)
+    for (size_t i = 0; i < numberOfExpectedNeighbors; ++i)
     {
       const PixelType pixel = range[i];
       EXPECT_EQ(pixel, constantValue);

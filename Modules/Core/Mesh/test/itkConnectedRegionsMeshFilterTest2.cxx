@@ -37,7 +37,7 @@ itkConnectedRegionsMeshFilterTest2(int argc, char * argv[])
 
   // Check if input file is a mesh file or image file by checking presence of .vtk
   std::string fileName(argv[1]);
-  std::size_t found = fileName.find(".vtk");
+  size_t      found = fileName.find(".vtk");
   bool        imageSource = true;
 
   if (found != std::string::npos)

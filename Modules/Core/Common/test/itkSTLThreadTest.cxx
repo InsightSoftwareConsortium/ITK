@@ -35,7 +35,7 @@ int
 itkSTLThreadTest(int argc, char * argv[])
 {
   // Choose a number of threads.
-  std::size_t numWorkUnits = 10;
+  size_t numWorkUnits = 10;
   if (argc > 1)
   {
     int nt = std::stoi(argv[1]);
@@ -74,7 +74,7 @@ itkSTLThreadTest(int argc, char * argv[])
 
   // Create result array.  Assume failure.
   auto * results = new int[numWorkUnits];
-  for (std::size_t i = 0; i < numWorkUnits; ++i)
+  for (size_t i = 0; i < numWorkUnits; ++i)
   {
     results[i] = 0;
   }
@@ -87,7 +87,7 @@ itkSTLThreadTest(int argc, char * argv[])
 
   // Report results.
   int result = 0;
-  for (std::size_t i = 0; i < numWorkUnits; ++i)
+  for (size_t i = 0; i < numWorkUnits; ++i)
   {
     if (!results[i])
     {

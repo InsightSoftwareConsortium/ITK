@@ -272,7 +272,7 @@ public:
     operator()(unsigned int newSize, unsigned int oldSize, TValue2 * oldBuffer, TValue2 * newBuffer) const
     {
       itkAssertInDebugAndIgnoreInReleaseMacro(newBuffer);
-      const std::size_t nb = std::min(newSize, oldSize);
+      const size_t nb = std::min(newSize, oldSize);
       itkAssertInDebugAndIgnoreInReleaseMacro(nb == 0 || (nb > 0 && oldBuffer != nullptr));
       std::copy_n(oldBuffer, nb, newBuffer);
     }

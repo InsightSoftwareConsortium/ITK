@@ -43,7 +43,7 @@ Expect_data_returns_pointer_to_first_element(T & container)
 class ObjectCounter
 {
 private:
-  static std::size_t m_Count;
+  static size_t m_Count;
 
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ObjectCounter);
@@ -52,14 +52,14 @@ public:
 
   ~ObjectCounter() { --m_Count; }
 
-  static std::size_t
+  static size_t
   GetCount()
   {
     return m_Count;
   }
 };
 
-std::size_t ObjectCounter::m_Count{};
+size_t ObjectCounter::m_Count{};
 
 
 } // namespace

@@ -405,7 +405,7 @@ itkNumericTraitsTest(int, char *[])
   // Check not fundamental types which we need
 
   CheckTraits("size_t", static_cast<size_t>(0));
-  CheckTraits("std::ptrdiff_t", static_cast<std::ptrdiff_t>(0));
+  CheckTraits("ptrdiff_t", static_cast<ptrdiff_t>(0));
   using VectorSizeType = std::vector<int>::size_type;
   CheckTraits("std::vector<int>::size_type", static_cast<VectorSizeType>(0));
 

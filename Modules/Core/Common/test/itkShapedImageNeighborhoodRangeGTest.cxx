@@ -502,13 +502,13 @@ TEST(ShapedImageNeighborhoodRange, DistanceBetweenIteratorsCanBeObtainedBySubtra
 
   itk::ShapedImageNeighborhoodRange<ImageType>::iterator it1 = range.begin();
 
-  const std::size_t numberOfNeighborhoodPixels = range.size();
+  const size_t numberOfNeighborhoodPixels = range.size();
 
-  for (std::size_t i1 = 0; i1 < numberOfNeighborhoodPixels; ++i1, ++it1)
+  for (size_t i1 = 0; i1 < numberOfNeighborhoodPixels; ++i1, ++it1)
   {
     itk::ShapedImageNeighborhoodRange<ImageType>::iterator it2 = it1;
 
-    for (std::size_t i2 = 0; i2 < numberOfNeighborhoodPixels; ++i2, ++it2)
+    for (size_t i2 = 0; i2 < numberOfNeighborhoodPixels; ++i2, ++it2)
     {
       EXPECT_EQ(it2 - it1, std::distance(it1, it2));
     }
@@ -892,11 +892,11 @@ TEST(ShapedImageNeighborhoodRange, SupportsSubscript)
     itk::GenerateRectangularImageNeighborhoodOffsets(radius);
   RangeType range{ *image, location, offsets };
 
-  const std::size_t numberOfNeighbors = range.size();
+  const size_t numberOfNeighbors = range.size();
 
   RangeType::iterator it = range.begin();
 
-  for (std::size_t i = 0; i < numberOfNeighbors; ++i)
+  for (size_t i = 0; i < numberOfNeighbors; ++i)
   {
     RangeType::iterator::reference neighbor = range[i];
     EXPECT_EQ(neighbor, *it);

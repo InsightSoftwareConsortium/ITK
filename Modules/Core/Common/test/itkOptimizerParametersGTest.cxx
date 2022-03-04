@@ -34,7 +34,7 @@ TEST(OptimizerParameters, ConstructWithSpecifiedSizeAndInitialValue)
   {
     EXPECT_EQ(OptimizerParametersType(0, initialValue).size(), 0);
 
-    for (std::size_t size{ 1 }; size <= 4; ++size)
+    for (size_t size{ 1 }; size <= 4; ++size)
     {
       const OptimizerParametersType optimizerParameters(size, initialValue);
 

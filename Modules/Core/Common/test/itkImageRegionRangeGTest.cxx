@@ -40,7 +40,7 @@ template class itk::ImageRegionRange<itk::Image<short, 4>>;
 template class itk::ImageRegionRange<const itk::Image<short>>;
 template class itk::ImageRegionRange<itk::VectorImage<short>>;
 template class itk::ImageRegionRange<const itk::VectorImage<short>>;
-template class itk::ImageRegionRange<itk::Image<itk::RGBPixel<std::uint8_t>>>;
+template class itk::ImageRegionRange<itk::Image<itk::RGBPixel<uint8_t>>>;
 template class itk::ImageRegionRange<itk::Image<itk::Vector<long, 11>>>;
 
 using itk::ImageRegionRange;

@@ -772,9 +772,9 @@ GreatestPrimeFactor(unsigned long long n);
 /**  Returns `a * b`. Numeric overflow triggers a compilation error in
  * "constexpr context" and a debug assert failure at run-time.
  */
-template <typename TReturnType = std::uintmax_t>
+template <typename TReturnType = uintmax_t>
 constexpr TReturnType
-UnsignedProduct(const std::uintmax_t a, const std::uintmax_t b) noexcept
+UnsignedProduct(const uintmax_t a, const uintmax_t b) noexcept
 {
   static_assert(std::is_unsigned<TReturnType>::value, "UnsignedProduct only supports unsigned return types");
 
@@ -789,14 +789,14 @@ UnsignedProduct(const std::uintmax_t a, const std::uintmax_t b) noexcept
 
 /** Calculates base ^ exponent. Numeric overflow triggers a compilation error in
  * "constexpr context" and a debug assert failure at run-time. Otherwise equivalent to
- * C++11 `static_cast<std::uintmax_t>(std::pow(base, exponent))`
+ * C++11 `static_cast<uintmax_t>(std::pow(base, exponent))`
  *
  * \note `UnsignedPower(0, 0)` is not supported, as zero to the power of zero has
  * no agreed-upon value: https://en.wikipedia.org/wiki/Zero_to_the_power_of_zero
  */
-template <typename TReturnType = std::uintmax_t>
+template <typename TReturnType = uintmax_t>
 constexpr TReturnType
-UnsignedPower(const std::uintmax_t base, const std::uintmax_t exponent) noexcept
+UnsignedPower(const uintmax_t base, const uintmax_t exponent) noexcept
 {
   static_assert(std::is_unsigned<TReturnType>::value, "UnsignedPower only supports unsigned return types");
 

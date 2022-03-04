@@ -88,9 +88,9 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBox()
     boundingBoxInObjectSpace->SetMaximum(firstPoint);
 
     // The total number of corner points of the bounding box.
-    constexpr auto numberOfCorners = std::uintmax_t{ 1 } << TDimension;
+    constexpr auto numberOfCorners = uintmax_t{ 1 } << TDimension;
 
-    for (std::uintmax_t cornerNumber{ 1 }; cornerNumber < numberOfCorners; ++cornerNumber)
+    for (uintmax_t cornerNumber{ 1 }; cornerNumber < numberOfCorners; ++cornerNumber)
     {
       // For each corner, estimate the n-dimensional index.
 
@@ -98,7 +98,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBox()
 
       for (unsigned int dim{}; dim < TDimension; ++dim)
       {
-        const std::uintmax_t bitMask{ std::uintmax_t{ 1 } << dim };
+        const uintmax_t bitMask{ uintmax_t{ 1 } << dim };
 
         if ((cornerNumber & bitMask) != 0)
         {
