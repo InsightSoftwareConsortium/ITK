@@ -111,7 +111,6 @@ endif()
 # build the generators list
 if(EXTERNAL_WRAP_ITK_PROJECT)
   # generators there have been turned on while building wrapitk
-  set(default OFF)
 else()
   if(DEFINED ITK_WRAP_GCCXML)
     # Keep ITK_WRAP_GCCXML for backward compatibility.
@@ -120,7 +119,6 @@ else()
     set(${module_prefix}_WRAP_CASTXML ON CACHE BOOL "Build xml files.")
   endif()
   option(${module_prefix}_WRAP_SWIGINTERFACE "Build swig interfaces." ON)
-  set(default OFF)
   mark_as_advanced(${module_prefix}_WRAP_CASTXML ${module_prefix}_WRAP_SWIGINTERFACE)
 endif()
 
@@ -146,7 +144,7 @@ foreach(lang ${generators})
 
   # add the language to the options
   if(NOT DEFINED ${module_prefix}_WRAP_${lang_upper})
-    option(${module_prefix}_WRAP_${lang_upper} "Build swig ${lang} wrapper support." ${default})
+    option(${module_prefix}_WRAP_${lang_upper} "Build swig ${lang} wrapper support." OFF)
   endif()
   # add the language to the list, if the user have turn it on, and include
   # the subdirectory
