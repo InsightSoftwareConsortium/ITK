@@ -124,22 +124,11 @@ endif()
 
 set(WRAP_ITK_GENERATORS CACHE INTERNAL "Internal generators list.")
 set(WRAP_ITK_UNUSED_GENERATORS CACHE INTERNAL "Internal unused generators list.")
-file(GLOB local_files *)
-# filter and reorder the list
-set(generators )
-foreach(f ${local_files})
-  file(RELATIVE_PATH lang "${CMAKE_CURRENT_SOURCE_DIR}" "${f}")
-  if(IS_DIRECTORY "${f}")
-    if("${lang}" MATCHES "^CastXML$|^SwigInterface$|^Doc$")
-      # put those generators before the others
-      list(PREPEND generators ${lang})
-    else()
-      list(APPEND generators ${lang})
-    endif()
-  endif()
-endforeach()
 
-foreach(lang ${generators})
+# The following list of directories int the "ITK/Wrapping/Generators
+set(_candidate_generators "SwigInterface" "Doc" "CastXML" "Python")
+
+foreach(lang ${_candidate_generators})
   string(TOUPPER "${lang}" lang_upper)
 
   # add the language to the options
@@ -160,10 +149,11 @@ set(WRAP_ITK_GENERATORS ${WRAP_ITK_GENERATORS} CACHE INTERNAL "Internal generato
 set(WRAP_ITK_UNUSED_GENERATORS ${WRAP_ITK_UNUSED_GENERATORS} CACHE INTERNAL "Internal unused generators list.")
 
 # The include_directories are added here to be used by Wrapping/ConfigureWrapping.cmake
-foreach(lang ${generators})
+foreach(lang ${_candidate_generators})
   string(TOUPPER "${lang}" lang_upper)
   if(${module_prefix}_WRAP_${lang_upper})
     get_directory_property(inc DIRECTORY "${lang}" INCLUDE_DIRECTORIES)
     include_directories(${inc})
   endif()
 endforeach()
+unset(_candidate_generators)
