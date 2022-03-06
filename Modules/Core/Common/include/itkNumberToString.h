@@ -36,9 +36,16 @@ namespace itk
  *  float a = 1.0f/3.0f;
  *  std::cout << convert(a) << std::endl;
  *
+ * The specialization `NumberToString<>` allows conversion from any type of number:
+ *
+ *  NumberToString<> convert;
+ *  float a = 1.0f/3.0f;
+ *  auto b = std::numeric_limits<int>::max();
+ *  std::cout << convert(a) << convert(b) << std::endl;
+ *
  * \ingroup ITKCommon
  */
-template <typename TValue>
+template <typename TValue = void>
 class ITK_TEMPLATE_EXPORT NumberToString
 {
 public:
@@ -53,6 +60,19 @@ NumberToString<double>::operator()(double val) const;
 template <>
 ITKCommon_EXPORT std::string
 NumberToString<float>::operator()(float val) const;
+
+template <>
+class NumberToString<void>
+{
+public:
+  template <typename TValue>
+  std::string
+  operator()(const TValue val) const
+  {
+    constexpr NumberToString<TValue> convert{};
+    return convert(val);
+  }
+};
 
 } // namespace itk
 
