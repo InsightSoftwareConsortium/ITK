@@ -98,6 +98,28 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
   }
 }
 
+
+template <typename TValue>
+void
+Test_default_specialization_of_NumberToString()
+{
+  using NumericLimitsType = std::numeric_limits<TValue>;
+
+  for (const TValue value : { NumericLimitsType::lowest(),
+                              NumericLimitsType::denorm_min(),
+                              TValue(),
+                              NumericLimitsType::epsilon(),
+                              NumericLimitsType::min(),
+                              NumericLimitsType::max(),
+                              NumericLimitsType::infinity(),
+                              NumericLimitsType::quiet_NaN() })
+  {
+    // Expect the same string from the default specialization `NumberToString<>` as from the TValue specific
+    // `NumberToString<TValue>`.
+    EXPECT_EQ(itk::NumberToString<>()(value), itk::NumberToString<TValue>()(value));
+  }
+}
+
 } // namespace
 
 
@@ -141,4 +163,15 @@ TEST(NumberToString, DecimalNotationUpTo21Digits)
 {
   Test_decimal_notation_supports_up_to_twentyone_digits<float>();
   Test_decimal_notation_supports_up_to_twentyone_digits<double>();
+}
+
+
+TEST(NumberToString, DefaultSpecialization)
+{
+  Test_default_specialization_of_NumberToString<int8_t>();
+  Test_default_specialization_of_NumberToString<uint8_t>();
+  Test_default_specialization_of_NumberToString<intmax_t>();
+  Test_default_specialization_of_NumberToString<uintmax_t>();
+  Test_default_specialization_of_NumberToString<float>();
+  Test_default_specialization_of_NumberToString<double>();
 }
