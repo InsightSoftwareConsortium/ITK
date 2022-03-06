@@ -87,6 +87,8 @@ itkMultipleLogOutputTest.cxx
 itkVectorTest.cxx
 itkImageTest.cxx
 itkPointSetTest.cxx
+itkPointSetToImageFilterTest1.cxx
+itkPointSetToImageFilterTest2.cxx
 itkBresenhamLineTest.cxx
 itkSparseFieldLayerTest.cxx
 itkDataObjectTest.cxx
@@ -345,6 +347,14 @@ itk_add_test(NAME itkIteratorTests COMMAND ITKCommon1TestDriver itkIteratorTests
 itk_add_test(NAME itkObjectFactoryTest COMMAND ITKCommon1TestDriver itkObjectFactoryTest)
 itk_add_test(NAME itkVectorTest COMMAND ITKCommon1TestDriver itkVectorTest)
 itk_add_test(NAME itkPointSetTest COMMAND ITKCommon1TestDriver itkPointSetTest)
+itk_add_test(NAME itkPointSetToImageFilterTest1
+      COMMAND ITKCommon1TestDriver
+    --compare DATA{Baseline/itkPointSetToImageFilterTest1.png} ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest1.png
+     itkPointSetToImageFilterTest1 ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest1.png)
+itk_add_test(NAME itkPointSetToImageFilterTest2
+      COMMAND ITKCommon1TestDriver
+    --compare DATA{Baseline/itkPointSetToImageFilterTest2.mha} ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha
+     itkPointSetToImageFilterTest2 DATA{${ITK_DATA_ROOT}/Input/VascularTreePointSet.txt} ${ITK_TEST_OUTPUT_DIR}/itkPointSetToImageFilterTest2.mha)
 itk_add_test(NAME itkBresenhamLineTest COMMAND ITKCommon1TestDriver itkBresenhamLineTest)
 itk_add_test(NAME itkSparseFieldLayerTest COMMAND ITKCommon1TestDriver itkSparseFieldLayerTest)
 itk_add_test(NAME itkDataObjectTest COMMAND ITKCommon1TestDriver itkDataObjectTest)
