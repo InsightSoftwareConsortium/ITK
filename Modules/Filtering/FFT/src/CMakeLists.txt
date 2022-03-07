@@ -1,10 +1,10 @@
 set(ITKFFT_SRCS
 itkComplexToComplexFFTImageFilter.cxx
-itkVnlFFTImageFilterFactories.cxx)
+itkVnlFFTImageFilterInitFactory.cxx)
 
 if( ITK_USE_FFTWF OR ITK_USE_FFTWD AND NOT ITK_USE_CUFFTW)
   list(APPEND ITKFFT_SRCS itkFFTWGlobalConfiguration.cxx )
-  list(APPEND ITKFFT_SRCS itkFFTWFFTImageFilterFactories.cxx )
+  list(APPEND ITKFFT_SRCS itkFFTWFFTImageFilterInitFactory.cxx )
 endif()
 
 itk_module_add_library(ITKFFT ${ITKFFT_SRCS})

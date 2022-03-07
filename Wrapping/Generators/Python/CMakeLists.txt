@@ -292,7 +292,6 @@ macro(itk_setup_swig_python type base_name interface_file python_file cpp_file d
 
 endmacro()
 
-
 macro(itk_end_wrap_submodule_python group_name)
 
   set(base_name ${group_name})

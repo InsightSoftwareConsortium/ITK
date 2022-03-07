@@ -16,8 +16,8 @@
  *
  *=========================================================================*/
 
-#ifndef itkFFTImageFilterFactoryRegisterManager_h
-#define itkFFTImageFilterFactoryRegisterManager_h
+#ifndef itkFFTImageFilterInitFactoryRegisterManager_h
+#define itkFFTImageFilterInitFactoryRegisterManager_h
 
 namespace itk {
 
@@ -27,16 +27,11 @@ namespace itk {
 //
 @LIST_OF_FACTORIES_REGISTRATION@
 
-class FFTImageFilterFactoryRegisterManager
+class FFTImageFilterInitFactoryRegisterManager
 {
   public:
-  explicit FFTImageFilterFactoryRegisterManager()
+  explicit FFTImageFilterInitFactoryRegisterManager(void (* const list[])(void))
   {
-    void (* const FFTImageFilterFactoryRegisterRegisterList[])(void) = {
-      @LIST_OF_FACTORY_NAMES@
-    nullptr};
-
-    auto list = FFTImageFilterFactoryRegisterRegisterList;
     for(;*list != nullptr; ++list)
       {
       (*list)();
@@ -49,7 +44,10 @@ class FFTImageFilterFactoryRegisterManager
 // application translation units. Note that this code will be expanded in the
 // ITK-based applications and not in ITK itself.
 //
-const FFTImageFilterFactoryRegisterManager FFTImageFilterFactoryRegisterManagerInstance;
+void (* const FFTImageFilterInitFactoryRegisterList[])(void) = {
+  @LIST_OF_FACTORY_NAMES@
+  nullptr};
+const FFTImageFilterInitFactoryRegisterManager FFTImageFilterInitFactoryRegisterManagerInstance(FFTImageFilterInitFactoryRegisterList);
 
 }
 

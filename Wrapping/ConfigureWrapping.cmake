@@ -44,6 +44,10 @@
 # Find ITK
 #-----------------------------------------------------------------------------
 find_package(ITK REQUIRED)
+set(ITK_NO_IMAGEIO_FACTORY_REGISTER_MANAGER ON)
+set(ITK_NO_MESHIO_FACTORY_REGISTER_MANAGER ON)
+set(ITK_NO_TRANSFORMIO_FACTORY_REGISTER_MANAGER ON)
+set(ITK_NO_FFTIMAGEFILTERINIT_FACTORY_REGISTER_MANAGER ON)
 include(${ITK_USE_FILE})
 
 ###############################################################################
