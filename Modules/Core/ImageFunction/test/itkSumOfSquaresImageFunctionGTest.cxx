@@ -118,8 +118,11 @@ TestBasicObjectProperties()
 
 TEST(SumOfSquaresImageFunction, BasicObjectProperties)
 {
-  TestBasicObjectProperties<itk::Image<double, 2>>();
-  TestBasicObjectProperties<itk::Image<unsigned char, 3>>();
+  int testStatus = TestBasicObjectProperties<itk::Image<double, 2>>();
+  EXPECT_EQ(testStatus, EXIT_SUCCESS);
+
+  testStatus = TestBasicObjectProperties<itk::Image<unsigned char, 3>>();
+  EXPECT_EQ(testStatus, EXIT_SUCCESS);
 }
 
 
