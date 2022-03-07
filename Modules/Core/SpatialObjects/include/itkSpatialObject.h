@@ -318,7 +318,7 @@ public:
                             CovariantVectorType &        value,
                             unsigned int                 depth = 0,
                             const std::string &          name = "",
-                            const DerivativeOffsetType & offset = 1);
+                            const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
 
   /** Return the n-th order derivative value at the specified point. */
   virtual void
@@ -327,7 +327,7 @@ public:
                            CovariantVectorType &        value,
                            unsigned int                 depth = 0,
                            const std::string &          name = "",
-                           const DerivativeOffsetType & offset = 1);
+                           const DerivativeOffsetType & offset = MakeFilled<DerivativeOffsetType>(1));
 
 
   /*********************/

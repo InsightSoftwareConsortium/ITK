@@ -277,7 +277,7 @@ itkMeanSquaresImageToImageMetricv4VectorRegistrationTest(int argc, char * argv[]
   resample->SetOutputOrigin(fixedImage->GetOrigin());
   resample->SetOutputSpacing(fixedImage->GetSpacing());
   resample->SetOutputDirection(fixedImage->GetDirection());
-  resample->SetDefaultPixelValue(itk::NumericTraits<FixedImageType::PixelType::ValueType>::ZeroValue());
+  resample->SetDefaultPixelValue(itk::NumericTraits<FixedImageType::PixelType>::ZeroValue());
   resample->Update();
 
   // write out the displacement field
