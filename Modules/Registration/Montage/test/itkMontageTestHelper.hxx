@@ -130,7 +130,7 @@ montageTest(const itk::TileConfiguration<Dimension> & stageTiles,
     origin1[d] = stageTiles.AxisSizes[d] > 1 ? 1 : 0; // support montages of size 1 along a dimension
   }
   size_t    origin1linear = stageTiles.nDIndexToLinearIndex(origin1);
-  PointType originAdjustment = stageTiles.Tiles[origin1linear].Position - stageTiles.Tiles[0].Position;
+  PointType originAdjustment = PointType(stageTiles.Tiles[origin1linear].Position - stageTiles.Tiles[0].Position);
 
   using PeakInterpolationType = itk::PhaseCorrelationOptimizerEnums::PeakInterpolationMethod;
   using PeakMethodUnderlying = typename std::underlying_type<PeakInterpolationType>::type;
