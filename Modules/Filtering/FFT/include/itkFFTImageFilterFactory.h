@@ -45,12 +45,47 @@ struct FFTImageFilterTraits
 
 /** \class FFTImageFilterFactory
  *
- * \brief Object Factory implementation for FFT filters
+ * \brief Object factory implementation for FFT filters
+ *
+ * ITK FFT filters are designed for overridable implementation
+ * through the global ITK object factory singleton. In order to
+ * instantiate a base FFT image filter object, at least one
+ * valid implementation must be registered in the object factory.
+ *
+ * FFTImageFilterFactory exists as an implementation detail
+ * designed to reduce overhead for FFT factory operations.
+ * A factory object templated over an FFT image filter
+ * implementation class will make constructor overrides
+ * for that class available through the global object factory
+ * singleton.
+ *
+ * FFTImageFilterFactory can be used for making an FFT implementation
+ * class available through object factory initialization if the class
+ * meets certain critera:
+ * - the FFT implementation class must be able to be templated over
+ *   the pattern
+ *   <TInput<PixelType, Dimension>, TOutput<PixelType, Dimension>
+ * - the FFT implementation class must have an associated
+ *   `FFTImageFilterTraits` specialization defining pixel types
+ *   and image dimensions for specialization
+ *
+ * `TInput` and `TOutput` must be classes implementing the `itk::Image`
+ * interface but need not inherit from `itk::Image`. For example,
+ * an FFT filter could define operations over an
+ * `itk::SpecialCoordinatesImage`.
+ *
+ * FFT filters not meeting these criteria may define an independent
+ * factory tailored to their particular instantiation requirements.
+ *
+ * \sa FFTImageFilterTraits
+ * \sa VnlFFTImageFilterInitFactory
  *
  * \ingroup FourierTransform
  * \ingroup ITKFFT
  */
-template <template <typename, typename> class TFFTImageFilter>
+template <template <typename, typename> class TFFTImageFilter,
+          template <typename, unsigned int> class TInput = Image,
+          template <typename, unsigned int> class TOutput = Image>
 class FFTImageFilterFactory : public itk::ObjectFactoryBase
 {
 public:
@@ -97,8 +132,8 @@ protected:
   void
   OverrideFFTImageFilterType(const std::integer_sequence<unsigned int, D, ImageDimensions...> &)
   {
-    using InputImageType = Image<InputPixelType, D>;
-    using OutputImageType = Image<OutputPixelType, D>;
+    using InputImageType = TInput<InputPixelType, D>;
+    using OutputImageType = TOutput<OutputPixelType, D>;
     this->RegisterOverride(typeid(typename TFFTImageFilter<InputImageType, OutputImageType>::Superclass).name(),
                            typeid(TFFTImageFilter<InputImageType, OutputImageType>).name(),
                            "FFT Image Filter Override",
