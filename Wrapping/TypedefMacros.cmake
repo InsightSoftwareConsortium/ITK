@@ -116,8 +116,28 @@ macro(itk_wrap_module library_name)
   endif()
 
   # Call the language support initialization function
-  itk_wrap_module_all_generators("${library_name}")
+  if(${module_prefix}_WRAP_CASTXML)
+    itk_wrap_module_castxml("${library_name}")
+  endif()
 
+  if(${module_prefix}_WRAP_SWIGINTERFACE)
+    # store the content of the mdx file
+    set(SWIG_INTERFACE_MDX_CONTENT )
+    # store the content of the .i file for the module - a set of import of all the .i files generated for the module
+    set(SWIG_INTERFACE_MODULE_CONTENT )
+    # build a list of modules to create the igenerator custom command
+    set(SWIG_INTERFACE_MODULES )
+  endif()
+
+  if(${module_prefix}_WRAP_DOC)
+    set(ITK_WRAP_DOC_DOXYGEN_HEADERS )  # doxygen headers to process in this lib
+    set(ITK_WRAP_DOC_DOXYGEN_XML_FILES )  # xml files produced by doxygen in this lib
+    set(ITK_WRAP_DOC_DOCSTRING_FILES )  # swig docstring files produced by doxygen in this lib
+  endif()
+
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    itk_wrap_module_python("${library_name}")
+  endif()
 endmacro()
 
 
@@ -562,7 +582,24 @@ macro(itk_load_submodule module)
   endif()
 
   # call generators specific macros which set several associated global variables
-  itk_wrap_submodule_all_generators("${module}")
+  if(${module_prefix}_WRAP_CASTXML)
+    # clear the typedefs and the includes
+    set(CASTXML_TYPEDEFS )
+    set(CASTXML_INCLUDES )
+    set(CASTXML_FORCE_INSTANTIATE )
+  endif()
+  if(${module_prefix}_WRAP_SWIGINTERFACE)
+    # store the content of the SwigInterface.h files - a set of #includes for that module
+    set(SWIG_INTERFACE_INCLUDES )
+    # typedefs for swig
+    set(SWIG_INTERFACE_TYPEDEFS )
+  endif()
+  if(${module_prefix}_WRAP_DOC)
+    set(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
+  endif()
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    itk_wrap_submodule_python("${module}" "${WRAPPER_LIBRARY_NAME}")
+  endif()
 
   # WRAPPER_INCLUDE_FILES: contains a list of all files to include in the final cxx file
   set(WRAPPER_INCLUDE_FILES )
@@ -871,11 +908,22 @@ macro(itk_wrap_include include_file)
       ${WRAPPER_INCLUDE_FILES}
       ${include_file}
     )
-    itk_wrap_include_all_generators("${include_file}")
+
+    if(${module_prefix}_WRAP_CASTXML)
+      if("${include_file}" MATCHES "<.*>")
+        set(CASTXML_INCLUDES "${CASTXML_INCLUDES}#include ${include_file}\n")
+      else()
+        set(CASTXML_INCLUDES "${CASTXML_INCLUDES}#include \"${include_file}\"\n")
+      endif()
+    endif()
+    if(${module_prefix}_WRAP_SWIGINTERFACE)
+      list(APPEND SWIG_INTERFACE_INCLUDES ${include_file})
+    endif()
   endif()
 
   unset(already_included)
 endmacro()
+
 
 macro(itk_end_wrap_class)
   # Parse through the list of WRAPPER_TEMPLATES set up by the macros at the bottom
