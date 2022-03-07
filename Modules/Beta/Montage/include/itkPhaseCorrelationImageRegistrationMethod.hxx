@@ -248,7 +248,8 @@ PhaseCorrelationImageRegistrationMethod<TFixedImage, TMovingImage, TInternalPixe
     typename MovingImageType::SpacingType spacing = m_MovingImage->GetSpacing();
     typename MovingImageType::IndexType   shiftIndex, fIndex;
     typename MovingImageType::IndexType   mIndex = mRegion.GetIndex();
-    typename MovingImageType::PointType   originShift = m_MovingImage->GetOrigin() - m_FixedImage->GetOrigin();
+
+    auto originShift = m_MovingImage->GetOrigin() - m_FixedImage->GetOrigin();
     for (unsigned int d = 0; d < ImageDimension; ++d)
     {
       shiftIndex[d] = std::round(originShift[d] / spacing[d]);
