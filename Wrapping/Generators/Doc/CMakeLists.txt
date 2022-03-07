@@ -6,14 +6,6 @@ set(ITK_WRAP_DOC_SOURCE_DIR "${CMAKE_CURRENT_SOURCE_DIR}" CACHE INTERNAL "doc so
 set(ITK_WRAP_DOC_BINARY_DIR "${CMAKE_CURRENT_BINARY_DIR}" CACHE INTERNAL "doc binary dir")
 
 ###############################################################################
-macro(itk_wrap_module_DOC library_name)
-  set(ITK_WRAP_DOC_DOXYGEN_HEADERS )  # doxygen headers to process in this lib
-  set(ITK_WRAP_DOC_DOXYGEN_XML_FILES )  # xml files produced by doxygen in this lib
-  set(ITK_WRAP_DOC_DOCSTRING_FILES )  # swig docstring files produced by doxygen in this lib
-endmacro()
-
-
-###############################################################################
 macro(itk_wrap_named_class_DOC class swig_name)
   if("${WRAPPER_WRAP_METHOD}" STREQUAL "ENUM")
     # doc is not generated in the same way for enum. Just ignore it
@@ -86,9 +78,6 @@ macro(itk_end_wrap_module_DOC)
     )
 endmacro()
 
-macro(itk_wrap_submodule_DOC module)
-  set(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
-endmacro()
 
 ###############################################################################
 # This macro is called once per module
