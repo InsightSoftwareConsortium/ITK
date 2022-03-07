@@ -104,7 +104,7 @@ TestBasicObjectProperties()
 
   unsigned int radius = 1;
   imageFunction->SetNeighborhoodRadius(radius);
-  ITK_TEST_SET_GET_VALUE(radius, imageFunction->GetNeighborhoodRadius());
+  EXPECT_EQ(radius, imageFunction->GetNeighborhoodRadius());
 
   auto                                                                 size = TImage::SizeType::Filled(radius);
   const itk::RectangularImageNeighborhoodShape<TImage::ImageDimension> shape(size);
