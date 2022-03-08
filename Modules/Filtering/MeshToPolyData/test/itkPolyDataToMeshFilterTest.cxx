@@ -43,7 +43,6 @@ itkPolyDataToMeshFilterTest(int, char *[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  constexpr unsigned int PointDimension = PolyDataType::PointDimension;
   using MeshType = FilterType::OutputMeshType;
   MeshType::Pointer meshResult = filter->GetOutput();
 
@@ -107,10 +106,7 @@ template <typename TPixelType>
 void
 MakePolyDataSample(itk::PolyData<TPixelType> * polyData)
 {
-  using PixelType = TPixelType;
   using PolyDataType = itk::PolyData<TPixelType>;
-
-  constexpr unsigned int PointDimension = PolyDataType::PointDimension;
 
   polyData->Initialize();
 
