@@ -454,6 +454,12 @@ The namespece itself is only available in legacy mode. Some classes were renamed
 
 Enumeration member names (`ITK_COORDINATE_UNKNOWN`, `ITK_COORDINATE_Right`, `ITK_COORDINATE_PrimaryMinor`, `ITK_COORDINATE_ORIENTATION_RIP` etc) are unchanged.
 
+Implicit conversion of a single scalar value to a container (which would _fill_ the container by the
+scalar value) is discouraged. With ITK 5.3, when having `ITK_LEGACY_REMOVE=ON`, the constructors of
+`Point`, `RGBPixel`, `RGBAPixel`, and `Vector` that accept a single scalar value as argument are
+declared `explicit`. ITK 5.3 has included a preferable alternative to these constructors:
+`itk::MakeFilled<ContainerType>(value)`.
+
 Consolidated Vector Filter
 --------------------------
 
