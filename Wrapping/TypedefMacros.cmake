@@ -853,7 +853,14 @@ macro(itk_wrap_named_class class swig_name)
   # TODO: It shouldn't be used with the new architecture!!
   set(WRAPPER_TEMPLATES)
 
-  itk_wrap_named_class_all_generators("${class}" "${swig_name}")
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    # store the current class wrapped, so we can generate the typemaps for itk::ImageSource
+    set(ITK_WRAP_PYTHON_CURRENT_CLASS "${class}")
+    set(ITK_WRAP_PYTHON_CURRENT_SWIG_NAME "${swig_name}")
+  endif()
+  if(${module_prefix}_WRAP_DOC)
+    itk_wrap_named_class_DOC("${class}" "${swig_name}")
+  endif()
 endmacro()
 
 macro(itk_wrap_simple_class class)
@@ -952,7 +959,13 @@ endmacro()
 
 macro(itk_wrap_simple_type wrap_class swig_name)
   # Add a typedef, without support for any option
-  itk_wrap_simple_type_all_generators("${wrap_class}" "${swig_name}")
+  if(${module_prefix}_WRAP_CASTXML)
+    set(CASTXML_TYPEDEFS "${CASTXML_TYPEDEFS}    typedef ${wrap_class} ${swig_name};\n")
+    set(CASTXML_FORCE_INSTANTIATE "${CASTXML_FORCE_INSTANTIATE}    (void)sizeof(${swig_name});\n")
+  endif()
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    itk_wrap_simple_type_python("${wrap_class}" "${swig_name}")
+  endif()
 endmacro()
 
 
@@ -1043,7 +1056,9 @@ macro(itk_wrap_template name types)
 #   list(APPEND WRAPPER_TEMPLATES "${name} # ${types}")
   set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
   itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}${name}" "${types}")
-  itk_wrap_template_all_generators("${name}" "${types}")
+  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+    itk_wrap_template_python("${name}" "${types}")
+  endif()
 endmacro()
 
 ###################################
