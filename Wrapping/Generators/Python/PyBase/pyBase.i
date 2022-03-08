@@ -620,6 +620,51 @@ str = str
   }
 %enddef
 
+%define DECL_PYTHON_POINTSET_CLASS(swig_name)
+    %extend swig_name {
+        %pythoncode %{
+            def keys(self):
+                """
+                Return keys related to the pointset's metadata.
+                These keys are used in the dictionary resulting from dict(pointset).
+                """
+                result = ['name', 'dimension', 'numberOfPoints', 'points', 'numberOfPointPixels', 'pointData']
+                return result
+
+            def __getitem__(self, key):
+                """Access metadata keys, see help(pointset.keys), for string keys."""
+                import itk
+                if isinstance(key, str):
+                    state = itk.dict_from_pointset(self)
+                    return state[key]
+
+            def __setitem__(self, key, value):
+                if isinstance(key, str):
+                    import numpy as np
+                    if key == 'name':
+                        self.SetObjectName(value)
+                    elif key == 'points':
+                        self.SetPoints(itk.vector_container_from_array(value))
+                    elif key == 'pointData':
+                        self.SetPointData(itk.vector_container_from_array(value))
+
+            def __getstate__(self):
+                """Get object state, necessary for serialization with pickle."""
+                import itk
+                state = itk.dict_from_pointset(self)
+                return state
+
+            def __setstate__(self, state):
+                """Set object state, necessary for serialization with pickle."""
+                import itk
+                import numpy as np
+                deserialized = itk.pointset_from_dict(state)
+                self.__dict__['this'] = deserialized
+            %}
+    }
+
+%enddef
+
 %define DECL_PYTHON_MESH_CLASS(swig_name)
     %extend swig_name {
         %pythoncode %{
@@ -649,7 +694,7 @@ str = str
                     if key == 'name':
                         self.SetObjectName(value)
                     elif key == 'points':
-                        self.SetPointsArray(itk.vector_container_from_array(value))
+                        self.SetPoints(itk.vector_container_from_array(value))
                     elif key == 'cells':
                         self.SetCellsArray(itk.vector_container_from_array(value))
                     elif key == 'pointData':

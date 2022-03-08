@@ -368,3 +368,36 @@ def mesh_type_from_wasm_type(jstype):
 
     prefix += str(dimension)
     return getattr(itk.Mesh, prefix)
+
+def wasm_type_from_pointset_type(itkpointset):
+    import itk
+
+    component = itk.template(itkpointset)[1][0]
+    mangle = None
+    pixelType = "Scalar"
+    pixel_type_components = 1
+
+    if component in (itk.F, itk.D):
+        mangle = component
+    elif component in [i[1] for i in itk.Array.items()]:
+        mangle = itk.template(component)[1][0]
+        pixelType = "Array"
+
+    return pixelType, python_to_js(mangle), pixel_type_components
+
+
+def pointset_type_from_wasm_type(jstype):
+    import itk
+
+    pixelType = jstype["pointPixelType"]
+    dimension = jstype["dimension"]
+    pointPixelComponentType = jstype["pointPixelComponentType"]
+
+    prefix = pixelType_to_prefix(pixelType)
+    if pixelType == "Array":
+        prefix += "D"
+    else:
+        prefix = prefix + js_to_python(pointPixelComponentType)
+
+    prefix += str(dimension)
+    return getattr(itk.Mesh, prefix)
