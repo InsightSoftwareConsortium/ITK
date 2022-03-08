@@ -1,11 +1,11 @@
 #-- # Grading Level Criteria Report
-#-- EVALUATION DATE: 2022-01-06
-#-- EVALUATORS: [Matt McCormick]
+#-- EVALUATION DATE: 2022-03-08
+#-- EVALUATORS: [Matt McCormick
 #--
 #-- ## Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #--   - [ ] Widespread community dependance
-#--   - [ ] Above 90% code coverage
-#--   - [ ] CI dashboards and testing monitored rigorously
+#--   - [X] Above 90% code coverage
+#--   - [X] CI dashboards and testing monitored rigorously
 #--   - [X] Key API features are exposed in wrapping interface
 #--   - [ ] All requirements of Levels 4,3,2,1
 #--
@@ -16,8 +16,8 @@
 #--            - [X] Windows Shared Library Build with Visual Studio
 #--            - [X] Mac with clang compiller
 #--            - [X] Linux with gcc compiler
-#--   - [X] Active developer community dedicated to maintaining code-base
-#--   - [ ] 75% code coverage demonstrated for testing suite
+#--   - [x] Active developer community dedicated to maintaining code-base
+#--   - [X] 75% code coverage demonstrated for testing suite
 #--   - [X] Continuous integration testing performed
 #--   - [X] All requirements of Levels 3,2,1
 #--
@@ -41,9 +41,10 @@
 #-- ### Please document here any justification for the criteria above
 #       Code style enforced by clang-format on 2020-02-19, and clang-tidy modernizations completed
 
+# Contact: Matt McCormick <matt.mccormick@kitware.com>
 itk_fetch_module(MeshToPolyData
-  "Convert an ITK Mesh to a simple data structure compatible with vtkPolyData."
+"Convert an ITK Mesh to a data structure compatible with vtkPolyData."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKMeshToPolyData.git
   GIT_TAG 12bedef0f6443bf122f2d5eb856dab196a453fe1
-)
+  )
