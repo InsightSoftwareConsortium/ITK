@@ -38,11 +38,6 @@ macro(itk_wrap_named_class_DOC class swig_name)
 
 endmacro()
 
-macro(itk_wrap_one_type_DOC wrap_method wrap_class swig_name template_params)
-  if(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT)
-    set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\t${swig_name}")
-  endif()
-endmacro()
 
 ###############################################################################
 macro(itk_end_wrap_module_DOC)

@@ -388,16 +388,6 @@ macro(itk_end_wrap_submodule_python group_name)
 endmacro()
 
 
-
-macro(itk_wrap_one_type_python wrap_method wrap_class swig_name template_params)
-  string(REGEX REPLACE "(.*::)" "" base_name "${wrap_class}")
-
-  if(NOT "${wrap_class}" STREQUAL "MetaEvent" AND NOT "${wrap_method}" MATCHES "ENUM")
-    ADD_PYTHON_CONFIG_TEMPLATE("${base_name}" "${wrap_class}" "${swig_name}" "${template_params}")
-  endif()
-endmacro()
-
-
 macro(ADD_PYTHON_CONFIG_TEMPLATE base_name wrap_class swig_name template_params)
   # Find if a header file corresponding to 'base_name' can be found in the current include directory
     set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include/itk${base_name}.h)
@@ -425,13 +415,6 @@ macro(itk_wrap_submodule_python submodule module)
   # register the module for the lib module
   set(ITK_WRAP_PYTHON_LIBRARY_IMPORTS "${ITK_WRAP_PYTHON_LIBRARY_IMPORTS}from itk.${submodule}Python import *\n")
 
-endmacro()
-
-
-macro(itk_wrap_named_class_python class swig_name)
-  # store the current class wrapped, so we can generate the typemaps for itk::ImageSource
-  set(ITK_WRAP_PYTHON_CURRENT_CLASS "${class}")
-  set(ITK_WRAP_PYTHON_CURRENT_SWIG_NAME "${swig_name}")
 endmacro()
 
 
