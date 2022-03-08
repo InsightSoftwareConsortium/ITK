@@ -110,5 +110,5 @@ echo -e "Git version $git_version is OK.\n"
 
 
 # Record the version of this setup so Hooks/pre-commit can check it.
-SetupForDevelopment_VERSION=8
+SetupForDevelopment_VERSION=9
 git config hooks.SetupForDevelopment ${SetupForDevelopment_VERSION}
