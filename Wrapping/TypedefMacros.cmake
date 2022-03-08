@@ -152,6 +152,7 @@ macro(itk_end_wrap_module)
       set(${WRAPPER_LIBRARY_NAME}XmlFiles ${CastXML_OUTPUT_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Xml file list.")
     endif()
   endif()
+
   if(${module_prefix}_WRAP_SWIGINTERFACE)
     # Loop over the extra swig input files and copy them to the Typedefs directory
     foreach(source ${WRAPPER_LIBRARY_SWIG_INPUTS})
@@ -160,6 +161,7 @@ macro(itk_end_wrap_module)
       get_filename_component(basename ${source} NAME)
       set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
     endforeach()
+    unset(basename)
 
     # prepare dependencies
     set(DEPS )
@@ -176,6 +178,7 @@ macro(itk_end_wrap_module)
               DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
       set(dest "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${basename}")
     endforeach()
+    unset(basename)
 
     # the list of files generated for the module
     set(i_files )
@@ -220,6 +223,7 @@ macro(itk_end_wrap_module)
       list(APPEND mdx_opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
       list(APPEND deps_imports "%import ${dep}.i\n")
     endforeach()
+
     set(CONFIG_INDEX_FILE_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}")
     configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in" "${mdx_file}"
             @ONLY)
@@ -867,8 +871,6 @@ macro(itk_wrap_simple_class class)
   set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
   itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}")
   itk_end_wrap_class()
-
-  itk_wrap_simple_class_all_generators(${class})
 endmacro()
 
 
@@ -886,8 +888,6 @@ macro(itk_wrap_named_simple_class class swig_name)
   # to avoid useless warning: no template can be defined in
   set(WRAPPER_WARN_ABOUT_NO_TEMPLATE OFF)
   itk_wrap_one_type("${WRAPPER_WRAP_METHOD}" "${WRAPPER_CLASS}" "${WRAPPER_SWIG_NAME}")
-
-  itk_wrap_named_simple_class_all_generators("${class}" "${swig_name}")
 endmacro()
 
 
@@ -947,8 +947,6 @@ macro(itk_end_wrap_class)
       message("Warning: No template declared for ${WRAPPER_CLASS}. Perhaps you should turn on more WRAP_* options?")
     endif()
   endif()
-
-  itk_end_wrap_class_all_generators()
 endmacro()
 
 
