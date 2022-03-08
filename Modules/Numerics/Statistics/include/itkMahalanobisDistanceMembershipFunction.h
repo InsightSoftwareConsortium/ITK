@@ -18,6 +18,7 @@
 #ifndef itkMahalanobisDistanceMembershipFunction_h
 #define itkMahalanobisDistanceMembershipFunction_h
 
+#include "itkNumericTraitsVectorPixel.h"
 #include "itkVariableSizeMatrix.h"
 
 #include "itkMembershipFunctionBase.h"
