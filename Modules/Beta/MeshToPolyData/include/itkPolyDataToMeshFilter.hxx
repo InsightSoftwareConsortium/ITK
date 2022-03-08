@@ -205,7 +205,9 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
 
     while (inputCellItr != inputCellEnd)
     {
+#ifndef NDEBUG
       auto numPoints = inputCellItr.Value();
+#endif
       ++inputCellItr;
 
       // Verify vertex contains exactly one point ID
@@ -269,9 +271,6 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
 
       // Verify at least one strip is described
       itkAssertInDebugAndIgnoreInReleaseMacro(numPoints >= TriangleCellType::NumberOfPoints);
-
-      // Create cell
-      typename CellContainerType::ConstIterator stripCellEnd = inputCellItr;
 
       for (unsigned int i = 0; i < numPoints - 2; i++)
       {
