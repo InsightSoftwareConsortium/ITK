@@ -34,8 +34,8 @@ namespace itk
 
 template <typename TInputImage, typename TPolyline, typename TVector, typename TOutputImage>
 PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::PolylineMaskImageFilter()
-  : m_ViewVector(1)
-  , m_UpVector(1)
+  : m_ViewVector(MakeFilled<VectorType>(1))
+  , m_UpVector(MakeFilled<VectorType>(1))
   , m_CameraCenterPoint(0)
   , m_FocalPoint(0.0)
 

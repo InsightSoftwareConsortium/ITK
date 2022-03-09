@@ -179,7 +179,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
 
             // test image of vectors
             const InterpolatedVectorType vectorpixel = vectorinterpolator->Evaluate(point);
-            const InterpolatedVectorType expectedvector(expectedValue);
+            const auto                   expectedvector = itk::MakeFilled<InterpolatedVectorType>(expectedValue);
             const double                 errornorm = (expectedvector - vectorpixel).GetNorm();
 
             if (errornorm > 0)

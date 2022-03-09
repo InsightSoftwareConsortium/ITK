@@ -263,7 +263,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
       output->TransformIndexToPhysicalPoint(idx, physicalPosition);
 
       const typename ImageType::DirectionType & direction = output->GetDirection();
-      VectorType                                scale(output->GetSpacing()[0]);
+      auto                                      scale = MakeFilled<VectorType>(output->GetSpacing()[0]);
       for (unsigned int i = 0; i < ImageDimension; ++i)
       {
         scale[i] *= direction(i, 0);

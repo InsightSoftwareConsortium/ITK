@@ -70,7 +70,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
   this->UpdateProgress(0.0f);
   this->AllocateOutputs();
 
-  VectorType zeroVector(0.0);
+  VectorType zeroVector{};
 
   typename DisplacementFieldType::ConstPointer displacementField = this->GetInput();
 
@@ -171,7 +171,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   const typename DisplacementFieldType::RegionType fullRegion = this->m_ComposedField->GetRequestedRegion();
   const typename DisplacementFieldType::SizeType   size = fullRegion.GetSize();
   const typename DisplacementFieldType::IndexType  startIndex = fullRegion.GetIndex();
-  const typename DisplacementFieldType::PixelType  zeroVector(0.0);
+  const typename DisplacementFieldType::PixelType  zeroVector{};
 
   ImageRegionIterator<DisplacementFieldType> ItE(this->m_ComposedField, region);
   ImageRegionIterator<RealImageType>         ItS(this->m_ScaledNormImage, region);

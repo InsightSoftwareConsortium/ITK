@@ -152,7 +152,7 @@ GaussianDerivativeImageFunction<TInputImage, TOutput>::RecomputeGaussianKernel()
   else
   {
     using SpacingType = typename TInputImage::SpacingType;
-    const SpacingType spacing = m_UseImageSpacing ? inputImage->GetSpacing() : SpacingType(1);
+    const SpacingType spacing = m_UseImageSpacing ? inputImage->GetSpacing() : MakeFilled<SpacingType>(1);
 
     for (unsigned int direction = 0; direction < Self::ImageDimension; ++direction)
     {

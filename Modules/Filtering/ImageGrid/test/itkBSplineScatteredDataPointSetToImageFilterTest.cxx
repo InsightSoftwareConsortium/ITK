@@ -75,7 +75,7 @@ itkBSplineScatteredDataPointSetToImageFilterTest(int argc, char * argv[])
       unsigned long i = pointSet->GetNumberOfPoints();
       pointSet->SetPoint(i, point);
 
-      PointSetType::PixelType V(DataDimension);
+      auto V = itk::MakeFilled<PointSetType::PixelType>(DataDimension);
       V[0] = static_cast<RealType>(It.Get());
       pointSet->SetPointData(i, V);
     }

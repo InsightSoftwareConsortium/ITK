@@ -159,7 +159,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType3     PP(0.0);
+      LType3     PP{};
       FacetType3 Fc;
       b /= 2.0;
       c /= 2.0;
@@ -414,7 +414,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       // set up vectors normal to the faces - only put in 3 points for
       // each face:
       // face 1
-      LType3     PP(0.0);
+      LType3     PP{};
       FacetType3 Fc;
 
       PP[0] = 0;
@@ -733,7 +733,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       FacetArray.resize(facets);
 
       // original corners of octahedron
-      LType3 P0(0.0), P1(0.0), P2(0.0), P3(0.0), P4(0.0), P5(0.0);
+      LType3 P0{}, P1{}, P2{}, P3{}, P4{}, P5{};
       P0[0] = 0;
       P0[1] = 0;
       P0[2] = 1;

@@ -39,7 +39,7 @@ template <typename TInputImage,
 ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTransformPrecisionType>::
   ResampleImageFilter()
   : m_Extrapolator(nullptr)
-  , m_OutputSpacing(1.0)
+  , m_OutputSpacing(MakeFilled<SpacingType>(1.0))
   , m_OutputOrigin(0.0)
 
 {

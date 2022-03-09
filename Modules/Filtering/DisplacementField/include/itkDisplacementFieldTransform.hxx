@@ -141,11 +141,11 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::SetIdentity()
 {
   if (!this->m_DisplacementField.IsNull())
   {
-    this->m_DisplacementField->FillBuffer(OutputVectorType(0.0));
+    this->m_DisplacementField->FillBuffer(OutputVectorType());
   }
   if (!this->m_InverseDisplacementField.IsNull())
   {
-    this->m_InverseDisplacementField->FillBuffer(OutputVectorType(0.0));
+    this->m_InverseDisplacementField->FillBuffer(OutputVectorType());
   }
 }
 

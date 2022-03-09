@@ -133,7 +133,7 @@ test_RegionGrowKLMExceptionHandling()
   image5D->SetLargestPossibleRegion(region5D);
   image5D->SetBufferedRegion(region5D);
   image5D->Allocate();
-  itk::Vector<double, NUMBANDS2> pixel(0.0);
+  itk::Vector<double, NUMBANDS2> pixel{};
   image5D->FillBuffer(pixel);
 
   // Set the filter with valid inputs

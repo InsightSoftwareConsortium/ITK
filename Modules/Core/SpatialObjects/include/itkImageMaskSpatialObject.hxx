@@ -75,7 +75,7 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBox()
     typename Superclass::ContinuousIndexType maxContinuousIndex{ minIndex + boundingBoxInIndexSpace.GetSize() };
 
     // Allow a margin of half a pixel in each direction.
-    const typename SpatialObject<TDimension>::VectorType half_pixel_size{ 0.5 };
+    const auto half_pixel_size = MakeFilled<typename SpatialObject<TDimension>::VectorType>(0.5);
     minContinuousIndex -= half_pixel_size;
     maxContinuousIndex -= half_pixel_size;
 

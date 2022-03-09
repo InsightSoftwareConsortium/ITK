@@ -38,7 +38,7 @@ itkComposeDisplacementFieldsImageFilterTest(int, char *[])
   spacing.Fill(0.5);
   size.Fill(100);
 
-  VectorType ones(1);
+  auto ones = itk::MakeFilled<VectorType>(1);
 
   auto field = DisplacementFieldType::New();
   field->SetOrigin(origin);

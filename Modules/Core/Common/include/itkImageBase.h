@@ -810,7 +810,7 @@ protected:
   /** Origin, spacing, and direction in physical coordinates. This variables are
    * protected for efficiency.  They are referenced frequently by
    * inner loop calculations. */
-  SpacingType   m_Spacing{ 1.0 };
+  SpacingType   m_Spacing{ MakeFilled<SpacingType>(1.0) };
   PointType     m_Origin{};
   DirectionType m_Direction{ DirectionType::GetIdentity() };
   DirectionType m_InverseDirection{ DirectionType::GetIdentity() };

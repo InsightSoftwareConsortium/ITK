@@ -63,7 +63,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     transform->Print(std::cout);
 
-    VectorType axis(1.5);
+    auto axis = itk::MakeFilled<VectorType>(1.5);
 
     ValueType angle = 120.0 * std::atan(1.0) / 45.0;
 
@@ -126,7 +126,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     auto rotation = TransformType::New();
 
-    itk::Vector<double, 3> axis(1);
+    auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
 
     const double angle = (std::atan(1.0) / 45.0) * 120.0; // turn 120 degrees
 
@@ -284,7 +284,7 @@ itkScaleVersor3DTransformTest(int, char *[])
 
     auto transform = TransformType::New();
 
-    itk::Vector<double, 3> axis(1);
+    auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
 
     const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
 
@@ -421,7 +421,7 @@ itkScaleVersor3DTransformTest(int, char *[])
     std::cout << " Exercise the SetIdentity() method " << std::endl;
     auto transform = TransformType::New();
 
-    itk::Vector<double, 3> axis(1);
+    auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
 
     const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
 
@@ -470,7 +470,7 @@ itkScaleVersor3DTransformTest(int, char *[])
     std::cout << " Exercise the Scaling methods " << std::endl;
     auto transform = TransformType::New();
 
-    itk::Vector<double, 3> axis(1);
+    auto axis = itk::MakeFilled<itk::Vector<double, 3>>(1);
 
     const double angle = (std::atan(1.0) / 45.0) * 30.0; // turn 30 degrees
 

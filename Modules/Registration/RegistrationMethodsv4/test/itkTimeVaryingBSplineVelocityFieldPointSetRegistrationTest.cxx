@@ -188,7 +188,7 @@ itkTimeVaryingBSplineVelocityFieldPointSetRegistrationTest(int itkNotUsed(argc),
   initialFieldTransformAdaptor->SetRequiredTransformDomainMeshSize(transformDomainMeshSize);
   initialFieldTransformAdaptor->SetRequiredTransformDomainDirection(transformDomainDirection);
 
-  VectorType zeroVector(0.0);
+  VectorType zeroVector{};
 
   velocityFieldLattice->SetOrigin(initialFieldTransformAdaptor->GetRequiredControlPointLatticeOrigin());
   velocityFieldLattice->SetSpacing(initialFieldTransformAdaptor->GetRequiredControlPointLatticeSpacing());

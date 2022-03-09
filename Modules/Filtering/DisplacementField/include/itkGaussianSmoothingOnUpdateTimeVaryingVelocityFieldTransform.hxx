@@ -187,7 +187,7 @@ GaussianSmoothingOnUpdateTimeVaryingVelocityFieldTransform<TParametersValueType,
 
   // make sure boundary does not move
 
-  const DisplacementVectorType zeroVector(0.0);
+  const DisplacementVectorType zeroVector{};
 
   ScalarType weight1 = 1.0;
   if (spatialVariance < 0.5)

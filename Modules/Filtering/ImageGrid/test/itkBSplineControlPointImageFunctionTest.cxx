@@ -46,7 +46,7 @@ itkBSplineControlPointImageFunctionTest(int, char *[])
   phiLattice->SetSpacing(spacing);
   phiLattice->SetRegions(size);
   phiLattice->Allocate();
-  phiLattice->FillBuffer(VectorType(0.0));
+  phiLattice->FillBuffer(VectorType{});
 
   // To create the specified function, the first and last control points have
   // a value of 1.0;
