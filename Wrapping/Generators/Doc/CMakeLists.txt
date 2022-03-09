@@ -92,23 +92,21 @@ endmacro()
 
 ###############################################################################
 # This macro is called once per module
-# Global variable WRAPPER_MODULE_NAME can be used
-# in the macro to current module name
 #
-macro(itk_end_wrap_submodule_DOC)
-    set(doxy2swig_config_file ${CMAKE_CURRENT_BINARY_DIR}/Doc/${WRAPPER_MODULE_NAME}.conf)
+macro(itk_end_wrap_submodule_DOC module_name)
+    set(doxy2swig_config_file ${CMAKE_CURRENT_BINARY_DIR}/Doc/${module_name}.conf)
     configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.conf.in"
       "${doxy2swig_config_file}"
       @ONLY)
     # run itk_doxy2swig
     set(itk_doxy2swig_py "${ITK_WRAP_DOC_SOURCE_DIR}/itk_doxy2swig.py")
-    set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i)
+    set(swig_doc_interface_file ${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${module_name}_doc.i)
     add_custom_command(
       OUTPUT ${swig_doc_interface_file}
       COMMAND ${Python3_EXECUTABLE} ${itk_doxy2swig_py} ${doxy2swig_config_file} ${swig_doc_interface_file}
       #DEPENDS ${ITK_WRAP_DOC_DOXYGEN_XML_FILES} ${doxy2swig_config_file} ${itk_doxy2swig_py}
       DEPENDS ${WRAPPER_LIBRARY_NAME}Doxygen ${doxy2swig_config_file} ${itk_doxy2swig_py}
-  #    COMMENT "-- Wrapping library ${WRAPPER_MODULE_NAME}: Generating swig interface for inline documentation."
+  #    COMMENT "-- Wrapping library ${module_name}: Generating swig interface for inline documentation."
     )
     list(APPEND ITK_WRAP_DOC_DOCSTRING_FILES ${swig_doc_interface_file})
 endmacro()

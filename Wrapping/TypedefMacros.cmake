@@ -683,7 +683,7 @@ macro(itk_load_submodule module)
     itk_end_wrap_submodule_python("${module}")
   endif()
   if(${module_prefix}_WRAP_DOC)
-    itk_end_wrap_submodule_DOC()
+    itk_end_wrap_submodule_DOC("${module}")
   endif()
 
 endmacro()
