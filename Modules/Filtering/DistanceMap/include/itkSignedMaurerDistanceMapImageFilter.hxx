@@ -33,7 +33,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::SignedMaurerDistanceMapImageFilter()
   : m_BackgroundValue(NumericTraits<InputPixelType>::ZeroValue())
-  , m_Spacing(0.0)
+  , m_Spacing()
   , m_InputCache(nullptr)
 {
   this->DynamicMultiThreadingOff();

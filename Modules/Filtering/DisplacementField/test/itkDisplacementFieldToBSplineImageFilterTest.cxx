@@ -39,7 +39,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   spacing.Fill(0.5);
   size.Fill(100);
 
-  VectorType ones(1);
+  auto ones = itk::MakeFilled<VectorType>(1);
 
   auto field = DisplacementFieldType::New();
   field->SetOrigin(origin);
@@ -61,7 +61,7 @@ itkDisplacementFieldToBSplineImageFilterTest(int, char *[])
   auto pointSet = PointSetType::New();
   pointSet->Initialize();
 
-  VectorType ones_points(1.0);
+  auto ones_points = itk::MakeFilled<VectorType>(1.0);
 
   // Assign some random points within the b-spline domain
   PointSetType::PointType point1;

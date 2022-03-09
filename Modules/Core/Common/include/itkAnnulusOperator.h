@@ -248,7 +248,7 @@ private:
   PixelType   m_InteriorValue{ NumericTraits<PixelType>::ZeroValue() };
   PixelType   m_AnnulusValue{ NumericTraits<PixelType>::OneValue() };
   PixelType   m_ExteriorValue{ NumericTraits<PixelType>::ZeroValue() };
-  SpacingType m_Spacing{ 1.0 };
+  SpacingType m_Spacing{ MakeFilled<SpacingType>(1.0) };
 };
 } // namespace itk
 

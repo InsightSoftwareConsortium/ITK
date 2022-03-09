@@ -50,7 +50,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   //
   // Create ON and OFF vectors
-  PixelType vector0(0.0);
+  PixelType vector0{};
   PixelType vector1;
   vector1[0] = 1.0;
   vector1[1] = 2.0;

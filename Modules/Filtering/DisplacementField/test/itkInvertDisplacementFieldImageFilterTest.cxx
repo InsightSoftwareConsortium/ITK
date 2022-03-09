@@ -47,7 +47,7 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   spacing.Fill(0.5);
   size.Fill(100);
 
-  VectorType ones(1);
+  auto ones = itk::MakeFilled<VectorType>(1);
 
   auto field = DisplacementFieldType::New();
   field->SetOrigin(origin);
@@ -57,7 +57,7 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   field->Allocate();
   field->FillBuffer(ones);
 
-  const VectorType zeroVector(0.0);
+  const VectorType zeroVector{};
 
   // make sure boundary does not move
   float weight1 = 1.0;

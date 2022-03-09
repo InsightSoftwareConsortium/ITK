@@ -75,7 +75,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   CoefficientType coeff;
   filter->SetCoefficientsMethod(&coeff);
 
-  MeshType::VectorType nullVector(0.);
+  MeshType::VectorType nullVector{};
 
   std::map<MeshType::PointIdentifier, MeshType::VectorType> constraints;
   constraints[150] = nullVector;
@@ -86,13 +86,13 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest(int argc, char 
   constraints[183] = nullVector;
   constraints[226] = nullVector;
 
-  MeshType::VectorType d(0.);
+  MeshType::VectorType d{};
   d[2] = -0.1;
 
   constraints[729] = d;
   constraints[938] = d;
 
-  MeshType::VectorType e(0.);
+  MeshType::VectorType e{};
   e[1] = 0.1;
   e[2] = -0.1;
 

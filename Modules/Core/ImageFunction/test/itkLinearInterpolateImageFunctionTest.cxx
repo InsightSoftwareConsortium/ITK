@@ -215,7 +215,7 @@ RunLinearInterpolateTest()
 
                     const InterpolatedVectorType & vectorpixel = vectorinterpolator->Evaluate(point);
 
-                    const InterpolatedVectorType expectedvector(expectedValue);
+                    const auto expectedvector = itk::MakeFilled<InterpolatedVectorType>(expectedValue);
 
                     const AccumulatorType & errornorm = (expectedvector - vectorpixel).GetNorm();
 

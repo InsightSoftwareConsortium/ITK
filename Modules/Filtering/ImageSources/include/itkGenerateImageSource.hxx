@@ -24,7 +24,7 @@ namespace itk
 {
 template <typename TOutputImage>
 GenerateImageSource<TOutputImage>::GenerateImageSource()
-  : m_Spacing(1.0)
+  : m_Spacing(MakeFilled<SpacingType>(1.0))
   , m_Origin(0.0)
 
 {

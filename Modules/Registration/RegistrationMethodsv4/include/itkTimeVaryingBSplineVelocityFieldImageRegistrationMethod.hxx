@@ -127,7 +127,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
     }
   }
 
-  const DisplacementVectorType zeroVector(0.0);
+  const DisplacementVectorType zeroVector{};
 
   auto identityField = DisplacementFieldType::New();
   identityField->CopyInformation(virtualDomainImage);

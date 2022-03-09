@@ -466,7 +466,7 @@ BSplineControlPointImageFilter<TInputPointImage, TOutputImage>::RefineControlPoi
       }
       for (unsigned int i = 0; i < (2 << (ImageDimension - 1)); ++i)
       {
-        PixelType sum(0.0);
+        PixelType sum{};
 
         PixelType val;
         off = this->NumberToIndex(i, size);

@@ -201,10 +201,10 @@ public:
 #define itkStaticNumericTraitsGenericArrayMacro(GENERIC_ARRAY, T, D)                    \
   template <>                                                                           \
   ITKCommon_EXPORT const GENERIC_ARRAY<T, D> NumericTraits<GENERIC_ARRAY<T, D>>::Zero = \
-    GENERIC_ARRAY<T, D>((T)(NumericTraits<T>::Zero));                                   \
+    MakeFilled<GENERIC_ARRAY<T, D>>(NumericTraits<T>::Zero);                            \
   template <>                                                                           \
   ITKCommon_EXPORT const GENERIC_ARRAY<T, D> NumericTraits<GENERIC_ARRAY<T, D>>::One =  \
-    GENERIC_ARRAY<T, D>((T)(NumericTraits<T>::One));
+    MakeFilled<GENERIC_ARRAY<T, D>>(NumericTraits<T>::One);
 
 //
 // List here the array dimension specializations of these static

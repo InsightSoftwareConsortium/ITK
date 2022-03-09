@@ -161,7 +161,7 @@ itkFastMarchingTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(outputRegion, marcher->GetOutputRegion());
 
   auto outputSpacingValue = static_cast<typename FloatFMType::OutputSpacingType::ValueType>(std::stod(argv[6]));
-  typename FloatFMType::OutputSpacingType outputSpacing(outputSpacingValue);
+  auto outputSpacing = itk::MakeFilled<typename FloatFMType::OutputSpacingType>(outputSpacingValue);
   marcher->SetOutputSpacing(outputSpacing);
   ITK_TEST_SET_GET_VALUE(outputSpacing, marcher->GetOutputSpacing());
 

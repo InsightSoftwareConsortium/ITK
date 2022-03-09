@@ -112,7 +112,7 @@ itkBSplineSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(ar
   // Create the SyN deformable registration method
 
   using VectorType = itk::Vector<double, Dimension>;
-  VectorType zeroVector(0.0);
+  VectorType zeroVector{};
 
   using DisplacementFieldType = itk::Image<VectorType, Dimension>;
   auto displacementField = DisplacementFieldType::New();

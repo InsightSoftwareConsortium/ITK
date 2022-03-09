@@ -171,7 +171,7 @@ BSplineTransformInitializer<TTransform, TImage>::InitializeTransform() const
   {
     minAngle[d] = NumericTraits<double>::max();
 
-    VectorType vectorAxis(0.0);
+    VectorType vectorAxis{};
     vectorAxis[d] = 1.0;
 
     for (unsigned int i = 0; i < SpaceDimension; ++i)

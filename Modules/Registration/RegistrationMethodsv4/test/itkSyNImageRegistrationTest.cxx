@@ -194,7 +194,7 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   affineWriter->Update();
 
   using VectorType = itk::Vector<RealType, ImageDimension>;
-  VectorType zeroVector(0.0);
+  VectorType zeroVector{};
 
   // Create the SyN deformable registration method
 

@@ -130,8 +130,8 @@ CheckInvalidSpacingExceptions()
 
   // Test exceptions
   const SpacingType initialSpacing = imageBase->GetSpacing();
-  const SpacingType negativeSpacing(-1.0);
-  const SpacingType zeroSpacing(0.0);
+  const auto        negativeSpacing = itk::MakeFilled<SpacingType>(-1.0);
+  const SpacingType zeroSpacing{};
 
 #if !defined(ITK_LEGACY_REMOVE)
   // Only a warning is displayed
