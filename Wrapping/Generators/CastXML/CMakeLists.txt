@@ -196,7 +196,7 @@ endmacro()
 macro(itk_end_wrap_submodule_castxml module)
   # write the wrap_*.cxx file
   #
-  # Global vars used: WRAPPER_INCLUDE_FILES WRAPPER_MODULE_NAME and WRAPPER_TYPEDEFS
+  # Global vars used: WRAPPER_INCLUDE_FILES and WRAPPER_TYPEDEFS
   # Global vars modified: none
 
   # Create the cxx file which will be given to castxml.
