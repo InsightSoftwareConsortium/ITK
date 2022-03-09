@@ -318,8 +318,8 @@ macro(itk_end_wrap_submodule_python group_name)
   # is there a docstring file?
   if(${module_prefix}_WRAP_DOC AND NOT ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS)
     # yes. Include the docstring file
-    set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_MODULE_NAME}_doc.i")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "%include ${WRAPPER_MODULE_NAME}_doc.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
+    set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${group_name}_doc.i")
+    set(ITK_WRAP_PYTHON_SWIG_EXT "%include ${group_name}_doc.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
   else()
     # no. Clear the doc_file var
     set(doc_file "")
