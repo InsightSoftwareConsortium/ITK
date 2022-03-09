@@ -477,7 +477,7 @@ LinearAnisotropicDiffusionLBRImageFilter<TImage, TScalar>::ImageUpdate(ScalarTyp
   ImageRegionConstIterator<StencilImageType> stencilIt(m_StencilImage, region);
 
   // Rest of function is a hand-made (sparse matrix)*vector product.
-  m_NextImage->FillBuffer(0.);
+  m_NextImage->FillBuffer({});
 
   // Taking care of Off-Diagonal matrix elements. Cannot be parallelized due to non-local modifications of outputBuffer
   for (inputIt.GoToBegin(), outputIt.GoToBegin(), stencilIt.GoToBegin(); !inputIt.IsAtEnd();
