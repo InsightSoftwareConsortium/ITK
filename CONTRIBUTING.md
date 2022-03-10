@@ -164,8 +164,8 @@ commits, the message body should follow the following guidelines:
   2. Try to keep the subject line below 72 characters, ideally 50.
   3. Capitalize the subject line.
   4. Do not end the subject line with a period.
-  5. Use the imperative mood in the subject line (e.g. `BUG: Fix spacing
-  not being considered.`).
+  5. Use the imperative mood in the subject line (e.g. `STYLE: Change
+  template parameter name prefix N to V`).
   6. Wrap the body at 80 characters.
   7. Use semantic line feeds to separate different ideas, which improves the
   readability.
