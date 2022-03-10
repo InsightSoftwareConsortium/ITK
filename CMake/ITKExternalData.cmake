@@ -43,7 +43,7 @@ if(NOT ITK_FORBID_DOWNLOADS)
 endif()
 
 # Emscripten currently has difficulty reading symlinks.
-if(EMSCRIPTEN)
+if(EMSCRIPTEN OR WASI)
   set(ExternalData_NO_SYMLINKS 1)
 endif()
 
