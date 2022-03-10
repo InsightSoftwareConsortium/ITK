@@ -186,7 +186,7 @@ PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
   affineWriter->Update();
 
   using VectorType = itk::Vector<RealType, ImageDimension>;
-  VectorType zeroVector{};
+  constexpr VectorType zeroVector{};
 
   // Determine the parameters (size, spacing, etc) for the time-varying velocity field
   // Here we use 10 time index points.

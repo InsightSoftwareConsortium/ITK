@@ -72,7 +72,7 @@ SyNImageRegistrationMethod<TFixedImage, TMovingImage, TOutputTransform, TVirtual
 
       VirtualImageBaseConstPointer virtualDomainImage = this->GetCurrentLevelVirtualDomainImage();
 
-      const DisplacementVectorType zeroVector{};
+      constexpr DisplacementVectorType zeroVector{};
 
       auto fixedDisplacementField = DisplacementFieldType::New();
       fixedDisplacementField->CopyInformation(virtualDomainImage);

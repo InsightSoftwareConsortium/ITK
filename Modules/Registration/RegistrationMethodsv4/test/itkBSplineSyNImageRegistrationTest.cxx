@@ -161,7 +161,7 @@ PerformBSplineSyNImageRegistration(int itkNotUsed(argc), char * argv[])
   affineWriter->Update();
 
   using VectorType = itk::Vector<RealType, ImageDimension>;
-  VectorType zeroVector{};
+  constexpr VectorType zeroVector{};
 
   // Create the SyN deformable registration method
 
