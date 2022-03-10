@@ -70,7 +70,7 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
   CoefficientType coeff;
   filter->SetCoefficientsMethod(&coeff);
 
-  MeshType::VectorType nullVector{};
+  constexpr MeshType::VectorType nullVector{};
 
   std::map<MeshType::PointIdentifier, MeshType::VectorType> constraints;
   constraints[150] = nullVector;

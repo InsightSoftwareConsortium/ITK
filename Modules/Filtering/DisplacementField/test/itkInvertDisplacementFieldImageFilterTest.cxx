@@ -57,7 +57,7 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
   field->Allocate();
   field->FillBuffer(ones);
 
-  const VectorType zeroVector{};
+  constexpr VectorType zeroVector{};
 
   // make sure boundary does not move
   float weight1 = 1.0;
