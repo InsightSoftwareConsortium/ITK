@@ -217,7 +217,7 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
          list(APPEND InstructionSetOptimizationFlags
               /arch:SSE /arch:SSE2)
       endif()
-    elseif(NOT EMSCRIPTEN)
+    elseif(NOT EMSCRIPTEN OR WASI)
       if (${CMAKE_C_COMPILER} MATCHES "icc.*$")
         set(USING_INTEL_ICC_COMPILER TRUE)
       endif()

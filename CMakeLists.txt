@@ -215,7 +215,11 @@ endif()
 option(BUILD_SHARED_LIBS "Build ITK with shared libraries." OFF)
 set(ITK_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
-option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ON)
+set(ITK_DYNAMIC_LOADING_DEFAULT ON)
+if(WASI OR EMSCRIPTEN)
+  set(ITK_DYNAMIC_LOADING_DEFAULT OFF)
+endif()
+option(ITK_DYNAMIC_LOADING "Support run-time loading of shared libraries" ${ITK_DYNAMIC_LOADING_DEFAULT})
 mark_as_advanced(ITK_DYNAMIC_LOADING)
 
 #-----------------------------------------------------------------------------
