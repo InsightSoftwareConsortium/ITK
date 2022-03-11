@@ -86,43 +86,43 @@ public:
   static const Self
   max(const Self &)
   {
-    return Self(NumericTraits<T>::max());
+    return MakeFilled<Self>(NumericTraits<T>::max());
   }
 
   static const Self
   min(const Self &)
   {
-    return Self(NumericTraits<T>::min());
+    return MakeFilled<Self>(NumericTraits<T>::min());
   }
 
   static const Self
   max()
   {
-    return Self(NumericTraits<T>::max());
+    return MakeFilled<Self>(NumericTraits<T>::max());
   }
 
   static const Self
   min()
   {
-    return Self(NumericTraits<T>::min());
+    return MakeFilled<Self>(NumericTraits<T>::min());
   }
 
   static const Self
   NonpositiveMin()
   {
-    return Self(NumericTraits<T>::NonpositiveMin());
+    return MakeFilled<Self>(NumericTraits<T>::NonpositiveMin());
   }
 
   static const Self
   ZeroValue()
   {
-    return Self(NumericTraits<T>::ZeroValue());
+    return MakeFilled<Self>(NumericTraits<T>::ZeroValue());
   }
 
   static const Self
   OneValue()
   {
-    return Self(NumericTraits<T>::OneValue());
+    return MakeFilled<Self>(NumericTraits<T>::OneValue());
   }
 
   static const Self
