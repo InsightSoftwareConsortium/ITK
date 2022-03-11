@@ -117,7 +117,42 @@ macro(itk_wrap_module library_name)
 
   # Call the language support initialization function
   if(${module_prefix}_WRAP_CASTXML)
-    itk_wrap_module_castxml("${library_name}")
+    # create the files used to pass the file to include to castxml
+    set(castxml_inc_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${library_name}.castxml.inc")
+    get_directory_property(include_dir_list INCLUDE_DIRECTORIES)
+    list(REMOVE_DUPLICATES include_dir_list)
+
+    # Get the compile_definitions of the module added with add_compile_definitions
+    # From the wrapping folder (current)
+    get_directory_property(compile_definition_list COMPILE_DEFINITIONS)
+    # And from the top module folder
+    set(module_folder "${WRAPPER_LIBRARY_SOURCE_DIR}/..")
+    get_directory_property(compile_definition_list_at_module
+            DIRECTORY "${module_folder}"
+            COMPILE_DEFINITIONS)
+    # Merge and remove duplicates
+    list(APPEND compile_definition_list ${compile_definition_list_at_module})
+    list(REMOVE_DUPLICATES compile_definition_list)
+
+    set(CONFIG_CASTXML_INC_CONTENTS)
+    foreach(dir ${include_dir_list})
+      set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}\"-I${dir}\"\n")
+    endforeach()
+    set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}-Qunused-arguments\n")
+    set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}-DITK_WRAPPING_PARSER\n")
+    set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}-DITK_MANUAL_INSTANTIATION\n")
+    foreach(def ${compile_definition_list})
+      set(CONFIG_CASTXML_INC_CONTENTS "${CONFIG_CASTXML_INC_CONTENTS}\"-D${def}\"\n")
+    endforeach()
+
+    configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/cast_xml.inc.in" "${castxml_inc_file}" @ONLY)
+    unset(CONFIG_CASTXML_INC_CONTENTS)
+    unset(compile_definition_list_at_module)
+    unset(module_folder)
+    unset(compile_definition_list)
+    unset(include_dir_list)
+
+    set(CastXML_OUTPUT_FILES )
   endif()
 
   if(${module_prefix}_WRAP_SWIGINTERFACE)
@@ -537,8 +572,13 @@ endmacro()
 ################################################################################
 
 macro(itk_auto_load_submodules)
-  # Global vars used: WRAPPER_LIBRARY_SOURCE_DIR
-  # Global vars modified: WRAPPER_SUBMODULE_ORDER
+  # Global vars used: WRAPPER_LIBRARY_NAME WRAPPER_DEFAULT_INCLUDE
+  #                   WRAPPER_LIBRARY_SOURCE_DIR WRAPPER_LIBRARY_OUTPUT_DIR
+  #                   SWIG_INTERFACE_INCLUDES
+  # Global vars modified: WRAPPER_TYPEDEFS WRAPPER_SUBMODULE_ORDER
+  #                       WRAPPER_INCLUDE_FILES WRAPPER_AUTO_INCLUDE_HEADERS
+  #                       SWIG_INTERFACE_MDX_CONTENT SWIG_INTERFACE_MDX_CONTENT
+  #                       SWIG_INTERFACE_MODULES
 
   # Include the *.wrap files in WRAPPER_LIBRARY_SOURCE_DIR. This causes
   # corresponding wrap_*.cxx files to be generated WRAPPER_LIBRARY_OUTPUT_DIR,
@@ -561,198 +601,214 @@ macro(itk_auto_load_submodules)
     list(APPEND WRAPPER_SUBMODULE_ORDER "${_module}")
   endforeach()
   list(REMOVE_DUPLICATES WRAPPER_SUBMODULE_ORDER)
-  foreach(_module ${WRAPPER_SUBMODULE_ORDER})
-    itk_load_submodule("${_module}")
-  endforeach()
-endmacro()
+  foreach(module ${WRAPPER_SUBMODULE_ORDER})
+    # include a cmake module file and generate the associated wrap_*.cxx file.
+    # This basically sets the global vars that will be added to or modified
+    # by the commands in the included *.wrap module.
+    message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${module} submodule.")
 
+    # We run into some trouble if there's a module with the same name as the
+    # wrapper library. Fix this.
+    string(TOUPPER "${module}" upper_module)
+    string(TOUPPER "${WRAPPER_LIBRARY_NAME}" upper_lib)
+    if("${upper_module}" STREQUAL "${upper_lib}")
+      message(FATAL_ERROR "The module ${module} can't have the same name as its library. Note that the names are not case sensitive.")
+    endif()
 
-macro(itk_load_submodule module)
-  # include a cmake module file and generate the associated wrap_*.cxx file.
-  # This basically sets the global vars that will be added to or modified
-  # by the commands in the included *.wrap module.
-  #
-  # Global vars used: WRAPPER_LIBRARY_NAME WRAPPER_DEFAULT_INCLUDE
-  # Global vars modified: WRAPPER_TYPEDEFS
-  #                       WRAPPER_INCLUDE_FILES WRAPPER_AUTO_INCLUDE_HEADERS
-  message(STATUS "${WRAPPER_LIBRARY_NAME}: Creating ${module} submodule.")
+    # call generators specific macros which set several associated global variables
+    if(${module_prefix}_WRAP_CASTXML)
+      # clear the typedefs and the includes
+      set(CASTXML_TYPEDEFS )
+      set(CASTXML_INCLUDES )
+      set(CASTXML_FORCE_INSTANTIATE )
+    endif()
+    if(${module_prefix}_WRAP_SWIGINTERFACE)
+      # store the content of the SwigInterface.h files - a set of #includes for that module
+      set(SWIG_INTERFACE_INCLUDES )
+      # typedefs for swig
+      set(SWIG_INTERFACE_TYPEDEFS )
+    endif()
+    if(${module_prefix}_WRAP_DOC)
+      set(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
+    endif()
+    if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+      itk_wrap_submodule_python("${module}" "${WRAPPER_LIBRARY_NAME}")
+    endif()
 
-  # We run into some trouble if there's a module with the same name as the
-  # wrapper library. Fix this.
-  string(TOUPPER "${module}" upper_module)
-  string(TOUPPER "${WRAPPER_LIBRARY_NAME}" upper_lib)
-  if("${upper_module}" STREQUAL "${upper_lib}")
-    message(FATAL_ERROR "The module ${module} can't have the same name as its library. Note that the names are not case sensitive.")
-  endif()
+    # WRAPPER_INCLUDE_FILES: contains a list of all files to include in the final cxx file
+    set(WRAPPER_INCLUDE_FILES )
 
-  # call generators specific macros which set several associated global variables
-  if(${module_prefix}_WRAP_CASTXML)
-    # clear the typedefs and the includes
-    set(CASTXML_TYPEDEFS )
-    set(CASTXML_INCLUDES )
-    set(CASTXML_FORCE_INSTANTIATE )
-  endif()
-  if(${module_prefix}_WRAP_SWIGINTERFACE)
-    # store the content of the SwigInterface.h files - a set of #includes for that module
-    set(SWIG_INTERFACE_INCLUDES )
-    # typedefs for swig
-    set(SWIG_INTERFACE_TYPEDEFS )
-  endif()
-  if(${module_prefix}_WRAP_DOC)
-    set(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
-  endif()
-  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
-    itk_wrap_submodule_python("${module}" "${WRAPPER_LIBRARY_NAME}")
-  endif()
+    # Add  to the list of files
+    # to be #included in the final cxx file.
+    foreach(inc ${WRAPPER_DEFAULT_INCLUDE})
+      itk_wrap_include("${inc}")
+    endforeach()
 
-  # WRAPPER_INCLUDE_FILES: contains a list of all files to include in the final cxx file
-  set(WRAPPER_INCLUDE_FILES )
+    # Indicates that the appropriate itk header for this class will be automatically included
+    # in later stages of the wrapping process
+    set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 
-  # Add  to the list of files
-  # to be #included in the final cxx file.
-  foreach(inc ${WRAPPER_DEFAULT_INCLUDE})
-    itk_wrap_include("${inc}")
-  endforeach()
-
-  # Indicates that the appropriate itk header for this class will be automatically included
-  # in later stages of the wrapping process
-  set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
-
-  # Now include the .wrap file.
-  if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
+    # Now include the .wrap file.
+    if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
       include("${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap")
-  else()
-    # for backward compatibility, to be removed in ITKv6
-    if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
+    else()
+      # for backward compatibility, to be removed in ITKv6
+      if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake")
         message(FATAL_ERROR "INCORRECT FILE NAME PATTERN: ${WRAPPER_LIBRARY_SOURCE_DIR}/wrap_${module}.cmake should be named ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.cmake")
-    endif()
-    message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap not found.")
-  endif()
-
-  if(${module_prefix}_WRAP_CASTXML)
-    # write the wrap_*.cxx file
-    # Create the cxx file which will be given to castxml.
-    set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
-    configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
-
-    # the xml file to be generated
-    set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
-
-    set(_castxml_depends)
-    if(NOT ITK_USE_SYSTEM_CASTXML)
-      # ExternalProject target for CastXML.
-      set(_castxml_depends castxml)
-    endif()
-
-    set(_ccache_cmd)
-    if(ITK_USE_CCACHE)
-      set(_ccache_cmd ${CCACHE_EXECUTABLE})
-    endif()
-
-    # Avoid missing omp.h include
-    set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
-    if(CMAKE_CXX_EXTENSIONS)
-      set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_EXTENSION_COMPILE_OPTION}")
-    else()
-      set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_STANDARD_COMPILE_OPTION}")
-    endif()
-
-    # Aggressive optimization flags cause cast_xml to give invalid error conditions
-    set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
-    foreach( rmmatch ${INVALID_OPTIMIZATION_FLAGS})
-      string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
-    endforeach()
-    unset(INVALID_OPTIMIZATION_FLAGS)
-
-    # Configure the internal Clang preprocessor and target platform to match that of the given compiler command.
-    separate_arguments(_castxml_cc_flags)
-    set(_castxml_cc)
-    if(MSVC)
-      set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)
-      if(MSVC90)
-        # needed for VS2008 64 bit
-        set(_castxml_cc ${_castxml_cc} "-D_HAS_TR1=0")
       endif()
-    else()
-      set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ))
+      message(SEND_ERROR "Module ${WRAPPER_LIBRARY_SOURCE_DIR}/${module}.wrap not found.")
     endif()
 
-    # Override castxml target platform when cross compiling
-    set(_target)
-    if(CMAKE_CROSSCOMPILING)
-      if(NOT CMAKE_CXX_COMPILER_TARGET)
-        message(FATAL_ERROR "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
-                " as described in http://clang.llvm.org/docs/CrossCompilation.html")
+    if(${module_prefix}_WRAP_CASTXML)
+      # write the wrap_*.cxx file
+      # Create the cxx file which will be given to castxml.
+      set(cxx_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.cxx")
+      configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
+
+      # the xml file to be generated
+      set(xml_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}.xml")
+
+      set(_castxml_depends)
+      if(NOT ITK_USE_SYSTEM_CASTXML)
+        # ExternalProject target for CastXML.
+        set(_castxml_depends castxml)
       endif()
-      set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
-    endif()
 
-    set(_build_env)
-    if(APPLE)
-      # If building on OS X, make sure that CastXML's calls to the compiler have the
-      # settings that the output files will be compiled with.  This prevents headers
-      # from one version of OS X from being used when building for another version.
-      list(APPEND _build_env
-              env
-              "SDKROOT=${CMAKE_OSX_SYSROOT}"
-              "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
-              )
-    endif()
-
-    set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include)
-    set(_hdrs)
-    set(glob_hdrs)
-    if(EXISTS ${_include})
-      file(GLOB_RECURSE glob_hdrs ${_include}/*.h)
-    endif()
-    foreach(header IN LISTS glob_hdrs)
-      get_filename_component(header_name ${header} NAME)
-      if(${header_name} IN_LIST WRAPPER_INCLUDE_FILES)
-        list(APPEND _hdrs ${header})
+      set(_ccache_cmd)
+      if(ITK_USE_CCACHE)
+        set(_ccache_cmd ${CCACHE_EXECUTABLE})
       endif()
-    endforeach()
-    unset(glob_hdrs)
-    unset(_include)
 
-    # write the module.xml file using castxml
-    add_custom_command(
-            OUTPUT ${xml_file}
-            COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE}
-            -o ${xml_file}
-            --castxml-gccxml
-            ${_target}
-            --castxml-start _wrapping_
-            ${_castxml_cc}
-            -w
-            -c # needed for ccache to think we are not calling for link
-            @${castxml_inc_file}
-            ${cxx_file}
-            VERBATIM
-            DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs}
-    )
+      # Avoid missing omp.h include
+      set(_castxml_cc_flags ${CMAKE_CXX_FLAGS})
+      if(CMAKE_CXX_EXTENSIONS)
+        set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_EXTENSION_COMPILE_OPTION}")
+      else()
+        set(_castxml_cc_flags "${_castxml_cc_flags} ${CMAKE_CXX14_STANDARD_COMPILE_OPTION}")
+      endif()
 
-    list(APPEND CastXML_OUTPUT_FILES ${xml_file})
-  endif()
+      # Aggressive optimization flags cause cast_xml to give invalid error conditions
+      set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
+      foreach( rmmatch ${INVALID_OPTIMIZATION_FLAGS})
+        string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
+      endforeach()
+      unset(INVALID_OPTIMIZATION_FLAGS)
 
-  if(${module_prefix}_WRAP_SWIGINTERFACE)
-    itk_end_wrap_submodule_swig_interface("${module}")
-  endif()
-  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
-    itk_end_wrap_submodule_python("${module}")
-  endif()
-  if(${module_prefix}_WRAP_DOC)
-    itk_end_wrap_submodule_DOC("${module}")
-  endif()
+      # Configure the internal Clang preprocessor and target platform to match that of the given compiler command.
+      separate_arguments(_castxml_cc_flags)
+      set(_castxml_cc)
+      if(MSVC)
+        set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)
+        if(MSVC90)
+          # needed for VS2008 64 bit
+          set(_castxml_cc ${_castxml_cc} "-D_HAS_TR1=0")
+        endif()
+      else()
+        set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ))
+      endif()
 
-  unset(_hdrs)
-  unset(_build_env)
-  unset(_target)
-  unset(_castxml_cc)
-  unset(_castxml_cc_flags)
-  unset(_ccache_cmd)
-  unset(_castxml_depends)
-  unset(xml_file)
-  unset(cxx_file)
+      # Override castxml target platform when cross compiling
+      set(_target)
+      if(CMAKE_CROSSCOMPILING)
+        if(NOT CMAKE_CXX_COMPILER_TARGET)
+          message(FATAL_ERROR "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
+                  " as described in http://clang.llvm.org/docs/CrossCompilation.html")
+        endif()
+        set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
+      endif()
+
+      set(_build_env)
+      if(APPLE)
+        # If building on OS X, make sure that CastXML's calls to the compiler have the
+        # settings that the output files will be compiled with.  This prevents headers
+        # from one version of OS X from being used when building for another version.
+        list(APPEND _build_env
+                env
+                "SDKROOT=${CMAKE_OSX_SYSROOT}"
+                "MACOSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}"
+                )
+      endif()
+
+      set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include)
+      set(_hdrs)
+      set(glob_hdrs)
+      if(EXISTS ${_include})
+        file(GLOB_RECURSE glob_hdrs ${_include}/*.h)
+      endif()
+      foreach(header IN LISTS glob_hdrs)
+        get_filename_component(header_name ${header} NAME)
+        if(${header_name} IN_LIST WRAPPER_INCLUDE_FILES)
+          list(APPEND _hdrs ${header})
+        endif()
+      endforeach()
+      unset(glob_hdrs)
+      unset(_include)
+
+      # write the module.xml file using castxml
+      add_custom_command(
+              OUTPUT ${xml_file}
+              COMMAND ${_build_env} ${_ccache_cmd} ${CASTXML_EXECUTABLE}
+              -o ${xml_file}
+              --castxml-gccxml
+              ${_target}
+              --castxml-start _wrapping_
+              ${_castxml_cc}
+              -w
+              -c # needed for ccache to think we are not calling for link
+              @${castxml_inc_file}
+              ${cxx_file}
+              VERBATIM
+              DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs}
+      )
+
+      list(APPEND CastXML_OUTPUT_FILES ${xml_file})
+    endif()
+
+    if(${module_prefix}_WRAP_SWIGINTERFACE)
+      set(SWIG_INTERFACE_INCLUDES_CONTENT )
+      if(SWIG_INTERFACE_INCLUDES)
+        list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
+        foreach(include_file ${SWIG_INTERFACE_INCLUDES})
+          if("${include_file}" MATCHES "<.*>")
+            set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include ${include_file}\n")
+          else()
+            set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${include_file}\"\n")
+          endif()
+        endforeach()
+      endif()
+
+      # create the file which stores all of the includes
+      set(includes_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
+      configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
+              ${includes_file}
+              @ONLY)
+      unset(includes_file)
+      unset(SWIG_INTERFACE_INCLUDES_CONTENT)
+
+      # store the path of the idx file to store it in the mdx file
+      set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
+
+      set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
+
+      list(APPEND SWIG_INTERFACE_MODULES ${module})
+    endif()
+    if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
+      itk_end_wrap_submodule_python("${module}")
+    endif()
+    if(${module_prefix}_WRAP_DOC)
+      itk_end_wrap_submodule_DOC("${module}")
+    endif()
+
+    unset(_hdrs)
+    unset(_build_env)
+    unset(_target)
+    unset(_castxml_cc)
+    unset(_castxml_cc_flags)
+    unset(_ccache_cmd)
+    unset(_castxml_depends)
+    unset(xml_file)
+    unset(cxx_file)
+  endforeach()
 endmacro()
 
 
@@ -797,6 +853,9 @@ macro(itk_wrap_class class)
   if(WRAPPER_AUTO_INCLUDE_HEADERS)
     itk_wrap_include("${swig_name}.h")
   endif()
+  unset(swig_name)
+  unset(top_namespace)
+  unset(base_name)
 endmacro()
 
 macro(itk_wrap_named_class class swig_name)
