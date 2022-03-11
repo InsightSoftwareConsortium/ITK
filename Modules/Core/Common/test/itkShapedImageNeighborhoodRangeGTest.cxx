@@ -727,19 +727,7 @@ TEST(ShapedImageNeighborhoodRange, IteratorsCanBePassedToStdNthElement)
 
 TEST(ShapedImageNeighborhoodRange, IteratorIsDefaultConstructible)
 {
-  using RangeType = itk::ShapedImageNeighborhoodRange<itk::Image<int>>;
-
-  RangeType::iterator defaultConstructedIterator;
-
-  // Test that a default-constructed iterator behaves according to C++ proposal
-  // N3644, "Null Forward Iterators" by Alan Talbot, which is accepted with
-  // C++14: "value-initialized iterators may be compared and shall compare
-  // equal to other value-initialized iterators of the same type."
-  // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3644.pdf
-
-  EXPECT_TRUE(defaultConstructedIterator == defaultConstructedIterator);
-  EXPECT_FALSE(defaultConstructedIterator != defaultConstructedIterator);
-  EXPECT_EQ(defaultConstructedIterator, RangeType::iterator{});
+  RangeGTestUtilities::ExpectIteratorIsDefaultConstructible<itk::ShapedImageNeighborhoodRange<itk::Image<int>>>();
 }
 
 
