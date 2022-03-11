@@ -238,7 +238,7 @@ KernelTransform<TParametersValueType, VDimension>::ComputeP()
   const PointIdentifier                  numberOfLandmarks = this->m_SourceLandmarks->GetNumberOfPoints();
   const vnl_matrix<TParametersValueType> I{ IMatrixType().set_identity().as_matrix() };
 
-  InputPointType p{ NumericTraits<ScalarType>::ZeroValue() };
+  InputPointType p{};
 
   this->m_PMatrix.set_size(VDimension * numberOfLandmarks, VDimension * (VDimension + 1));
   this->m_PMatrix.fill(0.0);

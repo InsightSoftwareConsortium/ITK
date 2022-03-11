@@ -40,7 +40,7 @@ ResampleImageFilter<TInputImage, TOutputImage, TInterpolatorPrecisionType, TTran
   ResampleImageFilter()
   : m_Extrapolator(nullptr)
   , m_OutputSpacing(MakeFilled<SpacingType>(1.0))
-  , m_OutputOrigin(0.0)
+  , m_OutputOrigin()
 
 {
 

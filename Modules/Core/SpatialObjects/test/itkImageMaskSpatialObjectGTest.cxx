@@ -233,9 +233,9 @@ TEST(ImageMaskSpatialObject, IsInsideSingleZeroPixel)
   spatialObject->SetImage(image);
   spatialObject->Update();
 
-  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue }));
-  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue - 0.4999 }));
-  EXPECT_FALSE(spatialObject->IsInside(PointType{ indexValue + 0.4999 }));
+  EXPECT_FALSE(spatialObject->IsInside(itk::MakeFilled<PointType>(indexValue)));
+  EXPECT_FALSE(spatialObject->IsInside(itk::MakeFilled<PointType>(indexValue - 0.4999)));
+  EXPECT_FALSE(spatialObject->IsInside(itk::MakeFilled<PointType>(indexValue + 0.4999)));
 }
 
 
@@ -259,9 +259,9 @@ TEST(ImageMaskSpatialObject, IsInsideSingleNonZeroPixel)
   spatialObject->SetImage(image);
   spatialObject->Update();
 
-  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue }));
-  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue - 0.4999 }));
-  EXPECT_TRUE(spatialObject->IsInside(PointType{ indexValue + 0.4999 }));
+  EXPECT_TRUE(spatialObject->IsInside(itk::MakeFilled<PointType>(indexValue)));
+  EXPECT_TRUE(spatialObject->IsInside(itk::MakeFilled<PointType>(indexValue - 0.4999)));
+  EXPECT_TRUE(spatialObject->IsInside(itk::MakeFilled<PointType>(indexValue + 0.4999)));
 }
 
 
@@ -288,7 +288,7 @@ TEST(ImageMaskSpatialObject, IsInsideIndependentOfDistantPixels)
   spatialObject->Update();
 
   // Point of interest: a point close to the non-zero pixel.
-  const PointType pointOfInterest{ indexValue - 0.25 };
+  const auto pointOfInterest = itk::MakeFilled<PointType>(indexValue - 0.25);
 
   const bool isInsideBefore = spatialObject->IsInside(pointOfInterest);
 

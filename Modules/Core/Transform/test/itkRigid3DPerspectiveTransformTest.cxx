@@ -50,7 +50,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     covVector.Fill(1.0);
     ITK_TRY_EXPECT_EXCEPTION(transform->TransformCovariantVector(covVector));
 
-    typename TransformType::InputPointType       point{ 1.0 };
+    auto                                         point = itk::MakeFilled<typename TransformType::InputPointType>(1.0);
     typename TransformType::JacobianPositionType jacobianPosition;
     ITK_TRY_EXPECT_EXCEPTION(transform->ComputeJacobianWithRespectToPosition(point, jacobianPosition));
   }

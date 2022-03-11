@@ -144,7 +144,7 @@ PerformCompositeImageRegistration(int itkNotUsed(argc), char * argv[])
 
   // Change origins far from (0,0)
 
-  typename FixedImageType::PointType farOrigin(1000.0);
+  auto farOrigin = itk::MakeFilled<typename FixedImageType::PointType>(1000.0);
   fixedImage->SetOrigin(farOrigin);
   movingImage->SetOrigin(farOrigin);
 

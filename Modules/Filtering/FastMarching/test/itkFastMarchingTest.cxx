@@ -171,7 +171,7 @@ itkFastMarchingTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(outputDirection, marcher->GetOutputDirection());
 
   auto outputOriginValue = static_cast<typename FloatFMType::OutputPointType::ValueType>(std::stod(argv[7]));
-  typename FloatFMType::OutputPointType outputOrigin(outputOriginValue);
+  auto outputOrigin = itk::MakeFilled<typename FloatFMType::OutputPointType>(outputOriginValue);
   marcher->SetOutputOrigin(outputOrigin);
   ITK_TEST_SET_GET_VALUE(outputOrigin, marcher->GetOutputOrigin());
 
