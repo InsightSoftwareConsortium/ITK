@@ -1,4 +1,4 @@
-find_package(Doxygen REQUIRED)
+find_package(Doxygen REQUIRED OPTIONAL_COMPONENTS dot)
 
 ###############################################################################
 # store the current dir, so it can be reused later
@@ -41,36 +41,32 @@ endmacro()
 
 ###############################################################################
 macro(itk_end_wrap_module_DOC)
-    # create the target doc dir
-    set(library_doc_build_dir "${CMAKE_CURRENT_BINARY_DIR}/Doc") # Library documentation interface files building directory
-                                                                 # TODO: direct name of the library dir?
-    file(MAKE_DIRECTORY ${library_doc_build_dir})
-
-    # configure doxygen input file.
     # be sure to not include a header several times
     if(NOT "${ITK_WRAP_DOC_DOXYGEN_HEADERS}" STREQUAL "")
-      UNIQUE(headers "${ITK_WRAP_DOC_DOXYGEN_HEADERS}")
+      list(REMOVE_DUPLICATES ITK_WRAP_DOC_DOXYGEN_HEADERS)
     endif()
-    set(library_doxygen_config_file ${library_doc_build_dir}/doxygen.config)
-    set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED)
-    foreach(header ${headers})
-      set(ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED "${ITK_WRAP_DOC_DOXYGEN_HEADERS_FORMATED}           \"${header}\"\\\n")
-    endforeach()
-    set(ITK_WRAP_DOC_LIBRARY_DIR "${library_doc_build_dir}")
-    configure_file("${ITK_WRAP_DOC_SOURCE_DIR}/doxygen.config.in"
-      "${library_doxygen_config_file}"
-      @ONLY)
 
     # which files are produced?
     set(outputs ${ITK_WRAP_DOC_DOXYGEN_XML_FILES})
 
     # run doxygen
-    add_custom_target(${WRAPPER_LIBRARY_NAME}Doxygen ALL
-      COMMAND "${DOXYGEN_EXECUTABLE}" "${library_doxygen_config_file}"
-      #BYPRODUCTS ${outputs} "${library_doc_build_dir}/xml/combine.xslt"
-      DEPENDS ${ITK_WRAP_DOC_DOXYGEN_HEADERS} "${library_doxygen_config_file}"
-      COMMENT "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure."
-    )
+
+    # create the target doc dir
+    set(ITK_WRAP_DOC_LIBRARY_DIR "${CMAKE_CURRENT_BINARY_DIR}/Doc") # Library documentation interface files building directory
+    # TODO: direct name of the library dir?
+    file(MAKE_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR})
+
+    # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in fil
+    # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
+    include(${WRAP_ITK_CMAKE_DIR}/DoxygenConfig.cmake)
+    doxygen_add_docs(${WRAPPER_LIBRARY_NAME}Doxygen
+            ${ITK_WRAP_DOC_DOXYGEN_HEADERS}
+            ALL
+            WORKING_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR}
+            USE_STAMP_FILE
+            COMMENT "-- Wrapping library ${WRAPPER_LIBRARY_NAME}: Constructing documentation xml structure.")
+    add_dependencies(${lib} ${WRAPPER_LIBRARY_NAME}Doxygen)
+    unset(ITK_WRAP_DOC_LIBRARY_DIR)
 endmacro()
 
 
