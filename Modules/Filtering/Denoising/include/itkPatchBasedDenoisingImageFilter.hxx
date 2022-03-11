@@ -44,8 +44,8 @@ PatchBasedDenoisingImageFilter<TInputImage, TOutputImage>::PatchBasedDenoisingIm
   , // to avoid divide by zero
   m_SigmaUpdateDecimationFactor(
     static_cast<unsigned int>(Math::Round<double>(1.0 / m_KernelBandwidthFractionPixelsForEstimation)))
-  , m_NoiseSigma(0.0)
-  , m_NoiseSigmaSquared(0.0)
+  , m_NoiseSigma()
+  , m_NoiseSigmaSquared()
   , m_SearchSpaceList(ListAdaptorType::New())
 {
   // By default, turn off automatic kernel bandwidth sigma estimation

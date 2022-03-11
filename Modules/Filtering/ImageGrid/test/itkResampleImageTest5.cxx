@@ -78,7 +78,7 @@ itkResampleImageTest5(int argc, char * argv[])
   for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
   {
     index = iter.GetIndex();
-    const RGBPixelType rgbPixel(index[0] + index[1]);
+    const auto rgbPixel = itk::MakeFilled<RGBPixelType>(index[0] + index[1]);
     iter.Set(rgbPixel);
   }
 

@@ -172,7 +172,7 @@ itkScalarConnectedComponentImageFilterTest(int argc, char * argv[])
   {
     if (it.Get() == 0)
     {
-      cit.Set(RGBPixelType(static_cast<unsigned char>(0)));
+      cit.Set(RGBPixelType());
     }
     else
     {
