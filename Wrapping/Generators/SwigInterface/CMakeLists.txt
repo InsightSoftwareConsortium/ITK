@@ -272,40 +272,7 @@ set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igen
 
 
 macro(itk_end_wrap_submodule_swig_interface module)
-  # Global variables used:
-  # WRAPPER_LIBRARY_OUTPUT_DIR
-  # SWIG_INTERFACE_INCLUDES
-  # Global variables set:
-  # SWIG_INTERFACE_MDX_CONTENT:
-  #	SWIG_INTERFACE_MDX_CONTENT
-  # SWIG_INTERFACE_MODULES
 
-  set(SWIG_INTERFACE_INCLUDES_CONTENT )
-  if(SWIG_INTERFACE_INCLUDES)
-    list(REMOVE_DUPLICATES SWIG_INTERFACE_INCLUDES)
-    foreach(include_file ${SWIG_INTERFACE_INCLUDES})
-      if("${include_file}" MATCHES "<.*>")
-        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include ${include_file}\n")
-      else()
-        set(SWIG_INTERFACE_INCLUDES_CONTENT "${SWIG_INTERFACE_INCLUDES_CONTENT}#include \"${include_file}\"\n")
-      endif()
-    endforeach()
-  endif()
-
-  # create the file which stores all of the includes
-  set(includes_file "${WRAPPER_LIBRARY_OUTPUT_DIR}/${module}SwigInterface.h.in")
-  configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.includes.in"
-     ${includes_file}
-     @ONLY)
-  unset(includes_file)
-  unset(SWIG_INTERFACE_INCLUDES_CONTENT)
-
-  # store the path of the idx file to store it in the mdx file
-  set(SWIG_INTERFACE_MDX_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}${module}.idx\n")
-
-  set(SWIG_INTERFACE_MODULE_CONTENT "${SWIG_INTERFACE_MODULE_CONTENT}%import ${module}.i\n")
-
-  list(APPEND SWIG_INTERFACE_MODULES ${module})
 endmacro()
 
 
