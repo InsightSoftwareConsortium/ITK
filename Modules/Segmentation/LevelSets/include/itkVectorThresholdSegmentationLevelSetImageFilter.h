@@ -18,6 +18,7 @@
 #ifndef itkVectorThresholdSegmentationLevelSetImageFilter_h
 #define itkVectorThresholdSegmentationLevelSetImageFilter_h
 
+#include "itkNumericTraitsVectorPixel.h"
 #include "itkSegmentationLevelSetImageFilter.h"
 #include "itkVectorThresholdSegmentationLevelSetFunction.h"
 
