@@ -112,16 +112,6 @@ configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
                ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
 
 
-set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/temp )
-
-set( ITK_DOXYGEN_INPUT "\"INPUT_SINGLE_FILE\"" )
-
-set( ITK_DOXYGEN_DIAGRAMS NO )
-
-
-configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
-               ${ITK_BINARY_DIR}/single-doxygen.config)
-
 # -------------------------------------------------------------
 if (ITK_BUILD_DOCUMENTATION)
 
