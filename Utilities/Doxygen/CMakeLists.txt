@@ -54,8 +54,6 @@ endif()
 #
 set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen )
 
-set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS} )
-
 set( ITK_DOXYGEN_DIAGRAMS YES )
 
 option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON )
@@ -108,12 +106,9 @@ else()
   set( ITK_DOXYGEN_INPUT_FILTER )
 endif()
 
-configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/doxygen.config.in
-               ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config)
-
-
 # -------------------------------------------------------------
 if (ITK_BUILD_DOCUMENTATION)
+
 
   # When updating Doxygen versions, also re-run workbox-sw to regenerate the
   # service worker pre-cache. Do this by running:
@@ -152,13 +147,34 @@ if (ITK_BUILD_DOCUMENTATION)
     DEPENDS "${ITK_SOURCE_DIR}/Examples" "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
     )
 
-  add_custom_target(Documentation ALL
-    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
-    MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
-    DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
-    DEPENDS         ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
-    WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+  set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS}
+    ${ITK_SOURCE_DIR}/Documentation/Doxygen
+    ${ITK_BINARY_DIR}/Documentation/Doxygen
+    ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
+    ${ITK_BINARY_DIR}/Utilities/Doxygen/Modules
+    ${ITK_DOXYGEN_INPUT}
     )
+  list(REMOVE_DUPLICATES ITK_DOXYGEN_INPUT)
+
+  # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in file
+  # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
+  include(${CMAKE_CURRENT_LIST_DIR}/DoxygenConfig.cmake)
+  doxygen_add_docs(Documentation
+          ${ITK_DOXYGEN_INPUT}
+          # -- Only build if 'Documentation' target is requested ALL
+          WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+          # -- Some of the ITK_DOXYGEN_INPUT are directories, USE_STAMP_FILE requires only files be listed
+          COMMENT "-- Wrapping ITK: Constructing documentation xml structure."
+      )
+  unset(ITK_DOXYGEN_INPUT)
+
+        #  add_custom_target(Documentation ALL
+        #    COMMAND ${DOXYGEN_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
+        #    MAIN_DEPENDENCY ${ITK_BINARY_DIR}/Utilities/Doxygen/doxygen.config
+        #    DEPENDS         ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl
+        #    DEPENDS         ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
+        #    WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
+        #    )
 
   # Somehow the logo image is not copied into the html folder.
   # Here we ensure that the logo image ends up in the right directory

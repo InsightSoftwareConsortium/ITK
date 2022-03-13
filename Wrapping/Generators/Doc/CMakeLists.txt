@@ -56,7 +56,7 @@ macro(itk_end_wrap_module_DOC)
     # TODO: direct name of the library dir?
     file(MAKE_DIRECTORY ${ITK_WRAP_DOC_LIBRARY_DIR})
 
-    # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in fil
+    # The DoxygenConfig.cmake is a replacement for configuring a doxygen.config.in file
     # https://cmake.org/cmake/help/v3.16/module/FindDoxygen.html
     include(${WRAP_ITK_CMAKE_DIR}/DoxygenConfig.cmake)
     doxygen_add_docs(${WRAPPER_LIBRARY_NAME}Doxygen
