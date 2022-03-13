@@ -1,5 +1,0 @@
-itk_wrap_class("itk::LevelSetFunction" POINTER_WITH_EXPLICIT_SPECIALIZATION)
-  # itk_wrap_image_filter("${WRAP_ITK_USIGN_INT}" 1)
-  # itk_wrap_image_filter("${WRAP_ITK_SIGN_INT}" 1)
-  itk_wrap_image_filter("${WRAP_ITK_REAL}" 1)
-itk_end_wrap_class()

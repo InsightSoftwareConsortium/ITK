@@ -1,1 +1,0 @@
-extern doublereal scnrm2_(integer *n, complex *x, integer *incx);

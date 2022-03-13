@@ -1,3 +1,0 @@
-itk_wrap_class("itk::VariableSizeMatrix")
-  itk_wrap_template("D" "double")
-itk_end_wrap_class()

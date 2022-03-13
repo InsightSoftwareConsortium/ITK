@@ -1,5 +1,0 @@
-test/.*\.cxx Namespace Disable
-itkWatershedBoundary\.h Typedefs Disable
-itkWatershedSegmentTable\.h Typedefs Disable
-itkWatershedSegmenter\.h Typedefs Disable
-itkWatershedSegmenter\.hxx Typedefs Disable

@@ -1,3 +1,0 @@
-project(ITKDiffusionTensorImage)
-set(ITKDiffusionTensorImage_LIBRARIES ITKDiffusionTensorImage)
-itk_module_impl()
