@@ -474,9 +474,11 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
 
     # set some var reused later
     set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
-    set(lib ${WRAPPER_LIBRARY_NAME}Python)
-    set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${lib}.py")
-    set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${lib}.cpp")
+    set(_swig_python_suffix "Python")
+    set(lib ${WRAPPER_LIBRARY_NAME}${_swig_python_suffix})
+    set(python_file "${ITK_PYTHON_PACKAGE_DIR}/${WRAPPER_LIBRARY_NAME}${_swig_python_suffix}.py")
+    set(cpp_file "${CMAKE_CURRENT_BINARY_DIR}/${WRAPPER_LIBRARY_NAME}${_swig_python_suffix}.cpp")
+    unset(_swig_python_suffix)
 
     # if this is for an external library, let the user add extra swig args
     if(EXTERNAL_WRAP_ITK_PROJECT)
@@ -564,6 +566,7 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
   if(BUILD_TESTING AND EXISTS ${wrapping_test_directory}/CMakeLists.txt)
     add_subdirectory(${wrapping_test_directory})
   endif()
+  unset(lib)
 endmacro()
 
 
