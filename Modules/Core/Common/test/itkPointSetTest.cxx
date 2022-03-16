@@ -18,7 +18,7 @@
 
 #include "itkPointSet.h"
 #include "vnl/vnl_sample.h"
-
+#include "itkTestingMacros.h"
 #include <iostream>
 
 /**
@@ -27,6 +27,8 @@
  */
 using PointSet = itk::PointSet<int>;
 using PointType = PointSet::PointType;
+using PointsVectorContainer = PointSet::PointsVectorContainer;
+using PointsVectorContainerPointer = typename PointsVectorContainer::Pointer;
 
 /**
  * The point set that is created consists of a 100 random points.
@@ -35,6 +37,9 @@ using PointType = PointSet::PointType;
 int
 itkPointSetTest(int, char *[])
 {
+  int pointDimension = 3;
+  int numOfPoints = 100;
+
   /**
    * Define the 3d geometric positions for 8 points in a cube.
    */
@@ -51,10 +56,9 @@ itkPointSetTest(int, char *[])
    * Note that the constructor for Point is public, and takes an array
    * of coordinates for the point.
    */
-
   try
   {
-    for (int i = 0; i < 100; ++i)
+    for (int i = 0; i < numOfPoints; ++i)
     {
       testPointCoords[0] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
       testPointCoords[1] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
@@ -67,5 +71,55 @@ itkPointSetTest(int, char *[])
     std::cerr << "Error setting points." << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Clear the point set
+  pset->Initialize();
+
+  // Get the points after clearing points.
+  auto pointsArrayAfter = pset->GetPoints();
+  if (pointsArrayAfter->Size() != 0)
+  {
+    std::cerr << "Mismatch in count after clearing pointset." << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Insert the points using SetPointArray.
+  PointsVectorContainerPointer pointsArray = PointsVectorContainer::New();
+
+  // Test for in-compatible input array dimension
+  pointsArray->InsertElement(0, 1.0);
+  ITK_TRY_EXPECT_EXCEPTION(pset->SetPoints(pointsArray));
+
+  pointsArray->Reserve(numOfPoints * pointDimension);
+
+  int index = 0;
+  for (int i = 0; i < numOfPoints; ++i)
+  {
+    pointsArray->SetElement(index++, 1.0);
+    pointsArray->SetElement(index++, 2.0);
+    pointsArray->SetElement(index++, 3.0);
+  }
+
+  pset->SetPoints(pointsArray);
+
+  // Check the count of points after insertion using SetPoints.
+  pointsArrayAfter = pset->GetPoints();
+  if (static_cast<int>(pointsArrayAfter->Size()) != numOfPoints)
+  {
+    std::cerr << "Mismatch in count after inserting points." << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // Insert a single point that increases the total count of points.
+  pset->SetPoint(numOfPoints + 4, PointType(testPointCoords));
+
+  // Check the count of points after inserting individual point.
+  pointsArrayAfter = pset->GetPoints();
+  if (static_cast<int>(pointsArrayAfter->Size()) != (numOfPoints + 5))
+  {
+    std::cerr << "Mismatch in count after inserting individual point" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   return EXIT_SUCCESS;
 }

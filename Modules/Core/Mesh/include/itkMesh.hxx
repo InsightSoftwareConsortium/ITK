@@ -104,6 +104,160 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCells(CellsContainer * cells)
 }
 
 /**
+ * Convenience method to set the cells container using vector.
+ * First element of the vector is the cell type and next elements are the point ids for that cell
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+auto
+Mesh<TPixelType, VDimension, TMeshTraits>::GetCellsArray() -> CellsVectorContainer *
+{
+  itkDebugMacro("Getting Cells as Vector Container ");
+
+  if (cellOutputVectorContainer == nullptr)
+  {
+    cellOutputVectorContainer = CellsVectorContainer::New();
+  }
+  else
+  {
+    cellOutputVectorContainer->Initialize();
+  }
+
+  IdentifierType index = 0;
+  for (auto cellItr = m_CellsContainer->Begin(); cellItr != m_CellsContainer->End(); ++cellItr)
+  {
+    auto         cellPointer = cellItr->Value();
+    unsigned int numOfPoints = cellPointer->GetNumberOfPoints();
+
+    // Insert the cell type
+    cellOutputVectorContainer->InsertElement(index++, static_cast<IdentifierType>(cellPointer->GetType()));
+    // Insert the number of points in the cell
+    cellOutputVectorContainer->InsertElement(index++, numOfPoints);
+
+    auto pointIds = cellPointer->GetPointIds();
+
+    // Insert the points in the cell
+    for (unsigned int i = 0; i < numOfPoints; ++i)
+    {
+      cellOutputVectorContainer->InsertElement(index++, pointIds[i]);
+    }
+  }
+
+  return cellOutputVectorContainer;
+}
+
+// Helper function to create a new cell of a given type
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPointer & cellPointer)
+{
+  auto cellTypeEnum = static_cast<CellGeometryEnum>(cellType);
+
+  switch (cellTypeEnum)
+  {
+    case CellGeometryEnum::VERTEX_CELL:
+      cellPointer.TakeOwnership(new OutputVertexCellType);
+      break;
+    case CellGeometryEnum::LINE_CELL:
+      cellPointer.TakeOwnership(new OutputLineCellType);
+      break;
+    case CellGeometryEnum::TRIANGLE_CELL:
+      cellPointer.TakeOwnership(new OutputTriangleCellType);
+      break;
+    case CellGeometryEnum::QUADRILATERAL_CELL:
+      cellPointer.TakeOwnership(new OutputQuadrilateralCellType);
+      break;
+    case CellGeometryEnum::POLYGON_CELL:
+      cellPointer.TakeOwnership(new OutputPolygonCellType);
+      break;
+    case CellGeometryEnum::TETRAHEDRON_CELL:
+      cellPointer.TakeOwnership(new OutputTetrahedronCellType);
+      break;
+    case CellGeometryEnum::HEXAHEDRON_CELL:
+      cellPointer.TakeOwnership(new OutputHexahedronCellType);
+      break;
+    case CellGeometryEnum::QUADRATIC_EDGE_CELL:
+      cellPointer.TakeOwnership(new OutputQuadraticEdgeCellType);
+      break;
+    case CellGeometryEnum::QUADRATIC_TRIANGLE_CELL:
+      cellPointer.TakeOwnership(new OutputQuadraticTriangleCellType);
+      break;
+    default:
+      itkExceptionMacro(<< "Unknown mesh cell");
+  }
+
+  return;
+}
+
+/**
+ * Convenience method to set the cells container using 1d vector.
+ * First element of the vector is the cell type and next is number of
+ * points in the cell followed by the point ids in that cell.
+ * Can cause exception if input cell array isn't of right dimension.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * cells)
+{
+  itkDebugMacro("setting Cells container to " << cells);
+
+  this->ReleaseCellsMemory();
+  IdentifierType index = 0;
+  IdentifierType cellId = 0;
+
+  while (index < cells->Size())
+  {
+    int currentCellType = static_cast<int>(cells->GetElement(index++));
+    int numOfPoints = static_cast<int>(cells->GetElement(index++));
+
+    CellAutoPointer cellPointer;
+
+    CreateCell(currentCellType, cellPointer);
+
+    // Insert the number of points as given in the input 1D array
+    for (int i = 0; i < numOfPoints; ++i)
+    {
+      cellPointer->SetPointId(i, cells->GetElement(index++));
+    }
+    this->m_CellsContainer->InsertElement(cellId++, cellPointer.ReleaseOwnership());
+  }
+
+  this->Modified();
+}
+
+/**
+ * Convenience method to set the cells container using 1d vector.
+ * To be used when all the cells are of same type.
+ * Takes as argument the cell point ids and the cell type.
+ */
+template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
+void
+Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * cells, int cellType)
+{
+  itkDebugMacro("setting Cells container to " << cells);
+
+  this->ReleaseCellsMemory();
+  IdentifierType index = 0;
+  IdentifierType cellId = 0;
+
+  while (index < cells->Size())
+  {
+    CellAutoPointer cellPointer;
+
+    CreateCell(cellType, cellPointer);
+
+    // Insert the number of points as per the cell type
+    for (unsigned int i = 0; i < cellPointer->GetNumberOfPoints(); ++i)
+    {
+      cellPointer->SetPointId(i, cells->GetElement(index++));
+    }
+    this->m_CellsContainer->InsertElement(cellId++, cellPointer.ReleaseOwnership());
+  }
+
+  this->Modified();
+}
+
+
+/**
  * Access routines to get the cells container.
  */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
