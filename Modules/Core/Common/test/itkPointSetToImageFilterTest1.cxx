@@ -73,7 +73,7 @@ itkPointSetToImageFilterTest1(int argc, char * argv[])
   filter->SetSpacing(spacing);
   ITK_TEST_SET_GET_VALUE(spacing, filter->GetSpacing());
 
-  BinaryImageType::PointType origin{ { -125, -125 } };
+  BinaryImageType::PointType origin{ { { -125, -125 } } };
   filter->SetOrigin(origin);
   ITK_TEST_SET_GET_VALUE(origin, filter->GetOrigin());
 
