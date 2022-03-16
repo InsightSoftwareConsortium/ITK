@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkMatrix.h"
 #include <gtest/gtest.h>
+#include <numeric>     // For iota.
 #include <type_traits> // For is_convertible and is_trivially_copyable.
 
 
@@ -71,6 +72,33 @@ vnl_matrix_fixed_is_convertible_to_itk_Matrix()
     TMatrix>();
 }
 
+
+template <typename TMatrix>
+void
+Expect_Matrix_is_constructible_from_raw_array_of_arrays()
+{
+  using ValueType = typename TMatrix::ValueType;
+
+  constexpr auto    numberOfRows = TMatrix::RowDimensions;
+  constexpr auto    numberOfColumns = TMatrix::ColumnDimensions;
+  constexpr auto    numberOfElements = numberOfRows * numberOfColumns;
+  ValueType         rawArray[numberOfRows][numberOfColumns];
+  ValueType * const beginOfRawArray = rawArray[0];
+
+  // Just ensure that each element of the raw array has a different value.
+  std::iota(beginOfRawArray, beginOfRawArray + numberOfElements, ValueType{ 1 });
+
+  // Construct an itk::Matrix from a raw C-style array-of-arrays.
+  const TMatrix matrix(rawArray);
+
+  for (unsigned int row = 0; row < numberOfRows; ++row)
+  {
+    for (unsigned int column = 0; column < numberOfColumns; ++column)
+    {
+      EXPECT_EQ(matrix(row, column), rawArray[row][column]);
+    }
+  }
+}
 } // namespace
 
 
@@ -107,4 +135,11 @@ TEST(Matrix, GetIdentity)
   Expect_GetIdentity_returns_identity_matrix<itk::Matrix<float>>();
   Expect_GetIdentity_returns_identity_matrix<itk::Matrix<double>>();
   Expect_GetIdentity_returns_identity_matrix<itk::Matrix<double, 2, 2>>();
+}
+
+
+TEST(Matrix, IsConstructibleFromRawArrayOfArrays)
+{
+  Expect_Matrix_is_constructible_from_raw_array_of_arrays<itk::Matrix<float>>();
+  Expect_Matrix_is_constructible_from_raw_array_of_arrays<itk::Matrix<double, 2, 3>>();
 }

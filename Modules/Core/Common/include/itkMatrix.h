@@ -28,6 +28,7 @@
 #include "vnl/vnl_matrix.h"
 #include "vnl/algo/vnl_determinant.h"
 #include "itkMath.h"
+#include <type_traits> // For is_same.
 
 namespace itk
 {
@@ -223,6 +224,18 @@ public:
   inline explicit Matrix(const vnl_matrix<T> & matrix)
     : m_Matrix(matrix)
   {}
+
+  /** Explicit constructor template. Copies the elements from the specified C-style array of rows.
+   * \note It might have been clearer to just declare a `Matrix(const T (&)[VRows][VColumns])` constructor, but SWIG did
+   * not like that, saying: "Wrapping/Typedefs/itkMatrix.i:76: Error: Syntax error in input(3)."
+   */
+  template <typename TElement>
+  explicit Matrix(const TElement (&elements)[VRows][VColumns])
+    : m_Matrix(&elements[0][0])
+  {
+    static_assert(std::is_same<TElement, T>::value,
+                  "The type of an element should correspond with this itk::Matrix instantiation.");
+  }
 
   /** Comparison operators. */
   inline bool
