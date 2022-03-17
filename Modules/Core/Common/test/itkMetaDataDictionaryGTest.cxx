@@ -286,7 +286,8 @@ TEST(MetaDataDictionary, Equal)
 
   const auto createMetaDataDictionary = [](const int value) {
     itk::MetaDataDictionary metaDataDictionary;
-    itk::EncapsulateMetaData(metaDataDictionary, "key", value);
+    itk::EncapsulateMetaData(metaDataDictionary, "key1", value);
+    itk::EncapsulateMetaData(metaDataDictionary, "key2", std::to_string(value));
     return metaDataDictionary;
   };
 
@@ -301,4 +302,34 @@ TEST(MetaDataDictionary, Equal)
   expectUnequal(metaDataDictionary1, metaDataDictionary2);
   expectUnequal(metaDataDictionary1, defaultMetaDataDictionary);
   expectUnequal(metaDataDictionary2, defaultMetaDataDictionary);
+}
+
+
+TEST(MetaDataDictionary, SupportsNonEqualityComparableData)
+{
+  // An example of a data type that is not "equality-comparable".
+  struct DataStruct
+  {
+    int data;
+  };
+
+  itk::MetaDataDictionary dictionary;
+
+  for (const int i : { 0, 1 })
+  {
+    const auto       key = "key_" + std::to_string(i);
+    const DataStruct inputDataObjectValue = { i };
+    itk::EncapsulateMetaData(dictionary, key, inputDataObjectValue);
+
+    // Now retrieve the encapsulated data, and check if it has the expected value:
+
+    const itk::MetaDataObjectBase * const base = dictionary.Get(key);
+    ASSERT_NE(base, nullptr);
+
+    const auto * const dataObject = dynamic_cast<const itk::MetaDataObject<DataStruct> *>(base);
+    ASSERT_NE(dataObject, nullptr);
+
+    const DataStruct & dataObjectValue = dataObject->GetMetaDataObjectValue();
+    EXPECT_EQ(dataObjectValue.data, inputDataObjectValue.data);
+  }
 }

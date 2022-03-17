@@ -134,7 +134,7 @@ public:
   friend bool
   operator==(const Self & lhs, const Self & rhs)
   {
-    return lhs.m_MetaDataObjectValue == rhs.m_MetaDataObjectValue;
+    return EqualMetaDataObjects(&lhs.m_MetaDataObjectValue, &rhs.m_MetaDataObjectValue);
   }
 
   /** Returns (metaDataObject1 != metaDataObject2). */
@@ -149,6 +149,24 @@ protected:
   ~MetaDataObject() override = default;
 
 private:
+  /** Tells whether the specified pointers point to objects that compare equal.
+   * \note The template parameter and the trailing return type are there, just to enable SFINAE.*/
+  template <typename TMetaDataObject>
+  static auto
+  EqualMetaDataObjects(const TMetaDataObject * const lhs, const TMetaDataObject * const rhs) -> decltype(*lhs == *rhs)
+  {
+    static_assert(std::is_same<TMetaDataObject, MetaDataObjectType>::value, "Check the template argument.");
+    return *lhs == *rhs;
+  }
+
+  /** Overload for MetaDataObject types that do not have an `operator==`.*/
+  static bool
+  EqualMetaDataObjects(const void * const lhs, const void * const rhs)
+  {
+    return std::memcmp(lhs, rhs, sizeof(MetaDataObjectType)) == 0;
+  }
+
+
   /** Internal helper function used to implement operator== for MetaDataObjectBase. */
   bool
   Equal(const MetaDataObjectBase & metaDataObjectBase) const override
