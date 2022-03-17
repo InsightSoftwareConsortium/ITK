@@ -21,14 +21,8 @@
 import itk
 import sys
 from itk.support.template_class import itkTemplate
-from itk.support.base import load_factories
 
 itk.auto_progress(2)
-
-load_factories('ImageIO')
-load_factories('MeshIO')
-load_factories('TransformIO')
-load_factories('FFTImageFilterInit')
 
 # must force the load to return all the names with dir(itk)
 itk.force_load()
