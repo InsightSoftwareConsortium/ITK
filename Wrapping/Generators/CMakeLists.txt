@@ -29,7 +29,7 @@ endmacro()
 
 ###############################################################################
 # ccache management. This option is shared by most of generators, so put it here.
-option(ITK_USE_CCACHE "Use ccache to cache swig/castxml/... output and speedup the rebuild." OFF)
+cmake_dependent_option(ITK_USE_CCACHE "Use ccache to cache swig/castxml/... output and speedup the rebuild." OFF ITK_WRAP_PYTHON OFF)
 mark_as_advanced(ITK_USE_CCACHE)
 if(ITK_USE_CCACHE)
   find_program(CCACHE_EXECUTABLE NAMES ccache-swig ccache DOC "ccache executable.")
@@ -48,7 +48,7 @@ else()
   else()
     set(${module_prefix}_WRAP_CASTXML ON CACHE BOOL "Build xml files.")
   endif()
-  option(${module_prefix}_WRAP_SWIGINTERFACE "Build swig interfaces." ON)
+  cmake_dependent_option(${module_prefix}_WRAP_SWIGINTERFACE "Build swig interfaces." ON ITK_WRAP_PYTHON OFF)
   mark_as_advanced(${module_prefix}_WRAP_CASTXML ${module_prefix}_WRAP_SWIGINTERFACE)
 endif()
 
@@ -63,7 +63,7 @@ foreach(lang ${_candidate_generators})
 
   # add the language to the options
   if(NOT DEFINED ${module_prefix}_WRAP_${lang_upper})
-    option(${module_prefix}_WRAP_${lang_upper} "Build swig ${lang} wrapper support." OFF)
+    cmake_dependent_option(${module_prefix}_WRAP_${lang_upper} "Build swig ${lang} wrapper support." OFF ITK_WRAP_PYTHON OFF)
   endif()
   # add the language to the list, if the user have turn it on, and include
   # the subdirectory
