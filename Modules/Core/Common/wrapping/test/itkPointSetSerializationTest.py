@@ -21,6 +21,8 @@ import itk
 import numpy as np
 import pickle
 import sys
+import os
+
 
 Dimension = 3
 PixelType = itk.D
@@ -34,7 +36,10 @@ point_set.SetObjectName("testpointset")
 
 # Set Points in the PointSet
 PointType = itk.Point[itk.F, 3]
-v_point = itk.VectorContainer[itk.UL, PointType].New()
+if os.name == 'nt':
+    v_point = itk.VectorContainer[itk.ULL, PointType].New()
+else:
+    v_point = itk.VectorContainer[itk.UL, PointType].New()
 v_point.Reserve(NumberOfPoints)
 
 point = PointType()
