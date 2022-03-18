@@ -56,14 +56,14 @@ set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen )
 
 set( ITK_DOXYGEN_DIAGRAMS YES )
 
-option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON )
-option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for Xcode 3" OFF )
-option( ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF )
-option( ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF )
-option( ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF )
-option( ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" OFF )
-option( ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF )
-option( ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF )
+cmake_dependent_option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for Xcode 3" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option( ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
 
 mark_as_advanced( ITK_DOXYGEN_HTML
   ITK_DOXYGEN_DOCSET
