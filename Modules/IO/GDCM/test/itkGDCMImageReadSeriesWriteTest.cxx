@@ -24,7 +24,6 @@
 #include "itkRescaleIntensityImageFilter.h"
 #include "itkTestingMacros.h"
 #include "itkGDCMImageIO.h"
-#include "itkGDCMSeriesFileNames.h"
 
 int
 itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
