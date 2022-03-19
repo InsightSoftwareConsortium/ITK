@@ -18,6 +18,7 @@
 
 #include "itkRegularSphereMeshSource.h"
 #include "itkVTKPolyDataWriter.h"
+#include "itkTestingMacros.h"
 
 #include <iostream>
 
@@ -26,7 +27,8 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cerr << "Usage: itkVTKPolyDataWriter outputFileName" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " outputFileName " << std::endl;
     return EXIT_FAILURE;
   }
 
