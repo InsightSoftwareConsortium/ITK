@@ -35,15 +35,20 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
 
   auto polyDataReader = ReaderType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(polyDataReader, VTKPolyDataReader, MeshSource);
+
+
   using PointType = ReaderType::PointType;
 
-  polyDataReader->SetFileName(argv[1]);
+  std::string filename = argv[1];
+  polyDataReader->SetFileName(filename);
+  ITK_TEST_SET_GET_VALUE(filename, polyDataReader->GetFileName());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
 
 
-  std::cout << "polyDataReader:" << std::endl;
-  std::cout << polyDataReader << std::endl;
+  std::cout << "Version: " << polyDataReader->GetVersion() << std::endl;
+  std::cout << "Header: " << polyDataReader->GetHeader() << std::endl;
 
   MeshType::Pointer mesh = polyDataReader->GetOutput();
 

@@ -164,6 +164,10 @@ itkMeshTest(int, char *[])
    * Create the mesh through its object factory.
    */
   auto mesh = MeshType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(mesh, Mesh, PointSet);
+
+
   mesh->DebugOn();
 
 

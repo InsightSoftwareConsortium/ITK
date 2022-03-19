@@ -61,6 +61,13 @@ Create16CubeConfig(ImagePointerType      image,
 int
 itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
 {
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " useRegion" << std::endl;
+    return EXIT_FAILURE;
+  }
+
   // Declare the type of the Mesh
   using MeshType = itk::Mesh<double>;
   using MeshSourceType = itk::BinaryMask3DMeshSource<ImageType, MeshType>;
@@ -97,27 +104,28 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   }
 
   auto meshSource = MeshSourceType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(meshSource, BinaryMask3DMeshSource, ImageToMeshFilter);
+
+
   meshSource->SetInput(image);
   meshSource->SetObjectValue(internalValue);
 
-  if (argc == 2)
+  auto useRegion = static_cast<bool>(std::stoi(argv[1]));
+  if (useRegion)
   {
-    if (std::stoi(argv[1]) == 1)
-    {
-      size[0] = 9;
-      size[1] = 9;
-      size[2] = 9;
-      region.SetSize(size);
-      meshSource->SetRegionOfInterest(region);
-    }
+    size[0] = 9;
+    size[1] = 9;
+    size[2] = 9;
+    region.SetSize(size);
+    meshSource->SetRegionOfInterest(region);
+    ITK_TEST_SET_GET_VALUE(region, meshSource->GetRegionOfInterest());
   }
 
   ITK_TRY_EXPECT_NO_EXCEPTION(meshSource->Update());
 
-  std::cout << meshSource->GetNameOfClass() << std::endl;
   std::cout << "NumberOfNodes: " << meshSource->GetNumberOfNodes() << std::endl;
   std::cout << "NumberOfCells: " << meshSource->GetNumberOfCells() << std::endl;
-  std::cout << meshSource << std::endl;
 
   return EXIT_SUCCESS;
 }

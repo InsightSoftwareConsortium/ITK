@@ -48,8 +48,10 @@ itk_add_test(NAME itkSimplexMeshTest
       COMMAND ITKMeshTestDriver itkSimplexMeshTest)
 itk_add_test(NAME itkAutomaticTopologyMeshSourceTest
       COMMAND ITKMeshTestDriver itkAutomaticTopologyMeshSourceTest)
-itk_add_test(NAME itkBinaryMask3DMeshSourceTest
-      COMMAND ITKMeshTestDriver itkBinaryMask3DMeshSourceTest)
+itk_add_test(NAME itkBinaryMask3DMeshSourceTestRegionOff
+      COMMAND ITKMeshTestDriver itkBinaryMask3DMeshSourceTest 0)
+itk_add_test(NAME itkBinaryMask3DMeshSourceTestRegionOn
+      COMMAND ITKMeshTestDriver itkBinaryMask3DMeshSourceTest 1)
 itk_add_test(NAME itkImageToParametricSpaceFilterTest
       COMMAND ITKMeshTestDriver itkImageToParametricSpaceFilterTest)
 itk_add_test(NAME itkInteriorExteriorMeshFilterTest
