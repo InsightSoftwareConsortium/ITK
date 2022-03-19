@@ -29,7 +29,6 @@ It also demonstrates
 #include "itkDOMNodeXMLWriter.h"
 
 #include <iostream>
-#include "itkMacro.h"
 #include "itkTestingMacros.h"
 
 int

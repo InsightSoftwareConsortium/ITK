@@ -21,11 +21,8 @@ This program tests operations on a DOM node.
 */
 
 #include "itkDOMNode.h"
-#include "itkDOMNodeXMLReader.h"
-#include "itkDOMNodeXMLWriter.h"
 
 #include <iostream>
-#include "itkMacro.h"
 
 int
 itkDOMTest1(int, char *[])
