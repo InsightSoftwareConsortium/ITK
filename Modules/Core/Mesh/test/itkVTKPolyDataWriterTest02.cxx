@@ -57,15 +57,8 @@ itkVTKPolyDataWriterTest02(int argc, char * argv[])
 
   mySphereMeshSource->Modified();
 
-  try
-  {
-    mySphereMeshSource->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error during Update() " << std::endl;
-    std::cerr << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(mySphereMeshSource->Update());
+
 
   std::cout << "mySphereMeshSource: " << mySphereMeshSource;
 

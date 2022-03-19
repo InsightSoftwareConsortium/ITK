@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkBinaryMask3DMeshSource.h"
+#include "itkTestingMacros.h"
 
 // Define the dimension of the images
 constexpr unsigned int Dimension = 3;
@@ -111,16 +112,7 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
     }
   }
 
-  try
-  {
-    meshSource->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown during Update() " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(meshSource->Update());
 
   std::cout << meshSource->GetNameOfClass() << std::endl;
   std::cout << meshSource->GetNumberOfNodes() << std::endl;
