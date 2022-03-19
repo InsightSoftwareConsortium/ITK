@@ -105,6 +105,8 @@ itk_add_test(NAME itkQuadEdgeMeshEulerOperatorJoinVertexTest4
               4)
 itk_add_test(NAME itkQuadEdgeMeshEulerOperatorSplitEdgeTest
       COMMAND ITKQuadEdgeMeshTestDriver itkQuadEdgeMeshEulerOperatorSplitEdgeTest)
+itk_add_test(NAME itkQuadEdgeMeshEulerOperatorSplitFaceTest
+      COMMAND ITKQuadEdgeMeshTestDriver itkQuadEdgeMeshEulerOperatorSplitFaceTest)
 itk_add_test(NAME itkQuadEdgeMeshEulerOperatorSplitVertexTest
       COMMAND ITKQuadEdgeMeshTestDriver itkQuadEdgeMeshEulerOperatorSplitVertexTest)
 itk_add_test(NAME itkQuadEdgeMeshIteratorTest

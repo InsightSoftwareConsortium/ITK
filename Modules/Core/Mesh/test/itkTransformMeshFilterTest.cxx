@@ -20,6 +20,7 @@
 #include "itkMesh.h"
 #include "itkAffineTransform.h"
 #include "itkStdStreamStateSave.h"
+#include "itkTestingMacros.h"
 
 int
 itkTransformMeshFilterTest(int, char *[])
@@ -99,6 +100,10 @@ itkTransformMeshFilterTest(int, char *[])
 
   // Create a Filter
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, TransformMeshFilter, MeshToMeshFilter);
+
+
   auto filterwithbasetrfs = FilterWithBaseTransformType::New();
 
   // Create a Transform
@@ -111,6 +116,7 @@ itkTransformMeshFilterTest(int, char *[])
   // Connect the inputs
   filter->SetInput(inputMesh);
   filter->SetTransform(affineTransform);
+  ITK_TEST_SET_GET_VALUE(affineTransform, filter->GetTransform());
 
   filterwithbasetrfs->SetInput(inputMesh);
   filterwithbasetrfs->SetTransform(affineTransform);

@@ -93,11 +93,17 @@ itkVTKPolyDataWriterTest01(int argc, char * argv[])
   }
 
   auto writer = WriterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, VTKPolyDataWriter, Object);
+
+
   writer->SetInput(mesh);
-  writer->SetFileName(argv[1]);
+  std::string inputFileName = argv[1];
+  writer->SetFileName(inputFileName);
+  ITK_TEST_SET_GET_VALUE(inputFileName, writer->GetFileName());
+
   writer->Write();
 
-  std::cout << __LINE__ << " PrintSelf\n" << writer;
 
   return EXIT_SUCCESS;
 }

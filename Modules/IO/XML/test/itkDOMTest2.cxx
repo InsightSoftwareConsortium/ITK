@@ -44,14 +44,30 @@ itkDOMTest2(int argc, char * argv[])
   {
     // read a DOM object from an XML file
     itk::DOMNodeXMLReader::Pointer reader = itk::DOMNodeXMLReader::New();
-    reader->SetFileName(argv[1]);
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(reader, DOMNodeXMLReader, Object);
+
+
+    std::string inputFileName = argv[1];
+    reader->SetFileName(inputFileName);
+    ITK_TEST_SET_GET_VALUE(inputFileName, reader->GetFileName());
+
     reader->Update();
     itk::DOMNode::Pointer dom = reader->GetOutput();
 
     // write a DOM object to an XML file
     itk::DOMNodeXMLWriter::Pointer writer = itk::DOMNodeXMLWriter::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(writer, DOMNodeXMLWriter, Object);
+
+
     writer->SetInput(dom);
-    writer->SetFileName(argv[2]);
+    ITK_TEST_SET_GET_VALUE(dom, writer->GetInput());
+
+    std::string outputFileName = argv[2];
+    writer->SetFileName(outputFileName);
+    ITK_TEST_SET_GET_VALUE(outputFileName, writer->GetFileName());
+
     writer->Update();
 
     // write a DOM object to an XML stream

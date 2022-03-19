@@ -91,6 +91,9 @@ itkRayCastInterpolateImageFunctionTest(int itkNotUsed(argc), char * itkNotUsed(a
   ITK_EXERCISE_BASIC_OBJECT_METHODS(interp, RayCastInterpolateImageFunction, InterpolateImageFunction);
 
 
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(interp->GetRadius());
+
   interp->SetInputImage(image);
 
   PointType focus;

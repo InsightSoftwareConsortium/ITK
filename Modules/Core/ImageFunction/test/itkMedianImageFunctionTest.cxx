@@ -18,6 +18,7 @@
 
 
 #include "itkMedianImageFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkMedianImageFunctionTest(int, char *[])
@@ -52,6 +53,9 @@ itkMedianImageFunctionTest(int, char *[])
   image->FillBuffer(initialValue);
 
   auto function = FunctionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, MedianImageFunction, ImageFunction);
+
 
   function->SetInputImage(image);
 
@@ -136,9 +140,12 @@ itkMedianImageFunctionTest(int, char *[])
   }
 
   // now set the radius
-  function->SetNeighborhoodRadius(2);
+  unsigned int neighborhoodRadius = 2;
+  function->SetNeighborhoodRadius(neighborhoodRadius);
+  ITK_TEST_SET_GET_VALUE(neighborhoodRadius, function->GetNeighborhoodRadius());
+
   median = function->EvaluateAtIndex(index);
-  std::cout << "function->EvaluateAtIndex( index ), neighborhood radius 2: "
+  std::cout << "function->EvaluateAtIndex( index ), neighborhood radius " << neighborhoodRadius << ": "
             << static_cast<itk::NumericTraits<FunctionType::OutputType>::PrintType>(median) << std::endl;
   // Since we've changed the image outside the default neighborhood
   // for the MedianImageFunction, it would be an error for the median

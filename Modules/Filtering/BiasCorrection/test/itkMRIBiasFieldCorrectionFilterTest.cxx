@@ -199,7 +199,9 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   int                 interSliceCorrectionMaximumIteration = 100;
   double              optimizerInitialRadius = 0.02;
   double              optimizerGrowthFactor = 1.01;
+  double              optimizerShrinkFactor = std::pow(optimizerGrowthFactor, -0.25);
   bool                usingInterSliceIntensityCorrection = true;
+
 
   filter->SetSlabNumberOfSamples(slabNumberOfSamples);
   filter->SetSlabBackgroundMinimumThreshold(slabBackgroundMinimumThreshold);
@@ -209,6 +211,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   filter->SetInterSliceCorrectionMaximumIteration(interSliceCorrectionMaximumIteration);
   filter->SetOptimizerInitialRadius(optimizerInitialRadius);
   filter->SetOptimizerGrowthFactor(optimizerGrowthFactor);
+  filter->SetOptimizerShrinkFactor(optimizerShrinkFactor);
 
   ITK_TEST_SET_GET_BOOLEAN(filter, BiasFieldMultiplicative, isBiasFieldMultiplicative);
   ITK_TEST_SET_GET_BOOLEAN(filter, UsingSlabIdentification, usingSlabIdentification);
@@ -222,6 +225,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(interSliceCorrectionMaximumIteration, filter->GetInterSliceCorrectionMaximumIteration());
   ITK_TEST_SET_GET_VALUE(optimizerInitialRadius, filter->GetOptimizerInitialRadius());
   ITK_TEST_SET_GET_VALUE(optimizerGrowthFactor, filter->GetOptimizerGrowthFactor());
+  ITK_TEST_SET_GET_VALUE(optimizerShrinkFactor, filter->GetOptimizerShrinkFactor());
   ITK_TEST_SET_GET_BOOLEAN(filter, UsingInterSliceIntensityCorrection, usingInterSliceIntensityCorrection);
 
   filter->SetBiasFieldDegree(biasDegree); // default value = 3

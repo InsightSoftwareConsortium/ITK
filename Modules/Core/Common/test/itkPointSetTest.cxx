@@ -50,6 +50,13 @@ itkPointSetTest(int, char *[])
    */
   PointSet::Pointer pset(PointSet::New());
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(pset, PointSet, DataObject);
+
+
+  // Test point container existence exception
+  auto pId = static_cast<PointSet::PointIdentifier>(numOfPoints + 1);
+  ITK_TRY_EXPECT_EXCEPTION(pset->GetPoint(pId));
+
   /**
    * Add our test points to the mesh.
    * pset->SetPoint(pointId, point)
@@ -71,6 +78,12 @@ itkPointSetTest(int, char *[])
     std::cerr << "Error setting points." << std::endl;
     return EXIT_FAILURE;
   }
+
+  // Test non-existing point id exception
+  ITK_TRY_EXPECT_EXCEPTION(pset->GetPoint(pId));
+
+  PointSet::RegionType region = 0;
+  pset->SetRequestedRegion(region);
 
   // Clear the point set
   pset->Initialize();
