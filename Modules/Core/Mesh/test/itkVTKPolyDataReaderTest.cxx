@@ -49,8 +49,6 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
 
   PointType point;
 
-  std::cout << "Testing itk::VTKPolyDataReader" << std::endl;
-
   unsigned int numberOfPoints = mesh->GetNumberOfPoints();
   unsigned int numberOfCells = mesh->GetNumberOfCells();
 

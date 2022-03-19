@@ -96,7 +96,7 @@ itkMedianImageFunctionTest(int, char *[])
   }
 
   std::cout << "Test PASSED ! " << std::endl;
-  //
+
   std::cout << "Test setting the neighborhood radius" << std::endl;
 
   // first, put something in the neighborhood outside the current

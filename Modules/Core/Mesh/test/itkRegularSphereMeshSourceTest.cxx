@@ -60,8 +60,6 @@ itkRegularSphereMeshSourceTest(int, char *[])
 
   bool testPassed = true;
 
-  std::cout << "Testing itk::RegularSphereMeshSource " << std::endl;
-
   for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
   {
     myMesh->GetPoint(i, &pt);

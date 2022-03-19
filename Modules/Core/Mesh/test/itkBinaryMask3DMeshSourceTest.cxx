@@ -115,8 +115,8 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(meshSource->Update());
 
   std::cout << meshSource->GetNameOfClass() << std::endl;
-  std::cout << meshSource->GetNumberOfNodes() << std::endl;
-  std::cout << meshSource->GetNumberOfCells() << std::endl;
+  std::cout << "NumberOfNodes: " << meshSource->GetNumberOfNodes() << std::endl;
+  std::cout << "NumberOfCells: " << meshSource->GetNumberOfCells() << std::endl;
   std::cout << meshSource << std::endl;
 
   return EXIT_SUCCESS;
