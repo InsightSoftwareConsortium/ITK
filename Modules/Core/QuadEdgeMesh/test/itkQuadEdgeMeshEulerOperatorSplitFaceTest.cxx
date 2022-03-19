@@ -96,7 +96,8 @@ itkQuadEdgeMeshEulerOperatorSplitFaceTest(int, char *[])
   }
   std::cout << "OK" << std::endl;
 
-  auto     joinFacet = JoinFacet::New();
+  auto joinFacet = JoinFacet::New();
+  joinFacet->SetInput(mesh);
   QEType * DeletedEdge = mesh->FindEdge(12, 7);
   QEType * G = DeletedEdge->GetSym()->GetLprev();
   QEType * H = joinFacet->Evaluate(DeletedEdge);
