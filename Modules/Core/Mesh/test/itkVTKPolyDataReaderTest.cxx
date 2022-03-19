@@ -39,16 +39,8 @@ itkVTKPolyDataReaderTest(int argc, char * argv[])
 
   polyDataReader->SetFileName(argv[1]);
 
-  try
-  {
-    polyDataReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error during Update() " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
+
 
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
