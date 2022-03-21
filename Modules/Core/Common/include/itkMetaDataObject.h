@@ -134,7 +134,7 @@ public:
   friend bool
   operator==(const Self & lhs, const Self & rhs)
   {
-    return lhs.m_MetaDataObjectValue == rhs.m_MetaDataObjectValue;
+    return Self::EqualValues(lhs.m_MetaDataObjectValue, rhs.m_MetaDataObjectValue);
   }
 
   /** Returns (metaDataObject1 != metaDataObject2). */
@@ -149,6 +149,52 @@ protected:
   ~MetaDataObject() override = default;
 
 private:
+  /** Assigns the value of `source` to `target`.
+   * \note The trailing return type is there, just to enable SFINAE.*/
+  template <typename TValue>
+  static auto
+  Assign(TValue & target, const TValue & source) -> decltype(target = source)
+  {
+    return target = source;
+  }
+
+  /** `Assign` overload for C-style arrays (as well as arrays of arrays). */
+  template <typename TValue, size_t VNumberOfElements>
+  static void
+  Assign(TValue (&target)[VNumberOfElements], const TValue (&source)[VNumberOfElements])
+  {
+    for (size_t i = 0; i < VNumberOfElements; ++i)
+    {
+      Self::Assign(target[i], source[i]);
+    }
+  }
+
+
+  /** Tells whether the specified arguments compare equal.
+   * \note The trailing return type is there, just to enable SFINAE.*/
+  template <typename TValue>
+  static auto
+  EqualValues(const TValue & lhs, const TValue & rhs) -> decltype(lhs == rhs)
+  {
+    return lhs == rhs;
+  }
+
+  /** `EqualValues` overload for C-style arrays (as well as arrays of arrays). */
+  template <typename TValue, size_t VNumberOfElements>
+  static bool
+  EqualValues(const TValue (&lhs)[VNumberOfElements], const TValue (&rhs)[VNumberOfElements])
+  {
+    for (size_t i = 0; i < VNumberOfElements; ++i)
+    {
+      if (!Self::EqualValues(lhs[i], rhs[i]))
+      {
+        return false;
+      }
+    }
+    return true;
+  }
+
+
   /** Internal helper function used to implement operator== for MetaDataObjectBase. */
   bool
   Equal(const MetaDataObjectBase & metaDataObjectBase) const override

@@ -56,7 +56,7 @@ template <typename MetaDataObjectType>
 void
 MetaDataObject<MetaDataObjectType>::SetMetaDataObjectValue(const MetaDataObjectType & newValue)
 {
-  m_MetaDataObjectValue = newValue;
+  Self::Assign(m_MetaDataObjectValue, newValue);
 }
 
 template <typename MetaDataObjectType>

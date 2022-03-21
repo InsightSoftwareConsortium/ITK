@@ -22,6 +22,8 @@
 #include "itkMetaDataObject.h"
 
 #include <iterator>
+#include <numeric>     // For iota.
+#include <type_traits> // For remove_const_t, remove_reference_t, etc.
 
 namespace
 {
@@ -301,4 +303,53 @@ TEST(MetaDataDictionary, Equal)
   expectUnequal(metaDataDictionary1, metaDataDictionary2);
   expectUnequal(metaDataDictionary1, defaultMetaDataDictionary);
   expectUnequal(metaDataDictionary2, defaultMetaDataDictionary);
+}
+
+
+TEST(MetaDataDictionary, SupportsCStyleArrays)
+{
+  itk::MetaDataDictionary dictionary;
+
+  const auto check = [&dictionary](const auto & value) {
+    using ValueType = std::remove_const_t<std::remove_reference_t<decltype(value)>>;
+
+    const std::string key = "key";
+    itk::EncapsulateMetaData(dictionary, key, value);
+    const itk::MetaDataObjectBase * const base = dictionary.Get(key);
+    ASSERT_NE(base, nullptr);
+
+    const auto * const actualDataObject = dynamic_cast<const itk::MetaDataObject<ValueType> *>(base);
+    ASSERT_NE(actualDataObject, nullptr);
+
+    const ValueType & actualValue = actualDataObject->GetMetaDataObjectValue();
+
+    // itk::EncapsulateMetaData is expected to make a _copy_ of the input value. So it should not just store a reference
+    // to that value.
+    EXPECT_NE(&actualValue, &value);
+
+    const auto expectedDataObject = itk::MetaDataObject<ValueType>::New();
+    ASSERT_NE(expectedDataObject, nullptr);
+    expectedDataObject->SetMetaDataObjectValue(value);
+
+    // The value from the dictionary is expected to compare equal to the original input value.
+    EXPECT_EQ(*actualDataObject, *expectedDataObject);
+  };
+
+  for (const int i : { 0, 1 })
+  {
+    // Check a simple C-style array.
+    const int simpleArray[] = { i, 1 - i };
+    check(simpleArray);
+  }
+
+  // Check a two-dimensional array.
+  constexpr size_t numberOfRows{ 3 };
+  constexpr size_t numberOfColumns{ 4 };
+  int              twoDimensionalArray[numberOfRows][numberOfColumns];
+
+  // Just ensure that each element of the two-dimentional array has a different value.
+  int * const beginOfData = &(twoDimensionalArray[0][0]);
+  std::iota(beginOfData, beginOfData + numberOfRows * numberOfColumns, 1);
+
+  check(twoDimensionalArray);
 }
