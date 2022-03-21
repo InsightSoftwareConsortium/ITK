@@ -260,13 +260,18 @@ def _get_itk_pixelid(numpy_array_type):
     """Returns a ITK PixelID given a numpy array."""
 
     import itk
+    def _long_type():
+        if os.name == "nt":
+            return itk.ULL
+        else:
+            return itk.UL
 
     # This is a Mapping from numpy array types to itk pixel types.
     _np_itk = {
         np.uint8: itk.UC,
         np.uint16: itk.US,
         np.uint32: itk.UI,
-        np.uint64: itk.UL,
+        np.uint64: _long_type(),
         np.int8: itk.SC,
         np.int16: itk.SS,
         np.int32: itk.SI,

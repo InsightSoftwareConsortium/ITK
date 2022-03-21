@@ -54,7 +54,7 @@ mesh.SetPoints(points_vc)
 
 
 # Set Cells in the Mesh as Triangle Cell
-cells_array = np.zeros([NumberOfCells, Dimension], np.uint)
+cells_array = np.zeros([NumberOfCells, Dimension], np.uint64)
 
 # Insert point ids in that cell
 for i in range(NumberOfCells):
@@ -116,7 +116,7 @@ mesh["pointData"] = points_data_array
 assert np.array_equal(mesh["pointData"], points_data_array)
 
 cells_array = np.array(
-    [itk.CommonEnums.CellGeometry_TRIANGLE_CELL, 3, 1, 2, 3], dtype=np.uint
+    [itk.CommonEnums.CellGeometry_TRIANGLE_CELL, 3, 1, 2, 3], dtype=np.uint64
 )
 mesh["cells"] = cells_array
 assert np.array_equal(mesh["cells"], cells_array)
@@ -163,7 +163,7 @@ try:
 
         # Extracting only the points by removing first column that denotes the VTK cell type
         polys_numpy = polys_numpy[:, 1:]
-        polys_numpy = polys_numpy.flatten().astype(np.uint)
+        polys_numpy = polys_numpy.flatten().astype(np.uint64)
 
         # Get point data from VTK mesh to insert in ITK Mesh
         point_data_numpy = np.array(vtk_mesh.GetPointData().GetScalars())
