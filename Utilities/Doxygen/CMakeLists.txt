@@ -75,25 +75,6 @@ mark_as_advanced( ITK_DOXYGEN_HTML
   ITK_DOXYGEN_XML
 )
 
-set( ITK_DOXYGEN_OUTPUT
-  HTML
-  DOCSET
-  CHM
-  QHP
-  ECLIPSEHELP
-  LATEX
-  RTF
-  XML
-)
-
-foreach( var ${ITK_DOXYGEN_OUTPUT} )
-  if( ITK_DOXYGEN_${var} )
-    set( ITK_DOXYGEN_GEN_${var} "YES" )
-  else()
-    set( ITK_DOXYGEN_GEN_${var} "NO" )
-  endif()
-endforeach()
-
 find_package( Perl )
 
 if( PERL_FOUND )
