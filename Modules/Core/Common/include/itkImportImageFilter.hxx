@@ -61,7 +61,6 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
     os << indent << "ImportImageContainer pointer: (None)" << std::endl;
   }
   os << indent << "Import buffer size: " << m_Size << std::endl;
-  os << indent << "Import buffer size: " << m_Size << std::endl;
   if (m_ImportImageContainer)
   {
     os << indent
