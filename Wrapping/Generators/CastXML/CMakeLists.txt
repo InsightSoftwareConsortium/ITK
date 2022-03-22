@@ -25,7 +25,7 @@ else()
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash dc78771884ce27837b408f339cc7bb7c5152552f88ebf30ffbc2069ae0407bb27ab2b37679adeff10ed26739571bf4c455dad309891c1c7f0fdc990fea474db1)
+    set(_castxml_hash a2da44515bea720e57ee1d335e05aea279a9ca3c39caad4b501af330f8f54363f5cb5512dd53643966f68d28b9b69961ed9ecf286ded24615a5a946790090543)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
@@ -37,14 +37,14 @@ else()
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 54a10b68399d17d41360a28c2f5091ed2dfcd104b8acb0f68a6224263de56348792af453355c1b243fb019efe476d01ad68dbd68db0908ce9cf62f606a5a31bb)
+    set(_castxml_hash 1964b50b51970e9f9249fe4cf896302df024781abe8e7d888e91d8b14dfa01b29face1d808c9bff10209b0d3e77963c03fe7b3e28d2ccaa4aba7d18d12c82b88)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash f7d62660b8c3f19481c0f2b87b144f9cd2a500ad94b1b50b27c1f36d4c0096ca46df9c8a833426392a1d5152bd58dabd2bb0b525f56e341f5310afcf98013748)
+    set(_castxml_hash 56cf92eb9ca543a6178689643d32a455da1f92da78ca58a8cb671798ac9f903dc6b687be1d3824ab0211ed49724b62185a21874810139de7dbb6cb39f63b860f)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
