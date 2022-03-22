@@ -70,7 +70,7 @@ set(itk_Wrap_Offset ${WRAPPER_TEMPLATES})
 WRAP_TYPE("itk::Vector" "V" "itkVector.h")
   # dim 6 is used by ScaleSkewVersor3DTransform
   UNIQUE(vector_dims "1;${ITK_WRAP_VECTOR_COMPONENTS_INCREMENTED};6")
-  UNIQUE(vector_types "UC;F;D;UL;ULL;${WRAP_ITK_SCALAR}")
+  UNIQUE(vector_types "UC;F;D;${WRAP_ITK_SCALAR}")
   foreach(vector_dim ${vector_dims})
     foreach(t ${vector_types})
       ADD_TEMPLATE(
