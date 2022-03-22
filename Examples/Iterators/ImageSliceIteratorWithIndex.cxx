@@ -145,16 +145,10 @@ main(int argc, char * argv[])
     itk::ImageSliceConstIteratorWithIndex<ImageType3D>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader<ImageType3D>;
-  using WriterType = itk::ImageFileWriter<ImageType2D>;
-
   ImageType3D::ConstPointer inputImage;
-  auto                      reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
   try
   {
-    reader->Update();
-    inputImage = reader->GetOutput();
+    inputImage = itk::ReadImage<ImageType3D>(argv[1]);
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -186,7 +180,6 @@ main(int argc, char * argv[])
     }
   }
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -286,12 +279,9 @@ main(int argc, char * argv[])
   }
   // Software Guide : EndCodeSnippet
 
-  auto writer = WriterType::New();
-  writer->SetFileName(argv[2]);
-  writer->SetInput(outputImage);
   try
   {
-    writer->Update();
+    itk::WriteImage(outputImage, argv[2]);
   }
   catch (const itk::ExceptionObject & err)
   {

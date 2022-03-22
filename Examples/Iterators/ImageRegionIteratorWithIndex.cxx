@@ -82,16 +82,11 @@ main(int argc, char * argv[])
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  using WriterType = itk::ImageFileWriter<ImageType>;
 
   ImageType::ConstPointer inputImage;
-  auto                    reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
   try
   {
-    reader->Update();
-    inputImage = reader->GetOutput();
+    inputImage = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -149,12 +144,9 @@ main(int argc, char * argv[])
   }
   // Software Guide : EndCodeSnippet
 
-  auto writer = WriterType::New();
-  writer->SetFileName(argv[2]);
-  writer->SetInput(outputImage);
   try
   {
-    writer->Update();
+    itk::WriteImage(outputImage, argv[2]);
   }
   catch (const itk::ExceptionObject & err)
   {
