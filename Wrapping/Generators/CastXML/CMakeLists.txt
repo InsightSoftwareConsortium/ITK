@@ -37,7 +37,7 @@ else()
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 1964b50b51970e9f9249fe4cf896302df024781abe8e7d888e91d8b14dfa01b29face1d808c9bff10209b0d3e77963c03fe7b3e28d2ccaa4aba7d18d12c82b88)
+    set(_castxml_hash 5faef93541cb5f30414286a844e47b5732777f26246c6e0933170668e9cf2ff4f3fa4292e861e73e91ed50971caa9d6e7481eead9c9cefda6d54a9042634bf5c)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
@@ -49,7 +49,7 @@ else()
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
 
-    set(_castxml_hash 5faef93541cb5f30414286a844e47b5732777f26246c6e0933170668e9cf2ff4f3fa4292e861e73e91ed50971caa9d6e7481eead9c9cefda6d54a9042634bf5c)
+    set(_castxml_hash 1964b50b51970e9f9249fe4cf896302df024781abe8e7d888e91d8b14dfa01b29face1d808c9bff10209b0d3e77963c03fe7b3e28d2ccaa4aba7d18d12c82b88)
     set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
     set(_download_castxml_binaries 1)
 
@@ -148,7 +148,7 @@ else()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
       # CastXML master, 2020-04-27
-      GIT_TAG v0.4.3
+      GIT_TAG v0.4.5
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
