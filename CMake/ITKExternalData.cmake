@@ -1,5 +1,5 @@
 get_filename_component(_ITKExternalData_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
-include(ExternalData)
+include(${_ITKExternalData_DIR}/ExternalData.cmake)
 
 if(NOT ExternalData_OBJECT_STORES)
   # Use ExternalData_OBJECT_STORES from environment as default.
@@ -24,6 +24,7 @@ list(APPEND ExternalData_OBJECT_STORES
 set(ExternalData_BINARY_ROOT ${CMAKE_BINARY_DIR}/ExternalData)
 
 # Expands %(algo:lower)
+set(ExternalData_URL_ALGO_CID_lower cid)
 set(ExternalData_URL_ALGO_MD5_lower md5)
 set(ExternalData_URL_TEMPLATES "" CACHE STRING
   "Additional URL templates for the ExternalData CMake script to look for testing data. E.g.
@@ -39,6 +40,21 @@ if(NOT ITK_FORBID_DOWNLOADS)
 
     # Data published by developers using git-gerrit-push.
     "https://itk.org/files/ExternalData/%(algo)/%(hash)"
+
+    # Local IPFS gateway
+    "http://127.0.0.1:8080/ipfs/%(hash)"
+
+    # Protocol Labs gateway
+    "https://ipfs.io/ipfs/%(hash)"
+
+    # Gateway for data pinned on pinata
+    "https://gateway.pinata.cloud/ipfs/%(hash)"
+
+    # Cloudflare gateway
+    "https://cloudflare-ipfs.com/ipfs/%(hash)"
+
+    # Additional gateway (modern but has redirect)
+    "https://dweb.link/ipfs/%(hash)"
     )
 endif()
 
