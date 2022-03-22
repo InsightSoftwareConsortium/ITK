@@ -81,9 +81,6 @@ main(int argc, char * argv[])
   using IteratorType = itk::ImageRegionIterator<ImageType>;
   // Software Guide : EndCodeSnippet
 
-  using ReaderType = itk::ImageFileReader<ImageType>;
-  using WriterType = itk::ImageFileWriter<ImageType>;
-
   // Software Guide : BeginLatex
   //
   // Information about the subregion to copy is read from the command line.
@@ -108,7 +105,6 @@ main(int argc, char * argv[])
   inputRegion.SetIndex(inputStart);
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // The destination region in the output image is defined using the input
@@ -129,12 +125,10 @@ main(int argc, char * argv[])
   outputRegion.SetIndex(outputStart);
   // Software Guide : EndCodeSnippet
 
-
-  auto reader = ReaderType::New();
-  reader->SetFileName(argv[1]);
+  ImageType::ConstPointer inputImage;
   try
   {
-    reader->Update();
+    inputImage = itk::ReadImage<ImageType>(argv[1]);
   }
   catch (const itk::ExceptionObject & err)
   {
@@ -144,12 +138,12 @@ main(int argc, char * argv[])
   }
 
   // Check that the region is contained within the input image.
-  if (!reader->GetOutput()->GetRequestedRegion().IsInside(inputRegion))
+  if (!inputImage->GetRequestedRegion().IsInside(inputRegion))
   {
     std::cerr << "Error" << std::endl;
     std::cerr << "The region " << inputRegion
               << "is not contained within the input image region "
-              << reader->GetOutput()->GetRequestedRegion() << std::endl;
+              << inputImage->GetRequestedRegion() << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -170,9 +164,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   auto outputImage = ImageType::New();
   outputImage->SetRegions(outputRegion);
-  const ImageType::SpacingType & spacing = reader->GetOutput()->GetSpacing();
-  const ImageType::PointType & inputOrigin = reader->GetOutput()->GetOrigin();
-  double                       outputOrigin[Dimension];
+  const ImageType::SpacingType & spacing = inputImage->GetSpacing();
+  const ImageType::PointType &   inputOrigin = inputImage->GetOrigin();
+  double                         outputOrigin[Dimension];
 
   for (unsigned int i = 0; i < Dimension; ++i)
   {
@@ -183,7 +177,6 @@ main(int argc, char * argv[])
   outputImage->SetOrigin(outputOrigin);
   outputImage->Allocate();
   // Software Guide : EndCodeSnippet
-
 
   // Software Guide : BeginLatex
   //
@@ -199,7 +192,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  ConstIteratorType inputIt(reader->GetOutput(), inputRegion);
+  ConstIteratorType inputIt(inputImage, inputRegion);
   IteratorType      outputIt(outputImage, outputRegion);
 
   inputIt.GoToBegin();
@@ -213,7 +206,6 @@ main(int argc, char * argv[])
   }
   // Software Guide : EndCodeSnippet
 
-
   // Software Guide : BeginLatex
   //
   // \index{Iterators!image dimensionality}
@@ -225,13 +217,9 @@ main(int argc, char * argv[])
   //
   // Software Guide : EndLatex
 
-  auto writer = WriterType::New();
-  writer->SetFileName(argv[2]);
-  writer->SetInput(outputImage);
-
   try
   {
-    writer->Update();
+    itk::WriteImage(outputImage, argv[2]);
   }
   catch (const itk::ExceptionObject & err)
   {
