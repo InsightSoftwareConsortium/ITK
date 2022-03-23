@@ -364,6 +364,7 @@ extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Array<char>>;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Array<int>>;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Array<float>>;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Array<double>>;
+extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Matrix<float, 4, 4>>;
 extern template class ITKCommon_EXPORT_EXPLICIT MetaDataObject<Matrix<double>>;
 
 ITK_GCC_PRAGMA_DIAG_POP()

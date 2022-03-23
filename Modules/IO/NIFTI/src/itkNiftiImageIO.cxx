@@ -999,15 +999,9 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
 
   EncapsulateMetaData<float>(thisDic, "qfac", nim->qfac);
 
-  std::vector<float> qto_xyz;
-  for (int row = 0; row < 4; ++row)
-  {
-    for (int column = 0; column < 4; ++column)
-    {
-      qto_xyz.push_back(nim->qto_xyz.m[row][column]);
-    }
-  }
-  EncapsulateMetaData<std::vector<float>>(thisDic, "qto_xyz", qto_xyz);
+  // Use the ITK Matrix template instantiation that matches the `mat44` typedef from niftilib.
+  using Matrix44Type = Matrix<float, 4, 4>;
+  EncapsulateMetaData<Matrix44Type>(thisDic, "qto_xyz", Matrix44Type(nim->qto_xyz.m));
 }
 
 void
