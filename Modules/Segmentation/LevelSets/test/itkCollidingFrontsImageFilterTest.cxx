@@ -111,14 +111,8 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   auto applyConnectivity = static_cast<bool>(std::stoi(argv[2]));
   ITK_TEST_SET_GET_BOOLEAN(collidingFronts, ApplyConnectivity, applyConnectivity);
 
-  try
-  {
-    collidingFronts->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(collidingFronts->Update());
+
 
   InternalImageType::Pointer output = collidingFronts->GetOutput();
 
@@ -192,14 +186,8 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   auto stopOnTargets = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(collidingFronts, StopOnTargets, stopOnTargets);
 
-  try
-  {
-    collidingFronts->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << err << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(collidingFronts->Update());
+
 
   std::cout << "Colliding Fronts test passed. " << std::endl;
 
