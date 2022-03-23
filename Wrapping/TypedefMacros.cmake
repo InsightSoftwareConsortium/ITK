@@ -1326,7 +1326,7 @@ macro(itk_wrap_simple_type wrap_class swig_name)
     endif()
 
     if("${cpp_name}" STREQUAL "itk::LabelMap" AND NOT "${swig_name}" MATCHES "Pointer$")
-      set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_LABELMAP_CLASS(${swig_name})\n")
+      set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_LABELMAP_CLASS(${swig_name})\n")
     endif()
 
     if("${cpp_name}" STREQUAL "itk::ComponentTreeNode")
