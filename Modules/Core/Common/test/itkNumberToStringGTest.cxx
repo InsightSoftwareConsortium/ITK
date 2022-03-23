@@ -120,6 +120,26 @@ Test_default_specialization_of_NumberToString()
   }
 }
 
+template <typename TValue>
+void
+Test_ConvertNumberToString()
+{
+  using NumericLimitsType = std::numeric_limits<TValue>;
+
+  for (const TValue value : { NumericLimitsType::lowest(),
+                              NumericLimitsType::denorm_min(),
+                              TValue(),
+                              NumericLimitsType::epsilon(),
+                              NumericLimitsType::min(),
+                              NumericLimitsType::max(),
+                              NumericLimitsType::infinity(),
+                              NumericLimitsType::quiet_NaN() })
+  {
+    // Expect the same string from `ConvertNumberToString` as from `NumberToString<TValue>`.
+    EXPECT_EQ(itk::ConvertNumberToString(value), itk::NumberToString<TValue>()(value));
+  }
+}
+
 } // namespace
 
 
@@ -174,4 +194,14 @@ TEST(NumberToString, DefaultSpecialization)
   Test_default_specialization_of_NumberToString<uintmax_t>();
   Test_default_specialization_of_NumberToString<float>();
   Test_default_specialization_of_NumberToString<double>();
+}
+
+TEST(NumberToString, ConvertNumberToString)
+{
+  Test_ConvertNumberToString<int8_t>();
+  Test_ConvertNumberToString<uint8_t>();
+  Test_ConvertNumberToString<intmax_t>();
+  Test_ConvertNumberToString<uintmax_t>();
+  Test_ConvertNumberToString<float>();
+  Test_ConvertNumberToString<double>();
 }
