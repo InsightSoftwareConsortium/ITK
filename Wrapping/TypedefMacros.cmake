@@ -968,7 +968,19 @@ ${DO_NOT_WAIT_FOR_THREADS_DECLS}
 
 endmacro() # itk_end_wrap_module
 
+#################
+function(itk_auto_load_and_end_wrap_submodules)
+  # CMake functions introduce new scopes, a variable created or
+  # modified inside the function won’t be accessible outside the function.
+  #
+  # Wrapping these two huge macros in a function makes them
+  # operate inside a new scope to prevent polluting the
+  # global namespace with changed variables.
 
+  itk_auto_load_submodules()
+  itk_end_wrap_module()
+
+endfunction()
 
 
 ################################################################################
