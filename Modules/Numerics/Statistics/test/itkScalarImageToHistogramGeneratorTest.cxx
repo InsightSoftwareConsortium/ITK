@@ -22,7 +22,7 @@
 #include "itkTestingMacros.h"
 
 int
-itkImageToHistogramFilterTest3(int argc, char * argv[])
+itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
 {
 
   if (argc < 3)
