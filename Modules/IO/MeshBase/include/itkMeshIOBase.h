@@ -652,12 +652,11 @@ protected:
                      SizeValueType   numberOfLines,
                      SizeValueType   numberOfComponents)
   {
-    NumberToString<T> convert;
     for (SizeValueType ii = 0; ii < numberOfLines; ++ii)
     {
       for (SizeValueType jj = 0; jj < numberOfComponents; ++jj)
       {
-        outputFile << convert(buffer[ii * numberOfComponents + jj]) << "  ";
+        outputFile << ConvertNumberToString(buffer[ii * numberOfComponents + jj]) << "  ";
       }
       outputFile << '\n';
     }

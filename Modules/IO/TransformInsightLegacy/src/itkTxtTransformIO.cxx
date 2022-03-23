@@ -241,14 +241,13 @@ template <typename TParametersValueType>
 inline void
 print_vector(std::ofstream & s, vnl_vector<TParametersValueType> const & v)
 {
-  NumberToString<TParametersValueType> convert;
   for (unsigned int i = 0; i + 1 < v.size(); ++i)
   {
-    s << convert(v[i]) << ' ';
+    s << ConvertNumberToString(v[i]) << ' ';
   }
   if (!v.empty())
   {
-    s << convert(v.back());
+    s << ConvertNumberToString(v.back());
   }
 }
 } // namespace itk_impl_details

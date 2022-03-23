@@ -432,7 +432,6 @@ protected:
   void
   WritePointsBufferAsASCII(std::ofstream & outputFile, T * buffer, const StringType & pointComponentType)
   {
-    NumberToString<T> convert;
     /** 1. Write number of points */
     outputFile << "POINTS " << this->m_NumberOfPoints;
 
@@ -441,10 +440,10 @@ protected:
     {
       for (unsigned int jj = 0; jj < this->m_PointDimension - 1; ++jj)
       {
-        outputFile << convert(buffer[ii * this->m_PointDimension + jj]) << " ";
+        outputFile << ConvertNumberToString(buffer[ii * this->m_PointDimension + jj]) << " ";
       }
 
-      outputFile << convert(buffer[ii * this->m_PointDimension + this->m_PointDimension - 1]) << '\n';
+      outputFile << ConvertNumberToString(buffer[ii * this->m_PointDimension + this->m_PointDimension - 1]) << '\n';
     }
 
     return;
@@ -725,7 +724,6 @@ protected:
   void
   WritePointDataBufferAsASCII(std::ofstream & outputFile, T * buffer, const StringType & pointPixelComponentName)
   {
-    NumberToString<T>    convert;
     MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
     StringType           dataName;
 
@@ -795,16 +793,17 @@ protected:
         while (i < num)
         {
           // row 1
-          outputFile << convert(*ptr++) << indent;
+          outputFile << ConvertNumberToString(*ptr++) << indent;
           e12 = *ptr++;
-          outputFile << convert(e12) << indent;
-          outputFile << convert(zero) << '\n';
+          outputFile << ConvertNumberToString(e12) << indent;
+          outputFile << ConvertNumberToString(zero) << '\n';
           // row 2
-          outputFile << convert(e12) << indent;
-          outputFile << convert(*ptr++) << indent;
-          outputFile << convert(zero) << '\n';
+          outputFile << ConvertNumberToString(e12) << indent;
+          outputFile << ConvertNumberToString(*ptr++) << indent;
+          outputFile << ConvertNumberToString(zero) << '\n';
           // row 3
-          outputFile << convert(zero) << indent << convert(zero) << indent << convert(zero) << "\n\n";
+          outputFile << ConvertNumberToString(zero) << indent << ConvertNumberToString(zero) << indent
+                     << ConvertNumberToString(zero) << "\n\n";
           i += 3;
         }
       }
@@ -816,20 +815,20 @@ protected:
         while (i < num)
         {
           // row 1
-          outputFile << convert(*ptr++) << indent;
+          outputFile << ConvertNumberToString(*ptr++) << indent;
           e12 = *ptr++;
-          outputFile << convert(e12) << indent;
+          outputFile << ConvertNumberToString(e12) << indent;
           e13 = *ptr++;
-          outputFile << convert(e13) << '\n';
+          outputFile << ConvertNumberToString(e13) << '\n';
           // row 2
-          outputFile << convert(e12) << indent;
-          outputFile << convert(*ptr++) << indent;
+          outputFile << ConvertNumberToString(e12) << indent;
+          outputFile << ConvertNumberToString(*ptr++) << indent;
           e23 = *ptr++;
-          outputFile << convert(e23) << '\n';
+          outputFile << ConvertNumberToString(e23) << '\n';
           // row 3
-          outputFile << convert(e13) << indent;
-          outputFile << convert(e23) << indent;
-          outputFile << convert(*ptr++) << "\n\n";
+          outputFile << ConvertNumberToString(e13) << indent;
+          outputFile << ConvertNumberToString(e23) << indent;
+          outputFile << ConvertNumberToString(*ptr++) << "\n\n";
           i += 6;
         }
       }
@@ -847,9 +846,9 @@ protected:
       {
         for (jj = 0; jj < this->m_NumberOfPointPixelComponents - 1; ++jj)
         {
-          outputFile << convert(buffer[ii * this->m_NumberOfPointPixelComponents + jj]) << indent;
+          outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfPointPixelComponents + jj]) << indent;
         }
-        outputFile << convert(buffer[ii * this->m_NumberOfPointPixelComponents + jj]);
+        outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfPointPixelComponents + jj]);
         outputFile << '\n';
       }
     }
@@ -1124,14 +1123,13 @@ protected:
                                 unsigned int    numberOfPixelComponents,
                                 SizeValueType   numberOfPixels)
   {
-    NumberToString<float> convert;
     outputFile << numberOfPixelComponents << "\n";
     Indent indent(2);
     for (SizeValueType ii = 0; ii < numberOfPixels; ++ii)
     {
       for (unsigned int jj = 0; jj < numberOfPixelComponents; ++jj)
       {
-        outputFile << convert(static_cast<float>(buffer[ii * numberOfPixelComponents + jj])) << indent;
+        outputFile << ConvertNumberToString(static_cast<float>(buffer[ii * numberOfPixelComponents + jj])) << indent;
       }
 
       outputFile << "\n";
