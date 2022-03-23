@@ -8,5 +8,5 @@ itk_wrap_class("itk::ParametricImageSource" POINTER)
       itk_wrap_template("${ITKM_VI${t}${d}}" "${ITKT_VI${t}${d}}")
     endforeach()
   endforeach()
-
+  unset(to_types)
 itk_end_wrap_class()

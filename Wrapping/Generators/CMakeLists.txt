@@ -2,30 +2,6 @@
 # the macros in charge of dispatching to the language specific macros
 
 
-macro(itk_wrap_one_type_all_generators wrap_method wrap_class swig_name template_params)
-  if(${module_prefix}_WRAP_CASTXML)
-    # insert a blank line to separate the classes
-    set(CASTXML_TYPEDEFS "${CASTXML_TYPEDEFS}\n")
-    # add a piece of code for type instantiation
-    set(CASTXML_FORCE_INSTANTIATE "${CASTXML_FORCE_INSTANTIATE}\n")
-  endif()
-  if(${module_prefix}_WRAP_SWIGINTERFACE)
-    itk_wrap_one_type_swig_interface("${wrap_method}" "${wrap_class}" "${swig_name}" "${template_params}")
-  endif()
-  if(${module_prefix}_WRAP_DOC)
-    if(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT)
-      set(ITK_WRAP_DOC_DOXY2SWIG_INPUT "${ITK_WRAP_DOC_DOXY2SWIG_INPUT}\t${swig_name}")
-    endif()
-  endif()
-  if(${module_prefix}_WRAP_PYTHON AND WRAPPER_LIBRARY_PYTHON)
-    string(REGEX REPLACE "(.*::)" "" base_name "${wrap_class}")
-
-    if(NOT "${wrap_class}" STREQUAL "MetaEvent" AND NOT "${wrap_method}" MATCHES "ENUM")
-      ADD_PYTHON_CONFIG_TEMPLATE("${base_name}" "${wrap_class}" "${swig_name}" "${template_params}")
-    endif()
-  endif()
-endmacro()
-
 
 ###############################################################################
 # ccache management. This option is shared by most of generators, so put it here.
