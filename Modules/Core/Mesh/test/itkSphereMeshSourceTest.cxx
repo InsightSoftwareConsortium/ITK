@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkSphereMeshSource.h"
+#include "itkTestingMacros.h"
 #include <iostream>
 
 int
@@ -25,7 +26,11 @@ itkSphereMeshSourceTest(int, char *[])
 
   using fPointType = itk::Point<float, 3>;
   using fSphereMeshSourceType = itk::SphereMeshSource<itk::Mesh<float>>;
-  auto       mySphereMeshSource = fSphereMeshSourceType::New();
+  auto mySphereMeshSource = fSphereMeshSourceType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(mySphereMeshSource, SphereMeshSource, MeshSource);
+
+
   fPointType center;
   center.Fill(0);
   fPointType::ValueType scaleInit[3] = { 1, 1, 1 };
@@ -36,10 +41,14 @@ itkSphereMeshSourceTest(int, char *[])
   mySphereMeshSource->SetResolutionY(10);
   mySphereMeshSource->SetScale(scale);
 
+  double squareness1 = 1.0;
+  mySphereMeshSource->SetSquareness1(squareness1);
+
+  double squareness2 = 1.0;
+  mySphereMeshSource->SetSquareness2(squareness2);
+
   mySphereMeshSource->Modified();
   mySphereMeshSource->Update();
-
-  std::cout << "mySphereMeshSource: " << mySphereMeshSource;
 
   using IPT = itk::Mesh<float>::PointType;
   //  itk::Mesh<float>::PointsContainerPointer      myoutput = mySphereMeshSource->GetOutput()->GetPoints();

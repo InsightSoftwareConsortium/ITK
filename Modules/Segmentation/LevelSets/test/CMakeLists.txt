@@ -67,7 +67,7 @@ itk_add_test(NAME itkNarrowBandCurvesLevelSetImageFilterTest1
               ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png
     itkNarrowBandCurvesLevelSetImageFilterTest ${ITK_TEST_OUTPUT_DIR}/itkNarrowBandCurvesLevelSetImageFilterTest.png)
 itk_add_test(NAME itkCollidingFrontsImageFilterTest
-      COMMAND ITKLevelSetsTestDriver itkCollidingFrontsImageFilterTest 1 1)
+      COMMAND ITKLevelSetsTestDriver itkCollidingFrontsImageFilterTest -1e-6 1 1)
 itk_add_test(NAME itkGeodesicActiveContourShapePriorLevelSetImageFilterTest
       COMMAND ITKLevelSetsTestDriver itkGeodesicActiveContourShapePriorLevelSetImageFilterTest)
 itk_add_test(NAME itkLevelSetFunctionTest

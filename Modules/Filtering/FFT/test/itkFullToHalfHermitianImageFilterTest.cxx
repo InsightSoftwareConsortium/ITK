@@ -75,9 +75,14 @@ itkFullToHalfHermitianImageFilterTest(int argc, char * argv[])
 
   using FullToHalfFilterType = itk::FullToHalfHermitianImageFilter<ComplexImageType>;
   auto fullToHalfFilter = FullToHalfFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(fullToHalfFilter, FullToHalfHermitianImageFilter, ImageToImageFilter);
+
+
   fullToHalfFilter->SetInput(halfToFullFilter->GetOutput());
   fullToHalfFilter->Update();
-  fullToHalfFilter->Print(std::cout);
+
+  std::cout << "ActualXDimensionIsOdd: " << fullToHalfFilter->GetActualXDimensionIsOdd() << std::endl;
 
   // Check that the output of the full-to-half filter has the same
   // size as the output of the FFT filter.

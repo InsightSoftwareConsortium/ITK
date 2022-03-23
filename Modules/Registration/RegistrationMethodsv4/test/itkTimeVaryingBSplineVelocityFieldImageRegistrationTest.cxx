@@ -82,6 +82,7 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   int  numberOfDeformableIterationsLevel1 = 20;
   int  numberOfDeformableIterationsLevel2 = 11;
   auto learningRate = static_cast<double>(0.5);
+  auto convergenceWindowSize = static_cast<unsigned int>(10);
 
   if (argc >= 6)
   {
@@ -102,6 +103,10 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   if (argc >= 10)
   {
     learningRate = std::stod(argv[9]);
+  }
+  if (argc >= 12)
+  {
+    convergenceWindowSize = std::stoul(argv[11]);
   }
 
   const unsigned int ImageDimension = TDimension;
@@ -197,6 +202,16 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
     itk::TimeVaryingBSplineVelocityFieldImageRegistrationMethod<FixedImageType, MovingImageType>;
   auto velocityFieldRegistration = VelocityFieldRegistrationType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    velocityFieldRegistration, TimeVaryingBSplineVelocityFieldImageRegistrationMethod, ImageRegistrationMethodv4);
+
+
+  auto convergenceThreshold = static_cast<typename VelocityFieldRegistrationType::RealType>(1.0e-7);
+  if (argc >= 11)
+  {
+    convergenceThreshold = static_cast<typename VelocityFieldRegistrationType::RealType>(std::stod(argv[10]));
+  }
+
   using OutputTransformType = typename VelocityFieldRegistrationType::OutputTransformType;
   auto outputTransform = OutputTransformType::New();
   velocityFieldRegistration->SetInitialTransform(outputTransform);
@@ -208,7 +223,8 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   velocityFieldRegistration->SetMovingInitialTransform(compositeTransform);
   velocityFieldRegistration->SetMetric(correlationMetric);
   velocityFieldRegistration->SetLearningRate(learningRate);
-  std::cout << "learningRate: " << learningRate << std::endl;
+  ITK_TEST_SET_GET_VALUE(learningRate, velocityFieldRegistration->GetLearningRate());
+
   outputTransform->SetSplineOrder(3);
   outputTransform->SetLowerTimeBound(0.0);
   outputTransform->SetUpperTimeBound(1.0);
@@ -219,8 +235,13 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   numberOfIterationsPerLevel[1] = numberOfDeformableIterationsLevel1;
   numberOfIterationsPerLevel[2] = numberOfDeformableIterationsLevel2;
   velocityFieldRegistration->SetNumberOfIterationsPerLevel(numberOfIterationsPerLevel);
-  std::cout << "iterations per level: " << numberOfIterationsPerLevel[0] << ", " << numberOfIterationsPerLevel[1]
-            << ", " << numberOfIterationsPerLevel[2] << std::endl;
+  ITK_TEST_SET_GET_VALUE(numberOfIterationsPerLevel, velocityFieldRegistration->GetNumberOfIterationsPerLevel());
+
+  velocityFieldRegistration->SetConvergenceThreshold(convergenceThreshold);
+  ITK_TEST_SET_GET_VALUE(convergenceThreshold, velocityFieldRegistration->GetConvergenceThreshold());
+
+  velocityFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
+  ITK_TEST_SET_GET_VALUE(convergenceWindowSize, velocityFieldRegistration->GetConvergenceWindowSize());
 
   typename VelocityFieldRegistrationType::ShrinkFactorsArrayType shrinkFactorsPerLevel;
   shrinkFactorsPerLevel.SetSize(3);
@@ -456,10 +477,11 @@ itkTimeVaryingBSplineVelocityFieldImageRegistrationTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
-              << "[numberOfDeformableIterationsLevel0 = 10] [numberOfDeformableIterationsLevel1 = 20] "
-                 "[numberOfDeformableIterationsLevel2 = 11 ] [learningRate = 0.5]"
-              << std::endl;
+    std::cerr
+      << " imageDimension fixedImage movingImage outputPrefix [numberOfAffineIterations = 100] "
+      << "[numberOfDeformableIterationsLevel0 = 10] [numberOfDeformableIterationsLevel1 = 20] "
+         "[numberOfDeformableIterationsLevel2 = 11 ] [learningRate = 0.5] convergenceThreshold convergenceWindowSize "
+      << std::endl;
     return EXIT_FAILURE;
   }
 

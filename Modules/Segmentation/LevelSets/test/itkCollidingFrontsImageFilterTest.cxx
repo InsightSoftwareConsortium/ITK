@@ -26,11 +26,11 @@
 int
 itkCollidingFrontsImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " applyConnectivity stopOnTargets [inputFilename] [outputFilename]" << std::endl;
+              << " negativeEpsilon applyConnectivity stopOnTargets [outputFilename]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -104,7 +104,11 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   collidingFronts->SetSeedPoints1(seeds1);
   collidingFronts->SetSeedPoints2(seeds2);
 
-  auto applyConnectivity = static_cast<bool>(std::stoi(argv[1]));
+  auto negativeEpsilon = std::stod(argv[1]);
+  collidingFronts->SetNegativeEpsilon(negativeEpsilon);
+  ITK_TEST_SET_GET_VALUE(negativeEpsilon, collidingFronts->GetNegativeEpsilon());
+
+  auto applyConnectivity = static_cast<bool>(std::stoi(argv[2]));
   ITK_TEST_SET_GET_BOOLEAN(collidingFronts, ApplyConnectivity, applyConnectivity);
 
   try
@@ -158,7 +162,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
   }
 
   // Optionally writing out the two images
-  if (argc > 3)
+  if (argc > 4)
   {
     using WriterType = itk::ImageFileWriter<ImageType>;
     auto writer = WriterType::New();
@@ -166,7 +170,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     using RescaleFilterType = itk::RescaleIntensityImageFilter<InternalImageType, ImageType>;
     auto rescaler = RescaleFilterType::New();
 
-    writer->SetFileName(argv[3]);
+    writer->SetFileName(argv[4]);
     writer->SetInput(inputImage);
     writer->Update();
 
@@ -185,7 +189,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  auto stopOnTargets = static_cast<bool>(std::stoi(argv[2]));
+  auto stopOnTargets = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(collidingFronts, StopOnTargets, stopOnTargets);
 
   try

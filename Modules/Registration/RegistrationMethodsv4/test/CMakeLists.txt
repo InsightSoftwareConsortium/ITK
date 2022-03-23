@@ -219,6 +219,8 @@ itk_add_test(NAME itkTimeVaryingBSplineVelocityFieldImageRegistrationTest
               1  # number of iterations for second level of the displacement field
               1  # number of iterations for third level of the displacement field
               0.5 # learning rate
+              1.0e-7
+              10
               )
 
 set_property(TEST itkTimeVaryingBSplineVelocityFieldImageRegistrationTest APPEND PROPERTY LABELS RUNS_LONG)
