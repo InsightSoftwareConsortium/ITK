@@ -43,6 +43,7 @@ template class ITKCommon_EXPORT MetaDataObject<Array<char>>;
 template class ITKCommon_EXPORT MetaDataObject<Array<int>>;
 template class ITKCommon_EXPORT MetaDataObject<Array<float>>;
 template class ITKCommon_EXPORT MetaDataObject<Array<double>>;
+template class ITKCommon_EXPORT MetaDataObject<Matrix<float, 4, 4>>;
 template class ITKCommon_EXPORT MetaDataObject<Matrix<double>>;
 template class ITKCommon_EXPORT MetaDataObject<std::vector<float>>;
 template class ITKCommon_EXPORT MetaDataObject<std::vector<double>>;
