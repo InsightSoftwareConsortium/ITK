@@ -107,7 +107,7 @@ public:
   static constexpr unsigned int ImageDimension = TFixedImage::ImageDimension;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(TimeVaryingBSplineVelocityFieldImageRegistrationMethod, SimpleImageRegistrationMethod);
+  itkTypeMacro(TimeVaryingBSplineVelocityFieldImageRegistrationMethod, ImageRegistrationMethodv4);
 
   /** Input type alias for the images and transforms. */
   using FixedImageType = TFixedImage;
