@@ -251,7 +251,7 @@ public:
     {
       itkExceptionMacro(<< "Gradient direction " << idx << "does not exist");
     }
-    return m_GradientDirectionContainer->ElementAt(idx + 1);
+    return m_GradientDirectionContainer->ElementAt(idx);
   }
 
   /** set an image mask */
