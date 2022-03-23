@@ -74,6 +74,18 @@ public:
   }
 };
 
+
+/** Converts the specified numeric value to a string, using a `NumberToString` function object. Produces a full
+ * precision (lossless) string representation, also for `float`and `double`. Otherwise it is similar to `std::to_string`
+ */
+template <typename TValue>
+std::string
+ConvertNumberToString(const TValue val)
+{
+  constexpr NumberToString<TValue> convert{};
+  return convert(val);
+}
+
 } // namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
