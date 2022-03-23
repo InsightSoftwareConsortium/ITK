@@ -55,6 +55,10 @@ itkImageToHistogramFilterTest3(int argc, char * argv[])
 
   using HistogramGeneratorType = itk::Statistics::ScalarImageToHistogramGenerator<ScalarImageType>;
   auto histogramGenerator = HistogramGeneratorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(histogramGenerator, ScalarImageToHistogramGenerator, Object);
+
+
   histogramGenerator->SetInput(reader->GetOutput());
 
   const int NumberOfBins = static_cast<unsigned int>(imageMax - imageMin + 1);

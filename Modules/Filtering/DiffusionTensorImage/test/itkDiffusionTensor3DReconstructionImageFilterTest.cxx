@@ -118,7 +118,33 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       gradientDirection[2] = gradientDirections[i][2];
       tensorReconstructionFilter->AddGradientImage(gradientDirection, gradientImage);
       std::cout << "Gradient directions: " << gradientDirection << std::endl;
+
+      const TensorReconstructionImageFilterType::GradientDirectionType::element_type epsilon = 1e-3;
+      TensorReconstructionImageFilterType::GradientDirectionType                     output =
+        tensorReconstructionFilter->GetGradientDirection(i);
+      for (unsigned int j = 0; j < gradientDirection.size(); ++j)
+      {
+        TensorReconstructionImageFilterType::GradientDirectionType::element_type gradientDirectionComponent =
+          gradientDirection[j];
+        TensorReconstructionImageFilterType::GradientDirectionType::element_type outputComponent = output[j];
+        if (!itk::Math::FloatAlmostEqual(gradientDirectionComponent, outputComponent, 10, epsilon))
+        {
+          std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+          std::cerr << "Test failed!" << std::endl;
+          std::cerr << "Error in gradientDirection [" << i << "]"
+                    << "[" << j << "]" << std::endl;
+          std::cerr << "Expected value " << gradientDirectionComponent << std::endl;
+          std::cerr << " differs from " << outputComponent;
+          std::cerr << " by more than " << epsilon << std::endl;
+          return EXIT_FAILURE;
+        }
+      }
     }
+
+    // Test gradient direction index exception
+    unsigned int idx = numberOfGradientImages + 1;
+    ITK_TRY_EXPECT_EXCEPTION(tensorReconstructionFilter->GetGradientDirection(idx));
+
     //
     // second time through test, use the mask image
     if (pass == 1)

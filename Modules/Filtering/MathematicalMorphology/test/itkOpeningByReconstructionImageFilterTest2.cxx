@@ -25,12 +25,13 @@
 int
 itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
 {
-  if (argc < 8)
+  if (argc < 9)
   {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " OutputImage Radius PreserveIntensities(0,1) OriginX OriginY SpacingX SpacingY [Diffmage]"
-              << std::endl;
+    std::cerr
+      << "Usage: " << itkNameOfTestExecutableMacro(argv)
+      << " OutputImage Radius PreserveIntensities(0,1) fullyConnected OriginX OriginY SpacingX SpacingY [Diffmage]"
+      << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -65,13 +66,13 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
 
   // fill spacing and origin
   OriginType origin;
-  origin[0] = std::stod(argv[4]);
-  origin[1] = std::stod(argv[5]);
+  origin[0] = std::stod(argv[5]);
+  origin[1] = std::stod(argv[6]);
   inputImage->SetOrigin(origin);
 
   SpacingType spacing;
-  spacing[0] = std::stod(argv[6]);
-  spacing[1] = std::stod(argv[7]);
+  spacing[0] = std::stod(argv[7]);
+  spacing[1] = std::stod(argv[8]);
   inputImage->SetSpacing(spacing);
 
 
@@ -100,6 +101,9 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
   bool preserveIntensities = static_cast<bool>(std::stoi(argv[3]));
   ITK_TEST_SET_GET_BOOLEAN(filter, PreserveIntensities, preserveIntensities);
 
+  bool fullyConnected = static_cast<bool>(std::stoi(argv[4]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
+
   filter->SetInput(inputImage);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
@@ -116,14 +120,14 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
 
 
   // Create a difference image if one is requested
-  if (argc == 8)
+  if (argc == 10)
   {
     itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
       itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
     subtract->SetInput(0, inputImage);
     subtract->SetInput(1, filter->GetOutput());
 
-    writer->SetFileName(argv[7]);
+    writer->SetFileName(argv[9]);
     writer->SetInput(subtract->GetOutput());
 
     ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());

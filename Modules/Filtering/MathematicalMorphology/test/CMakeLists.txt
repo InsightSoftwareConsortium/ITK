@@ -64,12 +64,17 @@ itk_add_test(NAME itkClosingByReconstructionImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ClosingByReconstructionImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png
-    itkClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/closerec1.jpg} ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png 4 0 ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract.png)
+    itkClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/closerec1.jpg} ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest.png 4 0 0 ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract.png)
 itk_add_test(NAME itkClosingByReconstructionImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/ClosingByReconstructionImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png
-    itkClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/closerec1.jpg} ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png 4 1 ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract2.png)
+    itkClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/closerec1.jpg} ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTest2.png 4 1 0 ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtract2.png)
+itk_add_test(NAME itkClosingByReconstructionImageFilterTestFullyConnected
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/ClosingByReconstructionImageFilterTestFullyConnected.png}
+              ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestFullyConnected.png
+    itkClosingByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/closerec1.jpg} ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestFullyConnected.png 4 1 1 ${ITK_TEST_OUTPUT_DIR}/ClosingByReconstructionImageFilterTestSubtractFullyConnected.png)
 itk_add_test(NAME itkFlatStructuringElementTest
       COMMAND ITKMathematicalMorphologyTestDriver
               --redirectOutput ${ITK_TEST_OUTPUT_DIR}/itkFlatStructuringElementTest.txt
@@ -226,22 +231,27 @@ itk_add_test(NAME itkOpeningByReconstructionImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest.png
-    itkOpeningByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/chondt.png} ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest.png 4 0 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract.png)
+    itkOpeningByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/chondt.png} ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest.png 4 0 0 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract.png)
 itk_add_test(NAME itkOpeningByReconstructionImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/OpeningByReconstructionImageFilterTest2.png}
               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png
-    itkOpeningByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/chondt.png} ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png 4 1 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png)
+    itkOpeningByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/chondt.png} ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTest2.png 4 1 0 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtract2.png)
+itk_add_test(NAME itkOpeningByReconstructionImageFilterTestFullyConnected
+      COMMAND ITKMathematicalMorphologyTestDriver
+    --compare DATA{Baseline/OpeningByReconstructionImageFilterTestFullyConnected.png}
+              ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestFullyConnected.png
+    itkOpeningByReconstructionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/chondt.png} ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestFullyConnected.png 4 1 1 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractFullyConnected.png)
 itk_add_test(NAME itkOpeningByReconstructionImageFilterTestNoInput
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/OpeningByReconstructionImageFilterTestNoInput.png}
               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput.png
-    itkOpeningByReconstructionImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput.png 4 0 0 0 0.5 0.5 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput.png)
+    itkOpeningByReconstructionImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput.png 4 0 0 0 0 0.5 0.5 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput.png)
 itk_add_test(NAME itkOpeningByReconstructionImageFilterTestNoInput2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/OpeningByReconstructionImageFilterTestNoInput2.png}
               ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput2.png
-    itkOpeningByReconstructionImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput2.png 4 1 0 0 0.5 0.5 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput2.png)
+    itkOpeningByReconstructionImageFilterTest2 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestNoInput2.png 4 1 0 0 0 0.5 0.5 ${ITK_TEST_OUTPUT_DIR}/OpeningByReconstructionImageFilterTestSubtractNoInput2.png)
 itk_add_test(NAME itkDoubleThresholdImageFilterTest
       COMMAND ITKMathematicalMorphologyTestDriver
   --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/DoubleThresholdImageFilterTest.png}

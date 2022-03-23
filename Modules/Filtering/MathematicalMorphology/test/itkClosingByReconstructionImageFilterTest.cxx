@@ -27,11 +27,11 @@
 int
 itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc < 6)
   {
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
-              << " Inputimage OutputImage Radius PreserveIntensities(0,1) [Diffmage]" << std::endl;
+              << " Inputimage OutputImage Radius PreserveIntensities(0,1) fullyConnected [Diffmage]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -71,6 +71,9 @@ itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
   bool preserveIntensities = static_cast<bool>(std::stoi(argv[4]));
   ITK_TEST_SET_GET_BOOLEAN(filter, PreserveIntensities, preserveIntensities);
 
+  bool fullyConnected = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(filter, FullyConnected, fullyConnected);
+
   filter->SetInput(reader->GetOutput());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
@@ -87,14 +90,14 @@ itkClosingByReconstructionImageFilterTest(int argc, char * argv[])
 
 
   // Create a difference image if one is requested
-  if (argc == 6)
+  if (argc == 7)
   {
     itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::Pointer subtract =
       itk::SubtractImageFilter<InputImageType, OutputImageType, OutputImageType>::New();
     subtract->SetInput(1, reader->GetOutput());
     subtract->SetInput(0, filter->GetOutput());
 
-    writer->SetFileName(argv[5]);
+    writer->SetFileName(argv[6]);
     writer->SetInput(subtract->GetOutput());
 
     ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());

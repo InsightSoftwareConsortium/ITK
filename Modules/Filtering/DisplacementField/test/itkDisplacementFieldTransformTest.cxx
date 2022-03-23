@@ -178,6 +178,12 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(displacementTransform, DisplacementFieldTransform, Transform);
 
 
+  // Test exceptions
+  DisplacementTransformType::InputVnlVectorType::element_type vectorValue = 1.0;
+  DisplacementTransformType::InputVnlVectorType               vector;
+  vector.fill(vectorValue);
+  ITK_TRY_EXPECT_EXCEPTION(displacementTransform->TransformVector(vector));
+
   DisplacementTransformType::DisplacementFieldType::Pointer displacementField =
     DisplacementTransformType::DisplacementFieldType::New();
   displacementTransform->SetDisplacementField(displacementField);

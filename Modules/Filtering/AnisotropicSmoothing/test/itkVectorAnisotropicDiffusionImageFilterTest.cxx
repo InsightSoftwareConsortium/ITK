@@ -67,6 +67,11 @@ itkVectorAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNot
     // Set up Curvature diffusion filter
     itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::Pointer filter2 =
       itk::VectorCurvatureAnisotropicDiffusionImageFilter<ImageType, ImageType>::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(
+      filter2, VectorCurvatureAnisotropicDiffusionImageFilter, AnisotropicDiffusionImageFilter);
+
+
     filter2->SetNumberOfIterations(1);
     filter2->SetConductanceParameter(3.0f);
     filter2->SetTimeStep(0.1f);

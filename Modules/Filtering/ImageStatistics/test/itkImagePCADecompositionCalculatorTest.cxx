@@ -322,6 +322,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
   ImagePCAShapeModelEstimatorType::BasisVectorType proj3_3, proj4_3;
   // now test it with a mean image set
   decomposer->SetMeanImage(image8);
+  ITK_TEST_SET_GET_VALUE(image8, decomposer->GetMeanImage());
 
   decomposer->SetImage(image3);
   decomposer->Compute();
