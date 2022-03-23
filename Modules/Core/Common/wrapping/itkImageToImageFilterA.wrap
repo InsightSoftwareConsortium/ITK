@@ -87,5 +87,8 @@ itk_wrap_class("itk::ImageToImageFilter" POINTER)
   # RGBA types
   UNIQUE(rgba "RGBAUC;${WRAP_ITK_RGBA}")
   itk_wrap_image_filter_combinations("${rgba}" "${rgba}")
-
+  unset(to_types)
+  unset(from_types)
+  unset(rgb)
+  unset(rgba)
 itk_end_wrap_class()
