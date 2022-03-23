@@ -118,16 +118,15 @@ protected:
   void
   WritePoints(T * buffer, std::ofstream & outputFile)
   {
-    NumberToString<T> convert;
-    Indent            indent(1);
-    SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
+    Indent        indent(1);
+    SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
       outputFile << indent;
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        outputFile << convert(buffer[index++]) << " ";
+        outputFile << ConvertNumberToString(buffer[index++]) << " ";
       }
       outputFile << '\n';
     }

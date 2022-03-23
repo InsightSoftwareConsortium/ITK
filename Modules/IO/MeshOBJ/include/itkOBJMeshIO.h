@@ -116,15 +116,14 @@ protected:
   void
   WritePoints(T * buffer, std::ofstream & outputFile)
   {
-    NumberToString<T> convert;
-    SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
+    SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
       outputFile << "v ";
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        outputFile << convert(buffer[index++]) << "  ";
+        outputFile << ConvertNumberToString(buffer[index++]) << "  ";
       }
       outputFile << '\n';
     }
@@ -155,15 +154,14 @@ protected:
   void
   WritePointData(T * buffer, std::ofstream & outputFile)
   {
-    NumberToString<T> convert;
-    SizeValueType     index = itk::NumericTraits<SizeValueType>::ZeroValue();
+    SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
     {
       outputFile << "vn ";
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        outputFile << convert(buffer[index++]) << "  ";
+        outputFile << ConvertNumberToString(buffer[index++]) << "  ";
       }
 
       outputFile << '\n';
