@@ -17,6 +17,7 @@
 # ==========================================================================*/
 import types
 from itk.support import base
+from itkConfig import DefaultFactoryLoading as _DefaultFactoryLoading
 
 # Needed to avoid problem with aliasing of itk.set (itkTemplate)
 # inside the itk namespace.  We need to explictly specify the
@@ -139,7 +140,8 @@ class LazyITKModule(types.ModuleType):
                     for k, v in namespace.items():
                         setattr(self, k, v)
                     value = namespace[attr]
-                    base.load_module_needed_factories(module)
+                    if _DefaultFactoryLoading:
+                        base.load_module_needed_factories(module)
                 else:  # one of the other threads that had been blocking
                     # waiting for first thread to complete. Now the
                     # attribute is REQUIRED to be available

@@ -20,6 +20,7 @@ itk_python_add_test(NAME PythonComplex COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/compl
 itk_python_add_test(NAME PythonHelperFunctions COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/helpers.py)
 itk_python_add_test(NAME PythonLazyModule COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/lazy.py)
 itk_python_add_test(NAME PythonNoLazyModule COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/nolazy.py)
+itk_python_add_test(NAME PythonNoDefaultFactories COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/nodefaultfactories.py)
 itk_python_add_test(NAME PythonDICOMSeries COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/dicomSeries.py
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0075.dcm}
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/Image0076.dcm}
