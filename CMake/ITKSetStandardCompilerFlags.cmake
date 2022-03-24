@@ -145,7 +145,7 @@ function(check_avx_flags avx_flags_var)
   set(CMAKE_REQUIRED_FLAGS)
 
   # Check AVX
-  if(MSVC_VERSION GREATER_EQUAL 1600)
+  if(MSVC)
     set(CMAKE_REQUIRED_FLAGS "/arch:AVX") # set flags to be used in check_cxx_source_runs below
   endif()
   check_cxx_source_runs("
@@ -171,7 +171,7 @@ function(check_avx_flags avx_flags_var)
     have_avx_extensions_var)
 
   # Check AVX2
-  if(MSVC_VERSION GREATER_EQUAL 1800)
+  if(MSVC)
     set(CMAKE_REQUIRED_FLAGS "/arch:AVX2") # set flags to be used in check_cxx_source_runs below
   endif()
   check_cxx_source_runs("
@@ -199,9 +199,9 @@ function(check_avx_flags avx_flags_var)
   set(CMAKE_REQUIRED_FLAGS "${_safe_cmake_required_flags}")
 
   # Set Flags
-  if(have_avx2_extensions_var AND MSVC_VERSION GREATER_EQUAL 1800)
+  if(have_avx2_extensions_var AND MSVC)
     set(avx_flags_var "${avx_flags_var} /arch:AVX2")
-  elseif(have_avx_extensions_var AND MSVC_VERSION GREATER_EQUAL 1600)
+  elseif(have_avx_extensions_var AND MSVC)
     set(avx_flags_var "${avx_flags_var} /arch:AVX")
   endif()
 endfunction()
@@ -279,7 +279,7 @@ macro(check_compiler_platform_flags)
          # code results in objects with number of sections exceeding object file
          # format.
          # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
-         if(MSVC_VERSION GREATER 1310)
+         if(MSVC)
            set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
          endif()
        endif()

@@ -4,7 +4,7 @@ if (ITK_USE_GPU)
 # code results in objects with number of sections exceeding object file
 # format.
 # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
-if(CMAKE_CL_64 OR CMAKE_COMPILER_2005)
+if(CMAKE_CL_64)
 add_definitions(/bigobj)
 endif()
 
