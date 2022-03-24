@@ -26,6 +26,7 @@ from typing import Dict, Any, List, Optional, Sequence, Union
 import pkg_resources
 
 import itkConfig
+from itkConfig import DefaultFactoryLoading as _DefaultFactoryLoading
 from itk.support.template_class import itkTemplate
 
 
@@ -236,7 +237,8 @@ def itk_load_swig_module(name: str, namespace=None):
     # for some base class(es) defined in the current module.
     # For instance, ITKImageIOBase will load any modules defining
     # ImageIO objects for reading different image file types.
-    load_module_needed_factories(name)
+    if _DefaultFactoryLoading:
+        load_module_needed_factories(name)
 
     for snakeCaseFunction in l_data.get_snake_case_functions():
         namespace[snakeCaseFunction] = getattr(l_module, snakeCaseFunction)

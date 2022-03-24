@@ -69,6 +69,7 @@ def _get_environment_boolean(environment_var: str, default_string: str) -> bool:
     return bool(_strtobool(default_string))
 
 
+DefaultFactoryLoading: bool = _get_environment_boolean("ITK_PYTHON_DEFAULTFACTORYLOADING", "True")
 LazyLoading: bool = _get_environment_boolean("ITK_PYTHON_LAZYLOADING", "True")
 NotInPlace: bool = _get_environment_boolean("ITK_PYTHON_NOTINPLACE", "False")
 del _get_environment_boolean
