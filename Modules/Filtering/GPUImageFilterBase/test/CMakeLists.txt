@@ -5,7 +5,7 @@ if (ITK_USE_GPU)
 # format.
 # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
 if(CMAKE_CL_64 OR CMAKE_COMPILER_2005)
-add_definitions(/bigobj)
+add_compile_options(/bigobj)
 endif()
 
 itk_module_test()
