@@ -262,7 +262,7 @@ ObjectFactoryBase::Initialize()
     m_PimplGlobals->m_Initialized = true;
     ObjectFactoryBase::InitializeFactoryList();
     ObjectFactoryBase::RegisterInternal();
-#ifdef ITK_DYNAMIC_LOADING
+#if defined(ITK_DYNAMIC_LOADING) && !defined(ITK_WRAPPING)
     ObjectFactoryBase::LoadDynamicFactories();
 #endif
   }
