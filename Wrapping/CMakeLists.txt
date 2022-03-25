@@ -65,6 +65,9 @@ if(NOT WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER)
   set(WRAP_ITK_INSTALL_COMPONENT_IDENTIFIER "")
 endif()
 
+unset(GLOBAL_IdxFilesList)
+unset(GLOBAL_IdxFilesList CACHE)
+
 # Set WRAP_ITK_INSTALL_COMPONENT_PER_MODULE to 1 to have wrapping install
 # component names prefixed with their respective module name.
 # This can be used to have fine-control over the split of installation.
@@ -80,6 +83,10 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 # Additional files for installation
 ###############################################################################
 
+# ITK_STUB_DIR: all stub files are stored in this directory
+set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs" CACHE INTERNAL "where python interface files are stored.")
+# ITK_PKL_DIR: all temporary pickled object AST representations stored here
+set(ITK_PKL_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-pkl" CACHE INTERNAL "where temp pkl files are stored")
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${ITK_DIR}/Wrapping/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
@@ -94,13 +101,6 @@ set(ITK_TEST_DRIVER "itkTestDriver")
 ###############################################################################
 
 include(ConfigureWrapping.cmake)
-
-###############################################################################
-# let the different generators running some code before begining to parse the
-# modules
-###############################################################################
-
-itk_wrap_modules()
 
 ###############################################################################
 # Configure specific wrapper modules
@@ -136,22 +136,48 @@ set(WRAP_ITK_MODULES ${WRAP_ITK_MODULES} CACHE INTERNAL "Internal library list."
 # modules
 ###############################################################################
 
-itk_end_wrap_modules_all_generators()
+if(${module_prefix}_WRAP_PYTHON)
+  # Wrap PyUtils
+  if(NOT EXTERNAL_WRAP_ITK_PROJECT)
+    add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyUtils)
+    add_subdirectory(${ITK_WRAP_PYTHON_SOURCE_DIR}/PyBase)
+  endif()
+endif()
 
 
 ###############################################################################
 # Generate Python typehints when wrapped
 ###############################################################################
 if(ITK_WRAP_PYTHON)
-  # Generate __init__.pyi file with wrapped templates/interfaces
-  set(ITK_STUB_TEMPLATE_IMPORTS "$ENV{ITK_STUB_TEMPLATE_IMPORTS}")
-  list(SORT ITK_STUB_TEMPLATE_IMPORTS CASE INSENSITIVE)
-  list(JOIN ITK_STUB_TEMPLATE_IMPORTS "\n" ITK_STUB_TEMPLATE_IMPORTS)
-  configure_file(Generators/Python/itk/__init__.pyi.in Generators/Python/itk-stubs/__init__.pyi)
+  # Generate .pyi files for each class
+  # The intent is that the pyi_generator file is run after every occurrence of igenerator has ran.
+  # The call to igenerator is contained within a macro that is called by each of the modules.
+  # According to online documents CMAkE dependencies can only be created between
+  # custom_targets and custom_commands contained within the same CMakeLists file. It is unknown if this
+  # can be done since the macros are called from a variety of locations.
 
-  # Generate _proxies.pyi file with wrapped proxy classes and methods
-  set(ITK_STUB_PROXY_IMPORTS "$ENV{ITK_STUB_PROXY_IMPORTS}")
-  list(SORT ITK_STUB_PROXY_IMPORTS CASE INSENSITIVE)
-  list(JOIN ITK_STUB_PROXY_IMPORTS "\n" ITK_STUB_PROXY_IMPORTS)
-  configure_file(Generators/Python/itk/_proxies.pyi.in Generators/Python/itk-stubs/_proxies.pyi)
+  # PYI_GENERATOR: The file location of the pyi_generator.py script
+  #   This script is responsible for merging all of the pickle files together and
+  #   generating the Template and Proxy files for each class. In addition this file
+  #   generates the __init__.pyi and _proxies.pyi files used to interface between
+  #   the individual .pyi files.
+  set(PYI_GENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/Generators/Python/itk/pyi_generator.py")
+
+  # Run pyi_generator
+  # ${GLOBAL_IdxFilesList}: is described within SwigInterface/CMakeLists.txt
+  #   The variable is passed to pyi_generator to make sure that the function only uses current index files
+  #   All index files found that are not in the given list are assumed to be outdated and are removed.
+  add_custom_target(itk-stub-files ALL
+          BYPRODUCTS "${ITK_STUB_DIR}/_proxies.pyi" "${ITK_STUB_DIR}/__init__.pyi"
+          COMMAND ${Python3_EXECUTABLE} ${PYI_GENERATOR}
+            --pyi_dir "${ITK_STUB_DIR}"
+            --pkl_dir "${ITK_PKL_DIR}"
+            --index_files "${GLOBAL_IdxFilesList}"
+          DEPENDS ${PYI_GENERATOR} ${GLOBAL_IdxFilesList}
+          COMMENT "Generating .pyi files for Python wrapper interface"
+          VERBATIM
+  )
+
+  unset(ITK_STUB_DIR CACHE)
+  unset(ITK_PKL_DIR CACHE)
 endif()

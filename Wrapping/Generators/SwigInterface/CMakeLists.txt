@@ -272,7 +272,7 @@ set(IGENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/igenerator.py" CACHE INTERNAL "igen
 
 
 macro(itk_wrap_simple_type_swig_interface wrap_class swig_name)
-  set(SWIG_INTERFACE_TYPEDEFS "${SWIG_INTERFACE_TYPEDEFS}typedef ${wrap_class} ${swig_name};\n")
+  string(APPEND SWIG_INTERFACE_TYPEDEFS "using ${swig_name} = ${wrap_class};\n")
 endmacro()
 
 include_directories("${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")

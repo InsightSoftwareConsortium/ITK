@@ -1,28 +1,292 @@
 #!/usr/bin/env python
+"""
+igenerator.py
+PURPOSE:
+An important component in wrapping ITK in Python. Converts the output of CastXML into a format readable by SWIG
+INPUTS:
+    mdx: master idx file to be used.
+#      import: File to be imported in the generated interface file.
+    Swig-include: File to be included by swig (%include) in the generated interface file.
+    Disable-warning: Warning to be disabled.
+Disable-access-warning: Access level where warnings are disabled (public, protected, private).
+    Warning-error: Treat warnings as errors.
+    Verbose: Log what is currently done.
+    Keep: Don't rewrite the output file if the content is unchanged.
+    Pygccxml-path: Path to pygccxml
+    Castxml_path: Path to castxml
+    Interface-output-dir: Directory to write the Swig input files
+    Library-output-dir: Directory to read the xml abstract syntax tree input files
+    Submodule-order: List of submodules that must be wrapped in the given order
+Snake-case-file: The configuration file to be appended to if snake_case_functions are found
+    Pyi_dir: The directory for .pyi files to be generated
 
+STEPS: (Very brief summary, many steps excluded, does not discuss pyi generation steps)
+Parse through the master index file (mdx) to produce a list of submodule_names_list
+Read the xml AST file for each submodule
+From that xml generate an AST using pygccxml
+Convert the ASTs into a list of pygccxml namespace objects
+Generate an .idx file from each submodule’s namespace object using ITK’s IdxGenerator.
+I think that this is a file needed by swig to learn information about each typedef for each method
+For each submodule, generate the swig input files (.i) and snake case process object functions again
+using the wrapping_namespace objects generated in 2
+This is where most of the work takes place
+Create a list of classes defined in the wrappers_namespace
+From that extract a list of typedefs
+
+Typedefs listed in dependency order
+For each typedef, generate its class
+
+
+Call self.generate_process_object_snake_case_functions(typedefs)
+Generate file header
+Generate import file, include file, and apply file
+Concatenate header, imports, includes, applies, and the generated class together and save to a .i file for SWIG
+
+MDX Files
+PURPOSE:
+Used by igenerator.py to generate a list of submodule_names_list. One or several can be passed on any given run.
+    Contains a list of dependencies
+STEPS:
+    Generated through CMake right before igenerator.py runs (in the same macro)
+WRAPPER_LIBRARY_DEPENDS contains a list of .mdx dependencies that are added to the files
+Also appears to be affected by the itk_end_wrap_submodule_swig_interface
+ Macro through the SWIG_INTERFACE_MDX_CONTENT variable
+ (but this macro is not called by the same macro that generates the file)
+
+"""
+# -*- coding: utf-8 -*-
+import collections
+import pickle
 import sys
 import os
 import re
 from argparse import ArgumentParser
 from io import StringIO
+from os.path import exists
 from pathlib import Path
 from keyword import iskeyword
-from typing import List
+from typing import List, Dict, Any
 
 
+def argument_parser():
+    cmdln_arg_parser = ArgumentParser()
+    cmdln_arg_parser.add_argument(
+        "--mdx",
+        action="append",
+        dest="mdx",
+        default=[],
+        metavar="FILE",
+        help="master idx file to be used.",
+    )
+    cmdln_arg_parser.add_argument(
+        "--import",
+        action="append",
+        dest="imports",
+        default=[],
+        metavar="FILE",
+        help="File to be imported in the generated interface file.",
+    )
+    cmdln_arg_parser.add_argument(
+        "--swig-include",
+        action="append",
+        dest="swig_includes",
+        default=[],
+        metavar="FILE",
+        help=(
+            "File to be included by swig (%include) in the generated " "interface file."
+        ),
+    )
+    cmdln_arg_parser.add_argument(
+        "-w",
+        "--disable-warning",
+        action="append",
+        dest="warnings",
+        default=[],
+        metavar="WARNING",
+        help="Warning to be disabled.",
+    )
+    cmdln_arg_parser.add_argument(
+        "-A",
+        "--disable-access-warning",
+        action="append",
+        dest="access_warnings",
+        default=[],
+        metavar="LEVEL",
+        help=(
+            "Access level where warnings are disabled " "(public, protected, private)."
+        ),
+    )
+    cmdln_arg_parser.add_argument(
+        "-W",
+        "--warning-error",
+        action="store_true",
+        dest="warningError",
+        help="Treat warnings as errors.",
+    )
+    cmdln_arg_parser.add_argument(
+        "-v",
+        "--verbose",
+        action="store_true",
+        dest="verbose",
+        help="Log what is currently done.",
+    )
+    cmdln_arg_parser.add_argument(
+        "-k",
+        "--keep",
+        action="store_true",
+        dest="keep",
+        help="Don't rewrite the output file if the content is unchanged.",
+    )
+    cmdln_arg_parser.add_argument(
+        "-p",
+        "--pygccxml-path",
+        action="store",
+        dest="pygccxml_path",
+        help="Path to pygccxml",
+    )
+    cmdln_arg_parser.add_argument(
+        "-g",
+        "--castxml-path",
+        action="store",
+        dest="castxml_path",
+        help="Path to castxml",
+    )
+    cmdln_arg_parser.add_argument(
+        "-o",
+        "--interface-output-dir",
+        action="store",
+        dest="interface_output_dir",
+        help="Directory to write the Swig input files",
+    )
+    cmdln_arg_parser.add_argument(
+        "-l",
+        "--library-output-dir",
+        action="store",
+        dest="library_output_dir",
+        help="Directory to read the xml abstract syntax tree input files",
+    )
+    cmdln_arg_parser.add_argument(
+        "-s",
+        "--submodule-order",
+        action="store",
+        dest="submodule_order",
+        help="List of submodules that must be wrapped in the given order",
+    )
+    cmdln_arg_parser.add_argument(
+        "-a",
+        "--snake-case-file",
+        action="store",
+        dest="snake_case_file",
+        help="The configuration file to be appended to if snake_case_functions are found",
+    )
+
+    cmdln_arg_parser.add_argument(
+        "--pyi_dir",
+        action="store",
+        dest="pyi_dir",
+        default="",
+        type=str,
+        help="The directory for .pyi files to be generated",
+    )
+
+    cmdln_arg_parser.add_argument(
+        "--pyi_index_list",
+        action="store",
+        dest="pyi_index_list",
+        default="",
+        type=str,
+        help="The list of byproduct index files that contain the per-submodule pkl files "
+        + "for each 'itk class' that is instantiated.  Useful for debugging for error checking.",
+    )
+    cmdln_arg_parser.add_argument(
+        "--pkl_dir",
+        action="store",
+        dest="pkl_dir",
+        default="",
+        type=str,
+        help="The directory for .pyi files to be generated",
+    )
+    cmdln_arg_parser.add_argument(
+        "-d",
+        action="store_true",
+        dest="debug_code",
+        help="Enable debugging dode",
+    )
+
+    options = cmdln_arg_parser.parse_args()
+    return options
+
+
+glb_options = argument_parser()
+sys.path.insert(1, glb_options.pygccxml_path)
+import pygccxml
+import logging
+
+
+# Global debugging variables
+pyi_approved_index_list: List[Path] = [
+    Path(x) for x in glb_options.pyi_index_list.split(";")
+]
+pyi_created_index_list: List[Path] = []
+
+
+# The ITKClass is duplicated in pyi_generator.py
 class ITKClass:
-    def __init__(self, class_name):
+    # Structure
+    # { method_name: [
+    #                  # Each entry of this list contains a description of the definition for the singe method
+    #                  # Each description is similar but can contain different types or defaults
+    #                  [
+    #                    # Describe each argument of the method
+    #                    (
+    #                      argument_name,
+    #                      python_arg_type,
+    #                      default_value # Use None if no default
+    #                    ),
+    #                    ...,
+    #                    # The final entry is unique, this contains the information about the return value
+    #                    (
+    #                      None, # This indicates that it is a return type and not an argument
+    #                      return_type, # acquired through the `get_arg_type` method
+    #                      is_static # True if this is a static method
+    #                    )
+    #                  ],
+    #
+    #                  # Describe other overloads of the same method (method_name) here:
+    #                  [ ... ],
+    #                  ...
+    #                ],
+    #
+    #   another_method_name: ...
+    #   ...
+    # }
+    def __init__(self, l_class_name):
         self.python_method_headers = {}
         self.has_new_method = False
-        self.number_of_typedefs = 0
         self.typed = False
-        self.parent_class = ""
+        self.parent_class = []
         self.is_abstract = False
-        self.class_name = class_name
+        self.class_name = l_class_name
         self.is_enum = False
         self.has_superclass = False
         self.enums = []
         self.submodule_name = ""
+
+    def __eq__(self, other):
+        if isinstance(other, ITKClass):
+            return (
+                self.python_method_headers == other.python_method_headers
+                and self.has_new_method == other.has_new_method
+                and self.typed == other.typed
+                and self.parent_class == other.parent_class
+                and self.is_abstract == other.is_abstract
+                and self.class_name == other.class_name
+                and self.is_enum == other.is_enum
+                and self.enums == other.enums
+                and self.submodule_name == other.submodule_name
+            )
+
+        return False
 
 
 def remove_class_type(itkclass: str) -> (str, bool):
@@ -38,7 +302,7 @@ def remove_class_type(itkclass: str) -> (str, bool):
 
     match = list(
         re.finditer(
-            "[A-Z_0-9]+(Lanczos|Cosine|Welch|Hamming|Neighborhood)*[A-Z_0-9]*$",
+            r"[A-Z_\d]+(Lanczos|Cosine|Welch|Hamming|Neighborhood)*[A-Z_\d]*$",
             itkclass,
         )
     )
@@ -184,259 +448,36 @@ def get_arg_type(decls, arg_type, for_snake_case_hints=True):
     return None
 
 
-def generate_class_pyi_def(
-    outputPYIHeaderFile, outputPYIMethodFile, itk_class: ITKClass
-):
-    class_name = itk_class.class_name
-
-    if itk_class.is_enum:
-        outputPYIHeaderFile.write(f"itk.{class_name} =  _{class_name}Proxy\n\n\n")
-    elif not itk_class.is_abstract:
-        outputPYIHeaderFile.write(
-            generate_class_pyi_header(
-                class_name, itk_class.has_new_method, itk_class.typed
-            )
-        )
-
-    outputPYIMethodFile.write(
-        f"class {class_name}Proxy({itk_class.parent_class}):\n"  # if
-    )
-
-    if itk_class.is_enum and len(itk_class.enums) > 0:
-        for enum in itk_class.enums:
-            outputPYIMethodFile.write(f"\t{enum} = ...\n")
-        outputPYIMethodFile.write(f"\n\n")
-    else:
-        if len(itk_class.python_method_headers.keys()) == 0:
-            outputPYIMethodFile.write(f"\t...\n\n")
-
-        for method in itk_class.python_method_headers.keys():
-            is_overloaded = len(itk_class.python_method_headers[method]) > 1
-            for method_variation in itk_class.python_method_headers[method]:
-                method_name = method
-                attributes = method_variation
-                params = ""
-                return_type = attributes[len(attributes) - 1][1]
-
-                is_a_static_method: bool = attributes[len(attributes) - 1][2]
-
-                # remove special case containing the return type from the end of the attributes list
-                attributes = attributes[:-1]
-                if len(attributes) > 0:
-                    params += ", "
-
-                for attribute in attributes:
-                    # name of the argument
-                    params += attribute[0]
-
-                    # type of the argument
-                    if attribute[1] is None:
-                        pass
-                    else:
-                        params += f": {attribute[1]}"
-
-                    # default value of the argument (if any)
-                    if attribute[2] is not None:
-                        params += f" = {attribute[2]}, "
-                    else:
-                        params += ", "
-
-                params = params[:-2]  # remove extra comma
-
-                self_str = "self"
-                if is_a_static_method:
-                    outputPYIMethodFile.write("\t@staticmethod\n")
-                    self_str = ""
-                    params = params[2:]  # remove comma from beginning
-
-                if is_overloaded:
-                    outputPYIMethodFile.write("\t@overload\n")
-
-                outputPYIMethodFile.write(f"\tdef {method_name}({self_str}{params})")
-                if return_type is not None:
-                    outputPYIMethodFile.write(f" -> {return_type}")
-                outputPYIMethodFile.write(f":\n" f'\t\t""""""\n' f"\t\t...\n\n")
-
-
-not_callable = [
-    "ImageToImageMetricv4",
-    "NarrowBandLevelSetImageFilter",
-    "ShapePriorSegmentationLevelSetImageFilter",
-    "ImageToImageFilter",
-    "ImageSource",
-    "NarrowBandImageFilterBase",
-    "NoiseBaseImageFilter",
-    "ImageToMeshFilter",
-    "ImageToPathFilter",
-    "GenerateImageSource",
-    "DenseFiniteDifferenceImageFilter",
-    "InPlaceImageFilter",
-    "AnisotropicDiffusionImageFilter",  # you must use snake_case method to properly use this class
-    "ConvolutionImageFilterBase",
-    "SparseFieldFourthOrderLevelSetImageFilter",
-    "SegmentationLevelSetImageFilter",
-    "TemporalProcessObject",
-    "ProcessObject",
-    "SegmentationLevelSetFunction",
-    "LBFGSOptimizerBasev4",
-]
-
-
-def generate_class_pyi_header(class_name: str, has_new_method: bool, typed: bool):
-    """Return a string containing the definition of a pyi class header.
-    Supports both typed and non-typed classes."""
-    if not typed:
-        if has_new_method:
-            class_header = (
-                f"class _{class_name}Template(_itkTemplate):\n"
-                f'    """Interface for instantiating itk::{class_name}'
-                f"\n        Create a new {class_name} Object:\n"
-                f"            'itk.{class_name}.New(**kwargs)"
-                f'"""\n\n'
-                f"    @staticmethod\n"
-                f"    def New(**kwargs) -> _{class_name}Proxy:\n"
-                f'        """Instantiate itk::{class_name}"""\n'
-                f"        ...\n"
-                f"\n"
-                f"{class_name} = _{class_name}Template\n"
-                f"\n"
-                f"\n"
-            )
-        elif class_name not in not_callable:
-            class_header = (
-                f"class _{class_name}Template(_itkTemplate):\n"
-                f'    """Interface for instantiating itk::{class_name}'
-                f'"""\n\n'
-                f"    def __new__(cls, *args: Any) -> _{class_name}Proxy:\n"
-                f'        """Instantiate itk::{class_name}"""\n'
-                f"        ...\n\n"
-                f"    def __call__(self, *args: Any) -> _{class_name}Proxy:\n"
-                f'        """Instantiate itk::{class_name}"""\n'
-                f"        ...\n"
-                f"\n"
-                f"{class_name} = _{class_name}Template"
-                f"\n"
-                f"\n"
-            )
-        else:
-            class_header = (
-                f"class _{class_name}Template(_itkTemplate):\n"
-                f'    """Interface for instantiating itk::{class_name}"""\n'
-                f"    ...\n"
-                f"\n"
-                f"{class_name} = _{class_name}Template"
-                f"\n"
-                f"\n"
-            )
-        return class_header
-
-    types = "INSERT_TYPE_NAMES_HERE"
-    if has_new_method:
-        class_header = (
-            f"class _{class_name}TemplateGetter():\n"
-            f"    def __getitem__(self, parameters) -> _{class_name}Template:\n"
-            f'        """Specify class type with:\n'
-            f"            \t[{types}]\n"
-            f"            :return: {class_name}Template\n"
-            f'            """\n'
-            f"        ...\n"
-            f"\n"
-            f"\n"
-            f"class _{class_name}Template(_itkTemplate, metaclass=_{class_name}TemplateGetter):\n"
-            f'    """Interface for instantiating itk::{class_name}< {types} >\n'
-            f"        Create a new {class_name} Object (of default type):\n"
-            f"            'itk.{class_name}.New(**kwargs)\n"
-            f"        Supports type specification through dictionary access:\n"
-            f'            \'itk.{class_name}[{types}].New(**kwargs)"""\n'
-            f"\n"
-            f"    @staticmethod\n"
-            f"    def New(**kwargs) -> _{class_name}Proxy:\n"
-            f'        """Instantiate itk::{class_name}< {types} >"""\n'
-            f"        ...\n"
-            f"\n"
-            f"{class_name} = _{class_name}Template"
-            f"\n"
-            f"\n"
-        )
-    elif class_name not in not_callable:
-        class_header = (
-            f"class _{class_name}TemplateGetter():\n"
-            f"    def __getitem__(self, parameters) -> _{class_name}Template:\n"
-            f'        """Specify class type with:\n'
-            f"            \t[{types}]\n"
-            f"            :return: {class_name}Template\n"
-            f'            """\n'
-            f"        ...\n"
-            f"\n"
-            f"\n"
-            f"class _{class_name}Template(_itkTemplate, metaclass=_{class_name}TemplateGetter):\n"
-            f'    """Interface for instantiating itk::{class_name}< {types} >\n'
-            f"        Supports type specification through dictionary access:\n"
-            f'            \'itk.{class_name}[{types}]()"""\n'
-            f"\n"
-            f"    def __new__(cls, *args: Any) -> _{class_name}Proxy:\n"
-            f'        """Instantiate itk::{class_name}< {types} >"""\n'
-            f"        ...\n\n"
-            f"    def __call__(self, *args: Any) -> _{class_name}Proxy:\n"
-            f'        """Instantiate itk::{class_name}< {types} >"""\n'
-            f"        ...\n"
-            f"\n"
-            f"{class_name} = _{class_name}Template"
-            f"\n"
-            f"\n"
-        )
-    else:
-        class_header = (
-            f"class _{class_name}TemplateGetter():\n"
-            f"    def __getitem__(self, parameters) -> _{class_name}Template:\n"
-            f'        """Specify class type with:\n'
-            f"            \t[{types}]\n"
-            f"            :return: {class_name}Template\n"
-            f'            """\n'
-            f"        ...\n"
-            f"\n"
-            f"\n"
-            f"class _{class_name}Template(_itkTemplate, metaclass=_{class_name}TemplateGetter):\n"
-            f'    """Interface for instantiating itk::{class_name}< {types} >"""\n'
-            f"    ...\n"
-            f"\n"
-            f"{class_name} = _{class_name}Template"
-            f"\n"
-            f"\n"
-        )
-    return class_header
-
-
-def getType(v):
+def get_type(v):
     if hasattr(v, "decl_type"):
-        return getType(v.decl_type)
+        return get_type(v.decl_type)
     if hasattr(v, "declaration"):
-        return getType(v.declaration)
+        return get_type(v.declaration)
     return v
 
 
 class IdxGenerator:
-    """Generates a the .idx file for an ITK wrapping submodule (which usually
+    """Generates the .idx file for an ITK wrapping submodule (which usually
     corresponds to a class)."""
 
-    def __init__(self, submoduleName):
-        self.submoduleName = submoduleName
+    def __init__(self, submodule_name: str):
+        self.submodule_name: str = submodule_name
         # the output file
         self.outputFile = StringIO()
 
-    def create_idxfile(self, idxFilePath, wrappersNamespace):
+    def create_idxfile(self, idx_file_path: str, wrappers_namespace):
         # iterate over all the typedefs in the _wrapping_::wrappers namespace
-        for typedef in wrappersNamespace.typedefs():
+        for typedef in wrappers_namespace.typedefs():
             n = typedef.name
-            s = getType(typedef).decl_string
+            s = get_type(typedef).decl_string
             # drop the :: prefix - it make swig produce invalid code
             if s.startswith("::"):
                 s = s[2:]
-            self.outputFile.write(f"{{{s}}} {{{n}}} {{{self.submoduleName}}}\n")
+            idx_line_value: str = f"{{{s}}} {{{n}}} {{{self.submodule_name}}}\n"
+            self.outputFile.write(idx_line_value)
 
-        content = self.outputFile.getvalue()
-
-        with open(idxFilePath, "w") as f:
+        with open(idx_file_path, "w") as f:
+            content: str = self.outputFile.getvalue()
             f.write(content)
 
 
@@ -635,18 +676,17 @@ class SwigInputGenerator:
         "unsigned long long": "int",
     }
 
-    def __init__(self, submoduleName, options, classes):
-        self.submoduleName = submoduleName
+    def __init__(self, submodule_name, options):
+        self.submodule_name = submodule_name
         # The first mdx file is the master index file for this module.
         self.moduleName = Path(options.mdx[0]).stem
         self.options = options
 
         self.outputFile = StringIO()
-        self.applyFileNames = []
+        self.apply_file_names = []
 
         # A dict of sets containing the .pyi python equivalent for all class methods and params
-        self.classes = classes
-        self.python_parent_imports = []
+        self.classes: Dict[str, ITKClass] = dict()
         self.current_class = ""
 
         # a dict to let us use the alias name instead of the full c++ name. Without
@@ -658,17 +698,13 @@ class SwigInputGenerator:
 
         # a dict to store the file where the def comes from
         self.typedefSource = {}
-
         self.warnings = set()
-
         self.mdx_loaded = set()
-
         self.verbose = options.verbose
-
         self.snakeCaseProcessObjectFunctions = set()
 
-    def warn(self, identifier, msg, doWarn=True):
-        if not doWarn:
+    def warn(self, identifier, msg, do_warn=True):
+        if not do_warn:
             # don't warn for anything
             return
         if str(identifier) not in self.options.warnings:
@@ -684,12 +720,12 @@ class SwigInputGenerator:
             else:
                 if self.options.warningError:
                     print(
-                        f"{self.submoduleName}: error({str(identifier)}): {msg}",
+                        f"{self.submodule_name}: error({str(identifier)}): {msg}",
                         file=sys.stderr,
                     )
                 else:
                     print(
-                        f"{self.submoduleName}: warning({str(identifier)}): {msg}",
+                        f"{self.submodule_name}: warning({str(identifier)}): {msg}",
                         file=sys.stderr,
                     )
 
@@ -698,27 +734,29 @@ class SwigInputGenerator:
             print(f"info: {msg}", file=sys.stderr)
 
     @staticmethod
-    def getDeclarationString(t):
-        t = getType(t)
+    def get_declaration_string(t):
+        t = get_type(t)
         if t.decl_string == "::PyObject *":
             # don't go further - we want to keep that one as is
             return "::PyObject *"
         if isinstance(t, pygccxml.declarations.cpptypes.pointer_t):
-            return SwigInputGenerator.getDeclarationString(getType(t.base)) + " *"
+            return SwigInputGenerator.get_declaration_string(get_type(t.base)) + " *"
         elif isinstance(t, pygccxml.declarations.cpptypes.const_t):
-            return SwigInputGenerator.getDeclarationString(getType(t.base)) + " const"
+            return (
+                SwigInputGenerator.get_declaration_string(get_type(t.base)) + " const"
+            )
         elif isinstance(t, pygccxml.declarations.cpptypes.reference_t):
-            return SwigInputGenerator.getDeclarationString(getType(t.base)) + " &"
+            return SwigInputGenerator.get_declaration_string(get_type(t.base)) + " &"
         return t.decl_string
 
-    def renameTypesInSTL(self, s):
+    def rename_types_in_stl(self, s):
         if s.startswith("std::") and pygccxml.declarations.templates.is_instantiation(
             s
         ):
             args = []
             for arg in pygccxml.declarations.templates.args(s):
                 t, d = SwigInputGenerator.type_and_decorators(arg)
-                args.append(self.renameTypesInSTL(self.get_alias(t)) + d)
+                args.append(self.rename_types_in_stl(self.get_alias(t)) + d)
             return (
                 pygccxml.declarations.templates.join(
                     pygccxml.declarations.templates.name(s), args
@@ -728,13 +766,13 @@ class SwigInputGenerator:
         return s
 
     @staticmethod
-    def removeStdAllocator(s):
+    def remove_std_allocator(s):
         if pygccxml.declarations.templates.is_instantiation(s):
             args = []
             for arg in pygccxml.declarations.templates.args(s):
                 if not arg.startswith("std::allocator"):
                     t, d = SwigInputGenerator.type_and_decorators(arg)
-                    args.append(SwigInputGenerator.removeStdAllocator(t) + d)
+                    args.append(SwigInputGenerator.remove_std_allocator(t) + d)
             return (
                 pygccxml.declarations.templates.join(
                     pygccxml.declarations.templates.name(s), args
@@ -748,22 +786,22 @@ class SwigInputGenerator:
         end = ""
         s = s.strip()
         ends = [" ", "*", "&", "const"]
-        needToContinue = True
-        while needToContinue:
-            needToContinue = False
+        need_to_continue = True
+        while need_to_continue:
+            need_to_continue = False
             for e in ends:
                 if s.endswith(e):
                     end = e + end
                     s = s[: -len(e)]
-                    needToContinue = True
-        return (s, end)
+                    need_to_continue = True
+        return s, end
 
     _firstCapRE = re.compile(r"(.)([A-Z][a-z]+)")
-    _allCapRE = re.compile("([a-z0-9])([A-Z])")
+    _allCapRE = re.compile(r"([a-z\d])([A-Z])")
 
     @staticmethod
-    def camel_case_to_snake_case(camelCase):
-        substitution = SwigInputGenerator._firstCapRE.sub(r"\1_\2", camelCase)
+    def camel_case_to_snake_case(camel_case):
+        substitution = SwigInputGenerator._firstCapRE.sub(r"\1_\2", camel_case)
         return (
             SwigInputGenerator._allCapRE.sub(r"\1_\2", substitution)
             .lower()
@@ -774,7 +812,7 @@ class SwigInputGenerator:
     def kwarg_of_interest(member_name):
         """
         This function accepts a member function name and returns whether we
-        want to list it explicitly in the ProcessObject functional interface
+        want to list it explicitly in the process_object functional interface
         kwargs.
         """
         if not member_name.startswith("Set"):
@@ -839,11 +877,11 @@ class SwigInputGenerator:
 
         # replace the types defined in this type, to support
         # std::vector<itkDataObject> for example
-        s = self.renameTypesInSTL(s)
+        s = self.rename_types_in_stl(s)
 
         # drop the allocator part of the type, because it is not supported by the
         # %template directive with some generators (like tcl)
-        s = SwigInputGenerator.removeStdAllocator(s)
+        s = SwigInputGenerator.remove_std_allocator(s)
 
         # rename basic_string to std::string to make name shorter
         s = s.replace("std::basic_string< char >", "std::string")
@@ -923,7 +961,7 @@ class SwigInputGenerator:
                 pass
             elif line_stripped.endswith(".mdx"):
                 self.load_mdx(os.path.dirname(file_name) + os.sep + line_stripped)
-            elif line_stripped[:-4] == self.submoduleName:
+            elif line_stripped[:-4] == self.submodule_name:
                 continue
             else:
                 self.load_idx(os.path.dirname(file_name) + os.sep + line_stripped)
@@ -958,7 +996,7 @@ class SwigInputGenerator:
 
         s = ""  # Set default superclass name to an empty string
         if not typedef.name.startswith("stdcomplex"):
-            for member in getType(typedef).get_members(
+            for member in get_type(typedef).get_members(
                 access=decls.ACCESS_TYPES.PUBLIC
             ):
                 if (
@@ -967,7 +1005,8 @@ class SwigInputGenerator:
                     and not typedef.name == "itkLightObject"
                 ):
                     if self.current_class is not None:
-                        self.classes[self.current_class].has_new_method = True
+                        curr_class = self.classes[self.current_class]
+                        curr_class.has_new_method = True
                     if typedef.name == "itkPyCommand":
                         self.outputFile.write(
                             self.new_override_pycommand.format(class_name=typedef.name)
@@ -980,7 +1019,7 @@ class SwigInputGenerator:
                     break
 
             super_classes = []
-            for super_class in getType(typedef).bases:
+            for super_class in get_type(typedef).bases:
                 super_classes.append(
                     "%s %s"
                     % (
@@ -1004,7 +1043,7 @@ class SwigInputGenerator:
                 w = access not in self.options.access_warnings
 
                 # iterate over the members
-                for member in getType(typedef).get_members(access=access):
+                for member in get_type(typedef).get_members(access=access):
                     if isinstance(member, decls.typedef.typedef_t):
                         self.warn(
                             51, f"Member typedef are not supported: {member.name}", w
@@ -1069,7 +1108,7 @@ class SwigInputGenerator:
 
                 # warnings or no warning?
                 w = access not in self.options.access_warnings
-                for member in getType(typedef).get_members(access=access):
+                for member in get_type(typedef).get_members(access=access):
                     if isinstance(member, decls.constructor_t):
                         self.generate_constructor(typedef, member, indent, w)
                     elif isinstance(member, decls.destructor_t):
@@ -1080,24 +1119,24 @@ class SwigInputGenerator:
 
     def generate_process_object_snake_case_functions(self, typedefs):
         self.info("Generating snake case functions")
-        processObjects = set()
+        process_objects = set()
         for typedef in typedefs:
-            classType = getType(typedef)
-            bases = [base.related_class.name for base in classType.recursive_bases]
-            isProcessObject = "ProcessObject" in bases and not classType.is_abstract
-            short_name = classType.name.split("<")[0]
-            if isProcessObject or short_name in self.forceSnakeCase:
-                processObjects.add((short_name, classType))
-        if len(processObjects) > 0:
+            class_type = get_type(typedef)
+            bases = [base.related_class.name for base in class_type.recursive_bases]
+            is_process_object = "ProcessObject" in bases and not class_type.is_abstract
+            short_name = class_type.name.split("<")[0]
+            if is_process_object or short_name in self.forceSnakeCase:
+                process_objects.add((short_name, class_type))
+        if len(process_objects) > 0:
             self.outputFile.write("\n\n#ifdef SWIGPYTHON\n")
             self.outputFile.write("%pythoncode %{\n")
-            for processObject, classType in processObjects:
-                snakeCase = self.camel_case_to_snake_case(processObject)
-                if snakeCase in self.snakeCaseProcessObjectFunctions:
+            for process_object, class_type in process_objects:
+                snake_case = self.camel_case_to_snake_case(process_object)
+                if snake_case in self.snakeCaseProcessObjectFunctions:
                     continue
-                self.snakeCaseProcessObjectFunctions.add(snakeCase)
+                self.snakeCaseProcessObjectFunctions.add(snake_case)
                 decls = pygccxml.declarations
-                recursive_bases = classType.recursive_bases
+                recursive_bases = class_type.recursive_bases
                 bases = [base.related_class.name for base in recursive_bases]
 
                 args_typehint = ""
@@ -1112,7 +1151,7 @@ class SwigInputGenerator:
 
                 kwargs_typehints = ""
                 kwargs_of_interest = dict()
-                for member in classType.get_members(access=decls.ACCESS_TYPES.PUBLIC):
+                for member in class_type.get_members(access=decls.ACCESS_TYPES.PUBLIC):
                     if isinstance(
                         member, decls.member_function_t
                     ) and self.kwarg_of_interest(member.name):
@@ -1178,30 +1217,30 @@ import itk.support.types as itkt
 from typing import Sequence, Tuple, Union
 
 @helpers.accept_array_like_xarray_torch
-def {snakeCase}(*args{args_typehint}, {kwargs_typehints}**kwargs){return_typehint}:
-    \"\"\"Functional interface for {processObject}\"\"\"
+def {snake_case}(*args{args_typehint}, {kwargs_typehints}**kwargs){return_typehint}:
+    \"\"\"Functional interface for {process_object}\"\"\"
     import itk
 
     kwarg_typehints = {{ {kwarg_dict} }}
     specified_kwarg_typehints = {{ k:v for (k,v) in kwarg_typehints.items() if kwarg_typehints[k] is not ... }}
     kwargs.update(specified_kwarg_typehints)
 
-    instance = itk.{processObject}.New(*args, **kwargs)
+    instance = itk.{process_object}.New(*args, **kwargs)
     return instance.__internal_call__()
 
-def {snakeCase}_init_docstring():
+def {snake_case}_init_docstring():
     import itk
     from itk.support import template_class
 
-    filter_class = itk.{self.moduleName}.{processObject}
-    {snakeCase}.process_object = filter_class
+    filter_class = itk.{self.moduleName}.{process_object}
+    {snake_case}.process_object = filter_class
     is_template = isinstance(filter_class, template_class.itkTemplate)
     if is_template:
         filter_object = filter_class.values()[0]
     else:
         filter_object = filter_class
 
-    {snakeCase}.__doc__ = filter_object.__doc__
+    {snake_case}.__doc__ = filter_object.__doc__
 
 """
                 )
@@ -1212,7 +1251,7 @@ def {snakeCase}_init_docstring():
         # iterate over the arguments
         args = []
         for arg in constructor.arguments:
-            s = f"{self.get_alias(self.getDeclarationString(arg), w)} {arg.name}"
+            s = f"{self.get_alias(self.get_declaration_string(arg), w)} {arg.name}"
             if "unknown" in s:
                 continue
             # append the default value if it exists
@@ -1223,13 +1262,13 @@ def {snakeCase}_init_docstring():
         self.outputFile.write("  " * indent)
         self.outputFile.write(f"    {typedef.name}({', '.join(args)});\n")
 
-    def generate_destructor(self, typedef, destructor, indent, w):
+    def generate_destructor(self, typedef, _destructor, indent, _w):
         self.outputFile.write("  " * indent)
         self.outputFile.write(f"    ~{typedef.name}();\n")
 
     def generate_enum(self, typedef):
         name = typedef.name
-        enum = getType(typedef)
+        enum = get_type(typedef)
         decl_string = typedef.decl_type.decl_string
         # extract the namespace to put it in c++ code. Without that, the code
         # generated by swig
@@ -1243,7 +1282,7 @@ def {snakeCase}_init_docstring():
             "enum class {}: uint8_t {{ {} }};\n\n".format(name, ", ".join(content))
         )
 
-    def generate_nested_enum(self, typedef, enum, indent, w):
+    def generate_nested_enum(self, _typedef, enum, indent, _w):
         content = [f" {key}" for key, value in enum.values]
         self.outputFile.write("  " * indent)
         self.outputFile.write(
@@ -1251,7 +1290,6 @@ def {snakeCase}_init_docstring():
                 enum.name, ", ".join(content)
             )
         )
-
         if self.current_class is not None and self.classes[self.current_class].is_enum:
             python_enum_names = [f"{enum.name}_{name.strip()}" for name in content]
             self.classes[self.current_class].enums += python_enum_names
@@ -1265,7 +1303,7 @@ def {snakeCase}_init_docstring():
         if is_operator and method.name == "operator()":
             is_operator = False
 
-        if "(" in getType(method.return_type).decl_string:
+        if "(" in get_type(method.return_type).decl_string:
             self.warn(
                 1,
                 "ignoring method not supported by swig '%s::%s'."
@@ -1296,7 +1334,7 @@ def {snakeCase}_init_docstring():
         method_hints = []
         for argIndex in range(len(method.arguments)):
             arg = method.arguments[argIndex]
-            arg_type = self.get_alias(self.getDeclarationString(arg), w)
+            arg_type = self.get_alias(self.get_declaration_string(arg), w)
             s = f"{arg_type} {arg.name}"
             if "unknown" in s:
                 continue
@@ -1359,7 +1397,7 @@ def {snakeCase}_init_docstring():
 
         method_definition = "    {}{} {}({}){};\n".format(
             static,
-            self.get_alias(self.getDeclarationString(method.return_type), w),
+            self.get_alias(self.get_declaration_string(method.return_type), w),
             method.name,
             ", ".join(args),
             const,
@@ -1394,7 +1432,7 @@ def {snakeCase}_init_docstring():
                 )
 
         # Check the method arguments for std::string passed by reference.
-        # In this case, save the name of the argument in the applyFileNames list
+        # In this case, save the name of the argument in the apply_file_names list
         # for further usage.
         for arg in method.arguments:
             dtype = arg.decl_type
@@ -1406,13 +1444,13 @@ def {snakeCase}_init_docstring():
                 is False
                 and pygccxml.declarations.is_std_string(dtype)
             ):
-                self.applyFileNames.append(arg.name)
+                self.apply_file_names.append(arg.name)
 
-    def generate_headerfile(self, idxFile, wrappersNamespace):
+    def generate_headerfile(self, idx_file, wrappers_namespace):
         # and begin to write the output
-        headerFile = StringIO()
-        headerFile.write("// This file is automatically generated.\n")
-        headerFile.write("// Do not modify this file manually.\n\n\n")
+        header_file = StringIO()
+        header_file.write("// This file is automatically generated.\n")
+        header_file.write("// Do not modify this file manually.\n\n\n")
 
         langs = [
             # "CHICKEN",
@@ -1440,9 +1478,9 @@ def {snakeCase}_init_docstring():
         # first, define the module
         # [1:-1] is there to drop the quotes
         for lang in langs:
-            headerFile.write(f"#ifdef SWIG{lang}\n")
+            header_file.write(f"#ifdef SWIG{lang}\n")
             if lang == "PYTHON":
-                headerFile.write(
+                header_file.write(
                     """
 %include <pyabc.i>
 %pythonbegin %{
@@ -1455,38 +1493,38 @@ if _version_info < (3, 7, 0):
 """
                 )
                 # Also, release the GIL
-                headerFile.write(
-                    f'%module(package="itk",threads="1") {self.submoduleName}{lang.title()}\n'
+                header_file.write(
+                    f'%module(package="itk",threads="1") {self.submodule_name}{lang.title()}\n'
                 )
-                headerFile.write('%feature("nothreadallow");\n')
-                headerFile.write('%feature("autodoc","2");\n')
+                header_file.write('%feature("nothreadallow");\n')
+                header_file.write('%feature("autodoc","2");\n')
             else:
-                headerFile.write(f"%module {self.submoduleName}{lang.title()}\n")
-            headerFile.write("#endif\n")
-        headerFile.write("\n")
+                header_file.write(f"%module {self.submodule_name}{lang.title()}\n")
+            header_file.write("#endif\n")
+        header_file.write("\n")
 
         # add the includes
         # use a set to avoid putting many times the same include
         s = set()
-        headerFile.write("%{\n")
+        header_file.write("%{\n")
         # the include files passed in option
-        include = self.submoduleName + "SwigInterface.h"
+        include = self.submodule_name + "SwigInterface.h"
         i = f'#include "{include}"'
         if i not in s:
-            headerFile.write(i + "\n")
+            header_file.write(i + "\n")
             s.add(i)
-        headerFile.write("%}\n\n\n")
+        header_file.write("%}\n\n\n")
 
         # load the aliases files
-        headerFile.write("%{\n")
-        self.load_idx(idxFile)
+        header_file.write("%{\n")
+        self.load_idx(idx_file)
         # and the idx files in the mdx ones
         for f in self.options.mdx:
             self.load_mdx(f)
         # iterate over all the typedefs in the _wrapping_::wrappers namespace
         # to fill the alias dict
-        for typedef in wrappersNamespace.typedefs():  # allow_empty=True):
-            s = getType(typedef).decl_string
+        for typedef in wrappers_namespace.typedefs():  # allow_empty=True):
+            s = get_type(typedef).decl_string
             # drop the :: prefix - it make swig produce invalid code
             if s.startswith("::"):
                 s = s[2:]
@@ -1497,33 +1535,34 @@ if _version_info < (3, 7, 0):
                 )
                 self.aliases[s] = typedef.name
                 # declare the typedef
-                headerFile.write(f"typedef {s} {typedef.name};\n")
+                header_file.write(f"typedef {s} {typedef.name};\n")
 
-        headerFile.write("%}\n\n\n")
+        header_file.write("%}\n\n\n")
 
-        return headerFile
+        return header_file
 
-    def generate_importfile(self, usedSources):
+    def generate_importfile(self, used_sources):
         # add the imports
-        importFile = StringIO()
+        import_file = StringIO()
         for f in self.options.imports:
-            importFile.write("%%import %s\n" % f)
-        importFile.write("\n\n")
+            import_file.write("%%import %s\n" % f)
+        import_file.write("\n\n")
 
-        for src in usedSources:
-            importFile.write("%%import %s.i\n" % src)
-        importFile.write("\n\n")
-        return importFile
+        for src in used_sources:
+            import_file.write("%%import %s.i\n" % src)
+        import_file.write("\n\n")
+        return import_file
 
     def generate_includefile(self):
         # add the swig includes
-        includeFile = StringIO()
-        includeFile.write("%include itk.i\n")
-        for f in options.swig_includes:
-            includeFile.write("%%include %s\n" % f)
-        includeFile.write("%%include %s\n" % (self.submoduleName + "_ext.i"))
-        includeFile.write("\n\n")
-        return includeFile
+        include_file = StringIO()
+        include_file.write("%include itk.i\n")
+
+        for f in self.options.swig_includes:
+            include_file.write("%%include %s\n" % f)
+        include_file.write("%%include %s\n" % (self.submodule_name + "_ext.i"))
+        include_file.write("\n\n")
+        return include_file
 
     def generate_applyfile(self):
         # When a std::string is passed by reference, we need to add the %apply
@@ -1531,46 +1570,48 @@ if _version_info < (3, 7, 0):
         # Use a set() to remove duplicates, this will work event if we got
         # multiple functions with the same argument name in the same .i file
         # (swig should take care of it).
-        applyFileNames = set(self.applyFileNames)
+        apply_file_names = set(self.apply_file_names)
         # Apply file, for passing std::string as reference in methods
-        applyFile = StringIO()
-        for name in applyFileNames:
-            applyFile.write(
+        apply_file = StringIO()
+        for name in apply_file_names:
+            apply_file.write(
                 "%apply (std::string& INOUT) { std::string & " + name + "};\n"
             )
-        applyFile.write("\n\n")
-        return applyFile
+        apply_file.write("\n\n")
+        return apply_file
 
-    def create_typedefheader(self, usedSources):
+    def create_typedefheader(self, used_sources):
         # create the typedef header
-        typedefFile = StringIO()
-        typedefFile.write(f"#ifndef {self.submoduleName}SwigInterface_h\n")
-        typedefFile.write(f"#define {self.submoduleName}SwigInterface_h\n")
-        typedefInput = os.path.join(
-            options.library_output_dir, self.submoduleName + "SwigInterface.h.in"
+        typedef_file = StringIO()
+        typedef_file.write(f"#ifndef {self.submodule_name}SwigInterface_h\n")
+        typedef_file.write(f"#define {self.submodule_name}SwigInterface_h\n")
+        typedef_input = os.path.join(
+            self.options.library_output_dir,
+            "castxml_inputs",
+            self.submodule_name + "SwigInterface.h.in",
         )
-        with open(typedefInput) as f:
-            typedefFile.write(f.read() + "\n")
-        for src in usedSources:
-            typedefFile.write(f'#include "{src}SwigInterface.h"\n')
-        typedefFile.write("#endif\n")
-        typedefOutput = os.path.join(
-            options.interface_output_dir, self.submoduleName + "SwigInterface.h"
+        with open(typedef_input) as f:
+            typedef_file.write(f.read() + "\n")
+        for src in used_sources:
+            typedef_file.write(f'#include "{src}SwigInterface.h"\n')
+        typedef_file.write("#endif\n")
+        typedef_output = os.path.join(
+            self.options.interface_output_dir, self.submodule_name + "SwigInterface.h"
         )
-        with open(typedefOutput, "w") as f:
-            f.write(typedefFile.getvalue())
+        with open(typedef_output, "w") as f:
+            f.write(typedef_file.getvalue())
 
-    def create_interfacefile(self, interfaceFile, idxFile, wrappersNamespace):
-        headerFile = self.generate_headerfile(idxFile, wrappersNamespace)
+    def create_interfacefile(self, interface_file, idx_file, wrappers_namespace):
+        header_file = self.generate_headerfile(idx_file, wrappers_namespace)
 
         # iterate over all the typedefs in the _wrapping_::wrappers namespace
         # to build a list of classes with the dependecies
         # classes :: [(name, [dep_name], typedef)]
         classes = []
-        for typedef in wrappersNamespace.typedefs():
+        for typedef in wrappers_namespace.typedefs():
             # begin a new class
             if isinstance(
-                getType(typedef), pygccxml.declarations.class_declaration.class_t
+                get_type(typedef), pygccxml.declarations.class_declaration.class_t
             ):
 
                 classes.append(
@@ -1578,13 +1619,13 @@ if _version_info < (3, 7, 0):
                         typedef.name,
                         [
                             self.get_alias(super_class.related_class.decl_string)
-                            for super_class in getType(typedef).bases
+                            for super_class in get_type(typedef).bases
                         ],
                         typedef,
                     )
                 )
             elif isinstance(
-                getType(typedef), pygccxml.declarations.enumeration.enumeration_t
+                get_type(typedef), pygccxml.declarations.enumeration.enumeration_t
             ):
                 # warn( 6, "Enum are currently supported only nested in a
                 # class." )
@@ -1625,7 +1666,7 @@ if _version_info < (3, 7, 0):
             elif self.current_class not in self.classes:
                 self.classes[self.current_class] = ITKClass(self.current_class)
                 self.classes[self.current_class].typed = typed
-                self.classes[self.current_class].submodule_name = self.submoduleName
+                self.classes[self.current_class].submodule_name = self.submodule_name
                 if typedef.name.endswith("Enums"):
                     self.classes[self.current_class].is_enum = True
                 if typedef.name.endswith("_Superclass"):
@@ -1636,7 +1677,7 @@ if _version_info < (3, 7, 0):
 
             if (
                 self.current_class is not None
-                and self.classes[self.current_class].parent_class == ""
+                and self.classes[self.current_class].parent_class == []
                 and (
                     not self.classes[self.current_class].has_superclass
                     or typedef.name.startswith("itk" + self.current_class)
@@ -1644,7 +1685,7 @@ if _version_info < (3, 7, 0):
                 )
             ):
 
-                for base in getType(typedef).bases:
+                for base in get_type(typedef).bases:
                     base = base.related_class.decl_string
                     if base.startswith("::"):
                         base = base[2:]
@@ -1659,20 +1700,19 @@ if _version_info < (3, 7, 0):
                     if ":" in base:
                         continue
 
-                    if base not in self.python_parent_imports:
-                        self.python_parent_imports.append(base)
-
-                    if self.classes[self.current_class].parent_class == "":
-                        self.classes[self.current_class].parent_class = f"_{base}Proxy"
+                    if not self.classes[self.current_class].parent_class:
+                        self.classes[self.current_class].parent_class.append(
+                            f"_{base}Proxy"
+                        )
 
                     else:
-                        self.classes[
-                            self.current_class
-                        ].parent_class += f", _{base}Proxy"
+                        self.classes[self.current_class].parent_class.append(
+                            f"_{base}Proxy"
+                        )
 
             if (
                 self.current_class is not None
-                and getType(typedef).is_abstract
+                and get_type(typedef).is_abstract
                 and not self.classes[self.current_class].is_abstract
             ):
                 self.classes[self.current_class].is_abstract = True
@@ -1683,223 +1723,194 @@ if _version_info < (3, 7, 0):
             sys.exit(1)
 
         # search the files to import
-        usedSources = set()
+        used_sources = set()
         for alias in self.usedTypes:
             if alias.rfind("Enums::") != -1:
                 alias = alias[: alias.rfind("Enums::") + 5]
             if alias in self.typedefSource:
-                idxName = os.path.basename(self.typedefSource[alias])
-                iName = idxName[: -len(".idx")]
-                usedSources.add(iName)
-        outputFileName = os.path.basename(interfaceFile)
-        if outputFileName in usedSources:
-            usedSources.remove(outputFileName)
+                idx_name = os.path.basename(self.typedefSource[alias])
+                i_name = idx_name[: -len(".idx")]
+                used_sources.add(i_name)
+        output_file_name = os.path.basename(interface_file)
+        if output_file_name in used_sources:
+            used_sources.remove(output_file_name)
 
-        importFile = self.generate_importfile(usedSources)
-        includeFile = self.generate_includefile()
-        applyFile = self.generate_applyfile()
+        import_file = self.generate_importfile(used_sources)
+        include_file = self.generate_includefile()
+        apply_file = self.generate_applyfile()
 
-        self.create_typedefheader(usedSources)
+        self.create_typedefheader(used_sources)
 
         # finally, really write the output
         content = (
-            headerFile.getvalue()
-            + importFile.getvalue()
-            + includeFile.getvalue()
-            + applyFile.getvalue()
+            header_file.getvalue()
+            + import_file.getvalue()
+            + include_file.getvalue()
+            + apply_file.getvalue()
             + self.outputFile.getvalue()
         )
 
-        if self.options.keep and os.path.exists(interfaceFile):
-            with open(interfaceFile) as f:
+        if self.options.keep and os.path.exists(interface_file):
+            with open(interface_file) as f:
                 filecontent = f.read()
 
         if (
             self.options.keep
-            and os.path.exists(interfaceFile)
+            and os.path.exists(interface_file)
             and filecontent == content
         ):
-            self.info(f"{interfaceFile} unchanged.")
+            self.info(f"{interface_file} unchanged.")
         else:
-            self.info(f"Writing {interfaceFile}.")
-            with open(interfaceFile, "w") as f:
+            self.info(f"Writing {interface_file}.")
+            with open(interface_file, "w") as f:
                 f.write(content)
 
 
-def init_submodule_pyi_template_file(pyiFile: Path, submodule_name: str) -> None:
-    with open(pyiFile, "w") as pyiFile:
-        pyiFile.write(
-            f"""# Interface for submodule: {submodule_name}
-from typing import Union, Any
-# additional imports
-from .support.template_class import itkTemplate as _itkTemplate
-
-\n"""
-        )
+def get_previous_content(file_path: Path) -> str:
+    if file_path.is_file():
+        # Avoid writing file if contents are not modified.  This is to prevent
+        # unnecessary changing of file timestamps.
+        with open(file_path, "r") as index_file:
+            previous_file_contents: str = index_file.read()
+            return previous_file_contents
+    return "INVALID_CONTENT"
 
 
-def init_submodule_pyi_proxy_file(
-    pyiFile: Path, submodule_name: str, parent_imports
+def generate_pyi_index_files(submodule: str, file_contents: StringIO, pkl_dir: str):
+    # Compare index files with existing, and rewrite if non-existent or different.
+    pkl_index_file_name: str = f"{submodule}.index.txt"
+    file_path: Path = Path(pkl_dir) / pkl_index_file_name
+
+    previous_file_contents: str = get_previous_content(file_path)
+    if file_contents.getvalue() != previous_file_contents:
+        with open(file_path, "w") as f:
+            f.write(file_contents.getvalue())
+    pyi_created_index_list.append(file_path)
+
+
+def generate_wrapping_namespace(
+    submodule_name, library_output_dir, pygccxml_config
+) -> object:
+    xml_file_path = os.path.join(
+        library_output_dir, "castxml_inputs", submodule_name + ".xml"
+    )
+    pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(pygccxml_config)
+    abstract_syntax_tree = pygccxml_reader.read_xml_file(xml_file_path)
+    global_namespace = pygccxml.declarations.get_global_namespace(abstract_syntax_tree)
+    wrapping_namespace = global_namespace.namespace("_wrapping_")
+    return wrapping_namespace.namespace("wrappers")
+
+
+class GLBSubmoduleNamespaceCache(object):
+    # Static variable for the get_submodule_namespace class, used as a cache
+
+    def __init__(self):
+        self.wrapping_namespaces_cache: Dict[str, Any] = dict()
+        self.cache_hit_count: Dict[str, int] = collections.defaultdict(int)
+
+    def get_submodule_namespace(
+        self, submodule_name: str, library_output_dir: str, pygccxml_config
+    ):
+        if submodule_name in self.wrapping_namespaces_cache:
+            wrappers_namespace = self.wrapping_namespaces_cache[submodule_name]
+            # cache_hit_count is used to determine if there is any benefit to having this
+            # performance cache mechanism.
+            self.cache_hit_count[submodule_name] += 1
+            if self.cache_hit_count[submodule_name] > 1:
+                print(f"Speedup achieved: {self.cache_hit_count[submodule_name]}")
+        else:
+            wrappers_namespace = generate_wrapping_namespace(
+                submodule_name, library_output_dir, pygccxml_config
+            )
+            max_cache_length: int = 200000  # used to be set to 20
+            # Limit the number of cached, parsed abstract syntax trees to avoid very high memory usage
+            if len(self.wrapping_namespaces_cache) < max_cache_length:
+                self.wrapping_namespaces_cache[submodule_name] = wrappers_namespace
+        return wrappers_namespace
+
+
+global_submodule_cache = GLBSubmoduleNamespaceCache()
+
+
+def generate_swig_input(
+    submodule_name,
+    pkl_dir,
+    pygccxml_config,
+    options,
+    snake_case_process_object_functions,
 ) -> None:
-    with open(pyiFile, "w") as pyiFile:
-        pyiFile.write(
-            f"""# Interface methods for submodule: {submodule_name}
-from typing import Union, Any
-# additional imports
-from .support.template_class import itkTemplate as _itkTemplate
-{ f"from ._proxies import {', '.join(parent_imports)}" if len(parent_imports) > 0 else ""}
-
-\n"""
-        )
-
-
-def write_class_template_pyi(pyiFile: Path, class_name: str, header_code: str) -> None:
-    # Write interface files to the stub directory to support editor autocompletion
-    with open(pyiFile, "a+") as pyiFile:
-        pyiFile.write(f"# Interface for class: {class_name}\n")
-        pyiFile.write(
-            f"from ._proxies import {class_name}Proxy as _{class_name}Proxy\n"
-        )
-        pyiFile.write(header_code)
-
-
-def write_class_proxy_pyi(pyiFile: Path, class_name: str, interfaces_code: str) -> None:
-    # Write interface files to the stub directory to support editor autocompletion
-    with open(pyiFile, "a+") as pyiFile:
-        pyiFile.write(f"# Interface methods for class: {class_name}\n")
-        pyiFile.write(interfaces_code)
-
-
-if __name__ == "__main__":
-    argParser = ArgumentParser()
-    argParser.add_argument(
-        "--mdx",
-        action="append",
-        dest="mdx",
-        default=[],
-        metavar="FILE",
-        help="master idx file to be used.",
-    )
-    argParser.add_argument(
-        "--import",
-        action="append",
-        dest="imports",
-        default=[],
-        metavar="FILE",
-        help="File to be imported in the generated interface file.",
-    )
-    argParser.add_argument(
-        "--swig-include",
-        action="append",
-        dest="swig_includes",
-        default=[],
-        metavar="FILE",
-        help=(
-            "File to be included by swig (%include) in the generated " "interface file."
-        ),
-    )
-    argParser.add_argument(
-        "-w",
-        "--disable-warning",
-        action="append",
-        dest="warnings",
-        default=[],
-        metavar="WARNING",
-        help="Warning to be disabled.",
-    )
-    argParser.add_argument(
-        "-A",
-        "--disable-access-warning",
-        action="append",
-        dest="access_warnings",
-        default=[],
-        metavar="LEVEL",
-        help=(
-            "Access level where warnings are disabled " "(public, protected, private)."
-        ),
-    )
-    argParser.add_argument(
-        "-W",
-        "--warning-error",
-        action="store_true",
-        dest="warningError",
-        help="Treat warnings as errors.",
-    )
-    argParser.add_argument(
-        "-v",
-        "--verbose",
-        action="store_true",
-        dest="verbose",
-        help="Log what is currently done.",
-    )
-    argParser.add_argument(
-        "-k",
-        "--keep",
-        action="store_true",
-        dest="keep",
-        help="Don't rewrite the output file if the content is unchanged.",
-    )
-    argParser.add_argument(
-        "-p",
-        "--pygccxml-path",
-        action="store",
-        dest="pygccxml_path",
-        help="Path to pygccxml",
-    )
-    argParser.add_argument(
-        "-g",
-        "--castxml-path",
-        action="store",
-        dest="castxml_path",
-        help="Path to castxml",
-    )
-    argParser.add_argument(
-        "-o",
-        "--interface-output-dir",
-        action="store",
-        dest="interface_output_dir",
-        help="Directory to write the Swig input files",
-    )
-    argParser.add_argument(
-        "-l",
-        "--library-output-dir",
-        action="store",
-        dest="library_output_dir",
-        help="Directory to read the xml abstract syntax tree input files",
-    )
-    argParser.add_argument(
-        "-s",
-        "--submodule-order",
-        action="store",
-        dest="submodule_order",
-        help="List of submodules that must be wrapped in the given order",
-    )
-    argParser.add_argument(
-        "-a",
-        "--snake-case-file",
-        action="store",
-        dest="snake_case_file",
-        help="The configuration file to be appended to if snake_case_functions are found",
+    wrappers_namespace = global_submodule_cache.get_submodule_namespace(
+        submodule_name, options.library_output_dir, pygccxml_config
     )
 
-    argParser.add_argument(
-        "--pyi_dir",
-        action="store",
-        dest="pyi_dir",
-        default="",
-        type=str,
-        help="The directory for .pyi files to be generated",
+    swig_input_generator = SwigInputGenerator(submodule_name, options)
+    idx_file_path: str = os.path.join(
+        options.interface_output_dir, submodule_name + ".idx"
+    )
+    swig_input_file_path: str = os.path.join(
+        options.interface_output_dir, submodule_name + ".i"
+    )
+    swig_input_generator.create_interfacefile(
+        swig_input_file_path, idx_file_path, wrappers_namespace
+    )
+    snake_case_process_object_functions.update(
+        swig_input_generator.snakeCaseProcessObjectFunctions
     )
 
-    options = argParser.parse_args()
+    # Write index list of generated .pkl files
+    index_file_contents: StringIO = StringIO()
+    all_keys = swig_input_generator.classes.keys()
+    if len(all_keys):
+        for itk_class in all_keys:
+            # Future problem will be that a few files will be empty
+            # Can either somehow detect this or accept it
+            # pickle class here
+            class_name: str = swig_input_generator.classes[itk_class].class_name
+            submodule_name: str = swig_input_generator.classes[itk_class].submodule_name
+            pickled_filename: str = f"{pkl_dir}/{class_name}.{submodule_name}.pkl"
+
+            # Only write to the pickle file if it does not match what is already saved.
+            overwrite: bool = False
+            pickle_exists: bool = exists(pickled_filename)
+            if pickle_exists:
+                with open(pickled_filename, "rb") as pickled_file:
+                    existing_itk_class = pickle.load(pickled_file)
+                    overwrite = not (
+                        existing_itk_class == swig_input_generator.classes[itk_class]
+                    )
+            if overwrite or not pickle_exists:
+                with open(pickled_filename, "wb") as pickled_file:
+                    pickle.dump(swig_input_generator.classes[itk_class], pickled_file)
+
+            index_file_contents.write(pickled_filename + "\n")
+    else:
+        # The following warning is useful for debugging, and eventually we
+        # may wish to find a way to remove modules that are not currently part
+        # of the build.  For example, currently all *.wrap files are processed and listed
+        # as module dependancies. If FFTW is not enabled, that causes empty submodules
+        # to be created as dependancies unnecesarily.
+        # Changing that behavior will require structural code changes, or alternate
+        # mechanisms to be implemented.
+        if glb_options.debug_code:
+            print(
+                f"WARNING: {submodule_name} has no classes identified, but was listed as a dependant submodule."
+            )
+    generate_pyi_index_files(submodule_name, index_file_contents, pkl_dir)
+
+
+def main():
+    options = glb_options
+    if options.pyi_dir == "":
+        raise ValueError(f"Required directory missing '{options.pyi_dir}'")
+
+    if options.pkl_dir == "":
+        raise ValueError(f"Required directory missing '{options.pkl_dir}'")
 
     # Ensure that the requested stub file directory exists
     if options.pyi_dir != "":
         Path(options.pyi_dir).mkdir(exist_ok=True, parents=True)
-
-    sys.path.insert(1, options.pygccxml_path)
-    import pygccxml
-    import logging
+    if options.pkl_dir != "":
+        Path(options.pkl_dir).mkdir(exist_ok=True, parents=True)
 
     # init the pygccxml stuff
     pygccxml.utils.loggers.cxx_parser.setLevel(logging.CRITICAL)
@@ -1910,119 +1921,55 @@ if __name__ == "__main__":
         xml_generator_path=options.castxml_path, xml_generator="castxml"
     )
 
-    submoduleNames = []
+    submodule_names_list: List[str] = []
     # The first mdx file is the master index file for this module.
-    with open(options.mdx[0]) as ff:
+    master_mdx_filename: Path = Path(options.mdx[0])
+    with open(master_mdx_filename) as ff:
         for line in ff.readlines():
             stripped = line.strip()
             if line.startswith("%") or line.isspace():
-                # exclude the lines which are starting with % - that's not the idx
-                # files
+                # exclude the lines which are starting with % - that's not the idx files
                 pass
             elif stripped.endswith(".mdx"):
+                # exclude the lines which end with .mdx
                 pass
             else:
-                submoduleName = stripped.rsplit(".")[0]
-                if submoduleName.startswith("(const char*)"):
-                    submoduleName = submoduleName[len("(const char*)") :]
-                submoduleName = submoduleName.strip('"')
-                submoduleNames.append(submoduleName)
+                submodule_name = stripped.rsplit(".")[0]
+                if submodule_name.startswith("(const char*)"):
+                    submodule_name = submodule_name[len("(const char*)") :]
+                submodule_name = submodule_name.strip('"')
+                if submodule_name not in submodule_names_list:
+                    submodule_names_list.append(submodule_name)
 
-    def generate_wrapping_namespace(submoduleName):
-        xmlFilePath = os.path.join(options.library_output_dir, submoduleName + ".xml")
-        pygccxml_reader = pygccxml.parser.source_reader.source_reader_t(pygccxml_config)
-        abstractSyntaxTree = pygccxml_reader.read_xml_file(xmlFilePath)
-        globalNamespace = pygccxml.declarations.get_global_namespace(abstractSyntaxTree)
-        wrappingNamespace = globalNamespace.namespace("_wrapping_")
-        return wrappingNamespace.namespace("wrappers")
+    for submodule_name in submodule_names_list:
+        wrappers_namespace: Any = global_submodule_cache.get_submodule_namespace(
+            submodule_name, options.library_output_dir, pygccxml_config
+        )
 
-    wrappingNamespaces = dict()
-    # Limit the number of cached, parsed abstract syntax trees to avoid very
-    # high memory usage
-    wrappingCacheLength = min(len(submoduleNames), 20)
-    for ii in range(wrappingCacheLength):
-        submoduleName = submoduleNames[ii]
-        wrappingNamespace = generate_wrapping_namespace(submoduleName)
-        wrappingNamespaces[submoduleName] = wrappingNamespace
-
-    for submoduleName in submoduleNames:
-        if submoduleName in wrappingNamespaces:
-            wrappersNamespace = wrappingNamespaces[submoduleName]
-        else:
-            wrappersNamespace = generate_wrapping_namespace(submoduleName)
-
-        idxFilePath = os.path.join(options.interface_output_dir, submoduleName + ".idx")
-        idx_generator = IdxGenerator(submoduleName)
-        idx_generator.create_idxfile(idxFilePath, wrappersNamespace)
+        idx_file_path: str = os.path.join(
+            options.interface_output_dir, submodule_name + ".idx"
+        )
+        idx_generator = IdxGenerator(submodule_name)
+        idx_generator.create_idxfile(idx_file_path, wrappers_namespace)
 
     snake_case_process_object_functions = set()
 
-    def generate_swig_input(submoduleName, classes):
-        if submoduleName in wrappingNamespaces:
-            wrappersNamespace = wrappingNamespaces[submoduleName]
-        else:
-            wrappersNamespace = generate_wrapping_namespace(submoduleName)
-
-        idxFilePath = os.path.join(options.interface_output_dir, submoduleName + ".idx")
-        swigInputFilePath = os.path.join(
-            options.interface_output_dir, submoduleName + ".i"
-        )
-
-        swig_input_generator = SwigInputGenerator(submoduleName, options, classes)
-        swig_input_generator.create_interfacefile(
-            swigInputFilePath, idxFilePath, wrappersNamespace
-        )
-        snake_case_process_object_functions.update(
-            swig_input_generator.snakeCaseProcessObjectFunctions
-        )
-
-        return swig_input_generator.python_parent_imports
-
-    classes = {}
-
     ordered_submodule_list: List[str] = []
     if options.submodule_order:
-        for submoduleName in options.submodule_order.split(";"):
-            if submoduleName not in ordered_submodule_list:
-                ordered_submodule_list.append(submoduleName)
-        for submoduleName in submoduleNames:
-            if submoduleName not in ordered_submodule_list:
-                ordered_submodule_list.append(submoduleName)
-    del submoduleNames
+        all_submodules = options.submodule_order.split(";") + submodule_names_list
+        for submodule_name in all_submodules:
+            if submodule_name not in ordered_submodule_list:
+                ordered_submodule_list.append(submodule_name)
+    del submodule_names_list
 
-    for submoduleName in ordered_submodule_list:
-        parents = generate_swig_input(submoduleName, classes)
-        parent_imports = [f"{p}Proxy as _{p}Proxy" for p in parents]
-        if options.pyi_dir != "":
-            init_submodule_pyi_template_file(
-                Path(f"{options.pyi_dir}/{submoduleName}Template.pyi"), submoduleName
-            )
-            init_submodule_pyi_proxy_file(
-                Path(f"{options.pyi_dir}/{submoduleName}Proxy.pyi"),
-                submoduleName,
-                parent_imports,
-            )
-
-    if options.pyi_dir != "":
-        for itk_class in classes.keys():
-            outputPYIHeaderFile = StringIO()
-            outputPYIMethodFile = StringIO()
-            generate_class_pyi_def(
-                outputPYIHeaderFile, outputPYIMethodFile, classes[itk_class]
-            )
-
-            write_class_template_pyi(
-                Path(
-                    f"{options.pyi_dir}/{classes[itk_class].submodule_name}Template.pyi"
-                ),
-                itk_class,
-                outputPYIHeaderFile.getvalue(),
-            )
-            write_class_proxy_pyi(
-                Path(f"{options.pyi_dir}/{classes[itk_class].submodule_name}Proxy.pyi"),
-                itk_class,
-                outputPYIMethodFile.getvalue(),
-            )
+    for submodule_name in ordered_submodule_list:
+        generate_swig_input(
+            submodule_name,
+            options.pkl_dir,
+            pygccxml_config,
+            options,
+            snake_case_process_object_functions,
+        )
 
     snake_case_file = options.snake_case_file
     if len(snake_case_file) > 1:
@@ -2036,3 +1983,32 @@ if __name__ == "__main__":
             for function in sorted_snake_case_process_object_functions:
                 ff.write("'" + function + "', ")
             ff.write(")\n")
+
+
+if __name__ == "__main__":
+    main()
+    import sys
+
+    if glb_options.debug_code:
+        # Sanity Checks for required file generation
+        # print("=====Correctly Required and created")
+        # for m in pyi_approved_index_list:
+        #     if m in pyi_created_index_list:
+        #         print(f"GOOD: :{m}: Required and created")
+        not_created: List[Path] = []
+        for m in pyi_approved_index_list:
+            if m not in pyi_created_index_list:
+                not_created.append(m)
+        if len(not_created) > 0:
+            print("=====WRONG Required and *NOT* created")
+            print(f"""cmdln: {" ".join(sys.argv)}""")
+            [print(f"BAD: :{m}: Required not created") for m in not_created]
+
+        extra_created: List[Path] = []
+        for m in pyi_created_index_list:
+            if m not in pyi_approved_index_list:
+                extra_created.append(m)
+
+        if len(extra_created) > 0:
+            print("=====WRONG *NOT * Required and created")
+            [print(f"BAD: :{m}: *NOT* Required and created") for m in extra_created]
