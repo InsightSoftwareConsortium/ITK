@@ -1,13 +1,5 @@
 if (ITK_USE_GPU)
 
-# With MS compilers on Win64, we need the /bigobj switch, else generated
-# code results in objects with number of sections exceeding object file
-# format.
-# see http://msdn.microsoft.com/en-us/library/ms173499.aspx
-if(CMAKE_CL_64)
-add_definitions(/bigobj)
-endif()
-
 itk_module_test()
 
 set(ITKGPUSmoothing-tests
