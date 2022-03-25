@@ -13,20 +13,25 @@ endif()
 
 
 
+if(DEFINED ITK_WRAP_GCCXML)
+  message(FATAL_ERROR "ITK_WRAP_GCCXML is deprecated.  Use ${module_prefix}_WRAP_CASTXML instead.")
+endif()
 ###############################################################################
 # build the generators list
 if(EXTERNAL_WRAP_ITK_PROJECT)
   # generators there have been turned on while building wrapitk
 else()
-  if(DEFINED ITK_WRAP_GCCXML)
-    # Keep ITK_WRAP_GCCXML for backward compatibility.
-    set(${module_prefix}_WRAP_CASTXML "${ITK_WRAP_GCCXML}" CACHE STRING "Build xml files.")
-  else()
-    set(${module_prefix}_WRAP_CASTXML ON CACHE BOOL "Build xml files.")
-  endif()
+  cmake_dependent_option(${module_prefix}_WRAP_CASTXML       "Build xml files."       ON ITK_WRAP_PYTHON OFF)
   cmake_dependent_option(${module_prefix}_WRAP_SWIGINTERFACE "Build swig interfaces." ON ITK_WRAP_PYTHON OFF)
   mark_as_advanced(${module_prefix}_WRAP_CASTXML ${module_prefix}_WRAP_SWIGINTERFACE)
 endif()
+if(NOT ${module_prefix}_WRAP_CASTXML)
+  message(FATAL_ERROR "${module_prefix}_WRAP_CASTXML is required to be on for wrapping python")
+endif()
+if(NOT ${module_prefix}_WRAP_SWIGINTERFACE)
+  message(FATAL_ERROR "${module_prefix}_WRAP_SWIGINTERFACE is required to be on for wrapping python")
+endif()
+
 
 set(WRAP_ITK_GENERATORS CACHE INTERNAL "Internal generators list.")
 set(WRAP_ITK_UNUSED_GENERATORS CACHE INTERNAL "Internal unused generators list.")

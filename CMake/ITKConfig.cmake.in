@@ -111,7 +111,6 @@ set(ITK_USE_GPU "@ITK_USE_GPU@")
 
 # Wrapping
 set(ITK_WRAPPING "@ITK_WRAPPING@")
-# ITK_WRAP_SWIGINTERFACE and ITK_WRAP_CASTXML are set to ITK_WRAPPING value.
 # ITK_WRAP_DOC is disabled by default.
 
 if( NOT DEFINED ITK_WRAP_PYTHON)

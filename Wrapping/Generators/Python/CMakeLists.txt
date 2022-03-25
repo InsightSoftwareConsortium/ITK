@@ -301,7 +301,7 @@ macro(itk_end_wrap_submodule_python group_name)
       ADD_PYTHON_CONFIG_TEMPLATE("map" "std::map" "mapULitkCellInterfaceDQEMCTI${d}" "unsigned long, itk::CellInterface< double, itk::QuadEdgeMeshCellTraitsInfo< ${d} > >*")
     endforeach()
 
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}${text}")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "${text}")
     unset(text)
   endif()
 
@@ -310,14 +310,14 @@ macro(itk_end_wrap_submodule_python group_name)
   if(${module_prefix}_WRAP_DOC AND NOT ITK_WRAP_PYTHON_PROCESS_SWIG_INPUTS)
     # yes. Include the docstring file
     set(doc_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${group_name}_doc.i")
-    set(ITK_WRAP_PYTHON_SWIG_EXT "%include ${group_name}_doc.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
+    string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "%include ${group_name}_doc.i\n\n")
   else()
     # no. Clear the doc_file var
     set(doc_file "")
   endif()
 
   # the default typemaps, exception handler, and includes
-  set(ITK_WRAP_PYTHON_SWIG_EXT "%import pyBase.i\n\n${ITK_WRAP_PYTHON_SWIG_EXT}")
+  string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "%import pyBase.i\n\n")
 
   # create the swig interface for all the groups in the module
   set(interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${base_name}.i")
@@ -392,12 +392,12 @@ endmacro()
 
 
 macro(ADD_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS type function)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS(${type}, ${function})\n")
+  string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_OUTPUT_RETURN_BY_VALUE_CLASS(${type}, ${function})\n")
 endmacro()
 
 
 macro(ADD_PYTHON_SEQ_TYPEMAP swig_name dim)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_SEQ_TYPEMAP(${swig_name}, ${dim})\n")
+  string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_SEQ_TYPEMAP(${swig_name}, ${dim})\n")
 endmacro()
 
 
@@ -408,19 +408,19 @@ macro(ADD_PYTHON_VEC_TYPEMAP swig_name template_params)
   # in C/C++ macros
   string(REGEX MATCH "(.*,.*)" isTemplate "${type}")
   if(NOT isTemplate)
-    set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VEC_TYPEMAP(${swig_name}, ${type}, ${dim})\n")
+    string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_VEC_TYPEMAP(${swig_name}, ${type}, ${dim})\n")
   endif()
 endmacro()
 
 macro(ADD_PYTHON_VARIABLE_LENGTH_SEQ_TYPEMAP type value_type)
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_VARLEN_SEQ_TYPEMAP(${type}, ${value_type})\n")
+  string(APPEND ITK_WRAP_PYTHON_SWIG_EXT "DECL_PYTHON_VARLEN_SEQ_TYPEMAP(${type}, ${value_type})\n")
 endmacro()
 
 
 macro(ADD_PYTHON_POINTER_TYPEMAP typemap_name)
   set(text "DECLARE_REF_COUNT_CLASS(${typemap_name})\n")
 
-  set(ITK_WRAP_PYTHON_SWIG_EXT "${text}${ITK_WRAP_PYTHON_SWIG_EXT}")
+  string(PREPEND ITK_WRAP_PYTHON_SWIG_EXT "${text}")
 endmacro()
 
 ###############################################################################
