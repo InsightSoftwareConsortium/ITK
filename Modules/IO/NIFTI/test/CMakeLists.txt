@@ -12,6 +12,7 @@ itkNiftiImageIOTest9.cxx
 itkNiftiImageIOTest10.cxx
 itkNiftiImageIOTest11.cxx
 itkNiftiImageIOTest12.cxx
+itkNiftiImageIOTest13.cxx
 itkNiftiReadAnalyzeTest.cxx
 itkNiftiReadWriteDirectionTest.cxx
 itkExtractSlice.cxx
@@ -96,3 +97,7 @@ itk_add_test(NAME itkNiftiReadWriteDirectionSmallVoxelTest
         DATA{Input/SmallVoxels_nosform.nii.gz}
         ${ITK_TEST_OUTPUT_DIR}
         )
+
+itk_add_test(NAME itkNiftiSmallVoxelsAffinePrecisionTest
+COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest13
+      DATA{Input/SmallVoxels_AffinePrecision.nii.gz})

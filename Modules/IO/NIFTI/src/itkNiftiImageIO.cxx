@@ -1753,10 +1753,15 @@ Normalize(std::vector<double> & x)
 static bool
 IsAffine(const mat44 & nifti_mat)
 {
-  const vnl_matrix_fixed<float, 4, 4> mat(&(nifti_mat.m[0][0]));
+  vnl_matrix_fixed<double, 4, 4> mat;
+
+  for (int i = 0; i < 4; ++i)
+    for (int j = 0; j < 4; ++j)
+      mat[i][j] = double{ nifti_mat.m[i][j] };
+
   // First make sure the bottom row meets the condition that it is (0, 0, 0, 1)
   {
-    float bottom_row_error = itk::Math::abs(mat[3][3] - 1.0f);
+    double bottom_row_error = itk::Math::abs(mat[3][3] - 1.0);
     for (int i = 0; i < 3; ++i)
     {
       bottom_row_error += itk::Math::abs(mat[3][i]);
@@ -1767,28 +1772,29 @@ IsAffine(const mat44 & nifti_mat)
     }
   }
 
-  const float condition = vnl_matrix_inverse<float>(mat.as_matrix()).well_condition();
+  const double condition = vnl_matrix_inverse<double>(mat.as_matrix()).well_condition();
   // Check matrix is invertible by testing condition number of inverse
-  if (!(condition > std::numeric_limits<float>::epsilon()))
+  if (!(condition > std::numeric_limits<double>::epsilon()))
   {
     return false;
   }
 
   // Calculate the inverse and separate the inverse translation component
   // and the top 3x3 part of the inverse matrix
-  const vnl_matrix_fixed<float, 4, 4> inv4x4Matrix = vnl_matrix_inverse<float>(mat.as_matrix()).as_matrix();
-  const vnl_vector_fixed<float, 3>    inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
-  const vnl_matrix_fixed<float, 3, 3> inv4x4Top3x3 = inv4x4Matrix.extract(3, 3, 0, 0);
+  const vnl_matrix_fixed<double, 4, 4> inv4x4Matrix = vnl_matrix_inverse<double>(mat.as_matrix()).as_matrix();
+  const vnl_vector_fixed<double, 3>    inv4x4Translation(inv4x4Matrix[0][3], inv4x4Matrix[1][3], inv4x4Matrix[2][3]);
+  const vnl_matrix_fixed<double, 3, 3> inv4x4Top3x3 = inv4x4Matrix.extract(3, 3, 0, 0);
 
   // Grab just the top 3x3 matrix
-  const vnl_matrix_fixed<float, 3, 3> top3x3Matrix = mat.extract(3, 3, 0, 0);
-  const vnl_matrix_fixed<float, 3, 3> invTop3x3Matrix = vnl_matrix_inverse<float>(top3x3Matrix.as_matrix()).as_matrix();
-  const vnl_vector_fixed<float, 3>    inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
+  const vnl_matrix_fixed<double, 3, 3> top3x3Matrix = mat.extract(3, 3, 0, 0);
+  const vnl_matrix_fixed<double, 3, 3> invTop3x3Matrix =
+    vnl_matrix_inverse<double>(top3x3Matrix.as_matrix()).as_matrix();
+  const vnl_vector_fixed<double, 3> inv3x3Translation = -(invTop3x3Matrix * mat.get_column(3).extract(3));
 
   // Make sure we adhere to the conditions of a 4x4 invertible affine transform matrix
-  const float     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
-  const float     diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
-  constexpr float normed_tolerance_matrix_close = 1e-2;
+  const double     diff_matrix_array_one_norm = (inv4x4Top3x3 - invTop3x3Matrix).array_one_norm();
+  const double     diff_vector_translation_one_norm = (inv4x4Translation - inv3x3Translation).one_norm();
+  constexpr double normed_tolerance_matrix_close = 1e-2;
   return !((diff_matrix_array_one_norm > normed_tolerance_matrix_close) ||
            (diff_vector_translation_one_norm > normed_tolerance_matrix_close));
 }
