@@ -178,6 +178,8 @@ TransformFactoryBase::RegisterTransformFactory()
   TransformFactory<TimeVaryingVelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
   TransformFactory<VelocityFieldTransform<TParameterType, 2>>::RegisterTransform();
   TransformFactory<VelocityFieldTransform<TParameterType, 3>>::RegisterTransform();
+
+  TransformFactory<MatrixOffsetTransformBase<TParameterType, 3, 3>>::RegisterTransform();
 }
 
 } // end namespace itk
