@@ -21,7 +21,7 @@
 
 #include "itkImageRegionConstIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 
 namespace itk
 {
@@ -35,7 +35,7 @@ ComposeDisplacementFieldsImageFilter<InputImage, TOutputImage>::ComposeDisplacem
   this->SetNumberOfRequiredInputs(2);
   this->DynamicMultiThreadingOn();
 
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputFieldType, RealType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputFieldType, RealType>;
   auto interpolator = DefaultInterpolatorType::New();
   this->m_Interpolator = interpolator;
 }

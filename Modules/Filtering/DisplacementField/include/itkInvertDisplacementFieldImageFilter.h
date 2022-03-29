@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkVectorInterpolateImageFunction.h"
-#include "itkVectorLinearInterpolateImageFunction.h"
+#include "itkLinearInterpolateImageFunction.h"
 #include <mutex>
 
 namespace itk
@@ -80,7 +80,7 @@ public:
   using RealType = typename VectorType::ComponentType;
   using RealImageType = Image<RealType, ImageDimension>;
   using InterpolatorType = VectorInterpolateImageFunction<InputFieldType, RealType>;
-  using DefaultInterpolatorType = VectorLinearInterpolateImageFunction<InputFieldType, RealType>;
+  using DefaultInterpolatorType = LinearInterpolateImageFunction<InputFieldType, RealType>;
 
   /** Get the interpolator. */
   itkGetModifiableObjectMacro(Interpolator, InterpolatorType);

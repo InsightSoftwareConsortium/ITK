@@ -89,7 +89,7 @@ public:
 
   using VectorWarperType = WarpVectorImageFilter<TOutputImage, TInputImage, TOutputImage>;
 
-  using FieldInterpolatorType = VectorLinearInterpolateImageFunction<TInputImage, double>;
+  using FieldInterpolatorType = LinearInterpolateImageFunction<TInputImage, double>;
   using FieldInterpolatorPointer = typename FieldInterpolatorType::Pointer;
   using FieldInterpolatorOutputType = typename FieldInterpolatorType::OutputType;
 

@@ -56,7 +56,7 @@ namespace itk
  *
  * An interpolator of type \c VectorInterpolateImageFunction is used with
  * the displacement field image. By default,
- * VectorLinearInterpolateImageFunction is used, and the user can override
+ * LinearInterpolateImageFunction is used, and the user can override
  * using SetInterpolator.
  *
  * The displacement field data is stored using the common
