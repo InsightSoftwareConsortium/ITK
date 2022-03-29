@@ -189,6 +189,10 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
   displacementTransform->SetDisplacementField(displacementField);
   ITK_TEST_SET_GET_VALUE(displacementField, displacementTransform->GetDisplacementField());
 
+  DisplacementTransformType::VectorImageDisplacementFieldType::Pointer vectorImageDisplacementField =
+    DisplacementTransformType::VectorImageDisplacementFieldType::New();
+  displacementTransform->SetDisplacementField(vectorImageDisplacementField);
+
   DisplacementTransformType::DisplacementFieldType::Pointer inverseDisplacementField =
     DisplacementTransformType::DisplacementFieldType::New();
   displacementTransform->SetInverseDisplacementField(inverseDisplacementField);
@@ -627,7 +631,7 @@ itkDisplacementFieldTransformTest(int argc, char * argv[])
 
   displacementTransform->SetIdentity();
 
-  displacementTransform->SetDisplacementField(nullptr);
+  displacementTransform->SetDisplacementField(static_cast<DisplacementFieldType *>(nullptr));
   displacementTransform->SetInverseDisplacementField(nullptr);
 
   // Check setting all zero for fixed parameters

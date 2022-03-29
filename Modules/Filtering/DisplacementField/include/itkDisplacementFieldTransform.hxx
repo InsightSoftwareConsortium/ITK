@@ -24,6 +24,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "vnl/algo/vnl_symmetric_eigensystem.h"
 #include "vnl/algo/vnl_matrix_inverse.h"
+#include "itkCastImageFilter.h"
 
 namespace itk
 {
@@ -344,6 +345,18 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::SetDisplacementFie
 
 template <typename TParametersValueType, unsigned int VDimension>
 void
+DisplacementFieldTransform<TParametersValueType, VDimension>::SetDisplacementField(
+  VectorImageDisplacementFieldType * field)
+{
+  using CasterType = CastImageFilter<VectorImageDisplacementFieldType, DisplacementFieldType>;
+  auto caster = CasterType::New();
+  caster->SetInput(field);
+  caster->Update();
+  this->SetDisplacementField(caster->GetOutput());
+}
+
+template <typename TParametersValueType, unsigned int VDimension>
+void
 DisplacementFieldTransform<TParametersValueType, VDimension>::SetInverseDisplacementField(
   DisplacementFieldType * inverseField)
 {
@@ -477,7 +490,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::SetFixedParameters
   }
   if (nullState)
   {
-    this->SetDisplacementField(nullptr);
+    this->SetDisplacementField(static_cast<DisplacementFieldType *>(nullptr));
     this->SetInverseDisplacementField(nullptr);
     return;
   }

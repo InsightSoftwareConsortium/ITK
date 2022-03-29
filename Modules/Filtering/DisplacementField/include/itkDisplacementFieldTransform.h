@@ -21,6 +21,7 @@
 #include "itkTransform.h"
 
 #include "itkImage.h"
+#include "itkVectorImage.h"
 #include "itkMatrixOffsetTransformBase.h"
 #include "itkImageVectorOptimizerParametersHelper.h"
 #include "itkVectorInterpolateImageFunction.h"
@@ -157,6 +158,7 @@ public:
 
   /** Define the displacement field type and corresponding interpolator type. */
   using DisplacementFieldType = Image<OutputVectorType, Dimension>;
+  using VectorImageDisplacementFieldType = VectorImage<TParametersValueType, Dimension>;
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
   using DisplacementFieldConstPointer = typename DisplacementFieldType::ConstPointer;
 
@@ -181,6 +183,9 @@ public:
    * container. */
   virtual void
   SetDisplacementField(DisplacementFieldType * field);
+  virtual void
+               SetDisplacementField(VectorImageDisplacementFieldType * field);
+  virtual void SetDisplacementField(std::nullptr_t) = delete;
   itkGetModifiableObjectMacro(DisplacementField, DisplacementFieldType);
 
   /** Get/Set the inverse displacement field. This must be supplied by the user for
