@@ -53,6 +53,15 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(marcher, FastMarchingUpwindGradientImageFilter, FastMarchingImageFilter);
 
 
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToOneTarget());
+
+  itk::SizeValueType numberOfTargets = 0;
+  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets));
+
+  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToAllTargets());
+
+
   //   ShowProgressObject progressWatch(marcher);
   //   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   //   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
@@ -241,14 +250,23 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetTargetPoints(targetPoints);
   ITK_TEST_SET_GET_VALUE(targetPoints, marcher->GetTargetPoints());
 
+  // The target reached mode is set to no targets by default
+  ITK_TEST_SET_GET_VALUE(FloatFMType::NoTargets, marcher->GetTargetReachedMode());
+
+  numberOfTargets = 0;
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetNumberOfTargets());
+
   // Stop the algorithm when ONE of the targets has been reached.
   marcher->SetTargetReachedModeToOneTarget();
   ITK_TEST_SET_GET_VALUE(FloatFMType::OneTarget, marcher->GetTargetReachedMode());
 
-  marcher->Update();
+  numberOfTargets = 1;
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetNumberOfTargets());
 
-  VectorType::size_type reachedTargetPointCount = 1;
-  ITK_TEST_EXPECT_EQUAL(reachedTargetPointCount, marcher->GetReachedTargetPoints()->Size());
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
+
+
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetReachedTargetPoints()->Size());
 
   // Find the smallest reaching time of the TargetPoints.  This is the time of the closest
   // TargetPoint.
@@ -270,15 +288,32 @@ itkFastMarchingUpwindGradientTest(int, char *[])
     passed = false;
   }
 
+  // Now stop the algorithm once SOME of the targets have been reached.
+  numberOfTargets = targetPoints->Size() + 1;
+  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets));
+
+  numberOfTargets = targetPoints->Size() - 1;
+  marcher->SetTargetReachedModeToSomeTargets(numberOfTargets);
+  ITK_TEST_SET_GET_VALUE(FloatFMType::SomeTargets, marcher->GetTargetReachedMode());
+
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetNumberOfTargets());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
+
+
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetReachedTargetPoints()->Size());
 
   // Now stop the algorithm once ALL of the targets have been reached.
   marcher->SetTargetReachedModeToAllTargets();
   ITK_TEST_SET_GET_VALUE(FloatFMType::AllTargets, marcher->GetTargetReachedMode());
 
-  marcher->Update();
+  numberOfTargets = targetPoints->Size();
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetNumberOfTargets());
 
-  reachedTargetPointCount = marcher->GetTargetPoints()->Size();
-  ITK_TEST_EXPECT_EQUAL(reachedTargetPointCount, marcher->GetReachedTargetPoints()->Size());
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
+
+
+  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetReachedTargetPoints()->Size());
 
   // Find the largest reaching time of the TargetPoints.  This is the largest time of
   // all of the target points.
