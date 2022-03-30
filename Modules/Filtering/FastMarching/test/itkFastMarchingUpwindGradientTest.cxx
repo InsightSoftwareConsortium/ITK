@@ -152,6 +152,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetInput(speedImage);
   double stoppingValue = 100.0;
   marcher->SetStoppingValue(stoppingValue);
+  ITK_TEST_SET_GET_VALUE(stoppingValue, marcher->GetStoppingValue());
 
   auto generateGradientImage = true;
   ITK_TEST_SET_GET_BOOLEAN(marcher, GenerateGradientImage, generateGradientImage);
@@ -163,11 +164,12 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, marcher->GetTargetOffset());
 
+
   // turn on debugging
   // marcher->DebugOn();
 
   // update the marcher
-  marcher->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
 
   // check the results
   using FloatGradientImage = FloatFMType::GradientImageType;
@@ -221,13 +223,6 @@ itkFastMarchingUpwindGradientTest(int, char *[])
     }
   }
 
-
-  // Test that the stopping value of the algorithm is the one passed in.
-  if (itk::Math::NotAlmostEquals(marcher->GetStoppingValue(), stoppingValue))
-  {
-    std::cerr << "ERROR: Output stopping value does not equal initial stopping value!" << std::endl;
-    passed = false;
-  }
 
   // Set up target points.
   // The algorithm will stop when it reaches these points.
@@ -341,7 +336,9 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   double newStoppingValue = 10.0;
   marcher->SetStoppingValue(newStoppingValue);
-  marcher->Update();
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
+
 
   if (itk::Math::NotExactlyEquals(marcher->GetStoppingValue(), newStoppingValue))
   {
@@ -352,7 +349,6 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   // Exercise other member functions
   std::cout << "SpeedConstant: " << marcher->GetSpeedConstant() << std::endl;
-  std::cout << "StoppingValue: " << marcher->GetStoppingValue() << std::endl;
   std::cout << "CollectPoints: " << marcher->GetCollectPoints() << std::endl;
 
   marcher->SetNormalizationFactor(2.0);
