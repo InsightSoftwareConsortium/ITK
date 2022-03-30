@@ -136,8 +136,8 @@ VTKImageImport<TOutputImage>::PropagateRequestedRegion(DataObject * outputPtr)
     unsigned int i = 0;
     for (; i < OutputImageDimension; ++i)
     {
-      updateExtent[i * 2] = int(index[i]);
-      updateExtent[i * 2 + 1] = int(index[i] + size[i]) - 1;
+      updateExtent[i * 2] = static_cast<int>(index[i]);
+      updateExtent[i * 2 + 1] = static_cast<int>(index[i] + size[i]) - 1;
     }
     for (; i < 3; ++i)
     {

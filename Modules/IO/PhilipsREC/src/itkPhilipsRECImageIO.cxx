@@ -480,7 +480,7 @@ PhilipsRECImageIO::Read(void * buffer)
 
   for (IndexValueType slice = 0; slice < numberOfSlices; ++slice)
   {
-    IndexValueType realIndex = this->GetSliceIndex((int)slice);
+    IndexValueType realIndex = this->GetSliceIndex(static_cast<int>(slice));
     if (realIndex < 0)
     {
       std::ostringstream message;
@@ -888,9 +888,9 @@ PhilipsRECImageIO::ReadImageInformation()
   auto triggerTimes = TriggerTimesContainerType::New();
   triggerTimes->resize(par.cardiac_phases);
 
-  for (unsigned int ttime_index = 0; ttime_index < (unsigned int)par.cardiac_phases; ++ttime_index)
+  for (unsigned int ttime_index = 0; ttime_index < static_cast<unsigned int>(par.cardiac_phases); ++ttime_index)
   {
-    triggerTimes->SetElement(ttime_index, (double)par.trigger_times[ttime_index]);
+    triggerTimes->SetElement(ttime_index, static_cast<double>(par.trigger_times[ttime_index]));
   }
 
   EncapsulateMetaData<TriggerTimesContainerType::Pointer>(thisDic, PAR_TriggerTimes, triggerTimes);
@@ -898,9 +898,9 @@ PhilipsRECImageIO::ReadImageInformation()
   auto echoTimes = EchoTimesContainerType::New();
   echoTimes->resize(par.echoes);
 
-  for (unsigned int echo_index = 0; echo_index < (unsigned int)par.echoes; ++echo_index)
+  for (unsigned int echo_index = 0; echo_index < static_cast<unsigned int>(par.echoes); ++echo_index)
   {
-    echoTimes->SetElement(echo_index, (double)par.echo_times[echo_index]);
+    echoTimes->SetElement(echo_index, static_cast<double>(par.echo_times[echo_index]));
   }
 
   EncapsulateMetaData<EchoTimesContainerType::Pointer>(thisDic, PAR_EchoTimes, echoTimes);
@@ -916,9 +916,9 @@ PhilipsRECImageIO::ReadImageInformation()
   repTimes->resize(par.mixes); // This has only been verified using a
                                // Look-Locker sequence and may not be valid.
 
-  for (unsigned int rep_index = 0; rep_index < (unsigned int)par.mixes; ++rep_index)
+  for (unsigned int rep_index = 0; rep_index < static_cast<unsigned int>(par.mixes); ++rep_index)
   {
-    repTimes->SetElement(rep_index, (double)par.repetition_time[rep_index]);
+    repTimes->SetElement(rep_index, static_cast<double>(par.repetition_time[rep_index]));
   }
 
   EncapsulateMetaData<RepetitionTimesContainerType::Pointer>(thisDic, PAR_RepetitionTimes, repTimes);
@@ -926,14 +926,14 @@ PhilipsRECImageIO::ReadImageInformation()
   EncapsulateMetaData<FOVType>(thisDic, PAR_FOV, FOVType(par.fov));
   EncapsulateMetaData<float>(thisDic, PAR_WaterFatShiftPixels, par.water_fat_shift);
   AngulationMidSliceType tempAngulation;
-  tempAngulation[0] = (double)par.angAP;
-  tempAngulation[1] = (double)par.angFH;
-  tempAngulation[2] = (double)par.angRL;
+  tempAngulation[0] = static_cast<double>(par.angAP);
+  tempAngulation[1] = static_cast<double>(par.angFH);
+  tempAngulation[2] = static_cast<double>(par.angRL);
   EncapsulateMetaData<AngulationMidSliceType>(thisDic, PAR_AngulationMidSlice, tempAngulation);
   OffCentreMidSliceType tempOffcentre;
-  tempOffcentre[0] = (double)par.offAP;
-  tempOffcentre[1] = (double)par.offFH;
-  tempOffcentre[2] = (double)par.offRL;
+  tempOffcentre[0] = static_cast<double>(par.offAP);
+  tempOffcentre[1] = static_cast<double>(par.offFH);
+  tempOffcentre[2] = static_cast<double>(par.offRL);
   EncapsulateMetaData<OffCentreMidSliceType>(thisDic, PAR_OffCentreMidSlice, tempOffcentre);
   EncapsulateMetaData<int>(thisDic, PAR_FlowCompensation, par.flow_comp);
   EncapsulateMetaData<int>(thisDic, PAR_Presaturation, par.presaturation);

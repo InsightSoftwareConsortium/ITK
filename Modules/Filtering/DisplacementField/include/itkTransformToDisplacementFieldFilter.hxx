@@ -264,7 +264,7 @@ TransformToDisplacementFieldFilter<TOutputImage, TParametersValueType>::LinearTh
     {
       // Perform linear interpolation between startIndex and endIndex
       const double alpha =
-        (scanlineIndex - largestPossibleRegion.GetIndex(0)) / double(largestPossibleRegion.GetSize(0));
+        (scanlineIndex - largestPossibleRegion.GetIndex(0)) / static_cast<double>(largestPossibleRegion.GetSize(0));
       const double oneMinusAlpha = 1.0 - alpha;
 
       PixelType displacement;

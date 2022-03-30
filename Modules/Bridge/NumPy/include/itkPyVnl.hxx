@@ -183,7 +183,7 @@ PyVnl<TElement>::_GetVnlMatrixFromArray(PyObject * arr, PyObject * shape) -> con
   for (unsigned int i = 0; i < 2; ++i)
   {
     item = PySequence_Fast_GET_ITEM(shapeseq, i);
-    size[i] = (unsigned int)PyInt_AsLong(item);
+    size[i] = static_cast<unsigned int>(PyInt_AsLong(item));
     numberOfElements *= size[i];
   }
 

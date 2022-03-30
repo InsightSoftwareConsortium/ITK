@@ -209,7 +209,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ChooseMetric(unsig
   using MetricType2 = itk::MIRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
   using MetricType3 = itk::DemonsRegistrationFunction<FixedImageType, MovingImageType, FieldType>;
 
-  m_WhichMetric = (unsigned int)which;
+  m_WhichMetric = static_cast<unsigned int>(which);
 
   switch (which)
   {
@@ -670,7 +670,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
       field->TransformIndexToPhysicalPoint(rindex, physicalPoint);
       for (unsigned int d = 0; d < ImageDimension; ++d)
       {
-        Gpt[d] = (double)(physicalPoint[d]);
+        Gpt[d] = static_cast<double>(physicalPoint[d]);
       }
 
       eltp = solver->GetElementAtPoint(Gpt);
@@ -701,9 +701,9 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::InterpolateVectorF
   if (ImageDimension == 3)
   {
     // FIXME SHOULD BE 2.0 over meshpixperelt
-    rstep = 1.25 / ((double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);
-    sstep = 1.25 / ((double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);
-    tstep = 1.25 / ((double)m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]);
+    rstep = 1.25 / (static_cast<double>(m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]));
+    sstep = 1.25 / (static_cast<double>(m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]));
+    tstep = 1.25 / (static_cast<double>(m_MeshPixelsPerElementAtEachResolution[m_CurrentLevel]));
 
     Pos.set_size(ImageDimension);
     int numElements = solver->GetInput()->GetNumberOfElements();

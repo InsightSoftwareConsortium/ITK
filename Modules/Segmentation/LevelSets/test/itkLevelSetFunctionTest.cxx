@@ -46,7 +46,8 @@ float
 circle(unsigned int x, unsigned int y)
 {
   float dis;
-  dis = (x - (float)WIDTH / 2.0) * (x - (float)WIDTH / 2.0) + (y - (float)HEIGHT / 2.0) * (y - (float)HEIGHT / 2.0);
+  dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
+        (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0);
   dis = RADIUS - std::sqrt(dis);
   return dis;
 }
@@ -56,8 +57,8 @@ float
 square(unsigned int x, unsigned int y)
 {
   float X, Y;
-  X = itk::Math::abs(x - (float)WIDTH / 2.0);
-  Y = itk::Math::abs(y - (float)HEIGHT / 2.0);
+  X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
+  Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
   float dis;
   if (!((X > RADIUS) && (Y > RADIUS)))
     dis = RADIUS - std::max(X, Y);

@@ -543,7 +543,7 @@ private:
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
                                                    TVector &       EigenValues,
                                                    TEigenMatrix &  EigenVectors,
-                                                   long) const -> decltype(static_cast<unsigned int>(1))
+                                                   long) const -> decltype(1U)
   {
     using ValueType = decltype(GetMatrixValueType(true));
     using EigenLibMatrixType = Eigen::Matrix<ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
@@ -609,8 +609,7 @@ private:
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
                                                    TVector &       EigenValues,
                                                    TEigenMatrix &  EigenVectors,
-                                                   bool) const
-    -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+                                                   bool) const -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
@@ -671,8 +670,7 @@ private:
    * @return an unsigned int with no information value (no error code in EigenLib) */
   template <typename QMatrix>
   auto
-  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, long) const
-    -> decltype(static_cast<unsigned int>(1))
+  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, long) const -> decltype(1U)
   {
     using ValueType = decltype(GetMatrixValueType(true));
     using EigenLibMatrixType = Eigen::Matrix<ValueType, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
@@ -712,7 +710,7 @@ private:
   template <typename QMatrix>
   auto
   ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, bool) const
-    -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+    -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
@@ -906,8 +904,7 @@ private:
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
                                                    TVector &       EigenValues,
                                                    TEigenMatrix &  EigenVectors,
-                                                   bool) const
-    -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+                                                   bool) const -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);
@@ -964,7 +961,7 @@ private:
   ComputeEigenValuesAndVectorsWithEigenLibraryImpl(const QMatrix & A,
                                                    TVector &       EigenValues,
                                                    TEigenMatrix &  EigenVectors,
-                                                   long) const -> decltype(static_cast<unsigned int>(1))
+                                                   long) const -> decltype(1U)
   {
     using ValueType = decltype(GetMatrixValueType(true));
     using EigenLibMatrixType = Eigen::Matrix<ValueType, VDimension, VDimension, Eigen::RowMajor>;
@@ -1023,8 +1020,7 @@ private:
    * @return an unsigned int with no information value (no error code in EigenLib) */
   template <typename QMatrix>
   auto
-  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, long) const
-    -> decltype(static_cast<unsigned int>(1))
+  ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, long) const -> decltype(1U)
   {
     using ValueType = decltype(GetMatrixValueType(true));
     using EigenLibMatrixType = Eigen::Matrix<ValueType, VDimension, VDimension, Eigen::RowMajor>;
@@ -1064,7 +1060,7 @@ private:
   template <typename QMatrix>
   auto
   ComputeEigenValuesWithEigenLibraryImpl(const QMatrix & A, TVector & EigenValues, bool) const
-    -> decltype(GetPointerToMatrixData(A), static_cast<unsigned int>(1))
+    -> decltype(GetPointerToMatrixData(A), 1U)
   {
     auto pointerToData = GetPointerToMatrixData(A);
     using PointerType = decltype(pointerToData);

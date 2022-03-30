@@ -100,7 +100,7 @@ ScatterMatrixImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexT
   {
     for (unsigned int dimy = 0; dimy < VectorDimension; ++dimy)
     {
-      covariance[dimx][dimy] /= double(size);
+      covariance[dimx][dimy] /= static_cast<double>(size);
     }
   }
 

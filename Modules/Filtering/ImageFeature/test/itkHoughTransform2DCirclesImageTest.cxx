@@ -435,9 +435,11 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   while (it != circleList.end())
   {
     if (!itk::Math::FloatAlmostEqual(
-          (double)(it->GetPointer()->GetRadiusInObjectSpace()[0]), radius[i], 10, radiusTolerance) &&
-        !itk::Math::FloatAlmostEqual(
-          (double)(it->GetPointer()->GetRadiusInObjectSpace()[0]), radius[i] * discRadiusRatio, 10, radiusTolerance))
+          static_cast<double>(it->GetPointer()->GetRadiusInObjectSpace()[0]), radius[i], 10, radiusTolerance) &&
+        !itk::Math::FloatAlmostEqual(static_cast<double>(it->GetPointer()->GetRadiusInObjectSpace()[0]),
+                                     radius[i] * discRadiusRatio,
+                                     10,
+                                     radiusTolerance))
     {
       std::cout << "Failure for circle #" << i << std::endl;
       std::cout << "Expected radius: " << radius[i] << ", found " << it->GetPointer()->GetRadiusInObjectSpace()
@@ -536,8 +538,10 @@ itkHoughTransform2DCirclesImageTest(int, char *[])
   double centerTolerance = 2.0;
   for (i = 0; i < numberOfCircles; ++i)
   {
-    if (!itk::Math::FloatAlmostEqual((double)(centerResult[i][0]), (double)(center[i][0]), 10, centerTolerance) ||
-        !itk::Math::FloatAlmostEqual((double)(centerResult[i][1]), (double)(center[i][1]), 10, centerTolerance) ||
+    if (!itk::Math::FloatAlmostEqual(
+          static_cast<double>(centerResult[i][0]), static_cast<double>(center[i][0]), 10, centerTolerance) ||
+        !itk::Math::FloatAlmostEqual(
+          static_cast<double>(centerResult[i][1]), static_cast<double>(center[i][1]), 10, centerTolerance) ||
         (!itk::Math::FloatAlmostEqual(radiusResult[i], radius[i], 10, radiusTolerance) &&
          !itk::Math::FloatAlmostEqual(radiusResult[i], radius[i] * discRadiusRatio, 10, radiusTolerance)))
     {

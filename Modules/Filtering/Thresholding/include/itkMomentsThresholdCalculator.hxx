@@ -51,7 +51,7 @@ MomentsThresholdCalculator<THistogram, TOutput>::GenerateData()
   std::vector<double> histo(size);
   for (unsigned int i = 0; i < size; ++i)
   {
-    histo[i] = (double)(histogram->GetFrequency(i, 0) / total); // normalised histogram
+    histo[i] = static_cast<double>(histogram->GetFrequency(i, 0) / total); // normalised histogram
   }
 
   // Calculate the first, second, and third order moments

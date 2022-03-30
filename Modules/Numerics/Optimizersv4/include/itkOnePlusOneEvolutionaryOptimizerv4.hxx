@@ -28,7 +28,7 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::OnePlusOneEvol
   m_CatchGetValueException = false;
   m_MetricWorstPossibleValue = 0;
 
-  m_Epsilon = (double)1.5e-4;
+  m_Epsilon = 1.5e-4;
   m_RandomGenerator = nullptr;
 
   m_Initialized = false;

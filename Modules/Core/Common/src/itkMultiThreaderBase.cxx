@@ -516,7 +516,7 @@ MultiThreaderBase::ParallelizeArrayHelper(void * arg)
   auto *       acParams = static_cast<struct ArrayCallback *>(workUnitInfo->UserData);
 
   SizeValueType range = acParams->lastIndexPlus1 - acParams->firstIndex;
-  double        fraction = double(range) / workUnitCount;
+  double        fraction = static_cast<double>(range) / workUnitCount;
   SizeValueType first = acParams->firstIndex + fraction * workUnitID;
   SizeValueType afterLast = acParams->firstIndex + fraction * (workUnitID + 1);
   if (workUnitID == workUnitCount - 1) // last thread

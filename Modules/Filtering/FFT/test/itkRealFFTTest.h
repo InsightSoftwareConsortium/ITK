@@ -70,7 +70,7 @@ test_fft(unsigned int * SizeOfDimensions)
   realImage->SetBufferedRegion(region);
   realImage->SetRequestedRegion(region);
   realImage->Allocate();
-  vnl_sample_reseed(static_cast<int>(123456));
+  vnl_sample_reseed(123456);
 
   // We use 2 region iterators for this test: the original image
   // iterator and another iterator for the resultant image after

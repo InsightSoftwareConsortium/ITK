@@ -1375,7 +1375,7 @@ std::ostream &
 operator<<(std::ostream & os, const VariableLengthVector<TValue> & arr)
 {
   const unsigned int length = arr.Size();
-  const signed int   last = (unsigned int)length - 1;
+  const signed int   last = static_cast<unsigned int>(length) - 1;
 
   os << "[";
   for (signed int i = 0; i < last; ++i)

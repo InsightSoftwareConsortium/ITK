@@ -1309,10 +1309,10 @@ get_buffer_min_max(const void * _buffer, size_t len, double & buf_min, double & 
   buf_min = buf_max = buf[0];
   for (size_t i = 0; i < len; ++i)
   {
-    if (buf[i] < (double)buf_min)
-      buf_min = (double)buf[i];
-    if (buf[i] > (double)buf_max)
-      buf_max = (double)buf[i];
+    if (buf[i] < static_cast<double>(buf_min))
+      buf_min = static_cast<double>(buf[i]);
+    if (buf[i] > static_cast<double>(buf_max))
+      buf_max = static_cast<double>(buf[i]);
   }
 }
 

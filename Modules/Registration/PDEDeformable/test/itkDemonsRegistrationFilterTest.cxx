@@ -74,7 +74,7 @@ FillWithCircle(TImage *                   image,
     double distance = 0;
     for (unsigned int j = 0; j < TImage::ImageDimension; ++j)
     {
-      distance += itk::Math::sqr((double)index[j] - center[j]);
+      distance += itk::Math::sqr(static_cast<double>(index[j]) - center[j]);
     }
     if (distance <= r2)
       it.Set(foregnd);

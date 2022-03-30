@@ -313,8 +313,8 @@ VideoSource<TOutputVideoStream>::SplitRequestedSpatialRegion(
   }
   else
   {
-    valuesPerThread = Math::Ceil<int>(range / (double)num);
-    maxThreadIdUsed = Math::Ceil<int>(range / (double)valuesPerThread) - 1;
+    valuesPerThread = Math::Ceil<int>(range / static_cast<double>(num));
+    maxThreadIdUsed = Math::Ceil<int>(range / static_cast<double>(valuesPerThread)) - 1;
   }
 
   // Split the region

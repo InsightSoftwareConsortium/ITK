@@ -86,7 +86,7 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
     inputRequestedRegionSize[i] = outputRequestedRegionSize[i] * 2;
-    inputRequestedRegionStartIndex[i] = outputRequestedRegionStartIndex[i] * (int)2;
+    inputRequestedRegionStartIndex[i] = outputRequestedRegionStartIndex[i] * 2;
   }
 
   const typename TInputImage::RegionType inputRequestedRegion(inputRequestedRegionStartIndex, inputRequestedRegionSize);
@@ -128,10 +128,10 @@ BSplineDownsampleImageFilter<TInputImage, TOutputImage, ResamplerType>::Generate
   for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
     // TODO:  Verify this is being rounded correctly.
-    outputSpacing[i] = inputSpacing[i] * (double)2;
+    outputSpacing[i] = inputSpacing[i] * 2.0;
     // TODO:  Verify this is being rounded correctly.
-    outputSize[i] = (unsigned int)std::floor((double)(inputSize[i] / 2.0));
-    outputStartIndex[i] = (int)std::ceil((double)inputStartIndex[i] / 2.0);
+    outputSize[i] = static_cast<unsigned int>(std::floor(static_cast<double>(inputSize[i] / 2.0)));
+    outputStartIndex[i] = static_cast<int>(std::ceil(static_cast<double>(inputStartIndex[i]) / 2.0));
   }
 
   outputPtr->SetSpacing(outputSpacing);

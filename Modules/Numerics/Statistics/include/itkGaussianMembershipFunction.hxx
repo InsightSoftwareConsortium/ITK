@@ -136,7 +136,7 @@ GaussianMembershipFunction<TMeasurementVector>::SetCovariance(const CovarianceMa
   else
   {
     const double aLargeDouble =
-      std::pow(NumericTraits<double>::max(), 1.0 / 3.0) / (double)this->GetMeasurementVectorSize();
+      std::pow(NumericTraits<double>::max(), 1.0 / 3.0) / static_cast<double>(this->GetMeasurementVectorSize());
     m_InverseCovariance.SetIdentity();
     m_InverseCovariance *= aLargeDouble;
 

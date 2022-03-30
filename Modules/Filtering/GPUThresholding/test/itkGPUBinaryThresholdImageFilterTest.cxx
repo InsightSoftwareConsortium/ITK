@@ -124,13 +124,13 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
 
       for (cit.GoToBegin(), git.GoToBegin(); !cit.IsAtEnd(); ++cit, ++git)
       {
-        double err = (double)(cit.Get()) - (double)(git.Get());
+        double err = static_cast<double>(cit.Get()) - static_cast<double>(git.Get());
         diff += err * err;
         nPix++;
       }
       if (nPix > 0)
       {
-        double RMSError = sqrt(diff / (double)nPix);
+        double RMSError = sqrt(diff / static_cast<double>(nPix));
         std::cout << "RMS Error : " << RMSError << std::endl;
         double RMSThreshold = 0;
         writer->SetInput(GPUFilter->GetOutput());

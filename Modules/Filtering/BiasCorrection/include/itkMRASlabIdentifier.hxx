@@ -110,7 +110,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
       mins.pop();
     }
 
-    avgMin[count] = sum / (double)m_NumberOfSamples;
+    avgMin[count] = sum / static_cast<double>(m_NumberOfSamples);
 
     ++count;
     ++currentSlice;
@@ -125,7 +125,7 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
     ++am_iter;
   }
 
-  double average = sum / (double)totalSlices;
+  double average = sum / static_cast<double>(totalSlices);
 
   // determine slabs
   am_iter = avgMin.begin();

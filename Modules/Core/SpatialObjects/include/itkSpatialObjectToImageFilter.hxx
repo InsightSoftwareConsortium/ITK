@@ -90,7 +90,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
 
   for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
     {
       break;
     }
@@ -143,7 +143,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetSpacing(const 
 
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
     {
       break;
     }
@@ -177,7 +177,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const P
 
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
     {
       break;
     }
@@ -224,7 +224,7 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetOrigin(const f
 
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
     {
       break;
     }

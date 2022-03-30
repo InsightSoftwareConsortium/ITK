@@ -688,8 +688,8 @@ main(int argc, char * argv[])
 
   double origin[Dimension];
 
-  origin[0] = imOrigin[0] + o2Dx - sx * ((double)dx - 1.) / 2.;
-  origin[1] = imOrigin[1] + o2Dy - sy * ((double)dy - 1.) / 2.;
+  origin[0] = imOrigin[0] + o2Dx - sx * (static_cast<double>(dx) - 1.) / 2.;
+  origin[1] = imOrigin[1] + o2Dy - sy * (static_cast<double>(dy) - 1.) / 2.;
   origin[2] = imOrigin[2] + sid / 2.;
 
   filter->SetOutputOrigin(origin);

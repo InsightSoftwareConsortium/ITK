@@ -46,7 +46,7 @@ public:
     double accum = m_Offset;
     for (int j = 0; j < VDimension; ++j)
     {
-      accum += m_Coeff[j] * (double)index[j];
+      accum += m_Coeff[j] * static_cast<double>(index[j]);
     }
     return accum;
   }

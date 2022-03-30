@@ -108,7 +108,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetSpacing(const float * spacing)
 
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals((double)spacing[i], m_Spacing[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(spacing[i]), m_Spacing[i]))
     {
       break;
     }
@@ -160,7 +160,7 @@ PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const float * origin)
 
   for (i = 0; i < OutputImageDimension; ++i)
   {
-    if (Math::NotExactlyEquals((double)origin[i], m_Origin[i]))
+    if (Math::NotExactlyEquals(static_cast<double>(origin[i]), m_Origin[i]))
     {
       break;
     }

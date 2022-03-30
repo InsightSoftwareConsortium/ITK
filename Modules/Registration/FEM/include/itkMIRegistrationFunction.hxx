@@ -180,7 +180,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       CovariantVectorType fixedGradient;
 
       // Get fixed image related information
-      fixedValue = (double)this->m_FixedImage->GetPixel(index);
+      fixedValue = static_cast<double>(this->m_FixedImage->GetPixel(index));
 
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
@@ -224,13 +224,13 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       fixedMean += fixedValue;
       movingMean += movingValue;
 
-      fixedSamplesA.insert(fixedSamplesA.begin(), (double)fixedValue);
+      fixedSamplesA.insert(fixedSamplesA.begin(), static_cast<double>(fixedValue));
       fixedGradientsA.insert(fixedGradientsA.begin(), fixedGradient);
-      movingSamplesA.insert(movingSamplesA.begin(), (double)movingValue);
+      movingSamplesA.insert(movingSamplesA.begin(), static_cast<double>(movingValue));
 
-      //        fixedSamplesB.insert(fixedSamplesB.begin(),(double)fixedValue);
+      //        fixedSamplesB.insert(fixedSamplesB.begin(),static_cast<double>(fixedValue));
       //        fixedGradientsB.insert(fixedGradientsB.begin(),fixedGradient);
-      //        movingSamplesB.insert(movingSamplesB.begin(),(double)movingValue);
+      //        movingSamplesB.insert(movingSamplesB.begin(),static_cast<double>(movingValue));
 
       sampct++;
     }
@@ -271,7 +271,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         CovariantVectorType fixedGradient;
         double              fgm = 0;
         // Get fixed image related information
-        fixedValue = (double)this->m_FixedImage->GetPixel(index);
+        fixedValue = static_cast<double>(this->m_FixedImage->GetPixel(index));
         fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
         for (unsigned int j = 0; j < ImageDimension; ++j)
@@ -304,9 +304,9 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
           fixedMean += fixedValue;
           movingMean += movingValue;
 
-          fixedSamplesA.insert(fixedSamplesA.begin(), (double)fixedValue);
+          fixedSamplesA.insert(fixedSamplesA.begin(), static_cast<double>(fixedValue));
           fixedGradientsA.insert(fixedGradientsA.begin(), fixedGradient);
-          movingSamplesA.insert(movingSamplesA.begin(), (double)movingValue);
+          movingSamplesA.insert(movingSamplesA.begin(), static_cast<double>(movingValue));
           sampct++;
           indct++;
         }
@@ -346,7 +346,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       CovariantVectorType fixedGradient;
 
       // Get fixed image related information
-      fixedValue = (double)this->m_FixedImage->GetPixel(index);
+      fixedValue = static_cast<double>(this->m_FixedImage->GetPixel(index));
       fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
       // Get moving image related information
@@ -366,9 +366,9 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
         movingValue = 0.0;
       }
 
-      fixedSamplesB.insert(fixedSamplesB.begin(), (double)fixedValue);
+      fixedSamplesB.insert(fixedSamplesB.begin(), static_cast<double>(fixedValue));
       fixedGradientsB.insert(fixedGradientsB.begin(), fixedGradient);
-      movingSamplesB.insert(movingSamplesB.begin(), (double)movingValue);
+      movingSamplesB.insert(movingSamplesB.begin(), static_cast<double>(movingValue));
     }
   }
 
@@ -376,20 +376,20 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   double msigma = 0.0;
   double jointsigma = 0.0;
 
-  const auto numsamplesB = (double)fixedSamplesB.size();
-  const auto numsamplesA = (double)fixedSamplesA.size();
-  double     nsamp = numsamplesB;
+  const double numsamplesB{ fixedSamplesB.size() };
+  const double numsamplesA{ fixedSamplesA.size() };
+  double       nsamp = numsamplesB;
   //  if (maxf == minf && maxm == minm) return update;
   //    else std::cout << " b samps " << fixedSamplesB.size()
   //    << " a samps " <<  fixedSamplesA.size() <<
   //    oindex  << hoodIt.Size() << it.Size() << std::endl;
 
-  fixedMean /= (double)sampct;
-  movingMean /= (double)sampct;
+  fixedMean /= static_cast<double>(sampct);
+  movingMean /= static_cast<double>(sampct);
 
   bool mattes = false;
 
-  for (indct = 0; indct < (unsigned int)numsamplesA; ++indct)
+  for (indct = 0; indct < static_cast<unsigned int>(numsamplesA); ++indct)
   {
     // Get fixed image related information
     fixedValue = fixedSamplesA[indct];
@@ -429,7 +429,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   unsigned int asamples;
 
   // the B samples estimate the entropy
-  for (bsamples = 0; bsamples < (unsigned int)numsamplesB; ++bsamples)
+  for (bsamples = 0; bsamples < static_cast<unsigned int>(numsamplesB); ++bsamples)
   {
     double dDenominatorMoving = m_MinProbability;
     double dDenominatorJoint = m_MinProbability;
@@ -437,7 +437,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     double dSumFixed = m_MinProbability;
 
     // Estimate the density
-    for (asamples = 0; asamples < (unsigned int)numsamplesA; ++asamples)
+    for (asamples = 0; asamples < static_cast<unsigned int>(numsamplesA); ++asamples)
     {
       double valueFixed = (fixedSamplesB[bsamples] - fixedSamplesA[asamples]) / m_FixedImageStandardDeviation;
       valueFixed = std::exp(-0.5 * valueFixed * valueFixed);
@@ -459,7 +459,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
     dLogSumJoint -= std::log(dDenominatorJoint);
 
     // Estimate the density
-    for (asamples = 0; asamples < (unsigned int)numsamplesA; ++asamples)
+    for (asamples = 0; asamples < static_cast<unsigned int>(numsamplesA); ++asamples)
     {
       double valueFixed = (fixedSamplesB[bsamples] - fixedSamplesA[asamples]) / m_FixedImageStandardDeviation;
       valueFixed = std::exp(-0.5 * valueFixed * valueFixed);

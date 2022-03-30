@@ -111,7 +111,7 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::C
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   const IndexType           index = it.GetIndex();
-  const auto                fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto                fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
   double                    fixedGradientSquaredMagnitude = 0;
 

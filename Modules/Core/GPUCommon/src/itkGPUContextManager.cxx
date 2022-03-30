@@ -99,7 +99,7 @@ GPUContextManager::~GPUContextManager()
 cl_command_queue
 GPUContextManager::GetCommandQueue(int i)
 {
-  if (i < 0 || i >= (int)m_NumberOfDevices)
+  if (i < 0 || i >= static_cast<int>(m_NumberOfDevices))
   {
     printf("Error: requested queue id is not available. Default queue will be used (queue id = 0)\n");
     return m_CommandQueue[0];
@@ -113,7 +113,7 @@ GPUContextManager::GetCommandQueue(int i)
 cl_device_id
 GPUContextManager::GetDeviceId(int i)
 {
-  if (i < 0 || i >= (int)m_NumberOfDevices)
+  if (i < 0 || i >= static_cast<int>(m_NumberOfDevices))
   {
     printf("Error: requested queue id is not available. Default queue will be used (queue id = 0)\n");
     return m_Devices[0];

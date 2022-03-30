@@ -92,19 +92,19 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
     {
       Extreme = buffer[i];
     }
-    //    std::cout << i << " " << (int)Extreme << " " << (int)buffer[i] <<
+    //    std::cout << i << " " << static_cast<int>(Extreme) << " " << static_cast<int>(buffer[i]) <<
     // std::endl;
     buffer[i] = Extreme;
   }
   // fix right border
   Extreme = buffer[bufflength - m_Size / 2 - 2];
-  for (int i = (int)bufflength - m_Size / 2 - 1; i < (int)bufflength; ++i)
+  for (int i = static_cast<int>(bufflength) - m_Size / 2 - 1; i < static_cast<int>(bufflength); ++i)
   {
     if (Compare1(Extreme, buffer[i]))
     {
       Extreme = buffer[i];
     }
-    //    std::cout << (int)Extreme << " " << (int)buffer[i] << std::endl;
+    //    std::cout << static_cast<int>(Extreme) << " " << static_cast<int>(buffer[i]) << std::endl;
     buffer[i] = Extreme;
   }
 }

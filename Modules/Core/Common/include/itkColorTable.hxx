@@ -212,7 +212,7 @@ ColorTable<TComponent>::UseHeatColors(unsigned int n)
     auto b = static_cast<TComponent>(((i + 1) / (n / 2.0 + 1)) * scale + shift);
     m_Color[(size_t)(i + n / 2.0)].Set(r, g, b);
     std::ostringstream name;
-    name << "Heat" << std::fixed << std::setprecision(2) << (i + n / 2.0) / (float)n;
+    name << "Heat" << std::fixed << std::setprecision(2) << (i + n / 2.0) / static_cast<float>(n);
     m_ColorName[static_cast<size_t>((i + n / 2.0))] = name.str();
   }
 }
@@ -349,9 +349,9 @@ ColorTable<TComponent>::GetClosestColorTableId(TComponent r, TComponent g, TComp
   for (unsigned int i = 0; i < m_NumberOfColors; ++i)
   {
     double match;
-    match = (r - (double)m_Color[i].GetRed()) * (r - (double)m_Color[i].GetRed());
-    match += (g - (double)m_Color[i].GetGreen()) * (g - (double)m_Color[i].GetGreen());
-    match += (b - (double)m_Color[i].GetGreen()) * (b - (double)m_Color[i].GetBlue());
+    match = (r - static_cast<double>(m_Color[i].GetRed())) * (r - static_cast<double>(m_Color[i].GetRed()));
+    match += (g - static_cast<double>(m_Color[i].GetGreen())) * (g - static_cast<double>(m_Color[i].GetGreen()));
+    match += (b - static_cast<double>(m_Color[i].GetGreen())) * (b - static_cast<double>(m_Color[i].GetBlue()));
     if (i == 0 || match < bestMatch)
     {
       bestMatch = match;

@@ -77,11 +77,11 @@ int
 PerformTimeVaryingVelocityFieldImageRegistration(int argc, char * argv[])
 {
 
-  int  numberOfAffineIterations = 100;
-  int  numberOfDeformableIterationsLevel0 = 10;
-  int  numberOfDeformableIterationsLevel1 = 20;
-  int  numberOfDeformableIterationsLevel2 = 11;
-  auto learningRate = static_cast<double>(0.5);
+  int    numberOfAffineIterations = 100;
+  int    numberOfDeformableIterationsLevel0 = 10;
+  int    numberOfDeformableIterationsLevel1 = 20;
+  int    numberOfDeformableIterationsLevel2 = 11;
+  double learningRate = 0.5;
 
   if (argc >= 6)
   {

@@ -279,8 +279,8 @@ DCMTKImageIO ::Read(void * buffer)
     itkExceptionMacro(<< "Error: cannot load DICOM image (" << DicomImage::getString(m_DImage->getStatus()) << ")");
   }
 
-  m_Dimensions[0] = (unsigned int)(m_DImage->getWidth());
-  m_Dimensions[1] = (unsigned int)(m_DImage->getHeight());
+  m_Dimensions[0] = static_cast<unsigned int>(m_DImage->getWidth());
+  m_Dimensions[1] = static_cast<unsigned int>(m_DImage->getHeight());
 
   switch (this->m_ComponentType)
   {

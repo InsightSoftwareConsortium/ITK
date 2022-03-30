@@ -140,7 +140,7 @@ public:
   GetValueBruteForce()
   {
     SizeValueType count = 0;
-    SizeValueType target = (int)(m_Rank * (m_Entries - 1)) + 1;
+    SizeValueType target = static_cast<int>(m_Rank * (m_Entries - 1)) + 1;
     for (typename MapType::iterator it = m_Map.begin(); it != m_Map.end(); ++it)
     {
       count += it->second;
@@ -343,7 +343,7 @@ public:
     const OffsetValueType q = (OffsetValueType)p - NumericTraits<TInputPixel>::NonpositiveMin();
 
     itkAssertInDebugAndIgnoreInReleaseMacro(q >= 0);
-    itkAssertInDebugAndIgnoreInReleaseMacro(q < (int)m_Vec.size());
+    itkAssertInDebugAndIgnoreInReleaseMacro(q < static_cast<int>(m_Vec.size()));
     itkAssertInDebugAndIgnoreInReleaseMacro(m_Entries >= 1);
     itkAssertInDebugAndIgnoreInReleaseMacro(m_Vec[q] > 0);
 

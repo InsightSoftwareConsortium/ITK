@@ -19,13 +19,13 @@
 #include "itkMath.h"
 #include <iostream>
 
-#define RoundTestHelperMacro(rndname, input, output)                                                             \
-  if (rndname((input)) != (output))                                                                              \
-  {                                                                                                              \
-    std::cout << "Failure! " << #rndname << "(" << (int)(input) << ") expected " << (int)(output) << " but got " \
-              << (int)rndname((input)) << std::endl;                                                             \
-    ok = false;                                                                                                  \
-  }                                                                                                              \
+#define RoundTestHelperMacro(rndname, input, output)                                                         \
+  if (rndname((input)) != (output))                                                                          \
+  {                                                                                                          \
+    std::cout << "Failure! " << #rndname << "(" << static_cast<int>(input) << ") expected "                  \
+              << static_cast<int>(output) << " but got " << static_cast<int>(rndname((input))) << std::endl; \
+    ok = false;                                                                                              \
+  }                                                                                                          \
   ITK_MACROEND_NOOP_STATEMENT
 
 namespace
@@ -66,9 +66,9 @@ TemplatedRoundTest()
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
 
-    RoundTestHelperMacro(itk::Math::Round<T>, (float)input[i], roundOutput[i]);
+    RoundTestHelperMacro(itk::Math::Round<T>, static_cast<float>(input[i]), roundOutput[i]);
 
-    RoundTestHelperMacro(itk::Math::Round<T>, (double)input[i], roundOutput[i]);
+    RoundTestHelperMacro(itk::Math::Round<T>, static_cast<double>(input[i]), roundOutput[i]);
   }
 
   // RoundHalfIntegerToEven
@@ -76,36 +76,36 @@ TemplatedRoundTest()
   {
 
 
-    RoundTestHelperMacro(itk::Math::RoundHalfIntegerToEven<T>, (float)input[i], halftoevenOutput[i]);
+    RoundTestHelperMacro(itk::Math::RoundHalfIntegerToEven<T>, static_cast<float>(input[i]), halftoevenOutput[i]);
 
-    RoundTestHelperMacro(itk::Math::RoundHalfIntegerToEven<T>, (double)input[i], halftoevenOutput[i]);
+    RoundTestHelperMacro(itk::Math::RoundHalfIntegerToEven<T>, static_cast<double>(input[i]), halftoevenOutput[i]);
   }
 
   // RoundHalfIntegerUp
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
 
-    RoundTestHelperMacro(itk::Math::RoundHalfIntegerUp<T>, (float)input[i], halfupOutput[i]);
+    RoundTestHelperMacro(itk::Math::RoundHalfIntegerUp<T>, static_cast<float>(input[i]), halfupOutput[i]);
 
-    RoundTestHelperMacro(itk::Math::RoundHalfIntegerUp<T>, (double)input[i], halfupOutput[i]);
+    RoundTestHelperMacro(itk::Math::RoundHalfIntegerUp<T>, static_cast<double>(input[i]), halfupOutput[i]);
   }
 
   // Floor
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
 
-    RoundTestHelperMacro(itk::Math::Floor<T>, (float)fcinput[i], floorOutput[i]);
+    RoundTestHelperMacro(itk::Math::Floor<T>, static_cast<float>(fcinput[i]), floorOutput[i]);
 
-    RoundTestHelperMacro(itk::Math::Floor<T>, (double)fcinput[i], floorOutput[i]);
+    RoundTestHelperMacro(itk::Math::Floor<T>, static_cast<double>(fcinput[i]), floorOutput[i]);
   }
 
   // Ceil
   for (unsigned int i = 0; i < numberOfElements; ++i)
   {
 
-    RoundTestHelperMacro(itk::Math::Ceil<T>, (float)fcinput[i], ceilOutput[i]);
+    RoundTestHelperMacro(itk::Math::Ceil<T>, static_cast<float>(fcinput[i]), ceilOutput[i]);
 
-    RoundTestHelperMacro(itk::Math::Ceil<T>, (double)fcinput[i], ceilOutput[i]);
+    RoundTestHelperMacro(itk::Math::Ceil<T>, static_cast<double>(fcinput[i]), ceilOutput[i]);
   }
 
 

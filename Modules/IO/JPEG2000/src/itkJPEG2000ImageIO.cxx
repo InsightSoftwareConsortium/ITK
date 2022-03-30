@@ -638,7 +638,7 @@ JPEG2000ImageIO::Read(void * buffer)
           charBuffer += priorStrideInBytes;
           for (SizeValueType j = 0; j < sizePerStrideXInBytes; ++j)
           {
-            *charBuffer = (unsigned char)(*l_data_ptr++);
+            *charBuffer = static_cast<unsigned char>(*l_data_ptr++);
             charBuffer += numberOfComponents;
           }
           charBuffer += postStrideInBytes;

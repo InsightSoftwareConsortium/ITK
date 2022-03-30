@@ -123,18 +123,18 @@ QuickViewTest(int argc, char * argv[])
 {
   View("unsigned char", static_cast<unsigned char>(0), argv[1], true, true);
   View("unsigned char", static_cast<unsigned char>(0), argv[1]);
-  View("char", char(0), argv[1]);
+  View("char", static_cast<char>(0), argv[1]);
   View("unsigned short", static_cast<unsigned short>(0), argv[1]);
-  View("short", short(0), argv[1]);
-  View("unsigned int", static_cast<unsigned int>(0), argv[1]);
-  View("int", int(0), argv[1]);
-  View("unsigned long", static_cast<unsigned long>(0), argv[1]);
-  View("long", long(0), argv[1]);
-  View("float", float(0), argv[1]);
-  View("double", double(0), argv[1]);
+  View("short", static_cast<short>(0), argv[1]);
+  View("unsigned int", 0U, argv[1]);
+  View("int", 0, argv[1]);
+  View("unsigned long", 0UL, argv[1]);
+  View("long", 0L, argv[1]);
+  View("float", static_cast<float>(0), argv[1]);
+  View("double", static_cast<double>(0), argv[1]);
 
-  ViewRGB("RGB-float", float(0), argv[1], true, false);
-  ViewRGB("RGB-float", float(0), argv[1]);
+  ViewRGB("RGB-float", static_cast<float>(0), argv[1], true, false);
+  ViewRGB("RGB-float", static_cast<float>(0), argv[1]);
 
   if (argc > 2)
   {

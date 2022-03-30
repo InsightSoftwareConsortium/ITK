@@ -96,7 +96,7 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
 
   const InputPixelType backgroundValue = this->GetBackgroundValue();
   const InputPixelType foregroundValue = this->GetForegroundValue();
-  const auto           birthThreshold = (unsigned int)(this->GetBirthThreshold());
+  const auto           birthThreshold = static_cast<unsigned int>(this->GetBirthThreshold());
 
   unsigned int numberOfPixelsChanged = 0;
 

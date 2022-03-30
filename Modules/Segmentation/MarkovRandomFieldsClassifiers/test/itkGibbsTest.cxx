@@ -123,7 +123,7 @@ itkGibbsTest(int, char *[])
   int i = 0;
   while (!outIt.IsAtEnd())
   {
-    dblVec[0] = (unsigned short)TestingImage[i];
+    dblVec[0] = static_cast<unsigned short>(TestingImage[i]);
     //  dblVec[1] = (unsigned short) TestImage[i+65536];
     //  dblVec[2] = (unsigned short) TestImage[i+65536*2];
     outIt.Set(dblVec);

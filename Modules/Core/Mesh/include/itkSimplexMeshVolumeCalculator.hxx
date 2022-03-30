@@ -204,9 +204,9 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
   yavg = (p1[1] + p2[1] + p3[1]) / 3.0;
   xavg = (p1[0] + p2[0] + p3[0]) / 3.0;
 
-  m_VolumeX += (area * (double)u[2] * (double)zavg);
-  m_VolumeY += (area * (double)u[1] * (double)yavg);
-  m_VolumeZ += (area * (double)u[0] * (double)xavg);
+  m_VolumeX += (area * static_cast<double>(u[2]) * static_cast<double>(zavg));
+  m_VolumeY += (area * static_cast<double>(u[1]) * static_cast<double>(yavg));
+  m_VolumeZ += (area * static_cast<double>(u[0]) * static_cast<double>(xavg));
 
   m_Area += area;
 

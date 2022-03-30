@@ -648,7 +648,7 @@ const typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointS
   PointIdentifierRanges ranges;
   for (PointIdentifier p = 1; p < nWorkUnits; ++p)
   {
-    PointIdentifier endRange = (p * nPoints) / (double)nWorkUnits;
+    PointIdentifier endRange = (p * nPoints) / static_cast<double>(nWorkUnits);
     ranges.push_back(PointIdentifierPair(startRange, endRange));
     startRange = endRange;
   }

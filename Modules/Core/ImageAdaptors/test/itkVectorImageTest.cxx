@@ -847,7 +847,7 @@ itkVectorImageTest(int, char * argv[])
       }
       for (unsigned int i = 0; i < Dimension; ++i)
       {
-        p[i] = p[Dimension + i] = (float)index1[i];
+        p[i] = p[Dimension + i] = static_cast<float>(index1[i]);
       }
       nit.SetCenterPixel(p);
       if (nit.GetCenterPixel() != p)

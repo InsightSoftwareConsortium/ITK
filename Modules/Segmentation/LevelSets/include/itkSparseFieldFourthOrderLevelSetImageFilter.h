@@ -229,7 +229,7 @@ public:
   unsigned int
   GetMinimumNumberOfLayers() const
   {
-    return (int)std::ceil(m_CurvatureBandWidth + Self::ImageDimension);
+    return static_cast<int>(std::ceil(m_CurvatureBandWidth + Self::ImageDimension));
   }
 
   /** This overrides SparseFieldLevelSetImageFilter's SetNumberOfLayers to make

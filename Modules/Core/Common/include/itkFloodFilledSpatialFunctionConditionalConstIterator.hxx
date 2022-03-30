@@ -71,7 +71,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
 
       for (unsigned int i = 0; i < TImage::ImageDimension; ++i)
       {
-        contIndex[i] = (double)index[i] + 0.5;
+        contIndex[i] = static_cast<double>(index[i]) + 0.5;
       }
 
       // Get the physical location of this index
@@ -112,7 +112,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       unsigned int counter;
       unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
-      auto         numReps = static_cast<unsigned int>(std::pow(static_cast<double>(2.0), static_cast<double>(dim)));
+      auto         numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
 
       IndexType tempIndex;
 
@@ -157,7 +157,7 @@ FloodFilledSpatialFunctionConditionalConstIterator<TImage, TFunction>::IsPixelIn
       unsigned int counter;
       unsigned int counterCopy;
       unsigned int dim = TImage::ImageDimension;
-      auto         numReps = static_cast<unsigned int>(std::pow(static_cast<double>(2.0), static_cast<double>(dim)));
+      auto         numReps = static_cast<unsigned int>(std::pow(2.0, static_cast<double>(dim)));
       IndexType    tempIndex;
 
       // First we loop over the binary counter

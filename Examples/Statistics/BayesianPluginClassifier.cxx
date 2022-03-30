@@ -256,10 +256,12 @@ main(int, char *[])
   auto decisionRule = DecisionRuleType::New();
 
   DecisionRuleType::PriorProbabilityVectorType aPrioris;
-  aPrioris.push_back((double)classSamples[0]->GetTotalFrequency() /
-                     (double)sample->GetTotalFrequency());
-  aPrioris.push_back((double)classSamples[1]->GetTotalFrequency() /
-                     (double)sample->GetTotalFrequency());
+  aPrioris.push_back(
+    static_cast<double>(classSamples[0]->GetTotalFrequency()) /
+    static_cast<double>(sample->GetTotalFrequency()));
+  aPrioris.push_back(
+    static_cast<double>(classSamples[1]->GetTotalFrequency()) /
+    static_cast<double>(sample->GetTotalFrequency()));
   decisionRule->SetPriorProbabilities(aPrioris);
 
   using ClassifierType = itk::Statistics::SampleClassifierFilter<SampleType>;

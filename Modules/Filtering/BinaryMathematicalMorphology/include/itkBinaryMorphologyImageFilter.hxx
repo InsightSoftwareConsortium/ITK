@@ -260,7 +260,7 @@ BinaryMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::AnalyzeKernel()
       for (unsigned int dimCount = 0; dimCount < TInputImage::ImageDimension; ++dimCount)
       {
         if (currentShiftedPosition[dimCount] < 0 ||
-            currentShiftedPosition[dimCount] >= (int)this->GetKernel().GetSize(dimCount))
+            currentShiftedPosition[dimCount] >= static_cast<int>(this->GetKernel().GetSize(dimCount)))
         {
           bIsOutside = true;
           break;

@@ -67,7 +67,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   std::cout << "Setting background random pattern image" << std::endl;
   while (!it.IsAtEnd())
   {
-    it.Set((unsigned short)(vnl_sample_uniform(450, 550)));
+    it.Set(static_cast<unsigned short>(vnl_sample_uniform(450, 550)));
     ++it;
   }
 
@@ -81,7 +81,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     for (j = 30; j < 94; ++j)
     {
       index[1] = j;
-      inputImage->SetPixel(index, (unsigned short)(vnl_sample_uniform(500, 540)));
+      inputImage->SetPixel(index, static_cast<unsigned short>(vnl_sample_uniform(500, 540)));
     }
   }
 
@@ -91,7 +91,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
     for (j = 150; j < 214; ++j)
     {
       index[1] = j;
-      inputImage->SetPixel(index, (unsigned short)(vnl_sample_uniform(500, 540)));
+      inputImage->SetPixel(index, static_cast<unsigned short>(vnl_sample_uniform(500, 540)));
     }
   }
 

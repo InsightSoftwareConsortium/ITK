@@ -78,7 +78,8 @@ itkOrthogonallyCorrected2DParametricPathTest(int, char *[])
 
   std::cout << "Evaluating to an index at 0, 0.5, and 1.0: " << path->EvaluateToIndex(0) << ", "
             << path->EvaluateToIndex(0.5) << ", " << path->EvaluateToIndex(0.0) << std::endl;
-  if (int(0.5 + 1000 * (path->Evaluate(0.0))[0]) != 1016 || int(0.5 + 1000 * (path->Evaluate(0.0))[1]) != 2179)
+  if (static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[0]) != 1016 ||
+      static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[1]) != 2179)
   {
     std::cout << "OrthogonallyCorrected2DParametricPathTest:  EvaluateToIndex() Failed" << std::endl;
     passed = false;

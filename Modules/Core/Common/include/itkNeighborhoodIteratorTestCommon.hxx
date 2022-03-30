@@ -77,7 +77,7 @@ FillImage(itk::Image<itk::Index<VDimension>, VDimension> * img)
     for (i = 0; i < VDimension; ++i)
     {
       loop[i]++;
-      if ((unsigned int)(loop[i]) == size[i])
+      if (static_cast<unsigned int>(loop[i]) == size[i])
       {
         loop[i] = 0;
       }

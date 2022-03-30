@@ -395,7 +395,8 @@ protected:
   {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
-    this->UpdateProgress((float)((float)this->GetElapsedIterations() / (float)this->GetNumberOfIterations()));
+    this->UpdateProgress(static_cast<float>(this->GetElapsedIterations()) /
+                         static_cast<float>(this->GetNumberOfIterations()));
   }
 
   /** Tells the solver how to reinitialize the narrowband when the reinitialization

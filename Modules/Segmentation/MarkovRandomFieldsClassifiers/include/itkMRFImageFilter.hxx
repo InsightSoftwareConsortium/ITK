@@ -25,7 +25,7 @@ template <typename TInputImage, typename TClassifiedImage>
 MRFImageFilter<TInputImage, TClassifiedImage>::MRFImageFilter()
   : m_ClassifierPtr(nullptr)
 {
-  if ((int)InputImageDimension != (int)ClassifiedImageDimension)
+  if (static_cast<int>(InputImageDimension) != static_cast<int>(ClassifiedImageDimension))
   {
     std::ostringstream msg;
     msg << "Input image dimension: " << InputImageDimension
@@ -554,7 +554,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   for (int i = 0; i < m_NeighborhoodSize; ++i)
   {
     labelledPixel = labelledIter.GetPixel(i);
-    index = (unsigned int)labelledPixel;
+    index = static_cast<unsigned int>(labelledPixel);
     m_NeighborInfluence[index] += m_MRFNeighborhoodWeight[i];
   } // End neighborhood processing
 
@@ -584,7 +584,7 @@ MRFImageFilter<TInputImage, TClassifiedImage>::DoNeighborhoodOperation(
   // Check if the labelled pixel value in the previous iteration has changed
   // If the value has changed then update the m_LabelStatus set;
 
-  if (pixLabel != (int)(*previousLabel))
+  if (pixLabel != static_cast<int>(*previousLabel))
   {
     labelledIter.SetCenterPixel(pixLabel);
     for (int i = 0; i < m_NeighborhoodSize; ++i)

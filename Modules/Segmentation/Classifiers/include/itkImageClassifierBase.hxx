@@ -105,7 +105,7 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
   {
     if (!(k % updateVisits))
     {
-      this->UpdateProgress((float)k / (float)totalPixels);
+      this->UpdateProgress(static_cast<float>(k) / static_cast<float>(totalPixels));
     }
 
     // Read the input vector

@@ -79,8 +79,8 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   while (!it.IsAtEnd())
   {
     pixelIndex = it.GetIndex();
-    if (pixelIndex[0] >= int(size[0] / 4) && pixelIndex[0] < int(size[0] * 3 / 4) &&
-        pixelIndex[1] >= int(size[1] / 4) && pixelIndex[1] < int(size[1] * 3 / 4))
+    if (pixelIndex[0] >= static_cast<int>(size[0] / 4) && pixelIndex[0] < static_cast<int>(size[0] * 3 / 4) &&
+        pixelIndex[1] >= static_cast<int>(size[1] / 4) && pixelIndex[1] < static_cast<int>(size[1] * 3 / 4))
     {
       it.Set(255);
     }
@@ -191,7 +191,8 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
     index[1] = 1;
     if (outputImage->GetPixel(index) != 255)
     {
-      std::cout << "index " << index << " = " << int(outputImage->GetPixel(index)) << ": [FAILURE]" << std::endl;
+      std::cout << "index " << index << " = " << static_cast<int>(outputImage->GetPixel(index)) << ": [FAILURE]"
+                << std::endl;
       return EXIT_FAILURE;
     }
 
@@ -199,7 +200,8 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
     index[1] = size[1] - 2;
     if (outputImage->GetPixel(index) != 0)
     {
-      std::cout << "index " << index << " = " << int(outputImage->GetPixel(index)) << ": [FAILURE]" << std::endl;
+      std::cout << "index " << index << " = " << static_cast<int>(outputImage->GetPixel(index)) << ": [FAILURE]"
+                << std::endl;
       return EXIT_FAILURE;
     }
   }

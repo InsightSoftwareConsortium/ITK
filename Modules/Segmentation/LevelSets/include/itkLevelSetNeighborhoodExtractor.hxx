@@ -149,7 +149,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataFull()
     // update progress
     if (!(i % updateVisits))
     {
-      this->UpdateProgress((float)i / (float)totalPixels);
+      this->UpdateProgress(static_cast<float>(i) / static_cast<float>(totalPixels));
     }
 
     inputIndex = inIt.GetIndex();
@@ -190,7 +190,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::GenerateDataNarrowBand()
     // update progress
     if (!(i % updateVisits))
     {
-      this->UpdateProgress((float)i / (float)totalPixels);
+      this->UpdateProgress(static_cast<float>(i) / static_cast<float>(totalPixels));
     }
 
     node = pointsIter.Value();
@@ -214,7 +214,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
   PixelType                             inputPixel;
 
   inputPixel = m_InputLevelSet->GetPixel(index);
-  centerValue = (double)inputPixel;
+  centerValue = static_cast<double>(inputPixel);
   centerValue -= m_LevelSetValue;
 
   NodeType centerNode;
@@ -290,7 +290,7 @@ LevelSetNeighborhoodExtractor<TLevelSet>::CalculateDistance(IndexType & index)
       break;
     }
 
-    distance += 1.0 / itk::Math::sqr((double)neighNode.GetValue());
+    distance += 1.0 / itk::Math::sqr(static_cast<double>(neighNode.GetValue()));
   }
 
   if (distance == 0.0)

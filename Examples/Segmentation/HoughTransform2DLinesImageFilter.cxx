@@ -277,12 +277,13 @@ main(int argc, char * argv[])
     ImageType::IndexType localIndex;
     itk::Size<2>         size =
       localOutputImage->GetLargestPossibleRegion().GetSize();
-    float diag = std::sqrt((float)(size[0] * size[0] + size[1] * size[1]));
+    float diag =
+      std::sqrt(static_cast<float>(size[0] * size[0] + size[1] * size[1]));
 
     for (auto i = static_cast<int>(-diag); i < static_cast<int>(diag); ++i)
     {
-      localIndex[0] = (long int)(u[0] + i * v[0]);
-      localIndex[1] = (long int)(u[1] + i * v[1]);
+      localIndex[0] = static_cast<long int>(u[0] + i * v[0]);
+      localIndex[1] = static_cast<long int>(u[1] + i * v[1]);
 
       OutputImageType::RegionType outputRegion =
         localOutputImage->GetLargestPossibleRegion();

@@ -138,7 +138,7 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     // clamped to be minimum for 1.
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      inputIndex[j] = ((double)outputIndex[j] + 0.5) / (double)m_ExpandFactors[j] - 0.5;
+      inputIndex[j] = (static_cast<double>(outputIndex[j]) + 0.5) / static_cast<double>(m_ExpandFactors[j]) - 0.5;
     }
 
     // interpolate value and write to output
@@ -189,11 +189,12 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion
   // The extra 1 above is to take care of edge effects when streaming.
   for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
-    inputRequestedRegionSize[i] =
-      (SizeValueType)std::ceil((double)outputRequestedRegionSize[i] / (double)m_ExpandFactors[i]) + 1;
+    inputRequestedRegionSize[i] = (SizeValueType)std::ceil(static_cast<double>(outputRequestedRegionSize[i]) /
+                                                           static_cast<double>(m_ExpandFactors[i])) +
+                                  1;
 
-    inputRequestedRegionStartIndex[i] =
-      (IndexValueType)std::floor((double)outputRequestedRegionStartIndex[i] / (double)m_ExpandFactors[i]);
+    inputRequestedRegionStartIndex[i] = (IndexValueType)std::floor(
+      static_cast<double>(outputRequestedRegionStartIndex[i]) / static_cast<double>(m_ExpandFactors[i]));
   }
 
   typename TInputImage::RegionType inputRequestedRegion;
@@ -255,10 +256,10 @@ VectorExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
-    outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
-    outputSize[i] = (SizeValueType)((float)inputSize[i] * m_ExpandFactors[i] + 0.5f);
-    outputStartIndex[i] = (IndexValueType)((float)inputStartIndex[i] * m_ExpandFactors[i] + 0.5f);
-    const double fraction = (double)(m_ExpandFactors[i] - 1) / (double)m_ExpandFactors[i];
+    outputSpacing[i] = inputSpacing[i] / static_cast<float>(m_ExpandFactors[i]);
+    outputSize[i] = (SizeValueType)(static_cast<float>(inputSize[i]) * m_ExpandFactors[i] + 0.5f);
+    outputStartIndex[i] = (IndexValueType)(static_cast<float>(inputStartIndex[i]) * m_ExpandFactors[i] + 0.5f);
+    const double fraction = static_cast<double>(m_ExpandFactors[i] - 1) / static_cast<double>(m_ExpandFactors[i]);
     inputOriginShift[i] = -(inputSpacing[i] / 2.0) * fraction;
   }
   const typename TInputImage::DirectionType inputDirection = inputPtr->GetDirection();

@@ -191,7 +191,7 @@ GPUDataManager::Update()
 void
 GPUDataManager::SetCurrentCommandQueue(int queueid)
 {
-  if (queueid >= 0 && queueid < (int)m_ContextManager->GetNumberOfCommandQueues())
+  if (queueid >= 0 && queueid < static_cast<int>(m_ContextManager->GetNumberOfCommandQueues()))
   {
     this->UpdateCPUBuffer();
 

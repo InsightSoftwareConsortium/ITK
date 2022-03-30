@@ -37,7 +37,7 @@ itkNeighborhoodTest(int, char *[])
 
   println("Test data access");
   for (i = 0; i < b.Size(); ++i)
-    b[i] = (float)i;
+    b[i] = static_cast<float>(i);
   b.Print(std::cout);
 
   println("Test non_const iterators");

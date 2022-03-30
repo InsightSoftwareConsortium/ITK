@@ -122,7 +122,7 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
     ++fit;
   }
 
-  this->SetAverageGradientMagnitudeSquared((double)(accumulator / counter));
+  this->SetAverageGradientMagnitudeSquared(static_cast<double>(accumulator / counter));
 }
 } // end namespace itk
 

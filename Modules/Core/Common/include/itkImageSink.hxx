@@ -252,8 +252,8 @@ ImageSink<TInputImage>::StreamedGenerateData(unsigned int inputRequestedRegionNu
 
   // calculate the progress range for this streamed chunk
   const ThreadIdType  total = this->GetNumberOfInputRequestedRegions();
-  const float         oldProgress = float(inputRequestedRegionNumber) / (total);
-  const float         newProgress = float(inputRequestedRegionNumber + 1) / (total);
+  const float         oldProgress = static_cast<float>(inputRequestedRegionNumber) / (total);
+  const float         newProgress = static_cast<float>(inputRequestedRegionNumber + 1) / (total);
   ProgressTransformer pt(oldProgress, newProgress, this);
 
 

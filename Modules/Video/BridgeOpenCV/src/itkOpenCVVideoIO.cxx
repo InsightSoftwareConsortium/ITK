@@ -232,7 +232,8 @@ OpenCVVideoIO::ReadImageInformation()
         itkExceptionMacro(<< " I-Frame spacing for this video is zero! Please check input data.");
       }
 
-      this->m_LastIFrame = (OpenCVVideoIO::FrameOffsetType)((float)this->m_FrameTotal / (float)this->m_IFrameInterval) *
+      this->m_LastIFrame = (OpenCVVideoIO::FrameOffsetType)(static_cast<float>(this->m_FrameTotal) /
+                                                            static_cast<float>(this->m_IFrameInterval)) *
                              this->m_IFrameInterval -
                            1; // Frame index should be 0-based index
 

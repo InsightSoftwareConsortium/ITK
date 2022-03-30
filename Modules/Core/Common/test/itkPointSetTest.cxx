@@ -67,9 +67,9 @@ itkPointSetTest(int, char *[])
   {
     for (int i = 0; i < numOfPoints; ++i)
     {
-      testPointCoords[0] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
-      testPointCoords[1] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
-      testPointCoords[2] = (PointSet::CoordRepType)vnl_sample_uniform((double)-1.0, (double)1.0);
+      testPointCoords[0] = (PointSet::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
+      testPointCoords[1] = (PointSet::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
+      testPointCoords[2] = (PointSet::CoordRepType)vnl_sample_uniform(-1.0, 1.0);
       pset->SetPoint(i, PointType(testPointCoords));
     }
   }

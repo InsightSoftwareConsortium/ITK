@@ -40,7 +40,7 @@ DoCastWithRangeCheckTestVerify(const T2 value, const T1 = 0)
   {
     ret = itk::Math::CastWithRangeCheck<T1>(value);
     // value should match
-    if (itk::Math::NotExactlyEquals(double(ret), double(value)))
+    if (itk::Math::NotExactlyEquals(static_cast<double>(ret), static_cast<double>(value)))
     {
       std::cout << "casting error with input value: " << static_cast<typename itk::NumericTraits<T2>::PrintType>(value)
                 << " output value: " << static_cast<typename itk::NumericTraits<T1>::PrintType>(ret) << std::endl;
@@ -51,7 +51,7 @@ DoCastWithRangeCheckTestVerify(const T2 value, const T1 = 0)
   {
     // conversion should result in some overflow problem
     auto retCheck = static_cast<T1>(value);
-    if (itk::Math::ExactlyEquals(double(retCheck), double(value)))
+    if (itk::Math::ExactlyEquals(static_cast<double>(retCheck), static_cast<double>(value)))
     {
       std::cout << "unexpected exception with value: " << value << std::endl;
       return false;
@@ -125,9 +125,10 @@ itkMathCastWithRangeCheckTest(int, char *[])
 
   try
   {
-    itk::Math::CastWithRangeCheck<short, int>(int(itk::NumericTraits<short>::max()) + 10);
+    itk::Math::CastWithRangeCheck<short, int>(static_cast<int>(itk::NumericTraits<short>::max()) + 10);
     pass = false;
-    std::cout << "failed to through exception with " << int(itk::NumericTraits<short>::max()) + 10 << " to int ";
+    std::cout << "failed to through exception with " << static_cast<int>(itk::NumericTraits<short>::max()) + 10
+              << " to int ";
   }
   catch (...)
   {

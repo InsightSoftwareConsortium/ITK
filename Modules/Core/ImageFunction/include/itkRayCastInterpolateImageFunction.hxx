@@ -471,7 +471,7 @@ RayCastHelper<TInputImage, TCoordRep>::CalcRayIntercepts()
       (m_BoundingPlane[j][0] * m_RayDirectionInMM[0] + m_BoundingPlane[j][1] * m_RayDirectionInMM[1] +
        m_BoundingPlane[j][2] * m_RayDirectionInMM[2]);
 
-    if ((long)(denom * 100) != 0)
+    if (static_cast<long>(denom * 100) != 0)
     {
       const double d =
         -(m_BoundingPlane[j][3] + m_BoundingPlane[j][0] * m_CurrentRayPositionInMM[0] +
@@ -803,17 +803,17 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
     // to iterate in and therefore we wish to go from center to
     // center rather than finding the surrounding voxels.
 
-    m_RayVoxelStartPosition[1] +=
-      ((int)m_RayVoxelStartPosition[0] - m_RayVoxelStartPosition[0]) * m_VoxelIncrement[1] * m_VoxelIncrement[0] +
-      0.5 * m_VoxelIncrement[1] - 0.5;
+    m_RayVoxelStartPosition[1] += (static_cast<int>(m_RayVoxelStartPosition[0]) - m_RayVoxelStartPosition[0]) *
+                                    m_VoxelIncrement[1] * m_VoxelIncrement[0] +
+                                  0.5 * m_VoxelIncrement[1] - 0.5;
 
-    m_RayVoxelStartPosition[2] +=
-      ((int)m_RayVoxelStartPosition[0] - m_RayVoxelStartPosition[0]) * m_VoxelIncrement[2] * m_VoxelIncrement[0] +
-      0.5 * m_VoxelIncrement[2] - 0.5;
+    m_RayVoxelStartPosition[2] += (static_cast<int>(m_RayVoxelStartPosition[0]) - m_RayVoxelStartPosition[0]) *
+                                    m_VoxelIncrement[2] * m_VoxelIncrement[0] +
+                                  0.5 * m_VoxelIncrement[2] - 0.5;
 
-    m_RayVoxelStartPosition[0] = (int)m_RayVoxelStartPosition[0] + 0.5 * m_VoxelIncrement[0];
+    m_RayVoxelStartPosition[0] = static_cast<int>(m_RayVoxelStartPosition[0]) + 0.5 * m_VoxelIncrement[0];
 
-    m_TotalRayVoxelPlanes = (int)xNum;
+    m_TotalRayVoxelPlanes = static_cast<int>(xNum);
 
     m_TraversalDirection = TraversalDirectionEnum::TRANSVERSE_IN_X;
   }
@@ -843,17 +843,17 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
                             (m_RayVoxelStartPosition[1] - m_RayVoxelEndPosition[1]);
     }
 
-    m_RayVoxelStartPosition[0] +=
-      ((int)m_RayVoxelStartPosition[1] - m_RayVoxelStartPosition[1]) * m_VoxelIncrement[0] * m_VoxelIncrement[1] +
-      0.5 * m_VoxelIncrement[0] - 0.5;
+    m_RayVoxelStartPosition[0] += (static_cast<int>(m_RayVoxelStartPosition[1]) - m_RayVoxelStartPosition[1]) *
+                                    m_VoxelIncrement[0] * m_VoxelIncrement[1] +
+                                  0.5 * m_VoxelIncrement[0] - 0.5;
 
-    m_RayVoxelStartPosition[2] +=
-      ((int)m_RayVoxelStartPosition[1] - m_RayVoxelStartPosition[1]) * m_VoxelIncrement[2] * m_VoxelIncrement[1] +
-      0.5 * m_VoxelIncrement[2] - 0.5;
+    m_RayVoxelStartPosition[2] += (static_cast<int>(m_RayVoxelStartPosition[1]) - m_RayVoxelStartPosition[1]) *
+                                    m_VoxelIncrement[2] * m_VoxelIncrement[1] +
+                                  0.5 * m_VoxelIncrement[2] - 0.5;
 
-    m_RayVoxelStartPosition[1] = (int)m_RayVoxelStartPosition[1] + 0.5 * m_VoxelIncrement[1];
+    m_RayVoxelStartPosition[1] = static_cast<int>(m_RayVoxelStartPosition[1]) + 0.5 * m_VoxelIncrement[1];
 
-    m_TotalRayVoxelPlanes = (int)yNum;
+    m_TotalRayVoxelPlanes = static_cast<int>(yNum);
 
     m_TraversalDirection = TraversalDirectionEnum::TRANSVERSE_IN_Y;
   }
@@ -883,17 +883,17 @@ RayCastHelper<TInputImage, TCoordRep>::CalcDirnVector()
                             (m_RayVoxelStartPosition[2] - m_RayVoxelEndPosition[2]);
     }
 
-    m_RayVoxelStartPosition[0] +=
-      ((int)m_RayVoxelStartPosition[2] - m_RayVoxelStartPosition[2]) * m_VoxelIncrement[0] * m_VoxelIncrement[2] +
-      0.5 * m_VoxelIncrement[0] - 0.5;
+    m_RayVoxelStartPosition[0] += (static_cast<int>(m_RayVoxelStartPosition[2]) - m_RayVoxelStartPosition[2]) *
+                                    m_VoxelIncrement[0] * m_VoxelIncrement[2] +
+                                  0.5 * m_VoxelIncrement[0] - 0.5;
 
-    m_RayVoxelStartPosition[1] +=
-      ((int)m_RayVoxelStartPosition[2] - m_RayVoxelStartPosition[2]) * m_VoxelIncrement[1] * m_VoxelIncrement[2] +
-      0.5 * m_VoxelIncrement[1] - 0.5;
+    m_RayVoxelStartPosition[1] += (static_cast<int>(m_RayVoxelStartPosition[2]) - m_RayVoxelStartPosition[2]) *
+                                    m_VoxelIncrement[1] * m_VoxelIncrement[2] +
+                                  0.5 * m_VoxelIncrement[1] - 0.5;
 
-    m_RayVoxelStartPosition[2] = (int)m_RayVoxelStartPosition[2] + 0.5 * m_VoxelIncrement[2];
+    m_RayVoxelStartPosition[2] = static_cast<int>(m_RayVoxelStartPosition[2]) + 0.5 * m_VoxelIncrement[2];
 
-    m_TotalRayVoxelPlanes = (int)zNum;
+    m_TotalRayVoxelPlanes = static_cast<int>(zNum);
 
     m_TraversalDirection = TraversalDirectionEnum::TRANSVERSE_IN_Z;
   }
@@ -945,9 +945,9 @@ RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
     startOK = false;
     endOK = false;
 
-    Istart[0] = (int)std::floor(m_RayVoxelStartPosition[0]);
-    Istart[1] = (int)std::floor(m_RayVoxelStartPosition[1]);
-    Istart[2] = (int)std::floor(m_RayVoxelStartPosition[2]);
+    Istart[0] = static_cast<int>(std::floor(m_RayVoxelStartPosition[0]));
+    Istart[1] = static_cast<int>(std::floor(m_RayVoxelStartPosition[1]));
+    Istart[2] = static_cast<int>(std::floor(m_RayVoxelStartPosition[2]));
 
     if ((Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) && (Istart[1] >= 0) &&
         (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) && (Istart[2] >= 0) &&
@@ -964,11 +964,11 @@ RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
       m_TotalRayVoxelPlanes--;
     }
 
-    Istart[0] = (int)std::floor(m_RayVoxelStartPosition[0] + m_TotalRayVoxelPlanes * m_VoxelIncrement[0]);
+    Istart[0] = static_cast<int>(std::floor(m_RayVoxelStartPosition[0] + m_TotalRayVoxelPlanes * m_VoxelIncrement[0]));
 
-    Istart[1] = (int)std::floor(m_RayVoxelStartPosition[1] + m_TotalRayVoxelPlanes * m_VoxelIncrement[1]);
+    Istart[1] = static_cast<int>(std::floor(m_RayVoxelStartPosition[1] + m_TotalRayVoxelPlanes * m_VoxelIncrement[1]));
 
-    Istart[2] = (int)std::floor(m_RayVoxelStartPosition[2] + m_TotalRayVoxelPlanes * m_VoxelIncrement[2]);
+    Istart[2] = static_cast<int>(std::floor(m_RayVoxelStartPosition[2] + m_TotalRayVoxelPlanes * m_VoxelIncrement[2]));
 
     if ((Istart[0] >= 0) && (Istart[0] + Idirn[0] < m_NumberOfVoxelsInX) && (Istart[1] >= 0) &&
         (Istart[1] + Idirn[1] < m_NumberOfVoxelsInY) && (Istart[2] >= 0) &&
@@ -1051,9 +1051,9 @@ RayCastHelper<TInputImage, TCoordRep>::InitialiseVoxelPointers()
 
   int Ix, Iy, Iz;
 
-  Ix = (int)(m_RayVoxelStartPosition[0]);
-  Iy = (int)(m_RayVoxelStartPosition[1]);
-  Iz = (int)(m_RayVoxelStartPosition[2]);
+  Ix = static_cast<int>(m_RayVoxelStartPosition[0]);
+  Iy = static_cast<int>(m_RayVoxelStartPosition[1]);
+  Iz = static_cast<int>(m_RayVoxelStartPosition[2]);
 
   m_RayIntersectionVoxelIndex[0] = Ix;
   m_RayIntersectionVoxelIndex[1] = Iy;
@@ -1187,9 +1187,9 @@ RayCastHelper<TInputImage, TCoordRep>::IncrementVoxelPointers()
   m_Position3Dvox[1] += m_VoxelIncrement[1];
   m_Position3Dvox[2] += m_VoxelIncrement[2];
 
-  int dx = ((int)m_Position3Dvox[0].GetSum()) - ((int)xBefore);
-  int dy = ((int)m_Position3Dvox[1].GetSum()) - ((int)yBefore);
-  int dz = ((int)m_Position3Dvox[2].GetSum()) - ((int)zBefore);
+  int dx = static_cast<int>(m_Position3Dvox[0].GetSum()) - static_cast<int>(xBefore);
+  int dy = static_cast<int>(m_Position3Dvox[1].GetSum()) - static_cast<int>(yBefore);
+  int dz = static_cast<int>(m_Position3Dvox[2].GetSum()) - static_cast<int>(zBefore);
 
   m_RayIntersectionVoxelIndex[0] += dx;
   m_RayIntersectionVoxelIndex[1] += dy;
@@ -1218,10 +1218,10 @@ RayCastHelper<TInputImage, TCoordRep>::GetCurrentIntensity() const
   {
     return 0;
   }
-  a = (double)(*m_RayIntersectionVoxels[0]);
-  b = (double)(*m_RayIntersectionVoxels[1] - a);
-  c = (double)(*m_RayIntersectionVoxels[2] - a);
-  d = (double)(*m_RayIntersectionVoxels[3] - a - b - c);
+  a = static_cast<double>(*m_RayIntersectionVoxels[0]);
+  b = static_cast<double>(*m_RayIntersectionVoxels[1] - a);
+  c = static_cast<double>(*m_RayIntersectionVoxels[2] - a);
+  d = static_cast<double>(*m_RayIntersectionVoxels[3] - a - b - c);
 
   switch (m_TraversalDirection)
   {

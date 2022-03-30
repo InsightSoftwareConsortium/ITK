@@ -120,7 +120,7 @@ MakeFourierSeriesPathTraceChainCode(TFourierSeriesPath &   FSPath,
     for (ChainInputType step = 0; step < numSteps; ++step)
     {
       index += chainPath.Evaluate(step);
-      theta = 2 * n * PI * (double(step + 1)) / numSteps;
+      theta = 2 * n * PI * (static_cast<double>(step + 1)) / numSteps;
 
       // turn the current index into a vector
       for (int d = 0; d < dimension; ++d)

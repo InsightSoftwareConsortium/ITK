@@ -83,22 +83,22 @@ FillReverseExt(std::vector<PixelType> & pixbuffer,
                unsigned int             len)
 {
   auto           size = (IndexValueType)(len);
-  IndexValueType blocks = size / (int)KernLen;
+  IndexValueType blocks = size / static_cast<int>(KernLen);
   IndexValueType i = size - 1;
   TFunction      m_TF;
 
-  if ((i > (blocks * (int)KernLen - 1)))
+  if (i > blocks * static_cast<int>(KernLen) - 1)
   {
     rExtBuffer[i] = pixbuffer[i];
     --i;
-    while (i >= (int)(blocks * KernLen))
+    while (i >= static_cast<int>(blocks * KernLen))
     {
       PixelType V = pixbuffer[i];
       rExtBuffer[i] = m_TF(V, rExtBuffer[i + 1]);
       --i;
     }
   }
-  for (unsigned int j = 0; j < (unsigned int)blocks; ++j)
+  for (unsigned int j = 0; j < static_cast<unsigned int>(blocks); ++j)
   {
     PixelType Ext = pixbuffer[i];
     rExtBuffer[i] = Ext;

@@ -256,9 +256,9 @@ GPUKernelManager::CreateKernel(const char * kernelName)
   errid = clGetKernelInfo(newKernel, CL_KERNEL_NUM_ARGS, sizeof(cl_uint), &nArg, nullptr);
   (m_KernelArgumentReady.back()).resize(nArg);
 
-  ResetArguments((int)m_KernelContainer.size() - 1);
+  ResetArguments(static_cast<int>(m_KernelContainer.size()) - 1);
 
-  return (int)m_KernelContainer.size() - 1;
+  return static_cast<int>(m_KernelContainer.size()) - 1;
 }
 
 cl_int
@@ -310,7 +310,7 @@ GPUKernelManager::GetDeviceInfo(cl_kernel_work_group_info paramName, size_t argS
 bool
 GPUKernelManager::SetKernelArg(int kernelIdx, cl_uint argIdx, size_t argSize, const void * argVal)
 {
-  if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+  if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
     return false;
 
   cl_int errid;
@@ -404,7 +404,7 @@ GPUKernelManager::SetKernelArgWithDouble(int kernelIdx, cl_uint argIdx, double a
 bool
 GPUKernelManager::SetKernelArgWithImage(int kernelIdx, cl_uint argIdx, GPUDataManager * manager)
 {
-  if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+  if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
     return false;
 
   cl_int errid;
@@ -453,7 +453,7 @@ GPUKernelManager::ResetArguments(int kernelIdx)
 bool
 GPUKernelManager::LaunchKernel1D(int kernelIdx, size_t globalWorkSize, size_t itkNotUsed(localWorkSize))
 {
-  if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+  if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
     return false;
 
   if (!CheckArgumentReady(kernelIdx))
@@ -494,7 +494,7 @@ GPUKernelManager::LaunchKernel2D(int    kernelIdx,
                                  size_t itkNotUsed(localWorkSizeX),
                                  size_t itkNotUsed(localWorkSizeY))
 {
-  if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+  if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
     return false;
 
   if (!CheckArgumentReady(kernelIdx))
@@ -545,7 +545,7 @@ GPUKernelManager::LaunchKernel3D(int    kernelIdx,
                                  size_t itkNotUsed(localWorkSizeY),
                                  size_t itkNotUsed(localWorkSizeZ))
 {
-  if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+  if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
     return false;
 
   if (!CheckArgumentReady(kernelIdx))
@@ -592,7 +592,7 @@ GPUKernelManager::LaunchKernel3D(int    kernelIdx,
 bool
 GPUKernelManager::LaunchKernel(int kernelIdx, int dim, size_t * globalWorkSize, size_t * localWorkSize)
 {
-  if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+  if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
     return false;
 
   if (!CheckArgumentReady(kernelIdx))
@@ -647,7 +647,7 @@ GPUKernelManager::LaunchKernel(int kernelIdx, int dim, size_t * globalWorkSize, 
 void
 GPUKernelManager::SetCurrentCommandQueue(int queueid)
 {
-  if (queueid >= 0 && queueid < (int)m_Manager->GetNumberOfCommandQueues())
+  if (queueid >= 0 && queueid < static_cast<int>(m_Manager->GetNumberOfCommandQueues()))
   {
     // Assumption: different command queue is assigned to different device
     m_CommandQueueId = queueid;

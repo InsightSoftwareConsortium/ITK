@@ -67,7 +67,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   // Calculate the mean gray-level
   mean = 0.0;
-  for (ih = 0; (unsigned int)ih < size; ++ih) // 0 + 1?
+  for (ih = 0; static_cast<unsigned int>(ih) < size; ++ih) // 0 + 1?
   {
     mean += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
   }
@@ -80,7 +80,7 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
   {
     old_thresh = new_thresh;
     typename HistogramType::MeasurementVectorType ot(1);
-    ot.Fill((int)(old_thresh + 0.5));
+    ot.Fill(static_cast<int>(old_thresh + 0.5));
     {
       typename HistogramType::IndexType local_index;
       histogram->GetIndex(ot, local_index);
@@ -103,17 +103,17 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
       sum_back += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
       num_back += histogram->GetFrequency(ih, 0);
     }
-    mean_back = (num_back == 0 ? 0.0 : (sum_back / (double)num_back));
+    mean_back = (num_back == 0 ? 0.0 : (sum_back / static_cast<double>(num_back)));
 
     // Object
     sum_obj = 0;
     num_obj = 0;
-    for (ih = histthresh + 1; (unsigned int)ih < size; ++ih)
+    for (ih = histthresh + 1; static_cast<unsigned int>(ih) < size; ++ih)
     {
       sum_obj += histogram->GetMeasurement(ih, 0) * histogram->GetFrequency(ih, 0);
       num_obj += histogram->GetFrequency(ih, 0);
     }
-    mean_obj = (num_obj == 0 ? 0.0 : (sum_obj / (double)num_obj));
+    mean_obj = (num_obj == 0 ? 0.0 : (sum_obj / static_cast<double>(num_obj)));
 
     // Calculate the new threshold: Equation (7) in Ref. 2
     // new_thresh = simple_round ( ( mean_back - mean_obj ) / ( Math.log ( mean_back ) - Math.log ( mean_obj ) ) );
@@ -133,11 +133,11 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
     double epsilon = itk::NumericTraits<double>::epsilon();
     if (temp < -epsilon)
     {
-      new_thresh = (int)(temp - 0.5);
+      new_thresh = static_cast<int>(temp - 0.5);
     }
     else
     {
-      new_thresh = (int)(temp + 0.5);
+      new_thresh = static_cast<int>(temp + 0.5);
     }
     //  Stop the iterations when the difference between the new and old threshold
     // values is less than the tolerance

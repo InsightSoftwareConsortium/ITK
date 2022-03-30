@@ -45,8 +45,8 @@ ImageRegionSplitterSlowDimension::GetNumberOfSplitsInternal(unsigned int        
 
   // determine the actual number of pieces that will be generated
   const double       range = regionSize[splitAxis];
-  const auto         valuesPerPiece = Math::Ceil<unsigned int>(range / (double)requestedNumber);
-  const unsigned int maxPieceUsed = Math::Ceil<unsigned int>(range / (double)valuesPerPiece) - 1;
+  const auto         valuesPerPiece = Math::Ceil<unsigned int>(range / static_cast<double>(requestedNumber));
+  const unsigned int maxPieceUsed = Math::Ceil<unsigned int>(range / static_cast<double>(valuesPerPiece)) - 1;
 
   return maxPieceUsed + 1;
 }

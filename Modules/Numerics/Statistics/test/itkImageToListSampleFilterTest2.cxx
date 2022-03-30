@@ -80,7 +80,7 @@ itkImageToListSampleFilterTest2(int, char *[])
   mit.GoToBegin();
   while (!mit.IsAtEnd())
   {
-    mit.Set((unsigned char)255);
+    mit.Set(static_cast<unsigned char>(255));
     ++mit;
   }
 

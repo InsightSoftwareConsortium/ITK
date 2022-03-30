@@ -262,7 +262,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
     }
   } // end of sample B loop
 
-  auto nsamp = double(m_NumberOfSpatialSamples);
+  auto nsamp = static_cast<double>(m_NumberOfSpatialSamples);
 
   double threshold = -0.5 * nsamp * std::log(m_MinProbability);
   if (dLogSumMoving.GetSum() > threshold || dLogSumFixed.GetSum() > threshold || dLogSumJoint.GetSum() > threshold)
@@ -405,7 +405,7 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
     derivative += derivB * totalWeight.GetSum();
   } // end of sample B loop
 
-  auto nsamp = double(m_NumberOfSpatialSamples);
+  auto nsamp = static_cast<double>(m_NumberOfSpatialSamples);
 
   double threshold = -0.5 * nsamp * std::log(m_MinProbability);
   if (dLogSumMoving.GetSum() > threshold || dLogSumFixed.GetSum() > threshold || dLogSumJoint.GetSum() > threshold)

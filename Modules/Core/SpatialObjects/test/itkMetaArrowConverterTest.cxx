@@ -120,7 +120,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
 
   // set up metaArrow
   auto * metaArrow = new MetaArrow(Dimensions);
-  metaArrow->Length((float)length);
+  metaArrow->Length(static_cast<float>(length));
   metaArrow->Position((const double *)mPosition);
   metaArrow->Direction((const double *)mDirection);
   metaArrow->Color((const float *)color);
@@ -141,7 +141,7 @@ itkMetaArrowConverterTest(int argc, char * argv[])
   // check length
   double metaLength = newMetaArrow->Length();
 
-  // if (metaLength != (float)length)
+  // if (metaLength != static_cast<float>(length))
   if (itk::Math::abs(metaLength - length) > precisionLimit)
   {
     std::cout << "Conversion to MetaArrow failed to convert length [FAILED]" << std::endl;

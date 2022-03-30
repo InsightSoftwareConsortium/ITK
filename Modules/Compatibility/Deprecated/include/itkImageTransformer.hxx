@@ -213,8 +213,8 @@ ImageTransformer<TInputImage>::SplitRequestedRegion(unsigned int           i,
   typename TInputImage::SizeType::SizeValueType range = requestedRegionSize[splitAxis];
   if (num != 0 && range != 0)
   {
-    auto         valuesPerThread = Math::Ceil<unsigned int>(range / (double)num);
-    unsigned int maxThreadIdUsed = Math::Ceil<unsigned int>(range / (double)valuesPerThread) - 1;
+    auto         valuesPerThread = Math::Ceil<unsigned int>(range / static_cast<double>(num));
+    unsigned int maxThreadIdUsed = Math::Ceil<unsigned int>(range / static_cast<double>(valuesPerThread)) - 1;
     // Split the region
     if (i < maxThreadIdUsed)
     {
@@ -336,7 +336,7 @@ ImageTransformer<TInputImage>::ThreaderCallback(void * arg)
     }
     else if (str->Filter->GetProgress() == 0.0f) // progress was not set after at least the first chunk finished
     {
-      str->Filter->UpdateProgress(float(threadId + 1) / total); // this will be the only progress update
+      str->Filter->UpdateProgress(static_cast<float>(threadId + 1) / total); // this will be the only progress update
     }
 #endif
   }

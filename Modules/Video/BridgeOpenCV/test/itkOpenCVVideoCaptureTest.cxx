@@ -73,7 +73,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   // Check FourCC
   scalarCap->set(CV_CAP_PROP_FOURCC, CV_FOURCC('M', 'P', '4', '2'));
-  if ((int)scalarCap->get(CV_CAP_PROP_FOURCC) != CV_FOURCC('M', 'P', '4', '2'))
+  if (static_cast<int>(scalarCap->get(CV_CAP_PROP_FOURCC)) != CV_FOURCC('M', 'P', '4', '2'))
   {
     std::cerr << "FourCC not reporting correctly" << std::endl;
     return EXIT_FAILURE;
@@ -88,8 +88,8 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   }
 
   // Check width and height
-  if ((int)(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH)) != std::stoi(argv[4]) ||
-      (int)(scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)) != std::stoi(argv[5]))
+  if (static_cast<int>(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH)) != std::stoi(argv[4]) ||
+      static_cast<int>(scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)) != std::stoi(argv[5]))
   {
     std::cerr << "Frame dimensions not reporting correctly. Got [" << scalarCap->get(CV_CAP_PROP_FRAME_WIDTH) << ","
               << scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT) << "] Expected: [" << std::stoi(argv[4]) << ","
@@ -100,7 +100,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   // Set up OpenCV VideoWriter
   cv::VideoWriter scalarWriter(
     argv[2],
-    (int)scalarCap->get(CV_CAP_PROP_FOURCC),
+    static_cast<int>(scalarCap->get(CV_CAP_PROP_FOURCC)),
     scalarCap->get(CV_CAP_PROP_FPS),
     cv::Size(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH), scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)),
     false);
@@ -130,7 +130,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   rgbCap->open(rgbReader->GetOutput());
 
   // Check FourCC
-  if ((int)rgbCap->get(CV_CAP_PROP_FOURCC) != CV_FOURCC('M', 'P', '4', '2'))
+  if (static_cast<int>(rgbCap->get(CV_CAP_PROP_FOURCC)) != CV_FOURCC('M', 'P', '4', '2'))
   {
     std::cerr << "FourCC not reporting correctly" << std::endl;
     return EXIT_FAILURE;
@@ -145,7 +145,7 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
 
   // Set up OpenCV VideoWriter
   cv::VideoWriter rgbWriter(argv[3],
-                            (int)rgbCap->get(CV_CAP_PROP_FOURCC),
+                            static_cast<int>(rgbCap->get(CV_CAP_PROP_FOURCC)),
                             rgbCap->get(CV_CAP_PROP_FPS),
                             cv::Size(rgbCap->get(CV_CAP_PROP_FRAME_WIDTH), rgbCap->get(CV_CAP_PROP_FRAME_HEIGHT)),
                             true);

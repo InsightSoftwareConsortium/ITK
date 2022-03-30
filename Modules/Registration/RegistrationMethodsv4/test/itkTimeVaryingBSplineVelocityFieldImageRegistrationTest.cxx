@@ -77,12 +77,12 @@ int
 PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
 {
 
-  int  numberOfAffineIterations = 100;
-  int  numberOfDeformableIterationsLevel0 = 10;
-  int  numberOfDeformableIterationsLevel1 = 20;
-  int  numberOfDeformableIterationsLevel2 = 11;
-  auto learningRate = static_cast<double>(0.5);
-  auto convergenceWindowSize = static_cast<unsigned int>(10);
+  int    numberOfAffineIterations = 100;
+  int    numberOfDeformableIterationsLevel0 = 10;
+  int    numberOfDeformableIterationsLevel1 = 20;
+  int    numberOfDeformableIterationsLevel2 = 11;
+  double learningRate = 0.5;
+  auto   convergenceWindowSize = 10U;
 
   if (argc >= 6)
   {

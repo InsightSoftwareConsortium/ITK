@@ -90,7 +90,7 @@ CreateMaskImage()
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    it.Set((unsigned char)255);
+    it.Set(static_cast<unsigned char>(255));
     ++it;
   }
   return image;

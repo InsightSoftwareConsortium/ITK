@@ -357,7 +357,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
   unsigned int it2 = 1;
   unsigned int it3 = 2;
 
-  while (it3 < (unsigned int)length)
+  while (it3 < static_cast<unsigned int>(length))
   {
     // Compute tanget using the adjacent points
     x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
@@ -430,12 +430,12 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
   it1 = 0;
   it2 = 1;
   VectorType t2;
-  while (it1 < (unsigned int)length)
+  while (it1 < static_cast<unsigned int>(length))
   {
     t = ((TubePointType *)(this->GetPoint(it1)))->GetTangentInObjectSpace();
 
     it2 = it1 + 1;
-    if (it2 >= (unsigned int)length)
+    if (it2 >= static_cast<unsigned int>(length))
     {
       it2 = it1 - 1;
     }

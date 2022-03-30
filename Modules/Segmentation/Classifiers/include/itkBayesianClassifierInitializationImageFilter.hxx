@@ -148,10 +148,11 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   // output labelmap
   while (!itrInputImage.IsAtEnd())
   {
-    sumsOfSquares[(unsigned int)itrKMeansImage.Get()] =
-      sumsOfSquares[(unsigned int)itrKMeansImage.Get()] + itrInputImage.Get() * itrInputImage.Get();
-    sums[(unsigned int)itrKMeansImage.Get()] = sums[(unsigned int)itrKMeansImage.Get()] + itrInputImage.Get();
-    ++classCount[(unsigned int)itrKMeansImage.Get()];
+    sumsOfSquares[static_cast<unsigned int>(itrKMeansImage.Get())] =
+      sumsOfSquares[static_cast<unsigned int>(itrKMeansImage.Get())] + itrInputImage.Get() * itrInputImage.Get();
+    sums[static_cast<unsigned int>(itrKMeansImage.Get())] =
+      sums[static_cast<unsigned int>(itrKMeansImage.Get())] + itrInputImage.Get();
+    ++classCount[static_cast<unsigned int>(itrKMeansImage.Get())];
     ++itrInputImage;
     ++itrKMeansImage;
   }

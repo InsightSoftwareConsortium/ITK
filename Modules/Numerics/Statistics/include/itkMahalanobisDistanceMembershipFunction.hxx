@@ -122,7 +122,7 @@ MahalanobisDistanceMembershipFunction<TVector>::SetCovariance(const CovarianceMa
     // diagonal. value chosen so (X-M)'inv(C)*(X-M) will usually stay
     // below NumericTraits<double>::max()
     const double aLargeDouble =
-      std::pow(NumericTraits<double>::max(), 1.0 / 3.0) / (double)this->GetMeasurementVectorSize();
+      std::pow(NumericTraits<double>::max(), 1.0 / 3.0) / static_cast<double>(this->GetMeasurementVectorSize());
     m_InverseCovariance.SetSize(this->GetMeasurementVectorSize(), this->GetMeasurementVectorSize());
     m_InverseCovariance.SetIdentity();
     m_InverseCovariance *= aLargeDouble;

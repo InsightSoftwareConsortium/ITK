@@ -202,7 +202,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
 
   // each iteration of the following loop examines one edge of the
   // polygon, where the endpoints of the edge are p1 and p2
-  auto      n = (int)(coords.size());
+  auto      n = static_cast<int>(coords.size());
   PointType p0 = coords[0];
   PointType p1 = coords[n - 1];
   double    area = 0.0;
@@ -232,8 +232,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
       std::swap(p1, p2);
     }
 
-    auto zmin = (int)(std::ceil(p1[2]));
-    auto zmax = (int)(std::ceil(p2[2]));
+    auto zmin = static_cast<int>(std::ceil(p1[2]));
+    auto zmax = static_cast<int>(std::ceil(p2[2]));
 
     if (zmin > extent[5] || zmax < extent[4])
     {
@@ -252,7 +252,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
     double temp = 1.0 / (p2[2] - p1[2]);
     for (int z = zmin; z < zmax; ++z)
     {
-      double      r = (p2[2] - (double)(z)) * temp;
+      double      r = (p2[2] - static_cast<double>(z)) * temp;
       double      f = 1.0 - r;
       Point2DType XY;
       XY[0] = r * p1[0] + f * p2[0];
@@ -295,7 +295,7 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
     // sort by ascending y, then x
     std::sort(xylist.begin(), xylist.end(), ComparePoints2D);
 
-    n = (int)(xylist.size()) / 2;
+    n = static_cast<int>(xylist.size()) / 2;
     for (int k = 0; k < n; ++k)
     {
       Point2DType & p2D1 = xylist[2 * k];
@@ -310,8 +310,8 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::PolygonToImageRaster(
         continue;
       }
       double temp = 1.0 / (Y2 - Y1);
-      auto   ymin = (int)(std::ceil(Y1));
-      auto   ymax = (int)(std::ceil(Y2));
+      auto   ymin = static_cast<int>(std::ceil(Y1));
+      auto   ymax = static_cast<int>(std::ceil(Y2));
       for (int y = ymin; y < ymax; ++y)
       {
         double r = (Y2 - y) * temp;
@@ -471,12 +471,12 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::RasterizeTriangles()
 
       // create the stencil extents
       int minx1 = extent[0]; // minimum allowable x1 value
-      int n = (int)(nlist.size()) / 2;
+      int n = static_cast<int>(nlist.size()) / 2;
 
       for (int i = 0; i < n; ++i)
       {
-        auto x1 = (int)(std::ceil(nlist[2 * i]));
-        auto x2 = (int)(std::floor(nlist[2 * i + 1]));
+        auto x1 = static_cast<int>(std::ceil(nlist[2 * i]));
+        auto x2 = static_cast<int>(std::floor(nlist[2 * i + 1]));
 
         if (x2 < extent[0] || x1 > (extent[1]))
         {

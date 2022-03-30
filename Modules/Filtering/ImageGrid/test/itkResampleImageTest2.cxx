@@ -173,7 +173,8 @@ itkResampleImageTest2(int argc, char * argv[])
     using SizeValueType = typename ImageType::SizeType::SizeValueType;
     for (unsigned int i = 0; i < VDimension; ++i)
     {
-      outputSize[i] = itk::Math::Ceil<SizeValueType>((double)inputSize[i] * inputSpacing[i] / outputSpacing[i]);
+      outputSize[i] =
+        itk::Math::Ceil<SizeValueType>(static_cast<double>(inputSize[i]) * inputSpacing[i] / outputSpacing[i]);
     }
 
     typename ImageType::DirectionType outputDirection = resample->GetInput()->GetDirection();

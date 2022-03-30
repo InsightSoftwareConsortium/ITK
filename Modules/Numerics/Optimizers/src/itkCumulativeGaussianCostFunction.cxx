@@ -41,7 +41,7 @@ CumulativeGaussianCostFunction::SetOriginalDataArray(MeasureType * setOriginalDa
   // Set the original data array.
   m_OriginalDataArray->SetSize(m_RangeDimension);
 
-  for (int i = 0; i < (int)(setOriginalDataArray->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(setOriginalDataArray->GetNumberOfElements()); ++i)
   {
     m_OriginalDataArray->put(i, setOriginalDataArray->get(i));
   }
@@ -58,7 +58,7 @@ CumulativeGaussianCostFunction::CalculateFitError(MeasureType * setTestArray)
     return 1;
   }
   double fitError = 0.0;
-  for (int i = 0; i < (int)(numberOfElements); ++i)
+  for (int i = 0; i < static_cast<int>(numberOfElements); ++i)
   {
     fitError += std::pow((setTestArray->get(i) - m_OriginalDataArray->get(i)), 2);
   }
@@ -127,22 +127,24 @@ CumulativeGaussianCostFunction::EvaluateCumulativeGaussian(double argument) cons
 
     if (argument > 0)
     {
-      auto temp = (int)(argument * 100);
+      auto temp = static_cast<int>(argument * 100);
       if (Math::AlmostEquals(argument, temp))
       {
         erfValue = .999976474;
       }
       else
       {
-        double slope = (y[temp + 1] - y[temp]) / (((float)temp + 1) / 100 - ((float)temp / 100));
-        erfValue = slope * (argument - ((float)temp + 1) / 100) + y[temp + 1];
+        double slope =
+          (y[temp + 1] - y[temp]) / ((static_cast<float>(temp) + 1) / 100 - (static_cast<float>(temp) / 100));
+        erfValue = slope * (argument - (static_cast<float>(temp) + 1) / 100) + y[temp + 1];
       }
     }
     else
     {
-      int    temp = -(int)(argument * 100);
-      double slope = (-y[temp + 1] + y[temp]) / (-((float)temp + 1) / 100 + ((float)temp / 100));
-      erfValue = (slope * (argument + ((float)temp + 1) / 100) - y[temp + 1]);
+      int    temp = -static_cast<int>(argument * 100);
+      double slope =
+        (-y[temp + 1] + y[temp]) / (-(static_cast<float>(temp) + 1) / 100 + (static_cast<float>(temp) / 100));
+      erfValue = (slope * (argument + (static_cast<float>(temp) + 1) / 100) - y[temp + 1]);
     }
   }
   return erfValue;

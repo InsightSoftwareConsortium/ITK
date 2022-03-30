@@ -53,7 +53,7 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Te
 
   for (i = 0; i < num; ++i)
   {
-    getp = (double)(inputImage->GetPixel(Plist[i]));
+    getp = static_cast<double>(inputImage->GetPixel(Plist[i]));
     addp = addp + getp;
     addpp = addpp + getp * getp;
   }
@@ -161,14 +161,14 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
       if (ait.Get())
       {
         num++;
-        currp = (float)(iit.Get());
+        currp = static_cast<float>(iit.Get());
         addp += currp;
         addpp += currp * currp;
       }
       else
       {
         numb++;
-        currp = (float)(iit.Get());
+        currp = static_cast<float>(iit.Get());
         addb += currp;
       }
       ++ait;

@@ -236,8 +236,8 @@ itkMultiStartOptimizerv4Test(int, char *[])
     for (int j = -3; j < 3; ++j)
     {
       ParametersType testPosition(spaceDimension);
-      testPosition[0] = (double)i;
-      testPosition[1] = (double)j;
+      testPosition[0] = static_cast<double>(i);
+      testPosition[1] = static_cast<double>(j);
       parametersList.push_back(testPosition);
     }
   }
@@ -263,8 +263,8 @@ itkMultiStartOptimizerv4Test(int, char *[])
     for (int j = -3; j < -2; ++j)
     {
       ParametersType testPosition(spaceDimension);
-      testPosition[0] = (double)i;
-      testPosition[1] = (double)j;
+      testPosition[0] = static_cast<double>(i);
+      testPosition[1] = static_cast<double>(j);
       parametersList.push_back(testPosition);
     }
   }
@@ -286,8 +286,8 @@ itkMultiStartOptimizerv4Test(int, char *[])
     for (int j = -103; j < 99; j += 100)
     {
       ParametersType testPosition(spaceDimension);
-      testPosition[0] = (double)i;
-      testPosition[1] = (double)j;
+      testPosition[0] = static_cast<double>(i);
+      testPosition[1] = static_cast<double>(j);
       parametersList.push_back(testPosition);
     }
   }

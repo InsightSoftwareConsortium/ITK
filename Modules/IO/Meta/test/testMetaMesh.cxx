@@ -126,10 +126,10 @@ TestingMetaMesh(MetaMesh * _mesh)
   PointDataListType::const_iterator it_pd = _mesh->GetPointData().begin();
   for (j = 0; j < static_cast<int>(_mesh->GetPointData().size()); ++j)
   {
-    if (((*it_pd)->m_Id != j) || ((int)(static_cast<MeshData<int> *>(*it_pd)->m_Data) != j))
+    if (((*it_pd)->m_Id != j) || (static_cast<int>(static_cast<MeshData<int> *>(*it_pd)->m_Data) != j))
     {
-      std::cout << "PointData ID = " << (*it_pd)->m_Id << " : " << (int)(static_cast<MeshData<int> *>(*it_pd)->m_Data)
-                << std::endl;
+      std::cout << "PointData ID = " << (*it_pd)->m_Id << " : "
+                << static_cast<int>(static_cast<MeshData<int> *>(*it_pd)->m_Data) << std::endl;
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
     }
@@ -141,17 +141,18 @@ TestingMetaMesh(MetaMesh * _mesh)
   std::cout << "Testing CellData : ";
   using CellDataListType = MetaMesh::CellDataListType;
   CellDataListType::const_iterator it_cd = _mesh->GetCellData().begin();
-  auto                             f = (float)(0.1);
+  auto                             f = static_cast<float>(0.1);
   for (j = 0; j < static_cast<int>(_mesh->GetCellData().size()); ++j)
   {
-    if (((*it_cd)->m_Id != j) || (itk::Math::abs((float)(static_cast<MeshData<float> *>(*it_cd)->m_Data) - f) > 0.001))
+    if (((*it_cd)->m_Id != j) ||
+        (itk::Math::abs(static_cast<float>(static_cast<MeshData<float> *>(*it_cd)->m_Data) - f) > 0.001))
     {
       std::cout << "CellData ID = " << (*it_cd)->m_Id << " : "
-                << (float)(static_cast<MeshData<float> *>(*it_cd)->m_Data) << " : " << f << std::endl;
+                << static_cast<float>(static_cast<MeshData<float> *>(*it_cd)->m_Data) << " : " << f << std::endl;
       std::cout << "[FAILED]" << std::endl;
       return EXIT_FAILURE;
     }
-    f += (float)0.2;
+    f += static_cast<float>(0.2);
     ++it_cd;
   }
   std::cout << "[PASSED]" << std::endl;
@@ -228,13 +229,13 @@ testMetaMesh(int argc, char * argv[])
   }
 
   // Add cell data
-  auto f = (float)(0.1);
+  auto f = static_cast<float>(0.1);
   for (i = 0; i < 4; ++i)
   {
     auto * cd = new MeshData<float>();
     cd->m_Id = i;
     cd->m_Data = f;
-    f += (float)(0.2);
+    f += static_cast<float>(0.2);
     mesh->GetCellData().push_back(cd);
   }
   std::cout << "[PASSED]" << std::endl;

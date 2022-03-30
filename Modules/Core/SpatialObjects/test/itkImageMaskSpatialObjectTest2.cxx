@@ -189,8 +189,10 @@ itkImageMaskSpatialObjectTest2(int, char *[])
 
     // Traverse along the line that goes through mask boundaries and
     // check if the value and the mask is consistent
-    const auto numberOfSteps = static_cast<int>(
-      std::sqrt(double(INSIDE_SIZE * INSIDE_SIZE + INSIDE_SIZE * INSIDE_SIZE + INSIDE_SIZE * INSIDE_SIZE)) * 100.0);
+    const auto numberOfSteps =
+      static_cast<int>(std::sqrt(static_cast<double>(INSIDE_SIZE * INSIDE_SIZE + INSIDE_SIZE * INSIDE_SIZE +
+                                                     INSIDE_SIZE * INSIDE_SIZE)) *
+                       100.0);
     const ImageType::SpacingType incrementVector = (endPoint - startPoint) / static_cast<double>(numberOfSteps);
     ImageType::PointType         point = startPoint;
     for (int i = 0; i < numberOfSteps; ++i)

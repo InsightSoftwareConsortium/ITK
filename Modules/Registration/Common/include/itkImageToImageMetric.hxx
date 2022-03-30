@@ -1317,7 +1317,8 @@ ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Inde
   {
     for (ThreadIdType i = 0; i < m_NumberOfWorkUnits - 1; ++i)
     {
-      os << "  Thread[" << i << "]= " << (unsigned int)m_ThreaderNumberOfMovingImageSamples[i] << std::endl;
+      os << "  Thread[" << i << "]= " << static_cast<unsigned int>(m_ThreaderNumberOfMovingImageSamples[i])
+         << std::endl;
     }
   }
 

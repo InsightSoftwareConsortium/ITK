@@ -71,8 +71,8 @@ itkPathFunctionsTest(int, char *[])
   while (!it.IsAtEnd())
   {
     pixelIndex = it.GetIndex();
-    if (pixelIndex[0] >= int(size[0] / 4) && pixelIndex[0] < int(size[0] * 3 / 4) &&
-        pixelIndex[1] >= int(size[1] / 4) && pixelIndex[1] < int(size[1] * 3 / 4))
+    if (pixelIndex[0] >= static_cast<int>(size[0] / 4) && pixelIndex[0] < static_cast<int>(size[0] * 3 / 4) &&
+        pixelIndex[1] >= static_cast<int>(size[1] / 4) && pixelIndex[1] < static_cast<int>(size[1] * 3 / 4))
     {
       it.Set(1.0);
     }

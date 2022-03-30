@@ -165,7 +165,7 @@ GaussianOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int n, double 
     qip = accumulator = 0.0;
     qi = 1.0;
 
-    for (j = 2 * (n + (int)std::sqrt(ACCURACY * n)); j > 0; j--)
+    for (j = 2 * (n + static_cast<int>(std::sqrt(ACCURACY * n))); j > 0; j--)
     {
       qim = qip + j * toy * qi;
       qip = qi;

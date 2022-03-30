@@ -77,8 +77,8 @@ itkMRFImageFilterTest(int, char *[])
   DataVector dblVec;
 
   int i, k;
-  int halfWidth = (int)(vecImgSize[0]) / 2;
-  int halfHeight = (int)(vecImgSize[1]) / 2;
+  int halfWidth = static_cast<int>(vecImgSize[0]) / 2;
+  int halfHeight = static_cast<int>(vecImgSize[1]) / 2;
 
   //--------------------------------------------------------------------------
   // Manually create and store each vector
@@ -417,7 +417,7 @@ itkMRFImageFilterTest(int, char *[])
   while (!nOutImageNeighborhoodIter.IsAtEnd())
   {
     outLabel = nOutImageNeighborhoodIter.GetCenterValue();
-    sum += (int)(*outLabel);
+    sum += static_cast<int>(*outLabel);
     ++nOutImageNeighborhoodIter;
   }
   // Loop through the data set

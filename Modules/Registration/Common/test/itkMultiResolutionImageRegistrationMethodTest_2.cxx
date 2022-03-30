@@ -142,7 +142,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   itk::Point<double, dimension> center;
   for (j = 0; j < dimension; ++j)
   {
-    center[j] = 0.5 * (double)region.GetSize()[j];
+    center[j] = 0.5 * static_cast<double>(region.GetSize()[j]);
   }
 
   itk::Point<double, dimension>  p;
@@ -177,7 +177,7 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   double transCenter[dimension];
   for (j = 0; j < dimension; ++j)
   {
-    transCenter[j] = -0.5 * double(size[j]);
+    transCenter[j] = -0.5 * static_cast<double>(size[j]);
   }
 
   movingImage->SetOrigin(transCenter);

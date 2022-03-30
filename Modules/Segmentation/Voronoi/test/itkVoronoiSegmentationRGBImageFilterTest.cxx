@@ -74,9 +74,9 @@ SetUpInputImage()
   while (!iter.IsAtEnd())
   {
     PixelType px;
-    px[0] = (unsigned char)(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
-    px[1] = (unsigned char)(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
-    px[2] = (unsigned char)(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    px[0] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    px[1] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
+    px[2] = static_cast<unsigned char>(vnl_sample_uniform(bgMean - bgStd, bgMean + bgStd));
     iter.Set(px);
     ++iter;
   }
@@ -91,9 +91,9 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = (unsigned char)(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[1] = (unsigned char)(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[2] = (unsigned char)(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      px[0] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      px[1] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      px[2] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
       inputImage->SetPixel(idx, px);
     }
   }
@@ -106,9 +106,9 @@ SetUpInputImage()
       idx[1] = y;
 
       PixelType px;
-      px[0] = (unsigned char)(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[1] = (unsigned char)(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
-      px[2] = (unsigned char)(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      px[0] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      px[1] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
+      px[2] = static_cast<unsigned char>(vnl_sample_uniform(fgMean - fgStd, fgMean + fgStd));
       inputImage->SetPixel(idx, px);
     }
   }
@@ -180,7 +180,7 @@ CheckResults(SegmentationType::Pointer outputImage)
   std::cout << "Correct Exterior: " << correctExterior << std::endl;
   std::cout << "False Interior: " << falseInterior << std::endl;
   std::cout << "False Exterior: " << falseExterior << std::endl;
-  double percentCorrect = (double)(correctInterior + correctExterior) / (double)(width * height);
+  double percentCorrect = static_cast<double>(correctInterior + correctExterior) / static_cast<double>(width * height);
   std::cout << "Percent Correct = " << percentCorrect * 100 << "%" << std::endl;
 
   return percentCorrect;

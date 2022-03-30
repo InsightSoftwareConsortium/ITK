@@ -250,7 +250,7 @@ GaussianDerivativeOperator<TPixel, VDimension, TAllocator>::ModifiedBesselI(int 
     toy = 2.0 / itk::Math::abs(y);
     qip = accumulator = 0.0;
     qi = 1.0;
-    for (j = 2 * (n + (int)(DIGITS * std::sqrt((double)n))); j > 0; j--)
+    for (j = 2 * (n + static_cast<int>(DIGITS * std::sqrt(static_cast<double>(n)))); j > 0; j--)
     {
       qim = qip + j * toy * qi;
       qip = qi;

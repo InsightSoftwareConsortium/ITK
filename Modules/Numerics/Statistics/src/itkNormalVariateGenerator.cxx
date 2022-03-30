@@ -25,9 +25,9 @@ namespace Statistics
 {
 NormalVariateGenerator::NormalVariateGenerator()
 {
-  m_Scale = ((double)30000000.0);
-  m_Rscale = ((double)(1.0 / m_Scale));
-  m_Rcons = ((double)(1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0)));
+  m_Scale = 30000000.0;
+  m_Rscale = 1.0 / m_Scale;
+  m_Rcons = 1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0);
   m_ELEN = 7; /*  LEN must be 2 ** ELEN       */
   m_LEN = 128;
   m_LMASK = (4 * (m_LEN - 1));
@@ -458,8 +458,8 @@ nextpair:
   tz = -2.0 * std::log((r + 0.5) * m_Rcons); /* Sum of squares */
   ts += tz;
   tz = std::sqrt(tz / tr);
-  m_Vec1[p++] = (int)(m_Scale * tx * tz);
-  m_Vec1[p++] = (int)(m_Scale * ty * tz);
+  m_Vec1[p++] = static_cast<int>(m_Scale * tx * tz);
+  m_Vec1[p++] = static_cast<int>(m_Scale * ty * tz);
   if (p < m_TLEN)
   {
     goto nextpair;
@@ -471,7 +471,7 @@ nextpair:
   for (p = 0; p < m_TLEN; ++p)
   {
     tx = m_Vec1[p] * tr;
-    m_Vec1[p] = (int)((tx < 0.0) ? (tx - 0.5) : (tx + 0.5));
+    m_Vec1[p] = static_cast<int>((tx < 0.0) ? (tx - 0.5) : (tx + 0.5));
   }
 
 recalcsumsq:

@@ -91,7 +91,7 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
   for (unsigned int k = 0; k < VAuxDimension; ++k)
   {
     auxPixel = m_AuxImage[k]->GetPixel(index);
-    centerValue[k] = (double)auxPixel;
+    centerValue[k] = static_cast<double>(auxPixel);
   }
 
   // if distance is zero, insert point in inside container
@@ -132,11 +132,11 @@ LevelSetVelocityNeighborhoodExtractor<TLevelSet, TAuxValue, VAuxDimension>::Calc
       break;
     }
 
-    denom += 1.0 / itk::Math::sqr((double)neighNode.GetValue());
+    denom += 1.0 / itk::Math::sqr(static_cast<double>(neighNode.GetValue()));
     for (unsigned int k = 0; k < VAuxDimension; ++k)
     {
       auxPixel = m_AuxImage[k]->GetPixel(neighNode.GetIndex());
-      numer[k] += (double)(auxPixel) / itk::Math::sqr((double)neighNode.GetValue());
+      numer[k] += static_cast<double>(auxPixel) / itk::Math::sqr(static_cast<double>(neighNode.GetValue()));
     }
   }
 

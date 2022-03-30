@@ -105,7 +105,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   rightP = vertlist.back();
 
   double beginy = currP[1];
-  auto   intbeginy = (int)std::ceil(beginy);
+  auto   intbeginy = static_cast<int>(std::ceil(beginy));
   idx[1] = intbeginy;
   double leftendy = leftP[1];
   double rightendy = rightP[1];
@@ -149,7 +149,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     rightDx = (rightP[0] - endx) / (rightP[1] - beginy);
   }
 
-  auto intendy = (int)std::floor(endy);
+  auto intendy = static_cast<int>(std::floor(endy));
   if (intbeginy > intendy)
   { // no scanline
     if (RorL)
@@ -180,7 +180,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   }
   else
   { // normal case some scanlines
-    offset = (double)intbeginy - beginy;
+    offset = static_cast<double>(intbeginy) - beginy;
     endx += offset * rightDx;
     beginx += offset * leftDx;
     while (idx[1] <= intendy)
@@ -251,8 +251,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       endy = leftendy;
     }
 
-    intendy = (int)std::floor(endy);
-    intbeginy = (int)std::ceil(beginy);
+    intendy = static_cast<int>(std::floor(endy));
+    intbeginy = static_cast<int>(std::ceil(beginy));
 
     if (intbeginy > intendy)
     { // no scanline
@@ -267,7 +267,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     }
     else
     { // normal case some scanlines
-      offset = (double)intbeginy - beginy;
+      offset = static_cast<double>(intbeginy) - beginy;
       endx += offset * rightDx;
       beginx += offset * leftDx;
       while (idx[1] <= intendy)
@@ -295,8 +295,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     beginy = leftP[1];
     endy = rightP[1];
   }
-  intbeginy = (int)std::ceil(beginy);
-  intendy = (int)std::floor(endy);
+  intbeginy = static_cast<int>(std::ceil(beginy));
+  intendy = static_cast<int>(std::floor(endy));
   if (intbeginy <= intendy)
   {
     if (RorL)
@@ -325,7 +325,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       beginx = leftP[0];
       endx = rightP[0] + rightDx * (leftP[1] - rightP[1]);
     }
-    offset = (double)intbeginy - beginy;
+    offset = static_cast<double>(intbeginy) - beginy;
     beginx += offset * leftDx;
     endx += offset * rightDx;
     while (idx[1] <= intendy)
@@ -657,7 +657,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   rightP = vertlist.back();
 
   double beginy = currP[1];
-  auto   intbeginy = (int)std::ceil(beginy);
+  auto   intbeginy = static_cast<int>(std::ceil(beginy));
   idx[1] = intbeginy;
   double leftendy = leftP[1];
   double rightendy = rightP[1];
@@ -699,7 +699,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   {
     rightDx = (rightP[0] - endx) / (rightP[1] - beginy);
   }
-  auto intendy = (int)std::floor(endy);
+  auto intendy = static_cast<int>(std::floor(endy));
   if (intbeginy > intendy)
   { // no scanline
     if (RorL)
@@ -730,7 +730,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   }
   else
   { // normal case some scanlines
-    offset = (double)intbeginy - beginy;
+    offset = static_cast<double>(intbeginy) - beginy;
     endx += offset * rightDx;
     beginx += offset * leftDx;
     while (idx[1] <= intendy)
@@ -801,8 +801,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       endy = leftendy;
     }
 
-    intendy = (int)std::floor(endy);
-    intbeginy = (int)std::ceil(beginy);
+    intendy = static_cast<int>(std::floor(endy));
+    intbeginy = static_cast<int>(std::ceil(beginy));
 
     if (intbeginy > intendy)
     { // no scanline
@@ -817,7 +817,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     }
     else
     { // normal case some scanlines
-      offset = (double)intbeginy - beginy;
+      offset = static_cast<double>(intbeginy) - beginy;
       endx += offset * rightDx;
       beginx += offset * leftDx;
       while (idx[1] <= intendy)
@@ -845,8 +845,8 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     beginy = leftP[1];
     endy = rightP[1];
   }
-  intbeginy = (int)std::ceil(beginy);
-  intendy = (int)std::floor(endy);
+  intbeginy = static_cast<int>(std::ceil(beginy));
+  intendy = static_cast<int>(std::floor(endy));
   if (intbeginy <= intendy)
   {
     if (RorL)
@@ -875,7 +875,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       beginx = leftP[0];
       endx = rightP[0] + rightDx * (leftP[1] - rightP[1]);
     }
-    offset = (double)intbeginy - beginy;
+    offset = static_cast<double>(intbeginy) - beginy;
     beginx += offset * leftDx;
     endx += offset * rightDx;
     while (idx[1] <= intendy)
@@ -898,10 +898,10 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 {
   TOutputImage * output = this->GetOutput();
 
-  auto x1 = (int)(p1[0] + 0.5);
-  auto x2 = (int)(p2[0] + 0.5);
-  auto y1 = (int)(p1[1] + 0.5);
-  auto y2 = (int)(p2[1] + 0.5);
+  auto x1 = static_cast<int>(p1[0] + 0.5);
+  auto x2 = static_cast<int>(p2[0] + 0.5);
+  auto y1 = static_cast<int>(p1[1] + 0.5);
+  auto y2 = static_cast<int>(p2[1] + 0.5);
 
   if (x1 == static_cast<int>(m_Size[0]))
   {
@@ -936,19 +936,19 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       x2 = save;
       y1 = y2;
     }
-    curr = (float)y1;
+    curr = static_cast<float>(y1);
     if (dx == 0)
     {
       dx = 1;
     }
-    float offset = (float)dy / dx;
+    float offset = static_cast<float>(dy) / dx;
     for (int i = x1; i <= x2; ++i)
     {
       idx[0] = i;
       idx[1] = y1;
       output->SetPixel(idx, 1);
       curr += offset;
-      y1 = (int)(curr + 0.5);
+      y1 = static_cast<int>(curr + 0.5);
     }
   }
   else
@@ -960,19 +960,19 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       y1 = y2;
       y2 = save;
     }
-    curr = (float)x1;
+    curr = static_cast<float>(x1);
     if (dy == 0)
     {
       dy = 1;
     }
-    float offset = (float)dx / dy;
+    float offset = static_cast<float>(dx) / dy;
     for (int i = y1; i <= y2; ++i)
     {
       idx[0] = x1;
       idx[1] = i;
       output->SetPixel(idx, 1);
       curr += offset;
-      x1 = (int)(curr + 0.5);
+      x1 = static_cast<int>(curr + 0.5);
     }
   }
 }
@@ -1021,24 +1021,24 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
                                                                                              PointType      p2,
                                                                                              unsigned char  color)
 {
-  auto x1 = (int)(p1[0] + 0.5);
-  auto x2 = (int)(p2[0] + 0.5);
-  auto y1 = (int)(p1[1] + 0.5);
-  auto y2 = (int)(p2[1] + 0.5);
+  auto x1 = static_cast<int>(p1[0] + 0.5);
+  auto x2 = static_cast<int>(p2[0] + 0.5);
+  auto y1 = static_cast<int>(p1[1] + 0.5);
+  auto y2 = static_cast<int>(p2[1] + 0.5);
 
-  if (x1 == (int)m_Size[0])
+  if (x1 == static_cast<int>(m_Size[0]))
   {
     x1--;
   }
-  if (x2 == (int)m_Size[0])
+  if (x2 == static_cast<int>(m_Size[0]))
   {
     x2--;
   }
-  if (y1 == (int)m_Size[1])
+  if (y1 == static_cast<int>(m_Size[1]))
   {
     y1--;
   }
-  if (y2 == (int)m_Size[1])
+  if (y2 == static_cast<int>(m_Size[1]))
   {
     y2--;
   }
@@ -1060,19 +1060,19 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       y1 = y2;
       y2 = save;
     }
-    curr = (float)y1;
+    curr = static_cast<float>(y1);
     if (dx == 0)
     {
       dx = 1;
     }
-    float offset = (float)dy / dx;
+    float offset = static_cast<float>(dy) / dx;
     for (int i = x1; i <= x2; ++i)
     {
       idx[0] = i;
       idx[1] = y1;
       result->SetPixel(idx, color);
       curr += offset;
-      y1 = (int)(curr + 0.5);
+      y1 = static_cast<int>(curr + 0.5);
     }
   }
   else
@@ -1086,19 +1086,19 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       y1 = y2;
       y2 = save;
     }
-    curr = (float)x1;
+    curr = static_cast<float>(x1);
     if (dy == 0)
     {
       dy = 1;
     }
-    float offset = (float)dx / dy;
+    float offset = static_cast<float>(dx) / dy;
     for (int i = y1; i <= y2; ++i)
     {
       idx[0] = x1;
       idx[1] = i;
       result->SetPixel(idx, color);
       curr += offset;
-      x1 = (int)(curr + 0.5);
+      x1 = static_cast<int>(curr + 0.5);
     }
   }
 }

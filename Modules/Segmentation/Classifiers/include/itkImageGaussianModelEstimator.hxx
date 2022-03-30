@@ -60,7 +60,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
   InputImageConstPointer inputImage = this->GetInputImage();
 
   // Check if the training and input image dimensions are the same
-  if ((int)(TInputImage::ImageDimension) != (int)(TTrainingImage::ImageDimension))
+  if (static_cast<int>(TInputImage::ImageDimension) != static_cast<int>(TTrainingImage::ImageDimension))
   {
     throw ExceptionObject(__FILE__, __LINE__, "Training and input image dimensions are not the same.", ITK_LOCATION);
   }
@@ -152,7 +152,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
 
   for (inIt.GoToBegin(); !inIt.IsAtEnd(); ++inIt, ++trainingImageIt)
   {
-    auto classIndex = (unsigned int)trainingImageIt.Get();
+    auto classIndex = static_cast<unsigned int>(trainingImageIt.Get());
 
     // Training data assumed =1 band; also the class indices go
     // from 1, 2, ..., n while the corresponding memory goes from
@@ -242,8 +242,8 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
     // Fill the rest of the covairance matrix and make it symmetric
     if (m_NumberOfSamples[classIndex][0] > 0)
     {
-      auto lastInX = (unsigned int)(VectorDimension - 1);
-      auto upperY = (unsigned int)VectorDimension;
+      auto lastInX = static_cast<unsigned int>(VectorDimension - 1);
+      auto upperY = static_cast<unsigned int>(VectorDimension);
       for (unsigned int band_x = 0; band_x < lastInX; ++band_x)
       {
         for (unsigned int band_y = band_x + 1; band_y < upperY; ++band_y)

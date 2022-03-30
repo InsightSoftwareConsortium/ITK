@@ -206,7 +206,8 @@ main(int argc, char * argv[])
        ++itNum)
   {
     std::cout
-      << "OtsuThreshold[" << (int)(itNum - thresholdVector.begin()) << "] = "
+      << "OtsuThreshold[" << static_cast<int>(itNum - thresholdVector.begin())
+      << "] = "
       << static_cast<
            itk::NumericTraits<CalculatorType::MeasurementType>::PrintType>(
            *itNum)

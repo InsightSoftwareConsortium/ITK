@@ -58,12 +58,12 @@ CumulativeGaussianOptimizer::ExtendGaussian(MeasureType * originalArray,
 
   m_OffsetForMean = startingPointForInsertion;
 
-  for (int i = 0; i < (int)(extendedArray->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(extendedArray->GetNumberOfElements()); ++i)
   {
     extendedArray->put(i, amplitude * std::exp(-(std::pow((i - mean), 2) / (2 * std::pow(sd, 2)))));
   }
   // Then insert the originalArray over the middle section of extendedArray.
-  for (int i = 0; i < (int)(originalArray->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(originalArray->GetNumberOfElements()); ++i)
   {
     extendedArray->put(i + startingPointForInsertion, originalArray->get(i));
   }
@@ -175,7 +175,7 @@ CumulativeGaussianOptimizer::MeasureGaussianParameters(MeasureType * array)
   double sum = 0;
 
   // Calculate the mean.
-  for (int i = 0; i < (int)(array->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(array->GetNumberOfElements()); ++i)
   {
     m_ComputedMean += i * array->get(i);
     sum += array->get(i);
@@ -186,7 +186,7 @@ CumulativeGaussianOptimizer::MeasureGaussianParameters(MeasureType * array)
   m_ComputedMean /= sum;
 
   // Calculate the standard deviation
-  for (int i = 0; i < (int)(array->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(array->GetNumberOfElements()); ++i)
   {
     m_ComputedStandardDeviation += array->get(i) * std::pow((i - m_ComputedMean), 2);
   }
@@ -229,10 +229,11 @@ CumulativeGaussianOptimizer::RecalculateExtendedArrayFromGaussianParameters(Meas
   double sd = m_ComputedStandardDeviation;
   double amplitude = m_ComputedAmplitude;
 
-  for (int i = 0; i < (int)(extendedArray->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(extendedArray->GetNumberOfElements()); ++i)
   {
     // Leave the original inserted array unchanged.
-    if (i < startingPointForInsertion || i >= startingPointForInsertion + (int)(originalArray->GetNumberOfElements()))
+    if (i < startingPointForInsertion ||
+        i >= startingPointForInsertion + static_cast<int>(originalArray->GetNumberOfElements()))
     {
       extendedArray->put(i, amplitude * std::exp(-(std::pow((i - mean), 2) / (2 * std::pow(sd, 2)))));
     }
@@ -273,7 +274,7 @@ CumulativeGaussianOptimizer::StartOptimization()
   auto * derivative = new MeasureType();
   derivative->SetSize(cumGaussianArraySize - 1);
 
-  for (int i = 1; i < (int)(derivative->GetNumberOfElements() + 1); ++i)
+  for (int i = 1; i < static_cast<int>(derivative->GetNumberOfElements() + 1); ++i)
   {
     derivative->put(i - 1, m_CumulativeGaussianArray->get(i) - m_CumulativeGaussianArray->get(i - 1));
   }
@@ -303,13 +304,13 @@ CumulativeGaussianOptimizer::StartOptimization()
   double c = VerticalBestShift(cumGaussianArrayCopy, sampledGaussianArray);
 
   // Add constant c to array.
-  for (int i = 0; i < (int)(sampledGaussianArray->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(sampledGaussianArray->GetNumberOfElements()); ++i)
   {
     sampledGaussianArray->put(i, sampledGaussianArray->get(i) + c);
   }
   // Calculate the mean, standard deviation, lower and upper asymptotes of the
   // sampled Cumulative Gaussian.
-  auto   floorOfMean = (int)(m_ComputedMean);
+  auto   floorOfMean = static_cast<int>(m_ComputedMean);
   double yFloorOfMean = sampledGaussianArray->get(floorOfMean);
   double yCeilingOfMean = sampledGaussianArray->get(floorOfMean + 1);
   double y = (m_ComputedMean - floorOfMean) * (yCeilingOfMean - yFloorOfMean) + yFloorOfMean;
@@ -318,7 +319,7 @@ CumulativeGaussianOptimizer::StartOptimization()
 
   m_FinalSampledArray = new MeasureType();
   m_FinalSampledArray->SetSize(sampledGaussianArray->GetNumberOfElements());
-  for (int i = 0; i < (int)(m_FinalSampledArray->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(m_FinalSampledArray->GetNumberOfElements()); ++i)
   {
     m_FinalSampledArray->put(i, sampledGaussianArray->get(i));
   }
@@ -333,7 +334,7 @@ CumulativeGaussianOptimizer::StartOptimization()
 void
 CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
 {
-  for (int i = 0; i < (int)(array->GetNumberOfElements()); ++i)
+  for (int i = 0; i < static_cast<int>(array->GetNumberOfElements()); ++i)
   {
     std::cerr << i << " " << array->get(i) << std::endl;
   }

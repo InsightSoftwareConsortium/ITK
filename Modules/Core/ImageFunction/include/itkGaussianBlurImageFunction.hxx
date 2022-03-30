@@ -247,7 +247,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType
   IndexType centerIndex;
   for (unsigned int i = 0; i < Self::ImageDimension; ++i)
   {
-    centerIndex[i] = (IndexValueType)((float)m_InternalImage->GetBufferedRegion().GetSize()[i] / 2.0);
+    centerIndex[i] = (IndexValueType)(static_cast<float>(m_InternalImage->GetBufferedRegion().GetSize()[i]) / 2.0f);
   }
 
   // first direction

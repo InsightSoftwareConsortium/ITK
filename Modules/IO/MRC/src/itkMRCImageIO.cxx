@@ -208,9 +208,9 @@ MRCImageIO::ReadImageInformation()
   }
   else
   {
-    m_Spacing[0] = header.xlen / float(header.mx);
-    m_Spacing[1] = header.ylen / float(header.my);
-    m_Spacing[2] = header.zlen / float(header.mz);
+    m_Spacing[0] = header.xlen / static_cast<float>(header.mx);
+    m_Spacing[1] = header.ylen / static_cast<float>(header.my);
+    m_Spacing[2] = header.zlen / static_cast<float>(header.mz);
   }
 
   // copy the origin
@@ -354,11 +354,11 @@ MRCImageIO::UpdateHeaderWithMinMaxMean(const TPixelType * bufferBegin)
   // std::max_element, but that is slightly less efficient
   std::pair<ConstPixelPointer, ConstPixelPointer> mm = itk::min_max_element(bufferBegin, bufferEnd);
 
-  double mean = std::accumulate(bufferBegin, bufferEnd, double(0.0)) / std::distance(bufferBegin, bufferEnd);
+  double mean = std::accumulate(bufferBegin, bufferEnd, 0.0) / std::distance(bufferBegin, bufferEnd);
 
-  m_MRCHeader->m_Header.amin = float(*mm.first);
-  m_MRCHeader->m_Header.amax = float(*mm.second);
-  m_MRCHeader->m_Header.amean = float(mean);
+  m_MRCHeader->m_Header.amin = static_cast<float>(*mm.first);
+  m_MRCHeader->m_Header.amax = static_cast<float>(*mm.second);
+  m_MRCHeader->m_Header.amean = static_cast<float>(mean);
 }
 
 void
@@ -448,9 +448,9 @@ MRCImageIO::UpdateHeaderFromImageIO()
   header.nystart = 0;
   header.nzstart = 0;
 
-  header.xlen = m_Spacing[0] * float(header.mx);
-  header.ylen = (this->GetNumberOfDimensions() >= 2) ? m_Spacing[1] * float(header.my) : 1;
-  header.zlen = (this->GetNumberOfDimensions() >= 3) ? m_Spacing[2] * float(header.mz) : 1;
+  header.xlen = m_Spacing[0] * static_cast<float>(header.mx);
+  header.ylen = (this->GetNumberOfDimensions() >= 2) ? m_Spacing[1] * static_cast<float>(header.my) : 1;
+  header.zlen = (this->GetNumberOfDimensions() >= 3) ? m_Spacing[2] * static_cast<float>(header.mz) : 1;
 
   header.xorg = m_Origin[0];
   header.yorg = (this->GetNumberOfDimensions() >= 2) ? m_Origin[1] : 0;

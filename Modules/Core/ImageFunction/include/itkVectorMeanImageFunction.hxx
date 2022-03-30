@@ -94,7 +94,7 @@ VectorMeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType
   const unsigned int VectorDimension = NumericTraits<RealType>::GetLength(sum);
   for (unsigned int dim = 0; dim < VectorDimension; ++dim)
   {
-    sum[dim] /= double(it.Size());
+    sum[dim] /= static_cast<double>(it.Size());
   }
 
   return (sum);

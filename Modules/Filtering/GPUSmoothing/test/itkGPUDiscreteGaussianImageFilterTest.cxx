@@ -111,9 +111,11 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
 
       for (cit.GoToBegin(), git.GoToBegin(); !cit.IsAtEnd(); ++cit, ++git)
       {
-        double err = (double)(cit.Get()) - (double)(git.Get());
-        //         if(err > 0.1 || (double)cit.Get() < 0.1) std::cout << "CPU : " << (double)(cit.Get()) << ", GPU : "
-        //         << (double)(git.Get()) << std::endl;
+        double err = static_cast<double>(cit.Get()) - static_cast<double>(git.Get());
+        //         if(err > 0.1 || static_cast<double>(cit.Get()) < 0.1) std::cout << "CPU : " <<
+        //         static_cast<double>(cit.Get()) <<
+        //         ", GPU : "
+        //         << static_cast<double>(git.Get()) << std::endl;
         diff += err * err;
         nPix++;
       }
@@ -123,7 +125,7 @@ runGPUDiscreteGaussianImageFilterTest(const std::string & inFile, const std::str
 
       if (nPix > 0)
       {
-        double RMSError = sqrt(diff / (double)nPix);
+        double RMSError = sqrt(diff / static_cast<double>(nPix));
         std::cout << "RMS Error : " << RMSError << std::endl;
         // the CPU filter operator has type double
         // but the double precision is not well-supported on most GPUs

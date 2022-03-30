@@ -89,8 +89,9 @@ itkRGBToVectorAdaptImageFilterTest(int, char *[])
   it1.GoToBegin();
   while (!it1.IsAtEnd())
   {
-    color.Set(
-      (float)vnl_sample_uniform(0.0, 1.0), (float)vnl_sample_uniform(0.0, 1.0), (float)vnl_sample_uniform(0.0, 1.0));
+    color.Set(static_cast<float>(vnl_sample_uniform(0.0, 1.0)),
+              static_cast<float>(vnl_sample_uniform(0.0, 1.0)),
+              static_cast<float>(vnl_sample_uniform(0.0, 1.0)));
     it1.Set(color);
     ++it1;
   }
