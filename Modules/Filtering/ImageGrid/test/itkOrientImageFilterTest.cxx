@@ -39,7 +39,7 @@ CreateRandomImage()
   itk::ImageRegionIterator<ImageType> ri(img, region);
   while (!ri.IsAtEnd())
   {
-    ri.Set((unsigned int)vnl_sample_uniform(0, 32767));
+    ri.Set(static_cast<unsigned int>(vnl_sample_uniform(0, 32767)));
     ++ri;
   }
   return img;

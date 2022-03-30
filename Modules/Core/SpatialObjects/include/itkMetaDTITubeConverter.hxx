@@ -167,7 +167,7 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
 
     if (Math::NotExactlyEquals((*it2)->GetField("id"), -1))
     {
-      pnt.SetId((int)((*it2)->GetField("id")));
+      pnt.SetId(static_cast<int>((*it2)->GetField("id")));
     }
 
     tubeSO->AddPoint(pnt);

@@ -541,7 +541,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
   // a data structure to store the number of intercepts on each direction
   using MapInterceptType = typename std::map<OffsetType, SizeValueType, Functor::LexicographicCompare>;
   MapInterceptType intercepts;
-  // int nbOfDirections = (int)std::pow( 2.0, (int)ImageDimension ) - 1;
+  // int nbOfDirections = static_cast<int>(std::pow(2.0, static_cast<int>(ImageDimension))) - 1;
   // intecepts.resize(nbOfDirections + 1);  // code begins at position 1
 
   // now iterate over the vectors of lines

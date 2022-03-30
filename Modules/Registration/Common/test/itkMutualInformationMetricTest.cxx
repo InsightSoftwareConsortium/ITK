@@ -71,10 +71,10 @@ itkMutualInformationMetricTest(int, char *[])
   using TargetIteratorType = itk::ImageRegionIterator<FixedImageType>;
 
   itk::Point<double, 2> center;
-  center[0] = (double)region.GetSize()[0] / 2.0;
-  center[1] = (double)region.GetSize()[1] / 2.0;
+  center[0] = static_cast<double>(region.GetSize()[0]) / 2.0;
+  center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
 
-  const double s = (double)region.GetSize()[0] / 2.0;
+  const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
 
   itk::Point<double, 2>  p;
   itk::Vector<double, 2> d;
@@ -95,7 +95,7 @@ itkMutualInformationMetricTest(int, char *[])
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set((unsigned char)(200.0 * std::exp(-(x * x + y * y) / (s * s))));
+    ri.Set(static_cast<unsigned char>(200.0 * std::exp(-(x * x + y * y) / (s * s))));
     ++ri;
   }
 
@@ -108,7 +108,7 @@ itkMutualInformationMetricTest(int, char *[])
     d = p - center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set((unsigned char)(200.0 * std::exp(-(x * x + y * y) / (s * s))));
+    ti.Set(static_cast<unsigned char>(200.0 * std::exp(-(x * x + y * y) / (s * s))));
     ++ti;
   }
 

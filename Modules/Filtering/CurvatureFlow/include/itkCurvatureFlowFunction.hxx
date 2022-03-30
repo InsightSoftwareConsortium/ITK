@@ -98,7 +98,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
     }
 
     // accumlate the gradient magnitude squared
-    magnitudeSqr += itk::Math::sqr((double)firstderiv[i]);
+    magnitudeSqr += itk::Math::sqr(static_cast<double>(firstderiv[i]));
   }
 
   if (magnitudeSqr < 1e-9)
@@ -123,7 +123,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
       temp += secderiv[j];
     }
 
-    update += temp * itk::Math::sqr((double)firstderiv[i]);
+    update += temp * itk::Math::sqr(static_cast<double>(firstderiv[i]));
   }
 
   // accumlate -2 * dx * dy * dxy terms

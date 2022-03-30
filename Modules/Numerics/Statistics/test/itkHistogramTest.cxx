@@ -488,7 +488,7 @@ itkHistogramTest(int, char *[])
 
   for (unsigned int k2 = 0; k2 < numberOfComponents; ++k2)
   {
-    if (index2[k2] != (long)size[k2] - 1)
+    if (index2[k2] != static_cast<long>(size[k2]) - 1)
     {
       pass = false;
       whereFail = "GetIndex() index value failed for outOfUpperRange";

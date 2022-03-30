@@ -236,28 +236,28 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   {
     offsetIndex3D[0]--;
     offsetIndex3D[1]--;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]++;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]++;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[1]++;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[1]++;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]--;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[0]--;
-    f[neighborcount++] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount++] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
 
     offsetIndex3D[1]--;
-    f[neighborcount] = (int)m_LabelledImage->GetPixel(offsetIndex3D);
+    f[neighborcount] = static_cast<int>(m_LabelledImage->GetPixel(offsetIndex3D));
   }
 
   k = 0;
@@ -313,8 +313,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
     if (changeflag)
     {
       difenergy = energy[label] - energy[1 - label];
-      auto rand_num = (double)(rand() / 32768.0);
-      auto energy_num = (double)(std::exp((double)(difenergy * 0.5 * size / (2 * size - m_Temp))));
+      double rand_num{ rand() / 32768.0 };
+      double energy_num{ std::exp(static_cast<double>(difenergy * 0.5 * size / (2 * size - m_Temp))) };
       if (rand_num < energy_num)
       {
         m_LabelledImage->SetPixel(offsetIndex3D, 1 - label);

@@ -179,12 +179,12 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   // Get fixed image related information
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
-  const auto                fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto                fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
   const CovariantVectorType fixedGradient = m_FixedImageGradientCalculator->EvaluateAtIndex(index);
 
   // Get moving image related information
   // use warped moving image to get moving value and gradient fast(er).
-  const auto                movingValue = (double)m_MovingImageWarper->GetOutput()->GetPixel(index);
+  const auto                movingValue = static_cast<double>(m_MovingImageWarper->GetOutput()->GetPixel(index));
   const CovariantVectorType movingGradient = m_WarpedMovingImageGradientCalculator->EvaluateAtIndex(index);
 
   // unfortunately (since it's a little redundant) we still need the mapped

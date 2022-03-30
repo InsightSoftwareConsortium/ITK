@@ -104,8 +104,10 @@ SphereMeshSource<TOutputMesh>::GenerateData()
           signv = -1;
         }
 
-        p1[0] = m_Scale[0] * signu * (std::pow((float)(itk::Math::abs(std::cos(u))), (float)m_Squareness1)) * signv *
-                  (std::pow((float)(itk::Math::abs(std::cos(v))), (float)m_Squareness2)) +
+        p1[0] = m_Scale[0] * signu *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(u))), static_cast<float>(m_Squareness1))) *
+                  signv *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(v))), static_cast<float>(m_Squareness2))) +
                 m_Center[0];
 
         if (std::sin(v) > 0)
@@ -117,8 +119,10 @@ SphereMeshSource<TOutputMesh>::GenerateData()
           signv = -1;
         }
 
-        p1[1] = m_Scale[1] * signu * (std::pow((float)(itk::Math::abs(std::cos(u))), (float)m_Squareness1)) * signv *
-                  (std::pow((float)(itk::Math::abs(std::sin(v))), (float)m_Squareness2)) +
+        p1[1] = m_Scale[1] * signu *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::cos(u))), static_cast<float>(m_Squareness1))) *
+                  signv *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::sin(v))), static_cast<float>(m_Squareness2))) +
                 m_Center[1];
 
         if (std::sin(u) > 0)
@@ -130,8 +134,9 @@ SphereMeshSource<TOutputMesh>::GenerateData()
           signu = -1;
         }
 
-        p1[2] =
-          m_Scale[2] * signu * (std::pow((float)(itk::Math::abs(std::sin(u))), (float)m_Squareness1)) + m_Center[2];
+        p1[2] = m_Scale[2] * signu *
+                  (std::pow(static_cast<float>(itk::Math::abs(std::sin(u))), static_cast<float>(m_Squareness1))) +
+                m_Center[2];
 
         point.Value() = p1;
         ++point;
@@ -139,24 +144,26 @@ SphereMeshSource<TOutputMesh>::GenerateData()
     }
 
     // calculate the south pole node
-    p1[0] = (m_Scale[0] * (std::pow((float)(itk::Math::abs(std::cos(-itk::Math::pi / 2))), 1.0f)) *
-               (std::pow((float)(itk::Math::abs(std::cos(0.0))), 1.0f)) +
+    p1[0] = (m_Scale[0] * (std::pow(static_cast<float>(itk::Math::abs(std::cos(-itk::Math::pi / 2))), 1.0f)) *
+               (std::pow(static_cast<float>(itk::Math::abs(std::cos(0.0))), 1.0f)) +
              m_Center[0]);
-    p1[1] = (m_Scale[1] * (std::pow((float)(itk::Math::abs(std::cos(-itk::Math::pi / 2))), 1.0f)) *
-               (std::pow((float)(itk::Math::abs(std::sin(0.0))), 1.0f)) +
+    p1[1] = (m_Scale[1] * (std::pow(static_cast<float>(itk::Math::abs(std::cos(-itk::Math::pi / 2))), 1.0f)) *
+               (std::pow(static_cast<float>(itk::Math::abs(std::sin(0.0))), 1.0f)) +
              m_Center[1]);
-    p1[2] = (m_Scale[2] * -1 * (std::pow((float)(itk::Math::abs(std::sin(-itk::Math::pi / 2))), 1.0f)) + m_Center[2]);
+    p1[2] = (m_Scale[2] * -1 * (std::pow(static_cast<float>(itk::Math::abs(std::sin(-itk::Math::pi / 2))), 1.0f)) +
+             m_Center[2]);
     point.Value() = p1;
     ++point;
 
     // calculate the north pole node
-    p1[0] = (m_Scale[0] * (std::pow((float)(itk::Math::abs(std::cos(itk::Math::pi / 2))), 1.0f)) *
+    p1[0] = (m_Scale[0] * (std::pow(static_cast<float>(itk::Math::abs(std::cos(itk::Math::pi / 2))), 1.0f)) *
                (std::pow(itk::Math::abs(std::cos(0.0)), 1.0)) +
              m_Center[0]);
-    p1[1] = (m_Scale[1] * (std::pow((float)(itk::Math::abs(std::cos(itk::Math::pi / 2))), 1.0f)) *
+    p1[1] = (m_Scale[1] * (std::pow(static_cast<float>(itk::Math::abs(std::cos(itk::Math::pi / 2))), 1.0f)) *
                (std::pow(itk::Math::abs(std::sin(0.0)), 1.0)) +
              m_Center[1]);
-    p1[2] = (m_Scale[2] * (std::pow((float)(itk::Math::abs(std::sin(itk::Math::pi / 2))), 1.0f)) + m_Center[2]);
+    p1[2] =
+      (m_Scale[2] * (std::pow(static_cast<float>(itk::Math::abs(std::sin(itk::Math::pi / 2))), 1.0f)) + m_Center[2]);
     point.Value() = p1;
     ++point;
   }

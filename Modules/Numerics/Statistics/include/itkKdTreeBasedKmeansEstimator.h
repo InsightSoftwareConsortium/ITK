@@ -218,7 +218,7 @@ protected:
       unsigned int i;
 
       centroids.resize(this->Size());
-      for (i = 0; i < (unsigned int)this->Size(); ++i)
+      for (i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
       {
         centroids[i] = m_Candidates[i].Centroid;
       }
@@ -231,13 +231,14 @@ protected:
     {
       unsigned int i, j;
 
-      for (i = 0; i < (unsigned int)this->Size(); ++i)
+      for (i = 0; i < static_cast<unsigned int>(this->Size()); ++i)
       {
         if (m_Candidates[i].Size > 0)
         {
           for (j = 0; j < m_MeasurementVectorSize; ++j)
           {
-            m_Candidates[i].Centroid[j] = m_Candidates[i].WeightedCentroid[j] / double(m_Candidates[i].Size);
+            m_Candidates[i].Centroid[j] =
+              m_Candidates[i].WeightedCentroid[j] / static_cast<double>(m_Candidates[i].Size);
           }
         }
       }

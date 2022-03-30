@@ -37,10 +37,10 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   double frequency = frequencyPerImage * 2.0 * itk::Math::pi / (imageSize * pixelSpacing);
 
   // The theoretical maximal value should occur at this sigma
-  double sigma_max = std::sqrt(double(order)) / frequency;
+  double sigma_max = std::sqrt(static_cast<double>(order)) / frequency;
 
   // the theoreical maximal value of the derivative, obtained at sigma_max
-  double expected_max = std::pow(double(order), order * 0.5) * std::exp(-0.5 * order);
+  double expected_max = std::pow(static_cast<double>(order), order * 0.5) * std::exp(-0.5 * order);
 
   using ImageType = itk::Image<double, ImageDimension>;
   auto image = ImageType::New();
@@ -93,7 +93,7 @@ NormalizeSineWave(double frequencyPerImage, unsigned int order, double pixelSpac
   // The derivative need to be scaled
   //
   // All .Get() methods should be multiplied by this
-  const double scaleFactor = std::pow(1.0 / pixelSpacing, double(order));
+  const double scaleFactor = std::pow(1.0 / pixelSpacing, static_cast<double>(order));
 
   ImageType::Pointer outputImage = filter->GetOutput();
   outputImage->Update();

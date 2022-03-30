@@ -249,13 +249,14 @@ SliceImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
     outputSpacing[i] = inputSpacing[i] * itk::Math::abs(m_Step[i]);
 
     // clamp start, inclusive start interval
-    IndexValueType start = std::max(m_Start[i], inputIndex[i] - int(m_Step[i] < 0));
-    start = std::min(start, static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i] < 0));
+    IndexValueType start = std::max(m_Start[i], inputIndex[i] - static_cast<int>(m_Step[i] < 0));
+    start =
+      std::min(start, static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - static_cast<int>(m_Step[i] < 0));
 
     // clamp stop as open interval
     // Based on the sign of the step include 1 after the end.
-    IndexValueType stop = std::max(m_Stop[i], inputIndex[i] - int(m_Step[i] < 0));
-    stop = std::min(stop, static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - int(m_Step[i] < 0));
+    IndexValueType stop = std::max(m_Stop[i], inputIndex[i] - static_cast<int>(m_Step[i] < 0));
+    stop = std::min(stop, static_cast<IndexValueType>(inputIndex[i] + inputSize[i]) - static_cast<int>(m_Step[i] < 0));
 
     // If both the numerator and the denominator have the same sign,
     // then the range is a valid and non-zero sized. Truncation is the

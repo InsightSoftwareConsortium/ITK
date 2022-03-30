@@ -85,10 +85,10 @@ public:
     unsigned int valueindex = 0;
     for (int y = -YRange; y <= YRange; ++y)
     {
-      const auto yd = (double)y;
+      const auto yd = static_cast<double>(y);
       for (int x = -XRange; x <= XRange; ++x)
       {
-        const auto xd = (double)x;
+        const auto xd = static_cast<double>(x);
         m_TheoreticalData[valueindex] = ra * xd + rb * yd + rc;
         valueindex++;
       }
@@ -113,10 +113,10 @@ public:
     unsigned int valueindex = 0;
     for (int y = -YRange; y <= YRange; ++y)
     {
-      const auto yd = (double)y;
+      const auto yd = static_cast<double>(y);
       for (int x = -XRange; x <= XRange; ++x)
       {
-        const auto xd = (double)x;
+        const auto xd = static_cast<double>(x);
         double     value = a * xd + b * yd + c;
         value -= m_TheoreticalData[valueindex];
         m_Measure[valueindex] = value;
@@ -144,10 +144,10 @@ public:
     unsigned int valueindex = 0;
     for (int y = -YRange; y <= YRange; ++y)
     {
-      const auto yd = (double)y;
+      const auto yd = static_cast<double>(y);
       for (int x = -XRange; x <= XRange; ++x)
       {
-        const auto xd = (double)x;
+        const auto xd = static_cast<double>(x);
         m_Derivative[0][valueindex] = xd;
         m_Derivative[1][valueindex] = yd;
         m_Derivative[2][valueindex] = 1.0;

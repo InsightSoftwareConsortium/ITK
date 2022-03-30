@@ -119,7 +119,7 @@ itkSquareImageFilterTest(int, char *[])
     const auto                       square = static_cast<OutputImageType::PixelType>(x2);
     if (!itk::Math::FloatAlmostEqual(square, output, 10, epsilon))
     {
-      std::cerr.precision((unsigned int)(itk::Math::abs(std::log10(epsilon))));
+      std::cerr.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(epsilon))));
       std::cerr << "Error in itkSquareImageFilterTest " << std::endl;
       std::cerr << " square( " << input << ") = " << square << std::endl;
       std::cerr << " differs from " << output;

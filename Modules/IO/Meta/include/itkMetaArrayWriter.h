@@ -125,7 +125,7 @@ public:
     {
       for (int j = 0; j < cols; ++j)
       {
-        m_MetaArray.ElementData(i * cols + j, (double)((*_array)[i][j]));
+        m_MetaArray.ElementData(i * cols + j, static_cast<double>((*_array)[i][j]));
       }
     }
   }

@@ -46,11 +46,11 @@ template <class TInputImage, class TOutputImage>
 auto
 NoiseBaseImageFilter<TInputImage, TOutputImage>::ClampCast(const double & value) -> OutputImagePixelType
 {
-  if (value >= (double)NumericTraits<OutputImagePixelType>::max())
+  if (value >= static_cast<double>(NumericTraits<OutputImagePixelType>::max()))
   {
     return NumericTraits<OutputImagePixelType>::max();
   }
-  else if (value <= (double)NumericTraits<OutputImagePixelType>::NonpositiveMin())
+  else if (value <= static_cast<double>(NumericTraits<OutputImagePixelType>::NonpositiveMin()))
   {
     return NumericTraits<OutputImagePixelType>::NonpositiveMin();
   }

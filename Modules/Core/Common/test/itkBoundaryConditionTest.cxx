@@ -55,7 +55,7 @@ filln(itk::Image<float, 2> * img)
     it.Set(100.0 * j + i);
     ++it;
     i = i + 1.0f;
-    if ((unsigned long)i % img->GetRequestedRegion().GetSize()[0] == 0)
+    if (static_cast<unsigned long>(i) % img->GetRequestedRegion().GetSize()[0] == 0)
     {
       j = j + 1.0f;
       i = 0.0f;

@@ -524,7 +524,8 @@ protected:
   {
     Superclass::InitializeIteration();
     // Estimate the progress of the filter
-    this->UpdateProgress((float)((float)this->GetElapsedIterations() / (float)this->GetNumberOfIterations()));
+    this->UpdateProgress(static_cast<float>(this->GetElapsedIterations()) /
+                         static_cast<float>(this->GetNumberOfIterations()));
   }
 
   /** Overridden from ProcessObject to set certain values before starting the

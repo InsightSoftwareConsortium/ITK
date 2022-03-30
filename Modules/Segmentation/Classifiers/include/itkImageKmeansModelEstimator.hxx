@@ -449,7 +449,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 
       for (unsigned int j = 0; j < m_VectorDimension; ++j)
       {
-        diff = (double)(inputImagePixelVector[j] - m_Codebook[i][j]);
+        diff = static_cast<double>(inputImagePixelVector[j] - m_Codebook[i][j]);
         tempdistortion += diff * diff;
 
         if (tempdistortion > bestdistortion)
@@ -491,7 +491,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   {
     if (m_CodewordHistogram[i][0] > 0)
     {
-      m_CodewordDistortion[i][0] /= (double)m_CodewordHistogram[i][0];
+      m_CodewordDistortion[i][0] /= static_cast<double>(m_CodewordHistogram[i][0]);
     }
   }
 
@@ -502,13 +502,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
     {
       for (unsigned int j = 0; j < m_VectorDimension; ++j)
       {
-        m_Centroid[i][j] /= (double)m_CodewordHistogram[i][0];
+        m_Centroid[i][j] /= static_cast<double>(m_CodewordHistogram[i][0]);
       }
     }
   }
 
   // Normalize the distortions
-  *distortion /= (double)totalNumVecsInInput;
+  *distortion /= static_cast<double>(totalNumVecsInInput);
 
   delete[] tempVec;
 
@@ -556,13 +556,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::Perturb(double * ol
   double       muloffset;
   double       rand_num;
 
-  addoffset = m_OffsetAdd / std::pow(2.0, (double)scale);
-  muloffset = m_OffsetMultiply / std::pow(2.0, (double)scale);
+  addoffset = m_OffsetAdd / std::pow(2.0, static_cast<double>(scale));
+  muloffset = m_OffsetMultiply / std::pow(2.0, static_cast<double>(scale));
 
   for (i = 0; i < m_VectorDimension; ++i)
   {
-    srand((unsigned int)time(nullptr));
-    rand_num = (rand()) / ((double)RAND_MAX);
+    srand(static_cast<unsigned int>(time(nullptr)));
+    rand_num = (rand()) / (static_cast<double>(RAND_MAX));
 
     if (oldCodeword[i] == 0.0)
     {
@@ -633,7 +633,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithoutCodebookUseL
     Reallocate(oldSize, j);
 
     // Initialize the new codewords
-    SplitCodewords(tmp_ncodewords, (j - tmp_ncodewords), (int)0);
+    SplitCodewords(tmp_ncodewords, (j - tmp_ncodewords), 0);
 
     // If error, do not continue
 

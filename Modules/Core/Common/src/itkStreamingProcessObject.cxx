@@ -82,7 +82,7 @@ StreamingProcessObject::GenerateData()
     try
     {
       this->StreamedGenerateData(piece);
-      this->UpdateProgress(float(piece + 1) / numberOfInputRequestRegion);
+      this->UpdateProgress(static_cast<float>(piece + 1) / numberOfInputRequestRegion);
     }
     catch (ProcessAborted &)
     {

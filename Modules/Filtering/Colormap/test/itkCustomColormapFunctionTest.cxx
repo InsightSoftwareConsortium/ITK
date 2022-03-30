@@ -88,8 +88,9 @@ public:
     // Map the scalar value into an RGB colormap value
     RGBPixelType pixel = colormap->operator()(val);
 
-    std::cout << "RGB colormap for value " << (int)val << std::endl;
-    std::cout << "R: " << (int)pixel[0] << "; G: " << (int)pixel[1] << "; B: " << (int)pixel[2] << std::endl;
+    std::cout << "RGB colormap for value " << static_cast<int>(val) << std::endl;
+    std::cout << "R: " << static_cast<int>(pixel[0]) << "; G: " << static_cast<int>(pixel[1])
+              << "; B: " << static_cast<int>(pixel[2]) << std::endl;
 
     std::cout << "Test succeeded." << std::endl;
     return EXIT_SUCCESS;

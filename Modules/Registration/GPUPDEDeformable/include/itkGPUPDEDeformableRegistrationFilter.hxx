@@ -270,7 +270,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   this->AllocateSmoothingBuffer();
 
   FixedImageConstPointer fixedImage = this->GetFixedImage();
-  auto                   numPixels = (unsigned int)(fixedImage->GetLargestPossibleRegion().GetNumberOfPixels());
+  auto numPixels = static_cast<unsigned int>(fixedImage->GetLargestPossibleRegion().GetNumberOfPixels());
 
   auto * f = dynamic_cast<GPUPDEDeformableRegistrationFunctionType *>(this->GetDifferenceFunction().GetPointer());
   f->GPUAllocateMetricData(numPixels);
@@ -297,7 +297,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   int imgSize[3];
   imgSize[0] = imgSize[1] = imgSize[2] = 1;
 
-  int ImageDim = (int)TDisplacementField::ImageDimension;
+  int ImageDim = static_cast<int>(TDisplacementField::ImageDimension);
   if (ImageDim > 3)
   {
     itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");
@@ -339,15 +339,9 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
     for (int i = 0; i < ImageDim; ++i)
     {
-      globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
-                                                                                                  //
-                                                                                                  // total
-                                                                                                  //
-                                                                                                  // #
-                                                                                                  //
-                                                                                                  // of
-                                                                                                  //
-                                                                                                  // threads
+      // total # of threads
+      globalSize[i] = localSize[i] * static_cast<unsigned int>(
+                                       ceil(static_cast<float>(outSize[i]) / static_cast<float>(localSize[i])));
     }
 
     outdir = (indir + 1) % ImageDim;
@@ -397,8 +391,10 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
                                            nullptr);
 
     // launch kernel
-    this->m_GPUKernelManager->LaunchKernel(
-      m_SmoothDisplacementFieldGPUKernelHandle, (int)TDisplacementField::ImageDimension, globalSize, localSize);
+    this->m_GPUKernelManager->LaunchKernel(m_SmoothDisplacementFieldGPUKernelHandle,
+                                           static_cast<int>(TDisplacementField::ImageDimension),
+                                           globalSize,
+                                           localSize);
   } // for smoothing direction indir
 
   if (ImageDim % 2 != 0) // swap the final result if ImageDim is odd
@@ -524,7 +520,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   m_ImageSizes = new int[3];
   m_ImageSizes[0] = m_ImageSizes[1] = m_ImageSizes[2] = 1;
 
-  int ImageDim = (int)TDisplacementField::ImageDimension;
+  int ImageDim = static_cast<int>(TDisplacementField::ImageDimension);
   if (ImageDim > 3)
   {
     itkExceptionMacro("GPUSmoothDisplacementField supports 1/2/3D images.");

@@ -100,10 +100,10 @@ public:
 
     // Print the angle for the trace plot
     vnl_matrix<double> p(2, 2);
-    p[0][0] = (double)optimizer->GetCurrentPosition()[0];
-    p[0][1] = (double)optimizer->GetCurrentPosition()[1];
-    p[1][0] = (double)optimizer->GetCurrentPosition()[2];
-    p[1][1] = (double)optimizer->GetCurrentPosition()[3];
+    p[0][0] = static_cast<double>(optimizer->GetCurrentPosition()[0]);
+    p[0][1] = static_cast<double>(optimizer->GetCurrentPosition()[1]);
+    p[1][0] = static_cast<double>(optimizer->GetCurrentPosition()[2]);
+    p[1][1] = static_cast<double>(optimizer->GetCurrentPosition()[3]);
     vnl_svd<double>    svd(p);
     vnl_matrix<double> r(2, 2);
     r = svd.U() * vnl_transpose(svd.V());
@@ -355,10 +355,10 @@ main(int argc, char * argv[])
   // VNL returns the eigenvalues ordered from largest to smallest.
 
   vnl_matrix<double> p(2, 2);
-  p[0][0] = (double)finalParameters[0];
-  p[0][1] = (double)finalParameters[1];
-  p[1][0] = (double)finalParameters[2];
-  p[1][1] = (double)finalParameters[3];
+  p[0][0] = static_cast<double>(finalParameters[0]);
+  p[0][1] = static_cast<double>(finalParameters[1]);
+  p[1][0] = static_cast<double>(finalParameters[2]);
+  p[1][1] = static_cast<double>(finalParameters[3]);
   vnl_svd<double>    svd(p);
   vnl_matrix<double> r(2, 2);
   r = svd.U() * vnl_transpose(svd.V());

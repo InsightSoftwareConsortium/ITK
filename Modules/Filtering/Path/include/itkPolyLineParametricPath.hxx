@@ -36,10 +36,12 @@ PolyLineParametricPath<VDimension>::Evaluate(const InputType & input) const -> O
       ->ElementAt(m_VertexList->Size() - 1); // the last vertex
   }
 
-  const VertexType vertex0 = static_cast<const VertexListType *>(this->m_VertexList)->ElementAt(int(input));
-  const VertexType vertex1 = static_cast<const VertexListType *>(this->m_VertexList)->ElementAt(int(input) + 1);
+  const VertexType vertex0 =
+    static_cast<const VertexListType *>(this->m_VertexList)->ElementAt(static_cast<int>(input));
+  const VertexType vertex1 =
+    static_cast<const VertexListType *>(this->m_VertexList)->ElementAt(static_cast<int>(input) + 1);
 
-  const double fractionOfLineSegment = input - int(input);
+  const double fractionOfLineSegment = input - static_cast<int>(input);
 
   const PointType outputPoint = vertex0 + (vertex1 - vertex0) * fractionOfLineSegment;
 

@@ -140,7 +140,7 @@ int
 ThreadPool::GetNumberOfCurrentlyIdleThreads() const
 {
   std::unique_lock<std::mutex> mutexHolder(m_PimplGlobals->m_Mutex);
-  return int(m_Threads.size()) - int(m_WorkQueue.size()); // lousy approximation
+  return static_cast<int>(m_Threads.size()) - static_cast<int>(m_WorkQueue.size()); // lousy approximation
 }
 
 void

@@ -189,7 +189,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     {
       if (!(cellId % tenth))
       {
-        this->UpdateProgress((float)cellId / numCells);
+        this->UpdateProgress(static_cast<float>(cellId) / numCells);
       }
 
       if (m_Visited[cellId] < 0)

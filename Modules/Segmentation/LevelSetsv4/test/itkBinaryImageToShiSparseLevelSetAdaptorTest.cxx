@@ -110,7 +110,7 @@ itkBinaryImageToShiSparseLevelSetAdaptorTest(int argc, char * argv[])
 
     while (lIt != layer.end())
     {
-      std::cout << lIt->first << ' ' << int(lIt->second) << std::endl;
+      std::cout << lIt->first << ' ' << static_cast<int>(lIt->second) << std::endl;
       ++lIt;
     }
     std::cout << std::endl;

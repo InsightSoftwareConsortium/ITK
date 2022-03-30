@@ -138,10 +138,10 @@ ExpandImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     typename InterpolatorType::ContinuousIndexType inputIndex;
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      inputIndex[j] = ((double)outputIndex[j] + 0.5) / (double)m_ExpandFactors[j] - 0.5;
+      inputIndex[j] = (static_cast<double>(outputIndex[j]) + 0.5) / static_cast<double>(m_ExpandFactors[j]) - 0.5;
     }
 
-    const double lineDelta = (double)1.0 / (double)m_ExpandFactors[0];
+    const double lineDelta = 1.0 / static_cast<double>(m_ExpandFactors[0]);
 
     for (size_t i = 0; i < ln; ++i)
     {
@@ -190,11 +190,12 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
    */
   for (i = 0; i < TInputImage::ImageDimension; ++i)
   {
-    inputRequestedRegionSize[i] =
-      (SizeValueType)std::ceil((double)outputRequestedRegionSize[i] / (double)m_ExpandFactors[i]) + 1;
+    inputRequestedRegionSize[i] = (SizeValueType)std::ceil(static_cast<double>(outputRequestedRegionSize[i]) /
+                                                           static_cast<double>(m_ExpandFactors[i])) +
+                                  1;
 
-    inputRequestedRegionStartIndex[i] =
-      (SizeValueType)std::floor((double)outputRequestedRegionStartIndex[i] / (double)m_ExpandFactors[i]);
+    inputRequestedRegionStartIndex[i] = (SizeValueType)std::floor(
+      static_cast<double>(outputRequestedRegionStartIndex[i]) / static_cast<double>(m_ExpandFactors[i]));
   }
 
   typename TInputImage::RegionType inputRequestedRegion;
@@ -239,10 +240,10 @@ ExpandImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   for (unsigned int i = 0; i < TOutputImage::ImageDimension; ++i)
   {
-    outputSpacing[i] = inputSpacing[i] / (float)m_ExpandFactors[i];
+    outputSpacing[i] = inputSpacing[i] / static_cast<float>(m_ExpandFactors[i]);
     outputSize[i] = inputSize[i] * (SizeValueType)m_ExpandFactors[i];
     outputStartIndex[i] = inputStartIndex[i] * (IndexValueType)m_ExpandFactors[i];
-    const double fraction = (double)(m_ExpandFactors[i] - 1) / (double)m_ExpandFactors[i];
+    const double fraction = static_cast<double>(m_ExpandFactors[i] - 1) / static_cast<double>(m_ExpandFactors[i]);
     inputOriginShift[i] = -(inputSpacing[i] / 2.0) * fraction;
   }
 

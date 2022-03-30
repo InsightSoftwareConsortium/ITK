@@ -236,7 +236,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   int imgSize[3];
   imgSize[0] = imgSize[1] = imgSize[2] = 1;
 
-  int ImageDim = (int)DisplacementFieldType::ImageDimension;
+  int ImageDim = static_cast<int>(DisplacementFieldType::ImageDimension);
 
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -247,7 +247,9 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
   for (int i = 0; i < ImageDim; ++i)
   {
-    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); // total # of threads
+    // total # of threads
+    globalSize[i] =
+      localSize[i] * static_cast<unsigned int>(ceil(static_cast<float>(outSize[i]) / static_cast<float>(localSize[i])));
   }
 
   float normalizer = 1;
@@ -278,7 +280,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
 
   // launch kernel
   this->m_GPUKernelManager->LaunchKernel(
-    m_ComputeUpdateGPUKernelHandle, (int)DisplacementFieldType::ImageDimension, globalSize, localSize);
+    m_ComputeUpdateGPUKernelHandle, static_cast<int>(DisplacementFieldType::ImageDimension), globalSize, localSize);
 
   // compute statistics
   m_GPUPixelCounter->GPUGenerateData();
@@ -310,7 +312,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   // Note: no need to check the index is within
   // fixed image buffer. This is done by the external filter.
   const IndexType index = it.GetIndex();
-  const auto      fixedValue = (double)this->GetFixedImage()->GetPixel(index);
+  const auto      fixedValue = static_cast<double>(this->GetFixedImage()->GetPixel(index));
 
   // Get moving image related information
   PointType mappedPoint;

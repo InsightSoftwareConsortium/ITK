@@ -67,7 +67,7 @@ StringTools::ToData(std::string & s, std::vector<T> & data, int count)
     // the number of elements to be read is provided by count or, if count is 0, data.size()
     if (count == 0)
     {
-      count = (int)data.size();
+      count = static_cast<int>(data.size());
     }
     if (static_cast<size_t>(count) > data.size())
     {
@@ -154,7 +154,7 @@ StringTools::ToData(std::string & s, Array<T> & data, int count)
     // the number of elements to be read is provided by count or, if count is 0, data.size()
     if (count == 0)
     {
-      count = (int)data.GetSize();
+      count = static_cast<int>(data.GetSize());
     }
     if (static_cast<size_t>(count) > data.GetSize())
     {

@@ -761,7 +761,7 @@ GDCMImageIO::InternalReadImageInformation()
             static_cast<unsigned int>(itksysBase64_Encode((const unsigned char *)bv->GetPointer(),
                                                           static_cast<SizeValueType>(bv->GetLength()),
                                                           (unsigned char *)bin,
-                                                          static_cast<int>(0)));
+                                                          0));
           std::string encodedValue(bin, encodedLengthActual);
           EncapsulateMetaData<std::string>(dico, tag.PrintAsPipeSeparatedString(), encodedValue);
           delete[] bin;

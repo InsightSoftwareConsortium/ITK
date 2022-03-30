@@ -358,9 +358,11 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   m_CurrentLevel = 0;
   m_StopRegistrationFlag = false;
 
-  unsigned int movingLevel = std::min((int)m_CurrentLevel, (int)m_MovingImagePyramid->GetNumberOfLevels());
+  unsigned int movingLevel =
+    std::min(static_cast<int>(m_CurrentLevel), static_cast<int>(m_MovingImagePyramid->GetNumberOfLevels()));
 
-  unsigned int fixedLevel = std::min((int)m_CurrentLevel, (int)m_FixedImagePyramid->GetNumberOfLevels());
+  unsigned int fixedLevel =
+    std::min(static_cast<int>(m_CurrentLevel), static_cast<int>(m_FixedImagePyramid->GetNumberOfLevels()));
 
   DisplacementFieldPointer tempField = nullptr;
 
@@ -468,8 +470,9 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
     // Increment level counter.
     m_CurrentLevel++;
-    movingLevel = std::min((int)m_CurrentLevel, (int)m_MovingImagePyramid->GetNumberOfLevels());
-    fixedLevel = std::min((int)m_CurrentLevel, (int)m_FixedImagePyramid->GetNumberOfLevels());
+    movingLevel =
+      std::min(static_cast<int>(m_CurrentLevel), static_cast<int>(m_MovingImagePyramid->GetNumberOfLevels()));
+    fixedLevel = std::min(static_cast<int>(m_CurrentLevel), static_cast<int>(m_FixedImagePyramid->GetNumberOfLevels()));
 
     // Invoke an iteration event.
     this->InvokeEvent(MultiResolutionIterationEvent());

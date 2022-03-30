@@ -129,7 +129,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     index[i] = 0;
-    size[i] = (unsigned int)(p.GetSize(i));
+    size[i] = static_cast<unsigned int>(p.GetSize(i));
   }
   const typename NeighborhoodGPUBufferType::RegionType region(index, size);
 
@@ -174,7 +174,7 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   radius[0] = radius[1] = radius[2] = 0;
   imgSize[0] = imgSize[1] = imgSize[2] = 1;
 
-  int ImageDim = (int)TInputImage::ImageDimension;
+  int ImageDim = static_cast<int>(TInputImage::ImageDimension);
 
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -186,11 +186,9 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
   for (int i = 0; i < ImageDim; ++i)
   {
-    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
-                                                                                                // total
-                                                                                                // #
-                                                                                                // of
-                                                                                                // threads
+    // total # of threads
+    globalSize[i] =
+      localSize[i] * static_cast<unsigned int>(ceil(static_cast<float>(outSize[i]) / static_cast<float>(localSize[i])));
   }
 
   // arguments set up
@@ -201,12 +199,12 @@ GPUNeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType
     kHd, argidx, otPtr->GetModifiableDataManager());
   this->m_GPUKernelManager->SetKernelArgWithImage(kHd, argidx++, m_NeighborhoodGPUBuffer->GetGPUDataManager());
 
-  for (int i = 0; i < (int)TInputImage::ImageDimension; ++i)
+  for (int i = 0; i < static_cast<int>(TInputImage::ImageDimension); ++i)
   {
     this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(radius[i]));
   }
 
-  // for(int i=0; i<(int)TInputImage::ImageDimension; i++)
+  // for(int i=0; i<static_cast<int>(TInputImage::ImageDimension); i++)
   //  {
   //  this->m_GPUKernelManager->SetKernelArg(kHd, argidx++, sizeof(int), &(imgSize[i]) );
   //  }

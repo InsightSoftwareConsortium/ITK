@@ -461,7 +461,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::UpdateActiveLayerValu
   else
   {
     this->SetRMSChange(
-      static_cast<double>(std::sqrt((double)(rms_change_accumulator / static_cast<ValueType>(counter)))));
+      static_cast<double>(std::sqrt(static_cast<double>(rms_change_accumulator / static_cast<ValueType>(counter)))));
   }
 }
 
@@ -823,7 +823,7 @@ SparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::InitializeActiveLayer
         length += dx_backward * dx_backward;
       }
     }
-    length = std::sqrt((double)length) + MIN_NORM;
+    length = std::sqrt(static_cast<double>(length)) + MIN_NORM;
     distance = shiftedIt.GetCenterPixel() / length;
 
     output->SetPixel(activeIt->m_Value, std::min(std::max(-CHANGE_FACTOR, distance), CHANGE_FACTOR));

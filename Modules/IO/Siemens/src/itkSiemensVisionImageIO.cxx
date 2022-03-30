@@ -60,7 +60,7 @@ SiemensVisionImageIO::CanReadFile(const char * FileNameToRead)
     return false;
   }
 
-  if ((HDR_TOTAL_LENGTH + (matrixX * matrixX * 2)) != (int)itksys::SystemTools::FileLength(FileNameToRead))
+  if ((HDR_TOTAL_LENGTH + (matrixX * matrixX * 2)) != static_cast<int>(itksys::SystemTools::FileLength(FileNameToRead)))
   {
     return false;
   }
@@ -169,9 +169,9 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   DB(hdr->sliceThickness);
 
   this->GetIntAt(f, HDR_DISPLAY_SIZE, &tmpInt, sizeof(int));
-  hdr->imageXsize = (int)tmpInt;
+  hdr->imageXsize = static_cast<int>(tmpInt);
   DB(hdr->imageXsize);
-  hdr->imageYsize = (int)tmpInt;
+  hdr->imageYsize = static_cast<int>(tmpInt);
   DB(hdr->imageYsize);
 
   this->GetStringAt(f, TEXT_ACQ_MTRX_FREQ, tmpStr, TEXT_ACQ_MTRX_FREQ_LEN);
@@ -195,11 +195,11 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   DB(hdr->yFOV);
 
   this->GetDoubleAt(f, HDR_PIXELSIZE_ROW, &tmpDble, sizeof(double));
-  hdr->imageXres = (float)tmpDble;
+  hdr->imageXres = static_cast<float>(tmpDble);
   DB(hdr->imageXres);
 
   this->GetDoubleAt(f, HDR_PIXELSIZE_CLMN, &tmpDble, sizeof(double));
-  hdr->imageYres = (float)tmpDble;
+  hdr->imageYres = static_cast<float>(tmpDble);
   DB(hdr->imageYres);
 
   this->GetStringAt(f, TEXT_ANGLE_FLAG1, tmpStr, TEXT_ANGLE_FLAG1_LEN);
@@ -307,24 +307,24 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 
   /* fprintf(stderr, "Slice Location %f\n", hdr->sliceLocation); */
   this->GetDoubleAt(f, HDR_TR, &tmpDble, sizeof(double));
-  hdr->TR = (float)tmpDble / 1000.0f;
+  hdr->TR = static_cast<float>(tmpDble) / 1000.0f;
   DB(hdr->TR);
 
   this->GetDoubleAt(f, HDR_TE + 8, &tmpDble, sizeof(double));
-  hdr->TI = (float)tmpDble / 1000.0f;
+  hdr->TI = static_cast<float>(tmpDble) / 1000.0f;
   DB(hdr->TI);
 
   this->GetDoubleAt(f, HDR_TE, &tmpDble, sizeof(double));
-  hdr->TE = (float)tmpDble / 1000.0f;
+  hdr->TE = static_cast<float>(tmpDble) / 1000.0f;
   DB(hdr->TE);
 
   this->GetStringAt(f, TEXT_ECHO_NUM, tmpStr, TEXT_ECHO_NUM_LEN);
   tmpStr[TEXT_ECHO_NUM_LEN] = '\0';
-  hdr->echoNumber = (int)std::stoi(tmpStr);
+  hdr->echoNumber = static_cast<int>(std::stoi(tmpStr));
   DB(hdr->echoNumber);
 
   this->GetDoubleAt(f, HDR_FLIP_ANGLE, &tmpDble, sizeof(double));
-  hdr->flipAngle = (int)tmpDble;
+  hdr->flipAngle = static_cast<int>(tmpDble);
   DB(hdr->flipAngle);
 
   this->GetStringAt(f, HDR_SEQPROG_NAME, hdr->pulseSequence, HDR_SEQPROG_NAME_LEN);

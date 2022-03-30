@@ -119,7 +119,7 @@ public:
   bool
   SetKernelArgWithImageAndBufferedRegion(int kernelIdx, cl_uint & argIdx, TGPUImageDataManager * manager)
   {
-    if (kernelIdx < 0 || kernelIdx >= (int)m_KernelContainer.size())
+    if (kernelIdx < 0 || kernelIdx >= static_cast<int>(m_KernelContainer.size()))
       return false;
 
     cl_int errid;

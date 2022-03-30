@@ -150,7 +150,7 @@ protected:
       auto n1 = values.size() / 2;
       if (values.size() % 2 == 0)
       {
-        return 0.5 * (double(values[n1]) + double(values[n1 - 1]));
+        return 0.5 * (static_cast<double>(values[n1]) + static_cast<double>(values[n1 - 1]));
       }
       return values[n1];
     }

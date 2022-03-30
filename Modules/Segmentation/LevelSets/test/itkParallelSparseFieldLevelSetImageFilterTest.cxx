@@ -49,8 +49,9 @@ float
 sphere(unsigned int x, unsigned int y, unsigned int z)
 {
   float dis;
-  dis = (x - (float)WIDTH / 2.0) * (x - (float)WIDTH / 2.0) + (y - (float)HEIGHT / 2.0) * (y - (float)HEIGHT / 2.0) +
-        (z - (float)DEPTH / 2.0) * (z - (float)DEPTH / 2.0);
+  dis = (x - static_cast<float>(WIDTH) / 2.0) * (x - static_cast<float>(WIDTH) / 2.0) +
+        (y - static_cast<float>(HEIGHT) / 2.0) * (y - static_cast<float>(HEIGHT) / 2.0) +
+        (z - static_cast<float>(DEPTH) / 2.0) * (z - static_cast<float>(DEPTH) / 2.0);
   dis = RADIUS - std::sqrt(dis);
   return (-dis);
 }
@@ -60,9 +61,9 @@ float
 cube(unsigned int x, unsigned int y, unsigned int z)
 {
   float X, Y, Z;
-  X = itk::Math::abs(x - (float)WIDTH / 2.0);
-  Y = itk::Math::abs(y - (float)HEIGHT / 2.0);
-  Z = itk::Math::abs(z - (float)DEPTH / 2.0);
+  X = itk::Math::abs(x - static_cast<float>(WIDTH) / 2.0);
+  Y = itk::Math::abs(y - static_cast<float>(HEIGHT) / 2.0);
+  Z = itk::Math::abs(z - static_cast<float>(DEPTH) / 2.0);
   float dis;
   if (!((X > RADIUS) && (Y > RADIUS) && (Z > RADIUS)))
   {

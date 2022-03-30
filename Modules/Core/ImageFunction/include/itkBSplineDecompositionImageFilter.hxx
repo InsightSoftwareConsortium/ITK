@@ -204,7 +204,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::SetInitialCausalCoef
   {
     // Full loop
     iz = 1.0 / z;
-    z2n = std::pow(z, (double)(m_DataLength[m_IteratorDirection] - 1L));
+    z2n = std::pow(z, static_cast<double>(m_DataLength[m_IteratorDirection] - 1L));
     sum = m_Scratch[0] + z2n * m_Scratch[m_DataLength[m_IteratorDirection] - 1L];
     z2n *= z2n * iz;
     for (unsigned int n = 1; n <= (m_DataLength[m_IteratorDirection] - 2); ++n)

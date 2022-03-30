@@ -91,7 +91,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   for (j = 0; j < 2; ++j)
   {
     pointData->SetElement(j, data);
-    data += (float)0.1;
+    data += static_cast<float>(0.1);
   }
   mesh->SetPointData(pointData);
 
@@ -103,7 +103,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
   for (j = 0; j < 3; ++j)
   {
     cellData->SetElement(j, data);
-    data -= (float)0.2;
+    data -= static_cast<float>(0.2);
   }
   mesh->SetCellData(cellData);
 
@@ -289,7 +289,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
         std::cout << "value = " << (*it_pd)->Value() << " v.s " << data << std::endl;
         return EXIT_FAILURE;
       }
-      data += float(0.1);
+      data += static_cast<float>(0.1);
       it_pd++;
       j++;
     }
@@ -327,7 +327,7 @@ itkMeshSpatialObjectIOTest(int argc, char * argv[])
         std::cout << "value = " << (*it_pc)->Value() << " v.s " << data << std::endl;
         return EXIT_FAILURE;
       }
-      data -= float(0.2);
+      data -= static_cast<float>(0.2);
       it_pc++;
       j++;
     }

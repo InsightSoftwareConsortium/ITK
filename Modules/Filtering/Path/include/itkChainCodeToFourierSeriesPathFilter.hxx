@@ -81,7 +81,7 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
     for (InputPathInputType step = 0; step < numSteps; ++step)
     {
       index += inputPtr->Evaluate(step);
-      theta = 2 * n * nPI * (double(step + 1)) / numSteps;
+      theta = 2 * n * nPI * (static_cast<double>(step + 1)) / numSteps;
 
       // turn the current index into a vector
       for (int d = 0; d < dimension; ++d)

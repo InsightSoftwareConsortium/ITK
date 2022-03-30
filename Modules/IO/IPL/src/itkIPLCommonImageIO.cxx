@@ -162,7 +162,7 @@ IPLCommonImageIO::ReadImageInformation()
   std::string               classname(this->GetNameOfClass());
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
-  itk::EncapsulateMetaData<short int>(thisDic, ITK_OnDiskBitPerPixel, (short int)16);
+  itk::EncapsulateMetaData<short int>(thisDic, ITK_OnDiskBitPerPixel, static_cast<short int>(16));
 
   //
   // has to be set before setting dir cosines,

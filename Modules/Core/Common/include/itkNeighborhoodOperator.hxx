@@ -119,7 +119,7 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FillCenteredDirectional(co
   }
 
   // Compare the neighborhood size with the coefficient array size..
-  const int sizediff = ((int)size - (int)coeff.size()) >> 1;
+  const int sizediff = (static_cast<int>(size) - static_cast<int>(coeff.size())) >> 1;
 
   // Create a slice iterator centered in the neighborhood.
   std::slice *                               temp_slice;

@@ -37,7 +37,7 @@ public:
   float
   operator()(double d, double)
   {
-    return (float)d;
+    return static_cast<float>(d);
   }
   void
   Visit(int, Bogus *)

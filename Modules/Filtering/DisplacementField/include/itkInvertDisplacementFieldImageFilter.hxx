@@ -128,7 +128,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
     this->m_MeanErrorNorm = NumericTraits<RealType>::ZeroValue();
     this->m_MaxErrorNorm = NumericTraits<RealType>::ZeroValue();
 
-    float               newProgress = float(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations);
+    float               newProgress = static_cast<float>(2 * iteration - 1) / (2 * m_MaximumNumberOfIterations);
     ProgressTransformer pt(oldProgress, newProgress, this);
     this->m_DoThreadedEstimateInverse = false;
     this->GetMultiThreader()->SetNumberOfWorkUnits(this->GetNumberOfWorkUnits());
@@ -148,7 +148,7 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
 
     oldProgress = newProgress;
-    newProgress = float(2 * iteration) / (2 * m_MaximumNumberOfIterations);
+    newProgress = static_cast<float>(2 * iteration) / (2 * m_MaximumNumberOfIterations);
     ProgressTransformer pt2(oldProgress, newProgress, this);
     // Multithread processing to estimate inverse field
     this->m_DoThreadedEstimateInverse = true;

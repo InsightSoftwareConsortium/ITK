@@ -83,10 +83,13 @@ itkChainCodeToFourierSeriesPathFilterTest(int, char *[])
   std::cout << "ChainCodeToFourierSeriesPathFilter: smoothed path is from [" << outputPath->Evaluate(0.0) << "] to ["
             << outputPath->Evaluate(1.0) << "] with a center at [" << outputPath->Evaluate(0.5) << "]." << std::endl;
   // Floating point can be inprecise, so convert to rounded int for comparison:
-  if (int(0.5 + 1000 * (outputPath->Evaluate(1.0))[0]) != int(0.5 + 1000 * (outputPath->Evaluate(0.0))[0]) ||
-      int(0.5 + 1000 * (outputPath->Evaluate(1.0))[1]) != int(0.5 + 1000 * (outputPath->Evaluate(0.0))[1]) ||
-      int(0.5 + (outputPath->Evaluate(0.5))[0]) < 31 || int(0.5 + (outputPath->Evaluate(0.5))[0]) > 32 ||
-      int(0.5 + (outputPath->Evaluate(0.5))[1]) != 33)
+  if (static_cast<int>(0.5 + 1000 * (outputPath->Evaluate(1.0))[0]) !=
+        static_cast<int>(0.5 + 1000 * (outputPath->Evaluate(0.0))[0]) ||
+      static_cast<int>(0.5 + 1000 * (outputPath->Evaluate(1.0))[1]) !=
+        static_cast<int>(0.5 + 1000 * (outputPath->Evaluate(0.0))[1]) ||
+      static_cast<int>(0.5 + (outputPath->Evaluate(0.5))[0]) < 31 ||
+      static_cast<int>(0.5 + (outputPath->Evaluate(0.5))[0]) > 32 ||
+      static_cast<int>(0.5 + (outputPath->Evaluate(0.5))[1]) != 33)
   {
     passed = false;
   }

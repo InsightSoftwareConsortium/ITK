@@ -155,7 +155,7 @@ public:
         it++;
       }
 
-      meanCurvature /= (double)cnt;
+      meanCurvature /= static_cast<double>(cnt);
       totalArea += area;
       totalCurvature += meanCurvature;
 

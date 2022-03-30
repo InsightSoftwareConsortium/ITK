@@ -73,7 +73,7 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
   radius[0] = radius[1] = radius[2] = 0;
   imgSize[0] = imgSize[1] = imgSize[2] = 1;
 
-  int ImageDim = (int)TInputImage::ImageDimension;
+  int ImageDim = static_cast<int>(TInputImage::ImageDimension);
 
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -85,11 +85,9 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
   localSize[0] = localSize[1] = localSize[2] = OpenCLGetLocalBlockSize(ImageDim);
   for (int i = 0; i < ImageDim; ++i)
   {
-    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
-                                                                                                // total
-                                                                                                // #
-                                                                                                // of
-                                                                                                // threads
+    // total # of threads
+    globalSize[i] =
+      localSize[i] * static_cast<unsigned int>(ceil(static_cast<float>(outSize[i]) / static_cast<float>(localSize[i])));
   }
 
 
@@ -110,7 +108,7 @@ GPUMeanImageFilter<TInputImage, TOutputImage>::GPUGenerateData()
 
   // launch kernel
   this->m_GPUKernelManager->LaunchKernel(
-    m_MeanFilterGPUKernelHandle, (int)TInputImage::ImageDimension, globalSize, localSize);
+    m_MeanFilterGPUKernelHandle, static_cast<int>(TInputImage::ImageDimension), globalSize, localSize);
 }
 
 } // end namespace itk

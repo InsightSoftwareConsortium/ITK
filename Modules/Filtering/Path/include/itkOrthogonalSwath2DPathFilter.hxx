@@ -91,7 +91,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
       if (F == L)
       {
         index[1] = F;
-        MeritValue(F, L, 0) = (double)swathMeritImage->GetPixel(index);
+        MeritValue(F, L, 0) = static_cast<double>(swathMeritImage->GetPixel(index));
         StepValue(F, L, 0) = F;
       }
       else
@@ -118,7 +118,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
         index2[1] = L;
         // Here we know in advance that Pixel(0,F) =
         // Max(l=L-1..L+1){Merit(F,l,0)}
-        MeritValue(F, L, 1) = double(swathMeritImage->GetPixel(index) + swathMeritImage->GetPixel(index2));
+        MeritValue(F, L, 1) = static_cast<double>(swathMeritImage->GetPixel(index) + swathMeritImage->GetPixel(index2));
       }
       else
       {
@@ -140,7 +140,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
         int bestL = FindAndStoreBestErrorStep(x, F, L);
         index[0] = x + 1;
         index[1] = L;
-        MeritValue(F, L, x + 1) = MeritValue(F, bestL, x) + double(swathMeritImage->GetPixel(index));
+        MeritValue(F, L, x + 1) = MeritValue(F, bestL, x) + static_cast<double>(swathMeritImage->GetPixel(index));
       }
     }
   }
@@ -181,7 +181,8 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
   // Convert from absolute indices to +/- orthogonal offset values
   for (x = 0; x < m_SwathSize[0]; ++x)
   {
-    m_FinalOffsetValues->InsertElement(x, double(m_OptimumStepsValues[x] - int(m_SwathSize[1] / 2)));
+    m_FinalOffsetValues->InsertElement(
+      x, static_cast<double>(m_OptimumStepsValues[x] - static_cast<int>(m_SwathSize[1] / 2)));
   }
 
   // setup the output path

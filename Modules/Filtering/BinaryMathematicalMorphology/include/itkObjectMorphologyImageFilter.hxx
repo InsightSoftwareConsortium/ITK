@@ -178,7 +178,7 @@ bool
 ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::IsObjectPixelOnBoundary(
   const InputNeighborhoodIteratorType & iNIter)
 {
-  static const auto s = (unsigned int)std::pow((double)3.0, (double)(ImageDimension));
+  static const auto s = static_cast<unsigned int>(std::pow(3.0, static_cast<double>(ImageDimension)));
 
   PixelType    tf;
   unsigned int i;

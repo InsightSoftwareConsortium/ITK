@@ -195,7 +195,7 @@ FiniteDifferenceFunctionLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Eleme
     defe += element->GetElementDeformationEnergy(solmat);
   }
 
-  return itk::Math::abs((double)energy * (double)m_Gamma - (double)defe);
+  return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
 template <typename TMoving, typename TFixed>

@@ -137,11 +137,11 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
       for (curIndex[2] = origIndex[2]; curIndex[2] < origIndex[2] + (IndexValueType)size[2];
            curIndex[2] = curIndex[2] + (IndexValueType)m_SamplingFactor[2])
       {
-        indexBias[1] = (int)((curIndex[2] % 2) * 0.5 * m_SamplingFactor[1]);
+        indexBias[1] = static_cast<int>((curIndex[2] % 2) * 0.5 * m_SamplingFactor[1]);
         for (curIndex[1] = origIndex[1]; curIndex[1] < origIndex[1] + (IndexValueType)size[1];
              curIndex[1] = curIndex[1] + (IndexValueType)m_SamplingFactor[1])
         {
-          indexBias[0] = (int)((curIndex[2] % 2) * 0.5 * m_SamplingFactor[0]);
+          indexBias[0] = static_cast<int>((curIndex[2] % 2) * 0.5 * m_SamplingFactor[0]);
           for (curIndex[0] = origIndex[0]; curIndex[0] < origIndex[0] + (IndexValueType)size[0];
                curIndex[0] = curIndex[0] + (IndexValueType)m_SamplingFactor[0])
           {
@@ -161,11 +161,11 @@ MRIBiasEnergyFunction<TImage, TImageMask, TBiasField>::GetValue(const Parameters
       for (curIndex[2] = origIndex[2]; curIndex[2] < origIndex[2] + (IndexValueType)size[2];
            curIndex[2] = curIndex[2] + (IndexValueType)m_SamplingFactor[2])
       {
-        indexBias[1] = (int)((curIndex[2] % 2) * 0.5 * m_SamplingFactor[1]);
+        indexBias[1] = static_cast<int>((curIndex[2] % 2) * 0.5 * m_SamplingFactor[1]);
         for (curIndex[1] = origIndex[1]; curIndex[1] < origIndex[1] + (IndexValueType)size[1];
              curIndex[1] = curIndex[1] + (IndexValueType)m_SamplingFactor[1])
         {
-          indexBias[0] = (int)((curIndex[2] % 2) * 0.5 * m_SamplingFactor[0]);
+          indexBias[0] = static_cast<int>((curIndex[2] % 2) * 0.5 * m_SamplingFactor[0]);
           for (curIndex[0] = origIndex[0]; curIndex[0] < origIndex[0] + (IndexValueType)size[0];
                curIndex[0] = curIndex[0] + (IndexValueType)m_SamplingFactor[0])
           {

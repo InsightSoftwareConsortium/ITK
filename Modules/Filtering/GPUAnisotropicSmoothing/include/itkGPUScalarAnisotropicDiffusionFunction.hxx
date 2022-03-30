@@ -69,7 +69,7 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   imgSize[0] = imgSize[1] = imgSize[2] = 1;
   float imgScale[3];
   imgScale[0] = imgScale[1] = imgScale[2] = 1.0f;
-  int ImageDim = (int)TImage::ImageDimension;
+  int ImageDim = static_cast<int>(TImage::ImageDimension);
 
   size_t localSize[3], globalSize[3];
   localSize[0] = localSize[1] = localSize[2] = 1;
@@ -83,11 +83,9 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
     imgSize[i] = outSize[i];
     imgScale[i] = this->m_ScaleCoefficients[i];
     localSize[i] = (blockSize <= outSize[i]) ? blockSize : 1;
-    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
-                                                                                                // total
-                                                                                                // #
-                                                                                                // of
-                                                                                                // threads
+    // total # of threads
+    globalSize[i] =
+      localSize[i] * static_cast<unsigned int>(ceil(static_cast<float>(outSize[i]) / static_cast<float>(localSize[i])));
     bufferSize *= globalSize[i] / localSize[i];
     numPixel *= imgSize[i];
   }
@@ -162,12 +160,12 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
                                                                     // Copy
                                                                     // GPU->CPU
 
-  for (int i = 0; i < (int)bufferSize; ++i)
+  for (int i = 0; i < static_cast<int>(bufferSize); ++i)
   {
-    sum += (double)intermSum[i];
+    sum += static_cast<double>(intermSum[i]);
   }
 
-  this->SetAverageGradientMagnitudeSquared((double)(sum / (double)numPixel));
+  this->SetAverageGradientMagnitudeSquared(static_cast<double>(sum / static_cast<double>(numPixel)));
 
   delete[] intermSum;
 }

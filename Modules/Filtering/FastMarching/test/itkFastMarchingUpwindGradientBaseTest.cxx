@@ -163,7 +163,7 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
     outputPixel = iterator.Get();
 
-    auto outputPixelNorm = (double)outputPixel.GetNorm();
+    double outputPixelNorm{ outputPixel.GetNorm() };
 
     if (itk::Math::AlmostEquals(distance, 0.0))
     {

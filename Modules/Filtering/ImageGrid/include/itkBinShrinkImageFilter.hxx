@@ -154,7 +154,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
     const size_t numSamples = std::accumulate(
       this->GetShrinkFactors().cbegin(), this->GetShrinkFactors().cend(), size_t(1), std::multiplies<size_t>());
-    const double inumSamples = 1.0 / (double)numSamples;
+    const double inumSamples = 1.0 / static_cast<double>(numSamples);
 
     TotalProgressReporter progress(this, outputPtr->GetRequestedRegion().GetNumberOfPixels());
 
@@ -301,8 +301,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
     // Round down so that all output pixels fit input input region
     outputSize[i] = Math::Floor<SizeValueType>(
-      (double)(inputSize[i] - outputStartIndex[i] * m_ShrinkFactors[i] + inputStartIndex[i]) /
-      (double)m_ShrinkFactors[i]);
+      static_cast<double>(inputSize[i] - outputStartIndex[i] * m_ShrinkFactors[i] + inputStartIndex[i]) /
+      static_cast<double>(m_ShrinkFactors[i]));
 
     if (outputSize[i] < 1)
     {

@@ -108,7 +108,7 @@ itkTDistributionTest(int, char *[])
 
     value = distributionFunction->EvaluateInverseCDF(expected1[i + 5]);
 
-    diff = itk::Math::abs(value - double(i));
+    diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -118,7 +118,7 @@ itkTDistributionTest(int, char *[])
     std::cout.width(22);
     std::cout << value << ", expected value = ";
     std::cout.width(22);
-    std::cout << double(i) << ", error = ";
+    std::cout << static_cast<double>(i) << ", error = ";
     std::cout.width(22);
     std::cout << diff;
     if (diff < tol)
@@ -193,7 +193,7 @@ itkTDistributionTest(int, char *[])
 
     value = distributionFunction->EvaluateInverseCDF(expected11[i + 5]);
 
-    diff = itk::Math::abs(value - double(i));
+    diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -203,7 +203,7 @@ itkTDistributionTest(int, char *[])
     std::cout.width(22);
     std::cout << value << ", expected value = ";
     std::cout.width(22);
-    std::cout << double(i) << ", error = ";
+    std::cout << static_cast<double>(i) << ", error = ";
     std::cout.width(22);
     std::cout << diff;
     if (diff < tol)
@@ -277,7 +277,7 @@ itkTDistributionTest(int, char *[])
 
     value = distributionFunction->EvaluateInverseCDF(expected11[i + 5], params);
 
-    diff = itk::Math::abs(value - double(i));
+    diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -288,7 +288,7 @@ itkTDistributionTest(int, char *[])
     std::cout.width(22);
     std::cout << value << ", expected value = ";
     std::cout.width(22);
-    std::cout << double(i) << ", error = ";
+    std::cout << static_cast<double>(i) << ", error = ";
     std::cout.width(22);
     std::cout << diff;
     if (diff < tol)
@@ -357,7 +357,7 @@ itkTDistributionTest(int, char *[])
   {
 
     value = distributionFunction->EvaluateInverseCDF(expected11[i + 5], static_cast<itk::SizeValueType>(params[0]));
-    diff = itk::Math::abs(value - double(i));
+    diff = itk::Math::abs(value - static_cast<double>(i));
 
     std::cout << "Student-t cdf at ";
     std::cout.width(20);
@@ -368,7 +368,7 @@ itkTDistributionTest(int, char *[])
     std::cout.width(22);
     std::cout << value << ", expected value = ";
     std::cout.width(22);
-    std::cout << double(i) << ", error = ";
+    std::cout << static_cast<double>(i) << ", error = ";
     std::cout.width(22);
     std::cout << diff;
     if (diff < tol)

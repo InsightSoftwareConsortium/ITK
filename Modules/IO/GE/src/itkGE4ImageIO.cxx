@@ -298,7 +298,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   /* Get NEX from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NEX * 2, (char *)&intTmp, sizeof(int));
 
-  hdr->NEX = (short)MvtSunf(intTmp);
+  hdr->NEX = static_cast<short>(MvtSunf(intTmp));
   RGEDEBUG(std::sprintf(debugbuf, "NEX = %d\n", hdr->NEX); cerr << debugbuf;)
 
   /* Get Flip Angle from the IMAGE Header */
@@ -306,7 +306,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 
   if (tmpShort > 0)
   {
-    hdr->flipAngle = (int)tmpShort;
+    hdr->flipAngle = static_cast<int>(tmpShort);
   }
   else
   {

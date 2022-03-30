@@ -188,9 +188,9 @@ ConnectedComponentFunctorImageFilter<TInputImage, TOutputImage, TFunctor, TMaskI
         // create a new entry label
         if (maxLabel == maxPossibleLabel)
         {
-          itkWarningMacro(<< "ConnectedComponentFunctorImageFilter::GenerateData: Number of labels " << (long)maxLabel
-                          << " exceeds number of available labels " << (long)maxPossibleLabel
-                          << " for the output type.");
+          itkWarningMacro(<< "ConnectedComponentFunctorImageFilter::GenerateData: Number of labels "
+                          << static_cast<long>(maxLabel) << " exceeds number of available labels "
+                          << static_cast<long>(maxPossibleLabel) << " for the output type.");
         }
         else
         {

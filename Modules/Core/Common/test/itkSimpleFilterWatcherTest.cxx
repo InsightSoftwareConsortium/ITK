@@ -41,7 +41,7 @@ public:
   inline TOutput
   operator()(const TInput & A) const
   {
-    return (TOutput)std::tan((double)A);
+    return (TOutput)std::tan(static_cast<double>(A));
   }
 };
 } // namespace Function

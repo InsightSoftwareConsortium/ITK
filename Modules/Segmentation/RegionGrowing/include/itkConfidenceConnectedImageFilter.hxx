@@ -224,8 +224,8 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       // no seeds result in zero image
       return;
     }
-    m_Mean = sum / double(num);
-    m_Variance = (sumOfSquares - (sum * sum / double(num))) / (double(num) - 1.0);
+    m_Mean = sum / static_cast<double>(num);
+    m_Variance = (sumOfSquares - (sum * sum / static_cast<double>(num))) / (static_cast<double>(num) - 1.0);
   }
 
   lower = m_Mean - m_Multiplier * std::sqrt(m_Variance);
@@ -326,8 +326,9 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       ++numberOfSamples;
       ++sit;
     }
-    m_Mean = sum / double(numberOfSamples);
-    m_Variance = (sumOfSquares - (sum * sum / double(numberOfSamples))) / (double(numberOfSamples) - 1.0);
+    m_Mean = sum / static_cast<double>(numberOfSamples);
+    m_Variance = (sumOfSquares - (sum * sum / static_cast<double>(numberOfSamples))) /
+                 (static_cast<double>(numberOfSamples) - 1.0);
     // if the variance is zero, there is no point in continuing
     if (Math::AlmostEquals(m_Variance, 0.0))
     {

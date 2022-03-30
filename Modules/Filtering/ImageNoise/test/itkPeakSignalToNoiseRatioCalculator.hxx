@@ -66,7 +66,7 @@ PeakSignalToNoiseRatioCalculator<TInputImage>::Compute()
 
   while (!iIt.IsAtEnd())
   {
-    mse += pow((double)nIt.Get() - (double)iIt.Get(), 2);
+    mse += pow(static_cast<double>(nIt.Get()) - static_cast<double>(iIt.Get()), 2);
     max = std::max(iIt.Get(), max);
     ++iIt;
     ++nIt;

@@ -304,14 +304,14 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   // verify the correct orientation :
   if (orientation_code != expected_code)
   {
-    std::cerr << "Analyze orientation " << (int)hist_orient_code << std::endl;
+    std::cerr << "Analyze orientation " << static_cast<int>(hist_orient_code) << std::endl;
     std::cerr << "expected orientation " << codeToString[expected_code] << " but found "
               << codeToString[orientation_code] << std::endl;
     return EXIT_FAILURE;
   }
 
   // TODO: check origin and spacing too
-  std::cout << "Analyze orientation :" << (int)hist_orient_code << std::endl
+  std::cout << "Analyze orientation :" << static_cast<int>(hist_orient_code) << std::endl
             << "Analyze flavor :" << analyze_mode << std::endl
             << "negative x step:" << (flip_x ? "true" : "false") << std::endl
             << "Origin   :" << img->GetOrigin() << std::endl

@@ -132,7 +132,7 @@ public:
     {
       return;
     }
-    m_ImageMask = ((unsigned short)(val));
+    m_ImageMask = (static_cast<unsigned short>(val));
     this->Modified();
   }
 

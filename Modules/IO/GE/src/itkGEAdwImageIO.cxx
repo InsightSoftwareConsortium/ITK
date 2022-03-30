@@ -196,13 +196,13 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
 
   int tmpInt;
   this->GetIntAt(f, GE_ADW_IM_TR, &tmpInt);
-  hdr->TR = (float)tmpInt / 1000.0f;
+  hdr->TR = static_cast<float>(tmpInt) / 1000.0f;
 
   this->GetIntAt(f, GE_ADW_IM_TI, &tmpInt);
-  hdr->TI = (float)tmpInt / 1000.0f;
+  hdr->TI = static_cast<float>(tmpInt) / 1000.0f;
 
   this->GetIntAt(f, GE_ADW_IM_TE, &tmpInt);
-  hdr->TE = (float)tmpInt / 1000.0f;
+  hdr->TE = static_cast<float>(tmpInt) / 1000.0f;
 
   this->GetShortAt(f, GE_ADW_IM_NUMECHO, &(hdr->numberOfEchoes));
 
@@ -211,7 +211,7 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
   float tmpFloat;
   this->GetFloatAt(f, GE_ADW_IM_NEX, &tmpFloat);
 
-  hdr->NEX = (int)tmpFloat;
+  hdr->NEX = static_cast<int>(tmpFloat);
 
   this->GetShortAt(f, GE_ADW_IM_MR_FLIP, &hdr->flipAngle);
 

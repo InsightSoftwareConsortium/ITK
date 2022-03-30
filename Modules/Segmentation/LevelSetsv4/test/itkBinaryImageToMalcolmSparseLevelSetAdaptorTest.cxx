@@ -87,7 +87,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
     sIt.Set(sparseLevelSet->Evaluate(idx));
     if (debugPrint)
     {
-      std::cout << int(sparseLevelSet->Evaluate(idx)) << std::endl;
+      std::cout << static_cast<int>(sparseLevelSet->Evaluate(idx)) << std::endl;
     }
     ++sIt;
   }
@@ -112,7 +112,7 @@ itkBinaryImageToMalcolmSparseLevelSetAdaptorTest(int argc, char * argv[])
 
   while (lIt != layer.end())
   {
-    std::cout << lIt->first << ' ' << int(lIt->second) << std::endl;
+    std::cout << lIt->first << ' ' << static_cast<int>(lIt->second) << std::endl;
     ++lIt;
   }
 

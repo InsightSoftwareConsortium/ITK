@@ -50,8 +50,10 @@ itkFourierSeriesPathTest(int, char *[])
   std::cout << "Evaluating at 0, 0.5, and 1.0: " << path->Evaluate(0) << ", " << path->Evaluate(0.5) << ", "
             << path->Evaluate(1.0) << std::endl;
   // Floating point can be imprecise, so convert to rounded int for comparison
-  if (int(0.5 + 1000 * (path->Evaluate(1.0))[0]) != int(0.5 + 1000 * (path->Evaluate(0.0))[0]) ||
-      int(0.5 + 1000 * (path->Evaluate(1.0))[1]) != int(0.5 + 1000 * (path->Evaluate(0.0))[1]))
+  if (static_cast<int>(0.5 + 1000 * (path->Evaluate(1.0))[0]) !=
+        static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[0]) ||
+      static_cast<int>(0.5 + 1000 * (path->Evaluate(1.0))[1]) !=
+        static_cast<int>(0.5 + 1000 * (path->Evaluate(0.0))[1]))
   {
     std::cout << "Evaluate() Failed" << std::endl;
     passed = false;
@@ -68,8 +70,10 @@ itkFourierSeriesPathTest(int, char *[])
   std::cout << "Evaluating the derivative at 0, 0.5, and 1.0: " << path->EvaluateDerivative(0) << ", "
             << path->EvaluateDerivative(0.5) << ", " << path->EvaluateDerivative(1.0) << std::endl;
   // Floating point can be imprecise, so convert to rounded int for comparison
-  if (int(0.5 + 1000 * (path->EvaluateDerivative(1.0))[0]) != int(0.5 + 1000 * (path->EvaluateDerivative(0.0))[0]) ||
-      int(0.5 + 1000 * (path->EvaluateDerivative(1.0))[1]) != int(0.5 + 1000 * (path->EvaluateDerivative(0.0))[1]))
+  if (static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(1.0))[0]) !=
+        static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.0))[0]) ||
+      static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(1.0))[1]) !=
+        static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.0))[1]))
   {
     std::cout << "EvaluateDerivative() Failed" << std::endl;
     passed = false;

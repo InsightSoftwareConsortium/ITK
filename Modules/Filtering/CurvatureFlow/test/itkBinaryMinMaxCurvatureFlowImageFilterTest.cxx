@@ -142,7 +142,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     double lhs = 0.0;
     for (j = 0; j < ImageDimension; ++j)
     {
-      lhs += itk::Math::sqr((double)index[j] - (double)size[j] * 0.5);
+      lhs += itk::Math::sqr(static_cast<double>(index[j]) - static_cast<double>(size[j]) * 0.5);
     }
     if (lhs < sqrRadius)
     {
@@ -223,7 +223,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     double lhs = 0.0;
     for (j = 0; j < ImageDimension; ++j)
     {
-      lhs += itk::Math::sqr((double)index[j] - (double)size[j] * 0.5);
+      lhs += itk::Math::sqr(static_cast<double>(index[j]) - static_cast<double>(size[j]) * 0.5);
     }
     if (lhs < sqrRadius)
     {
@@ -238,7 +238,7 @@ testBinaryMinMaxCurvatureFlow(itk::Size<VImageDimension> & size, // ND image siz
     }
   }
 
-  const double fractionWrong = (double)numPixelsWrong / (double)region.GetNumberOfPixels();
+  const double fractionWrong = static_cast<double>(numPixelsWrong) / static_cast<double>(region.GetNumberOfPixels());
 
   std::cout << "Noise reduced from " << fractionNoise << " to ";
   std::cout << fractionWrong << std::endl;

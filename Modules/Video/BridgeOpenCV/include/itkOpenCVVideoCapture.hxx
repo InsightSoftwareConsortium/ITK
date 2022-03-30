@@ -276,7 +276,7 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 
       // Verify that we aren't trying to skip past the end of the video
       maxFrame = largestPossible.GetFrameStart() + largestPossible.GetFrameDuration() - 1;
-      nextFrame = (long)value;
+      nextFrame = static_cast<long>(value);
       if (nextFrame > maxFrame)
       {
         return false;
@@ -301,7 +301,7 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
       // Compute the new frame
       m_VideoStream->UpdateOutputInformation();
       largestPossible = m_VideoStream->GetLargestPossibleTemporalRegion();
-      ratioFrameOffset = (SizeValueType)((double)largestPossible.GetFrameDuration() * value);
+      ratioFrameOffset = (SizeValueType)(static_cast<double>(largestPossible.GetFrameDuration()) * value);
       newFrame = largestPossible.GetFrameStart() + ratioFrameOffset;
 
       // Use the CV_CAP_PROP_POS_FRAMES property to update
@@ -310,7 +310,7 @@ OpenCVVideoCapture<TVideoStream>::set(int propId, double value)
 
     // Set FourCC
     case CV_CAP_PROP_FOURCC:
-      m_FourCC = (int)value;
+      m_FourCC = static_cast<int>(value);
       break;
 
     // Set FpS
@@ -366,7 +366,7 @@ OpenCVVideoCapture<TVideoStream>::get(int propId)
       largest = m_VideoStream->GetLargestPossibleTemporalRegion();
       requested = m_VideoStream->GetRequestedTemporalRegion();
       currentOffset = requested.GetFrameStart() - largest.GetFrameStart();
-      return (double)currentOffset / (double)largest.GetFrameDuration();
+      return static_cast<double>(currentOffset) / static_cast<double>(largest.GetFrameDuration());
 
     // Get FourCC
     case CV_CAP_PROP_FOURCC:

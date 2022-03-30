@@ -160,7 +160,7 @@ VoronoiPartitioningImageFilter<TInputImage, TOutputImage>::TestHomogeneity(Index
 
   for (i = 0; i < num; ++i)
   {
-    getp = (double)(inputImage->GetPixel(Plist[i]));
+    getp = static_cast<double>(inputImage->GetPixel(Plist[i]));
     addp = addp + getp;
     addpp = addpp + getp * getp;
   }

@@ -53,13 +53,13 @@ public:
   static inline void
   Set(TInternalType & output, const TExternalType & input)
   {
-    output = (TInternalType)std::log((double)input);
+    output = (TInternalType)std::log(static_cast<double>(input));
   }
 
   static inline TExternalType
   Get(const TInternalType & input)
   {
-    return (TExternalType)std::log((double)input);
+    return (TExternalType)std::log(static_cast<double>(input));
   }
 };
 } // end namespace Accessor

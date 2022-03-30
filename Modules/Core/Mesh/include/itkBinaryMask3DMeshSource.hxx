@@ -116,7 +116,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::XFlip(unsigned char * x)
   while (i < 3)
   {
     nodeindex = x[i];
-    switch ((int)nodeindex)
+    switch (static_cast<int>(nodeindex))
     {
       case 1:
         break;
@@ -168,7 +168,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::YFlip(unsigned char * x)
   while (i < 3)
   {
     nodeindex = x[i];
-    switch ((int)nodeindex)
+    switch (static_cast<int>(nodeindex))
     {
       case 1:
         x[i] = 3;
@@ -220,7 +220,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::ZFlip(unsigned char * x)
   while (i < 3)
   {
     nodeindex = x[i];
-    switch ((int)nodeindex)
+    switch (static_cast<int>(nodeindex))
     {
       case 1:
         x[i] = 5;
@@ -272,7 +272,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::XRotation(unsigned char * x)
   while (i < 3)
   {
     nodeindex = x[i];
-    switch ((int)nodeindex)
+    switch (static_cast<int>(nodeindex))
     {
       case 1:
         x[i] = 4;
@@ -328,7 +328,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::YRotation(unsigned char * x)
   while (i < 3)
   {
     nodeindex = x[i];
-    switch ((int)nodeindex)
+    switch (static_cast<int>(nodeindex))
     {
       case 1:
         x[i] = 9;
@@ -384,7 +384,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::ZRotation(unsigned char * x)
   while (i < 3)
   {
     nodeindex = x[i];
-    switch ((int)nodeindex)
+    switch (static_cast<int>(nodeindex))
     {
       case 1:
         x[i] = 3;
@@ -1393,7 +1393,7 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::AddCells(unsigned char celltyp
   IdentifierType * tpl;
   tpl = (IdentifierType *)malloc(3 * sizeof(IdentifierType));
 
-  switch ((int)celltype)
+  switch (static_cast<int>(celltype))
   {
     case 1:
       tp[0] = 1;

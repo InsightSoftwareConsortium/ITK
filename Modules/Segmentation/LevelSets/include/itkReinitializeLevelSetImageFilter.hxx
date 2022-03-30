@@ -189,7 +189,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
 
   while (!inputIt.IsAtEnd())
   {
-    value = (double)inputIt.Get();
+    value = static_cast<double>(inputIt.Get());
     if (value - m_LevelSetValue > 0)
     {
       outputIt.Set(tempIt.Get());
@@ -212,10 +212,10 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataFull()
 
   while (!inputIt.IsAtEnd())
   {
-    value = (double)inputIt.Get();
+    value = static_cast<double>(inputIt.Get());
     if (value - m_LevelSetValue <= 0)
     {
-      value = (double)tempIt.Get();
+      value = static_cast<double>(tempIt.Get());
       outputIt.Set(-1.0 * value);
     }
 
@@ -256,7 +256,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
 
   while (!inputIt.IsAtEnd())
   {
-    value = (double)inputIt.Get();
+    value = static_cast<double>(inputIt.Get());
     if (value - m_LevelSetValue <= 0)
     {
       outputIt.Set(negInfinity);
@@ -317,7 +317,7 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    value = (double)inPixel;
+    value = static_cast<double>(inPixel);
     if (value - m_LevelSetValue > 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());
@@ -341,11 +341,11 @@ ReinitializeLevelSetImageFilter<TLevelSet>::GenerateDataNarrowBand()
     node = pointsIt.Value();
     inPixel = inputPtr->GetPixel(node.GetIndex());
 
-    value = (double)inPixel;
+    value = static_cast<double>(inPixel);
     if (value - m_LevelSetValue <= 0)
     {
       inPixel = tempLevelSet->GetPixel(node.GetIndex());
-      value = (double)inPixel;
+      value = static_cast<double>(inPixel);
       inPixel = -1.0 * value;
       outputPtr->SetPixel(node.GetIndex(), inPixel);
       node.SetValue(node.GetValue() * -1.0);

@@ -681,9 +681,9 @@ VoxBoCUBImageIO ::WriteImageInformation()
   double x = -m_Origin[0] / m_Spacing[0];
   double y = -m_Origin[1] / m_Spacing[1];
   double z = -m_Origin[2] / m_Spacing[2];
-  header << m_VB_ORIGIN << ":\t" << ((x >= 0) ? (int)(x + .5) : (int)(x - .5)) << "\t"
-         << ((y >= 0) ? (int)(y + .5) : (int)(y - .5)) << "\t" << ((z >= 0) ? (int)(z + .5) : (int)(z - .5))
-         << std::endl;
+  header << m_VB_ORIGIN << ":\t" << ((x >= 0) ? static_cast<int>(x + .5) : static_cast<int>(x - .5)) << "\t"
+         << ((y >= 0) ? static_cast<int>(y + .5) : static_cast<int>(y - .5)) << "\t"
+         << ((z >= 0) ? static_cast<int>(z + .5) : static_cast<int>(z - .5)) << std::endl;
 
   // Write the byte order
   header << m_VB_BYTEORDER << ":\t"

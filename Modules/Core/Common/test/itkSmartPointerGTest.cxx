@@ -99,14 +99,14 @@ TEST(SmartPointer, EmptyAndNull)
   EXPECT_EQ(ptr.GetPointer(), nullptr);
   EXPECT_TRUE(ptr.IsNull());
   EXPECT_FALSE(ptr.IsNotNull());
-  EXPECT_FALSE(bool(ptr));
+  EXPECT_FALSE(static_cast<bool>(ptr));
 
   ConstObjectPointer cptr;
 
   EXPECT_EQ(cptr.GetPointer(), nullptr);
   EXPECT_TRUE(cptr.IsNull());
   EXPECT_FALSE(cptr.IsNotNull());
-  EXPECT_FALSE(bool(cptr));
+  EXPECT_FALSE(static_cast<bool>(cptr));
 
 
   ptr = ObjectPointer(nullptr);
@@ -117,11 +117,11 @@ TEST(SmartPointer, EmptyAndNull)
 
   ptr = itk::Object::New();
   EXPECT_TRUE(ptr.IsNotNull());
-  EXPECT_TRUE(bool(ptr));
+  EXPECT_TRUE(static_cast<bool>(ptr));
 
   cptr = itk::Object::New();
   EXPECT_TRUE(cptr.IsNotNull());
-  EXPECT_TRUE(bool(cptr));
+  EXPECT_TRUE(static_cast<bool>(cptr));
 
   ptr = nullptr;
   EXPECT_TRUE(ptr.IsNull());
@@ -166,7 +166,7 @@ TEST(SmartPointer, Converting)
   Derived1Pointer d1ptr = Derived1::New();
   EXPECT_TRUE(d1ptr.IsNotNull());
   EXPECT_FALSE(d1ptr.IsNull());
-  EXPECT_TRUE(bool(d1ptr));
+  EXPECT_TRUE(static_cast<bool>(d1ptr));
   EXPECT_FALSE(d1ptr == nullptr);
   EXPECT_TRUE(d1ptr != nullptr);
 

@@ -82,13 +82,14 @@ ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
   {
     const SizeValueType inputRegionSize = regionSize[i];
     const auto          indexOffset =
-      Math::Floor<IndexValueType>((splittedRegionIndex[i]) * (inputRegionSize / double(splits[i])));
+      Math::Floor<IndexValueType>((splittedRegionIndex[i]) * (inputRegionSize / static_cast<double>(splits[i])));
 
     regionIndex[i] += indexOffset;
     if (splittedRegionIndex[i] < splits[i] - 1)
     {
       regionSize[i] =
-        Math::Floor<SizeValueType>((splittedRegionIndex[i] + 1) * (inputRegionSize / double(splits[i]))) - indexOffset;
+        Math::Floor<SizeValueType>((splittedRegionIndex[i] + 1) * (inputRegionSize / static_cast<double>(splits[i]))) -
+        indexOffset;
     }
     else
     {
@@ -156,7 +157,7 @@ ImageRegionSplitterMultidimensional::ComputeSplits(unsigned int         dim,
     // update the variable with the new split
     numberOfPieces += additionalNumPieces;
     ++splits[maxSplitDim];
-    splitRegionSize[maxSplitDim] = regionSize[maxSplitDim] / double(splits[maxSplitDim]);
+    splitRegionSize[maxSplitDim] = regionSize[maxSplitDim] / static_cast<double>(splits[maxSplitDim]);
   }
 }
 

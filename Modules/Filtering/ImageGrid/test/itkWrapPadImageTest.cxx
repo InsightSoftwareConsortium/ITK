@@ -135,7 +135,7 @@ itkWrapPadImageTest(int, char *[])
   passed = true;
   size = requestedRegion.GetSize();
   index = requestedRegion.GetIndex();
-  if ((index[0] != (0 - (long)lowerBound[0])) || (index[1] != (0 - (long)lowerBound[1])) ||
+  if ((index[0] != (0 - static_cast<long>(lowerBound[0]))) || (index[1] != (0 - static_cast<long>(lowerBound[1]))) ||
       (size[0] != (8 + lowerBound[0] + upperBound[0])) || (size[1] != (12 + lowerBound[1] + upperBound[1])))
   {
     passed = false;
@@ -200,7 +200,7 @@ itkWrapPadImageTest(int, char *[])
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (long)lowerBound[0])) || (index[1] != (0 - (long)lowerBound[1])) ||
+    if ((index[0] != (0 - static_cast<long>(lowerBound[0]))) || (index[1] != (0 - static_cast<long>(lowerBound[1]))) ||
         (size[0] != (8 + lowerBound[0] + upperBound[0])) || (size[1] != (12 + lowerBound[1] + upperBound[1])))
     {
       passed = false;
@@ -277,7 +277,7 @@ itkWrapPadImageTest(int, char *[])
     passed = true;
     size = requestedRegion.GetSize();
     index = requestedRegion.GetIndex();
-    if ((index[0] != (0 - (long)lowerBound[0])) || (index[1] != (0 - (long)lowerBound[1])) ||
+    if ((index[0] != (0 - static_cast<long>(lowerBound[0]))) || (index[1] != (0 - static_cast<long>(lowerBound[1]))) ||
         (size[0] != (8 + lowerBound[0] + upperBound[0])) || (size[1] != (12 + lowerBound[1] + upperBound[1])))
     {
       passed = false;

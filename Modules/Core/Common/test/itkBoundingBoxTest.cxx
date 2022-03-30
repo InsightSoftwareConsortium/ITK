@@ -77,7 +77,7 @@ itkBoundingBoxTest(int, char *[])
 
   for (unsigned int i = 0; i < 10; ++i)
   {
-    P[0] = (double)i;
+    P[0] = static_cast<double>(i);
     Points->InsertElement(i, P);
   }
   std::cout << "Insert points passed" << std::endl;
@@ -178,7 +178,8 @@ itkBoundingBoxTest(int, char *[])
   {
     for (unsigned int i = 0; i < 3; ++i)
     {
-      if ((*it)[i] != std::pow(-1.0, (double)(j / (int(std::pow(2.0, (double)i))))))
+      if ((*it)[i] !=
+          std::pow(-1.0, static_cast<double>(j / (static_cast<int>(std::pow(2.0, static_cast<double>(i)))))))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;

@@ -89,12 +89,12 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   using TrainingTargetIteratorType = itk::ImageRegionIterator<TrainingFixedImageType>;
 
   itk::Point<double, 2> center;
-  center[0] = (double)region.GetSize()[0] / 2.0;
-  center[1] = (double)region.GetSize()[1] / 2.0;
+  center[0] = static_cast<double>(region.GetSize()[0]) / 2.0;
+  center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
 
-  const double s = (double)region.GetSize()[0] / 2.0;
-  const auto   mag = (double)200.0;
-  const auto   noisemag = (double)0.0; // ended up yielding best results
+  const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
+  const double mag = 200.0;
+  const double noisemag = 0.0; // ended up yielding best results
 
   itk::Point<double, 2>  p;
   itk::Vector<double, 2> d;
@@ -118,7 +118,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     d += displacement;
     const double x = d[0];
     const double y = d[1];
-    ri.Set((unsigned char)(mag * std::exp(-(x * x + y * y) / (s * s))));
+    ri.Set(static_cast<unsigned char>(mag * std::exp(-(x * x + y * y) / (s * s))));
     ++ri;
   }
 
@@ -130,7 +130,7 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     d = p - center;
     const double x = d[0];
     const double y = d[1];
-    ti.Set((unsigned char)(mag * std::exp(-(x * x + y * y) / (s * s))));
+    ti.Set(static_cast<unsigned char>(mag * std::exp(-(x * x + y * y) / (s * s))));
     ++ti;
   }
 
@@ -145,7 +145,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     //    d += displacement;
     const double x = d[0];
     const double y = d[1];
-    gri.Set((unsigned char)((mag * std::exp(-(x * x + y * y) / (s * s))) + vnl_sample_normal(0.0, noisemag)));
+    gri.Set(
+      static_cast<unsigned char>((mag * std::exp(-(x * x + y * y) / (s * s))) + vnl_sample_normal(0.0, noisemag)));
     ++gri;
   }
 
@@ -157,7 +158,8 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
     d = p - center;
     const double x = d[0];
     const double y = d[1];
-    gti.Set((unsigned char)((mag * std::exp(-(x * x + y * y) / (s * s))) + vnl_sample_normal(0.0, noisemag)));
+    gti.Set(
+      static_cast<unsigned char>((mag * std::exp(-(x * x + y * y) / (s * s))) + vnl_sample_normal(0.0, noisemag)));
     ++gti;
   }
 

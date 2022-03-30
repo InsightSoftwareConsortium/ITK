@@ -595,7 +595,7 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
   {
     for (unsigned int d = 0; d < VirtualDimension; ++d)
     {
-      const auto bit = (unsigned int)((i & (1 << d)) != 0); // 0 or 1
+      const auto bit = static_cast<unsigned int>((i & (1 << d)) != 0); // 0 or 1
       corner[d] = firstCorner[d] + bit * (size[d] - 1);
     }
 

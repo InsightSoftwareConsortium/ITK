@@ -164,8 +164,8 @@ ReadWriteTest(const std::string fileName, const bool isRealDisplacementField, co
       std::cerr << "Error invalid spacing restored from disk" << std::endl;
       std::cerr << std::setprecision(17) << "\n"
                 << readDisplacement->GetSpacing() << " != " << knownField->GetSpacing() << "\n"
-                << requiredSpacing << "It is likely going trough a float truncation " << (float)requiredSpacing
-                << std::endl;
+                << requiredSpacing << "It is likely going trough a float truncation "
+                << static_cast<float>(requiredSpacing) << std::endl;
       return EXIT_FAILURE;
     }
     if ((readDisplacement->GetOrigin() != knownField->GetOrigin()) ||

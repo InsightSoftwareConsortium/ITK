@@ -301,7 +301,7 @@ ImageSource<TOutputImage>::ThreaderCallback(void * arg)
     else if (!str->Filter->GetDynamicMultiThreading() // progress reporting is not done in MultiThreaders
              && str->Filter->GetProgress() == 0.0f) // and progress was not set after at least the first chunk finished
     {
-      str->Filter->UpdateProgress(float(workUnitID + 1) / total); // this will be the only progress update
+      str->Filter->UpdateProgress(static_cast<float>(workUnitID + 1) / total); // this will be the only progress update
     }
 #endif
   }

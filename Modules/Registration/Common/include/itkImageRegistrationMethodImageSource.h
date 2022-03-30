@@ -98,10 +98,10 @@ public:
 
 
     itk::Point<double, 2> center;
-    center[0] = (double)region.GetSize()[0] / 2.0;
-    center[1] = (double)region.GetSize()[1] / 2.0;
+    center[0] = static_cast<double>(region.GetSize()[0]) / 2.0;
+    center[1] = static_cast<double>(region.GetSize()[1]) / 2.0;
 
-    const double s = (double)region.GetSize()[0] / 2.0;
+    const double s = static_cast<double>(region.GetSize()[0]) / 2.0;
 
     itk::Point<double, 2>  p;
     itk::Vector<double, 2> d;

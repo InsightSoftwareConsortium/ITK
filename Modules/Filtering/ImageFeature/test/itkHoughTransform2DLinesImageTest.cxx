@@ -168,10 +168,11 @@ itkHoughTransform2DLinesImageTest(int, char *[])
 
   for (unsigned int i = 0; i < numberOfPixels; i += 1)
   {
-    index[0] = (long int)(Vx - VyNorm * i);
-    index[1] = (long int)(Vy + VxNorm * i);
+    index[0] = static_cast<long int>(Vx - VyNorm * i);
+    index[1] = static_cast<long int>(Vy + VxNorm * i);
 
-    if (index[0] < (long)size[0] && index[0] >= 0 && index[1] < (long)size[1] && index[1] >= 0)
+    if (index[0] < static_cast<long>(size[0]) && index[0] >= 0 && index[1] < static_cast<long>(size[1]) &&
+        index[1] >= 0)
     {
       image->SetPixel(index, 255);
     }
@@ -299,9 +300,9 @@ itkHoughTransform2DLinesImageTest(int, char *[])
         {
           for (double length = 0; length < discRadius; length += 1)
           {
-            index[0] = (long int)(it_input.GetIndex()[0] + length * std::cos(angle));
-            index[1] = (long int)(it_input.GetIndex()[1] + length * std::sin(angle));
-            if (index[0] <= std::sqrt((double)400 * 400 + 400 * 400) && index[0] >= 0 && index[1] <= angleResolution &&
+            index[0] = static_cast<long int>(it_input.GetIndex()[0] + length * std::cos(angle));
+            index[1] = static_cast<long int>(it_input.GetIndex()[1] + length * std::sin(angle));
+            if (index[0] <= std::sqrt(400.0 * 400 + 400 * 400) && index[0] >= 0 && index[1] <= angleResolution &&
                 index[1] >= 0)
             {
               accumulator->SetPixel(index, 0);

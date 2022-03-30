@@ -81,7 +81,8 @@ GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter
 
   if (this->GetNumberOfIterations() != 0)
   {
-    this->UpdateProgress(((float)(this->GetElapsedIterations())) / ((float)(this->GetNumberOfIterations())));
+    this->UpdateProgress((static_cast<float>(this->GetElapsedIterations())) /
+                         (static_cast<float>(this->GetNumberOfIterations())));
   }
   else
   {

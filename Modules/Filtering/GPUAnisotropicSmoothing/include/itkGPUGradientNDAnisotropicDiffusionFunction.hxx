@@ -134,7 +134,7 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typena
   float imgScale[3];
   imgScale[0] = imgScale[1] = imgScale[2] = 1.0f;
 
-  int ImageDim = (int)TImage::ImageDimension;
+  int ImageDim = static_cast<int>(TImage::ImageDimension);
 
   for (int i = 0; i < ImageDim; ++i)
   {
@@ -147,11 +147,9 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUComputeUpdate(const typena
 
   for (int i = 0; i < ImageDim; ++i)
   {
-    globalSize[i] = localSize[i] * (unsigned int)ceil((float)outSize[i] / (float)localSize[i]); //
-                                                                                                // total
-                                                                                                // #
-                                                                                                // of
-                                                                                                // threads
+    // total # of threads
+    globalSize[i] =
+      localSize[i] * static_cast<unsigned int>(ceil(static_cast<float>(outSize[i]) / static_cast<float>(localSize[i])));
   }
 
   // arguments set up

@@ -369,7 +369,7 @@ itkMetricImageGradientTestRunTest(unsigned int                 imageSize,
       }
     } // if (b)
   }
-  return sumc / static_cast<double>(2.0); // correlation;
+  return sumc / 2.0; // correlation;
 }
 
 //////////////////////////////////////////////////////
@@ -380,9 +380,9 @@ itkMetricImageGradientTest(int argc, char * argv[])
   DimensionSizeType imageSize = 60;
   unsigned int      dimensionality = 3;
   double            minimumAverage = itk::NumericTraits<double>::max();
-  auto              rotationDegrees = static_cast<double>(0.0); // (3.0);
-  auto              maxDegrees = static_cast<double>(359.0);
-  auto              degreeStep = static_cast<double>(15.0); //(3.0);
+  double            rotationDegrees = 0.0; // (3.0);
+  double            maxDegrees = 359.0;
+  double            degreeStep = 15.0; //(3.0);
 
   std::string outputPath("");
   if (argc >= 2)
@@ -398,7 +398,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
   {
     std::cout << "testing dimension: " << dimensionality << std::endl;
     minimumAverage = itk::NumericTraits<double>::max();
-    for (rotationDegrees = static_cast<double>(0.0); rotationDegrees < maxDegrees; rotationDegrees += degreeStep)
+    for (rotationDegrees = 0.0; rotationDegrees < maxDegrees; rotationDegrees += degreeStep)
     {
 
       std::cerr << std::setw(3);
@@ -466,7 +466,7 @@ itkMetricImageGradientTest(int argc, char * argv[])
     }
 
     std::cout << "minimumAverage: " << minimumAverage << std::endl;
-    auto threshold = static_cast<double>(0.96);
+    double threshold = 0.96;
     if (minimumAverage < threshold)
     {
       std::cerr << "Minimum average of all runs is below threshold of " << threshold << std::endl;

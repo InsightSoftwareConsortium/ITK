@@ -52,13 +52,13 @@ public:
   static inline void
   Set(TInternalType & output, const TExternalType & input)
   {
-    output = (TInternalType)std::sqrt((double)input);
+    output = (TInternalType)std::sqrt(static_cast<double>(input));
   }
 
   static inline TExternalType
   Get(const TInternalType & input)
   {
-    return (TExternalType)std::sqrt((double)input);
+    return (TExternalType)std::sqrt(static_cast<double>(input));
   }
 };
 } // end namespace Accessor

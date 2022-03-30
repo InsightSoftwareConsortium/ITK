@@ -167,7 +167,7 @@ BinaryImageToLevelSetImageAdaptor<TInput, WhitakerSparseLevelSetImage<TOutput, T
   }
 
   LevelSetLabelObjectPointer ObjectPlus2 = LevelSetLabelObjectType::New();
-  ObjectPlus2->SetLabel(int(outputLayer));
+  ObjectPlus2->SetLabel(static_cast<int>(outputLayer));
 
   nodeIt = layerPlus2.begin();
   nodeEnd = layerPlus2.end();

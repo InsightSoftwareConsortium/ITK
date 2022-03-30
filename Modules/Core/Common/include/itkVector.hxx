@@ -116,7 +116,7 @@ template <typename T, unsigned int TVectorDimension>
 auto
 Vector<T, TVectorDimension>::GetNorm() const -> RealValueType
 {
-  return RealValueType(std::sqrt(double(this->GetSquaredNorm())));
+  return RealValueType(std::sqrt(static_cast<double>(this->GetSquaredNorm())));
 }
 
 template <typename T, unsigned int TVectorDimension>

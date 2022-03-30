@@ -306,7 +306,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
 
       q = 2 * (q - t);
 
-      if (q > (double)0) /* q was calculated with the op-*/
+      if (q > 0.0) /* q was calculated with the op-*/
       {
         p = -p; /* posite sign; make q positive  */
       }

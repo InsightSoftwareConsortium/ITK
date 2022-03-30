@@ -144,13 +144,13 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   double stoppingValue = 100.0;
   marcher->SetStoppingValue(stoppingValue);
 
-  auto generateGradientImage = true;
+  bool generateGradientImage = true;
   ITK_TEST_SET_GET_BOOLEAN(marcher, GenerateGradientImage, generateGradientImage);
 
   // Exercise this member function.
   // It is also necessary that the TargetOffset be set to 0.0 for the TargetReached
   // tests to pass.
-  auto targetOffset = 0.0;
+  double targetOffset = 0.0;
   marcher->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, marcher->GetTargetOffset());
 
@@ -186,7 +186,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
     outputPixel = iterator.Get();
 
-    auto outputPixelNorm = (double)outputPixel.GetNorm();
+    double outputPixelNorm{ outputPixel.GetNorm() };
 
     if (distance == 0.0)
     {

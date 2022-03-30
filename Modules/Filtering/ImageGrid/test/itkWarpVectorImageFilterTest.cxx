@@ -51,11 +51,11 @@ public:
         if (static_cast<unsigned int>(index[j]) >= clampSize[j])
         {
           // Interpolators behave this way in half-pixel band at image perimeter
-          accum += m_Coeff[j] * (double)(clampSize[j] - 1);
+          accum += m_Coeff[j] * static_cast<double>(clampSize[j] - 1);
         }
         else
         {
-          accum += m_Coeff[j] * (double)index[j];
+          accum += m_Coeff[j] * static_cast<double>(index[j]);
         }
       }
       else
@@ -160,7 +160,7 @@ itkWarpVectorImageFilterTest(int, char *[])
     VectorType displacement;
     for (j = 0; j < ImageDimension; ++j)
     {
-      displacement[j] = (float)index[j] * ((1.0 / factors[j]) - 1.0);
+      displacement[j] = static_cast<float>(index[j]) * ((1.0 / factors[j]) - 1.0);
     }
     fieldIter.Set(displacement);
   }
@@ -262,7 +262,7 @@ itkWarpVectorImageFilterTest(int, char *[])
   // adjust the pattern coefficients to match
   for (j = 0; j < ImageDimension; ++j)
   {
-    pattern.m_Coeff[j] /= (double)factors[j];
+    pattern.m_Coeff[j] /= static_cast<double>(factors[j]);
   }
 
   Iterator outIter(warper->GetOutput(), warper->GetOutput()->GetBufferedRegion());

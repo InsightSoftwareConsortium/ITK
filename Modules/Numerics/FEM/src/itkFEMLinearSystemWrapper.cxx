@@ -351,9 +351,9 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
   /* order by degree */
   if (nextRows.size() > 1)
   {
-    for (i = 0; i < (int)(nextRows.size()) - 1; ++i)
+    for (i = 0; i < static_cast<int>(nextRows.size()) - 1; ++i)
     {
-      for (j = 0; j < (int)(nextRows.size()) - 1 - i; ++j)
+      for (j = 0; j < static_cast<int>(nextRows.size()) - 1 - i; ++j)
       {
         if (rowDegree[nextRows[j + 1]] < rowDegree[nextRows[j]])
         {
@@ -369,12 +369,12 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
   while ((!nextRows.empty()) && (nextRowNumber < this->m_Order))
   {
     bufferArray.clear();
-    for (i = 0; i < (int)(nextRows.size()); ++i)
+    for (i = 0; i < static_cast<int>(nextRows.size()); ++i)
     {
       reverseMapping[nextRows[i]] = nextRowNumber++;
     }
     /* renumber rows in nextRows */
-    for (i = 0; i < (int)(nextRows.size()); ++i)
+    for (i = 0; i < static_cast<int>(nextRows.size()); ++i)
     {
       /* connections of current row */
       this->GetColumnsOfNonZeroMatrixElementsInRow(nextRows[i], rowBuffer, matrixIndex);
@@ -390,9 +390,9 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
       /* order by degree */
       if (rowBuffer.size() > 1)
       {
-        for (k = 0; k < (int)(rowBuffer.size()) - 1; ++k)
+        for (k = 0; k < static_cast<int>(rowBuffer.size()) - 1; ++k)
         {
-          for (j = 0; j < (int)(rowBuffer.size()) - 1 - k; ++j)
+          for (j = 0; j < static_cast<int>(rowBuffer.size()) - 1 - k; ++j)
           {
             if (rowDegree[rowBuffer[j + 1]] < rowDegree[rowBuffer[j]])
             {
@@ -406,10 +406,10 @@ LinearSystemWrapper::FollowConnectionsCuthillMckeeOrdering(unsigned int  rowNumb
 
       /* add rows in rowBuffer to bufferArray (don't add repeats) */
       unsigned int repeatFlag;
-      for (k = 0; k < (int)(rowBuffer.size()); ++k)
+      for (k = 0; k < static_cast<int>(rowBuffer.size()); ++k)
       {
         repeatFlag = 0;
-        for (j = 0; j < (int)(bufferArray.size()); ++j)
+        for (j = 0; j < static_cast<int>(bufferArray.size()); ++j)
         {
           if (bufferArray[j] == rowBuffer[k])
           {

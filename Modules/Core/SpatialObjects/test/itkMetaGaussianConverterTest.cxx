@@ -114,7 +114,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check maximum
   double metaMaximum = newMetaGaussian->Maximum();
 
-  // if (metaMaximum != (float)maximum)
+  // if (metaMaximum != static_cast<float>(maximum))
   if (itk::Math::abs(metaMaximum - maximum) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert maximum" << std::endl;
@@ -125,7 +125,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check radius
   double metaRadius = newMetaGaussian->Radius();
 
-  // if (metaRadius != (float)radius)
+  // if (metaRadius != static_cast<float>(radius))
   if (itk::Math::abs(metaRadius - radius) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert radius" << std::endl;
@@ -136,7 +136,7 @@ itkMetaGaussianConverterTest(int argc, char * argv[])
   // Check sigma
   double metaSigma = newMetaGaussian->Sigma();
 
-  // if (metaSigma != (float)sigma)
+  // if (metaSigma != static_cast<float>(sigma))
   if (itk::Math::abs(metaSigma - sigma) > precisionLimit)
   {
     std::cout << "[FAILED] Conversion to MetaGaussian failed to convert sigma" << std::endl;

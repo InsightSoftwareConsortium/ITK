@@ -277,10 +277,11 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
   for (i = 0; i < TOutputImage::ImageDimension; ++i)
   {
-    outputSpacing[i] = inputSpacing[i] * (double)m_ShrinkFactors[i];
+    outputSpacing[i] = inputSpacing[i] * static_cast<double>(m_ShrinkFactors[i]);
 
     // Round down so that all output pixels fit input input region
-    outputSize[i] = static_cast<SizeValueType>(std::floor((double)inputSize[i] / (double)m_ShrinkFactors[i]));
+    outputSize[i] = static_cast<SizeValueType>(
+      std::floor(static_cast<double>(inputSize[i]) / static_cast<double>(m_ShrinkFactors[i])));
 
     if (outputSize[i] < 1)
     {
@@ -289,8 +290,8 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
 
     // Because of the later origin shift this starting index is not
     // critical
-    outputStartIndex[i] =
-      static_cast<IndexValueType>(std::ceil((double)inputStartIndex[i] / (double)m_ShrinkFactors[i]));
+    outputStartIndex[i] = static_cast<IndexValueType>(
+      std::ceil(static_cast<double>(inputStartIndex[i]) / static_cast<double>(m_ShrinkFactors[i])));
   }
 
   outputPtr->SetSpacing(outputSpacing);

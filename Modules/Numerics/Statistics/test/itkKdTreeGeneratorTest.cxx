@@ -36,8 +36,8 @@ itkKdTreeGeneratorTest(int, char *[])
     MeasurementVectorType mv(measurementVectorSize);
     for (unsigned int i = 0; i < 1000; ++i)
     {
-      mv[0] = (float)i;
-      mv[1] = (float)((1000 - i) / 2);
+      mv[0] = static_cast<float>(i);
+      mv[1] = static_cast<float>((1000 - i) / 2);
       sample->PushBack(mv);
     }
 
@@ -129,8 +129,8 @@ itkKdTreeGeneratorTest(int, char *[])
     MeasurementVectorType mv;
     for (unsigned int i = 0; i < 1000; ++i)
     {
-      mv[0] = (float)i;
-      mv[1] = (float)((1000 - i) / 2);
+      mv[0] = static_cast<float>(i);
+      mv[1] = static_cast<float>((1000 - i) / 2);
       sample->PushBack(mv);
     }
 

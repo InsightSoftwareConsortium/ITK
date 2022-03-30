@@ -71,7 +71,7 @@ protected:
     MET_FieldRecordType * mf_Value = MET_GetFieldRecord("Value", &m_Fields);
     if (mf_Value->defined)
     {
-      m_Value = (float)mf_Value->value[0];
+      m_Value = static_cast<float>(mf_Value->value[0]);
     }
     return true;
   }

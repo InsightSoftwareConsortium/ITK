@@ -94,8 +94,8 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
   // sides, each side with length k, where k is the structuring
   // element length. Therefore the value of k we need to produce the
   // radius we want is: (M_PI * rr * 2)/(2*lines)
-  const double k1((Math::pi * (double)radius[0]) / ((double)lines));
-  const double k2((Math::pi * (double)radius[1]) / ((double)lines));
+  const double k1((Math::pi * static_cast<double>(radius[0])) / (static_cast<double>(lines)));
+  const double k2((Math::pi * static_cast<double>(radius[1])) / (static_cast<double>(lines)));
   const double step(Math::pi / lines);
   double       theta(0.0);
 
@@ -103,14 +103,14 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
   while (theta <= Math::pi / 2.0 + 0.0001)
   {
     LType2 O;
-    O[0] = (float)(k1 * std::cos(theta));
-    O[1] = (float)(k2 * std::sin(theta));
+    O[0] = static_cast<float>(k1 * std::cos(theta));
+    O[1] = static_cast<float>(k2 * std::sin(theta));
     if (!res.CheckParallel(O))
     {
       res.AddLine(O);
     }
-    O[0] = (float)(k1 * std::cos(-theta));
-    O[1] = (float)(k2 * std::sin(-theta));
+    O[0] = static_cast<float>(k1 * std::cos(-theta));
+    O[1] = static_cast<float>(k2 * std::sin(-theta));
     if (!res.CheckParallel(O))
     {
       res.AddLine(O);
@@ -725,7 +725,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       // create triangular facet approximation to a sphere - begin with
       // unit sphere
       // total number of facets is 8 * (4^iterations)
-      unsigned int facets = 8 * (int)std::pow((double)4, iterations);
+      unsigned int facets = 8 * static_cast<int>(std::pow(4.0, iterations));
       double       sqrt2 = std::sqrt(2.0);
 
       using FacetArrayType = std::vector<FacetType3>;
@@ -789,7 +789,7 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
       FacetArray[7] = F7;
       int pos = 8;
       // now subdivide the octahedron
-      for (unsigned int it = 0; it < (unsigned int)iterations; ++it)
+      for (unsigned int it = 0; it < static_cast<unsigned int>(iterations); ++it)
       {
         // Bisect edges and move to sphere
         unsigned int ntold = pos;
@@ -894,11 +894,11 @@ FlatStructuringElement<VDimension>::Cross(RadiusType radius)
   {
     *kernel_it = false;
   }
-  for (int d = 0; d < (int)VDimension; ++d)
+  for (int d = 0; d < static_cast<int>(VDimension); ++d)
   {
     OffsetType o;
     o.Fill(0);
-    for (int i = -(int)radius[d]; i <= (int)radius[d]; ++i)
+    for (int i = -static_cast<int>(radius[d]); i <= static_cast<int>(radius[d]); ++i)
     {
       o[d] = i;
       res[o] = true;
@@ -925,7 +925,7 @@ FlatStructuringElement<VDimension>::Ball(RadiusType radius, bool radiusIsParamet
   auto                           sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = radius;
-  for (i = 0; i < (int)VDimension; ++i)
+  for (i = 0; i < static_cast<int>(VDimension); ++i)
   {
     size[i] = 2 * size[i] + 1;
   }
@@ -1191,7 +1191,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
   auto                           sourceImage = ImageType::New();
   typename ImageType::RegionType region;
   RadiusType                     size = this->GetRadius();
-  for (int i = 0; i < (int)VDimension; ++i)
+  for (int i = 0; i < static_cast<int>(VDimension); ++i)
   {
     size[i] = 2 * size[i] + 1;
   }
@@ -1212,7 +1212,7 @@ FlatStructuringElement<VDimension>::ComputeBufferFromLines()
 
   // set the center pixel to 1
   typename ImageType::IndexType center;
-  for (int i = 0; i < (int)VDimension; ++i)
+  for (int i = 0; i < static_cast<int>(VDimension); ++i)
   {
     center[i] = this->GetRadius()[i];
   }

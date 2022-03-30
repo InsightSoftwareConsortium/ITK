@@ -135,9 +135,9 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
 
     // increase the sums
     sum += v;
-    sum2 += std::pow((double)v, 2);
-    sum3 += std::pow((double)v, 3);
-    sum4 += std::pow((double)v, 4);
+    sum2 += std::pow(static_cast<double>(v), 2);
+    sum3 += std::pow(static_cast<double>(v), 3);
+    sum4 += std::pow(static_cast<double>(v), 4);
 
     // moments
     PointType physicalPosition;
@@ -298,8 +298,8 @@ StatisticsLabelMapFilter<TImage, TFeatureImage>::ThreadedProcessLabelObject(Labe
   }
 
   // finally put the values in the label object
-  labelObject->SetMinimum((double)min);
-  labelObject->SetMaximum((double)max);
+  labelObject->SetMinimum(static_cast<double>(min));
+  labelObject->SetMaximum(static_cast<double>(max));
   labelObject->SetSum(sum);
   labelObject->SetMean(mean);
   labelObject->SetMedian(median);

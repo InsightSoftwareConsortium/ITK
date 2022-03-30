@@ -171,7 +171,7 @@ InterpolateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
     outputIndex = outIt.GetIndex();
     for (unsigned int j = 0; j < ImageDimension; ++j)
     {
-      intermediateIndex[j] = (double)outputIndex[j];
+      intermediateIndex[j] = static_cast<double>(outputIndex[j]);
     }
     intermediateIndex[ImageDimension] = m_Distance;
 

@@ -67,8 +67,8 @@ itkPolyLineParametricPathTest(int, char *[])
 
   std::cout << "Evaluating the derivative at 0, 0.5, and 1.0: " << path->EvaluateDerivative(0) << ", "
             << path->EvaluateDerivative(0.5) << ", " << path->EvaluateDerivative(1.0) << std::endl;
-  if (int(0.5 + 1000 * (path->EvaluateDerivative(0.5))[0]) != 1000 ||
-      int(0.5 + 1000 * (path->EvaluateDerivative(0.5))[1]) != 2000)
+  if (static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.5))[0]) != 1000 ||
+      static_cast<int>(0.5 + 1000 * (path->EvaluateDerivative(0.5))[1]) != 2000)
   {
     std::cout << "EvaluateDerivative() Failed" << std::endl;
     passed = false;

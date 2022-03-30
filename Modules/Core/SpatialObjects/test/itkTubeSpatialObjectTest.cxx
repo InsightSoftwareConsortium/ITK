@@ -350,7 +350,7 @@ itkTubeSpatialObjectTest(int, char *[])
   std::cout << "DerivativeAt()...";
   try
   {
-    tubeNet1->DerivativeAtInWorldSpace(in, (unsigned short)1, derivative, true);
+    tubeNet1->DerivativeAtInWorldSpace(in, static_cast<unsigned short>(1), derivative, true);
   }
   catch (...)
   {

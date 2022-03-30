@@ -184,8 +184,9 @@ struct TBBImageRegionSplitter : public itk::ImageIORegion
     // is_splittable_in_proportion to avoid unused variable warning.
     if (TBBImageRegionSplitter::is_splittable_in_proportion == true)
     {
-      *this = region;                                               // most things will be the same
-      for (int d = int(this->GetImageDimension()) - 1; d >= 0; d--) // prefer to split along highest dimension
+      *this = region; // most things will be the same
+      for (int d = static_cast<int>(this->GetImageDimension()) - 1; d >= 0;
+           d--) // prefer to split along highest dimension
       {
         if (this->GetSize(d) > 1) // split along this dimension
         {

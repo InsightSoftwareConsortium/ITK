@@ -211,7 +211,7 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const Neighbor
       for (i = 0; i < Superclass::Dimension; ++i) // Update index
       {
         temp[i]++;
-        if ((unsigned int)(temp[i]) == this->GetSize(i))
+        if (static_cast<unsigned int>(temp[i]) == this->GetSize(i))
         {
           temp[i] = 0;
         }

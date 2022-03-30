@@ -368,8 +368,8 @@ itkMultiGradientOptimizerv4Test(int, char *[])
    */
   // We start not so far from  | 1.5 -1.5 |
   ParametersType testPosition(spaceDimension);
-  testPosition[0] = (double)7.5;
-  testPosition[1] = (double)9.5;
+  testPosition[0] = 7.5;
+  testPosition[1] = 9.5;
   /** Note: both metrics have the same transforms and parameters */
   /** We need the parameters to be the same object across all metric instances*/
   metric->SetParameters(testPosition);

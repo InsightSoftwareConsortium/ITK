@@ -140,7 +140,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        w = x[n] - (double)EvaluateIndex[n][1];
+        w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
         weights[n][3] = (1.0 / 6.0) * w * w * w;
         weights[n][0] = (1.0 / 6.0) + 0.5 * w * (w - 1.0) - weights[n][3];
         weights[n][2] = w + weights[n][0] - 2.0 * weights[n][3];
@@ -160,7 +160,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        w = x[n] - (double)EvaluateIndex[n][0];
+        w = x[n] - static_cast<double>(EvaluateIndex[n][0]);
         weights[n][1] = w;
         weights[n][0] = 1.0 - w;
       }
@@ -171,7 +171,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
-        w = x[n] - (double)EvaluateIndex[n][1];
+        w = x[n] - static_cast<double>(EvaluateIndex[n][1]);
         weights[n][1] = 0.75 - w * w;
         weights[n][2] = 0.5 * (w - weights[n][1] + 1.0);
         weights[n][0] = 1.0 - weights[n][1] - weights[n][2];
@@ -183,7 +183,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
-        w = x[n] - (double)EvaluateIndex[n][2];
+        w = x[n] - static_cast<double>(EvaluateIndex[n][2]);
         w2 = w * w;
         t = (1.0 / 6.0) * w2;
         weights[n][0] = 0.5 - w;
@@ -203,7 +203,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetInt
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
         /* x */
-        w = x[n] - (double)EvaluateIndex[n][2];
+        w = x[n] - static_cast<double>(EvaluateIndex[n][2]);
         w2 = w * w;
         weights[n][5] = (1.0 / 120.0) * w * w2 * w2;
         w2 -= w;
@@ -249,7 +249,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
   // of switch statement executions to one per routine call.
   // Left as is for now for readability.
   double w, w1, w2, w3, w4, w5, t, t0, t1, t2;
-  int    derivativeSplineOrder = (int)splineOrder - 1;
+  int    derivativeSplineOrder = static_cast<int>(splineOrder) - 1;
 
   switch (derivativeSplineOrder)
   {
@@ -277,7 +277,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        w = x[n] + 0.5 - (double)EvaluateIndex[n][1];
+        w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][1]);
         // w2 = w;
         w1 = 1.0 - w;
 
@@ -291,7 +291,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        w = x[n] + .5 - (double)EvaluateIndex[n][2];
+        w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][2]);
         w2 = 0.75 - w * w;
         w3 = 0.5 * (w - w2 + 1.0);
         w1 = 1.0 - w2 - w3;
@@ -307,7 +307,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        w = x[n] + 0.5 - (double)EvaluateIndex[n][2];
+        w = x[n] + 0.5 - static_cast<double>(EvaluateIndex[n][2]);
         w4 = (1.0 / 6.0) * w * w * w;
         w1 = (1.0 / 6.0) + 0.5 * w * (w - 1.0) - w4;
         w3 = w + w1 - 2.0 * w4;
@@ -325,7 +325,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::SetDer
     {
       for (unsigned int n = 0; n < ImageDimension; ++n)
       {
-        w = x[n] + .5 - (double)EvaluateIndex[n][3];
+        w = x[n] + .5 - static_cast<double>(EvaluateIndex[n][3]);
         t2 = w * w;
         t = (1.0 / 6.0) * t2;
         w1 = 0.5 - w;
@@ -406,7 +406,7 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::Determ
   const float halfOffset = splineOrder & 1 ? 0.0 : 0.5;
   for (unsigned int n = 0; n < ImageDimension; ++n)
   {
-    long indx = (long)std::floor((float)x[n] + halfOffset) - splineOrder / 2;
+    long indx = static_cast<long>(std::floor(static_cast<float>(x[n]) + halfOffset)) - splineOrder / 2;
     for (unsigned int k = 0; k <= splineOrder; ++k)
     {
       evaluateIndex[n][k] = indx++;

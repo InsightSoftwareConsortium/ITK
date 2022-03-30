@@ -313,7 +313,8 @@ VXLVideoIO::ReadImageInformation()
       {
         itkExceptionMacro(<< "I-Frame spacing for this video is zeror! Please check input data.");
       }
-      this->m_LastIFrame = static_cast<FrameOffsetType>((float)this->m_FrameTotal / (float)this->m_IFrameInterval) *
+      this->m_LastIFrame = static_cast<FrameOffsetType>(static_cast<float>(this->m_FrameTotal) /
+                                                        static_cast<float>(this->m_IFrameInterval)) *
                              this->m_IFrameInterval -
                            1;
 
@@ -677,7 +678,7 @@ VXLVideoIO::UpdateReaderProperties()
 {
   this->m_CurrentFrame = this->m_Reader->frame_number();
 
-  this->m_Ratio = (double)this->m_CurrentFrame / (double)this->m_FrameTotal;
+  this->m_Ratio = static_cast<double>(this->m_CurrentFrame) / static_cast<double>(this->m_FrameTotal);
   this->m_PositionInMSec = this->m_Reader->duration() * this->m_Ratio;
 }
 

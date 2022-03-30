@@ -44,8 +44,8 @@ VoronoiDiagram2DGenerator<TCoordRepType>::SetRandomSeeds(int num)
   PointType curr;
 
   m_Seeds.clear();
-  auto ymax = (double)(m_VorBoundary[1]);
-  auto xmax = (double)(m_VorBoundary[0]);
+  double ymax{ m_VorBoundary[1] };
+  double xmax{ m_VorBoundary[0] };
   for (int i = 0; i < num; ++i)
   {
     curr[0] = (CoordRepType)(vnl_sample_uniform(0, xmax));
@@ -539,7 +539,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::PQbucket(FortuneHalfEdge * task)
 {
   int bucket;
 
-  bucket = (int)((task->m_Ystar - m_Pymin) / m_Deltay * m_PQhashsize);
+  bucket = static_cast<int>((task->m_Ystar - m_Pymin) / m_Deltay * m_PQhashsize);
   if (bucket < 0)
   {
     bucket = 0;
@@ -616,7 +616,7 @@ auto
 VoronoiDiagram2DGenerator<TCoordRepType>::findLeftHE(PointType * p) -> FortuneHalfEdge *
 {
   int  i;
-  auto bucket = (int)((((*p)[0]) - m_Pxmin) / m_Deltax * m_ELhashsize);
+  auto bucket = static_cast<int>((((*p)[0]) - m_Pxmin) / m_Deltax * m_ELhashsize);
 
   if (bucket < 0)
   {
@@ -1044,7 +1044,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
 
   m_Deltay = m_Pymax - m_Pymin;
   m_Deltax = m_Pxmax - m_Pxmin;
-  m_SqrtNSites = std::sqrt((float)(m_NumberOfSeeds + 4));
+  m_SqrtNSites = std::sqrt(static_cast<float>(m_NumberOfSeeds + 4));
 
   // Initialize outputLists
   m_Nedges = 0;
@@ -1056,13 +1056,13 @@ VoronoiDiagram2DGenerator<TCoordRepType>::GenerateVDFortune()
   // Initialize the hash table for circle event and point event
   m_PQcount = 0;
   m_PQmin = 0;
-  m_PQhashsize = (int)(4 * m_SqrtNSites);
+  m_PQhashsize = static_cast<int>(4 * m_SqrtNSites);
   m_PQHash.resize(m_PQhashsize);
   for (i = 0; i < m_PQhashsize; ++i)
   {
     m_PQHash[i].m_Next = nullptr;
   }
-  m_ELhashsize = (int)(2 * m_SqrtNSites);
+  m_ELhashsize = static_cast<int>(2 * m_SqrtNSites);
   m_ELHash.resize(m_ELhashsize);
   for (i = 0; i < m_ELhashsize; ++i)
   {

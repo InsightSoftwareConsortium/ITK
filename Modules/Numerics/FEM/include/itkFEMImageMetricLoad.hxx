@@ -200,11 +200,11 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
       }
     }
 
-    defe += 0.0; // (double)(*elt)->GetElementDeformationEnergy( solmat );
+    defe += 0.0; // static_cast<double>(*elt)->GetElementDeformationEnergy( solmat );
   }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return itk::Math::abs((double)energy * (double)m_Gamma - (double)defe);
+  return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
 template <typename TMoving, typename TFixed>
@@ -267,11 +267,11 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
       }
     }
 
-    defe += 0.0; // (double)(*elt)->GetElementDeformationEnergy( solmat );
+    defe += 0.0; // static_cast<double>(*elt)->GetElementDeformationEnergy( solmat );
   }
 
   // std::cout << " def e " << defe << " sim e " << energy*m_Gamma << std::endl;
-  return itk::Math::abs((double)energy * (double)m_Gamma - (double)defe);
+  return itk::Math::abs(static_cast<double>(energy) * static_cast<double>(m_Gamma) - static_cast<double>(defe));
 }
 
 template <typename TMoving, typename TFixed>
@@ -318,24 +318,24 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
     // this gives the translation by the vector field
     // where the piece of reference image currently lines up under the above translation
     // position in reference image
-    rindex[k] = (long)(Gpos[k] + Gsol[k] + 0.5);
-    tindex[k] = (long)(Gpos[k] + 0.5) - (long)m_MetricRadius[k] / 2;
-    hibordercheck = (int)tindex[k] + (int)m_MetricRadius[k] - (int)m_TarSize[k];
-    lobordercheck = (int)tindex[k] - (int)m_MetricRadius[k];
+    rindex[k] = static_cast<long>(Gpos[k] + Gsol[k] + 0.5);
+    tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(m_MetricRadius[k]) / 2;
+    hibordercheck = static_cast<int>(tindex[k]) + static_cast<int>(m_MetricRadius[k]) - static_cast<int>(m_TarSize[k]);
+    lobordercheck = static_cast<int>(tindex[k]) - static_cast<int>(m_MetricRadius[k]);
     if (hibordercheck >= 0)
     {
-      regionRadius[k] = m_MetricRadius[k] - (long)hibordercheck - 1;
+      regionRadius[k] = m_MetricRadius[k] - static_cast<long>(hibordercheck) - 1;
     }
     else if (lobordercheck < 0)
     {
-      regionRadius[k] = m_MetricRadius[k] + (long)lobordercheck;
+      regionRadius[k] = m_MetricRadius[k] + static_cast<long>(lobordercheck);
     }
     else
     {
       regionRadius[k] = m_MetricRadius[k];
     }
     // position in reference image
-    tindex[k] = (long)(Gpos[k] + 0.5) - (long)regionRadius[k] / 2;
+    tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
   // Set the associated region
@@ -363,7 +363,7 @@ ImageMetricLoad<TMoving, TFixed>::Fe(VectorType Gpos, VectorType Gsol) -> Vector
     // std::cerr << e << std::endl;
   }
 
-  m_Energy += (double)measure;
+  m_Energy += static_cast<double>(measure);
   float gmag = 0.0;
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
@@ -417,51 +417,29 @@ ImageMetricLoad<TMoving, TFixed>::GetMetric(VectorType InVec) -> Float
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
     // Set the size of the image region
-    parameters[k] = InVec[k + ImageDimension];                        // this
-                                                                      // gives
-                                                                      // the
-                                                                      // translation
-                                                                      // by
-                                                                      // the
-                                                                      // vector
-                                                                      // field
-    rindex[k] = (long)(InVec[k] + InVec[k + ImageDimension] + 0.5);   // where
-                                                                      // the
-                                                                      // piece
-                                                                      // of
-                                                                      // reference
-                                                                      // image
-                                                                      // currently
-                                                                      // lines
-                                                                      // up
-                                                                      // under
-                                                                      // the
-                                                                      // above
-                                                                      // translation
-    tindex[k] = (long)(InVec[k] + 0.5) - (long)m_MetricRadius[k] / 2; //
-                                                                      // position
-                                                                      // in
-                                                                      // reference
-                                                                      // image
-    int hibordercheck = (int)tindex[k] + (int)m_MetricRadius[k] - (int)m_TarSize[k];
-    int lobordercheck = (int)tindex[k] - (int)m_MetricRadius[k];
+    // this gives the translation by the vector field
+    parameters[k] = InVec[k + ImageDimension];
+    // where the piece of reference image currently lines up under the above translation
+    rindex[k] = static_cast<long>(InVec[k] + InVec[k + ImageDimension] + 0.5);
+    // position in reference image
+    tindex[k] = static_cast<long>(InVec[k] + 0.5) - static_cast<long>(m_MetricRadius[k]) / 2;
+    int hibordercheck =
+      static_cast<int>(tindex[k]) + static_cast<int>(m_MetricRadius[k]) - static_cast<int>(m_TarSize[k]);
+    int lobordercheck = static_cast<int>(tindex[k]) - static_cast<int>(m_MetricRadius[k]);
     if (hibordercheck > 0)
     {
-      regionRadius[k] = m_MetricRadius[k] - (long)hibordercheck - 1;
+      regionRadius[k] = m_MetricRadius[k] - static_cast<long>(hibordercheck) - 1;
     }
     else if (lobordercheck < 0)
     {
-      regionRadius[k] = m_MetricRadius[k] + (long)lobordercheck;
+      regionRadius[k] = m_MetricRadius[k] + static_cast<long>(lobordercheck);
     }
     else
     {
       regionRadius[k] = m_MetricRadius[k];
     }
-    tindex[k] = (long)(InVec[k] + 0.5) - (long)regionRadius[k] / 2; //
-                                                                    // position
-                                                                    // in
-                                                                    // reference
-                                                                    // image
+    // position in reference image
+    tindex[k] = static_cast<long>(InVec[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
   // Set the associated region
@@ -505,41 +483,31 @@ ImageMetricLoad<TMoving, TFixed>::MetricFiniteDiff(VectorType Gpos, VectorType G
   OutVec.set_size(ImageDimension);
   for (unsigned int k = 0; k < ImageDimension; ++k)
   {
-    parameters[k] = Gsol[k];                                         // this
-                                                                     // gives
-                                                                     // the
-                                                                     // translation
-                                                                     // by the
-                                                                     // vector
-                                                                     // field
-    tindex[k] = (long)(Gpos[k] + 0.5) - (long)m_MetricRadius[k] / 2; //
-                                                                     // position
-                                                                     // in
-                                                                     // reference
-                                                                     // image
+    // this gives the translation by the vector field
+    parameters[k] = Gsol[k];
+    // position in reference image
+    tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(m_MetricRadius[k]) / 2;
     if (tindex[k] > m_TarSize[k] - 1 || tindex[k] < 0)
     {
-      tindex[k] = (long)(Gpos[k] + 0.5);
+      tindex[k] = static_cast<long>(Gpos[k] + 0.5);
     }
-    int hibordercheck = (int)tindex[k] + (int)m_MetricRadius[k] - (int)m_TarSize[k];
-    int lobordercheck = (int)tindex[k] - (int)m_MetricRadius[k];
+    int hibordercheck =
+      static_cast<int>(tindex[k]) + static_cast<int>(m_MetricRadius[k]) - static_cast<int>(m_TarSize[k]);
+    int lobordercheck = static_cast<int>(tindex[k]) - static_cast<int>(m_MetricRadius[k]);
     if (hibordercheck >= 0)
     {
-      regionRadius[k] = m_MetricRadius[k] - (long)hibordercheck - 1;
+      regionRadius[k] = m_MetricRadius[k] - static_cast<long>(hibordercheck) - 1;
     }
     else if (lobordercheck < 0)
     {
-      regionRadius[k] = m_MetricRadius[k] + (long)lobordercheck;
+      regionRadius[k] = m_MetricRadius[k] + static_cast<long>(lobordercheck);
     }
     else
     {
       regionRadius[k] = m_MetricRadius[k];
     }
-    tindex[k] = (long)(Gpos[k] + 0.5) - (long)regionRadius[k] / 2; //
-                                                                   // position
-                                                                   // in
-                                                                   // reference
-                                                                   // image
+    // position in reference image
+    tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
   unsigned int                  row;
@@ -627,41 +595,31 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
       a1norm /= 3.0;
     }
     chebycoefs[k] = 0.0;
-    parameters[k] = Gsol[k];                                         // this
-                                                                     // gives
-                                                                     // the
-                                                                     // translation
-                                                                     // by the
-                                                                     // vector
-                                                                     // field
-    tindex[k] = (long)(Gpos[k] + 0.5) - (long)m_MetricRadius[k] / 2; //
-                                                                     // position
-                                                                     // in
-                                                                     // reference
-                                                                     // image
+    // this gives the translation by the vector field
+    parameters[k] = Gsol[k];
+    // position in reference image
+    tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(m_MetricRadius[k]) / 2;
     if (tindex[k] > m_TarSize[k] - 1 || tindex[k] < 0)
     {
-      tindex[k] = (long)(Gpos[k] + 0.5);
+      tindex[k] = static_cast<long>(Gpos[k] + 0.5);
     }
-    int hibordercheck = (int)tindex[k] + (int)m_MetricRadius[k] - (int)m_TarSize[k];
-    int lobordercheck = (int)tindex[k] - (int)m_MetricRadius[k];
+    int hibordercheck =
+      static_cast<int>(tindex[k]) + static_cast<int>(m_MetricRadius[k]) - static_cast<int>(m_TarSize[k]);
+    int lobordercheck = static_cast<int>(tindex[k]) - static_cast<int>(m_MetricRadius[k]);
     if (hibordercheck >= 0)
     {
-      regionRadius[k] = m_MetricRadius[k] - (long)hibordercheck - 1;
+      regionRadius[k] = m_MetricRadius[k] - static_cast<long>(hibordercheck) - 1;
     }
     else if (lobordercheck < 0)
     {
-      regionRadius[k] = m_MetricRadius[k] + (long)lobordercheck;
+      regionRadius[k] = m_MetricRadius[k] + static_cast<long>(lobordercheck);
     }
     else
     {
       regionRadius[k] = m_MetricRadius[k];
     }
-    tindex[k] = (long)(Gpos[k] + 0.5) - (long)regionRadius[k] / 2; //
-                                                                   // position
-                                                                   // in
-                                                                   // reference
-                                                                   // image
+    // position in reference image
+    tindex[k] = static_cast<long>(Gpos[k] + 0.5) - static_cast<long>(regionRadius[k]) / 2;
   }
 
   if (ImageDimension == 2)
@@ -671,8 +629,8 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
     {
       for (int col = -1; col < 2; ++col)
       {
-        temp[0] = tindex[0] + (long)row;
-        temp[1] = tindex[1] + (long)col;
+        temp[0] = tindex[0] + static_cast<long>(row);
+        temp[1] = tindex[1] + static_cast<long>(col);
         for (unsigned int i = 0; i < ImageDimension; ++i)
         {
           if (temp[i] > m_TarSize[i] - 1)
@@ -722,9 +680,9 @@ ImageMetricLoad<TMoving, TFixed>::GetPolynomialFitToMetric(VectorType Gpos, Vect
       {
         for (int z = -1; z < 2; ++z)
         {
-          temp[0] = tindex[0] + (long)row;
-          temp[1] = tindex[1] + (long)col;
-          temp[2] = tindex[2] + (long)z;
+          temp[0] = tindex[0] + static_cast<long>(row);
+          temp[1] = tindex[1] + static_cast<long>(col);
+          temp[2] = tindex[2] + static_cast<long>(z);
           for (unsigned int i = 0; i < ImageDimension; ++i)
           {
             if (temp[i] > m_TarSize[i] - 1)
