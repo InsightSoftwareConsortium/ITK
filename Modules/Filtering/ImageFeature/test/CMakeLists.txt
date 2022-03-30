@@ -193,6 +193,12 @@ itk_add_test(NAME itkMaskFeaturePointSelectionFilterTestTensors
               ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTestTensors.mha
     itkMaskFeaturePointSelectionFilterTest
 DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTestTensors.mha 0 2 1 0.01)
+itk_add_test(NAME itkMaskFeaturePointSelectionFilterTestMask
+      COMMAND ITKImageFeatureTestDriver
+    --compare DATA{Baseline/itkMaskFeaturePointSelectionFilterTestMask.mha}
+              ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTestMask.mha
+    itkMaskFeaturePointSelectionFilterTest
+DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha} ${ITK_TEST_OUTPUT_DIR}/itkMaskFeaturePointSelectionFilterTestMask.mha 0 2 1 0.01 DATA{Input/HeadMRVolumeMaskImage.mha})
 itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest
       COMMAND ITKImageFeatureTestDriver itkDiscreteGaussianDerivativeImageFilterScaleSpaceTest)
 itk_add_test(NAME itkDiscreteGaussianDerivativeImageFilterTest01
