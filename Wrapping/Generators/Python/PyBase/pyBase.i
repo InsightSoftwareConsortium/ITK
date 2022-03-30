@@ -405,6 +405,63 @@ str = str
 %enddef
 
 
+%define DECL_PYTHON_TRANSFORMBASETEMPLATE_CLASS(swig_name)
+    %extend swig_name {
+        %pythoncode %{
+            def keys(self):
+                """
+                Return keys related to the transform's metadata.
+                These keys are used in the dictionary resulting from dict(transform).
+                """
+                result = ['name', 'transformType', 'inDimension', 'outDimension', 'numberOfParameters', 'numberOfFixedParameters', 'parameters', 'fixedParameters']
+                return result
+
+            def __getitem__(self, key):
+                """Access metadata keys, see help(transform.keys), for string keys."""
+                import itk
+                if isinstance(key, str):
+                    state = itk.dict_from_transform(self)
+                    return state[0][key]
+
+            def __setitem__(self, key, value):
+                if isinstance(key, str):
+                    import numpy as np
+                    if key == 'name':
+                        self.SetObjectName(value)
+                    elif key == 'fixedParameters' or key == 'parameters':
+                        if key == 'fixedParameters':
+                            o1 = self.GetFixedParameters()
+                        else:
+                            o1 = self.GetParameters()
+
+                        o1.SetSize(value.shape[0])
+                        for i, v in enumerate(value):
+                            o1.SetElement(i, v)
+
+                        if key == 'fixedParameters':
+                            self.SetFixedParameters(o1)
+                        else:
+                            self.SetParameters(o1)
+
+
+            def __getstate__(self):
+                """Get object state, necessary for serialization with pickle."""
+                import itk
+                state = itk.dict_from_transform(self)
+                return state
+
+            def __setstate__(self, state):
+                """Set object state, necessary for serialization with pickle."""
+                import itk
+                import numpy as np
+                deserialized = itk.transform_from_dict(state)
+                self.__dict__['this'] = deserialized
+            %}
+    }
+
+%enddef
+
+
 %define DECL_PYTHON_IMAGEBASE_CLASS(swig_name, template_params)
     %inline %{
     #include "itkContinuousIndexSwigInterface.h"

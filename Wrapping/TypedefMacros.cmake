@@ -1326,6 +1326,10 @@ macro(itk_wrap_simple_type wrap_class swig_name)
       set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_MESH_CLASS(${swig_name})\n\n")
     endif()
 
+    if("${cpp_name}" STREQUAL "itk::TransformBaseTemplate")
+      set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYTHON_TRANSFORMBASETEMPLATE_CLASS(${swig_name})\n\n")
+    endif()
+
     if("${cpp_name}" STREQUAL "itk::PyImageFilter" AND NOT "${swig_name}" MATCHES "Pointer$")
       set(ITK_WRAP_PYTHON_SWIG_EXT "${ITK_WRAP_PYTHON_SWIG_EXT}DECL_PYIMAGEFILTER_CLASS(${swig_name})\n\n")
     endif()
