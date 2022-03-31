@@ -45,19 +45,19 @@ namespace itk
  * MRASlabIdentifier and then applies its bias correction scheme to each slab.
  *
  * For this identifier, a slice means 2D image data which is extracted from
- * the input image along one of three axes (x, y, z). Users can specify
- * the slicing axis using the SetSlicingDirection(int dimension) member.
- * (0 - x, 1 - y, 2 - z).
+ * the input image along one of three axes \f$(x, y, z)\f$. Users can specify
+ * the slicing axis using the SetSlicingDirection(int dimension) member, where
+ * the \p dimension variable follows the convention \f{X, Y, Z} : {0, 1, 2}\f$.
  *
- * The identification scheme used here is very simple.
- * 1) Users should specify how many pixels per slice the identifier
+ * The identification scheme used works according to the following steps:
+ * -# Users should specify how many pixels per slice the identifier
  *    will sample.
- * 2) For each slice, the identifier searches the specified number of pixels
+ * -# For each slice, the identifier searches the specified number of pixels
  *    of which intensity values are greater than 0 and less than those
- *    of the other pixels in the slice
- * 3) The identifier calculates the average for each slice and the overall
+ *    of the other pixels in the slice.
+ * -# The identifier calculates the average for each slice and the overall
  *    average using the search results.
- * 4) For each slice, it subtracts the overall average from the slice average.
+ * -# For each slice, it subtracts the overall average from the slice average.
  *    If the sign of the subtraction result changes, then it assumes that a
  *    slab ends and another slab begins.
  * \ingroup ITKBiasCorrection
