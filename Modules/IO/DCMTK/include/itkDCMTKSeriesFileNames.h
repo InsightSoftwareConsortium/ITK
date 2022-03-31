@@ -153,11 +153,11 @@ public:
     return m_UseSeriesDetails;
   }
 
-  /** Add more restriction on the selection of a Series. This follow the same
-   * approach as SetUseSeriesDetails, but allow a user to add even more DICOM
+  /** Add more restriction on the selection of a Series. This follows the same
+   * approach as SetUseSeriesDetails, but allows a user to add even more DICOM
    * tags to take into account for subrefining a set of DICOM files into multiple
-   * series. Format for tag is "group|element" of a DICOM tag.
-   * \warning User need to set SetUseSeriesDetails(true)
+   * series. The tag format is "group|element" of a DICOM tag.
+   * \warning UseSeriesDetails needs to be set to true.
    */
   void
   AddSeriesRestriction(const std::string & /* tag */)
