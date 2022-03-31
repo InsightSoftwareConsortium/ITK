@@ -144,50 +144,79 @@ protected:
   PointDataContainerPointer m_PointDataContainer;
 
 public:
-  /** PointSet-level operation interface. */
+  /** Copy the geometric and topological structure of the given input pointSet.
+   * The copying is done via reference counting.
+   */
   void
   PassStructure(Self * inputPointSet);
 
+  /** Restore the PointSet to its initial state. Useful for data pipeline updates
+   * without memory re-allocation.
+   */
   void
   Initialize() override;
 
+  /** Get the number of points in the points container. */
   PointIdentifier
   GetNumberOfPoints() const;
 
-  /** Define Set/Get access routines for each internal container.
-   * Methods also exist to add points, cells, etc. one at a time
-   * rather than through an entire container. */
+  /** Set the points container. */
   void
   SetPoints(PointsContainer *);
 
+  /** Set the points container using a 1D vector. */
   void
   SetPoints(PointsVectorContainer *);
 
+  /** Get the points container. */
   PointsContainer *
   GetPoints();
 
+  /** Get the points container. */
   const PointsContainer *
   GetPoints() const;
 
+  /** Set the point data container. */
   void
   SetPointData(PointDataContainer *);
 
+  /** Get the point data container. */
   PointDataContainer *
   GetPointData();
 
+  /** Get the point data container. */
   const PointDataContainer *
   GetPointData() const;
 
-  /** Access routines to fill the Points container, and get information
-   * from it. */
+  /** Assign a point to a point identifier.  If a spot for the point identifier
+   * does not exist, it will be created automatically.
+   */
   void SetPoint(PointIdentifier, PointType);
+
+  /** Check if a point exists for a given point identifier.  If a spot for
+   * the point identifier exists, the point is set, and true is returned.
+   * Otherwise, false is returned, and the point is not modified.
+   * If the point is nullptr, then it is never set, but the existence of the
+   * point is still returned.
+   */
   bool
-            GetPoint(PointIdentifier, PointType *) const;
+  GetPoint(PointIdentifier, PointType *) const;
+
+  /** Get the point for the given point identifier. */
   PointType GetPoint(PointIdentifier) const;
 
-  /** Access routines to fill the PointData container, and get information
-   * from it. */
+  /** Assign data to a point identifier.  If a spot for the point identifier
+   * does not exist, it will be created automatically.  There is no check if
+   * a point with the same identifier exists.
+   */
   void SetPointData(PointIdentifier, PixelType);
+
+  /** Check if point data exists for a given point identifier.  If a spot for
+   * the point identifier exists, "data" is set, and true is returned.
+   * Otherwise, false is returned, and "data" is not modified.
+   * If "data" is nullptr, then it is never set, but the existence of the point
+   * data is still returned.
+   */
   bool
   GetPointData(PointIdentifier, PixelType *) const;
 

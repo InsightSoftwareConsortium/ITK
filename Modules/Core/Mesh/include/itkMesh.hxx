@@ -53,9 +53,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, Indent i
   os << indent << "CellsAllocationMethod: " << m_CellsAllocationMethod << std::endl;
 }
 
-/**
- * Access routine to set the cell links container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCellLinks(CellLinksContainer * cellLinks)
@@ -68,9 +65,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellLinks(CellLinksContainer * cel
   }
 }
 
-/**
- * Access routines to get the cell links container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellLinks() -> CellLinksContainer *
@@ -87,9 +81,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellLinks() const -> const CellLin
   return m_CellLinksContainer;
 }
 
-/**
- * Access routine to set the cells container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCells(CellsContainer * cells)
@@ -103,10 +94,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCells(CellsContainer * cells)
   }
 }
 
-/**
- * Convenience method to set the cells container using vector.
- * First element of the vector is the cell type and next elements are the point ids for that cell
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellsArray() -> CellsVectorContainer *
@@ -145,7 +132,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellsArray() -> CellsVectorContain
   return cellOutputVectorContainer;
 }
 
-// Helper function to create a new cell of a given type
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPointer & cellPointer)
@@ -188,12 +174,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPoin
   return;
 }
 
-/**
- * Convenience method to set the cells container using 1d vector.
- * First element of the vector is the cell type and next is number of
- * points in the cell followed by the point ids in that cell.
- * Can cause exception if input cell array isn't of right dimension.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * cells)
@@ -224,11 +204,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * 
   this->Modified();
 }
 
-/**
- * Convenience method to set the cells container using 1d vector.
- * To be used when all the cells are of same type.
- * Takes as argument the cell point ids and the cell type.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * cells, int cellType)
@@ -256,10 +231,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellsArray(CellsVectorContainer * 
   this->Modified();
 }
 
-
-/**
- * Access routines to get the cells container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCells() -> CellsContainer *
@@ -276,9 +247,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCells() const -> const CellsContai
   return m_CellsContainer;
 }
 
-/**
- * Access routine to set the cell data container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCellData(CellDataContainer * cellData)
@@ -291,9 +259,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellData(CellDataContainer * cellD
   }
 }
 
-/**
- * Access routines to get the cell data container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData() -> CellDataContainer *
@@ -326,10 +291,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundingBox() const -> const Bound
   return m_BoundingBox;
 }
 
-/**
- * Access routine to set the boundary assignment container for a given
- * dimension.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetBoundaryAssignments(int                            dimension,
@@ -343,10 +304,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetBoundaryAssignments(int           
   }
 }
 
-/**
- * Access routines to get the boundary assignment container for a given
- * dimension.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignments(int dimension) -> BoundaryAssignmentsContainerPointer
@@ -366,10 +323,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignments(int dimension)
   return m_BoundaryAssignmentsContainers[dimension];
 }
 
-/**
- * Assign a cell to a cell identifier.  If a spot for the cell identifier
- * does not exist, it will be created automatically.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCell(CellIdentifier cellId, CellAutoPointer & cellPointer)
@@ -388,13 +341,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCell(CellIdentifier cellId, CellAu
   m_CellsContainer->InsertElement(cellId, cellPointer.ReleaseOwnership());
 }
 
-/**
- * Check if a cell exists for a given cell identifier.  If a spot for
- * the cell identifier exists, "cell" is set, and true is returned.
- * Otherwise, false is returned, and "cell" is not modified.
- * If "cell" is nullptr, then it is never set, but the existence of the cell
- * is still returned.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCell(CellIdentifier cellId, CellAutoPointer & cellPointer) const
@@ -425,11 +371,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCell(CellIdentifier cellId, CellAu
   return found;
 }
 
-/**
- * Assign data to a cell identifier.  If a spot for the cell identifier
- * does not exist, it will be created automatically.  There is no check if
- * a cell with the same identifier exists.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetCellData(CellIdentifier cellId, CellPixelType data)
@@ -448,13 +389,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetCellData(CellIdentifier cellId, Ce
   m_CellDataContainer->InsertElement(cellId, data);
 }
 
-/**
- * Check if cell data exists for a given cell identifier.  If a spot for
- * the cell identifier exists, "data" is set, and true is returned.
- * Otherwise, false is returned, and "data" is not modified.
- * If "data" is nullptr, then it is never set, but the existence of the cell
- * data is still returned.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData(CellIdentifier cellId, CellPixelType * data) const
@@ -474,16 +408,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellData(CellIdentifier cellId, Ce
   return m_CellDataContainer->GetElementIfIndexExists(cellId, data);
 }
 
-/**
- * Explicitly assign boundaryId as a part of the boundary of cellId.
- * The identifiers boundaryId and cellId must identify cell objects
- * already in the mesh.  The dimension of boundaryId must be specified
- * by 'dimension', and a unique CellFeatureIdentifier featureId must be
- * assigned for each distinct boundary feature of a given dimension.
- * CellFeatureIdentifier is equivalent to IdentifierType by default,
- * and will not typically need to be changed.  The UsingCells list of
- * boundaryId is automatically updated to include cellId.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::SetBoundaryAssignment(int                   dimension,
@@ -515,9 +439,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::SetBoundaryAssignment(int            
   boundaryCell->AddUsingCell(cellId);
 }
 
-/**
- * Check if an explicit boundary assignment exists.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignment(int                   dimension,
@@ -542,10 +463,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetBoundaryAssignment(int            
   return m_BoundaryAssignmentsContainers[dimension]->GetElementIfIndexExists(assignId, boundaryId);
 }
 
-/**
- * Remove an explicit boundary assignment if it exists.
- * Returns whether the assignment was found at all.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>::RemoveBoundaryAssignment(int                   dimension,
@@ -578,10 +495,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::RemoveBoundaryAssignment(int         
   }
 }
 
-/**
- * Get the number of cell boundary features of the given topological dimension
- * on the cell with the given identifier.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCellBoundaryFeatures(int dimension, CellIdentifier cellId) const
@@ -605,10 +518,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCellBoundaryFeatures(int d
   return m_CellsContainer->GetElement(cellId)->GetNumberOfBoundaryFeatures(dimension);
 }
 
-/**
- * Copy the geometric and topological structure of the given input mesh.
- * The copying is done via reference counting.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
@@ -616,9 +525,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
   // IMPLEMENT ME
 }
 
-/**
- * Get the number of cells in the CellsContainer.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCells() const -> CellIdentifier
@@ -633,10 +539,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetNumberOfCells() const -> CellIdent
   }
 }
 
-/**
- * Restore the Mesh to its initial state.  Useful for data pipeline updates
- * without memory re-allocation.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::Initialize()
@@ -651,15 +553,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::Initialize()
   m_CellLinksContainer = nullptr;
 }
 
-/**
- * Get the boundary feature of the given dimension of the given cell
- * corresponding to the given feature identifier.  If the boundary
- * feature has been explicitly assigned, then \a boundary will be left
- * pointing to the appropriate cell in the mesh.  If the boundary has
- * not been explicitly assigned, then a boundary cell will be
- * constructed and placed in \a boundary.  The constructed cell will
- * not be added to the mesh or somehow cached.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeature(int                   dimension,
@@ -703,13 +596,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeature(int           
   return false;
 }
 
-/**
- * Get the set of cells neighboring the given cell across the given boundary
- * feature.  Returns the number of neighbors found.  If cellSet is not
- * nullptr, the set of cell pointers is filled in with identifiers of the
- * neighboring cells.
- *
- * NOTE: We would like to change this to use an "output iterator"
+/** NOTE: We would like to change this to use an "output iterator"
  * (in STL fashion) instead of an actual container to return the neighbor
  * identifiers.  This requires templated member support by the compiler,
  * though, and we are not sure how wide-spread this support is.
@@ -863,13 +750,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
   return numberOfNeighboringCells;
 }
 
-/**
- * Get the set of cells having the given cell as part of their
- * boundary.  Returns the number of neighbors found.  If cellSet is not
- * nullptr, the set of cell pointers is filled in with identifiers of the
- * neighboring cells.
- *
- * NOTE: We would like to change this to use an "output iterator"
+/** NOTE: We would like to change this to use an "output iterator"
  * (in STL fashion) instead of an actual container to return the neighbor
  * identifiers.  This requires templated member support by the compiler,
  * though, and we are not sure how wide-spread this support is.
@@ -1008,13 +889,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellI
   return numberOfNeighboringCells;
 }
 
-/**
- * Check if there is an explicitly assigned boundary feature for the
- * given dimension and cell- and cell-feature-identifiers.  If there is,
- * a pointer to it is given back through "boundary" (if it isn't 0) and
- * true is returned.  Otherwise, false is returned.
- *
- * This version is new.  It does not treat boundaries as a separate
+/** This version is new.  It does not treat boundaries as a separate
  * type.  A boundary (boundary component, really) is just a cell that
  * is part of the boundary of another cell.  As this conversion is
  * completed, the parts that use the boundary types will be removed.
@@ -1048,10 +923,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetAssignedCellBoundaryIfOneExists(in
   return false;
 }
 
-/**
- * Dynamically build the links from points back to their using cells.  This
- * information is stored in the cell links container, not in the points.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::Accept(CellMultiVisitorType * mv) const
@@ -1077,10 +948,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::Accept(CellMultiVisitorType * mv) con
   }
 }
 
-/**
- * Dynamically build the links from points back to their using cells.  This
- * information is stored in the cell links container, not in the points.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::BuildCellLinks() const
@@ -1129,11 +996,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BuildCellLinks() const
  * PROTECTED METHOD DEFINITIONS
  *****************************************************************************/
 
-/**
- * A protected default constructor allows the New() routine to create an
- * instance of Mesh.  All the containers are initialized to empty
- * containers.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>::Mesh()
 {
@@ -1145,11 +1007,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::Mesh()
   m_CellsAllocationMethod = MeshEnums::MeshClassCellsAllocationMethod::CellsAllocatedDynamicallyCellByCell;
 }
 
-/**
- * Mesh Destructor takes care of releasing the memory of Cells
- * and CellBoundaries objects for which normal pointers are
- * stored.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>::~Mesh()
 {
@@ -1157,11 +1014,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::~Mesh()
   this->ReleaseCellsMemory();
 }
 
-/**
- * Releasing the memory of Cells aobjects for which normal pointers
- * are stored. The method used for memory release is based on information
- * provided by the user who is the only who know how the memory was allocated.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 Mesh<TPixelType, VDimension, TMeshTraits>::ReleaseCellsMemory()
