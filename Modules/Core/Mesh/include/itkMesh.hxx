@@ -992,10 +992,6 @@ Mesh<TPixelType, VDimension, TMeshTraits>::BuildCellLinks() const
   }
 }
 
-/******************************************************************************
- * PROTECTED METHOD DEFINITIONS
- *****************************************************************************/
-
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 Mesh<TPixelType, VDimension, TMeshTraits>::Mesh()
 {

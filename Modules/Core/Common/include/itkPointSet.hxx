@@ -257,10 +257,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Initialize()
   m_PointDataContainer = nullptr;
 }
 
-/******************************************************************************
- * PROTECTED METHOD DEFINITIONS
- *****************************************************************************/
-
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 PointSet<TPixelType, VDimension, TMeshTraits>::PointSet()
   : m_PointsContainer(nullptr)
@@ -277,7 +273,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PointSet()
   m_RequestedRegion = -1;
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::UpdateOutputInformation()
@@ -297,7 +292,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::UpdateOutputInformation()
   }
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegionToLargestPossibleRegion()
@@ -306,7 +300,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegionToLargestPossib
   m_RequestedRegion = 0;
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObject * data)
@@ -328,7 +321,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::CopyInformation(const DataObject 
   m_RequestedRegion = pointSet->m_RequestedRegion;
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
@@ -349,7 +341,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Graft(const DataObject * data)
   this->SetPointData(pointSet->m_PointDataContainer);
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegion(const DataObject * data)
@@ -364,7 +355,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegion(const DataObje
   }
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegion(const RegionType & region)
@@ -375,7 +365,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetRequestedRegion(const RegionTy
   }
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetBufferedRegion(const RegionType & region)
@@ -387,7 +376,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetBufferedRegion(const RegionTyp
   }
 }
 
-//----------------------------------------------------------------------------
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 PointSet<TPixelType, VDimension, TMeshTraits>::RequestedRegionIsOutsideOfTheBufferedRegion()
