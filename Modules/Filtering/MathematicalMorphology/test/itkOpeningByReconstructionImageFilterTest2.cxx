@@ -30,7 +30,7 @@ itkOpeningByReconstructionImageFilterTest2(int argc, char * argv[])
     std::cerr << "Missing Parameters " << std::endl;
     std::cerr
       << "Usage: " << itkNameOfTestExecutableMacro(argv)
-      << " OutputImage Radius PreserveIntensities(0,1) fullyConnected OriginX OriginY SpacingX SpacingY [Diffmage]"
+      << " OutputImage Radius PreserveIntensities(0,1) fullyConnected OriginX OriginY SpacingX SpacingY [DiffImage]"
       << std::endl;
     return EXIT_FAILURE;
   }
