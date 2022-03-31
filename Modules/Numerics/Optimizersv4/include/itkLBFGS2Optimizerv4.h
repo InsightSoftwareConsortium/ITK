@@ -538,7 +538,7 @@ private:
   void
   AdvanceOneStep() override
   {
-    itkWarningMacro("LBFGS2Optimizerv4Template does not implemenetd single step advance");
+    itkWarningMacro("LBFGS2Optimizerv4Template does not implement single step advance");
   };
 };
 
