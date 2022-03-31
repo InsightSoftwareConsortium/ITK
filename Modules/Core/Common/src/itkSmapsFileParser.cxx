@@ -352,7 +352,7 @@ MapData::MemoryLoadType
 MapData::GetTotalMemoryUsage()
 {
   return std::accumulate(
-    this->m_Records.begin(), this->m_Records.end(), MapData::MemoryLoadType(0), MapRecordPlusor<MemoryLoadType>());
+    this->m_Records.begin(), this->m_Records.end(), MapData::MemoryLoadType{ 0 }, MapRecordPlusor<MemoryLoadType>());
 }
 
 MapData::MemoryLoadType
@@ -360,7 +360,7 @@ MapData::GetMemoryUsage(const char * filter, const char * token)
 {
   return std::accumulate(this->m_Records.begin(),
                          this->m_Records.end(),
-                         MapData::MemoryLoadType(0),
+                         MapData::MemoryLoadType{ 0 },
                          MapRecordConditionalPlusor<MemoryLoadType>(filter, token));
 }
 
