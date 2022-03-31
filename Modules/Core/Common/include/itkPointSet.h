@@ -287,10 +287,4 @@ protected:
 #  include "itkPointSet.hxx"
 #endif
 
-/*
-#ifndef ITK_MANUAL_INSTANTIATION
-#include "itkPointSet.hxx"
-#endif
-*/
-
 #endif
