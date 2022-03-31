@@ -60,6 +60,7 @@ jobs:
           Module_ITKThresholding:BOOL=ON
           Module_ITKImageIntensity:BOOL=ON
           Module_ITKBridgeNumPy:BOOL=ON
+          Module_ITKDisplacementField:BOOL=ON
           Python3_FIND_REGISTRY=LAST
         ")
         include(\$ENV{AGENT_BUILDDIRECTORY}/ITK-dashboard/azure_dashboard.cmake)
