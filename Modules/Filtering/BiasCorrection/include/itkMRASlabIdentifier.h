@@ -26,7 +26,7 @@ namespace itk
 {
 /**
  *\class MRASlabIdentifier
- * \brief identifies slab in MR images comparing minimum intensity averages
+ * \brief Identifies slabs in MR images comparing minimum intensity averages.
  *
  * This class is templated over the type of image.
  * In many cases, a 3D MR image is constructed by merging smaller 3D
@@ -35,14 +35,14 @@ namespace itk
  * can be present in the resulting image. Such artifacts are called "slab
  * boundary" artifacts or "venetian blind" artifacts.
  *
- * With the slab boundary artifacts in an image, even a same tissue class's
+ * Due to the slab boundary artifacts in an image, even same tissue class'
  * intensity values might vary significantly along the borders of slabs.
  * Such rough value changes are not appropriate for some image processing
  * methods. For example, MRIBiasFieldCorrectionFilter assumes a smooth bias
  * field. However, with the slab boundary artifacts, the bias field estimation
- * scheme that MRIBiasFieldCorrectionFilter uses might not adopt well.
- * So, the MRIBiasFieldCorrectionFilter creates regions for slabs using the
- * MRASlabIdentifier and then apply its bias correction scheme to each slab.
+ * scheme that MRIBiasFieldCorrectionFilter uses might not adapt well.
+ * The MRIBiasFieldCorrectionFilter creates regions for slabs using the
+ * MRASlabIdentifier and then applies its bias correction scheme to each slab.
  *
  * For this identifier, a slice means 2D image data which is extracted from
  * the input image along one of three axes (x, y, z). Users can specify
