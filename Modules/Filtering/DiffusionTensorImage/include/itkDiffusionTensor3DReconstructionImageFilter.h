@@ -249,7 +249,7 @@ public:
   {
     if (idx >= m_NumberOfGradientDirections)
     {
-      itkExceptionMacro(<< "Gradient direction " << idx << "does not exist");
+      itkExceptionMacro(<< "Gradient direction " << idx << " does not exist");
     }
     return m_GradientDirectionContainer->ElementAt(idx);
   }
