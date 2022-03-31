@@ -24,7 +24,7 @@
 
 
 // This tests the supervised image classifier methods. The test,
-// however, only exercises a pathalogical case, where the covariances
+// however, only exercises a pathological case, where the covariances
 // of all the classes are singular.  In this case, the methods degrade
 // to classifying based on euclidean distance to the mean.
 

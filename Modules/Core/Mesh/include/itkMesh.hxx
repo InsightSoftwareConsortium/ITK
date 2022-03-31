@@ -804,7 +804,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellI
   }
 
   /**
-   * The cell's UsingCells list was empy.  We use set operations
+   * The cell's UsingCells list was empty.  We use set operations
    * through point neighboring information to get the neighbors.  This
    * requires that the CellLinks be built.
    */
