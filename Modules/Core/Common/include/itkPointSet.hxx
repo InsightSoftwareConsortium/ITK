@@ -51,9 +51,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, Inde
      << std::endl;
 }
 
-/**
- * Access routine to set the points container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsContainer * points)
@@ -66,9 +63,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsContainer * point
   }
 }
 
-/**
- * Access routine to set the points container using 1D vector for Python usage.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsVectorContainer * points)
@@ -85,9 +79,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoints(PointsVectorContainer *
   this->Modified();
 }
 
-/**
- * Access routine to get the points container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() -> PointsContainer *
@@ -101,10 +92,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() -> PointsContainer *
   return m_PointsContainer;
 }
 
-
-/**
- * Access routine to get the points container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() const -> const PointsContainer *
@@ -113,9 +100,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPoints() const -> const Points
   return m_PointsContainer.GetPointer();
 }
 
-/**
- * Access routine to set the point data container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetPointData(PointDataContainer * pointData)
@@ -128,9 +112,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPointData(PointDataContainer *
   }
 }
 
-/**
- * Access routine to get the point data container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() -> PointDataContainer *
@@ -143,9 +124,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() -> PointDataContai
   return m_PointDataContainer;
 }
 
-/**
- * Access routine to get the point data container.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() const -> const PointDataContainer *
@@ -154,10 +132,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData() const -> const Poi
   return m_PointDataContainer.GetPointer();
 }
 
-/**
- * Assign a point to a point identifier.  If a spot for the point identifier
- * does not exist, it will be created automatically.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetPoint(PointIdentifier ptId, PointType point)
@@ -176,13 +150,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPoint(PointIdentifier ptId, Po
   m_PointsContainer->InsertElement(ptId, point);
 }
 
-/**
- * Check if a point exists for a given point identifier.  If a spot for
- * the point identifier exists, "point" is set, and true is returned.
- * Otherwise, false is returned, and "point" is not modified.
- * If "point" is nullptr, then it is never set, but the existence of the point
- * is still returned.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId, PointType * point) const
@@ -225,11 +192,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPoint(PointIdentifier ptId) co
   return point;
 }
 
-/**
- * Assign data to a point identifier.  If a spot for the point identifier
- * does not exist, it will be created automatically.  There is no check if
- * a point with the same identifier exists.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::SetPointData(PointIdentifier ptId, PixelType data)
@@ -248,13 +210,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::SetPointData(PointIdentifier ptId
   m_PointDataContainer->InsertElement(ptId, data);
 }
 
-/**
- * Check if point data exists for a given point identifier.  If a spot for
- * the point identifier exists, "data" is set, and true is returned.
- * Otherwise, false is returned, and "data" is not modified.
- * If "data" is nullptr, then it is never set, but the existence of the point
- * data is still returned.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 bool
 PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData(PointIdentifier ptId, PixelType * data) const
@@ -274,10 +229,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetPointData(PointIdentifier ptId
   return m_PointDataContainer->GetElementIfIndexExists(ptId, data);
 }
 
-/**
- * Copy the geometric and topological structure of the given input pointSet.
- * The copying is done via reference counting.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
@@ -285,9 +236,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::PassStructure(Self *)
   // IMPLEMENT ME
 }
 
-/**
- * Get the number of points in the PointsContainer.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 auto
 PointSet<TPixelType, VDimension, TMeshTraits>::GetNumberOfPoints() const -> PointIdentifier
@@ -299,10 +247,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::GetNumberOfPoints() const -> Poin
   return 0;
 }
 
-/**
- * Restore the PointSet to its initial state.  Useful for data pipeline updates
- * without memory re-allocation.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::Initialize()
@@ -317,10 +261,6 @@ PointSet<TPixelType, VDimension, TMeshTraits>::Initialize()
  * PROTECTED METHOD DEFINITIONS
  *****************************************************************************/
 
-/**
- * A protected default constructor allows the New() routine to create an
- * instance of PointSet.  All the containers are initialized to non-existent.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 PointSet<TPixelType, VDimension, TMeshTraits>::PointSet()
   : m_PointsContainer(nullptr)
