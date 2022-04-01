@@ -200,10 +200,6 @@ public:
     }
 
     this->SetTargetReachedMode(AllTargets);
-    if (m_TargetPoints->Size() == 0)
-    {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
-    }
     m_NumberOfTargets = m_TargetPoints->Size();
   }
 
