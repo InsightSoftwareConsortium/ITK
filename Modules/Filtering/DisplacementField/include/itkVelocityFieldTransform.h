@@ -92,6 +92,9 @@ public:
   using typename Superclass::DisplacementFieldType;
   using DisplacementFieldPointer = typename DisplacementFieldType::Pointer;
 
+  /** Define alternate displacement field interface. */
+  using typename Superclass::VectorImageDisplacementFieldType;
+
   /** Define the displacement field type and corresponding interpolator type. */
   using VelocityFieldType = Image<OutputVectorType, VelocityFieldDimension>;
   using VelocityFieldPointer = typename VelocityFieldType::Pointer;
@@ -111,6 +114,8 @@ public:
   /** Define the internal parameter helper used to access the field */
   using OptimizerParametersHelperType =
     ImageVectorOptimizerParametersHelper<ScalarType, Dimension, VelocityFieldDimension>;
+
+  using Superclass::SetDisplacementField;
 
   /** Get/Set the velocity field.
    * Set the displacement field. Create special set accessor to update
