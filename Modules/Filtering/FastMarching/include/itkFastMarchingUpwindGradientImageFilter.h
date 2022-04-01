@@ -168,7 +168,7 @@ public:
   {
     if (!m_TargetPoints || m_TargetPoints->Size() == 0)
     {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.")
+      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
     }
     this->SetTargetReachedMode(OneTarget);
     m_NumberOfTargets = 1;
@@ -178,7 +178,7 @@ public:
   {
     if (!m_TargetPoints || m_TargetPoints->Size() == 0)
     {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.")
+      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
     }
 
     SizeValueType availableNumberOfTargets = m_TargetPoints->Size();
@@ -196,13 +196,13 @@ public:
   {
     if (!m_TargetPoints || m_TargetPoints->Size() == 0)
     {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.")
+      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
     }
 
     this->SetTargetReachedMode(AllTargets);
     if (m_TargetPoints->Size() == 0)
     {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.")
+      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
     }
     m_NumberOfTargets = m_TargetPoints->Size();
   }
