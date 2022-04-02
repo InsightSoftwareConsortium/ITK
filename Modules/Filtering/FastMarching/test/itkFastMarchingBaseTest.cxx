@@ -109,13 +109,13 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
 
-  bool exception_caught = false;
+  auto useMeshVsImage = std::stoul(argv[1]);
 
-  if (std::stoi(argv[1]) == 0)
+  if (useMeshVsImage == 0)
   {
-    constexpr unsigned int Dimension = 3;
     using ImageType = itk::Image<PixelType, Dimension>;
 
     auto input = ImageType::New();
@@ -124,50 +124,31 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     auto fmm = ImageFastMarching::New();
     fmm->SetInput(input);
 
-    try
-    {
-      fmm->Update();
-    }
-    catch (const itk::ExceptionObject & excep)
-    {
-      std::cerr << "Exception caught !" << std::endl;
-      std::cerr << excep << std::endl;
-      exception_caught = true;
-    }
+    ITK_TRY_EXPECT_EXCEPTION(fmm->Update());
+
 
     using OutputImageType = ImageFastMarching::OutputDomainType;
     OutputImageType::Pointer output = fmm->GetOutput();
 
     (void)output;
   }
-  else
+  else if (useMeshVsImage == 1)
   {
-    if (std::stoi(argv[1]) == 1)
-    {
-      using MeshType = itk::QuadEdgeMesh<PixelType, 3, itk::QuadEdgeMeshTraits<PixelType, 3, bool, bool>>;
+    using MeshType = itk::QuadEdgeMesh<PixelType, Dimension, itk::QuadEdgeMeshTraits<PixelType, Dimension, bool, bool>>;
 
-      auto input = MeshType::New();
+    auto input = MeshType::New();
 
-      using MeshFastMarching = itk::FastMarchingBaseTestHelper<MeshType, MeshType>;
-      auto fmm = MeshFastMarching::New();
-      fmm->SetInput(input);
+    using MeshFastMarching = itk::FastMarchingBaseTestHelper<MeshType, MeshType>;
+    auto fmm = MeshFastMarching::New();
+    fmm->SetInput(input);
 
-      try
-      {
-        fmm->Update();
-      }
-      catch (const itk::ExceptionObject & excep)
-      {
-        std::cerr << "Exception caught !" << std::endl;
-        std::cerr << excep << std::endl;
-        exception_caught = true;
-      }
+    ITK_TRY_EXPECT_EXCEPTION(fmm->Update());
 
-      using OutputMeshType = MeshFastMarching::OutputDomainType;
-      OutputMeshType::Pointer output = fmm->GetOutput();
 
-      (void)output;
-    }
+    using OutputMeshType = MeshFastMarching::OutputDomainType;
+    OutputMeshType::Pointer output = fmm->GetOutput();
+
+    (void)output;
   }
 
   // Test streaming enumeration for FastMarchingTraitsEnums::TopologyCheck elements
@@ -181,12 +162,6 @@ itkFastMarchingBaseTest(int argc, char * argv[])
     std::cout << "STREAMED ENUM VALUE FastMarchingTraitsEnums::TopologyCheck: " << ee << std::endl;
   }
 
-  if (exception_caught)
-  {
-    return EXIT_SUCCESS;
-  }
-  else
-  {
-    return EXIT_FAILURE;
-  }
+
+  return EXIT_SUCCESS;
 }
