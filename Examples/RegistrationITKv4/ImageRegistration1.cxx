@@ -368,7 +368,7 @@ main(int argc, char * argv[])
   auto identityTransform = TransformType::New();
   identityTransform->SetIdentity();
 
-  registration->SetFixedInitialTransform(identityTransform);
+  Registration->SetFixedInitialTransform(identityTransform);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -501,9 +501,9 @@ main(int argc, char * argv[])
   smoothingSigmasPerLevel.SetSize(1);
   smoothingSigmasPerLevel[0] = 0;
 
-  registration->SetNumberOfLevels(numberOfLevels);
-  registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
-  registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
+  Registration->SetNumberOfLevels(numberOfLevels);
+  Registration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+  Registration->SetShrinkFactorsPerLevel(shrinkFactorsPerLevel);
   // Software Guide : EndCodeSnippet
 
   //  Software Guide : BeginLatex
@@ -519,9 +519,9 @@ main(int argc, char * argv[])
   // Software Guide : BeginCodeSnippet
   try
   {
-    registration->Update();
+    Registration->Update();
     std::cout << "Optimizer stop condition: "
-              << registration->GetOptimizer()->GetStopConditionDescription()
+              << Registration->GetOptimizer()->GetStopConditionDescription()
               << std::endl;
   }
   catch (const itk::ExceptionObject & err)
@@ -663,7 +663,7 @@ main(int argc, char * argv[])
   auto outputCompositeTransform = CompositeTransformType::New();
   outputCompositeTransform->AddTransform(movingInitialTransform);
   outputCompositeTransform->AddTransform(
-    registration->GetModifiableTransform());
+    Registration->GetModifiableTransform());
   // Software Guide : EndCodeSnippet
 
 
