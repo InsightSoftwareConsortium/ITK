@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFastMarchingBase.h"
+#include "itkFastMarchingThresholdStoppingCriterion.h"
 #include "itkTestingMacros.h"
 
 namespace itk
@@ -122,6 +123,67 @@ itkFastMarchingBaseTest(int argc, char * argv[])
 
     using ImageFastMarching = itk::FastMarchingBaseTestHelper<ImageType, ImageType>;
     auto fmm = ImageFastMarching::New();
+
+    // Check default values
+    auto topologyCheck = ImageFastMarching::TopologyCheckEnum::Nothing;
+    ITK_TEST_SET_GET_VALUE(topologyCheck, fmm->GetTopologyCheck());
+
+    ITK_TEST_SET_GET_NULL_VALUE(fmm->GetTrialPoints());
+
+    ITK_TEST_SET_GET_NULL_VALUE(fmm->GetAlivePoints());
+
+    ITK_TEST_SET_GET_NULL_VALUE(fmm->GetProcessedPoints());
+
+    ITK_TEST_SET_GET_NULL_VALUE(fmm->GetForbiddenPoints());
+
+    ITK_TEST_SET_GET_NULL_VALUE(fmm->GetStoppingCriterion());
+
+    double speedConstant = 1.0;
+    ITK_TEST_SET_GET_VALUE(speedConstant, fmm->GetSpeedConstant());
+
+    double normalizationFactor = 1.0;
+    ITK_TEST_SET_GET_VALUE(normalizationFactor, fmm->GetNormalizationFactor());
+
+    auto targetReachedValue = itk::NumericTraits<typename ImageFastMarching::OutputPixelType>::ZeroValue();
+    ITK_TEST_EXPECT_EQUAL(targetReachedValue, fmm->GetTargetReachedValue());
+
+    bool collectPoints = false;
+    ITK_TEST_EXPECT_EQUAL(collectPoints, fmm->GetCollectPoints());
+
+    // Check other values
+    topologyCheck = ImageFastMarching::TopologyCheckEnum::Strict;
+    fmm->SetTopologyCheck(topologyCheck);
+    ITK_TEST_SET_GET_VALUE(topologyCheck, fmm->GetTopologyCheck());
+
+    auto                                     processedPoints = ImageFastMarching::NodePairContainerType::New();
+    typename ImageFastMarching::NodePairType node_pair;
+    ImageType::OffsetType                    offset = { { 28, 35 } };
+
+    itk::Index<Dimension> index;
+    index.Fill(0);
+
+    node_pair.SetValue(0.0);
+    node_pair.SetNode(index + offset);
+    processedPoints->push_back(node_pair);
+
+    fmm->SetProcessedPoints(processedPoints);
+    ITK_TEST_SET_GET_VALUE(processedPoints, fmm->GetProcessedPoints());
+
+    auto stoppingCriterion = itk::FastMarchingThresholdStoppingCriterion<ImageType, ImageType>::New();
+    fmm->SetStoppingCriterion(stoppingCriterion);
+    ITK_TEST_SET_GET_VALUE(stoppingCriterion, fmm->GetStoppingCriterion());
+
+    speedConstant = 2.0;
+    fmm->SetSpeedConstant(speedConstant);
+    ITK_TEST_SET_GET_VALUE(speedConstant, fmm->GetSpeedConstant());
+
+    normalizationFactor = 2.0;
+    fmm->SetNormalizationFactor(normalizationFactor);
+    ITK_TEST_SET_GET_VALUE(normalizationFactor, fmm->GetNormalizationFactor());
+
+    collectPoints = true;
+    ITK_TEST_SET_GET_BOOLEAN(fmm, CollectPoints, collectPoints);
+
     fmm->SetInput(input);
 
     ITK_TRY_EXPECT_EXCEPTION(fmm->Update());

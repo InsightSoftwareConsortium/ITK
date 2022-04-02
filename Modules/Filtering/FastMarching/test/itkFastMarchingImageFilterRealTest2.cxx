@@ -165,6 +165,8 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   adaptor->Update();
 
   marcher->SetForbiddenPoints(adaptor->GetForbiddenPoints());
+  ITK_TEST_SET_GET_VALUE(adaptor->GetForbiddenPoints(), marcher->GetForbiddenPoints());
+
   marcher->SetAlivePoints(adaptor->GetAlivePoints());
   marcher->SetTrialPoints(adaptor->GetTrialPoints());
 
