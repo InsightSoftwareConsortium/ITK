@@ -166,27 +166,16 @@ public:
   void
   SetTargetReachedModeToOneTarget()
   {
-    if (!m_TargetPoints || m_TargetPoints->Size() == 0)
-    {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
-    }
+    this->VerifyTargetReachedModeConditions();
+
     this->SetTargetReachedMode(OneTarget);
     m_NumberOfTargets = 1;
   }
   void
   SetTargetReachedModeToSomeTargets(SizeValueType numberOfTargets)
   {
-    if (!m_TargetPoints || m_TargetPoints->Size() == 0)
-    {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
-    }
+    this->VerifyTargetReachedModeConditions(numberOfTargets);
 
-    SizeValueType availableNumberOfTargets = m_TargetPoints->Size();
-    if (numberOfTargets > availableNumberOfTargets)
-    {
-      itkExceptionMacro(<< "Not enought target points: Available: " << availableNumberOfTargets
-                        << "; Requested: " << numberOfTargets);
-    }
     this->SetTargetReachedMode(SomeTargets);
     m_NumberOfTargets = numberOfTargets;
   }
@@ -194,10 +183,7 @@ public:
   void
   SetTargetReachedModeToAllTargets()
   {
-    if (!m_TargetPoints || m_TargetPoints->Size() == 0)
-    {
-      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
-    }
+    this->VerifyTargetReachedModeConditions();
 
     this->SetTargetReachedMode(AllTargets);
     m_NumberOfTargets = m_TargetPoints->Size();
@@ -249,6 +235,48 @@ protected:
                   const LevelSetImageType * output,
                   const LabelImageType *    labelImage,
                   GradientImageType *       gradientImage);
+
+  /** Check that target points are set.
+   *  Returns true if at least a target point exists; returns false otherwise.
+   */
+  bool
+  IsTargetPointsExistenceConditionSatisfied()
+  {
+    if (!m_TargetPoints || m_TargetPoints->Size() == 0)
+    {
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
+
+  /** Check that the conditions to set the target reached mode are satisfied.
+   *  The sufficient target point count is 1 for OneTarget and AllTargets modes; and it is
+   *  given by a particular value for the SomeTargets mode.
+   *  Raises an exception if the conditions are not satisfied.
+   */
+  void
+  VerifyTargetReachedModeConditions(unsigned int targetModeMinPoints = 1)
+  {
+    bool targetPointsExist = this->IsTargetPointsExistenceConditionSatisfied();
+
+    if (!targetPointsExist)
+    {
+      itkExceptionMacro(<< "No target point set. Cannot set the target reached mode.");
+    }
+    else
+    {
+      SizeValueType availableNumberOfTargets = m_TargetPoints->Size();
+      if (targetModeMinPoints > availableNumberOfTargets)
+      {
+        itkExceptionMacro(<< "Not enought target points: Available: " << availableNumberOfTargets
+                          << "; Requested: " << targetModeMinPoints);
+      }
+    }
+  }
+
 
 private:
   NodeContainerPointer m_TargetPoints;
