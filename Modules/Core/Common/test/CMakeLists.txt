@@ -185,6 +185,7 @@ itkImageRegionSplitterDirectionTest.cxx
 itkImageRegionSplitterMultidimensionalTest.cxx
 itkMetaDataObjectTest.cxx
 # itkVectorMultiplyTest.cxx
+itkXMLFileOutputWindowTest.cxx
 )
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   list(APPEND ITKCommon2Tests itkDownCastTest.cxx)
@@ -590,6 +591,10 @@ itk_add_test(NAME itkMetaDataObjectTest COMMAND ITKCommon2TestDriver itkMetaData
 itk_add_test(NAME itkMultithreadingTest COMMAND ITKCommon2TestDriver itkMultithreadingTest 100)
 
 itk_add_test(NAME itkMultiThreaderExceptionsTest COMMAND ITKCommon2TestDriver itkMultiThreaderExceptionsTest)
+
+itk_add_test(NAME itkXMLFileOutputWindowTest
+      COMMAND ITKCommon2TestDriver
+    itkXMLFileOutputWindowTest ${ITK_TEST_OUTPUT_DIR}/itkXMLFileOutputWindowTest.xml)
 
 if(ITK_BUILD_SHARED_LIBS AND ITK_DYNAMIC_LOADING)
   macro(BuildClientTestLibrary _name _type)
