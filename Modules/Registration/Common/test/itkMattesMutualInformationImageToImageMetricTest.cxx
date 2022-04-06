@@ -284,8 +284,8 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
       metric->SetFixedImageMask(soFixedConstMask);
 
       // metric->SetNumberOfSpatialSamples(
-      //  static_cast<unsigned long int>(NumberFixedImageMaskVoxels*.2) );
-      metric->SetNumberOfSpatialSamples(static_cast<unsigned long int>(NumberFixedImageMaskVoxels * 2));
+      //  static_cast<unsigned long>(NumberFixedImageMaskVoxels*.2) );
+      metric->SetNumberOfSpatialSamples(static_cast<unsigned long>(NumberFixedImageMaskVoxels * 2));
     }
   }
   else

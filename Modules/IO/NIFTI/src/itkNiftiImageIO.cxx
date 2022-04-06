@@ -1795,7 +1795,7 @@ IsAffine(const mat44 & nifti_mat)
 } // namespace
 
 void
-NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short int dims)
+NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
 {
   typedef SpatialOrientationAdapter OrientAdapterType;
   // in the case of an Analyze75 file, use old analyze orient method.
@@ -2082,7 +2082,7 @@ NiftiImageIO::getSFormCodeFromDictionary() const
 }
 
 void
-NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims)
+NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned short dims)
 {
   //
   // use NIFTI method 2

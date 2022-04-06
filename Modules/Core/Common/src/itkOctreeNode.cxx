@@ -48,12 +48,12 @@ OctreeNode::GetChild(const LeafIdentifierEnum ChildID)
   return *m_Branch->GetLeaf(ChildID);
 }
 
-long int
+long
 OctreeNode::GetColor() const
 {
   if (m_Parent != nullptr)
   {
-    const long int x = m_Branch - m_Parent->GetColorTable();
+    const long x = m_Branch - m_Parent->GetColorTable();
 
     //
     // you'll want to indicate that the branch

@@ -229,7 +229,7 @@ GDCMImageIO::CanReadFile(const char * filename)
   // There isn't a definitive way to check for DICOM files;
   // This was actually cribbed from DICOMParser in VTK
   bool dicomsig(false);
-  for (long int off = 128; off >= 0; off -= 128)
+  for (long off = 128; off >= 0; off -= 128)
   {
     file.seekg(off, std::ios_base::beg);
     if (file.fail() || file.eof())
@@ -1207,10 +1207,10 @@ GDCMImageIO::Write(const void * buffer)
   {
     if (!bitsAllocated.empty() && !bitsStored.empty() && !highBit.empty() && !pixelRep.empty())
     {
-      outpixeltype.SetBitsAllocated(static_cast<unsigned short int>(std::stoi(bitsAllocated.c_str())));
-      outpixeltype.SetBitsStored(static_cast<unsigned short int>(std::stoi(bitsStored.c_str())));
-      outpixeltype.SetHighBit(static_cast<unsigned short int>(std::stoi(highBit.c_str())));
-      outpixeltype.SetPixelRepresentation(static_cast<unsigned short int>(std::stoi(pixelRep.c_str())));
+      outpixeltype.SetBitsAllocated(static_cast<unsigned short>(std::stoi(bitsAllocated.c_str())));
+      outpixeltype.SetBitsStored(static_cast<unsigned short>(std::stoi(bitsStored.c_str())));
+      outpixeltype.SetHighBit(static_cast<unsigned short>(std::stoi(highBit.c_str())));
+      outpixeltype.SetPixelRepresentation(static_cast<unsigned short>(std::stoi(pixelRep.c_str())));
       if (this->GetNumberOfComponents() != 1)
       {
         itkExceptionMacro(<< "Sorry Dave I can't do that");

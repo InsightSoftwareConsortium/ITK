@@ -26,7 +26,7 @@
 #include "itkTestingMacros.h"
 
 using InternalPixelType = double;
-using TestOutputPixelType = short int;
+using TestOutputPixelType = short;
 
 using OutputImageType = itk::Image<TestOutputPixelType, 3>;
 using InternalImageType = itk::Image<InternalPixelType, 3>;

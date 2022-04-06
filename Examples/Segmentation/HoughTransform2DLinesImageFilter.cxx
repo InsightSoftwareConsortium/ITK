@@ -282,8 +282,8 @@ main(int argc, char * argv[])
 
     for (auto i = static_cast<int>(-diag); i < static_cast<int>(diag); ++i)
     {
-      localIndex[0] = static_cast<long int>(u[0] + i * v[0]);
-      localIndex[1] = static_cast<long int>(u[1] + i * v[1]);
+      localIndex[0] = static_cast<long>(u[0] + i * v[0]);
+      localIndex[1] = static_cast<long>(u[1] + i * v[1]);
 
       OutputImageType::RegionType outputRegion =
         localOutputImage->GetLargestPossibleRegion();

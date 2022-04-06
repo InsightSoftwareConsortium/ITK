@@ -27,7 +27,7 @@ FillRegionSequential(itk::SmartPointer<itk::Image<TPixelType, VDimension>> I)
 {
   unsigned int          iDim, ArrayLength, i;
   itk::Size<VDimension> Index;
-  unsigned long int     Location[VDimension];
+  unsigned long         Location[VDimension];
   unsigned int          mult;
   TPixelType            value;
 

@@ -691,7 +691,7 @@ PhilipsRECImageIO::ReadImageInformation()
 
   // Important dime fields
   EncapsulateMetaData<std::string>(thisDic, ITK_VoxelUnits, std::string("mm"));
-  EncapsulateMetaData<short int>(thisDic, ITK_OnDiskBitPerPixel, par.bit);
+  EncapsulateMetaData<short>(thisDic, ITK_OnDiskBitPerPixel, par.bit);
   EncapsulateMetaData<int>(thisDic, ITK_NumberOfDimensions, numberOfDimensions);
 
   switch (par.bit)

@@ -239,9 +239,9 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   // ITK_TEST_SET_GET_VALUE( initCoefficients, filter->GetInitialBiasFieldCoefficients() );
 
   // timing
-  long int t1 = time(nullptr);
+  long t1 = time(nullptr);
   filter->Update();
-  long int t2 = time(nullptr);
+  long t2 = time(nullptr);
   std::cout << "Run time (in s)" << t2 - t1 << std::endl;
 
   sumOfError = 0.0;

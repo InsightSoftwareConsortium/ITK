@@ -49,7 +49,7 @@ itkNiftiImageIOTest11(int argc, char * argv[])
   ImageType::SpacingType spacing;
   ImageType::PointType   origin;
 
-  size[0] = static_cast<long int>(itk::NumericTraits<short>::max()) * 2;
+  size[0] = static_cast<long>(itk::NumericTraits<short>::max()) * 2;
   size[1] = 1;
   size[2] = 1;
 

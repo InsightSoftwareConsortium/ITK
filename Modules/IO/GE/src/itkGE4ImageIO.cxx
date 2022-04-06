@@ -99,10 +99,10 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   strcpy(hdr->modality, "UNK");
 
   //  RGEDEBUG(char debugbuf[16384];)
-  char      tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
-  int       intTmp;
-  short int tmpShort;
-  float     tmpFloat;
+  char  tmpStr[IOCommon::ITK_MAXPATHLEN + 1];
+  int   intTmp;
+  short tmpShort;
+  float tmpFloat;
 
   //
   // save off the name of the current file...

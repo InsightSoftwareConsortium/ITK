@@ -208,7 +208,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   using CornerPointType = Point<double, 3>;
   using CornerPointProjectionType = Point<double, 2>;
 
-  using BoundingBoxType = BoundingBox<unsigned long int, 2, double>;
+  using BoundingBoxType = BoundingBox<unsigned long, 2, double>;
   using CornerPointProjectionContainer = BoundingBoxType::PointsContainer;
 
   auto                      cornerPointProjectionlist = CornerPointProjectionContainer::New();

@@ -67,13 +67,13 @@ IPLCommonImageIO::CanWriteFile(const char *)
 unsigned int
 IPLCommonImageIO::GetComponentSize() const
 {
-  return sizeof(short int);
+  return sizeof(short);
 }
 
 void
 IPLCommonImageIO::Read(void * buffer)
 {
-  auto * img_buffer = (short int *)buffer;
+  auto * img_buffer = (short *)buffer;
   auto   it = m_FilenameList->begin();
   auto   itend = m_FilenameList->end();
 
@@ -84,8 +84,7 @@ IPLCommonImageIO::Read(void * buffer)
     this->OpenFileForReading(f, curfilename);
 
     f.seekg((*it)->GetSliceOffset(), std::ios::beg);
-    if (!this->ReadBufferAsBinary(
-          f, img_buffer, m_FilenameList->GetXDim() * m_FilenameList->GetYDim() * sizeof(short int)))
+    if (!this->ReadBufferAsBinary(f, img_buffer, m_FilenameList->GetXDim() * m_FilenameList->GetYDim() * sizeof(short)))
     {
       f.close();
       RAISE_EXCEPTION();
@@ -95,8 +94,8 @@ IPLCommonImageIO::Read(void * buffer)
     // the FILE endian-ness, not as the name would lead you to believe.
     // So, on LittleEndian systems, SwapFromSystemToBigEndian will swap.
     // On BigEndian systems, SwapFromSystemToBigEndian will do nothing.
-    itk::ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(img_buffer,
-                                                                m_FilenameList->GetXDim() * m_FilenameList->GetYDim());
+    itk::ByteSwapper<short>::SwapRangeFromSystemToBigEndian(img_buffer,
+                                                            m_FilenameList->GetXDim() * m_FilenameList->GetYDim());
     img_buffer += m_FilenameList->GetXDim() * m_FilenameList->GetYDim();
   }
 }
@@ -162,7 +161,7 @@ IPLCommonImageIO::ReadImageInformation()
   std::string               classname(this->GetNameOfClass());
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_InputFilterName, classname);
   itk::EncapsulateMetaData<std::string>(thisDic, ITK_OnDiskStorageTypeName, std::string("SHORT"));
-  itk::EncapsulateMetaData<short int>(thisDic, ITK_OnDiskBitPerPixel, static_cast<short int>(16));
+  itk::EncapsulateMetaData<short>(thisDic, ITK_OnDiskBitPerPixel, static_cast<short>(16));
 
   //
   // has to be set before setting dir cosines,
@@ -411,7 +410,7 @@ IPLCommonImageIO::hdr2Short(char * hdr)
   short shortValue;
 
   memcpy(&shortValue, hdr, sizeof(short));
-  ByteSwapper<short int>::SwapFromSystemToBigEndian(&shortValue);
+  ByteSwapper<short>::SwapFromSystemToBigEndian(&shortValue);
   return (shortValue);
 }
 

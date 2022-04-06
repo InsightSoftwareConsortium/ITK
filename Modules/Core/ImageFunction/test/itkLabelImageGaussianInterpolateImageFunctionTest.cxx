@@ -27,7 +27,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
 {
   int                    test_status = EXIT_SUCCESS;
   constexpr unsigned int Dimension = 2;
-  using PixelType = unsigned short int; // Label images should be integer value types
+  using PixelType = unsigned short; // Label images should be integer value types
   using ImageType = itk::Image<PixelType, Dimension>;
   using RegionType = ImageType::RegionType;
   using SizeType = RegionType::SizeType;

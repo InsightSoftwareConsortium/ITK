@@ -547,8 +547,7 @@ StimulateImageIO::Write(const void * buffer)
         break;
       case IOComponentEnum::SHORT:
         file << "WORD";
-        ByteSwapper<short int>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short int *>(tempmemory),
-                                                               numberOfComponents);
+        ByteSwapper<short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<short *>(tempmemory), numberOfComponents);
         break;
       case IOComponentEnum::INT:
         file << "LWORD";

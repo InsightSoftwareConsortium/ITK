@@ -45,10 +45,10 @@ template <>
 struct IsNumber<signed char> : TrueType
 {};
 template <>
-struct IsNumber<unsigned short int> : TrueType
+struct IsNumber<unsigned short> : TrueType
 {};
 template <>
-struct IsNumber<signed short int> : TrueType
+struct IsNumber<signed short> : TrueType
 {};
 template <>
 struct IsNumber<signed int> : TrueType
@@ -57,16 +57,16 @@ template <>
 struct IsNumber<unsigned int> : TrueType
 {};
 template <>
-struct IsNumber<signed long int> : TrueType
+struct IsNumber<signed long> : TrueType
 {};
 template <>
-struct IsNumber<unsigned long int> : TrueType
+struct IsNumber<unsigned long> : TrueType
 {};
 template <>
-struct IsNumber<signed long long int> : TrueType
+struct IsNumber<signed long long> : TrueType
 {};
 template <>
-struct IsNumber<unsigned long long int> : TrueType
+struct IsNumber<unsigned long long> : TrueType
 {};
 template <>
 struct IsNumber<float> : TrueType

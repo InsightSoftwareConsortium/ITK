@@ -90,16 +90,16 @@ GetH5TypeSpecialize(float, H5::PredType::NATIVE_FLOAT) GetH5TypeSpecialize(doubl
 
   GetH5TypeSpecialize(char, H5::PredType::NATIVE_CHAR) GetH5TypeSpecialize(unsigned char, H5::PredType::NATIVE_UCHAR)
 
-    GetH5TypeSpecialize(short int, H5::PredType::NATIVE_SHORT)
+    GetH5TypeSpecialize(short, H5::PredType::NATIVE_SHORT)
       GetH5TypeSpecialize(short unsigned int, H5::PredType::NATIVE_USHORT)
 
         GetH5TypeSpecialize(int, H5::PredType::NATIVE_INT) GetH5TypeSpecialize(unsigned int, H5::PredType::NATIVE_UINT)
 
-          GetH5TypeSpecialize(long int, H5::PredType::NATIVE_LONG)
+          GetH5TypeSpecialize(long, H5::PredType::NATIVE_LONG)
             GetH5TypeSpecialize(long unsigned int, H5::PredType::NATIVE_ULONG)
 
-              GetH5TypeSpecialize(long long int, H5::PredType::NATIVE_LLONG)
-                GetH5TypeSpecialize(unsigned long long int, H5::PredType::NATIVE_ULLONG)
+              GetH5TypeSpecialize(long long, H5::PredType::NATIVE_LLONG)
+                GetH5TypeSpecialize(unsigned long long, H5::PredType::NATIVE_ULLONG)
 
 /* The following types are not implemented.  This comment serves
  * to indicate that the full complement of possible H5::PredType
@@ -853,11 +853,11 @@ HDF5ImageIO ::ReadImageInformation()
       }
       else if (metaDataType == H5::PredType::NATIVE_LLONG)
       {
-        this->StoreMetaData<long long int>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+        this->StoreMetaData<long long>(&metaDict, localMetaDataName, name, metaDataDims[0]);
       }
       else if (metaDataType == H5::PredType::NATIVE_ULLONG)
       {
-        this->StoreMetaData<unsigned long long int>(&metaDict, localMetaDataName, name, metaDataDims[0]);
+        this->StoreMetaData<unsigned long long>(&metaDict, localMetaDataName, name, metaDataDims[0]);
       }
       else if (metaDataType == H5::PredType::NATIVE_FLOAT)
       {
@@ -1137,11 +1137,11 @@ HDF5ImageIO ::WriteImageInformation()
       {
         continue;
       }
-      if (this->WriteMeta<long long int>(objName, metaObj))
+      if (this->WriteMeta<long long>(objName, metaObj))
       {
         continue;
       }
-      if (this->WriteMeta<unsigned long long int>(objName, metaObj))
+      if (this->WriteMeta<unsigned long long>(objName, metaObj))
       {
         continue;
       }

@@ -217,10 +217,10 @@ private:
   DefineHeaderObjectDataType();
 
   void
-  SetNIfTIOrientationFromImageIO(unsigned short int origdims, unsigned short int dims);
+  SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned short dims);
 
   void
-  SetImageIOOrientationFromNIfTI(unsigned short int dims);
+  SetImageIOOrientationFromNIfTI(unsigned short dims);
 
   void
   SetImageIOMetadataFromNIfTI();
