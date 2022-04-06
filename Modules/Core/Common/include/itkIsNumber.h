@@ -48,22 +48,22 @@ template <>
 struct IsNumber<unsigned short> : TrueType
 {};
 template <>
-struct IsNumber<signed short> : TrueType
+struct IsNumber<short> : TrueType
 {};
 template <>
-struct IsNumber<signed int> : TrueType
+struct IsNumber<int> : TrueType
 {};
 template <>
 struct IsNumber<unsigned int> : TrueType
 {};
 template <>
-struct IsNumber<signed long> : TrueType
+struct IsNumber<long> : TrueType
 {};
 template <>
 struct IsNumber<unsigned long> : TrueType
 {};
 template <>
-struct IsNumber<signed long long> : TrueType
+struct IsNumber<long long> : TrueType
 {};
 template <>
 struct IsNumber<unsigned long long> : TrueType

@@ -45,7 +45,7 @@ itkPromoteType(int, char *[])
   // This conversion always preserves the value.
   //
   // The following implicit conversions are classified as integral promotions:
-  // * signed char or signed short can be converted to int.
+  // * signed char or short can be converted to int.
   // * unsigned char or unsigned short can be converted to int if it can hold
   //   its entire value range, and unsigned int otherwise.
   // * char can be converted to int or unsigned int depending on the underlying

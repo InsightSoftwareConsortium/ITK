@@ -199,7 +199,7 @@ public:
   TInputPixel                 m_InitValue;
   TInputPixel                 m_CurrentValue;
   TCompare                    m_Compare;
-  signed int                  m_Direction;
+  int                         m_Direction;
   TInputPixel                 m_Boundary;
 };
 

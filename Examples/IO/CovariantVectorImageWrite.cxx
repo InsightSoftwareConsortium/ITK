@@ -74,14 +74,14 @@ main(int argc, char ** argv)
 
   //  Software Guide : BeginLatex
   //
-  //  We read an image of \code{signed short} pixels and compute the
+  //  We read an image of \code{short} pixels and compute the
   //  gradient to produce an image of CovariantVectors where each
   //  component is of type \code{float}.
   //
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputPixelType = signed short;
+  using InputPixelType = short;
   using ComponentType = float;
   constexpr unsigned int Dimension = 2;
 

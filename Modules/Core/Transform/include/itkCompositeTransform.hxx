@@ -44,7 +44,7 @@ CompositeTransform<TParametersValueType, VDimension>::GetTransformCategory() con
 
   // Check if displacement field
   bool isDisplacementFieldTransform = true;
-  for (signed long tind = static_cast<signed long>(this->GetNumberOfTransforms()) - 1; tind >= 0; tind--)
+  for (long tind = static_cast<long>(this->GetNumberOfTransforms()) - 1; tind >= 0; tind--)
   {
     if (this->GetNthTransformToOptimize(tind) && (this->GetNthTransformConstPointer(tind)->GetTransformCategory() !=
                                                   Self::TransformCategoryEnum::DisplacementField))
@@ -542,7 +542,7 @@ CompositeTransform<TParametersValueType, VDimension>::ComputeJacobianWithRespect
    *    and ( dT1/dp1 | x2 )
    *
    */
-  for (signed long tind = (signed long)this->GetNumberOfTransforms() - 1; tind >= 0; --tind)
+  for (long tind = (long)this->GetNumberOfTransforms() - 1; tind >= 0; --tind)
   {
     /* Get a raw pointer for efficiency, avoiding SmartPointer register/unregister */
     const TransformType * const transform = this->GetNthTransformConstPointer(tind);
@@ -770,7 +770,7 @@ CompositeTransform<TParametersValueType, VDimension>::GetNumberOfParameters() co
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
 
 
-  for (signed long tind = (signed long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
+  for (long tind = (long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
   {
     if (this->GetNthTransformToOptimize(tind))
     {
@@ -796,7 +796,7 @@ CompositeTransform<TParametersValueType, VDimension>::GetNumberOfLocalParameters
    * Note that unlike in GetNumberOfParameters(), we don't expect the
    * number of local parameters to possibly change. */
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
-  for (signed long tind = (signed long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
+  for (long tind = (long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
   {
     if (this->GetNthTransformToOptimize(tind))
     {
@@ -822,7 +822,7 @@ CompositeTransform<TParametersValueType, VDimension>::GetNumberOfFixedParameters
    * only re-calc when the composite object has been modified. */
   NumberOfParametersType result = NumericTraits<NumberOfParametersType>::ZeroValue();
 
-  for (signed long tind = (signed long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
+  for (long tind = (long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
   {
     if (this->GetNthTransformToOptimize(tind))
     {
@@ -861,7 +861,7 @@ CompositeTransform<TParametersValueType, VDimension>::UpdateTransformParameters(
   NumberOfParametersType offset = NumericTraits<NumberOfParametersType>::ZeroValue();
 
 
-  for (signed long tind = (signed long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
+  for (long tind = (long)this->GetNumberOfTransforms() - 1; tind >= 0; tind--)
   {
     if (this->GetNthTransformToOptimize(tind))
     {

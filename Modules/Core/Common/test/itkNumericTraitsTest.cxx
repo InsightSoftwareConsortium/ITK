@@ -383,19 +383,19 @@ itkNumericTraitsTest(int, char *[])
   CheckTraits("unsigned char", static_cast<unsigned char>('a'));
 
   CheckTraits("short", static_cast<short>(-1));
-  CheckTraits("signed short", static_cast<signed short>(-1));
+  CheckTraits("signed short", static_cast<short>(-1));
   CheckTraits("unsigned short", static_cast<unsigned short>(1));
 
   CheckTraits("int", static_cast<int>(0));
-  CheckTraits("signed int", static_cast<signed int>(0));
+  CheckTraits("signed int", static_cast<int>(0));
   CheckTraits("unsigned int", static_cast<unsigned int>(0));
 
   CheckTraits("long", static_cast<long>(0));
-  CheckTraits("signed long", static_cast<signed long>(0));
+  CheckTraits("signed long", static_cast<long>(0));
   CheckTraits("unsigned long", static_cast<unsigned long>(0));
 
   CheckTraits("long long", static_cast<long long>(0));
-  CheckTraits("signed long long", static_cast<signed long long>(0));
+  CheckTraits("signed long long", static_cast<long long>(0));
   CheckTraits("unsigned long long", static_cast<unsigned long long>(0));
 
   CheckTraits("float", static_cast<float>(0));
@@ -416,19 +416,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::CovariantVector<unsigned char, 1>());
 
   CheckFixedArrayTraits(itk::CovariantVector<short, 1>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed short, 1>());
+  CheckFixedArrayTraits(itk::CovariantVector<short, 1>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned short, 1>());
 
   CheckFixedArrayTraits(itk::CovariantVector<int, 1>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed int, 1>());
+  CheckFixedArrayTraits(itk::CovariantVector<int, 1>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned int, 1>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long, 1>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long, 1>());
+  CheckFixedArrayTraits(itk::CovariantVector<long, 1>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long, 1>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long long, 1>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long long, 1>());
+  CheckFixedArrayTraits(itk::CovariantVector<long long, 1>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long long, 1>());
 
   CheckFixedArrayTraits(itk::CovariantVector<float, 1>());
@@ -442,19 +442,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::CovariantVector<unsigned char, 2>());
 
   CheckFixedArrayTraits(itk::CovariantVector<short, 2>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed short, 2>());
+  CheckFixedArrayTraits(itk::CovariantVector<short, 2>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned short, 2>());
 
   CheckFixedArrayTraits(itk::CovariantVector<int, 2>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed int, 2>());
+  CheckFixedArrayTraits(itk::CovariantVector<int, 2>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned int, 2>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long, 2>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long, 2>());
+  CheckFixedArrayTraits(itk::CovariantVector<long, 2>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long, 2>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long long, 2>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long long, 2>());
+  CheckFixedArrayTraits(itk::CovariantVector<long long, 2>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long long, 2>());
 
   CheckFixedArrayTraits(itk::CovariantVector<float, 2>());
@@ -468,19 +468,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::CovariantVector<unsigned char, 3>());
 
   CheckFixedArrayTraits(itk::CovariantVector<short, 3>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed short, 3>());
+  CheckFixedArrayTraits(itk::CovariantVector<short, 3>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned short, 3>());
 
   CheckFixedArrayTraits(itk::CovariantVector<int, 3>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed int, 3>());
+  CheckFixedArrayTraits(itk::CovariantVector<int, 3>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned int, 3>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long, 3>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long, 3>());
+  CheckFixedArrayTraits(itk::CovariantVector<long, 3>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long, 3>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long long, 3>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long long, 3>());
+  CheckFixedArrayTraits(itk::CovariantVector<long long, 3>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long long, 3>());
 
   CheckFixedArrayTraits(itk::CovariantVector<float, 3>());
@@ -494,19 +494,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::CovariantVector<unsigned char, 4>());
 
   CheckFixedArrayTraits(itk::CovariantVector<short, 4>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed short, 4>());
+  CheckFixedArrayTraits(itk::CovariantVector<short, 4>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned short, 4>());
 
   CheckFixedArrayTraits(itk::CovariantVector<int, 4>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed int, 4>());
+  CheckFixedArrayTraits(itk::CovariantVector<int, 4>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned int, 4>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long, 4>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long, 4>());
+  CheckFixedArrayTraits(itk::CovariantVector<long, 4>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long, 4>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long long, 4>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long long, 4>());
+  CheckFixedArrayTraits(itk::CovariantVector<long long, 4>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long long, 4>());
 
   CheckFixedArrayTraits(itk::CovariantVector<float, 4>());
@@ -520,19 +520,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::CovariantVector<unsigned char, 5>());
 
   CheckFixedArrayTraits(itk::CovariantVector<short, 5>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed short, 5>());
+  CheckFixedArrayTraits(itk::CovariantVector<short, 5>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned short, 5>());
 
   CheckFixedArrayTraits(itk::CovariantVector<int, 5>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed int, 5>());
+  CheckFixedArrayTraits(itk::CovariantVector<int, 5>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned int, 5>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long, 5>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long, 5>());
+  CheckFixedArrayTraits(itk::CovariantVector<long, 5>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long, 5>());
 
   CheckFixedArrayTraits(itk::CovariantVector<long long, 5>());
-  CheckFixedArrayTraits(itk::CovariantVector<signed long long, 5>());
+  CheckFixedArrayTraits(itk::CovariantVector<long long, 5>());
   CheckFixedArrayTraits(itk::CovariantVector<unsigned long long, 5>());
 
   CheckFixedArrayTraits(itk::CovariantVector<float, 5>());
@@ -546,19 +546,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::FixedArray<unsigned char, 1>());
 
   CheckFixedArrayTraits(itk::FixedArray<short, 1>());
-  CheckFixedArrayTraits(itk::FixedArray<signed short, 1>());
+  CheckFixedArrayTraits(itk::FixedArray<short, 1>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned short, 1>());
 
   CheckFixedArrayTraits(itk::FixedArray<int, 1>());
-  CheckFixedArrayTraits(itk::FixedArray<signed int, 1>());
+  CheckFixedArrayTraits(itk::FixedArray<int, 1>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned int, 1>());
 
   CheckFixedArrayTraits(itk::FixedArray<long, 1>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long, 1>());
+  CheckFixedArrayTraits(itk::FixedArray<long, 1>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long, 1>());
 
   CheckFixedArrayTraits(itk::FixedArray<long long, 1>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long long, 1>());
+  CheckFixedArrayTraits(itk::FixedArray<long long, 1>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long long, 1>());
 
   CheckFixedArrayTraits(itk::FixedArray<float, 1>());
@@ -572,19 +572,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::FixedArray<unsigned char, 2>());
 
   CheckFixedArrayTraits(itk::FixedArray<short, 2>());
-  CheckFixedArrayTraits(itk::FixedArray<signed short, 2>());
+  CheckFixedArrayTraits(itk::FixedArray<short, 2>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned short, 2>());
 
   CheckFixedArrayTraits(itk::FixedArray<int, 2>());
-  CheckFixedArrayTraits(itk::FixedArray<signed int, 2>());
+  CheckFixedArrayTraits(itk::FixedArray<int, 2>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned int, 2>());
 
   CheckFixedArrayTraits(itk::FixedArray<long, 2>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long, 2>());
+  CheckFixedArrayTraits(itk::FixedArray<long, 2>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long, 2>());
 
   CheckFixedArrayTraits(itk::FixedArray<long long, 2>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long long, 2>());
+  CheckFixedArrayTraits(itk::FixedArray<long long, 2>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long long, 2>());
 
   CheckFixedArrayTraits(itk::FixedArray<float, 2>());
@@ -598,19 +598,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::FixedArray<unsigned char, 3>());
 
   CheckFixedArrayTraits(itk::FixedArray<short, 3>());
-  CheckFixedArrayTraits(itk::FixedArray<signed short, 3>());
+  CheckFixedArrayTraits(itk::FixedArray<short, 3>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned short, 3>());
 
   CheckFixedArrayTraits(itk::FixedArray<int, 3>());
-  CheckFixedArrayTraits(itk::FixedArray<signed int, 3>());
+  CheckFixedArrayTraits(itk::FixedArray<int, 3>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned int, 3>());
 
   CheckFixedArrayTraits(itk::FixedArray<long, 3>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long, 3>());
+  CheckFixedArrayTraits(itk::FixedArray<long, 3>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long, 3>());
 
   CheckFixedArrayTraits(itk::FixedArray<long long, 3>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long long, 3>());
+  CheckFixedArrayTraits(itk::FixedArray<long long, 3>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long long, 3>());
 
   CheckFixedArrayTraits(itk::FixedArray<float, 3>());
@@ -624,19 +624,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::FixedArray<unsigned char, 4>());
 
   CheckFixedArrayTraits(itk::FixedArray<short, 4>());
-  CheckFixedArrayTraits(itk::FixedArray<signed short, 4>());
+  CheckFixedArrayTraits(itk::FixedArray<short, 4>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned short, 4>());
 
   CheckFixedArrayTraits(itk::FixedArray<int, 4>());
-  CheckFixedArrayTraits(itk::FixedArray<signed int, 4>());
+  CheckFixedArrayTraits(itk::FixedArray<int, 4>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned int, 4>());
 
   CheckFixedArrayTraits(itk::FixedArray<long, 4>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long, 4>());
+  CheckFixedArrayTraits(itk::FixedArray<long, 4>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long, 4>());
 
   CheckFixedArrayTraits(itk::FixedArray<long long, 4>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long long, 4>());
+  CheckFixedArrayTraits(itk::FixedArray<long long, 4>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long long, 4>());
 
   CheckFixedArrayTraits(itk::FixedArray<float, 4>());
@@ -650,19 +650,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::FixedArray<unsigned char, 5>());
 
   CheckFixedArrayTraits(itk::FixedArray<short, 5>());
-  CheckFixedArrayTraits(itk::FixedArray<signed short, 5>());
+  CheckFixedArrayTraits(itk::FixedArray<short, 5>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned short, 5>());
 
   CheckFixedArrayTraits(itk::FixedArray<int, 5>());
-  CheckFixedArrayTraits(itk::FixedArray<signed int, 5>());
+  CheckFixedArrayTraits(itk::FixedArray<int, 5>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned int, 5>());
 
   CheckFixedArrayTraits(itk::FixedArray<long, 5>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long, 5>());
+  CheckFixedArrayTraits(itk::FixedArray<long, 5>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long, 5>());
 
   CheckFixedArrayTraits(itk::FixedArray<long long, 5>());
-  CheckFixedArrayTraits(itk::FixedArray<signed long long, 5>());
+  CheckFixedArrayTraits(itk::FixedArray<long long, 5>());
   CheckFixedArrayTraits(itk::FixedArray<unsigned long long, 5>());
 
   CheckFixedArrayTraits(itk::FixedArray<float, 5>());
@@ -676,19 +676,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<unsigned char, 1>());
 
   CheckFixedArrayTraits(itk::Point<short, 1>());
-  CheckFixedArrayTraits(itk::Point<signed short, 1>());
+  CheckFixedArrayTraits(itk::Point<short, 1>());
   CheckFixedArrayTraits(itk::Point<unsigned short, 1>());
 
   CheckFixedArrayTraits(itk::Point<int, 1>());
-  CheckFixedArrayTraits(itk::Point<signed int, 1>());
+  CheckFixedArrayTraits(itk::Point<int, 1>());
   CheckFixedArrayTraits(itk::Point<unsigned int, 1>());
 
   CheckFixedArrayTraits(itk::Point<long, 1>());
-  CheckFixedArrayTraits(itk::Point<signed long, 1>());
+  CheckFixedArrayTraits(itk::Point<long, 1>());
   CheckFixedArrayTraits(itk::Point<unsigned long, 1>());
 
   CheckFixedArrayTraits(itk::Point<long long, 1>());
-  CheckFixedArrayTraits(itk::Point<signed long long, 1>());
+  CheckFixedArrayTraits(itk::Point<long long, 1>());
   CheckFixedArrayTraits(itk::Point<unsigned long long, 1>());
 
   CheckFixedArrayTraits(itk::Point<float, 1>());
@@ -702,19 +702,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<unsigned char, 2>());
 
   CheckFixedArrayTraits(itk::Point<short, 2>());
-  CheckFixedArrayTraits(itk::Point<signed short, 2>());
+  CheckFixedArrayTraits(itk::Point<short, 2>());
   CheckFixedArrayTraits(itk::Point<unsigned short, 2>());
 
   CheckFixedArrayTraits(itk::Point<int, 2>());
-  CheckFixedArrayTraits(itk::Point<signed int, 2>());
+  CheckFixedArrayTraits(itk::Point<int, 2>());
   CheckFixedArrayTraits(itk::Point<unsigned int, 2>());
 
   CheckFixedArrayTraits(itk::Point<long, 2>());
-  CheckFixedArrayTraits(itk::Point<signed long, 2>());
+  CheckFixedArrayTraits(itk::Point<long, 2>());
   CheckFixedArrayTraits(itk::Point<unsigned long, 2>());
 
   CheckFixedArrayTraits(itk::Point<long long, 2>());
-  CheckFixedArrayTraits(itk::Point<signed long long, 2>());
+  CheckFixedArrayTraits(itk::Point<long long, 2>());
   CheckFixedArrayTraits(itk::Point<unsigned long long, 2>());
 
   CheckFixedArrayTraits(itk::Point<float, 2>());
@@ -728,19 +728,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<unsigned char, 3>());
 
   CheckFixedArrayTraits(itk::Point<short, 3>());
-  CheckFixedArrayTraits(itk::Point<signed short, 3>());
+  CheckFixedArrayTraits(itk::Point<short, 3>());
   CheckFixedArrayTraits(itk::Point<unsigned short, 3>());
 
   CheckFixedArrayTraits(itk::Point<int, 3>());
-  CheckFixedArrayTraits(itk::Point<signed int, 3>());
+  CheckFixedArrayTraits(itk::Point<int, 3>());
   CheckFixedArrayTraits(itk::Point<unsigned int, 3>());
 
   CheckFixedArrayTraits(itk::Point<long, 3>());
-  CheckFixedArrayTraits(itk::Point<signed long, 3>());
+  CheckFixedArrayTraits(itk::Point<long, 3>());
   CheckFixedArrayTraits(itk::Point<unsigned long, 3>());
 
   CheckFixedArrayTraits(itk::Point<long long, 3>());
-  CheckFixedArrayTraits(itk::Point<signed long long, 3>());
+  CheckFixedArrayTraits(itk::Point<long long, 3>());
   CheckFixedArrayTraits(itk::Point<unsigned long long, 3>());
 
   CheckFixedArrayTraits(itk::Point<float, 3>());
@@ -754,19 +754,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<unsigned char, 4>());
 
   CheckFixedArrayTraits(itk::Point<short, 4>());
-  CheckFixedArrayTraits(itk::Point<signed short, 4>());
+  CheckFixedArrayTraits(itk::Point<short, 4>());
   CheckFixedArrayTraits(itk::Point<unsigned short, 4>());
 
   CheckFixedArrayTraits(itk::Point<int, 4>());
-  CheckFixedArrayTraits(itk::Point<signed int, 4>());
+  CheckFixedArrayTraits(itk::Point<int, 4>());
   CheckFixedArrayTraits(itk::Point<unsigned int, 4>());
 
   CheckFixedArrayTraits(itk::Point<long, 4>());
-  CheckFixedArrayTraits(itk::Point<signed long, 4>());
+  CheckFixedArrayTraits(itk::Point<long, 4>());
   CheckFixedArrayTraits(itk::Point<unsigned long, 4>());
 
   CheckFixedArrayTraits(itk::Point<long long, 4>());
-  CheckFixedArrayTraits(itk::Point<signed long long, 4>());
+  CheckFixedArrayTraits(itk::Point<long long, 4>());
   CheckFixedArrayTraits(itk::Point<unsigned long long, 4>());
 
   CheckFixedArrayTraits(itk::Point<float, 4>());
@@ -780,19 +780,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<unsigned char, 5>());
 
   CheckFixedArrayTraits(itk::Point<short, 5>());
-  CheckFixedArrayTraits(itk::Point<signed short, 5>());
+  CheckFixedArrayTraits(itk::Point<short, 5>());
   CheckFixedArrayTraits(itk::Point<unsigned short, 5>());
 
   CheckFixedArrayTraits(itk::Point<int, 5>());
-  CheckFixedArrayTraits(itk::Point<signed int, 5>());
+  CheckFixedArrayTraits(itk::Point<int, 5>());
   CheckFixedArrayTraits(itk::Point<unsigned int, 5>());
 
   CheckFixedArrayTraits(itk::Point<long, 5>());
-  CheckFixedArrayTraits(itk::Point<signed long, 5>());
+  CheckFixedArrayTraits(itk::Point<long, 5>());
   CheckFixedArrayTraits(itk::Point<unsigned long, 5>());
 
   CheckFixedArrayTraits(itk::Point<long long, 5>());
-  CheckFixedArrayTraits(itk::Point<signed long long, 5>());
+  CheckFixedArrayTraits(itk::Point<long long, 5>());
   CheckFixedArrayTraits(itk::Point<unsigned long long, 5>());
 
   CheckFixedArrayTraits(itk::Point<float, 5>());
@@ -806,19 +806,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::RGBPixel<unsigned char>());
 
   CheckFixedArrayTraits(itk::RGBPixel<short>());
-  CheckFixedArrayTraits(itk::RGBPixel<signed short>());
+  CheckFixedArrayTraits(itk::RGBPixel<short>());
   CheckFixedArrayTraits(itk::RGBPixel<unsigned short>());
 
   CheckFixedArrayTraits(itk::RGBPixel<int>());
-  CheckFixedArrayTraits(itk::RGBPixel<signed int>());
+  CheckFixedArrayTraits(itk::RGBPixel<int>());
   CheckFixedArrayTraits(itk::RGBPixel<unsigned int>());
 
   CheckFixedArrayTraits(itk::RGBPixel<long>());
-  CheckFixedArrayTraits(itk::RGBPixel<signed long>());
+  CheckFixedArrayTraits(itk::RGBPixel<long>());
   CheckFixedArrayTraits(itk::RGBPixel<unsigned long>());
 
   CheckFixedArrayTraits(itk::RGBPixel<long long>());
-  CheckFixedArrayTraits(itk::RGBPixel<signed long long>());
+  CheckFixedArrayTraits(itk::RGBPixel<long long>());
   CheckFixedArrayTraits(itk::RGBPixel<unsigned long long>());
 
   CheckFixedArrayTraits(itk::RGBPixel<float>());
@@ -832,19 +832,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::RGBAPixel<unsigned char>());
 
   CheckFixedArrayTraits(itk::RGBAPixel<short>());
-  CheckFixedArrayTraits(itk::RGBAPixel<signed short>());
+  CheckFixedArrayTraits(itk::RGBAPixel<short>());
   CheckFixedArrayTraits(itk::RGBAPixel<unsigned short>());
 
   CheckFixedArrayTraits(itk::RGBAPixel<int>());
-  CheckFixedArrayTraits(itk::RGBAPixel<signed int>());
+  CheckFixedArrayTraits(itk::RGBAPixel<int>());
   CheckFixedArrayTraits(itk::RGBAPixel<unsigned int>());
 
   CheckFixedArrayTraits(itk::RGBAPixel<long>());
-  CheckFixedArrayTraits(itk::RGBAPixel<signed long>());
+  CheckFixedArrayTraits(itk::RGBAPixel<long>());
   CheckFixedArrayTraits(itk::RGBAPixel<unsigned long>());
 
   CheckFixedArrayTraits(itk::RGBAPixel<long long>());
-  CheckFixedArrayTraits(itk::RGBAPixel<signed long long>());
+  CheckFixedArrayTraits(itk::RGBAPixel<long long>());
   CheckFixedArrayTraits(itk::RGBAPixel<unsigned long long>());
 
   CheckFixedArrayTraits(itk::RGBAPixel<float>());
@@ -858,19 +858,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned char, 1>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 1>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed short, 1>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 1>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned short, 1>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 1>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed int, 1>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 1>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned int, 1>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 1>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long, 1>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 1>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long, 1>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 1>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long long, 1>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 1>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long long, 1>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<float, 1>());
@@ -884,19 +884,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned char, 2>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 2>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed short, 2>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 2>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned short, 2>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 2>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed int, 2>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 2>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned int, 2>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 2>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long, 2>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 2>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long, 2>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 2>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long long, 2>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 2>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long long, 2>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<float, 2>());
@@ -910,19 +910,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned char, 3>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 3>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed short, 3>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 3>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned short, 3>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 3>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed int, 3>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 3>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned int, 3>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 3>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long, 3>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 3>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long, 3>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 3>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long long, 3>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 3>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long long, 3>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<float, 3>());
@@ -936,19 +936,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned char, 4>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 4>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed short, 4>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 4>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned short, 4>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 4>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed int, 4>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 4>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned int, 4>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 4>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long, 4>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 4>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long, 4>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 4>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long long, 4>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 4>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long long, 4>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<float, 4>());
@@ -962,19 +962,19 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned char, 5>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 5>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed short, 5>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<short, 5>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned short, 5>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 5>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed int, 5>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<int, 5>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned int, 5>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 5>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long, 5>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long, 5>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long, 5>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 5>());
-  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<signed long long, 5>());
+  CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<long long, 5>());
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<unsigned long long, 5>());
 
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<float, 5>());
@@ -988,19 +988,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned char>(1));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(1));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed short>(1));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(1));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned short>(1));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(1));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed int>(1));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(1));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned int>(1));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(1));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long>(1));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(1));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long>(1));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(1));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long long>(1));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(1));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long long>(1));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<float>(1));
@@ -1014,19 +1014,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned char>(2));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(2));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed short>(2));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(2));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned short>(2));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(2));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed int>(2));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(2));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned int>(2));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(2));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long>(2));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(2));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long>(2));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(2));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long long>(2));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(2));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long long>(2));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<float>(2));
@@ -1040,19 +1040,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned char>(3));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(3));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed short>(3));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(3));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned short>(3));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(3));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed int>(3));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(3));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned int>(3));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(3));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long>(3));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(3));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long>(3));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(3));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long long>(3));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(3));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long long>(3));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<float>(3));
@@ -1066,19 +1066,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned char>(4));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(4));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed short>(4));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(4));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned short>(4));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(4));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed int>(4));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(4));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned int>(4));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(4));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long>(4));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(4));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long>(4));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(4));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long long>(4));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(4));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long long>(4));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<float>(4));
@@ -1092,19 +1092,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned char>(5));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(5));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed short>(5));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<short>(5));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned short>(5));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(5));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed int>(5));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<int>(5));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned int>(5));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(5));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long>(5));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long>(5));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long>(5));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(5));
-  CheckVariableLengthArrayTraits(itk::VariableLengthVector<signed long long>(5));
+  CheckVariableLengthArrayTraits(itk::VariableLengthVector<long long>(5));
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<unsigned long long>(5));
 
   CheckVariableLengthArrayTraits(itk::VariableLengthVector<float>(5));
@@ -1118,19 +1118,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::Array<unsigned char>(1));
 
   CheckVariableLengthArrayTraits(itk::Array<short>(1));
-  CheckVariableLengthArrayTraits(itk::Array<signed short>(1));
+  CheckVariableLengthArrayTraits(itk::Array<short>(1));
   CheckVariableLengthArrayTraits(itk::Array<unsigned short>(1));
 
   CheckVariableLengthArrayTraits(itk::Array<int>(1));
-  CheckVariableLengthArrayTraits(itk::Array<signed int>(1));
+  CheckVariableLengthArrayTraits(itk::Array<int>(1));
   CheckVariableLengthArrayTraits(itk::Array<unsigned int>(1));
 
   CheckVariableLengthArrayTraits(itk::Array<long>(1));
-  CheckVariableLengthArrayTraits(itk::Array<signed long>(1));
+  CheckVariableLengthArrayTraits(itk::Array<long>(1));
   CheckVariableLengthArrayTraits(itk::Array<unsigned long>(1));
 
   //   CheckVariableLengthArrayTraits(itk::Array<long long>(1));
-  //   CheckVariableLengthArrayTraits(itk::Array<signed long long>(1));
+  //   CheckVariableLengthArrayTraits(itk::Array<long long>(1));
   //   CheckVariableLengthArrayTraits(itk::Array<unsigned long long>(1));
 
   CheckVariableLengthArrayTraits(itk::Array<float>(1));
@@ -1144,19 +1144,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::Array<unsigned char>(2));
 
   CheckVariableLengthArrayTraits(itk::Array<short>(2));
-  CheckVariableLengthArrayTraits(itk::Array<signed short>(2));
+  CheckVariableLengthArrayTraits(itk::Array<short>(2));
   CheckVariableLengthArrayTraits(itk::Array<unsigned short>(2));
 
   CheckVariableLengthArrayTraits(itk::Array<int>(2));
-  CheckVariableLengthArrayTraits(itk::Array<signed int>(2));
+  CheckVariableLengthArrayTraits(itk::Array<int>(2));
   CheckVariableLengthArrayTraits(itk::Array<unsigned int>(2));
 
   CheckVariableLengthArrayTraits(itk::Array<long>(2));
-  CheckVariableLengthArrayTraits(itk::Array<signed long>(2));
+  CheckVariableLengthArrayTraits(itk::Array<long>(2));
   CheckVariableLengthArrayTraits(itk::Array<unsigned long>(2));
 
   //   CheckVariableLengthArrayTraits(itk::Array<long long>(2));
-  //   CheckVariableLengthArrayTraits(itk::Array<signed long long>(2));
+  //   CheckVariableLengthArrayTraits(itk::Array<long long>(2));
   //   CheckVariableLengthArrayTraits(itk::Array<unsigned long long>(2));
 
   CheckVariableLengthArrayTraits(itk::Array<float>(2));
@@ -1170,19 +1170,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::Array<unsigned char>(3));
 
   CheckVariableLengthArrayTraits(itk::Array<short>(3));
-  CheckVariableLengthArrayTraits(itk::Array<signed short>(3));
+  CheckVariableLengthArrayTraits(itk::Array<short>(3));
   CheckVariableLengthArrayTraits(itk::Array<unsigned short>(3));
 
   CheckVariableLengthArrayTraits(itk::Array<int>(3));
-  CheckVariableLengthArrayTraits(itk::Array<signed int>(3));
+  CheckVariableLengthArrayTraits(itk::Array<int>(3));
   CheckVariableLengthArrayTraits(itk::Array<unsigned int>(3));
 
   CheckVariableLengthArrayTraits(itk::Array<long>(3));
-  CheckVariableLengthArrayTraits(itk::Array<signed long>(3));
+  CheckVariableLengthArrayTraits(itk::Array<long>(3));
   CheckVariableLengthArrayTraits(itk::Array<unsigned long>(3));
 
   //   CheckVariableLengthArrayTraits(itk::Array<long long>(3));
-  //   CheckVariableLengthArrayTraits(itk::Array<signed long long>(3));
+  //   CheckVariableLengthArrayTraits(itk::Array<long long>(3));
   //   CheckVariableLengthArrayTraits(itk::Array<unsigned long long>(3));
 
   CheckVariableLengthArrayTraits(itk::Array<float>(3));
@@ -1196,19 +1196,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::Array<unsigned char>(4));
 
   CheckVariableLengthArrayTraits(itk::Array<short>(4));
-  CheckVariableLengthArrayTraits(itk::Array<signed short>(4));
+  CheckVariableLengthArrayTraits(itk::Array<short>(4));
   CheckVariableLengthArrayTraits(itk::Array<unsigned short>(4));
 
   CheckVariableLengthArrayTraits(itk::Array<int>(4));
-  CheckVariableLengthArrayTraits(itk::Array<signed int>(4));
+  CheckVariableLengthArrayTraits(itk::Array<int>(4));
   CheckVariableLengthArrayTraits(itk::Array<unsigned int>(4));
 
   CheckVariableLengthArrayTraits(itk::Array<long>(4));
-  CheckVariableLengthArrayTraits(itk::Array<signed long>(4));
+  CheckVariableLengthArrayTraits(itk::Array<long>(4));
   CheckVariableLengthArrayTraits(itk::Array<unsigned long>(4));
 
   //   CheckVariableLengthArrayTraits(itk::Array<long long>(4));
-  //   CheckVariableLengthArrayTraits(itk::Array<signed long long>(4));
+  //   CheckVariableLengthArrayTraits(itk::Array<long long>(4));
   //   CheckVariableLengthArrayTraits(itk::Array<unsigned long long>(4));
 
   CheckVariableLengthArrayTraits(itk::Array<float>(4));
@@ -1222,19 +1222,19 @@ itkNumericTraitsTest(int, char *[])
   CheckVariableLengthArrayTraits(itk::Array<unsigned char>(5));
 
   CheckVariableLengthArrayTraits(itk::Array<short>(5));
-  CheckVariableLengthArrayTraits(itk::Array<signed short>(5));
+  CheckVariableLengthArrayTraits(itk::Array<short>(5));
   CheckVariableLengthArrayTraits(itk::Array<unsigned short>(5));
 
   CheckVariableLengthArrayTraits(itk::Array<int>(5));
-  CheckVariableLengthArrayTraits(itk::Array<signed int>(5));
+  CheckVariableLengthArrayTraits(itk::Array<int>(5));
   CheckVariableLengthArrayTraits(itk::Array<unsigned int>(5));
 
   CheckVariableLengthArrayTraits(itk::Array<long>(5));
-  CheckVariableLengthArrayTraits(itk::Array<signed long>(5));
+  CheckVariableLengthArrayTraits(itk::Array<long>(5));
   CheckVariableLengthArrayTraits(itk::Array<unsigned long>(5));
 
   //   CheckVariableLengthArrayTraits(itk::Array<long long>(5));
-  //   CheckVariableLengthArrayTraits(itk::Array<signed long long>(5));
+  //   CheckVariableLengthArrayTraits(itk::Array<long long>(5));
   //   CheckVariableLengthArrayTraits(itk::Array<unsigned long long>(5));
 
   CheckVariableLengthArrayTraits(itk::Array<float>(5));

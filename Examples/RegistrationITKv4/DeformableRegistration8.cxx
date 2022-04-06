@@ -340,7 +340,7 @@ main(int argc, char * argv[])
   // such as 100 or 128.
   resample->SetDefaultPixelValue(0);
 
-  using OutputPixelType = signed short;
+  using OutputPixelType = short;
 
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;
 

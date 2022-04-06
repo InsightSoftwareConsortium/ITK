@@ -43,12 +43,12 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
   constexpr double epsilon2 = 0.5;
   functionBase0->SetEpsilon(epsilon2);
 
-  const signed int     minValue = -20;
-  constexpr signed int maxValue = 20;
+  const int     minValue = -20;
+  constexpr int maxValue = 20;
 
   constexpr InputType incValue = 0.1;
 
-  for (signed int x = minValue; x < maxValue; ++x)
+  for (int x = minValue; x < maxValue; ++x)
   {
     const InputType ix = x * incValue;
     OutputType      f = functionBase0->Evaluate(ix);

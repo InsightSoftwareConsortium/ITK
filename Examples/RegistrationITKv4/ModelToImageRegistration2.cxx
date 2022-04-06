@@ -164,7 +164,7 @@ main(int argc, char * argv[])
     itk::BinaryMaskToNarrowBandPointSetFilter<MaskImageType,
                                               FixedPointSetType>;
 
-  using PixelType = signed short;
+  using PixelType = short;
 
   using ImageType = itk::Image<PixelType, Dimension>;
 

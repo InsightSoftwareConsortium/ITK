@@ -75,7 +75,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   //------------------------------------------------------------
 
   // Allocate Images
-  using PixelType = signed short;
+  using PixelType = short;
   using InputImageType = itk::Image<PixelType, 3>;
   using OutputImageType = itk::Image<float, 3>;
   enum

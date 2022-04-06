@@ -475,10 +475,10 @@ public:
 };
 
 template <>
-class MeasurementVectorPixelTraits<signed short>
+class MeasurementVectorPixelTraits<short>
 {
 public:
-  using MeasurementVectorType = FixedArray<signed short, 1>;
+  using MeasurementVectorType = FixedArray<short, 1>;
 };
 
 template <>
@@ -489,10 +489,10 @@ public:
 };
 
 template <>
-class MeasurementVectorPixelTraits<signed int>
+class MeasurementVectorPixelTraits<int>
 {
 public:
-  using MeasurementVectorType = FixedArray<signed int, 1>;
+  using MeasurementVectorType = FixedArray<int, 1>;
 };
 
 template <>
@@ -503,10 +503,10 @@ public:
 };
 
 template <>
-class MeasurementVectorPixelTraits<signed long>
+class MeasurementVectorPixelTraits<long>
 {
 public:
-  using MeasurementVectorType = FixedArray<signed long, 1>;
+  using MeasurementVectorType = FixedArray<long, 1>;
 };
 
 template <>
@@ -517,10 +517,10 @@ public:
 };
 
 template <>
-class MeasurementVectorPixelTraits<signed long long>
+class MeasurementVectorPixelTraits<long long>
 {
 public:
-  using MeasurementVectorType = FixedArray<signed long long, 1>;
+  using MeasurementVectorType = FixedArray<long long, 1>;
 };
 
 template <>

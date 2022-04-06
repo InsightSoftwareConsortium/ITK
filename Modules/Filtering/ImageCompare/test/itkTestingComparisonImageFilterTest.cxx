@@ -40,7 +40,7 @@ itkTestingComparisonImageFilterTest(int argc, char * argv[])
 
   // Test using an unsigned integral pixel type and generate a signed
   // integral pixel type
-  using InputPixelType = signed short;
+  using InputPixelType = short;
   using OutputPixelType = unsigned short;
 
   constexpr unsigned int Dimension = 2;

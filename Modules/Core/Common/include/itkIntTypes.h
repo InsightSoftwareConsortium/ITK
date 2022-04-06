@@ -87,11 +87,11 @@ using SizeValueType = unsigned long;
 using IdentifierType = SizeValueType;
 
 /** The components of the Index array (they are signed) */
-using IndexValueType = signed long;
+using IndexValueType = long;
 
 /** Differences between components of indexes, distance from one pointer
  *  to the origin of a buffer (it is signed) */
-using OffsetValueType = signed long;
+using OffsetValueType = long;
 
 #endif
 

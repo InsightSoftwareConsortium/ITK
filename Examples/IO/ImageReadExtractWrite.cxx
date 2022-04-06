@@ -77,8 +77,8 @@ main(int argc, char ** argv)
   //  Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using InputPixelType = signed short;
-  using OutputPixelType = signed short;
+  using InputPixelType = short;
+  using OutputPixelType = short;
 
   using InputImageType = itk::Image<InputPixelType, 3>;
   using OutputImageType = itk::Image<OutputPixelType, 2>;

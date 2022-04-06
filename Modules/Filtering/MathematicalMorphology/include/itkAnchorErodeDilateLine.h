@@ -87,8 +87,8 @@ private:
     // not require
     // too much memory. Other types are not usable with that algorithm
     return typeid(InputImagePixelType) == typeid(unsigned char) || typeid(InputImagePixelType) == typeid(signed char) ||
-           typeid(InputImagePixelType) == typeid(unsigned short) ||
-           typeid(InputImagePixelType) == typeid(signed short) || typeid(InputImagePixelType) == typeid(bool);
+           typeid(InputImagePixelType) == typeid(unsigned short) || typeid(InputImagePixelType) == typeid(short) ||
+           typeid(InputImagePixelType) == typeid(bool);
   }
 
   inline bool

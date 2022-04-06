@@ -190,7 +190,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_zero)
 
 TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
 {
-  using Utils = FixtureUtilities<2, signed short>;
+  using Utils = FixtureUtilities<2, short>;
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto             image = Utils::CreateImage();
@@ -226,7 +226,7 @@ TEST_F(StatisticsLabelMapFixture, 2D_ones_with_outliers)
 
 TEST_F(StatisticsLabelMapFixture, 2D_rand_with_outliers)
 {
-  using Utils = FixtureUtilities<2, signed short>;
+  using Utils = FixtureUtilities<2, short>;
   using namespace itk::GTest::TypedefsAndConstructors::Dimension2;
 
   auto image = Utils::CreateImageRandom(500, 0);

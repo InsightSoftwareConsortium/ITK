@@ -38,7 +38,7 @@ itkKappaSigmaThresholdImageCalculatorTest(int argc, char * argv[])
 
   constexpr unsigned int Dimension = 2;
 
-  using PixelType = signed short;
+  using PixelType = short;
 
   using ImageType = itk::Image<PixelType, Dimension>;
   using MaskType = itk::Image<unsigned char, Dimension>;

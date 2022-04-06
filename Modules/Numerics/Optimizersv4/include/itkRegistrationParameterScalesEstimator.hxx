@@ -173,8 +173,7 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
       if (compositeTransform)
       {
         isBSplineTransform = true;
-        for (signed long tind = static_cast<signed long>(compositeTransform->GetNumberOfTransforms()) - 1; tind >= 0;
-             tind--)
+        for (long tind = static_cast<long>(compositeTransform->GetNumberOfTransforms()) - 1; tind >= 0; tind--)
         {
           if (compositeTransform->GetNthTransformToOptimize(tind) &&
               (compositeTransform->GetNthTransformConstPointer(tind)->GetTransformCategory() !=
@@ -195,8 +194,7 @@ RegistrationParameterScalesEstimator<TMetric>::IsBSplineTransform()
       if (compositeTransform)
       {
         isBSplineTransform = true;
-        for (signed long tind = static_cast<signed long>(compositeTransform->GetNumberOfTransforms()) - 1; tind >= 0;
-             tind--)
+        for (long tind = static_cast<long>(compositeTransform->GetNumberOfTransforms()) - 1; tind >= 0; tind--)
         {
           if (compositeTransform->GetNthTransformToOptimize(tind) &&
               (compositeTransform->GetNthTransformConstPointer(tind)->GetTransformCategory() !=

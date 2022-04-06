@@ -50,7 +50,7 @@ main(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using PixelType = signed short;
+  using PixelType = short;
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;
