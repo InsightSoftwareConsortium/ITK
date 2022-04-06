@@ -91,3 +91,7 @@ itk_wrap_simple_class("itk::ObjectFactoryEnums")
 
 itk_wrap_include("itkSpatialOrientation.h")
 itk_wrap_simple_class("itk::SpatialOrientationEnums")
+
+set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
+
+itk_wrap_simple_class("itk::SpatialOrientationAdapter")

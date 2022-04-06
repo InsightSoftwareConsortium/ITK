@@ -27,7 +27,7 @@
  *=========================================================================*/
 #ifndef itkSpatialOrientationAdapter_h
 #define itkSpatialOrientationAdapter_h
-#include "itkOrientationAdapterBase.h"
+#include "itkImageBase.h"
 #include "itkSpatialOrientation.h"
 #include "itkConceptChecking.h"
 
@@ -79,29 +79,27 @@ Sign(double x)
  * \ingroup ITKCommon
  */
 class ITKCommon_EXPORT SpatialOrientationAdapter
-  : public OrientationAdapterBase<SpatialOrientationEnums::ValidCoordinateOrientations, 3>
 {
 public:
-  /** type alias for superclass */
   using Self = SpatialOrientationAdapter;
-
-  using Superclass = OrientationAdapterBase<SpatialOrientationEnums::ValidCoordinateOrientations, 3>;
 
   using OrientationType = SpatialOrientationEnums::ValidCoordinateOrientations;
 
-  /** type alias for direction cosines */
-  using DirectionType = Superclass::DirectionType;
+  using ImageType = ImageBase<3>;
+
+  /** Direction Cosines type alias. */
+  using DirectionType = typename ImageType::DirectionType;
 
   /** Constructor */
   SpatialOrientationAdapter() = default;
 
   /** convert from direction cosines. */
   OrientationType
-  FromDirectionCosines(const DirectionType & Dir) override;
+  FromDirectionCosines(const DirectionType & Dir);
 
   /** convert to direction cosines. */
   DirectionType
-  ToDirectionCosines(const OrientationType & Or) override;
+  ToDirectionCosines(const OrientationType & Or);
 };
 } // namespace itk
 
