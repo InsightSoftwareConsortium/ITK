@@ -452,6 +452,9 @@ The namespece itself is only available in legacy mode. Some classes were renamed
 * `itk::SpatialOrientation::CoordinateMajornessTerms` became `itk::SpatialOrientationEnums::CoordinateMajornessTerms`.
 * `itk::SpatialOrientation::ValidCoordinateOrientationFlags` became `itk::SpatialOrientationEnums::ValidCoordinateOrientations`.
 
+Since ITK 5.3, `OrientationAdapterBase` is deprecated. In ITKv6 it will be available in `ITKDeprecated` module.
+SpatialOrientationAdapter no longer inherits from it.
+
 Enumeration member names (`ITK_COORDINATE_UNKNOWN`, `ITK_COORDINATE_Right`, `ITK_COORDINATE_PrimaryMinor`, `ITK_COORDINATE_ORIENTATION_RIP` etc) are unchanged.
 
 Implicit conversion of a single scalar value to a container (which would _fill_ the container by the
