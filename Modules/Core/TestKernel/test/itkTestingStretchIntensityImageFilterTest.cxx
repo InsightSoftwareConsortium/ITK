@@ -25,7 +25,7 @@ int
 itkTestingStretchIntensityImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
 {
   constexpr unsigned int Dimension = 2;
-  using PixelType = signed short;
+  using PixelType = short;
   using ImageType = itk::Image<PixelType, Dimension>;
   using StretchFilterType = itk::Testing::StretchIntensityImageFilter<ImageType>;
   using StatsFilterType = itk::StatisticsImageFilter<ImageType>;

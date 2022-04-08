@@ -25,7 +25,7 @@ itkSampleToHistogramFilterTest3(int, char *[])
 {
 
   constexpr unsigned int numberOfComponents = 3;
-  using MeasurementType = signed int; // Exercise an integer type for the samples
+  using MeasurementType = int; // Exercise an integer type for the samples
 
   using MeasurementVectorType = itk::Array<MeasurementType>;
   using SampleType = itk::Statistics::ListSample<MeasurementVectorType>;

@@ -66,7 +66,7 @@ main(int argc, char * argv[])
   //
   // We define the pixel type and dimension of the image to be read. In this
   // particular case, the dimensionality of the image is 3, and we assume a
-  // \code{signed short} pixel type that is commonly used for X-Rays CT
+  // \code{short} pixel type that is commonly used for X-Rays CT
   // scanners.
   //
   // The image orientation information contained in the direction cosines
@@ -76,7 +76,7 @@ main(int argc, char * argv[])
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PixelType = signed short;
+  using PixelType = short;
   constexpr unsigned int Dimension = 3;
 
   using ImageType = itk::Image<PixelType, Dimension>;

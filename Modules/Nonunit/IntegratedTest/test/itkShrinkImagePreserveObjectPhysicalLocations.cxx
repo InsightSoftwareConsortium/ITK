@@ -34,9 +34,9 @@
 #include "itkImageMomentsCalculator.h"
 #include "itkMultiResolutionPyramidImageFilter.h"
 
-// using TImageType = itk::Image<signed short, 2>;
-using WImageType = itk::Image<signed short, 2>;
-// using TImageType = itk::Image<signed short, 2>;
+// using TImageType = itk::Image<short, 2>;
+using WImageType = itk::Image<short, 2>;
+// using TImageType = itk::Image<short, 2>;
 using TImageType = itk::Image<float, 2>;
 // using TImageType = itk::Image<double, 2>;
 

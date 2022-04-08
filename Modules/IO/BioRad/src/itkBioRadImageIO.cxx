@@ -416,11 +416,11 @@ BioRadImageIO::Write(const void * buffer)
   }
   memset(p, 0, BIORAD_HEADER_LENGTH); // Set everything to zero
   // In particular `notes' needs to be set to zero to indicate there is no notes
-  header.nx = static_cast<unsigned short int>(m_Dimensions[0]);
-  header.ny = static_cast<unsigned short int>(m_Dimensions[1]);
+  header.nx = static_cast<unsigned short>(m_Dimensions[0]);
+  header.ny = static_cast<unsigned short>(m_Dimensions[1]);
   if (m_NumberOfDimensions == 3)
   {
-    header.npic = static_cast<unsigned short int>(m_Dimensions[2]);
+    header.npic = static_cast<unsigned short>(m_Dimensions[2]);
   }
   else
   {

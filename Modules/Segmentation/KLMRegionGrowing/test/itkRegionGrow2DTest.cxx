@@ -1260,7 +1260,7 @@ test_regiongrowKLM3D()
 
   // Manually create an image
 
-  using ImageType = itk::Image<itk::Vector<short int, NUMBANDS2>, NUMDIM3D>;
+  using ImageType = itk::Image<itk::Vector<short, NUMBANDS2>, NUMDIM3D>;
   using OutputImageType = itk::Image<itk::Vector<float, NUMBANDS2>, NUMDIM3D>;
 
   auto image = ImageType::New();
@@ -1762,7 +1762,7 @@ test_regiongrowKLM4D()
 
   // Manually create an image
 
-  using ImageType = itk::Image<itk::Vector<short int, NUMBANDS1>, NUMDIM4D>;
+  using ImageType = itk::Image<itk::Vector<short, NUMBANDS1>, NUMDIM4D>;
   using OutputImageType = itk::Image<itk::Vector<float, NUMBANDS1>, NUMDIM4D>;
 
   auto image = ImageType::New();

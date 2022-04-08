@@ -108,13 +108,13 @@ main(int argc, char * argv[])
   // to classify. With this image type we can also declare the
   // \doxygen{ImageFileReader} needed for reading the input image, create one
   // and set its input filename. In this particular case we choose to use
-  // \code{signed short} as pixel type, which is typical for MicroMRI and CT
+  // \code{short} as pixel type, which is typical for MicroMRI and CT
   // data sets.
   //
   // Software Guide : EndLatex
 
   // Software Guide : BeginCodeSnippet
-  using PixelType = signed short;
+  using PixelType = short;
   constexpr unsigned int Dimension = 2;
 
   using ImageType = itk::Image<PixelType, Dimension>;

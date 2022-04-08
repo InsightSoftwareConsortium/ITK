@@ -33,8 +33,8 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using ReferencePixelType = short int;
-  using GradientPixelType = short int;
+  using ReferencePixelType = short;
+  using GradientPixelType = short;
   using TensorPrecisionType = double;
 
   int result(EXIT_SUCCESS);
@@ -107,7 +107,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
       git.GoToBegin();
       while (!git.IsAtEnd())
       {
-        auto fancyGradientValue = static_cast<short int>((i + 1) * (i + 1) * (i + 1));
+        auto fancyGradientValue = static_cast<short>((i + 1) * (i + 1) * (i + 1));
         git.Set(fancyGradientValue);
         ++git;
       }

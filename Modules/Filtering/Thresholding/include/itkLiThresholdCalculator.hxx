@@ -44,20 +44,20 @@ LiThresholdCalculator<THistogram, TOutput>::GenerateData()
 
   unsigned int size = histogram->GetSize(0);
 
-  long int histthresh;
-  int      ih;
-  int      num_pixels;
-  double   sum_back; // sum of the background pixels at a given threshold
-  double   sum_obj;  // sum of the object pixels at a given threshold
-  int      num_back; // number of background pixels at a given threshold
-  int      num_obj;  // number of object pixels at a given threshold
-  double   old_thresh;
-  double   new_thresh;
-  double   mean_back; // mean of the background pixels at a given threshold
-  double   mean_obj;  // mean of the object pixels at a given threshold
-  double   mean;      // mean gray-level in the image
-  double   tolerance; // threshold tolerance
-  double   temp;
+  long   histthresh;
+  int    ih;
+  int    num_pixels;
+  double sum_back; // sum of the background pixels at a given threshold
+  double sum_obj;  // sum of the object pixels at a given threshold
+  int    num_back; // number of background pixels at a given threshold
+  int    num_obj;  // number of object pixels at a given threshold
+  double old_thresh;
+  double new_thresh;
+  double mean_back; // mean of the background pixels at a given threshold
+  double mean_obj;  // mean of the object pixels at a given threshold
+  double mean;      // mean gray-level in the image
+  double tolerance; // threshold tolerance
+  double temp;
 
   // If there are negative values then shift the values to zero.
   const double bin_min = std::min(static_cast<double>(histogram->GetBinMin(0, 0)), 0.0);

@@ -61,9 +61,9 @@ public:
   using U8 = unsigned char;
   using S8 = signed char;
   using U16 = unsigned short;
-  using S16 = signed short;
+  using S16 = short;
   using U32 = unsigned int;
-  using S32 = signed int;
+  using S32 = int;
   using U64 = uint64_t;
   using S64 = int64_t;
   using F32 = float;

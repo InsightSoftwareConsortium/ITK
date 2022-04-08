@@ -112,7 +112,7 @@ private:
   // To control overloaded versions of ComputeThreshold
   struct DispatchBase
   {};
-  template <signed int VDimension>
+  template <int VDimension>
   struct Dispatch : public DispatchBase
   {};
 

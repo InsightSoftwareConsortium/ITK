@@ -104,14 +104,14 @@ DoCastWithRangeCheckTestForTypes(const T1 * = nullptr)
   pass &= DoCastWithRangeCheckTest<T1, unsigned char>();
   pass &= DoCastWithRangeCheckTest<T1, signed char>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned short>();
-  pass &= DoCastWithRangeCheckTest<T1, signed short>();
+  pass &= DoCastWithRangeCheckTest<T1, short>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned int>();
-  pass &= DoCastWithRangeCheckTest<T1, signed int>();
+  pass &= DoCastWithRangeCheckTest<T1, int>();
   pass &= DoCastWithRangeCheckTest<T1, unsigned long>();
-  pass &= DoCastWithRangeCheckTest<T1, signed long>();
+  pass &= DoCastWithRangeCheckTest<T1, long>();
 #ifdef ITK_USE_LONG_LONG
   pass &= DoCastWithRangeCheckTest<T1, unsigned long long>();
-  pass &= DoCastWithRangeCheckTest<T1, signed long long>();
+  pass &= DoCastWithRangeCheckTest<T1, long long>();
 #endif
   return pass;
 }
@@ -138,8 +138,8 @@ itkMathCastWithRangeCheckTest(int, char *[])
 
   DoCastWithRangeCheckTestExulstive<signed char, unsigned char>();
   DoCastWithRangeCheckTestExulstive<unsigned char, signed char>();
-  DoCastWithRangeCheckTestExulstive<unsigned char, signed short>();
-  DoCastWithRangeCheckTestExulstive<signed char, signed short>();
+  DoCastWithRangeCheckTestExulstive<unsigned char, short>();
+  DoCastWithRangeCheckTestExulstive<signed char, short>();
 
   DoCastWithRangeCheckTestExulstive<unsigned int, signed char>();
 
@@ -147,14 +147,14 @@ itkMathCastWithRangeCheckTest(int, char *[])
   pass &= DoCastWithRangeCheckTestForTypes<unsigned char>();
   pass &= DoCastWithRangeCheckTestForTypes<signed char>();
   pass &= DoCastWithRangeCheckTestForTypes<unsigned short>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed short>();
+  pass &= DoCastWithRangeCheckTestForTypes<short>();
   pass &= DoCastWithRangeCheckTestForTypes<unsigned int>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed int>();
+  pass &= DoCastWithRangeCheckTestForTypes<int>();
   pass &= DoCastWithRangeCheckTestForTypes<unsigned long>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed long>();
+  pass &= DoCastWithRangeCheckTestForTypes<long>();
 #ifdef ITK_USE_LONG_LONG
   pass &= DoCastWithRangeCheckTestForTypes<unsigned long long>();
-  pass &= DoCastWithRangeCheckTestForTypes<signed long long>();
+  pass &= DoCastWithRangeCheckTestForTypes<long long>();
 #endif
 
   if (pass)

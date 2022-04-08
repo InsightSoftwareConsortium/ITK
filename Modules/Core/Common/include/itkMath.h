@@ -456,7 +456,7 @@ struct AlmostEqualsFunctionSelector<false, true, false, true>
 
 template <>
 struct AlmostEqualsFunctionSelector<false, true, true, true>
-// float vs signed int
+// float vs int
 {
   using SelectedVersion = AlmostEqualsFloatVsInteger;
 };
@@ -477,7 +477,7 @@ struct AlmostEqualsFunctionSelector<true, false, false, true>
 
 template <>
 struct AlmostEqualsFunctionSelector<true, true, false, true>
-// signed int vs float
+// int vs float
 {
   using SelectedVersion = AlmostEqualsIntegerVsFloat;
 };

@@ -75,7 +75,7 @@ itkMathRoundProfileTest1(int, char *[])
   //
   // Make sure that entries in the .5 locations are included
   //
-  for (signed int k = -10; k <= 10; ++k)
+  for (int k = -10; k <= 10; ++k)
   {
     const double value = k + 0.5;
     input.push_back(value);

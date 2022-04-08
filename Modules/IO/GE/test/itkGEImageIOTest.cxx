@@ -30,7 +30,7 @@
 
 // Specific ImageIO test
 
-using ImageType = itk::Image<signed short, 3>;
+using ImageType = itk::Image<short, 3>;
 using ImagePointer = ImageType::Pointer;
 using ImageReaderType = itk::ImageFileReader<ImageType>;
 using ImageWriterType = itk::ImageFileWriter<ImageType>;

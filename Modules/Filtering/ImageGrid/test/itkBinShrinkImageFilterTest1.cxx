@@ -28,7 +28,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
 
   // type alias to simplify the syntax
   using InputImageType = itk::Image<int, 2>;
-  using OutputImageType = itk::Image<long int, 2>;
+  using OutputImageType = itk::Image<long, 2>;
   auto sourceImage = InputImageType::New();
 
   // fill in an image

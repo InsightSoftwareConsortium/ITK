@@ -43,7 +43,7 @@ itkImageToImageFilterTest(int, char *[])
 
   constexpr unsigned int ImageDimension = 3;
   using InputPixelType = unsigned char;
-  using OutputPixelType = signed short;
+  using OutputPixelType = short;
 
   using InputImageType = itk::Image<InputPixelType, ImageDimension>;
   using OutputImageType = itk::Image<OutputPixelType, ImageDimension>;

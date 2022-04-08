@@ -201,9 +201,9 @@ itkMeshTest(int, char *[])
                                                                    6 } };
 
   // Insert cell of each kind
-  auto              cellVectorContainer = MeshType::CellsVectorContainer::New();
-  int               index = 0;
-  unsigned long int value = 1;
+  auto          cellVectorContainer = MeshType::CellsVectorContainer::New();
+  int           index = 0;
+  unsigned long value = 1;
   for (std::map<itk::CellGeometryEnum, unsigned int>::iterator iter = cellPointMap.begin(); iter != cellPointMap.end();
        ++iter)
   {
@@ -211,10 +211,10 @@ itkMeshTest(int, char *[])
     unsigned int          numOfPoints = iter->second;
 
     // Insert cell type
-    cellVectorContainer->InsertElement(index++, static_cast<unsigned long int>(cellType));
+    cellVectorContainer->InsertElement(index++, static_cast<unsigned long>(cellType));
 
     // Insert number of points
-    cellVectorContainer->InsertElement(index++, static_cast<unsigned long int>(numOfPoints));
+    cellVectorContainer->InsertElement(index++, static_cast<unsigned long>(numOfPoints));
 
     // Insert the points
     for (unsigned int i = 0; i < numOfPoints; ++i)

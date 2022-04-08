@@ -71,7 +71,7 @@ public:
 
     /** Types of pixel in image.  Values used by IMOD:
      * 0 = unsigned bytes,
-     * 1 = signed short integers (16 bits),
+     * 1 = short integers (16 bits),
      * 2 = float,
      * 3 = short * 2, (used for complex data)
      * 4 = float * 2, (used for complex data)

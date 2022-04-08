@@ -36,7 +36,7 @@ itkNiftiImageIOTest2(int argc, char * argv[])
   char * prefix = argv[3];
   int    test_success = 0;
 
-  using ImageType = itk::Image<signed short, 3>;
+  using ImageType = itk::Image<short, 3>;
   using ImagePointer = ImageType::Pointer;
 
   if ((strcmp(arg1, "true") == 0) && WriteNiftiTestFiles(prefix) == -1)

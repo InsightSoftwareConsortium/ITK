@@ -178,8 +178,8 @@ public:
       PointType transformedPoint = this->m_Transform->TransformPoint(*it);
       index = this->m_FixedImage->TransformPhysicalPointToIndex(transformedPoint);
       if (index[0] > 0L && index[1] > 0L &&
-          index[0] < static_cast<signed long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[0]) &&
-          index[1] < static_cast<signed long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[1]))
+          index[0] < static_cast<long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[0]) &&
+          index[1] < static_cast<long>(this->m_FixedImage->GetLargestPossibleRegion().GetSize()[1]))
       {
         value += this->m_FixedImage->GetPixel(index);
       }

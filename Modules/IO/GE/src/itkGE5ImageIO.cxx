@@ -404,7 +404,7 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   curImage->imageXres = hdr2Float(buffer + VOff(50, 52));
   curImage->imageYres = hdr2Float(buffer + VOff(54, 56));
 
-  short int GE_Plane(hdr2Short(buffer + VOff(114, 116)));
+  short GE_Plane(hdr2Short(buffer + VOff(114, 116)));
   switch (GE_Plane)
   {
     case GE_CORONAL:

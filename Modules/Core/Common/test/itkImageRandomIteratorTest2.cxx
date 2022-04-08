@@ -87,7 +87,7 @@ itkImageRandomIteratorTest2(int argc, char * argv[])
 
   if (argc > 4)
   {
-    using DifferencePixelType = signed long;
+    using DifferencePixelType = long;
     using DifferenceImageType = itk::Image<DifferencePixelType, ImageDimension>;
 
     using DifferenceFilterType = itk::Testing::ComparisonImageFilter<ImageType, DifferenceImageType>;

@@ -168,8 +168,8 @@ itkHoughTransform2DLinesImageTest(int, char *[])
 
   for (unsigned int i = 0; i < numberOfPixels; i += 1)
   {
-    index[0] = static_cast<long int>(Vx - VyNorm * i);
-    index[1] = static_cast<long int>(Vy + VxNorm * i);
+    index[0] = static_cast<long>(Vx - VyNorm * i);
+    index[1] = static_cast<long>(Vy + VxNorm * i);
 
     if (index[0] < static_cast<long>(size[0]) && index[0] >= 0 && index[1] < static_cast<long>(size[1]) &&
         index[1] >= 0)
@@ -300,8 +300,8 @@ itkHoughTransform2DLinesImageTest(int, char *[])
         {
           for (double length = 0; length < discRadius; length += 1)
           {
-            index[0] = static_cast<long int>(it_input.GetIndex()[0] + length * std::cos(angle));
-            index[1] = static_cast<long int>(it_input.GetIndex()[1] + length * std::sin(angle));
+            index[0] = static_cast<long>(it_input.GetIndex()[0] + length * std::cos(angle));
+            index[1] = static_cast<long>(it_input.GetIndex()[1] + length * std::sin(angle));
             if (index[0] <= std::sqrt(400.0 * 400 + 400 * 400) && index[0] >= 0 && index[1] <= angleResolution &&
                 index[1] >= 0)
             {

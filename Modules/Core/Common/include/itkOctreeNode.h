@@ -93,7 +93,7 @@ public:
    * member function.  Behavior is undefined when the child is another Octree.
    * \return A value between 0 and 255 to indicate the color of the Desired child.
    */
-  long int
+  long
   GetColor() const;
 
   /**

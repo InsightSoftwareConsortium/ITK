@@ -102,7 +102,7 @@ struct par_parameter // par_parameter
   char patient_position[PAR_DEFAULT_STRING_LENGTH];       // Patient position
   char prep_direction[PAR_DEFAULT_STRING_LENGTH];         // Preparation
                                                           // direction
-  short int bit;                                          // Image pixel size [8
+  short bit;                                              // Image pixel size [8
                                                           // or 16 bits]
   char technique[PAR_DEFAULT_STRING_LENGTH];              // Technique
   char scan_mode[PAR_DEFAULT_STRING_LENGTH];              // Scan mode
