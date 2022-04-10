@@ -776,7 +776,7 @@ compilers.
 
 #ifndef NDEBUG
 
-#  ifdef _POSIX_SOURCE
+#  ifdef __GLIBC__
 #    define itkAssertInDebugOrThrowInReleaseMacro(msg) __assert_fail(msg, __FILE__, __LINE__, __ASSERT_FUNCTION);
 #  else
 #    define itkAssertInDebugOrThrowInReleaseMacro(msg) itkGenericExceptionMacro(<< msg);
