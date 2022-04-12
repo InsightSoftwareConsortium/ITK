@@ -46,7 +46,7 @@ In order to determine the registration method appropriated for a particular prob
 
 \subsection TargetReference Target and Reference Objects
 
-Currently the Target an Reference objects can be of type itk::Image and itk::PointSet. Methods have been instantiated for a variety of <em> Image to Image </em> and <em> PointSet to Image </em> registration cases.
+Currently the Target and Reference objects can be of type itk::Image and itk::PointSet. Methods have been instantiated for a variety of <em> Image to Image </em> and <em> PointSet to Image </em> registration cases.
 
 
 
