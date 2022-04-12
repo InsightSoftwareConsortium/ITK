@@ -6,9 +6,15 @@ UNIQUE(types "${WRAP_ITK_REAL};D")
 
 itk_wrap_class("itk::PointSetToPointSetRegistrationMethod" POINTER)
   foreach(d ${ITK_WRAP_DIMS})
-    foreach(t ${WRAP_ITK_REAL})
+    foreach(t ${types})
       itk_wrap_template("REG${ITKM_${t}}${d}${ITKM_${t}}${d}"
                         "itk::PointSet< ${ITKT_${t}}, ${d} >, itk::PointSet< ${ITKT_${t}}, ${d} >")
     endforeach()
   endforeach()
+  if(d3 AND d2)
+    foreach(t ${types})
+      itk_wrap_template("REG${ITKM_${t}}2${ITKM_${t}}3"
+                        "itk::PointSet< ${ITKT_${t}}, 2 >, itk::PointSet< ${ITKT_${t}}, 3 >")
+    endforeach()
+  endif()
 itk_end_wrap_class()
