@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkThreadedImageRegionPartitioner.h"
+#include "itkTestingMacros.h"
 
 /*
  * Main test entry function
@@ -28,6 +29,10 @@ itkThreadedImageRegionPartitionerTest(int, char *[])
   using ThreadedImageRegionPartitionerType = itk::ThreadedImageRegionPartitioner<Dimension>;
   ThreadedImageRegionPartitionerType::Pointer threadedImageRegionPartitioner =
     ThreadedImageRegionPartitionerType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    threadedImageRegionPartitioner, ThreadedImageRegionPartitioner, ThreadedDomainPartitioner);
+
 
   using ImageRegionType = ThreadedImageRegionPartitionerType::DomainType;
 

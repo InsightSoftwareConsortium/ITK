@@ -20,6 +20,7 @@
 #include "itkJointHistogramMutualInformationImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 /* Simple test to verify that class builds and runs.
  * Results are not verified. See ImageToImageMetricv4Test
@@ -97,6 +98,17 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   using MetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<ImageType, ImageType, ImageType>;
   auto metric = MetricType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, JointHistogramMutualInformationImageToImageMetricv4, ImageToImageMetricv4);
+
+
+  itk::SizeValueType numberOfHistogramBins = 6;
+  metric->SetNumberOfHistogramBins(numberOfHistogramBins);
+  ITK_TEST_SET_GET_VALUE(numberOfHistogramBins, metric->GetNumberOfHistogramBins());
+
+  double varianceForJointPDFSmoothing = 1.5;
+  metric->SetVarianceForJointPDFSmoothing(varianceForJointPDFSmoothing);
+  ITK_TEST_SET_GET_VALUE(varianceForJointPDFSmoothing, metric->GetVarianceForJointPDFSmoothing());
+
   /* Assign images and transforms.
    * By not setting a virtual domain image or virtual domain settings,
    * the metric will use the fixed image for the virtual domain. */
@@ -104,7 +116,6 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   metric->SetMovingImage(movingImage);
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
-  metric->SetNumberOfHistogramBins(6);
 
   /* Initialize. */
   try
@@ -139,6 +150,8 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
     std::cerr << "Value return results are not identical: " << valueReturn1 << ", " << valueReturn2 << std::endl;
   }
 
+  std::cout << "JointPDF: " << metric->GetJointPDF() << std::endl;
+
   // Test that non-overlapping images will generate a warning
   // and return max value for metric value.
   MovingTransformType::ParametersType parameters(movingTransform->GetNumberOfParameters());
@@ -158,10 +171,6 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   movingTransform->SetIdentity();
 
   std::cout << "Test passed." << std::endl;
-
-  // exercise methods
-  metric->SetVarianceForJointPDFSmoothing(3);
-  metric->GetVarianceForJointPDFSmoothing();
 
   return EXIT_SUCCESS;
 }

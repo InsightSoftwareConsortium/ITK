@@ -72,6 +72,12 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     centerOfRotation.Fill(0);
     transform->SetCenterOfRotation(centerOfRotation);
     ITK_TEST_SET_GET_VALUE(centerOfRotation, transform->GetCenterOfRotation());
+
+    // This transform has no fixed parameters; empty method body; called for coverage purposes
+    typename TransformType::FixedParametersType::ValueType fixedParametersValues = 0;
+    typename TransformType::FixedParametersType            fixedParameters;
+    fixedParameters.Fill(fixedParametersValues);
+    transform->SetFixedParameters(fixedParameters);
   }
 
   /* Create a 3D identity transformation and show its parameters */
@@ -107,6 +113,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
     ioffset.Fill(0.0);
 
     translation->SetOffset(ioffset);
+    ITK_TEST_SET_GET_VALUE(ioffset, translation->GetOffset());
 
     TransformType::OffsetType offset = translation->GetOffset();
     std::cout << "pure Translation test:  ";
@@ -184,6 +191,7 @@ itkRigid3DPerspectiveTransformTest(int, char *[])
 
     rotation.Set(axis, angle);
     rigid->SetRotation(rotation);
+    ITK_TEST_SET_GET_VALUE(rotation, rigid->GetRotation());
 
     {
       // Project an itk::Point

@@ -22,6 +22,7 @@
 #include "itkGradientDescentOptimizer.h"
 
 #include "itkImageRegistrationMethodImageSource.h"
+#include "itkTestingMacros.h"
 
 /**
  *  This program tests one instantiation of the itk::ImageRegistrationMethod class
@@ -76,6 +77,9 @@ itkImageRegistrationMethodTest_1(int argc, char * argv[])
   auto registration = RegistrationType::New();
 
   auto imageSource = ImageSourceType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(imageSource, ImageRegistrationMethodImageSource, Object);
+
 
   SizeType size;
   size[0] = 100;

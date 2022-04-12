@@ -63,8 +63,13 @@ itkLoggerOutputTest(int argc, char * argv[])
 
     // Create an ITK LoggerOutput and then test it.
     itk::LoggerOutput::Pointer pOver = itk::LoggerOutput::New();
+
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(pOver, LoggerOutput, OutputWindow);
+
+
     pOver->OverrideITKWindow();
     pOver->SetLogger(logger); // redirect messages from ITK OutputWindow -> logger2
+    ITK_TEST_SET_GET_VALUE(logger, pOver->GetLogger());
 
     // test message for ITK OutputWindow
     itk::OutputWindow::GetInstance()->DisplayText("** This is from ITK OutputWindow **\n");

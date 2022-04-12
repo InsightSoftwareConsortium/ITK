@@ -21,6 +21,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 
 #include "itkLevelSetTestFunction.h"
+#include "itkTestingMacros.h"
 
 /**
  * \class ToleranceChecker
@@ -130,7 +131,12 @@ itkLevelSetDenseImageTest(int, char *[])
   }
 
   auto level_set = LevelSetType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(level_set, LevelSetDenseImage, DiscreteLevelSetImage);
+
+
   level_set->SetImage(input);
+  ITK_TEST_SET_GET_VALUE(input, level_set->GetImage());
 
   idx[0] = 9;
   idx[1] = 18;

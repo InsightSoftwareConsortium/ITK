@@ -16,6 +16,7 @@
  *
  *=========================================================================*/
 #include "itkQuadEdgeMesh.h"
+#include "itkMath.h"
 #include "itkMeshFileReader.h"
 #include "itkMeshFileWriter.h"
 
@@ -67,8 +68,30 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
 
   using CleanFilterType = itk::CleanQuadEdgeMeshFilter<MeshType, MeshType>;
   auto filter = CleanFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, CleanQuadEdgeMeshFilter, QuadEdgeMeshToQuadEdgeMeshFilter);
+
+
   filter->SetInput(mesh);
+
+  auto absTol = itk::NumericTraits<typename CleanFilterType::InputCoordRepType>::ZeroValue();
+  filter->SetAbsoluteTolerance(absTol);
+  ITK_TEST_SET_GET_VALUE(absTol, filter->GetAbsoluteTolerance());
+
   filter->SetRelativeTolerance(tol);
+  const Coord epsilon = 1e-6;
+  Coord       obtainedValue = filter->GetRelativeTolerance();
+  if (!itk::Math::FloatAlmostEqual(tol, obtainedValue, 10, epsilon))
+  {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in pixel GetRelativeTolerance" << std::endl;
+    std::cerr << "Expected value " << tol << std::endl;
+    std::cerr << " differs from " << obtainedValue;
+    std::cerr << " by more than " << epsilon << std::endl;
+    return EXIT_FAILURE;
+  }
+
   filter->Update();
 
   // ** WRITE OUTPUT **
@@ -77,7 +100,6 @@ itkCleanQuadEdgeMeshFilterTest(int argc, char * argv[])
   writer->SetFileName(argv[3]);
   writer->Update();
 
-  // ** PRINT **
-  std::cout << filter;
+
   return EXIT_SUCCESS;
 }

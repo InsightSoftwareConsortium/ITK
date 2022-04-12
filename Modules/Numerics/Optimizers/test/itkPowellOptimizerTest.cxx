@@ -194,6 +194,10 @@ itkPowellOptimizerTest(int argc, char * argv[])
   // Exercise various member functions.
   std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
   std::cout << std::endl;
+
+  ITK_TEST_EXPECT_EQUAL(itkOptimizer->GetValue(), itkOptimizer->GetCurrentCost());
+
+  std::cout << "Value: " << itkOptimizer->GetValue() << std::endl;
   std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << std::endl;
   std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << std::endl;
 

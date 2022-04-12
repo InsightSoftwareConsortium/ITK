@@ -127,6 +127,10 @@ itkExtractOrthogonalSwath2DImageFilterTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     extractOrthogonalSwath2DImageFilter, ExtractOrthogonalSwath2DImageFilter, ImageAndPathToImageFilter);
 
+
+  auto defaultPixelValue = itk::NumericTraits<typename ImageType::PixelType>::ZeroValue();
+  extractOrthogonalSwath2DImageFilter->SetDefaultPixelValue(defaultPixelValue);
+
   extractOrthogonalSwath2DImageFilter->SetImageInput(inputImage);
   extractOrthogonalSwath2DImageFilter->SetPathInput(chainCodeToFourierSeriesPathFilte->GetOutput());
   // Set the desired size of the filter's output

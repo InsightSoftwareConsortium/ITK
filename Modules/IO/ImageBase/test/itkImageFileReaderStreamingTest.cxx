@@ -59,7 +59,9 @@ itkImageFileReaderStreamingTest(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  reader->SetUseStreaming(true);
+
+  bool useStreaming = true;
+  ITK_TEST_SET_GET_BOOLEAN(reader, UseStreaming, useStreaming);
 
   using MonitorFilter = itk::PipelineMonitorImageFilter<ImageType>;
   auto monitor = MonitorFilter::New();

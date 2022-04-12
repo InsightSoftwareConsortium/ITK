@@ -49,6 +49,10 @@ itkLSMImageIOTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(lsmImageIO, LSMImageIO, TIFFImageIO);
 
+
+  // Not used; empty method body; called for coverage purposes
+  lsmImageIO->WriteImageInformation();
+
   reader->SetImageIO(lsmImageIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());

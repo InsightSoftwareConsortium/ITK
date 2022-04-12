@@ -129,8 +129,7 @@ itkLBFGSOptimizerTest(int, char *[])
 
   // Set some optimizer parameters
   bool trace = false;
-  itkOptimizer->SetTrace(trace);
-  ITK_TEST_SET_GET_VALUE(trace, itkOptimizer->GetTrace());
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Trace, trace);
 
   unsigned int maximumNumberOfFunctionEvaluations = 1000;
   itkOptimizer->SetMaximumNumberOfFunctionEvaluations(maximumNumberOfFunctionEvaluations);

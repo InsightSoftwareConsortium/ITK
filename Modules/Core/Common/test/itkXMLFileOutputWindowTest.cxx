@@ -25,10 +25,10 @@
 int
 itkXMLFileOutputWindowTest(int argc, char * argv[])
 {
-  if (argc != 2)
+  if (argc < 1)
   {
     std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " filename" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [filename]" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -36,8 +36,13 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(logger, XMLFileOutputWindow, FileOutputWindow);
 
-  logger->SetFileName(argv[1]);
+  if (argc > 1)
+  {
+    logger->SetFileName(argv[1]);
+  }
+
   logger->FlushOn();
+  logger->AppendOn();
 
   logger->SetInstance(logger);
 
@@ -71,7 +76,7 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
   // Check the number of lines written
   unsigned int  numLinesExpected = 7;
   unsigned int  numLinesRead = 0;
-  std::ifstream in(argv[1]);
+  std::ifstream in(logger->GetFileName());
   std::string   line;
   while (std::getline(in, line))
   {

@@ -19,6 +19,7 @@
 #include "itkCentralDifferenceImageFunction.h"
 #include "itkImageRegionIterator.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkCentralDifferenceImageFunctionTest(int, char *[])
@@ -57,6 +58,9 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
   using OutputValueType = FunctionType::OutputValueType;
 
   auto function = FunctionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, CentralDifferenceImageFunction, ImageFunction);
+
 
   function->SetInputImage(image);
 
@@ -294,7 +298,9 @@ itkCentralDifferenceImageFunctionTest(int, char *[])
 
   // with image direction disabled, result should be same as with
   // identity direction
-  function->SetUseImageDirection(false);
+  bool useImageDirection = false;
+  ITK_TEST_SET_GET_BOOLEAN(function, UseImageDirection, useImageDirection);
+
   OutputType directionOffDerivative = function->Evaluate(point);
   std::cout << "Point: " << point << " directionOffDerivative: " << directionOffDerivative << std::endl;
 

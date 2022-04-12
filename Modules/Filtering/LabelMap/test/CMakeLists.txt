@@ -179,7 +179,7 @@ itk_add_test(NAME itkBinaryImageToShapeLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/Spots-binaryimage-to-shapelabel.mha}
               ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-shapelabel.mha
-    itkBinaryImageToShapeLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/Spots.png} ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-shapelabel.mha 1 255 0 1 1)
+    itkBinaryImageToShapeLabelMapFilterTest1 DATA{${ITK_DATA_ROOT}/Input/Spots.png} ${ITK_TEST_OUTPUT_DIR}/Spots-binaryimage-to-shapelabel.mha 1 255 0 1 1 1)
 itk_add_test(NAME itkBinaryImageToStatisticsLabelMapFilterTest1
       COMMAND ITKLabelMapTestDriver
     --compare DATA{Baseline/Spots-binaryimage-to-statisticslabel.mha}

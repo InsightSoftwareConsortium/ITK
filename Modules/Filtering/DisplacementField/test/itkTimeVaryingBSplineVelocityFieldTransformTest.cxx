@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkTimeVaryingBSplineVelocityFieldTransform.h"
+#include "itkTestingMacros.h"
 
 int
 itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
@@ -58,8 +59,6 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
   integrator->SetLowerTimeBound(0.3);
   integrator->SetUpperTimeBound(0.75);
   integrator->Update();
-
-  integrator->Print(std::cout, 3);
 
   DisplacementFieldType::IndexType index;
   index.Fill(0);
@@ -117,18 +116,35 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
 
   using TransformType = itk::TimeVaryingBSplineVelocityFieldTransform<double, 3>;
   auto transform = TransformType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(transform, TimeVaryingBSplineVelocityFieldTransform, VelocityFieldTransform);
+
+
   transform->SetLowerTimeBound(0.0);
   transform->SetUpperTimeBound(1.0);
-  transform->SetSplineOrder(splineOrder);
-  transform->SetVelocityFieldOrigin(timeVaryingVelocityFieldOrigin);
-  transform->SetVelocityFieldDirection(timeVaryingVelocityFieldDirection);
-  transform->SetVelocityFieldSize(timeVaryingVelocityFieldSize);
-  transform->SetVelocityFieldSpacing(timeVaryingVelocityFieldSpacing);
-  transform->SetNumberOfIntegrationSteps(10);
-  transform->SetTimeVaryingVelocityFieldControlPointLattice(timeVaryingVelocityFieldControlPointLattice);
-  transform->IntegrateVelocityField();
 
-  transform->Print(std::cout, 3);
+  transform->SetSplineOrder(splineOrder);
+  ITK_TEST_SET_GET_VALUE(splineOrder, transform->GetSplineOrder());
+
+  transform->SetVelocityFieldOrigin(timeVaryingVelocityFieldOrigin);
+  ITK_TEST_SET_GET_VALUE(timeVaryingVelocityFieldOrigin, transform->GetVelocityFieldOrigin());
+
+  transform->SetVelocityFieldDirection(timeVaryingVelocityFieldDirection);
+  ITK_TEST_SET_GET_VALUE(timeVaryingVelocityFieldDirection, transform->GetVelocityFieldDirection());
+
+  transform->SetVelocityFieldSize(timeVaryingVelocityFieldSize);
+  ITK_TEST_SET_GET_VALUE(timeVaryingVelocityFieldSize, transform->GetVelocityFieldSize());
+
+  transform->SetVelocityFieldSpacing(timeVaryingVelocityFieldSpacing);
+  ITK_TEST_SET_GET_VALUE(timeVaryingVelocityFieldSpacing, transform->GetVelocityFieldSpacing());
+
+  transform->SetNumberOfIntegrationSteps(10);
+
+  transform->SetTimeVaryingVelocityFieldControlPointLattice(timeVaryingVelocityFieldControlPointLattice);
+  ITK_TEST_SET_GET_VALUE(timeVaryingVelocityFieldControlPointLattice,
+                         transform->GetTimeVaryingVelocityFieldControlPointLattice());
+
+  transform->IntegrateVelocityField();
 
   TransformType::InputPointType point;
   point.Fill(1.3);
@@ -163,7 +179,6 @@ itkTimeVaryingBSplineVelocityFieldTransformTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  transform->Print(std::cout, 3);
 
   return EXIT_SUCCESS;
 }

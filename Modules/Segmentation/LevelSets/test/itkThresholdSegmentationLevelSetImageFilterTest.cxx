@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkThresholdSegmentationLevelSetImageFilter.h"
+#include "itkTestingMacros.h"
 
 namespace TSIFTN
 {
@@ -187,11 +188,36 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
   using FilterType = itk::ThresholdSegmentationLevelSetImageFilter<::TSIFTN::SeedImageType, ::TSIFTN::ImageType>;
 
   auto filter = FilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, ThresholdSegmentationLevelSetImageFilter, SegmentationLevelSetImageFilter);
+
+
   filter->SetInput(seedImage);
   filter->SetFeatureImage(inputImage);
 
-  filter->SetUpperThreshold(63);
-  filter->SetLowerThreshold(50);
+  typename FilterType::ValueType upperThreshold = 63;
+  filter->SetUpperThreshold(upperThreshold);
+  ITK_TEST_SET_GET_VALUE(upperThreshold, filter->GetUpperThreshold());
+
+  typename FilterType::ValueType lowerThreshold = 50;
+  filter->SetLowerThreshold(lowerThreshold);
+  ITK_TEST_SET_GET_VALUE(lowerThreshold, filter->GetLowerThreshold());
+
+  typename FilterType::ValueType edgeWeight = 0.0;
+  filter->SetEdgeWeight(edgeWeight);
+  ITK_TEST_SET_GET_VALUE(edgeWeight, filter->GetEdgeWeight());
+
+  int smoothingIterations = 5;
+  filter->SetSmoothingIterations(smoothingIterations);
+  ITK_TEST_SET_GET_VALUE(smoothingIterations, filter->GetSmoothingIterations());
+
+  typename FilterType::ValueType smoothingTimeStep = 0.1;
+  filter->SetSmoothingTimeStep(smoothingTimeStep);
+  ITK_TEST_SET_GET_VALUE(smoothingTimeStep, filter->GetSmoothingTimeStep());
+
+  typename FilterType::ValueType smoothingConductance = 0.8;
+  filter->SetSmoothingConductance(smoothingConductance);
+  ITK_TEST_SET_GET_VALUE(smoothingConductance, filter->GetSmoothingConductance());
 
   filter->SetMaximumRMSError(0.04);
   filter->SetNumberOfIterations(10);
