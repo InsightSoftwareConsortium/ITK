@@ -22,6 +22,7 @@
 #include "itkRegularSphereMeshSource.h"
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkTriangleMeshToSimplexMeshFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkSimplexMeshVolumeCalculatorTest(int, char *[])
@@ -57,6 +58,9 @@ itkSimplexMeshVolumeCalculatorTest(int, char *[])
 
 
   auto calculator = VolumeCalculatorType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(calculator, SimplexMeshVolumeCalculator, Object);
+
 
   calculator->SetSimplexMesh(simplexFilter->GetOutput());
   for (int i = 1; i <= 5; ++i)

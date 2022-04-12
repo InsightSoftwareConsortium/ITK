@@ -21,6 +21,8 @@
 #include "itkQuadEdgeMesh.h"
 #include "itkTestingMacros.h"
 #include "itkMeshFileTestHelper.h"
+#include <fstream>
+#include <cstdio>
 
 
 int
@@ -49,8 +51,21 @@ itkMeshFileReaderWriterTest(int argc, char * argv[])
   reader->SetFileName(inputFileName);
   ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
+  inputFileName = "NonExistingFile.vtk";
+  reader->SetFileName(inputFileName);
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
+
+  inputFileName = "UnsupportedExtensionFile.mesh";
+  std::ofstream unsupportedExtFileOfs(inputFileName);
+  reader->SetFileName(inputFileName);
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
+
+  // Delete the created file
+  std::remove(inputFileName.c_str());
+
   inputFileName = argv[1];
   reader->SetFileName(inputFileName);
+  ITK_TEST_SET_GET_VALUE(inputFileName, reader->GetFileName());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
 

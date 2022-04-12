@@ -55,15 +55,20 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
 
 
   filter->SetInput(reader->GetOutput());
-  filter->SetOrder(2);
+
+  unsigned int order = 2;
+  filter->SetOrder(order);
+  ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
 
   if (std::stoi(argv[3]) == 1)
   {
     filter->SetAreaComputationType(FilterType::AreaEnum::MIXEDAREA);
+    ITK_TEST_SET_GET_VALUE(FilterType::AreaEnum::MIXEDAREA, filter->GetAreaComputationType());
   }
   else
   {
     filter->SetAreaComputationType(FilterType::AreaEnum::NONE);
+    ITK_TEST_SET_GET_VALUE(FilterType::AreaEnum::NONE, filter->GetAreaComputationType());
   }
 
   using CoefficientType = itk::ConformalMatrixCoefficients<MeshType>;

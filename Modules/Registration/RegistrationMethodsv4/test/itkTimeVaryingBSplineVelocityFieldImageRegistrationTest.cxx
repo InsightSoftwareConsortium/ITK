@@ -205,6 +205,8 @@ PerformTimeVaryingBSplineVelocityFieldImageRegistration(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     velocityFieldRegistration, TimeVaryingBSplineVelocityFieldImageRegistrationMethod, ImageRegistrationMethodv4);
 
+  // For coverage purposes
+  velocityFieldRegistration->DebugOn();
 
   auto convergenceThreshold = static_cast<typename VelocityFieldRegistrationType::RealType>(1.0e-7);
   if (argc >= 11)

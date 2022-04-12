@@ -470,6 +470,9 @@ itkMRCImageIOTest(int argc, char * argv[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mrcIO, MRCImageIO, StreamingImageIOBase);
 
 
+  // Not used; empty method body; called for coverage purposes
+  mrcIO->WriteImageInformation();
+
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

@@ -18,16 +18,32 @@
 
 #include "itkNumericSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
+#include "itkTestingMacros.h"
 
 int
 itkNumericSeriesFileNamesTest(int, char *[])
 {
 
   itk::NumericSeriesFileNames::Pointer fit = itk::NumericSeriesFileNames::New();
-  fit->SetStartIndex(10);
-  fit->SetEndIndex(20);
-  fit->SetIncrementIndex(2);
-  fit->SetSeriesFormat("foo.%0200d.png");
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(fit, NumericSeriesFileNames, Object);
+
+
+  itk::SizeValueType startIndex = 10;
+  fit->SetStartIndex(startIndex);
+  ITK_TEST_SET_GET_VALUE(startIndex, fit->GetStartIndex());
+
+  itk::SizeValueType endIndex = 20;
+  fit->SetEndIndex(endIndex);
+  ITK_TEST_SET_GET_VALUE(endIndex, fit->GetEndIndex());
+
+  itk::SizeValueType incrementIndex = 2;
+  fit->SetIncrementIndex(incrementIndex);
+  ITK_TEST_SET_GET_VALUE(incrementIndex, fit->GetIncrementIndex());
+
+  std::string format = "foo.%0200d.png";
+  fit->SetSeriesFormat(format);
+  ITK_TEST_SET_GET_VALUE(format, fit->GetSeriesFormat());
 
   std::vector<std::string>           names = fit->GetFileNames();
   std::vector<std::string>::iterator nit;
@@ -44,8 +60,6 @@ itkNumericSeriesFileNamesTest(int, char *[])
     }
     std::cout << "File: " << (*nit).c_str() << std::endl;
   }
-
-  std::cout << fit;
 
   return EXIT_SUCCESS;
 }

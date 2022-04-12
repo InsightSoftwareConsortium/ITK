@@ -61,10 +61,15 @@ itkImageToVideoFilterTest(int argc, char * argv[])
 
   using VideoFilterType = itk::ImageToVideoFilter<ImageType>;
   auto videoFilter = VideoFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(videoFilter, ImageToVideoFilter, VideoSource);
+
+
   videoFilter->SetInput(inputImage);
   // Arbitrarily set 0th axis as temporal dimension to split frames
   itk::IndexValueType frameAxis = 0;
   videoFilter->SetFrameAxis(frameAxis);
+  ITK_TEST_SET_GET_VALUE(frameAxis, videoFilter->GetFrameAxis());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(videoFilter->Update());
 

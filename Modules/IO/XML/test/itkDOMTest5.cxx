@@ -55,14 +55,20 @@ itkDOMTest5(int argc, char * argv[])
     // write the test object to an XML file
     itk::DOMTestObjectDOMWriter::Pointer writer = itk::DOMTestObjectDOMWriter::New();
     writer->SetInput(testobj1);
-    writer->SetFileName(argv[1]);
+
+    const auto filename = std::string(argv[1]);
+    writer->SetFileName(filename);
+    ITK_TEST_SET_GET_VALUE(filename, std::string(writer->GetFileName()));
+
     writer->Update();
 
     itk::DOMTestObject::Pointer testobj2;
 
     // read the object back to memory from the disk
     itk::DOMTestObjectDOMReader::Pointer reader = itk::DOMTestObjectDOMReader::New();
-    reader->SetFileName(argv[1]);
+    reader->SetFileName(filename);
+    ITK_TEST_SET_GET_VALUE(filename, std::string(reader->GetFileName()));
+
     reader->Update();
     testobj2 = reader->GetOutput();
 

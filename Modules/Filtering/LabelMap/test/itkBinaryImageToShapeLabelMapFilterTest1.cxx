@@ -27,13 +27,13 @@ int
 itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 {
 
-  if (argc != 8)
+  if (argc != 9)
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " inputBinaryImage outputShapeLabelMap";
     std::cerr << " fullyConnected(0/1) foregroundValue backgroundValue";
-    std::cerr << " feretDiameter, perimeter";
+    std::cerr << " feretDiameter perimeter computeOrientedBoundingBox";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
@@ -52,7 +52,11 @@ itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
 
   // converting binary image to shape label map
   using I2LType = itk::BinaryImageToShapeLabelMapFilter<ImageType, LabelMapType>;
-  auto                     i2l = I2LType::New();
+  auto i2l = I2LType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(i2l, BinaryImageToShapeLabelMapFilter, ImageToImageFilter);
+
+
   itk::SimpleFilterWatcher watcher1(i2l);
 
   i2l->SetInput(reader->GetOutput());
@@ -79,32 +83,14 @@ itkBinaryImageToShapeLabelMapFilterTest1(int argc, char * argv[])
   i2l->SetOutputBackgroundValue(outputBackgroundValue);
   ITK_TEST_SET_GET_VALUE(outputBackgroundValue, i2l->GetOutputBackgroundValue());
 
-  // testing get/set ComputeFeretDiameter macro
   bool computeFeretDiameter = (std::stoi(argv[6]));
-  i2l->SetComputeFeretDiameter(computeFeretDiameter);
-  ITK_TEST_SET_GET_VALUE(computeFeretDiameter, i2l->GetComputeFeretDiameter());
+  ITK_TEST_SET_GET_BOOLEAN(i2l, ComputeFeretDiameter, computeFeretDiameter);
 
-  // testing boolean ComputeFeretDiameter macro
-  i2l->ComputeFeretDiameterOff();
-  ITK_TEST_SET_GET_VALUE(false, i2l->GetComputeFeretDiameter());
-
-  i2l->ComputeFeretDiameterOn();
-  ITK_TEST_SET_GET_VALUE(true, i2l->GetComputeFeretDiameter());
-
-  // testing get/set ComputePerimeter macro
   bool computePerimeter = std::stoi(argv[7]);
-  i2l->SetComputePerimeter(computePerimeter);
-  ITK_TEST_SET_GET_VALUE(computePerimeter, i2l->GetComputePerimeter());
+  ITK_TEST_SET_GET_BOOLEAN(i2l, ComputePerimeter, computePerimeter);
 
-  // testing boolean ComputePerimeter macro
-  i2l->ComputePerimeterOff();
-  ITK_TEST_SET_GET_VALUE(false, i2l->GetComputePerimeter());
-
-  i2l->ComputePerimeterOn();
-  ITK_TEST_SET_GET_VALUE(true, i2l->GetComputePerimeter());
-
-  i2l->SetComputeOrientedBoundingBox(true);
-  ITK_TEST_SET_GET_VALUE(true, i2l->GetComputeOrientedBoundingBox());
+  bool computeOrientedBoundingBox = std::stoi(argv[8]);
+  ITK_TEST_SET_GET_BOOLEAN(i2l, ComputeOrientedBoundingBox, computeOrientedBoundingBox);
 
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;

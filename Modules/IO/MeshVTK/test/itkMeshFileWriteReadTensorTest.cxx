@@ -30,8 +30,8 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
               << "<OutputMesh3D.vtk> " << std::endl;
     return EXIT_FAILURE;
   }
-  const char * outputMesh2D = argv[1];
-  const char * outputMesh3D = argv[2];
+  const auto outputMesh2D = std::string(argv[1]);
+  const auto outputMesh3D = std::string(argv[2]);
 
   using TensorElementType = float;
   using Tensor2dType = itk::SymmetricSecondRankTensor<TensorElementType, 2>;
@@ -69,8 +69,16 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
   ITK_TEST_EXPECT_TRUE(vtkPolyDataMeshIO->GetSupportedWriteExtensions() == supportedExtensions);
 
   mesh2dWriter->SetMeshIO(vtkPolyDataMeshIO);
-  mesh2dWriter->SetInput(mesh2d);
+  ITK_TEST_SET_GET_VALUE(vtkPolyDataMeshIO, mesh2dWriter->GetMeshIO());
+
   mesh2dWriter->SetFileName(outputMesh2D);
+  ITK_TEST_SET_GET_VALUE(outputMesh2D, std::string(mesh2dWriter->GetFileName()));
+
+  bool useCompression = false;
+  ITK_TEST_SET_GET_BOOLEAN(mesh2dWriter, UseCompression, useCompression);
+
+  mesh2dWriter->SetInput(mesh2d);
+
   try
   {
     mesh2dWriter->Update();
@@ -100,9 +108,16 @@ itkMeshFileWriteReadTensorTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(mesh3dWriter, MeshFileWriter, ProcessObject);
 
-  mesh3dWriter->SetMeshIO(itk::VTKPolyDataMeshIO::New());
-  mesh3dWriter->SetInput(mesh3d);
+
+  itk::VTKPolyDataMeshIO::Pointer vtkPolyDataMeshIO2 = itk::VTKPolyDataMeshIO::New();
+  mesh3dWriter->SetMeshIO(vtkPolyDataMeshIO2);
+  ITK_TEST_SET_GET_VALUE(vtkPolyDataMeshIO2, mesh3dWriter->GetMeshIO());
+
   mesh3dWriter->SetFileName(outputMesh3D);
+  ITK_TEST_SET_GET_VALUE(outputMesh3D, std::string(mesh3dWriter->GetFileName()));
+
+  mesh3dWriter->SetInput(mesh3d);
+
   try
   {
     mesh3dWriter->Update();

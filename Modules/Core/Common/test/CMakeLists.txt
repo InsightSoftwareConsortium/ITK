@@ -592,7 +592,11 @@ itk_add_test(NAME itkMultithreadingTest COMMAND ITKCommon2TestDriver itkMultithr
 
 itk_add_test(NAME itkMultiThreaderExceptionsTest COMMAND ITKCommon2TestDriver itkMultiThreaderExceptionsTest)
 
-itk_add_test(NAME itkXMLFileOutputWindowTest
+itk_add_test(NAME itkXMLFileOutputWindowTestNoFilename
+      COMMAND ITKCommon2TestDriver
+    itkXMLFileOutputWindowTest)
+
+itk_add_test(NAME itkXMLFileOutputWindowTestFilename
       COMMAND ITKCommon2TestDriver
     itkXMLFileOutputWindowTest ${ITK_TEST_OUTPUT_DIR}/itkXMLFileOutputWindowTest.xml)
 

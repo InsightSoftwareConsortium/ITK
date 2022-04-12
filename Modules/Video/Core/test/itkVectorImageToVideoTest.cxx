@@ -56,6 +56,7 @@ itkVectorImageToVideoTest(int argc, char * argv[])
   // Arbitrarily set last axis as temporal dimension to split frames
   itk::IndexValueType frameAxis = Dimension - 1;
   videoFilter->SetFrameAxis(frameAxis);
+  ITK_TEST_SET_GET_VALUE(frameAxis, videoFilter->GetFrameAxis());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(videoFilter->Update());
 

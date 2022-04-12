@@ -81,6 +81,7 @@ itkGDCMImageReadSeriesWriteTest(int argc, char * argv[])
   auto seriesWriter = SeriesWriterType::New();
   seriesWriter->SetInput(reader->GetOutput());
   seriesWriter->SetImageIO(gdcmIO);
+  ITK_TEST_SET_GET_VALUE(gdcmIO, seriesWriter->GetImageIO());
 
   ImageType::RegionType region = reader->GetOutput()->GetLargestPossibleRegion();
   ImageType::IndexType  start = region.GetIndex();
