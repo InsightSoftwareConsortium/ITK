@@ -24,30 +24,18 @@ set( DOX_MODULE_LIST ${ITK_MODULES_ENABLED} )
 
 foreach(itk-module ${DOX_MODULE_LIST})
   if(${itk-module}_IS_TEST)
-    list( APPEND DOXYGEN_TEST_DIRS "\"${${itk-module}_SOURCE_DIR}\" \\\n ")
+    list( APPEND DOXYGEN_TEST_DIRS "${${itk-module}_SOURCE_DIR}")
   else()
     if( EXISTS ${${itk-module}_SOURCE_DIR}/include )
-      list( APPEND DOXYGEN_INCLUDE_DIRS "\"${${itk-module}_SOURCE_DIR}/include\" \\\n")
+      list( APPEND DOXYGEN_INCLUDE_DIRS "${${itk-module}_SOURCE_DIR}/include")
     endif()
   endif()
 endforeach()
 
-list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}/Examples\" \\\n")
-list( APPEND DOXYGEN_TEST_DIRS "\"${ITK_SOURCE_DIR}\" \\\n")
-list( APPEND DOXYGEN_TEST_DIRS " \"${ITK_SOURCE_DIR}/Modules/Remote\"\n")
+list( APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Examples")
+list( APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}")
+list( APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Modules/Remote")
 
-# By definition DOXYGEN_TEST_DIRS can not be empty. In the worst case if
-# BUILD_TESTING is turned OFF, there are at least 3 strings in
-# DOXYGEN_TEST_DIRS: ${ITK_SOURCE_DIR}/Examples, ${ITK_SOURCE_DIR},
-# and ${ITK_SOURCE_DIR}/Modules/Remote
-string( REPLACE ";" " \\\\n" DOXYGEN_TEST_DIRS ${DOXYGEN_TEST_DIRS} )
-
-list( LENGTH DOXYGEN_INCLUDE_DIRS _doxygen_include_dirs_size )
-
-if( ${_doxygen_include_dirs_size} GREATER 0 )
-  # replace ";" in the string by space+backslash+newline
-  string( REPLACE ";" " \\\\n" DOXYGEN_INCLUDE_DIRS ${DOXYGEN_INCLUDE_DIRS} )
-endif()
 
 #
 # Configure the script and the doxyfile, then add target
@@ -145,7 +133,7 @@ if (ITK_BUILD_DOCUMENTATION)
           # -- Only build if 'Documentation' target is requested ALL
           WORKING_DIRECTORY ${ITK_BINARY_DIR}/Utilities/Doxygen
           # -- Some of the ITK_DOXYGEN_INPUT are directories, USE_STAMP_FILE requires only files be listed
-          COMMENT "-- Wrapping ITK: Constructing documentation xml structure."
+          COMMENT "-- Building ITK Doxygen."
       )
   unset(ITK_DOXYGEN_INPUT)
 
