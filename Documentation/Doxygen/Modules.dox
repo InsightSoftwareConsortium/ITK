@@ -570,5 +570,8 @@ These objects are the basic system objects used in building ITK.
   indicate what to do to replace this class in your code.
 */
 
+/**
+  \defgroup Writers Objects related to writing data
 
-
+  Objects that allow writing to a file data produced by ITK filters.
+*/
