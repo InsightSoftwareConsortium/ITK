@@ -51,7 +51,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Image, Object);
+  itkTypeMacro(ImageRegistrationMethodImageSource, Object);
 
 
   using MovingImageType = itk::Image<TMovingPixelType, VDimension>;
