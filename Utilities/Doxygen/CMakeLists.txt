@@ -53,6 +53,8 @@ cmake_dependent_option( ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" O
 cmake_dependent_option( ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF "ITK_BUILD_DOCUMENTATION" OFF)
 cmake_dependent_option( ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
 
+cmake_dependent_option( ITK_DOXYGEN_SERVER_BASED_SEARCH "Doxygen HTML will use PHP server based search." ON ITK_DOXYGEN_HTML OFF)
+
 mark_as_advanced( ITK_DOXYGEN_HTML
   ITK_DOXYGEN_DOCSET
   ITK_DOXYGEN_CHM
@@ -61,7 +63,8 @@ mark_as_advanced( ITK_DOXYGEN_HTML
   ITK_DOXYGEN_LATEX
   ITK_DOXYGEN_RTF
   ITK_DOXYGEN_XML
-)
+  ITK_DOXYGEN_SERVER_BASED_SEARCH
+  )
 
 find_package( Perl )
 
