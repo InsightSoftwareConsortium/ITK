@@ -26,6 +26,7 @@
  *
  *=========================================================================*/
 #include "itkPlatformMultiThreader.h"
+#include "itkBitCast.h"
 #include "itkObjectFactory.h"
 #include "itksys/SystemTools.hxx"
 #include <cstdlib>
@@ -71,8 +72,8 @@ PlatformMultiThreader::MultipleMethodExecute()
     m_ThreadInfoArray[threadCount].UserData = m_MultipleData[threadCount];
     m_ThreadInfoArray[threadCount].NumberOfWorkUnits = m_NumberOfWorkUnits;
 
-    processId[threadCount] = (void *)_beginthreadex(
-      nullptr, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, (unsigned int *)&threadId);
+    processId[threadCount] = bit_cast<HANDLE>(_beginthreadex(
+      nullptr, 0, m_MultipleMethod[threadCount], &m_ThreadInfoArray[threadCount], 0, (unsigned int *)&threadId));
 
     if (processId[threadCount] == nullptr)
     {
@@ -137,7 +138,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
   // Using _beginthreadex on a PC
   //
   m_SpawnedThreadProcessID[id] =
-    (void *)_beginthreadex(nullptr, 0, f, &m_SpawnedThreadInfoArray[id], 0, (unsigned int *)&threadId);
+    bit_cast<HANDLE>(_beginthreadex(nullptr, 0, f, &m_SpawnedThreadInfoArray[id], 0, (unsigned int *)&threadId));
   if (m_SpawnedThreadProcessID[id] == nullptr)
   {
     itkExceptionMacro("Error in thread creation !!!");
@@ -175,9 +176,9 @@ ThreadProcessIdType
 PlatformMultiThreader::SpawnDispatchSingleMethodThread(PlatformMultiThreader::WorkUnitInfo * threadInfo)
 {
   // Using _beginthreadex on a PC
-  DWORD  threadId;
-  HANDLE threadHandle =
-    (HANDLE)_beginthreadex(nullptr, 0, this->SingleMethodProxy, threadInfo, 0, (unsigned int *)&threadId);
+  DWORD threadId;
+  auto  threadHandle =
+    bit_cast<HANDLE>(_beginthreadex(nullptr, 0, this->SingleMethodProxy, threadInfo, 0, (unsigned int *)&threadId));
   if (threadHandle == nullptr)
   {
     itkExceptionMacro("Error in thread creation !!!");
