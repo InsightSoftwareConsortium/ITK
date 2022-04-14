@@ -626,6 +626,7 @@ endif()
 
 set(ITKCommonGTests
       itkAggregateTypesGTest.cxx
+      itkBitCastGTest.cxx
       itkBooleanStdVectorGTest.cxx
       itkBuildInformationGTest.cxx
       itkConnectedImageNeighborhoodShapeGTest.cxx
