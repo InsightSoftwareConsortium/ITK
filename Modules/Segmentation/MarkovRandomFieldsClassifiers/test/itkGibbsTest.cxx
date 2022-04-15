@@ -27,9 +27,7 @@
 
 int
 itkGibbsTest(int, char *[])
-// int main()
 {
-  std::cout << "Gibbs Prior Test Begins: " << std::endl;
 
   constexpr unsigned int IMGWIDTH = 20;
   constexpr unsigned int IMGHEIGHT = 20;

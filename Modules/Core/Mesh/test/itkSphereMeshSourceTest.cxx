@@ -59,7 +59,6 @@ itkSphereMeshSourceTest(int, char *[])
   pt.Fill(0.0);
   pt_ptr = &pt;
 
-  std::cout << "Testing itk::SphereMeshSource " << std::endl;
   for (int i = 0; i < 12; ++i)
   {
     mySphereMeshSource->GetOutput()->GetPoint(i, pt_ptr);
