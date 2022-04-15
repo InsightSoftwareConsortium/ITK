@@ -26,6 +26,12 @@
 int
 itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
 {
+  if (argc != 3)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << std::endl;
+    return EXIT_FAILURE;
+  }
 
   using MeshType = itk::QuadEdgeMesh<float, 3>;
   using ReaderType = itk::VTKPolyDataReader<MeshType>;
@@ -34,16 +40,8 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
   auto polyDataReader = ReaderType::New();
   auto polyDataWriter = WriterType::New();
 
-  if (argc != 3)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFilename outputFilename" << std::endl;
-    return EXIT_FAILURE;
-  }
-  else
-  {
-    polyDataReader->SetFileName(argv[1]);
-    polyDataWriter->SetFileName(argv[2]);
-  }
+  polyDataReader->SetFileName(argv[1]);
+  polyDataWriter->SetFileName(argv[2]);
 
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
