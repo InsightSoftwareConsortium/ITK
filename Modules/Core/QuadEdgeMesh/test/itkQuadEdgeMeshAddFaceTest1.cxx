@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkQuadEdgeMeshBoundaryEdgesMeshFunction.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -24,7 +25,14 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
 {
   if (argc != 2)
   {
-    std::cout << "Requires 1 argument" << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " testType [0..5]:" << std::endl;
+    std::cerr << " 0-Test regular cases (i)." << std::endl;
+    std::cerr << " 1-Test regular cases (ii)." << std::endl;
+    std::cerr << " 2-Test merging two triangulations with opposite orientations." << std::endl;
+    std::cerr << " 3-Test adding a quadrangle." << std::endl;
+    std::cerr << " 4-Test adding a face with five edges." << std::endl;
+    std::cerr << " 5-Test adding with a Moebius strip." << std::endl;
     return EXIT_FAILURE;
   }
 

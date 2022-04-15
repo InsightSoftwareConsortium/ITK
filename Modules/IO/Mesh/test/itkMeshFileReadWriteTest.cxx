@@ -19,13 +19,15 @@
 #include "itkQuadEdgeMesh.h"
 
 #include "itkMeshFileTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkMeshFileReadWriteTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Invalid commands, You need input and output mesh file name " << std::endl;
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
