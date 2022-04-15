@@ -73,7 +73,7 @@ itkQuadEdgeMeshDeleteEdgeTest(int, char *[])
   mesh->AddEdge(pid2, pid0);
   mesh->AddEdge(pid2, pid3);
 
-  int edgesBefore = mesh->ComputeNumberOfEdges();
+  itk::IdentifierType edgesBefore = mesh->ComputeNumberOfEdges();
 
   // Deleting two arbitrary edges:
   mesh->DeleteEdge(pid3, pid4);
