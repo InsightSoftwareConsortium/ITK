@@ -21,10 +21,8 @@
 #include "itkTestingMacros.h"
 
 int
-itkQuadEdgeMeshEulerOperatorJoinFacetTest(int argc, char * argv[])
+itkQuadEdgeMeshEulerOperatorJoinFacetTest(int, char *[])
 {
-  (void)argc;
-  (void)argv;
 
   using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
