@@ -89,8 +89,8 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
     pid[i] = mesh->AddPoint(points[i]);
   }
 
-  int test_type = std::stoi(argv[1]);
-  if (test_type == 0)
+  int testType = std::stoi(argv[1]);
+  if (testType == 0)
   {
 
 #ifndef NDEBUG
@@ -237,7 +237,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  if (test_type == 1)
+  if (testType == 1)
   {
     ///////////////////////////////////////////////////////////////////////
     // typical cases
@@ -348,7 +348,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  if (test_type == 2)
+  if (testType == 2)
   {
 
     /////////////////////////////////////////////////////////////////////
@@ -437,7 +437,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  if (test_type == 3)
+  if (testType == 3)
   {
 
     //////////////////////////////////////////////////////////////////////
@@ -524,7 +524,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  if (test_type == 4)
+  if (testType == 4)
   {
     // Adding a face with five edges.                         //
     //                                                        //
@@ -559,7 +559,7 @@ itkQuadEdgeMeshAddFaceTest1(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  if (test_type == 5)
+  if (testType == 5)
   {
     /////////////////////////////////////////////////////////////////////
     // The Moebius strip should be rejected by itk::QuadEdgeMesh::AddFace() of a

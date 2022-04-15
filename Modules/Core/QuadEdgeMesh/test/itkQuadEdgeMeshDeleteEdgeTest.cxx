@@ -73,14 +73,14 @@ itkQuadEdgeMeshDeleteEdgeTest(int, char *[])
   mesh->AddEdge(pid2, pid0);
   mesh->AddEdge(pid2, pid3);
 
-  int EdgesBefore = mesh->ComputeNumberOfEdges();
+  int edgesBefore = mesh->ComputeNumberOfEdges();
 
   // Deleting two arbitrary edges:
   mesh->DeleteEdge(pid3, pid4);
   mesh->DeleteEdge(pid0, pid5);
 
   std::cout << indent << "Trying to remove only two edges...";
-  if (EdgesBefore - mesh->ComputeNumberOfEdges() == 2)
+  if (edgesBefore - mesh->ComputeNumberOfEdges() == 2)
   {
     std::cout << "OK." << std::endl;
     return (EXIT_SUCCESS);
