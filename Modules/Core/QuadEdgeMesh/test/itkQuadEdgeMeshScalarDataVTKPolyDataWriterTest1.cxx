@@ -65,8 +65,6 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   PointType pt;
   pt.Fill(0.);
 
-  std::cout << "Testing itk::RegularSphereMeshSource " << std::endl;
-
   myMesh->Print(std::cout);
 
   for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
@@ -91,8 +89,6 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
     }
   }
 
-  std::cout << "Test End " << std::endl;
-
   using WriterType = itk::QuadEdgeMeshScalarDataVTKPolyDataWriter<MeshType>;
 
   auto writer = WriterType::New();
@@ -114,5 +110,6 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

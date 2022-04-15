@@ -146,7 +146,6 @@ protected:
 int
 itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 {
-  std::cout << "Last modified 11/08/02" << std::endl;
 
   TSIFTN::ImageType::RegionType            reg;
   TSIFTN::ImageType::RegionType::SizeType  sz;

@@ -71,8 +71,6 @@ itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
   PointType pt;
   pt.Fill(0.);
 
-  std::cout << "Testing itk::RegularSphereMeshSource " << std::endl;
-
   for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
   {
     myMesh->GetPoint(i, &pt);
@@ -86,7 +84,6 @@ itkRegularSphereQuadEdgeMeshSourceTest(int argc, char * argv[])
   writer->SetFileName(argv[1]);
   writer->Write();
 
-  std::cout << "Test End " << std::endl;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
