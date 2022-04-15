@@ -68,15 +68,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   // Set up the reader
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Error in reading the input image: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   // Reduce region of interest by SEARCH_RADIUS
   using RegionOfInterestFilterType = itk::RegionOfInterestImageFilter<InputImageType, InputImageType>;
@@ -145,15 +139,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(searchRadius, blockMatchingFilter->GetSearchRadius());
 
   std::cout << "Block matching: " << blockMatchingFilter << std::endl;
-  try
-  {
-    blockMatchingFilter->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(blockMatchingFilter->Update());
+
 
   // Exercise the following methods
   BlockMatchingFilterType::DisplacementsType * displacements = blockMatchingFilter->GetDisplacements();
@@ -175,15 +163,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   colormapImageFilter->SetColormap(itk::ScalarToRGBColormapImageFilterEnums::RGBColormapFilter::Grey);
   colormapImageFilter->SetInput(reader->GetOutput());
-  try
-  {
-    colormapImageFilter->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cerr << err << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(colormapImageFilter->Update());
+
 
   OutputImageType::Pointer outputImage = colormapImageFilter->GetOutput();
 
@@ -242,15 +224,9 @@ itkBlockMatchingImageFilterTest(int argc, char * argv[])
 
   writer->SetFileName(argv[2]);
   writer->SetInput(outputImage);
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Error in writing the output image:" << e << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   return EXIT_SUCCESS;
 }

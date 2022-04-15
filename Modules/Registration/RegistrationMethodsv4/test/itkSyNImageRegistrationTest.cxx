@@ -367,16 +367,8 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   auto DisplacementFieldObserver = DisplacementFieldCommandType::New();
   displacementFieldRegistration->AddObserver(itk::IterationEvent(), DisplacementFieldObserver);
 
-  try
-  {
-    std::cout << "SyN registration" << std::endl;
-    displacementFieldRegistration->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldRegistration->Update());
+
 
   compositeTransform->AddTransform(outputTransform);
 

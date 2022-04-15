@@ -106,15 +106,8 @@ itkLaplacianDeformationQuadEdgeMeshFilterWithHardConstraintsTest(int argc, char 
     ++it;
   }
 
-  try
-  {
-    filter->Update();
-  }
-  catch (const itk::ExceptionObject & except)
-  {
-    std::cerr << "Failure: " << except.what();
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
 
   using WriterType = itk::MeshFileWriter<MeshType>;
   auto writer = WriterType::New();

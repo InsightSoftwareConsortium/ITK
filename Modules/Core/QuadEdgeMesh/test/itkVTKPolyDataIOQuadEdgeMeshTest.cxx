@@ -45,16 +45,9 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
 
   std::cout << "polyDataReader:" << std::endl;
   std::cout << polyDataReader << std::endl;
-  try
-  {
-    polyDataReader->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error during Update() " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(polyDataReader->Update());
+
 
   MeshType::Pointer mesh = polyDataReader->GetOutput();
 
@@ -62,16 +55,9 @@ itkVTKPolyDataIOQuadEdgeMeshTest(int argc, char * argv[])
 
   std::cout << "polyDataWriter:" << std::endl;
   std::cout << polyDataWriter << std::endl;
-  try
-  {
-    polyDataWriter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error during Update() " << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(polyDataWriter->Update());
+
 
   // Should make a diff
 

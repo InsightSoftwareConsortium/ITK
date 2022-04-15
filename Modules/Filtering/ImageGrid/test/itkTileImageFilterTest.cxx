@@ -79,17 +79,11 @@ itkTileImageFilterTest(int argc, char * argv[])
 
   writer->SetSeriesFormat(argv[argc - 1]);
 
-  try
-  {
-    writer->SetInput(tiler->GetOutput());
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Error while writing the series with SeriesFileNames generator" << std::endl;
-    std::cerr << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->SetInput(tiler->GetOutput()));
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
+
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;
 }
