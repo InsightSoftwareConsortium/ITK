@@ -23,6 +23,7 @@
 #include "itkImageGaussianModelEstimator.h"
 #include "itkMahalanobisDistanceMembershipFunction.h"
 #include "itkMinimumDecisionRule.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -254,6 +255,15 @@ itkGibbsTest(int, char *[])
   using GibbsPriorFilterType = itk::RGBGibbsPriorFilter<VecImageType, ClassImageType>;
   auto applyGibbsImageFilter = GibbsPriorFilterType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(applyGibbsImageFilter, RGBGibbsPriorFilter, MRFImageFilter);
+
+  // Set the MRF labeller parameters
+  applyGibbsImageFilter->SetNumberOfClasses(NumClasses);
+  ITK_TEST_SET_GET_VALUE(NumClasses, applyGibbsImageFilter->GetNumberOfClasses());
+
+  applyGibbsImageFilter->SetMaximumNumberOfIterations(MaxNumIter);
+  ITK_TEST_SET_GET_VALUE(MaxNumIter, applyGibbsImageFilter->GetMaximumNumberOfIterations());
+
   // Set the MRF labeller parameters
   applyGibbsImageFilter->SetNumberOfClasses(NumClasses);
   applyGibbsImageFilter->SetMaximumNumberOfIterations(MaxNumIter);
@@ -263,38 +273,41 @@ itkGibbsTest(int, char *[])
   applyGibbsImageFilter->SetBoundaryGradient(6);
   applyGibbsImageFilter->SetObjectLabel(1);
   //  applyGibbsImageFilter->SetRecursiveNumber(1);
-  applyGibbsImageFilter->SetCliqueWeight_1(5.0);
-  applyGibbsImageFilter->SetCliqueWeight_2(5.0);
-  applyGibbsImageFilter->SetCliqueWeight_3(5.0);
-  applyGibbsImageFilter->SetCliqueWeight_4(5.0);
-  applyGibbsImageFilter->SetCliqueWeight_5(5.0);
-  applyGibbsImageFilter->SetCliqueWeight_6(0.0);
+
+  double cliqueWeight1 = 5.0;
+  applyGibbsImageFilter->SetCliqueWeight_1(cliqueWeight1);
+  ITK_TEST_SET_GET_VALUE(cliqueWeight1, applyGibbsImageFilter->GetCliqueWeight_1());
+
+  double cliqueWeight2 = 5.0;
+  applyGibbsImageFilter->SetCliqueWeight_2(cliqueWeight2);
+  ITK_TEST_SET_GET_VALUE(cliqueWeight2, applyGibbsImageFilter->GetCliqueWeight_2());
+
+  double cliqueWeight3 = 5.0;
+  applyGibbsImageFilter->SetCliqueWeight_3(cliqueWeight3);
+  ITK_TEST_SET_GET_VALUE(cliqueWeight3, applyGibbsImageFilter->GetCliqueWeight_3());
+
+  double cliqueWeight4 = 5.0;
+  applyGibbsImageFilter->SetCliqueWeight_4(cliqueWeight4);
+  ITK_TEST_SET_GET_VALUE(cliqueWeight4, applyGibbsImageFilter->GetCliqueWeight_4());
+
+  double cliqueWeight5 = 5.0;
+  applyGibbsImageFilter->SetCliqueWeight_5(cliqueWeight5);
+  ITK_TEST_SET_GET_VALUE(cliqueWeight5, applyGibbsImageFilter->GetCliqueWeight_5());
+
+  double cliqueWeight6 = 0.0;
+  applyGibbsImageFilter->SetCliqueWeight_6(cliqueWeight6);
+  ITK_TEST_SET_GET_VALUE(cliqueWeight6, applyGibbsImageFilter->GetCliqueWeight_6());
 
   applyGibbsImageFilter->SetInput(vecImage);
   applyGibbsImageFilter->SetClassifier(myClassifier);
 
-
   applyGibbsImageFilter->SetObjectThreshold(5.0);
-
-  /** coverage */
-  std::cout << applyGibbsImageFilter->GetNumberOfClasses() << std::endl;
-  std::cout << applyGibbsImageFilter->GetMaximumNumberOfIterations() << std::endl;
-
-  /** coverage */
-  std::cout << applyGibbsImageFilter->GetCliqueWeight_1() << std::endl;
-  std::cout << applyGibbsImageFilter->GetCliqueWeight_2() << std::endl;
-  std::cout << applyGibbsImageFilter->GetCliqueWeight_3() << std::endl;
-  std::cout << applyGibbsImageFilter->GetCliqueWeight_4() << std::endl;
-  std::cout << applyGibbsImageFilter->GetCliqueWeight_5() << std::endl;
-  std::cout << applyGibbsImageFilter->GetCliqueWeight_6() << std::endl;
 
   // Since a suvervised classifier is used, it requires a training image
   applyGibbsImageFilter->SetTrainingImage(classImage);
 
   // Kick off the Gibbs labeller function
   applyGibbsImageFilter->Update();
-
-  std::cout << "applyGibbsImageFilter: " << applyGibbsImageFilter;
 
   ClassImageType::Pointer outClassImage = applyGibbsImageFilter->GetOutput();
 

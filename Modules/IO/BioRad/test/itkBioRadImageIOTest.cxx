@@ -46,6 +46,13 @@ itkBioRadImageIOTest(int argc, char * argv[])
   reader->SetFileName(filename);
 
   auto bioradImageIO = ImageIOType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(bioradImageIO, BioRadImageIO, ImageIOBase);
+
+
+  // Not used; empty method body; called for coverage purposes
+  bioradImageIO->WriteImageInformation();
+
   reader->SetImageIO(bioradImageIO);
 
   ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
@@ -59,7 +66,6 @@ itkBioRadImageIOTest(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
 
-  bioradImageIO->Print(std::cout);
 
   return EXIT_SUCCESS;
 }

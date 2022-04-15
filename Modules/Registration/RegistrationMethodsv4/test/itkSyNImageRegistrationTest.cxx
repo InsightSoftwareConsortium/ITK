@@ -322,6 +322,12 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   displacementFieldRegistration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
   displacementFieldRegistration->SetMetric(correlationMetric);
 
+  typename OutputTransformType::Pointer fixedToMiddleTransform;
+  displacementFieldRegistration->SetFixedToMiddleTransform(fixedToMiddleTransform);
+
+  typename OutputTransformType::Pointer movingToMiddleTransform;
+  displacementFieldRegistration->SetMovingToMiddleTransform(movingToMiddleTransform);
+
   const typename DisplacementFieldRegistrationType::RealType epsilon =
     itk::NumericTraits<typename DisplacementFieldRegistrationType::RealType>::epsilon();
   const typename DisplacementFieldRegistrationType::RealType learningRate = std::stod(argv[6]);

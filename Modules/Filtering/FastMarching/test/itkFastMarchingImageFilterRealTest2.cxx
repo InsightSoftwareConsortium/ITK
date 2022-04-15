@@ -153,7 +153,12 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   using AdaptorType = itk::FastMarchingImageToNodePairContainerAdaptor<FloatImageType, FloatImageType, FloatImageType>;
 
   auto adaptor = AdaptorType::New();
-  adaptor->SetIsForbiddenImageBinaryMask(true);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(adaptor, FastMarchingImageToNodePairContainerAdaptor, Object);
+
+
+  bool isForbiddenImageBinaryMask = true;
+  ITK_TEST_SET_GET_BOOLEAN(adaptor, IsForbiddenImageBinaryMask, isForbiddenImageBinaryMask);
 
   adaptor->SetAliveImage(aliveImage.GetPointer());
   adaptor->SetAliveValue(0.0);

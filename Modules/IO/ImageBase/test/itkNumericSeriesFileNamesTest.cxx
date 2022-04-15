@@ -29,15 +29,33 @@ itkNumericSeriesFileNamesTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(fit, NumericSeriesFileNames, Object);
 
 
-  itk::SizeValueType startIndex = 10;
+  // Test exceptions
+  itk::SizeValueType startIndex = 6;
+  itk::SizeValueType endIndex = 5;
+
+  fit->SetStartIndex(startIndex);
+  fit->SetEndIndex(endIndex);
+
+  ITK_TRY_EXPECT_EXCEPTION(fit->GetFileNames());
+
+  endIndex = 7;
+  fit->SetEndIndex(endIndex);
+
+  itk::SizeValueType incrementIndex = 0;
+  fit->SetIncrementIndex(incrementIndex);
+
+  ITK_TRY_EXPECT_EXCEPTION(fit->GetFileNames());
+
+
+  startIndex = 10;
   fit->SetStartIndex(startIndex);
   ITK_TEST_SET_GET_VALUE(startIndex, fit->GetStartIndex());
 
-  itk::SizeValueType endIndex = 20;
+  endIndex = 20;
   fit->SetEndIndex(endIndex);
   ITK_TEST_SET_GET_VALUE(endIndex, fit->GetEndIndex());
 
-  itk::SizeValueType incrementIndex = 2;
+  incrementIndex = 2;
   fit->SetIncrementIndex(incrementIndex);
   ITK_TEST_SET_GET_VALUE(incrementIndex, fit->GetIncrementIndex());
 
@@ -60,6 +78,9 @@ itkNumericSeriesFileNamesTest(int, char *[])
     }
     std::cout << "File: " << (*nit).c_str() << std::endl;
   }
+
+  // Exercise the PrintSelf method to print the filenames for coverage purposes
+  std::cout << fit;
 
   return EXIT_SUCCESS;
 }

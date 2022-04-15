@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFastMarchingThresholdStoppingCriterion.h"
+#include "itkTestingMacros.h"
 
 int
 itkFastMarchingThresholdStoppingCriterionTest(int, char *[])
@@ -29,6 +30,12 @@ itkFastMarchingThresholdStoppingCriterionTest(int, char *[])
   using ImageStoppingCriterionType = itk::FastMarchingThresholdStoppingCriterion<ImageType, ImageType>;
 
   auto imageCriterion = ImageStoppingCriterionType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    imageCriterion, FastMarchingThresholdStoppingCriterion, FastMarchingStoppingCriterionBase);
+
+
+  std::cout << "Description: " << imageCriterion->GetDescription() << std::endl;
 
   constexpr unsigned int Dimension3D = 3;
   using MeshType = itk::QuadEdgeMesh<PixelType, Dimension3D>;

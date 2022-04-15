@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkImageLinearIteratorWithIndex.h"
+#include "itkTestingMacros.h"
 
 int
 itkImageLinearIteratorTest(int, char *[])
@@ -102,6 +103,10 @@ itkImageLinearIteratorTest(int, char *[])
 
   // Verification
   ConstIteratorType cot(myConstImage, region0);
+
+  // Test exceptions
+  int direction = ImageType::GetImageDimension() + 1;
+  ITK_TRY_EXPECT_EXCEPTION(cot.SetDirection(direction));
 
   cot.GoToBegin();
   cot.SetDirection(0); // 0=x, 1=y, 2=z
