@@ -326,40 +326,70 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
     itk::NumericTraits<typename DisplacementFieldRegistrationType::RealType>::epsilon();
   const typename DisplacementFieldRegistrationType::RealType learningRate = std::stod(argv[6]);
   displacementFieldRegistration->SetLearningRate(learningRate);
-  if (displacementFieldRegistration->GetLearningRate() - learningRate > epsilon)
+  typename DisplacementFieldRegistrationType::RealType obtainedLearningRate =
+    displacementFieldRegistration->GetLearningRate();
+  if (!itk::Math::FloatAlmostEqual(obtainedLearningRate, learningRate, 10, epsilon))
   {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetLearningRate" << std::endl;
+    std::cerr << "Expected value " << learningRate << std::endl;
+    std::cerr << " differs from " << obtainedLearningRate;
+    std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
+
   displacementFieldRegistration->SetNumberOfIterationsPerLevel(numberOfIterationsPerLevel);
-  if (displacementFieldRegistration->GetNumberOfIterationsPerLevel() != numberOfIterationsPerLevel)
-  {
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_SET_GET_VALUE(numberOfIterationsPerLevel, displacementFieldRegistration->GetNumberOfIterationsPerLevel());
+
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel(adaptors);
+
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheUpdateField(varianceForUpdateField);
-  if (displacementFieldRegistration->GetGaussianSmoothingVarianceForTheUpdateField() - varianceForUpdateField > epsilon)
+  RealType obtainedVarianceForUpdateField =
+    displacementFieldRegistration->GetGaussianSmoothingVarianceForTheUpdateField();
+  if (!itk::Math::FloatAlmostEqual(obtainedVarianceForUpdateField, varianceForUpdateField, 10, epsilon))
   {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetGaussianSmoothingVarianceForTheUpdateField" << std::endl;
+    std::cerr << "Expected value " << obtainedVarianceForUpdateField << std::endl;
+    std::cerr << " differs from " << varianceForUpdateField;
+    std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
 
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheTotalField(varianceForTotalField);
-  if (displacementFieldRegistration->GetGaussianSmoothingVarianceForTheTotalField() - varianceForTotalField > epsilon)
+  RealType obtainedVarianceForTotalField =
+    displacementFieldRegistration->GetGaussianSmoothingVarianceForTheTotalField();
+  if (!itk::Math::FloatAlmostEqual(obtainedVarianceForTotalField, varianceForTotalField, 10, epsilon))
   {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetGaussianSmoothingVarianceForTheTotalField" << std::endl;
+    std::cerr << "Expected value " << obtainedVarianceForTotalField << std::endl;
+    std::cerr << " differs from " << varianceForTotalField;
+    std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
 
   const typename DisplacementFieldRegistrationType::RealType convergenceThreshold = 1.0e-6;
   displacementFieldRegistration->SetConvergenceThreshold(convergenceThreshold);
-  if (displacementFieldRegistration->GetConvergenceThreshold() - convergenceThreshold > epsilon)
+  typename DisplacementFieldRegistrationType::RealType obtainedConvergenceThreshold =
+    displacementFieldRegistration->GetConvergenceThreshold();
+  if (!itk::Math::FloatAlmostEqual(obtainedConvergenceThreshold, convergenceThreshold, 10, epsilon))
   {
+    std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
+    std::cerr << "Test failed!" << std::endl;
+    std::cerr << "Error in GetConvergenceThreshold" << std::endl;
+    std::cerr << "Expected value " << obtainedConvergenceThreshold << std::endl;
+    std::cerr << " differs from " << convergenceThreshold;
+    std::cerr << " by more than " << epsilon << std::endl;
     return EXIT_FAILURE;
   }
+
   constexpr unsigned int convergenceWindowSize = 10;
   displacementFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
-  if (displacementFieldRegistration->GetConvergenceWindowSize() != convergenceWindowSize)
-  {
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_SET_GET_VALUE(convergenceWindowSize, displacementFieldRegistration->GetConvergenceWindowSize());
 
   using DisplacementFieldCommandType = CommandIterationUpdate<DisplacementFieldRegistrationType>;
   auto DisplacementFieldObserver = DisplacementFieldCommandType::New();
