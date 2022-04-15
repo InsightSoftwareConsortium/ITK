@@ -98,7 +98,7 @@ public:
     is a binary mask; thus null values are considered as
     FastMarchingTraitsBase::Forbidden points
 
-    \li else (m_IsForbiddenImageBinaryMask is \c fasle) non null values
+    \li else (m_IsForbiddenImageBinaryMask is \c false) non null values
     represents FastMarchingTraitsBase::Forbidden points*/
   void
   SetForbiddenImage(const ImageType * iImage);
