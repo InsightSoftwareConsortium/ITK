@@ -21,7 +21,6 @@
 #include "itkImageFileWriter.h"
 #include "itkSimpleFilterWatcher.h"
 #include "itkTestingMacros.h"
-#include "itkTestingMacros.h"
 
 
 int
