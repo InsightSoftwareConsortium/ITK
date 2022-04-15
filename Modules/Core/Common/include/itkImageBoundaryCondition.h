@@ -79,11 +79,7 @@ public:
   ImageBoundaryCondition() = default;
 
   /** Runtime information support. */
-  virtual const char *
-  GetNameOfClass() const
-  {
-    return "itkImageBoundaryCondition";
-  }
+  itkTypeMacroNoParent(ImageBoundaryCondition);
 
   /** Utility for printing the boundary condition. */
   virtual void
