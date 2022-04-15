@@ -29,13 +29,13 @@ int
 itkGibbsTest(int, char *[])
 {
 
-  constexpr unsigned int IMGWIDTH = 20;
-  constexpr unsigned int IMGHEIGHT = 20;
-  constexpr unsigned int NFRAMES = 1;
+  constexpr unsigned int ImageWidth = 20;
+  constexpr unsigned int ImageHeight = 20;
+  constexpr unsigned int NumFrames = 1;
   constexpr unsigned int NumberOfBands = 1;
   constexpr unsigned int ImageDimension = 3;
-  constexpr unsigned int NUM_CLASSES = 3;
-  constexpr unsigned int MAX_NUM_ITER = 1;
+  constexpr unsigned int NumClasses = 3;
+  constexpr unsigned int MaxNumIter = 1;
 
   const unsigned short TestingImage[400] = {
     297, 277, 317, 289, 300, 312, 306, 283, 282, 308, 308, 342, 335, 325, 315, 300, 304, 318, 307, 308,
@@ -86,7 +86,7 @@ itkGibbsTest(int, char *[])
 
   using VecImagePixelType = VecImageType::PixelType;
 
-  VecImageType::SizeType vecImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  VecImageType::SizeType vecImgSize = { { ImageWidth, ImageHeight, NumFrames } };
 
   VecImageType::IndexType index;
   index.Fill(0);
@@ -135,7 +135,7 @@ itkGibbsTest(int, char *[])
   using ClassImageType = itk::Image<unsigned short, ImageDimension>;
   auto classImage = ClassImageType::New();
 
-  ClassImageType::SizeType classImgSize = { { IMGWIDTH, IMGHEIGHT, NFRAMES } };
+  ClassImageType::SizeType classImgSize = { { ImageWidth, ImageHeight, NumFrames } };
 
   ClassImageType::IndexType classindex;
   classindex.Fill(0);
@@ -163,13 +163,13 @@ itkGibbsTest(int, char *[])
   i = 0;
   while (!classoutIt.IsAtEnd())
   {
-    if ((i % IMGWIDTH < 8) && (i % IMGWIDTH > 4) && (i / IMGWIDTH < 8) && (i / IMGWIDTH > 4))
+    if ((i % ImageWidth < 8) && (i % ImageWidth > 4) && (i / ImageWidth < 8) && (i / ImageWidth > 4))
     {
       classoutIt.Set(1);
     }
     else
     {
-      if ((i % IMGWIDTH < 18) && (i % IMGWIDTH > 14) && (i / IMGWIDTH < 18) && (i / IMGWIDTH > 14))
+      if ((i % ImageWidth < 18) && (i % ImageWidth > 14) && (i / ImageWidth < 18) && (i / ImageWidth > 14))
       {
         classoutIt.Set(2);
       }
@@ -210,7 +210,7 @@ itkGibbsTest(int, char *[])
 
   auto applyEstimateModel = ImageGaussianModelEstimatorType::New();
 
-  applyEstimateModel->SetNumberOfModels(NUM_CLASSES);
+  applyEstimateModel->SetNumberOfModels(NumClasses);
   applyEstimateModel->SetInputImage(vecImage);
   applyEstimateModel->SetTrainingImage(classImage);
 
@@ -239,13 +239,13 @@ itkGibbsTest(int, char *[])
   using ClassifierPointer = ClassifierType::Pointer;
   ClassifierPointer myClassifier = ClassifierType::New();
   // Set the Classifier parameters
-  myClassifier->SetNumberOfClasses(NUM_CLASSES);
+  myClassifier->SetNumberOfClasses(NumClasses);
 
   // Set the decision rule
   myClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
 
   // Add the membership functions
-  for (unsigned int ii = 0; ii < NUM_CLASSES; ++ii)
+  for (unsigned int ii = 0; ii < NumClasses; ++ii)
   {
     myClassifier->AddMembershipFunction(membershipFunctions[ii]);
   }
@@ -255,8 +255,9 @@ itkGibbsTest(int, char *[])
   auto applyGibbsImageFilter = GibbsPriorFilterType::New();
 
   // Set the MRF labeller parameters
-  applyGibbsImageFilter->SetNumberOfClasses(NUM_CLASSES);
-  applyGibbsImageFilter->SetMaximumNumberOfIterations(MAX_NUM_ITER);
+  applyGibbsImageFilter->SetNumberOfClasses(NumClasses);
+  applyGibbsImageFilter->SetMaximumNumberOfIterations(MaxNumIter);
+
   //  applyGibbsImageFilter->SetErrorTollerance(0.00);
   applyGibbsImageFilter->SetClusterSize(10);
   applyGibbsImageFilter->SetBoundaryGradient(6);
@@ -319,7 +320,7 @@ itkGibbsTest(int, char *[])
   std::cout << "j1:" << j1 << std::endl;
 
   //  FILE *output=fopen("new.raw", "wb");
-  //  fwrite(outImage, 2, IMGWIDTH*IMGHEIGHT, output);
+  //  fwrite(outImage, 2, ImageWidth*ImageHeight, output);
   //  fclose(output);
   // Verify if the results were as per expectation
 
@@ -328,7 +329,7 @@ itkGibbsTest(int, char *[])
     i = 0;
     labeloutIt.GoToBegin();
     while ( !labeloutIt.IsAtEnd() ) {
-    if ((i%IMGWIDTH<10) && (i/IMGWIDTH<10) && (labeloutIt.Get()==1))
+    if ((i%ImageWidth<10) && (i/ImageWidth<10) && (labeloutIt.Get()==1))
       j++;
     i++;
     ++labeloutIt;

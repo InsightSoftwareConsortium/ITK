@@ -322,11 +322,11 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   displacementFieldRegistration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
   displacementFieldRegistration->SetMetric(correlationMetric);
 
-  const typename DisplacementFieldRegistrationType::RealType local_epsilon =
+  const typename DisplacementFieldRegistrationType::RealType epsilon =
     itk::NumericTraits<typename DisplacementFieldRegistrationType::RealType>::epsilon();
-  const typename DisplacementFieldRegistrationType::RealType local_LearningRate = std::stod(argv[6]);
-  displacementFieldRegistration->SetLearningRate(local_LearningRate);
-  if (displacementFieldRegistration->GetLearningRate() - local_LearningRate > local_epsilon)
+  const typename DisplacementFieldRegistrationType::RealType learningRate = std::stod(argv[6]);
+  displacementFieldRegistration->SetLearningRate(learningRate);
+  if (displacementFieldRegistration->GetLearningRate() - learningRate > epsilon)
   {
     return EXIT_FAILURE;
   }
@@ -337,28 +337,26 @@ PerformDisplacementFieldImageRegistration(int itkNotUsed(argc), char * argv[])
   }
   displacementFieldRegistration->SetTransformParametersAdaptorsPerLevel(adaptors);
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheUpdateField(varianceForUpdateField);
-  if (displacementFieldRegistration->GetGaussianSmoothingVarianceForTheUpdateField() - varianceForUpdateField >
-      local_epsilon)
+  if (displacementFieldRegistration->GetGaussianSmoothingVarianceForTheUpdateField() - varianceForUpdateField > epsilon)
   {
     return EXIT_FAILURE;
   }
 
   displacementFieldRegistration->SetGaussianSmoothingVarianceForTheTotalField(varianceForTotalField);
-  if (displacementFieldRegistration->GetGaussianSmoothingVarianceForTheTotalField() - varianceForTotalField >
-      local_epsilon)
+  if (displacementFieldRegistration->GetGaussianSmoothingVarianceForTheTotalField() - varianceForTotalField > epsilon)
   {
     return EXIT_FAILURE;
   }
 
-  const typename DisplacementFieldRegistrationType::RealType local_ConvergenceThreshold = 1.0e-6;
-  displacementFieldRegistration->SetConvergenceThreshold(local_ConvergenceThreshold);
-  if (displacementFieldRegistration->GetConvergenceThreshold() - local_ConvergenceThreshold > local_epsilon)
+  const typename DisplacementFieldRegistrationType::RealType convergenceThreshold = 1.0e-6;
+  displacementFieldRegistration->SetConvergenceThreshold(convergenceThreshold);
+  if (displacementFieldRegistration->GetConvergenceThreshold() - convergenceThreshold > epsilon)
   {
     return EXIT_FAILURE;
   }
-  constexpr unsigned int local_ConvergenceWindowSize = 10;
-  displacementFieldRegistration->SetConvergenceWindowSize(local_ConvergenceWindowSize);
-  if (displacementFieldRegistration->GetConvergenceWindowSize() != local_ConvergenceWindowSize)
+  constexpr unsigned int convergenceWindowSize = 10;
+  displacementFieldRegistration->SetConvergenceWindowSize(convergenceWindowSize);
+  if (displacementFieldRegistration->GetConvergenceWindowSize() != convergenceWindowSize)
   {
     return EXIT_FAILURE;
   }
