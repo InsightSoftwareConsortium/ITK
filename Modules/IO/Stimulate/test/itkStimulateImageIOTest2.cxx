@@ -59,7 +59,9 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   std::cout << "region " << region;
 
   // This is where we call all of the Get Functions to increase coverage.
-  std::cout << "Display Range " << io->GetDisplayRange() << std::endl;
+  std::cout << "DisplayRange:" << io->GetDisplayRange() << std::endl;
+  std::cout << "HighDisplayValue:" << io->GetHighDisplayValue() << std::endl;
+  std::cout << "LowDisplayValue: " << io->GetLowDisplayValue() << std::endl;
 
 
   return EXIT_SUCCESS;

@@ -89,6 +89,18 @@ itkQuadEdgeMeshScalarDataVTKPolyDataWriterTest1(int argc, char * argv[])
     }
   }
 
+  // Assign a value to each of the mesh points
+  for (unsigned int i = 0; i < myMesh->GetNumberOfPoints(); ++i)
+  {
+    myMesh->SetPointData(i, 5.0);
+  }
+
+  // Assign a different value to each of the mesh cells
+  for (unsigned int i = 0; i < myMesh->GetNumberOfCells(); ++i)
+  {
+    myMesh->SetCellData(i, 10.0);
+  }
+
   using WriterType = itk::QuadEdgeMeshScalarDataVTKPolyDataWriter<MeshType>;
 
   auto writer = WriterType::New();
