@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(BioRadImageIO, Superclass);
+  itkTypeMacro(BioRadImageIO, ImageIOBase);
 
   /*-------- This part of the interface deals with reading data. ------ */
 
