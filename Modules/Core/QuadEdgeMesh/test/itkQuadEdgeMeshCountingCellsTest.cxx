@@ -18,10 +18,8 @@
 #include "itkQuadEdgeMeshEulerOperatorsTestHelper.h"
 
 int
-itkQuadEdgeMeshCountingCellsTest(int argc, char * argv[])
+itkQuadEdgeMeshCountingCellsTest(int, char *[])
 {
-  (void)argc;
-  (void)argv;
 
   using MeshType = itk::QuadEdgeMesh<double, 3>;
   using MeshPointer = MeshType::Pointer;
