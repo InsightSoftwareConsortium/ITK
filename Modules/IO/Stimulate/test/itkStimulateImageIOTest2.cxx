@@ -48,16 +48,9 @@ itkStimulateImageIOTest2(int argc, char * argv[])
   std::cout << "Filename: " << argv[1] << std::endl;
   reader->SetFileName(argv[1]);
   reader->SetImageIO(io);
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << "Exception in file reader " << std::endl;
-    std::cout << e << std::endl;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   myImage::Pointer image = reader->GetOutput();
   image->Print(std::cout);

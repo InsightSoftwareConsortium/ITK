@@ -66,16 +66,7 @@ itkPointSetToSpatialObjectDemonsRegistrationTest(int, char *[])
   demonsRegistration->SetMovingSpatialObject(ellipse);
   ITK_TEST_SET_GET_VALUE(ellipse, demonsRegistration->GetMovingSpatialObject());
 
-
-  try
-  {
-    demonsRegistration->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception thrown during the registration process" << std::endl;
-    std::cerr << excp << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(demonsRegistration->Update());
 
 
   std::cout << "Test Succeed!" << std::endl;

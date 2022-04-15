@@ -20,6 +20,7 @@
 #include "itkDisplacementFieldTransformParametersAdaptor.h"
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 #include "itkSyNImageRegistrationMethod.h"
+#include "itkTestingMacros.h"
 
 int
 itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
@@ -199,16 +200,8 @@ itkSyNPointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
   displacementFieldRegistration->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
   displacementFieldRegistration->SetMetric(metric);
 
-  try
-  {
-    std::cout << "SyN point set registration" << std::endl;
-    displacementFieldRegistration->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldRegistration->Update());
+
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;

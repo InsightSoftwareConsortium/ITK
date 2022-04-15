@@ -117,33 +117,16 @@ itkJointHistogramMutualInformationImageToImageMetricv4Test(int, char *[])
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
 
-  /* Initialize. */
-  try
-  {
-    std::cout << "Calling Initialize..." << std::endl;
-    metric->Initialize();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cout << "Caught unexpected exception during Initialize: " << exc;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
+
 
   // Evaluate
   MetricType::MeasureType    valueReturn1, valueReturn2;
   MetricType::DerivativeType derivativeReturn;
-  try
-  {
-    std::cout << "Calling GetValue..." << std::endl;
-    valueReturn1 = metric->GetValue();
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
-    metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cout << "Caught unexpected exception during GetValueAndDerivative: " << exc;
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn1 = metric->GetValue());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 
   if (itk::Math::NotExactlyEquals(valueReturn1, valueReturn2))
   {

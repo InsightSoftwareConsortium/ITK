@@ -232,42 +232,37 @@ itkThresholdSegmentationLevelSetImageFilterTest(int, char *[])
 
   filter->SetIsoSurfaceValue(0.5); //<--- IMPORTANT!  Default is zero.
 
-  try
-  {
-    filter->Update();
-    std::cout << "Done first trial" << std::endl;
-    // Repeat to make sure that the filter is reinitialized properly
-    filter->SetNumberOfIterations(5);
-    filter->Update();
-    std::cout << "Done second trial" << std::endl;
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-    // Write the output for debugging purposes
-    //       itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer
-    //          = itk::ImageFileWriter<TSIFTN::ImageType>::New();
-    //        itk::RawImageIO<float, 3>::Pointer io = itk::RawImageIO<float, 3>::New();
-    //        io->SetFileTypeToBinary();
-    //        io->SetFileDimensionality(3);
-    //        io->SetByteOrderToLittleEndian();
-    //        writer->SetImageIO(io);
+  std::cout << "Done first trial" << std::endl;
+  // Repeat to make sure that the filter is reinitialized properly
+  filter->SetNumberOfIterations(5);
 
-    //        itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::Pointer
-    //         caster = itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
-    //        caster->SetInput(seedImage);
-    //        caster->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-    // writer->SetInput(caster->GetOutput());
-    //     writer->SetInput(filter->GetSpeedImage());
-    //        writer->SetInput(filter->GetFeatureImage());
-    // writer->SetInput(inputImage);
-    //        writer->SetInput(filter->GetOutput());
-    //       writer->SetFileName("output.raw");
-    //        writer->Write();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "Done second trial" << std::endl;
+
+  // Write the output for debugging purposes
+  //       itk::ImageFileWriter<TSIFTN::ImageType>::Pointer writer
+  //          = itk::ImageFileWriter<TSIFTN::ImageType>::New();
+  //        itk::RawImageIO<float, 3>::Pointer io = itk::RawImageIO<float, 3>::New();
+  //        io->SetFileTypeToBinary();
+  //        io->SetFileDimensionality(3);
+  //        io->SetByteOrderToLittleEndian();
+  //        writer->SetImageIO(io);
+
+  //        itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::Pointer
+  //         caster = itk::CastImageFilter<TSIFTN::SeedImageType, TSIFTN::ImageType>::New();
+  //        caster->SetInput(seedImage);
+  //        caster->Update();
+
+  // writer->SetInput(caster->GetOutput());
+  //     writer->SetInput(filter->GetSpeedImage());
+  //        writer->SetInput(filter->GetFeatureImage());
+  // writer->SetInput(inputImage);
+  //        writer->SetInput(filter->GetOutput());
+  //       writer->SetFileName("output.raw");
+  //        writer->Write();
 
   return EXIT_SUCCESS;
 }

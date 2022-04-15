@@ -110,15 +110,8 @@ itkWarpMeshFilterTest(int, char *[])
 
   warpFilter->SetDisplacementField(deformationField);
 
-  try
-  {
-    warpFilter->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception: " << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(warpFilter->Update());
+
 
   MeshType::Pointer      outputMesh = warpFilter->GetOutput();
   MeshType::ConstPointer inputMesh = warpFilter->GetInput();

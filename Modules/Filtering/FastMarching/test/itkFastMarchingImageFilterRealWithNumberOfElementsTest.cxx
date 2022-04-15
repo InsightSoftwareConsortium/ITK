@@ -22,6 +22,7 @@
 
 #include "itkBinaryThresholdImageFilter.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -123,16 +124,8 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
 
   marcher->SetInput(speedImage);
 
-  try
-  {
-    // update the marcher
-    marcher->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
+
 
   using OutputPixelType = char;
 
@@ -148,16 +141,8 @@ itkFastMarchingImageFilterRealWithNumberOfElementsTest(int, char *[])
   thresholder->SetInsideValue(1);
   thresholder->SetInput(marcher->GetOutput());
 
-  try
-  {
-    thresholder->Update();
-  }
-  catch (const itk::ExceptionObject & excep)
-  {
-    std::cerr << "Exception caught !" << std::endl;
-    std::cerr << excep << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(thresholder->Update());
+
 
   OutputImageType::Pointer output = thresholder->GetOutput();
 
