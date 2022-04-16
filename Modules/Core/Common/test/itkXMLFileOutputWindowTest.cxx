@@ -20,6 +20,16 @@
 #include "itkXMLFileOutputWindow.h"
 #include "itkTestingMacros.h"
 #include <fstream>
+#include <cstdio>
+#ifdef _WIN32
+#  include <direct.h>
+#  define cwd _getcwd
+#  define OS_SEP "\\"
+#else
+#  include "unistd.h"
+#  define cwd getcwd
+#  define OS_SEP "/"
+#endif
 
 
 int
@@ -46,6 +56,33 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
 
   logger->SetInstance(logger);
 
+  // If not input filename is provided, remove the contents in the existing file to avoid counting existing lines when
+  // contents are appended
+  if (argc == 1)
+  {
+    // In order to initialize the filename, some text needs to be written first
+    const char * regularText = "text";
+    logger->DisplayText(regularText);
+
+    // Get the filename
+    const char *      fileBaseName = logger->GetFileName();
+    const std::size_t size = 4096;
+    char              tmp[size];
+    char *            status = cwd(tmp, size);
+    if (!status)
+    {
+      std::cerr << "Test failed!" << std::endl;
+      std::cerr << "Error getting the current directory. Cannot delete the contents of the target file: "
+                << fileBaseName << std::endl;
+      return EXIT_FAILURE;
+    }
+    std::string fileName = tmp + std::string(OS_SEP) + std::string(fileBaseName);
+
+    // Delete the contents
+    std::ofstream ofs;
+    ofs.open(fileName, std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+  }
 
   // Check special cases
   const char * text = nullptr;
