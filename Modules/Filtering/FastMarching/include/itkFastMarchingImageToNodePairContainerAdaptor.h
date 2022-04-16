@@ -104,6 +104,7 @@ public:
   SetForbiddenImage(const ImageType * iImage);
 
   itkSetMacro(IsForbiddenImageBinaryMask, bool);
+  itkGetConstMacro(IsForbiddenImageBinaryMask, bool);
   itkBooleanMacro(IsForbiddenImageBinaryMask);
 
   /** \brief Get resulting Alive Points container*/
