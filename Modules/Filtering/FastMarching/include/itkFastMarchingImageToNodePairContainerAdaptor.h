@@ -53,7 +53,7 @@ public:
   ITK_DISALLOW_COPY_AND_MOVE(FastMarchingImageToNodePairContainerAdaptor);
 
   using Self = FastMarchingImageToNodePairContainerAdaptor;
-  using Superclass = LightObject;
+  using Superclass = Object;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -62,7 +62,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(FastMarchingImageToNodePairContainerAdaptor, LightObject);
+  itkTypeMacro(FastMarchingImageToNodePairContainerAdaptor, Object);
 
   using Traits = FastMarchingTraits<TInput, TOutput>;
   using NodePairType = typename Traits::NodePairType;
