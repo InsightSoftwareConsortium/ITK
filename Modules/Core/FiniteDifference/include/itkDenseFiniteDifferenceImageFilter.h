@@ -81,7 +81,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods) */
-  itkTypeMacro(DenseFiniteDifferenceImageFilter, ImageToImageFilter);
+  itkTypeMacro(DenseFiniteDifferenceImageFilter, FiniteDifferenceImageFilter);
 
   /** Convenient type alias */
   using typename Superclass::InputImageType;
