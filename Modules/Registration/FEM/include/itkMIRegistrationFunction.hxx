@@ -376,8 +376,8 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
   double msigma = 0.0;
   double jointsigma = 0.0;
 
-  const double numsamplesB{ fixedSamplesB.size() };
-  const double numsamplesA{ fixedSamplesA.size() };
+  const double numsamplesB{ static_cast<double>(fixedSamplesB.size()) };
+  const double numsamplesA{ static_cast<double>(fixedSamplesA.size()) };
   double       nsamp = numsamplesB;
   //  if (maxf == minf && maxm == minm) return update;
   //    else std::cout << " b samps " << fixedSamplesB.size()
