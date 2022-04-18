@@ -3,6 +3,7 @@ set(ITKConvolutionTests
   itkConvolutionImageFilterTest.cxx
   itkConvolutionImageFilterTestInt.cxx
   itkConvolutionImageFilterDeltaFunctionTest.cxx
+  itkConvolutionImageFilterSubregionTest.cxx
   itkFFTConvolutionImageFilterTest.cxx
   itkFFTConvolutionImageFilterTestInt.cxx
   itkFFTConvolutionImageFilterDeltaFunctionTest.cxx
@@ -200,3 +201,82 @@ itk_add_test(NAME itkFFTNormalizedCorrelationImageFilterTest5
     --compare DATA{Baseline/itkMaskedFFTNormalizedCorrelationImageFilterTest5.png}
               ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest5.png
     itkMaskedFFTNormalizedCorrelationImageFilterTest DATA{Input/FixedRectangles.png} DATA{Input/MovingRectangles.png} ${ITK_TEST_OUTPUT_DIR}/itkFFTNormalizedCorrelationImageFilterTest5.png 0)
+# Test with subregion
+itk_add_test(NAME itkConvolutionImageFilterSubregionTest
+    COMMAND ITKConvolutionTestDriver
+      --compare DATA{Baseline/itkConvolutionImageFilterSubregionTestOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterSubregionTestOutput.mha
+      itkConvolutionImageFilterSubregionTest
+      spatial
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterSubregionTestOutput.mha
+      50 50 150 150
+      0
+      same
+      DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz}
+      )
+itk_add_test(NAME itkFFTConvolutionImageFilterSubregionTest
+    COMMAND ITKConvolutionTestDriver
+      --compare DATA{Baseline/itkConvolutionImageFilterSubregionTestOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionTestOutput.mha
+      itkConvolutionImageFilterSubregionTest
+      frequency
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionTestOutput.mha
+      50 50 150 150
+      0
+      same
+      DATA{${ITK_DATA_ROOT}/Input/sobel_y.nii.gz}
+      )
+itk_add_test(NAME itkConvolutionImageFilterSubregionTest2
+    COMMAND ITKConvolutionTestDriver
+      --compare DATA{Baseline/itkConvolutionImageFilterSubregionTestOutput2.mha}
+                ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterSubregionTestOutput2.mha
+      itkConvolutionImageFilterSubregionTest
+      spatial
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterSubregionTestOutput2.mha
+      2 3 150 180
+      0
+      same
+      # with inline Gaussian kernel
+      )
+itk_add_test(NAME itkFFTConvolutionImageFilterSubregionTest2
+    COMMAND ITKConvolutionTestDriver
+      --compare DATA{Baseline/itkConvolutionImageFilterSubregionTestOutput2.mha}
+                ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionTestOutput2.mha
+      itkConvolutionImageFilterSubregionTest
+      frequency
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionTestOutput2.mha
+      2 3 150 180
+      0
+      same
+      # with inline Gaussian kernel
+      )
+itk_add_test(NAME itkFFTConvolutionImageFilterSubregionValidTest
+    COMMAND ITKConvolutionTestDriver
+      --compare DATA{Baseline/itkFFTConvolutionImageFilterSubregionValidTestOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionValidTestOutput.mha
+      itkConvolutionImageFilterSubregionTest
+      frequency
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionValidTestOutput.mha
+      25 25 200 200
+      0
+      valid
+      # with inline Gaussian kernel
+      )
+itk_add_test(NAME itkFFTConvolutionImageFilterSubregionNormalizeTest
+    COMMAND ITKConvolutionTestDriver
+    --compare DATA{Baseline/itkFFTConvolutionImageFilterSubregionNormalizeTestOutput.mha}
+                ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionNormalizeTestOutput.mha
+      itkConvolutionImageFilterSubregionTest
+      frequency
+      DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterSubregionNormalizeTestOutput.mha
+      0 0 250 250
+      1
+      same
+      # with inline Gaussian kernel
+      )
