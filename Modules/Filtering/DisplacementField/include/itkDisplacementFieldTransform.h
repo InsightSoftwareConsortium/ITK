@@ -184,8 +184,8 @@ public:
   virtual void
   SetDisplacementField(DisplacementFieldType * field);
   virtual void
-               SetDisplacementField(VectorImageDisplacementFieldType * field);
-  virtual void SetDisplacementField(std::nullptr_t) = delete;
+       SetDisplacementField(VectorImageDisplacementFieldType * field);
+  void SetDisplacementField(std::nullptr_t) = delete;
   itkGetModifiableObjectMacro(DisplacementField, DisplacementFieldType);
 
   /** Get/Set the inverse displacement field. This must be supplied by the user for
