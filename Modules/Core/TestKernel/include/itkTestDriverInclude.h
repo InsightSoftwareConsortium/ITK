@@ -75,7 +75,7 @@ RegressionTestBaselines(char *);
 using ComparePairType = std::pair<char *, char *>;
 
 // A structure to hold regression test parameters
-using RegressionTestParameters = struct _RegressionTestParameters
+struct RegressionTestParameters
 {
   std::vector<ComparePairType> compareList;
   double                       intensityTolerance;
@@ -112,7 +112,7 @@ struct ProcessedOutputType
 };
 
 // A structure to hold redirect output parameters
-using RedirectOutputParameters = struct _RedirectOutputParameters
+struct RedirectOutputParameters
 {
   bool        redirect;
   std::string fileName;

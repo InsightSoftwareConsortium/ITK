@@ -88,16 +88,13 @@ using ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION = itk::ITK_THREAD_RETURN_TYPE;
 #endif
 
 
-/** Platform specific Conditional Variable type alias
+/** Platform specific Conditional Variable type
  */
+struct ConditionVariableType
+{
 #if defined(ITK_USE_PTHREADS)
-using ConditionVariableType = struct
-{
   pthread_cond_t m_ConditionVariable;
-};
 #elif defined(ITK_USE_WIN32_THREADS)
-using ConditionVariableType = struct
-{
   int              m_NumberOfWaiters;     // number of waiting threads
   CRITICAL_SECTION m_NumberOfWaitersLock; // Serialize access to
                                           // m_NumberOfWaiters
@@ -109,13 +106,10 @@ using ConditionVariableType = struct
                            // threads to wake up and
                            // release the semaphore
 
-  int m_WasBroadcast; // Used as boolean. Keeps track of whether
-                      // we were broadcasting or signaling
-};
-#else
-using ConditionVariableType = struct
-{};
+  int m_WasBroadcast;                       // Used as boolean. Keeps track of whether
+                                            // we were broadcasting or signaling
 #endif
+};
 
 } // namespace itk
 

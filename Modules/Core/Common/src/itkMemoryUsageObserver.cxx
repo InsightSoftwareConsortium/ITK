@@ -91,20 +91,20 @@ WindowsMemoryUsageObserver::~WindowsMemoryUsageObserver()
 using KPRIORITY = LONG;
 #    define SystemProcessesAndThreadsInformation 5
 
-using CLIENT_ID = struct _CLIENT_ID
+struct CLIENT_ID
 {
   DWORD UniqueProcess;
   DWORD UniqueThread;
 };
 
-using UNICODE_STRING = struct _UNICODE_STRING
+struct UNICODE_STRING
 {
   USHORT Length;
   USHORT MaximumLength;
   PWSTR  Buffer;
 };
 
-using VM_COUNTERS = struct
+struct VM_COUNTERS
 {
 #    ifdef _WIN64
   // the following was inferred by painful reverse engineering
@@ -134,7 +134,7 @@ using VM_COUNTERS = struct
 #    endif
 };
 
-using SYSTEM_THREADS = struct
+struct SYSTEM_THREADS
 {
   LARGE_INTEGER KernelTime;
   LARGE_INTEGER UserTime;
@@ -150,7 +150,7 @@ using SYSTEM_THREADS = struct
 };
 using PSYSTEM_THREADS = SYSTEM_THREADS *;
 
-using SYSTEM_PROCESSES = struct
+struct SYSTEM_PROCESSES
 { // Information Class 5
   ULONG          NextEntryDelta;
   ULONG          MaximumNumberOfThreads;

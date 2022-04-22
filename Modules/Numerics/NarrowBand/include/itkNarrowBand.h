@@ -72,7 +72,7 @@ public:
 
   /** Begin is the first valid iterator position within the region.  End is ONE
       PAST the last valid iterator position in the region. */
-  using RegionType = struct
+  struct RegionType
   {
     Iterator Begin;
     Iterator End;
