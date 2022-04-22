@@ -141,8 +141,8 @@ PolyData< TPixelType, TCellPixel >
   itkDebugMacro("setting Lines container to " << lines);
   if ( m_LinesContainer != lines )
     {
-    m_LinesContainer = lines;
-    this->Modified();
+      m_LinesContainer = lines;
+      this->Modified();
     }
 }
 

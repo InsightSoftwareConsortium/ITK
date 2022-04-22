@@ -22,6 +22,7 @@
 
 #include "itkVertexCell.h"
 #include "itkLineCell.h"
+#include "itkPolyLineCell.h"
 #include "itkMesh.h"
 #include "itkTriangleCell.h"
 #include "itkQuadrilateralCell.h"
@@ -205,9 +206,9 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
 
     while (inputCellItr != inputCellEnd)
     {
-#ifndef NDEBUG
+    #ifndef NDEBUG
       auto numPoints = inputCellItr.Value();
-#endif
+    #endif
       ++inputCellItr;
 
       // Verify vertex contains exactly one point ID
@@ -227,6 +228,8 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
 
   // Set line cells
   using LineCellType = itk::LineCell<CellType>;
+  using PolyLineCellType = itk::PolyLineCell<CellType>;
+
   if (inputPolyData->GetLines() != nullptr && !inputPolyData->GetLines()->empty())
   {
     const CellContainerType * inputLines = inputPolyData->GetLines();
@@ -238,12 +241,17 @@ PolyDataToMeshFilter<TInputPolyData>::GenerateData()
       auto numPoints = inputCellItr.Value();
       ++inputCellItr;
 
-      // Verify lines contain exactly two point IDs
-      itkAssertInDebugAndIgnoreInReleaseMacro(numPoints == LineCellType::NumberOfPoints);
-
-      // Create cell
       typename CellType::CellAutoPointer cell;
-      cell.TakeOwnership(new LineCellType);
+      // Use PolyLineCell Type
+      if (numPoints > LineCellType::NumberOfPoints)
+      {
+        cell.TakeOwnership(new PolyLineCellType);
+      }
+      // Use LineCell Type
+      else
+      {
+        cell.TakeOwnership(new LineCellType);
+      }
 
       for (unsigned int i = 0; i < numPoints; i++)
       {
