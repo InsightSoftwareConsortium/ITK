@@ -22,6 +22,7 @@
 
 #include "itkVertexCell.h"
 #include "itkLineCell.h"
+#include "itkPolyLineCell.h"
 #include "itkMesh.h"
 #include "itkTriangleCell.h"
 #include "itkQuadrilateralCell.h"
@@ -45,6 +46,7 @@ public:
 
   using VertexCellType = itk::VertexCell<CellInterfaceType>;
   using LineCellType = itk::LineCell<CellInterfaceType>;
+  using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
   using TriangleCellType = itk::TriangleCell<CellInterfaceType>;
   using QuadrilateralCellType = itk::QuadrilateralCell<CellInterfaceType>;
   using PolygonCellType = itk::PolygonCell<CellInterfaceType>;
@@ -115,9 +117,22 @@ public:
     m_Lines->push_back( numberOfPoints );
     const typename LineCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
     for( typename LineCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd; ++pointIdIt )
-      {
+    {
       m_Lines->push_back( *pointIdIt );
-      }
+    }
+    m_LinesCellIds->push_back( static_cast< unsigned int >( cellId ) );
+  }
+
+  // Visit a polyline and create a polyline in the output
+  void Visit(unsigned long cellId, PolyLineCellType* cell)
+  {
+    int numberOfPoints = cell->GetNumberOfPoints();
+    m_Lines->push_back( numberOfPoints );
+    const typename PolyLineCellType::PointIdConstIterator pointIdEnd = cell->PointIdsEnd();
+    for( typename PolyLineCellType::PointIdConstIterator pointIdIt = cell->PointIdsBegin(); pointIdIt != pointIdEnd; ++pointIdIt )
+    {
+      m_Lines->push_back( *pointIdIt );
+    }
     m_LinesCellIds->push_back( static_cast< unsigned int >( cellId ) );
   }
 
@@ -430,6 +445,8 @@ MeshToPolyDataFilter< TInputMesh >
   vertices->reserve( numberOfCells / 4 + 1 );
   typename CellsContainerType::Pointer lines = CellsContainerType::New();
   lines->reserve( numberOfCells / 4 + 1 );
+  typename CellsContainerType::Pointer polylines = CellsContainerType::New();
+  polylines->reserve( numberOfCells / 4 + 1 );
   typename CellsContainerType::Pointer polygons = CellsContainerType::New();
   polygons->reserve( numberOfCells / 4 + 1 );
   //typename CellsContainerType::Pointer triangleStrips = CellsContainerType::New();
@@ -464,6 +481,21 @@ MeshToPolyDataFilter< TInputMesh >
   vertexVisitor->SetLinesCellIds( linesCellIds );
   vertexVisitor->SetPolygonsCellIds( polygonsCellIds );
   //vertexVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
+
+  // Setup the poly line visitor
+  typedef CellInterfaceVisitorImplementation<
+    PixelType, CellTraits,
+    PolyLineCell< CellInterface< PixelType, CellTraits > >,
+    VisitCellsClass< InputMeshType, PolyDataType > > PolyLineVisitor;
+  typename PolyLineVisitor::Pointer polyLineVisitor = PolyLineVisitor::New();
+  polyLineVisitor->SetVertices( vertices );
+  polyLineVisitor->SetLines( polylines );
+  polyLineVisitor->SetPolygons( polygons );
+  //lineVisitor->SetTriangleStrips( triangleStrips );
+  polyLineVisitor->SetVerticesCellIds( verticesCellIds );
+  polyLineVisitor->SetLinesCellIds( linesCellIds );
+  polyLineVisitor->SetPolygonsCellIds( polygonsCellIds );
+  //lineVisitor->SetTriangleStripsCellIds( triangleStripsCellIds );
 
   // Setup the line visitor
   typedef CellInterfaceVisitorImplementation<
@@ -545,6 +577,7 @@ MeshToPolyDataFilter< TInputMesh >
   typename InputMeshType::CellType::MultiVisitor::Pointer multiVisitor = InputMeshType::CellType::MultiVisitor::New();
   multiVisitor->AddVisitor(vertexVisitor.GetPointer());
   multiVisitor->AddVisitor(lineVisitor.GetPointer());
+  multiVisitor->AddVisitor(polyLineVisitor.GetPointer());
   multiVisitor->AddVisitor(triangleVisitor.GetPointer());
   multiVisitor->AddVisitor(quadrilateralVisitor.GetPointer());
   multiVisitor->AddVisitor(polygonVisitor.GetPointer());
@@ -554,14 +587,23 @@ MeshToPolyDataFilter< TInputMesh >
   // will Call Visit for each cell in the mesh that matches the
   // cell types of the visitors added to the MultiVisitor
   if( numberOfCells )
-    {
+  {
     inputMesh->Accept(multiVisitor);
-    }
+  }
 
   vertices->shrink_to_fit();
   outputPolyData->SetVertices( vertices );
+
+  // Append lines to polylines before calling SetLines
   lines->shrink_to_fit();
-  outputPolyData->SetLines( lines );
+  polylines->shrink_to_fit();
+
+  auto iterator_start_lines = lines->begin();
+  auto iterator_end_lines = lines->end();
+  auto iterator_end_polylines = polylines->end();
+  polylines->insert(iterator_end_polylines,  iterator_start_lines, iterator_end_lines);
+  
+  outputPolyData->SetLines( polylines);
   polygons->shrink_to_fit();
   outputPolyData->SetPolygons( polygons );
   //triangleStrips->shrink_to_fit();
@@ -570,7 +612,7 @@ MeshToPolyDataFilter< TInputMesh >
   using CellDataContainerType = typename PolyDataType::CellDataContainer;
   const CellDataContainerType * inputCellData = inputMesh->GetCellData();
   if( inputCellData && inputCellData->Size() )
-    {
+  {
     typename CellDataContainerType::Pointer outputCellData = CellDataContainerType::New();
     outputCellData->Reserve( inputCellData->Size() );
     SizeValueType offset = 0;
