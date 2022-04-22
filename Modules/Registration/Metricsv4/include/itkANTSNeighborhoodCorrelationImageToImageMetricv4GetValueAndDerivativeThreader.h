@@ -105,7 +105,7 @@ public:
   using ScanIteratorType = ConstNeighborhoodIterator<VirtualImageType>;
 
   // one ScanMemType for each thread
-  using ScanMemType = struct
+  struct ScanMemType
   {
     // queues used in the scanning
     // sum of the fixed value squared
@@ -132,7 +132,7 @@ public:
   };
 
   // For dense scan over one image region
-  using ScanParametersType = struct
+  struct ScanParametersType
   {
     // const values during scanning
     ImageRegionType scanRegion;

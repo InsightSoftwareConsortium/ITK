@@ -62,7 +62,7 @@ using Float32_t = float;
 using Float64_t = double;
 using Float96_t = long double;
 
-using zeiss_info = struct
+struct zeiss_info
 {
   UInt32_t  U32MagicNumber;
   Int32_t   S32StructureSize;

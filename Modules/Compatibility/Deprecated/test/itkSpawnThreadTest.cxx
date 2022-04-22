@@ -24,7 +24,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMutexLock.h"
 
-using SharedThreadData = struct
+struct SharedThreadData
 {
   int                     numberOfLoop;
   itk::MutexLock::Pointer sharedMutex;

@@ -42,7 +42,7 @@ namespace Details
 struct SfinaeTypes
 {
   using TOne = char;
-  using TTwo = struct
+  struct TTwo
   {
     char arr__[2];
   };

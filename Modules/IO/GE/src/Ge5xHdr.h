@@ -57,7 +57,7 @@
 
 #define GE_5X_MAGIC_NUMBER 0x494d4746
 
-using Ge5xPixelHeader = struct
+struct Ge5xPixelHeader
 {
   int            GENESIS_IH_img_magic;
   int            GENESIS_IH_img_hdr_length;
