@@ -68,7 +68,11 @@ public:
   itkFactoryOnlyNewMacro(Self);
 
   /** Transform direction. */
-  using TransformDirectionType = enum { DIRECT = 1, INVERSE };
+  enum TransformDirectionType
+  {
+    DIRECT = 1,
+    INVERSE
+  };
 
   /** Set/Get the direction in which the transform will be applied.
    * By selecting DIRECT, this filter will perform a direct (forward) Fourier
