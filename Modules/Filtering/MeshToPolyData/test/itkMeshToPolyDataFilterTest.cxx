@@ -100,7 +100,6 @@ int itkMeshToPolyDataFilterTest( int argc, char * argv[] )
   ITK_TEST_EXPECT_TRUE( itk::Math::FloatAlmostEqual< float >( points->GetElement( 0 )[2], 0.0, 10, 1e-4 ) );
 
   ITK_TEST_EXPECT_EQUAL( polyData->GetVertices()->size(), 0 );
-
   ITK_TEST_EXPECT_EQUAL( polyData->GetLines()->size(), 0 );
 
   ITK_TEST_EXPECT_EQUAL( polyData->GetPolygons()->size(), 15593 );

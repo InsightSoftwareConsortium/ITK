@@ -70,9 +70,10 @@ itkPolyDataToMeshFilterTest(int, char *[])
 
   // Verify line cells
   meshResult->GetCell(2, cellPtr);
-  ITK_TEST_EXPECT_EQUAL(cellPtr->GetNumberOfPoints(), 2);
-  ITK_TEST_EXPECT_EQUAL(cellPtr->GetPointIdsContainer()[0], 4);
-  ITK_TEST_EXPECT_EQUAL(cellPtr->GetPointIdsContainer()[1], 5);
+  ITK_TEST_EXPECT_EQUAL(cellPtr->GetNumberOfPoints(), 3);
+  ITK_TEST_EXPECT_EQUAL(cellPtr->GetPointIdsContainer()[0], 3);
+  ITK_TEST_EXPECT_EQUAL(cellPtr->GetPointIdsContainer()[1], 4);
+  ITK_TEST_EXPECT_EQUAL(cellPtr->GetPointIdsContainer()[2], 5);
   meshResult->GetCell(3, cellPtr);
   ITK_TEST_EXPECT_EQUAL(cellPtr->GetNumberOfPoints(), 2);
   ITK_TEST_EXPECT_EQUAL(cellPtr->GetPointIdsContainer()[0], 7);
@@ -142,12 +143,14 @@ MakePolyDataSample(itk::PolyData<TPixelType> * polyData)
   polyData->SetVertices(vertices);
 
   typename CellContainerType::Pointer lines = CellContainerType::New();
-  lines->InsertElement(0, 2);
-  lines->InsertElement(1, 4);
-  lines->InsertElement(2, 5);
-  lines->InsertElement(3, 2);
-  lines->InsertElement(4, 7);
-  lines->InsertElement(5, 8);
+  lines->InsertElement(0, 3);
+  lines->InsertElement(1, 3);
+  lines->InsertElement(2, 4);
+  lines->InsertElement(3, 5);
+
+  lines->InsertElement(4, 2);
+  lines->InsertElement(5, 7);
+  lines->InsertElement(6, 8);
   polyData->SetLines(lines);
 
   typename CellContainerType::Pointer strips = CellContainerType::New();
