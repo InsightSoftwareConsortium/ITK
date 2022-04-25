@@ -12,7 +12,7 @@ if(MSVC AND ${CMAKE_MINIMUM_REQUIRED_VERSION} LESS 3.16.3)
   message(WARNING "cmake_minimum_required must be at least 3.16.3")
   message(STATUS "This is needed to allow proper setting of CMAKE_MSVC_RUNTIME_LIBRARY.")
   message(STATUS "Do not be surprised if you run into link errors of the style:
-  error LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_Static' doesn't match value 'MDd_Dynamic' in module.obj")
+  LNK2038: mismatch detected for 'RuntimeLibrary': value 'MTd_Static' doesn't match value 'MDd_Dynamic' in module.obj")
 endif()
 if(NOT EXISTS ${ITK_CMAKE_DIR}/ITKModuleMacros.cmake)
   message(FATAL_ERROR "Modules can only be built against an ITK build tree; they cannot be built against an ITK install tree.")
