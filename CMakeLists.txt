@@ -663,9 +663,13 @@ mark_as_advanced(FORCE
   Module_BoneEnhancement
   Module_BoneMorphometry
   Module_BSplineGradient
+  Module_Cleaver
   Module_Cuberille
+  Module_CudaCommon
   Module_FixedPointInverseDisplacementField
   Module_GenericLabelInterpolator
+  Module_GrowCut
+  Module_HASI
   Module_HigherOrderAccurateGradient
   Module_IOFDF
   Module_IOMeshSTL
@@ -676,6 +680,7 @@ mark_as_advanced(FORCE
   Module_LabelErodeDilate
   Module_LesionSizingToolkit
   Module_MeshNoise
+  Module_MeshToPolyData
   Module_MGHIO
   Module_MinimalPathExtraction
   Module_Montage
@@ -689,6 +694,7 @@ mark_as_advanced(FORCE
   Module_RLEImage
   Module_RTK
   Module_SCIFIO
+  Module_Shape
   Module_SimpleITKFilters
   Module_SkullStrip
   Module_SmoothingRecursiveYvvGaussianFilter
@@ -702,7 +708,16 @@ mark_as_advanced(FORCE
   Module_TubeTK
   Module_TwoProjectionRegistration
   Module_Ultrasound
-  Module_VariationalRegistration)
+  Module_VariationalRegistration
+  Module_VkFFTBackend
+  Module_WebAssemblyInterface
+  )
+
+mark_as_advanced(FORCE
+  NSIS_EXECUTABLE
+  WIX_EXECUTABLE
+  )
+
 
 # Create an IDE folder structure similar to our source structure
 if("${CMAKE_GENERATOR}" MATCHES "Xcode|Visual Studio|KDevelop")
