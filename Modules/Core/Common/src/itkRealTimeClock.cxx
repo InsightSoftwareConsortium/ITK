@@ -35,7 +35,7 @@ RealTimeClock::RealTimeClock()
   LARGE_INTEGER frequency;
   ::QueryPerformanceFrequency(&frequency);
 
-  this->m_Frequency = static_cast<FrequencyType>(static_cast<__int64>(frequency.QuadPart));
+  m_Frequency = static_cast<FrequencyType>(frequency.QuadPart);
 
   SYSTEMTIME st1;
   SYSTEMTIME st2;
@@ -62,7 +62,7 @@ RealTimeClock::RealTimeClock()
   memcpy(&ui1, &ft1, sizeof(ui1));
   memcpy(&ui2, &ft2, sizeof(ui2));
 
-  this->m_Difference = static_cast<TimeStampType>(ui2.QuadPart - ui1.QuadPart) / static_cast<TimeStampType>(1e7);
+  m_Difference = static_cast<TimeStampType>(ui2.QuadPart - ui1.QuadPart) / static_cast<TimeStampType>(1e7);
 
   FILETIME      currentTime;
   LARGE_INTEGER intTime;
@@ -73,13 +73,13 @@ RealTimeClock::RealTimeClock()
 
   memcpy(&intTime, &currentTime, sizeof(intTime));
 
-  this->m_Origin = static_cast<TimeStampType>(intTime.QuadPart) / static_cast<TimeStampType>(1e7);
-  this->m_Origin -= static_cast<TimeStampType>(static_cast<__int64>(tick.QuadPart)) / this->m_Frequency;
-  this->m_Origin -= this->m_Difference;
+  m_Origin = static_cast<TimeStampType>(intTime.QuadPart) / static_cast<TimeStampType>(1e7);
+  m_Origin -= static_cast<TimeStampType>(tick.QuadPart) / m_Frequency;
+  m_Origin -= m_Difference;
 #else
-  this->m_Frequency = 1e6;
-  this->m_Difference = 0.0;
-  this->m_Origin = 0.0;
+  m_Frequency = 1e6;
+  m_Difference = 0.0;
+  m_Origin = 0.0;
 #endif // defined(WIN32) || defined(_WIN32)
 }
 
@@ -93,15 +93,15 @@ RealTimeClock::GetTimeInSeconds() const
   LARGE_INTEGER tick;
   ::QueryPerformanceCounter(&tick);
 
-  TimeStampType value = static_cast<TimeStampType>(static_cast<__int64>(tick.QuadPart)) / this->m_Frequency;
-  value += this->m_Origin;
+  TimeStampType value = static_cast<TimeStampType>(tick.QuadPart) / m_Frequency;
+  value += m_Origin;
   return value;
 #else
   struct timeval tval;
   ::gettimeofday(&tval, nullptr);
 
   TimeStampType value =
-    static_cast<TimeStampType>(tval.tv_sec) + static_cast<TimeStampType>(tval.tv_usec) / this->m_Frequency;
+    static_cast<TimeStampType>(tval.tv_sec) + static_cast<TimeStampType>(tval.tv_usec) / m_Frequency;
   return value;
 #endif // defined(WIN32) || defined(_WIN32)
 }
@@ -119,8 +119,8 @@ RealTimeClock::GetRealTimeStamp() const
   LARGE_INTEGER tick;
   ::QueryPerformanceCounter(&tick);
 
-  TimeStampType seconds = static_cast<TimeStampType>(static_cast<__int64>(tick.QuadPart)) / this->m_Frequency;
-  seconds += this->m_Origin;
+  TimeStampType seconds = static_cast<TimeStampType>(tick.QuadPart) / m_Frequency;
+  seconds += m_Origin;
 
   using SecondsCounterType = RealTimeStamp::SecondsCounterType;
   using MicroSecondsCounterType = RealTimeStamp::MicroSecondsCounterType;
@@ -145,8 +145,8 @@ RealTimeClock::PrintSelf(std::ostream & os, itk::Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Frequency of the clock: " << this->m_Frequency << std::endl;
-  os << indent << "Difference : " << this->m_Difference << std::endl;
-  os << indent << "Origin : " << this->m_Origin << std::endl;
+  os << indent << "Frequency of the clock: " << m_Frequency << std::endl;
+  os << indent << "Difference : " << m_Difference << std::endl;
+  os << indent << "Origin : " << m_Origin << std::endl;
 }
 } // end namespace itk
