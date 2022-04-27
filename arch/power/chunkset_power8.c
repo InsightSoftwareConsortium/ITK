@@ -4,8 +4,7 @@
 
 #ifdef POWER8_VSX_CHUNKSET
 #include <altivec.h>
-#include "zbuild.h"
-#include "zutil.h"
+#include "../../zbuild.h"
 
 typedef vector unsigned char chunk_t;
 
@@ -22,19 +21,19 @@ static inline void chunkmemset_1(uint8_t *from, chunk_t *chunk) {
 
 static inline void chunkmemset_2(uint8_t *from, chunk_t *chunk) {
     uint16_t tmp;
-    memcpy(&tmp, from, 2);
+    zmemcpy_2(&tmp, from);
     *chunk = (vector unsigned char)vec_splats(tmp);
 }
 
 static inline void chunkmemset_4(uint8_t *from, chunk_t *chunk) {
     uint32_t tmp;
-    memcpy(&tmp, from, 4);
+    zmemcpy_4(&tmp, from);
     *chunk = (vector unsigned char)vec_splats(tmp);
 }
 
 static inline void chunkmemset_8(uint8_t *from, chunk_t *chunk) {
     uint64_t tmp;
-    memcpy(&tmp, from, 8);
+    zmemcpy_8(&tmp, from);
     *chunk = (vector unsigned char)vec_splats(tmp);
 }
 

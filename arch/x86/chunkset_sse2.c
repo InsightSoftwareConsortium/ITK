@@ -1,9 +1,8 @@
-/* chunkset_sse.c -- SSE inline functions to copy small data chunks.
+/* chunkset_sse2.c -- SSE2 inline functions to copy small data chunks.
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
 #include "zbuild.h"
-#include "zutil.h"
 
 #ifdef X86_SSE2
 #include <immintrin.h>
@@ -22,15 +21,21 @@ static inline void chunkmemset_1(uint8_t *from, chunk_t *chunk) {
 }
 
 static inline void chunkmemset_2(uint8_t *from, chunk_t *chunk) {
-    *chunk = _mm_set1_epi16(*(int16_t *)from);
+    int16_t tmp;
+    zmemcpy_2(&tmp, from);
+    *chunk = _mm_set1_epi16(tmp);
 }
 
 static inline void chunkmemset_4(uint8_t *from, chunk_t *chunk) {
-    *chunk = _mm_set1_epi32(*(int32_t *)from);
+    int32_t tmp;
+    zmemcpy_4(&tmp, from);
+    *chunk = _mm_set1_epi32(tmp);
 }
 
 static inline void chunkmemset_8(uint8_t *from, chunk_t *chunk) {
-    *chunk = _mm_set1_epi64x(*(int64_t *)from);
+    int64_t tmp;
+    zmemcpy_8(&tmp, from);
+    *chunk = _mm_set1_epi64x(tmp);
 }
 
 static inline void loadchunk(uint8_t const *s, chunk_t *chunk) {

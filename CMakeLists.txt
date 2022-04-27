@@ -51,6 +51,7 @@ include(cmake/detect-install-dirs.cmake)
 include(cmake/detect-coverage.cmake)
 include(cmake/detect-intrinsics.cmake)
 include(cmake/detect-sanitizer.cmake)
+include(cmake/fallback-macros.cmake)
 
 if(CMAKE_TOOLCHAIN_FILE)
     message(STATUS "Using CMake toolchain: ${CMAKE_TOOLCHAIN_FILE}")
@@ -58,13 +59,15 @@ endif()
 
 # Make sure we use an appropriate BUILD_TYPE by default, "Release" to be exact
 # this should select the maximum generic optimisation on the current platform (i.e. -O3 for gcc/clang)
-if(NOT CMAKE_BUILD_TYPE)
-    set(CMAKE_BUILD_TYPE "Release" CACHE STRING
-        "Choose the type of build, standard options are: Debug Release RelWithDebInfo MinSizeRel."
-        FORCE)
-    add_feature_info(CMAKE_BUILD_TYPE 1 "Build type: ${CMAKE_BUILD_TYPE} (default)")
-else()
-    add_feature_info(CMAKE_BUILD_TYPE 1 "Build type: ${CMAKE_BUILD_TYPE} (selected)")
+if(NOT GENERATOR_IS_MULTI_CONFIG)
+    if(NOT CMAKE_BUILD_TYPE)
+        set(CMAKE_BUILD_TYPE "Release" CACHE STRING
+            "Choose the type of build, standard options are: Debug Release RelWithDebInfo MinSizeRel."
+            FORCE)
+        add_feature_info(CMAKE_BUILD_TYPE 1 "Build type: ${CMAKE_BUILD_TYPE} (default)")
+    else()
+        add_feature_info(CMAKE_BUILD_TYPE 1 "Build type: ${CMAKE_BUILD_TYPE} (selected)")
+    endif()
 endif()
 
 #
@@ -75,6 +78,8 @@ option(ZLIB_COMPAT "Compile with zlib compatible API" OFF)
 option(ZLIB_ENABLE_TESTS "Build test binaries" ON)
 option(ZLIB_DUAL_LINK "Dual link tests against system zlib" OFF)
 option(WITH_FUZZERS "Build test/fuzz" OFF)
+option(WITH_BENCHMARKS "Build test/benchmarks" OFF)
+option(WITH_BENCHMARK_APPS "Build application benchmarks" OFF)
 option(WITH_OPTIM "Build with optimisation" ON)
 option(WITH_REDUCED_MEM "Reduced memory usage for special cases (reduces performance)" OFF)
 option(WITH_NEW_STRATEGIES "Use new strategies" ON)
@@ -105,11 +110,16 @@ elseif(BASEARCH_S360_FOUND)
     option(WITH_DFLTCC_INFLATE "Build with DFLTCC intrinsics for decompression on IBM Z" OFF)
     option(WITH_CRC32_VX "Build with vectorized CRC32 on IBM Z" ON)
 elseif(BASEARCH_X86_FOUND)
+    option(FORCE_TZCNT "Always assume CPU is TZCNT capable" OFF)
     option(WITH_AVX2 "Build with AVX2" ON)
+    option(WITH_AVX512 "Build with AVX512" ON)
+    option(WITH_AVX512VNNI "Build with AVX512 VNNI extensions" ON)
     option(WITH_SSE2 "Build with SSE2" ON)
     option(WITH_SSSE3 "Build with SSSE3" ON)
-    option(WITH_SSE4 "Build with SSE4" ON)
+    option(WITH_SSE41 "Build with SSE41" ON)
+    option(WITH_SSE42 "Build with SSE42" ON)
     option(WITH_PCLMULQDQ "Build with PCLMULQDQ" ON)
+    option(WITH_VPCLMULQDQ "Build with VPCLMULQDQ" ON)
 endif()
 
 option(INSTALL_UTILS "Copy minigzip and minideflate during install" OFF)
@@ -123,7 +133,8 @@ mark_as_advanced(FORCE
     WITH_DFLTCC_INFLATE
     WITH_CRC32_VX
     WITH_AVX2 WITH_SSE2
-    WITH_SSSE3 WITH_SSE4
+    WITH_SSSE3 WITH_SSE41
+    WITH_SSE42
     WITH_PCLMULQDQ
     WITH_ALTIVEC
     WITH_POWER8
@@ -145,16 +156,16 @@ if(WITH_GZFILEOP)
     add_definitions(-DWITH_GZFILEOP)
 endif()
 
-if(CMAKE_C_COMPILER_ID MATCHES "Intel")
+if(CMAKE_C_COMPILER_ID MATCHES "^Intel")
     if(CMAKE_HOST_UNIX)
-        set(WARNFLAGS "-w3")
-        set(WARNFLAGS_MAINTAINER "-w3 -Wcheck -Wremarks")
-        set(WARNFLAGS_DISABLE "")
+        set(WARNFLAGS -Wall)
+        set(WARNFLAGS_MAINTAINER -Wall -Wcheck -Wremarks)
+        set(WARNFLAGS_DISABLE)
     else()
-        set(WARNFLAGS "/W3")
-        set(WARNFLAGS_MAINTAINER "/W5")
-        set(WARNFLAGS_DISABLE "")
-        endif()
+        set(WARNFLAGS /Wall)
+        set(WARNFLAGS_MAINTAINER /W5)
+        set(WARNFLAGS_DISABLE)
+    endif()
     if(WITH_NATIVE_INSTRUCTIONS)
         message(STATUS "Ignoring WITH_NATIVE_INSTRUCTIONS; not supported on this configuration")
         set(WITH_NATIVE_INSTRUCTIONS OFF)
@@ -169,9 +180,9 @@ elseif(MSVC)
     # (who'd use cmake from an IDE...) but checking for ICC before checking for MSVC should
     # avoid mistakes.
     # /Oi ?
-    set(WARNFLAGS "/W3")
-    set(WARNFLAGS_MAINTAINER "/W4")
-    set(WARNFLAGS_DISABLE "")
+    set(WARNFLAGS /W3)
+    set(WARNFLAGS_MAINTAINER /W4)
+    set(WARNFLAGS_DISABLE)
     if(BASEARCH_ARM_FOUND)
         add_definitions(-D_ARM_WINAPI_PARTITION_DESKTOP_SDK_AVAILABLE)
         if(NOT "${ARCH}" MATCHES "aarch64")
@@ -184,9 +195,9 @@ elseif(MSVC)
     endif()
 elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
     # Enable warnings in GCC and Clang
-    set(WARNFLAGS "-Wall")
-    set(WARNFLAGS_MAINTAINER "-Wextra -Wpedantic")
-    set(WARNFLAGS_DISABLE "-Wno-implicit-fallthrough")
+    set(WARNFLAGS -Wall)
+    set(WARNFLAGS_MAINTAINER -Wextra -Wpedantic)
+    set(WARNFLAGS_DISABLE -Wno-implicit-fallthrough)
     if(WITH_NATIVE_INSTRUCTIONS)
         if(BASEARCH_PPC_FOUND)
             set(NATIVEFLAG "-mcpu=native")
@@ -197,18 +208,27 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
         if(BASEARCH_ARM_FOUND)
             if("${ARCH}" MATCHES "arm" AND NOT CMAKE_C_FLAGS MATCHES "-mfloat-abi")
                 # Auto-detect support for ARM floating point ABI
-                check_c_compiler_flag(-mfloat-abi=softfp HAVE_FLOATABI_SOFTFP)
+                set(CMAKE_REQUIRED_FLAGS -mfloat-abi=softfp)
+                check_c_source_compiles(
+                    "#include <features.h>
+                    int main() { return 0; }"
+                    HAVE_FLOATABI_SOFTFP)
                 if(HAVE_FLOATABI_SOFTFP)
-                    set(FLOATABI "-mfloat-abi=softfp")
+                    set(FLOATABI -mfloat-abi=softfp)
                 else()
-                    check_c_compiler_flag(-mfloat-abi=hard HAVE_FLOATABI_HARD)
+                    set(CMAKE_REQUIRED_FLAGS -mfloat-abi=hard)
+                    check_c_source_compiles(
+                        "#include <features.h>
+                        int main() { return 0; }"
+                        HAVE_FLOATABI_HARD)
                     if(HAVE_FLOATABI_HARD)
-                        set(FLOATABI "-mfloat-abi=hard")
+                        set(FLOATABI -mfloat-abi=hard)
                     endif()
                 endif()
+                set(CMAKE_REQUIRED_FLAGS)
                 if(FLOATABI)
                     message(STATUS "ARM floating point arch: ${FLOATABI}")
-                    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${FLOATABI}")
+                    add_compile_options(${FLOATABI})
                 else()
                     message(STATUS "ARM floating point arch not auto-detected")
                 endif()
@@ -231,57 +251,25 @@ else()
     endif()
 endif()
 
-# Replace optimization level 3 added by default with level 2
-if(NOT MSVC AND NOT CMAKE_C_FLAGS MATCHES "([\\/\\-]O)3")
-    string(REGEX REPLACE "([\\/\\-]O)3" "\\12"
-        CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+# Disable LTO
+if(NOT WITH_NATIVE_INSTRUCTIONS)
+    set(CMAKE_INTERPROCEDURAL_OPTIMIZATION OFF)
+    foreach(_cfg_name IN LISTS CMAKE_CONFIGURATION_TYPES)
+        set(CMAKE_INTERPROCEDURAL_OPTIMIZATION_${_cfg_name} OFF)
+    endforeach()
 endif()
 
 # Set architecture alignment requirements
-if(WITH_UNALIGNED)
-    if((BASEARCH_ARM_FOUND AND NOT "${ARCH}" MATCHES "armv[2-7]") OR (BASEARCH_PPC_FOUND AND "${ARCH}" MATCHES "powerpc64le") OR BASEARCH_X86_FOUND)
-        if(NOT DEFINED UNALIGNED_OK)
-            set(UNALIGNED_OK TRUE)
-        endif()
-    endif()
-    if(UNALIGNED_OK)
-        add_definitions(-DUNALIGNED_OK)
-        message(STATUS "Architecture supports unaligned reads")
-    endif()
-    if(BASEARCH_ARM_FOUND)
-        if(NOT DEFINED UNALIGNED64_OK)
-            if("${ARCH}" MATCHES "armv[2-7]")
-                set(UNALIGNED64_OK FALSE)
-            elseif("${ARCH}" MATCHES "(arm(v[8-9])?|aarch64)")
-                set(UNALIGNED64_OK TRUE)
-            endif()
-        endif()
-    endif()
-    if(BASEARCH_PPC_FOUND)
-        if(NOT DEFINED UNALIGNED64_OK)
-            if("${ARCH}" MATCHES "powerpc64le")
-                set(UNALIGNED64_OK TRUE)
-            endif()
-        endif()
-    endif()
-    if(BASEARCH_X86_FOUND)
-        if(NOT DEFINED UNALIGNED64_OK)
-            set(UNALIGNED64_OK TRUE)
-        endif()
-    endif()
-    if(UNALIGNED64_OK)
-        add_definitions(-DUNALIGNED64_OK)
-        message(STATUS "Architecture supports unaligned reads of > 4 bytes")
-    endif()
-else()
+if(NOT WITH_UNALIGNED)
+    add_definitions(-DNO_UNALIGNED)
     message(STATUS "Unaligned reads manually disabled")
 endif()
 
 # Apply warning compiler flags
 if(WITH_MAINTAINER_WARNINGS)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNFLAGS} ${WARNFLAGS_MAINTAINER} ${WARNFLAGS_DISABLE}")
+    add_compile_options(${WARNFLAGS} ${WARNFLAGS_MAINTAINER} ${WARNFLAGS_DISABLE})
 else()
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${WARNFLAGS} ${WARNFLAGS_DISABLE}")
+    add_compile_options(${WARNFLAGS} ${WARNFLAGS_DISABLE})
 endif()
 
 # Set code coverage compiler flags
@@ -289,15 +277,25 @@ if(WITH_CODE_COVERAGE)
     add_code_coverage()
 endif()
 
+# Replace optimization level 3 added by default with level 2
+if(NOT WITH_CODE_COVERAGE AND NOT MSVC AND NOT CMAKE_C_FLAGS MATCHES "([\\/\\-]O)3")
+    string(REGEX REPLACE "([\\/\\-]O)3" "\\12"
+        CMAKE_C_FLAGS_RELEASE "${CMAKE_C_FLAGS_RELEASE}")
+endif()
+
 # Set native instruction set compiler flag
 if(WITH_NATIVE_INSTRUCTIONS AND DEFINED NATIVEFLAG)
     # Apply flag to all source files and compilation checks
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${NATIVEFLAG}")
+    add_compile_options(${NATIVEFLAG})
 endif()
 
 #
 # Check for standard/system includes
 #
+check_include_file(sys/auxv.h  HAVE_SYS_AUXV_H)
+if(HAVE_SYS_AUXV_H)
+    add_definitions(-DHAVE_SYS_AUXV_H)
+endif()
 check_include_file(sys/sdt.h   HAVE_SYS_SDT_H)
 if(HAVE_SYS_SDT_H)
     add_definitions(-DHAVE_SYS_SDT_H)
@@ -450,7 +448,7 @@ macro(check_c_source_compile_or_run source flag)
     endif()
 endmacro()
 
-set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DZLIB_DEBUG")
+add_compile_options($<$<CONFIG:Debug>:-DZLIB_DEBUG>)
 
 if(MSVC)
     set(CMAKE_DEBUG_POSTFIX "d")
@@ -584,11 +582,11 @@ if(WITH_OPTIM)
                 endif()
             endif()
         endif()
-        list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/arm.h)
-        list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/armfeature.c)
+        list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/arm_features.h)
+        list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/arm_features.c)
         if(WITH_ACLE AND NOT MSVC AND NOT "${ARCH}" MATCHES "armv[2-7]")
-            check_acle_intrinsics()
-            if(HAVE_ACLE_INTRIN)
+            check_acle_compiler_flag()
+            if(HAVE_ACLE_FLAG)
                 add_definitions(-DARM_ACLE_CRC_HASH)
                 set(ACLE_SRCS ${ARCHDIR}/crc32_acle.c ${ARCHDIR}/insert_string_acle.c)
                 set_property(SOURCE ${ACLE_SRCS} PROPERTY COMPILE_FLAGS "${ACLEFLAG} ${NOLTOFLAG}")
@@ -601,7 +599,7 @@ if(WITH_OPTIM)
             set(WITH_ACLE OFF)
         endif()
         if(WITH_NEON)
-            check_neon_intrinsics()
+            check_neon_compiler_flag()
             if(MFPU_NEON_AVAILABLE)
                 add_definitions(-DARM_NEON_ADLER32 -DARM_NEON_CHUNKSET -DARM_NEON_SLIDEHASH)
                 set(NEON_SRCS ${ARCHDIR}/adler32_neon.c ${ARCHDIR}/chunkset_neon.c ${ARCHDIR}/slide_hash_neon.c)
@@ -612,6 +610,10 @@ if(WITH_OPTIM)
                 endif()
                 add_feature_info(NEON_ADLER32 1 "Support NEON instructions in adler32, using \"${NEONFLAG}\"")
                 add_feature_info(NEON_SLIDEHASH 1 "Support NEON instructions in slide_hash, using \"${NEONFLAG}\"")
+                check_neon_ld4_intrinsics()
+                if(NEON_HAS_LD4)
+                    add_definitions(-DARM_NEON_HASLD4)
+                endif()
             else()
                 set(WITH_NEON OFF)
             endif()
@@ -625,8 +627,8 @@ if(WITH_OPTIM)
             check_power8_intrinsics()
         endif()
         if(HAVE_VMX OR HAVE_POWER8_INTRIN)
-            list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/power.h)
-            list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/power.c)
+            list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/power_features.h)
+            list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/power_features.c)
         endif()
         # VMX specific options and files
         if(WITH_ALTIVEC)
@@ -664,9 +666,11 @@ if(WITH_OPTIM)
             endif()
         endif()
     elseif(BASEARCH_S360_FOUND)
-        if(WITH_CRC32_VX)
+        check_s390_intrinsics()
+        if(HAVE_S390_INTRIN)
             add_definitions(-DS390_FEATURES)
-            list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/s390.c)
+            list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/s390_features.h)
+            list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/s390_features.c)
         endif()
         if(WITH_DFLTCC_DEFLATE OR WITH_DFLTCC_INFLATE)
             list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/dfltcc_common.c)
@@ -692,8 +696,8 @@ if(WITH_OPTIM)
         endif()
     elseif(BASEARCH_X86_FOUND)
         add_definitions(-DX86_FEATURES)
-        list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/x86.h)
-        list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/x86.c)
+        list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/x86_features.h)
+        list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/x86_features.c)
         if(MSVC)
             list(APPEND ZLIB_ARCH_HDRS fallback_builtins.h)
         endif()
@@ -701,13 +705,13 @@ if(WITH_OPTIM)
             check_avx2_intrinsics()
             if(HAVE_AVX2_INTRIN)
                 add_definitions(-DX86_AVX2 -DX86_AVX2_ADLER32 -DX86_AVX_CHUNKSET)
-                set(AVX2_SRCS ${ARCHDIR}/slide_hash_avx.c)
+                set(AVX2_SRCS ${ARCHDIR}/slide_hash_avx2.c)
                 add_feature_info(AVX2_SLIDEHASH 1 "Support AVX2 optimized slide_hash, using \"${AVX2FLAG}\"")
                 list(APPEND AVX2_SRCS ${ARCHDIR}/chunkset_avx.c)
                 add_feature_info(AVX_CHUNKSET 1 "Support AVX optimized chunkset, using \"${AVX2FLAG}\"")
-                list(APPEND AVX2_SRCS ${ARCHDIR}/compare258_avx.c)
-                add_feature_info(AVX2_COMPARE258 1 "Support AVX2 optimized compare258, using \"${AVX2FLAG}\"")
-                list(APPEND AVX2_SRCS ${ARCHDIR}/adler32_avx.c)
+                list(APPEND AVX2_SRCS ${ARCHDIR}/compare256_avx2.c)
+                add_feature_info(AVX2_COMPARE256 1 "Support AVX2 optimized compare256, using \"${AVX2FLAG}\"")
+                list(APPEND AVX2_SRCS ${ARCHDIR}/adler32_avx2.c)
                 add_feature_info(AVX2_ADLER32 1 "Support AVX2-accelerated adler32, using \"${AVX2FLAG}\"")
                 list(APPEND ZLIB_ARCH_SRCS ${AVX2_SRCS})
                 set_property(SOURCE ${AVX2_SRCS} PROPERTY COMPILE_FLAGS "${AVX2FLAG} ${NOLTOFLAG}")
@@ -715,34 +719,67 @@ if(WITH_OPTIM)
                 set(WITH_AVX2 OFF)
             endif()
         endif()
-        if(WITH_SSE4)
-            check_sse4_intrinsics()
+        if(WITH_AVX512)
+            check_avx512_intrinsics()
+            if(HAVE_AVX512_INTRIN)
+                add_definitions(-DX86_AVX512 -DX86_AVX512_ADLER32)
+                list(APPEND AVX512_SRCS ${ARCHDIR}/adler32_avx512.c)
+                add_feature_info(AVX512_ADLER32 1 "Support AVX512-accelerated adler32, using \"${AVX512FLAG}\"")
+                list(APPEND ZLIB_ARCH_SRCS ${AVX512_SRCS})
+                list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/adler32_avx512_p.h)
+                if(HAVE_MASK_INTRIN)
+                    add_definitions(-DX86_MASK_INTRIN)
+                endif()
+                set_property(SOURCE ${AVX512_SRCS} PROPERTY COMPILE_FLAGS "${AVX512FLAG} ${NOLTOFLAG}")
+            else()
+                set(WITH_AVX512 OFF)
+            endif()
+        endif()
+        if(WITH_AVX512VNNI)
+            check_avx512vnni_intrinsics()
+            if(HAVE_AVX512VNNI_INTRIN)
+                add_definitions(-DX86_AVX512VNNI -DX86_AVX512VNNI_ADLER32)
+                add_feature_info(AVX512VNNI_ADLER32 1 "Support AVX512VNNI adler32, using \"${AVX512VNNIFLAG}\"")
+                list(APPEND AVX512VNNI_SRCS ${ARCHDIR}/adler32_avx512_vnni.c)
+                list(APPEND ZLIB_ARCH_SRCS ${AVX512VNNI_SRCS})
+                set_property(SOURCE ${AVX512VNNI_SRCS} PROPERTY COMPILE_FLAGS "${AVX512VNNIFLAG} ${NOLTOFLAG}")
+            else()
+                set(WITH_AVX512VNNI OFF)
+            endif()
+        endif()
+        if(WITH_SSE41)
+            check_sse41_intrinsics()
+            if(HAVE_SSE41_INTRIN)
+                add_definitions(-DX86_SSE41)
+            else()
+                set(WITH_SSE41 OFF)
+            endif()
+        endif()
+        if(WITH_SSE42)
+            check_sse42_intrinsics()
             if(HAVE_SSE42CRC_INLINE_ASM OR HAVE_SSE42CRC_INTRIN)
                 add_definitions(-DX86_SSE42_CRC_HASH)
-                set(SSE42_SRCS ${ARCHDIR}/insert_string_sse.c)
-                add_feature_info(SSE42_CRC 1 "Support SSE4.2 optimized CRC hash generation, using \"${SSE4FLAG}\"")
+                set(SSE42_SRCS ${ARCHDIR}/insert_string_sse42.c)
+                add_feature_info(SSE42_CRC 1 "Support SSE4.2 optimized CRC hash generation, using \"${SSE42FLAG}\"")
                 list(APPEND ZLIB_ARCH_SRCS ${SSE42_SRCS})
-                set_property(SOURCE ${SSE42_SRCS} PROPERTY COMPILE_FLAGS "${SSE4FLAG} ${NOLTOFLAG}")
+                set_property(SOURCE ${SSE42_SRCS} PROPERTY COMPILE_FLAGS "${SSE42FLAG} ${NOLTOFLAG}")
                 if(HAVE_SSE42CRC_INTRIN)
                     add_definitions(-DX86_SSE42_CRC_INTRIN)
                 endif()
-            endif()
-            if(HAVE_SSE42CMPSTR_INTRIN)
-                add_definitions(-DX86_SSE42_CMP_STR)
-                set(SSE42_SRCS ${ARCHDIR}/compare258_sse.c)
-                add_feature_info(SSE42_COMPARE258 1 "Support SSE4.2 optimized compare258, using \"${SSE4FLAG}\"")
-                list(APPEND ZLIB_ARCH_SRCS ${SSE42_SRCS})
-                set_property(SOURCE ${SSE42_SRCS} PROPERTY COMPILE_FLAGS "${SSE4FLAG} ${NOLTOFLAG}")
             endif()
             if(NOT HAVE_SSE42CRC_INLINE_ASM AND NOT HAVE_SSE42CRC_INTRIN AND NOT HAVE_SSE42CMPSTR_INTRIN)
                 set(WITH_SSE4 OFF)
             endif()
         endif()
+        if(FORCE_TZCNT)
+            add_definitions(-DX86_NOCHECK_TZCNT)
+        endif()
+        add_feature_info(FORCE_TZCNT FORCE_TZCNT "Assume CPU is TZCNT capable")
         if(WITH_SSE2)
             check_sse2_intrinsics()
             if(HAVE_SSE2_INTRIN)
                 add_definitions(-DX86_SSE2 -DX86_SSE2_CHUNKSET -DX86_SSE2_SLIDEHASH)
-                set(SSE2_SRCS ${ARCHDIR}/chunkset_sse.c ${ARCHDIR}/slide_hash_sse.c)
+                set(SSE2_SRCS ${ARCHDIR}/chunkset_sse2.c ${ARCHDIR}/compare256_sse2.c ${ARCHDIR}/slide_hash_sse2.c)
                 list(APPEND ZLIB_ARCH_SRCS ${SSE2_SRCS})
                 if(NOT ${ARCH} MATCHES "x86_64")
                     set_property(SOURCE ${SSE2_SRCS} PROPERTY COMPILE_FLAGS "${SSE2FLAG} ${NOLTOFLAG}")
@@ -767,19 +804,36 @@ if(WITH_OPTIM)
                 set(WITH_SSSE3 OFF)
             endif()
         endif()
-        if(WITH_PCLMULQDQ AND WITH_SSSE3 AND WITH_SSE4)
+        if(WITH_PCLMULQDQ AND WITH_SSSE3 AND WITH_SSE42)
             check_pclmulqdq_intrinsics()
             if(HAVE_PCLMULQDQ_INTRIN AND HAVE_SSSE3_INTRIN)
                 add_definitions(-DX86_PCLMULQDQ_CRC)
                 set(PCLMULQDQ_SRCS ${ARCHDIR}/crc32_fold_pclmulqdq.c)
-                add_feature_info(PCLMUL_CRC 1 "Support CRC hash generation using PCLMULQDQ, using \"${SSSE3FLAG} ${SSE4FLAG} ${PCLMULFLAG}\"")
+                add_feature_info(PCLMUL_CRC 1 "Support CRC hash generation using PCLMULQDQ, using \"${SSSE3FLAG} ${SSE42FLAG} ${PCLMULFLAG}\"")
                 list(APPEND ZLIB_ARCH_SRCS ${PCLMULQDQ_SRCS})
-                set_property(SOURCE ${PCLMULQDQ_SRCS} PROPERTY COMPILE_FLAGS "${SSSE3FLAG} ${SSE4FLAG} ${PCLMULFLAG} ${NOLTOFLAG}")
+                set_property(SOURCE ${PCLMULQDQ_SRCS} PROPERTY COMPILE_FLAGS "${SSSE3FLAG} ${SSE42FLAG} ${PCLMULFLAG} ${NOLTOFLAG}")
+
+                if(WITH_VPCLMULQDQ AND WITH_AVX512)
+                    check_vpclmulqdq_intrinsics()
+                    if(HAVE_VPCLMULQDQ_INTRIN AND HAVE_AVX512_INTRIN)
+                        add_definitions(-DX86_VPCLMULQDQ_CRC)
+                        set(VPCLMULQDQ_SRCS ${ARCHDIR}/crc32_fold_vpclmulqdq.c)
+                        add_feature_info(VPCLMUL_CRC 1 "Support CRC hash generation using VPCLMULQDQ, using \"${VPCLMULFLAG} ${AVX512FLAG}\"")
+                        list(APPEND ZLIB_ARCH_SRCS ${VPCLMULQDQ_SRCS})
+                        set_property(SOURCE ${VPCLMULQDQ_SRCS} PROPERTY COMPILE_FLAGS "${VPCLMULFLAG} ${AVX512FLAG} ${NOLTOFLAG}")
+                    else()
+                        set(WITH_VPCLMULQDQ OFF)
+                    endif()
+                else()
+                    set(WITH_VPCLMULQDQ OFF)
+                endif()
             else()
                 set(WITH_PCLMULQDQ OFF)
+                set(WITH_VPCLMULQDQ OFF)
             endif()
         else()
             set(WITH_PCLMULQDQ OFF)
+            set(WITH_VPCLMULQDQ OFF)
         endif()
     endif()
 endif()
@@ -852,6 +906,7 @@ set(ZLIB_PUBLIC_HDRS
 set(ZLIB_PRIVATE_HDRS
     adler32_p.h
     chunkset_tpl.h
+    cpu_features.h
     crc32_p.h
     crc32_tbl.h
     crc32_comb_tbl.h
@@ -876,8 +931,9 @@ set(ZLIB_PRIVATE_HDRS
 set(ZLIB_SRCS
     adler32.c
     chunkset.c
-    compare258.c
+    compare256.c
     compress.c
+    cpu_features.c
     crc32.c
     crc32_comb.c
     crc32_fold.c
@@ -911,43 +967,45 @@ set(ZLIB_GZFILE_SRCS
     gzwrite.c
 )
 
-if(NOT MINGW AND NOT MSYS AND NOT CYGWIN)
-    set(ZLIB_DLL_SRCS
-        win32/zlib${SUFFIX}1.rc # If present will override custom build rule below.
-    )
-endif()
-
-if(MINGW OR MSYS OR CYGWIN)
-    # This gets us DLL resource information when compiling on MinGW.
-    if(NOT CMAKE_RC_COMPILER)
-        set(CMAKE_RC_COMPILER windres.exe)
-    endif()
-
-    add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj
-        COMMAND ${CMAKE_RC_COMPILER}
-            -D GCC_WINDRES
-            -I ${CMAKE_CURRENT_SOURCE_DIR}
-            -I ${CMAKE_CURRENT_BINARY_DIR}
-            -o ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj
-            -i ${CMAKE_CURRENT_SOURCE_DIR}/win32/zlib${SUFFIX}1.rc)
-    set(ZLIB_DLL_SRCS ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj)
-endif()
-
-set(ZLIB_ALL_SRCS ${ZLIB_SRCS} ${ZLIB_ARCH_HDRS} ${ZLIB_ARCH_SRCS} ${ZLIB_DLL_SRCS}
-    ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
+set(ZLIB_ALL_SRCS ${ZLIB_SRCS} ${ZLIB_ARCH_HDRS} ${ZLIB_ARCH_SRCS} ${ZLIB_PUBLIC_HDRS} ${ZLIB_PRIVATE_HDRS})
 if(WITH_GZFILEOP)
     list(APPEND ZLIB_ALL_SRCS ${ZLIB_GZFILE_PRIVATE_HDRS} ${ZLIB_GZFILE_SRCS})
 endif()
 
+if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
+    if(NOT MINGW AND NOT MSYS AND NOT CYGWIN)
+        # If present will override custom build rule below.
+        set(ZLIB_DLL_SRCS win32/zlib${SUFFIX}1.rc)
+    endif()
+
+    if(MINGW OR MSYS OR CYGWIN)
+        # This gets us DLL resource information when compiling on MinGW.
+        if(NOT CMAKE_RC_COMPILER)
+            set(CMAKE_RC_COMPILER windres.exe)
+        endif()
+
+        add_custom_command(OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj
+            COMMAND ${CMAKE_RC_COMPILER}
+                -D GCC_WINDRES
+                -I ${CMAKE_CURRENT_SOURCE_DIR}
+                -I ${CMAKE_CURRENT_BINARY_DIR}
+                -o ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj
+                -i ${CMAKE_CURRENT_SOURCE_DIR}/win32/zlib${SUFFIX}1.rc)
+        set(ZLIB_DLL_SRCS ${CMAKE_CURRENT_BINARY_DIR}/zlib1rc.obj)
+    endif()
+endif()
+
 if(NOT DEFINED BUILD_SHARED_LIBS)
-    add_library(zlib SHARED ${ZLIB_ALL_SRCS})
+    add_library(zlib SHARED ${ZLIB_ALL_SRCS} ${ZLIB_DLL_SRCS})
     add_library(zlibstatic STATIC ${ZLIB_ALL_SRCS})
 
     set(ZLIB_INSTALL_LIBRARIES zlib zlibstatic)
 else()
     add_library(zlib ${ZLIB_ALL_SRCS})
 
-    if(NOT BUILD_SHARED_LIBS)
+    if(BUILD_SHARED_LIBS)
+        target_sources(zlib PRIVATE ${ZLIB_DLL_SRCS})
+    else()
         add_library(zlibstatic ALIAS zlib)
     endif()
 
@@ -1090,6 +1148,16 @@ endif()
 option(ZLIB_ENABLE_TESTS "Build test binaries" ON)
 if(ZLIB_ENABLE_TESTS)
     enable_testing()
+
+    if(CMAKE_VERSION VERSION_GREATER_EQUAL 3.12)
+        add_subdirectory(test)
+        if(WITH_BENCHMARKS)
+            add_subdirectory(test/benchmarks)
+        endif()
+    else()
+        message(WARNING "Minimum cmake version of 3.12 not met for GoogleTest or benchmarks!")
+    endif()
+
     macro(configure_test_executable target)
         target_include_directories(${target} PUBLIC
             "$<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>"
@@ -1113,8 +1181,6 @@ if(ZLIB_ENABLE_TESTS)
         add_test(NAME ${target} COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:${target}>)
     endmacro()
 
-    add_simple_test_executable(adler32_test)
-    add_simple_test_executable(crc32_test)
     add_simple_test_executable(example)
 
     set(MINIGZIP_COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:minigzip>)
@@ -1149,7 +1215,9 @@ if(ZLIB_ENABLE_TESTS)
     target_link_libraries(switchlevels zlib)
 
     add_simple_test_executable(infcover)
-    target_sources(infcover PRIVATE inftrees.c)
+    if(NOT DEFINED BUILD_SHARED_LIBS OR BUILD_SHARED_LIBS)
+        target_sources(infcover PRIVATE inftrees.c)
+    endif()
 
     add_executable(makefixed tools/makefixed.c inftrees.c)
     target_include_directories(makefixed PUBLIC
@@ -1160,7 +1228,7 @@ if(ZLIB_ENABLE_TESTS)
     add_test(NAME makefixed
         COMMAND ${CMAKE_COMMAND}
         "-DCOMMAND=${MAKEFIXED_COMMAND}"
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/inffixed_tbl._h
+        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/Testing/Temporary/inffixed_tbl._h
         -DCOMPARE=${CMAKE_CURRENT_SOURCE_DIR}/inffixed_tbl.h
         -DIGNORE_LINE_ENDINGS=ON
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/run-and-compare.cmake)
@@ -1174,7 +1242,7 @@ if(ZLIB_ENABLE_TESTS)
     add_test(NAME maketrees
         COMMAND ${CMAKE_COMMAND}
         "-DCOMMAND=${MAKETREES_COMMAND}"
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/trees_tbl._h
+        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/Testing/Temporary/trees_tbl._h
         -DCOMPARE=${CMAKE_CURRENT_SOURCE_DIR}/trees_tbl.h
         -DIGNORE_LINE_ENDINGS=ON
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/run-and-compare.cmake)
@@ -1188,7 +1256,7 @@ if(ZLIB_ENABLE_TESTS)
     add_test(NAME makecrct-crc32
         COMMAND ${CMAKE_COMMAND}
         "-DCOMMAND=${MAKECRCT_COMMAND}"
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/crc32_tbl._h
+        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/Testing/Temporary/crc32_tbl._h
         -DCOMPARE=${CMAKE_CURRENT_SOURCE_DIR}/crc32_tbl.h
         -DIGNORE_LINE_ENDINGS=ON
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/run-and-compare.cmake)
@@ -1197,21 +1265,13 @@ if(ZLIB_ENABLE_TESTS)
     add_test(NAME makecrct-crc32-combine
         COMMAND ${CMAKE_COMMAND}
         "-DCOMMAND=${MAKECRCT_COMMAND}"
-        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/crc32_comb_tbl._h
+        -DOUTPUT=${CMAKE_CURRENT_BINARY_DIR}/Testing/Temporary/crc32_comb_tbl._h
         -DCOMPARE=${CMAKE_CURRENT_SOURCE_DIR}/crc32_comb_tbl.h
         -DIGNORE_LINE_ENDINGS=ON
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/run-and-compare.cmake)
 
     if(WITH_FUZZERS)
-        set(FUZZERS checksum compress example_small example_large example_flush example_dict minigzip)
-        file(GLOB ALL_SRC_FILES "${CMAKE_CURRENT_SOURCE_DIR}/*")
-        foreach(FUZZER ${FUZZERS})
-            add_executable(${FUZZER}_fuzzer test/fuzz/${FUZZER}_fuzzer.c test/fuzz/standalone_fuzz_target_runner.c)
-            configure_test_executable(${FUZZER}_fuzzer)
-            target_link_libraries(${FUZZER}_fuzzer zlib)
-            set(FUZZER_COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} $<TARGET_FILE:${FUZZER}_fuzzer> ${ALL_SRC_FILES})
-            add_test(NAME ${FUZZER}_fuzzer COMMAND ${FUZZER_COMMAND})
-        endforeach()
+        add_subdirectory(test/fuzz)
     endif()
 
     macro(test_minigzip name path)
@@ -1286,12 +1346,29 @@ if(ZLIB_ENABLE_TESTS)
             -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/run-and-redirect.cmake)
     endforeach()
 
+    set(TEST_LEVELS 6 1 2)
+    foreach(TEST_LEVEL ${TEST_LEVELS})
+        add_test(NAME CVE-2018-25032-fixed-level-${TEST_LEVEL}
+            COMMAND ${CMAKE_COMMAND}
+            "-DTARGET=${MINIDEFLATE_COMMAND}"
+            "-DCOMPRESS_ARGS=-c;-k;-m;1;-w;-15;-s;4;-F;-${TEST_LEVEL}"
+            "-DDECOMPRESS_ARGS=-c;-k;-d;-m;1;-w;-15;-${TEST_LEVEL}"
+            -DGZIP_VERIFY=OFF
+            -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/test/CVE-2018-25032/fixed.txt
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/test-compress.cmake)
+
+        add_test(NAME CVE-2018-25032-default-level-${TEST_LEVEL}
+            COMMAND ${CMAKE_COMMAND}
+            "-DTARGET=${MINIDEFLATE_COMMAND}"
+            "-DCOMPRESS_ARGS=-c;-k;-m;1;-w;-15;-s;4;-${TEST_LEVEL}"
+            "-DDECOMPRESS_ARGS=-c;-k;-d;-m;1;-w;-15;-${TEST_LEVEL}"
+            -DGZIP_VERIFY=OFF
+            -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/test/CVE-2018-25032/default.txt
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/test-compress.cmake)
+    endforeach()
+
     # Run tests targeting tools
     include(cmake/test-tools.cmake)
-
-    if(NOT WIN32 AND ZLIB_COMPAT)
-        add_simple_test_executable(CVE-2003-0107)
-    endif()
 
     add_test(NAME GH-361
         COMMAND ${CMAKE_COMMAND}
@@ -1359,10 +1436,6 @@ if(ZLIB_ENABLE_TESTS)
         -DTEST_NAME=GH-751-test-txt
         -DINPUT=${CMAKE_CURRENT_SOURCE_DIR}/test/GH-751/test.txt
         -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/test-compress.cmake)
-
-    add_simple_test_executable(deflate_quick_bi_valid)
-    add_simple_test_executable(deflate_quick_block_open)
-    add_simple_test_executable(hash_head_0)
 endif()
 
 add_feature_info(WITH_GZFILEOP WITH_GZFILEOP "Compile with support for gzFile related functions")
@@ -1371,6 +1444,8 @@ add_feature_info(ZLIB_ENABLE_TESTS ZLIB_ENABLE_TESTS "Build test binaries")
 add_feature_info(ZLIB_DUAL_LINK ZLIB_DUAL_LINK "Dual link tests against system zlib")
 add_feature_info(WITH_SANITIZER WITH_SANITIZER "Enable sanitizer support")
 add_feature_info(WITH_FUZZERS WITH_FUZZERS "Build test/fuzz")
+add_feature_info(WITH_BENCHMARKS WITH_BENCHMARKS "Build test/benchmarks")
+add_feature_info(WITH_BENCHMARK_APPS WITH_BENCHMARK_APPS "Build application benchmarks")
 add_feature_info(WITH_OPTIM WITH_OPTIM "Build with optimisation")
 add_feature_info(WITH_NEW_STRATEGIES WITH_NEW_STRATEGIES "Use new strategies")
 add_feature_info(WITH_NATIVE_INSTRUCTIONS WITH_NATIVE_INSTRUCTIONS
@@ -1379,8 +1454,6 @@ add_feature_info(WITH_MAINTAINER_WARNINGS WITH_MAINTAINER_WARNINGS "Build with p
 add_feature_info(WITH_CODE_COVERAGE WITH_CODE_COVERAGE "Enable code coverage reporting")
 add_feature_info(WITH_INFLATE_STRICT WITH_INFLATE_STRICT "Build with strict inflate distance checking")
 add_feature_info(WITH_INFLATE_ALLOW_INVALID_DIST WITH_INFLATE_ALLOW_INVALID_DIST "Build with zero fill for inflate invalid distances")
-add_feature_info(WITH_UNALIGNED UNALIGNED_OK "Support unaligned reads on platforms that support it")
-add_feature_info(WITH_UNALIGNED64 UNALIGNED64_OK "Support unaligned 64-bit reads on platforms that support it")
 
 if(BASEARCH_ARM_FOUND)
     add_feature_info(WITH_ACLE WITH_ACLE "Build with ACLE")
@@ -1394,10 +1467,14 @@ elseif(BASEARCH_S360_FOUND)
     add_feature_info(WITH_CRC32_VX WITH_CRC32_VX "Build with vectorized CRC32 on IBM Z")
 elseif(BASEARCH_X86_FOUND)
     add_feature_info(WITH_AVX2 WITH_AVX2 "Build with AVX2")
+    add_feature_info(WITH_AVX512 WITH_AVX512 "Build with AVX512")
+    add_feature_info(WITH_AVX512VNNI WITH_AVX512VNNI "Build with AVX512 VNNI")
     add_feature_info(WITH_SSE2 WITH_SSE2 "Build with SSE2")
     add_feature_info(WITH_SSSE3 WITH_SSSE3 "Build with SSSE3")
-    add_feature_info(WITH_SSE4 WITH_SSE4 "Build with SSE4")
+    add_feature_info(WITH_SSE41 WITH_SSE41 "Build with SSE41")
+    add_feature_info(WITH_SSE42 WITH_SSE42 "Build with SSE42")
     add_feature_info(WITH_PCLMULQDQ WITH_PCLMULQDQ "Build with PCLMULQDQ")
+    add_feature_info(WITH_VPCLMULQDQ WITH_VPCLMULQDQ "Build with VPCLMULQDQ")
 endif()
 
 add_feature_info(INSTALL_UTILS INSTALL_UTILS "Copy minigzip and minideflate during install")

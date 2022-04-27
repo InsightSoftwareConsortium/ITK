@@ -1,5 +1,4 @@
-/*
- * x86 feature check
+/* x86_features.c - x86 feature check
  *
  * Copyright (C) 2013 Intel Corporation. All rights reserved.
  * Author:
@@ -8,7 +7,7 @@
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
-#include "../../zutil.h"
+#include "../../zbuild.h"
 
 #ifdef _MSC_VER
 #  include <intrin.h>
@@ -17,11 +16,17 @@
 #  include <cpuid.h>
 #endif
 
+#include <string.h>
+
 Z_INTERNAL int x86_cpu_has_avx2;
+Z_INTERNAL int x86_cpu_has_avx512;
+Z_INTERNAL int x86_cpu_has_avx512vnni;
 Z_INTERNAL int x86_cpu_has_sse2;
 Z_INTERNAL int x86_cpu_has_ssse3;
+Z_INTERNAL int x86_cpu_has_sse41;
 Z_INTERNAL int x86_cpu_has_sse42;
 Z_INTERNAL int x86_cpu_has_pclmulqdq;
+Z_INTERNAL int x86_cpu_has_vpclmulqdq;
 Z_INTERNAL int x86_cpu_has_tzcnt;
 
 static void cpuid(int info, unsigned* eax, unsigned* ebx, unsigned* ecx, unsigned* edx) {
@@ -57,11 +62,11 @@ void Z_INTERNAL x86_check_features(void) {
     unsigned maxbasic;
 
     cpuid(0, &maxbasic, &ebx, &ecx, &edx);
-
     cpuid(1 /*CPU_PROCINFO_AND_FEATUREBITS*/, &eax, &ebx, &ecx, &edx);
 
     x86_cpu_has_sse2 = edx & 0x4000000;
     x86_cpu_has_ssse3 = ecx & 0x200;
+    x86_cpu_has_sse41 = ecx & 0x80000;
     x86_cpu_has_sse42 = ecx & 0x100000;
     x86_cpu_has_pclmulqdq = ecx & 0x2;
 
@@ -73,8 +78,12 @@ void Z_INTERNAL x86_check_features(void) {
         x86_cpu_has_tzcnt = ebx & 0x8;
         // check AVX2 bit
         x86_cpu_has_avx2 = ebx & 0x20;
+        x86_cpu_has_avx512 = ebx & 0x00010000;
+        x86_cpu_has_avx512vnni = ecx & 0x800;
+        x86_cpu_has_vpclmulqdq = ecx & 0x400;
     } else {
         x86_cpu_has_tzcnt = 0;
         x86_cpu_has_avx2 = 0;
+        x86_cpu_has_vpclmulqdq = 0;
     }
 }

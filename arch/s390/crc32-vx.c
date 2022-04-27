@@ -12,7 +12,7 @@
  * relicensed under the zlib license.
  */
 
-#include "zutil.h"
+#include "../../zbuild.h"
 #include "crc32_p.h"
 
 #include <vecintrin.h>
@@ -198,16 +198,16 @@ static uint32_t crc32_le_vgfm_16(uint32_t crc, const unsigned char *buf, size_t 
 #define VX_ALIGNMENT 16L
 #define VX_ALIGN_MASK (VX_ALIGNMENT - 1)
 
-uint32_t Z_INTERNAL s390_crc32_vx(uint32_t crc, const unsigned char *buf, uint64_t len) {
+uint32_t Z_INTERNAL PREFIX(s390_crc32_vx)(uint32_t crc, const unsigned char *buf, uint64_t len) {
     uint64_t prealign, aligned, remaining;
 
     if (len < VX_MIN_LEN + VX_ALIGN_MASK)
-        return crc32_big(crc, buf, len);
+        return crc32_byfour(crc, buf, len);
 
     if ((uintptr_t)buf & VX_ALIGN_MASK) {
         prealign = VX_ALIGNMENT - ((uintptr_t)buf & VX_ALIGN_MASK);
         len -= prealign;
-        crc = crc32_big(crc, buf, prealign);
+        crc = crc32_byfour(crc, buf, prealign);
         buf += prealign;
     }
     aligned = len & ~VX_ALIGN_MASK;
@@ -216,7 +216,7 @@ uint32_t Z_INTERNAL s390_crc32_vx(uint32_t crc, const unsigned char *buf, uint64
     crc = crc32_le_vgfm_16(crc ^ 0xffffffff, buf, (size_t)aligned) ^ 0xffffffff;
 
     if (remaining)
-        crc = crc32_big(crc, buf + aligned, remaining);
+        crc = crc32_byfour(crc, buf + aligned, remaining);
 
     return crc;
 }
