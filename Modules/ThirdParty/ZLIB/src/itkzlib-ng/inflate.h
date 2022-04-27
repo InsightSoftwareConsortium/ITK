@@ -11,6 +11,8 @@
 #ifndef INFLATE_H_
 #define INFLATE_H_
 
+#include "crc32_fold.h"
+
 /* define NO_GZIP when compiling if you want to disable gzip header and trailer decoding by inflate().
    NO_GZIP would be used to avoid linking in the crc code when it is not needed.
    For shared libraries, gzip decoding should be left enabled. */
@@ -100,6 +102,9 @@ struct inflate_state {
     uint32_t whave;             /* valid bytes in the window */
     uint32_t wnext;             /* window write index */
     unsigned char *window;      /* allocated sliding window, if needed */
+
+    struct crc32_fold_s ALIGNED_(16) crc_fold;
+
         /* bit accumulator */
     uint32_t hold;              /* input bit accumulator */
     unsigned bits;              /* number of bits in "in" */
@@ -128,7 +133,7 @@ struct inflate_state {
     uint32_t chunksize;         /* size of memory copying chunk */
 };
 
-int Z_INTERNAL inflate_ensure_window(struct inflate_state *state);
+int Z_INTERNAL PREFIX(inflate_ensure_window)(struct inflate_state *state);
 void Z_INTERNAL fixedtables(struct inflate_state *state);
 
 #endif /* INFLATE_H_ */

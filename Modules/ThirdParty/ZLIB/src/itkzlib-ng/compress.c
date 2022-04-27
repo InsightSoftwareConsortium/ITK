@@ -5,11 +5,6 @@
 
 #include "zbuild.h"
 #include "zutil.h"
-#if defined(ZLIB_COMPAT)
-#  include "zlib.h"
-#else
-#  include "zlib-ng.h"
-#endif
 
 /* ===========================================================================
  *  Architecture-specific hooks.
@@ -91,10 +86,13 @@ z_size_t Z_EXPORT PREFIX(compressBound)(z_size_t sourceLen) {
         return complen + ZLIB_WRAPLEN;
 
 #ifndef NO_QUICK_STRATEGY
-    /* Quick deflate strategy worse case is 9 bits per literal, rounded to nearest byte,
-       plus the size of block & gzip headers and footers */
-    return sourceLen + ((sourceLen + 13 + 7) >> 3) + 18;
+    return sourceLen                       /* The source size itself */
+      + (sourceLen == 0 ? 1 : 0)           /* Always at least one byte for any input */
+      + (sourceLen < 9 ? 1 : 0)            /* One extra byte for lengths less than 9 */
+      + DEFLATE_QUICK_OVERHEAD(sourceLen)  /* Source encoding overhead, padded to next full byte */
+      + DEFLATE_BLOCK_OVERHEAD             /* Deflate block overhead bytes */
+      + ZLIB_WRAPLEN;                      /* zlib wrapper */
 #else
-    return sourceLen + (sourceLen >> 12) + (sourceLen >> 14) + (sourceLen >> 25) + 13;
+    return sourceLen + (sourceLen >> 4) + 7 + ZLIB_WRAPLEN;
 #endif
 }

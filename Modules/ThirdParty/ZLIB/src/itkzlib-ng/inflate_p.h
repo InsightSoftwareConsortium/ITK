@@ -5,6 +5,33 @@
 #ifndef INFLATE_P_H
 #define INFLATE_P_H
 
+/* Architecture-specific hooks. */
+#ifdef S390_DFLTCC_INFLATE
+#  include "arch/s390/dfltcc_inflate.h"
+#else
+/* Memory management for the inflate state. Useful for allocating arch-specific extension blocks. */
+#  define ZALLOC_STATE(strm, items, size) ZALLOC(strm, items, size)
+#  define ZFREE_STATE(strm, addr) ZFREE(strm, addr)
+#  define ZCOPY_STATE(dst, src, size) memcpy(dst, src, size)
+/* Memory management for the window. Useful for allocation the aligned window. */
+#  define ZALLOC_WINDOW(strm, items, size) ZALLOC(strm, items, size)
+#  define ZFREE_WINDOW(strm, addr) ZFREE(strm, addr)
+/* Invoked at the end of inflateResetKeep(). Useful for initializing arch-specific extension blocks. */
+#  define INFLATE_RESET_KEEP_HOOK(strm) do {} while (0)
+/* Invoked at the beginning of inflatePrime(). Useful for updating arch-specific buffers. */
+#  define INFLATE_PRIME_HOOK(strm, bits, value) do {} while (0)
+/* Invoked at the beginning of each block. Useful for plugging arch-specific inflation code. */
+#  define INFLATE_TYPEDO_HOOK(strm, flush) do {} while (0)
+/* Returns whether zlib-ng should compute a checksum. Set to 0 if arch-specific inflation code already does that. */
+#  define INFLATE_NEED_CHECKSUM(strm) 1
+/* Returns whether zlib-ng should update a window. Set to 0 if arch-specific inflation code already does that. */
+#  define INFLATE_NEED_UPDATEWINDOW(strm) 1
+/* Invoked at the beginning of inflateMark(). Useful for updating arch-specific pointers and offsets. */
+#  define INFLATE_MARK_HOOK(strm) do {} while (0)
+/* Invoked at the beginning of inflateSyncPoint(). Useful for performing arch-specific state checks. */
+#  define INFLATE_SYNC_POINT_HOOK(strm) do {} while (0)
+#endif
+
 /*
  *   Macros shared by inflate() and inflateBack()
  */
@@ -99,3 +126,78 @@
         state->mode = BAD; \
         strm->msg = (char *)errmsg; \
     } while (0)
+
+/* Behave like chunkcopy, but avoid writing beyond of legal output. */
+static inline uint8_t* chunkcopy_safe(uint8_t *out, uint8_t *from, size_t len, uint8_t *safe) {
+    uint32_t safelen = (uint32_t)((safe - out) + 1);
+    len = MIN(len, safelen);
+    int32_t olap_src = from >= out && from < out + len;
+    int32_t olap_dst = out >= from && out < from + len;
+    size_t tocopy;
+
+    /* For all cases without overlap, memcpy is ideal */
+    if (!(olap_src || olap_dst)) {
+        memcpy(out, from, len);
+        return out + len;
+    }
+
+    /* We are emulating a self-modifying copy loop here. To do this in a way that doesn't produce undefined behavior,
+     * we have to get a bit clever. First if the overlap is such that src falls between dst and dst+len, we can do the
+     * initial bulk memcpy of the nonoverlapping region. Then, we can leverage the size of this to determine the safest
+     * atomic memcpy size we can pick such that we have non-overlapping regions. This effectively becomes a safe look
+     * behind or lookahead distance */
+    size_t non_olap_size = ((from > out) ? from - out : out - from);
+
+    memcpy(out, from, non_olap_size);
+    out += non_olap_size;
+    from += non_olap_size;
+    len -= non_olap_size;
+
+    /* So this doesn't give use a worst case scenario of function calls in a loop,
+     * we want to instead break this down into copy blocks of fixed lengths */
+    while (len) {
+        tocopy = MIN(non_olap_size, len);
+        len -= tocopy;
+
+        while (tocopy >= 32) {
+            memcpy(out, from, 32);
+            out += 32;
+            from += 32;
+            tocopy -= 32;
+        }
+
+        if (tocopy >= 16) {
+            memcpy(out, from, 16);
+            out += 16;
+            from += 16;
+            tocopy -= 16;
+        }
+
+        if (tocopy >= 8) {
+            zmemcpy_8(out, from);
+            out += 8;
+            from += 8;
+            tocopy -= 8;
+        }
+
+        if (tocopy >= 4) {
+            zmemcpy_4(out, from);
+            out += 4;
+            from += 4;
+            tocopy -= 4;
+        }
+
+        if (tocopy >= 2) {
+            zmemcpy_2(out, from);
+            out += 2;
+            from += 2;
+            tocopy -= 2;
+        }
+
+        if (tocopy) {
+            *out++ = *from++;
+        }
+    }
+
+    return out;
+}
