@@ -92,7 +92,17 @@ for filename in ${remote_modules_path}/*.cmake; do
   latest_commit=$(git ls-remote git@github.com:$repository refs/heads/master)
   latest_commit=${latest_commit/[[:space:]]refs\/heads\/master/}
 
-  if [ $curr_commit = $latest_commit ]; then
+  if [ -z "$latest_commit" ]; then
+    # check for a branch named main
+    latest_commit=$(git ls-remote git@github.com:$repository refs/heads/main)
+    latest_commit=${latest_commit/[[:space:]]refs\/heads\/main/}
+    if [ -z "$latest_commit" ]; then
+      echo "$repository has neither branch named master nor main"
+      continue
+    fi
+  fi
+
+  if [ "$curr_commit" = "$latest_commit" ]; then
     continue
   fi
 
@@ -108,6 +118,7 @@ for filename in ${remote_modules_path}/*.cmake; do
   fi
 
   # Search and replace the latest commit hash in the CMake file
+  # echo "Updating $repository from '${curr_commit}' to '${latest_commit}'" # debug
   ex -sc "%s/${curr_commit}/${latest_commit}/g|x" $filename
   updated+=($repository)
 
