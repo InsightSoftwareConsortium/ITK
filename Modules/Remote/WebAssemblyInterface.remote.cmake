@@ -46,5 +46,5 @@ itk_fetch_module(WebAssemblyInterface
   "The itk-wasm WebAssemblyInterface module provides tools to a) build C/C++ code to WebAssembly-compatible processing pipelines, b) bridge local filesystems, JavaScript/Typescript data structures, and traditional file formats, c) transfer data efficiently in and out of the WebAssembly runtime."
   MODULE_COMPLIANCE_LEVEL 3
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/itk-wasm.git
-  GIT_TAG 0d4a4d2769d9cea51c89491e4bdf052f65d6a396
+  GIT_TAG 802f937a97b4cd702f6e171f54e76665ac8df50d
   )
