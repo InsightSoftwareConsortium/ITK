@@ -360,6 +360,9 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
       case CellGeometryEnum::LINE_CELL:
         data[index++] = static_cast<Output>(CellGeometryEnum::LINE_CELL);
         break;
+      case CellGeometryEnum::POLYLINE_CELL:
+        data[index++] = static_cast<Output>(CellGeometryEnum::POLYLINE_CELL);
+        break;
       case CellGeometryEnum::TRIANGLE_CELL:
         data[index++] = static_cast<Output>(CellGeometryEnum::TRIANGLE_CELL);
         break;
@@ -387,7 +390,6 @@ MeshFileWriter<TInputMesh>::CopyCellsToBuffer(Output * data)
 
     // The second element is number of points for each cell
     data[index++] = cellPtr->GetNumberOfPoints();
-
     // Others are point identifiers in the cell
     ptIds = cellPtr->GetPointIds();
     unsigned int numberOfPoints = cellPtr->GetNumberOfPoints();

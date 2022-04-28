@@ -41,6 +41,7 @@
 #include "itkVectorContainer.h"
 #include "itkVertexCell.h"
 #include "itkLineCell.h"
+#include "itkPolyLineCell.h"
 #include "itkTriangleCell.h"
 #include "itkQuadrilateralCell.h"
 #include "itkPolygonCell.h"
@@ -217,6 +218,7 @@ public:
   using CellType = CellInterface<CellPixelType, CellTraits>;
   using OutputVertexCellType = itk::VertexCell<CellType>;
   using OutputLineCellType = itk::LineCell<CellType>;
+  using OutputPolyLineCellType = itk::PolyLineCell<CellType>;
   using OutputTriangleCellType = itk::TriangleCell<CellType>;
   using OutputQuadrilateralCellType = itk::QuadrilateralCell<CellType>;
   using OutputPolygonCellType = itk::PolygonCell<CellType>;

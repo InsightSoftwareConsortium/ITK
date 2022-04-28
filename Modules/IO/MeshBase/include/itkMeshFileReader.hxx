@@ -168,6 +168,26 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
         }
         break;
       }
+      case CellGeometryEnum::POLYLINE_CELL:
+      {
+        auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
+        if (numberOfPoints < 2)
+        {
+          itkExceptionMacro(<< "Invalid Line Cell with number of points = " << numberOfPoints);
+        }
+        auto *                polyLineCell = new OutputPolyLineCellType;
+        OutputCellAutoPointer cell;
+
+        for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
+        {
+          auto pointIDBuffer = static_cast<OutputPointIdentifier>(buffer[index++]);
+          polyLineCell->SetPointId(jj, pointIDBuffer);
+        }
+
+        cell.TakeOwnership(polyLineCell);
+        output->SetCell(id++, cell);
+        break;
+      }
       case CellGeometryEnum::TRIANGLE_CELL:
       {
         auto numberOfPoints = static_cast<unsigned int>(buffer[index++]);
