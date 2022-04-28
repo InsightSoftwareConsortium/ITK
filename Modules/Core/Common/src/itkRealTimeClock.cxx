@@ -37,45 +37,30 @@ RealTimeClock::RealTimeClock()
 
   m_Frequency = static_cast<FrequencyType>(frequency.QuadPart);
 
-  SYSTEMTIME st1;
-  SYSTEMTIME st2;
-  FILETIME   ft1;
-  FILETIME   ft2;
+  // Converts a FILETIME to the number of seconds since January 1, 1601.
+  const auto convertToSeconds = [](const FILETIME fileTime) {
+    const auto numberOfIntervals =
+      uint64_t{ fileTime.dwHighDateTime } * (uint64_t{ UINT32_MAX } + 1) + uint64_t{ fileTime.dwLowDateTime };
+    return static_cast<TimeStampType>(numberOfIntervals) / TimeStampType{ 1e7 };
+  };
 
-  ::memset(&st1, 0, sizeof(st1));
-  ::memset(&st2, 0, sizeof(st2));
+  SYSTEMTIME systemTime{};
+  systemTime.wYear = 1970;
+  systemTime.wMonth = 1;
+  systemTime.wDay = 1;
 
-  st1.wYear = 1601;
-  st1.wMonth = 1;
-  st1.wDay = 1;
+  FILETIME fileTime;
+  ::SystemTimeToFileTime(&systemTime, &fileTime);
 
-  st2.wYear = 1970;
-  st2.wMonth = 1;
-  st2.wDay = 1;
-
-  ::SystemTimeToFileTime(&st1, &ft1);
-  ::SystemTimeToFileTime(&st2, &ft2);
-
-  LARGE_INTEGER ui1;
-  LARGE_INTEGER ui2;
-
-  memcpy(&ui1, &ft1, sizeof(ui1));
-  memcpy(&ui2, &ft2, sizeof(ui2));
-
-  m_Difference = static_cast<TimeStampType>(ui2.QuadPart - ui1.QuadPart) / static_cast<TimeStampType>(1e7);
+  m_Difference = convertToSeconds(fileTime);
 
   FILETIME      currentTime;
-  LARGE_INTEGER intTime;
   LARGE_INTEGER tick;
 
   ::GetSystemTimeAsFileTime(&currentTime);
   ::QueryPerformanceCounter(&tick);
 
-  memcpy(&intTime, &currentTime, sizeof(intTime));
-
-  m_Origin = static_cast<TimeStampType>(intTime.QuadPart) / static_cast<TimeStampType>(1e7);
-  m_Origin -= static_cast<TimeStampType>(tick.QuadPart) / m_Frequency;
-  m_Origin -= m_Difference;
+  m_Origin = convertToSeconds(currentTime) - static_cast<TimeStampType>(tick.QuadPart) / m_Frequency - m_Difference;
 #else
   m_Frequency = 1e6;
   m_Difference = 0.0;
