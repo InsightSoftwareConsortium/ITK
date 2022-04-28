@@ -34,11 +34,11 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 
   bool isBinary = (argc > 3);
 
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
 
-  using MeshType = itk::Mesh<PixelType, dimension>;
-  using QEMeshType = itk::QuadEdgeMesh<PixelType, dimension>;
+  using MeshType = itk::Mesh<PixelType, Dimension>;
+  using QEMeshType = itk::QuadEdgeMesh<PixelType, Dimension>;
 
   int result = EXIT_SUCCESS;
 

@@ -29,13 +29,13 @@ itkPolylineReadWriteTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  bool IsBinary = (argc > 3);
+  bool isBinary = (argc > 3);
 
-  constexpr unsigned int dimension = 3;
+  constexpr unsigned int Dimension = 3;
   using PixelType = itk::VariableLengthVector<float>;
-  using MeshType = itk::Mesh<PixelType, dimension>;
+  using MeshType = itk::Mesh<PixelType, Dimension>;
 
-  if (test<MeshType>(argv[1], argv[2], IsBinary))
+  if (test<MeshType>(argv[1], argv[2], isBinary))
   {
     return EXIT_FAILURE;
   }

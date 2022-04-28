@@ -29,23 +29,23 @@ itkMeshFileReadWriteVectorAttributeTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  bool IsBinary = (argc > 3);
+  bool isBinary = (argc > 3);
 
-  constexpr unsigned int dimension = 3;
-  using PixelType = itk::CovariantVector<float, dimension>;
+  constexpr unsigned int Dimension = 3;
+  using PixelType = itk::CovariantVector<float, Dimension>;
 
-  using MeshType = itk::Mesh<PixelType, dimension>;
-  using QEMeshType = itk::QuadEdgeMesh<PixelType, dimension>;
+  using MeshType = itk::Mesh<PixelType, Dimension>;
+  using QEMeshType = itk::QuadEdgeMesh<PixelType, Dimension>;
 
   int result = EXIT_SUCCESS;
 
-  if (test<MeshType>(argv[1], argv[2], IsBinary))
+  if (test<MeshType>(argv[1], argv[2], isBinary))
   {
     std::cerr << "Failure for itk::Mesh" << std::endl;
     result = EXIT_FAILURE;
   }
 
-  if (test<QEMeshType>(argv[1], argv[2], IsBinary))
+  if (test<QEMeshType>(argv[1], argv[2], isBinary))
   {
     std::cerr << "Failure for itk::QuadEdgeMesh" << std::endl;
     result = EXIT_FAILURE;
