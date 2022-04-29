@@ -19,6 +19,7 @@
 #include "itkByteSwapper.h"
 #include "Ge4xHdr.h"
 #include "itksys/SystemTools.hxx"
+#include "itkBitCast.h"
 #include <iostream>
 #include <fstream>
 // From uiig library "The University of Iowa Imaging Group-UIIG"
@@ -344,11 +345,11 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 float
 GE4ImageIO ::MvtSunf(int numb)
 {
-#define signbit 020000000000U
-#define dmantissa 077777777U
-#define dexponent 0177U
-#define smantissa 037777777U
-#define smantlen 23U
+  constexpr auto signbit = 020000000000U;
+  constexpr auto dmantissa = 077777777U;
+  constexpr auto dexponent = 0177U;
+  constexpr auto smantissa = 037777777U;
+  constexpr auto smantlen = 23U;
   ByteSwapper<int>::SwapFromSystemToBigEndian(&numb);
   unsigned int dg_exp = (numb >> 24) & dexponent;
   unsigned int dg_sign = numb & signbit;
@@ -369,9 +370,7 @@ GE4ImageIO ::MvtSunf(int numb)
     sun_exp = 255;
   }
   dg_mantissa = dg_mantissa << 1;
-  int   sun_num = dg_sign | (sun_exp << smantlen) | ((dg_mantissa >> 9) & smantissa);
-  float x;
-  memcpy(&x, &sun_num, sizeof(x));
-  return x;
+  const unsigned int sun_num{ dg_sign | (sun_exp << smantlen) | ((dg_mantissa >> 9) & smantissa) };
+  return bit_cast<float>(sun_num);
 }
 } // end namespace itk
