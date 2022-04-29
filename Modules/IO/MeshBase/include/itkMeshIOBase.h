@@ -725,7 +725,7 @@ protected:
     }
   }
 
-  /** Read cells from input buffer, used when Writting cells. This function only
+  /** Read cells from input buffer, used when Writing cells. This function only
     write specified type of cells(used when input cells container composes
     multiple type of cells and only want to write a specified cell type */
   template <typename TInput, typename TOutput>
@@ -783,7 +783,7 @@ protected:
     }
   }
 
-  /** Write cells to a data buffer, used when readding mesh, used for cellType
+  /** Write cells to a data buffer, used when reading mesh, used for cellType
     with non-constant number of points */
   template <typename TInput, typename TOutput>
   void
@@ -796,8 +796,13 @@ protected:
       for (SizeValueType ii = 0; ii < numberOfCells; ++ii)
       {
         auto numberOfPoints = static_cast<unsigned int>(input[inputIndex++]);
+        if (numberOfPoints > 2 && cellType == CellGeometryEnum::LINE_CELL)
+        {
+          cellType = CellGeometryEnum::POLYLINE_CELL;
+        }
         output[outputIndex++] = static_cast<TOutput>(cellType);
         output[outputIndex++] = static_cast<TOutput>(numberOfPoints);
+
         for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
         {
           output[outputIndex++] = static_cast<TOutput>(input[inputIndex++]);

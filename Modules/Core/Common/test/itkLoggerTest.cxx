@@ -204,7 +204,8 @@ itkLoggerTest(int argc, char * argv[])
     itk::CellGeometryEnum::TRIANGLE_CELL,   itk::CellGeometryEnum::QUADRILATERAL_CELL,
     itk::CellGeometryEnum::POLYGON_CELL,    itk::CellGeometryEnum::TETRAHEDRON_CELL,
     itk::CellGeometryEnum::HEXAHEDRON_CELL, itk::CellGeometryEnum::QUADRATIC_TRIANGLE_CELL,
-    itk::CellGeometryEnum::LAST_ITK_CELL,   itk::CellGeometryEnum::MAX_ITK_CELLS
+    itk::CellGeometryEnum::LAST_ITK_CELL,   itk::CellGeometryEnum::POLYLINE_CELL,
+    itk::CellGeometryEnum::MAX_ITK_CELLS
   };
   for (const auto & ee : allCellGeometryEnum)
   {

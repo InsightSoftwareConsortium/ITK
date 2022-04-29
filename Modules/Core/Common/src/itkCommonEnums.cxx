@@ -175,6 +175,8 @@ operator<<(std::ostream & out, const CommonEnums::CellGeometry value)
         return "itk::CommonEnums::CellGeometry::VERTEX_CELL";
       case CommonEnums::CellGeometry::LINE_CELL:
         return "itk::CommonEnums::CellGeometry::LINE_CELL";
+      case CommonEnums::CellGeometry::POLYLINE_CELL:
+        return "itk::CommonEnums::CellGeometry::POLYLINE_CELL";
       case CommonEnums::CellGeometry::TRIANGLE_CELL:
         return "itk::CommonEnums::CellGeometry::TRIANGLE_CELL";
       case CommonEnums::CellGeometry::QUADRILATERAL_CELL:

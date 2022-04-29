@@ -39,7 +39,7 @@ TestPointsContainer(typename TMesh::PointsContainerPointer points0, typename TMe
   {
     if (points0->Size() != points1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of cells!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of points!" << std::endl;
       return EXIT_FAILURE;
     }
 
@@ -155,7 +155,7 @@ TestPointDataContainer(typename TMesh::PointDataContainerPointer pointData0,
   {
     if (pointData0->Size() != pointData1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of cells!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of point data!" << std::endl;
       return EXIT_FAILURE;
     }
     PointDataContainerIterator pdIt0 = pointData0->Begin();
@@ -206,7 +206,7 @@ TestCellDataContainer(typename TMesh::CellDataContainerPointer cellData0,
   {
     if (cellData0->Size() != cellData1->Size())
     {
-      std::cerr << "Input mesh and output mesh have different number of cells!" << std::endl;
+      std::cerr << "Input mesh and output mesh have different number of cell data!" << std::endl;
       return EXIT_FAILURE;
     }
 

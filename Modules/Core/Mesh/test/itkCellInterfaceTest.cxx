@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkMesh.h"
+#include "itkPolyLineCell.h"
 #include "itkHexahedronCell.h"
 #include "itkTetrahedronCell.h"
 #include "itkQuadraticTriangleCell.h"
@@ -152,6 +153,20 @@ itkCellInterfaceTest(int, char *[])
 
   using LineCellType = itk::LineCell<CellInterfaceType>;
   status = TestCellInterface("Line", new LineCellType);
+  if (status != 0)
+  {
+    return EXIT_FAILURE;
+  }
+
+  using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
+  status = TestCellInterface("PolyLine", new PolyLineCellType);
+  if (status != 0)
+  {
+    return EXIT_FAILURE;
+  }
+
+  using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
+  status = TestCellInterface("PolyLineCellType with 7 vertices", new PolyLineCellType(7));
   if (status != 0)
   {
     return EXIT_FAILURE;

@@ -22,6 +22,7 @@
 #include "itkMacro.h"
 #include "itkHexahedronCell.h"
 #include "itkLineCell.h"
+#include "itkPolyLineCell.h"
 #include "itkMeshIOBase.h"
 #include "itkMeshSource.h"
 #include "itkPolygonCell.h"
@@ -108,6 +109,7 @@ public:
 
   using OutputVertexCellType = VertexCell<OutputCellType>;
   using OutputLineCellType = LineCell<OutputCellType>;
+  using OutputPolyLineCellType = PolyLineCell<OutputCellType>;
   using OutputTriangleCellType = TriangleCell<OutputCellType>;
   using OutputPolygonCellType = PolygonCell<OutputCellType>;
   using OutputTetrahedronCellType = TetrahedronCell<OutputCellType>;

@@ -18,6 +18,7 @@
 
 #include "itkMesh.h"
 #include "itkTetrahedronCell.h"
+#include "itkPolyLineCell.h"
 #include "itkHexahedronCell.h"
 #include "itkQuadraticTriangleCell.h"
 #include "itkFileOutputWindow.h"
@@ -48,6 +49,7 @@ using CellTraits = MeshType::CellTraits;
  */
 using CellInterfaceType = itk::CellInterface<int, CellTraits>;
 using LineCellType = itk::LineCell<CellInterfaceType>;
+using PolyLineCellType = itk::PolyLineCell<CellInterfaceType>;
 using TetraCellType = itk::TetrahedronCell<CellInterfaceType>;
 using HexaCellType = itk::HexahedronCell<CellInterfaceType>;
 using QuadraticEdgeCellType = itk::QuadraticEdgeCell<CellInterfaceType>;
@@ -197,8 +199,8 @@ itkMeshTest(int, char *[])
                                                                  { itk::CellGeometryEnum::TETRAHEDRON_CELL, 4 },
                                                                  { itk::CellGeometryEnum::HEXAHEDRON_CELL, 8 },
                                                                  { itk::CellGeometryEnum::QUADRATIC_EDGE_CELL, 3 },
-                                                                 { itk::CellGeometryEnum::QUADRATIC_TRIANGLE_CELL,
-                                                                   6 } };
+                                                                 { itk::CellGeometryEnum::QUADRATIC_TRIANGLE_CELL, 6 },
+                                                                 { itk::CellGeometryEnum::POLYLINE_CELL, 5 } };
 
   // Insert cell of each kind
   auto          cellVectorContainer = MeshType::CellsVectorContainer::New();

@@ -883,7 +883,15 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
       for (unsigned int ii = 0; ii < numberOfLines; ++ii)
       {
         inputFile >> numPoints;
-        data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
+        if (numPoints == 2)
+        {
+          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::LINE_CELL);
+        }
+        else
+        {
+          // Use POLYLINE_CELL when more than 2 points are present
+          data[index++] = static_cast<GeometryIntegerType>(CellGeometryEnum::POLYLINE_CELL);
+        }
         data[index++] = numPoints;
         for (unsigned int jj = 0; jj < numPoints; ++jj)
         {

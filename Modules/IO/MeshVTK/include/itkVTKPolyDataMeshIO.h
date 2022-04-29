@@ -159,6 +159,10 @@ protected:
           numberOfLines++;
           numberOfLineIndices += nn + 1;
           break;
+        case CellGeometryEnum::POLYLINE_CELL:
+          numberOfLines++;
+          numberOfLineIndices += nn + 1;
+          break;
         case CellGeometryEnum::TRIANGLE_CELL:
           numberOfPolygons++;
           numberOfPolygonIndices += nn + 1;
@@ -516,45 +520,25 @@ protected:
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
+
+        pointIds.clear();
         if (cellType == CellGeometryEnum::LINE_CELL)
         {
-          if (pointIds.size() >= nn)
+          pointIds.push_back(static_cast<SizeValueType>(buffer[index]));
+          pointIds.push_back(static_cast<SizeValueType>(buffer[index + 1]));
+        }
+        else if (cellType == CellGeometryEnum::POLYLINE_CELL)
+        {
+          for (unsigned int jj = 0; jj < nn; ++jj)
           {
-            SizeValueType id = pointIds.back();
-            if (id == static_cast<SizeValueType>(buffer[index]))
-            {
-              pointIds.push_back(static_cast<SizeValueType>(buffer[index + 1]));
-            }
-            else if (id == static_cast<SizeValueType>(buffer[index + 1]))
-            {
-              pointIds.push_back(static_cast<SizeValueType>(buffer[index]));
-            }
-            else
-            {
-              polylines->InsertElement(numberOfPolylines++, pointIds);
-              numberOfLineIndices += pointIds.size();
-              pointIds.clear();
-
-              for (unsigned int jj = 0; jj < nn; ++jj)
-              {
-                pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
-              }
-            }
-          }
-          else
-          {
-            for (unsigned int jj = 0; jj < nn; ++jj)
-            {
-              pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
-            }
+            pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
           }
         }
 
+        polylines->InsertElement(numberOfPolylines++, pointIds);
+        numberOfLineIndices += pointIds.size();
         index += nn;
       }
-      polylines->InsertElement(numberOfPolylines++, pointIds);
-      numberOfLineIndices += pointIds.size();
-      pointIds.clear();
 
       numberOfLines = polylines->Size();
       numberOfLineIndices += numberOfLines;
@@ -642,45 +626,24 @@ protected:
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
         auto nn = static_cast<unsigned int>(buffer[index++]);
+        pointIds.clear();
+
         if (cellType == CellGeometryEnum::LINE_CELL)
         {
-          if (pointIds.size() >= nn)
+          pointIds.push_back(static_cast<SizeValueType>(buffer[index]));
+          pointIds.push_back(static_cast<SizeValueType>(buffer[index + 1]));
+        }
+        else if (cellType == CellGeometryEnum::POLYLINE_CELL)
+        {
+          for (unsigned int jj = 0; jj < nn; ++jj)
           {
-            SizeValueType id = pointIds.back();
-            if (id == static_cast<SizeValueType>(buffer[index]))
-            {
-              pointIds.push_back(static_cast<SizeValueType>(buffer[index + 1]));
-            }
-            else if (id == static_cast<SizeValueType>(buffer[index + 1]))
-            {
-              pointIds.push_back(static_cast<SizeValueType>(buffer[index]));
-            }
-            else
-            {
-              polylines->InsertElement(numberOfPolylines++, pointIds);
-              numberOfLineIndices += pointIds.size();
-              pointIds.clear();
-
-              for (unsigned int jj = 0; jj < nn; ++jj)
-              {
-                pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
-              }
-            }
-          }
-          else
-          {
-            for (unsigned int jj = 0; jj < nn; ++jj)
-            {
-              pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
-            }
+            pointIds.push_back(static_cast<SizeValueType>(buffer[index + jj]));
           }
         }
-
+        polylines->InsertElement(numberOfPolylines++, pointIds);
+        numberOfLineIndices += pointIds.size();
         index += nn;
       }
-      polylines->InsertElement(numberOfPolylines++, pointIds);
-      numberOfLineIndices += pointIds.size();
-      pointIds.clear();
 
       numberOfLines = polylines->Size();
       numberOfLineIndices += numberOfLines;

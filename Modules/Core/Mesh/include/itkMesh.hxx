@@ -146,6 +146,9 @@ Mesh<TPixelType, VDimension, TMeshTraits>::CreateCell(int cellType, CellAutoPoin
     case CellGeometryEnum::LINE_CELL:
       cellPointer.TakeOwnership(new OutputLineCellType);
       break;
+    case CellGeometryEnum::POLYLINE_CELL:
+      cellPointer.TakeOwnership(new OutputPolyLineCellType);
+      break;
     case CellGeometryEnum::TRIANGLE_CELL:
       cellPointer.TakeOwnership(new OutputTriangleCellType);
       break;

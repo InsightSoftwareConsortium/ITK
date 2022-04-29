@@ -20,16 +20,21 @@ itk_add_test(NAME itkMeshFileReadWriteVectorAttributeTest
       DATA{Baseline/sphere_norm.vtk}
       ${ITK_TEST_OUTPUT_DIR}/sphere_norm.vtk
 )
-itk_add_test(NAME itkPolylineReadWriteTest00
+itk_add_test(NAME itkPolyLineReadWriteTest00
       COMMAND ITKIOMeshVTKTestDriver itkPolylineReadWriteTest
       DATA{Baseline/fibers.vtk}
       ${ITK_TEST_OUTPUT_DIR}/fibers.vtk
 )
-itk_add_test(NAME itkPolylineReadWriteTest01
+itk_add_test(NAME itkPolyLineReadWriteTest01
       COMMAND ITKIOMeshVTKTestDriver itkPolylineReadWriteTest
       DATA{Baseline/fibers.vtk}
       ${ITK_TEST_OUTPUT_DIR}/fibers_b.vtk
       1
+)
+itk_add_test(NAME itkPolyLineReadWriteTest02
+      COMMAND ITKIOMeshVTKTestDriver itkPolylineReadWriteTest
+      DATA{Baseline/hollow.vtk}
+      ${ITK_TEST_OUTPUT_DIR}/hollow.vtk
 )
 itk_add_test(NAME itkMeshFileWriteReadTensorTest
   COMMAND ITKIOMeshVTKTestDriver itkMeshFileWriteReadTensorTest
