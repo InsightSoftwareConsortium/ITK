@@ -3,6 +3,7 @@ set(ITKConvolutionTests
   itkConvolutionImageFilterTest.cxx
   itkConvolutionImageFilterTestInt.cxx
   itkConvolutionImageFilterDeltaFunctionTest.cxx
+  itkConvolutionImageFilterStreamingTest.cxx
   itkConvolutionImageFilterSubregionTest.cxx
   itkFFTConvolutionImageFilterTest.cxx
   itkFFTConvolutionImageFilterTestInt.cxx
@@ -279,4 +280,46 @@ itk_add_test(NAME itkFFTConvolutionImageFilterSubregionNormalizeTest
       1
       same
       # with inline Gaussian kernel
+      )
+itk_add_test(NAME itkConvolutionImageFilterStreamingTest
+    COMMAND ITKConvolutionTestDriver
+     --compare DATA{Baseline/itkConvolutionImageFilterStreamingTestOutput.mha}
+               ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingTestOutput.mha
+      itkConvolutionImageFilterStreamingTest
+      spatial
+      DATA{Input/cthead1.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingTestOutput.mha
+      50 75 150 150
+      )
+itk_add_test(NAME itkFFTConvolutionImageFilterStreamingTest
+    COMMAND ITKConvolutionTestDriver
+     --compare DATA{Baseline/itkConvolutionImageFilterStreamingTestOutput.mha}
+               ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingTestOutput.mha
+      itkConvolutionImageFilterStreamingTest
+      frequency
+      DATA{Input/cthead1.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingTestOutput.mha
+      50 75 150 150
+      )
+itk_add_test(NAME itkConvolutionImageFilterStreamingValidTest
+    COMMAND ITKConvolutionTestDriver
+     --compare DATA{Baseline/itkConvolutionImageFilterStreamingTestOutput.mha}
+               ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingTestOutput.mha
+      itkConvolutionImageFilterStreamingTest
+      spatial
+      DATA{Input/cthead1.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkConvolutionImageFilterStreamingTestOutput.mha
+      50 75 150 150
+      valid   # use only valid input region (no pad for kernel)
+      )
+itk_add_test(NAME itkFFTConvolutionImageFilterStreamingValidTest
+    COMMAND ITKConvolutionTestDriver
+     --compare DATA{Baseline/itkConvolutionImageFilterStreamingTestOutput.mha}
+               ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingTestOutput.mha
+      itkConvolutionImageFilterStreamingTest
+      frequency
+      DATA{Input/cthead1.mha}
+      ${ITK_TEST_OUTPUT_DIR}/itkFFTConvolutionImageFilterStreamingTestOutput.mha
+      50 75 150 150
+      valid  # use only valid input region (no pad for kernel)
       )
