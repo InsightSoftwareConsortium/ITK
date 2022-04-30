@@ -110,7 +110,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Big Endian. */
   static void
-  SwapWriteRangeFromSystemToBigEndian(T * p, int num, OStreamType * fp);
+  SwapWriteRangeFromSystemToBigEndian(const T * p, int num, OStreamType * fp);
 
   /** Generic swap method handles type T. The swapping is
    * done in-place. 2, 4 and 8 byte swapping
@@ -136,7 +136,7 @@ public:
    * others raise an exception. The method is used to
    * swap to and from Little Endian. */
   static void
-  SwapWriteRangeFromSystemToLittleEndian(T * p, int num, OStreamType * fp);
+  SwapWriteRangeFromSystemToLittleEndian(const T * p, int num, OStreamType * fp);
 
 protected:
   ByteSwapper() = default;
@@ -154,7 +154,7 @@ protected:
   /** Swap and write a range of two-byte words. Num is the number of two-byte
    * words to swap and write. */
   static void
-  SwapWrite2Range(void * ptr, BufferSizeType num, OStreamType * fp);
+  SwapWrite2Range(const void * ptr, BufferSizeType num, OStreamType * fp);
 
   /** Swap four bytes. */
   static void
@@ -168,7 +168,7 @@ protected:
   /** Swap and write a range of four-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void
-  SwapWrite4Range(void * ptr, BufferSizeType num, OStreamType * fp);
+  SwapWrite4Range(const void * ptr, BufferSizeType num, OStreamType * fp);
 
   /** Swap 8 bytes. */
   static void
@@ -182,7 +182,7 @@ protected:
   /** Swap and write a range of 8-byte words. Num is the number of four-byte
    * words to swap and write. */
   static void
-  SwapWrite8Range(void * ptr, BufferSizeType num, OStreamType * fp);
+  SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamType * fp);
 };
 } // end namespace itk
 
