@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef itkByteSwapper_hxx
 #define itkByteSwapper_hxx
+#include <algorithm> // For swap.
 #include <memory>
 #include <cstring>
 
@@ -273,10 +274,8 @@ template <typename T>
 void
 ByteSwapper<T>::Swap2(void * pin)
 {
-  auto *               p = static_cast<unsigned short *>(pin);
-  const unsigned short h1 = (*p) << static_cast<short unsigned int>(8);
-  const unsigned short h2 = (*p) >> static_cast<short unsigned int>(8);
-  *p = h1 | h2;
+  auto * p = static_cast<char *>(pin);
+  std::swap(p[0], p[1]);
 }
 
 // Swap bunch of bytes. Num is the number of two byte words to swap.
@@ -287,9 +286,7 @@ ByteSwapper<T>::Swap2Range(void * ptr, BufferSizeType num)
   auto * pos = static_cast<char *>(ptr);
   for (BufferSizeType i = 0; i < num; ++i)
   {
-    const char one_byte = pos[0];
-    pos[0] = pos[1];
-    pos[1] = one_byte;
+    Self::Swap2(pos);
     pos = pos + 2;
   }
 }
@@ -328,16 +325,9 @@ template <typename T>
 void
 ByteSwapper<T>::Swap4(void * ptr)
 {
-  char   one_byte;
   auto * p = static_cast<char *>(ptr);
-
-  one_byte = p[0];
-  p[0] = p[3];
-  p[3] = one_byte;
-
-  one_byte = p[1];
-  p[1] = p[2];
-  p[2] = one_byte;
+  std::swap(p[0], p[3]);
+  std::swap(p[1], p[2]);
 }
 
 // Swap bunch of bytes. Num is the number of four byte words to swap.
@@ -390,24 +380,12 @@ template <typename T>
 void
 ByteSwapper<T>::Swap8(void * ptr)
 {
-  char   one_byte;
   auto * p = static_cast<char *>(ptr);
 
-  one_byte = p[0];
-  p[0] = p[7];
-  p[7] = one_byte;
-
-  one_byte = p[1];
-  p[1] = p[6];
-  p[6] = one_byte;
-
-  one_byte = p[2];
-  p[2] = p[5];
-  p[5] = one_byte;
-
-  one_byte = p[3];
-  p[3] = p[4];
-  p[4] = one_byte;
+  std::swap(p[0], p[7]);
+  std::swap(p[1], p[6]);
+  std::swap(p[2], p[5]);
+  std::swap(p[3], p[4]);
 }
 
 // Swap bunch of bytes. Num is the number of eight byte words to swap.
