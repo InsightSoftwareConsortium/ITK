@@ -304,14 +304,14 @@ ByteSwapper<T>::SwapWrite2Range(void * ptr, BufferSizeType num, OStreamType * fp
   {
     chunkSize = num;
   }
-  auto * cpy = new char[chunkSize * 2];
+  const std::unique_ptr<char[]> cpy(new char[chunkSize * 2]);
   while (num)
   {
-    memcpy(cpy, ptr, chunkSize * 2);
+    memcpy(cpy.get(), ptr, chunkSize * 2);
 
-    Self::Swap2Range(cpy, num);
+    Self::Swap2Range(cpy.get(), num);
 
-    fp->write((char *)cpy, static_cast<std::streamsize>(2 * chunkSize));
+    fp->write(cpy.get(), static_cast<std::streamsize>(2 * chunkSize));
     ptr = (char *)ptr + chunkSize * 2;
     num -= chunkSize;
     if (num < chunkSize)
@@ -319,7 +319,6 @@ ByteSwapper<T>::SwapWrite2Range(void * ptr, BufferSizeType num, OStreamType * fp
       chunkSize = num;
     }
   }
-  delete[] cpy;
 }
 
 //------4-byte methods----------------------------------------------
@@ -366,15 +365,15 @@ ByteSwapper<T>::SwapWrite4Range(void * ptr, BufferSizeType num, OStreamType * fp
   {
     chunkSize = num;
   }
-  auto * cpy = new char[chunkSize * 4];
+  const std::unique_ptr<char[]> cpy(new char[chunkSize * 4]);
 
   while (num)
   {
-    memcpy(cpy, ptr, chunkSize * 4);
+    memcpy(cpy.get(), ptr, chunkSize * 4);
 
-    Self::Swap4Range(cpy, num);
+    Self::Swap4Range(cpy.get(), num);
 
-    fp->write((char *)cpy, static_cast<std::streamsize>(4 * chunkSize));
+    fp->write(cpy.get(), static_cast<std::streamsize>(4 * chunkSize));
     ptr = (char *)ptr + chunkSize * 4;
     num -= chunkSize;
     if (num < chunkSize)
@@ -382,7 +381,6 @@ ByteSwapper<T>::SwapWrite4Range(void * ptr, BufferSizeType num, OStreamType * fp
       chunkSize = num;
     }
   }
-  delete[] cpy;
 }
 
 //------8-byte methods----------------------------------------------
@@ -436,15 +434,15 @@ ByteSwapper<T>::SwapWrite8Range(void * ptr, BufferSizeType num, OStreamType * fp
   {
     chunkSize = num;
   }
-  auto * cpy = new char[chunkSize * 8];
+  const std::unique_ptr<char[]> cpy(new char[chunkSize * 8]);
 
   while (num)
   {
-    memcpy(cpy, ptr, chunkSize * 8);
+    memcpy(cpy.get(), ptr, chunkSize * 8);
 
-    Self::Swap8Range(cpy, chunkSize);
+    Self::Swap8Range(cpy.get(), chunkSize);
 
-    fp->write((char *)cpy, static_cast<std::streamsize>(8 * chunkSize));
+    fp->write(cpy.get(), static_cast<std::streamsize>(8 * chunkSize));
     ptr = (char *)ptr + chunkSize * 8;
     num -= chunkSize;
     if (num < chunkSize)
@@ -452,7 +450,6 @@ ByteSwapper<T>::SwapWrite8Range(void * ptr, BufferSizeType num, OStreamType * fp
       chunkSize = num;
     }
   }
-  delete[] cpy;
 }
 } // end namespace itk
 
