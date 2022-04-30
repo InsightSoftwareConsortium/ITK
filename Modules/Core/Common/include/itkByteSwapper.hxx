@@ -81,13 +81,13 @@ ByteSwapper<T>::SwapFromSystemToBigEndian(T * p)
     case 1:
       return;
     case 2:
-      ByteSwapper<T>::Swap2(p);
+      Self::Swap2(p);
       return;
     case 4:
-      ByteSwapper<T>::Swap4(p);
+      Self::Swap4(p);
       return;
     case 8:
-      ByteSwapper<T>::Swap8(p);
+      Self::Swap8(p);
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
@@ -118,13 +118,13 @@ ByteSwapper<T>::SwapRangeFromSystemToBigEndian(T * p, BufferSizeType num)
     case 1:
       return;
     case 2:
-      ByteSwapper<T>::Swap2Range(p, num);
+      Self::Swap2Range(p, num);
       return;
     case 4:
-      ByteSwapper<T>::Swap4Range(p, num);
+      Self::Swap4Range(p, num);
       return;
     case 8:
-      ByteSwapper<T>::Swap8Range(p, num);
+      Self::Swap8Range(p, num);
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
@@ -152,13 +152,13 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(T * p, int num, OStreamType 
     case 1:
       return;
     case 2:
-      ByteSwapper<T>::SwapWrite2Range(p, num, fp);
+      Self::SwapWrite2Range(p, num, fp);
       return;
     case 4:
-      ByteSwapper<T>::SwapWrite4Range(p, num, fp);
+      Self::SwapWrite4Range(p, num, fp);
       return;
     case 8:
-      ByteSwapper<T>::SwapWrite8Range(p, num, fp);
+      Self::SwapWrite8Range(p, num, fp);
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
@@ -179,13 +179,13 @@ ByteSwapper<T>::SwapFromSystemToLittleEndian(T * p)
     case 1:
       return;
     case 2:
-      ByteSwapper<T>::Swap2(p);
+      Self::Swap2(p);
       return;
     case 4:
-      ByteSwapper<T>::Swap4(p);
+      Self::Swap4(p);
       return;
     case 8:
-      ByteSwapper<T>::Swap8(p);
+      Self::Swap8(p);
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
@@ -209,13 +209,13 @@ ByteSwapper<T>::SwapRangeFromSystemToLittleEndian(T * p, BufferSizeType num)
     case 1:
       return;
     case 2:
-      ByteSwapper<T>::Swap2Range(p, num);
+      Self::Swap2Range(p, num);
       return;
     case 4:
-      ByteSwapper<T>::Swap4Range(p, num);
+      Self::Swap4Range(p, num);
       return;
     case 8:
-      ByteSwapper<T>::Swap8Range(p, num);
+      Self::Swap8Range(p, num);
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
@@ -239,13 +239,13 @@ ByteSwapper<T>::SwapWriteRangeFromSystemToLittleEndian(T * p, int num, OStreamTy
     case 1:
       return;
     case 2:
-      ByteSwapper<T>::SwapWrite2Range(p, num, fp);
+      Self::SwapWrite2Range(p, num, fp);
       return;
     case 4:
-      ByteSwapper<T>::SwapWrite4Range(p, num, fp);
+      Self::SwapWrite4Range(p, num, fp);
       return;
     case 8:
-      ByteSwapper<T>::SwapWrite8Range(p, num, fp);
+      Self::SwapWrite8Range(p, num, fp);
       return;
     default:
       itkGenericExceptionMacro(<< "Cannot swap number of bytes requested");
@@ -478,7 +478,7 @@ ByteSwapper<T>::SwapWrite8Range(void * ptr, BufferSizeType num, OStreamType * fp
   {
     memcpy(cpy, ptr, chunkSize * 8);
 
-    ByteSwapper<T>::Swap8Range(cpy, chunkSize);
+    Self::Swap8Range(cpy, chunkSize);
 
     fp->write((char *)cpy, static_cast<std::streamsize>(8 * chunkSize));
     ptr = (char *)ptr + chunkSize * 8;
