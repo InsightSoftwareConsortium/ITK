@@ -84,7 +84,7 @@ BYUMeshIO ::ReadMeshInformation()
   inputFile >> this->m_NumberOfCells;
   inputFile >> numberOfConnectivityEntries;
 
-  // Determine which part to read, default is to readl all parts
+  // Determine which part to read, default is to read all parts
   if (m_PartId > numberOfParts)
   {
     for (unsigned int ii = 0; ii < numberOfParts; ++ii)

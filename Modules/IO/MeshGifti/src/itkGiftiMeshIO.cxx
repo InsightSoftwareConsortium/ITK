@@ -647,7 +647,7 @@ GiftiMeshIO::ReadCellData(void * buffer)
   // Get gifti image pointer
   m_GiftiImage = gifti_read_image(this->GetFileName(), true);
 
-  // Whter reading is successful
+  // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
     itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
@@ -745,7 +745,7 @@ GiftiMeshIO::WriteMeshInformation()
   nda = 0;
   int dalist[1];
 
-  // Update points dataarray information
+  // Update points data array information
   if (this->m_UpdatePoints)
   {
     // used data array list for points
