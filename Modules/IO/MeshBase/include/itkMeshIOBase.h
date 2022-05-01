@@ -458,12 +458,16 @@ public:
   itkGetConstMacro(CellBufferSize, SizeValueType);
   itkSetMacro(UpdatePoints, bool);
   itkGetConstMacro(UpdatePoints, bool);
+  itkBooleanMacro(UpdatePoints);
   itkSetMacro(UpdateCells, bool);
   itkGetConstMacro(UpdateCells, bool);
+  itkBooleanMacro(UpdateCells);
   itkSetMacro(UpdatePointData, bool);
   itkGetConstMacro(UpdatePointData, bool);
+  itkBooleanMacro(UpdatePointData);
   itkSetMacro(UpdateCellData, bool);
   itkGetConstMacro(UpdateCellData, bool);
+  itkBooleanMacro(UpdateCellData);
 
   unsigned int
   GetComponentSize(IOComponentEnum componentType) const;
