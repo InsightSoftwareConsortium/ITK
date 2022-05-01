@@ -538,7 +538,7 @@ public:
   virtual bool
   CanReadFile(const char *) = 0;
 
-  /** Determin the required information and whether need to ReadPoints,
+  /** Determine the required information and whether need to ReadPoints,
     ReadCells, ReadPointData and ReadCellData */
   virtual void
   ReadMeshInformation() = 0;

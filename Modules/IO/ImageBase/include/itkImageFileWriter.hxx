@@ -246,7 +246,7 @@ ImageFileWriter<TInputImage>::Write()
                       << "Paste IO region: " << pasteIORegion << "Largest possible region: " << largestRegion);
   }
 
-  // Determin the actual number of divisions of the input. This is determined
+  // Determine the actual number of divisions of the input. This is determined
   // by what the ImageIO can do
   unsigned int numDivisions;
 
