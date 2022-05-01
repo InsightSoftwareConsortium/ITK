@@ -712,32 +712,38 @@ GiftiMeshIO::WriteMeshInformation()
   LabelNameContainerPointer labelMap;
   if (ExposeMetaData<LabelNameContainerPointer>(metaDic, "labelContainer", labelMap))
   {
-    gifti_clear_LabelTable(&m_GiftiImage->labeltable);
-    m_GiftiImage->labeltable.length = labelMap->Size();
-
-    m_GiftiImage->labeltable.key = (int *)malloc(labelMap->Size() * sizeof(int));
-    m_GiftiImage->labeltable.label = (char **)malloc(labelMap->Size() * sizeof(char *));
-
-    unsigned int mm = 0;
-    for (LabelNameContainer::ConstIterator lt = labelMap->Begin(); lt != labelMap->End(); ++lt)
+    if (labelMap)
     {
-      m_GiftiImage->labeltable.key[mm] = lt->Index();
-      m_GiftiImage->labeltable.label[mm] = gifti_strdup(lt->Value().c_str());
-      mm++;
+      gifti_clear_LabelTable(&m_GiftiImage->labeltable);
+      m_GiftiImage->labeltable.length = labelMap->Size();
+
+      m_GiftiImage->labeltable.key = (int *)malloc(labelMap->Size() * sizeof(int));
+      m_GiftiImage->labeltable.label = (char **)malloc(labelMap->Size() * sizeof(char *));
+
+      unsigned int mm = 0;
+      for (LabelNameContainer::ConstIterator lt = labelMap->Begin(); lt != labelMap->End(); ++lt)
+      {
+        m_GiftiImage->labeltable.key[mm] = lt->Index();
+        m_GiftiImage->labeltable.label[mm] = gifti_strdup(lt->Value().c_str());
+        mm++;
+      }
     }
 
     LabelColorContainerPointer colorMap;
     if (ExposeMetaData<LabelColorContainerPointer>(metaDic, "colorContainer", colorMap))
     {
-      m_GiftiImage->labeltable.rgba = (float *)malloc(colorMap->Size() * 4 * sizeof(float));
-      unsigned int kk = 0;
-      for (LabelColorContainer::ConstIterator lt = colorMap->Begin(); lt != colorMap->End(); ++lt)
+      if (colorMap)
       {
-        for (int nn = 0; nn < 4; ++nn)
+        m_GiftiImage->labeltable.rgba = (float *)malloc(colorMap->Size() * 4 * sizeof(float));
+        unsigned int kk = 0;
+        for (LabelColorContainer::ConstIterator lt = colorMap->Begin(); lt != colorMap->End(); ++lt)
         {
-          m_GiftiImage->labeltable.rgba[kk * 4 + nn] = lt->Value().GetNthComponent(nn);
+          for (int nn = 0; nn < 4; ++nn)
+          {
+            m_GiftiImage->labeltable.rgba[kk * 4 + nn] = lt->Value().GetNthComponent(nn);
+          }
+          kk++;
         }
-        kk++;
       }
     }
   }
