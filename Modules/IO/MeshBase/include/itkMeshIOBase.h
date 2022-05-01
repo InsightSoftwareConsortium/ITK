@@ -204,9 +204,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const T & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const T & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(1);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -222,9 +222,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const RGBPixel<T> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const RGBPixel<T> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(3);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -240,9 +240,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const RGBAPixel<T> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const RGBAPixel<T> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(4);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -258,9 +258,9 @@ public:
 
   template <typename T, unsigned int VLength>
   void
-  SetPixelType(const Vector<T, VLength> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const Vector<T, VLength> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(VLength);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -276,9 +276,9 @@ public:
 
   template <typename T, unsigned int VLength>
   void
-  SetPixelType(const CovariantVector<T, VLength> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const CovariantVector<T, VLength> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(VLength);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -294,9 +294,9 @@ public:
 
   template <typename T, unsigned int VLength>
   void
-  SetPixelType(const FixedArray<T, VLength> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const FixedArray<T, VLength> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(VLength);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -312,9 +312,9 @@ public:
 
   template <typename T, unsigned int VLength>
   void
-  SetPixelType(const SymmetricSecondRankTensor<T, VLength> itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const SymmetricSecondRankTensor<T, VLength> itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(VLength * (VLength + 1) / 2);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -330,9 +330,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const DiffusionTensor3D<T> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const DiffusionTensor3D<T> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(6);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -348,9 +348,9 @@ public:
 
   template <typename T, unsigned int VRows, unsigned int VColumns>
   void
-  SetPixelType(const Matrix<T, VRows, VColumns> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const Matrix<T, VRows, VColumns> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(VRows * VColumns);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -366,9 +366,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const std::complex<T> & itkNotUsed(dummy), bool UsePointPixel = true)
+  SetPixelType(const std::complex<T> & itkNotUsed(dummy), bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(2);
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -384,9 +384,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const Array<T> & array, bool UsePointPixel = true)
+  SetPixelType(const Array<T> & array, bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(array.Size());
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -402,9 +402,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const VariableLengthVector<T> & vector, bool UsePointPixel = true)
+  SetPixelType(const VariableLengthVector<T> & vector, bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(vector.Size());
       SetPointPixelComponentType(MapComponentType<T>::CType);
@@ -420,9 +420,9 @@ public:
 
   template <typename T>
   void
-  SetPixelType(const VariableSizeMatrix<T> & matrix, bool UsePointPixel = true)
+  SetPixelType(const VariableSizeMatrix<T> & matrix, bool usePointPixel = true)
   {
-    if (UsePointPixel)
+    if (usePointPixel)
     {
       SetNumberOfPointPixelComponents(matrix.Rows() * matrix.Cols());
       SetPointPixelComponentType(MapComponentType<T>::CType);
