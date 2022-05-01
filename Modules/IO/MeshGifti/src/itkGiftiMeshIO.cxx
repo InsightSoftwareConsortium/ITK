@@ -153,7 +153,7 @@ GiftiMeshIO::ReadMeshInformation()
   // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
+    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
   }
 
   // Number of data array
@@ -239,8 +239,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro(<< "Could not read input gifti image because inconsistency of number of point data or "
-                                 "number of cell data "
+            itkExceptionMacro(<< "Could not read input GIfTI image because the number of point data or "
+                                 "number of cell data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -288,8 +288,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro(<< "Could not read input gifti image because inconsistency of number of point data or "
-                                 "number of cell data "
+            itkExceptionMacro(<< "Could not read input GIfTI image because the number of point data or "
+                                 "number of cell data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -403,8 +403,8 @@ GiftiMeshIO::ReadMeshInformation()
           else
           {
             gifti_free_image(m_GiftiImage);
-            itkExceptionMacro(<< "Could not read input gifti image because inconsistency of number of point data or "
-                                 "number of cell data "
+            itkExceptionMacro(<< "Could not read input GIfTI image because the number of point data or "
+                                 "number of cell data in the image are not consistent with the current values in "
                               << this->m_FileName);
           }
         }
@@ -447,7 +447,7 @@ GiftiMeshIO::ReadPoints(void * buffer)
   // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
+    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
   }
 
   // Number of data array
@@ -473,7 +473,7 @@ GiftiMeshIO::ReadCells(void * buffer)
   // Whter reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
+    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
   }
 
   // Number of data array
@@ -621,7 +621,7 @@ GiftiMeshIO::ReadPointData(void * buffer)
   // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
+    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
   }
   // Read point data
   for (int ii = 0; ii < m_GiftiImage->numDA; ++ii)
@@ -650,7 +650,7 @@ GiftiMeshIO::ReadCellData(void * buffer)
   // Whether reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIFTI file");
+    itkExceptionMacro(<< this->GetFileName() << " is not recognized as a GIfTI file");
   }
 
   // Read cell data
@@ -704,7 +704,7 @@ GiftiMeshIO::WriteMeshInformation()
   // Whter reading is successful
   if (m_GiftiImage == nullptr)
   {
-    itkExceptionMacro(<< "Could not create a new gifti image");
+    itkExceptionMacro(<< "Could not create a new GIfTI image");
   }
 
   // write labelTable using labelMap and colorMap
