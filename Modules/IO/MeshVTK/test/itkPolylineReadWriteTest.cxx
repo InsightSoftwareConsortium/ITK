@@ -19,13 +19,16 @@
 #include "itkMesh.h"
 
 #include "itkMeshFileTestHelper.h"
+#include "itkTestingMacros.h"
 
 int
 itkPolylineReadWriteTest(int argc, char * argv[])
 {
   if (argc < 3)
   {
-    std::cerr << "Invalid commands, You need input and output mesh file name " << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName [isBinary]"
+              << std::endl;
     return EXIT_FAILURE;
   }
 
