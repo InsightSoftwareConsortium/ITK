@@ -58,8 +58,8 @@ _add_image_filter_types("MSITIM" "itk::MeanSquaresImageToImageMetricv4")
 _add_image_filter_types("ITIM" "itk::ImageToImageMetricv4")
 
 # not sure why we are articially adding double, but this is consistent across the Metricv4 types
-UNIQUE(_scalar_plus_double "${WRAP_ITK_SCALAR};D")
-_cartesian(_real_pointsets "${_scalar_plus_double}" "${ITK_WRAP_IMAGE_DIMS}")
+UNIQUE(_real_plus_double "${WRAP_ITK_REAL};D")
+_cartesian(_real_pointsets "${_real_plus_double}" "${ITK_WRAP_IMAGE_DIMS}")
 _cartesian(_int_pointsets "${WRAP_ITK_INT}" "${ITK_WRAP_IMAGE_DIMS}")
 
 macro(_add_pointset_types mangle cpp_name pointsets)
@@ -71,12 +71,12 @@ foreach(z ${pointsets})
 endforeach()
 endmacro()
 
-_add_pointset_types("EDPSTPSM" "itk::EuclideanDistancePointSetToPointSetMetricv4" ${_real_pointsets})
-_add_pointset_types("EBPSTPSM" "itk::ExpectationBasedPointSetToPointSetMetricv4" ${_real_pointsets})
-_add_pointset_types("JHCTPSTPSM" "itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4" ${_real_pointsets})
-_add_pointset_types("PSTPSM" "itk::PointSetToPointSetMetricv4" ${_real_pointsets})
-_add_pointset_types("PSTPSMWI" "itk::PointSetToPointSetMetricWithIndexv4" ${_real_pointsets})
-_add_pointset_types("LPSTPSM" "itk::LabeledPointSetToPointSetMetricv4" ${_int_pointsets})
+_add_pointset_types("EDPSTPSM" "itk::EuclideanDistancePointSetToPointSetMetricv4" "${_real_pointsets}")
+_add_pointset_types("EBPSTPSM" "itk::ExpectationBasedPointSetToPointSetMetricv4" "${_real_pointsets}")
+_add_pointset_types("JHCTPSTPSM" "itk::JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4" "${_real_pointsets}")
+_add_pointset_types("PSTPSM" "itk::PointSetToPointSetMetricv4" "${_real_pointsets}")
+_add_pointset_types("PSTPSMWI" "itk::PointSetToPointSetMetricWithIndexv4" "${_real_pointsets}")
+_add_pointset_types("LPSTPSM" "itk::LabeledPointSetToPointSetMetricv4" "${_int_pointsets}")
 
 set(ITK_METRICV4_TYPES "${ITK_METRICV4_IMAGE_TYPES};${ITK_METRICV4_POINTSET_TYPES}")
 
