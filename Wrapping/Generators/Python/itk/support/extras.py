@@ -40,11 +40,9 @@ from .helpers import wasm_type_from_image_type, image_type_from_wasm_type
 from .helpers import wasm_type_from_mesh_type, mesh_type_from_wasm_type, python_to_js
 from .helpers import wasm_type_from_pointset_type, pointset_type_from_wasm_type
 
+from .xarray import xarray_from_image, image_from_xarray
+
 if TYPE_CHECKING:
-    try:
-        import xarray as xr
-    except ImportError:
-        pass
     try:
         import vtk
     except ImportError:
@@ -263,6 +261,7 @@ def _get_itk_pixelid(numpy_array_type):
     """Returns a ITK PixelID given a numpy array."""
 
     import itk
+
     def _long_type():
         if os.name == "nt":
             return itk.ULL
@@ -624,110 +623,6 @@ def GetMatrixFromArray(arr: ArrayLike) -> "itkt.Matrix":
 matrix_from_array = GetMatrixFromArray
 
 
-def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
-    """Convert an itk.Image to an xarray.DataArray.
-
-    Origin and spacing metadata is preserved in the xarray's coords. The
-    Direction is set in the `direction` attribute.
-    Dims are labeled as `x`, `y`, `z`, `t`, and `c`.
-
-    This interface is and behavior is experimental and is subject to possible
-    future changes."""
-    import xarray as xr
-    import itk
-    import numpy as np
-
-    array_view = itk.array_view_from_image(l_image)
-    l_spacing = itk.spacing(l_image)
-    l_origin = itk.origin(l_image)
-    l_size = itk.size(l_image)
-    direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
-    image_dimension = l_image.GetImageDimension()
-
-    image_dims: Tuple[str, str, str] = ("x", "y", "z", "t")
-    coords = {}
-    for l_index, dim in enumerate(image_dims[:image_dimension]):
-        coords[dim] = np.linspace(
-            l_origin[l_index],
-            l_origin[l_index] + (l_size[l_index] - 1) * l_spacing[l_index],
-            l_size[l_index],
-            dtype=np.float64,
-        )
-
-    dims = list(reversed(image_dims[:image_dimension]))
-    components = l_image.GetNumberOfComponentsPerPixel()
-    if components > 1:
-        dims.append("c")
-        coords["c"] = np.arange(components, dtype=np.uint32)
-
-    direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
-    attrs = {"direction": direction}
-    metadata = dict(l_image)
-    ignore_keys = {"direction", "origin", "spacing"}
-    for key in metadata:
-        if not key in ignore_keys:
-            attrs[key] = metadata[key]
-    name = 'image'
-    if l_image.GetObjectName():
-        name = l_image.GetObjectName()
-    data_array = xr.DataArray(array_view, name=name, dims=dims, coords=coords, attrs=attrs)
-    return data_array
-
-
-def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
-    """Convert an xarray.DataArray to an itk.Image.
-
-    Metadata encoded with xarray_from_image is applied to the itk.Image.
-
-    This interface is and behavior is experimental and is subject to possible
-    future changes."""
-    import numpy as np
-    import itk
-
-    if not {"t", "z", "y", "x", "c"}.issuperset(data_array.dims):
-        raise ValueError('Unsupported dims, supported dims: "t", "z", "y", "x", "c".')
-
-    image_dims = list({"t", "z", "y", "x"}.intersection(set(data_array.dims)))
-    image_dims.sort(reverse=True)
-    image_dimension = len(image_dims)
-    ordered_dims = ("t", "z", "y", "x")[-image_dimension:]
-    is_vector = "c" in data_array.dims
-    if is_vector:
-        ordered_dims = ordered_dims + ("c",)
-
-    values = data_array.values
-    if ordered_dims != data_array.dims:
-        dest = list(builtins.range(len(ordered_dims)))
-        source = dest.copy()
-        for ii in builtins.range(len(ordered_dims)):
-            source[ii] = data_array.dims.index(ordered_dims[ii])
-        values = np.moveaxis(values, source, dest).copy()
-    itk_image = itk.image_view_from_array(values, is_vector=is_vector)
-
-    l_origin = [0.0] * image_dimension
-    l_spacing = [1.0] * image_dimension
-    for l_index, dim in enumerate(image_dims):
-        coords = data_array.coords[dim]
-        if coords.shape[0] > 1:
-            l_origin[l_index] = float(coords[0])
-            l_spacing[l_index] = float(coords[1]) - float(coords[0])
-    l_spacing.reverse()
-    itk_image.SetSpacing(l_spacing)
-    l_origin.reverse()
-    itk_image.SetOrigin(l_origin)
-    if "direction" in data_array.attrs:
-        direction = data_array.attrs["direction"]
-        itk_image.SetDirection(np.flip(direction))
-    ignore_keys = {"direction", "origin", "spacing"}
-    for key in data_array.attrs:
-        if not key in ignore_keys:
-            itk_image[key] = data_array.attrs[key]
-
-    itk_image.SetObjectName(str(data_array.name))
-
-    return itk_image
-
-
 def vtk_image_from_image(l_image: "itkt.ImageOrImageSource") -> "vtk.vtkImageData":
     """Convert an itk.Image to a vtk.vtkImageData."""
     import itk
@@ -956,6 +851,7 @@ def dict_from_mesh(mesh: "itkt.Mesh") -> Dict:
         cellBufferSize=cell_buffer_size,
     )
 
+
 def pointset_from_dict(pointset_dict: Dict) -> "itkt.PointSet":
     """Deserialize an dictionary representing an itk.PointSet object."""
     import itk
@@ -987,7 +883,9 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
     if number_of_points == 0:
         points_array = np.array([], np.float32)
     else:
-        points_array = itk.array_view_from_vector_container(pointset.GetPoints()).flatten()
+        points_array = itk.array_view_from_vector_container(
+            pointset.GetPoints()
+        ).flatten()
 
     point_data = pointset.GetPointData()
     if point_data.Size() == 0:
@@ -1020,34 +918,37 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
         pointData=point_data_numpy,
     )
 
+
 def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
     import itk
 
     def update_transform_dict(current_transform):
         current_transform_type = current_transform.GetTransformTypeAsString()
-        current_transform_type_split = current_transform_type.split('_')
+        current_transform_type_split = current_transform_type.split("_")
         component = itk.template(current_transform)
 
         in_transform_dict = dict()
         in_transform_dict["name"] = current_transform.GetObjectName()
         in_transform_dict["numberOfTransforms"] = 1
 
-        datatype_dict = {'double': itk.D, 'float': itk.F}
-        in_transform_dict["parametersValueType"] = python_to_js(datatype_dict[current_transform_type_split[1]])
+        datatype_dict = {"double": itk.D, "float": itk.F}
+        in_transform_dict["parametersValueType"] = python_to_js(
+            datatype_dict[current_transform_type_split[1]]
+        )
         in_transform_dict["inDimension"] = int(current_transform_type_split[2])
         in_transform_dict["outDimension"] = int(current_transform_type_split[3])
         in_transform_dict["transformName"] = current_transform_type_split[0]
 
         # transformType field to be used for single transform object only.
         # For composite transforms we lose the information for child transform objects.
-        data_type_dict = {itk.D: 'D', itk.F: 'F'}
+        data_type_dict = {itk.D: "D", itk.F: "F"}
         mangle = data_type_dict[component[1][0]]
         for p in component[1][1:]:
             mangle += str(p)
         in_transform_dict["transformType"] = mangle
 
         # To avoid copying the parameters for the Composite Transform as it is a copy of child transforms.
-        if 'Composite' not in current_transform_type_split[0]:
+        if "Composite" not in current_transform_type_split[0]:
             p = np.array(current_transform.GetParameters())
             in_transform_dict["parameters"] = p
 
@@ -1064,11 +965,10 @@ def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
 
         return in_transform_dict
 
-
     dict_array = []
-    transform_type =  transform.GetTransformTypeAsString()
-    if 'CompositeTransform' in transform_type:
-        transform_dict  = update_transform_dict(transform)
+    transform_type = transform.GetTransformTypeAsString()
+    if "CompositeTransform" in transform_type:
+        transform_dict = update_transform_dict(transform)
         transform_dict["numberOfTransforms"] = transform.GetNumberOfTransforms()
 
         # Add the first entry for the composite transform
@@ -1076,7 +976,7 @@ def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
 
         # Rest follows the transforms inside the composite transform
         # range is over-ridden so using this hack to create a list
-        for i, _ in enumerate([0]*transform.GetNumberOfTransforms()):
+        for i, _ in enumerate([0] * transform.GetNumberOfTransforms()):
             current_transform = transform.GetNthTransform(i)
             dict_array.append(update_transform_dict(current_transform))
     else:
@@ -1084,7 +984,8 @@ def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
 
     return dict_array
 
-def transform_from_dict(transform_dict: Dict)-> "itkt.TransformBase":
+
+def transform_from_dict(transform_dict: Dict) -> "itkt.TransformBase":
     import itk
 
     def set_parameters(transform, transform_parameters, transform_fixed_parameters):
@@ -1100,13 +1001,12 @@ def transform_from_dict(transform_dict: Dict)-> "itkt.TransformBase":
             o2.SetElement(j, v)
         transform.SetFixedParameters(o2)
 
-
     # For checking transforms which don't take additional parameters while instantiation
     def special_transform_check(transform_name):
-        if '2D' in transform_name or '3D' in transform_name:
+        if "2D" in transform_name or "3D" in transform_name:
             return True
 
-        check_list = ['VersorTransform', 'QuaternionRigidTransform']
+        check_list = ["VersorTransform", "QuaternionRigidTransform"]
         for t in check_list:
             if transform_name == t:
                 return True
@@ -1114,7 +1014,7 @@ def transform_from_dict(transform_dict: Dict)-> "itkt.TransformBase":
 
     # We only check for the first transform as composite similar to the
     # convention followed in the itkTxtTransformIO.cxx
-    if 'CompositeTransform' in transform_dict[0]["transformName"]:
+    if "CompositeTransform" in transform_dict[0]["transformName"]:
         # Loop over all the transforms in the dictionary
         transforms_list = []
         for i, _ in enumerate(transform_dict):
@@ -1133,12 +1033,16 @@ def transform_from_dict(transform_dict: Dict)-> "itkt.TransformBase":
             # the transformType variable. The transform object once added in a
             # composite transform lose the information for other template parameters ex. BSpline.
             # The Spline order is fixed as 3 here.
-            elif transform_dict[i]["transformName"] == 'BSplineTransform':
+            elif transform_dict[i]["transformName"] == "BSplineTransform":
                 transform_template = getattr(itk, transform_dict[i]["transformName"])
-                transform = transform_template[data_type, transform_dict[i]["inDimension"], 3].New()
+                transform = transform_template[
+                    data_type, transform_dict[i]["inDimension"], 3
+                ].New()
             else:
                 transform_template = getattr(itk, transform_dict[i]["transformName"])
-                transform = transform_template[data_type, transform_dict[i]["inDimension"]].New()
+                transform = transform_template[
+                    data_type, transform_dict[i]["inDimension"]
+                ].New()
 
             transform.SetObjectName(transform_dict[i]["name"])
             transforms_list.append(transform)
@@ -1152,11 +1056,18 @@ def transform_from_dict(transform_dict: Dict)-> "itkt.TransformBase":
         # For handling single transform objects we rely on itk.template
         # because that way we can handle future extensions easily.
         transform_template = getattr(itk, transform_dict[0]["transformName"])
-        transform = getattr(transform_template, transform_dict[0]["transformType"]).New()
+        transform = getattr(
+            transform_template, transform_dict[0]["transformType"]
+        ).New()
         transform.SetObjectName(transform_dict[0]["name"])
-        set_parameters(transform, transform_dict[0]["parameters"], transform_dict[0]["fixedParameters"])
+        set_parameters(
+            transform,
+            transform_dict[0]["parameters"],
+            transform_dict[0]["fixedParameters"],
+        )
 
     return transform
+
 
 def image_intensity_min_max(image_or_filter: "itkt.ImageOrImageSource"):
     """Return the minimum and maximum of values in a image of in the output image of a filter

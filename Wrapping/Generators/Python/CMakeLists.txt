@@ -133,6 +133,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
     support/template_class
     support/types
     support/extras
+    support/xarray
     support/lazy
     support/helpers
     support/init_helpers

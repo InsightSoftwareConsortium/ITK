@@ -57,6 +57,10 @@ if(ITK_WRAP_unsigned_char AND WRAP_2)
         ${ITK_TEST_OUTPUT_DIR}
         ${ITK_TEST_OUTPUT_DIR}/LinearTransformWritten.h5
       )
+    itk_python_add_test(NAME PythonXarrayTest
+      COMMAND ${CMAKE_CURRENT_SOURCE_DIR}/test_xarray.py
+        DATA{${WrapITK_SOURCE_DIR}/images/cthead1.png}
+      )
   endif()
 endif()
 
