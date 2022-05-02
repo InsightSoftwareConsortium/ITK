@@ -242,7 +242,7 @@ template <typename TCellInterface>
 void
 PolyLineCell<TCellInterface>::ClearPoints()
 {
-  m_PointIds.clear();
+  InitializePoints(2);
 }
 
 

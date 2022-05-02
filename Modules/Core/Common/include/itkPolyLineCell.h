@@ -79,6 +79,9 @@ public:
   GetBoundaryFeature(int dimension, CellFeatureIdentifier, CellAutoPointer &) override;
 
   void
+  InitializePoints();
+
+  void
   ClearPoints();
 
   void
@@ -114,15 +117,20 @@ public:
   /** Visitor interface */
   itkCellVisitMacro(CellGeometryEnum::LINE_CELL);
 
-  /** Constructor and destructor */
-  PolyLineCell() = default;
-  PolyLineCell(PointIdentifier NumberOfPoints)
+  void
+  InitializePoints(PointIdentifier numberOfPoints)
   {
-    for (PointIdentifier i = 0; i < NumberOfPoints; ++i)
+    m_PointIds.clear();
+    for (PointIdentifier i = 0; i < numberOfPoints; ++i)
     {
       m_PointIds.push_back(NumericTraits<PointIdentifier>::max());
     }
   }
+
+  /** Constructor and destructor */
+  PolyLineCell() { InitializePoints(2); }
+
+  PolyLineCell(PointIdentifier numberOfPoints) { InitializePoints(numberOfPoints); }
 
   ~PolyLineCell() override = default;
 
