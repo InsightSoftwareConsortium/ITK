@@ -667,7 +667,10 @@ def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
     for key in metadata:
         if not key in ignore_keys:
             attrs[key] = metadata[key]
-    data_array = xr.DataArray(array_view, dims=dims, coords=coords, attrs=attrs)
+    name = 'image'
+    if l_image.GetObjectName():
+        name = l_image.GetObjectName()
+    data_array = xr.DataArray(array_view, name=name, dims=dims, coords=coords, attrs=attrs)
     return data_array
 
 
@@ -719,6 +722,8 @@ def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
     for key in data_array.attrs:
         if not key in ignore_keys:
             itk_image[key] = data_array.attrs[key]
+
+    itk_image.SetObjectName(str(data_array.name))
 
     return itk_image
 

@@ -528,6 +528,11 @@ try:
     image["MyMeta"] = 4.0
 
     data_array = itk.xarray_from_image(image)
+    # Default name
+    assert data_array.name == "image"
+    image.SetObjectName("test_image")
+    data_array = itk.xarray_from_image(image)
+    assert data_array.name == "test_image"
     assert data_array.dims[0] == "y"
     assert data_array.dims[1] == "x"
     assert data_array.dims[2] == "c"
@@ -548,6 +553,7 @@ try:
     assert data_array.attrs["MyMeta"] == 4.0
 
     round_trip = itk.image_from_xarray(data_array)
+    assert round_trip.GetObjectName() == "test_image"
     assert np.array_equal(itk.array_from_image(round_trip), itk.array_from_image(image))
     spacing = round_trip.GetSpacing()
     assert np.isclose(spacing[0], 0.1)
