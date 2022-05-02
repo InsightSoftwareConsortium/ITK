@@ -112,7 +112,7 @@ public:
   GetVertex(CellFeatureIdentifier, VertexAutoPointer &);
 
   /** Visitor interface */
-  itkCellVisitMacro(CellGeometryEnum::LINE_CELL);
+  itkCellVisitMacro(CellGeometryEnum::POLYLINE_CELL);
 
   /** Constructor and destructor */
   PolyLineCell() = default;
