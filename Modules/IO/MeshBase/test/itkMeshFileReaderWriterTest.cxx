@@ -21,17 +21,16 @@
 #include "itkQuadEdgeMesh.h"
 #include "itkTestingMacros.h"
 #include "itkMeshFileTestHelper.h"
-#include <fstream>
-#include <cstdio>
 
 
 int
 itkMeshFileReaderWriterTest(int argc, char * argv[])
 {
-  if (argc < 3)
+  if (argc < 4)
   {
     std::cerr << "Missing Parameters " << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " inputFileName outputFileName unsupportedFormatInputFileName" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -55,13 +54,9 @@ itkMeshFileReaderWriterTest(int argc, char * argv[])
   reader->SetFileName(inputFileName);
   ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
-  inputFileName = "UnsupportedExtensionFile.mesh";
-  std::ofstream unsupportedExtFileOfs(inputFileName);
+  inputFileName = argv[3];
   reader->SetFileName(inputFileName);
   ITK_TRY_EXPECT_EXCEPTION(reader->Update());
-
-  // Delete the created file
-  std::remove(inputFileName.c_str());
 
   inputFileName = argv[1];
   reader->SetFileName(inputFileName);
