@@ -240,7 +240,7 @@ def pixelType_to_prefix(name):
         "SymmetricSecondRankTensor": "SSRT",
         "FixedArray": "FA",
         "Array": "A",
-        "VariableLengthVector":"VLV",
+        "VariableLengthVector": "VLV",
     }
 
     return _pixelType_to_prefix[name]
@@ -368,6 +368,7 @@ def mesh_type_from_wasm_type(jstype):
 
     prefix += str(dimension)
     return getattr(itk.Mesh, prefix)
+
 
 def wasm_type_from_pointset_type(itkpointset):
     import itk
