@@ -54,7 +54,7 @@ def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
     direction = np.flip(itk.array_from_matrix(l_image.GetDirection()))
     image_dimension = l_image.GetImageDimension()
 
-    image_dims: Tuple[str, str, str] = ("x", "y", "z", "t")
+    image_dims: Tuple[str, str, str, str] = ("x", "y", "z", "t")
     coords = {}
     for l_index, dim in enumerate(image_dims[:image_dimension]):
         coords[dim] = np.linspace(
