@@ -1083,17 +1083,18 @@ def transform_from_dict(transform_dict: Dict)-> "itkt.TransformBase":
     import itk
 
     def set_parameters(transform, transform_parameters, transform_fixed_parameters):
-        o1 = transform.GetParameters()
-        o1.SetSize(transform_parameters.shape[0])
-        for j, v in enumerate(transform_parameters):
-            o1.SetElement(j, v)
-        transform.SetParameters(o1)
-
-        o2 = transform.GetFixedParameters()
-        o2.SetSize(transform_fixed_parameters.shape[0])
+        # First set fixed parameters then parameters
+        o1 = transform.GetFixedParameters()
+        o1.SetSize(transform_fixed_parameters.shape[0])
         for j, v in enumerate(transform_fixed_parameters):
+            o1.SetElement(j, v)
+        transform.SetFixedParameters(o1)
+
+        o2 = transform.GetParameters()
+        o2.SetSize(transform_parameters.shape[0])
+        for j, v in enumerate(transform_parameters):
             o2.SetElement(j, v)
-        transform.SetFixedParameters(o2)
+        transform.SetParameters(o2)
 
 
     # For checking transforms which don't take additional parameters while instantiation
