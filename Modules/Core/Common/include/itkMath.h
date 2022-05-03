@@ -80,7 +80,7 @@ static constexpr double deg_per_rad = vnl_math::deg_per_rad;
 static constexpr double sqrt2pi = vnl_math::sqrt2pi;
 /** \brief \f[ \frac{2}{\sqrt{\pi}} \f]  */
 static constexpr double two_over_sqrtpi = vnl_math::two_over_sqrtpi;
-/** \brief \f[ \frac{2}{\sqrt{2\pi}} \f]  */
+/** \brief \f[ \frac{1}{\sqrt{2\pi}} \f]  */
 static constexpr double one_over_sqrt2pi = vnl_math::one_over_sqrt2pi;
 /** \brief \f[ \sqrt{2} \f]  */
 static constexpr double sqrt2 = vnl_math::sqrt2;
