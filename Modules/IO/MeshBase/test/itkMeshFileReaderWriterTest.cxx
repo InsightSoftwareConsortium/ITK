@@ -70,12 +70,12 @@ itkMeshFileReaderWriterTest(int argc, char * argv[])
   std::string outputFileName = "";
   ITK_TRY_EXPECT_EXCEPTION(itk::WriteMesh(readMesh.GetPointer(), outputFileName));
 
-  const std::string constOutputFileName = argv[2];
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh.GetPointer(), constOutputFileName));
-  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh, constOutputFileName));
+  outputFileName = argv[2];
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh.GetPointer(), outputFileName));
+  ITK_TRY_EXPECT_NO_EXCEPTION(itk::WriteMesh(readMesh, outputFileName));
 
-  MeshType::Pointer writeReadMesh = nullptr;
-  ITK_TRY_EXPECT_NO_EXCEPTION(writeReadMesh = itk::ReadMesh<MeshType>(constOutputFileName));
+  MeshType::Pointer writeReadMesh;
+  ITK_TRY_EXPECT_NO_EXCEPTION(writeReadMesh = itk::ReadMesh<MeshType>(outputFileName));
 
   ITK_TEST_EXPECT_EQUAL(TestPointsContainer<MeshType>(readMesh->GetPoints(), writeReadMesh->GetPoints()), EXIT_SUCCESS);
   ITK_TEST_EXPECT_EQUAL(TestCellsContainer<MeshType>(readMesh->GetCells(), writeReadMesh->GetCells()), EXIT_SUCCESS);
