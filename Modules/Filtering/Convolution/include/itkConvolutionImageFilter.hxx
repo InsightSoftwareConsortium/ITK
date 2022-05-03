@@ -145,6 +145,8 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
     convolutionFilter->GraftOutput(this->GetOutput());
     convolutionFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
     convolutionFilter->Update();
+    // Set largest possible region to that of input image
+    convolutionFilter->GetOutput()->SetLargestPossibleRegion(this->GetInput()->GetLargestPossibleRegion());
     this->GraftOutput(convolutionFilter->GetOutput());
   }
   else // OutputRegionMode == Self::VALID
@@ -176,6 +178,8 @@ ConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage>::ComputeConvolut
     cropFilter->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
     cropFilter->Update();
 
+    // Reset the largest possible region to the valid region
+    cropFilter->GetOutput()->SetLargestPossibleRegion(this->GetValidRegion());
 
     // Graft the output of the crop filter back onto this
     // filter's output.

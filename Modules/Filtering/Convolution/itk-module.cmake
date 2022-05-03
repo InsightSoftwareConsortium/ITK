@@ -6,10 +6,12 @@ itk_module(ITKConvolution
   ENABLE_SHARED
   DEPENDS
     ITKFFT
+    ITKImageGrid
     ITKImageIntensity
     ITKThresholding
   TEST_DEPENDS
     ITKTestKernel
+    ITKImageSources
   DESCRIPTION
     "${DOCUMENTATION}"
 )
