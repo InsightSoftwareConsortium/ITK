@@ -7,7 +7,7 @@ set(ITKIOMeshOFFTests
 CreateTestDriver(ITKIOMeshOFF "${ITKIOMeshOFF-Test_LIBRARIES}" "${ITKIOMeshOFFTests}")
 
 itk_add_test(NAME itkMeshFileReadWriteOFFTest
-      COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest
+      COMMAND ITKIOMeshOFFTestDriver itkMeshFileReadWriteTest
       DATA{Baseline/octa.off}
       ${ITK_TEST_OUTPUT_DIR}/octa.off
 )
