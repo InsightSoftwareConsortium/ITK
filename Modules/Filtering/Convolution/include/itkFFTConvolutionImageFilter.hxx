@@ -61,7 +61,7 @@ FFTConvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInternalPrec
     bool             wasPartiallyInside = inputRegion.Crop(inputPtr->GetLargestPossibleRegion());
     if (!wasPartiallyInside)
     {
-      itkExceptionMacro("Requested region is outside the largest possible region.")
+      itkExceptionMacro("Requested region is outside the largest possible region.");
     }
 
     // Input is an image, cast away the constness so we can set
