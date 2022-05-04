@@ -152,7 +152,7 @@ function(generate_castxml_commandline_flags)
             @${castxml_inc_file}
             ${cxx_file}
             VERBATIM
-            DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs}
+            DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs} castxml
     )
     unset(cxx_file)
     unset(castxml_inc_file)
