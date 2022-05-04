@@ -341,7 +341,10 @@ class ITKTemplateFeatures:
     def get_template_parameters(self) -> str:
         return self._template_parameters
 
+
 _factories_loaded = []
+
+
 def load_factories(factory_name: str) -> None:
     """Load the factories of the given name.
 
@@ -357,16 +360,18 @@ def load_factories(factory_name: str) -> None:
         return
 
     import itk
+
     for module_name, data in itk_base_global_module_data.items():
         for name, factory_class_prefix in data.get_module_factories()[:2]:
             if name == factory_name:
                 # Get the factory, loading new modules with itk_load_swig_module as necessary
                 namespace = dict()
-                itk_load_swig_module(module_name,namespace)
+                itk_load_swig_module(module_name, namespace)
                 factory = namespace[f"{factory_class_prefix}{name}Factory"]
                 # Static method initializes factory overrides without adding to auto_pipeline
                 factory.RegisterOneFactory()
     _factories_loaded.append(factory_name)
+
 
 # Modules that need to load the listed factories.
 # The factories are loaded after the module is loaded, which ensures any dependent code
@@ -375,14 +380,17 @@ def load_factories(factory_name: str) -> None:
 # We need a separate function to initialize these because itk_load_swig_module calls itself recursively,
 # and we want to avoid circular dependencies.
 needed_factories = {
-    'ITKIOImageBase': 'ImageIO',
-    'ITKIOMeshBase': 'MeshIO',
-    'ITKIOTransformBase': 'TransformIO',
-    'ITKFFT': 'FFTImageFilterInit',
+    "ITKIOImageBase": "ImageIO",
+    "ITKIOMeshBase": "MeshIO",
+    "ITKIOTransformBase": "TransformIO",
+    "ITKFFT": "FFTImageFilterInit",
 }
+
+
 def load_module_needed_factories(name):
     if name in needed_factories.keys():
         load_factories(needed_factories[name])
+
 
 class ITKModuleInfo:
     """
