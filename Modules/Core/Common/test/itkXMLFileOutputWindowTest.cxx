@@ -21,97 +21,78 @@
 #include "itkTestingMacros.h"
 #include <fstream>
 #include <cstdio>
+#include "itksys/SystemTools.hxx"
 #ifdef _WIN32
 #  include <direct.h>
 #  define cwd _getcwd
-#  define OS_SEP "\\"
+static const std::string OS_SEP{ "\\" };
 #else
 #  include "unistd.h"
 #  define cwd getcwd
-#  define OS_SEP "/"
+static const std::string OS_SEP{ "/" };
 #endif
 
 
-int
-itkXMLFileOutputWindowTest(int argc, char * argv[])
+static bool
+DoTestXMLFileOutputWindow(std::string currentLoggerFilename, const unsigned int requiredLinesInFile)
 {
-  if (argc < 1)
+  if (currentLoggerFilename.empty())
   {
-    std::cerr << "Missing parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " [filename]" << std::endl;
-    return EXIT_FAILURE;
+    const std::string fileBaseName = []() -> std::string {
+      // If no input filename is provided, remove the default file to avoid counting existing lines when
+      // contents are appended.
+      itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
+      // In order to initialize the filename, some text needs to be written first
+      const char * regularText = "text";
+      logger->DisplayText(regularText);
+
+      // Get the filename
+      return std::string{ logger->GetFileName() };
+    }();
+    const std::string cwd = itksys::SystemTools::GetCurrentWorkingDirectory();
+    currentLoggerFilename = cwd + OS_SEP + fileBaseName;
+    std::remove(currentLoggerFilename.c_str());
   }
+
 
   itk::XMLFileOutputWindow::Pointer logger = itk::XMLFileOutputWindow::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(logger, XMLFileOutputWindow, FileOutputWindow);
 
-  if (argc > 1)
-  {
-    logger->SetFileName(argv[1]);
-  }
-
   logger->FlushOn();
   logger->AppendOn();
 
   logger->SetInstance(logger);
+  logger->SetFileName(currentLoggerFilename);
 
-  // If not input filename is provided, remove the contents in the existing file to avoid counting existing lines when
-  // contents are appended
-  if (argc == 1)
-  {
-    // In order to initialize the filename, some text needs to be written first
-    const char * regularText = "text";
-    logger->DisplayText(regularText);
-
-    // Get the filename
-    const char *      fileBaseName = logger->GetFileName();
-    const std::size_t size = 4096;
-    char              tmp[size];
-    char *            status = cwd(tmp, size);
-    if (!status)
-    {
-      std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error getting the current directory. Cannot delete the contents of the target file: "
-                << fileBaseName << std::endl;
-      return EXIT_FAILURE;
-    }
-    std::string fileName = tmp + std::string(OS_SEP) + std::string(fileBaseName);
-
-    // Delete the contents
-    std::ofstream ofs;
-    ofs.open(fileName, std::ofstream::out | std::ofstream::trunc);
-    ofs.close();
-  }
 
   // Check special cases
-  const char * text = nullptr;
+  const char * const text = nullptr;
   logger->DisplayText(text);
 
-  const char * specialCharText = "text&\"'<>";
+  const char * const specialCharText = "text&\"'<>";
   logger->DisplayText(specialCharText);
 
   // Regular cases
-  const char * regularText = "text";
+  const char * const regularText = "text";
   logger->DisplayText(regularText);
 
-  const char * errorText = "errorText";
+  const char * const errorText = "errorText";
   logger->DisplayErrorText(errorText);
 
-  const char * warningText = "warningText";
+  const char * const warningText = "warningText";
   logger->DisplayWarningText(warningText);
 
-  const char * genericOutputText = "genericOutputText";
+  const char * const genericOutputText = "genericOutputText";
   logger->DisplayGenericOutputText(genericOutputText);
 
-  const char * debugText = "debugText";
+  const char * const debugText = "debugText";
   logger->DisplayDebugText(debugText);
 
-  const char * tag = "tag";
+  const char * const tag = "tag";
   logger->DisplayTag(tag);
 
   // Check the number of lines written
-  unsigned int  numLinesExpected = 7;
   unsigned int  numLinesRead = 0;
   std::ifstream in(logger->GetFileName());
   std::string   line;
@@ -120,9 +101,38 @@ itkXMLFileOutputWindowTest(int argc, char * argv[])
     ++numLinesRead;
   }
 
-  ITK_TEST_EXPECT_EQUAL(numLinesRead, numLinesExpected);
+  std::cout << "File used: " << currentLoggerFilename << std::endl;
+  ITK_TEST_EXPECT_EQUAL(numLinesRead, requiredLinesInFile);
+
+  std::cout << "Test finished: " << numLinesRead << " (read) == " << requiredLinesInFile << "(required)" << std::endl;
+  return numLinesRead == requiredLinesInFile;
+}
 
 
-  std::cout << "Test finished." << std::endl;
-  return EXIT_SUCCESS;
+int
+itkXMLFileOutputWindowTest(int argc, char * argv[])
+{
+  if (argc != 2)
+  {
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " filename" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  // First test with no filename given, to test autogenerating the filename
+  constexpr unsigned int numLinesExpected = 7;
+  bool                   status = DoTestXMLFileOutputWindow("", numLinesExpected);
+  const std::string      test1Message{ status ? "TEST ONE PASSED" : "TEST ONE FAILED" };
+  std::cout << test1Message << "\n\n" << std::endl;
+  // Second test writing a new file with filename given
+  std::remove(argv[1]);
+  status &= DoTestXMLFileOutputWindow(argv[1], numLinesExpected);
+  const std::string test2Message{ status ? "TEST TWO PASSED" : "TEST TWO FAILED" };
+  std::cout << test2Message << "\n\n" << std::endl;
+  // Third test with appending to filename given
+  status &= DoTestXMLFileOutputWindow(argv[1], numLinesExpected * 2);
+  const std::string test3Message{ status ? "TEST THREE PASSED" : "TEST THREE FAILED" };
+  std::cout << test3Message << "\n\n" << std::endl;
+
+  return (status == true) ? EXIT_SUCCESS : EXIT_FAILURE;
 }
