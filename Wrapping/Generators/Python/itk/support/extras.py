@@ -796,24 +796,24 @@ def dict_from_mesh(mesh: "itkt.Mesh") -> Dict:
     if number_of_cells == 0:
         cells_array = np.array([], np.uint)
     else:
-        cells_array = itk.array_view_from_vector_container(mesh.GetCellsArray())
+        cells_array = itk.array_from_vector_container(mesh.GetCellsArray())
 
     if number_of_points == 0:
         points_array = np.array([], np.float32)
     else:
-        points_array = itk.array_view_from_vector_container(mesh.GetPoints()).flatten()
+        points_array = itk.array_from_vector_container(mesh.GetPoints()).flatten()
 
     point_data = mesh.GetPointData()
     if point_data.Size() == 0:
         point_data_numpy = np.array([], mangle)
     else:
-        point_data_numpy = itk.array_view_from_vector_container(point_data)
+        point_data_numpy = itk.array_from_vector_container(point_data)
 
     cell_data = mesh.GetCellData()
     if cell_data.Size() == 0:
         cell_data_numpy = np.array([], mangle)
     else:
-        cell_data_numpy = itk.array_view_from_vector_container(cell_data)
+        cell_data_numpy = itk.array_from_vector_container(cell_data)
 
     if os.name == "nt":
         cell_component_type = python_to_js(itk.ULL)
@@ -883,7 +883,7 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
     if number_of_points == 0:
         points_array = np.array([], np.float32)
     else:
-        points_array = itk.array_view_from_vector_container(
+        points_array = itk.array_from_vector_container(
             pointset.GetPoints()
         ).flatten()
 
@@ -891,7 +891,7 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
     if point_data.Size() == 0:
         point_data_numpy = np.array([], mangle)
     else:
-        point_data_numpy = itk.array_view_from_vector_container(point_data)
+        point_data_numpy = itk.array_from_vector_container(point_data)
 
     if os.name == "nt":
         cell_component_type = python_to_js(itk.ULL)
