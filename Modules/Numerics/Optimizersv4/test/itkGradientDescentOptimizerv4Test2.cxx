@@ -160,7 +160,7 @@ itkGradientDescentOptimizerv4Test2(int, char *[])
   metric->SetParameters(initialPosition);
 
   itkOptimizer->SetLearningRate(1.0);
-  itkOptimizer->SetNumberOfIterations(1);
+  itkOptimizer->SetNumberOfIterations(2);
 
   ScalesType scales(metric->GetNumberOfLocalParameters());
   for (NumberOfParametersType i = 0; i < metric->GetNumberOfLocalParameters(); ++i)
