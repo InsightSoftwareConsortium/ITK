@@ -48,18 +48,18 @@ namespace itk
  *
  * \ingroup BSplineGradient
  */
-template <typename TInputImage, unsigned int NComponents = 3>
+template <typename TInputImage, unsigned int VComponents = 3>
 class ITK_TEMPLATE_EXPORT ImageToImageOfVectorsFilter
   : public ImageToImageFilter<
       TInputImage,
-      Image<Vector<typename TInputImage::InternalPixelType, NComponents>, TInputImage::ImageDimension>>
+      Image<Vector<typename TInputImage::InternalPixelType, VComponents>, TInputImage::ImageDimension>>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(ImageToImageOfVectorsFilter);
 
   using Superclass = ImageToImageFilter<
     TInputImage,
-    Image<Vector<typename TInputImage::InternalPixelType, NComponents>, TInputImage::ImageDimension>>;
+    Image<Vector<typename TInputImage::InternalPixelType, VComponents>, TInputImage::ImageDimension>>;
   using Self = ImageToImageOfVectorsFilter;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
@@ -71,7 +71,7 @@ public:
 
   using InputPixelType = typename InputImageType::InternalPixelType;
 
-  using OutputPixelType = Vector<InputPixelType, NComponents>;
+  using OutputPixelType = Vector<InputPixelType, VComponents>;
   using OutputImageType = Image<OutputPixelType, ImageDimension>;
   using RegionType = typename OutputImageType::RegionType;
 
