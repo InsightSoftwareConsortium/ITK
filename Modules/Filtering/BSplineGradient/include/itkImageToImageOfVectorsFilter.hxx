@@ -24,20 +24,20 @@
 namespace itk
 {
 
-template <typename TInputImage, unsigned int NComponents>
-ImageToImageOfVectorsFilter<TInputImage, NComponents>::ImageToImageOfVectorsFilter()
+template <typename TInputImage, unsigned int VComponents>
+ImageToImageOfVectorsFilter<TInputImage, VComponents>::ImageToImageOfVectorsFilter()
 {
   // At least 1 input is required.
   this->SetNumberOfRequiredInputs(1);
 }
 
-template <typename TInputImage, unsigned int NComponents>
+template <typename TInputImage, unsigned int VComponents>
 void
-ImageToImageOfVectorsFilter<TInputImage, NComponents>::BeforeThreadedGenerateData()
+ImageToImageOfVectorsFilter<TInputImage, VComponents>::BeforeThreadedGenerateData()
 {
   RegionType region;
 
-  for (unsigned int i = 0; i < NComponents; i++)
+  for (unsigned int i = 0; i < VComponents; i++)
   {
     auto * input = static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
     if (!input)
@@ -55,9 +55,9 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::BeforeThreadedGenerateDat
   }
 }
 
-template <typename TInputImage, unsigned int NComponents>
+template <typename TInputImage, unsigned int VComponents>
 void
-ImageToImageOfVectorsFilter<TInputImage, NComponents>::DynamicThreadedGenerateData(
+ImageToImageOfVectorsFilter<TInputImage, VComponents>::DynamicThreadedGenerateData(
   const RegionType & outputRegionForThread)
 {
   typename OutputImageType::Pointer outputImage = static_cast<OutputImageType *>(this->ProcessObject::GetOutput(0));
@@ -68,7 +68,7 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::DynamicThreadedGenerateDa
   using InputIteratorType = ImageRegionConstIterator<InputImageType>;
   std::vector<InputIteratorType *> inputItContainer;
 
-  for (unsigned int i = 0; i < NComponents; i++)
+  for (unsigned int i = 0; i < VComponents; i++)
   {
     typename InputImageType::Pointer inputImagePointer =
       static_cast<InputImageType *>(this->ProcessObject::GetInput(i));
@@ -81,7 +81,7 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::DynamicThreadedGenerateDa
   typename OutputImageType::PixelType pix;
   while (!oit.IsAtEnd())
   {
-    for (unsigned int i = 0; i < NComponents; i++)
+    for (unsigned int i = 0; i < VComponents; i++)
     {
       pix[i] = inputItContainer[i]->Get();
       ++(*inputItContainer[i]);
@@ -90,7 +90,7 @@ ImageToImageOfVectorsFilter<TInputImage, NComponents>::DynamicThreadedGenerateDa
     ++oit;
   }
 
-  for (unsigned int i = 0; i < NComponents; i++)
+  for (unsigned int i = 0; i < VComponents; i++)
   {
     delete inputItContainer[i];
   }
