@@ -193,18 +193,23 @@ public:
   }
 
   /** Set the standard deviation of the Gaussian used for smoothing.
-   * Sigma is measured in the units of image spacing. You may use the method
-   * SetSigma to set the same value across each axis or use the method
-   * SetSigmaArray if you need different values along each axis. */
+   * Sigma is measured in the units of image spacing. */
   void
-  SetSigmaArray(const ArrayType & sigmas)
+  SetSigma(const ArrayType & sigma)
   {
     ArrayType variance;
     for (unsigned int i = 0; i < ImageDimension; ++i)
     {
-      variance[i] = sigmas[i] * sigmas[i];
+      variance[i] = sigma[i] * sigma[i];
     }
     this->SetVariance(variance);
+  }
+  /** SetSigmaArray is preserved for interface
+   *  backwards compatibility. */
+  void
+  SetSigmaArray(const ArrayType & sigmas)
+  {
+    this->SetSigma(sigmas);
   }
   void
   SetSigma(double sigma)
@@ -255,6 +260,19 @@ public:
     }
     this->SetMaximumError(dv);
   }
+
+  /** Get the radius of the generated directional kernel */
+  unsigned int
+  GetKernelRadius(const unsigned int dimension) const;
+
+  /** Get the radius of the separable kernel in each direction */
+  ArrayType
+  GetKernelRadius() const;
+
+  /** Get the size of the separable kernel in each direction.
+   *  size[i] = radius[i] * 2 + 1 */
+  ArrayType
+  GetKernelSize() const;
 
   /** Set/Get whether or not the filter will use the spacing of the input
    * image in its calculations. Use On to take the image spacing information
@@ -342,10 +360,6 @@ protected:
   /** Build a directional kernel to match user specifications */
   void
   GenerateKernel(const unsigned int dimension, KernelType & oper) const;
-
-  /** Get the radius of the generated directional kernel */
-  unsigned int
-  GetKernelRadius(const unsigned int dimension) const;
 
   /** Get the variance, optionally adjusted for pixel spacing */
   ArrayType
