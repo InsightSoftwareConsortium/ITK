@@ -52,6 +52,31 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelRadius(const un
 }
 
 template <typename TInputImage, typename TOutputImage>
+auto
+DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelRadius() const -> ArrayType
+{
+  ArrayType kernelRadius;
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  {
+    kernelRadius[dim] = this->GetKernelRadius(dim);
+  }
+  return kernelRadius;
+}
+
+
+template <typename TInputImage, typename TOutputImage>
+auto
+DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelSize() const -> ArrayType
+{
+  ArrayType kernelSize;
+  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
+  {
+    kernelSize[dim] = this->GetKernelRadius(dim) * 2 + 1;
+  }
+  return kernelSize;
+}
+
+template <typename TInputImage, typename TOutputImage>
 typename DiscreteGaussianImageFilter<TInputImage, TOutputImage>::ArrayType
 DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray() const
 {
@@ -59,7 +84,7 @@ DiscreteGaussianImageFilter<TInputImage, TOutputImage>::GetKernelVarianceArray()
   {
     if (this->GetInput() == nullptr)
     {
-      itkExceptionMacro("UseImageSpacing is ON but no input image was provided");
+      itkExceptionMacro("Could not get kernel variance! UseImageSpacing is ON but no input image was provided");
     }
 
     ArrayType adjustedVariance;

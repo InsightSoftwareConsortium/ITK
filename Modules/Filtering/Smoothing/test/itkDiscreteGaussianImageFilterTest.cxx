@@ -70,6 +70,9 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   filter->SetSigma(sigmaValue);
   ITK_TEST_SET_GET_VALUE(sigmaValue, filter->GetSigma());
 
+  filter->SetSigma(sigma);
+  ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigmaArray());
+
   filter->SetSigmaArray(sigma);
   ITK_TEST_SET_GET_VALUE(sigma, filter->GetSigmaArray());
 
@@ -100,6 +103,25 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
 
   filter->SetFilterDimensionality(Dimension);
   ITK_TEST_SET_GET_VALUE(Dimension, filter->GetFilterDimensionality());
+
+  // Verify kernel radius matches expectations for test parameters
+  filter->SetUseImageSpacingOff();
+  constexpr unsigned int EXPECTED_RADIUS = 3;
+  auto                   radius = filter->GetKernelRadius();
+  auto                   kernelSize = filter->GetKernelSize();
+  for (unsigned int idx = 0; idx < Dimension; ++idx)
+  {
+    ITK_TEST_EXPECT_EQUAL(radius[idx], EXPECTED_RADIUS);
+    ITK_TEST_EXPECT_EQUAL(filter->GetKernelRadius(idx), EXPECTED_RADIUS);
+    ITK_TEST_EXPECT_EQUAL(kernelSize[idx], EXPECTED_RADIUS * 2 + 1);
+  }
+
+  // Verify filter throws exception when trying to get kernel information
+  // if UseImageSpacing is ON and an input image is not set
+  filter->SetUseImageSpacingOn();
+  ITK_TRY_EXPECT_EXCEPTION(filter->GetKernelRadius());
+  ITK_TRY_EXPECT_EXCEPTION(filter->GetKernelRadius(0));
+  ITK_TRY_EXPECT_EXCEPTION(filter->GetKernelSize());
 
   auto useImageSpacing = static_cast<bool>(std::stoi(argv[1]));
 #if !defined(ITK_FUTURE_LEGACY_REMOVE)
