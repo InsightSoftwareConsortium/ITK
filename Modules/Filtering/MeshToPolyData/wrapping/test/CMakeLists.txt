@@ -2,6 +2,8 @@ itk_python_expression_add_test(NAME itkMeshToPolyDataFilterPythonTest
   EXPRESSION "filt = itk.MeshToPolyDataFilter.New()")
 itk_python_add_test(NAME itkMeshToPolyDataFilterPythonTest2
   COMMAND itkMeshToPolyDataFilterTest2.py)
+itk_python_add_test(NAME itkPolyLineCellTest
+  COMMAND itkPolyLineCellTest.py)
 itk_python_expression_add_test(NAME itkPolyDataPythonTest
   EXPRESSION "poly_data = itk.PolyData.New()")
 
