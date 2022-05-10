@@ -62,7 +62,7 @@ GE5ImageIO ::CheckGE5xImages(char const * const imageFileTemplate, std::string &
   {
     this->OpenFileForReading(f, imageFileTemplate);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     reason = "File could not be opened for read";
     return -1;

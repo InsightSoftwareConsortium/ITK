@@ -208,7 +208,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
       this->m_Associate->ComputeFixedImageGradientAtPoint(mappedFixedPoint, mappedFixedImageGradient);
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");
@@ -231,7 +231,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
       this->m_Associate->ComputeMovingImageGradientAtPoint(mappedMovingPoint, mappedMovingImageGradient);
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     std::string msg("Caught exception: \n");
     msg += exc.what();
@@ -259,7 +259,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
                                       this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives,
                                       threadId);
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Exception in GetValueAndDerivativeProcessPoint:\n");
@@ -324,7 +324,7 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
           this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives[i];
       }
     }
-    catch (ExceptionObject & exc)
+    catch (const ExceptionObject & exc)
     {
       std::string msg("Caught exception: \n");
       msg += exc.what();

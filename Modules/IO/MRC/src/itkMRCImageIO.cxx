@@ -72,7 +72,7 @@ MRCImageIO::CanReadFile(const char * filename)
     // this may throw an expection, but we just return false
     this->OpenFileForReading(file, fname);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }

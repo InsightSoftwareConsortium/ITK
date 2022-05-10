@@ -207,7 +207,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       this->m_CorrelationAssociate->ComputeFixedImageGradientAtPoint(mappedFixedPoint, mappedFixedImageGradient);
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");
@@ -230,7 +230,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       this->m_CorrelationAssociate->ComputeMovingImageGradientAtPoint(mappedMovingPoint, mappedMovingImageGradient);
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     std::string msg("Caught exception: \n");
     msg += exc.what();
@@ -258,7 +258,7 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
                                       this->m_GetValueAndDerivativePerThreadVariables[threadId].LocalDerivatives,
                                       threadId);
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Exception in GetValueAndDerivativeProcessPoint:\n");

@@ -1801,7 +1801,7 @@ PhilipsPAR::GetImageTypesScanningSequence(std::string parFile)
   {
     this->ReadPAR(parFile, &parParam);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return recImageTypesScanSequence;
   }
@@ -2081,7 +2081,7 @@ PhilipsPAR::GetDiffusionGradientOrientationAndBValues(std::string               
     {
       this->ReadPAR(parFile, &tempPar);
     }
-    catch (ExceptionObject &)
+    catch (const ExceptionObject &)
     {
       return false;
     }
@@ -2139,7 +2139,7 @@ PhilipsPAR::GetLabelTypesASL(std::string parFile, PhilipsPAR::PARLabelTypesASLCo
     {
       this->ReadPAR(parFile, &tempPar);
     }
-    catch (ExceptionObject &)
+    catch (const ExceptionObject &)
     {
       return false;
     }

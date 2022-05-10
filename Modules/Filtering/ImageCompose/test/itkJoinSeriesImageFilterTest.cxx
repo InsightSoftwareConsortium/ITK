@@ -210,7 +210,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   {
     joinSeriesImage->Update();
   }
-  catch (itk::InvalidRequestedRegionError & err)
+  catch (const itk::InvalidRequestedRegionError & err)
   {
     std::cout << err << std::endl;
     passed = true;

@@ -153,7 +153,7 @@ BioRadImageIO::CanReadFile(const char * filename)
   {
     this->OpenFileForReading(file, fname);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }

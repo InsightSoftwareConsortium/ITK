@@ -120,7 +120,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
     pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateFixedPoint(
       virtualPoint, mappedFixedPoint, mappedFixedPixelValue);
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");
@@ -138,7 +138,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
     pointIsValid = this->m_CorrelationAssociate->TransformAndEvaluateMovingPoint(
       virtualPoint, mappedMovingPoint, mappedMovingPixelValue);
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     std::string msg("Caught exception: \n");
     msg += exc.what();
@@ -156,7 +156,7 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
     this->m_CorrelationMetricPerThreadVariables[threadId].FixSum += mappedFixedPixelValue;
     this->m_CorrelationMetricPerThreadVariables[threadId].MovSum += mappedMovingPixelValue;
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     std::string msg("Exception in ProcessVirtualPoint:\n");
     msg += exc.what();

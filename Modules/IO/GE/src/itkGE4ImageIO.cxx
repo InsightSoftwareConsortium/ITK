@@ -43,7 +43,7 @@ GE4ImageIO::CanReadFile(const char * FileNameToRead)
   {
     this->OpenFileForReading(f, FileNameToRead);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }

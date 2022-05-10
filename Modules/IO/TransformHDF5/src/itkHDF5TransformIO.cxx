@@ -358,7 +358,7 @@ HDF5TransformIOTemplate<TParametersValueType>::Read()
     this->m_H5File->close();
   }
   // catch failure caused by the H5File operations
-  catch (H5::Exception & error)
+  catch (const H5::Exception & error)
   {
     itkExceptionMacro(<< error.getCDetailMsg());
   }
@@ -455,7 +455,7 @@ HDF5TransformIOTemplate<TParametersValueType>::Write()
     this->m_H5File->close();
   }
   // catch failure caused by the H5File operations
-  catch (H5::Exception & error)
+  catch (const H5::Exception & error)
   {
     itkExceptionMacro(<< error.getCDetailMsg());
   }

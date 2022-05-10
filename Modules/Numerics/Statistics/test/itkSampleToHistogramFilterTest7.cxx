@@ -89,7 +89,7 @@ itkSampleToHistogramFilterTest7(int, char *[])
     std::cerr << " of calling SetHistogramSize() in the filter ";
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "Expected exception received" << std::endl;
   }

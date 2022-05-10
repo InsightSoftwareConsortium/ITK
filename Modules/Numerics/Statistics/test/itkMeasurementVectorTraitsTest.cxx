@@ -34,7 +34,7 @@
     std::cerr << std::endl;                                           \
     return EXIT_FAILURE;                                              \
   }                                                                   \
-  catch (itk::ExceptionObject &)                                      \
+  catch (const itk::ExceptionObject &)                                \
   {}                                                                  \
   ITK_MACROEND_NOOP_STATEMENT
 
@@ -46,7 +46,7 @@
     std::cerr << std::endl;                                        \
     return EXIT_FAILURE;                                           \
   }                                                                \
-  catch (itk::ExceptionObject &)                                   \
+  catch (const itk::ExceptionObject &)                             \
   {}                                                               \
   ITK_MACROEND_NOOP_STATEMENT
 

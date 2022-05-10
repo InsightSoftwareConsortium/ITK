@@ -74,7 +74,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
           scanIt, scanMem, scanParameters, localDerivativeResult, metricValueResult, threadId);
       }
     }
-    catch (ExceptionObject & exc)
+    catch (const ExceptionObject & exc)
     {
       // NOTE: there must be a cleaner way to do this:
       std::string msg("Caught exception: \n");
@@ -191,7 +191,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
             this->m_ANTSAssociate->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, movingImageValue);
         }
       }
-      catch (ExceptionObject & exc)
+      catch (const ExceptionObject & exc)
       {
         // NOTE: there must be a cleaner way to do this:
         std::string msg("Caught exception: \n");
@@ -275,7 +275,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
           this->m_ANTSAssociate->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, movingImageValue);
       }
     }
-    catch (ExceptionObject & exc)
+    catch (const ExceptionObject & exc)
     {
       // NOTE: there must be a cleaner way to do this:
       std::string msg("Caught exception: \n");
@@ -468,7 +468,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
       }
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");
@@ -620,7 +620,7 @@ ANTSNeighborhoodCorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDo
         scanIt, scanMem, scanParameters, localDerivativeResult, metricValueResult, threadId);
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");

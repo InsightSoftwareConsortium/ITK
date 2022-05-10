@@ -371,7 +371,7 @@ itkHistogramMatchingImageFilterTest()
         << "ERROR: Reached code that should have aborted due to thrown exception of missing ReferenceHistogram\n"
         << __FILE__ << ":" << __LINE__ << std::endl;
     }
-    catch (itk::ExceptionObject &)
+    catch (const itk::ExceptionObject &)
     {
       std::cout << "Test caught known exception for SetReferenceHistogram correctly, NO FAILURE!" << std::endl;
     }
@@ -391,7 +391,7 @@ itkHistogramMatchingImageFilterTest()
       std::cout << "ERROR: Reached code that should have aborted due to thrown exception of missing ReferenceImage\n"
                 << __FILE__ << ":" << __LINE__ << std::endl;
     }
-    catch (itk::ExceptionObject &)
+    catch (const itk::ExceptionObject &)
     {
       std::cout << "Test caught known exception for SetReferenceImage correctly, NO FAILURE!" << std::endl;
     }

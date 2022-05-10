@@ -79,7 +79,7 @@ StimulateImageIO::CanReadFile(const char * filename)
   {
     this->OpenFileForReading(file, fname);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }
@@ -127,7 +127,7 @@ StimulateImageIO::Read(void * buffer)
     {
       this->OpenFileForReading(file_data, m_DataFileName);
     }
-    catch (ExceptionObject &)
+    catch (const ExceptionObject &)
     {
       // option 2:
       m_DataFileName = m_FileName;
@@ -136,7 +136,7 @@ StimulateImageIO::Read(void * buffer)
       {
         this->OpenFileForReading(file_data, m_DataFileName);
       }
-      catch (ExceptionObject &)
+      catch (const ExceptionObject &)
       {
         itkExceptionMacro(<< "No Data file was specified in header (spr) file and guessing file data name failed.");
       }

@@ -121,7 +121,7 @@ itkNiftiImageIOTest12(int argc, char * argv[])
       std::cerr << origPhysLocationIndexThree << " != " << readPhysLocationIndexThree << std::endl;
     }
   }
-  catch (itk::ExceptionObject & e)
+  catch (const itk::ExceptionObject & e)
   {
     std::cerr << "Exception occurred: " << std::endl;
     std::cerr << e.GetDescription() << std::endl;

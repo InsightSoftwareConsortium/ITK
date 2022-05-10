@@ -53,7 +53,7 @@ itkAnnulusOperatorTest(int, char *[])
     std::cout << e;
     return EXIT_FAILURE;
   }
-  catch (std::exception & e)
+  catch (const std::exception & e)
   {
     std::cout << "Std exception" << e.what();
     return EXIT_FAILURE;

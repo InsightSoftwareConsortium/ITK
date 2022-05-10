@@ -534,7 +534,7 @@ PhilipsRECImageIO::CanReadFile(const char * FileNameToRead)
       return false;
     }
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }
@@ -557,7 +557,7 @@ PhilipsRECImageIO::ReadImageInformation()
   {
     philipsPAR->ReadPAR(HeaderFileName, &par);
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     throw;
   }

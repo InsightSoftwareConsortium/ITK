@@ -56,7 +56,7 @@ itkNiftiImageIOTest2(int argc, char * argv[])
     input = imageReader->GetOutput();
     input = itk::IOTestHelper::ReadImage<ImageType>(std::string(arg2));
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     test_success = 1;
   }

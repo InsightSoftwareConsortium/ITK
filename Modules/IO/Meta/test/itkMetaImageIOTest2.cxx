@@ -83,7 +83,7 @@ TestUnknowMetaDataBug(const std::string & fname)
 
     ITK_TEST_EXPECT_EQUAL(originalHash, readHash);
   }
-  catch (std::exception & e)
+  catch (const std::exception & e)
   {
     std::cerr << "Exception: " << e.what() << std::endl;
     return EXIT_FAILURE;

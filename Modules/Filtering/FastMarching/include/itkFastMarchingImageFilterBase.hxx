@@ -536,7 +536,7 @@ FastMarchingImageFilterBase<TInput, TOutput>::InitializeOutput(OutputImageType *
     {
       relabeler->Update();
     }
-    catch (ExceptionObject & excep)
+    catch (const ExceptionObject & excep)
     {
       std::cout << excep << std::endl;
     }

@@ -370,7 +370,7 @@ itkFEMElementTest(int argc, char * argv[])
       std::cout << comment << "Test PASSED" << std::endl;
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
     std::cout << "Test FAILED" << std::endl;

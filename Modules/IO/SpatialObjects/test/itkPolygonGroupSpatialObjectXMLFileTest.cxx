@@ -56,7 +56,7 @@ buildPolygonGroup(PolygonGroup3DPointer & PolygonGroup)
       PolygonGroup->Update();
     }
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cerr << "Error creating PolygonGroup" << std::endl;
     return EXIT_FAILURE;
@@ -174,7 +174,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
     pw->SetObject(&(*PolygonGroup));
     pw->WriteFile();
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cerr << "Error Creating file" << std::endl;
     return EXIT_FAILURE;
@@ -200,7 +200,7 @@ itkPolygonGroupSpatialObjectXMLFileTest(int argc, char * argv[])
       return EXIT_FAILURE;
     }
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cerr << "Error Reading file" << std::endl;
     return EXIT_FAILURE;

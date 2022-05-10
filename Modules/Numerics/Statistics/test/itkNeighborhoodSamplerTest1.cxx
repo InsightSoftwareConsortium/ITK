@@ -154,7 +154,7 @@ itkNeighborhoodSamplerTest1(int, char *[])
     std::cerr << " due to nullptr SetRadiusInput()";
     return EXIT_FAILURE;
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "Expected exception received" << std::endl;
   }

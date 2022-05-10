@@ -118,7 +118,7 @@ GiplImageIO::CanReadFile(const char * filename)
     {
       this->OpenFileForReading(inputStream, filename);
     }
-    catch (ExceptionObject &)
+    catch (const ExceptionObject &)
     {
       return false;
     }

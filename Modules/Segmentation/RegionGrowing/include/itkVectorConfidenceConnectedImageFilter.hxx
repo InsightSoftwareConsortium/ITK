@@ -329,7 +329,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         progress.CompletedPixel(); // potential exception thrown here
       }
     }
-    catch (ProcessAborted &)
+    catch (const ProcessAborted &)
     {
       break; // interrupt the iterations loop
     }

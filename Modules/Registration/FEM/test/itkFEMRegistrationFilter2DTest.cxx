@@ -290,7 +290,7 @@ itkFEMRegistrationFilter2DTest(int argc, char * argv[])
     {
       registrator->RunRegistration();
     }
-    catch (itk::ExceptionObject & err)
+    catch (const itk::ExceptionObject & err)
     {
       std::cerr << "ITK exception detected: " << err;
       std::cout << "Test failed!" << std::endl;

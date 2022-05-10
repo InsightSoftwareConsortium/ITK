@@ -455,15 +455,15 @@ MultiThreaderBase::SingleMethodProxy(void * arg)
     (*workUnitInfoStruct->ThreadFunction)(arg);
     workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::SUCCESS;
   }
-  catch (ProcessAborted &)
+  catch (const ProcessAborted &)
   {
     workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_PROCESS_ABORTED_EXCEPTION;
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::ITK_EXCEPTION;
   }
-  catch (std::exception &)
+  catch (const std::exception &)
   {
     workUnitInfoStruct->ThreadExitCode = WorkUnitInfo::ThreadExitCodeEnum::STD_EXCEPTION;
   }

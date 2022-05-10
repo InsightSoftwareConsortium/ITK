@@ -34,7 +34,7 @@ itkFEMExceptionTest(int, char *[])
   {
     throw itk::fem::FEMException(__FILE__, __LINE__, "itkFEMException");
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "Exception caught\n";
   }
@@ -43,7 +43,7 @@ itkFEMExceptionTest(int, char *[])
   {
     throw itk::fem::FEMExceptionIO(__FILE__, __LINE__, "itkFEMExceptionIO", "IO exception");
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "IO exception caught\n";
   }
@@ -52,7 +52,7 @@ itkFEMExceptionTest(int, char *[])
   {
     throw itk::fem::FEMExceptionWrongClass(__FILE__, __LINE__, "itkFEMExceptionWrongClass");
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "Wrong class exception caught\n";
   }
@@ -61,7 +61,7 @@ itkFEMExceptionTest(int, char *[])
   {
     throw itk::fem::FEMExceptionObjectNotFound(__FILE__, __LINE__, "itkFEMExceptionObjectNotFound", "baseClassName", 0);
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "Not found exception caught\n";
   }
@@ -70,7 +70,7 @@ itkFEMExceptionTest(int, char *[])
   {
     throw itk::fem::FEMExceptionSolution(__FILE__, __LINE__, "itkFEMExceptionSolution", "Solution exception");
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     std::cout << "Solution exception caught\n";
   }
