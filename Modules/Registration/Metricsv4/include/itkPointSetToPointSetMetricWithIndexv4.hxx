@@ -464,7 +464,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
       field[offset + i] += pointDerivative[i];
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     std::string msg("Caught exception: \n");
     msg += exc.what();

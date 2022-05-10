@@ -139,7 +139,7 @@ PlatformMultiThreader::SingleMethodExecute()
       process_id[thread_loop] = this->SpawnDispatchSingleMethodThread(&m_ThreadInfoArray[thread_loop]);
     }
   }
-  catch (std::exception & e)
+  catch (const std::exception & e)
   {
     // get the details of the exception to rethrow them
     exceptionDetails = e.what();
@@ -163,7 +163,7 @@ PlatformMultiThreader::SingleMethodExecute()
     m_ThreadInfoArray[0].NumberOfWorkUnits = m_NumberOfWorkUnits;
     m_SingleMethod((void *)(&m_ThreadInfoArray[0]));
   }
-  catch (ProcessAborted &)
+  catch (const ProcessAborted &)
   {
     // Need cleanup and rethrow ProcessAborted
     // close down other threads
@@ -180,7 +180,7 @@ PlatformMultiThreader::SingleMethodExecute()
     // rethrow
     throw;
   }
-  catch (std::exception & e)
+  catch (const std::exception & e)
   {
     // get the details of the exception to rethrow them
     exceptionDetails = e.what();
@@ -208,7 +208,7 @@ PlatformMultiThreader::SingleMethodExecute()
         exceptionOccurred = true;
       }
     }
-    catch (std::exception & e)
+    catch (const std::exception & e)
     {
       // get the details of the exception to rethrow them
       exceptionDetails = e.what();

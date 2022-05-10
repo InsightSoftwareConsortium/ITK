@@ -114,7 +114,7 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::GenerateData()
   {
     Superclass::GenerateData();
   }
-  catch (ProcessAborted & exc)
+  catch (const ProcessAborted & exc)
   {
     // process was aborted, clean up the state of the filter
     // (most of the cleanup will have already been done by the

@@ -234,7 +234,7 @@ itkFEMElement3DTest(int argc, char * argv[])
       }
     }
   }
-  catch (itk::ExceptionObject & err)
+  catch (const itk::ExceptionObject & err)
   {
     std::cerr << "ITK exception detected: " << err;
     std::cout << "Test FAILED" << std::endl;

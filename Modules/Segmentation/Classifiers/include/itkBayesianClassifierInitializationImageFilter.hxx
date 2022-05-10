@@ -104,7 +104,7 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   {
     kmeansFilter->Update();
   }
-  catch (ExceptionObject & err)
+  catch (const ExceptionObject & err)
   {
     // Pass exception to caller
     throw err;

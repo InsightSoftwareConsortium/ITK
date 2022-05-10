@@ -174,7 +174,7 @@ FastMarchingBase<TInput, TOutput>::GenerateData()
       }
     }
   }
-  catch (ProcessAborted &)
+  catch (const ProcessAborted &)
   {
     // User aborted filter execution Here we catch an exception thrown by the
     // progress reporter and rethrow it with the correct line number and file

@@ -216,7 +216,7 @@ GDCMImageIO::CanReadFile(const char * filename)
   {
     this->OpenFileForReading(file, filename);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }

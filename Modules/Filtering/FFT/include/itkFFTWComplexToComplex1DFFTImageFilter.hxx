@@ -108,7 +108,7 @@ FFTWComplexToComplex1DFFTImageFilter<TInputImage, TOutputImage>::BeforeThreadedG
         m_InputBufferArray[i] = new typename FFTW1DProxyType::ComplexType[lineSize];
         m_OutputBufferArray[i] = new typename FFTW1DProxyType::ComplexType[lineSize];
       }
-      catch (std::bad_alloc &)
+      catch (const std::bad_alloc &)
       {
         itkExceptionMacro("Problem allocating memory for internal computations");
       }

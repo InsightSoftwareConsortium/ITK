@@ -228,7 +228,7 @@ SPSAOptimizer::AdvanceOneStep()
   {
     this->ComputeGradient(currentPosition, m_Gradient);
   }
-  catch (ExceptionObject & err)
+  catch (const ExceptionObject & err)
   {
     // An exception has occurred.
     // Terminate immediately.

@@ -523,11 +523,11 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::EstimateBia
       optimizer->StartOptimization();
     }
   }
-  catch (ExceptionObject & ie)
+  catch (const ExceptionObject & ie)
   {
     std::cerr << ie << std::endl;
   }
-  catch (std::exception & e)
+  catch (const std::exception & e)
   {
     std::cerr << e.what() << std::endl;
   }

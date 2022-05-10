@@ -177,7 +177,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
       this->m_CurrentMetricValue = this->m_Metric->GetValue();
       this->m_MetricValuesList.push_back(this->m_CurrentMetricValue);
     }
-    catch (ExceptionObject &)
+    catch (const ExceptionObject &)
     {
       /** We simply ignore this exception because it may just be a bad starting point.
        *  We hope that other start points are better.

@@ -1707,7 +1707,7 @@ ProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
   {
     this->GenerateData();
   }
-  catch (ProcessAborted &)
+  catch (const ProcessAborted &)
   {
     this->InvokeEvent(AbortEvent());
     this->ResetPipeline();

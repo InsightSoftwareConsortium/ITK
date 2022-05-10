@@ -241,7 +241,7 @@ itkFilterDispatchTest(int, char *[])
     std::cout << "Executing 5-d filter: ";
     filter5d->Update();
   }
-  catch (std::string & err)
+  catch (const std::string & err)
   {
     std::cout << err;
     passed = false;

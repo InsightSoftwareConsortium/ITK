@@ -161,7 +161,7 @@ GaussianSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimen
     {
       smoother->Update();
     }
-    catch (ExceptionObject & exc)
+    catch (const ExceptionObject & exc)
     {
       std::string msg("Caught exception: ");
       msg += exc.what();

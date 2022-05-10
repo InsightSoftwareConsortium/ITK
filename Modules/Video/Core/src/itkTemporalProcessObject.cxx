@@ -352,7 +352,7 @@ TemporalProcessObject::UpdateOutputData(DataObject * itkNotUsed(output))
     }
     this->GenerateData();
   }
-  catch (ProcessAborted & excp)
+  catch (const ProcessAborted & excp)
   {
     this->InvokeEvent(AbortEvent());
     this->ResetPipeline();

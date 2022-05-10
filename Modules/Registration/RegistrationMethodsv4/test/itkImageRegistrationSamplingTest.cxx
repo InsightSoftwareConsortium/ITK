@@ -52,7 +52,7 @@ itkImageRegistrationSamplingTest(int, char *[])
       registrationMethod->SetMetricSamplingPercentage(errorValue);
       return EXIT_FAILURE;
     }
-    catch (itk::ExceptionObject &)
+    catch (const itk::ExceptionObject &)
     {
       std::cerr << "Caught expected exception." << std::endl;
     }

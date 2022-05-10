@@ -117,7 +117,7 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   {
     m_Metric->Initialize();
   }
-  catch (ExceptionObject & e)
+  catch (const ExceptionObject & e)
   {
     std::cout << "Metric initialization failed" << std::endl;
     std::cout << "Reason " << e.GetDescription() << std::endl;
@@ -188,7 +188,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution(Element::ArrayType
       {
         tempe = itk::Math::abs(GetMetric(InVec));
       }
-      catch (itk::ExceptionObject &)
+      catch (const itk::ExceptionObject &)
       {
         // do nothing we dont care if the metric region is outside the image
         // std::cerr << e << std::endl;
@@ -255,7 +255,7 @@ ImageMetricLoad<TMoving, TFixed>::EvaluateMetricGivenSolution1(Element::ArrayTyp
       {
         tempe = itk::Math::abs(GetMetric(InVec));
       }
-      catch (itk::ExceptionObject &)
+      catch (const itk::ExceptionObject &)
       {
         // do nothing we dont care if the metric region is outside the image
         // std::cerr << e << std::endl;

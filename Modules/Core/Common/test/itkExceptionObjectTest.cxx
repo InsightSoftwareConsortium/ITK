@@ -142,7 +142,7 @@ itkExceptionObjectTest(int, char *[])
     //       the OneShouldFail variable is never actually set to false!
     OneShouldFail &= (hal == john); // ERROR
   }
-  catch (itk::IncompatibleOperandsError & e)
+  catch (const itk::IncompatibleOperandsError & e)
   {
     std::cout << e << std::endl;
     raised = true;
@@ -170,7 +170,7 @@ itkExceptionObjectTest(int, char *[])
     E.SetDescription("sample error");
     throw E;
   }
-  catch (itk::ExceptionObject &e) { std::cout << e << std::endl; }
+  catch (const itk::ExceptionObject &e) { std::cout << e << std::endl; }
   */
 
   delete Fp;

@@ -84,7 +84,7 @@ StreamingProcessObject::GenerateData()
       this->StreamedGenerateData(piece);
       this->UpdateProgress(static_cast<float>(piece + 1) / numberOfInputRequestRegion);
     }
-    catch (ProcessAborted &)
+    catch (const ProcessAborted &)
     {
       this->InvokeEvent(AbortEvent());
       this->ResetPipeline();

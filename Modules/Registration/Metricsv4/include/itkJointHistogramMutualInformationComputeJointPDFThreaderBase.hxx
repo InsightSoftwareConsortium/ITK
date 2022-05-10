@@ -82,7 +82,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, T
         this->m_Associate->TransformAndEvaluateMovingPoint(virtualPoint, mappedMovingPoint, movingImageValue);
     }
   }
-  catch (ExceptionObject & exc)
+  catch (const ExceptionObject & exc)
   {
     // NOTE: there must be a cleaner way to do this:
     std::string msg("Caught exception: \n");

@@ -224,7 +224,7 @@ NrrdImageIO::CanReadFile(const char * filename)
   {
     this->OpenFileForReading(inputStream, fname);
   }
-  catch (ExceptionObject &)
+  catch (const ExceptionObject &)
   {
     return false;
   }

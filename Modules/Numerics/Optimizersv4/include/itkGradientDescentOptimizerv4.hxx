@@ -98,7 +98,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
       // proper size, no new allocation is done.
       this->m_Metric->GetValueAndDerivative(this->m_CurrentMetricValue, this->m_Gradient);
     }
-    catch (ExceptionObject & err)
+    catch (const ExceptionObject & err)
     {
       this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::COSTFUNCTION_ERROR;
       this->m_StopConditionDescription << "Metric error during optimization";
@@ -132,7 +132,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::ResumeOptimiz
           break;
         }
       }
-      catch (std::exception & e)
+      catch (const std::exception & e)
       {
         itkWarningMacro(<< "GetConvergenceValue() failed with exception: " << e.what() << std::endl);
       }
@@ -175,7 +175,7 @@ GradientDescentOptimizerv4Template<TInternalComputationValueType>::AdvanceOneSte
     // Pass gradient to transform and let it do its own updating
     this->m_Metric->UpdateTransformParameters(this->m_Gradient);
   }
-  catch (ExceptionObject & err)
+  catch (const ExceptionObject & err)
   {
     this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";

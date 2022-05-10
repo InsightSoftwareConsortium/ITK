@@ -84,7 +84,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     std::cerr << " of calling SetHistogramSize() in the filter ";
     return EXIT_FAILURE;
   }
-  catch (itk::MissingHistogramSizeInput & e)
+  catch (const itk::MissingHistogramSizeInput & e)
   {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
@@ -108,7 +108,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     std::cerr << " of calling SetMeasurementVectorSize() in the sample";
     return EXIT_FAILURE;
   }
-  catch (itk::NullSizeHistogramInputMeasurementVectorSize & e)
+  catch (const itk::NullSizeHistogramInputMeasurementVectorSize & e)
   {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
@@ -692,7 +692,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     std::cerr << " due to nullptr SetHistogramSizeInput()";
     return EXIT_FAILURE;
   }
-  catch (itk::MissingHistogramSizeInput & e)
+  catch (const itk::MissingHistogramSizeInput & e)
   {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
@@ -719,7 +719,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     std::cerr << " due to nullptr SetMarginalScaleInput()";
     return EXIT_FAILURE;
   }
-  catch (itk::MissingHistogramMarginalScaleInput & e)
+  catch (const itk::MissingHistogramMarginalScaleInput & e)
   {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
@@ -752,7 +752,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     std::cerr << " due to nullptr SetHistogramBinMinimumInput()";
     return EXIT_FAILURE;
   }
-  catch (itk::MissingHistogramBinMinimumInput & e)
+  catch (const itk::MissingHistogramBinMinimumInput & e)
   {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;
@@ -780,7 +780,7 @@ itkSampleToHistogramFilterTest(int, char *[])
     std::cerr << " due to nullptr SetHistogramBinMaximumInput()";
     return EXIT_FAILURE;
   }
-  catch (itk::MissingHistogramBinMaximumInput & e)
+  catch (const itk::MissingHistogramBinMaximumInput & e)
   {
     std::cout << "Exception received:" << std::endl;
     std::cout << e << std::endl;

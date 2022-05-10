@@ -104,7 +104,7 @@ RegularStepGradientDescentBaseOptimizer::ResumeOptimization()
     {
       m_CostFunction->GetValueAndDerivative(this->GetCurrentPosition(), m_Value, m_Gradient);
     }
-    catch (ExceptionObject & excp)
+    catch (const ExceptionObject & excp)
     {
       m_StopCondition = StopConditionEnum::CostFunctionError;
       m_StopConditionDescription << "Cost function error after " << m_CurrentIteration << " iterations. "

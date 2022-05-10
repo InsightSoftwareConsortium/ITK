@@ -114,7 +114,7 @@ itkImageSpatialObjectTest(int, char *[])
   {
     imageSO->ValueAtInWorldSpace(q, returnedValue);
   }
-  catch (itk::ExceptionObject &)
+  catch (const itk::ExceptionObject &)
   {
     throw;
   }
