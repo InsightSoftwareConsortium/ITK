@@ -1,8 +1,8 @@
 # Third-party code need not pass our style checks.
 
-*.c     -hooks.style
-*.h     -hooks.style
-*.h.in  -hooks.style
-*.cxx   -hooks.style
-*.hxx   -hooks.style
-*.txx   -hooks.style
+*.c     -hooks.style -whitespace
+*.h     -hooks.style -whitespace
+*.h.in  -hooks.style -whitespace
+*.cxx   -hooks.style -whitespace
+*.hxx   -hooks.style -whitespace
+*.txx   -hooks.style -whitespace
