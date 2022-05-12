@@ -2,6 +2,7 @@
 
 *.c     -hooks.style
 *.h     -hooks.style
+*.h.in  -hooks.style
 *.cxx   -hooks.style
 *.hxx   -hooks.style
 *.txx   -hooks.style
