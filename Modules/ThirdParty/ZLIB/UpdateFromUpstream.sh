@@ -37,6 +37,7 @@ INDEX.md
 extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
+    echo "* -whitespace" >> .gitattributes
     popd
 }
 
