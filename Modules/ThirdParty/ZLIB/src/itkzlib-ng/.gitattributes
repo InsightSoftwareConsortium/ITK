@@ -3,3 +3,4 @@
 *.h text
 Makefile text
 configure text eol=lf
+* -whitespace
