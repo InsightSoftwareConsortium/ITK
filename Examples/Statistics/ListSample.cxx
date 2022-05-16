@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@
 // sets of template arguments. In this example, we use the
 // \subdoxygen{Statistics}{ListSample} class that requires the type of
 // measurement vectors. The ListSample uses
-// \href{http://www.sgi.com/tech/stl/}{STL} \code{vector} to store
+// \href{https://www.sgi.com/tech/stl/}{STL} \code{vector} to store
 // measurement vectors. This class conforms to the common interface of Sample.
 // Most methods of the Sample class interface are for retrieving measurement
 // vectors, the size of a container, and the total frequency. In this

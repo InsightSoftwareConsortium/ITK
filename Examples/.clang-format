@@ -4,7 +4,7 @@
 ## See: https://clang.llvm.org/docs/ClangFormatStyleOptions.html for details of each option
 ##
 ## The clang-format binaries can be downloaded as part of the clang binary distributions
-## from http://releases.llvm.org/download.html
+## from https://releases.llvm.org/download.html
 ##
 ## Use the script Utilities/Maintenance/clang-format.bash to faciliate
 ## maintaining a consistent code style.

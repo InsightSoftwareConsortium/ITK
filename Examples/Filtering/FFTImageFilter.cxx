@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@
 //  implementations of FFT. It is convenient in many cases to delegate the
 //  actual computation of the transform to local available libraries.
 //  Particular examples of those libraries are
-//  fftw\footnote{http://www.fftw.org} and the VXL implementation of FFT. For
+//  fftw\footnote{https://www.fftw.org} and the VXL implementation of FFT. For
 //  this reason ITK provides a base abstract class that factorizes the
 //  interface to multiple specific implementations of FFT. This base class is
 //  the \doxygen{ForwardFFTImageFilter}, and two of its derived classes are

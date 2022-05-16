@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,7 +28,7 @@ Element3DC0LinearTetrahedron::GetIntegrationPointAndWeight(unsigned int, VectorT
 {
   // FIXME: Write rules for other integration orders
   // for tetrahedral elements a single point should suffice
-  // http://www.cs.rpi.edu/~flaherje/pdf/fea6.pdf
+  // https://www.cs.rpi.edu/~flaherje/pdf/fea6.pdf
   pt.set_size(3);
 
   Float d = 1.0 / std::sqrt(3.0);

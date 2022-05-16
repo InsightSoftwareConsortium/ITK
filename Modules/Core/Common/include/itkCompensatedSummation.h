@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -31,7 +31,7 @@ namespace itk
  * performing a running sum of floats, the accumulated errors get progressively
  * worse as the magnitude of the sum gets large relative to new elements.
  *
- * From Wikipedia, http://en.wikipedia.org/wiki/Kahan_summation_algorithm
+ * From Wikipedia, https://en.wikipedia.org/wiki/Kahan_summation_algorithm
  *
  * "In numerical analysis, the Kahan summation algorithm (also known as
  * compensated summation) significantly reduces the numerical error in the total

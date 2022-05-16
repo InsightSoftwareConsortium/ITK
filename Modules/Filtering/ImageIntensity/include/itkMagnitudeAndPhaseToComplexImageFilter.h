@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -46,7 +46,7 @@ namespace itk
  * and do not necessarily represent the official view of NCRR or NIH.
  *
  * This class was taken from the Insight Journal paper:
- * http://insight-journal.org/browse/publication/128
+ * https://insight-journal.org/browse/publication/128
  *
  * \sa ComposeImageFilter
  *

@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -51,7 +51,7 @@ namespace itk
  *
  * "Image Kernel Convolution"
  * by Tustison N., Gee J.
- * http://insight-journal.org/browse/publication/208
+ * https://insight-journal.org/browse/publication/208
  *
  * \author Nicholas J. Tustison
  * \author James C. Gee

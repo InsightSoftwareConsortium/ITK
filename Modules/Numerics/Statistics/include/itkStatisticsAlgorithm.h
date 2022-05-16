@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -86,7 +86,7 @@ FindSampleBoundAndMean(const TSubsample *                           sample,
  * of such values. Implemented following the description of the partition
  * algorithm in the QuickSelect entry of the Wikipedia.
  *
- * \sa http://en.wikipedia.org/wiki/Selection_algorithm.
+ * \sa https://en.wikipedia.org/wiki/Selection_algorithm.
  */
 template <typename TSubsample>
 int
@@ -111,7 +111,7 @@ Partition(TSubsample *                               sample,
  * argument medianGuess. The algorithm returns the value of the activeDimension
  * component in the MeasurementVector located in the kth position.
  *
- * \sa http://en.wikipedia.org/wiki/Selection_algorithm
+ * \sa https://en.wikipedia.org/wiki/Selection_algorithm
  */
 template <typename TSubsample>
 typename TSubsample::MeasurementType
@@ -134,7 +134,7 @@ QuickSelect(TSubsample *                         sample,
  * it is possible to feed this function with beginIndex=15, endIndex=23, and
  * kth=3, since we can ask for the element 3rd in the range [15,23].
  *
- * \sa http://en.wikipedia.org/wiki/Selection_algorithm.
+ * \sa https://en.wikipedia.org/wiki/Selection_algorithm.
  */
 template <typename TSubsample>
 typename TSubsample::MeasurementType

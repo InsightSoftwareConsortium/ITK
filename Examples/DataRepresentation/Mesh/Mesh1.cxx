@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,7 +70,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The \code{Mesh} type extensively uses the capabilities provided by
-  //  \href{http://www.boost.org/more/generic_programming.html}{Generic
+  //  \href{https://www.boost.org/more/generic_programming.html}{Generic
   //  Programming}. In particular, the \code{Mesh} class is parameterized over
   //  \code{PixelType}, spatial dimension, and (optionally) a parameter set
   //  called \code{MeshTraits}.  \code{PixelType} is the type of the

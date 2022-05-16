@@ -369,5 +369,5 @@ More Information
 
 [ITK's Discourse]: https://discourse.itk.org/
 
-[Git]: http://git-scm.com
+[Git]: https://git-scm.com
 [GitHub flow guide]: https://guides.github.com/introduction/flow/index.html

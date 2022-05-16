@@ -8,7 +8,7 @@ ITK: The Insight Toolkit
 [![Wheels](https://img.shields.io/pypi/wheel/itk.svg)](https://pypi.org/project/itk)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://github.com/InsightSoftwareConsortium/ITK/blob/master/LICENSE)
 [![DOI](https://zenodo.org/badge/800928.svg)](https://zenodo.org/badge/latestdoi/800928)
-[![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](http://numfocus.org)
+[![Powered by NumFOCUS](https://img.shields.io/badge/powered%20by-NumFOCUS-orange.svg?style=flat&colorA=E1523D&colorB=007D8A)](https://numfocus.org)
 
 | | C++ | Python |
 |:------:|:--------:|:--------:|
@@ -81,7 +81,7 @@ Copyright
 NumFOCUS is a non-profit entity that promotes the use of open source
 scientific software for educational and research purposes.  NumFOCUS delegates
 project governance to the [Insight Software
-Consortium](http://www.insightsoftwareconsortium.org) Council, an educational
+Consortium](https://www.insightsoftwareconsortium.org) Council, an educational
 consortium dedicated to promoting and maintaining open-source, freely
 available software for medical image analysis. This includes promoting such
 software in teaching, research, and commercial applications, and maintaining

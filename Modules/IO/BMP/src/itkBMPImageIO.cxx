@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -178,7 +178,7 @@ BMPImageIO::Read(void * buffer)
   // If the file is RLE compressed
   // RLE-compressed files are lower-left
   // About the RLE compression algorithm:
-  // http://msdn.microsoft.com/en-us/library/windows/desktop/dd183383%28v=vs.85%29.aspx
+  // https://msdn.microsoft.com/en-us/library/windows/desktop/dd183383%28v=vs.85%29.aspx
   if (m_BMPCompression == 1 && (this->GetNumberOfComponents() == 3 || this->GetIsReadAsScalarPlusPalette()))
   {
     value = new char[m_BMPDataSize + 1];
@@ -521,7 +521,7 @@ BMPImageIO::ReadImageInformation()
     }
   }
 
-  // http://msdn.microsoft.com/en-us/library/windows/desktop/dd183376%28v=vs.85%29.aspx
+  // https://msdn.microsoft.com/en-us/library/windows/desktop/dd183376%28v=vs.85%29.aspx
   if (m_BMPCompression == 1 && !m_FileLowerLeft)
   {
     m_Ifstream.close();
@@ -728,7 +728,7 @@ BMPImageIO::Write(const void * buffer)
   //
   // For more details:
   //
-  //             http://en.wikipedia.org/wiki/BMP_file_format
+  //             https://en.wikipedia.org/wiki/BMP_file_format
 
   // Write the BMP header
   //

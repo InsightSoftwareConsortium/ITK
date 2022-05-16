@@ -52,7 +52,7 @@ function(generate_castxml_commandline_flags)
     if(CMAKE_CROSSCOMPILING)
         if(NOT CMAKE_CXX_COMPILER_TARGET)
             message(FATAL_ERROR "Set the target triple in CMAKE_CXX_COMPILER_TARGET "
-                    " as described in http://clang.llvm.org/docs/CrossCompilation.html")
+                    " as described in https://clang.llvm.org/docs/CrossCompilation.html")
         endif()
         set(_target "--target=${CMAKE_CXX_COMPILER_TARGET}")
     endif()

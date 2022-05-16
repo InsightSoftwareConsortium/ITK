@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,8 +34,8 @@
 //  patient is respected when you process data sets that contain personal
 //  information. Privacy issues are regulated in the United States by the
 //  HIPAA norms\footnote{The Health Insurance Portability and Accountability
-//  Act of 1996. \url{http://www.cms.hhs.gov/hipaa/}}. You would probably find
-//  similar legislation in every country.
+//  Act of 1996. \url{https://www.cms.hhs.gov/hipaa/}}. You would probably
+//  find similar legislation in every country.
 //
 //  \index{HIPAA!Privacy}
 //  \index{HIPAA!Dicom}

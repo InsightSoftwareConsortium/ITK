@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -43,7 +43,7 @@ TEST(ITKBuildInformation, InformationFeatures)
   if (it != localMap.end())
   {
     EXPECT_EQ(it->first, std::string{ "PROJECT_URL" });
-    EXPECT_EQ(it->second.m_Value, std::string{ "http://www.itk.org" });
+    EXPECT_EQ(it->second.m_Value, std::string{ "https://www.itk.org" });
     EXPECT_EQ(it->second.m_Description, std::string{ "The URL of project." });
   }
 
@@ -60,7 +60,7 @@ TEST(ITKBuildInformation, InformationFeatures)
     EXPECT_EQ(itk::BuildInformation::GetDescription(key), mapEntry.second.m_Description);
   }
 
-  EXPECT_EQ(itk::BuildInformation::GetValue("PROJECT_URL"), "http://www.itk.org");
+  EXPECT_EQ(itk::BuildInformation::GetValue("PROJECT_URL"), "https://www.itk.org");
 
   EXPECT_GT(itk::BuildInformation::GetAllKeys().size(), static_cast<size_t>(5));
 

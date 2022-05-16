@@ -14,7 +14,7 @@ commands to track it:
    $ mkdir -p ~/Dashboards/ITKScripts
    $ cd ~/Dashboards/ITKScripts
    $ git init
-   $ git remote add -t dashboard origin http://itk.org/ITK.git
+   $ git remote add -t dashboard origin https://itk.org/ITK.git
    $ git pull origin
 ```
 
@@ -52,4 +52,4 @@ And post the results to the [ITK discussion].
 
 [ITK discussion]: https://discourse.itk.org/
 
-[Git]: http://git-scm.com
+[Git]: https://git-scm.com

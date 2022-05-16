@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -220,11 +220,11 @@ private:
  * "Parametric estimate of intensity inhomogeneities applied to MRI"
  * Martin Styner, Guido Gerig, Christian Brechbuehler, Gabor Szekely,
  * IEEE TRANSACTIONS ON MEDICAL IMAGING; 19(3), pp. 153-165, 2000,
- * (http://www.cs.unc.edu/~styner/docs/tmi00.pdf)
+ * (https://www.cs.unc.edu/~styner/docs/tmi00.pdf)
  *
  * "Evaluation of 2D/3D bias correction with 1+1ES-optimization"
  * Martin Styner, Prof. Dr. G. Gerig (IKT, BIWI, ETH Zuerich), TR-197
- * (http://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
+ * (https://www.cs.unc.edu/~styner/docs/StynerTR97.pdf)
  * \ingroup ITKBiasCorrection
  */
 template <typename TInputImage, typename TOutputImage, typename TMaskImage>

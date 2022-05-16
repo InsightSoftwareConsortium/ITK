@@ -24,7 +24,7 @@ the README.txt file under the "Copyright" subdirectory.
 
 Starting with its version ITK 3.6, The Insight Toolkit is distributed under the
 new and simplified BSD license approved by the Open Source Initiative (OSI)
-[http://www.opensource.org/licenses/bsd-license.php].
+[https://www.opensource.org/licenses/bsd-license.php].
 
 Starting with its version ITK 4, The Insight Toolkit is distributed under the
 Apache 2.0 License. The move from the BSD license to the Apache 2.0 was
@@ -166,7 +166,7 @@ Utilities:
                   There is no mention of licensing nor copyright
                   at the NIFTI Web site:
 
-                      http://nifti.nimh.nih.gov/nifti-1
+                      https://nifti.nimh.nih.gov/nifti-1
 
                   However at http://niftilib.sourceforge.net it
                   appears as "public domain" license, but in
@@ -264,7 +264,7 @@ CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
 OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
-See also the VTK web site: http://www.vtk.org for more information.
+See also the VTK web site: https://www.vtk.org for more information.
 
 
 ============== NEXT COPYRIGHT NOTICE AND LICENSE ENTRY ==============
@@ -1247,7 +1247,7 @@ You are under no obligation whatsoever to provide any bug fixes, patches, or upg
 Limited portions of HDF5 were developed by Lawrence Berkeley National
 Laboratory (LBNL). LBNL's Copyright Notice and Licensing Terms can be
 found here: COPYING_LBNL_HDF5 file in this directory or at
-http://support.hdfgroup.org/ftp/HDF5/releases/COPYING_LBNL_HDF5.
+https://support.hdfgroup.org/ftp/HDF5/releases/COPYING_LBNL_HDF5.
 
 -----------------------------------------------------------------------------
 -----------------------------------------------------------------------------
@@ -1694,7 +1694,7 @@ Exhibit A - Source Code Form License Notice
 
   This Source Code Form is subject to the terms of the Mozilla Public
   License, v. 2.0. If a copy of the MPL was not distributed with this
-  file, You can obtain one at http://mozilla.org/MPL/2.0/.
+  file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 If it is not possible or desirable to put the notice in a particular
 file, then You may include the notice in a location (such as a LICENSE

@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -35,7 +35,7 @@ namespace itk
  * 2) Sezgin M. and Sankur B. (2004) "Survey over Image Thresholding
  *    Techniques and Quantitative Performance Evaluation" Journal of
  *    Electronic Imaging, 13(1): 146-165
- *    http://citeseer.ist.psu.edu/sezgin04survey.html
+ *    https://citeseer.ist.psu.edu/sezgin04survey.html
  *
  * M. Emre Celebi
  * 06.15.2007

@@ -14,7 +14,7 @@ Requires the azure package:
 
 There should also be a "md5" container on the storage account.  See:
 
-  http://azure.microsoft.com/en-us/documentation/articles/storage-python-how-to-use-blob-storage/
+  https://azure.microsoft.com/en-us/documentation/articles/storage-python-how-to-use-blob-storage/
 """
 
 import argparse

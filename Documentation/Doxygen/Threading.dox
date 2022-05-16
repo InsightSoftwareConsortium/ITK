@@ -85,9 +85,9 @@
    \section NumericsThreadSafety Thread Safety in the Numerics Library
 
    ITK uses a C++ wrapper around the standard NETLIB distributions
-   (http://www.netlib.org).  These NETLIB distributions were converted
+   (https://www.netlib.org).  These NETLIB distributions were converted
    from FORTRAN to C using the standard f2c converter
-   (http://www.netlib.org/f2c/).  A cursory glance at the f2c
+   (https://www.netlib.org/f2c/).  A cursory glance at the f2c
    generated NETLIB C code yields the impression that the NETLIB code
    is not thread safe (due to COMMON blocks being translated to
    function scope statics).  We are still investigating this matter.

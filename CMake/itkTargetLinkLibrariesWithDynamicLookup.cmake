@@ -17,7 +17,7 @@
 # symbols when linking a shared library. If it does then the library
 # is not linked when specified with this function.
 #
-# http://blog.tim-smith.us/2015/09/python-extension-modules-os-x/
+# https://blog.tim-smith.us/2015/09/python-extension-modules-os-x/
 #
 
 # Function: _itkCheckUndefinedSymbolsAllowed

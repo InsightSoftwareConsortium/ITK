@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -149,7 +149,7 @@ Similarity2DTransform<TParametersValueType>::ComputeMatrixParameters()
 
   // Throw if m_Scale is zero, or a denormal floating point number (close to zero)".
   // https://bitbashing.io/comparing-floats.html
-  // http://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
+  // https://en.cppreference.com/w/cpp/types/numeric_limits/epsilon
   if (m_Scale < std::numeric_limits<TParametersValueType>::min())
   {
     itkExceptionMacro(<< "Bad Rotation Matrix. Scale cannot be zero.\n"

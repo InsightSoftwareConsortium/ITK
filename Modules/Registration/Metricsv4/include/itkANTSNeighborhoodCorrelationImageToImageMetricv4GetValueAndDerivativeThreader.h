@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -175,7 +175,7 @@ protected:
    * This technique takes advantage of SFINAE (Substitution Failure Is Not An Error) in specializing function
    * templates. The helper class \c IdentityHelper is used to overload w.r.t different partitioner types.
    * More discussion can be found at:
-   * http://stackoverflow.com/questions/3052579/explicit-specialization-in-non-namespace-scope
+   * https://stackoverflow.com/questions/3052579/explicit-specialization-in-non-namespace-scope
    *
    * */
 

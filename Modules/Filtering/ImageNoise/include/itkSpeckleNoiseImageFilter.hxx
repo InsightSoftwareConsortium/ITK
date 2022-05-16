@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -83,7 +83,7 @@ SpeckleNoiseImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
     while (!inputIt.IsAtEndOfLine())
     {
       // First generate the gamma distributed random variable
-      // ref http://en.wikipedia.org/wiki/Gamma_distribution#Generating_gamma-distributed_random_variables
+      // ref https://en.wikipedia.org/wiki/Gamma_distribution#Generating_gamma-distributed_random_variables
       double xi;
       double nu;
       do

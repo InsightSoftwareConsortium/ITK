@@ -278,7 +278,7 @@ macro(check_compiler_platform_flags)
          # With MS compilers on Win64, we need the /bigobj switch, else generated
          # code results in objects with number of sections exceeding object file
          # format.
-         # see http://msdn.microsoft.com/en-us/library/ms173499.aspx
+         # see https://msdn.microsoft.com/en-us/library/ms173499.aspx
          if(MSVC)
            set(ITK_REQUIRED_CXX_FLAGS "${ITK_REQUIRED_CXX_FLAGS} /bigobj")
          endif()

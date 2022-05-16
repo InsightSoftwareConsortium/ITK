@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -115,7 +115,7 @@ public:
     // N3644, "Null Forward Iterators" by Alan Talbot, which is accepted with
     // C++14: "value-initialized iterators may be compared and shall compare
     // equal to other value-initialized iterators of the same type."
-    // http://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3644.pdf
+    // https://www.open-std.org/jtc1/sc22/wg21/docs/papers/2013/n3644.pdf
 
     ExpectIteratorEqualsItself(defaultConstructedIterator);
     EXPECT_EQ(defaultConstructedIterator, IteratorType());

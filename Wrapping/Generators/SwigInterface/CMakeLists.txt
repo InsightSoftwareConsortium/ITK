@@ -1,7 +1,7 @@
 ###############################################################################
 # Swig and PCRE do not support blank spaces in install directory namespaces
 # This means that ITK cannot be built in a path that contains spaces
-# See http://www.swig.org/Doc1.3/Windows.html
+# See https://www.swig.org/Doc1.3/Windows.html
 if("${CMAKE_BINARY_DIR}" MATCHES "^.* .*$")
   message(FATAL_ERROR "Swig and PCRE do not support paths with space characters. Please change build directory name.")
 endif()

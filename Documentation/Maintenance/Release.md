@@ -860,23 +860,23 @@ excellent packaging.
 [blog post]: https://blog.kitware.com/itk-packages-in-linux-distributions/
 [Dashboard]: https://open.cdash.org/index.php?project=Insight
 [community]: https://discourse.itk.org/
-[documentation page]: http://www.itk.org/ITK/help/documentation.html
+[documentation page]: https://www.itk.org/ITK/help/documentation.html
 [download page]: https://itk.org/ITK/resources/software.html
-[GitHub]: http://github.com/InsightSoftwareConsortium/ITK
+[GitHub]: https://github.com/InsightSoftwareConsortium/ITK
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
-[ITK issue tracking]: http://issues.itk.org/
+[ITK issue tracking]: https://issues.itk.org/
 [ITK Sofware Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
 [ITK Sphinx examples]: https://itk.org/ITKExamples/
 [releases page]: https://itk.org/Wiki/ITK/Releases
 [release schedule]: https://itk.org/Wiki/ITK/Release_Schedule
-[Software Guide]: http://itk.org/ItkSoftwareGuide.pdf
+[Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 
 [kitware]: https://www.kitware.com/
 [public.kitware.com]: public.kitware.com
 
-[Doxygen]: http://www.stack.nl/~dimitri/doxygen/
+[Doxygen]: https://www.stack.nl/~dimitri/doxygen/
 [PyPi]: https://pypi.python.org/pypi
 [ResearchGate]: https://www.researchgate.net/project/Insight-Toolkit-ITK
 [SourceForge]: https://sourceforge.net/downloads/itk/itk/

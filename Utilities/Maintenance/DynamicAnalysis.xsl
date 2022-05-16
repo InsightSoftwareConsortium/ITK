@@ -1,8 +1,8 @@
 <xsl:stylesheet
-    xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version='1.0'>
+    xmlns:xsl="https://www.w3.org/1999/XSL/Transform" version='1.0'>
 
    <xsl:output method="xml" indent="yes"  doctype-public="-//W3C//DTD XHTML 1.0 Transitional//EN"
-   doctype-system="http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
+   doctype-system="https://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd" />
    <xsl:template match="/">
       <html>
        <head>
@@ -24,7 +24,7 @@
   <tr><td align="right"><b>Build Name:</b></td><td><xsl:value-of select="Site/@BuildStamp"/></td></tr>
 </table>
 
-<table xmlns:lxslt="http://xml.apache.org/xslt" cellspacing="2" cellpadding="3">
+<table xmlns:lxslt="https://xml.apache.org/xslt" cellspacing="2" cellpadding="3">
    <tr>
       <th width="20%">Name</th>
 
