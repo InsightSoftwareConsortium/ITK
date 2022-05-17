@@ -120,6 +120,12 @@ try:
     assert np.allclose(arr.transpose(), itk.array_view_from_image(image))
     assert np.allclose(arr.shape[::-1], itk.array_view_from_image(image).shape)
 
+    # Test in-place "view" where xarray data is valid only as long as ITK image
+    data_array = itk.xarray_from_image(image, view=True)
+    assert data_array.name == image.GetObjectName()
+    # verify we can run a computation on xarray data
+    assert float(data_array.min().compute()) == 1.0
+
     data_array = xr.DataArray(arr, dims=["q", "x", "y"])
     try:
         image = itk.image_from_xarray(data_array)
