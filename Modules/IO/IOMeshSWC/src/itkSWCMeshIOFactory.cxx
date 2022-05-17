@@ -15,7 +15,7 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#include "ITKIOMeshSWCExport.h"
+#include "IOMeshSWCExport.h"
 
 #include "itkSWCMeshIOFactory.h"
 #include "itkSWCMeshIO.h"
@@ -52,7 +52,7 @@ SWCMeshIOFactory::GetDescription() const
 
 // Undocumented API used to register during static initialization.
 // DO NOT CALL DIRECTLY.
-void ITKIOMeshSWC_EXPORT
+void IOMeshSWC_EXPORT
 SWCMeshIOFactoryRegister__Private()
 {
   ObjectFactoryBase::RegisterInternalFactoryOnce<SWCMeshIOFactory>();
