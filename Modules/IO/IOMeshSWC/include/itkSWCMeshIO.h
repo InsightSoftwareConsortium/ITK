@@ -29,7 +29,7 @@ namespace itk
 {
 /**
  *\class SWCMeshIO
- * \brief This class defines how to read and write SWC Geometry File Format.
+ * \brief This class defines how to read and write SWC neuron morphology files.
  *
  * \ingroup IOFilters
  * \ingroup IOMeshSWC
@@ -112,6 +112,10 @@ public:
   void
   Write() override;
 
+  /** Get the value of the radius at the soma if there is a single root soma point.
+   * If there is not a single root soma point, this will be -1. */
+  itkGetConstMacro(SomaRadius, double);
+
 protected:
   /** Write points to output stream */
   template <typename T>
@@ -164,6 +168,8 @@ private:
   SizeValueType    m_PartId;
   SizeValueType    m_FirstCellId;
   SizeValueType    m_LastCellId;
+
+  double m_SomaRadius{ -1. };
 };
 } // end namespace itk
 
