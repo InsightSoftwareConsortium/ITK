@@ -50,13 +50,15 @@ GaussianOperator<TPixel, VDimension, TAllocator>::GenerateCoefficients() -> Coef
     {
       break; // failsafe
     }
+    /*
+    // TODO: See https://github.com/InsightSoftwareConsortium/ITK/issues/3430
     if (coeff.size() > m_MaximumKernelWidth)
     {
       itkDebugMacro(<< "Kernel size has exceeded the specified maximum width of " << m_MaximumKernelWidth
                     << " and has been truncated to " << coeff.size()
                     << " elements.  You can raise the maximum width using the SetMaximumKernelWidth method.");
       break;
-    }
+    }*/
   }
   // Normalize the coefficients so that their sum is one.
   for (it = coeff.begin(); it < coeff.end(); ++it)
