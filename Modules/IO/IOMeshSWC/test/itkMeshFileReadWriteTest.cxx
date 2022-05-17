@@ -31,6 +31,8 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
+  const char * inputFileName = argv[1];
+  const char * outputFileName = argv[2];
 
   constexpr unsigned int dimension = 3;
   using PixelType = float;
@@ -39,7 +41,7 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 
   int result = EXIT_SUCCESS;
 
-  // if (test<MeshType>(argv[1], argv[2], false))
+  // if (test<MeshType>(inputFileName, outputFileName, false))
   // {
   //   std::cerr << "Failure for itk::Mesh" << std::endl;
   //   result = EXIT_FAILURE;
@@ -48,6 +50,13 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
   auto swcMeshIO = itk::SWCMeshIO::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(swcMeshIO, SWCMeshIO, MeshIOBase);
+
+  swcMeshIO->SetFileName(inputFileName);
+  if (!swcMeshIO->CanReadFile(inputFileName))
+  {
+    std::cerr << "CanReadFile did not succeed with input file.";
+    result = EXIT_FAILURE;
+  }
 
   std::cout << "Test finished." << std::endl;
   return result;
