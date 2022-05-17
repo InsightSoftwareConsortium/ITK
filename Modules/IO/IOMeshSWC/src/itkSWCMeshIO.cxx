@@ -23,6 +23,26 @@
 namespace itk
 {
 
+std::ostream &
+operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value)
+{
+  return out << [value] {
+    switch (value)
+    {
+      case SWCMeshIOEnums::SWCPointData::SampleIdentifier:
+        return "SWCMeshIOEnums::SWCPointData::SampleIdentifier";
+      case SWCMeshIOEnums::SWCPointData::TypeIdentifier:
+        return "SWCMeshIOEnums::SWCPointData::TypeIdentifier";
+      case SWCMeshIOEnums::SWCPointData::RadiusIdentifier:
+        return "SWCMeshIOEnums::SWCPointData::RadiusIdentifier";
+      case SWCMeshIOEnums::SWCPointData::ParentIdentifier:
+        return "SWCMeshIOEnums::SWCPointData::ParentIdentifier";
+      default:
+        return "INVALID VALUE FOR SWCMeshIOEnums";
+    }
+  }();
+}
+
 SWCMeshIO ::SWCMeshIO() { this->AddSupportedWriteExtension(".swc"); }
 
 SWCMeshIO::~SWCMeshIO() = default;
