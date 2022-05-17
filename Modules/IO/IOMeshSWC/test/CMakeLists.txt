@@ -1,8 +1,8 @@
 itk_module_test()
 
-set(ITKIOMeshSWCTests itkMeshFileReadWriteTest.cxx)
+set(IOMeshSWCTests itkMeshFileReadWriteTest.cxx)
 
-createtestdriver(ITKIOMeshSWC "${ITKIOMeshSWC-Test_LIBRARIES}" "${ITKIOMeshSWCTests}")
+createtestdriver(IOMeshSWC "${IOMeshSWC-Test_LIBRARIES}" "${IOMeshSWCTests}" )
 
 itk_add_test(
   NAME itkMeshFileReadSWCTest
