@@ -39,7 +39,7 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 
   int result = EXIT_SUCCESS;
 
-  if (test<MeshType>(argv[1], argv[2], isBinary))
+  if (test<MeshType>(argv[1], argv[2], false))
   {
     std::cerr << "Failure for itk::Mesh" << std::endl;
     result = EXIT_FAILURE;
