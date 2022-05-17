@@ -142,6 +142,33 @@ public:
     os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
   }
 
+  /** Get the value of the debug flag.
+   *  Mimics the itk::Object interface so that itkDebugMacro
+   *  can be used in selective printouts from Gaussian kernel generation.*/
+  bool
+  GetDebug() const
+  {
+    return m_Debug;
+  }
+  /** Turn debugging output on.  */
+  void
+  DebugOn() const
+  {
+    m_Debug = true;
+  }
+  /** Turn debugging output off.  */
+  void
+  DebugOff() const
+  {
+    m_Debug = false;
+  }
+  /** Set the value of the debug flag. A non-zero value turns debugging on. */
+  void
+  SetDebug(bool debugFlag) const
+  {
+    m_Debug = debugFlag;
+  }
+
 public:
   /** Returns the value of the modified Bessel function I0(x) at a point x >= 0.
    */
@@ -185,6 +212,9 @@ private:
    *  that has grown too large.  A warning is given when the specified maximum
    *  error causes the kernel to exceed this size. */
   unsigned int m_MaximumKernelWidth{ 30 };
+
+  /** Enable/disable kernel generation debug warnings */
+  mutable bool m_Debug{ false };
 };
 } // namespace itk
 
