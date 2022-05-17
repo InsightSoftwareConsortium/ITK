@@ -33,8 +33,8 @@ operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value)
         return "SWCMeshIOEnums::SWCPointData::SampleIdentifier";
       case SWCMeshIOEnums::SWCPointData::TypeIdentifier:
         return "SWCMeshIOEnums::SWCPointData::TypeIdentifier";
-      case SWCMeshIOEnums::SWCPointData::RadiusIdentifier:
-        return "SWCMeshIOEnums::SWCPointData::RadiusIdentifier";
+      case SWCMeshIOEnums::SWCPointData::Radius:
+        return "SWCMeshIOEnums::SWCPointData::Radius";
       case SWCMeshIOEnums::SWCPointData::ParentIdentifier:
         return "SWCMeshIOEnums::SWCPointData::ParentIdentifier";
       default:

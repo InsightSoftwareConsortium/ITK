@@ -41,7 +41,7 @@ public:
   {
     SampleIdentifier = 0,
     TypeIdentifier,
-    RadiusIdentifier,
+    Radius,
     ParentIdentifier
   };
 };
@@ -136,6 +136,11 @@ public:
   /** Get the value of the radius at the soma if there is a single root soma point.
    * If there is not a single root soma point, this will be -1. */
   itkGetConstMacro(SomaRadius, double);
+
+  using SampleIdentifierType = int32_t;
+  using TypeIdentifierType = uint8_t;
+  using RadiusType = double;
+  using ParentIdentifierType = int32_t;
 
 protected:
   /** Write points to output stream */
