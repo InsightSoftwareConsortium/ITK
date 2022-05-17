@@ -25,6 +25,27 @@
 
 #include <fstream>
 
+/** \class SWCMeshIOEnums
+ *
+ * \brief enums for the SWCMeshIO class.
+ *
+ * \ingroup IOMeshSWC
+ */
+class SWCMeshIOEnums
+{
+public:
+  /** \class SWCPointData
+   * \ingroup IOMeshSWC
+   */
+  enum class SWCPointData : uint8_t
+  {
+    SampleIdentifier = 0,
+    TypeIdentifier,
+    RadiusIdentifier,
+    ParentIdentifier
+  };
+};
+
 namespace itk
 {
 /**
