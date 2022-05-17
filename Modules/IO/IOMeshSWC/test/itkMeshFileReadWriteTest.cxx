@@ -16,22 +16,35 @@
  *
  *=========================================================================*/
 
-#include "itkMinimalStandardRandomVariateGenerator.h"
+#include "itkMesh.h"
 
+#include "itkMeshFileTestHelper.h"
 #include "itkTestingMacros.h"
-#include "itkMath.h"
+
 
 int
-itkMinimalStandardRandomVariateGeneratorTest(int, char *[])
+itkMeshFileReadWriteTest(int argc, char * argv[])
 {
-  typedef itk::Statistics::MinimalStandardRandomVariateGenerator GeneratorType;
-  GeneratorType::Pointer                                         generator = GeneratorType::New();
+  if (argc < 3)
+  {
+    std::cerr << "Missing Parameters." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
+    return EXIT_FAILURE;
+  }
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(generator, MinimalStandardRandomVariateGenerator, RandomVariateGeneratorBase);
+  constexpr unsigned int dimension = 3;
+  using PixelType = float;
 
-  generator->Initialize(324);
+  using MeshType = itk::Mesh<PixelType, dimension>;
 
-  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(generator->GetVariate(), 1.35581, 4, 0.0001));
+  int result = EXIT_SUCCESS;
 
-  return EXIT_SUCCESS;
+  if (test<MeshType>(argv[1], argv[2], isBinary))
+  {
+    std::cerr << "Failure for itk::Mesh" << std::endl;
+    result = EXIT_FAILURE;
+  }
+
+  std::cout << "Test finished." << std::endl;
+  return result;
 }
