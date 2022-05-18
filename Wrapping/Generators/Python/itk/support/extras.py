@@ -731,7 +731,7 @@ def dict_from_image(image: "itkt.Image") -> Dict:
     """Serialize a Python itk.Image object to a pickable Python dictionary."""
     import itk
 
-    pixel_arr = itk.array_view_from_image(image)
+    pixel_arr = itk.array_from_image(image)
     imageType = wasm_type_from_image_type(image)
     return dict(
         imageType=imageType,
