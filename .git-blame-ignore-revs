@@ -90,3 +90,5 @@ fbbc7aa38cf23d0966b1dbd0f9825797e84c2502
 3291538d94d4fbdfbc718e9111fc94acdb0ee22f
 # STYLE: Fix several spelling errors
 16fd80e52046246282ef6150d33ed52273720946
+# ENH: Use https instead of http when https works
+9cd0f2053f0cf181ec4412bf896301faf0cc2092
