@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -662,7 +662,7 @@ main(int argc, char * argv[])
   //  Data for the plots was taken directly from the output that the
   //  Command/Observer in this example prints out to the console. The output
   //  was processed with the UNIX editor
-  //  \code{sed}\footnote{\url{http://www.gnu.org/software/sed/sed.html}} in
+  //  \code{sed}\footnote{\url{https://www.gnu.org/software/sed/sed.html}} in
   //  order to remove commas and brackets that were confusing for Gnuplot's
   //  parser. Both the shell script for running \code{sed} and for running
   //  {Gnuplot} are available in the directory indicated above. You may find

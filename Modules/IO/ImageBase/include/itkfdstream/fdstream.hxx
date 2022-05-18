@@ -2,7 +2,7 @@
  * file descriptore or file handles.
  *
  * See
- *      http://www.josuttis.com/cppcode
+ *      https://www.josuttis.com/cppcode
  * for details and the latest version.
  *
  * - open:

@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ namespace itk
  *    Details of this implementation can be found in the book
  *      "Medical Image Registration" by Hajnal, Hill and Hawkes.
  *      The book is available online at
- *               http://books.google.com/books?id=2dtQNsk-qBQC
+ *               https://books.google.com/books?id=2dtQNsk-qBQC
  *    The implementation of this class corresponds to equation (30) in
  *    Chapter 3 of this book. Note that by slightly changing this class
  *    it will be trivial to compute the Normalized Mutual Information

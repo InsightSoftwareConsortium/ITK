@@ -15,7 +15,7 @@ string(TIMESTAMP CONFIGURE_DATE "%Y-%m-%d %H:%M" UTC)
 ##                |    KEY                   |    VALUE                  | Description of value                            |
 ##                \--------------------------\---------------------------\-------------------------------------------------\
 set(MAPPING_VALUES "
-  MAKE_MAP_ENTRY( \"PROJECT_URL\",           \"http://www.itk.org\",      \"The URL of project.\"                     );
+  MAKE_MAP_ENTRY( \"PROJECT_URL\",           \"https://www.itk.org\",      \"The URL of project.\"                     );
   MAKE_MAP_ENTRY( \"VERSION\",               \"${ITK_VERSION}\"    ,      \"The version at configuration time.\"      );
   MAKE_MAP_ENTRY( \"CONFIGURE_DATE\",        \"${CONFIGURE_DATE}\",       \"The date of configuration.\"              );
 

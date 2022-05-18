@@ -13,20 +13,20 @@ mark_as_advanced(ITK_USE_CLANG_FORMAT)
 
 if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANG_FORMAT_EXECUTABLE}" )
   # Download pre-built binaries (about 2M ) of clang-format extracted from
-  # http://releases.llvm.org/download.html and cached on data.kitware.com
+  # https://releases.llvm.org/download.html and cached on data.kitware.com
   #
-  # Darwin               - macOS/OS X (Clang, GCC)             http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-apple-darwin.tar.xz
-  # Windows              - Windows (Visual Studio, MinGW GCC)  http://releases.llvm.org/8.0.0/LLVM-8.0.0-win64.exe
-  #                                                            http://releases.llvm.org/8.0.0/LLVM-8.0.0-win32.exe
-  # Linux                - Linux (GCC, Intel, PGI)             http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz
-  #                                                            http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz
-  #                                                            http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
-  #                                                            http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-sles11.3.tar.xz
-  #                                                            http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-armv7a-linux-gnueabihf.tar.xz
-  #                                                            http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-aarch64-linux-gnu.tar.xz
+  # Darwin               - macOS/OS X (Clang, GCC)             https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-apple-darwin.tar.xz
+  # Windows              - Windows (Visual Studio, MinGW GCC)  https://releases.llvm.org/8.0.0/LLVM-8.0.0-win64.exe
+  #                                                            https://releases.llvm.org/8.0.0/LLVM-8.0.0-win32.exe
+  # Linux                - Linux (GCC, Intel, PGI)             https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-14.04.tar.xz
+  #                                                            https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-16.04.tar.xz
+  #                                                            https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-gnu-ubuntu-18.04.tar.xz
+  #                                                            https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-linux-sles11.3.tar.xz
+  #                                                            https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-armv7a-linux-gnueabihf.tar.xz
+  #                                                            https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-aarch64-linux-gnu.tar.xz
   #
-  # FreeBSD              - FreeBSD                             http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-amd64-unknown-freebsd11.tar.xz
-  #                                                            http://releases.llvm.org/8.0.0/clang+llvm-8.0.0-i386-unknown-freebsd11.tar.xz
+  # FreeBSD              - FreeBSD                             https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-amd64-unknown-freebsd11.tar.xz
+  #                                                            https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-i386-unknown-freebsd11.tar.xz
   #
   # Android              - Android NDK (GCC, Clang)
   # CrayLinuxEnvironment - Cray supercomputers (Cray compiler)

@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -89,7 +89,7 @@ extern ITKIONIFTI_EXPORT std::ostream &
  * Nifti IMAGE FILE FORMAT - As much information as I can determine from sourceforge.net/projects/Niftilib
  *
  * The specification for this file format is taken from the
- * web site http://analyzedirect.com/support/10.0Documents/Analyze_Resource_01.pdf
+ * web site https://analyzedirect.com/support/10.0Documents/Analyze_Resource_01.pdf
  *
  * \ingroup IOFilters
  * \ingroup ITKIONIFTI

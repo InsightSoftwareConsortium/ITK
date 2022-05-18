@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -65,7 +65,7 @@ itkScalarImageToHistogramGeneratorTest(int argc, char * argv[])
   histogramGenerator->SetNumberOfBins(NumberOfBins);
   histogramGenerator->SetMarginalScale(1.0);
   // BUG revealed.  Solution is located at:
-  // http://public.kitware.com/Bug/view.php?id=10025
+  // https://public.kitware.com/Bug/view.php?id=10025
   histogramGenerator->SetHistogramMin(imageMin);
   histogramGenerator->SetHistogramMax(imageMax);
   histogramGenerator->Compute();

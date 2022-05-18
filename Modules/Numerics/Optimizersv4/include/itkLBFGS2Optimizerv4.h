@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -129,7 +129,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
  *
  * References:
  *
- * [1] [libLBFGS](http://www.chokkan.org/software/liblbfgs/)
+ * [1] [libLBFGS](https://www.chokkan.org/software/liblbfgs/)
  *
  * [2] [NETLIB lbfgs](http://users.iems.northwestern.edu/~nocedal/lbfgs.html)
  *

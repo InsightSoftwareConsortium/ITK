@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -40,7 +40,7 @@ namespace itk
  * (Gaussian) for the bias field and does not require tissue class segmentation.
  * In addition, there are only a couple of parameters to tune with the default
  * values performing quite well. N3 has been publicly available as a set of
- * perl scripts (http://www.bic.mni.mcgill.ca/ServicesSoftwareAdvancedImageProcessingTools/HomePage)
+ * perl scripts (https://www.bic.mni.mcgill.ca/ServicesSoftwareAdvancedImageProcessingTools/HomePage)
  *
  * The N4 algorithm, encapsulated with this class, is a variation of the original
  * N3 algorithm with the additional benefits of an improved B-spline fitting

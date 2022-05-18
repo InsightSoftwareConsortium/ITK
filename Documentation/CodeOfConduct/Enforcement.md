@@ -20,7 +20,7 @@ temporary or permanent ban from the ITK spaces.
 In order to make sure that the response to any incident, issue, violation or
 breach of this Code of Conduct issue is consistent and fair, all responses to
 reports of conduct violations will be managed by the [ISC Code of Conduct
-Committee](http://www.insightsoftwareconsortium.org/) ("the Committee"
+Committee](https://www.insightsoftwareconsortium.org/) ("the Committee"
 hereafter). The Committee is currently composed by:
 
   * [Matthew McCormick](mailto:mmatt.mccormick@kitware.com), the ISC President

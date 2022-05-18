@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -273,7 +273,7 @@ LinuxMemoryUsageObserver::~LinuxMemoryUsageObserver() = default;
 
 /** Get Memory Usage - Linux version.
  *  Reference for method used:
- *  http://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-run-time-in-c
+ *  https://stackoverflow.com/questions/669438/how-to-get-memory-usage-at-run-time-in-c
  */
 MemoryUsageObserverBase::MemoryLoadType
 LinuxMemoryUsageObserver::GetMemoryUsage()
@@ -315,7 +315,7 @@ MacOSXMemoryUsageObserver::GetMemoryUsage()
 {
   //
   // this method comes from
-  // http://stackoverflow.com/questions/5839626/how-is-top-able-to-see-memory-usage
+  // https://stackoverflow.com/questions/5839626/how-is-top-able-to-see-memory-usage
   task_t                 targetTask = mach_task_self();
   struct task_basic_info ti;
   mach_msg_type_number_t count = TASK_BASIC_INFO_64_COUNT;

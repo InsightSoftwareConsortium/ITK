@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -179,7 +179,7 @@ oneTest(const char * goodname, const char * badname)
 // test endless loop bug in transform reader, triggered by no
 // EOL at end of file.
 // This test will exercise this reported bug:
-// http://public.kitware.com/Bug/view.php?id=7028
+// https://public.kitware.com/Bug/view.php?id=7028
 template <typename TParametersValueType>
 int
 secondTest()

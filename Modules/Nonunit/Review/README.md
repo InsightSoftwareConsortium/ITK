@@ -39,7 +39,7 @@ component of the ITK toolkit, and as a result will be removed from this
 directory.
 
 If you have any questions regarding the status of classes in this directory,
-please post a message to the ITK users or the [ITK discussion forum](http://discourse.itk.org).
+please post a message to the ITK users or the [ITK discussion forum](https://discourse.itk.org).
 Please make sure that you mention what exact version of ITK you are using.
 
 

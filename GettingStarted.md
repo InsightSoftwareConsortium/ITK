@@ -28,4 +28,4 @@ information.
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [Sphinx examples]: https://itk.org/ITKExamples
 
-[CMake]: http://cmake.org
+[CMake]: https://cmake.org

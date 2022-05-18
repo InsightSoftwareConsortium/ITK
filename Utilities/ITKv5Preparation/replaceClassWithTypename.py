@@ -57,6 +57,6 @@ was added. It is sometimes stated [2] that "typename" is marginally more
 expressive in its intent and ITK should consistently use "typename" instead of
 "class".
 
-[1] http://www.vtk.org/Wiki/ITK/Coding_Style_Guide
-[2] http://blogs.msdn.com/b/slippman/archive/2004/08/11/212768.aspx
+[1] https://www.vtk.org/Wiki/ITK/Coding_Style_Guide
+[2] https://blogs.msdn.com/b/slippman/archive/2004/08/11/212768.aspx
 """

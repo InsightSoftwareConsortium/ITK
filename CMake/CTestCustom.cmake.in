@@ -10,10 +10,10 @@
 #----------------------------------------------------------------------
 #
 # For further details regarding this file,
-# see http://www.cmake.org/Wiki/CMake_Testing_With_CTest#Customizing_CTest
+# see https://www.cmake.org/Wiki/CMake_Testing_With_CTest#Customizing_CTest
 #
 # and
-# http://www.kitware.com/blog/home/post/27
+# https://www.kitware.com/blog/home/post/27
 #
 #----------------------------------------------------------------------
 

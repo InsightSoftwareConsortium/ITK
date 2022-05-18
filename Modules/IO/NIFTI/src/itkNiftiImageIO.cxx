@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -1743,7 +1743,7 @@ Normalize(std::vector<double> & x)
 }
 
 // These helpful routines
-// http://callumhay.blogspot.com/2010/10/decomposing-affine-transforms.html
+// https://callumhay.blogspot.com/2010/10/decomposing-affine-transforms.html
 // are used to check the status of the sform matrix.
 
 /**

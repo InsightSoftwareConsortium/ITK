@@ -3,7 +3,7 @@ ITK Community Participation Guidelines
 
 Version 1.0 – Updated May, 2018
 
-The [Insight Software Consortium](http://www.insightsoftwareconsortium.org/)
+The [Insight Software Consortium](https://www.insightsoftwareconsortium.org/)
 (ISC) as the copyright holder of the Insight
 Toolkit (ITK) has adopted the following Code of
 Conduct for ITK.
@@ -414,15 +414,15 @@ modification from
   * [Jupyter](https://github.com/jupyter/governance/blob/master/conduct/code_of_conduct.md)
   * [The Linux Foundation](https://www.linuxfoundation.org/events/code-of-conduct/)
   * [Ubuntu](https://www.ubuntu.com/about/about-ubuntu/conduct)
-  * [Brainhack](http://www.brainhack.org/code-of-conduct.html)
+  * [Brainhack](https://www.brainhack.org/code-of-conduct.html)
   * [Mozilla](https://www.mozilla.org/en-US/about/governance/policies/participation/)
   * [Contributor Covenant](https://www.contributor-covenant.org/)
 
 Additional text from the
 [Citizen Code of Conduct](http://citizencodeofconduct.org), the
-[Geek Feminism Wiki Harassment Policy contents](http://geekfeminism.wikia.com/wiki/Category:Harassment_policy),
+[Geek Feminism Wiki Harassment Policy contents](https://geekfeminism.wikia.com/wiki/Category:Harassment_policy),
 and the
-[TODO Group Open Code of Conduct](http://todogroup.org/opencodeofconduct/)
+[TODO Group Open Code of Conduct](https://todogroup.org/opencodeofconduct/)
 have also been adapted to build this Code of Conduct.
 
 We are grateful to those projects for contributing these materials under open

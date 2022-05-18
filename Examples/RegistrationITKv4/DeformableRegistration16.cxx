@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -71,7 +71,7 @@ POSSIBILITY OF SUCH DAMAGE.
 //       Vidya Rajagopalan, Bioimaging Systems Lab, Virginia Tech
 //
 //   The example was improved during the NAMIC programming week on July 2008
-//   http://wiki.na-mic.org/Wiki/index.php/2008_Summer_Project_Week
+//   https://wiki.na-mic.org/Wiki/index.php/2008_Summer_Project_Week
 //
 //   National Alliance for Medical Image Computing (NAMIC),
 //   funded by the National Institutes of Health

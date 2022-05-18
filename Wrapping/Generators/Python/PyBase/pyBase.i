@@ -68,7 +68,7 @@ str = str
 
 // This macro replaces the use of itk::SmartPointer.
 // class_name is class name without namespace qualifiers.
-// Reference: http://www.nabble.com/attachment/16653644/0/SwigRefCount.i
+// Reference: https://www.nabble.com/attachment/16653644/0/SwigRefCount.i
 %define DECLARE_REF_COUNT_CLASS(class_name)
 
         // pointers and references

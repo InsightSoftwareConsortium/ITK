@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -60,10 +60,10 @@ namespace itk
  * Martin Styner contributed to the ITK users list during a discussion on
  * support for DiffusionTensorImages. The funding for creating this class was
  * largely provided by NAMIC (National Alliance for Medical Image Computing)
- * (http://www.na-mic.org). A discussion on the design of this class can be
+ * (https://www.na-mic.org). A discussion on the design of this class can be
  * found in the WIKI pages of NAMIC:
  *
- * http://www.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:ITK-DiffusionTensorPixelType
+ * https://www.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:ITK-DiffusionTensorPixelType
  *
  * \sa DiffusionTensor3D
  *

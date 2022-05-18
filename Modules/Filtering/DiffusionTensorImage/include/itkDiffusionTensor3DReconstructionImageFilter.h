@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -79,7 +79,7 @@ extern ITKDiffusionTensorImage_EXPORT std::ostream &
    \endcode
  * Note that this method is used to specify both the reference and gradient images.
  * This is convenient when the DWI images are read in using the
- * <a href="http://wiki.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:Nrrd_format">NRRD</a>
+ * <a href="https://wiki.na-mic.org/Wiki/index.php/NAMIC_Wiki:DTI:Nrrd_format">NRRD</a>
  * format. Like the Nrrd format, the reference images are those components of the
  * vectorImage whose gradient direction is (0,0,0). If more than one reference image
  * is present, they are averaged prior to applying the Stejskal-Tanner equations.

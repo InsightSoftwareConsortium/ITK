@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ namespace itk
  * "Conformal Flattening ITK Filter"
  * by Gao Y., Melonakos J., Tannenbaum A.
  * https://hdl.handle.net/1926/225
- * http://www.insight-journal.org/browse/publication/112
+ * https://www.insight-journal.org/browse/publication/112
  *
  * \ingroup MeshFilters
  * \sa TransformMeshFilter

@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -393,7 +393,7 @@ main(int argc, char * argv[])
   //  Let's execute this example over some of the images available in the
   //  following website
   //
-  //  \url{http://public.kitware.com/pub/itk/Data/BrainWeb}.
+  //  \url{https://public.kitware.com/pub/itk/Data/BrainWeb}.
   //
   //  Note that the images in this website are compressed in \code{.tgz}
   //  files. You should download these files and decompress them in your local

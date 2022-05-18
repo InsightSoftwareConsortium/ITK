@@ -132,5 +132,5 @@ different release. One may list available tags using:
 
 [CMake]: https://cmake.org/
 
-[Git]: http://git-scm.com
+[Git]: https://git-scm.com
 [PyPI]: https://pypi.python.org/pypi

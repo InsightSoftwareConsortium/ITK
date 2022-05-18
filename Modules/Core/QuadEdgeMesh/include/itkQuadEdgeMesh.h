@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -210,9 +210,9 @@ public:
 
   /** Overloaded to avoid a bug in Mesh that prevents proper inheritance
    * Refer to
-   * http://public.kitware.com/pipermail/insight-users/2005-March/012459.html
+   * https://public.kitware.com/pipermail/insight-users/2005-March/012459.html
    * and
-   * http://public.kitware.com/pipermail/insight-users/2005-April/012613.html
+   * https://public.kitware.com/pipermail/insight-users/2005-April/012613.html
    */
   void
   CopyInformation(const DataObject * data) override

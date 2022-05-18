@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,7 +19,7 @@
  * a deformation field from the transform, and uses the WarpImageFilter and
  * compares the two results to ensure that the same answer is found in both cases.
  * This test was written by Yong Quaing Zhao in order to address bug
- * 0008930http://public.kitware.com/Bug/view.php?id=8930
+ * 0008930https://public.kitware.com/Bug/view.php?id=8930
  */
 
 #include <fstream>

@@ -7,7 +7,7 @@
 #   you may not use this file except in compliance with the License.
 #   You may obtain a copy of the License at
 #
-#          http://www.apache.org/licenses/LICENSE-2.0.txt
+#          https://www.apache.org/licenses/LICENSE-2.0.txt
 #
 #   Unless required by applicable law or agreed to in writing, software
 #   distributed under the License is distributed on an "AS IS" BASIS,
@@ -37,7 +37,7 @@ NewITKCopyrightNotice = """/*===================================================
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -70,7 +70,7 @@ ITKVTKOldRE = re.compile(ITKVTKOldHeader, re.MULTILINE | re.DOTALL | re.IGNORECA
 
 ## Looking for new files.
 NewITKHeader = (
-    r""" */\* *==.*http://www.apache.org/licenses/LICENSE-2.0.txt.*=== *\*/"""
+    r""" */\* *==.*https://www.apache.org/licenses/LICENSE-2.0.txt.*=== *\*/"""
 )
 NewITKHeaderRE = re.compile(NewITKHeader, re.MULTILINE | re.DOTALL | re.IGNORECASE)
 
