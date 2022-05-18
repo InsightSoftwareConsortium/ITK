@@ -46,6 +46,8 @@ public:
     ParentIdentifier
   };
 };
+extern IOMeshSWC_EXPORT std::ostream &
+operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value);
 
 namespace itk
 {
@@ -138,35 +140,53 @@ public:
    * If there is not a single root soma point, this will be -1. */
   itkGetConstMacro(SomaRadius, double);
 
-  using SampleIdentifierType = int32_t;
+  using SampleIdentifierType = int16_t;
   using TypeIdentifierType = uint8_t;
   using RadiusType = double;
-  using ParentIdentifierType = int32_t;
+  using ParentIdentifierType = int16_t;
 
   using SampleIdentifierContainerType = VectorContainer<IdentifierType, SampleIdentifierType>;
   using TypeIdentifierContainerType = VectorContainer<IdentifierType, TypeIdentifierType>;
   using RadiusContainerType = VectorContainer<IdentifierType, RadiusType>;
   using ParentIdentifierContainerType = VectorContainer<IdentifierType, ParentIdentifierType>;
 
+  /** Set/Get the sample identifiers. */
   void
   SetSampleIdentifiers(const SampleIdentifierContainerType *);
   const SampleIdentifierContainerType *
   GetSampleIdentifiers() const;
 
+  /** Set/Get the type identifiers.
+   *  0 - undefined
+   *  1 - soma
+   *  2 - axon
+   *  3 - (basal) dendrite
+   *  4 - apical dendrite
+   *  5 - custom
+   *  6 - unspecified neurite
+   *  7 - glia processes
+   */
   void
   SetTypeIdentifiers(const TypeIdentifierContainerType *);
   const TypeIdentifierContainerType *
   GetTypeIdentifiers() const;
 
+
+  /** Set/Get the Radius in micrometers (half the node thickness). */
   void
   SetRadii(const RadiusContainerType *);
   const RadiusContainerType *
   GetRadii() const;
 
+  /** Set/Get the parent sample identifiers. */
   void
   SetParentIdentifiers(const ParentIdentifierContainerType *);
   const ParentIdentifierContainerType *
   GetParentIdentifiers() const;
+
+  /** Set/Get the content of the point data on the input/output itk::Mesh. */
+  itkGetConstMacro(PointDataContent, SWCMeshIOEnums::SWCPointData);
+  itkSetMacro(PointDataContent, SWCMeshIOEnums::SWCPointData);
 
 protected:
   /** Write points to output stream */
@@ -227,6 +247,8 @@ private:
   TypeIdentifierContainerType::Pointer   m_TypeIdentifiers;
   RadiusContainerType::Pointer           m_Radii;
   ParentIdentifierContainerType::Pointer m_ParentIdentifiers;
+
+  SWCMeshIOEnums::SWCPointData m_PointDataContent{ SWCMeshIOEnums::SWCPointData::TypeIdentifier };
 };
 } // end namespace itk
 
