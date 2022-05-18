@@ -136,10 +136,6 @@ public:
   void
   Write() override;
 
-  /** Get the value of the radius at the soma if there is a single root soma point.
-   * If there is not a single root soma point, this will be -1. */
-  itkGetConstMacro(SomaRadius, double);
-
   using SampleIdentifierType = int16_t;
   using TypeIdentifierType = uint8_t;
   using RadiusType = double;
@@ -240,8 +236,6 @@ private:
   SizeValueType    m_PartId;
   SizeValueType    m_FirstCellId;
   SizeValueType    m_LastCellId;
-
-  double m_SomaRadius{ -1. };
 
   SampleIdentifierContainerType::Pointer m_SampleIdentifiers;
   TypeIdentifierContainerType::Pointer   m_TypeIdentifiers;
