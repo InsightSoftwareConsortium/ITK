@@ -58,6 +58,11 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
     result = EXIT_FAILURE;
   }
 
+  auto swcMeshIOOutput = itk::SWCMeshIO::New();
+  swcMeshIOOutput->SetFileName(outputFileName);
+
+  swcMeshIOOutput->SetSampleIdentifiers(swcMeshIO->GetSampleIdentifiers());
+
   std::cout << "Test finished." << std::endl;
   return result;
 }

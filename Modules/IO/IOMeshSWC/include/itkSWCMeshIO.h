@@ -22,6 +22,7 @@
 
 #include "itkMeshIOBase.h"
 #include "itkNumberToString.h"
+#include "itkVectorContainer.h"
 
 #include <fstream>
 
@@ -142,6 +143,16 @@ public:
   using RadiusType = double;
   using ParentIdentifierType = int32_t;
 
+  using SampleIdentifierContainerType = VectorContainer<IdentifierType, SampleIdentifierType>;
+  using TypeIdentifierContainerType = VectorContainer<IdentifierType, TypeIdentifierType>;
+  using RadiusContainerType = VectorContainer<IdentifierType, RadiusType>;
+  using ParentIdentifierContainerType = VectorContainer<IdentifierType, ParentIdentifierType>;
+
+  void
+  SetSampleIdentifiers(const SampleIdentifierContainerType *);
+  const SampleIdentifierContainerType *
+  GetSampleIdentifiers() const;
+
 protected:
   /** Write points to output stream */
   template <typename T>
@@ -196,6 +207,8 @@ private:
   SizeValueType    m_LastCellId;
 
   double m_SomaRadius{ -1. };
+
+  SampleIdentifierContainerType::Pointer m_SampleIdentifiers;
 };
 } // end namespace itk
 

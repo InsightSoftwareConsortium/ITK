@@ -43,7 +43,12 @@ operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value)
   }();
 }
 
-SWCMeshIO ::SWCMeshIO() { this->AddSupportedWriteExtension(".swc"); }
+SWCMeshIO ::SWCMeshIO()
+{
+  this->AddSupportedWriteExtension(".swc");
+
+  m_SampleIdentifiers = SampleIdentifierContainerType::New();
+}
 
 SWCMeshIO::~SWCMeshIO() = default;
 
@@ -507,4 +512,23 @@ SWCMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "First Cell Id: " << m_FirstCellId << std::endl;
   os << indent << "Last Cell Id: " << m_LastCellId << std::endl;
 }
+
+void
+SWCMeshIO ::SetSampleIdentifiers(const SampleIdentifierContainerType * sampleIdentifiers)
+{
+  const SizeValueType size = sampleIdentifiers->Size();
+  m_SampleIdentifiers->resize(size);
+  for (SizeValueType ii = 0; ii < size; ++ii)
+  {
+    m_SampleIdentifiers->SetElement(ii, sampleIdentifiers->GetElement(ii));
+  }
+  this->Modified();
+}
+
+auto
+SWCMeshIO ::GetSampleIdentifiers() const -> const SampleIdentifierContainerType *
+{
+  return m_SampleIdentifiers;
+}
+
 } // namespace itk
