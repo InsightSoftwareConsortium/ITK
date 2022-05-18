@@ -48,6 +48,9 @@ SWCMeshIO ::SWCMeshIO()
   this->AddSupportedWriteExtension(".swc");
 
   m_SampleIdentifiers = SampleIdentifierContainerType::New();
+  m_TypeIdentifiers = TypeIdentifierContainerType::New();
+  m_Radii = RadiusContainerType::New();
+  m_ParentIdentifiers = ParentIdentifierContainerType::New();
 }
 
 SWCMeshIO::~SWCMeshIO() = default;
@@ -529,6 +532,60 @@ auto
 SWCMeshIO ::GetSampleIdentifiers() const -> const SampleIdentifierContainerType *
 {
   return m_SampleIdentifiers;
+}
+
+void
+SWCMeshIO ::SetTypeIdentifiers(const TypeIdentifierContainerType * typeIdentifiers)
+{
+  const SizeValueType size = typeIdentifiers->Size();
+  m_TypeIdentifiers->resize(size);
+  for (SizeValueType ii = 0; ii < size; ++ii)
+  {
+    m_TypeIdentifiers->SetElement(ii, typeIdentifiers->GetElement(ii));
+  }
+  this->Modified();
+}
+
+auto
+SWCMeshIO ::GetTypeIdentifiers() const -> const TypeIdentifierContainerType *
+{
+  return m_TypeIdentifiers;
+}
+
+void
+SWCMeshIO ::SetRadii(const RadiusContainerType * radii)
+{
+  const SizeValueType size = radii->Size();
+  m_Radii->resize(size);
+  for (SizeValueType ii = 0; ii < size; ++ii)
+  {
+    m_Radii->SetElement(ii, radii->GetElement(ii));
+  }
+  this->Modified();
+}
+
+auto
+SWCMeshIO ::GetRadii() const -> const RadiusContainerType *
+{
+  return m_Radii;
+}
+
+void
+SWCMeshIO ::SetParentIdentifiers(const ParentIdentifierContainerType * parentIdentifiers)
+{
+  const SizeValueType size = parentIdentifiers->Size();
+  m_ParentIdentifiers->resize(size);
+  for (SizeValueType ii = 0; ii < size; ++ii)
+  {
+    m_ParentIdentifiers->SetElement(ii, parentIdentifiers->GetElement(ii));
+  }
+  this->Modified();
+}
+
+auto
+SWCMeshIO ::GetParentIdentifiers() const -> const ParentIdentifierContainerType *
+{
+  return m_ParentIdentifiers;
 }
 
 } // namespace itk

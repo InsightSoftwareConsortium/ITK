@@ -153,6 +153,21 @@ public:
   const SampleIdentifierContainerType *
   GetSampleIdentifiers() const;
 
+  void
+  SetTypeIdentifiers(const TypeIdentifierContainerType *);
+  const TypeIdentifierContainerType *
+  GetTypeIdentifiers() const;
+
+  void
+  SetRadii(const RadiusContainerType *);
+  const RadiusContainerType *
+  GetRadii() const;
+
+  void
+  SetParentIdentifiers(const ParentIdentifierContainerType *);
+  const ParentIdentifierContainerType *
+  GetParentIdentifiers() const;
+
 protected:
   /** Write points to output stream */
   template <typename T>
@@ -209,6 +224,9 @@ private:
   double m_SomaRadius{ -1. };
 
   SampleIdentifierContainerType::Pointer m_SampleIdentifiers;
+  TypeIdentifierContainerType::Pointer   m_TypeIdentifiers;
+  RadiusContainerType::Pointer           m_Radii;
+  ParentIdentifierContainerType::Pointer m_ParentIdentifiers;
 };
 } // end namespace itk
 

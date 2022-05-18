@@ -62,6 +62,9 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
   swcMeshIOOutput->SetFileName(outputFileName);
 
   swcMeshIOOutput->SetSampleIdentifiers(swcMeshIO->GetSampleIdentifiers());
+  swcMeshIOOutput->SetTypeIdentifiers(swcMeshIO->GetTypeIdentifiers());
+  swcMeshIOOutput->SetRadii(swcMeshIO->GetRadii());
+  swcMeshIOOutput->SetParentIdentifiers(swcMeshIO->GetParentIdentifiers());
 
   std::cout << "Test finished." << std::endl;
   return result;
