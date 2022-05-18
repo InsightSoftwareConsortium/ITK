@@ -24,9 +24,21 @@ if(ITK_USE_GPU AND APPLE AND NOT ITK_COMPILER_HAS_BLOCKS)
 endif()
 
 if(ITK_USE_GPU)
-  set(ITKGPUCommon_LIBRARIES ITKGPUCommon)
+  if(APPLE)
+    set(ITKGPUCommon_LIBRARIES ITKGPUCommon "-framework OpenCL")
+  elseif(WINDOWS)
+    set(ITKGPUCommon_LIBRARIES ITKGPUCommon cfgmgr32 OneCoreUAP)
+  else()
+    set(ITKGPUCommon_LIBRARIES ITKGPUCommon)
+  endif()
+
   set(ITKGPUCommon_SYSTEM_INCLUDE_DIRS ${OPENCL_INCLUDE_DIRS})
-  set(ITKGPUCommon_SYSTEM_LIBRARY_DIRS ${OPENCL_LIBRARIES})
+
+  if(WINDOWS)
+    set(ITKGPUCommon_SYSTEM_LIBRARY_DIRS ${OPENCL_LIBRARIES} cfgmgr32 OneCoreUAP)
+  else()
+    set(ITKGPUCommon_SYSTEM_LIBRARY_DIRS ${OPENCL_LIBRARIES})
+  endif()
 endif()
 
 if(NOT ITK_SOURCE_DIR)
