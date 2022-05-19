@@ -34,12 +34,19 @@ __all__ = [
 ]
 
 
-def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
+def xarray_from_image(l_image: "itkt.ImageOrImageSource", view:bool=False) -> "xr.DataArray":
     """Convert an itk.Image to an xarray.DataArray.
 
     Origin and spacing metadata is preserved in the xarray's coords. The
     Direction is set in the `direction` attribute.
     Dims are labeled as `x`, `y`, `z`, `t`, and `c`.
+
+    view may be set to True to get an xarray referencing the ITK image data container
+    rather than an entirely new copy. This is best used in the narrow case where
+      1. poor copy performance impacts larger operations, such as for a large image, and
+      2. the underlying ITK image will not release its data during the xarray lifetime.
+    In most cases view should be set to False so that the lifetime of the xarray data
+    is independent of the ITK pipeline.
 
     This interface is and behavior is experimental and is subject to possible
     future changes."""
@@ -47,7 +54,10 @@ def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
     import itk
     import numpy as np
 
-    array_view = itk.array_view_from_image(l_image)
+    if view:
+        array = itk.array_view_from_image(l_image)
+    else:
+        array = itk.array_from_image(l_image)
     l_spacing = itk.spacing(l_image)
     l_origin = itk.origin(l_image)
     l_size = itk.size(l_image)
@@ -81,7 +91,7 @@ def xarray_from_image(l_image: "itkt.ImageOrImageSource") -> "xr.DataArray":
     if l_image.GetObjectName():
         name = l_image.GetObjectName()
     data_array = xr.DataArray(
-        array_view, name=name, dims=dims, coords=coords, attrs=attrs
+        array, name=name, dims=dims, coords=coords, attrs=attrs
     )
     return data_array
 
