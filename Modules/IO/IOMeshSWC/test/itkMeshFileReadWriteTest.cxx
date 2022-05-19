@@ -56,21 +56,27 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
     result = EXIT_FAILURE;
   }
 
+  swcMeshIO->ReadMeshInformation();
+
   ITK_EXERCISE_BASIC_OBJECT_METHODS(swcMeshIO, SWCMeshIO, MeshIOBase);
 
-  auto swcMeshIOOutput = itk::SWCMeshIO::New();
-  swcMeshIOOutput->SetFileName(outputFileName);
-  if (!swcMeshIOOutput->CanWriteFile(outputFileName))
+  std::string outputFileNameStr(outputFileName);
+  if (outputFileNameStr.substr(outputFileNameStr.size() - 3) == "swc")
   {
-    std::cerr << "CanWriteFile did not succeed with the output file.";
-    result = EXIT_FAILURE;
-  }
+    auto swcMeshIOOutput = itk::SWCMeshIO::New();
+    swcMeshIOOutput->SetFileName(outputFileName);
+    if (!swcMeshIOOutput->CanWriteFile(outputFileName))
+    {
+      std::cerr << "CanWriteFile did not succeed with the output file.";
+      result = EXIT_FAILURE;
+    }
 
-  swcMeshIOOutput->SetSampleIdentifiers(swcMeshIO->GetSampleIdentifiers());
-  swcMeshIOOutput->SetTypeIdentifiers(swcMeshIO->GetTypeIdentifiers());
-  swcMeshIOOutput->SetRadii(swcMeshIO->GetRadii());
-  swcMeshIOOutput->SetParentIdentifiers(swcMeshIO->GetParentIdentifiers());
-  swcMeshIOOutput->SetHeaderContent(swcMeshIO->GetHeaderContent());
+    swcMeshIOOutput->SetSampleIdentifiers(swcMeshIO->GetSampleIdentifiers());
+    swcMeshIOOutput->SetTypeIdentifiers(swcMeshIO->GetTypeIdentifiers());
+    swcMeshIOOutput->SetRadii(swcMeshIO->GetRadii());
+    swcMeshIOOutput->SetParentIdentifiers(swcMeshIO->GetParentIdentifiers());
+    swcMeshIOOutput->SetHeaderContent(swcMeshIO->GetHeaderContent());
+  }
 
   std::cout << "Test finished." << std::endl;
   return result;

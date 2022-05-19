@@ -87,15 +87,40 @@ SWCMeshIO ::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
   std::ifstream inputFile;
-
-  // Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
-  // open the file with std::ios::binary
   inputFile.open(this->m_FileName.c_str(), std::ios::in);
-
   if (!inputFile.is_open())
   {
     itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
   }
+
+  std::string line;
+  std::getline(inputFile, line);
+
+  m_HeaderContent.clear();
+  bool inHeader = true;
+  while (inHeader && !inputFile.eof())
+  {
+    const size_t first = line.find_first_of('#');
+    if (first == std::string::npos)
+    {
+      inHeader = false;
+    }
+    else
+    {
+      m_HeaderContent.push_back(line.substr(first + 1));
+    }
+
+    std::getline(inputFile, line);
+  }
+
+  SizeValueType numberOfPoints = 0;
+  while (!inputFile.eof())
+  {
+    ++numberOfPoints;
+    std::cout << "line: " << line << std::endl;
+    std::getline(inputFile, line);
+  }
+  this->SetNumberOfPoints(numberOfPoints);
 
   this->m_PointDimension = 3;
   this->m_FileType = IOFileEnum::ASCII;
@@ -106,53 +131,47 @@ SWCMeshIO ::ReadMeshInformation()
     this->m_UpdatePoints = true;
   }
 
-  // If number of cells is not equal zero, update points
-  if (this->m_NumberOfCells)
-  {
-    this->m_UpdateCells = true;
-  }
-
   // Set default point component type
   this->m_PointComponentType = IOComponentEnum::DOUBLE;
 
-  // Read and omit points
-  double x;
-  for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
-  {
-    for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
-    {
-      inputFile >> x;
-    }
-  }
+  // // Read and omit points
+  // double x;
+  // for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+  // {
+  //   for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
+  //   {
+  //     inputFile >> x;
+  //   }
+  // }
 
-  // Determine cellbuffersize
-  int ptId;
-  this->m_CellBufferSize = 0;
-  SizeValueType numLines = 0;
-  while (numLines < this->m_NumberOfCells)
-  {
-    inputFile >> ptId;
+  // // Determine cellbuffersize
+  // int ptId;
+  // this->m_CellBufferSize = 0;
+  // SizeValueType numLines = 0;
+  // while (numLines < this->m_NumberOfCells)
+  // {
+  //   inputFile >> ptId;
 
-    this->m_CellBufferSize++;
-    if (ptId < 0)
-    {
-      numLines++;
-    }
-  }
+  //   this->m_CellBufferSize++;
+  //   if (ptId < 0)
+  //   {
+  //     numLines++;
+  //   }
+  // }
 
-  // Set default cell component type
-  this->m_CellComponentType = IOComponentEnum::UINT;
-  this->m_CellBufferSize += this->m_NumberOfCells * 2;
+  // // Set default cell component type
+  // this->m_CellComponentType = IOComponentEnum::UINT;
+  // this->m_CellBufferSize += this->m_NumberOfCells * 2;
 
-  // Set default point pixel component and point pixel type
-  this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-  this->m_PointPixelType = IOPixelEnum::SCALAR;
-  this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  // // Set default point pixel component and point pixel type
+  // this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+  // this->m_PointPixelType = IOPixelEnum::SCALAR;
+  // this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
 
-  // Set default cell pixel component and point pixel type
-  this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-  this->m_CellPixelType = IOPixelEnum::SCALAR;
-  this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  // // Set default cell pixel component and point pixel type
+  // this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
+  // this->m_CellPixelType = IOPixelEnum::SCALAR;
+  // this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
 
   inputFile.close();
 }
@@ -277,13 +296,13 @@ SWCMeshIO ::WriteMeshInformation()
   }
 
   // Write SWC file header
-  Indent indent(7);
-  outputFile << indent << 1;
-  outputFile << indent << this->m_NumberOfPoints;
-  outputFile << indent << this->m_NumberOfCells;
-  outputFile << indent << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl;
-  outputFile << indent << 1;
-  outputFile << indent << this->m_NumberOfCells << std::endl;
+  // Indent indent(7);
+  // outputFile << indent << 1;
+  // outputFile << indent << this->m_NumberOfPoints;
+  // outputFile << indent << this->m_NumberOfCells;
+  // outputFile << indent << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl;
+  // outputFile << indent << 1;
+  // outputF ile << indent << this->m_NumberOfCells << std::endl;
 
   outputFile.close();
 }
