@@ -3,6 +3,8 @@ pyi_generator.py \
   Wrapping/Generators/Python/itk-pkl/itkFixedArray.index.txt \
   Wrapping/Generators/Python/itk-pkl/itkVector.index.txt
 """
+
+import os
 from os import remove
 from argparse import ArgumentParser
 from io import StringIO
@@ -514,12 +516,12 @@ if __name__ == "__main__":
         help="The directory for .pkl files to be generated",
     )
     cmdln_arg_parser.add_argument(
-        "--index_files",
+        "--index_list_file",
         action="store",
-        dest="index_files",
+        dest="index_list_file",
         default="",
         type=str,
-        help="The index files containing pickle file references",
+        help="Configured file listing the index files containing pickle file references",
     )
     cmdln_arg_parser.add_argument(
         "-d",
@@ -533,10 +535,15 @@ if __name__ == "__main__":
         except_comment = f"Invalid directory provided '{options.pkl_dir}'"
         raise Exception(except_comment)
 
-    index_files = set(options.index_files.strip("; ").split(";"))
+    # Read index filepaths from configured file.
+    # Passing this information through a file allows us to circumvent
+    # command length constraints on Windows.
+    index_files_txt = options.index_list_file.strip()
+    with open(index_files_txt, 'r') as f:
+        index_files = set(f.read().strip().split(';'))
 
     # All index files for python pickled pyi classes:
-    existing_index_files = set(glob.glob(f"{options.pkl_dir}/*.index.txt"))
+    existing_index_files = set([filepath.replace(os.sep, '/') for filepath in glob.glob(f"{options.pkl_dir}/*.index.txt")])
 
     invalid_index_files = existing_index_files - index_files
     missing_index_files = index_files - existing_index_files
@@ -567,7 +574,7 @@ if __name__ == "__main__":
             for line in file:
                 indexed_pickled_files.add(line.strip())
 
-    existing_pickled_files = set(glob.glob(f"{options.pkl_dir}/*.pkl"))
+    existing_pickled_files = set([filepath.replace(os.sep, '/') for filepath in glob.glob(f"{options.pkl_dir}/*.pkl")])
 
     invalid_pickled_files = existing_pickled_files - indexed_pickled_files
     missing_pickled_files = indexed_pickled_files - existing_pickled_files

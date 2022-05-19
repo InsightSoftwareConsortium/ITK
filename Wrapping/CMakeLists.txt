@@ -163,6 +163,9 @@ if(ITK_WRAP_PYTHON)
   #   the individual .pyi files.
   set(PYI_GENERATOR  "${CMAKE_CURRENT_SOURCE_DIR}/Generators/Python/itk/pyi_generator.py")
 
+  configure_file(${CMAKE_CURRENT_SOURCE_DIR}/GlobalIdxFilesList.txt.in
+                 ${CMAKE_CURRENT_BINARY_DIR}/GlobalIdxFilesList.txt)
+
   # Run pyi_generator
   # ${GLOBAL_IdxFilesList}: is described within SwigInterface/CMakeLists.txt
   #   The variable is passed to pyi_generator to make sure that the function only uses current index files
@@ -172,11 +175,21 @@ if(ITK_WRAP_PYTHON)
           COMMAND ${Python3_EXECUTABLE} ${PYI_GENERATOR}
             --pyi_dir "${ITK_STUB_DIR}"
             --pkl_dir "${ITK_PKL_DIR}"
-            --index_files "${GLOBAL_IdxFilesList}"
+            --index_list_file "${CMAKE_CURRENT_BINARY_DIR}/GlobalIdxFilesList.txt"
           DEPENDS ${PYI_GENERATOR} ${GLOBAL_IdxFilesList}
           COMMENT "Generating .pyi files for Python wrapper interface"
           VERBATIM
   )
+
+  # Add module dependencies to ensure .index.txt files have been generated
+  UNIQUE(WRAPPED_MODULE_LIST "${WRAP_ITK_MODULES};ITKPyUtils")
+  foreach(WRAPPER_LIBRARY_NAME ${WRAPPED_MODULE_LIST})
+    list(LENGTH ${WRAPPER_LIBRARY_NAME}PyiIdxFiles ${WRAPPER_LIBRARY_NAME}PyiIdxFiles_Len)
+    if(${WRAPPER_LIBRARY_NAME}PyiIdxFiles_Len GREATER 0)
+      # <module>Swig custom targets build .index.txt files as byproducts
+      add_dependencies(itk-stub-files ${WRAPPER_LIBRARY_NAME}Swig)
+    endif()
+  endforeach()
 
   unset(ITK_STUB_DIR CACHE)
   unset(ITK_PKL_DIR CACHE)
