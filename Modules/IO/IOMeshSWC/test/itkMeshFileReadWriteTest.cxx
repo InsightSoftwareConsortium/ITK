@@ -49,8 +49,6 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
 
   auto swcMeshIO = itk::SWCMeshIO::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(swcMeshIO, SWCMeshIO, MeshIOBase);
-
   swcMeshIO->SetFileName(inputFileName);
   if (!swcMeshIO->CanReadFile(inputFileName))
   {
@@ -58,13 +56,21 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
     result = EXIT_FAILURE;
   }
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(swcMeshIO, SWCMeshIO, MeshIOBase);
+
   auto swcMeshIOOutput = itk::SWCMeshIO::New();
   swcMeshIOOutput->SetFileName(outputFileName);
+  if (!swcMeshIOOutput->CanWriteFile(outputFileName))
+  {
+    std::cerr << "CanWriteFile did not succeed with the output file.";
+    result = EXIT_FAILURE;
+  }
 
   swcMeshIOOutput->SetSampleIdentifiers(swcMeshIO->GetSampleIdentifiers());
   swcMeshIOOutput->SetTypeIdentifiers(swcMeshIO->GetTypeIdentifiers());
   swcMeshIOOutput->SetRadii(swcMeshIO->GetRadii());
   swcMeshIOOutput->SetParentIdentifiers(swcMeshIO->GetParentIdentifiers());
+  swcMeshIOOutput->SetHeaderContent(swcMeshIO->GetHeaderContent());
 
   std::cout << "Test finished." << std::endl;
   return result;
