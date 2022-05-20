@@ -408,6 +408,19 @@ SWCMeshIO ::WritePoints(void * buffer)
       itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
     }
   }
+
+  m_PointIndexToParentPointIndex.clear();
+  for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+  {
+    if (ii < m_SampleIdentifiers->size())
+    {
+      m_PointIndexToSampleIdentifier[ii] = m_SampleIdentifiers->GetElement(ii);
+    }
+    else
+    {
+      m_PointIndexToSampleIdentifier[ii] = ii;
+    }
+  }
 }
 
 void
@@ -434,67 +447,67 @@ SWCMeshIO ::WriteCells(void * buffer)
   {
     case IOComponentEnum::UCHAR:
     {
-      WriteCells(static_cast<unsigned char *>(buffer), outputFile);
+      WriteCells(static_cast<unsigned char *>(buffer));
       break;
     }
     case IOComponentEnum::CHAR:
     {
-      WriteCells(static_cast<unsigned char *>(buffer), outputFile);
+      WriteCells(static_cast<unsigned char *>(buffer));
       break;
     }
     case IOComponentEnum::USHORT:
     {
-      WriteCells(static_cast<unsigned short *>(buffer), outputFile);
+      WriteCells(static_cast<unsigned short *>(buffer));
       break;
     }
     case IOComponentEnum::SHORT:
     {
-      WriteCells(static_cast<short *>(buffer), outputFile);
+      WriteCells(static_cast<short *>(buffer));
       break;
     }
     case IOComponentEnum::UINT:
     {
-      WriteCells(static_cast<unsigned int *>(buffer), outputFile);
+      WriteCells(static_cast<unsigned int *>(buffer));
       break;
     }
     case IOComponentEnum::INT:
     {
-      WriteCells(static_cast<int *>(buffer), outputFile);
+      WriteCells(static_cast<int *>(buffer));
       break;
     }
     case IOComponentEnum::ULONG:
     {
-      WriteCells(static_cast<unsigned long *>(buffer), outputFile);
+      WriteCells(static_cast<unsigned long *>(buffer));
       break;
     }
     case IOComponentEnum::LONG:
     {
-      WriteCells(static_cast<long *>(buffer), outputFile);
+      WriteCells(static_cast<long *>(buffer));
       break;
     }
     case IOComponentEnum::ULONGLONG:
     {
-      WriteCells(static_cast<unsigned long long *>(buffer), outputFile);
+      WriteCells(static_cast<unsigned long long *>(buffer));
       break;
     }
     case IOComponentEnum::LONGLONG:
     {
-      WriteCells(static_cast<long long *>(buffer), outputFile);
+      WriteCells(static_cast<long long *>(buffer));
       break;
     }
     case IOComponentEnum::FLOAT:
     {
-      WriteCells(static_cast<float *>(buffer), outputFile);
+      WriteCells(static_cast<float *>(buffer));
       break;
     }
     case IOComponentEnum::DOUBLE:
     {
-      WriteCells(static_cast<double *>(buffer), outputFile);
+      WriteCells(static_cast<double *>(buffer));
       break;
     }
     case IOComponentEnum::LDOUBLE:
     {
-      WriteCells(static_cast<long double *>(buffer), outputFile);
+      WriteCells(static_cast<long double *>(buffer));
       break;
     }
     default:
@@ -502,8 +515,6 @@ SWCMeshIO ::WriteCells(void * buffer)
       itkExceptionMacro(<< "Unknown cell pixel component type" << std::endl);
     }
   }
-
-  outputFile.close();
 }
 
 void

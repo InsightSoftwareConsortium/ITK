@@ -26,6 +26,7 @@
 
 #include <fstream>
 #include <unordered_map>
+#include <algorithm>
 
 namespace itk
 {
@@ -217,21 +218,31 @@ protected:
 
   template <typename T>
   void
-  WriteCells(T * buffer, std::ofstream & outputFile)
+  WriteCells(T * buffer)
   {
-    Indent        indent(7);
+    m_ParentIdentifiers->resize(this->GetNumberOfPoints());
+    std::fill(m_ParentIdentifiers->begin(), m_ParentIdentifiers->end(), -1);
     SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
-      auto numberOfCellPoints = static_cast<unsigned int>(buffer[++index]);
-      index++;
-      for (unsigned int jj = 0; jj < numberOfCellPoints - 1; ++jj)
+      if (static_cast<uint8_t>(buffer[index]) != static_cast<uint8_t>(CommonEnums::CellGeometry::LINE_CELL))
       {
-        outputFile << indent << buffer[index++] + 1;
+        itkExceptionMacro("Unexpected cell type -- line cell expected. Found: " << buffer[index]);
       }
+      ++index;
+      if (static_cast<uint8_t>(buffer[index]) != 2)
+      {
+        itkExceptionMacro("Unexpected number of cell points -- expected 2. Found: " << buffer[index]);
+      }
+      ++index;
+      const auto parentPoint = static_cast<IdentifierType>(buffer[index]);
+      ++index;
+      const auto samplePoint = static_cast<IdentifierType>(buffer[index]);
+      ++index;
 
-      outputFile << indent << -static_cast<long long>(buffer[index++] + 1) << '\n';
+      const auto parentIdentifier = m_PointIndexToSampleIdentifier[parentPoint];
+      m_ParentIdentifiers->SetElement(samplePoint, parentIdentifier);
     }
   }
 
@@ -246,6 +257,7 @@ protected:
   using CellsBufferContainerType = VectorContainer<IdentifierType, uint32_t>;
   using SampleIdentifierToPointIndexType = std::unordered_map<SampleIdentifierType, IdentifierType>;
   using PointIndexToParentPointIndexType = std::unordered_map<IdentifierType, IdentifierType>;
+  using PointIndexToSampleIdentifierType = std::unordered_map<IdentifierType, SampleIdentifierType>;
 
 private:
   HeaderContentType                      m_HeaderContent;
@@ -257,6 +269,7 @@ private:
   CellsBufferContainerType::Pointer      m_CellsBuffer;
   SampleIdentifierToPointIndexType       m_SampleIdentifierToPointIndex;
   PointIndexToParentPointIndexType       m_PointIndexToParentPointIndex;
+  PointIndexToSampleIdentifierType       m_PointIndexToSampleIdentifier;
 
   SWCMeshIOEnums::SWCPointData m_PointDataContent{ SWCMeshIOEnums::SWCPointData::TypeIdentifier };
 };
