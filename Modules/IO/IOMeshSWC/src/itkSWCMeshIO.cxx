@@ -324,7 +324,7 @@ void
 SWCMeshIO ::WritePoints(void * buffer)
 {
   // Write points
-  switch (this->m_PointComponentType)
+  switch (this->m_PointPixelComponentType)
   {
     case IOComponentEnum::UCHAR:
     {
@@ -518,8 +518,94 @@ SWCMeshIO ::WriteCells(void * buffer)
 }
 
 void
-SWCMeshIO ::WritePointData(void * itkNotUsed(buffer))
-{}
+SWCMeshIO ::WritePointData(void * buffer)
+{
+  // Write points
+  switch (this->m_PointComponentType)
+  {
+    case IOComponentEnum::UCHAR:
+    {
+      WritePointData(static_cast<unsigned char *>(buffer));
+      break;
+    }
+    case IOComponentEnum::CHAR:
+    {
+      WritePointData(static_cast<char *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::USHORT:
+    {
+      WritePointData(static_cast<unsigned short *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::SHORT:
+    {
+      WritePointData(static_cast<short *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::UINT:
+    {
+      WritePointData(static_cast<unsigned int *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::INT:
+    {
+      WritePointData(static_cast<int *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::ULONG:
+    {
+      WritePointData(static_cast<unsigned long *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::LONG:
+    {
+      WritePointData(static_cast<long *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::ULONGLONG:
+    {
+      WritePointData(static_cast<unsigned long long *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::LONGLONG:
+    {
+      WritePointData(static_cast<long long *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::FLOAT:
+    {
+      WritePointData(static_cast<float *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::DOUBLE:
+    {
+      WritePointData(static_cast<double *>(buffer));
+
+      break;
+    }
+    case IOComponentEnum::LDOUBLE:
+    {
+      WritePointData(static_cast<long double *>(buffer));
+
+      break;
+    }
+    default:
+    {
+      itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
+    }
+  }
+}
 
 void
 SWCMeshIO ::WriteCellData(void * itkNotUsed(buffer))

@@ -216,6 +216,57 @@ protected:
     }
   }
 
+  /** Write point data to output stream */
+  template <typename T>
+  void
+  WritePointData(T * buffer)
+  {
+    switch (m_PointDataContent)
+    {
+      case SWCMeshIOEnums::SWCPointData::SampleIdentifier:
+      {
+        m_SampleIdentifiers->resize(this->GetNumberOfPoints());
+
+        for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+        {
+          m_SampleIdentifiers->SetElement(ii, static_cast<SampleIdentifierType>(buffer[ii]));
+        }
+      }
+      break;
+      case SWCMeshIOEnums::SWCPointData::TypeIdentifier:
+      {
+        m_TypeIdentifiers->resize(this->GetNumberOfPoints());
+
+        for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+        {
+          m_TypeIdentifiers->SetElement(ii, static_cast<TypeIdentifierType>(buffer[ii]));
+        }
+      }
+      break;
+      case SWCMeshIOEnums::SWCPointData::Radius:
+      {
+        m_Radii->resize(this->GetNumberOfPoints());
+
+        for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+        {
+          m_Radii->SetElement(ii, static_cast<RadiusType>(buffer[ii]));
+        }
+      }
+        this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+        break;
+      case SWCMeshIOEnums::SWCPointData::ParentIdentifier:
+      {
+        m_ParentIdentifiers->resize(this->GetNumberOfPoints());
+
+        for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+        {
+          m_ParentIdentifiers->SetElement(ii, static_cast<ParentIdentifierType>(buffer[ii]));
+        }
+      }
+      break;
+    }
+  }
+
   template <typename T>
   void
   WriteCells(T * buffer)
