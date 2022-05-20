@@ -17,5 +17,7 @@ itk_module(
     ITKTestKernel
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
+  FACTORY_NAMES
+    MeshIO::SWC
   ENABLE_SHARED
 )

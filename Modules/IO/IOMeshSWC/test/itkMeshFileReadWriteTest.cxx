@@ -21,6 +21,7 @@
 #include "itkMeshFileTestHelper.h"
 #include "itkTestingMacros.h"
 #include "itkSWCMeshIO.h"
+#include "itkSWCMeshIOFactory.h"
 
 int
 itkMeshFileReadWriteTest(int argc, char * argv[])
@@ -31,21 +32,23 @@ itkMeshFileReadWriteTest(int argc, char * argv[])
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFileName outputFileName" << std::endl;
     return EXIT_FAILURE;
   }
-  const char * inputFileName = argv[1];
-  const char * outputFileName = argv[2];
+  char * inputFileName = argv[1];
+  char * outputFileName = argv[2];
 
   constexpr unsigned int dimension = 3;
   using PixelType = float;
 
   using MeshType = itk::Mesh<PixelType, dimension>;
 
+  itk::SWCMeshIOFactory::RegisterOneFactory();
+
   int result = EXIT_SUCCESS;
 
-  // if (test<MeshType>(inputFileName, outputFileName, false))
-  // {
-  //   std::cerr << "Failure for itk::Mesh" << std::endl;
-  //   result = EXIT_FAILURE;
-  // }
+  if (test<MeshType>(inputFileName, outputFileName, false))
+  {
+    std::cerr << "Failure for itk::Mesh" << std::endl;
+    result = EXIT_FAILURE;
+  }
 
   auto swcMeshIO = itk::SWCMeshIO::New();
 

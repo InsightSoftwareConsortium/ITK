@@ -57,9 +57,9 @@ public:
   static void
   RegisterOneFactory()
   {
-    auto byuFactory = SWCMeshIOFactory::New();
+    auto swcFactory = SWCMeshIOFactory::New();
 
-    ObjectFactoryBase::RegisterFactoryInternal(byuFactory);
+    ObjectFactoryBase::RegisterFactoryInternal(swcFactory);
   }
 
 protected:

@@ -27,6 +27,9 @@
 #include <fstream>
 #include <unordered_map>
 
+namespace itk
+{
+
 /** \class SWCMeshIOEnums
  *
  * \brief enums for the SWCMeshIO class.
@@ -50,8 +53,6 @@ public:
 extern IOMeshSWC_EXPORT std::ostream &
 operator<<(std::ostream & out, const SWCMeshIOEnums::SWCPointData value);
 
-namespace itk
-{
 /**
  *\class SWCMeshIO
  * \brief This class defines how to read and write SWC neuron morphology files.
@@ -142,10 +143,15 @@ public:
   SetHeaderContent(const HeaderContentType & headerContent);
   itkGetConstReferenceMacro(HeaderContent, HeaderContentType);
 
-  using SampleIdentifierType = int16_t;
-  using TypeIdentifierType = uint8_t;
+  // using SampleIdentifierType = int16_t;
+  // For Python wrapping
+  using SampleIdentifierType = float;
+  // using TypeIdentifierType = uint8_t;
+  using TypeIdentifierType = float;
   using RadiusType = double;
-  using ParentIdentifierType = int16_t;
+  // using ParentIdentifierType = int16_t;
+  // For Python wrapping
+  using ParentIdentifierType = float;
 
   using SampleIdentifierContainerType = VectorContainer<IdentifierType, SampleIdentifierType>;
   using TypeIdentifierContainerType = VectorContainer<IdentifierType, TypeIdentifierType>;
@@ -194,19 +200,18 @@ protected:
   /** Write points to output stream */
   template <typename T>
   void
-  WritePoints(T * buffer, std::ofstream & outputFile)
+  WritePoints(T * buffer)
   {
-    Indent        indent(1);
     SizeValueType index = itk::NumericTraits<SizeValueType>::ZeroValue();
+    m_PointsBuffer->resize(this->GetNumberOfPoints());
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
-      outputFile << indent;
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        outputFile << ConvertNumberToString(buffer[index++]) << " ";
+        m_PointsBuffer->SetElement(index++, static_cast<double>(buffer[index]));
+        // outputFile << ConvertNumberToString(buffer[index++]) << " ";
       }
-      outputFile << '\n';
     }
   }
 
@@ -240,13 +245,9 @@ protected:
   using PointsBufferContainerType = VectorContainer<IdentifierType, double>;
   using CellsBufferContainerType = VectorContainer<IdentifierType, uint32_t>;
   using SampleIdentifierToPointIndexType = std::unordered_map<SampleIdentifierType, IdentifierType>;
+  using PointIndexToParentPointIndexType = std::unordered_map<IdentifierType, IdentifierType>;
 
 private:
-  StreamOffsetType m_FilePosition{ 0 };
-  SizeValueType    m_PartId;
-  SizeValueType    m_FirstCellId;
-  SizeValueType    m_LastCellId;
-
   HeaderContentType                      m_HeaderContent;
   SampleIdentifierContainerType::Pointer m_SampleIdentifiers;
   TypeIdentifierContainerType::Pointer   m_TypeIdentifiers;
@@ -255,6 +256,7 @@ private:
   PointsBufferContainerType::Pointer     m_PointsBuffer;
   CellsBufferContainerType::Pointer      m_CellsBuffer;
   SampleIdentifierToPointIndexType       m_SampleIdentifierToPointIndex;
+  PointIndexToParentPointIndexType       m_PointIndexToParentPointIndex;
 
   SWCMeshIOEnums::SWCPointData m_PointDataContent{ SWCMeshIOEnums::SWCPointData::TypeIdentifier };
 };

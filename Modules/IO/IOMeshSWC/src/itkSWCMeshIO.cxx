@@ -117,9 +117,8 @@ SWCMeshIO ::ReadMeshInformation()
     }
   }
 
-  std::istringstream istrm;
-  SizeValueType      numberOfPoints = 0;
-  SizeValueType      numberOfCells = 0;
+  SizeValueType numberOfPoints = 0;
+  SizeValueType numberOfCells = 0;
   m_SampleIdentifiers->clear();
   m_TypeIdentifiers->clear();
   m_Radii->clear();
@@ -130,7 +129,7 @@ SWCMeshIO ::ReadMeshInformation()
   m_SampleIdentifierToPointIndex.clear();
   while (!inputFile.eof())
   {
-    istrm.str(line);
+    std::istringstream istrm(line);
 
     SampleIdentifierType sampleIdentifier;
     istrm >> sampleIdentifier;
@@ -191,15 +190,18 @@ SWCMeshIO ::ReadMeshInformation()
   switch (m_PointDataContent)
   {
     case SWCMeshIOEnums::SWCPointData::SampleIdentifier:
-      this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+      // this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+      this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
       break;
     case SWCMeshIOEnums::SWCPointData::TypeIdentifier:
-      this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+      this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
+      break;
     case SWCMeshIOEnums::SWCPointData::Radius:
       this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
       break;
     case SWCMeshIOEnums::SWCPointData::ParentIdentifier:
-      this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+      // this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+      this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
       break;
   }
   this->m_CellPixelType = IOPixelEnum::SCALAR;
@@ -290,6 +292,7 @@ void
 SWCMeshIO ::ReadCellData(void * itkNotUsed(buffer))
 {}
 
+
 void
 SWCMeshIO ::WriteMeshInformation()
 {
@@ -309,14 +312,10 @@ SWCMeshIO ::WriteMeshInformation()
                       << this->m_FileName);
   }
 
-  // Write SWC file header
-  // Indent indent(7);
-  // outputFile << indent << 1;
-  // outputFile << indent << this->m_NumberOfPoints;
-  // outputFile << indent << this->m_NumberOfCells;
-  // outputFile << indent << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl;
-  // outputFile << indent << 1;
-  // outputF ile << indent << this->m_NumberOfCells << std::endl;
+  for (size_t headerLineIndex = 0; headerLineIndex < m_HeaderContent.size(); ++headerLineIndex)
+  {
+    outputFile << "#" << m_HeaderContent[headerLineIndex] << "\n";
+  }
 
   outputFile.close();
 }
@@ -324,99 +323,83 @@ SWCMeshIO ::WriteMeshInformation()
 void
 SWCMeshIO ::WritePoints(void * buffer)
 {
-  // check file name
-  if (this->m_FileName.empty())
-  {
-    itkExceptionMacro("No Input FileName");
-  }
-
-  // Write to output file
-  std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
-
-  if (!outputFile.is_open())
-  {
-    itkExceptionMacro("Unable to open file\n"
-                      "outputFilename= "
-                      << this->m_FileName);
-  }
-
   // Write points
   switch (this->m_PointComponentType)
   {
     case IOComponentEnum::UCHAR:
     {
-      WritePoints(static_cast<unsigned char *>(buffer), outputFile);
+      WritePoints(static_cast<unsigned char *>(buffer));
       break;
     }
     case IOComponentEnum::CHAR:
     {
-      WritePoints(static_cast<char *>(buffer), outputFile);
+      WritePoints(static_cast<char *>(buffer));
 
       break;
     }
     case IOComponentEnum::USHORT:
     {
-      WritePoints(static_cast<unsigned short *>(buffer), outputFile);
+      WritePoints(static_cast<unsigned short *>(buffer));
 
       break;
     }
     case IOComponentEnum::SHORT:
     {
-      WritePoints(static_cast<short *>(buffer), outputFile);
+      WritePoints(static_cast<short *>(buffer));
 
       break;
     }
     case IOComponentEnum::UINT:
     {
-      WritePoints(static_cast<unsigned int *>(buffer), outputFile);
+      WritePoints(static_cast<unsigned int *>(buffer));
 
       break;
     }
     case IOComponentEnum::INT:
     {
-      WritePoints(static_cast<int *>(buffer), outputFile);
+      WritePoints(static_cast<int *>(buffer));
 
       break;
     }
     case IOComponentEnum::ULONG:
     {
-      WritePoints(static_cast<unsigned long *>(buffer), outputFile);
+      WritePoints(static_cast<unsigned long *>(buffer));
 
       break;
     }
     case IOComponentEnum::LONG:
     {
-      WritePoints(static_cast<long *>(buffer), outputFile);
+      WritePoints(static_cast<long *>(buffer));
 
       break;
     }
     case IOComponentEnum::ULONGLONG:
     {
-      WritePoints(static_cast<unsigned long long *>(buffer), outputFile);
+      WritePoints(static_cast<unsigned long long *>(buffer));
 
       break;
     }
     case IOComponentEnum::LONGLONG:
     {
-      WritePoints(static_cast<long long *>(buffer), outputFile);
+      WritePoints(static_cast<long long *>(buffer));
 
       break;
     }
     case IOComponentEnum::FLOAT:
     {
-      WritePoints(static_cast<float *>(buffer), outputFile);
+      WritePoints(static_cast<float *>(buffer));
 
       break;
     }
     case IOComponentEnum::DOUBLE:
     {
-      WritePoints(static_cast<double *>(buffer), outputFile);
+      WritePoints(static_cast<double *>(buffer));
 
       break;
     }
     case IOComponentEnum::LDOUBLE:
     {
-      WritePoints(static_cast<long double *>(buffer), outputFile);
+      WritePoints(static_cast<long double *>(buffer));
 
       break;
     }
@@ -425,8 +408,6 @@ SWCMeshIO ::WritePoints(void * buffer)
       itkExceptionMacro(<< "Unknown point pixel component type" << std::endl);
     }
   }
-
-  outputFile.close();
 }
 
 void
@@ -542,11 +523,7 @@ SWCMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FilePosition: " << static_cast<typename NumericTraits<StreamOffsetType>::PrintType>(m_FilePosition)
-     << std::endl;
-  os << indent << "PartId: " << m_PartId << std::endl;
-  os << indent << "First Cell Id: " << m_FirstCellId << std::endl;
-  os << indent << "Last Cell Id: " << m_LastCellId << std::endl;
+  os << indent << "Header Lines: " << m_HeaderContent.size() << std::endl;
 }
 
 void
