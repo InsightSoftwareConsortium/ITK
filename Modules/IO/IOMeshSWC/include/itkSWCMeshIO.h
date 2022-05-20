@@ -239,7 +239,7 @@ protected:
 
   using PointsBufferContainerType = VectorContainer<IdentifierType, double>;
   using CellsBufferContainerType = VectorContainer<IdentifierType, uint32_t>;
-  using PointIndexToSampleIdentifierType = std::unordered_map<IdentifierType, SampleIdentifierType>;
+  using SampleIdentifierToPointIndexType = std::unordered_map<SampleIdentifierType, IdentifierType>;
 
 private:
   StreamOffsetType m_FilePosition{ 0 };
@@ -254,7 +254,7 @@ private:
   ParentIdentifierContainerType::Pointer m_ParentIdentifiers;
   PointsBufferContainerType::Pointer     m_PointsBuffer;
   CellsBufferContainerType::Pointer      m_CellsBuffer;
-  PointIndexToSampleIdentifierType       m_PointIndexToSampleIdentifier;
+  SampleIdentifierToPointIndexType       m_SampleIdentifierToPointIndex;
 
   SWCMeshIOEnums::SWCPointData m_PointDataContent{ SWCMeshIOEnums::SWCPointData::TypeIdentifier };
 };
