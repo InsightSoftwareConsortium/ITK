@@ -25,6 +25,7 @@
 #include "itkVectorContainer.h"
 
 #include <fstream>
+#include <unordered_map>
 
 /** \class SWCMeshIOEnums
  *
@@ -236,6 +237,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  using PointsBufferContainerType = VectorContainer<IdentifierType, double>;
+  using CellsBufferContainerType = VectorContainer<IdentifierType, uint32_t>;
+  using PointIndexToSampleIdentifierType = std::unordered_map<IdentifierType, SampleIdentifierType>;
+
 private:
   StreamOffsetType m_FilePosition{ 0 };
   SizeValueType    m_PartId;
@@ -247,6 +252,9 @@ private:
   TypeIdentifierContainerType::Pointer   m_TypeIdentifiers;
   RadiusContainerType::Pointer           m_Radii;
   ParentIdentifierContainerType::Pointer m_ParentIdentifiers;
+  PointsBufferContainerType::Pointer     m_PointsBuffer;
+  CellsBufferContainerType::Pointer      m_CellsBuffer;
+  PointIndexToSampleIdentifierType       m_PointIndexToSampleIdentifier;
 
   SWCMeshIOEnums::SWCPointData m_PointDataContent{ SWCMeshIOEnums::SWCPointData::TypeIdentifier };
 };

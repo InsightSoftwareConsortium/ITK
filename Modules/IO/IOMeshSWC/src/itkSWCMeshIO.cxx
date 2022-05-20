@@ -51,6 +51,8 @@ SWCMeshIO ::SWCMeshIO()
   m_TypeIdentifiers = TypeIdentifierContainerType::New();
   m_Radii = RadiusContainerType::New();
   m_ParentIdentifiers = ParentIdentifierContainerType::New();
+  m_PointsBuffer = PointsBufferContainerType::New();
+  m_CellsBuffer = CellsBufferContainerType::New();
 }
 
 SWCMeshIO::~SWCMeshIO() = default;
@@ -94,12 +96,13 @@ SWCMeshIO ::ReadMeshInformation()
   }
 
   std::string line;
-  std::getline(inputFile, line);
 
   m_HeaderContent.clear();
   bool inHeader = true;
   while (inHeader && !inputFile.eof())
   {
+    std::getline(inputFile, line);
+
     const size_t first = line.find_first_of('#');
     if (first == std::string::npos)
     {
@@ -109,69 +112,102 @@ SWCMeshIO ::ReadMeshInformation()
     {
       m_HeaderContent.push_back(line.substr(first + 1));
     }
-
-    std::getline(inputFile, line);
   }
 
-  SizeValueType numberOfPoints = 0;
+  std::istringstream istrm;
+  SizeValueType      numberOfPoints = 0;
+  SizeValueType      numberOfCells = 0;
+  m_SampleIdentifiers->clear();
+  m_TypeIdentifiers->clear();
+  m_Radii->clear();
+  m_ParentIdentifiers->clear();
+  m_PointsBuffer->clear();
+  m_CellsBuffer->clear();
+  this->m_CellBufferSize = 0;
+  m_PointIndexToSampleIdentifier.clear();
   while (!inputFile.eof())
   {
-    ++numberOfPoints;
-    std::cout << "line: " << line << std::endl;
+    istrm.str(line);
+
+    SampleIdentifierType sampleIdentifier;
+    istrm >> sampleIdentifier;
+    m_SampleIdentifiers->push_back(sampleIdentifier);
+    m_PointIndexToSampleIdentifier[numberOfPoints] = sampleIdentifier;
+
+    TypeIdentifierType typeIdentifier;
+    istrm >> typeIdentifier;
+    m_TypeIdentifiers->push_back(typeIdentifier);
+
+    double pointComponent;
+    istrm >> pointComponent;
+    m_PointsBuffer->push_back(pointComponent);
+    istrm >> pointComponent;
+    m_PointsBuffer->push_back(pointComponent);
+    istrm >> pointComponent;
+    m_PointsBuffer->push_back(pointComponent);
+
+    double radius;
+    istrm >> radius;
+    m_Radii->push_back(radius);
+
+    ParentIdentifierType parentIdentifier;
+    istrm >> parentIdentifier;
+    m_ParentIdentifiers->push_back(parentIdentifier);
+    if (parentIdentifier != -1)
+    {
+      ++numberOfCells;
+      this->m_CellBufferSize += 4;
+      // m_CellsBuffer->push_back(static_cast<uint32_t>(CommonEnums::CellGeometry::LINE_CELL));
+      // m_CellsBuffer->push_back(2);
+      // m_CellsBuffer->push_back()
+      // m_Cell
+    }
+
     std::getline(inputFile, line);
+
+    ++numberOfPoints;
   }
   this->SetNumberOfPoints(numberOfPoints);
-
-  this->m_PointDimension = 3;
-  this->m_FileType = IOFileEnum::ASCII;
+  this->SetNumberOfCells(numberOfCells);
+  this->SetNumberOfPointPixels(numberOfPoints);
 
   // If number of points is not equal zero, update points
   if (this->m_NumberOfPoints)
   {
     this->m_UpdatePoints = true;
+    this->m_UpdatePointData = true;
   }
+
+  if (this->m_NumberOfCells)
+  {
+    this->m_UpdateCells = true;
+  }
+
+  this->m_PointDimension = 3;
+  this->m_FileType = IOFileEnum::ASCII;
 
   // Set default point component type
   this->m_PointComponentType = IOComponentEnum::DOUBLE;
+  this->m_CellComponentType = IOComponentEnum::UINT;
 
-  // // Read and omit points
-  // double x;
-  // for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
-  // {
-  //   for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
-  //   {
-  //     inputFile >> x;
-  //   }
-  // }
-
-  // // Determine cellbuffersize
-  // int ptId;
-  // this->m_CellBufferSize = 0;
-  // SizeValueType numLines = 0;
-  // while (numLines < this->m_NumberOfCells)
-  // {
-  //   inputFile >> ptId;
-
-  //   this->m_CellBufferSize++;
-  //   if (ptId < 0)
-  //   {
-  //     numLines++;
-  //   }
-  // }
-
-  // // Set default cell component type
-  // this->m_CellComponentType = IOComponentEnum::UINT;
-  // this->m_CellBufferSize += this->m_NumberOfCells * 2;
-
-  // // Set default point pixel component and point pixel type
-  // this->m_PointPixelComponentType = IOComponentEnum::FLOAT;
-  // this->m_PointPixelType = IOPixelEnum::SCALAR;
-  // this->m_NumberOfPointPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
-
-  // // Set default cell pixel component and point pixel type
-  // this->m_CellPixelComponentType = IOComponentEnum::FLOAT;
-  // this->m_CellPixelType = IOPixelEnum::SCALAR;
-  // this->m_NumberOfCellPixelComponents = itk::NumericTraits<unsigned int>::OneValue();
+  this->m_PointPixelType = IOPixelEnum::SCALAR;
+  this->m_NumberOfPointPixelComponents = 1;
+  switch (m_PointDataContent)
+  {
+    case SWCMeshIOEnums::SWCPointData::SampleIdentifier:
+      this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+      break;
+    case SWCMeshIOEnums::SWCPointData::TypeIdentifier:
+      this->m_PointPixelComponentType = IOComponentEnum::UCHAR;
+    case SWCMeshIOEnums::SWCPointData::Radius:
+      this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
+      break;
+    case SWCMeshIOEnums::SWCPointData::ParentIdentifier:
+      this->m_PointPixelComponentType = IOComponentEnum::SHORT;
+      break;
+  }
+  this->m_CellPixelType = IOPixelEnum::SCALAR;
+  this->m_NumberOfCellPixelComponents = 1;
 
   inputFile.close();
 }
@@ -179,39 +215,12 @@ SWCMeshIO ::ReadMeshInformation()
 void
 SWCMeshIO ::ReadPoints(void * buffer)
 {
-  // Define input file stream and attach it to input file
-  std::ifstream inputFile;
-
-  /** Due to the windows couldn't work well for tellg() and seekg() for ASCII mode, hence we
-  open the file with std::ios::binary */
-  inputFile.open(this->m_FileName.c_str(), std::ios::in | std::ios::binary);
-
-  if (!inputFile.is_open())
+  auto *              data = static_cast<double *>(buffer);
+  const SizeValueType numberOfValues = this->m_PointDimension * this->GetNumberOfPoints();
+  for (SizeValueType ii = 0; ii < numberOfValues; ++ii)
   {
-    itkExceptionMacro(<< "Unable to open input file " << this->m_FileName);
+    data[ii] = this->m_PointsBuffer->GetElement(ii);
   }
-
-  // Set the position to points start
-  inputFile.seekg(m_FilePosition, std::ios::beg);
-
-  // Number of data array
-  auto * data = static_cast<double *>(buffer);
-
-  // Read points
-  inputFile.precision(12);
-
-  SizeValueType index = 0;
-  for (SizeValueType id = 0; id < this->m_NumberOfPoints; ++id)
-  {
-    for (unsigned int ii = 0; ii < this->m_PointDimension; ++ii)
-    {
-      inputFile >> data[index++];
-    }
-  }
-
-  // Determine cells start position
-  m_FilePosition = inputFile.tellg();
-  inputFile.close();
 }
 
 void
