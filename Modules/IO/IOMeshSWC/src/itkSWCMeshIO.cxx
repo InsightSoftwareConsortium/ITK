@@ -613,7 +613,80 @@ SWCMeshIO ::WriteCellData(void * itkNotUsed(buffer))
 
 void
 SWCMeshIO ::Write()
-{}
+{
+  if (this->m_FileName.empty())
+  {
+    itkExceptionMacro("No Input FileName");
+  }
+
+  // Write to output file
+  std::ofstream outputFile(this->m_FileName.c_str(), std::ios::out | std::ios::app);
+
+  if (!outputFile.is_open())
+  {
+    itkExceptionMacro("Unable to open file\n"
+                      "outputFilename= "
+                      << this->m_FileName);
+  }
+
+  const auto        sampleIdentifiersSize = m_SampleIdentifiers->size();
+  const auto        typeIdentifiersSize = m_TypeIdentifiers->size();
+  const auto        radiiSize = m_Radii->size();
+  const auto        parentIdentifiersSize = m_ParentIdentifiers->size();
+  const std::string sep(" ");
+  SizeValueType     pointsIndex = itk::NumericTraits<SizeValueType>::ZeroValue();
+  for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
+  {
+    if (ii < sampleIdentifiersSize)
+    {
+      outputFile << m_SampleIdentifiers->GetElement(ii);
+    }
+    else
+    {
+      outputFile << ii;
+    }
+    outputFile << sep;
+
+    if (ii < typeIdentifiersSize)
+    {
+      outputFile << m_TypeIdentifiers->GetElement(ii);
+    }
+    else
+    {
+      outputFile << 5;
+    }
+    outputFile << sep;
+
+    for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
+    {
+      outputFile << ConvertNumberToString(m_PointsBuffer->GetElement(pointsIndex++));
+      outputFile << sep;
+    }
+
+    if (ii < radiiSize)
+    {
+      outputFile << m_Radii->GetElement(ii);
+    }
+    else
+    {
+      outputFile << 1.0;
+    }
+    outputFile << sep;
+
+    if (ii < parentIdentifiersSize)
+    {
+      outputFile << m_ParentIdentifiers->GetElement(ii);
+    }
+    else
+    {
+      outputFile << -1;
+    }
+
+    outputFile << "\n";
+  }
+
+  outputFile.close();
+}
 
 void
 SWCMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
