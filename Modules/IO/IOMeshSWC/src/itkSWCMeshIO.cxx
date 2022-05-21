@@ -19,6 +19,7 @@
 #include "itkSWCMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
+#include "itkNumberToString.h"
 
 namespace itk
 {

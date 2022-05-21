@@ -21,7 +21,6 @@
 #include "IOMeshSWCExport.h"
 
 #include "itkMeshIOBase.h"
-#include "itkNumberToString.h"
 #include "itkVectorContainer.h"
 
 #include <fstream>
@@ -211,7 +210,6 @@ protected:
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
         m_PointsBuffer->SetElement(index++, static_cast<double>(buffer[index]));
-        // outputFile << ConvertNumberToString(buffer[index++]) << " ";
       }
     }
   }

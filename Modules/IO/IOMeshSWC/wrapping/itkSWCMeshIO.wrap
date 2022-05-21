@@ -1,6 +1,6 @@
 set(WRAPPER_AUTO_INCLUDE_HEADERS OFF)
 itk_wrap_include("itkSWCMeshIO.h")
-itk_wrap_simple_class("itk::SWCMeshIO")
+itk_wrap_simple_class("itk::SWCMeshIOEnums")
 set(WRAPPER_AUTO_INCLUDE_HEADERS ON)
 itk_wrap_simple_class("itk::SWCMeshIO" POINTER)
 itk_wrap_simple_class("itk::SWCMeshIOFactory" POINTER)
