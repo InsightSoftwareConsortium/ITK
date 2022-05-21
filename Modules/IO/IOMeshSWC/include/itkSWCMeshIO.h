@@ -209,7 +209,8 @@ protected:
     {
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        m_PointsBuffer->SetElement(index++, static_cast<double>(buffer[index]));
+        m_PointsBuffer->SetElement(index, static_cast<double>(buffer[index]));
+        index++;
       }
     }
   }
