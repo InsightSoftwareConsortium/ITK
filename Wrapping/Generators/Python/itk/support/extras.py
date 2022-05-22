@@ -841,7 +841,6 @@ def dict_from_mesh(mesh: "itkt.Mesh") -> Dict:
     return dict(
         meshType=mesh_type,
         name=mesh.GetObjectName(),
-        dimension=mesh_template[1][1],
         numberOfPoints=number_of_points,
         points=points_array,
         numberOfPointPixels=point_data.Size(),
@@ -913,7 +912,6 @@ def dict_from_pointset(pointset: "itkt.PointSet") -> Dict:
     return dict(
         pointSetType=pointset_type,
         name=pointset.GetObjectName(),
-        dimension=pointset_template[1][1],
         numberOfPoints=number_of_points,
         points=points_array,
         numberOfPointPixels=point_data.Size(),
