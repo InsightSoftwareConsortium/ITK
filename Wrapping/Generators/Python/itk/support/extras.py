@@ -735,6 +735,7 @@ def dict_from_image(image: "itkt.Image") -> Dict:
     imageType = wasm_type_from_image_type(image)
     return dict(
         imageType=imageType,
+        name=image.GetObjectName(),
         origin=tuple(image.GetOrigin()),
         spacing=tuple(image.GetSpacing()),
         size=tuple(image.GetBufferedRegion().GetSize()),
@@ -752,6 +753,7 @@ def image_from_dict(image_dict: Dict) -> "itkt.Image":
     image.SetOrigin(image_dict["origin"])
     image.SetSpacing(image_dict["spacing"])
     image.SetDirection(image_dict["direction"])
+    image.SetObjectName(image_dict["name"])
     return image
 
 
