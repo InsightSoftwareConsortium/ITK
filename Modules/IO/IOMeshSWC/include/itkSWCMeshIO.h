@@ -251,8 +251,7 @@ protected:
           m_Radii->SetElement(ii, static_cast<RadiusType>(buffer[ii]));
         }
       }
-        this->m_PointPixelComponentType = IOComponentEnum::DOUBLE;
-        break;
+      break;
       case SWCMeshIOEnums::SWCPointData::ParentIdentifier:
       {
         m_ParentIdentifiers->resize(this->GetNumberOfPoints());
