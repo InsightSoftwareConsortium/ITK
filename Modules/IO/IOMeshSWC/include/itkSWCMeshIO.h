@@ -209,7 +209,7 @@ protected:
     {
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        m_PointsBuffer->SetElement(index, static_cast<double>(buffer[index]));
+        m_PointsBuffer->SetElement(index, static_cast<float>(buffer[index]));
         index++;
       }
     }
@@ -302,7 +302,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  using PointsBufferContainerType = VectorContainer<IdentifierType, double>;
+  using PointsBufferContainerType = VectorContainer<IdentifierType, float>;
   using CellsBufferContainerType = VectorContainer<IdentifierType, uint32_t>;
   using SampleIdentifierToPointIndexType = std::unordered_map<SampleIdentifierType, IdentifierType>;
   using PointIndexToParentPointIndexType = std::unordered_map<IdentifierType, IdentifierType>;

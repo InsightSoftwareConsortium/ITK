@@ -183,7 +183,7 @@ SWCMeshIO ::ReadMeshInformation()
   }
 
   // Set default point component type
-  this->m_PointComponentType = IOComponentEnum::DOUBLE;
+  this->m_PointComponentType = IOComponentEnum::FLOAT;
   this->m_CellComponentType = IOComponentEnum::UINT;
 
   this->m_PointPixelType = IOPixelEnum::SCALAR;
@@ -214,7 +214,7 @@ SWCMeshIO ::ReadMeshInformation()
 void
 SWCMeshIO ::ReadPoints(void * buffer)
 {
-  auto *              data = static_cast<double *>(buffer);
+  auto *              data = static_cast<float *>(buffer);
   const SizeValueType numberOfValues = this->m_PointDimension * this->GetNumberOfPoints();
   for (SizeValueType ii = 0; ii < numberOfValues; ++ii)
   {
