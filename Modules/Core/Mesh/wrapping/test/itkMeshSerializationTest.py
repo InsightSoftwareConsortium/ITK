@@ -105,8 +105,6 @@ for i in range(mesh.GetNumberOfCells()):
 mesh["name"] = "testmesh1"
 assert mesh["name"] == "testmesh1"
 
-assert mesh["dimension"] == 3
-
 points_array = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9], dtype="float32")
 mesh["points"] = points_array
 assert np.array_equal(mesh["points"], points_array)

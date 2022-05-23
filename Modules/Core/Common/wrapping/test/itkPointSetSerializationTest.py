@@ -70,7 +70,6 @@ assert np.array_equal(p1, p2)
 # Check dictionary set/get for ITK point_set
 point_set["name"] = "testpoint_set1"
 assert point_set["name"] == "testpoint_set1"
-assert point_set["dimension"] == 3
 
 points_array = np.array([1, 2, 3, 4, 5, 6, 7, 8, 9], dtype="float32")
 point_set["points"] = points_array
