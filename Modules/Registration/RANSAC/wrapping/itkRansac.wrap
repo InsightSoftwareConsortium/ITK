@@ -1,0 +1,5 @@
+unique(types "${WRAP_ITK_REAL};D")
+
+itk_wrap_class("itk::PlaneParametersEstimator" POINTER_WITH_2_SUPERCLASSES)
+itk_wrap_template("${ITKM_D}3"   "3")
+itk_end_wrap_class()
