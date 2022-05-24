@@ -53,6 +53,7 @@ macro(itk_end_wrap_module)
     #   Used to generate a complete list of index files generated which should be used as a
     #   dependency in the final pyi_generator step.
     unset(ITK_PYI_INDEX_FILES)
+    unset(${WRAPPER_LIBRARY_NAME}PyiIdxFiles CACHE)
 
     foreach(_module ${THIS_MODULE_SUBMODULE_ORDER})
         # create the swig interface
@@ -75,14 +76,18 @@ macro(itk_end_wrap_module)
     endforeach()
 
     # the master idx file (mdx file)
+    unset(mdx_files )
     unset(mdx_opts )
     unset(deps_imports )
 
-    list(APPEND mdx_opts --mdx "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
-
+    list(APPEND mdx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
-        list(APPEND mdx_opts --mdx "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
+        list(APPEND mdx_files "${WRAP_ITK_TYPEDEFS_DIRECTORY}/${dep}.mdx")
         list(APPEND deps_imports "%import ${dep}.i\n")
+    endforeach()
+
+    foreach(mdx_file ${mdx_files})
+        list(APPEND mdx_opts --mdx ${mdx_file})
     endforeach()
 
     set(CONFIG_INDEX_FILE_CONTENT "${SWIG_INTERFACE_MDX_CONTENT}")
@@ -113,11 +118,26 @@ macro(itk_end_wrap_module)
                 "${ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR}/${WRAPPER_LIBRARY_NAME}_snake_case.py")
         unset(ITK_WRAP_PYTHON_SNAKE_CONFIG_DIR)
 
-        # Added ITK_PYI_INDEX_FILES to the igenerator custom command output to
-        # allow the files to be used  as a dependency
+        # Set up outputs and byproducts for custom command
+        set(igenerator_outputs "")
+        set(igenerator_byproducts "")
+
+        list(APPEND igenerator_outputs "${i_files}")       # Typedefs/<class>.i
+        list(APPEND igenerator_outputs "${typedef_files}") # Typedefs/<class>SwigInterface.h
+        list(APPEND igenerator_outputs "${idx_files}")     # Typedefs/<class>.idx
+        list(APPEND igenerator_outputs "${snake_case_config_file}") # Generators/Python/itk/Configuration/<module>_snake_case.py
+        if(CMAKE_GENERATOR STREQUAL "Ninja")
+          # Ninja generator requires byproduct for correct dependency handling
+          # See https://cmake.org/cmake/help/latest/policy/CMP0058.html
+          list(APPEND igenerator_byproducts "${ITK_PYI_INDEX_FILES}")  # Generators/Python/itk-pkl/<class>.index.txt
+        else()
+          list(APPEND igenerator_outputs "${ITK_PYI_INDEX_FILES}")     # Generators/Python/itk-pkl/<class>.index.txt
+        endif()
+
+        # Generate custom wrapping files via igenerator.py
         add_custom_command(
-                OUTPUT ${i_files} ${typedef_files} ${idx_files} ${snake_case_config_file}
-                BYPRODUCTS ${ITK_PYI_INDEX_FILES}  # the pyi index files will be created, but may not be updated for each run.
+                OUTPUT ${igenerator_outputs}
+                BYPRODUCTS ${igenerator_byproducts}
                 COMMAND ${Python3_EXECUTABLE} ${IGENERATOR}
                 ${mdx_opts}
                 ${swig_libs}
@@ -132,10 +152,17 @@ macro(itk_end_wrap_module)
                 --pyi_index_list "${ITK_PYI_INDEX_FILES}"
                 --pyi_dir "${ITK_STUB_DIR}"
                 --pkl_dir "${ITK_PKL_DIR}"
-                DEPENDS ${ITK_WRAP_DOC_DOCSTRING_FILES} ${CastXML_OUTPUT_FILES} ${IGENERATOR} ${typedef_in_files}
+                DEPENDS ${IGENERATOR}
+                        ${ITK_WRAP_DOC_DOCSTRING_FILES}
+                        ${CastXML_OUTPUT_FILES}
+                        ${typedef_in_files}
+                        ${mdx_files}
+                        ${WRAPPER_SWIG_LIBRARY_FILES}
                 WORKING_DIRECTORY "${WRAPPING_CONFIG_WORKING_DIR}" # Arguments to WORKING_DIRECTORY may use generator expressions
+                COMMENT "Run igenerator.py for ${WRAPPER_LIBRARY_NAME}"
                 VERBATIM
         )
+
         unset(snake_case_config_file)
     else()
       #message(FATAL_ERROR "Number of interface files is 0 :${WRAPPER_LIBRARY_NAME}:")
@@ -146,8 +173,10 @@ macro(itk_end_wrap_module)
     unset(typedef_in_files)
     unset(swig_libs)
     unset(mdx_opts)
+    unset(igenerator_byproducts)
+    unset(igenerator_outputs)
 
-    # the ${WRAPPER_LIBRARY_NAME}Swig target
+    # the ${WRAPPER_LIBRARY_NAME}Swig target will run igenerator.py if files do not already exist
     if(NOT TARGET ${WRAPPER_LIBRARY_NAME}Swig)
         add_custom_target(${WRAPPER_LIBRARY_NAME}Swig DEPENDS ${mdx_file} ${i_files} ${typedef_files} ${idx_files})
         add_dependencies(${WRAPPER_LIBRARY_NAME}Swig ${WRAPPER_LIBRARY_NAME}CastXML)
@@ -165,14 +194,15 @@ macro(itk_end_wrap_module)
     unset(ITK_STUB_PYI_FILES)
 
     list(APPEND GLOBAL_IdxFilesList ${ITK_PYI_INDEX_FILES})
-    unset(ITK_PYI_INDEX_FILES)
     list(REMOVE_DUPLICATES GLOBAL_IdxFilesList)
 
     set(GLOBAL_IdxFilesList ${GLOBAL_IdxFilesList} CACHE INTERNAL "Master list of all idx files")
+    set(${WRAPPER_LIBRARY_NAME}PyiIdxFiles ${ITK_PYI_INDEX_FILES} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME} .index.txt file list")
     set(${WRAPPER_LIBRARY_NAME}IdxFiles ${idx_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Idx file list.")
     set(${WRAPPER_LIBRARY_NAME}SwigFiles ${i_files} CACHE INTERNAL "Internal ${WRAPPER_LIBRARY_NAME}Swig file list.")
 
     unset(idx_files)
+    unset(ITK_PYI_INDEX_FILES)
 
     # Loop over the extra swig input files and add them to the generated files
     # lists. Guess that the generated cxx output will have the same name as
