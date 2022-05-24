@@ -1,6 +1,8 @@
 #ifndef itkParametersEstimator_txx
 #define itkParametersEstimator_txx
 
+#include "itkParametersEstimator.h"
+
 namespace itk
 {
 
