@@ -6,7 +6,7 @@ if(ITK_USE_KWSTYLE)
   set(kwstyle_itk_examples_files_list_file
     ${ITK_BINARY_DIR}/Utilities/KWStyle/ITKExamplesFiles.txt
     )
-  configure_file( # KWStyle requires that the files list be absolute paths
+  configure_file(# KWStyle requires that the files list be absolute paths
     ${ITK_SOURCE_DIR}/Utilities/KWStyle/ITKExamplesFiles.txt.in
     ${kwstyle_itk_examples_files_list_file}
     )

@@ -7,8 +7,8 @@ set(CLANG_FORMAT_EXECUTABLE ${CMAKE_CURRENT_BINARY_DIR}/ClangFormat-prefix/src/C
 configure_file("${ITK_CMAKE_DIR}/ITKClangFormatConfig.cmake.in"
                "${CMAKE_CURRENT_BINARY_DIR}/ITKClangFormatConfig.cmake" @ONLY)
 
-set(_clang_format_hash )
-set(_clang_format_url )
+set(_clang_format_hash)
+set(_clang_format_url)
 if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
   set(_clang_format_hash
     b14de32036c48f6c62998e2ebab509e71a0ae71464acb4616484e3a6eb941e1d9fac38559f5d27ea0cbbb512d590279ffb3015fae17779229e1090c2763ebcf3)

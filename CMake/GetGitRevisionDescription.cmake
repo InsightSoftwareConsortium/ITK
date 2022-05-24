@@ -96,7 +96,7 @@ function(get_git_head_revision _refvar _hashvar)
 endfunction()
 
 # get the number of commits since the file has last been modified
-function(git_commits_since file _commits )
+function(git_commits_since file _commits)
   get_git_head_revision(ref head)
 
   set(src_dir ${PROJECT_SOURCE_DIR})
@@ -108,7 +108,7 @@ function(git_commits_since file _commits )
     RESULT_VARIABLE failed
     )
   if(failed)
-    set( tag "")
+    set(tag "")
   endif()
 
   execute_process(COMMAND ${GIT_EXECUTABLE} rev-list ${tag}..${head}
@@ -119,11 +119,11 @@ function(git_commits_since file _commits )
     )
 
   if(failed)
-    set( rev_list "")
+    set(rev_list "")
   endif()
 
-  string( REGEX MATCHALL "[a-fA-F0-9]+" rev_list "${rev_list}")
-  list( LENGTH rev_list COUNT)
+  string(REGEX MATCHALL "[a-fA-F0-9]+" rev_list "${rev_list}")
+  list(LENGTH rev_list COUNT)
 
   set(${_commits} "${COUNT}" PARENT_SCOPE)
 endfunction()

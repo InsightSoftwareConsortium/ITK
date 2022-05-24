@@ -304,12 +304,12 @@ itk_add_test(NAME itkImageSeriesReaderVectorImageTest1
   COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderVectorTest
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
   DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif}
-  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif} )
+  DATA{${ITK_DATA_ROOT}/Input/RGBTestImage.tif})
 
 itk_add_test(NAME itkImageSeriesReaderVectorImageTest2
    COMMAND ITKIOImageBaseTestDriver itkImageSeriesReaderVectorTest
    DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif}
-   DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} )
+   DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif} DATA{${ITK_DATA_ROOT}/Input/48BitTestImage.tif})
 itk_add_test(NAME itkImageSeriesWriterTest
       COMMAND ITKIOImageBaseTestDriver itkImageSeriesWriterTest
               DATA{${ITK_DATA_ROOT}/Input/DicomSeries/,REGEX:Image[0-9]+.dcm}

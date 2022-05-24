@@ -197,7 +197,7 @@ if(ITK_WRAPPING)
                        "ITK_WRAP_DOC" OFF)
   set(${itk-module}_WRAP_CASTXML ${ITK_WRAPPING})
   set(${itk-module}_WRAP_SWIGINTERFACE ${ITK_WRAPPING})
-  if( (${itk-module}_WRAP_PYTHON OR
+  if((${itk-module}_WRAP_PYTHON OR
        ${itk-module}_WRAP_DOC
       )
     AND EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/wrapping/CMakeLists.txt"

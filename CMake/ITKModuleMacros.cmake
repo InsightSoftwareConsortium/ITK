@@ -99,7 +99,7 @@ macro(itk_module _name)
     endif()
   endforeach()
   list(SORT ITK_MODULE_${itk-module}_DEPENDS) # Deterministic order.
-  set(ITK_MODULE_${itk-module}_PUBLIC_DEPENDS ${ITK_MODULE_${itk-module}_DEPENDS} )
+  set(ITK_MODULE_${itk-module}_PUBLIC_DEPENDS ${ITK_MODULE_${itk-module}_DEPENDS})
   list(APPEND ITK_MODULE_${itk-module}_DEPENDS
     ${ITK_MODULE_${itk-module}_COMPILE_DEPENDS}
     ${ITK_MODULE_${itk-module}_PRIVATE_DEPENDS}
@@ -121,7 +121,7 @@ macro(itk_module _name)
 endmacro()
 
 macro(itk_module_check_name _name)
-  if( NOT "${_name}" MATCHES "^[a-zA-Z][a-zA-Z0-9]*$")
+  if(NOT "${_name}" MATCHES "^[a-zA-Z][a-zA-Z0-9]*$")
     message(FATAL_ERROR "Invalid module name: ${_name}")
   endif()
 endmacro()
@@ -188,10 +188,10 @@ macro(itk_module_impl)
     itk_module_warnings_disable(C CXX)
   else()
     if(ITK_USE_KWSTYLE)
-      itk_module_kwstyle_test( ${itk-module} )
+      itk_module_kwstyle_test(${itk-module})
     endif()
     if(ITK_CPPCHECK_TEST)
-      itk_module_cppcheck_test( ${itk-module} )
+      itk_module_cppcheck_test(${itk-module})
     endif()
     if(EXISTS "${${itk-module}_SOURCE_DIR}/include" AND BUILD_TESTING)
       if("${itk-module}" MATCHES ITKGPU)
@@ -211,7 +211,7 @@ macro(itk_module_impl)
 
     # Target ${itk-module} may not exist if the module only contains header files
   if(TARGET ${itk-module})
-    if( ITK_MODULE_${itk-module}_ENABLE_SHARED )
+    if(ITK_MODULE_${itk-module}_ENABLE_SHARED)
       if(ITK_SOURCE_DIR)
         set(_export_header_file "${ITKCommon_BINARY_DIR}/${itk-module}Export.h")
       else()
@@ -223,14 +223,14 @@ macro(itk_module_impl)
         EXPORT_FILE_NAME ${_export_header_file}
         EXPORT_MACRO_NAME ${itk-module}_EXPORT
         NO_EXPORT_MACRO_NAME ${itk-module}_HIDDEN
-        STATIC_DEFINE ITK_STATIC )
+        STATIC_DEFINE ITK_STATIC)
       install(FILES
         ${_export_header_file}
         DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}
         COMPONENT Development
         )
     endif()
-    if( (ITK_MODULE_${itk-module}_ENABLE_SHARED AND BUILD_SHARED_LIBS) OR (APPLE AND NOT BUILD_SHARED_LIBS) )
+    if((ITK_MODULE_${itk-module}_ENABLE_SHARED AND BUILD_SHARED_LIBS) OR (APPLE AND NOT BUILD_SHARED_LIBS))
       if (USE_COMPILER_HIDDEN_VISIBILITY)
         # Prefer to use target properties supported by newer cmake
         set_target_properties(${itk-module} PROPERTIES CXX_VISIBILITY_PRESET hidden)
@@ -348,7 +348,7 @@ macro(itk_module_examples)
       endif()
     endif()
     # Adds example subdirectory
-    add_subdirectory( examples )
+    add_subdirectory(examples)
     if(ITK_SOURCE_DIR)
       # Cleanup ITK_DIR variable that is currently pointing to the directory
       # containing the internal version of "ITKConfig.cmake". The clean-up could
@@ -362,7 +362,7 @@ endmacro()
 macro(itk_module_warnings_disable)
   foreach(lang ${ARGN})
     if(MSVC)
-      string(REGEX REPLACE "(^| )[/-]W[0-4]( |$)" " "
+      string(REGEX REPLACE "(^|)[/-]W[0-4]( |$)" " "
         CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS}")
       set(CMAKE_${lang}_FLAGS "${CMAKE_${lang}_FLAGS} /W0")
     elseif(BORLAND)

@@ -207,13 +207,13 @@ set_tests_properties(itkKdTreeTest11 PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}/i
 if(DOXYGEN_DOT_EXECUTABLE)
 itk_add_test(NAME itkKdTreeTest1Plot
       COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest1_100.dot)
-set_tests_properties( itkKdTreeTest1Plot PROPERTIES DEPENDS itkKdTreeTest1 )
+set_tests_properties(itkKdTreeTest1Plot PROPERTIES DEPENDS itkKdTreeTest1)
 itk_add_test(NAME itkKdTreeTest2Plot
       COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest2.dot)
-set_tests_properties( itkKdTreeTest2Plot PROPERTIES DEPENDS itkKdTreeTest2 )
+set_tests_properties(itkKdTreeTest2Plot PROPERTIES DEPENDS itkKdTreeTest2)
 itk_add_test(NAME itkKdTreeTest3Plot
       COMMAND ${DOXYGEN_DOT_EXECUTABLE} -Tpng -o  ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.png ${ITK_TEST_OUTPUT_DIR}/itkKdTreeTest3.dot)
-set_tests_properties( itkKdTreeTest3Plot PROPERTIES DEPENDS itkKdTreeTest3 )
+set_tests_properties(itkKdTreeTest3Plot PROPERTIES DEPENDS itkKdTreeTest3)
 endif()
 
 itk_add_test(NAME itkKdTreeTestSamplePoints

@@ -68,24 +68,24 @@ compatibility as other modules in the toolkit.")
 
 #------------------------------------------------
 # Find the modules in each group and the module name line in itk-module.cmake
-foreach( group ${group_list} )
-  set( _${group}_module_list )
-  file( GLOB_RECURSE _${group}_module_files ${ITK_SOURCE_DIR}/Modules/${group}/itk-module.cmake )
-  foreach( _module_file ${_${group}_module_files} )
-    file( STRINGS ${_module_file} _module_line REGEX "itk_module[ \n]*\\([ \n]*[A-Za-z0-9]*" )
-    string( REGEX MATCH "(\\([ \n]*)([A-Za-z0-9]*)" _module_name ${_module_line} )
-    set( _module_name ${CMAKE_MATCH_2} )
-    set( _${_module_name}_module_line ${_module_line} )
-    list( APPEND _${group}_module_list ${_module_name} )
+foreach(group ${group_list})
+  set(_${group}_module_list)
+  file(GLOB_RECURSE _${group}_module_files ${ITK_SOURCE_DIR}/Modules/${group}/itk-module.cmake)
+  foreach(_module_file ${_${group}_module_files})
+    file(STRINGS ${_module_file} _module_line REGEX "itk_module[ \n]*\\([ \n]*[A-Za-z0-9]*")
+    string(REGEX MATCH "(\\([ \n]*)([A-Za-z0-9]*)" _module_name ${_module_line})
+    set(_module_name ${CMAKE_MATCH_2})
+    set(_${_module_name}_module_line ${_module_line})
+    list(APPEND _${group}_module_list ${_module_name})
   endforeach()
 endforeach()
 
 #------------------------------------------------
 # Set up Doxygen Group descriptions
 
-set( group_list_dox )
-foreach(group ${group_list} )
-  set( group_list_dox
+set(group_list_dox)
+foreach(group ${group_list})
+  set(group_list_dox
 "${group_list_dox}
 // -----------------------------------------------
 // Group ${group}
@@ -93,8 +93,8 @@ foreach(group ${group_list} )
 ${${group}_documentation} */\n"
     )
 
-  foreach(mod ${_${group}_module_list} )
-    set( group_list_dox
+  foreach(mod ${_${group}_module_list})
+    set(group_list_dox
 "${group_list_dox}
 /** \\defgroup ${mod} Module ${mod}
 \\ingroup Group-${group} */\n"
@@ -102,7 +102,7 @@ ${${group}_documentation} */\n"
   endforeach()
 endforeach()
 
-set( _content ${group_list_dox} )
+set(_content ${group_list_dox})
 configure_file(
   "${ITK_SOURCE_DIR}/Utilities/Doxygen/Module.dox.in"
   "${ITK_BINARY_DIR}/Utilities/Doxygen/Modules/ITK-AllGroups.dox"
@@ -113,16 +113,16 @@ configure_file(
 
 # Set a module name list for each group and exclude
 # Modules that should be OFF
-foreach( group ${group_list} )
-  set( _${group}_on_module_list )
-  list( LENGTH _${group}_module_list _num_modules )
-  set( _current_module 0 )
-  while( ${_current_module} LESS ${_num_modules} )
-    list( GET _${group}_module_list ${_current_module} _module_name )
-    if( NOT ITK_MODULE_${_module_name}_EXCLUDE_FROM_DEFAULT )
-      list( APPEND _${group}_on_module_list ${_module_name} )
+foreach(group ${group_list})
+  set(_${group}_on_module_list)
+  list(LENGTH _${group}_module_list _num_modules)
+  set(_current_module 0)
+  while(${_current_module} LESS ${_num_modules})
+    list(GET _${group}_module_list ${_current_module} _module_name)
+    if(NOT ITK_MODULE_${_module_name}_EXCLUDE_FROM_DEFAULT)
+      list(APPEND _${group}_on_module_list ${_module_name})
     endif()
-  math( EXPR _current_module "${_current_module} + 1" )
+  math(EXPR _current_module "${_current_module} + 1")
   endwhile()
 endforeach()
 
@@ -130,10 +130,10 @@ if("$ENV{DASHBOARD_TEST_FROM_CTEST}" STREQUAL "")
   # developer build
   option(ITKGroup_Core "Request building core modules" ON)
 endif()
-foreach( group ${group_list})
+foreach(group ${group_list})
     option(ITKGroup_${group} "Request building ${group} modules" OFF)
     if (ITKGroup_${group})
-      foreach (itk-module ${_${group}_on_module_list} )
+      foreach (itk-module ${_${group}_on_module_list})
          list(APPEND ITK_MODULE_${itk-module}_REQUEST_BY ITKGroup_${group})
       endforeach()
     endif()

@@ -11,8 +11,8 @@
 option(ITK_USE_CLANG_FORMAT "Enable the use of clang-format enforce ITK coding style." ${BUILD_TESTING})
 mark_as_advanced(ITK_USE_CLANG_FORMAT)
 
-if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANG_FORMAT_EXECUTABLE}" )
-  # Download pre-built binaries (about 2M ) of clang-format extracted from
+if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANG_FORMAT_EXECUTABLE}")
+  # Download pre-built binaries (about 2M) of clang-format extracted from
   # https://releases.llvm.org/download.html and cached on data.kitware.com
   #
   # Darwin               - macOS/OS X (Clang, GCC)             https://releases.llvm.org/8.0.0/clang+llvm-8.0.0-x86_64-apple-darwin.tar.xz
@@ -31,12 +31,12 @@ if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANG_FORMAT_EXECUTABLE}" )
   # Android              - Android NDK (GCC, Clang)
   # CrayLinuxEnvironment - Cray supercomputers (Cray compiler)
   # MSYS                 - Windows (MSYS2 shell native GCC)
-  if ( "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin" )
-    set( CLANG_FORMAT_DOWNLOAD_URL "https://data.kitware.com/api/v1/file/5d274e88877dfcc902effc47/download" )
-  elseif ( "${CMAKE_SYSTEM_NAME}" STREQUAL "Windows" )
-      set( CLANG_FORMAT_DOWNLOAD_URL "https://data.kitware.com/api/v1/file/5d2b8775877dfcc902fd8236/download" )
-  elseif ( "${CMAKE_SYSTEM_NAME}" STREQUAL "Linux" )
-    set( CLANG_FORMAT_DOWNLOAD_URL "https://data.kitware.com/api/v1/file/5d2b8c87877dfcc902fda594/download" )
+  if ( "${CMAKE_SYSTEM_NAME}" STREQUAL "Darwin")
+    set(CLANG_FORMAT_DOWNLOAD_URL "https://data.kitware.com/api/v1/file/5d274e88877dfcc902effc47/download")
+  elseif ( "${CMAKE_SYSTEM_NAME}" STREQUAL "Windows")
+      set(CLANG_FORMAT_DOWNLOAD_URL "https://data.kitware.com/api/v1/file/5d2b8775877dfcc902fd8236/download")
+  elseif ( "${CMAKE_SYSTEM_NAME}" STREQUAL "Linux")
+    set(CLANG_FORMAT_DOWNLOAD_URL "https://data.kitware.com/api/v1/file/5d2b8c87877dfcc902fda594/download")
   else ()
     message(FATAL_ERROR "UNKOWN SYSTEM: Set CLANG_FORMAT_EXECUTABLE manually to the clang-format version 8.0 binary")
   endif()
@@ -49,8 +49,8 @@ if ( ITK_USE_CLANG_FORMAT AND NOT EXISTS "${CLANG_FORMAT_EXECUTABLE}" )
   file(COPY "${ITK_BINARY_DIR}/temp/${CLANG_FORMAT_EXECUTABLE_NAME}"
        DESTINATION "${ITK_BINARY_DIR}"
        FILE_PERMISSIONS OWNER_EXECUTE OWNER_WRITE OWNER_READ)
-  unset( CLANG_FORMAT_DOWNLOAD_URL )
-  set( CLANG_FORMAT_EXECUTABLE "${ITK_BINARY_DIR}/${CLANG_FORMAT_EXECUTABLE_NAME}" CACHE FILEPATH "The binary for clang-format" FORCE)
+  unset(CLANG_FORMAT_DOWNLOAD_URL)
+  set(CLANG_FORMAT_EXECUTABLE "${ITK_BINARY_DIR}/${CLANG_FORMAT_EXECUTABLE_NAME}" CACHE FILEPATH "The binary for clang-format" FORCE)
 endif()
 if(CLANG_FORMAT_EXECUTABLE)
   mark_as_advanced(CLANG_FORMAT_EXECUTABLE)

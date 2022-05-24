@@ -19,8 +19,8 @@ else()
   include(ExternalProject)
 
   set(_download_castxml_binaries 0)
-  set(_castxml_url )
-  set(_castxml_hash )
+  set(_castxml_url)
+  set(_castxml_hash)
 
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")

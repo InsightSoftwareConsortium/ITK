@@ -4,7 +4,7 @@ set(ITKIOMeshTests
   itkMeshFileReadWriteTest.cxx
 )
 
-CreateTestDriver(ITKIOMesh "${ITKIOMesh-Test_LIBRARIES}" "${ITKIOMeshTests}" )
+CreateTestDriver(ITKIOMesh "${ITKIOMesh-Test_LIBRARIES}" "${ITKIOMeshTests}")
 
 itk_add_test(NAME itkMeshFileReadWriteTest01
       COMMAND ITKIOMeshTestDriver itkMeshFileReadWriteTest

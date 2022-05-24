@@ -154,7 +154,7 @@ itk_add_test(NAME ImageRegistration8Test COMMAND ${ITK_TEST_DRIVER}
 )
 set_property(TEST ImageRegistration8Test APPEND PROPERTY LABELS RUNS_LONG)
 
-if( ${CMAKE_BUILD_TYPE} MATCHES "Release")
+if(${CMAKE_BUILD_TYPE} MATCHES "Release")
   # This test is computationally demanding.
   # Therefore we only run it in a Release build
   itk_add_test(NAME ImageRegistration20Test COMMAND ${ITK_TEST_DRIVER}
@@ -496,7 +496,7 @@ itk_add_test(NAME DeformableRegistration13Test4 COMMAND ${ITK_TEST_DRIVER}
         ${TEMP}/DeformableRegistration13Test4FinalTransformParameters.txt
 )
 
-if( ITK_USE_BRAINWEB_DATA )
+if(ITK_USE_BRAINWEB_DATA)
 
   itk_add_test(NAME BSplineWarping2Test COMMAND ${ITK_TEST_DRIVER}
     $<TARGET_FILE:BSplineWarping2>
@@ -510,9 +510,9 @@ if( ITK_USE_BRAINWEB_DATA )
   set_property(TEST BSplineWarping2Test APPEND PROPERTY LABELS RUNS_LONG)
   set_property(TEST BSplineWarping2Test APPEND PROPERTY RUN_SERIAL True)
 
-  set( NUMBER_OF_BSPLINE_GRID_NODES 5 )
+  set(NUMBER_OF_BSPLINE_GRID_NODES 5)
 
-  if( CTEST_TEST_TIMEOUT GREATER 3000 )
+  if(CTEST_TEST_TIMEOUT GREATER 3000)
 
     itk_add_test(NAME DeformableRegistration8Test1 COMMAND ${ITK_TEST_DRIVER}
         --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
@@ -628,7 +628,7 @@ if( ITK_USE_BRAINWEB_DATA )
           10.0
   )
 
-  if( CTEST_TEST_TIMEOUT GREATER 10000 )
+  if(CTEST_TEST_TIMEOUT GREATER 10000)
     itk_add_test(NAME DeformableRegistration15Test1 COMMAND ${ITK_TEST_DRIVER}
         --compare DATA{../../Data/BrainWeb/brainweb1e1a10f20.mha}
                   ${TEMP}/DeformableRegistration15Test1.mhd
@@ -650,7 +650,7 @@ if( ITK_USE_BRAINWEB_DATA )
     set_property(TEST DeformableRegistration15Test1 APPEND PROPERTY LABELS RUNS_LONG)
   endif()
 
-  if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 6 )
+  if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 6)
 
     set(NUMBER_OF_BSPLINE_GRID_NODES 32)
     itk_add_test(NAME DeformableRegistration8Test2 COMMAND ${ITK_TEST_DRIVER}
@@ -697,7 +697,7 @@ endif() # ITK_USE_BRAINWEB_DATA
 
 if(ITK_MRI_UNC_DATABASE_DATA_ROOT)
 
-if( CTEST_TEST_TIMEOUT GREATER 10000 )
+if(CTEST_TEST_TIMEOUT GREATER 10000)
   itk_add_test(NAME DeformableRegistration15Test2 COMMAND ${ITK_TEST_DRIVER}
           $<TARGET_FILE:DeformableRegistration15>
           ${ITK_MRI_UNC_DATABASE_DATA_ROOT}/b/I.hdr

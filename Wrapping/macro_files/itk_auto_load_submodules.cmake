@@ -29,7 +29,7 @@ function(generate_castxml_commandline_flags)
 
     # Aggressive optimization flags cause cast_xml to give invalid error conditions
     set(INVALID_OPTIMIZATION_FLAGS "-fopenmp;-march=[a-zA-Z0-9\-]*;-mtune=[a-zA-Z0-9\-]*;-mfma")
-    foreach( rmmatch ${INVALID_OPTIMIZATION_FLAGS})
+    foreach(rmmatch ${INVALID_OPTIMIZATION_FLAGS})
         string(REGEX REPLACE ${rmmatch} "" _castxml_cc_flags "${_castxml_cc_flags}")
     endforeach()
     unset(INVALID_OPTIMIZATION_FLAGS)
@@ -38,13 +38,13 @@ function(generate_castxml_commandline_flags)
     separate_arguments(_castxml_cc_flags)
     unset(_castxml_cc)
     if(MSVC)
-        set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ) -fexceptions)
+        set(_castxml_cc --castxml-cc-msvc ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags}) -fexceptions)
         if(MSVC90)
             # needed for VS2008 64 bit
             set(_castxml_cc ${_castxml_cc} "-D_HAS_TR1=0")
         endif()
     else()
-        set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags} ))
+        set(_castxml_cc --castxml-cc-gnu ( "${CMAKE_CXX_COMPILER}" ${_castxml_cc_flags}))
     endif()
 
     # Override castxml target platform when cross compiling
@@ -123,7 +123,7 @@ function(generate_castxml_commandline_flags)
     # The wrap_.cxx.in file expands the following variables:
     # @CASTXML_INCLUDES@, @WRAPPER_MODULE_NAME@, @CASTXML_TYPEDEFS@, @CASTXML_FORCE_INSTANTIATE@
     configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
-    unset(CASTXML_INCLUDES )
+    unset(CASTXML_INCLUDES)
     unset(_castxml_depends)
 
     # ====== Get list of include files that may trigger needing a re-write of castxml files
@@ -269,17 +269,17 @@ macro(itk_auto_load_submodules)
 
         # call generator specific logic to set several associated global variables
         # clear the typedefs and the includes
-        unset(CASTXML_TYPEDEFS )
-        unset(CASTXML_FORCE_INSTANTIATE )
+        unset(CASTXML_TYPEDEFS)
+        unset(CASTXML_FORCE_INSTANTIATE)
 
         # typedefs for swig
-        unset(SWIG_INTERFACE_TYPEDEFS )
+        unset(SWIG_INTERFACE_TYPEDEFS)
 
-        unset(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
+        unset(ITK_WRAP_DOC_DOXY2SWIG_INPUT)  # the c++ name - swig names definitions
 
 
         # WRAPPER_INCLUDE_FILES: contains a list of all files to include in the final cxx file
-        unset(WRAPPER_INCLUDE_FILES )
+        unset(WRAPPER_INCLUDE_FILES)
 
         # Add WRAPPER_DEFAULT_INCLUDE to the list of files in WRAPPER_INCLUDE_FILES
         # to be #included in the final cxx file

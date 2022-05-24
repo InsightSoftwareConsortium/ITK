@@ -174,7 +174,7 @@ topological_sort(ITK_MODULES_ENABLED ITK_MODULE_ _DEPENDS)
 #
 # Set up CPack support
 #
-set(ITK_MODULES_DISABLED_CPACK )
+set(ITK_MODULES_DISABLED_CPACK)
 foreach(m ${ITK_MODULES_DISABLED})
   list(APPEND ITK_MODULES_DISABLED_CPACK "/${m}/")
 endforeach()

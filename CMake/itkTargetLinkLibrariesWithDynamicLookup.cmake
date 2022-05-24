@@ -37,9 +37,9 @@ function(_itkCheckUndefinedSymbolsAllowed)
   # hash the CMAKE_FLAGS passed and check cache to know if we need to rerun
   string(MD5 cmake_flags_hash "${CMAKE_SHARED_LINKER_FLAGS}")
 
-  if(NOT DEFINED "${cache_var}" )
+  if(NOT DEFINED "${cache_var}")
     unset("${VARIABLE}" CACHE)
-  elseif(NOT "${${cache_var}}" STREQUAL "${cmake_flags_hash}" )
+  elseif(NOT "${${cache_var}}" STREQUAL "${cmake_flags_hash}")
     unset("${VARIABLE}" CACHE)
   endif()
 
@@ -59,9 +59,9 @@ int foo(void) {return bar()+1;}
 ")
     # APPLE: the CMAKE_MACOSX_RPATH flag should be passed.
     if(APPLE)
-      set( _rpath_arg  "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'" )
+      set(_rpath_arg  "-DCMAKE_MACOSX_RPATH='${CMAKE_MACOSX_RPATH}'")
     else()
-      set( _rpath_arg )
+      set(_rpath_arg)
     endif()
 
     try_compile(${VARIABLE}
@@ -88,9 +88,9 @@ endfunction()
 
 _itkCheckUndefinedSymbolsAllowed()
 
-macro( itk_target_link_libraries_with_dynamic_lookup target )
-  if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin" )
-    set_target_properties( ${target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup" )
+macro(itk_target_link_libraries_with_dynamic_lookup target)
+  if ( ${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    set_target_properties(${target} PROPERTIES LINK_FLAGS "-undefined dynamic_lookup")
   elseif(ITK_UNDEFINED_SYMBOLS_ALLOWED)
     # linker allows undefined symbols, let's just not link
   else()

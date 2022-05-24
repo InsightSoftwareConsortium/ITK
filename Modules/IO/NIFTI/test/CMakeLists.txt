@@ -18,7 +18,7 @@ itkExtractSlice.cxx
 )
 
 # For itkNiftiImageIOTest.h.
-include_directories( ${ITKIONIFTI_SOURCE_DIR}/test )
+include_directories(${ITKIONIFTI_SOURCE_DIR}/test)
 
 add_library(ITKIONIFTI-TestSupport  itkNiftiImageIOTestHelper.cxx)
 itk_module_target_label(ITKIONIFTI-TestSupport)
@@ -56,7 +56,7 @@ itk_add_test(NAME itkNiftiIOShouldSucceed
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest2
               ${ITK_TEST_OUTPUT_DIR} itkNiftiIOShouldSucceed true DATA{${ITK_DATA_ROOT}/Input/LittleEndian.hdr,LittleEndian.mhd,LittleEndian.img})
 itk_add_test(NAME itkDirCosinesTest
-      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest4 ${ITK_TEST_OUTPUT_DIR} )
+      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest4 ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkNiftiSlopeInterceptTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest5 ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkNiftiVectorImageTest2
@@ -70,13 +70,13 @@ itk_add_test(NAME itkNiftiRGBImageTest
 itk_add_test(NAME itkNiftiRGBAImageTest
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest10 ${ITK_TEST_OUTPUT_DIR} RGBAImage.nii.gz)
 itk_add_test(NAME itkNiftiVectorImageTest
-      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR} )
+      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest3 ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkNiftiDimensionLimitsTest
-      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz )
+      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest11 ${ITK_TEST_OUTPUT_DIR} SizeFailure.nii.gz)
 itk_add_test(NAME itkNiftiLargeRGBTest
-        COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest12 ${ITK_TEST_OUTPUT_DIR} LargeRGBImage.nii.gz )
+        COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest12 ${ITK_TEST_OUTPUT_DIR} LargeRGBImage.nii.gz)
 itk_add_test(NAME itkNiftiReadAnalyzeTest
-      COMMAND ITKIONIFTITestDriver itkNiftiReadAnalyzeTest ${ITK_TEST_OUTPUT_DIR} )
+      COMMAND ITKIONIFTITestDriver itkNiftiReadAnalyzeTest ${ITK_TEST_OUTPUT_DIR})
 itk_add_test(NAME itkExtractSliceSlopeInterceptUCHAR
       COMMAND ITKIONIFTITestDriver --compare DATA{Baseline/SlopeInterceptUCHAR-midSlice.nrrd} ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd
               itkExtractSlice DATA{Input/SlopeInterceptUCHAR.nii.gz} ${ITK_TEST_OUTPUT_DIR}/SlopeInterceptUCHAR-midSlice.nrrd)

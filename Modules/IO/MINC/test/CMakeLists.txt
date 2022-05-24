@@ -20,7 +20,7 @@ set(ITKIOMINCTests
 CreateTestDriver(ITKIOMINC "${ITKIOMINC-Test_LIBRARIES}" "${ITKIOMINCTests}")
 
 itk_add_test(NAME itkMINCImageIOTest1
-  COMMAND ITKIOMINCTestDriver itkMINCImageIOTest ${ITK_TEST_OUTPUT_DIR} )
+  COMMAND ITKIOMINCTestDriver itkMINCImageIOTest ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(NAME itkMINCImageIOTest2
   COMMAND ITKIOMINCTestDriver itkMINCImageIOTest2
@@ -83,21 +83,21 @@ itk_add_test(NAME itkMINCImageIOTest-COM-t1_z+_float_yxz_nonorm
  COMMAND ITKIOMINCTestDriver
  --compare DATA{Input/t1_z+_float_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc
  itkMINCImageIOTest4
- DATA{Input/t1_z+_float_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc 427621.7839 -8.195741583 72.45998819 -3.148534512 )
+ DATA{Input/t1_z+_float_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_nonorm.mnc 427621.7839 -8.195741583 72.45998819 -3.148534512)
 
 
 itk_add_test(NAME itkMINCImageIOTest-COM-t1_z+_float_yxz_norm
  COMMAND ITKIOMINCTestDriver
  --compare DATA{Input/t1_z+_float_yxz_norm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_norm.mnc
  itkMINCImageIOTest4
- DATA{Input/t1_z+_float_yxz_norm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_norm.mnc 427621.7839 -8.195741583 72.45998819 -3.148534512 )
+ DATA{Input/t1_z+_float_yxz_norm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_float_yxz_norm.mnc 427621.7839 -8.195741583 72.45998819 -3.148534512)
 
 
 itk_add_test(NAME itkMINCImageIOTest-COM-t1_z+_ubyte_yxz_nonorm
  COMMAND ITKIOMINCTestDriver
  --compare DATA{Input/t1_z+_ubyte_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm.mnc
  itkMINCImageIOTest4
- DATA{Input/t1_z+_ubyte_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm.mnc 427621.7838 -8.195741583 72.45998819 -3.148534512 )
+ DATA{Input/t1_z+_ubyte_yxz_nonorm.mnc} ${ITK_TEST_OUTPUT_DIR}/t1_z+_ubyte_yxz_nonorm.mnc 427621.7838 -8.195741583 72.45998819 -3.148534512)
 
 
 

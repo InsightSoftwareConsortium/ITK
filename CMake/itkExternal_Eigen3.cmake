@@ -15,7 +15,7 @@ if(ITK_USE_EIGEN_MPL2_ONLY)
 endif()
 
 if(ITK_USE_SYSTEM_EIGEN)
-  find_package( Eigen3 )
+  find_package(Eigen3)
 else()
   # Set variables used to configure and install Eigen
   # _eigen3_cmake_install_prefix work also with relative CMAKE_INSTALL_PREFIX
@@ -56,7 +56,7 @@ else()
     ERROR_VARIABLE ITKEigen3Config_STDERR
     )
   set(ITKInternalEigen3_DIR ${_eigen3_build_dir})
-  find_package( ITKInternalEigen3 )
+  find_package(ITKInternalEigen3)
   if(NOT ITKInternalEigen3_FOUND)
     message(FATAL_ERROR "ITKInternalEigen3 configuration faileed\nREPORT:\n${ITKEigen3Config_STDOUT}\n${ITKEigen3Config_STDERR}")
   endif()

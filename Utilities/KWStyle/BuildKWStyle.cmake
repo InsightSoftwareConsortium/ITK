@@ -1,8 +1,8 @@
 include(ExternalProject)
 
-set( KWStyle_SOURCE_DIR ${CMAKE_BINARY_DIR}/KWStyle )
-set( KWStyle_DIR ${CMAKE_BINARY_DIR}/KWStyle-build )
-set( KWSTYLE_EXECUTABLE ${KWStyle_DIR}/KWStyle)
+set(KWStyle_SOURCE_DIR ${CMAKE_BINARY_DIR}/KWStyle)
+set(KWStyle_DIR ${CMAKE_BINARY_DIR}/KWStyle-build)
+set(KWSTYLE_EXECUTABLE ${KWStyle_DIR}/KWStyle)
 
 if(CMAKE_BUILD_TYPE)
   set(_build_configuration_arg -DCMAKE_BUILD_TYPE=Release)

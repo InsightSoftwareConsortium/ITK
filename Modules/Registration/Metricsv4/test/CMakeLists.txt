@@ -77,7 +77,7 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
               ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest.nii.gz
-              2 1 )
+              2 1)
 
 itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest2
       COMMAND ITKMetricsv4TestDriver
@@ -85,7 +85,7 @@ itk_add_test(NAME itkJointHistogramMutualInformationImageToImageRegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
               ${TEMP}/itkJointHistogramMutualInformationImageToImageRegistrationTest2.nii.gz
-              2 1 )
+              2 1)
 
 itk_add_test(NAME itkMeanSquaresImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
@@ -113,7 +113,7 @@ itk_add_test(NAME itkANTSNeighborhoodCorrelationImageToImageRegistrationTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBSplined10.png
              ${TEMP}/itkANTSNeighborhoodCorrelationImageToImageRegistrationTest.nii.gz
-              1 1 0.25 )
+              1 1 0.25)
 
 itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4Test
       COMMAND ITKMetricsv4TestDriver
@@ -125,7 +125,7 @@ itk_add_test(NAME itkMattesMutualInformationImageToImageMetricv4RegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
               ${TEMP}/itkMattesMutualInformationImageToImageMetricv4RegistrationTest.nii.gz
-              5 0 )
+              5 0)
 
 itk_add_test(NAME itkMultiStartImageToImageMetricv4RegistrationTest
       COMMAND ITKMetricsv4TestDriver
@@ -133,7 +133,7 @@ itk_add_test(NAME itkMultiStartImageToImageMetricv4RegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
               ${TEMP}/itkMultiStartImageToImageMetricv4RegistrationTest.nii.gz
-              5 1 )
+              5 1)
 
 itk_add_test(NAME itkMultiGradientImageToImageMetricv4RegistrationTest
       COMMAND ITKMetricsv4TestDriver
@@ -153,7 +153,7 @@ itk_add_test(NAME itkMeanSquaresImageToImageMetricv4RegistrationTest
               DATA{Baseline/face_avg.jpg}
               DATA{Input/face_b.jpg}
               ${TEMP}/itkMeanSquaresImageToImageMetricv4RegistrationTest.nii.gz
-              2 1 )
+              2 1)
 
 itk_add_test(NAME itkMeanSquaresImageToImageMetricv4RegistrationTest2
   COMMAND ITKMetricsv4TestDriver
@@ -256,7 +256,7 @@ itk_add_test(NAME itkObjectToObjectMultiMetricv4Test
 
 itk_add_test(NAME itkObjectToObjectMultiMetricv4RegistrationTest
       COMMAND ITKMetricsv4TestDriver
-              itkObjectToObjectMultiMetricv4RegistrationTest )
+              itkObjectToObjectMultiMetricv4RegistrationTest)
 
 itk_add_test(NAME itkMeanSquaresImageToImageMetricv4VectorRegistrationTest
       COMMAND ITKMetricsv4TestDriver
@@ -267,4 +267,4 @@ itk_add_test(NAME itkMeanSquaresImageToImageMetricv4VectorRegistrationTest
               DATA{Input/orange.jpg}
               DATA{Input/apple.jpg}
               ${TEMP}/itkMeanSquaresImageToImageMetricv4VectorRegistrationTest.nii.gz
-              100 25 )
+              100 25)

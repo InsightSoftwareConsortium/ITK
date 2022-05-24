@@ -124,45 +124,45 @@ macro(itk_wrap_module library_name)
   # WRAPPER_SUBMODULE_ORDER. List of *.wrap submodules in the source dir
   # that should be included/wrapped before the rest in the given order.
   # Just the submodule group name is needed, not the full path or file name.
-  unset(WRAPPER_SUBMODULE_ORDER )
+  unset(WRAPPER_SUBMODULE_ORDER)
 
   # WRAPPER_LIBRARY_SWIG_INPUTS. List of C++ source files to be used
   # as input for Swig. This list is then appended to by
   # WRAPPER_LIBRARY_AUTO_INCLUDE_WRAP_FILES. A full path to each input is required.
-  unset(WRAPPER_LIBRARY_SWIG_INPUTS )
+  unset(WRAPPER_LIBRARY_SWIG_INPUTS)
 
   # WRAPPER_SWIG_LIBRARY_FILES. List of swig .swg files to pass to cswig to control
   # type handling and so forth. A full path to each include is required.
   # The itk.swg file and the library file for the current library are implicitly added.
-  unset(WRAPPER_SWIG_LIBRARY_FILES )
+  unset(WRAPPER_SWIG_LIBRARY_FILES)
 
   # WRAPPER_LIBRARY_CXX_SOURCES. C++ sources to be compiled and linked in
   # to the wrapper library (with no prior processing by swig, etc.)
   # A full path to each input is required.
-  unset(WRAPPER_LIBRARY_CXX_SOURCES )
+  unset(WRAPPER_LIBRARY_CXX_SOURCES)
 
   # Call the language support initialization function
 
   # store the content of the mdx file
-  unset(SWIG_INTERFACE_MDX_CONTENT )
+  unset(SWIG_INTERFACE_MDX_CONTENT)
   # store the content of the .i file for the module - a set of import of all the .i files generated for the module
-  unset(SWIG_INTERFACE_MODULE_CONTENT )
+  unset(SWIG_INTERFACE_MODULE_CONTENT)
   # build a list of modules to create the igenerator custom command
-  unset(SWIG_INTERFACE_MODULES )
+  unset(SWIG_INTERFACE_MODULES)
 
   if(${module_prefix}_WRAP_DOC)
-    unset(ITK_WRAP_DOC_DOXYGEN_HEADERS )  # doxygen headers to process in this lib
-    unset(ITK_WRAP_DOC_DOXYGEN_XML_FILES )  # xml files produced by doxygen in this lib
-    unset(ITK_WRAP_DOC_DOCSTRING_FILES )  # swig docstring files produced by doxygen in this lib
+    unset(ITK_WRAP_DOC_DOXYGEN_HEADERS)  # doxygen headers to process in this lib
+    unset(ITK_WRAP_DOC_DOXYGEN_XML_FILES)  # xml files produced by doxygen in this lib
+    unset(ITK_WRAP_DOC_DOCSTRING_FILES)  # swig docstring files produced by doxygen in this lib
   endif()
 
-  unset(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES )
-  unset(ITK_WRAP_PYTHON_LIBRARY_IMPORTS )
-  unset(ITK_WRAP_PYTHON_LIBRARY_DEPS )
-  unset(ITK_WRAP_PYTHON_LIBRARY_DECLS )
+  unset(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES)
+  unset(ITK_WRAP_PYTHON_LIBRARY_IMPORTS)
+  unset(ITK_WRAP_PYTHON_LIBRARY_DEPS)
+  unset(ITK_WRAP_PYTHON_LIBRARY_DECLS)
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS "\nPyObject * sysModules = PyImport_GetModuleDict();\n")
-  unset(ITK_WRAP_PYTHON_CXX_FILES )
-  unset(ITK_WRAP_PYTHON_FILES )
+  unset(ITK_WRAP_PYTHON_CXX_FILES)
+  unset(ITK_WRAP_PYTHON_FILES)
   if(MSVC)
     get_filename_component(python_library_directory "${Python3_LIBRARIES}" DIRECTORY)
     # It should use the following code inside `itk_end_wrap_module_python` but
@@ -256,7 +256,7 @@ macro(itk_wrap_named_class class swig_name)
   if("${ARGC}" EQUAL 3)
     set(WRAPPER_WRAP_METHOD "${ARGV2}")
     set(VALID_WRAP_METHODS POINTER POINTER_WITH_CONST_POINTER POINTER_WITH_SUPERCLASS POINTER_WITH_2_SUPERCLASSES EXPLICIT_SPECIALIZATION POINTER_WITH_EXPLICIT_SPECIALIZATION ENUM AUTOPOINTER)
-    if( NOT "${WRAPPER_WRAP_METHOD}" IN_LIST VALID_WRAP_METHODS)
+    if(NOT "${WRAPPER_WRAP_METHOD}" IN_LIST VALID_WRAP_METHODS)
       message(SEND_ERROR "itk_wrap_class: Invalid option '${WRAPPER_WRAP_METHOD}'. Possible values are ${VALID_WRAP_METHODS}")
     endif()
     unset(VALID_WRAP_METHODS)
@@ -284,7 +284,7 @@ macro(itk_wrap_named_class class swig_name)
     else()
       set(ITK_WRAP_DOC_GENERATE_DOXY2SWIG_INPUT OFF)
       get_directory_property(dirs INCLUDE_DIRECTORIES)
-      set(paths )
+      set(paths)
       foreach(dir ${dirs})
         list(APPEND paths "${dir}/${swig_name}.h")
       endforeach()
@@ -355,7 +355,7 @@ macro(itk_wrap_include include_file)
   list(FIND WRAPPER_INCLUDE_FILES "${include_file}" _index)
   if (${_index} EQUAL -1)
     # include order IS important. Default values must be before the other ones
-    list(APPEND WRAPPER_INCLUDE_FILES ${include_file} )
+    list(APPEND WRAPPER_INCLUDE_FILES ${include_file})
   endif()
 endmacro()
 
@@ -792,11 +792,11 @@ macro(itk_wrap_template name types)
     #    set(text "${text}  // ======================\n")
     set(text "${text}  ${image_source} * imgsrc;\n")
     set(text "${text}  ${image} * img;\n")
-    set(text "${text}  if( $input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0 )\n")
+    set(text "${text}  if($input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0)\n")
     set(text "${text}    {\n")
     set(text "${text}    \$1 = imgsrc->GetOutput(0);\n")
     set(text "${text}    }\n")
-    set(text "${text}  else if( SWIG_ConvertPtr($input,(void **)(&img),\$descriptor(${image} *), 0) == 0 )\n")
+    set(text "${text}  else if(SWIG_ConvertPtr($input,(void **)(&img),\$descriptor(${image} *), 0) == 0)\n")
     set(text "${text}    {\n")
     set(text "${text}    \$1 = img;\n")
     set(text "${text}    }\n")
@@ -812,11 +812,11 @@ macro(itk_wrap_template name types)
     #    set(text "${text}  // //////////////////////////\n")
     set(text "${text}  ${image_source} * imgsrc;\n")
     set(text "${text}  ${image} * img;\n")
-    set(text "${text}  if( $input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0 )\n")
+    set(text "${text}  if($input != Py_None && SWIG_ConvertPtr($input,(void **)(&imgsrc),\$descriptor(${image_source} *), 0) == 0)\n")
     set(text "${text}    {\n")
     set(text "${text}    \$1 = 1;\n")
     set(text "${text}    }\n")
-    set(text "${text}  else if( SWIG_ConvertPtr($input,(void **)(&img),\$descriptor(${image} *), 0) == 0 )\n")
+    set(text "${text}  else if(SWIG_ConvertPtr($input,(void **)(&img),\$descriptor(${image} *), 0) == 0)\n")
     set(text "${text}    {\n")
     set(text "${text}    \$1 = 1;\n")
     set(text "${text}    }\n")

@@ -98,7 +98,7 @@ if(NOT ITK_USE_SYSTEM_FFTW)
       #  )
       # Can not find package, it does not yet exist find_package(FFTW3f CONFIG REQUIRED)
       # but we know where it will eventually be!
-      set(FFTW3f_INCLUDE_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/include )
+      set(FFTW3f_INCLUDE_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/include)
       set(FFTW3f_LIBRARY_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
       set(FFTW_INCLUDE ${FFTW3_INCLUDE_DIRS})
       set(FFTW_LIBDIR  ${FFTW3_LIBRARY_DIRS})
@@ -149,7 +149,7 @@ if(NOT ITK_USE_SYSTEM_FFTW)
       #   FORCE
       #  )
       # Can not find package, it does not yet exist find_package(FFTW3 CONFIG REQUIRED)
-      set(FFTW3_INCLUDE_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/include )
+      set(FFTW3_INCLUDE_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/include)
       set(FFTW3_LIBRARY_DIRS ${FFTW_STAGED_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR})
 
       set(FFTW_INCLUDE ${FFTW3_INCLUDE_DIRS})
@@ -173,5 +173,5 @@ TYPE FILE FILES \${FFTW_INC})"
       COMPONENT Development)
 else()
   #Search the filesystem for compatible versions
-  find_package( FFTW ) # Use local itk FindFFTW.config to set variables consistently both with/without USE_SYSTEM_FFTW
+  find_package(FFTW) # Use local itk FindFFTW.config to set variables consistently both with/without USE_SYSTEM_FFTW
 endif()

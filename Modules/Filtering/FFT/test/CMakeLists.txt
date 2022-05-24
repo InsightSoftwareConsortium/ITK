@@ -16,7 +16,7 @@ itkVnlComplexToComplexFFTImageFilterTest.cxx
 )
 
 if(ITK_USE_FFTWF)
-  list( APPEND ITKFFTTests
+  list(APPEND ITKFFTTests
     itkFFTWF_FFTTest.cxx
     itkFFTWF_RealFFTTest.cxx
     itkVnlFFTWF_FFTTest.cxx
@@ -25,7 +25,7 @@ if(ITK_USE_FFTWF)
 endif()
 
 if(ITK_USE_FFTWD)
-  list( APPEND ITKFFTTests
+  list(APPEND ITKFFTTests
     itkFFTWD_FFTTest.cxx
     itkFFTWD_RealFFTTest.cxx
     itkVnlFFTWD_FFTTest.cxx
@@ -34,7 +34,7 @@ if(ITK_USE_FFTWD)
 endif()
 
 if(ITK_USE_FFTWF OR ITK_USE_FFTWD)
-  list( APPEND ITKFFTTests
+  list(APPEND ITKFFTTests
     itkFFTWComplexToComplexFFTImageFilterTest.cxx
   )
 endif()
@@ -55,22 +55,22 @@ set_tests_properties(itkVnlRealFFTTest PROPERTIES ATTACHED_FILES_ON_FAIL ${TEMP}
 
 if(ITK_USE_FFTWF)
   itk_add_test(NAME itkFFTWF_FFTTest
-    COMMAND ITKFFTTestDriver itkFFTWF_FFTTest ${ITK_TEST_OUTPUT_DIR} )
+    COMMAND ITKFFTTestDriver itkFFTWF_FFTTest ${ITK_TEST_OUTPUT_DIR})
   itk_add_test(NAME itkFFTWF_RealFFTTest
-    COMMAND ITKFFTTestDriver itkFFTWF_RealFFTTest ${ITK_TEST_OUTPUT_DIR} )
+    COMMAND ITKFFTTestDriver itkFFTWF_RealFFTTest ${ITK_TEST_OUTPUT_DIR})
   itk_add_test(NAME itkVnlFFTWF_FFTTest
-    COMMAND ITKFFTTestDriver  itkVnlFFTWF_FFTTest )
+    COMMAND ITKFFTTestDriver  itkVnlFFTWF_FFTTest)
   itk_add_test(NAME itkVnlFFTWF_RealFFTTest
-    COMMAND ITKFFTTestDriver  itkVnlFFTWF_RealFFTTest )
+    COMMAND ITKFFTTestDriver  itkVnlFFTWF_RealFFTTest)
   set_tests_properties(itkVnlFFTWF_FFTTest itkVnlFFTWF_RealFFTTest PROPERTIES ENVIRONMENT
     "ITK_FFTW_READ_WISDOM_CACHE=oN;ITK_FFTW_WRITE_WISDOM_CACHE=oN;ITK_FFTW_WISDOM_CACHE_FILE=${ITK_TEST_OUTPUT_DIR}/.wisdom_from_ITK_FFTW_WISDOM_CACHE_FILE;ITK_FFTW_PLAN_RIGOR=FFTW_EXHAUSTIVE")
 endif()
 
 if(ITK_USE_FFTWD)
   itk_add_test(NAME itkFFTWD_FFTTest
-    COMMAND ITKFFTTestDriver itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR} )
+    COMMAND ITKFFTTestDriver itkFFTWD_FFTTest ${ITK_TEST_OUTPUT_DIR})
   itk_add_test(NAME itkFFTWD_RealFFTTest
-    COMMAND ITKFFTTestDriver itkFFTWD_RealFFTTest ${ITK_TEST_OUTPUT_DIR} )
+    COMMAND ITKFFTTestDriver itkFFTWD_RealFFTTest ${ITK_TEST_OUTPUT_DIR})
   itk_add_test(NAME itkVnlFFTWD_FFTTest
     COMMAND  ITKFFTTestDriver  itkVnlFFTWD_FFTTest)
   itk_add_test(NAME itkVnlFFTWD_RealFFTTest
@@ -320,7 +320,7 @@ itk_add_test(NAME itkVnlForward1DFFTImageFilterTest
     ${ITK_TEST_OUTPUT_DIR}/itkVnlForward1DFFTImageFilterTestOutput
     1
     )
-itk_add_test( NAME itkVnlInverse1DFFTImageFilterTest
+itk_add_test(NAME itkVnlInverse1DFFTImageFilterTest
   COMMAND ITKFFTTestDriver
   --compare
     DATA{Input/TreeBarkTexture.png}

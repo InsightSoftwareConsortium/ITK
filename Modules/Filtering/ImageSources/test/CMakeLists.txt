@@ -77,4 +77,4 @@ itk_add_test(NAME itkPhysicalPointImageSourceTest4
       --compareIntensityTolerance .0001
       --compare DATA{${ITK_DATA_ROOT}/Baseline/Filtering/itkPhysicalPointImageSourceTest4.nrrd}
                 ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest4.nrrd
-      itkPhysicalPointImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest4.nrrd 3 0.785398163 )
+      itkPhysicalPointImageSourceTest ${ITK_TEST_OUTPUT_DIR}/itkPhysicalPointImageSourceTest4.nrrd 3 0.785398163)
