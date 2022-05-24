@@ -73,8 +73,8 @@ itk_add_test(NAME itkSmoothingQuadEdgeMeshFilterTest1
              itkSmoothingQuadEdgeMeshFilterTest
           DATA{${INPUTDATA}/genusZeroSurface01.vtk} 10 0.1 1 ${TEMP}/temp_SmoothResult1.vtk)
 
-set( CURV_TESTS Gaussian Maximum Mean Minimum )
-foreach( loop_var ${CURV_TESTS} )
+set(CURV_TESTS Gaussian Maximum Mean Minimum)
+foreach(loop_var ${CURV_TESTS})
   itk_add_test(NAME itkDiscrete${loop_var}CurvatureQuadEdgeMeshFilterTest
       COMMAND ITKQuadEdgeMeshFilteringTestDriver
             itkDiscrete${loop_var}CurvatureQuadEdgeMeshFilterTest
@@ -113,7 +113,7 @@ itk_add_test(NAME itkNormalQuadEdgeMeshFilterTest2
       COMMAND ITKQuadEdgeMeshFilteringTestDriver itkNormalQuadEdgeMeshFilterTest
               DATA{${INPUTDATA}/mushroom.vtk} 2)
 
-foreach( area 0 1 )
+foreach(area 0 1)
   itk_add_test(NAME itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsArea${area}Test
         COMMAND ITKQuadEdgeMeshFilteringTestDriver itkLaplacianDeformationQuadEdgeMeshFilterWithSoftConstraintsTest
                 DATA{${INPUTDATA}/genusZeroSurface01.vtk} ${TEMP}/LaplacianDeformationSoftConstraintsOutput_area${area}.vtk ${area})
@@ -122,9 +122,9 @@ foreach( area 0 1 )
                 DATA{${INPUTDATA}/genusZeroSurface01.vtk} ${TEMP}/LaplacianDeformationHardConstraintsOutput_area${area}.vtk ${area})
 endforeach()
 
-foreach( border 0 1 )
-  foreach( coeff 0 1 2 3 4 )
-    foreach( solver 0 1 )
+foreach(border 0 1)
+  foreach(coeff 0 1 2 3 4)
+    foreach(solver 0 1)
       itk_add_test(NAME itkParameterizationQuadEdgeMeshFilterTestb${border}_c${coeff}_s${solver}
             COMMAND ITKQuadEdgeMeshFilteringTestDriver
                     itkParameterizationQuadEdgeMeshFilterTest

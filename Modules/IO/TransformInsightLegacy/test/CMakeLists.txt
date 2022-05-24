@@ -8,7 +8,7 @@ CreateTestDriver(ITKIOTransformInsightLegacy "${ITKIOTransformInsightLegacy-Test
 
 itk_add_test(NAME itkIOTransformTxtTest
       COMMAND ITKIOTransformInsightLegacyTestDriver itkIOTransformTxtTest
-        ${ITK_TEST_OUTPUT_DIR} )
+        ${ITK_TEST_OUTPUT_DIR})
 
 itk_add_test(NAME itkIOTransformEuler3DTxtTest
       COMMAND ITKIOTransformInsightLegacyTestDriver itkIOEuler3DTransformTxtTest

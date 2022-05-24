@@ -1,7 +1,7 @@
 if(ITK_USE_GPU)
-  find_package ( OpenCL REQUIRED )
-  if ( NOT ${OPENCL_FOUND} )
-     message ( FATAL "Could not find OpenCL" )
+  find_package ( OpenCL REQUIRED)
+  if ( NOT ${OPENCL_FOUND})
+     message ( FATAL "Could not find OpenCL")
   endif ()
 
  macro(sourcefile_to_string SOURCE_FILE RESULT_CMAKE_VAR)

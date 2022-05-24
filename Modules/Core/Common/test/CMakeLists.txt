@@ -199,7 +199,7 @@ set(BASELINE "${ITK_DATA_ROOT}/Baseline/Common")
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
 
-add_executable(itkMathTest itkMathTest.cxx )
+add_executable(itkMathTest itkMathTest.cxx)
 itk_module_target_label(itkMathTest)
 target_link_libraries(itkMathTest LINK_PUBLIC ${ITKCommon_LIBRARIES})
 itk_add_test(NAME itkMathTest COMMAND itkMathTest)
@@ -336,7 +336,7 @@ itk_add_test(NAME itkImageSliceIteratorTest
       COMMAND ITKCommon1TestDriver itkImageSliceIteratorTest)
 itk_add_test(NAME itkImageTest COMMAND ITKCommon1TestDriver itkImageTest)
 itk_add_test(NAME itkLightObjectTest COMMAND ITKCommon1TestDriver itkLightObjectTest)
-itk_add_test(NAME itkLineIteratorTest COMMAND ITKCommon1TestDriver itkLineIteratorTest DATA{${BASELINE}/itkLineIteratorTest.txt} )
+itk_add_test(NAME itkLineIteratorTest COMMAND ITKCommon1TestDriver itkLineIteratorTest DATA{${BASELINE}/itkLineIteratorTest.txt})
 itk_add_test(NAME itkLoggerTest COMMAND ITKCommon1TestDriver itkLoggerTest ${TEMP}/test_logger.txt)
 itk_add_test(NAME itkLoggerOutputTest COMMAND ITKCommon2TestDriver itkLoggerOutputTest ${TEMP}/test_loggerOutput.txt)
 itk_add_test(NAME itkLoggerManagerTest COMMAND ITKCommon2TestDriver itkLoggerManagerTest ${TEMP}/test_LoggerManager.txt)
@@ -530,14 +530,14 @@ itk_add_test(NAME itkConstantBoundaryConditionTest COMMAND ITKCommon2TestDriver 
  itk_add_test(NAME itkVNLRoundProfileTest1 COMMAND ITKCommon2TestDriver itkVNLRoundProfileTest1)
  itk_add_test(NAME itkMemoryProbesCollecterBaseTest COMMAND ITKCommon2TestDriver
    itkMemoryProbesCollecterBaseTest)
-if( "${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4 )
+if("${ITK_COMPUTER_MEMORY_SIZE}" GREATER 4)
   itk_add_test(NAME itkImageFillBufferTest4.1 COMMAND ITKCommon2TestDriver itkImageFillBufferTest 4.1)
   set_property(TEST itkImageFillBufferTest4.1 APPEND PROPERTY LABELS RUNS_LONG)
-  set_tests_properties( itkImageFillBufferTest4.1 PROPERTIES RESOURCE_LOCK MEMORY_SIZE )
+  set_tests_properties(itkImageFillBufferTest4.1 PROPERTIES RESOURCE_LOCK MEMORY_SIZE)
 endif()
 
-itk_add_test(NAME itkImageAlgorithmCopyTest COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest )
-itk_add_test(NAME itkImageAlgorithmCopyTest2 COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest2 )
+itk_add_test(NAME itkImageAlgorithmCopyTest COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest)
+itk_add_test(NAME itkImageAlgorithmCopyTest2 COMMAND ITKCommon2TestDriver itkImageAlgorithmCopyTest2)
 itk_add_test(NAME itkOptimizerParametersTest COMMAND ITKCommon2TestDriver itkOptimizerParametersTest)
 itk_add_test(NAME itkImageVectorOptimizerParametersHelperTest COMMAND ITKCommon2TestDriver itkImageVectorOptimizerParametersHelperTest)
 itk_add_test(NAME itkCompensatedSummationTest COMMAND ITKCommon2TestDriver itkCompensatedSummationTest)
@@ -674,7 +674,7 @@ if(NOT ITK_BUILD_SHARED_LIBS AND NOT CMAKE_EXE_LINKER_FLAGS MATCHES ".*-static.*
   # Linking static ITK libraries twice, into two different binaries for the same process, is not recommended or supported.
   BuildSharedTestLibrary(A SHARED)
   BuildSharedTestLibrary(B SHARED)
-  add_executable(itkObjectFactoryBasePrivateDestructor itkObjectFactoryBasePrivateDestructor.cxx )
+  add_executable(itkObjectFactoryBasePrivateDestructor itkObjectFactoryBasePrivateDestructor.cxx)
   itk_module_target_label(itkObjectFactoryBasePrivateDestructor)
   target_link_libraries(itkObjectFactoryBasePrivateDestructor
       LINK_PUBLIC

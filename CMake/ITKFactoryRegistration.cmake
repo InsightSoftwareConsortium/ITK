@@ -63,7 +63,7 @@
 # All factories can be disabled with the following CMake code:
 #  foreach(_factory_name ${ITK_FACTORY_LIST})
 #    string(TOLOWER ${_factory_name} _f)
-#    set ( ITK_NO_${_factory_name}_FACTORY_REGISTER_MANAGER 1 )
+#    set ( ITK_NO_${_factory_name}_FACTORY_REGISTER_MANAGER 1)
 #  endforeach()
 #
 #
@@ -207,7 +207,7 @@ macro(itk_generate_factory_registration)
     string(TOLOWER ${_factory_name} factory_lc)
     set(LIST_OF_${factory_uc}_FORMATS "")
     foreach(_format ${ITK_${_factory_name}})
-      set(Module )
+      set(Module)
       foreach(_module ${ITK_FACTORY_NAMES})
         string(REGEX MATCH "^.*::${_factory_name}::${_format}$" Module_Matched "${_module}")
         if(Module_Matched)

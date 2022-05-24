@@ -29,9 +29,9 @@ macro(itk_module_kwstyle_test _name)
   set(_kwstyle_itk_configuration_file "${ITK_CMAKE_DIR}/../Utilities/KWStyle/ITK.kws.xml"  )
 
   if(EXISTS "${${itk-module}_SOURCE_DIR}/ITKKWStyleOverwrite.txt")
-    set(_kwstyle_itk_overwrite_file "${${itk-module}_SOURCE_DIR}/ITKKWStyleOverwrite.txt" )
+    set(_kwstyle_itk_overwrite_file "${${itk-module}_SOURCE_DIR}/ITKKWStyleOverwrite.txt")
   else()
-    set(_kwstyle_itk_overwrite_file "${ITK_CMAKE_DIR}/../Utilities/KWStyle/ITKOverwrite.txt" )
+    set(_kwstyle_itk_overwrite_file "${ITK_CMAKE_DIR}/../Utilities/KWStyle/ITKOverwrite.txt")
   endif()
 
   if(EXISTS "${${itk-module}_SOURCE_DIR}/ITKKWStyleFiles.txt.in")

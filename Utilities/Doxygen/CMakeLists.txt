@@ -14,48 +14,48 @@ endif()
 #
 # Generate Doxygen configuration file in all configuration file
 #
-if( ${DOXYGEN_DOT_FOUND} )
-  set( ITK_HAVE_DOT "YES" )
+if(${DOXYGEN_DOT_FOUND})
+  set(ITK_HAVE_DOT "YES")
 else()
-  set( ITK_HAVE_DOT "NO" )
+  set(ITK_HAVE_DOT "NO")
 endif()
 
-set( DOX_MODULE_LIST ${ITK_MODULES_ENABLED} )
+set(DOX_MODULE_LIST ${ITK_MODULES_ENABLED})
 
 foreach(itk-module ${DOX_MODULE_LIST})
   if(${itk-module}_IS_TEST)
-    list( APPEND DOXYGEN_TEST_DIRS "${${itk-module}_SOURCE_DIR}")
+    list(APPEND DOXYGEN_TEST_DIRS "${${itk-module}_SOURCE_DIR}")
   else()
-    if( EXISTS ${${itk-module}_SOURCE_DIR}/include )
-      list( APPEND DOXYGEN_INCLUDE_DIRS "${${itk-module}_SOURCE_DIR}/include")
+    if(EXISTS ${${itk-module}_SOURCE_DIR}/include)
+      list(APPEND DOXYGEN_INCLUDE_DIRS "${${itk-module}_SOURCE_DIR}/include")
     endif()
   endif()
 endforeach()
 
-list( APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Examples")
-list( APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}")
-list( APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Modules/Remote")
+list(APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Examples")
+list(APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}")
+list(APPEND DOXYGEN_TEST_DIRS "${ITK_SOURCE_DIR}/Modules/Remote")
 
 
 #
 # Configure the script and the doxyfile, then add target
 #
-set( ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen )
+set(ITK_DOXYGEN_OUTPUT_DIR ${ITK_BINARY_DIR}/Utilities/Doxygen)
 
-set( ITK_DOXYGEN_DIAGRAMS YES )
+set(ITK_DOXYGEN_DIAGRAMS YES)
 
-cmake_dependent_option( ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for Xcode 3" OFF "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF "ITK_BUILD_DOCUMENTATION" OFF)
-cmake_dependent_option( ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_HTML "Doxygen will generate HTML Output" ON "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_DOCSET "Doxygen will generate additional index files for Xcode 3" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_CHM "Doxygen will generate Microsoft HTML help" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_QHP "Doxygen will generate Qt Compressed Help" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_ECLIPSEHELP "Doxygen will generate Eclipse help plugin" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_LATEX "Doxygen will generate LaTeX output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_RTF "Doxygen will generate RTF output optimized for Word 97" OFF "ITK_BUILD_DOCUMENTATION" OFF)
+cmake_dependent_option(ITK_DOXYGEN_XML "Doxygen will generate XML output" OFF "ITK_BUILD_DOCUMENTATION" OFF)
 
-cmake_dependent_option( ITK_DOXYGEN_SERVER_BASED_SEARCH "Doxygen HTML will use PHP server based search." ON ITK_DOXYGEN_HTML OFF)
+cmake_dependent_option(ITK_DOXYGEN_SERVER_BASED_SEARCH "Doxygen HTML will use PHP server based search." ON ITK_DOXYGEN_HTML OFF)
 
-mark_as_advanced( ITK_DOXYGEN_HTML
+mark_as_advanced(ITK_DOXYGEN_HTML
   ITK_DOXYGEN_DOCSET
   ITK_DOXYGEN_CHM
   ITK_DOXYGEN_QHP
@@ -66,16 +66,16 @@ mark_as_advanced( ITK_DOXYGEN_HTML
   ITK_DOXYGEN_SERVER_BASED_SEARCH
   )
 
-find_package( Perl )
+find_package(Perl)
 
-if( PERL_FOUND )
-  set( ITK_DOXYGEN_INPUT_FILTER
-    "${PERL_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl" )
+if(PERL_FOUND)
+  set(ITK_DOXYGEN_INPUT_FILTER
+    "${PERL_EXECUTABLE} ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl")
 
   configure_file(${ITK_SOURCE_DIR}/Utilities/Doxygen/itkdoxygen.pl.in
                ${ITK_BINARY_DIR}/Utilities/Doxygen/itkdoxygen.pl)
 else()
-  set( ITK_DOXYGEN_INPUT_FILTER )
+  set(ITK_DOXYGEN_INPUT_FILTER)
 endif()
 
 # -------------------------------------------------------------
@@ -108,10 +108,10 @@ if (ITK_BUILD_DOCUMENTATION)
    configure_file(${CMAKE_CURRENT_LIST_DIR}/build_text.js.in
      "${ITK_BINARY_DIR}/Utilities/Doxygen//html/build_text.js")
 
-  find_package( LATEX )
+  find_package(LATEX)
 
   # Custom command to generate a examples page which include all ITK examples
-  add_custom_command( OUTPUT "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
+  add_custom_command(OUTPUT "${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
     COMMAND ${CMAKE_COMMAND} -D "PROJECT_SOURCE_DIR:PATH=${ITK_SOURCE_DIR}"
     -D "OUTPUT_FILE:PATH=${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox"
     -P "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
@@ -119,7 +119,7 @@ if (ITK_BUILD_DOCUMENTATION)
     DEPENDS "${ITK_SOURCE_DIR}/Examples" "${ITK_SOURCE_DIR}/Utilities/Doxygen/GenerateExamplesDox.cmake"
     )
 
-  set( ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS}
+  set(ITK_DOXYGEN_INPUT ${DOXYGEN_INCLUDE_DIRS}
     ${ITK_SOURCE_DIR}/Documentation/Doxygen
     ${ITK_BINARY_DIR}/Documentation/Doxygen
     ${ITK_BINARY_DIR}/Documentation/Doxygen/Examples.dox
@@ -158,7 +158,7 @@ if (ITK_BUILD_DOCUMENTATION)
       ${ITK_DOXYGEN_OUTPUT_DIR}/html # output doxygen directory
     )
 
-  message( STATUS
+  message(STATUS
            "To generate Doxygen's documentation, you need to build the Documentation target"
          )
 

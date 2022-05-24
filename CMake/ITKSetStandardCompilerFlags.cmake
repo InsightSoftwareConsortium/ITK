@@ -28,7 +28,7 @@ function(check_c_compiler_flags c_flag_var)
   set(local_c_flags "")
   set(flag_list "${ARGN}")
   foreach(flag IN LISTS flag_list)
-    string(REPLACE "=" "_" flag_var ${flag} )
+    string(REPLACE "=" "_" flag_var ${flag})
     check_c_compiler_flag(${flag} C_HAS_WARNING${flag_var})
     if(${C_HAS_WARNING${flag_var}})
       set(local_c_flags "${local_c_flags} ${flag}")
@@ -42,7 +42,7 @@ function(check_cxx_compiler_flags cxx_flag_var)
   set(local_cxx_flags "")
   set(flag_list "${ARGN}")
   foreach(flag IN LISTS flag_list)
-    string(REPLACE "=" "_" flag_var ${flag} )
+    string(REPLACE "=" "_" flag_var ${flag})
     check_cxx_compiler_flag(${flag} CXX_HAS_WARNING${flag_var})
     if(${CXX_HAS_WARNING${flag_var}})
       set(local_cxx_flags "${local_cxx_flags} ${flag}")
@@ -66,11 +66,11 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
   ## is reporting 1000's of wanings in windows
   ## header files, for now, limit the number of
   ## warnings to level 3
-  if( WIN32 )
-    set(VerboseWarningsFlag -W3 )
+  if(WIN32)
+    set(VerboseWarningsFlag -W3)
     ## A better solution would be to use -Wall,
     ## and then disable warnings one by one
-    ## set(VerboseWarningsFlag -Wall -wd4820 -wd4682 )
+    ## set(VerboseWarningsFlag -Wall -wd4820 -wd4682)
   else()
     ## with Intel compiler, the -Wall compiler options
     ## is reporting 1000's of remarks of trivial items
@@ -84,7 +84,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
     endif()
     if(USING_INTEL_ICC_COMPILER)
       # NOTE -w2 is close to gcc's -Wall warning level, -w5 is intels -Wall warning level, and it is too verbose.
-      set(VerboseWarningsFlag -w2 -wd1268 -wd981 -wd383 -wd1418 -wd1419 -wd2259 -wd1572 -wd424 )
+      set(VerboseWarningsFlag -w2 -wd1268 -wd981 -wd383 -wd1418 -wd1419 -wd2259 -wd1572 -wd424)
       #-wd424  #Needed for Intel compilers with remarki  #424: extra ";" ignored
       #-wd383  #Needed for Intel compilers with remark   #383: value copied to temporary, reference to temporary used
       #-wd981  #Needed for Intel compilers with remark   #981: operands are evaluated in unspecified order
@@ -94,7 +94,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
       #-wd2259 #Needed for Intel compilers with remark  #2259: non-pointer conversion from "itk::SizeValueType={unsigned long}" to "double" may lose significant bits
       #-wd1268 #Needed for Intel compliers with warning #1268: support for exported templates is disabled
     else()
-      set(VerboseWarningsFlag -Wall )
+      set(VerboseWarningsFlag -Wall)
     endif ()
   endif()
 
@@ -155,13 +155,13 @@ function(check_avx_flags avx_flags_var)
       __m256 a, b, c;
       const float src[8] = { 1.0f, 2.0f, 3.0f, 4.0f, 5.0f, 6.0f, 7.0f, 8.0f };
       float dst[8];
-      a = _mm256_loadu_ps( src );
-      b = _mm256_loadu_ps( src );
-      c = _mm256_add_ps( a, b );
-      _mm256_storeu_ps( dst, c );
+      a = _mm256_loadu_ps(src);
+      b = _mm256_loadu_ps(src);
+      c = _mm256_add_ps(a, b);
+      _mm256_storeu_ps(dst, c);
 
-      for( int i = 0; i < 8; i++ ){
-        if( ( src[i] + src[i] ) != dst[i] ){
+      for(int i = 0; i < 8; i++){
+        if(( src[i] + src[i]) != dst[i]){
           return -1;
         }
       }
@@ -181,13 +181,13 @@ function(check_avx_flags avx_flags_var)
       __m256i a, b, c;
       const int src[8] = { 1, 2, 3, 4, 5, 6, 7, 8 };
       int dst[8];
-      a =  _mm256_loadu_si256( (__m256i*)src );
-      b =  _mm256_loadu_si256( (__m256i*)src );
-      c = _mm256_add_epi32( a, b );
-      _mm256_storeu_si256( (__m256i*)dst, c );
+      a =  _mm256_loadu_si256( (__m256i*)src);
+      b =  _mm256_loadu_si256( (__m256i*)src);
+      c = _mm256_add_epi32( a, b);
+      _mm256_storeu_si256( (__m256i*)dst, c);
 
-      for( int i = 0; i < 8; i++ ){
-        if( ( src[i] + src[i] ) != dst[i] ){
+      for(int i = 0; i < 8; i++){
+        if(( src[i] + src[i]) != dst[i]){
           return -1;
         }
       }
@@ -248,7 +248,7 @@ function(check_compiler_optimization_flags c_optimization_flags_var cxx_optimiza
     set(c_and_cxx_flags ${InstructionSetOptimizationFlags})
   endif()
 
-  check_c_compiler_flags(    CMAKE_C_WARNING_FLAGS ${c_and_cxx_flags} ${c_flags})
+  check_c_compiler_flags(   CMAKE_C_WARNING_FLAGS ${c_and_cxx_flags} ${c_flags})
   check_cxx_compiler_flags(CMAKE_CXX_WARNING_FLAGS ${c_and_cxx_flags} ${cxx_flags})
 
   set(${c_optimization_flags_var} "${CMAKE_C_WARNING_FLAGS}" PARENT_SCOPE)
@@ -392,7 +392,7 @@ macro(check_compiler_platform_flags)
   endif()
 endmacro()#End the platform check function
 
-if(NOT ITK_C_WARNING_FLAGS OR NOT ITK_CXX_WARNING_FLAGS ) # Only check once if not explicitly set on command line
+if(NOT ITK_C_WARNING_FLAGS OR NOT ITK_CXX_WARNING_FLAGS) # Only check once if not explicitly set on command line
   #-----------------------------------------------------------------------------
   #Check the set of warning flags the compiler supports
   check_compiler_warning_flags(C_WARNING_FLAGS CXX_WARNING_FLAGS)
@@ -414,7 +414,7 @@ unset(C_WARNING_FLAGS)
 unset(CXX_WARNING_FLAGS)
 
 
-if(NOT ITK_C_OPTIMIZATION_FLAGS OR NOT ITK_CXX_OPTIMIZATION_FLAGS ) # Only check once if not explicitly set on command line
+if(NOT ITK_C_OPTIMIZATION_FLAGS OR NOT ITK_CXX_OPTIMIZATION_FLAGS) # Only check once if not explicitly set on command line
   #-----------------------------------------------------------------------------
   #Check the set of warning flags the compiler supports
   check_compiler_optimization_flags(C_OPTIMIZATION_FLAGS CXX_OPTIMIZATION_FLAGS)

@@ -28,9 +28,9 @@ if(WIN32)
 else()
 
     # follow the standard EP_PREFIX locations
-    set ( swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build )
-    set ( swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig )
-    set ( swig_install_dir ${CMAKE_CURRENT_BINARY_DIR}/swig )
+    set(swig_binary_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig-build)
+    set(swig_source_dir ${CMAKE_CURRENT_BINARY_DIR}/swig-prefix/src/swig)
+    set(swig_install_dir ${CMAKE_CURRENT_BINARY_DIR}/swig)
 
   set(swig_ep "${swig_install_dir}/bin/swig")
 endif()
@@ -151,9 +151,9 @@ else()
         )
 
       # swig uses bison find it by cmake and pass it down
-      find_package ( BISON )
-      set ( BISON_FLAGS "" CACHE STRING "Flags used by bison" )
-      mark_as_advanced ( BISON_FLAGS )
+      find_package(BISON)
+      set(BISON_FLAGS "" CACHE STRING "Flags used by bison")
+      mark_as_advanced(BISON_FLAGS)
 
 
       # From SWIG configure

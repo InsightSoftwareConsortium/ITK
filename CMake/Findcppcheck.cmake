@@ -68,7 +68,7 @@ if(CPPCHECK_EXECUTABLE)
   set(CPPCHECK_VERBOSE_ARG --verbose)
   set(CPPCHECK_INCLUDEPATH_ARG -I)
   set(CPPCHECK_DEFINITION_ARG -D)
-  set( CPPCHECK_ALL_ARG --enable=all)
+  set(CPPCHECK_ALL_ARG --enable=all)
 
   # Check for the two types of command line arguments by just trying them
   execute_process(COMMAND
@@ -82,9 +82,9 @@ if(CPPCHECK_EXECUTABLE)
     ERROR_QUIET
     )
 
-  if( "${_cppcheck_enable_style_result}" EQUAL 0 )
+  if("${_cppcheck_enable_style_result}" EQUAL 0)
 
-    set( CPPCHECK_STYLE_ARG --enable=style)
+    set(CPPCHECK_STYLE_ARG --enable=style)
 
     # How to display errors and warnings:
     if(MSVC)
@@ -100,7 +100,7 @@ if(CPPCHECK_EXECUTABLE)
     endif()
 
   else()
-    message( "This file supports only version of cppcheck is newer than 1.43!" )
+    message("This file supports only version of cppcheck is newer than 1.43!")
 
   endif()
 
@@ -129,10 +129,10 @@ if(CPPCHECK_EXECUTABLE)
     ERROR_QUIET
     )
 
-    if( "${_cppcheck_enable_unused_function_results}" EQUAL 0 )
+    if("${_cppcheck_enable_unused_function_results}" EQUAL 0)
       set(CPPCHECK_UNUSEDFUNC_ARG --enable=unusedFunction)
     else()
-      set(CPPCHECK_UNUSEDFUNC_ARG )
+      set(CPPCHECK_UNUSEDFUNC_ARG)
     endif()
 
   endif()
@@ -152,7 +152,7 @@ if(CPPCHECK_EXECUTABLE)
     # supported since
     set(CPPCHECK_INFORMATION_ARG --enable=information)
   else()
-    set(CPPCHECK_INFORMATION_ARG )
+    set(CPPCHECK_INFORMATION_ARG)
   endif()
 
   execute_process(COMMAND
@@ -170,7 +170,7 @@ if(CPPCHECK_EXECUTABLE)
     # supported since
     set(CPPCHECK_MISSING_INCLUDE_ARG --enable=missingInclude)
   else()
-    set(CPPCHECK_MISSING_INCLUDE_ARG )
+    set(CPPCHECK_MISSING_INCLUDE_ARG)
   endif()
 
 endif()

@@ -178,15 +178,15 @@ itk_add_test(NAME itkSingleLevelSetsv4WhitakerImage2DWithPropagationTest
 
 itk_add_test(NAME itkLevelSetsv4EquationCurvatureTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationCurvatureTermTest
-      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png})
 
 itk_add_test(NAME itkLevelSetsv4EquationPropagationTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationPropagationTermTest
-      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png})
 
 itk_add_test(NAME itkLevelSetsv4EquationLaplacianTermTest
       COMMAND ITKLevelSetsv4TestDriver itkLevelSetEquationLaplacianTermTest
-      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png} )
+      DATA{${ITK_DATA_ROOT}/Input/whiteSpot.png})
 
 # two level sets
 itk_add_test(NAME itkTwoLevelSetsv4DenseImage2DTest

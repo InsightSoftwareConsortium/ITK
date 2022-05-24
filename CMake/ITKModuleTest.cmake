@@ -117,7 +117,7 @@ function(itk_python_add_test)
     endif()
   endif()
 
-  set(options )
+  set(options)
   set(oneValueArgs NAME)
   set(multiValueArgs TEST_DRIVER_ARGS COMMAND)
   cmake_parse_arguments(PYTHON_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
@@ -181,9 +181,9 @@ function(itk_python_expression_add_test)
     endif()
   endif()
 
-  set(options )
+  set(options)
   set(oneValueArgs NAME EXPRESSION)
-  set(multiValueArgs )
+  set(multiValueArgs)
   cmake_parse_arguments(PYTHON_EXPRESSION_ADD_TEST "${options}" "${oneValueArgs}" "${multiValueArgs}" ${ARGN})
 
   itk_python_add_test(NAME ${PYTHON_EXPRESSION_ADD_TEST_NAME}
@@ -193,17 +193,17 @@ endfunction()
 
 function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
   set(exe "${KIT}GTestDriver")
-  add_executable(${exe} ${KitTests} )
+  add_executable(${exe} ${KitTests})
   target_link_libraries(${exe} ${KIT_LIBS} GTest::GTest GTest::Main)
   itk_module_target_label(${exe})
 
   include(GoogleTest)
 
   if(NOT CMAKE_CROSSCOMPILING)
-    gtest_discover_tests( ${exe} DISCOVERY_TIMEOUT 15 )
+    gtest_discover_tests(${exe} DISCOVERY_TIMEOUT 15)
   else()
     set(_skip_dependency)
-    if( ITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK )
+    if(ITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK)
       # This advanced behavior is only available through the
       # command line.  It is intended to be used only when writing GoogleTests,
       # to require the developer to explicitly ask for introspection of

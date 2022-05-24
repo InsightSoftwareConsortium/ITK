@@ -6,7 +6,7 @@ to a partial differential equation based on image-based features and characteris
 of the level-set function. The segmentation evolves from an initial value for
 the segmenting contour.")
 
-if( LevelSetsv4_VIZ )
+if(LevelSetsv4_VIZ)
    itk_module(ITKLevelSetsv4
     DEPENDS
       ITKCommon

@@ -15,7 +15,7 @@ itk_add_test(NAME itkSLICImageFilterTest1
               "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png"
    itkSLICImageFilterTest
     "DATA{Data/Input/VM1111Shrink-RGB.png}"
-    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png" 25 0 )
+    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput1.png" 25 0)
 
 
 itk_add_test(NAME itkSLICImageFilterTest2
@@ -24,7 +24,7 @@ itk_add_test(NAME itkSLICImageFilterTest2
               "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png"
   itkSLICImageFilterTest
     "DATA{Data/Input/VM1111Shrink-LAB.mha}"
-    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png" 25 0 )
+    "${ITK_TEST_OUTPUT_DIR}/itkSLICImageFilterTestOutput2.png" 25 0)
 
 
 

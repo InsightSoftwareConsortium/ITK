@@ -6,11 +6,11 @@ vidl_itk_istreamTest.cxx
 )
 
 if(ITK_USE_SYSTEM_VXL)
-  include( ${VXL_CMAKE_DIR}/UseVXL.cmake )
+  include(${VXL_CMAKE_DIR}/UseVXL.cmake)
 endif()
 CreateTestDriver(ITKVideoBridgeVXL
                 "${ITKVideoBridgeVXL-Test_LIBRARIES};vul;vidl"
-                "${ITKVideoBridgeVXLTests}" )
+                "${ITKVideoBridgeVXLTests}")
 
 
 #Disable this test for now ( to avoid polluting the dashboard)

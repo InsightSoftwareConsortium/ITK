@@ -9,7 +9,7 @@ itkPhysicsBasedNonRigidRegistrationMethodTest.cxx
 )
 
 # For itkPhysicsBasedNonRigidRegistrationMethodTest.cxx
-include_directories( ${ITKFEMRegistration_SOURCE_DIR}/test )
+include_directories(${ITKFEMRegistration_SOURCE_DIR}/test)
 
 CreateTestDriver(ITKFEMRegistration  "${ITKFEMRegistration-Test_LIBRARIES}" "${ITKFEMRegistrationTests}")
 

@@ -16,13 +16,13 @@ if(ITK_WRAP_PYTHON)
 endif()
 
 if(ITK_BUILD_SHARED_LIBS)
-  itk_add_test( NAME ExampleIOPluginTest
+  itk_add_test(NAME ExampleIOPluginTest
     COMMAND itkTestDriver  --add-before-env ITK_AUTOLOAD_PATH "$<TARGET_FILE_DIR:FileFreeTestLib>"
       "$<TARGET_FILE:IOPlugin>"
       "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
       "${ITK_TEST_OUTPUT_DIR}ExampleIOPluginTest.png"
       )
-  itk_add_test( NAME ExampleIOPluginTest2
+  itk_add_test(NAME ExampleIOPluginTest2
     COMMAND itkTestDriver
       "$<TARGET_FILE:IOPlugin>"
       "FileFreeIO::Size=128,256:Spacing=.5,.8:Origin=5,6:Direction=-1,0,0,-1"
@@ -47,7 +47,7 @@ foreach(ImageFormat ${LIST_OF_IMAGEIO_FORMATS})
   endif()
 endforeach()
 
-itk_add_test( NAME ImageIOFactoryRegisterTest
+itk_add_test(NAME ImageIOFactoryRegisterTest
     COMMAND ${ITK_TEST_DRIVER}
     $<TARGET_FILE:IOFactoryRegistration>
     )
@@ -60,7 +60,7 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
     COMMAND ${ITK_TEST_DRIVER}
    $<TARGET_FILE:VisibleHumanStreamReadWrite>
     ${ITK_VISIBLEHUMAN_DATA_ROOT}/Male/Fullcolor/fullbody/
-    ${TEMP}/VisibleHumanStreamReadWrite.mha )
+    ${TEMP}/VisibleHumanStreamReadWrite.mha)
   itk_add_test(NAME VisibleHumanPasteWriteTest
     COMMAND ${ITK_TEST_DRIVER}
    $<TARGET_FILE:VisibleHumanPasteWrite>
@@ -80,4 +80,4 @@ if(ITK_VISIBLEHUMAN_DATA_ROOT)
 endif()
 
 itk_add_test(NAME TransformReadWriteTest
-  COMMAND TransformReadWrite ${TEMP}/TransformReadWrite.h5 )
+  COMMAND TransformReadWrite ${TEMP}/TransformReadWrite.h5)

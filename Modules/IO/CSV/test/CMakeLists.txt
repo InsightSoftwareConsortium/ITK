@@ -11,7 +11,7 @@ CreateTestDriver(ITKIOCSV  "${ITKIOCSV-Test_LIBRARIES}" "${ITKIOCSVTests}")
 
 itk_add_test(NAME itkCSVArray2DFileReaderTest
       COMMAND ITKIOCSVTestDriver itkCSVArray2DFileReaderTest
-              DATA{Input/csvFileReaderTestInput.csv} )
+              DATA{Input/csvFileReaderTestInput.csv})
 itk_add_test(NAME itkCSVNumericObjectFileWriterTest
       COMMAND ITKIOCSVTestDriver itkCSVNumericObjectFileWriterTest
               ${TEMP}/NumericObjectToCSVFileWriterOutput.csv)

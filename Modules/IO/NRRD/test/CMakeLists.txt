@@ -17,7 +17,7 @@ itkNrrdMetaDataTest.cxx
 )
 
 # For itkNrrdImageIOTest.h.
-include_directories( ${ITKIONRRD_SOURCE_DIR} )
+include_directories(${ITKIONRRD_SOURCE_DIR})
 
 CreateTestDriver(ITKIONRRD  "${ITKIONRRD-Test_LIBRARIES}" "${ITKIONRRDTests}")
 

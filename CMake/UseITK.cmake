@@ -50,7 +50,7 @@ foreach(_factory_name ${ITK_FACTORY_LIST})
 
   if (_factory_name MATCHES "IO" AND
       ITK_NO_IO_FACTORY_REGISTER_MANAGER)
-    if( "${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}" VERSION_GREATER_EQUAL "5.4")
+    if("${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}" VERSION_GREATER_EQUAL "5.4")
       message(WARNING
         "ITK_NO_IO_FACTORY_REGISTER_MANAGER CMake variable is "
         "deprecated. Use ITK_NO_${_factory_uc}_FACTORY_REGISTER_MANAGER")

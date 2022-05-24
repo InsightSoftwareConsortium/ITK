@@ -162,7 +162,7 @@ itk_add_test(NAME itkBSplineTransformInitializerTest1
               ${ITK_EXAMPLE_DATA_ROOT}/BSplineDisplacements1.txt ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformInitializerTest1.png ${ITK_TEST_OUTPUT_DIR}/itkBSplineTransformInitializerTest1DeformationField.mhd)
 itk_add_test(NAME itkBSplineTransformInitializerTest2
       COMMAND ITKTransformTestDriver itkBSplineTransformInitializerTest2
-              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png )
+              ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensitySliceBorder20.png)
 itk_add_test(NAME itkVersorRigid3DTransformTest
       COMMAND ITKTransformTestDriver itkVersorRigid3DTransformTest)
 itk_add_test(NAME itkVersorTransformTest
@@ -178,7 +178,7 @@ itk_add_test(NAME itkMultiTransformTest
 itk_add_test(NAME itkTestTransformGetInverse
   COMMAND ITKTransformTestDriver itkTestTransformGetInverse)
 set_property(TEST itkTestTransformGetInverse APPEND PROPERTY LABELS RUNS_LONG)
-set_tests_properties( itkTestTransformGetInverse PROPERTIES COST 50 )
+set_tests_properties(itkTestTransformGetInverse PROPERTIES COST 50)
 itk_add_test(NAME itkTransformGeometryImageFilterTest
       COMMAND ITKTransformTestDriver itkTransformGeometryImageFilterTest
               ${ITK_EXAMPLE_DATA_ROOT}/BrainProtonDensity3Slices.mha

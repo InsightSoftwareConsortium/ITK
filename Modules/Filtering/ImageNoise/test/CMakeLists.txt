@@ -31,7 +31,7 @@ itk_add_test(NAME itkShotNoiseImageFilterTest
   itkShotNoiseImageFilterTest
    DATA{${ITK_DATA_ROOT}/Input/cthead1.png}
       ${ITK_TEST_OUTPUT_DIR}/itkShotNoiseImageFilterTest.png
-      0.105 )
+      0.105)
 itk_add_test(NAME itkShotNoiseImageFilterTestPSNR
   COMMAND ITKImageNoiseTestDriver
   itkPeakSignalToNoiseRatioCalculatorTest

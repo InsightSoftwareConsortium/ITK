@@ -151,9 +151,9 @@ endfunction()
 #            Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #            Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
 #            Compliance Level 3 star (Quality beta code)
-#            Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance )
+#            Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance)
 #            Compliance Level 1 star (Pre-alpha features under development and code of unkown quality)
-#            Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status )
+#            Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status)
 #    [GIT_REPOSITORY url]            # URL of git repo
 #    [GIT_TAG tag]                   # Git branch name, commit id or tag
 #
@@ -175,7 +175,7 @@ function(itk_fetch_module _name _description)
 
   set(Module_${_name}_REMOTE_COMPLIANCE_LEVEL ${MODULE_COMPLIANCE_LEVEL} CACHE INTERNAL "Variable to indicate the Module_${_name} compliance level")
 
-  if(NOT DEFINED Module_${_name} )
+  if(NOT DEFINED Module_${_name})
     option(Module_${_name} "(Remote-${MODULE_COMPLIANCE_LEVEL}) ${_description}" OFF)
   else()
     # If Module_${_name} is set manually, put its value in the CACHE
@@ -218,7 +218,7 @@ function(itk_fetch_module _name _description)
 
     set(REMOTE_GIT_TAG "${_fetch_options_GIT_TAG}")
 
-    if( DEFINED Module_${_name}_GIT_TAG AND NOT "${Module_${_name}_GIT_TAG}" STREQUAL "${_fetch_options_GIT_TAG}")
+    if(DEFINED Module_${_name}_GIT_TAG AND NOT "${Module_${_name}_GIT_TAG}" STREQUAL "${_fetch_options_GIT_TAG}")
       set(REMOTE_GIT_TAG "${Module_${_name}_GIT_TAG}")
       message(STATUS "NOTE: Using override 'Module_${_name}_GIT_TAG=${REMOTE_GIT_TAG}'\n"
                      "      instead of value 'GIT_TAG=${_fetch_options_GIT_TAG}'\n"

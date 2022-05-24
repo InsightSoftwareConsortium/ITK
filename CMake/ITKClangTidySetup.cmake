@@ -10,8 +10,8 @@ option(ITK_USE_CLANGTIDY "Enable the use of clang-tidy to enforce coding best pr
 mark_as_advanced(ITK_USE_CLANGTIDY)
 
 if(ITK_USE_CLANGTIDY)
-  if ( ITK_USE_CLANGTIDY AND NOT EXISTS "${CLANGTIDY_EXECUTABLE}" )
-    find_program(CLANGTIDY_EXECUTABLE NAMES clang-tidy-13 clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-9 clang-tidy-8 clang-tidy )
+  if ( ITK_USE_CLANGTIDY AND NOT EXISTS "${CLANGTIDY_EXECUTABLE}")
+    find_program(CLANGTIDY_EXECUTABLE NAMES clang-tidy-13 clang-tidy-12 clang-tidy-11 clang-tidy-10 clang-tidy-9 clang-tidy-9 clang-tidy-8 clang-tidy)
   endif()
 
   if(CLANGTIDY_EXECUTABLE AND EXISTS "${CLANGTIDY_EXECUTABLE}")

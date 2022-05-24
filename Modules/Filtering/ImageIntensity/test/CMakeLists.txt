@@ -343,7 +343,7 @@ itk_add_test(NAME itkMagnitudeAndPhaseToComplexImageFilterTest
     itkMagnitudeAndPhaseToComplexImageFilterTest
       DATA{Input/itkBrainSliceComplexMagnitude.mha}
       DATA{Input/itkBrainSliceComplexPhase.mha}
-      ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha )
+      ${ITK_TEST_OUTPUT_DIR}/itkMagnitudeAndPhaseToComplexImageFilterTest.mha)
 
 
 set(ITKImageIntensityGTests

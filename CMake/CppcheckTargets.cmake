@@ -43,7 +43,7 @@ if(CPPCHECK_FOUND)
 endif()
 
 # ------------------------------------------------------------------------------
-macro( get_cppcheck_arg )
+macro(get_cppcheck_arg)
 
     if(FORCE IN_LIST _input)
       list(APPEND _cppcheck_args ${CPPCHECK_FORCE_ARG})
@@ -98,17 +98,17 @@ endmacro()
 # add_cppcheck_dir
 function(add_cppcheck_dir _name _dir _include_dirs)
   if(CPPCHECK_FOUND)
-    set(_cppcheck_args )
+    set(_cppcheck_args)
     set(_input ${ARGN})
 
-    get_cppcheck_arg( ${_input} )
+    get_cppcheck_arg(${_input})
 
     # --------------------------------------------------------------
-    foreach( _includeDirs ${_include_dirs} )
-      set( _cppcheck_include ${_cppcheck_include} -I${_includeDirs} )
+    foreach(_includeDirs ${_include_dirs})
+      set(_cppcheck_include ${_cppcheck_include} -I${_includeDirs})
     endforeach()
 
-    set( _cppcheck_compile_args ${_cppcheck_include} )
+    set(_cppcheck_compile_args ${_cppcheck_include})
 
     itk_add_test(
       NAME
@@ -150,10 +150,10 @@ function(add_cppcheck_sources _targetname)
   if(CPPCHECK_FOUND)
     # Normally --force should not be required, but since all compiler definitions
     # can't be detected, it is better to enforce testing all possibilities
-    set(_cppcheck_args )
+    set(_cppcheck_args)
     set(_input ${ARGN})
 
-    get_cppcheck_arg( "${_input}" )
+    get_cppcheck_arg("${_input}")
 
     set(_files)
     foreach(_source ${_input})
@@ -179,12 +179,12 @@ function(add_cppcheck_sources _targetname)
     endforeach()
 
     # let's take of include dirs here
-    get_property( mytargINCLUDES DIRECTORY
+    get_property(mytargINCLUDES DIRECTORY
       "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY INCLUDE_DIRECTORIES)
 
-    set( _cppcheck_include )
-    foreach( _includeDirs ${mytargINCLUDES} )
-      set( _cppcheck_include ${_cppcheck_include} -I${_includeDirs} )
+    set(_cppcheck_include)
+    foreach(_includeDirs ${mytargINCLUDES})
+      set(_cppcheck_include ${_cppcheck_include} -I${_includeDirs})
     endforeach()
 
     # --------------------------------------------------------------
@@ -194,13 +194,13 @@ function(add_cppcheck_sources _targetname)
     get_property(mytargDEFINITIONS DIRECTORY
       "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY COMPILE_DEFINITIONS)
 
-    set( _cppcheck_def )
-    foreach( _compiledef ${mytargDEFINITIONS} )
-      set( _cppcheck_def ${_cppcheck_def} -D${_compiledef} )
+    set(_cppcheck_def)
+    foreach(_compiledef ${mytargDEFINITIONS})
+      set(_cppcheck_def ${_cppcheck_def} -D${_compiledef})
     endforeach()
 
     # --------------------------------------------------------------
-    set( _cppcheck_compile_args ${_cppcheck_include} ${_cppcheck_def} )
+    set(_cppcheck_compile_args ${_cppcheck_include} ${_cppcheck_def})
 
     itk_add_test(
       NAME
@@ -243,10 +243,10 @@ function(add_cppcheck _name)
       "add_cppcheck given a target name that does not exist: '${_name}' !")
   endif()
   if(CPPCHECK_FOUND)
-    set(_cppcheck_args )
+    set(_cppcheck_args)
     set(_input ${ARGN})
 
-    get_cppcheck_arg( ${_input} )
+    get_cppcheck_arg(${_input})
 
     get_target_property(_cppcheck_sources "${_name}" SOURCES)
     set(_files)
@@ -259,26 +259,26 @@ function(add_cppcheck _name)
     endforeach()
 
     # let's take of include dirs here
-    get_property( mytargINCLUDES DIRECTORY
+    get_property(mytargINCLUDES DIRECTORY
       "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY INCLUDE_DIRECTORIES)
 
-    set( _cppcheck_include )
-    foreach( _includeDirs ${mytargINCLUDES} )
-      set( _cppcheck_include "${_cppcheck_include} -I ${_includeDirs}" )
+    set(_cppcheck_include)
+    foreach(_includeDirs ${mytargINCLUDES})
+      set(_cppcheck_include "${_cppcheck_include} -I ${_includeDirs}")
     endforeach()
 
     # --------------------------------------------------------------
     # let's take of compile definitions here
     get_property(mytargDEFINITIONS DIRECTORY
-      "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY COMPILE_DEFINITIONS )
+      "${CMAKE_CURRENT_SOURCE_DIR}" PROPERTY COMPILE_DEFINITIONS)
 
-    set( _cppcheck_def )
-    foreach( _compiledef ${mytargDEFINITIONS} )
-      set( _cppcheck_def ${_cppcheck_def} -D${_compiledef} )
+    set(_cppcheck_def)
+    foreach(_compiledef ${mytargDEFINITIONS})
+      set(_cppcheck_def ${_cppcheck_def} -D${_compiledef})
     endforeach()
 
     # --------------------------------------------------------------
-    set( _cppcheck_compile_args --check-config ${_cppcheck_include} ${_cppcheck_def} )
+    set(_cppcheck_compile_args --check-config ${_cppcheck_include} ${_cppcheck_def})
 
      itk_add_test(
        NAME

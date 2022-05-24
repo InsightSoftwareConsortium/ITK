@@ -37,14 +37,14 @@ macro(itk_end_wrap_module)
                 DESTINATION "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}")
     endforeach()
     unset(basename)
-    unset(swig_lib )
+    unset(swig_lib)
 
     # the list of files generated for the module
-    unset(i_files )
+    unset(i_files)
 
-    unset(idx_files )
-    unset(typedef_in_files )
-    unset(typedef_files )
+    unset(idx_files)
+    unset(typedef_in_files)
+    unset(typedef_files)
     set(mdx_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
     set(module_interface_file "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.i")
 
@@ -65,7 +65,7 @@ macro(itk_end_wrap_module)
         # ITK_PYI_INDEX_FILES: A list of the index files generated for a specific submodule
         #   Used to generate a complete list of index files generated which should be used as a
         #   dependency in the final pyi_generator step. (duplicate comment from above)
-        if( _module STREQUAL "stdcomplex" OR _module STREQUAL "stdnumeric_limits")
+        if(_module STREQUAL "stdcomplex" OR _module STREQUAL "stdnumeric_limits")
           # Skip classes that require specialized wrapping behavior, see igenerator.py comments
           # for ["stdcomplex", "stdnumeric_limits"]
         else()
@@ -76,9 +76,9 @@ macro(itk_end_wrap_module)
     endforeach()
 
     # the master idx file (mdx file)
-    unset(mdx_files )
-    unset(mdx_opts )
-    unset(deps_imports )
+    unset(mdx_files)
+    unset(mdx_opts)
+    unset(deps_imports)
 
     list(APPEND mdx_files "${WRAPPER_MASTER_INDEX_OUTPUT_DIR}/${WRAPPER_LIBRARY_NAME}.mdx")
     foreach(dep ${WRAPPER_LIBRARY_DEPENDS})
@@ -95,7 +95,7 @@ macro(itk_end_wrap_module)
     configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/Master.mdx.in" "${mdx_file}" @ONLY)
     unset(CONFIG_INDEX_FILE_CONTENT)
 
-    unset(CONFIG_MODULE_INTERFACE_CONTENT ) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
+    unset(CONFIG_MODULE_INTERFACE_CONTENT) #"${deps_imports}${SWIG_INTERFACE_MODULE_CONTENT}")
     #@WRAPPER_LIBRARY_NAME@ @CONFIG_MODULE_INTERFACE_INCLUDES@ CONFIG_MODULE_INTERFACE_INCLUDES@
     configure_file("${ITK_WRAP_SWIGINTERFACE_SOURCE_DIR}/module.i.in" "${module_interface_file}"
             @ONLY)
@@ -259,14 +259,14 @@ macro(itk_end_wrap_module)
     unset(ITK_WRAP_PYTHON_LIBRARY_CONFIG_FILE)
     unset(ITK_WRAP_PYTHON_SNAKE_CASE)
 
-    unset(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS )
-    unset(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS )
+    unset(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS)
+    unset(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS)
     if(NOT BUILD_SHARED_LIBS)
         if(WRAPPER_LIBRARY_NAME STREQUAL "ITKCommon")
 
             if(WIN32)
                 set(DO_NOT_WAIT_FOR_THREADS_DECLS "#include \"itkThreadPool.h\"")
-                set(DO_NOT_WAIT_FOR_THREADS_CALLS "itk::ThreadPool::SetDoNotWaitForThreads( true );")
+                set(DO_NOT_WAIT_FOR_THREADS_CALLS "itk::ThreadPool::SetDoNotWaitForThreads(true);")
             endif()
 
             set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_DECLS "
@@ -295,9 +295,9 @@ _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM] = (void *)_IT
 PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
 \"_ITKCommonPython._C_API\", NULL);
 
-if( cAPIObject != NULL )
+if(cAPIObject != NULL)
 {
-PyModule_AddObject( m, \"_C_API\", cAPIObject );
+PyModule_AddObject(m, \"_C_API\", cAPIObject);
 }
 ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 ")
@@ -307,7 +307,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 ${DO_NOT_WAIT_FOR_THREADS_DECLS}
 ")
             set(ITK_WRAP_PYTHON_GLOBAL_TIMESTAMP_CALLS "
-if( import__ITKCommonPython() < 0 )
+if(import__ITKCommonPython() < 0)
 {
 #if PY_VERSION_HEX >= 0x03000000
 return NULL;
@@ -315,7 +315,7 @@ return NULL;
 return;
 #endif
 }
-itk::SingletonIndex::SetInstance( _ITKCommonPython_GetGlobalSingletonIndex() );
+itk::SingletonIndex::SetInstance(_ITKCommonPython_GetGlobalSingletonIndex());
 itk::ObjectFactoryBase::Initialize();
 ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 ")
@@ -473,10 +473,10 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     ###
     # These variable are only used inside this function
 
-    unset(CASTXML_FORCE_INSTANTIATE )
+    unset(CASTXML_FORCE_INSTANTIATE)
     unset(CastXML_OUTPUT_FILES)
     unset(CASTXML_TYPEDEFS)
-    unset(ITK_WRAP_DOC_DOXY2SWIG_INPUT )  # the c++ name - swig names definitions
+    unset(ITK_WRAP_DOC_DOXY2SWIG_INPUT)  # the c++ name - swig names definitions
     unset(ITK_WRAP_PYTHON_CONFIGURATION_TEMPLATES)
     unset(ITK_WRAP_PYTHON_CURRENT_CLASS)
     unset(ITK_WRAP_PYTHON_CURRENT_SWIG_NAME)
@@ -489,7 +489,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
     unset(PixelType)
     unset(SWIG_INTERFACE_MDX_CONTENT)
     unset(SWIG_INTERFACE_MODULE_CONTENT)
-    unset(SWIG_INTERFACE_TYPEDEFS )
+    unset(SWIG_INTERFACE_TYPEDEFS)
     unset(WRAPPER_CLASS)
     unset(WRAPPER_INCLUDE_FILES)
 endmacro() # itk_end_wrap_module

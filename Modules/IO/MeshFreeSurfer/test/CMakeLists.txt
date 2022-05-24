@@ -4,7 +4,7 @@ set(ITKIOMeshFreeSurferTests
   itkMeshFileReadWriteTest.cxx
 )
 
-CreateTestDriver(ITKIOMeshFreeSurfer "${ITKIOMeshFreeSurfer-Test_LIBRARIES}" "${ITKIOMeshFreeSurferTests}" )
+CreateTestDriver(ITKIOMeshFreeSurfer "${ITKIOMeshFreeSurfer-Test_LIBRARIES}" "${ITKIOMeshFreeSurferTests}")
 
 itk_add_test(NAME itkMeshFileReadWriteTestFreeSurfer1
   COMMAND ITKIOMeshFreeSurferTestDriver itkMeshFileReadWriteTest

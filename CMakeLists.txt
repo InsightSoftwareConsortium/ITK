@@ -74,7 +74,7 @@ include(CMakeDependentOption)
 # use ExternalProject
 include(ExternalProject)
 
-if( CMAKE_HOST_WIN32 )
+if(CMAKE_HOST_WIN32)
   if(NOT DEFINED ITK_SKIP_PATH_LENGTH_CHECKS)
     if(${CMAKE_SYSTEM_VERSION} VERSION_GREATER "10.0.14392") # Win10 version 1607
       set(_LongPathKey LongPathsEnabled)
@@ -87,10 +87,10 @@ if( CMAKE_HOST_WIN32 )
   endif()
 endif()
 
-if( CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS )
+if(CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS)
 
-  string( LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n )
-  if( n GREATER 50 )
+  string(LENGTH "${CMAKE_CURRENT_SOURCE_DIR}" n)
+  if(n GREATER 50)
     message(
       FATAL_ERROR
       "ITK source code directory path length is too long (${n} > 50)."
@@ -98,8 +98,8 @@ if( CMAKE_HOST_WIN32 AND NOT ITK_SKIP_PATH_LENGTH_CHECKS )
       )
   endif()
 
-  string( LENGTH "${CMAKE_CURRENT_BINARY_DIR}" n )
-  if( n GREATER 50 )
+  string(LENGTH "${CMAKE_CURRENT_BINARY_DIR}" n)
+  if(n GREATER 50)
     message(
       FATAL_ERROR
       "ITK build directory path length is too long (${n} > 50)."
@@ -367,12 +367,12 @@ set(ITK_NIFTI_IO_ANALYZE_FLAVOR "ITK4Warning" CACHE STRING ${ITK_NIFTI_IO_ANALYZ
 
 set_property(CACHE ITK_NIFTI_IO_ANALYZE_FLAVOR PROPERTY STRINGS ITK4Warning ITK4 SPM FSL Reject)
 
-if( NOT ("${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "ITK4Warning" OR
+if(NOT ("${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "ITK4Warning" OR
          "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "ITK4" OR
          "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "SPM" OR
          "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "FSL" OR
          "${ITK_NIFTI_IO_ANALYZE_FLAVOR}" STREQUAL "Reject"
-         ) )
+         ))
   set(ITK_NIFTI_IO_ANALYZE_FLAVOR "ITK4Warning" CACHE STRING ${ITK_NIFTI_IO_ANALYZE_FLAVOR_DOC_STRING} FORCE)
 endif()
 mark_as_advanced(ITK_NIFTI_IO_ANALYZE_FLAVOR)
@@ -464,7 +464,7 @@ option(ITK_USE_SYSTEM_FFTW "Use an installed version of FFTW" ${ITK_USE_SYSTEM_F
 mark_as_advanced(ITK_USE_SYSTEM_FFTW)
 
 
-if( ITK_USE_FFTWD OR ITK_USE_FFTWF )
+if(ITK_USE_FFTWD OR ITK_USE_FFTWF)
   include(itkExternal_FFTW)
   # This pollutes the global namespace, but is needed for backward compatibility
   include_directories(${FFTW_INCLUDE})
@@ -505,12 +505,12 @@ set(ITK_EXAMPLE_DATA_ROOT "${ITK_SOURCE_DIR}/Examples/Data")
 
 # This flag is used in particular, to enable some tests that require large memory to run.
 # Test that have significant memory requirements should use
-# "set_tests_properties( testname PROPERTIES RESOURCE_LOCK MEMORY_SIZE )",
+# "set_tests_properties(testname PROPERTIES RESOURCE_LOCK MEMORY_SIZE)",
 # so that only 1 of the memory constrained tests is run at a time.  (NOTE: Other low
 # memory tests that do not have the RESOURCE_LOCK requirement can be run at the same time.)
 # Allow for tests that may use upto 80% of the computer memory to be used for testing.
 cmake_host_system_information(RESULT ITK_COMPUTER_MEMORY_AVAILABLE_MB QUERY TOTAL_PHYSICAL_MEMORY)
-math(EXPR EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB "(${ITK_COMPUTER_MEMORY_AVAILABLE_MB} * 80) / ( 1024 * 100)" )
+math(EXPR EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB "(${ITK_COMPUTER_MEMORY_AVAILABLE_MB} * 80) / ( 1024 * 100)")
 set(ITK_COMPUTER_MEMORY_SIZE ${EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB} CACHE STRING "Provide here the size of your RAM in gibibytes")
 unset(EIGHTY_PERCENT_AVAILABLE_MEMORY_IN_GB)
 unset(ITK_COMPUTER_MEMORY_AVAILABLE_MB)

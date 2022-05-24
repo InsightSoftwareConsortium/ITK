@@ -6,7 +6,7 @@ for multi-threading, and a collection of classes that isolate ITK from
 platform specific features. It is anticipated that most other ITK modules will
 depend on this one.")
 
-if( Module_ITKTBB )
+if(Module_ITKTBB)
   set(ITKCOMMON_TBB_DEPENDS ITKTBB)
 endif()
 

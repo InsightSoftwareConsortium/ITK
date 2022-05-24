@@ -181,7 +181,7 @@ itk_add_test(NAME  GradientVectorFlowImageFilterTest COMMAND ${ITK_TEST_DRIVER}
         5        # number of iterations
         2000.0   # noise level
 )
-set_tests_properties( GradientVectorFlowImageFilterTest
+set_tests_properties(GradientVectorFlowImageFilterTest
   PROPERTIES DEPENDS GradientRecursiveGaussianImageFilterTest)
 itk_add_test(NAME  DerivativeImageFilterTest COMMAND ${ITK_TEST_DRIVER}
   --compare DATA{${BASELINE}/DerivativeImageFilter.mha}
@@ -555,7 +555,7 @@ itk_add_test(NAME  FFTDirectInverseTest COMMAND ${ITK_TEST_DRIVER}
         ${ITK_SOURCE_DIR}/Examples/Data/Point.png
         ${TEMP}/FFTDirectInversePoint.png
 )
-if( ITK_USE_FFTWF )
+if(ITK_USE_FFTWF)
 #DATA{${BASELINE}/FFTDirectInverse2Point.png}
   itk_add_test(NAME  FFTDirectInverse2Test COMMAND ${ITK_TEST_DRIVER}
     --compare ${ITK_SOURCE_DIR}/Examples/Data/Point.png

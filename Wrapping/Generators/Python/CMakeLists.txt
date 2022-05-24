@@ -87,27 +87,27 @@ endmacro()
 if(NOT EXTERNAL_WRAP_ITK_PROJECT)
 
   # copy the files to expose build options in python
-  set(ITK_WRAP_PYTHON_VECTOR_REAL )
+  set(ITK_WRAP_PYTHON_VECTOR_REAL)
   foreach(t ${WRAP_ITK_VECTOR_REAL})
     foreach(d ${ITK_WRAP_IMAGE_DIMS})
       list(APPEND ITK_WRAP_PYTHON_VECTOR_REAL ${ITKT_${t}${d}})
     endforeach()
   endforeach()
-  set(ITK_WRAP_PYTHON_COV_VECTOR_REAL )
+  set(ITK_WRAP_PYTHON_COV_VECTOR_REAL)
   foreach(t ${WRAP_ITK_COV_VECTOR_REAL})
     foreach(d ${ITK_WRAP_IMAGE_DIMS})
       list(APPEND ITK_WRAP_PYTHON_COV_VECTOR_REAL ${ITKT_${t}${d}})
     endforeach()
   endforeach()
-  set(ITK_WRAP_PYTHON_RGB )
+  set(ITK_WRAP_PYTHON_RGB)
   foreach(t ${WRAP_ITK_RGB})
     list(APPEND ITK_WRAP_PYTHON_RGB ${ITKT_${t}})
   endforeach()
-  set(ITK_WRAP_PYTHON_RGBA )
+  set(ITK_WRAP_PYTHON_RGBA)
   foreach(t ${WRAP_ITK_RGBA})
     list(APPEND ITK_WRAP_PYTHON_RGBA ${ITKT_${t}})
   endforeach()
-  set(ITK_WRAP_PYTHON_COMPLEX_REAL )
+  set(ITK_WRAP_PYTHON_COMPLEX_REAL)
   foreach(t ${WRAP_ITK_COMPLEX_REAL})
     list(APPEND ITK_WRAP_PYTHON_COMPLEX_REAL ${ITKT_${t}})
   endforeach()
@@ -172,7 +172,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   endif()
 
   # Install the package python files.
-  set(ITK_WRAP_PYTHON_FILES )
+  set(ITK_WRAP_PYTHON_FILES)
   foreach(_file ${ITK_PYTHON_SUPPORT_MODULES})
     set(install_tgt "${CMAKE_CURRENT_SOURCE_DIR}/itk/${_file}.py")
     list(APPEND ITK_WRAP_PYTHON_FILES ${ITK_WRAP_PYTHON_FILES} "${install_tgt}")
@@ -287,7 +287,7 @@ macro(itk_end_wrap_submodule_python group_name)
 
   if("${group_name}" STREQUAL "ITKQuadEdgeMeshBase")
     # add a template definition for the superclass which is not in ITK
-    set(text )
+    set(text)
     foreach(d ${ITK_WRAP_IMAGE_DIMS})
       set(text "${text}%template(mapULitkQuadEdgeMeshPointF${d}) std::map< unsigned long, itkQuadEdgeMeshPointF${d}, std::less< unsigned long > >;\n")
       ADD_PYTHON_CONFIG_TEMPLATE("map" "std::map" "mapULitkQuadEdgeMeshPointF${d}" "unsigned long, itk::QuadEdgeMeshPoint< float, ${d} >")
@@ -354,12 +354,12 @@ macro(itk_end_wrap_submodule_python group_name)
   set(ITK_WRAP_PYTHON_LIBRARY_DECLS "${ITK_WRAP_PYTHON_LIBRARY_DECLS} extern \"C\" PyMODINIT_FUNC PyInit__${base_name}Python();\n")
   set(ITK_WRAP_PYTHON_LIBRARY_CALLS "${ITK_WRAP_PYTHON_LIBRARY_CALLS}
   PyObject * ${base_name}AlreadyImported = PyDict_GetItemString(sysModules, \"itk._${base_name}Python\");
-  if( ${base_name}AlreadyImported == NULL )
+  if(${base_name}AlreadyImported == NULL)
     {
-    PyImport_AddModule( \"itk._${base_name}Python\" );
+    PyImport_AddModule(\"itk._${base_name}Python\");
     PyObject * ${base_name}Module = PyInit__${base_name}Python();
-    PyDict_SetItemString( sysModules, \"itk._${base_name}Python\", ${base_name}Module );
-    Py_DECREF( ${base_name}Module );
+    PyDict_SetItemString(sysModules, \"itk._${base_name}Python\", ${base_name}Module);
+    Py_DECREF( ${base_name}Module);
     }
 ")
 

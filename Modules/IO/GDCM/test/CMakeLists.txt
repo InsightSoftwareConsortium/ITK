@@ -114,7 +114,7 @@ itk_add_test(NAME itkGDCMImageReadSeriesWriteTest
       itkGDCMImageReadSeriesWriteTest
         DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mha}
         ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest
-        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest.mha )
+        ${ITK_TEST_OUTPUT_DIR}/itkGDCMImageReadSeriesWriteTest.mha)
 
 itk_add_test(NAME itkGDCMSeriesMissingDicomTagTest
   COMMAND ITKIOGDCMTestDriver itkGDCMSeriesMissingDicomTagTest

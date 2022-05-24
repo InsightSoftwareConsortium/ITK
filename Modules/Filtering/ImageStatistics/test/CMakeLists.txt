@@ -47,12 +47,12 @@ itk_add_test(NAME itkLabelStatisticsImageFilterTest_2
       COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/peppers.png}
               DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
-      1 10 )
+      1 10)
 itk_add_test(NAME itkLabelStatisticsImageFilterTest_3
       COMMAND ITKImageStatisticsTestDriver itkLabelStatisticsImageFilterTest
               DATA{${ITK_DATA_ROOT}/Input/peppers.png}
               DATA{${ITK_DATA_ROOT}/Baseline/Algorithms/OtsuMultipleThresholdsImageFilterTest.png}
-      1 20 )
+      1 20)
 itk_add_test(NAME itkSumProjectionImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
     --compare DATA{${ITK_DATA_ROOT}/Baseline/BasicFilters/HeadMRVolumeSumProjection.tif}
@@ -174,11 +174,11 @@ itk_add_test(NAME itkProjectionImageFilterTest1
               ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif
     itkProjectionImageFilterTest DATA{${ITK_DATA_ROOT}/Input/HeadMRVolume.mhd,HeadMRVolume.raw} ${ITK_TEST_OUTPUT_DIR}/HeadMRVolumeProjection100.tif 100 0)
 
-itk_add_test( NAME itkLabelOverlapMeasuresImageFilterTest
+itk_add_test(NAME itkLabelOverlapMeasuresImageFilterTest
       COMMAND ITKImageStatisticsTestDriver
       itkLabelOverlapMeasuresImageFilterTest 2
           DATA{Input/sourceImage.nii.gz}
-          DATA{Input/targetImage.nii.gz} )
+          DATA{Input/targetImage.nii.gz})
 
 set(ITKImageStatisticsGTests
   itkMinimumMaximumImageFilterGTest.cxx)

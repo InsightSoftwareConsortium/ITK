@@ -221,7 +221,7 @@ WRAP_TYPE("itk::Image" "I" "itkImage.h")
   UNIQUE(WRAP_ITK_SCALAR_IMAGE_PIXEL_TYPES "${WRAP_ITK_SCALAR};D;UC;SI;UI;UL;ULL;B;${ITKM_IT}")
   UNIQUE(wrap_image_types "${WRAP_ITK_ALL_TYPES};RGBUC;RGBAUC;VD;${WRAP_ITK_SCALAR_IMAGE_PIXEL_TYPES}")
 
-  set(defined_vector_list )
+  set(defined_vector_list)
   foreach(d ${ITK_WRAP_IMAGE_DIMS})
 
     foreach(type ${wrap_image_types})

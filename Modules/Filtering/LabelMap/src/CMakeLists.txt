@@ -3,4 +3,4 @@ set(ITKLabelMap_SRCS
   itkMergeLabelMapFilter.cxx
   )
 ### generating libraries
-itk_module_add_library( ITKLabelMap ${ITKLabelMap_SRCS})
+itk_module_add_library(ITKLabelMap ${ITKLabelMap_SRCS})

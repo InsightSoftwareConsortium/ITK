@@ -10,44 +10,44 @@
 # referenced files.
 
 # glob the examples for each language
-file( GLOB_RECURSE examples_list_fullpath
+file(GLOB_RECURSE examples_list_fullpath
   FOLLOW_SYMLINKS
   "${PROJECT_SOURCE_DIR}/Examples/*.cxx"
   "${PROJECT_SOURCE_DIR}/Examples/*.py"
   "${PROJECT_SOURCE_DIR}/Examples/*.java"
 )
 
-file( GLOB_RECURSE sphinx_examples_list_fullpath
+file(GLOB_RECURSE sphinx_examples_list_fullpath
   "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.cxx"
   "${PROJECT_SOURCE_DIR}/Modules/Remote/SphinxExamples/src/*.py"
 )
 
 # Use relative paths
-set( examples_list )
-string( LENGTH "${PROJECT_SOURCE_DIR}/" root_length )
-foreach( _example ${examples_list_fullpath} )
-  string( SUBSTRING ${_example} ${root_length} -1 example_relative )
-  list( APPEND examples_list ${example_relative} )
+set(examples_list)
+string(LENGTH "${PROJECT_SOURCE_DIR}/" root_length)
+foreach(_example ${examples_list_fullpath})
+  string(SUBSTRING ${_example} ${root_length} -1 example_relative)
+  list(APPEND examples_list ${example_relative})
 endforeach()
-string( LENGTH "${PROJECT_SOURCE_DIR}/Modules/Remote/" root_length )
-foreach( _example ${sphinx_examples_list_fullpath} )
-  string( SUBSTRING ${_example} ${root_length} -1 example_relative )
-  list( APPEND examples_list ${example_relative} )
+string(LENGTH "${PROJECT_SOURCE_DIR}/Modules/Remote/" root_length)
+foreach(_example ${sphinx_examples_list_fullpath})
+  string(SUBSTRING ${_example} ${root_length} -1 example_relative)
+  list(APPEND examples_list ${example_relative})
 endforeach()
 
 # remove the file before we begin appending
-file( REMOVE ${OUTPUT_FILE} )
+file(REMOVE ${OUTPUT_FILE})
 
 # begin comment
-file( APPEND ${OUTPUT_FILE} "/**\n")
+file(APPEND ${OUTPUT_FILE} "/**\n")
 
 # After updating to Doxygen 1.8.4, this new line is required for any
 # of the \example to be utilized
-file( APPEND ${OUTPUT_FILE} " \n")
+file(APPEND ${OUTPUT_FILE} " \n")
 
-foreach( f IN LISTS examples_list )
-  file( APPEND ${OUTPUT_FILE}  "\\example ${f}\n" )
+foreach(f IN LISTS examples_list)
+  file(APPEND ${OUTPUT_FILE}  "\\example ${f}\n")
 endforeach()
 
 # end comment
-file( APPEND ${OUTPUT_FILE}  "*/\n" )
+file(APPEND ${OUTPUT_FILE}  "*/\n")

@@ -11,19 +11,19 @@ set(ITKVideoCoreTests
   itkVideoToVideoFilterTest.cxx
 )
 
-CreateTestDriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreTests}" )
+CreateTestDriver(ITKVideoCore "${ITKVideoCore-Test_LIBRARIES}" "${ITKVideoCoreTests}")
 
 # VideoToVideoFilterTest
 itk_add_test(
   NAME VideoToVideoFilterTest
   COMMAND ITKVideoCoreTestDriver
-    itkVideoToVideoFilterTest )
+    itkVideoToVideoFilterTest)
 
 # VideoSourceTest
 itk_add_test(
   NAME VideoSourceTest
   COMMAND ITKVideoCoreTestDriver
-    itkVideoSourceTest )
+    itkVideoSourceTest)
 
 # VideoStreamTest
 # This is failing for unknown reasons on some platforms.  Disabling for now
@@ -32,32 +32,32 @@ if(0)
 itk_add_test(
   NAME VideoStreamTest
   COMMAND ITKVideoCoreTestDriver
-    itkVideoStreamTest )
+    itkVideoStreamTest)
 endif()
 
 # TemporalProcessObjectTest
 itk_add_test(
   NAME TemporalProcessObjectTest
   COMMAND ITKVideoCoreTestDriver
-    itkTemporalProcessObjectTest )
+    itkTemporalProcessObjectTest)
 
 # RingBufferTest
 itk_add_test(
   NAME RingBufferTest
   COMMAND ITKVideoCoreTestDriver
-    itkRingBufferTest )
+    itkRingBufferTest)
 
 # Testing Temporal Regions
 itk_add_test(
   NAME TemporalRegionTest
   COMMAND ITKVideoCoreTestDriver
-    itkTemporalRegionTest )
+    itkTemporalRegionTest)
 
 # Testing Temporal Data Object
 itk_add_test(
   NAME TemporalDataObjectTest
   COMMAND ITKVideoCoreTestDriver
-    itkTemporalDataObjectTest )
+    itkTemporalDataObjectTest)
 
 itk_add_test(
   NAME ImageToVideoFilterTest
