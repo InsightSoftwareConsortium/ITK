@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNiftiImageIOTest.h"
+#include "itkTestingMacros.h"
 
 // Test to read small voxel NIFTI file which was triggering numerical instability
 // in IsAffine loading code
@@ -33,18 +34,25 @@ itkNiftiImageIOTest13(int argc, char * argv[])
   using PixelType = float;
   using ImageType = itk::Image<PixelType, Dimension>;
 
-  try
+  ImageType::Pointer image;
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(image = itk::ReadImage<ImageType>(argv[1]));
+
+  if (image == nullptr)
   {
-    using ReaderType = itk::ImageFileReader<ImageType>;
-    ReaderType::Pointer reader = ReaderType::New();
-    reader->SetFileName(argv[1]);
-    reader->Update();
-    ImageType::Pointer image = reader->GetOutput();
+    std::cerr << "Error: The read image is null!\n";
+    return EXIT_FAILURE;
   }
-  catch (const itk::ExceptionObject & err)
+
+  if (image->GetBufferPointer() == nullptr)
   {
-    std::cerr << "ExceptionObject caught !" << std::endl;
-    std::cerr << err << std::endl;
+    std::cerr << "Error: the buffer of the read image is null!\n";
+    return EXIT_FAILURE;
+  }
+
+  if (image->GetBufferedRegion().GetNumberOfPixels() == 0)
+  {
+    std::cerr << "Error: The read image has no pixels!\n";
     return EXIT_FAILURE;
   }
 
