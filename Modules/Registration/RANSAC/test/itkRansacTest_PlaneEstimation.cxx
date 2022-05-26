@@ -60,8 +60,8 @@ int
 itkRansacTest_PlaneEstimation(int argc, char * argv[])
 {
   const unsigned int DIMENSION = 3;
-  const unsigned int INLIERS = 90;
-  const unsigned int OUTLIERS = 10;
+  const unsigned int INLIERS = 10;
+  const unsigned int OUTLIERS = 0; // 10;
   std::string        leastSquaresOutputFileName = "leastSquaresPlaneEstimation.iv";
   std::string        ransacOutputFileName = "RANSACPlaneEstimation.iv";
 
@@ -187,6 +187,7 @@ GenerateData(unsigned int                                 numInliers,
     // project random point onto the plane and add noise
     tmp = randomPoint - pointOnPlane;
     randomPoint = pointOnPlane + noise + (tmp - (tmp * normal) * normal);
+    // randomPoint = pointOnPlane +  (tmp - (tmp * normal) * normal);
     data.push_back(randomPoint);
   }
   // generate outliers (via rejection)

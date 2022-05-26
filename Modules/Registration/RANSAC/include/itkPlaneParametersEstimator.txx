@@ -171,22 +171,43 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
   // create covariance matrix
   double sqrtN = sqrt((double)pointNum);
   for (i = 0; i < pointNum; i++)
+  {
     for (j = 0; j < dimension; j++)
+    {
       mean[j] += (*data[i])[j];
+    }
+  }
+
   mean /= sqrtN;
   for (i = 0; i < dimension; i++)
+  {
     for (j = i; j < dimension; j++)
+    {
       meanMat(i, j) = meanMat(j, i) = mean[i] * mean[j];
+    }
+  }
 
   // upper half
   for (i = 0; i < pointNum; i++)
+  {
     for (j = 0; j < dimension; j++)
+    {
       for (k = j; k < dimension; k++)
+      {
         covariance(j, k) += (*data[i])[j] * (*data[i])[k];
+      }
+    }
+  }
+
   // copy to lower half
   for (j = 0; j < dimension; j++)
+  {
     for (k = j + 1; k < dimension; k++)
+    {
       covariance(k, j) = covariance(j, k);
+    }
+  }
+
   // subtract mean matrix
   covariance -= meanMat;
 
@@ -196,9 +217,21 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
   // the (hyper)plane normal is the eigen-vector corresponding to
   // the smallest eigen-value, I assume ||eigenSystem.V(i,0)|| = 1
   for (i = 0; i < dimension; i++)
+  {
     parameters.push_back(eigenSystem.V(i, 0));
+  }
+
   for (i = 0; i < dimension; i++)
+  {
     parameters.push_back(mean[i] / sqrtN);
+  }
+
+  // // printing the values obtained from the method
+  // std::cout << "Printing the values from inside the method " << std::endl;
+  // for (i = 0; i < dimension; i++)
+  // {
+  //   std::cout << parameters[i] << "," << std::endl;
+  // }
 }
 
 
@@ -207,6 +240,7 @@ void
 PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
                                                           std::vector<double> &                   parameters)
 {
+  std::cout << "Inside LeastSquaresEstimate method 2" << std::endl;
   std::vector<Point<double, dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
