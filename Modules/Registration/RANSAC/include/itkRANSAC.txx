@@ -40,7 +40,7 @@ RANSAC<T, S>::GetNumberOfThreads()
 
 template <class T, class S>
 void
-RANSAC<T, S>::SetParametersEstimator(typename ParametersEstimator<T, S>::Pointer paramEstimator)
+RANSAC<T, S>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
 {
   // check if the given parameter estimator can be used in combination
   // with the data, if there aren't enough data elements then throw an

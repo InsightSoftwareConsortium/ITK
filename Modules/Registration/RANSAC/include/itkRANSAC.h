@@ -55,6 +55,8 @@ public:
   typedef Object                   Superclass;
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
+  using ParametersEstimatorPointer = typename itk::ParametersEstimator<T, S>::Pointer;
+  using ParametersEstimatorType = typename itk::ParametersEstimator<T, S>;
 
   itkTypeMacro(RANSAC, Object);
   /** New method for creating an object using a factory. */
@@ -77,7 +79,7 @@ public:
    *                       using both an exact fit and a least squares fit.
    */
   void
-  SetParametersEstimator(typename ParametersEstimator<T, S>::Pointer paramEstimator);
+  SetParametersEstimator(ParametersEstimatorType * paramEstimator);
 
   /**
    * Set the data objects we want to use (e.g. point pairs for estimating a

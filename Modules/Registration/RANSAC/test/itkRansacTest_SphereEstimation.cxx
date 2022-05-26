@@ -113,7 +113,7 @@ itkRansacTest_SphereEstimation(int argc, char * argv[])
   double              percentageOfDataUsed;
   RANSACType::Pointer ransacEstimator = RANSACType::New();
   ransacEstimator->SetData(data);
-  ransacEstimator->SetParametersEstimator(sphereEstimator.GetPointer());
+  ransacEstimator->SetParametersEstimator(sphereEstimator);
   percentageOfDataUsed = ransacEstimator->Compute(sphereParameters, desiredProbabilityForNoOutliers);
   if (sphereParameters.empty())
     std::cout << "RANSAC estimate failed, degenerate configuration?\n";
