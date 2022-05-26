@@ -118,7 +118,7 @@ PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensio
     x = svdA.nullvector();
     // get the (hyper)plane normal, we need to set it so ||n||=1, this
     // means we need to scale our solution to be
-    //  1/||n_computed||*[n_computed,d] which is also a solution to the
+    // 1/||n_computed||*[n_computed,d] which is also a solution to the
     // equation system.
     norm = 0;
     for (i = 0; i < this->minForEstimate; i++)
