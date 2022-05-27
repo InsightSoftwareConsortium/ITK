@@ -225,13 +225,6 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
   {
     parameters.push_back(mean[i] / sqrtN);
   }
-
-  // // printing the values obtained from the method
-  // std::cout << "Printing the values from inside the method " << std::endl;
-  // for (i = 0; i < dimension; i++)
-  // {
-  //   std::cout << parameters[i] << "," << std::endl;
-  // }
 }
 
 
@@ -240,7 +233,6 @@ void
 PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
                                                           std::vector<double> &                   parameters)
 {
-  std::cout << "Inside LeastSquaresEstimate method 2" << std::endl;
   std::vector<Point<double, dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
