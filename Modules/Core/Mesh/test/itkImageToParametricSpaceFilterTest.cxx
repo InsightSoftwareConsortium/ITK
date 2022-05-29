@@ -74,17 +74,9 @@ itkImageToParametricSpaceFilterTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(start);
 
-  imageX->SetLargestPossibleRegion(region);
-  imageY->SetLargestPossibleRegion(region);
-  imageZ->SetLargestPossibleRegion(region);
-
-  imageX->SetBufferedRegion(region);
-  imageY->SetBufferedRegion(region);
-  imageZ->SetBufferedRegion(region);
-
-  imageX->SetRequestedRegion(region);
-  imageY->SetRequestedRegion(region);
-  imageZ->SetRequestedRegion(region);
+  imageX->SetRegions(region);
+  imageY->SetRegions(region);
+  imageZ->SetRegions(region);
 
   imageX->Allocate();
   imageY->Allocate();

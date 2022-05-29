@@ -151,9 +151,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   direction[2][0] = 1;
 
   auto imgTarget = InputImageType::New();
-  imgTarget->SetLargestPossibleRegion(region);
-  imgTarget->SetBufferedRegion(region);
-  imgTarget->SetRequestedRegion(region);
+  imgTarget->SetRegions(region);
   imgTarget->SetSpacing(spacing);
   imgTarget->SetDirection(direction);
   imgTarget->Allocate();

@@ -59,27 +59,19 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   region.SetIndex(index);
 
   auto imgMoving = MovingImageType::New();
-  imgMoving->SetLargestPossibleRegion(region);
-  imgMoving->SetBufferedRegion(region);
-  imgMoving->SetRequestedRegion(region);
+  imgMoving->SetRegions(region);
   imgMoving->Allocate();
 
   auto imgFixed = FixedImageType::New();
-  imgFixed->SetLargestPossibleRegion(region);
-  imgFixed->SetBufferedRegion(region);
-  imgFixed->SetRequestedRegion(region);
+  imgFixed->SetRegions(region);
   imgFixed->Allocate();
 
   auto imgTrainingMoving = MovingImageType::New();
-  imgTrainingMoving->SetLargestPossibleRegion(region);
-  imgTrainingMoving->SetBufferedRegion(region);
-  imgTrainingMoving->SetRequestedRegion(region);
+  imgTrainingMoving->SetRegions(region);
   imgTrainingMoving->Allocate();
 
   auto imgTrainingFixed = FixedImageType::New();
-  imgTrainingFixed->SetLargestPossibleRegion(region);
-  imgTrainingFixed->SetBufferedRegion(region);
-  imgTrainingFixed->SetRequestedRegion(region);
+  imgTrainingFixed->SetRegions(region);
   imgTrainingFixed->Allocate();
 
   // Fill images with a 2D gaussian

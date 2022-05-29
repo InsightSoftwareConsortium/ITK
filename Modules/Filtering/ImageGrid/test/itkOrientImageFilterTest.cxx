@@ -32,9 +32,7 @@ CreateRandomImage()
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
   auto img = ImageType::New();
-  img->SetLargestPossibleRegion(region);
-  img->SetBufferedRegion(region);
-  img->SetRequestedRegion(region);
+  img->SetRegions(region);
   img->Allocate();
   itk::ImageRegionIterator<ImageType> ri(img, region);
   while (!ri.IsAtEnd())

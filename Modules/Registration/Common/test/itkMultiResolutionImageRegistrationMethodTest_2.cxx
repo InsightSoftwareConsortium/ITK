@@ -125,14 +125,10 @@ itkMultiResolutionImageRegistrationMethodTest_2(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
 
-  fixedImage->SetLargestPossibleRegion(region);
-  fixedImage->SetBufferedRegion(region);
-  fixedImage->SetRequestedRegion(region);
+  fixedImage->SetRegions(region);
   fixedImage->Allocate();
 
-  movingImage->SetLargestPossibleRegion(region);
-  movingImage->SetBufferedRegion(region);
-  movingImage->SetRequestedRegion(region);
+  movingImage->SetRegions(region);
   movingImage->Allocate();
 
 

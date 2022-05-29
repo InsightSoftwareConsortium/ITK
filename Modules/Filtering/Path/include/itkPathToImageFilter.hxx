@@ -238,9 +238,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   }
   region.SetIndex({ { 0 } });
 
-  OutputImage->SetLargestPossibleRegion(region); //
-  OutputImage->SetBufferedRegion(region);        // set the region
-  OutputImage->SetRequestedRegion(region);       //
+  OutputImage->SetRegions(region); // set the region
 
   // If the spacing has been explicitly specified, the filter
   // will set the output spacing to that explicit spacing, otherwise the spacing

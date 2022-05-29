@@ -44,9 +44,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest2(int, char *[])
   region.SetIndex(start);
   region.SetSize(size);
   auto myImage = ImageType::New();
-  myImage->SetLargestPossibleRegion(region);
-  myImage->SetBufferedRegion(region);
-  myImage->SetRequestedRegion(region);
+  myImage->SetRegions(region);
   myImage->Allocate();
   using WalkType = std::vector<ImageType::IndexType>;
   using WalkIteratorType = WalkType::iterator;

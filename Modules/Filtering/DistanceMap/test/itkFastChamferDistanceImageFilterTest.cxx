@@ -76,9 +76,7 @@ FastChamferDistanceImageFilterTest(unsigned int iPositive, unsigned int iNegativ
   region.SetIndex(index);
 
   auto inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;

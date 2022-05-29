@@ -48,9 +48,7 @@ itkImageLinearIteratorTest(int, char *[])
   region0.SetIndex(start0);
   region0.SetSize(size0);
 
-  myImage->SetLargestPossibleRegion(region0);
-  myImage->SetBufferedRegion(region0);
-  myImage->SetRequestedRegion(region0);
+  myImage->SetRegions(region0);
   myImage->Allocate();
 
   using IteratorType = itk::ImageLinearIteratorWithIndex<ImageType>;

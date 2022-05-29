@@ -55,9 +55,7 @@ CreateAxialImage()
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
   auto img = ImageType::New();
-  img->SetLargestPossibleRegion(region);
-  img->SetBufferedRegion(region);
-  img->SetRequestedRegion(region);
+  img->SetRegions(region);
   img->Allocate();
 
   std::string row, column, slice, label;
@@ -109,9 +107,7 @@ CreateCoronalImage()
   region.SetSize(imageSize);
   region.SetIndex(imageIndex);
   auto img = ImageType::New();
-  img->SetLargestPossibleRegion(region);
-  img->SetBufferedRegion(region);
-  img->SetRequestedRegion(region);
+  img->SetRegions(region);
   img->Allocate();
 
   ImageType::DirectionType imageDirection;

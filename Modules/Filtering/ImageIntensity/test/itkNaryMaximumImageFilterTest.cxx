@@ -71,9 +71,7 @@ InitializeImage(InputImageType * image, double value)
   region.SetIndex(start);
   region.SetSize(size);
 
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   InImageIteratorType it(inputImage, inputImage->GetRequestedRegion());

@@ -47,12 +47,9 @@ itkSpatialFunctionImageEvaluatorFilterTest(int, char *[])
   ImageType::RegionType largestPossibleRegion;
   // Resize the region
   largestPossibleRegion.SetSize(sourceImageSizeObject);
-  // Set the largest legal region size (i.e. the size of the whole sourceImage) to what we just defined
-  sourceImage->SetLargestPossibleRegion(largestPossibleRegion);
-  // Set the buffered region
-  sourceImage->SetBufferedRegion(largestPossibleRegion);
-  // Set the requested region
-  sourceImage->SetRequestedRegion(largestPossibleRegion);
+  // Set the largest legal region size (i.e. the size of the whole sourceImage), the buffered, and
+  // the requested region to what we just defined.
+  sourceImage->SetRegions(largestPossibleRegion);
   // Now allocate memory for the sourceImage
   sourceImage->Allocate();
 

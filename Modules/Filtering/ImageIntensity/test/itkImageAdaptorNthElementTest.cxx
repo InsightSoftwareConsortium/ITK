@@ -96,9 +96,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   auto myContainerPixelImage = myContainerPixelImageType::New();
 
-  myContainerPixelImage->SetLargestPossibleRegion(region);
-  myContainerPixelImage->SetBufferedRegion(region);
-  myContainerPixelImage->SetRequestedRegion(region);
+  myContainerPixelImage->SetRegions(region);
   myContainerPixelImage->Allocate();
   myContainerPixelImage->SetSpacing(spacing);
 
@@ -145,9 +143,7 @@ itkImageAdaptorNthElementTest(int, char *[])
 
   auto myFloatImage = myFloatImageType::New();
 
-  myFloatImage->SetLargestPossibleRegion(region);
-  myFloatImage->SetBufferedRegion(region);
-  myFloatImage->SetRequestedRegion(region);
+  myFloatImage->SetRegions(region);
   myFloatImage->Allocate();
   myFloatImage->SetSpacing(spacing);
 

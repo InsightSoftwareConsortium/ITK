@@ -72,9 +72,7 @@ itkGradientRecursiveGaussianFilterTest3Run(typename TImageType::PixelType &   my
   region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->SetNumberOfComponentsPerPixel(myComponents);
   inputImage->Allocate();
 

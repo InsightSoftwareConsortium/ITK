@@ -105,9 +105,7 @@ itkRecursiveMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
   region.SetIndex(index);
 
   auto imgTarget = InputImageType::New();
-  imgTarget->SetLargestPossibleRegion(region);
-  imgTarget->SetBufferedRegion(region);
-  imgTarget->SetRequestedRegion(region);
+  imgTarget->SetRegions(region);
   imgTarget->Allocate();
 
   // Fill images with a 3D gaussian with some directional pattern

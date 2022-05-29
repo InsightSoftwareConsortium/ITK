@@ -78,9 +78,7 @@ public:
     region.SetSize(size);
 
     // Initialize the input image
-    inputImage->SetLargestPossibleRegion(region);
-    inputImage->SetBufferedRegion(region);
-    inputImage->SetRequestedRegion(region);
+    inputImage->SetRegions(region);
     inputImage->Allocate();
 
     // Declare Iterator type for the input image
@@ -212,9 +210,7 @@ public:
     region.SetSize(size);
 
     // Initialize the input image
-    inputImage->SetLargestPossibleRegion(region);
-    inputImage->SetBufferedRegion(region);
-    inputImage->SetRequestedRegion(region);
+    inputImage->SetRegions(region);
     inputImage->Allocate();
 
     // Declare Iterator type for the input image

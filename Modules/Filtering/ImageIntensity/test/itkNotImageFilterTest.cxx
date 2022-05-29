@@ -65,9 +65,7 @@ itkNotImageFilterTest(int, char *[])
   region.SetSize(size);
 
   // Initialize input image
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Declare appropriate Iterator types for each image

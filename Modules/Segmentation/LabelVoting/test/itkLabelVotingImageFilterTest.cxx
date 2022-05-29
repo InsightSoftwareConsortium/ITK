@@ -79,9 +79,7 @@ itkLabelVotingImageFilterTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion(region);
-  inputImageA->SetBufferedRegion(region);
-  inputImageA->SetRequestedRegion(region);
+  inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
   IteratorType it = IteratorType(inputImageA, inputImageA->GetBufferedRegion());
@@ -92,9 +90,7 @@ itkLabelVotingImageFilterTest(int, char *[])
   }
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion(region);
-  inputImageB->SetBufferedRegion(region);
-  inputImageB->SetRequestedRegion(region);
+  inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
   it = IteratorType(inputImageB, inputImageB->GetBufferedRegion());
@@ -104,9 +100,7 @@ itkLabelVotingImageFilterTest(int, char *[])
   }
 
   // Initialize Image C
-  inputImageC->SetLargestPossibleRegion(region);
-  inputImageC->SetBufferedRegion(region);
-  inputImageC->SetRequestedRegion(region);
+  inputImageC->SetRegions(region);
   inputImageC->Allocate();
 
   it = IteratorType(inputImageC, inputImageC->GetBufferedRegion());

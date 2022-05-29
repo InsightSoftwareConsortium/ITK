@@ -92,9 +92,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
   region3D.SetIndex(index3D);
 
   auto inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion(region3D);
-  inputImage->SetBufferedRegion(region3D);
-  inputImage->SetRequestedRegion(region3D);
+  inputImage->SetRegions(region3D);
   inputImage->SetOrigin(origin);
   inputImage->SetSpacing(spacing);
   inputImage->Allocate();

@@ -55,15 +55,11 @@ itkMutualInformationMetricTest(int, char *[])
   region.SetIndex(index);
 
   auto imgMoving = MovingImageType::New();
-  imgMoving->SetLargestPossibleRegion(region);
-  imgMoving->SetBufferedRegion(region);
-  imgMoving->SetRequestedRegion(region);
+  imgMoving->SetRegions(region);
   imgMoving->Allocate();
 
   auto imgFixed = FixedImageType::New();
-  imgFixed->SetLargestPossibleRegion(region);
-  imgFixed->SetBufferedRegion(region);
-  imgFixed->SetRequestedRegion(region);
+  imgFixed->SetRegions(region);
   imgFixed->Allocate();
 
   // Fill images with a 2D gaussian

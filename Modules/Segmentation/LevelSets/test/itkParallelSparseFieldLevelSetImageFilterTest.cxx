@@ -251,17 +251,13 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   direction.SetIdentity();
   direction(1, 1) = -1.0;
 
-  im_init->SetLargestPossibleRegion(r);
-  im_init->SetBufferedRegion(r);
-  im_init->SetRequestedRegion(r);
+  im_init->SetRegions(r);
 
   im_init->SetOrigin(origin);
   im_init->SetSpacing(spacing);
   im_init->SetDirection(direction);
 
-  im_target->SetLargestPossibleRegion(r);
-  im_target->SetBufferedRegion(r);
-  im_target->SetRequestedRegion(r);
+  im_target->SetRegions(r);
 
   im_target->SetOrigin(origin);
   im_target->SetSpacing(spacing);

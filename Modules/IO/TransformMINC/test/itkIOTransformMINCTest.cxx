@@ -181,9 +181,7 @@ check_nonlinear_double(const char * nonlinear_transform)
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
 
-  field->SetLargestPossibleRegion(region);
-  field->SetBufferedRegion(region);
-  field->SetRequestedRegion(region);
+  field->SetRegions(region);
 
   field->SetSpacing(spacing);
   field->SetOrigin(origin);
@@ -322,9 +320,7 @@ check_nonlinear_float(const char * nonlinear_transform)
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
 
-  field->SetLargestPossibleRegion(region);
-  field->SetBufferedRegion(region);
-  field->SetRequestedRegion(region);
+  field->SetRegions(region);
 
   field->SetSpacing(spacing);
   field->SetOrigin(origin);
@@ -622,9 +618,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
     region.SetSize(imageSize3D);
     region.SetIndex(startIndex3D);
 
-    field->SetLargestPossibleRegion(region);
-    field->SetBufferedRegion(region);
-    field->SetRequestedRegion(region);
+    field->SetRegions(region);
 
     field->SetSpacing(spacing);
     field->SetOrigin(origin);

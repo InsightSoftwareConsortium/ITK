@@ -92,9 +92,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
 
   auto myRGBPixelImage = myRGBPixelImageType::New();
 
-  myRGBPixelImage->SetLargestPossibleRegion(region);
-  myRGBPixelImage->SetBufferedRegion(region);
-  myRGBPixelImage->SetRequestedRegion(region);
+  myRGBPixelImage->SetRegions(region);
   myRGBPixelImage->Allocate();
   myRGBPixelImage->SetSpacing(spacing);
 
@@ -141,9 +139,7 @@ itkImageAdaptorPipeLineTest(int, char *[])
 
   auto myFloatImage = myFloatImageType::New();
 
-  myFloatImage->SetLargestPossibleRegion(region);
-  myFloatImage->SetBufferedRegion(region);
-  myFloatImage->SetRequestedRegion(region);
+  myFloatImage->SetRegions(region);
   myFloatImage->Allocate();
   myFloatImage->SetSpacing(spacing);
 

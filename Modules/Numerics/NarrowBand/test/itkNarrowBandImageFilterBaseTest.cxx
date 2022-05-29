@@ -133,9 +133,7 @@ itkNarrowBandImageFilterBaseTest(int argc, char * argv[])
   region.SetIndex(index);
 
   auto inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   using Iterator = itk::ImageRegionIteratorWithIndex<ImageType>;

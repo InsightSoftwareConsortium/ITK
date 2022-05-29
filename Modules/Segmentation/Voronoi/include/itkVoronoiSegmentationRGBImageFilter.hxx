@@ -90,9 +90,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const Inp
   const RegionType region(this->GetSize());
 
   m_WorkingImage = RGBHCVImage::New();
-  m_WorkingImage->SetLargestPossibleRegion(region);
-  m_WorkingImage->SetBufferedRegion(region);
-  m_WorkingImage->SetRequestedRegion(region);
+  m_WorkingImage->SetRegions(region);
   m_WorkingImage->Allocate();
 
   itk::ImageRegionIteratorWithIndex<RGBHCVImage>         wit(m_WorkingImage, region);

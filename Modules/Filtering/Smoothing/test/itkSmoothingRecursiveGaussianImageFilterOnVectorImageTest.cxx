@@ -59,9 +59,7 @@ itkSmoothingRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->SetNumberOfComponentsPerPixel(numberOfComponents);
   inputImage->Allocate();
 

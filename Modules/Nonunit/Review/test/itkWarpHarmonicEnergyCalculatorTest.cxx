@@ -71,9 +71,7 @@ itkWarpHarmonicEnergyCalculatorTest(int argc, char * argv[])
   region.SetSize(size);
 
   // Initialize the input image
-  inputDisplacementField->SetLargestPossibleRegion(region);
-  inputDisplacementField->SetBufferedRegion(region);
-  inputDisplacementField->SetRequestedRegion(region);
+  inputDisplacementField->SetRegions(region);
   inputDisplacementField->Allocate();
 
   // Initialize the content of the input image

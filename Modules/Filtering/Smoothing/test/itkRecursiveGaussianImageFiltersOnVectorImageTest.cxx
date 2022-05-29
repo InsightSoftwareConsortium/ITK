@@ -55,9 +55,7 @@ itkRecursiveGaussianImageFiltersOnVectorImageTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
   auto inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->SetNumberOfComponentsPerPixel(NumberOfComponents);
   inputImage->Allocate();
   inputImage->FillBuffer(vector0);

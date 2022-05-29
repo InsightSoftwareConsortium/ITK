@@ -42,9 +42,7 @@ itkSignedMaurerDistanceMapImageFilterTest11(int, char *[])
   region2D.SetIndex(index2D);
 
   auto inputImage2D = myImageType2D1::New();
-  inputImage2D->SetLargestPossibleRegion(region2D);
-  inputImage2D->SetBufferedRegion(region2D);
-  inputImage2D->SetRequestedRegion(region2D);
+  inputImage2D->SetRegions(region2D);
   inputImage2D->Allocate(true);
 
   /* Set pixel (4,4) with the value 1

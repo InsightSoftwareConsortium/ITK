@@ -327,9 +327,7 @@ PolylineMaskImageFilter<TInputImage, TPolyline, TVector, TOutputImage>::Generate
   itkDebugMacro(<< "Projection image start index:" << projectionStart);
   itkDebugMacro(<< "Projection image origin:" << origin);
 
-  projectionImagePtr->SetRequestedRegion(projectionRegion);
-  projectionImagePtr->SetBufferedRegion(projectionRegion);
-  projectionImagePtr->SetLargestPossibleRegion(projectionRegion);
+  projectionImagePtr->SetRegions(projectionRegion);
   projectionImagePtr->Allocate(true); // initialize buffer to zero
 
   using ProjectionImageIteratorType = ImageRegionIterator<ProjectionImageType>;

@@ -36,9 +36,7 @@ itkImplicitManifoldNormalVectorFilterTest(int, char *[])
   InputImageType::IndexType  idx = { { 0, 0 } };
   r.SetSize(sz);
   r.SetIndex(idx);
-  im_init->SetLargestPossibleRegion(r);
-  im_init->SetBufferedRegion(r);
-  im_init->SetRequestedRegion(r);
+  im_init->SetRegions(r);
   im_init->Allocate();
 
   InputImageType::IndexType index;

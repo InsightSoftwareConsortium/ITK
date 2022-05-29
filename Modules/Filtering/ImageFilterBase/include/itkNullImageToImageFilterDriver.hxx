@@ -146,9 +146,7 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   const typename TOutputImage::RegionType region(index, m_ImageSize);
 
   // Allocate the input
-  ip->SetLargestPossibleRegion(region);
-  ip->SetBufferedRegion(region);
-  ip->SetRequestedRegion(region);
+  ip->SetRegions(region);
   ip->Allocate();
 
   // Construct a pixel to fill the image

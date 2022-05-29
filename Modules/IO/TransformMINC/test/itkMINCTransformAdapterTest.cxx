@@ -149,9 +149,7 @@ compare_nonlinear_double(const char * nonlinear_transform)
   region.SetSize(imageSize3D);
   region.SetIndex(startIndex3D);
 
-  field->SetLargestPossibleRegion(region);
-  field->SetBufferedRegion(region);
-  field->SetRequestedRegion(region);
+  field->SetRegions(region);
 
   field->SetSpacing(spacing);
   field->SetOrigin(origin);

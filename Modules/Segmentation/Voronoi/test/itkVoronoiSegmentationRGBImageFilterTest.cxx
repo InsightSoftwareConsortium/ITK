@@ -64,9 +64,7 @@ SetUpInputImage()
   ImageType::SizeType   size = { { width, height } };
   ImageType::RegionType region;
   region.SetSize(size);
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // add background random field
@@ -266,9 +264,7 @@ TestWithPrior(ImageType::Pointer inputImage)
   BinaryObjectImage::SizeType   size = { { width, height } };
   BinaryObjectImage::RegionType region;
   region.SetSize(size);
-  prior->SetLargestPossibleRegion(region);
-  prior->SetBufferedRegion(region);
-  prior->SetRequestedRegion(region);
+  prior->SetRegions(region);
   prior->Allocate();
 
   // create prior as 100% segmentation

@@ -81,14 +81,10 @@ public:
   {
     const typename MovingImageType::RegionType region(size);
 
-    m_MovingImage->SetLargestPossibleRegion(region);
-    m_MovingImage->SetBufferedRegion(region);
-    m_MovingImage->SetRequestedRegion(region);
+    m_MovingImage->SetRegions(region);
     m_MovingImage->Allocate();
 
-    m_FixedImage->SetLargestPossibleRegion(region);
-    m_FixedImage->SetBufferedRegion(region);
-    m_FixedImage->SetRequestedRegion(region);
+    m_FixedImage->SetRegions(region);
     m_FixedImage->Allocate();
 
     /* Fill images with a 2D gaussian*/

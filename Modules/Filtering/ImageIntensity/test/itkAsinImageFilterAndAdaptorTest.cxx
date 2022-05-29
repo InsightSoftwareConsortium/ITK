@@ -69,9 +69,7 @@ itkAsinImageFilterAndAdaptorTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)

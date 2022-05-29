@@ -67,9 +67,7 @@ itkVectorImageReadWriteTest(int argc, char * argv[])
   ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(vector0);
 

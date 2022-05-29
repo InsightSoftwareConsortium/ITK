@@ -54,9 +54,7 @@ DoIt(int argc, char * argv[], const std::string pixelType)
   region.SetSize(size);
   region.SetIndex(index);
 
-  inputimg->SetLargestPossibleRegion(region);
-  inputimg->SetBufferedRegion(region);
-  inputimg->SetRequestedRegion(region);
+  inputimg->SetRegions(region);
   inputimg->Allocate();
 
   int       row, col;

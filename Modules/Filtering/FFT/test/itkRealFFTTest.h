@@ -66,9 +66,7 @@ test_fft(unsigned int * SizeOfDimensions)
 
   // Create the Real Image.
   auto realImage = RealImageType::New();
-  realImage->SetLargestPossibleRegion(region);
-  realImage->SetBufferedRegion(region);
-  realImage->SetRequestedRegion(region);
+  realImage->SetRegions(region);
   realImage->Allocate();
   vnl_sample_reseed(123456);
 
@@ -253,9 +251,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   auto realImage = RealImageType::New();
 
   // Create the Real Image.
-  realImage->SetLargestPossibleRegion(region);
-  realImage->SetBufferedRegion(region);
-  realImage->SetRequestedRegion(region);
+  realImage->SetRegions(region);
   realImage->Allocate();
   vnl_sample_reseed(static_cast<int>(itksys::SystemTools::GetTime() / 10000.0));
 

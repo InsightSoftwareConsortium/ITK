@@ -66,9 +66,7 @@ MetaImageConverter<VDimension, PixelType, TSpatialObjectType>::AllocateImage(con
   }
 
   const RegionType region(size);
-  rval->SetLargestPossibleRegion(region);
-  rval->SetBufferedRegion(region);
-  rval->SetRequestedRegion(region);
+  rval->SetRegions(region);
   rval->SetSpacing(spacing);
   rval->Allocate();
   return rval;

@@ -72,9 +72,7 @@ itkRGBToLuminanceImageFilterAndAdaptorTest(int, char *[])
   region.SetSize(size);
 
   // Initialize the input image
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)

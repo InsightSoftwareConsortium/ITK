@@ -55,9 +55,7 @@ itkVoronoiSegmentationImageFilterTest(int argc, char * argv[])
   region.SetIndex(index);
 
   std::cout << "Allocating image" << std::endl;
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
 
