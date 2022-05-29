@@ -262,9 +262,7 @@ CLANG_PRAGMA_POP
       reg_b.SetIndex(idx_b);
       reg_b.SetSize(sz_b);
 
-      boundary->GetFace(b_idx)->SetLargestPossibleRegion(reg_b);
-      boundary->GetFace(b_idx)->SetRequestedRegion(reg_b);
-      boundary->GetFace(b_idx)->SetBufferedRegion(reg_b);
+      boundary->GetFace(b_idx)->SetRegions(reg_b);
       boundary->GetFace(b_idx)->Allocate();
     }
   }

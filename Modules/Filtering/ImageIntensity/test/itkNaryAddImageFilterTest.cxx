@@ -42,9 +42,7 @@ InitializeImage(ImageType * image, const typename ImageType::PixelType & value)
   region.SetIndex(start);
   region.SetSize(size);
 
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   inputImage->FillBuffer(value);

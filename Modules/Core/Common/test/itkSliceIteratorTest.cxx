@@ -171,9 +171,7 @@ itkSliceIteratorTest(int, char *[])
     idx[0] = idx[1] = 0;
 
     itk::Image<int, 2>::Pointer ip = itk::Image<int, 2>::New();
-    ip->SetRequestedRegion(reg);
-    ip->SetBufferedRegion(reg);
-    ip->SetLargestPossibleRegion(reg);
+    ip->SetRegions(reg);
     ip->Allocate();
 
     FillRegionSequential<int, 2>(ip);

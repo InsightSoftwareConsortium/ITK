@@ -268,9 +268,7 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::GetImage() -> ImageTypePoin
   const typename ImageType::IndexType  imageIndex = { { 0, 0, 0 } };
   const typename ImageType::RegionType region(imageIndex, imageSize);
   auto                                 img = ImageType::New();
-  img->SetLargestPossibleRegion(region);
-  img->SetBufferedRegion(region);
-  img->SetRequestedRegion(region);
+  img->SetRegions(region);
   img->Allocate();
   typename ImageType::IndexType setIndex;
   for (unsigned int i = 0; i < m_TrueDims[0]; ++i)

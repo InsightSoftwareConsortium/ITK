@@ -57,9 +57,7 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
   auto inputImage = ImageType::New();
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
   inputImage->FillBuffer(tensor0);
 

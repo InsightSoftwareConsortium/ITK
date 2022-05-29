@@ -37,9 +37,7 @@ CreateTestImage()
   fIndex.Fill(0);
   fRegion.SetSize(fSize);
   fRegion.SetIndex(fIndex);
-  image->SetLargestPossibleRegion(fRegion);
-  image->SetBufferedRegion(fRegion);
-  image->SetRequestedRegion(fRegion);
+  image->SetRegions(fRegion);
   image->Allocate();
   return image;
 }

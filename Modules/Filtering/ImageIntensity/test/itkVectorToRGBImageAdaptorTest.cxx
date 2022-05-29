@@ -71,9 +71,7 @@ itkVectorToRGBImageAdaptorTest(int, char *[])
   auto image = ImageType::New();
 
 
-  image->SetLargestPossibleRegion(region);
-  image->SetBufferedRegion(region);
-  image->SetRequestedRegion(region);
+  image->SetRegions(region);
   image->Allocate();
 
   IteratorType it1(image, image->GetRequestedRegion());

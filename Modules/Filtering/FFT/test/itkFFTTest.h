@@ -65,9 +65,7 @@ test_fft(unsigned int * SizeOfDimensions)
 
   auto realImage = RealImageType::New();
   // Create the Real Image.
-  realImage->SetLargestPossibleRegion(region);
-  realImage->SetBufferedRegion(region);
-  realImage->SetRequestedRegion(region);
+  realImage->SetRegions(region);
   realImage->Allocate();
 
   // Set up spacing and origin to test passing of metadata
@@ -302,9 +300,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
   auto realImage = RealImageType::New();
 
   // Create the Real Image.
-  realImage->SetLargestPossibleRegion(region);
-  realImage->SetBufferedRegion(region);
-  realImage->SetRequestedRegion(region);
+  realImage->SetRegions(region);
   realImage->Allocate();
   vnl_sample_reseed(static_cast<int>(itksys::SystemTools::GetTime() / 10000.0));
 

@@ -74,9 +74,7 @@ itkNthElementPixelAccessorTest2(int, char *[])
 
   auto vectorImage = VectorImageType::New();
 
-  vectorImage->SetLargestPossibleRegion(region);
-  vectorImage->SetBufferedRegion(region);
-  vectorImage->SetRequestedRegion(region);
+  vectorImage->SetRegions(region);
   vectorImage->SetNumberOfComponentsPerPixel(VectorLength);
   vectorImage->Allocate();
   PixelType pixel;

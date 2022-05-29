@@ -120,17 +120,9 @@ itkBoundaryConditionTest(int, char *[])
   auto image3D = ImageType3D::New();
   auto imageND = ImageTypeND::New();
 
-  image2D->SetLargestPossibleRegion(Region2D);
-  image3D->SetLargestPossibleRegion(Region3D);
-  imageND->SetLargestPossibleRegion(RegionND);
-
-  image2D->SetBufferedRegion(Region2D);
-  image3D->SetBufferedRegion(Region3D);
-  imageND->SetBufferedRegion(RegionND);
-
-  image2D->SetRequestedRegion(Region2D);
-  image3D->SetRequestedRegion(Region3D);
-  imageND->SetRequestedRegion(RegionND);
+  image2D->SetRegions(Region2D);
+  image3D->SetRegions(Region3D);
+  imageND->SetRegions(RegionND);
 
   image2D->Allocate();
   image3D->Allocate();

@@ -66,21 +66,15 @@ itkTernaryMagnitudeSquaredImageFilterTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion(region);
-  inputImageA->SetBufferedRegion(region);
-  inputImageA->SetRequestedRegion(region);
+  inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion(region);
-  inputImageB->SetBufferedRegion(region);
-  inputImageB->SetRequestedRegion(region);
+  inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
   // Initialize Image C
-  inputImageC->SetLargestPossibleRegion(region);
-  inputImageC->SetBufferedRegion(region);
-  inputImageC->SetRequestedRegion(region);
+  inputImageC->SetRegions(region);
   inputImageC->Allocate();
 
   // Declare appropriate Iterator types for each image

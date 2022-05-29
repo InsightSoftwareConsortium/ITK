@@ -158,12 +158,10 @@ TriangleMeshToBinaryImageFilter<TInputMesh, TOutputImage>::GenerateData()
 
     const typename OutputImageType::RegionType region(m_Index, m_Size);
 
-    OutputImage->SetLargestPossibleRegion(region); //
-    OutputImage->SetBufferedRegion(region);        // set the region
-    OutputImage->SetRequestedRegion(region);       //
-    OutputImage->SetSpacing(m_Spacing);            // set spacing
-    OutputImage->SetOrigin(m_Origin);              //   and origin
-    OutputImage->SetDirection(m_Direction);        // direction cosines
+    OutputImage->SetRegions(region);        // set the region
+    OutputImage->SetSpacing(m_Spacing);     // set spacing
+    OutputImage->SetOrigin(m_Origin);       //   and origin
+    OutputImage->SetDirection(m_Direction); // direction cosines
   }
   else
   {

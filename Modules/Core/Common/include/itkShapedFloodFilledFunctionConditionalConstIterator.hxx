@@ -92,9 +92,7 @@ ShapedFloodFilledFunctionConditionalConstIterator<TImage, TFunction>::Initialize
   m_TempPtr = TTempImage::New();
   typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
 
-  m_TempPtr->SetLargestPossibleRegion(tempRegion);
-  m_TempPtr->SetBufferedRegion(tempRegion);
-  m_TempPtr->SetRequestedRegion(tempRegion);
+  m_TempPtr->SetRegions(tempRegion);
   m_TempPtr->Allocate(true); // initialize buffer to zero
 
   // Initialize the queue by adding the start index assuming one of

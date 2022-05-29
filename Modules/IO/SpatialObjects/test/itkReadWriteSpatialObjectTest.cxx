@@ -276,9 +276,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
   itk::Index<3> zeroIndex;
   zeroIndex.Fill(0);
   region.SetIndex(zeroIndex);
-  itkImage->SetLargestPossibleRegion(region);
-  itkImage->SetBufferedRegion(region);
-  itkImage->SetRequestedRegion(region);
+  itkImage->SetRegions(region);
   itkImage->SetSpacing(spacing);
   itkImage->Allocate();
 
@@ -302,9 +300,7 @@ itkReadWriteSpatialObjectTest(int argc, char * argv[])
 
   ImageMaskPointer itkImageMask = itkImageMaskType::New();
 
-  itkImageMask->SetLargestPossibleRegion(region);
-  itkImageMask->SetBufferedRegion(region);
-  itkImageMask->SetRequestedRegion(region);
+  itkImageMask->SetRegions(region);
   itkImageMask->SetSpacing(spacing);
   itkImageMask->Allocate();
 

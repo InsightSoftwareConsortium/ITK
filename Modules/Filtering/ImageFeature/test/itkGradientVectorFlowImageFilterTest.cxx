@@ -69,19 +69,13 @@ itkGradientVectorFlowImageFilterTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image A
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
-  interImage->SetLargestPossibleRegion(region);
-  interImage->SetBufferedRegion(region);
-  interImage->SetRequestedRegion(region);
+  interImage->SetRegions(region);
   interImage->Allocate();
 
-  inter1Image->SetLargestPossibleRegion(region);
-  inter1Image->SetBufferedRegion(region);
-  inter1Image->SetRequestedRegion(region);
+  inter1Image->SetRegions(region);
   inter1Image->Allocate();
 
   // Declare Iterator types apropriated for each image

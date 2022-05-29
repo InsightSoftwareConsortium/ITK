@@ -67,9 +67,7 @@ class EigenAnalysis2DImageFilterTester
     region.SetIndex(start);
     region.SetSize(size);
 
-    inputImage->SetLargestPossibleRegion(region);
-    inputImage->SetBufferedRegion(region);
-    inputImage->SetRequestedRegion(region);
+    inputImage->SetRegions(region);
     inputImage->Allocate();
 
     myIteratorType it(inputImage, inputImage->GetRequestedRegion());

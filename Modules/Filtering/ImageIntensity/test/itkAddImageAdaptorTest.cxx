@@ -61,9 +61,7 @@ itkAddImageAdaptorTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Declare Iterator type apropriated for this image

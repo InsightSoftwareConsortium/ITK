@@ -53,9 +53,7 @@ itkSparseImageTest(int, char *[])
   r.SetSize(sz);
   r.SetIndex(idx);
 
-  im->SetLargestPossibleRegion(r);
-  im->SetBufferedRegion(r);
-  im->SetRequestedRegion(r);
+  im->SetRegions(r);
   im->Allocate();
 
   ImageType::IndexType index;

@@ -68,9 +68,7 @@ itkTanImageFilterAndAdaptorTest(int, char *[])
   region.SetSize(size);
 
   // Initialize the input image
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Create one iterator for the input image (this is a light object)

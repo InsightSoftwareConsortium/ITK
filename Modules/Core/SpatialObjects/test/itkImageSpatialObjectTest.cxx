@@ -54,9 +54,7 @@ itkImageSpatialObjectTest(int, char *[])
   region.SetSize(size);
   region.SetIndex(index);
   image->SetOrigin(origin);
-  image->SetLargestPossibleRegion(region);
-  image->SetBufferedRegion(region);
-  image->SetRequestedRegion(region);
+  image->SetRegions(region);
   image->Allocate();
 
   Iterator it(image, region);

@@ -44,9 +44,7 @@ itkOtsuThresholdCalculatorTest(int, char *[])
   SizeType size = { { 20, 20, 20 } };
 
   region.SetSize(size);
-  image->SetLargestPossibleRegion(region);
-  image->SetRequestedRegion(region);
-  image->SetBufferedRegion(region);
+  image->SetRegions(region);
   image->Allocate();
 
   // Set origin and spacing of physical coordinates

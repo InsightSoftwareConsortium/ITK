@@ -74,17 +74,13 @@ TestMattesMetricWithAffineTransform(TInterpolator * interpolator,
   imgOrigin[1] = 0.0;
 
   auto imgMoving = MovingImageType::New();
-  imgMoving->SetLargestPossibleRegion(region);
-  imgMoving->SetBufferedRegion(region);
-  imgMoving->SetRequestedRegion(region);
+  imgMoving->SetRegions(region);
   imgMoving->Allocate();
   imgMoving->SetSpacing(imgSpacing);
   imgMoving->SetOrigin(imgOrigin);
 
   auto imgFixed = FixedImageType::New();
-  imgFixed->SetLargestPossibleRegion(region);
-  imgFixed->SetBufferedRegion(region);
-  imgFixed->SetRequestedRegion(region);
+  imgFixed->SetRegions(region);
   imgFixed->Allocate();
   imgFixed->SetSpacing(imgSpacing);
   imgFixed->SetOrigin(imgOrigin);
@@ -481,17 +477,13 @@ TestMattesMetricWithBSplineTransform(TInterpolator * interpolator,
   imgOrigin[1] = 0.0;
 
   auto imgMoving = MovingImageType::New();
-  imgMoving->SetLargestPossibleRegion(region);
-  imgMoving->SetBufferedRegion(region);
-  imgMoving->SetRequestedRegion(region);
+  imgMoving->SetRegions(region);
   imgMoving->Allocate();
   imgMoving->SetSpacing(imgSpacing);
   imgMoving->SetOrigin(imgOrigin);
 
   auto imgFixed = FixedImageType::New();
-  imgFixed->SetLargestPossibleRegion(region);
-  imgFixed->SetBufferedRegion(region);
-  imgFixed->SetRequestedRegion(region);
+  imgFixed->SetRegions(region);
   imgFixed->Allocate();
   imgFixed->SetSpacing(imgSpacing);
   imgFixed->SetOrigin(imgOrigin);

@@ -190,14 +190,10 @@ itkAdaptorComparisonTest(int, char *[])
   auto scalar_image = ScalarImageType::New();
   auto vector_image = VectorImageType::New();
 
-  scalar_image->SetLargestPossibleRegion(region);
-  scalar_image->SetBufferedRegion(region);
-  scalar_image->SetRequestedRegion(region);
+  scalar_image->SetRegions(region);
   scalar_image->Allocate(true); // initialize buffer to zero
 
-  vector_image->SetLargestPossibleRegion(region);
-  vector_image->SetBufferedRegion(region);
-  vector_image->SetRequestedRegion(region);
+  vector_image->SetRegions(region);
   vector_image->Allocate();
 
   VectorImageType::PixelType initialVectorValue;

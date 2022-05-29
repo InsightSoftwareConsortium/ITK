@@ -66,9 +66,7 @@ itkWarpJacobianDeterminantFilterTest(int, char *[])
   region.SetSize(size);
 
   // Initialize Image A
-  inputDisplacementField->SetLargestPossibleRegion(region);
-  inputDisplacementField->SetBufferedRegion(region);
-  inputDisplacementField->SetRequestedRegion(region);
+  inputDisplacementField->SetRegions(region);
   inputDisplacementField->Allocate();
 
   // Create one iterator for the Input Image (this is a light object)

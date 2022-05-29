@@ -42,9 +42,7 @@ GetTestImage(int d1, int d2, int d3, int d4)
   RegionND.SetIndex(origND);
 
   auto imageND = TestImageType::New();
-  imageND->SetLargestPossibleRegion(RegionND);
-  imageND->SetBufferedRegion(RegionND);
-  imageND->SetRequestedRegion(RegionND);
+  imageND->SetRegions(RegionND);
   imageND->Allocate();
 
   FillImage<4>(imageND.GetPointer());

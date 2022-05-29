@@ -59,9 +59,7 @@ itkHessianRecursiveGaussianFilterScaleSpaceTest(int, char *[])
   inputImage->SetOrigin(origin);
   inputImage->SetSpacing(spacing);
 
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   using IteratorType = itk::ImageRegionIteratorWithIndex<ImageType>;

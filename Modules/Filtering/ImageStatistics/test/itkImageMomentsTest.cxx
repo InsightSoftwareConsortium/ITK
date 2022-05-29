@@ -91,9 +91,7 @@ itkImageMomentsTest(int argc, char * argv[])
 
   ImageType::RegionType region;
   region.SetSize(size);
-  image->SetLargestPossibleRegion(region);
-  image->SetBufferedRegion(region);
-  image->SetRequestedRegion(region);
+  image->SetRegions(region);
 
   /* Set origin and spacing of physical coordinates */
   image->SetOrigin(origin);

@@ -57,9 +57,7 @@ itkUnsharpMaskImageFilterTestSimple(int, char *[])
   region.SetSize(size);
 
   // Initialize the input image
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Declare an Iterator type for the input image

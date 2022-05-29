@@ -47,9 +47,7 @@ itkImageSliceIteratorTest(int, char *[])
   region.SetIndex(start);
   region.SetSize(size);
 
-  myImage->SetLargestPossibleRegion(region);
-  myImage->SetBufferedRegion(region);
-  myImage->SetRequestedRegion(region);
+  myImage->SetRegions(region);
   myImage->Allocate();
 
   using IteratorType = itk::ImageSliceIteratorWithIndex<ImageType>;

@@ -222,13 +222,9 @@ itkLevelSetFunctionTest(int, char *[])
   r.SetSize(sz);
   r.SetIndex(idx);
 
-  im_init->SetLargestPossibleRegion(r);
-  im_init->SetBufferedRegion(r);
-  im_init->SetRequestedRegion(r);
+  im_init->SetRegions(r);
 
-  im_target->SetLargestPossibleRegion(r);
-  im_target->SetBufferedRegion(r);
-  im_target->SetRequestedRegion(r);
+  im_target->SetRegions(r);
 
   im_init->Allocate();
   im_target->Allocate();

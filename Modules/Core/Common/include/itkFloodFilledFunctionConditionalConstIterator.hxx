@@ -82,9 +82,7 @@ FloodFilledFunctionConditionalConstIterator<TImage, TFunction>::InitializeIterat
   m_TemporaryPointer = TTempImage::New();
   typename TTempImage::RegionType tempRegion = this->m_Image->GetBufferedRegion();
 
-  m_TemporaryPointer->SetLargestPossibleRegion(tempRegion);
-  m_TemporaryPointer->SetBufferedRegion(tempRegion);
-  m_TemporaryPointer->SetRequestedRegion(tempRegion);
+  m_TemporaryPointer->SetRegions(tempRegion);
   m_TemporaryPointer->Allocate(true); // initialize buffer to zero
 
   // Initialize the queue by adding the start index assuming one of

@@ -37,9 +37,7 @@ itkConstNeighborhoodIteratorWithOnlyIndexTestGetTestImage(int d1, int d2, int d3
   RegionND.SetIndex(origND);
 
   auto imageND = TImage::New();
-  imageND->SetLargestPossibleRegion(RegionND);
-  imageND->SetBufferedRegion(RegionND);
-  imageND->SetRequestedRegion(RegionND);
+  imageND->SetRegions(RegionND);
 
   return imageND;
 }

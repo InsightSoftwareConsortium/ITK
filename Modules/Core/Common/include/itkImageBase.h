@@ -325,9 +325,7 @@ public:
     RegionType region;
     region.SetSize(size);
 
-    this->SetLargestPossibleRegion(region);
-    this->SetBufferedRegion(region);
-    this->SetRequestedRegion(region);
+    this->Self::SetRegions(region);
   }
 
   /** Get the offset table.  The offset table gives increments for

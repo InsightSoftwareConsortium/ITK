@@ -52,9 +52,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   ImageType::RegionType region0;
   region0.SetIndex(start0);
   region0.SetSize(size0);
-  myImage->SetLargestPossibleRegion(region0);
-  myImage->SetBufferedRegion(region0);
-  myImage->SetRequestedRegion(region0);
+  myImage->SetRegions(region0);
   myImage->Allocate();
   // Make the priority image
   auto                        priorityImage = PriorityImageType::New();
@@ -67,9 +65,7 @@ itkImageRandomNonRepeatingIteratorWithIndexTest(int, char *[])
   PriorityImageType::RegionType priorityRegion;
   priorityRegion.SetIndex(priorityStart);
   priorityRegion.SetSize(prioritySize);
-  priorityImage->SetLargestPossibleRegion(priorityRegion);
-  priorityImage->SetBufferedRegion(priorityRegion);
-  priorityImage->SetRequestedRegion(priorityRegion);
+  priorityImage->SetRegions(priorityRegion);
   priorityImage->Allocate();
   // we will make most of this image ones, with a small region of
   // zeros.  Then pixels from the zero region should be selected

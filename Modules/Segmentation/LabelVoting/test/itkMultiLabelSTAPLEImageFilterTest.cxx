@@ -80,9 +80,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   }
 
   // Initialize Image A
-  inputImageA->SetLargestPossibleRegion(region);
-  inputImageA->SetBufferedRegion(region);
-  inputImageA->SetRequestedRegion(region);
+  inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
   myIteratorType it = myIteratorType(inputImageA, inputImageA->GetBufferedRegion());
@@ -93,9 +91,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   }
 
   // Initialize Image B
-  inputImageB->SetLargestPossibleRegion(region);
-  inputImageB->SetBufferedRegion(region);
-  inputImageB->SetRequestedRegion(region);
+  inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
   it = myIteratorType(inputImageB, inputImageB->GetBufferedRegion());
@@ -105,9 +101,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   }
 
   // Initialize Image C
-  inputImageC->SetLargestPossibleRegion(region);
-  inputImageC->SetBufferedRegion(region);
-  inputImageC->SetRequestedRegion(region);
+  inputImageC->SetRegions(region);
   inputImageC->Allocate();
 
   it = myIteratorType(inputImageC, inputImageC->GetBufferedRegion());

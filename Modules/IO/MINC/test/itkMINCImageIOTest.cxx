@@ -322,9 +322,7 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   typename ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
-  im->SetLargestPossibleRegion(region);
-  im->SetBufferedRegion(region);
-  im->SetRequestedRegion(region);
+  im->SetRegions(region);
   im->SetSpacing(spacing);
   im->SetOrigin(origin);
   im->Allocate();
@@ -578,9 +576,7 @@ MINCReadWriteTestVector(const char * fileName,
   typename ImageType::RegionType region;
   region.SetSize(size);
   region.SetIndex(index);
-  im->SetLargestPossibleRegion(region);
-  im->SetBufferedRegion(region);
-  im->SetRequestedRegion(region);
+  im->SetRegions(region);
   im->SetSpacing(spacing);
   im->SetOrigin(origin);
   im->SetVectorLength(vector_length);

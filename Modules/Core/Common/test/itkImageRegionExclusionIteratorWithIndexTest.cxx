@@ -36,16 +36,12 @@ RunTest(const TRegion & region, const TRegion & exclusionRegion)
 
   auto myIndexImage = IndexImageType::New();
 
-  myIndexImage->SetLargestPossibleRegion(region);
-  myIndexImage->SetBufferedRegion(region);
-  myIndexImage->SetRequestedRegion(region);
+  myIndexImage->SetRegions(region);
   myIndexImage->Allocate();
 
   auto myValueImage = ValueImageType::New();
 
-  myValueImage->SetLargestPossibleRegion(region);
-  myValueImage->SetBufferedRegion(region);
-  myValueImage->SetRequestedRegion(region);
+  myValueImage->SetRegions(region);
   myValueImage->Allocate();
 
   using ValueIteratorType = itk::ImageRegionIteratorWithIndex<ValueImageType>;

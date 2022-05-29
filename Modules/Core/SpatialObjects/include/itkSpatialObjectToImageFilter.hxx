@@ -313,11 +313,9 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GenerateData()
 
   region.SetIndex(m_Index);
 
-  OutputImage->SetLargestPossibleRegion(region); //
-  OutputImage->SetBufferedRegion(region);        // set the region
-  OutputImage->SetRequestedRegion(region);       //
-  OutputImage->SetSpacing(m_Spacing);            // set spacing
-  OutputImage->SetOrigin(m_Origin);              //   and origin
+  OutputImage->SetRegions(region);    // set the region
+  OutputImage->SetSpacing(m_Spacing); // set spacing
+  OutputImage->SetOrigin(m_Origin);   //   and origin
   OutputImage->SetDirection(m_Direction);
   OutputImage->Allocate(); // allocate the image
 

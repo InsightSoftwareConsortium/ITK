@@ -61,15 +61,11 @@ itkMaskNegatedImageFilterTest(int, char *[])
   region.SetSize(size);
 
   // Initialize the image
-  inputImage->SetLargestPossibleRegion(region);
-  inputImage->SetBufferedRegion(region);
-  inputImage->SetRequestedRegion(region);
+  inputImage->SetRegions(region);
   inputImage->Allocate();
 
   // Initialize the mask
-  inputMask->SetLargestPossibleRegion(region);
-  inputMask->SetBufferedRegion(region);
-  inputMask->SetRequestedRegion(region);
+  inputMask->SetRegions(region);
   inputMask->Allocate();
 
 

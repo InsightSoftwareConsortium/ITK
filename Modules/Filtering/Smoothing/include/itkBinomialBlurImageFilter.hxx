@@ -114,9 +114,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   typename TTempImage::RegionType tempRegion;
   tempRegion = inputPtr->GetRequestedRegion();
 
-  tempPtr->SetLargestPossibleRegion(tempRegion);
-  tempPtr->SetBufferedRegion(tempRegion);
-  tempPtr->SetRequestedRegion(tempRegion);
+  tempPtr->SetRegions(tempRegion);
   tempPtr->Allocate();
 
   // How big is the input image?
