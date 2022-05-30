@@ -92,7 +92,6 @@ remote_modules_path='../../Modules/Remote'
 # Ask for GitHub username and password once
 echo "Please provide your GitHub (https://github.com)"
 read -p "username: " username
-read -p "password: " -s password
 
 remotes=()
 
@@ -122,7 +121,7 @@ function list_candidate_remotes() {
 
     # Get the latest git commit hash of the remote module.
     # Remotes will usually not be tagged.
-    latest_commit=$(git ls-remote git://github.com/$repository refs/heads/master)
+    latest_commit=$(git ls-remote https://github.com/$repository refs/heads/master)
     latest_commit=${latest_commit/[[:space:]]refs\/heads\/master/}
 
     # Skip remotes whose current commit in ITK differs from the latest
@@ -171,8 +170,8 @@ function apply_script_and_push_remotes() {
 
     repository_basename=$(basename -s .git `git config --get remote.origin.url`)
 
-    git checkout master
-    git checkout -b $feature_branch origin/master
+    git checkout main || git checkout master
+    git checkout -b $feature_branch origin/main || git checkout -b $feature_branch origin/master || git checkout $feature_branch
     $script
 
     # Add the files, adding filters if necessary, and redirecting stdout and
@@ -192,7 +191,11 @@ function apply_script_and_push_remotes() {
 
     # Commit and push to the feature branch
     git commit -m "$commit_message"
-    git push --quiet https://$username:$password@github.com/$username/$repository_basename $feature_branch
+
+    read -ep "Push $feature_branch changes to git@github.com:$username/$repository_basename.git? [y/n]" dopush
+    if [ $dopush = 'y' ]; then
+      git push --quiet git@github.com:$username/$repository_basename.git $feature_branch
+    fi
 
     cd ..
   done
