@@ -8,8 +8,8 @@
   Version:   2.0
 
   Portions of this code are covered under the ITK and VTK copyright.
-  See VTKCopyright.txt or http://www.kitware.com/VTKCopyright.htm for details.
-  See ITKCopyright.txt or http://www.itk.org/HTML/Copyright.htm for details.
+  See VTKCopyright.txt or https://www.kitware.com/VTKCopyright.htm for details.
+  See ITKCopyright.txt or https://www.itk.org/HTML/Copyright.htm for details.
 
   This software is distributed WITHOUT ANY WARRANTY; without even
   the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR
