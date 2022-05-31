@@ -112,7 +112,7 @@ DocBookOutput::usage(CmdLineInterface & _cmd)
 
   std::cout << "<?xml version='1.0'?>" << std::endl;
   std::cout << "<!DOCTYPE refentry PUBLIC \"-//OASIS//DTD DocBook XML V4.2//EN\"" << std::endl;
-  std::cout << "\t\"http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd\">" << std::endl << std::endl;
+  std::cout << "\t\"https://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd\">" << std::endl << std::endl;
 
   std::cout << "<refentry>" << std::endl;
 

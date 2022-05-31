@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <!DOCTYPE book PUBLIC "-//Norman Walsh//DTD DocBk XML V4.2//EN"
-                    "http://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
+                    "https://www.oasis-open.org/docbook/xml/4.2/docbookx.dtd">
 
 <!--
   - 
@@ -619,7 +619,7 @@ to add more than two <classname>Arg</classname>s.
 
 
         ValueArg&lt;string&gt;  fileArg("f","file","File name to read",true,"/dev/null", "filename");
-        ValueArg&lt;string&gt;  urlArg("u","url","URL to load",true, "http://example.com", "URL");
+        ValueArg&lt;string&gt;  urlArg("u","url","URL to load",true, "https://example.com", "URL");
 
         cmd.xorAdd( fileArg, urlArg );
         cmd.parse(argc, argv);
@@ -662,7 +662,7 @@ requires additional information.
 
         SwitchArg  stdinArg("s", "stdin", "Read from STDIN", false);
         ValueArg&lt;string&gt;  fileArg("f","file","File name to read",true,"/dev/null", "filename");
-        ValueArg&lt;string&gt;  urlArg("u","url","URL to load",true, "http://example.com", "URL");
+        ValueArg&lt;string&gt;  urlArg("u","url","URL to load",true, "https://example.com", "URL");
 
         vector&lt;Arg*&gt;  xorlist;
         xorlist.push_back(&amp;stdinArg);
