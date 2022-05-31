@@ -140,7 +140,7 @@ protected:
    * \return false else
    */
   bool
-  IsFaceIsolated(QEType * e, const bool & iWasLeftFace, std::stack<TQEType *> & oToBeDeleted);
+  IsFaceIsolated(QEType * e, const bool iWasLeftFace, std::stack<TQEType *> & oToBeDeleted);
 
   bool
   IsSamosa(QEType * e);

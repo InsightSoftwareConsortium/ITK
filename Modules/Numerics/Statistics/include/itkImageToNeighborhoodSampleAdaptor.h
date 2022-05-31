@@ -129,7 +129,7 @@ public:
   GetRegion() const;
 
   void
-  SetUseImageRegion(const bool & flag);
+  SetUseImageRegion(const bool flag);
 
   /** Method to get UseImageRegion flag */
   itkGetConstMacro(UseImageRegion, bool);

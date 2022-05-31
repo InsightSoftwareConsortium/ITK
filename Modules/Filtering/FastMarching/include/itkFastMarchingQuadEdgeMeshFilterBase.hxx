@@ -223,11 +223,11 @@ FastMarchingQuadEdgeMeshFilterBase<TInput, TOutput>::Solve(OutputMeshType *     
                                                            const OutputVectorRealType & iF,
                                                            const NodeType &             iId1,
                                                            const OutputPointType &      iP1,
-                                                           const bool &                 iIsFar1,
+                                                           const bool                   iIsFar1,
                                                            const OutputVectorRealType   iVal1,
                                                            const NodeType &             iId2,
                                                            const OutputPointType &      iP2,
-                                                           const bool &                 iIsFar2,
+                                                           const bool                   iIsFar2,
                                                            const OutputVectorRealType & iVal2) const
 {
   OutputVectorType Edge1 = iP1 - iCurrentPoint;

@@ -139,7 +139,7 @@ protected:
   /** Update separately the zero layer for points with positive/negative update values
    *  Move points to -1 or +1 layers */
   void
-  EvolveWithPhasedPropagation(LevelSetLayerType & ioList, LevelSetLayerType & ioUpdate, const bool & iContraction);
+  EvolveWithPhasedPropagation(LevelSetLayerType & ioList, LevelSetLayerType & ioUpdate, const bool iContraction);
 
   /** Make sure the layers are of single pixel thickness only. This method is related
     to the minimal interface function described in the original paper. */

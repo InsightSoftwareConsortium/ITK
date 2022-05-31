@@ -141,7 +141,7 @@ public:
 
   /** Compute information from data object and/or allocate new level set image */
   void
-  CopyInformationAndAllocate(const Self * iOther, const bool & iAllocate)
+  CopyInformationAndAllocate(const Self * iOther, const bool iAllocate)
   {
     LevelSetContainerType              internalContainer = iOther->GetContainer();
     LevelSetContainerConstIteratorType it = internalContainer.begin();
