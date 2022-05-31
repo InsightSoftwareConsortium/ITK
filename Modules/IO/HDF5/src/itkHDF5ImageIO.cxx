@@ -284,7 +284,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const bool value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const long & value)
+HDF5ImageIO ::WriteScalar(const std::string & path, const long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -307,7 +307,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const long & value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long & value)
+HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -330,7 +330,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long & value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const long long & value)
+HDF5ImageIO ::WriteScalar(const std::string & path, const long long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -352,7 +352,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const long long & value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long long & value)
+HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);

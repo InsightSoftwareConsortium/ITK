@@ -142,7 +142,7 @@ public:
   }
 
   void
-  InsertNarrowBandNode(const IndexType & index, const PixelType & value, const signed char & nodestate)
+  InsertNarrowBandNode(const IndexType & index, const PixelType & value, const signed char nodestate)
   {
     BandNodeType tmpnode;
 
@@ -158,7 +158,7 @@ public:
    * twice this value (positive and negative distance to the zero level
    * set). The default value is 3. */
   void
-  SetNarrowBandTotalRadius(const float & val)
+  SetNarrowBandTotalRadius(const float val)
   {
     if (m_NarrowBand->GetTotalRadius() != val)
     {
@@ -177,7 +177,7 @@ public:
   /** Set the narrow band inner radius. The inner radius is the safe
    * are where the level set can be computed. The default value is 1. */
   void
-  SetNarrowBandInnerRadius(const float & val)
+  SetNarrowBandInnerRadius(const float val)
   {
     if (m_NarrowBand->GetInnerRadius() != val)
     {

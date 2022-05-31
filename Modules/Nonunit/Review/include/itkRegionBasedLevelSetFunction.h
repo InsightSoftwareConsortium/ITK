@@ -337,7 +337,7 @@ public:
 
   /** Set function id.  */
   void
-  SetFunctionId(const unsigned int & iFid)
+  SetFunctionId(const unsigned int iFid)
   {
     this->m_FunctionId = iFid;
   }

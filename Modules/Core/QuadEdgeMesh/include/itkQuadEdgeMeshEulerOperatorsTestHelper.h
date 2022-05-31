@@ -46,7 +46,7 @@ AssertTopologicalInvariants(TMesh *        mesh,
 //----------------------------------------------------------------------------
 template <typename TMesh>
 std::vector<typename TMesh::PointType>
-GeneratePointCoordinates(const unsigned int & iN)
+GeneratePointCoordinates(const unsigned int iN)
 {
   using PointType = typename TMesh::PointType;
   using CoordRepType = typename PointType::CoordRepType;

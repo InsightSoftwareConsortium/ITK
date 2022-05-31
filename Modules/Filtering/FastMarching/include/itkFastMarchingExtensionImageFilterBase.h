@@ -109,7 +109,7 @@ public:
 
   /** Get one of the extended auxiliary variable image. */
   AuxImageType *
-  GetAuxiliaryImage(const unsigned int & idx);
+  GetAuxiliaryImage(const unsigned int idx);
 
   /** Set the container auxiliary values at the initial alive points. */
   itkSetObjectMacro(AuxiliaryAliveValues, AuxValueContainerType);

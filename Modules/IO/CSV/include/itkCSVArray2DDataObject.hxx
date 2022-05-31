@@ -79,7 +79,7 @@ CSVArray2DDataObject<TData>::GetColumnIndexByName(const std::string & column_nam
 
 template <typename TData>
 auto
-CSVArray2DDataObject<TData>::GetRow(const unsigned int & row_index) const -> NumericVectorType
+CSVArray2DDataObject<TData>::GetRow(const unsigned int row_index) const -> NumericVectorType
 {
   NumericVectorType row;
   unsigned int      max_rows = this->m_Matrix.rows() - 1;
@@ -107,7 +107,7 @@ CSVArray2DDataObject<TData>::GetRow(const std::string & row_name) const -> Numer
 
 template <typename TData>
 auto
-CSVArray2DDataObject<TData>::GetColumn(const unsigned int & column_index) const -> NumericVectorType
+CSVArray2DDataObject<TData>::GetColumn(const unsigned int column_index) const -> NumericVectorType
 {
   NumericVectorType column;
   unsigned int      max_columns = this->m_Matrix.columns() - 1;
@@ -136,7 +136,7 @@ CSVArray2DDataObject<TData>::GetColumn(const std::string & column_name) const ->
 
 template <typename TData>
 TData
-CSVArray2DDataObject<TData>::GetData(const unsigned int & row, const unsigned int & column) const
+CSVArray2DDataObject<TData>::GetData(const unsigned int row, const unsigned int column) const
 {
   if (row > this->m_Matrix.rows() - 1)
   {
@@ -161,7 +161,7 @@ CSVArray2DDataObject<TData>::GetData(const std::string & row_name, const std::st
 
 template <typename TData>
 TData
-CSVArray2DDataObject<TData>::GetRowData(const std::string & row_name, const unsigned int & column_index) const
+CSVArray2DDataObject<TData>::GetRowData(const std::string & row_name, const unsigned int column_index) const
 {
   unsigned int row_index = this->GetRowIndexByName(row_name);
   return this->GetData(row_index, column_index);
@@ -169,7 +169,7 @@ CSVArray2DDataObject<TData>::GetRowData(const std::string & row_name, const unsi
 
 template <typename TData>
 TData
-CSVArray2DDataObject<TData>::GetColumnData(const std::string & column_name, const unsigned int & row_index) const
+CSVArray2DDataObject<TData>::GetColumnData(const std::string & column_name, const unsigned int row_index) const
 {
   unsigned int column_index = this->GetColumnIndexByName(column_name);
   return this->GetData(row_index, column_index);
@@ -177,7 +177,7 @@ CSVArray2DDataObject<TData>::GetColumnData(const std::string & column_name, cons
 
 template <typename TData>
 TData
-CSVArray2DDataObject<TData>::operator()(const unsigned int & row_index, const unsigned int & column_index) const
+CSVArray2DDataObject<TData>::operator()(const unsigned int row_index, const unsigned int column_index) const
 {
   return this->GetData(row_index, column_index);
 }

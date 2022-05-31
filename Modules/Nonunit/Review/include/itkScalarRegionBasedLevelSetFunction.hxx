@@ -68,7 +68,7 @@ filter */
 template <typename TInputImage, typename TFeatureImage, typename TSharedData>
 void
 ScalarRegionBasedLevelSetFunction<TInputImage, TFeatureImage, TSharedData>::UpdatePixel(
-  const unsigned int &                idx,
+  const unsigned int                  idx,
   NeighborhoodIterator<TInputImage> & iterator,
   InputPixelType &                    newValue,
   bool &                              itkNotUsed(status))

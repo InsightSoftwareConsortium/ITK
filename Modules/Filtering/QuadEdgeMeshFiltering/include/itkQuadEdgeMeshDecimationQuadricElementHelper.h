@@ -165,7 +165,7 @@ public:
 
   /// TODO to be implemented!!!
   PointType
-  ComputeOptimalLocation(const unsigned int &)
+  ComputeOptimalLocation(const unsigned int)
   {}
 
   void

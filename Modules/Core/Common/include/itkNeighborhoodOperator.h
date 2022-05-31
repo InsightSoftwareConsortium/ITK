@@ -91,7 +91,7 @@ public:
 
   /** Sets the dimensional direction of a directional operator. */
   void
-  SetDirection(const unsigned long & direction)
+  SetDirection(const unsigned long direction)
   {
     m_Direction = direction;
   }

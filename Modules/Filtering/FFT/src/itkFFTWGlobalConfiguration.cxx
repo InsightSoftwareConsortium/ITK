@@ -110,7 +110,7 @@ FFTWGlobalConfiguration::GetPlanRigorValue(const std::string & name)
 }
 
 std::string
-FFTWGlobalConfiguration::GetPlanRigorName(const int & value)
+FFTWGlobalConfiguration::GetPlanRigorName(const int value)
 {
   switch (value)
   {
@@ -758,7 +758,7 @@ FFTWGlobalConfiguration::GetNewWisdomAvailable()
 }
 
 void
-FFTWGlobalConfiguration::SetPlanRigor(const int & v)
+FFTWGlobalConfiguration::SetPlanRigor(const int v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   // use that method to check the value

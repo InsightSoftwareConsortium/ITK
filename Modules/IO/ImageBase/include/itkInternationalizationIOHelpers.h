@@ -115,7 +115,7 @@ Utf8StringToWString(const std::string & str)
 // Get a file descriptor from a filename (using utf8 to wstring
 // on windows if requested) without specifying any specific permissions
 inline int
-I18nOpen(const std::string & str, const int & flags)
+I18nOpen(const std::string & str, const int flags)
 {
 #if LOCAL_USE_WIN32_WOPEN
   // mingw has _wopen
@@ -130,7 +130,7 @@ I18nOpen(const std::string & str, const int & flags)
 // Get a file descriptor from a filename (using utf8 to wstring
 // on windows if requested)
 inline int
-I18nOpen(const std::string & str, const int & flags, const int & mode)
+I18nOpen(const std::string & str, const int flags, const int mode)
 {
 #if LOCAL_USE_WIN32_WOPEN
   // mingw has _wopen

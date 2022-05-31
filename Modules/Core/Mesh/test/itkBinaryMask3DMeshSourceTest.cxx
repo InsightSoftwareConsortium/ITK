@@ -35,28 +35,28 @@ using PixelType = ImageType::PixelType;
 using ImagePointerType = ImageType::Pointer;
 
 void
-CreateCubeConfig(ImagePointerType      image,
-                 const unsigned int &  StartX,
-                 const unsigned int &  StartY,
-                 const unsigned int &  StartZ,
-                 const unsigned char & value1,
-                 const unsigned char & value2,
-                 const unsigned char & value3,
-                 const unsigned char & value4,
-                 const unsigned char & value5,
-                 const unsigned char & value6,
-                 const unsigned char & value7,
-                 const unsigned char & value8);
+CreateCubeConfig(ImagePointerType    image,
+                 const unsigned int  StartX,
+                 const unsigned int  StartY,
+                 const unsigned int  StartZ,
+                 const unsigned char value1,
+                 const unsigned char value2,
+                 const unsigned char value3,
+                 const unsigned char value4,
+                 const unsigned char value5,
+                 const unsigned char value6,
+                 const unsigned char value7,
+                 const unsigned char value8);
 
 void
-Create16CubeConfig(ImagePointerType      image,
-                   const unsigned int &  StartX,
-                   const unsigned int &  StartY,
-                   const unsigned int &  StartZ,
-                   const unsigned char & value1,
-                   const unsigned char & value2,
-                   const unsigned char & value3,
-                   const unsigned char & value4);
+Create16CubeConfig(ImagePointerType    image,
+                   const unsigned int  StartX,
+                   const unsigned int  StartY,
+                   const unsigned int  StartZ,
+                   const unsigned char value1,
+                   const unsigned char value2,
+                   const unsigned char value3,
+                   const unsigned char value4);
 
 int
 itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
@@ -131,18 +131,18 @@ itkBinaryMask3DMeshSourceTest(int argc, char * argv[])
 }
 
 void
-CreateCubeConfig(ImagePointerType      image,
-                 const unsigned int &  StartX,
-                 const unsigned int &  StartY,
-                 const unsigned int &  StartZ,
-                 const unsigned char & value1,
-                 const unsigned char & value2,
-                 const unsigned char & value3,
-                 const unsigned char & value4,
-                 const unsigned char & value5,
-                 const unsigned char & value6,
-                 const unsigned char & value7,
-                 const unsigned char & value8)
+CreateCubeConfig(ImagePointerType    image,
+                 const unsigned int  StartX,
+                 const unsigned int  StartY,
+                 const unsigned int  StartZ,
+                 const unsigned char value1,
+                 const unsigned char value2,
+                 const unsigned char value3,
+                 const unsigned char value4,
+                 const unsigned char value5,
+                 const unsigned char value6,
+                 const unsigned char value7,
+                 const unsigned char value8)
 {
   IndexType index;
 
@@ -196,14 +196,14 @@ CreateCubeConfig(ImagePointerType      image,
 }
 
 void
-Create16CubeConfig(ImagePointerType      image,
-                   const unsigned int &  StartX,
-                   const unsigned int &  StartY,
-                   const unsigned int &  StartZ,
-                   const unsigned char & value1,
-                   const unsigned char & value2,
-                   const unsigned char & value3,
-                   const unsigned char & value4)
+Create16CubeConfig(ImagePointerType    image,
+                   const unsigned int  StartX,
+                   const unsigned int  StartY,
+                   const unsigned int  StartZ,
+                   const unsigned char value1,
+                   const unsigned char value2,
+                   const unsigned char value3,
+                   const unsigned char value4)
 {
   // Case 0
   CreateCubeConfig(image, StartX + 0, StartY + 0, StartZ + 0, value1, value2, value3, value4, 0, 0, 0, 0);

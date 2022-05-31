@@ -81,7 +81,7 @@ public:
 
   /** Sets the order of the derivative. */
   void
-  SetOrder(const unsigned int & order)
+  SetOrder(const unsigned int order)
   {
     this->m_Order = order;
   }

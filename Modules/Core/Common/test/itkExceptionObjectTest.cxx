@@ -71,13 +71,13 @@ mammal::operator==(mammal & o)
 }
 
 int
-lookup(const int & i)
+lookup(const int i)
 {
   static int table[5] = { 23, 42, 42, 32, 12 };
   if (!(0 <= i && i < 5))
   {
     itk::RangeError e(__FILE__, __LINE__);
-    e.SetLocation("int lookup(const int& )");
+    e.SetLocation("int lookup(const int )");
     e.SetDescription("Attempted to access out-of-bounds array element");
     throw e;
   }
