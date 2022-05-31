@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -258,7 +258,7 @@ MGHImageIO ::ReadVolumeHeader()
       this->TRead<float, double>(m_Spacing[nSpacing]);
     }
     /*
-      From http://www.nmr.mgh.harvard.edu/~tosa/#coords:
+      From https://www.nmr.mgh.harvard.edu/~tosa/#coords:
       To go from freesurfer voxel coordinates to RAS coordinates, they use:
       translation:  t_r, t_a, t_s is defined using c_r, c_a, c_s centre voxel position in RAS
       rotation: direction cosines x_(r,a,s), y_(r,a,s), z_(r,a,s)
