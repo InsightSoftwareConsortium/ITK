@@ -44,7 +44,7 @@ NoiseBaseImageFilter<TInputImage, TOutputImage>::SetSeed()
 
 template <class TInputImage, class TOutputImage>
 auto
-NoiseBaseImageFilter<TInputImage, TOutputImage>::ClampCast(const double & value) -> OutputImagePixelType
+NoiseBaseImageFilter<TInputImage, TOutputImage>::ClampCast(const double value) -> OutputImagePixelType
 {
   if (value >= static_cast<double>(NumericTraits<OutputImagePixelType>::max()))
   {

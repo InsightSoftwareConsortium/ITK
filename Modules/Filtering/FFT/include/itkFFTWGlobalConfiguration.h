@@ -237,7 +237,7 @@ public:
    * FFTW_MEASURE, FFTW_PATIENT, FFTW_EXHAUSTIVE
    */
   static void
-  SetPlanRigor(const int & v);
+  SetPlanRigor(const int v);
 
   static int
   GetPlanRigor();
@@ -250,7 +250,7 @@ public:
 
   /** Translate plan rigor value to name. An exception is sent if the value is not valid. */
   static std::string
-  GetPlanRigorName(const int & value);
+  GetPlanRigorName(const int value);
 
   /**
    * \brief Set/Get the behavior of wisdom file caching

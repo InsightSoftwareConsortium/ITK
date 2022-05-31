@@ -54,7 +54,7 @@ FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>:
 template <typename TInput, typename TOutput, typename TAuxValue, unsigned int VAuxDimension>
 typename FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>::AuxImageType *
 FastMarchingExtensionImageFilterBase<TInput, TOutput, TAuxValue, VAuxDimension>::GetAuxiliaryImage(
-  const unsigned int & idx)
+  const unsigned int idx)
 {
   if (idx >= AuxDimension || this->GetNumberOfIndexedOutputs() < idx + 2)
   {

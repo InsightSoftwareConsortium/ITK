@@ -288,7 +288,7 @@ public:
   }
 
   void
-  SetMinimum(const double & v)
+  SetMinimum(const double v)
   {
     m_Minimum = v;
   }
@@ -300,7 +300,7 @@ public:
   }
 
   void
-  SetMaximum(const double & v)
+  SetMaximum(const double v)
   {
     m_Maximum = v;
   }
@@ -312,7 +312,7 @@ public:
   }
 
   void
-  SetMean(const double & v)
+  SetMean(const double v)
   {
     m_Mean = v;
   }
@@ -324,7 +324,7 @@ public:
   }
 
   void
-  SetSum(const double & v)
+  SetSum(const double v)
   {
     m_Sum = v;
   }
@@ -336,7 +336,7 @@ public:
   }
 
   void
-  SetStandardDeviation(const double & v)
+  SetStandardDeviation(const double v)
   {
     m_StandardDeviation = v;
   }
@@ -348,7 +348,7 @@ public:
   }
 
   void
-  SetVariance(const double & v)
+  SetVariance(const double v)
   {
     m_Variance = v;
   }
@@ -360,7 +360,7 @@ public:
   }
 
   void
-  SetMedian(const double & v)
+  SetMedian(const double v)
   {
     m_Median = v;
   }
@@ -443,7 +443,7 @@ public:
   }
 
   void
-  SetSkewness(const double & v)
+  SetSkewness(const double v)
   {
     m_Skewness = v;
   }
@@ -455,7 +455,7 @@ public:
   }
 
   void
-  SetKurtosis(const double & v)
+  SetKurtosis(const double v)
   {
     m_Kurtosis = v;
   }
@@ -467,7 +467,7 @@ public:
   }
 
   void
-  SetWeightedElongation(const double & v)
+  SetWeightedElongation(const double v)
   {
     m_WeightedElongation = v;
   }
@@ -491,7 +491,7 @@ public:
   }
 
   void
-  SetWeightedFlatness(const double & v)
+  SetWeightedFlatness(const double v)
   {
     m_WeightedFlatness = v;
   }

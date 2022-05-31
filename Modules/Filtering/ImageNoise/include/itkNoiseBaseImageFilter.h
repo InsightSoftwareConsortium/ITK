@@ -78,7 +78,7 @@ protected:
 
   // Clamp and round the input value to the output
   static OutputImagePixelType
-  ClampCast(const double & value);
+  ClampCast(const double value);
 
 private:
   uint32_t m_Seed{ 0 };

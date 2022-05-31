@@ -78,7 +78,7 @@ public:
 
   /** Sets the desired variance of the Gaussian kernel. */
   void
-  SetVariance(const double & variance)
+  SetVariance(const double variance)
   {
     m_Variance = variance;
   }
@@ -88,7 +88,7 @@ public:
    * and the area under the continuous Gaussian. Maximum error affects the
    * Gaussian operator size. The value must be between 0.0 and 1.0. */
   void
-  SetMaximumError(const double & max_error)
+  SetMaximumError(const double max_error)
   {
     if (max_error >= 1 || max_error <= 0)
     {

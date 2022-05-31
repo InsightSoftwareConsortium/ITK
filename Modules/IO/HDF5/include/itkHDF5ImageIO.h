@@ -156,15 +156,15 @@ private:
   ReadString(const std::string & path);
 
   void
-  WriteScalar(const std::string & path, const bool & value);
+  WriteScalar(const std::string & path, const bool value);
   void
-  WriteScalar(const std::string & path, const long & value);
+  WriteScalar(const std::string & path, const long value);
   void
-  WriteScalar(const std::string & path, const unsigned long & value);
+  WriteScalar(const std::string & path, const unsigned long value);
   void
-  WriteScalar(const std::string & path, const long long & value);
+  WriteScalar(const std::string & path, const long long value);
   void
-  WriteScalar(const std::string & path, const unsigned long long & value);
+  WriteScalar(const std::string & path, const unsigned long long value);
 
   template <typename TScalar>
   void

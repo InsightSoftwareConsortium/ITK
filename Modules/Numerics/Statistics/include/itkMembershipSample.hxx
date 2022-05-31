@@ -108,7 +108,7 @@ MembershipSample<TSample>::GetMeasurementVector(const InstanceIdentifier & id) c
 
 template <typename TSample>
 inline typename MembershipSample<TSample>::MeasurementType
-MembershipSample<TSample>::GetMeasurement(const InstanceIdentifier & id, const unsigned int & dimension)
+MembershipSample<TSample>::GetMeasurement(const InstanceIdentifier & id, const unsigned int dimension)
 {
   return m_Sample->GetMeasurement(id, dimension);
 }

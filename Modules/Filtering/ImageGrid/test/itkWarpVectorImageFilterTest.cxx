@@ -41,7 +41,7 @@ public:
   }
 
   double
-  Evaluate(const IndexType & index, const SizeType & size, const SizeType & clampSize, const float & padValue)
+  Evaluate(const IndexType & index, const SizeType & size, const SizeType & clampSize, const float padValue)
   {
     double accum = m_Offset;
     for (int j = 0; j < VDimension; ++j)

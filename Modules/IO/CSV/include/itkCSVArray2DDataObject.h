@@ -103,7 +103,7 @@ public:
 
   /** Returns a Row. Input to the method is a row index. */
   NumericVectorType
-  GetRow(const unsigned int &) const;
+  GetRow(const unsigned int) const;
 
   /** Returns a Column. Input to the method is a column header string. */
   NumericVectorType
@@ -111,7 +111,7 @@ public:
 
   /** Get Column method. Input to the method is a column index. */
   NumericVectorType
-  GetColumn(const unsigned int &) const;
+  GetColumn(const unsigned int) const;
 
   /** Method to access a data field from the Array2D object. Inputs are row and
    *  column header strings in that order. */
@@ -121,17 +121,17 @@ public:
   /** Method to access a data field from the Array2D object. Inputs are row and
    *  column indices in that order. */
   TData
-  GetData(const unsigned int &, const unsigned int &) const;
+  GetData(const unsigned int, const unsigned int) const;
 
   /** Method to access a data field from a particular column. Inputs are the
    *  column header string and the row index. */
   TData
-  GetColumnData(const std::string &, const unsigned int &) const;
+  GetColumnData(const std::string &, const unsigned int) const;
 
   /** Method to access a data field from a particular row. Inputs are the row
    *  header string and the column index. */
   TData
-  GetRowData(const std::string &, const unsigned int &) const;
+  GetRowData(const std::string &, const unsigned int) const;
 
   /** Method to access a data field from the Array2D object using the ()
    *  operator.Inputs are the row and column header strings in that order. */
@@ -141,7 +141,7 @@ public:
   /** Method to access a data field from the Array2D object using the ()
    *  operator. Inputs are the row and column indices in that order. */
   TData
-  operator()(const unsigned int &, const unsigned int &) const;
+  operator()(const unsigned int, const unsigned int) const;
 
   /** Method to set the size of the Array2D object. */
   void

@@ -125,7 +125,7 @@ public:
   shared data which contains information from the other level sets). Using the
   new H values, the previous c_i are updated. */
   void
-  UpdatePixel(const unsigned int &                idx,
+  UpdatePixel(const unsigned int                  idx,
               NeighborhoodIterator<TInputImage> & iterator,
               InputPixelType &                    newValue,
               bool &                              status);

@@ -161,7 +161,7 @@ public:
   this value (positive and negative distance to the zero level set).
   The user of the narrow band container should set up this value properly. */
   void
-  SetTotalRadius(const float & val)
+  SetTotalRadius(const float val)
   {
     m_TotalRadius = val;
   }
@@ -175,7 +175,7 @@ public:
   /** Set/Get the narrow band inner radius. The inner radius is the safe are
   where the level set can be computed.*/
   void
-  SetInnerRadius(const float & val)
+  SetInnerRadius(const float val)
   {
     m_InnerRadius = val;
   }

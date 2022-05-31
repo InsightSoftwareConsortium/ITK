@@ -86,7 +86,7 @@ public:
 
   /** Set/Get the conductance parameter.  The conductance parameter. */
   void
-  SetConductanceParameter(const double & c)
+  SetConductanceParameter(const double c)
   {
     m_ConductanceParameter = c;
   }
@@ -105,7 +105,7 @@ public:
   }
 
   void
-  SetAverageGradientMagnitudeSquared(const double & c)
+  SetAverageGradientMagnitudeSquared(const double c)
   {
     m_AverageGradientMagnitudeSquared = c;
   }

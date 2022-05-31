@@ -352,7 +352,7 @@ public:
   }
 
   void
-  SetPhysicalSize(const double & v)
+  SetPhysicalSize(const double v)
   {
     m_PhysicalSize = v;
   }
@@ -400,7 +400,7 @@ public:
   }
 
   void
-  SetPerimeterOnBorder(const double & v)
+  SetPerimeterOnBorder(const double v)
   {
     m_PerimeterOnBorder = v;
   }
@@ -412,7 +412,7 @@ public:
   }
 
   void
-  SetFeretDiameter(const double & v)
+  SetFeretDiameter(const double v)
   {
     m_FeretDiameter = v;
   }
@@ -448,7 +448,7 @@ public:
   }
 
   void
-  SetElongation(const double & v)
+  SetElongation(const double v)
   {
     m_Elongation = v;
   }
@@ -460,7 +460,7 @@ public:
   }
 
   void
-  SetPerimeter(const double & v)
+  SetPerimeter(const double v)
   {
     m_Perimeter = v;
   }
@@ -472,7 +472,7 @@ public:
   }
 
   void
-  SetRoundness(const double & v)
+  SetRoundness(const double v)
   {
     m_Roundness = v;
   }
@@ -484,7 +484,7 @@ public:
   }
 
   void
-  SetEquivalentSphericalRadius(const double & v)
+  SetEquivalentSphericalRadius(const double v)
   {
     m_EquivalentSphericalRadius = v;
   }
@@ -496,7 +496,7 @@ public:
   }
 
   void
-  SetEquivalentSphericalPerimeter(const double & v)
+  SetEquivalentSphericalPerimeter(const double v)
   {
     m_EquivalentSphericalPerimeter = v;
   }
@@ -520,7 +520,7 @@ public:
   }
 
   void
-  SetFlatness(const double & v)
+  SetFlatness(const double v)
   {
     m_Flatness = v;
   }
@@ -532,7 +532,7 @@ public:
   }
 
   void
-  SetPerimeterOnBorderRatio(const double & v)
+  SetPerimeterOnBorderRatio(const double v)
   {
     m_PerimeterOnBorderRatio = v;
   }

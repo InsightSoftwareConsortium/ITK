@@ -128,7 +128,7 @@ public:
   using LevelSetDataPointerVectorIterator = typename LevelSetDataPointerVector::iterator;
 
   void
-  SetFunctionCount(const unsigned int & n)
+  SetFunctionCount(const unsigned int n)
   {
     this->m_FunctionCount = n;
     this->m_LevelSetDataPointerVector.resize(n, nullptr);
@@ -143,13 +143,13 @@ public:
   }
 
   void
-  SetNumberOfNeighbors(const unsigned int & n)
+  SetNumberOfNeighbors(const unsigned int n)
   {
     this->m_NumberOfNeighbors = n;
   }
 
   void
-  CreateHeavisideFunctionOfLevelSetImage(const unsigned int & j, const InputImageType * image)
+  CreateHeavisideFunctionOfLevelSetImage(const unsigned int j, const InputImageType * image)
   {
     m_LevelSetDataPointerVector[j]->CreateHeavisideFunctionOfLevelSetImage(image);
   }

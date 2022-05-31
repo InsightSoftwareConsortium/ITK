@@ -130,9 +130,9 @@ private:
 };
 
 void ITKCommon_EXPORT
-     CompensatedSummationAddElement(float & compensation, float & sum, const float & element);
+     CompensatedSummationAddElement(float & compensation, float & sum, const float element);
 void ITKCommon_EXPORT
-     CompensatedSummationAddElement(double & compensation, double & sum, const double & element);
+     CompensatedSummationAddElement(double & compensation, double & sum, const double element);
 
 } // end namespace itk
 
