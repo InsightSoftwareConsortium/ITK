@@ -5,7 +5,7 @@ set(
 A more detailed description can be found in the Insight Journal article::
 
 Cerdan, P.H. \"ITK Wavelet Module\".
-  http://hdl.handle.net/10380/3558
+  https://hdl.handle.net/10380/3558
   September, 2016.
 "
 )

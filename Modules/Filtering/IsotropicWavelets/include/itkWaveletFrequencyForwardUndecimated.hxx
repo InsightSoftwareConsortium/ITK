@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -320,7 +320,7 @@ WaveletFrequencyForwardUndecimated<TInputImage, TOutputImage, TWaveletFilterBank
         (-static_cast<double>(level + 1) + band / static_cast<double>(this->m_HighPassSubBands)) * ImageDimension / 2.0;
       multiplyByAnalysisBandFactor->SetConstant(std::pow(scaleFactor, expBandFactor));
       // TODO Warning: InPlace here deletes buffered region of input.
-      // http://public.kitware.com/pipermail/community/2015-April/008819.html
+      // https://public.kitware.com/pipermail/community/2015-April/008819.html
       // multiplyByAnalysisBandFactor->InPlaceOn();
       multiplyByAnalysisBandFactor->Update();
 
