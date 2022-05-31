@@ -24,7 +24,7 @@ setup(
                  'microscopy imaging files.\n'
                  'Please refer to:\n'
                  'Bican, J. "Phase Correlation Method for ITK" '
-                 'Insight Journal, July-December 2006, http://hdl.handle.net/1926/396.',
+                 'Insight Journal, July-December 2006, https://hdl.handle.net/1926/396.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",

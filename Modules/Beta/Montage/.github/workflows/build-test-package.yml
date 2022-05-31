@@ -13,17 +13,17 @@ jobs:
           - os: ubuntu-18.04
             c-compiler: "gcc"
             cxx-compiler: "g++"
-            itk-git-tag: "aec78197f53968c5f6f240d4699d9ea333d48cbe"
+            itk-git-tag: "d6acfd26bfcdec606d605beb1301bddfb17c05a6"
             cmake-build-type: "MinSizeRel"
           - os: windows-2019
             c-compiler: "cl.exe"
             cxx-compiler: "cl.exe"
-            itk-git-tag: "aec78197f53968c5f6f240d4699d9ea333d48cbe"
+            itk-git-tag: "d6acfd26bfcdec606d605beb1301bddfb17c05a6"
             cmake-build-type: "Release"
           - os: macos-10.15
             c-compiler: "clang"
             cxx-compiler: "clang++"
-            itk-git-tag: "aec78197f53968c5f6f240d4699d9ea333d48cbe"
+            itk-git-tag: "d6acfd26bfcdec606d605beb1301bddfb17c05a6"
             cmake-build-type: "MinSizeRel"
 
     steps:
@@ -135,9 +135,9 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version: [36, 37, 38, 39]
+        python-version: [37, 38, 39, 310]
         include:
-          - itk-python-git-tag: "v5.2.0"
+          - itk-python-git-tag: "v5.3rc04"
 
     steps:
     - uses: actions/checkout@v2
@@ -173,7 +173,7 @@ jobs:
       max-parallel: 2
       matrix:
         include:
-          - itk-python-git-tag: "v5.2.0"
+          - itk-python-git-tag: "v5.3rc04"
 
     steps:
     - uses: actions/checkout@v2
@@ -207,9 +207,9 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-        python-version-minor: [6, 7, 8, 9]
+        python-version-minor: [7, 8, 9, 10]
         include:
-          - itk-python-git-tag: "v5.2.0"
+          - itk-python-git-tag: "v5.3rc04"
 
     steps:
     - name: Get specific version of CMake, Ninja
@@ -242,7 +242,7 @@ jobs:
       run: |
         cd ../../im
         call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        set PATH="C:\P\grep;%PATH%"
+        set PATH=C:\P\grep;%PATH%
         set CC=cl.exe
         set CXX=cl.exe
         C:\Python3${{ matrix.python-version-minor }}-x64\python.exe C:\P\IPP\scripts\windows_build_module_wheels.py --py-envs "3${{ matrix.python-version-minor }}-x64" --no-cleanup

@@ -54,9 +54,9 @@ See Also
 --------
 
 -   <http://dream3d.bluequartz.net/>
--   <http://www.incf.org>
--   <http://www.itk.org>
--   <http://www.alleninstitute.org>
+-   <https://www.incf.org>
+-   <https://www.itk.org>
+-   <https://www.alleninstitute.org>
 
 License
 -------
