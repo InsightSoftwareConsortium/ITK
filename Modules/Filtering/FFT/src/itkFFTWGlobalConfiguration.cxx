@@ -744,7 +744,7 @@ FFTWGlobalConfiguration::GetLockMutex()
 }
 
 void
-FFTWGlobalConfiguration::SetNewWisdomAvailable(const bool & v)
+FFTWGlobalConfiguration::SetNewWisdomAvailable(const bool v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_NewWisdomAvailable = v;
@@ -781,7 +781,7 @@ FFTWGlobalConfiguration::SetPlanRigor(const std::string & name)
 }
 
 void
-FFTWGlobalConfiguration::SetReadWisdomCache(const bool & v)
+FFTWGlobalConfiguration::SetReadWisdomCache(const bool v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_ReadWisdomCache = v;
@@ -799,7 +799,7 @@ FFTWGlobalConfiguration::GetReadWisdomCache()
 }
 
 void
-FFTWGlobalConfiguration::SetWriteWisdomCache(const bool & v)
+FFTWGlobalConfiguration::SetWriteWisdomCache(const bool v)
 {
   itkInitGlobalsMacro(PimplGlobals);
   GetInstance()->m_WriteWisdomCache = v;

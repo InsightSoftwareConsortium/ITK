@@ -253,7 +253,7 @@ template <unsigned int VDimension, typename TEquationContainer>
 void
 UpdateMalcolmSparseLevelSet<VDimension, TEquationContainer>::EvolveWithPhasedPropagation(LevelSetLayerType & ioList,
                                                                                          LevelSetLayerType & ioUpdate,
-                                                                                         const bool & iContraction)
+                                                                                         const bool iContraction)
 {
   itkAssertInDebugAndIgnoreInReleaseMacro(ioList.size() == ioUpdate.size());
 

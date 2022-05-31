@@ -262,7 +262,7 @@ doesAttrExist(const H5::H5Object & object, const char * const name)
 } // namespace
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const bool & value)
+HDF5ImageIO ::WriteScalar(const std::string & path, const bool value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);

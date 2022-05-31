@@ -297,7 +297,7 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace
 template <typename TMesh, typename TQEType>
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QEType *                e,
-                                                                            const bool &            iWasLeftFace,
+                                                                            const bool              iWasLeftFace,
                                                                             std::stack<TQEType *> & oToBeDeleted)
 {
   bool     border;

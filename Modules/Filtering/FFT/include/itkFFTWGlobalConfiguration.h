@@ -224,7 +224,7 @@ public:
    * may be written to the cache file
    */
   static void
-  SetNewWisdomAvailable(const bool & v);
+  SetNewWisdomAvailable(const bool v);
   static bool
   GetNewWisdomAvailable();
 
@@ -260,7 +260,7 @@ public:
    * If true, will create a wisdom file in the location
    */
   static void
-  SetReadWisdomCache(const bool & v);
+  SetReadWisdomCache(const bool v);
   static bool
   GetReadWisdomCache();
 
@@ -272,7 +272,7 @@ public:
    * If true, will create a wisdom file in the location
    */
   static void
-  SetWriteWisdomCache(const bool & v);
+  SetWriteWisdomCache(const bool v);
   static bool
   GetWriteWisdomCache();
 

@@ -207,7 +207,7 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::GetRegion() const 
 
 template <typename TImage, typename TBoundaryCondition>
 void
-ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetUseImageRegion(const bool & flag)
+ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::SetUseImageRegion(const bool flag)
 {
   if (flag != m_UseImageRegion)
   {
