@@ -22,11 +22,11 @@ The original approach is improved by projecting the vertices of each cuberille
 onto the implicit surface, smoothing the typical block-like resultant mesh.
 
 A more detailed description can be found in the
-`Insight Journal article <http://hdl.handle.net/10380/3186>`_::
+`Insight Journal article <https://hdl.handle.net/10380/3186>`_::
 
   Mueller, D. "Cuberille Implicit Surface Polygonization for ITK"
-  http://hdl.handle.net/10380/3186
-  http://www.insight-journal.org/browse/publication/740
+  https://hdl.handle.net/10380/3186
+  https://www.insight-journal.org/browse/publication/740
   July 20, 2010.
 
 Installation

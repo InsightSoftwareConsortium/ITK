@@ -9,8 +9,8 @@ resultant mesh.
 A more detailed description can be found in the Insight Journal article:
 
   Mueller, D. \"Cuberille Implicit Surface Polygonization for ITK\"
-  http://hdl.handle.net/10380/3186
-  http://www.insight-journal.org/browse/publication/740
+  https://hdl.handle.net/10380/3186
+  https://www.insight-journal.org/browse/publication/740
   July 20, 2010.
 ")
 

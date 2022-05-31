@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -93,7 +93,7 @@ CuberilleImageToMeshFilter<TInputImage, TOutputMesh, TInterpolator>::GenerateDat
 
   // TODO: Estimate number of vertices/faces for which to reserve
   // TODO: There is an issue with quad edge mesh related to reserving, see
-  // http://www.itk.org/mailman/private/insight-developers/2010-June/014653.html
+  // https://www.itk.org/mailman/private/insight-developers/2010-June/014653.html
   // SizeType size = image->GetLargestPossibleRegion().GetSize();
   // mesh->GetPoints()->Reserve( (size[0]*size[1]*size[2]) / 200 );
   // mesh->GetCells()->Reserve( (size[0]*size[1]*size[2]) / 100 );
