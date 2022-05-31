@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -178,7 +178,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::InitializeCurva
 
   //
   // different methods for the DCT are available in FFTW
-  // (look here: http://www.fftw.org/doc/Real_002dto_002dReal-Transforms.html)
+  // (look here: https://www.fftw.org/doc/Real_002dto_002dReal-Transforms.html)
   //
   // We use the FFTW_REDFT01 and FFTW_REDFT10 transform (fast), unsure what the correct choice is
   //
@@ -307,7 +307,7 @@ VariationalRegistrationCurvatureRegularizer<TDisplacementField>::Regularize()
 
   //
   // Compute normalization factor of DCT
-  // see (http://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html)
+  // see (https://www.fftw.org/doc/1d-Real_002deven-DFTs-_0028DCTs_0029.html)
   RealTypeFFT normalizationFactor = 1.0 / m_TotalSize;
   for (unsigned int dim = 0; dim < ImageDimension; ++dim)
   {

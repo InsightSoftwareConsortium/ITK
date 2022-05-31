@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,7 +22,7 @@
  *  module. For details on the implementation and the algorithm see:
  *    - Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
  *      <i>A Flexible Variational Registration Framework</i>, Insight Journal, 2014
- *      http://hdl.handle.net/10380/3460
+ *      https://hdl.handle.net/10380/3460
  *    - Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
  *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear
  *      intensity-based registration: A comparison and evaluation study</i>,
@@ -107,7 +107,7 @@ PrintHelp()
   std::cout << "  Information on the implementation can be found in:" << std::endl;
   std::cout << "    Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:" << std::endl;
   std::cout << "    A Flexible Variational Registration Framework, Insight Journal, 2014" << std::endl;
-  std::cout << "    http://hdl.handle.net/10380/3460" << std::endl;
+  std::cout << "    https://hdl.handle.net/10380/3460" << std::endl;
   std::cout << std::endl;
   std::cout << "  Info: This is a " << DIMENSION << "D build." << std::endl;
   std::cout << std::endl;

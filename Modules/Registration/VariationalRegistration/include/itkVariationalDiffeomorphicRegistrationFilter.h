@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -69,7 +69,7 @@ namespace itk
  *  For details see:
  *    - Alexander Schmidt-Richberg, Rene Werner, Heinz Handels and Jan Ehrhardt:
  *      <i>A Flexible Variational Registration Framework</i>, Insight Journal, 2014
- *      http://hdl.handle.net/10380/3460
+ *      https://hdl.handle.net/10380/3460
  *    - Rene Werner, Alexander Schmidt-Richberg, Heinz Handels and Jan Ehrhardt:
  *      <i>Estimation of lung motion fields in 4D CT data by variational non-linear
  *      intensity-based registration: A comparison and evaluation study</i>,
