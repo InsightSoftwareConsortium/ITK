@@ -76,11 +76,11 @@
 
 % Define command to make reference to on-line Doxygen documentation
 \newcommand{\doxygen}[1]{
-\href{http://www.itk.org/Doxygen/html/classitk_1_1#1.html}{\code{itk::#1}}}  
+\href{https://www.itk.org/Doxygen/html/classitk_1_1#1.html}{\code{itk::#1}}}  
 
 % Define command to make reference to on-line Doxygen documentation
 \newcommand{\subdoxygen}[2]{
-\href{http://www.itk.org/Doxygen/html/classitk_1_1#1_1_1#2.html}{\code{itk::#1::#2}}}  
+\href{https://www.itk.org/Doxygen/html/classitk_1_1#1_1_1#2.html}{\code{itk::#1::#2}}}  
 
 % Define command for the standard comment introducing classes with similar functionalities
 \newcommand{\relatedClasses}{

@@ -26,7 +26,7 @@ setup(
                      'Please refer to:'
                      'Vimort J., McCormick M., Paniagua B.,'
                      '“Computing Bone Morphometric Feature Maps from 3-Dimensional Images”, '
-                     'Insight Journal, January-December 2017, http://hdl.handle.net/10380/3588.',
+                     'Insight Journal, January-December 2017, https://hdl.handle.net/10380/3588.',
     classifiers=[
         "License :: OSI Approved :: Apache Software License",
         "Programming Language :: Python",

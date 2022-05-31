@@ -14,18 +14,18 @@ ITKBoneMorphometry
 Overview
 --------
 
-This is a module for the `Insight Toolkit (ITK) <http://itk.org>`_ that
+This is a module for the `Insight Toolkit (ITK) <https://itk.org>`_ that
 provides filters that `quantify bone morphometry
 <http://www.b-cube.ch/index.php?option=com_content&view=article&id=22&Itemid=20>`_
 from computed tomography (CT) images.
 
-For more information, see the `Insight Journal article <http://hdl.handle.net/10380/3588>`_::
+For more information, see the `Insight Journal article <https://hdl.handle.net/10380/3588>`_::
 
   Vimort J., McCormick M., Paniagua B.
   Computing Bone Morphometric Feature Maps from 3-Dimensional Images
   The Insight Journal. January-December. 2017.
-  http://hdl.handle.net/10380/3588
-  http://insight-journal.org/browse/publication/988
+  https://hdl.handle.net/10380/3588
+  https://insight-journal.org/browse/publication/988
 
 Installation
 ------------
