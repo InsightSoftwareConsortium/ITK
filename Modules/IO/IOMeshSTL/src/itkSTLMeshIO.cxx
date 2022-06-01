@@ -6,7 +6,7 @@
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
  *
- *         http://www.apache.org/licenses/LICENSE-2.0.txt
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
  *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
@@ -180,7 +180,7 @@ STLMeshIO ::ReadMeshInternalFromAscii()
   while (!this->CheckStringFromAscii("endsolid"))
   {
     //
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     //  facet normal ni nj nk
     //      outer loop
@@ -257,7 +257,7 @@ void
 STLMeshIO ::ReadMeshInternalFromBinary()
 {
   //
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   // UINT8[80] header
   //
@@ -277,7 +277,7 @@ STLMeshIO ::ReadMeshInternalFromBinary()
 
   //
   // Binary values in STL files are expected to be in little endian
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&numberOfTriangles);
 
@@ -420,7 +420,7 @@ STLMeshIO ::WriteMeshInformation()
   else if (this->GetFileType() == IOFileEnum::BINARY)
   {
     //
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     // UINT8[80] header
     //
@@ -556,7 +556,7 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
   NormalType normal;
 
   //
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   // UINT32 -- Number of Triangles
   //
@@ -601,7 +601,7 @@ STLMeshIO ::WriteCellsAsBinary(void * buffer)
     CrossProduct(normal, v12, v10);
 
     //
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     //    foreach triangle
     //    REAL32[3] – Normal vector
@@ -677,7 +677,7 @@ STLMeshIO ::WriteInt32AsBinary(int32_t value)
 {
   //
   // Binary values in STL files are expected to be in little endian
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&value);
   this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
@@ -689,7 +689,7 @@ STLMeshIO ::WriteInt16AsBinary(int16_t value)
 {
   //
   // Binary values in STL files are expected to be in little endian
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   ByteSwapper<int16_t>::SwapFromSystemToLittleEndian(&value);
   this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
@@ -704,7 +704,7 @@ STLMeshIO ::WriteNormalAsBinary(const NormalType & normal)
     float value = normal[i];
     //
     // Binary values in STL files are expected to be in little endian
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
@@ -720,7 +720,7 @@ STLMeshIO ::WritePointAsBinary(const PointType & point)
     float value = point[i];
     //
     // Binary values in STL files are expected to be in little endian
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     this->m_OutputStream.write(reinterpret_cast<const char *>(&value), sizeof(value));
@@ -737,7 +737,7 @@ STLMeshIO ::ReadNormalAsBinary(NormalType & normal)
     this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
     //
     // Binary values in STL files are expected to be in little endian
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     normal[i] = value;
@@ -751,7 +751,7 @@ STLMeshIO ::ReadInt32AsBinary(int32_t & value)
   this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
   //
   // Binary values in STL files are expected to be in little endian
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   ByteSwapper<int32_t>::SwapFromSystemToLittleEndian(&value);
 }
@@ -763,7 +763,7 @@ STLMeshIO ::ReadInt16AsBinary(int16_t & value)
   this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
   //
   // Binary values in STL files are expected to be in little endian
-  // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+  // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
   //
   ByteSwapper<int16_t>::SwapFromSystemToLittleEndian(&value);
 }
@@ -778,7 +778,7 @@ STLMeshIO ::ReadPointAsBinary(PointType & point)
     this->m_InputStream.read(reinterpret_cast<char *>(&value), sizeof(value));
     //
     // Binary values in STL files are expected to be in little endian
-    // http://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
+    // https://en.wikipedia.org/wiki/STL_(file_format)#Binary_STL
     //
     ByteSwapper<float>::SwapFromSystemToLittleEndian(&value);
     point[i] = value;
