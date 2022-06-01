@@ -18,10 +18,8 @@
 #ifndef itkMedialThicknessImageFilter3D_hxx
 #define itkMedialThicknessImageFilter3D_hxx
 
-
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
-
 
 namespace itk
 {
