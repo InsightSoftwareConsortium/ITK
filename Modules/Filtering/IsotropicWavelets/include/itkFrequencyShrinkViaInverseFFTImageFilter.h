@@ -19,7 +19,6 @@
 #define itkFrequencyShrinkViaInverseFFTImageFilter_h
 
 #include <itkShrinkDecimateImageFilter.h>
-#include <itkEnableIf.h>
 #include <itkInverseFFTImageFilter.h>
 #include <itkForwardFFTImageFilter.h>
 #include <itkShrinkDecimateImageFilter.h>

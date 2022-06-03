@@ -20,7 +20,6 @@
 
 #include <itkShrinkImageFilter.h>
 #include <itkFrequencyBandImageFilter.h>
-#include <itkEnableIf.h>
 
 namespace itk
 {
