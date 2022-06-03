@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-meshtopolydata',
-    version='0.8.1',
+    version='0.8.2',
     author='Insight Software Consortium',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
@@ -44,7 +44,7 @@ setup(
     keywords='ITK InsightToolkit',
     url=r'https://itk.org/',
     install_requires=[
-        r'itk-core>=5.2.0.post2',
+        r'itk-core>=5.3rc04',
         r'numpy',
     ]
     )
