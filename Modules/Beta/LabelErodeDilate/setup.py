@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-labelerodedilate',
-    version='1.1.1',
+    version='1.2.0',
     author='Richard Beare',
     author_email='Richard.Beare@med.monash.edu.au',
     packages=['itk'],
@@ -52,6 +52,6 @@ setup(
     keywords='ITK InsightToolkit Math-morphology Label-images',
     url=r'https://github.com/InsightSoftwareConsortium/ITKLabelErodeDilate',
     install_requires=[
-        r'itk>=5.2rc1'
+        r'itk>=5.3rc4'
     ]
     )
