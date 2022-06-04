@@ -398,7 +398,7 @@ AllocateBuffer(void ** data, itk::IOComponentEnum componentType, itk::SizeValueT
       buffer = new unsigned int[bufferSize];
       break;
     case itk::IOComponentEnum::INT:
-      buffer = new unsigned int[bufferSize];
+      buffer = new int[bufferSize];
       break;
     case itk::IOComponentEnum::ULONG:
       buffer = new unsigned long[bufferSize];
