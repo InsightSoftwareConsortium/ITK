@@ -375,59 +375,59 @@ TestBaseClassMethodsMeshIO(typename TMeshIO::Pointer meshIO)
   return EXIT_SUCCESS;
 }
 
-void
-AllocateBuffer(void ** data, itk::IOComponentEnum componentType, itk::SizeValueType bufferSize)
+namespace itk
 {
-  void * buffer = nullptr;
+namespace MeshIOTestHelper
+{
 
+template <typename T>
+std::shared_ptr<void>
+MakeSharedArray(const std::size_t bufferSize)
+{
+  return std::shared_ptr<void>(new T[bufferSize], std::default_delete<T[]>());
+}
+
+inline std::shared_ptr<void>
+AllocateBuffer(itk::IOComponentEnum componentType, itk::SizeValueType bufferSize)
+{
   switch (componentType)
   {
     case itk::IOComponentEnum::CHAR:
-      buffer = new char[bufferSize];
-      break;
+      return MakeSharedArray<char>(bufferSize);
     case itk::IOComponentEnum::UCHAR:
-      buffer = new unsigned char[bufferSize];
-      break;
+      return MakeSharedArray<unsigned char>(bufferSize);
     case itk::IOComponentEnum::USHORT:
-      buffer = new unsigned short[bufferSize];
-      break;
+      return MakeSharedArray<unsigned short>(bufferSize);
     case itk::IOComponentEnum::SHORT:
-      buffer = new short[bufferSize];
-      break;
+      return MakeSharedArray<short>(bufferSize);
     case itk::IOComponentEnum::UINT:
-      buffer = new unsigned int[bufferSize];
-      break;
+      return MakeSharedArray<unsigned int>(bufferSize);
     case itk::IOComponentEnum::INT:
-      buffer = new unsigned int[bufferSize];
-      break;
+      return MakeSharedArray<int>(bufferSize);
     case itk::IOComponentEnum::ULONG:
-      buffer = new unsigned long[bufferSize];
-      break;
+      return MakeSharedArray<unsigned long>(bufferSize);
     case itk::IOComponentEnum::LONG:
-      buffer = new long[bufferSize];
-      break;
+      return MakeSharedArray<long>(bufferSize);
     case itk::IOComponentEnum::LONGLONG:
-      buffer = new long long[bufferSize];
-      break;
+      return MakeSharedArray<long long>(bufferSize);
     case itk::IOComponentEnum::ULONGLONG:
-      buffer = new unsigned long long[bufferSize];
-      break;
+      return MakeSharedArray<unsigned long long>(bufferSize);
     case itk::IOComponentEnum::FLOAT:
-      buffer = new float[bufferSize];
-      break;
+      return MakeSharedArray<float>(bufferSize);
     case itk::IOComponentEnum::DOUBLE:
-      buffer = new double[bufferSize];
-      break;
+      return MakeSharedArray<double>(bufferSize);
     case itk::IOComponentEnum::LDOUBLE:
-      buffer = new long double[bufferSize];
-      break;
+      return MakeSharedArray<long double>(bufferSize);
     case itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE:
       break;
     default:
       break;
   }
 
-  *data = buffer;
+  return nullptr;
 }
+
+} // namespace MeshIOTestHelper
+} // namespace itk
 
 #endif
