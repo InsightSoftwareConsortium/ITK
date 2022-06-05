@@ -51,11 +51,8 @@ itkOBJMeshIOTest(int argc, char * argv[])
   objMeshIO->SetFileName(inputFileName);
   ITK_TRY_EXPECT_EXCEPTION(objMeshIO->ReadMeshInformation());
 
-  void * pointBuffer = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->ReadPoints(pointBuffer));
-
-  void * cellBuffer = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->ReadCells(cellBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->ReadPoints(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->ReadCells(nullptr));
 
   inputFileName = argv[3];
   ITK_TEST_EXPECT_TRUE(!objMeshIO->CanReadFile(inputFileName.c_str()));
@@ -102,18 +99,18 @@ itkOBJMeshIOTest(int argc, char * argv[])
   itk::SizeValueType pointBufferSize = 100000;
   itk::SizeValueType pointDataBufferSize = 100000;
 
-  itk::SizeValueType cellBufferSize = 100000;
-  AllocateBuffer(&pointBuffer, objMeshIO->GetPointComponentType(), pointBufferSize);
+  itk::SizeValueType          cellBufferSize = 100000;
+  const std::shared_ptr<void> pointBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(objMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> pointDataBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(objMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  const std::shared_ptr<void> cellBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(objMeshIO->GetCellComponentType(), cellBufferSize);
 
-  void * pointDataBuffer = nullptr;
-  AllocateBuffer(&pointDataBuffer, objMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->ReadPoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->ReadPointData(pointDataBuffer.get()));
 
-  AllocateBuffer(&cellBuffer, objMeshIO->GetCellComponentType(), cellBufferSize);
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->ReadPoints(pointBuffer));
-  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->ReadPointData(pointDataBuffer));
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->ReadCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->ReadCells(cellBuffer.get()));
 
   void * cellDataBuffer = nullptr;
   // Not used; empty method body; called for coverage purposes
@@ -122,8 +119,8 @@ itkOBJMeshIOTest(int argc, char * argv[])
   // Test writing exceptions
   std::string outputFileName = "";
   objMeshIO->SetFileName(outputFileName);
-  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->WritePoints(pointBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->WritePoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_EXCEPTION(objMeshIO->WriteCells(cellBuffer.get()));
   ITK_TRY_EXPECT_EXCEPTION(objMeshIO->WriteMeshInformation());
 
   outputFileName = argv[4];
@@ -134,12 +131,12 @@ itkOBJMeshIOTest(int argc, char * argv[])
   objMeshIO->SetFileName(outputFileName);
 
   // Write the actual data
-  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->WritePoints(pointBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->WritePoints(pointBuffer.get()));
 
   // Not used; empty method body; called for coverage purposes
-  objMeshIO->WritePointData(pointDataBuffer);
+  objMeshIO->WritePointData(pointDataBuffer.get());
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(objMeshIO->WriteCells(cellBuffer.get()));
 
   // Not used; empty method body; called for coverage purposes
   objMeshIO->WriteCellData(cellDataBuffer);
@@ -178,11 +175,6 @@ itkOBJMeshIOTest(int argc, char * argv[])
                         readWriteByuMeshIO->GetNumberOfPointPixelComponents());
   ITK_TEST_EXPECT_EQUAL(objMeshIO->GetNumberOfCellPixelComponents(),
                         readWriteByuMeshIO->GetNumberOfCellPixelComponents());
-
-
-  ::operator delete(pointBuffer);
-  ::operator delete(pointDataBuffer);
-  ::operator delete(cellBuffer);
 
   std::cout << "Test finished." << std::endl;
   return testStatus;

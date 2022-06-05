@@ -98,19 +98,18 @@ itkOFFMeshIOTest(int argc, char * argv[])
   itk::SizeValueType pointBufferSize = 1000;
   itk::SizeValueType cellBufferSize = 1000;
 
-  void * pointBuffer = nullptr;
-  AllocateBuffer(&pointBuffer, offMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> pointBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(offMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> cellBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(offMeshIO->GetCellComponentType(), cellBufferSize);
 
-  void * cellBuffer = nullptr;
-  AllocateBuffer(&cellBuffer, offMeshIO->GetCellComponentType(), cellBufferSize);
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->ReadPoints(pointBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->ReadPoints(pointBuffer.get()));
 
   void * pointDataBuffer = nullptr;
   // Not used; empty method body; called for coverage purposes
   offMeshIO->ReadPointData(pointDataBuffer);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->ReadCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->ReadCells(cellBuffer.get()));
 
   void * cellDataBuffer = nullptr;
   // Not used; empty method body; called for coverage purposes
@@ -119,8 +118,8 @@ itkOFFMeshIOTest(int argc, char * argv[])
   // Test writing exceptions
   std::string outputFileName = "";
   offMeshIO->SetFileName(outputFileName);
-  ITK_TRY_EXPECT_EXCEPTION(offMeshIO->WritePoints(pointBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(offMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(offMeshIO->WritePoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_EXCEPTION(offMeshIO->WriteCells(cellBuffer.get()));
   ITK_TRY_EXPECT_EXCEPTION(offMeshIO->WriteMeshInformation());
 
   outputFileName = argv[4];
@@ -131,12 +130,12 @@ itkOFFMeshIOTest(int argc, char * argv[])
   offMeshIO->SetFileName(outputFileName);
 
   // Write the actual data
-  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->WritePoints(pointBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->WritePoints(pointBuffer.get()));
 
   // Not used; empty method body; called for coverage purposes
   offMeshIO->WritePointData(pointDataBuffer);
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(offMeshIO->WriteCells(cellBuffer.get()));
 
   // Not used; empty method body; called for coverage purposes
   offMeshIO->WriteCellData(cellDataBuffer);
@@ -167,10 +166,6 @@ itkOFFMeshIOTest(int argc, char * argv[])
                         readWriteByuMeshIO->GetNumberOfPointPixelComponents());
   ITK_TEST_EXPECT_EQUAL(offMeshIO->GetNumberOfCellPixelComponents(),
                         readWriteByuMeshIO->GetNumberOfCellPixelComponents());
-
-
-  ::operator delete(pointBuffer);
-  ::operator delete(cellBuffer);
 
   std::cout << "Test finished." << std::endl;
   return testStatus;

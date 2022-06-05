@@ -53,15 +53,10 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   giftiMeshIO->SetFileName(inputFileName);
   ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadMeshInformation());
 
-  void * pointBuffer = nullptr;
-  void * pointDataBuffer = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadPoints(pointBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadPointData(pointDataBuffer));
-
-  void * cellBuffer = nullptr;
-  void * cellDataBuffer = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadCells(cellBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadCellData(cellDataBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadPoints(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadPointData(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadCells(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(giftiMeshIO->ReadCellData(nullptr));
 
   // Until the mesh information is read, the label color and name tables should be empty
   ITK_TEST_SET_GET_NULL_VALUE(giftiMeshIO->GetLabelColorTable());
@@ -146,17 +141,20 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   itk::SizeValueType cellBufferSize = 1000000;
   itk::SizeValueType cellDataBufferSize = 1000000;
 
-  AllocateBuffer(&pointBuffer, giftiMeshIO->GetPointComponentType(), pointBufferSize);
-  AllocateBuffer(&pointDataBuffer, giftiMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  const std::shared_ptr<void> pointBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(giftiMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> pointDataBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(giftiMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  const std::shared_ptr<void> cellBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(giftiMeshIO->GetCellComponentType(), cellBufferSize);
+  const std::shared_ptr<void> cellDataBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(giftiMeshIO->GetCellPixelComponentType(), cellDataBufferSize);
 
-  AllocateBuffer(&cellBuffer, giftiMeshIO->GetCellComponentType(), cellBufferSize);
-  AllocateBuffer(&cellDataBuffer, giftiMeshIO->GetCellPixelComponentType(), cellDataBufferSize);
+  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadPoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadPointData(pointDataBuffer.get()));
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadPoints(pointBuffer));
-  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadPointData(pointDataBuffer));
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadCells(cellBuffer));
-  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadCellData(cellDataBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadCells(cellBuffer.get()));
+  ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->ReadCellData(cellDataBuffer.get()));
 
   auto writeUpdatePointData = static_cast<bool>(std::stoi(argv[10]));
   giftiMeshIO->SetUpdatePointData(writeUpdatePointData);
@@ -192,11 +190,11 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   ITK_TEST_EXPECT_TRUE(giftiMeshIO->CanWriteFile(outputFileName.c_str()));
 
   // Write the actual data
-  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WritePoints(pointBuffer));
-  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WritePointData(pointDataBuffer));
+  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WritePoints(pointBuffer.get()));
+  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WritePointData(pointDataBuffer.get()));
 
-  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WriteCells(cellBuffer));
-  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WriteCellData(cellDataBuffer));
+  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WriteCells(cellBuffer.get()));
+  // ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WriteCellData(cellDataBuffer.get()));
 
   ITK_TRY_EXPECT_NO_EXCEPTION(giftiMeshIO->WriteMeshInformation());
 
@@ -245,12 +243,6 @@ itkGiftiMeshIOTest(int argc, char * argv[])
   //                      readWriteGiftiMeshIO->GetNumberOfPointPixelComponents());
   ITK_TEST_EXPECT_EQUAL(giftiMeshIO->GetNumberOfCellPixelComponents(),
                         readWriteGiftiMeshIO->GetNumberOfCellPixelComponents());
-
-
-  ::operator delete(pointBuffer);
-  ::operator delete(pointDataBuffer);
-  ::operator delete(cellBuffer);
-  ::operator delete(cellDataBuffer);
 
   std::cout << "Test finished." << std::endl;
   return testStatus;

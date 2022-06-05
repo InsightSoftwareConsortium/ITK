@@ -52,15 +52,10 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
   vtkPolyDataMeshIO->SetFileName(inputFileName);
   ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadMeshInformation());
 
-  void * pointBuffer = nullptr;
-  void * pointDataBuffer = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadPoints(pointBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadPointData(pointDataBuffer));
-
-  void * cellBuffer = nullptr;
-  void * cellDataBuffer = nullptr;
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadCells(cellBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadCellData(cellDataBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadPoints(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadPointData(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadCells(nullptr));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadCellData(nullptr));
 
   inputFileName = argv[3];
   vtkPolyDataMeshIO->SetFileName(inputFileName);
@@ -125,45 +120,48 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
   itk::SizeValueType cellBufferSize = 2000;
   itk::SizeValueType cellDataBufferSize = 2000;
 
-  AllocateBuffer(&pointBuffer, vtkPolyDataMeshIO->GetPointComponentType(), pointBufferSize);
-  AllocateBuffer(&pointDataBuffer, vtkPolyDataMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
-
-  AllocateBuffer(&cellBuffer, vtkPolyDataMeshIO->GetCellComponentType(), cellBufferSize);
-  AllocateBuffer(&cellDataBuffer, vtkPolyDataMeshIO->GetCellPixelComponentType(), cellDataBufferSize);
+  const std::shared_ptr<void> pointBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(vtkPolyDataMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> pointDataBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(vtkPolyDataMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  const std::shared_ptr<void> cellBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(vtkPolyDataMeshIO->GetCellComponentType(), cellBufferSize);
+  const std::shared_ptr<void> cellDataBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(vtkPolyDataMeshIO->GetCellPixelComponentType(), cellDataBufferSize);
 
   auto pointPixelComponentType = vtkPolyDataMeshIO->GetPointPixelComponentType();
   auto cellPixelComponentType = vtkPolyDataMeshIO->GetCellPixelComponentType();
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadPoints(pointBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadPoints(pointBuffer.get()));
 
   if (pointPixelComponentType == itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
-    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadPointData(pointDataBuffer));
+    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadPointData(pointDataBuffer.get()));
   }
   else
   {
-    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadPointData(pointDataBuffer));
+    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadPointData(pointDataBuffer.get()));
   }
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadCells(cellBuffer.get()));
 
   if (cellPixelComponentType == itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
-    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadCellData(cellDataBuffer));
+    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->ReadCellData(cellDataBuffer.get()));
   }
   else
   {
-    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadCellData(cellDataBuffer));
+    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->ReadCellData(cellDataBuffer.get()));
   }
 
   // Test writing exceptions
   std::string outputFileName = "";
   vtkPolyDataMeshIO->SetFileName(outputFileName);
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WritePoints(pointBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WritePointData(pointDataBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WritePoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WritePointData(pointDataBuffer.get()));
 
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteCells(cellBuffer));
-  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteCellData(cellDataBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteCells(cellBuffer.get()));
+  ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteCellData(cellDataBuffer.get()));
 
   ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteMeshInformation());
 
@@ -185,26 +183,26 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
     vtkPolyDataMeshIO->SetFileType(itk::IOFileEnum::BINARY);
   }
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WritePoints(pointBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WritePoints(pointBuffer.get()));
 
   if (pointPixelComponentType == itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
-    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WritePointData(pointDataBuffer));
+    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WritePointData(pointDataBuffer.get()));
   }
   else
   {
-    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WritePointData(pointDataBuffer));
+    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WritePointData(pointDataBuffer.get()));
   }
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WriteCells(cellBuffer.get()));
 
   if (cellPixelComponentType == itk::IOComponentEnum::UNKNOWNCOMPONENTTYPE)
   {
-    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteCellData(cellDataBuffer));
+    ITK_TRY_EXPECT_EXCEPTION(vtkPolyDataMeshIO->WriteCellData(cellDataBuffer.get()));
   }
   else
   {
-    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WriteCellData(cellDataBuffer));
+    ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WriteCellData(cellDataBuffer.get()));
   }
 
   ITK_TRY_EXPECT_NO_EXCEPTION(vtkPolyDataMeshIO->WriteMeshInformation());
@@ -273,12 +271,6 @@ itkVTKPolyDataMeshIOTest(int argc, char * argv[])
   // written properly
   // ITK_TEST_EXPECT_EQUAL(vtkPolyDataMeshIO->GetNumberOfCellPixelComponents(),
   //                      readWriteVtkPolyDataMeshIO->GetNumberOfCellPixelComponents());
-
-
-  ::operator delete(pointBuffer);
-  ::operator delete(pointDataBuffer);
-  ::operator delete(cellBuffer);
-  ::operator delete(cellDataBuffer);
 
   std::cout << "Test finished." << std::endl;
   return testStatus;

@@ -79,19 +79,17 @@ itkFreeSurferMeshIOTestHelper(typename TMeshIO::Pointer       fsMeshIO,
 
   itk::SizeValueType cellBufferSize = 2000;
 
-  void * pointBuffer = nullptr;
-  AllocateBuffer(&pointBuffer, fsMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> pointBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(fsMeshIO->GetPointComponentType(), pointBufferSize);
+  const std::shared_ptr<void> pointDataBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(fsMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  const std::shared_ptr<void> cellBuffer =
+    itk::MeshIOTestHelper::AllocateBuffer(fsMeshIO->GetCellComponentType(), cellBufferSize);
 
-  void * pointDataBuffer = nullptr;
-  AllocateBuffer(&pointDataBuffer, fsMeshIO->GetPointPixelComponentType(), pointDataBufferSize);
+  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->ReadPoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->ReadPointData(pointDataBuffer.get()));
 
-  void * cellBuffer = nullptr;
-  AllocateBuffer(&cellBuffer, fsMeshIO->GetCellComponentType(), cellBufferSize);
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->ReadPoints(pointBuffer));
-  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->ReadPointData(pointDataBuffer));
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->ReadCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->ReadCells(cellBuffer.get()));
 
   void * cellDataBuffer = nullptr;
   // Not used; empty method body; called for coverage purposes
@@ -99,13 +97,13 @@ itkFreeSurferMeshIOTestHelper(typename TMeshIO::Pointer       fsMeshIO,
 
   // Test writing exceptions
   fsMeshIO->SetFileName("");
-  ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WritePoints(pointBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WritePoints(pointBuffer.get()));
   if (dynamic_cast<itk::FreeSurferBinaryMeshIO *>(fsMeshIO.GetPointer()))
   {
-    ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WritePointData(pointDataBuffer));
+    ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WritePointData(pointDataBuffer.get()));
   }
 
-  ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WriteCells(cellBuffer.get()));
   ITK_TRY_EXPECT_EXCEPTION(fsMeshIO->WriteMeshInformation());
 
   ITK_TEST_EXPECT_TRUE(!fsMeshIO->CanWriteFile(notAFsOutputFileName));
@@ -114,10 +112,10 @@ itkFreeSurferMeshIOTestHelper(typename TMeshIO::Pointer       fsMeshIO,
   fsMeshIO->SetFileName(outputFileName);
 
   // Write the actual data
-  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->WritePoints(pointBuffer));
-  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->WritePointData(pointDataBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->WritePoints(pointBuffer.get()));
+  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->WritePointData(pointDataBuffer.get()));
 
-  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->WriteCells(cellBuffer));
+  ITK_TRY_EXPECT_NO_EXCEPTION(fsMeshIO->WriteCells(cellBuffer.get()));
 
   // Not used; empty method body; called for coverage purposes
   fsMeshIO->WriteCellData(cellDataBuffer);
@@ -147,12 +145,6 @@ itkFreeSurferMeshIOTestHelper(typename TMeshIO::Pointer       fsMeshIO,
                         readWritefsMeshIO->GetNumberOfPointPixelComponents());
   ITK_TEST_EXPECT_EQUAL(fsMeshIO->GetNumberOfCellPixelComponents(),
                         readWritefsMeshIO->GetNumberOfCellPixelComponents());
-
-
-  ::operator delete(pointBuffer);
-  ::operator delete(pointDataBuffer);
-  ::operator delete(cellBuffer);
-  ::operator delete(cellDataBuffer);
 
   return testStatus;
 }
