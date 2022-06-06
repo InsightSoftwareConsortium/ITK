@@ -97,7 +97,7 @@ IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>::Eval
   {
     return this->EvaluateForwardLowPassFilter(freq_norm_in_hz);
   }
-  if (j > this->m_HighPassSubBands || j < 0)
+  if (j > this->m_HighPassSubBands)
   {
     itkExceptionMacro(<< "Invalid sub-band.");
   }

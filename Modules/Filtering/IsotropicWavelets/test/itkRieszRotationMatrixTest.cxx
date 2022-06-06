@@ -68,7 +68,6 @@ runRieszRotationMatrixInterfaceWithRieszFrequencyFilterBankGeneratorTest()
 {
   constexpr unsigned int Dimension = 2;
   // Create a rotation matrix
-  using ValueType = std::complex<double>;
   using SteerableMatrix = itk::RieszRotationMatrix<Dimension>;
   using SpatialRotationMatrix = SteerableMatrix::SpatialRotationMatrixType;
   SpatialRotationMatrix R;
@@ -227,7 +226,6 @@ runRieszRotationMatrixTest()
   bool               testPassed = true;
   const unsigned int Dimension = VDimension;
 
-  using ValueType = std::complex<double>;
   using SteerableMatrix = itk::RieszRotationMatrix<Dimension>;
   using SpatialRotationMatrix = typename SteerableMatrix::SpatialRotationMatrixType;
 
