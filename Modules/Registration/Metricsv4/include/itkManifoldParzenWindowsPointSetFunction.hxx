@@ -198,6 +198,8 @@ template <typename TPointSet, typename TOutput, typename TCoordRep>
 void
 ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "Covariance neighborhood: " << this->m_CovarianceKNeighborhood << std::endl;
   os << indent << "Evaluation neighborhood: " << this->m_EvaluationKNeighborhood << std::endl;
   os << indent << "Regularization sigma: " << this->m_RegularizationSigma << std::endl;
