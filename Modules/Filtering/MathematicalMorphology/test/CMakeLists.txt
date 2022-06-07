@@ -479,12 +479,12 @@ itk_add_test(NAME itkRegionalMinimaImageFilterTest1
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/cthead1RegionalMinimal-ref1.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal1.png
-    itkRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref1.png 2 1 1)
+    itkRegionalMinimaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal1.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref1.png 2 1 1)
 itk_add_test(NAME itkRegionalMinimaImageFilterTest2
       COMMAND ITKMathematicalMorphologyTestDriver
     --compare DATA{Baseline/cthead1RegionalMinimal-ref2.png}
               ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2.png
-    itkRegionalMaximaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2.png 2 0 1)
+    itkRegionalMinimaImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cthead1.png} ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal2.png ${ITK_TEST_OUTPUT_DIR}/cthead1RegionalMinimal-ref2.png 2 0 1)
 
 itk_add_test(NAME itkRegionalMaximaImageFilterTest1
       COMMAND ITKMathematicalMorphologyTestDriver
