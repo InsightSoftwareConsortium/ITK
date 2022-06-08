@@ -262,6 +262,21 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   numIterationsArr.SetData(numIterations, numLevel);
   ITK_TEST_SET_GET_VALUE(numIterationsArr, registrator->GetNumberOfIterations());
 
+  // Set the number of iterations to a different value and try the overloaded method with the desired value
+  unsigned int numIterations2[numLevel];
+  numIterations2[0] = 8;
+  for (ilevel = 1; ilevel < numLevel; ++ilevel)
+  {
+    numIterations2[ilevel] = numIterations2[ilevel - 1] / 2;
+  }
+  registrator->SetNumberOfIterations(numIterations2);
+  RegistrationType::NumberOfIterationsType numIterationsArr2;
+  numIterationsArr2.SetData(numIterations2, numLevel);
+  ITK_TEST_SET_GET_VALUE(numIterationsArr2, registrator->GetNumberOfIterations());
+
+  registrator->SetNumberOfIterations(numIterationsArr);
+  ITK_TEST_SET_GET_VALUE(numIterationsArr, registrator->GetNumberOfIterations());
+
   using CommandType = itk::SimpleMemberCommand<ShowProgressPDEObject>;
 
   ShowProgressPDEObject progressWatch(registrator);
