@@ -23,6 +23,13 @@ namespace itk
 {
 
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
+PointToPlanePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
+  PointToPlanePointSetToPointSetMetricv4()
+{
+  this->m_UsePointSetData = true;
+}
+
+template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 typename PointToPlanePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   MeasureType
   PointToPlanePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::

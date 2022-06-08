@@ -83,7 +83,7 @@ public:
                                          const PixelType & pixel = 0) const override;
 
 protected:
-  PointToPlanePointSetToPointSetMetricv4() = default;
+  PointToPlanePointSetToPointSetMetricv4();
   ~PointToPlanePointSetToPointSetMetricv4() override = default;
 
   bool

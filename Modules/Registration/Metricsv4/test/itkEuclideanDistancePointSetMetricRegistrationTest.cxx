@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkPointToPlanePointSetToPointSetMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkAffineTransform.h"
@@ -225,7 +226,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 
   // metric
   using PointSetType = itk::PointSet<unsigned char, Dimension>;
-  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
+  using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
 
   // transform
@@ -291,7 +292,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   displacementTransform->SetDisplacementField(displacementField);
 
   // metric
-  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
+  using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
   auto metric2 = PointSetMetricType::New();
   // If we don't set the virtual domain when using a displacement field transform, the
   // metric takes it from the transform during initialization.
