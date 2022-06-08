@@ -59,6 +59,7 @@ itkObjectToObjectMultiMetricv4TestEvaluate(ObjectToObjectMultiMetricv4TestMultiM
     weightSum += origMetricWeights[n];
   }
   multiVariateMetric->SetMetricWeights(origMetricWeights);
+  ITK_TEST_SET_GET_VALUE(origMetricWeights, multiVariateMetric->GetMetricWeights());
 
   // Initialize. This initializes all the component metrics.
   std::cout << "Initialize" << std::endl;
@@ -235,6 +236,15 @@ itkObjectToObjectMultiMetricv4TestRun(bool useDisplacementTransform)
   // Set up the metric.
   using MultiMetricType = ObjectToObjectMultiMetricv4TestMultiMetricType;
   auto multiVariateMetric = MultiMetricType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(multiVariateMetric, ObjectToObjectMultiMetricv4, ObjectToObjectMetric);
+
+
+  // Exercise exceptions
+  auto object = MultiMetricType::ObjectType::New();
+  ITK_TRY_EXPECT_EXCEPTION(multiVariateMetric->SetFixedObject(object.GetPointer()));
+
+  ITK_TRY_EXPECT_EXCEPTION(multiVariateMetric->SetMovingObject(object.GetPointer()));
 
   // Instantiate and Add metrics to the queue
   using JointHistorgramMetrictype =
