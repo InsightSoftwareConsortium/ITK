@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkPointToPlanePointSetToPointSetMetricv4.h"
 #include "itkTranslationTransform.h"
 
 #include <fstream>
@@ -75,7 +76,7 @@ itkEuclideanDistancePointSetMetricTestRun()
   translationTransform->SetIdentity();
 
   // Instantiate the metric
-  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
+  using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);
