@@ -140,23 +140,22 @@ int
 itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
 {
 
-  using PixelType = unsigned char;
-  enum
+  if (argc < 2)
   {
-    ImageDimension = 2
-  };
+    std::cerr << "Missing parametes." << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  constexpr unsigned int ImageDimension = 2;
+  using PixelType = unsigned char;
+
   using ImageType = itk::Image<PixelType, ImageDimension>;
   using VectorType = itk::Vector<float, ImageDimension>;
   using FieldType = itk::Image<VectorType, ImageDimension>;
   using IndexType = ImageType::IndexType;
   using SizeType = ImageType::SizeType;
   using RegionType = ImageType::RegionType;
-
-  if (argc < 2)
-  {
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " WarpedImage\n";
-    return EXIT_FAILURE;
-  }
 
   //--------------------------------------------------------
   std::cout << "Generate input images and initial field";
