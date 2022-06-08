@@ -1,5 +1,6 @@
 itk_wrap_include("itkDefaultStaticMeshTraits.h")
 itk_wrap_include("itkDefaultDynamicMeshTraits.h")
+itk_wrap_filter_dims(has_d_3 3)
 
 itk_wrap_class("itk::PointSet" POINTER)
   UNIQUE(types "${WRAP_ITK_SCALAR};D")
@@ -20,4 +21,8 @@ itk_wrap_class("itk::PointSet" POINTER)
     itk_wrap_template("M${ITKM_D}${d}${d}" "itk::Matrix <${ITKT_D},${d},${d}>,${d}")
     itk_wrap_template("A${ITKM_D}${d}" "itk::Array <${ITKT_D}>,${d}")
   endforeach()
+
+  if(has_d_3)
+    itk_wrap_template("VF33" "itk::Vector< float, 3 >, 3")
+  endif()
 itk_end_wrap_class()
