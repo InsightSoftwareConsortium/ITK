@@ -51,17 +51,29 @@ PointToPlanePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInterna
   GetLocalNeighborhoodValueAndDerivative(const PointType &     point,
                                          MeasureType &         measure,
                                          LocalDerivativeType & localDerivative,
-                                         const PixelType &     itkNotUsed(pixel)) const
+                                         const PixelType &     pixel) const
 {
   PointType closestPoint;
   closestPoint.Fill(0.0);
 
-
   PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
-  measure = point.EuclideanDistanceTo(closestPoint);
+  measure = 0;
+  auto temp_diff = closestPoint - point;
+  for (int i = 0; i < pixel.Size(); ++i)
+  {
+    measure = measure + temp_diff[i] * pixel[i];
+  }
+  measure = measure * measure;
+
   localDerivative = closestPoint - point;
+
+  // Perform dot product with the normal vector
+  for (int i = 0; i < pixel.Size(); ++i)
+  {
+    localDerivative[i] = localDerivative[i] * pixel[i];
+  }
 }
 
 /** PrintSelf method */

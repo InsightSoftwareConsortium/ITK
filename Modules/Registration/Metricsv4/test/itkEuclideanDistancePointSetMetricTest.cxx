@@ -27,7 +27,7 @@ template <unsigned int Dimension>
 int
 itkEuclideanDistancePointSetMetricTestRun()
 {
-  using PointSetType = itk::PointSet<unsigned char, Dimension>;
+  using PointSetType = itk::PointSet<float, Dimension>;
 
   using PointType = typename PointSetType::PointType;
 
@@ -76,7 +76,7 @@ itkEuclideanDistancePointSetMetricTestRun()
   translationTransform->SetIdentity();
 
   // Instantiate the metric
-  using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
+  using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
   metric->SetFixedPointSet(fixedPoints);
   metric->SetMovingPointSet(movingPoints);

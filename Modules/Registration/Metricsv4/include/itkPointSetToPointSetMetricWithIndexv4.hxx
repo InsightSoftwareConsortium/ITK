@@ -199,6 +199,7 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
           if (this->m_UsePointSetData)
           {
             bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
+            // std::cout << "point data is " << pixel << std::endl;
             // if (!doesPointDataExist)
             // {
             //   itkExceptionMacro("The corresponding data for point (pointId = " << index << ") does not exist.");
@@ -302,7 +303,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 
       CompensatedSummation<MeasureType> threadValue;
       PixelType                         pixel;
-      NumericTraits<PixelType>::SetLength(pixel, 1);
+      // NumericTraits<PixelType>::SetLength(pixel, 1);
       for (PointIdentifier index = ranges[rangeIndex].first; index < ranges[rangeIndex].second; ++index)
       {
         MeasureType         pointValue = NumericTraits<MeasureType>::ZeroValue();
@@ -319,6 +320,7 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
         if (this->m_UsePointSetData)
         {
           bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
+          // std::cout << "point data is " << pixel << std::endl;
           // if (!doesPointDataExist)
           // {
           //   itkExceptionMacro("The corresponding data for point with id " << index << " does not exist.");

@@ -71,7 +71,7 @@ public:
    * Calculates the local metric value for a single point.
    */
   MeasureType
-  GetLocalNeighborhoodValue(const PointType &, const PixelType & pixel = 0) const override;
+  GetLocalNeighborhoodValue(const PointType &, const PixelType & pixel) const override;
 
   /**
    * Calculates the local value and derivative for a single point.
@@ -80,7 +80,7 @@ public:
   GetLocalNeighborhoodValueAndDerivative(const PointType &,
                                          MeasureType &,
                                          LocalDerivativeType &,
-                                         const PixelType & pixel = 0) const override;
+                                         const PixelType & pixel) const override;
 
 protected:
   PointToPlanePointSetToPointSetMetricv4();
