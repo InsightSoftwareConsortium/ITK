@@ -244,9 +244,8 @@ itkMultiResolutionPDEDeformableRegistrationTest(int argc, char * argv[])
   registrator->GetModifiableFixedImagePyramid()->UseShrinkImageFilterOn();
   registrator->GetModifiableMovingImagePyramid()->UseShrinkImageFilterOn();
 
-  unsigned int     numLevel = 3;
-  constexpr size_t arraySize = 10;
-  unsigned int     numIterations[arraySize];
+  constexpr unsigned int numLevel = 3;
+  unsigned int           numIterations[numLevel];
   numIterations[0] = 64;
 
   unsigned int ilevel;
