@@ -61,11 +61,98 @@ public:
 
   /** Types transferred from the base class */
   using typename Superclass::MeasureType;
+
+  /**  Type of the parameters. */
+  using typename Superclass::ParametersType;
+  using typename Superclass::ParametersValueType;
+  using typename Superclass::NumberOfParametersType;
+
+  /**  Type of the derivative. */
   using typename Superclass::DerivativeType;
-  using typename Superclass::LocalDerivativeType;
-  using typename Superclass::PointType;
-  using typename Superclass::PixelType;
-  using typename Superclass::PointIdentifier;
+
+  /** Transform types from Superclass*/
+  using typename Superclass::FixedTransformType;
+  using typename Superclass::FixedTransformPointer;
+  using typename Superclass::FixedInputPointType;
+  using typename Superclass::FixedOutputPointType;
+  using typename Superclass::FixedTransformParametersType;
+
+  using typename Superclass::MovingTransformType;
+  using typename Superclass::MovingTransformPointer;
+  using typename Superclass::MovingInputPointType;
+  using typename Superclass::MovingOutputPointType;
+  using typename Superclass::MovingTransformParametersType;
+
+  using typename Superclass::JacobianType;
+  using typename Superclass::FixedTransformJacobianType;
+  using typename Superclass::MovingTransformJacobianType;
+
+  using DisplacementFieldTransformType = typename Superclass::MovingDisplacementFieldTransformType;
+
+  using ObjectType = typename Superclass::ObjectType;
+
+  /** Dimension type */
+  using typename Superclass::DimensionType;
+
+  /**  Type of the fixed point set. */
+  using FixedPointSetType = TFixedPointSet;
+  using FixedPointType = typename TFixedPointSet::PointType;
+  using FixedPixelType = typename TFixedPointSet::PixelType;
+  using FixedPointsContainer = typename TFixedPointSet::PointsContainer;
+
+  static constexpr DimensionType FixedPointDimension = Superclass::FixedDimension;
+
+  /**  Type of the moving point set. */
+  using MovingPointSetType = TMovingPointSet;
+  using MovingPointType = typename TMovingPointSet::PointType;
+  using MovingPixelType = typename TMovingPointSet::PixelType;
+  using MovingPointsContainer = typename TMovingPointSet::PointsContainer;
+
+  static constexpr DimensionType MovingPointDimension = Superclass::MovingDimension;
+
+  /**
+   * typedefs for the data types used in the point set metric calculations.
+   * It is assumed that the constants of the fixed point set, such as the
+   * point dimension, are the same for the "common space" in which the metric
+   * calculation occurs.
+   */
+  static constexpr DimensionType PointDimension = Superclass::FixedDimension;
+
+  using PointType = FixedPointType;
+  using PixelType = FixedPixelType;
+  using CoordRepType = typename PointType::CoordRepType;
+  using PointsContainer = FixedPointsContainer;
+  using PointsConstIterator = typename PointsContainer::ConstIterator;
+  using PointIdentifier = typename PointsContainer::ElementIdentifier;
+
+  /** Typedef for points locator class to speed up finding neighboring points */
+  using PointsLocatorType = PointsLocator<PointsContainer>;
+  using NeighborsIdentifierType = typename PointsLocatorType::NeighborsIdentifierType;
+
+  using FixedTransformedPointSetType = PointSet<FixedPixelType, Self::PointDimension>;
+  using MovingTransformedPointSetType = PointSet<MovingPixelType, Self::PointDimension>;
+
+  using DerivativeValueType = typename DerivativeType::ValueType;
+  using LocalDerivativeType = FixedArray<DerivativeValueType, Self::PointDimension>;
+
+  /** Types for the virtual domain */
+  using VirtualImageType = typename Superclass::VirtualImageType;
+  using typename Superclass::VirtualImagePointer;
+  using typename Superclass::VirtualPixelType;
+  using typename Superclass::VirtualRegionType;
+  using typename Superclass::VirtualSizeType;
+  using typename Superclass::VirtualSpacingType;
+  using VirtualOriginType = typename Superclass::VirtualPointType;
+  using typename Superclass::VirtualPointType;
+  using typename Superclass::VirtualDirectionType;
+  using VirtualRadiusType = typename Superclass::VirtualSizeType;
+  using typename Superclass::VirtualIndexType;
+  using typename Superclass::VirtualPointSetType;
+  using typename Superclass::VirtualPointSetPointer;
+
+  // Create ranges over the point set for multithreaded computation of value and derivatives
+  // using PointIdentifierPair = std::pair<PointIdentifier, PointIdentifier>;
+  // using PointIdentifierRanges = std::vector<PointIdentifierPair>;
 
   /**
    * Calculates the local metric value for a single point.
@@ -82,6 +169,14 @@ public:
                                          LocalDerivativeType &,
                                          const PixelType & pixel) const override;
 
+  /**
+   *  Overide it to handle the change jacobian due to normal vector.
+   */
+  void
+  CalculateValueAndDerivative(MeasureType &    calculatedValue,
+                              DerivativeType & derivative,
+                              bool             calculateValue) const override;
+
 protected:
   PointToPlanePointSetToPointSetMetricv4();
   ~PointToPlanePointSetToPointSetMetricv4() override = default;
@@ -95,6 +190,14 @@ protected:
   /** PrintSelf function */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
+
+
+private:
+  // Create ranges over the point set for multithreaded computation of value and derivatives
+  using PointIdentifierPair = std::pair<PointIdentifier, PointIdentifier>;
+  using PointIdentifierRanges = std::vector<PointIdentifierPair>;
+  const PointIdentifierRanges
+  CreateRanges() const;
 };
 } // end namespace itk
 

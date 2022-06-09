@@ -199,11 +199,10 @@ typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TI
           if (this->m_UsePointSetData)
           {
             bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
-            // std::cout << "point data is " << pixel << std::endl;
-            // if (!doesPointDataExist)
-            // {
-            //   itkExceptionMacro("The corresponding data for point (pointId = " << index << ") does not exist.");
-            // }
+            if (!doesPointDataExist)
+            {
+              itkExceptionMacro("The corresponding data for point (pointId = " << index << ") does not exist.");
+            }
           }
           threadValue += this->GetLocalNeighborhoodValueWithIndex(index, fixedTransformedPointSet[index], pixel);
         }
@@ -320,11 +319,10 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
         if (this->m_UsePointSetData)
         {
           bool doesPointDataExist = this->m_FixedPointSet->GetPointData(index, &pixel);
-          // std::cout << "point data is " << pixel << std::endl;
-          // if (!doesPointDataExist)
-          // {
-          //   itkExceptionMacro("The corresponding data for point with id " << index << " does not exist.");
-          // }
+          if (!doesPointDataExist)
+          {
+            itkExceptionMacro("The corresponding data for point with id " << index << " does not exist.");
+          }
         }
 
         if (calculateValue)
@@ -369,8 +367,9 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
 
             for (DimensionType d = 0; d < PointDimension; ++d)
             {
+              // Use pixel here instead of pointDerivative
+              // Override this method in the new class
               new_jacobian[par] = new_jacobian[par] + jacobian(d, par) * pointDerivative[d];
-              // threadLocalTransformDerivative[par] += temp_jd * pointDerivative[d];
             }
 
             // perform dot product summation here of the dot product error

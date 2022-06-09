@@ -152,7 +152,7 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   optimizer->SetMetric(metric);
   optimizer->SetLearningRate(0.0001);
   optimizer->SetNumberOfIterations(numberOfIterations);
-  optimizer->SetScalesEstimator(shiftScaleEstimator);
+  // optimizer->SetScalesEstimator(shiftScaleEstimator);
   optimizer->SetMaximumStepSizeInPhysicalUnits(maximumPhysicalStepSize);
 
   using CommandType = itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
@@ -225,7 +225,7 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 
   int finalResult = EXIT_SUCCESS;
 
-  unsigned int numberOfIterations = 500;
+  unsigned int numberOfIterations = 200;
   auto         maximumPhysicalStepSize = static_cast<double>(0.01);
   if (argc > 1)
   {
@@ -248,9 +248,12 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   // using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
 
+  std::cout << "Metric is " << std::endl;
+  std::cout << metric << std::endl;
+
   // transform
-  // using AffineTransformType = itk::AffineTransform<double, Dimension>;
-  using AffineTransformType = itk::Rigid2DTransform<double>;
+  using AffineTransformType = itk::AffineTransform<double, Dimension>;
+  // using AffineTransformType = itk::Rigid2DTransform<double>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << "XX Test with affine transform: " << std::endl;
