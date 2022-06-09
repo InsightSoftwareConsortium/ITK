@@ -354,12 +354,33 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
           this->GetMovingTransform()->ComputeJacobianWithRespectToParametersCachedTemporaries(
             virtualTransformedPointSet[index], jacobian, jacobianCache);
 
+          float new_jacobian[numberOfLocalParameters] = { 0 };
+
           for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
           {
+            // for (DimensionType d = 0; d < PointDimension; ++d)
+            // {
+            //   auto temp_jd = jacobian(d, par);
+            //   threadLocalTransformDerivative[par] += temp_jd * pointDerivative[d];
+            // }
+
+            // Writing new jacobian by taking dot product with the normal
+            // auto checking_pixel = pixel;
+
             for (DimensionType d = 0; d < PointDimension; ++d)
             {
-              threadLocalTransformDerivative[par] += jacobian(d, par) * pointDerivative[d];
+              new_jacobian[par] = new_jacobian[par] + jacobian(d, par) * pointDerivative[d];
+              // threadLocalTransformDerivative[par] += temp_jd * pointDerivative[d];
             }
+
+            // perform dot product summation here of the dot product error
+            // threadLocalTransformDerivative[par] += temp_jd * (pointDerivative[0] + pointDerivative[1]);
+          }
+
+          for (NumberOfParametersType par = 0; par < numberOfLocalParameters; ++par)
+          {
+            // perform dot product summation here of the dot product error with new jacobian
+            threadLocalTransformDerivative[par] += new_jacobian[par] * (pointDerivative[0] + pointDerivative[1]);
           }
         }
         // For local-support transforms, store the per-point result

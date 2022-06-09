@@ -16,12 +16,12 @@
  *
  *=========================================================================*/
 
-//#include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 #include "itkPointToPlanePointSetToPointSetMetricv4.h"
 #include "itkGradientDescentOptimizerv4.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
 #include "itkAffineTransform.h"
-#include "itkCenteredRigid2DTransform.h"
+#include "itkRigid2DTransform.h"
 #include "itkCommand.h"
 #include "itkMath.h"
 
@@ -150,9 +150,9 @@ itkEuclideanDistancePointSetMetricRegistrationTestRun(unsigned int              
   using OptimizerType = itk::GradientDescentOptimizerv4;
   auto optimizer = OptimizerType::New();
   optimizer->SetMetric(metric);
-  optimizer->SetLearningRate(0.001);
+  optimizer->SetLearningRate(0.0001);
   optimizer->SetNumberOfIterations(numberOfIterations);
-  // optimizer->SetScalesEstimator(shiftScaleEstimator);
+  optimizer->SetScalesEstimator(shiftScaleEstimator);
   optimizer->SetMaximumStepSizeInPhysicalUnits(maximumPhysicalStepSize);
 
   using CommandType = itkEuclideanDistancePointSetMetricRegistrationTestCommandIterationUpdate<OptimizerType>;
@@ -225,8 +225,8 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
 
   int finalResult = EXIT_SUCCESS;
 
-  unsigned int numberOfIterations = 100;
-  auto         maximumPhysicalStepSize = static_cast<double>(1);
+  unsigned int numberOfIterations = 500;
+  auto         maximumPhysicalStepSize = static_cast<double>(0.01);
   if (argc > 1)
   {
     numberOfIterations = std::stoi(argv[1]);
@@ -245,11 +245,12 @@ itkEuclideanDistancePointSetMetricRegistrationTest(int argc, char * argv[])
   // metric
   using PointSetType = itk::PointSet<itk::Vector<float, 2>, Dimension>;
   using PointSetMetricType = itk::PointToPlanePointSetToPointSetMetricv4<PointSetType>;
+  // using PointSetMetricType = itk::EuclideanDistancePointSetToPointSetMetricv4<PointSetType>;
   auto metric = PointSetMetricType::New();
 
   // transform
   // using AffineTransformType = itk::AffineTransform<double, Dimension>;
-  using AffineTransformType = itk::CenteredRigid2DTransform<double>;
+  using AffineTransformType = itk::Rigid2DTransform<double>;
   auto affineTransform = AffineTransformType::New();
   affineTransform->SetIdentity();
   std::cout << "XX Test with affine transform: " << std::endl;
