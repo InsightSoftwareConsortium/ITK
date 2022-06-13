@@ -1298,7 +1298,7 @@ GDCMImageIO::Write(const void * buffer)
 
     image.SetIntercept(m_RescaleIntercept);
     image.SetSlope(m_RescaleSlope);
-    auto *       copyBuffer = new char[len];
+    auto *       copyBuffer = new char[numberOfBytes];
     const auto * inputBuffer = static_cast<const char *>(buffer);
     ir.InverseRescale(copyBuffer, inputBuffer, numberOfBytes);
     pixeldata.SetByteValue(copyBuffer, static_cast<uint32_t>(len));
