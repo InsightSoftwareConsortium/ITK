@@ -48,7 +48,7 @@ namespace itk
  */
 template <typename TFunctionValue = double,
           unsigned int VImageDimension = 3,
-          typename TInput = Point<SpacePrecisionType, VImageDimension>>
+          typename TInput = Vector<SpacePrecisionType, VImageDimension>>
 class SimoncelliIsotropicWavelet : public IsotropicWaveletFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:

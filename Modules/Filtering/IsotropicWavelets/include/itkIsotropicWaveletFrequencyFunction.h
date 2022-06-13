@@ -53,7 +53,7 @@ namespace itk
  */
 template <typename TFunctionValue = double,
           unsigned int VImageDimension = 3,
-          typename TInput = Point<SpacePrecisionType, VImageDimension>>
+          typename TInput = Vector<SpacePrecisionType, VImageDimension>>
 class IsotropicWaveletFrequencyFunction : public IsotropicFrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:

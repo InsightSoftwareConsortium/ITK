@@ -46,7 +46,8 @@ runRieszFrequencyFunctionTest(unsigned int inputOrder)
   using RieszFrequencyFunctionType = itk::RieszFrequencyFunction<OutputType, Dimension, InputType>;
   auto rieszFunction = RieszFrequencyFunctionType::New();
 
-  InputType frequencyPoint;
+  using FrequencyArrayType = typename RieszFrequencyFunctionType::InputType;
+  FrequencyArrayType frequencyPoint;
   frequencyPoint.Fill(0.1);
   rieszFunction->SetOrder(1);
 

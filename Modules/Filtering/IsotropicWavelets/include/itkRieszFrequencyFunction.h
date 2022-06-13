@@ -35,7 +35,7 @@ namespace itk
  */
 template <typename TFunctionValue = std::complex<double>,
           unsigned int VImageDimension = 3,
-          typename TInput = Point<SpacePrecisionType, VImageDimension>>
+          typename TInput = Vector<SpacePrecisionType, VImageDimension>>
 class RieszFrequencyFunction : public FrequencyFunction<TFunctionValue, VImageDimension, TInput>
 {
 public:
