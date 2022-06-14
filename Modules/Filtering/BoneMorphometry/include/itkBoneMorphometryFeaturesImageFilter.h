@@ -32,7 +32,7 @@ namespace itk
 {
 /** \class BoneMorphometryFeaturesImageFilter
  * \brief Compute the percent bone volume [BVTV], trabecular thickness [TbTh], trabecular separation [TbSp],
- * trabecular number [TbN] and Bone Surface to Bone Volume ration [BSBV] for each voxel of
+ * trabecular number [TbN] and Bone Surface to Bone Volume ratio [BSBV] for each voxel of
  * a given image and a mask image if provided. The output image can then be  displayed by using colormaps.
  *
  * BoneMorphometryFeaturesImageFilter computes bone morphometry features maps. The filter is able to compute the
@@ -41,7 +41,7 @@ namespace itk
  * -# the trabecular thickness [TbTh]
  * -# the trabecular separation [TbSp]
  * -# the trabecular number [TbN]
- * -# the Bone Surface to Bone Volume ration [BSBV].
+ * -# the Bone Surface to Bone Volume ratio [BSBV].
  *
  * To do so, the filter needs:
  * -# a 3D input scan
