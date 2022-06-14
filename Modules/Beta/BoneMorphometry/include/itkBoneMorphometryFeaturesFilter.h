@@ -33,11 +33,11 @@ namespace itk
 {
 /** \class BoneMorphometryFeaturesFilter
  * \brief Compute the percent bone volume [BVTV], trabecular thickness [TbTh], trabecular separation [TbSp] trabecular
- * number [TbN] and Bone Surface to Bone Volume ration [BSBV]
+ * number [TbN] and Bone Surface to Bone Volume ratio [BSBV]
  *
  * BoneMorphometryFeaturesFilter computes bone morphometry features such as the percent bone volume [BVTV], the
  * trabecular thickness [TbTh], the trabecular separation [TbSp], the trabecular number [TbN], or the Bone Surface to
- * Bone Volume ration [BSBV]. To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity
+ * Bone Volume ratio [BSBV]. To do so, the filter needs a 3D input scan and a threshold. All voxels with an intensity
  * higher than the threshold will be considered as part of the bone. A mask can also be specified in order to have more
  * precise results (the morphometry will be computed only for the mask's voxels with value different than zero)
  *
