@@ -118,7 +118,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_DATE_ASCII * 2, tmpStr, 10);
   tmpStr[10] = '\0';
-  RGEDEBUG(std::sprintf(debugbuf, "Date = %s\n", tmpStr); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Date = %s\n", tmpStr); cerr << debugbuf;)
   strncpy(hdr->date, tmpStr, sizeof(hdr->date) - 1);
   hdr->date[sizeof(hdr->date) - 1] = '\0';
 
@@ -131,14 +131,14 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   /* Get Patient-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_PATIENT_ID * 2, tmpStr, 12);
   tmpStr[12] = '\0';
-  RGEDEBUG(std::sprintf(debugbuf, "Patient-Number = %s\n", tmpStr); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Patient-Number = %s\n", tmpStr); cerr << debugbuf;)
   strncpy(hdr->patientId, tmpStr, sizeof(hdr->patientId) - 1);
   hdr->patientId[sizeof(hdr->patientId) - 1] = '\0';
 
   /* Get the Exam-Number from the STUDY Header */
   this->GetStringAt(f, SIGNA_STHDR_START * 2 + SIGNA_STHDR_STUDY_NUM * 2, tmpStr, 6);
   tmpStr[6] = '\0';
-  RGEDEBUG(std::sprintf(debugbuf, "Exam-Number = %s\n", tmpStr); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Exam-Number = %s\n", tmpStr); cerr << debugbuf;)
   strncpy(hdr->scanId, tmpStr, sizeof(hdr->scanId) - 1);
   hdr->scanId[sizeof(hdr->scanId) - 1] = '\0';
 
@@ -151,7 +151,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 
   hdr->xFOV = tmpFloat;
   hdr->yFOV = hdr->xFOV;
-  RGEDEBUG(std::sprintf(debugbuf, "FOV = %fx%f\n", hdr->xFOV, hdr->yFOV); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "FOV = %fx%f\n", hdr->xFOV, hdr->yFOV); cerr << debugbuf;)
 
   /* Get the Plane from the IMAGE Header */
   this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_PLANENAME * 2, tmpStr, 16);
@@ -198,19 +198,20 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   this->GetShortAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SCANMATRIXX * 2, &(hdr->acqXsize));
   this->GetShortAt(f, (SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SCANMATRIXY * 2) + sizeof(short), &(hdr->acqYsize));
 
-  RGEDEBUG(std::sprintf(debugbuf, "Scan Matrix = %dx%d\n", hdr->acqXsize, hdr->acqYsize); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Scan Matrix = %dx%d\n", hdr->acqXsize, hdr->acqYsize);
+           cerr << debugbuf;)
 
   /* Get Series-Number from SERIES Header */
   this->GetStringAt(f, SIGNA_SEHDR_START * 2 + SIGNA_SEHDR_SERIES_NUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
   hdr->seriesNumber = std::stoi(tmpStr);
-  RGEDEBUG(std::sprintf(debugbuf, "Series Number = %d\n", hdr->seriesNumber); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Series Number = %d\n", hdr->seriesNumber); cerr << debugbuf;)
 
   /* Get Image-Number from IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_IMAGE_NUM * 2, tmpStr, 3);
   tmpStr[3] = '\0';
   hdr->imageNumber = std::stoi(tmpStr);
-  RGEDEBUG(std::sprintf(debugbuf, "Image Number = %d\n", hdr->imageNumber); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Image Number = %d\n", hdr->imageNumber); cerr << debugbuf;)
 
   /* Get Images-Per-Slice from IMAGE Header */
   const int per_slice_status = this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PHASENUM * 2, tmpStr, 3);
@@ -223,7 +224,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   {
     hdr->imagesPerSlice = 0; // Use default of 0 to mimic previous atoi failure result.
   }
-  RGEDEBUG(std::sprintf(debugbuf, "Images Per Slice = %d\n", hdr->imagesPerSlice); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Images Per Slice = %d\n", hdr->imagesPerSlice); cerr << debugbuf;)
 
   /* Get the Slice Location from the IMAGE Header */
   // hack alert -- and this goes back to a hack in the original code
@@ -234,27 +235,27 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 
   hdr->sliceLocation = MvtSunf(intTmp);
 
-  RGEDEBUG(std::sprintf(debugbuf, "Location = %f\n", hdr->sliceLocation); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Location = %f\n", hdr->sliceLocation); cerr << debugbuf;)
 
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_SLICE_THICK * 2, (char *)&intTmp, sizeof(intTmp));
 
   hdr->sliceThickness = MvtSunf(intTmp);
 
-  RGEDEBUG(std::sprintf(debugbuf, "Thickness = %f\n", hdr->sliceThickness); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Thickness = %f\n", hdr->sliceThickness); cerr << debugbuf;)
 
   /* Get the Slice Spacing from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_SLICE_SPACING * 2, (char *)&intTmp, sizeof(int));
 
   hdr->sliceGap = MvtSunf(intTmp);
 
-  RGEDEBUG(std::sprintf(debugbuf, "Slice Gap = %f\n", hdr->sliceGap); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Slice Gap = %f\n", hdr->sliceGap); cerr << debugbuf;)
 
   /* Get TR from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TR * 2, (char *)&intTmp, sizeof(int));
 
   hdr->TR = MvtSunf(intTmp);
 
-  RGEDEBUG(std::sprintf(debugbuf, "TR = %f\n", hdr->TR); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "TR = %f\n", hdr->TR); cerr << debugbuf;)
 
   /* Get TE from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TE * 2, (char *)&intTmp, sizeof(int));
@@ -266,41 +267,42 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_TI * 2, (char *)&intTmp, sizeof(int));
 
   hdr->TI = MvtSunf(intTmp);
-  RGEDEBUG(std::sprintf(debugbuf, "TI = %f\n", hdr->TI); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "TI = %f\n", hdr->TI); cerr << debugbuf;)
 
   /* Get Number of Echos from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NUMECHOS * 2, &(hdr->numberOfEchoes));
-  RGEDEBUG(std::sprintf(debugbuf, "Number of Echos = %d\n", hdr->numberOfEchoes); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Number of Echos = %d\n", hdr->numberOfEchoes); cerr << debugbuf;)
 
   /* Get Echo Number from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_ECHONUM * 2, &(hdr->echoNumber));
-  RGEDEBUG(std::sprintf(debugbuf, "Echo Number = %d\n", hdr->echoNumber); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Echo Number = %d\n", hdr->echoNumber); cerr << debugbuf;)
 
   /* Get PSD-Name from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PSD_NAME * 2, tmpStr, 12);
   tmpStr[12] = '\0';
-  RGEDEBUG(std::sprintf(debugbuf, "PSD Name = %s\n", tmpStr); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "PSD Name = %s\n", tmpStr); cerr << debugbuf;)
 
   /* Get X Pixel Dimension from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_X_DIM * 2, &(hdr->imageXsize));
-  RGEDEBUG(std::sprintf(debugbuf, "X Pixel Dimension = %d\n", hdr->imageXsize); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "X Pixel Dimension = %d\n", hdr->imageXsize); cerr << debugbuf;)
 
   /* Get Y Pixel Dimension from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_Y_DIM * 2, &(hdr->imageYsize));
-  RGEDEBUG(std::sprintf(debugbuf, "Y Pixel Dimension = %d\n", hdr->imageYsize); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Y Pixel Dimension = %d\n", hdr->imageYsize); cerr << debugbuf;)
 
   /* Get Pixel Size from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_PIXELSIZE * 2, (char *)&intTmp, sizeof(int));
 
   hdr->imageXres = MvtSunf(intTmp);
   hdr->imageYres = hdr->imageXres;
-  RGEDEBUG(std::sprintf(debugbuf, "Pixel Size = %fx%f\n", hdr->imageXres, hdr->imageYres); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Pixel Size = %fx%f\n", hdr->imageXres, hdr->imageYres);
+           cerr << debugbuf;)
 
   /* Get NEX from the IMAGE Header */
   this->GetStringAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_NEX * 2, (char *)&intTmp, sizeof(int));
 
   hdr->NEX = static_cast<short>(MvtSunf(intTmp));
-  RGEDEBUG(std::sprintf(debugbuf, "NEX = %d\n", hdr->NEX); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "NEX = %d\n", hdr->NEX); cerr << debugbuf;)
 
   /* Get Flip Angle from the IMAGE Header */
   this->GetShortAt(f, SIGNA_IHDR_START * 2 + SIGNA_IMHDR_FLIP * 2, &tmpShort);
@@ -313,7 +315,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
   {
     hdr->flipAngle = 90;
   }
-  RGEDEBUG(std::sprintf(debugbuf, "Flip Angle = %d\n", hdr->flipAngle); cerr << debugbuf;)
+  RGEDEBUG(std::snprintf(debugbuf, sizeof(debugbuf), "Flip Angle = %d\n", hdr->flipAngle); cerr << debugbuf;)
 
   // DEBUG: HACK -- what should pulse sequence be?  Is it valid for 4x filters
   // Just setting it to dummy value -- Hans

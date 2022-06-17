@@ -35,7 +35,7 @@ namespace itk
  * contain a single unique, non-negative, integral value
  * (e.g. test.1.png, test2.png, foo.3, etc.).
  *
- * The file name is created from a sprintf-style series format which
+ * The file name is created from a snprintf-style series format which
  * should contain an integer format string like "%d". Bad formats will
  * cause the series reader to throw an exception.
  *

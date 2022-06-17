@@ -94,13 +94,13 @@ itkCPUDemons(int argc, char * argv[]);
 char *
 AppendFileName(char * src, const char * postfix)
 {
-  char * dest = new char[strlen(src) + strlen(postfix) + 1];
+  size_t destLength = strlen(src) + strlen(postfix) + 1;
+  char * dest = new char[destLength];
   char * pos = strrchr(src, '.');
   int    skip = pos - src;
 
-  sprintf(dest, "%s", src);
-  sprintf(dest + skip, "%s", postfix);
-  sprintf(dest + skip + strlen(postfix), "%s", pos);
+  snprintf(dest, destLength, "%s", src);
+  snprintf(dest + skip, destLength - skip, "%s%s", postfix, pos);
   return dest;
 }
 

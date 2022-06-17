@@ -61,7 +61,7 @@ public:
  * The writer is templated over an input image type and an output
  * image type. Usually, the output image type will have fewer
  * dimensions than the input image type. Each file has a name created
- * using the SeriesFormat. This string is used as a sprintf argument
+ * using the SeriesFormat. This string is used as a snprintf argument
  * to build a filename. The string should contain zero or one  "%d" or
  * equivalent. The "%d" is an incremental file number that starts at
  * StartIndex and is incremented by IncrementIndex.
@@ -158,7 +158,7 @@ public:
   itkGetConstMacro(IncrementIndex, SizeValueType);
 
   /** The format string used to generate each filename in the
-   * series. The filename is built with sprintf(filename, SeriesFormat,
+   * series. The filename is built with snprintf(filename, length, SeriesFormat,
    * number) where number starts at StartIndex and is incremented by
    * IncrementIndex. */
   itkSetStringMacro(SeriesFormat);

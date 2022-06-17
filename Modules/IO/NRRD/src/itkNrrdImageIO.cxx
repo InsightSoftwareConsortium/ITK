@@ -608,45 +608,45 @@ NrrdImageIO::ReadImageInformation()
       naxis = nrrd->axis + axi;
       if (AIR_EXISTS(naxis->thickness))
       {
-        sprintf(key, "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_thicknesses), axii);
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_thicknesses), axii);
         EncapsulateMetaData<double>(thisDic, std::string(key), naxis->thickness);
       }
       if (naxis->center)
       {
-        sprintf(key, "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_centers), axii);
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_centers), axii);
         val = airEnumStr(nrrdCenter, naxis->center);
         EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(val));
       }
       if (naxis->kind)
       {
-        sprintf(key, "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_kinds), axii);
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_kinds), axii);
         val = airEnumStr(nrrdKind, naxis->kind);
         EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(val));
       }
       if (airStrlen(naxis->label))
       {
-        sprintf(key, "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_labels), axii);
+        snprintf(key, sizeof(key), "%s%s[%u]", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_labels), axii);
         EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(naxis->label));
       }
     }
     if (airStrlen(nrrd->content))
     {
-      sprintf(key, "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_content));
+      snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_content));
       EncapsulateMetaData<std::string>(thisDic, std::string(key), std::string(nrrd->content));
     }
     if (AIR_EXISTS(nrrd->oldMin))
     {
-      sprintf(key, "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_old_min));
+      snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_old_min));
       EncapsulateMetaData<double>(thisDic, std::string(key), nrrd->oldMin);
     }
     if (AIR_EXISTS(nrrd->oldMax))
     {
-      sprintf(key, "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_old_max));
+      snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_old_max));
       EncapsulateMetaData<double>(thisDic, std::string(key), nrrd->oldMax);
     }
     if (nrrd->space)
     {
-      sprintf(key, "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_space));
+      snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_space));
       val = airEnumStr(nrrdSpace, nrrd->space);
 
       // keep everything consistent: so enter it as LPS in the meta data
@@ -672,7 +672,7 @@ NrrdImageIO::ReadImageInformation()
 
     if (AIR_EXISTS(nrrd->measurementFrame[0][0]))
     {
-      sprintf(key, "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_measurement_frame));
+      snprintf(key, sizeof(key), "%s%s", KEY_PREFIX, airEnumStr(nrrdField, nrrdField_measurement_frame));
       std::vector<std::vector<double>> msrFrame(domainAxisNum);
 
       // flip the measurement frame here if we have to

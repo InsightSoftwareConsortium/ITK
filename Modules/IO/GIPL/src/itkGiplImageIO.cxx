@@ -876,7 +876,7 @@ GiplImageIO ::Write(const void * buffer)
     i = 0; // initialize
   }
 
-  sprintf(line1, "No Patient Information");
+  snprintf(line1, sizeof(line1), "No Patient Information");
   for (char & i : line1)
   {
     if (m_IsCompressed)
