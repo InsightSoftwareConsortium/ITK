@@ -248,7 +248,7 @@ MINCTransformIOTemplate<TParametersValueType>::WriteOneTransform(const int      
       using MincWriterType = ImageFileWriter<GridImageType>;
       auto * _grid_transform = static_cast<DisplacementFieldTransformType *>(const_cast<TransformType *>(curTransform));
       char   tmp[1024];
-      sprintf(tmp, "%s_grid_%d.mnc", xfm_file_base, serial);
+      snprintf(tmp, sizeof(tmp), "%s_grid_%d.mnc", xfm_file_base, serial);
       ++serial;
 
       auto mincIO = MINCImageIO::New();

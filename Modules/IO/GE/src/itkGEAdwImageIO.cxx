@@ -110,7 +110,7 @@ GEAdwImageIO::ReadHeader(const char * FileNameToRead)
   std::ifstream f;
   this->OpenFileForReading(f, FileNameToRead);
 
-  sprintf(hdr->scanner, "GE-ADW");
+  snprintf(hdr->scanner, sizeof(hdr->scanner), "GE-ADW");
   this->GetStringAt(f, GE_ADW_EX_PATID, tmpbuf, 12);
   tmpbuf[12] = '\0';
   hdr->patientId[0] = '\0';

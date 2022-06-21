@@ -99,7 +99,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
   std::ifstream f;
   this->OpenFileForReading(f, FileNameToRead);
 
-  sprintf(hdr->scanner, "GE-ADW");
+  snprintf(hdr->scanner, sizeof(hdr->scanner), "GE-ADW");
 
   // Set modality to UNKNOWN
   strcpy(hdr->modality, "UNK");
@@ -130,7 +130,7 @@ SiemensVisionImageIO::ReadHeader(const char * FileNameToRead)
 
   this->GetIntAt(f, HDR_REG_SEC, &second);
 
-  sprintf(hdr->date, "%d/%d/%d %d:%d:%d", year, month, day, hour, minute, second);
+  snprintf(hdr->date, sizeof(hdr->date), "%d/%d/%d %d:%d:%d", year, month, day, hour, minute, second);
   DB(hdr->date);
 
   this->GetStringAt(f, HDR_INSTUTE_NAME, hdr->hospital, HDR_INSTUTE_NAME_LEN);

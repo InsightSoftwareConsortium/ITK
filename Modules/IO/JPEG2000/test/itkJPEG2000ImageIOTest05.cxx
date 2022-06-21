@@ -60,7 +60,7 @@ itkJPEG2000ImageIOTest05(int argc, char * argv[])
 
 
   char format[4096];
-  sprintf(format, "%s/series.%%d.%s", argv[2], argv[3]);
+  snprintf(format, sizeof(format), "%s/series.%%d.%s", argv[2], argv[3]);
 
   std::cout << "Format = " << format << std::endl;
 

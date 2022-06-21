@@ -794,11 +794,13 @@ JPEG2000ImageIO ::Write(const void * buffer)
 
     /* UniPG>> */
 #ifdef USE_JPWL
-    parameters.cp_comment = (char *)malloc(clen + strlen(version) + 11);
-    sprintf(parameters.cp_comment, "%s%s with JPWL", comment, version);
+    size_t commentLength = clen + strlen(version) + 11;
+    parameters.cp_comment = (char *)malloc(commentLength);
+    snprintf(parameters.cp_comment, commentLength, "%s%s with JPWL", comment, version);
 #else
-    parameters.cp_comment = (char *)malloc(clen + strlen(version) + 1);
-    sprintf(parameters.cp_comment, "%s%s", comment, version);
+    size_t commentLength = clen + strlen(version) + 11;
+    parameters.cp_comment = (char *)malloc(commentLength);
+    snprintf(parameters.cp_comment, commentLength, "%s%s", comment, version);
 #endif
     /* <<UniPG */
   }

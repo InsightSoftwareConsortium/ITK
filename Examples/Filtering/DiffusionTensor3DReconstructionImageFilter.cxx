@@ -251,13 +251,13 @@ main(int argc, char * argv[])
           0.0) // this is a reference image
       {
         std::string fn("ReferenceImage%d.mhd");
-        sprintf(filename, fn.c_str(), referenceImageIndex);
+        snprintf(filename, sizeof(filename), fn.c_str(), referenceImageIndex);
         ++referenceImageIndex;
       }
       else
       {
         std::string fn("Gradient%d.mhd");
-        sprintf(filename, fn.c_str(), i);
+        snprintf(filename, sizeof(filename), fn.c_str(), i);
       }
       gradientWriter->SetFileName(filename);
       gradientWriter->Update();
