@@ -1,0 +1,71 @@
+name: Test on CiRun
+
+on: [pull_request]
+
+jobs:
+  build-test-arm:
+    runs-on: [self-hosted, arm]
+    strategy:
+      matrix:
+        include:
+          - cmake-build-type: "MinSizeRel"
+            platform-name: "ubuntu-arm"
+            c-compliler: cc
+            cxx-compliler: c++
+    steps:
+
+    - uses: actions/checkout@v3
+
+    - name: Install dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y python3 cmake ninja-build build-essential
+
+    - name: Fetch CTest driver script
+      run: |
+        curl -L https://raw.githubusercontent.com/InsightSoftwareConsortium/ITK/dashboard/itk_common.cmake -O
+
+    - name: Configure CTest script
+      run: |
+        platform_name="${{ matrix.platform-name }}"
+        cat > dashboard.cmake << EOF
+        set(CTEST_SITE "GitHubActions")
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/.." CTEST_DASHBOARD_ROOT)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/" CTEST_SOURCE_DIRECTORY)
+        file(TO_CMAKE_PATH "\$ENV{GITHUB_WORKSPACE}/../build" CTEST_BINARY_DIRECTORY)
+        set(dashboard_source_name "${GITHUB_REPOSITORY}")
+        if(ENV{GITHUB_REF} MATCHES "master")
+          set(branch "-master")
+          set(dashboard_model "Continuous")
+        else()
+          set(branch "-${GITHUB_REF}")
+          set(dashboard_model "Experimental")
+        endif()
+        set(CTEST_BUILD_NAME "${GITHUB_REPOSITORY}-${platform_name}-\${branch}")
+        set(CTEST_UPDATE_VERSION_ONLY 1)
+        set(CTEST_TEST_ARGS \${CTEST_TEST_ARGS} PARALLEL_LEVEL \${PARALLEL_LEVEL})
+        set(CTEST_BUILD_CONFIGURATION "Release")
+        set(CTEST_CMAKE_GENERATOR "Ninja")
+        set(CTEST_CUSTOM_WARNING_EXCEPTION
+          \${CTEST_CUSTOM_WARNING_EXCEPTION}
+          # macOS Azure VM Warning
+          "ld: warning: text-based stub file"
+          )
+        set(dashboard_no_clean 1)
+        set(ENV{CC} /usr/bin/gcc)
+        set(ENV{CXX} /usr/bin/g++)
+        set(dashboard_cache "
+        BUILD_TESTING:BOOL=ON
+        ")
+        string(TIMESTAMP build_date "%Y-%m-%d")
+        message("CDash Build Identifier: \${build_date} \${CTEST_BUILD_NAME}")
+        message("CTEST_SITE = \${CTEST_SITE}")
+        message("dashboard_cache = \${dashboard_cache}")
+        include(\${CTEST_SCRIPT_DIRECTORY}/itk_common.cmake)
+        EOF
+        cat dashboard.cmake
+      shell: bash
+
+    - name: Build and test
+      run: |
+        ctest --output-on-failure -j 2 -V -S dashboard.cmake
