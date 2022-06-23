@@ -20,6 +20,8 @@
 
 #include "itkMakeFilled.h"
 #include "itkOffset.h"
+
+#include <cstddef>     // For ptrdiff_t.
 #include <type_traits> // For is_integral.
 
 namespace itk

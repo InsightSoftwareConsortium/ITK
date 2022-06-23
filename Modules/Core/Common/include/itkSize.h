@@ -22,6 +22,7 @@
 #include "itkMacro.h"
 #include "itkMakeFilled.h"
 #include <algorithm>   // For copy_n.
+#include <cstddef>     // For ptrdiff_t.
 #include <type_traits> // For is_integral.
 #include <memory>
 

@@ -39,6 +39,7 @@
 #include "itkConceptChecking.h"
 
 #include <atomic>
+#include <cstddef> // For ptrdiff_t.
 
 
 namespace itk

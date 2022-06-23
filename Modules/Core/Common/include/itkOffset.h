@@ -21,6 +21,8 @@
 #include "itkSize.h"
 #include "itkMath.h"
 
+#include <cstddef> // For ptrdiff_t.
+
 namespace itk
 {
 
