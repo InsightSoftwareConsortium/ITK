@@ -25,6 +25,7 @@
 #include "itkMath.h"
 #include "itkProgressReporter.h"
 #include "itkMetaDataObject.h"
+#include <cstddef> // For ptrdiff_t.
 #include <iomanip>
 
 namespace itk
