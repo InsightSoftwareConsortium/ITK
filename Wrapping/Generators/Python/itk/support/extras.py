@@ -929,25 +929,20 @@ def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
 
         in_transform_dict = dict()
         in_transform_dict["name"] = current_transform.GetObjectName()
-        in_transform_dict["numberOfTransforms"] = 1
 
         datatype_dict = {"double": itk.D, "float": itk.F}
         in_transform_dict["parametersValueType"] = python_to_js(
             datatype_dict[current_transform_type_split[1]]
         )
-        in_transform_dict["inDimension"] = int(current_transform_type_split[2])
-        in_transform_dict["outDimension"] = int(current_transform_type_split[3])
+        in_transform_dict["inputDimension"] = int(current_transform_type_split[2])
+        in_transform_dict["outputDimension"] = int(current_transform_type_split[3])
         in_transform_dict["transformName"] = current_transform_type_split[0]
 
-        # transformType field to be used for single transform object only.
-        # For composite transforms we lose the information for child transform objects.
-        data_type_dict = {itk.D: "D", itk.F: "F"}
-        mangle = data_type_dict[component[1][0]]
-        for p in component[1][1:]:
-            mangle += str(p)
-        in_transform_dict["transformType"] = mangle
+        in_transform_dict["inputSpaceName"] = current_transform.GetInputSpaceName()
+        in_transform_dict["outputSpaceName"] = current_transform.GetOutputSpaceName()
 
-        # To avoid copying the parameters for the Composite Transform as it is a copy of child transforms.
+        # To avoid copying the parameters for the Composite Transform
+        # as it is a copy of child transforms.
         if "Composite" not in current_transform_type_split[0]:
             p = np.array(current_transform.GetParameters())
             in_transform_dict["parameters"] = p
@@ -957,24 +952,13 @@ def dict_from_transform(transform: "itkt.TransformBase") -> Dict:
 
             in_transform_dict["numberOfParameters"] = p.shape[0]
             in_transform_dict["numberOfFixedParameters"] = fp.shape[0]
-        else:
-            in_transform_dict["parameters"] = np.array([])
-            in_transform_dict["fixedParameters"] = np.array([])
-            in_transform_dict["numberOfParameters"] = 0
-            in_transform_dict["numberOfFixedParameters"] = 0
 
         return in_transform_dict
 
     dict_array = []
     transform_type = transform.GetTransformTypeAsString()
     if "CompositeTransform" in transform_type:
-        transform_dict = update_transform_dict(transform)
-        transform_dict["numberOfTransforms"] = transform.GetNumberOfTransforms()
-
-        # Add the first entry for the composite transform
-        dict_array.append(transform_dict)
-
-        # Rest follows the transforms inside the composite transform
+        # Add the transforms inside the composite transform
         # range is over-ridden so using this hack to create a list
         for i, _ in enumerate([0] * transform.GetNumberOfTransforms()):
             current_transform = transform.GetNthTransform(i)
@@ -1013,59 +997,60 @@ def transform_from_dict(transform_dict: Dict) -> "itkt.TransformBase":
                 return True
         return False
 
-    # We only check for the first transform as composite similar to the
-    # convention followed in the itkTxtTransformIO.cxx
-    if "CompositeTransform" in transform_dict[0]["transformName"]:
-        # Loop over all the transforms in the dictionary
-        transforms_list = []
-        for i, _ in enumerate(transform_dict):
-            if transform_dict[i]["parametersValueType"] == "float32":
-                data_type = itk.F
-            else:
-                data_type = itk.D
+    parametersValueType_dict = {"float32": itk.F, "float64": itk.D}
 
-            # No template parameter needed for transforms having 2D or 3D name
-            # Also for some selected transforms
-            if special_transform_check(transform_dict[i]["transformName"]):
-                transform_template = getattr(itk, transform_dict[i]["transformName"])
-                transform = transform_template[data_type].New()
-            # Currently only BSpline Transform has 3 template parameters
-            # For future extensions the information will have to be encoded in
-            # the transformType variable. The transform object once added in a
-            # composite transform lose the information for other template parameters ex. BSpline.
-            # The Spline order is fixed as 3 here.
-            elif transform_dict[i]["transformName"] == "BSplineTransform":
-                transform_template = getattr(itk, transform_dict[i]["transformName"])
+    # Loop over all the transforms in the dictionary
+    transforms_list = []
+    for i, _ in enumerate(transform_dict):
+        data_type = parametersValueType_dict[transform_dict[i]["parametersValueType"]]
+
+        # No template parameter needed for transforms having 2D or 3D name
+        # Also for some selected transforms
+        if special_transform_check(transform_dict[i]["transformName"]):
+            transform_template = getattr(itk, transform_dict[i]["transformName"])
+            transform = transform_template[data_type].New()
+        # Currently only BSpline Transform has 3 template parameters
+        # For future extensions the information will have to be encoded in
+        # the transformName variable. The transform object once added in a
+        # composite transform lose the information for other template parameters ex. BSpline.
+        # The Spline order is fixed as 3 here.
+        elif transform_dict[i]["transformName"] == "BSplineTransform":
+            transform_template = getattr(itk, transform_dict[i]["transformName"])
+            transform = transform_template[
+                data_type, transform_dict[i]["inputDimension"], 3
+            ].New()
+        else:
+            transform_template = getattr(itk, transform_dict[i]["transformName"])
+            if len(transform_template.items()[0][0]) > 2:
                 transform = transform_template[
-                    data_type, transform_dict[i]["inDimension"], 3
+                    data_type, transform_dict[i]["inputDimension"], transform_dict[i]["outputDimension"]
                 ].New()
             else:
-                transform_template = getattr(itk, transform_dict[i]["transformName"])
                 transform = transform_template[
-                    data_type, transform_dict[i]["inDimension"]
+                    data_type, transform_dict[i]["inputDimension"]
                 ].New()
 
-            transform.SetObjectName(transform_dict[i]["name"])
-            transforms_list.append(transform)
+        transform.SetObjectName(transform_dict[i]["name"])
+        transform.SetInputSpaceName(transform_dict[i]["inputSpaceName"])
+        transform.SetOutputSpaceName(transform_dict[i]["outputSpaceName"])
 
-        # Obtain the first object which is composite transform object
-        # and add all the transforms in it.
-        transform = transforms_list[0]
-        for current_transform in transforms_list[1:]:
-            transform.AddTransform(current_transform)
-    else:
-        # For handling single transform objects we rely on itk.template
-        # because that way we can handle future extensions easily.
-        transform_template = getattr(itk, transform_dict[0]["transformName"])
-        transform = getattr(
-            transform_template, transform_dict[0]["transformType"]
-        ).New()
-        transform.SetObjectName(transform_dict[0]["name"])
         set_parameters(
             transform,
-            transform_dict[0]["parameters"],
-            transform_dict[0]["fixedParameters"],
+            transform_dict[i]["parameters"],
+            transform_dict[i]["fixedParameters"],
         )
+        transforms_list.append(transform)
+
+    # If array has length more than 1 then it's a composite transform
+    if len(transforms_list) > 1:
+        # Create a Composite Transform object
+        # and add all the transforms in it.
+        data_type = parametersValueType_dict[transform_dict[0]["parametersValueType"]]
+        transform = itk.CompositeTransform[data_type, transforms_list[0]['inputDimension']].New()
+        for current_transform in transforms_list:
+            transform.AddTransform(current_transform)
+    else:
+        transform = transforms_list[0]
 
     return transform
 
