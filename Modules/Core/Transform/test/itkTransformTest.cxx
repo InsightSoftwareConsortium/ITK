@@ -18,7 +18,7 @@
 
 #include <iostream>
 #include <set>
-
+#include "itkTestingMacros.h"
 #include "itkTransform.h"
 
 namespace itk
@@ -307,6 +307,15 @@ public:
     // Exercise some methods
     transform->Print(std::cout);
     std::cout << transform->GetNameOfClass() << std::endl;
+
+    transform->SetObjectName("test_transform");
+    ITK_TEST_EXPECT_EQUAL(std::string("test_transform"), transform->GetObjectName());
+
+    transform->SetInputSpaceName("test_inputspace");
+    ITK_TEST_EXPECT_EQUAL(std::string("test_inputspace"), transform->GetInputSpaceName());
+
+    transform->SetOutputSpaceName("test_outputspace");
+    ITK_TEST_EXPECT_EQUAL(std::string("test_outputspace"), transform->GetOutputSpaceName());
 
     // Test streaming enumeration for TransformBaseTemplateEnums::TransformCategory elements
     const std::set<itk::TransformBaseTemplateEnums::TransformCategory> allTransformCategory{
