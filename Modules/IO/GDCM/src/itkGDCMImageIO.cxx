@@ -1173,7 +1173,6 @@ GDCMImageIO::Write(const void * buffer)
     case IOComponentEnum::UINT:
       pixeltype = gdcm::PixelFormat::UINT32;
       break;
-    // Disabling FLOAT and DOUBLE for now...
     case IOComponentEnum::FLOAT:
       pixeltype = gdcm::PixelFormat::FLOAT32;
       break;
