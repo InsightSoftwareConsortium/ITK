@@ -601,7 +601,7 @@ CLANG_SUPPRESS_Wfloat_equal
     }
 
     RealImagePointer smoothField = this->ReconstructBiasField(this->m_LogBiasFieldControlPointLattice);
-
+    smoothField->SetRegions(this->GetInput()->GetRequestedRegion());
     return smoothField;
   }
 
@@ -633,7 +633,6 @@ CLANG_SUPPRESS_Wfloat_equal
     biasField->Update();
 
     biasField->DisconnectPipeline();
-    biasField->SetRegions(inputImage->GetRequestedRegion());
 
     return biasField;
   }
