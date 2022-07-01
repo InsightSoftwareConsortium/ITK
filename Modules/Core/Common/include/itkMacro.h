@@ -775,7 +775,7 @@ compilers.
 
 // end of Template Meta Programming helper macros
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) && !defined(ITK_WRAPPING)
 
 #  ifdef __GLIBC__
 #    define itkAssertInDebugOrThrowInReleaseMacro(msg) __assert_fail(msg, __FILE__, __LINE__, __ASSERT_FUNCTION);
@@ -796,7 +796,7 @@ compilers.
   }                                                              \
   ITK_MACROEND_NOOP_STATEMENT
 
-#ifndef NDEBUG
+#if !defined(NDEBUG) && !defined(ITK_WRAPPING)
 #  define itkAssertInDebugAndIgnoreInReleaseMacro(X) assert(X)
 #else
 #  define itkAssertInDebugAndIgnoreInReleaseMacro(X) ITK_NOOP_STATEMENT
