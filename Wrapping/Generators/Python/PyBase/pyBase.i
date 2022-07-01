@@ -413,7 +413,7 @@ str = str
                 Return keys related to the transform's metadata.
                 These keys are used in the dictionary resulting from dict(transform).
                 """
-                result = ['name', 'transformType', 'inDimension', 'outDimension', 'numberOfParameters', 'numberOfFixedParameters', 'parameters', 'fixedParameters']
+                result = ['name', 'inputDimension', 'outputDimension', 'inputSpaceName', 'outputSpaceName', 'numberOfParameters', 'numberOfFixedParameters', 'parameters', 'fixedParameters']
                 return result
 
             def __getitem__(self, key):
@@ -428,6 +428,10 @@ str = str
                     import numpy as np
                     if key == 'name':
                         self.SetObjectName(value)
+                    elif key == 'inputSpaceName':
+                        self.SetInputSpaceName(value)
+                    elif key == 'outputSpaceName':
+                        self.SetOutputSpaceName(value)
                     elif key == 'fixedParameters' or key == 'parameters':
                         if key == 'fixedParameters':
                             o1 = self.GetFixedParameters()
