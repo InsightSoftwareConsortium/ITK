@@ -1668,7 +1668,7 @@ template<> EIGEN_STRONG_INLINE Packet4f pload<Packet4f>(const float* from)
 template<> EIGEN_STRONG_INLINE Packet4c pload<Packet4c>(const int8_t* from)
 {
   Packet4c res;
-  memcpy(&res, from, sizeof(Packet4c));
+  memcpy((void *)&res, from, sizeof(Packet4c));
   return res;
 }
 template<> EIGEN_STRONG_INLINE Packet8c pload<Packet8c>(const int8_t* from)
@@ -1678,7 +1678,7 @@ template<> EIGEN_STRONG_INLINE Packet16c pload<Packet16c>(const int8_t* from)
 template<> EIGEN_STRONG_INLINE Packet4uc pload<Packet4uc>(const uint8_t* from)
 {
   Packet4uc res;
-  memcpy(&res, from, sizeof(Packet4uc));
+  memcpy((void *)&res, from, sizeof(Packet4uc));
   return res;
 }
 template<> EIGEN_STRONG_INLINE Packet8uc pload<Packet8uc>(const uint8_t* from)
@@ -1713,7 +1713,7 @@ template<> EIGEN_STRONG_INLINE Packet4f ploadu<Packet4f>(const float* from)
 template<> EIGEN_STRONG_INLINE Packet4c ploadu<Packet4c>(const int8_t* from)
 {
   Packet4c res;
-  memcpy(&res, from, sizeof(Packet4c));
+  memcpy((void *)&res, from, sizeof(Packet4c));
   return res;
 }
 template<> EIGEN_STRONG_INLINE Packet8c ploadu<Packet8c>(const int8_t* from)
@@ -1723,7 +1723,7 @@ template<> EIGEN_STRONG_INLINE Packet16c ploadu<Packet16c>(const int8_t* from)
 template<> EIGEN_STRONG_INLINE Packet4uc ploadu<Packet4uc>(const uint8_t* from)
 {
   Packet4uc res;
-  memcpy(&res, from, sizeof(Packet4uc));
+  memcpy((void *)&res, from, sizeof(Packet4uc));
   return res;
 }
 template<> EIGEN_STRONG_INLINE Packet8uc ploadu<Packet8uc>(const uint8_t* from)
