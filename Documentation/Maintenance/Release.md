@@ -479,7 +479,7 @@ For Linux ARM builds, the steps are similar, but the wheel build step is:
 
 ```sh
 docker run --privileged --rm tonistiigi/binfmt --install all
-docker run -it -v $(pwd):/work/ quay.io/pypa/manylinux2014_aarch64:latest bash
+docker run -it -v $(pwd):/work/ quay.io/pypa/manylinux_2_28_aarch64:latest bash
 # In the container
 cd /work
 ./scripts/internal/manylinux-build-wheels.sh
