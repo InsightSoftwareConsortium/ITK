@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10.2)
+cmake_minimum_required(VERSION 3.16.3)
 project(SplitComponents)
 
 # set(SplitComponents_LIBRARIES SplitComponents) # header-only module, so no libraries
