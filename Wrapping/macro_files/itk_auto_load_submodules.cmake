@@ -299,7 +299,6 @@ macro(itk_auto_load_submodules)
         # Now include the .wrap file, and read manually requested types needed
         # to build lists of items to be wrapped for both CASTXML and SWIG
         if(EXISTS "${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap")
-            message(STATUS "loading ${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap")
             include("${WRAPPER_LIBRARY_SOURCE_DIR}/${_each_submodule_this_module}.wrap")
         else()
             # for backward compatibility, to be removed in ITKv6
