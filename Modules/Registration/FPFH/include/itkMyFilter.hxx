@@ -39,9 +39,9 @@ template <typename TInputPointSet, typename TOutputPointSet>
 void
 MyFilter<TInputPointSet, TOutputPointSet>::GenerateData()
 {
-  InputPointSetConstPointer                input = this->GetInput();
-  OutputPointSetPointer                    output = this->GetOutput();
-  InputPointSetPointsContainerConstPointer inPts = input->GetPoints();
+  auto input = this->GetInput();
+  auto output = this->GetOutput();
+  auto inPts = input->GetPoints();
 
   itkDebugMacro(<< "Executing connectivity");
 

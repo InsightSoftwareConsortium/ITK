@@ -17,9 +17,8 @@
  *=========================================================================*/
 
 #include "itkMyFilter.h"
-
+#include "itkPointSet.h"
 #include "itkCommand.h"
-#include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 
 namespace
@@ -67,33 +66,12 @@ itkMyFilterTest(int argc, char * argv[])
 
   constexpr unsigned int Dimension = 2;
   using PixelType = float;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  using PointSetType = itk::PointSet<PixelType, Dimension>;
 
-  using FilterType = itk::MyFilter<ImageType, ImageType>;
+  using FilterType = itk::MyFilter<PointSetType, PointSetType>;
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MyFilter, ImageToImageFilter);
-
-  // Create input image to avoid test dependencies.
-  ImageType::SizeType size;
-  size.Fill(128);
-  ImageType::Pointer image = ImageType::New();
-  image->SetRegions(size);
-  image->Allocate();
-  image->FillBuffer(1.1f);
-
-  ShowProgress::Pointer showProgress = ShowProgress::New();
-  filter->AddObserver(itk::ProgressEvent(), showProgress);
-  filter->SetInput(image);
-
-  using WriterType = itk::ImageFileWriter<ImageType>;
-  WriterType::Pointer writer = WriterType::New();
-  writer->SetFileName(outputImageFileName);
-  writer->SetInput(filter->GetOutput());
-  writer->SetUseCompression(true);
-
-  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
-
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MyFilter, PointSetToPointSetFilter);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

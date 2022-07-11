@@ -18,7 +18,7 @@
 #ifndef itkMyFilter_h
 #define itkMyFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkMeshToMeshFilter.h"
 
 namespace itk
 {
@@ -34,13 +34,13 @@ namespace itk
  *
  */
 template <typename TInputPointSet, typename TOutputPointSet>
-class MyFilter : public MeshToMeshFilter<TInputPointSet, TOutputPointSet>
+class MyFilter : public itk::MeshToMeshFilter<TInputPointSet, TOutputPointSet>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(MyFilter);
 
-  static constexpr unsigned int InputDimension = TInputPointSet::Dimension;
-  static constexpr unsigned int OutputDimension = TOutputPointSet::Dimension;
+  static constexpr unsigned int InputDimension = TInputPointSet::PointDimension;
+  static constexpr unsigned int OutputDimension = TOutputPointSet::PointDimension;
 
   using InputPointSetType = TInputPointSet;
   using OutputPointSetType = TOutputPointSet;
@@ -53,6 +53,12 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
+  using InputPointSetPointType = typename TInputPointSet::PointType;
+  using InputPointSetPointIdentifier = typename TInputPointSet::PointIdentifier;
+  using InputPointSetPointsContainerConstPointer = typename TInputPointSet::PointsContainerConstPointer;
+  using PointsContainerConstIterator = typename InputPointSetType::PointsContainer::ConstIterator;
+
+
   /** Run-time type information. */
   itkTypeMacro(MyFilter, MeshToMeshFilter);
 
@@ -62,6 +68,9 @@ public:
 protected:
   MyFilter();
   ~MyFilter() override = default;
+
+  void
+  GenerateData() override;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
