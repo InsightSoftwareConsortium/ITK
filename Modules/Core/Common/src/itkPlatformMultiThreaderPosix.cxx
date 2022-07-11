@@ -123,7 +123,7 @@ PlatformMultiThreader::SpawnThread(ThreadFunctionType f, void * UserData)
     }
     m_SpawnedThreadActiveFlagLock[id]->unlock();
 
-    id++;
+    ++id;
   }
 
   if (id >= ITK_MAX_THREADS)

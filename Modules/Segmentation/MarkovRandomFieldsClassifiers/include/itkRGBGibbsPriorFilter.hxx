@@ -116,12 +116,12 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
       Index3D[i]--;
       neighbors[j] = static_cast<LabelType>(m_InputImage->GetPixel(Index3D)[rgb]);
       Index3D[i]++;
-      j++;
+      ++j;
 
       Index3D[i]++;
       neighbors[j] = static_cast<LabelType>(m_InputImage->GetPixel(Index3D)[rgb]);
       Index3D[i]--;
-      j++;
+      ++j;
     }
 
     for (auto & sign : signs)
@@ -146,10 +146,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
           const auto difference = static_cast<LabelType>(itk::Math::abs(m_LowPoint[rgb] - neighbors[i]));
           if (difference < m_BoundaryGradient)
           {
-            numx++;
+            ++numx;
             x += neighbors[i];
             signs[i]++;
-            change++;
+            ++change;
           }
         }
       }
@@ -163,10 +163,10 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GreyScalarBoundary(LabelledI
           const auto difference = static_cast<LabelType>(itk::Math::abs(m_LowPoint[rgb] - neighbors[i]));
           if (difference > m_BoundaryGradient)
           {
-            numx--;
+            --numx;
             x -= neighbors[i];
             signs[i]--;
-            change++;
+            ++change;
           }
         }
       }
@@ -265,7 +265,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsTotalEnergy(int i)
   {
     if (f[j] == m_ObjectLabel)
     {
-      k++;
+      ++k;
     }
   }
 
@@ -406,7 +406,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, 
   {
     if ((f[j] == labelledPixel) != changeflag)
     {
-      changenum++;
+      ++changenum;
       changeflag = !changeflag;
     }
 
@@ -420,7 +420,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GibbsEnergy(unsigned int i, 
       {
         res -= 1.0;
       }
-      simnum++;
+      ++simnum;
     }
   }
 
@@ -497,7 +497,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::GenerateData()
     ++outImageIt;
   }
 
-  m_RecursiveNumber++;
+  ++m_RecursiveNumber;
 }
 
 template <typename TInputImage, typename TClassifiedImage>
@@ -533,7 +533,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::MinimizeFunctional()
     {
       GibbsTotalEnergy(randomPixel); // minimized f_2;
     }
-    m_Temp++;
+    ++m_Temp;
   }
 #endif
 }
@@ -607,7 +607,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
     }
     labelledImageIt.Set(pixLabel);
 
-    i++;
+    ++i;
     ++labelledImageIt;
     ++inputImageIt;
     ++mediumImageIt;
@@ -653,11 +653,11 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
       if (LabelRegion(i, ++l, label) > m_ClusterSize)
       {
         valid_region_counter[k] = l;
-        k++;
+        ++k;
       }
     }
 
-    i++;
+    ++i;
     ++labelledImageIt;
   }
 
@@ -670,7 +670,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
     j = 0;
     while ((m_Region[i] != valid_region_counter[j]) && (j < k))
     {
-      j++;
+      ++j;
     }
 
     if (j == k)
@@ -678,7 +678,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
       label = labelledImageIt.Get();
       labelledImageIt.Set(1 - label);
     }
-    i++;
+    ++i;
     ++labelledImageIt;
   }
 

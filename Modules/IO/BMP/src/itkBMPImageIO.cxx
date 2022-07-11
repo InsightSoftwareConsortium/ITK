@@ -190,14 +190,14 @@ BMPImageIO::Read(void * buffer)
     for (unsigned int i = 0; i < m_BMPDataSize; ++i)
     {
       unsigned char byte1 = value[i];
-      i++;
+      ++i;
       unsigned char byte2 = value[i];
       if (byte1 == 0)
       {
         if (byte2 == 0)
         {
           // End of line
-          line--;
+          --line;
           posLine = 0;
           continue;
         }
@@ -209,9 +209,9 @@ BMPImageIO::Read(void * buffer)
         else if (byte2 == 2)
         {
           // Delta
-          i++;
+          ++i;
           unsigned char dx = value[i];
-          i++;
+          ++i;
           unsigned char dy = value[i];
           posLine += dx;
           line -= dy;
@@ -224,29 +224,29 @@ BMPImageIO::Read(void * buffer)
           {
             for (unsigned long j = 0; j < byte2; ++j)
             {
-              i++;
+              ++i;
               RGBPixelType rgb = this->GetColorPaletteEntry(value[i]);
               l = 3 * (line * m_Dimensions[0] + posLine);
               p[l] = rgb.GetBlue();
               p[l + 1] = rgb.GetGreen();
               p[l + 2] = rgb.GetRed();
-              posLine++;
+              ++posLine;
             }
           }
           else
           {
             for (unsigned long j = 0; j < byte2; ++j)
             {
-              i++;
+              ++i;
               l = (line * m_Dimensions[0] + posLine);
               p[l] = value[i];
-              posLine++;
+              ++posLine;
             }
           }
           // If a run's length is odd, the it is padded with 0
           if (byte2 % 2)
           {
-            i++;
+            ++i;
           }
         }
       }
@@ -262,7 +262,7 @@ BMPImageIO::Read(void * buffer)
             p[l] = rgb.GetBlue();
             p[l + 1] = rgb.GetGreen();
             p[l + 2] = rgb.GetRed();
-            posLine++;
+            ++posLine;
           }
         }
         else
@@ -271,7 +271,7 @@ BMPImageIO::Read(void * buffer)
           {
             l = (line * m_Dimensions[0] + posLine);
             p[l] = byte2;
-            posLine++;
+            ++posLine;
           }
         }
       }
@@ -874,7 +874,7 @@ BMPImageIO::Write(const void * buffer)
       for (i = 0; i < m_Dimensions[0]; ++i)
       {
         m_Ofstream.write(ptr, sizeof(char));
-        ptr++;
+        ++ptr;
       }
       for (i = 0; i < paddedBytes; ++i)
       {
@@ -887,9 +887,9 @@ BMPImageIO::Write(const void * buffer)
       {
         ptr += 2;
         m_Ofstream.write(ptr, sizeof(char)); // blue
-        ptr--;
+        --ptr;
         m_Ofstream.write(ptr, sizeof(char)); // green
-        ptr--;
+        --ptr;
         m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
       }
@@ -904,13 +904,13 @@ BMPImageIO::Write(const void * buffer)
       {
         ptr += 2;
         m_Ofstream.write(ptr, sizeof(char)); // blue
-        ptr--;
+        --ptr;
         m_Ofstream.write(ptr, sizeof(char)); // green
-        ptr--;
+        --ptr;
         m_Ofstream.write(ptr, sizeof(char)); // red
         ptr += 3;
         m_Ofstream.write(ptr, sizeof(char)); // alpha
-        ptr++;
+        ++ptr;
       }
       for (i = 0; i < paddedBytes; ++i)
       {

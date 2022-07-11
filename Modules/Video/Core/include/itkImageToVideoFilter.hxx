@@ -155,7 +155,7 @@ ImageToVideoFilter<TInputImage, TOutputVideoStream>::GenerateOutputInformation()
     {
       outputSpacing.SetElement(outputIdx, inputSpacing[inputIdx]);
       outputOrigin.SetElement(outputIdx, inputOrigin[inputIdx]);
-      outputIdx++;
+      ++outputIdx;
     }
   }
   this->GetOutput()->SetAllFramesSpacing(outputSpacing);

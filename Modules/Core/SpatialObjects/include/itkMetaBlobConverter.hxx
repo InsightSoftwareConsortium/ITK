@@ -76,7 +76,7 @@ MetaBlobConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * 
     pnt.SetAlpha((*it2)->m_Color[3]);
 
     blob->AddPoint(pnt);
-    it2++;
+    ++it2;
   }
 
   return SpatialObjectPointer(blob);

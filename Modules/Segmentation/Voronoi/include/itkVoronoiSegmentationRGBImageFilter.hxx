@@ -194,7 +194,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TestHomogeneity(In
     {
       ok = false;
     }
-    j++;
+    ++j;
   }
 
   if (ok)
@@ -278,7 +278,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
       currp = iit.Get();
       if (ait.Get())
       {
-        objnum++;
+        ++objnum;
         for (k = 0; k < 6; ++k)
         {
           objaddp[k] += currp[k];
@@ -287,7 +287,7 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::TakeAPrior(const B
       }
       else
       {
-        bkgnum++;
+        ++bkgnum;
         for (k = 0; k < 6; ++k)
         {
           bkgaddp[k] += currp[k];

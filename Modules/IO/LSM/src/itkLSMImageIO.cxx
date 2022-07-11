@@ -401,7 +401,7 @@ LSMImageIO::Write(const void * buffer)
         itkExceptionMacro(<< "TIFFImageIO: error out of disk space");
       }
       outPtr += rowLength;
-      row++;
+      ++row;
     }
 
     if (m_NumberOfDimensions == 3)

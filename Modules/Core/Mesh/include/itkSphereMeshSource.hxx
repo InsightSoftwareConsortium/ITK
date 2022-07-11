@@ -186,14 +186,14 @@ SphereMeshSource<TOutputMesh>::GenerateData()
       testCell->SetPointIds(tripoints);
       outputMesh->SetCell(p, testCell);
       outputMesh->SetCellData(p, (OPixelType)3.0);
-      p++;
+      ++p;
       testCell.TakeOwnership(new TriCellType);
       tripoints[0] = tripoints[1];
       tripoints[1] = tripoints[0] + m_ResolutionY;
       testCell->SetPointIds(tripoints);
       outputMesh->SetCell(p, testCell);
       outputMesh->SetCellData(p, (OPixelType)3.0);
-      p++;
+      ++p;
     }
   }
 
@@ -208,7 +208,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
     testCell->SetPointIds(tripoints);
     outputMesh->SetCell(p, testCell);
     outputMesh->SetCellData(p, (OPixelType)1.0);
-    p++;
+    ++p;
   }
 
   // store cells containing the north pole nodes
@@ -222,7 +222,7 @@ SphereMeshSource<TOutputMesh>::GenerateData()
     testCell->SetPointIds(tripoints);
     outputMesh->SetCell(p, testCell);
     outputMesh->SetCellData(p, (OPixelType)2.0);
-    p++;
+    ++p;
   }
 }
 

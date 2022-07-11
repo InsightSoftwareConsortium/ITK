@@ -267,7 +267,7 @@ public:
       ProcessNormals();
     }
 
-    m_RefitIteration++;
+    ++m_RefitIteration;
   }
 
 #ifdef ITK_USE_CONCEPT_CHECKING

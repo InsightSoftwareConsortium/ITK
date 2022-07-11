@@ -215,7 +215,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   for (unsigned int d = m_CurrentDimension + InputImageDimension - 1; d > m_CurrentDimension + 1; d--)
   {
     k[count + 1] = k[count] * size[d % InputImageDimension];
-    count++;
+    ++count;
   }
   k.flip();
 
@@ -242,7 +242,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
         offsetIndex[d % InputImageDimension] + static_cast<OutputIndexValueType>(startIndex[d % InputImageDimension]);
 
       index %= k[count];
-      count++;
+      ++count;
     }
     this->Voronoi(m_CurrentDimension, idx, outputImage);
     progress->CompletedPixel();
@@ -348,7 +348,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
     {
       if (l < 1)
       {
-        l++;
+        ++l;
         g(l) = di;
         h(l) = iw;
       }
@@ -356,9 +356,9 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
       {
         while ((l >= 1) && this->Remove(g(l - 1), g(l), di, h(l - 1), h(l), iw))
         {
-          l--;
+          --l;
         }
-        l++;
+        ++l;
         g(l) = di;
         h(l) = iw;
       }
@@ -398,7 +398,7 @@ SignedMaurerDistanceMapImageFilter<TInputImage, TOutputImage>::Voronoi(unsigned 
       {
         break;
       }
-      l++;
+      ++l;
       d1 = d2;
     }
     idx[d] = i + startIndex[d];

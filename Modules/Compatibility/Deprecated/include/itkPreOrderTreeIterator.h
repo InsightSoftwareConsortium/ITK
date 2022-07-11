@@ -150,7 +150,7 @@ PreOrderTreeIterator<TTreeType>::FindNextNode() const
       {
         return help;
       }
-      childPosition++;
+      ++childPosition;
     }
   }
   return nullptr;

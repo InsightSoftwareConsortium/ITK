@@ -123,7 +123,7 @@ OFFMeshIO ::ReadMeshInformation()
   if (line.find("nOFF") != std::string::npos)
   {
     m_InputFile >> this->m_PointDimension;
-    m_PointDimension++;
+    ++m_PointDimension;
   }
   else if (line.find("4OFF") != std::string::npos)
   {

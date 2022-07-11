@@ -102,7 +102,7 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::FindCellId(CellIdentif
     {
       break;
     }
-    cellIt++;
+    ++cellIt;
   }
 
   if (cellIt == cells1.end())

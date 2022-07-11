@@ -158,7 +158,7 @@ ThresholdMaximumConnectedComponentsImageFilter<TInputImage, TOutputImage>::Gener
                                     << std::endl);
     itkDebugMacro("Iteration #:" << iterationCounter);
 
-    iterationCounter++;
+    ++iterationCounter;
 #endif
   } // end of the thresholdloop
 

@@ -60,8 +60,8 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::SetLnextR
   while (maxSize && (it != this->EndGeomLnext()))
   {
     it.Value()->SetLeft(faceGeom);
-    it++;
-    maxSize--;
+    ++it;
+    --maxSize;
   }
 
   return (true);
@@ -198,8 +198,8 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::IsLnextSh
     {
       return (false);
     }
-    it++;
-    maxSize--;
+    ++it;
+    --maxSize;
   }
 
   if (it != this->EndGeomLnext())
@@ -319,7 +319,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
     {
       return (it.Value());
     }
-    it++;
+    ++it;
   }
 
   // No border edge found
@@ -599,7 +599,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::Disconnec
     while (it != e->EndGeomLnext())
     {
       it.Value()->UnsetLeft();
-      it++;
+      ++it;
     }
   }
   else if (this->IsInternal())

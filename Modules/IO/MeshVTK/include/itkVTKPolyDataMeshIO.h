@@ -152,27 +152,27 @@ protected:
       switch (cellType)
       {
         case CellGeometryEnum::VERTEX_CELL:
-          numberOfVertices++;
+          ++numberOfVertices;
           numberOfVertexIndices += nn + 1;
           break;
         case CellGeometryEnum::LINE_CELL:
-          numberOfLines++;
+          ++numberOfLines;
           numberOfLineIndices += nn + 1;
           break;
         case CellGeometryEnum::POLYLINE_CELL:
-          numberOfLines++;
+          ++numberOfLines;
           numberOfLineIndices += nn + 1;
           break;
         case CellGeometryEnum::TRIANGLE_CELL:
-          numberOfPolygons++;
+          ++numberOfPolygons;
           numberOfPolygonIndices += nn + 1;
           break;
         case CellGeometryEnum::POLYGON_CELL:
-          numberOfPolygons++;
+          ++numberOfPolygons;
           numberOfPolygonIndices += nn + 1;
           break;
         case CellGeometryEnum::QUADRILATERAL_CELL:
-          numberOfPolygons++;
+          ++numberOfPolygons;
           numberOfPolygonIndices += nn + 1;
           break;
         default:
@@ -1136,7 +1136,7 @@ protected:
     {
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
-        inputIndex++;
+        ++inputIndex;
         auto nn = static_cast<unsigned int>(input[inputIndex++]);
         output[outputIndex++] = nn;
         for (unsigned int jj = 0; jj < nn; ++jj)

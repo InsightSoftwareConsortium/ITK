@@ -253,7 +253,7 @@ HoughTransform2DCirclesImageFilter<TInputPixelType, TOutputPixelType, TRadiusPix
 
       m_CirclesList.push_back(Circle);
 
-      circles++;
+      ++circles;
       if (circles >= m_NumberOfCircles)
       {
         break;

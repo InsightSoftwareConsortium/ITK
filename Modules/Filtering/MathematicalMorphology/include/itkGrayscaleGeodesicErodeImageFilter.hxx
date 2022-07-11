@@ -238,7 +238,7 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::GenerateData()
       singleIteration->GetOutput()->SetRequestedRegion(this->GetOutput()->GetRequestedRegion());
 
       // Keep track of how many iterations have be done
-      m_NumberOfIterationsUsed++;
+      ++m_NumberOfIterationsUsed;
     }
   }
 

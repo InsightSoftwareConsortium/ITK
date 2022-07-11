@@ -679,22 +679,22 @@ GiftiMeshIO::WriteMeshInformation()
 
   if (this->m_UpdatePoints)
   {
-    nda++;
+    ++nda;
   }
 
   if (this->m_UpdateCells)
   {
-    nda++;
+    ++nda;
   }
 
   if (this->m_UpdatePointData)
   {
-    nda++;
+    ++nda;
   }
 
   if (this->m_UpdateCellData)
   {
-    nda++;
+    ++nda;
   }
 
   // Create a new gifti image
@@ -725,7 +725,7 @@ GiftiMeshIO::WriteMeshInformation()
       {
         m_GiftiImage->labeltable.key[mm] = lt->Index();
         m_GiftiImage->labeltable.label[mm] = gifti_strdup(lt->Value().c_str());
-        mm++;
+        ++mm;
       }
     }
 
@@ -742,7 +742,7 @@ GiftiMeshIO::WriteMeshInformation()
           {
             m_GiftiImage->labeltable.rgba[kk * 4 + nn] = lt->Value().GetNthComponent(nn);
           }
-          kk++;
+          ++kk;
         }
       }
     }

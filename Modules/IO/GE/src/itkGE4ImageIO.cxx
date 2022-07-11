@@ -359,7 +359,7 @@ GE4ImageIO ::MvtSunf(int numb)
   int          sun_exp = 4 * (dg_exp - 64);
   while ((dg_mantissa & signbit) == 0 && dg_mantissa != 0)
   {
-    sun_exp--;
+    --sun_exp;
     dg_mantissa = dg_mantissa << 1;
   }
   sun_exp += 126;

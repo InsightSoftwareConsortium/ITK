@@ -135,7 +135,7 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         InputPixelType value = bit.GetPixel(i);
         if (Math::ExactlyEquals(value, m_ForegroundValue))
         {
-          count++;
+          ++count;
         }
       }
 

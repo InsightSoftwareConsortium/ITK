@@ -224,7 +224,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
       this->m_Mesh->SetPoint(globalNumbering, pointCoordinate);
 
-      globalNumbering++;
+      ++globalNumbering;
     }
   }
 
@@ -244,7 +244,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
       this->m_Mesh->SetCell(globalNumbering, cell);
 
-      globalNumbering++;
+      ++globalNumbering;
     }
   }
 }
@@ -292,7 +292,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
         image->TransformContinuousIndexToPhysicalPoint(pointIndex, pointCoordinate);
         this->m_Mesh->SetPoint(globalNumbering, pointCoordinate);
 
-        globalNumbering++;
+        ++globalNumbering;
       }
     }
   }
@@ -344,7 +344,7 @@ FEMScatteredDataPointSetToImageFilter<TInputPointSet,
 
         this->m_Mesh->SetCell(globalNumbering, cell);
 
-        globalNumbering++;
+        ++globalNumbering;
       }
     }
   }

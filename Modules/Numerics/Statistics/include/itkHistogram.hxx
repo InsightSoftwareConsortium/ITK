@@ -575,7 +575,7 @@ Histogram<TMeasurement, TFrequencyContainer>::GetFrequency(InstanceIdentifier n,
     while (include < includeEnd)
     {
       frequency += GetFrequency(include);
-      include++;
+      ++include;
     }
     current += nextOffset;
   }
@@ -613,7 +613,7 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
       cumulated += f_n;
       p_n_prev = p_n;
       p_n = cumulated / totalFrequency;
-      n++;
+      ++n;
     } while (n < size && p_n < p);
 
     binProportion = f_n / totalFrequency;
@@ -634,8 +634,8 @@ Histogram<TMeasurement, TFrequencyContainer>::Quantile(unsigned int dimension, d
       cumulated += f_n;
       p_n_prev = p_n;
       p_n = 1.0 - cumulated / totalFrequency;
-      n--;
-      m++;
+      --n;
+      ++m;
     } while (m < size && p_n > p);
 
     binProportion = f_n / totalFrequency;

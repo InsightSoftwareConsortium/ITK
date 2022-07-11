@@ -681,7 +681,7 @@ CompositeTransform<TParametersValueType, VDimension>::SetParameters(const Parame
 
     do
     {
-      it--;
+      --it;
       /* If inputParams is same object as m_Parameters, we just pass
        * each sub-transforms own m_Parameters in. This is needed to
        * avoid unnecessary copying of parameters in the sub-transforms,

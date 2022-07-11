@@ -125,7 +125,7 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GenerateData()
     }
 
     this->ComputeDisplacement();
-    m_Step++;
+    ++m_Step;
   }
 
   const InputMeshType *             inputMesh = this->GetInput(0);

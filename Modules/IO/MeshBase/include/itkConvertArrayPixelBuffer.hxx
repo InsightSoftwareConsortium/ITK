@@ -38,7 +38,7 @@ ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>::Convert(Input
       OutputConvertTraits::SetNthComponent(ii, *outputData, static_cast<T>(*inputData++));
     }
 
-    outputData++;
+    ++outputData;
   }
 }
 } // end namespace itk

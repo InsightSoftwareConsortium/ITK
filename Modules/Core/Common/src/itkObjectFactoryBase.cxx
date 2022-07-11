@@ -347,7 +347,7 @@ ObjectFactoryBase::LoadDynamicFactories()
     }
     else
     {
-      EndSeparatorPosition++; // Skip the separator
+      ++EndSeparatorPosition; // Skip the separator
     }
   }
 #else // ITK_DYNAMIC_LOADING

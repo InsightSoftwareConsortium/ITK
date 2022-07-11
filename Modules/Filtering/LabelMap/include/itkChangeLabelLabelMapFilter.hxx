@@ -101,7 +101,7 @@ ChangeLabelLabelMapFilter<TImage>::GenerateData()
     }
 
     progress.CompletedPixel();
-    pairToReplace++;
+    ++pairToReplace;
   }
 
   // ChangeBackgroundIfNeeded
@@ -165,7 +165,7 @@ ChangeLabelLabelMapFilter<TImage>::GenerateData()
 
     // go to the next label object
     progress.CompletedPixel();
-    labelObjectItr++;
+    ++labelObjectItr;
   }
 }
 

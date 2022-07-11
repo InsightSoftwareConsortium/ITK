@@ -69,7 +69,7 @@ Partition(TSubsample *                               sample,
       {
         break;
       }
-      moveToBackIndex--;
+      --moveToBackIndex;
     }
 
     //
@@ -82,7 +82,7 @@ Partition(TSubsample *                               sample,
       {
         break;
       }
-      moveToFrontIndex++;
+      ++moveToFrontIndex;
     }
 
     if (moveToFrontIndex < moveToBackIndex)
@@ -113,7 +113,7 @@ Partition(TSubsample *                               sample,
       {
         break;
       }
-      moveToBackIndex--;
+      --moveToBackIndex;
     }
 
     //
@@ -126,7 +126,7 @@ Partition(TSubsample *                               sample,
       {
         break;
       }
-      moveToFrontIndex++;
+      ++moveToFrontIndex;
     }
 
     if (moveToFrontIndex < moveToBackIndex)
@@ -157,7 +157,7 @@ Partition(TSubsample *                               sample,
       {
         break;
       }
-      moveToBackIndex--;
+      --moveToBackIndex;
     }
 
     //
@@ -170,7 +170,7 @@ Partition(TSubsample *                               sample,
       {
         break;
       }
-      moveToFrontIndex++;
+      ++moveToFrontIndex;
     }
 
     if (moveToFrontIndex < moveToBackIndex)

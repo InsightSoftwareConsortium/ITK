@@ -208,11 +208,11 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
     {
       if (i == dim)
       {
-        j++;
+        ++j;
       }
       m_SmoothingFilters[i]->SetDirection(j);
-      i++;
-      j++;
+      ++i;
+      ++j;
     }
     m_DerivativeFilter->SetDirection(dim);
 

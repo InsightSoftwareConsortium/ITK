@@ -84,7 +84,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::SetExtractionRegion(InputImageReg
     {
       outputSize[nonzeroSizeCount] = inputSize[i];
       outputIndex[nonzeroSizeCount] = extractRegion.GetIndex()[i];
-      nonzeroSizeCount++;
+      ++nonzeroSizeCount;
     }
   }
 
@@ -194,7 +194,7 @@ ExtractImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
               ++nonZeroCount2;
             }
           }
-          nonZeroCount++;
+          ++nonZeroCount;
         }
       }
     }

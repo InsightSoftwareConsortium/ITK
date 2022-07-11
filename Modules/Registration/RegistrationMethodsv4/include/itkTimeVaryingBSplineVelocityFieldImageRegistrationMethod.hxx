@@ -504,13 +504,13 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
           displacement[d] = metricDerivative[localPointCount * ImageDimension + d];
           spatioTemporalPoint[d] = spatialPoint[d];
         }
-        localPointCount++;
+        ++localPointCount;
 
         spatioTemporalPoint[ImageDimension] = t;
         velocityFieldPointSet->SetPoint(numberOfVelocityFieldPoints, spatioTemporalPoint);
         velocityFieldPointSet->SetPointData(numberOfVelocityFieldPoints, displacement);
         velocityFieldWeights->InsertElement(numberOfVelocityFieldPoints, 1.0);
-        numberOfVelocityFieldPoints++;
+        ++numberOfVelocityFieldPoints;
 
         ++It;
       }
@@ -555,7 +555,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
           velocityFieldPointSet->SetPoint(numberOfVelocityFieldPoints, spatioTemporalPoint);
           velocityFieldPointSet->SetPointData(numberOfVelocityFieldPoints, displacement);
           velocityFieldWeights->InsertElement(numberOfVelocityFieldPoints, this->m_BoundaryWeight);
-          numberOfVelocityFieldPoints++;
+          ++numberOfVelocityFieldPoints;
         }
       }
     }
@@ -833,7 +833,7 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
     velocityFieldPoints->SetPoint(numberOfVelocityFieldPoints, velocityFieldPoint);
     velocityFieldPoints->SetPointData(numberOfVelocityFieldPoints, displacement);
     velocityFieldWeights->InsertElement(numberOfVelocityFieldPoints, weight);
-    numberOfVelocityFieldPoints++;
+    ++numberOfVelocityFieldPoints;
   }
 }
 

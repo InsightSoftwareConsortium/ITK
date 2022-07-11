@@ -190,7 +190,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
       n = Element::Node::New();
       n->SetCoordinates(pt);
       n->SetGlobalNumber(gn);
-      gn++;
+      ++gn;
       femObject->AddNextNode(n);
     }
   }
@@ -212,7 +212,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
       {
         e->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(femObject->GetMaterial(0).GetPointer()));
       }
-      gn++;
+      ++gn;
       femObject->AddNextElement(e);
     }
   }
@@ -265,7 +265,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
         n = Element::Node::New();
         n->SetCoordinates(pt);
         n->SetGlobalNumber(gn);
-        gn++;
+        ++gn;
         femObject->AddNextNode(n);
       }
     }
@@ -310,7 +310,7 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
         {
           e->SetMaterial(dynamic_cast<itk::fem::MaterialLinearElasticity *>(femObject->GetMaterial(0).GetPointer()));
         }
-        gn++;
+        ++gn;
         femObject->AddNextElement(e);
       }
     }

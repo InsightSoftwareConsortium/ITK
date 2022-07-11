@@ -232,7 +232,7 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
       //        fixedGradientsB.insert(fixedGradientsB.begin(),fixedGradient);
       //        movingSamplesB.insert(movingSamplesB.begin(),static_cast<double>(movingValue));
 
-      sampct++;
+      ++sampct;
     }
   }
 
@@ -307,8 +307,8 @@ MIRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUp
           fixedSamplesA.insert(fixedSamplesA.begin(), static_cast<double>(fixedValue));
           fixedGradientsA.insert(fixedGradientsA.begin(), fixedGradient);
           movingSamplesA.insert(movingSamplesA.begin(), static_cast<double>(movingValue));
-          sampct++;
-          indct++;
+          ++sampct;
+          ++indct;
         }
       }
       ++randasamit;

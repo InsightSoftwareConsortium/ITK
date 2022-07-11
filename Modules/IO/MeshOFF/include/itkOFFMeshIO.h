@@ -146,7 +146,7 @@ protected:
       SizeValueType indOutput = 0;
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
-        indInput++; // ignore the cell type
+        ++indInput; // ignore the cell type
         auto numberOfPoints = static_cast<unsigned int>(input[indInput++]);
         output[indOutput++] = static_cast<TOutput>(numberOfPoints);
         for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
@@ -165,7 +165,7 @@ protected:
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
-      index++;
+      ++index;
       auto numberOfCellPoints = static_cast<unsigned int>(buffer[index++]);
       outputFile << numberOfCellPoints << "  ";
 

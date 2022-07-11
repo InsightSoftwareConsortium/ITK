@@ -47,7 +47,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::DTITubeSpatialObjectPoint(const DTIT
   while (it != fields.end())
   {
     this->AddField((*it).first.c_str(), (*it).second);
-    it++;
+    ++it;
   }
   for (unsigned int i = 0; i < 6; ++i)
   {
@@ -106,7 +106,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::SetField(const char * name, float va
     {
       (*it).second = value;
     }
-    it++;
+    ++it;
   }
 }
 
@@ -158,7 +158,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::GetField(const char * name) const
     {
       return (*it).second;
     }
-    it++;
+    ++it;
   }
   return -1;
 }
@@ -190,7 +190,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObject
     while (it != fields.end())
     {
       this->AddField((*it).first.c_str(), (*it).second);
-      it++;
+      ++it;
     }
     for (unsigned int i = 0; i < 6; ++i)
     {

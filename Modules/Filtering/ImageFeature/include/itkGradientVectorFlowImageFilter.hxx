@@ -64,7 +64,7 @@ GradientVectorFlowImageFilter<TInputImage, TOutputImage, TInternalPixel>::Genera
   {
     this->UpdatePixels();
     this->UpdateInterImage();
-    i++;
+    ++i;
   }
 }
 

@@ -163,7 +163,7 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
       const RealType fixedValue = ti.Get();
       RealType       diff;
 
-      threadNumberOfPixelsCounted++;
+      ++threadNumberOfPixelsCounted;
 
       if (m_MeasureMatches)
       {

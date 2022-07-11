@@ -120,7 +120,7 @@ RegularStepGradientDescentBaseOptimizer::ResumeOptimization()
 
     this->AdvanceOneStep();
 
-    m_CurrentIteration++;
+    ++m_CurrentIteration;
   }
 }
 

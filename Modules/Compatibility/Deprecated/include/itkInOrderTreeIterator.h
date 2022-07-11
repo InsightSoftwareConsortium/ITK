@@ -139,7 +139,7 @@ InOrderTreeIterator<TTreeType>::FindNextNode() const
     {
       return help;
     }
-    childPosition++;
+    ++childPosition;
   }
 
   while (parent->HasParent())

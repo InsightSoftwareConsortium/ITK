@@ -719,7 +719,7 @@ protected:
       SizeValueType outputIndex = NumericTraits<SizeValueType>::ZeroValue();
       for (SizeValueType ii = 0; ii < m_NumberOfCells; ++ii)
       {
-        inputIndex++; // ignore the cell type
+        ++inputIndex; // ignore the cell type
         auto numberOfPoints = static_cast<unsigned int>(input[inputIndex++]);
         for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
         {

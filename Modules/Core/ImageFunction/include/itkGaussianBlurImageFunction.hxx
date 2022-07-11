@@ -385,8 +385,8 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
 
       (*it) = m_GaussianFunction->Evaluate(pt);
       sum += (*it);
-      i++;
-      it++;
+      ++i;
+      ++it;
     }
 
     // Make the filter DC-Constant
@@ -394,7 +394,7 @@ GaussianBlurImageFunction<TInputImage, TOutput>::RecomputeContinuousGaussianKern
     while (it != gaussianNeighborhood.End())
     {
       (*it) /= sum;
-      it++;
+      ++it;
     }
     m_ContinuousOperatorArray[direction] = gaussianNeighborhood;
   }

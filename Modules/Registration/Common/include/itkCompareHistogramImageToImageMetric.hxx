@@ -127,7 +127,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
       {
         const RealType TrainingMovingValue = this->m_TrainingInterpolator->Evaluate(transformedPoint);
         const RealType TrainingFixedValue = ti.Get();
-        NumberOfPixelsCounted++;
+        ++NumberOfPixelsCounted;
 
         typename HistogramType::MeasurementVectorType sample;
         sample.SetSize(2);

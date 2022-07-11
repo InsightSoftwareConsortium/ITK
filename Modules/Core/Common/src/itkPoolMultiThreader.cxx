@@ -169,7 +169,7 @@ PoolMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
     SizeValueType chunkSize = (lastIndexPlus1 - firstIndex) / m_NumberOfWorkUnits;
     if ((lastIndexPlus1 - firstIndex) % m_NumberOfWorkUnits > 0)
     {
-      chunkSize++; // we want slightly bigger chunks to be processed first
+      ++chunkSize; // we want slightly bigger chunks to be processed first
     }
 
     auto lambda = [aFunc](SizeValueType start, SizeValueType end) {

@@ -154,7 +154,7 @@ BinomialBlurImageFilter<TInputImage, TOutputImage>::GenerateData()
   // walk the output image forwards and compute blur
   for (unsigned int rep = 0; rep < m_Repetitions; ++rep)
   {
-    num_reps++;
+    ++num_reps;
 
     itkDebugMacro(<< "Repetition #" << rep);
 

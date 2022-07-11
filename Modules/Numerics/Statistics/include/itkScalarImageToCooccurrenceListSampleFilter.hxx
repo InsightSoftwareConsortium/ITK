@@ -113,7 +113,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
     while (iter != m_OffsetTable.end())
     {
       it.ActivateOffset(*iter);
-      iter++;
+      ++iter;
     }
 
     for (it.GoToBegin(); !it.IsAtEnd(); ++it)

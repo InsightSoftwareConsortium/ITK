@@ -619,7 +619,7 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
     if (this->TransformPhysicalPointToVirtualIndex(point, tempIndex))
     {
       this->m_VirtualSampledPointSet->SetPoint(virtualIndex, point);
-      virtualIndex++;
+      ++virtualIndex;
     }
     else
     {

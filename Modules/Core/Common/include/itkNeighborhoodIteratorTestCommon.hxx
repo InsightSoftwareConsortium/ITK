@@ -49,7 +49,7 @@ printnb(const TIteratorType & nb, bool full)
       if ((count % sz) == 0)
         std::cout << std::endl;
       ++it;
-      count++;
+      ++count;
     }
   }
   else

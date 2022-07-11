@@ -36,7 +36,7 @@ SegmentTable<TScalar>::PruneEdgeLists(ScalarType maximum_saliency)
     {
       if ((e->height - (*it).second.min) > maximum_saliency)
       { // dump the rest of the list, assumes list is sorted
-        e++;
+        ++e;
         (*it).second.edge_list.erase(e, (*it).second.edge_list.end());
         break; // through with this segment
       }

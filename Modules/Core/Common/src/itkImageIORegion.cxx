@@ -123,7 +123,7 @@ ImageIORegion::GetRegionDimension() const
   {
     if (m_Size[i] > 1)
     {
-      dim++;
+      ++dim;
     }
   }
   return dim;

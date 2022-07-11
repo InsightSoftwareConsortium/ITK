@@ -252,7 +252,7 @@ LabelObject<TLabel, VImageDimension>::GetIndex(SizeValueType offset) const -> In
       return idx;
     }
 
-    it++;
+    ++it;
   }
   itkGenericExceptionMacro(<< "Invalid offset: " << offset);
 }
@@ -352,7 +352,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
         currentLength = length;
       }
 
-      it++;
+      ++it;
     }
 
     // complete the last line

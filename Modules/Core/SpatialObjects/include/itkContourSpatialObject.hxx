@@ -90,7 +90,7 @@ ContourSpatialObject<TDimension>::GetOrientationInObjectSpace() const
         maxPnt[i] = curpoint[i];
       }
     }
-    it++;
+    ++it;
   }
   m_OrientationInObjectSpace = -1;
   for (unsigned int i = 0; i < TDimension; ++i)
@@ -117,7 +117,7 @@ ContourSpatialObject<TDimension>::SetControlPoints(const ContourPointListType & 
   {
     m_ControlPoints.push_back(*it);
     m_ControlPoints.back().SetSpatialObject(this);
-    it++;
+    ++it;
   }
   this->Modified();
 }

@@ -428,7 +428,7 @@ MINCImageIO::ReadImageInformation()
   {
     if (this->m_MINCPImpl->m_DimensionIndices[i] != -1) // this dimension is present
     {
-      spatial_dimension_count++;
+      ++spatial_dimension_count;
     }
   }
 
@@ -488,8 +488,8 @@ MINCImageIO::ReadImageInformation()
       this->SetDirection(i - 1, _dir);
       this->SetSpacing(i - 1, _sep);
 
-      spatial_dimension++;
-      usable_dimensions++;
+      ++spatial_dimension;
+      ++usable_dimensions;
     }
   }
 
@@ -503,7 +503,7 @@ MINCImageIO::ReadImageInformation()
     misize_t _sz;
     miget_dimension_size(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
     numberOfComponents = _sz;
-    usable_dimensions++;
+    ++usable_dimensions;
   }
 
   if (this->m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
@@ -516,7 +516,7 @@ MINCImageIO::ReadImageInformation()
     misize_t _sz;
     miget_dimension_size(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions], &_sz);
     numberOfComponents = _sz;
-    usable_dimensions++;
+    ++usable_dimensions;
   }
 
   // Set apparent dimension order to the MINC2 api
@@ -914,7 +914,7 @@ MINCImageIO::WriteImageInformation()
     miset_dimension_separation(this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims - minc_dimensions - 1],
                                tstep);
 
-    minc_dimensions++;
+    ++minc_dimensions;
   }
   else if (nComp > 1)
   {
@@ -923,7 +923,7 @@ MINCImageIO::WriteImageInformation()
                        MI_DIMATTR_REGULARLY_SAMPLED,
                        nComp,
                        &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims - minc_dimensions - 1]);
-    minc_dimensions++;
+    ++minc_dimensions;
   }
 
   micreate_dimension(MIxspace,
@@ -931,7 +931,7 @@ MINCImageIO::WriteImageInformation()
                      MI_DIMATTR_REGULARLY_SAMPLED,
                      this->GetDimensions(0),
                      &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims - minc_dimensions - 1]);
-  minc_dimensions++;
+  ++minc_dimensions;
 
   if (nDims > 1)
   {
@@ -940,7 +940,7 @@ MINCImageIO::WriteImageInformation()
                        MI_DIMATTR_REGULARLY_SAMPLED,
                        this->GetDimensions(1),
                        &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims - minc_dimensions - 1]);
-    minc_dimensions++;
+    ++minc_dimensions;
   }
 
   if (nDims > 2)
@@ -950,7 +950,7 @@ MINCImageIO::WriteImageInformation()
                        MI_DIMATTR_REGULARLY_SAMPLED,
                        this->GetDimensions(2),
                        &this->m_MINCPImpl->m_MincApparentDims[this->m_MINCPImpl->m_NDims - minc_dimensions - 1]);
-    minc_dimensions++;
+    ++minc_dimensions;
   }
 
   if (nDims > 3)

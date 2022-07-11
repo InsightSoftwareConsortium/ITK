@@ -343,8 +343,8 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
       (*thatRegionBordersIt)->SetRegion2(nullptr);
       (*thatRegionBordersIt)->SetLambda(-1.0);
 
-      thisRegionBordersIt++;
-      thatRegionBordersIt++;
+      ++thisRegionBordersIt;
+      ++thatRegionBordersIt;
     } // end if loop for case when two borders point to same region
 
     // This neighbor region label is less then that neighbor region label
@@ -358,7 +358,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
                (*thatRegionBordersIt)->GetRegion2()->GetRegionLabel())))
     {
       m_RegionBorderVector.push_back(*thisRegionBordersIt);
-      thisRegionBordersIt++;
+      ++thisRegionBordersIt;
     } // end else if
 
     // That neighbor region label is less then this neighbor region label
@@ -372,7 +372,7 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
                (*thisRegionBordersIt)->GetRegion2()->GetRegionLabel())))
     {
       m_RegionBorderVector.push_back(*thatRegionBordersIt);
-      thatRegionBordersIt++;
+      ++thatRegionBordersIt;
     } // end else if
     else
     {
@@ -384,14 +384,14 @@ KLMSegmentationRegion::SpliceRegionBorders(Self * region)
   while (thisRegionBordersIt != endOfThisRegionBorders)
   {
     m_RegionBorderVector.push_back(*thisRegionBordersIt);
-    thisRegionBordersIt++;
+    ++thisRegionBordersIt;
   }
 
   // If any borders remain in thatRegionBorders, put them to the back
   while (thatRegionBordersIt != endOfThatRegionBorders)
   {
     m_RegionBorderVector.push_back(*thatRegionBordersIt);
-    thatRegionBordersIt++;
+    ++thatRegionBordersIt;
   }
 } // end SpliceRegionBorders
 
@@ -479,7 +479,7 @@ KLMSegmentationRegion::PrintRegionInfo()
     std::cout << "Border Ptr :" << (*tempVectorIt) << "( " << region1label << " - " << region2label << " )"
               << " Lambda = " << (*tempVectorIt)->GetLambda() << std::endl;
 
-    tempVectorIt++;
+    ++tempVectorIt;
   } // end for
 
   std::cout << "------------------------------" << std::endl;

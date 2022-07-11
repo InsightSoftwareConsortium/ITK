@@ -50,7 +50,7 @@ template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>::GoToNext()
 {
-  m_CorrespondingListIterator++;
+  ++m_CorrespondingListIterator;
 
   if (m_CorrespondingListIterator == m_CorrespondingListPointer->end())
   {
@@ -63,7 +63,7 @@ template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>::GoToNextBaseGroup()
 {
-  m_SecondaryListIterator++;
+  ++m_SecondaryListIterator;
   if (m_SecondaryListIterator != m_SecondaryListPointer->end())
   {
     m_CorrespondingListPointer = &(*m_SecondaryListIterator);
@@ -71,7 +71,7 @@ CorrespondenceDataStructureIterator<TStructureType>::GoToNextBaseGroup()
   }
   else if (m_SecondaryListIterator == m_SecondaryListPointer->end())
   {
-    m_NodeListIterator++;
+    ++m_NodeListIterator;
 
     if (m_NodeListIterator != m_NodeListPointer->end())
     {

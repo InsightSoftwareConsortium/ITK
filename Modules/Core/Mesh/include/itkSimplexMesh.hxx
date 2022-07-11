@@ -194,7 +194,7 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddEdge(PointIdentifier startP
   NewCellPointer->SetPointId(1, endPointId);
 
   this->SetCell(edgeId, NewCellPointer);
-  m_LastCellId++;
+  ++m_LastCellId;
   return edgeId;
 }
 
@@ -203,7 +203,7 @@ auto
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::AddFace(CellAutoPointer & cellPointer) -> CellIdentifier
 {
   this->SetCell(m_LastCellId, cellPointer);
-  m_LastCellId++;
+  ++m_LastCellId;
   return m_LastCellId - 1;
 }
 

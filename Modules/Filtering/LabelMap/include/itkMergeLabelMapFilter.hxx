@@ -226,7 +226,7 @@ MergeLabelMapFilter<TImage>::MergeWithPack()
 
     // go to the next label
     progress.CompletedPixel();
-    it++;
+    ++it;
   }
 
   // now, the next images

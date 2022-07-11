@@ -141,26 +141,26 @@ public:
     void
     operator++(int)
     {
-      m_ListIterator++;
+      ++m_ListIterator;
     }
 
     void
     operator--(int)
     {
-      m_ListIterator--;
+      --m_ListIterator;
     }
 
     const ConstIterator &
     operator++()
     {
-      m_ListIterator++;
+      ++m_ListIterator;
       return *this;
     }
 
     const ConstIterator &
     operator--()
     {
-      m_ListIterator--;
+      --m_ListIterator;
       return *this;
     }
 

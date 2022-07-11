@@ -129,7 +129,7 @@ public:
       {
         m_Mesh->GetPoint(*it, &p);
         center += p.GetVectorFromOrigin();
-        it++;
+        ++it;
       }
 
       center[0] /= poly->GetNumberOfPoints();

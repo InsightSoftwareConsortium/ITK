@@ -143,7 +143,7 @@ FRPROptimizer::StartOptimization()
       {
         this->GetValueAndDerivative(p, &fp, &xi);
         xi[limitCount] = 1;
-        limitCount++;
+        ++limitCount;
       }
       else
       {

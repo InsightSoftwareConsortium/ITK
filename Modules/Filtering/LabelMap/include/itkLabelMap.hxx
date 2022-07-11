@@ -191,7 +191,7 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) -> LabelObj
     {
       return it->second;
     }
-    i++;
+    ++i;
   }
   itkExceptionMacro(<< "Can't access to label object at position " << pos << ". The label map has only "
                     << this->GetNumberOfLabelObjects() << " label objects registered.");
@@ -210,7 +210,7 @@ LabelMap<TLabelObject>::GetNthLabelObject(const SizeValueType & pos) const -> co
     {
       return it->second;
     }
-    i++;
+    ++i;
   }
   itkExceptionMacro(<< "Can't access to label object at position " << pos << ". The label map has only "
                     << this->GetNumberOfLabelObjects() << " label objects registered.");
@@ -439,7 +439,7 @@ LabelMap<TLabelObject>::PushLabelObject(LabelObjectType * labelObject)
         assert((it->second.IsNotNull()));
         if (label == m_BackgroundValue)
         {
-          label++;
+          ++label;
         }
         if (label != it->first)
         {

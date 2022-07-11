@@ -80,7 +80,7 @@ MetaSurfaceConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
     pnt.SetNormalInObjectSpace(normal);
 
     surfaceSO->AddPoint(pnt);
-    it2++;
+    ++it2;
   }
 
   return surfaceSO.GetPointer();

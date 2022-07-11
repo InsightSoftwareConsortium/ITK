@@ -538,7 +538,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
             tempFlatRegion.is_on_boundary = true;
             flatRegions[m_CurrentLabel] = tempFlatRegion;
 
-            m_CurrentLabel++;
+            ++m_CurrentLabel;
           }
         }
         else // Is cPos the path of steepest descent?
@@ -589,7 +589,7 @@ Segmenter<TInputImage>::AnalyzeBoundaryFlow(InputImageTypePointer thresholdImage
                 break;
               }
             }
-            m_CurrentLabel++;
+            ++m_CurrentLabel;
           }
         }
 
@@ -664,14 +664,14 @@ Segmenter<TInputImage>::GenerateConnectivity()
     stride = it.GetStride(d);
     m_Connectivity.index[i] = nCenter - stride;
     m_Connectivity.direction[i][d] = -1;
-    i++;
+    ++i;
   }
   for (d = 0; d < static_cast<int>(ImageDimension); ++d)
   {
     stride = it.GetStride(d);
     m_Connectivity.index[i] = nCenter + stride;
     m_Connectivity.direction[i][d] = 1;
-    i++;
+    ++i;
   }
 }
 

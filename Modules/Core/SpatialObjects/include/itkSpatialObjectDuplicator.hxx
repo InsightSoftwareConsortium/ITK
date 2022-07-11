@@ -46,7 +46,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::CopyObject(const InternalSpatialOb
   while (it != children->end())
   {
     this->CopyObject(*it, newSO);
-    it++;
+    ++it;
   }
   delete children;
 }
@@ -84,7 +84,7 @@ SpatialObjectDuplicator<TInputSpatialObject>::Update()
   while (it != children->end())
   {
     this->CopyObject(*it, m_DuplicateSpatialObject);
-    it++;
+    ++it;
   }
   delete children;
 }

@@ -157,7 +157,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeMyBoundingBox()
   }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
-  it++;
+  ++it;
   while (it != end)
   {
     pt = it->GetPositionInObjectSpace();
@@ -174,7 +174,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeMyBoundingBox()
     }
     this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(tmpPt);
 
-    it++;
+    ++it;
   }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
@@ -192,10 +192,10 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
     auto   it = this->m_Points.begin();
     auto   first = it;
     auto   it2 = it;
-    it2++;
+    ++it2;
     auto end = this->m_Points.end();
     auto last = end;
-    last--;
+    --last;
 
     PointType firstP = first->GetPositionInObjectSpace();
     double    firstR = first->GetRadiusInObjectSpace();
@@ -288,8 +288,8 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
           }
         }
       }
-      it++;
-      it2++;
+      ++it;
+      ++it2;
     }
   }
   return false;
@@ -314,7 +314,7 @@ TubeSpatialObject<TDimension, TTubePointType>::RemoveDuplicatePointsInObjectSpac
       if (dist <= minSpacingInObjectSpace)
       {
         it = this->m_Points.erase(it);
-        nPoints++;
+        ++nPoints;
         --it;
       }
     }
@@ -402,9 +402,9 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     }
 
     ((TubePointType *)(this->GetPoint(it2)))->SetTangentInObjectSpace(t);
-    it1++;
-    it2++;
-    it3++;
+    ++it1;
+    ++it2;
+    ++it3;
   }
 
   // Calculate tangets are the first and last point on a tube
@@ -553,7 +553,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       prevN2 = n2;
     }
 
-    it1++;
+    ++it1;
   }
 
   return true;

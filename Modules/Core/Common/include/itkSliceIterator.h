@@ -79,7 +79,7 @@ public:
   SliceIterator
   operator++()
   {
-    m_Pos++;
+    ++m_Pos;
     return *this;
   }
 
@@ -89,7 +89,7 @@ public:
   {
     SliceIterator ans = *this;
 
-    m_Pos++;
+    ++m_Pos;
     return ans;
   }
 

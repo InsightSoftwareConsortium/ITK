@@ -407,7 +407,7 @@ MattesMutualInformationImageToImageMetricv4GetValueAndDerivativeThreader<TDomain
 
     const PDFValueType derivativeContribution = innerProduct * cubicBSplineDerivativeValue;
     *(localSupportDerivativeResultPtr) += derivativeContribution;
-    localSupportDerivativeResultPtr++;
+    ++localSupportDerivativeResultPtr;
   }
 }
 

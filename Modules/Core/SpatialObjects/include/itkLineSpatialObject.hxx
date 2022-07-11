@@ -83,7 +83,7 @@ LineSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) co
       {
         return true;
       }
-      it++;
+      ++it;
     }
   }
 

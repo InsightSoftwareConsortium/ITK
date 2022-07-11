@@ -195,7 +195,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
         // create the run length object to go in the vector
         RunLength thisRun = { length, thisIndex, 0 };
         thisLine.push_back(thisRun);
-        nbOfLabels++;
+        ++nbOfLabels;
       }
       else
       {
@@ -203,7 +203,7 @@ ConnectedComponentImageFilter<TInputImage, TOutputImage, TMaskImage>::DynamicThr
       }
     }
     this->m_LineMap[lineId] = thisLine;
-    lineId++;
+    ++lineId;
   }
 
   this->m_NumberOfLabels.fetch_add(nbOfLabels, std::memory_order_relaxed);

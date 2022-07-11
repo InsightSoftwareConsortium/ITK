@@ -124,14 +124,14 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
           InputPixelType value = bit.GetPixel(i);
           if (value == foregroundValue)
           {
-            count++;
+            ++count;
           }
         }
 
         if (count >= birthThreshold)
         {
           it.Set(static_cast<OutputPixelType>(foregroundValue));
-          numberOfPixelsChanged++;
+          ++numberOfPixelsChanged;
         }
         else
         {

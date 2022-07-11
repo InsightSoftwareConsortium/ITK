@@ -160,14 +160,14 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Ta
     {
       if (ait.Get())
       {
-        num++;
+        ++num;
         currp = static_cast<float>(iit.Get());
         addp += currp;
         addpp += currp * currp;
       }
       else
       {
-        numb++;
+        ++numb;
         currp = static_cast<float>(iit.Get());
         addb += currp;
       }

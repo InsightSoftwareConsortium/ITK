@@ -762,7 +762,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
       // Update the accumulator value using the update buffer
       temp = static_cast<double>(sparsePtr->m_UpdateBuffer.front() - levelset->GetPixel(activeIt->m_Value));
       m_RMSSum += temp * temp;
-      m_RMSCounter++;
+      ++m_RMSCounter;
 
       levelset->SetPixel(activeIt->m_Value, sparsePtr->m_UpdateBuffer.front());
       ++activeIt;
@@ -930,7 +930,7 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
 
       // Update the rms change
       m_RMSSum += (value - outputIt.GetCenterPixel()) * (value - outputIt.GetCenterPixel());
-      m_RMSCounter++;
+      ++m_RMSCounter;
 
       ++toIt;
     }

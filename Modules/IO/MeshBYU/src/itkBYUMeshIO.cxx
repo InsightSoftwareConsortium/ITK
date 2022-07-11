@@ -156,7 +156,7 @@ BYUMeshIO ::ReadMeshInformation()
     this->m_CellBufferSize++;
     if (ptId < 0)
     {
-      numLines++;
+      ++numLines;
     }
   }
 
@@ -248,7 +248,7 @@ BYUMeshIO ::ReadCells(void * buffer)
       if (id >= m_FirstCellId && id <= m_LastCellId)
       {
         data[index++] = ptId - 1;
-        numPoints++;
+        ++numPoints;
       }
     }
     else
@@ -256,13 +256,13 @@ BYUMeshIO ::ReadCells(void * buffer)
       if (id >= m_FirstCellId && id <= m_LastCellId)
       {
         data[index++] = -(ptId + 1);
-        numPoints++;
+        ++numPoints;
         data[index - numPoints - 2] = static_cast<unsigned int>(CellGeometryEnum::POLYGON_CELL);
         data[index - numPoints - 1] = numPoints;
         numPoints = 0;
         index += 2;
       }
-      id++;
+      ++id;
     }
   }
 

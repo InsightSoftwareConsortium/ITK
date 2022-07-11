@@ -142,7 +142,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
           m_Sum += static_cast<AccumulateType>(mv[i]);
         }
         m_Sample->PushBack(mv);
-        m_NumberOfPixels++;
+        ++m_NumberOfPixels;
       }
       ++it;
     }
@@ -209,7 +209,7 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
           m_Sum += static_cast<AccumulateType>(mv[i]);
         }
         m_Sample->PushBack(mv);
-        m_NumberOfPixels++;
+        ++m_NumberOfPixels;
       }
       ++it;
     }

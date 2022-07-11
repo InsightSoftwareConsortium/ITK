@@ -154,7 +154,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
 
     if (doRefinement)
     {
-      m_ModifiedCount++;
+      ++m_ModifiedCount;
 
       InputCellAutoPointer poly;
       outputMesh->GetCell(curvatureIt.Index(), poly);
@@ -164,18 +164,18 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellParameters()
       typename InputPolygonType::PointIdIterator pointIds = poly->PointIdsBegin();
 
       PointIdentifier lineOneFirstIdx = *pointIds;
-      pointIds++;
+      ++pointIds;
       PointIdentifier lineOneSecondIdx = *pointIds;
 
       unsigned short cnt = 0;
 
       while (cnt < poly->GetNumberOfPoints() / 2 - 1)
       {
-        pointIds++;
-        cnt++;
+        ++pointIds;
+        ++cnt;
       }
       PointIdentifier lineTwoFirstIdx = *pointIds;
-      pointIds++;
+      ++pointIds;
       PointIdentifier lineTwoSecondIdx = *pointIds;
 
       PointIdentifier newPointId = outputMesh->GetNumberOfPoints();
@@ -314,7 +314,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(Cel
     {
       result.insert(*cellIt);
     }
-    cellIt++;
+    ++cellIt;
   }
 
   cellIt = result.begin();
@@ -358,7 +358,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(Cel
           m_NewSimplexCellPointer->SetPointId(cnt++, insertPointId);
         }
         first = second;
-        pointIt++;
+        ++pointIt;
       }
 
       m_NewSimplexCellPointer->SetPointId(cnt++, second);
@@ -369,7 +369,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(Cel
 
       outputMesh->ReplaceFace(*cellIt, m_NewSimplexCellPointer);
     }
-    cellIt++;
+    ++cellIt;
   }
 
   outputMesh->BuildCellLinks();
@@ -405,7 +405,7 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ComputeCellCenter(Input
   {
     outputMesh->GetPoint(*pointIt, &p1);
     cellCenter += p1.GetVectorFromOrigin();
-    pointIt++;
+    ++pointIt;
   }
 
   tmp.SetVnlVector(cellCenter.GetVnlVector() / simplexCell->GetNumberOfPoints());

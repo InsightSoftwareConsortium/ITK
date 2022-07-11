@@ -74,7 +74,7 @@ MetaLandmarkConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTyp
     pnt.SetAlpha((*it2)->m_Color[3]);
 
     landmarkSO->AddPoint(pnt);
-    it2++;
+    ++it2;
   }
 
   return landmarkSO.GetPointer();

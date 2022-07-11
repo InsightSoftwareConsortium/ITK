@@ -438,7 +438,7 @@ TreeIteratorBase<TTreeType>::Count()
   }
   while (this->Next())
   {
-    size++;
+    ++size;
   }
   return size;
 }

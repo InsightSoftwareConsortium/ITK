@@ -166,7 +166,7 @@ PostOrderTreeIterator<TTreeType>::FindSister(TreeNodeType * node) const
   {
     if (parent->GetChild(childPosition + 1) == nullptr)
     {
-      childPosition++;
+      ++childPosition;
     }
     else
     {
@@ -206,7 +206,7 @@ PostOrderTreeIterator<TTreeType>::FindMostRightLeaf(TreeNodeType * node) const
           itkGenericExceptionMacro(<< "Can't downcast to TreeNodeType *");
         }
       }
-      i++;
+      ++i;
     } while (helpNode == nullptr && i < childCount);
 
     if (helpNode == nullptr)

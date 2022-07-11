@@ -76,7 +76,7 @@ FileListVideoIO ::SplitFileNames(const std::string & fileList)
     // Move past the delimiter
     if (pos != std::string::npos)
     {
-      pos++;
+      ++pos;
     }
     len -= pos;
   }
@@ -220,7 +220,7 @@ FileListVideoIO::Read(void * buffer)
   // Move on to the next frame
   if (m_CurrentFrame < m_FrameTotal - 1)
   {
-    m_CurrentFrame++;
+    ++m_CurrentFrame;
   }
 }
 
@@ -356,7 +356,7 @@ FileListVideoIO::Write(const void * buffer)
   // Move to the next frame
   if (m_CurrentFrame < m_FrameTotal - 1)
   {
-    m_CurrentFrame++;
+    ++m_CurrentFrame;
   }
 }
 

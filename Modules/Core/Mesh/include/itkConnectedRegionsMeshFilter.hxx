@@ -204,7 +204,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
           largestRegionId = m_RegionNumber;
         }
 
-        m_RegionNumber++;
+        ++m_RegionNumber;
         m_RegionSizes.push_back(m_NumberOfCellsInRegion);
         m_Wave->clear();
         m_Wave2->clear();
@@ -424,7 +424,7 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::PropagateConnectedWave()
       if (m_Visited[cellId] < 0)
       {
         m_Visited[cellId] = static_cast<OffsetValueType>(m_RegionNumber);
-        m_NumberOfCellsInRegion++;
+        ++m_NumberOfCellsInRegion;
 
         // now get the cell points, and then cells using these points
         input->GetCell(cellId, cellPtr);

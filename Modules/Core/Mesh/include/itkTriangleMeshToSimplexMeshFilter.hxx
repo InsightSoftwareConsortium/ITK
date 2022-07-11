@@ -120,7 +120,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateSimplexPoints()
     unsigned int id = *faceIterator;
     output->SetPoint(id, copyPoint);
     output->SetGeometryData(id, new itk::SimplexMeshGeometry());
-    faceIterator++;
+    ++faceIterator;
   }
 }
 
@@ -206,7 +206,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateNewEdge(CellIden
     m_NewInputMeshCellPointer->SetPointId(0, startPointId);
     m_NewInputMeshCellPointer->SetPointId(1, endPointId);
     nonConstInput->SetCell(boundaryId, m_NewInputMeshCellPointer);
-    m_EdgeCellId++;
+    ++m_EdgeCellId;
   }
   else
   {
@@ -326,10 +326,10 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
             wrongIdx = compare.second;
             break;
           }
-          iterator2++;
+          ++iterator2;
         }
       }
-      iterator1++;
+      ++iterator1;
     }
 
     // create a new cell
@@ -372,7 +372,7 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateCells()
       {
         nextIdx = newIdx;
       }
-      featureId++;
+      ++featureId;
     }
     ++points;
   }

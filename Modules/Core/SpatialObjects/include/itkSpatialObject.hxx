@@ -210,7 +210,7 @@ SpatialObject<TDimension>::IsInsideChildrenInObjectSpace(const PointType &   poi
     {
       return true;
     }
-    it++;
+    ++it;
   }
 
   return false;
@@ -269,7 +269,7 @@ SpatialObject<TDimension>::IsEvaluableAtChildrenInObjectSpace(const PointType & 
     {
       return true;
     }
-    it++;
+    ++it;
   }
 
   return false;
@@ -343,7 +343,7 @@ SpatialObject<TDimension>::ValueAtChildrenInObjectSpace(const PointType &   poin
       (*it)->ValueAtInObjectSpace(pnt, value, depth, name);
       return true;
     }
-    it++;
+    ++it;
   }
 
   value = m_DefaultOutsideValue;
@@ -553,7 +553,7 @@ SpatialObject<TDimension>::ProtectedComputeObjectToWorldTransform()
   while (it != m_ChildrenList.end())
   {
     (*it)->Update();
-    it++;
+    ++it;
   }
 
   this->Modified();
@@ -635,7 +635,7 @@ SpatialObject<TDimension>::GetMTime() const
     {
       latestTime = localTime;
     }
-    it++;
+    ++it;
   }
 
   return latestTime;
@@ -743,7 +743,7 @@ SpatialObject<TDimension>::ComputeFamilyBoundingBox(unsigned int depth, const st
         tPnt = (*it)->GetObjectToParentTransform()->TransformPoint(pnt);
         m_FamilyBoundingBoxInObjectSpace->ConsiderPoint(tPnt);
       }
-      it++;
+      ++it;
     }
   }
 
@@ -766,7 +766,7 @@ SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & n
     {
       childrenSO->push_back((*it));
     }
-    it++;
+    ++it;
   }
 
   if (depth > 0)
@@ -775,7 +775,7 @@ SpatialObject<TDimension>::GetChildren(unsigned int depth, const std::string & n
     while (it != m_ChildrenList.end())
     {
       (*it)->AddChildrenToList(childrenSO, depth - 1, name);
-      it++;
+      ++it;
     }
   }
 
@@ -799,7 +799,7 @@ SpatialObject<TDimension>::GetConstChildren(unsigned int depth, const std::strin
     {
       childrenSO->push_back((*it));
     }
-    it++;
+    ++it;
   }
 
   if (depth > 0)
@@ -808,7 +808,7 @@ SpatialObject<TDimension>::GetConstChildren(unsigned int depth, const std::strin
     while (it != m_ChildrenList.end())
     {
       (*it)->AddChildrenToConstList(childrenSO, depth - 1, name);
-      it++;
+      ++it;
     }
   }
 
@@ -828,7 +828,7 @@ SpatialObject<TDimension>::AddChildrenToList(ChildrenListType *  childrenList,
     {
       childrenList->push_back((*it));
     }
-    it++;
+    ++it;
   }
 
   if (depth > 0)
@@ -855,7 +855,7 @@ SpatialObject<TDimension>::AddChildrenToConstList(ChildrenConstListType * childr
     {
       childrenCList->push_back(*it);
     }
-    it++;
+    ++it;
   }
 
   if (depth > 0)
@@ -898,7 +898,7 @@ SpatialObject<TDimension>::GetNumberOfChildren(unsigned int depth, const std::st
     {
       ++ccount;
     }
-    it++;
+    ++it;
   }
 
   if (depth > 0)

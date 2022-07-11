@@ -178,7 +178,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         }
       }
     }
-    si++;
+    ++si;
   }
 
   if (seed_cnt == 0)
@@ -223,7 +223,7 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         m_Multiplier = distance;
       }
     }
-    si++;
+    ++si;
   }
 
   // Finally setup the eventually modified multiplier. That is actually the

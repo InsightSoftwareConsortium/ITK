@@ -74,13 +74,13 @@ AttributeRelabelLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     // avoid the background label if it is used
     if (label == output->GetBackgroundValue())
     {
-      label++;
+      ++label;
     }
     (*it)->SetLabel(label);
     output->AddLabelObject(*it);
 
     // go to the nex label
-    label++;
+    ++label;
     progress.CompletedPixel();
   }
 }

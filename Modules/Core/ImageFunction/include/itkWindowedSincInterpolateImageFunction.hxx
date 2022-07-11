@@ -159,7 +159,7 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
       }
 
       // Increment the index
-      iOffset++;
+      ++iOffset;
     }
   }
 }

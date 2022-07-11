@@ -274,7 +274,7 @@ PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         ind
                                                                       parParam,
                                                                       sliceImageTypesIndex,
                                                                       sliceScanSequenceIndex);
-          index++;
+          ++index;
         }
       }
     }
@@ -287,7 +287,7 @@ PhilipsRECImageIOSetupSliceIndex(PhilipsRECImageIO::SliceIndexType *         ind
       for (int j = 0; j < actualSlices; ++j)
       {
         (*indexMatrix)[index] = j * parParam.image_blocks + i;
-        index++;
+        ++index;
       }
     }
   }

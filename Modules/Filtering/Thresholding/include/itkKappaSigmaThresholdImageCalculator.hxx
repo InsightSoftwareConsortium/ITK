@@ -60,7 +60,7 @@ KappaSigmaThresholdImageCalculator<TInputImage, TMaskImage>::Compute()
         if (v <= threshold)
         {
           mean += v;
-          count++;
+          ++count;
         }
       }
       ++iIt;

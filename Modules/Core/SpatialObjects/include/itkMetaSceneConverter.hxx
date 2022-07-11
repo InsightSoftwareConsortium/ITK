@@ -218,7 +218,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateSpatialObjectScene
       soScene = currentSO;
     }
     currentSO->SetParentId(tmpParentId);
-    it++;
+    ++it;
   }
 
   if (soScene != nullptr)
@@ -362,7 +362,7 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
 
     this->SetTransform(currentMeta, (*it)->GetObjectToParentTransform());
     metaScene->AddObject(currentMeta);
-    it++;
+    ++it;
   }
 
   delete childrenList;

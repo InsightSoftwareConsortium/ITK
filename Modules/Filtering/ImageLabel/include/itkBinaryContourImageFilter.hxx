@@ -188,7 +188,7 @@ BinaryContourImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData
 
     m_ForegroundLineMap[lineId] = fgLine;
     m_BackgroundLineMap[lineId] = bgLine;
-    lineId++;
+    ++lineId;
   }
 }
 

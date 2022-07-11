@@ -100,9 +100,9 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
       {
         if (cellnum % 2 != 0)
         {
-          prev_cols++;
+          ++prev_cols;
         }
-        cellnum++;
+        ++cellnum;
       }
     }
 
@@ -112,7 +112,7 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
     {
       while (std::getline(linestream, cell, this->m_FieldDelimiterCharacter))
       {
-        prev_cols++;
+        ++prev_cols;
       }
     }
     // previous columns now holds the number of headers minus the first header,
@@ -151,9 +151,9 @@ CSVFileReaderBase::GetDataDimension(SizeValueType & rows, SizeValueType & cols)
     // Count the entries
     while (std::getline(linestream, cell, this->m_FieldDelimiterCharacter))
     {
-      cols++;
+      ++cols;
     }
-    rows++;
+    ++rows;
 
     // Determine the max #columns and #rows
     current_cols = cols;

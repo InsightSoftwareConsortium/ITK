@@ -97,7 +97,7 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
     {
       m_BasisMatrix(i, j++) = image_it.Get();
     }
-    i++;
+    ++i;
   }
   m_BasisMatrixCalculated = true;
   m_ImageAsVector.set_size(m_NumPixels);

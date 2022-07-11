@@ -251,7 +251,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       {
         const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si));
         seedIntensitySum += value;
-        si++;
+        ++si;
       }
 
       if (Math::NotExactlyEquals(seedIntensitySum, NumericTraits<InputRealType>::ZeroValue()))
@@ -316,7 +316,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       {
         const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si));
         seedIntensitySum += value;
-        si++;
+        ++si;
       }
 
       if (Math::NotExactlyEquals(seedIntensitySum, NumericTraits<InputRealType>::ZeroValue()))
@@ -375,7 +375,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si1));
     seed1IntensitySum += value;
-    si1++;
+    ++si1;
   }
   typename SeedsContainerType::const_iterator si2 = m_Seeds2.begin();
   typename SeedsContainerType::const_iterator li2 = m_Seeds2.end();
@@ -383,7 +383,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
   {
     const auto value = static_cast<InputRealType>(outputImage->GetPixel(*si2));
     seed2IntensitySum += value;
-    si2++;
+    ++si2;
   }
   if (Math::NotAlmostEquals(seed1IntensitySum, m_ReplaceValue * m_Seeds1.size()) ||
       Math::NotExactlyEquals(seed2IntensitySum, NumericTraits<InputRealType>::ZeroValue()))

@@ -101,7 +101,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::DoLine(std::vector<TInputPix> & buff
       buffer[outLeftP] = Extreme;
     }
     // now finish
-    outLeftP++;
+    ++outLeftP;
     int left = 0;
     for (; outLeftP < static_cast<int>(bufflength); outLeftP++, left++)
     {

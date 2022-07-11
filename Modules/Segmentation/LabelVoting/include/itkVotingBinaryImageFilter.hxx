@@ -130,7 +130,7 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
         InputPixelType value = bit.GetPixel(i);
         if (value == m_ForegroundValue)
         {
-          count++;
+          ++count;
         }
       }
 

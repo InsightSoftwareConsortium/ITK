@@ -219,7 +219,7 @@ public:
       {
         return true;
       }
-      it++;
+      ++it;
     }
     m_List.push_back(new IPLFileSortInfo(filename,
                                          sliceLocation,

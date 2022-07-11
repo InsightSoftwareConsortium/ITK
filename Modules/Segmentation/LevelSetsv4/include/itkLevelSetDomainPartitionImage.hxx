@@ -55,7 +55,7 @@ LevelSetDomainPartitionImage<TImage>::PopulateListDomain()
       {
         identifierList.push_back(i);
       }
-      i++;
+      ++i;
     }
     lIt.Set(identifierList);
   }

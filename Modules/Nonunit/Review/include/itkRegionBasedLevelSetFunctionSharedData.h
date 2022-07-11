@@ -138,7 +138,7 @@ public:
     while (it != end)
     {
       (*it) = LevelSetDataType::New();
-      it++;
+      ++it;
     }
   }
 

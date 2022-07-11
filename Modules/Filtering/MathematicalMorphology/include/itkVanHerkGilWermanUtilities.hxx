@@ -65,7 +65,7 @@ FillForwardExt(std::vector<PixelType> & pixbuffer,
   {
     PixelType V = pixbuffer[i];
     fExtBuffer[i] = V;
-    i++;
+    ++i;
   }
   while (i < size)
   {

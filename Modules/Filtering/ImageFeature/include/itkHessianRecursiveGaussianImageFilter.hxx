@@ -236,10 +236,10 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
           if (j != dima)
           {
             m_DerivativeFilterB->SetDirection(j);
-            j++;
+            ++j;
             break;
           }
-          j++;
+          ++j;
         }
         // find the direction for all the other filters
         while (i < numberOfSmoothingFilters)
@@ -249,12 +249,12 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
             if (j != dima)
             {
               m_SmoothingFilters[i]->SetDirection(j);
-              j++;
+              ++j;
               break;
             }
-            j++;
+            ++j;
           }
-          i++;
+          ++i;
         }
 
         m_DerivativeFilterA->SetDirection(dima);
@@ -283,12 +283,12 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
             if (j != dima && j != dimb)
             {
               m_SmoothingFilters[i]->SetDirection(j);
-              j++;
+              ++j;
               break;
             }
-            j++;
+            ++j;
           }
-          i++;
+          ++i;
         }
 
         m_DerivativeFilterA->SetDirection(dima);

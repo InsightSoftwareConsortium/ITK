@@ -82,7 +82,7 @@ TreeContainer<TValue>::Count() const
   it.GoToBegin();
   while (!it.IsAtEnd())
   {
-    size++;
+    ++size;
     ++it;
   }
   return size;

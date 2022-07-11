@@ -544,7 +544,7 @@ GE5ImageIO::ModifyImageInformation()
     std::string file1 = (*it)->GetImageFileName();
 
     // The second file
-    it++;
+    ++it;
     std::string file2 = (*it)->GetImageFileName();
 
     GEImageHeader * hdr1 = this->ReadHeader(file1.c_str());

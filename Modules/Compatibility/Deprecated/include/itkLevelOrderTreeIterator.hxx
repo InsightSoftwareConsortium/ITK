@@ -159,7 +159,7 @@ LevelOrderTreeIterator<TTreeType>::GetLevel() const
   while (node->HasParent() && node != this->m_Root)
   {
     node = dynamic_cast<TreeNodeType *>(node->GetParent());
-    level++;
+    ++level;
   }
   return level;
 }
@@ -178,7 +178,7 @@ LevelOrderTreeIterator<TTreeType>::GetLevel(const TreeNodeType * node) const
   while (node->HasParent() && node != this->m_Root)
   {
     node = dynamic_cast<const TreeNodeType *>(node->GetParent());
-    level++;
+    ++level;
   }
   return level;
 }

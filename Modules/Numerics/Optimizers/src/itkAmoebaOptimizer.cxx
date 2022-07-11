@@ -243,7 +243,7 @@ AmoebaOptimizer::StartOptimization()
         bestValue = currentValue;
         bestPosition = parameters;
       }
-      i++;
+      ++i;
     }
   }
   // get the results, we scale the parameters down if scales are defined

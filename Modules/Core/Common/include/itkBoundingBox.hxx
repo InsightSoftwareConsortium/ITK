@@ -322,7 +322,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::IsI
     {
       return false;
     }
-    i++;
+    ++i;
   }
   return true;
 }

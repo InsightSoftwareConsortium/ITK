@@ -657,7 +657,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::ComputeJacobia
     {
       jacobian(d, number + d * numberOfParametersPerDimension) = weights[counter];
     }
-    counter++;
+    ++counter;
   }
 }
 

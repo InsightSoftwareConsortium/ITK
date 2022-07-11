@@ -183,7 +183,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         sumOfSquares += neighborhoodSumOfSquares;
         ++num;
       }
-      si++;
+      ++si;
     }
 
     if (num == 0)
@@ -215,7 +215,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         sumOfSquares += value * value;
         ++num;
       }
-      si++;
+      ++si;
     }
 
     if (num == 0)
@@ -251,7 +251,7 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
         highestSeedIntensity = seedIntensity;
       }
     }
-    si++;
+    ++si;
   }
 
   // Adjust lower and upper to always contain the seed's intensity, otherwise,

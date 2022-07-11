@@ -85,7 +85,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::ComputeConnectivityOf
       {
         if (off[j] == 0)
         {
-          numberOfZeros++;
+          ++numberOfZeros;
         }
       }
 
@@ -232,7 +232,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
     // index should be inside the mask image (GetPixel = 1)
     if (selectionMap->GetPixel(indexOfPointToPick) && region.IsInside(indexOfPointToPick))
     {
-      numberOfPointsInserted++;
+      ++numberOfPointsInserted;
       // compute and add structure tensor into pointData
       if (m_ComputeStructureTensors)
       {
@@ -285,8 +285,8 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
         // trace should be non-zero
         if (itk::Math::abs(trace) < TRACE_EPSILON)
         {
-          rit++;
-          numberOfPointsInserted--;
+          ++rit;
+          --numberOfPointsInserted;
           continue;
         }
 
@@ -309,7 +309,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::GenerateData()
         selectionMap->SetPixel(idx, ineligeblePointCode);
       }
     }
-    rit++;
+    ++rit;
   }
   // set points
   pointSet->SetPoints(points);

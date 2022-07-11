@@ -178,7 +178,7 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::IncrementIndex(ParametersT
     if (m_CurrentIndex[idx] > (2 * m_NumberOfSteps[idx]))
     {
       m_CurrentIndex[idx] = 0;
-      idx++;
+      ++idx;
     }
     else
     {

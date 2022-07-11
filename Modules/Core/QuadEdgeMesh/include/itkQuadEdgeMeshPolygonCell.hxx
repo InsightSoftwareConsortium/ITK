@@ -281,8 +281,8 @@ QuadEdgeMeshPolygonCell<TCellInterface>::GetPointId(int localId) const -> PointI
     {
       return (it.Value()->GetOrigin());
     }
-    it++;
-    n++;
+    ++it;
+    ++n;
   }
   return (PointIdentifier(-1));
 }

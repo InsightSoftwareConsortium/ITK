@@ -181,7 +181,7 @@ DiscreteHessianGaussianImageFunction<TInputImage, TOutput>::RecomputeGaussianKer
         ++idx;
         ++it;
       }
-      kernelidx++;
+      ++kernelidx;
     }
   }
 }
