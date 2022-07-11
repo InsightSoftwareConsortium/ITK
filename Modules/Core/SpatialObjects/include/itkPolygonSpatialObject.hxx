@@ -78,7 +78,7 @@ PolygonSpatialObject<TDimension>::GetOrientationInObjectSpace() const
         maxPnt[i] = curpoint[i];
       }
     }
-    it++;
+    ++it;
   }
   m_OrientationInObjectSpace = -1;
   for (unsigned int i = 0; i < TDimension; ++i)
@@ -136,7 +136,7 @@ PolygonSpatialObject<TDimension>::MeasureAreaInObjectSpace() const
     }
     area += a[X] * b[Y] - a[Y] * b[X];
     a = b;
-    it++;
+    ++it;
   }
   if (m_IsClosed)
   {
@@ -188,7 +188,7 @@ PolygonSpatialObject<TDimension>::MeasurePerimeterInObjectSpace() const
     double curdistance = a.EuclideanDistanceTo(b);
     perimeter += curdistance;
     a = b;
-    it++;
+    ++it;
   }
   if (m_IsClosed)
   {
@@ -258,7 +258,7 @@ PolygonSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point)
           }
           node1 = node2;
         }
-        it++;
+        ++it;
       }
       if (m_IsClosed)
       {

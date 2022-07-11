@@ -307,7 +307,7 @@ public:
   Self &
   operator++()
   {
-    m_NumberOfSamplesDone++;
+    ++m_NumberOfSamplesDone;
     this->UpdatePosition();
     return *this;
   }
@@ -317,7 +317,7 @@ public:
   Self &
   operator--()
   {
-    m_NumberOfSamplesDone--;
+    --m_NumberOfSamplesDone;
     this->UpdatePosition();
     return *this;
   }

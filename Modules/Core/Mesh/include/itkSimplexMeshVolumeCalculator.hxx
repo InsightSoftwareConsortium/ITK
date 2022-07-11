@@ -80,7 +80,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::FindCellId(IdentifierType id1, Identifi
     {
       break;
     }
-    cellIt++;
+    ++cellIt;
   }
 
   if (cellIt == cells1.end())
@@ -145,31 +145,31 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
   absu[2] = itk::Math::abs(u[2]);
   if ((absu[0] > absu[1]) && (absu[0] > absu[2]))
   {
-    m_Muncx++;
+    ++m_Muncx;
   }
   else if ((absu[1] > absu[0]) && (absu[1] > absu[2]))
   {
-    m_Muncy++;
+    ++m_Muncy;
   }
   else if ((absu[2] > absu[0]) && (absu[2] > absu[1]))
   {
-    m_Muncz++;
+    ++m_Muncz;
   }
   else if (Math::AlmostEquals(absu[0], absu[1]) && itk::Math::AlmostEquals(absu[0], absu[2]))
   {
-    m_Wxyz++;
+    ++m_Wxyz;
   }
   else if (Math::AlmostEquals(absu[0], absu[1]) && (absu[0] > absu[2]))
   {
-    m_Wxy++;
+    ++m_Wxy;
   }
   else if (Math::AlmostEquals(absu[0], absu[2]) && (absu[0] > absu[1]))
   {
-    m_Wxz++;
+    ++m_Wxz;
   }
   else if (Math::AlmostEquals(absu[1], absu[2]) && (absu[0] < absu[2]))
   {
-    m_Wyz++;
+    ++m_Wyz;
   }
   else
   {
@@ -210,7 +210,7 @@ SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType 
 
   m_Area += area;
 
-  m_NumberOfTriangles++;
+  ++m_NumberOfTriangles;
 }
 
 template <typename TInputMesh>

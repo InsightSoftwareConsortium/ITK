@@ -169,7 +169,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
   {
     // Now we need a histogram
     // Initialise it
-    outLeftP++;
+    ++outLeftP;
     for (unsigned int aux = outLeftP; aux <= currentP; ++aux)
     {
       histo.AddPixel(buffer[aux]);

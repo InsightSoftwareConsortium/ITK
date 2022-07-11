@@ -343,7 +343,7 @@ UpperToLowerOrder(int dim)
     {
       mat[i][j] = index;
       mat[j][i] = index;
-      index++;
+      ++index;
     }
   }
   auto * rval = new int[index + 1];
@@ -414,8 +414,8 @@ SymMatDim(int count)
   while (count > 0)
   {
     count -= row;
-    dim++;
-    row++;
+    ++dim;
+    ++row;
   }
   return dim;
 }

@@ -68,7 +68,7 @@ VotingBinaryIterativeHoleFillingImageFilter<TInputImage>::GenerateData()
     filter->SetInput(input);
     filter->Update();
 
-    m_CurrentNumberOfIterations++;
+    ++m_CurrentNumberOfIterations;
     progress.CompletedPixel(); // not really a pixel but an iteration
     this->InvokeEvent(IterationEvent());
 

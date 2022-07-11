@@ -218,7 +218,7 @@ Solver<VDimension>::AssembleK()
       l1->SetIndex(NMFC);
 
       // increase the number of MFC
-      NMFC++;
+      ++NMFC;
     }
   }
 

@@ -52,7 +52,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::ActivateIndex(Neigh
   {
     while (n > *it)
     {
-      it++;
+      ++it;
       if (it == m_ActiveIndexList.end())
       {
         break;
@@ -96,7 +96,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::DeactivateIndex(Nei
   {
     while (n != *it)
     {
-      it++;
+      ++it;
       if (it == m_ActiveIndexList.end())
       {
         return;

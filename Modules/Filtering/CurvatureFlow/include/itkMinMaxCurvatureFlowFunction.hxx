@@ -97,7 +97,7 @@ MinMaxCurvatureFlowFunction<TImage>::InitializeStencilOperator()
     if (length <= sqrRadius)
     {
       *opIter = 1;
-      numPixelsInSphere++;
+      ++numPixelsInSphere;
     }
 
     bool carryOver = true;
@@ -200,7 +200,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const DispatchBase &, cons
     if (vectorMagnitude >= m_StencilRadius && itk::Math::abs(dotProduct) < 0.262)
     {
       threshold += it.GetPixel(i);
-      numPixels++;
+      ++numPixels;
     }
 
     bool carryOver = true;
@@ -255,7 +255,7 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<2> &, const
   unsigned int k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
   gradMagnitude = Math::sqr(gradient[k]);
-  k++;
+  ++k;
 
   stride = it.GetStride(1);
   gradient[k] = 0.5 * (it.GetPixel(center + stride) - it.GetPixel(center - stride));
@@ -324,12 +324,12 @@ MinMaxCurvatureFlowFunction<TImage>::ComputeThreshold(const Dispatch<3> &, const
   unsigned int k = 0;
   gradient[k] *= this->m_ScaleCoefficients[k];
   gradMagnitude = itk::Math::sqr(gradient[k]);
-  k++;
+  ++k;
 
   gradient[k] = 0.5 * (it.GetPixel(center + strideY) - it.GetPixel(center - strideY));
   gradient[k] *= this->m_ScaleCoefficients[k];
   gradMagnitude += itk::Math::sqr(gradient[k]);
-  k++;
+  ++k;
 
   gradient[k] = 0.5 * (it.GetPixel(center + strideZ) - it.GetPixel(center - strideZ));
   gradient[k] *= this->m_ScaleCoefficients[k];

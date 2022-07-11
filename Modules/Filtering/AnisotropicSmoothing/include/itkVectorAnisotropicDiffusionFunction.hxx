@@ -79,7 +79,7 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   }
   while (!iterator_list[0].IsAtEnd())
   {
-    counter++;
+    ++counter;
     for (i = 0; i < ImageDimension; ++i)
     {
       val = IP(iterator_list[i], operator_list[i]);
@@ -103,7 +103,7 @@ VectorAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
 
     while (!face_iterator_list[0].IsAtEnd())
     {
-      counter++;
+      ++counter;
       for (i = 0; i < ImageDimension; ++i)
       {
         val = SIP(face_iterator_list[i], operator_list[i]);

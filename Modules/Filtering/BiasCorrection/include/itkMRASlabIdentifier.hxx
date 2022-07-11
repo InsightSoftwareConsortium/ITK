@@ -157,8 +157,8 @@ MRASlabIdentifier<TInputImage>::GenerateSlabRegions()
       slabBegin += slabLength;
       slabLength = 0;
     }
-    am_iter++;
-    slabLength++;
+    ++am_iter;
+    ++slabLength;
   }
   slabIndex[m_SlicingDirection] = slabBegin;
   slabSize[m_SlicingDirection] = slabLength;

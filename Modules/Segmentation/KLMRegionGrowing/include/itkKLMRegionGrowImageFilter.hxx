@@ -472,7 +472,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
       pcurrentBorder->EvaluateLambda();
 
       // Increment the border counter to go to the next border
-      borderCounter++;
+      ++borderCounter;
 
       // Calculate next indices to atomic region1 and atomic region2
       tmpVal = 1;
@@ -646,7 +646,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
   m_BordersDynamicPointer.erase(m_BordersDynamicPointer.end() - 1);
 
   // Decrement for the one deleted border and a deleted region
-  m_NumberOfRegions--;
+  --m_NumberOfRegions;
   if (m_BordersDynamicPointer.empty())
   {
     itkExceptionMacro(<< "KLM algorithm error");
@@ -714,7 +714,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
   while (regionsPointerIt != regionsPointerItEnd)
   {
     RegionLabelType origLabel = iregion;
-    iregion--;
+    --iregion;
     RegionLabelType currLabel = m_RegionsPointer[iregion]->GetRegionLabel();
 
     // Unresolved chain
@@ -745,7 +745,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
       uniqueLabelsVec.push_back(origLabel);
     }
 
-    regionsPointerIt++;
+    ++regionsPointerIt;
   } // end of all regions
 
   // Sort the unique labels
@@ -763,8 +763,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
   while (uniqueLabelsVecIterator != uniqueLabelsVec.end())
   {
     remapLabelsVec[*uniqueLabelsVecIterator - 1] = newLabelValue;
-    uniqueLabelsVecIterator++;
-    newLabelValue++;
+    ++uniqueLabelsVecIterator;
+    ++newLabelValue;
   }
 
   // Assign new consecutive labels

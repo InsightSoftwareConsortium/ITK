@@ -222,7 +222,7 @@ TobogganImageFilter<TInputImage, TOutputImage>::GenerateData()
         // If we found an unlabeled minimum,
         // Set the LabelForRegion, and increment CurrentLabel
         LabelForRegion = CurrentLabel;
-        CurrentLabel++;
+        ++CurrentLabel;
       }
       if (MinimumNeighborClass > 1)
       {

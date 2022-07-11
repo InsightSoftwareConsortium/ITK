@@ -168,7 +168,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
       if (idx[0] == borderMin[0])
       {
         // One more pixel on the border
-        nbOfPixelsOnBorder++;
+        ++nbOfPixelsOnBorder;
         isOnBorder0 = true;
       }
       if (!isOnBorder0 || length > 1)
@@ -177,7 +177,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ThreadedProcessLabelObject(LabelObject
         if (idx[0] + (OffsetValueType)length - 1 == borderMax[0])
         {
           // One more pixel on the border
-          nbOfPixelsOnBorder++;
+          ++nbOfPixelsOnBorder;
         }
       }
     }
@@ -634,7 +634,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
           {
             // go to next neighbor
             nMin = ni->GetIndex()[0] + ni->GetLength();
-            ni++;
+            ++ni;
 
             if (ni != ns.end())
             {
@@ -648,7 +648,7 @@ ShapeLabelMapFilter<TImage, TLabelImage>::ComputePerimeter(LabelObjectType * lab
           else
           {
             // go to next line
-            li++;
+            ++li;
           }
         }
       }

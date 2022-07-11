@@ -87,7 +87,7 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
       {
         pnt.AddField((*extraIt).first.c_str(), (*extraIt).second);
       }
-      extraIt++;
+      ++extraIt;
     }
 
     pnt.SetPositionInObjectSpace(point);
@@ -172,7 +172,7 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
 
     tubeSO->AddPoint(pnt);
 
-    it2++;
+    ++it2;
   }
   return tubeSO.GetPointer();
 }
@@ -257,7 +257,7 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     while (extraIt != metaFields.end())
     {
       pnt->AddField((*extraIt).first.c_str(), (*extraIt).second);
-      extraIt++;
+      ++extraIt;
     }
 
     for (unsigned int d = 0; d < 6; ++d)

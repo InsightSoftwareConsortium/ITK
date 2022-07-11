@@ -364,7 +364,7 @@ FEMObject<VDimension>::GenerateMFC()
       l1->SetIndex(m_NMFC);
 
       // increase the number of MFC
-      m_NMFC++;
+      ++m_NMFC;
     }
   }
 }
@@ -420,7 +420,7 @@ FEMObject<VDimension>::GenerateGFN()
         if (el->GetNode(n)->GetDegreeOfFreedom(dof) == Element::InvalidDegreeOfFreedomID)
         {
           el->GetNode(n)->SetDegreeOfFreedom(dof, m_NGFN);
-          m_NGFN++;
+          ++m_NGFN;
         }
       }
     }

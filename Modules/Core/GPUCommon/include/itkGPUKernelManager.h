@@ -129,7 +129,7 @@ public:
 
     m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
     m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager;
-    argIdx++;
+    ++argIdx;
 
     // this->SetKernelArg(kernelIdx, argIdx++, sizeof(int), &(TGPUImageDataManager::ImageDimension) );
 
@@ -142,7 +142,7 @@ public:
 
     m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
     m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetModifiableGPUBufferedRegionIndex();
-    argIdx++;
+    ++argIdx;
 
     // the size for the buffered region
     errid = clSetKernelArg(m_KernelContainer[kernelIdx],
@@ -153,7 +153,7 @@ public:
 
     m_KernelArgumentReady[kernelIdx][argIdx].m_IsReady = true;
     m_KernelArgumentReady[kernelIdx][argIdx].m_GPUDataManager = manager->GetModifiableGPUBufferedRegionSize();
-    argIdx++;
+    ++argIdx;
 
     return true;
   }

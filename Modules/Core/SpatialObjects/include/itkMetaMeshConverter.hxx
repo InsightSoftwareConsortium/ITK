@@ -72,7 +72,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
       pt[i] = ((*it_points)->m_X)[i] * _mesh->ElementSpacing(i);
     }
     mesh->SetPoint((*it_points)->m_Id, pt);
-    it_points++;
+    ++it_points;
   }
 
   // Add Cells
@@ -140,7 +140,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
       }
 
       mesh->SetCell((*it_cells)->m_Id, cell);
-      it_cells++;
+      ++it_cells;
     }
   }
 
@@ -160,10 +160,10 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
     while (it_link != (*it_links)->m_Links.end())
     {
       pcl.insert(*it_link);
-      it_link++;
+      ++it_link;
     }
     linkContainer->InsertElement((*it_links)->m_Id, pcl);
-    it_links++;
+    ++it_links;
   }
 
   mesh->SetCellLinks(linkContainer);
@@ -177,7 +177,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   while (it_pd != _mesh->GetPointData().end())
   {
     pointData->InsertElement((*it_pd)->m_Id, static_cast<MeshData<PixelType> *>(*it_pd)->m_Data);
-    it_pd++;
+    ++it_pd;
   }
   mesh->SetPointData(pointData);
 
@@ -190,7 +190,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::MetaObjectToSpatialObject
   {
     using CellPixelType = typename MeshType::CellPixelType;
     cellData->InsertElement((*it_cd)->m_Id, static_cast<MeshData<CellPixelType> *>(*it_cd)->m_Data);
-    it_cd++;
+    ++it_cd;
   }
 
   mesh->SetCellData(cellData);
@@ -257,7 +257,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject
     while (itptids != (*it_cells)->Value()->PointIdsEnd())
     {
       cell->m_PointsId[i++] = *itptids;
-      itptids++;
+      ++itptids;
     }
     cell->m_Id = (*it_cells)->Index();
 
@@ -315,7 +315,7 @@ MetaMeshConverter<VDimension, PixelType, TMeshTraits>::SpatialObjectToMetaObject
       while (it != (*it_celllinks)->Value().end())
       {
         link->m_Links.push_back(*it);
-        it++;
+        ++it;
       }
       metamesh->GetCellLinks().push_back(link);
       ++it_celllinks;

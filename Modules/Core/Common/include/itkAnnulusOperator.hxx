@@ -140,7 +140,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
       coeffP[i] = annulusV;
       sumNotExterior += annulusV;
       sumNotExteriorSq += (annulusV * annulusV);
-      countNotExterior++;
+      ++countNotExterior;
       outside[i] = false;
     }
     else
@@ -149,7 +149,7 @@ AnnulusOperator<TPixel, TDimension, TAllocator>::GenerateCoefficients() -> Coeff
       coeffP[i] = interiorV;
       sumNotExterior += interiorV;
       sumNotExteriorSq += (interiorV * interiorV);
-      countNotExterior++;
+      ++countNotExterior;
       outside[i] = false;
     }
   }

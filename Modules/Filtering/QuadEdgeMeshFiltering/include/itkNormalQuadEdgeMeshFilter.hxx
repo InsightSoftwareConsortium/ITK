@@ -150,7 +150,7 @@ NormalQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::Weight(const OutputPointIdent
           }
 
           temp = temp->GetLnext();
-          k++;
+          ++k;
         } while (temp != edge);
 
         switch (m_Weight)

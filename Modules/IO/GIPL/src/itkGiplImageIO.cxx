@@ -310,11 +310,11 @@ GiplImageIO::ReadImageInformation()
     {
       if (i < 3)
       {
-        numberofdimension++;
+        ++numberofdimension;
       }
       else if (dims[i] > 1)
       {
-        numberofdimension++;
+        ++numberofdimension;
       }
     }
   }

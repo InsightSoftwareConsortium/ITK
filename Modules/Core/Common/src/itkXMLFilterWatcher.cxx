@@ -25,7 +25,7 @@ XMLFilterWatcher::ShowProgress()
   if (this->GetProcess())
   {
     int steps = this->GetSteps();
-    steps++;
+    ++steps;
     this->SetSteps(steps);
     if (!this->GetQuiet())
     {

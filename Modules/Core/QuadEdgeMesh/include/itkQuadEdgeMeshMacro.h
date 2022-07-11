@@ -72,7 +72,7 @@ namespace itk
  *          itk::itkQEMeshForAllPointsMacro
  */
 #define itkQEMeshForAllPointsEndMacro \
-  pointIterator++;                    \
+  ++pointIterator;                    \
   } /* while */                       \
   } /* if */                          \
   }
@@ -120,7 +120,7 @@ namespace itk
  *          itk::itkQEMeshForAllCellsMacro
  */
 #define itkQEMeshForAllCellsEndMacro(cellIterator) \
-  cellIterator++;                                  \
+  ++cellIterator;                                  \
   } /* while */                                    \
   } /* if */                                       \
   }

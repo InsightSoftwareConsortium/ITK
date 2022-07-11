@@ -606,7 +606,7 @@ BSplineDeformableTransform<TParametersValueType, VDimension, VSplineOrder>::Comp
     {
       jacobian(d, number + d * numberOfParametersPerDimension) = weights[counter];
     }
-    counter++;
+    ++counter;
   }
 }
 

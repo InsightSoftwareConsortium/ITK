@@ -163,7 +163,7 @@ SPSAOptimizer::ResumeOptimization()
       break;
     }
 
-    m_CurrentIteration++;
+    ++m_CurrentIteration;
 
     if (m_CurrentIteration >= m_MaximumNumberOfIterations)
     {

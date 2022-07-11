@@ -77,12 +77,12 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
 
   if (this->GetFixedImage())
   {
-    num++;
+    ++num;
   }
 
   if (this->GetMovingImage())
   {
-    num++;
+    ++num;
   }
 
   return num;

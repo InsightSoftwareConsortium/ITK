@@ -232,7 +232,7 @@ Octree<TPixel, ColorTableSize, MappingFunctionType>::BuildFromBuffer(const void 
   while (width < maxSize)
   {
     width *= 2;
-    depth++;
+    ++depth;
   }
   this->SetDepth(depth);
   this->SetWidth(width);

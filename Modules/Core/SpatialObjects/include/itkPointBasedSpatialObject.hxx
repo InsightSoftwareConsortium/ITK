@@ -112,7 +112,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObje
       closestPoint = (*it);
       closestPointDistance = curdistance;
     }
-    it++;
+    ++it;
   }
 
   return closestPoint;
@@ -142,7 +142,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorl
       closestPoint = (*it);
       closestPointDistance = curdistance;
     }
-    it++;
+    ++it;
   }
 
   return closestPoint;
@@ -171,11 +171,11 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ComputeMyBoundingB
 
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pt);
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pt);
-  it++;
+  ++it;
   while (it != end)
   {
     this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint((*it).GetPositionInObjectSpace());
-    it++;
+    ++it;
   }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
@@ -206,7 +206,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::IsInsideInObjectSp
       {
         return true;
       }
-      it++;
+      ++it;
     }
   }
 

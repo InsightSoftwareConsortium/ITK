@@ -193,12 +193,12 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
 
   if (this->GetFixedImage())
   {
-    num++;
+    ++num;
   }
 
   if (this->GetMovingImage())
   {
-    num++;
+    ++num;
   }
 
   return num;
@@ -469,7 +469,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
     tempField->DisconnectPipeline();
 
     // Increment level counter.
-    m_CurrentLevel++;
+    ++m_CurrentLevel;
     movingLevel =
       std::min(static_cast<int>(m_CurrentLevel), static_cast<int>(m_MovingImagePyramid->GetNumberOfLevels()));
     fixedLevel = std::min(static_cast<int>(m_CurrentLevel), static_cast<int>(m_FixedImagePyramid->GetNumberOfLevels()));

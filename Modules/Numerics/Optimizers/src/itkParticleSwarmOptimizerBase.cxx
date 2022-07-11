@@ -457,7 +457,7 @@ ParticleSwarmOptimizerBase::RandomInitialization()
         if (this->m_Particles[i].m_CurrentParameters[j] < parameterBounds[j].first ||
             this->m_Particles[i].m_CurrentParameters[j] > parameterBounds[j].second)
         {
-          j--;
+          --j;
         }
       }
     }

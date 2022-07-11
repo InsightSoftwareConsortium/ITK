@@ -151,8 +151,8 @@ public:
         id1 = id2;
         val = mesh->GetMeanCurvature(*it);
         meanCurvature += itk::Math::abs(val);
-        cnt++;
-        it++;
+        ++cnt;
+        ++it;
       }
 
       meanCurvature /= static_cast<double>(cnt);

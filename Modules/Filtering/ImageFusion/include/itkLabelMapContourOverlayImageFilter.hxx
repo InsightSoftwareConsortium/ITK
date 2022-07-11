@@ -160,7 +160,7 @@ LabelMapContourOverlayImageFilter<TLabelMap, TFeatureImage, TOutputImage>::Befor
     if (j != static_cast<unsigned int>(m_SliceDimension))
     {
       srad[j] = m_ContourThickness[i];
-      j++;
+      ++j;
     }
   }
   serode->SetKernel(SliceKernelType::Ball(srad));

@@ -154,7 +154,7 @@ QuadEdgeMeshLineCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
   PointIdConstIterator i = first;
 
   this->GetQEGeom()->SetOrigin(*i);
-  i++;
+  ++i;
   this->GetQEGeom()->SetDestination(*i);
 }
 
@@ -166,7 +166,7 @@ QuadEdgeMeshLineCell<TCellInterface>::InternalSetPointIds(PointIdInternalConstIt
   PointIdInternalConstIterator i = first;
 
   this->GetQEGeom()->SetOrigin(*i);
-  i++;
+  ++i;
   this->GetQEGeom()->SetDestination(*i);
 }
 
@@ -177,7 +177,7 @@ QuadEdgeMeshLineCell<TCellInterface>::SetPointIds(PointIdConstIterator first, Po
 {
   (void)last;
   this->GetQEGeom()->SetOrigin(*first);
-  first++;
+  ++first;
   this->GetQEGeom()->SetDestination(*first);
 }
 
@@ -189,7 +189,7 @@ QuadEdgeMeshLineCell<TCellInterface>::InternalSetPointIds(PointIdInternalConstIt
 {
   (void)last;
   this->GetQEGeom()->SetOrigin(*first);
-  first++;
+  ++first;
   this->GetQEGeom()->SetDestination(*first);
 }
 

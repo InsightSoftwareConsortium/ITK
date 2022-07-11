@@ -156,7 +156,7 @@ OBJMeshIO ::ReadMeshInformation()
         std::string       item;
         while (ss >> item)
         {
-          numberOfCellPoints++;
+          ++numberOfCellPoints;
         }
       }
       else if (type == "vn")

@@ -125,7 +125,7 @@ MetaVesselTubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectT
 
     vesselTubeSO->AddPoint(pnt);
 
-    it2++;
+    ++it2;
   }
 
   return vesselTubeSO.GetPointer();

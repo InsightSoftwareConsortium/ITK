@@ -152,7 +152,7 @@ NormalVariateGenerator::FastNorm()
 
 startpass:
   /*    Count passes    */
-  m_Nslew++;
+  ++m_Nslew;
   /*    Reset index into Saved values   */
   m_Gaussfaze = m_TLEN - 1; /* We will steal the last one   */
   /*    Update pseudo-random and use to choose type of rotation  */

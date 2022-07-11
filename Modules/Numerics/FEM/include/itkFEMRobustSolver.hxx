@@ -561,7 +561,7 @@ RobustSolver<VDimension>::DeleteLandmarksOutOfMesh()
 
     if (landmark->IsOutOfMesh())
     {
-      numToRemoveLoads++;
+      ++numToRemoveLoads;
     }
     else
     {

@@ -328,7 +328,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
           ss >> spacing;
           spacing *= 1000; // move to millemeters
           m_Spacing[0] = spacing;
-          punt++;
+          ++punt;
         }
         else if (label == "AXIS_3")
         {
@@ -336,7 +336,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
           ss >> spacing;
           spacing *= 1000; // move to millemeters
           m_Spacing[1] = spacing;
-          punt++;
+          ++punt;
         }
         else if (label == "AXIS_4")
         {
@@ -344,7 +344,7 @@ BioRadImageIO::InternalReadImageInformation(std::ifstream & file)
           ss >> spacing;
           spacing *= 1000; // move to millemeters
           m_Spacing[2] = spacing;
-          punt++;
+          ++punt;
         }
       }
     }

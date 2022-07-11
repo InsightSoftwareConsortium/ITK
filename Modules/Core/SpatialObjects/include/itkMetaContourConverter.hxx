@@ -94,7 +94,7 @@ MetaContourConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
     pnt.SetNormalInObjectSpace(normal);
 
     contourSO->GetControlPoints().push_back(pnt);
-    itCP++;
+    ++itCP;
   }
 
   // Then the interpolated points
@@ -121,7 +121,7 @@ MetaContourConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
 
     pnt.SetPositionInObjectSpace(point);
     contourSO->AddPoint(pnt);
-    itI++;
+    ++itI;
   }
 
   return contourSO.GetPointer();

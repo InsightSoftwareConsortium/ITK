@@ -188,7 +188,7 @@ protected:
     if (m_Process)
     {
       std::lock_guard<std::mutex> outputSerializer(m_ProgressOutput);
-      m_Steps++;
+      ++m_Steps;
       if (!m_Quiet)
       {
         std::cout << " | " << m_Process->GetProgress() << std::flush;
@@ -231,7 +231,7 @@ protected:
   ShowIteration()
   {
     std::cout << " #" << std::flush;
-    m_Iterations++;
+    ++m_Iterations;
   }
 
   /** Callback method to show the StartEvent */

@@ -137,7 +137,7 @@ SegmentTreeGenerator<TScalar>::MergeEquivalencies()
       counter = 0;
     }
 
-    counter++;
+    ++counter;
   }
 }
 
@@ -221,7 +221,7 @@ SegmentTreeGenerator<TScalar>::ExtractMergeHierarchy(SegmentTableTypePointer seg
 
   while ((!heap->Empty()) && (topMerge.saliency <= threshold))
   {
-    counter++;            // Every so often we should eliminate
+    ++counter;            // Every so often we should eliminate
     if (counter == 10000) // all the recursion in our records
     {                     // of which segments have merged.
       counter = 0;
@@ -343,14 +343,14 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
     if (seen_table.find(labelTO) != seen_table.end() || labelTO == FROM)
     {
       edgeTEMPi = edgeTOi;
-      edgeTEMPi++;
+      ++edgeTEMPi;
       to_seg->edge_list.erase(edgeTOi);
       edgeTOi = edgeTEMPi;
       continue;
     }
     if (seen_table.find(labelFROM) != seen_table.end() || labelFROM == TO)
     {
-      edgeFROMi++;
+      ++edgeFROMi;
       continue;
     }
 
@@ -369,12 +369,12 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
     {
       to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
       seen_table.insert(HashMapType::value_type(labelFROM, true));
-      edgeFROMi++;
+      ++edgeFROMi;
     }
     else
     {
       seen_table.insert(HashMapType::value_type(labelTO, true));
-      edgeTOi++;
+      ++edgeTOi;
     }
   }
 
@@ -384,7 +384,7 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
     labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
     if (seen_table.find(labelFROM) != seen_table.end() || labelFROM == TO)
     {
-      edgeFROMi++;
+      ++edgeFROMi;
     }
     else
     {
@@ -394,7 +394,7 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
       }
       to_seg->edge_list.push_back(*edgeFROMi);
       seen_table.insert(HashMapType::value_type(labelFROM, true));
-      edgeFROMi++;
+      ++edgeFROMi;
     }
   }
 
@@ -405,7 +405,7 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
     if (seen_table.find(labelTO) != seen_table.end() || labelTO == FROM)
     {
       edgeTEMPi = edgeTOi;
-      edgeTEMPi++;
+      ++edgeTEMPi;
       to_seg->edge_list.erase(edgeTOi);
       edgeTOi = edgeTEMPi;
     }
@@ -416,7 +416,7 @@ SegmentTreeGenerator<TScalar>::PruneMergeSegments(SegmentTableTypePointer       
         edgeTOi->label = labelTO;
       }
       seen_table.insert(HashMapType::value_type(labelTO, true));
-      edgeTOi++;
+      ++edgeTOi;
     }
   }
 
@@ -481,14 +481,14 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
     if (seen_table.find(labelTO) != seen_table.end() || labelTO == FROM)
     {
       edgeTEMPi = edgeTOi;
-      edgeTEMPi++;
+      ++edgeTEMPi;
       to_seg->edge_list.erase(edgeTOi);
       edgeTOi = edgeTEMPi;
       continue;
     }
     if (seen_table.find(labelFROM) != seen_table.end() || labelFROM == TO)
     {
-      edgeFROMi++;
+      ++edgeFROMi;
       continue;
     }
 
@@ -507,12 +507,12 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
     {
       to_seg->edge_list.insert(edgeTOi, *edgeFROMi);
       seen_table.insert(HashMapType::value_type(labelFROM, true));
-      edgeFROMi++;
+      ++edgeFROMi;
     }
     else
     {
       seen_table.insert(HashMapType::value_type(labelTO, true));
-      edgeTOi++;
+      ++edgeTOi;
     }
   }
 
@@ -522,7 +522,7 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
     labelFROM = eqT->RecursiveLookup(edgeFROMi->label);
     if (seen_table.find(labelFROM) != seen_table.end() || labelFROM == TO)
     {
-      edgeFROMi++;
+      ++edgeFROMi;
     }
     else
     {
@@ -532,7 +532,7 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
       }
       to_seg->edge_list.push_back(*edgeFROMi);
       seen_table.insert(HashMapType::value_type(labelFROM, true));
-      edgeFROMi++;
+      ++edgeFROMi;
     }
   }
 
@@ -543,7 +543,7 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
     if (seen_table.find(labelTO) != seen_table.end() || labelTO == FROM)
     {
       edgeTEMPi = edgeTOi;
-      edgeTEMPi++;
+      ++edgeTEMPi;
       to_seg->edge_list.erase(edgeTOi);
       edgeTOi = edgeTEMPi;
     }
@@ -554,7 +554,7 @@ SegmentTreeGenerator<TScalar>::MergeSegments(SegmentTableTypePointer           s
         edgeTOi->label = labelTO;
       }
       seen_table.insert(HashMapType::value_type(labelTO, true));
-      edgeTOi++;
+      ++edgeTOi;
     }
   }
 

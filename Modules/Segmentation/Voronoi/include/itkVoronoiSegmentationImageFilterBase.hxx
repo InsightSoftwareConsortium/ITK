@@ -200,7 +200,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   auto vsize = static_cast<int>(vertlist.size());
   while (vsize > 2)
   {
-    vsize--;
+    --vsize;
     if (RorL)
     {
       vertlist.pop_back();
@@ -389,7 +389,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       if (bnd)
       {
         m_Label[i] = 2;
-        m_NumberOfBoundary++;
+        ++m_NumberOfBoundary;
       }
     }
   }
@@ -462,7 +462,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     }
     while ((m_NumberOfSeedsToAdded != 0) && ok)
     {
-      count++;
+      ++count;
       m_VDGenerator->AddSeeds(m_NumberOfSeedsToAdded, m_SeedsToAdded.begin());
       m_LastStepSeeds = m_NumberOfSeeds;
       m_NumberOfSeeds += m_NumberOfSeedsToAdded;
@@ -498,7 +498,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       m_LastStepSeeds = m_NumberOfSeeds;
       m_NumberOfSeeds += m_NumberOfSeedsToAdded;
       this->RunSegmentOneStep();
-      i++;
+      ++i;
       this->UpdateProgress(static_cast<float>(i) / static_cast<float>(m_Steps));
     }
   }
@@ -750,7 +750,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
   auto vsize = static_cast<int>(vertlist.size());
   while (vsize > 2)
   {
-    vsize--;
+    --vsize;
     if (RorL)
     {
       vertlist.pop_back();
@@ -905,19 +905,19 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
   if (x1 == static_cast<int>(m_Size[0]))
   {
-    x1--;
+    --x1;
   }
   if (x2 == static_cast<int>(m_Size[0]))
   {
-    x2--;
+    --x2;
   }
   if (y1 == static_cast<int>(m_Size[1]))
   {
-    y1--;
+    --y1;
   }
   if (y2 == static_cast<int>(m_Size[1]))
   {
-    y2--;
+    --y2;
   }
 
   int       dx = x1 - x2;
@@ -1028,19 +1028,19 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
 
   if (x1 == static_cast<int>(m_Size[0]))
   {
-    x1--;
+    --x1;
   }
   if (x2 == static_cast<int>(m_Size[0]))
   {
-    x2--;
+    --x2;
   }
   if (y1 == static_cast<int>(m_Size[1]))
   {
-    y1--;
+    --y1;
   }
   if (y2 == static_cast<int>(m_Size[1]))
   {
-    y2--;
+    --y2;
   }
   int       dx = x1 - x2;
   int       adx = (dx > 0) ? dx : -dx;

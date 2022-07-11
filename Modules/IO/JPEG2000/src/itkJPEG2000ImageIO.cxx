@@ -829,7 +829,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
 
   while (tw && th)
   {
-    numberOfResolutions++;
+    ++numberOfResolutions;
     tw >>= 1;
     th >>= 1;
   }
@@ -920,7 +920,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
       {
         l_image->comps[k].data[index] = *charBuffer++;
       }
-      index++;
+      ++index;
     }
   }
 
@@ -933,7 +933,7 @@ JPEG2000ImageIO ::Write(const void * buffer)
       {
         l_image->comps[k].data[index] = *shortBuffer++;
       }
-      index++;
+      ++index;
     }
   }
   itkDebugMacro(<< " END COPY BUFFER");

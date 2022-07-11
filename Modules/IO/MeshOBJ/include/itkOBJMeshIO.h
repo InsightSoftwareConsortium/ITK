@@ -138,7 +138,7 @@ protected:
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
       outputFile << "f ";
-      index++;
+      ++index;
       auto numberOfCellPoints = static_cast<unsigned int>(buffer[index++]);
 
       for (unsigned int jj = 0; jj < numberOfCellPoints; ++jj)

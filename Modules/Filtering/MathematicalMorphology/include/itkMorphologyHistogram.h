@@ -74,12 +74,12 @@ public:
         // value
         // or the iterator is invalidated.
         TInputPixel toErase = mapIt->first;
-        mapIt++;
+        ++mapIt;
         m_Map.erase(toErase);
       }
       else
       {
-        mapIt++;
+        ++mapIt;
         // don't remove all the zero value found, just remove the one before the
         // current maximum value
         // the histogram may become quite big on real type image, but it's an

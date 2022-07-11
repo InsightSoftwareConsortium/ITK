@@ -85,7 +85,7 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
   while (it != tree->End() && (*it).saliency <= mergeLimit)
   {
     eqT->Add((*it).from, (*it).to);
-    it++;
+    ++it;
   }
 
   SegmenterType::RelabelImage(output, output->GetRequestedRegion(), eqT);

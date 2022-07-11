@@ -100,7 +100,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
     //
     if (Math::AlmostEquals(fixedValue, m_ForegroundValue))
     {
-      fixedForegroundArea++;
+      ++fixedForegroundArea;
     }
 
     // Get the point in the transformed moving image corresponding to
@@ -123,11 +123,11 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const Tran
       const RealType movingValue = this->m_Interpolator->Evaluate(transformedPoint);
       if (Math::AlmostEquals(movingValue, m_ForegroundValue))
       {
-        movingForegroundArea++;
+        ++movingForegroundArea;
       }
       if (Math::AlmostEquals(movingValue, m_ForegroundValue) && Math::AlmostEquals(fixedValue, m_ForegroundValue))
       {
-        intersection++;
+        ++intersection;
       }
     }
     ++fi;
@@ -214,7 +214,7 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
     const RealType fixedValue = ti.Value();
     if (Math::AlmostEquals(fixedValue, m_ForegroundValue))
     {
-      fixedArea++;
+      ++fixedArea;
     }
 
     OutputPointType transformedPoint = this->m_Transform->TransformPoint(inputPoint);
@@ -231,12 +231,12 @@ KappaStatisticImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const
 
       if (Math::AlmostEquals(movingValue, m_ForegroundValue))
       {
-        movingArea++;
+        ++movingArea;
       }
 
       if (Math::AlmostEquals(movingValue, m_ForegroundValue) && Math::AlmostEquals(fixedValue, m_ForegroundValue))
       {
-        intersection++;
+        ++intersection;
       }
 
       this->m_Transform->ComputeJacobianWithRespectToParametersCachedTemporaries(inputPoint, jacobian, jacobianCache);

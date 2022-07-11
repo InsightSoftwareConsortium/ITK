@@ -808,15 +808,15 @@ void FlatStructuringElement<VDimension>::GeneratePolygon(itk::FlatStructuringEle
           FacetArray[pos].P1 = FacetArray[i].P1;
           FacetArray[pos].P2 = Pa;
           FacetArray[pos].P3 = Pc;
-          pos++;
+          ++pos;
           FacetArray[pos].P1 = Pa;
           FacetArray[pos].P2 = FacetArray[i].P2;
           FacetArray[pos].P3 = Pb;
-          pos++;
+          ++pos;
           FacetArray[pos].P1 = Pb;
           FacetArray[pos].P2 = FacetArray[i].P3;
           FacetArray[pos].P3 = Pc;
-          pos++;
+          ++pos;
           FacetArray[i].P1 = Pa;
           FacetArray[i].P2 = Pb;
           FacetArray[i].P3 = Pc;

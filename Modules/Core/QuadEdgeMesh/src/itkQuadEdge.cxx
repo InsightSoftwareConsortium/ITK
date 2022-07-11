@@ -431,7 +431,7 @@ QuadEdge::IsEdgeInOnextRing(Self * testEdge) const
       {
         return true;
       }
-      it++;
+      ++it;
     }
   }
   return false;
@@ -462,7 +462,7 @@ QuadEdge::GetOrder() const
     const Self * it = this->GetOnext();
     while (it && it != this)
     {
-      order++;
+      ++order;
       it = it->GetOnext();
     }
     return order;

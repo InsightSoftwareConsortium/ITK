@@ -190,7 +190,7 @@ public:
   operator++()
   {
     this->RandomJump();
-    m_NumberOfSamplesDone++;
+    ++m_NumberOfSamplesDone;
     return *this;
   }
 
@@ -200,7 +200,7 @@ public:
   operator--()
   {
     this->RandomJump();
-    m_NumberOfSamplesDone--;
+    --m_NumberOfSamplesDone;
     return *this;
   }
 

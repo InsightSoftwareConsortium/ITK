@@ -178,7 +178,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
       {
         if (composite->GetNthTransformToOptimize(static_cast<SizeValueType>(n)))
         {
-          count++;
+          ++count;
           transform = composite->GetNthTransformConstPointer(static_cast<SizeValueType>(n));
         }
       }

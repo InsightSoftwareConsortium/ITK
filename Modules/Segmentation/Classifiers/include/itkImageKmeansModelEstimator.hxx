@@ -385,7 +385,7 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::WithCodebookUseGLA(
       SplitCodewords(m_CurrentNumberOfCodewords - emptycells, emptycells, pass);
 
       olddistortion = distortion;
-      pass++;
+      ++pass;
     }
   } while (pass <= m_MaxSplitAttempts);
   itkExceptionMacro(<< "Lack of convergence");

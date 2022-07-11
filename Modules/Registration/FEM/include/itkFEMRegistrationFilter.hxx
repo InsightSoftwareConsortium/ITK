@@ -437,7 +437,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
     {
       if (Math::AlmostEquals(coord[ii], m_ImageOrigin[ii]) || Math::AlmostEquals(coord[ii], ImgSz[ii] - 1))
       {
-        CornerCounter++;
+        ++CornerCounter;
       }
     }
 
@@ -460,7 +460,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
           {
             if (Math::AlmostEquals(coord[ii], m_ImageOrigin[ii]) || Math::AlmostEquals(coord[ii], ImgSz[ii] - 1))
             {
-              CornerCounter++;
+              ++CornerCounter;
             }
           }
           if (CornerCounter == ImageDimension - 1)
@@ -489,12 +489,12 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ApplyLoads(ImageSi
 
               m_FEMObject->AddNextLoad(l1);
             }
-            EdgeCounter++;
+            ++EdgeCounter;
           }
         }
       } // end elt loop
     }
-    nodect++;
+    ++nodect;
     itkDebugMacro(<< " Node: " << nodect);
   }
 }
@@ -551,7 +551,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
       itkDebugMacro(<< " Line search done " << std::endl);
     }
 
-    iters++;
+    ++iters;
 
     if (deltE == 0.0)
     {
@@ -594,7 +594,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::IterativeSolve(Sol
       }
     }
     itkDebugMacro(<< " min E: " << m_MinE << "; delt E: " << deltE << "; iters: " << iters << std::endl);
-    m_TotalIterations++;
+    ++m_TotalIterations;
   }
 }
 
@@ -1094,7 +1094,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintVectorField(u
       }
     }
     ++fieldIter;
-    ct++;
+    ++ct;
   }
 
   itkDebugMacro(<< " Max vec: " << max << std::endl);
@@ -1336,7 +1336,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::GoldenSection(Solv
   unsigned int iters = 0;
   while (itk::Math::abs(x3 - x0) > tol * (itk::Math::abs(x1) + itk::Math::abs(x2)) && iters < MaxIters)
   {
-    iters++;
+    ++iters;
     if (f2 < f1)
     {
       x0 = x1;

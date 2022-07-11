@@ -79,7 +79,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     o1->SetCoordinates(pt);
     myFEMObject->AddNextNode(o1);
-    it_nodes++;
+    ++it_nodes;
   }
 
   // copy all the material information
@@ -104,7 +104,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     o1->SetThickness(material->h);
     o1->SetDensityHeatProduct(material->RhoC);
     myFEMObject->AddNextMaterial(o1);
-    it_material++;
+    ++it_material;
   }
 
   // copy all the Element information
@@ -128,7 +128,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
     }
     o1->SetMaterial(myFEMObject->GetMaterialWithGlobalNumber(element->m_MaterialGN).GetPointer());
     myFEMObject->AddNextElement(o1);
-    it_elements++;
+    ++it_elements;
   }
 
   // copy all the load and boundary condition information
@@ -304,7 +304,7 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
      */
       myFEMObject->AddNextLoad(o1);
     }
-    it_load++;
+    ++it_load;
   }
 
   FEMSO->SetFEMObject(myFEMObject);

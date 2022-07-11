@@ -89,7 +89,7 @@ VnlHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::Generate
     {
       signal[si] = inputPtr->GetPixel(index);
     }
-    si++;
+    ++si;
   }
 
   OutputPixelType * out = outputPtr->GetBufferPointer();

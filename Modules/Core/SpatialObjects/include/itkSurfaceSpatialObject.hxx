@@ -125,8 +125,8 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
       {
         if (it2 == it)
         {
-          i++;
-          it2++;
+          ++i;
+          ++it2;
           continue;
         }
 
@@ -139,13 +139,13 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
             badPoint = true;
             break;
           }
-          itBadId++;
+          ++itBadId;
         }
 
         if (badPoint)
         {
-          i++;
-          it2++;
+          ++i;
+          ++it2;
           continue;
         }
 
@@ -167,8 +167,8 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
 
         if (Math::AlmostEquals(distance, 0.0f) || !valid)
         {
-          i++;
-          it2++;
+          ++i;
+          ++it2;
           continue;
         }
 
@@ -190,8 +190,8 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
           max[2] = distance;
           identifier[2] = i;
         }
-        i++;
-        it2++;
+        ++i;
+        ++it2;
       }
 
       if ((identifier[0] == identifier[1]) || (identifier[1] == identifier[2]) || (identifier[0] == identifier[2]))
@@ -256,7 +256,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
       return false;
     }
 
-    it++;
+    ++it;
   }
 
   return true;

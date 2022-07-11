@@ -155,7 +155,7 @@ IPLFileNameList::~IPLFileNameList()
   while (it != itend)
   {
     delete (*it);
-    it++;
+    ++it;
   }
 }
 

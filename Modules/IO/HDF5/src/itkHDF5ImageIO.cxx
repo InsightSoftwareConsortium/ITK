@@ -490,7 +490,7 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
     for (unsigned int j = 0; j < dim[0]; ++j)
     {
       buf[k] = dir[i][j];
-      k++;
+      ++k;
     }
   }
 
@@ -529,7 +529,7 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
       for (unsigned int j = 0; j < dim[0]; ++j)
       {
         rval[i][j] = buf[k];
-        k++;
+        ++k;
       }
     }
   }
@@ -543,7 +543,7 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
       for (unsigned int j = 0; j < dim[0]; ++j)
       {
         rval[i][j] = buf[k];
-        k++;
+        ++k;
       }
     }
   }
@@ -1066,7 +1066,7 @@ HDF5ImageIO ::WriteImageInformation()
     if (numComponents > 1)
     {
       dims[numDims] = numComponents;
-      numDims++;
+      ++numDims;
     }
     H5::DataSpace imageSpace(numDims, dims.get());
     H5::PredType  dataType = ComponentToPredType(this->GetComponentType());
@@ -1273,7 +1273,7 @@ HDF5ImageIO ::Write(const void * buffer)
     if (numComponents > 1)
     {
       dims[numDims] = numComponents;
-      numDims++;
+      ++numDims;
     }
     H5::DataSpace imageSpace(numDims, dims.get());
     H5::PredType  dataType = ComponentToPredType(this->GetComponentType());

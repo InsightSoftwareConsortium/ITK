@@ -593,7 +593,7 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
       ContourConstIterator itC{ (*it).cend() };
       do
       {
-        itC--;
+        --itC;
         path->push_back(*itC);
       } while (itC != (*it).cbegin());
     }

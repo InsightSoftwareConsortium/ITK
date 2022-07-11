@@ -41,7 +41,7 @@ OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
 //  while (it != this->End() )
 //    {
 //      std::cout << (*it).first << " = " << (*it).second << std::endl;
-//      it++;
+//      ++it;
 //    }
 //}
 
@@ -53,7 +53,7 @@ OneWayEquivalencyTable::Flatten()
   while (it != this->End())
   {
     (*it).second = this->RecursiveLookup((*it).first);
-    it++;
+    ++it;
   }
 }
 

@@ -116,11 +116,11 @@ XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
       default:
       {
         *x = *s;
-        x++;
+        ++x;
         *x = '\0'; // explicitly terminate the new string
       }
     }
-    s++;
+    ++s;
   }
 
   if (!m_Stream)

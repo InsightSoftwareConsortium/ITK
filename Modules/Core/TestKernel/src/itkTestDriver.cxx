@@ -126,7 +126,7 @@ AddEntriesBeforeLibraryPath(const ArgumentsList & args)
       itksys::SystemTools::PutEnv(libpath64.c_str());
     }
 
-    i++;
+    ++i;
   }
 }
 

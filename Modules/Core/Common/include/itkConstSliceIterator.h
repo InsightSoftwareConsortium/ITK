@@ -83,7 +83,7 @@ public:
   ConstSliceIterator
   operator++()
   {
-    m_Pos++;
+    ++m_Pos;
     return *this;
   }
 
@@ -93,7 +93,7 @@ public:
   {
     ConstSliceIterator ans = *this;
 
-    m_Pos++;
+    ++m_Pos;
     return ans;
   }
 

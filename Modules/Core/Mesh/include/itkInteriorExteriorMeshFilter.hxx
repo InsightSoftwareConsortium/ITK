@@ -118,7 +118,7 @@ InteriorExteriorMeshFilter<TInputMesh, TOutputMesh, TSpatialFunction>::GenerateD
       {
         outputMesh->SetPointData(pointId, inputData.Value());
       }
-      pointId++;
+      ++pointId;
     }
 
     ++inputPoint;

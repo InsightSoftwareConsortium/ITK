@@ -158,13 +158,13 @@ protected:
       // Avoid the background label if it is used
       if (label == output->GetBackgroundValue())
       {
-        label++;
+        ++label;
       }
       (*it2)->SetLabel(label);
       output->AddLabelObject(*it2);
 
       // Go to the next label
-      label++;
+      ++label;
       progress.CompletedPixel();
 
       ++it2;

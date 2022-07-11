@@ -169,7 +169,7 @@ protected:
       {
         cIt->label = label;
         m_UnionFind[label] = label;
-        label++;
+        ++label;
       }
     }
   }
@@ -476,7 +476,7 @@ protected:
     SizeValueType         lastLine = wud.lastLine;
     if (!strictlyLess)
     {
-      lastLine++;
+      ++lastLine;
       // make sure we are not wrapping around
       itkAssertInDebugAndIgnoreInReleaseMacro(lastLine >= wud.lastLine);
     }

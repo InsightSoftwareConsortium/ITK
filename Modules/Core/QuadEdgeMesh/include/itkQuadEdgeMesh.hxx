@@ -433,7 +433,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindFirstUnusedPointIndex() -> PointI
     if (pid != 0)
     {
       PointsContainerConstIterator last = this->GetPoints()->End();
-      last--;
+      --last;
       pid = last.Index() + 1;
     }
   }
@@ -600,7 +600,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::FindFirstUnusedCellIndex() -> CellIde
     if (cid != 0)
     {
       CellsContainerIterator last = this->GetCells()->End();
-      last--;
+      --last;
       cid = last.Index() + 1;
     }
   }
@@ -735,7 +735,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::PushOnContainer(EdgeCellType * newEdg
   CellAutoPointer pEdge;
   pEdge.TakeOwnership(newEdge);
   this->SetEdgeCell(eid, pEdge);
-  m_NumberOfEdges++;
+  ++m_NumberOfEdges;
 }
 
 /**

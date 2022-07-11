@@ -711,7 +711,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GenerateDat
       this->CorrectImage(bias, *iter);
       itkDebugMacro(<< "  Bias corrected.");
     }
-    iter++;
+    ++iter;
   }
 
   if (this->GetBiasFieldMultiplicative())
@@ -864,7 +864,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetBiasFiel
   {
     if (size[dim] > 1)
     {
-      biasDim++;
+      ++biasDim;
     }
   }
 
@@ -876,7 +876,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::GetBiasFiel
     if (size[dim] > 1)
     {
       biasSize[biasDim] = size[dim];
-      biasDim++;
+      ++biasDim;
     }
   }
 }
@@ -942,7 +942,7 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
       // No ovelapping, so remove the slab from the vector
       slabs.erase(iter);
     }
-    iter++;
+    ++iter;
   }
 }
 

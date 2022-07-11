@@ -961,7 +961,7 @@ RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
       m_RayVoxelStartPosition[1] += m_VoxelIncrement[1];
       m_RayVoxelStartPosition[2] += m_VoxelIncrement[2];
 
-      m_TotalRayVoxelPlanes--;
+      --m_TotalRayVoxelPlanes;
     }
 
     Istart[0] = static_cast<int>(std::floor(m_RayVoxelStartPosition[0] + m_TotalRayVoxelPlanes * m_VoxelIncrement[0]));
@@ -978,7 +978,7 @@ RayCastHelper<TInputImage, TCoordRep>::AdjustRayLength()
     }
     else
     {
-      m_TotalRayVoxelPlanes--;
+      --m_TotalRayVoxelPlanes;
     }
   } while ((!(startOK && endOK)) && (m_TotalRayVoxelPlanes > 1));
 

@@ -92,11 +92,11 @@ namespace itk
  *
    \code
    i = it.End();
-   i--;
+   --i;
    while (i != it.Begin())
    {
      i.Set(i.Get() + 1.0);
-     i--;
+     --i;
    }
     i.Set(i.Get() + 1.0);
    \endcode

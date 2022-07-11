@@ -71,7 +71,7 @@ SparseFieldLayer<TNodeType>::SplitRegions(int num) const -> RegionListType
     region.first = position;
     while ((j < regionsize) && (position != last))
     {
-      j++;
+      ++j;
       ++position;
     }
     region.last = position;

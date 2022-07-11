@@ -318,7 +318,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::EstimateNewtonSte
   // we assign this ending block of local parameters to thread_(i+1) .
   if ((subrange[1] + 1) % numLocalPara != 0)
   {
-    high--;
+    --high;
   }
 
   for (IndexValueType loc = low; loc <= high; ++loc)

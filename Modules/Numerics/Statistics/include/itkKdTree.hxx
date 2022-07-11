@@ -520,7 +520,7 @@ KdTree<TSample>::PrintTree(KdTreeNodeType * node,
                            unsigned int     activeDimension,
                            std::ostream &   os) const
 {
-  level++;
+  ++level;
   if (node->IsTerminal())
   {
     // terminal node

@@ -484,9 +484,9 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType l
     {
       index[0] = bin;
       total += (*mapIt).second.m_Histogram->GetFrequency(index);
-      bin++;
+      ++bin;
     }
-    bin--;
+    --bin;
     index[0] = bin;
 
     // return center of bin range

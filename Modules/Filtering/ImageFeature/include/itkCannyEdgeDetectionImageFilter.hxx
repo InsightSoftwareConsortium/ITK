@@ -171,7 +171,7 @@ CannyEdgeDetectionImageFilter<TInputImage, TOutputImage>::ComputeCannyEdge(const
                0.25 * it.GetPixel(m_Center + m_Stride[i] + m_Stride[j]);
 
       deriv += 2.0 * dx[i] * dx[j] * dxy[k];
-      k++;
+      ++k;
     }
   }
 

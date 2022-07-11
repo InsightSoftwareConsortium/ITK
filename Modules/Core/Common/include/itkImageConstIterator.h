@@ -233,7 +233,7 @@ public:
         ind[i] += (static_cast<IndexValueType>(size[i]) - 1);
       }
       m_EndOffset = m_Image->ComputeOffset(ind);
-      m_EndOffset++;
+      ++m_EndOffset;
     }
   }
 

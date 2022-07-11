@@ -312,7 +312,7 @@ SolverCrankNicolson<VDimension>::RunSolver()
   this->m_LinearSystem->InitializeSolution(m_SolutionTIndex);
   this->m_LinearSystem->Solve();
 
-  m_Iterations++;
+  ++m_Iterations;
   // call this externally    AddToDisplacements();
 }
 
@@ -583,7 +583,7 @@ SolverCrankNicolson<VDimension>::GoldenSection(Float tol, unsigned int MaxIters)
   unsigned int iters = 0;
   while (itk::Math::abs(x3 - x0) > tol * (itk::Math::abs(x1) + itk::Math::abs(x2)) && iters < MaxIters)
   {
-    iters++;
+    ++iters;
     if (f2 < f1)
     {
       x0 = x1;

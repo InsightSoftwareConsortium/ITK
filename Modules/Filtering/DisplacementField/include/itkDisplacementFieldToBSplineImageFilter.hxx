@@ -192,7 +192,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
         fieldPoints->SetPoint(numberOfPoints, point);
         fieldPoints->SetPointData(numberOfPoints, data);
         weights->InsertElement(numberOfPoints, boundaryWeight);
-        numberOfPoints++;
+        ++numberOfPoints;
       }
     }
   }
@@ -279,7 +279,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
         fieldPoints->SetPoint(numberOfPoints, parametricPoint);
         fieldPoints->SetPointData(numberOfPoints, data);
         weights->InsertElement(numberOfPoints, weight);
-        numberOfPoints++;
+        ++numberOfPoints;
       }
     }
   }
@@ -346,7 +346,7 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
         fieldPoints->SetPoint(numberOfPoints, parametricPoint);
         fieldPoints->SetPointData(numberOfPoints, data);
         weights->InsertElement(numberOfPoints, weight);
-        numberOfPoints++;
+        ++numberOfPoints;
       }
 
       ++ItP;

@@ -75,12 +75,12 @@ public:
         // value
         // or the iterator is invalidated.
         TInputPixel toErase = mapIt->first;
-        mapIt++;
+        ++mapIt;
         m_Map.erase(toErase);
       }
       else
       {
-        mapIt++;
+        ++mapIt;
       }
     }
 
@@ -138,23 +138,23 @@ public:
     {
       m_Min = p;
     }
-    m_Count++;
+    ++m_Count;
   }
 
   inline void
   RemovePixel(const TInputPixel & p)
   {
     m_Vector[p - NumericTraits<TInputPixel>::NonpositiveMin()]--;
-    m_Count--;
+    --m_Count;
     if (m_Count > 0)
     {
       while (m_Vector[m_Max - NumericTraits<TInputPixel>::NonpositiveMin()] == 0)
       {
-        m_Max--;
+        --m_Max;
       }
       while (m_Vector[m_Min - NumericTraits<TInputPixel>::NonpositiveMin()] == 0)
       {
-        m_Min++;
+        ++m_Min;
       }
     }
     else

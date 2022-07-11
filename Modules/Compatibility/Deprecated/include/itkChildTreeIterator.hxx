@@ -106,7 +106,7 @@ template <typename TTreeType>
 auto
 ChildTreeIterator<TTreeType>::Next() -> const ValueType &
 {
-  m_ListPosition++;
+  ++m_ListPosition;
   this->m_Position = m_ParentNode->GetChild(m_ListPosition);
   if (this->m_Position == nullptr)
   {

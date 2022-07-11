@@ -80,7 +80,7 @@ MovingHistogramImageFilterBase<TInputImage, TOutputImage, TKernel>::SetKernel(co
     {
       kernelImageIt.Set(true);
       kernelOffsets.push_front(kernelImageIt.GetIndex() - centerIndex);
-      count++;
+      ++count;
     }
     else
     {

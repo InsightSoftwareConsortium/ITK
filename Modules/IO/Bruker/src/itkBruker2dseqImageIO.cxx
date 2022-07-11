@@ -96,8 +96,8 @@ SwapSlicesAndVolumes(T *            buffer,
         for (SizeType p = 0; p < szSlice; ++p)
         {
           *toPixel = *fromPixel;
-          toPixel++;
-          fromPixel++;
+          ++toPixel;
+          ++fromPixel;
         }
         fromSlice += sizeToSwap * szSlice;
       }
@@ -135,8 +135,8 @@ ReverseSliceOrder(T * buffer, const SizeType sizeX, const SizeType sizeY, const 
         temp = *toPixel;
         *toPixel = *fromPixel;
         *fromPixel = temp;
-        toPixel++;
-        fromPixel++;
+        ++toPixel;
+        ++fromPixel;
       }
       fromSlice += ss;
       toSlice -= ss;

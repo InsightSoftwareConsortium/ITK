@@ -104,7 +104,7 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, T
       typename JointHistogramType::PixelType jointHistogramPixel;
       jointHistogramPixel =
         this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->GetPixel(jointPDFIndex);
-      jointHistogramPixel++;
+      ++jointHistogramPixel;
       this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogram->SetPixel(jointPDFIndex, jointHistogramPixel);
       this->m_JointHistogramMIPerThreadVariables[threadId].JointHistogramCount++;
     }

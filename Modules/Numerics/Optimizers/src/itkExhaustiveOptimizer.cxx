@@ -128,7 +128,7 @@ ExhaustiveOptimizer::ResumeWalking()
 
     this->InvokeEvent(IterationEvent());
     this->AdvanceOneStep();
-    m_CurrentIteration++;
+    ++m_CurrentIteration;
   }
 }
 
@@ -169,7 +169,7 @@ ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
     if (m_CurrentIndex[idx] > (2 * m_NumberOfSteps[idx]))
     {
       m_CurrentIndex[idx] = 0;
-      idx++;
+      ++idx;
     }
     else
     {

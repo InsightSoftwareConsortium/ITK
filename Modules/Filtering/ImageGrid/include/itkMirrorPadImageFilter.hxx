@@ -159,7 +159,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::FindRegionsInArea(long start, l
     result = regionsize / size;
     //      if ((regionsize % size) != 0)
     //  {
-    result++;
+    ++result;
     //  }
     if (offset > 0)
     {
@@ -354,7 +354,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::BuildPreRegions(std::vector<lon
   // the size of the input image.
   for (ctr = 1; ctr < numRegs; ++ctr)
   {
-    regCtr++;
+    ++regCtr;
     offset = 0;
     outputRegionStart[regCtr] = outputRegionStart[regCtr - 1] + static_cast<long>(outputRegionSizes[regCtr - 1]);
     inputRegionStart[regCtr] = inputIndex;
@@ -405,7 +405,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::BuildPostRegions(std::vector<lo
   // Handle the post region.  The post region has a number of
   // areas of size equal to the input region, followed by one
   // region of possibly smaller size.
-  regCtr++;
+  ++regCtr;
   sizeTemp = outputIndex + outputSize - inputIndex - inputSize;
   sizeTemp = ((sizeTemp > 0) ? (sizeTemp % inputSize) : 0);
   outputRegionSizes[regCtr] = sizeTemp;
@@ -424,7 +424,7 @@ MirrorPadImageFilter<TInputImage, TOutputImage>::BuildPostRegions(std::vector<lo
   for (ctr = numRegs - 1; ctr >= 1; ctr--)
   {
     offset = 0;
-    regCtr++;
+    ++regCtr;
     outputRegionStart[regCtr] = outputRegionStart[regCtr - 1] - inputSize;
     inputRegionStart[regCtr] = inputIndex;
     outputRegionSizes[regCtr] = inputSize;

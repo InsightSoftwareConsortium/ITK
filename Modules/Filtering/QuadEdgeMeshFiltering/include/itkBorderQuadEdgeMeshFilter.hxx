@@ -168,7 +168,7 @@ BorderQuadEdgeMeshFilter<TInputMesh, TOutputMesh>::ComputeLargestBorder() -> Inp
 
     for (InputIteratorGeom e_it = (*b_it)->BeginGeomLnext(); e_it != (*b_it)->EndGeomLnext(); ++e_it)
     {
-      k++;
+      ++k;
     }
 
     if (k > max_id)

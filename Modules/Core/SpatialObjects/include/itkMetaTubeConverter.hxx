@@ -114,7 +114,7 @@ MetaTubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * 
 
     tubeSO->AddPoint(pnt);
 
-    it2++;
+    ++it2;
   }
 
   return tubeSO.GetPointer();
