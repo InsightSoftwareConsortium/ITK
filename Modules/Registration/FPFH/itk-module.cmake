@@ -14,6 +14,7 @@ itk_module(
     ITKCommon
     ITKStatistics
   COMPILE_DEPENDS
+    ITKStatistics
     ITKImageSources
   TEST_DEPENDS
     ITKTestKernel

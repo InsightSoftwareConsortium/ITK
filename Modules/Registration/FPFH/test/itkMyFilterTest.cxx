@@ -64,7 +64,7 @@ itkMyFilterTest(int argc, char * argv[])
   }
   const char * outputImageFileName = argv[1];
 
-  constexpr unsigned int Dimension = 2;
+  constexpr unsigned int Dimension = 3;
   using PixelType = float;
   using PointSetType = itk::PointSet<PixelType, Dimension>;
 

@@ -18,6 +18,7 @@
 #ifndef itkMyFilter_h
 #define itkMyFilter_h
 
+#include "itkPointsLocator.h"
 #include "itkMeshToMeshFilter.h"
 
 namespace itk
@@ -53,11 +54,19 @@ public:
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
-  using InputPointSetPointType = typename TInputPointSet::PointType;
-  using InputPointSetPointIdentifier = typename TInputPointSet::PointIdentifier;
+  using PointType = typename TInputPointSet::PointType;
+  using PointIdentifier = typename TInputPointSet::PointIdentifier;
+  using PointsVectorContainer = typename TInputPointSet::PointsVectorContainer;
+
   using InputPointSetPointsContainerConstPointer = typename TInputPointSet::PointsContainerConstPointer;
   using PointsContainerConstIterator = typename InputPointSetType::PointsContainer::ConstIterator;
+  using Vector3d = typename itk::Vector<double, 3>;
+  using Vector4d = typename itk::Vector<double, 4>;
 
+  using PointsLocatorType = typename itk::PointsLocator<itk::VectorContainer<PointIdentifier, PointType>>;
+  using PointsLocatorTypePointer = typename PointsLocatorType::Pointer;
+  using FeatureType = std::vector<double>; // typename itk::VectorContainer<PointIdentifier, double>;
+  // using FeatureTypePointer = typename FeatureType::Pointer;
 
   /** Run-time type information. */
   itkTypeMacro(MyFilter, MeshToMeshFilter);
@@ -65,12 +74,19 @@ public:
   /** Standard New macro. */
   itkNewMacro(Self);
 
+  FeatureType
+  ComputeSPFHFeature(const InputPointSetType * input, const InputPointSetType * input_normals, unsigned int radius);
+
 protected:
   MyFilter();
   ~MyFilter() override = default;
 
   void
   GenerateData() override;
+
+  Vector4d
+  ComputePairFeatures(const Vector3d & p1, const Vector3d & n1, const Vector3d & p2, const Vector3d & n2);
+
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
