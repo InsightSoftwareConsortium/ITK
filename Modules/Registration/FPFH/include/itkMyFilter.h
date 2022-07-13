@@ -77,6 +77,9 @@ public:
   FeatureType
   ComputeSPFHFeature(InputPointSetType * input, InputPointSetType * input_normals, unsigned int radius);
 
+  FeatureType
+  ComputeFPFHFeature(InputPointSetType * input, InputPointSetType * input_normals, unsigned int radius);
+
 protected:
   MyFilter();
   ~MyFilter() override = default;

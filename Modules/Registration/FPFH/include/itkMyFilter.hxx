@@ -88,14 +88,15 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
 
   std::cout << "KdTree is " << kdtree << std::endl;
 
-  FeatureType feature;
-  feature.resize(33 * (unsigned int)input->GetNumberOfPoints());
+  unsigned long int num_of_points = input->GetNumberOfPoints();
+  FeatureType       feature;
+  feature.resize(33 * num_of_points);
   std::cout << "feature size is " << feature.size();
 
   Vector3d temp_point_vector1, temp_point_vector2;
   Vector3d temp_normal_vector1, temp_normal_vector2;
 
-  for (int i = 0; i < (unsigned int)input->GetNumberOfPoints(); i++)
+  for (int i = 0; i < num_of_points; i++)
   {
     auto point = input->GetPoint(i);
     auto normal = input_normals->GetPoint(i);
@@ -137,7 +138,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
         {
           h_index = 10;
         }
-        unsigned int temp_index = h_index * 33 + i;
+        unsigned int temp_index = h_index * num_of_points + i;
         feature[temp_index] = hist_incr + feature[temp_index];
 
         h_index = (int)(floor(11 * (pair_feature[1] + 1.0) * 0.5));
@@ -149,7 +150,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
         {
           h_index = 10;
         }
-        temp_index = (h_index + 11) * 33 + i;
+        temp_index = (h_index + 11) * num_of_points + i;
         feature[temp_index] = hist_incr + feature[temp_index];
 
         h_index = (int)(floor(11 * (pair_feature[2] + 1.0) * 0.5));
@@ -161,7 +162,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
         {
           h_index = 10;
         }
-        temp_index = (h_index + 22) * 33 + i;
+        temp_index = (h_index + 22) * num_of_points + i;
         feature[temp_index] = hist_incr + feature[temp_index];
       }
     }
@@ -170,6 +171,80 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
   std::cout << "Feature " << feature.size() << std::endl;
   return feature;
 }
+
+template <typename TInputPointSet, typename TOutputPointSet>
+typename MyFilter<TInputPointSet, TOutputPointSet>::FeatureType
+MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * input,
+                                                              TInputPointSet * input_normals,
+                                                              unsigned int     radius)
+{
+  unsigned long int num_of_points = input->GetNumberOfPoints();
+
+  FeatureType feature;
+  feature.resize(33 * num_of_points);
+
+  // if (!input.HasNormals()) {
+  //     utility::LogError("Failed because input point cloud has no normal.");
+  // }
+  PointsLocatorTypePointer kdtree = PointsLocatorType::New();
+  kdtree->SetPoints(input->GetPoints());
+  kdtree->Initialize();
+
+  auto spfh = ComputeSPFHFeature(input, input_normals, radius);
+  // if (spfh == nullptr) {
+  //     utility::LogError("Internal error: SPFH feature is nullptr.");
+  // }
+  // #pragma omp parallel for schedule(static) \
+  //         num_threads(utility::EstimateMaxThreads())
+  for (int i = 0; i < num_of_points; i++)
+  {
+    auto point = input->GetPoint(i);
+
+    typename PointsLocatorType::NeighborsIdentifierType indices;
+    kdtree->FindPointsWithinRadius(point, radius, indices);
+
+    if (indices.size() > 1)
+    {
+      double sum[3] = { 0.0, 0.0, 0.0 };
+      for (size_t k = 1; k < indices.size(); k++)
+      {
+        // skip the point itself
+        auto   point_diff = point - input->GetPoint(indices[k]);
+        double dist = point_diff.GetNorm();
+        if (dist == 0.0)
+          continue;
+
+        for (int j = 0; j < 33; j++)
+        {
+          double val = spfh[j * num_of_points + indices[k]] / dist;
+          sum[j / 11] += val;
+          feature[j * num_of_points + i] = feature[j * num_of_points + i] + val;
+        }
+      }
+
+      for (int j = 0; j < 3; j++)
+      {
+        if (sum[j] != 0.0)
+        {
+          sum[j] = 100.0 / sum[j];
+        }
+      }
+
+      for (int j = 0; j < 33; j++)
+      {
+        feature[j * num_of_points + i] = feature[j * num_of_points + i] * sum[j / 11];
+        // The commented line is the fpfh function in the paper.
+        // But according to PCL implementation, it is skipped.
+        // Our initial test shows that the full fpfh function in the
+        // paper seems to be better than PCL implementation. Further
+        // test required.
+        feature[j * num_of_points + i] = feature[j * num_of_points + i] + spfh[j * num_of_points + i];
+      }
+    }
+  }
+  return feature;
+}
+
 
 template <typename TInputPointSet, typename TOutputPointSet>
 void
