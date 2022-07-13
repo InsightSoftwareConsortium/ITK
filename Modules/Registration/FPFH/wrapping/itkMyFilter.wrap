@@ -3,7 +3,7 @@ itk_wrap_include("itkDefaultStaticMeshTraits.h")
 
 itk_wrap_class("itk::MyFilter" POINTER_WITH_2_SUPERCLASSES)
 foreach(t ${WRAP_ITK_REAL})
-  itk_wrap_template("M${ITKM_${t}}${d}M${ITKM_${t}}${d}"
+  itk_wrap_template("M${ITKM_${t}}3M${ITKM_${t}}3"
       "itk::PointSet< ${ITKT_${t}},3 >, itk::PointSet< ${ITKT_${t}},3 >"
   )
 endforeach()
