@@ -75,10 +75,16 @@ public:
   itkNewMacro(Self);
 
   FeatureType
-  ComputeSPFHFeature(InputPointSetType * input, InputPointSetType * input_normals, unsigned int radius);
+  ComputeSPFHFeature(InputPointSetType * input,
+                     InputPointSetType * input_normals,
+                     unsigned int        radius,
+                     unsigned int        neighbors);
 
   FeatureType
-  ComputeFPFHFeature(InputPointSetType * input, InputPointSetType * input_normals, unsigned int radius);
+  ComputeFPFHFeature(InputPointSetType * input,
+                     InputPointSetType * input_normals,
+                     unsigned int        radius,
+                     unsigned int        neighbors);
 
 protected:
   MyFilter();

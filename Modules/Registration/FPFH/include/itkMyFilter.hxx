@@ -80,18 +80,16 @@ template <typename TInputPointSet, typename TOutputPointSet>
 typename MyFilter<TInputPointSet, TOutputPointSet>::FeatureType
 MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * input,
                                                               TInputPointSet * input_normals,
-                                                              unsigned int     radius)
+                                                              unsigned int     radius,
+                                                              unsigned int     neighbors)
 {
   PointsLocatorTypePointer kdtree = PointsLocatorType::New();
   kdtree->SetPoints(input->GetPoints());
   kdtree->Initialize();
 
-  std::cout << "KdTree is " << kdtree << std::endl;
-
   unsigned long int num_of_points = input->GetNumberOfPoints();
   FeatureType       feature;
   feature.resize(33 * num_of_points);
-  std::cout << "feature size is " << feature.size();
 
   Vector3d temp_point_vector1, temp_point_vector2;
   Vector3d temp_normal_vector1, temp_normal_vector2;
@@ -101,7 +99,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
     auto point = input->GetPoint(i);
     auto normal = input_normals->GetPoint(i);
 
-    // std::cout << "Point " << point << std::endl;
+    std::cout << "Point " << point << std::endl;
 
     typename PointsLocatorType::NeighborsIdentifierType indices;
     kdtree->FindPointsWithinRadius(point, radius, indices);
@@ -110,12 +108,31 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
 
     if (indices.size() > 1)
     {
-      // only compute SPFH feature when a point has neighbors
-      double hist_incr = 100.0 / (double)(indices.size() - 1);
-      for (size_t k = 1; k < indices.size(); k++)
+      std::vector<std::pair<float, int>> neighbor_vect;
+      for (size_t k = 0; k < indices.size(); k++)
       {
-        auto point2 = input->GetPoint(indices[k]);
-        auto normal2 = input_normals->GetPoint(indices[k]);
+        auto   point_diff = point - input->GetPoint(indices[k]);
+        double dist = point_diff.GetNorm();
+
+        // skip the point itself
+        if (dist == 0.0)
+          continue;
+
+        neighbor_vect.push_back(std::make_pair(dist, indices[k]));
+      }
+
+      // std::cout << i << " Number of valid points are " << neighbor_vect.size() << std::endl;
+
+      std::sort(neighbor_vect.begin(), neighbor_vect.end());
+      unsigned int neighbor_count = std::min(neighbors, (unsigned int)neighbor_vect.size()) - 1;
+
+      // only compute SPFH feature when a point has neighbors
+      double hist_incr = 100.0 / (double)neighbor_count;
+      for (size_t k = 0; k < neighbor_count; k++)
+      {
+        // std::cout << "Point " << k << " is " <<  neighbor_vect[k].second << std::endl;
+        auto point2 = input->GetPoint(neighbor_vect[k].second);
+        auto normal2 = input_normals->GetPoint(neighbor_vect[k].second);
 
         // skip the point itself, compute histogram
         for (int ik = 0; ik < 3; ++ik)
@@ -176,7 +193,8 @@ template <typename TInputPointSet, typename TOutputPointSet>
 typename MyFilter<TInputPointSet, TOutputPointSet>::FeatureType
 MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * input,
                                                               TInputPointSet * input_normals,
-                                                              unsigned int     radius)
+                                                              unsigned int     radius,
+                                                              unsigned int     neighbors)
 {
   unsigned long int num_of_points = input->GetNumberOfPoints();
 
@@ -190,7 +208,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
   kdtree->SetPoints(input->GetPoints());
   kdtree->Initialize();
 
-  auto spfh = ComputeSPFHFeature(input, input_normals, radius);
+  auto spfh = ComputeSPFHFeature(input, input_normals, radius, neighbors);
   // if (spfh == nullptr) {
   //     utility::LogError("Internal error: SPFH feature is nullptr.");
   // }
@@ -206,17 +224,31 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
     if (indices.size() > 1)
     {
       double sum[3] = { 0.0, 0.0, 0.0 };
-      for (size_t k = 1; k < indices.size(); k++)
+
+      std::vector<std::pair<float, int>> neighbor_vect;
+      for (size_t k = 0; k < indices.size(); k++)
       {
-        // skip the point itself
         auto   point_diff = point - input->GetPoint(indices[k]);
         double dist = point_diff.GetNorm();
+
+        // skip the point itself
         if (dist == 0.0)
           continue;
 
+        neighbor_vect.push_back(std::make_pair(dist, indices[k]));
+      }
+
+      std::sort(neighbor_vect.begin(), neighbor_vect.end());
+
+      // Take only first neighbors
+      unsigned int neighbor_count = std::min(neighbors, (unsigned int)neighbor_vect.size()) - 1;
+      for (size_t k = 0; k < neighbor_count; k++)
+      {
+        // std::cout << "k " << k  << "  first " <<  neighbor_vect[k].first << " second " << neighbor_vect[k].second <<
+        // std::endl;
         for (int j = 0; j < 33; j++)
         {
-          double val = spfh[j * num_of_points + indices[k]] / dist;
+          double val = spfh[j * num_of_points + neighbor_vect[k].second] / neighbor_vect[k].first;
           sum[j / 11] += val;
           feature[j * num_of_points + i] = feature[j * num_of_points + i] + val;
         }
