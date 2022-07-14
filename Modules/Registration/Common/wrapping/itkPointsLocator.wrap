@@ -1,0 +1,3 @@
+itk_wrap_class("itk::PointsLocator" POINTER_WITH_2_SUPERCLASSES)
+  itk_wrap_template("PS${ITKM_F}3" "itk::VectorContainer<${ITKT_UL}, itk::Point<float, 3> >")
+itk_end_wrap_class()
