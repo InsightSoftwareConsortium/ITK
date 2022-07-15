@@ -71,7 +71,7 @@ itkMyFilterTest(int argc, char * argv[])
   using FilterType = itk::MyFilter<PointSetType, PointSetType>;
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MyFilter, PointSetToPointSetFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MyFilter, MeshToMeshFilter);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
