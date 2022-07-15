@@ -1,19 +1,8 @@
 itk_module_test()
 
-set(
-  FpfhTests
-  itkMinimalStandardRandomVariateGeneratorTest.cxx
-  itkMyFilterTest.cxx
-)
+set(FpfhTests itkMyFilterTest.cxx)
 
 createtestdriver(Fpfh "${Fpfh-Test_LIBRARIES}" "${FpfhTests}")
-
-itk_add_test(
-  NAME itkMinimalStandardRandomVariateGeneratorTest
-  COMMAND
-    FpfhTestDriver
-    itkMinimalStandardRandomVariateGeneratorTest
-)
 
 itk_add_test(
   NAME itkMyFilterTest
