@@ -290,7 +290,7 @@ maintainers after an ITK Confab.
 
 ### Update the repository
 
-Use the commmand:
+Use the command:
 
 ```sh
    git checkout master
@@ -627,7 +627,7 @@ Finally, create symbolic link at `/projects/Insight/WWW/InsightDocuments/Web`.
 Update the ITK Software Guide
 -----------------------------
 
-The [ITK Sofware Guide] is available in both electronic and printed formats.
+The [ITK Software Guide] is available in both electronic and printed formats.
 Every time a new ITK version is released, the following steps must be taken to
 update the guide and make it available:
 
@@ -635,7 +635,7 @@ update the guide and make it available:
   * Update the compiler and necessary tool (e.g. CMake minimum version)
     information if necessary.
   * Bump the ITK version in `Superbuild/External_ITK.cmake`.
-  * Set the `DRAFT_WATERMARK` CMake varable to `OFF` to remove the draft
+  * Set the `DRAFT_WATERMARK` CMake variable to `OFF` to remove the draft
     watermark.
   * Set the `PDF_QUALITY_LEVEL` CMake configuration option to `Screen` for the
     electronic version and `Printer` for the print version.
@@ -866,7 +866,7 @@ excellent packaging.
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
 [ITK issue tracking]: https://issues.itk.org/
-[ITK Sofware Guide]: https://itk.org/ItkSoftwareGuide.pdf
+[ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
 [ITK Sphinx examples]: https://itk.org/ITKExamples/
 [releases page]: https://itk.org/Wiki/ITK/Releases

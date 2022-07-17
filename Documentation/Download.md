@@ -67,7 +67,7 @@ Clone ITK using the commands
    $ cd ITK
 ```
 
-The latest stable release can be cloned into a local repositiory using
+The latest stable release can be cloned into a local repository using
 
 ```sh
    $ git clone -b release https://github.com/InsightSoftwareConsortium/ITK ITKLatestRelease

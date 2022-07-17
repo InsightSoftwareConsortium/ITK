@@ -69,7 +69,7 @@
 
    Care must in taken in setting up an application to have separate
    application level (as opposed to filter level) execution threads.
-   Individual ITK objects are not guarenteed to be thread safe. By this
+   Individual ITK objects are not guaranteed to be thread safe. By this
    we mean that a single instance of an object should only be modified
    by a single execution thread.  You should not try to modify a single
    instance of an object in multiple execution threads.
@@ -80,7 +80,7 @@
    safety was chosen as a compromise between performance and flexibility.
    If we allow ITK objects to be modified in multiple threads then ITK
    would have to mutex every access to every instance variable of a 
-   class.  This would severly affect performance.
+   class.  This would severely affect performance.
 
    \section NumericsThreadSafety Thread Safety in the Numerics Library
 

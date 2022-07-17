@@ -33,12 +33,12 @@ elements. They are:
 
 \li \b Target: the object that is assumed to be static.
 \li \b Reference: the object that will be transformed in order to be superimpossed to the \e Target
-\li \b Transform: the mapping that will conver one point from the \e Reference object space to the \e Target object space.
+\li \b Transform: the mapping that will convert one point from the \e Reference object space to the \e Target object space.
 \li \b Metric: a measure that indicates how well the \e Target object matches the \e Reference object after transformation.
 \li \b Mapper: the particular technique used for interpolating values when objects are resampled through the \e Transform.
 \li \b Optimizer: the method used to find the \e Transform parameters that optimize the \e Metric.
 
-A particular registration method is defined by selecting specific implemementations of each one of these basic elements.
+A particular registration method is defined by selecting specific implementations of each one of these basic elements.
 In order to determine the registration method appropriated for a particular problem, is will be useful to answer the following questions:
 
 
@@ -68,7 +68,7 @@ This is a rapid description of the transforms implemented in the toolkit
 
 
 \subsection RegistrationMetrics Similarity Metrics
-Metrics are probably the most critical element of a registration problem. The metric defines what the goal of the process is, they measure how well the Target object is matched by the Reference object after the transform has been applied to it. The Metric should be selected in function of the types of objects to be registered and the expected kind of missalignment. Some metrics has a rather large capture region, which means that the optimizer will be able to find his way to a maximum even if the missalignment is high. Typicaly large capture regions are associated with low precision for the maximum. Other metrics can provide high precision for the final registration, but usually require to be initialized quite close to the optimal value.
+Metrics are probably the most critical element of a registration problem. The metric defines what the goal of the process is, they measure how well the Target object is matched by the Reference object after the transform has been applied to it. The Metric should be selected in function of the types of objects to be registered and the expected kind of missalignment. Some metrics has a rather large capture region, which means that the optimizer will be able to find his way to a maximum even if the missalignment is high. Typically large capture regions are associated with low precision for the maximum. Other metrics can provide high precision for the final registration, but usually require to be initialized quite close to the optimal value.
 
 Unfortunately there are no clear rules about how to select a metric, other that trying some of them in different conditions. In some cases could be and advantage to use a particular metric to get an initial approximation of the transformation, and then switch to another more sensitive metric to achieve better precision in the final result.
 
@@ -101,7 +101,7 @@ The following optimization methods are available:
 
 \section MultiResolutionRegistration Multiresolution
 
-The evaluation of a metric can be very expensive in computing time. An approach often used to improve performance is to register first reduced resolution versions of the target and reference objects. The resulting transform is used as the starting point for a second registration process performed in progresively higher resolution objects.
+The evaluation of a metric can be very expensive in computing time. An approach often used to improve performance is to register first reduced resolution versions of the target and reference objects. The resulting transform is used as the starting point for a second registration process performed in progressively higher resolution objects.
 
 It is usual to create first a sequence of reduced resolution version of the objects, this set of objects is called a <em> pryramid representation </em>. A Multiresolution method is basically a set of consecutive registration process, each one performed at a particular level of the pyramid, and using as initial transform the resulting transform of the previous process.
 

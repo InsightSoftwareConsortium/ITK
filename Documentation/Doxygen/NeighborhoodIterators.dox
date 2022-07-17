@@ -164,7 +164,7 @@ pixel in a neighborhood is always Size()/2.
 important.  SmartNeighborhoodIterator defines a special class of neighborhood
 iterators that transparently handle boundary conditions.  These iterators store
 a boundary condition object that is used to calculate a value of requested
-pixel indicies that lie outside the data set boundary.  New boundary condition
+pixel indices that lie outside the data set boundary.  New boundary condition
 objects can be defined by a user and plugged into SmartNeighboroodIterators as
 is appropriate for their algorithm.
 
@@ -230,7 +230,7 @@ for (regions_iterator++ ; regions_iterator != regions.end(); regions_iterator++)
 The NeighborhoodAlgorithm::ImageBoundaryFacesCalculator is a special function
 object that returns a list of sub-regions, or faces, of an image region.  The
 first region in the list corresponds to all the non-boundary pixels in the
-input image region.  Subseqent regions in the list represent all of the boundary
+input image region.  Subsequent regions in the list represent all of the boundary
 faces of the image (because an image region is defined only by a single index
 and size, no single composite boundary region is possible).  The list is
 traversed with an iterator.
@@ -244,7 +244,7 @@ iterators.
 
 \par 
 The best documentation of the API for these objects is are the class
-definitions themselves, since the API is subject to change as the tookit
+definitions themselves, since the API is subject to change as the toolkit
 matures and is refined.
 
 

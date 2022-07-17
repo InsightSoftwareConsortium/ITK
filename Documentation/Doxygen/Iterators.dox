@@ -289,7 +289,7 @@
 
   In general, iterators are not the kind of objects that users of the
   toolkit would need to use. They are rather designed to be used by
-  code developers that add new components to the toolkit, like writting
+  code developers that add new components to the toolkit, like writing
   a new Image filter, for example.
 
   Before starting to write code that use iterators, users should consider
