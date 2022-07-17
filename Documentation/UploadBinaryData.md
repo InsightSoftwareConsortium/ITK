@@ -69,7 +69,7 @@ Once files have been uploaded to your account, they will be publicly available
 and accessible since data is content addressed. Specifically, the
 [hashsum_download] plugin in Girder looks through all public (or private if
 authenticated) data for files with the given hash. Thus, so as long as the file
-is publically available somewhere on [data.kitware.com], ITK will be able to
+is publicly available somewhere on [data.kitware.com], ITK will be able to
 retrieve the corresponding file.
 
 At release time, the release manager will upload and archive repository data

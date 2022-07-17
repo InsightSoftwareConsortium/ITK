@@ -57,9 +57,9 @@ are also now used in ITK. As a consequence, due to limitations in C++11 support
 Visual Studio 2013 (MSVC 12.0) and other older C++ complilers cannot be used to build ITK from 5.0 and forward.
 
 Errors similar to `error: conversion from 'int' to 'typename InterpolatorType::Pointer'` are a result of further
-type safty for dealing with pointers. Enhancements in nullptr behavior in ITKv5 provide more clear
+type safety for dealing with pointers. Enhancements in nullptr behavior in ITKv5 provide more clear
 type checking and respect the nullptr identifier.  The 'long 0' value
-known as NULL causes an abiguity for overload compilations of the ITKv5 smartpointers. To be backwards compatible
+known as NULL causes an ambiguity for overload compilations of the ITKv5 smartpointers. To be backwards compatible
 with pre C++11 compilers use the `ITK_NULLPTR` designation, otherwise replace NULL and 0 initialization of
 `itk::SmartPointer` with nullptr.
 
@@ -303,7 +303,7 @@ Spatial Objects Refactoring
 ---------------------------
 The SpatialObject classes were refactored to address issues and inconsistencies that had arisen over the years.  The severity of these issues and inconsistencies was such that the classes provided incorrect and/or unexpected behaviors that made their proper usage problematic.
 
-The most noteable change is that dependencies on VNL Tree data structures and the requirement that every SpatialObject be defined
+The most notable change is that dependencies on VNL Tree data structures and the requirement that every SpatialObject be defined
 in an object space were eliminated.   The VNL Tree data structures introduced unnecessary complexity, additional (redundant)
 transformations, and dependencies on VNL in the API that ITKv5 seeks to eliminate.   The elimination of a dependency on an IndexSpace
 simplified the set of transformations that each SpatialObject needed to maintain and made the API of every SpatialObject more consistent
@@ -354,7 +354,7 @@ As implied above, the changes to SpatialObject are extensive.   They include the
 * `RemoveChild()` and `RemoveAllChildren()` fixed to remove all pointers to / from those children to / from the tree
 * Helper functions simplify the specification of `IsInsideInObjectSpace()`, `ValueAtInObjectSpace()`, and other computations that potentially traverse an SO tree.
 * Derived classes typically only need to implement `IsInsideInObjectSpace()` and `ComputeMyBoundingBoxInObjectSpace()` member functions. Logic for `ValueAtInObjectSpace()`, `IsInsideInWorldSpace()` and such is improved.
-* PointBasedSpatialObjects had a PointListType type declaration.  This was confusing because it refered to a list of SpatialObjectPoints and not ITK::Points.  So, to avoid such confusion, now TubeSpatialObjects define TubePointListType, BlobSpatialObjects define BlobPointListType, and so forth.
+* PointBasedSpatialObjects had a PointListType type declaration.  This was confusing because it referred to a list of SpatialObjectPoints and not ITK::Points.  So, to avoid such confusion, now TubeSpatialObjects define TubePointListType, BlobSpatialObjects define BlobPointListType, and so forth.
 * `ImageMaskSpatialObject::GetAxisAlignedBoundingBoxRegion()` was removed. `ImageMaskSpatialObject::ComputeMyBoundingBoxInIndexSpace()` should be used instead.
 * `SpatialObjectReader::GetScene` was renamed to `GetGroup` along with changing the type from `ScenePointer` to `GroupPointer`.
   * Elements of a `Group` are now `Children`, so `scene->GetObjects` now becomes `group->GetChildren`
@@ -422,7 +422,7 @@ which return a `reverse_iterator`, compatible with the Standard C++ Library.
 `itk::StatisticsImageFilter`, `itk::LabelStatisticsImageFilter` and
 `itk::MinimumMaximumImageFilter` no longer produce an image as their
 primary output, as it was a shallow copy of the primary
-input. Additionally, minor API changes have occoured related to the
+input. Additionally, minor API changes have occurred related to the
 decorated output methods to conform to ITK conventions.
 
 `itk::NiftiImageIO` was changed to support different kinds of Analyze file conventions.

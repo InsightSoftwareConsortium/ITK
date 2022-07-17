@@ -17,7 +17,7 @@ Additional information about [Git] may be obtained at these sites:
       * [PDF](github.com/downloads/nvie/gitflow/Git-branching-model.pdf) version.
     * [LearnGitBranching - Web application designed to help beginners grasp the powerful concepts behind branching](https://learngitbranching.js.org/)
   * Cheat sheets
-    * [Git sheat sheet](http://cheat.errtheblog.com/s/git)
+    * [Git cheat sheet](http://cheat.errtheblog.com/s/git)
     * [GitHub Git cheat sheet](https://services.github.com/on-demand/downloads/github-git-cheat-sheet/)
       * [PDF](https://services.github.com/on-demand/downloads/github-git-cheat-sheet.pdf) version.
   * Git books
