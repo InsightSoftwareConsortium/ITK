@@ -163,7 +163,7 @@ def addUnwrappedType(s):
 def exploreTpl(tpl):
     for cl in tpl.values():
         exploreMethods(cl, cl)
-        # try to instanciate the class
+        # try to instantiate the class
         try:
             obj = cl.New()
             exploreMethods(obj, cl)

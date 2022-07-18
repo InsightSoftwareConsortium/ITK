@@ -21,7 +21,7 @@ class ITKClass:
     def __init__(self, l_class_name):
         # Structure
         # { method_name: [
-        #                  # Each entry of this list contains a description of the definition for the singe method
+        #                  # Each entry of this list contains a description of the definition for the single method
         #                  # Each description is similar but can contain different types or defaults
         #                  [
         #                    # Describe each argument of the method
@@ -474,7 +474,7 @@ def merge(class_definitions: []) -> Union[ITKClass, None]:
                 )
 
             # In some instances, not all parent classes are represented in each overload
-            # This merges them together but may provide some type dependant hints
+            # This merges them together but may provide some type dependent hints
             base.parent_class = list(set(base.parent_class + class_def.parent_class))
 
             # merge class methods together

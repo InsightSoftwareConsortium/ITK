@@ -128,16 +128,16 @@ assert median.GetInput() == median2.GetOutput()
 # catching exception
 try:
     median.Update()
-    print("Exception not throwed!", file=sys.stderr)
+    print("Exception not thrown!", file=sys.stderr)
     sys.exit(1)
 except RuntimeError as e:
-    print("Exception catched as expected", e)
+    print("Exception caught as expected", e)
 
 #   ----- keep that at the end! -----
 
 # pycommand masked
 def exit():
-    print("exitting on delete...")
+    print("exiting on delete...")
     sys.exit(0)
 
 

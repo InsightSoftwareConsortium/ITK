@@ -34,7 +34,7 @@ import math
 from collections.abc import Mapping
 
 # Needed to avoid problem with aliasing of itk.set (itkTemplate)
-# inside the itk namespace.  We need to explictly specify the
+# inside the itk namespace.  We need to explicitly specify the
 # use of the builtin set
 from builtins import set as _builtin_set
 

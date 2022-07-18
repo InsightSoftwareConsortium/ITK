@@ -223,7 +223,7 @@ macro(itk_wrap_named_class class swig_name)
   # fully-qualified C++ type name, including the namespace. Between itk_wrap_class
   # and itk_end_wrap_class various macros should be called to cause certain template
   # instances to be automatically added to the wrap_*.cxx file. itk_end_wrap_class
-  # actually parses through the template instaces that have been recorded and
+  # actually parses through the template instances that have been recorded and
   # creates the content of that cxx file. itk_wrap_simple_class should be used
   # to create a definition for a non-templated class. (Note that internally,
   # itk_wrap_simple_class eventually calls this macro. This macro should never
@@ -841,7 +841,7 @@ endmacro()
 # filters which take different image types as different template parameters, use
 # itk_wrap_image_filter_types or itk_wrap_image_filter_combinations.
 # These macros also take an optional second parameter which is a "dimensionality
-# condition" to restrict the dimensions that theis filter will be instantiated
+# condition" to restrict the dimensions that this filter will be instantiated
 # for. The condition can either be a single number indicating the one dimension
 # allowed, a list of dimensions that are allowed (either as a single ;-delimited
 # string or just a set of separate parameters), or something of the form "n+"
@@ -890,7 +890,7 @@ macro(itk_wrap_image_filter_combinations)
   # filter<itk::Image<unsigned short, d>, itk::Image<unsigned short, d> >
   # where 'd' is the image dimension, for each selected image dimension.
 
-  # First, store the variable args in real varables, not the macro parameters.
+  # First, store the variable args in real variables, not the macro parameters.
   # Parameters can't be looked up like this: ${ARGV${num}} because they are
   # textually substituted before the macro is evaluated.
   set(arg0 ${ARGV0})
@@ -965,7 +965,7 @@ macro(itk_wrap_image_filter_types)
   # template parameter list. The optional dimensionality condition should be
   # placed in the last parameter.
 
-  # First, store the variable args in real varables, not the macro parameters.
+  # First, store the variable args in real variables, not the macro parameters.
   # Parameters can't be looked up like this: ${ARGV${num}} because they are
   # textually substituted before the macro is evaluated.
   set(arg0 ${ARGV0})

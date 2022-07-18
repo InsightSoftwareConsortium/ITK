@@ -1925,7 +1925,7 @@ def attribute_dict(inputobject, name: str):
 
 
 def number_of_objects(image_or_filter) -> int:
-    """Returns the number of objets in the image.
+    """Returns the number of objects in the image.
 
     img: the input LabelImage
     """

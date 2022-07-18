@@ -87,7 +87,7 @@ nonWrapped = classes - wrapped
 for f in sorted(nonWrapped):
     print(f)
 
-# and print stats in stderr to avoid poluting the list above
+# and print stats in stderr to avoid polluting the list above
 print("", file=sys.stderr)
 print("%i %s" % (len(classes), opts.base), file=sys.stderr)
 print("%i wrapped %s" % (len(wrapped), opts.base), file=sys.stderr)

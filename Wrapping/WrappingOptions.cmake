@@ -50,7 +50,7 @@ cmake_dependent_option(ITK_WRAP_complex_float "Wrap complex< float > type" ON "I
 cmake_dependent_option(ITK_WRAP_complex_double "Wrap complex< double > type" OFF "ITK_WRAPPING" OFF)
 
 if(ITK_WRAPPING)
-  # Check for type conditions that need to be fullfilled.
+  # Check for type conditions that need to be fulfilled.
   foreach(t float double)
     # Vectors
     if(ITK_WRAP_vector_${t} AND NOT ITK_WRAP_${t})

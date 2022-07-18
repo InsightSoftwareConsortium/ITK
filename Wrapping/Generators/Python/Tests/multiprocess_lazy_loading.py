@@ -7,7 +7,7 @@
 #
 # The LazyLoading of ITK did not treat the loading of
 # modules as an atomic transaction, and multiple threads
-# would attempt to load the cascading dependancies out of
+# would attempt to load the cascading dependencies out of
 # order.
 #
 # The `getattr` override that allows LazyLoading to work
@@ -19,7 +19,7 @@
 #
 # Need to use a recursive lock for thread ownership so that the
 # first thread can can acquire a RLock as often as needed while
-# recursively processing dependant modules lazy loads.  Other threads need
+# recursively processing dependent modules lazy loads.  Other threads need
 # to wait until this first thread releases the RLock.
 
 
@@ -50,7 +50,7 @@ def test_itk_multi_load(num_workers: int):
         # Purposely import inside of thread pool call
         # to ensure that all the lazy loading of modules
         # can be configured consistently when all threads
-        # attempt ot load itk at the same time
+        # attempt to load itk at the same time
         import itk
 
         return itk.imread(all_filenames[idx])

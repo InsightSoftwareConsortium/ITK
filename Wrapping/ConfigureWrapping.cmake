@@ -56,7 +56,7 @@ include(${ITK_USE_FILE})
 # set(CMAKE_SKIP_RPATH ON CACHE BOOL "ITK wrappers must not have runtime path information." FORCE)
 
 #------------------------------------------------------------------------------
-# System dependant wrapping stuff
+# System dependent wrapping stuff
 
 set(ITK_WRAP_NEEDS_DEPEND 1)
 if(${CMAKE_MAKE_PROGRAM} MATCHES make)
@@ -134,6 +134,6 @@ include("${WRAP_ITK_CMAKE_DIR}/WrapITKTypes.cmake")
 # Lets the target generators do their job
 ###############################################################################
 add_subdirectory("${WRAP_ITK_CMAKE_DIR}/Generators" "${CMAKE_CURRENT_BINARY_DIR}/Generators")
-# get the porperties from the generators dirs - there should be others than this one
+# get the properties from the generators dirs - there should be others than this one
 get_directory_property(inc DIRECTORY "${WRAP_ITK_CMAKE_DIR}/Generators" INCLUDE_DIRECTORIES)
 include_directories(${inc})
