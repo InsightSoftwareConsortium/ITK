@@ -504,7 +504,7 @@ str = str
 
             @property
             def ndim(self):
-                """Equivalant to the np.ndarray ndim attribute when converted
+                """Equivalent to the np.ndarray ndim attribute when converted
                 to an image with itk.array_view_from_image."""
                 spatial_dims = self.GetImageDimension()
                 if self.GetNumberOfComponentsPerPixel() > 1:
@@ -514,7 +514,7 @@ str = str
 
             @property
             def shape(self):
-                """Equivalant to the np.ndarray shape attribute when converted
+                """Equivalent to the np.ndarray shape attribute when converted
                 to an image with itk.array_view_from_image."""
                 itksize = self.GetLargestPossibleRegion().GetSize()
                 dim = len(itksize)
@@ -537,7 +537,7 @@ str = str
 
             @property
             def dtype(self):
-                """Equivalant to the np.ndarray dtype attribute when converted
+                """Equivalent to the np.ndarray dtype attribute when converted
                 to an image with itk.array_view_from_image."""
                 import itk
                 first_template_arg = itk.template(self)[1][0]

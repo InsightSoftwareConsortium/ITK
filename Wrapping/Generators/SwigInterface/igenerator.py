@@ -234,7 +234,7 @@ pyi_created_index_list: List[Path] = []
 class ITKClass:
     # Structure
     # { method_name: [
-    #                  # Each entry of this list contains a description of the definition for the singe method
+    #                  # Each entry of this list contains a description of the definition for the single method
     #                  # Each description is similar but can contain different types or defaults
     #                  [
     #                    # Describe each argument of the method
@@ -925,7 +925,7 @@ class SwigInputGenerator:
                 full_name = self.normalize(full_name)
 
                 if full_name in self.aliases:
-                    # If the full_name key alreay exists, do not overwrite the
+                    # If the full_name key already exists, do not overwrite the
                     # value. load_idx() is called once before load_mdx(), making
                     # sure the first aliases loaded are the ones belonging to
                     # the current submodule (and the next load_idx() calls
@@ -1605,7 +1605,7 @@ if _version_info < (3, 7, 0):
         header_file = self.generate_headerfile(idx_file, wrappers_namespace)
 
         # iterate over all the typedefs in the _wrapping_::wrappers namespace
-        # to build a list of classes with the dependecies
+        # to build a list of classes with the dependencies
         # classes :: [(name, [dep_name], typedef)]
         classes = []
         for typedef in wrappers_namespace.typedefs():
@@ -1887,13 +1887,13 @@ def generate_swig_input(
         # The following warning is useful for debugging, and eventually we
         # may wish to find a way to remove modules that are not currently part
         # of the build.  For example, currently all *.wrap files are processed and listed
-        # as module dependancies. If FFTW is not enabled, that causes empty submodules
-        # to be created as dependancies unnecesarily.
+        # as module dependencies. If FFTW is not enabled, that causes empty submodules
+        # to be created as dependencies unnecessarily.
         # Changing that behavior will require structural code changes, or alternate
         # mechanisms to be implemented.
         if glb_options.debug_code:
             print(
-                f"WARNING: {submodule_name} has no classes identified, but was listed as a dependant submodule."
+                f"WARNING: {submodule_name} has no classes identified, but was listed as a dependent submodule."
             )
     generate_pyi_index_files(submodule_name, index_file_contents, pkl_dir)
 

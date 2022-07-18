@@ -23,7 +23,7 @@ itk.auto_progress(2)
 
 # first argument is the pixel type
 PType = getattr(itk, sys.argv[1])
-# second arguement the image dimension
+# second argument the image dimension
 dim = int(sys.argv[2])
 
 # get the image type

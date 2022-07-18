@@ -21,9 +21,9 @@ from itk.support.build_options import ALL_TYPES, DIMS
 # Simple exercise of types identified during build
 print("-------- PRINTING THE BUILD DIMENSIONS -----------")
 for build_dims in DIMS:
-    print(f"ITK Compliled with support for dimension: {build_dims}")
+    print(f"ITK Compiled with support for dimension: {build_dims}")
 print("---------------------------------------------")
 print("-------- PRINTING THE BUILD TYPES -----------")
 for build_types_identified in ALL_TYPES:
-    print(f"ITK Compliled with support for: {build_types_identified}")
+    print(f"ITK Compiled with support for: {build_types_identified}")
 print("---------------------------------------------")

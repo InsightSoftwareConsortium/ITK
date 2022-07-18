@@ -20,7 +20,7 @@ from itk.support import base
 from itkConfig import DefaultFactoryLoading as _DefaultFactoryLoading
 
 # Needed to avoid problem with aliasing of itk.set (itkTemplate)
-# inside the itk namespace.  We need to explictly specify the
+# inside the itk namespace.  We need to explicitly specify the
 # use of the builtin set
 from builtins import set as _builtin_set
 
@@ -52,7 +52,7 @@ class ITKLazyLoadLock:
 
     A single lock is needed for all lazy loading.  This lock blocks
     across all threads until this thread has completed all its imports
-    and dependancies.  The complex inter-relationship, and the recursive
+    and dependencies.  The complex inter-relationship, and the recursive
     nature of imports, makes a more fine-grained locking very difficult
     to implement robustly."""
 
