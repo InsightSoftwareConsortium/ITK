@@ -16,6 +16,7 @@ itkNiftiImageIOTest13.cxx
 itkNiftiReadAnalyzeTest.cxx
 itkNiftiReadWriteDirectionTest.cxx
 itkExtractSlice.cxx
+itkNiftiWriteCoerceOrthogonalDirectionTest.cxx
 )
 
 # For itkNiftiImageIOTest.h.
@@ -101,3 +102,8 @@ itk_add_test(NAME itkNiftiReadWriteDirectionSmallVoxelTest
 itk_add_test(NAME itkNiftiSmallVoxelsAffinePrecisionTest
 COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest13
       DATA{Input/SmallVoxels_AffinePrecision.nii.gz})
+
+itk_add_test(NAME itkNiftiWriteCoerceOrthogonalDirectionTest
+        COMMAND ITKIONIFTITestDriver itkNiftiWriteCoerceOrthogonalDirectionTest
+        ${ITK_TEST_OUTPUT_DIR}
+        )
