@@ -77,7 +77,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputePairFeatures(const Vector3d & 
 }
 
 template <typename TInputPointSet, typename TOutputPointSet>
-typename MyFilter<TInputPointSet, TOutputPointSet>::FeatureType *
+typename MyFilter<TInputPointSet, TOutputPointSet>::FeatureTypePointer
 MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * input,
                                                               TInputPointSet * input_normals,
                                                               unsigned int     radius,
@@ -191,15 +191,15 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet * i
 }
 
 template <typename TInputPointSet, typename TOutputPointSet>
-typename MyFilter<TInputPointSet, TOutputPointSet>::FeatureType *
+void
 MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * input,
                                                               TInputPointSet * input_normals,
                                                               unsigned int     radius,
                                                               unsigned int     neighbors)
 {
   unsigned long int num_of_points = input->GetNumberOfPoints();
-  fpfh_feature = FeatureType::New();
-  fpfh_feature->Reserve(33 * num_of_points);
+  this->m_FpfhFeature = FeatureType::New();
+  this->m_FpfhFeature->Reserve(33 * num_of_points);
 
   // if (!input.HasNormals()) {
   //     utility::LogError("Failed because input point cloud has no normal.");
@@ -249,7 +249,8 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
         {
           double val = spfh->GetElement(j * num_of_points + neighbor_vect[k].second) / neighbor_vect[k].first;
           sum[j / 11] += val;
-          fpfh_feature->SetElement(j * num_of_points + i, fpfh_feature->GetElement(j * num_of_points + i) + val);
+          this->m_FpfhFeature->SetElement(j * num_of_points + i,
+                                          this->m_FpfhFeature->GetElement(j * num_of_points + i) + val);
         }
       }
 
@@ -263,14 +264,14 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
 
       for (int j = 0; j < 33; j++)
       {
-        fpfh_feature->SetElement(j * num_of_points + i, fpfh_feature->GetElement(j * num_of_points + i) * sum[j / 11]);
-        fpfh_feature->SetElement(j * num_of_points + i,
-                                 fpfh_feature->GetElement(j * num_of_points + i) +
-                                   spfh->GetElement(j * num_of_points + i));
+        this->m_FpfhFeature->SetElement(j * num_of_points + i,
+                                        this->m_FpfhFeature->GetElement(j * num_of_points + i) * sum[j / 11]);
+        this->m_FpfhFeature->SetElement(j * num_of_points + i,
+                                        this->m_FpfhFeature->GetElement(j * num_of_points + i) +
+                                          spfh->GetElement(j * num_of_points + i));
       }
     }
   }
-  return fpfh_feature;
 }
 
 
