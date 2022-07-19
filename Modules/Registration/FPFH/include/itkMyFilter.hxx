@@ -198,9 +198,8 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
                                                               unsigned int     neighbors)
 {
   unsigned long int num_of_points = input->GetNumberOfPoints();
-
-  FeatureType * feature = FeatureType::New();
-  feature->Reserve(33 * num_of_points);
+  fpfh_feature = FeatureType::New();
+  fpfh_feature->Reserve(33 * num_of_points);
 
   // if (!input.HasNormals()) {
   //     utility::LogError("Failed because input point cloud has no normal.");
@@ -250,7 +249,7 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
         {
           double val = spfh->GetElement(j * num_of_points + neighbor_vect[k].second) / neighbor_vect[k].first;
           sum[j / 11] += val;
-          feature->SetElement(j * num_of_points + i, feature->GetElement(j * num_of_points + i) + val);
+          fpfh_feature->SetElement(j * num_of_points + i, fpfh_feature->GetElement(j * num_of_points + i) + val);
         }
       }
 
@@ -264,13 +263,14 @@ MyFilter<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet * i
 
       for (int j = 0; j < 33; j++)
       {
-        feature->SetElement(j * num_of_points + i, feature->GetElement(j * num_of_points + i) * sum[j / 11]);
-        feature->SetElement(j * num_of_points + i,
-                            feature->GetElement(j * num_of_points + i) + spfh->GetElement(j * num_of_points + i));
+        fpfh_feature->SetElement(j * num_of_points + i, fpfh_feature->GetElement(j * num_of_points + i) * sum[j / 11]);
+        fpfh_feature->SetElement(j * num_of_points + i,
+                                 fpfh_feature->GetElement(j * num_of_points + i) +
+                                   spfh->GetElement(j * num_of_points + i));
       }
     }
   }
-  return feature;
+  return fpfh_feature;
 }
 
 

@@ -86,6 +86,8 @@ public:
                      unsigned int        radius,
                      unsigned int        neighbors);
 
+  FeatureType * fpfh_feature;
+
 protected:
   MyFilter();
   ~MyFilter() override = default;
