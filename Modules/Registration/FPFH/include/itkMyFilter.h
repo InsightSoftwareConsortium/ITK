@@ -65,8 +65,8 @@ public:
 
   using PointsLocatorType = typename itk::PointsLocator<itk::VectorContainer<PointIdentifier, PointType>>;
   using PointsLocatorTypePointer = typename PointsLocatorType::Pointer;
-  using FeatureType = std::vector<double>; // typename itk::VectorContainer<PointIdentifier, double>;
-  // using FeatureTypePointer = typename FeatureType::Pointer;
+  // using FeatureType = std::vector<double>;
+  using FeatureType = typename itk::VectorContainer<PointIdentifier, double>;
 
   /** Run-time type information. */
   itkTypeMacro(MyFilter, MeshToMeshFilter);
@@ -74,13 +74,13 @@ public:
   /** Standard New macro. */
   itkNewMacro(Self);
 
-  FeatureType
+  FeatureType *
   ComputeSPFHFeature(InputPointSetType * input,
                      InputPointSetType * input_normals,
                      unsigned int        radius,
                      unsigned int        neighbors);
 
-  FeatureType
+  FeatureType *
   ComputeFPFHFeature(InputPointSetType * input,
                      InputPointSetType * input_normals,
                      unsigned int        radius,
