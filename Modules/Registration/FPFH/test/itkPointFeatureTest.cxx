@@ -16,7 +16,7 @@
  *
  *=========================================================================*/
 
-#include "itkMyFilter.h"
+#include "itkPointFeature.h"
 #include "itkPointSet.h"
 #include "itkCommand.h"
 #include "itkTestingMacros.h"
@@ -52,7 +52,7 @@ public:
 } // namespace
 
 int
-itkMyFilterTest(int argc, char * argv[])
+itkPointFeatureTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
@@ -68,10 +68,10 @@ itkMyFilterTest(int argc, char * argv[])
   using PixelType = float;
   using PointSetType = itk::PointSet<PixelType, Dimension>;
 
-  using FilterType = itk::MyFilter<PointSetType, PointSetType>;
+  using FilterType = itk::PointFeature<PointSetType, PointSetType>;
   FilterType::Pointer filter = FilterType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MyFilter, MeshToMeshFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, PointFeature, MeshToMeshFilter);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
