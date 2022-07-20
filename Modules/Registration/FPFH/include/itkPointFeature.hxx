@@ -21,6 +21,7 @@
 
 #include "math.h"
 #include "itkPointFeature.h"
+#include "itkMultiThreaderBase.h"
 
 namespace itk
 {
@@ -199,9 +200,6 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
   this->m_FpfhFeature = FeatureType::New();
   this->m_FpfhFeature->Reserve(33 * num_of_points);
 
-  // if (!input.HasNormals()) {
-  //     utility::LogError("Failed because input point cloud has no normal.");
-  // }
   PointsLocatorTypePointer kdtree = PointsLocatorType::New();
   kdtree->SetPoints(input->GetPoints());
   kdtree->Initialize();
@@ -212,8 +210,8 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
   // }
   // #pragma omp parallel for schedule(static) \
   //         num_threads(utility::EstimateMaxThreads())
-  for (int i = 0; i < num_of_points; i++)
-  {
+  // for (int i = 0; i < num_of_points; i++)
+  auto process_point = [&](int i) {
     auto point = input->GetPoint(i);
 
     typename PointsLocatorType::NeighborsIdentifierType indices;
@@ -269,7 +267,10 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
                                           spfh->GetElement(j * num_of_points + i));
       }
     }
-  }
+  };
+
+  itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
+  mt->ParallelizeArray(0, num_of_points, process_point, nullptr);
 }
 
 
