@@ -205,13 +205,9 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
   kdtree->Initialize();
 
   auto spfh = ComputeSPFHFeature(input, input_normals, radius, neighbors);
-  // if (spfh == nullptr) {
-  //     utility::LogError("Internal error: SPFH feature is nullptr.");
-  // }
-  // #pragma omp parallel for schedule(static) \
-  //         num_threads(utility::EstimateMaxThreads())
-  // for (int i = 0; i < num_of_points; i++)
-  auto process_point = [&](int i) {
+
+  // Method to perform processing in parallel
+  auto ProcessPoint = [&](int i) {
     auto point = input->GetPoint(i);
 
     typename PointsLocatorType::NeighborsIdentifierType indices;
@@ -270,7 +266,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
   };
 
   itk::MultiThreaderBase::Pointer mt = itk::MultiThreaderBase::New();
-  mt->ParallelizeArray(0, num_of_points, process_point, nullptr);
+  mt->ParallelizeArray(0, num_of_points, ProcessPoint, nullptr);
 }
 
 
