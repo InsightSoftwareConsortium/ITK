@@ -2151,6 +2151,24 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
   mat44 matrix =
     nifti_make_orthog_mat44(dirx[0], dirx[1], dirx[2], diry[0], diry[1], diry[2], dirz[0], dirz[1], dirz[2]);
   matrix = mat44_transpose(matrix);
+  // Check if matrix is orthogonal and issue a warning if it was
+  // coerced to orthogonal. Use same epsilon as used in SetImageIOOrientationFromNIfTI
+  const unsigned int matDim(this->GetDirection(0).size());
+  vnl_matrix<float>  imageMat(matDim, matDim);
+  for (unsigned c = 0; c < matDim; ++c)
+  {
+    auto col = this->GetDirection(c);
+    for (unsigned r = 0; r < matDim; ++r)
+    {
+      imageMat[r][c] = col[r];
+    }
+  }
+  auto candidateIdentity = imageMat * imageMat.transpose();
+  if (!candidateIdentity.is_identity(1.0e-4))
+  {
+    itkWarningMacro("Non-orthogonal direction matrix coerced to orthogonal");
+  }
+
   // Fill in origin.
   matrix.m[0][3] = static_cast<float>(-this->GetOrigin(0));
   matrix.m[1][3] = (origdims > 1) ? static_cast<float>(-this->GetOrigin(1)) : 0.0f;
