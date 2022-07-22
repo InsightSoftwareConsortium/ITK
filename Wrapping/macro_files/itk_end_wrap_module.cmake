@@ -293,7 +293,7 @@ _ITKCommonPython_API[_ITKCommonPython_GetGlobalSingletonIndex_NUM] = (void *)_IT
 
 /* Create a Capsule containing the API pointer array's address */
 PyObject * cAPIObject = PyCapsule_New((void *)_ITKCommonPython_API,
-\"_ITKCommonPython._C_API\", NULL);
+\"itk._ITKCommonPython._C_API\", NULL);
 
 if(cAPIObject != NULL)
 {

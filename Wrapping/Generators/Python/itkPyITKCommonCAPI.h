@@ -67,7 +67,7 @@ static void ** _ITKCommonPython_API;
 static int
 import__ITKCommonPython()
 {
-  _ITKCommonPython_API = (void **)PyCapsule_Import("_ITKCommonPython._C_API", 0);
+  _ITKCommonPython_API = (void **)PyCapsule_Import("itk._ITKCommonPython._C_API", 0);
   return (_ITKCommonPython_API != NULL) ? 0 : -1;
 }
 
