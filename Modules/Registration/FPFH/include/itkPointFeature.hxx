@@ -95,10 +95,8 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
     auto point = input->GetPoint(i);
     auto normal = input_normals->GetPoint(i);
 
-    std::vector<double> distances;
-
     typename PointsLocatorType::NeighborsIdentifierType indices;
-    kdtree->FindClosestNPoints(point, neighbors, indices, distances);
+    kdtree->FindClosestNPoints(point, neighbors, indices);
 
     if (indices.size() > 1)
     {
@@ -107,7 +105,8 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeSPFHFeature(TInputPointSet
 
       for (size_t k = 0; k < indices.size(); k++)
       {
-        auto dist = distances[k];
+        auto   point_diff = point - input->GetPoint(indices[k]);
+        double dist = point_diff.GetNorm();
 
         // skip the point itself
         if (dist == 0.0)
@@ -217,8 +216,7 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
     auto point = input->GetPoint(i);
 
     typename PointsLocatorType::NeighborsIdentifierType indices;
-    std::vector<double>                                 distances;
-    kdtree->FindClosestNPoints(point, neighbors, indices, distances);
+    kdtree->FindClosestNPoints(point, neighbors, indices);
 
     if (indices.size() > 1)
     {
@@ -229,7 +227,8 @@ PointFeature<TInputPointSet, TOutputPointSet>::ComputeFPFHFeature(TInputPointSet
 
       for (size_t k = 0; k < indices.size(); k++)
       {
-        double dist = distances[k];
+        auto   point_diff = point - input->GetPoint(indices[k]);
+        double dist = point_diff.GetNorm();
 
         // skip the point itself
         if (dist == 0.0)
