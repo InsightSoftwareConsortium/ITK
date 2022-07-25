@@ -226,6 +226,13 @@ public:
   /** Get the false positive error for the specified individual label. */
   RealType GetFalsePositiveError(LabelType) const;
 
+  /** Get the false discovery rate over all labels. */
+  RealType
+  GetFalseDiscoveryRate() const;
+
+  /** Get the false discovery rate for the specified individual label. */
+  RealType GetFalseDiscoveryRate(LabelType) const;
+
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
   itkConceptMacro(Input1HasNumericTraitsCheck, (Concept::HasNumericTraits<LabelType>));

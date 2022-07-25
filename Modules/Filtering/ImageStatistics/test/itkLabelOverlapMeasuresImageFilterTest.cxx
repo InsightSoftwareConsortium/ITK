@@ -48,7 +48,7 @@ LabelOverlapMeasures(int, char * argv[])
   std::cout << "All Labels" << std::endl;
   std::cout << std::setw(10) << "   " << std::setw(17) << "Total" << std::setw(17) << "Union (jaccard)" << std::setw(17)
             << "Mean (dice)" << std::setw(17) << "Volume sim." << std::setw(17) << "False negative" << std::setw(17)
-            << "False positive" << std::endl;
+            << "False positive" << std::setw(17) << "False discovery" << std::endl;
   std::cout << std::setw(10) << "   ";
   std::cout << std::setw(17) << filter->GetTotalOverlap();
   std::cout << std::setw(17) << filter->GetUnionOverlap();
@@ -56,12 +56,13 @@ LabelOverlapMeasures(int, char * argv[])
   std::cout << std::setw(17) << filter->GetVolumeSimilarity();
   std::cout << std::setw(17) << filter->GetFalseNegativeError();
   std::cout << std::setw(17) << filter->GetFalsePositiveError();
+  std::cout << std::setw(17) << filter->GetFalseDiscoveryRate();
   std::cout << std::endl;
 
   std::cout << "Individual Labels" << std::endl;
   std::cout << std::setw(10) << "Label" << std::setw(17) << "Target" << std::setw(17) << "Union (jaccard)"
             << std::setw(17) << "Mean (dice)" << std::setw(17) << "Volume sim." << std::setw(17) << "False negative"
-            << std::setw(17) << "False positive" << std::endl;
+            << std::setw(17) << "False positive" << std::setw(17) << "False discovery" << std::endl;
 
   typename FilterType::MapType                 labelMap = filter->GetLabelSetMeasures();
   typename FilterType::MapType::const_iterator it;
@@ -82,6 +83,7 @@ LabelOverlapMeasures(int, char * argv[])
     std::cout << std::setw(17) << filter->GetVolumeSimilarity(label);
     std::cout << std::setw(17) << filter->GetFalseNegativeError(label);
     std::cout << std::setw(17) << filter->GetFalsePositiveError(label);
+    std::cout << std::setw(17) << filter->GetFalseDiscoveryRate(label);
     std::cout << std::endl;
   }
 
@@ -134,6 +136,15 @@ LabelOverlapMeasures(int, char * argv[])
   {
     std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
     std::cout << "Expected false positive error: " << expectedValue << ", but got " << result << std::endl;
+    std::cout << "Test failed" << std::endl;
+    return EXIT_FAILURE;
+  }
+
+  result = filter->GetFalseDiscoveryRate(label);
+  if (itk::Math::NotAlmostEquals(expectedValue, result))
+  {
+    std::cout << "Error in label " << static_cast<itk::NumericTraits<PixelType>::PrintType>(label) << ": ";
+    std::cout << "Expected false discovery rate: " << expectedValue << ", but got " << result << std::endl;
     std::cout << "Test failed" << std::endl;
     return EXIT_FAILURE;
   }
