@@ -91,12 +91,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::AfterThreadedGenerateData()
       }
 
       // Accumulate the information from this thread
-      (*mapIt).second.m_Source += (*threadIt).second.m_Source;
-      (*mapIt).second.m_Target += (*threadIt).second.m_Target;
-      (*mapIt).second.m_Union += (*threadIt).second.m_Union;
-      (*mapIt).second.m_Intersection += (*threadIt).second.m_Intersection;
-      (*mapIt).second.m_SourceComplement += (*threadIt).second.m_SourceComplement;
-      (*mapIt).second.m_TargetComplement += (*threadIt).second.m_TargetComplement;
+      (*mapIt).second.m_Source += (*threadIt).second.m_Source; // segmentation which will be compared (TP+FP)
+      (*mapIt).second.m_Target += (*threadIt).second.m_Target; // Ground Truth segmentation (TP+FN)
+      (*mapIt).second.m_Union += (*threadIt).second.m_Union; // (TP+FN+FP)
+      (*mapIt).second.m_Intersection += (*threadIt).second.m_Intersection; //(TP)
+      (*mapIt).second.m_SourceComplement += (*threadIt).second.m_SourceComplement; //(FP)
+      (*mapIt).second.m_TargetComplement += (*threadIt).second.m_TargetComplement; //(FN)
     } // end of thread map iterator loop
   }   // end of thread loop
 }
