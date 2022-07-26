@@ -375,6 +375,10 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
 {
   RealType numerator = 0.0;
   RealType denominator = 0.0;
+
+  LabelImagePointer sourceImg = const_cast<TLabelImage *>(this->GetSourceImage());
+  auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
+
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
@@ -382,10 +386,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
     {
       continue;
     }
-    LabelImagePointer sourceImg = const_cast<TLabelImage *>((*mapIt)->GetSourceImage());
-    auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
     auto nComplementIntersection = nVox - (*mapIt).second.m_Union //TN
-
     numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement); //FP
     denominator += static_cast<RealType>((*mapIt).second.m_SourceComplement+ nComplementIntersection); //FP+TN
   }
@@ -404,6 +405,8 @@ template <typename TLabelImage>
 auto
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType label) const -> RealType
 {
+  LabelImagePointer sourceImg = const_cast<TLabelImage *>(this->GetSourceImage());
+  auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
   {
@@ -418,8 +421,6 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType la
   }
   else
   {
-    LabelImagePointer sourceImg = const_cast<TLabelImage *>((*mapIt)->GetSourceImage());
-    auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
     auto nComplementIntersection = nVox - (*mapIt).second.m_Union //TN
 
     value = static_cast<RealType>((*mapIt).second.m_SourceComplement) / static_cast<RealType>((*mapIt).second.m_SourceComplement + nComplementIntersection);
