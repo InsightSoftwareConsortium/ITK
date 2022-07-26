@@ -376,7 +376,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
   RealType numerator = 0.0;
   RealType denominator = 0.0;
 
-  LabelImagePointer sourceImg = const_cast<TLabelImage *>(this->GetSourceImage());
+  LabelImagePointer sourceImg = const_cast<TLabelImage>(this->GetSourceImage());
   auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
 
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
@@ -405,7 +405,7 @@ template <typename TLabelImage>
 auto
 LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType label) const -> RealType
 {
-  LabelImagePointer sourceImg = const_cast<TLabelImage *>(this->GetSourceImage());
+  LabelImagePointer sourceImg = const_cast<TLabelImage>(this->GetSourceImage());
   auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
   auto mapIt = this->m_LabelSetMeasures.find(label);
   if (mapIt == this->m_LabelSetMeasures.end())
