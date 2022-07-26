@@ -382,8 +382,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
     {
       continue;
     }
-    numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement);
-    denominator += static_cast<RealType>((*mapIt).second.m_Source);
+    LabelImagePointer sourceImg = const_cast<TLabelImage *>((*mapIt)->GetSourceImage());
+    auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
+    auto nComplementIntersection = nVox - (*mapIt).second.m_Union //TN
+
+    numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement); //FP
+    denominator += static_cast<RealType>((*mapIt).second.m_SourceComplement+ nComplementIntersection); //FP+TN
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -414,9 +418,64 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType la
   }
   else
   {
-    value = static_cast<RealType>((*mapIt).second.m_SourceComplement) / static_cast<RealType>((*mapIt).second.m_Source);
+    LabelImagePointer sourceImg = const_cast<TLabelImage *>((*mapIt)->GetSourceImage());
+    auto nVox = sourceImg->GetBufferedRegion().GetNumberOfPixels(); //TP+FP+FN+TN
+    auto nComplementIntersection = nVox - (*mapIt).second.m_Union //TN
+
+    value = static_cast<RealType>((*mapIt).second.m_SourceComplement) / static_cast<RealType>((*mapIt).second.m_SourceComplement + nComplementIntersection);
   }
 
+  return value;
+}
+
+
+template <typename TLabelImage>
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate() const -> RealType
+{
+  RealType numerator = 0.0;
+  RealType denominator = 0.0;
+  for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
+  {
+    // Do not include the background in the final value.
+    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    {
+      continue;
+    }
+    numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement); //FP
+    denominator += static_cast<RealType>((*mapIt).second.m_Source); //FP+TP
+  }
+
+  if (Math::ExactlyEquals(denominator, 0.0))
+  {
+    return NumericTraits<RealType>::max();
+  }
+  else
+  {
+    return (numerator / denominator);
+  }
+}
+
+template <typename TLabelImage>
+auto
+LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate(LabelType label) const -> RealType
+{
+  auto mapIt = this->m_LabelSetMeasures.find(label);
+  if (mapIt == this->m_LabelSetMeasures.end())
+  {
+    itkWarningMacro("Label " << label << " not found.");
+    return 0.0;
+  }
+
+  RealType value;
+  if (Math::ExactlyEquals((*mapIt).second.m_Source, 0.0))
+  {
+    value = NumericTraits<RealType>::max();
+  }
+  else
+  {
+    value = static_cast<RealType>((*mapIt).second.m_SourceComplement) / static_cast<RealType>((*mapIt).second.m_Source);
+  }
   return value;
 }
 
