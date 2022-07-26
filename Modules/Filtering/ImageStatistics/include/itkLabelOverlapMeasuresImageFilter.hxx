@@ -386,7 +386,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
     {
       continue;
     }
-    auto nComplementIntersection = nVox - (*mapIt).second.m_Union //TN
+    auto nComplementIntersection = nVox - (*mapIt).second.m_Union; //TN
     numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement); //FP
     denominator += static_cast<RealType>((*mapIt).second.m_SourceComplement+ nComplementIntersection); //FP+TN
   }
@@ -421,7 +421,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType la
   }
   else
   {
-    auto nComplementIntersection = nVox - (*mapIt).second.m_Union //TN
+    auto nComplementIntersection = nVox - (*mapIt).second.m_Union; //TN
 
     value = static_cast<RealType>((*mapIt).second.m_SourceComplement) / static_cast<RealType>((*mapIt).second.m_SourceComplement + nComplementIntersection);
   }
