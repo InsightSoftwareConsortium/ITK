@@ -265,7 +265,7 @@ public:
       const typename ImageConstIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
       const typename ImageConstIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
 
-      // Deccrement along a row, then wrap at the beginning of the region row.
+      // Decrement along a row, then wrap at the beginning of the region row.
       bool         done;
       unsigned int dim;
 

@@ -117,7 +117,7 @@ public:
   std::vector<std::string>
   GetKeys() const;
 
-  // Implement map's api. On some Micorsoft compilers, stl containers
+  // Implement map's api. On some Microsoft compilers, stl containers
   // cannot be exported. This causes problems when building DLL's.
   // Here we inherit privately from std::map and provide a simple
   // API. The implementation will be in the DLL.

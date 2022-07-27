@@ -47,7 +47,7 @@ namespace itk
  * Access methods for the center, translation and underlying matrix
  * offset vectors are documented in the superclass MatrixOffsetTransformBase.
  *
- * \sa Transfrom
+ * \sa Transform
  * \sa MatrixOffsetTransformBase
  *
  * \ingroup ITKTransform

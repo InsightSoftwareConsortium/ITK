@@ -119,7 +119,7 @@ itkSmartPointerTest(int, char *[])
   // itkTestObject::Pointer p = sc;
 
   // For construction use the constructor call:
-  // Test casting up the tree, note no explict cast is required
+  // Test casting up the tree, note no explicit cast is required
   itkTestObject::Pointer p(sc);
 
   // No cast is required for assignment

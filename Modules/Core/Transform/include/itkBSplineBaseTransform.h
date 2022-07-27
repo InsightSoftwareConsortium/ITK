@@ -304,7 +304,7 @@ public:
   }
   using Superclass::ComputeJacobianWithRespectToPosition;
 
-  /** Return the number of parameters that completely define the Transfom */
+  /** Return the number of parameters that completely define the Transform */
   NumberOfParametersType
   GetNumberOfParameters() const override = 0;
 

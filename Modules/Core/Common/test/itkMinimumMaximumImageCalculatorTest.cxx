@@ -67,7 +67,7 @@ itkMinimumMaximumImageCalculatorTest(int, char *[])
   }
 
   // The minimum intensity index position will contain a single value:
-  // since all pixels have equal value, it will be ther first pixel
+  // since all pixels have equal value, it will be the first pixel
   itk::Index<3> minIntensityValueIndex;
   minIntensityValueIndex[0] = 0;
   minIntensityValueIndex[1] = 0;

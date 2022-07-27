@@ -177,7 +177,7 @@ public:
 
   /** If Normalize is off, the interior to annulus, the
    * annulus (region between the two circles), and the region exterior to the
-   * annulus to be defined manually.  Defauls are 0, 1, 0
+   * annulus to be defined manually.  Defaults are 0, 1, 0
    * respectively. */
   void
   SetInteriorValue(TPixel v)

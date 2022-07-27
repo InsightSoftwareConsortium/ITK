@@ -84,7 +84,7 @@ public:
     this->Modified();
   }
 
-  /** Evalutate the  in the given dimension at specified point
+  /** Evaluate the function in the given dimension at specified point
    *  Subclasses should override this method. */
   TOutput
   Evaluate(const PointType &) const override

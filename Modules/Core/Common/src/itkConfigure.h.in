@@ -48,7 +48,7 @@
 /* Test external applications to ensure that compatible compiler C++ standard API are used
  * by assuming that compiler standards are backwards (but not forwards) compatible with each
  * other. Strange behaviors may occur if external applications do not use the same compiler
- * and compiler language featues (i.e. compiler flags).
+ * and compiler language features (i.e. compiler flags).
  * The warning is disabled for NVCC (NVidia CUDA) for use of ITK macros with CUDA versions
  * prior to v7. */
 #if !defined(__CUDACC__)
@@ -96,7 +96,7 @@
 # define ITK_HAS_CPP11_TYPETRAITS
 #endif
 
-// defined if the compiler support GNU's __attribute__(( algined(x) )) extension
+// defined if the compiler support GNU's __attribute__(( aligned(x) )) extension
 #cmakedefine ITK_HAS_GNU_ATTRIBUTE_ALIGNED
 
 // defined if the C library as the mallinfo struct

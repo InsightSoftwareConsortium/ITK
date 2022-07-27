@@ -227,7 +227,7 @@ ITKCommon_EXPORT std::istream &
       }
       else
       {
-        // the name is folowed by an address
+        // the name is followed by an address
         in >> address;
 
         if (!in.good())

@@ -286,8 +286,8 @@ PipelineMonitorImageFilter<TImageType>::GenerateData()
 
   ++m_NumberOfUpdates;
 
-  // We are finished with the input data, so release it. Whill this is
-  // ussually done in ReleaseInputs, it doesn't do any harm to release
+  // We are finished with the input data, so release it. While this is
+  // usually done in ReleaseInputs, it doesn't do any harm to release
   // it early
   input->ReleaseData();
 }

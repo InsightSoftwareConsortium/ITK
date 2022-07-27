@@ -120,7 +120,7 @@ itkTimeStampTest(int, char *[])
           min_mtime = mtime;
         }
 
-        // initialiaze the array to false
+        // initialize the array to false
         istimestamped[k] = false;
       }
 

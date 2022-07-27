@@ -47,7 +47,7 @@ MapFileParser<TMapDataType>::GetHeapUsage() -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {
-    std::cerr << "Read a map file before quering memory usage";
+    std::cerr << "Read a map file before querying memory usage";
   }
   return m_MapData.GetHeapUsage();
 }
@@ -58,7 +58,7 @@ MapFileParser<TMapDataType>::GetStackUsage() -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {
-    std::cerr << "Read a map file before quering memory usage";
+    std::cerr << "Read a map file before querying memory usage";
   }
   return m_MapData.GetStackUsage();
 }
@@ -69,7 +69,7 @@ MapFileParser<TMapDataType>::GetTotalMemoryUsage() -> MemoryLoadType
 {
   if (m_MapData.Empty())
   {
-    std::cerr << "Read a map file before quering memory usage";
+    std::cerr << "Read a map file before querying memory usage";
   }
   return m_MapData.GetTotalMemoryUsage();
 }
@@ -80,7 +80,7 @@ MapFileParser<TMapDataType>::GetMemoryUsage(const char * filter, const char * to
 {
   if (m_MapData.Empty())
   {
-    std::cerr << "Read a map file before quering memory usage";
+    std::cerr << "Read a map file before querying memory usage";
   }
   return m_MapData.GetMemoryUsage(filter, token);
 }

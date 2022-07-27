@@ -88,7 +88,7 @@ itkTimeProbeTest2(int, char *[])
   // Print current values
   std::cout << "InstantValue:      " << localTimer.GetInstantValue() << std::endl;
 
-  // Print a regualr report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
+  // Print a regular report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
   std::cout << std::endl << "Print a normal report" << std::endl;
   localTimer.Report();
 

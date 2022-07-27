@@ -162,7 +162,7 @@ public:
   bool
   IsInside(const IndexType & index) const;
 
-  /** Test if a region (the argument) is completly inside of this region */
+  /** Test if a region (the argument) is completely inside of this region */
   bool
   IsInside(const Self & region) const;
 

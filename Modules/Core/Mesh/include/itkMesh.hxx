@@ -727,7 +727,7 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
    */
   delete tempCells;
 
-  /** delete the boundary feature added as a temporary auxiliar object,
+  /** delete the boundary feature added as a temporary auxiliary object,
       being an AutoPointer it will release memory when going out of scope */
 
   /**

@@ -106,7 +106,7 @@ ThreadPool::SetDoNotWaitForThreads(bool doNotWaitForThreads)
 
 ThreadPool::ThreadPool()
 {
-  // m_PimplGlobals->m_Mutex not needed to be acquired here because contruction only occurs via GetInstance which is
+  // m_PimplGlobals->m_Mutex not needed to be acquired here because construction only occurs via GetInstance which is
   // protected by call_once.
 
   m_PimplGlobals->m_ThreadPoolInstance = this;        // threads need this

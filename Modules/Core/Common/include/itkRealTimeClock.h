@@ -50,7 +50,7 @@ public:
   /** Method for creation through the object factory */
   itkNewMacro(Self);
 
-  /** Define the type for the timestap */
+  /** Define the type for the timestamp */
   using TimeStampType = double;
 
   /** Define the type for the frequency of the clock */

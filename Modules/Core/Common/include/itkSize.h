@@ -33,7 +33,7 @@ namespace itk
  * \brief Represent a n-dimensional size (bounds) of a n-dimensional image.
  *
  * Size is a templated class to represent multi-dimensional array bounds,
- * i.e. (I,J,K,...).  Size is templated over teh dimension of the bounds.
+ * i.e. (I,J,K,...).  Size is templated over the dimension of the bounds.
  * ITK assumes the first element of a size (bounds) is the fastest moving index.
  *
  * For efficiency, Size does not define a default constructor, a

@@ -404,7 +404,7 @@ public:
   empty() const noexcept
   {
     // When an IndexRange is empty, each index value of m_MaxIndex is less than the corresponding
-    // index value of m_MinIndex. And vise versa: when an IndexRange is non-empty, each index value
+    // index value of m_MinIndex. And vice versa: when an IndexRange is non-empty, each index value
     // of m_MaxIndex is greater than or equal to the corresponding index value of m_MinIndex.
     // Note that the range contains one element when m_MaxIndex == m_MinIndex.
     return m_MaxIndex[0] < m_MinIndex[0];

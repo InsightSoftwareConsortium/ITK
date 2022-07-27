@@ -199,7 +199,7 @@ public:
   void
   SetIdentity();
 
-  /** Return the number of parameters that completely define the Transfom  */
+  /** Return the number of parameters that completely define the Transform  */
   NumberOfParametersType
   GetNumberOfParameters() const override
   {

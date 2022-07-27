@@ -101,7 +101,7 @@ itkGaussianInterpolateImageFunctionTest(int, char *[])
         std::cerr << "Error: computed and expected values are different" << std::endl;
         std::cerr << "Point: " << point << std::endl;
         std::cerr << "Computed: " << computedValue << std::endl;
-        std::cerr << "Expectd: " << expectedValue[j] << std::endl;
+        std::cerr << "Expected: " << expectedValue[j] << std::endl;
         return EXIT_FAILURE;
       }
 

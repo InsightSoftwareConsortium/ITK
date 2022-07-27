@@ -31,7 +31,7 @@
  * to interface to instance variables in a standard fashion. For example,
  * these macros manage modified time, debugging information, and provide a
  * standard interface to set and get instance variables.  Macros are
- * available for built-in types; for string classe; vector arrays;
+ * available for built-in types; for string classes; vector arrays;
  * object pointers; and debug, warning, and error printout information.
  */
 

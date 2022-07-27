@@ -68,7 +68,7 @@ namespace itk
  *    - \f$\mathbf{D}\f$: direction cosine matrix
  *    - \f$\mathbf{o}\f$: origin vector
  *    - \f$\mathbf{S}\f$: spacing
- *    - \f$\mathbf{ci}\f$: continouos index
+ *    - \f$\mathbf{ci}\f$: continuous index
  *    - \f$\mathbf{D}^{'}\f$: new direction cosine matrix
  *    - \f$\mathbf{o}^{'}\f$: new origin vector
  *

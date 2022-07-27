@@ -190,7 +190,7 @@ ImageIORegion::IsInside(const IndexType & index) const
   return true;
 }
 
-/** Test if a region (the argument) is completly inside of this region */
+/** Test if a region (the argument) is completely inside of this region */
 bool
 ImageIORegion::IsInside(const Self & region) const
 {

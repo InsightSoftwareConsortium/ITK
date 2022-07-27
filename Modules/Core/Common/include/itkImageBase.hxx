@@ -249,7 +249,7 @@ ImageBase<VImageDimension>::UpdateOutputData()
 {
   // If the requested region does not contain any pixels then there is
   // no reason to Update the output data. This is needed so that
-  // filters don't need to update all inputs. This occours in
+  // filters don't need to update all inputs. This occurs in
   // ImageBase as  oppose to DataObject, but cause this statement
   // requires the specific GetNumberOfPixels methods ( as oppose to a
   // generic Region::IsEmpty method ).

@@ -21,7 +21,7 @@
  *  Accessors
  *
  *  The example shows how an Adaptor can be used to
- *  get acces only to thered component of an RGBPixel image
+ *  get access only to the red component of an RGBPixel image
  *  giving the appearance of being just a 'float' image
  *
  *  That will allow to pass the red component of this

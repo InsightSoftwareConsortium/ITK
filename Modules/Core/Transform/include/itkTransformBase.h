@@ -90,7 +90,7 @@ public:
    *  therefore we use here a large capacity integer. */
   using NumberOfParametersType = IdentifierType;
 
-  /** Return the number of parameters that completely define the Transfom  */
+  /** Return the number of parameters that completely define the Transform  */
   virtual NumberOfParametersType
   GetNumberOfParameters() const = 0;
 

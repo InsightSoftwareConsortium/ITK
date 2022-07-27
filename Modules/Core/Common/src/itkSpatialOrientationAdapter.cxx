@@ -174,7 +174,7 @@ SpatialOrientationAdapter::ToDirectionCosines(const OrientationType & Or)
         break;
     }
   }
-  // TODO:  Should check that directions are orthoganal.
+  // TODO:  Should check that directions are orthogonal.
   return direction;
 }
 } // end namespace itk

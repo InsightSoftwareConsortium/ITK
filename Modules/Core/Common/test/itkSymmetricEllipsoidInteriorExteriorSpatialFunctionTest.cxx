@@ -49,7 +49,7 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
   spatialFunc->SetCenter(center);
 
   // Define and set the orientation and axes lengths of the ellipsoid
-  // NOTE: Orienation vector must be normalized!!!!
+  // NOTE: Orientation vector must be normalized!!!!
   itk::Vector<double, 3> orientation;
   orientation[0] = 1 / std::sqrt(2.0);
   orientation[1] = 1 / std::sqrt(2.0);

@@ -147,11 +147,11 @@ itkTimeProbesTest(int, char *[])
     collector.Stop("o:TransformPhysicalPointToIndex");
   }
 
-  // Print a regualr report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
+  // Print a regular report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
   std::cout << std::endl << "Print normal reports from all probes" << std::endl;
   collector.Report();
 
-  // Print a regualr report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
+  // Print a regular report (including nameOfProbe, Iteration, Total, Min, Mean, Max, and STD)
   // of the probe of "Loop1"
   std::cout << std::endl << "Print a normal report of a specific probe" << std::endl;
   collector.Report("Loop1");

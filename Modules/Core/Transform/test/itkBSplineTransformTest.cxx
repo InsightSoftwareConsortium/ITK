@@ -281,7 +281,7 @@ itkBSplineTransformTest1()
   }
 
   /**
-   * TODO: add test to check the numerical accuarcy of the transform
+   * TODO: add test to check the numerical accuracy of the transform
    */
 
   /**
@@ -317,7 +317,7 @@ itkBSplineTransformTest1()
   }
 
   /**
-   * TODO: add test to check the numerical accuarcy of the jacobian output
+   * TODO: add test to check the numerical accuracy of the jacobian output
    */
 
   /**

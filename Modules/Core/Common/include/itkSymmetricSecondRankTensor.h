@@ -137,7 +137,7 @@ public:
   Self &
   operator=(const ComponentArrayType r);
 
-  /** Aritmetic operations between pixels. Return a new
+  /** Arithmetic operations between pixels. Return a new
     SymmetricSecondRankTensor. */
   Self
   operator+(const Self & r) const;

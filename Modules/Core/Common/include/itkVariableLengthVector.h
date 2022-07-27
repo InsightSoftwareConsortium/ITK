@@ -1202,7 +1202,7 @@ struct VariableLengthVectorExpression
     : m_lhs(lhs)
     , m_rhs(rhs)
   {
-    // Not neccessary actually as end-user/developer is not expected to
+    // Not necessary actually as end-user/developer is not expected to
     // provide new BinaryOperations
     static_assert(std::is_base_of<Details::op::BinaryOperationConcept, TBinaryOp>::value,
                   "The Binary Operation shall inherit from BinaryOperationConcept");

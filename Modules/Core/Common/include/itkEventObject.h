@@ -154,7 +154,7 @@ operator<<(std::ostream & os, const EventObject & e)
   static_assert(true, "Compile time eliminated. Used to require a semi-colon at end of macro.")
 
 #if !defined(ITK_LEGACY_REMOVE)
-// Suppport Pre 2015 code bases
+// Support Pre 2015 code bases
 
 // This macro duplicates some of the declaration and definition
 // macro code. The purpose is to provide a backward compatibility API

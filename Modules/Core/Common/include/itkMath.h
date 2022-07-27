@@ -47,7 +47,7 @@ namespace Math
 // These constants originate from VXL's vnl_math.h. They have been
 // moved here to improve visibility, and to ensure that the constants
 // are available during compile time ( as opposed to static ITK_CONSTEXPR
-// member vaiables ).
+// member variables ).
 
 
 /** \brief \f[e\f] The base of the natural logarithm or Euler's number */

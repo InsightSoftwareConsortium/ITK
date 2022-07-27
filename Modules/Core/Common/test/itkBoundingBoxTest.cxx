@@ -200,7 +200,7 @@ itkBoundingBoxTest(int, char *[])
     {
       if (itk::Math::abs(originalBounds[i] - clonedbounds[i]) > tolerance)
       {
-        std::cerr << "Clonning test failed" << std::endl;
+        std::cerr << "Cloning test failed" << std::endl;
         std::cerr << originalBounds << std::endl;
         std::cerr << clonedbounds << std::endl;
         return EXIT_FAILURE;

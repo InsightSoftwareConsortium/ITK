@@ -115,7 +115,7 @@ LightObject::operator delete[](void * m, size_t)
 
 /**
  * This function will be common to all itk objects.  It just calls the
- * header/self/trailer virtual print methods, which can be overriden by
+ * header/self/trailer virtual print methods, which can be overridden by
  * subclasses (any itk object).
  */
 void

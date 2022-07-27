@@ -52,7 +52,7 @@ assert mesh.GetPointData().ElementAt(0)[4] == 4
 assert mesh.GetPointData().ElementAt(2)[0] == 2 + 0
 assert mesh.GetPointData().ElementAt(2)[4] == 2 + 4
 
-# resize the PixelDataSize to see if it can be altered succesfully
+# resize the PixelDataSize to see if it can be altered successfully
 PixelDataSize = 10
 for i in range(NumberOfPoints):
     pixel_data_reference = v.CreateElementAt(i)
