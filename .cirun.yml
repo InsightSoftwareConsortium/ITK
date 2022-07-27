@@ -10,8 +10,6 @@ runners:
     machine_image: ami-049db9debd560491a
     region: eu-west-1
     preemptible: false
-    # Relevant workflow file
-    workflow: .github/workflows/test-cirun.yml
     # Add a label to match runs-on param in Github Actions yml files
     labels:
       - arm
