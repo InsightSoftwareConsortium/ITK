@@ -22,12 +22,12 @@
 #--   - [ ] Some tests exist and pass on at least some platform
 #--   - [ ] All requirements of Levels 2,1
 #--
-#-- ## Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance )
+#-- ## Compliance Level 2 star (Alpha code feature API development or niche community/execution environment dependance )
 #--   - [ ] Compiles for at least 1 niche set of execution envirionments, and perhaps others
 #--         (may depend on specific external tools like a java environment, or specific external libraries to work )
 #--   - [ ] All requirements of Levels 1
 #--
-#-- ## Compliance Level 1 star (Pre-alpha features under development and code of unkown quality)
+#-- ## Compliance Level 1 star (Pre-alpha features under development and code of unknown quality)
 #--   - [ ] Code complies on at least 1 platform
 #--
 #-- ## Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status )
@@ -35,7 +35,7 @@
 #--
 #-- ### Please document here any justification for the criteria above
 #       This outdated code is not recommended for use. It is not optimized or rigourously tested
-#       This module has not recieved updates or testing for many many years
+#       This module has not received updates or testing for many many years
 #       Core developers should *NOT* expend energy or resources keeping this codebase consistent with ITK
 
 if(NOT ITK_LEGACY_REMOVE AND ITKV4_COMPATIBILITY AND Module_ITKDeprecated)
