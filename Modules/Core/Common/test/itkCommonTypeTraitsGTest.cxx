@@ -30,7 +30,7 @@
 #include <type_traits>
 
 // info: is_pod (c++20 deprecated) is equivalent to is_trivial && is_standard_layout
-// info: type_traits cannot differentiate if an explicit move constructible/assignmet exist.
+// info: type_traits cannot differentiate if an explicit move constructible/assignment exist.
 
 TEST(CommonTypeTraits, FixedArrayIsPOD)
 {
@@ -95,7 +95,7 @@ TEST(CommonTypeTraits, ContinuousIndexIsPOD)
 
 /************ FixedArray: noexcept move checks *************/
 
-/* Dummy class without noexcept move contructors. */
+/* Dummy class without noexcept move constructors. */
 struct NotNoexceptMove
 {
   NotNoexceptMove() = default;
@@ -105,7 +105,7 @@ struct NotNoexceptMove
 
 /* Check that move-constructing a FixedArray works as move-constructing an aggregate.
  * Move constructors are noexcept when the contained class has a noexcept move constructor.
- * And when the contained class might throw at move, the qualifer automatically
+ * And when the contained class might throw at move, the qualifier automatically
  * propagates it to FixedArray.
  * This is the same behaviour as std::array. It proves there is no need to
  * add noexcept to the container. This would disallow using it

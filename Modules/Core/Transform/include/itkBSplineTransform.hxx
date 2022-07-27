@@ -558,7 +558,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::TransformPoint
     {
       while (!coeffIterator[0].IsAtEndOfLine())
       {
-        // Multiply weigth with coefficient
+        // Multiply weight with coefficient
         for (unsigned int j = 0; j < SpaceDimension; ++j)
         {
           outputPoint[j] += static_cast<ScalarType>(weights[counter] * coeffIterator[j].Get());

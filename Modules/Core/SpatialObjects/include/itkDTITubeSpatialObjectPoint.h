@@ -143,7 +143,7 @@ public:
     return m_Fields;
   }
 
-  /** Return the value of the specific fiedls */
+  /** Return the value of the specific fields */
   float
   GetField(const char * name) const;
 

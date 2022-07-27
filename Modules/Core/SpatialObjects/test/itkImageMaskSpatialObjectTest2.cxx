@@ -153,11 +153,11 @@ itkImageMaskSpatialObjectTest2(int, char *[])
         retval = EXIT_FAILURE;
         break;
       }
-      // Should be the same as WorldSpace since there is no heirarchy.
+      // Should be the same as WorldSpace since there is no hierarchy.
       const bool test_object_space = maskSO->IsInsideInObjectSpace(point);
       if (test != test_object_space)
       {
-        std::cerr << "IsInsideInObjectSpace !=  IsInsideInWorldSpace for object that does not have heirarchy."
+        std::cerr << "IsInsideInObjectSpace !=  IsInsideInWorldSpace for object that does not have hierarchy."
                   << std::endl;
         std::cerr << "Index failed = " << constIndex << std::endl;
         std::cerr << "Point failed = " << point << std::endl;

@@ -303,8 +303,8 @@ testLambdaCommand()
     /*----- SECOND OBSERVER LAMBDA */
     o->AddObserver(itk::AnyEvent(), [&objRef, &name_of_class_cnt](const itk::EventObject & event) {
       ++name_of_class_cnt;
-      std::cout << "Ivocation # " << name_of_class_cnt << "\nObject: " << objRef.GetNameOfClass() << " Event: " << event
-                << std::endl;
+      std::cout << "Invocation # " << name_of_class_cnt << "\nObject: " << objRef.GetNameOfClass()
+                << " Event: " << event << std::endl;
     });
 
     o->InvokeEvent(itk::AnyEvent());

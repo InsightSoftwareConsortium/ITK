@@ -41,7 +41,7 @@ namespace itk
  *
  * ObjectFactoryBase is used to create itk objects. The base class
  * ObjectFactoryBase contains a static method CreateInstance() that is
- * used to create itk objects from the list of registerd ObjectFactoryBase
+ * used to create itk objects from the list of registered ObjectFactoryBase
  * sub-classes.  The first time CreateInstance() is called, all dll's or
  * shared libraries in the environment variable ITK_AUTOLOAD_PATH are loaded
  * into the current process.  The C function itkLoad is called on each dll.

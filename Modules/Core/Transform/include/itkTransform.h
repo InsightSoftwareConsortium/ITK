@@ -421,14 +421,14 @@ public:
     return this->GetNumberOfParameters();
   }
 
-  /** Return the number of parameters that completely define the Transfom  */
+  /** Return the number of parameters that completely define the Transform  */
   NumberOfParametersType
   GetNumberOfParameters() const override
   {
     return this->m_Parameters.Size();
   }
 
-  /** Return the number of parameters that define the constant elements of a Transfom  */
+  /** Return the number of parameters that define the constant elements of a Transform  */
   virtual NumberOfParametersType
   GetNumberOfFixedParameters() const
   {
@@ -440,7 +440,7 @@ public:
    * the transform is returned in the inverseTransform variable passed by the
    * user.  The inverse is recomputed if this current transform has been
    * modified.
-   * This method is intended to be overriden as needed by derived classes.
+   * This method is intended to be overridden as needed by derived classes.
    *
    */
   bool

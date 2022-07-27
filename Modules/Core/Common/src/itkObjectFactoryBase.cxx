@@ -543,7 +543,7 @@ ObjectFactoryBase::RegisterFactoryInternal(ObjectFactoryBase * factory)
     itkGenericExceptionMacro("A dynamic factory tried to be loaded internally!");
   }
 
-  // Do not call general ::Initialize() method as that may envoke additional
+  // Do not call general ::Initialize() method as that may invoke additional
   // libraries to be loaded and this method is called during static
   // initialization.
   ObjectFactoryBase::InitializeFactoryList();
@@ -867,7 +867,7 @@ void
 ObjectFactoryBase::SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate)
 {
   // We need to register the previously registered factories with the new pointer.
-  // We keep track of the previoulsy registered factory in `previousObjectFactoryBasePrivate`
+  // We keep track of the previously registered factory in `previousObjectFactoryBasePrivate`
   // but assign the new pointer to `m_PimplGlobals` so factories can be
   // registered directly with the new pointer.
   ObjectFactoryBasePrivate * previousObjectFactoryBasePrivate = m_PimplGlobals;

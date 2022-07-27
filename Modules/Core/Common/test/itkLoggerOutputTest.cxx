@@ -80,7 +80,7 @@ itkLoggerOutputTest(int argc, char * argv[])
   }
   catch (...)
   {
-    std::cerr << "Exception catched !!" << std::endl;
+    std::cerr << "Exception caught !!" << std::endl;
     return EXIT_FAILURE;
   }
 

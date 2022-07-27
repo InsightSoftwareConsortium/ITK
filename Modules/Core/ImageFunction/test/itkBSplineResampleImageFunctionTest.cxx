@@ -30,7 +30,7 @@
 #include "makeRandomImageBsplineInterpolator.h"
 
 /** Note:  This is the same test used for the itkBSplineDecompositionFilter
- *        It is duplicated here because it excercises the itkBSplineResampleImageFunctionTest
+ *        It is duplicated here because it exercises the itkBSplineResampleImageFunctionTest
  *        and demonstrates its use.
  */
 

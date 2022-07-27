@@ -108,7 +108,7 @@ template <unsigned int TDimension>
 void
 GaussianSpatialObject<TDimension>::ComputeMyBoundingBox()
 {
-  itkDebugMacro("Computing Guassian bounding box");
+  itkDebugMacro("Computing Gaussian bounding box");
 
   PointType pnt1;
   PointType pnt2;

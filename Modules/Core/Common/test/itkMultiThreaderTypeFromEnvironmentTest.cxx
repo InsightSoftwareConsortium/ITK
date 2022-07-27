@@ -79,7 +79,7 @@ itkMultiThreaderTypeFromEnvironmentTest(int argc, char * argv[])
 
   // When implementing a new multi-threader:
   // 1. insert it into threadersToTest set
-  // 2. add tests to Modules/Core/Common/test/CMakeLists.txt similarily to tests for other multi-threaders
+  // 2. add tests to Modules/Core/Common/test/CMakeLists.txt similarly to tests for other multi-threaders
   // 3. rewrite the condition below to use whatever is really the last threader type
   itkAssertOrThrowMacro(ThreaderEnum::TBB == ThreaderEnum::Last,
                         "All multi-threader implementation have to be tested!");

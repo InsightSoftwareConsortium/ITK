@@ -216,7 +216,7 @@ private:
  * \param Dictionary TODO
  * \param key TODO
  * \param invalue the value of type T that is to be encapsulated.
- * \return A smartpointer ot a MetaDataObject that is suitable for
+ * \return A smartpointer to a MetaDataObject that is suitable for
  * insertion into a MetaDataDictionary.
  */
 template <typename T>

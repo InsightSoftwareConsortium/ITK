@@ -89,7 +89,7 @@ ImageRegionConstIterator<TImage>::Decrement()
   const typename ImageIterator<TImage>::IndexType & startIndex = this->m_Region.GetIndex();
   const typename ImageIterator<TImage>::SizeType &  size = this->m_Region.GetSize();
 
-  // Deccrement along a row, then wrap at the beginning of the region row.
+  // Decrement along a row, then wrap at the beginning of the region row.
 
   // Check to see if we are past the first pixel in the region
   // Note that --ind[0] moves to the previous pixel along the row.

@@ -210,14 +210,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  /** Structure for specialization of Evaulate* methods on OutputType */
+  /** Structure for specialization of Evaluate* methods on OutputType */
   template <typename T>
   struct OutputTypeSpecializationStructType
   {
     using Type = T;
   };
 
-  /** Specialized versions of EvaluteAtIndex() method to handle scalar or vector pixel types.*/
+  /** Specialized versions of EvaluateAtIndex() method to handle scalar or vector pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtIndexSpecialized(const IndexType & index,
@@ -229,7 +229,7 @@ private:
                              OutputType &      derivative,
                              OutputTypeSpecializationStructType<Type>) const;
 
-  /** Specialized versions of EvaluteAtContinuousIndex() method to handle scalar or vector pixel types.*/
+  /** Specialized versions of EvaluateAtContinuousIndex() method to handle scalar or vector pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
@@ -241,7 +241,7 @@ private:
                                        OutputType &                derivative,
                                        OutputTypeSpecializationStructType<Type>) const;
 
-  /** Specialized versions of Evalute() method to handle scalar or vector pixel types.*/
+  /** Specialized versions of Evaluate() method to handle scalar or vector pixel types.*/
   // NOTE: for some unknown reason, making these methods inline (as those above are inlined) makes them run *slower*.
   template <typename Type>
   void

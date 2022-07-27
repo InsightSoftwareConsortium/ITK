@@ -54,7 +54,7 @@ public:
 
   /** Set a new data pointer for *both* the Array and parameter image,
    * pointing both to a different memory block.
-   * The size of the new memroy block must be the same as current size of
+   * The size of the new memory block must be the same as current size of
    * Array and the parameter image's buffer, in elements of TValue.
    * Memory must be managed by caller afterwards. */
   void

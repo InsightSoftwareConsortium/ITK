@@ -110,7 +110,7 @@ protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;
 
-  /** Print the object informations in a stream. */
+  /** Print the object information in a stream. */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

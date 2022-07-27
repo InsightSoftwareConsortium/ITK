@@ -437,7 +437,7 @@ public:
   virtual EdgeCellType *
   FindEdgeCell(const PointIdentifier & pid0, const PointIdentifier & pid1) const;
 
-  ///  Compute the euclidian length of argument edge
+  ///  Compute the euclidean length of argument edge
   CoordRepType
   ComputeEdgeLength(QEPrimal * e);
 

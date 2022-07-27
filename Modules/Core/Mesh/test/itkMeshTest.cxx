@@ -140,7 +140,7 @@ itkMeshTest(int, char *[])
 {
 
   using namespace itkMeshTestTypes; // open the namespace here.
-                                    // this is safe because only happens localy.
+                                    // this is safe because only happens locally.
 
   itk::FileOutputWindow::Pointer fow = itk::FileOutputWindow::New();
   fow->SetInstance(fow);

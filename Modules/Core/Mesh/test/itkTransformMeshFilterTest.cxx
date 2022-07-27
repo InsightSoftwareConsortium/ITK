@@ -37,8 +37,8 @@ itkTransformMeshFilterTest(int, char *[])
 
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
-  // on the vertices, and an itk::VectorContainter
-  // as containter for points
+  // on the vertices, and an itk::VectorContainer
+  // as container for points
   using MeshType = itk::Mesh<PixelType>;
 
   // Declare the type for PointsContainer
@@ -134,7 +134,7 @@ itkTransformMeshFilterTest(int, char *[])
 
   std::cout << "Output Mesh has " << outputMesh->GetNumberOfPoints() << "   points " << std::endl;
 
-  std::cout << "Output Mesh from WithBaseTransfrom has " << outputMeshFromWithBase->GetNumberOfPoints() << "   points "
+  std::cout << "Output Mesh from WithBaseTransform has " << outputMeshFromWithBase->GetNumberOfPoints() << "   points "
             << std::endl;
 
   // Get the the point container

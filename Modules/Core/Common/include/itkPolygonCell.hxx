@@ -222,7 +222,7 @@ PolygonCell<TCellInterface>::RemovePointId(PointIdentifier ptID)
 }
 
 /**
- * clear all the point and edge informations
+ * clear all the point and edge information
  */
 template <typename TCellInterface>
 void

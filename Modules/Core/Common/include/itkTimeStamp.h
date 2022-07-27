@@ -70,7 +70,7 @@ public:
   static Self *
   New();
 
-  /** Destoy this instance. */
+  /** Destroy this instance. */
   void
   Delete()
   {

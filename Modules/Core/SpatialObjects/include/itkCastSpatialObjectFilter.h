@@ -46,7 +46,7 @@ namespace itk
  * \brief This filter casts one spatialobject to another, when the class
  * hierarchy supports it (e.g., Tube to PointBased).
  * Particularly useful in Python where casting objects without public
- * contructors (e.g., objects managed by smartpointers) is problematic.
+ * constructors (e.g., objects managed by smartpointers) is problematic.
  * \ingroup ITKSpatialObjects
  */
 

@@ -128,7 +128,7 @@ public:
   Initialise();
 
 protected:
-  /// Calculate the endpoint coordinats of the ray in voxels.
+  /// Calculate the endpoint coordinates of the ray in voxels.
   void
   EndPointsInVoxels();
 

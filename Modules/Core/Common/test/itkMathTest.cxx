@@ -68,7 +68,7 @@ TestIntegersAreSame(const T1 & v1, const T2 & v2)
   int testPassStatus = EXIT_SUCCESS;
   if (static_cast<T2>(v1) != v2)
   {
-    std::cout << "ERROR: static cast did not perform as expected for wrap arround." << std::endl;
+    std::cout << "ERROR: static cast did not perform as expected for wrap around." << std::endl;
     std::cout << v1 << " static_cast " << static_cast<T2>(v1) << std::endl;
     std::cout << v2 << std::endl;
     testPassStatus = EXIT_FAILURE;

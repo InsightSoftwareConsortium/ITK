@@ -62,7 +62,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Clear()
     }
   }
 
-  // Clear the points potentialy left behind by LightWeightDeleteEdge():
+  // Clear the points potentially left behind by LightWeightDeleteEdge():
   if (this->GetPoints())
   {
     this->GetPoints()->clear();
@@ -294,7 +294,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::Splice(QEPrimal * a, QEPrimal * b) ->
     }
 
     // Notice that when aLeftFace == m_NoFace and bLeftFace == m_NoFace
-    // we simply proceed... (with MustReconstructFace initialy set to
+    // we simply proceed... (with MustReconstructFace initially set to
     // false.
 
     ///////////////////////////////////////////////////////////////

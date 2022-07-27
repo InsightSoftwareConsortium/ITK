@@ -274,7 +274,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::GetNextBo
   //                     /   *  |  *   \                             //
   //                    /       |       \                            //
   //
-  //          On this example, and if we assume the Onext() oder is
+  //          In this example, and if we assume the Onext() order is
   //          represented counter-clockwise, the edges are ordered as
   //          follows:
   //             b1, b2, i3, b4, b5, i6, i7
@@ -437,7 +437,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
   // that this request is not absurd since the current situation at
   // P isn't the one of a 2-manifold: hence when building the current
   // Onext() ring of P, we had not enough information to decide
-  // wheter b4.Onext() should be b5 or b1. It is ONLY when we are
+  // whether b4.Onext() should be b5 or b1. It is ONLY when we are
   // required to build the triangle [P, A, B] that we have the
   // additional information that b4.Onext() is indeed b1.
   //    When we are required to build triangle [P, A, B], we hence
@@ -571,7 +571,7 @@ GeometricalQuadEdge<TVRef, TFRef, TPrimalData, TDualData, PrimalDual>::ReorderOn
   }
   else
   {
-    // Orientation is localy clockwise:
+    // Orientation is locally clockwise:
     bsplice = second;
     second->GetOprev()->Splice(bsplice);
   }

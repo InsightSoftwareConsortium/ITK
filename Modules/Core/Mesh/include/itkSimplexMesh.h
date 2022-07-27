@@ -35,7 +35,7 @@ namespace itk
  * A simplex mesh can be used for deformable model segmentation of 3D image data.
  * To create a simplex mesh one needs a triangle mesh, which can be converted
  * to using the class itkTriangleMeshToSimplexMeshFilter. The back filtering
- * (from simplex to trinagle mesh)is done through a itkSimplexMeshToTriangleMeshFilter.
+ * (from simplex to triangle mesh)is done through a itkSimplexMeshToTriangleMeshFilter.
  *
  * \author Thomas Boettger. Division Medical and Biological Informatics, German Cancer Research Center, Heidelberg.
  * \ingroup ITKMesh

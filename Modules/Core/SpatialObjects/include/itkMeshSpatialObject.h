@@ -103,7 +103,7 @@ public:
   itkGetConstMacro(IsInsidePrecisionInObjectSpace, double);
 
 protected:
-  /** Compute the boundaries of the iamge spatial object. */
+  /** Compute the boundaries of the image spatial object. */
   void
   ComputeMyBoundingBox() override;
 

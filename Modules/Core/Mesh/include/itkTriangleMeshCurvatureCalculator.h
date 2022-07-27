@@ -40,13 +40,13 @@ namespace itk
  * \brief
  * Calculator to compute curvature of a triangle mesh. Set the input triangle mesh and the
  * required curvature type first. Default curvature type is Gauss. After computing curvature the result
- * can be obtained using the getter method. It throws exeption if the input mesh is not set.
- * The implementation is same as in VTK.
+ * can be obtained using the getter method. It throws exception if the input mesh is not set.
+ * The implementation is the same as in VTK.
  * \ingroup ITKMesh
  */
 
 /** \class TriangleMeshCurvatureCalculatorEnum
- * \brief Different modes of operation. Currently only Guassian curvature is supported.
+ * \brief Different modes of operation. Currently only Gaussian curvature is supported.
  * Using enum for future extension to Mean, Max and Min curvature.
  */
 class TriangleMeshCurvatureCalculatorEnums
@@ -111,7 +111,7 @@ public:
   /** Get Gauss curvature. */
   itkGetConstObjectMacro(GaussCurvatureData, DoubleVectorContainer);
 
-  /** Set the curvature type to Guass. */
+  /** Set the curvature type to Gauss. */
   void
   SetCurvatureTypeToGaussian()
   {

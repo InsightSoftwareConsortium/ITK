@@ -260,7 +260,7 @@ public:
   void
   ComputeJacobianWithRespectToParameters(const InputPointType &, JacobianType &) const override;
 
-  /** Return the number of parameters that completely define the Transfom */
+  /** Return the number of parameters that completely define the Transform */
   NumberOfParametersType
   GetNumberOfParameters() const override;
 

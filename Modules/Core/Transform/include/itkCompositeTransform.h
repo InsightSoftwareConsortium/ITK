@@ -198,7 +198,7 @@ public:
 
   /* With AddTransform() as the only way to add a transform, we
    * can have this method to easily allow user to optimize only
-   * the transform added most recenlty. */
+   * the transform added most recently. */
   virtual void
   SetOnlyMostRecentTransformToOptimizeOn()
   {

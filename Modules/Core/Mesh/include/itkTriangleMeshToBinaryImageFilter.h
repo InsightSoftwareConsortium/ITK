@@ -66,7 +66,7 @@ public:
  *
  * \brief 3D Rasterization algorithm Courtesy of Dr David Gobbi of Atamai Inc.
 
- * \author Leila Baghdadi, MICe, Hospital for Sick Childern, Toronto, Canada,
+ * \author Leila Baghdadi, MICe, Hospital for Sick Children, Toronto, Canada,
  * \ingroup ITKMesh
  */
 template <typename TInputMesh, typename TOutputImage>

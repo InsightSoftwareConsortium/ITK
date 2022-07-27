@@ -112,7 +112,7 @@ public:
   /** Typedef for generic boundary condition pointer */
   using ImageBoundaryConditionPointerType = ImageBoundaryCondition<ImageType> *;
 
-  /** Const Interator */
+  /** Const Iterator */
   struct ConstIterator
   {
     ConstIterator() { m_NeighborhoodIterator = nullptr; }

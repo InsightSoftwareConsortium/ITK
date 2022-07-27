@@ -65,7 +65,7 @@ ParseSplinePoles(char * splinePolesIn)
 
 
 /** Note:  This is the same test used for the itkBSplineResampleImageFunctionTest
- *        It is duplicated here because it excercises the itkBSplineDecompositionFilter
+ *        It is duplicated here because it exercises the itkBSplineDecompositionFilter
  *        and demonstrates its use.
  */
 

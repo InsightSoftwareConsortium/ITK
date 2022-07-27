@@ -92,7 +92,7 @@ public:
   /** Point type alias support */
   using typename Superclass::PointType;
 
-  /** Evalutate the  in the given dimension at specified point */
+  /** Evaluate the function in the given dimension at specified point */
   TOutput
   Evaluate(const PointType & point) const override;
 

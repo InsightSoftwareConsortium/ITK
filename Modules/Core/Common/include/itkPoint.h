@@ -236,7 +236,7 @@ public:
                           +  (1-w_1-w_2 ) * \overrightarrow{P}_3
    * \f]
    *
-   * If the two weight are \f$ \in [0,1] \f$ , The resulting point will alway be placed
+   * If the two weight are \f$ \in [0,1] \f$ , The resulting point will always be placed
    * inside the triangle formed by the three points given as arguments. */
   void
   SetToBarycentricCombination(const Self & A, const Self & B, const Self & C, double weightForA, double weightForB);

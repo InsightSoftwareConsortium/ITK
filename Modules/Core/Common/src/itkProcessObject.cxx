@@ -80,7 +80,7 @@ ProcessObject::MakeOutput(const DataObjectIdentifierType & name)
 {
   /*
    * This is a default implementation to make sure we have something.
-   * Once all the subclasses of ProcessObject provide an appopriate
+   * Once all the subclasses of ProcessObject provide an appropriate
    * MakeOutput(), then ProcessObject::MakeOutput() can be made pure
    * virtual.
    */

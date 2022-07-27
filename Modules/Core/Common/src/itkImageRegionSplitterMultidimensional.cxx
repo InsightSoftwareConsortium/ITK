@@ -104,7 +104,7 @@ ImageRegionSplitterMultidimensional::GetSplitInternal(unsigned int   dim,
 
 /**
  * given the requestedNumber of regions to split the "region" argument
- * into, it retures the number of splitted regions in each dimension
+ * into, it returns the number of splitted regions in each dimension
  * as "splits" and returns the total number of splitted regions
  */
 unsigned int

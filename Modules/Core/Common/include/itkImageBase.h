@@ -93,7 +93,7 @@ namespace itk
  *
  * ImageBase also provides helper routines for the ImageIterators
  * which convert an Index to an offset in memory from the first pixel
- * address as well as covert an offset in memory from the first pixel
+ * address as well as convert an offset in memory from the first pixel
  * address to an Index.
  *
  * \ingroup ImageObjects
@@ -199,7 +199,7 @@ public:
    * (0.5, 0.866)
    *
    * The columns of the Direction matrix are expected to form an
-   * orthogonal right handed coordinate syste.  But this is not
+   * orthogonal right handed coordinate system.  But this is not
    * checked nor enforced in itk::ImageBase.
    *
    * For details, please see:
@@ -723,7 +723,7 @@ public:
 
   /** UpdateOutputData() is part of the pipeline infrastructure to
    * communicate between ProcessObjects and DataObjects. The method of
-   * the superclass is overriden to check if the requested image
+   * the superclass is overridden to check if the requested image
    * region has zero pixels. This is needed so that filters can set an
    * input's requested region to zero, to indicate that it does not
    * need to be updated or executed.

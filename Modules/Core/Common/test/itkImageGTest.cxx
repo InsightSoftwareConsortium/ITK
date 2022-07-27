@@ -166,7 +166,7 @@ TEST(Image, EqualToItself)
   Expect_new_object_equal_to_itself<itk::Image<int>>();
   Expect_new_object_equal_to_itself<itk::Image<double, 3>>();
 
-  // Tests an object that is allocated and intialized.
+  // Tests an object that is allocated and initialized.
   Expect_allocated_initialized_image_equal_to_itself<itk::Image<int>>();
   Expect_allocated_initialized_image_equal_to_itself<itk::Image<double, 3>>();
 }

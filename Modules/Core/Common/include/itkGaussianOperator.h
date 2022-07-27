@@ -39,7 +39,7 @@ namespace itk
  * (1) The floating-point variance of the desired Gaussian function.
  *
  * (2) The "maximum error" allowed in the discrete Gaussian
- * function.  "Maximum errror" is defined as the difference between the area
+ * function.  "Maximum error" is defined as the difference between the area
  * under the discrete Gaussian curve and the area under the continuous
  * Gaussian. Maximum error affects the Gaussian operator size. Care should
  * be taken not to make this value too small relative to the variance

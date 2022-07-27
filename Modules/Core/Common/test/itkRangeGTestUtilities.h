@@ -180,7 +180,7 @@ private:
   static void
   ExpectIteratorEqualsItself(TValue *)
   {
-    // Overload for the use of a pointer type as iterator. Intensionally does "nothing", as a pointer always
+    // Overload for the use of a pointer type as iterator. Intentionally does "nothing", as a pointer always
     // equals itself, by definition. Aims to avoid "warning: self-comparison always evaluates to false/true
     // [-Wtautological-compare]", as produced by clang 13.0.1 on Ubuntu 20.04.
   }

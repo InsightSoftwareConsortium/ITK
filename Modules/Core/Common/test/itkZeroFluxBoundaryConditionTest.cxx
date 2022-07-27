@@ -61,7 +61,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
     std::cout << std::endl;
   }
 
-  std::cout << "Ouptut from GetPixel( const IndexType & index, const TImage * image ) const" << std::endl;
+  std::cout << "Output from GetPixel( const IndexType & index, const TImage * image ) const" << std::endl;
 
   i = 0;
   for (y = 0; y < p.GetSize()[1]; ++y)

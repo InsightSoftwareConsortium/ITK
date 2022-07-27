@@ -34,7 +34,7 @@ SymmetricSecondRankTensor<T, VDimension>::operator=(const ComponentType & r)
 }
 
 /**
- * Assigment from a plain array
+ * Assignment from a plain array
  */
 template <typename T, unsigned int VDimension>
 SymmetricSecondRankTensor<T, VDimension> &

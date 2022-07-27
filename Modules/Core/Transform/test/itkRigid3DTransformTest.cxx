@@ -711,7 +711,7 @@ itkRigid3DTransformTest(int, char *[])
       bool TranslationSettingOK = TestSettingTranslation();
       if (!TranslationSettingOK)
       {
-        std::cerr << "Error:  SetTranslation() did not result in consisent internal state for Rigid3DTransform."
+        std::cerr << "Error:  SetTranslation() did not result in consistent internal state for Rigid3DTransform."
                   << std::endl;
         return EXIT_FAILURE;
       }

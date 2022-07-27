@@ -298,7 +298,7 @@ MultiThreaderBase::GetGlobalDefaultNumberOfThreads()
     ThreadIdType threadCount = 0;
     /* The ITK_NUMBER_OF_THREADS_ENV_LIST contains is an
      * environmental variable that holds a ':' separated
-     * list of environmental variables that whould be
+     * list of environmental variables that would be
      * queried in order for setting the m_GlobalMaximumNumberOfThreads.
      *
      * This is intended to be a mechanism suitable to easy

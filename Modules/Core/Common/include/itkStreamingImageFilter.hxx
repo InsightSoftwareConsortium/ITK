@@ -122,7 +122,7 @@ StreamingImageFilter<TInputImage, TOutputImage>::UpdateOutputData(DataObject * i
   }
 
   /**
-   * Tell all Observers that the filter is starting, before emiting
+   * Tell all Observers that the filter is starting, before emitting
    * the 0.0 Progress event
    */
   this->InvokeEvent(StartEvent());

@@ -23,7 +23,7 @@
 #include "itkMath.h"
 
 // This test tests the basic functionality of
-// VectorImageToImageAdaptor, espeically the Set/GetPixel() methods.
+// VectorImageToImageAdaptor, especially the Set/GetPixel() methods.
 
 int
 itkVectorImageToImageAdaptorTest(int, char *[])

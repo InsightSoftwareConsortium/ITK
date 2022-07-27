@@ -86,7 +86,7 @@ Test3dImageMask()
 
   auto imageFilter = SpatialObjectToImageFilterType::New();
 
-  // note visual studio 2015 u1  (release mode) fails to exectute .Fill
+  // note visual studio 2015 u1 (release mode) fails to execute. Fill
   // properly here by not initializing the last member. With initializer it
   // is happy.
   itk::Size<3> size = { { 10, 10, 10 } };
@@ -207,7 +207,7 @@ Test2dImageMask()
   }
 
   // Now generate an imageMaskSpatial Object from box1
-  // Should have the same bounding box. withing pixelation bounds
+  // Should have the same bounding box. within pixelation bounds
   using ImageType = itk::Image<unsigned char, 2>;
   using ImageMaskSpatialObjectType = itk::ImageMaskSpatialObject<2>;
 

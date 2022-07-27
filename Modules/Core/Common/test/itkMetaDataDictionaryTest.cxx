@@ -150,7 +150,7 @@ itkMetaDataDictionaryTest(int, char *[])
   catch (const itk::ExceptionObject & excp)
   {
     std::cout << excp << std::endl;
-    std::cout << "catched EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
+    std::cout << "caught EXPECTED exception for invalid key string to MetaDataDictionary" << std::endl;
   }
 
   if (MyDictionary.Erase("ASimpleFloatChanged") == false)

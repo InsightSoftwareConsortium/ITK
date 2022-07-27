@@ -241,7 +241,7 @@ BSplineDecompositionImageFilter<TInputImage, TOutputImage>::DataToCoefficientsND
 
   ProgressReporter progress(this, 0, count, 10);
 
-  // Initialize coeffient array
+  // Initialize coefficient array
   this->CopyImageToImage(); // Coefficients are initialized to the input data
 
   // Loop through each dimension

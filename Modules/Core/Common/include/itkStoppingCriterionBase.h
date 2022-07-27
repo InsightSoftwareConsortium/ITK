@@ -49,7 +49,7 @@ public:
 
   /** \return \c true if the stopping criterion is reached (and the algorithm
   must stop).
-      \return \c fasle else. */
+      \return \c false else. */
   virtual bool
   IsSatisfied() const = 0;
   virtual std::string

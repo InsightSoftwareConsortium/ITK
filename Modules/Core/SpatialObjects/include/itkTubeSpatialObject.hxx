@@ -359,7 +359,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
 
   while (it3 < static_cast<unsigned int>(length))
   {
-    // Compute tanget using the adjacent points
+    // Compute tangent using the adjacent points
     x1 = this->GetPoint(it1)->GetPositionInObjectSpace();
     x3 = this->GetPoint(it3)->GetPositionInObjectSpace();
     l = 0;
@@ -407,7 +407,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     ++it3;
   }
 
-  // Calculate tangets are the first and last point on a tube
+  // Calculate tangents are the first and last point on a tube
   it1 = 0;
   it2 = 1;
   t = ((TubePointType *)(this->GetPoint(it2)))->GetTangentInObjectSpace();
@@ -443,7 +443,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
 
     if (TDimension == 2)
     {
-      // The normal to the tanget in 2D is the orthogonal direction to the
+      // The normal to the tangent in 2D is the orthogonal direction to the
       //   tangent.
       n1[0] = t[1];
       n1[1] = -t[0];
@@ -464,7 +464,7 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
     }
     else if (TDimension == 3)
     {
-      // The normal to the tanget in 3D is the cross product of adjacent
+      // The normal to the tangent in 3D is the cross product of adjacent
       //   tangent directions.
       n1[0] = t[1] * t2[2] - t[2] * t2[1];
       n1[1] = t[2] * t2[0] - t[0] * t2[2];

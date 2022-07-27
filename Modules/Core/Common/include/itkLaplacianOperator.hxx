@@ -42,7 +42,7 @@ LaplacianOperator<TPixel, VDimension, TAllocator>::CreateOperator()
   this->Fill(coefficients);
 }
 
-// This function fills the coefficients into the corresponding neighborhodd.
+// This function fills the coefficients into the corresponding neighborhood.
 template <typename TPixel, unsigned int VDimension, typename TAllocator>
 void
 LaplacianOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVector & coeff)

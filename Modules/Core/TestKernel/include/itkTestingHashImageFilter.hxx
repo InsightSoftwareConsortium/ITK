@@ -112,7 +112,7 @@ HashImageFilter<TImageType>::AfterThreadedGenerateData()
   }
   catch (...)
   {
-    // free all resources when an exception occours
+    // free all resources when an exception occurs
     itksysMD5_Delete(md5);
     throw;
   }

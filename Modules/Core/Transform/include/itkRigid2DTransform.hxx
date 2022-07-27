@@ -70,7 +70,7 @@ Rigid2DTransform<TParametersValueType>::SetMatrix(const MatrixType & matrix, con
 {
   itkDebugMacro("setting  m_Matrix  to " << matrix);
   // The matrix must be orthogonal otherwise it is not
-  // representing a valid rotaion in 2D space
+  // representing a valid rotation in 2D space
   typename MatrixType::InternalMatrixType test = matrix.GetVnlMatrix() * matrix.GetTranspose();
 
   if (!test.is_identity(tolerance))

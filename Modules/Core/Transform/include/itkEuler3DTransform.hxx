@@ -278,7 +278,7 @@ Euler3DTransform<TParametersValueType>::ComputeMatrix()
   RotationZ[2][1] = zero;
   RotationZ[2][2] = one;
 
-  /** Aply the rotation first around Y then X then Z */
+  /** Apply the rotation first around Y then X then Z */
   if (m_ComputeZYX)
   {
     this->SetVarMatrix(RotationZ * RotationY * RotationX);

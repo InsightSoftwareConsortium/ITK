@@ -32,8 +32,8 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
 
   // Declare the types of the Mesh
   // By default it is a 3D mesh using itk::Point<float,3>
-  // on the vertices, and an itk::VectorContainter
-  // as containter for points
+  // on the vertices, and an itk::VectorContainer
+  // as container for points
   using MeshType = itk::Mesh<PixelType>;
 
   // Declare the type for PointsContainer
