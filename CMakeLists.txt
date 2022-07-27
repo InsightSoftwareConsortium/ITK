@@ -43,6 +43,7 @@ include(CMakeDependentOption)
 
 if("${CMAKE_VERSION}" VERSION_GREATER_EQUAL "3.13")
 set(CMAKE_VER_AT_LEAST_3_13 1 CACHE BOOL "Is set for cmake >=3.13")
+mark_as_advanced(CMAKE_VER_AT_LEAST_3_13)
 endif()
 
 # add option to build shared libraries. The default is OFF to maintain the
