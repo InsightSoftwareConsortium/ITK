@@ -18,7 +18,7 @@
 #ifndef itkLabelOverlapMeasuresImageFilter_h
 #define itkLabelOverlapMeasuresImageFilter_h
 
-#include "itkImageToImageFilter.h"
+#include "itkImageSink.h"
 #include "itkNumericTraits.h"
 #include <mutex>
 #include <unordered_map>
@@ -42,14 +42,14 @@ namespace itk
  * \ingroup MultiThreaded
  */
 template <typename TLabelImage>
-class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter : public ImageToImageFilter<TLabelImage, TLabelImage>
+class ITK_TEMPLATE_EXPORT LabelOverlapMeasuresImageFilter : public ImageSink<TLabelImage>
 {
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LabelOverlapMeasuresImageFilter);
 
   /** Standard Self type alias */
   using Self = LabelOverlapMeasuresImageFilter;
-  using Superclass = ImageToImageFilter<TLabelImage, TLabelImage>;
+  using Superclass = ImageSink<TLabelImage>;
   using Pointer = SmartPointer<Self>;
   using ConstPointer = SmartPointer<const Self>;
 
@@ -57,7 +57,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(LabelOverlapMeasuresImageFilter, ImageToImageFilter);
+  itkTypeMacro(LabelOverlapMeasuresImageFilter, ImageSink);
 
   /** Image related type alias. */
   using LabelImageType = TLabelImage;
@@ -224,24 +224,12 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /**
-   * Pass the input through unmodified. Do this by setting the output to the
-   * source this by setting the output to the source image in the
-   * AllocateOutputs() method.
-   */
   void
-  AllocateOutputs() override;
-
-  void
-  BeforeThreadedGenerateData() override;
+  BeforeStreamedGenerateData() override;
 
 
   void
-  DynamicThreadedGenerateData(const RegionType &) override;
-
-  // Override since the filter produces all of its output
-  void
-  EnlargeOutputRequestedRegion(DataObject * data) override;
+  ThreadedStreamedGenerateData(const RegionType &) override;
 
   void
   MergeMap(MapType & m1, MapType & m2) const;
