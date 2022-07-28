@@ -130,10 +130,12 @@ function(install_nifti_target target_name)
           LIBRARY
             DESTINATION ${NIFTI_INSTALL_LIBRARY_DIR}
             COMPONENT RuntimeLibraries
-          COMPONENT Development
-            PUBLIC_HEADER DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
-          COMPONENT Development
-            INCLUDES DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
+          PUBLIC_HEADER
+            DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
+            COMPONENT Development
+          INCLUDES
+            DESTINATION ${NIFTI_INSTALL_INCLUDE_DIR}
+            COMPONENT Development
           )
 endfunction()
 
