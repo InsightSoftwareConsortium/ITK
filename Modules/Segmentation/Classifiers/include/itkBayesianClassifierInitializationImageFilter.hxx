@@ -104,10 +104,10 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
   {
     kmeansFilter->Update();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     // Pass exception to caller
-    throw err;
+    throw;
   }
 
   typename KMeansFilterType::ParametersType estimatedMeans = kmeansFilter->GetFinalMeans(); // mean of each class

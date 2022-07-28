@@ -116,13 +116,13 @@ PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::GenerateData()
   {
     this->Initialize();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     m_LastTransformParameters = ParametersType(1);
     m_LastTransformParameters.Fill(0.0f);
 
     // Pass the exception to the caller
-    throw err;
+    throw;
   }
 
   // Do the optimization
@@ -130,14 +130,14 @@ PointSetToImageRegistrationMethod<TFixedPointSet, TMovingImage>::GenerateData()
   {
     m_Optimizer->StartOptimization();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     // An error has occurred in the optimization.
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
     // Pass the exception to the caller
-    throw err;
+    throw;
   }
 
   // Get the results

@@ -183,7 +183,7 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::Write()
     std::cerr << "Exception caught! " << std::endl;
     std::cerr << exp << std::endl;
     outputStream.close();
-    throw exp;
+    throw;
   }
   catch (...)
   {

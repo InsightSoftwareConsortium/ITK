@@ -110,7 +110,7 @@ RegularStepGradientDescentBaseOptimizer::ResumeOptimization()
       m_StopConditionDescription << "Cost function error after " << m_CurrentIteration << " iterations. "
                                  << excp.GetDescription();
       this->StopOptimization();
-      throw excp;
+      throw;
     }
 
     if (m_Stop)

@@ -228,14 +228,14 @@ SPSAOptimizer::AdvanceOneStep()
   {
     this->ComputeGradient(currentPosition, m_Gradient);
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     // An exception has occurred.
     // Terminate immediately.
     m_StopCondition = StopConditionSPSAOptimizerEnum::MetricError;
     StopOptimization();
     // Pass exception to caller
-    throw err;
+    throw;
   }
 
   /** Compute the gain a_k */

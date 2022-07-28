@@ -88,7 +88,7 @@ GradientDescentOptimizer::ResumeOptimization()
     {
       m_CostFunction->GetValueAndDerivative(this->GetCurrentPosition(), m_Value, m_Gradient);
     }
-    catch (const ExceptionObject & err)
+    catch (const ExceptionObject &)
     {
       // An exception has occurred.
       // Terminate immediately.
@@ -97,7 +97,7 @@ GradientDescentOptimizer::ResumeOptimization()
       StopOptimization();
 
       // Pass exception to caller
-      throw err;
+      throw;
     }
 
     if (m_Stop)
