@@ -91,39 +91,25 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedStreamedGenerateData(const
     LabelType sourceLabel = itS.Get();
     LabelType targetLabel = itT.Get();
 
-    // Does the label exist in the local map?
-    auto mapItS = localStatistics.find(sourceLabel);
-    auto mapItT = localStatistics.find(targetLabel);
+    // Initialized to empty if key does not already exist
+    auto & sValue = localStatistics[sourceLabel];
+    auto & tValue = localStatistics[targetLabel];
 
-    if (mapItS == localStatistics.end())
-    {
-      // Create a new label set measures object
-      using MapValueType = typename MapType::value_type;
-      mapItS = localStatistics.insert(MapValueType(sourceLabel, LabelSetMeasures())).first;
-    }
-
-    if (mapItT == localStatistics.end())
-    {
-      // Create a new label set measures object
-      using MapValueType = typename MapType::value_type;
-      mapItT = localStatistics.insert(MapValueType(targetLabel, LabelSetMeasures())).first;
-    }
-
-    mapItS->second.m_Source++;
-    mapItT->second.m_Target++;
+    ++sValue.m_Source;
+    ++tValue.m_Target;
 
     if (sourceLabel == targetLabel)
     {
-      mapItS->second.m_Intersection++;
-      mapItS->second.m_Union++;
+      ++sValue.m_Intersection;
+      ++sValue.m_Union;
     }
     else
     {
-      mapItS->second.m_Union++;
-      mapItT->second.m_Union++;
+      ++sValue.m_Union;
+      ++tValue.m_Union;
 
-      mapItS->second.m_SourceComplement++;
-      mapItT->second.m_TargetComplement++;
+      ++sValue.m_SourceComplement;
+      ++tValue.m_TargetComplement;
     }
 
     progress.CompletedPixel();
