@@ -37,26 +37,9 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::LabelOverlapMeasuresImageFilter()
 
 template <typename TLabelImage>
 void
-LabelOverlapMeasuresImageFilter<TLabelImage>::EnlargeOutputRequestedRegion(DataObject * data)
+LabelOverlapMeasuresImageFilter<TLabelImage>::BeforeStreamedGenerateData()
 {
-  Superclass::EnlargeOutputRequestedRegion(data);
-  data->SetRequestedRegionToLargestPossibleRegion();
-}
-
-template <typename TLabelImage>
-void
-LabelOverlapMeasuresImageFilter<TLabelImage>::AllocateOutputs()
-{
-  // Pass the source through as the output
-  LabelImagePointer image = const_cast<TLabelImage *>(this->GetSourceImage());
-  this->GraftOutput(image);
-}
-
-template <typename TLabelImage>
-void
-LabelOverlapMeasuresImageFilter<TLabelImage>::BeforeThreadedGenerateData()
-{
-  Superclass::BeforeThreadedGenerateData();
+  Superclass::BeforeStreamedGenerateData();
 
   // Initialize the final map
   this->m_LabelSetMeasures.clear();
@@ -92,7 +75,7 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::MergeMap(MapType & m1, MapType & m
 
 template <typename TLabelImage>
 void
-LabelOverlapMeasuresImageFilter<TLabelImage>::DynamicThreadedGenerateData(const RegionType & outputRegionForThread)
+LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedStreamedGenerateData(const RegionType & outputRegionForThread)
 {
 
   MapType localStatistics;

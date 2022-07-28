@@ -175,8 +175,7 @@ itkLabelOverlapMeasuresImageFilterTest(int argc, char * argv[])
   // Exercise basic object methods
   // Done outside the helper function in the test because GCC is limited
   // when calling overloaded base class functions.
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(
-    labelOverlapMeasuresImageFilter, LabelOverlapMeasuresImageFilter, ImageToImageFilter);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(labelOverlapMeasuresImageFilter, LabelOverlapMeasuresImageFilter, ImageSink);
 
 
   switch (std::stoi(argv[1]))
