@@ -140,7 +140,7 @@ private:
 inline std::ostream &
 operator<<(std::ostream & os, const ExceptionObject & e)
 {
-  (&e)->Print(os);
+  e.Print(os);
   return os;
 }
 
