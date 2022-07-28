@@ -20,19 +20,22 @@
 import itk
 
 # Create points on a plane
-pointset = itk.PointSet[itk.F, 3].New()
+PointSetType = itk.PointSet[itk.F, 3]
+pointset = PointSetType.New()
 pointset.SetPoint(0, [0, 0, 0])
 pointset.SetPoint(1, [0, 1, 0])
 pointset.SetPoint(2, [1, 0, 0])
 pointset.SetPoint(3, [1, 1, 0])
 
 # Create PointsLocator
-pl = itk.PointsLocator.New()
+PointType = itk.Point[itk.F, 3]
+PointsContainerType = itk.VectorContainer[itk.IT, PointType]
+pl = itk.PointsLocator[PointsContainerType].New()
 pl.SetPoints(pointset.GetPoints())
 pl.Initialize()
 
 # Query tree for one point
-vl = itk.VectorContainer[itk.UL, itk.UL].New()
+vl = itk.VectorContainer[itk.IT, itk.IT].New()
 pl.FindClosestNPoints(pointset.GetPoint(0), 3, vl)
 assert vl.Size() == 3
 assert vl.GetElement(0) == 0

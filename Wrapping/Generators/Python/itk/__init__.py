@@ -43,6 +43,9 @@ from itk.support.types import (
     SI,
     SLL,
     B,
+    ST,
+    IT,
+    OT,
 )
 
 
