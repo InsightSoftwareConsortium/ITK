@@ -124,10 +124,10 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Gener
     // Initialize the interconnects between components
     this->Initialize();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     // Pass exception to caller
-    throw err;
+    throw;
   }
 
   try
@@ -135,13 +135,13 @@ ImageToSpatialObjectRegistrationMethod<TFixedImage, TMovingSpatialObject>::Gener
     // Do the optimization
     m_Optimizer->StartOptimization();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     // An error has occurred in the optimization.
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
     // Pass exception to caller
-    throw err;
+    throw;
   }
 
   // Get the results

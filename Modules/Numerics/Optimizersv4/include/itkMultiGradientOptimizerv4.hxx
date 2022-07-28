@@ -206,13 +206,13 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
       itkDebugMacro(" combine-grad ");
       this->m_OptimizersList[0]->GetModifiableMetric()->UpdateTransformParameters(this->m_Gradient);
     }
-    catch (const ExceptionObject & err)
+    catch (const ExceptionObject &)
     {
       this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
       this->m_StopConditionDescription << "UpdateTransformParameters error";
       this->StopOptimization();
       // Pass exception to caller
-      throw err;
+      throw;
     }
     this->InvokeEvent(IterationEvent());
     /* Update and check iteration count */

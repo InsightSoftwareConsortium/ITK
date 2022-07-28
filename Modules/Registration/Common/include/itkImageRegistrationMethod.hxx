@@ -217,14 +217,14 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::StartOptimization()
     // do the optimization
     m_Optimizer->StartOptimization();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     // An error has occurred in the optimization.
     // Update the parameters
     m_LastTransformParameters = m_Optimizer->GetCurrentPosition();
 
     // Pass exception to caller
-    throw err;
+    throw;
   }
 
   // get the results
@@ -266,12 +266,12 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::GenerateData()
     // initialize the interconnects between components
     this->Initialize();
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     m_LastTransformParameters = empty;
 
     // pass exception to caller
-    throw err;
+    throw;
   }
 
   this->StartOptimization();

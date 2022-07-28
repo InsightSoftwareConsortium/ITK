@@ -165,14 +165,14 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
     /* Pass gradient to transform and let it do its own updating */
     this->m_Metric->UpdateTransformParameters(this->m_NewtonStep);
   }
-  catch (const ExceptionObject & err)
+  catch (const ExceptionObject &)
   {
     this->m_StopCondition = StopConditionObjectToObjectOptimizerEnum::UPDATE_PARAMETERS_ERROR;
     this->m_StopConditionDescription << "UpdateTransformParameters error";
     this->StopOptimization();
 
     // Pass exception to caller
-    throw err;
+    throw;
   }
 
   this->InvokeEvent(IterationEvent());
