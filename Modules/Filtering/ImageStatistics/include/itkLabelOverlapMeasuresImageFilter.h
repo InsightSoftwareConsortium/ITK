@@ -20,7 +20,7 @@
 
 #include "itkImageToImageFilter.h"
 #include "itkNumericTraits.h"
-
+#include <mutex>
 #include <unordered_map>
 
 namespace itk
@@ -235,26 +235,21 @@ protected:
   void
   BeforeThreadedGenerateData() override;
 
-  void
-  AfterThreadedGenerateData() override;
-
-  /** Multi-thread version GenerateData. */
-  void
-  ThreadedGenerateData(const RegionType &, ThreadIdType) override;
 
   void
-  DynamicThreadedGenerateData(const RegionType &) override
-  {
-    itkExceptionMacro("This class requires threadId so it must use classic multi-threading model");
-  }
+  DynamicThreadedGenerateData(const RegionType &) override;
 
   // Override since the filter produces all of its output
   void
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
+  void
+  MergeMap(MapType & m1, MapType & m2) const;
+
 private:
-  std::vector<MapType> m_LabelSetMeasuresPerThread;
-  MapType              m_LabelSetMeasures;
+  MapType m_LabelSetMeasures;
+
+  std::mutex m_Mutex;
 }; // end of class
 
 } // end namespace itk
