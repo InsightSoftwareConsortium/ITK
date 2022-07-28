@@ -123,33 +123,12 @@ public:
   /** Image related type alias. */
   static constexpr unsigned int ImageDimension = TLabelImage::ImageDimension;
 
-  /** Set the source image. */
-  void
-  SetSourceImage(const LabelImageType * image)
-  {
-    this->SetNthInput(0, const_cast<LabelImageType *>(image));
-  }
+  /** Set the label image */
+  itkSetInputMacro(TargetImage, LabelImageType);
+  itkGetInputMacro(TargetImage, LabelImageType);
+  itkSetInputMacro(SourceImage, LabelImageType);
+  itkGetInputMacro(SourceImage, LabelImageType);
 
-  /** Set the target image. */
-  void
-  SetTargetImage(const LabelImageType * image)
-  {
-    this->SetNthInput(1, const_cast<LabelImageType *>(image));
-  }
-
-  /** Get the source image. */
-  const LabelImageType *
-  GetSourceImage()
-  {
-    return this->GetInput(0);
-  }
-
-  /** Get the target image. */
-  const LabelImageType *
-  GetTargetImage()
-  {
-    return this->GetInput(1);
-  }
 
   /** Get the label set measures. */
   MapType

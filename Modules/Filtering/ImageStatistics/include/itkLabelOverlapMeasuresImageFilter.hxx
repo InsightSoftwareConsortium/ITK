@@ -28,6 +28,9 @@ namespace itk
 template <typename TLabelImage>
 LabelOverlapMeasuresImageFilter<TLabelImage>::LabelOverlapMeasuresImageFilter()
 {
+  Self::SetPrimaryInputName("SourceImage");
+  Self::AddRequiredInputName("TargetImage", 1);
+
   // This filter requires two input images
   this->SetNumberOfRequiredInputs(2);
   this->DynamicMultiThreadingOff();
