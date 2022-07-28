@@ -107,7 +107,7 @@ protected:
 inline std::ostream &
 operator<<(std::ostream & os, const EventObject & e)
 {
-  (&e)->Print(os);
+  e.Print(os);
   return os;
 }
 
