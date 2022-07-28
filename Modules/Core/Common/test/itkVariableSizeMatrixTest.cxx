@@ -184,7 +184,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    (&e)->Print(std::cout);
+    e.Print(std::cout);
   }
 
   try
@@ -193,7 +193,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    (&e)->Print(std::cout);
+    e.Print(std::cout);
   }
 
   try
@@ -202,7 +202,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    (&e)->Print(std::cout);
+    e.Print(std::cout);
   }
 
   try
@@ -211,7 +211,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    (&e)->Print(std::cout);
+    e.Print(std::cout);
   }
 
   try
@@ -220,7 +220,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    (&e)->Print(std::cout);
+    e.Print(std::cout);
   }
 
   try
@@ -229,7 +229,7 @@ itkVariableSizeMatrixTest(int, char *[])
   }
   catch (const itk::ExceptionObject & e)
   {
-    (&e)->Print(std::cout);
+    e.Print(std::cout);
   }
 
   std::cout << "[PASSED]" << std::endl;

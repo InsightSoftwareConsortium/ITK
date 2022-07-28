@@ -117,7 +117,7 @@ itkByteSwapTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unsigned long exception size is: " << sizeof(unsigned long) << std::endl;
-    (&err)->Print(std::cerr);
+    err.Print(std::cerr);
   }
 
 
@@ -142,7 +142,7 @@ itkByteSwapTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught unsigned long long exception size is: " << sizeof(unsigned long long) << std::endl;
-    (&err)->Print(std::cerr);
+    err.Print(std::cerr);
   }
 
   try
@@ -166,7 +166,7 @@ itkByteSwapTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught float exception size is: " << sizeof(float) << std::endl;
-    (&err)->Print(std::cerr);
+    err.Print(std::cerr);
     return EXIT_FAILURE;
   }
 
@@ -191,7 +191,7 @@ itkByteSwapTest(int, char *[])
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Good catch! Caught double exception size is: " << sizeof(double) << std::endl;
-    (&err)->Print(std::cerr);
+    err.Print(std::cerr);
     return EXIT_FAILURE;
   }
   // we failed to throw an exception for the double swap (once it's implemented, this should return 0
