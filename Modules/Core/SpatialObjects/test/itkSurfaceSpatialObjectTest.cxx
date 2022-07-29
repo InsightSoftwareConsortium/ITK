@@ -84,19 +84,19 @@ itkSurfaceSpatialObjectTest(int, char *[])
   {
     for (unsigned int d = 0; d < 3; ++d)
     {
-      if (itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i + d))
+      if (itk::Math::NotExactlyEquals(it->GetPositionInWorldSpace()[d], i + d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
 
-      if (itk::Math::NotExactlyEquals((*it).GetNormalInObjectSpace()[d], d))
+      if (itk::Math::NotExactlyEquals(it->GetNormalInObjectSpace()[d], d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
 
-      if (itk::Math::NotExactlyEquals((*it).GetNormalInWorldSpace()[d], d))
+      if (itk::Math::NotExactlyEquals(it->GetNormalInWorldSpace()[d], d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;

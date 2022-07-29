@@ -69,7 +69,7 @@ itkCastSpatialObjectFilterTest(int, char *[])
 
   std::unique_ptr<TubeListType> tList(caster->GetTubes());
 
-  TubeType::Pointer tListTube = (*tList).begin()->GetPointer();
+  TubeType::Pointer tListTube = tList->begin()->GetPointer();
 
   bool found = false;
   if (!strcmp(tListTube->GetTypeName().c_str(), "TubeSpatialObject"))
@@ -88,9 +88,9 @@ itkCastSpatialObjectFilterTest(int, char *[])
     {
       for (unsigned int d = 0; d < 3; ++d)
       {
-        if (itk::Math::NotAlmostEquals((*pnt).GetPositionInWorldSpace()[d], value * tListTube->GetId()))
+        if (itk::Math::NotAlmostEquals(pnt->GetPositionInWorldSpace()[d], value * tListTube->GetId()))
         {
-          std::cout << " [FAILED] (Position is: " << (*pnt).GetPositionInWorldSpace()[d]
+          std::cout << " [FAILED] (Position is: " << pnt->GetPositionInWorldSpace()[d]
                     << " expected : " << value * tListTube->GetId() << " ) " << std::endl;
           return EXIT_FAILURE;
         }

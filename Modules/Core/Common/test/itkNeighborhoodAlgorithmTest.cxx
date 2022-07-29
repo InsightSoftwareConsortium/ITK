@@ -36,7 +36,7 @@ ImageBoundaryFaceCalculatorTest(TImage *                          image,
   {
     std::cout << "Number of pixels : " << fit->GetNumberOfPixels() << std::endl;
     std::cout << *fit << std::endl;
-    if (!region.IsInside(*fit) && (*fit).GetNumberOfPixels() > 0)
+    if (!region.IsInside(*fit) && fit->GetNumberOfPixels() > 0)
     {
       std::cerr << "face region is outside of requestToProcessRegion " << std::endl;
       return false;

@@ -85,8 +85,8 @@ testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & 
       delete children2;
       return EXIT_FAILURE;
     }
-    auto * curstrand1 = dynamic_cast<Polygon3DType *>((*it1).GetPointer());
-    auto * curstrand2 = dynamic_cast<Polygon3DType *>((*it2).GetPointer());
+    auto * curstrand1 = dynamic_cast<Polygon3DType *>(it1->GetPointer());
+    auto * curstrand2 = dynamic_cast<Polygon3DType *>(it2->GetPointer());
 
     Polygon3DType::PolygonPointListType & points1 = curstrand1->GetPoints();
     Polygon3DType::PolygonPointListType & points2 = curstrand2->GetPoints();
@@ -106,8 +106,8 @@ testPolygonGroupEquivalence(PolygonGroup3DPointer & p1, PolygonGroup3DPointer & 
         delete children2;
         return EXIT_FAILURE;
       }
-      Polygon3DType::PointType curpoint1 = (*pointIt1).GetPositionInWorldSpace();
-      Polygon3DType::PointType curpoint2 = (*pointIt2).GetPositionInWorldSpace();
+      Polygon3DType::PointType curpoint1 = pointIt1->GetPositionInWorldSpace();
+      Polygon3DType::PointType curpoint2 = pointIt2->GetPositionInWorldSpace();
       if (curpoint1 != curpoint2)
       {
         // Just a silly test to make sure that the positions returned are valid

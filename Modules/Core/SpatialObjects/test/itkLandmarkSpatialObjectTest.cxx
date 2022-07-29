@@ -87,7 +87,7 @@ itkLandmarkSpatialObjectTest(int, char *[])
   {
     for (unsigned int d = 0; d < 3; ++d)
     {
-      if (itk::Math::NotExactlyEquals((*it).GetPositionInObjectSpace()[d], i + d))
+      if (itk::Math::NotExactlyEquals(it->GetPositionInObjectSpace()[d], i + d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
@@ -133,24 +133,24 @@ itkLandmarkSpatialObjectTest(int, char *[])
   {
     for (unsigned int d = 0; d < 3; ++d)
     {
-      if (itk::Math::NotExactlyEquals((*it).GetBlue(), i))
+      if (itk::Math::NotExactlyEquals(it->GetBlue(), i))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
-      if (itk::Math::NotExactlyEquals((*it).GetGreen(), i + 1))
-      {
-        std::cout << "[FAILED]" << std::endl;
-        return EXIT_FAILURE;
-      }
-
-      if (itk::Math::NotExactlyEquals((*it).GetRed(), i + 2))
+      if (itk::Math::NotExactlyEquals(it->GetGreen(), i + 1))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
 
-      if (itk::Math::NotExactlyEquals((*it).GetAlpha(), i + 3))
+      if (itk::Math::NotExactlyEquals(it->GetRed(), i + 2))
+      {
+        std::cout << "[FAILED]" << std::endl;
+        return EXIT_FAILURE;
+      }
+
+      if (itk::Math::NotExactlyEquals(it->GetAlpha(), i + 3))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
