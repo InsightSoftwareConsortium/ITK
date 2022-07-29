@@ -244,13 +244,13 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
   {
     WriteStartElement("POLYGON", output);
     output << std::endl;
-    auto * curstrand = dynamic_cast<PolygonSpatialObjectType *>((*it).GetPointer());
+    auto * curstrand = dynamic_cast<PolygonSpatialObjectType *>(it->GetPointer());
     PolygonSpatialObjectType::PolygonPointListType & polygonPoints = curstrand->GetPoints();
     auto                                             pointIt = polygonPoints.begin();
     auto                                             pointItEnd = polygonPoints.end();
     while (pointIt != pointItEnd)
     {
-      PolygonSpatialObjectType::PointType curpoint = (*pointIt).GetPositionInObjectSpace();
+      PolygonSpatialObjectType::PointType curpoint = pointIt->GetPositionInObjectSpace();
       WriteStartElement("POINT", output);
       output << curpoint[0] << " " << curpoint[1] << " " << curpoint[2];
       WriteEndElement("POINT", output);

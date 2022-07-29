@@ -73,7 +73,7 @@ LineSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) co
       bool match = true;
       for (unsigned int i = 0; i < TDimension; ++i)
       {
-        if (!Math::AlmostEquals((*it).GetPositionInObjectSpace()[i], point[i]))
+        if (!Math::AlmostEquals(it->GetPositionInObjectSpace()[i], point[i]))
         {
           match = false;
           break;

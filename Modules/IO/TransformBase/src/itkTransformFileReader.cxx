@@ -172,7 +172,7 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
   if (firstTransformName.find("CompositeTransform") != std::string::npos)
   {
     typename TransformListType::const_iterator tit = ioTransformList.begin();
-    typename TransformType::Pointer            composite = (*tit).GetPointer();
+    typename TransformType::Pointer            composite = tit->GetPointer();
 
     // CompositeTransformIOHelperTemplate knows how to assign to the composite
     // transform's internal list
@@ -185,7 +185,7 @@ TransformFileReaderTemplate<TParametersValueType>::Update()
   {
     for (auto it = ioTransformList.begin(); it != ioTransformList.end(); ++it)
     {
-      this->m_TransformList.push_back((*it).GetPointer());
+      this->m_TransformList.push_back(it->GetPointer());
     }
   }
 }

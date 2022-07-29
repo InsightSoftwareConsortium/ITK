@@ -105,7 +105,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObje
   double                 closestPointDistance = NumericTraits<double>::max();
   while (it != itend)
   {
-    typename SpatialObjectPoint<TDimension>::PointType curpos = (*it).GetPositionInObjectSpace();
+    typename SpatialObjectPoint<TDimension>::PointType curpos = it->GetPositionInObjectSpace();
     double                                             curdistance = curpos.EuclideanDistanceTo(point);
     if (curdistance < closestPointDistance)
     {
@@ -135,7 +135,7 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorl
   double                 closestPointDistance = NumericTraits<double>::max();
   while (it != itend)
   {
-    typename SpatialObjectPoint<TDimension>::PointType curpos = (*it).GetPositionInWorldSpace();
+    typename SpatialObjectPoint<TDimension>::PointType curpos = it->GetPositionInWorldSpace();
     double                                             curdistance = curpos.EuclideanDistanceTo(point);
     if (curdistance < closestPointDistance)
     {
@@ -167,14 +167,14 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ComputeMyBoundingB
     return;
   }
 
-  PointType pt = (*it).GetPositionInObjectSpace();
+  PointType pt = it->GetPositionInObjectSpace();
 
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMinimum(pt);
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pt);
   ++it;
   while (it != end)
   {
-    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint((*it).GetPositionInObjectSpace());
+    this->GetModifiableMyBoundingBoxInObjectSpace()->ConsiderPoint(it->GetPositionInObjectSpace());
     ++it;
   }
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();

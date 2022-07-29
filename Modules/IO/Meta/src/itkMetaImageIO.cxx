@@ -661,7 +661,7 @@ MetaImageIO ::WriteImageInformation()
 
     // Rolling this back out so that the tests pass.
     // The meta image AddUserField requires control of the memory space.
-    m_MetaImage.AddUserField((*keyIt).c_str(), MET_STRING, static_cast<int>(value.size()), value.c_str(), true, -1);
+    m_MetaImage.AddUserField(keyIt->c_str(), MET_STRING, static_cast<int>(value.size()), value.c_str(), true, -1);
   }
 }
 

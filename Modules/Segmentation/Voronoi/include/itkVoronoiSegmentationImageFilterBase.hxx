@@ -174,7 +174,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
     for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
     {
       idx[0] = i;
-      (*PixelPool).push_back(idx);
+      PixelPool->push_back(idx);
     }
     idx[1] = idx[1] + 1;
   }
@@ -188,7 +188,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
       {
         idx[0] = i;
-        (*PixelPool).push_back(idx);
+        PixelPool->push_back(idx);
       }
       endx += rightDx;
       beginx += leftDx;
@@ -275,7 +275,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
         for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
         {
           idx[0] = i;
-          (*PixelPool).push_back(idx);
+          PixelPool->push_back(idx);
         }
         endx += rightDx;
         beginx += leftDx;
@@ -333,7 +333,7 @@ VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>
       for (i = static_cast<int>(std::ceil(beginx)); i <= static_cast<int>(std::floor(endx)); ++i)
       {
         idx[0] = i;
-        (*PixelPool).push_back(idx);
+        PixelPool->push_back(idx);
       }
       endx += rightDx;
       beginx += leftDx;

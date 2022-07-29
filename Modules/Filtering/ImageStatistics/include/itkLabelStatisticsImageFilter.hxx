@@ -68,7 +68,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::MergeMap(MapType & m1, Map
     {
 
 
-      typename MapType::mapped_type & labelStats = (*m1It).second;
+      typename MapType::mapped_type & labelStats = m1It->second;
 
       // accumulate the information from this thread
       labelStats.m_Count += m2_value.second.m_Count;
@@ -296,7 +296,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMinimum(LabelPixelType 
   }
   else
   {
-    return (*mapIt).second.m_Minimum;
+    return mapIt->second.m_Minimum;
   }
 }
 
@@ -314,7 +314,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMaximum(LabelPixelType 
   }
   else
   {
-    return (*mapIt).second.m_Maximum;
+    return mapIt->second.m_Maximum;
   }
 }
 
@@ -332,7 +332,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMean(LabelPixelType lab
   }
   else
   {
-    return (*mapIt).second.m_Mean;
+    return mapIt->second.m_Mean;
   }
 }
 
@@ -350,7 +350,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSum(LabelPixelType labe
   }
   else
   {
-    return (*mapIt).second.m_Sum;
+    return mapIt->second.m_Sum;
   }
 }
 
@@ -368,7 +368,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetSigma(LabelPixelType la
   }
   else
   {
-    return (*mapIt).second.m_Sigma;
+    return mapIt->second.m_Sigma;
   }
 }
 
@@ -386,7 +386,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetVariance(LabelPixelType
   }
   else
   {
-    return (*mapIt).second.m_Variance;
+    return mapIt->second.m_Variance;
   }
 }
 
@@ -405,7 +405,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetBoundingBox(LabelPixelT
   }
   else
   {
-    return (*mapIt).second.m_BoundingBox;
+    return mapIt->second.m_BoundingBox;
   }
 }
 
@@ -454,7 +454,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetCount(LabelPixelType la
   }
   else
   {
-    return (*mapIt).second.m_Count;
+    return mapIt->second.m_Count;
   }
 }
 
@@ -480,18 +480,18 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetMedian(LabelPixelType l
     RealType total = 0;
 
     // count bins until just over half the distribution is counted
-    while (total <= ((*mapIt).second.m_Count / 2) && (bin < m_NumBins[0]))
+    while (total <= (mapIt->second.m_Count / 2) && (bin < m_NumBins[0]))
     {
       index[0] = bin;
-      total += (*mapIt).second.m_Histogram->GetFrequency(index);
+      total += mapIt->second.m_Histogram->GetFrequency(index);
       ++bin;
     }
     --bin;
     index[0] = bin;
 
     // return center of bin range
-    RealType lowRange = (*mapIt).second.m_Histogram->GetBinMin(0, bin);
-    RealType highRange = (*mapIt).second.m_Histogram->GetBinMax(0, bin);
+    RealType lowRange = mapIt->second.m_Histogram->GetBinMin(0, bin);
+    RealType highRange = mapIt->second.m_Histogram->GetBinMax(0, bin);
     median = lowRange + (highRange - lowRange) / 2;
     return median;
   }
@@ -512,7 +512,7 @@ LabelStatisticsImageFilter<TInputImage, TLabelImage>::GetHistogram(LabelPixelTyp
   else
   {
     // this will be zero if histograms have not been enabled
-    return (*mapIt).second.m_Histogram;
+    return mapIt->second.m_Histogram;
   }
 }
 

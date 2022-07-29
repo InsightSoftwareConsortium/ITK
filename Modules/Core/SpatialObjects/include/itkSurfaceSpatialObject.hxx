@@ -102,7 +102,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
   {
     // Try to find 3 points close to the corresponding point
     SurfacePointType pt = *it;
-    PointType        pos = (*it).GetPositionInObjectSpace();
+    PointType        pos = it->GetPositionInObjectSpace();
 
     std::list<int> badId;
     unsigned int   identifier[3];
@@ -149,7 +149,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
           continue;
         }
 
-        PointType pos2 = (*it2).GetPositionInObjectSpace();
+        PointType pos2 = it2->GetPositionInObjectSpace();
         float     distance = pos2.EuclideanDistanceTo(pos);
 
         // Check that the point is not the same as some previously defined
@@ -224,7 +224,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
           normal[0] = coa / absvec;
           normal[1] = cob / absvec;
           normal[2] = coc / absvec;
-          (*it).SetNormalInObjectSpace(normal);
+          it->SetNormalInObjectSpace(normal);
         }
       }
       else
@@ -243,7 +243,7 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()
           CovariantVectorType normal;
           normal[0] = coa / absvec;
           normal[1] = cob / absvec;
-          (*it).SetNormalInObjectSpace(normal);
+          it->SetNormalInObjectSpace(normal);
         }
       }
     } while ((Math::AlmostEquals(absvec, 0.0)) && (badId.size() < this->m_Points.size() - 1));

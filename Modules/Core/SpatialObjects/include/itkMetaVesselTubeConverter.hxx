@@ -154,24 +154,24 @@ MetaVesselTubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObje
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_X[d] = (*i).GetPositionInObjectSpace()[d];
+      pnt->m_X[d] = i->GetPositionInObjectSpace()[d];
     }
 
-    pnt->m_ID = (*i).GetId();
-    pnt->m_R = (*i).GetRadiusInObjectSpace();
-    pnt->m_Alpha1 = (*i).GetAlpha1();
-    pnt->m_Alpha2 = (*i).GetAlpha2();
-    pnt->m_Alpha3 = (*i).GetAlpha3();
-    pnt->m_Medialness = (*i).GetMedialness();
-    pnt->m_Branchness = (*i).GetBranchness();
-    pnt->m_Ridgeness = (*i).GetRidgeness();
-    pnt->m_Curvature = (*i).GetCurvature();
-    pnt->m_Levelness = (*i).GetLevelness();
-    pnt->m_Roundness = (*i).GetRoundness();
-    pnt->m_Intensity = (*i).GetIntensity();
+    pnt->m_ID = i->GetId();
+    pnt->m_R = i->GetRadiusInObjectSpace();
+    pnt->m_Alpha1 = i->GetAlpha1();
+    pnt->m_Alpha2 = i->GetAlpha2();
+    pnt->m_Alpha3 = i->GetAlpha3();
+    pnt->m_Medialness = i->GetMedialness();
+    pnt->m_Branchness = i->GetBranchness();
+    pnt->m_Ridgeness = i->GetRidgeness();
+    pnt->m_Curvature = i->GetCurvature();
+    pnt->m_Levelness = i->GetLevelness();
+    pnt->m_Roundness = i->GetRoundness();
+    pnt->m_Intensity = i->GetIntensity();
 
-    auto iter = (*i).GetTagScalarDictionary().begin();
-    while (iter != (*i).GetTagScalarDictionary().end())
+    auto iter = i->GetTagScalarDictionary().begin();
+    while (iter != i->GetTagScalarDictionary().end())
     {
       pnt->AddField(iter->first.c_str(), iter->second);
       ++iter;
@@ -179,23 +179,23 @@ MetaVesselTubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObje
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_V1[d] = (*i).GetNormal1InObjectSpace()[d];
+      pnt->m_V1[d] = i->GetNormal1InObjectSpace()[d];
     }
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_V2[d] = (*i).GetNormal2InObjectSpace()[d];
+      pnt->m_V2[d] = i->GetNormal2InObjectSpace()[d];
     }
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_T[d] = (*i).GetTangentInObjectSpace()[d];
+      pnt->m_T[d] = i->GetTangentInObjectSpace()[d];
     }
 
-    pnt->m_Color[0] = (*i).GetRed();
-    pnt->m_Color[1] = (*i).GetGreen();
-    pnt->m_Color[2] = (*i).GetBlue();
-    pnt->m_Color[3] = (*i).GetAlpha();
+    pnt->m_Color[0] = i->GetRed();
+    pnt->m_Color[1] = i->GetGreen();
+    pnt->m_Color[2] = i->GetBlue();
+    pnt->m_Color[3] = i->GetAlpha();
 
     vesselTubeMO->GetPoints().push_back(pnt);
   }

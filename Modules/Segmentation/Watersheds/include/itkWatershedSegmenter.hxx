@@ -378,16 +378,16 @@ Segmenter<TInputImage>::CollectBoundaryInformation(flat_region_table_t & flatReg
           flats_it = flats->find(labelIt.Get());
           if (flats_it == flats->end()) // NO
           {
-            flr.bounds_min = (*flrt_it).second.bounds_min;
-            flr.min_label = *((*flrt_it).second.min_label_ptr);
-            flr.value = (*flrt_it).second.value;
+            flr.bounds_min = flrt_it->second.bounds_min;
+            flr.min_label = *(flrt_it->second.min_label_ptr);
+            flr.value = flrt_it->second.value;
             flr.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
             flats->insert(BoundaryFlatHashValueType(labelIt.Get(), flr));
             flr.offset_list.clear();
           }
           else // YES
           {
-            (*flats_it).second.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
+            flats_it->second.offset_list.push_back(face->ComputeOffset(faceIt.GetIndex()));
           }
         }
 
@@ -795,12 +795,11 @@ Segmenter<TInputImage>::LabelMinima(InputImageTypePointer                img,
       {
         nPos = m_Connectivity.index[i];
 
-        if (labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter) &&
-            searchIt.GetPixel(nPos) < (*flatPtr).second.bounds_min)
+        if (labelIt.GetPixel(nPos) != labelIt.GetPixel(nCenter) && searchIt.GetPixel(nPos) < flatPtr->second.bounds_min)
         { // If this is a boundary pixel && has a lesser value than
           // the currently recorded value...
-          (*flatPtr).second.bounds_min = searchIt.GetPixel(nPos);
-          (*flatPtr).second.min_label_ptr = labelIt[nPos];
+          flatPtr->second.bounds_min = searchIt.GetPixel(nPos);
+          flatPtr->second.min_label_ptr = labelIt[nPos];
         }
         if (Math::AlmostEquals(searchIt.GetPixel(nCenter), searchIt.GetPixel(nPos)))
         {
@@ -909,9 +908,9 @@ Segmenter<TInputImage>::DescendFlatRegions(flat_region_table_t & flatRegionTable
   for (typename flat_region_table_t::const_iterator region = flatRegionTable.begin(); region != flatRegionTable.end();
        ++region)
   {
-    if (((*region).second.bounds_min < (*region).second.value) && (!(*region).second.is_on_boundary))
+    if ((region->second.bounds_min < region->second.value) && (!region->second.is_on_boundary))
     {
-      equivalentLabels->Add((*region).first, *((*region).second.min_label_ptr));
+      equivalentLabels->Add(region->first, *(region->second.min_label_ptr));
     }
   }
 
@@ -993,15 +992,15 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
         }
         // adjacent pixels
 
-        edge_ptr = (*edge_table_entry_ptr).second.find(labelIt.GetPixel(nPos));
-        if (edge_ptr == (*edge_table_entry_ptr).second.end())
+        edge_ptr = edge_table_entry_ptr->second.find(labelIt.GetPixel(nPos));
+        if (edge_ptr == edge_table_entry_ptr->second.end())
         { // This edge has not been identified yet.
           using ValueType = typename edge_table_t::value_type;
-          (*edge_table_entry_ptr).second.insert(ValueType(labelIt.GetPixel(nPos), lowest_edge));
+          edge_table_entry_ptr->second.insert(ValueType(labelIt.GetPixel(nPos), lowest_edge));
         }
-        else if (lowest_edge < (*edge_ptr).second)
+        else if (lowest_edge < edge_ptr->second)
         {
-          (*edge_ptr).second = lowest_edge;
+          edge_ptr->second = lowest_edge;
         }
       }
     }
@@ -1016,27 +1015,27 @@ Segmenter<TInputImage>::UpdateSegmentTable(InputImageTypePointer input, ImageReg
   for (edge_table_entry_ptr = edgeHash.begin(); edge_table_entry_ptr != edgeHash.end(); ++edge_table_entry_ptr)
   {
     // Lookup the corresponding segment entry
-    segment_ptr = segments->Lookup((*edge_table_entry_ptr).first);
+    segment_ptr = segments->Lookup(edge_table_entry_ptr->first);
     if (segment_ptr == nullptr)
     {
       itkGenericExceptionMacro(<< "UpdateSegmentTable:: An unexpected and fatal error has occurred.");
     }
 
     // Copy into the segment list
-    listsz = static_cast<IdentifierType>((*edge_table_entry_ptr).second.size());
+    listsz = static_cast<IdentifierType>(edge_table_entry_ptr->second.size());
     segment_ptr->edge_list.resize(listsz);
-    edge_ptr = (*edge_table_entry_ptr).second.begin();
+    edge_ptr = edge_table_entry_ptr->second.begin();
     list_ptr = segment_ptr->edge_list.begin();
-    while (edge_ptr != (*edge_table_entry_ptr).second.end())
+    while (edge_ptr != edge_table_entry_ptr->second.end())
     {
-      list_ptr->label = (*edge_ptr).first;
-      list_ptr->height = (*edge_ptr).second;
+      list_ptr->label = edge_ptr->first;
+      list_ptr->height = edge_ptr->second;
       ++edge_ptr;
       ++list_ptr;
     }
 
     // Clean up memory as we go
-    (*edge_table_entry_ptr).second.clear();
+    edge_table_entry_ptr->second.clear();
   }
 }
 
@@ -1135,15 +1134,15 @@ Segmenter<TInputImage>::MergeFlatRegions(flat_region_table_t & regions, Equivale
   typename flat_region_table_t::iterator a, b;
   for (EquivalencyTable::ConstIterator it = eqTable->Begin(); it != eqTable->End(); ++it)
   {
-    if (((a = regions.find((*it).first)) == regions.end()) || ((b = regions.find((*it).second)) == regions.end()))
+    if (((a = regions.find(it->first)) == regions.end()) || ((b = regions.find(it->second)) == regions.end()))
     {
       itkGenericExceptionMacro(<< "MergeFlatRegions:: An unexpected and fatal error has occurred.");
     }
 
-    if ((*a).second.bounds_min < (*b).second.bounds_min)
+    if (a->second.bounds_min < b->second.bounds_min)
     {
-      (*b).second.bounds_min = (*a).second.bounds_min;
-      (*b).second.min_label_ptr = (*a).second.min_label_ptr;
+      b->second.bounds_min = a->second.bounds_min;
+      b->second.min_label_ptr = a->second.min_label_ptr;
     }
 
     regions.erase(a);

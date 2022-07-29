@@ -590,17 +590,17 @@ ContourExtractor2DImageFilter<TInputImage>::FillOutputs(
     // mark output as modified
     if (m_ReverseContourOrientation)
     {
-      ContourConstIterator itC{ (*it).cend() };
+      ContourConstIterator itC{ it->cend() };
       do
       {
         --itC;
         path->push_back(*itC);
-      } while (itC != (*it).cbegin());
+      } while (itC != it->cbegin());
     }
     else
     {
-      ContourConstIterator itC{ (*it).cbegin() };
-      while (itC != (*it).cend())
+      ContourConstIterator itC{ it->cbegin() };
+      while (itC != it->cend())
       {
         path->push_back(*itC);
         ++itC;

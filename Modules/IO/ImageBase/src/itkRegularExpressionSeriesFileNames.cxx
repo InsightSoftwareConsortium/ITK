@@ -103,7 +103,7 @@ RegularExpressionSeriesFileNames::GetFileNames()
   std::vector<std::pair<std::string, std::string>>::iterator siter;
   for (siter = sortedBySubMatch.begin(); siter != sortedBySubMatch.end(); ++siter)
   {
-    m_FileNames.push_back((*siter).first);
+    m_FileNames.push_back(siter->first);
   }
 
   return m_FileNames;

@@ -460,11 +460,11 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageIndexes(FixedImag
     // Get sampled index
     FixedImageIndexType index = m_FixedImageIndexes[i];
     // Translate index to point
-    m_FixedImage->TransformIndexToPhysicalPoint(index, (*iter).point);
+    m_FixedImage->TransformIndexToPhysicalPoint(index, iter->point);
 
     // Get sampled fixed image value
-    (*iter).value = m_FixedImage->GetPixel(index);
-    (*iter).valueIndex = 0;
+    iter->value = m_FixedImage->GetPixel(index);
+    iter->valueIndex = 0;
 
     ++iter;
   }
@@ -516,9 +516,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
         SizeValueType count = 0;
         while (iter != end)
         {
-          (*iter).point = samples[count].point;
-          (*iter).value = samples[count].value;
-          (*iter).valueIndex = 0;
+          iter->point = samples[count].point;
+          iter->value = samples[count].value;
+          iter->valueIndex = 0;
           ++count;
           if (count >= samplesFound)
           {
@@ -559,10 +559,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
       }
 
       // Translate index to point
-      (*iter).point = inputPoint;
+      iter->point = inputPoint;
       // Get sampled fixed image value
-      (*iter).value = randIter.Get();
-      (*iter).valueIndex = 0;
+      iter->value = randIter.Get();
+      iter->valueIndex = 0;
 
       ++samplesFound;
       ++randIter;
@@ -578,10 +578,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageRegion(FixedImage
       // Get sampled index
       FixedImageIndexType index = randIter.GetIndex();
       // Translate index to point
-      m_FixedImage->TransformIndexToPhysicalPoint(index, (*iter).point);
+      m_FixedImage->TransformIndexToPhysicalPoint(index, iter->point);
       // Get sampled fixed image value
-      (*iter).value = randIter.Get();
-      (*iter).valueIndex = 0;
+      iter->value = randIter.Get();
+      iter->valueIndex = 0;
 
       // Jump to random position
       ++randIter;
@@ -648,10 +648,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
       }
 
       // Translate index to point
-      (*iter).point = inputPoint;
+      iter->point = inputPoint;
       // Get sampled fixed image value
-      (*iter).value = regionIter.Get();
-      (*iter).valueIndex = 0;
+      iter->value = regionIter.Get();
+      iter->valueIndex = 0;
 
       ++regionIter;
       if (regionIter.IsAtEnd())
@@ -669,10 +669,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SampleFullFixedImageRegion(FixedI
       FixedImageIndexType index = regionIter.GetIndex();
 
       // Translate index to point
-      m_FixedImage->TransformIndexToPhysicalPoint(index, (*iter).point);
+      m_FixedImage->TransformIndexToPhysicalPoint(index, iter->point);
       // Get sampled fixed image value
-      (*iter).value = regionIter.Get();
-      (*iter).valueIndex = 0;
+      iter->value = regionIter.Get();
+      iter->valueIndex = 0;
 
       ++regionIter;
       if (regionIter.IsAtEnd())

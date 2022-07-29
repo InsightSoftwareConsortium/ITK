@@ -127,7 +127,7 @@ public:
     }
     else
     {
-      return &((*result).second);
+      return &(result->second);
     }
   }
 
@@ -144,7 +144,7 @@ public:
     }
     else
     {
-      return &((*result).second);
+      return &(result->second);
     }
   }
 

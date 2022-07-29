@@ -82,23 +82,23 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::AfterThreadedGenerateData()
          ++threadIt)
     {
       // Does this label exist in the cumulative structure yet?
-      auto mapIt = this->m_LabelSetMeasures.find((*threadIt).first);
+      auto mapIt = this->m_LabelSetMeasures.find(threadIt->first);
       if (mapIt == this->m_LabelSetMeasures.end())
       {
         // Create a new entry
         using MapValueType = typename MapType::value_type;
-        mapIt = this->m_LabelSetMeasures.insert(MapValueType((*threadIt).first, LabelSetMeasures())).first;
+        mapIt = this->m_LabelSetMeasures.insert(MapValueType(threadIt->first, LabelSetMeasures())).first;
       }
 
       // Accumulate the information from this thread
-      (*mapIt).second.m_Source += (*threadIt).second.m_Source; // segmentation which will be compared (TP+FP)
-      (*mapIt).second.m_Target += (*threadIt).second.m_Target; // Ground Truth segmentation (TP+FN)
-      (*mapIt).second.m_Union += (*threadIt).second.m_Union;   // (TP+FN+FP)
-      (*mapIt).second.m_Intersection += (*threadIt).second.m_Intersection;         //(TP)
-      (*mapIt).second.m_SourceComplement += (*threadIt).second.m_SourceComplement; //(FP)
-      (*mapIt).second.m_TargetComplement += (*threadIt).second.m_TargetComplement; //(FN)
-    }                                                                              // end of thread map iterator loop
-  }                                                                                // end of thread loop
+      mapIt->second.m_Source += threadIt->second.m_Source;             // segmentation which will be compared (TP+FP)
+      mapIt->second.m_Target += threadIt->second.m_Target;             // Ground Truth segmentation (TP+FN)
+      mapIt->second.m_Union += threadIt->second.m_Union;               // (TP+FN+FP)
+      mapIt->second.m_Intersection += threadIt->second.m_Intersection; //(TP)
+      mapIt->second.m_SourceComplement += threadIt->second.m_SourceComplement; //(FP)
+      mapIt->second.m_TargetComplement += threadIt->second.m_TargetComplement; //(FN)
+    }                                                                          // end of thread map iterator loop
+  }                                                                            // end of thread loop
 }
 
 template <typename TLabelImage>
@@ -135,21 +135,21 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::ThreadedGenerateData(const RegionT
       mapItT = this->m_LabelSetMeasuresPerThread[threadId].insert(MapValueType(targetLabel, LabelSetMeasures())).first;
     }
 
-    (*mapItS).second.m_Source++;
-    (*mapItT).second.m_Target++;
+    mapItS->second.m_Source++;
+    mapItT->second.m_Target++;
 
     if (sourceLabel == targetLabel)
     {
-      (*mapItS).second.m_Intersection++;
-      (*mapItS).second.m_Union++;
+      mapItS->second.m_Intersection++;
+      mapItS->second.m_Union++;
     }
     else
     {
-      (*mapItS).second.m_Union++;
-      (*mapItT).second.m_Union++;
+      mapItS->second.m_Union++;
+      mapItT->second.m_Union++;
 
-      (*mapItS).second.m_SourceComplement++;
-      (*mapItT).second.m_TargetComplement++;
+      mapItS->second.m_SourceComplement++;
+      mapItT->second.m_TargetComplement++;
     }
 
     progress.CompletedPixel();
@@ -165,12 +165,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTotalOverlap() const -> RealTyp
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
     {
       continue;
     }
-    numerator += static_cast<RealType>((*mapIt).second.m_Intersection);
-    denominator += static_cast<RealType>((*mapIt).second.m_Target);
+    numerator += static_cast<RealType>(mapIt->second.m_Intersection);
+    denominator += static_cast<RealType>(mapIt->second.m_Target);
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -196,13 +196,13 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetTargetOverlap(LabelType label) 
 
   RealType value;
 
-  if ((*mapIt).second.m_Target == 0)
+  if (mapIt->second.m_Target == 0)
   {
     value = NumericTraits<RealType>::max();
   }
   else
   {
-    value = static_cast<RealType>((*mapIt).second.m_Intersection) / static_cast<RealType>((*mapIt).second.m_Target);
+    value = static_cast<RealType>(mapIt->second.m_Intersection) / static_cast<RealType>(mapIt->second.m_Target);
   }
   return value;
 }
@@ -216,12 +216,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap() const -> RealTyp
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
     {
       continue;
     }
-    numerator += static_cast<RealType>((*mapIt).second.m_Intersection);
-    denominator += static_cast<RealType>((*mapIt).second.m_Union);
+    numerator += static_cast<RealType>(mapIt->second.m_Intersection);
+    denominator += static_cast<RealType>(mapIt->second.m_Union);
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -246,13 +246,13 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetUnionOverlap(LabelType label) c
   }
 
   RealType value;
-  if (Math::ExactlyEquals((*mapIt).second.m_Union, 0.0))
+  if (Math::ExactlyEquals(mapIt->second.m_Union, 0.0))
   {
     value = NumericTraits<RealType>::max();
   }
   else
   {
-    value = static_cast<RealType>((*mapIt).second.m_Intersection) / static_cast<RealType>((*mapIt).second.m_Union);
+    value = static_cast<RealType>(mapIt->second.m_Intersection) / static_cast<RealType>(mapIt->second.m_Union);
   }
 
   return value;
@@ -283,13 +283,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity() const -> Rea
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
     {
       continue;
     }
-    numerator += ((static_cast<RealType>((*mapIt).second.m_Source) - static_cast<RealType>((*mapIt).second.m_Target)));
-    denominator +=
-      ((static_cast<RealType>((*mapIt).second.m_Source) + static_cast<RealType>((*mapIt).second.m_Target)));
+    numerator += ((static_cast<RealType>(mapIt->second.m_Source) - static_cast<RealType>(mapIt->second.m_Target)));
+    denominator += ((static_cast<RealType>(mapIt->second.m_Source) + static_cast<RealType>(mapIt->second.m_Target)));
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -313,8 +312,8 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetVolumeSimilarity(LabelType labe
     return 0.0;
   }
   RealType value = 2.0 *
-                   (static_cast<RealType>((*mapIt).second.m_Source) - static_cast<RealType>((*mapIt).second.m_Target)) /
-                   (static_cast<RealType>((*mapIt).second.m_Source) + static_cast<RealType>((*mapIt).second.m_Target));
+                   (static_cast<RealType>(mapIt->second.m_Source) - static_cast<RealType>(mapIt->second.m_Target)) /
+                   (static_cast<RealType>(mapIt->second.m_Source) + static_cast<RealType>(mapIt->second.m_Target));
   return value;
 }
 
@@ -327,12 +326,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError() const -> R
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
     {
       continue;
     }
-    numerator += static_cast<RealType>((*mapIt).second.m_TargetComplement);
-    denominator += static_cast<RealType>((*mapIt).second.m_Target);
+    numerator += static_cast<RealType>(mapIt->second.m_TargetComplement);
+    denominator += static_cast<RealType>(mapIt->second.m_Target);
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -357,13 +356,13 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseNegativeError(LabelType la
   }
 
   RealType value;
-  if (Math::ExactlyEquals((*mapIt).second.m_Target, 0.0))
+  if (Math::ExactlyEquals(mapIt->second.m_Target, 0.0))
   {
     value = NumericTraits<RealType>::max();
   }
   else
   {
-    value = static_cast<RealType>((*mapIt).second.m_TargetComplement) / static_cast<RealType>((*mapIt).second.m_Target);
+    value = static_cast<RealType>(mapIt->second.m_TargetComplement) / static_cast<RealType>(mapIt->second.m_Target);
   }
 
   return value;
@@ -381,13 +380,13 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError() const -> R
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
     {
       continue;
     }
-    auto nComplementIntersection = nVox - (*mapIt).second.m_Union;                                      // TN
-    numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement);                             // FP
-    denominator += static_cast<RealType>((*mapIt).second.m_SourceComplement + nComplementIntersection); // FP+TN
+    auto nComplementIntersection = nVox - mapIt->second.m_Union;                                      // TN
+    numerator += static_cast<RealType>(mapIt->second.m_SourceComplement);                             // FP
+    denominator += static_cast<RealType>(mapIt->second.m_SourceComplement + nComplementIntersection); // FP+TN
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -413,16 +412,16 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalsePositiveError(LabelType la
   }
 
   RealType value;
-  if (Math::ExactlyEquals((*mapIt).second.m_Source, 0.0))
+  if (Math::ExactlyEquals(mapIt->second.m_Source, 0.0))
   {
     value = NumericTraits<RealType>::max();
   }
   else
   {
-    auto nComplementIntersection = nVox - (*mapIt).second.m_Union; // TN
+    auto nComplementIntersection = nVox - mapIt->second.m_Union; // TN
 
-    value = static_cast<RealType>((*mapIt).second.m_SourceComplement) /
-            static_cast<RealType>((*mapIt).second.m_SourceComplement + nComplementIntersection);
+    value = static_cast<RealType>(mapIt->second.m_SourceComplement) /
+            static_cast<RealType>(mapIt->second.m_SourceComplement + nComplementIntersection);
   }
 
   return value;
@@ -438,12 +437,12 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate() const -> R
   for (auto mapIt = this->m_LabelSetMeasures.begin(); mapIt != this->m_LabelSetMeasures.end(); ++mapIt)
   {
     // Do not include the background in the final value.
-    if ((*mapIt).first == NumericTraits<LabelType>::ZeroValue())
+    if (mapIt->first == NumericTraits<LabelType>::ZeroValue())
     {
       continue;
     }
-    numerator += static_cast<RealType>((*mapIt).second.m_SourceComplement); // FP
-    denominator += static_cast<RealType>((*mapIt).second.m_Source);         // FP+TP
+    numerator += static_cast<RealType>(mapIt->second.m_SourceComplement); // FP
+    denominator += static_cast<RealType>(mapIt->second.m_Source);         // FP+TP
   }
 
   if (Math::ExactlyEquals(denominator, 0.0))
@@ -468,13 +467,13 @@ LabelOverlapMeasuresImageFilter<TLabelImage>::GetFalseDiscoveryRate(LabelType la
   }
 
   RealType value;
-  if (Math::ExactlyEquals((*mapIt).second.m_Source, 0.0))
+  if (Math::ExactlyEquals(mapIt->second.m_Source, 0.0))
   {
     value = NumericTraits<RealType>::max();
   }
   else
   {
-    value = static_cast<RealType>((*mapIt).second.m_SourceComplement) / static_cast<RealType>((*mapIt).second.m_Source);
+    value = static_cast<RealType>(mapIt->second.m_SourceComplement) / static_cast<RealType>(mapIt->second.m_Source);
   }
   return value;
 }

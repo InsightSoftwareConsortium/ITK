@@ -147,27 +147,27 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   {
     auto * pnt = new ContourControlPnt(VDimension);
 
-    pnt->m_Id = (*itCP).GetId();
+    pnt->m_Id = itCP->GetId();
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_X[d] = (*itCP).GetPositionInObjectSpace()[d];
+      pnt->m_X[d] = itCP->GetPositionInObjectSpace()[d];
     }
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_XPicked[d] = (*itCP).GetPickedPointInObjectSpace()[d];
+      pnt->m_XPicked[d] = itCP->GetPickedPointInObjectSpace()[d];
     }
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_V[d] = (*itCP).GetNormalInObjectSpace()[d];
+      pnt->m_V[d] = itCP->GetNormalInObjectSpace()[d];
     }
 
-    pnt->m_Color[0] = (*itCP).GetRed();
-    pnt->m_Color[1] = (*itCP).GetGreen();
-    pnt->m_Color[2] = (*itCP).GetBlue();
-    pnt->m_Color[3] = (*itCP).GetAlpha();
+    pnt->m_Color[0] = itCP->GetRed();
+    pnt->m_Color[1] = itCP->GetGreen();
+    pnt->m_Color[2] = itCP->GetBlue();
+    pnt->m_Color[3] = itCP->GetAlpha();
 
     contourMO->GetControlPoints().push_back(pnt);
   }
@@ -187,16 +187,16 @@ MetaContourConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   {
     auto * pnt = new ContourInterpolatedPnt(VDimension);
 
-    pnt->m_Id = (*itI).GetId();
+    pnt->m_Id = itI->GetId();
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_X[d] = (*itI).GetPositionInObjectSpace()[d];
+      pnt->m_X[d] = itI->GetPositionInObjectSpace()[d];
     }
 
-    pnt->m_Color[0] = (*itI).GetRed();
-    pnt->m_Color[1] = (*itI).GetGreen();
-    pnt->m_Color[2] = (*itI).GetBlue();
-    pnt->m_Color[3] = (*itI).GetAlpha();
+    pnt->m_Color[0] = itI->GetRed();
+    pnt->m_Color[1] = itI->GetGreen();
+    pnt->m_Color[2] = itI->GetBlue();
+    pnt->m_Color[3] = itI->GetAlpha();
 
     contourMO->GetInterpolatedPoints().push_back(pnt);
   }

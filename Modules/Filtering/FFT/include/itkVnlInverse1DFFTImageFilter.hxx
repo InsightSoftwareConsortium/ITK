@@ -88,7 +88,7 @@ VnlInverse1DFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
         outputIt.GoToBeginOfLine();
         while (!outputIt.IsAtEndOfLine())
         {
-          outputIt.Set((*outputBufferIt).real() / vectorSize);
+          outputIt.Set(outputBufferIt->real() / vectorSize);
           ++outputIt;
           ++outputBufferIt;
         }

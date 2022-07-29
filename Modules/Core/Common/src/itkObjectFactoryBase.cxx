@@ -782,9 +782,9 @@ ObjectFactoryBase::CreateObject(const char * itkclassname)
 
   for (auto i = start; i != end; ++i)
   {
-    if (i != m_OverrideMap->end() && (*i).second.m_EnabledFlag)
+    if (i != m_OverrideMap->end() && i->second.m_EnabledFlag)
     {
-      return (*i).second.m_CreateObject->CreateObject();
+      return i->second.m_CreateObject->CreateObject();
     }
   }
   return nullptr;
@@ -800,9 +800,9 @@ ObjectFactoryBase::CreateAllObject(const char * itkclassname)
 
   for (auto i = start; i != end; ++i)
   {
-    if (i != m_OverrideMap->end() && (*i).second.m_EnabledFlag)
+    if (i != m_OverrideMap->end() && i->second.m_EnabledFlag)
     {
-      created.push_back((*i).second.m_CreateObject->CreateObject());
+      created.push_back(i->second.m_CreateObject->CreateObject());
     }
   }
   return created;
@@ -819,9 +819,9 @@ ObjectFactoryBase::SetEnableFlag(bool flag, const char * className, const char *
 
   for (auto i = start; i != end; ++i)
   {
-    if ((*i).second.m_OverrideWithName == subclassName)
+    if (i->second.m_OverrideWithName == subclassName)
     {
-      (*i).second.m_EnabledFlag = flag;
+      i->second.m_EnabledFlag = flag;
     }
   }
 }
@@ -837,9 +837,9 @@ ObjectFactoryBase::GetEnableFlag(const char * className, const char * subclassNa
 
   for (auto i = start; i != end; ++i)
   {
-    if ((*i).second.m_OverrideWithName == subclassName)
+    if (i->second.m_OverrideWithName == subclassName)
     {
-      return (*i).second.m_EnabledFlag;
+      return i->second.m_EnabledFlag;
     }
   }
   return false;
@@ -856,7 +856,7 @@ ObjectFactoryBase::Disable(const char * className)
 
   for (auto i = start; i != end; ++i)
   {
-    (*i).second.m_EnabledFlag = false;
+    i->second.m_EnabledFlag = false;
   }
 }
 

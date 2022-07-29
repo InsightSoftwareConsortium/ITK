@@ -79,13 +79,13 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
     while (extraIt != metaFields.end())
     {
       // Do not add the optional fields
-      if (((*extraIt).first != "r") && ((*extraIt).first != "v1x") && ((*extraIt).first != "v1y") &&
-          ((*extraIt).first != "v1z") && ((*extraIt).first != "v2x") && ((*extraIt).first != "v2y") &&
-          ((*extraIt).first != "v2z") && ((*extraIt).first != "tx") && ((*extraIt).first != "ty") &&
-          ((*extraIt).first != "tz") && ((*extraIt).first != "red") && ((*extraIt).first != "green") &&
-          ((*extraIt).first != "blue") && ((*extraIt).first != "alpha") && ((*extraIt).first != "id"))
+      if ((extraIt->first != "r") && (extraIt->first != "v1x") && (extraIt->first != "v1y") &&
+          (extraIt->first != "v1z") && (extraIt->first != "v2x") && (extraIt->first != "v2y") &&
+          (extraIt->first != "v2z") && (extraIt->first != "tx") && (extraIt->first != "ty") &&
+          (extraIt->first != "tz") && (extraIt->first != "red") && (extraIt->first != "green") &&
+          (extraIt->first != "blue") && (extraIt->first != "alpha") && (extraIt->first != "id"))
       {
-        pnt.AddField((*extraIt).first.c_str(), (*extraIt).second);
+        pnt.AddField(extraIt->first.c_str(), extraIt->second);
       }
       ++extraIt;
     }
@@ -203,12 +203,12 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
   for (it = DTITubeSO->GetPoints().begin(); it != DTITubeSO->GetPoints().end(); ++it)
   {
     // Optional fields (written only if not default values)
-    if ((*it).GetId() != -1)
+    if (it->GetId() != -1)
     {
       writeID = true;
     }
 
-    if ((*it).GetRadiusInObjectSpace() != 0.0f)
+    if (it->GetRadiusInObjectSpace() != 0.0f)
     {
       writeRadius = true;
     }
@@ -216,27 +216,27 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
     unsigned int d;
     for (d = 0; d < VDimension; ++d)
     {
-      if (Math::NotExactlyEquals((*it).GetNormal1InObjectSpace()[d], 0))
+      if (Math::NotExactlyEquals(it->GetNormal1InObjectSpace()[d], 0))
       {
         writeNormal1 = true;
       }
-      if (Math::NotExactlyEquals((*it).GetNormal2InObjectSpace()[d], 0))
+      if (Math::NotExactlyEquals(it->GetNormal2InObjectSpace()[d], 0))
       {
         writeNormal2 = true;
       }
-      if (Math::NotExactlyEquals((*it).GetTangentInObjectSpace()[d], 0))
+      if (Math::NotExactlyEquals(it->GetTangentInObjectSpace()[d], 0))
       {
         writeTangent = true;
       }
     }
 
     // write the color if changed
-    if (((*it).GetRed() != 1.0) || ((*it).GetGreen() != 0.0) || ((*it).GetBlue() != 0.0))
+    if ((it->GetRed() != 1.0) || (it->GetGreen() != 0.0) || (it->GetBlue() != 0.0))
     {
       writeColor = true;
     }
 
-    if ((*it).GetAlpha() != 1.0)
+    if (it->GetAlpha() != 1.0)
     {
       writeAlpha = true;
     }
@@ -249,74 +249,74 @@ MetaDTITubeConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
+      pnt->m_X[d] = it->GetPositionInObjectSpace()[d];
     }
 
-    const DTITubePnt::FieldListType & metaFields = (*it).GetFields();
+    const DTITubePnt::FieldListType & metaFields = it->GetFields();
     auto                              extraIt = metaFields.begin();
     while (extraIt != metaFields.end())
     {
-      pnt->AddField((*extraIt).first.c_str(), (*extraIt).second);
+      pnt->AddField(extraIt->first.c_str(), extraIt->second);
       ++extraIt;
     }
 
     for (unsigned int d = 0; d < 6; ++d)
     {
-      pnt->m_TensorMatrix[d] = (*it).GetTensorMatrix()[d];
+      pnt->m_TensorMatrix[d] = it->GetTensorMatrix()[d];
     }
 
     // Optional fields (written only if not default values)
     if (writeID)
     {
-      pnt->AddField("id", (*it).GetId());
+      pnt->AddField("id", it->GetId());
     }
 
     if (writeRadius)
     {
-      pnt->AddField("r", (*it).GetRadiusInObjectSpace());
+      pnt->AddField("r", it->GetRadiusInObjectSpace());
     }
 
     if (writeNormal1)
     {
-      pnt->AddField("v1x", (*it).GetNormal1InObjectSpace()[0]);
-      pnt->AddField("v1y", (*it).GetNormal1InObjectSpace()[1]);
+      pnt->AddField("v1x", it->GetNormal1InObjectSpace()[0]);
+      pnt->AddField("v1y", it->GetNormal1InObjectSpace()[1]);
       if (VDimension == 3)
       {
-        pnt->AddField("v1z", (*it).GetNormal1InObjectSpace()[2]);
+        pnt->AddField("v1z", it->GetNormal1InObjectSpace()[2]);
       }
     }
 
     if (writeNormal2)
     {
-      pnt->AddField("v2x", (*it).GetNormal2InObjectSpace()[0]);
-      pnt->AddField("v2y", (*it).GetNormal2InObjectSpace()[1]);
+      pnt->AddField("v2x", it->GetNormal2InObjectSpace()[0]);
+      pnt->AddField("v2y", it->GetNormal2InObjectSpace()[1]);
       if (VDimension == 3)
       {
-        pnt->AddField("v2z", (*it).GetNormal2InObjectSpace()[2]);
+        pnt->AddField("v2z", it->GetNormal2InObjectSpace()[2]);
       }
     }
 
     if (writeTangent)
     {
-      pnt->AddField("tx", (*it).GetTangentInObjectSpace()[0]);
-      pnt->AddField("ty", (*it).GetTangentInObjectSpace()[1]);
+      pnt->AddField("tx", it->GetTangentInObjectSpace()[0]);
+      pnt->AddField("ty", it->GetTangentInObjectSpace()[1]);
       if (VDimension == 3)
       {
-        pnt->AddField("tz", (*it).GetTangentInObjectSpace()[2]);
+        pnt->AddField("tz", it->GetTangentInObjectSpace()[2]);
       }
     }
 
     // write the color if changed
     if (writeColor)
     {
-      pnt->AddField("red", (*it).GetRed());
-      pnt->AddField("green", (*it).GetGreen());
-      pnt->AddField("blue", (*it).GetBlue());
+      pnt->AddField("red", it->GetRed());
+      pnt->AddField("green", it->GetGreen());
+      pnt->AddField("blue", it->GetBlue());
     }
 
     if (writeAlpha)
     {
-      pnt->AddField("alpha", (*it).GetAlpha());
+      pnt->AddField("alpha", it->GetAlpha());
     }
 
     tube->GetPoints().push_back(pnt);

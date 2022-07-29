@@ -169,7 +169,7 @@ public:
     else
     {
       // This prints the object pointed to by the pointer
-      (*m_Pointer).Print(os);
+      m_Pointer->Print(os);
     }
     return m_Pointer;
   }

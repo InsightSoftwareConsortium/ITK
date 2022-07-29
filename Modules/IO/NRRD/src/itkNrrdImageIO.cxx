@@ -958,9 +958,9 @@ NrrdImageIO::Write(const void * buffer)
   const char *                             keyField, *field;
   for (keyIt = keys.begin(); keyIt != keys.end(); ++keyIt)
   {
-    if (!strncmp(KEY_PREFIX, (*keyIt).c_str(), strlen(KEY_PREFIX)))
+    if (!strncmp(KEY_PREFIX, keyIt->c_str(), strlen(KEY_PREFIX)))
     {
-      keyField = (*keyIt).c_str() + strlen(KEY_PREFIX);
+      keyField = keyIt->c_str() + strlen(KEY_PREFIX);
       // only of one of these can succeed
       field = airEnumStr(nrrdField, nrrdField_thicknesses);
       if (!strncmp(keyField, field, strlen(field)))
@@ -1067,7 +1067,7 @@ NrrdImageIO::Write(const void * buffer)
       // not a NRRD field packed into meta data; just a regular key/value
       std::string value;
       ExposeMetaData<std::string>(thisDic, *keyIt, value);
-      nrrdKeyValueAdd(nrrd, (*keyIt).c_str(), value.c_str());
+      nrrdKeyValueAdd(nrrd, keyIt->c_str(), value.c_str());
     }
   }
 

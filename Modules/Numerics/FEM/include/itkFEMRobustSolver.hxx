@@ -494,7 +494,7 @@ RobustSolver<VDimension>::UnselectLandmarks(unsigned int nUnselected)
 
   for (it = loadVector.begin(); it <= nth; ++it)
   {
-    auto * landmark = dynamic_cast<LoadNoisyLandmark *>((*it).GetPointer());
+    auto * landmark = dynamic_cast<LoadNoisyLandmark *>(it->GetPointer());
     itkAssertInDebugAndIgnoreInReleaseMacro(landmark != nullptr);
 
     landmark->SetOutlier(true);

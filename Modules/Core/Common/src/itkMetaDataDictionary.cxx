@@ -46,8 +46,8 @@ MetaDataDictionary::Print(std::ostream & os) const
   os << "Dictionary use_count: " << m_Dictionary.use_count() << std::endl;
   for (MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
   {
-    os << (*it).first << "  ";
-    (*it).second->Print(os);
+    os << it->first << "  ";
+    it->second->Print(os);
   }
 }
 
@@ -102,7 +102,7 @@ MetaDataDictionary::GetKeys() const
 
   for (MetaDataDictionaryMapType::const_iterator it = m_Dictionary->begin(); it != m_Dictionary->end(); ++it)
   {
-    ans.push_back((*it).first);
+    ans.push_back(it->first);
   }
 
   return ans;
