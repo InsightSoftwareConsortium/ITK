@@ -46,7 +46,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::DTITubeSpatialObjectPoint(const DTIT
   auto                  it = fields.begin();
   while (it != fields.end())
   {
-    this->AddField((*it).first.c_str(), (*it).second);
+    this->AddField(it->first.c_str(), it->second);
     ++it;
   }
   for (unsigned int i = 0; i < 6; ++i)
@@ -102,9 +102,9 @@ DTITubeSpatialObjectPoint<TPointDimension>::SetField(const char * name, float va
 
   while (it != m_Fields.end())
   {
-    if (!strcmp((*it).first.c_str(), itksys::SystemTools::LowerCase(name).c_str()))
+    if (!strcmp(it->first.c_str(), itksys::SystemTools::LowerCase(name).c_str()))
     {
-      (*it).second = value;
+      it->second = value;
     }
     ++it;
   }
@@ -154,9 +154,9 @@ DTITubeSpatialObjectPoint<TPointDimension>::GetField(const char * name) const
 
   while (it != m_Fields.end())
   {
-    if (!strcmp((*it).first.c_str(), itksys::SystemTools::LowerCase(name).c_str()))
+    if (!strcmp(it->first.c_str(), itksys::SystemTools::LowerCase(name).c_str()))
     {
-      return (*it).second;
+      return it->second;
     }
     ++it;
   }
@@ -189,7 +189,7 @@ DTITubeSpatialObjectPoint<TPointDimension>::operator=(const DTITubeSpatialObject
     auto                  it = fields.begin();
     while (it != fields.end())
     {
-      this->AddField((*it).first.c_str(), (*it).second);
+      this->AddField(it->first.c_str(), it->second);
       ++it;
     }
     for (unsigned int i = 0; i < 6; ++i)

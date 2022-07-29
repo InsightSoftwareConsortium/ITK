@@ -450,7 +450,7 @@ HDF5TransformIOTemplate<TParametersValueType>::Write()
 
     for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
     {
-      this->WriteOneTransform(count, (*it).GetPointer());
+      this->WriteOneTransform(count, it->GetPointer());
     }
     this->m_H5File->close();
   }

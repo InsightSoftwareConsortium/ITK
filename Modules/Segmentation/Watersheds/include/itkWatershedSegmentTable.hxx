@@ -32,12 +32,12 @@ SegmentTable<TScalar>::PruneEdgeLists(ScalarType maximum_saliency)
   typename edge_list_t::iterator e;
   for (it = this->Begin(); it != this->End(); ++it)
   {
-    for (e = (*it).second.edge_list.begin(); e != (*it).second.edge_list.end(); ++e)
+    for (e = it->second.edge_list.begin(); e != it->second.edge_list.end(); ++e)
     {
-      if ((e->height - (*it).second.min) > maximum_saliency)
+      if ((e->height - it->second.min) > maximum_saliency)
       { // dump the rest of the list, assumes list is sorted
         ++e;
-        (*it).second.edge_list.erase(e, (*it).second.edge_list.end());
+        it->second.edge_list.erase(e, it->second.edge_list.end());
         break; // through with this segment
       }
     }
@@ -52,7 +52,7 @@ SegmentTable<TScalar>::SortEdgeLists()
 
   for (it = this->Begin(); it != this->End(); ++it)
   {
-    (*it).second.edge_list.sort();
+    it->second.edge_list.sort();
   }
 }
 

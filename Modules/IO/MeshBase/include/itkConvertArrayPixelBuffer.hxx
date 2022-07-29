@@ -32,7 +32,7 @@ ConvertPixelBuffer<InputPixelType, Array<T>, OutputConvertTraits>::Convert(Input
 
   while (inputData != endInput)
   {
-    (*outputData).SetSize(inputNumberOfComponents);
+    outputData->SetSize(inputNumberOfComponents);
     for (int ii = 0; ii < inputNumberOfComponents; ++ii)
     {
       OutputConvertTraits::SetNthComponent(ii, *outputData, static_cast<T>(*inputData++));

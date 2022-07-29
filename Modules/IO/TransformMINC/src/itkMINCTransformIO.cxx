@@ -321,7 +321,7 @@ MINCTransformIOTemplate<TParametersValueType>::Write()
   int serial = 0;
   for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
   {
-    this->WriteOneTransform(count, (*it).GetPointer(), xfm, xfm_file_base.c_str(), serial);
+    this->WriteOneTransform(count, it->GetPointer(), xfm, xfm_file_base.c_str(), serial);
   }
 
   VIO_General_transform transform = xfm.back();

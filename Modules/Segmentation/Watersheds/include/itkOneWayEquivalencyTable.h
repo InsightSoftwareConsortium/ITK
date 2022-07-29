@@ -94,7 +94,7 @@ public:
     }
     else
     {
-      return (*result).second;
+      return result->second;
     }
   }
 

@@ -107,18 +107,18 @@ MetaSurfaceConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_X[d] = (*it).GetPositionInObjectSpace()[d];
+      pnt->m_X[d] = it->GetPositionInObjectSpace()[d];
     }
 
     for (unsigned int d = 0; d < VDimension; ++d)
     {
-      pnt->m_V[d] = (*it).GetNormalInObjectSpace()[d];
+      pnt->m_V[d] = it->GetNormalInObjectSpace()[d];
     }
 
-    pnt->m_Color[0] = (*it).GetRed();
-    pnt->m_Color[1] = (*it).GetGreen();
-    pnt->m_Color[2] = (*it).GetBlue();
-    pnt->m_Color[3] = (*it).GetAlpha();
+    pnt->m_Color[0] = it->GetRed();
+    pnt->m_Color[1] = it->GetGreen();
+    pnt->m_Color[2] = it->GetBlue();
+    pnt->m_Color[3] = it->GetAlpha();
 
     surfaceMO->GetPoints().push_back(pnt);
   }

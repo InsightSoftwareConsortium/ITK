@@ -193,7 +193,7 @@ public:
         auto pos = m_UserDefined.find(id);
         if (pos != m_UserDefined.end())
         {
-          return (*pos).second;
+          return pos->second;
         }
       }
       return nullptr;

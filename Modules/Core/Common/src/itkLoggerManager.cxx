@@ -72,7 +72,7 @@ LoggerManager::SetPriorityLevel(PriorityLevelEnum level)
 
   while (itr != this->m_LoggerSet.end())
   {
-    (*itr).second->SetPriorityLevel(level);
+    itr->second->SetPriorityLevel(level);
     ++itr;
   }
 }
@@ -84,7 +84,7 @@ LoggerManager::SetLevelForFlushing(PriorityLevelEnum level)
 
   while (itr != this->m_LoggerSet.end())
   {
-    (*itr).second->SetLevelForFlushing(level);
+    itr->second->SetLevelForFlushing(level);
     ++itr;
   }
 }
@@ -96,7 +96,7 @@ LoggerManager::AddLogOutput(OutputType * output)
 
   while (itr != this->m_LoggerSet.end())
   {
-    (*itr).second->AddLogOutput(output);
+    itr->second->AddLogOutput(output);
     ++itr;
   }
 }
@@ -108,7 +108,7 @@ LoggerManager::Write(PriorityLevelEnum level, std::string const & content)
 
   while (itr != this->m_LoggerSet.end())
   {
-    (*itr).second->Write(level, content);
+    itr->second->Write(level, content);
     ++itr;
   }
 }
@@ -120,7 +120,7 @@ LoggerManager::Flush()
 
   while (itr != this->m_LoggerSet.end())
   {
-    (*itr).second->Flush();
+    itr->second->Flush();
     ++itr;
   }
 }

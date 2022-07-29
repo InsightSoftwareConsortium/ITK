@@ -910,8 +910,8 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::AdjustSlabR
   auto iter = slabs.begin();
   while (iter != slabs.end())
   {
-    coordFirst2 = (*iter).GetIndex()[m_SlicingDirection];
-    coordLast2 = coordFirst2 + static_cast<IndexValueType>((*iter).GetSize()[m_SlicingDirection]) - 1;
+    coordFirst2 = iter->GetIndex()[m_SlicingDirection];
+    coordLast2 = coordFirst2 + static_cast<IndexValueType>(iter->GetSize()[m_SlicingDirection]) - 1;
 
     if (coordFirst > coordFirst2)
     {

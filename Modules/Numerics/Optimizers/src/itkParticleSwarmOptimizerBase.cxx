@@ -67,8 +67,8 @@ ParticleSwarmOptimizerBase::SetInitialSwarm(const SwarmType & initialSwarm)
     // check that the dimensions of the swarm data are consistent
     for (auto it = initialSwarm.begin(); it != initialSwarm_END; ++it)
     {
-      if ((*it).m_CurrentParameters.GetSize() != n || (*it).m_CurrentVelocity.GetSize() != n ||
-          (*it).m_BestParameters.GetSize() != n)
+      if (it->m_CurrentParameters.GetSize() != n || it->m_CurrentVelocity.GetSize() != n ||
+          it->m_BestParameters.GetSize() != n)
       {
         itkExceptionMacro(<< "inconsistent dimensions in swarm data");
       }
@@ -156,7 +156,7 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
   for (it = this->m_ParameterBounds.begin(); it != end; ++it)
-    os << " [" << (*it).first << ", " << (*it).second << "]";
+    os << " [" << it->first << ", " << it->second << "]";
   os << " ]\n";
   os << indent << "Parameters' convergence tolerance: " << this->m_ParametersConvergenceTolerance;
   os << "\n";

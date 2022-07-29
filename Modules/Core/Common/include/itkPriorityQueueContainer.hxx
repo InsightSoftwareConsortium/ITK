@@ -39,7 +39,7 @@ typename ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifi
 ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::GetLocation(
   const ElementWrapperPointerType & element) const
 {
-  return ((*element).GetLocation(*element));
+  return (element->GetLocation(*element));
 }
 // -----------------------------------------------------------------------------
 
@@ -50,7 +50,7 @@ ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::SetL
   ElementWrapperPointerType &   element,
   const ElementIdentifierType & identifier)
 {
-  (*element).SetLocation(*element, identifier);
+  element->SetLocation(*element, identifier);
 }
 // -----------------------------------------------------------------------------
 
@@ -61,7 +61,7 @@ ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::is_l
   const ElementWrapperPointerType & element1,
   const ElementWrapperPointerType & element2) const
 {
-  return ((*element1).is_less((*element1), (*element2)));
+  return (element1->is_less((*element1), (*element2)));
 }
 // -----------------------------------------------------------------------------
 
@@ -72,7 +72,7 @@ ElementWrapperPointerInterface<TElementWrapperPointer, TElementIdentifier>::is_g
   const ElementWrapperPointerType & element1,
   const ElementWrapperPointerType & element2) const
 {
-  return ((*element1).is_greater((*element1), (*element2)));
+  return (element1->is_greater((*element1), (*element2)));
 }
 // -----------------------------------------------------------------------------
 

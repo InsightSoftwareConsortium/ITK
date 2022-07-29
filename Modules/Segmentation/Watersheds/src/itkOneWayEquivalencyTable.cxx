@@ -40,7 +40,7 @@ OneWayEquivalencyTable::Add(unsigned long a, unsigned long b)
 //  ConstIterator it = this->Begin();
 //  while (it != this->End() )
 //    {
-//      std::cout << (*it).first << " = " << (*it).second << std::endl;
+//      std::cout << it->first << " = " << it->second << std::endl;
 //      ++it;
 //    }
 //}
@@ -52,7 +52,7 @@ OneWayEquivalencyTable::Flatten()
 
   while (it != this->End())
   {
-    (*it).second = this->RecursiveLookup((*it).first);
+    it->second = this->RecursiveLookup(it->first);
     ++it;
   }
 }
@@ -68,7 +68,7 @@ OneWayEquivalencyTable::RecursiveLookup(const unsigned long a) const
 
   while ((it = m_HashMap.find(ans)) != hashEnd)
   {
-    ans = (*it).second;
+    ans = it->second;
     if (ans == a)
     {
       return last_ans; // about to cycle again.

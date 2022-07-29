@@ -1226,19 +1226,19 @@ MINCImageIO::WriteImageInformation()
   for (MetaDataDictionary::ConstIterator it = thisDic.Begin(); it != thisDic.End(); ++it)
   {
     // don't store some internal ITK junk
-    if ((*it).first == "ITK_InputFilterName" || (*it).first == "NRRD_content" || (*it).first == "NRRD_centerings[0]" ||
-        (*it).first == "NRRD_centerings[1]" || (*it).first == "NRRD_centerings[2]" ||
-        (*it).first == "NRRD_centerings[3]" || (*it).first == "NRRD_kinds[0]" || (*it).first == "NRRD_kinds[1]" ||
-        (*it).first == "NRRD_kinds[2]" || (*it).first == "NRRD_kinds[3]" || (*it).first == "NRRD_space")
+    if (it->first == "ITK_InputFilterName" || it->first == "NRRD_content" || it->first == "NRRD_centerings[0]" ||
+        it->first == "NRRD_centerings[1]" || it->first == "NRRD_centerings[2]" || it->first == "NRRD_centerings[3]" ||
+        it->first == "NRRD_kinds[0]" || it->first == "NRRD_kinds[1]" || it->first == "NRRD_kinds[2]" ||
+        it->first == "NRRD_kinds[3]" || it->first == "NRRD_space")
       continue;
 
-    const char *         d = strchr((*it).first.c_str(), ':');
-    MetaDataObjectBase * bs = (*it).second;
+    const char *         d = strchr(it->first.c_str(), ':');
+    MetaDataObjectBase * bs = it->second;
     const char *         tname = bs->GetMetaDataObjectTypeName();
 
     if (d)
     {
-      std::string var((*it).first.c_str(), d - (*it).first.c_str());
+      std::string var(it->first.c_str(), d - it->first.c_str());
       std::string att(d + 1);
 
       // VF:THIS is not good OO style at all :(
@@ -1286,7 +1286,7 @@ MINCImageIO::WriteImageInformation()
         itkDebugMacro(<< "Unsupported metadata type:" << tname);
       }
     }
-    else if ((*it).first == "history")
+    else if (it->first == "history")
     {
       const std::string & tmp = dynamic_cast<MetaDataObject<std::string> *>(bs)->GetMetaDataObjectValue();
       miset_attr_values(this->m_MINCPImpl->m_Volume, MI_TYPE_STRING, "", "history", tmp.length() + 1, tmp.c_str());

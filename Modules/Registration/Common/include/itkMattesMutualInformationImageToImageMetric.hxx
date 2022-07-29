@@ -339,7 +339,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputeFix
   {
     // Determine parzen window arguments (see eqn 6 of Mattes paper [2]).
     const PDFValueType windowTerm =
-      static_cast<PDFValueType>((*iter).value) / this->m_FixedImageBinSize - this->m_FixedImageNormalizedMin;
+      static_cast<PDFValueType>(iter->value) / this->m_FixedImageBinSize - this->m_FixedImageNormalizedMin;
     auto pindex = static_cast<OffsetValueType>(windowTerm);
 
     // Make sure the extreme values are in valid bins
@@ -356,7 +356,7 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputeFix
       }
     }
 
-    (*iter).valueIndex = pindex;
+    iter->valueIndex = pindex;
   }
 }
 

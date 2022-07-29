@@ -82,9 +82,9 @@ Relabeler<TScalar, TImageDimension>::GenerateData()
   this->UpdateProgress(0.5);
 
   it = tree->Begin();
-  while (it != tree->End() && (*it).saliency <= mergeLimit)
+  while (it != tree->End() && it->saliency <= mergeLimit)
   {
-    eqT->Add((*it).from, (*it).to);
+    eqT->Add(it->from, it->to);
     ++it;
   }
 

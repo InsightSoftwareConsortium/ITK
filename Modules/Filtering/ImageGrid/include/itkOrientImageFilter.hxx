@@ -610,10 +610,10 @@ OrientImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
 
   axes = m_CodeToString.find(m_DesiredCoordinateOrientation);
   os << indent << "Desired Coordinate Orientation: " << static_cast<long>(this->GetDesiredCoordinateOrientation())
-     << " (" << (*axes).second << ")" << std::endl;
+     << " (" << axes->second << ")" << std::endl;
   axes = m_CodeToString.find(m_GivenCoordinateOrientation);
   os << indent << "Given Coordinate Orientation: " << static_cast<long>(this->GetGivenCoordinateOrientation()) << " ("
-     << (*axes).second << ")" << std::endl;
+     << axes->second << ")" << std::endl;
   os << indent << "Use Image Direction: " << m_UseImageDirection << std::endl;
   os << indent << "Permute Axes: " << m_PermuteOrder << std::endl;
   os << indent << "Flip Axes: " << m_FlipAxes << std::endl;

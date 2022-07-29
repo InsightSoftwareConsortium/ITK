@@ -124,7 +124,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))(caller, event);
+      (m_This->*(m_MemberFunction))(caller, event);
     }
   }
 
@@ -134,7 +134,7 @@ public:
   {
     if (m_ConstMemberFunction)
     {
-      ((*m_This).*(m_ConstMemberFunction))(caller, event);
+      (m_This->*(m_ConstMemberFunction))(caller, event);
     }
   }
 
@@ -195,7 +195,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))(event);
+      (m_This->*(m_MemberFunction))(event);
     }
   }
 
@@ -205,7 +205,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))(event);
+      (m_This->*(m_MemberFunction))(event);
     }
   }
 
@@ -263,7 +263,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))();
+      (m_This->*(m_MemberFunction))();
     }
   }
 
@@ -272,7 +272,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))();
+      (m_This->*(m_MemberFunction))();
     }
   }
 
@@ -330,7 +330,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))();
+      (m_This->*(m_MemberFunction))();
     }
   }
 
@@ -339,7 +339,7 @@ public:
   {
     if (m_MemberFunction)
     {
-      ((*m_This).*(m_MemberFunction))();
+      (m_This->*(m_MemberFunction))();
     }
   }
 

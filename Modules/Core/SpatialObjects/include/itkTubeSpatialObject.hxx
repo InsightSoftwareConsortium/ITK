@@ -206,8 +206,8 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
     while (it2 != end)
     {
       // Check if the point is on the normal plane
-      PointType a = (*it).GetPositionInObjectSpace();
-      PointType b = (*it2).GetPositionInObjectSpace();
+      PointType a = it->GetPositionInObjectSpace();
+      PointType b = it2->GetPositionInObjectSpace();
 
       if (!m_EndRounded)
       {
@@ -245,8 +245,8 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
 
         double lambdaMin = 0;
         double lambdaMax = 1;
-        double lambdaMinR = (*it).GetRadiusInObjectSpace();
-        double lambdaMaxR = (*it2).GetRadiusInObjectSpace();
+        double lambdaMinR = it->GetRadiusInObjectSpace();
+        double lambdaMaxR = it2->GetRadiusInObjectSpace();
         if (m_EndRounded || !withinEndCap)
         {
           lambdaMin = -(lambdaMinR / B);

@@ -128,7 +128,7 @@ SegmentTreeGenerator<TScalar>::MergeEquivalencies()
 
   for (it = eqTable->Begin(); it != eqTable->End(); ++it)
   {
-    MergeSegments(segTable, m_MergedSegmentsTable, (*it).first, (*it).second); // Merge first INTO second.
+    MergeSegments(segTable, m_MergedSegmentsTable, it->first, it->second); // Merge first INTO second.
     // deletes first
     if ((counter % 10000) == 0)
     {
@@ -161,7 +161,7 @@ SegmentTreeGenerator<TScalar>::CompileMergeList(SegmentTableTypePointer segments
 
   for (segment_ptr = segments->Begin(); segment_ptr != segments->End(); ++segment_ptr)
   {
-    labelFROM = (*segment_ptr).first;
+    labelFROM = segment_ptr->first;
 
     // Must take into account any equivalencies that have already been
     // recorded.
@@ -170,18 +170,18 @@ SegmentTreeGenerator<TScalar>::CompileMergeList(SegmentTableTypePointer segments
       // This is to defend against the referencing below.  This was causing an assert error.
       itkGenericExceptionMacro(<< "CompileMergeList:: An unexpected and fatal error has occurred.");
     }
-    labelTO = m_MergedSegmentsTable->RecursiveLookup((*segment_ptr).second.edge_list.front().label);
+    labelTO = m_MergedSegmentsTable->RecursiveLookup(segment_ptr->second.edge_list.front().label);
     while (labelTO == labelFROM) // Pop off any bogus merges with ourself
     {                            // that may have been left in this list.
-      (*segment_ptr).second.edge_list.pop_front();
-      labelTO = m_MergedSegmentsTable->RecursiveLookup((*segment_ptr).second.edge_list.front().label);
+      segment_ptr->second.edge_list.pop_front();
+      labelTO = m_MergedSegmentsTable->RecursiveLookup(segment_ptr->second.edge_list.front().label);
     }
 
     // Add this merge to our list if its saliency is below
     // the threshold.
     tempMerge.from = labelFROM;
     tempMerge.to = labelTO;
-    tempMerge.saliency = (*segment_ptr).second.edge_list.front().height - (*segment_ptr).second.min;
+    tempMerge.saliency = segment_ptr->second.edge_list.front().height - segment_ptr->second.min;
     if (tempMerge.saliency < threshold)
     {
       mergeList->PushBack(tempMerge);

@@ -282,7 +282,7 @@ LabelMap<TLabelObject>::AddPixel(const LabelObjectContainerIterator & it,
   if (it != m_LabelObjectContainer.end())
   {
     // the label already exist - add the pixel to it
-    (*it).second->AddIndex(idx);
+    it->second->AddIndex(idx);
     this->Modified();
   }
   else
@@ -353,7 +353,7 @@ LabelMap<TLabelObject>::SetLine(const IndexType & idx, const LengthType & length
   if (it != m_LabelObjectContainer.end())
   {
     // the label already exist - add the pixel to it
-    (*it).second->AddLine(idx, length);
+    it->second->AddLine(idx, length);
     this->Modified();
   }
   else
