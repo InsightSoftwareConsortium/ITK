@@ -105,19 +105,19 @@ itkVtkConnectedComponentImageFilterTest(int argc, char * argv[])
   auto it = filterContainer.begin();
   for (it = filterContainer.begin(); it != filterContainer.end(); ++it)
   {
-    (*it).second->SetInsideValue(255);
-    (*it).second->SetOutsideValue(0);
-    (*it).second->SetNumberOfHistogramBins(256);
-    (*it).second->SetInput(reader->GetOutput());
-    (*it).second->Update();
+    it->second->SetInsideValue(255);
+    it->second->SetOutsideValue(0);
+    it->second->SetNumberOfHistogramBins(256);
+    it->second->SetInput(reader->GetOutput());
+    it->second->Update();
 
     auto connected = ConnectedComponentImageFilterType::New();
-    connected->SetInput((*it).second->GetOutput());
+    connected->SetInput(it->second->GetOutput());
 
     auto rgbFilter = RGBFilterType::New();
     rgbFilter->SetInput(connected->GetOutput());
     std::stringstream desc;
-    desc << (*it).first << " threshold = " << (*it).second->GetThreshold();
+    desc << it->first << " threshold = " << it->second->GetThreshold();
     viewer.AddRGBImage(rgbFilter->GetOutput(), true, desc.str());
   }
 

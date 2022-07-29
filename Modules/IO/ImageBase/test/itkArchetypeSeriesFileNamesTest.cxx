@@ -51,7 +51,7 @@ itkArchetypeSeriesFileNamesTest(int argc, char * argv[])
     std::cout << "List of returned filenames: " << std::endl;
     for (nit = names.begin(); nit != names.end(); ++nit)
     {
-      std::cout << "File: " << (*nit).c_str() << std::endl;
+      std::cout << "File: " << nit->c_str() << std::endl;
     }
 
     std::cout << fit;

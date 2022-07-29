@@ -76,7 +76,7 @@ itkNumericSeriesFileNamesTest(int, char *[])
                 << " and may have been truncated." << std::endl;
       return EXIT_FAILURE;
     }
-    std::cout << "File: " << (*nit).c_str() << std::endl;
+    std::cout << "File: " << nit->c_str() << std::endl;
   }
 
   // Exercise the PrintSelf method to print the filenames for coverage purposes

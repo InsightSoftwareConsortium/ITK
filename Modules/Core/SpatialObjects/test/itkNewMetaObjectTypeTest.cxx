@@ -289,7 +289,7 @@ itkNewMetaObjectTypeTest(int, char *[])
       delete mySceneChildren;
       return EXIT_FAILURE;
     }
-    DummyType::Pointer p = dynamic_cast<DummyType *>((*obj).GetPointer());
+    DummyType::Pointer p = dynamic_cast<DummyType *>(obj->GetPointer());
     if (p.IsNull())
     {
       std::cout << "Unable to downcast child SpatialObject to DummySpatialObject"

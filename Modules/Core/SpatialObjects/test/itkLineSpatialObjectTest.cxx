@@ -91,19 +91,19 @@ itkLineSpatialObjectTest(int, char *[])
   {
     for (unsigned int d = 0; d < 3; ++d)
     {
-      if (itk::Math::NotExactlyEquals((*it).GetPositionInWorldSpace()[d], i + d))
+      if (itk::Math::NotExactlyEquals(it->GetPositionInWorldSpace()[d], i + d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
 
-      if (itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(0))[d], d))
+      if (itk::Math::NotExactlyEquals((it->GetNormalInObjectSpace(0))[d], d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
       }
 
-      if (itk::Math::NotExactlyEquals(((*it).GetNormalInObjectSpace(1))[d], 2 * d))
+      if (itk::Math::NotExactlyEquals((it->GetNormalInObjectSpace(1))[d], 2 * d))
       {
         std::cout << "[FAILED]" << std::endl;
         return EXIT_FAILURE;
