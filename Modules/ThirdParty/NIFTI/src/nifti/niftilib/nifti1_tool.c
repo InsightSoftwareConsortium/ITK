@@ -1877,7 +1877,13 @@ int act_add_exts( nt_opts * opts )
          fprintf(stderr,"+d writing %s with %d new extension(s)\n",
                  opts->infiles.list[fc], opts->elist.len);
 
-      nifti_image_write(nim);
+      if( nifti_image_write_status(nim) ) {
+         fprintf(stderr,"** failed to write image %s\n",
+                 opts->infiles.list[fc]);
+         nifti_image_free(nim);
+         return 1;
+      }
+
       nifti_image_free(nim);
    }
 
@@ -1990,6 +1996,11 @@ int act_strip( nt_opts * opts )
                  nim->fname);
 
       nifti_image_write(nim);
+      if( nifti_image_write_status(nim) ) {
+         fprintf(stderr,"** failed to write image %s\n", nim->fname);
+         nifti_image_free(nim);
+         return 1;
+      }
 
       if( g_debug > 3 ) nifti_image_infodump(nim);
       nifti_image_free(nim);
@@ -2063,7 +2074,12 @@ int act_rm_ext( nt_opts * opts )
          fprintf(stderr,"+d writing %s with %d fewer extension(s)\n",
                  nim->fname, ext_ind == -1 ? num_ext : opts->elist.len);
 
-      nifti_image_write(nim);
+      if( nifti_image_write_status(nim) ) {
+         fprintf(stderr,"** failed to write image %s\n", nim->fname);
+         nifti_image_free(nim);
+         return 1;
+      }
+
       nifti_image_free(nim);
    }
 
@@ -2590,7 +2606,13 @@ int act_mod_hdrs( nt_opts * opts )
          }
          dupname = nifti_strdup(nim->fname);  /* so we know to free it */
          fname = dupname;
-         nifti_image_write(nim);  /* create the duplicate file */
+         /* create the duplicate file */
+         if( nifti_image_write_status(nim) ) {
+            fprintf(stderr,"** failed to write image %s\n", nim->fname);
+            nifti_image_free(nim);
+            return 1;
+         }
+
          /* if we added a history note, get the new offset into the header */
          /* mod: if the new offset is valid, use it    31 Jan 2006 [rickr] */
          if( nim->iname_offset >= 348 ) nhdr->vox_offset = nim->iname_offset;
@@ -2705,7 +2727,13 @@ int act_swap_hdrs( nt_opts * opts )
          }
          dupname = nifti_strdup(nim->fname);  /* so we know to free it */
          fname = dupname;
-         nifti_image_write(nim);  /* create the duplicate file */
+         /* create the duplicate file */
+         if( nifti_image_write_status(nim) ) {
+            fprintf(stderr,"** failed to write image %s\n", nim->fname);
+            nifti_image_free(nim);
+            return 1;
+         }
+
          /* if we added a history note, get the new offset into the header */
          /* mod: if the new offset is valid, use it    31 Jan 2006 [rickr] */
          if( nim->iname_offset >= 348 ) nhdr->vox_offset = nim->iname_offset;
@@ -2766,7 +2794,13 @@ int act_mod_nims( nt_opts * opts )
             return 1;
          }
 
-      nifti_image_write(nim);  /* and write it out, piece of cake :) */
+      /* and write it out, piece of cake :) */
+      if( nifti_image_write_status(nim) ) {
+         fprintf(stderr,"** failed to write image %s\n", nim->fname);
+         nifti_image_free(nim);
+         return 1;
+      }
+
       nifti_image_free(nim);
    }
 
@@ -4020,7 +4054,13 @@ int act_cci( nt_opts * opts )
    if(g_debug>2) disp_field("new nim:\n",g_nim_fields,nim,NT_NIM_NUM_FIELDS,1);
 
    /* and finally, write out results */
-   if( nifti_nim_is_valid(nim, g_debug) ) nifti_image_write(nim);
+   if( nifti_nim_is_valid(nim, g_debug) ) {
+      if( nifti_image_write_status(nim) ) {
+         fprintf(stderr,"** failed to write image %s\n", nim->fname);
+         nifti_image_free(nim);
+         return 1;
+      }
+   }
 
    nifti_image_free(nim);
 

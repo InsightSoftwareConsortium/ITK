@@ -30,8 +30,8 @@ libniftiio.a: $(OBJS)
 	$(AR) -r libniftiio.a $(OBJS)
 	$(RANLIB) $@
 
-nifti_tool: nifti_tool.c nifti_tool.h
-	$(CC) $(CFLAGS) -Wall -o nifti_tool nifti_tool.c $(NIFTI_INCS) $(ZNZ_INCS) $(NIFTI_LIBS) $(ZNZ_LIBS)
+nifti1_tool: nifti1_tool.c nifti1_tool.h
+	$(CC) $(CFLAGS) -Wall -o nifti1_tool nifti1_tool.c $(NIFTI_INCS) $(ZNZ_INCS) $(NIFTI_LIBS) $(ZNZ_LIBS)
 
 nifti1_test: nifti1_test.c
 	$(CC) $(CFLAGS) -o nifti1_test nifti1_test.c $(NIFTI_INCS) $(ZNZ_INCS) $(NIFTI_LIBS) $(ZNZ_LIBS)

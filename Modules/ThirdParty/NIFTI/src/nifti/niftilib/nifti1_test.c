@@ -97,7 +97,12 @@ int main( int argc , char *argv[] )
      strcat(nim->fname,".gz");
      strcat(nim->iname,".gz");
    }
-   nifti_image_write( nim ) ;
+   if( nifti_image_write_status( nim ) ) {
+      fprintf(stderr, "** failed to write nifti_image\n");
+      nifti_image_free( nim ) ;
+      return EXIT_FAILURE;
+   }
+
    if ( ! local_fileexists( nim->fname ) )
    {
      return EXIT_FAILURE;
