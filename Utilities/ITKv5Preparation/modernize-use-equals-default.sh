@@ -20,10 +20,10 @@
 # comple options database files.
 #
 # STEP 2:
-# Run clang-tidy with the "run-clang-tidy.py" wrapper script from the llvm soruce tree
+# Run clang-tidy with the "run-clang-tidy.py" wrapper script from the llvm source tree
 # Minor modifications to the "run-clang-tidy.py" script can allow
 # for automatically skipping the "ThirdParty" directory or other performance
-# enhancments.
+# enhancements.
 
 SRCDIR=$1
 BLDDIR=$2
@@ -33,14 +33,14 @@ CMTMSG=$(mktemp -q /tmp/${this_script_name}.XXXXXX)
 FILES_TO_CHECK=$(mktemp -q /tmp/${this_script_name}_files.XXXXXX)
 
 cat > ${CMTMSG} << EOF
-STYLE: Pefer = default to explicitly trivial implementations
+STYLE: Prefer = default to explicitly trivial implementations
 
 This check replaces default bodies of special member functions with
 = default;. The explicitly defaulted function declarations enable more
 opportunities in optimization, because the compiler might treat
 explicitly defaulted functions as trivial.
 
-Additionally, the C++11 use of = default more clearly expreses the
+Additionally, the C++11 use of = default more clearly expresses the
 intent for the special member functions.
 
 SRCDIR=${SRCDIR} #My local SRC

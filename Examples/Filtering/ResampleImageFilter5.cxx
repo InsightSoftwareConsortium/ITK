@@ -231,7 +231,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception catched !" << std::endl;
+    std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
   }
 

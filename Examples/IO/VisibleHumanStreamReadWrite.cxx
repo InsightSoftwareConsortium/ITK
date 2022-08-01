@@ -33,7 +33,7 @@
 // through NLM’s website [3]. The original Visible Male cryosectional
 // images are non-interlaced 24-bit RGB pixels with a resolution of
 // 2048x1216 pixels by 1871 slices with a physical spacing of
-// approximately 0.33 mm in slice and 1.0 mm between slices. Theses
+// approximately 0.33 mm in slice and 1.0 mm between slices. These
 // dimensions results in about 13 gigabytes of data, which is an
 // appropriate size to demonstrate streaming. The following are two
 // examples of streaming which shows all three IO classes capable of

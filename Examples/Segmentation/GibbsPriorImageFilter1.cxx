@@ -208,7 +208,7 @@ main(int argc, char * argv[])
   std::cout << " site 3 " << std::endl;
 
   //----------------------------------------------------------------------
-  // Set the classifier to be used and assigne the parameters for the
+  // Set the classifier to be used and assigned the parameters for the
   // supervised classifier algorithm except the input image which is
   // grabbed from the Gibbs application pipeline.
   //----------------------------------------------------------------------
@@ -231,7 +231,7 @@ main(int argc, char * argv[])
   // Set the Classifier parameters
   myClassifier->SetNumberOfClasses(NUM_CLASSES);
 
-  // Set the decison rule
+  // Set the decision rule
   myClassifier->SetDecisionRule((DecisionRuleBasePointer)myDecisionRule);
 
   // Add the membership functions

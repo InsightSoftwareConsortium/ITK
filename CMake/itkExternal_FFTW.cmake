@@ -5,7 +5,7 @@
 #       and the version of fftw built here does not
 #       use modern hardware optimzations.
 #
-#       The build configuration choosen to be
+#       The build configuration chosen to be
 #       generalizable to as many hardware platforms.
 #       Being backward compatible for decades
 #       old hardware is the goal of this internal

@@ -46,7 +46,7 @@ For naming template parameters, typename and class are equivalent. ref:14.1.2:
 There is no semantic difference between class and typename in a template-parameter.
 
 The primary purpose of this patch set is to make ITK consistent so that an
-enforcable style can be implemented.  The ITK Style guide as been updated
+enforceable style can be implemented.  The ITK Style guide as been updated
 to reflect this change [1].
 
 For tempalate parameters the use of "typename" is preferred over "class". Very

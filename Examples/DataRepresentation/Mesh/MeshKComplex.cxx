@@ -587,7 +587,7 @@ main(int, char *[])
   //  Software Guide : BeginLatex
   //
   //  The boundary assignments can be recovered with the method
-  //  \code{GetBoundaryAssigment()}. For example, the zero-dimensional
+  //  \code{GetBoundaryAssignment()}. For example, the zero-dimensional
   //  features of the tetrahedron can be obtained with the following code.
   //
   // \index{itk::Mesh!GetBoundaryAssignment()}

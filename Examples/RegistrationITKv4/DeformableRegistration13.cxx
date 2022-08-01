@@ -133,7 +133,7 @@ main(int argc, char * argv[])
   //  We instantiate now the type of the \code{BSplineTransform}
   //  using as template parameters the type for coordinates representation,
   //  the dimension of the space, and the order of the BSpline. We also
-  //  intantiate the type of the optimizer.
+  //  instantiate the type of the optimizer.
   //
   //  \index{BSplineTransform!New}
   //  \index{BSplineTransform!Instantiation}

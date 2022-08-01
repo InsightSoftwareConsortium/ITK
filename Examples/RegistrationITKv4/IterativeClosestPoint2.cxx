@@ -179,7 +179,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Next, setup the tranform, optimizers, and registration.
+  // Next, setup the transform, optimizers, and registration.
   //
   // Software Guide : EndLatex
 

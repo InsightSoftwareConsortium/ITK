@@ -123,7 +123,7 @@ main(int argc, char * argv[])
   // Setup the opening and closing methods
   opening->SetKernel(structuringElement);
   closing->SetKernel(structuringElement);
-  // Setup minnimum and maximum of rescale filter
+  // Setup minimum and maximum of rescale filter
   auto rescaleFilter = RescaleFilterType::New();
   rescaleFilter->SetOutputMinimum(0);
   rescaleFilter->SetOutputMaximum(255);

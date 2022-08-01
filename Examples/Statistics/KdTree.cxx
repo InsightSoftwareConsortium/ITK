@@ -221,8 +221,7 @@ main()
     << std::endl
     << "query point = [" << queryPoint << "]" << std::endl
     << "k = " << numberOfNeighbors << std::endl;
-  std::cout << "measurement vector : distance from querry point "
-            << std::endl;
+  std::cout << "measurement vector : distance from query point " << std::endl;
   std::vector<double> distances1(numberOfNeighbors);
   for (unsigned int i = 0; i < numberOfNeighbors; ++i)
   {
@@ -249,8 +248,7 @@ main()
             << std::endl
             << "query point = [" << queryPoint << "]" << std::endl
             << "k = " << numberOfNeighbors << std::endl;
-  std::cout << "measurement vector : distance from querry point "
-            << std::endl;
+  std::cout << "measurement vector : distance from query point " << std::endl;
   for (unsigned int i = 0; i < numberOfNeighbors; ++i)
   {
     std::cout << "[" << tree->GetMeasurementVector(neighbors[i])

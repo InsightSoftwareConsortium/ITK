@@ -106,7 +106,7 @@
 # Notes:
 #
 #  * the function will be available in both shared or static build case. Static
-#    initialiation will happen in both cases.
+#    initialization will happen in both cases.
 #
 #  * the function is unique and consistently named for each IO factory. The
 #    current naming convention is an implementation detail and is not part

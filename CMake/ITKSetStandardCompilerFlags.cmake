@@ -92,7 +92,7 @@ function(check_compiler_warning_flags c_warning_flags_var cxx_warning_flags_var)
       #-wd1419 #Needed for Intel compilers with remark  #1419: external declaration in primary source file
       #-wd1572 #Needed for Intel compilers with remark  #1572: floating-point equality and inequality comparisons are unreliable
       #-wd2259 #Needed for Intel compilers with remark  #2259: non-pointer conversion from "itk::SizeValueType={unsigned long}" to "double" may lose significant bits
-      #-wd1268 #Needed for Intel compliers with warning #1268: support for exported templates is disabled
+      #-wd1268 #Needed for Intel compilers with warning #1268: support for exported templates is disabled
     else()
       set(VerboseWarningsFlag -Wall)
     endif ()
@@ -339,7 +339,7 @@ macro(check_compiler_platform_flags)
         if("${${listname}}" MATCHES ".*-fopenmp.*")
           string(REPLACE "-fopenmp" "" tmpFlags "${${listname}}")
           set(${listname} "${tmpFlags}")
-          message("-fopenmp causes incorrect compliation of HDF, removing from ${listname}")
+          message("-fopenmp causes incorrect compilation of HDF, removing from ${listname}")
         endif()
       endforeach()
     endif()

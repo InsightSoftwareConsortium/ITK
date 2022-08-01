@@ -364,7 +364,7 @@ main(int argc, char * argv[])
 
   //  Software Guide : BeginLatex
   //
-  //  Also, for this initial stage we can use a more agressive parameter
+  //  Also, for this initial stage we can use a more aggressive parameter
   //  set for the optimizer by taking a big step size and relaxing
   //  stop criteria.
   //
@@ -682,7 +682,7 @@ main(int argc, char * argv[])
   //  Thanks to the \emph{ScalesEstimator}, the initial step size can also be
   //  estimated automatically, either at each iteration or only at the first
   //  iteration. In this example we choose to estimate learning rate
-  //  once at the begining of the registration process.
+  //  once at the beginning of the registration process.
   //
   //  Software Guide : EndLatex
 

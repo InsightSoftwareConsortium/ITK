@@ -33,7 +33,7 @@
 // Datatype[z][y][x][c])
 //
 // The example also optionally takes in two more arguments, as a convenience
-// to the user. These arguements extract the specified component 'c' from the
+// to the user. These arguments extract the specified component 'c' from the
 // membership image and rescale, so the user can fire up a typical image
 // viewer and see the relative pixel memberships to class 'c'.
 //

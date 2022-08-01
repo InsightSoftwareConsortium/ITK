@@ -213,7 +213,7 @@ main(int argc, char * argv[])
   //  Software Guide : EndCodeSnippet
 
   //  The level set solver will stop if the convergence criteria has been
-  //  reached or if the maximum number of iterations has elasped.  The
+  //  reached or if the maximum number of iterations has elapsed.  The
   //  convergence criteria is defined in terms of the root mean squared (RMS)
   //  change in the level set function. When RMS change for an iteration is
   //  below a user-specified threshold, the solution is considered to have

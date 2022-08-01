@@ -1,6 +1,6 @@
 ## FFTW can be compiled and subsequently linked against
 ## various data types.
-## There is a single set of include files, and then muttiple libraries,
+## There is a single set of include files, and then multiple libraries,
 ## One for each type.  I.e. libfftw.a-->double, libfftwf.a-->float
 
 ## The following logic belongs in the individual package

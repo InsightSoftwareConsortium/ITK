@@ -713,7 +713,7 @@ main(int argc, char * argv[])
 
 
   // The following writer type is used to save the output of the
-  // time-crossing map in a file with appropiate pixel representation. The
+  // time-crossing map in a file with appropriate pixel representation. The
   // advantage of saving this image in native format is that it can be used
   // with a viewer to help determine an appropriate threshold to be used on
   // the output of the \code{fastmarching} filter.

@@ -271,18 +271,18 @@ if(ITK_WRAPPING)
   set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_BINARY_DIR}/Wrapping" CACHE INTERNAL "Need to specify the output library directory globally")
   if(ITK_WRAP_PYTHON)
     set(ITK_WRAP_PYTHON_ROOT_BINARY_DIR "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python" CACHE INTERNAL "python binary dir")
-    # create the directory to avoid loosing case on windows
+    # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR})
 
     set(ITK_STUB_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk-stubs")
     file(MAKE_DIRECTORY ${ITK_STUB_DIR})
 
     set(ITK_PYTHON_PACKAGE_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk")
-    # create the directory to avoid loosing case on windows
+    # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_PYTHON_PACKAGE_DIR})
 
     set(ITK_WRAP_PYTHON_SWIG_CONFIGURATION_DIR "${ITK_PYTHON_PACKAGE_DIR}/Configuration" CACHE INTERNAL "python binary dir")
-    # create the directory to avoid loosing case on windows
+    # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_WRAP_PYTHON_SWIG_CONFIGURATION_DIR})
 
     # IF WRAP_PYTHON then we must unconditionally set the CMAKE_LIBRARY_OUTPUT_DIRECTORY
@@ -483,7 +483,7 @@ mark_as_advanced(ITK_USE_64BITS_IDS)
 option(ITK_USE_CONCEPT_CHECKING "Turn on concept checking to give helpful errors at compile time if a type cannot be used as a template parameter." ON)
 mark_as_advanced(ITK_USE_CONCEPT_CHECKING)
 if(ITK_USE_STRICT_CONCEPT_CHECKING)
-  message(WARNING "Compilers requiring ITK_USE_STRICT_CONCEPT_CHECKING are no longer suppported.  This variable is no longer used.")
+  message(WARNING "Compilers requiring ITK_USE_STRICT_CONCEPT_CHECKING are no longer supported.  This variable is no longer used.")
 endif()
 
 #-----------------------------------------------------------------------------

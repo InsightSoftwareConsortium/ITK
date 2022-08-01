@@ -52,7 +52,7 @@
 //  PointSet. The pixel values associated to the point in the PointSet are the
 //  values of distance from each point to the binary mask.  The first stage is
 //  performed by the \doxygen{SpatialObjectToImageFilter}, while the second
-//  stage is performed witht eh \doxygen{BinaryMaskToNarrowBandPointSetFilter}
+//  stage is performed with the \doxygen{BinaryMaskToNarrowBandPointSetFilter}
 //
 //  \index{itk::Spatial\-Object\-To\-Image\-Filter!header}
 //  \index{itk::Binary\-Mask\-To\-Narrow\-Band\-Point\-Set\-Filter!header}

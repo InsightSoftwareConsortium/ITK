@@ -104,7 +104,7 @@ endmacro()
 # modules invoking the corresponding factory) in TRANSITIVE_DEPENDS modules.
 #
 # `itk_module_config()` can be called with a <namespace> that is different from
-# the default one (ITK) to avoid overwritting the regular ITK_* variables.
+# the default one (ITK) to avoid overwriting the regular ITK_* variables.
 #
 # This first call of `itk_module_config()` will create the meta-modules. This
 # is done when calling `find_package(ITK)`.

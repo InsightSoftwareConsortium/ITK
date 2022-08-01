@@ -96,7 +96,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1]
+    std::cerr << "Problem encountered while reading image file : " << argv[1]
               << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;

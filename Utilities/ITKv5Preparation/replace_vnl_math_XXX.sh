@@ -26,8 +26,8 @@ if [[ "${DO_NOT_UPDATE_FOR_ITKV5}" != "TRUE" ]]; then
     for std_names in isnan isinf isfinite isnormal cbrt hypot; do
       sed -i "" "s/vnl_math::${std_names} *(/std::${std_names}(/g" $ff
     done
-    # use ITK aliases instead of vnl_naming to prevent namespace polution
-    # eventuallly we may want ot remove vnl from ITK
+    # use ITK aliases instead of vnl_naming to prevent namespace pollution
+    # eventuallly we may want to remove vnl from ITK
     for itkMath_names in angle_0_to_2pi angle_minuspi_to_pi rnd_halfinttoeven rnd_halfintup rnd floor ceil sgn sgn0 remainder_truncated remainder_floored abs sqr cube squared_magnitude; do
       sed -i "" "s/vnl_math::${itkMath_names} *(/itk::Math::${itkMath_names} (/g" $ff
     done
@@ -64,4 +64,4 @@ VXL versions as old as 2012.
 Prefer to use itk::Math:: over vnl_math:: namespace
 EOF
 
-echo "Reference commit messsage in 'git checkout -b replace-vnl_math_XX; git add -p ; git commit -F/tmp/COMMIT_MESSAGE_vnl_math_XXX'"
+echo "Reference commit message in 'git checkout -b replace-vnl_math_XX; git add -p ; git commit -F/tmp/COMMIT_MESSAGE_vnl_math_XXX'"

@@ -130,7 +130,7 @@ if [[ "$upstream_old_sha" == "$upstream_new_sha" ]]; then
 fi
 
 
-## New shapshot tree ##
+## New snapshot tree ##
 local snapshot_branch_name=`echo "upstream-${thirdparty_module_name}" | tr '[:upper:]' '[:lower:]'` # make string lowercase
 local snapshot_temp_dir="$snapshot_branch_name"
 local snapshot_temp_path="$toplevel_path/$snapshot_temp_dir/"
@@ -152,7 +152,7 @@ local snapshot_new_tree=$(
 rm -rf "$snapshot_temp_path" "$snapshot_temp_index"
 
 
-## New shapshot commit ##
+## New snapshot commit ##
 if [[ -z "$snapshot_old_sha" ]]; then
   local snapshot_new_shortlog="Initial import of $upstream_new_sha"
   local snapshot_new_change_id=$(git commit-tree $snapshot_new_tree </dev/null)
@@ -198,7 +198,7 @@ else
 fi
 
 
-## New shapshot branch ##
+## New snapshot branch ##
 git update-ref refs/heads/$snapshot_branch_name $snapshot_new_sha
 local module_relative_path=${module_path#"$toplevel_path/"}
 echo "Created upstream snapshot branch '$snapshot_branch_name'."

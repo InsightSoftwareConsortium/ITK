@@ -33,4 +33,4 @@ ato[if] makes two very big assumptions indeed:
    The integer can fit into an int.
 EOF
 
-echo "Reference commit messsage in /tmp/COMMIT_MESSAGE_atoi"
+echo "Reference commit message in /tmp/COMMIT_MESSAGE_atoi"

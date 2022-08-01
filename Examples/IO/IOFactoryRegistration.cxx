@@ -18,7 +18,7 @@
 
 #include "itkImageFileReader.h"
 
-// This example is a convinience program that lists all of the registered
+// This example is a convenience program that lists all of the registered
 // Image IO factories in the ITK build. If an ImageIO module is enabled, the
 // corresponding IO factory will be automatically registered.
 int

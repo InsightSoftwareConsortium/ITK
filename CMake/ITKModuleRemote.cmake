@@ -151,8 +151,8 @@ endfunction()
 #            Compliance level 5 star (AKA ITK main modules, or remote modules that could become core modules)
 #            Compliance Level 4 star (Very high-quality code, perhaps small community dependance)
 #            Compliance Level 3 star (Quality beta code)
-#            Compliance Level 2 star (Alpha code feature API development or niche community/exectution environment dependance)
-#            Compliance Level 1 star (Pre-alpha features under development and code of unkown quality)
+#            Compliance Level 2 star (Alpha code feature API development or niche community/execution environment dependance)
+#            Compliance Level 1 star (Pre-alpha features under development and code of unknown quality)
 #            Compliance Level 0 star ( Code/Feature of known poor-quality or deprecated status)
 #    [GIT_REPOSITORY url]            # URL of git repo
 #    [GIT_TAG tag]                   # Git branch name, commit id or tag

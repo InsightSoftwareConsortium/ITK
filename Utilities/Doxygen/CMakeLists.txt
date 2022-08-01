@@ -88,9 +88,9 @@ if (ITK_BUILD_DOCUMENTATION)
   #  npm install -g workbox-cli
   #  cd ITK-Doxygen-build
   #  make Documentation
-  #  cd Utilites/Doxygen
+  #  cd Utilities/Doxygen
   #  workbox inject:manifest
-  #  cp ./html/serviceWorker.js ~/src/ITK/Utilies/Doxygen/
+  #  cp ./html/serviceWorker.js ~/src/ITK/Utilities/Doxygen/
   #
   # If workbox has changed version, we also need to update workbox-sw.prod*.js
   # referenced below

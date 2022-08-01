@@ -19,8 +19,8 @@
 //====================================================================
 //
 //
-//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
-//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
+//   WARNING WARNING WARNING WARNING WARNING WARNING !!!!
+//   WARNING WARNING WARNING WARNING WARNING WARNING !!!!
 //
 //
 //
@@ -33,8 +33,8 @@
 //
 //
 //
-//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
-//   WARNING WARNING WARNIG WARNING WARNING WARNIG !!!!
+//   WARNING WARNING WARNING WARNING WARNING WARNING !!!!
+//   WARNING WARNING WARNING WARNING WARNING WARNING !!!!
 //
 //
 //====================================================================

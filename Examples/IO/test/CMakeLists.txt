@@ -33,7 +33,7 @@ if(ITK_BUILD_SHARED_LIBS)
 endif()
 
 # Test ITK ImageIO factory registrations.
-# Please refer to CMake/UseITK.cmake for all the image IO registartion handeling.
+# Please refer to CMake/UseITK.cmake for all the image IO registration handling.
 
 # Collecting image format's description into a string for verification
 set(REGEX_IO_Factory_Description_First_Word  "")

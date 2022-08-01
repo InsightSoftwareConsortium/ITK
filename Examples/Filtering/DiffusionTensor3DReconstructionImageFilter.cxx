@@ -111,7 +111,7 @@ main(int argc, char * argv[])
   // Here we instantiate the DiffusionTensor3DReconstructionImageFilter class.
   // The class is templated over the pixel types of the reference, gradient
   // and the to be created tensor pixel's precision. (We use double here). It
-  // takes as input the Reference (B0 image aquired in the absence of
+  // takes as input the Reference (B0 image acquired in the absence of
   // diffusion sensitizing gradients), 'n' Gradient images and their
   // directions and produces as output an image of tensors with pixel-type
   // DiffusionTensor3D.
@@ -280,7 +280,7 @@ main(int argc, char * argv[])
   // images may be specified.
   //
   // An alternate way to provide the inputs, when you have the reference and
-  // gradient images in seperate itk::Image< type, 3 > is  :
+  // gradient images in separate itk::Image< type, 3 > is  :
   //
   //   tensorReconstructionFilter->SetReferenceImage( image0 );
   //   tensorReconstructionFilter->AddGradientImage( direction1, image1 );

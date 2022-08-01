@@ -30,14 +30,14 @@ CMTMSG=$(mktemp -q /tmp/${this_script_name}.XXXXXX)
 FILES_TO_CHECK=$(mktemp -q /tmp/${this_script_name}_files.XXXXXX)
 
 cat > ${CMTMSG} << EOF
-STYLE: Pefer = delete to explicitly trivial implementations
+STYLE: Prefer = delete to explicitly trivial implementations
 
 This check replaces undefined special member functions with
 = delete;. The explicitly deleted function declarations enable more
 opportunities in optimization, because the compiler might treat
-explicitly delted functions as noops.
+explicitly deleted functions as noops.
 
-Additionally, the C++11 use of = delete more clearly expreses the
+Additionally, the C++11 use of = delete more clearly expresses the
 intent for the special member functions.
 
 SRCDIR=${SRCDIR} #My local SRC

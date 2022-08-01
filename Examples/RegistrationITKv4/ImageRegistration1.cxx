@@ -356,7 +356,7 @@ main(int argc, char * argv[])
   //  be set.
   //
   //  However, a ``Hello World!'' example should show all the basics, so
-  //  all the registration components are explicity set here.
+  //  all the registration components are explicitly set here.
   //
   //  In the next section of this chapter, you will get a better understanding
   //  from behind the scenes of the registration process when the initial

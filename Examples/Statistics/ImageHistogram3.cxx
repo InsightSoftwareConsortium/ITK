@@ -93,7 +93,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excp)
   {
-    std::cerr << "Problem encoutered while reading image file : " << argv[1]
+    std::cerr << "Problem encountered while reading image file : " << argv[1]
               << std::endl;
     std::cerr << excp << std::endl;
     return EXIT_FAILURE;
@@ -245,7 +245,7 @@ main(int argc, char * argv[])
   // the three RGB components. However, given that we set the resolution of
   // the green and blue channels to be just one bin, the histogram is in
   // practice representing just the red channel.  In the general case, we can
-  // alway access the frequency of a particular channel in a joint histogram,
+  // always access the frequency of a particular channel in a joint histogram,
   // thanks to the fact that the histogram class offers a
   // \code{GetFrequency()} method that accepts a channel as argument. This is
   // illustrated in the following lines of code.

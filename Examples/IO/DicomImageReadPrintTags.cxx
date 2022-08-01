@@ -319,7 +319,7 @@ main(int argc, char * argv[])
   // Software Guide : BeginLatex
   //
   //  Another way to read a specific tag is to use the encapsulation above
-  //  MetaDataDictionary. Note that this is stricly equivalent to the above
+  //  MetaDataDictionary. Note that this is strictly equivalent to the above
   //  code.
   //
   // Software Guide : EndLatex
@@ -343,7 +343,7 @@ main(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Trying to access inexistant DICOM tag." << std::endl;
+    std::cerr << "Trying to access inexistent DICOM tag." << std::endl;
   }
   // Software Guide : EndCodeSnippet
 

@@ -45,7 +45,7 @@ algorithms that have general applications outside of imaging.")
 
 set(Video_documentation "This group of modules handles input, output and processing
 of static and real-time data with temporal components. It also handles communications
-to OpenCV and VXL external libraires.")
+to OpenCV and VXL external libraries.")
 
 set(Bridge_documentation "This group of modules are intended to bridge ITK to
 other toolkits as libraries such as visualization toolkits.")

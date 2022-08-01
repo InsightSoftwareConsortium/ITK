@@ -181,8 +181,8 @@ main(int argc, char * argv[])
   // The transform reader is templated and it returns a list
   // of \doxygen{Transform}'s. Even thought the reader instantiate the
   // appropriate transform class when reading the file, it is up to the user
-  // to do the approriate cast. To get the output list of transform we use the
-  // GetTransformList() function.
+  // to do the appropriate cast. To get the output list of transform we use
+  // the GetTransformList() function.
   //
   // Software Guide : EndLatex
 

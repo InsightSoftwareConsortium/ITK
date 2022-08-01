@@ -29,7 +29,7 @@ else()
   # too late for our purposes of find_package at configure time.
   # We execute the configuration manually to create the Config and Targets.cmake files.
   # Nothing to link or compile, so no need to pass compiler flags.
-  # However, generators and c,cxx compilers have to be explictily passed
+  # However, generators and c,cxx compilers have to be explicitly passed
   # for CMake configuration to work.
   # Configure Eigen
   file(MAKE_DIRECTORY ${_eigen3_build_dir})

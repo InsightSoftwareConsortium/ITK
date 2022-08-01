@@ -413,7 +413,7 @@ main(int argc, const char * argv[])
   //  Software Guide : BeginLatex
   //
   //  To set the optimizer parameters, note that \emph{LearningRate}
-  //  and \emph{MinimumStepLength} are set in the obsever at the begining
+  //  and \emph{MinimumStepLength} are set in the obsever at the beginning
   //  of each resolution level. The other optimizer parameters are set
   //  as follows.
   //

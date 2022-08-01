@@ -193,7 +193,7 @@ main(int argc, char * argv[])
   //
   //  Consider that, as explained in section
   //  \ref{sec:FeaturesOfTheRegistrationFramework}, the above transform is a
-  //  mapping from the vitual domain (i.e. fixed image space, when no fixed
+  //  mapping from the virtual domain (i.e. fixed image space, when no fixed
   //  initial transform) to the moving image space.
   //
   //  Then, the result transform of the first stage will be used as the

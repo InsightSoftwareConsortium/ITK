@@ -21,7 +21,7 @@
 
 usage = """usage: BuildHeaderTest.py <module_name> <module_source_path> <module_binary_path> <maximum_number_of_headers>
 
-This script generates a a source file designed to check the headers in each
+This script generates a source file designed to check the headers in each
 module.  The generated HeaderTest can be found in the module binary 'test'
 directory in a file itk<module_name>HeaderTest#.cxx.  This contains a null
 main(), but includes all the classes in the module.  The primary purpose of this
@@ -29,7 +29,7 @@ test is to make sure there are not missing module dependencies.  It also tests
 for syntax and missing #include's.
 """
 
-# Headers to not test because of dependecy issues, etc.
+# Headers to not test because of dependency issues, etc.
 BANNED_HEADERS = {
     "itkDynamicLoader.h",  # This cannot be included when ITK_DYNAMIC_LOADING is OFF
     "itkExceptionObject.h",  # There is a pre-processor check so people use itkMacro.h instead.

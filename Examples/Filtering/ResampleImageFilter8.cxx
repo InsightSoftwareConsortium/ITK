@@ -21,7 +21,7 @@
 //  The following example illustrates how to use the
 //  \doxygen{WindowedSincInterpolateImageFunction} for resampling an image.
 //  This interpolator is in theory the best possible interpolator for
-//  reconstructing the continous values of a discrete image. In the spectral
+//  reconstructing the continuous values of a discrete image. In the spectral
 //  domain, this interpolator is performing the task of masking the central
 //  part of the spectrum of the sampled image, that in principle corresponds
 //  to the spectrumn of the continuous image before it was sampled into a
@@ -109,9 +109,9 @@ main(int argc, char * argv[])
   //  \emph{sinc} function in order to interpolate the resampled image.
   //
   //  There is a close relationship between operations performed in the
-  //  spatial domain and those applied in the spectral doman. For example, the
-  //  action of truncating the \emph{sinc} function with a box function in the
-  //  spatial domain will correspond to convolving its spectrum with the
+  //  spatial domain and those applied in the spectral domain. For example,
+  //  the action of truncating the \emph{sinc} function with a box function in
+  //  the spatial domain will correspond to convolving its spectrum with the
   //  spectrum of a box function. Since the box function spectrum has an
   //  infinite support on the spectral domain, the result of the convolution
   //  will also have an infinite support on the spectral domain. Due to this
@@ -217,7 +217,7 @@ main(int argc, char * argv[])
   }
   catch (const itk::ExceptionObject & excep)
   {
-    std::cerr << "Exception catched !" << std::endl;
+    std::cerr << "Exception caught !" << std::endl;
     std::cerr << excep << std::endl;
   }
   // Software Guide : EndCodeSnippet

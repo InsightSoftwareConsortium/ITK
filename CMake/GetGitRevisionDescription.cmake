@@ -3,16 +3,16 @@
 # These functions force a re-configure on each git commit so that you can
 # trust the values of the variables in your build system.
 #
-#  get_git_head_revision(<refvar> <hashvar> [<additonal arguments to git describe> ...])
+#  get_git_head_revision(<refvar> <hashvar> [<additional arguments to git describe> ...])
 #
 # Returns the ref and sha hash of the current head revision
 #
-#  git_describe(<var> [<additonal arguments to git describe> ...])
+#  git_describe(<var> [<additional arguments to git describe> ...])
 #
 # Returns the results of git describe on the source tree, and adjusting
 # the output so that it tests false if an error occurs.
 #
-#  git_get_exact_tag(<var> [<additonal arguments to git describe> ...])
+#  git_get_exact_tag(<var> [<additional arguments to git describe> ...])
 #
 # Returns the results of git describe --exact-match on the source tree,
 # and adjusting the output so that it tests false if there was no exact

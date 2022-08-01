@@ -91,7 +91,7 @@ main(int argc, char * argv[])
 
   // Software Guide : BeginLatex
   //
-  // Landmarks correspondances may be associated with the
+  // Landmarks correspondences may be associated with the
   // SplineKernelTransforms via Point Set containers. Let us define containers
   // for the landmarks.
   //

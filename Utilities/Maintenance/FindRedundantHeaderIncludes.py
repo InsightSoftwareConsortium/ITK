@@ -86,7 +86,7 @@ class FileToPathMapping:
         )
 
     def proc_children(self, node, dupcandidate, starting_child):
-        ## Pocess all children
+        ## Process all children
         isdone = donenode.get((starting_child, dupcandidate), None)
         if isdone != None:
             # print("found {0} {1}".format(starting_child,dupcandidate))
@@ -112,7 +112,7 @@ class FileToPathMapping:
                         )
                     )
                     ## Update Mapping to remove race condition where an include is removed
-                    ## after is is referenced as a hereditary source
+                    ## after it is referenced as a hereditary source
                     # print("{0} --> {1}".format(starting_child,myDependTree[starting_child]))
                     temp = myDependTree[starting_child]
                     temp.remove(dupcandidate)
