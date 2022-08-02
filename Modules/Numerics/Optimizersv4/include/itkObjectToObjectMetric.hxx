@@ -74,7 +74,7 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
      * if first applied transform is DisplacementFieldTransform */
     this->VerifyDisplacementFieldSizeAndPhysicalSpace();
 
-    /* Verify virtual image pixel type is scalar. This effects the calcualtion
+    /* Verify virtual image pixel type is scalar. This effects the calculation
      * of offsets in ComputeParameterOffsetFromVirtualIndex().
      * NOTE:  Can this be checked at compile time? ConceptChecking has a
      * HasPixelTraits class, but looks like it just verifies that type T

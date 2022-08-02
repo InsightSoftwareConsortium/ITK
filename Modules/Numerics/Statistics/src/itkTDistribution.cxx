@@ -193,11 +193,11 @@ TDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   //
   //   0 iterations, error = 1      at 1 degree of freedom
   //   3 iterations, error = 10^-10 at 1 degree of freedom
-  // 100 iterations, erorr = 10^-12 at 1 degree of freedom
+  // 100 iterations, error = 10^-12 at 1 degree of freedom
   //
   //   0 iterations, error = 10^-2  at 11 degrees of freedom
   //   3 iterations, error = 10^-11 at 11 degrees of freedom
-  // 100 iterations, erorr = 10^-12 at 11 degrees of freedom
+  // 100 iterations, error = 10^-12 at 11 degrees of freedom
   //
   //
   // We are trying to find the zero of

@@ -60,7 +60,7 @@ public:
 
 /**
  * \class FEMExceptionIO
- * \brief Base class for all IO exception's that can occur within FEM classe.
+ * \brief Base class for all IO exception's that can occur within FEM classes.
  *
  * This class is normally used when reading or writing objects from/to stream.
  * \ingroup ITKFEM

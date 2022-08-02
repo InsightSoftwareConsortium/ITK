@@ -5955,7 +5955,7 @@ perror_(integer *    n,
   /*          W      WORKSPACE VECTOR */
   /*          DIGIT1 OUTPUT: MEASURE OF ACCURACY OF STOPPING TEST (= DIGTT1 */
   /*          DIGIT2 OUTPUT: MEASURE OF ACCURACY OF SOLUTION (= DIGTT2) */
-  /*          IDGTS   PARAMETER CONTROLING LEVEL OF OUTPUT (= IDGTTS) */
+  /*          IDGTS   PARAMETER CONTROLLING LEVEL OF OUTPUT (= IDGTTS) */
   /*                    IF IDGTS < 1 OR IDGTS > 4, THEN NO OUTPUT. */
   /*                            = 1, THEN NUMBER OF DIGITS IS PRINTED, PRO- */
   /*                                 VIDED LEVEL .GE. 1 */

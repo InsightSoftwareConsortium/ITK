@@ -28,8 +28,8 @@ namespace itk
  * \brief This class is a base for a CostFunction that returns a
  * single value.
  *
- * This class differs from the SingleValuedCostFunction in that it is fine
- * tunned for managing very large numbers of parameters. For example, to be
+ * This class differs from the SingleValuedCostFunction in that it is fine-
+ * tuned for managing very large numbers of parameters. For example, to be
  * used in conditions where the number of parameters is in the range of
  * thousands or even millions. Due to the large number of parameters, the API
  * of this class avoids any copying of the parameters array, and of the classes

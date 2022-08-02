@@ -391,7 +391,7 @@ FEMObject<VDimension>::GenerateGFN()
                                         // all
                                         // elements
   {
-    // Add the elemens in the nodes list of elements
+    // Add the elements in the nodes list of elements
     // FIXME: should be removed once Mesh is there
     Element::Pointer el = this->GetElement(e);
     unsigned int     Npts = el->GetNumberOfNodes();

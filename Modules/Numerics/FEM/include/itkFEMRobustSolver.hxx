@@ -1045,7 +1045,7 @@ RobustSolver<VDimension>::InitializeInterpolationGrid()
     // Step over all points within the region
     for (iter.GoToBegin(); !iter.IsAtEnd(); ++iter)
     {
-      // Note: Iteratior is guarantied to be within image, since the
+      // Note: Iterator is guaranteed to be within image, since the
       // elements with BB outside are skipped before.
       this->m_InterpolationGrid->TransformIndexToPhysicalPoint(iter.GetIndex(), pt);
       for (FEMIndexType d = 0; d < NumberOfDimensions; ++d)

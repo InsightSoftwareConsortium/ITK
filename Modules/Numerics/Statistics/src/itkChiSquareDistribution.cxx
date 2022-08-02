@@ -154,18 +154,18 @@ ChiSquareDistribution::InverseCDF(double p, SizeValueType degreesOfFreedom)
   //
   //   0 iterations, error = 10^-1  at 1 degree of freedom
   //   3 iterations, error = 10^-11 at 1 degree of freedom
-  //  10 iterations, erorr = 10^-13 at 1 degree of freedom
-  //  20 iterations, erorr = 10^-13 at 1 degree of freedom
+  //  10 iterations, error = 10^-13 at 1 degree of freedom
+  //  20 iterations, error = 10^-13 at 1 degree of freedom
   //
   //   0 iterations, error = 10^-1  at 11 degrees of freedom
   //   3 iterations, error = 10^-8  at 11 degrees of freedom
-  //  10 iterations, erorr = 10^-13 at 11 degrees of freedom
-  //  20 iterations, erorr = 10^-13 at 11 degrees of freedom
+  //  10 iterations, error = 10^-13 at 11 degrees of freedom
+  //  20 iterations, error = 10^-13 at 11 degrees of freedom
   //
   //   0 iterations, error = 10^-1  at 100 degrees of freedom
   //   3 iterations, error = 10^-9  at 100 degrees of freedom
-  //  10 iterations, erorr = 10^-10 at 100 degrees of freedom
-  //  20 iterations, erorr = 10^-9  at 100 degrees of freedom
+  //  10 iterations, error = 10^-10 at 100 degrees of freedom
+  //  20 iterations, error = 10^-9  at 100 degrees of freedom
 
   // We are trying to find the zero of
   //

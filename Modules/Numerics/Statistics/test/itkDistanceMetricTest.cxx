@@ -99,7 +99,7 @@ itkDistanceMetricTest(int, char *[])
     std::cerr << "Exception thrown: " << excpt << std::endl;
   }
 
-  // try re-setting the measurement vector size to the same value, no exceptins should be
+  // try re-setting the measurement vector size to the same value, no exceptions should be
   // thrown
   try
   {

@@ -57,7 +57,7 @@ itkFEMRobustSolverTest(int, char *[])
   /** Solver type alias suppot */
   using SolverType = itk::fem::RobustSolver<DataDimension>;
 
-  /** FEMObject type alias suppport */
+  /** FEMObject type alias support */
   using FEMObjectType = itk::fem::FEMObject<DataDimension>;
 
   /** FEM element type alias support */
@@ -217,10 +217,10 @@ itkFEMRobustSolverTest(int, char *[])
   // displacement associated with the feature point on the bottorm boundary
   displacement0[0] = 1.0;
   displacement0[1] = 1.0;
-  // displacement assoaiate with the feature point inside the element
+  // displacement associated with the feature point inside the element
   displacement1[0] = 1.0;
   displacement1[1] = 1.0;
-  // displacement associated with the fature point, coincidentally being the node of the mesh
+  // displacement associated with the feature point, coincidentally being the node of the mesh
   displacement2[0] = 1.0;
   displacement2[1] = 1.0;
   // displacement associated with the feature point on the right boundary

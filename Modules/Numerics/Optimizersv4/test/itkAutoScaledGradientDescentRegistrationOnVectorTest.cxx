@@ -150,7 +150,7 @@ itkAutoScaledGradientDescentRegistrationOnVectorTestTemplated(int         number
   catch (const itk::ExceptionObject & e)
   {
     std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error ocurred during Optimization:" << std::endl;
+    std::cout << "An error occurred during Optimization:" << std::endl;
     std::cout << e.GetLocation() << std::endl;
     std::cout << e.GetDescription() << std::endl;
     std::cout << e.what() << std::endl;

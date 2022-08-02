@@ -119,7 +119,7 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
 
 /**
  *   Make Output
- * \todo Verify that MakeOutput is createing the right type of objects
+ * \todo Verify that MakeOutput is creating the right type of objects
  *  this could be the cause of the reinterpret_cast bug in this class
  */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>

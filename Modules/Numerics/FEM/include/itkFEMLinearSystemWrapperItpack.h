@@ -339,7 +339,7 @@ public:
 
   /**
    * Set ??
-   * \param i smalles jacobian eigenvalue estimate
+   * \param i smallest jacobian eigenvalue estimate
    */
   void
   SetSmallestJacobiEigenvalueEstimate(double i)

@@ -60,7 +60,7 @@ SingleValuedVnlCostFunctionAdaptorv4 ::f(const InternalParametersType & inparame
   this->m_ObjectMetric->SetParameters(parameters);
   auto value = static_cast<InternalMeasureType>(m_ObjectMetric->GetValue());
 
-  // Notify observers. This is used for overcoming the limitaion of VNL
+  // Notify observers. This is used for overcoming the limitation of VNL
   // optimizers of not providing callbacks per iteration.
   m_CachedValue = value;
   this->ReportIteration(FunctionEvaluationIterationEvent());
@@ -97,7 +97,7 @@ SingleValuedVnlCostFunctionAdaptorv4 ::gradf(const InternalParametersType & inpa
   // This will also scale gradient by user scales
   this->ConvertExternalToInternalGradient(m_CachedDerivative, gradient);
 
-  // Notify observers. This is used for overcoming the limitaion of VNL
+  // Notify observers. This is used for overcoming the limitation of VNL
   // optimizers of not providing callbacks per iteration.
   // Note that m_CachedDerivative is already loaded in the GetDerivative()
   // above.
@@ -134,7 +134,7 @@ SingleValuedVnlCostFunctionAdaptorv4 ::compute(const InternalParametersType & x,
   if (fun) // paranoids have longer lives...
   {
     *fun = static_cast<InternalMeasureType>(measure);
-    // Notify observers. This is used for overcoming the limitaion of VNL
+    // Notify observers. This is used for overcoming the limitation of VNL
     // optimizers of not providing callbacks per iteration.
     // Note that m_CachedDerivative is already loaded in the GetDerivative()
     // above.

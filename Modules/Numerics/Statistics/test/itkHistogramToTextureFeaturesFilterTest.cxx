@@ -304,7 +304,7 @@ itkHistogramToTextureFeaturesFilterTest(int, char *[])
   if (filter->GetFeature(itk::Statistics::HistogramToTextureFeaturesFilterEnums::TextureFeature::InvalidFeatureName))
   {
     std::cerr << "Error: " << std::endl;
-    std::cerr << "GetFeature() is returing non-zero feature value: "
+    std::cerr << "GetFeature() is returning non-zero feature value: "
               << "for invalid feature request" << std::endl;
     passed = false;
   }

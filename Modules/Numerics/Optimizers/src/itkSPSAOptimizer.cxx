@@ -286,7 +286,7 @@ SPSAOptimizer::Compute_c(SizeValueType k) const
  * ********************** GenerateDelta *************************
  *
  * This function generates a perturbation vector delta.
- * Currently the elements are drawn from a bernouilli
+ * Currently the elements are drawn from a bernoulli
  * distribution. (+- 1)
  */
 

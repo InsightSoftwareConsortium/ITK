@@ -65,7 +65,7 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ElementStd, TBaseClass);
 
-  // FIXME: Add concept cheking for TBaseClass, and TPointClass
+  // FIXME: Add concept checking for TBaseClass, and TPointClass
 
   // Repeat type alias and enums from parent class
 

@@ -79,7 +79,7 @@ LinearSystemWrapperItpack::InitializeMatrix(unsigned int matrixIndex)
       __FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeMatrix", "Maximum number of non zeros not set");
   }
 
-  // allocate if necessay
+  // allocate if necessary
   if (m_Matrices == nullptr)
   {
     m_Matrices = new MatrixHolder(m_NumberOfMatrices);
@@ -125,7 +125,7 @@ LinearSystemWrapperItpack::InitializeVector(unsigned int vectorIndex)
       __FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeVector", "m_Vectors", vectorIndex);
   }
 
-  /* allocate if necessay */
+  /* allocate if necessary */
   if (m_Vectors == nullptr)
   {
     m_Vectors = new VectorHolder(m_NumberOfVectors);
@@ -173,7 +173,7 @@ LinearSystemWrapperItpack::InitializeSolution(unsigned int solutionIndex)
       __FILE__, __LINE__, "LinearSystemWrapperItpack::InitializeSolution", "m_Solutions", solutionIndex);
   }
 
-  // allocate if necessay
+  // allocate if necessary
   if (m_Solutions == nullptr)
   {
     m_Solutions = new VectorHolder(m_NumberOfSolutions);

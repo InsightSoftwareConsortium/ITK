@@ -183,10 +183,10 @@ void
 Element::GetMassMatrix(MatrixType & Me) const
 {
   /*
-   * If the function is not overriden, we compute consistent mass matrix
+   * If the function is not overridden, we compute consistent mass matrix
    * by integrating the shape functions over the element domain. The element
    * density is assumed one. If this is not the case, the GetMassMatrix in a
-   * derived class must be overriden and the Me matrix corrected accordingly.
+   * derived class must be overridden and the Me matrix corrected accordingly.
    */
   Me = MatrixType(this->GetNumberOfDegreesOfFreedom(), this->GetNumberOfDegreesOfFreedom(), 0.0);
 

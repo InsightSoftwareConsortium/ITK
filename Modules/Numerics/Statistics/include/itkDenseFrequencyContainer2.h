@@ -57,10 +57,10 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** InstanceIdenfitifer type alias */
+  /** InstanceIdentifer type alias */
   using InstanceIdentifier = MeasurementVectorTraits::InstanceIdentifier;
 
-  /** Absoluate Frequency type alias */
+  /** Absolute Frequency type alias */
   using AbsoluteFrequencyType = MeasurementVectorTraits::AbsoluteFrequencyType;
 
   /** Absolute Total frequency type */

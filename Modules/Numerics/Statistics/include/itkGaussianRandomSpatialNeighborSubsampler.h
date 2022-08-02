@@ -113,7 +113,7 @@ protected:
 
   /** method to randomly generate an integer in the closed range
    * [0, upperBound]
-   * usign a gaussian selection method. */
+   * using a gaussian selection method. */
   RandomIntType
   GetIntegerVariate(RandomIntType lowerBound, RandomIntType upperBound, RandomIntType mean) override;
 

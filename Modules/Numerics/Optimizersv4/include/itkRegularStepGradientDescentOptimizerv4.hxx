@@ -207,7 +207,7 @@ RegularStepGradientDescentOptimizerv4<TInternalComputationValueType>::ModifyGrad
   // Loop over the range. It is inclusive.
   for (IndexValueType j = subrange[0]; j <= subrange[1]; ++j)
   {
-    // Scale is checked during StartOptmization for values <=
+    // Scale is checked during StartOptimization for values <=
     // machine epsilon.
     // Take the modulo of the index to handle gradients from transforms
     // with local support. The gradient array stores the gradient of local
