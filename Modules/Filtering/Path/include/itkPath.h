@@ -32,7 +32,7 @@ namespace itk
  * path, it maps a 1D parameter (such as time or arc length, etc) to an index
  * (or possibly an offset or a point) in ND space.  This mapping is done via the
  * abstract Evaluate() method, which must be overridden in all instantiable
- * subclasses. The only geometric requirement for a gerneral path is that it be
+ * subclasses. The only geometric requirement for a general path is that it be
  * continuous. A path may be open or closed, and may cross itself several
  * times.  A classic application of this class is the representation of contours
  * in 2D images using chaincodes or freeman codes.  Another use of a path is to
@@ -74,7 +74,7 @@ public:
   /** Output type */
   using OutputType = TOutput;
 
-  /** All paths must be mapable to index space */
+  /** All paths must be mappable to index space */
   using IndexType = Index<VDimension>;
   using OffsetType = Offset<VDimension>;
 

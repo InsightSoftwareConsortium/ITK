@@ -57,7 +57,7 @@ GetFirstPixelFromFilterOutput(const TPixel inputPixel)
 
 
 // Test if the resample image filter has a valid output region defined
-// A common mistake is to use SetReferenceIamge without setting UseReferenceIamgeOn
+// A common mistake is to use SetReferenceImage without setting UseReferenceImageOn
 // which results in the default output image size of 0,0,0.
 template <typename TPixel>
 TPixel

@@ -33,7 +33,7 @@ namespace itk
  * the size of the N+1'th dimension of the output is same as the number of
  * the inputs. The spacing and the origin (where the first input is placed)
  * for the N+1'th dimension is specified in this filter. The output image
- * informations for the first N dimensions are taken from the first input.
+ * information for the first N dimensions are taken from the first input.
  * Note that all the inputs should have the same information.
  *
  * \ingroup GeometricTransform

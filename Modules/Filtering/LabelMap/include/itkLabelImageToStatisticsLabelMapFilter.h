@@ -102,14 +102,14 @@ public:
 
   /**
    * Set/Get whether the maximum Feret diameter should be computed or not. The
-   * defaut value is false, because of the high computation time required.
+   * default value is false, because of the high computation time required.
    */
   itkSetMacro(ComputeFeretDiameter, bool);
   itkGetConstReferenceMacro(ComputeFeretDiameter, bool);
   itkBooleanMacro(ComputeFeretDiameter);
 
   /**
-   * Set/Get whether the perimeter should be computed or not. The defaut value
+   * Set/Get whether the perimeter should be computed or not. The default value
    * is false, because of the high computation time required.
    */
   itkSetMacro(ComputePerimeter, bool);

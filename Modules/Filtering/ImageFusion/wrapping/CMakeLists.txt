@@ -1,6 +1,6 @@
 itk_wrap_module(ITKImageFusion)
 
-# Save default includes so they can be reseted afterwards
+# Save default includes so they can be reset afterwards
 set(tmp_default_includes ${WRAPPER_DEFAULT_INCLUDE})
 
 # Add itkStatisticsLabelObject.h, it is not automatically detected

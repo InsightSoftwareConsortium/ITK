@@ -61,7 +61,7 @@ struct FFTImageFilterTraits
  *
  * FFTImageFilterFactory can be used for making an FFT implementation
  * class available through object factory initialization if the class
- * meets certain critera:
+ * meets certain criteria:
  * - the FFT implementation class must be able to be templated over
  *   the pattern
  *   <TInput<PixelType, Dimension>, TOutput<PixelType, Dimension>

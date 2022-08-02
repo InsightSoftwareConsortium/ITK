@@ -161,7 +161,7 @@ itkJoinSeriesImageFilterTest(int, char *[])
   OutputImageType::Pointer output = streamingImage->GetOutput();
 
 
-  // Check the informations
+  // Check the information
   if (output->GetLargestPossibleRegion() != expectedRegion)
   {
     std::cout << "LargestPossibleRegion mismatch" << std::endl;

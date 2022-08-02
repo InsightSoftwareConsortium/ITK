@@ -23,7 +23,7 @@
 #include "itkTestingMacros.h"
 
 /**
- * This program looks for straight lines whithin an image
+ * This program looks for straight lines within an image
  * It uses the ITK HoughTransform2DLinesImageFilter.
  * - Read the image.
  * - Apply a gradient and thresholding functions.

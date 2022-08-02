@@ -239,7 +239,7 @@ AnchorErodeDilateLine<TInputPix, TCompare>::StartLine(std::vector<TInputPix> & b
     ++currentP;
     if (Compare(inbuffer[currentP], Extreme))
     {
-      // Found a new extrem
+      // Found a new extreme
       Extreme = inbuffer[currentP];
       ++outLeftP;
       buffer[outLeftP] = Extreme;

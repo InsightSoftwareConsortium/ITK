@@ -97,7 +97,7 @@ itkFrequencyBandImageFilterTest(int argc, char * argv[])
   }
   else
   {
-    std::cerr << "Unkown string: " + evenOrOddInput + " . Use Even or Odd." << std::endl;
+    std::cerr << "Unknown string: " + evenOrOddInput + " . Use Even or Odd." << std::endl;
     return EXIT_FAILURE;
   }
 

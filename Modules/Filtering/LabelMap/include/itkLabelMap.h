@@ -233,7 +233,7 @@ public:
 
   /**
    * Add a label object to the image. If a label object already has the label,
-   * it is overriden.
+   * it is overridden.
    */
   void
   AddLabelObject(LabelObjectType * labelObject);

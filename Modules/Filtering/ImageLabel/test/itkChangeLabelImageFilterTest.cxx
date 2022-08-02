@@ -175,7 +175,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
   if (pass)
   {
-    std::cout << "Test passsed. " << std::endl;
+    std::cout << "Test passed. " << std::endl;
     return EXIT_SUCCESS;
   }
   else

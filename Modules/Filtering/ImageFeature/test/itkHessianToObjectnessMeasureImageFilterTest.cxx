@@ -50,7 +50,7 @@ itkHessianToObjectnessMeasureImageFilterTest(int argc, char * argv[])
 
   using HessianImageType = GaussianImageFilterType::OutputImageType;
 
-  // Delcare the type of objectness measure image filter
+  // Declare the type of objectness measure image filter
 
   using ObjectnessFilterType = itk::HessianToObjectnessMeasureImageFilter<HessianImageType, ImageType>;
 

@@ -385,7 +385,7 @@ FFTWGlobalConfiguration ::FFTWGlobalConfiguration()
     }
     else
     {
-      // In the abscence of explicit specification, point to
+      // In the absence of explicit specification, point to
       // the DefaultFilenameGenerator for creating the name
       auto * DefaultFilenameGenerator = new HardwareWisdomFilenameGenerator;
       this->m_WisdomFilenameGenerator = DefaultFilenameGenerator;

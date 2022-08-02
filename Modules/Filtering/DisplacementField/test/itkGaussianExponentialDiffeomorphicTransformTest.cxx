@@ -82,7 +82,7 @@ itkGaussianExponentialDiffeomorphicTransformTest(int, char *[])
   // std::cout << "params *before* SmoothDisplacementFieldGauss: " << std::endl
   //          << params << std::endl;
   params = displacementTransform->GetParameters();
-  // std::cout << "field->GetPixelContainter *after* Smooth: "
+  // std::cout << "field->GetPixelContainer *after* Smooth: "
   //          << field->GetPixelContainer() << std::endl;
   /* We should see 0's on all boundaries from the smoothing routine */
   unsigned int linelength = dimLength * dimensions;

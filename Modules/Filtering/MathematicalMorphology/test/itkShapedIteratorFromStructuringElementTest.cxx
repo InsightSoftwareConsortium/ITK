@@ -102,7 +102,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
   }
   if (!caught)
   {
-    std::cout << "Faile to catch expected exception." << std::endl;
+    std::cout << "Failed to catch expected exception." << std::endl;
     return EXIT_FAILURE;
   }
 

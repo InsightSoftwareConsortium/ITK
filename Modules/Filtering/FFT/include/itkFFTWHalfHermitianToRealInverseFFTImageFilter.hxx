@@ -109,7 +109,7 @@ FFTWHalfHermitianToRealInverseFFTImageFilter<TInputImage, TOutputImage>::BeforeT
   {
     // complex<double> and double[2] types are compatible memory layouts.
     // The reinterpret_cast is used here to
-    // make the "C" fftw libary compatible with the c++ complex<double>.
+    // make the "C" fftw library compatible with the c++ complex<double>.
     std::copy_n(
       inputPtr->GetBufferPointer(), totalInputSize, reinterpret_cast<typename InputImageType::PixelType *>(in));
   }

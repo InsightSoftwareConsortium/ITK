@@ -55,7 +55,7 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostrea
 }
 
 /**
- * Intializes the Pyramid Spline Filter parameters for an "l2" filter
+ * Initializes the Pyramid Spline Filter parameters for an "l2" filter
  */
 template <typename TInputImage, typename TOutputImage>
 void

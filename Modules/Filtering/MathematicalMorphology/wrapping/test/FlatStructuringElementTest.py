@@ -28,5 +28,5 @@ elif argv[1] == "Box":
     print("Box")
     strel = itk.FlatStructuringElement[2].Box(int(argv[2]))
 else:
-    print("invalid arguement: " + argv[1])
+    print("invalid argument: " + argv[1])
     exit(1)

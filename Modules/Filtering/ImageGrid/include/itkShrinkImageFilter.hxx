@@ -146,7 +146,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   {
     offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];
     // It is plausible that due to small amounts of loss of numerical
-    // precision that the offset it negaive, this would cause sampling
+    // precision that the offset it negative, this would cause sampling
     // out of out region, this is insurance against that possibility
     offsetIndex[i] = std::max(zeroOffset, offsetIndex[i]);
   }
@@ -226,7 +226,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   {
     offsetIndex[i] = inputIndex[i] - outputIndex[i] * m_ShrinkFactors[i];
     // It is plausible that due to small amounts of loss of numerical
-    // precision that the offset it negaive, this would cause sampling
+    // precision that the offset it negative, this would cause sampling
     // out of out region, this is insurance against that possibility
     offsetIndex[i] = std::max(zeroOffset, offsetIndex[i]);
   }

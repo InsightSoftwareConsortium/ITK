@@ -109,7 +109,7 @@ itkDisplacementFieldTransformCloneTest(int, char *[])
   if (!originalIt.IsAtEnd() || !cloneIt.IsAtEnd())
   {
     std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Displacment field size mismatch" << std::endl;
+    std::cerr << "Displacement field size mismatch" << std::endl;
     return EXIT_FAILURE;
   }
 

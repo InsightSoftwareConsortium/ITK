@@ -313,7 +313,7 @@ LabelObject<TLabel, VImageDimension>::Optimize()
     typename Functor::LabelObjectLineComparator<LineType> comparator;
     std::sort(lineContainer.begin(), lineContainer.end(), comparator);
 
-    // then check the lines consistancy
+    // then check the lines consistency
     // we'll proceed line index by line index
     IndexType  currentIdx = lineContainer.begin()->GetIndex();
     LengthType currentLength = lineContainer.begin()->GetLength();

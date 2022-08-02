@@ -74,7 +74,7 @@ public:
 };
 
 /** \class InverseEuclideanDistanceMatrixCoefficients
- * \brief Compute a matrix filed with the inverse of the euclidian distance
+ * \brief Compute a matrix filed with the inverse of the euclidean distance
  *        wherever two vertices are connected by an edge.
  * \note  Belongs to the parameterisation package.
  * \note  See paper: ...

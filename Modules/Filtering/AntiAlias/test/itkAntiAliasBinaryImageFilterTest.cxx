@@ -122,7 +122,7 @@ itkAntiAliasBinaryImageFilterTest(int argc, char * argv[])
   antialiaser->GetMaximumRMSError();
 
 
-  // Generally a good idea to set this value as a safeguard against infinte
+  // Generally a good idea to set this value as a safeguard against infinite
   // loops if the MaximumRMSError has been set too low.
   antialiaser->SetNumberOfIterations(100);
 

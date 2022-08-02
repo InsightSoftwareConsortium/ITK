@@ -189,7 +189,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::StartLine(std::vector<InputImagePixelT
     ++currentP;
     if (Compare2(buffer[currentP], Extreme))
     {
-      // Found a new extrem
+      // Found a new extreme
       endP = currentP;
       for (unsigned int PP = outLeftP + 1; PP < endP; ++PP)
       {

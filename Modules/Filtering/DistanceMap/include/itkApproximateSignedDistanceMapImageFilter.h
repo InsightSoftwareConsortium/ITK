@@ -43,7 +43,7 @@ namespace itk
  * resulting in completely incorrect (read: zero-valued) output.
  *
  * The distances computed by this filter are Chamfer distances, which are only
- * an approximation to Euclidian distances, and are not as exact approximations
+ * an approximation to Euclidean distances, and are not as exact approximations
  * as those calculated by the DanielssonDistanceMapImageFilter. On the other hand,
  * this filter is faster.
  *

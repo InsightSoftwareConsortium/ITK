@@ -180,7 +180,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
   {
     index = outputIt.GetIndex();
 
-    // what position along the path coresponds to this column of the swath?
+    // what position along the path corresponds to this column of the swath?
     pathInput =
       inputPathPtr->StartOfInput() + static_cast<double>(inputPathPtr->EndOfInput() - inputPathPtr->StartOfInput()) *
                                        static_cast<double>(index[0]) / static_cast<double>(m_Size[0]);
@@ -188,7 +188,7 @@ ExtractOrthogonalSwath2DImageFilter<TImage>::GenerateData()
     // What is the orghogonal offset from the path in the input image for this
     // particular index in the output swath image?
     // Vertically centered swath pixels lie on the path in the input image.
-    orthogonalOffset = index[1] - static_cast<int>(m_Size[1] / 2); // use signed arithmatic
+    orthogonalOffset = index[1] - static_cast<int>(m_Size[1] / 2); // use signed arithmetic
 
     // Make continousIndex point to the source pixel in the input image
     continousIndex = inputPathPtr->Evaluate(pathInput);

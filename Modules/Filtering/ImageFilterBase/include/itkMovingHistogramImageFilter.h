@@ -66,7 +66,7 @@ namespace itk
  * to consider that the histogram will never be empty.
  *
  * One histogram is created for each thread by the method NewHistogram().
- * The NewHistogram() method can be overriden to pass some parameters to the
+ * The NewHistogram() method can be overridden to pass some parameters to the
  * histogram.
  *
  * The neighborhood is defined by a structuring element, and must a

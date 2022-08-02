@@ -62,7 +62,7 @@ itkDiscreteGaussianImageFilterTest(int argc, char * argv[])
   array.Fill(0.04);
   filter->SetMaximumError(array.GetDataPointer());
 
-  // Set the value ofthe standard deviation of the Gaussian used for smoothing
+  // Set the value of the standard deviation of the Gaussian used for smoothing
   FilterType::SigmaArrayType::ValueType sigmaValue = 1.0;
   FilterType::SigmaArrayType            sigma;
   sigma.Fill(sigmaValue);

@@ -49,7 +49,7 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::DisplacementFieldT
   // Setup and assign parameter helper. This will hold the displacement field
   // for access through the common OptimizerParameters interface.
   auto * helper = new OptimizerParametersHelperType;
-  // After assigning this, m_Parametes will manage this,
+  // After assigning this, m_Parameters will manage this,
   // deleting when appropriate.
   this->m_Parameters.SetHelper(helper);
 

@@ -49,7 +49,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
     }
   }
 
-  // assemple pipeline
+  // assemble pipeline
   using InputMonitorFilterType = itk::PipelineMonitorImageFilter<InputImageType>;
   auto monitor1 = InputMonitorFilterType::New();
   monitor1->SetInput(sourceImage);

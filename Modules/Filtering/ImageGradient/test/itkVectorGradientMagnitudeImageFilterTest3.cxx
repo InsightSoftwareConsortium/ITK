@@ -98,7 +98,7 @@ itkVectorGradientMagnitudeImageFilterTest3(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // this verifies that the pipeline was executed as expected allong
+  // this verifies that the pipeline was executed as expected along
   // with correct region propagation and output information
   if (!monitor2->VerifyAllInputCanStream(4))
   {

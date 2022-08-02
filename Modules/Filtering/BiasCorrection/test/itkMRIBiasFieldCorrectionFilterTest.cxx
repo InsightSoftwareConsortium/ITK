@@ -86,7 +86,7 @@ itkMRIBiasFieldCorrectionFilterTest(int, char *[])
   classSigmas[0] = 10.0;
   classSigmas[1] = 20.0;
 
-  // creats a normal random variate generator
+  // creates a normal random variate generator
   itk::Statistics::MersenneTwisterRandomVariateGenerator::Pointer randomGenerator =
     itk::Statistics::MersenneTwisterRandomVariateGenerator::New();
 

@@ -106,7 +106,7 @@ FastMarchingBase<TInput, TOutput>::Initialize(OutputDomainType * oDomain)
   this->InitializeOutput(oDomain);
 
   // By setting the output domain to the stopping criterion, we enable funky
-  // criterion based on informations extracted from it
+  // criterion based on information extracted from it
   m_StoppingCriterion->SetDomain(oDomain);
 }
 // -----------------------------------------------------------------------------

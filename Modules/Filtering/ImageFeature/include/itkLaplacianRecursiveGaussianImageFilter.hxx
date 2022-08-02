@@ -158,7 +158,7 @@ LaplacianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()
   // initialize output image
   //
   // NOTE: We intentionally don't allocate the output image here,
-  // because the cast image filter will either run inplace, or alloate
+  // because the cast image filter will either run inplace, or allocate
   // the output there. The requested region has already been set in
   // ImageToImageFilter::GenerateInputImageFilter.
   typename TOutputImage::Pointer outputImage(this->GetOutput());

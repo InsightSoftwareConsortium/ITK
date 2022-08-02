@@ -144,7 +144,7 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
       }
     }
   }
-  // end of tripple for-loop covering x & F & L
+  // end of triple for-loop covering x & F & L
 
   // Find the best starting and ending points (F & L) for the path
   int    bestF = 0, bestL = 0;
