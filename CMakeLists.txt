@@ -149,14 +149,18 @@ set(main_project_name ${_ITKModuleMacros_DEFAULT_LABEL})
 #-----------------------------------------------------------------------------
 configure_file(CMake/ITKConfigVersion.cmake.in ITKConfigVersion.cmake @ONLY)
 
+if(NOT CMAKE_INSTALL_LIBDIR)
+  set(CMAKE_INSTALL_LIBDIR lib)
+endif()
+
 if(NOT ITK_INSTALL_RUNTIME_DIR)
   set(ITK_INSTALL_RUNTIME_DIR bin)
 endif()
 if(NOT ITK_INSTALL_LIBRARY_DIR)
-  set(ITK_INSTALL_LIBRARY_DIR lib)
+  set(ITK_INSTALL_LIBRARY_DIR ${CMAKE_INSTALL_LIBDIR})
 endif()
 if(NOT ITK_INSTALL_ARCHIVE_DIR)
-  set(ITK_INSTALL_ARCHIVE_DIR lib)
+  set(ITK_INSTALL_ARCHIVE_DIR ${CMAKE_INSTALL_LIBDIR})
 endif()
 if(NOT ITK_INSTALL_INCLUDE_DIR)
   set(ITK_INSTALL_INCLUDE_DIR include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
@@ -168,7 +172,7 @@ if(NOT ITK_INSTALL_DOC_DIR)
   set(ITK_INSTALL_DOC_DIR share/doc/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR})
 endif()
 if(NOT ITK_INSTALL_PACKAGE_DIR)
-  set(ITK_INSTALL_PACKAGE_DIR "lib/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+  set(ITK_INSTALL_PACKAGE_DIR "${CMAKE_INSTALL_LIBDIR}/cmake/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
 endif()
 
 # Override CMake's built-in add_* commands: assign LABELS to tests and targets
@@ -256,7 +260,7 @@ endif()
 # The default path when not wrapping.  Restore standard build location
 # if python wrapping is turned on, and then turned off.
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
-  set(NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib CACHE PATH "Shared library directory")
+  set(NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR} CACHE PATH "Shared library directory")
 else()
   set(NO_WRAP_CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_LIBRARY_OUTPUT_DIRECTORY} CACHE PATH "Shared library directory")
 endif()
@@ -326,7 +330,7 @@ if(CMAKE_CONFIGURATION_TYPES AND ITK_WRAPPING)
 endif()
 
 if(NOT CMAKE_ARCHIVE_OUTPUT_DIRECTORY)
-  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/lib)
+  set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${ITK_BINARY_DIR}/${CMAKE_INSTALL_LIBDIR})
 endif()
 set(ITK_MODULES_DIR "${ITK_BINARY_DIR}/${ITK_INSTALL_PACKAGE_DIR}/Modules")
 
@@ -575,7 +579,7 @@ set(ITK_CONFIG_TARGETS_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/I
 set(ITK_CONFIG_MODULE_API_FILE "\${ITK_INSTALL_PREFIX}/${ITK_INSTALL_PACKAGE_DIR}/ITKModuleAPI.cmake")
 if(NOT ITK_USE_SYSTEM_FFTW)
   # Location installed with the FFTW ExternalProject.
-  set(FFTW_LIBDIR "\${ITK_INSTALL_PREFIX}/lib/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
+  set(FFTW_LIBDIR "\${ITK_INSTALL_PREFIX}/${CMAKE_INSTALL_LIBDIR}/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}")
   set(FFTW_INCLUDE_PATH "\${ITK_INSTALL_PREFIX}/include/ITK-${ITK_VERSION_MAJOR}.${ITK_VERSION_MINOR}/Algorithms")
 endif()
 configure_file(CMake/ITKConfig.cmake.in CMakeFiles/ITKConfig.cmake @ONLY)
