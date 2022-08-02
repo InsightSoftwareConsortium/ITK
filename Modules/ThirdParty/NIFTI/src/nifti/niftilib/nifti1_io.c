@@ -546,7 +546,7 @@ nifti_image *nifti_image_read_bricks(const char * hname, int nbricks,
 
    if( !hname || !NBL ){
       fprintf(stderr,"** nifti_image_read_bricks: bad params (%p,%p)\n",
-              hname, (void *)NBL);
+              (const void *)hname, (void *)NBL);
       return NULL;
    }
 
@@ -1415,8 +1415,6 @@ char const *nifti_orientation_string( int ii )
     \param nbyper   pointer to return value: number of bytes per voxel
     \param swapsize pointer to return value: size of swap blocks
 
-    \return appropriate values at nbyper and swapsize
-
     The swapsize is set to 0 if this datatype doesn't ever need swapping.
 
     \sa NIFTI1_DATATYPES in nifti1.h
@@ -2142,7 +2140,7 @@ void nifti_mat44_to_orientation( mat44 R , int *icod, int *jcod, int *kcod )
  *
  *  Due to alignment of structures at some architectures (e.g. on ARM),
  *  stick to char variables.
- *  Fixes http://bugs.debian.org/446893   Yaroslav <debian@onerussian.com>
+ *  Fixes <http://bugs.debian.org/446893> Yaroslav <debian @ onerussian.com>
  *
 *//*--------------------------------------------------------------------*/
 void nifti_swap_2bytes( size_t n , void *ar )    /* 2 bytes at a time */
@@ -2581,7 +2579,7 @@ int nifti_validfilename(const char* fname)
 
     \return a pointer to the extension substring within the original
             function input parameter name, or NULL if not found.
-    \caution Note that if the input parameter is is immutabale
+    \warning Note that if the input parameter is is immutabale
              (i.e. a const char *) then this function performs an
              implicit casting away of the mutability constraint and
              the return parameter will appear as a mutable
@@ -2831,8 +2829,8 @@ char * nifti_findhdrname(const char* fname)
 /*! check current directory for existing image file
 
     \param fname filename to check for
-    \nifti_type  nifti_type for dataset - this determines whether to
-                 first check for ".nii" or ".img" (since both may exist)
+    \param nifti_type  nifti_type for dataset - this determines whether to
+                       first check for ".nii" or ".img" (since both may exist)
 
     \return filename of data/img file on success and NULL if no appropriate
             file could be found
@@ -3077,7 +3075,7 @@ int nifti_set_filenames( nifti_image * nim, const char * prefix, int check,
 
    if( !nim || !prefix ){
       fprintf(stderr,"** nifti_set_filenames, bad params %p, %p\n",
-              (void *)nim,prefix);
+              (void *)nim,(const void *)prefix);
       return -1;
    }
 
@@ -3403,7 +3401,7 @@ int nifti_set_type_from_names( nifti_image * nim )
 
    if( !nim->fname || !nim->iname ){
       fprintf(stderr,"** NSTFN: missing filename(s) fname @ %p, iname @ %p\n",
-              nim->fname, nim->iname);
+              (const void *)nim->fname, (const void *)nim->iname);
       return -1;
    }
 
@@ -4489,7 +4487,7 @@ static int nifti_read_extensions( nifti_image *nim, znzFile fp, int remain )
 
    \param nim    - nifti_image to add extension to
    \param data   - raw extension data
-   \param length - length of raw extension data
+   \param len    - length of raw extension data
    \param ecode  - extension code
 
    \sa extension codes NIFTI_ECODE_* in nifti1_io.h
@@ -4571,7 +4569,7 @@ static int nifti_fill_extension( nifti1_extension *ext, const char * data,
 
    if( !ext || !data || len < 0 ){
       fprintf(stderr,"** fill_ext: bad params (%p,%p,%d)\n",
-              (void *)ext, data, len);
+              (void *)ext, (const void *)data, len);
       return -1;
    } else if( ! nifti_is_valid_ecode(ecode) ){
       fprintf(stderr,"** warning: writing unknown ecode %d\n", ecode);
@@ -4819,7 +4817,7 @@ static znzFile nifti_image_load_prep( nifti_image *nim )
       if ( g_opts.debug > 0 ){
          if( !nim ) fprintf(stderr,"** ERROR: N_image_load: no nifti image\n");
          else fprintf(stderr,"** ERROR: N_image_load: bad params (%p,%d,%u)\n",
-                      nim->iname, nim->nbyper, (unsigned)nim->nvox);
+                      (const void *)nim->iname, nim->nbyper, (unsigned)nim->nvox);
       }
       return NULL;
    }
@@ -5903,8 +5901,6 @@ znzFile nifti_write_ascii_image(nifti_image *nim, const nifti_brick_list * NBL,
       fields from the qto_xyz matrix, you can use the utility function
       nifti_mat44_to_quatern()
 
-   \return 0 on success, -1 on error
-
    \sa nifti_image_write_bricks, nifti_image_free, nifti_set_filenames,
        nifti_image_write_hdr_img
 *//*------------------------------------------------------------------------*/
@@ -6193,15 +6189,16 @@ char *nifti_image_to_ascii( const nifti_image *nim )
 
    if( nim == NULL ) return NULL ;   /* stupid caller */
 
-   buf = (char *)calloc(1,65534); /* longer than needed, to be safe */
+   const size_t bufLen = 65534; /* longer than needed, to be safe */
+   buf = (char *)calloc(1,bufLen);
    if( !buf ){
-      fprintf(stderr,"** NITA: failed to alloc %d bytes\n",65534);
+      fprintf(stderr,"** NITA: failed to alloc %zu bytes\n",bufLen);
       return NULL;
    }
 
-   sprintf( buf , "<nifti_image\n" ) ;   /* XML-ish opener */
+   snprintf( buf , bufLen , "<nifti_image\n" ) ;   /* XML-ish opener */
 
-   sprintf( buf+strlen(buf) , "  nifti_type = '%s'\n" ,
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  nifti_type = '%s'\n" ,
               (nim->nifti_type == NIFTI_FTYPE_NIFTI1_1) ? "NIFTI-1+"
              :(nim->nifti_type == NIFTI_FTYPE_NIFTI1_2) ? "NIFTI-1"
              :(nim->nifti_type == NIFTI_FTYPE_ASCII   ) ? "NIFTI-1A"
@@ -6215,126 +6212,126 @@ char *nifti_image_to_ascii( const nifti_image *nim )
        - The result is that the NIFTI ASCII-format header is XML-compliant. */
 
    ebuf = escapize_string(nim->fname) ;
-   sprintf( buf+strlen(buf) , "  header_filename = %s\n",ebuf); free(ebuf);
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  header_filename = %s\n",ebuf); free(ebuf);
 
    ebuf = escapize_string(nim->iname) ;
-   sprintf( buf+strlen(buf) , "  image_filename = %s\n", ebuf); free(ebuf);
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  image_filename = %s\n", ebuf); free(ebuf);
 
-   sprintf( buf+strlen(buf) , "  image_offset = '%d'\n" , nim->iname_offset );
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  image_offset = '%d'\n" , nim->iname_offset );
 
-   sprintf(buf + strlen(buf), "  ndim = '%d'\n", nim->ndim);
-   sprintf(buf + strlen(buf), "  nx = '%d'\n", nim->nx);
+   snprintf(buf+strlen(buf), bufLen-strlen(buf), "  ndim = '%d'\n", nim->ndim);
+   snprintf(buf+strlen(buf), bufLen-strlen(buf), "  nx = '%d'\n", nim->nx);
    if (nim->ndim > 1)
-     sprintf(buf + strlen(buf), "  ny = '%d'\n", nim->ny);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  ny = '%d'\n", nim->ny);
    if (nim->ndim > 2)
-     sprintf(buf + strlen(buf), "  nz = '%d'\n", nim->nz);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  nz = '%d'\n", nim->nz);
    if (nim->ndim > 3)
-     sprintf(buf + strlen(buf), "  nt = '%d'\n", nim->nt);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  nt = '%d'\n", nim->nt);
    if (nim->ndim > 4)
-     sprintf(buf + strlen(buf), "  nu = '%d'\n", nim->nu);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  nu = '%d'\n", nim->nu);
    if (nim->ndim > 5)
-     sprintf(buf + strlen(buf), "  nv = '%d'\n", nim->nv);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  nv = '%d'\n", nim->nv);
    if (nim->ndim > 6)
-     sprintf(buf + strlen(buf), "  nw = '%d'\n", nim->nw);
-   sprintf(buf + strlen(buf), "  dx = '%g'\n", nim->dx);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  nw = '%d'\n", nim->nw);
+   snprintf(buf+strlen(buf), bufLen-strlen(buf), "  dx = '%g'\n", nim->dx);
    if (nim->ndim > 1)
-     sprintf(buf + strlen(buf), "  dy = '%g'\n", nim->dy);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  dy = '%g'\n", nim->dy);
    if (nim->ndim > 2)
-     sprintf(buf + strlen(buf), "  dz = '%g'\n", nim->dz);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  dz = '%g'\n", nim->dz);
    if (nim->ndim > 3)
-     sprintf(buf + strlen(buf), "  dt = '%g'\n", nim->dt);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  dt = '%g'\n", nim->dt);
    if (nim->ndim > 4)
-     sprintf(buf + strlen(buf), "  du = '%g'\n", nim->du);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  du = '%g'\n", nim->du);
    if (nim->ndim > 5)
-     sprintf(buf + strlen(buf), "  dv = '%g'\n", nim->dv);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  dv = '%g'\n", nim->dv);
    if (nim->ndim > 6)
-     sprintf(buf + strlen(buf), "  dw = '%g'\n", nim->dw);
+     snprintf(buf+strlen(buf), bufLen-strlen(buf), "  dw = '%g'\n", nim->dw);
 
-   sprintf( buf+strlen(buf) , "  datatype = '%d'\n" , nim->datatype ) ;
-   sprintf( buf+strlen(buf) , "  datatype_name = '%s'\n" ,
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  datatype = '%d'\n" , nim->datatype ) ;
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  datatype_name = '%s'\n" ,
                               nifti_datatype_string(nim->datatype) ) ;
 
-   sprintf( buf+strlen(buf) , "  nvox = '%u'\n" , (unsigned)nim->nvox ) ;
-   sprintf( buf+strlen(buf) , "  nbyper = '%d'\n" , nim->nbyper ) ;
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  nvox = '%u'\n" , (unsigned)nim->nvox ) ;
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  nbyper = '%d'\n" , nim->nbyper ) ;
 
-   sprintf( buf+strlen(buf) , "  byteorder = '%s'\n" ,
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  byteorder = '%s'\n" ,
             (nim->byteorder==MSB_FIRST) ? "MSB_FIRST" : "LSB_FIRST" ) ;
 
    if( nim->cal_min < nim->cal_max ){
-     sprintf( buf+strlen(buf) , "  cal_min = '%g'\n", nim->cal_min ) ;
-     sprintf( buf+strlen(buf) , "  cal_max = '%g'\n", nim->cal_max ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  cal_min = '%g'\n", nim->cal_min ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  cal_max = '%g'\n", nim->cal_max ) ;
    }
 
    if( nim->scl_slope != 0.0 ){
-     sprintf( buf+strlen(buf) , "  scl_slope = '%g'\n" , nim->scl_slope ) ;
-     sprintf( buf+strlen(buf) , "  scl_inter = '%g'\n" , nim->scl_inter ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  scl_slope = '%g'\n" , nim->scl_slope ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  scl_inter = '%g'\n" , nim->scl_inter ) ;
    }
 
    if( nim->intent_code > 0 ){
-     sprintf( buf+strlen(buf) , "  intent_code = '%d'\n", nim->intent_code ) ;
-     sprintf( buf+strlen(buf) , "  intent_code_name = '%s'\n" ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  intent_code = '%d'\n", nim->intent_code ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  intent_code_name = '%s'\n" ,
                                 nifti_intent_string(nim->intent_code) ) ;
-     sprintf( buf+strlen(buf) , "  intent_p1 = '%g'\n" , nim->intent_p1 ) ;
-     sprintf( buf+strlen(buf) , "  intent_p2 = '%g'\n" , nim->intent_p2 ) ;
-     sprintf( buf+strlen(buf) , "  intent_p3 = '%g'\n" , nim->intent_p3 ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  intent_p1 = '%g'\n" , nim->intent_p1 ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  intent_p2 = '%g'\n" , nim->intent_p2 ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  intent_p3 = '%g'\n" , nim->intent_p3 ) ;
 
      if( nim->intent_name[0] != '\0' ){
        ebuf = escapize_string(nim->intent_name) ;
-       sprintf( buf+strlen(buf) , "  intent_name = %s\n",ebuf) ;
+       snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  intent_name = %s\n",ebuf) ;
        free(ebuf) ;
      }
    }
 
    if( nim->toffset != 0.0 )
-     sprintf( buf+strlen(buf) , "  toffset = '%g'\n",nim->toffset ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  toffset = '%g'\n",nim->toffset ) ;
 
    if( nim->xyz_units > 0 )
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  xyz_units = '%d'\n"
               "  xyz_units_name = '%s'\n" ,
               nim->xyz_units , nifti_units_string(nim->xyz_units) ) ;
 
    if( nim->time_units > 0 )
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  time_units = '%d'\n"
               "  time_units_name = '%s'\n" ,
               nim->time_units , nifti_units_string(nim->time_units) ) ;
 
    if( nim->freq_dim > 0 )
-     sprintf( buf+strlen(buf) , "  freq_dim = '%d'\n",nim->freq_dim ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  freq_dim = '%d'\n",nim->freq_dim ) ;
    if( nim->phase_dim > 0 )
-     sprintf( buf+strlen(buf) , "  phase_dim = '%d'\n",nim->phase_dim ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  phase_dim = '%d'\n",nim->phase_dim ) ;
    if( nim->slice_dim > 0 )
-     sprintf( buf+strlen(buf) , "  slice_dim = '%d'\n",nim->slice_dim ) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  slice_dim = '%d'\n",nim->slice_dim ) ;
    if( nim->slice_code > 0 )
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  slice_code = '%d'\n"
               "  slice_code_name = '%s'\n" ,
               nim->slice_code , nifti_slice_string(nim->slice_code) ) ;
    if( nim->slice_start >= 0 && nim->slice_end > nim->slice_start )
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  slice_start = '%d'\n"
               "  slice_end = '%d'\n"  , nim->slice_start , nim->slice_end ) ;
    if( nim->slice_duration != 0.0 )
-     sprintf( buf+strlen(buf) , "  slice_duration = '%g'\n",
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  slice_duration = '%g'\n",
               nim->slice_duration ) ;
 
    if( nim->descrip[0] != '\0' ){
      ebuf = escapize_string(nim->descrip) ;
-     sprintf( buf+strlen(buf) , "  descrip = %s\n",ebuf) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  descrip = %s\n",ebuf) ;
      free(ebuf) ;
    }
 
    if( nim->aux_file[0] != '\0' ){
      ebuf = escapize_string(nim->aux_file) ;
-     sprintf( buf+strlen(buf) , "  aux_file = %s\n",ebuf) ;
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  aux_file = %s\n",ebuf) ;
      free(ebuf) ;
    }
 
    if( nim->qform_code > 0 ){
      int i,j,k ;
 
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  qform_code = '%d'\n"
               "  qform_code_name = '%s'\n"
      "  qto_xyz_matrix = '%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g'\n" ,
@@ -6348,7 +6345,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
          nim->qto_xyz.m[3][0] , nim->qto_xyz.m[3][1] ,
          nim->qto_xyz.m[3][2] , nim->qto_xyz.m[3][3]  ) ;
 
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
      "  qto_ijk_matrix = '%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g'\n" ,
          nim->qto_ijk.m[0][0] , nim->qto_ijk.m[0][1] ,
          nim->qto_ijk.m[0][2] , nim->qto_ijk.m[0][3] ,
@@ -6359,7 +6356,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
          nim->qto_ijk.m[3][0] , nim->qto_ijk.m[3][1] ,
          nim->qto_ijk.m[3][2] , nim->qto_ijk.m[3][3]  ) ;
 
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  quatern_b = '%g'\n"
               "  quatern_c = '%g'\n"
               "  quatern_d = '%g'\n"
@@ -6372,7 +6369,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
 
      nifti_mat44_to_orientation( nim->qto_xyz , &i,&j,&k ) ;
      if( i > 0 && j > 0 && k > 0 )
-       sprintf( buf+strlen(buf) ,
+       snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
                 "  qform_i_orientation = '%s'\n"
                 "  qform_j_orientation = '%s'\n"
                 "  qform_k_orientation = '%s'\n" ,
@@ -6384,7 +6381,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
    if( nim->sform_code > 0 ){
      int i,j,k ;
 
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
               "  sform_code = '%d'\n"
               "  sform_code_name = '%s'\n"
      "  sto_xyz_matrix = '%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g'\n" ,
@@ -6398,7 +6395,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
          nim->sto_xyz.m[3][0] , nim->sto_xyz.m[3][1] ,
          nim->sto_xyz.m[3][2] , nim->sto_xyz.m[3][3]  ) ;
 
-     sprintf( buf+strlen(buf) ,
+     snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
      "  sto_ijk matrix = '%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g'\n" ,
          nim->sto_ijk.m[0][0] , nim->sto_ijk.m[0][1] ,
          nim->sto_ijk.m[0][2] , nim->sto_ijk.m[0][3] ,
@@ -6411,7 +6408,7 @@ char *nifti_image_to_ascii( const nifti_image *nim )
 
      nifti_mat44_to_orientation( nim->sto_xyz , &i,&j,&k ) ;
      if( i > 0 && j > 0 && k > 0 )
-       sprintf( buf+strlen(buf) ,
+       snprintf( buf+strlen(buf) , bufLen-strlen(buf) ,
                 "  sform_i_orientation = '%s'\n"
                 "  sform_j_orientation = '%s'\n"
                 "  sform_k_orientation = '%s'\n" ,
@@ -6420,9 +6417,9 @@ char *nifti_image_to_ascii( const nifti_image *nim )
                 nifti_orientation_string(k)  ) ;
    }
 
-   sprintf( buf+strlen(buf) , "  num_ext = '%d'\n", nim->num_ext ) ;
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "  num_ext = '%d'\n", nim->num_ext ) ;
 
-   sprintf( buf+strlen(buf) , "/>\n" ) ;   /* XML-ish closer */
+   snprintf( buf+strlen(buf) , bufLen-strlen(buf) , "/>\n" ) ;   /* XML-ish closer */
 
    nbuf = (int)strlen(buf) ;
    buf  = (char *)realloc((void *)buf, nbuf+1); /* cut back to proper length */
@@ -6457,7 +6454,7 @@ int nifti_short_order(void)   /* determine this CPU's byte order */
 /* macro to check lhs string against "n1"; if it matches,
    interpret rhs string as a number, and put it into nim->"n2" */
 
-#define QQNUM(n1,n2,tt) if( strcmp(lhs,#n1)==0 ) nim->n2=(tt)strtod(rhs,NULL)
+#define QQNUM(n1,n2,tt) if( strcmp(lhs,#n1)==0 ) nim->n2=(tt)(strtod(rhs,NULL))
 
 /* same, but where "n1" == "n2" */
 
@@ -6959,7 +6956,7 @@ compute_strides(int *strides,const int *size,int nbyper)
           speed and possibly repeated calls to this function.
     \return
         -  the total number of bytes read, or < 0 on failure
-        -  the read and byte-swapped data, in 'data'            </pre>
+        -  the read and byte-swapped data, in 'data'
 
     \sa nifti_image_read, nifti_image_free, nifti_image_read_bricks
         nifti_image_load, nifti_read_collapsed_image
