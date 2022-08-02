@@ -121,8 +121,9 @@ def image_from_xarray(data_array: "xr.DataArray") -> "itkt.ImageBase":
     if ordered_dims != data_array.dims:
         dest = list(builtins.range(len(ordered_dims)))
         source = dest.copy()
+        dims_tuple = tuple(data_array.dims)
         for ii in builtins.range(len(ordered_dims)):
-            source[ii] = data_array.dims.index(ordered_dims[ii])
+            source[ii] = dims_tuple.index(ordered_dims[ii])
         values = np.moveaxis(values, source, dest).copy()
     itk_image = itk.image_view_from_array(values, is_vector=is_vector)
 
