@@ -67,7 +67,7 @@ itk_add_test(NAME itkMetaGaussianConverterTest
 itk_add_test(NAME itkTubeSpatialObjectTest
       COMMAND ITKSpatialObjectsTestDriver itkTubeSpatialObjectTest)
 itk_add_test(NAME itkDTITubeSpatialObjectTest
-      COMMAND ITKSpatialObjectsTestDriver itkTubeSpatialObjectTest)
+      COMMAND ITKSpatialObjectsTestDriver itkDTITubeSpatialObjectTest)
 itk_add_test(NAME itkSpatialObjectToPointSetFilterTest
       COMMAND ITKSpatialObjectsTestDriver itkSpatialObjectToPointSetFilterTest)
 itk_add_test(NAME itkSpatialObjectDuplicatorTest
