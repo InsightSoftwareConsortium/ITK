@@ -114,7 +114,7 @@ itkFEMScatteredDataPointSetToImageFilterTest(int, char *[])
   filter->SetInput(featurePoints);
 
   // Set the parameters for a rectilinear mesh.
-  // Ingore this setting if users provide a mesh
+  // Ignore this setting if users provide a mesh
   DeformationFieldType::SpacingType elementSpacing;
   elementSpacing[0] = 2.0;
   elementSpacing[1] = 2.0;

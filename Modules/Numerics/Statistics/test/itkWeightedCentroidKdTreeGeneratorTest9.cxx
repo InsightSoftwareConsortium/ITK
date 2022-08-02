@@ -22,7 +22,7 @@
 #include "itkTestingMacros.h"
 #include <fstream>
 
-// Testing the weighed centroid Kd tree generator using varaiable length vector
+// Testing the weighed centroid Kd tree generator using variable length vector
 // sample
 int
 itkWeightedCentroidKdTreeGeneratorTest9(int argc, char * argv[])

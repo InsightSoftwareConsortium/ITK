@@ -105,7 +105,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   bool        pass = true;
   std::string whereFail = "";
 
-  // creats an image and allocate memory
+  // creates an image and allocate memory
   auto image = ImageType::New();
 
   ImageType::SizeType size;
@@ -126,7 +126,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   auto sample = SampleType::New();
   sample->SetImage(image);
 
-  // creates a Subsample obeject using the ImageToListSampleAdaptor object
+  // creates a Subsample object using the ImageToListSampleAdaptor object
   auto subsample = SubsampleType::New();
   subsample->SetSample(sample);
 
@@ -134,7 +134,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
   // refVector
   std::vector<int> refVector;
 
-  // creats a subsample with all instances in the image
+  // creates a subsample with all instances in the image
   subsample->InitializeWithAllInstances();
 
   // InsertSort algorithm test
@@ -159,7 +159,7 @@ itkStatisticsAlgorithmTest2(int, char *[])
     whereFail = "HeapSort";
   }
 
-  // IntospectiveSort algortihm test
+  // IntospectiveSort algorithm test
   resetData(image, refVector);
   itk::Statistics::Algorithm::IntrospectiveSort<SubsampleType>(subsample, testDimension, 0, subsample->Size(), 16);
   if (!isSortedOrderCorrect(refVector, subsample))

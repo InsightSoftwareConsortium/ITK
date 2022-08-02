@@ -79,7 +79,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::StartOptimization
     if (this->m_MaximumNewtonStepSizeInPhysicalUnits <= NumericTraits<TInternalComputationValueType>::epsilon())
     {
       // Newton step size might be bigger than one voxel spacing.
-      // emperically, we set it to 1~5 voxel spacings.
+      // empirically, we set it to 1~5 voxel spacings.
       this->m_MaximumNewtonStepSizeInPhysicalUnits = 3.0 * this->m_ScalesEstimator->EstimateMaximumStepSize();
     }
   }

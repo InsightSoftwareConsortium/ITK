@@ -107,7 +107,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   Right() const = 0;
 
   /**
-   * Returs the number of measurement vectors under this node including
+   * Returns the number of measurement vectors under this node including
    * its children
    */
   virtual unsigned int
@@ -121,7 +121,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNode
   virtual void
   GetCentroid(CentroidType &) = 0;
 
-  /** Retuns the instance identifier of the index-th measurement vector */
+  /** Returns the instance identifier of the index-th measurement vector */
   virtual InstanceIdentifier GetInstanceIdentifier(InstanceIdentifier) const = 0;
 
   /** Add an instance to this node */
@@ -195,7 +195,7 @@ struct ITK_TEMPLATE_EXPORT KdTreeNonterminalNode : public KdTreeNode<TSample>
   }
 
   /**
-   * Returs the number of measurement vectors under this node including
+   * Returns the number of measurement vectors under this node including
    * its children
    */
   unsigned int
@@ -710,7 +710,7 @@ public:
   }
 
   /** Returns the measurement vector identified by the instance
-   * identifier that is an identifier defiend for the input sample */
+   * identifier that is an identifier defined for the input sample */
   const MeasurementVectorType &
   GetMeasurementVector(InstanceIdentifier id) const
   {

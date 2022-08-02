@@ -312,7 +312,7 @@ protected:
   RescaleLandmarkStiffnessMatrix(double oldPointTensorPonderation);
 
   /**
-   * Calculate KU, which will  be added on the righ hand side to reach
+   * Calculate KU, which will  be added on the right hand side to reach
    * the effect of zeroing mesh energy
    */
   void

@@ -492,7 +492,7 @@ protected:
                  int                   k,
                  int                   ls);
 
-  //** Function evalation callback from libLBFGS frowrad to instance */
+  //** Function evaluation callback from libLBFGS forward to instance */
   static PrecisionType
   EvaluateCostCallback(void *                instance,
                        const PrecisionType * x,

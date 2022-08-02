@@ -78,7 +78,7 @@ MultipleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparame
 
   measures = this->m_CostFunction->GetValue(parameters);
 
-  // Notify observers. This is used for overcoming the limitaion of VNL
+  // Notify observers. This is used for overcoming the limitation of VNL
   // optimizers of not providing callbacks per iteration.
   m_CachedValue = measures;
   m_CachedCurrentParameters = parameters;
@@ -145,7 +145,7 @@ MultipleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
 
   this->ConvertExternalToInternalGradient(externalGradient, *g);
 
-  // Notify observers. This is used for overcoming the limitaion of VNL
+  // Notify observers. This is used for overcoming the limitation of VNL
   // optimizers of not providing callbacks per iteration.
   // Note that m_CachedDerivative is already loaded in the GetDerivative()
   // above.

@@ -403,7 +403,7 @@ template <typename TKdTree>
 auto
 KdTreeBasedKmeansEstimator<TKdTree>::GetOutput() const -> const MembershipFunctionVectorObjectType *
 {
-  // INSERT CHECKS if all the required inputs are set and optmization has been
+  // INSERT CHECKS if all the required inputs are set and optimization has been
   // run.
   unsigned int                   numberOfClasses = m_Parameters.size() / m_MeasurementVectorSize;
   MembershipFunctionVectorType & membershipFunctionsVector = m_MembershipFunctionsObject->Get();

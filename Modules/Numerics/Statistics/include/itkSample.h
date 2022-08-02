@@ -122,7 +122,7 @@ public:
     {
       // then this is a resizable vector type
       //
-      // if the new size is the same as the previou size, just return
+      // if the new size is the same as the previous size, just return
       if (s == this->m_MeasurementVectorSize)
       {
         return;

@@ -36,7 +36,7 @@ namespace Statistics
  * You should run Initialize() function before call GetNormalVariate()
  * function.
  *
- * The followings are original comments.
+ * The following are original comments.
  *
  *  Revision date 31 May 1996
  *      This is a revised version of the algorithm described in
@@ -68,7 +68,7 @@ namespace Statistics
  * and three variables used in the macro.
  *        Read below for calling conventions.
  *
- * THIS CODE ASSUMES TWO'S-COMPLEMENT 32-BIT INTEGER ARITHMATIC.  IT ALSO
+ * THIS CODE ASSUMES TWO'S-COMPLEMENT 32-BIT INTEGER ARITHMETIC.  IT ALSO
  * ASSUMES THE 'C' COMPILER COMPILES THE LEFT-SHIFT OPERATOR "<<" AS A LOGICAL
  * SHIFT, DISCARDING THE SIGN DIGIT AND SHIFTING IN ZEROS ON THE RIGHT, SO
  * " X << 1" IS EQUIVALENT TO " X+X ".   IT ALSO ASSUMES THE RIGHT-SHIFT

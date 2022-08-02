@@ -315,7 +315,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
         q = -q; /* p        */
       }
 
-      /* Chec if x+p/q falls in [a,b] and  not too close to a and b
+      /* Check if x+p/q falls in [a,b] and  not too close to a and b
            and isn't too large */
       if (itk::Math::abs(p) < itk::Math::abs(new_step * q) && p > q * (a - x + 2 * tolerance1) &&
           p < q * (b - x - 2 * tolerance1))
@@ -359,7 +359,7 @@ PowellOptimizer::BracketedLineOptimize(double           ax,
         a = x;
       }
 
-      /* assing the best approximation to x */
+      /* assign the best approximation to x */
       v = w;
       w = x;
       x = t;

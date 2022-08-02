@@ -83,7 +83,7 @@ SingleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparamete
     value *= -1.0;
   }
 
-  // Notify observers. This is used for overcoming the limitaion of VNL
+  // Notify observers. This is used for overcoming the limitation of VNL
   // optimizers of not providing callbacks per iteration.
   m_CachedValue = value;
   m_CachedCurrentParameters = parameters;
@@ -120,7 +120,7 @@ SingleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inpara
   m_CostFunction->GetDerivative(parameters, m_CachedDerivative);
   this->ConvertExternalToInternalGradient(m_CachedDerivative, gradient);
 
-  // Notify observers. This is used for overcoming the limitaion of VNL
+  // Notify observers. This is used for overcoming the limitation of VNL
   // optimizers of not providing callbacks per iteration.
   // Note that m_CachedDerivative is already loaded in the GetDerivative()
   // above.
@@ -166,7 +166,7 @@ SingleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
     {
       *fun = static_cast<InternalMeasureType>(-measure);
     }
-    // Notify observers. This is used for overcoming the limitaion of VNL
+    // Notify observers. This is used for overcoming the limitation of VNL
     // optimizers of not providing callbacks per iteration.
     // Note that m_CachedDerivative is already loaded in the GetDerivative()
     // above.

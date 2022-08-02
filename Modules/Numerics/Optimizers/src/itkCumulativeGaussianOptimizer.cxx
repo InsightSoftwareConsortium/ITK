@@ -224,7 +224,7 @@ CumulativeGaussianOptimizer::RecalculateExtendedArrayFromGaussianParameters(Meas
 {
   // From the Gaussian parameters stored with the extendedArray,
   // recalculate the extended portion of the extendedArray,
-  // leaving the inserted original array unchaged.
+  // leaving the inserted original array unchanged.
   double mean = m_ComputedMean;
   double sd = m_ComputedStandardDeviation;
   double amplitude = m_ComputedAmplitude;
@@ -350,7 +350,7 @@ CumulativeGaussianOptimizer::VerticalBestShift(MeasureType * originalArray, Meas
   //     Let B = the new array.
   //     Let n = the number of elements in each array (note they must be the
   // same).
-  //     We want to mimimize sum(((Bi+c) - (Ai))^2).
+  //     We want to minimize sum(((Bi+c) - (Ai))^2).
   //     So we take the derivative with respect to c and equate this derivative
   // to 0.
   //     d/dc sum(((Bi+c) - (Ai))^2) dc = 0

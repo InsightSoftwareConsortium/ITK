@@ -329,7 +329,7 @@ public:
    *     a
    *
    * where (rho c) is constant (element density), which is here assumed to be
-   * equal to one. If this is not the case, this function must be overriden in
+   * equal to one. If this is not the case, this function must be overridden in
    * a derived class. Implementation is similar to GetStiffnessMatrix.
    */
   virtual void
@@ -706,7 +706,7 @@ public:
    * equal to number of unknowns that we want to solve for at each point
    * within an element.
    *
-   * \note This function must be overriden in all derived classes.
+   * \note This function must be overridden in all derived classes.
    */
   virtual unsigned int
   GetNumberOfDegreesOfFreedomPerNode() const = 0;

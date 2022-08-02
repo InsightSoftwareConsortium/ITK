@@ -252,7 +252,7 @@ public:
    * Returns pointer to interpolation grid, which is an itk::Image of pointers
    * to Element objects. Normally you would use physical coordinates to get
    * specific points (pointers to elements) from the image. You can then
-   * use the Elemenet::InterpolateSolution member function on the returned
+   * use the Element::InterpolateSolution member function on the returned
    * element to obtain the solution at this point.
    *
    * \note Physical coordinates in an image correspond to the global
@@ -341,7 +341,7 @@ protected:
    * Copy the element stiffness matrix into the correct position in the
    * master stiffness matrix. Since more complex Solver classes may need to
    * assemble many matrices and may also do some funky stuff to them, this
-   * function is and can be overriden in a derived solver class.
+   * function is and can be overridden in a derived solver class.
    */
   virtual void
   AssembleElementMatrix(Element::Pointer e);
@@ -351,7 +351,7 @@ protected:
    * correct position in the master stiffness matrix. Since more
    * complex Solver classes may need to assemble many matrices and may
    * also do some funky stuff to them, this function is virtual and
-   * can be overriden in a derived solver class.
+   * can be overridden in a derived solver class.
    */
   virtual void
   AssembleLandmarkContribution(Element::ConstPointer e, float);
@@ -386,7 +386,7 @@ protected:
   void
   DecomposeK();
 
-  /** Solve for the displacement vector u. May be overriden in derived
+  /** Solve for the displacement vector u. May be overridden in derived
    * classes. */
   virtual void
   RunSolver();

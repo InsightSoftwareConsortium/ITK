@@ -114,7 +114,7 @@ LoadGravConst::ApplyLoad(Element::ConstPointer element, Element::VectorType & Fe
     {
       force[d] = force_tmp[d];
     }
-    // Claculate the equivalent nodal loads
+    // Calculate the equivalent nodal loads
     for (unsigned int n = 0; n < Nnodes; ++n)
     {
       for (unsigned int d = 0; d < Ndofs; ++d)

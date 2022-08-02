@@ -616,7 +616,7 @@ extern "C"
    * \param nn order of the matrix
    * \param m number of smallest eigenvalues desired
    * \param isw positive definite flag (0 = not pd, 1 = pd)
-   * \param ierr error flag (601 = interates not monotone increasing, 602 = not really pd)
+   * \param ierr error flag (601 = iterates not monotone increasing, 602 = not really pd)
    */
   extern int
   eqrt1s_(doublereal * d__, doublereal * e2, integer * nn, integer * m, integer * isw, integer * ierr);

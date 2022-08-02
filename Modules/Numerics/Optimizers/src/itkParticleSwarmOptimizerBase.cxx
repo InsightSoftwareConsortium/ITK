@@ -248,7 +248,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
     // buffer with m_NumberOfGenerationsWithMinimalImprovement+1
     // elements. the optimizer has converged if: (a) the difference
     // between the first and last elements currently in the ring buffer
-    // is less than the user specificed threshold. and (b) the particles
+    // is less than the user-specified threshold. and (b) the particles
     // are close enough to the best particle.
     if (this->m_IterationIndex >= m_NumberOfGenerationsWithMinimalImprovement)
     {
@@ -281,7 +281,7 @@ ParticleSwarmOptimizerBase::StartOptimization()
 
   this->m_StopConditionDescription << GetNameOfClass() << ": ";
   if (converged)
-    this->m_StopConditionDescription << "successfuly converged after " << m_IterationIndex << " iterations";
+    this->m_StopConditionDescription << "successfully converged after " << m_IterationIndex << " iterations";
   else
     this->m_StopConditionDescription << "terminated after " << m_IterationIndex << " iterations";
   InvokeEvent(EndEvent());

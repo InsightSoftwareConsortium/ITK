@@ -38,7 +38,7 @@ namespace fem
  * special properties or constants.
  *
  * Material base class doesn't define any data member.
- * Everything useful is stored in derived clases. This class
+ * Everything useful is stored in derived classes. This class
  * is here just to group all material classes together and access
  * them via this base class.
  * \ingroup ITKFEM

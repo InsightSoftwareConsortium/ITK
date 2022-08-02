@@ -257,7 +257,7 @@ protected:
 
   /**
    * Normalize the direction of the offset before it is applied.
-   * The last non-zero dimension of the offest has to be positive in order
+   * The last non-zero dimension of the offset has to be positive in order
    * to match to scanning order of the iterator. Only the sign is changed.
    * For example, the input offset (-1, 0) will be normalized as
    * (1, 0).

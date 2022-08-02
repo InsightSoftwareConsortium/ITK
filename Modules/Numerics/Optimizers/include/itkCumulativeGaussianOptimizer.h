@@ -143,7 +143,7 @@ private:
   MeasureType *
   ExtendGaussian(MeasureType * originalArray, MeasureType * extendedArray, int startingPointForInsertion);
 
-  /** Recalulate the parameters of the extended Gaussian array. */
+  /** Recalculate the parameters of the extended Gaussian array. */
   MeasureType *
   RecalculateExtendedArrayFromGaussianParameters(MeasureType * originalArray,
                                                  MeasureType * extendedArray,

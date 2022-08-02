@@ -66,7 +66,7 @@ extern ITKStatistics_EXPORT std::ostream &
  * or related class).
  *
  * The features calculated are as follows (where \f$ g(i, j) \f$ is the element in
- * cell i, j of a a normalized GLCM):
+ * cell i, j of a normalized GLCM):
  *
  * "Energy" \f$ = f_1 = \sum_{i,j}g(i, j)^2 \f$
  *
@@ -114,7 +114,7 @@ extern ITKStatistics_EXPORT std::ostream &
  * Haralick, R.M. 1979. Statistical and Structural Approaches to Texture.
  * Proceedings of the IEEE, 67:786-804.
  *
- * R.W. Conners and C.A. Harlow. A Theoretical Comaprison of Texture Algorithms.
+ * R.W. Conners and C.A. Harlow. A Theoretical Comparison of Texture Algorithms.
  * IEEE Transactions on Pattern Analysis and Machine Intelligence,  2:204-222, 1980.
  *
  * R.W. Conners, M.M. Trivedi, and C.A. Harlow. Segmentation of a High-Resolution
