@@ -25,7 +25,7 @@
  * and does not exercise the base class filter. The process of testing
  * the running of the filter is delegated to other tests.
  * @tparam VDimension
- * @return EXIT_SUCCESS if all test passs, EXIT_FAILURE otherwise
+ * @return EXIT_SUCCESS if all test pass, EXIT_FAILURE otherwise
  */
 template <unsigned int VDimension>
 static int

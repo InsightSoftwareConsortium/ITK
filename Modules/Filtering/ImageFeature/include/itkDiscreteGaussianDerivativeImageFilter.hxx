@@ -106,7 +106,7 @@ DiscreteGaussianDerivativeImageFilter<TInputImage, TOutputImage>::GenerateData()
   output->SetBufferedRegion(output->GetRequestedRegion());
   output->Allocate();
 
-  // Create an internal image to protect the input image's metdata
+  // Create an internal image to protect the input image's metadata
   // (e.g. RequestedRegion). The StreamingImageFilter changes the
   // requested region as poart of its normal provessing.
   auto localInput = TInputImage::New();

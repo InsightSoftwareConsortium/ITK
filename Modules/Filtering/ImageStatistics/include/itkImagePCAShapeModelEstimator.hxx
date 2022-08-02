@@ -362,7 +362,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
 
   // Calculate the principal shape variations
   //
-  // m_EigenVectors capture the principal shape variantions
+  // m_EigenVectors capture the principal shape variations
   // m_EigenValues capture the relative weight of each variation
   // Multiply original image vetors with the eigenVectorsOfInnerProductMatrix
   // to derive the principal shapes.
@@ -396,7 +396,7 @@ ImagePCAShapeModelEstimator<TInputImage, TOutputImage>::EstimatePCAShapeModelPar
   m_EigenValues = (eigenVectors_eigenValues.D).diagonal();
 
   // Flip the eigen values since the eigen vectors output
-  // is ordered in decending order of their corresponding eigen values.
+  // is ordered in descending order of their corresponding eigen values.
   m_EigenValues.flip();
 
   // Normalize the eigen values

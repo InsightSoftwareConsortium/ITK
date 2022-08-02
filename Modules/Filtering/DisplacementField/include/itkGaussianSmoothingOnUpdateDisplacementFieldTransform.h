@@ -28,7 +28,7 @@ namespace itk
 
 /** \class GaussianSmoothingOnUpdateDisplacementFieldTransform
  * \brief Modifies the UpdateTransformParameters method
- * to peform a Gaussian smoothing of the
+ * to perform a Gaussian smoothing of the
  * displacement field after adding the update array.
  *
  * This class is the same as \c DisplacementFieldTransform, except

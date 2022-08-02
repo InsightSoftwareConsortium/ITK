@@ -179,7 +179,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
         // Compute the normalized correlation at this pixel.  The
         // template has already been normalized to mean zero and norm 1.
         // This simplifies the calculation to being just the correlation
-        // of the image neighborhod with the template, normalized by a
+        // of the image neighborhood with the template, normalized by a
         // function of the image neighborhood.
         sum = 0.0;
         sumOfSquares = 0.0;

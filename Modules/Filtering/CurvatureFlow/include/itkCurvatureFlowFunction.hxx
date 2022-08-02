@@ -97,7 +97,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
                          neighborhoodScales[i] * neighborhoodScales[j];
     }
 
-    // accumlate the gradient magnitude squared
+    // accumulate the gradient magnitude squared
     magnitudeSqr += itk::Math::sqr(static_cast<double>(firstderiv[i]));
   }
 
@@ -126,7 +126,7 @@ CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,
     update += temp * itk::Math::sqr(static_cast<double>(firstderiv[i]));
   }
 
-  // accumlate -2 * dx * dy * dxy terms
+  // accumulate -2 * dx * dy * dxy terms
   for (i = 0; i < ImageDimension; ++i)
   {
     for (j = i + 1; j < ImageDimension; ++j)

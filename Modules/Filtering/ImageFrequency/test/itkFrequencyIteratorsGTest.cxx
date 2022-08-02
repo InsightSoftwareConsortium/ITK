@@ -208,7 +208,7 @@ compareAllTypesOfIterators(typename TImageType::Pointer image, double difference
   // Compare full and hermitian
   // Hermitian saves memory, but at the cost of less precision
   // in the reconstruction (forward + inverse == original_image)
-  // This is the minimun threshold for the comparison between
+  // This is the minimum threshold for the comparison between
   // original and reconstructed image to be equal (without any extra band filter).
   bool fullAndHermitian = compareImages<ImageType>(filteredHermitianImage, filteredImage, differenceHermitianThreshold);
   EXPECT_TRUE(fullAndHermitian);

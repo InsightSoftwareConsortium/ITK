@@ -101,7 +101,7 @@ ContourExtractor2DImageFilter<TInputImage>::CreateSingleContour(InputPixelType  
   // 6 7 8
   // We are interested only in the square of 4,5,7,8 which is the 2x2 square
   // with the center pixel at the top-left. So we only activate the
-  // coresponding offsets, and only query pixels 4, 5, 7, and 8 with the
+  // corresponding offsets, and only query pixels 4, 5, 7, and 8 with the
   // iterator's GetPixel method.
 
   const InputOffsetType none{ { 0, 0 } };

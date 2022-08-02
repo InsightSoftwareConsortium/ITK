@@ -125,7 +125,7 @@ itkDoubleThresholdImageFilterTest(int argc, char * argv[])
   }
   if (thresholds[0] <= thresholds[1] && thresholds[1] <= thresholds[2] && thresholds[2] <= thresholds[3])
   {
-    std::cerr << "Values inputed as Threshold meet the requirement" << std::endl;
+    std::cerr << "Values inputted as Threshold meet the requirement" << std::endl;
   }
   else
   {

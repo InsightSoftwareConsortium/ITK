@@ -58,7 +58,7 @@ itkBinaryMorphologicalClosingImageFilterTest(int argc, char * argv[])
   auto filter = FilterType::New();
   filter->SetInput(reader->GetOutput());
   filter->SetKernel(ball);
-  // test the default attribute values, and exercise the accesors
+  // test the default attribute values, and exercise the accessors
   if (!filter->GetSafeBorder())
   {
     std::cerr << "Wrong SafeBorder default value" << std::endl;

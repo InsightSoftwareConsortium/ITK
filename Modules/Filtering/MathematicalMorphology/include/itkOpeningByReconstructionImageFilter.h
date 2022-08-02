@@ -33,7 +33,7 @@ namespace itk
  * erosion.  The opening by reconstruction of an image "f" is defined
  * as:
  *
- *   OpeningByReconstruction(f) = DilationByRecontruction(f, Erosion(f)).
+ *   OpeningByReconstruction(f) = DilationByReconstruction(f, Erosion(f)).
  *
  * Opening by reconstruction not only removes structures destroyed by
  * the erosion, but also levels down the contrast of the brightest

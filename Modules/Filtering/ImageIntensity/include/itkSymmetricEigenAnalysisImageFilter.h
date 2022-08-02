@@ -303,7 +303,7 @@ protected:
  *\class SymmetricEigenAnalysisFixedDimensionImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
- * SymmetricEigenAnalysisImageFilter applies pixel-wise the invokation for
+ * SymmetricEigenAnalysisImageFilter applies pixel-wise the invocation for
  * computing the eigen-values and eigen-vectors of the symmetric matrix
  * corresponding to every input pixel.
  *

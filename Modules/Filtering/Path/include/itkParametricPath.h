@@ -67,7 +67,7 @@ public:
 
   /** Standard class type aliases. */
   using Self = ParametricPath;
-  /** All paths must be mapable to index space */
+  /** All paths must be mappable to index space */
   using ContinuousIndexType = ContinuousIndex<SpacePrecisionType, VDimension>;
   using Superclass = Path<double, ContinuousIndexType, VDimension>;
 

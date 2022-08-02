@@ -199,7 +199,7 @@ DoFace(typename TImage::ConstPointer             input,
           typename TImage::PixelType V2 = rExtBuffer[l];
           pixbuffer[j] = m_TF(V1, V2);
         }
-        // line end -- involves reseting the end of the reverse
+        // line end -- involves resetting the end of the reverse
         // extreme array
         for (unsigned int j = size - 2; (j > 0) && (j >= (size - KernLen - 1)); j--)
         {

@@ -94,7 +94,7 @@ LabelObjectLine<VImageDimension>::IsNextIndex(const IndexType & idx) const
 
 /**
  * This function just calls the
- * header/self/trailer print methods, which can be overriden by
+ * header/self/trailer print methods, which can be overridden by
  * subclasses.
  */
 template <unsigned int VImageDimension>

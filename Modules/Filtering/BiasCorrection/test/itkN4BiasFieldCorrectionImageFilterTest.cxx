@@ -337,7 +337,7 @@ itkN4BiasFieldCorrectionImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  // Exercise the objet's basic methods outside the templated test helper to
+  // Exercise the object's basic methods outside the templated test helper to
   // avoid the Superclass name not being found.
   constexpr unsigned int ImageDimension = 2;
 

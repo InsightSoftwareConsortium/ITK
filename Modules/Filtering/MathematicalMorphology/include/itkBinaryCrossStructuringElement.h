@@ -29,7 +29,7 @@ namespace itk
  * This class defines a Neighborhood whose elements are either on or off
  * depending on whether they are the face connected neighbors of the
  * neighborhood center when the radii are all 1.
- * The neighorhood is a cross for any size radius.
+ * The neighborhood is a cross for any size radius.
  * By default, the Neighborhood is defined to be of radii 1
  * (i.e. 3x3x...).
  * This can be changed explicitly using the SetRadius() method.

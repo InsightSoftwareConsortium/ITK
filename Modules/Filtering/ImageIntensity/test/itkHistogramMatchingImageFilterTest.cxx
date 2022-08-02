@@ -74,7 +74,7 @@ srcPattern(unsigned long offset)
 namespace
 {
 
-// The following classe is used to support callbacks
+// The following class is used to support callbacks
 // on the filter in the pipeline that follows later
 class ShowProgressObject
 {

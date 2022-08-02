@@ -94,7 +94,7 @@ AttributeUniqueLabelMapFilter<TImage, TAttributeAccessor>::GenerateData()
     IndexType         idx = l.line.GetIndex();
     // NOTE: VS 7,8,9 seem to contain a bug where if the next line is
     // accessed with l.labelObject, the results will be erroneous. I
-    // have not been able to find anly reason for this.
+    // have not been able to find any reason for this.
     //
     // EXERCISE EXTREME CAUTION WHEN EDITING THE NEXT 2 LINES
     const typename LabelObjectType::LabelType             lLabel = pq.top().labelObject->GetLabel();

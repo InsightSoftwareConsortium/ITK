@@ -315,7 +315,7 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBa
     ComputeValue(inNeigIt, outNeigIt, center, stride);
 
     ++bandIt;
-  } // Band iteratior
+  } // Band iterator
 }
 
 template <typename TInputImage, typename TOutputImage>

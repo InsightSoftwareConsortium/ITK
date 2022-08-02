@@ -115,7 +115,7 @@ itkFlatStructuringElementTest2(int argc, char * argv[])
   FSEType              flatStructure = FSEType::FromImage(testImgBool);
   ImageUCType::Pointer imgFromStructure = GetImage(flatStructure);
 
-  // Write result from GetImage for comparisson with input image
+  // Write result from GetImage for comparison with input image
 
   using WriterType = itk::ImageFileWriter<ImageUCType>;
   auto writer = WriterType::New();

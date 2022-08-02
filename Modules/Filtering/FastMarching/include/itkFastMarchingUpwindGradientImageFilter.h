@@ -271,7 +271,7 @@ protected:
       SizeValueType availableNumberOfTargets = m_TargetPoints->Size();
       if (targetModeMinPoints > availableNumberOfTargets)
       {
-        itkExceptionMacro(<< "Not enought target points: Available: " << availableNumberOfTargets
+        itkExceptionMacro(<< "Not enough target points: Available: " << availableNumberOfTargets
                           << "; Requested: " << targetModeMinPoints);
       }
     }

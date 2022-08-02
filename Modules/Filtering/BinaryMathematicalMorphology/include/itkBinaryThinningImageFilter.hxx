@@ -175,7 +175,7 @@ BinaryThinningImageFilter<TInputImage, TOutputImage>::ComputeThinImage()
           // seven 8-neighbors valued 1.  Having only one such
           // neighbor implies that p1 is the end point of a skeleton
           // stroke and obviously should not be deleted.  Deleting p1
-          // if it has seven such neighbos would cause erosion into a region.
+          // if it has seven such neighbors would cause erosion into a region.
           PixelType numberOfOnNeighbors = p2 + p3 + p4 + p5 + p6 + p7 + p8 + p9;
 
           if (numberOfOnNeighbors > 1 && numberOfOnNeighbors < 7)

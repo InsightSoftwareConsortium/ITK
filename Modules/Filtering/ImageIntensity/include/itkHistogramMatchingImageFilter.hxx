@@ -425,7 +425,7 @@ HistogramMatchingImageFilter<TInputImage, TOutputImage, THistogramMeasurement>::
     lowerBound.Fill(minHistogramValidValue);
     upperBound.Fill(maxHistogramValidValue);
 
-    // Initialize with equally spaced bins withing the valid region.
+    // Initialize with equally spaced bins within the valid region.
     histogram->Initialize(size, lowerBound, upperBound);
 
     // Now expand the first and last bin to represent the true reference image range

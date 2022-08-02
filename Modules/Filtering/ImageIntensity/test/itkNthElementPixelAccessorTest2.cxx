@@ -21,7 +21,7 @@
  *  NthElementPixelAccessor
  *
  *  The example shows how an Adaptor can be used to
- *  get acces only to the Nth component of a vector image
+ *  get access only to the Nth component of a vector image
  *  giving the appearance of being just a 'float' image
  *
  *  That will allow to pass the Nth component of this

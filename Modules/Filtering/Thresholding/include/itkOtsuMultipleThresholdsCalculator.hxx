@@ -218,7 +218,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
   //
   // The "volatile" modifier is used here for preventing the variable from
   // being kept in 80 bit FPU registers when using 32-bit x86 processors with
-  // SSE instructions disabled. A case that arised in the Debian 32-bits
+  // SSE instructions disabled. A case that arose in the Debian 32-bits
   // distribution.
   //
 #ifndef ITK_COMPILER_SUPPORTS_SSE2_32
@@ -259,7 +259,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::Compute()
     //
     // The "volatile" modifier is used here for preventing the variable from
     // being kept in 80 bit FPU registers when using 32-bit x86 processors with
-    // SSE instructions disabled. A case that arised in the Debian 32-bits
+    // SSE instructions disabled. A case that arose in the Debian 32-bits
     // distribution.
     //
 #ifndef ITK_COMPILER_SUPPORTS_SSE2_32
