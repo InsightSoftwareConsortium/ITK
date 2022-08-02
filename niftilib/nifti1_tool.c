@@ -162,6 +162,9 @@ static const char * g_history[] =
 static char g_version[] = "version 1.24 (September 26, 2012)";
 static int  g_debug = 1;
 
+#include <string.h>
+#include <stdint.h>
+
 #define _NIFTI_TOOL_C_
 #include "nifti1_io.h"
 #include "nifti1_tool.h"
@@ -179,9 +182,9 @@ static char * read_file_text(const char * filename, int * length);
         do{ int tval=(val); free_opts_mem(&opts); return tval; } while(0)
 
 /* these are effectively constant, and are built only for verification */
-field_s g_hdr_fields[NT_HDR_NUM_FIELDS];    /* nifti_1_header fields */
-field_s g_ana_fields[NT_ANA_NUM_FIELDS];    /* nifti_analyze75       */
-field_s g_nim_fields[NT_NIM_NUM_FIELDS];    /* nifti_image fields    */
+static field_s g_hdr_fields[NT_HDR_NUM_FIELDS];    /* nifti_1_header fields */
+static field_s g_ana_fields[NT_ANA_NUM_FIELDS];    /* nifti_analyze75       */
+static field_s g_nim_fields[NT_NIM_NUM_FIELDS];    /* nifti_image fields    */
 
 int main( int argc, char * argv[] )
 {
@@ -686,13 +689,17 @@ int verify_opts( nt_opts * opts, char * prog )
 int fill_cmd_string( nt_opts * opts, int argc, char * argv[])
 {
    char * cp;
-   int    len, remain = NT_CMD_LEN;  /* NT_CMD_LEN is max command len */
+   int    len, remain = sizeof(opts->command);  /* max command len */
    int    c, ac;
    int    has_space;  /* arguments containing space must be quoted */
    int    skip = 0;   /* counter to skip some of the arguments     */
 
    /* get the first argument separately */
-   len = sprintf( opts->command, "\n  command: %s", argv[0] );
+   len = snprintf( opts->command, sizeof(opts->command), "\n  command: %s", argv[0] );
+   if( len < 0 || len >= (int)sizeof(opts->command) ) {
+      fprintf(stderr,"FCS: no space remaining for command, continuing...\n");
+      return 1;
+   }
    cp = opts->command + len;
    remain -= len;
 
@@ -712,8 +719,8 @@ int fill_cmd_string( nt_opts * opts, int argc, char * argv[])
       has_space = 0;
       for( c = 0; c < len-1; c++ )
          if( isspace(argv[ac][c]) ){ has_space = 1; break; }
-      if( has_space ) len = sprintf(cp, " '%s'", argv[ac]);
-      else            len = sprintf(cp, " %s",   argv[ac]);
+      if( has_space ) len = snprintf(cp, remain, " '%s'", argv[ac]);
+      else            len = snprintf(cp, remain, " %s",   argv[ac]);
 
       remain -= len;
 
@@ -2373,7 +2380,7 @@ int act_disp_exts( nt_opts * opts )
                  nim->fname, nim->num_ext);
       for( ec = 0; ec < nim->num_ext; ec++ )
       {
-         sprintf(mesg, "    ext #%d : ", ec);
+         snprintf(mesg, sizeof(mesg), "    ext #%d : ", ec);
          disp_nifti1_extension(mesg, nim->ext_list + ec, -1);
       }
 
@@ -3842,30 +3849,54 @@ int disp_raw_data( void * data, int type, int nvals, char space, int newline )
                printf("%d", *(char *)dp);
                break;
          case DT_INT16:
-               printf("%d", *(short *)dp);
+         {
+               short temp;
+               memcpy(&temp, dp, sizeof(temp));
+               printf("%d", temp);
                break;
+         }
          case DT_INT32:
-               printf("%d", *(int *)dp);
+         {
+               int temp;
+               memcpy(&temp, dp, sizeof(temp));
+               printf("%d", temp);
                break;
+         }
          case DT_UINT8:
-               printf("%u", *(unsigned char *)dp);
+         {
+               unsigned char temp;
+               memcpy(&temp, dp, sizeof(temp));
+               printf("%u", temp);
                break;
+         }
          case DT_UINT16:
-               printf("%u", *(unsigned short *)dp);
+         {
+               unsigned short temp;
+               memcpy(&temp, dp, sizeof(temp));
+               printf("%u", temp);
                break;
+         }
          case DT_UINT32:
-               printf("%u", *(unsigned int *)dp);
+         {
+               unsigned int temp;
+               memcpy(&temp, dp, sizeof(temp));
+               printf("%u", temp);
                break;
+         }
          case DT_FLOAT32:
          {
-               sprintf(fbuf,"%f", *(float *)dp);
+               float temp;
+               memcpy(&temp, dp, sizeof(temp));
+               snprintf(fbuf,sizeof(fbuf),"%f", temp);
                clear_float_zeros(fbuf);
                printf("%s", fbuf);
                break;
          }
          case DT_FLOAT64:
          {
-               sprintf(fbuf,"%f", *(double *)dp);
+               double temp;
+               memcpy(&temp, dp, sizeof(temp));
+               snprintf(fbuf,sizeof(fbuf),"%f", temp);
                clear_float_zeros(fbuf);
                printf("%s", fbuf);
                break;
@@ -4096,7 +4127,7 @@ nifti_image * nt_image_read( nt_opts * opts, const char * fname, int doread )
 {
     if( !opts || !fname  ) {
         fprintf(stderr,"** nt_image_read: bad params (%p,%p)\n",
-                (void *)opts, (void *)fname);
+                (void *)opts, (const void *)fname);
         return NULL;
     }
 
@@ -4135,7 +4166,7 @@ nifti_1_header * nt_read_header(nt_opts * opts, const char * fname, int * swappe
     /* swapped is not necessary */
     if( !opts || !fname ) {
         fprintf(stderr,"** nt_read_header: bad params (%p,%p)\n",
-                (void *)opts,(void *)fname);
+                (void *)opts,(const void *)fname);
         return NULL;
     }
 
@@ -4178,7 +4209,7 @@ nifti_image * nt_read_bricks(nt_opts * opts, const char * fname, int len, int * 
     /* swapped is not necessary */
     if( !opts || !fname || !NBL ) {
         fprintf(stderr,"** nt_read_bricks: bad params (%p,%p,%p)\n",
-                (void *)opts, (void *)fname, (void *)NBL);
+                (void *)opts, (const void *)fname, (void *)NBL);
         return NULL;
     }
 

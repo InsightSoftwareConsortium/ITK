@@ -158,6 +158,7 @@ elseif(NOT WIN32)
 else()
     set(NIFTI_SYSTEM_MATH_LIB "")
 endif()
+mark_as_advanced(NIFTI_SYSTEM_MATH_LIB)
 #######################################################################
 add_subdirectory(znzlib)
 add_subdirectory(niftilib)
