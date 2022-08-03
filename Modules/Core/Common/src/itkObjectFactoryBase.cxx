@@ -34,6 +34,7 @@
 #include "itkLightObject.h"
 #include "itkSingleton.h"
 #include "itkVersion.h"
+#include "itksys/SystemTools.hxx"
 #include <cstring>
 #include <algorithm>
 
@@ -305,12 +306,9 @@ ObjectFactoryBase::LoadDynamicFactories()
   char       PathSeparator = ':';
 #  endif
 
-  std::string LoadPath;
-  if (getenv("ITK_AUTOLOAD_PATH"))
-  {
-    LoadPath = getenv("ITK_AUTOLOAD_PATH");
-  }
-  else
+  const std::string itk_autoload_env{ "ITK_AUTOLOAD_PATH" };
+  std::string       LoadPath;
+  if (!itksys::SystemTools::GetEnv(itk_autoload_env, LoadPath))
   {
     return;
   }
@@ -318,6 +316,7 @@ ObjectFactoryBase::LoadDynamicFactories()
   {
     return;
   }
+
   std::string::size_type EndSeparatorPosition = 0;
   std::string::size_type StartSeparatorPosition = 0;
 
