@@ -87,8 +87,14 @@ SlopeInterceptTest()
   {
     static_cast<PixelType *>(niftiImage->data)[i] = i;
   }
-  nifti_image_write(niftiImage);
-  nifti_image_free(niftiImage);
+
+  const int nifti_write_status = nifti_image_write_status(niftiImage);
+  nifti_image_free(niftiImage); // Must free before throwing exception.
+  if (nifti_write_status)
+  {
+    itkGenericExceptionMacro(<< "ERROR: nifti library failed to write image" << filename);
+  }
+
   //
   // read the image back in
   using ImageType = typename itk::Image<float, 3>;

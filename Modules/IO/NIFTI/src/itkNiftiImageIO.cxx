@@ -2221,9 +2221,16 @@ NiftiImageIO ::Write(const void * buffer)
     // Need a const cast here so that we don't have to copy the memory
     // for writing.
     this->m_NiftiImage->data = const_cast<void *>(buffer);
-    nifti_image_write(this->m_NiftiImage);
-    this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
-    // nifti_image_free will try and free this memory
+    const int nifti_write_status = nifti_image_write_status(this->m_NiftiImage);
+    this->m_NiftiImage->data = nullptr; // Must free before throwing exception.
+                                        // if left pointing to data buffer
+                                        // nifti_image_free inside Destructor of ITKNiftiIO
+                                        // will try and free this memory, and then
+                                        // so will destructor of the image that really owns it.
+    if (nifti_write_status)
+    {
+      itkExceptionMacro(<< "ERROR: nifti library failed to write image" << this->GetFileName());
+    }
   }
   else /// Image intent is vector image
   {
@@ -2301,8 +2308,13 @@ NiftiImageIO ::Write(const void * buffer)
     // Need a const cast here so that we don't have to copy the memory for
     // writing.
     this->m_NiftiImage->data = static_cast<void *>(nifti_buf);
-    nifti_image_write(this->m_NiftiImage);
+    const int nifti_write_status = nifti_image_write_status(this->m_NiftiImage);
     this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
+    if (nifti_write_status)
+    {
+      itkExceptionMacro(<< "ERROR: nifti library failed to write image" << this->GetFileName());
+    }
+
     delete[] nifti_buf;
   }
 }
