@@ -103,6 +103,27 @@ public:
       std::cerr << "Exception Object caught: " << std::endl << err << std::endl;
       throw;
     }
+
+    // Test if writing to an invalid location causes exception to be thrown:
+    const std::string bad_root_path{ "/a_blatantly_obvious/bad_file_path/that/should/never/exist/on/the/computer/" };
+    const std::string bad_filename{ bad_root_path + filename };
+    try
+    {
+      writer->SetFileName(bad_filename);
+      writer->Update();
+    }
+    catch (const itk::ExceptionObject & err)
+    {
+      // This is the correct behavior
+      std::cout << "Correctly caught exception for attempting to write to an invalid file." << std::endl;
+      return;
+    }
+    catch (...)
+    {
+      itkGenericExceptionMacro(<< "IO library exception not converted to an itk::ExceptionObject.");
+    }
+    itkGenericExceptionMacro(<< "Invalid file writing path did not throw an exception: " << bad_filename << " with "
+                             << imageio->GetNameOfClass());
   }
 
   //
