@@ -903,6 +903,11 @@ HDF5ImageIO ::ReadImageInformation()
   {
     itkExceptionMacro(<< error.getCDetailMsg());
   }
+  catch (...)
+  {
+    itkExceptionMacro(<< "Unspecified error occured during ReadImageInformation " << this->GetFileName() << " with "
+                      << this->GetNameOfClass());
+  }
 }
 
 void
@@ -1246,6 +1251,11 @@ HDF5ImageIO ::WriteImageInformation()
   {
     itkExceptionMacro(<< error.getCDetailMsg());
   }
+  catch (...)
+  {
+    itkExceptionMacro(<< "Unspecified error occured during WriteImageInformation: " << this->GetFileName() << " with "
+                      << this->GetNameOfClass());
+  }
   //
   // only write image information once.
   this->m_ImageInformationWritten = true;
@@ -1300,6 +1310,11 @@ HDF5ImageIO ::Write(const void * buffer)
   catch (const H5::DataTypeIException & error)
   {
     itkExceptionMacro(<< error.getCDetailMsg());
+  }
+  catch (...)
+  {
+    itkExceptionMacro(<< "Unspecified error occured during Write: " << this->GetFileName() << " with "
+                      << this->GetNameOfClass());
   }
 }
 
