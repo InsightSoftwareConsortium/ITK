@@ -203,10 +203,15 @@ private:
   void
   SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpace);
 
+  /* A convenience function to ensure that the
+   * state of the HDF5ImageIO object is returned
+   * to a state similar to constructing a new
+   * object.  This is needed to ensure that
+   * an HDF5ImageIO object can be used multiple
+   * times to read/write many images.
+   */
   void
-  CloseH5File();
-  void
-  CloseDataSet();
+  ResetToInitialState();
 
   H5::H5File *  m_H5File{ nullptr };
   H5::DataSet * m_VoxelDataSet{ nullptr };
