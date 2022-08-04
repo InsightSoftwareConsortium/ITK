@@ -1320,6 +1320,9 @@ HDF5ImageIO ::Write(const void * buffer)
     itkExceptionMacro(<< "Unspecified error occured during Write: " << this->GetFileName() << " with "
                       << this->GetNameOfClass());
   }
+  // TODO: including this line allows the IO object to be re-used multiple times for writing, but
+  // but causes the streaming tests for HDF5ImageIO to fail.
+  // this->ResetToInitialState();
 }
 
 //

@@ -79,12 +79,13 @@ public:
              const std::string &           filename,
              typename ImageIOType::Pointer imageio = nullptr)
   {
-    if (imageio.IsNull())
-    {
-      imageio = ImageIOType::New();
-    }
+    const bool create_local_io_object{ imageio.IsNull() };
     using WriterType = itk::ImageFileWriter<ImageType>;
     { // Test valid filename writing
+      if (create_local_io_object)
+      {
+        imageio = ImageIOType::New();
+      }
       auto writer = WriterType::New();
       writer->SetImageIO(imageio);
       writer->SetFileName(filename);
@@ -100,7 +101,10 @@ public:
       }
     }
 
-    { // Test if writing to an invalid location causes exception to be thrown:
+    {                             // Test if writing to an invalid location causes exception to be thrown:
+      imageio = imageio->Clone(); // A new io object is needed because the HDF5 io object is single use.  A new IO
+                                  // object is needed to re-intialize the internal state.
+
       const std::string bad_root_path{ "/a_blatantly_obvious/bad_file_path/that/should/never/exist/on/the/computer/" };
       const std::string bad_filename{ bad_root_path + filename };
       bool              exception_correctly_caught = false;
