@@ -45,8 +45,7 @@ HDF5ImageIO::HDF5ImageIO()
 
 HDF5ImageIO::~HDF5ImageIO()
 {
-  this->CloseDataSet();
-  this->CloseH5File();
+  this->ResetToInitialState();
 }
 
 void
@@ -631,27 +630,33 @@ HDF5ImageIO ::CanReadFile(const char * FileNameToRead)
   return rval;
 }
 
-
 void
-HDF5ImageIO ::CloseH5File()
+HDF5ImageIO ::ResetToInitialState()
 {
-  if (this->m_H5File != nullptr)
+  // close the H5 File
   {
-    this->m_H5File->close();
-    delete this->m_H5File;
-    this->m_H5File = nullptr;
+    if (this->m_H5File != nullptr)
+    {
+      this->m_H5File->close();
+      delete this->m_H5File;
+      this->m_H5File = nullptr;
+    }
   }
-}
 
-void
-HDF5ImageIO ::CloseDataSet()
-{
-  if (this->m_VoxelDataSet != nullptr)
+  // close the dataset
   {
-    m_VoxelDataSet->close();
-    delete m_VoxelDataSet;
-    this->m_VoxelDataSet = nullptr;
+    if (this->m_VoxelDataSet != nullptr)
+    {
+      m_VoxelDataSet->close();
+      delete m_VoxelDataSet;
+      this->m_VoxelDataSet = nullptr;
+    }
   }
+  // Need to reset m_ImageInformationWritten so that
+  // the IO object is returned to
+  // a state similar to constructing
+  // anew.
+  this->m_ImageInformationWritten = false;
 }
 
 void
@@ -659,8 +664,7 @@ HDF5ImageIO ::ReadImageInformation()
 {
   try
   {
-    this->CloseH5File();
-    this->CloseDataSet();
+    this->ResetToInitialState();
     this->m_H5File = new H5::H5File(this->GetFileName(), H5F_ACC_RDONLY);
     this->m_VoxelDataSet = new H5::DataSet();
 
@@ -1008,7 +1012,8 @@ void
 HDF5ImageIO ::WriteImageInformation()
 {
   //
-  // guard so that image information
+  // guard so that image information is only written once
+  // if WriteImageInformation followed by Write
   if (this->m_ImageInformationWritten)
   {
     return;
@@ -1016,8 +1021,7 @@ HDF5ImageIO ::WriteImageInformation()
 
   try
   {
-    this->CloseH5File();
-    this->CloseDataSet();
+    this->ResetToInitialState();
 
     H5::FileAccPropList fapl;
 #if (H5_VERS_MAJOR > 1) || (H5_VERS_MAJOR == 1) && (H5_VERS_MINOR > 10) || \
