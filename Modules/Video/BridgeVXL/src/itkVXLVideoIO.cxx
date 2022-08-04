@@ -497,14 +497,14 @@ VXLVideoIO::SetWriterParameters(TemporalRatioType                  fps,
                                 const std::vector<SizeValueType> & dim,
                                 const char *                       fourCC,
                                 unsigned int                       nChannels,
-                                IOComponentType                    componentType)
+                                IOComponentEnum                    componentType)
 {
   if (this->m_ReaderOpen || this->m_WriterOpen)
   {
     itkExceptionMacro("Can not set the writer's parameters when either reader or writer is already open");
   }
 
-  if (componentType != UCHAR && componentType != UINT)
+  if (componentType != IOComponentEnum::UCHAR && IOComponentEnum::componentType != UINT)
   {
     itkExceptionMacro("VXL IO only supports writing video with pixels of UCHAR and UINT");
   }
