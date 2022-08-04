@@ -3636,9 +3636,12 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_combine_path itk_H5_combine_path
 #define H5_direct_block_blk_free_list itk_H5_direct_block_blk_free_list
 #define H5_ea_native_elmt_blk_free_list itk_H5_ea_native_elmt_blk_free_list
+#define H5_expand_windows_env_vars itk_H5_expand_windows_env_vars
 #define H5_fa_native_elmt_blk_free_list itk_H5_fa_native_elmt_blk_free_list
 #define H5_fa_page_init_blk_free_list itk_H5_fa_page_init_blk_free_list
+#define H5_get_utf16_str itk_H5_get_utf16_str
 #define H5_get_time itk_H5_get_time
+#define H5_get_win32_times itk_H5_get_win32_times
 #define H5_gheap_chunk_blk_free_list itk_H5_gheap_chunk_blk_free_list
 #define H5_haddr_t_reg_free_list itk_H5_haddr_t_reg_free_list
 #define H5_haddr_t_seq_free_list itk_H5_haddr_t_seq_free_list
@@ -3689,9 +3692,16 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5set_free_list_limits itk_H5set_free_list_limits
 #define HDrand itk_HDrand
 #define HDsrand itk_HDsrand
+#define HDvasprintf itk_HDvasprintf
 #define Nflock itk_Nflock
 #define Pflock itk_Pflock
 #define use_locks_env_g itk_use_locks_env_g
+#define Wgettimeofday itk_Wgettimeofday
+#define Wflock itk_Wflock
+#define Wgetlogin itk_Wgetlogin
+#define Wopen_utf8 itk_Wopen_utf8
+#define Wremove_utf8 itk_Wremove_utf8
+#define Wsetenv itk_Wsetenv
 
 #define getConstant itk_getConstant
 #define H5dontAtexit_called itk_H5dontAtexit_called
