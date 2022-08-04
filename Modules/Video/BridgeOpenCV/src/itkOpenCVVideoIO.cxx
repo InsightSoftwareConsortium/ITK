@@ -437,7 +437,7 @@ OpenCVVideoIO::SetWriterParameters(TemporalRatioType                  fps,
                                    const std::vector<SizeValueType> & dim,
                                    const char *                       fourCC,
                                    unsigned int                       nChannels,
-                                   IOComponentType                    componentType)
+                                   IOComponentEnum                    componentType)
 {
   if (this->m_ReaderOpen || this->m_WriterOpen)
   {
@@ -445,7 +445,7 @@ OpenCVVideoIO::SetWriterParameters(TemporalRatioType                  fps,
   }
 
   // Make sure componentType is acceptable (right now we only support char)
-  if (componentType != UCHAR)
+  if (componentType != IOComponentEnum::UCHAR)
   {
     itkExceptionMacro("OpenCV IO only supports writing video with pixels of UCHAR");
   }

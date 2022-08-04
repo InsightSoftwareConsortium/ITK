@@ -168,7 +168,7 @@ public:
                       const std::vector<SizeValueType> & dim,
                       const char *                       fourCC,
                       unsigned int                       nChannels,
-                      IOComponentType                    componentType);
+                      IOComponentEnum                    componentType);
 
 protected:
   OpenCVVideoIO();
