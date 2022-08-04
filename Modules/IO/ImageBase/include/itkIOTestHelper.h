@@ -113,7 +113,7 @@ public:
       {
         writer->Update();
       }
-      catch (const itk::ExceptionObject & err)
+      catch (const itk::ExceptionObject & /* err */)
       {
         // This is the correct behavior
         std::cout << "Correctly caught exception for attempting to write to an invalid file." << std::endl;
