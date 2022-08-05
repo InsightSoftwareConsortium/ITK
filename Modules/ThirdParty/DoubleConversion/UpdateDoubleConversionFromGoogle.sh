@@ -8,7 +8,7 @@ readonly name="DoubleConversion"
 readonly ownership="Google double-conversion Maintainers <floitsch@google.com>"
 readonly subtree="Modules/ThirdParty/DoubleConversion/src/double-conversion"
 readonly repo="https://github.com/google/double-conversion"
-readonly tag="0d3733a4168dd739f45cef8a55718f8b02ee3073"
+readonly tag="master"
 readonly paths="
 double-conversion/*.h
 double-conversion/*.cc
