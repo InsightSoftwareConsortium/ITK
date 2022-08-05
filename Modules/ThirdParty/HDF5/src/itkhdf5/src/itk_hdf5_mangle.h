@@ -3692,7 +3692,6 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5set_free_list_limits itk_H5set_free_list_limits
 #define HDrand itk_HDrand
 #define HDsrand itk_HDsrand
-#define HDvasprintf itk_HDvasprintf
 #define Nflock itk_Nflock
 #define Pflock itk_Pflock
 #define use_locks_env_g itk_use_locks_env_g
