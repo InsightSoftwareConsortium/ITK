@@ -12,7 +12,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: macOS-10.15
+    vmImage: macos-11
   steps:
     - checkout: self
       clean: true
