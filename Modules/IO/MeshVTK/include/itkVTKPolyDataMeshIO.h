@@ -205,11 +205,7 @@ protected:
       if (line.find("POINTS") != std::string::npos)
       {
         /**  Load the point coordinates into the itk::Mesh */
-        SizeValueType numberOfComponents = this->m_NumberOfPoints * this->m_PointDimension;
-        for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
-        {
-          inputFile >> buffer[ii];
-        }
+        Self::ReadComponentsAsASCII(inputFile, buffer, this->m_NumberOfPoints * this->m_PointDimension);
       }
     }
   }
@@ -281,11 +277,8 @@ protected:
         }
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
-        SizeValueType numberOfComponents = this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents;
-        for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
-        {
-          inputFile >> buffer[ii];
-        }
+        Self::ReadComponentsAsASCII(
+          inputFile, buffer, this->m_NumberOfPointPixels * this->m_NumberOfPointPixelComponents);
       }
     }
   }
@@ -376,11 +369,8 @@ protected:
         }
 
         /** for VECTORS or NORMALS or TENSORS, we could read them directly */
-        SizeValueType numberOfComponents = this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents;
-        for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
-        {
-          inputFile >> buffer[ii];
-        }
+        Self::ReadComponentsAsASCII(
+          inputFile, buffer, this->m_NumberOfCellPixels * this->m_NumberOfCellPixelComponents);
       }
     }
   }
@@ -1150,6 +1140,30 @@ protected:
   /** Convenience method returns the IOComponentEnum corresponding to a string. */
   IOComponentEnum
   GetComponentTypeFromString(const std::string & pointType);
+
+private:
+  /** Reads the specified number of components from the specified input file into the specified buffer.
+   * \note This member function is overloaded for `float` and `double`, in order to support reading infinity and NaN
+   * values.
+   */
+  template <typename T>
+  static void
+  ReadComponentsAsASCII(std::ifstream & inputFile, T * const buffer, const SizeValueType numberOfComponents)
+  {
+    for (SizeValueType i = 0; i < numberOfComponents; ++i)
+    {
+      if (!(inputFile >> buffer[i]))
+      {
+        itkGenericExceptionMacro("Failed to read a component from the specified ASCII input file!");
+      }
+    }
+  }
+
+  static void
+  ReadComponentsAsASCII(std::ifstream & inputFile, float * const buffer, const SizeValueType numberOfComponents);
+
+  static void
+  ReadComponentsAsASCII(std::ifstream & inputFile, double * const buffer, const SizeValueType numberOfComponents);
 };
 } // end namespace itk
 

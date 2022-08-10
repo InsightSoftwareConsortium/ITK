@@ -19,10 +19,69 @@
 #include "itkVTKPolyDataMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
+
+#include <double-conversion/string-to-double.h>
+
 #include <fstream>
+#include <limits>
 
 namespace itk
 {
+
+namespace
+{
+template <typename TFloatingPoint>
+void
+ReadFloatingPointsAsASCII(std::ifstream &        inputFile,
+                          TFloatingPoint * const buffer,
+                          const SizeValueType    numberOfFloatingPoints)
+{
+  std::string str;
+
+  for (SizeValueType i = 0; i < numberOfFloatingPoints; ++i)
+  {
+    buffer[i] = [&str, &inputFile] {
+      if (inputFile >> str)
+      {
+        using NumericLimits = std::numeric_limits<TFloatingPoint>;
+
+        if ((str == "NaN") || (str == "nan"))
+        {
+          return NumericLimits::quiet_NaN();
+        }
+        if (str == "Infinity")
+        {
+          return NumericLimits::infinity();
+        }
+        if (str == "-Infinity")
+        {
+          return -NumericLimits::infinity();
+        }
+        const auto numberOfChars = str.size();
+
+        if (numberOfChars <= std::numeric_limits<int>::max())
+        {
+          constexpr auto                                   double_NaN = std::numeric_limits<double>::quiet_NaN();
+          int                                              processedCharCount{ 0 };
+          const double_conversion::StringToDoubleConverter converter(0, double_NaN, double_NaN, "inf", "nan");
+          const auto                                       conversionResult =
+            converter.StringTo<TFloatingPoint>(str.c_str(), static_cast<int>(numberOfChars), &processedCharCount);
+
+          if (processedCharCount == static_cast<int>(numberOfChars) && !std::isnan(conversionResult))
+          {
+            return conversionResult;
+          }
+        }
+      }
+      itkGenericExceptionMacro("Failed to read a floating point component from the specified ASCII input file!"
+                               << (str.empty() ? "" : (" Read characters: \"" + str + "\"")));
+    }();
+  }
+}
+
+} // namespace
+
+
 // Constructor
 VTKPolyDataMeshIO ::VTKPolyDataMeshIO()
 {
@@ -1584,4 +1643,21 @@ VTKPolyDataMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
     os << indent << "cellTensorDataName : " << dataName << std::endl;
   }
 }
+
+void
+VTKPolyDataMeshIO::ReadComponentsAsASCII(std::ifstream &     inputFile,
+                                         float * const       buffer,
+                                         const SizeValueType numberOfComponents)
+{
+  ReadFloatingPointsAsASCII(inputFile, buffer, numberOfComponents);
+}
+
+void
+VTKPolyDataMeshIO::ReadComponentsAsASCII(std::ifstream &     inputFile,
+                                         double * const      buffer,
+                                         const SizeValueType numberOfComponents)
+{
+  ReadFloatingPointsAsASCII(inputFile, buffer, numberOfComponents);
+}
+
 } // end of namespace itk
