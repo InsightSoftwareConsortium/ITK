@@ -78,3 +78,9 @@ itk_add_test(NAME itkVTKPolyDataMeshIOTestInOutBinary
       ${ITK_TEST_OUTPUT_DIR}/binary2binaryvtk2mhaHeadMRVolume.mha
       0 1 1 1 1 72 72 2 2 1 1
 )
+
+set(ITKIOMeshVTKGTests
+  itkVTKPolyDataMeshIOGTest.cxx
+)
+
+CreateGoogleTestDriver(ITKIOMeshVTK "${ITKIOMeshVTK-Test_LIBRARIES}" "${ITKIOMeshVTKGTests}")
