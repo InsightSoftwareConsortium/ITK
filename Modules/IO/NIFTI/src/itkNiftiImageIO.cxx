@@ -2310,12 +2310,11 @@ NiftiImageIO ::Write(const void * buffer)
     this->m_NiftiImage->data = static_cast<void *>(nifti_buf);
     const int nifti_write_status = nifti_image_write_status(this->m_NiftiImage);
     this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
+    delete[] nifti_buf;
     if (nifti_write_status)
     {
       itkExceptionMacro(<< "ERROR: nifti library failed to write image" << this->GetFileName());
     }
-
-    delete[] nifti_buf;
   }
 }
 
