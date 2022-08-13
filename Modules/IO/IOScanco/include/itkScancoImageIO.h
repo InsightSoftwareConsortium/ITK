@@ -156,6 +156,30 @@ public:
     this->Modified();
   }
 
+  const char *
+  GetCalibrationData() const
+  {
+    return this->m_CalibrationData;
+  }
+  void
+  SetCalibrationData(const char * calibrationData)
+  {
+    strncpy(this->m_CalibrationData, calibrationData, 66);
+    this->Modified();
+  }
+
+  const char *
+  GetRescaleUnits() const
+  {
+    return this->m_RescaleUnits;
+  }
+  void
+  SetRescaleUnits(const char * rescaleUnits)
+  {
+    strncpy(this->m_RescaleUnits, rescaleUnits, 18);
+    this->Modified();
+  }
+
   itkGetConstMacro(PatientIndex, int);
   itkSetMacro(PatientIndex, int);
 
@@ -186,6 +210,18 @@ public:
 
   itkGetConstMacro(MuScaling, double);
   itkSetMacro(MuScaling, double);
+
+  itkGetConstMacro(MuWater, double);
+  itkSetMacro(MuWater, double);
+
+  itkGetConstMacro(RescaleType, int);
+  itkSetMacro(RescaleType, int);
+
+  itkGetConstMacro(RescaleSlope, double);
+  itkSetMacro(RescaleSlope, double);
+
+  itkGetConstMacro(RescaleIntercept, double);
+  itkSetMacro(RescaleIntercept, double);
 
   itkGetConstMacro(NumberOfSamples, int);
   itkSetMacro(NumberOfSamples, int);
