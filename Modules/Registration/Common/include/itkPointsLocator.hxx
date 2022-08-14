@@ -67,22 +67,6 @@ PointsLocator<TPointsContainer>::FindClosestPoint(const PointType & query) const
   return identifiers[0];
 }
 
-template <typename TPointsContainer>
-void
-PointsLocator<TPointsContainer>::Search(const PointType &         query,
-                                        unsigned int              numberOfNeighborsRequested,
-                                        NeighborsIdentifierType & identifiers) const
-{
-  unsigned int N = numberOfNeighborsRequested;
-  if (N > this->m_Points->Size())
-  {
-    N = this->m_Points->Size();
-
-    itkWarningMacro("The number of requested neighbors is greater than the "
-                    << "total number of points.  Only returning " << N << " points.");
-  }
-  this->m_Tree->Search(query, N, identifiers);
-}
 
 template <typename TPointsContainer>
 void
@@ -103,11 +87,20 @@ PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType &         qu
 
 template <typename TPointsContainer>
 void
-PointsLocator<TPointsContainer>::Search(const PointType &         query,
-                                        double                    radius,
-                                        NeighborsIdentifierType & identifiers) const
+PointsLocator<TPointsContainer>::FindClosestNPoints(const PointType &         query,
+                                                    unsigned int              numberOfNeighborsRequested,
+                                                    NeighborsIdentifierType & identifiers,
+                                                    std::vector<double> &     distances) const
 {
-  this->m_Tree->Search(query, radius, identifiers);
+  unsigned int N = numberOfNeighborsRequested;
+  if (N > this->m_Points->Size())
+  {
+    N = this->m_Points->Size();
+
+    itkWarningMacro("The number of requested neighbors is greater than the "
+                    << "total number of points.  Only returning " << N << " points.");
+  }
+  this->m_Tree->Search(query, N, identifiers, distances);
 }
 
 template <typename TPointsContainer>
