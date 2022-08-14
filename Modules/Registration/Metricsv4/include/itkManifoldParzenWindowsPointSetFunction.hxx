@@ -89,7 +89,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::SetInputPo
         Cout.Fill(0);
 
         typename PointsLocatorType::NeighborsIdentifierType neighbors;
-        this->m_PointsLocator->Search(point, this->m_CovarianceKNeighborhood, neighbors);
+        this->m_PointsLocator->FindClosestNPoints(point, this->m_CovarianceKNeighborhood, neighbors);
 
         CompensatedSummation<RealType> denominator;
         for (unsigned int j = 0; j < this->m_CovarianceKNeighborhood; ++j)
@@ -166,7 +166,7 @@ ManifoldParzenWindowsPointSetFunction<TPointSet, TOutput, TCoordRep>::Evaluate(c
   else
   {
     typename PointsLocatorType::NeighborsIdentifierType neighbors;
-    this->m_PointsLocator->Search(point, numberOfNeighbors, neighbors);
+    this->m_PointsLocator->FindClosestNPoints(point, numberOfNeighbors, neighbors);
 
     for (unsigned int j = 0; j < numberOfNeighbors; ++j)
     {

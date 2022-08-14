@@ -95,17 +95,13 @@ public:
   PointIdentifier
   FindClosestPoint(const PointType & query) const;
 
-  /** Find the k-nearest neighbors.  Returns the point ids. */
-  void
-  Search(const PointType &, unsigned int, NeighborsIdentifierType &) const;
-
   /** Find the closest N points.  Returns the point ids. */
   void
   FindClosestNPoints(const PointType &, unsigned int, NeighborsIdentifierType &) const;
 
-  /** Find all the points within a specified radius.  Returns the point ids. */
+  /** Find the closest N points.  Returns the point ids and save the distances */
   void
-  Search(const PointType &, double, NeighborsIdentifierType &) const;
+  FindClosestNPoints(const PointType &, unsigned int, NeighborsIdentifierType &, std::vector<double> &) const;
 
   /** Find all the points within a specified radius.  Returns the point ids. */
   void
