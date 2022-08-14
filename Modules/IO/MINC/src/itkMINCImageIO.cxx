@@ -26,6 +26,37 @@
 
 #include "itk_minc2.h"
 
+extern "C"
+{
+  void
+  MINCIOFreeTmpDimHandle(unsigned int size, midimhandle_t * ptr)
+  {
+    int          error = 0;
+    unsigned int x = 0;
+    if (!ptr)
+    {
+      /*
+       * Should never happen.
+       */
+#ifndef NDEBUG
+      printf("MINCIOFreeTmpDimHandle: ptr is null pointer");
+#endif
+      return;
+    }
+    for (; x < size; ++x)
+    {
+      error = mifree_dimension_handle(ptr[x]);
+#ifndef NDEBUG
+      if (error != MI_NOERROR)
+      {
+        printf("MINCIOFreeTmpDimHandle: mifree_dimension_handle(ptr[%u]) returned %d", x, error);
+      }
+#else
+      (void)error;
+#endif
+    }
+  }
+}
 
 namespace itk
 {
@@ -955,6 +986,7 @@ MINCImageIO::WriteImageInformation()
 
   if (nDims > 3)
   {
+    MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
     itkExceptionMacro(<< "Unfortunately, only up to 3D volume are supported now.");
   }
 
@@ -1038,6 +1070,7 @@ MINCImageIO::WriteImageInformation()
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_DOUBLE;
       break;
     default:
+      MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
       itkExceptionMacro(<< "Could read datatype " << this->GetComponentType());
   }
 
@@ -1165,6 +1198,7 @@ MINCImageIO::WriteImageInformation()
   mivolumeprops_t hprops;
   if (minew_volume_props(&hprops) < 0)
   {
+    MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
     itkExceptionMacro(<< "Could not allocate MINC properties");
   }
 
@@ -1172,11 +1206,15 @@ MINCImageIO::WriteImageInformation()
   {
     if (miset_props_compression_type(hprops, MI_COMPRESS_ZLIB) < 0)
     {
+      MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
+      mifree_volume_props(hprops);
       itkExceptionMacro(<< "Could not set MINC compression");
     }
 
     if (miset_props_zlib_compression(hprops, this->GetCompressionLevel()) < 0)
     {
+      MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
+      mifree_volume_props(hprops);
       itkExceptionMacro(<< "Could not set MINC compression level");
     }
   }
@@ -1184,6 +1222,8 @@ MINCImageIO::WriteImageInformation()
   {
     if (miset_props_compression_type(hprops, MI_COMPRESS_NONE) < 0)
     {
+      MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
+      mifree_volume_props(hprops);
       itkExceptionMacro(<< "Could not set MINC compression");
     }
   }
@@ -1197,23 +1237,28 @@ MINCImageIO::WriteImageInformation()
                       &this->m_MINCPImpl->m_Volume) < 0)
   {
     // Error opening the volume
+    MINCIOFreeTmpDimHandle(minc_dimensions, this->m_MINCPImpl->m_MincApparentDims);
+    mifree_volume_props(hprops);
     itkExceptionMacro(<< "Could not open file \"" << m_FileName.c_str() << "\".");
   }
 
   if (micreate_volume_image(this->m_MINCPImpl->m_Volume) < 0)
   {
     // Error opening the volume
+    mifree_volume_props(hprops);
     itkExceptionMacro(<< "Could not create image in  file \"" << m_FileName.c_str() << "\".");
   }
 
   if (miset_apparent_dimension_order(
         this->m_MINCPImpl->m_Volume, minc_dimensions, this->m_MINCPImpl->m_MincApparentDims) < 0)
   {
+    mifree_volume_props(hprops);
     itkExceptionMacro(<< " Can't set apparent dimension order!");
   }
 
   if (miset_slice_scaling_flag(this->m_MINCPImpl->m_Volume, 0) < 0)
   {
+    mifree_volume_props(hprops);
     itkExceptionMacro(<< "Could not set slice scaling flag");
   }
 
@@ -1396,7 +1441,17 @@ MINCImageIO::Write(const void * buffer)
       delete[] count;
       itkExceptionMacro(<< "Could not read datatype " << this->GetComponentType());
   }
-  this->WriteImageInformation();
+
+  try
+  {
+    this->WriteImageInformation();
+  }
+  catch (const itk::ExceptionObject &)
+  {
+    delete[] start;
+    delete[] count;
+    throw;
+  }
 
   // by default valid range will be equal to range, to avoid scaling
   if (volume_data_type == this->m_MINCPImpl->m_Volume_type)
