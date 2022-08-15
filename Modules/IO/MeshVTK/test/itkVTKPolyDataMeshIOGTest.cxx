@@ -33,6 +33,15 @@
 
 namespace
 {
+template <unsigned int VDimension>
+auto
+MakePointOfIncreasingCoordValues()
+{
+  itk::Point<float, VDimension> point;
+  std::iota(point.begin(), point.end(), 1.0f);
+  return point;
+}
+
 
 // Expects that VTKPolyDataMeshIO supports writing points, and then reading them back losslessly. (When a NaN coordinate
 // value is written, a NaN coordinate value is expected to be read back.)
@@ -160,5 +169,20 @@ TEST(VTKPolyDataMeshIO, SupportWriteAndReadOfNaNCoordValues)
       "VTKPolyDataMeshIOGTest_SupportWriteAndReadOfNaNCoordValues.vtk",
       { itk::MakeFilled<PointType>(std::numeric_limits<CoordRepType>::quiet_NaN()) },
       writeAsBinary);
+  }
+}
+
+
+// Tests that a mesh of any `PointDimension` > 1 is properly written and read back, not just 3D (the default).
+TEST(VTKPolyDataMeshIO, SupportsPointDimensionsGreaterThanOne)
+{
+  for (const bool writeAsBinary : { false, true })
+  {
+    Expect_lossless_writing_and_reading_of_points<itk::Mesh<int, 2>>(
+      "VTKPolyDataMeshIOGTest_Supports2D.vtk", { MakePointOfIncreasingCoordValues<2>() }, writeAsBinary);
+    Expect_lossless_writing_and_reading_of_points<itk::Mesh<int, 3>>(
+      "VTKPolyDataMeshIOGTest_Supports3D.vtk", { MakePointOfIncreasingCoordValues<3>() }, writeAsBinary);
+    Expect_lossless_writing_and_reading_of_points<itk::Mesh<int, 4>>(
+      "VTKPolyDataMeshIOGTest_Supports4D.vtk", { MakePointOfIncreasingCoordValues<4>() }, writeAsBinary);
   }
 }
