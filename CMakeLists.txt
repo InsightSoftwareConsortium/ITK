@@ -18,7 +18,7 @@ cmake_minimum_required(VERSION ${ITK_OLDEST_VALIDATED_POLICIES_VERSION}...${ITK_
 # Now enumerate specific policies newer than ITK_NEWEST_VALIDATED_POLICIES_VERSION
 # that may need to be individually set to NEW/OLD
 #
-foreach(pnew "CMP0120")
+foreach(pnew "CMP0120" "CMP0135")
   if(POLICY ${pnew})
     cmake_policy(SET ${pnew} NEW)
   endif()
