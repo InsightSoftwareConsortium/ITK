@@ -14,7 +14,7 @@ set(HDF5_INSTALL_INCLUDE_DIR ${ITKHDF5_INSTALL_INCLUDE_DIR}/itkhdf5)
 # Configure HDF5 privately so its options do not appear to the user.
 set(HDF5_ALLOW_EXTERNAL_SUPPORT OFF CACHE INTERNAL "Allow External Library Building")
 set(HDF5_BUILD_CPP_LIB ON CACHE INTERNAL "Build HDF5 C++ Library")
-set(HDF5_BUILD_HL_LIB OFF CACHE INTERNAL "Build HIGH Level HDF5 Library")
+set(HDF5_BUILD_HL_LIB ON CACHE INTERNAL "Build High Level HDF5 Library")
 set(HDF5_DISABLE_COMPILER_WARNINGS OFF CACHE INTERNAL "Disable HDF5 warnings")
 set(HDF5_ENABLE_CODESTACK OFF CACHE INTERNAL "Enable the function stack tracing (for developer debugging).")
 set(HDF5_ENABLE_COVERAGE OFF CACHE INTERNAL "Enable code coverage for Libraries and Programs")
@@ -101,6 +101,7 @@ endif()
 foreach(lib
     hdf5
     hdf5_cpp
+    hdf5_hl
     )
   itk_module_target(${lib}${target_extension} NO_INSTALL)
 endforeach()
