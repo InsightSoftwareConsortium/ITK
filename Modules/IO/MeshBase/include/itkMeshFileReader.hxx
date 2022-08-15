@@ -524,6 +524,8 @@ template <typename TOutputMesh, typename ConvertPointPixelTraits, typename Conve
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::GenerateData()
 {
+  m_MeshIO->SetPointDimension(OutputPointDimension);
+
   typename TOutputMesh::Pointer output = this->GetOutput();
 
   // Test if the file exists and if it can be opened.
