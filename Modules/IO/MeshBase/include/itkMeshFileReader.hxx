@@ -559,106 +559,67 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
     {
       case IOComponentEnum::CHAR:
       {
-        auto * pointsBuffer = new char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<char>();
         break;
       }
       case IOComponentEnum::UCHAR:
       {
-        auto * pointsBuffer = new unsigned char[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<unsigned char>();
         break;
       }
       case IOComponentEnum::SHORT:
       {
-        auto * pointsBuffer = new short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<short>();
         break;
       }
       case IOComponentEnum::USHORT:
       {
-        auto * pointsBuffer = new unsigned short[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<unsigned short>();
         break;
       }
       case IOComponentEnum::INT:
       {
-        auto * pointsBuffer = new int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<int>();
         break;
       }
       case IOComponentEnum::UINT:
       {
-        auto * pointsBuffer = new unsigned int[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<unsigned int>();
         break;
       }
       case IOComponentEnum::LONG:
       {
-        auto * pointsBuffer = new long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<long>();
         break;
       }
       case IOComponentEnum::ULONG:
       {
-        auto * pointsBuffer = new unsigned long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<unsigned long>();
         break;
       }
       case IOComponentEnum::LONGLONG:
       {
-        auto * pointsBuffer = new long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<long long>();
         break;
       }
       case IOComponentEnum::ULONGLONG:
       {
-        auto * pointsBuffer = new unsigned long long[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<unsigned long long>();
         break;
       }
       case IOComponentEnum::FLOAT:
       {
-        auto * pointsBuffer = new float[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<float>();
         break;
       }
       case IOComponentEnum::DOUBLE:
       {
-        auto * pointsBuffer = new double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<double>();
         break;
       }
       case IOComponentEnum::LDOUBLE:
       {
-        auto * pointsBuffer = new long double[m_MeshIO->GetNumberOfPoints() * OutputPointDimension];
-        m_MeshIO->ReadPoints(static_cast<void *>(pointsBuffer));
-        ReadPoints(pointsBuffer);
-        delete[] pointsBuffer;
+        Self::ReadPointsUsingMeshIO<long double>();
         break;
       }
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
@@ -676,106 +637,67 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
     {
       case IOComponentEnum::CHAR:
       {
-        auto * cellsBuffer = new char[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<char>();
         break;
       }
       case IOComponentEnum::UCHAR:
       {
-        auto * cellsBuffer = new unsigned char[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<unsigned char>();
         break;
       }
       case IOComponentEnum::SHORT:
       {
-        auto * cellsBuffer = new short[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<short>();
         break;
       }
       case IOComponentEnum::USHORT:
       {
-        auto * cellsBuffer = new unsigned short[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<unsigned short>();
         break;
       }
       case IOComponentEnum::INT:
       {
-        auto * cellsBuffer = new int[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<int>();
         break;
       }
       case IOComponentEnum::UINT:
       {
-        auto * cellsBuffer = new unsigned int[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<unsigned int>();
         break;
       }
       case IOComponentEnum::LONG:
       {
-        auto * cellsBuffer = new long[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<long>();
         break;
       }
       case IOComponentEnum::ULONG:
       {
-        auto * cellsBuffer = new unsigned long[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<unsigned long>();
         break;
       }
       case IOComponentEnum::LONGLONG:
       {
-        auto * cellsBuffer = new long long[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<long long>();
         break;
       }
       case IOComponentEnum::ULONGLONG:
       {
-        auto * cellsBuffer = new unsigned long long[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<unsigned long long>();
         break;
       }
       case IOComponentEnum::FLOAT:
       {
-        auto * cellsBuffer = new float[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<float>();
         break;
       }
       case IOComponentEnum::DOUBLE:
       {
-        auto * cellsBuffer = new double[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<double>();
         break;
       }
       case IOComponentEnum::LDOUBLE:
       {
-        auto * cellsBuffer = new long double[m_MeshIO->GetCellBufferSize()];
-        m_MeshIO->ReadCells(static_cast<void *>(cellsBuffer));
-        ReadCells(cellsBuffer);
-        delete[] cellsBuffer;
+        Self::ReadCellsUsingMeshIO<long double>();
         break;
       }
       case IOComponentEnum::UNKNOWNCOMPONENTTYPE:
@@ -940,5 +862,29 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Co
   }
 #undef ITK_CONVERT_CELL_PIXEL_BUFFER_IF_BLOCK
 }
+
+
+template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>
+template <typename T>
+void
+MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadPointsUsingMeshIO()
+{
+  const std::unique_ptr<T[]> buffer(new T[m_MeshIO->GetNumberOfPoints() * OutputPointDimension]);
+  m_MeshIO->ReadPoints(buffer.get());
+  Self::ReadPoints(buffer.get());
+}
+
+
+template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>
+template <typename T>
+void
+MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadCellsUsingMeshIO()
+{
+  const std::unique_ptr<T[]> buffer(new T[m_MeshIO->GetCellBufferSize()]);
+  m_MeshIO->ReadCells(buffer.get());
+  Self::ReadCells(buffer.get());
+}
+
+
 } // namespace itk
 #endif

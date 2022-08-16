@@ -187,6 +187,14 @@ protected:
   std::string m_FileName;                    // The file to be read
 
 private:
+  template <typename T>
+  void
+  ReadPointsUsingMeshIO();
+
+  template <typename T>
+  void
+  ReadCellsUsingMeshIO();
+
   std::string m_ExceptionMessage;
 };
 
