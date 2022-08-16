@@ -118,6 +118,13 @@ class TestNumpyVnlMemoryviewInterface(unittest.TestCase):
                 else:
                     diff += abs(m3.get(ii, jj))
         self.assertEqual(0, diff)
+        # Check instantiations for more combinations of Matrix
+        for i in range(3, 5):
+            for j in range(3, 5):
+                itkm_f = itk.Matrix[itk.F, i, j]()
+                m3 = itkm_f.GetVnlMatrix()
+                itkm_d = itk.Matrix[itk.D, i, j]()
+                m3 = itkm_d.GetVnlMatrix()
 
 
 if __name__ == "__main__":
