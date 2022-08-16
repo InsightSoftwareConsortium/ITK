@@ -1913,22 +1913,25 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
           vnl_matrix_fixed<float, 3, 3> rotation = sto_xyz.extract(3, 3, 0, 0);
           {
             // Ensure that the scales are approximately the same for spacing directions
-            vnl_vector_fixed<float, 3> scale;
-            scale[0] = rotation.get_column(0).magnitude();
+            bool            sform_scales_ok{ true };
             constexpr float large_value_tolerance = 1e-3; // Numerical precision of sform is not very good
-            if (itk::Math::abs(this->m_NiftiImage->dx - scale[0]) > large_value_tolerance)
+            if (itk::Math::abs(this->m_NiftiImage->dx - rotation.get_column(0).magnitude()) > large_value_tolerance)
             {
-              return false;
+              sform_scales_ok = false;
             }
-            scale[1] = rotation.get_column(1).magnitude();
-            if (itk::Math::abs(this->m_NiftiImage->dy - scale[1]) > large_value_tolerance)
+            else if (itk::Math::abs(this->m_NiftiImage->dy - rotation.get_column(1).magnitude()) >
+                     large_value_tolerance)
             {
-              return false;
+              sform_scales_ok = false;
             }
-            scale[2] = rotation.get_column(2).magnitude();
-            if (itk::Math::abs(this->m_NiftiImage->dz - scale[2]) > large_value_tolerance)
+            else if (itk::Math::abs(this->m_NiftiImage->dz - rotation.get_column(2).magnitude()) >
+                     large_value_tolerance)
             {
-              return false;
+              sform_scales_ok = false;
+            }
+            if (!sform_scales_ok)
+            {
+              itkWarningMacro(<< this->GetFileName() << " has unexpected scales in sform");
             }
           }
           // Remove scale from columns
