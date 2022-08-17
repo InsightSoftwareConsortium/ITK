@@ -12,7 +12,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-20.04
   steps:
     - checkout: self
       clean: true
@@ -30,7 +30,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y python3-venv
         sudo python3 -m pip install --upgrade setuptools
-        sudo python3 -m pip install scikit-ci-addons
+        sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
     - bash: |
@@ -85,7 +85,7 @@ jobs:
   timeoutInMinutes: 0
   cancelTimeoutInMinutes: 300
   pool:
-    vmImage: ubuntu-18.04
+    vmImage: ubuntu-20.04
   steps:
     - checkout: self
       clean: true
@@ -103,7 +103,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install -y python3-venv
         sudo python3 -m pip install --upgrade setuptools
-        sudo python3 -m pip install scikit-ci-addons
+        sudo python3 -m pip install lxml scikit-ci-addons
       displayName: 'Install dependencies'
 
     - bash: |
