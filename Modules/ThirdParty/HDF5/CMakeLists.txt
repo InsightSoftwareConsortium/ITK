@@ -41,23 +41,23 @@ endif()
 
   if(BUILD_SHARED_LIBS)
     if (TARGET hdf5-shared)
-      set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared)
+      set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared hdf5_hl-shared)
     elseif(TARGET hdf5::hdf5-shared)
-      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp-shared hdf5::hdf5-shared)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp-shared hdf5::hdf5-shared hdf5::hdf5_hl-shared)
     elseif(TARGET hdf5::hdf5)
-      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp hdf5::hdf5)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp hdf5::hdf5 hdf5::hdf5_hl)
     else()
-      set(ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY} ${HDF5_CXX_LIBRARY_NAMES} ${HDF5_LIBRARIES})
+      set(ITKHDF5_LIBRARIES ${HDF5_C_SHARED_LIBRARY} ${HDF5_CXX_SHARED_LIBRARY} ${HDF5_CXX_LIBRARY_NAMES} ${HDF5_HL_SHARED_LIBRARY} ${HDF5_LIBRARIES})
     endif()
   else()
     if (TARGET hdf5-static)
-      set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static)
+      set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static hdf5_hl-static)
     elseif(TARGET hdf5::hdf5-static)
-      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp-static hdf5::hdf5-static)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp-static hdf5::hdf5-static hdf5::hdf5_hl-static)
     elseif(TARGET hdf5::hdf5)
-      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp hdf5::hdf5)
+      set(ITKHDF5_LIBRARIES hdf5::hdf5_cpp hdf5::hdf5 hdf5::hdf5_hl)
     else()
-      set(ITKHDF5_LIBRARIES ${HDF5_C_STATIC_LIBRARY} ${HDF5_CXX_STATIC_LIBRARY} ${HDF5_CXX_LIBRARY_NAMES} ${HDF5_LIBRARIES})
+      set(ITKHDF5_LIBRARIES ${HDF5_C_STATIC_LIBRARY} ${HDF5_CXX_STATIC_LIBRARY} ${HDF5_CXX_LIBRARY_NAMES} ${HDF5_HL_STATIC_LIBRARY} ${HDF5_LIBRARIES})
     endif()
   endif()
 
@@ -66,7 +66,7 @@ endif()
   )
   set(ITKHDF5_SYSTEM_INCLUDE_DIRS
     ${HDF5_INCLUDE_DIR}
-    ${HDF5_INCLUDE_DIR_CPP}
+    ${HDF5_INCLUDE_DIR_HL}
     ${HDF5_INCLUDE_DIRS}
     ${HDF5_INCLUDE_DIR_CPP}
     )
@@ -75,12 +75,16 @@ endif()
 else()
   set(ITKHDF5_INCLUDE_DIRS
     ${ITKHDF5_SOURCE_DIR}/src
+    ${ITKHDF5_SOURCE_DIR}/src/itkhdf5/src
+    ${ITKHDF5_SOURCE_DIR}/src/itkhdf5/hl/src
     ${ITKHDF5_BINARY_DIR}/src
+    ${ITKHDF5_BINARY_DIR}/src/itkhdf5/src
+    ${ITKHDF5_BINARY_DIR}/src/itkhdf5/hl/src
     )
   if(BUILD_SHARED_LIBS)
-    set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared)
+    set(ITKHDF5_LIBRARIES hdf5_cpp-shared hdf5-shared hdf5_hl-shared)
   else()
-    set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static)
+    set(ITKHDF5_LIBRARIES hdf5_cpp-static hdf5-static hdf5_hl-static)
   endif()
 endif()
 
