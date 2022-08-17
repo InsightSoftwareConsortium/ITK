@@ -48,7 +48,8 @@ CreateTestImage()
 template <typename TTransformInitializer>
 void
 Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandmarks,
-             typename TTransformInitializer::LandmarkPointContainer & movingLandmarks)
+             typename TTransformInitializer::LandmarkPointContainer & movingLandmarks,
+             int                                                      scaleFactor)
 {
   const double nPI = 4.0 * std::atan(1.0);
 
@@ -71,6 +72,11 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandm
   point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
 
+  // Apply the scaling factor to the moving points
+  point[0] = point[0] * scaleFactor;
+  point[1] = point[1] * scaleFactor;
+  point[2] = point[2] * scaleFactor;
+
   tmp = point;
 
   point[0] = std::cos(angle) * point[0] - std::sin(angle) * point[1] + translation[0];
@@ -82,6 +88,11 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandm
   point[1] = -2 + offset[1];
   point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
+
+  // Apply the scaling factor to the moving points
+  point[0] = point[0] * scaleFactor;
+  point[1] = point[1] * scaleFactor;
+  point[2] = point[2] * scaleFactor;
 
   tmp = point;
 
@@ -95,6 +106,11 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandm
   point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
 
+  // Apply the scaling factor to the moving points
+  point[0] = point[0] * scaleFactor;
+  point[1] = point[1] * scaleFactor;
+  point[2] = point[2] * scaleFactor;
+
   tmp = point;
 
   point[0] = std::cos(angle) * point[0] - std::sin(angle) * point[1] + translation[0];
@@ -106,6 +122,11 @@ Init3DPoints(typename TTransformInitializer::LandmarkPointContainer & fixedLandm
   point[1] = -2 + offset[1];
   point[2] = 0 + offset[2];
   fixedLandmarks.push_back(point);
+
+  // Apply the scaling factor to the moving points
+  point[0] = point[0] * scaleFactor;
+  point[1] = point[1] * scaleFactor;
+  point[2] = point[2] * scaleFactor;
 
   tmp = point;
 
@@ -178,7 +199,7 @@ ExecuteAndExamine(typename TransformInitializerType::Pointer                init
 // Returns false if test failed, true if it succeeded
 template <typename TransformType>
 bool
-test1()
+test1(int scaleFactor)
 {
   auto transform = TransformType::New();
   std::cout << "Testing Landmark alignment with " << transform->GetNameOfClass() << std::endl;
@@ -194,7 +215,7 @@ test1()
 
   typename TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   typename TransformInitializerType::LandmarkPointContainer movingLandmarks;
-  Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks);
+  Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks, scaleFactor);
 
   // No landmarks are set, it should throw
   ITK_TRY_EXPECT_EXCEPTION(initializer->InitializeTransform());
@@ -212,9 +233,11 @@ int
 itkLandmarkBasedTransformInitializerTest(int, char *[])
 {
   bool success = true;
-  success &= test1<itk::VersorRigid3DTransform<double>>();
+  // For VersorRigid3DTransform scaleFactor is 1
+  success &= test1<itk::VersorRigid3DTransform<double>>(1);
   // Rigid3DTransform isn't supported by the landmark based initializer
-  // success &= test1<itk::Rigid3DTransform< double > >();
+  // Testing Similarity3DTransform when points scaled by factor 5
+  success &= test1<itk::Similarity3DTransform<double>>(5);
 
   using PixelType = unsigned char;
 
@@ -435,7 +458,7 @@ itkLandmarkBasedTransformInitializerTest(int, char *[])
 
     TransformInitializerType::LandmarkPointContainer fixedLandmarks;
     TransformInitializerType::LandmarkPointContainer movingLandmarks;
-    Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks);
+    Init3DPoints<TransformInitializerType>(fixedLandmarks, movingLandmarks, 1);
 
     constexpr unsigned int numLandmarks = 4;
     double                 weights[numLandmarks] = { 1, 3, 0.01, 0.5 };
