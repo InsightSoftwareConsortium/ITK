@@ -30,4 +30,9 @@ md["double"] = 10.0
 print(md["double"])
 
 # Required for "NRRD_measurement frame"
-itk.MetaDataObject[itk.vector[itk.vector[itk.D]]].New()
+md1 = itk.MetaDataObject[itk.vector[itk.vector[itk.D]]].New()
+print(md1)
+
+# Required for "qto_xyz" metadata
+md2 = itk.MetaDataObject[itk.Matrix[itk.F, 4, 4]].New()
+print(md2)
