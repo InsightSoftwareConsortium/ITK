@@ -38,8 +38,7 @@ LandmarkRegistrationEstimator<dimension>::GetDelta()
 
 template <unsigned int dimension>
 void
-LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension> *> & data,
-                                                   std::vector<double> &                     parameters)
+LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<double> & data, std::vector<double> & parameters)
 {
   unsigned int i, j;
   double       norm;
@@ -69,27 +68,20 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   // first point is arbitrarily chosen to be the
   //"point on plane"
   for (i = 0; i < dimension; i++)
+  {
     parameters.push_back(1);
+  }
 }
-
 
 template <unsigned int dimension>
 void
-LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
-                                                   std::vector<double> &                   parameters)
-{
-  std::vector<Point<double, dimension> *> usedData;
-  int                                     dataSize = data.size();
-  for (int i = 0; i < dataSize; i++)
-    usedData.push_back(&(data[i]));
-  Estimate(usedData, parameters);
-}
-
+LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<double *> & data, std::vector<double> & parameters)
+{}
 
 template <unsigned int dimension>
 void
-LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
-                                                               std::vector<double> &                     parameters)
+LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<double> & data,
+                                                               std::vector<double> & parameters)
 {
   parameters.clear();
   // user forgot to initialize the minimal number of required
@@ -110,28 +102,23 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   }
 }
 
-
 template <unsigned int dimension>
 void
-LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
-                                                               std::vector<double> &                   parameters)
-{
-  std::vector<Point<double, dimension> *> usedData;
-  int                                     dataSize = data.size();
-  for (int i = 0; i < dataSize; i++)
-    usedData.push_back(&(data[i]));
-  LeastSquaresEstimate(usedData, parameters);
-}
-
+LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<double *> & data,
+                                                               std::vector<double> &   parameters)
+{}
 
 template <unsigned int dimension>
 bool
-LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters, Point<double, dimension> & data)
+LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters, double & data)
 {
-  double signedDistance = 0;
-  for (unsigned int i = 0; i < dimension; i++)
-    signedDistance += parameters[i] * (data[i] - parameters[dimension + i]);
-  return ((signedDistance * signedDistance) < this->deltaSquared);
+  return 1 < 0;
+  // double signedDistance = 0;
+  // for (unsigned int i = 0; i < dimension; i++)
+  // {
+  //   signedDistance += parameters[i] * (data[i] - parameters[dimension + i]);
+  // }
+  // return ((signedDistance * signedDistance) < this->deltaSquared);
 }
 
 } // end namespace itk
