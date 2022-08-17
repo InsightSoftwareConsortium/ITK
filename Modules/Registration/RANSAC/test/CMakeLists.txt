@@ -4,6 +4,7 @@ set(
   RansacTests
   itkRansacTest_PlaneEstimation.cxx
   itkRansacTest_SphereEstimation.cxx
+  itkRansacTest_LandmarkRegistration.cxx
 )
 
 createtestdriver(Ransac "${Ransac-Test_LIBRARIES}" "${RansacTests}")
@@ -20,4 +21,11 @@ itk_add_test(
   COMMAND
     RansacTestDriver
     itkRansacTest_SphereEstimation
+)
+
+itk_add_test(
+  NAME itkRansacTest_LandmarkRegistration
+  COMMAND
+    RansacTestDriver
+    itkRansacTest_LandmarkRegistration
 )
