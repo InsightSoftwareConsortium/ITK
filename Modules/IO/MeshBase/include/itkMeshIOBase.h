@@ -802,9 +802,12 @@ protected:
         auto numberOfPoints = static_cast<unsigned int>(input[inputIndex++]);
         if (numberOfPoints > 2 && cellType == CellGeometryEnum::LINE_CELL)
         {
-          cellType = CellGeometryEnum::POLYLINE_CELL;
+          output[outputIndex++] = static_cast<TOutput>(CellGeometryEnum::POLYLINE_CELL);
         }
-        output[outputIndex++] = static_cast<TOutput>(cellType);
+        else
+        {
+          output[outputIndex++] = static_cast<TOutput>(cellType);
+        }
         output[outputIndex++] = static_cast<TOutput>(numberOfPoints);
 
         for (unsigned int jj = 0; jj < numberOfPoints; ++jj)
