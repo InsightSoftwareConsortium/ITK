@@ -8,55 +8,40 @@
 
 template <unsigned int dimension>
 void
-GenerateData(unsigned int          numInliers,
-             unsigned int          numOutliers,
-             double                outlierDistance,
-             std::vector<double> & data,
-             std::vector<double> & planeParameters);
+GenerateData(unsigned int                                 numInliers,
+             unsigned int                                 numOutliers,
+             double                                       outlierDistance,
+             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<double> &                        planeParameters);
 
 
 int
 itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 {
-  const unsigned int DIMENSION = 3;
+  const unsigned int DIMENSION = 6;
   const unsigned int INLIERS = 10;
   const unsigned int OUTLIERS = 0; // 10;
 
   typedef itk::RANSAC<itk::Point<double, 6>, double> RANSACType;
 
-  std::vector<double> data;
-  std::vector<double> truePlaneParameters, planeParameters;
-  double              outlierDistance = 20.0;
-  unsigned int        i;
-  double              dotProduct;
+  std::vector<itk::Point<double, 6>> data;
+  std::vector<double>                truePlaneParameters, transformParameters;
+  double                             outlierDistance = 20.0;
 
   GenerateData<DIMENSION>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
-
-  std::cout << "Known (hyper)plane parameters [n,a]\n\t [ ";
-  for (i = 0; i < (2 * DIMENSION - 1); i++)
-  {
-    std::cout << truePlaneParameters[i] << ", ";
-  }
-  std::cout << truePlaneParameters[i] << "]\n\n";
 
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 0.5;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
   registrationEstimator->SetDelta(maximalDistanceFromPlane);
-  registrationEstimator->LeastSquaresEstimate(data, planeParameters);
+  registrationEstimator->LeastSquaresEstimate(data, transformParameters);
 
-  // if (planeParameters.empty())
-  // {
-  //   std::cout << "Least squares estimate failed, degenerate configuration?\n";
-  // }
-  // else
-  // {
-  //   std::cout << "Least squares hyper(plane) parameters: [n,a]\n\t [ ";
-  //   for (i = 0; i < (2 * DIMENSION - 1); i++)
-  //   {
-  //     std::cout << planeParameters[i] << ", ";
-  //   }
-  //   std::cout << planeParameters[i] << "]\n\n";
+  unsigned int i = 0;
+  for (i = 0; i < transformParameters.size(); i++)
+  {
+    std::cout << transformParameters[i] << ", ";
+  }
+
 
   //   // cos(theta), theta is the angle between the two unit normals
   //   dotProduct = 0.0;
@@ -127,25 +112,28 @@ GenerateData(unsigned int                                 numInliers,
              std::vector<itk::Point<double, dimension>> & data,
              std::vector<double> &                        planeParameters)
 {
+
+  // Read the two point sets that are the putative matches
   using CoordinateType = double;
   using MeshType = itk::Mesh<CoordinateType, 3>;
-
   using ReaderType = itk::MeshFileReader<MeshType>;
-  auto reader = ReaderType::New();
-  reader->SetFileName("");
-  reader->Update();
-  auto mesh1 = reader->GetOutput();
 
-  reader->SetFileName("");
-  reader->Update();
-  auto mesh2 = reader->GetOutput();
+  auto reader1 = ReaderType::New();
+  reader1->SetFileName("/home/pranjal.sahu/ethicon_aws/deep_learning/deep_learning/train/fixed.vtk");
+  reader1->Update();
+  auto mesh1 = reader1->GetOutput();
+
+  auto reader2 = ReaderType::New();
+  reader2->SetFileName("/home/pranjal.sahu/ethicon_aws/deep_learning/deep_learning/train/moving.vtk");
+  reader2->Update();
+  auto mesh2 = reader2->GetOutput();
 
   data.reserve(mesh1->GetNumberOfPoints());
-  using PointType = itk::Point<CoordinateType, 6>;
 
   // Concatenate corressponding points from two meshes and insert in the data vector
+  using PointType = itk::Point<CoordinateType, 6>;
   PointType p0;
-  for (int i = 0; i < mesh1->GetNumberOfPoints(); ++i)
+  for (unsigned int i = 0; i < mesh1->GetNumberOfPoints(); ++i)
   {
     auto point1 = mesh1->GetPoint(i);
     auto point2 = mesh2->GetPoint(i);
@@ -153,11 +141,12 @@ GenerateData(unsigned int                                 numInliers,
     p0[0] = point1[0];
     p0[1] = point1[1];
     p0[2] = point1[2];
+
     p0[3] = point2[0];
     p0[4] = point2[1];
     p0[5] = point2[2];
 
-    data.insert(i, p0);
+    data.push_back(p0);
   }
 
   return;

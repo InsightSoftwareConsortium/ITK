@@ -19,9 +19,10 @@ public:
 
   itkTypeMacro(LandmarkRegistrationEstimator, ParametersEstimator);
   /** New method for creating an object using a factory. */
-  itkNewMacro(Self)
+  itkNewMacro(Self);
 
-    virtual void Estimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  virtual void
+  Estimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
   virtual void
   Estimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
 
