@@ -25,3 +25,7 @@ if(NOT Python3_EXECUTABLE AND _specified_Python3_EXECUTABLE) # workaround for ca
   set(Python3_EXECUTABLE ${_specified_Python3_EXECUTABLE} CACHE INTERNAL
     "Path to the Python interpreter" FORCE)
 endif()
+
+# Add user-visible cache entry
+set(Python3_ROOT_DIR ${Python3_ROOT_DIR} CACHE PATH
+  "Which installation or virtual environment of Python to use" FORCE)
