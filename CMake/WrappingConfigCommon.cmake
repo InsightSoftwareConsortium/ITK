@@ -1,4 +1,3 @@
-
 if(ITK_WRAPPING)
   # WRAPPER_LIBRARY_OUTPUT_DIR. Directory in which generated cxx, xml, and idx files will be placed.
   set(WRAPPER_LIBRARY_OUTPUT_DIR "${ITK_BINARY_DIR}/Wrapping" CACHE INTERNAL "Need to specify the output library directory globally")
@@ -6,10 +5,6 @@ if(ITK_WRAPPING)
     set(ITK_WRAP_PYTHON_ROOT_BINARY_DIR "${WRAPPER_LIBRARY_OUTPUT_DIR}/Generators/Python" CACHE INTERNAL "python binary dir")
     # create the directory to avoid losing case on windows
     file(MAKE_DIRECTORY ${ITK_WRAP_PYTHON_ROOT_BINARY_DIR})
-
-    set(ITK_STUB_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk-stubs")
-    file(MAKE_DIRECTORY ${ITK_STUB_DIR})
-    install(DIRECTORY ${ITK_STUB_DIR}/ DESTINATION itk-stubs)
 
     set(ITK_PYTHON_PACKAGE_DIR "${ITK_WRAP_PYTHON_ROOT_BINARY_DIR}/itk")
     # create the directory to avoid losing case on windows
