@@ -94,7 +94,6 @@ RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForN
   this->numerator = log(1.0 - desiredProbabilityForNoOutliers);
 
   std::cout << "Number of allTries " << this->allTries << std::endl;
-  return 0.9;
 
   srand((unsigned)time(NULL)); // seed random number generator
 
@@ -161,7 +160,8 @@ RANSAC<T, S>::RANSACThreadCallback(void * arg)
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
     bool * notChosen = new bool[numDataObjects];
 
-    for (i = 0; i < caller->numTries; i++)
+    // for (i = 0; i < caller->numTries; i++)
+    for (i = 0; i < 1000; i++)
     {
       // randomly select data for exact model fit ('numForEstimate' objects).
       std::fill(notChosen, notChosen + numDataObjects, true);

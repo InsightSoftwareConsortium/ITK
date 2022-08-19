@@ -31,9 +31,9 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   GenerateData<DIMENSION>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
 
   // create and initialize the parameter estimator
-  double maximalDistanceFromPlane = 15;
+  double maximalDistanceFromPlane = 12;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
-  registrationEstimator->SetMinimalForEstimate(250);
+  registrationEstimator->SetMinimalForEstimate(3);
   registrationEstimator->SetDelta(maximalDistanceFromPlane);
   registrationEstimator->LeastSquaresEstimate(data, transformParameters);
 
@@ -46,25 +46,25 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
 
   // create and initialize the RANSAC algorithm
-  double              desiredProbabilityForNoOutliers = 0.01;
+  double              desiredProbabilityForNoOutliers = 0.999;
   double              percentageOfDataUsed;
   RANSACType::Pointer ransacEstimator = RANSACType::New();
   ransacEstimator->SetData(data);
   ransacEstimator->SetParametersEstimator(registrationEstimator);
   percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
 
-  // if (planeParameters.empty())
-  // {
-  //   std::cout << "RANSAC estimate failed, degenerate configuration?\n";
-  // }
-  // else
-  // {
-  //   std::cout << "RANSAC hyper(plane) parameters: [n,a]\n\t [ ";
-  //   for (i = 0; i < (2 * DIMENSION - 1); i++)
-  //   {
-  //     std::cout << planeParameters[i] << ", ";
-  //   }
-  //   std::cout << planeParameters[i] << "]\n\n";
+  if (transformParameters.empty())
+  {
+    std::cout << "RANSAC estimate failed, degenerate configuration?\n";
+  }
+  else
+  {
+    std::cout << "RANSAC hyper(plane) parameters: [n,a]\n\t [ ";
+    for (i = 0; i < transformParameters.size(); i++)
+    {
+      std::cout << transformParameters[i] << ", ";
+    }
+  }
 
   //   dotProduct = 0.0;
   //   for (i = 0; i < DIMENSION; i++)
@@ -82,7 +82,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
   //   std::cout << dotProduct << "\n\n";
 
-  //   std::cout << percentageOfDataUsed << "\n\n";
+  std::cout << percentageOfDataUsed << "\n\n";
   // }
   return EXIT_SUCCESS;
 }

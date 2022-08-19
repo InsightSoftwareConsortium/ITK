@@ -26,6 +26,7 @@ void
 LandmarkRegistrationEstimator<dimension>::SetDelta(double delta)
 {
   this->deltaSquared = delta * delta;
+  std::cout << "Pranjal setting delta " << this->deltaSquared << std::endl;
 }
 
 
@@ -40,18 +41,6 @@ template <unsigned int dimension>
 void
 LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension> *> & data,
                                                    std::vector<double> &                     parameters)
-{
-  parameters.clear();
-  // user forgot to initialize the minimal number of required
-  // elements or there are not enough data elements for computation
-  if (this->minForEstimate == 0 || data.size() < this->minForEstimate)
-    return;
-}
-
-template <unsigned int dimension>
-void
-LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
-                                                   std::vector<double> &                   parameters)
 {
   std::cout << "Inside RANSAC Estimate " << data.size() << parameters.size() << std::endl;
   parameters.clear();
@@ -73,14 +62,14 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
-    point[0] = data[i][0];
-    point[1] = data[i][1];
-    point[2] = data[i][2];
+    point[0] = data[i]->GetElement(0);
+    point[1] = data[i]->GetElement(1);
+    point[2] = data[i]->GetElement(2);
     fixedLandmarks.push_back(point);
 
-    point[0] = data[i][3];
-    point[1] = data[i][4];
-    point[2] = data[i][5];
+    point[0] = data[i]->GetElement(3);
+    point[1] = data[i]->GetElement(4);
+    point[2] = data[i]->GetElement(5);
     movingLandmarks.push_back(point);
   }
 
@@ -111,17 +100,22 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
 
 template <unsigned int dimension>
 void
-LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
-                                                               std::vector<double> &                     parameters)
+LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
+                                                   std::vector<double> &                   parameters)
 {
-  std::cout << "Pranjal Sahu Testing " << data.size() << parameters.size() << std::endl;
-  return;
+  std::vector<Point<double, dimension> *> usedData;
+  int                                     dataSize = data.size();
+  for (int i = 0; i < dataSize; i++)
+  {
+    usedData.push_back(&(data[i]));
+  }
+  Estimate(usedData, parameters);
 }
 
 template <unsigned int dimension>
 void
-LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
-                                                               std::vector<double> &                   parameters)
+LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+                                                               std::vector<double> &                     parameters)
 {
   using PixelType = float;
   constexpr unsigned int Dimension = 3;
@@ -140,14 +134,14 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
-    point[0] = data[i][0];
-    point[1] = data[i][1];
-    point[2] = data[i][2];
+    point[0] = data[i]->GetElement(0);
+    point[1] = data[i]->GetElement(1);
+    point[2] = data[i]->GetElement(2);
     fixedLandmarks.push_back(point);
 
-    point[0] = data[i][3];
-    point[1] = data[i][4];
-    point[2] = data[i][5];
+    point[0] = data[i]->GetElement(3);
+    point[1] = data[i]->GetElement(4);
+    point[2] = data[i]->GetElement(5);
     movingLandmarks.push_back(point);
   }
 
@@ -173,20 +167,36 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   {
     parameters.push_back(fixedParameters.GetElement(i));
   }
+
+  std::cout << "Scale is " << transform->GetScale() << std::endl;
   return;
+}
+
+template <unsigned int dimension>
+void
+LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
+                                                               std::vector<double> &                   parameters)
+{
+  std::vector<Point<double, dimension> *> usedData;
+  int                                     dataSize = data.size();
+  for (int i = 0; i < dataSize; i++)
+    usedData.push_back(&(data[i]));
+  LeastSquaresEstimate(usedData, parameters);
 }
 
 template <unsigned int dimension>
 bool
 LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters, Point<double, dimension> & data)
 {
-  std::cout << "Pranjal Sahu Testing " << data.size() << parameters.size() << std::endl;
   using TransformType = itk::Similarity3DTransform<double>;
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
 
   auto optParameters = itk::OptimizerParameters<double>();
   auto fixedParameters = itk::OptimizerParameters<double>();
+
+  optParameters.Reserve(7);
+  fixedParameters.Reserve(3);
 
   for (unsigned int i = 7; i < 10; ++i)
   {
@@ -212,10 +222,10 @@ LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters
   p1[1] = data[4];
   p1[2] = data[5];
 
-  auto transformedPoint = transform->TransformPoint(p0);
-  auto distance = p0.EuclideanDistanceTo(p1);
+  auto transformedPoint = transform->TransformPoint(p1);
+  auto distance = transformedPoint.EuclideanDistanceTo(p0);
 
-  return distance < this->deltaSquared;
+  return (distance < this->deltaSquared);
 }
 
 } // end namespace itk
