@@ -53,7 +53,53 @@ void
 LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
                                                    std::vector<double> &                   parameters)
 {
-  std::cout << "Pranjal Sahu Testing " << data.size() << parameters.size() << std::endl;
+  std::cout << "Inside RANSAC Estimate " << data.size() << parameters.size() << std::endl;
+  parameters.clear();
+
+  using PixelType = float;
+  constexpr unsigned int Dimension = 3;
+  using FixedImageType = itk::Image<PixelType, Dimension>;
+  using MovingImageType = itk::Image<PixelType, Dimension>;
+
+  using TransformType = itk::Similarity3DTransform<double>;
+  using TransformInitializerType =
+    itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+  auto initializer = TransformInitializerType::New();
+
+  itk::Point<double, 3>                                     point;
+  typename TransformInitializerType::LandmarkPointContainer fixedLandmarks;
+  typename TransformInitializerType::LandmarkPointContainer movingLandmarks;
+
+  // Create landmark points from the 6D input points
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    point[0] = data[i][0];
+    point[1] = data[i][1];
+    point[2] = data[i][2];
+    fixedLandmarks.push_back(point);
+
+    point[0] = data[i][3];
+    point[1] = data[i][4];
+    point[2] = data[i][5];
+    movingLandmarks.push_back(point);
+  }
+
+  // Obtain the parameters of the Similarity3DTransform
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+  auto transform = Similarity3DTransformType::New();
+
+  initializer->SetMovingLandmarks(movingLandmarks);
+  initializer->SetFixedLandmarks(fixedLandmarks);
+  initializer->SetTransform(transform);
+  initializer->InitializeTransform();
+
+  // Copy the transform parameters in the input variable
+  parameters.clear();
+  auto transformParameters = transform->GetParameters();
+  for (unsigned int i = 0; i < transformParameters.Size(); ++i)
+  {
+    parameters.push_back(transformParameters.GetElement(i));
+  }
   return;
 }
 
@@ -123,7 +169,19 @@ bool
 LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters, Point<double, dimension> & data)
 {
   std::cout << "Pranjal Sahu Testing " << data.size() << parameters.size() << std::endl;
-  return 1 < 0;
+  using TransformType = itk::Similarity3DTransform<double>;
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+  auto transform = Similarity3DTransformType::New();
+
+  auto optParameters = itk::OptimizerParameters<double>();
+  for (unsigned int i = 0; i < parameters.size(); ++i)
+  {
+    optParameters.SetElement(i, parameters[i]);
+  }
+  transform->SetParameters(optParameters);
+
+
+  return 1 > 0;
   // double signedDistance = 0;
   // for (unsigned int i = 0; i < dimension; i++)
   // {

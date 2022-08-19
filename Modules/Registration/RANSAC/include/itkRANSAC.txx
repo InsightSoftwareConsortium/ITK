@@ -26,7 +26,7 @@ RANSAC<T, S>::SetNumberOfThreads(unsigned int numberOfThreads)
   if (numberOfThreads == 0 || numberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for number of threads.");
 
-  this->numberOfThreads = numberOfThreads;
+  this->numberOfThreads = 1; // numberOfThreads;
 }
 
 
@@ -93,6 +93,8 @@ RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForN
   this->numTries = this->allTries;
   this->numerator = log(1.0 - desiredProbabilityForNoOutliers);
 
+  std::cout << "Number of allTries " << this->allTries << std::endl;
+  return 0.9;
 
   srand((unsigned)time(NULL)); // seed random number generator
 
@@ -115,6 +117,8 @@ RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForN
     }
     paramEstimator->LeastSquaresEstimate(leastSquaresEstimateData, parameters);
   }
+
+
   // cleanup
   typename std::set<int *, SubSetIndexComparator>::iterator it = this->chosenSubSets->begin();
   typename std::set<int *, SubSetIndexComparator>::iterator chosenSubSetsEnd = this->chosenSubSets->end();

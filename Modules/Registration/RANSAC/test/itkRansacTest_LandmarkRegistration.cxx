@@ -33,9 +33,11 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 0.5;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
+  registrationEstimator->SetMinimalForEstimate(250);
   registrationEstimator->SetDelta(maximalDistanceFromPlane);
   registrationEstimator->LeastSquaresEstimate(data, transformParameters);
 
+  std::cout << "Least Squares Estimate is " << std::endl;
   unsigned int i = 0;
   for (i = 0; i < transformParameters.size(); i++)
   {
@@ -43,31 +45,13 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   }
 
 
-  //   // cos(theta), theta is the angle between the two unit normals
-  //   dotProduct = 0.0;
-  //   for (i = 0; i < DIMENSION; i++)
-  //   {
-  //     dotProduct += planeParameters[i] * truePlaneParameters[i];
-  //   }
-  //   std::cout << "\tDot product of real and computed normals[+-1=correct]: ";
-  //   std::cout << dotProduct << "\n";
-
-  //   dotProduct = 0.0;
-  //   for (i = 0; i < DIMENSION; i++)
-  //   {
-  //     dotProduct += (planeParameters[DIMENSION + i] - truePlaneParameters[DIMENSION + i]) * truePlaneParameters[i];
-  //   }
-
-  //   std::cout << dotProduct << "\n\n";
-  // }
-
-  // // create and initialize the RANSAC algorithm
-  // double              desiredProbabilityForNoOutliers = 0.999;
-  // double              percentageOfDataUsed;
-  // RANSACType::Pointer ransacEstimator = RANSACType::New();
-  // ransacEstimator->SetData(data);
-  // ransacEstimator->SetParametersEstimator(registrationEstimator);
-  // percentageOfDataUsed = ransacEstimator->Compute(planeParameters, desiredProbabilityForNoOutliers);
+  // create and initialize the RANSAC algorithm
+  double              desiredProbabilityForNoOutliers = 0.01;
+  double              percentageOfDataUsed;
+  RANSACType::Pointer ransacEstimator = RANSACType::New();
+  ransacEstimator->SetData(data);
+  ransacEstimator->SetParametersEstimator(registrationEstimator);
+  percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
 
   // if (planeParameters.empty())
   // {
