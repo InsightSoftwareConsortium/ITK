@@ -26,7 +26,6 @@ void
 LandmarkRegistrationEstimator<dimension>::SetDelta(double delta)
 {
   this->deltaSquared = delta * delta;
-  std::cout << "Pranjal setting delta " << this->deltaSquared << std::endl;
 }
 
 
@@ -42,7 +41,6 @@ void
 LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension> *> & data,
                                                    std::vector<double> &                     parameters)
 {
-  std::cout << "Inside RANSAC Estimate " << data.size() << parameters.size() << std::endl;
   parameters.clear();
 
   using PixelType = float;
@@ -55,27 +53,31 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
     itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
   auto initializer = TransformInitializerType::New();
 
-  itk::Point<double, 3>                                     point;
   typename TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   typename TransformInitializerType::LandmarkPointContainer movingLandmarks;
+
+  // Obtain the parameters of the Similarity3DTransform
+  auto transform = TransformType::New();
+
+  fixedLandmarks.reserve(data.size());
+  movingLandmarks.reserve(data.size());
 
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
-    point[0] = data[i]->GetElement(0);
-    point[1] = data[i]->GetElement(1);
-    point[2] = data[i]->GetElement(2);
-    fixedLandmarks.push_back(point);
+    Point<double, dimension> & pnt = *(data[i]);
+    itk::Point<double, 3>      point1;
+    point1[0] = pnt[0];
+    point1[1] = pnt[1];
+    point1[2] = pnt[2];
+    fixedLandmarks.push_back(point1);
 
-    point[0] = data[i]->GetElement(3);
-    point[1] = data[i]->GetElement(4);
-    point[2] = data[i]->GetElement(5);
-    movingLandmarks.push_back(point);
+    itk::Point<double, 3> point2;
+    point2[0] = pnt[3];
+    point2[1] = pnt[4];
+    point2[2] = pnt[5];
+    movingLandmarks.push_back(point2);
   }
-
-  // Obtain the parameters of the Similarity3DTransform
-  using Similarity3DTransformType = Similarity3DTransform<double>;
-  auto transform = Similarity3DTransformType::New();
 
   initializer->SetMovingLandmarks(movingLandmarks);
   initializer->SetFixedLandmarks(fixedLandmarks);
@@ -83,18 +85,20 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   initializer->InitializeTransform();
 
   // Copy the transform parameters in the input variable
-  parameters.clear();
   auto transformParameters = transform->GetParameters();
-  for (unsigned int i = 0; i < transformParameters.Size(); ++i)
+  for (unsigned int i = 0; i < 7; ++i)
   {
     parameters.push_back(transformParameters.GetElement(i));
   }
 
   auto fixedParameters = transform->GetFixedParameters();
-  for (unsigned int i = 0; i < fixedParameters.Size(); ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     parameters.push_back(fixedParameters.GetElement(i));
   }
+
+  fixedLandmarks.clear();
+  movingLandmarks.clear();
   return;
 }
 
@@ -117,6 +121,8 @@ void
 LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
                                                                std::vector<double> &                     parameters)
 {
+  parameters.clear();
+
   using PixelType = float;
   constexpr unsigned int Dimension = 3;
   using FixedImageType = itk::Image<PixelType, Dimension>;
@@ -125,6 +131,10 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   using TransformType = itk::Similarity3DTransform<double>;
   using TransformInitializerType =
     itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
+  // Obtain the parameters of the Similarity3DTransform
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+
+  auto transform = Similarity3DTransformType::New();
   auto initializer = TransformInitializerType::New();
 
   itk::Point<double, 3>                                     point;
@@ -134,20 +144,18 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
-    point[0] = data[i]->GetElement(0);
-    point[1] = data[i]->GetElement(1);
-    point[2] = data[i]->GetElement(2);
+    Point<double, dimension> & pnt = *(data[i]);
+
+    point[0] = pnt[0];
+    point[1] = pnt[1];
+    point[2] = pnt[2];
     fixedLandmarks.push_back(point);
 
-    point[0] = data[i]->GetElement(3);
-    point[1] = data[i]->GetElement(4);
-    point[2] = data[i]->GetElement(5);
+    point[0] = pnt[3];
+    point[1] = pnt[4];
+    point[2] = pnt[5];
     movingLandmarks.push_back(point);
   }
-
-  // Obtain the parameters of the Similarity3DTransform
-  using Similarity3DTransformType = Similarity3DTransform<double>;
-  auto transform = Similarity3DTransformType::New();
 
   initializer->SetMovingLandmarks(movingLandmarks);
   initializer->SetFixedLandmarks(fixedLandmarks);
@@ -155,20 +163,17 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   initializer->InitializeTransform();
 
   // Copy the transform parameters in the input variable
-  parameters.clear();
   auto transformParameters = transform->GetParameters();
-  for (unsigned int i = 0; i < transformParameters.Size(); ++i)
+  for (unsigned int i = 0; i < 7; ++i)
   {
     parameters.push_back(transformParameters.GetElement(i));
   }
 
   auto fixedParameters = transform->GetFixedParameters();
-  for (unsigned int i = 0; i < fixedParameters.Size(); ++i)
+  for (unsigned int i = 0; i < 3; ++i)
   {
     parameters.push_back(fixedParameters.GetElement(i));
   }
-
-  std::cout << "Scale is " << transform->GetScale() << std::endl;
   return;
 }
 
@@ -192,24 +197,22 @@ LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
 
-  auto optParameters = itk::OptimizerParameters<double>();
-  auto fixedParameters = itk::OptimizerParameters<double>();
+  auto optParameters = transform->GetParameters();
+  auto fixedParameters = transform->GetFixedParameters();
 
-  optParameters.Reserve(7);
-  fixedParameters.Reserve(3);
-
+  int counter = 0;
   for (unsigned int i = 7; i < 10; ++i)
   {
-    fixedParameters.SetElement(i, parameters[i]);
+    fixedParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
   }
-  transform->SetFixedParameters(fixedParameters);
 
+  counter = 0;
   for (unsigned int i = 0; i < 7; ++i)
   {
-    optParameters.SetElement(i, parameters[i]);
+    optParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
   }
-  transform->SetParameters(optParameters);
-
 
   itk::Point<double, 3> p0;
   itk::Point<double, 3> p1;
@@ -224,7 +227,6 @@ LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters
 
   auto transformedPoint = transform->TransformPoint(p1);
   auto distance = transformedPoint.EuclideanDistanceTo(p0);
-
   return (distance < this->deltaSquared);
 }
 

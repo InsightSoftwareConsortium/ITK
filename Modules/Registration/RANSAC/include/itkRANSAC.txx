@@ -160,8 +160,8 @@ RANSAC<T, S>::RANSACThreadCallback(void * arg)
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
     bool * notChosen = new bool[numDataObjects];
 
-    // for (i = 0; i < caller->numTries; i++)
-    for (i = 0; i < 1000; i++)
+    for (i = 0; i < caller->numTries; i++)
+    // for (i = 0; i < 1000; i++)
     {
       // randomly select data for exact model fit ('numForEstimate' objects).
       std::fill(notChosen, notChosen + numDataObjects, true);
@@ -227,6 +227,7 @@ RANSAC<T, S>::RANSACThreadCallback(void * arg)
         {
           caller->numVotesForBest = numVotesForCur;
           std::copy(curVotes, curVotes + numDataObjects, caller->bestVotes);
+
           // all data objects are inliers, terminate the search
           if (caller->numVotesForBest == numDataObjects)
             i = caller->numTries;
