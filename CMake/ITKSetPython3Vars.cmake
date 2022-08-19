@@ -21,7 +21,7 @@ if(PYTHON_DEVELOPMENT_REQUIRED)
 else() # if not PYTHON_DEVELOPMENT_REQUIRED, just find some version of Python (don't need to be as specific)
   find_package(Python3 COMPONENTS Interpreter)
 endif()
-if(NOT Python3_EXECUTABLE AND _Python3_EXECUTABLE) # workaround for cases where FindPython3 fails to set correctly
-  set(Python3_EXECUTABLE ${_Python3_EXECUTABLE} CACHE INTERNAL
+if(NOT Python3_EXECUTABLE AND _specified_Python3_EXECUTABLE) # workaround for cases where FindPython3 fails to set correctly
+  set(Python3_EXECUTABLE ${_specified_Python3_EXECUTABLE} CACHE INTERNAL
     "Path to the Python interpreter" FORCE)
 endif()
