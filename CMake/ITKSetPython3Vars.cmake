@@ -21,6 +21,11 @@ if(PYTHON_DEVELOPMENT_REQUIRED)
 else() # if not PYTHON_DEVELOPMENT_REQUIRED, just find some version of Python (don't need to be as specific)
   find_package(Python3 COMPONENTS Interpreter)
 endif()
+if(ITK_WRAP_PYTHON)
+  set(ITK_WRAP_PYTHON_VERSION "${Python3_VERSION}")
+else()
+  set(ITK_WRAP_PYTHON_VERSION "ITK_WRAP_PYTHON=OFF")
+endif()
 if(NOT Python3_EXECUTABLE AND _specified_Python3_EXECUTABLE) # workaround for cases where FindPython3 fails to set correctly
   set(Python3_EXECUTABLE ${_specified_Python3_EXECUTABLE} CACHE INTERNAL
     "Path to the Python interpreter" FORCE)

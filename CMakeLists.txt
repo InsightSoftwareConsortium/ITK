@@ -490,6 +490,20 @@ option(DISABLE_MODULE_TESTS "Disable all ITK module tests in `test` folder" OFF)
 mark_as_advanced(DISABLE_MODULE_TESTS)
 
 #-----------------------------------------------------------------------------
+# Need to set python variables before remote modules are included.
+if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
+  set(PYTHON_DEVELOPMENT_REQUIRED ${ITK_WRAP_PYTHON})
+  include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKSetPython3Vars.cmake)
+
+  if(ITK_WRAP_PYTHON AND NOT Python3_INCLUDE_DIRS)
+    message(FATAL_ERROR "Python version ${Python3_VERSION} development environment not found for wrapping.")
+  endif()
+  if(NOT Python3_ROOT_DIR)
+    get_filename_component(Python3_ROOT_DIR ${Python3_EXECUTABLE} DIRECTORY)
+  endif()
+endif()
+
+#-----------------------------------------------------------------------------
 # Configure Eigen3 before ITKModuleEnablement
 # No download or build is performed. Generates Targets and Config.cmake files for Eigen
 include(itkExternal_Eigen3)
@@ -567,22 +581,6 @@ else()
 endif()
 
 install(FILES "LICENSE" "NOTICE" "README.md" DESTINATION ${ITK_INSTALL_DOC_DIR} COMPONENT Runtime)
-
-if(BUILD_TESTING OR ITK_BUILD_DOCUMENTATION OR ITK_WRAP_PYTHON)
-  set(PYTHON_DEVELOPMENT_REQUIRED ${ITK_WRAP_PYTHON})
-  include(${CMAKE_CURRENT_SOURCE_DIR}/CMake/ITKSetPython3Vars.cmake)
-
-  if(ITK_WRAP_PYTHON AND NOT Python3_INCLUDE_DIRS)
-    message(FATAL_ERROR "Python version ${Python3_VERSION} development environment not found for wrapping.")
-  endif()
-  if(NOT Python3_ROOT_DIR)
-    get_filename_component(Python3_ROOT_DIR ${Python3_EXECUTABLE} DIRECTORY)
-  endif()
-endif()
-
-# Add user-visible cache entry
-set(Python3_ROOT_DIR ${Python3_ROOT_DIR} CACHE PATH
-  "Which installation or virtual environment of Python to use" FORCE)
 
 if(BUILD_TESTING)
   # If building the testing, write the test costs (i.e. time to run)
