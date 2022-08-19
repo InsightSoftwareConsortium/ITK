@@ -246,12 +246,6 @@ function(cxx_executable name dir libs)
     ${name} "${cxx_default}" "${libs}" "${dir}/${name}.cc" ${ARGN})
 endfunction()
 
-# Sets PYTHONINTERP_FOUND and PYTHON_EXECUTABLE.
-# ITK The PythonInterp package finding contaminates the cmake cache and
-# ITK may find a different version than is use by wrapping or documentation
-# ITK generation.  DO NOT USE find_package(PythonInterp)
-# ITK find_package(PythonInterp)
-
 # cxx_test_with_flags(name cxx_flags libs srcs...)
 #
 # creates a named C++ test that depends on the given libs and is built
