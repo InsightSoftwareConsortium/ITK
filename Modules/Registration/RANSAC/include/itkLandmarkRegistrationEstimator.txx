@@ -100,6 +100,12 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   {
     parameters.push_back(transformParameters.GetElement(i));
   }
+
+  auto fixedParameters = transform->GetFixedParameters();
+  for (unsigned int i = 0; i < fixedParameters.Size(); ++i)
+  {
+    parameters.push_back(fixedParameters.GetElement(i));
+  }
   return;
 }
 
@@ -161,6 +167,12 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   {
     parameters.push_back(transformParameters.GetElement(i));
   }
+
+  auto fixedParameters = transform->GetFixedParameters();
+  for (unsigned int i = 0; i < fixedParameters.Size(); ++i)
+  {
+    parameters.push_back(fixedParameters.GetElement(i));
+  }
   return;
 }
 
@@ -174,20 +186,36 @@ LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters
   auto transform = Similarity3DTransformType::New();
 
   auto optParameters = itk::OptimizerParameters<double>();
-  for (unsigned int i = 0; i < parameters.size(); ++i)
+  auto fixedParameters = itk::OptimizerParameters<double>();
+
+  for (unsigned int i = 7; i < 10; ++i)
+  {
+    fixedParameters.SetElement(i, parameters[i]);
+  }
+  transform->SetFixedParameters(fixedParameters);
+
+  for (unsigned int i = 0; i < 7; ++i)
   {
     optParameters.SetElement(i, parameters[i]);
   }
   transform->SetParameters(optParameters);
 
 
-  return 1 > 0;
-  // double signedDistance = 0;
-  // for (unsigned int i = 0; i < dimension; i++)
-  // {
-  //   signedDistance += parameters[i] * (data[i] - parameters[dimension + i]);
-  // }
-  // return ((signedDistance * signedDistance) < this->deltaSquared);
+  itk::Point<double, 3> p0;
+  itk::Point<double, 3> p1;
+
+  p0[0] = data[0];
+  p0[1] = data[1];
+  p0[2] = data[2];
+
+  p1[0] = data[3];
+  p1[1] = data[4];
+  p1[2] = data[5];
+
+  auto transformedPoint = transform->TransformPoint(p0);
+  auto distance = p0.EuclideanDistanceTo(p1);
+
+  return distance < this->deltaSquared;
 }
 
 } // end namespace itk
