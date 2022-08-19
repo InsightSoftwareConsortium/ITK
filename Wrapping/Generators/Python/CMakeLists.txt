@@ -53,10 +53,11 @@ if(Python3_EXECUTABLE AND NOT PY_SITE_PACKAGES_PATH)
   endif()
   string(REGEX REPLACE "\n" "" py_spp_no_newline "${py_spp}")
   file(TO_CMAKE_PATH "${py_spp_no_newline}" py_spp_nobackslashes)
+
+  set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE STRING "Python site-packages directory to install Python bindings.")
+  mark_as_advanced(PY_SITE_PACKAGES_PATH)
 endif()
 
-set(PY_SITE_PACKAGES_PATH "${py_spp_nobackslashes}" CACHE STRING "Python site-packages directory to install Python bindings.")
-mark_as_advanced(PY_SITE_PACKAGES_PATH)
 if(NOT PY_SITE_PACKAGES_PATH)
   message(SEND_ERROR "Please set PY_SITE_PACKAGES_PATH to the Python bindings installation directory.")
 endif()
@@ -180,6 +181,7 @@ if(NOT EXTERNAL_WRAP_ITK_PROJECT)
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/support "ITKCommon" ${ITK_WRAP_PYTHON_FILES})
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk/Configuration "ITKCommon" "${ITK_CONFIGURATION_INIT_MODULE}")
   WRAP_ITK_PYTHON_BINDINGS_INSTALL(/itk "ITKCommon" ${ITK_INIT_MODULE})
+  install(DIRECTORY ${ITK_STUB_DIR}/ DESTINATION ${PY_SITE_PACKAGES_PATH}/itk-stubs)
 endif()
 
 

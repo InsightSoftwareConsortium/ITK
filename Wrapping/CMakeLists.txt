@@ -85,8 +85,11 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 
 # ITK_STUB_DIR: all stub files are stored in this directory
 set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs" CACHE INTERNAL "where python interface files are stored.")
+file(MAKE_DIRECTORY ${ITK_STUB_DIR})
+
 # ITK_PKL_DIR: all temporary pickled object AST representations stored here
 set(ITK_PKL_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-pkl" CACHE INTERNAL "where temp pkl files are stored")
+file(MAKE_DIRECTORY ${ITK_PKL_DIR})
 set(WRAP_ITK_TYPEDEFS_DIRECTORY "${ITK_DIR}/Wrapping/Typedefs")
 set(WRAP_ITK_LIB_DIRECTORY  "${CMAKE_LIBRARY_OUTPUT_DIRECTORY}")
 
