@@ -392,7 +392,7 @@ ${DO_NOT_WAIT_FOR_THREADS_CALLS}
 
         # Link the modules together
         target_link_libraries(${lib} LINK_PUBLIC ${WRAPPER_LIBRARY_LINK_LIBRARIES})
-        itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${PYTHON_LIBRARY})
+        itk_target_link_libraries_with_dynamic_lookup(${lib} LINK_PUBLIC ${Python3_LIBRARIES})
 
         if(USE_COMPILER_HIDDEN_VISIBILITY)
             # Prefer to use target properties supported by newer cmake

@@ -97,7 +97,7 @@ if (ITK_BUILD_DOCUMENTATION)
   file(COPY workbox-cli-config.js serviceWorker.js.in
     DESTINATION ${ITK_BINARY_DIR}/Utilities/Doxygen/)
 
-  execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_LIST_DIR}/datetime.py"
+  execute_process(COMMAND ${Python3_EXECUTABLE} "${CMAKE_CURRENT_LIST_DIR}/datetime.py"
      RESULT_VARIABLE CMD_RESULT
      OUTPUT_VARIABLE _DATETIME)
 
