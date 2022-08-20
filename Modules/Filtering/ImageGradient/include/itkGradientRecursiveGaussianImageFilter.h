@@ -211,7 +211,7 @@ private:
   void
   TransformOutputPixel(ImageRegionIterator<T> & it)
   {
-    OutputPixelType         correctedGradient;
+    OutputPixelType         correctedGradient{};
     const OutputPixelType & gradient = it.Get();
 
     const unsigned int nComponents = NumericTraits<OutputPixelType>::GetLength(gradient) / ImageDimension;
