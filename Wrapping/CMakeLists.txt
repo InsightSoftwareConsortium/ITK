@@ -83,8 +83,12 @@ set(CXX_TEST_PATH ${EXECUTABLE_OUTPUT_PATH})
 # Additional files for installation
 ###############################################################################
 
+# See https://peps.python.org/pep-0561/#stub-only-packages
+# Packaging typehints with package so use "itk", if making separate typehint
+# package use "itk-stubs"
+set(ITK_STUB_BASENAME "itk")
 # ITK_STUB_DIR: all stub files are stored in this directory
-set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/itk-stubs" CACHE INTERNAL "where python interface files are stored.")
+set(ITK_STUB_DIR "${ITK_DIR}/Wrapping/Generators/Python/${ITK_STUB_BASENAME}" CACHE INTERNAL "where python interface files are stored.")
 file(MAKE_DIRECTORY ${ITK_STUB_DIR})
 
 # ITK_PKL_DIR: all temporary pickled object AST representations stored here
