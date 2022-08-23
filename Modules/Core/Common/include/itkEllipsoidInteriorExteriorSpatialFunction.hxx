@@ -25,24 +25,8 @@ namespace itk
 template <unsigned int VDimension, typename TInput>
 EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::EllipsoidInteriorExteriorSpatialFunction()
 {
-  m_Orientations = nullptr;
   m_Axes.Fill(1.0f);   // Lengths of ellipsoid axes.
   m_Center.Fill(0.0f); // Origin of ellipsoid
-}
-
-template <unsigned int VDimension, typename TInput>
-EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::~EllipsoidInteriorExteriorSpatialFunction()
-{
-  unsigned int i;
-
-  if (m_Orientations)
-  {
-    for (i = 0; i < VDimension; ++i)
-    {
-      delete[] m_Orientations[i];
-    }
-    delete[] m_Orientations;
-  }
 }
 
 template <unsigned int VDimension, typename TInput>
@@ -84,31 +68,8 @@ template <unsigned int VDimension, typename TInput>
 void
 EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::SetOrientations(const OrientationType & orientations)
 {
-  unsigned int i, j;
-
-  // Initialize orientation vectors.
-  if (m_Orientations)
-  {
-    for (i = 0; i < VDimension; ++i)
-    {
-      delete[] m_Orientations[i];
-    }
-    delete[] m_Orientations;
-  }
-  m_Orientations = new double *[VDimension];
-  for (i = 0; i < VDimension; ++i)
-  {
-    m_Orientations[i] = new double[VDimension];
-  }
-
   // Set orientation vectors (must be orthogonal).
-  for (i = 0; i < VDimension; ++i)
-  {
-    for (j = 0; j < VDimension; ++j)
-    {
-      m_Orientations[i][j] = orientations[i][j];
-    }
-  }
+  m_Orientations = orientations;
 }
 
 template <unsigned int VDimension, typename TInput>
@@ -121,17 +82,14 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ost
 
   os << indent << "Lengths of Ellipsoid Axes: " << m_Axes << std::endl;
   os << indent << "Origin of Ellipsoid: " << m_Center << std::endl;
-  if (m_Orientations)
+  os << indent << "Orientations: " << std::endl;
+  for (i = 0; i < VDimension; ++i)
   {
-    os << indent << "Orientations: " << std::endl;
-    for (i = 0; i < VDimension; ++i)
+    for (j = 0; j < VDimension; ++j)
     {
-      for (j = 0; j < VDimension; ++j)
-      {
-        os << indent << indent << m_Orientations[i][j] << " ";
-      }
-      os << std::endl;
+      os << indent << indent << m_Orientations[i][j] << " ";
     }
+    os << std::endl;
   }
 }
 } // end namespace itk
