@@ -168,6 +168,10 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   std::cout << "Unsharp flag = " << (filter->GetNormalProcessUnsharpFlag()) << "\n";
   std::cout << "Unsharp weight = " << (filter->GetNormalProcessUnsharpWeight()) << "\n";
 
+  bool normalProcessUnsharpFlag = false;
+  filter->SetNormalProcessUnsharpFlag(normalProcessUnsharpFlag);
+  ITK_TEST_SET_GET_BOOLEAN(filter, NormalProcessUnsharpFlag, normalProcessUnsharpFlag);
+
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
 
