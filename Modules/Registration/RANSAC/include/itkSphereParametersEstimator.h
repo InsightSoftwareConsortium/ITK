@@ -36,12 +36,12 @@ namespace itk
  * @author: Ziv Yaniv (zivy@isis.georgetown.edu)
  *
  */
-template <unsigned int dimension>
-class ITK_TEMPLATE_EXPORT SphereParametersEstimator : public ParametersEstimator<Point<double, dimension>, double>
+template <unsigned int Dimension>
+class ITK_TEMPLATE_EXPORT SphereParametersEstimator : public ParametersEstimator<Point<double, Dimension>, double>
 {
 public:
   typedef SphereParametersEstimator                             Self;
-  typedef ParametersEstimator<Point<double, dimension>, double> Superclass;
+  typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
   typedef SmartPointer<Self>                                    Pointer;
   typedef SmartPointer<const Self>                              ConstPointer;
 
@@ -66,9 +66,9 @@ public:
    *                   (size = 0).
    */
   virtual void
-  Estimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   virtual void
-  Estimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
 
   /**
    * Compute a least squares estimate of the (hyper) sphere defined by the given
@@ -85,9 +85,9 @@ public:
    *                   (size = 0).
    */
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
 
   /**
    * Return true if the distance between the (hyper)sphere and the given point
@@ -98,7 +98,7 @@ public:
    *             sphere is smaller than 'delta'.
    */
   virtual bool
-  Agree(std::vector<double> & parameters, Point<double, dimension> & data);
+  Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
 
   /**
    * Change the type of least squares solution.
@@ -126,7 +126,7 @@ public:
    *                   empty (size = 0).
    */
   void
-  AlgebraicLeastSquaresEstimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  AlgebraicLeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
 
   /**
    * Compute a least squares estimate of the circle defined by the given points.
@@ -139,7 +139,7 @@ public:
    * [centerX,centerY,centerZ,r].
    */
   void
-  GeometricLeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+  GeometricLeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data,
                                 std::vector<double> &                     initialParameters,
                                 std::vector<double> &                     finalParameters);
 
@@ -170,7 +170,7 @@ public:
    */
   static void
   GetDistanceStatistics(std::vector<double> &                   parameters,
-                        std::vector<Point<double, dimension>> & data,
+                        std::vector<Point<double, Dimension>> & data,
                         std::vector<double> &                   distances,
                         double &                                min,
                         double &                                max,
@@ -194,23 +194,23 @@ private:
   LeastSquaresType lsType; // algebraic or geometric least squares
 
   inline void
-  Estimate2D(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  Estimate2D(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   inline void
-  Estimate3D(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  Estimate3D(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   inline void
-  EstimateND(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  EstimateND(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
 
   class SumSquaresSpherePointsDistanceFunction : public vnl_least_squares_function
   {
   public:
-    SumSquaresSpherePointsDistanceFunction(std::vector<Point<double, dimension> *> * data);
+    SumSquaresSpherePointsDistanceFunction(std::vector<Point<double, Dimension> *> * data);
     virtual void
     f(const vnl_vector<double> & x, vnl_vector<double> & fx);
     virtual void
     gradf(const vnl_vector<double> & x, vnl_matrix<double> & jacobian);
 
   private:
-    std::vector<Point<double, dimension> *> * data;
+    std::vector<Point<double, Dimension> *> * data;
   };
 };
 

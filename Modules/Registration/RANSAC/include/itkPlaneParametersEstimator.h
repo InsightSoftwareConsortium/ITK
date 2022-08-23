@@ -39,12 +39,12 @@ namespace itk
  *
  */
 
-template <unsigned int dimension>
-class ITK_TEMPLATE_EXPORT PlaneParametersEstimator : public ParametersEstimator<Point<double, dimension>, double>
+template <unsigned int Dimension>
+class ITK_TEMPLATE_EXPORT PlaneParametersEstimator : public ParametersEstimator<Point<double, Dimension>, double>
 {
 public:
   typedef PlaneParametersEstimator                              Self;
-  typedef ParametersEstimator<Point<double, dimension>, double> Superclass;
+  typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
   typedef SmartPointer<Self>                                    Pointer;
   typedef SmartPointer<const Self>                              ConstPointer;
 
@@ -63,9 +63,9 @@ public:
      *                   points are linearly dependent then the resulting
      *                   parameters vector is empty (size = 0).
      */
-    virtual void Estimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+    virtual void Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   virtual void
-  Estimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
 
   /**
    * Compute a least squares estimate of the (hyper)plane defined by the given
@@ -82,9 +82,9 @@ public:
    *                   is empty (size = 0).
    */
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
 
   /**
    * Return true if the distance between the line defined by the parameters and
@@ -95,7 +95,7 @@ public:
    *             less than 'delta'.
    */
   virtual bool
-  Agree(std::vector<double> & parameters, Point<double, dimension> & data);
+  Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
 
   /**
    * Set parameter which defines a threshold for a point to be considered on the

@@ -26,23 +26,23 @@
 namespace itk
 {
 
-template <unsigned int dimension>
-SphereParametersEstimator<dimension>::SphereParametersEstimator()
+template <unsigned int Dimension>
+SphereParametersEstimator<Dimension>::SphereParametersEstimator()
 {
   this->delta = NumericTraits<double>::min();
   this->lsType = GEOMETRIC;
-  this->minForEstimate = dimension + 1;
+  this->minForEstimate = Dimension + 1;
 }
 
 
-template <unsigned int dimension>
-SphereParametersEstimator<dimension>::~SphereParametersEstimator()
+template <unsigned int Dimension>
+SphereParametersEstimator<Dimension>::~SphereParametersEstimator()
 {}
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::SetLeastSquaresType(LeastSquaresType lsType)
+SphereParametersEstimator<Dimension>::SetLeastSquaresType(LeastSquaresType lsType)
 {
   if (lsType != ALGEBRAIC && lsType != GEOMETRIC)
     throw ExceptionObject(__FILE__, __LINE__, "Invalid value for least squares type.");
@@ -50,9 +50,9 @@ SphereParametersEstimator<dimension>::SetLeastSquaresType(LeastSquaresType lsTyp
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::SetDelta(double delta)
+SphereParametersEstimator<Dimension>::SetDelta(double delta)
 {
   if (delta < 0)
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for delta, must be >0.");
@@ -60,9 +60,9 @@ SphereParametersEstimator<dimension>::SetDelta(double delta)
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 double
-SphereParametersEstimator<dimension>::GetDelta()
+SphereParametersEstimator<Dimension>::GetDelta()
 {
   return this->delta;
 }
@@ -88,7 +88,7 @@ SphereParametersEstimator<dimension>::GetDelta()
  * Solving this set of linear equations yields the (hyper)sphere center, after which the radius is computed as
  * sqrt((center-p_1)^T(center-p_1)).
  *
- * For dimension = 2, a circle, and dimension = 3, a sphere we solve the linear equations (compute the matrix inverse)
+ * For Dimension = 2, a circle, and Dimension = 3, a sphere we solve the linear equations (compute the matrix inverse)
  * using Cramer's rule: A^-1 = C^T/det(A) where C is the
  * cofactor matrix, C_ij = -1^(i+j)detM_ij.
  *
@@ -102,9 +102,9 @@ SphereParametersEstimator<dimension>::GetDelta()
  * A = [d  e  f]     we get A^-1 = 1/(a(ei-fh) - b(di-fg) + c(dh-eg))   [fg-di  ai-cg  cd-af]
  *     [g  h  i]                                                        [dh-eg  bg-ah  ae-bd]
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::Estimate(std::vector<Point<double, Dimension> *> & data,
                                                std::vector<double> &                     parameters)
 {
   parameters.clear();
@@ -113,7 +113,7 @@ SphereParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensi
   if (this->minForEstimate == 0 || data.size() < this->minForEstimate)
     return;
 
-  switch (dimension)
+  switch (Dimension)
   {
     case CIRCLE:
       Estimate2D(data, parameters);
@@ -128,12 +128,12 @@ SphereParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensi
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
+SphereParametersEstimator<Dimension>::Estimate(std::vector<Point<double, Dimension>> & data,
                                                std::vector<double> &                   parameters)
 {
-  std::vector<Point<double, dimension> *> usedData;
+  std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
     usedData.push_back(&(data[i]));
@@ -144,9 +144,9 @@ SphereParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensi
 /*
  * See the Estimate() method for explanation.
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::Estimate2D(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::Estimate2D(std::vector<Point<double, Dimension> *> & data,
                                                  std::vector<double> &                     parameters)
 {
   const double EPS = 2 * NumericTraits<double>::epsilon();
@@ -154,9 +154,9 @@ SphereParametersEstimator<dimension>::Estimate2D(std::vector<Point<double, dimen
   double       b0, b1;
   double       detA;
 
-  Point<double, dimension> & p0 = (*data[0]);
-  Point<double, dimension> & p1 = (*data[1]);
-  Point<double, dimension> & p2 = (*data[2]);
+  Point<double, Dimension> & p0 = (*data[0]);
+  Point<double, Dimension> & p1 = (*data[1]);
+  Point<double, Dimension> & p2 = (*data[2]);
 
   A00 = p0[0] - p1[0];
   A01 = p0[1] - p1[1];
@@ -184,9 +184,9 @@ SphereParametersEstimator<dimension>::Estimate2D(std::vector<Point<double, dimen
 /*
  * See the Estimate() method for explanation.
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::Estimate3D(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::Estimate3D(std::vector<Point<double, Dimension> *> & data,
                                                  std::vector<double> &                     parameters)
 {
   const double EPS = 2 * NumericTraits<double>::epsilon();
@@ -195,10 +195,10 @@ SphereParametersEstimator<dimension>::Estimate3D(std::vector<Point<double, dimen
   double       b0, b1, b2;
   double       detA;
 
-  Point<double, dimension> & p0 = (*data[0]);
-  Point<double, dimension> & p1 = (*data[1]);
-  Point<double, dimension> & p2 = (*data[2]);
-  Point<double, dimension> & p3 = (*data[3]);
+  Point<double, Dimension> & p0 = (*data[0]);
+  Point<double, Dimension> & p1 = (*data[1]);
+  Point<double, Dimension> & p2 = (*data[2]);
+  Point<double, Dimension> & p3 = (*data[3]);
 
   A00 = p0[0] - p1[0];
   A01 = p0[1] - p1[1];
@@ -247,25 +247,25 @@ SphereParametersEstimator<dimension>::Estimate3D(std::vector<Point<double, dimen
 /*
  * See the Estimate() method for explanation.
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::EstimateND(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::EstimateND(std::vector<Point<double, Dimension> *> & data,
                                                  std::vector<double> &                     parameters)
 {
   const double       EPS = 2 * NumericTraits<double>::epsilon();
   double             rSquared;
   unsigned int       i, j, index;
-  vnl_matrix<double> A(dimension, dimension);
-  vnl_vector<double> b(dimension, 0);
-  vnl_vector<double> x(dimension);
+  vnl_matrix<double> A(Dimension, Dimension);
+  vnl_vector<double> b(Dimension, 0);
+  vnl_vector<double> x(Dimension);
 
   // create the matrix A
-  Point<double, dimension> & p0 = (*data[0]);
-  for (i = 0, index = 1; i < dimension; i++, index++)
+  Point<double, Dimension> & p0 = (*data[0]);
+  for (i = 0, index = 1; i < Dimension; i++, index++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
-      Point<double, dimension> & p = (*data[index]);
+      Point<double, Dimension> & p = (*data[index]);
       A(i, j) = p0[j] - p[j];
       b[i] += A(i, j) * (p0[j] + p[j]);
     }
@@ -277,13 +277,13 @@ SphereParametersEstimator<dimension>::EstimateND(std::vector<Point<double, dimen
   Ainv.zero_out_absolute(EPS);
 
   // points are coplanar
-  if (Ainv.rank() < dimension)
+  if (Ainv.rank() < Dimension)
     return;
   // solve the equation system
   x = Ainv * b * 0.5;
 
   rSquared = 0.0;
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
   {
     parameters.push_back(x[i]);
     rSquared += (p0[i] - x[i]) * (p0[i] - x[i]);
@@ -295,22 +295,22 @@ SphereParametersEstimator<dimension>::EstimateND(std::vector<Point<double, dimen
 /*
  * Check that |sqrt((p-center)^T(p-center)) - r| < delta
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 bool
-SphereParametersEstimator<dimension>::Agree(std::vector<double> & parameters, Point<double, dimension> & data)
+SphereParametersEstimator<Dimension>::Agree(std::vector<double> & parameters, Point<double, Dimension> & data)
 {
   double delta = 0;
-  for (unsigned int i = 0; i < dimension; i++)
+  for (unsigned int i = 0; i < Dimension; i++)
     delta += ((data[i] - parameters[i]) * (data[i] - parameters[i]));
-  delta = fabs(sqrt(delta)) - parameters[dimension];
+  delta = fabs(sqrt(delta)) - parameters[Dimension];
 
   return delta < this->delta;
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::AlgebraicLeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::AlgebraicLeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data,
                                                                     std::vector<double> & parameters)
 {
   const double EPS = 2 * NumericTraits<double>::epsilon();
@@ -319,19 +319,19 @@ SphereParametersEstimator<dimension>::AlgebraicLeastSquaresEstimate(std::vector<
     return;
 
   unsigned int       numPoints = data.size();
-  vnl_matrix<double> A(numPoints, dimension + 1);
-  vnl_vector<double> x(dimension + 1);
+  vnl_matrix<double> A(numPoints, Dimension + 1);
+  vnl_vector<double> x(Dimension + 1);
   vnl_vector<double> b(numPoints, 0);
   unsigned int       i, j;
 
   for (i = 0; i < numPoints; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
       A[i][j] = -2 * (*data[i])[j];
       b[i] += -((*data[i])[j] * (*data[i])[j]);
     }
-    A[i][dimension] = 1;
+    A[i][Dimension] = 1;
   }
 
   vnl_matrix_inverse<double> Ainv(A);
@@ -343,8 +343,8 @@ SphereParametersEstimator<dimension>::AlgebraicLeastSquaresEstimate(std::vector<
   x = Ainv * b;
 
 
-  double rSquared = -x[dimension];
-  for (i = 0; i < dimension; i++)
+  double rSquared = -x[Dimension];
+  for (i = 0; i < Dimension; i++)
   {
     parameters.push_back(x[i]);
     rSquared += x[i] * x[i];
@@ -357,9 +357,9 @@ SphereParametersEstimator<dimension>::AlgebraicLeastSquaresEstimate(std::vector<
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data,
                                                            std::vector<double> &                     parameters)
 {
   parameters.clear();
@@ -385,12 +385,12 @@ SphereParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<dou
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
+SphereParametersEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data,
                                                            std::vector<double> &                   parameters)
 {
-  std::vector<Point<double, dimension> *> usedData;
+  std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
     usedData.push_back(&(data[i]));
@@ -398,15 +398,15 @@ SphereParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<dou
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::GeometricLeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+SphereParametersEstimator<Dimension>::GeometricLeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data,
                                                                     std::vector<double> & initialParameters,
                                                                     std::vector<double> & finalParameters)
 {
-  vnl_vector<double> parameters(dimension + 1);
+  vnl_vector<double> parameters(Dimension + 1);
   unsigned int       i;
-  for (i = 0; i <= dimension; i++)
+  for (i = 0; i <= Dimension; i++)
     parameters[i] = initialParameters[i];
 
   SphereParametersEstimator::SumSquaresSpherePointsDistanceFunction optimizedFunction(&data);
@@ -423,30 +423,30 @@ SphereParametersEstimator<dimension>::GeometricLeastSquaresEstimate(std::vector<
   lmOptimization.minimize(parameters);
 
   finalParameters.clear();
-  for (i = 0; i <= dimension; i++)
+  for (i = 0; i <= Dimension; i++)
     finalParameters.push_back(parameters[i]);
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::GetDistanceStatistics(std::vector<double> &                   parameters,
-                                                            std::vector<Point<double, dimension>> & data,
+SphereParametersEstimator<Dimension>::GetDistanceStatistics(std::vector<double> &                   parameters,
+                                                            std::vector<Point<double, Dimension>> & data,
                                                             std::vector<double> &                   distances,
                                                             double &                                min,
                                                             double &                                max,
                                                             double &                                mean)
 {
-  if (parameters.size() < dimension + 1)
-    throw ExceptionObject(__FILE__, __LINE__, "Number of (hyper) sphere parameters does not match dimension.");
+  if (parameters.size() < Dimension + 1)
+    throw ExceptionObject(__FILE__, __LINE__, "Number of (hyper) sphere parameters does not match Dimension.");
   unsigned int i, j, n;
   double       dist;
 
   // use first point for initialization
   dist = 0.0;
-  for (j = 0; j < dimension; j++)
+  for (j = 0; j < Dimension; j++)
     dist += ((data[0])[j] - parameters[j]) * ((data[0])[j] - parameters[j]);
-  dist = fabs(sqrt(dist) - parameters[dimension]);
+  dist = fabs(sqrt(dist) - parameters[Dimension]);
   distances.push_back(dist);
   min = max = mean = dist;
 
@@ -454,11 +454,11 @@ SphereParametersEstimator<dimension>::GetDistanceStatistics(std::vector<double> 
   // go over the rest of the points
   for (i = 1; i < n; i++)
   {
-    Point<double, dimension> & pnt = data[i];
+    Point<double, Dimension> & pnt = data[i];
     dist = 0.0;
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
       dist += (pnt[j] - parameters[j]) * (pnt[j] - parameters[j]);
-    dist = fabs(sqrt(dist) - parameters[dimension]);
+    dist = fabs(sqrt(dist) - parameters[Dimension]);
     distances.push_back(dist);
     mean += dist;
     if (dist > max)
@@ -470,19 +470,19 @@ SphereParametersEstimator<dimension>::GetDistanceStatistics(std::vector<double> 
 }
 
 
-template <unsigned int dimension>
-SphereParametersEstimator<dimension>::SumSquaresSpherePointsDistanceFunction::SumSquaresSpherePointsDistanceFunction(
-  std::vector<Point<double, dimension> *> * data)
-  : vnl_least_squares_function(dimension + 1, data->size(), vnl_least_squares_function::use_gradient)
+template <unsigned int Dimension>
+SphereParametersEstimator<Dimension>::SumSquaresSpherePointsDistanceFunction::SumSquaresSpherePointsDistanceFunction(
+  std::vector<Point<double, Dimension> *> * data)
+  : vnl_least_squares_function(Dimension + 1, data->size(), vnl_least_squares_function::use_gradient)
 {
   this->data = data;
 }
 
 
 // x = [c_0,c_1,...c_k,r]
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::SumSquaresSpherePointsDistanceFunction::f(const vnl_vector<double> & x,
+SphereParametersEstimator<Dimension>::SumSquaresSpherePointsDistanceFunction::f(const vnl_vector<double> & x,
                                                                                 vnl_vector<double> &       fx)
 {
   unsigned int i, j, numPoints = this->data->size();
@@ -492,19 +492,19 @@ SphereParametersEstimator<dimension>::SumSquaresSpherePointsDistanceFunction::f(
   {
     // compute sqrVal = (p - c)^T (p - c)
     sqrVal = 0.0;
-    Point<double, dimension> & pnt = *((*this->data)[i]);
-    for (j = 0; j < dimension; j++)
+    Point<double, Dimension> & pnt = *((*this->data)[i]);
+    for (j = 0; j < Dimension; j++)
       sqrVal += (pnt[j] - x[j]) * (pnt[j] - x[j]);
-    fx[i] = sqrt(sqrVal) - x[dimension];
+    fx[i] = sqrt(sqrVal) - x[Dimension];
   }
 }
 
 
 // x = [c_0,c_1,...c_k,r]
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-SphereParametersEstimator<dimension>::SumSquaresSpherePointsDistanceFunction::gradf(const vnl_vector<double> & x,
+SphereParametersEstimator<Dimension>::SumSquaresSpherePointsDistanceFunction::gradf(const vnl_vector<double> & x,
                                                                                     vnl_matrix<double> &       jacobian)
 {
   unsigned int i, j, numPoints = this->data->size();
@@ -514,14 +514,14 @@ SphereParametersEstimator<dimension>::SumSquaresSpherePointsDistanceFunction::gr
   {
     // compute sqrtVal = sqrt((p - c)^T (p - c))
     sqrtVal = 0.0;
-    Point<double, dimension> & p = (*(*this->data)[i]);
-    for (j = 0; j < dimension; j++)
+    Point<double, Dimension> & p = (*(*this->data)[i]);
+    for (j = 0; j < Dimension; j++)
       sqrtVal += (p[j] - x[j]) * (p[j] - x[j]);
     sqrtVal = sqrt(sqrtVal);
     // the jacobian entries (c_i - p_i)/sqrtVal
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
       jacobian[i][j] = (x[j] - p[j]) / sqrtVal;
-    jacobian[i][dimension] = -1;
+    jacobian[i][Dimension] = -1;
   }
 }
 

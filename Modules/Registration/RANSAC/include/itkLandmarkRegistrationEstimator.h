@@ -26,12 +26,12 @@
 namespace itk
 {
 
-template <unsigned int dimension>
-class ITK_TEMPLATE_EXPORT LandmarkRegistrationEstimator : public ParametersEstimator<Point<double, dimension>, double>
+template <unsigned int Dimension>
+class ITK_TEMPLATE_EXPORT LandmarkRegistrationEstimator : public ParametersEstimator<Point<double, Dimension>, double>
 {
 public:
   typedef LandmarkRegistrationEstimator                         Self;
-  typedef ParametersEstimator<Point<double, dimension>, double> Superclass;
+  typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
   typedef SmartPointer<Self>                                    Pointer;
   typedef SmartPointer<const Self>                              ConstPointer;
 
@@ -40,17 +40,17 @@ public:
   itkNewMacro(Self);
 
   virtual void
-  Estimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   virtual void
-  Estimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
 
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, dimension>> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
 
   virtual bool
-  Agree(std::vector<double> & parameters, Point<double, dimension> & data);
+  Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
 
   void
   SetDelta(double delta);

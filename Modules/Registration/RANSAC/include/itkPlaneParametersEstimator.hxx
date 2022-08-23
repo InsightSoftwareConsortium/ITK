@@ -26,30 +26,30 @@
 namespace itk
 {
 
-template <unsigned int dimension>
-PlaneParametersEstimator<dimension>::PlaneParametersEstimator()
+template <unsigned int Dimension>
+PlaneParametersEstimator<Dimension>::PlaneParametersEstimator()
 {
   this->deltaSquared = NumericTraits<double>::min();
-  this->minForEstimate = dimension;
+  this->minForEstimate = Dimension;
 }
 
 
-template <unsigned int dimension>
-PlaneParametersEstimator<dimension>::~PlaneParametersEstimator()
+template <unsigned int Dimension>
+PlaneParametersEstimator<Dimension>::~PlaneParametersEstimator()
 {}
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-PlaneParametersEstimator<dimension>::SetDelta(double delta)
+PlaneParametersEstimator<Dimension>::SetDelta(double delta)
 {
   this->deltaSquared = delta * delta;
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 double
-PlaneParametersEstimator<dimension>::GetDelta()
+PlaneParametersEstimator<Dimension>::GetDelta()
 {
   return sqrt(this->deltaSquared);
 }
@@ -57,7 +57,7 @@ PlaneParametersEstimator<dimension>::GetDelta()
 
 /*
  * Estimate the plane parameters  [n_0,...,n_k,a_0,...,a_k], note that point
- * dimension is k+1.
+ * Dimension is k+1.
  * The plane is given as dot(n,p-a) = dot(n,p) - dot(n,a) = 0
  * The second dot product is a constant, d, so each point gives us one
  * equation in the equation system (Ax=0):
@@ -69,13 +69,13 @@ PlaneParametersEstimator<dimension>::GetDelta()
  *                        [ d ]
  *
  * If all k+1 points are linearly independent then the matrix A has a one
- * dimensional null space [A is a (k+1)X(k+2) matrix] which is the answer we
+ * Dimensional null space [A is a (k+1)X(k+2) matrix] which is the answer we
  * seek.
  *
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimension> *> & data,
+PlaneParametersEstimator<Dimension>::Estimate(std::vector<Point<double, Dimension> *> & data,
                                               std::vector<double> &                     parameters)
 {
   unsigned int i, j;
@@ -88,7 +88,7 @@ PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensio
   if (this->minForEstimate == 0 || data.size() < this->minForEstimate)
     return;
 
-  if (dimension == 3)
+  if (Dimension == 3)
   { // compute plane normal directly
     double             nx, ny, nz;
     vnl_vector<double> v1(3), v2(3);
@@ -117,7 +117,7 @@ PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensio
 
     for (i = 0; i < this->minForEstimate; i++)
     {
-      Point<double, dimension> & pnt = *(data[i]);
+      Point<double, Dimension> & pnt = *(data[i]);
       for (j = 0; j < this->minForEstimate; j++)
         A(i, j) = pnt[j];
       A(i, j) = -1;
@@ -131,7 +131,7 @@ PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensio
     if (svdA.rank() < this->minForEstimate)
       return;
 
-    // the one dimensional null space of A is the solution we seek
+    // the one Dimensional null space of A is the solution we seek
     vnl_vector<double> x(this->minForEstimate + 1);
     x = svdA.nullvector();
     // get the (hyper)plane normal, we need to set it so ||n||=1, this
@@ -150,17 +150,17 @@ PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensio
   }
   // first point is arbitrarily chosen to be the
   //"point on plane"
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
     parameters.push_back((*data[0])[i]);
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
+PlaneParametersEstimator<Dimension>::Estimate(std::vector<Point<double, Dimension>> & data,
                                               std::vector<double> &                   parameters)
 {
-  std::vector<Point<double, dimension> *> usedData;
+  std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
     usedData.push_back(&(data[i]));
@@ -171,9 +171,9 @@ PlaneParametersEstimator<dimension>::Estimate(std::vector<Point<double, dimensio
 /*
  * Estimate the plane parameters  [n_0,...,n_k,a_0,...,a_k].
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+PlaneParametersEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data,
                                                           std::vector<double> &                     parameters)
 {
   parameters.clear();
@@ -183,23 +183,23 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
     return;
 
   unsigned int       i, j, k, pointNum = data.size();
-  vnl_matrix<double> meanMat(dimension, dimension), covariance(dimension, dimension, 0);
-  vnl_vector<double> mean(dimension, 0);
+  vnl_matrix<double> meanMat(Dimension, Dimension), covariance(Dimension, Dimension, 0);
+  vnl_vector<double> mean(Dimension, 0);
 
   // create covariance matrix
   double sqrtN = sqrt((double)pointNum);
   for (i = 0; i < pointNum; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
       mean[j] += (*data[i])[j];
     }
   }
 
   mean /= sqrtN;
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
   {
-    for (j = i; j < dimension; j++)
+    for (j = i; j < Dimension; j++)
     {
       meanMat(i, j) = meanMat(j, i) = mean[i] * mean[j];
     }
@@ -208,9 +208,9 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
   // upper half
   for (i = 0; i < pointNum; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
-      for (k = j; k < dimension; k++)
+      for (k = j; k < Dimension; k++)
       {
         covariance(j, k) += (*data[i])[j] * (*data[i])[k];
       }
@@ -218,9 +218,9 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
   }
 
   // copy to lower half
-  for (j = 0; j < dimension; j++)
+  for (j = 0; j < Dimension; j++)
   {
-    for (k = j + 1; k < dimension; k++)
+    for (k = j + 1; k < Dimension; k++)
     {
       covariance(k, j) = covariance(j, k);
     }
@@ -234,24 +234,24 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
 
   // the (hyper)plane normal is the eigen-vector corresponding to
   // the smallest eigen-value, I assume ||eigenSystem.V(i,0)|| = 1
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
   {
     parameters.push_back(eigenSystem.V(i, 0));
   }
 
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
   {
     parameters.push_back(mean[i] / sqrtN);
   }
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
+PlaneParametersEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data,
                                                           std::vector<double> &                   parameters)
 {
-  std::vector<Point<double, dimension> *> usedData;
+  std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
     usedData.push_back(&(data[i]));
@@ -263,13 +263,13 @@ PlaneParametersEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<doub
  * Given the the plane parameters  [n_0,...,n_k,a_0,...,a_k] check if
  * dot([n_0,...,n_k], [data[0]-a_0,...,data[k]-a_k]) < delta
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 bool
-PlaneParametersEstimator<dimension>::Agree(std::vector<double> & parameters, Point<double, dimension> & data)
+PlaneParametersEstimator<Dimension>::Agree(std::vector<double> & parameters, Point<double, Dimension> & data)
 {
   double signedDistance = 0;
-  for (unsigned int i = 0; i < dimension; i++)
-    signedDistance += parameters[i] * (data[i] - parameters[dimension + i]);
+  for (unsigned int i = 0; i < Dimension; i++)
+    signedDistance += parameters[i] * (data[i] - parameters[Dimension + i]);
   return ((signedDistance * signedDistance) < this->deltaSquared);
 }
 

@@ -26,45 +26,45 @@
 namespace itk
 {
 
-template <unsigned int dimension>
-LandmarkRegistrationEstimator<dimension>::LandmarkRegistrationEstimator()
+template <unsigned int Dimension>
+LandmarkRegistrationEstimator<Dimension>::LandmarkRegistrationEstimator()
 {
   this->deltaSquared = NumericTraits<double>::min();
-  this->minForEstimate = dimension;
+  this->minForEstimate = Dimension;
 }
 
 
-template <unsigned int dimension>
-LandmarkRegistrationEstimator<dimension>::~LandmarkRegistrationEstimator()
+template <unsigned int Dimension>
+LandmarkRegistrationEstimator<Dimension>::~LandmarkRegistrationEstimator()
 {}
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<dimension>::SetDelta(double delta)
+LandmarkRegistrationEstimator<Dimension>::SetDelta(double delta)
 {
   this->deltaSquared = delta * delta;
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 double
-LandmarkRegistrationEstimator<dimension>::GetDelta()
+LandmarkRegistrationEstimator<Dimension>::GetDelta()
 {
   return sqrt(this->deltaSquared);
 }
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension> *> & data,
+LandmarkRegistrationEstimator<Dimension>::Estimate(std::vector<Point<double, Dimension> *> & data,
                                                    std::vector<double> &                     parameters)
 {
   parameters.clear();
 
+  constexpr unsigned int DimensionPoint = 3;
   using PixelType = float;
-  constexpr unsigned int Dimension = 3;
-  using FixedImageType = itk::Image<PixelType, Dimension>;
-  using MovingImageType = itk::Image<PixelType, Dimension>;
+  using FixedImageType = itk::Image<PixelType, DimensionPoint>;
+  using MovingImageType = itk::Image<PixelType, DimensionPoint>;
 
   using TransformType = itk::Similarity3DTransform<double>;
   using TransformInitializerType =
@@ -83,7 +83,7 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
-    Point<double, dimension> & pnt = *(data[i]);
+    Point<double, Dimension> & pnt = *(data[i]);
     itk::Point<double, 3>      point1;
     point1[0] = pnt[0];
     point1[1] = pnt[1];
@@ -120,12 +120,12 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   return;
 }
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dimension>> & data,
+LandmarkRegistrationEstimator<Dimension>::Estimate(std::vector<Point<double, Dimension>> & data,
                                                    std::vector<double> &                   parameters)
 {
-  std::vector<Point<double, dimension> *> usedData;
+  std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
   {
@@ -134,17 +134,17 @@ LandmarkRegistrationEstimator<dimension>::Estimate(std::vector<Point<double, dim
   Estimate(usedData, parameters);
 }
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension> *> & data,
+LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data,
                                                                std::vector<double> &                     parameters)
 {
   parameters.clear();
 
   using PixelType = float;
-  constexpr unsigned int Dimension = 3;
-  using FixedImageType = itk::Image<PixelType, Dimension>;
-  using MovingImageType = itk::Image<PixelType, Dimension>;
+  constexpr unsigned int DimensionPoint = 3;
+  using FixedImageType = itk::Image<PixelType, DimensionPoint>;
+  using MovingImageType = itk::Image<PixelType, DimensionPoint>;
 
   using TransformType = itk::Similarity3DTransform<double>;
   using TransformInitializerType =
@@ -162,7 +162,7 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
-    Point<double, dimension> & pnt = *(data[i]);
+    Point<double, Dimension> & pnt = *(data[i]);
 
     point[0] = pnt[0];
     point[1] = pnt[1];
@@ -195,21 +195,21 @@ LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point
   return;
 }
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<dimension>::LeastSquaresEstimate(std::vector<Point<double, dimension>> & data,
+LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data,
                                                                std::vector<double> &                   parameters)
 {
-  std::vector<Point<double, dimension> *> usedData;
+  std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
     usedData.push_back(&(data[i]));
   LeastSquaresEstimate(usedData, parameters);
 }
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 bool
-LandmarkRegistrationEstimator<dimension>::Agree(std::vector<double> & parameters, Point<double, dimension> & data)
+LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters, Point<double, Dimension> & data)
 {
   using TransformType = itk::Similarity3DTransform<double>;
   using Similarity3DTransformType = Similarity3DTransform<double>;
