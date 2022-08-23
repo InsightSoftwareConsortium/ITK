@@ -45,7 +45,7 @@ namespace itk
  * @author: Ziv Yaniv zivy@isis.georgetown.edu
  */
 
-template <typename T, typename S>
+template <typename T, typename SType>
 class ITK_TEMPLATE_EXPORT ParametersEstimator : public Object
 {
 public:
@@ -63,9 +63,9 @@ public:
    *                   parameter values.
    */
   virtual void
-  Estimate(std::vector<T *> & data, std::vector<S> & parameters) = 0;
+  Estimate(std::vector<T *> & data, std::vector<SType> & parameters) = 0;
   virtual void
-  Estimate(std::vector<T> & data, std::vector<S> & parameters) = 0;
+  Estimate(std::vector<T> & data, std::vector<SType> & parameters) = 0;
 
   /**
    * Least squares estimation of parameters.
@@ -74,16 +74,16 @@ public:
    *                   parameters.
    */
   virtual void
-  LeastSquaresEstimate(std::vector<T *> & data, std::vector<S> & parameters) = 0;
+  LeastSquaresEstimate(std::vector<T *> & data, std::vector<SType> & parameters) = 0;
   virtual void
-  LeastSquaresEstimate(std::vector<T> & data, std::vector<S> & parameters) = 0;
+  LeastSquaresEstimate(std::vector<T> & data, std::vector<SType> & parameters) = 0;
 
   /**
    * This method tests if the given data agrees with the model defined by the
    * parameters.
    */
   virtual bool
-  Agree(std::vector<S> & parameters, T & data) = 0;
+  Agree(std::vector<SType> & parameters, T & data) = 0;
 
   /**
    * Set the minimal number of data objects required for computation of an exact

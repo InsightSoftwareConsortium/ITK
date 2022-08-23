@@ -24,9 +24,9 @@
 namespace itk
 {
 
-template <typename T, typename S>
+template <typename T, typename SType>
 void
-ParametersEstimator<T, S>::SetMinimalForEstimate(unsigned int minForEstimate)
+ParametersEstimator<T, SType>::SetMinimalForEstimate(unsigned int minForEstimate)
 {
   if (minForEstimate == 0)
     throw ExceptionObject(__FILE__, __LINE__, "Invalid minimal number of objects for exact estimate.");
@@ -35,9 +35,9 @@ ParametersEstimator<T, S>::SetMinimalForEstimate(unsigned int minForEstimate)
 }
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 unsigned int
-ParametersEstimator<T, S>::GetMinimalForEstimate()
+ParametersEstimator<T, SType>::GetMinimalForEstimate()
 {
   return this->minForEstimate;
 }

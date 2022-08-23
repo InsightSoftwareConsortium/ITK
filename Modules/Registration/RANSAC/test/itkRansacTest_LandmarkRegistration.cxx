@@ -46,7 +46,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   std::vector<double>                truePlaneParameters, transformParameters;
   double                             outlierDistance = 20.0;
 
-  GenerateData<Dimension>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
+  GenerateData<DimensionPoint>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
 
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 6;
