@@ -52,22 +52,8 @@ ImportImageFilter<TPixel, VImageDimension>::PrintSelf(std::ostream & os, Indent 
 
   Superclass::PrintSelf(os, indent);
 
-  if (m_ImportImageContainer)
-  {
-    os << indent << "ImportImageContainer pointer: (" << m_ImportImageContainer << ")" << std::endl;
-  }
-  else
-  {
-    os << indent << "ImportImageContainer pointer: (None)" << std::endl;
-  }
+  itkPrintSelfObjectMacro(ImportImageContainer);
   os << indent << "Import buffer size: " << m_Size << std::endl;
-  if (m_ImportImageContainer)
-  {
-    os << indent
-       << "ImageContainer manages memory: " << (m_ImportImageContainer->GetContainerManageMemory() ? "true" : "false")
-       << std::endl;
-  }
-
   os << indent << "Spacing: [";
   for (i = 0; i < static_cast<int>(VImageDimension) - 1; ++i)
   {
