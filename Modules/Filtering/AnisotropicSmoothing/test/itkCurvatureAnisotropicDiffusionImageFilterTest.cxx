@@ -22,8 +22,8 @@
 #include "itkSimpleFilterWatcher.h"
 
 /**
- * This program tests the FilterImageAnisotropicDiffusion object by driving it
- * with a null input and output.  Returns 0 on success and 1 on failure.
+ * Test the class instance by driving it with a null input and output.
+ * Returns 0 on success and 1 on failure.
  */
 int
 itkCurvatureAnisotropicDiffusionImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[])
