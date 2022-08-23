@@ -142,17 +142,19 @@ private:
   double m_Scale;
   double m_Rscale;
   double m_Rcons;
-  int    m_ELEN;
-  int    m_LEN;
-  int    m_LMASK;
-  int    m_TLEN;
+
+  static constexpr int m_ELEN{ 7 };
+  // LEN must be 2 ** ELEN
+  static constexpr int m_LEN{ 128 };
+  static constexpr int m_LMASK{ 4 * (m_LEN - 1) };
+  static constexpr int m_TLEN{ 8 * m_LEN };
 
   int   m_Gaussfaze;
   int * m_Gausssave;
 
   double m_GScale;
 
-  int *  m_Vec1;
+  int    m_Vec1[m_TLEN];
   int    m_Nslew;
   int    m_Irs;
   int    m_Lseed;

@@ -28,20 +28,12 @@ NormalVariateGenerator::NormalVariateGenerator()
   m_Scale = 30000000.0;
   m_Rscale = 1.0 / m_Scale;
   m_Rcons = 1.0 / (2.0 * 1024.0 * 1024.0 * 1024.0);
-  m_ELEN = 7; /*  LEN must be 2 ** ELEN       */
-  m_LEN = 128;
-  m_LMASK = (4 * (m_LEN - 1));
-  m_TLEN = (8 * m_LEN);
-  m_Vec1 = new int[m_TLEN];
 
   m_Gausssave = nullptr;
   this->Initialize(0);
 }
 
-NormalVariateGenerator::~NormalVariateGenerator()
-{
-  delete[] m_Vec1;
-}
+NormalVariateGenerator::~NormalVariateGenerator() = default;
 
 void
 NormalVariateGenerator::PrintSelf(std::ostream & os, Indent indent) const
