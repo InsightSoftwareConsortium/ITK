@@ -86,15 +86,8 @@ itkImportImageTest(int, char *[])
 
   shrink->SetInput(image);
   shrink->SetShrinkFactors(2); // Also tested with factors 3 and 4, with 12x12 image
-  try
-  {
-    shrink->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception detected: " << e.GetDescription();
-    return EXIT_FAILURE;
-  }
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(shrink->Update());
 
   //
   // The rest of this code determines whether the shrink code produced

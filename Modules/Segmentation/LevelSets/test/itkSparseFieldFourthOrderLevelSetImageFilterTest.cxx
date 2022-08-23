@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkSparseFieldFourthOrderLevelSetImageFilter.h"
+#include "itkTestingMacros.h"
 #include <iostream>
 
 /*
@@ -167,8 +168,11 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   std::cout << "Unsharp flag = " << (filter->GetNormalProcessUnsharpFlag()) << "\n";
   std::cout << "Unsharp weight = " << (filter->GetNormalProcessUnsharpWeight()) << "\n";
 
-  filter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
+
+
   filter->Print(std::cout);
+
   std::cout << "Passed.\n";
   return EXIT_SUCCESS;
 }
