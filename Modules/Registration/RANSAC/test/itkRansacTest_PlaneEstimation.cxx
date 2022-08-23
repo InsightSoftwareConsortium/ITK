@@ -33,12 +33,12 @@
  * @param planeParameters [n,a], plane normal and point on plane. Plane is
  *                        defined as the set of points p such that n^T(p-a)=0.
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 GenerateData(unsigned int                                 numInliers,
              unsigned int                                 numOutliers,
              double                                       outlierDistance,
-             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & data,
              std::vector<double> &                        planeParameters);
 
 /**
@@ -56,18 +56,18 @@ GenerateData(unsigned int                                 numInliers,
  * @param parameterEstimator The plane parameter estimator whoes Agree() method
  *                           is used to identify inliers.
  */
-// template<unsigned int dimension>
+// template<unsigned int Dimension>
 // void SaveOIVFile( std::string &outputFileName,
-//                   std::vector< itk::Point<double,dimension> > &data,
+//                   std::vector< itk::Point<double,Dimension> > &data,
 //                   std::vector<double> &estimatedPlaneParameters,
-//                   typename itk::PlaneParametersEstimator<dimension>::Pointer
+//                   typename itk::PlaneParametersEstimator<Dimension>::Pointer
 //                   parameterEstimator );
 /**
- * Given the hard coded dimension, and number of outliers and inliers generate
+ * Given the hard coded Dimension, and number of outliers and inliers generate
  * a random dataset accordingly. Then estimate the (hyper)plane parameter values
  * using a least squares estimate and the RANSAC algorithm. Compare the results
  * to the known (hyper)plane. Code is written for nD data except the
- * visualization which is limited to 3D. If DIMENSION is set to three, two
+ * visualization which is limited to 3D. If Dimension is set to three, two
  * open inventor scene files are written, showing the least squares and RANSAC
  * estimates. Data points are colored spheres, those that agree with the
  * estimated model are green, otherwise they are red.
@@ -77,25 +77,25 @@ GenerateData(unsigned int                                 numInliers,
 int
 itkRansacTest_PlaneEstimation(int argc, char * argv[])
 {
-  const unsigned int DIMENSION = 3;
+  const unsigned int Dimension = 3;
   const unsigned int INLIERS = 10;
   const unsigned int OUTLIERS = 0; // 10;
   std::string        leastSquaresOutputFileName = "leastSquaresPlaneEstimation.iv";
   std::string        ransacOutputFileName = "RANSACPlaneEstimation.iv";
 
-  typedef itk::PlaneParametersEstimator<DIMENSION>           PlaneEstimatorType;
-  typedef itk::RANSAC<itk::Point<double, DIMENSION>, double> RANSACType;
+  typedef itk::PlaneParametersEstimator<Dimension>           PlaneEstimatorType;
+  typedef itk::RANSAC<itk::Point<double, Dimension>, double> RANSACType;
 
-  std::vector<itk::Point<double, DIMENSION>> data;
+  std::vector<itk::Point<double, Dimension>> data;
   std::vector<double>                        truePlaneParameters, planeParameters;
   double                                     outlierDistance = 20.0;
   unsigned int                               i;
   double                                     dotProduct;
 
-  GenerateData<DIMENSION>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
+  GenerateData<Dimension>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
 
   std::cout << "Known (hyper)plane parameters [n,a]\n\t [ ";
-  for (i = 0; i < (2 * DIMENSION - 1); i++)
+  for (i = 0; i < (2 * Dimension - 1); i++)
     std::cout << truePlaneParameters[i] << ", ";
   std::cout << truePlaneParameters[i] << "]\n\n";
 
@@ -109,19 +109,19 @@ itkRansacTest_PlaneEstimation(int argc, char * argv[])
   else
   {
     std::cout << "Least squares hyper(plane) parameters: [n,a]\n\t [ ";
-    for (i = 0; i < (2 * DIMENSION - 1); i++)
+    for (i = 0; i < (2 * Dimension - 1); i++)
       std::cout << planeParameters[i] << ", ";
     std::cout << planeParameters[i] << "]\n\n";
     // cos(theta), theta is the angle between the two unit normals
     dotProduct = 0.0;
-    for (i = 0; i < DIMENSION; i++)
+    for (i = 0; i < Dimension; i++)
       dotProduct += planeParameters[i] * truePlaneParameters[i];
     std::cout << "\tDot product of real and computed normals[+-1=correct]: ";
     std::cout << dotProduct << "\n";
     // distance between known hyper(plane) and estimated point on plane
     dotProduct = 0.0;
-    for (i = 0; i < DIMENSION; i++)
-      dotProduct += (planeParameters[DIMENSION + i] - truePlaneParameters[DIMENSION + i]) * truePlaneParameters[i];
+    for (i = 0; i < Dimension; i++)
+      dotProduct += (planeParameters[Dimension + i] - truePlaneParameters[Dimension + i]) * truePlaneParameters[i];
     std::cout << "\tCheck if computed point is on known plane [0=correct]: ";
     std::cout << dotProduct << "\n\n";
     // save scene file (works only in 3D)
@@ -140,19 +140,19 @@ itkRansacTest_PlaneEstimation(int argc, char * argv[])
   else
   {
     std::cout << "RANSAC hyper(plane) parameters: [n,a]\n\t [ ";
-    for (i = 0; i < (2 * DIMENSION - 1); i++)
+    for (i = 0; i < (2 * Dimension - 1); i++)
       std::cout << planeParameters[i] << ", ";
     std::cout << planeParameters[i] << "]\n\n";
     // cos(theta), theta is the angle between the two unit normals
     dotProduct = 0.0;
-    for (i = 0; i < DIMENSION; i++)
+    for (i = 0; i < Dimension; i++)
       dotProduct += planeParameters[i] * truePlaneParameters[i];
     std::cout << "\tDot product of real and computed normals[+-1=correct]: ";
     std::cout << dotProduct << "\n";
     // distance between known hyper(plane) and estimated point on plane
     dotProduct = 0.0;
-    for (i = 0; i < DIMENSION; i++)
-      dotProduct += (planeParameters[DIMENSION + i] - truePlaneParameters[DIMENSION + i]) * truePlaneParameters[i];
+    for (i = 0; i < Dimension; i++)
+      dotProduct += (planeParameters[Dimension + i] - truePlaneParameters[Dimension + i]) * truePlaneParameters[i];
     std::cout << "\tCheck if computed point is on known plane [0=correct]: ";
     std::cout << dotProduct << "\n\n";
     std::cout << "\tPercentage of points which were used for final estimate: ";
@@ -165,16 +165,16 @@ itkRansacTest_PlaneEstimation(int argc, char * argv[])
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 GenerateData(unsigned int                                 numInliers,
              unsigned int                                 numOutliers,
              double                                       outlierDistance,
-             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & data,
              std::vector<double> &                        planeParameters)
 {
-  itk::Vector<double, dimension> normal, noise, tmp;
-  itk::Point<double, dimension>  pointOnPlane, randomPoint;
+  itk::Vector<double, Dimension> normal, noise, tmp;
+  itk::Point<double, Dimension>  pointOnPlane, randomPoint;
   double                         noiseStandardDeviation = 0.4; // noise standard deviation
   double                         coordinateMax = 1000.0;
   unsigned int                   i, j;
@@ -183,21 +183,21 @@ GenerateData(unsigned int                                 numInliers,
 
   planeParameters.clear();
   // generate points on random (hyper) plane
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
   {
     normal[i] = random.uniform();
     pointOnPlane[i] = random.uniform(-coordinateMax, coordinateMax);
   }
   normal.Normalize();
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
     planeParameters.push_back(normal[i]);
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
     planeParameters.push_back(pointOnPlane[i]);
 
   // generate inliers
   for (i = 0; i < numInliers; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
       randomPoint[j] = random.uniform(-coordinateMax, coordinateMax);
       noise[j] = random.normal(noiseStandardDeviation);
@@ -211,7 +211,7 @@ GenerateData(unsigned int                                 numInliers,
   // generate outliers (via rejection)
   for (i = 0; i < numOutliers; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
       randomPoint[j] = random.uniform(-coordinateMax, coordinateMax);
     }
@@ -223,15 +223,15 @@ GenerateData(unsigned int                                 numInliers,
   }
 }
 
-// // typename itk::PlaneParametersEstimator<dimension>::Pointer
+// // typename itk::PlaneParametersEstimator<Dimension>::Pointer
 
-// template<unsigned int dimension>
+// template<unsigned int Dimension>
 // void SaveOIVFile( std::string &outputFileName,
-//                   std::vector< itk::Point<double,dimension> > &data,
+//                   std::vector< itk::Point<double,Dimension> > &data,
 //                   std::vector<double> &estimatedPlaneParameters,
 //                   parameterEstimatorPointer parameterEstimator )
 // {
-//   if( dimension != 3 )
+//   if( Dimension != 3 )
 //     return;
 
 //   double sphereRadius = 50.0;
