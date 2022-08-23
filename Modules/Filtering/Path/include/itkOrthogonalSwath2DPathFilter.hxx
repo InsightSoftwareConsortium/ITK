@@ -23,34 +23,6 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
-template <typename TParametricPath, typename TSwathMeritImage>
-OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::OrthogonalSwath2DPathFilter()
-{
-  SizeType size;
-
-  // Initialize the member variables
-  size[0] = 0;
-  size[1] = 0;
-  m_SwathSize = size;
-  m_StepValues = nullptr;
-  m_MeritValues = nullptr;
-  m_OptimumStepsValues = nullptr;
-  m_FinalOffsetValues = OrthogonalCorrectionTableType::New();
-}
-
-/**
- * Destructor
- */
-template <typename TParametricPath, typename TSwathMeritImage>
-OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::~OrthogonalSwath2DPathFilter()
-{
-  delete[] m_StepValues;
-  delete[] m_MeritValues;
-  delete[] m_OptimumStepsValues;
-}
 
 /**
  * GenerateData Performs the reflection
@@ -64,12 +36,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
 
   // Re-initialize the member variables
   m_SwathSize = swathMeritImage->GetLargestPossibleRegion().GetSize();
-  delete[] m_StepValues;
-  delete[] m_MeritValues;
-  delete[] m_OptimumStepsValues;
-  m_StepValues = new int[m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]];
-  m_MeritValues = new double[m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]];
-  m_OptimumStepsValues = new int[m_SwathSize[0]];
+  m_StepValues.reset(new int[m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]]);
+  m_MeritValues.reset(new double[m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]]);
+  m_OptimumStepsValues.reset(new int[m_SwathSize[0]]);
   m_FinalOffsetValues->Initialize();
 
   // Perform the remaining calculations; use dynamic programming
@@ -196,9 +165,9 @@ void
 OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "StepValues:  " << m_StepValues << std::endl;
-  os << indent << "MeritValues:  " << m_MeritValues << std::endl;
-  os << indent << "OptimumStepsValues:  " << m_OptimumStepsValues << std::endl;
+  os << indent << "StepValues:  " << m_StepValues.get() << std::endl;
+  os << indent << "MeritValues:  " << m_MeritValues.get() << std::endl;
+  os << indent << "OptimumStepsValues:  " << m_OptimumStepsValues.get() << std::endl;
   os << indent << "FinalOffsetValues:  " << m_FinalOffsetValues << std::endl;
 }
 

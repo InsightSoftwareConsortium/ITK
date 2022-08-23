@@ -21,6 +21,8 @@
 #include "itkPathAndImageToPathFilter.h"
 #include "itkOrthogonallyCorrected2DParametricPath.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 /**
@@ -87,8 +89,8 @@ public:
   using SizeType = typename ImageType::SizeType;
 
 protected:
-  OrthogonalSwath2DPathFilter();
-  ~OrthogonalSwath2DPathFilter() override;
+  OrthogonalSwath2DPathFilter() = default;
+  ~OrthogonalSwath2DPathFilter() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -131,16 +133,16 @@ private:
     return m_MeritValues[(x * rows * rows) + (f * rows) + (l)];
   }
 
-  int * m_StepValues; // best y=error coordinate @ x of image for (0,F) ->
-                      // (x+1,L)
-  double * m_MeritValues;
+  std::unique_ptr<int[]> m_StepValues{ nullptr }; // best y=error coordinate @ x of image for (0,F) ->
+                                                  // (x+1,L)
+  std::unique_ptr<double[]> m_MeritValues{ nullptr };
 
-  int * m_OptimumStepsValues; // best step (e value)
-                              // sequence for a
-                              // closed path
-  OrthogonalCorrectionTablePointer m_FinalOffsetValues;
+  std::unique_ptr<int[]> m_OptimumStepsValues{ nullptr }; // best step (e value)
+                                                          // sequence for a
+                                                          // closed path
+  OrthogonalCorrectionTablePointer m_FinalOffsetValues{ OrthogonalCorrectionTableType::New() };
 
-  SizeType m_SwathSize;
+  SizeType m_SwathSize{ { 0 } };
 };
 } // end namespace itk
 
