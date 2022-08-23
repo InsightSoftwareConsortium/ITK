@@ -21,6 +21,7 @@
 #include "itkConstNeighborhoodIterator.h"
 #include "itkZeroFluxNeumannBoundaryCondition.h"
 #include "itkInterpolateImageFunction.h"
+#include "itkMath.h"
 
 namespace itk
 {
@@ -326,8 +327,8 @@ public:
   }
 
 protected:
-  WindowedSincInterpolateImageFunction();
-  ~WindowedSincInterpolateImageFunction() override;
+  WindowedSincInterpolateImageFunction() = default;
+  ~WindowedSincInterpolateImageFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -336,20 +337,20 @@ private:
   using IteratorType = ConstNeighborhoodIterator<ImageType, TBoundaryCondition>;
 
   // Constant to store twice the radius
-  static const unsigned int m_WindowSize;
+  static constexpr unsigned int m_WindowSize{ 2 * VRadius };
 
   /** The function object, used to compute window */
   TWindowFunction m_WindowFunction;
 
+  /** Size of the offset table */
+  static constexpr unsigned int m_OffsetTableSize{ Math::UnsignedPower(m_WindowSize, ImageDimension) };
+
   /** The offset array, used to keep a list of relevant
    * offsets in the neihborhoodIterator */
-  unsigned int * m_OffsetTable;
-
-  /** Size of the offset table */
-  unsigned int m_OffsetTableSize;
+  unsigned int m_OffsetTable[m_OffsetTableSize];
 
   /** Index into the weights array for each offset */
-  unsigned int ** m_WeightOffsetTable;
+  unsigned int m_WeightOffsetTable[m_OffsetTableSize][ImageDimension];
 
   /** The sinc function */
   inline double

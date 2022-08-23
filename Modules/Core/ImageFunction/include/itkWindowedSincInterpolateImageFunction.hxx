@@ -45,62 +45,6 @@ template <unsigned int VRadius, typename TInput, typename TOutput>
 const double BlackmanWindowFunction<VRadius, TInput, TOutput>::m_Factor2 = 2.0 * itk::Math::pi / VRadius;
 } // end namespace Function
 
-/** Window size constant */
-template <typename TInputImage,
-          unsigned int VRadius,
-          typename TWindowFunction,
-          typename TBoundaryCondition,
-          typename TCoordRep>
-const unsigned int
-  WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
-    m_WindowSize = VRadius << 1;
-
-/** Constructor */
-template <typename TInputImage,
-          unsigned int VRadius,
-          typename TWindowFunction,
-          typename TBoundaryCondition,
-          typename TCoordRep>
-WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
-  WindowedSincInterpolateImageFunction()
-{
-  // Compute the offset table size
-  m_OffsetTableSize = 1;
-  for (unsigned int dim = 0; dim < ImageDimension; ++dim)
-  {
-    m_OffsetTableSize *= m_WindowSize;
-  }
-
-  // Allocate the offset table
-  m_OffsetTable = new unsigned int[m_OffsetTableSize];
-
-  // Allocate the weights tables
-  m_WeightOffsetTable = new unsigned int *[m_OffsetTableSize];
-  for (unsigned int i = 0; i < m_OffsetTableSize; ++i)
-  {
-    m_WeightOffsetTable[i] = new unsigned int[ImageDimension];
-  }
-}
-
-/** Destructor */
-template <typename TInputImage,
-          unsigned int VRadius,
-          typename TWindowFunction,
-          typename TBoundaryCondition,
-          typename TCoordRep>
-WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBoundaryCondition, TCoordRep>::
-  ~WindowedSincInterpolateImageFunction()
-{
-  // Clear the offset table
-  delete[] m_OffsetTable;
-
-  // Clear the weights tables
-  for (unsigned int i = 0; i < m_OffsetTableSize; ++i)
-  {
-    delete[] m_WeightOffsetTable[i];
-  }
-  delete[] m_WeightOffsetTable;
-}
 
 template <typename TInputImage,
           unsigned int VRadius,
