@@ -31,7 +31,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   GenerateData<DIMENSION>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
 
   // create and initialize the parameter estimator
-  double maximalDistanceFromPlane = 12;
+  double maximalDistanceFromPlane = 6;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
   registrationEstimator->SetMinimalForEstimate(3);
   registrationEstimator->SetDelta(maximalDistanceFromPlane);
