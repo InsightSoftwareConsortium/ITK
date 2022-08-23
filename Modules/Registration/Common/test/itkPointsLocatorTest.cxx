@@ -52,6 +52,8 @@ testPointsLocatorTest()
   }
 
   pointsLocator->SetPoints(points);
+  ITK_TEST_SET_GET_VALUE(points, pointsLocator->GetPoints());
+
   pointsLocator->Initialize();
 
   /**

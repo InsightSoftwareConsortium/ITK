@@ -156,26 +156,48 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
   using FilterType = itk::IsotropicDiffusionLevelSetFilter<ImageType, ImageType>;
   auto filter = FilterType::New();
 
-  filter->SetInput(image);
-  std::cout << "MaxRefitIteration = " << (filter->GetMaxRefitIteration()) << "\n";
-  std::cout << "MaxNormalIteration = " << (filter->GetMaxNormalIteration()) << "\n";
-  filter->SetCurvatureBandWidth(4);
-  std::cout << "CurvatureBandWidth= " << (filter->GetCurvatureBandWidth()) << "\n";
-  filter->SetRMSChangeNormalProcessTrigger(0.001);
-  std::cout << "RMS change trigger = " << (filter->GetRMSChangeNormalProcessTrigger()) << "\n";
-  std::cout << "Normal process type = " << (filter->GetNormalProcessType()) << "\n";
-  std::cout << "Conductance = " << (filter->GetNormalProcessConductance()) << "\n";
-  std::cout << "Unsharp flag = " << (filter->GetNormalProcessUnsharpFlag()) << "\n";
-  std::cout << "Unsharp weight = " << (filter->GetNormalProcessUnsharpWeight()) << "\n";
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, IsotropicDiffusionLevelSetFilter, SparseFieldFourthOrderLevelSetImageFilter);
+
+
+  unsigned int maxRefitIteration = 0;
+  filter->SetMaxRefitIteration(maxRefitIteration);
+  ITK_TEST_SET_GET_VALUE(maxRefitIteration, filter->GetMaxRefitIteration());
+
+  unsigned int maxNormalIteration = 100;
+  filter->SetMaxNormalIteration(maxNormalIteration);
+  ITK_TEST_SET_GET_VALUE(maxNormalIteration, filter->GetMaxNormalIteration());
+
+  typename FilterType::ValueType curvatureBandWidth = 4;
+  filter->SetCurvatureBandWidth(curvatureBandWidth);
+  ITK_TEST_SET_GET_VALUE(curvatureBandWidth, filter->GetCurvatureBandWidth());
+
+  typename FilterType::ValueType rmsChangeNormalProcessTrigger = 0.001;
+  filter->SetRMSChangeNormalProcessTrigger(rmsChangeNormalProcessTrigger);
+  ITK_TEST_SET_GET_VALUE(rmsChangeNormalProcessTrigger, filter->GetRMSChangeNormalProcessTrigger());
+
+  int normalProcessType = 0;
+  filter->SetNormalProcessType(normalProcessType);
+  ITK_TEST_SET_GET_VALUE(normalProcessType, filter->GetNormalProcessType());
+
+  typename FilterType::ValueType normalProcessConductance =
+    itk::NumericTraits<typename FilterType::ValueType>::ZeroValue();
+  filter->SetNormalProcessConductance(normalProcessConductance);
+  ITK_TEST_SET_GET_VALUE(normalProcessConductance, filter->GetNormalProcessConductance());
 
   bool normalProcessUnsharpFlag = false;
   filter->SetNormalProcessUnsharpFlag(normalProcessUnsharpFlag);
   ITK_TEST_SET_GET_BOOLEAN(filter, NormalProcessUnsharpFlag, normalProcessUnsharpFlag);
 
+  typename FilterType::ValueType normalProcessUnsharpWeight =
+    itk::NumericTraits<typename FilterType::ValueType>::ZeroValue();
+  filter->SetNormalProcessUnsharpWeight(normalProcessUnsharpWeight);
+  ITK_TEST_SET_GET_VALUE(normalProcessUnsharpWeight, filter->GetNormalProcessUnsharpWeight());
+
+  filter->SetInput(image);
+
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-
-  filter->Print(std::cout);
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
