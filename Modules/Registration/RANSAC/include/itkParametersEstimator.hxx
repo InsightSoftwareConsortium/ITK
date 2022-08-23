@@ -24,7 +24,7 @@
 namespace itk
 {
 
-template <class T, class S>
+template <typename T, typename S>
 void
 ParametersEstimator<T, S>::SetMinimalForEstimate(unsigned int minForEstimate)
 {
@@ -35,7 +35,7 @@ ParametersEstimator<T, S>::SetMinimalForEstimate(unsigned int minForEstimate)
 }
 
 
-template <class T, class S>
+template <typename T, typename S>
 unsigned int
 ParametersEstimator<T, S>::GetMinimalForEstimate()
 {

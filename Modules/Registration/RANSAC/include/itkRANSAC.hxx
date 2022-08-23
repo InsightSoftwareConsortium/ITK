@@ -37,7 +37,7 @@ RANSAC<T, S>::~RANSAC()
 {}
 
 
-template <class T, class S>
+template <typename T, typename S>
 void
 RANSAC<T, S>::SetNumberOfThreads(unsigned int numberOfThreads)
 {
@@ -48,7 +48,7 @@ RANSAC<T, S>::SetNumberOfThreads(unsigned int numberOfThreads)
 }
 
 
-template <class T, class S>
+template <typename T, typename S>
 unsigned int
 RANSAC<T, S>::GetNumberOfThreads()
 {
@@ -56,7 +56,7 @@ RANSAC<T, S>::GetNumberOfThreads()
 }
 
 
-template <class T, class S>
+template <typename T, typename S>
 void
 RANSAC<T, S>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
 {
@@ -70,7 +70,7 @@ RANSAC<T, S>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
 }
 
 
-template <class T, class S>
+template <typename T, typename S>
 void
 RANSAC<T, S>::SetData(std::vector<T> & data)
 {
@@ -84,7 +84,7 @@ RANSAC<T, S>::SetData(std::vector<T> & data)
 }
 
 
-template <class T, class S>
+template <typename T, typename S>
 double
 RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForNoOutliers)
 {
@@ -152,7 +152,7 @@ RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForN
 }
 
 
-template <class T, class S>
+template <typename T, typename S>
 ITK_THREAD_RETURN_TYPE
 RANSAC<T, S>::RANSACThreadCallback(void * arg)
 {
@@ -272,7 +272,7 @@ RANSAC<T, S>::RANSACThreadCallback(void * arg)
 
 /*****************************************************************************/
 
-template <class T, class S>
+template <typename T, typename S>
 unsigned int
 RANSAC<T, S>::Choose(unsigned int n, unsigned int m)
 {

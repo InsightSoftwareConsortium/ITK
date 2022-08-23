@@ -45,7 +45,7 @@ namespace itk
  * @author: Ziv Yaniv zivy@isis.georgetown.edu
  */
 
-template <class T, class S>
+template <typename T, typename S>
 class ITK_TEMPLATE_EXPORT ParametersEstimator : public Object
 {
 public:
