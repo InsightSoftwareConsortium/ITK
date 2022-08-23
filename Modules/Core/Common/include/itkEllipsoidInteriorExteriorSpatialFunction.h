@@ -82,7 +82,7 @@ public:
 
 protected:
   EllipsoidInteriorExteriorSpatialFunction();
-  ~EllipsoidInteriorExteriorSpatialFunction() override;
+  ~EllipsoidInteriorExteriorSpatialFunction() override = default;
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
@@ -95,7 +95,7 @@ private:
   InputType m_Axes;
 
   /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */
-  double ** m_Orientations;
+  OrientationType m_Orientations{};
 };
 } // end namespace itk
 
