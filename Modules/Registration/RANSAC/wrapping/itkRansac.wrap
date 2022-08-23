@@ -10,4 +10,5 @@ itk_end_wrap_class()
 
 itk_wrap_class("itk::RANSAC" POINTER_WITH_2_SUPERCLASSES)
 itk_wrap_template("P${ITKM_D}3"   "itk::Point< ${ITKT_D}, 3>, ${ITKT_D}")
+itk_wrap_template("P${ITKM_D}6"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}")
 itk_end_wrap_class()
