@@ -106,7 +106,14 @@ itkWarpMeshFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(warpFilter, WarpMeshFilter, MeshToMeshFilter);
 
 
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(warpFilter->Update());
+
   warpFilter->SetInput(sphereMeshSource->GetOutput());
+
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(warpFilter->Update());
+
 
   warpFilter->SetDisplacementField(deformationField);
 

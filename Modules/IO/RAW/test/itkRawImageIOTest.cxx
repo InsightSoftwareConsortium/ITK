@@ -106,6 +106,9 @@ itkRawImageIOTest(int argc, char * argv[])
 
   io->CanReadFile(filename.c_str());
 
+  // Not used; empty method body; called for coverage purposes
+  io->ReadHeader();
+
   // Compare pixel by pixel in memory
 
 

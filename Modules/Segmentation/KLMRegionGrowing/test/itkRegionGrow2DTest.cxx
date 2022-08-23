@@ -314,6 +314,10 @@ test_regiongrowKLM1D()
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
+  unsigned int numberOfRegions = 0;
+  KLMFilter->SetNumberOfRegions(numberOfRegions);
+  ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
+
   int nregions = 2;
   KLMFilter->SetMaximumNumberOfRegions(nregions);
 
@@ -411,6 +415,10 @@ test_regiongrowKLM1D()
   maximumLambda = 1e51;
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
+
+  KLMFilter->SetNumberOfRegions(numberOfRegions);
+  ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
+
 
   LOCAL_TEST_EXCEPTION_MACRO(KLMFilter);
 
@@ -1138,6 +1146,10 @@ test_regiongrowKLM2D()
   KLMFilter->SetMaximumLambda(maximumLambda);
   ITK_TEST_SET_GET_VALUE(maximumLambda, KLMFilter->GetMaximumLambda());
 
+  unsigned int numberOfRegions = 0;
+  KLMFilter->SetNumberOfRegions(numberOfRegions);
+  ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
+
   // Kick off the Region grow function
 
   LOCAL_TEST_EXCEPTION_MACRO(KLMFilter);
@@ -1423,6 +1435,10 @@ test_regiongrowKLM3D()
   std::cout << std::endl << "First test, lambda = -1" << std::endl;
 
   KLMFilter->SetMaximumLambda(-1);
+
+  unsigned int numberOfRegions = 0;
+  KLMFilter->SetNumberOfRegions(numberOfRegions);
+  ITK_TEST_SET_GET_VALUE(numberOfRegions, KLMFilter->GetNumberOfRegions());
 
   // Kick off the Region grow function
 
