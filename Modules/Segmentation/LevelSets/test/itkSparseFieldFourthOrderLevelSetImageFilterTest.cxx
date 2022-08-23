@@ -173,6 +173,6 @@ itkSparseFieldFourthOrderLevelSetImageFilterTest(int, char *[])
 
   filter->Print(std::cout);
 
-  std::cout << "Passed.\n";
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
