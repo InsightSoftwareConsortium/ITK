@@ -69,6 +69,7 @@ namespace itk
  *
  * \brief RANSAC for various usecases such as plane estimation, point set registration.
  *
+ *  \ingroup Ransac
  */
 
 template <typename T, typename SType>
