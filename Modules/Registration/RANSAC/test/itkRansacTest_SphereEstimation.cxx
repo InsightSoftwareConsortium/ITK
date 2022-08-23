@@ -1,3 +1,21 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
 #include <fstream>
 #include "itkRANSAC.h"
 #include "itkSphereParametersEstimator.h"
@@ -15,12 +33,12 @@
  *                        defined as the set of points p such that
  *                        (p-c)^T(p-c)=r^2.
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 GenerateData(unsigned int                                 numInliers,
              unsigned int                                 numOutliers,
              double                                       outlierDistance,
-             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & data,
              std::vector<double> &                        sphereParameters);
 
 /**
@@ -39,19 +57,19 @@ GenerateData(unsigned int                                 numInliers,
  * @param parameterEstimator The sphere parameter estimator whoes Agree() method
  *                           is used to identify inliers.
  */
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 SaveOIVFile(std::string &                                               outputFileName,
-            std::vector<itk::Point<double, dimension>> &                data,
+            std::vector<itk::Point<double, Dimension>> &                data,
             std::vector<double> &                                       estimatedSphereParameters,
-            typename itk::SphereParametersEstimator<dimension>::Pointer parameterEstimator);
+            typename itk::SphereParametersEstimator<Dimension>::Pointer parameterEstimator);
 
 /**
- * Given the hard coded dimension, and number of outliers and inliers generate
+ * Given the hard coded Dimension, and number of outliers and inliers generate
  * a random dataset accordingly. Then estimate the (hyper)sphere parameter values
  * using a least squares estimate and the RANSAC algorithm. Compare the results
  * to the known (hyper)sphere. Code is written for nD data except the
- * visualization which is limited to 3D. If DIMENSION is set to three, then two
+ * visualization which is limited to 3D. If Dimension is set to three, then two
  * open inventor scene files are written, showing the least squares and RANSAC
  * estimates. Data points are colored spheres, those that agree with the
  * estimated model are green, otherwise they are red.
@@ -61,50 +79,50 @@ SaveOIVFile(std::string &                                               outputFi
 int
 itkRansacTest_SphereEstimation(int argc, char * argv[])
 {
-  const unsigned int DIMENSION = 3;
+  const unsigned int Dimension = 3;
   const unsigned int INLIERS = 90;
   const unsigned int OUTLIERS = 10;
 
   std::string leastSquaresOutputFileName = "leastSquaresSphereEstimation.iv";
   std::string ransacOutputFileName = "RANSACSphereEstimation.iv";
 
-  typedef itk::SphereParametersEstimator<DIMENSION>          SphereEstimatorType;
-  typedef itk::RANSAC<itk::Point<double, DIMENSION>, double> RANSACType;
+  typedef itk::SphereParametersEstimator<Dimension>          SphereEstimatorType;
+  typedef itk::RANSAC<itk::Point<double, Dimension>, double> RANSACType;
 
-  std::vector<itk::Point<double, DIMENSION>> data;
+  std::vector<itk::Point<double, Dimension>> data;
   std::vector<double>                        trueSphereParameters, sphereParameters;
   double                                     outlierDistance = 20.0;
   unsigned int                               i;
-  itk::Vector<double, DIMENSION>             tmp;
+  itk::Vector<double, Dimension>             tmp;
 
-  GenerateData<DIMENSION>(INLIERS, OUTLIERS, outlierDistance, data, trueSphereParameters);
+  GenerateData<Dimension>(INLIERS, OUTLIERS, outlierDistance, data, trueSphereParameters);
 
   std::cout << "Known hyper(sphere) parameters [c,r]\n\t [ ";
-  for (i = 0; i < DIMENSION; i++)
+  for (i = 0; i < Dimension; i++)
     std::cout << trueSphereParameters[i] << ", ";
   std::cout << trueSphereParameters[i] << "]\n\n";
   // create and initialize the parameter estimator
   double                       maximalDistanceFromSphere = 0.5;
   SphereEstimatorType::Pointer sphereEstimator = SphereEstimatorType::New();
   sphereEstimator->SetDelta(maximalDistanceFromSphere);
-  sphereEstimator->SetLeastSquaresType(itk::SphereParametersEstimator<DIMENSION>::GEOMETRIC);
+  sphereEstimator->SetLeastSquaresType(itk::SphereParametersEstimator<Dimension>::GEOMETRIC);
   sphereEstimator->LeastSquaresEstimate(data, sphereParameters);
   if (sphereParameters.empty())
     std::cout << "Least squares estimate failed, degenerate configuration?\n";
   else
   {
     std::cout << "Least squares hyper(sphere) parameters: [c,r]\n\t [ ";
-    for (i = 0; i < DIMENSION; i++)
+    for (i = 0; i < Dimension; i++)
       std::cout << sphereParameters[i] << ", ";
     std::cout << sphereParameters[i] << "]\n\n";
     // distance between known (hyper)sphere center and estimated one,
     // and difference between the two radii
-    for (i = 0; i < DIMENSION; i++)
+    for (i = 0; i < Dimension; i++)
       tmp[i] = sphereParameters[i] - trueSphereParameters[i];
     std::cout << "\t Distance between estimated and known sphere centers [0=correct]: ";
     std::cout << tmp.GetNorm() << "\n";
     std::cout << "\t Difference between estimated and known sphere radius [0=correct]: ";
-    std::cout << fabs(sphereParameters[DIMENSION] - trueSphereParameters[DIMENSION]) << "\n";
+    std::cout << fabs(sphereParameters[Dimension] - trueSphereParameters[Dimension]) << "\n";
     // save scene file (works only in 3D)
     SaveOIVFile(leastSquaresOutputFileName, data, sphereParameters, sphereEstimator);
   }
@@ -120,17 +138,17 @@ itkRansacTest_SphereEstimation(int argc, char * argv[])
   else
   {
     std::cout << "RANSAC hyper(sphere) parameters: [c,r]\n\t [ ";
-    for (i = 0; i < DIMENSION; i++)
+    for (i = 0; i < Dimension; i++)
       std::cout << sphereParameters[i] << ", ";
     std::cout << sphereParameters[i] << "]\n\n";
     // distance between known hyper(sphere) center and estimated one,
     // and difference between the two radii
-    for (i = 0; i < DIMENSION; i++)
+    for (i = 0; i < Dimension; i++)
       tmp[i] = sphereParameters[i] - trueSphereParameters[i];
     std::cout << "\t Distance between estimated and known sphere centers [0=correct]: ";
     std::cout << tmp.GetNorm() << "\n";
     std::cout << "\t Difference between estimated and known sphere radius [0=correct]: ";
-    std::cout << fabs(sphereParameters[DIMENSION] - trueSphereParameters[DIMENSION]) << "\n";
+    std::cout << fabs(sphereParameters[Dimension] - trueSphereParameters[Dimension]) << "\n";
     // save scene file (works only in 3D)
     SaveOIVFile(ransacOutputFileName, data, sphereParameters, sphereEstimator);
   }
@@ -138,16 +156,16 @@ itkRansacTest_SphereEstimation(int argc, char * argv[])
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 GenerateData(unsigned int                                 numInliers,
              unsigned int                                 numOutliers,
              double                                       outlierDistance,
-             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & data,
              std::vector<double> &                        sphereParameters)
 {
-  itk::Vector<double, dimension> tmp, noise;
-  itk::Point<double, dimension>  sphereCenter, randomPoint;
+  itk::Vector<double, Dimension> tmp, noise;
+  itk::Point<double, Dimension>  sphereCenter, randomPoint;
   double                         sphereRadius;
   double                         noiseStandardDeviation = 0.4; // noise standard deviation
   double                         coordinateMax = 1000.0;
@@ -157,20 +175,20 @@ GenerateData(unsigned int                                 numInliers,
 
   sphereParameters.clear();
   // generate points on random (hyper) sphere
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
   {
     sphereCenter[i] = random.uniform(-coordinateMax, coordinateMax);
   }
   sphereRadius = random.uniform(0.0, coordinateMax);
 
-  for (i = 0; i < dimension; i++)
+  for (i = 0; i < Dimension; i++)
     sphereParameters.push_back(sphereCenter[i]);
   sphereParameters.push_back(sphereRadius);
 
   // generate inliers
   for (i = 0; i < numInliers; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
       tmp[j] = random.uniform(-1.0, 1.0);
       noise[j] = random.normal(noiseStandardDeviation);
@@ -183,7 +201,7 @@ GenerateData(unsigned int                                 numInliers,
   // generate outliers (via rejection)
   for (i = 0; i < numOutliers; i++)
   {
-    for (j = 0; j < dimension; j++)
+    for (j = 0; j < Dimension; j++)
     {
       randomPoint[j] = random.uniform(-coordinateMax, coordinateMax);
     }
@@ -196,14 +214,14 @@ GenerateData(unsigned int                                 numInliers,
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 SaveOIVFile(std::string &                                               outputFileName,
-            std::vector<itk::Point<double, dimension>> &                data,
+            std::vector<itk::Point<double, Dimension>> &                data,
             std::vector<double> &                                       estimatedSphereParameters,
-            typename itk::SphereParametersEstimator<dimension>::Pointer parameterEstimator)
+            typename itk::SphereParametersEstimator<Dimension>::Pointer parameterEstimator)
 {
-  if (dimension != 3)
+  if (Dimension != 3)
     return;
 
   double dataSphereRadius = 50.0;

@@ -73,7 +73,7 @@ namespace itk
  *
  */
 
-template <typename T, typename S>
+template <typename T, typename SType>
 class ITK_TEMPLATE_EXPORT RANSAC : public Object
 {
 public:
@@ -81,8 +81,8 @@ public:
   typedef Object                   Superclass;
   typedef SmartPointer<Self>       Pointer;
   typedef SmartPointer<const Self> ConstPointer;
-  using ParametersEstimatorPointer = typename itk::ParametersEstimator<T, S>::Pointer;
-  using ParametersEstimatorType = typename itk::ParametersEstimator<T, S>;
+  using ParametersEstimatorPointer = typename itk::ParametersEstimator<T, SType>::Pointer;
+  using ParametersEstimatorType = typename itk::ParametersEstimator<T, SType>;
 
   itkTypeMacro(RANSAC, Object);
   /** New method for creating an object using a factory. */
@@ -133,7 +133,7 @@ public:
    * @return Returns the percentage of data used in the least squares estimate.
    */
   double
-  Compute(std::vector<S> & parameters, double desiredProbabilityForNoOutliers);
+  Compute(std::vector<SType> & parameters, double desiredProbabilityForNoOutliers);
 
 protected:
   /**
@@ -202,9 +202,9 @@ private:
   double       numerator;
   unsigned int allTries;
 
-  typename ParametersEstimator<T, S>::Pointer paramEstimator;
-  std::mutex                                  hypothesisMutex;
-  std::mutex                                  resultsMutex;
+  typename ParametersEstimator<T, SType>::Pointer paramEstimator;
+  std::mutex                                      hypothesisMutex;
+  std::mutex                                      resultsMutex;
 };
 
 } // end namespace itk

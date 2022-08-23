@@ -28,6 +28,7 @@ namespace itk
 {
 
 /**
+ * \class
  * This class estimates the parameters of a (hyper)sphere.
  * A sphere is represented as: (1) (p-c)^T(p-c) = sum(p_i-c_i)^2 = r^2
  * where p in R^n is a point on the (hyper)sphere, c in R^n is the sphere's

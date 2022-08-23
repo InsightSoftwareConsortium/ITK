@@ -1,3 +1,21 @@
+/*=========================================================================
+ *
+ *  Copyright NumFOCUS
+ *
+ *  Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *         https://www.apache.org/licenses/LICENSE-2.0.txt
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License.
+ *
+ *=========================================================================*/
+
 #include <fstream>
 #include "itkRANSAC.h"
 #include "itkLandmarkRegistrationEstimator.h"
@@ -6,29 +24,29 @@
 #include "itkMeshFileReader.h"
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 GenerateData(unsigned int                                 numInliers,
              unsigned int                                 numOutliers,
              double                                       outlierDistance,
-             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & data,
              std::vector<double> &                        planeParameters);
 
 
 int
 itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 {
-  const unsigned int DIMENSION = 6;
+  const unsigned int DimensionPoint = 6;
   const unsigned int INLIERS = 10;
   const unsigned int OUTLIERS = 0; // 10;
 
-  typedef itk::RANSAC<itk::Point<double, 6>, double> RANSACType;
+  typedef itk::RANSAC<itk::Point<double, DimensionPoint>, double> RANSACType;
 
   std::vector<itk::Point<double, 6>> data;
   std::vector<double>                truePlaneParameters, transformParameters;
   double                             outlierDistance = 20.0;
 
-  GenerateData<DIMENSION>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
+  GenerateData<Dimension>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
 
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 6;
@@ -71,12 +89,12 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 }
 
 
-template <unsigned int dimension>
+template <unsigned int Dimension>
 void
 GenerateData(unsigned int                                 numInliers,
              unsigned int                                 numOutliers,
              double                                       outlierDistance,
-             std::vector<itk::Point<double, dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & data,
              std::vector<double> &                        planeParameters)
 {
 

@@ -25,21 +25,21 @@ namespace itk
 {
 
 
-template <typename T, typename S>
-RANSAC<T, S>::RANSAC()
+template <typename T, typename SType>
+RANSAC<T, SType>::RANSAC()
 {
   this->numberOfThreads = 1;
 }
 
 
-template <typename T, typename S>
-RANSAC<T, S>::~RANSAC()
+template <typename T, typename SType>
+RANSAC<T, SType>::~RANSAC()
 {}
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 void
-RANSAC<T, S>::SetNumberOfThreads(unsigned int numberOfThreads)
+RANSAC<T, SType>::SetNumberOfThreads(unsigned int numberOfThreads)
 {
   if (numberOfThreads == 0 || numberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for number of threads.");
@@ -48,17 +48,17 @@ RANSAC<T, S>::SetNumberOfThreads(unsigned int numberOfThreads)
 }
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 unsigned int
-RANSAC<T, S>::GetNumberOfThreads()
+RANSAC<T, SType>::GetNumberOfThreads()
 {
   return this->numberOfThreads;
 }
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 void
-RANSAC<T, S>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
+RANSAC<T, SType>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
 {
   // check if the given parameter estimator can be used in combination
   // with the data, if there aren't enough data elements then throw an
@@ -70,9 +70,9 @@ RANSAC<T, S>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
 }
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 void
-RANSAC<T, S>::SetData(std::vector<T> & data)
+RANSAC<T, SType>::SetData(std::vector<T> & data)
 {
   // check if the given data vector has enough elements for use with
   // the parameter estimator. If the parameter estimator hasn't been
@@ -84,9 +84,9 @@ RANSAC<T, S>::SetData(std::vector<T> & data)
 }
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 double
-RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForNoOutliers)
+RANSAC<T, SType>::Compute(std::vector<S> & parameters, double desiredProbabilityForNoOutliers)
 {
   // STEP1: setup
   parameters.clear();
@@ -118,7 +118,7 @@ RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForN
   // STEP2: create the threads that generate hypotheses and test
 
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
-  threader->SetSingleMethod(RANSAC<T, S>::RANSACThreadCallback, this);
+  threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
   threader->SingleMethodExecute();
 
@@ -152,9 +152,9 @@ RANSAC<T, S>::Compute(std::vector<S> & parameters, double desiredProbabilityForN
 }
 
 
-template <typename T, typename S>
+template <typename T, typename SType>
 ITK_THREAD_RETURN_TYPE
-RANSAC<T, S>::RANSACThreadCallback(void * arg)
+RANSAC<T, SType>::RANSACThreadCallback(void * arg)
 {
   typedef itk::MultiThreaderBase::WorkUnitInfo ThreadInfoType;
   ThreadInfoType *                             infoStruct = static_cast<ThreadInfoType *>(arg);
@@ -272,9 +272,9 @@ RANSAC<T, S>::RANSACThreadCallback(void * arg)
 
 /*****************************************************************************/
 
-template <typename T, typename S>
+template <typename T, typename SType>
 unsigned int
-RANSAC<T, S>::Choose(unsigned int n, unsigned int m)
+RANSAC<T, SType>::Choose(unsigned int n, unsigned int m)
 {
   double denominatorEnd, numeratorStart, numerator, denominator, i, result;
   // perform smallest number of multiplications
