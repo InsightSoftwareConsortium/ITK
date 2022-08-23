@@ -1,5 +1,5 @@
-#ifndef itkParametersEstimator_txx
-#define itkParametersEstimator_txx
+#ifndef itkParametersEstimator_hxx
+#define itkParametersEstimator_hxx
 
 #include "itkParametersEstimator.h"
 
@@ -27,4 +27,4 @@ ParametersEstimator<T, S>::GetMinimalForEstimate()
 
 } // end namespace itk
 
-#endif //_PARAMETERS_ESTIMATOR_TXX_
+#endif //_PARAMETERS_ESTIMATOR_HXX_

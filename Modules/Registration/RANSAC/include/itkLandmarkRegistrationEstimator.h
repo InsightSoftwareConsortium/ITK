@@ -57,7 +57,7 @@ private:
 
 // the implementation is in this file
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkLandmarkRegistrationEstimator.txx"
+#  include "itkLandmarkRegistrationEstimator.hxx"
 #endif
 
 #endif //_PLANE_PARAM_ESTIMATOR_H_

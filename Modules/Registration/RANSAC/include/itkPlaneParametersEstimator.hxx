@@ -1,5 +1,5 @@
-#ifndef itkPlaneParametersEstimator_txx
-#define itkPlaneParametersEstimator_txx
+#ifndef itkPlaneParametersEstimator_hxx
+#define itkPlaneParametersEstimator_hxx
 
 #include "itkPlaneParametersEstimator.h"
 #include <vnl/algo/vnl_svd.h>

@@ -1,5 +1,5 @@
-#ifndef itkSphereParametersEstimator_txx
-#define itkSphereParametersEstimator_txx
+#ifndef itkSphereParametersEstimator_hxx
+#define itkSphereParametersEstimator_hxx
 
 #include "itkSphereParametersEstimator.h"
 #include <vnl/algo/vnl_levenberg_marquardt.h>
@@ -509,4 +509,4 @@ SphereParametersEstimator<dimension>::SumSquaresSpherePointsDistanceFunction::gr
 
 } // end namespace itk
 
-#endif //_SPHERE_PARAM_ESTIMATOR_TXX_
+#endif //_SPHERE_PARAM_ESTIMATOR_HXX_

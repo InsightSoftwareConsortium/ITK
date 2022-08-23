@@ -107,7 +107,7 @@ private:
 
 // the implementation is in this file
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkPlaneParametersEstimator.txx"
+#  include "itkPlaneParametersEstimator.hxx"
 #endif
 
 #endif //_PLANE_PARAM_ESTIMATOR_H_

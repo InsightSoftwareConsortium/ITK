@@ -184,7 +184,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkRANSAC.txx"
+#  include "itkRANSAC.hxx"
 #endif
 
 #endif //_RANSAC_H_

@@ -200,7 +200,7 @@ private:
 
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkSphereParametersEstimator.txx" //the implementation is in this file
+#  include "itkSphereParametersEstimator.hxx" //the implementation is in this file
 #endif
 
 #endif //_SPHERE_PARAM_ESTIMATOR_H_

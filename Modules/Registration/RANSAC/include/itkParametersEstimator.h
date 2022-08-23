@@ -94,7 +94,7 @@ private:
 } // end namespace itk
 
 #ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkParametersEstimator.txx"
+#  include "itkParametersEstimator.hxx"
 #endif
 
 #endif //_PARAMETERS_ESTIMATOR_H_

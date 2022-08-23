@@ -1,5 +1,5 @@
-#ifndef itkRANSAC_txx
-#define itkRANSAC_txx
+#ifndef itkRANSAC_hxx
+#define itkRANSAC_hxx
 
 #include "itkRANSAC.h"
 
