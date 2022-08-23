@@ -215,6 +215,7 @@ public:
   itkSetMacro(NormalProcessConductance, ValueType);
   itkSetMacro(NormalProcessUnsharpFlag, bool);
   itkGetConstReferenceMacro(NormalProcessUnsharpFlag, bool);
+  itkBooleanMacro(NormalProcessUnsharpFlag);
   itkSetMacro(NormalProcessUnsharpWeight, ValueType);
   itkGetConstReferenceMacro(NormalProcessUnsharpWeight, ValueType);
 
