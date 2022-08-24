@@ -99,7 +99,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter, XMLWriterBase<GroupSpatialObjectType>);
+  itkTypeMacro(PolygonGroupSpatialObjectXMLFileWriter, XMLWriterBase);
 
   using GroupType = GroupSpatialObject<3>;
 
