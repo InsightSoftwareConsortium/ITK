@@ -134,6 +134,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   // STEP3: least squares estimate using largest consensus set and cleanup
 
   std::vector<T *> leastSquaresEstimateData;
+  leastSquaresEstimateData.reserve(numDataObjects);
   if (this->numVotesForBest > 0)
   {
     for (unsigned int j = 0; j < numDataObjects; j++)
@@ -203,6 +204,7 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
       std::fill(notChosen, notChosen + numDataObjects, true);
       curSubSetIndexes = new int[numForEstimate];
       exactEstimateData.clear();
+      exactEstimateData.reserve(numForEstimate);
       maxIndex = numDataObjects - 1;
       for (l = 0; l < numForEstimate; l++)
       {
@@ -251,6 +253,7 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         // continue checking data until there is no chance of getting a larger consensus set
         // or all the data has been checked
         std::vector<T> checkdata;
+        checkdata.reserve(numDataObjects);
         for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
         {
           checkdata.push_back(caller->data[m]);
