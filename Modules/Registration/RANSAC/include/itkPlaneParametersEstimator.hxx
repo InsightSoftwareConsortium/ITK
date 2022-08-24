@@ -273,6 +273,22 @@ PlaneParametersEstimator<Dimension>::Agree(std::vector<double> & parameters, Poi
   return ((signedDistance * signedDistance) < this->deltaSquared);
 }
 
+
+template <unsigned int Dimension>
+std::vector<bool>
+PlaneParametersEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
+                                                   std::vector<Point<double, Dimension>> & data)
+{
+  std::vector<bool> output;
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    output.push_back(this->Agree(parameters, data[i]));
+  }
+
+  return output;
+}
+
+
 } // end namespace itk
 
 #endif

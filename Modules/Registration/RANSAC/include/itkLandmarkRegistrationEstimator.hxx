@@ -224,6 +224,7 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
     fixedParameters.SetElement(counter, parameters[i]);
     counter = counter + 1;
   }
+  transform->SetFixedParameters(fixedParameters);
 
   counter = 0;
   for (unsigned int i = 0; i < 7; ++i)
@@ -231,6 +232,7 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
     optParameters.SetElement(counter, parameters[i]);
     counter = counter + 1;
   }
+  transform->SetParameters(optParameters);
 
   itk::Point<double, 3> p0;
   itk::Point<double, 3> p1;
@@ -243,10 +245,62 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
   p1[1] = data[4];
   p1[2] = data[5];
 
-  auto transformedPoint = transform->TransformPoint(p1);
-  auto distance = transformedPoint.EuclideanDistanceTo(p0);
+  auto transformedPoint = transform->TransformPoint(p0);
+  auto distance = transformedPoint.EuclideanDistanceTo(p1);
   return (distance < this->deltaSquared);
 }
+
+
+template <unsigned int Dimension>
+std::vector<bool>
+LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
+                                                        std::vector<Point<double, Dimension>> & data)
+{
+  using TransformType = itk::Similarity3DTransform<double>;
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+  auto transform = Similarity3DTransformType::New();
+
+  auto optParameters = transform->GetParameters();
+  auto fixedParameters = transform->GetFixedParameters();
+
+  int counter = 0;
+  for (unsigned int i = 7; i < 10; ++i)
+  {
+    fixedParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
+  }
+  transform->SetFixedParameters(fixedParameters);
+
+  counter = 0;
+  for (unsigned int i = 0; i < 7; ++i)
+  {
+    optParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
+  }
+  transform->SetParameters(optParameters);
+
+  std::vector<bool> output;
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    itk::Point<double, 3> p0;
+    itk::Point<double, 3> p1;
+
+    p0[0] = data[i][0];
+    p0[1] = data[i][1];
+    p0[2] = data[i][2];
+
+    p1[0] = data[i][3];
+    p1[1] = data[i][4];
+    p1[2] = data[i][5];
+
+    auto transformedPoint = transform->TransformPoint(p0);
+    auto distance = transformedPoint.EuclideanDistanceTo(p1);
+    output.push_back((distance < this->deltaSquared));
+  }
+
+  return output;
+}
+
 
 } // end namespace itk
 

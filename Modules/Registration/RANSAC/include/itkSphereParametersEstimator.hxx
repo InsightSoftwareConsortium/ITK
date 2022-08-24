@@ -307,6 +307,20 @@ SphereParametersEstimator<Dimension>::Agree(std::vector<double> & parameters, Po
   return delta < this->delta;
 }
 
+template <unsigned int Dimension>
+std::vector<bool>
+SphereParametersEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
+                                                    std::vector<Point<double, Dimension>> & data)
+{
+  std::vector<bool> output;
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    output.push_back(this->Agree(parameters, data[i]));
+  }
+
+  return output;
+}
+
 
 template <unsigned int Dimension>
 void

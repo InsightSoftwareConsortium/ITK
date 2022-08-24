@@ -96,7 +96,8 @@ public:
    */
   virtual bool
   Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
-
+  virtual std::vector<bool>
+  AgreeMultiple(std::vector<double> & parameters, std::vector<Point<double, Dimension>> & data);
   /**
    * Set parameter which defines a threshold for a point to be considered on the
    * plane.

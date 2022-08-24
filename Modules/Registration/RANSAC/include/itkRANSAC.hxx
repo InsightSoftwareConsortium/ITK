@@ -117,6 +117,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
   // STEP2: create the threads that generate hypotheses and test
 
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
@@ -178,9 +179,17 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
     bool * notChosen = new bool[numDataObjects];
 
+    int counter = 0;
+    // caller->numTries = 1000000;
     for (i = 0; i < caller->numTries; i++)
     // for (i = 0; i < 1000; i++)
     {
+      counter = counter + 1;
+
+      if (counter > 5000)
+      {
+        break;
+      }
       // randomly select data for exact model fit ('numForEstimate' objects).
       std::fill(notChosen, notChosen + numDataObjects, true);
       curSubSetIndexes = new int[numForEstimate];
@@ -232,14 +241,24 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         std::fill(curVotes, curVotes + numDataObjects, false);
         // continue checking data until there is no chance of getting a larger consensus set
         // or all the data has been checked
+        std::vector<T> checkdata;
         for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
         {
-          if (caller->paramEstimator->Agree(exactEstimateParameters, caller->data[m]))
+          checkdata.push_back(caller->data[m]);
+        }
+
+        auto         result = caller->paramEstimator->AgreeMultiple(exactEstimateParameters, checkdata);
+        unsigned int counter = 0;
+        for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
+        {
+
+          if (result[counter])
           {
             curVotes[m] = true;
             numVotesForCur++;
           }
         } // found a larger consensus set?
+
         caller->resultsMutex.lock();
         if (numVotesForCur > caller->numVotesForBest)
         {
@@ -248,7 +267,9 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
 
           // all data objects are inliers, terminate the search
           if (caller->numVotesForBest == numDataObjects)
+          {
             i = caller->numTries;
+          }
           else
           { // update the estimate of outliers and the number of iterations we need
             denominator = log(1.0 - pow((double)numVotesForCur / (double)numDataObjects, (double)(numForEstimate)));

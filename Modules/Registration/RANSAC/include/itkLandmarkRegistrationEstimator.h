@@ -52,6 +52,9 @@ public:
   virtual bool
   Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
 
+  virtual std::vector<bool>
+  AgreeMultiple(std::vector<double> & parameters, std::vector<Point<double, Dimension>> & data);
+
   void
   SetDelta(double delta);
 
