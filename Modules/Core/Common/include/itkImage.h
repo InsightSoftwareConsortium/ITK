@@ -19,7 +19,7 @@
 #define itkImage_h
 
 #include "itkImageRegion.h"
-#include "itkImportImageContainer.h"
+#include    "itkImportImageContainer.h"
 #include "itkDefaultPixelAccessor.h"
 #include "itkDefaultPixelAccessorFunctor.h"
 #include "itkPoint.h"
@@ -101,7 +101,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(Image, ImageBase);
+  itkTypeMacro( Image, ImageBase);
 
   /** Pixel type alias support. Used to declare pixel type in filters
    * or other operations. */
@@ -139,10 +139,13 @@ public:
 
   /** Size type alias support. A size is used to define region bounds. */
   using typename Superclass::SizeType;
-  using typename Superclass::SizeValueType;
+  using
+    typename Superclass::SizeValueType;
 
   /** Container used to store pixels in the image. */
-  using PixelContainer = ImportImageContainer<SizeValueType, PixelType>;
+  using PixelContainer =
+
+    ImportImageContainer<    SizeValueType, PixelType>;
 
   /** Direction type alias support. A matrix of direction cosines. */
   using typename Superclass::DirectionType;
