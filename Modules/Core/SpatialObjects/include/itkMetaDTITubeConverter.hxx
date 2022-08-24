@@ -92,15 +92,13 @@ MetaDTITubeConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType
 
     pnt.SetPositionInObjectSpace(point);
 
-    auto * tensor = new float[6];
+    float tensor[6];
 
     for (unsigned int ii = 0; ii < 6; ++ii)
     {
       tensor[ii] = (*it2)->m_TensorMatrix[ii];
     }
     pnt.SetTensorMatrix(tensor);
-
-    delete[] tensor;
 
     // This attribute is optional
     if (Math::NotExactlyEquals((*it2)->GetField("r"), -1))
