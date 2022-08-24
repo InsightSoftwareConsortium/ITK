@@ -19,7 +19,6 @@
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
 #include "itkMath.h"
-#include "itkMath.h"
 
 /*
  * This test creates synthetic images and verifies numerical results
