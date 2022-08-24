@@ -74,7 +74,7 @@ public:
   itkNewMacro(Self);
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(QuasiNewtonOptimizerv4Template, Superclass);
+  itkTypeMacro(QuasiNewtonOptimizerv4Template, GradientDescentOptimizerv4Template);
 
   /** It should be possible to derive the internal computation type from the class object. */
   using InternalComputationValueType = TInternalComputationValueType;
