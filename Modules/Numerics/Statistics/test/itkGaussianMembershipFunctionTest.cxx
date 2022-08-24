@@ -18,6 +18,7 @@
 
 #include <iostream>
 #include "itkGaussianMembershipFunction.h"
+#include "itkTestingMacros.h"
 
 int
 itkGaussianMembershipFunctionTest(int, char *[])
@@ -30,9 +31,8 @@ itkGaussianMembershipFunctionTest(int, char *[])
   using MeasurementVectorSizeType = MembershipFunctionType::MeasurementVectorSizeType;
 
   auto function = MembershipFunctionType::New();
-  std::cout << function->GetNameOfClass() << std::endl;
 
-  function->Print(std::cout);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(function, GaussianMembershipFunction, MembershipFunctionBase);
 
   function->SetMeasurementVectorSize(MeasurementVectorSize); // for code coverage
 
