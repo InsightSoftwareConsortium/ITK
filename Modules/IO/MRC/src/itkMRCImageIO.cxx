@@ -23,6 +23,7 @@
 #include "itkByteSwapper.h"
 
 #include <fstream>
+#include <memory> // For unique_ptr.
 
 #include "itksys/SystemTools.hxx"
 
@@ -237,48 +238,34 @@ MRCImageIO::ReadImageInformation()
 void
 MRCImageIO::InternalReadImageInformation(std::ifstream & file)
 {
-  char * buffer = nullptr;
+  std::unique_ptr<char[]> buffer;
 
-  try
+  m_MRCHeader = MRCHeaderObject::New();
+
+  itkDebugMacro(<< "Reading Information ");
+
+  this->OpenFileForReading(file, m_FileName);
+
+  buffer.reset(new char[m_MRCHeader->GetHeaderSize()]);
+  if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer.get()), m_MRCHeader->GetHeaderSize()))
   {
-    m_MRCHeader = MRCHeaderObject::New();
-
-    itkDebugMacro(<< "Reading Information ");
-
-    this->OpenFileForReading(file, m_FileName);
-
-    buffer = new char[m_MRCHeader->GetHeaderSize()];
-    if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer), m_MRCHeader->GetHeaderSize()))
-    {
-      itkExceptionMacro(<< "Header Read failed: Wanted " << m_MRCHeader->GetHeaderSize() << " bytes, but read "
-                        << file.gcount() << " bytes.");
-    }
-
-    // convert the raw buffer into the header
-    if (!m_MRCHeader->SetHeader(reinterpret_cast<const MRCHeaderObject::Header *>(buffer)))
-    {
-      itkExceptionMacro(<< "Unrecognized header");
-    }
-
-    delete[] buffer;
-
-    buffer = new char[m_MRCHeader->GetExtendedHeaderSize()];
-    if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer), m_MRCHeader->GetExtendedHeaderSize()))
-    {
-      itkExceptionMacro(<< "Extended Header Read failed.");
-    }
-
-    m_MRCHeader->SetExtendedHeader(buffer);
-  }
-  catch (...)
-  {
-    // clean up dynamic allocation
-    delete[] buffer;
-    buffer = nullptr;
-    throw;
+    itkExceptionMacro(<< "Header Read failed: Wanted " << m_MRCHeader->GetHeaderSize() << " bytes, but read "
+                      << file.gcount() << " bytes.");
   }
 
-  delete[] buffer;
+  // convert the raw buffer into the header
+  if (!m_MRCHeader->SetHeader(reinterpret_cast<const MRCHeaderObject::Header *>(buffer.get())))
+  {
+    itkExceptionMacro(<< "Unrecognized header");
+  }
+
+  buffer.reset(new char[m_MRCHeader->GetExtendedHeaderSize()]);
+  if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer.get()), m_MRCHeader->GetExtendedHeaderSize()))
+  {
+    itkExceptionMacro(<< "Extended Header Read failed.");
+  }
+
+  m_MRCHeader->SetExtendedHeader(buffer.get());
 }
 
 void

@@ -26,6 +26,8 @@
 
 #include "itk_minc2.h"
 
+#include <memory> // For unique_ptr.
+
 extern "C"
 {
   void
@@ -101,8 +103,8 @@ MINCImageIO::Read(void * buffer)
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();
 
-  auto * start = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
-  auto * count = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
+  const std::unique_ptr<misize_t[]> start(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
+  const std::unique_ptr<misize_t[]> count(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
@@ -158,19 +160,13 @@ MINCImageIO::Read(void * buffer)
       break;
     default:
       itkDebugMacro(<< "Could read datatype " << this->GetComponentType());
-      delete[] start;
-      delete[] count;
       return;
   }
 
-  if (miget_real_value_hyperslab(this->m_MINCPImpl->m_Volume, volume_data_type, start, count, buffer) < 0)
+  if (miget_real_value_hyperslab(this->m_MINCPImpl->m_Volume, volume_data_type, start.get(), count.get(), buffer) < 0)
   {
-    delete[] start;
-    delete[] count;
     itkExceptionMacro(<< " Can not get real value hyperslab!!\n");
   }
-  delete[] start;
-  delete[] count;
 }
 
 void
@@ -1368,8 +1364,8 @@ MINCImageIO::Write(const void * buffer)
   const unsigned int nComp = this->GetNumberOfComponents();
   size_t             buffer_length = 1;
 
-  auto * start = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
-  auto * count = new misize_t[nDims + (nComp > 1 ? 1 : 0)];
+  const std::unique_ptr<misize_t[]> start(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
+  const std::unique_ptr<misize_t[]> count(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
@@ -1437,21 +1433,10 @@ MINCImageIO::Write(const void * buffer)
       get_buffer_min_max<double>(buffer, buffer_length, buffer_min, buffer_max);
       break;
     default:
-      delete[] start;
-      delete[] count;
       itkExceptionMacro(<< "Could not read datatype " << this->GetComponentType());
   }
 
-  try
-  {
-    this->WriteImageInformation();
-  }
-  catch (const itk::ExceptionObject &)
-  {
-    delete[] start;
-    delete[] count;
-    throw;
-  }
+  this->WriteImageInformation();
 
   // by default valid range will be equal to range, to avoid scaling
   if (volume_data_type == this->m_MINCPImpl->m_Volume_type)
@@ -1479,17 +1464,12 @@ MINCImageIO::Write(const void * buffer)
   }
 
   if (miset_real_value_hyperslab(
-        this->m_MINCPImpl->m_Volume, volume_data_type, start, count, const_cast<void *>(buffer)) < 0)
+        this->m_MINCPImpl->m_Volume, volume_data_type, start.get(), count.get(), const_cast<void *>(buffer)) < 0)
   {
-    delete[] start;
-    delete[] count;
     itkExceptionMacro(<< " Can not set real value hyperslab!!\n");
   }
   // TODO: determine what to do if we are streming
   this->CloseVolume();
-
-  delete[] start;
-  delete[] count;
 }
 
 } // end namespace itk

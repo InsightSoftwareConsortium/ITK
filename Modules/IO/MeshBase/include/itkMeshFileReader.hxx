@@ -27,7 +27,9 @@
 #include "itkPixelTraits.h"
 
 #include "itksys/SystemTools.hxx"
+
 #include <fstream>
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -344,65 +346,41 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  char * inputPointDataBuffer = nullptr;
-  auto * outputPointDataBuffer = new OutputPointPixelType[m_MeshIO->GetNumberOfPointPixels()];
+  const std::unique_ptr<OutputPointPixelType[]> outputPointDataBuffer(
+    new OutputPointPixelType[m_MeshIO->GetNumberOfPointPixels()]);
 
-  try
+  if ((m_MeshIO->GetPointPixelComponentType() !=
+       MeshIOBase::MapComponentType<typename ConvertPointPixelTraits::ComponentType>::CType) ||
+      (m_MeshIO->GetNumberOfPointPixelComponents() != ConvertPointPixelTraits::GetNumberOfComponents()))
   {
-    if ((m_MeshIO->GetPointPixelComponentType() !=
-         MeshIOBase::MapComponentType<typename ConvertPointPixelTraits::ComponentType>::CType) ||
-        (m_MeshIO->GetNumberOfPointPixelComponents() != ConvertPointPixelTraits::GetNumberOfComponents()))
-    {
-      // the point pixel types don't match a type conversion needs to be
-      // performed
-      itkDebugMacro(<< "Buffer conversion required from: "
-                    << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetPointPixelComponentType()) << " to: "
-                    << m_MeshIO->GetComponentTypeAsString(
-                         MeshIOBase::MapComponentType<typename ConvertPointPixelTraits::ComponentType>::CType)
-                    << "ConvertPointPixelTraits::NumberOfComponents "
-                    << ConvertPointPixelTraits::GetNumberOfComponents() << " m_MeshIO->NumberOfComponents "
-                    << m_MeshIO->GetNumberOfPointPixelComponents());
+    // the point pixel types don't match a type conversion needs to be
+    // performed
+    itkDebugMacro(<< "Buffer conversion required from: "
+                  << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetPointPixelComponentType()) << " to: "
+                  << m_MeshIO->GetComponentTypeAsString(
+                       MeshIOBase::MapComponentType<typename ConvertPointPixelTraits::ComponentType>::CType)
+                  << "ConvertPointPixelTraits::NumberOfComponents " << ConvertPointPixelTraits::GetNumberOfComponents()
+                  << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfPointPixelComponents());
 
-      inputPointDataBuffer = new char[m_MeshIO->GetNumberOfPointPixelComponents() *
-                                      m_MeshIO->GetComponentSize(m_MeshIO->GetPointPixelComponentType()) *
-                                      m_MeshIO->GetNumberOfPointPixels()];
-      m_MeshIO->ReadPointData(static_cast<void *>(inputPointDataBuffer));
+    const std::unique_ptr<char[]> inputPointDataBuffer(
+      new char[m_MeshIO->GetNumberOfPointPixelComponents() *
+               m_MeshIO->GetComponentSize(m_MeshIO->GetPointPixelComponentType()) *
+               m_MeshIO->GetNumberOfPointPixels()]);
+    m_MeshIO->ReadPointData(static_cast<void *>(inputPointDataBuffer.get()));
 
-      this->ConvertPointPixelBuffer(
-        static_cast<void *>(inputPointDataBuffer), outputPointDataBuffer, m_MeshIO->GetNumberOfPointPixels());
-    }
-    else
-    {
-      itkDebugMacro(<< "No buffer conversion required.");
-      m_MeshIO->ReadPointData(static_cast<void *>(outputPointDataBuffer));
-    }
+    this->ConvertPointPixelBuffer(
+      static_cast<void *>(inputPointDataBuffer.get()), outputPointDataBuffer.get(), m_MeshIO->GetNumberOfPointPixels());
   }
-  catch (...)
+  else
   {
-    // if an exception is thrown catch it
-
-    // clean up
-    delete[] inputPointDataBuffer;
-    inputPointDataBuffer = nullptr;
-
-    delete[] outputPointDataBuffer;
-    outputPointDataBuffer = nullptr;
-
-    // then rethrow
-    throw;
+    itkDebugMacro(<< "No buffer conversion required.");
+    m_MeshIO->ReadPointData(static_cast<void *>(outputPointDataBuffer.get()));
   }
-
-  // clean up
-  delete[] inputPointDataBuffer;
-  inputPointDataBuffer = nullptr;
 
   for (OutputPointIdentifier id = 0; id < m_MeshIO->GetNumberOfPointPixels(); ++id)
   {
     output->SetPointData(id, outputPointDataBuffer[id]);
   }
-
-  delete[] outputPointDataBuffer;
-  outputPointDataBuffer = nullptr;
 }
 
 template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>
@@ -411,64 +389,40 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  char * inputCellDataBuffer = nullptr;
-  auto * outputCellDataBuffer = new OutputCellPixelType[m_MeshIO->GetNumberOfCellPixels()];
+  const std::unique_ptr<OutputCellPixelType[]> outputCellDataBuffer(
+    new OutputCellPixelType[m_MeshIO->GetNumberOfCellPixels()]);
 
-  try
+  if ((m_MeshIO->GetCellPixelComponentType() !=
+       MeshIOBase::MapComponentType<typename ConvertCellPixelTraits::ComponentType>::CType) ||
+      (m_MeshIO->GetNumberOfCellPixelComponents() != ConvertCellPixelTraits::GetNumberOfComponents()))
   {
-    if ((m_MeshIO->GetCellPixelComponentType() !=
-         MeshIOBase::MapComponentType<typename ConvertCellPixelTraits::ComponentType>::CType) ||
-        (m_MeshIO->GetNumberOfCellPixelComponents() != ConvertCellPixelTraits::GetNumberOfComponents()))
-    {
-      // the cell pixel types don't match a type conversion needs to be
-      // performed
-      itkDebugMacro(<< "Buffer conversion required from: "
-                    << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetCellPixelComponentType()) << " to: "
-                    << m_MeshIO->GetComponentTypeAsString(
-                         MeshIOBase::MapComponentType<typename ConvertCellPixelTraits::ComponentType>::CType)
-                    << "ConvertCellPixelTraits::NumberOfComponents " << ConvertCellPixelTraits::GetNumberOfComponents()
-                    << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfCellPixelComponents());
+    // the cell pixel types don't match a type conversion needs to be
+    // performed
+    itkDebugMacro(<< "Buffer conversion required from: "
+                  << m_MeshIO->GetComponentTypeAsString(m_MeshIO->GetCellPixelComponentType()) << " to: "
+                  << m_MeshIO->GetComponentTypeAsString(
+                       MeshIOBase::MapComponentType<typename ConvertCellPixelTraits::ComponentType>::CType)
+                  << "ConvertCellPixelTraits::NumberOfComponents " << ConvertCellPixelTraits::GetNumberOfComponents()
+                  << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfCellPixelComponents());
 
-      inputCellDataBuffer =
-        new char[m_MeshIO->GetNumberOfCellPixelComponents() *
-                 m_MeshIO->GetComponentSize(m_MeshIO->GetCellPixelComponentType()) * m_MeshIO->GetNumberOfCellPixels()];
-      m_MeshIO->ReadCellData(static_cast<void *>(inputCellDataBuffer));
+    const std::unique_ptr<char[]> inputCellDataBuffer(
+      new char[m_MeshIO->GetNumberOfCellPixelComponents() *
+               m_MeshIO->GetComponentSize(m_MeshIO->GetCellPixelComponentType()) * m_MeshIO->GetNumberOfCellPixels()]);
+    m_MeshIO->ReadCellData(static_cast<void *>(inputCellDataBuffer.get()));
 
-      this->ConvertCellPixelBuffer(
-        static_cast<void *>(inputCellDataBuffer), outputCellDataBuffer, m_MeshIO->GetNumberOfCellPixels());
-    }
-    else
-    {
-      itkDebugMacro(<< "No buffer conversion required.");
-      m_MeshIO->ReadCellData(static_cast<void *>(outputCellDataBuffer));
-    }
+    this->ConvertCellPixelBuffer(
+      static_cast<void *>(inputCellDataBuffer.get()), outputCellDataBuffer.get(), m_MeshIO->GetNumberOfCellPixels());
   }
-  catch (...)
+  else
   {
-    // if an exception is thrown catch it
-
-    // clean up
-    delete[] inputCellDataBuffer;
-    inputCellDataBuffer = nullptr;
-
-    delete[] outputCellDataBuffer;
-    outputCellDataBuffer = nullptr;
-
-    // then rethrow
-    throw;
+    itkDebugMacro(<< "No buffer conversion required.");
+    m_MeshIO->ReadCellData(static_cast<void *>(outputCellDataBuffer.get()));
   }
-
-  // clean up
-  delete[] inputCellDataBuffer;
-  inputCellDataBuffer = nullptr;
 
   for (OutputCellIdentifier id = 0; id < m_MeshIO->GetNumberOfCellPixels(); ++id)
   {
     output->SetCellData(id, outputCellDataBuffer[id]);
   }
-
-  delete[] outputCellDataBuffer;
-  outputCellDataBuffer = nullptr;
 }
 
 template <typename TOutputMesh, typename ConvertPointPixelTraits, typename ConvertCellPixelTraits>
