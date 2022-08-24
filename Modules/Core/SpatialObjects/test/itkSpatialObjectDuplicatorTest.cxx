@@ -86,7 +86,7 @@ itkSpatialObjectDuplicatorTest(int, char *[])
     p.AddField("Lambda1", 4 * i);
     p.AddField("Lambda2", 5 * i);
     p.AddField("Lambda3", 6 * i);
-    auto * v = new float[6];
+    float v[6];
     // this is only for testing
     // the tensor matrix should be definite positive
     // in the real case
@@ -95,7 +95,6 @@ itkSpatialObjectDuplicatorTest(int, char *[])
       v[k] = k;
     }
     p.SetTensorMatrix(v);
-    delete[] v;
     list3.push_back(p);
   }
 
