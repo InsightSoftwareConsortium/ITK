@@ -26,28 +26,20 @@
 
 template <unsigned int Dimension>
 void
-GenerateData(unsigned int                                 numInliers,
-             unsigned int                                 numOutliers,
-             double                                       outlierDistance,
-             std::vector<itk::Point<double, Dimension>> & data,
-             std::vector<double> &                        planeParameters);
+GenerateData(std::vector<itk::Point<double, Dimension>> & data);
 
 
 int
 itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 {
-  const unsigned int DimensionPoint = 6;
-  const unsigned int INLIERS = 10;
-  const unsigned int OUTLIERS = 0; // 10;
-
+  const unsigned int                                              DimensionPoint = 6;
   typedef itk::RANSAC<itk::Point<double, DimensionPoint>, double> RANSACType;
 
   std::vector<itk::Point<double, 6>> data;
-  std::vector<double>                truePlaneParameters, transformParameters;
-  double                             outlierDistance = 20.0;
+  std::vector<double>                transformParameters;
 
   return EXIT_SUCCESS;
-  GenerateData<DimensionPoint>(INLIERS, OUTLIERS, outlierDistance, data, truePlaneParameters);
+  GenerateData<DimensionPoint>(data);
 
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 6;
@@ -92,11 +84,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
 template <unsigned int Dimension>
 void
-GenerateData(unsigned int                                 numInliers,
-             unsigned int                                 numOutliers,
-             double                                       outlierDistance,
-             std::vector<itk::Point<double, Dimension>> & data,
-             std::vector<double> &                        planeParameters)
+GenerateData(std::vector<itk::Point<double, Dimension>> & data)
 {
 
   // Read the two point sets that are the putative matches

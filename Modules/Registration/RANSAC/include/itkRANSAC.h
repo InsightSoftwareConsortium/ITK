@@ -94,6 +94,8 @@ public:
      *                        are in [1, #cores].
      */
     void SetNumberOfThreads(unsigned int numberOfThreads);
+  void
+  SetMaxIteration(unsigned int maxIteration);
   unsigned int
   GetNumberOfThreads();
 
@@ -182,6 +184,7 @@ private:
 
   // number of threads used in computing the RANSAC hypotheses
   unsigned int numberOfThreads;
+  unsigned int maxIteration;
 
   // the following variables are shared by all threads used in the RANSAC
   // computation

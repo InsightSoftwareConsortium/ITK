@@ -42,21 +42,21 @@ SphereParametersEstimator<Dimension>::~SphereParametersEstimator()
 
 template <unsigned int Dimension>
 void
-SphereParametersEstimator<Dimension>::SetLeastSquaresType(LeastSquaresType lsType)
+SphereParametersEstimator<Dimension>::SetLeastSquaresType(LeastSquaresType inputlsType)
 {
-  if (lsType != ALGEBRAIC && lsType != GEOMETRIC)
+  if (inputlsType != ALGEBRAIC && inputlsType != GEOMETRIC)
     throw ExceptionObject(__FILE__, __LINE__, "Invalid value for least squares type.");
-  this->lsType = lsType;
+  this->lsType = inputlsType;
 }
 
 
 template <unsigned int Dimension>
 void
-SphereParametersEstimator<Dimension>::SetDelta(double delta)
+SphereParametersEstimator<Dimension>::SetDelta(double inputDelta)
 {
-  if (delta < 0)
+  if (inputDelta < 0)
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for delta, must be >0.");
-  this->delta = delta;
+  this->delta = inputDelta;
 }
 
 
@@ -299,12 +299,14 @@ template <unsigned int Dimension>
 bool
 SphereParametersEstimator<Dimension>::Agree(std::vector<double> & parameters, Point<double, Dimension> & data)
 {
-  double delta = 0;
+  double deltaLocal = 0;
   for (unsigned int i = 0; i < Dimension; i++)
-    delta += ((data[i] - parameters[i]) * (data[i] - parameters[i]));
-  delta = fabs(sqrt(delta)) - parameters[Dimension];
+  {
+    deltaLocal += ((data[i] - parameters[i]) * (data[i] - parameters[i]));
+  }
+  deltaLocal = fabs(sqrt(deltaLocal)) - parameters[Dimension];
 
-  return delta < this->delta;
+  return deltaLocal < this->delta;
 }
 
 template <unsigned int Dimension>
@@ -486,10 +488,10 @@ SphereParametersEstimator<Dimension>::GetDistanceStatistics(std::vector<double> 
 
 template <unsigned int Dimension>
 SphereParametersEstimator<Dimension>::SumSquaresSpherePointsDistanceFunction::SumSquaresSpherePointsDistanceFunction(
-  std::vector<Point<double, Dimension> *> * data)
-  : vnl_least_squares_function(Dimension + 1, data->size(), vnl_least_squares_function::use_gradient)
+  std::vector<Point<double, Dimension> *> * inputdata)
+  : vnl_least_squares_function(Dimension + 1, inputdata->size(), vnl_least_squares_function::use_gradient)
 {
-  this->data = data;
+  this->data = inputdata;
 }
 
 

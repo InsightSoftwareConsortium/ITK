@@ -39,12 +39,19 @@ RANSAC<T, SType>::~RANSAC()
 
 template <typename T, typename SType>
 void
-RANSAC<T, SType>::SetNumberOfThreads(unsigned int numberOfThreads)
+RANSAC<T, SType>::SetNumberOfThreads(unsigned int inputNumberOfThreads)
 {
-  if (numberOfThreads == 0 || numberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
+  if (inputNumberOfThreads == 0 || inputNumberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for number of threads.");
 
   this->numberOfThreads = 1; // numberOfThreads;
+}
+
+template <typename T, typename SType>
+void
+RANSAC<T, SType>::SetMaxIteration(unsigned int inputMaxIteration)
+{
+  this->maxIteration = inputMaxIteration;
 }
 
 
@@ -58,29 +65,29 @@ RANSAC<T, SType>::GetNumberOfThreads()
 
 template <typename T, typename SType>
 void
-RANSAC<T, SType>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
+RANSAC<T, SType>::SetParametersEstimator(ParametersEstimatorType * inputParamEstimator)
 {
   // check if the given parameter estimator can be used in combination
   // with the data, if there aren't enough data elements then throw an
   // exception. If there is no data then any parameter estimator works
   if (!this->data.empty())
-    if (data.size() < paramEstimator->GetMinimalForEstimate())
+    if (data.size() < inputParamEstimator->GetMinimalForEstimate())
       throw ExceptionObject(__FILE__, __LINE__, "Not enough data elements for use with this parameter estimator.");
-  this->paramEstimator = paramEstimator;
+  this->paramEstimator = inputParamEstimator;
 }
 
 
 template <typename T, typename SType>
 void
-RANSAC<T, SType>::SetData(std::vector<T> & data)
+RANSAC<T, SType>::SetData(std::vector<T> & inputData)
 {
   // check if the given data vector has enough elements for use with
   // the parameter estimator. If the parameter estimator hasn't been
   // set yet then any vector is good.
   if (this->paramEstimator.IsNotNull())
-    if (data.size() < this->paramEstimator->GetMinimalForEstimate())
+    if (inputData.size() < this->paramEstimator->GetMinimalForEstimate())
       throw ExceptionObject(__FILE__, __LINE__, "Not enough data elements for use with the parameter estimator.");
-  this->data = data;
+  this->data = inputData;
 }
 
 
@@ -109,6 +116,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   // initialize with the number of all possible subsets
   this->allTries = Choose(numDataObjects, numForEstimate);
   this->numTries = this->allTries;
+  // this->
   this->numerator = log(1.0 - desiredProbabilityForNoOutliers);
 
   std::cout << "Number of allTries " << this->allTries << std::endl;
@@ -117,7 +125,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
   // STEP2: create the threads that generate hypotheses and test
 
-  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(8);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
@@ -179,15 +187,16 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
     bool * notChosen = new bool[numDataObjects];
 
-    int counter = 0;
+    unsigned int counter = 0;
     // caller->numTries = 1000000;
     for (i = 0; i < caller->numTries; i++)
     // for (i = 0; i < 1000; i++)
     {
       counter = counter + 1;
 
-      if (counter > 5000)
+      if (counter > caller->maxIteration)
       {
+        std::cout << "Counter crossed " << counter << std::endl;
         break;
       }
       // randomly select data for exact model fit ('numForEstimate' objects).
@@ -248,15 +257,16 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         }
 
         auto         result = caller->paramEstimator->AgreeMultiple(exactEstimateParameters, checkdata);
-        unsigned int counter = 0;
+        unsigned int agreeCounter = 0;
         for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
         {
 
-          if (result[counter])
+          if (result[agreeCounter])
           {
             curVotes[m] = true;
             numVotesForCur++;
           }
+          agreeCounter++;
         } // found a larger consensus set?
 
         caller->resultsMutex.lock();
@@ -297,7 +307,7 @@ template <typename T, typename SType>
 unsigned int
 RANSAC<T, SType>::Choose(unsigned int n, unsigned int m)
 {
-  double denominatorEnd, numeratorStart, numerator, denominator, i, result;
+  double denominatorEnd, numeratorStart, numeratorLocal, denominatorLocal, i, resultLocal;
   // perform smallest number of multiplications
   if ((n - m) > m)
   {
@@ -310,18 +320,24 @@ RANSAC<T, SType>::Choose(unsigned int n, unsigned int m)
     denominatorEnd = n - m;
   }
 
-  for (i = numeratorStart, numerator = 1; i <= n; i++)
-    numerator *= i;
-  for (i = 1, denominator = 1; i <= denominatorEnd; i++)
-    denominator *= i;
-  result = numerator / denominator;
+  for (i = numeratorStart, numeratorLocal = 1; i <= n; i++)
+  {
+    numeratorLocal *= i;
+  }
+  for (i = 1, denominatorLocal = 1; i <= denominatorEnd; i++)
+  {
+    denominatorLocal *= i;
+  }
+  resultLocal = numeratorLocal / denominatorLocal;
 
   // check for overflow both in computation and in result
-  if (denominator > std::numeric_limits<double>::max() || numerator > std::numeric_limits<double>::max() ||
-      static_cast<double>(std::numeric_limits<unsigned int>::max()) < result)
+  if (denominatorLocal > std::numeric_limits<double>::max() || numeratorLocal > std::numeric_limits<double>::max() ||
+      static_cast<double>(std::numeric_limits<unsigned int>::max()) < resultLocal)
+  {
     return std::numeric_limits<unsigned int>::max();
+  }
   else
-    return static_cast<unsigned int>(result);
+    return static_cast<unsigned int>(resultLocal);
 }
 
 } // end namespace itk

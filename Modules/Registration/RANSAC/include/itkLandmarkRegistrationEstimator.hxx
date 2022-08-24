@@ -146,11 +146,11 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
   using FixedImageType = itk::Image<PixelType, DimensionPoint>;
   using MovingImageType = itk::Image<PixelType, DimensionPoint>;
 
-  using TransformType = itk::Similarity3DTransform<double>;
-  using TransformInitializerType =
-    itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  // Obtain the parameters of the Similarity3DTransform
   using Similarity3DTransformType = Similarity3DTransform<double>;
+  using TransformInitializerType =
+    itk::LandmarkBasedTransformInitializer<Similarity3DTransformType, FixedImageType, MovingImageType>;
+  // Obtain the parameters of the Similarity3DTransform
+
 
   auto transform = Similarity3DTransformType::New();
   auto initializer = TransformInitializerType::New();
@@ -203,7 +203,9 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
   std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
   for (int i = 0; i < dataSize; i++)
+  {
     usedData.push_back(&(data[i]));
+  }
   LeastSquaresEstimate(usedData, parameters);
 }
 
@@ -211,7 +213,6 @@ template <unsigned int Dimension>
 bool
 LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters, Point<double, Dimension> & data)
 {
-  using TransformType = itk::Similarity3DTransform<double>;
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
 
@@ -256,7 +257,6 @@ std::vector<bool>
 LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
                                                         std::vector<Point<double, Dimension>> & data)
 {
-  using TransformType = itk::Similarity3DTransform<double>;
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
 

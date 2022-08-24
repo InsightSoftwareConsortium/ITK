@@ -149,6 +149,8 @@ itkRansacTest_SphereEstimation(int argc, char * argv[])
     std::cout << tmp.GetNorm() << "\n";
     std::cout << "\t Difference between estimated and known sphere radius [0=correct]: ";
     std::cout << fabs(sphereParameters[Dimension] - trueSphereParameters[Dimension]) << "\n";
+    std::cout << "\t Percentage of Data used is " << percentageOfDataUsed << "\n";
+
     // save scene file (works only in 3D)
     SaveOIVFile(ransacOutputFileName, data, sphereParameters, sphereEstimator);
   }

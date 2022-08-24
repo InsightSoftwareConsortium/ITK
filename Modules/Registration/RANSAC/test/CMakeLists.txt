@@ -1,6 +1,11 @@
 itk_module_test()
 
-set(RansacTests itkRansacTest_LandmarkRegistration.cxx)
+set(
+  RansacTests
+  itkRansacTest_PlaneEstimation.cxx
+  itkRansacTest_SphereEstimation.cxx
+  itkRansacTest_LandmarkRegistration.cxx
+)
 
 createtestdriver(Ransac "${Ransac-Test_LIBRARIES}" "${RansacTests}")
 
