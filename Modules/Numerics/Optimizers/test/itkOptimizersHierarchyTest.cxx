@@ -124,15 +124,15 @@ itkOptimizersHierarchyTest(int, char *[])
 
   // Note that a "Versor" is a Unit Quaternion
   using VersorOptimizerType = itk::VersorTransformOptimizer;
-  auto versoropt = VersorOptimizerType::New();
-  if (versoropt.IsNull())
+  auto versorOpt = VersorOptimizerType::New();
+  if (versorOpt.IsNull())
   {
     pass = false;
   }
 
   using QuaternionOptimizerType = itk::QuaternionRigidTransformGradientDescentOptimizer;
-  auto quaternionopt = QuaternionOptimizerType::New();
-  if (quaternionopt.IsNull())
+  auto quaternionOpt = QuaternionOptimizerType::New();
+  if (quaternionOpt.IsNull())
   {
     pass = false;
   }
@@ -145,15 +145,15 @@ itkOptimizersHierarchyTest(int, char *[])
   }
 
   using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
-  auto cumgaussopt = CumulativeGaussianOptimizerType::New();
-  if (cumgaussopt.IsNull())
+  auto cumGaussOpt = CumulativeGaussianOptimizerType::New();
+  if (cumGaussOpt.IsNull())
   {
     pass = false;
   }
 
   using CumulativeGaussianCostFunctionType = itk::CumulativeGaussianCostFunction;
-  auto cumgausstype = CumulativeGaussianCostFunctionType::New();
-  if (cumgausstype.IsNull())
+  auto cumGaussCostFunc = CumulativeGaussianCostFunctionType::New();
+  if (cumGaussCostFunc.IsNull())
   {
     pass = false;
   }
