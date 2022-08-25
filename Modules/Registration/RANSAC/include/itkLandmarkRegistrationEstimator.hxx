@@ -22,6 +22,8 @@
 #include "itkLandmarkRegistrationEstimator.h"
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkSimilarity3DTransform.h"
+#include "itkIntTypes.h"
+#include "itkPointsLocator.h"
 
 namespace itk
 {
@@ -159,6 +161,12 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
   typename TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   typename TransformInitializerType::LandmarkPointContainer movingLandmarks;
 
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
+  auto pointsLocator = PointsLocatorType::New();
+
+  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
+  auto points = PointsContainer::New();
+
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
   {
@@ -279,6 +287,29 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
   }
   transform->SetParameters(optParameters);
 
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
+  auto pointsLocator = PointsLocatorType::New();
+
+  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
+  auto points = PointsContainer::New();
+  /**
+   * Create a simple point set structure that will create a non-degenerate
+   * bounding box but will allow simple querying tests.
+   */
+  points->reserve(data.size());
+  itk::Point<double, 3> testPoint;
+
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    auto point = data[i];
+    testPoint[0] = point[3];
+    testPoint[1] = point[4];
+    testPoint[2] = point[5];
+    points->InsertElement(i, testPoint);
+  }
+  pointsLocator->SetPoints(points);
+  pointsLocator->Initialize();
+
   std::vector<bool> output;
   for (unsigned int i = 0; i < data.size(); ++i)
   {
@@ -294,7 +325,8 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
     p1[2] = data[i][5];
 
     auto transformedPoint = transform->TransformPoint(p0);
-    auto distance = transformedPoint.EuclideanDistanceTo(p1);
+    auto pointIdentifier = pointsLocator->FindClosestPoint(transformedPoint);
+    auto distance = transformedPoint.EuclideanDistanceTo(points->GetElement(pointIdentifier));
     output.push_back((distance < this->deltaSquared));
   }
 

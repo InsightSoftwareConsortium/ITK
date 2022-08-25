@@ -99,6 +99,7 @@ public:
   unsigned int
   GetMinimalForEstimate();
 
+
 protected:
   ParametersEstimator() { this->minForEstimate = 0; }
   ~ParametersEstimator() {}

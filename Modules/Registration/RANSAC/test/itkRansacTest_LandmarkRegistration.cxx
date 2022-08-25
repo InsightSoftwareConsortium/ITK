@@ -22,11 +22,12 @@
 #include "RandomNumberGenerator.h"
 #include "itkMesh.h"
 #include "itkMeshFileReader.h"
+#include <algorithm>
 
 
 template <unsigned int Dimension>
 void
-GenerateData(std::vector<itk::Point<double, Dimension>> & data);
+GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk::Point<double, Dimension>> & agreeData);
 
 
 int
@@ -35,11 +36,12 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   const unsigned int                                              DimensionPoint = 6;
   typedef itk::RANSAC<itk::Point<double, DimensionPoint>, double> RANSACType;
 
-  std::vector<itk::Point<double, 6>> data;
-  std::vector<double>                transformParameters;
+  std::vector<itk::Point<double, DimensionPoint>> data;
+  std::vector<itk::Point<double, DimensionPoint>> agreeData;
+  std::vector<double>                             transformParameters;
 
+  GenerateData<DimensionPoint>(data, agreeData);
   return EXIT_SUCCESS;
-  GenerateData<DimensionPoint>(data);
 
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 6;
@@ -61,6 +63,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   double              percentageOfDataUsed;
   RANSACType::Pointer ransacEstimator = RANSACType::New();
   ransacEstimator->SetData(data);
+  ransacEstimator->SetAgreeData(agreeData);
   ransacEstimator->SetParametersEstimator(registrationEstimator);
   percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
 
@@ -84,23 +87,34 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
 template <unsigned int Dimension>
 void
-GenerateData(std::vector<itk::Point<double, Dimension>> & data)
+GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk::Point<double, Dimension>> & agreeData)
 {
-
   // Read the two point sets that are the putative matches
   using CoordinateType = double;
   using MeshType = itk::Mesh<CoordinateType, 3>;
   using ReaderType = itk::MeshFileReader<MeshType>;
 
   auto reader1 = ReaderType::New();
-  reader1->SetFileName("/home/pranjal.sahu/ethicon_aws/deep_learning/deep_learning/train/fixed.vtk");
+  reader1->SetFileName("/data/Apedata/Slicer-cli-outputs/train/EJEJHH_fixed_corr.vtk");
   reader1->Update();
   auto mesh1 = reader1->GetOutput();
 
   auto reader2 = ReaderType::New();
-  reader2->SetFileName("/home/pranjal.sahu/ethicon_aws/deep_learning/deep_learning/train/moving.vtk");
+  reader2->SetFileName("/data/Apedata/Slicer-cli-outputs/train/EJEJHH_moving_corr.vtk");
   reader2->Update();
   auto mesh2 = reader2->GetOutput();
+
+
+  auto reader1_all = ReaderType::New();
+  reader1_all->SetFileName("/data/Apedata/Slicer-cli-outputs/EJEJHH_fixedMeshPoints.vtk");
+  reader1_all->Update();
+  auto mesh1_all = reader1_all->GetOutput();
+
+  auto reader2_all = ReaderType::New();
+  reader2_all->SetFileName("/data/Apedata/Slicer-cli-outputs/EJEJHH_movingMeshPointsBefore.vtk");
+  reader2_all->Update();
+  auto mesh2_all = reader2_all->GetOutput();
+
 
   data.reserve(mesh1->GetNumberOfPoints());
 
@@ -123,5 +137,32 @@ GenerateData(std::vector<itk::Point<double, Dimension>> & data)
     data.push_back(p0);
   }
 
+  std::vector<unsigned int> indexArray;
+  unsigned int              minCount = std::min(mesh1->GetNumberOfPoints(), mesh2->GetNumberOfPoints());
+  unsigned int              maxCount = std::max(mesh1->GetNumberOfPoints(), mesh2->GetNumberOfPoints());
+  indexArray.reserve(maxCount);
+
+  // shuffle the larger pointset to sample points uniformly from pointset
+  for (unsigned int i = 0; i < maxCount; ++i)
+  {
+    indexArray.push_back(i);
+  }
+  std::random_shuffle(indexArray.begin(), indexArray.end());
+
+  for (unsigned int i = 0; i < minCount; ++i)
+  {
+    auto point1 = mesh1_all->GetPoint(i);
+    auto point2 = mesh2_all->GetPoint(i);
+
+    p0[0] = point1[0];
+    p0[1] = point1[1];
+    p0[2] = point1[2];
+
+    p0[3] = point2[0];
+    p0[4] = point2[1];
+    p0[5] = point2[2];
+
+    agreeData.push_back(p0);
+  }
   return;
 }

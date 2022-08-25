@@ -55,10 +55,10 @@ public:
   virtual std::vector<bool>
   AgreeMultiple(std::vector<double> & parameters, std::vector<Point<double, Dimension>> & data);
 
-  void
+  virtual void
   SetDelta(double delta);
 
-  double
+  virtual double
   GetDelta();
 
 protected:

@@ -20,6 +20,8 @@
 #define itkRANSAC_hxx
 
 #include "itkRANSAC.h"
+#include "itkPointsLocator.h"
+#include "itkSimilarity3DTransform.h"
 
 namespace itk
 {
@@ -90,6 +92,18 @@ RANSAC<T, SType>::SetData(std::vector<T> & inputData)
   this->data = inputData;
 }
 
+template <typename T, typename SType>
+void
+RANSAC<T, SType>::SetAgreeData(std::vector<T> & inputData)
+{
+  // check if the given data vector has enough elements for use with
+  // the parameter estimator. If the parameter estimator hasn't been
+  // set yet then any vector is good.
+  if (this->paramEstimator.IsNotNull())
+    if (inputData.size() < this->paramEstimator->GetMinimalForEstimate())
+      throw ExceptionObject(__FILE__, __LINE__, "Not enough data elements for use with the parameter estimator.");
+  this->agreeData = inputData;
+}
 
 template <typename T, typename SType>
 double
@@ -104,9 +118,10 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
     return 0;
 
   unsigned int numForEstimate = this->paramEstimator->GetMinimalForEstimate();
+  size_t       numAgreeObjects = this->agreeData.size();
   size_t       numDataObjects = this->data.size();
 
-  this->bestVotes = new bool[numDataObjects];
+  this->bestVotes = new bool[numAgreeObjects];
   // initalize with 0 so that the first computation which gives
   // any type of fit will be set to best
   this->numVotesForBest = 0;
@@ -125,23 +140,116 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
   // STEP2: create the threads that generate hypotheses and test
 
-  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(8);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
   threader->SingleMethodExecute();
 
-  // STEP3: least squares estimate using largest consensus set and cleanup
+  std::cout << "this->numVotesForBest " << this->numVotesForBest << std::endl;
+  std::cout << "this->parametersRansac " << this->parametersRansac.size() << std::endl;
 
-  std::vector<T *> leastSquaresEstimateData;
-  leastSquaresEstimateData.reserve(numDataObjects);
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+  auto transform = Similarity3DTransformType::New();
+
+  auto optParameters = transform->GetParameters();
+  auto fixedParameters = transform->GetFixedParameters();
+
+  std::cout << "RANSAC parameters are " << std::endl;
+  for (unsigned int i = 0; i < 10; ++i)
+  {
+    std::cout << this->parametersRansac[i] << " ";
+  }
+  std::cout << "-" << std::endl;
+
+  int counter = 0;
+  for (unsigned int i = 7; i < 10; ++i)
+  {
+    fixedParameters.SetElement(counter, this->parametersRansac[i]);
+    counter = counter + 1;
+  }
+  transform->SetFixedParameters(fixedParameters);
+
+  counter = 0;
+  for (unsigned int i = 0; i < 7; ++i)
+  {
+    optParameters.SetElement(counter, this->parametersRansac[i]);
+    counter = counter + 1;
+  }
+  transform->SetParameters(optParameters);
+
+
+  // STEP3: least squares estimate using largest consensus set and cleanup
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
+  auto pointsLocator = PointsLocatorType::New();
+
+  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
+  auto                  points = PointsContainer::New();
+  itk::Point<double, 3> testPoint;
+  itk::Point<double, 6> inlierPoint;
+
+  for (unsigned int i = 0; i < this->agreeData.size(); ++i)
+  {
+    auto point = this->agreeData[i];
+    testPoint[0] = point[3];
+    testPoint[1] = point[4];
+    testPoint[2] = point[5];
+    points->InsertElement(i, testPoint);
+  }
+  std::cout << "Number of Points in Locator " << points->Size() << std::endl;
+
+  pointsLocator->SetPoints(points);
+  pointsLocator->Initialize();
+
+  std::vector<T> leastSquaresEstimateData;
+  leastSquaresEstimateData.reserve(numAgreeObjects);
+  std::set<unsigned int> pointSet;
+
   if (this->numVotesForBest > 0)
   {
-    for (unsigned int j = 0; j < numDataObjects; j++)
+    points->reserve(this->numVotesForBest);
+    for (unsigned int j = 0; j < numAgreeObjects; j++)
     {
       if (this->bestVotes[j])
-        leastSquaresEstimateData.push_back(&(data[j]));
+      {
+        // Find the corresponding point by performing query using KDTree
+        auto tempPoint = this->agreeData[j];
+        testPoint[0] = tempPoint[0];
+        testPoint[1] = tempPoint[1];
+        testPoint[2] = tempPoint[2];
+
+        auto pointId = pointsLocator->FindClosestPoint(transform->TransformPoint(testPoint));
+        auto corresPoint = points->GetElement(pointId);
+
+        auto distance = corresPoint.EuclideanDistanceTo(testPoint);
+
+        if (distance > 20)
+        {
+          continue;
+        }
+        // if (distance*distance > this->paramEstimator->GetDelta())
+        // {
+        //   continue;
+        // }
+        // if (pointSet.count(pointId) > 0)
+        //{
+        //  continue;
+        //}
+
+        pointSet.insert(pointId);
+        // Insert the corresponding point for leastSquaresEstimate
+        inlierPoint[0] = tempPoint[0];
+        inlierPoint[1] = tempPoint[1];
+        inlierPoint[2] = tempPoint[2];
+        inlierPoint[3] = corresPoint[0];
+        inlierPoint[4] = corresPoint[1];
+        inlierPoint[5] = corresPoint[2];
+
+        leastSquaresEstimateData.push_back(inlierPoint);
+      }
     }
+
+    std::cout << "Pranjal testing size of inliers is " << leastSquaresEstimateData.size() << std::endl;
     paramEstimator->LeastSquaresEstimate(leastSquaresEstimateData, parameters);
   }
 
@@ -177,21 +285,21 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
     int          j;
     int *        curSubSetIndexes;
 
-    unsigned int       numDataObjects = caller->data.size();
+    unsigned int numDataObjects = caller->data.size();
+    unsigned int numAgreeObjects = caller->agreeData.size();
+
     unsigned int       numForEstimate = caller->paramEstimator->GetMinimalForEstimate();
     std::vector<T *>   exactEstimateData;
     std::vector<SType> exactEstimateParameters;
     double             denominator;
 
-    // true if data[i] agrees with the current model, otherwise false
-    bool * curVotes = new bool[numDataObjects];
+    // true if agreeData[i] agrees with the current model, otherwise false
+    bool * curVotes = new bool[numAgreeObjects];
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
     bool * notChosen = new bool[numDataObjects];
 
     unsigned int counter = 0;
-    // caller->numTries = 1000000;
     for (i = 0; i < caller->numTries; i++)
-    // for (i = 0; i < 1000; i++)
     {
       counter = counter + 1;
 
@@ -247,49 +355,53 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         // colinear points for a circle fit)
         if (exactEstimateParameters.size() == 0)
           continue;
+
         // see how many agree on this estimate
         numVotesForCur = 0;
-        std::fill(curVotes, curVotes + numDataObjects, false);
+        std::fill(curVotes, curVotes + numAgreeObjects, false);
         // continue checking data until there is no chance of getting a larger consensus set
         // or all the data has been checked
         std::vector<T> checkdata;
-        checkdata.reserve(numDataObjects);
-        for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
+        checkdata.reserve(numAgreeObjects);
+        for (m = 0; m < numAgreeObjects; m++)
         {
-          checkdata.push_back(caller->data[m]);
+          checkdata.push_back(caller->agreeData[m]);
         }
 
-        auto         result = caller->paramEstimator->AgreeMultiple(exactEstimateParameters, checkdata);
-        unsigned int agreeCounter = 0;
-        for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
+        auto result = caller->paramEstimator->AgreeMultiple(exactEstimateParameters, checkdata);
+        for (m = 0; m < numAgreeObjects; m++)
         {
-
-          if (result[agreeCounter])
+          if (result[m])
           {
             curVotes[m] = true;
             numVotesForCur++;
           }
-          agreeCounter++;
         } // found a larger consensus set?
 
         caller->resultsMutex.lock();
         if (numVotesForCur > caller->numVotesForBest)
         {
           caller->numVotesForBest = numVotesForCur;
-          std::copy(curVotes, curVotes + numDataObjects, caller->bestVotes);
+          std::copy(curVotes, curVotes + numAgreeObjects, caller->bestVotes);
+
+          caller->parametersRansac.clear();
+          for (unsigned int kp = 0; kp < exactEstimateParameters.size(); ++kp)
+          {
+            caller->parametersRansac.push_back(exactEstimateParameters[kp]);
+          }
 
           // all data objects are inliers, terminate the search
-          if (caller->numVotesForBest == numDataObjects)
+          if (caller->numVotesForBest == numAgreeObjects)
           {
             i = caller->numTries;
           }
-          else
-          { // update the estimate of outliers and the number of iterations we need
-            denominator = log(1.0 - pow((double)numVotesForCur / (double)numDataObjects, (double)(numForEstimate)));
-            caller->numTries = (int)(caller->numerator / denominator + 0.5);
-            // there are cases when the probablistic number of tries is greater than all possible sub-sets
-            caller->numTries = caller->numTries < caller->allTries ? caller->numTries : caller->allTries;
-          }
+          // else
+          // { // update the estimate of outliers and the number of iterations we need
+          //   denominator = log(1.0 - pow((double)numVotesForCur / (double)numAgreeObjects, (double)(numForEstimate)));
+          //   caller->numTries = (int)(caller->numerator / denominator + 0.5);
+          //   // there are cases when the probablistic number of tries is greater than all possible sub-sets
+          //   caller->numTries = caller->numTries < caller->allTries ? caller->numTries : caller->allTries;
+          // }
         }
         caller->resultsMutex.unlock();
       }

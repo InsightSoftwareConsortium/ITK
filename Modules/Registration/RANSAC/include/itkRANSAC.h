@@ -117,6 +117,14 @@ public:
   SetData(std::vector<T> & data);
 
   /**
+   * For usecases such as registration using features where the random selection data
+   * is different from the agree data use this method to set the agree data.
+   * @param data The input on which the number of agreement samples will be counted.
+   */
+  void
+  SetAgreeData(std::vector<T> & data);
+
+  /**
    * Estimate the model parameters using the RANSAC framework.
    * @param parameters A vector which will contain the estimated parameters.
    *                   If there is an error then this vector will be empty.
@@ -194,7 +202,9 @@ private:
   bool *       bestVotes;
   unsigned int numVotesForBest;
 
-  std::vector<T> data;
+  std::vector<T>      data;
+  std::vector<T>      agreeData;
+  std::vector<double> parametersRansac;
 
   // set which holds all of the subgroups/hypotheses already selected
   std::set<int *, SubSetIndexComparator> * chosenSubSets;

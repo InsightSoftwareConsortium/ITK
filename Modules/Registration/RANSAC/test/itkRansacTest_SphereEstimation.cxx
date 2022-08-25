@@ -131,6 +131,7 @@ itkRansacTest_SphereEstimation(int argc, char * argv[])
   double              percentageOfDataUsed;
   RANSACType::Pointer ransacEstimator = RANSACType::New();
   ransacEstimator->SetData(data);
+  ransacEstimator->SetAgreeData(data);
   ransacEstimator->SetParametersEstimator(sphereEstimator);
   percentageOfDataUsed = ransacEstimator->Compute(sphereParameters, desiredProbabilityForNoOutliers);
   if (sphereParameters.empty())
