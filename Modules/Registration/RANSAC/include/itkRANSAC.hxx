@@ -46,7 +46,7 @@ RANSAC<T, SType>::SetNumberOfThreads(unsigned int inputNumberOfThreads)
   if (inputNumberOfThreads == 0 || inputNumberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for number of threads.");
 
-  this->numberOfThreads = 1; // numberOfThreads;
+  this->numberOfThreads = inputNumberOfThreads; // numberOfThreads;
 }
 
 template <typename T, typename SType>
@@ -140,7 +140,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
   // STEP2: create the threads that generate hypotheses and test
 
-  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(8);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
@@ -196,18 +196,15 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
     testPoint[2] = point[5];
     points->InsertElement(i, testPoint);
   }
-  std::cout << "Number of Points in Locator " << points->Size() << std::endl;
 
   pointsLocator->SetPoints(points);
   pointsLocator->Initialize();
 
   std::vector<T> leastSquaresEstimateData;
   leastSquaresEstimateData.reserve(numAgreeObjects);
-  std::set<unsigned int> pointSet;
 
   if (this->numVotesForBest > 0)
   {
-    points->reserve(this->numVotesForBest);
     for (unsigned int j = 0; j < numAgreeObjects; j++)
     {
       if (this->bestVotes[j])
@@ -218,25 +215,10 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
         testPoint[1] = tempPoint[1];
         testPoint[2] = tempPoint[2];
 
-        auto pointId = pointsLocator->FindClosestPoint(transform->TransformPoint(testPoint));
+        auto transformedPoint = transform->TransformPoint(testPoint);
+        auto pointId = pointsLocator->FindClosestPoint(transformedPoint);
         auto corresPoint = points->GetElement(pointId);
 
-        auto distance = corresPoint.EuclideanDistanceTo(testPoint);
-
-        if (distance > 10)
-        {
-          continue;
-        }
-        // if (distance*distance > this->paramEstimator->GetDelta())
-        // {
-        //   continue;
-        // }
-        // if (pointSet.count(pointId) > 0)
-        //{
-        //  continue;
-        //}
-
-        pointSet.insert(pointId);
         // Insert the corresponding point for leastSquaresEstimate
         inlierPoint[0] = tempPoint[0];
         inlierPoint[1] = tempPoint[1];
@@ -266,7 +248,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   delete this->chosenSubSets;
   delete[] this->bestVotes;
 
-  return (double)this->numVotesForBest / (double)numDataObjects;
+  return (double)this->numVotesForBest / (double)numAgreeObjects;
 }
 
 
@@ -305,7 +287,6 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
 
       if (counter > caller->maxIteration)
       {
-        std::cout << "Counter crossed " << counter << std::endl;
         break;
       }
       // randomly select data for exact model fit ('numForEstimate' objects).
@@ -361,14 +342,14 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         std::fill(curVotes, curVotes + numAgreeObjects, false);
         // continue checking data until there is no chance of getting a larger consensus set
         // or all the data has been checked
-        std::vector<T> checkdata;
-        checkdata.reserve(numAgreeObjects);
-        for (m = 0; m < numAgreeObjects; m++)
-        {
-          checkdata.push_back(caller->agreeData[m]);
-        }
+        // std::vector<T> checkdata;
+        // checkdata.reserve(numAgreeObjects);
+        // for (m = 0; m < numAgreeObjects; m++)
+        // {
+        //   checkdata.push_back(caller->agreeData[m]);
+        // }
 
-        auto result = caller->paramEstimator->AgreeMultiple(exactEstimateParameters, checkdata);
+        auto result = caller->paramEstimator->AgreeMultiple(exactEstimateParameters, caller->agreeData);
         for (m = 0; m < numAgreeObjects; m++)
         {
           if (result[m])

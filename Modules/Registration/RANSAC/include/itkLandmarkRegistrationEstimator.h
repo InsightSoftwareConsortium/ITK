@@ -78,7 +78,7 @@ private:
   operator=(const Self &); // purposely not implemented
                            // given line L and point P, if dist(L,P)^2 < delta^2 then the
                            // point is on the line
-  double                     deltaSquared;
+  double                     delta;
   PointsLocatorType::Pointer pointsLocator;
   PointsContainer::Pointer   agreePoints;
 };

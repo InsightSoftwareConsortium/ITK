@@ -31,7 +31,7 @@ namespace itk
 template <unsigned int Dimension>
 LandmarkRegistrationEstimator<Dimension>::LandmarkRegistrationEstimator()
 {
-  this->deltaSquared = NumericTraits<double>::min();
+  this->delta = NumericTraits<double>::min();
   this->minForEstimate = Dimension;
 }
 
@@ -45,7 +45,7 @@ template <unsigned int Dimension>
 void
 LandmarkRegistrationEstimator<Dimension>::SetDelta(double delta)
 {
-  this->deltaSquared = delta * delta;
+  this->delta = delta;
 }
 
 
@@ -53,7 +53,7 @@ template <unsigned int Dimension>
 double
 LandmarkRegistrationEstimator<Dimension>::GetDelta()
 {
-  return sqrt(this->deltaSquared);
+  return this->delta;
 }
 
 template <unsigned int Dimension>
@@ -249,7 +249,7 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
 
   auto transformedPoint = transform->TransformPoint(p0);
   auto distance = transformedPoint.EuclideanDistanceTo(p1);
-  return (distance < this->deltaSquared);
+  return (distance < this->delta);
 }
 
 
@@ -320,7 +320,7 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
     auto transformedPoint = transform->TransformPoint(p0);
     auto pointIdentifier = this->pointsLocator->FindClosestPoint(transformedPoint);
     auto distance = transformedPoint.EuclideanDistanceTo(this->agreePoints->GetElement(pointIdentifier));
-    output.push_back((distance < this->deltaSquared));
+    output.push_back((distance < this->delta));
   }
 
   return output;
