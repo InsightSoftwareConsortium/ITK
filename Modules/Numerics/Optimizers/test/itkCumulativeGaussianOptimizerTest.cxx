@@ -82,7 +82,8 @@ itkCumulativeGaussianOptimizerTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(differenceTolerance, optimizer->GetDifferenceTolerance());
 
   // Print results after each iteration.
-  optimizer->SetVerbose(true);
+  bool verbose = true;
+  ITK_TEST_SET_GET_BOOLEAN(optimizer, Verbose, verbose);
 
   // Set the data array.
   optimizer->SetDataArray(cumGaussianArray);

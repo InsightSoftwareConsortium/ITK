@@ -72,6 +72,7 @@ public:
   itkGetMacro(DifferenceTolerance, double);
   itkSetMacro(Verbose, bool);
   itkGetMacro(Verbose, bool);
+  itkBooleanMacro(Verbose);
   itkGetMacro(ComputedMean, double);
   itkGetMacro(ComputedStandardDeviation, double);
   itkGetMacro(UpperAsymptote, double);
