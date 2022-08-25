@@ -265,25 +265,9 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   auto badOptimizer = OptimizerType::New();
-  bool caught = false;
-  try
-  {
-    badOptimizer->GetCurrentPosition();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << "Caught expected exception!";
-    std::cout << e << std::endl;
-    caught = true;
-  }
 
-  if (!caught)
-  {
-    std::cout << "Failed to catch expected exception! " << std::endl;
-    return EXIT_FAILURE;
-  }
-  std::cout << "Printing self.. " << std::endl;
-  std::cout << itkOptimizer << std::endl;
+  ITK_TRY_EXPECT_EXCEPTION(badOptimizer->GetCurrentPosition());
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

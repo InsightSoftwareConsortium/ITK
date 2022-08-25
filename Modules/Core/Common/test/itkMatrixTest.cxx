@@ -20,6 +20,7 @@
 
 #include "itkMatrix.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 int
 itkMatrixTest(int, char *[])
@@ -334,34 +335,10 @@ itkMatrixTest(int, char *[])
   using LargeMatrixType = itk::Matrix<NumericType, 7, 7>;
   LargeMatrixType matrixBad;
   matrixBad.Fill(2.0);
-  bool caught = false;
-  try
-  {
-    matrixBad.GetInverse();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cout << "Caught expected exception!" << std::endl;
-    std::cout << excp;
-    caught = true;
-  }
-  if (!caught)
-  {
-    std::cout << "Failed to catch expected exception!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_EXCEPTION(matrixBad.GetInverse());
 
   matrixBad.SetIdentity();
-  try
-  {
-    matrixBad.GetInverse();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cout << "Caught unexpected exception!" << std::endl;
-    std::cout << excp;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(matrixBad.GetInverse());
 
   {
     /*

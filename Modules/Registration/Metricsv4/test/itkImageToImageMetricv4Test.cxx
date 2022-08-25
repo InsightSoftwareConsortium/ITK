@@ -316,47 +316,16 @@ ImageToImageMetricv4TestRunSingleTest(const ImageToImageMetricv4TestMetricPointe
   ImageToImageMetricv4TestMetricType::DerivativeType derivativeReturn;
 
   // Initialize.
-  try
-  {
-    metric->Initialize();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during Initialize: " << exc;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
 
   // Evaluate using GetValue
-  try
-  {
-    valueReturn1 = metric->GetValue();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during GetValue: " << exc;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn1 = metric->GetValue());
 
   // Re-initialize.
-  try
-  {
-    metric->Initialize();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during re-initialize: " << exc;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
+
   // Evaluate using GetValueAndDerivative
-  try
-  {
-    metric->GetValueAndDerivative(valueReturn2, derivativeReturn);
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn2, derivativeReturn));
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
