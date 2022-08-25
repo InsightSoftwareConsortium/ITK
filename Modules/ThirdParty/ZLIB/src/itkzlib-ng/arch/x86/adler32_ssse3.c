@@ -8,26 +8,13 @@
 
 #include "../../zbuild.h"
 #include "../../adler32_p.h"
+#include "adler32_ssse3_p.h"
 
 #ifdef X86_SSSE3_ADLER32
 
 #include <immintrin.h>
 
-static inline uint32_t partial_hsum(__m128i x) {
-    __m128i second_int = _mm_bsrli_si128(x, 8);
-    __m128i sum = _mm_add_epi32(x, second_int);
-    return _mm_cvtsi128_si32(sum);
-}
-
-static inline uint32_t hsum(__m128i x) {
-    __m128i sum1 = _mm_unpackhi_epi64(x, x);
-    __m128i sum2 = _mm_add_epi32(x, sum1);
-    __m128i sum3 = _mm_shuffle_epi32(sum2, 0x01);
-    __m128i sum4 = _mm_add_epi32(sum2, sum3);
-    return _mm_cvtsi128_si32(sum4);
-}
-
-Z_INTERNAL uint32_t adler32_ssse3(uint32_t adler, const unsigned char *buf, size_t len) {
+Z_INTERNAL uint32_t adler32_ssse3(uint32_t adler, const uint8_t *buf, uint64_t len) {
     uint32_t sum2;
 
      /* split Adler-32 into component sums */
@@ -59,10 +46,10 @@ Z_INTERNAL uint32_t adler32_ssse3(uint32_t adler, const unsigned char *buf, size
      * additions worthwhile or if it's worth it to just eat the cost of an unaligned
      * load. This is a pretty simple test, just test if 16 - the remainder + len is
      * < 16 */
-    size_t max_iters = NMAX;
-    size_t rem = (uintptr_t)buf & 15;
-    size_t align_offset = 16 - rem;
-    size_t k = 0;
+    uint64_t max_iters = NMAX;
+    uint64_t rem = (uintptr_t)buf & 15;
+    uint64_t align_offset = 16 - rem;
+    uint64_t k = 0;
     if (rem) {
         if (len < 16 + align_offset) {
             /* Let's eat the cost of this one unaligned load so that

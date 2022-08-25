@@ -17,19 +17,19 @@ typedef __m128i chunk_t;
 
 static inline void chunkmemset_2(uint8_t *from, chunk_t *chunk) {
     int16_t tmp;
-    zmemcpy_2(&tmp, from);
+    memcpy(&tmp, from, sizeof(tmp));
     *chunk = _mm_set1_epi16(tmp);
 }
 
 static inline void chunkmemset_4(uint8_t *from, chunk_t *chunk) {
     int32_t tmp;
-    zmemcpy_4(&tmp, from);
+    memcpy(&tmp, from, sizeof(tmp));
     *chunk = _mm_set1_epi32(tmp);
 }
 
 static inline void chunkmemset_8(uint8_t *from, chunk_t *chunk) {
     int64_t tmp;
-    zmemcpy_8(&tmp, from);
+    memcpy(&tmp, from, sizeof(tmp));
     *chunk = _mm_set1_epi64x(tmp);
 }
 
@@ -43,7 +43,6 @@ static inline void storechunk(uint8_t *out, chunk_t *chunk) {
 
 #define CHUNKSIZE        chunksize_sse2
 #define CHUNKCOPY        chunkcopy_sse2
-#define CHUNKCOPY_SAFE   chunkcopy_safe_sse2
 #define CHUNKUNROLL      chunkunroll_sse2
 #define CHUNKMEMSET      chunkmemset_sse2
 #define CHUNKMEMSET_SAFE chunkmemset_safe_sse2
