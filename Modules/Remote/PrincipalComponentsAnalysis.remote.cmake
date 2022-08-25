@@ -51,5 +51,5 @@ A more detailed description can be found in the Insight Journal article:
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKPrincipalComponentsAnalysis.git
-  GIT_TAG d4877819abc8a921a5cefee864a52324a2542721
+  GIT_TAG 2f8d8bffb37fca8875a674465af5e3d902432f30
   )

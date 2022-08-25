@@ -46,5 +46,5 @@ itk_fetch_module(IOMeshSWC
   "Read meshes from SWC files, a format for representing neuron morphology."
   MODULE_COMPLIANCE_LEVEL 4
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKIOMeshSWC.git
-  GIT_TAG 60a61652e6b87f66f7771c9c69dc76504c2471b8
+  GIT_TAG 212b3678780b5b6ab27ae17ea68072ec5a088156
   )
