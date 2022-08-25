@@ -140,7 +140,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
   // STEP2: create the threads that generate hypotheses and test
 
-  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(1);
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(8);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
@@ -223,7 +223,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
         auto distance = corresPoint.EuclideanDistanceTo(testPoint);
 
-        if (distance > 20)
+        if (distance > 10)
         {
           continue;
         }

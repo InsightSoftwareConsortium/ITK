@@ -153,19 +153,12 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
     itk::LandmarkBasedTransformInitializer<Similarity3DTransformType, FixedImageType, MovingImageType>;
   // Obtain the parameters of the Similarity3DTransform
 
-
   auto transform = Similarity3DTransformType::New();
   auto initializer = TransformInitializerType::New();
 
   itk::Point<double, 3>                                     point;
   typename TransformInitializerType::LandmarkPointContainer fixedLandmarks;
   typename TransformInitializerType::LandmarkPointContainer movingLandmarks;
-
-  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
-  auto pointsLocator = PointsLocatorType::New();
-
-  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
-  auto points = PointsContainer::New();
 
   // Create landmark points from the 6D input points
   for (unsigned int i = 0; i < data.size(); ++i)
@@ -261,6 +254,28 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
 
 
 template <unsigned int Dimension>
+void
+LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double, Dimension>> & data)
+{
+  this->pointsLocator = PointsLocatorType::New();
+  this->agreePoints = PointsContainer::New();
+  this->agreePoints->reserve(data.size());
+
+  itk::Point<double, 3> testPoint;
+
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    auto point = data[i];
+    testPoint[0] = point[3];
+    testPoint[1] = point[4];
+    testPoint[2] = point[5];
+    agreePoints->InsertElement(i, testPoint);
+  }
+  this->pointsLocator->SetPoints(agreePoints);
+  this->pointsLocator->Initialize();
+}
+
+template <unsigned int Dimension>
 std::vector<bool>
 LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
                                                         std::vector<Point<double, Dimension>> & data)
@@ -287,28 +302,6 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
   }
   transform->SetParameters(optParameters);
 
-  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
-  auto pointsLocator = PointsLocatorType::New();
-
-  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
-  auto points = PointsContainer::New();
-  /**
-   * Create a simple point set structure that will create a non-degenerate
-   * bounding box but will allow simple querying tests.
-   */
-  points->reserve(data.size());
-  itk::Point<double, 3> testPoint;
-
-  for (unsigned int i = 0; i < data.size(); ++i)
-  {
-    auto point = data[i];
-    testPoint[0] = point[3];
-    testPoint[1] = point[4];
-    testPoint[2] = point[5];
-    points->InsertElement(i, testPoint);
-  }
-  pointsLocator->SetPoints(points);
-  pointsLocator->Initialize();
 
   std::vector<bool> output;
   for (unsigned int i = 0; i < data.size(); ++i)
@@ -325,8 +318,8 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
     p1[2] = data[i][5];
 
     auto transformedPoint = transform->TransformPoint(p0);
-    auto pointIdentifier = pointsLocator->FindClosestPoint(transformedPoint);
-    auto distance = transformedPoint.EuclideanDistanceTo(points->GetElement(pointIdentifier));
+    auto pointIdentifier = this->pointsLocator->FindClosestPoint(transformedPoint);
+    auto distance = transformedPoint.EuclideanDistanceTo(this->agreePoints->GetElement(pointIdentifier));
     output.push_back((distance < this->deltaSquared));
   }
 
