@@ -159,8 +159,8 @@ GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk:
   {
     indexArray.push_back(i);
   }
-  std::random_shuffle(indexArray.begin(), indexArray.end());
 
+  std::shuffle(indexArray.begin(), indexArray.end(), std::default_random_engine(0));
   for (unsigned int i = 0; i < minCount; ++i)
   {
     auto point1 = mesh1_all->GetPoint(i);
