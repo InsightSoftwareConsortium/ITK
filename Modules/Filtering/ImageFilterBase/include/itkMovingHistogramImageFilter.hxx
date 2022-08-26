@@ -107,7 +107,7 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
 
   // Steps is used to keep track of the order in which the line
   // iterator passes over the various dimensions.
-  auto * Steps = new int[ImageDimension];
+  int Steps[ImageDimension];
 
   for (i = 0; i < ImageDimension; ++i)
   {
@@ -170,7 +170,6 @@ MovingHistogramImageFilter<TInputImage, TOutputImage, TKernel, THistogram>::Dyna
     }
     progress.Completed(outputRegionForThread.GetSize()[0]);
   }
-  delete[] Steps;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TKernel, typename THistogram>

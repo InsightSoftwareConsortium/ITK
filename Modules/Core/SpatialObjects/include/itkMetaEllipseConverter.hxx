@@ -73,7 +73,7 @@ MetaEllipseConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
 
   auto * ellipseMO = new EllipseMetaObjectType(VDimension);
 
-  auto * radii = new float[VDimension];
+  float radii[VDimension];
 
   for (unsigned int i = 0; i < VDimension; ++i)
   {
@@ -92,7 +92,6 @@ MetaEllipseConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectT
                    ellipseSO->GetProperty().GetBlue(),
                    ellipseSO->GetProperty().GetAlpha());
 
-  delete[] radii;
   return ellipseMO;
 }
 

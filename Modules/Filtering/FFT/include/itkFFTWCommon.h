@@ -98,11 +98,10 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[2];
+    int sizes[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_c2r(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -116,12 +115,11 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[3];
+    int sizes[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_c2r(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -199,11 +197,10 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[2];
+    int sizes[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_r2c(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -217,12 +214,11 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[3];
+    int sizes[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_r2c(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -302,11 +298,10 @@ public:
               int           threads = 1,
               bool          canDestroyInput = false)
   {
-    auto * sizes = new int[2];
+    int sizes[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft(2, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -321,12 +316,11 @@ public:
               int           threads = 1,
               bool          canDestroyInput = false)
   {
-    auto * sizes = new int[3];
+    int sizes[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft(3, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -440,11 +434,10 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[2];
+    int sizes[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_c2r(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -458,12 +451,11 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[3];
+    int sizes[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_c2r(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -541,11 +533,10 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[2];
+    int sizes[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft_r2c(2, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -559,12 +550,11 @@ public:
                   int           threads = 1,
                   bool          canDestroyInput = false)
   {
-    auto * sizes = new int[3];
+    int sizes[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft_r2c(3, sizes, in, out, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -643,11 +633,10 @@ public:
               int           threads = 1,
               bool          canDestroyInput = false)
   {
-    auto * sizes = new int[2];
+    int sizes[2];
     sizes[0] = nx;
     sizes[1] = ny;
     PlanType plan = Plan_dft(2, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 
@@ -662,12 +651,11 @@ public:
               int           threads = 1,
               bool          canDestroyInput = false)
   {
-    auto * sizes = new int[3];
+    int sizes[3];
     sizes[0] = nx;
     sizes[1] = ny;
     sizes[2] = nz;
     PlanType plan = Plan_dft(3, sizes, in, out, sign, flags, threads, canDestroyInput);
-    delete[] sizes;
     return plan;
   }
 

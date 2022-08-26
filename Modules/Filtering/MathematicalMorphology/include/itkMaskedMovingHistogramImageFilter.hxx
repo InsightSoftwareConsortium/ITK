@@ -197,7 +197,7 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
 
   // Steps is used to keep track of the order in which the line
   // iterator passes over the various dimensions.
-  auto * Steps = new int[ImageDimension];
+  int Steps[ImageDimension];
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
@@ -277,7 +277,6 @@ MaskedMovingHistogramImageFilter<TInputImage, TMaskImage, TOutputImage, TKernel,
       }
     }
   }
-  delete[] Steps;
 }
 
 template <typename TInputImage, typename TMaskImage, typename TOutputImage, typename TKernel, typename THistogram>

@@ -65,7 +65,7 @@ itkVariableLengthVectorTest(int, char *[])
   }
 
   {
-    auto * d = new double[3];
+    double d[3];
     d[0] = 0.1;
     d[1] = 0.2;
     d[2] = 0.3;
@@ -283,8 +283,6 @@ itkVariableLengthVectorTest(int, char *[])
       //    x.FastAssign(ref4);
       // is an invalid instruction: Indeed FastAssign preconditions are not met.
     }
-
-    delete[] d;
   }
 
 

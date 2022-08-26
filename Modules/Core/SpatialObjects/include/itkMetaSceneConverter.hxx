@@ -258,13 +258,12 @@ MetaSceneConverter<VDimension, PixelType, TMeshTraits>::CreateMetaScene(const Sp
 
   metaScene->BinaryData(m_BinaryPoints);
 
-  auto * spacing = new float[VDimension];
+  float spacing[VDimension];
   for (unsigned int i = 0; i < VDimension; ++i)
   {
     spacing[i] = 1;
   }
   metaScene->ElementSpacing(spacing);
-  delete[] spacing;
 
   using ListType = typename SpatialObjectType::ChildrenConstListType;
 
