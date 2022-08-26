@@ -19,6 +19,7 @@
 #include <iostream>
 
 #include "itkMaximumRatioDecisionRule.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -30,6 +31,9 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
 
   using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   auto decisionRule = DecisionRuleType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(decisionRule, MaximumRatioDecisionRule, DecisionRule);
+
 
   DecisionRuleType::MembershipVectorType discriminantScores;
   discriminantScores.resize(3);
@@ -46,6 +50,11 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   aPrioris[2] = 0.6;
 
   decisionRule->SetPriorProbabilities(aPrioris);
+  for (auto & value : aPrioris)
+  {
+    auto index = &value - &*(aPrioris.begin());
+    ITK_TEST_SET_GET_VALUE(value, decisionRule->GetPriorProbabilities()[index]);
+  }
 
   if (decisionRule->Evaluate(discriminantScores) != 2)
   {
@@ -56,6 +65,11 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   // run with uniform prior
   aPrioris.clear();
   decisionRule->SetPriorProbabilities(aPrioris);
+  for (auto & value : aPrioris)
+  {
+    auto index = &value - &*(aPrioris.begin());
+    ITK_TEST_SET_GET_VALUE(value, decisionRule->GetPriorProbabilities()[index]);
+  }
 
   if (decisionRule->Evaluate(discriminantScores) != 1)
   {

@@ -18,6 +18,7 @@
 
 #include "itkMultiphaseFiniteDifferenceImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -102,8 +103,35 @@ itkMultiphaseFiniteDifferenceImageFilterTest(int, char *[])
 
   auto filter = FilterType::New();
 
-  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
-  filter->Print(std::cout);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, MultiphaseFiniteDifferenceImageFilterTestHelper, MultiphaseFiniteDifferenceImageFilter);
+
+
+  unsigned int numberOfIterations = itk::NumericTraits<unsigned int>::max();
+  filter->SetNumberOfIterations(numberOfIterations);
+  ITK_TEST_SET_GET_VALUE(numberOfIterations, filter->GetNumberOfIterations());
+
+  bool useImageSpacing = true;
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseImageSpacing, useImageSpacing);
+
+  double maximumRMSError = itk::Math::eps;
+  filter->SetMaximumRMSError(maximumRMSError);
+  ITK_TEST_SET_GET_VALUE(maximumRMSError, filter->GetMaximumRMSError());
+
+  double rmsChange = itk::NumericTraits<double>::max();
+  filter->SetRMSChange(rmsChange);
+  ITK_TEST_SET_GET_VALUE(rmsChange, filter->GetRMSChange());
+
+  bool initializedState = false;
+  ITK_TEST_SET_GET_BOOLEAN(filter, InitializedState, initializedState);
+
+  bool manualReinitialization = false;
+  ITK_TEST_SET_GET_BOOLEAN(filter, ManualReinitialization, manualReinitialization);
+
+  unsigned int elapsedIterations = 0;
+  filter->SetElapsedIterations(elapsedIterations);
+  ITK_TEST_SET_GET_VALUE(elapsedIterations, filter->GetElapsedIterations());
+
 
   return EXIT_SUCCESS;
 }

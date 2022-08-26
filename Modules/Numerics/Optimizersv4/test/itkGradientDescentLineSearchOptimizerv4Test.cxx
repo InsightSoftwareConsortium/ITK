@@ -212,6 +212,10 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    itkOptimizer, GradientDescentLineSearchOptimizerv4Template, GradientDescentOptimizerv4Template);
+
+
   // Declaration of the Metric
   GradientDescentLineSearchOptimizerv4TestMetric::Pointer metric =
     GradientDescentLineSearchOptimizerv4TestMetric::New();
@@ -246,9 +250,23 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   ScalesType scales(metric->GetNumberOfLocalParameters());
   scales.Fill(0.5);
   itkOptimizer->SetScales(scales);
-  itkOptimizer->SetLowerLimit(-10);
-  itkOptimizer->SetUpperLimit(10);
-  itkOptimizer->SetEpsilon(1.e-4);
+
+  typename OptimizerType::InternalComputationValueType epsilon = 1.e-4;
+  itkOptimizer->SetEpsilon(epsilon);
+  ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
+
+  typename OptimizerType::InternalComputationValueType lowerLimit = -10;
+  itkOptimizer->SetLowerLimit(lowerLimit);
+  ITK_TEST_SET_GET_VALUE(lowerLimit, itkOptimizer->GetLowerLimit());
+
+  typename OptimizerType::InternalComputationValueType upperLimit = 10;
+  itkOptimizer->SetUpperLimit(upperLimit);
+  ITK_TEST_SET_GET_VALUE(upperLimit, itkOptimizer->GetUpperLimit());
+
+  unsigned int maximumLineSearchIterations = 100;
+  itkOptimizer->SetMaximumLineSearchIterations(maximumLineSearchIterations);
+  ITK_TEST_SET_GET_VALUE(maximumLineSearchIterations, itkOptimizer->GetMaximumLineSearchIterations());
+
   metric->SetParameters(initialPosition);
   if (GradientDescentLineSearchOptimizerv4RunTest(itkOptimizer) == EXIT_FAILURE)
   {
@@ -260,8 +278,6 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   std::cout << std::endl;
   std::cout << "NumberOfIterations: " << itkOptimizer->GetNumberOfIterations();
   std::cout << std::endl;
-
-  itkOptimizer->Print(std::cout);
   std::cout << "Stop description   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   auto badOptimizer = OptimizerType::New();

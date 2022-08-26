@@ -132,6 +132,10 @@ itkLevelSetEquationBinaryMaskTermTest(int, char *[])
 
   // Create overlap penalty term
   auto maskTerm0 = BinaryMaskTermType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(maskTerm0, LevelSetEquationBinaryMaskTerm, LevelSetEquationTermBase);
+
+
   maskTerm0->SetInput(binary);
   maskTerm0->SetMask(binary);
   maskTerm0->SetCoefficient(1000.0);

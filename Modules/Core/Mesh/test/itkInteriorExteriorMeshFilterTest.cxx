@@ -85,6 +85,9 @@ itkInteriorExteriorMeshFilterTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, InteriorExteriorMeshFilter, MeshToMeshFilter);
 
 
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(filter->Update());
+
   // Create the Spatial Function
   auto spatialFunction = SpatialFunctionType::New();
 
