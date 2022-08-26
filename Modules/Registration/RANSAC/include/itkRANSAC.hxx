@@ -342,14 +342,6 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         // see how many agree on this estimate
         numVotesForCur = 0;
         std::fill(curVotes, curVotes + numAgreeObjects, false);
-        // continue checking data until there is no chance of getting a larger consensus set
-        // or all the data has been checked
-        // std::vector<T> checkdata;
-        // checkdata.reserve(numAgreeObjects);
-        // for (m = 0; m < numAgreeObjects; m++)
-        // {
-        //   checkdata.push_back(caller->agreeData[m]);
-        // }
 
         auto result =
           caller->paramEstimator->AgreeMultiple(exactEstimateParameters, caller->agreeData, caller->numVotesForBest);
