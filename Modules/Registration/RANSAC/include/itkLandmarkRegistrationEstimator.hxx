@@ -280,7 +280,7 @@ LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double,
     }
   }
 
-  this->mat_adaptor = new my_kd_tree_t(dim, this->samples, 10);
+  this->mat_adaptor = new KdTreeT(dim, this->samples, 5);
   this->mat_adaptor->index->buildIndex();
 
   this->pointsLocator->SetPoints(agreePoints);
@@ -344,12 +344,6 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
     result[0] = this->samples[ret_indexes[0]][0];
     result[1] = this->samples[ret_indexes[0]][1];
     result[2] = this->samples[ret_indexes[0]][2];
-
-    // auto pointIdentifier = this->pointsLocator->FindClosestPoint(transformedPoint);
-    // auto distance = transformedPoint.EuclideanDistanceTo(result);
-
-    // std::cout << "Distances are "<< distance << " and " << out_dists_sqr[0]  << std::endl;
-    // output.push_back((out_dists_sqr[0] < this->delta));
     output.push_back((out_dists_sqr[0] < this->delta));
   }
 

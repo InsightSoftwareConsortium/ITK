@@ -134,13 +134,12 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   // this->
   this->numerator = log(1.0 - desiredProbabilityForNoOutliers);
 
-  std::cout << "Number of allTries " << this->allTries << std::endl;
-
   srand((unsigned)time(NULL)); // seed random number generator
 
   // STEP2: create the threads that generate hypotheses and test
 
   std::cout << "Number of Threads is " << this->numberOfThreads << std::endl;
+  std::cout << "Max Counter is " << this->maxIteration << std::endl;
 
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
@@ -216,6 +215,11 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
         testPoint[0] = tempPoint[0];
         testPoint[1] = tempPoint[1];
         testPoint[2] = tempPoint[2];
+
+        const size_t                    num_results = 1;
+        std::vector<size_t>             ret_indexes(num_results);
+        std::vector<double>             out_dists_sqr(num_results);
+        nanoflann::KNNResultSet<double> resultSet(num_results);
 
         auto transformedPoint = transform->TransformPoint(testPoint);
         auto pointId = pointsLocator->FindClosestPoint(transformedPoint);

@@ -37,12 +37,12 @@ public:
   typedef SmartPointer<Self>                                    Pointer;
   typedef SmartPointer<const Self>                              ConstPointer;
 
-  typedef std::vector<std::vector<double>> my_vector_of_vectors_t;
-  using self_t = KDTreeVectorOfVectorsAdaptor<my_vector_of_vectors_t, double, 3, nanoflann::metric_L2>;
+  typedef std::vector<std::vector<double>> VectorofVectorsT;
+  using self_t = KDTreeVectorOfVectorsAdaptor<VectorofVectorsT, double, 3, nanoflann::metric_L2>;
   using metric_t = typename nanoflann::metric_L2::template traits<double, self_t>::distance_t;
   using index_t = nanoflann::KDTreeSingleIndexAdaptor<metric_t, self_t, 3, size_t>;
 
-  using my_kd_tree_t = KDTreeVectorOfVectorsAdaptor<my_vector_of_vectors_t, double>;
+  using KdTreeT = KDTreeVectorOfVectorsAdaptor<VectorofVectorsT, double>;
 
   using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
   using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
@@ -90,8 +90,8 @@ private:
 
   PointsLocatorType::Pointer pointsLocator;
   PointsContainer::Pointer   agreePoints;
-  my_vector_of_vectors_t     samples;
-  my_kd_tree_t *             mat_adaptor;
+  VectorofVectorsT           samples;
+  KdTreeT *                  mat_adaptor;
 };
 
 } // end namespace itk

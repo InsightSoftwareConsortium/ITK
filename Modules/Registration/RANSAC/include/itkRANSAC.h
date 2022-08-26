@@ -29,6 +29,7 @@
 #include "itkMultiThreaderBase.h"
 #include <mutex>
 #include "itkMacro.h"
+#include "nanoflann.hpp"
 
 /**
  * This class implements a multi-threaded version of the RAndom SAmple
