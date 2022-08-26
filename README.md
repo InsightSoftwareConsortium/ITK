@@ -25,7 +25,7 @@ Links
 * [Discussion](https://discourse.itk.org/)
 * [Software Guide](https://itk.org/ItkSoftwareGuide.pdf)
 * [Help](https://itk.org/resources/)
-* [Examples](https://itk.org/ITKExamples/)
+* [Examples](https://examples.itk.org/)
 * [Issue tracking](https://github.com/InsightSoftwareConsortium/ITK/issues)
 * [Submit a patch](CONTRIBUTING.md)
 
