@@ -46,9 +46,9 @@ LandmarkRegistrationEstimator<Dimension>::~LandmarkRegistrationEstimator()
 
 template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<Dimension>::SetDelta(double delta)
+LandmarkRegistrationEstimator<Dimension>::SetDelta(double inputDelta)
 {
-  this->delta = delta * delta;
+  this->delta = inputDelta * inputDelta;
 }
 
 

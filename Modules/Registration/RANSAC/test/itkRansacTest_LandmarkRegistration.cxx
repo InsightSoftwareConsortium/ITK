@@ -33,6 +33,17 @@ GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk:
 int
 itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 {
+  if (argc < 5)
+  {
+    std::cerr << "Missing arguments." << std::endl;
+    std::cerr << "Usage: " << std::endl;
+    std::cerr << argv[0] << "movingFeatureMesh, "
+              << "fixedFeatureMesh, "
+              << "movingMesh, "
+              << "fixedMesh " << std::endl;
+    return EXIT_FAILURE;
+  }
+
   const unsigned int                                              DimensionPoint = 6;
   typedef itk::RANSAC<itk::Point<double, DimensionPoint>, double> RANSACType;
 

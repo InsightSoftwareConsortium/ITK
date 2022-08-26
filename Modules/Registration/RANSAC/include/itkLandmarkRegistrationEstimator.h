@@ -52,22 +52,22 @@ public:
   itkNewMacro(Self);
 
   virtual void
-  Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters) override;
   virtual void
-  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters) override;
 
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters) override;
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters) override;
 
   virtual bool
-  Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
+  Agree(std::vector<double> & parameters, Point<double, Dimension> & data) override;
 
   virtual std::vector<bool>
   AgreeMultiple(std::vector<double> &                   parameters,
                 std::vector<Point<double, Dimension>> & data,
-                unsigned int                            currentBest);
+                unsigned int                            currentBest) override;
 
   virtual void
   SetDelta(double delta);

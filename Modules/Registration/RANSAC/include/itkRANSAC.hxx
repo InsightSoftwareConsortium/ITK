@@ -279,7 +279,6 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
     unsigned int       numForEstimate = caller->paramEstimator->GetMinimalForEstimate();
     std::vector<T *>   exactEstimateData;
     std::vector<SType> exactEstimateParameters;
-    double             denominator;
 
     // true if agreeData[i] agrees with the current model, otherwise false
     bool * curVotes = new bool[numAgreeObjects];
@@ -378,7 +377,8 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         caller->resultsMutex.unlock();
       }
       else
-      { // this sub set already appeared, release memory
+      {
+        // this sub set already appeared, release memory
         delete[] curSubSetIndexes;
       }
     }
