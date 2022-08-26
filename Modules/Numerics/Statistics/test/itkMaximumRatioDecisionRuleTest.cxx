@@ -26,9 +26,6 @@ int
 itkMaximumRatioDecisionRuleTest(int, char *[])
 {
 
-  std::cout << "==================================" << std::endl;
-  std::cout << "Testing MaximumRatioDecionRule " << std::endl << std::endl;
-
   using DecisionRuleType = itk::Statistics::MaximumRatioDecisionRule;
   auto decisionRule = DecisionRuleType::New();
 
