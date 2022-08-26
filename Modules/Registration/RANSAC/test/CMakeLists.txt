@@ -9,4 +9,8 @@ itk_add_test(
   COMMAND
     RansacTestDriver
     itkRansacTest_LandmarkRegistration
+    "movingFeatureMesh.vtk"
+    "fixedFeatureMesh.vtk"
+    "movingMesh.vtk"
+    "fixedMesh.vtk"
 )
