@@ -23,6 +23,7 @@
 #include "itkPoint.h"
 #include "itkObjectFactory.h"
 #include "itkPointsLocator.h"
+#include "KDTreeVectorOfVectorsAdaptor.h"
 
 namespace itk
 {
@@ -35,6 +36,13 @@ public:
   typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
   typedef SmartPointer<Self>                                    Pointer;
   typedef SmartPointer<const Self>                              ConstPointer;
+
+  typedef std::vector<std::vector<double>> my_vector_of_vectors_t;
+  using self_t = KDTreeVectorOfVectorsAdaptor<my_vector_of_vectors_t, double, 3, nanoflann::metric_L2>;
+  using metric_t = typename nanoflann::metric_L2::template traits<double, self_t>::distance_t;
+  using index_t = nanoflann::KDTreeSingleIndexAdaptor<metric_t, self_t, 3, size_t>;
+
+  using my_kd_tree_t = KDTreeVectorOfVectorsAdaptor<my_vector_of_vectors_t, double>;
 
   using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
   using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
@@ -78,9 +86,12 @@ private:
   operator=(const Self &); // purposely not implemented
                            // given line L and point P, if dist(L,P)^2 < delta^2 then the
                            // point is on the line
-  double                     delta;
+  double delta;
+
   PointsLocatorType::Pointer pointsLocator;
   PointsContainer::Pointer   agreePoints;
+  my_vector_of_vectors_t     samples;
+  my_kd_tree_t *             mat_adaptor;
 };
 
 } // end namespace itk

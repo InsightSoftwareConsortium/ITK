@@ -24,6 +24,7 @@
 #include "itkSimilarity3DTransform.h"
 #include "itkIntTypes.h"
 #include "itkPointsLocator.h"
+#include "nanoflann.hpp"
 
 namespace itk
 {
@@ -45,7 +46,7 @@ template <unsigned int Dimension>
 void
 LandmarkRegistrationEstimator<Dimension>::SetDelta(double delta)
 {
-  this->delta = delta;
+  this->delta = delta * delta;
 }
 
 
@@ -259,6 +260,9 @@ LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double,
   this->agreePoints = PointsContainer::New();
   this->agreePoints->reserve(data.size());
 
+  this->samples.resize(data.size());
+
+  unsigned int          dim = 3;
   itk::Point<double, 3> testPoint;
 
   for (unsigned int i = 0; i < data.size(); ++i)
@@ -267,8 +271,18 @@ LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double,
     testPoint[0] = point[3];
     testPoint[1] = point[4];
     testPoint[2] = point[5];
-    agreePoints->InsertElement(i, testPoint);
+    this->agreePoints->InsertElement(i, testPoint);
+
+    this->samples[i].resize(dim);
+    for (size_t d = 0; d < dim; d++)
+    {
+      this->samples[i][d] = testPoint[d];
+    }
   }
+
+  this->mat_adaptor = new my_kd_tree_t(dim, this->samples, 10);
+  this->mat_adaptor->index->buildIndex();
+
   this->pointsLocator->SetPoints(agreePoints);
   this->pointsLocator->Initialize();
 }
@@ -300,21 +314,43 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
   }
   transform->SetParameters(optParameters);
 
-
-  std::vector<bool> output;
+  std::vector<double> query_pt(3);
+  std::vector<bool>   output;
   output.reserve(data.size());
+
+  const size_t                    num_results = 1;
+  std::vector<size_t>             ret_indexes(num_results);
+  std::vector<double>             out_dists_sqr(num_results);
+  nanoflann::KNNResultSet<double> resultSet(num_results);
+
   for (unsigned int i = 0; i < data.size(); ++i)
   {
     itk::Point<double, 3> p0;
+    itk::Point<double, 3> result;
 
     p0[0] = data[i][0];
     p0[1] = data[i][1];
     p0[2] = data[i][2];
 
     auto transformedPoint = transform->TransformPoint(p0);
-    auto pointIdentifier = this->pointsLocator->FindClosestPoint(transformedPoint);
-    auto distance = transformedPoint.EuclideanDistanceTo(this->agreePoints->GetElement(pointIdentifier));
-    output.push_back((distance < this->delta));
+    for (unsigned int k = 0; k < 3; ++k)
+    {
+      query_pt[k] = transformedPoint[k];
+    }
+
+    resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+    this->mat_adaptor->index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+
+    result[0] = this->samples[ret_indexes[0]][0];
+    result[1] = this->samples[ret_indexes[0]][1];
+    result[2] = this->samples[ret_indexes[0]][2];
+
+    // auto pointIdentifier = this->pointsLocator->FindClosestPoint(transformedPoint);
+    // auto distance = transformedPoint.EuclideanDistanceTo(result);
+
+    // std::cout << "Distances are "<< distance << " and " << out_dists_sqr[0]  << std::endl;
+    // output.push_back((out_dists_sqr[0] < this->delta));
+    output.push_back((out_dists_sqr[0] < this->delta));
   }
 
   return output;
