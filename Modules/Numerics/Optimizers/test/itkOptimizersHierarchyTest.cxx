@@ -147,6 +147,6 @@ itkOptimizersHierarchyTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(cumGaussCostFunc, CumulativeGaussianCostFunction, MultipleValuedCostFunction);
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

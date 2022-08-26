@@ -285,6 +285,6 @@ itkGradientDescentLineSearchOptimizerv4Test(int, char *[])
   ITK_TRY_EXPECT_EXCEPTION(badOptimizer->GetCurrentPosition());
 
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

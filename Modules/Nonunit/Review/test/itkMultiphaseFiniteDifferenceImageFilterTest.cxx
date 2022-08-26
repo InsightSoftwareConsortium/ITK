@@ -133,5 +133,6 @@ itkMultiphaseFiniteDifferenceImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(elapsedIterations, filter->GetElapsedIterations());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

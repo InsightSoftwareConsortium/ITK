@@ -115,5 +115,6 @@ itkMultiphaseDenseFiniteDifferenceImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(reinitializeCounter, flter->GetReinitializeCounter());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
