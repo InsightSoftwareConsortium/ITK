@@ -5,6 +5,8 @@
 #ifndef INFLATE_P_H
 #define INFLATE_P_H
 
+#include <stdlib.h>
+
 /* Architecture-specific hooks. */
 #ifdef S390_DFLTCC_INFLATE
 #  include "arch/s390/dfltcc_inflate.h"
@@ -128,16 +130,16 @@
     } while (0)
 
 /* Behave like chunkcopy, but avoid writing beyond of legal output. */
-static inline uint8_t* chunkcopy_safe(uint8_t *out, uint8_t *from, size_t len, uint8_t *safe) {
-    uint32_t safelen = (uint32_t)((safe - out) + 1);
+static inline uint8_t* chunkcopy_safe(uint8_t *out, uint8_t *from, uint64_t len, uint8_t *safe) {
+    uint64_t safelen = (safe - out) + 1;
     len = MIN(len, safelen);
     int32_t olap_src = from >= out && from < out + len;
     int32_t olap_dst = out >= from && out < from + len;
-    size_t tocopy;
+    uint64_t tocopy;
 
     /* For all cases without overlap, memcpy is ideal */
     if (!(olap_src || olap_dst)) {
-        memcpy(out, from, len);
+        memcpy(out, from, (size_t)len);
         return out + len;
     }
 
@@ -145,10 +147,10 @@ static inline uint8_t* chunkcopy_safe(uint8_t *out, uint8_t *from, size_t len, u
      * we have to get a bit clever. First if the overlap is such that src falls between dst and dst+len, we can do the
      * initial bulk memcpy of the nonoverlapping region. Then, we can leverage the size of this to determine the safest
      * atomic memcpy size we can pick such that we have non-overlapping regions. This effectively becomes a safe look
-     * behind or lookahead distance */
-    size_t non_olap_size = ((from > out) ? from - out : out - from);
+     * behind or lookahead distance. */
+    uint64_t non_olap_size = llabs(from - out); // llabs vs labs for compatibility with windows
 
-    memcpy(out, from, non_olap_size);
+    memcpy(out, from, (size_t)non_olap_size);
     out += non_olap_size;
     from += non_olap_size;
     len -= non_olap_size;
@@ -174,21 +176,21 @@ static inline uint8_t* chunkcopy_safe(uint8_t *out, uint8_t *from, size_t len, u
         }
 
         if (tocopy >= 8) {
-            zmemcpy_8(out, from);
+            memcpy(out, from, 8);
             out += 8;
             from += 8;
             tocopy -= 8;
         }
 
         if (tocopy >= 4) {
-            zmemcpy_4(out, from);
+            memcpy(out, from, 4);
             out += 4;
             from += 4;
             tocopy -= 4;
         }
 
         if (tocopy >= 2) {
-            zmemcpy_2(out, from);
+            memcpy(out, from, 2);
             out += 2;
             from += 2;
             tocopy -= 2;

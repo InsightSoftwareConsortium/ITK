@@ -1,5 +1,5 @@
 /* gzread.c -- zlib functions for reading gzip files
- * Copyright (C) 2004, 2005, 2010, 2011, 2012, 2013, 2016 Mark Adler
+ * Copyright (C) 2004-2017 Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
@@ -432,9 +432,11 @@ int Z_EXPORT PREFIX(gzgetc)(gzFile file) {
     return gz_read(state, buf, 1) < 1 ? -1 : buf[0];
 }
 
+#ifdef ZLIB_COMPAT
 int Z_EXPORT PREFIX(gzgetc_)(gzFile file) {
     return PREFIX(gzgetc)(file);
 }
+#endif
 
 /* -- see zlib.h -- */
 int Z_EXPORT PREFIX(gzungetc)(int c, gzFile file) {

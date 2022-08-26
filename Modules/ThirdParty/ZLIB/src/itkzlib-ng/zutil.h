@@ -1,7 +1,7 @@
 #ifndef ZUTIL_H_
 #define ZUTIL_H_
 /* zutil.h -- internal interface and configuration of the compression library
- * Copyright (C) 1995-2016 Jean-loup Gailly, Mark Adler
+ * Copyright (C) 1995-2022 Jean-loup Gailly, Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
@@ -119,6 +119,10 @@ extern z_const char * const PREFIX(z_errmsg)[10]; /* indexed by 2-zlib_error */
 #ifndef OS_CODE
 #  define OS_CODE  3  /* assume Unix */
 #endif
+
+         /* macros */
+
+#define CHECK_VER_STSIZE(_ver,_stsize) ((_ver) == NULL || (_ver)[0] != PREFIX2(VERSION)[0] || (_stsize) != (int32_t)sizeof(PREFIX3(stream)))
 
          /* memory allocation functions */
 

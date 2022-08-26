@@ -1,5 +1,5 @@
 /* deflate.c -- compress data using the deflation algorithm
- * Copyright (C) 1995-2016 Jean-loup Gailly and Mark Adler
+ * Copyright (C) 1995-2022 Jean-loup Gailly and Mark Adler
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 
@@ -53,7 +53,13 @@
 #include "deflate_p.h"
 #include "functable.h"
 
-const char PREFIX(deflate_copyright)[] = " deflate 1.2.11.f Copyright 1995-2016 Jean-loup Gailly and Mark Adler ";
+/* Avoid conflicts with zlib.h macros */
+#ifdef ZLIB_COMPAT
+# undef deflateInit
+# undef deflateInit2
+#endif
+
+const char PREFIX(deflate_copyright)[] = " deflate 1.2.12 Copyright 1995-2022 Jean-loup Gailly and Mark Adler ";
 /*
   If you use the zlib library in a product, an acknowledgment is welcome
   in the documentation of your product. If for some reason you cannot
@@ -181,24 +187,16 @@ static const config configuration_table[10] = {
   } while (0)
 
 /* ========================================================================= */
-int32_t Z_EXPORT PREFIX(deflateInit_)(PREFIX3(stream) *strm, int32_t level, const char *version, int32_t stream_size) {
-    return PREFIX(deflateInit2_)(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY, version, stream_size);
+/* This function is hidden in ZLIB_COMPAT builds. */
+int32_t ZNG_CONDEXPORT PREFIX(deflateInit2)(PREFIX3(stream) *strm, int32_t level, int32_t method, int32_t windowBits,
+                                            int32_t memLevel, int32_t strategy) {
     /* Todo: ignore strm->next_in if we use it as window */
-}
-
-/* ========================================================================= */
-int32_t Z_EXPORT PREFIX(deflateInit2_)(PREFIX3(stream) *strm, int32_t level, int32_t method, int32_t windowBits,
-                           int32_t memLevel, int32_t strategy, const char *version, int32_t stream_size) {
     uint32_t window_padding = 0;
     deflate_state *s;
     int wrap = 1;
-    static const char my_version[] = PREFIX2(VERSION);
 
     cpu_check_features();
 
-    if (version == NULL || version[0] != my_version[0] || stream_size != sizeof(PREFIX3(stream))) {
-        return Z_VERSION_ERROR;
-    }
     if (strm == NULL)
         return Z_STREAM_ERROR;
 
@@ -215,6 +213,8 @@ int32_t Z_EXPORT PREFIX(deflateInit2_)(PREFIX3(stream) *strm, int32_t level, int
 
     if (windowBits < 0) { /* suppress zlib wrapper */
         wrap = 0;
+        if (windowBits < -15)
+            return Z_STREAM_ERROR;
         windowBits = -windowBits;
 #ifdef GZIP
     } else if (windowBits > 15) {
@@ -319,6 +319,27 @@ int32_t Z_EXPORT PREFIX(deflateInit2_)(PREFIX3(stream) *strm, int32_t level, int
     return PREFIX(deflateReset)(strm);
 }
 
+#ifndef ZLIB_COMPAT
+int32_t Z_EXPORT PREFIX(deflateInit)(PREFIX3(stream) *strm, int32_t level) {
+    return PREFIX(deflateInit2)(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
+}
+#endif
+
+/* Function used by zlib.h and zlib-ng version 2.0 macros */
+int32_t Z_EXPORT PREFIX(deflateInit_)(PREFIX3(stream) *strm, int32_t level, const char *version, int32_t stream_size) {
+    if (CHECK_VER_STSIZE(version, stream_size))
+        return Z_VERSION_ERROR;
+    return PREFIX(deflateInit2)(strm, level, Z_DEFLATED, MAX_WBITS, DEF_MEM_LEVEL, Z_DEFAULT_STRATEGY);
+}
+
+/* Function used by zlib.h and zlib-ng version 2.0 macros */
+int32_t Z_EXPORT PREFIX(deflateInit2_)(PREFIX3(stream) *strm, int32_t level, int32_t method, int32_t windowBits,
+                           int32_t memLevel, int32_t strategy, const char *version, int32_t stream_size) {
+    if (CHECK_VER_STSIZE(version, stream_size))
+        return Z_VERSION_ERROR;
+    return PREFIX(deflateInit2)(strm, level, method, windowBits, memLevel, strategy);
+}
+
 /* =========================================================================
  * Check for a valid deflate stream state. Return 0 if ok, 1 if not.
  */
@@ -330,11 +351,11 @@ static int deflateStateCheck (PREFIX3(stream) *strm) {
     if (s == NULL || s->strm != strm || (s->status != INIT_STATE &&
 #ifdef GZIP
                                            s->status != GZIP_STATE &&
-#endif
                                            s->status != EXTRA_STATE &&
                                            s->status != NAME_STATE &&
                                            s->status != COMMENT_STATE &&
                                            s->status != HCRC_STATE &&
+#endif
                                            s->status != BUSY_STATE &&
                                            s->status != FINISH_STATE))
         return 1;
@@ -444,9 +465,9 @@ int32_t Z_EXPORT PREFIX(deflateResetKeep)(PREFIX3(stream) *strm) {
         INIT_STATE;
 
 #ifdef GZIP
-    if (s->wrap == 2)
+    if (s->wrap == 2) {
         strm->adler = functable.crc32_fold_reset(&s->crc_fold);
-    else
+    } else
 #endif
         strm->adler = ADLER32_INITIAL_VALUE;
     s->last_flush = -2;
@@ -973,8 +994,10 @@ int32_t Z_EXPORT PREFIX(deflate)(PREFIX3(stream) *strm, int32_t flush) {
         put_uint32(s, (uint32_t)strm->total_in);
     } else
 #endif
-    if (s->wrap == 1)
-        put_uint32_msb(s, strm->adler);
+    {
+        if (s->wrap == 1)
+            put_uint32_msb(s, strm->adler);
+    }
     PREFIX(flush_pending)(strm);
     /* If avail_out is zero, the application will call deflate again
      * to flush the rest.
@@ -1083,9 +1106,10 @@ Z_INTERNAL unsigned read_buf(PREFIX3(stream) *strm, unsigned char *buf, unsigned
         functable.crc32_fold_copy(&strm->state->crc_fold, buf, strm->next_in, len);
 #endif
     } else {
-        memcpy(buf, strm->next_in, len);
         if (strm->state->wrap == 1)
-            strm->adler = functable.adler32(strm->adler, buf, len);
+            strm->adler = functable.adler32_fold_copy(strm->adler, buf, strm->next_in, len);
+        else
+            memcpy(buf, strm->next_in, len);
     }
     strm->next_in  += len;
     strm->total_in += len;

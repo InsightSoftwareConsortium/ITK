@@ -12,6 +12,7 @@
 
 #include "zutil.h"
 #include "zendian.h"
+#include "adler32_fold.h"
 #include "crc32_fold.h"
 
 /* define NO_GZIP when compiling if you want to disable gzip header and
@@ -53,16 +54,16 @@
 #define END_BLOCK 256
 /* end of block literal code */
 
-#define INIT_STATE    42    /* zlib header -> BUSY_STATE */
+#define INIT_STATE      42    /* zlib header -> BUSY_STATE */
 #ifdef GZIP
-#  define GZIP_STATE  57    /* gzip header -> BUSY_STATE | EXTRA_STATE */
+#  define GZIP_STATE    57    /* gzip header -> BUSY_STATE | EXTRA_STATE */
+#  define EXTRA_STATE   69    /* gzip extra block -> NAME_STATE */
+#  define NAME_STATE    73    /* gzip file name -> COMMENT_STATE */
+#  define COMMENT_STATE 91    /* gzip comment -> HCRC_STATE */
+#  define HCRC_STATE   103    /* gzip header CRC -> BUSY_STATE */
 #endif
-#define EXTRA_STATE   69    /* gzip extra block -> NAME_STATE */
-#define NAME_STATE    73    /* gzip file name -> COMMENT_STATE */
-#define COMMENT_STATE 91    /* gzip comment -> HCRC_STATE */
-#define HCRC_STATE   103    /* gzip header CRC -> BUSY_STATE */
-#define BUSY_STATE   113    /* deflate -> FINISH_STATE */
-#define FINISH_STATE 666    /* stream complete */
+#define BUSY_STATE     113    /* deflate -> FINISH_STATE */
+#define FINISH_STATE   666    /* stream complete */
 /* Stream status */
 
 #define HASH_BITS    16u           /* log2(HASH_SIZE) */
@@ -305,7 +306,7 @@ static inline void put_short(deflate_state *s, uint16_t w) {
 #if BYTE_ORDER == BIG_ENDIAN
     w = ZSWAP16(w);
 #endif
-    zmemcpy_2(&s->pending_buf[s->pending], &w);
+    memcpy(&s->pending_buf[s->pending], &w, sizeof(w));
     s->pending += 2;
 }
 
@@ -317,7 +318,7 @@ static inline void put_short_msb(deflate_state *s, uint16_t w) {
 #if BYTE_ORDER == LITTLE_ENDIAN
     w = ZSWAP16(w);
 #endif
-    zmemcpy_2(&s->pending_buf[s->pending], &w);
+    memcpy(&s->pending_buf[s->pending], &w, sizeof(w));
     s->pending += 2;
 }
 
@@ -329,7 +330,7 @@ static inline void put_uint32(deflate_state *s, uint32_t dw) {
 #if BYTE_ORDER == BIG_ENDIAN
     dw = ZSWAP32(dw);
 #endif
-    zmemcpy_4(&s->pending_buf[s->pending], &dw);
+    memcpy(&s->pending_buf[s->pending], &dw, sizeof(dw));
     s->pending += 4;
 }
 
@@ -341,7 +342,7 @@ static inline void put_uint32_msb(deflate_state *s, uint32_t dw) {
 #if BYTE_ORDER == LITTLE_ENDIAN
     dw = ZSWAP32(dw);
 #endif
-    zmemcpy_4(&s->pending_buf[s->pending], &dw);
+    memcpy(&s->pending_buf[s->pending], &dw, sizeof(dw));
     s->pending += 4;
 }
 
@@ -353,7 +354,7 @@ static inline void put_uint64(deflate_state *s, uint64_t lld) {
 #if BYTE_ORDER == BIG_ENDIAN
     lld = ZSWAP64(lld);
 #endif
-    zmemcpy_8(&s->pending_buf[s->pending], &lld);
+    memcpy(&s->pending_buf[s->pending], &lld, sizeof(lld));
     s->pending += 8;
 }
 
