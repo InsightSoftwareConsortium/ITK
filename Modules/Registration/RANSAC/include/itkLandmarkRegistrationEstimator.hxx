@@ -116,9 +116,6 @@ LandmarkRegistrationEstimator<Dimension>::Estimate(std::vector<Point<double, Dim
   {
     parameters.push_back(fixedParameters.GetElement(i));
   }
-
-  fixedLandmarks.clear();
-  movingLandmarks.clear();
   return;
 }
 

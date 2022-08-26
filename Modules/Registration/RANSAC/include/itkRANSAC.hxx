@@ -373,19 +373,6 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
           {
             caller->parametersRansac.push_back(exactEstimateParameters[kp]);
           }
-
-          // all data objects are inliers, terminate the search
-          if (caller->numVotesForBest == numAgreeObjects)
-          {
-            i = caller->numTries;
-          }
-          // else
-          // { // update the estimate of outliers and the number of iterations we need
-          //   denominator = log(1.0 - pow((double)numVotesForCur / (double)numAgreeObjects, (double)(numForEstimate)));
-          //   caller->numTries = (int)(caller->numerator / denominator + 0.5);
-          //   // there are cases when the probablistic number of tries is greater than all possible sub-sets
-          //   caller->numTries = caller->numTries < caller->allTries ? caller->numTries : caller->allTries;
-          // }
         }
         caller->resultsMutex.unlock();
       }
