@@ -203,6 +203,7 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
 {
   std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
+  usedData.reserve(dataSize);
   for (int i = 0; i < dataSize; i++)
   {
     usedData.push_back(&(data[i]));
@@ -304,18 +305,14 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
 
 
   std::vector<bool> output;
+  output.reserve(data.size());
   for (unsigned int i = 0; i < data.size(); ++i)
   {
     itk::Point<double, 3> p0;
-    itk::Point<double, 3> p1;
 
     p0[0] = data[i][0];
     p0[1] = data[i][1];
     p0[2] = data[i][2];
-
-    p1[0] = data[i][3];
-    p1[1] = data[i][4];
-    p1[2] = data[i][5];
 
     auto transformedPoint = transform->TransformPoint(p0);
     auto pointIdentifier = this->pointsLocator->FindClosestPoint(transformedPoint);

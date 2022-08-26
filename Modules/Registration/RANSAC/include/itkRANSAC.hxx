@@ -140,6 +140,8 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
 
   // STEP2: create the threads that generate hypotheses and test
 
+  std::cout << "Number of Threads is " << this->numberOfThreads << std::endl;
+
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
@@ -147,7 +149,6 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   threader->SingleMethodExecute();
 
   std::cout << "this->numVotesForBest " << this->numVotesForBest << std::endl;
-  std::cout << "this->parametersRansac " << this->parametersRansac.size() << std::endl;
 
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
@@ -188,6 +189,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   itk::Point<double, 3> testPoint;
   itk::Point<double, 6> inlierPoint;
 
+  points->Reserve(this->agreeData.size());
   for (unsigned int i = 0; i < this->agreeData.size(); ++i)
   {
     auto point = this->agreeData[i];
@@ -201,7 +203,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   pointsLocator->Initialize();
 
   std::vector<T> leastSquaresEstimateData;
-  leastSquaresEstimateData.reserve(numAgreeObjects);
+  leastSquaresEstimateData.reserve(this->numVotesForBest);
 
   if (this->numVotesForBest > 0)
   {
@@ -287,6 +289,7 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
 
       if (counter > caller->maxIteration)
       {
+        std::cout << "Counter crossed " << counter << std::endl;
         break;
       }
       // randomly select data for exact model fit ('numForEstimate' objects).
