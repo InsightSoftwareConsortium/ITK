@@ -134,7 +134,7 @@ private:
   CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
-  // when covariance matirx is set.
+  // when covariance matrix is set.
   CovarianceMatrixType m_InverseCovariance;
 
   /** Boolean to cache whether the covariance is singular or nearly singular */

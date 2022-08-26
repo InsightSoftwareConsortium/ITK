@@ -126,7 +126,7 @@ private:
   CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix which is automatically calculated
-  // when covariance matirx is set.  This speed up the GetProbability()
+  // when covariance matrix is set.  This speeds up the GetProbability()
   CovarianceMatrixType m_InverseCovariance;
 
   double m_Epsilon{ 1e-100 };

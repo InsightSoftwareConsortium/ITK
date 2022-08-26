@@ -130,11 +130,11 @@ private:
   CovarianceMatrixType m_Covariance; // covariance matrix
 
   // inverse covariance matrix. automatically calculated
-  // when covariance matirx is set.
+  // when covariance matrix is set.
   CovarianceMatrixType m_InverseCovariance;
 
   // pre_factor (normalization term). automatically calculated
-  // when covariance matirx is set.
+  // when covariance matrix is set.
   double m_PreFactor;
 
   /** Boolean to cache whether the covariance is singular or nearly singular */
