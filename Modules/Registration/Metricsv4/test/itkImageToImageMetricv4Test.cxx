@@ -665,7 +665,7 @@ itkImageToImageMetricv4Test(int, char ** const)
 
 #endif
 
-  std::cout << "Testing metric outpute..." << std::endl;
+  std::cout << "Testing metric output..." << std::endl;
   ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
   if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
       EXIT_SUCCESS)
