@@ -40,8 +40,9 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   std::vector<itk::Point<double, DimensionPoint>> agreeData;
   std::vector<double>                             transformParameters;
 
-  GenerateData<DimensionPoint>(data, agreeData);
   return EXIT_SUCCESS;
+  GenerateData<DimensionPoint>(data, agreeData);
+
 
   // create and initialize the parameter estimator
   double maximalDistanceFromPlane = 6;
