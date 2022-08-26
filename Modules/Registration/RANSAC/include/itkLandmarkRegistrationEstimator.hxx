@@ -25,6 +25,8 @@
 #include "itkIntTypes.h"
 #include "itkPointsLocator.h"
 #include "nanoflann.hpp"
+#include "itkMesh.h"
+#include "itkTransformMeshFilter.h"
 
 namespace itk
 {
@@ -256,7 +258,6 @@ template <unsigned int Dimension>
 void
 LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double, Dimension>> & data)
 {
-  this->pointsLocator = PointsLocatorType::New();
   this->agreePoints = PointsContainer::New();
   this->agreePoints->reserve(data.size());
 
@@ -282,15 +283,13 @@ LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double,
 
   this->mat_adaptor = new KdTreeT(dim, this->samples, 5);
   this->mat_adaptor->index->buildIndex();
-
-  this->pointsLocator->SetPoints(agreePoints);
-  this->pointsLocator->Initialize();
 }
 
 template <unsigned int Dimension>
 std::vector<bool>
 LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
-                                                        std::vector<Point<double, Dimension>> & data)
+                                                        std::vector<Point<double, Dimension>> & data,
+                                                        unsigned int                            currentBest)
 {
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
@@ -315,36 +314,44 @@ LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &   
   transform->SetParameters(optParameters);
 
   std::vector<double> query_pt(3);
-  std::vector<bool>   output;
-  output.reserve(data.size());
+  std::vector<bool>   output(data.size(), false);
+  // output.reserve(data.size());
 
   const size_t                    num_results = 1;
   std::vector<size_t>             ret_indexes(num_results);
   std::vector<double>             out_dists_sqr(num_results);
   nanoflann::KNNResultSet<double> resultSet(num_results);
 
-  for (unsigned int i = 0; i < data.size(); ++i)
-  {
-    itk::Point<double, 3> p0;
-    itk::Point<double, 3> result;
+  itk::Point<double, 3> p0;
 
+  unsigned int localBest = 0;
+  unsigned int dataSize = data.size();
+
+  for (unsigned int i = 0; i < dataSize; ++i)
+  {
+    // For early stopping. No point running if this condition is true
+    if (localBest + dataSize - i < currentBest)
+    {
+      break;
+    }
     p0[0] = data[i][0];
     p0[1] = data[i][1];
     p0[2] = data[i][2];
 
     auto transformedPoint = transform->TransformPoint(p0);
-    for (unsigned int k = 0; k < 3; ++k)
-    {
-      query_pt[k] = transformedPoint[k];
-    }
+
+    query_pt[0] = transformedPoint[0];
+    query_pt[1] = transformedPoint[1];
+    query_pt[2] = transformedPoint[2];
 
     resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
     this->mat_adaptor->index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
-
-    result[0] = this->samples[ret_indexes[0]][0];
-    result[1] = this->samples[ret_indexes[0]][1];
-    result[2] = this->samples[ret_indexes[0]][2];
-    output.push_back((out_dists_sqr[0] < this->delta));
+    bool flag = out_dists_sqr[0] < this->delta;
+    if (flag)
+    {
+      localBest++;
+    }
+    output[i] = flag;
   }
 
   return output;
