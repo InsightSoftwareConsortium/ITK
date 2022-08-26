@@ -55,5 +55,6 @@ itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
   std::cout << "Description: " << meshCriterion->GetDescription() << std::endl;
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
