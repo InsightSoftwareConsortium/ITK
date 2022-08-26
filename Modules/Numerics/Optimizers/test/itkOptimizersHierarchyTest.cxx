@@ -23,6 +23,7 @@
 #include "itkVersorTransformOptimizer.h"
 #include "itkQuaternionRigidTransformGradientDescentOptimizer.h"
 #include "itkOnePlusOneEvolutionaryOptimizer.h"
+#include "itkTestingMacros.h"
 
 
 #include <iostream>
@@ -40,7 +41,6 @@
 int
 itkOptimizersHierarchyTest(int, char *[])
 {
-  bool pass = true;
 
   using OptimizerType = itk::Optimizer;
   auto genericOptimizer = OptimizerType::New();
@@ -89,80 +89,63 @@ itkOptimizersHierarchyTest(int, char *[])
 
   using NonLinearOptimizerType = itk::NonLinearOptimizer;
   auto nonLinearOptimizer = NonLinearOptimizerType::New();
-  if (nonLinearOptimizer.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(nonLinearOptimizer, NonLinearOptimizer, Optimizer);
+
 
   using SingleValuedNonLinearOptimizerType = itk::SingleValuedNonLinearOptimizer;
   auto singleValuedOptimizer = SingleValuedNonLinearOptimizerType::New();
-  if (singleValuedOptimizer.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(singleValuedOptimizer, SingleValuedNonLinearOptimizer, NonLinearOptimizer);
+
 
   using AmoebaOptimizerType = itk::AmoebaOptimizer;
   auto amoeba = AmoebaOptimizerType::New();
-  if (amoeba.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(amoeba, AmoebaOptimizer, SingleValuedNonLinearVnlOptimizer);
+
 
   using ConjugateGradientOptimizerType = itk::ConjugateGradientOptimizer;
   auto conjugate = ConjugateGradientOptimizerType::New();
-  if (conjugate.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(conjugate, ConjugateGradientOptimizer, SingleValuedNonLinearVnlOptimizer);
+
 
   using LBFGSOptimizerType = itk::LBFGSOptimizer;
   auto lbfgs = LBFGSOptimizerType::New();
-  if (lbfgs.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(lbfgs, LBFGSOptimizer, SingleValuedNonLinearVnlOptimizer);
+
 
   // Note that a "Versor" is a Unit Quaternion
   using VersorOptimizerType = itk::VersorTransformOptimizer;
   auto versorOpt = VersorOptimizerType::New();
-  if (versorOpt.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(versorOpt, VersorTransformOptimizer, RegularStepGradientDescentBaseOptimizer);
+
 
   using QuaternionOptimizerType = itk::QuaternionRigidTransformGradientDescentOptimizer;
   auto quaternionOpt = QuaternionOptimizerType::New();
-  if (quaternionOpt.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    quaternionOpt, QuaternionRigidTransformGradientDescentOptimizer, GradientDescentOptimizer);
 
   using OnePlusOneEvolutionaryOptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
   auto onePlusOne = OnePlusOneEvolutionaryOptimizerType::New();
-  if (onePlusOne.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(onePlusOne, OnePlusOneEvolutionaryOptimizer, SingleValuedNonLinearOptimizer);
 
   using CumulativeGaussianOptimizerType = itk::CumulativeGaussianOptimizer;
   auto cumGaussOpt = CumulativeGaussianOptimizerType::New();
-  if (cumGaussOpt.IsNull())
-  {
-    pass = false;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(cumGaussOpt, CumulativeGaussianOptimizer, MultipleValuedNonLinearOptimizer);
+
 
   using CumulativeGaussianCostFunctionType = itk::CumulativeGaussianCostFunction;
   auto cumGaussCostFunc = CumulativeGaussianCostFunctionType::New();
-  if (cumGaussCostFunc.IsNull())
-  {
-    pass = false;
-  }
 
-  if (!pass)
-  {
-    std::cout << "Test failed." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(cumGaussCostFunc, CumulativeGaussianCostFunction, MultipleValuedCostFunction);
+
 
   std::cout << "Test passed." << std::endl;
   return EXIT_SUCCESS;

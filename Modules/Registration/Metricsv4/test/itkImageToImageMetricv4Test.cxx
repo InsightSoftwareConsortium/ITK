@@ -15,6 +15,8 @@
  *  limitations under the License.
  *
  *=========================================================================*/
+
+#define ITK_LEGACY_TEST
 #include "itkImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkTestingMacros.h"
@@ -442,11 +444,21 @@ itkImageToImageMetricv4Test(int, char ** const)
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(metric, ImageToImageMetricv4TestMetric, ImageToImageMetricv4);
 
+
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(metric->SetFixedObject(nullptr));
+
+  ITK_TRY_EXPECT_EXCEPTION(metric->SetMovingObject(nullptr));
+
   // Assign images and transforms.
   // By not setting a virtual domain image or virtual domain settings,
   // the metric will use the fixed image for the virtual domain.
   metric->SetFixedImage(fixedImage);
+  ITK_TEST_SET_GET_VALUE(fixedImage, metric->GetFixedImage());
+
   metric->SetMovingImage(movingImage);
+  ITK_TEST_SET_GET_VALUE(movingImage, metric->GetMovingImage());
+
   metric->SetFixedTransform(fixedTransform);
   metric->SetMovingTransform(movingTransform);
   // Tell the metric to compute image gradients for both fixed and moving.
@@ -463,6 +475,19 @@ itkImageToImageMetricv4Test(int, char ** const)
   for (itk::ThreadIdType numberOfThreads = 1; numberOfThreads < 6; ++numberOfThreads)
   {
     metric->SetMaximumNumberOfWorkUnits(numberOfThreads);
+    // FIXME
+    // lh and rh are not equal
+    // ITK_TEST_SET_GET_VALUE(numberOfThreads, metric->GetMaximumNumberOfWorkUnits());
+
+#if !defined(ITK_LEGACY_REMOVE)
+
+    metric->SetMaximumNumberOfThreads(numberOfThreads);
+    // FIXME
+    // lh and rh are not equal
+    // ITK_TEST_SET_GET_VALUE(numberOfThreads, metric->GetMaximumNumberOfThreads());
+
+#endif
+
     for (signed char useMovingFilter = 1; useMovingFilter >= 0; --useMovingFilter)
     {
       for (signed char useFixedFilter = 1; useFixedFilter >= 0; --useFixedFilter)
@@ -470,8 +495,13 @@ itkImageToImageMetricv4Test(int, char ** const)
         // Have to recompute new truth values for each permutation of
         // image gradient calculation options.
         bool computeNewTruthValues = true;
-        metric->SetUseFixedImageGradientFilter(useFixedFilter == 1);
-        metric->SetUseMovingImageGradientFilter(useMovingFilter == 1);
+
+        bool useFixedImageGradientFilter = useFixedFilter == 1;
+        ITK_TEST_SET_GET_BOOLEAN(metric, UseFixedImageGradientFilter, useFixedImageGradientFilter);
+
+        bool useMovingImageGradientFilter = useMovingFilter == 1;
+        ITK_TEST_SET_GET_BOOLEAN(metric, UseMovingImageGradientFilter, useMovingImageGradientFilter);
+
         std::cout << "**********************************" << std::endl;
         if (computeNewTruthValues)
         {
@@ -554,6 +584,12 @@ itkImageToImageMetricv4Test(int, char ** const)
   bool useMovingImageGradientFilter = true;
   ITK_TEST_SET_GET_BOOLEAN(metric, UseMovingImageGradientFilter, useMovingImageGradientFilter);
 
+  bool useVirtualSampledPointSet = false;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseVirtualSampledPointSet, useVirtualSampledPointSet);
+
+  bool useFloatingPointCorrection = false;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseFloatingPointCorrection, useFloatingPointCorrection);
+
   // Tell the metric to compute image gradients for both fixed and moving.
   metric->SetGradientSource(itk::ObjectToObjectMetricBaseTemplateEnums::GradientSource::GRADIENT_SOURCE_BOTH);
 
@@ -611,7 +647,24 @@ itkImageToImageMetricv4Test(int, char ** const)
 
   std::cout << "Setting point set..." << std::endl;
   metric->SetFixedSampledPointSet(pset);
-  metric->SetUseSampledPointSet(true);
+  ITK_TEST_SET_GET_VALUE(pset, metric->GetFixedSampledPointSet());
+
+  bool useSampledPointSet = true;
+  ITK_TEST_SET_GET_BOOLEAN(metric, UseSampledPointSet, useSampledPointSet);
+
+#if !defined(ITK_LEGACY_REMOVE)
+
+  metric->SetUseFixedSampledPointSet(useSampledPointSet);
+  ITK_TEST_SET_GET_VALUE(useSampledPointSet, metric->GetUseFixedSampledPointSet());
+
+  metric->UseFixedSampledPointSetOff();
+  ITK_TEST_EXPECT_TRUE(!metric->GetUseFixedSampledPointSet());
+
+  metric->UseFixedSampledPointSetOn();
+  ITK_TEST_EXPECT_TRUE(metric->GetUseFixedSampledPointSet());
+
+#endif
+
   std::cout << "Testing metric outpute..." << std::endl;
   ImageToImageMetricv4TestComputeIdentityTruthValues(metric, fixedImage, movingImage, truthValue, truthDerivative);
   if (ImageToImageMetricv4TestRunSingleTest(metric, truthValue, truthDerivative, imageSize * imageSize, false) !=
@@ -620,12 +673,37 @@ itkImageToImageMetricv4Test(int, char ** const)
     return EXIT_FAILURE;
   }
 
-  // exercise methods.
-  metric->SetUseFloatingPointCorrection(false);
-  metric->SetFloatingPointCorrectionResolution(1);
+  std::cout << "NumberOfWorkUnitsUsed: " << metric->GetNumberOfWorkUnitsUsed() << std::endl;
+
+#if !defined(ITK_LEGACY_REMOVE)
+
+  std::cout << "GetNumberOfThreadsUsed: " << metric->GetNumberOfThreadsUsed() << std::endl;
+
+#endif
+
+  std::cout << "NumberOfDomainPoints: " << metric->GetNumberOfDomainPoints() << std::endl;
+  std::cout << "NumberOfSkippedFixedSampledPoints: " << metric->GetNumberOfSkippedFixedSampledPoints() << std::endl;
+  std::cout << "SupportsArbitraryVirtualDomainSamples: " << metric->SupportsArbitraryVirtualDomainSamples()
+            << std::endl;
+  std::cout << "MetricCategory: " << metric->GetMetricCategory() << std::endl;
+
+  typename ImageToImageMetricv4TestMetricType::DerivativeType derivative;
+  derivative.Fill(0);
+  metric->GetDerivative(derivative);
+  std::cout << "Derivative: " << derivative << std::endl;
+
+  typename ImageToImageMetricv4TestMetricType::DerivativeValueType floatingPointCorrectionResolution = 1.0;
+  metric->SetFloatingPointCorrectionResolution(floatingPointCorrectionResolution);
+  ITK_TEST_SET_GET_VALUE(floatingPointCorrectionResolution, metric->GetFloatingPointCorrectionResolution());
+
+  // Empty method body by default; called for coverage purposes
+  itk::ThreadIdType thread = 0;
+  metric->FinalizeThread(thread);
 
 
   itk::Object::SetGlobalWarningDisplay(origGlobalWarningValue);
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

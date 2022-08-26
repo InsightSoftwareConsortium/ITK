@@ -18,6 +18,7 @@
 
 #include "itkMultiphaseDenseFiniteDifferenceImageFilter.h"
 #include "itkScalarChanAndVeseLevelSetFunction.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -105,8 +106,14 @@ itkMultiphaseDenseFiniteDifferenceImageFilterTest(int, char *[])
 
   auto filter = FilterType::New();
 
-  std::cout << "GetNameOfClass() = " << filter->GetNameOfClass() << std::endl;
-  filter->Print(std::cout);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    filter, MultiphaseDenseFiniteDifferenceImageFilterTestHelper, MultiphaseDenseFiniteDifferenceImageFilter);
+
+
+  unsigned int reinitializeCounter = 1;
+  filter->SetReinitializeCounter(reinitializeCounter);
+  ITK_TEST_SET_GET_VALUE(reinitializeCounter, flter->GetReinitializeCounter());
+
 
   return EXIT_SUCCESS;
 }

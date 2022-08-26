@@ -27,10 +27,6 @@ itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
   using ImageStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<ImageType, ImageType>;
 
   auto imageCriterion = ImageStoppingCriterionType::New();
-  if (imageCriterion.IsNull())
-  {
-    return EXIT_FAILURE;
-  }
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(
     imageCriterion, FastMarchingNumberOfElementsStoppingCriterion, FastMarchingStoppingCriterionBase);
@@ -40,15 +36,24 @@ itkFastMarchingNumberOfElementsStoppingCriterionTest(int, char *[])
   imageCriterion->SetTargetNumberOfElements(targetNumberOfElements);
   ITK_TEST_SET_GET_VALUE(targetNumberOfElements, imageCriterion->GetTargetNumberOfElements());
 
+  std::cout << "Description: " << imageCriterion->GetDescription() << std::endl;
+
   using MeshType = itk::QuadEdgeMesh<float, 3>;
 
   using MeshStoppingCriterionType = itk::FastMarchingNumberOfElementsStoppingCriterion<MeshType, MeshType>;
 
   auto meshCriterion = MeshStoppingCriterionType::New();
-  if (meshCriterion.IsNull())
-  {
-    return EXIT_FAILURE;
-  }
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(
+    meshCriterion, FastMarchingNumberOfElementsStoppingCriterion, FastMarchingStoppingCriterionBase);
+
+
+  targetNumberOfElements = 8;
+  meshCriterion->SetTargetNumberOfElements(targetNumberOfElements);
+  ITK_TEST_SET_GET_VALUE(targetNumberOfElements, meshCriterion->GetTargetNumberOfElements());
+
+  std::cout << "Description: " << meshCriterion->GetDescription() << std::endl;
+
 
   return EXIT_SUCCESS;
 }

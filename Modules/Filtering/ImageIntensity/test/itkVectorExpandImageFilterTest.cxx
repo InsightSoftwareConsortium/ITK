@@ -23,6 +23,7 @@
 #include "itkCastImageFilter.h"
 #include "itkStreamingImageFilter.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 // class to produce a linear image pattern
 template <int VDimension>
@@ -140,7 +141,7 @@ itkVectorExpandImageFilterTest(int, char *[])
   auto interpolator = InterpolatorType::New();
 
   expander->SetInterpolator(interpolator);
-  std::cout << "Interpolator: " << expander->GetInterpolator() << std::endl;
+  ITK_TEST_SET_GET_VALUE(interpolator, expander->GetInterpolator());
 
   expander->SetExpandFactors(5);
 

@@ -34,18 +34,32 @@ itkGaussianMembershipFunctionTest(int, char *[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(function, GaussianMembershipFunction, MembershipFunctionBase);
 
-  function->SetMeasurementVectorSize(MeasurementVectorSize); // for code coverage
-
-  if (function->GetMeasurementVectorSize() != MeasurementVectorSize)
-  {
-    std::cerr << "GetMeasurementVectorSize() Failed !" << std::endl;
-    return EXIT_FAILURE;
-  }
 
   // Test if an exception will be thrown if we try to resize the measurement vector
   // size
   MeasurementVectorSizeType measurementVector2 = MeasurementVectorSize + 1;
   ITK_TRY_EXPECT_EXCEPTION(function->SetMeasurementVectorSize(measurementVector2));
+
+  // Test non-square covariance matrix exception
+  MembershipFunctionType::CovarianceMatrixType covariance;
+  covariance.SetSize(MeasurementVectorSize, MeasurementVectorSize + 1);
+  covariance.SetIdentity();
+  ITK_TRY_EXPECT_EXCEPTION(function->SetCovariance(covariance));
+
+  // Test covariance matrix and measurement vector size mismatch exception
+  covariance.SetSize(MeasurementVectorSize + 1, MeasurementVectorSize + 1);
+  covariance.SetIdentity();
+  ITK_TRY_EXPECT_EXCEPTION(function->SetCovariance(covariance));
+
+  covariance.SetSize(MeasurementVectorSize, MeasurementVectorSize);
+  covariance.SetIdentity();
+  function->SetCovariance(covariance);
+  ITK_TEST_SET_GET_VALUE(covariance, function->GetCovariance());
+
+  ITK_TEST_SET_GET_VALUE(covariance.GetInverse(), function->GetInverseCovariance().GetVnlMatrix());
+
+  function->SetMeasurementVectorSize(MeasurementVectorSize);
+  ITK_TEST_SET_GET_VALUE(MeasurementVectorSize, function->GetMeasurementVectorSize());
 
   // Test if the membership function value computed is correct
   MembershipFunctionType::MeanVectorType mean;
@@ -58,17 +72,6 @@ itkGaussianMembershipFunctionTest(int, char *[])
   if (itk::Math::abs(function->GetMean()[0] - mean[0]) > tolerance)
   {
     std::cerr << "Error in GetMean() method" << std::endl;
-    return EXIT_FAILURE;
-  }
-
-  MembershipFunctionType::CovarianceMatrixType covariance;
-  covariance.SetSize(MeasurementVectorSize, MeasurementVectorSize);
-  covariance.SetIdentity();
-  function->SetCovariance(covariance);
-
-  if (function->GetCovariance() != covariance)
-  {
-    std::cerr << "Get/SetCovariance() failure \n" << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -66,6 +66,15 @@ itkAdaptiveHistogramEqualizationImageFilterTest(int argc, char * argv[])
   filter->SetBeta(beta);
   ITK_TEST_SET_GET_VALUE(beta, filter->GetBeta());
 
+#if !defined(ITK_FUTURE_LEGACY_REMOVE)
+
+  bool useLookupTable = true;
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseLookupTable, useLookupTable);
+  useLookupTable = false;
+  ITK_TEST_SET_GET_BOOLEAN(filter, UseLookupTable, useLookupTable);
+
+#endif
+
   //
   //  The output of the filter is connected here to an intensity rescaler filter
   //  and then to a writer. Invoking \code{Update()} on the writer triggers the
