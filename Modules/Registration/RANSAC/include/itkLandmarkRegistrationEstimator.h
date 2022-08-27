@@ -29,7 +29,8 @@ namespace itk
 {
 
 template <unsigned int Dimension>
-class ITK_TEMPLATE_EXPORT LandmarkRegistrationEstimator : public ParametersEstimator<Point<double, Dimension>, double>
+class ITK_TEMPLATE_EXPORT LandmarkRegistrationEstimator
+  : public itk::ParametersEstimator<Point<double, Dimension>, double>
 {
 public:
   typedef LandmarkRegistrationEstimator                         Self;
