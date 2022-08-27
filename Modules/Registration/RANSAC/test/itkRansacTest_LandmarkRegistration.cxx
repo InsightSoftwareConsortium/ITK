@@ -23,7 +23,7 @@
 #include "itkMesh.h"
 #include "itkMeshFileReader.h"
 #include <algorithm>
-
+#include <random>
 
 template <unsigned int Dimension>
 void
