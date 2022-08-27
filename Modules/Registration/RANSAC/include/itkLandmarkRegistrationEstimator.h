@@ -23,7 +23,7 @@
 #include "itkObjectFactory.h"
 #include "itkPointsLocator.h"
 #include "KDTreeVectorOfVectorsAdaptor.h"
-
+#include "itkParametersEstimator.h"
 namespace itk
 {
 
@@ -33,10 +33,10 @@ class LandmarkRegistrationEstimator : public itk::ParametersEstimator<Point<doub
 public:
   ITK_DISALLOW_COPY_AND_MOVE(LandmarkRegistrationEstimator);
 
-  typedef LandmarkRegistrationEstimator                         Self;
-  typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  using Self = LandmarkRegistrationEstimator;
+  using Superclass = ParametersEstimator<itk::Point<double, Dimension>, double>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
 
   typedef std::vector<std::vector<double>> VectorofVectorsT;
   using self_t = KDTreeVectorOfVectorsAdaptor<VectorofVectorsT, double, 3, nanoflann::metric_L2>;
