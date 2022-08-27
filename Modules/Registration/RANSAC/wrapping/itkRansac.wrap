@@ -1,14 +1,13 @@
 unique(types "${WRAP_ITK_REAL};D")
 
-itk_wrap_class("itk::PlaneParametersEstimator" POINTER_WITH_2_SUPERCLASSES)
-itk_wrap_template("${ITKM_D}3"   "3")
+itk_wrap_class("itk::ParametersEstimator" POINTER)
+itk_wrap_template("P${ITKM_D}6"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}")
 itk_end_wrap_class()
 
-itk_wrap_class("itk::LandmarkRegistrationEstimator" POINTER_WITH_2_SUPERCLASSES)
+itk_wrap_class("itk::LandmarkRegistrationEstimator" POINTER)
 itk_wrap_template("${ITKM_D}6"   "6")
 itk_end_wrap_class()
 
 itk_wrap_class("itk::RANSAC" POINTER_WITH_2_SUPERCLASSES)
-itk_wrap_template("P${ITKM_D}3"   "itk::Point< ${ITKT_D}, 3>, ${ITKT_D}")
 itk_wrap_template("P${ITKM_D}6"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}")
 itk_end_wrap_class()

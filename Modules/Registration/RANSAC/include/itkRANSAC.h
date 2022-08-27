@@ -29,6 +29,7 @@
 #include "itkMultiThreaderBase.h"
 #include <mutex>
 #include "itkMacro.h"
+#include "nanoflann.hpp"
 
 /**
  * This class implements a multi-threaded version of the RAndom SAmple
@@ -69,6 +70,7 @@ namespace itk
  *
  * \brief RANSAC for various usecases such as plane estimation, point set registration.
  *
+ *  \ingroup Ransac
  */
 
 template <typename T, typename SType>
@@ -93,6 +95,8 @@ public:
      *                        are in [1, #cores].
      */
     void SetNumberOfThreads(unsigned int numberOfThreads);
+  void
+  SetMaxIteration(unsigned int maxIteration);
   unsigned int
   GetNumberOfThreads();
 
@@ -112,6 +116,14 @@ public:
    */
   void
   SetData(std::vector<T> & data);
+
+  /**
+   * For usecases such as registration using features where the random selection data
+   * is different from the agree data use this method to set the agree data.
+   * @param data The input on which the number of agreement samples will be counted.
+   */
+  void
+  SetAgreeData(std::vector<T> & data);
 
   /**
    * Estimate the model parameters using the RANSAC framework.
@@ -181,6 +193,7 @@ private:
 
   // number of threads used in computing the RANSAC hypotheses
   unsigned int numberOfThreads;
+  unsigned int maxIteration;
 
   // the following variables are shared by all threads used in the RANSAC
   // computation
@@ -190,7 +203,9 @@ private:
   bool *       bestVotes;
   unsigned int numVotesForBest;
 
-  std::vector<T> data;
+  std::vector<T>      data;
+  std::vector<T>      agreeData;
+  std::vector<double> parametersRansac;
 
   // set which holds all of the subgroups/hypotheses already selected
   std::set<int *, SubSetIndexComparator> * chosenSubSets;

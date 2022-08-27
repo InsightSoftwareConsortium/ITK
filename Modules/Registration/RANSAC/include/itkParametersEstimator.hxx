@@ -26,12 +26,12 @@ namespace itk
 
 template <typename T, typename SType>
 void
-ParametersEstimator<T, SType>::SetMinimalForEstimate(unsigned int minForEstimate)
+ParametersEstimator<T, SType>::SetMinimalForEstimate(unsigned int inputMinForEstimate)
 {
-  if (minForEstimate == 0)
+  if (inputMinForEstimate == 0)
     throw ExceptionObject(__FILE__, __LINE__, "Invalid minimal number of objects for exact estimate.");
 
-  this->minForEstimate = minForEstimate;
+  this->minForEstimate = inputMinForEstimate;
 }
 
 

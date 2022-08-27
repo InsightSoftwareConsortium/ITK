@@ -85,6 +85,9 @@ public:
   virtual bool
   Agree(std::vector<SType> & parameters, T & data) = 0;
 
+  virtual std::vector<bool>
+  AgreeMultiple(std::vector<SType> & parameters, std::vector<T> & data, unsigned int currentBest) = 0;
+
   /**
    * Set the minimal number of data objects required for computation of an exact
    * estimate.
@@ -95,6 +98,7 @@ public:
   SetMinimalForEstimate(unsigned int minForEstimate);
   unsigned int
   GetMinimalForEstimate();
+
 
 protected:
   ParametersEstimator() { this->minForEstimate = 0; }

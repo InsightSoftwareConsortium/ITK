@@ -19,56 +19,76 @@
 #ifndef itkLandmarkRegistrationEstimator_h
 #define itkLandmarkRegistrationEstimator_h
 
-#include "itkLandmarkRegistrationEstimator.h"
 #include "itkPoint.h"
 #include "itkObjectFactory.h"
-
+#include "itkPointsLocator.h"
+#include "KDTreeVectorOfVectorsAdaptor.h"
+#include "itkParametersEstimator.h"
 namespace itk
 {
 
 template <unsigned int Dimension>
-class ITK_TEMPLATE_EXPORT LandmarkRegistrationEstimator : public ParametersEstimator<Point<double, Dimension>, double>
+class LandmarkRegistrationEstimator : public itk::ParametersEstimator<Point<double, Dimension>, double>
 {
 public:
-  typedef LandmarkRegistrationEstimator                         Self;
-  typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
-  typedef SmartPointer<Self>                                    Pointer;
-  typedef SmartPointer<const Self>                              ConstPointer;
+  ITK_DISALLOW_COPY_AND_MOVE(LandmarkRegistrationEstimator);
+
+  using Self = LandmarkRegistrationEstimator;
+  using Superclass = ParametersEstimator<itk::Point<double, Dimension>, double>;
+  using Pointer = SmartPointer<Self>;
+  using ConstPointer = SmartPointer<const Self>;
+
+  typedef std::vector<std::vector<double>> VectorofVectorsT;
+  using self_t = KDTreeVectorOfVectorsAdaptor<VectorofVectorsT, double, 3, nanoflann::metric_L2>;
+  using metric_t = typename nanoflann::metric_L2::template traits<double, self_t>::distance_t;
+  using index_t = nanoflann::KDTreeSingleIndexAdaptor<metric_t, self_t, 3, size_t>;
+
+  using KdTreeT = KDTreeVectorOfVectorsAdaptor<VectorofVectorsT, double>;
+
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
+  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
 
   itkTypeMacro(LandmarkRegistrationEstimator, ParametersEstimator);
   /** New method for creating an object using a factory. */
   itkNewMacro(Self);
 
   virtual void
-  Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters) override;
   virtual void
-  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
+  Estimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters) override;
 
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension> *> & data, std::vector<double> & parameters) override;
   virtual void
-  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters);
+  LeastSquaresEstimate(std::vector<Point<double, Dimension>> & data, std::vector<double> & parameters) override;
 
   virtual bool
-  Agree(std::vector<double> & parameters, Point<double, Dimension> & data);
+  Agree(std::vector<double> & parameters, Point<double, Dimension> & data) override;
 
-  void
+  virtual std::vector<bool>
+  AgreeMultiple(std::vector<double> &                   parameters,
+                std::vector<Point<double, Dimension>> & data,
+                unsigned int                            currentBest) override;
+
+  virtual void
   SetDelta(double delta);
 
-  double
+  virtual double
   GetDelta();
+
+  void
+  SetAgreeData(std::vector<Point<double, Dimension>> & data);
 
 protected:
   LandmarkRegistrationEstimator();
-  ~LandmarkRegistrationEstimator();
+  ~LandmarkRegistrationEstimator() override = default;
 
 private:
-  LandmarkRegistrationEstimator(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-                           // given line L and point P, if dist(L,P)^2 < delta^2 then the
-                           // point is on the line
-  double deltaSquared;
+  double                     delta;
+  PointsLocatorType::Pointer pointsLocator;
+  PointsContainer::Pointer   agreePoints;
+  VectorofVectorsT           samples;
+  KdTreeT *                  mat_adaptor;
 };
 
 } // end namespace itk

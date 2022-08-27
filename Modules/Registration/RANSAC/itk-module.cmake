@@ -17,4 +17,5 @@ itk_module(
     ITKMetaIO
   DESCRIPTION "Module ingested from upstream."
   EXCLUDE_FROM_DEFAULT
+  ENABLE_SHARED
 )

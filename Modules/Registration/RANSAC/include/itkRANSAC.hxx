@@ -20,6 +20,8 @@
 #define itkRANSAC_hxx
 
 #include "itkRANSAC.h"
+#include "itkPointsLocator.h"
+#include "itkSimilarity3DTransform.h"
 
 namespace itk
 {
@@ -39,12 +41,19 @@ RANSAC<T, SType>::~RANSAC()
 
 template <typename T, typename SType>
 void
-RANSAC<T, SType>::SetNumberOfThreads(unsigned int numberOfThreads)
+RANSAC<T, SType>::SetNumberOfThreads(unsigned int inputNumberOfThreads)
 {
-  if (numberOfThreads == 0 || numberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
+  if (inputNumberOfThreads == 0 || inputNumberOfThreads > itk::MultiThreaderBase::GetGlobalDefaultNumberOfThreads())
     throw ExceptionObject(__FILE__, __LINE__, "Invalid setting for number of threads.");
 
-  this->numberOfThreads = 1; // numberOfThreads;
+  this->numberOfThreads = inputNumberOfThreads; // numberOfThreads;
+}
+
+template <typename T, typename SType>
+void
+RANSAC<T, SType>::SetMaxIteration(unsigned int inputMaxIteration)
+{
+  this->maxIteration = inputMaxIteration;
 }
 
 
@@ -58,31 +67,43 @@ RANSAC<T, SType>::GetNumberOfThreads()
 
 template <typename T, typename SType>
 void
-RANSAC<T, SType>::SetParametersEstimator(ParametersEstimatorType * paramEstimator)
+RANSAC<T, SType>::SetParametersEstimator(ParametersEstimatorType * inputParamEstimator)
 {
   // check if the given parameter estimator can be used in combination
   // with the data, if there aren't enough data elements then throw an
   // exception. If there is no data then any parameter estimator works
   if (!this->data.empty())
-    if (data.size() < paramEstimator->GetMinimalForEstimate())
+    if (data.size() < inputParamEstimator->GetMinimalForEstimate())
       throw ExceptionObject(__FILE__, __LINE__, "Not enough data elements for use with this parameter estimator.");
-  this->paramEstimator = paramEstimator;
+  this->paramEstimator = inputParamEstimator;
 }
 
 
 template <typename T, typename SType>
 void
-RANSAC<T, SType>::SetData(std::vector<T> & data)
+RANSAC<T, SType>::SetData(std::vector<T> & inputData)
 {
   // check if the given data vector has enough elements for use with
   // the parameter estimator. If the parameter estimator hasn't been
   // set yet then any vector is good.
   if (this->paramEstimator.IsNotNull())
-    if (data.size() < this->paramEstimator->GetMinimalForEstimate())
+    if (inputData.size() < this->paramEstimator->GetMinimalForEstimate())
       throw ExceptionObject(__FILE__, __LINE__, "Not enough data elements for use with the parameter estimator.");
-  this->data = data;
+  this->data = inputData;
 }
 
+template <typename T, typename SType>
+void
+RANSAC<T, SType>::SetAgreeData(std::vector<T> & inputData)
+{
+  // check if the given data vector has enough elements for use with
+  // the parameter estimator. If the parameter estimator hasn't been
+  // set yet then any vector is good.
+  if (this->paramEstimator.IsNotNull())
+    if (inputData.size() < this->paramEstimator->GetMinimalForEstimate())
+      throw ExceptionObject(__FILE__, __LINE__, "Not enough data elements for use with the parameter estimator.");
+  this->agreeData = inputData;
+}
 
 template <typename T, typename SType>
 double
@@ -97,9 +118,10 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
     return 0;
 
   unsigned int numForEstimate = this->paramEstimator->GetMinimalForEstimate();
+  size_t       numAgreeObjects = this->agreeData.size();
   size_t       numDataObjects = this->data.size();
 
-  this->bestVotes = new bool[numDataObjects];
+  this->bestVotes = new bool[numAgreeObjects];
   // initalize with 0 so that the first computation which gives
   // any type of fit will be set to best
   this->numVotesForBest = 0;
@@ -109,29 +131,113 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   // initialize with the number of all possible subsets
   this->allTries = Choose(numDataObjects, numForEstimate);
   this->numTries = this->allTries;
+  // this->
   this->numerator = log(1.0 - desiredProbabilityForNoOutliers);
-
-  std::cout << "Number of allTries " << this->allTries << std::endl;
 
   srand((unsigned)time(NULL)); // seed random number generator
 
   // STEP2: create the threads that generate hypotheses and test
 
+  std::cout << "Number of Threads is " << this->numberOfThreads << std::endl;
+  std::cout << "Max Counter is " << this->maxIteration << std::endl;
+
+  itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
   threader->SingleMethodExecute();
 
-  // STEP3: least squares estimate using largest consensus set and cleanup
+  std::cout << "this->numVotesForBest " << this->numVotesForBest << std::endl;
 
-  std::vector<T *> leastSquaresEstimateData;
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+  auto transform = Similarity3DTransformType::New();
+
+  auto optParameters = transform->GetParameters();
+  auto fixedParameters = transform->GetFixedParameters();
+
+  std::cout << "RANSAC parameters are " << std::endl;
+  for (unsigned int i = 0; i < 10; ++i)
+  {
+    std::cout << this->parametersRansac[i] << " ";
+  }
+  std::cout << "-" << std::endl;
+
+  int counter = 0;
+  for (unsigned int i = 7; i < 10; ++i)
+  {
+    fixedParameters.SetElement(counter, this->parametersRansac[i]);
+    counter = counter + 1;
+  }
+  transform->SetFixedParameters(fixedParameters);
+
+  counter = 0;
+  for (unsigned int i = 0; i < 7; ++i)
+  {
+    optParameters.SetElement(counter, this->parametersRansac[i]);
+    counter = counter + 1;
+  }
+  transform->SetParameters(optParameters);
+
+
+  // STEP3: least squares estimate using largest consensus set and cleanup
+  using PointsLocatorType = itk::PointsLocator<itk::VectorContainer<IdentifierType, itk::Point<double, 3>>>;
+  auto pointsLocator = PointsLocatorType::New();
+
+  using PointsContainer = itk::VectorContainer<IdentifierType, itk::Point<double, 3>>;
+  auto                  points = PointsContainer::New();
+  itk::Point<double, 3> testPoint;
+  itk::Point<double, 6> inlierPoint;
+
+  points->Reserve(this->agreeData.size());
+  for (unsigned int i = 0; i < this->agreeData.size(); ++i)
+  {
+    auto point = this->agreeData[i];
+    testPoint[0] = point[3];
+    testPoint[1] = point[4];
+    testPoint[2] = point[5];
+    points->InsertElement(i, testPoint);
+  }
+
+  pointsLocator->SetPoints(points);
+  pointsLocator->Initialize();
+
+  std::vector<T> leastSquaresEstimateData;
+  leastSquaresEstimateData.reserve(this->numVotesForBest);
+
   if (this->numVotesForBest > 0)
   {
-    for (unsigned int j = 0; j < numDataObjects; j++)
+    for (unsigned int j = 0; j < numAgreeObjects; j++)
     {
       if (this->bestVotes[j])
-        leastSquaresEstimateData.push_back(&(data[j]));
+      {
+        // Find the corresponding point by performing query using KDTree
+        auto tempPoint = this->agreeData[j];
+        testPoint[0] = tempPoint[0];
+        testPoint[1] = tempPoint[1];
+        testPoint[2] = tempPoint[2];
+
+        const size_t                    num_results = 1;
+        std::vector<size_t>             ret_indexes(num_results);
+        std::vector<double>             out_dists_sqr(num_results);
+        nanoflann::KNNResultSet<double> resultSet(num_results);
+
+        auto transformedPoint = transform->TransformPoint(testPoint);
+        auto pointId = pointsLocator->FindClosestPoint(transformedPoint);
+        auto corresPoint = points->GetElement(pointId);
+
+        // Insert the corresponding point for leastSquaresEstimate
+        inlierPoint[0] = tempPoint[0];
+        inlierPoint[1] = tempPoint[1];
+        inlierPoint[2] = tempPoint[2];
+        inlierPoint[3] = corresPoint[0];
+        inlierPoint[4] = corresPoint[1];
+        inlierPoint[5] = corresPoint[2];
+
+        leastSquaresEstimateData.push_back(inlierPoint);
+      }
     }
+
+    std::cout << "Pranjal testing size of inliers is " << leastSquaresEstimateData.size() << std::endl;
     paramEstimator->LeastSquaresEstimate(leastSquaresEstimateData, parameters);
   }
 
@@ -148,7 +254,7 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   delete this->chosenSubSets;
   delete[] this->bestVotes;
 
-  return (double)this->numVotesForBest / (double)numDataObjects;
+  return (double)this->numVotesForBest / (double)numAgreeObjects;
 }
 
 
@@ -167,24 +273,31 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
     int          j;
     int *        curSubSetIndexes;
 
-    unsigned int       numDataObjects = caller->data.size();
+    unsigned int numDataObjects = caller->data.size();
+    unsigned int numAgreeObjects = caller->agreeData.size();
+
     unsigned int       numForEstimate = caller->paramEstimator->GetMinimalForEstimate();
     std::vector<T *>   exactEstimateData;
     std::vector<SType> exactEstimateParameters;
-    double             denominator;
 
-    // true if data[i] agrees with the current model, otherwise false
-    bool * curVotes = new bool[numDataObjects];
+    // true if agreeData[i] agrees with the current model, otherwise false
+    bool * curVotes = new bool[numAgreeObjects];
     // true if data[i] is NOT chosen for computing the exact fit, otherwise false
     bool * notChosen = new bool[numDataObjects];
 
+    unsigned int counter = 0;
     for (i = 0; i < caller->numTries; i++)
-    // for (i = 0; i < 1000; i++)
     {
+      counter = counter + 1;
+      if (counter > caller->maxIteration)
+      {
+        break;
+      }
       // randomly select data for exact model fit ('numForEstimate' objects).
       std::fill(notChosen, notChosen + numDataObjects, true);
       curSubSetIndexes = new int[numForEstimate];
       exactEstimateData.clear();
+      exactEstimateData.reserve(numForEstimate);
       maxIndex = numDataObjects - 1;
       for (l = 0; l < numForEstimate; l++)
       {
@@ -212,11 +325,9 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
       }
 
       caller->hypothesisMutex.lock();
-
       // check that the sub-set just chosen is unique
       std::pair<typename std::set<int *, SubSetIndexComparator>::iterator, bool> res =
         caller->chosenSubSets->insert(curSubSetIndexes);
-
       caller->hypothesisMutex.unlock();
 
       if (res.second == true)
@@ -227,40 +338,39 @@ RANSAC<T, SType>::RANSACThreadCallback(void * arg)
         // colinear points for a circle fit)
         if (exactEstimateParameters.size() == 0)
           continue;
+
         // see how many agree on this estimate
         numVotesForCur = 0;
-        std::fill(curVotes, curVotes + numDataObjects, false);
-        // continue checking data until there is no chance of getting a larger consensus set
-        // or all the data has been checked
-        for (m = 0; m < numDataObjects && caller->numVotesForBest - numVotesForCur < numDataObjects - m + 1; m++)
+        std::fill(curVotes, curVotes + numAgreeObjects, false);
+
+        auto result =
+          caller->paramEstimator->AgreeMultiple(exactEstimateParameters, caller->agreeData, caller->numVotesForBest);
+        for (m = 0; m < numAgreeObjects; m++)
         {
-          if (caller->paramEstimator->Agree(exactEstimateParameters, caller->data[m]))
+          if (result[m])
           {
             curVotes[m] = true;
             numVotesForCur++;
           }
         } // found a larger consensus set?
+
         caller->resultsMutex.lock();
         if (numVotesForCur > caller->numVotesForBest)
         {
           caller->numVotesForBest = numVotesForCur;
-          std::copy(curVotes, curVotes + numDataObjects, caller->bestVotes);
+          std::copy(curVotes, curVotes + numAgreeObjects, caller->bestVotes);
 
-          // all data objects are inliers, terminate the search
-          if (caller->numVotesForBest == numDataObjects)
-            i = caller->numTries;
-          else
-          { // update the estimate of outliers and the number of iterations we need
-            denominator = log(1.0 - pow((double)numVotesForCur / (double)numDataObjects, (double)(numForEstimate)));
-            caller->numTries = (int)(caller->numerator / denominator + 0.5);
-            // there are cases when the probablistic number of tries is greater than all possible sub-sets
-            caller->numTries = caller->numTries < caller->allTries ? caller->numTries : caller->allTries;
+          caller->parametersRansac.clear();
+          for (unsigned int kp = 0; kp < exactEstimateParameters.size(); ++kp)
+          {
+            caller->parametersRansac.push_back(exactEstimateParameters[kp]);
           }
         }
         caller->resultsMutex.unlock();
       }
       else
-      { // this sub set already appeared, release memory
+      {
+        // this sub set already appeared, release memory
         delete[] curSubSetIndexes;
       }
     }
@@ -276,7 +386,7 @@ template <typename T, typename SType>
 unsigned int
 RANSAC<T, SType>::Choose(unsigned int n, unsigned int m)
 {
-  double denominatorEnd, numeratorStart, numerator, denominator, i, result;
+  double denominatorEnd, numeratorStart, numeratorLocal, denominatorLocal, i, resultLocal;
   // perform smallest number of multiplications
   if ((n - m) > m)
   {
@@ -289,18 +399,24 @@ RANSAC<T, SType>::Choose(unsigned int n, unsigned int m)
     denominatorEnd = n - m;
   }
 
-  for (i = numeratorStart, numerator = 1; i <= n; i++)
-    numerator *= i;
-  for (i = 1, denominator = 1; i <= denominatorEnd; i++)
-    denominator *= i;
-  result = numerator / denominator;
+  for (i = numeratorStart, numeratorLocal = 1; i <= n; i++)
+  {
+    numeratorLocal *= i;
+  }
+  for (i = 1, denominatorLocal = 1; i <= denominatorEnd; i++)
+  {
+    denominatorLocal *= i;
+  }
+  resultLocal = numeratorLocal / denominatorLocal;
 
   // check for overflow both in computation and in result
-  if (denominator > std::numeric_limits<double>::max() || numerator > std::numeric_limits<double>::max() ||
-      static_cast<double>(std::numeric_limits<unsigned int>::max()) < result)
+  if (denominatorLocal > std::numeric_limits<double>::max() || numeratorLocal > std::numeric_limits<double>::max() ||
+      static_cast<double>(std::numeric_limits<unsigned int>::max()) < resultLocal)
+  {
     return std::numeric_limits<unsigned int>::max();
+  }
   else
-    return static_cast<unsigned int>(result);
+    return static_cast<unsigned int>(resultLocal);
 }
 
 } // end namespace itk

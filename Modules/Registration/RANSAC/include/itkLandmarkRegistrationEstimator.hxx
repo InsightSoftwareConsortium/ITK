@@ -22,6 +22,10 @@
 #include "itkLandmarkRegistrationEstimator.h"
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkSimilarity3DTransform.h"
+#include "itkIntTypes.h"
+#include "nanoflann.hpp"
+#include "itkMesh.h"
+#include "itkTransformMeshFilter.h"
 
 namespace itk
 {
@@ -29,21 +33,15 @@ namespace itk
 template <unsigned int Dimension>
 LandmarkRegistrationEstimator<Dimension>::LandmarkRegistrationEstimator()
 {
-  this->deltaSquared = NumericTraits<double>::min();
+  this->delta = NumericTraits<double>::min();
   this->minForEstimate = Dimension;
 }
 
-
-template <unsigned int Dimension>
-LandmarkRegistrationEstimator<Dimension>::~LandmarkRegistrationEstimator()
-{}
-
-
 template <unsigned int Dimension>
 void
-LandmarkRegistrationEstimator<Dimension>::SetDelta(double delta)
+LandmarkRegistrationEstimator<Dimension>::SetDelta(double inputDelta)
 {
-  this->deltaSquared = delta * delta;
+  this->delta = inputDelta * inputDelta;
 }
 
 
@@ -51,7 +49,7 @@ template <unsigned int Dimension>
 double
 LandmarkRegistrationEstimator<Dimension>::GetDelta()
 {
-  return sqrt(this->deltaSquared);
+  return this->delta;
 }
 
 template <unsigned int Dimension>
@@ -114,9 +112,6 @@ LandmarkRegistrationEstimator<Dimension>::Estimate(std::vector<Point<double, Dim
   {
     parameters.push_back(fixedParameters.GetElement(i));
   }
-
-  fixedLandmarks.clear();
-  movingLandmarks.clear();
   return;
 }
 
@@ -146,11 +141,10 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
   using FixedImageType = itk::Image<PixelType, DimensionPoint>;
   using MovingImageType = itk::Image<PixelType, DimensionPoint>;
 
-  using TransformType = itk::Similarity3DTransform<double>;
-  using TransformInitializerType =
-    itk::LandmarkBasedTransformInitializer<TransformType, FixedImageType, MovingImageType>;
-  // Obtain the parameters of the Similarity3DTransform
   using Similarity3DTransformType = Similarity3DTransform<double>;
+  using TransformInitializerType =
+    itk::LandmarkBasedTransformInitializer<Similarity3DTransformType, FixedImageType, MovingImageType>;
+  // Obtain the parameters of the Similarity3DTransform
 
   auto transform = Similarity3DTransformType::New();
   auto initializer = TransformInitializerType::New();
@@ -202,8 +196,11 @@ LandmarkRegistrationEstimator<Dimension>::LeastSquaresEstimate(std::vector<Point
 {
   std::vector<Point<double, Dimension> *> usedData;
   int                                     dataSize = data.size();
+  usedData.reserve(dataSize);
   for (int i = 0; i < dataSize; i++)
+  {
     usedData.push_back(&(data[i]));
+  }
   LeastSquaresEstimate(usedData, parameters);
 }
 
@@ -211,7 +208,6 @@ template <unsigned int Dimension>
 bool
 LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters, Point<double, Dimension> & data)
 {
-  using TransformType = itk::Similarity3DTransform<double>;
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
 
@@ -224,6 +220,7 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
     fixedParameters.SetElement(counter, parameters[i]);
     counter = counter + 1;
   }
+  transform->SetFixedParameters(fixedParameters);
 
   counter = 0;
   for (unsigned int i = 0; i < 7; ++i)
@@ -231,6 +228,7 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
     optParameters.SetElement(counter, parameters[i]);
     counter = counter + 1;
   }
+  transform->SetParameters(optParameters);
 
   itk::Point<double, 3> p0;
   itk::Point<double, 3> p1;
@@ -243,10 +241,115 @@ LandmarkRegistrationEstimator<Dimension>::Agree(std::vector<double> & parameters
   p1[1] = data[4];
   p1[2] = data[5];
 
-  auto transformedPoint = transform->TransformPoint(p1);
-  auto distance = transformedPoint.EuclideanDistanceTo(p0);
-  return (distance < this->deltaSquared);
+  auto transformedPoint = transform->TransformPoint(p0);
+  auto distance = transformedPoint.EuclideanDistanceTo(p1);
+  return (distance < this->delta);
 }
+
+
+template <unsigned int Dimension>
+void
+LandmarkRegistrationEstimator<Dimension>::SetAgreeData(std::vector<Point<double, Dimension>> & data)
+{
+  this->agreePoints = PointsContainer::New();
+  this->agreePoints->reserve(data.size());
+
+  this->samples.resize(data.size());
+
+  unsigned int          dim = 3;
+  itk::Point<double, 3> testPoint;
+
+  for (unsigned int i = 0; i < data.size(); ++i)
+  {
+    auto point = data[i];
+    testPoint[0] = point[3];
+    testPoint[1] = point[4];
+    testPoint[2] = point[5];
+    this->agreePoints->InsertElement(i, testPoint);
+
+    this->samples[i].resize(dim);
+    for (size_t d = 0; d < dim; d++)
+    {
+      this->samples[i][d] = testPoint[d];
+    }
+  }
+
+  this->mat_adaptor = new KdTreeT(dim, this->samples, 5);
+  this->mat_adaptor->index->buildIndex();
+}
+
+template <unsigned int Dimension>
+std::vector<bool>
+LandmarkRegistrationEstimator<Dimension>::AgreeMultiple(std::vector<double> &                   parameters,
+                                                        std::vector<Point<double, Dimension>> & data,
+                                                        unsigned int                            currentBest)
+{
+  using Similarity3DTransformType = Similarity3DTransform<double>;
+  auto transform = Similarity3DTransformType::New();
+
+  auto optParameters = transform->GetParameters();
+  auto fixedParameters = transform->GetFixedParameters();
+
+  int counter = 0;
+  for (unsigned int i = 7; i < 10; ++i)
+  {
+    fixedParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
+  }
+  transform->SetFixedParameters(fixedParameters);
+
+  counter = 0;
+  for (unsigned int i = 0; i < 7; ++i)
+  {
+    optParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
+  }
+  transform->SetParameters(optParameters);
+
+  std::vector<double> query_pt(3);
+  std::vector<bool>   output(data.size(), false);
+  // output.reserve(data.size());
+
+  const size_t                    num_results = 1;
+  std::vector<size_t>             ret_indexes(num_results);
+  std::vector<double>             out_dists_sqr(num_results);
+  nanoflann::KNNResultSet<double> resultSet(num_results);
+
+  itk::Point<double, 3> p0;
+
+  unsigned int localBest = 0;
+  unsigned int dataSize = data.size();
+
+  for (unsigned int i = 0; i < dataSize; ++i)
+  {
+    // For early stopping. No point running if this condition is true
+    if (localBest + dataSize - i < currentBest)
+    {
+      break;
+    }
+    p0[0] = data[i][0];
+    p0[1] = data[i][1];
+    p0[2] = data[i][2];
+
+    auto transformedPoint = transform->TransformPoint(p0);
+
+    query_pt[0] = transformedPoint[0];
+    query_pt[1] = transformedPoint[1];
+    query_pt[2] = transformedPoint[2];
+
+    resultSet.init(&ret_indexes[0], &out_dists_sqr[0]);
+    this->mat_adaptor->index->findNeighbors(resultSet, &query_pt[0], nanoflann::SearchParams(10));
+    bool flag = out_dists_sqr[0] < this->delta;
+    if (flag)
+    {
+      localBest++;
+    }
+    output[i] = flag;
+  }
+
+  return output;
+}
+
 
 } // end namespace itk
 
