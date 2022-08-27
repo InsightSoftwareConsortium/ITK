@@ -23,7 +23,6 @@
 #include "itkLandmarkBasedTransformInitializer.h"
 #include "itkSimilarity3DTransform.h"
 #include "itkIntTypes.h"
-#include "itkPointsLocator.h"
 #include "nanoflann.hpp"
 #include "itkMesh.h"
 #include "itkTransformMeshFilter.h"
@@ -37,12 +36,6 @@ LandmarkRegistrationEstimator<Dimension>::LandmarkRegistrationEstimator()
   this->delta = NumericTraits<double>::min();
   this->minForEstimate = Dimension;
 }
-
-
-template <unsigned int Dimension>
-LandmarkRegistrationEstimator<Dimension>::~LandmarkRegistrationEstimator()
-{}
-
 
 template <unsigned int Dimension>
 void

@@ -19,7 +19,6 @@
 #ifndef itkLandmarkRegistrationEstimator_h
 #define itkLandmarkRegistrationEstimator_h
 
-#include "itkLandmarkRegistrationEstimator.h"
 #include "itkPoint.h"
 #include "itkObjectFactory.h"
 #include "itkPointsLocator.h"
@@ -29,10 +28,11 @@ namespace itk
 {
 
 template <unsigned int Dimension>
-class ITK_TEMPLATE_EXPORT LandmarkRegistrationEstimator
-  : public itk::ParametersEstimator<Point<double, Dimension>, double>
+class LandmarkRegistrationEstimator : public itk::ParametersEstimator<Point<double, Dimension>, double>
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(LandmarkRegistrationEstimator);
+
   typedef LandmarkRegistrationEstimator                         Self;
   typedef ParametersEstimator<Point<double, Dimension>, double> Superclass;
   typedef SmartPointer<Self>                                    Pointer;
@@ -81,16 +81,10 @@ public:
 
 protected:
   LandmarkRegistrationEstimator();
-  ~LandmarkRegistrationEstimator();
+  ~LandmarkRegistrationEstimator() override = default;
 
 private:
-  LandmarkRegistrationEstimator(const Self &); // purposely not implemented
-  void
-  operator=(const Self &); // purposely not implemented
-                           // given line L and point P, if dist(L,P)^2 < delta^2 then the
-                           // point is on the line
-  double delta;
-
+  double                     delta;
   PointsLocatorType::Pointer pointsLocator;
   PointsContainer::Pointer   agreePoints;
   VectorofVectorsT           samples;
