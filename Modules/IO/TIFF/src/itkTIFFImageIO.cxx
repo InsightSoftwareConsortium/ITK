@@ -20,6 +20,7 @@
 #include "itkTIFFReaderInternal.h"
 #include "itksys/SystemTools.hxx"
 #include "itkMetaDataObject.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include "itk_tiff.h"
 
@@ -674,15 +675,14 @@ TIFFImageIO::InternalWrite(const void * buffer)
     {
       // if number of scalar components is greater than 3, that means we assume
       // there is alpha.
-      uint16_t extra_samples = scomponents - 3;
-      auto *   sample_info = new uint16_t[scomponents - 3];
+      uint16_t   extra_samples = scomponents - 3;
+      const auto sample_info = make_unique_for_overwrite<uint16_t[]>(scomponents - 3);
       sample_info[0] = EXTRASAMPLE_ASSOCALPHA;
       for (uint16_t cc = 1; cc < scomponents - 3; ++cc)
       {
         sample_info[cc] = EXTRASAMPLE_UNSPECIFIED;
       }
-      TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, extra_samples, sample_info);
-      delete[] sample_info;
+      TIFFSetField(tif, TIFFTAG_EXTRASAMPLES, extra_samples, sample_info.get());
     }
 
     uint16_t compression;

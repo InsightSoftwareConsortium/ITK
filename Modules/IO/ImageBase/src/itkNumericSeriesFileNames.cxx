@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkNumericSeriesFileNames.h"
+#include "itkMakeUniqueForOverwrite.h"
 #include <cstdio>
 
 namespace itk
@@ -55,19 +56,17 @@ NumericSeriesFileNames::GetFileNames()
                                                                                 // absurdly long integer string.
     }
     OffsetValueType bufflen = nchars + 1;
-    auto *          temp = new char[bufflen];
-    OffsetValueType result = snprintf(temp, bufflen, m_SeriesFormat.c_str(), i);
+    const auto      temp = make_unique_for_overwrite<char[]>(bufflen);
+    OffsetValueType result = snprintf(temp.get(), bufflen, m_SeriesFormat.c_str(), i);
     if (result < 0 || result >= bufflen)
     {
       std::stringstream message_cache;
       message_cache << "The filename is too long for temp buffer."
-                    << " Truncated form: " << temp << "." << std::endl
+                    << " Truncated form: " << temp.get() << "." << std::endl
                     << "nchars: " << nchars << " bufflen: " << bufflen << " result: " << result;
-      delete[] temp;
       itkExceptionMacro(<< message_cache.str());
     }
-    std::string fileName(temp);
-    delete[] temp;
+    std::string fileName(temp.get());
     m_FileNames.push_back(fileName);
   }
   return m_FileNames;

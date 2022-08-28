@@ -28,6 +28,7 @@
 #include "itkBioRadImageIO.h"
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 
 #define BIORAD_HEADER_LENGTH 76
 #define BIORAD_NOTE_LENGTH 96
@@ -480,17 +481,16 @@ BioRadImageIO::Write(const void * buffer)
   const auto numberOfBytes = static_cast<SizeValueType>(this->GetImageSizeInBytes());
   const auto numberOfComponents = static_cast<SizeValueType>(this->GetImageSizeInComponents());
 
-  auto * tempmemory = new char[numberOfBytes];
-  memcpy(tempmemory, buffer, numberOfBytes);
+  const auto tempmemory = make_unique_for_overwrite<char[]>(numberOfBytes);
+  memcpy(tempmemory.get(), buffer, numberOfBytes);
   if (this->GetComponentType() == IOComponentEnum::USHORT)
   {
-    ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned short *>(tempmemory),
+    ByteSwapper<unsigned short>::SwapRangeFromSystemToBigEndian(reinterpret_cast<unsigned short *>(tempmemory.get()),
                                                                 numberOfComponents);
   }
 
   // Write the actual pixel data
-  file.write(static_cast<const char *>(tempmemory), numberOfBytes);
-  delete[] tempmemory;
+  file.write(static_cast<const char *>(tempmemory.get()), numberOfBytes);
   file.close();
 }
 

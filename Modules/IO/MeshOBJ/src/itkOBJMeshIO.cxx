@@ -19,6 +19,7 @@
 #include "itkOBJMeshIO.h"
 #include "itkNumericTraits.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 #include <locale>
 #include <vector>
 
@@ -251,7 +252,7 @@ OBJMeshIO ::ReadCells(void * buffer)
   OpenFile();
 
   // Read and analyze the first line in the file
-  auto *        data = new long[this->m_CellBufferSize - this->m_NumberOfCells];
+  const auto    data = make_unique_for_overwrite<long[]>(this->m_CellBufferSize - this->m_NumberOfCells);
   SizeValueType index = 0;
 
   std::string line;
@@ -294,10 +295,10 @@ OBJMeshIO ::ReadCells(void * buffer)
 
   CloseFile();
 
-  this->WriteCellsBuffer(data, static_cast<long *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
+  this->WriteCellsBuffer(
+    data.get(), static_cast<long *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
   // this->WriteCellsBuffer(data, static_cast<unsigned int *>(buffer),
   // CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
-  delete[] data;
 }
 
 void

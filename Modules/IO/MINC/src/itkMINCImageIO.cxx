@@ -23,6 +23,7 @@
 #include "itkMetaDataObject.h"
 #include "itkArray.h"
 #include "itkPrintHelper.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include "itk_minc2.h"
 
@@ -691,14 +692,13 @@ MINCImageIO::ReadImageInformation()
   size_t minc_history_length = 0;
   if (miget_attr_length(this->m_MINCPImpl->m_Volume, "", "history", &minc_history_length) == MI_NOERROR)
   {
-    auto * minc_history = new char[minc_history_length + 1];
+    const auto minc_history = make_unique_for_overwrite<char[]>(minc_history_length + 1);
     if (miget_attr_values(
-          this->m_MINCPImpl->m_Volume, MI_TYPE_STRING, "", "history", minc_history_length + 1, minc_history) ==
+          this->m_MINCPImpl->m_Volume, MI_TYPE_STRING, "", "history", minc_history_length + 1, minc_history.get()) ==
         MI_NOERROR)
     {
-      EncapsulateMetaData<std::string>(thisDic, "history", std::string(minc_history));
+      EncapsulateMetaData<std::string>(thisDic, "history", std::string(minc_history.get()));
     }
-    delete[] minc_history;
   }
 
   if (this->m_MINCPImpl->m_DimensionIndices[4] != -1) // have time dimension
@@ -794,14 +794,13 @@ MINCImageIO::ReadImageInformation()
             {
               case MI_TYPE_STRING:
               {
-                auto * tmp = new char[att_length + 1];
+                const auto tmp = make_unique_for_overwrite<char[]>(att_length + 1);
                 if (miget_attr_values(
-                      this->m_MINCPImpl->m_Volume, att_data_type, group_name, attribute, att_length + 1, tmp) ==
+                      this->m_MINCPImpl->m_Volume, att_data_type, group_name, attribute, att_length + 1, tmp.get()) ==
                     MI_NOERROR)
                 {
-                  EncapsulateMetaData<std::string>(thisDic, entry_key, std::string(tmp));
+                  EncapsulateMetaData<std::string>(thisDic, entry_key, std::string(tmp.get()));
                 }
-                delete[] tmp;
               }
               break;
               case MI_TYPE_FLOAT:

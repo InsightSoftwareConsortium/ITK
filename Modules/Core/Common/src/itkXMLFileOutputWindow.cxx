@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkXMLFileOutputWindow.h"
+#include "itkMakeUniqueForOverwrite.h"
 #include <fstream>
 #include <cstring>
 
@@ -64,18 +65,16 @@ XMLFileOutputWindow::DisplayTag(const char * text)
 void
 XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
 {
-  char * xmlText;
-
   if (!text)
   {
     return;
   }
 
   // allocate enough room for the worst case
-  xmlText = new char[strlen(text) * 6 + 1];
+  const auto xmlText = make_unique_for_overwrite<char[]>(strlen(text) * 6 + 1);
 
   const char * s = text;
-  char *       x = xmlText;
+  char *       x = xmlText.get();
   *x = '\0';
 
   // replace all special characters
@@ -127,13 +126,12 @@ XMLFileOutputWindow::DisplayXML(const char * tag, const char * text)
   {
     this->Initialize();
   }
-  *m_Stream << "<" << tag << ">" << xmlText << "</" << tag << ">" << std::endl;
+  *m_Stream << "<" << tag << ">" << xmlText.get() << "</" << tag << ">" << std::endl;
 
   if (m_Flush)
   {
     m_Stream->flush();
   }
-  delete[] xmlText;
 }
 
 void

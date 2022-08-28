@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkGiplImageIO.h"
 #include "itkByteSwapper.h"
+#include "itkMakeUniqueForOverwrite.h"
 #include <iostream>
 #include "itk_zlib.h"
 
@@ -1049,33 +1050,31 @@ GiplImageIO ::Write(const void * buffer)
     // Swap bytes if necessary
     if (m_ByteOrder == IOByteOrderEnum::LittleEndian)
     {
-      auto * tempBuffer = new char[numberOfBytes];
-      memcpy(tempBuffer, buffer, numberOfBytes);
-      SwapBytesIfNecessary(tempBuffer, numberOfComponents);
+      const auto tempBuffer = make_unique_for_overwrite<char[]>(numberOfBytes);
+      memcpy(tempBuffer.get(), buffer, numberOfBytes);
+      SwapBytesIfNecessary(tempBuffer.get(), numberOfComponents);
       if (m_IsCompressed)
       {
-        gzwrite(m_Internal->m_GzFile, tempBuffer, numberOfBytes);
+        gzwrite(m_Internal->m_GzFile, tempBuffer.get(), numberOfBytes);
       }
       else
       {
-        m_Ofstream.write(tempBuffer, numberOfBytes);
+        m_Ofstream.write(tempBuffer.get(), numberOfBytes);
       }
-      delete[] tempBuffer;
     }
     else if (m_ByteOrder == IOByteOrderEnum::BigEndian)
     {
-      auto * tempBuffer = new char[numberOfBytes];
-      memcpy(tempBuffer, buffer, numberOfBytes);
-      SwapBytesIfNecessary(tempBuffer, numberOfComponents);
+      const auto tempBuffer = make_unique_for_overwrite<char[]>(numberOfBytes);
+      memcpy(tempBuffer.get(), buffer, numberOfBytes);
+      SwapBytesIfNecessary(tempBuffer.get(), numberOfComponents);
       if (m_IsCompressed)
       {
-        gzwrite(m_Internal->m_GzFile, tempBuffer, numberOfBytes);
+        gzwrite(m_Internal->m_GzFile, tempBuffer.get(), numberOfBytes);
       }
       else
       {
-        m_Ofstream.write(tempBuffer, numberOfBytes);
+        m_Ofstream.write(tempBuffer.get(), numberOfBytes);
       }
-      delete[] tempBuffer;
     }
     else
     {

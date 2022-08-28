@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkXMLFile.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 #include <fstream>
 #include "expat.h"
 
@@ -86,9 +87,9 @@ XMLReaderBase::parse()
   // Default stream parser just reads a block at a time.
   std::streamsize filesize = itksys::SystemTools::FileLength(m_Filename.c_str());
 
-  auto * buffer = new char[filesize];
+  const auto buffer = make_unique_for_overwrite<char[]>(filesize);
 
-  inputstream.read(buffer, filesize);
+  inputstream.read(buffer.get(), filesize);
 
   if (static_cast<std::streamsize>(inputstream.gcount()) != filesize)
   {
@@ -96,8 +97,7 @@ XMLReaderBase::parse()
     exception.SetDescription("File Read Error");
     throw exception;
   }
-  const auto result = XML_Parse(Parser, buffer, inputstream.gcount(), false);
-  delete[] buffer;
+  const auto result = XML_Parse(Parser, buffer.get(), inputstream.gcount(), false);
   if (!result)
   {
     ExceptionObject exception(__FILE__, __LINE__);

@@ -19,6 +19,7 @@
 #include "itkVTKPolyDataMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <double-conversion/string-to-double.h>
 
@@ -985,10 +986,10 @@ VTKPolyDataMeshIO ::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * bu
     return;
   }
 
-  auto * inputBuffer = new unsigned int[this->m_CellBufferSize - this->m_NumberOfCells];
-  void * pv = inputBuffer;
-  auto * startBuffer = static_cast<char *>(pv);
-  auto * outputBuffer = static_cast<unsigned int *>(buffer);
+  const auto inputBuffer = make_unique_for_overwrite<unsigned int[]>(this->m_CellBufferSize - this->m_NumberOfCells);
+  void *     pv = inputBuffer.get();
+  auto *     startBuffer = static_cast<char *>(pv);
+  auto *     outputBuffer = static_cast<unsigned int *>(buffer);
 
   std::string          line;
   MetaDataDictionary & metaDic = this->GetMetaDataDictionary();
@@ -1051,11 +1052,6 @@ VTKPolyDataMeshIO ::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * bu
       startBuffer += numberOfPolygonIndices * sizeof(unsigned int);
       outputBuffer += (numberOfPolygonIndices + numberOfPolygons) * sizeof(unsigned int);
     }
-  }
-
-  if (this->m_CellBufferSize)
-  {
-    delete[] inputBuffer;
   }
 }
 

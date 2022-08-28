@@ -26,6 +26,7 @@
  *
  *=========================================================================*/
 #include "itkWin32OutputWindow.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -91,7 +92,7 @@ Win32OutputWindow::DisplayText(const char * text)
   }
 
   /** Create a buffer big enough to hold the entire text */
-  char * buffer = new char[strlen(text) + 1];
+  const auto buffer = make_unique_for_overwrite<char[]>(strlen(text) + 1);
 
   /** Start at the beginning */
   const char * NewLinePos = text;
@@ -109,14 +110,13 @@ Win32OutputWindow::DisplayText(const char * text)
     else
     {
       int len = NewLinePos - text;
-      strncpy(buffer, text, len);
+      strncpy(buffer.get(), text, len);
       buffer[len] = 0;
       text = NewLinePos + 1;
-      Win32OutputWindow::AddText(buffer);
+      Win32OutputWindow::AddText(buffer.get());
       Win32OutputWindow::AddText("\r\n");
     }
   }
-  delete[] buffer;
 }
 
 /** Add some text to the EDIT control. */

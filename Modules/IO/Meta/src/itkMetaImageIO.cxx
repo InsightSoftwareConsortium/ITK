@@ -22,6 +22,7 @@
 #include "itksys/SystemTools.hxx"
 #include "itkMath.h"
 #include "itkSingleton.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -450,8 +451,8 @@ MetaImageIO::Read(void * buffer)
 
   if (largestRegion != m_IORegion)
   {
-    auto * indexMin = new int[nDims];
-    auto * indexMax = new int[nDims];
+    const auto indexMin = make_unique_for_overwrite<int[]>(nDims);
+    const auto indexMax = make_unique_for_overwrite<int[]>(nDims);
     for (unsigned int i = 0; i < nDims; ++i)
     {
       if (i < m_IORegion.GetImageDimension())
@@ -467,16 +468,11 @@ MetaImageIO::Read(void * buffer)
       }
     }
 
-    if (!m_MetaImage.ReadROI(indexMin, indexMax, m_FileName.c_str(), true, buffer, m_SubSamplingFactor))
+    if (!m_MetaImage.ReadROI(indexMin.get(), indexMax.get(), m_FileName.c_str(), true, buffer, m_SubSamplingFactor))
     {
-      delete[] indexMin;
-      delete[] indexMax;
       itkExceptionMacro("File cannot be read: " << this->GetFileName() << " for reading." << std::endl
                                                 << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
-
-    delete[] indexMin;
-    delete[] indexMax;
 
     m_MetaImage.ElementByteOrderFix(m_IORegion.GetNumberOfPixels());
   }
@@ -785,9 +781,9 @@ MetaImageIO ::Write(const void * buffer)
       break;
   }
 
-  auto * dSize = new int[numberOfDimensions];
-  auto * eSpacing = new double[numberOfDimensions];
-  auto * eOrigin = new double[numberOfDimensions];
+  const auto dSize = make_unique_for_overwrite<int[]>(numberOfDimensions);
+  const auto eSpacing = make_unique_for_overwrite<double[]>(numberOfDimensions);
+  const auto eOrigin = make_unique_for_overwrite<double[]>(numberOfDimensions);
   for (unsigned int ii = 0; ii < numberOfDimensions; ++ii)
   {
     dSize[ii] = this->GetDimensions(ii);
@@ -795,8 +791,9 @@ MetaImageIO ::Write(const void * buffer)
     eOrigin[ii] = this->GetOrigin(ii);
   }
 
-  m_MetaImage.InitializeEssential(numberOfDimensions, dSize, eSpacing, eType, nChannels, const_cast<void *>(buffer));
-  m_MetaImage.Position(eOrigin);
+  m_MetaImage.InitializeEssential(
+    numberOfDimensions, dSize.get(), eSpacing.get(), eType, nChannels, const_cast<void *>(buffer));
+  m_MetaImage.Position(eOrigin.get());
   m_MetaImage.BinaryData(binaryData);
 
   // Write the image Information
@@ -1082,8 +1079,8 @@ MetaImageIO ::Write(const void * buffer)
   }
   else if (largestRegion != m_IORegion)
   {
-    auto * indexMin = new int[numberOfDimensions];
-    auto * indexMax = new int[numberOfDimensions];
+    const auto indexMin = make_unique_for_overwrite<int[]>(numberOfDimensions);
+    const auto indexMax = make_unique_for_overwrite<int[]>(numberOfDimensions);
     for (unsigned int ii = 0; ii < numberOfDimensions; ++ii)
     {
       // the dimensions of m_IORegion should match out requested
@@ -1093,35 +1090,20 @@ MetaImageIO ::Write(const void * buffer)
       indexMax[ii] = m_IORegion.GetIndex()[ii] + m_IORegion.GetSize()[ii] - 1;
     }
 
-    if (!m_MetaImage.WriteROI(indexMin, indexMax, m_FileName.c_str()))
+    if (!m_MetaImage.WriteROI(indexMin.get(), indexMax.get(), m_FileName.c_str()))
     {
-      delete[] dSize;
-      delete[] eSpacing;
-      delete[] eOrigin;
-      delete[] indexMin;
-      delete[] indexMax;
       itkExceptionMacro("File ROI cannot be written: " << this->GetFileName() << std::endl
                                                        << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
-
-    delete[] indexMin;
-    delete[] indexMax;
   }
   else
   {
     if (!m_MetaImage.Write(m_FileName.c_str()))
     {
-      delete[] dSize;
-      delete[] eSpacing;
-      delete[] eOrigin;
       itkExceptionMacro("File cannot be written: " << this->GetFileName() << std::endl
                                                    << "Reason: " << itksys::SystemTools::GetLastSystemError());
     }
   }
-
-  delete[] dSize;
-  delete[] eSpacing;
-  delete[] eOrigin;
 }
 
 /** Given a requested region, determine what could be the region that we can

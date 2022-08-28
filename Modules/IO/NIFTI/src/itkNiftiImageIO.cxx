@@ -21,6 +21,7 @@
 #include "itkSpatialOrientationAdapter.h"
 #include <nifti1_io.h>
 #include "itkNiftiImageIOConfigurePrivate.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -2246,7 +2247,7 @@ NiftiImageIO ::Write(const void * buffer)
     const size_t buffer_size = numVoxels * numComponents // Number of components
                                * this->m_NiftiImage->nbyper;
 
-    auto *             nifti_buf = new char[buffer_size];
+    const auto         nifti_buf = make_unique_for_overwrite<char[]>(buffer_size);
     const auto * const itkbuf = (const char *)buffer;
     // Data must be rearranged to meet nifti organzation.
     // nifti_layout[vec][t][z][y][x] = itk_layout[t][z][y][z][vec]
@@ -2307,10 +2308,9 @@ NiftiImageIO ::Write(const void * buffer)
     dumpdata(buffer);
     // Need a const cast here so that we don't have to copy the memory for
     // writing.
-    this->m_NiftiImage->data = static_cast<void *>(nifti_buf);
+    this->m_NiftiImage->data = static_cast<void *>(nifti_buf.get());
     const int nifti_write_status = nifti_image_write_status(this->m_NiftiImage);
     this->m_NiftiImage->data = nullptr; // if left pointing to data buffer
-    delete[] nifti_buf;
     if (nifti_write_status)
     {
       itkExceptionMacro(<< "ERROR: nifti library failed to write image" << this->GetFileName());

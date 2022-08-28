@@ -19,6 +19,7 @@
 #include "itkFreeSurferBinaryMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -243,14 +244,15 @@ void
 FreeSurferBinaryMeshIO ::ReadCells(void * buffer)
 {
   constexpr unsigned int numberOfCellPoints = 3;
-  auto *                 data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
+  const auto             data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells * numberOfCellPoints);
 
-  m_InputFile.read(reinterpret_cast<char *>(data), this->m_NumberOfCells * numberOfCellPoints * sizeof(itk::uint32_t));
-  itk::ByteSwapper<itk::uint32_t>::SwapRangeFromSystemToBigEndian(data, this->m_NumberOfCells * numberOfCellPoints);
+  m_InputFile.read(reinterpret_cast<char *>(data.get()),
+                   this->m_NumberOfCells * numberOfCellPoints * sizeof(itk::uint32_t));
+  itk::ByteSwapper<itk::uint32_t>::SwapRangeFromSystemToBigEndian(data.get(),
+                                                                  this->m_NumberOfCells * numberOfCellPoints);
 
   this->WriteCellsBuffer(
-    data, static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
-  delete[] data;
+    data.get(), static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
 
   CloseFile();
 }

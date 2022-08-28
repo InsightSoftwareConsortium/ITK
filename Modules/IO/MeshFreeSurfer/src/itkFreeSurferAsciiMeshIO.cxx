@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkFreeSurferAsciiMeshIO.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include "itksys/SystemTools.hxx"
 
@@ -166,7 +167,7 @@ FreeSurferAsciiMeshIO ::ReadCells(void * buffer)
   m_InputFile.precision(12);
   SizeValueType          index = 0;
   constexpr unsigned int numberOfCellPoints = 3;
-  auto *                 data = new unsigned int[this->m_NumberOfCells * numberOfCellPoints];
+  const auto             data = make_unique_for_overwrite<unsigned int[]>(this->m_NumberOfCells * numberOfCellPoints);
   float                  value;
 
   for (SizeValueType id = 0; id < this->m_NumberOfCells; ++id)
@@ -179,8 +180,7 @@ FreeSurferAsciiMeshIO ::ReadCells(void * buffer)
   }
 
   this->WriteCellsBuffer(
-    data, static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
-  delete[] data;
+    data.get(), static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, 3, this->m_NumberOfCells);
 
   CloseFile();
 }

@@ -19,6 +19,7 @@
 #include "itkOFFMeshIO.h"
 
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -204,27 +205,27 @@ OFFMeshIO ::ReadMeshInformation()
     m_PointsStartPosition = m_InputFile.tellg();
 
     // Read points
-    auto * pointsBuffer = new float[this->m_NumberOfPoints * this->m_PointDimension];
-    this->ReadBufferAsBinary(pointsBuffer, m_InputFile, this->m_NumberOfPoints * this->m_PointDimension);
-    delete[] pointsBuffer;
+    const auto numberOfCoordinates = this->m_NumberOfPoints * this->m_PointDimension;
+    this->ReadBufferAsBinary(make_unique_for_overwrite<float[]>(numberOfCoordinates).get(),
+                             m_InputFile,
+                             this->m_NumberOfPoints * this->m_PointDimension);
 
     // Set default cell component type
     this->m_CellBufferSize = this->m_NumberOfCells * 2;
 
     // Read cells
     itk::uint32_t numberOfCellPoints = 0;
-    auto *        cellsBuffer = new itk::uint32_t[this->m_NumberOfCells];
+    const auto    cellsBuffer = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells);
     for (unsigned long id = 0; id < this->m_NumberOfCells; ++id)
     {
       this->ReadBufferAsBinary(&numberOfCellPoints, m_InputFile, 1);
       this->m_CellBufferSize += numberOfCellPoints;
-      this->ReadBufferAsBinary(cellsBuffer, m_InputFile, numberOfCellPoints);
+      this->ReadBufferAsBinary(cellsBuffer.get(), m_InputFile, numberOfCellPoints);
       if (numberOfCellPoints != 3)
       {
         m_TriangleCellType = false;
       }
     }
-    delete[] cellsBuffer;
   }
 
   // Set default point component type
@@ -283,15 +284,15 @@ OFFMeshIO ::ReadPoints(void * buffer)
 void
 OFFMeshIO ::ReadCells(void * buffer)
 {
-  auto * data = new itk::uint32_t[this->m_CellBufferSize - this->m_NumberOfCells];
+  const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_CellBufferSize - this->m_NumberOfCells);
 
   if (this->m_FileType == IOFileEnum::ASCII)
   {
-    this->ReadCellsBufferAsAscii(data, m_InputFile);
+    this->ReadCellsBufferAsAscii(data.get(), m_InputFile);
   }
   else if (this->m_FileType == IOFileEnum::BINARY)
   {
-    this->ReadBufferAsBinary(data, m_InputFile, this->m_CellBufferSize - this->m_NumberOfCells);
+    this->ReadBufferAsBinary(data.get(), m_InputFile, this->m_CellBufferSize - this->m_NumberOfCells);
   }
   else
   {
@@ -303,15 +304,13 @@ OFFMeshIO ::ReadCells(void * buffer)
   if (m_TriangleCellType)
   {
     this->WriteCellsBuffer(
-      data, static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, this->m_NumberOfCells);
+      data.get(), static_cast<unsigned int *>(buffer), CellGeometryEnum::TRIANGLE_CELL, this->m_NumberOfCells);
   }
   else
   {
     this->WriteCellsBuffer(
-      data, static_cast<unsigned int *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
+      data.get(), static_cast<unsigned int *>(buffer), CellGeometryEnum::POLYGON_CELL, this->m_NumberOfCells);
   }
-
-  delete[] data;
 }
 
 void
