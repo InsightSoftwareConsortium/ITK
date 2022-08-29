@@ -343,7 +343,7 @@ private:
   TWindowFunction m_WindowFunction;
 
   /** Size of the offset table */
-  static constexpr unsigned int m_OffsetTableSize{ Math::UnsignedPower(m_WindowSize, ImageDimension) };
+  static constexpr unsigned int m_OffsetTableSize = Math::UnsignedPower(m_WindowSize, ImageDimension);
 
   /** The offset array, used to keep a list of relevant
    * offsets in the neihborhoodIterator */
