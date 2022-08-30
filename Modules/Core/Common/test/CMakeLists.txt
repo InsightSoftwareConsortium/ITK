@@ -638,6 +638,7 @@ set(ITKCommonGTests
       itkImageRegionGTest.cxx
       itkIndexGTest.cxx
       itkIndexRangeGTest.cxx
+      itkMakeUniqueForOverwriteGTest.cxx
       itkMatrixGTest.cxx
       itkMersenneTwisterRandomVariateGeneratorGTest.cxx
       itkNeighborhoodAllocatorGTest.cxx
