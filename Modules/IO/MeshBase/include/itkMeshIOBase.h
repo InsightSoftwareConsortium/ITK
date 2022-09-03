@@ -34,6 +34,7 @@
 #include "itkVector.h"
 #include "itkNumberToString.h"
 #include "itkCommonEnums.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <string>
 #include <complex>
@@ -686,7 +687,7 @@ protected:
     }
     else
     {
-      auto * data = new TOutput[numberOfComponents];
+      const auto data = make_unique_for_overwrite<TOutput[]>(numberOfComponents);
       for (SizeValueType ii = 0; ii < numberOfComponents; ++ii)
       {
         data[ii] = static_cast<TOutput>(buffer[ii]);
@@ -694,15 +695,14 @@ protected:
 
       if (m_ByteOrder == IOByteOrderEnum::BigEndian && itk::ByteSwapper<TOutput>::SystemIsLittleEndian())
       {
-        itk::ByteSwapper<TOutput>::SwapRangeFromSystemToBigEndian(data, numberOfComponents);
+        itk::ByteSwapper<TOutput>::SwapRangeFromSystemToBigEndian(data.get(), numberOfComponents);
       }
       else if (m_ByteOrder == IOByteOrderEnum::LittleEndian && itk::ByteSwapper<TOutput>::SystemIsBigEndian())
       {
-        itk::ByteSwapper<TOutput>::SwapRangeFromSystemToLittleEndian(data, numberOfComponents);
+        itk::ByteSwapper<TOutput>::SwapRangeFromSystemToLittleEndian(data.get(), numberOfComponents);
       }
 
-      outputFile.write(reinterpret_cast<char *>(data), numberOfComponents);
-      delete[] data;
+      outputFile.write(reinterpret_cast<char *>(data.get()), numberOfComponents);
     }
   }
 

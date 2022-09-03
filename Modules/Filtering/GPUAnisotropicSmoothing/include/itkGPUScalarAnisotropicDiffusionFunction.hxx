@@ -22,6 +22,7 @@
 #include "itkNeighborhoodInnerProduct.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkDerivativeOperator.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -147,10 +148,10 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   kernelManager->LaunchKernel(kernelHandle, ImageDim, globalSize, localSize);
 
   // Read back intermediate sums from GPU and compute final value
-  double sum = 0;
-  auto * intermSum = new float[bufferSize];
+  double     sum = 0;
+  const auto intermSum = make_unique_for_overwrite<float[]>(bufferSize);
 
-  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUBufferPointer(intermSum);
+  this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUBufferPointer(intermSum.get());
   this->m_AnisotropicDiffusionFunctionGPUBuffer->SetCPUDirtyFlag(true); //
                                                                         // CPU
                                                                         // is
@@ -166,8 +167,6 @@ GPUScalarAnisotropicDiffusionFunction<TImage>::GPUCalculateAverageGradientMagnit
   }
 
   this->SetAverageGradientMagnitudeSquared(static_cast<double>(sum / static_cast<double>(numPixel)));
-
-  delete[] intermSum;
 }
 
 } // end namespace itk

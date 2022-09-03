@@ -20,6 +20,7 @@
 
 #include "itkNeighborhood.h"
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -144,8 +145,8 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
   // Now get the mean and deviaton of each feature across the offsets.
   this->m_FeatureMeans->clear();
   this->m_FeatureStandardDeviations->clear();
-  auto * tempFeatureMeans = new double[numFeatures];
-  auto * tempFeatureDevs = new double[numFeatures];
+  const auto tempFeatureMeans = make_unique_for_overwrite<double[]>(numFeatures);
+  const auto tempFeatureDevs = make_unique_for_overwrite<double[]>(numFeatures);
 
   /*Compute incremental mean and SD, a la Knuth, "The  Art of Computer
     Programming, Volume 2: Seminumerical Algorithms",  section 4.2.2.
@@ -196,8 +197,6 @@ ScalarImageToRunLengthFeaturesFilter<TImage, THistogramFrequencyContainer>::Full
     itkDynamicCastInDebugMode<FeatureValueVectorDataObjectType *>(this->ProcessObject::GetOutput(1));
   standardDeviationOutputObject->Set(this->m_FeatureStandardDeviations);
 
-  delete[] tempFeatureMeans;
-  delete[] tempFeatureDevs;
   for (size_t i = 0; i < numOffsets; ++i)
   {
     delete[] features[i];

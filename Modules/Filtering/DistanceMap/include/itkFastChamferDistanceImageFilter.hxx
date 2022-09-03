@@ -22,6 +22,7 @@
 
 #include "itkNeighborhoodIterator.h"
 #include "itkImageRegionIterator.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -104,7 +105,7 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
   NeighborhoodIterator<TInputImage> it(r, this->GetOutput(), m_RegionToProcess);
 
   const unsigned int center_voxel = it.Size() / 2;
-  auto *             neighbor_type = new int[it.Size()];
+  const auto         neighbor_type = make_unique_for_overwrite<int[]>(it.Size());
   int                i;
   unsigned int       n;
   float              val[ImageDimension];
@@ -263,7 +264,6 @@ FastChamferDistanceImageFilter<TInputImage, TOutputImage>::GenerateDataND()
       }
     }
   }
-  delete[] neighbor_type;
 }
 
 template <typename TInputImage, typename TOutputImage>

@@ -23,8 +23,10 @@
 #include "itkMeshConvertPixelTraits.h"
 #include "itkMeshIOFactory.h"
 #include "itkObjectFactoryBase.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include "vnl/vnl_vector.h"
+
 
 namespace itk
 {
@@ -248,10 +250,10 @@ MeshFileWriter<TInputMesh>::WritePoints()
 
   itkDebugMacro(<< "Writing points: " << m_FileName);
   SizeValueType pointsBufferSize = input->GetNumberOfPoints() * TInputMesh::PointDimension;
-  auto *        buffer = new typename TInputMesh::PointType::ValueType[pointsBufferSize];
-  CopyPointsToBuffer(buffer);
-  m_MeshIO->WritePoints(buffer);
-  delete[] buffer;
+  using ValueType = typename TInputMesh::PointType::ValueType;
+  const auto buffer = make_unique_for_overwrite<ValueType[]>(pointsBufferSize);
+  CopyPointsToBuffer(buffer.get());
+  m_MeshIO->WritePoints(buffer.get());
 }
 
 template <typename TInputMesh>
@@ -261,10 +263,10 @@ MeshFileWriter<TInputMesh>::WriteCells()
   itkDebugMacro(<< "Writing cells: " << m_FileName);
 
   SizeValueType cellsBufferSize = m_MeshIO->GetCellBufferSize();
-  auto *        buffer = new typename TInputMesh::PointIdentifier[cellsBufferSize];
-  CopyCellsToBuffer(buffer);
-  m_MeshIO->WriteCells(buffer);
-  delete[] buffer;
+  using PointIdentifierType = typename TInputMesh::PointIdentifier;
+  const auto buffer = make_unique_for_overwrite<PointIdentifierType[]>(cellsBufferSize);
+  CopyCellsToBuffer(buffer.get());
+  m_MeshIO->WriteCells(buffer.get());
 }
 
 template <typename TInputMesh>
@@ -282,10 +284,9 @@ MeshFileWriter<TInputMesh>::WritePointData()
                                         input->GetPointData()->Begin().Value());
 
     using ValueType = typename itk::NumericTraits<typename TInputMesh::PixelType>::ValueType;
-    auto * buffer = new ValueType[numberOfComponents];
-    CopyPointDataToBuffer(buffer);
-    m_MeshIO->WritePointData(buffer);
-    delete[] buffer;
+    const auto buffer = make_unique_for_overwrite<ValueType[]>(numberOfComponents);
+    CopyPointDataToBuffer(buffer.get());
+    m_MeshIO->WritePointData(buffer.get());
   }
 }
 
@@ -304,10 +305,9 @@ MeshFileWriter<TInputMesh>::WriteCellData()
                                        input->GetCellData()->Begin().Value());
 
     using ValueType = typename itk::NumericTraits<typename TInputMesh::CellPixelType>::ValueType;
-    auto * buffer = new ValueType[numberOfComponents];
-    CopyCellDataToBuffer(buffer);
-    m_MeshIO->WriteCellData(buffer);
-    delete[] buffer;
+    const auto buffer = make_unique_for_overwrite<ValueType[]>(numberOfComponents);
+    CopyCellDataToBuffer(buffer.get());
+    m_MeshIO->WriteCellData(buffer.get());
   }
 }
 

@@ -18,6 +18,8 @@
 #ifndef itkRGBGibbsPriorFilter_hxx
 #define itkRGBGibbsPriorFilter_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
+
 #include <cstdlib>
 #include <cstdio>
 #include <ctime>
@@ -562,7 +564,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
   LabelledImageIndexType offsetIndex3D;
   offsetIndex3D.Fill(0);
 
-  auto * dist = new double[m_NumberOfClasses];
+  const auto dist = make_unique_for_overwrite<double[]>(m_NumberOfClasses);
 
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int frame = m_ImageWidth * m_ImageHeight;
@@ -612,8 +614,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
     ++inputImageIt;
     ++mediumImageIt;
   }
-
-  delete[] dist;
 }
 
 /* Remove the tiny bias inside the object region. */
@@ -629,7 +629,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
   delete[] m_RegionCount;
   m_RegionCount = new unsigned short[size];
 
-  auto * valid_region_counter = new unsigned short[size];
+  const auto valid_region_counter = make_unique_for_overwrite<unsigned short[]>(size);
 
   LabelledImageRegionIterator labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
@@ -681,8 +681,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
     ++i;
     ++labelledImageIt;
   }
-
-  delete[] valid_region_counter;
 }
 
 template <typename TInputImage, typename TClassifiedImage>

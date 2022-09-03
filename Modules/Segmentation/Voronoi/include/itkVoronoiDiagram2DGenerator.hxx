@@ -22,6 +22,7 @@
 #include <algorithm>
 #include "vnl/vnl_sample.h"
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -224,7 +225,7 @@ template <typename TCoordRepType>
 void
 VoronoiDiagram2DGenerator<TCoordRepType>::ConstructDiagram()
 {
-  auto * rawEdges = new EdgeInfoDQ[m_NumberOfSeeds];
+  const auto rawEdges = make_unique_for_overwrite<EdgeInfoDQ[]>(m_NumberOfSeeds);
 
   m_OutputVD->Reset();
 
@@ -417,8 +418,6 @@ VoronoiDiagram2DGenerator<TCoordRepType>::ConstructDiagram()
     m_OutputVD->BuildEdge(i);
   }
   m_OutputVD->InsertCells();
-
-  delete[] rawEdges;
 }
 
 template <typename TCoordRepType>

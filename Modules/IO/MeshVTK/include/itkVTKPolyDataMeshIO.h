@@ -24,6 +24,7 @@
 #include "itkMeshIOBase.h"
 #include "itkVectorContainer.h"
 #include "itkNumberToString.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
 #include <vector>
@@ -596,11 +597,11 @@ protected:
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
       outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
-      auto * data = new unsigned int[numberOfVertexIndices];
-      ReadCellsBuffer(buffer, data);
-      itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(data, numberOfVertexIndices, &outputFile);
+      const auto data = make_unique_for_overwrite<unsigned int[]>(numberOfVertexIndices);
+      ReadCellsBuffer(buffer, data.get());
+      itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(
+        data.get(), numberOfVertexIndices, &outputFile);
       outputFile << "\n";
-      delete[] data;
     }
 
     /** Write lines */
@@ -641,7 +642,7 @@ protected:
       EncapsulateMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
 
       outputFile << "LINES " << numberOfLines << " " << numberOfLineIndices << '\n';
-      auto *        data = new unsigned int[numberOfLineIndices];
+      const auto    data = make_unique_for_overwrite<unsigned int[]>(numberOfLineIndices);
       unsigned long outputIndex = 0;
       for (SizeValueType ii = 0; ii < polylines->Size(); ++ii)
       {
@@ -653,9 +654,8 @@ protected:
         }
       }
 
-      itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(data, numberOfLineIndices, &outputFile);
+      itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(data.get(), numberOfLineIndices, &outputFile);
       outputFile << "\n";
-      delete[] data;
     }
 
     /** Write polygons */
@@ -665,11 +665,11 @@ protected:
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
       outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
-      auto * data = new unsigned int[numberOfPolygonIndices];
-      ReadCellsBuffer(buffer, data);
-      itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(data, numberOfPolygonIndices, &outputFile);
+      const auto data = make_unique_for_overwrite<unsigned int[]>(numberOfPolygonIndices);
+      ReadCellsBuffer(buffer, data.get());
+      itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(
+        data.get(), numberOfPolygonIndices, &outputFile);
       outputFile << "\n";
-      delete[] data;
     }
   }
 
@@ -1100,15 +1100,13 @@ protected:
   {
     outputFile << numberOfPixelComponents << "\n";
     SizeValueType numberOfElements = numberOfPixelComponents * numberOfPixels;
-    auto *        data = new unsigned char[numberOfElements];
+    const auto    data = make_unique_for_overwrite<unsigned char[]>(numberOfElements);
     for (SizeValueType ii = 0; ii < numberOfElements; ++ii)
     {
       data[ii] = static_cast<unsigned char>(buffer[ii]);
     }
 
-    outputFile.write(reinterpret_cast<char *>(data), numberOfElements);
-
-    delete[] data;
+    outputFile.write(reinterpret_cast<char *>(data.get()), numberOfElements);
     outputFile << "\n";
     return;
   }
