@@ -20,6 +20,7 @@
 #define itkVideoFileReader_hxx
 
 #include "itkConvertPixelBuffer.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 
 namespace itk
@@ -231,15 +232,14 @@ VideoFileReader<TOutputVideoStream>::TemporalStreamingGenerateData()
   if (this->m_PixelConversionNeeded)
   {
     // Set up temporary buffer for reading
-    size_t bufferSize = m_VideoIO->GetImageSizeInBytes();
-    auto * loadBuffer = new char[bufferSize];
+    size_t     bufferSize = m_VideoIO->GetImageSizeInBytes();
+    const auto loadBuffer = make_unique_for_overwrite<char[]>(bufferSize);
 
     // Read into a temporary buffer
-    this->m_VideoIO->Read(static_cast<void *>(loadBuffer));
+    this->m_VideoIO->Read(static_cast<void *>(loadBuffer.get()));
 
     // Convert the buffer into the output buffer location
-    this->DoConvertBuffer(static_cast<void *>(loadBuffer), frameNum);
-    delete[] loadBuffer;
+    this->DoConvertBuffer(static_cast<void *>(loadBuffer.get()), frameNum);
   }
   else
   {

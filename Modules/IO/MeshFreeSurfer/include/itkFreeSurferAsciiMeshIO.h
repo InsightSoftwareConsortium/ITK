@@ -21,6 +21,7 @@
 #include "ITKIOMeshFreeSurferExport.h"
 
 #include "itkMeshIOBase.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
 
@@ -135,9 +136,9 @@ protected:
     constexpr unsigned int numberOfCellPoints = 3;
     SizeValueType          index = 0;
 
-    auto * data = new T[this->m_NumberOfCells * numberOfCellPoints];
+    const auto data = make_unique_for_overwrite<T[]>(this->m_NumberOfCells * numberOfCellPoints);
 
-    ReadCellsBuffer(buffer, data);
+    ReadCellsBuffer(buffer, data.get());
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
     {
@@ -147,7 +148,6 @@ protected:
       }
       outputFile << label << '\n';
     }
-    delete[] data;
   }
 
   /** Read cells from a data buffer, used when writting cells */

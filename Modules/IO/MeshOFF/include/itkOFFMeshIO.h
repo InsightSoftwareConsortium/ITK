@@ -21,6 +21,7 @@
 #include "ITKIOMeshOFFExport.h"
 
 #include "itkMeshIOBase.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
 
@@ -182,12 +183,10 @@ protected:
   void
   WriteCellsAsBinary(TInput * buffer, std::ofstream & outputFile)
   {
-    auto * data = new TOutput[m_CellBufferSize - this->m_NumberOfCells];
+    const auto data = make_unique_for_overwrite<TOutput[]>(m_CellBufferSize - this->m_NumberOfCells);
 
-    ReadCellsBuffer(buffer, data);
-    WriteBufferAsBinary<TOutput>(data, outputFile, m_CellBufferSize - this->m_NumberOfCells);
-
-    delete[] data;
+    ReadCellsBuffer(buffer, data.get());
+    WriteBufferAsBinary<TOutput>(data.get(), outputFile, m_CellBufferSize - this->m_NumberOfCells);
   }
 
 protected:

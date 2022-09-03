@@ -19,6 +19,7 @@
 #define itkSymmetricEigenAnalysis_hxx
 
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -56,11 +57,11 @@ template <typename TMatrix, typename TVector, typename TEigenMatrix>
 unsigned int
 SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesLegacy(const TMatrix & A, TVector & D) const
 {
-  auto * workArea1 = new double[m_Dimension];
+  const auto workArea1 = make_unique_for_overwrite<double[]>(m_Dimension);
 
   // Copy the input matrix
-  auto * inputMatrix = new double[m_Dimension * m_Dimension];
-  auto * dVector = new double[m_Dimension];
+  const auto inputMatrix = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
+  const auto dVector = make_unique_for_overwrite<double[]>(m_Dimension);
 
   unsigned int k = 0;
 
@@ -75,17 +76,13 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesLegacy
     }
   }
 
-  this->ReduceToTridiagonalMatrix(inputMatrix, dVector, workArea1, workArea1);
-  const unsigned int eigenErrIndex = this->ComputeEigenValuesUsingQL(dVector, workArea1);
+  this->ReduceToTridiagonalMatrix(inputMatrix.get(), dVector.get(), workArea1.get(), workArea1.get());
+  const unsigned int eigenErrIndex = this->ComputeEigenValuesUsingQL(dVector.get(), workArea1.get());
 
   for (unsigned int i = 0; i < m_Dimension; ++i)
   {
     D[i] = dVector[i];
   }
-
-  delete[] dVector;
-  delete[] workArea1;
-  delete[] inputMatrix;
 
   return eigenErrIndex; // index of eigenvalue that could not be computed
 }
@@ -97,12 +94,12 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   TVector &       EigenValues,
   TEigenMatrix &  EigenVectors) const
 {
-  auto * workArea1 = new double[m_Dimension];
-  auto * workArea2 = new double[m_Dimension * m_Dimension];
+  const auto workArea1 = make_unique_for_overwrite<double[]>(m_Dimension);
+  const auto workArea2 = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
 
   // Copy the input matrix
-  auto * inputMatrix = new double[m_Dimension * m_Dimension];
-  auto * dVector = new double[m_Dimension];
+  const auto inputMatrix = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
+  const auto dVector = make_unique_for_overwrite<double[]>(m_Dimension);
 
   unsigned int k = 0;
 
@@ -118,9 +115,11 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
     }
   }
 
-  this->ReduceToTridiagonalMatrixAndGetTransformation(inputMatrix, dVector, workArea1, workArea2);
+  this->ReduceToTridiagonalMatrixAndGetTransformation(
+    inputMatrix.get(), dVector.get(), workArea1.get(), workArea2.get());
 
-  const unsigned int eigenErrIndex = this->ComputeEigenValuesAndVectorsUsingQL(dVector, workArea1, workArea2);
+  const unsigned int eigenErrIndex =
+    this->ComputeEigenValuesAndVectorsUsingQL(dVector.get(), workArea1.get(), workArea2.get());
 
   // Copy eigenvectors
   k = 0;
@@ -132,11 +131,6 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
       EigenVectors[row][col] = workArea2[k++];
     }
   }
-
-  delete[] dVector;
-  delete[] workArea2;
-  delete[] workArea1;
-  delete[] inputMatrix;
 
   return eigenErrIndex; // index of eigenvalue that could not be computed
 }

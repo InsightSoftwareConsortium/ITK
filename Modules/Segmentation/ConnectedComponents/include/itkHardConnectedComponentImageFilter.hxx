@@ -21,6 +21,7 @@
 #include "itkNumericTraits.h"
 #include "itkProgressReporter.h"
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -36,10 +37,10 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
 
   using LabelType = unsigned short;
 
-  auto *    equivalenceTable = new LabelType[NumericTraits<LabelType>::max()];
-  LabelType label = 0;
-  LabelType maxLabel = 0;
-  SizeType  size;
+  const auto equivalenceTable = make_unique_for_overwrite<LabelType[]>(NumericTraits<LabelType>::max());
+  LabelType  label = 0;
+  LabelType  maxLabel = 0;
+  SizeType   size;
 
   typename ListType::iterator iter;
 
@@ -158,8 +159,8 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
     }
   }
 
-  auto * flags = new unsigned char[NumericTraits<LabelType>::max()];
-  memset(flags, 0, maxLabel + 1);
+  const auto flags = make_unique_for_overwrite<unsigned char[]>(NumericTraits<LabelType>::max());
+  memset(flags.get(), 0, maxLabel + 1);
   for (iter = m_Seeds.begin(); iter != m_Seeds.end(); ++iter)
   {
     const IndexType currentIndex = *iter;
@@ -188,8 +189,6 @@ HardConnectedComponentImageFilter<TInputImage, TOutputImage>::GenerateData()
       ot.Set(flags[static_cast<LabelType>(ot.Get())]);
     }
   }
-  delete[] equivalenceTable;
-  delete[] flags;
 }
 
 } // end namespace itk

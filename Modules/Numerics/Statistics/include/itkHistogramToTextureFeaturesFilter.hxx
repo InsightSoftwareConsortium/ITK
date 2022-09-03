@@ -22,6 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -183,8 +184,8 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
 
   // Initialize everything
   typename HistogramType::SizeValueType binsPerAxis = inputHistogram->GetSize(0);
-  auto *                                marginalSums = new double[binsPerAxis];
-  for (double * ms_It = marginalSums; ms_It < marginalSums + binsPerAxis; ++ms_It)
+  const auto                            marginalSums = make_unique_for_overwrite<double[]>(binsPerAxis);
+  for (double * ms_It = marginalSums.get(); ms_It < marginalSums.get() + binsPerAxis; ++ms_It)
   {
     *ms_It = 0;
   }
@@ -242,8 +243,6 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
     pixelVariance += (index[0] - pixelMean) * (index[0] - pixelMean) * frequency;
     ++rFreqIterator;
   }
-
-  delete[] marginalSums;
 }
 
 template <typename THistogram>

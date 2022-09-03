@@ -22,6 +22,7 @@
 #include "itkLabelVotingImageFilter.h"
 
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -236,14 +237,14 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
   const size_t numberOfInputs = this->GetNumberOfInputs();
 
   // create and initialize all input image iterators
-  auto * it = new InputConstIteratorType[numberOfInputs];
+  const auto it = make_unique_for_overwrite<InputConstIteratorType[]>(numberOfInputs);
   for (size_t k = 0; k < numberOfInputs; ++k)
   {
     it[k] = InputConstIteratorType(this->GetInput(k), output->GetRequestedRegion());
   }
 
   // allocate array for pixel class weights
-  auto * W = new WeightsType[this->m_TotalLabelCount];
+  const auto W = make_unique_for_overwrite<WeightsType[]>(this->m_TotalLabelCount);
 
   unsigned int iteration = 0;
   for (; (!this->m_HasMaximumNumberOfIterations) || (iteration < this->m_MaximumNumberOfIterations); ++iteration)
@@ -413,9 +414,6 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::GenerateData()
   }
 
   m_ElapsedNumberOfIterations = iteration;
-
-  delete[] W;
-  delete[] it;
 }
 
 } // end namespace itk

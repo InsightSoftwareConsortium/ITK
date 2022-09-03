@@ -18,6 +18,8 @@
 #ifndef itkImageKmeansModelEstimator_hxx
 #define itkImageKmeansModelEstimator_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
+
 
 namespace itk
 {
@@ -397,9 +399,9 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 {
   // itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
 
-  double bestdistortion, tempdistortion, diff;
-  int    bestcodeword;
-  auto * tempVec = (double *)new double[m_VectorDimension];
+  double     bestdistortion, tempdistortion, diff;
+  int        bestcodeword;
+  const auto tempVec = make_unique_for_overwrite<double[]>(m_VectorDimension);
 
   // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
@@ -510,8 +512,6 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
   // Normalize the distortions
   *distortion /= static_cast<double>(totalNumVecsInInput);
 
-  delete[] tempVec;
-
   // Check for bizarre errors
   if (*distortion < 0.0)
   {
@@ -523,8 +523,8 @@ template <typename TInputImage, typename TMembershipFunction>
 void
 ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int currentSize, int numDesired, int scale)
 {
-  auto * newCodebookData = (double *)new double[m_VectorDimension];
-  auto * inCodebookData = (double *)new double[m_VectorDimension];
+  const auto newCodebookData = make_unique_for_overwrite<double[]>(m_VectorDimension);
+  const auto inCodebookData = make_unique_for_overwrite<double[]>(m_VectorDimension);
 
   for (int i = 0; i < numDesired; ++i)
   {
@@ -533,16 +533,13 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::SplitCodewords(int 
       inCodebookData[j] = m_Codebook[i][j];
     }
 
-    Perturb(inCodebookData, scale, newCodebookData);
+    Perturb(inCodebookData.get(), scale, newCodebookData.get());
 
     for (unsigned int j = 0; j < m_VectorDimension; ++j)
     {
       m_Codebook[i + currentSize][j] = newCodebookData[j];
     }
   }
-
-  delete[] inCodebookData;
-  delete[] newCodebookData;
 }
 
 template <typename TInputImage, typename TMembershipFunction>

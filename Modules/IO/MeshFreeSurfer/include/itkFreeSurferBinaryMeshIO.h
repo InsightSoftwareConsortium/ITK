@@ -23,6 +23,7 @@
 #include "itkByteSwapper.h"
 #include "itkMeshIOBase.h"
 #include "itkIntTypes.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
 
@@ -119,7 +120,7 @@ protected:
   void
   WritePoints(T * buffer, std::ofstream & outputFile)
   {
-    auto * data = new float[this->m_NumberOfPoints * this->m_PointDimension];
+    const auto data = make_unique_for_overwrite<float[]>(this->m_NumberOfPoints * this->m_PointDimension);
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPoints; ++ii)
     {
@@ -130,8 +131,7 @@ protected:
     }
 
     itk::ByteSwapper<float>::SwapWriteRangeFromSystemToBigEndian(
-      data, this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
-    delete[] data;
+      data.get(), this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
   }
 
   /** Write cells to utput stream */
@@ -141,13 +141,11 @@ protected:
   {
     constexpr itk::uint32_t numberOfCellPoints = 3;
 
-    auto * data = new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints];
+    const std::unique_ptr<itk::uint32_t[]> data(new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints]);
 
-    ReadCellsBuffer(buffer, data);
+    ReadCellsBuffer(buffer, data.get());
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(
-      data, this->m_NumberOfCells * numberOfCellPoints, &outputFile);
-
-    delete[] data;
+      data.get(), this->m_NumberOfCells * numberOfCellPoints, &outputFile);
   }
 
   /** Read cells from a data buffer, used when writting mesh */
@@ -174,15 +172,14 @@ protected:
   void
   WritePointData(T * buffer, std::ofstream & outputFile)
   {
-    auto * data = new float[this->m_NumberOfPointPixels];
+    const auto data = make_unique_for_overwrite<float[]>(this->m_NumberOfPointPixels);
 
     for (SizeValueType ii = 0; ii < this->m_NumberOfPointPixels; ++ii)
     {
       data[ii] = static_cast<float>(buffer[ii]);
     }
 
-    itk::ByteSwapper<float>::SwapWriteRangeFromSystemToBigEndian(data, this->m_NumberOfPointPixels, &outputFile);
-    delete[] data;
+    itk::ByteSwapper<float>::SwapWriteRangeFromSystemToBigEndian(data.get(), this->m_NumberOfPointPixels, &outputFile);
   }
 
 protected:
