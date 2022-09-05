@@ -27,9 +27,9 @@
 #include "itkPixelTraits.h"
 
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
-#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -346,8 +346,8 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  const std::unique_ptr<OutputPointPixelType[]> outputPointDataBuffer(
-    new OutputPointPixelType[m_MeshIO->GetNumberOfPointPixels()]);
+  const auto outputPointDataBuffer =
+    make_unique_for_overwrite<OutputPointPixelType[]>(m_MeshIO->GetNumberOfPointPixels());
 
   if ((m_MeshIO->GetPointPixelComponentType() !=
        MeshIOBase::MapComponentType<typename ConvertPointPixelTraits::ComponentType>::CType) ||
@@ -362,10 +362,9 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
                   << "ConvertPointPixelTraits::NumberOfComponents " << ConvertPointPixelTraits::GetNumberOfComponents()
                   << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfPointPixelComponents());
 
-    const std::unique_ptr<char[]> inputPointDataBuffer(
-      new char[m_MeshIO->GetNumberOfPointPixelComponents() *
-               m_MeshIO->GetComponentSize(m_MeshIO->GetPointPixelComponentType()) *
-               m_MeshIO->GetNumberOfPointPixels()]);
+    const auto inputPointDataBuffer = make_unique_for_overwrite<char[]>(
+      m_MeshIO->GetNumberOfPointPixelComponents() * m_MeshIO->GetComponentSize(m_MeshIO->GetPointPixelComponentType()) *
+      m_MeshIO->GetNumberOfPointPixels());
     m_MeshIO->ReadPointData(static_cast<void *>(inputPointDataBuffer.get()));
 
     this->ConvertPointPixelBuffer(
@@ -389,8 +388,7 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
 {
   typename TOutputMesh::Pointer output = this->GetOutput();
 
-  const std::unique_ptr<OutputCellPixelType[]> outputCellDataBuffer(
-    new OutputCellPixelType[m_MeshIO->GetNumberOfCellPixels()]);
+  const auto outputCellDataBuffer = make_unique_for_overwrite<OutputCellPixelType[]>(m_MeshIO->GetNumberOfCellPixels());
 
   if ((m_MeshIO->GetCellPixelComponentType() !=
        MeshIOBase::MapComponentType<typename ConvertCellPixelTraits::ComponentType>::CType) ||
@@ -405,9 +403,9 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Re
                   << "ConvertCellPixelTraits::NumberOfComponents " << ConvertCellPixelTraits::GetNumberOfComponents()
                   << " m_MeshIO->NumberOfComponents " << m_MeshIO->GetNumberOfCellPixelComponents());
 
-    const std::unique_ptr<char[]> inputCellDataBuffer(
-      new char[m_MeshIO->GetNumberOfCellPixelComponents() *
-               m_MeshIO->GetComponentSize(m_MeshIO->GetCellPixelComponentType()) * m_MeshIO->GetNumberOfCellPixels()]);
+    const auto inputCellDataBuffer = make_unique_for_overwrite<char[]>(
+      m_MeshIO->GetNumberOfCellPixelComponents() * m_MeshIO->GetComponentSize(m_MeshIO->GetCellPixelComponentType()) *
+      m_MeshIO->GetNumberOfCellPixels());
     m_MeshIO->ReadCellData(static_cast<void *>(inputCellDataBuffer.get()));
 
     this->ConvertCellPixelBuffer(
@@ -825,7 +823,7 @@ template <typename T>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadPointsUsingMeshIO()
 {
-  const std::unique_ptr<T[]> buffer(new T[m_MeshIO->GetNumberOfPoints() * OutputPointDimension]);
+  const auto buffer = make_unique_for_overwrite<T[]>(m_MeshIO->GetNumberOfPoints() * OutputPointDimension);
   m_MeshIO->ReadPoints(buffer.get());
   Self::ReadPoints(buffer.get());
 }
@@ -836,7 +834,7 @@ template <typename T>
 void
 MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::ReadCellsUsingMeshIO()
 {
-  const std::unique_ptr<T[]> buffer(new T[m_MeshIO->GetCellBufferSize()]);
+  const auto buffer = make_unique_for_overwrite<T[]>(m_MeshIO->GetCellBufferSize());
   m_MeshIO->ReadCells(buffer.get());
   Self::ReadCells(buffer.get());
 }

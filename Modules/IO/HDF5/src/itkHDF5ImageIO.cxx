@@ -21,6 +21,7 @@
 #include "itkArray.h"
 #include "itksys/SystemTools.hxx"
 #include "itk_H5Cpp.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <algorithm>
 
@@ -482,8 +483,8 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
   hsize_t dim[2];
   dim[1] = dir.size();
   dim[0] = dir[0].size();
-  const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
-  unsigned int                    k(0);
+  const auto   buf = make_unique_for_overwrite<double[]>(dim[0] * dim[1]);
+  unsigned int k(0);
   for (unsigned int i = 0; i < dim[1]; ++i)
   {
     for (unsigned int j = 0; j < dim[0]; ++j)
@@ -520,7 +521,7 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
   H5::FloatType dirType = dirSet.getFloatType();
   if (dirType.getSize() == sizeof(double))
   {
-    const std::unique_ptr<double[]> buf(new double[dim[0] * dim[1]]);
+    const auto buf = make_unique_for_overwrite<double[]>(dim[0] * dim[1]);
     dirSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     int k = 0;
     for (unsigned int i = 0; i < dim[1]; ++i)
@@ -534,7 +535,7 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
   }
   else
   {
-    const std::unique_ptr<float[]> buf(new float[dim[0] * dim[1]]);
+    const auto buf = make_unique_for_overwrite<float[]>(dim[0] * dim[1]);
     dirSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     int k = 0;
     for (unsigned int i = 0; i < dim[1]; ++i)
@@ -728,8 +729,8 @@ HDF5ImageIO ::ReadImageInformation()
     // by comparing the size of the Directions matrix with the
     // reported # of dimensions in the voxel dataset
     {
-      hsize_t                          nDims = imageSpace.getSimpleExtentNdims();
-      const std::unique_ptr<hsize_t[]> Dims(new hsize_t[nDims]);
+      hsize_t    nDims = imageSpace.getSimpleExtentNdims();
+      const auto Dims = make_unique_for_overwrite<hsize_t[]>(nDims);
       imageSpace.getSimpleExtentDims(Dims.get());
       if (nDims > this->GetNumberOfDimensions())
       {
@@ -925,9 +926,9 @@ HDF5ImageIO ::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpa
 
   const int HDFDim(this->GetNumberOfDimensions() + (numComponents > 1 ? 1 : 0));
 
-  const std::unique_ptr<hsize_t[]> offset(new hsize_t[HDFDim]);
-  const std::unique_ptr<hsize_t[]> HDFSize(new hsize_t[HDFDim]);
-  const int                        limit = regionToRead.GetImageDimension();
+  const auto offset = make_unique_for_overwrite<hsize_t[]>(HDFDim);
+  const auto HDFSize = make_unique_for_overwrite<hsize_t[]>(HDFDim);
+  const int  limit = regionToRead.GetImageDimension();
   //
   // fastest moving dimension is intra-voxel
   // index
@@ -1066,7 +1067,7 @@ HDF5ImageIO ::WriteImageInformation()
     int numDims = this->GetNumberOfDimensions();
     // HDF5 dimensions listed slowest moving first, ITK are fastest
     // moving first.
-    std::unique_ptr<hsize_t[]> dims(new hsize_t[numDims + (numComponents == 1 ? 0 : 1)]);
+    auto dims = make_unique_for_overwrite<hsize_t[]>(numDims + (numComponents == 1 ? 0 : 1));
 
     for (int i(0), j(numDims - 1); i < numDims; i++, j--)
     {
@@ -1278,7 +1279,7 @@ HDF5ImageIO ::Write(const void * buffer)
     int numDims = this->GetNumberOfDimensions();
     // HDF5 dimensions listed slowest moving first, ITK are fastest
     // moving first.
-    const std::unique_ptr<hsize_t[]> dims(new hsize_t[numDims + (numComponents == 1 ? 0 : 1)]);
+    const auto dims = make_unique_for_overwrite<hsize_t[]>(numDims + (numComponents == 1 ? 0 : 1));
 
     for (int i(0), j(numDims - 1); i < numDims; i++, j--)
     {

@@ -141,7 +141,7 @@ protected:
   {
     constexpr itk::uint32_t numberOfCellPoints = 3;
 
-    const std::unique_ptr<itk::uint32_t[]> data(new itk::uint32_t[this->m_NumberOfCells * numberOfCellPoints]);
+    const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_NumberOfCells * numberOfCellPoints);
 
     ReadCellsBuffer(buffer, data.get());
     itk::ByteSwapper<itk::uint32_t>::SwapWriteRangeFromSystemToBigEndian(

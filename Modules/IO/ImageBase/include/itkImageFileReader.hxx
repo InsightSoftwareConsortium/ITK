@@ -26,7 +26,7 @@
 #include "itkMetaDataObject.h"
 
 #include "itksys/SystemTools.hxx"
-#include <memory> // For unique_ptr
+#include "itkMakeUniqueForOverwrite.h"
 #include <fstream>
 
 namespace itk
@@ -399,7 +399,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
                   << ConvertPixelTraits::GetNumberOfComponents() << " m_ImageIO->NumComponents "
                   << m_ImageIO->GetNumberOfComponents());
 
-    const std::unique_ptr<char[]> loadBuffer(new char[sizeOfActualIORegion]);
+    const auto loadBuffer = make_unique_for_overwrite<char[]>(sizeOfActualIORegion);
     m_ImageIO->Read(static_cast<void *>(loadBuffer.get()));
 
     // See note below as to why the buffered region is needed and
@@ -417,7 +417,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 
     OutputImagePixelType * outputBuffer = output->GetPixelContainer()->GetBufferPointer();
 
-    const std::unique_ptr<char[]> loadBuffer(new char[sizeOfActualIORegion]);
+    const auto loadBuffer = make_unique_for_overwrite<char[]>(sizeOfActualIORegion);
     m_ImageIO->Read(static_cast<void *>(loadBuffer.get()));
 
     // we use std::copy_n here as it should be optimized to memcpy for

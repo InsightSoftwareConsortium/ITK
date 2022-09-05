@@ -104,8 +104,8 @@ MINCImageIO::Read(void * buffer)
   const unsigned int nDims = this->GetNumberOfDimensions();
   const unsigned int nComp = this->GetNumberOfComponents();
 
-  const std::unique_ptr<misize_t[]> start(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
-  const std::unique_ptr<misize_t[]> count(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
+  const auto start = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
+  const auto count = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
 
   for (unsigned int i = 0; i < nDims; ++i)
   {
@@ -1363,8 +1363,8 @@ MINCImageIO::Write(const void * buffer)
   const unsigned int nComp = this->GetNumberOfComponents();
   size_t             buffer_length = 1;
 
-  const std::unique_ptr<misize_t[]> start(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
-  const std::unique_ptr<misize_t[]> count(new misize_t[nDims + (nComp > 1 ? 1 : 0)]);
+  const auto start = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
+  const auto count = make_unique_for_overwrite<misize_t[]>(nDims + (nComp > 1 ? 1 : 0));
 
   for (unsigned int i = 0; i < nDims; ++i)
   {

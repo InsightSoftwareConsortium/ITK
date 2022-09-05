@@ -24,6 +24,7 @@
 #include "itkCompositeTransform.h"
 #include "itkCompositeTransformIOHelper.h"
 #include "itkVersion.h"
+#include "itkMakeUniqueForOverwrite.h"
 #include <sstream>
 
 namespace itk
@@ -183,7 +184,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
 
   if (ParamType.getSize() == sizeof(double))
   {
-    const std::unique_ptr<double[]> buf(new double[dim]);
+    const auto buf = make_unique_for_overwrite<double[]>(dim);
     paramSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     for (unsigned int i = 0; i < dim; ++i)
     {
@@ -192,7 +193,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadParameters(const std::string 
   }
   else
   {
-    const std::unique_ptr<float[]> buf(new float[dim]);
+    const auto buf = make_unique_for_overwrite<float[]>(dim);
     paramSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     for (unsigned int i = 0; i < dim; ++i)
     {
@@ -230,7 +231,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::st
 
   if (ParamType.getSize() == sizeof(double))
   {
-    const std::unique_ptr<double[]> buf(new double[dim]);
+    const auto buf = make_unique_for_overwrite<double[]>(dim);
     paramSet.read(buf.get(), H5::PredType::NATIVE_DOUBLE);
     for (unsigned int i = 0; i < dim; ++i)
     {
@@ -239,7 +240,7 @@ HDF5TransformIOTemplate<TParametersValueType>::ReadFixedParameters(const std::st
   }
   else
   {
-    const std::unique_ptr<float[]> buf(new float[dim]);
+    const auto buf = make_unique_for_overwrite<float[]>(dim);
     paramSet.read(buf.get(), H5::PredType::NATIVE_FLOAT);
     for (unsigned int i = 0; i < dim; ++i)
     {

@@ -18,6 +18,7 @@
 #include "itkPNGImageIO.h"
 #include "itk_png.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 #include <string>
 #include <csetjmp>
 
@@ -233,9 +234,9 @@ PNGImageIO::Read(void * buffer)
   // update the info now that we have defined the filters
   png_read_update_info(png_ptr, info_ptr);
 
-  auto                               rowbytes = static_cast<SizeValueType>(png_get_rowbytes(png_ptr, info_ptr));
-  auto *                             tempImage = static_cast<unsigned char *>(buffer);
-  const std::unique_ptr<png_bytep[]> row_pointers(new png_bytep[height]);
+  auto       rowbytes = static_cast<SizeValueType>(png_get_rowbytes(png_ptr, info_ptr));
+  auto *     tempImage = static_cast<unsigned char *>(buffer);
+  const auto row_pointers = make_unique_for_overwrite<png_bytep[]>(height);
   for (unsigned int ui = 0; ui < height; ++ui)
   {
     row_pointers[ui] = tempImage + rowbytes * ui;
@@ -681,7 +682,7 @@ PNGImageIO::WriteSlice(const std::string & fileName, const void * const buffer)
     png_set_swap(png_ptr);
 #endif
   }
-  const std::unique_ptr<png_bytep[]> row_pointers(new png_bytep[height]);
+  const auto row_pointers = make_unique_for_overwrite<png_bytep[]>(height);
 
   {
     const int                      rowInc = width * numComp * bitDepth / 8;

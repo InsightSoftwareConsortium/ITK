@@ -20,8 +20,8 @@
 
 #include "itkImageScanlineIterator.h"
 #include "itkTotalProgressReporter.h"
+#include "itkMakeUniqueForOverwrite.h"
 
-#include <memory> // For unique_ptr.
 #include <numeric>
 #include <functional>
 
@@ -141,8 +141,8 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   }
 
   // allocate accumulate line
-  const size_t                                 ln = outputRegionForThread.GetSize(0);
-  const std::unique_ptr<AccumulatePixelType[]> accBuffer(new AccumulatePixelType[ln]);
+  const size_t ln = outputRegionForThread.GetSize(0);
+  const auto   accBuffer = make_unique_for_overwrite<AccumulatePixelType[]>(ln);
 
   // convert the shrink factor for convenient multiplication
   typename TOutputImage::SizeType factorSize;
