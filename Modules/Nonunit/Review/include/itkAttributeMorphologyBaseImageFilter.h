@@ -188,9 +188,7 @@ private:
 
   GreyAndPos *      m_SortPixels;
   OffsetValueType * m_Parent;
-#ifndef PAMI
-  bool * m_Processed;
-#endif
+
   // This is a bit ugly, but I can't see an easy way around
   InputPixelType * m_Raw;
 
@@ -258,75 +256,6 @@ private:
       else
       {
         m_AuxData[p] = m_Lambda;
-      }
-    }
-  }
-
-#else
-  // version from ISMM paper
-  void
-  MakeSet(OffsetValueType x)
-  {
-    m_Parent[x] = ACTIVE;
-    m_AuxData[x] = m_AttributeValuePerPixel;
-  }
-
-  void
-  Link(OffsetValueType x, OffsetValueType y)
-  {
-    if ((m_Parent[y] == ACTIVE) && (m_Parent[x] == ACTIVE))
-    {
-      // should be a call to MergeAuxData
-      m_AuxData[y] = m_AuxData[x] + m_AuxData[y];
-      m_AuxData[x] = -m_AttributeValuePerPixel;
-    }
-    else if (m_Parent[x] == ACTIVE)
-    {
-      m_AuxData[x] = -m_AttributeValuePerPixel;
-    }
-    else
-    {
-      m_AuxData[y] = -m_AttributeValuePerPixel;
-      m_Parent[y] = INACTIVE;
-    }
-    m_Parent[x] = y;
-  }
-
-  OffsetValueType
-  FindRoot(OffsetValueType x)
-  {
-    if (m_Parent[x] >= 0)
-    {
-      m_Parent[x] = FindRoot(m_Parent[x]);
-      return (m_Parent[x]);
-    }
-    else
-    {
-      return (x);
-    }
-  }
-
-  bool
-  Equiv(OffsetValueType x, OffsetValueType y)
-  {
-    return ((m_Raw[x] == m_Raw[y]) || (m_Parent[x] == ACTIVE));
-  }
-
-  void
-  Union(OffsetValueType n, OffsetValueType p)
-  {
-    OffsetValueType r = FindRoot(n);
-
-    if (r != p)
-    {
-      if (Equiv(r, p))
-      {
-        Link(r, p);
-      }
-      else if (m_Parent[p] == ACTIVE)
-      {
-        m_Parent[p] = INACTIVE;
-        m_AuxData[p] = -m_AttributeValuePerPixel;
       }
     }
   }
