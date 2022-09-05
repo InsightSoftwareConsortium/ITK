@@ -30,22 +30,15 @@ namespace itk
  * \brief Morphological opening by attributes
  *
  * This is the base class for morphology attribute
- * operations. Attribute openings remove blobs according to criteria
- * such as area. When applied to grayscale images it has the effect of
- * trimming peaks based on area while leaving the rest of the image
- * unchanged. It is possible to use attributes besides area, but no
- * others are implemented yet. This filter uses some dodgy coding
- * practices - most notably copying the image data to a linear buffer
- * to allow direct implementation of the published algorithm. It
- * should therefore be quite a good candidate to carry out tests of
- * itk iterator performance with randomish access patterns.
+ * operations. Attribute operations remove blobs according to criteria
+ * such as area. Attribute openings remove bright regions that meet the
+ * attribute criteria (i.e. regions less than a user specified area or
+ * volume) while attribute closings fill dark regions that meet the
+ * attribute criteria.
  *
  * This filter is implemented using the method of Wilkinson, "A
  * comparison of algorithms for Connected set openings and Closings",
  * A. Meijster and M. H. Wilkinson, PAMI, vol 24, no. 4, April 2002.
- * Attempts at implementing the method from ISMM 2000 are also
- * included, but operation appears incorrect. Check the ifdefs if you
- * are interested.
  *
  * This code was contributed in the Insight Journal paper
  *
