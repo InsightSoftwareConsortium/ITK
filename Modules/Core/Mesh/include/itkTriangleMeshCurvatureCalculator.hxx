@@ -30,7 +30,7 @@
 #ifndef itkTriangleMeshCurvatureCalculator_hxx
 #define itkTriangleMeshCurvatureCalculator_hxx
 
-#include <memory> // For unique_ptr
+#include "itkMakeUniqueForOverwrite.h"
 #include "itkObjectFactory.h"
 #include "itkMath.h"
 #include "vnl/vnl_cross.h"
@@ -81,9 +81,9 @@ TriangleMeshCurvatureCalculator<TInputMesh>::ComputeGaussCurvature(const InputMe
 
   const unsigned int numberOfPoints = inputMesh->GetNumberOfPoints();
 
-  const std::unique_ptr<double[]> K(new double[numberOfPoints]);
-  const std::unique_ptr<double[]> dA(new double[numberOfPoints]);
-  double                          pi2 = itk::Math::twopi;
+  const auto K = make_unique_for_overwrite<double[]>(numberOfPoints);
+  const auto dA = make_unique_for_overwrite<double[]>(numberOfPoints);
+  double     pi2 = itk::Math::twopi;
   for (unsigned int k = 0; k < numberOfPoints; ++k)
   {
     K[k] = pi2;

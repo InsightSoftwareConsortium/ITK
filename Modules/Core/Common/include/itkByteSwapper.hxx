@@ -27,6 +27,7 @@
  *=========================================================================*/
 #ifndef itkByteSwapper_hxx
 #define itkByteSwapper_hxx
+#include "itkMakeUniqueForOverwrite.h"
 #include <algorithm> // For swap.
 #include <memory>
 #include <cstring>
@@ -301,7 +302,7 @@ ByteSwapper<T>::SwapWrite2Range(const void * ptr, BufferSizeType num, OStreamTyp
   {
     chunkSize = num;
   }
-  const std::unique_ptr<char[]> cpy(new char[chunkSize * 2]);
+  const auto cpy = make_unique_for_overwrite<char[]>(chunkSize * 2);
   while (num)
   {
     memcpy(cpy.get(), ptr, chunkSize * 2);
@@ -355,7 +356,7 @@ ByteSwapper<T>::SwapWrite4Range(const void * ptr, BufferSizeType num, OStreamTyp
   {
     chunkSize = num;
   }
-  const std::unique_ptr<char[]> cpy(new char[chunkSize * 4]);
+  const auto cpy = make_unique_for_overwrite<char[]>(chunkSize * 4);
 
   while (num)
   {
@@ -412,7 +413,7 @@ ByteSwapper<T>::SwapWrite8Range(const void * ptr, BufferSizeType num, OStreamTyp
   {
     chunkSize = num;
   }
-  const std::unique_ptr<char[]> cpy(new char[chunkSize * 8]);
+  const auto cpy = make_unique_for_overwrite<char[]>(chunkSize * 8);
 
   while (num)
   {
