@@ -21,8 +21,6 @@
 #include "itkImageToImageFilter.h"
 #include <vector>
 
-#define PAMI
-
 namespace itk
 {
 /**
@@ -211,7 +209,6 @@ private:
     }
   };
 
-#ifdef PAMI
   // version from PAMI. Note - using the AuxData array rather than the
   // parent array to store area
   void
@@ -259,8 +256,6 @@ private:
       }
     }
   }
-
-#endif
 };
 } // end namespace itk
 

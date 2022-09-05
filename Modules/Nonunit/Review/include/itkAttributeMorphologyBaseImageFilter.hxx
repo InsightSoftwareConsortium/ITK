@@ -133,7 +133,6 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   // the core algorithm
   // process first pixel
-#ifdef PAMI
   MakeSet(m_SortPixels[0].Pos);
   // m_Processed[0] = true;
   for (SizeValueType k = 1; k < buffsize; ++k)
@@ -174,7 +173,6 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     }
     progress.CompletedPixel();
   }
-#endif
 
   // resolving phase
   // copy pixels back
@@ -185,7 +183,6 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   // fill Raw - worry about iteration details later.
   // We aren't filling m_Parent, as suggested in the paper, because it
   // is an integer array. We want this to work with float types
-#ifdef PAMI
   // write the new image to Raw - note that we aren't putting the
   // result in parent
   for (pos = buffsize - 1; pos >= 0; --pos)
@@ -203,7 +200,6 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     progress.CompletedPixel();
   }
 
-#endif
 
   delete[] m_Raw;
   delete[] m_SortPixels;
