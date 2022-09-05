@@ -165,7 +165,6 @@ private:
   // some constants used several times in the code
   static constexpr OffsetValueType INACTIVE = -1;
   static constexpr OffsetValueType ACTIVE = -2;
-  static constexpr OffsetValueType ROOT = -3;
 
   // Just used for area/volume openings at the moment
   AttributeType * m_AuxData;
@@ -177,38 +176,33 @@ private:
   void
   SetupOffsetVec(OffsetDirectVecType & PosOffsets, OffsetVecType & Offsets);
 
-  class GreyAndPos
-  {
-  public:
-    InputPixelType  Val;
-    OffsetValueType Pos;
-  };
-
-  GreyAndPos *      m_SortPixels;
+  // m_SortPixels contains offsets into the raw image
+  // it is sorted with a stable sort by grey level as the
+  // first step in the algorithm. The sorting step avoids
+  // the need to explicitly locate regional extrema.
+  OffsetValueType * m_SortPixels;
   OffsetValueType * m_Parent;
 
   // This is a bit ugly, but I can't see an easy way around
   InputPixelType * m_Raw;
 
-  class ComparePixStruct
+  class CompareOffsetType
   {
   public:
     TFunction m_TFunction;
+    // buf contains the raw data, which is what
+    // we want to sort by. i.e. the first value in
+    // the sorted buffer will be the location of the
+    // largest or smallest pixel.
+    InputPixelType * buf;
     bool
-    operator()(GreyAndPos const & l, GreyAndPos const & r) const
+    operator()(OffsetValueType const & l, OffsetValueType const & r) const
     {
-      if (m_TFunction(l.Val, r.Val))
-      {
-        return true;
-      }
-      if (l.Val == r.Val)
-      {
-        return (l.Pos < r.Pos);
-      }
-      return false;
+      return (m_TFunction(buf[l], buf[r]));
     }
   };
 
+  CompareOffsetType m_CompareOffset;
   // version from PAMI. Note - using the AuxData array rather than the
   // parent array to store area
   void
