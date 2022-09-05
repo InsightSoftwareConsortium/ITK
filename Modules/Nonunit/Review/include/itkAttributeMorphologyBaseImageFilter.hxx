@@ -97,7 +97,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   fit = faceList.begin();
 
-  m_SortPixels = new GreyAndPos[buffsize];
+  m_SortPixels = new OffsetValueType[buffsize];
   m_Parent = new OffsetValueType[buffsize];
 
   // This is a bit ugly, but I can't see an easy way around
@@ -112,18 +112,19 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   for (RegIt.GoToBegin(); !RegIt.IsAtEnd(); ++RegIt, ++pos)
   {
-    GreyAndPos P;
-    P.Val = RegIt.Get();
-    P.Pos = pos;
-    m_SortPixels[pos] = P;
-    m_Raw[pos] = P.Val;
+    // GreyAndPos P;
+    // P.Val = RegIt.Get();
+    // P.Pos = pos;
+    m_SortPixels[pos] = pos;
+    m_Raw[pos] = RegIt.Get();
 
     m_Parent[pos] = INACTIVE;
     m_AuxData[pos] = -1; // invalid value;
     progress.CompletedPixel();
   }
   progress.CompletedPixel();
-  std::sort(&(m_SortPixels[0]), &(m_SortPixels[buffsize - 1]), ComparePixStruct());
+  m_CompareOffset.buf = m_Raw;
+  std::stable_sort(&(m_SortPixels[0]), &(m_SortPixels[buffsize - 1]), m_CompareOffset);
   progress.CompletedPixel();
 
   // set up the offset vector
@@ -133,13 +134,13 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   // the core algorithm
   // process first pixel
-  MakeSet(m_SortPixels[0].Pos);
+  MakeSet(m_SortPixels[0]);
   // m_Processed[0] = true;
   for (SizeValueType k = 1; k < buffsize; ++k)
   {
-    OffsetValueType ThisPos = m_SortPixels[k].Pos;
+    OffsetValueType ThisPos = m_SortPixels[k];
     IndexType       ThisWhere = input->ComputeIndex(ThisPos);
-    InputPixelType  ThisPix = m_SortPixels[k].Val;
+    InputPixelType  ThisPix = m_Raw[ThisPos];
     MakeSet(ThisPos);
     // Some optimization of bounds check
     if (fit->IsInside(ThisWhere))
@@ -187,7 +188,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   // result in parent
   for (pos = buffsize - 1; pos >= 0; --pos)
   {
-    OffsetValueType RPos = m_SortPixels[pos].Pos;
+    OffsetValueType RPos = m_SortPixels[pos];
     if (m_Parent[RPos] >= 0)
     {
       m_Raw[RPos] = m_Raw[m_Parent[RPos]];
@@ -199,7 +200,6 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     ORegIt.Set(static_cast<OutputPixelType>(m_Raw[ppos]));
     progress.CompletedPixel();
   }
-
 
   delete[] m_Raw;
   delete[] m_SortPixels;
