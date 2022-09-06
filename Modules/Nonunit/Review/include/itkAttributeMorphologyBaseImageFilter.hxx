@@ -112,9 +112,6 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   for (RegIt.GoToBegin(); !RegIt.IsAtEnd(); ++RegIt, ++pos)
   {
-    // GreyAndPos P;
-    // P.Val = RegIt.Get();
-    // P.Pos = pos;
     m_SortPixels[pos] = pos;
     m_Raw[pos] = RegIt.Get();
 
@@ -135,7 +132,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   // the core algorithm
   // process first pixel
   MakeSet(m_SortPixels[0]);
-  // m_Processed[0] = true;
+
   for (SizeValueType k = 1; k < buffsize; ++k)
   {
     OffsetValueType ThisPos = m_SortPixels[k];
