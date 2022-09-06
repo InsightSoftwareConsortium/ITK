@@ -26,7 +26,7 @@ namespace itk
  * \class AreaClosingImageFilter
  * \brief Morphological closing by attributes
  *
- * Attribute closing remove blobs according to criteria
+ * An attribute closing removes blobs according to criteria
  * such as area. When applied to grayscale images they have the effect of
  * filling valleys (regions darker than their surroundings)
  * based on area while leaving the rest of the image

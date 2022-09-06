@@ -27,7 +27,7 @@ namespace itk
  * \class AreaOpeningImageFilter
  * \brief Morphological opening by attributes
  *
- * Attribute openings remove blobs according to criteria
+ * An attribute opening removes blobs according to criteria
  * such as area. When applied to grayscale images they have the effect of
  * trimming peaks (regions brighter than their surrounings)
  * based on area while leaving the rest of the image
