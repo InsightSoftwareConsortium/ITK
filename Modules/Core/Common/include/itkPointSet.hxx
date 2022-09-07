@@ -277,10 +277,7 @@ template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 PointSet<TPixelType, VDimension, TMeshTraits>::UpdateOutputInformation()
 {
-  if (this->GetSource())
-  {
-    this->GetSource()->UpdateOutputInformation();
-  }
+  this->Superclass::UpdateOutputInformation();
 
   // Now we should know what our largest possible region is. If our
   // requested region was not set yet, (or has been set to something
