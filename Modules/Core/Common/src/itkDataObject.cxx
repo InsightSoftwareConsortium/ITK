@@ -268,6 +268,17 @@ DataObject::GetSourceOutputIndex() const
   return m_Source->MakeIndexFromOutputName(m_SourceOutputName);
 }
 
+void
+DataObject::UpdateSource() const
+{
+  const auto source = this->GetSource();
+
+  if (source)
+  {
+    source->Update();
+  }
+}
+
 //----------------------------------------------------------------------------
 void
 DataObject::PrintSelf(std::ostream & os, Indent indent) const

@@ -333,6 +333,10 @@ public:
   DataObjectPointerArraySizeType
   GetSourceOutputIndex() const;
 
+  /** Does an Update() of its source, if it has one. Does nothing, otherwise. */
+  void
+  UpdateSource() const;
+
   /** Restore the data object to its initial state. This means releasing
    * memory. */
   virtual void
