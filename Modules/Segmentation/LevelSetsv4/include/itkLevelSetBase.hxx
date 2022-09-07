@@ -168,10 +168,7 @@ template <typename TInput, unsigned int VDimension, typename TOutput, typename T
 void
 LevelSetBase<TInput, VDimension, TOutput, TDomain>::UpdateOutputInformation()
 {
-  if (this->GetSource())
-  {
-    this->GetSource()->UpdateOutputInformation();
-  }
+  this->Superclass::UpdateOutputInformation();
 
   // Now we should know what our largest possible region is. If our
   // requested region was not set yet, (or has been set to something
