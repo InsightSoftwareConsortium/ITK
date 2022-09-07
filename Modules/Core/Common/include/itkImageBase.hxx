@@ -213,9 +213,11 @@ template <unsigned int VImageDimension>
 void
 ImageBase<VImageDimension>::UpdateOutputInformation()
 {
-  if (this->GetSource())
+  const auto source = this->GetSource();
+
+  if (source)
   {
-    this->GetSource()->UpdateOutputInformation();
+    source->UpdateOutputInformation();
   }
   else
   {

@@ -311,10 +311,11 @@ DataObject::Update()
 void
 DataObject::UpdateOutputInformation()
 {
+  const auto source = this->GetSource();
 
-  if (this->GetSource())
+  if (source)
   {
-    this->GetSource()->UpdateOutputInformation();
+    source->UpdateOutputInformation();
   }
 }
 
