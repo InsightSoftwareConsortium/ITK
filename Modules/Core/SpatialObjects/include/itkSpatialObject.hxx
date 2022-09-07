@@ -1157,9 +1157,11 @@ template <unsigned int TDimension>
 void
 SpatialObject<TDimension>::UpdateOutputInformation()
 {
-  if (this->GetSource())
+  const auto source = this->GetSource();
+
+  if (source)
   {
-    this->GetSource()->UpdateOutputInformation();
+    source->UpdateOutputInformation();
   }
   // If we don't have a source, then let's make our Image
   // span our buffer
