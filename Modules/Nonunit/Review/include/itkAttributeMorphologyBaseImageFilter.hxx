@@ -24,6 +24,7 @@
 #include "itkConnectedComponentAlgorithm.h"
 #include "itkNeighborhoodAlgorithm.h"
 #include "itkCastImageFilter.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 /*
  * This code was contributed in the Insight Journal paper
@@ -97,12 +98,12 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
 
   fit = faceList.begin();
 
-  m_SortPixels = new OffsetValueType[buffsize];
-  m_Parent = new OffsetValueType[buffsize];
+  m_SortPixels = make_unique_for_overwrite<OffsetValueType[]>(buffsize);
+  m_Parent = make_unique_for_overwrite<OffsetValueType[]>(buffsize);
 
   // This is a bit ugly, but I can't see an easy way around
-  m_Raw = new InputPixelType[buffsize];
-  m_AuxData = new AttributeType[buffsize];
+  m_Raw = make_unique_for_overwrite<InputPixelType[]>(buffsize);
+  m_AuxData = make_unique_for_overwrite<AttributeType[]>(buffsize);
 
   // copy the pixels to the sort buffer
   using CRegionIteratorType = ImageRegionConstIteratorWithIndex<TInputImage>;
@@ -120,7 +121,7 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     progress.CompletedPixel();
   }
   progress.CompletedPixel();
-  m_CompareOffset.buf = m_Raw;
+  m_CompareOffset.buf = m_Raw.get();
   std::stable_sort(&(m_SortPixels[0]), &(m_SortPixels[buffsize - 1]), m_CompareOffset);
   progress.CompletedPixel();
 
@@ -198,10 +199,10 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
     progress.CompletedPixel();
   }
 
-  delete[] m_Raw;
-  delete[] m_SortPixels;
-  delete[] m_Parent;
-  delete[] m_AuxData;
+  m_Raw.reset();
+  m_SortPixels.reset();
+  m_Parent.reset();
+  m_AuxData.reset();
 }
 
 template <typename TInputImage, typename TOutputImage, typename TAttribute, typename TFunction>
