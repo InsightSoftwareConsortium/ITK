@@ -65,10 +65,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
   }
 
   // If the image is provided by a source, update the source.
-  if (m_TrainingMovingImage->GetSource())
-  {
-    m_TrainingMovingImage->GetSource()->Update();
-  }
+  m_TrainingMovingImage->UpdateSource();
 
   if (!m_TrainingFixedImage)
   {
@@ -76,10 +73,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
   }
 
   // If the image is provided by a source, update the source.
-  if (m_TrainingFixedImage->GetSource())
-  {
-    m_TrainingFixedImage->GetSource()->Update();
-  }
+  m_TrainingFixedImage->UpdateSource();
 
   if (m_TrainingFixedImageRegion.GetNumberOfPixels() == 0)
   {

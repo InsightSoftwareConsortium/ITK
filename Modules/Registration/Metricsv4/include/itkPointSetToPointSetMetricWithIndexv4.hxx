@@ -79,16 +79,10 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   }
 
   // If the PointSet is provided by a source, update the source.
-  if (this->m_MovingPointSet->GetSource())
-  {
-    this->m_MovingPointSet->GetSource()->Update();
-  }
+  this->m_MovingPointSet->UpdateSource();
 
   // If the point set is provided by a source, update the source.
-  if (this->m_FixedPointSet->GetSource())
-  {
-    this->m_FixedPointSet->GetSource()->Update();
-  }
+  this->m_FixedPointSet->UpdateSource();
 
   // Check for virtual domain if needed.
   // With local-support transforms we need a virtual domain in

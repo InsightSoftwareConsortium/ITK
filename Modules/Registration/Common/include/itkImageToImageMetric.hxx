@@ -256,16 +256,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   }
 
   // If the image is provided by a source, update the source.
-  if (m_MovingImage->GetSource())
-  {
-    m_MovingImage->GetSource()->Update();
-  }
+  m_MovingImage->UpdateSource();
 
   // If the image is provided by a source, update the source.
-  if (m_FixedImage->GetSource())
-  {
-    m_FixedImage->GetSource()->Update();
-  }
+  m_FixedImage->UpdateSource();
 
   // The use of FixedImageIndexes and the use of FixedImageRegion
   // are mutually exclusive, so they should not both be checked.

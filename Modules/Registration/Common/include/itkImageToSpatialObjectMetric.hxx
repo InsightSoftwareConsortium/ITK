@@ -73,10 +73,7 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::Initialize()
   }
 
   // If the image is provided by a source, update the source.
-  if (m_FixedImage->GetSource())
-  {
-    m_FixedImage->GetSource()->Update();
-  }
+  m_FixedImage->UpdateSource();
 
   m_Interpolator->SetInputImage(m_FixedImage);
 

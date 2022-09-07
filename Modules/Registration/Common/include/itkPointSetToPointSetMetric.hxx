@@ -64,16 +64,10 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::Initialize()
   }
 
   // If the PointSet is provided by a source, update the source.
-  if (m_MovingPointSet->GetSource())
-  {
-    m_MovingPointSet->GetSource()->Update();
-  }
+  m_MovingPointSet->UpdateSource();
 
   // If the point set is provided by a source, update the source.
-  if (m_FixedPointSet->GetSource())
-  {
-    m_FixedPointSet->GetSource()->Update();
-  }
+  m_FixedPointSet->UpdateSource();
 }
 
 /** PrintSelf */

@@ -108,16 +108,10 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   }
 
   // If the image is provided by a source, update the source.
-  if (this->m_MovingImage->GetSource())
-  {
-    this->m_MovingImage->GetSource()->Update();
-  }
+  this->m_MovingImage->UpdateSource();
 
   // If the image is provided by a source, update the source.
-  if (this->m_FixedImage->GetSource())
-  {
-    this->m_FixedImage->GetSource()->Update();
-  }
+  this->m_FixedImage->UpdateSource();
 
   /* If a virtual image has not been set or created,
    * create one from fixed image settings */

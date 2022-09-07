@@ -40,14 +40,8 @@ CenteredTransformInitializer<TTransform, TFixedImage, TMovingImage>::InitializeT
   }
 
   // If images come from filters, then update those filters.
-  if (m_FixedImage->GetSource())
-  {
-    m_FixedImage->GetSource()->Update();
-  }
-  if (m_MovingImage->GetSource())
-  {
-    m_MovingImage->GetSource()->Update();
-  }
+  m_FixedImage->UpdateSource();
+  m_MovingImage->UpdateSource();
 
   InputPointType   rotationCenter;
   OutputVectorType translationVector;
