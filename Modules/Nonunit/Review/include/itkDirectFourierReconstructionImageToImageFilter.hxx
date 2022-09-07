@@ -18,6 +18,7 @@
 #ifndef itkDirectFourierReconstructionImageToImageFilter_hxx
 #define itkDirectFourierReconstructionImageToImageFilter_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -214,7 +215,7 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
   FFT->SetInput(projectionLine);
 
   // Setup FFT Line interpolator stack
-  auto * FFTLineInterpolator = new FFTLineInterpolatorType::Pointer[alpha_size];
+  const auto FFTLineInterpolator = make_unique_for_overwrite<FFTLineInterpolatorType::Pointer[]>(alpha_size);
   for (unsigned int alpha = 0; alpha < alpha_size; ++alpha)
   {
     FFTLineInterpolator[alpha] = FFTLineInterpolatorType::New();
@@ -413,8 +414,6 @@ DirectFourierReconstructionImageToImageFilter<TInputImage, TOutputImage>::Genera
 
     inputIt.NextSlice();
   } // while ( !inputIt.IsAtEnd() )
-
-  delete[] FFTLineInterpolator;
 }
 } // namespace itk
 
