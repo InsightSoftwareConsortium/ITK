@@ -80,7 +80,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ::itksys::Directory * m_Internal;
+  ::itksys::Directory m_Internal;
 }; // End Class: Directory
 } // end namespace itk
 
