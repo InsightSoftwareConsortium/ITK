@@ -79,6 +79,18 @@ itkScancoImageIOTest3(int argc, char * argv[])
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetDataRange()[1], 11662.0, 6, 1e-3));
   std::cout << "MuScaling: \t\t" << scancoIO->GetMuScaling() << std::endl;
   ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetMuScaling(), 8192.0, 6, 1e-3));
+  std::cout << "MuWater: \t\t" << scancoIO->GetMuWater() << std::endl;
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetMuWater(), 0.24090, 6, 1e-3));
+  std::cout << "RescaleType: \t\t" << scancoIO->GetRescaleType() << std::endl;
+  ITK_TEST_EXPECT_EQUAL(scancoIO->GetRescaleType(), 2);
+  std::cout << "RescaleSlope: \t\t" << scancoIO->GetRescaleSlope() << std::endl;
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetRescaleSlope(), 0.506726, 6, 1e-3));
+  std::cout << "RescaleIntercept: \t\t" << scancoIO->GetRescaleIntercept() << std::endl;
+  ITK_TEST_EXPECT_TRUE(itk::Math::FloatAlmostEqual(scancoIO->GetRescaleIntercept(), -1000.0, 6, 1e-3));
+  std::cout << "RescaleUnits: \t\t" << scancoIO->GetRescaleUnits() << std::endl;
+  ITK_TEST_EXPECT_EQUAL(scancoIO->GetRescaleUnits(), std::string("mg HA/ccm"));
+  std::cout << "CalibrationData: \t\t" << scancoIO->GetCalibrationData() << std::endl;
+  ITK_TEST_EXPECT_EQUAL(scancoIO->GetCalibrationData(), std::string("68 kVp, BH: 200 mg HA/ccm, Scaling 8192, 0.2 CU"));
   std::cout << "NumberOfSamples: \t" << scancoIO->GetNumberOfSamples() << std::endl;
   ITK_TEST_EXPECT_EQUAL(scancoIO->GetNumberOfSamples(), 2304);
   std::cout << "NumberOfProjections: " << scancoIO->GetNumberOfProjections() << std::endl;
