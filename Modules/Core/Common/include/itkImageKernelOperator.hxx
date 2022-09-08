@@ -87,14 +87,12 @@ ImageKernelOperator<TPixel, VDimension, TAllocator>::Fill(const CoefficientVecto
   // Initialize all coefficients to zero
   this->InitializeToZero();
 
-  std::slice *                               temp_slice;
   typename CoefficientVector::const_iterator it;
 
-  temp_slice = new std::slice(0, coeff.size(), 1);
+  const std::slice temp_slice(0, coeff.size(), 1);
   it = coeff.begin();
 
-  typename Superclass::SliceIteratorType data(this, *temp_slice);
-  delete temp_slice;
+  typename Superclass::SliceIteratorType data(this, temp_slice);
 
   // Copy the coefficients into the neighborhood, truncating them if there
   // are too many.
