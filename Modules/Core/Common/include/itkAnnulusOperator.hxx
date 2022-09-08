@@ -43,10 +43,9 @@ template <typename TPixel, unsigned int TDimension, typename TAllocator>
 void
 AnnulusOperator<TPixel, TDimension, TAllocator>::Fill(const CoefficientVector & coeff)
 {
-  auto * temp_slice = new std::slice(0, coeff.size(), 1);
+  const std::slice temp_slice(0, coeff.size(), 1);
 
-  typename Self::SliceIteratorType data(this, *temp_slice);
-  delete temp_slice;
+  typename Self::SliceIteratorType data(this, temp_slice);
 
   auto it = coeff.begin();
 

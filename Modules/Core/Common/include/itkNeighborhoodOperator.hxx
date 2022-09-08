@@ -122,21 +122,21 @@ NeighborhoodOperator<TPixel, VDimension, TAllocator>::FillCenteredDirectional(co
   const int sizediff = (static_cast<int>(size) - static_cast<int>(coeff.size())) >> 1;
 
   // Create a slice iterator centered in the neighborhood.
-  std::slice *                               temp_slice;
+  std::slice                                 temp_slice;
   typename CoefficientVector::const_iterator it;
   if (sizediff >= 0)
   {
-    temp_slice = new std::slice(start + sizediff * stride, coeff.size(), stride);
+    temp_slice = std::slice(start + sizediff * stride, coeff.size(), stride);
     it = coeff.begin();
   }
   else
   {
-    temp_slice = new std::slice(start, size, stride);
+    temp_slice = std::slice(start, size, stride);
     it = coeff.begin() - sizediff;
   }
 
-  SliceIteratorType data(this, *temp_slice);
-  delete temp_slice;
+
+  SliceIteratorType data(this, temp_slice);
 
   // Copy the coefficients into the neighborhood, truncating them if there
   // are too many.
