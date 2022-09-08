@@ -681,51 +681,38 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
   m_CellsContainer->GetElement(cellId)->GetBoundaryFeature(dimension, featureId, boundary);
 
   /**
-   * Now get the cell links for the first point.  Also allocate a second set
-   * for temporary storage during set intersections below.
+   * Now get the cell links for the first point.
    */
   typename CellType::PointIdConstIterator pointId = boundary->PointIdsBegin();
-  auto * currentCells = new PointCellLinksContainer(m_CellLinksContainer->GetElement(*pointId++));
-  auto * tempCells = new PointCellLinksContainer();
+  PointCellLinksContainer                 currentCells(m_CellLinksContainer->GetElement(*pointId++));
 
   /**
    * Next, loop over the other points, and intersect their cell links with
-   * the current result.  We maintain "currentCells" as a pointer to the
-   * current cell set instead of a set itself to prevent an extra copy of
-   * the temporary set after each intersection.
+   * the current result.
    */
   while (pointId != boundary->PointIdsEnd())
   {
-    /**
-     * Clean out temporary cell set from previous iteration.
-     */
-    tempCells->erase(tempCells->begin(), tempCells->end());
+    PointCellLinksContainer tempCells{};
 
     /**
      * Perform the intersection.
      */
     std::set_intersection(m_CellLinksContainer->CreateElementAt(*pointId).begin(),
                           m_CellLinksContainer->CreateElementAt(*pointId).end(),
-                          currentCells->begin(),
-                          currentCells->end(),
-                          std::inserter(*tempCells, tempCells->begin()));
+                          currentCells.begin(),
+                          currentCells.end(),
+                          std::inserter(tempCells, tempCells.begin()));
 
     /**
-     * Switch the cell set pointers to make the intersection result the
-     * current set.
+     * Move the intersection result into the current set.
      */
-    std::swap(currentCells, tempCells);
+    currentCells = std::move(tempCells);
 
     /**
      * Move on to the next point.
      */
     ++pointId;
   }
-
-  /**
-   * Don't need the second set anymore.
-   */
-  delete tempCells;
 
   /** delete the boundary feature added as a temporary auxiliary object,
       being an AutoPointer it will release memory when going out of scope */
@@ -735,17 +722,12 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellBoundaryFeatureNeighbors(int  
    * boundary feature.  We simply need to copy this set to the output cell
    * set, less the cell through which the request was made.
    */
-  currentCells->erase(cellId);
-  auto numberOfNeighboringCells = static_cast<CellIdentifier>(currentCells->size());
+  currentCells.erase(cellId);
+  auto numberOfNeighboringCells = static_cast<CellIdentifier>(currentCells.size());
   if (cellSet != nullptr)
   {
-    *cellSet = *currentCells;
+    *cellSet = std::move(currentCells);
   }
-
-  /**
-   * Don't need the cell set anymore.
-   */
-  delete currentCells;
 
   /**
    * Return the number of neighboring cells that were put into the set.
@@ -824,40 +806,32 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellI
    */
 
   /**
-   * Now get the cell links for the first point.  Also allocate a second set
-   * for temporary storage during set intersections below.
+   * Now get the cell links for the first point.
    */
   typename CellType::PointIdConstIterator pointId = cell->PointIdsBegin();
-  auto * currentCells = new PointCellLinksContainer(m_CellLinksContainer->GetElement(*pointId++));
-  auto * tempCells = new PointCellLinksContainer();
+  PointCellLinksContainer                 currentCells(m_CellLinksContainer->GetElement(*pointId++));
 
   /**
    * Next, loop over the other points, and intersect their cell links with
-   * the current result.  We maintain "currentCells" as a pointer to the
-   * current cell set instead of a set itself to prevent an extra copy of
-   * the temporary set after each intersection.
+   * the current result.
    */
   while (pointId != cell->PointIdsEnd())
   {
-    /**
-     * Clean out temporary cell set from previous iteration.
-     */
-    tempCells->erase(tempCells->begin(), tempCells->end());
+    PointCellLinksContainer tempCells{};
 
     /**
      * Perform the intersection.
      */
     std::set_intersection(m_CellLinksContainer->CreateElementAt(*pointId).begin(),
                           m_CellLinksContainer->CreateElementAt(*pointId).end(),
-                          currentCells->begin(),
-                          currentCells->end(),
-                          std::inserter(*tempCells, tempCells->begin()));
+                          currentCells.begin(),
+                          currentCells.end(),
+                          std::inserter(tempCells, tempCells.begin()));
 
     /**
-     * Switch the cell set pointers to make the intersection result the
-     * current set.
+     * Move the intersection result into the current set.
      */
-    std::swap(currentCells, tempCells);
+    currentCells = std::move(tempCells);
 
     /**
      * Move on to the next point.
@@ -866,25 +840,15 @@ Mesh<TPixelType, VDimension, TMeshTraits>::GetCellNeighbors(CellIdentifier cellI
   }
 
   /**
-   * Don't need the second set anymore.
-   */
-  delete tempCells;
-
-  /**
    * Now we have a set of all the cells which share all the points on
    * the original cell determined by cellId.  We simply need to copy
    * this set to the output cell set.
    */
-  auto numberOfNeighboringCells = static_cast<CellIdentifier>(currentCells->size());
+  auto numberOfNeighboringCells = static_cast<CellIdentifier>(currentCells.size());
   if (cellSet != nullptr)
   {
-    *cellSet = *currentCells;
+    *cellSet = std::move(currentCells);
   }
-
-  /**
-   * Don't need the cell set anymore.
-   */
-  delete currentCells;
 
   /**
    * Return the number of neighboring cells that were put into the set.
