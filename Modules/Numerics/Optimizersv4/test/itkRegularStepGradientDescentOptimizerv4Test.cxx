@@ -436,7 +436,7 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
 
   if (!testStatus)
   {
-    std::cout << "TEST FINISHED SUCCESSFULLY!" << std::endl;
+    std::cout << "Test finished." << std::endl;
   }
   else
   {
