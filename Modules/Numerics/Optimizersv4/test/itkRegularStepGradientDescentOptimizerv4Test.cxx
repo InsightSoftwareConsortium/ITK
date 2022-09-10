@@ -183,12 +183,6 @@ RegularStepGradientDescentOptimizerv4TestHelper(
   initialPosition[1] = -100;
   metric->SetParameters(initialPosition);
 
-  ScalesType parametersScale(spaceDimension);
-  parametersScale[0] = 1.0;
-  parametersScale[1] = 1.0;
-
-  optimizer->SetScales(parametersScale);
-
   typename OptimizerType::InternalComputationValueType learningRate = 100;
   optimizer->SetLearningRate(learningRate);
 
@@ -209,13 +203,29 @@ RegularStepGradientDescentOptimizerv4TestHelper(
   optimizer->SetCurrentLearningRateRelaxation(currentLearningRateRelaxation);
   ITK_TEST_SET_GET_VALUE(currentLearningRateRelaxation, optimizer->GetCurrentLearningRateRelaxation());
 
-  std::cout << "currentPosition before optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
+  // Test exceptions
+  ScalesType parametersScaleExcp(spaceDimension - 1);
+  parametersScaleExcp.Fill(1.0);
+  optimizer->SetScales(parametersScaleExcp);
+
+  ITK_TRY_EXPECT_EXCEPTION(optimizer->StartOptimization());
+
+  ScalesType parametersScale(spaceDimension);
+  parametersScale.Fill(1.0);
+  optimizer->SetScales(parametersScale);
+
+  optimizer->SetRelaxationFactor(relaxationFactor);
+  ITK_TEST_SET_GET_VALUE(relaxationFactor, optimizer->GetRelaxationFactor());
+
+  std::cout << "CurrentPosition before optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
 
   ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
 
 
-  std::cout << "currentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
-  std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription() << std::endl;
+  std::cout << "CurrentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
+  std::cout << "Stop Condition: " << optimizer->GetStopConditionDescription() << std::endl;
+
+
   if (optimizer->GetCurrentIteration() > 0)
   {
     std::cerr << "The optimizer is running iterations despite of ";
@@ -391,12 +401,12 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
   }
 
   //
-  // Test the Exception if the RelaxationFactor is set to a value more than one.
+  // Test the Exception if the RelaxationFactor is set to a negative value.
   //
-  std::cout << "\nTest the Exception if the RelaxationFactor is set to a value larger than one:" << std::endl;
+  std::cout << "\nTest the Exception if the RelaxationFactor is set to a negative value:" << std::endl;
   {
     itk::SizeValueType                          numberOfIterations3 = 100;
-    OptimizerType::InternalComputationValueType relaxationFactor3 = 1.1;
+    OptimizerType::InternalComputationValueType relaxationFactor3 = -1.0;
     OptimizerType::InternalComputationValueType gradientMagnitudeTolerance3 = 0.01;
     bool                                        expectedExceptionReceived =
       RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations3,
@@ -405,6 +415,31 @@ itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
                                                                      relaxationFactor3,
                                                                      minimumStepLength,
                                                                      gradientMagnitudeTolerance3,
+                                                                     currentLearningRateRelaxation);
+    if (!expectedExceptionReceived)
+    {
+      std::cerr << "Failure to produce an exception when";
+      std::cerr << " the RelaxationFactor is negative " << std::endl;
+      std::cerr << "TEST FAILED !" << std::endl;
+      testStatus = EXIT_FAILURE;
+    }
+  }
+
+  //
+  // Test the Exception if the RelaxationFactor is set to a value larger than one.
+  //
+  std::cout << "\nTest the Exception if the RelaxationFactor is set to a value larger than one:" << std::endl;
+  {
+    itk::SizeValueType                          numberOfIterations4 = 100;
+    OptimizerType::InternalComputationValueType relaxationFactor4 = 1.1;
+    OptimizerType::InternalComputationValueType gradientMagnitudeTolerance4 = 0.01;
+    bool                                        expectedExceptionReceived =
+      RegularStepGradientDescentOptimizerv4TestHelper<OptimizerType>(numberOfIterations4,
+                                                                     doEstimateLearningRateAtEachIteration,
+                                                                     doEstimateLearningRateOnce,
+                                                                     relaxationFactor4,
+                                                                     minimumStepLength,
+                                                                     gradientMagnitudeTolerance4,
                                                                      currentLearningRateRelaxation);
 
     if (!expectedExceptionReceived)
