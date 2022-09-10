@@ -161,13 +161,24 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   ITK_TEST_SET_GET_BOOLEAN(adaptor, IsForbiddenImageBinaryMask, isForbiddenImageBinaryMask);
 
   adaptor->SetAliveImage(aliveImage.GetPointer());
-  adaptor->SetAliveValue(0.0);
+  ITK_TEST_SET_GET_VALUE(aliveImage.GetPointer(), adaptor->GetAliveImage());
+
+  typename AdaptorType::OutputPixelType aliveValue = 0.0;
+  adaptor->SetAliveValue(aliveValue);
+  ITK_TEST_SET_GET_VALUE(aliveValue, adaptor->GetAliveValue());
 
   adaptor->SetTrialImage(trialImage.GetPointer());
-  adaptor->SetTrialValue(1.0);
+  ITK_TEST_SET_GET_VALUE(trialImage.GetPointer(), adaptor->GetTrialImage());
+
+  typename AdaptorType::OutputPixelType trialValue = 1.0;
+  adaptor->SetTrialValue(trialValue);
+  ITK_TEST_SET_GET_VALUE(trialValue, adaptor->GetTrialValue());
 
   adaptor->SetForbiddenImage(maskImage.GetPointer());
+  ITK_TEST_SET_GET_VALUE(maskImage.GetPointer(), adaptor->GetForbiddenImage());
+
   adaptor->Update();
+
 
   marcher->SetForbiddenPoints(adaptor->GetForbiddenPoints());
   ITK_TEST_SET_GET_VALUE(adaptor->GetForbiddenPoints(), marcher->GetForbiddenPoints());
