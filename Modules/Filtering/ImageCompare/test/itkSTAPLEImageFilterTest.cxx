@@ -155,15 +155,13 @@ template <unsigned int VDimension>
 int
 Stapler<VDimension>::Execute()
 {
-  size_t i;
-
   typename itk::ImageFileReader<InputImageType>::Pointer  reader;
   typename itk::ImageFileWriter<OutputImageType>::Pointer writer = itk::ImageFileWriter<OutputImageType>::New();
 
   size_t number_of_files = m_Files.size();
 
   // Set the inputs
-  for (i = 0; i < number_of_files; ++i)
+  for (size_t i = 0; i < number_of_files; ++i)
   {
     reader = itk::ImageFileReader<InputImageType>::New();
     reader->SetFileName(m_Files[i].c_str());
@@ -185,7 +183,6 @@ Stapler<VDimension>::Execute()
 int
 itkSTAPLEImageFilterTest(int argc, char * argv[])
 {
-  int           i;
   StaplerBase * stapler;
 
   if (argc < 5)
@@ -211,7 +208,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  for (i = 0; i < argc - 5; ++i)
+  for (int i = 0; i < argc - 5; ++i)
   {
     stapler->AddFileName(argv[i + 5]);
   }
@@ -242,13 +239,13 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   std::cout << "-----"
             << "\t\t-------------- "
             << "\t--------------" << std::endl;
-  unsigned int j;
-  for (j = 0; j < stapler->GetNumberOfFiles(); ++j)
+
+  for (unsigned int i = 0; i < stapler->GetNumberOfFiles(); ++i)
   {
-    avg_q += stapler->GetSpecificity(j);
-    avg_p += stapler->GetSensitivity(j);
-    std::cout << j << ": " << stapler->GetFileName(j) << "\t" << stapler->GetSensitivity(j) << "\t\t"
-              << stapler->GetSpecificity(j) << std::endl;
+    avg_q += stapler->GetSpecificity(i);
+    avg_p += stapler->GetSensitivity(i);
+    std::cout << i << ": " << stapler->GetFileName(i) << "\t" << stapler->GetSensitivity(i) << "\t\t"
+              << stapler->GetSpecificity(i) << std::endl;
   }
   avg_p /= static_cast<double>(stapler->GetNumberOfFiles());
   avg_q /= static_cast<double>(stapler->GetNumberOfFiles());
