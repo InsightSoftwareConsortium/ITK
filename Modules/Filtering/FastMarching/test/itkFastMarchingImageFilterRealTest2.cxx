@@ -177,7 +177,7 @@ itkFastMarchingImageFilterRealTest2(int itkNotUsed(argc), char * itkNotUsed(argv
   adaptor->SetForbiddenImage(maskImage.GetPointer());
   ITK_TEST_SET_GET_VALUE(maskImage.GetPointer(), adaptor->GetForbiddenImage());
 
-  adaptor->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(adaptor->Update());
 
 
   marcher->SetForbiddenPoints(adaptor->GetForbiddenPoints());
