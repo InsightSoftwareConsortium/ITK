@@ -38,7 +38,9 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  using FloatImage = itk::Image<float, 2>;
+  constexpr unsigned int Dimension = 2;
+
+  using FloatImage = itk::Image<float, Dimension>;
   using RegionType = FloatImage::RegionType;
   using IndexType = FloatImage::IndexType;
   using SizeType = FloatImage::SizeType;
@@ -57,36 +59,35 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   region.SetIndex(idx);
 
   inImage->SetRegions(region);
-  inImage->Allocate(true); // initialize buffer
-                           // to zero
+  inImage->Allocate(true); // initialize buffer to zero
 
   auto sample = AdaptorType::New();
   sample->SetImage(inImage);
 
-  auto sampler_orig = SamplerType::New();
+  auto samplerOrig = SamplerType::New();
 
-  ITK_EXERCISE_BASIC_OBJECT_METHODS(sampler_orig, UniformRandomSpatialNeighborSubsampler, SpatialNeighborSubsampler);
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(samplerOrig, UniformRandomSpatialNeighborSubsampler, SpatialNeighborSubsampler);
 
+  samplerOrig->SetSample(sample);
+  samplerOrig->SetSampleRegion(region);
+  samplerOrig->SetRadius(20);
+  samplerOrig->SetNumberOfResultsRequested(50);
+  samplerOrig->SetSeed(100);
+  samplerOrig->CanSelectQueryOff();
 
-  sampler_orig->SetSample(sample);
-  sampler_orig->SetSampleRegion(region);
-  sampler_orig->SetRadius(20);
-  sampler_orig->SetNumberOfResultsRequested(50);
-  sampler_orig->SetSeed(100);
-  sampler_orig->CanSelectQueryOff();
 
   auto useClockForSeed = static_cast<bool>(std::stoi(argv[1]));
-  ITK_TEST_SET_GET_BOOLEAN(sampler_orig, UseClockForSeed, useClockForSeed);
+  ITK_TEST_SET_GET_BOOLEAN(samplerOrig, UseClockForSeed, useClockForSeed);
 
   // Test clone mechanism
-  SamplerType::Pointer sampler = sampler_orig->Clone().GetPointer();
+  SamplerType::Pointer sampler = samplerOrig->Clone().GetPointer();
 
-  ITK_TEST_SET_GET_VALUE(sampler_orig->GetSample(), sampler->GetSample());
-  ITK_TEST_SET_GET_VALUE(sampler_orig->GetSampleRegion(), sampler->GetSampleRegion());
-  ITK_TEST_SET_GET_VALUE(sampler_orig->GetRadius(), sampler->GetRadius());
-  ITK_TEST_SET_GET_VALUE(sampler_orig->GetNumberOfResultsRequested(), sampler->GetNumberOfResultsRequested());
-  ITK_TEST_SET_GET_VALUE(sampler_orig->GetSeed(), sampler->GetSeed());
-  ITK_TEST_SET_GET_VALUE(sampler_orig->GetCanSelectQuery(), sampler->GetCanSelectQuery());
+  ITK_TEST_SET_GET_VALUE(samplerOrig->GetSample(), sampler->GetSample());
+  ITK_TEST_SET_GET_VALUE(samplerOrig->GetSampleRegion(), sampler->GetSampleRegion());
+  ITK_TEST_SET_GET_VALUE(samplerOrig->GetRadius(), sampler->GetRadius());
+  ITK_TEST_SET_GET_VALUE(samplerOrig->GetNumberOfResultsRequested(), sampler->GetNumberOfResultsRequested());
+  ITK_TEST_SET_GET_VALUE(samplerOrig->GetSeed(), sampler->GetSeed());
+  ITK_TEST_SET_GET_VALUE(samplerOrig->GetCanSelectQuery(), sampler->GetCanSelectQuery());
 
   SamplerType::SubsamplePointer subsample = SamplerType::SubsampleType::New();
   sampler->Search(612, subsample);
@@ -110,6 +111,6 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
     ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
   }
 
-  std::cout << "Test passed." << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
