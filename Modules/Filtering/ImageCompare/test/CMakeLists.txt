@@ -7,6 +7,7 @@ itkConstrainedValueDifferenceImageFilterTest.cxx
 itkSimilarityIndexImageFilterTest.cxx
 itkSTAPLEImageFilterTest.cxx
 itkTestingComparisonImageFilterTest.cxx
+itkImageFileReaderIOToRequestedRegionMismatchTest.cxx
 )
 
 CreateTestDriver(ITKImageCompare  "${ITKImageCompare-Test_LIBRARIES}" "${ITKImageCompareTests}")
@@ -37,4 +38,9 @@ itk_add_test(NAME itkTestingComparisonImageFilterTest
       --compare DATA{Input/itkTestingComparisonImageFilterTest.png}
               ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png
     itkTestingComparisonImageFilterTest DATA{${ITK_DATA_ROOT}/Input/cake_easy.png} DATA{${ITK_DATA_ROOT}/Input/cake_hard.png} ${ITK_TEST_OUTPUT_DIR}/itkTestingComparisonImageFilterTest.png 0 10 1 1647 11 66 16.2999 26846
+)
+itk_add_test(NAME itkImageFileReaderIOToRequestedRegionMismatchTest
+      COMMAND ITKImageCompareTestDriver
+      itkImageFileReaderIOToRequestedRegionMismatchTest
+      DATA{${ITK_DATA_ROOT}/Input/STAPLE1.png} DATA{${ITK_DATA_ROOT}/Input/BinaryImageWithVariousShapes01.png}
 )
