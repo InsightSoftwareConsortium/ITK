@@ -50,7 +50,7 @@ public:
   using ConstPointer = SmartPointer<const Self>;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(GradientDescentOptimizerBasev4Template, Superclass);
+  itkTypeMacro(GradientDescentOptimizerBasev4Template, ObjectToObjectOptimizerBaseTemplate);
 
 #if !defined(ITK_LEGACY_REMOVE)
   /**Exposes enums values for backwards compatibility*/
