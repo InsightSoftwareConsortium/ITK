@@ -65,6 +65,10 @@ public:
     return static_cast<unsigned int>(m_Files.size());
   }
 
+  virtual const std::vector<double> &
+  GetSensitivity() = 0;
+  virtual const std::vector<double> &
+  GetSpecificity() = 0;
   virtual double
   GetSensitivity(unsigned int) = 0;
   virtual double
@@ -73,6 +77,10 @@ public:
   GetForeground() const = 0;
   virtual void
   SetForeground(unsigned short) = 0;
+  virtual unsigned int
+  GetMaximumIterations() const = 0;
+  virtual void
+  SetMaximumIterations(unsigned int) = 0;
   virtual void
   SetConfidenceWeight(double) = 0;
   virtual double
@@ -104,6 +112,16 @@ public:
   }
   ~Stapler() override = default;
 
+  unsigned int
+  GetMaximumIterations() const override
+  {
+    return m_Stapler->GetMaximumIterations();
+  }
+  void
+  SetMaximumIterations(unsigned int maximumIterations) override
+  {
+    m_Stapler->SetMaximumIterations(maximumIterations);
+  }
   double
   GetConfidenceWeight() const override
   {
@@ -113,6 +131,17 @@ public:
   SetConfidenceWeight(double w) override
   {
     m_Stapler->SetConfidenceWeight(w);
+  }
+
+  const std::vector<double> &
+  GetSensitivity() override
+  {
+    return m_Stapler->GetSensitivity();
+  }
+  const std::vector<double> &
+  GetSpecificity() override
+  {
+    return m_Stapler->GetSpecificity();
   }
 
   double
@@ -183,14 +212,26 @@ Stapler<VDimension>::Execute()
 int
 itkSTAPLEImageFilterTest(int argc, char * argv[])
 {
-  if (argc < 5)
+  if (argc < 6)
   {
-    std::cerr << "Use: " << itkNameOfTestExecutableMacro(argv)
-              << " file_dimensionality output.mhd foreground_value confidence_weight "
-                 "file1 file2 ... fileN"
-              << std::endl;
+    std::cerr << "Missing parameters." << std::endl;
+    std::cerr
+      << "Usage: " << itkNameOfTestExecutableMacro(argv)
+      << " fileDimensionality outputFileName foregroundValue maximumIterations confidenceWeight file1 file2 ... fileN"
+      << std::endl;
     return EXIT_FAILURE;
   }
+
+  constexpr unsigned int Dimension = 2;
+
+  using InputImageType = itk::Image<unsigned short, Dimension>;
+  using OutputImageType = itk::Image<double, Dimension>;
+
+  using STAPLEImageFilterType = itk::STAPLEImageFilter<InputImageType, OutputImageType>;
+  auto stapleImageFilter = STAPLEImageFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(stapleImageFilter, STAPLEImageFilter, ImageToImageFilter);
+
 
   StaplerBase * stapler;
 
@@ -208,14 +249,24 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  for (int i = 0; i < argc - 5; ++i)
+  for (int i = 0; i < argc - 6; ++i)
   {
-    stapler->AddFileName(argv[i + 5]);
+    stapler->AddFileName(argv[i + 6]);
   }
 
-  stapler->SetConfidenceWeight(static_cast<double>(std::stod(argv[4])));
   stapler->SetOutputFileName(argv[2]);
-  stapler->SetForeground(static_cast<unsigned short>(std::stoi(argv[3])));
+
+  auto foregroundValue = static_cast<unsigned short>(std::stoi(argv[3]));
+  stapler->SetForeground(foregroundValue);
+  ITK_TEST_SET_GET_VALUE(foregroundValue, stapler->GetForeground());
+
+  auto maximumIterations = static_cast<unsigned int>(std::stoi(argv[4]));
+  stapler->SetMaximumIterations(maximumIterations);
+  ITK_TEST_SET_GET_VALUE(maximumIterations, stapler->GetMaximumIterations());
+
+  auto confidenceWeight = static_cast<double>(std::stod(argv[5]));
+  stapler->SetConfidenceWeight(confidenceWeight);
+  ITK_TEST_SET_GET_VALUE(confidenceWeight, stapler->GetConfidenceWeight());
 
   // Execute the stapler
   int ret = stapler->Execute();
@@ -248,11 +299,35 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
               << stapler->GetSpecificity(i) << std::endl;
   }
 
-  std::cout << "Mean:\t\t" << avgP << "\t\t" << avgQ << std::endl;
+  std::vector<double> specificity = stapler->GetSpecificity();
+  std::cout << "Specificity: ";
+  for (auto value : specificity)
+  {
+    std::cout << value << " ";
+  }
+  std::cout << std::endl;
+
+  std::vector<double> sensitivity = stapler->GetSensitivity();
+  std::cout << "Sensitivity: ";
+  for (auto value : specificity)
+  {
+    std::cout << value << " ";
+  }
+  std::cout << std::endl;
+
   avgP /= static_cast<double>(stapler->GetNumberOfFiles());
   avgQ /= static_cast<double>(stapler->GetNumberOfFiles());
 
+  std::cout << "Mean:\t\t" << avgP << "\t\t" << avgQ << std::endl;
+
+  // Test index exceptions
+  unsigned int i = stapler->GetNumberOfFiles() + 1;
+  ITK_TRY_EXPECT_EXCEPTION(stapler->GetSensitivity(i));
+  ITK_TRY_EXPECT_EXCEPTION(stapler->GetSpecificity(i));
+
   delete stapler;
 
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
