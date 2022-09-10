@@ -83,12 +83,14 @@ public:
     FastMarchingTraitsBase::Alive points.*/
   void
   SetAliveImage(const ImageType * iImage);
+  itkGetConstObjectMacro(AliveImage, ImageType);
 
   /** \brief Set one Trial Image.
     \note Only pixels with non null values are considered as
     FastMarchingTraitsBase::Trialpoints.*/
   void
   SetTrialImage(const ImageType * iImage);
+  itkGetConstObjectMacro(TrialImage, ImageType);
 
   /** \brief Set one Forbidden Image.
     There are two possible behaviors here depending on
@@ -102,6 +104,7 @@ public:
     represents FastMarchingTraitsBase::Forbidden points*/
   void
   SetForbiddenImage(const ImageType * iImage);
+  itkGetConstObjectMacro(ForbiddenImage, ImageType);
 
   itkSetMacro(IsForbiddenImageBinaryMask, bool);
   itkGetConstMacro(IsForbiddenImageBinaryMask, bool);
@@ -120,7 +123,10 @@ public:
   GetForbiddenPoints();
 
   itkSetMacro(AliveValue, OutputPixelType);
+  itkGetConstMacro(AliveValue, OutputPixelType);
+
   itkSetMacro(TrialValue, OutputPixelType);
+  itkGetConstMacro(TrialValue, OutputPixelType);
 
   /** \brief Perform the conversion. */
   void
