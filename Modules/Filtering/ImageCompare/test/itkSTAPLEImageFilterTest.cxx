@@ -183,8 +183,6 @@ Stapler<VDimension>::Execute()
 int
 itkSTAPLEImageFilterTest(int argc, char * argv[])
 {
-  StaplerBase * stapler;
-
   if (argc < 5)
   {
     std::cerr << "Use: " << itkNameOfTestExecutableMacro(argv)
@@ -193,6 +191,8 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
               << std::endl;
     return EXIT_FAILURE;
   }
+
+  StaplerBase * stapler;
 
   if (std::stoi(argv[1]) == 2)
   {
