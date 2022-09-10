@@ -200,38 +200,22 @@ RegularStepGradientDescentOptimizerv4TestHelper(
   ITK_TEST_SET_GET_VALUE(doEstimateLearningRateAtEachIteration, optimizer->GetDoEstimateLearningRateAtEachIteration());
   ITK_TEST_SET_GET_VALUE(doEstimateLearningRateOnce, optimizer->GetDoEstimateLearningRateOnce());
 
-  optimizer->SetRelaxationFactor(relaxationFactor);
-
-  ITK_TEST_SET_GET_VALUE(relaxationFactor, optimizer->GetRelaxationFactor());
-
   optimizer->SetMinimumStepLength(minimumStepLength);
-
   ITK_TEST_SET_GET_VALUE(minimumStepLength, optimizer->GetMinimumStepLength());
 
   optimizer->SetGradientMagnitudeTolerance(gradientMagnitudeTolerance);
-
   ITK_TEST_SET_GET_VALUE(gradientMagnitudeTolerance, optimizer->GetGradientMagnitudeTolerance());
 
   optimizer->SetCurrentLearningRateRelaxation(currentLearningRateRelaxation);
-
   ITK_TEST_SET_GET_VALUE(currentLearningRateRelaxation, optimizer->GetCurrentLearningRateRelaxation());
 
-  try
-  {
-    std::cout << "currentPosition before optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
-    optimizer->StartOptimization();
-    std::cout << "currentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
-    std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription() << std::endl;
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-  }
+  std::cout << "currentPosition before optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
 
+  ITK_TRY_EXPECT_NO_EXCEPTION(optimizer->StartOptimization());
+
+
+  std::cout << "currentPosition after optimization: " << optimizer->GetMetric()->GetParameters() << std::endl;
+  std::cout << " Stop Condition  = " << optimizer->GetStopConditionDescription() << std::endl;
   if (optimizer->GetCurrentIteration() > 0)
   {
     std::cerr << "The optimizer is running iterations despite of ";
