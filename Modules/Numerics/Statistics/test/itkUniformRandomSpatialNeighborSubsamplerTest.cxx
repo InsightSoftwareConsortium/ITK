@@ -49,9 +49,10 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   using SamplerType = itk::Statistics::UniformRandomSpatialNeighborSubsampler<AdaptorType, RegionType>;
   using WriterType = itk::ImageFileWriter<FloatImage>;
 
-  auto     inImage = FloatImage::New();
-  SizeType sz;
-  sz.Fill(35);
+  auto                          inImage = FloatImage::New();
+  typename SizeType::value_type regionSizeVal = 35;
+  SizeType                      sz;
+  sz.Fill(regionSizeVal);
   IndexType idx;
   idx.Fill(0);
   RegionType region;
@@ -68,13 +69,42 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(samplerOrig, UniformRandomSpatialNeighborSubsampler, SpatialNeighborSubsampler);
 
-  samplerOrig->SetSample(sample);
-  samplerOrig->SetSampleRegion(region);
+
+  SamplerType::InstanceIdentifier query(612);
+  SamplerType::SubsamplePointer   subsample = SamplerType::SubsampleType::New();
+
+  // Test exceptions
+  ITK_TRY_EXPECT_EXCEPTION(samplerOrig->Search(query, subsample));
+
   samplerOrig->SetRadius(20);
+
+  ITK_TRY_EXPECT_EXCEPTION(samplerOrig->Search(query, subsample));
+
+  samplerOrig->SetSampleRegion(region);
+
+  samplerOrig->SetSample(sample);
+
+  // Expect a warning about the index being outside the given image region and an empty result
+  query = std::pow(regionSizeVal, Dimension);
+  samplerOrig->Search(query, subsample);
+
+  typename SamplerType::SubsampleType::TotalAbsoluteFrequencyType expectedTotalFrequency = 0;
+  ITK_TEST_EXPECT_EQUAL(expectedTotalFrequency, subsample->GetTotalFrequency());
+  size_t expectedIdHolderSize = 0;
+  ITK_TEST_EXPECT_EQUAL(expectedIdHolderSize, subsample->GetIdHolder().size());
+
+  samplerOrig->CanSelectQueryOn();
+  query = std::pow(regionSizeVal, Dimension) - 1;
+  samplerOrig->Search(query, subsample);
+
+  expectedTotalFrequency = 441;
+  ITK_TEST_EXPECT_EQUAL(expectedTotalFrequency, subsample->GetTotalFrequency());
+  expectedIdHolderSize = 441;
+  ITK_TEST_EXPECT_EQUAL(expectedIdHolderSize, subsample->GetIdHolder().size());
+
   samplerOrig->SetNumberOfResultsRequested(50);
   samplerOrig->SetSeed(100);
   samplerOrig->CanSelectQueryOff();
-
 
   auto useClockForSeed = static_cast<bool>(std::stoi(argv[1]));
   ITK_TEST_SET_GET_BOOLEAN(samplerOrig, UseClockForSeed, useClockForSeed);
@@ -89,8 +119,8 @@ itkUniformRandomSpatialNeighborSubsamplerTest(int argc, char * argv[])
   ITK_TEST_SET_GET_VALUE(samplerOrig->GetSeed(), sampler->GetSeed());
   ITK_TEST_SET_GET_VALUE(samplerOrig->GetCanSelectQuery(), sampler->GetCanSelectQuery());
 
-  SamplerType::SubsamplePointer subsample = SamplerType::SubsampleType::New();
-  sampler->Search(612, subsample);
+  query = 612;
+  sampler->Search(query, subsample);
 
   for (SamplerType::SubsampleConstIterator sIt = subsample->Begin(); sIt != subsample->End(); ++sIt)
   {
