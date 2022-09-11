@@ -270,8 +270,6 @@ RegularStepGradientDescentOptimizerv4TestHelper(
 int
 itkRegularStepGradientDescentOptimizerv4Test(int, char *[])
 {
-  std::cout << "RegularStepGradientDescentOptimizerv4 Test ";
-  std::cout << std::endl << std::endl;
 
   using OptimizerType = itk::RegularStepGradientDescentOptimizerv4<double>;
 
