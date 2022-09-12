@@ -43,14 +43,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RGBGibbsPriorFilter()
   m_StartPoint.Fill(0);
 }
 
-template <typename TInputImage, typename TClassifiedImage>
-RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::~RGBGibbsPriorFilter()
-{
-  delete[] m_Region;
-  delete[] m_RegionCount;
-  delete[] m_LabelStatus;
-}
-
 /* Set the labelled image. */
 template <typename TInputImage, typename TClassifiedImage>
 void
@@ -87,7 +79,7 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::Allocate()
   m_ImageDepth = inputImageSize[2];
 
   const unsigned int numberOfPixels = m_ImageWidth * m_ImageHeight * m_ImageDepth;
-  m_LabelStatus = new LabelType[numberOfPixels];
+  m_LabelStatus = make_unique_for_overwrite<LabelType[]>(numberOfPixels);
   for (unsigned int index = 0; index < numberOfPixels; ++index)
   {
     m_LabelStatus[index] = 1;
@@ -623,11 +615,8 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
 {
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
 
-  delete[] m_Region;
-  m_Region = new unsigned short[size];
-
-  delete[] m_RegionCount;
-  m_RegionCount = new unsigned short[size];
+  m_Region = make_unique_for_overwrite<unsigned short[]>(size);
+  m_RegionCount = make_unique_for_overwrite<unsigned short[]>(size);
 
   const auto valid_region_counter = make_unique_for_overwrite<unsigned short[]>(size);
 
