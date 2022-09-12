@@ -138,13 +138,7 @@ jobs:
     strategy:
       max-parallel: 2
       matrix:
-<<<<<<< HEAD
         python-version: [37, 38, 39, 310]
-=======
-        python-version: [36, 37, 38, 39]
-        include:
-          - itk-python-git-tag: "46dd4156e3adfa7cda8952cbec786fbd063ebc79"
->>>>>>> f70eb6d (ENH: Adding Python test for itk::PolyLineCell conversion)
 
     steps:
     - uses: actions/checkout@v2
@@ -178,13 +172,6 @@ jobs:
     runs-on: macos-10.15
     strategy:
       max-parallel: 2
-      matrix:
-        include:
-<<<<<<< HEAD
-          - itk-python-git-tag: "v5.3rc04"
-=======
-          - itk-python-git-tag: "46dd4156e3adfa7cda8952cbec786fbd063ebc79"
->>>>>>> f70eb6d (ENH: Adding Python test for itk::PolyLineCell conversion)
 
     steps:
     - uses: actions/checkout@v2
@@ -219,12 +206,6 @@ jobs:
       max-parallel: 2
       matrix:
         python-version-minor: [7, 8, 9, 10]
-        include:
-<<<<<<< HEAD
-          - itk-python-git-tag: "v5.3rc04"
-=======
-          - itk-python-git-tag: "46dd4156e3adfa7cda8952cbec786fbd063ebc79"
->>>>>>> f70eb6d (ENH: Adding Python test for itk::PolyLineCell conversion)
 
     steps:
     - name: Get specific version of CMake, Ninja
