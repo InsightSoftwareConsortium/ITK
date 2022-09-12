@@ -20,16 +20,10 @@
 
 #include "itkMath.h"
 #include "itkNumericTraits.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
-
-template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
-ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::~ImageGaussianModelEstimator()
-{
-  delete[] m_Covariance;
-}
-
 
 template <typename TInputImage, typename TMembershipFunction, typename TTrainingImage>
 void
@@ -40,7 +34,7 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::P
 
   os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
   os << indent << "Means: " << m_Means << std::endl;
-  os << indent << "Covariance: " << m_Covariance << std::endl;
+  os << indent << "Covariance: " << m_Covariance.get() << std::endl;
 
   itkPrintSelfObjectMacro(TrainingImage);
 }
@@ -139,10 +133,8 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::E
   m_NumberOfSamples.set_size(numberOfModels, 1);
   m_NumberOfSamples.fill(0);
 
-  // Delete previous allocation first
-  delete[] m_Covariance;
   // Number of covariance matrices are equal to the number of classes
-  m_Covariance = (MatrixType *)new MatrixType[numberOfModels];
+  m_Covariance = make_unique_for_overwrite<MatrixType[]>(numberOfModels);
 
   for (unsigned int i = 0; i < numberOfModels; ++i)
   {

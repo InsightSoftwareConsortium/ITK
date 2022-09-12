@@ -20,6 +20,7 @@
 
 #include <cmath>
 #include <cfloat>
+#include <memory> // For unique_ptr.
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_matrix.h"
@@ -124,7 +125,7 @@ public:
 
 protected:
   ImageGaussianModelEstimator() = default;
-  ~ImageGaussianModelEstimator() override;
+  ~ImageGaussianModelEstimator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -151,9 +152,9 @@ private:
   void
   EstimateGaussianModelParameters();
 
-  MatrixType   m_NumberOfSamples;
-  MatrixType   m_Means;
-  MatrixType * m_Covariance{ nullptr };
+  MatrixType                    m_NumberOfSamples;
+  MatrixType                    m_Means;
+  std::unique_ptr<MatrixType[]> m_Covariance{ nullptr };
 
   TrainingImagePointer m_TrainingImage;
 };
