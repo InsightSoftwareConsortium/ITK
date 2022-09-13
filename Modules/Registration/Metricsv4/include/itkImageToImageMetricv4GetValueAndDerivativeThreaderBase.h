@@ -21,6 +21,8 @@
 #include "itkDomainThreader.h"
 #include "itkCompensatedSummation.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 
@@ -95,7 +97,7 @@ public:
 
 protected:
   ImageToImageMetricv4GetValueAndDerivativeThreaderBase();
-  ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase() override;
+  ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase() override = default;
 
   /** Resize and initialize per thread objects. */
   void
@@ -191,7 +193,7 @@ protected:
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
                     PaddedGetValueAndDerivativePerThreadStruct,
                     AlignedGetValueAndDerivativePerThreadStruct);
-  AlignedGetValueAndDerivativePerThreadStruct * m_GetValueAndDerivativePerThreadVariables;
+  std::unique_ptr<AlignedGetValueAndDerivativePerThreadStruct[]> m_GetValueAndDerivativePerThreadVariables;
 
   /** Cached values to avoid call overhead.
    *  These will only be set once threading has been started. */

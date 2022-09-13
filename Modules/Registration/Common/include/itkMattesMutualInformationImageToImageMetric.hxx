@@ -22,6 +22,7 @@
 #include "itkImageIterator.h"
 #include "itkMath.h"
 #include "itkStatisticsImageFilter.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include "vnl/vnl_vector.h"
 #include "vnl/vnl_c_vector.h"
@@ -44,12 +45,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MattesMutu
   this->m_WithinThreadPreProcess = true;
   this->m_WithinThreadPostProcess = false;
   this->m_ComputeGradient = false;
-}
-
-template <typename TFixedImage, typename TMovingImage>
-MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::~MattesMutualInformationImageToImageMetric()
-{
-  delete[] this->m_MMIMetricPerThreadVariables;
 }
 
 template <typename TFixedImage, typename TMovingImage>
@@ -217,8 +212,8 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
    */
   this->m_MovingImageMarginalPDF.resize(m_NumberOfHistogramBins, 0.0F);
 
-  delete[] this->m_MMIMetricPerThreadVariables;
-  this->m_MMIMetricPerThreadVariables = new AlignedMMIMetricPerThreadStruct[this->m_NumberOfWorkUnits];
+  this->m_MMIMetricPerThreadVariables =
+    make_unique_for_overwrite<AlignedMMIMetricPerThreadStruct[]>(this->m_NumberOfWorkUnits);
 
   {
     const int binRange = this->m_NumberOfHistogramBins / this->m_NumberOfWorkUnits;

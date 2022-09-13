@@ -22,6 +22,8 @@
 #include "itkPoint.h"
 #include "itkIndex.h"
 
+#include <memory> // For unique_ptr.
+
 
 namespace itk
 {
@@ -104,7 +106,7 @@ public:
 
 protected:
   MeanSquaresImageToImageMetric();
-  ~MeanSquaresImageToImageMetric() override;
+  ~MeanSquaresImageToImageMetric() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -130,7 +132,7 @@ private:
   };
 
   itkAlignedTypedef(64, PerThreadS, AlignedPerThreadType);
-  AlignedPerThreadType * m_PerThread;
+  std::unique_ptr<AlignedPerThreadType[]> m_PerThread;
 };
 } // end namespace itk
 

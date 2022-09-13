@@ -21,6 +21,8 @@
 #include "itkDomainThreader.h"
 #include "itkImage.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 
@@ -65,7 +67,7 @@ public:
 
 protected:
   JointHistogramMutualInformationComputeJointPDFThreaderBase();
-  ~JointHistogramMutualInformationComputeJointPDFThreaderBase() override;
+  ~JointHistogramMutualInformationComputeJointPDFThreaderBase() override = default;
 
   /** Create the \c m_JointPDFPerThread's. */
   void
@@ -92,7 +94,7 @@ protected:
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
                     PaddedJointHistogramMIPerThreadStruct,
                     AlignedJointHistogramMIPerThreadStruct);
-  AlignedJointHistogramMIPerThreadStruct * m_JointHistogramMIPerThreadVariables;
+  std::unique_ptr<AlignedJointHistogramMIPerThreadStruct[]> m_JointHistogramMIPerThreadVariables;
 };
 
 } // end namespace itk

@@ -19,6 +19,7 @@
 #define itkImageToImageMetricv4GetValueAndDerivativeThreaderBase_hxx
 
 #include "itkNumericTraits.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -30,13 +31,6 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImage
   , m_CachedNumberOfParameters(0)
   , m_CachedNumberOfLocalParameters(0)
 {}
-
-template <typename TDomainPartitioner, typename TImageToImageMetricv4>
-ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner, TImageToImageMetricv4>::
-  ~ImageToImageMetricv4GetValueAndDerivativeThreaderBase()
-{
-  delete[] m_GetValueAndDerivativePerThreadVariables;
-}
 
 template <typename TDomainPartitioner, typename TImageToImageMetricv4>
 void
@@ -52,8 +46,8 @@ ImageToImageMetricv4GetValueAndDerivativeThreaderBase<TDomainPartitioner,
 
   /* Per-thread results */
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
-  delete[] m_GetValueAndDerivativePerThreadVariables;
-  this->m_GetValueAndDerivativePerThreadVariables = new AlignedGetValueAndDerivativePerThreadStruct[numWorkUnitsUsed];
+  this->m_GetValueAndDerivativePerThreadVariables =
+    make_unique_for_overwrite<AlignedGetValueAndDerivativePerThreadStruct[]>(numWorkUnitsUsed);
 
   if (this->m_Associate->GetComputeDerivative())
   {

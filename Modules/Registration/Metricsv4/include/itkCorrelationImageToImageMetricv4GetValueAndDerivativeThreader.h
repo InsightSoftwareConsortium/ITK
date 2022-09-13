@@ -20,6 +20,8 @@
 
 #include "itkImageToImageMetricv4GetValueAndDerivativeThreader.h"
 
+#include <memory> // For unique_ptr.
+
 namespace itk
 {
 
@@ -73,7 +75,7 @@ public:
 
 protected:
   CorrelationImageToImageMetricv4GetValueAndDerivativeThreader();
-  ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() override;
+  ~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader() override = default;
 
   /** Overload: Resize and initialize per thread objects:
    *    number of valid points
@@ -147,7 +149,8 @@ private:
                     PaddedCorrelationMetricValueDerivativePerThreadStruct,
                     AlignedCorrelationMetricValueDerivativePerThreadStruct);
   /* per thread variables for correlation and its derivatives */
-  AlignedCorrelationMetricValueDerivativePerThreadStruct * m_CorrelationMetricValueDerivativePerThreadVariables;
+  std::unique_ptr<AlignedCorrelationMetricValueDerivativePerThreadStruct[]>
+    m_CorrelationMetricValueDerivativePerThreadVariables;
 
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */

@@ -22,6 +22,7 @@
 #include "itkImageRegionIterator.h"
 #include "itkImageIterator.h"
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -33,7 +34,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::MeanSquaresImageToImag
 {
   this->SetComputeGradient(true);
 
-  m_PerThread = nullptr;
   this->m_WithinThreadPreProcess = false;
   this->m_WithinThreadPostProcess = false;
 
@@ -41,13 +41,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::MeanSquaresImageToImag
   //  in the fixed image.
   //  This should be fixed in ITKv4 so that this metric behaves as the others.
   this->SetUseAllPixels(true);
-}
-
-template <typename TFixedImage, typename TMovingImage>
-MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::~MeanSquaresImageToImageMetric()
-{
-  delete[] m_PerThread;
-  m_PerThread = nullptr;
 }
 
 /**
@@ -70,9 +63,7 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   this->Superclass::Initialize();
   this->Superclass::MultiThreadingInitialize();
 
-  delete[] m_PerThread;
-
-  m_PerThread = new AlignedPerThreadType[this->m_NumberOfWorkUnits];
+  m_PerThread = make_unique_for_overwrite<AlignedPerThreadType[]>(this->m_NumberOfWorkUnits);
 
   for (ThreadIdType workUnitID = 0; workUnitID < this->m_NumberOfWorkUnits; ++workUnitID)
   {

@@ -18,6 +18,7 @@
 #ifndef itkJointHistogramMutualInformationGetValueAndDerivativeThreader_hxx
 #define itkJointHistogramMutualInformationGetValueAndDerivativeThreader_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -30,16 +31,6 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<
   : m_JointHistogramMIPerThreadVariables(nullptr)
   , m_JointAssociate(nullptr)
 {}
-
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
-JointHistogramMutualInformationGetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TJointHistogramMetric>::~JointHistogramMutualInformationGetValueAndDerivativeThreader()
-{
-  delete[] this->m_JointHistogramMIPerThreadVariables;
-}
 
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TJointHistogramMetric>
@@ -58,8 +49,8 @@ JointHistogramMutualInformationGetValueAndDerivativeThreader<TDomainPartitioner,
   }
 
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
-  delete[] this->m_JointHistogramMIPerThreadVariables;
-  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[numWorkUnitsUsed];
+  this->m_JointHistogramMIPerThreadVariables =
+    make_unique_for_overwrite<AlignedJointHistogramMIPerThreadStruct[]>(numWorkUnitsUsed);
 
   for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {

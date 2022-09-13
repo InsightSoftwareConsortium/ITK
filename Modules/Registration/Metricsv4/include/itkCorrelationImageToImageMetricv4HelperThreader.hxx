@@ -18,6 +18,7 @@
 #ifndef itkCorrelationImageToImageMetricv4HelperThreader_hxx
 #define itkCorrelationImageToImageMetricv4HelperThreader_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -31,14 +32,6 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
 
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
-CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>::
-  ~CorrelationImageToImageMetricv4HelperThreader()
-{
-  delete[] m_CorrelationMetricPerThreadVariables;
-}
-
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
 void
 CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageMetric, TCorrelationMetric>::
   BeforeThreadedExecution()
@@ -49,8 +42,8 @@ CorrelationImageToImageMetricv4HelperThreader<TDomainPartitioner, TImageToImageM
   this->m_CorrelationAssociate = dynamic_cast<TCorrelationMetric *>(this->m_Associate);
 
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
-  delete[] this->m_CorrelationMetricPerThreadVariables;
-  this->m_CorrelationMetricPerThreadVariables = new AlignedCorrelationMetricPerThreadStruct[numWorkUnitsUsed];
+  this->m_CorrelationMetricPerThreadVariables =
+    make_unique_for_overwrite<AlignedCorrelationMetricPerThreadStruct[]>(numWorkUnitsUsed);
 
   //---------------------------------------------------------------
   // Set initial values.

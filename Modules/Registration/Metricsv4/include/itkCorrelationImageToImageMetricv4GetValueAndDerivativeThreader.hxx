@@ -18,6 +18,8 @@
 #ifndef itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 #define itkCorrelationImageToImageMetricv4GetValueAndDerivativeThreader_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
+
 
 namespace itk
 {
@@ -30,16 +32,6 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
   : m_CorrelationMetricValueDerivativePerThreadVariables(nullptr)
   , m_CorrelationAssociate(nullptr)
 {}
-
-
-template <typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
-CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<
-  TDomainPartitioner,
-  TImageToImageMetric,
-  TCorrelationMetric>::~CorrelationImageToImageMetricv4GetValueAndDerivativeThreader()
-{
-  delete[] m_CorrelationMetricValueDerivativePerThreadVariables;
-}
 
 
 template <typename TDomainPartitioner, typename TImageToImageMetric, typename TCorrelationMetric>
@@ -62,9 +54,8 @@ CorrelationImageToImageMetricv4GetValueAndDerivativeThreader<TDomainPartitioner,
 
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
   // set size
-  delete[] m_CorrelationMetricValueDerivativePerThreadVariables;
   m_CorrelationMetricValueDerivativePerThreadVariables =
-    new AlignedCorrelationMetricValueDerivativePerThreadStruct[numWorkUnitsUsed];
+    make_unique_for_overwrite<AlignedCorrelationMetricValueDerivativePerThreadStruct[]>(numWorkUnitsUsed);
   for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     this->m_CorrelationMetricValueDerivativePerThreadVariables[i].fdm.SetSize(globalDerivativeSize);
