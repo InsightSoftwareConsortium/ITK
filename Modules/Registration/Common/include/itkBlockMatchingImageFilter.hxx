@@ -22,6 +22,7 @@
 #include "itkConstNeighborhoodIterator.h"
 #include <limits>
 #include "itkMultiThreaderBase.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 
 namespace itk
@@ -168,8 +169,8 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
     itkExceptionMacro("Invalid number of feature points: " << this->m_PointsCount << ".");
   }
 
-  this->m_DisplacementsVectorsArray = new DisplacementsVector[this->m_PointsCount];
-  this->m_SimilaritiesValuesArray = new SimilaritiesValue[this->m_PointsCount];
+  this->m_DisplacementsVectorsArray = make_unique_for_overwrite<DisplacementsVector[]>(this->m_PointsCount);
+  this->m_SimilaritiesValuesArray = make_unique_for_overwrite<SimilaritiesValue[]>(this->m_PointsCount);
 }
 
 template <typename TFixedImage,
@@ -223,8 +224,8 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   }
 
   // clean up
-  delete[] m_DisplacementsVectorsArray;
-  delete[] m_SimilaritiesValuesArray;
+  m_DisplacementsVectorsArray.reset();
+  m_SimilaritiesValuesArray.reset();
 }
 
 // Callback routine used by the threading library. This routine just calls

@@ -24,6 +24,7 @@
 #include "itkVector.h"
 #include "itkDefaultDynamicMeshTraits.h"
 
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -216,9 +217,9 @@ private:
   ImageSizeType m_SearchRadius;
 
   // temporary dynamic arrays for storing threads outputs
-  SizeValueType         m_PointsCount;
-  DisplacementsVector * m_DisplacementsVectorsArray;
-  SimilaritiesValue *   m_SimilaritiesValuesArray;
+  SizeValueType                          m_PointsCount;
+  std::unique_ptr<DisplacementsVector[]> m_DisplacementsVectorsArray;
+  std::unique_ptr<SimilaritiesValue[]>   m_SimilaritiesValuesArray;
 };
 } // end namespace itk
 
