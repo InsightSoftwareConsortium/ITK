@@ -24,6 +24,7 @@
 #include "itkBSplineDerivativeKernelFunction.h"
 #include "itkArray2D.h"
 
+#include <memory> // For unique_ptr.
 #include <mutex>
 
 
@@ -259,7 +260,7 @@ public:
 
 protected:
   MattesMutualInformationImageToImageMetric();
-  ~MattesMutualInformationImageToImageMetric() override;
+  ~MattesMutualInformationImageToImageMetric() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -360,7 +361,7 @@ private:
   // See
   //   https://thetweaker.wordpress.com/2010/05/05/stdvector-of-aligned-elements/
   //   https://connect.microsoft.com/VisualStudio/feedback/details/692988
-  AlignedMMIMetricPerThreadStruct * m_MMIMetricPerThreadVariables;
+  std::unique_ptr<AlignedMMIMetricPerThreadStruct[]> m_MMIMetricPerThreadVariables;
 #endif
 
   bool         m_UseExplicitPDFDerivatives{ true };

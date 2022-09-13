@@ -20,6 +20,7 @@
 
 
 #include "itkImageRegionIterator.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -31,20 +32,13 @@ JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, T
 {}
 
 template <typename TDomainPartitioner, typename TJointHistogramMetric>
-JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner, TJointHistogramMetric>::
-  ~JointHistogramMutualInformationComputeJointPDFThreaderBase()
-{
-  delete[] this->m_JointHistogramMIPerThreadVariables;
-}
-
-template <typename TDomainPartitioner, typename TJointHistogramMetric>
 void
 JointHistogramMutualInformationComputeJointPDFThreaderBase<TDomainPartitioner,
                                                            TJointHistogramMetric>::BeforeThreadedExecution()
 {
   const ThreadIdType numWorkUnitsUsed = this->GetNumberOfWorkUnitsUsed();
-  delete[] this->m_JointHistogramMIPerThreadVariables;
-  this->m_JointHistogramMIPerThreadVariables = new AlignedJointHistogramMIPerThreadStruct[numWorkUnitsUsed];
+  this->m_JointHistogramMIPerThreadVariables =
+    make_unique_for_overwrite<AlignedJointHistogramMIPerThreadStruct[]>(numWorkUnitsUsed);
   for (ThreadIdType i = 0; i < numWorkUnitsUsed; ++i)
   {
     if (this->m_JointHistogramMIPerThreadVariables[i].JointHistogram.IsNull())
