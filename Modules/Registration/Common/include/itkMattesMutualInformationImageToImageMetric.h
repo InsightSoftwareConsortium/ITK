@@ -360,7 +360,7 @@ private:
   // See
   //   https://thetweaker.wordpress.com/2010/05/05/stdvector-of-aligned-elements/
   //   https://connect.microsoft.com/VisualStudio/feedback/details/692988
-  mutable AlignedMMIMetricPerThreadStruct * m_MMIMetricPerThreadVariables;
+  AlignedMMIMetricPerThreadStruct * m_MMIMetricPerThreadVariables;
 #endif
 
   bool         m_UseExplicitPDFDerivatives{ true };
