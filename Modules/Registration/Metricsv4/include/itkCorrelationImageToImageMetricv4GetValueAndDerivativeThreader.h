@@ -147,7 +147,7 @@ private:
                     PaddedCorrelationMetricValueDerivativePerThreadStruct,
                     AlignedCorrelationMetricValueDerivativePerThreadStruct);
   /* per thread variables for correlation and its derivatives */
-  mutable AlignedCorrelationMetricValueDerivativePerThreadStruct * m_CorrelationMetricValueDerivativePerThreadVariables;
+  AlignedCorrelationMetricValueDerivativePerThreadStruct * m_CorrelationMetricValueDerivativePerThreadVariables;
 
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
