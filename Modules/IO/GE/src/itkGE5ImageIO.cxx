@@ -255,22 +255,12 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   if (pixelHdrFlag)
   {
     buffer = new char[imageHdr.GENESIS_IH_img_l_exam];
-    if (buffer == nullptr)
-    {
-      f.close();
-      itkExceptionMacro("GE5ImageIO:Unable to allocate memory for exam header!");
-    }
     f.seekg(imageHdr.GENESIS_IH_img_p_exam, std::ios::beg);
     f.read(buffer, imageHdr.GENESIS_IH_img_l_exam);
   }
   else
   {
     buffer = new char[GENESIS_EX_HDR_LEN];
-    if (buffer == nullptr)
-    {
-      f.close();
-      itkExceptionMacro("GE5ImageIO:Unable to allocate memory for exam header!");
-    }
     f.seekg(GENESIS_EX_HDR_START, std::ios::beg);
     f.read(buffer, GENESIS_EX_HDR_LEN);
   }
@@ -314,22 +304,12 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   if (pixelHdrFlag)
   {
     buffer = new char[imageHdr.GENESIS_IH_img_l_series];
-    if (buffer == nullptr)
-    {
-      f.close();
-      itkExceptionMacro("GE5ImageIO:Unable to allocate memory for series header!");
-    }
     f.seekg(imageHdr.GENESIS_IH_img_p_series, std::ios::beg);
     f.read(buffer, imageHdr.GENESIS_IH_img_l_series);
   }
   else
   {
     buffer = new char[GENESIS_SE_HDR_LEN];
-    if (buffer == nullptr)
-    {
-      f.close();
-      itkExceptionMacro("GE5ImageIO:Unable to allocate memory for series header!");
-    }
     f.seekg(GENESIS_SE_HDR_START);
     f.read(buffer, GENESIS_SE_HDR_LEN);
   }
@@ -351,11 +331,6 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   if (pixelHdrFlag)
   {
     buffer = new char[imageHdr.GENESIS_IH_img_l_image];
-    if (buffer == nullptr)
-    {
-      f.close();
-      itkExceptionMacro("GE5ImageIO:Unable to allocate memory for MR header!");
-    }
     // Now seek to the MR header and read the data into the buffer.
     f.seekg(imageHdr.GENESIS_IH_img_p_image, std::ios::beg);
     f.read(buffer, imageHdr.GENESIS_IH_img_l_image);
@@ -363,11 +338,6 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   else
   {
     buffer = new char[GENESIS_MR_HDR_LEN];
-    if (buffer == nullptr)
-    {
-      f.close();
-      itkExceptionMacro("GE5ImageIO:Unable to allocate memory for MR header!");
-    }
     f.seekg(GENESIS_IM_HDR_START, std::ios::beg);
     f.read(buffer, GENESIS_MR_HDR_LEN);
   }
