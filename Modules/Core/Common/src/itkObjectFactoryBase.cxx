@@ -512,20 +512,16 @@ ObjectFactoryBase::ReHash()
  * initialize class members
  */
 ObjectFactoryBase::ObjectFactoryBase()
+  : m_OverrideMap{ std::make_unique<OverRideMap>() }
 {
   m_LibraryHandle = nullptr;
   m_LibraryDate = 0;
-  m_OverrideMap = new OverRideMap;
 }
 
 /**
  * Unload the library and free the path string
  */
-ObjectFactoryBase::~ObjectFactoryBase()
-{
-  m_OverrideMap->erase(m_OverrideMap->begin(), m_OverrideMap->end());
-  delete m_OverrideMap;
-}
+ObjectFactoryBase::~ObjectFactoryBase() = default;
 
 /**
  * Add a factory to the registered list.
