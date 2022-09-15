@@ -478,7 +478,7 @@ Object::AddObserver(const EventObject & event, Command * cmd)
 {
   if (!this->m_SubjectImplementation)
   {
-    this->m_SubjectImplementation = new SubjectImplementation;
+    this->m_SubjectImplementation = std::make_unique<SubjectImplementation>();
   }
   return this->m_SubjectImplementation->AddObserver(event, cmd);
 }
@@ -489,7 +489,7 @@ Object::AddObserver(const EventObject & event, Command * cmd) const
   if (!this->m_SubjectImplementation)
   {
     auto * me = const_cast<Self *>(this);
-    me->m_SubjectImplementation = new SubjectImplementation;
+    me->m_SubjectImplementation = std::make_unique<SubjectImplementation>();
   }
   return this->m_SubjectImplementation->AddObserver(event, cmd);
 }
@@ -583,8 +583,6 @@ Object::Object()
 Object::~Object()
 {
   itkDebugMacro(<< "Destructing!");
-  delete m_SubjectImplementation;
-  delete m_MetaDataDictionary;
 }
 
 /**
@@ -611,7 +609,7 @@ Object::GetMetaDataDictionary()
 {
   if (m_MetaDataDictionary == nullptr)
   {
-    m_MetaDataDictionary = new MetaDataDictionary;
+    m_MetaDataDictionary = std::make_unique<MetaDataDictionary>();
   }
   return *m_MetaDataDictionary;
 }
@@ -621,7 +619,7 @@ Object::GetMetaDataDictionary() const
 {
   if (m_MetaDataDictionary == nullptr)
   {
-    m_MetaDataDictionary = new MetaDataDictionary;
+    m_MetaDataDictionary = std::make_unique<MetaDataDictionary>();
   }
   return *m_MetaDataDictionary;
 }
@@ -631,7 +629,7 @@ Object::SetMetaDataDictionary(const MetaDataDictionary & rhs)
 {
   if (m_MetaDataDictionary == nullptr)
   {
-    m_MetaDataDictionary = new MetaDataDictionary(rhs);
+    m_MetaDataDictionary = std::make_unique<MetaDataDictionary>(rhs);
     return;
   }
   *m_MetaDataDictionary = rhs;
@@ -642,7 +640,7 @@ Object::SetMetaDataDictionary(MetaDataDictionary && rrhs)
 {
   if (m_MetaDataDictionary == nullptr)
   {
-    m_MetaDataDictionary = new MetaDataDictionary(std::move(rrhs));
+    m_MetaDataDictionary = std::make_unique<MetaDataDictionary>(std::move(rrhs));
     return;
   }
   *m_MetaDataDictionary = std::move(rrhs);
