@@ -18,6 +18,7 @@
 #include "itkGE5ImageIO.h"
 #include "itkByteSwapper.h"
 #include "itksys/SystemTools.hxx"
+#include "itkMakeUniqueForOverwrite.h"
 #include "Ge5xHdr.h"
 #include <algorithm>
 #include <iostream>
@@ -251,43 +252,42 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
 #define VOff(a, b) (imageHdr.GENESIS_IH_img_version != 2 ? a : b)
   // Create a buffer to read the exam header.
   // Now seek to the exam header and read the data into the buffer.
-  char * buffer = nullptr;
+  std::unique_ptr<char[]> buffer;
   if (pixelHdrFlag)
   {
-    buffer = new char[imageHdr.GENESIS_IH_img_l_exam];
+    buffer = make_unique_for_overwrite<char[]>(imageHdr.GENESIS_IH_img_l_exam);
     f.seekg(imageHdr.GENESIS_IH_img_p_exam, std::ios::beg);
-    f.read(buffer, imageHdr.GENESIS_IH_img_l_exam);
+    f.read(buffer.get(), imageHdr.GENESIS_IH_img_l_exam);
   }
   else
   {
-    buffer = new char[GENESIS_EX_HDR_LEN];
+    buffer = make_unique_for_overwrite<char[]>(GENESIS_EX_HDR_LEN);
     f.seekg(GENESIS_EX_HDR_START, std::ios::beg);
-    f.read(buffer, GENESIS_EX_HDR_LEN);
+    f.read(buffer.get(), GENESIS_EX_HDR_LEN);
   }
   if (f.fail())
   {
     f.close();
-    delete[] buffer;
     itkExceptionMacro("GE5ImageIO:Could not read exam header!");
   }
 
   // Now extract the exam information from the buffer.
-  curImage->examNumber = hdr2Short(buffer + 8);
+  curImage->examNumber = hdr2Short(buffer.get() + 8);
 
-  strncpy(curImage->hospital, buffer + 10, 34);
+  strncpy(curImage->hospital, buffer.get() + 10, 34);
   curImage->hospital[34] = '\0';
 
   // patient id
-  std::string tmpId(buffer + VOff(84, 88), 13);
+  std::string tmpId(buffer.get() + VOff(84, 88), 13);
   (void)std::remove(tmpId.begin(), tmpId.end(), '-');
   strncpy(curImage->patientId, tmpId.c_str(), sizeof(curImage->patientId) - 1);
   curImage->patientId[sizeof(curImage->patientId) - 1] = '\0';
 
-  strncpy(curImage->name, buffer + VOff(97, 101), 25);
+  strncpy(curImage->name, buffer.get() + VOff(97, 101), 25);
   curImage->name[24] = '\0';
 
   // Need to know modality as well.
-  strncpy(curImage->modality, buffer + VOff(305, 309), 3);
+  strncpy(curImage->modality, buffer.get() + VOff(305, 309), 3);
   curImage->modality[3] = '\0';
   bool isCT = false;
   if (strncmp(curImage->modality, "CT", 2) == 0)
@@ -295,23 +295,22 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
     isCT = true;
   }
 
-  // Done with exam, delete buffer.
-  delete[] buffer;
-  buffer = nullptr;
+  // Done with exam, reset buffer.
+  buffer.reset();
 
   // Allocate buffer for series header.
   // Now seek to the series header and read the data into the buffer.
   if (pixelHdrFlag)
   {
-    buffer = new char[imageHdr.GENESIS_IH_img_l_series];
+    buffer = make_unique_for_overwrite<char[]>(imageHdr.GENESIS_IH_img_l_series);
     f.seekg(imageHdr.GENESIS_IH_img_p_series, std::ios::beg);
-    f.read(buffer, imageHdr.GENESIS_IH_img_l_series);
+    f.read(buffer.get(), imageHdr.GENESIS_IH_img_l_series);
   }
   else
   {
-    buffer = new char[GENESIS_SE_HDR_LEN];
+    buffer = make_unique_for_overwrite<char[]>(GENESIS_SE_HDR_LEN);
     f.seekg(GENESIS_SE_HDR_START);
-    f.read(buffer, GENESIS_SE_HDR_LEN);
+    f.read(buffer.get(), GENESIS_SE_HDR_LEN);
   }
   if (f.fail())
   {
@@ -320,26 +319,25 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   }
 
   // Now extract the series information from the buffer.
-  curImage->seriesNumber = hdr2Short(buffer + 10);
+  curImage->seriesNumber = hdr2Short(buffer.get() + 10);
 
-  int timeStamp = hdr2Int(buffer + 12);
+  int timeStamp = hdr2Int(buffer.get() + 12);
   statTimeToAscii(&timeStamp, curImage->date, sizeof(curImage->date));
 
-  // Done with series, delete buffer and allocate for MR header.
-  delete[] buffer;
-  buffer = nullptr;
+  // Done with series, reset buffer and allocate for MR header.
+  buffer.reset();
   if (pixelHdrFlag)
   {
-    buffer = new char[imageHdr.GENESIS_IH_img_l_image];
+    buffer = make_unique_for_overwrite<char[]>(imageHdr.GENESIS_IH_img_l_image);
     // Now seek to the MR header and read the data into the buffer.
     f.seekg(imageHdr.GENESIS_IH_img_p_image, std::ios::beg);
-    f.read(buffer, imageHdr.GENESIS_IH_img_l_image);
+    f.read(buffer.get(), imageHdr.GENESIS_IH_img_l_image);
   }
   else
   {
-    buffer = new char[GENESIS_MR_HDR_LEN];
+    buffer = make_unique_for_overwrite<char[]>(GENESIS_MR_HDR_LEN);
     f.seekg(GENESIS_IM_HDR_START, std::ios::beg);
-    f.read(buffer, GENESIS_MR_HDR_LEN);
+    f.read(buffer.get(), GENESIS_MR_HDR_LEN);
   }
   if (f.fail())
   {
@@ -350,12 +348,12 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
 
   // Now extract the MR information from the buffer.
   // This is the largest header!
-  curImage->imageNumber = hdr2Short(buffer + 12);
+  curImage->imageNumber = hdr2Short(buffer.get() + 12);
 
-  curImage->sliceThickness = hdr2Float(buffer + VOff(26, 28));
+  curImage->sliceThickness = hdr2Float(buffer.get() + VOff(26, 28));
 
-  curImage->imageXsize = hdr2Short(buffer + VOff(30, 32));
-  curImage->imageYsize = hdr2Short(buffer + VOff(32, 34));
+  curImage->imageXsize = hdr2Short(buffer.get() + VOff(30, 32));
+  curImage->imageYsize = hdr2Short(buffer.get() + VOff(32, 34));
   //
   // if this a headerless flag, we don't know until now
   // where to begin reading image data
@@ -365,16 +363,16 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
       itksys::SystemTools::FileLength(FileNameToRead) - (curImage->imageXsize * curImage->imageYsize * 2);
   }
 
-  curImage->xFOV = hdr2Float(buffer + VOff(34, 36));
-  curImage->yFOV = hdr2Float(buffer + VOff(38, 40));
+  curImage->xFOV = hdr2Float(buffer.get() + VOff(34, 36));
+  curImage->yFOV = hdr2Float(buffer.get() + VOff(38, 40));
 
-  curImage->acqXsize = hdr2Short(buffer + VOff(42, 44));
-  curImage->acqYsize = hdr2Short(buffer + VOff(46, 48));
+  curImage->acqXsize = hdr2Short(buffer.get() + VOff(42, 44));
+  curImage->acqYsize = hdr2Short(buffer.get() + VOff(46, 48));
 
-  curImage->imageXres = hdr2Float(buffer + VOff(50, 52));
-  curImage->imageYres = hdr2Float(buffer + VOff(54, 56));
+  curImage->imageXres = hdr2Float(buffer.get() + VOff(50, 52));
+  curImage->imageYres = hdr2Float(buffer.get() + VOff(54, 56));
 
-  short GE_Plane(hdr2Short(buffer + VOff(114, 116)));
+  short GE_Plane(hdr2Short(buffer.get() + VOff(114, 116)));
   switch (GE_Plane)
   {
     case GE_CORONAL:
@@ -396,47 +394,47 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
   }
 
 
-  curImage->sliceLocation = hdr2Float(buffer + VOff(126, 132));
+  curImage->sliceLocation = hdr2Float(buffer.get() + VOff(126, 132));
 
-  curImage->centerR = hdr2Float(buffer + VOff(130, 136));
-  curImage->centerA = hdr2Float(buffer + VOff(134, 140));
-  curImage->centerS = hdr2Float(buffer + VOff(138, 144));
-  curImage->normR = hdr2Float(buffer + VOff(142, 146));
-  curImage->normA = hdr2Float(buffer + VOff(146, 152));
-  curImage->normS = hdr2Float(buffer + VOff(150, 156));
-  curImage->tlhcR = hdr2Float(buffer + VOff(154, 160));
-  curImage->tlhcA = hdr2Float(buffer + VOff(158, 164));
-  curImage->tlhcS = hdr2Float(buffer + VOff(162, 168));
-  curImage->trhcR = hdr2Float(buffer + VOff(166, 172));
-  curImage->trhcA = hdr2Float(buffer + VOff(170, 176));
-  curImage->trhcS = hdr2Float(buffer + VOff(174, 180));
-  curImage->brhcR = hdr2Float(buffer + VOff(178, 184));
-  curImage->brhcA = hdr2Float(buffer + VOff(182, 188));
-  curImage->brhcS = hdr2Float(buffer + VOff(186, 192));
+  curImage->centerR = hdr2Float(buffer.get() + VOff(130, 136));
+  curImage->centerA = hdr2Float(buffer.get() + VOff(134, 140));
+  curImage->centerS = hdr2Float(buffer.get() + VOff(138, 144));
+  curImage->normR = hdr2Float(buffer.get() + VOff(142, 146));
+  curImage->normA = hdr2Float(buffer.get() + VOff(146, 152));
+  curImage->normS = hdr2Float(buffer.get() + VOff(150, 156));
+  curImage->tlhcR = hdr2Float(buffer.get() + VOff(154, 160));
+  curImage->tlhcA = hdr2Float(buffer.get() + VOff(158, 164));
+  curImage->tlhcS = hdr2Float(buffer.get() + VOff(162, 168));
+  curImage->trhcR = hdr2Float(buffer.get() + VOff(166, 172));
+  curImage->trhcA = hdr2Float(buffer.get() + VOff(170, 176));
+  curImage->trhcS = hdr2Float(buffer.get() + VOff(174, 180));
+  curImage->brhcR = hdr2Float(buffer.get() + VOff(178, 184));
+  curImage->brhcA = hdr2Float(buffer.get() + VOff(182, 188));
+  curImage->brhcS = hdr2Float(buffer.get() + VOff(186, 192));
 
   // These values are all MR specific
   if (!isCT)
   {
-    curImage->TR = hdr2Int(buffer + VOff(194, 200));
-    curImage->TI = hdr2Int(buffer + VOff(198, 204));
-    curImage->TE = hdr2Int(buffer + VOff(202, 208));
-    curImage->TE2 = hdr2Int(buffer + VOff(206, 212));
+    curImage->TR = hdr2Int(buffer.get() + VOff(194, 200));
+    curImage->TI = hdr2Int(buffer.get() + VOff(198, 204));
+    curImage->TE = hdr2Int(buffer.get() + VOff(202, 208));
+    curImage->TE2 = hdr2Int(buffer.get() + VOff(206, 212));
 
-    if ((curImage->numberOfEchoes = hdr2Short(buffer + VOff(210, 216))) == 0)
+    if ((curImage->numberOfEchoes = hdr2Short(buffer.get() + VOff(210, 216))) == 0)
     {
       curImage->numberOfEchoes = 1;
     }
 
-    curImage->echoNumber = hdr2Short(buffer + VOff(212, 218));
+    curImage->echoNumber = hdr2Short(buffer.get() + VOff(212, 218));
 
-    curImage->NEX = hdr2Int(buffer + VOff(218, 224));
+    curImage->NEX = hdr2Int(buffer.get() + VOff(218, 224));
 
-    curImage->flipAngle = hdr2Short(buffer + VOff(254, 260));
+    curImage->flipAngle = hdr2Short(buffer.get() + VOff(254, 260));
 
-    strncpy(curImage->pulseSequence, buffer + VOff(308, 320), 34);
+    strncpy(curImage->pulseSequence, buffer.get() + VOff(308, 320), 34);
     curImage->pulseSequence[33] = '\0';
 
-    curImage->numberOfSlices = hdr2Short(buffer + VOff(398, 416));
+    curImage->numberOfSlices = hdr2Short(buffer.get() + VOff(398, 416));
   }
   else
   {
@@ -452,11 +450,9 @@ GE5ImageIO::ReadHeader(const char * FileNameToRead)
     curImage->numberOfSlices = 1;
   }
 
-  // Delete the buffer and return the pointer to the header.
+  // Return the pointer to the header.
   // The function that receives the pointer must do memory
   // cleanup or a memory leak will occur.
-  delete[] buffer;
-
   return (curImage);
 }
 
