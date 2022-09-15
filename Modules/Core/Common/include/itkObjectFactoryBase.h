@@ -32,6 +32,7 @@
 #include "itkSingletonMacro.h"
 #include "itkCommonEnums.h"
 #include <list>
+#include <memory> // For unique_ptr.
 #include <vector>
 
 namespace itk
@@ -276,7 +277,7 @@ private:
   SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate);
   itkGetGlobalDeclarationMacro(ObjectFactoryBasePrivate, PimplGlobals);
 
-  OverRideMap * m_OverrideMap;
+  const std::unique_ptr<OverRideMap> m_OverrideMap;
 
   /** Initialize the static list of Factories. */
   static void
