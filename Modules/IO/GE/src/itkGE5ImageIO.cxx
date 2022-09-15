@@ -513,8 +513,8 @@ GE5ImageIO::ModifyImageInformation()
     ++it;
     std::string file2 = (*it)->GetImageFileName();
 
-    GEImageHeader * hdr1 = this->ReadHeader(file1.c_str());
-    GEImageHeader * hdr2 = this->ReadHeader(file2.c_str());
+    const std::unique_ptr<const GEImageHeader> hdr1{ this->ReadHeader(file1.c_str()) };
+    const std::unique_ptr<const GEImageHeader> hdr2{ this->ReadHeader(file2.c_str()) };
 
     float origin1[3], origin2[3];
     origin1[0] = hdr1->tlhcR;
@@ -535,10 +535,6 @@ GE5ImageIO::ModifyImageInformation()
                                                (origin1[2] - origin2[2]) * (origin1[2] - origin2[2]));
 
     this->SetSpacing(2, distanceBetweenTwoSlices);
-
-    // Cleanup
-    delete hdr1;
-    delete hdr2;
   }
   else
   // If there is only one slice, the use its origin
