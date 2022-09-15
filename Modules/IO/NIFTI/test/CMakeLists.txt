@@ -103,6 +103,10 @@ itk_add_test(NAME itkNiftiSmallVoxelsAffinePrecisionTest
 COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest13
       DATA{Input/SmallVoxels_AffinePrecision.nii.gz})
 
+itk_add_test(NAME itkNiftiQFormSFormDifferentSpacingTest
+      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest13
+      DATA{Input/ChickenEgg-zeros.nii.gz})
+
 itk_add_test(NAME itkNiftiWriteCoerceOrthogonalDirectionTest
         COMMAND ITKIONIFTITestDriver itkNiftiWriteCoerceOrthogonalDirectionTest
         ${ITK_TEST_OUTPUT_DIR}
