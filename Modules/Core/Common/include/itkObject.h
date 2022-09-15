@@ -34,6 +34,7 @@
 #include "itkSingletonMacro.h"
 
 #include <functional>
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -273,7 +274,8 @@ private:
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
-  SubjectImplementation * m_SubjectImplementation{ nullptr };
+  std::unique_ptr<SubjectImplementation> m_SubjectImplementation{ nullptr };
+
   /**
    * Implementation for holding Object MetaData
    * @see itk::MetaDataDictionary
@@ -281,7 +283,7 @@ private:
    * @see itk::MetaDataObject
    * This is only allocated if used.
    */
-  mutable MetaDataDictionary * m_MetaDataDictionary{ nullptr };
+  mutable std::unique_ptr<MetaDataDictionary> m_MetaDataDictionary{ nullptr };
 
   std::string m_ObjectName;
 };
