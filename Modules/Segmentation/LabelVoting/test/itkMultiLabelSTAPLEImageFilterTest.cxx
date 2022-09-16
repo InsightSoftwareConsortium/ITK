@@ -126,7 +126,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasMaximumNumberOfIterations());
 
-  unsigned int maximumNumberOfIterations = 0;
+  unsigned int maximumNumberOfIterations = 100;
   filter->SetMaximumNumberOfIterations(maximumNumberOfIterations);
   ITK_TEST_SET_GET_VALUE(maximumNumberOfIterations, filter->GetMaximumNumberOfIterations());
 
