@@ -28,6 +28,7 @@
 #include "itkOutputWindow.h"
 #include "itkObjectFactory.h"
 #include "itkSingleton.h"
+#include <mutex>
 
 namespace itk
 {
@@ -35,6 +36,7 @@ namespace itk
 struct OutputWindowGlobals
 {
   OutputWindow::Pointer m_Instance{ nullptr };
+  std::recursive_mutex  m_StaticInstanceLock;
 };
 
 /**
@@ -115,6 +117,7 @@ OutputWindow::Pointer
 OutputWindow::GetInstance()
 {
   itkInitGlobalsMacro(PimplGlobals);
+  std::lock_guard<std::recursive_mutex> mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
   if (!m_PimplGlobals->m_Instance)
   {
     // Try the factory first
@@ -141,6 +144,8 @@ void
 OutputWindow::SetInstance(OutputWindow * instance)
 {
   itkInitGlobalsMacro(PimplGlobals);
+
+  std::lock_guard<std::recursive_mutex> mutexHolder(m_PimplGlobals->m_StaticInstanceLock);
   if (m_PimplGlobals->m_Instance == instance)
   {
     return;
