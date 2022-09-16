@@ -134,7 +134,9 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasLabelForUndecidedPixels());
 
-  typename myFilterType::WeightsType terminationUpdateThreshold = 1e-5;
+  filter->UnsetMaximumNumberOfIterations();
+
+  typename FilterType::WeightsType terminationUpdateThreshold = 1e-5;
   filter->SetTerminationUpdateThreshold(terminationUpdateThreshold);
   ITK_TEST_SET_GET_VALUE(terminationUpdateThreshold, filter->GetTerminationUpdateThreshold());
 
