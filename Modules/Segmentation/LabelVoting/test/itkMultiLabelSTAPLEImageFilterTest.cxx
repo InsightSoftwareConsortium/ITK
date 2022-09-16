@@ -185,7 +185,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   filter->UnsetLabelForUndecidedPixels();
 
   // Execute the filter
-  filter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // compare to correct results
   it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
@@ -205,7 +205,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   filter->SetInput(2, inputImageC);
 
   // Execute the filter
-  filter->Update();
+  ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // compare to correct results
   it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
