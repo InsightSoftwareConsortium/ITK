@@ -225,8 +225,6 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   std::cout << "Confusion matrix 1 " << std::endl << filter->GetConfusionMatrix(1) << std::endl;
   std::cout << "Confusion matrix 2 " << std::endl << filter->GetConfusionMatrix(2) << std::endl;
 
-  std::cout << "Success!\n";
-
-  // All objects should be automatically destroyed at this point
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
