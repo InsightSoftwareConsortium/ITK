@@ -120,7 +120,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   // Get the Smart Pointer to the Filter Output
   ImageTypePointer outputImage = filter->GetOutput();
 
-  // = test first two input images with undecided label set to 255 = //
+  // Test first two input images with undecided label set to 255
 
   // Connect the first two input images
   filter->SetInput(0, inputImageA);
@@ -169,7 +169,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   std::cout << "ElapsedNumberOfIterations: " << filter->GetElapsedNumberOfIterations() << std::endl;
 
-  // compare to correct results
+  // Compare to correct results
   it = IteratorType(outputImage, outputImage->GetBufferedRegion());
   for (unsigned int i = 0; i < imageSize; ++i, ++it)
   {
@@ -181,15 +181,15 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     }
   }
 
-  // =========== test first two input images ============ //
+  // Test first two input images
 
-  // unset undecided pixel label; reinstate automatic selection
+  // Unset undecided pixel label; reinstate automatic selection
   filter->UnsetLabelForUndecidedPixels();
 
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  // compare to correct results
+  // Compare to correct results
   it = IteratorType(outputImage, outputImage->GetBufferedRegion());
   for (unsigned int i = 0; i < 8; ++i, ++it)
   {
@@ -201,15 +201,15 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
     }
   }
 
-  // =========== test all three input images ============ //
+  // Test all three input images
 
-  // connect third input image
+  // Connect third input image
   filter->SetInput(2, inputImageC);
 
   // Execute the filter
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
-  // compare to correct results
+  // Compare to correct results
   it = IteratorType(outputImage, outputImage->GetBufferedRegion());
   for (unsigned int i = 0; i < 8; ++i, ++it)
   {
