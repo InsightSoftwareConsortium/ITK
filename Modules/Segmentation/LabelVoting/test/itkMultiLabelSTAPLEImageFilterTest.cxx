@@ -23,54 +23,56 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 {
 
   // Define the dimension of the images
-  constexpr unsigned int myDimension = 3;
+  constexpr unsigned int Dimension = 3;
+  constexpr unsigned int imageSizePerDimension = 2;
+  constexpr unsigned int imageSize = 8; // std::pow(imageSizePerDimension, Dimension);
 
   // Declare the types of the images
-  using myImageType = itk::Image<unsigned int, myDimension>;
+  using ImageType = itk::Image<unsigned int, Dimension>;
 
   // Input data arrays for test images
-  const unsigned int dataImageA[8] = { 0, 1, 3, 3, 4, 6, 6, 0 };
-  const unsigned int dataImageB[8] = { 1, 1, 2, 4, 4, 5, 7, 1 };
-  const unsigned int dataImageC[8] = { 0, 2, 2, 3, 5, 5, 6, 8 };
+  const unsigned int dataImageA[imageSize] = { 0, 1, 3, 3, 4, 6, 6, 0 };
+  const unsigned int dataImageB[imageSize] = { 1, 1, 2, 4, 4, 5, 7, 1 };
+  const unsigned int dataImageC[imageSize] = { 0, 2, 2, 3, 5, 5, 6, 8 };
 
   // Correct combinations of input images
-  const unsigned int combinationABC[8] = { 0, 1, 2, 3, 4, 5, 6, 9 };
-  const unsigned int combinationAB[8] = { 8, 1, 8, 8, 4, 8, 8, 8 };
-  const unsigned int combinationABundecided255[8] = { 255, 1, 255, 255, 4, 255, 255, 255 };
+  const unsigned int combinationABC[imageSize] = { 0, 1, 2, 3, 4, 5, 6, 9 };
+  const unsigned int combinationAB[imageSize] = { 8, 1, 8, 8, 4, 8, 8, 8 };
+  const unsigned int combinationABundecided255[imageSize] = { 255, 1, 255, 255, 4, 255, 255, 255 };
 
   // Declare the type of the index to access images
-  using myIndexType = itk::Index<myDimension>;
+  using IndexType = itk::Index<Dimension>;
 
   // Declare the type of the size
-  using mySizeType = itk::Size<myDimension>;
+  using SizeType = itk::Size<Dimension>;
 
   // Declare the type of the Region
-  using myRegionType = itk::ImageRegion<myDimension>;
+  using RegionType = itk::ImageRegion<Dimension>;
 
   // Declare Iterator type appropriate for image
-  using myIteratorType = itk::ImageRegionIterator<myImageType>;
+  using IteratorType = itk::ImageRegionIterator<ImageType>;
 
   // Declare the type for the ADD filter
-  using myFilterType = itk::MultiLabelSTAPLEImageFilter<myImageType>;
-  using myFilterTypePointer = myFilterType::Pointer;
+  using FilterType = itk::MultiLabelSTAPLEImageFilter<ImageType>;
+  using FilterTypePointer = FilterType::Pointer;
 
   // Declare the pointers to images
-  using myImageTypePointer = myImageType::Pointer;
+  using ImageTypePointer = ImageType::Pointer;
 
   // Create two images
-  myImageTypePointer inputImageA = myImageType::New();
-  myImageTypePointer inputImageB = myImageType::New();
-  myImageTypePointer inputImageC = myImageType::New();
+  ImageTypePointer inputImageA = ImageType::New();
+  ImageTypePointer inputImageB = ImageType::New();
+  ImageTypePointer inputImageC = ImageType::New();
 
-  myRegionType region;
+  RegionType region;
   {
     // Define their size, and start index
-    mySizeType size;
-    size[0] = 2;
-    size[1] = 2;
-    size[2] = 2;
+    SizeType size;
+    size[0] = imageSizePerDimension;
+    size[1] = imageSizePerDimension;
+    size[2] = imageSizePerDimension;
 
-    myIndexType start;
+    IndexType start;
     start[0] = 0;
     start[1] = 0;
     start[2] = 0;
@@ -83,9 +85,9 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   inputImageA->SetRegions(region);
   inputImageA->Allocate();
 
-  myIteratorType it = myIteratorType(inputImageA, inputImageA->GetBufferedRegion());
+  IteratorType it = IteratorType(inputImageA, inputImageA->GetBufferedRegion());
 
-  for (unsigned int i = 0; i < 8; ++i, ++it)
+  for (unsigned int i = 0; i < imageSize; ++i, ++it)
   {
     it.Set(dataImageA[i]);
   }
@@ -94,8 +96,8 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   inputImageB->SetRegions(region);
   inputImageB->Allocate();
 
-  it = myIteratorType(inputImageB, inputImageB->GetBufferedRegion());
-  for (unsigned int i = 0; i < 8; ++i, ++it)
+  it = IteratorType(inputImageB, inputImageB->GetBufferedRegion());
+  for (unsigned int i = 0; i < imageSize; ++i, ++it)
   {
     it.Set(dataImageB[i]);
   }
@@ -104,19 +106,19 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   inputImageC->SetRegions(region);
   inputImageC->Allocate();
 
-  it = myIteratorType(inputImageC, inputImageC->GetBufferedRegion());
-  for (unsigned int i = 0; i < 8; ++i, ++it)
+  it = IteratorType(inputImageC, inputImageC->GetBufferedRegion());
+  for (unsigned int i = 0; i < imageSize; ++i, ++it)
   {
     it.Set(dataImageC[i]);
   }
 
   // Create an LabelVoting Filter
-  myFilterTypePointer filter = myFilterType::New();
+  FilterTypePointer filter = FilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, MultiLabelSTAPLEImageFilter, ImageToImageFilter);
 
   // Get the Smart Pointer to the Filter Output
-  myImageTypePointer outputImage = filter->GetOutput();
+  ImageTypePointer outputImage = filter->GetOutput();
 
   // = test first two input images with undecided label set to 255 = //
 
@@ -141,7 +143,7 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(terminationUpdateThreshold, filter->GetTerminationUpdateThreshold());
 
   // Set label for undecided pixels
-  typename myFilterType::OutputPixelType labelForUndecidedPixels = 255;
+  typename FilterType::OutputPixelType labelForUndecidedPixels = 255;
   filter->SetLabelForUndecidedPixels(labelForUndecidedPixels);
   ITK_TEST_SET_GET_VALUE(labelForUndecidedPixels, filter->GetLabelForUndecidedPixels());
 
@@ -149,8 +151,8 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
 
   ITK_TEST_EXPECT_TRUE(!filter->GetHasPriorProbabilities());
 
-  typename myFilterType::PriorProbabilitiesType::ValueType priorProbabilitiesVal(0.0);
-  typename myFilterType::PriorProbabilitiesType            priorProbabilities(1);
+  typename FilterType::PriorProbabilitiesType::ValueType priorProbabilitiesVal(0.0);
+  typename FilterType::PriorProbabilitiesType            priorProbabilities(1);
   priorProbabilities.Fill(priorProbabilitiesVal);
   filter->SetPriorProbabilities(priorProbabilities);
   ITK_TEST_SET_GET_VALUE(priorProbabilities, filter->GetPriorProbabilities());
@@ -168,13 +170,13 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   std::cout << "ElapsedNumberOfIterations: " << filter->GetElapsedNumberOfIterations() << std::endl;
 
   // compare to correct results
-  it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
-  for (unsigned int i = 0; i < 8; ++i, ++it)
+  it = IteratorType(outputImage, outputImage->GetBufferedRegion());
+  for (unsigned int i = 0; i < imageSize; ++i, ++it)
   {
     if (combinationABundecided255[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B and undecided=" << labelForUndecidedPixels << ": "
-                << "i = " << i << ", correct = " << combinationABundecided255[i] << ", got = " << it.Get() << "\n";
+                << "i = " << i << ", correct = " << combinationABundecided255[i] << ", got = " << it.Get() << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -188,13 +190,13 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // compare to correct results
-  it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
+  it = IteratorType(outputImage, outputImage->GetBufferedRegion());
   for (unsigned int i = 0; i < 8; ++i, ++it)
   {
     if (combinationAB[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B: i = " << i << ", correct = " << combinationAB[i]
-                << ", got = " << it.Get() << "\n";
+                << ", got = " << it.Get() << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -208,13 +210,13 @@ itkMultiLabelSTAPLEImageFilterTest(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(filter->Update());
 
   // compare to correct results
-  it = myIteratorType(outputImage, outputImage->GetBufferedRegion());
+  it = IteratorType(outputImage, outputImage->GetBufferedRegion());
   for (unsigned int i = 0; i < 8; ++i, ++it)
   {
     if (combinationABC[i] != it.Get())
     {
       std::cout << "Incorrect result using images A,B,C: i = " << i << ", correct = " << combinationABC[i]
-                << ", got = " << it.Get() << "\n";
+                << ", got = " << it.Get() << std::endl;
       return EXIT_FAILURE;
     }
   }
