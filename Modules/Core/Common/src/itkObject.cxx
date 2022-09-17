@@ -221,11 +221,16 @@ SubjectImplementation::InvokeEventRecursion(const EventObject &                 
     // save observer
     const Observer * o = *i;
 
+    // Save its tag, before the observer could /possibly/ be removed.
+    const unsigned long tag{ o->m_Tag };
+
     if (o->m_Event->CheckEvent(&event))
     {
       InvokeEventRecursion(event, self, ++i);
 
-      if (!m_ListModified || std::find(m_Observers.begin(), m_Observers.end(), o) != m_Observers.end())
+      const auto hasSameTag = [tag](const Observer * const observer) { return observer->m_Tag == tag; };
+
+      if (!m_ListModified || std::any_of(m_Observers.begin(), m_Observers.end(), hasSameTag))
       {
         o->m_Command->Execute(self, event);
       }
