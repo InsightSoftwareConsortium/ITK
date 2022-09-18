@@ -221,6 +221,7 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
 {
   if (argc < 2)
   {
+    std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " OutputImage [InitImage [TargetImage]]\n";
     return EXIT_FAILURE;
   }
@@ -315,7 +316,6 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
 
   std::cout << mf << std::endl << std::flush;
 
-  std::cout << "Passed !" << std::endl << std::flush;
-
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
