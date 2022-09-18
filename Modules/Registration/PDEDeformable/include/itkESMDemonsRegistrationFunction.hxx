@@ -89,12 +89,10 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
   os << indent << "MaximumUpdateStepLength: ";
   os << m_MaximumUpdateStepLength << std::endl;
 
-  os << indent << "MovingImageIterpolator: ";
-  os << m_MovingImageInterpolator.GetPointer() << std::endl;
-  os << indent << "FixedImageGradientCalculator: ";
-  os << m_FixedImageGradientCalculator.GetPointer() << std::endl;
-  os << indent << "MappedMovingImageGradientCalculator: ";
-  os << m_MappedMovingImageGradientCalculator.GetPointer() << std::endl;
+  itkPrintSelfObjectMacro(MovingImageInterpolator);
+  itkPrintSelfObjectMacro(FixedImageGradientCalculator);
+  itkPrintSelfObjectMacro(MappedMovingImageGradientCalculator);
+
   os << indent << "DenominatorThreshold: ";
   os << m_DenominatorThreshold << std::endl;
   os << indent << "IntensityDifferenceThreshold: ";
