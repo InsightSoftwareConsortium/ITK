@@ -27,6 +27,7 @@
  *=========================================================================*/
 #include "itkCommand.h"
 #include <algorithm>
+#include <memory> // For unique_ptr.
 
 #include "itkSingleton.h"
 
@@ -47,16 +48,10 @@ public:
     , m_Event(event)
     , m_Tag(tag)
   {}
-  virtual ~Observer();
-  Command::Pointer    m_Command;
-  const EventObject * m_Event;
-  unsigned long       m_Tag;
+  Command::Pointer                   m_Command;
+  std::unique_ptr<const EventObject> m_Event;
+  unsigned long                      m_Tag;
 };
-/* Create Out-of-line Definition */
-Observer::~Observer()
-{
-  delete m_Event;
-}
 
 class ITKCommon_HIDDEN SubjectImplementation
 {
@@ -248,7 +243,7 @@ SubjectImplementation::HasObserver(const EventObject & event) const
 {
   for (auto observer : m_Observers)
   {
-    const EventObject * e = observer->m_Event;
+    const EventObject * e = observer->m_Event.get();
     if (e->CheckEvent(&event))
     {
       return true;
@@ -267,7 +262,7 @@ SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) const
 
   for (auto observer : m_Observers)
   {
-    const EventObject * e = observer->m_Event;
+    const EventObject * e = observer->m_Event.get();
     const Command *     c = observer->m_Command;
     os << indent << e->GetEventName() << "(" << c->GetNameOfClass();
     if (!c->GetObjectName().empty())
