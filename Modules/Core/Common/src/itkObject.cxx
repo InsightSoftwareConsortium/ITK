@@ -67,9 +67,6 @@ public:
   unsigned long
   AddObserver(const EventObject & event, Command * cmd);
 
-  unsigned long
-  AddObserver(const EventObject & event, Command * cmd) const;
-
   void
   RemoveObserver(unsigned long tag);
 
@@ -136,17 +133,6 @@ SubjectImplementation::AddObserver(const EventObject & event, Command * cmd)
 
   m_Observers.push_back(ptr);
   ++m_Count;
-  return ptr->m_Tag;
-}
-
-unsigned long
-SubjectImplementation::AddObserver(const EventObject & event, Command * cmd) const
-{
-  auto * ptr = new Observer(cmd, event.MakeObject(), m_Count);
-  auto * me = const_cast<SubjectImplementation *>(this);
-
-  me->m_Observers.push_back(ptr);
-  me->m_Count++;
   return ptr->m_Tag;
 }
 
