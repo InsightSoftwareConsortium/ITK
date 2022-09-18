@@ -228,16 +228,8 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   auto affineObserver = AffineCommandType::New();
   affineSimple->AddObserver(itk::MultiResolutionIterationEvent(), affineObserver);
 
-  try
-  {
-    std::cout << "Point set affine registration update" << std::endl;
-    affineSimple->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(affineSimple->Update());
+
 
   // applying the resultant transform to moving points and verify result
   std::cout << "Fixed\tMoving\tMovingTransformed\tFixedTransformed\tDiff" << std::endl;

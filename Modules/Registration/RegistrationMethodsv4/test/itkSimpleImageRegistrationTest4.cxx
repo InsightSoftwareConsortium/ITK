@@ -137,15 +137,8 @@ ImageRegistration(int itkNotUsed(argc), char * argv[])
   auto observer = CommandType::New();
   optimizer->AddObserver(itk::IterationEvent(), observer);
 
-  try
-  {
-    registration->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception caught: " << e << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(registration->Update());
+
 
   registration->GetTransform()->Print(std::cout);
   std::cout << optimizer->GetStopConditionDescription() << std::endl;

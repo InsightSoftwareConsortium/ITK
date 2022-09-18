@@ -17,6 +17,7 @@
  *=========================================================================*/
 
 #include "itkImageFileReader.h"
+#include "itkTestingMacros.h"
 
 
 int
@@ -33,65 +34,19 @@ itkImageFileReaderTest1(int argc, char * argv[])
   using ReaderType = itk::ImageFileReader<ImageNDType>;
 
   // Try an empty read
-  int status = 1;
-  try
-  {
-    auto reader = ReaderType::New();
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & ex)
-  {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
-    std::cout << ex;
-    status = 0;
-  }
-  if (status)
-  {
-    std::cout << "Failed to catch expected exception." << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto reader = ReaderType::New();
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
 
   // Now try a read with an image that doesn't exist
-  status = 1;
-  try
-  {
-    auto reader = ReaderType::New();
-    reader->SetFileName("this_file_should_not_exist");
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & ex)
-  {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
-    std::cout << ex;
-    status = 0;
-  }
-  if (status)
-  {
-    std::cout << "Failed to catch expected exception." << std::endl;
-    return EXIT_FAILURE;
-  }
+  reader->SetFileName("this_file_should_not_exist");
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
+
 
   // Let's try to read a file where no ImageIO can read it
-  status = 1;
-  try
-  {
-    auto reader = ReaderType::New();
-    // this is the executable and no reader should be able to read it
-    reader->SetFileName(argv[0]);
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & ex)
-  {
-    std::cout << "------------------ Caught expected exception!" << std::endl;
-    std::cout << ex;
-    status = 0;
-  }
-  if (status)
-  {
-    std::cout << "Failed to catch expected exception." << std::endl;
-    return EXIT_FAILURE;
-  }
+  // This is the executable and no reader should be able to read it
+  reader->SetFileName(argv[0]);
+  ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
 
   return EXIT_SUCCESS;
