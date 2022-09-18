@@ -84,30 +84,21 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UseGradientType: ";
-  os << m_UseGradientType << std::endl;
-  os << indent << "MaximumUpdateStepLength: ";
-  os << m_MaximumUpdateStepLength << std::endl;
+  os << indent << "UseGradientType: " << m_UseGradientType << std::endl;
+  os << indent << "MaximumUpdateStepLength: " << m_MaximumUpdateStepLength << std::endl;
 
   itkPrintSelfObjectMacro(MovingImageInterpolator);
   itkPrintSelfObjectMacro(FixedImageGradientCalculator);
   itkPrintSelfObjectMacro(MappedMovingImageGradientCalculator);
 
-  os << indent << "DenominatorThreshold: ";
-  os << m_DenominatorThreshold << std::endl;
-  os << indent << "IntensityDifferenceThreshold: ";
-  os << m_IntensityDifferenceThreshold << std::endl;
+  os << indent << "DenominatorThreshold: " << m_DenominatorThreshold << std::endl;
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
 
-  os << indent << "Metric: ";
-  os << m_Metric << std::endl;
-  os << indent << "SumOfSquaredDifference: ";
-  os << m_SumOfSquaredDifference << std::endl;
-  os << indent << "NumberOfPixelsProcessed: ";
-  os << m_NumberOfPixelsProcessed << std::endl;
-  os << indent << "RMSChange: ";
-  os << m_RMSChange << std::endl;
-  os << indent << "SumOfSquaredChange: ";
-  os << m_SumOfSquaredChange << std::endl;
+  os << indent << "Metric: " << m_Metric << std::endl;
+  os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
+  os << indent << "NumberOfPixelsProcessed: " << m_NumberOfPixelsProcessed << std::endl;
+  os << indent << "RMSChange: " << m_RMSChange << std::endl;
+  os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
 }
 
 /**
