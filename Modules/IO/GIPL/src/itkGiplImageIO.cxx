@@ -72,7 +72,6 @@ public:
 #define GIPL_MAGIC_NUMBER 0xefffe9b0
 #define GIPL_MAGIC_NUMBER2 0x2ae389b8
 
-/** Constructor */
 GiplImageIO::GiplImageIO()
 {
   m_Internal = new GiplImageIOInternals;
@@ -81,7 +80,6 @@ GiplImageIO::GiplImageIO()
   m_IsCompressed = false;
 }
 
-/** Destructor */
 GiplImageIO::~GiplImageIO()
 {
   if (m_IsCompressed)
@@ -254,10 +252,6 @@ GiplImageIO::Read(void * buffer)
   SwapBytesIfNecessary(buffer, numberOfPixels);
 }
 
-/**
- *  Read Information about the Gipl file
- *  and put the cursor of the stream just before the first data pixel
- */
 void
 GiplImageIO::ReadImageInformation()
 {
@@ -1100,7 +1094,6 @@ GiplImageIO ::Write(const void * buffer)
   }
 }
 
-/** Print Self Method */
 void
 GiplImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {

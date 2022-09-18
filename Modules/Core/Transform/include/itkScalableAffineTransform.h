@@ -83,13 +83,12 @@ public:
   using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-  /** Set the transformation to an Identity
-   *
-   * This sets the matrix to identity and the Offset to null. */
+  /** Set the transformation to an Identity.
+   * Sets the matrix to identity and the Offset to null. */
   void
   SetIdentity() override;
 
-  /** Set the scale of the transform */
+  /** Set the scale of the transform. */
   virtual void
   SetScale(const InputVectorType & scale);
 
@@ -99,7 +98,7 @@ public:
     this->SetScale(scale);
   }
 
-  /** Set the scale of the transform */
+  /** Set the scale of the transform. */
   virtual void
   SetScale(const double scale[VDimension]);
 
@@ -121,11 +120,11 @@ public:
     return m_Scale;
   }
 
-  /** Get an inverse of this transform. */
+  /** Get an inverse of the transform. */
   bool
   GetInverse(Self * inverse) const;
 
-  /** Return an inverse of this transform. */
+  /** Return an inverse of the transform. */
   InverseTransformBasePointer
   GetInverseTransform() const override;
 
@@ -142,13 +141,12 @@ protected:
   ScalableAffineTransform(unsigned int parametersDimension);
   ScalableAffineTransform();
 
+  /** Compute the transformation matrix. */
   void
   ComputeMatrix() override;
 
-  /** Destroy an ScalableAffineTransform object   */
   ~ScalableAffineTransform() override = default;
 
-  /** Print contents of an ScalableAffineTransform */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

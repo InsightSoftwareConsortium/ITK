@@ -120,10 +120,10 @@ public:
   using ListPixelIterator = typename ListPixelType::iterator;
   using ListImageType = Image<ListPixelType, Self::ImageDimension>;
 
-  /** \brief Performs the narrow-band update of the Heaviside function for each
-  voxel. The characteristic function of each region is recomputed (note the
-  shared data which contains information from the other level sets). Using the
-  new H values, the previous c_i are updated. */
+  /** Performs the narrow-band update of the Heaviside function for each
+   *  voxel. The characteristic function of each region is recomputed (note the
+   *  shared data which contains information from the other level sets). Using the
+   *  new $H$ values, the previous $c_i$ are updated. */
   void
   UpdatePixel(const unsigned int                  idx,
               NeighborhoodIterator<TInputImage> & iterator,
@@ -136,12 +136,14 @@ protected:
   {}
   ~ScalarRegionBasedLevelSetFunction() override = default;
 
+  /** Compute the overlap multiplicative factors for the penalty term (sum) and
+   *  the background intensity fitting terms in multiphase level-sets. */
   ScalarValueType
   ComputeOverlapParameters(const FeatureIndexType & featIndex, ScalarValueType & product) override;
 
-  // update the background and foreground constants for pixel updates
-  // Called only when sparse filters are used to prevent iteration through the
-  // entire image
+  /** Update the background and foreground constants for pixel updates.
+   *  Called only when sparse filters are used to prevent iteration through the
+   *  entire image. */
   virtual void
   UpdateSharedDataInsideParameters(const unsigned int &     iId,
                                    const FeaturePixelType & iVal,

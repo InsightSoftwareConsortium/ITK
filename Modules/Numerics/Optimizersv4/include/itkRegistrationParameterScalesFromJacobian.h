@@ -70,7 +70,11 @@ public:
   using typename Superclass::JacobianType;
   using typename Superclass::VirtualImageConstPointer;
 
-  /** Estimate parameter scales. */
+  /** Estimate parameter scales from average Jacobian norms.
+   *  For each parameter, compute the squared norm of its transform Jacobian,
+   *  then average the squared norm over the sample points. This average is
+   *  used as the scale of this parameter.
+   */
   void
   EstimateScales(ScalesType & parameterScales) override;
 
@@ -94,7 +98,10 @@ public:
   FloatType
   EstimateStepScale(const ParametersType & step) override;
 
-  /** Estimate the scales of local steps. */
+  /** Estimate the scales of local steps. For each voxel, computes the impact
+   * of a step on its location as in ::EstimateStepScale. Then this impact is
+   * attributed to the corresponding local parameters.
+   */
   void
   EstimateLocalStepScales(const ParametersType & step, ScalesType & localStepScales) override;
 
