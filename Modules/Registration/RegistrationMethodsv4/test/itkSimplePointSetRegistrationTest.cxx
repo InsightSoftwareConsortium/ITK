@@ -21,6 +21,7 @@
 #include "itkAffineTransform.h"
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
+#include "itkTestingMacros.h"
 
 template <typename TFilter>
 class CommandIterationUpdate : public itk::Command
@@ -212,8 +213,13 @@ itkSimplePointSetRegistrationTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
   using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   auto affineSimple = AffineRegistrationType::New();
   affineSimple->SetObjectName("affineSimple");
+
   affineSimple->SetFixedPointSet(fixedPoints);
+  ITK_TEST_SET_GET_VALUE(fixedPoints, affineSimple->GetFixedPointSet());
+
   affineSimple->SetMovingPointSet(movingPoints);
+  ITK_TEST_SET_GET_VALUE(movingPoints, affineSimple->GetMovingPointSet());
+
   affineSimple->SetInitialTransform(transform);
   affineSimple->SetMetric(metric);
   affineSimple->SetOptimizer(optimizer);

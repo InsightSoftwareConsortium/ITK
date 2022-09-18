@@ -208,6 +208,8 @@ PerformSimpleImageRegistration2(int argc, char * argv[])
     RegistrationType::MetricSamplingStrategyEnum::RANDOM;
   double rigidSamplingPercentage = 0.20;
   rigidRegistration->SetMetricSamplingStrategy(rigidSamplingStrategy);
+  ITK_TEST_SET_GET_VALUE(rigidSamplingStrategy, rigidRegistration->GetMetricSamplingStrategy());
+
   rigidRegistration->SetMetricSamplingPercentage(rigidSamplingPercentage);
 
   using RigidScalesEstimatorType = itk::RegistrationParameterScalesFromPhysicalShift<MIMetricType>;

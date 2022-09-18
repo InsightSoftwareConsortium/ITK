@@ -152,20 +152,30 @@ PerformSimpleImageRegistration(int argc, char * argv[])
   using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   auto affineSimple = AffineRegistrationType::New();
   affineSimple->SetObjectName("affineSimple");
+
+  // Test exceptions
+  itk::SizeValueType numberOfLevels = affineSimple->GetNumberOfLevels();
+  ITK_TRY_EXPECT_EXCEPTION(affineSimple->GetShrinkFactorsPerDimension(numberOfLevels + 1));
+
+
   affineSimple->SetFixedImage(fixedImage);
+  ITK_TEST_SET_GET_VALUE(fixedImage, affineSimple->GetFixedImage());
+
   affineSimple->SetMovingImage(movingImage);
+  ITK_TEST_SET_GET_VALUE(movingImage, affineSimple->GetMovingImage());
 
   affineSimple->SetInitialTransform(affineTransform);
-  affineSimple->InPlaceOn();
 
-  // Ensuring code coverage for boolean macros
-  affineSimple->SmoothingSigmasAreSpecifiedInPhysicalUnitsOff();
-  affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits(false);
-  if (affineSimple->GetSmoothingSigmasAreSpecifiedInPhysicalUnits() != false)
-  {
-    std::cerr << "Returned unexpected value of TRUE." << std::endl;
-    return EXIT_FAILURE;
-  }
+  auto smoothingSigmasAreSpecifiedInPhysicalUnits = true;
+  ITK_TEST_SET_GET_BOOLEAN(
+    affineSimple, SmoothingSigmasAreSpecifiedInPhysicalUnits, smoothingSigmasAreSpecifiedInPhysicalUnits);
+
+  auto inPlace = true;
+  ITK_TEST_SET_GET_BOOLEAN(affineSimple, InPlace, inPlace);
+
+  auto initializeCenterOfLinearOutputTransform = true;
+  ITK_TEST_SET_GET_BOOLEAN(
+    affineSimple, InitializeCenterOfLinearOutputTransform, initializeCenterOfLinearOutputTransform);
 
   using MIMetricType = itk::JointHistogramMutualInformationImageToImageMetricv4<FixedImageType, MovingImageType>;
   auto mutualInformationMetric = MIMetricType::New();
@@ -181,14 +191,6 @@ PerformSimpleImageRegistration(int argc, char * argv[])
   scalesEstimator1->SetMetric(mutualInformationMetric);
   scalesEstimator1->SetTransformForward(true);
 
-  affineSimple->SmoothingSigmasAreSpecifiedInPhysicalUnitsOn();
-  affineSimple->SetSmoothingSigmasAreSpecifiedInPhysicalUnits(true);
-  if (affineSimple->GetSmoothingSigmasAreSpecifiedInPhysicalUnits() != true)
-  {
-    std::cerr << "Returned unexpected value of FALSE." << std::endl;
-    return EXIT_FAILURE;
-  }
-
   // Smooth by specified gaussian sigmas for each level.  These values are specified in
   // physical units. Sigmas of zero cause inconsistency between some platforms.
   {
@@ -198,6 +200,7 @@ PerformSimpleImageRegistration(int argc, char * argv[])
     smoothingSigmasPerLevel[1] = 1;
     smoothingSigmasPerLevel[2] = 1; // 0;
     affineSimple->SetSmoothingSigmasPerLevel(smoothingSigmasPerLevel);
+    ITK_TEST_SET_GET_VALUE(smoothingSigmasPerLevel, affineSimple->GetSmoothingSigmasPerLevel());
   }
 
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
@@ -287,7 +290,11 @@ PerformSimpleImageRegistration(int argc, char * argv[])
 
   displacementFieldSimple->SetFixedImage(fixedImage);
   displacementFieldSimple->SetMovingImage(movingImage);
-  displacementFieldSimple->SetNumberOfLevels(3);
+
+  numberOfLevels = 3;
+  displacementFieldSimple->SetNumberOfLevels(numberOfLevels);
+  ITK_TEST_SET_GET_VALUE(numberOfLevels, displacementFieldSimple->GetNumberOfLevels());
+
   displacementFieldSimple->SetMovingInitialTransformInput(affineSimple->GetTransformOutput());
   displacementFieldSimple->SetMetric(correlationMetric);
   displacementFieldSimple->SetOptimizer(optimizer);
@@ -354,6 +361,11 @@ PerformSimpleImageRegistration(int argc, char * argv[])
 
   ITK_TRY_EXPECT_NO_EXCEPTION(displacementFieldSimple->Update());
 
+
+  std::cout << "CurrentIteration: " << displacementFieldSimple->GetCurrentIteration() << std::endl;
+  std::cout << "CurrentMetricValue: " << displacementFieldSimple->GetCurrentMetricValue() << std::endl;
+  std::cout << "CurrentConvergenceValue: " << displacementFieldSimple->GetCurrentConvergenceValue() << std::endl;
+  std::cout << "IsConverged: " << displacementFieldSimple->GetIsConverged() << std::endl;
 
   using ImageMetricType = itk::ImageToImageMetricv4<FixedImageType, MovingImageType>;
   typename ImageMetricType::ConstPointer imageMetric = dynamic_cast<const ImageMetricType *>(affineSimple->GetMetric());
