@@ -43,5 +43,8 @@ itkImageRegistrationSamplingTest(int, char *[])
   {
     ITK_TRY_EXPECT_EXCEPTION(registrationMethod->SetMetricSamplingPercentage(errorValue));
   }
+
+
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

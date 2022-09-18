@@ -21,14 +21,8 @@
 
 
 int
-itkImageFileReaderTest1(int argc, char * argv[])
+itkImageFileReaderTest1(int itkNotUsed(argc), char * argv[])
 {
-
-  if (argc < 1)
-  {
-    std::cout << "usage: ITKImageIOBaseTestDriver itkImageFileReaderTest" << std::endl;
-    return EXIT_FAILURE;
-  }
 
   using ImageNDType = itk::Image<short, 2>;
   using ReaderType = itk::ImageFileReader<ImageNDType>;
@@ -49,5 +43,6 @@ itkImageFileReaderTest1(int argc, char * argv[])
   ITK_TRY_EXPECT_EXCEPTION(reader->Update());
 
 
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }
