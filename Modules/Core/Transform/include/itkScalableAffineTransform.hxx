@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/** Constructor with default arguments */
+
 template <typename TParametersValueType, unsigned int VDimension>
 ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransform()
   : Superclass(Self::ParametersDimension)
@@ -37,7 +37,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransfo
   }
 }
 
-/** Constructor with default arguments */
 template <typename TParametersValueType, unsigned int VDimension>
 ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransform(unsigned int,
                                                                                    unsigned int parametersDimension)
@@ -61,7 +60,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransfo
   }
 }
 
-/** Constructor with default arguments */
 template <typename TParametersValueType, unsigned int VDimension>
 ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransform(const MatrixType &       matrix,
                                                                                    const OutputVectorType & offset)
@@ -74,7 +72,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::ScalableAffineTransfo
   }
 }
 
-/** Print self */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
@@ -97,7 +94,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::PrintSelf(std::ostrea
   os << std::endl;
 }
 
-// Set the parameters in order to fit an Identity transform
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::SetIdentity()
@@ -110,7 +106,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::SetIdentity()
   this->Superclass::SetIdentity();
 }
 
-/** Set the scale of the transformation */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::SetScale(const InputVectorType & scale)
@@ -139,7 +134,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::SetScale(const double
   this->Modified();
 }
 
-// Get an inverse of this transform
 template <typename TParametersValueType, unsigned int VDimension>
 bool
 ScalableAffineTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) const
@@ -147,7 +141,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::GetInverse(Self * inv
   return this->Superclass::GetInverse(inverse);
 }
 
-// Return an inverse of this transform
 template <typename TParametersValueType, unsigned int VDimension>
 auto
 ScalableAffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer
@@ -157,7 +150,6 @@ ScalableAffineTransform<TParametersValueType, VDimension>::GetInverseTransform()
   return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
 }
 
-/** Set the scale of the transformation */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 ScalableAffineTransform<TParametersValueType, VDimension>::ComputeMatrix()

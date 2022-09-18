@@ -185,7 +185,7 @@ public:
     return global;
   }
 
-  /** Release memory for global data structure. */
+  /** Update the metric and release memory for the per-thread-global data structure. */
   void
   ReleaseGlobalDataPointer(void * gd) const override;
 
@@ -193,8 +193,8 @@ public:
   void
   InitializeIteration() override;
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary */
+  /** Compute update at a non-boundary neighbourhood. Called by a finite difference solver image filter at
+   * each pixel that does not lie on a data set boundary. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it, void * gd, const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 

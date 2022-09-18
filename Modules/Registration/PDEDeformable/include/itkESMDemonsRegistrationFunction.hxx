@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ESMDemonsRegistrationFunction()
 {
@@ -74,9 +72,6 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ES
   m_SumOfSquaredChange = 0.0;
 }
 
-/*
- * Standard "PrintSelf" method.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
@@ -133,9 +128,6 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Ge
   return m_IntensityDifferenceThreshold;
 }
 
-/**
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -189,9 +181,6 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
   m_SumOfSquaredChange = 0.0;
 }
 
-/**
- * Compute update at a non boundary neighbourhood
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
@@ -431,9 +420,6 @@ ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   return update;
 }
 
-/**
- * Update the metric and release the per-thread-global data.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 ESMDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(void * gd) const

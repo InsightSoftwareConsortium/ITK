@@ -60,7 +60,7 @@ public:
   bool
   CanReadFile(const char *) override;
 
-  /** Set the spacing and dimension information for the set filename. */
+  /** Read information about the Gipl file and put the cursor of the stream just before the first data pixel. */
   void
   ReadImageInformation() override;
 
