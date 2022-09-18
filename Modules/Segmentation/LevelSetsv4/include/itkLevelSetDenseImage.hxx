@@ -23,7 +23,6 @@
 namespace itk
 {
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 void
 LevelSetDenseImage<TImage>::SetImage(ImageType * inputImage)
@@ -39,7 +38,6 @@ LevelSetDenseImage<TImage>::SetImage(ImageType * inputImage)
   this->Modified();
 }
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 auto
 LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex) const -> OutputType
@@ -48,7 +46,6 @@ LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex) const -> Outp
   return this->m_Image->GetPixel(mapIndex);
 }
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 void
 LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex, LevelSetDataType & data) const
@@ -56,7 +53,6 @@ LevelSetDenseImage<TImage>::Evaluate(const InputType & inputIndex, LevelSetDataT
   Superclass::Evaluate(inputIndex, data);
 }
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 void
 LevelSetDenseImage<TImage>::Initialize()
@@ -66,7 +62,6 @@ LevelSetDenseImage<TImage>::Initialize()
   this->m_Image = nullptr;
 }
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 void
 LevelSetDenseImage<TImage>::CopyInformation(const DataObject * data)
@@ -83,7 +78,6 @@ LevelSetDenseImage<TImage>::CopyInformation(const DataObject * data)
   }
 }
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 void
 LevelSetDenseImage<TImage>::Graft(const DataObject * data)
@@ -102,7 +96,6 @@ LevelSetDenseImage<TImage>::Graft(const DataObject * data)
   this->m_NeighborhoodScales = LevelSet->m_NeighborhoodScales;
 }
 
-// ----------------------------------------------------------------------------
 template <typename TImage>
 bool
 LevelSetDenseImage<TImage>::IsInsideDomain(const InputType & inputIndex) const
