@@ -23,7 +23,9 @@
 namespace itk
 {
 
-template <typename TInputImage, template <typename, typename> class TInterpolator, typename TCoordRep>
+template <typename TInputImage,
+          template <typename TInterpInputImage, typename TCoordRep> class TInterpolator,
+          typename TCoordRep>
 void
 LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>::SetInputImage(
   const TInputImage * image)
@@ -56,7 +58,9 @@ LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>
   Superclass::SetInputImage(image);
 }
 
-template <typename TInputImage, template <typename, typename> class TInterpolator, typename TCoordRep>
+template <typename TInputImage,
+          template <typename TInterpInputImage, typename TCoordRep> class TInterpolator,
+          typename TCoordRep>
 typename LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>::OutputType
 LabelImageGenericInterpolateImageFunction<TInputImage, TInterpolator, TCoordRep>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & cindex,
