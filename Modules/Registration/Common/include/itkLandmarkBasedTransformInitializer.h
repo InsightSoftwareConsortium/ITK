@@ -76,7 +76,7 @@ namespace itk
  * and is described in the Insight Journal Article
  * "Affine Transformation for Landmark Based Registration Initializer
  * in ITK" by Kim E.Y., Johnson H., Williams N.
- * available at  http://midasjournal.com/browse/publication/825
+ * available at https://midasjournal.org/browse/publication/825
  *
  * \ingroup ITKRegistrationCommon
  *
