@@ -57,7 +57,7 @@ class ITKCommon_HIDDEN SubjectImplementation
 {
 public:
   SubjectImplementation() { m_Count = 0; }
-  ~SubjectImplementation();
+  ~SubjectImplementation() = default;
 
   unsigned long
   AddObserver(const EventObject & event, Command * cmd);
@@ -106,29 +106,20 @@ protected:
 
   template <typename TObject>
   void
-  InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer *>::reverse_iterator & i);
+  InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer>::reverse_iterator & i);
 
 private:
-  std::list<Observer *> m_Observers;
-  unsigned long         m_Count;
+  std::list<Observer> m_Observers;
+  unsigned long       m_Count;
 };
-
-SubjectImplementation::~SubjectImplementation()
-{
-  for (auto & observer : m_Observers)
-  {
-    delete observer;
-  }
-}
 
 unsigned long
 SubjectImplementation::AddObserver(const EventObject & event, Command * cmd)
 {
-  auto * ptr = new Observer(cmd, event.MakeObject(), m_Count);
-
-  m_Observers.push_back(ptr);
+  const unsigned long tag{ m_Count };
+  m_Observers.emplace_back(cmd, event.MakeObject(), tag);
   ++m_Count;
-  return ptr->m_Tag;
+  return tag;
 }
 
 void
@@ -136,9 +127,8 @@ SubjectImplementation::RemoveObserver(unsigned long tag)
 {
   for (auto i = m_Observers.begin(); i != m_Observers.end(); ++i)
   {
-    if ((*i)->m_Tag == tag)
+    if (i->m_Tag == tag)
     {
-      delete (*i);
       m_Observers.erase(i);
       m_ListModified = true;
       return;
@@ -149,10 +139,6 @@ SubjectImplementation::RemoveObserver(unsigned long tag)
 void
 SubjectImplementation::RemoveAllObservers()
 {
-  for (auto & observer : m_Observers)
-  {
-    delete observer;
-  }
   m_Observers.clear();
   m_ListModified = true;
 }
@@ -183,9 +169,9 @@ SubjectImplementation::InvokeEvent(const EventObject & event, const Object * sel
 
 template <typename TObject>
 void
-SubjectImplementation::InvokeEventRecursion(const EventObject &                       event,
-                                            TObject *                                 self,
-                                            std::list<Observer *>::reverse_iterator & i)
+SubjectImplementation::InvokeEventRecursion(const EventObject &                     event,
+                                            TObject *                               self,
+                                            std::list<Observer>::reverse_iterator & i)
 {
   // This method recursively visits the list of observers in reverse
   // order so that on the last recursion the first observer can be
@@ -200,20 +186,20 @@ SubjectImplementation::InvokeEventRecursion(const EventObject &                 
   {
 
     // save observer
-    const Observer * o = *i;
+    const Observer & o = *i;
 
     // Save its tag, before the observer could /possibly/ be removed.
-    const unsigned long tag{ o->m_Tag };
+    const unsigned long tag{ o.m_Tag };
 
-    if (o->m_Event->CheckEvent(&event))
+    if (o.m_Event->CheckEvent(&event))
     {
       InvokeEventRecursion(event, self, ++i);
 
-      const auto hasSameTag = [tag](const Observer * const observer) { return observer->m_Tag == tag; };
+      const auto hasSameTag = [tag](const Observer & observer) { return observer.m_Tag == tag; };
 
       if (!m_ListModified || std::any_of(m_Observers.begin(), m_Observers.end(), hasSameTag))
       {
-        o->m_Command->Execute(self, event);
+        o.m_Command->Execute(self, event);
       }
 
       return;
@@ -230,9 +216,9 @@ SubjectImplementation::GetCommand(unsigned long tag)
 {
   for (auto & observer : m_Observers)
   {
-    if (observer->m_Tag == tag)
+    if (observer.m_Tag == tag)
     {
-      return observer->m_Command;
+      return observer.m_Command;
     }
   }
   return nullptr;
@@ -241,9 +227,9 @@ SubjectImplementation::GetCommand(unsigned long tag)
 bool
 SubjectImplementation::HasObserver(const EventObject & event) const
 {
-  for (auto observer : m_Observers)
+  for (const auto & observer : m_Observers)
   {
-    const EventObject * e = observer->m_Event.get();
+    const EventObject * e = observer.m_Event.get();
     if (e->CheckEvent(&event))
     {
       return true;
@@ -260,10 +246,10 @@ SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) const
     return false;
   }
 
-  for (auto observer : m_Observers)
+  for (const auto & observer : m_Observers)
   {
-    const EventObject * e = observer->m_Event.get();
-    const Command *     c = observer->m_Command;
+    const EventObject * e = observer.m_Event.get();
+    const Command *     c = observer.m_Command;
     os << indent << e->GetEventName() << "(" << c->GetNameOfClass();
     if (!c->GetObjectName().empty())
     {
