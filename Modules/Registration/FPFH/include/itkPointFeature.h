@@ -80,7 +80,7 @@ public:
   void
   ComputeFPFHFeature(InputPointSetType * input,
                      InputPointSetType * input_normals,
-                     unsigned int        radius,
+                     double              radius,
                      unsigned int        neighbors);
 
 protected:
@@ -96,7 +96,7 @@ protected:
   FeatureTypePointer
   ComputeSPFHFeature(InputPointSetType * input,
                      InputPointSetType * input_normals,
-                     unsigned int        radius,
+                     double              radius,
                      unsigned int        neighbors);
 
   void
