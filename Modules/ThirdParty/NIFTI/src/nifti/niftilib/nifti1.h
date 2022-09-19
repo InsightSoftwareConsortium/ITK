@@ -13,8 +13,8 @@
 
  */
 
-#ifndef _NIFTI_HEADER_
-#define _NIFTI_HEADER_
+#ifndef NIFTI1_HEADER
+#define NIFTI1_HEADER
 
 /*****************************************************************************
       ** This file defines the "NIFTI-1" header format.               **
@@ -1525,4 +1525,4 @@ typedef struct { unsigned char r,g,b; } rgb_byte ;
 #endif
 /*=================*/
 
-#endif /* _NIFTI_HEADER_ */
+#endif /* NIFTI1_HEADER */

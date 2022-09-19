@@ -1,5 +1,6 @@
-#define _NIFTI1_IO_C_
+#define NIFTI1_IO_C
 
+#include <assert.h>
 #include "nifti1_io.h"   /* typedefs, prototypes, macros, etc. */
 #include "nifti1_io_version.h"
 
@@ -193,7 +194,7 @@ static char const * const gni_history[] =
   "\n",
   "1.3  09 Feb 2005 [rickr]\n"
   "   - nifti1.h: added doxygen comments for extension structs\n"
-  "   - nifti1_io.h: put most #defines in #ifdef _NIFTI1_IO_C_ block\n"
+  "   - nifti1_io.h: put most #defines in #ifdef NIFTI1_IO_C block\n"
   "   - added a doxygen-style description to every exported function\n"
   "   - added doxygen-style comments within some functions\n"
   "   - re-exported many znzFile functions that I had made static\n"
@@ -472,7 +473,7 @@ void nifti_disp_lib_hist( void )
 *//*--------------------------------------------------------------------*/
 void nifti_disp_lib_version( void )
 {
-   printf("%s, compiled %s\n", gni_version, __DATE__);
+   printf("%s\n", gni_version);
 }
 
 
@@ -2104,6 +2105,7 @@ void nifti_mat44_to_orientation( mat44 R , int *icod, int *jcod, int *kcod )
      case -2: i = NIFTI_A2P ; break ;
      case  3: i = NIFTI_I2S ; break ;
      case -3: i = NIFTI_S2I ; break ;
+     default: assert(0) ; break ;
    }
 
    switch( jbest*qbest ){
@@ -2113,6 +2115,7 @@ void nifti_mat44_to_orientation( mat44 R , int *icod, int *jcod, int *kcod )
      case -2: j = NIFTI_A2P ; break ;
      case  3: j = NIFTI_I2S ; break ;
      case -3: j = NIFTI_S2I ; break ;
+     default: assert(0) ; break ;
    }
 
    switch( kbest*rbest ){
@@ -2122,6 +2125,7 @@ void nifti_mat44_to_orientation( mat44 R , int *icod, int *jcod, int *kcod )
      case -2: k = NIFTI_A2P ; break ;
      case  3: k = NIFTI_I2S ; break ;
      case -3: k = NIFTI_S2I ; break ;
+     default: assert(0) ; break ;
    }
 
    *icod = i ; *jcod = j ; *kcod = k ;
@@ -5608,7 +5612,7 @@ int nifti_copy_extensions(nifti_image * nim_dest, const nifti_image * nim_src)
     and the bytes used for the data.  Each esize also needs to be a
     multiple of 16, so it may be greater than the sum of its 3 parts.
 *//*--------------------------------------------------------------------*/
-int nifti_extension_size(nifti_image *nim)
+static int nifti_extension_size(nifti_image *nim)
 {
    int c, size = 0;
 
@@ -6969,7 +6973,7 @@ int nifti_read_subregion_image( nifti_image * nim,
   znzFile fp;                   /* file to read */
   int i,j,k,l,m,n;              /* indices for dims */
   long int bytes = 0;           /* total # bytes read */
-  int total_alloc_size;         /* size of buffer allocation */
+  size_t total_alloc_size;      /* size of buffer allocation */
   char *readptr;                /* where in *data to read next */
   int strides[7];               /* strides between dimensions */
   int collapsed_dims[8];        /* for read_collapsed_image */
@@ -7065,8 +7069,8 @@ int nifti_read_subregion_image( nifti_image * nim,
     if(g_opts.debug > 1)
       {
       fprintf(stderr,"allocation of %d bytes failed\n",total_alloc_size);
-      return -1;
       }
+    return -1;
     }
 
   /* point to start of data buffer as char * */

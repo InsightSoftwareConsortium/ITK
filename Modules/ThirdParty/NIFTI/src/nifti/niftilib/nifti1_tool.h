@@ -1,5 +1,5 @@
-#ifndef _NIFTI_TOOL_H_
-#define _NIFTI_TOOL_H_
+#ifndef NIFTI1_TOOL_H
+#define NIFTI1_TOOL_H
 
 #define NT_CMD_LEN 2048
 
@@ -160,4 +160,4 @@ nifti_1_header * nt_read_header(nt_opts * opts, const char * fname, int * swappe
                                 int check);
 
 
-#endif  /* _NIFTI_TOOL_H_ */
+#endif  /* NIFTI1_TOOL_H */

@@ -1,5 +1,5 @@
-#ifndef _ZNZLIB_H_
-#define _ZNZLIB_H_
+#ifndef ZNZLIB_H
+#define ZNZLIB_H
 
 /*
 znzlib.h  (zipped or non-zipped library)
