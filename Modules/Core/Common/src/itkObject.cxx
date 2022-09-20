@@ -88,7 +88,7 @@ public:
 
   bool m_ListModified{ false };
 
-protected:
+private:
   // RAII of ListModified state to ensure exception safety
   struct SaveRestoreListModified
   {
@@ -111,7 +111,6 @@ protected:
   void
   InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer>::reverse_iterator & i);
 
-private:
   std::list<Observer> m_Observers;
   unsigned long       m_Count;
 };
