@@ -109,7 +109,7 @@ private:
 
   template <typename TObject>
   void
-  InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer>::reverse_iterator & i);
+  InvokeEventRecursion(const EventObject & event, TObject * self, std::list<Observer>::const_reverse_iterator & i);
 
   std::list<Observer> m_Observers;
   unsigned long       m_Count;
@@ -156,7 +156,7 @@ Object::SubjectImplementation::InvokeEvent(const EventObject & event, Object * s
 
   SaveRestoreListModified save(this);
 
-  auto i = m_Observers.rbegin();
+  auto i = m_Observers.crbegin();
   InvokeEventRecursion(event, self, i);
 }
 
@@ -165,15 +165,15 @@ Object::SubjectImplementation::InvokeEvent(const EventObject & event, const Obje
 {
   SaveRestoreListModified save(this);
 
-  auto i = m_Observers.rbegin();
+  auto i = m_Observers.crbegin();
   InvokeEventRecursion(event, self, i);
 }
 
 template <typename TObject>
 void
-Object::SubjectImplementation::InvokeEventRecursion(const EventObject &                     event,
-                                                    TObject *                               self,
-                                                    std::list<Observer>::reverse_iterator & i)
+Object::SubjectImplementation::InvokeEventRecursion(const EventObject &                           event,
+                                                    TObject *                                     self,
+                                                    std::list<Observer>::const_reverse_iterator & i)
 {
   // This method recursively visits the list of observers in reverse
   // order so that on the last recursion the first observer can be
@@ -216,7 +216,7 @@ Object::SubjectImplementation::InvokeEventRecursion(const EventObject &         
 Command *
 Object::SubjectImplementation::GetCommand(unsigned long tag)
 {
-  for (auto & observer : m_Observers)
+  for (const auto & observer : m_Observers)
   {
     if (observer.m_Tag == tag)
     {
