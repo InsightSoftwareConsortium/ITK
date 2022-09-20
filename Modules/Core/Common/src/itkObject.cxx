@@ -40,6 +40,8 @@ itkGetGlobalValueMacro(Object, bool, GlobalWarningDisplay, true);
 
 bool * Object::m_GlobalWarningDisplay;
 
+namespace
+{
 class ITKCommon_HIDDEN Observer
 {
 public:
@@ -52,6 +54,7 @@ public:
   std::unique_ptr<const EventObject> m_Event;
   unsigned long                      m_Tag;
 };
+} // namespace
 
 class ITKCommon_HIDDEN SubjectImplementation
 {
