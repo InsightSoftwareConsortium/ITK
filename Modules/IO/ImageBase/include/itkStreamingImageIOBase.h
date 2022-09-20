@@ -124,9 +124,9 @@ protected:
 
   /** \brief Reads the set IORegion from os into buffer
    *
-   * \param os is an istream presumed to be opened for reading in binary
+   * \param file is an istream presumed to be opened for reading in binary
    * mode
-   * \param buffer is pointer to an allocated block of memory
+   * \param _buffer is pointer to an allocated block of memory
    * suitable to hold the IORegion of the pixel type
    *
    * This methods relies on GetDataPosition to determin where the
@@ -143,9 +143,9 @@ protected:
 
   /** \brief Writes the set IORegion from buffer into os
    *
-   * \param os is an ostream presumed to be opened for writing and
+   * \param file is an ostream presumed to be opened for writing and
    * reading
-   * \param buffer is a pointer to the data in a continuous block
+   * \param _buffer is a pointer to the data in a continuous block
    * for the region
    *
    * This methods relies on GetDataPosition to determin where the data
