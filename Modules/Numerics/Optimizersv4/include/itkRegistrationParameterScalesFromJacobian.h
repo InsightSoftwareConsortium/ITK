@@ -99,7 +99,7 @@ public:
   EstimateStepScale(const ParametersType & step) override;
 
   /** Estimate the scales of local steps. For each voxel, computes the impact
-   * of a step on its location as in ::EstimateStepScale. Then this impact is
+   * of a step on its location as in EstimateStepScale(). Then this impact is
    * attributed to the corresponding local parameters.
    */
   void
