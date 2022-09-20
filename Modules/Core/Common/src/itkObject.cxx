@@ -56,7 +56,7 @@ public:
 };
 } // namespace
 
-class ITKCommon_HIDDEN SubjectImplementation
+class ITKCommon_HIDDEN Object::SubjectImplementation
 {
 public:
   SubjectImplementation() { m_Count = 0; }
@@ -117,7 +117,7 @@ private:
 };
 
 unsigned long
-SubjectImplementation::AddObserver(const EventObject & event, Command * cmd)
+Object::SubjectImplementation::AddObserver(const EventObject & event, Command * cmd)
 {
   const unsigned long tag{ m_Count };
   m_Observers.emplace_back(cmd, event.MakeObject(), tag);
@@ -126,7 +126,7 @@ SubjectImplementation::AddObserver(const EventObject & event, Command * cmd)
 }
 
 void
-SubjectImplementation::RemoveObserver(unsigned long tag)
+Object::SubjectImplementation::RemoveObserver(unsigned long tag)
 {
   for (auto i = m_Observers.begin(); i != m_Observers.end(); ++i)
   {
@@ -140,14 +140,14 @@ SubjectImplementation::RemoveObserver(unsigned long tag)
 }
 
 void
-SubjectImplementation::RemoveAllObservers()
+Object::SubjectImplementation::RemoveAllObservers()
 {
   m_Observers.clear();
   m_ListModified = true;
 }
 
 void
-SubjectImplementation::InvokeEvent(const EventObject & event, Object * self)
+Object::SubjectImplementation::InvokeEvent(const EventObject & event, Object * self)
 {
   // While an event is being invoked, it's possible to remove
   // observers, or another event to be invoked. All methods which
@@ -162,7 +162,7 @@ SubjectImplementation::InvokeEvent(const EventObject & event, Object * self)
 }
 
 void
-SubjectImplementation::InvokeEvent(const EventObject & event, const Object * self)
+Object::SubjectImplementation::InvokeEvent(const EventObject & event, const Object * self)
 {
   SaveRestoreListModified save(this);
 
@@ -172,9 +172,9 @@ SubjectImplementation::InvokeEvent(const EventObject & event, const Object * sel
 
 template <typename TObject>
 void
-SubjectImplementation::InvokeEventRecursion(const EventObject &                     event,
-                                            TObject *                               self,
-                                            std::list<Observer>::reverse_iterator & i)
+Object::SubjectImplementation::InvokeEventRecursion(const EventObject &                     event,
+                                                    TObject *                               self,
+                                                    std::list<Observer>::reverse_iterator & i)
 {
   // This method recursively visits the list of observers in reverse
   // order so that on the last recursion the first observer can be
@@ -215,7 +215,7 @@ SubjectImplementation::InvokeEventRecursion(const EventObject &                 
 }
 
 Command *
-SubjectImplementation::GetCommand(unsigned long tag)
+Object::SubjectImplementation::GetCommand(unsigned long tag)
 {
   for (auto & observer : m_Observers)
   {
@@ -228,7 +228,7 @@ SubjectImplementation::GetCommand(unsigned long tag)
 }
 
 bool
-SubjectImplementation::HasObserver(const EventObject & event) const
+Object::SubjectImplementation::HasObserver(const EventObject & event) const
 {
   for (const auto & observer : m_Observers)
   {
@@ -242,7 +242,7 @@ SubjectImplementation::HasObserver(const EventObject & event) const
 }
 
 bool
-SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) const
+Object::SubjectImplementation::PrintObservers(std::ostream & os, Indent indent) const
 {
   if (m_Observers.empty())
   {
