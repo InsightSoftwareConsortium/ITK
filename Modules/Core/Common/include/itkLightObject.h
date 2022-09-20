@@ -49,7 +49,7 @@ namespace itk
  * \ingroup ITKCommon
  *
  * \sphinx
- * \sphinx{Core/Common/GetNameOfClass, Get Name Of Class}
+ * \sphinxexample{Core/Common/GetNameOfClass,Get Name Of Class}
  * \endsphinx
  */
 class ITKCommon_EXPORT LightObject
