@@ -61,7 +61,7 @@ extern ITKSpatialObjects_EXPORT std::ostream &
  * \ingroup ITKSpatialObjects
  *
  * \sphinx
- * \sphinxexample{Core/SpatialObjects/{{ContourSpatialObject,Contour Spacial Object}
+ * \sphinxexample{Core/SpatialObjects/ContourSpatialObject,Contour Spatial Object}
  * \endsphinx
  */
 

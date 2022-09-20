@@ -48,8 +48,8 @@ namespace itk
  * \ingroup ITKImageStatistics
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageStatistics/ComputeMinMaxVarianceMeanOfImage,Compute Min, Max, Variance And Mean Of
- * Image} \endsphinx
+ * \sphinxexample{Filtering/ImageStatistics/ComputeMinMaxVarianceMeanOfImage,Compute Min Max Variance And Mean Of Image}
+ * \endsphinx
  */
 template <typename TInputImage>
 class ITK_TEMPLATE_EXPORT StatisticsImageFilter : public ImageSink<TInputImage>
