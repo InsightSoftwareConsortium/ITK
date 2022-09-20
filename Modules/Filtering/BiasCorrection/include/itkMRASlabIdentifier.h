@@ -50,16 +50,17 @@ namespace itk
  * the \p dimension variable follows the convention \f{X, Y, Z} : {0, 1, 2}\f$.
  *
  * The identification scheme used works according to the following steps:
- * -# Users should specify how many pixels per slice the identifier
- *    will sample.
- * -# For each slice, the identifier searches the specified number of pixels
- *    of which intensity values are greater than 0 and less than those
- *    of the other pixels in the slice.
- * -# The identifier calculates the average for each slice and the overall
- *    average using the search results.
- * -# For each slice, it subtracts the overall average from the slice average.
- *    If the sign of the subtraction result changes, then it assumes that a
- *    slab ends and another slab begins.
+ *   -# Users should specify how many pixels per slice the identifier
+ *      will sample.
+ *   -# For each slice, the identifier searches the specified number of pixels
+ *      of which intensity values are greater than 0 and less than those
+ *      of the other pixels in the slice.
+ *   -# The identifier calculates the average for each slice and the overall
+ *      average using the search results.
+ *   -# For each slice, it subtracts the overall average from the slice average.
+ *      If the sign of the subtraction result changes, then it assumes that a
+ *      slab ends and another slab begins.
+ *
  * \ingroup ITKBiasCorrection
  */
 template <typename TInputImage>
