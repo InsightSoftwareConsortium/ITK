@@ -98,7 +98,7 @@ public:
 
   /**
    * Sets the color value of the specified Child for this OctreeNode
-   * \param NodeColor The desired color of this node.
+   * \param color The desired color of this node.
    * \post All children of the specified child are removed, and the child is set to
    * the desired value.
    */

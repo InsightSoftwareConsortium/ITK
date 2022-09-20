@@ -186,8 +186,8 @@ public:
   GetDerivative(DerivativeType &) const override;
 
   /** Evaluate the metric value and derivative.
-   * \note \param value will contain the value of only the *first* metric on return.
-   * \param derivative holds the combined derivative on return.
+   * \param firstValue will contain the value of only the *first* metric on return.
+   * \param derivativeResult holds the combined derivative on return.
    *
    * \sa GetValueArray
    * \sa GetWeightedValue */

@@ -141,11 +141,11 @@ public:
   /**
    * Utility method equivalent to:
    * SetPassBand(true)
-   * SetPassLowFrequencyThreshold(pass_low_threshold)
-   * SetPassHighFrequencyThreshold(pass_high_threshold)
+   * SetPassLowFrequencyThreshold(passLowThreshold)
+   * SetPassHighFrequencyThreshold(passHighThreshold)
    *
-   * @param pass_low_threshold flag to let pass or not low boundary
-   * @param pass_high_threshold flag to let pass or not high boundary
+   * @param passLowThreshold flag to let pass or not low boundary
+   * @param passHighThreshold flag to let pass or not high boundary
    */
   void
   SetPassBand(const bool passLowThreshold, const bool passHighThreshold);
@@ -153,11 +153,11 @@ public:
   /**
    * Utility method equivalent to:
    * SetPassBand(false)
-   * SetPassLowFrequencyThreshold(pass_low_threshold)
-   * SetPassHighFrequencyThreshold(pass_high_threshold)
+   * SetPassLowFrequencyThreshold(passLowThreshold)
+   * SetPassHighFrequencyThreshold(passHighThreshold)
    *
-   * @param pass_low_threshold flag to let pass or not low boundary
-   * @param pass_high_threshold flag to let pass or not high boundary
+   * @param passLowThreshold flag to let pass or not low boundary
+   * @param passHighThreshold flag to let pass or not high boundary
    */
   void
   SetStopBand(const bool passLowThreshold, const bool passHighThreshold);
