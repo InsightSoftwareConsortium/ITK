@@ -38,8 +38,6 @@
 
 namespace itk
 {
-// Forward reference because of private implementation
-class SubjectImplementation;
 // Forward reference because of circular dependencies
 class ITK_FORWARD_EXPORT Command;
 
@@ -271,6 +269,9 @@ private:
 
   /** Global object debug flag. */
   static bool * m_GlobalWarningDisplay;
+
+  // Forward reference because of private implementation
+  class SubjectImplementation;
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
