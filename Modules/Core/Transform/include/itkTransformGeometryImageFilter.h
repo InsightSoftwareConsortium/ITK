@@ -29,8 +29,11 @@ namespace itk
  * \brief Modify an image's geometric meta-data, changing its "physical" extent.
  *
  * The TransformGeometryImageFilter "physically" changes the image in
- * space using the given transformation. The
- * specific transformation type can be any type derived from the
+ * space using the given transformation. The resulting image is an image with
+ * the same voxel values as the input, but with different physical space
+ * representation as affected by the transform.
+ *
+ * The specific transformation type can be any type derived from the
  * MatrixOffsetTransformBase and the TranslationTransform.
  * The modification of the geometric meta-data is an alternative to
  * resampling the moving image onto the fixed image grid, after registration. The advantages of using
@@ -43,12 +46,6 @@ namespace itk
  * filter is used with an affine transformation the resulting image
  * should be saved in a format that supports a non ortho-normal
  * direction cosine matrix (e.g. nrrd).
- *
- * \param \c Transform Any transform derived from MatrixOffsetTransformBase or TranslationTransform.
- * \param \c InputImage The image to be duplicated and modified to incorporate the
- * transform.
- * \return An image with the same voxel values as the input, but with different
- * physical space representation affected by the transform.
  *
  * Let us call the transform operation from the fixed image to moving image <tt>TfmF2M</tt>.
  * Given a set of points from the fixed image in physical space (i.e. <tt>physicalFixedImagePoints</tt>),
@@ -146,7 +143,7 @@ public:
   /** Set/Get required rigid transform. */
   itkSetGetDecoratedObjectInputMacro(Transform, TransformType);
 
-  /** Set/Get required input image. (A wrapper to this->Set/GetInput()) */
+  /** Set/Get required input image. */
   itkSetInputMacro(InputImage, InputImageType);
   itkGetInputMacro(InputImage, InputImageType);
 
