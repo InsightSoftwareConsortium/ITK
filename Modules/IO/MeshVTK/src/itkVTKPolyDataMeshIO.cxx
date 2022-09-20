@@ -58,20 +58,18 @@ ReadFloatingPointsAsASCII(std::ifstream &        inputFile,
         {
           return -NumericLimits::infinity();
         }
-        const auto numberOfChars = str.size();
 
-        if (numberOfChars <= std::numeric_limits<int>::max())
+        const int numberOfChars = Math::CastWithRangeCheck<int>(str.size());
+
+        constexpr auto                                   double_NaN = std::numeric_limits<double>::quiet_NaN();
+        int                                              processedCharCount{ 0 };
+        const double_conversion::StringToDoubleConverter converter(0, double_NaN, double_NaN, "inf", "nan");
+        const auto                                       conversionResult =
+          converter.StringTo<TFloatingPoint>(str.c_str(), numberOfChars, &processedCharCount);
+
+        if (processedCharCount == numberOfChars && !std::isnan(conversionResult))
         {
-          constexpr auto                                   double_NaN = std::numeric_limits<double>::quiet_NaN();
-          int                                              processedCharCount{ 0 };
-          const double_conversion::StringToDoubleConverter converter(0, double_NaN, double_NaN, "inf", "nan");
-          const auto                                       conversionResult =
-            converter.StringTo<TFloatingPoint>(str.c_str(), static_cast<int>(numberOfChars), &processedCharCount);
-
-          if (processedCharCount == static_cast<int>(numberOfChars) && !std::isnan(conversionResult))
-          {
-            return conversionResult;
-          }
+          return conversionResult;
         }
       }
       itkGenericExceptionMacro("Failed to read a floating point component from the specified ASCII input file!"
