@@ -34,9 +34,6 @@ namespace itk
  * \sa ImageFunction
  * \ingroup ITKImageFunction
  *
- * \sphinx
- * \sphinxexample{Core/ImageFunction/GaussianBlueImageFunction,GaussianBlurImageFunction}
- * \endsphinx
  */
 template <typename TInputImage, typename TOutput = double>
 class ITK_TEMPLATE_EXPORT GaussianBlurImageFunction : public ImageFunction<TInputImage, TOutput>
