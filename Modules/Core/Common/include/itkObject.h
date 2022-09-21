@@ -274,7 +274,7 @@ private:
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
-  std::unique_ptr<SubjectImplementation> m_SubjectImplementation{ nullptr };
+  std::unique_ptr<SubjectImplementation> m_SubjectImplementation;
 
   /**
    * Implementation for holding Object MetaData
