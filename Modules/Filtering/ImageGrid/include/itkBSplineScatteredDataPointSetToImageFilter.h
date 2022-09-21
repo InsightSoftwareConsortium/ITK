@@ -124,7 +124,7 @@ namespace itk
  * \ingroup ITKImageGrid
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageGrid/FitSplineIntoPointSet,}
+ * \sphinxexample{Filtering/ImageGrid/FitSplineIntoPointSet,Fit Spline Into Point Set}
  * \endsphinx
  */
 
