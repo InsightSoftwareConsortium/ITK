@@ -77,6 +77,8 @@ template <typename T, typename SType>
 class ITK_TEMPLATE_EXPORT RANSAC : public Object
 {
 public:
+  ITK_DISALLOW_COPY_AND_MOVE(RANSAC);
+
   typedef RANSAC                   Self;
   typedef Object                   Superclass;
   typedef SmartPointer<Self>       Pointer;
