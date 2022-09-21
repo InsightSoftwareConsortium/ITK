@@ -57,7 +57,7 @@ namespace itk
  * \ingroup ITKRegionGrowing
  *
  * \sphinx
- * \sphinxexample{Segmentation/RegionGrowing/SegmentPixelsWithSimilarStats,SegmentPixelsWithSimilarStats}
+ * \sphinxexample{Segmentation/RegionGrowing/SegmentPixelsWithSimilarStats,Segment Pixels With Similar Statistics}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>

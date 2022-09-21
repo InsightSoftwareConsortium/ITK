@@ -62,7 +62,7 @@ public:
  * \ingroup ITKImageIntensity
  *
  * \sphinx
- * \sphinxexample{Filtering/ImageIntensity/ApplySinImageFilter,Apply Sin Image Filter.}
+ * \sphinxexample{Filtering/ImageIntensity/ApplySinImageFilter,Apply Sin Image Filter}
  * \endsphinx
  */
 template <typename TInputImage, typename TOutputImage>
