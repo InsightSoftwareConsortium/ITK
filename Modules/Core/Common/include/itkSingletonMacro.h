@@ -44,11 +44,11 @@
   {                                                                                                 \
     if (m_##VarName == nullptr)                                                                     \
     {                                                                                               \
-      static auto setLambda = [](void * a) {                                                        \
+      const auto setLambda = [](void * a) {                                                         \
         delete m_##VarName;                                                                         \
         m_##VarName = static_cast<Type *>(a);                                                       \
       };                                                                                            \
-      static auto deleteLambda = []() {                                                             \
+      const auto deleteLambda = []() {                                                              \
         delete m_##VarName;                                                                         \
         m_##VarName = nullptr;                                                                      \
       };                                                                                            \
