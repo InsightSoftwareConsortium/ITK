@@ -153,8 +153,6 @@ public:
    * command.
    */
   unsigned long
-  AddObserver(const EventObject & event, Command *);
-  unsigned long
   AddObserver(const EventObject & event, Command *) const;
 
   /** \brief A convenient method to add an C++ lambda function as an observer.
@@ -275,7 +273,7 @@ private:
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
-  std::unique_ptr<SubjectImplementation> m_SubjectImplementation;
+  mutable std::unique_ptr<SubjectImplementation> m_SubjectImplementation;
 
   /**
    * Implementation for holding Object MetaData
