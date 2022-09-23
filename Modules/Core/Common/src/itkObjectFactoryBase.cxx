@@ -100,9 +100,9 @@ public:
   ~ObjectFactoryBasePrivate() override
   {
     itk::ObjectFactoryBase::UnRegisterAllFactories();
-    for (auto & m_InternalFactorie : m_InternalFactories)
+    for (auto & internalFactory : m_InternalFactories)
     {
-      m_InternalFactorie->UnRegister();
+      internalFactory->UnRegister();
     }
   }
 
