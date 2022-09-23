@@ -165,7 +165,6 @@ static int  g_debug = 1;
 #include <string.h>
 #include <stdint.h>
 
-#define _NIFTI_TOOL_C_
 #include "nifti1_io.h"
 #include "nifti1_tool.h"
 
@@ -1734,9 +1733,8 @@ int use_full(const char * prog )
    "  ------------------------------\n"
    "\n"
    "  R. Reynolds\n"
-   "  compiled: %s\n"
    "  %s\n\n",
-   __DATE__, g_version );
+   g_version );
 
    return 1;
 }
@@ -3391,8 +3389,6 @@ const char * field_type_str( int type )
 
    return "DT_UNKNOWN";  /* for DT_UNKNOWN, or as an else */
 }
-
-#define NT_MAX_DT_STR_LEN 14
 
 /*----------------------------------------------------------------------
  * display the contents of all of the field structures
