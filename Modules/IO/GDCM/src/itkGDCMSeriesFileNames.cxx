@@ -209,40 +209,40 @@ GDCMSeriesFileNames::GetOutputFileNames()
   if (!m_InputFileNames.empty())
   {
     bool hasExtension = false;
-    for (const auto & m_InputFileName : m_InputFileNames)
+    for (const auto & inputFileName : m_InputFileNames)
     {
       // look for extension ".dcm" and ".DCM"
-      std::string::size_type dcmPos = m_InputFileName.rfind(".dcm");
-      if ((dcmPos != std::string::npos) && (dcmPos == m_InputFileName.length() - 4))
+      std::string::size_type dcmPos = inputFileName.rfind(".dcm");
+      if ((dcmPos != std::string::npos) && (dcmPos == inputFileName.length() - 4))
       {
         hasExtension = true;
       }
       else
       {
-        dcmPos = m_InputFileName.rfind(".DCM");
-        if ((dcmPos != std::string::npos) && (dcmPos == m_InputFileName.length() - 4))
+        dcmPos = inputFileName.rfind(".DCM");
+        if ((dcmPos != std::string::npos) && (dcmPos == inputFileName.length() - 4))
         {
           hasExtension = true;
         }
       }
 
       // look for extension ".dicom" and ".DICOM"
-      std::string::size_type dicomPos = m_InputFileName.rfind(".dicom");
-      if ((dicomPos != std::string::npos) && (dicomPos == m_InputFileName.length() - 6))
+      std::string::size_type dicomPos = inputFileName.rfind(".dicom");
+      if ((dicomPos != std::string::npos) && (dicomPos == inputFileName.length() - 6))
       {
         hasExtension = true;
       }
       else
       {
-        dicomPos = m_InputFileName.rfind(".DICOM");
-        if ((dicomPos != std::string::npos) && (dicomPos == m_InputFileName.length() - 6))
+        dicomPos = inputFileName.rfind(".DICOM");
+        if ((dicomPos != std::string::npos) && (dicomPos == inputFileName.length() - 6))
         {
           hasExtension = true;
         }
       }
 
       // construct a filename, adding an extension if necessary
-      std::string filename = m_OutputDirectory + itksys::SystemTools::GetFilenameName(m_InputFileName);
+      std::string filename = m_OutputDirectory + itksys::SystemTools::GetFilenameName(inputFileName);
       if (!hasExtension)
       {
         // input filename has no extension, add a ".dcm"

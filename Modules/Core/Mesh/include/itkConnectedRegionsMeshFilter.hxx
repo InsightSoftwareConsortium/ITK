@@ -388,9 +388,9 @@ ConnectedRegionsMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
   if (this->GetDebug())
   {
     SizeValueType count = 0;
-    for (const auto & m_RegionSize : m_RegionSizes)
+    for (const auto & regionSize : m_RegionSizes)
     {
-      count += m_RegionSize;
+      count += regionSize;
     }
     itkDebugMacro(<< "Total #of cells accounted for: " << count);
     itkDebugMacro(<< "Extracted " << output->GetNumberOfCells() << " cells");
