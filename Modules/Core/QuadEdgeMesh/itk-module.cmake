@@ -36,21 +36,22 @@ But itk::FunctionBase could not be inherited since its
 itk::FunctionBase::Evaluate method promises to leave its argument (the mesh we
 want to modify in our case) untouched.
 
-Hence the itk::MeshFunctionBase class was created whose main difference with
-itk::FunctionBase is that its itk::MeshFunctionBase::Evaluate method allows
-to modify the considered mesh.
+Hence the itk::QuadEdgeMeshFunctionBase class was created whose main
+difference with itk::FunctionBase is that its
+itk::QuadEdgeMeshFunctionBase::Evaluate method allows to modify the considered
+mesh.
 
 When considering a new QuadEdgeMesh method there are four possible \"slots\"
 to implement it:
-  - The QuadEdgeMesh method.
+  - The itk::QuadEdgeMesh class.
   - A derived class from itk::FunctionBase when the method leaves the mesh
   constant.
-  - A derived class from itk::MeshFunctionBase when the method modifies the
+  - A derived class from itk::QuadEdgeMeshFunctionBase when the method modifies the
   mesh (typically in the case of Euler operators).
   - As a classic ITKMesh filter.
 
 The choice of the slot is a mere matter of trade-off and in order to keep
-QuadEdgeMesh tiny and humanly readable key decision factors can be the
+itk::QuadEdgeMesh tiny and humanly readable key decision factors can be the
 occurrence of the calls and the human level complexity of the code.
 
 With those criteria in mind the following choices were made:
