@@ -5,7 +5,7 @@ type:Compiler:
 type:Bug:
   title: "^BUG:.*"
 
-area:Documentation:
+type:Documentation:
   title: "^DOC:.*"
 
 type:Enhancement:

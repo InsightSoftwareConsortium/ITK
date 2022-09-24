@@ -1,6 +1,6 @@
 ---
 name: "Documentation Impact Report \U0001F4D6"
-labels: area:Documentation
+labels: type:Documentation
 about: "File a documentation report to improve documentation in ITK"
 ---
 
