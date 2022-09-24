@@ -157,7 +157,7 @@ endfunction()
 #    [GIT_REPOSITORY url]            # URL of git repo
 #    [GIT_TAG tag]                   # Git branch name, commit id or tag
 #
-# An CMake variable Module_${name}_GIT_TAG can be set
+# A CMake variable Module_${name}_GIT_TAG can be set
 # in to override the value in the remote module configuration file.
 # The intent of the Module_${name}_GIT_TAG variable override is to
 # facilitate testing of remote module branch behaviors without
