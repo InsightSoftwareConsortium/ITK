@@ -387,15 +387,7 @@ ImageFileWriter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 
   os << indent << "File Name: " << (m_FileName.data() ? m_FileName.data() : "(none)") << std::endl;
 
-  os << indent << "Image IO: ";
-  if (m_ImageIO.IsNull())
-  {
-    os << "(none)\n";
-  }
-  else
-  {
-    os << m_ImageIO << "\n";
-  }
+  itkPrintSelfObjectMacro(ImageIO);
 
   os << indent << "IO Region: " << m_PasteIORegion << "\n";
   os << indent << "Number of Stream Divisions: " << m_NumberOfStreamDivisions << "\n";
