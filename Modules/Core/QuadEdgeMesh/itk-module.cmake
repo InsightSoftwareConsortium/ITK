@@ -1,9 +1,9 @@
 set(DOCUMENTATION "The QuadEdgeMesh module contain a specialized set of Mesh
-classes intended to represent 2-manifolds embedded in a nD space. This family
-of classes provides a consistent representation of oriented surfaces and
-therefore they are used as a base for implementing common mesh filters and
-operations. They are commonly used for representing the output of image
-segmentation algorithms.
+classes intended to represent 2-manifolds embedded in a N-Dimensional space.
+This family of classes provides a consistent representation of oriented
+surfaces and therefore they are used as a base for implementing common mesh
+filters and operations. They are commonly used for representing the output of
+image segmentation algorithms.
 
 Some QuadEdgeMesh algorithms are based on iterating various connectivity
 operators e.g. curvature driven surface deformation. Many of those connectivity
@@ -66,7 +66,7 @@ With those criteria in mind the following choices were made:
   implemented as derived classes of itk::MeshFunctionBase. Still the mesh
   modifications are really limited and concern a couple edges.
   - More specialized methods, with a wider scope and that require a
-  copy of the mesh should follow the classical ITK Filter pattern and inherit
+  copy of the mesh should follow the classical ITK filter pattern and inherit
   from itk::MeshToMeshFilter.")
 
 itk_module(ITKQuadEdgeMesh
