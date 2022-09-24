@@ -3,7 +3,7 @@ statistical algorithms, and a classification for general statistical analysis
 and classification problems.  This includes, for examples, classes for
 calculating histograms, calculating sample statistics, creating decision rules,
 or for performing statistical pattern classification.  Statistics are calculated
-on a Sample, which contains MeasurementVector's.")
+on an itk::Sample, which contains measurement vectors.")
 
 itk_module(ITKStatistics
   ENABLE_SHARED

@@ -24,11 +24,11 @@
 namespace itk
 {
 /**
- * \class MeshFunctionBase
+ * \class QuadEdgeMeshFunctionBase
  * \ingroup QEMeshModifierFunctions
  * \brief Base class for mesh function object modifiers.
  *
- * MeshFunctionBase is the base class for itkQE function objects specialised
+ * QuadEdgeMeshFunctionBase is the base class for itkQE function objects specialised
  * in Mesh "small" (reduced in range) modification.
  * Subclasses of itk::FunctionBase cannot modify their InputType since
  * the signature of their Evaluate( const InputType& ) method guarantees it.
@@ -39,8 +39,8 @@ namespace itk
  * But for small modifications (think of the Euler operators) that an
  * algorithm needs to apply many times, this systematic duplication can
  * be daunting.
- * MeshFunctionBase thus offers a lightweight alternative to itk Filter.
- * Subclasses of MeshFunctionBase, which should override Evaluate(), are
+ * QuadEdgeMeshFunctionBase thus offers a lightweight alternative to itk Filter.
+ * Subclasses of QuadEdgeMeshFunctionBase, which should override Evaluate(), are
  * function objects that apply reduced and localised modifications
  * (geometry, or connectivity) on the InputType mesh.
  *

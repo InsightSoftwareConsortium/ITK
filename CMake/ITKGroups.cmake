@@ -16,8 +16,8 @@ set(group_list
 
 set(Core_documentation "This group of modules contain the toolkit framework used
 by other modules.  There are common base classes for data objects and process
-objects, basic data structures such as Image, Mesh, QuadEdgeMesh, and
-SpatialObjects, and common functionality for operations such as finite
+objects, basic data structures such as itk::Image, itk::Mesh, itk::QuadEdgeMesh, and
+ik::SpatialObject, and common functionality for operations such as finite
 differences, image adaptors, or image transforms.")
 
 set(Compatibility_documentation "This group contains modules that ease the transition to ITKv4 and Deprecated classes.")
