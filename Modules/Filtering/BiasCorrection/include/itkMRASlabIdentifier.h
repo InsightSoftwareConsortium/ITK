@@ -47,7 +47,7 @@ namespace itk
  * For this identifier, a slice means 2D image data which is extracted from
  * the input image along one of three axes \f$(x, y, z)\f$. Users can specify
  * the slicing axis using the SetSlicingDirection(int dimension) member, where
- * the \p dimension variable follows the convention \f{X, Y, Z} : {0, 1, 2}\f$.
+ * the \p dimension variable follows the convention \f${X, Y, Z} : {0, 1, 2}\f$.
  *
  * The identification scheme used works according to the following steps:
  *   -# Users should specify how many pixels per slice the identifier
