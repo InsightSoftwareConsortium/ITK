@@ -38,10 +38,7 @@ LBFGSOptimizer::LBFGSOptimizer()
 /**
  * Destructor
  */
-LBFGSOptimizer::~LBFGSOptimizer()
-{
-  delete m_VnlOptimizer;
-}
+LBFGSOptimizer::~LBFGSOptimizer() = default;
 
 /**
  * PrintSelf
@@ -185,14 +182,9 @@ LBFGSOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 
   adaptor->SetCostFunction(costFunction);
 
-  if (m_OptimizerInitialized)
-  {
-    delete m_VnlOptimizer;
-  }
-
   this->SetCostFunctionAdaptor(adaptor);
 
-  m_VnlOptimizer = new vnl_lbfgs(*adaptor);
+  m_VnlOptimizer = std::make_unique<vnl_lbfgs>(*adaptor);
 
   // set the optimizer parameters
   m_VnlOptimizer->set_trace(m_Trace);
@@ -265,7 +257,7 @@ LBFGSOptimizer::StartOptimization()
 vnl_lbfgs *
 LBFGSOptimizer::GetOptimizer()
 {
-  return m_VnlOptimizer;
+  return m_VnlOptimizer.get();
 }
 
 const std::string

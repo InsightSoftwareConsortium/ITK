@@ -32,10 +32,7 @@ ConjugateGradientOptimizer::ConjugateGradientOptimizer()
 /**
  * Destructor
  */
-ConjugateGradientOptimizer::~ConjugateGradientOptimizer()
-{
-  delete m_VnlOptimizer;
-}
+ConjugateGradientOptimizer::~ConjugateGradientOptimizer() = default;
 
 /**
  * Get the Optimizer
@@ -43,7 +40,7 @@ ConjugateGradientOptimizer::~ConjugateGradientOptimizer()
 vnl_conjugate_gradient *
 ConjugateGradientOptimizer::GetOptimizer()
 {
-  return m_VnlOptimizer;
+  return m_VnlOptimizer.get();
 }
 
 /**
@@ -58,14 +55,9 @@ ConjugateGradientOptimizer::SetCostFunction(SingleValuedCostFunction * costFunct
 
   adaptor->SetCostFunction(costFunction);
 
-  if (m_OptimizerInitialized)
-  {
-    delete m_VnlOptimizer;
-  }
-
   this->SetCostFunctionAdaptor(adaptor);
 
-  m_VnlOptimizer = new vnl_conjugate_gradient(*adaptor);
+  m_VnlOptimizer = std::make_unique<vnl_conjugate_gradient>(*adaptor);
   m_OptimizerInitialized = true;
 }
 

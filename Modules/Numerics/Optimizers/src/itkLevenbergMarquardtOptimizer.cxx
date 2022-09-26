@@ -36,10 +36,7 @@ LevenbergMarquardtOptimizer::LevenbergMarquardtOptimizer()
 /**
  * Destructor
  */
-LevenbergMarquardtOptimizer::~LevenbergMarquardtOptimizer()
-{
-  delete m_VnlOptimizer;
-}
+LevenbergMarquardtOptimizer::~LevenbergMarquardtOptimizer() = default;
 
 /**
  * Connect a Cost Function
@@ -54,14 +51,9 @@ LevenbergMarquardtOptimizer::SetCostFunction(MultipleValuedCostFunction * costFu
 
   adaptor->SetCostFunction(costFunction);
 
-  if (m_OptimizerInitialized)
-  {
-    delete m_VnlOptimizer;
-  }
-
   this->SetCostFunctionAdaptor(adaptor);
 
-  m_VnlOptimizer = new vnl_levenberg_marquardt(*adaptor);
+  m_VnlOptimizer = std::make_unique<vnl_levenberg_marquardt>(*adaptor);
 
   this->SetNumberOfIterations(m_NumberOfIterations);
   this->SetValueTolerance(m_ValueTolerance);
@@ -203,7 +195,7 @@ LevenbergMarquardtOptimizer::SetEpsilonFunction(double epsilon)
 vnl_levenberg_marquardt *
 LevenbergMarquardtOptimizer::GetOptimizer() const
 {
-  return m_VnlOptimizer;
+  return m_VnlOptimizer.get();
 }
 
 const std::string

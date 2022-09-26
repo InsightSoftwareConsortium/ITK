@@ -21,6 +21,7 @@
 #include "itkSingleValuedNonLinearVnlOptimizerv4.h"
 #include "vnl/algo/vnl_amoeba.h"
 #include "ITKOptimizersv4Export.h"
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -153,12 +154,12 @@ private:
   void
   ValidateSettings();
 
-  ParametersType::ValueType m_ParametersConvergenceTolerance;
-  MeasureType               m_FunctionConvergenceTolerance;
-  bool                      m_AutomaticInitialSimplex;
-  ParametersType            m_InitialSimplexDelta;
-  bool                      m_OptimizeWithRestarts;
-  vnl_amoeba *              m_VnlOptimizer;
+  ParametersType::ValueType   m_ParametersConvergenceTolerance;
+  MeasureType                 m_FunctionConvergenceTolerance;
+  bool                        m_AutomaticInitialSimplex;
+  ParametersType              m_InitialSimplexDelta;
+  bool                        m_OptimizeWithRestarts;
+  std::unique_ptr<vnl_amoeba> m_VnlOptimizer;
 
   std::ostringstream m_StopConditionDescription;
 };
