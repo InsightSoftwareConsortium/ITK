@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class SpeckleNoiseImageFilter
+ * \class SpeckleNoiseImageFilter
  *
  * \brief Alter an image with speckle (multiplicative) noise.
  *

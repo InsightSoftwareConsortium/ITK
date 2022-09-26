@@ -30,14 +30,14 @@
 
 namespace itk
 {
-/**\class FastMarchingImageFilterEnums
+/** \class FastMarchingImageFilterEnums
  * \brief Contains all enum classes used by the FastMarchingImageFilter class.
  * \ingroup ITKFastMarching
  */
 class FastMarchingImageFilterEnums
 {
 public:
-  /**\class Label
+  /** \class Label
    * \ingroup ITKFastMarching
    * \ingroup LevelSetSegmentation
    * Enum of Fast Marching algorithm point types. FarPoints represent far
@@ -58,7 +58,7 @@ extern ITKFastMarching_EXPORT std::ostream &
                               operator<<(std::ostream & out, const FastMarchingImageFilterEnums::Label value);
 
 /**
- *\class FastMarchingImageFilter
+ * \class FastMarchingImageFilter
  * \brief Solve an Eikonal equation using Fast Marching
  *
  * Fast marching solves an Eikonal equation where the speed is always

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-/**\class ObjectToObjectOptimizerBaseTemplateEnums
+/** \class ObjectToObjectOptimizerBaseTemplateEnums
  *\brief This class contains all the enum classes used by ObjectToObjectOptimizerBaseTemplate class.
  *\ingroup ITKOptimizersv4
  */
@@ -58,7 +58,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
            const ObjectToObjectOptimizerBaseTemplateEnums::StopConditionObjectToObjectOptimizer value);
 
 /**
- *\class ObjectToObjectOptimizerBaseTemplate
+ * \class ObjectToObjectOptimizerBaseTemplate
  * \brief Abstract base for object-to-object optimizers.
  *
  * The goal of this optimizer hierarchy is to work with metrics

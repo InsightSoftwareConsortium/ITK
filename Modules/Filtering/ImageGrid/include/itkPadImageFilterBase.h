@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class PadImageFilterBase
+ * \class PadImageFilterBase
  * \brief Increase the image size by padding. Superclass for filters that fill
  * in extra pixels.
  *

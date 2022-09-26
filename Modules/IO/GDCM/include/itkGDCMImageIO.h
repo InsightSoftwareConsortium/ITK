@@ -42,7 +42,7 @@
 
 namespace itk
 {
-/**\class GDCMImageIOEnums
+/** \class GDCMImageIOEnums
  * \brief
  * \ingroup ITKIOGDCM
  */
@@ -50,7 +50,7 @@ class GDCMImageIOEnums
 {
 public:
   /**
-   *\class Compression
+   * \class Compression
    * \ingroup ITKIOGDCM
    * Set/Get a compression type to use. */
   enum class Compression : uint8_t
@@ -66,7 +66,7 @@ public:
 extern ITKIOGDCM_EXPORT std::ostream &
                         operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value);
 /**
- *\class GDCMImageIO
+ * \class GDCMImageIO
  *
  *  \brief ImageIO class for reading and writing DICOM V3.0 and ACR/NEMA 1&2 uncompressed images.
  *  This class is only an adaptor to the GDCM library.

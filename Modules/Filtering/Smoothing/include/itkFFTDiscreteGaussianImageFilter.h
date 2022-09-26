@@ -26,7 +26,7 @@
 
 namespace itk
 {
-/**\class FFTDiscreteGaussianImageFilterEnums
+/** \class FFTDiscreteGaussianImageFilterEnums
  * \brief Contains all enum classes used by FFTDiscreteGaussianImageFilter class.
  * \ingroup ITKSmoothing
  */

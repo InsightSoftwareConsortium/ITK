@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/**\class TreeIteratorBaseEnums
+/** \class TreeIteratorBaseEnums
  * \brief Enum classes used in the TreeIteratorBase class.
  * \ingroup ITKDeprecated
  */

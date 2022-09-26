@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class GaborKernelFunction
+ * \class GaborKernelFunction
  * \brief Gabor kernel used for various computer vision tasks.
  *
  * This class encapsulates a complex Gabor kernel used for

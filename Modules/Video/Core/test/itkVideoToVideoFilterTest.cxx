@@ -68,7 +68,7 @@ CreateInputFrame(InputPixelType val)
 }
 
 /**
- *\class DummyVideoToVideoFilter
+ * \class DummyVideoToVideoFilter
  * \brief A simple implementation of VideoTOVideoFilter for the test
  */
 template <typename TInputVideoStream, typename TOutputVideoStream>

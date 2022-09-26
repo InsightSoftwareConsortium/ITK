@@ -24,14 +24,14 @@
 #include "ITKQuadEdgeMeshFilteringExport.h"
 namespace itk
 {
-/**\class NormalQuadEdgeMeshFilterEnums
+/** \class NormalQuadEdgeMeshFilterEnums
  * \brief Contains enum classes used by NormalQuadEdgeMeshFilter class
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 class NormalQuadEdgeMeshFilterEnums
 {
 public:
-  /**\class WeightEnum
+  /** \class WeightEnum
    * \ingroup ITKQuadEdgeMeshFiltering
    */
   enum class Weight : uint8_t

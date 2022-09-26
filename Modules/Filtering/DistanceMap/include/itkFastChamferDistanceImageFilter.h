@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class FastChamferDistanceImageFilter
+ * \class FastChamferDistanceImageFilter
  * \brief This class compute the signed (positive and negative) chamfer distance in a narrow band
  *
  * \par OVERVIEW

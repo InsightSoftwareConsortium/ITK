@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class ProjectedIterativeDeconvolutionImageFilter
+ * \class ProjectedIterativeDeconvolutionImageFilter
  * \brief Mix-in class that adds a projection step after each
  * iteration.
  *

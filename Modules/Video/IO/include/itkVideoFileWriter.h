@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class VideoFileWriter
+ * \class VideoFileWriter
  * \brief Writer that takes in a VideoStream and writes the frames to a file
  *
  * This class is a subclass of TemporalProcessObject which specifically takes a

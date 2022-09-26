@@ -25,7 +25,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class EuclideanSquareDistanceMetric
+ * \class EuclideanSquareDistanceMetric
  * \brief Computes Euclidean distance between origin and given measurement vector.
  *
  * \sa DistanceMetric

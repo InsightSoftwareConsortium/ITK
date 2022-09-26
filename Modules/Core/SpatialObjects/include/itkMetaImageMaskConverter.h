@@ -29,7 +29,7 @@ namespace itk
 {
 
 /**
- *\class MetaImageMaskConverter
+ * \class MetaImageMaskConverter
  *  \brief converts between MetaObject<->SpatialObject
  *  \sa MetaConverterBase
  *  \ingroup ITKSpatialObjects

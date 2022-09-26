@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class FrequencyFFTLayoutImageRegionIteratorWithIndex
+ * \class FrequencyFFTLayoutImageRegionIteratorWithIndex
 
  * Iterator providing method GetFrequency() to retrieve the frequency associated to an index.
  * This value is related to the specific layout of frequencies from an image in the dual (frequency) space.

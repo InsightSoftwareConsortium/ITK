@@ -53,7 +53,7 @@ public:
 } // namespace Functor
 
 /**
- *\class SqrtImageFilter
+ * \class SqrtImageFilter
  * \brief Computes the square root of each pixel.
  *
  * The computations are performed using std::sqrt(x).

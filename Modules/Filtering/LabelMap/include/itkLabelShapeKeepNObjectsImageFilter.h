@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class LabelShapeKeepNObjectsImageFilter
+ * \class LabelShapeKeepNObjectsImageFilter
  * \brief keep N objects according to their shape attributes
  *
  * LabelShapeKeepNObjectsImageFilter keep the N objects in a labeled image

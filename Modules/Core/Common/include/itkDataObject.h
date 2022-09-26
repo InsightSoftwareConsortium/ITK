@@ -44,7 +44,7 @@ class ITK_FORWARD_EXPORT DataObject;
 /*--------------------Data Object Exceptions---------------------------*/
 
 /**
- *\class DataObjectError
+ * \class DataObjectError
  * \brief Exception object for DataObject exceptions.
  * \ingroup ITKCommon
  */
@@ -100,7 +100,7 @@ private:
 };
 
 /**
- *\class InvalidRequestRegionError
+ * \class InvalidRequestRegionError
  *  \brief Exception object for invalid requested region.
  *
  * Exception object for invalid requested region.
@@ -144,7 +144,7 @@ protected:
 /*----------------------------Data Object--------------------------------*/
 
 /**
- *\class DataObject
+ * \class DataObject
  * \brief Base class for all data objects in ITK.
  *
  * This is the base class for all data objects in the Insight data

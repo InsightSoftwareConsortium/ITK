@@ -29,7 +29,7 @@
 namespace itk
 {
 /**
- *\class KLMRegionGrowImageFilter
+ * \class KLMRegionGrowImageFilter
  * \brief Base class for a region growing object that performs energy-based
  * region growing for multiband images.
  *

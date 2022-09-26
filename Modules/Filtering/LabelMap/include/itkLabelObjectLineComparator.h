@@ -24,7 +24,7 @@ namespace Functor
 {
 
 /**
- *\class LabelObjectLineComparator
+ * \class LabelObjectLineComparator
  *  \brief Performs a comparison of l1 < l2.  Returns true if l1 is strictly less
  *  than l2.
  *

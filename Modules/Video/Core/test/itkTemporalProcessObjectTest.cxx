@@ -31,7 +31,7 @@ namespace TemporalProcessObjectTest
 using SizeValueType = itk::SizeValueType;
 using OffsetValueType = itk::OffsetValueType;
 
-/**\class CallRecordEnumms
+/** \class CallRecordEnumms
  * \brief Contains all enum classes for CallRecord class.
  */
 class CallRecordEnums
@@ -99,7 +99,7 @@ operator<<(std::ostream & out, const CallRecordEnums::MethodType value)
 }
 
 /**
- *\class CallRecord
+ * \class CallRecord
  * Record of a start or end of a GenerateDataCall from a
  * DummyTemporalProcessObject instance
  */
@@ -196,7 +196,7 @@ protected:
 std::vector<CallRecord> m_CallStack;
 
 /**
- *\class DummyTemporalDataObject
+ * \class DummyTemporalDataObject
  * Create TemporaDataObject subclass that does nothing, but overrides some
  * methods to provide debug output
  */
@@ -302,7 +302,7 @@ public:
 };
 
 /**
- *\class DummyTemporalProcessObject
+ * \class DummyTemporalProcessObject
  * Create TemporalProcessObject subclass that does nothing, but implements
  * New() and TemporalStreamingGenerateData()
  */

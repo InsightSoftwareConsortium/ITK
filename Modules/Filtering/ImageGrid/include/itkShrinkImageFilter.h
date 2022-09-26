@@ -33,7 +33,7 @@
 namespace itk
 {
 /**
- *\class ShrinkImageFilter
+ * \class ShrinkImageFilter
  * \brief Reduce the size of an image by an integer factor in each
  * dimension.
  *

@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class MeanImageFilter
+ * \class MeanImageFilter
  * \brief Applies an averaging filter to an image
  *
  * Computes an image where a given pixel is the mean value of the

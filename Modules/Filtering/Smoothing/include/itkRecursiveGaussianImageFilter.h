@@ -23,14 +23,14 @@
 
 namespace itk
 {
-/**\class RecursiveGaussianImageFilterEnums
+/** \class RecursiveGaussianImageFilterEnums
  * \brief Contains all enum classes used by RecursiveGaussianImageFilter class.
  * \ingroup ITKSmoothing
  */
 class RecursiveGaussianImageFilterEnums
 {
 public:
-  /**\class GaussianOrder
+  /** \class GaussianOrder
 * \ingroup ITKSmoothing
 * Enum type that indicates if the filter applies the equivalent operation
 of convolving with a gaussian, first derivative of a gaussian or the
@@ -59,7 +59,7 @@ static constexpr GaussianOrderEnum SecondOrder = GaussianOrderEnum::SecondOrder;
 #endif
 
 /**
- *\class RecursiveGaussianImageFilter
+ * \class RecursiveGaussianImageFilter
  * \brief Base class for computing IIR convolution with an approximation of a  Gaussian kernel.
  *
  *    \f[

@@ -33,7 +33,7 @@ namespace itk
 {
 
 /**
- *\class PyBuffer
+ * \class PyBuffer
  *
  *  \brief Helper class to get ITK image views into python arrays and back.
  *

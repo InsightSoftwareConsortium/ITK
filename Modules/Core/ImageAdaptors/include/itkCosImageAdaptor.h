@@ -26,7 +26,7 @@ namespace itk
 namespace Accessor
 {
 /**
- *\class CosPixelAccessor
+ * \class CosPixelAccessor
  * \brief Give access to the std::cos() function of a value
  *
  * CosPixelAccessor is templated over an internal type and an
@@ -64,7 +64,7 @@ public:
 } // end namespace Accessor
 
 /**
- *\class CosImageAdaptor
+ * \class CosImageAdaptor
  * \brief Presents an image as being composed of the std::cos() of its pixels
  *
  * Additional casting is performed according to the input and output image

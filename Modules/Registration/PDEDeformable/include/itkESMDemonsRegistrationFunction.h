@@ -26,14 +26,14 @@
 
 namespace itk
 {
-/**\class ESMDemonsRegistrationFunctionEnums
+/** \class ESMDemonsRegistrationFunctionEnums
  * \brief Contains all enum classes used by ESMDemonsRegistrationFunction class.
  * \ingroup ITKPDEDeformableRegistration
  */
 class ESMDemonsRegistrationFunctionEnums
 {
 public:
-  /**\class GradientEnum
+  /** \class GradientEnum
    * \ingroup FiniteDifferenceFunctions
    * \ingroup ITKPDEDeformableRegistration
    * Type of available image forces */

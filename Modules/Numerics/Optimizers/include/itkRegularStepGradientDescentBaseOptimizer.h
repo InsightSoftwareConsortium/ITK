@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/**\class RegularStepGradientDescentBaseOptimizerEnums
+/** \class RegularStepGradientDescentBaseOptimizerEnums
  *\brief Contains all enum classes for RegularStepGradientDescentBaseOptimizer class.
  * \ingroup ITKOptimizers
  */

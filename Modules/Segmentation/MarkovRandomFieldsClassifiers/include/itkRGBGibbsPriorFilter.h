@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class RGBGibbsPriorFilter
+ * \class RGBGibbsPriorFilter
  * \brief The RGBGibbsPriorFilter applies Gibbs Prior model for the segmentation
  * of MRF images.
  *

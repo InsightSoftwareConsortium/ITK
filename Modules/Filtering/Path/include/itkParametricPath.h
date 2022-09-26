@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class ParametricPath
+ * \class ParametricPath
  * \brief  Represent a parametric path through ND Space
  *
  * This virtual class is intended to represent a parametric path through an

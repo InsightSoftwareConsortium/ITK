@@ -36,7 +36,7 @@
 namespace itk
 {
 /**
- *\class ImageGaussianModelEstimator
+ * \class ImageGaussianModelEstimator
  * \brief Base class for ImageGaussianModelEstimator object.
  *
  * itkImageGaussianModelEstimator generates the Gaussian model for given

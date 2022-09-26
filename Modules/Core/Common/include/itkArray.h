@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class Array
+ * \class Array
  *  \brief Array class with size defined at construction time.
  *
  * This class derives from the vnl_vector<> class.

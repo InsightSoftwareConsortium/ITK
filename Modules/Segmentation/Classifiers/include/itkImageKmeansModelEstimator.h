@@ -40,7 +40,7 @@
 namespace itk
 {
 /**
- *\class ImageKmeansModelEstimator
+ * \class ImageKmeansModelEstimator
  * \brief Base class for ImageKmeansModelEstimator object.
  *
  * itkImageKmeansModelEstimator generates the kmeans model (cluster centers).

@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class CurvatureFlowFunction
+ * \class CurvatureFlowFunction
  *
  * \brief
  * This class encapsulate the finite difference equation which drives a

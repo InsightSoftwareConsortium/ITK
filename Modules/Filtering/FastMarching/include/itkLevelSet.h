@@ -65,7 +65,7 @@ public:
 };
 
 /**
- *\class AuxVarTypeDefault
+ * \class AuxVarTypeDefault
  * \brief Level set auxiliary variables type information.
  *
  * \brief AuxVarTypeDefault is a simple class that holds type information

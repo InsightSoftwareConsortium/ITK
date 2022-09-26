@@ -27,7 +27,7 @@ template <typename TInternalComputationValueType>
 class ITK_FORWARD_EXPORT GradientDescentOptimizerBasev4Template;
 
 /**
- *\class GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate
+ * \class GradientDescentOptimizerBasev4ModifyGradientByScalesThreaderTemplate
  * \brief Modify the gradient by the parameter scales for
  * GradientDescentOptimizerBasev4.
  * \ingroup ITKOptimizersv4

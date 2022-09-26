@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class Point
+ * \class Point
  * \brief A templated class holding a geometric point in n-Dimensional space.
  *
  * Point is a templated class that holds a set of coordinates (components).
@@ -309,7 +309,7 @@ std::istream &
 operator>>(std::istream & is, Point<T, VPointDimension> & vct);
 
 /**
- *\class BarycentricCombination
+ * \class BarycentricCombination
  *  \brief Computes the barycentric combination of an array of N points.
  *
  * This class computes the barycentric combination of an array of N points.

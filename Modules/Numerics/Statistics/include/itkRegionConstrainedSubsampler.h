@@ -26,7 +26,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class RegionConstrainedSubsampler
+ * \class RegionConstrainedSubsampler
  * \brief This an abstract subsampler that constrains subsamples
  * to be contained within a given image region.
  *

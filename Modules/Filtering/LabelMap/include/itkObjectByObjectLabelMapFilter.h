@@ -31,7 +31,7 @@ namespace itk
 {
 
 /**
- *\class ObjectByObjectLabelMapFilter
+ * \class ObjectByObjectLabelMapFilter
  * \brief ObjectByObjectLabelMapFilter applies an image pipeline to all the objects of a label map and produce a new
  * label map
  *

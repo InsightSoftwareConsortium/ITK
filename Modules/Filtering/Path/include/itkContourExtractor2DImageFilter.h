@@ -31,7 +31,7 @@
 namespace itk
 {
 /**
- *\class ContourExtractor2DImageFilter
+ * \class ContourExtractor2DImageFilter
  * \brief Computes a list of PolyLineParametricPath objects from the contours in
  * a 2D image.
  *

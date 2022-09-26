@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class LevelSetDomainPartitionImageWithKdTree
+ * \class LevelSetDomainPartitionImageWithKdTree
  *
  * \brief Helper class used to share data in the ScalarChanAndVeseLevelSetFunction.
  * \ingroup ITKLevelSetsv4

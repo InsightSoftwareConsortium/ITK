@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class BinaryMinMaxCurvatureFlowImageFilter
+ * \class BinaryMinMaxCurvatureFlowImageFilter
  * \brief Denoise a binary image using min/max curvature flow.
  *
  * BinaryMinMaxCurvatureFlowImageFilter implements a curvature driven image

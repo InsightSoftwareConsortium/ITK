@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class DCMTKImageIOFactory
+ * \class DCMTKImageIOFactory
  * \brief Create instances of DCMTKImageIO objects using an object factory.
  * \ingroup ITKIODCMTK
  */

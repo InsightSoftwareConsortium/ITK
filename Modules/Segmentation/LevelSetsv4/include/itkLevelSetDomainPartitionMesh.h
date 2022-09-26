@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class LevelSetDomainPartitionMesh
+ * \class LevelSetDomainPartitionMesh
  *
  * \brief Helper class used to partition domain and efficiently compute overlap.
  *  \ingroup ITKLevelSetsv4

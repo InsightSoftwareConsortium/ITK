@@ -36,7 +36,7 @@
 
 namespace itk
 {
-/**\class ImageRegistrationMethodv4Enums
+/** \class ImageRegistrationMethodv4Enums
  *\brief Contains all enum classes for ImageRegistrationMethodv4 class.
  * \ingroup ITKRegistrationMethodsv4
  */

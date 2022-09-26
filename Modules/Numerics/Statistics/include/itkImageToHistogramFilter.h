@@ -30,7 +30,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class ImageToHistogramFilter
+ * \class ImageToHistogramFilter
  *  \brief This class generates a histogram from an image.
  *
  *  The concept of Histogram in ITK is quite generic. It has been designed to

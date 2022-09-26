@@ -24,7 +24,7 @@ namespace itk
 {
 
 /**
- *\class LabelMapMaskImageFilter
+ * \class LabelMapMaskImageFilter
  * \brief Mask and image with a LabelMap
  *
  * LabelMapMaskImageFilter mask the content of an input image according

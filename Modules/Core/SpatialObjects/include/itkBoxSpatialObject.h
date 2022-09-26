@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class BoxSpatialObject
+ * \class BoxSpatialObject
  *
  * \brief
  * The class may be used to represent N-dimensional boxes.

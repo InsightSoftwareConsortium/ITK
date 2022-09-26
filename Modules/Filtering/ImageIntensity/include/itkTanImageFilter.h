@@ -53,7 +53,7 @@ public:
 } // namespace Functor
 
 /**
- *\class TanImageFilter
+ * \class TanImageFilter
  * \brief Computes the tangent of each input pixel.
  *
  * The computations are performed using std::tan(x).

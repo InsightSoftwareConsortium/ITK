@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class MultiGradientOptimizerv4Template
+ * \class MultiGradientOptimizerv4Template
  *  \brief Multiple gradient-based optimizers are combined in order to perform a multi-objective optimization.
  *
  *  This optimizer will do a combined gradient descent optimization using whatever metric/optimizer gradient

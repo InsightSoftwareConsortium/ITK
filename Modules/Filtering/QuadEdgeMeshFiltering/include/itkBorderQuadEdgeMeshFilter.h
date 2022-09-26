@@ -26,14 +26,14 @@
 
 namespace itk
 {
-/**\class BorderQuadEdgeMeshFilterEnums
+/** \class BorderQuadEdgeMeshFilterEnums
  * \brief Contains all enum classes used by
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 class BorderQuadEdgeMeshFilterEnums
 {
 public:
-  /**\class BorderTransform
+  /** \class BorderTransform
    * \ingroup ITKQuadEdgeMeshFiltering
    * */
   enum class BorderTransform : uint8_t
@@ -42,7 +42,7 @@ public:
     DISK_BORDER_TRANSFORM
   };
 
-  /**\class BorderPick
+  /** \class BorderPick
    * \ingroup ITKQuadEdgeMeshFiltering
    * */
   enum class BorderPick : uint8_t

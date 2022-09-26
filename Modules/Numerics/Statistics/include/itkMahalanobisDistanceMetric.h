@@ -33,7 +33,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class MahalanobisDistanceMetric
+ * \class MahalanobisDistanceMetric
  * \brief MahalanobisDistanceMetric class computes a Mahalanobis
  *  distance given a mean and covariance.
  *

@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class VectorCastImageFilter
+ * \class VectorCastImageFilter
  *
  * \brief Casts input vector pixels to output vector pixel type.
  *

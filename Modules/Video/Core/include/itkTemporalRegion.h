@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- *\class TemporalRegion
+ * \class TemporalRegion
  * \brief Region subclass that holds a region in time
  *
  * A temporal region is represented using a starting point and a duration. Here

@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class LabelObject
+ * \class LabelObject
  *  \brief The base class for the representation of an labeled binary object in an image.
  *
  * LabelObject is the base class to represent a labeled object in an image.
@@ -204,7 +204,7 @@ public:
   Shift(OffsetType offset);
 
   /**
-   *\class ConstLineIterator
+   * \class ConstLineIterator
    * \brief A forward iterator over the lines of a LabelObject
    * \ingroup ITKLabelMap
    */
@@ -286,7 +286,7 @@ public:
   };
 
   /**
-   *\class ConstLineIterator
+   * \class ConstLineIterator
    * \brief A forward iterator over the indexes of a LabelObject
    * \ingroup ITKLabelMap
    */

@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class Path
+ * \class Path
  * \brief  Represent a path through ND Space
  *
  * This base class is intended to represent a path through an image.   As a

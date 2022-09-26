@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class FFTConvolutionImageFilter
+ * \class FFTConvolutionImageFilter
  * \brief Convolve a given image with an arbitrary image kernel using
  * multiplication in the Fourier domain.
  *

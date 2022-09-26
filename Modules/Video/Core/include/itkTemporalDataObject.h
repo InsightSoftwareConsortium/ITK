@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/**\class TemporalDataObjectEnums
+/** \class TemporalDataObjectEnums
  * \brief Contains all enum classes used by TemporalUnit class.
  * \ingroup ITKVideoCore
  */
@@ -49,7 +49,7 @@ extern ITKVideoCore_EXPORT std::ostream &
                            operator<<(std::ostream & out, TemporalDataObjectEnums::TemporalUnit value);
 
 /**
- *\class TemporalDataObject
+ * \class TemporalDataObject
  * \brief DataObject subclass with knowledge of temporal region
  *
  * This class represents a data object that relies on temporal regions. It uses

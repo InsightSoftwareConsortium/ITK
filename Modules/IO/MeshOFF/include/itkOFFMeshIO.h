@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class OFFMeshIO
+ * \class OFFMeshIO
  * \brief this class defines how to read and write Object file format.
  * \ingroup IOFilters
  * \ingroup ITKIOMeshOFF

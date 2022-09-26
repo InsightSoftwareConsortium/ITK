@@ -26,7 +26,7 @@ namespace itk
 namespace Accessor
 {
 /**
- *\class ComplexToRealPixelAccessor
+ * \class ComplexToRealPixelAccessor
  * \brief Give access to the Real part of a std::complex<> value.
  *
  * ComplexToRealPixelAccessor is templated over an internal type and an
@@ -65,7 +65,7 @@ public:
 } // end namespace Accessor
 
 /**
- *\class ComplexToRealImageAdaptor
+ * \class ComplexToRealImageAdaptor
  * \brief Presents a complex image as being composed of real() part of
  *        its pixels.
  *

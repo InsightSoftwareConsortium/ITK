@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class LabelImageToLabelMapFilter
+ * \class LabelImageToLabelMapFilter
  * \brief convert a labeled image to a label collection image
  *
  * LabelImageToLabelMapFilter converts a label image to a label collection image.

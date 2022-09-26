@@ -28,7 +28,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class KdTreeGenerator
+ * \class KdTreeGenerator
  *  \brief This class generates a KdTree object without centroid information.
  *
  * The KdTree object stores measurement vectors in a k-d tree structure

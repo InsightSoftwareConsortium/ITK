@@ -26,7 +26,7 @@ namespace Testing
 {
 
 /**
- *\class StretchIntensityImageFilter
+ * \class StretchIntensityImageFilter
  *
  * \brief Applies a linear transformation to the intensity levels of the
  * input Image.

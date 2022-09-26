@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class QuadEdgeMeshPolygonCell
+ * \class QuadEdgeMeshPolygonCell
  * Class that connects the QE with itk
  *
  * \param TCellInterface Basic type for the itk*Cell. This usually comes

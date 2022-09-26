@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class VnlFFTImageFilterInitFactory
+ * \class VnlFFTImageFilterInitFactory
  * \brief Initialize Vnl FFT image filter factory backends.
  *
  * The purpose of VnlFFTImageFilterInitFactory is to perform

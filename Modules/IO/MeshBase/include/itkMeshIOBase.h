@@ -43,7 +43,7 @@
 namespace itk
 {
 /**
- *\class MeshIOBase
+ * \class MeshIOBase
  * \brief Abstract superclass defines mesh IO interface.
  *
  * MeshIOBase is a class that reads and/or writes Mesh / QuadEdgeMesh data

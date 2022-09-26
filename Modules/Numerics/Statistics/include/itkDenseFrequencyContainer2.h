@@ -28,7 +28,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class DenseFrequencyContainer2
+ * \class DenseFrequencyContainer2
  *  \brief This class is a container for frequencies of bins in an histogram.
  *
  * This class uses the ValarrayImageContainer class to store

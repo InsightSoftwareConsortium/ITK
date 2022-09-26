@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class HalfToFullHermitianImageFilter
+ * \class HalfToFullHermitianImageFilter
  *
  * \brief Expands a half image produced from a real-to-complex
  * discrete Fourier transform (DFT) to the full complex image.

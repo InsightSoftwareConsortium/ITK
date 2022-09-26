@@ -32,7 +32,7 @@
 
 namespace itk
 {
-/**\class MRFImageFilterEnums
+/** \class MRFImageFilterEnums
  * \brief Contains all enum classes in MRFImageFilter class;
  * \ingroup ITKMarkovRandomFieldsClassifiers
  */
@@ -55,7 +55,7 @@ public:
 extern ITKMarkovRandomFieldsClassifiers_EXPORT std::ostream &
                                                operator<<(std::ostream & out, const MRFImageFilterEnums::MRFStop value);
 /**
- *\class MRFImageFilter
+ * \class MRFImageFilter
  * \brief Implementation of a labeller object that uses Markov Random Fields
  * to classify pixels in an image data set.
  *

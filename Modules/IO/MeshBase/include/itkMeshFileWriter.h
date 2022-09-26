@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class MeshFileWriter
+ * \class MeshFileWriter
  * \brief Writes mesh data to a single file.
  *
  * MeshFileWriter writes its input data to a single output file.

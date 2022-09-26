@@ -26,7 +26,7 @@ namespace itk
 namespace Accessor
 {
 /**
- *\class VectorImageToImagePixelAccessor
+ * \class VectorImageToImagePixelAccessor
  * \brief Extract components from a VectorImage.
  *
  * This accessor is used to extract components from a VectorImage. It is used
@@ -123,7 +123,7 @@ private:
 } // end namespace Accessor
 
 /**
- *\class VectorImageToImageAdaptor
+ * \class VectorImageToImageAdaptor
  * \brief Presents a VectorImage and extracts a component from it into an image.
  *
  * The class is expected to be templated over a pixel type and dimension. These

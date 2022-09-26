@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class ShapeLabelObject
+ * \class ShapeLabelObject
  *  \brief A Label object to store the common attributes related to the shape of the object
  *
  * ShapeLabelObject stores  the common attributes related to the shape of the object

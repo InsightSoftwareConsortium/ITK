@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class PCAShapeSignedDistanceFunction
+ * \class PCAShapeSignedDistanceFunction
  * \brief Compute the signed distance from a N-dimensional PCA Shape.
  *
  * This class computes the signed distance from a N-dimensional shape defined

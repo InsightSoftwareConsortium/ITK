@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class StatisticsLabelMapFilter
+ * \class StatisticsLabelMapFilter
  * \brief The valuator class for the StatisticsLabelObject
  *
  * StatisticsLabelMapFilter can be used to set the attributes values

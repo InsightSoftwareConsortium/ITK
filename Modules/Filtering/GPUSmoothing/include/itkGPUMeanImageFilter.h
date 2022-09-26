@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class GPUMeanImageFilter
+ * \class GPUMeanImageFilter
  *
  * \brief GPU-enabled implementation of the MeanImageFilter.
  *
@@ -94,7 +94,7 @@ private:
 };
 
 /**
- *\class GPUMeanImageFilterFactory
+ * \class GPUMeanImageFilterFactory
  *
  * \brief Object Factory implementation for GPUMeanImageFilter
  * \ingroup ITKGPUSmoothing

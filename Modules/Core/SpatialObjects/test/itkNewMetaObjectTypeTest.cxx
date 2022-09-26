@@ -19,7 +19,7 @@
 #include "itkTestingMacros.h"
 
 /**
- *\class MetaDummy
+ * \class MetaDummy
  *  dummy MetaObject to add to MetaScene
  */
 class MetaDummy : public MetaObject
@@ -83,7 +83,7 @@ private:
 namespace itk
 {
 /**
- *\class DummySpatialObject
+ * \class DummySpatialObject
  */
 template <unsigned int TDimension = 3>
 class DummySpatialObject : public SpatialObject<TDimension>
@@ -127,7 +127,7 @@ private:
 };
 
 /**
- *\class MetaConverterBase
+ * \class MetaConverterBase
  *  Dummy converter class
  */
 template <unsigned int VDimension = 3>

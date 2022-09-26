@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/**\class ConvolutionImageFilterBaseEnums
+/** \class ConvolutionImageFilterBaseEnums
  * \brief Contains all enum classes used by ConvolutionImageFilterBase class.
  * \ingroup ITKConvolution
  */
@@ -32,7 +32,7 @@ class ConvolutionImageFilterBaseEnums
 {
 public:
   /**
-   *\class ConvolutionImageFilterOutputRegion
+   * \class ConvolutionImageFilterOutputRegion
    * \ingroup ITKConvolution
    * Output region mode type enumeration
    */
@@ -47,7 +47,7 @@ extern ITKConvolution_EXPORT std::ostream &
                              operator<<(std::ostream & out, const ConvolutionImageFilterBaseEnums::ConvolutionImageFilterOutputRegion value);
 
 /**
- *\class ConvolutionImageFilterBase
+ * \class ConvolutionImageFilterBase
  * \brief Abstract base class for the convolution image filters.
  *
  * \ingroup ITKConvolution

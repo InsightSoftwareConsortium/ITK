@@ -35,7 +35,7 @@
 namespace itk
 {
 /**
- *\class BioRadImageIO
+ * \class BioRadImageIO
  *
  *  \brief ImageIO class for reading Bio-Rad images.
  *  Bio-Rad file format are used by confocal microscopes like MRC 1024, MRC 600

@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class StatisticsOpeningLabelMapFilter
+ * \class StatisticsOpeningLabelMapFilter
  * \brief remove the objects according to the value of their statistics attribute
  *
  * StatisticsOpeningLabelMapFilter removes the objects in a label collection image

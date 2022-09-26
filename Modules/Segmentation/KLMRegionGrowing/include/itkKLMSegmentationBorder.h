@@ -30,7 +30,7 @@
 namespace itk
 {
 /**
- *\class KLMDynamicBorderArray
+ * \class KLMDynamicBorderArray
  * \brief  Object maintaining a reference to a list of borders associated
  * with a region.
  *
@@ -114,7 +114,7 @@ public:
 };
 
 /**
- *\class KLMSegmentationBorder
+ * \class KLMSegmentationBorder
  * \brief Base class for KLMSegmentationBorder object
  *
  * itkKLMSegmentationBorder is the base class for the KLMSegmentationBorder

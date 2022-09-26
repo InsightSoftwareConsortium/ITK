@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/**\class DTITubeSpatialObjectPointEnums
+/** \class DTITubeSpatialObjectPointEnums
  * \brief Contains all enum classes used by DTITubeSpatialObjectPoint class.
  * \ingroup ITKSpatialObjects
  */
@@ -32,7 +32,7 @@ class DTITubeSpatialObjectPointEnums
 {
 public:
   /**
-*\class DTITubeSpatialObjectPointField
+* \class DTITubeSpatialObjectPointField
 * \ingroup ITKSpatialObjects
 * If you add a type here you need to modify the TranslateEnumToChar
 to translate the enum to a string */
@@ -47,7 +47,7 @@ to translate the enum to a string */
 extern ITKSpatialObjects_EXPORT std::ostream &
                                 operator<<(std::ostream & out, const DTITubeSpatialObjectPointEnums::DTITubeSpatialObjectPointField value);
 /**
- *\class DTITubeSpatialObjectPoint
+ * \class DTITubeSpatialObjectPoint
  * \brief Point used for a tube definition
  *
  * This class contains all the functions necessary to define a point

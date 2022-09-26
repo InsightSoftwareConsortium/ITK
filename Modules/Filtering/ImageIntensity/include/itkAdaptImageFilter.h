@@ -25,7 +25,7 @@ namespace itk
 namespace Functor
 {
 /**
- *\class AccessorFunctor
+ * \class AccessorFunctor
  * \brief Convert an accessor to a functor so that it can be used in a
  * UnaryFunctorImageFilter.
  *
@@ -98,7 +98,7 @@ private:
 } // namespace Functor
 
 /**
- *\class AdaptImageFilter
+ * \class AdaptImageFilter
  * \brief Convert an image to another pixel type using the specified data accessor.
  *
  * AdaptImageFilter converts an image to another pixel type using a

@@ -27,14 +27,14 @@ namespace itk
 {
 namespace Statistics
 {
-/**\class ExpectationMaximizationMixtureModelEstimatorEnums
+/** \class ExpectationMaximizationMixtureModelEstimatorEnums
  * \brief Contains all enum classes used by ExpectationMaximizationMixtureModelEstimator class.
  * \ingroup ITKStatistics
  */
 class ExpectationMaximizationMixtureModelEstimatorEnums
 {
 public:
-  /**\class TERMINATION_CODE
+  /** \class TERMINATION_CODE
    * \ingroup ITKStatistics
    * Termination status after running optimization */
   enum class TERMINATION_CODE : uint8_t
@@ -48,7 +48,7 @@ extern ITKStatistics_EXPORT std::ostream &
                             operator<<(std::ostream & out, const ExpectationMaximizationMixtureModelEstimatorEnums::TERMINATION_CODE value);
 
 /**
- *\class ExpectationMaximizationMixtureModelEstimator
+ * \class ExpectationMaximizationMixtureModelEstimator
  *  \brief This class generates the parameter estimates for a mixture
  *  model using expectation maximization strategy.
  *

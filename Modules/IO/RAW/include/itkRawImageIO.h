@@ -29,7 +29,7 @@
 namespace itk
 {
 /**
- *\class RawImageIO
+ * \class RawImageIO
  *
  * \brief Read and write raw binary images.
  *

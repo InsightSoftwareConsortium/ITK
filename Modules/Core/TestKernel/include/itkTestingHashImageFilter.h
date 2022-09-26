@@ -26,14 +26,14 @@ namespace itk
 {
 namespace Testing
 {
-/**\class HashImageFilterEnums
+/** \class HashImageFilterEnums
  * \brief Enum classes for HashImageFilter
  * \ingroup ITKTestKernel
  * */
 class HashImageFilterEnums
 {
 public:
-  /**\class HashFunction
+  /** \class HashFunction
    * \ingroup ITKTestKernel
    * Describes the hash function
    */
@@ -47,7 +47,7 @@ extern std::ostream &
 operator<<(std::ostream & out, HashImageFilterEnums::HashFunction value);
 
 /**
- *\class HashImageFilter
+ * \class HashImageFilter
  * \brief Generates a md5 hash string from an image.
  *
  * \note This class utilizes low level buffer pointer access, to work

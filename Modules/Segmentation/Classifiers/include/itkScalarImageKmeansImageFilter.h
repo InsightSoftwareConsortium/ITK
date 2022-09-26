@@ -34,7 +34,7 @@
 namespace itk
 {
 /**
- *\class ScalarImageKmeansImageFilter
+ * \class ScalarImageKmeansImageFilter
  * \brief Classifies the intensity values of a scalar image using the K-Means algorithm.
  *
  * Given an input image with scalar values, it uses the K-Means statistical

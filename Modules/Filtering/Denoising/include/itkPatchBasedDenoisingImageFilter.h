@@ -37,7 +37,7 @@
 namespace itk
 {
 /**
- *\class PatchBasedDenoisingImageFilter
+ * \class PatchBasedDenoisingImageFilter
  * \brief Derived class implementing a specific patch-based denoising algorithm, as detailed below.
  *
  * This class is derived from the base class PatchBasedDenoisingBaseImageFilter; please refer to the

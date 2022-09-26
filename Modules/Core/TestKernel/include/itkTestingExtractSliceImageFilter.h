@@ -26,7 +26,7 @@ namespace itk
 {
 namespace Testing
 {
-/**\class ExtractSliceImageFilterEnums
+/** \class ExtractSliceImageFilterEnums
  * \brief Contains all enum classes used by the ExtractSliceImageFilterEnums class.
  * \ingroup ITKTestKernel
  */
@@ -34,7 +34,7 @@ class ExtractSliceImageFilterEnums
 {
 public:
   /**
-   *\class TestExtractSliceImageFilterCollapseStrategy
+   * \class TestExtractSliceImageFilterCollapseStrategy
    * \ingroup ITKTestKernel
    */
   enum class TestExtractSliceImageFilterCollapseStrategy : uint8_t
@@ -50,7 +50,7 @@ extern std::ostream &
 operator<<(std::ostream & out, const ExtractSliceImageFilterEnums::TestExtractSliceImageFilterCollapseStrategy value);
 
 /**
- *\class ExtractSliceImageFilter
+ * \class ExtractSliceImageFilter
  * \brief Decrease the image size by cropping the image to the selected
  * region bounds.
  *

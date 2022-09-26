@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class AggregateLabelMapFilter
+ * \class AggregateLabelMapFilter
  * \brief Collapses all labels into the first label.
  *
  * This filter takes a label map as input and visits the pixels of all labels

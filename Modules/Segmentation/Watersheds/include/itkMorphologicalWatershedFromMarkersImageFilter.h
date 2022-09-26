@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class MorphologicalWatershedFromMarkersImageFilter
+ * \class MorphologicalWatershedFromMarkersImageFilter
  *
  * \brief Morphological watershed transform from markers
  *

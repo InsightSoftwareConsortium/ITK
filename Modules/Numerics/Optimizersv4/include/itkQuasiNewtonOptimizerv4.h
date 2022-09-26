@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class QuasiNewtonOptimizerv4Template
+ * \class QuasiNewtonOptimizerv4Template
  * \brief Implement a Quasi-Newton optimizer with BFGS Hessian estimation.
  *
  * Second order approximation of the cost function is usually more efficient

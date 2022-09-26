@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class PeakSignalToNoiseRatioCalculator
+ * \class PeakSignalToNoiseRatioCalculator
  * \brief Compute the PSNR of a noisy image
  *
  * \todo This class needs to be refactored and made into a proper

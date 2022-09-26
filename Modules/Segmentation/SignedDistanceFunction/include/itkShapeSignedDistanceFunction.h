@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class ShapeSignedDistanceFunction
+ * \class ShapeSignedDistanceFunction
  * \brief Base class for functions which evaluates the signed distance
  * from a shape.
  *

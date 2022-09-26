@@ -36,7 +36,7 @@
 namespace itk
 {
 /**
- *\class VTKImageIO
+ * \class VTKImageIO
  *
  *  \brief ImageIO class for reading VTK images
  *

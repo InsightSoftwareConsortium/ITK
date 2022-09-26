@@ -29,7 +29,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class PointSetToListSampleAdaptor
+ * \class PointSetToListSampleAdaptor
  *  \brief This class provides ListSample interface to ITK PointSet
  *
  * After calling SetPointSet(PointSet*) method to plug-in
@@ -109,7 +109,7 @@ public:
   GetTotalFrequency() const override;
 
   /**
-   *\class ConstIterator
+   * \class ConstIterator
    * \ingroup ITKStatistics
    */
   class ConstIterator
@@ -182,7 +182,7 @@ public:
   };
 
   /**
-   *\class Iterator
+   * \class Iterator
    * \ingroup ITKStatistics
    */
   class Iterator : public ConstIterator

@@ -24,7 +24,7 @@ namespace itk
 {
 
 /**
- *\class RegistrationParameterScalesFromShiftBase
+ * \class RegistrationParameterScalesFromShiftBase
  *  \brief Registration helper base class for estimating scales of
  * transform parameters from the maximum voxel shift caused by a parameter
  * change.

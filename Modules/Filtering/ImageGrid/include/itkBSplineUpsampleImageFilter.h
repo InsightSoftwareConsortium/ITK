@@ -35,7 +35,7 @@
 namespace itk
 {
 /**
- *\class BSplineUpsampleImageFilter
+ * \class BSplineUpsampleImageFilter
  * \brief Uses B-Spline interpolation to upsample an image by a factor of 2.
  * This class is the public interface for spline upsampling as defined by the
  * ResamplerType.

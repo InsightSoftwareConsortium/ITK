@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class CompositeValleyFunction
+ * \class CompositeValleyFunction
  * \brief Multiple valley shaped curve function
  *
  * Its functional form f(x) is :

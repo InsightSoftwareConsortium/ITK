@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class SigmoidImageFilter
+ * \class SigmoidImageFilter
  * \brief Computes the sigmoid function pixel-wise
  *
  * A linear transformation is applied first on the argument of

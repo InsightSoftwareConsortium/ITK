@@ -29,7 +29,7 @@ namespace itk
 {
 
 /**
- *\class GaussianInterpolateImageFunction
+ * \class GaussianInterpolateImageFunction
  * \brief Evaluates the Gaussian interpolation of an image.
  *
  * This class defines an N-dimensional Gaussian interpolation function using

@@ -36,7 +36,7 @@
 namespace itk
 {
 /**
- *\class VXLVideoIO
+ * \class VXLVideoIO
  *
  * \brief VideoIO object for reading and writing videos using VXL
  *

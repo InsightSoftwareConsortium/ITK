@@ -56,7 +56,7 @@ public:
 } // namespace Functor
 
 /**
- *\class PowImageFilter
+ * \class PowImageFilter
  * \brief Computes the powers of 2 images
  *
  * This class is templated over the types of the two

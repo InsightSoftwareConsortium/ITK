@@ -168,7 +168,7 @@ public:
   }
 };
 
-/**\class AuthalicMatrixCoefficients
+/** \class AuthalicMatrixCoefficients
  *
  * \brief Compute a matrix filled with Authalic Coefiicients of the edge,
  *        wherever two vertices are connected with an edge.

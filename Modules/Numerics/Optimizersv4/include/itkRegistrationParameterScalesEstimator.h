@@ -31,7 +31,7 @@
 
 namespace itk
 {
-/**\class RegistrationParameterScalesEstimatorEnums
+/** \class RegistrationParameterScalesEstimatorEnums
  * \brief This class contains all the enum classes used by RegistrationParameterScalesEstimator class.
  * \ingroup ITKOptimizersv4
  */
@@ -39,7 +39,7 @@ class RegistrationParameterScalesEstimatorEnums
 {
 public:
   /**
-   *\class SamplingStrategy
+   * \class SamplingStrategy
    * \ingroup ITKOptimizersv4
    * The strategies to sample physical points in the virtual domain. */
   enum class SamplingStrategy : uint8_t
@@ -57,7 +57,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
                               operator<<(std::ostream & out, const RegistrationParameterScalesEstimatorEnums::SamplingStrategy value);
 
 /**
- *\class RegistrationParameterScalesEstimator
+ * \class RegistrationParameterScalesEstimator
  *  \brief Implements a registration helper class for estimating scales of
  * transform parameters and step sizes.
  *

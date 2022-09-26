@@ -36,7 +36,7 @@ namespace Statistics
 {
 
 /**
- *\class ImageToNeighborhoodSampleAdaptor
+ * \class ImageToNeighborhoodSampleAdaptor
  *  \brief This class provides ListSample interface to ITK Image
  *
  * After calling SetImage( const Image * ) method to plug in the image object,
@@ -155,7 +155,7 @@ public:
   GetTotalFrequency() const override;
 
   /**
-   *\class ConstIterator
+   * \class ConstIterator
    *  \brief Const Iterator
    *  \ingroup ITKStatistics
    */
@@ -231,7 +231,7 @@ public:
   };
 
   /**
-   *\class Iterator
+   * \class Iterator
    *  \brief Iterator
    *  \ingroup ITKStatistics
    */

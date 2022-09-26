@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class RegionOfInterestImageFilter
+ * \class RegionOfInterestImageFilter
  * \brief Extract a region of interest from the input image.
  *
  *  This filter produces an output image of the same dimension as the input

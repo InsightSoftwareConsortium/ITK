@@ -55,7 +55,7 @@
 namespace itk
 {
 /**
- *\class IPLSortInfo
+ * \class IPLSortInfo
  *  \brief -- holds info on one file for IPLCommonImageIO
  * \ingroup ITKIOIPL
  */
@@ -111,7 +111,7 @@ private:
 };
 
 /**
- *\class IPLFileNameList
+ * \class IPLFileNameList
  *  \brief -- stores filename+info to be enumerated for IPLCommonImageIO
  * \ingroup ITKIOIPL
  */

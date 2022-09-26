@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class CacheableScalarFunction
+ * \class CacheableScalarFunction
  * \brief function cache implementation
  *
  * This is the base class for continuous scalar functions which

@@ -26,7 +26,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class SpatialNeighborSubsampler
+ * \class SpatialNeighborSubsampler
  * \brief A subsampler that selects all points
  * within the specified radius of the query point.
  *

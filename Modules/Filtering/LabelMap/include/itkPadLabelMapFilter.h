@@ -33,7 +33,7 @@
 namespace itk
 {
 /**
- *\class PadLabelMapFilter
+ * \class PadLabelMapFilter
  * \brief Pad a LabelMap image
  *
  * This filter pads a label map.

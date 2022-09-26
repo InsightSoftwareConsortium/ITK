@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class KittlerIllingworthThresholdImageFilter
+ * \class KittlerIllingworthThresholdImageFilter
  * \brief Threshold an image using the KittlerIllingworth Threshold
  *
  * This filter creates a binary thresholded image that separates an

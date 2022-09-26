@@ -28,7 +28,7 @@ namespace itk
 {
 
 /**
- *\class MetaImageConverter
+ * \class MetaImageConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

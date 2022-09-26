@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class BayesianClassifierImageFilter
+ * \class BayesianClassifierImageFilter
  *
  * \brief Performs Bayesian Classification on an image.
  *

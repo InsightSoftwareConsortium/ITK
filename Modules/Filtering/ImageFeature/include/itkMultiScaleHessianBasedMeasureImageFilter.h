@@ -24,14 +24,14 @@
 
 namespace itk
 {
-/**\class MultiScaleHessianBasedMeasureImageFilterEnums
+/** \class MultiScaleHessianBasedMeasureImageFilterEnums
  * \brief This class contains all enum classes used by MultiScaleHessianBasedMeasureImageFilter class.
  * \ingroup ITKImageFeature
  */
 class MultiScaleHessianBasedMeasureImageFilterEnums
 {
 public:
-  /**\class SigmaStepMethod
+  /** \class SigmaStepMethod
    * \ingroup ITKImageFeature
    * \ingroup IntensityImageFilters
    * Sigma step method type
@@ -46,7 +46,7 @@ public:
 extern ITKImageFeature_EXPORT std::ostream &
                               operator<<(std::ostream & out, const MultiScaleHessianBasedMeasureImageFilterEnums::SigmaStepMethod value);
 
-/**\class MultiScaleHessianBasedMeasureImageFilter
+/** \class MultiScaleHessianBasedMeasureImageFilter
  * \brief A filter to enhance structures using Hessian eigensystem-based
  * measures in a multiscale framework
  *

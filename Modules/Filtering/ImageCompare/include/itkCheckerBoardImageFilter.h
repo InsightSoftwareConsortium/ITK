@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class CheckerBoardImageFilter
+ * \class CheckerBoardImageFilter
  * \brief Combines two images in a checkerboard pattern.
  *
  * CheckerBoardImageFilter takes two input images that must have the same

@@ -32,7 +32,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class KdTreeBasedKmeansEstimator
+ * \class KdTreeBasedKmeansEstimator
  * \brief fast k-means algorithm implementation using k-d tree structure
  *
  * It returns k mean vectors that are centroids of k-clusters
@@ -168,7 +168,7 @@ protected:
   FillClusterLabels(KdTreeNodeType * node, int closestIndex);
 
   /**
-   *\class CandidateVector
+   * \class CandidateVector
    * \brief Candidate Vector
    * \ingroup ITKStatistics
    */

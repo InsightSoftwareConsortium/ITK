@@ -112,7 +112,7 @@ permuteColumnsWithSortIndices(QMatrix & eigenVectors, const std::vector<int> & i
 }
 } // end namespace detail
 
-/**\class SymmetricEigenAnalysisEnums
+/** \class SymmetricEigenAnalysisEnums
  * \brief This class contains all enum classes used by SymmetricEigenAnalysis class.
  * \ingroup ITKCommon
  */

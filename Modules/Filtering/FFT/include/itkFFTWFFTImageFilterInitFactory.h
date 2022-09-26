@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class FFTWFFTImageFilterInitFactory
+ * \class FFTWFFTImageFilterInitFactory
  * \brief Initialize FFTW FFT image filter factory backends.
  *
  * The purpose of FFTWFFTImageFilterInitFactory is to perform

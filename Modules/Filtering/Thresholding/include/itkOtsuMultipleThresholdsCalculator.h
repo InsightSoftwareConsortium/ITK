@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class OtsuMultipleThresholdsCalculator
+ * \class OtsuMultipleThresholdsCalculator
  * \brief Computes Otsu's multiple thresholds for a histogram.
  *
  * You plug in the target histogram using SetInputHistogram method and

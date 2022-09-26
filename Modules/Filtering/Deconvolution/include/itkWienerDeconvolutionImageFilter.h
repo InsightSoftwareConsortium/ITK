@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class WienerDeconvolutionImageFilter
+ * \class WienerDeconvolutionImageFilter
  * \brief The Wiener deconvolution image filter is designed to restore an
  * image convolved with a blurring kernel while keeping noise
  * enhancement to a minimum.

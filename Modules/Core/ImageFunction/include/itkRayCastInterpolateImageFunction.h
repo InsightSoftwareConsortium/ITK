@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class RayCastInterpolateImageFunction
+ * \class RayCastInterpolateImageFunction
  * \brief Projective interpolation of an image at specified positions.
  *
  * RayCastInterpolateImageFunction casts rays through a 3-dimensional
@@ -195,7 +195,7 @@ protected:
 } // namespace itk
 
 
-/**\class RayCastHelperEnums
+/** \class RayCastHelperEnums
  * \brief Contains all enum classes used by RayCastHelper class.
  * \ingroup ITKImageFunction
  * @tparam TInputImage

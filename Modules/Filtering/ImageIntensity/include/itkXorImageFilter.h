@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class XorImageFilter
+ * \class XorImageFilter
  * \brief Computes the XOR bitwise operator pixel-wise between two images.
  *
  * This class is templated over the types of the two

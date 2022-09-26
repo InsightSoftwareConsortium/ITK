@@ -28,14 +28,14 @@
 
 namespace itk
 {
-/**\class LaplacianDeformationQuadEdgeMeshFilterEnums
+/** \class LaplacianDeformationQuadEdgeMeshFilterEnums
  * \brief Contains all enum classes used by LaplacianDeformationQuadEdgeMeshFilter class.
  * \ingroup ITKQuadEdgeMeshFiltering
  */
 class LaplacianDeformationQuadEdgeMeshFilterEnums
 {
 public:
-  /**\class Area
+  /** \class Area
    * \ingroup ITKQuadEdgeMeshFiltering
    * Type of area*/
   enum class Area : uint8_t

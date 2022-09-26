@@ -28,7 +28,7 @@
 namespace itk
 {
 
-/**\class NiftiImageIOEnums
+/** \class NiftiImageIOEnums
  * \brief
  * \ingroup ITKIONIFTI
  */
@@ -82,7 +82,7 @@ extern ITKIONIFTI_EXPORT std::ostream &
                          operator<<(std::ostream & out, const NiftiImageIOEnums::NiftiFileEnum value);
 
 /**
- *\class NiftiImageIO
+ * \class NiftiImageIO
  *
  * \author Hans J. Johnson, The University of Iowa 2002
  * \brief Class that defines how to read Nifti file format.

@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class ShapeOpeningLabelMapFilter
+ * \class ShapeOpeningLabelMapFilter
  * \brief Remove objects according to the value of their shape attribute.
  *
  * ShapeOpeningLabelMapFilter removes objects in a label collection image

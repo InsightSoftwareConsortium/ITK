@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class YenThresholdCalculator
+ * \class YenThresholdCalculator
  * \brief Computes the Yen's threshold for an image.
  *
  * Implements Yen  thresholding method

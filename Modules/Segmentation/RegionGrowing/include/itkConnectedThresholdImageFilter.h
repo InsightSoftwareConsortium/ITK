@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/**\class ConnectedThresholdImageFilterEnums
+/** \class ConnectedThresholdImageFilterEnums
  * \brief Contains all the enum classes used by the ConnectedThresholdImageFilter class.
  * \ingroup RegionGrowingSegmentation
  * \ingroup ITKRegionGrowing
@@ -51,7 +51,7 @@ public:
 extern ITKRegionGrowing_EXPORT std::ostream &
                                operator<<(std::ostream & out, const ConnectedThresholdImageFilterEnums::Connectivity value);
 /**
- *\class ConnectedThresholdImageFilter
+ * \class ConnectedThresholdImageFilter
  * \brief Label pixels that are connected to a seed and lie within a range of values
  *
  * ConnectedThresholdImageFilter labels pixels with ReplaceValue that are

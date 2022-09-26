@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class InverseDeconvolutionImageFilter
+ * \class InverseDeconvolutionImageFilter
  * \brief The direct linear inverse deconvolution filter.
  *
  * The inverse filter is the most straightforward deconvolution

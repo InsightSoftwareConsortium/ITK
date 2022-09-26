@@ -40,7 +40,7 @@ namespace itk
 {
 
 /**
- *\class OpenCVImageBridge
+ * \class OpenCVImageBridge
  * \brief This class provides static methods to convert between OpenCV images
  * and itk::Image
  *

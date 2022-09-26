@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- *\class ResampleImageFilter
+ * \class ResampleImageFilter
  * \brief Resample an image via a coordinate transform
  *
  * ResampleImageFilter resamples an existing image through some coordinate

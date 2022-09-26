@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class ChangeLabelImageFilter
+ * \class ChangeLabelImageFilter
  *
  * \brief Change Sets of Labels
  *
