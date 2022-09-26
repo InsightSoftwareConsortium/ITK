@@ -22,6 +22,7 @@
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_conjugate_gradient.h"
 #include "ITKOptimizersExport.h"
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -86,8 +87,8 @@ protected:
 
 private:
   /**  The vnl optimization method for conjugate gradient. */
-  bool                    m_OptimizerInitialized;
-  InternalOptimizerType * m_VnlOptimizer;
+  bool                                   m_OptimizerInitialized;
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
 };
 } // end namespace itk
 

@@ -35,10 +35,7 @@ AmoebaOptimizerv4 ::AmoebaOptimizerv4()
 }
 
 
-AmoebaOptimizerv4::~AmoebaOptimizerv4()
-{
-  delete m_VnlOptimizer;
-}
+AmoebaOptimizerv4::~AmoebaOptimizerv4() = default;
 
 
 const std::string
@@ -62,7 +59,7 @@ AmoebaOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 vnl_amoeba *
 AmoebaOptimizerv4 ::GetOptimizer() const
 {
-  return this->m_VnlOptimizer;
+  return this->m_VnlOptimizer.get();
 }
 
 void
@@ -136,8 +133,7 @@ AmoebaOptimizerv4 ::StartOptimization(bool /* doOnlyInitialization */)
   CostFunctionAdaptorType * adaptor = GetNonConstCostFunctionAdaptor();
   // get rid of previous instance of the internal optimizer and create a
   // new one
-  delete m_VnlOptimizer;
-  m_VnlOptimizer = new vnl_amoeba(*adaptor);
+  m_VnlOptimizer = std::make_unique<vnl_amoeba>(*adaptor);
   m_VnlOptimizer->set_max_iterations(static_cast<int>(m_NumberOfIterations));
   m_VnlOptimizer->set_x_tolerance(m_ParametersConvergenceTolerance);
   m_VnlOptimizer->set_f_tolerance(m_FunctionConvergenceTolerance);

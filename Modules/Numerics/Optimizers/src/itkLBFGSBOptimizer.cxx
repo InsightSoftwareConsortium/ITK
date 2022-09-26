@@ -63,10 +63,7 @@ LBFGSBOptimizer ::LBFGSBOptimizer()
 /**
  * Destructor
  */
-LBFGSBOptimizer::~LBFGSBOptimizer()
-{
-  delete m_VnlOptimizer;
-}
+LBFGSBOptimizer::~LBFGSBOptimizer() = default;
 
 /**
  * PrintSelf
@@ -266,14 +263,9 @@ LBFGSBOptimizer::SetCostFunction(SingleValuedCostFunction * costFunction)
 
   adaptor->SetCostFunction(costFunction);
 
-  if (m_OptimizerInitialized)
-  {
-    delete m_VnlOptimizer;
-  }
-
   this->SetCostFunctionAdaptor(adaptor);
 
-  m_VnlOptimizer = new InternalOptimizerType(*adaptor, this);
+  m_VnlOptimizer = std::make_unique<InternalOptimizerType>(*adaptor, this);
 
   // set the optimizer parameters
   m_VnlOptimizer->set_lower_bound(m_LowerBound);

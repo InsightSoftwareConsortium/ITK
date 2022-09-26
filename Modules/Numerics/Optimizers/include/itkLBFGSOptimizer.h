@@ -21,6 +21,7 @@
 #include "itkSingleValuedNonLinearVnlOptimizer.h"
 #include "vnl/algo/vnl_lbfgs.h"
 #include "ITKOptimizersExport.h"
+#include <memory> // For unique_ptr.
 
 namespace itk
 {
@@ -179,9 +180,9 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  bool                       m_OptimizerInitialized;
-  InternalOptimizerType *    m_VnlOptimizer;
-  mutable std::ostringstream m_StopConditionDescription;
+  bool                                   m_OptimizerInitialized;
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
+  mutable std::ostringstream             m_StopConditionDescription;
 
   bool         m_Trace;
   unsigned int m_MaximumNumberOfFunctionEvaluations;
