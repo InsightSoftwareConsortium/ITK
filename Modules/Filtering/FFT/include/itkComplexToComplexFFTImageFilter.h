@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/**\class ComplexToComplexFFTImageFilterEnums
+/** \class ComplexToComplexFFTImageFilterEnums
  * \brief Contains enum classes used by ComplexToComplexFFTImageFilter class
  * \ingroup ITKFFT
  * \ingroup FourierTransform
@@ -34,7 +34,7 @@ class ComplexToComplexFFTImageFilterEnums
 {
 public:
   /**
-   *\class TransformDirection
+   * \class TransformDirection
    * \ingroup ITKFFT
    * \ingroup FourierTransform
    * */
@@ -49,7 +49,7 @@ extern ITKFFT_EXPORT std::ostream &
                      operator<<(std::ostream & out, const ComplexToComplexFFTImageFilterEnums::TransformDirection value);
 
 /**
- *\class ComplexToComplexFFTImageFilter
+ * \class ComplexToComplexFFTImageFilter
  *
  * \brief Implements an API to enable the Fourier transform or the inverse
  * Fourier transform of images with complex valued voxels to be computed.

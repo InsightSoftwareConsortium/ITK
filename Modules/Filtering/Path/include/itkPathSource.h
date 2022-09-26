@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class PathSource
+ * \class PathSource
  *  \brief Base class for all process objects that output path data.
  *
  * PathSource is the base class for all process objects that output

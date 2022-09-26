@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class VXLVideoIOFactory
+ * \class VXLVideoIOFactory
  * \brief Create instances of VXLVideoIO objects using an object factory.
  *
  * \ingroup ITKVideoBridgeVXL

@@ -27,7 +27,7 @@
 
 namespace itk
 {
-/**\class ThresholdMaximumConnectedComponentsImageFilter
+/** \class ThresholdMaximumConnectedComponentsImageFilter
  * \brief Finds the threshold value of an image based on  maximizing the number
  * of objects in the image that are larger than a given minimal size.
  *

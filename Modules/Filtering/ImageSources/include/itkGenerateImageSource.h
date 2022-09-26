@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class GenerateImageSource
+ * \class GenerateImageSource
  * \brief a Base class for image sources which need to have image
  * size, and other meta-data set.
  *

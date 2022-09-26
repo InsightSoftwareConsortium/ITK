@@ -24,7 +24,7 @@ namespace itk
 {
 
 /**
- *\class BinaryGrindPeakImageFilter
+ * \class BinaryGrindPeakImageFilter
  * \brief Remove the objects not connected to the boundary of the image.
  *
  * BinaryGrindPeakImageFilter ginds peaks in a grayscale image.

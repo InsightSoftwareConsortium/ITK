@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class GeometricalQuadEdge
+ * \class GeometricalQuadEdge
  * \brief This class extends the QuadEdge by adding a reference to the Origin.
  *
  * The class is implemented in such a way that it can generate its own Dual.

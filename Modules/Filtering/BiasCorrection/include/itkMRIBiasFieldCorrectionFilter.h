@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- *\class MRIBiasEnergyFunction
+ * \class MRIBiasEnergyFunction
  * \brief Represents a cost function for MRI bias field correction optimization.
  *
  * This is a wrapping class which provides interfaces between images,
@@ -177,7 +177,7 @@ private:
 }; // end of class
 
 /**
- *\class MRIBiasFieldCorrectionFilter
+ * \class MRIBiasFieldCorrectionFilter
  * \brief Corrects 3D MRI bias field.
  *
  * This class is templated over the type of the input image (TInputImage)

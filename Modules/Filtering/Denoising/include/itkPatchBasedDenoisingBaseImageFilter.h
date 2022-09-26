@@ -32,14 +32,14 @@
 
 namespace itk
 {
-/**\class PatchBasedDenoisingBaseImageFilterEnums
+/** \class PatchBasedDenoisingBaseImageFilterEnums
  * \brief Contains all enum classes used by the PatchBasedDenoisingBaseImageFilter class.
  * \ingroup ITKDenoising
  */
 class PatchBasedDenoisingBaseImageFilterEnums
 {
 public:
-  /**\class NoiseModel
+  /** \class NoiseModel
    * \ingroup Filtering
    * \ingroup ITKDenoising
    * Type definition for selecting the noise model. */
@@ -51,7 +51,7 @@ public:
     POISSON = 3
   };
 
-  /**\class ComponentState
+  /** \class ComponentState
    * \ingroup Filtering
    * \ingroup ITKDenoising
    * Type definition to determine which space to do calculations in.
@@ -63,7 +63,7 @@ public:
     RIEMANNIAN = 1
   };
 
-  /**\class FilterState
+  /** \class FilterState
    * \ingroup Filtering
    * \ingroup ITKDenoising
    * State that the filter is in, i.e. UNINITIALIZED or INITIALIZED. */
@@ -82,7 +82,7 @@ extern ITKDenoising_EXPORT std::ostream &
 extern ITKDenoising_EXPORT std::ostream &
                            operator<<(std::ostream & out, const PatchBasedDenoisingBaseImageFilterEnums::FilterState value);
 /**
- *\class PatchBasedDenoisingBaseImageFilter
+ * \class PatchBasedDenoisingBaseImageFilter
  * \brief Base class for patch-based denoising algorithms.
  *
  * Implementation of a denoising filter that uses iterative non-local, or semi-local, weighted

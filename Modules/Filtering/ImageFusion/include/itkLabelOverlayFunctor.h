@@ -26,7 +26,7 @@ namespace itk
 namespace Functor
 {
 /**
- *\class LabelOverlayFunctor
+ * \class LabelOverlayFunctor
  *  \brief Functor for applying a colormap to a label image and combine it
  * with a grayscale image
  *

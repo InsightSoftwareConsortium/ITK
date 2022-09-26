@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class ContourDirectedMeanDistanceImageFilter
+ * \class ContourDirectedMeanDistanceImageFilter
  * \brief Computes the directed Mean distance between the boundaries of
  * non-zero pixel regions of two images.
  *

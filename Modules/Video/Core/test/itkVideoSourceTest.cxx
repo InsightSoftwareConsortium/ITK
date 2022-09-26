@@ -32,7 +32,7 @@ namespace itk
 namespace VideoSourceTest
 {
 /**
- *\class DummyVideoSource
+ * \class DummyVideoSource
  * Provide dummy implementation of VideoSource that just sets all pixels to 1
  */
 template <typename TOutputVideoStream>

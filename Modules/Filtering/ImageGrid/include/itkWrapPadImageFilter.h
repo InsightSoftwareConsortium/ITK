@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class WrapPadImageFilter
+ * \class WrapPadImageFilter
  * \brief Increase the image size by padding with replicants of the
  * input image value.
  *

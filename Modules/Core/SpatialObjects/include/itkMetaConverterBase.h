@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class MetaConverterBase
+ * \class MetaConverterBase
  *  \brief Base class for MetaObject<->SpatialObject converters
  *
  *  SpatialObject scenes are written and read using the MetaIO

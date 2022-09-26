@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class TileImageFilter
+ * \class TileImageFilter
  * \brief Tile multiple input images into a single output image.
  *
  * This filter will tile multiple images using a user-specified
@@ -87,7 +87,7 @@ public:
   static constexpr unsigned int InputImageDimension = TInputImage::ImageDimension;
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
   /**
-   *\class TileInfo
+   * \class TileInfo
    * Define a tile structure
    * \ingroup ITKImageGrid
    */

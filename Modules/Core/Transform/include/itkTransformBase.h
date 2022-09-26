@@ -32,14 +32,14 @@
 
 namespace itk
 {
-/**\class TransformBaseTemplateEnums
+/** \class TransformBaseTemplateEnums
  * \brief Contains all enum classes used by TransformBaseTemplate class.
  * \ingroup ITKTransform
  */
 class TransformBaseTemplateEnums
 {
 public:
-  /**\class TransformCategory
+  /** \class TransformCategory
    * \ingroup ITKTransform
    * */
   enum class TransformCategory : uint8_t

@@ -28,7 +28,7 @@
 
 namespace itk
 {
-/***\class LoggerBaseEnums
+/*** \class LoggerBaseEnums
  * \brief Contains all enum classes used by LoggerBase class.
  * \ingroup ITKCommon
  */
@@ -51,7 +51,7 @@ public:
     NOTSET
   };
 
-  /**\class TimeStampFormat
+  /** \class TimeStampFormat
    * \ingroup ITKCommon
    * Select the type of format for reporting time stamps */
   enum class TimeStampFormat : uint8_t

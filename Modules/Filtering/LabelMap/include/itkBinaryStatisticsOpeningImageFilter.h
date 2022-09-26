@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class BinaryStatisticsOpeningImageFilter
+ * \class BinaryStatisticsOpeningImageFilter
  * \brief Remove objects based on the value of their Statistics attribute.
  *
  * The BinaryStatisticsOpeningImageFilter removes the objects in a binary image

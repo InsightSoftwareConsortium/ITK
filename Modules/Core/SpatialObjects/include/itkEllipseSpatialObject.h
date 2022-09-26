@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class EllipseSpatialObject
+ * \class EllipseSpatialObject
  *
  * \ingroup ITKSpatialObjects
  *

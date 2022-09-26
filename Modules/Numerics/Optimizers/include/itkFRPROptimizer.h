@@ -23,14 +23,14 @@
 
 namespace itk
 {
-/**\class FRPROptimizerEnums
+/** \class FRPROptimizerEnums
  * \brief Contains enum classes used by FRPROptimizer class
  * \ingroup ITKOptimizers
  */
 class FRPROptimizerEnums
 {
 public:
-  /**\class Optimization
+  /** \class Optimization
    * \ingroup ITKOptimizers
    * */
   enum class Optimization : uint8_t

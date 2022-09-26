@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class VnlForwardFFTImageFilter
+ * \class VnlForwardFFTImageFilter
  *
  * \brief VNL based forward Fast Fourier Transform.
  *

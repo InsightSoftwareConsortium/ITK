@@ -96,7 +96,7 @@ public:
     m_Value = val;
   }
 };
-/**\class DeformableSimplexMesh3DGradientConstraintForceFilterEnums
+/** \class DeformableSimplexMesh3DGradientConstraintForceFilterEnums
  * \brief Contains all enum classes used by the DeformableSimplexMesh3DGradientConstraintForceFilter class.
  * \ingroup ITKDeformableMesh
  */
@@ -121,7 +121,7 @@ public:
 extern ITKDeformableMesh_EXPORT std::ostream &
                                 operator<<(std::ostream & out, const DeformableSimplexMesh3DGradientConstraintForceFilterEnums::SIDE value);
 /**
- *\class DeformableSimplexMesh3DGradientConstraintForceFilter
+ * \class DeformableSimplexMesh3DGradientConstraintForceFilter
  * \brief
  * Additional to its superclass this class reimplements the external forces methos
  * in which the scan line algorithm is used to find highest gradient is found in

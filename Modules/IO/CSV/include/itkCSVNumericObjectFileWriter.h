@@ -31,7 +31,7 @@
 namespace itk
 {
 /**
- *\class CSVNumericObjectFileWriter
+ * \class CSVNumericObjectFileWriter
  * \brief Writes out numeric itk data objects to a csv file.
  *
  * CSVNumericObjectFileWriter writes numeric data from an itk object into a

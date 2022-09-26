@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class MeshFileReaderException
+ * \class MeshFileReaderException
  *
  * \brief Base exception class for IO conflicts.
  * \ingroup ITKIOMeshBase

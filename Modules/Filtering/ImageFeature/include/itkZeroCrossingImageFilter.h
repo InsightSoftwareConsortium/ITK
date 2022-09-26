@@ -22,7 +22,7 @@
 namespace itk
 {
 /**
- *\class ZeroCrossingImageFilter
+ * \class ZeroCrossingImageFilter
  * \brief This filter finds the closest pixel to the zero-crossings
  * (sign changes) in a signed itk::Image.
  *

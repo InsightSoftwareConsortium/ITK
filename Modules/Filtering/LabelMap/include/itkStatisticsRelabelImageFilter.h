@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class StatisticsRelabelImageFilter
+ * \class StatisticsRelabelImageFilter
  * \brief relabel objects according to their shape attributes
  *
  * StatisticsRelabelImageFilter relabel a labeled image according to the statistics attributes of

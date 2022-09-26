@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class VTKImageExportBase
+ * \class VTKImageExportBase
  * \brief Superclass for VTKImageExport instantiations.
  *
  * VTKImageExportBase provides the functions that serve as callbacks
@@ -72,7 +72,7 @@ public:
   using FloatOriginCallbackType = float * (*)(void *);
 
   /**
-   *\class CallbackTypeProxy
+   * \class CallbackTypeProxy
    * \brief Provide compatibility between VTK 4.4 and earlier versions.
    * \ingroup ITKVTK
    */

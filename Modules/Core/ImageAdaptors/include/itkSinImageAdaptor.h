@@ -26,7 +26,7 @@ namespace itk
 namespace Accessor
 {
 /**
- *\class SinPixelAccessor
+ * \class SinPixelAccessor
  * \brief Give access to the std::sin() function of a value
  *
  * SinPixelAccessor is templated over an internal type and an
@@ -64,7 +64,7 @@ public:
 } // end namespace Accessor
 
 /**
- *\class SinImageAdaptor
+ * \class SinImageAdaptor
  * \brief Presents an image as being composed of the std::sin() of its pixels
  *
  * Additional casting is performed according to the input and output image

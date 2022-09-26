@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- *\class VTKPolyDataMeshIO
+ * \class VTKPolyDataMeshIO
  * \brief This class defines how to read and write vtk legacy file format.
  *
  * \author Wanlin Zhu. Uviversity of New South Wales, Australia.

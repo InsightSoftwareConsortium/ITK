@@ -31,7 +31,7 @@ namespace itk
 {
 
 /**
- *\class ObjectToObjectMetric
+ * \class ObjectToObjectMetric
  * \brief Computes similarity between regions of two objects.
  *
  * This class is templated over the dimensionality of the two input objects.

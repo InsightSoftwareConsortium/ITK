@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- *\class MetaSceneConverter
+ * \class MetaSceneConverter
  *  \brief Converts between MetaObject and SpaitalObject group.
  *
  *  SpatialObject hierarchies are written to disk using the MetaIO

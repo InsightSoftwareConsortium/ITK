@@ -53,7 +53,7 @@ public:
 } // namespace Functor
 
 /**
- *\class AcosImageFilter
+ * \class AcosImageFilter
  * \brief Computes the inverse cosine of each pixel.
  *
  * This filter is templated over the pixel type of the input image

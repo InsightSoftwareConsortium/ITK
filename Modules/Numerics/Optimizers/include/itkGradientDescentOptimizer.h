@@ -24,7 +24,7 @@
 #include <string>
 namespace itk
 {
-/**\class GradientDescentOptimizerEnums
+/** \class GradientDescentOptimizerEnums
  * \brief Contains all enum classes in the GradientDescentOptimizer class.
  * \ingroup ITKOptimizers
  */

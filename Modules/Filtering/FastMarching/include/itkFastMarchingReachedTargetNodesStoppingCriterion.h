@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/**\class FastMarchingReachedTargetNodesStoppingCriterionEnums
+/** \class FastMarchingReachedTargetNodesStoppingCriterionEnums
  * \brief Contains all enum classes used by FastMarchingReachedTargetNodesStoppingCriterion class
  * \ingroup ITKFastMarching
  */
@@ -33,7 +33,7 @@ class FastMarchingReachedTargetNodesStoppingCriterionEnums
 {
 public:
   /**
-   *\class TargetCondition
+   * \class TargetCondition
    * \ingroup ITKFastMarching
    * TargetConditionEnum */
   enum class TargetCondition : uint8_t

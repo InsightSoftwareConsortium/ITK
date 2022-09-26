@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class MetaTubeConverter
+ * \class MetaTubeConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

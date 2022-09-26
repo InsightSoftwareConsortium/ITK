@@ -23,14 +23,14 @@
 
 namespace itk
 {
-/**\class FloatingPointExceptionsEnums
+/** \class FloatingPointExceptionsEnums
  * \brief Contains all enum classes used by FloatingPointExceptions class.
  * \ingroup ITKCommon
  */
 class FloatingPointExceptionsEnums
 {
 public:
-  /**\class ExceptionAction
+  /** \class ExceptionAction
    * \ingroup ITKCommon
    * defines what should happen when exceptions occur */
   enum class ExceptionAction : uint8_t

@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class VotingBinaryIterativeHoleFillingImageFilter
+ * \class VotingBinaryIterativeHoleFillingImageFilter
  * \brief Fills in holes and cavities by iteratively applying a voting operation.
  *
  * This filter uses internally the VotingBinaryHoleFillingImageFilter, and runs

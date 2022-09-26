@@ -24,7 +24,7 @@ namespace itk
 {
 
 /**
- *\class BinaryFillholeImageFilter
+ * \class BinaryFillholeImageFilter
  * \brief Remove holes not connected to the boundary of the image.
  *
  * BinaryFillholeImageFilter fills holes in a binary image.

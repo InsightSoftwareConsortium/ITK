@@ -36,7 +36,7 @@ namespace itk
 {
 
 /**
- *\class OpenCVVideoCapture
+ * \class OpenCVVideoCapture
  * \brief This class implements OpenCV's VideoCapture API and takes an itk
  * VideoStream as input
  *

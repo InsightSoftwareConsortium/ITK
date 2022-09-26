@@ -36,7 +36,7 @@ namespace itk
 {
 
 /**
- *\class SimpleFastMutexLock
+ * \class SimpleFastMutexLock
  * \brief Critical section locking class that can be allocated on the stack.
  *
  * SimpleFastMutexLock is used by FastMutexLock to perform mutex locking.

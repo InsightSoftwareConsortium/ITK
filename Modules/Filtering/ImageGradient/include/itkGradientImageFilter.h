@@ -31,7 +31,7 @@ class VectorImage;
 
 
 /**
- *\class GradientImageFilter
+ * \class GradientImageFilter
  * \brief Computes the gradient of an image using directional derivatives.
  *
  * Computes the gradient of an image using directional derivatives.

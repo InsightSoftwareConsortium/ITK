@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class RegularStepGradientDescentOptimizerv4
+ * \class RegularStepGradientDescentOptimizerv4
  *  \brief Regular Step Gradient descent optimizer.
  *
  *   This optimizer is a variant of gradient descent that attempts to prevent it

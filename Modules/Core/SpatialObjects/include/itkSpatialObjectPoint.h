@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class SpatialObjectPoint
+ * \class SpatialObjectPoint
  * \brief Point used for spatial objects
  *
  * This class contains all the functions necessary to define a point

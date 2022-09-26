@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class PolylineMaskImageFilter
+ * \class PolylineMaskImageFilter
  * \brief Implements image masking operation constrained by a polyline on a plane
  * perpendicular to certain viewing direction.
  *

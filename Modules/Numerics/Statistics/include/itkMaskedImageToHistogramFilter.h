@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class MaskedImageToHistogramFilter
+ * \class MaskedImageToHistogramFilter
  *  \brief Generate a histogram from the masked pixels of an image.
  *
  * This class expands the features of the ImageToHistogramFilter by

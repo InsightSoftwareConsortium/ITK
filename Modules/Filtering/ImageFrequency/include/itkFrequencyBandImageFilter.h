@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class FrequencyBandImageFilter
+ * \class FrequencyBandImageFilter
  * \brief Performs a frequency band filtering on a frequency domain image
  *
  * The default filtering functor filters in the range LowFrequencyThreshold and

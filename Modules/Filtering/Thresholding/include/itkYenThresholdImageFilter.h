@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class YenThresholdImageFilter
+ * \class YenThresholdImageFilter
  * \brief Threshold an image using the Yen Threshold
  *
  * This filter creates a binary thresholded image that separates an

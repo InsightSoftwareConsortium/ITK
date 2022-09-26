@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class FileListVideoIO
+ * \class FileListVideoIO
  *
  * \brief VideoIO object for reading and writing videos as a sequence of frame
  *  files.

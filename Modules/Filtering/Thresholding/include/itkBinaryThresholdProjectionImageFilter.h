@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class BinaryThresholdProjectionImageFilter
+ * \class BinaryThresholdProjectionImageFilter
  * \brief BinaryThreshold projection
  *
  *

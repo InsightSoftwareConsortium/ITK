@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class ZeroFluxNeumannPadImageFilter
+ * \class ZeroFluxNeumannPadImageFilter
  * \brief Increase the image size by padding according to the
  * zero-flux Neumann boundary condition.
  *

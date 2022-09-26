@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class IterativeDeconvolutionImageFilter
+ * \class IterativeDeconvolutionImageFilter
  * \brief Abstract base class for filters that implement iterative
  * deconvolution algorithms.
  *

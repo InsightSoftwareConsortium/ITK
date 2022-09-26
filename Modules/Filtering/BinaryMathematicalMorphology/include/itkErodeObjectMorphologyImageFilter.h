@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class ErodeObjectMorphologyImageFilter
+ * \class ErodeObjectMorphologyImageFilter
  * \brief Erosion of an object in an image
  *
  * Erosion of an image using binary morphology.

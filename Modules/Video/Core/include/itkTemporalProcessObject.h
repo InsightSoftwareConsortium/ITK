@@ -29,7 +29,7 @@ namespace itk
 class ITK_FORWARD_EXPORT TemporalDataObject;
 
 /**
- *\class TemporalProcessObject
+ * \class TemporalProcessObject
  * \brief TemporalProcessObject implements a ProcessObject for the itk pipeline
  *        with the notion of a temporal region
  *

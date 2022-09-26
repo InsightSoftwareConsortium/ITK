@@ -33,7 +33,7 @@ namespace itk
 class LBFGS2Optimizerv4Enums
 {
 public:
-  /***\class LineSearchMethod
+  /*** \class LineSearchMethod
    * \ingroup ITKOptimizersv4
    * Line search method enum
    */
@@ -84,7 +84,7 @@ extern ITKOptimizersv4_EXPORT std::ostream &
                               operator<<(std::ostream & out, LBFGS2Optimizerv4Enums::LineSearchMethod value);
 
 /**
- *\class LBFGS2Optimizerv4Template
+ * \class LBFGS2Optimizerv4Template
  * \brief Wrap of the libLBFGS[1] algorithm for use in ITKv4 registration framework.
  * LibLBFGS is a translation of LBFGS code by Nocedal [2] and adds the orthantwise
  * limited-memmory Quais-Newton method [3] for optimization with L1-norm on the

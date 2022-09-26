@@ -32,7 +32,7 @@
 namespace itk
 {
 /**
- *\class MaskFeaturePointSelectionFilter
+ * \class MaskFeaturePointSelectionFilter
  * \brief Generate a PointSet containing the feature points
  * selected from a masked 3D input image.
  *

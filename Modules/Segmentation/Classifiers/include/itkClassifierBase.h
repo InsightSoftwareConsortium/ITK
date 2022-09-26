@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class ClassifierBase
+ * \class ClassifierBase
  * \brief Base class for classifier objects.
  *
  * ClassifierBase is the base class for classifier objects. It provides

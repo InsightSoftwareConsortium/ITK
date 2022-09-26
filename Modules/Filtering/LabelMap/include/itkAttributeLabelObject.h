@@ -52,7 +52,7 @@ public:
 
 
 /**
- *\class AttributeLabelObject
+ * \class AttributeLabelObject
  *  \brief A LabelObject with a generic attribute
  *
  * The attribute type is defined in the third template parameter.

@@ -28,7 +28,7 @@ class DicomImage;
 
 namespace itk
 {
-/**\class DCMTKImageIOEnums
+/** \class DCMTKImageIOEnums
  * \brief Enums used by the DCMTKImageIO class
  * \ingroup IOFilters
  * \ingroup ITKIODCMTK
@@ -37,7 +37,7 @@ class DCMTKImageIOEnums
 {
 public:
   /**
-   *\class LogLevel
+   * \class LogLevel
    * \ingroup IOFilters
    * \ingroup ITKIODCMTK
    * enum for DCMTK log level.  These are defined here without
@@ -60,7 +60,7 @@ extern ITKIODCMTK_EXPORT std::ostream &
                          operator<<(std::ostream & out, const DCMTKImageIOEnums::LogLevel value);
 
 /**
- *\class DCMTKImageIO
+ * \class DCMTKImageIO
  *
  *  \brief Read DICOM image file format.
  *

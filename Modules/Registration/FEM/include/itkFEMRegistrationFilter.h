@@ -55,14 +55,14 @@ namespace itk
 {
 namespace fem
 {
-/**\class FEMRegistrationFilterEnums
+/** \class FEMRegistrationFilterEnums
  * \brief Contains all enum classes used by FEMRegistrationFilter class.
  * \ingroup ITKFEMRegistration
  */
 class FEMRegistrationFilterEnums
 {
 public:
-  /**\class Sign
+  /** \class Sign
    * \ingroup ITKFEMRegistration
    */
   enum class Sign : uint8_t

@@ -24,7 +24,7 @@ namespace itk
 {
 
 /**
- *\class ShotNoiseImageFilter
+ * \class ShotNoiseImageFilter
  *
  * \brief Alter an image with shot noise.
  *

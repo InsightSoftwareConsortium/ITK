@@ -27,7 +27,7 @@ namespace itk
 {
 namespace Statistics
 {
-/**\class HistogramToRunLengthFeaturesFilterEnums
+/** \class HistogramToRunLengthFeaturesFilterEnums
  * \brief Contains all enum classes used by HistogramToRunLengthFeaturesFilter class.
  * \ingroup ITKStatistics
  */
@@ -59,7 +59,7 @@ using RunLengthFeatureEnum = HistogramToRunLengthFeaturesFilterEnums::RunLengthF
 extern ITKStatistics_EXPORT std::ostream &
                             operator<<(std::ostream & out, const HistogramToRunLengthFeaturesFilterEnums::RunLengthFeature value);
 /**
- *\class HistogramToRunLengthFeaturesFilter
+ * \class HistogramToRunLengthFeaturesFilter
  *  \brief This class computes texture feature coefficients from a grey level
  * run-length matrix.
  *

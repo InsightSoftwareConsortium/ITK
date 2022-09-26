@@ -35,7 +35,7 @@
 namespace itk
 {
 /**
- *\class LSMImageIO
+ * \class LSMImageIO
  *
  *  \brief ImageIO class for reading LSM (Zeiss) images
  * LSM is a line of confocal laser scanning microscopes produced by the Zeiss company

@@ -24,14 +24,14 @@
 
 namespace itk
 {
-/**\class ScalarToRGBColormapImageFilterEnums
+/** \class ScalarToRGBColormapImageFilterEnums
  * \brief Contains all enum classes for ScalarToRGBColormapImageFilter class
  * \ingroup ITKColormap
  */
 class ScalarToRGBColormapImageFilterEnums
 {
 public:
-  /**\class RGBColormapFilter
+  /** \class RGBColormapFilter
    * \ingroup ITKColormap
    * Enum type that provides for an easy interface to existing colormaps. */
   enum class RGBColormapFilter : uint8_t
@@ -76,7 +76,7 @@ static constexpr RGBColormapFilterEnum OverUnder = RGBColormapFilterEnum::OverUn
 extern ITKColormap_EXPORT std::ostream &
                           operator<<(std::ostream & out, const ScalarToRGBColormapImageFilterEnums::RGBColormapFilter value);
 /**
- *\class ScalarToRGBColormapImageFilter
+ * \class ScalarToRGBColormapImageFilter
  * \brief Implements pixel-wise intensity->rgb mapping operation on one image.
  *
  * This class is parameterized over the type of the input image and

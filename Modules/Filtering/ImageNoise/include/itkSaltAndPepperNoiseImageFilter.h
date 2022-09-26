@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class SaltAndPepperNoiseImageFilter
+ * \class SaltAndPepperNoiseImageFilter
  *
  * \brief Alter an image with fixed value impulse noise, often called salt and pepper noise.
  *

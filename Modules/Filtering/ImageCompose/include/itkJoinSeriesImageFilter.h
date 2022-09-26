@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class JoinSeriesImageFilter
+ * \class JoinSeriesImageFilter
  * \brief Join N-D images into an (N+1)-D image
  *
  * This filter is templated over the input image type and the output image

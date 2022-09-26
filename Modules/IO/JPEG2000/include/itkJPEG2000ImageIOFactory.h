@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class JPEG2000ImageIOFactory
+ * \class JPEG2000ImageIOFactory
  * \brief Supports for the JPEG2000 file format based on openjpeg
  *
  *

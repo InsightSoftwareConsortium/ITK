@@ -70,7 +70,7 @@ private:
 } // end namespace Functor
 
 /**
- *\class VectorRescaleIntensityImageFilter
+ * \class VectorRescaleIntensityImageFilter
  * \brief Applies a linear transformation to the magnitude of pixel vectors in a
  * vector Image.
  *

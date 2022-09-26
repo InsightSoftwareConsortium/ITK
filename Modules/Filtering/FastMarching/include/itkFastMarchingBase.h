@@ -30,14 +30,14 @@
 namespace itk
 {
 /**
- *\class FastMarchingTraitsEnums
+ * \class FastMarchingTraitsEnums
  * \ingroup ITKFastMarching
  * */
 class FastMarchingTraitsEnums
 {
 public:
   /**
-   *\class TopologyCheck
+   * \class TopologyCheck
    * \ingroup ITKFastMarching
    * */
   enum class TopologyCheck : uint8_t

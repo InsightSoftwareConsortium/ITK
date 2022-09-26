@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class ObjectMorphologyImageFilter
+ * \class ObjectMorphologyImageFilter
  * \brief Base class for the morphological operations
  * being applied to isolated objects in an image.
  *

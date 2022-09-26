@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class MultiStartOptimizerv4Template
+ * \class MultiStartOptimizerv4Template
  *  \brief Multi-start searches over input parameters and returns the best metric value
  *
  *   The multi-start algorithm performs gradient descent from N (large) number of starting points and

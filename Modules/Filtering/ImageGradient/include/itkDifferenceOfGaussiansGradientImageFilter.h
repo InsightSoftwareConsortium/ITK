@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class DifferenceOfGaussiansGradientImageFilter
+ * \class DifferenceOfGaussiansGradientImageFilter
  * \brief Performs difference-of-gaussians gradient detection
  *
  * \ingroup ImageEnhancement

@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class GradientDescentOptimizerv4Template
+ * \class GradientDescentOptimizerv4Template
  *  \brief Gradient descent optimizer.
  *
  * GradientDescentOptimizer implements a simple gradient descent optimizer.

@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class AttributeOpeningLabelMapFilter
+ * \class AttributeOpeningLabelMapFilter
  * \brief remove the objects according to the value of their attribute
  *
  * AttributeOpeningLabelMapFilter removes the objects in a label collection image

@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class ImageMaskSpatialObject
+ * \class ImageMaskSpatialObject
  * \brief Implementation of an image mask as spatial object.
  *
  * This class derives from the ImageSpatialObject and overloads the

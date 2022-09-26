@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class KalmanLinearEstimator
+ * \class KalmanLinearEstimator
  * \brief Implement a linear recursive estimator.
  *
  * KalmanLinearEstimator class implements a linear recursive estimator.  The

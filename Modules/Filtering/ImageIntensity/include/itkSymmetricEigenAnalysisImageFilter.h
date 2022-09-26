@@ -196,7 +196,7 @@ extern ITKImageIntensity_EXPORT std::ostream &
 } // end namespace Functor
 
 /**
- *\class SymmetricEigenAnalysisImageFilter
+ * \class SymmetricEigenAnalysisImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
  * SymmetricEigenAnalysisImageFilter applies pixel-wise the invocation for
@@ -300,7 +300,7 @@ protected:
 };
 
 /**
- *\class SymmetricEigenAnalysisFixedDimensionImageFilter
+ * \class SymmetricEigenAnalysisFixedDimensionImageFilter
  * \brief Computes the eigen-values of every input symmetric matrix pixel.
  *
  * SymmetricEigenAnalysisImageFilter applies pixel-wise the invocation for

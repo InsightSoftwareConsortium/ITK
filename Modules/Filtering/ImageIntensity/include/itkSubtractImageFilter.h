@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class SubtractImageFilter
+ * \class SubtractImageFilter
  * \brief Pixel-wise subtraction of two images.
  *
  * Subtract each pixel from image2 from its corresponding pixel in

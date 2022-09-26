@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class BinaryThresholdImageFilter
+ * \class BinaryThresholdImageFilter
  *
  * \brief Binarize an input image by thresholding.
  *

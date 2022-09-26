@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class HuangThresholdCalculator
+ * \class HuangThresholdCalculator
  * \brief Computes the Huang's threshold for an image.
  *
  * This calculator computes the Huang's fuzzy threshold which separates an image

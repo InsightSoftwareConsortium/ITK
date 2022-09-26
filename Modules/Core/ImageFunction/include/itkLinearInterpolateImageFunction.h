@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class LinearInterpolateImageFunction
+ * \class LinearInterpolateImageFunction
  * \brief Linearly interpolate an image at specified positions.
  *
  * LinearInterpolateImageFunction linearly interpolates image intensity at

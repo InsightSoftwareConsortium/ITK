@@ -29,7 +29,7 @@
 namespace itk
 {
 /**
- *\class VnlHalfHermitianToRealInverseFFTImageFilter
+ * \class VnlHalfHermitianToRealInverseFFTImageFilter
  *
  * \brief VNL-based reverse Fast Fourier Transform.
  *

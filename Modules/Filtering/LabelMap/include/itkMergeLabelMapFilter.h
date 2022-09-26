@@ -28,14 +28,14 @@ namespace itk
 #  define TEMPINPLACELABELMAPSTRICT STRICT
 #  undef STRICT
 #endif
-/**\class MergeLabelMapFilterEnums
+/** \class MergeLabelMapFilterEnums
  * \brief Contains all enum classes used by MergeLabelMapFilter class.
  * \ingroup ITKLabelMap
  */
 class MergeLabelMapFilterEnums
 {
 public:
-  /**\class ChoiceMethod
+  /** \class ChoiceMethod
    * \ingroup ITKLabelMap
    */
   enum class ChoiceMethod : uint8_t
@@ -67,7 +67,7 @@ static constexpr ChoiceMethodEnum STRICT = ChoiceMethodEnum::STRICT;
 #  undef TEMPINPLACELABELMAPSTRICT
 #endif
 /**
- *\class MergeLabelMapFilter
+ * \class MergeLabelMapFilter
  * \brief Merges several Label Maps
  *
  * This filter takes one or more input Label Map and merges them.

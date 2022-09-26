@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class ProjectedLandweberDeconvolutionImageFilter
+ * \class ProjectedLandweberDeconvolutionImageFilter
  * \brief Deconvolve an image using the projected Landweber
  * deconvolution algorithm.
  *

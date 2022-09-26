@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class GridImageSource
+ * \class GridImageSource
  * \brief Generate an n-dimensional image of a grid.
  *
  * GridImageSource generates an image of a grid.

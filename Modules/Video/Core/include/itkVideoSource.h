@@ -25,7 +25,7 @@ namespace itk
 {
 
 /**
- *\class VideoSource
+ * \class VideoSource
  * \brief A TemporalProcessObject that produces a VideoStream
  *
  * VideoSource acts as the base class for all TemporalProcess objects that

@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class ContourMeanDistanceImageFilter
+ * \class ContourMeanDistanceImageFilter
  * \brief Computes the Mean distance between the boundaries of
  * non-zero regions of two images.
  *

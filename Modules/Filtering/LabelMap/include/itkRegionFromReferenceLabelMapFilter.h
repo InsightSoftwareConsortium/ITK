@@ -33,7 +33,7 @@
 namespace itk
 {
 /**
- *\class RegionFromReferenceLabelMapFilter
+ * \class RegionFromReferenceLabelMapFilter
  * \brief Set the region from a reference image
  *
  * Change the region of a label map to be the same as one of a reference image.

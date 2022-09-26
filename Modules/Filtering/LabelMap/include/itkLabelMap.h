@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class LabelMap
+ * \class LabelMap
  *  \brief Templated n-dimensional image to store labeled objects.
  *
  * LabelMap is an image class specialized in storing the labeled
@@ -307,7 +307,7 @@ public:
   Optimize();
 
   /**
-   *\class ConstIterator
+   * \class ConstIterator
    * \brief A forward iterator over the LabelObjects of a LabelMap
    * \ingroup ITKLabelMap
    */
@@ -394,7 +394,7 @@ public:
   };
 
   /**
-   *\class Iterator
+   * \class Iterator
    * \brief A forward iterator over the LabelObjects of a LabelMap
    * \ingroup ITKLabelMap
    */

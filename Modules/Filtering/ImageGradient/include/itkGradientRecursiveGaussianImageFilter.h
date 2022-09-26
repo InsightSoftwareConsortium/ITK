@@ -31,7 +31,7 @@
 namespace itk
 {
 /**
- *\class GradientRecursiveGaussianImageFilter
+ * \class GradientRecursiveGaussianImageFilter
  * \brief Computes the gradient of an image by convolution
  *        with the first derivative of a Gaussian.
  *

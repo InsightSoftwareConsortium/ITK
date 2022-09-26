@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class LabelMapToBinaryImageFilter
+ * \class LabelMapToBinaryImageFilter
  * \brief Convert a LabelMap to a binary image.
  *
  * LabelMapToBinaryImageFilter to a binary image. All the objects in the image

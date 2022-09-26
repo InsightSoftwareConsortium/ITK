@@ -26,7 +26,7 @@
 
 namespace itk
 {
-/**\class VideoIOBaseEnums
+/** \class VideoIOBaseEnums
  * \brief This contains all enum classes used from VideoIOBase class.
  * \ingroup ITKVideoIO
  */
@@ -34,7 +34,7 @@ class VideoIOBaseEnums
 {
 public:
   /**
-   *\class ReadFrom
+   * \class ReadFrom
    * \ingroup ITKVideoIO
    * Enum used to define weather to read from a file or a camera */
   enum class ReadFrom : uint8_t
@@ -47,7 +47,7 @@ public:
 extern ITKVideoIO_EXPORT std::ostream &
                          operator<<(std::ostream & out, const VideoIOBaseEnums::ReadFrom value);
 /**
- *\class VideoIOBase
+ * \class VideoIOBase
  * \brief Abstract superclass defines video IO interface.
  *
  * VideoIOBase is a class that reads and/or writes video data

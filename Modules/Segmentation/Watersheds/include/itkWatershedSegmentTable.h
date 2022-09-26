@@ -28,7 +28,7 @@ namespace itk
 namespace watershed
 {
 /**
- *\class SegmentTable
+ * \class SegmentTable
  * A table for storing segmentation information in various component filters of
  * the watershed segmentation algorithm.  See itk::WatershedImageFilter for an
  * overview.

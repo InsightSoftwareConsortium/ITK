@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class RegionGrowImageFilter
+ * \class RegionGrowImageFilter
  * \brief Base class for RegionGrowImageFilter object
  *
  * itkRegionGrowImageFilter is the base class for the

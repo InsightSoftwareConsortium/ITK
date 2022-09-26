@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class BinaryImageToLevelSetImageAdaptorBase
+ * \class BinaryImageToLevelSetImageAdaptorBase
  *  \ingroup ITKLevelSetsv4
  */
 template <typename TInputImage, typename TLevelSet>

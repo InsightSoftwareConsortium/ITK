@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class SimpleContourExtractorImageFilter
+ * \class SimpleContourExtractorImageFilter
  * \brief Computes an image of contours which will be the contour
  * of the first image.
  *

@@ -26,14 +26,14 @@
 
 namespace itk
 {
-/**\class IOCommonEnums
+/** \class IOCommonEnums
  * \brief Contains all enum classes used by IOCommon class.
  * \ingroup ITKIOImageBase
  */
 class IOCommonEnums
 {
 public:
-  /**\class AtomicPixel
+  /** \class AtomicPixel
    * \ingroup IOFilters
    * \ingroup ITKIOImageBase
    * enumerated constants for the different data types

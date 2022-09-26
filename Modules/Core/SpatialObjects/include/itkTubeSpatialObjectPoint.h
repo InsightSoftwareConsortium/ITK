@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class TubeSpatialObjectPoint
+ * \class TubeSpatialObjectPoint
  * \brief Point used for a tube definition
  *
  * This class contains all the functions necessary to define a point

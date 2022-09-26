@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class NiftiImageIOFactory
+ * \class NiftiImageIOFactory
  * \brief Create instances of NiftiImageIO objects using an object factory.
  * \ingroup ITKIONIFTI
  */

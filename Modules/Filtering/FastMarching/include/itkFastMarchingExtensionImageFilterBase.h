@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class FastMarchingExtensionImageFilterBase
+ * \class FastMarchingExtensionImageFilterBase
  * \brief Extend auxiliary variables smoothly using Fast Marching.
  *
  * Fast marching can be used to extend auxiliary variables smoothly

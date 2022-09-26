@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class MeshIOFactory
+ * \class MeshIOFactory
  * \brief Create instances of MeshIO objects using an object factory.
  *
  * Below are the supported mesh file format:

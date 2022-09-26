@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class MRASlabIdentifier
+ * \class MRASlabIdentifier
  * \brief Identifies slabs in MR images comparing minimum intensity averages.
  *
  * This class is templated over the type of image.

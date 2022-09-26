@@ -61,7 +61,7 @@ public:
 };
 
 /**
- *\class MatrixOffsetTransformBase
+ * \class MatrixOffsetTransformBase
  * \brief Matrix and Offset transformation of a vector space (e.g. space coordinates)
  *
  * This class serves as a base class for transforms that can be expressed

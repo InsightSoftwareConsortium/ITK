@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class ImageToVTKImageFilter
+ * \class ImageToVTKImageFilter
  * \brief Converts an ITK image into a VTK image and plugs a
  *  itk data pipeline to a VTK datapipeline.
  *

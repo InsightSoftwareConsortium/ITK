@@ -31,7 +31,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class SampleClassifierFilter
+ * \class SampleClassifierFilter
  *
  *  \brief Sample classification class
  *

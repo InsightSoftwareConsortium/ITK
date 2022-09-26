@@ -27,7 +27,7 @@ namespace itk
 {
 namespace Statistics
 {
-/**\class HistogramToTextureFeaturesFilterEnums
+/** \class HistogramToTextureFeaturesFilterEnums
  *\brief This class contains all enum classes used by HistogramToTextureFeaturesFilter class.
  * \ingroup ITKStatistics
  */
@@ -57,7 +57,7 @@ extern ITKStatistics_EXPORT std::ostream &
                             operator<<(std::ostream & out, const HistogramToTextureFeaturesFilterEnums::TextureFeature value);
 
 /**
- *\class HistogramToTextureFeaturesFilter
+ * \class HistogramToTextureFeaturesFilter
  *  \brief This class computes texture feature coefficients from a grey level
  * co-occurrence matrix.
  *

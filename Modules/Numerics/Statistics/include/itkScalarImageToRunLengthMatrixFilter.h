@@ -30,7 +30,7 @@ namespace Statistics
 {
 
 /**
- *\class ScalarImageToRunLengthMatrixFilter
+ * \class ScalarImageToRunLengthMatrixFilter
  *  \brief This class computes a run length matrix (histogram) from
  *  a given image and a mask image if provided. Run length matrices are
  *  used for image texture description.

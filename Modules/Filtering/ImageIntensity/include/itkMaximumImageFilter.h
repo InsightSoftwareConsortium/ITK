@@ -59,7 +59,7 @@ public:
 } // namespace Functor
 
 /**
- *\class MaximumImageFilter
+ * \class MaximumImageFilter
  * \brief Implements a pixel-wise operator Max(a,b) between two images.
  *
  * The pixel values of the output image are the maximum between the

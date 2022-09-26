@@ -40,7 +40,7 @@
 namespace itk
 {
 /**
- *\class SiemensVisionImageIO
+ * \class SiemensVisionImageIO
  *
  * \author Hans J. Johnson
  * \brief Class that defines how to read SiemensVision file format.

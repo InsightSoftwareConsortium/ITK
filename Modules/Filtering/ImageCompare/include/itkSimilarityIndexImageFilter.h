@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class SimilarityIndexImageFilter
+ * \class SimilarityIndexImageFilter
  * \brief Measures the similarity between the set of non-zero pixels of
  * two images.
  *

@@ -27,7 +27,7 @@
 namespace
 {
 /**
- *\class Helper class to maintain state when casting a ray.
+ * \class Helper class to maintain state when casting a ray.
  *  This helper class keeps the RayCastInterpolateImageFunction thread safe.
  */
 template <typename TInputImage, typename TCoordRep = float>

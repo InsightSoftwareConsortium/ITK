@@ -27,7 +27,7 @@ namespace itk
 namespace Testing
 {
 /**
- *\class ComparisonImageFilter
+ * \class ComparisonImageFilter
  * \brief Implements comparison between two images.
  *
  * This filter is used by the testing system to compute the difference between

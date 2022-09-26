@@ -25,7 +25,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class GaussianRandomSpatialNeighborSubsampler
+ * \class GaussianRandomSpatialNeighborSubsampler
  * \brief A subsampler that randomly selects points
  * according to a gaussian distribution
  * within the specified radius of the query point.

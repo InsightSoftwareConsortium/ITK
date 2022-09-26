@@ -31,7 +31,7 @@
 namespace itk
 {
 /**
- *\class Transform
+ * \class Transform
  * \brief Transform points and vectors from an input space to an output space.
  *
  * This abstract class defines the generic interface for a geometric

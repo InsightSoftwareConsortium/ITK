@@ -31,7 +31,7 @@ namespace Statistics
 {
 
 /**
- *\class Histogram
+ * \class Histogram
  *  \brief This class stores measurement vectors in the context of n-dimensional histogram.
  *
  * Histogram represents an ND histogram.  Histogram bins can be
@@ -341,7 +341,7 @@ protected:
 
 public:
   /**
-   *\class ConstIterator
+   * \class ConstIterator
    * \brief class that walks through the elements of the histogram.
    * \ingroup ITKStatistics
    */
@@ -426,7 +426,7 @@ public:
   }; // end of iterator class
 
   /**
-   *\class Iterator
+   * \class Iterator
    * \brief class that walks through the elements of the histogram.
    * \ingroup ITKStatistics
    */

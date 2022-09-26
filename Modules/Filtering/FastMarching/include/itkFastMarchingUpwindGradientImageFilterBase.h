@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class FastMarchingUpwindGradientImageFilterBase
+ * \class FastMarchingUpwindGradientImageFilterBase
  *
  * \brief Generates the upwind gradient field of fast marching arrival times.
  *

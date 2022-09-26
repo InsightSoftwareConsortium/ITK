@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class VideoFileReader
+ * \class VideoFileReader
  * \brief Reader that creates a VideoStream
  *
  * This class is responsible for reading video information from files. It is a

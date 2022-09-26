@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class PNGImageIO
+ * \class PNGImageIO
  *
  * \brief ImageIO object for reading and writing PNG images
  *

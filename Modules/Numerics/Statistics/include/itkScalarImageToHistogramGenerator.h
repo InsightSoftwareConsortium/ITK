@@ -28,7 +28,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class ScalarImageToHistogramGenerator
+ * \class ScalarImageToHistogramGenerator
  *
  * \brief TODO
  * \ingroup ITKStatistics

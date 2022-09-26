@@ -28,7 +28,7 @@
 namespace itk
 {
 /**
- *\class BYUMeshIO
+ * \class BYUMeshIO
  * \brief This class defines how to read and write BYU Geometry File Format.
  *
  * \ingroup IOFilters

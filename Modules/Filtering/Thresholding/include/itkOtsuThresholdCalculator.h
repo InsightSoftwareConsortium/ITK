@@ -26,7 +26,7 @@ namespace itk
 {
 
 /**
- *\class OtsuThresholdCalculator
+ * \class OtsuThresholdCalculator
  * \brief Computes the Otsu's threshold for an image.
  *
  * This calculator computes the Otsu's threshold which separates an image

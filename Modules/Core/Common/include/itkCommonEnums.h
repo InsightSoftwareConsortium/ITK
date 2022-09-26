@@ -204,7 +204,7 @@ public:
 };
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, MeshEnums::MeshClassCellsAllocationMethod value);
-/**\class OctreeEnums
+/** \class OctreeEnums
  * \brief
  * \ingroup ITKCommon
  */
@@ -245,13 +245,13 @@ extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const OctreeEnums::Octree value);
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const OctreeEnums::LeafIdentifier value);
-/**\class ObjectEnums
+/** \class ObjectEnums
  * \ingroup ITKCommon
  */
 class ObjectEnums
 {
 public:
-  /**\class RegionEnum
+  /** \class RegionEnum
    * \ingroup ITKCommon
    * Enums used to describe the extent types. */
   enum class RegionEnum : uint8_t
@@ -264,7 +264,7 @@ public:
 extern ITKCommon_EXPORT std::ostream &
                         operator<<(std::ostream & out, const ObjectEnums::RegionEnum value);
 
-/**\class ObjectFactoryEnums
+/** \class ObjectFactoryEnums
  * \ingroup ITKCommon
  */
 class ObjectFactoryEnums

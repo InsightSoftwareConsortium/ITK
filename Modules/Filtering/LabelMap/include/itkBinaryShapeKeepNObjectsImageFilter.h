@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class BinaryShapeKeepNObjectsImageFilter
+ * \class BinaryShapeKeepNObjectsImageFilter
  * \brief keep N objects according to their shape attributes
  *
  * BinaryShapeKeepNObjectsImageFilter keep the N objects in a binary image

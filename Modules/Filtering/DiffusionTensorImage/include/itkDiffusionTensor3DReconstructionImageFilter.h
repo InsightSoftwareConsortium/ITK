@@ -31,7 +31,7 @@
 
 namespace itk
 {
-/**\class DiffusionTensor3DReconstructionImageFilterEnums
+/** \class DiffusionTensor3DReconstructionImageFilterEnums
  * \brief Contains all enum classes used by DiffusionTensor3DReconstructionImageFilter class.
  * \ingroup ITKDiffusionTensorImage
  */

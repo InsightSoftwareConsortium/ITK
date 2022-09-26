@@ -34,7 +34,7 @@
 namespace itk
 {
 /**
- *\class RandomImageSource
+ * \class RandomImageSource
  * \brief Generate an n-dimensional image of random pixel values.
  *
  * RandomImageSource generates an image of random pixel values.

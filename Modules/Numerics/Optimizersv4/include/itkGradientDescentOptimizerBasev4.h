@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class GradientDescentOptimizerBasev4
+ * \class GradientDescentOptimizerBasev4
  *  \brief Abstract base class for gradient descent-style optimizers.
  *
  * Gradient modification is threaded in \c ModifyGradient.

@@ -33,7 +33,7 @@
 namespace itk
 {
 /**
- *\class BSplineResampleImageFunction
+ * \class BSplineResampleImageFunction
  * \brief Resample image intensity from a BSpline coefficient image.
  *
  * This class resample the image intensity at a non-integer position

@@ -28,7 +28,7 @@ namespace itk
 {
 
 /**
- *\class ImageToVideoFilter
+ * \class ImageToVideoFilter
  * \brief Converts Image to VideoStream representation with a temporal axis
  *
  * ImageToVideoFilter is a ProcessObject for converting an Image or VectorImage to a VideoStream.

@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class GaussianImageSource
+ * \class GaussianImageSource
  * \brief Generate an n-dimensional image of a Gaussian.
  *
  * GaussianImageSource generates an image of a Gaussian.

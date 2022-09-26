@@ -29,7 +29,7 @@
 namespace itk
 {
 /**
- *\class CSVFileReaderBase
+ * \class CSVFileReaderBase
  * \brief A base class that contains common methods used for parsing csv files.
  *
  * CSVFileReaderBase is a base abstract class for reading csv files. It

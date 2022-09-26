@@ -40,7 +40,7 @@
 namespace itk
 {
 /**
- *\class IPLCommonImageIO
+ * \class IPLCommonImageIO
  *
  * \author Hans J. Johnson
  * \brief Class that defines how to read GE4 file format.

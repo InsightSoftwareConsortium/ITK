@@ -37,7 +37,7 @@ namespace itk
 namespace Functor
 {
 /**
- *\class SimilarVectorsFunctor
+ * \class SimilarVectorsFunctor
  *
  *  \brief A connected components filter that labels the
  *         objects in a vector image.  Two vectors are pointing
@@ -92,7 +92,7 @@ protected:
 } // end namespace Functor
 
 /**
- *\class VectorConnectedComponentImageFilter
+ * \class VectorConnectedComponentImageFilter
  *
  *  \brief A connected components filter that labels the
  *         objects in a vector image.  Two vectors are pointing

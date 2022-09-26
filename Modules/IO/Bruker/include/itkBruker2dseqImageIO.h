@@ -27,7 +27,7 @@
 namespace itk
 {
 /**
- *\class Bruker2dseqImageIO
+ * \class Bruker2dseqImageIO
  * \brief Class that defines how to read Bruker file format.
  *
  * The following is a brief description of the Bruker file format.

@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class MetaLandmarkConverter
+ * \class MetaLandmarkConverter
  *  \brief converts between MetaObject<->SpatialObject.
  *
  *  \sa MetaConverterBase

@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class MembershipFunctionBase
+ * \class MembershipFunctionBase
  * \brief MembershipFunctionBase defines common interfaces
  * for membership functions.
  *

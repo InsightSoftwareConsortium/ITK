@@ -28,7 +28,7 @@ namespace Functor
 {
 
 /**
- *\class LogicOpBase
+ * \class LogicOpBase
  * \brief Base class for some logic functors. Provides the Foreground
  * and background setting methods.
  *
@@ -104,7 +104,7 @@ protected:
 };
 
 /**
- *\class Equal
+ * \class Equal
  * \brief Functor for == operation on images and constants.
  *
  * Operations by c++ casting defaults. Foreground and background
@@ -141,7 +141,7 @@ public:
   }
 };
 /**
- *\class NotEqual
+ * \class NotEqual
  * \brief Functor for != operation on images and constants.
  *
  * Operations by c++ casting defaults. Foreground and background
@@ -179,7 +179,7 @@ public:
 };
 
 /**
- *\class GreaterEqual
+ * \class GreaterEqual
  * \brief Functor for >= operation on images and constants.
  *
  * Operations by c++ casting defaults. Foreground and background
@@ -217,7 +217,7 @@ public:
 
 
 /**
- *\class Greater
+ * \class Greater
  * \brief Functor for > operation on images and constants.
  *
  * Operations by c++ casting defaults. Foreground and background
@@ -254,7 +254,7 @@ public:
 
 
 /**
- *\class LessEqual
+ * \class LessEqual
  * \brief Functor for <= operation on images and constants.
  *
  * Operations by c++ casting defaults. Foreground and background
@@ -292,7 +292,7 @@ public:
 
 
 /**
- *\class Less
+ * \class Less
  * \brief Functor for < operation on images and constants.
  *
  * Operations by c++ casting defaults. Foreground and background

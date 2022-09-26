@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class IsolatedConnectedImageFilter
+ * \class IsolatedConnectedImageFilter
  * \brief Label pixels that are connected to one set of seeds but not
  * another.
  *

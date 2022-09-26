@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class ImageBoundaryCondition
+ * \class ImageBoundaryCondition
  * \brief A virtual base object that defines an interface to a class of
  * boundary condition objects for use by neighborhood iterators.
  *

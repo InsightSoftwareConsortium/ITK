@@ -28,7 +28,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class ScalarImageToRunLengthFeaturesFilter
+ * \class ScalarImageToRunLengthFeaturesFilter
  *  \brief This class computes run length descriptions from an image.
  *
  * By default, run length features are computed for each spatial

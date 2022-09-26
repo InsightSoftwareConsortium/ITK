@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class ConfidenceConnectedImageFilter
+ * \class ConfidenceConnectedImageFilter
  * \brief Segment pixels with similar statistics using connectivity
  *
  * This filter extracts a connected set of pixels whose pixel

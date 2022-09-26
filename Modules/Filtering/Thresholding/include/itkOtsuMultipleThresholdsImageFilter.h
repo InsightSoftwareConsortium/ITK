@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class OtsuMultipleThresholdsImageFilter
+ * \class OtsuMultipleThresholdsImageFilter
  * \brief Threshold an image using multiple Otsu Thresholds.
  *
  * This filter creates a labeled image that separates the input

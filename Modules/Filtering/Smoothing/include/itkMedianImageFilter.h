@@ -24,7 +24,7 @@
 namespace itk
 {
 /**
- *\class MedianImageFilter
+ * \class MedianImageFilter
  * \brief Applies a median filter to an image
  *
  * Computes an image where a given pixel is the median value of the

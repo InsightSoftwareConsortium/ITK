@@ -22,7 +22,7 @@
 namespace itk
 {
 /**
- *\class PixelAccessor
+ * \class PixelAccessor
  * \brief Give access to partial aspects of a type
  *
  * PixelAccessor is templated over an internal type and an

@@ -35,7 +35,7 @@
 namespace itk
 {
 /**
- *\class MRCImageIOFactory
+ * \class MRCImageIOFactory
  * \brief Create instances of MRCImageIO objects using an object factory.
  *
  *  This code was contributed in the Insight Journal paper:

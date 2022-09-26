@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/**\class SPSAOptimizerEnums
+/** \class SPSAOptimizerEnums
  * \brief Contains all enum classes used by SPSAOptimizer class.
  * \ingroup ITKOptimizers
  */

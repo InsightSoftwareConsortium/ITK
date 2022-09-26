@@ -25,7 +25,7 @@
 namespace itk
 {
 /**
- *\class BinaryPruningImageFilter
+ * \class BinaryPruningImageFilter
  *
  * \brief This filter removes "spurs" of less than a certain
  * length in the input image.

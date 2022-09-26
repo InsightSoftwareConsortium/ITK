@@ -23,7 +23,7 @@
 namespace itk
 {
 /**
- *\class QuadEdgeMeshToQuadEdgeMeshFilter
+ * \class QuadEdgeMeshToQuadEdgeMeshFilter
  *  \brief Duplicates the content of a Mesh
  *
  * \author Alexandre Gouaillard, Leonardo Florez-Valencia, Eric Boix

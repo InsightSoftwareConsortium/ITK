@@ -33,7 +33,7 @@
 namespace itk
 {
 /**
- *\class Matrix
+ * \class Matrix
  * \brief A templated class holding a M x N size Matrix.
  *
  * This class contains a vnl_matrix_fixed in order

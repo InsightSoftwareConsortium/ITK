@@ -31,7 +31,7 @@ namespace itk
 {
 
 /**
- *\class MeshConvertPixelTraits
+ * \class MeshConvertPixelTraits
  *  \brief Traits class used to by ConvertPixels to convert blocks of pixels.
  *
  *  TOutputPixelType is the destination type. The input type is inferred

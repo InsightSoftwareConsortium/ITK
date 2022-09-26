@@ -26,7 +26,7 @@
 namespace itk
 {
 /**
- *\class SiemensVisionImageIOFactory
+ * \class SiemensVisionImageIOFactory
  * \brief Create instances of SiemensVisionImageIO objects using an object factory.
  * \ingroup ITKIOSiemens
  */

@@ -27,7 +27,7 @@ namespace itk
 namespace Statistics
 {
 /**
- *\class MeanSampleFilter
+ * \class MeanSampleFilter
  * \brief Given a sample, this filter computes the sample mean
  *
  * The sample is plugged in using SetSample method. Then invoke

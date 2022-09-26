@@ -27,7 +27,7 @@ namespace itk
 {
 
 /**
- *\class FastMarchingStoppingCriterionBase
+ * \class FastMarchingStoppingCriterionBase
   \brief Abstract Stopping Criterion dedicated for Fast Marching Methods
 
   \ingroup ITKFastMarching
