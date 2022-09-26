@@ -56,10 +56,6 @@ namespace itk
  * \ingroup ITKCommon
  */
 
-// Forward reference because of private implementation
-class OverRideMap;
-class ObjectFactoryBasePrivate;
-
 class ITKCommon_EXPORT ObjectFactoryBase : public Object
 {
 public:
@@ -271,6 +267,10 @@ protected:
   ~ObjectFactoryBase() override;
 
 private:
+  // Forward reference because of private implementation
+  class OverRideMap;
+  class ObjectFactoryBasePrivate;
+
   /** Set/Get the pointer to ObjectFactoryBasePrivate.
    * No concurrent thread safe. */
   static void

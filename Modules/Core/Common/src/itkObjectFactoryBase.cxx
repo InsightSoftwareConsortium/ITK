@@ -94,7 +94,7 @@ namespace itk
  *
  */
 
-class ObjectFactoryBasePrivate : public LightObject
+class ObjectFactoryBase::ObjectFactoryBasePrivate : public LightObject
 {
 public:
   ~ObjectFactoryBasePrivate() override
@@ -114,8 +114,8 @@ public:
   bool            m_StrictVersionChecking{ false };
 };
 
-ObjectFactoryBasePrivate *
-ObjectFactoryBase::GetPimplGlobalsPointer()
+auto
+ObjectFactoryBase::GetPimplGlobalsPointer() -> ObjectFactoryBasePrivate *
 {
   const auto                 deleteLambda = []() { m_PimplGlobals->UnRegister(); };
   ObjectFactoryBasePrivate * globalInstance =
@@ -141,10 +141,8 @@ using StringOverMapType = std::multimap<std::string, ObjectFactoryBase::Override
 /** \class OverRideMap
  * \brief Internal implementation class for ObjectFactorBase.
  */
-class OverRideMap : public StringOverMapType
-{
-public:
-};
+class ObjectFactoryBase::OverRideMap : public StringOverMapType
+{};
 
 /**
  * Make possible for application developers to demand an exact match
@@ -925,5 +923,5 @@ ObjectFactoryBase::GetLibraryPath()
   return m_LibraryPath.c_str();
 }
 
-ObjectFactoryBasePrivate * ObjectFactoryBase::m_PimplGlobals;
+ObjectFactoryBase::ObjectFactoryBasePrivate * ObjectFactoryBase::m_PimplGlobals;
 } // end namespace itk
