@@ -21,18 +21,18 @@ namespace itk
 {
 namespace Statistics
 {
-SparseFrequencyContainer2 ::SparseFrequencyContainer2()
+SparseFrequencyContainer2::SparseFrequencyContainer2()
 {
   m_TotalFrequency = NumericTraits<TotalAbsoluteFrequencyType>::ZeroValue();
 }
 
-void SparseFrequencyContainer2 ::Initialize(SizeValueType)
+void SparseFrequencyContainer2::Initialize(SizeValueType)
 {
   this->SetToZero();
 }
 
 void
-SparseFrequencyContainer2 ::SetToZero()
+SparseFrequencyContainer2::SetToZero()
 {
   auto iter = m_FrequencyContainer.begin();
   auto end = m_FrequencyContainer.end();
@@ -45,7 +45,7 @@ SparseFrequencyContainer2 ::SetToZero()
 }
 
 bool
-SparseFrequencyContainer2 ::SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value)
+SparseFrequencyContainer2::SetFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value)
 {
   // No need to test for bounds because in a map container the
   // element is allocated if the key doesn't exist yet
@@ -57,7 +57,7 @@ SparseFrequencyContainer2 ::SetFrequency(const InstanceIdentifier id, const Abso
 }
 
 SparseFrequencyContainer2::AbsoluteFrequencyType
-SparseFrequencyContainer2 ::GetFrequency(const InstanceIdentifier id) const
+SparseFrequencyContainer2::GetFrequency(const InstanceIdentifier id) const
 {
   auto iter = m_FrequencyContainer.find(id);
 
@@ -72,7 +72,7 @@ SparseFrequencyContainer2 ::GetFrequency(const InstanceIdentifier id) const
 }
 
 bool
-SparseFrequencyContainer2 ::IncreaseFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value)
+SparseFrequencyContainer2::IncreaseFrequency(const InstanceIdentifier id, const AbsoluteFrequencyType value)
 {
   // No need to test for bounds because in a map container the
   // element is allocated if the key doesn't exist yet
@@ -84,7 +84,7 @@ SparseFrequencyContainer2 ::IncreaseFrequency(const InstanceIdentifier id, const
 }
 
 void
-SparseFrequencyContainer2 ::PrintSelf(std::ostream & os, Indent indent) const
+SparseFrequencyContainer2::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

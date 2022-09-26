@@ -97,7 +97,7 @@ DCMTKSequence::SetDcmSequenceOfItems(DcmSequenceOfItems * seq)
 }
 
 int
-DCMTKSequence ::card() const
+DCMTKSequence::card() const
 {
   return this->m_DcmSequenceOfItems->card();
 }

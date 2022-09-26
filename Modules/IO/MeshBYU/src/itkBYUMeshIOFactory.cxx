@@ -28,7 +28,7 @@ BYUMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 
-BYUMeshIOFactory ::BYUMeshIOFactory()
+BYUMeshIOFactory::BYUMeshIOFactory()
 {
   this->RegisterOverride("itkMeshIOBase", "itkBYUMeshIO", "BYU Mesh IO", true, CreateObjectFunction<BYUMeshIO>::New());
 }

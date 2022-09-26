@@ -345,7 +345,7 @@ GE4ImageIO::ReadHeader(const char * FileNameToRead)
 }
 
 float
-GE4ImageIO ::MvtSunf(int numb)
+GE4ImageIO::MvtSunf(int numb)
 {
   constexpr auto signbit = 020000000000U;
   constexpr auto dmantissa = 077777777U;

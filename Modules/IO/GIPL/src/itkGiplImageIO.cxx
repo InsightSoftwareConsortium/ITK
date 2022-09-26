@@ -612,7 +612,7 @@ GiplImageIO::ReadImageInformation()
 }
 
 void
-GiplImageIO ::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
+GiplImageIO::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 {
   switch (m_ComponentType)
   {
@@ -696,14 +696,14 @@ GiplImageIO ::SwapBytesIfNecessary(void * buffer, SizeValueType numberOfPixels)
 }
 
 void
-GiplImageIO ::WriteImageInformation()
+GiplImageIO::WriteImageInformation()
 {
   // not possible to write a Gipl file
 }
 
 /** The write function is not implemented */
 void
-GiplImageIO ::Write(const void * buffer)
+GiplImageIO::Write(const void * buffer)
 {
   CheckExtension(m_FileName.c_str());
 

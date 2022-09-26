@@ -51,7 +51,7 @@ MultipleValuedVnlCostFunctionAdaptor::SetScales(const ScalesType & scales)
 
 /**  Delegate computation of the value to the CostFunction. */
 void
-MultipleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparameters, InternalMeasureType & measures)
+MultipleValuedVnlCostFunctionAdaptor::f(const InternalParametersType & inparameters, InternalMeasureType & measures)
 {
   if (!this->m_CostFunction)
   {
@@ -87,8 +87,8 @@ MultipleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparame
 
 /**  Delegate computation of the gradient to the costfunction.  */
 void
-MultipleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inparameters,
-                                             InternalDerivativeType &       gradient)
+MultipleValuedVnlCostFunctionAdaptor::gradf(const InternalParametersType & inparameters,
+                                            InternalDerivativeType &       gradient)
 {
   if (!this->m_CostFunction)
   {
@@ -119,9 +119,9 @@ MultipleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inpa
 
 /**  Delegate computation of value and gradient to the costfunction.     */
 void
-MultipleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
-                                               InternalMeasureType *          ff,
-                                               InternalDerivativeType *       g)
+MultipleValuedVnlCostFunctionAdaptor::compute(const InternalParametersType & x,
+                                              InternalMeasureType *          ff,
+                                              InternalDerivativeType *       g)
 {
   // delegate the computation to the CostFunction
   DerivativeType externalGradient;

@@ -22,7 +22,7 @@ namespace itk
 /**
  * The triangle's topology data: Edges
  */
-const int TriangleCellTopology ::m_Edges[3][2] = { { 0, 1 }, { 1, 2 }, { 2, 0 } };
+const int TriangleCellTopology::m_Edges[3][2] = { { 0, 1 }, { 1, 2 }, { 2, 0 } };
 
 TriangleCellTopology::TriangleCellTopology() = default;
 

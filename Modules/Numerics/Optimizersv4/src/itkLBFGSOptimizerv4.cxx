@@ -21,12 +21,12 @@
 
 namespace itk
 {
-LBFGSOptimizerv4 ::LBFGSOptimizerv4() = default;
+LBFGSOptimizerv4::LBFGSOptimizerv4() = default;
 
 LBFGSOptimizerv4::~LBFGSOptimizerv4() = default;
 
 void
-LBFGSOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
+LBFGSOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "LineSearchAccuracy: " << m_LineSearchAccuracy << std::endl;
@@ -39,7 +39,7 @@ LBFGSOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-LBFGSOptimizerv4 ::VerboseOn()
+LBFGSOptimizerv4::VerboseOn()
 {
   if (m_Verbose == true)
   {
@@ -56,7 +56,7 @@ LBFGSOptimizerv4 ::VerboseOn()
 }
 
 void
-LBFGSOptimizerv4 ::VerboseOff()
+LBFGSOptimizerv4::VerboseOff()
 {
   if (m_Verbose == false)
   {
@@ -73,7 +73,7 @@ LBFGSOptimizerv4 ::VerboseOff()
 }
 
 void
-LBFGSOptimizerv4 ::SetLineSearchAccuracy(double f)
+LBFGSOptimizerv4::SetLineSearchAccuracy(double f)
 {
   if (Math::ExactlyEquals(f, m_LineSearchAccuracy))
   {
@@ -90,7 +90,7 @@ LBFGSOptimizerv4 ::SetLineSearchAccuracy(double f)
 }
 
 void
-LBFGSOptimizerv4 ::SetDefaultStepLength(double f)
+LBFGSOptimizerv4::SetDefaultStepLength(double f)
 {
   if (Math::ExactlyEquals(f, m_DefaultStepLength))
   {
@@ -107,7 +107,7 @@ LBFGSOptimizerv4 ::SetDefaultStepLength(double f)
 }
 
 void
-LBFGSOptimizerv4 ::SetMetric(MetricType * metric)
+LBFGSOptimizerv4::SetMetric(MetricType * metric)
 {
   Superclass::SetMetric(metric);
 
@@ -127,7 +127,7 @@ LBFGSOptimizerv4 ::SetMetric(MetricType * metric)
 }
 
 void
-LBFGSOptimizerv4 ::StartOptimization(bool /* doOnlyInitialization */)
+LBFGSOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
 {
   // Perform some verification, check scales,
   // pass settings to cost-function adaptor.

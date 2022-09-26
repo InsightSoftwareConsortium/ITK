@@ -24,7 +24,7 @@ namespace itk
 /**
  * Constructor
  */
-LBFGSOptimizer ::LBFGSOptimizer()
+LBFGSOptimizer::LBFGSOptimizer()
 {
   m_OptimizerInitialized = false;
   m_VnlOptimizer = nullptr;

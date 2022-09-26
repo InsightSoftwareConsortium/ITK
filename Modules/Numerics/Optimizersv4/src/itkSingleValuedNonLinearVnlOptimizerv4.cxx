@@ -19,7 +19,7 @@
 
 namespace itk
 {
-SingleValuedNonLinearVnlOptimizerv4 ::SingleValuedNonLinearVnlOptimizerv4()
+SingleValuedNonLinearVnlOptimizerv4::SingleValuedNonLinearVnlOptimizerv4()
 {
   this->m_CostFunctionAdaptor = nullptr;
   this->m_Command = CommandType::New();
@@ -39,7 +39,7 @@ SingleValuedNonLinearVnlOptimizerv4::~SingleValuedNonLinearVnlOptimizerv4()
 }
 
 void
-SingleValuedNonLinearVnlOptimizerv4 ::StartOptimization(bool doOnlyInitialization)
+SingleValuedNonLinearVnlOptimizerv4::StartOptimization(bool doOnlyInitialization)
 {
   // Perform some verification, check scales.
   Superclass::StartOptimization(doOnlyInitialization);
@@ -65,7 +65,7 @@ SingleValuedNonLinearVnlOptimizerv4 ::StartOptimization(bool doOnlyInitializatio
 }
 
 void
-SingleValuedNonLinearVnlOptimizerv4 ::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
+SingleValuedNonLinearVnlOptimizerv4::SetCostFunctionAdaptor(CostFunctionAdaptorType * adaptor)
 {
   if (this->m_CostFunctionAdaptor == adaptor)
   {
@@ -83,25 +83,25 @@ SingleValuedNonLinearVnlOptimizerv4 ::SetCostFunctionAdaptor(CostFunctionAdaptor
 }
 
 const SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
-SingleValuedNonLinearVnlOptimizerv4 ::GetCostFunctionAdaptor() const
+SingleValuedNonLinearVnlOptimizerv4::GetCostFunctionAdaptor() const
 {
   return this->m_CostFunctionAdaptor;
 }
 
 SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
-SingleValuedNonLinearVnlOptimizerv4 ::GetCostFunctionAdaptor()
+SingleValuedNonLinearVnlOptimizerv4::GetCostFunctionAdaptor()
 {
   return this->m_CostFunctionAdaptor;
 }
 
 SingleValuedNonLinearVnlOptimizerv4::CostFunctionAdaptorType *
-SingleValuedNonLinearVnlOptimizerv4 ::GetNonConstCostFunctionAdaptor() const
+SingleValuedNonLinearVnlOptimizerv4::GetNonConstCostFunctionAdaptor() const
 {
   return this->m_CostFunctionAdaptor;
 }
 
 void
-SingleValuedNonLinearVnlOptimizerv4 ::IterationReport(const EventObject & event)
+SingleValuedNonLinearVnlOptimizerv4::IterationReport(const EventObject & event)
 {
   const CostFunctionAdaptorType * adaptor = this->GetCostFunctionAdaptor();
 
@@ -112,7 +112,7 @@ SingleValuedNonLinearVnlOptimizerv4 ::IterationReport(const EventObject & event)
 }
 
 void
-SingleValuedNonLinearVnlOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
+SingleValuedNonLinearVnlOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Cached Derivative: " << this->m_CachedDerivative << std::endl;

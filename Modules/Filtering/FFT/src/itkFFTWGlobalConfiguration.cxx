@@ -372,7 +372,7 @@ HardwareWisdomFilenameGenerator::GetUseSteppingCode() const
 }
 
 
-FFTWGlobalConfiguration ::FFTWGlobalConfiguration()
+FFTWGlobalConfiguration::FFTWGlobalConfiguration()
   : m_WisdomCacheBase("")
 {
   { // Configure default method for creating WISDOM_CACHE files

@@ -19,7 +19,7 @@
 
 namespace itk
 {
-KLMSegmentationBorder ::KLMSegmentationBorder()
+KLMSegmentationBorder::KLMSegmentationBorder()
 {
   m_Lambda = 0.0;
   m_Region1 = nullptr;

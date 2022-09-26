@@ -26,7 +26,7 @@ namespace itk
 /**
  * Prompting off by default
  */
-XMLFileOutputWindow ::XMLFileOutputWindow() = default;
+XMLFileOutputWindow::XMLFileOutputWindow() = default;
 
 XMLFileOutputWindow::~XMLFileOutputWindow() = default;
 

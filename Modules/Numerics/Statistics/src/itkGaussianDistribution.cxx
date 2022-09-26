@@ -151,13 +151,13 @@ GaussianDistribution::SetVariance(double variance)
 }
 
 double
-GaussianDistribution ::PDF(double x)
+GaussianDistribution::PDF(double x)
 {
   return itk::Math::one_over_sqrt2pi * std::exp(-0.5 * x * x);
 }
 
 double
-GaussianDistribution ::PDF(double x, double mean, double variance)
+GaussianDistribution::PDF(double x, double mean, double variance)
 {
   double xminusmean = x - mean;
 
@@ -165,7 +165,7 @@ GaussianDistribution ::PDF(double x, double mean, double variance)
 }
 
 double
-GaussianDistribution ::PDF(double x, const ParametersType & p)
+GaussianDistribution::PDF(double x, const ParametersType & p)
 {
   // verify the parameter vector length
   if (p.GetSize() == 2)
@@ -180,13 +180,13 @@ GaussianDistribution ::PDF(double x, const ParametersType & p)
 }
 
 double
-GaussianDistribution ::CDF(double x)
+GaussianDistribution::CDF(double x)
 {
   return 0.5 * (vnl_erf(itk::Math::sqrt1_2 * x) + 1.0);
 }
 
 double
-GaussianDistribution ::CDF(double x, double mean, double variance)
+GaussianDistribution::CDF(double x, double mean, double variance)
 {
   // convert to zero mean unit variance
   double u = (x - mean) / std::sqrt(variance);
@@ -195,7 +195,7 @@ GaussianDistribution ::CDF(double x, double mean, double variance)
 }
 
 double
-GaussianDistribution ::CDF(double x, const ParametersType & p)
+GaussianDistribution::CDF(double x, const ParametersType & p)
 {
   if (p.GetSize() != 2)
   {

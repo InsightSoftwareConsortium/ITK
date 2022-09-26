@@ -26,7 +26,7 @@
 
 namespace itk
 {
-DCMTKSeriesFileNames ::DCMTKSeriesFileNames()
+DCMTKSeriesFileNames::DCMTKSeriesFileNames()
 {
   m_InputDirectory = "";
   m_OutputDirectory = "";

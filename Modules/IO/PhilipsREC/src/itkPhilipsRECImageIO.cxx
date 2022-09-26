@@ -387,14 +387,11 @@ PhilipsRECImageIO::PhilipsRECImageIO()
   // Start out with file byte order == system byte order
   // this will be changed if we're reading a file to whatever
   // the file actually contains.
-  if (ByteSwapper<int>::SystemIsBigEndian())
+  iff(ByteSwapper<int>::SystemIsBigEndian())
   {
     this->m_MachineByteOrder = this->m_ByteOrder = IOByteOrderEnum::BigEndian;
   }
-  else
-  {
-    this->m_MachineByteOrder = this->m_ByteOrder = IOByteOrderEnum::LittleEndian;
-  }
+  else { this->m_MachineByteOrder = this->m_ByteOrder = IOByteOrderEnum::LittleEndian; }
   this->m_SliceIndex = new SliceIndexType();
 }
 

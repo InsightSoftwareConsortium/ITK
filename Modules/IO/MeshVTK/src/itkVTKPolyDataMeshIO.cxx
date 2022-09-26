@@ -82,7 +82,7 @@ ReadFloatingPointsAsASCII(std::ifstream &        inputFile,
 
 
 // Constructor
-VTKPolyDataMeshIO ::VTKPolyDataMeshIO()
+VTKPolyDataMeshIO::VTKPolyDataMeshIO()
 {
   this->AddSupportedWriteExtension(".vtk");
   this->m_ByteOrder = IOByteOrderEnum::BigEndian;
@@ -102,7 +102,7 @@ VTKPolyDataMeshIO::~VTKPolyDataMeshIO() = default;
 
 
 int
-VTKPolyDataMeshIO ::GetNextLine(std::ifstream & ifs, std::string & line, bool lowerCase, SizeValueType count)
+VTKPolyDataMeshIO::GetNextLine(std::ifstream & ifs, std::string & line, bool lowerCase, SizeValueType count)
 {
   // The terminal condition for this recursive calls
   if (count > 5)
@@ -136,7 +136,7 @@ VTKPolyDataMeshIO ::GetNextLine(std::ifstream & ifs, std::string & line, bool lo
 
 
 bool
-VTKPolyDataMeshIO ::CanReadFile(const char * fileName)
+VTKPolyDataMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -173,7 +173,7 @@ VTKPolyDataMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-VTKPolyDataMeshIO ::CanWriteFile(const char * fileName)
+VTKPolyDataMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".vtk")
   {
@@ -247,7 +247,7 @@ VTKPolyDataMeshIO::GetComponentTypeFromString(const std::string & pointType)
 }
 
 void
-VTKPolyDataMeshIO ::ReadMeshInformation()
+VTKPolyDataMeshIO::ReadMeshInformation()
 {
   std::ifstream inputFile;
 
@@ -811,7 +811,7 @@ VTKPolyDataMeshIO ::ReadMeshInformation()
   }
 
 void
-VTKPolyDataMeshIO ::ReadPoints(void * buffer)
+VTKPolyDataMeshIO::ReadPoints(void * buffer)
 {
   std::ifstream inputFile;
 
@@ -865,7 +865,7 @@ VTKPolyDataMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-VTKPolyDataMeshIO ::ReadCells(void * buffer)
+VTKPolyDataMeshIO::ReadCells(void * buffer)
 {
   std::ifstream inputFile;
 
@@ -977,7 +977,7 @@ VTKPolyDataMeshIO::ReadCellsBufferAsASCII(std::ifstream & inputFile, void * buff
 }
 
 void
-VTKPolyDataMeshIO ::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * buffer)
+VTKPolyDataMeshIO::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * buffer)
 {
   if (!this->m_CellBufferSize)
   {
@@ -1054,7 +1054,7 @@ VTKPolyDataMeshIO ::ReadCellsBufferAsBINARY(std::ifstream & inputFile, void * bu
 }
 
 void
-VTKPolyDataMeshIO ::ReadPointData(void * buffer)
+VTKPolyDataMeshIO::ReadPointData(void * buffer)
 {
   std::ifstream inputFile;
 
@@ -1108,7 +1108,7 @@ VTKPolyDataMeshIO ::ReadPointData(void * buffer)
 }
 
 void
-VTKPolyDataMeshIO ::ReadCellData(void * buffer)
+VTKPolyDataMeshIO::ReadCellData(void * buffer)
 {
   std::ifstream inputFile;
 
@@ -1162,7 +1162,7 @@ VTKPolyDataMeshIO ::ReadCellData(void * buffer)
 }
 
 void
-VTKPolyDataMeshIO ::WriteMeshInformation()
+VTKPolyDataMeshIO::WriteMeshInformation()
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -1282,7 +1282,7 @@ VTKPolyDataMeshIO ::WriteMeshInformation()
   }
 
 void
-VTKPolyDataMeshIO ::WritePoints(void * buffer)
+VTKPolyDataMeshIO::WritePoints(void * buffer)
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -1417,7 +1417,7 @@ VTKPolyDataMeshIO ::WritePoints(void * buffer)
   }
 
 void
-VTKPolyDataMeshIO ::WriteCells(void * buffer)
+VTKPolyDataMeshIO::WriteCells(void * buffer)
 {
   if (this->m_FileName.empty())
   {
@@ -1471,7 +1471,7 @@ VTKPolyDataMeshIO ::WriteCells(void * buffer)
 }
 
 void
-VTKPolyDataMeshIO ::WritePointData(void * buffer)
+VTKPolyDataMeshIO::WritePointData(void * buffer)
 {
   // check file name
   if (this->m_FileName.empty())
@@ -1526,7 +1526,7 @@ VTKPolyDataMeshIO ::WritePointData(void * buffer)
 }
 
 void
-VTKPolyDataMeshIO ::WriteCellData(void * buffer)
+VTKPolyDataMeshIO::WriteCellData(void * buffer)
 {
   if (this->m_FileName.empty())
   {
@@ -1579,11 +1579,11 @@ VTKPolyDataMeshIO ::WriteCellData(void * buffer)
 }
 
 void
-VTKPolyDataMeshIO ::Write()
+VTKPolyDataMeshIO::Write()
 {}
 
 void
-VTKPolyDataMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+VTKPolyDataMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

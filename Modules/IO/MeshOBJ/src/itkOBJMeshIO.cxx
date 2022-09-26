@@ -26,7 +26,7 @@
 
 namespace itk
 {
-OBJMeshIO ::OBJMeshIO()
+OBJMeshIO::OBJMeshIO()
 {
   this->AddSupportedWriteExtension(".obj");
 }
@@ -34,7 +34,7 @@ OBJMeshIO ::OBJMeshIO()
 OBJMeshIO::~OBJMeshIO() = default;
 
 bool
-OBJMeshIO ::CanReadFile(const char * fileName)
+OBJMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -50,7 +50,7 @@ OBJMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-OBJMeshIO ::CanWriteFile(const char * fileName)
+OBJMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".obj")
   {
@@ -61,7 +61,7 @@ OBJMeshIO ::CanWriteFile(const char * fileName)
 }
 
 void
-OBJMeshIO ::OpenFile()
+OBJMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
@@ -90,7 +90,7 @@ OBJMeshIO ::OpenFile()
 }
 
 void
-OBJMeshIO ::CloseFile()
+OBJMeshIO::CloseFile()
 {
   if (m_InputFile.is_open())
   {
@@ -99,7 +99,7 @@ OBJMeshIO ::CloseFile()
 }
 
 bool
-OBJMeshIO ::SplitLine(const std::string & line, std::string & type, std::string & content)
+OBJMeshIO::SplitLine(const std::string & line, std::string & type, std::string & content)
 {
   std::locale                 loc;
   std::string::const_iterator start = line.begin();
@@ -127,7 +127,7 @@ OBJMeshIO ::SplitLine(const std::string & line, std::string & type, std::string 
 }
 
 void
-OBJMeshIO ::ReadMeshInformation()
+OBJMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
   OpenFile();
@@ -213,7 +213,7 @@ OBJMeshIO ::ReadMeshInformation()
 }
 
 void
-OBJMeshIO ::ReadPoints(void * buffer)
+OBJMeshIO::ReadPoints(void * buffer)
 {
   // Define input file stream and attach it to input file
   OpenFile();
@@ -246,7 +246,7 @@ OBJMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-OBJMeshIO ::ReadCells(void * buffer)
+OBJMeshIO::ReadCells(void * buffer)
 {
   // Define input file stream and attach it to input file
   OpenFile();
@@ -302,7 +302,7 @@ OBJMeshIO ::ReadCells(void * buffer)
 }
 
 void
-OBJMeshIO ::ReadPointData(void * buffer)
+OBJMeshIO::ReadPointData(void * buffer)
 {
   // Define input file stream and attach it to input file
   OpenFile();
@@ -335,11 +335,11 @@ OBJMeshIO ::ReadPointData(void * buffer)
 }
 
 void
-OBJMeshIO ::ReadCellData(void * itkNotUsed(buffer))
+OBJMeshIO::ReadCellData(void * itkNotUsed(buffer))
 {}
 
 void
-OBJMeshIO ::WriteMeshInformation()
+OBJMeshIO::WriteMeshInformation()
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -479,7 +479,7 @@ OBJMeshIO::WritePoints(void * buffer)
 }
 
 void
-OBJMeshIO ::WriteCells(void * buffer)
+OBJMeshIO::WriteCells(void * buffer)
 {
   // check file name
   if (this->m_FileName.empty())
@@ -576,7 +576,7 @@ OBJMeshIO ::WriteCells(void * buffer)
 }
 
 void
-OBJMeshIO ::WritePointData(void * buffer)
+OBJMeshIO::WritePointData(void * buffer)
 {
   // Point data must be vector
   if (!m_UpdatePointData || m_NumberOfPointPixelComponents != m_PointDimension)
@@ -691,15 +691,15 @@ OBJMeshIO ::WritePointData(void * buffer)
 }
 
 void
-OBJMeshIO ::WriteCellData(void * itkNotUsed(buffer))
+OBJMeshIO::WriteCellData(void * itkNotUsed(buffer))
 {}
 
 void
-OBJMeshIO ::Write()
+OBJMeshIO::Write()
 {}
 
 void
-OBJMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+OBJMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

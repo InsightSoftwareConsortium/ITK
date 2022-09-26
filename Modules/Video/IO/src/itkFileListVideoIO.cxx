@@ -56,7 +56,7 @@ FileListVideoIO::SetFileName(const char * fileList)
 }
 
 std::vector<std::string>
-FileListVideoIO ::SplitFileNames(const std::string & fileList)
+FileListVideoIO::SplitFileNames(const std::string & fileList)
 {
   std::vector<std::string> out;
 
@@ -464,7 +464,7 @@ FileListVideoIO::ResetMembers()
 }
 
 bool
-FileListVideoIO ::VerifyExtensions(const std::vector<std::string> & fileList) const
+FileListVideoIO::VerifyExtensions(const std::vector<std::string> & fileList) const
 {
   for (size_t i = 1; i < fileList.size(); ++i)
   {

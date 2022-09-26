@@ -269,7 +269,7 @@ MRCImageIO::InternalReadImageInformation(std::ifstream & file)
 }
 
 void
-MRCImageIO ::Read(void * buffer)
+MRCImageIO::Read(void * buffer)
 {
   std::ifstream file;
 
@@ -469,7 +469,7 @@ MRCImageIO::WriteImageInformation(const void * buffer)
 }
 
 void
-MRCImageIO ::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
+MRCImageIO::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
 {
   // fixed types defined by header
   const MRCHeaderObject::Header & header = m_MRCHeader->GetHeader();
@@ -540,7 +540,7 @@ MRCImageIO ::UpdateHeaderWithMinMaxMean(const void * bufferBegin)
 }
 
 void
-MRCImageIO ::Write(const void * buffer)
+MRCImageIO::Write(const void * buffer)
 {
   if (this->RequestedToStream())
   {

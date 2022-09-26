@@ -701,7 +701,7 @@ JPEG2000ImageIO::CanWriteFile(const char * filename)
 }
 
 void
-JPEG2000ImageIO ::WriteImageInformation()
+JPEG2000ImageIO::WriteImageInformation()
 {
   itkDebugMacro(<< "WriteImageInformation()");
 
@@ -735,7 +735,7 @@ JPEG2000ImageIO ::WriteImageInformation()
  *
  */
 void
-JPEG2000ImageIO ::Write(const void * buffer)
+JPEG2000ImageIO::Write(const void * buffer)
 {
   itkDebugMacro(<< "Write() " << this->GetNumberOfComponents());
 
@@ -1064,7 +1064,7 @@ JPEG2000ImageIO::GetHeaderSize() const
  * smaller than the LargestPossibleRegion and greater or equal to the
 RequestedRegion */
 ImageIORegion
-JPEG2000ImageIO ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
+JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
 {
   itkDebugMacro(<< "JPEG2000ImageIO::GenerateStreamableReadRegionFromRequestedRegion()");
   itkDebugMacro(<< "Requested region = " << requestedRegion);
@@ -1090,9 +1090,9 @@ JPEG2000ImageIO ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIOR
 }
 
 void
-JPEG2000ImageIO ::ComputeRegionInTileBoundaries(unsigned int    dimension,
-                                                SizeValueType   tileSize,
-                                                ImageIORegion & streamableRegion) const
+JPEG2000ImageIO::ComputeRegionInTileBoundaries(unsigned int    dimension,
+                                               SizeValueType   tileSize,
+                                               ImageIORegion & streamableRegion) const
 {
   SizeValueType  requestedSize = streamableRegion.GetSize(dimension);
   IndexValueType requestedIndex = streamableRegion.GetIndex(dimension);
@@ -1121,7 +1121,7 @@ JPEG2000ImageIO ::ComputeRegionInTileBoundaries(unsigned int    dimension,
 }
 
 bool
-JPEG2000ImageIO ::CanStreamWrite()
+JPEG2000ImageIO::CanStreamWrite()
 {
   // we currently can't stream write for now...
   return false;

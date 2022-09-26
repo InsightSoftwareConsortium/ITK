@@ -19,7 +19,7 @@
 
 namespace itk
 {
-KLMSegmentationRegion ::KLMSegmentationRegion()
+KLMSegmentationRegion::KLMSegmentationRegion()
 {
   m_MeanRegionIntensity = 0;
 }

@@ -22,7 +22,7 @@ namespace itk
 {
 namespace fem
 {
-const double Element2DC0LinearTriangular ::trigGaussRuleInfo[6][7][4] = {
+const double Element2DC0LinearTriangular::trigGaussRuleInfo[6][7][4] = {
   { // order=0, never used
     { 0.0 } },
   { // order=1

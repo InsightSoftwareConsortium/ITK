@@ -52,7 +52,7 @@ private:
 /**
  * Constructor
  */
-LBFGSBOptimizer ::LBFGSBOptimizer()
+LBFGSBOptimizer::LBFGSBOptimizer()
 
 {
   m_LowerBound = InternalBoundValueType(0);
@@ -356,14 +356,14 @@ LBFGSBOptimizer::StartOptimization()
  */
 
 /** Create with a reference to the ITK object */
-LBFGSBOptimizerHelper ::LBFGSBOptimizerHelper(vnl_cost_function & f, LBFGSBOptimizer * const itkObj)
+LBFGSBOptimizerHelper::LBFGSBOptimizerHelper(vnl_cost_function & f, LBFGSBOptimizer * const itkObj)
   : vnl_lbfgsb(f)
   , m_ItkObj(itkObj)
 {}
 
 /** Handle new iteration event */
 bool
-LBFGSBOptimizerHelper ::report_iter()
+LBFGSBOptimizerHelper::report_iter()
 {
   Superclass::report_iter();
 

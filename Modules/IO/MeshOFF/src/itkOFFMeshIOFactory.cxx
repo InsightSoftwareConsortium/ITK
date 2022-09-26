@@ -27,7 +27,7 @@ void
 OFFMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
-OFFMeshIOFactory ::OFFMeshIOFactory()
+OFFMeshIOFactory::OFFMeshIOFactory()
 {
   this->RegisterOverride("itkMeshIOBase", "itkOFFMeshIO", "OFF Mesh IO", true, CreateObjectFunction<OFFMeshIO>::New());
 }
