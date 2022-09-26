@@ -293,7 +293,7 @@ IPLCommonImageIO::SortImageListByNameDescend()
  *
  */
 void
-IPLCommonImageIO ::WriteImageInformation()
+IPLCommonImageIO::WriteImageInformation()
 {
   RAISE_EXCEPTION();
 }
@@ -302,17 +302,13 @@ IPLCommonImageIO ::WriteImageInformation()
  *
  */
 void
-IPLCommonImageIO ::Write(const void *)
+IPLCommonImageIO::Write(const void *)
 {
   RAISE_EXCEPTION();
 }
 
 int
-IPLCommonImageIO ::GetStringAt(std::ifstream & f,
-                               std::streamoff  Offset,
-                               char *          buf,
-                               size_t          amount,
-                               bool            throw_exception)
+IPLCommonImageIO::GetStringAt(std::ifstream & f, std::streamoff Offset, char * buf, size_t amount, bool throw_exception)
 {
   f.seekg(Offset, std::ios::beg);
   if (f.fail())
@@ -341,7 +337,7 @@ IPLCommonImageIO ::GetStringAt(std::ifstream & f,
 }
 
 int
-IPLCommonImageIO ::GetIntAt(std::ifstream & f, std::streamoff Offset, int * ip, bool throw_exception)
+IPLCommonImageIO::GetIntAt(std::ifstream & f, std::streamoff Offset, int * ip, bool throw_exception)
 {
   int tmp;
 
@@ -357,7 +353,7 @@ IPLCommonImageIO ::GetIntAt(std::ifstream & f, std::streamoff Offset, int * ip, 
 }
 
 int
-IPLCommonImageIO ::GetShortAt(std::ifstream & f, std::streamoff Offset, short * ip, bool throw_exception)
+IPLCommonImageIO::GetShortAt(std::ifstream & f, std::streamoff Offset, short * ip, bool throw_exception)
 {
   short tmp;
 
@@ -373,7 +369,7 @@ IPLCommonImageIO ::GetShortAt(std::ifstream & f, std::streamoff Offset, short * 
 }
 
 int
-IPLCommonImageIO ::GetFloatAt(std::ifstream & f, std::streamoff Offset, float * ip, bool throw_exception)
+IPLCommonImageIO::GetFloatAt(std::ifstream & f, std::streamoff Offset, float * ip, bool throw_exception)
 {
   float tmp;
 
@@ -389,7 +385,7 @@ IPLCommonImageIO ::GetFloatAt(std::ifstream & f, std::streamoff Offset, float * 
 }
 
 int
-IPLCommonImageIO ::GetDoubleAt(std::ifstream & f, std::streamoff Offset, double * ip, bool throw_exception)
+IPLCommonImageIO::GetDoubleAt(std::ifstream & f, std::streamoff Offset, double * ip, bool throw_exception)
 {
   double tmp;
 
@@ -415,7 +411,7 @@ IPLCommonImageIO::hdr2Short(char * hdr)
 }
 
 int
-IPLCommonImageIO ::hdr2Int(char * hdr)
+IPLCommonImageIO::hdr2Int(char * hdr)
 {
   int intValue;
 
@@ -425,7 +421,7 @@ IPLCommonImageIO ::hdr2Int(char * hdr)
 }
 
 float
-IPLCommonImageIO ::hdr2Float(char * hdr)
+IPLCommonImageIO::hdr2Float(char * hdr)
 {
   float floatValue;
 
@@ -436,7 +432,7 @@ IPLCommonImageIO ::hdr2Float(char * hdr)
 }
 
 double
-IPLCommonImageIO ::hdr2Double(char * hdr)
+IPLCommonImageIO::hdr2Double(char * hdr)
 {
   double doubleValue;
 
@@ -447,15 +443,15 @@ IPLCommonImageIO ::hdr2Double(char * hdr)
 }
 
 int
-IPLCommonImageIO ::AddElementToList(char const * const filename,
-                                    const float        sliceLocation,
-                                    const int          offset,
-                                    const int          XDim,
-                                    const int          YDim,
-                                    const float        XRes,
-                                    const float        YRes,
-                                    const int          Key1,
-                                    const int          Key2)
+IPLCommonImageIO::AddElementToList(char const * const filename,
+                                   const float        sliceLocation,
+                                   const int          offset,
+                                   const int          XDim,
+                                   const int          YDim,
+                                   const float        XRes,
+                                   const float        YRes,
+                                   const int          Key1,
+                                   const int          Key2)
 {
   if (m_FilenameList->NumFiles() == 0)
   {
@@ -484,19 +480,19 @@ IPLCommonImageIO ::AddElementToList(char const * const filename,
 }
 
 void
-IPLCommonImageIO ::sortImageListAscend()
+IPLCommonImageIO::sortImageListAscend()
 {
   m_FilenameList->sortImageListAscend();
 }
 
 void
-IPLCommonImageIO ::sortImageListDescend()
+IPLCommonImageIO::sortImageListDescend()
 {
   m_FilenameList->sortImageListDescend();
 }
 
 int
-IPLCommonImageIO ::statTimeToAscii(void * clock, char * timeString, int len)
+IPLCommonImageIO::statTimeToAscii(void * clock, char * timeString, int len)
 {
 
   auto               tclock = (time_t) * ((int *)clock);

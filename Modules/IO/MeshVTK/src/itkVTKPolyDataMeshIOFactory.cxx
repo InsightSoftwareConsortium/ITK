@@ -29,7 +29,7 @@ VTKPolyDataMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
 
-VTKPolyDataMeshIOFactory ::VTKPolyDataMeshIOFactory()
+VTKPolyDataMeshIOFactory::VTKPolyDataMeshIOFactory()
 {
   this->RegisterOverride(
     "itkMeshIOBase", "itkVTKPolyDataMeshIO", "VTK Polydata IO", true, CreateObjectFunction<VTKPolyDataMeshIO>::New());

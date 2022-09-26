@@ -19,7 +19,7 @@
 
 namespace itk
 {
-SingleValuedVnlCostFunctionAdaptorv4 ::SingleValuedVnlCostFunctionAdaptorv4(unsigned int spaceDimension)
+SingleValuedVnlCostFunctionAdaptorv4::SingleValuedVnlCostFunctionAdaptorv4(unsigned int spaceDimension)
   : vnl_cost_function(spaceDimension)
 {
   m_ScalesInitialized = false;
@@ -29,14 +29,14 @@ SingleValuedVnlCostFunctionAdaptorv4 ::SingleValuedVnlCostFunctionAdaptorv4(unsi
 }
 
 void
-SingleValuedVnlCostFunctionAdaptorv4 ::SetScales(const ScalesType & scales)
+SingleValuedVnlCostFunctionAdaptorv4::SetScales(const ScalesType & scales)
 {
   m_Scales = scales;
   m_ScalesInitialized = true;
 }
 
 SingleValuedVnlCostFunctionAdaptorv4::InternalMeasureType
-SingleValuedVnlCostFunctionAdaptorv4 ::f(const InternalParametersType & inparameters)
+SingleValuedVnlCostFunctionAdaptorv4::f(const InternalParametersType & inparameters)
 {
   if (!m_ObjectMetric)
   {
@@ -69,8 +69,8 @@ SingleValuedVnlCostFunctionAdaptorv4 ::f(const InternalParametersType & inparame
 }
 
 void
-SingleValuedVnlCostFunctionAdaptorv4 ::gradf(const InternalParametersType & inparameters,
-                                             InternalDerivativeType &       gradient)
+SingleValuedVnlCostFunctionAdaptorv4::gradf(const InternalParametersType & inparameters,
+                                            InternalDerivativeType &       gradient)
 {
   if (!m_ObjectMetric)
   {
@@ -105,9 +105,9 @@ SingleValuedVnlCostFunctionAdaptorv4 ::gradf(const InternalParametersType & inpa
 }
 
 void
-SingleValuedVnlCostFunctionAdaptorv4 ::compute(const InternalParametersType & x,
-                                               InternalMeasureType *          fun,
-                                               InternalDerivativeType *       g)
+SingleValuedVnlCostFunctionAdaptorv4::compute(const InternalParametersType & x,
+                                              InternalMeasureType *          fun,
+                                              InternalDerivativeType *       g)
 {
   // delegate the computation to the ObjectMetric
   ParametersType parameters(x.size());
@@ -144,8 +144,8 @@ SingleValuedVnlCostFunctionAdaptorv4 ::compute(const InternalParametersType & x,
 }
 
 void
-SingleValuedVnlCostFunctionAdaptorv4 ::ConvertExternalToInternalGradient(const DerivativeType &   input,
-                                                                         InternalDerivativeType & output) const
+SingleValuedVnlCostFunctionAdaptorv4::ConvertExternalToInternalGradient(const DerivativeType &   input,
+                                                                        InternalDerivativeType & output) const
 {
   // Convert external derivative measures into internal type
   const unsigned int size = input.GetSize();
@@ -163,7 +163,7 @@ SingleValuedVnlCostFunctionAdaptorv4 ::ConvertExternalToInternalGradient(const D
 }
 
 void
-SingleValuedVnlCostFunctionAdaptorv4 ::ReportIteration(const EventObject & event) const
+SingleValuedVnlCostFunctionAdaptorv4::ReportIteration(const EventObject & event) const
 {
   // This method reports iterations events. It is intended to
   // help monitoring the progress of the optimization process.
@@ -171,7 +171,7 @@ SingleValuedVnlCostFunctionAdaptorv4 ::ReportIteration(const EventObject & event
 }
 
 unsigned long
-SingleValuedVnlCostFunctionAdaptorv4 ::AddObserver(const EventObject & event, Command * command) const
+SingleValuedVnlCostFunctionAdaptorv4::AddObserver(const EventObject & event, Command * command) const
 {
   // Connects a Command/Observer to the internal reporter class.
   // This is useful for reporting iteration event to potential observers.
@@ -179,7 +179,7 @@ SingleValuedVnlCostFunctionAdaptorv4 ::AddObserver(const EventObject & event, Co
 }
 
 const SingleValuedVnlCostFunctionAdaptorv4::ParametersType &
-SingleValuedVnlCostFunctionAdaptorv4 ::GetCachedCurrentParameters() const
+SingleValuedVnlCostFunctionAdaptorv4::GetCachedCurrentParameters() const
 {
   // Return the cached value of the parameters used for computing the function.
   return this->m_ObjectMetric->GetParameters();

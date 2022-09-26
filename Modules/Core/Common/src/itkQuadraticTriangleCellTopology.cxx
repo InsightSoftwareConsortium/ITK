@@ -22,7 +22,7 @@ namespace itk
 /**
  * The triangle's topology data: Edges
  */
-const int QuadraticTriangleCellTopology ::m_Edges[3][3] = { { 0, 4, 1 }, { 1, 5, 2 }, { 2, 3, 0 } };
+const int QuadraticTriangleCellTopology::m_Edges[3][3] = { { 0, 4, 1 }, { 1, 5, 2 }, { 2, 3, 0 } };
 
 QuadraticTriangleCellTopology::QuadraticTriangleCellTopology() = default;
 

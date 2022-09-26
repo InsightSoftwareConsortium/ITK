@@ -73,7 +73,7 @@ ChiSquareDistribution::GetDegreesOfFreedom() const
 }
 
 double
-ChiSquareDistribution ::PDF(double x, SizeValueType degreesOfFreedom)
+ChiSquareDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 {
   auto   dof = static_cast<double>(degreesOfFreedom);
   double dofon2 = 0.5 * dof;
@@ -88,7 +88,7 @@ ChiSquareDistribution ::PDF(double x, SizeValueType degreesOfFreedom)
 }
 
 double
-ChiSquareDistribution ::PDF(double x, const ParametersType & p)
+ChiSquareDistribution::PDF(double x, const ParametersType & p)
 {
   if (p.GetSize() != 1)
   {
@@ -99,7 +99,7 @@ ChiSquareDistribution ::PDF(double x, const ParametersType & p)
 }
 
 double
-ChiSquareDistribution ::CDF(double x, SizeValueType degreesOfFreedom)
+ChiSquareDistribution::CDF(double x, SizeValueType degreesOfFreedom)
 {
   // Based on Abramowitz and Stegun 26.4.19 which relates the
   // cumulative of the chi-square to incomplete (and complete) gamma
@@ -116,7 +116,7 @@ ChiSquareDistribution ::CDF(double x, SizeValueType degreesOfFreedom)
 }
 
 double
-ChiSquareDistribution ::CDF(double x, const ParametersType & p)
+ChiSquareDistribution::CDF(double x, const ParametersType & p)
 {
   if (p.GetSize() != 1)
   {

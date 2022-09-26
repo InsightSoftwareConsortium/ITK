@@ -22,7 +22,7 @@ namespace itk
 {
 
 
-AmoebaOptimizerv4 ::AmoebaOptimizerv4()
+AmoebaOptimizerv4::AmoebaOptimizerv4()
   : m_InitialSimplexDelta(1)
 {
   this->m_NumberOfIterations = 500;
@@ -42,14 +42,14 @@ AmoebaOptimizerv4::~AmoebaOptimizerv4()
 
 
 const std::string
-AmoebaOptimizerv4 ::GetStopConditionDescription() const
+AmoebaOptimizerv4::GetStopConditionDescription() const
 {
   return this->m_StopConditionDescription.str();
 }
 
 
 void
-AmoebaOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
+AmoebaOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "ParametersConvergenceTolerance: " << this->m_ParametersConvergenceTolerance << std::endl;
@@ -60,7 +60,7 @@ AmoebaOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 
 
 vnl_amoeba *
-AmoebaOptimizerv4 ::GetOptimizer() const
+AmoebaOptimizerv4::GetOptimizer() const
 {
   return this->m_VnlOptimizer;
 }
@@ -75,7 +75,7 @@ AmoebaOptimizerv4::SetInitialSimplexDelta(ParametersType initialSimplexDelta, bo
 
 
 void
-AmoebaOptimizerv4 ::SetMetric(MetricType * metric)
+AmoebaOptimizerv4::SetMetric(MetricType * metric)
 {
   this->m_Metric = metric;
 
@@ -114,7 +114,7 @@ AmoebaOptimizerv4 ::SetMetric(MetricType * metric)
 
 
 void
-AmoebaOptimizerv4 ::StartOptimization(bool /* doOnlyInitialization */)
+AmoebaOptimizerv4::StartOptimization(bool /* doOnlyInitialization */)
 {
   // Perform some verification, check scales,
   // pass settings to cost-function adaptor.
@@ -250,7 +250,7 @@ AmoebaOptimizerv4 ::StartOptimization(bool /* doOnlyInitialization */)
 
 
 void
-AmoebaOptimizerv4 ::ValidateSettings()
+AmoebaOptimizerv4::ValidateSettings()
 {
   // if we got here it is safe to get the number of parameters the cost
   // function expects

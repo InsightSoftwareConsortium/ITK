@@ -24,7 +24,7 @@ namespace itk
 /**
  * ************************* Constructor ************************
  */
-SPSAOptimizer ::SPSAOptimizer()
+SPSAOptimizer::SPSAOptimizer()
 
 {
   m_CurrentIteration = 0;

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-OFFMeshIO ::OFFMeshIO()
+OFFMeshIO::OFFMeshIO()
 {
   this->AddSupportedWriteExtension(".off");
   this->SetByteOrderToBigEndian();
@@ -34,7 +34,7 @@ OFFMeshIO ::OFFMeshIO()
 OFFMeshIO::~OFFMeshIO() = default;
 
 bool
-OFFMeshIO ::CanReadFile(const char * fileName)
+OFFMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -50,7 +50,7 @@ OFFMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-OFFMeshIO ::CanWriteFile(const char * fileName)
+OFFMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".off")
   {
@@ -61,7 +61,7 @@ OFFMeshIO ::CanWriteFile(const char * fileName)
 }
 
 void
-OFFMeshIO ::OpenFile()
+OFFMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
@@ -86,7 +86,7 @@ OFFMeshIO ::OpenFile()
 }
 
 void
-OFFMeshIO ::CloseFile()
+OFFMeshIO::CloseFile()
 {
   if (m_InputFile.is_open())
   {
@@ -95,7 +95,7 @@ OFFMeshIO ::CloseFile()
 }
 
 void
-OFFMeshIO ::ReadMeshInformation()
+OFFMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
   OpenFile();
@@ -260,7 +260,7 @@ OFFMeshIO ::ReadMeshInformation()
 }
 
 void
-OFFMeshIO ::ReadPoints(void * buffer)
+OFFMeshIO::ReadPoints(void * buffer)
 {
   // Set file position to points start position
   m_InputFile.seekg(m_PointsStartPosition, std::ios::beg);
@@ -282,7 +282,7 @@ OFFMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-OFFMeshIO ::ReadCells(void * buffer)
+OFFMeshIO::ReadCells(void * buffer)
 {
   const auto data = make_unique_for_overwrite<itk::uint32_t[]>(this->m_CellBufferSize - this->m_NumberOfCells);
 
@@ -314,15 +314,15 @@ OFFMeshIO ::ReadCells(void * buffer)
 }
 
 void
-OFFMeshIO ::ReadPointData(void * itkNotUsed(buffer))
+OFFMeshIO::ReadPointData(void * itkNotUsed(buffer))
 {}
 
 void
-OFFMeshIO ::ReadCellData(void * itkNotUsed(buffer))
+OFFMeshIO::ReadCellData(void * itkNotUsed(buffer))
 {}
 
 void
-OFFMeshIO ::WriteMeshInformation()
+OFFMeshIO::WriteMeshInformation()
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -383,7 +383,7 @@ OFFMeshIO ::WriteMeshInformation()
 }
 
 void
-OFFMeshIO ::WritePoints(void * buffer)
+OFFMeshIO::WritePoints(void * buffer)
 {
   // check file name
   if (this->m_FileName.empty())
@@ -594,7 +594,7 @@ OFFMeshIO ::WritePoints(void * buffer)
 }
 
 void
-OFFMeshIO ::WriteCells(void * buffer)
+OFFMeshIO::WriteCells(void * buffer)
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -802,19 +802,19 @@ OFFMeshIO ::WriteCells(void * buffer)
 }
 
 void
-OFFMeshIO ::WritePointData(void * itkNotUsed(buffer))
+OFFMeshIO::WritePointData(void * itkNotUsed(buffer))
 {}
 
 void
-OFFMeshIO ::WriteCellData(void * itkNotUsed(buffer))
+OFFMeshIO::WriteCellData(void * itkNotUsed(buffer))
 {}
 
 void
-OFFMeshIO ::Write()
+OFFMeshIO::Write()
 {}
 
 void
-OFFMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+OFFMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

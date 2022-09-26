@@ -622,7 +622,7 @@ VoxBoCUBImageIO::ReadImageInformation()
 }
 
 void
-VoxBoCUBImageIO ::WriteImageInformation()
+VoxBoCUBImageIO::WriteImageInformation()
 {
   if (m_Writer == nullptr)
   {
@@ -738,7 +738,7 @@ VoxBoCUBImageIO ::WriteImageInformation()
 
 /** The write function is not implemented */
 void
-VoxBoCUBImageIO ::Write(const void * buffer)
+VoxBoCUBImageIO::Write(const void * buffer)
 {
   m_Writer = CreateWriter(m_FileName.c_str());
   WriteImageInformation();
@@ -786,7 +786,7 @@ VoxBoCUBImageIO::CheckExtension(const char * filename, bool & isCompressed)
 }
 
 void
-VoxBoCUBImageIO ::InitializeOrientationMap()
+VoxBoCUBImageIO::InitializeOrientationMap()
 {
   m_OrientationMap["RIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_RIP;
   m_OrientationMap["LIP"] = SpatialOrientationEnums::ValidCoordinateOrientations::ITK_COORDINATE_ORIENTATION_LIP;
@@ -845,7 +845,7 @@ VoxBoCUBImageIO ::InitializeOrientationMap()
 }
 
 void
-VoxBoCUBImageIO ::SwapBytesIfNecessary(void * buffer, BufferSizeType numberOfBytes)
+VoxBoCUBImageIO::SwapBytesIfNecessary(void * buffer, BufferSizeType numberOfBytes)
 {
   if (m_ComponentType == IOComponentEnum::CHAR)
   {

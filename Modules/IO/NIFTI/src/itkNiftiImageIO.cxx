@@ -422,7 +422,7 @@ SymMatDim(int count)
 }
 
 ImageIORegion
-NiftiImageIO ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
+NiftiImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
 {
   return requestedRegion;
 }
@@ -468,7 +468,7 @@ NiftiImageIO::~NiftiImageIO()
 }
 
 void
-NiftiImageIO ::PrintSelf(std::ostream & os, Indent indent) const
+NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -481,7 +481,7 @@ NiftiImageIO ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 bool
-NiftiImageIO ::CanWriteFile(const char * FileNameToWrite)
+NiftiImageIO::CanWriteFile(const char * FileNameToWrite)
 {
   const bool ValidFileNameFound = nifti_is_complete_filename(FileNameToWrite) > 0;
 
@@ -810,7 +810,7 @@ NiftiImageIO::DetermineFileType(const char * FileNameToRead)
 // Nifti Header.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation
 bool
-NiftiImageIO ::CanReadFile(const char * FileNameToRead)
+NiftiImageIO::CanReadFile(const char * FileNameToRead)
 {
   // is_nifti_file returns
   //      == 2 for a nifti file (header+data in 2 files)
@@ -1006,7 +1006,7 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
 }
 
 void
-NiftiImageIO ::ReadImageInformation()
+NiftiImageIO::ReadImageInformation()
 {
   const int image_FTYPE = is_nifti_file(this->GetFileName());
   if (image_FTYPE == 0)
@@ -1388,7 +1388,7 @@ mat44_transpose(const mat44 & in)
 } // namespace
 
 void
-NiftiImageIO ::WriteImageInformation()
+NiftiImageIO::WriteImageInformation()
 {
   //
   //
@@ -2213,7 +2213,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
 }
 
 void
-NiftiImageIO ::Write(const void * buffer)
+NiftiImageIO::Write(const void * buffer)
 {
   // Write the image Information before writing data
   this->WriteImageInformation();

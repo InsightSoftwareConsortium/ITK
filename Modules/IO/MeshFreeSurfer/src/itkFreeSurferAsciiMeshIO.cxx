@@ -23,7 +23,7 @@
 
 namespace itk
 {
-FreeSurferAsciiMeshIO ::FreeSurferAsciiMeshIO()
+FreeSurferAsciiMeshIO::FreeSurferAsciiMeshIO()
 {
   this->AddSupportedWriteExtension(".fsa");
 }
@@ -31,7 +31,7 @@ FreeSurferAsciiMeshIO ::FreeSurferAsciiMeshIO()
 FreeSurferAsciiMeshIO::~FreeSurferAsciiMeshIO() = default;
 
 bool
-FreeSurferAsciiMeshIO ::CanReadFile(const char * fileName)
+FreeSurferAsciiMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -47,7 +47,7 @@ FreeSurferAsciiMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-FreeSurferAsciiMeshIO ::CanWriteFile(const char * fileName)
+FreeSurferAsciiMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".fsa")
   {
@@ -58,7 +58,7 @@ FreeSurferAsciiMeshIO ::CanWriteFile(const char * fileName)
 }
 
 void
-FreeSurferAsciiMeshIO ::OpenFile()
+FreeSurferAsciiMeshIO::OpenFile()
 {
   if (this->m_FileName.empty())
   {
@@ -79,7 +79,7 @@ FreeSurferAsciiMeshIO ::OpenFile()
 }
 
 void
-FreeSurferAsciiMeshIO ::CloseFile()
+FreeSurferAsciiMeshIO::CloseFile()
 {
   if (m_InputFile.is_open())
   {
@@ -88,7 +88,7 @@ FreeSurferAsciiMeshIO ::CloseFile()
 }
 
 void
-FreeSurferAsciiMeshIO ::ReadMeshInformation()
+FreeSurferAsciiMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
   OpenFile();
@@ -140,7 +140,7 @@ FreeSurferAsciiMeshIO ::ReadMeshInformation()
 }
 
 void
-FreeSurferAsciiMeshIO ::ReadPoints(void * buffer)
+FreeSurferAsciiMeshIO::ReadPoints(void * buffer)
 {
   // Number of data array
   auto * data = static_cast<float *>(buffer);
@@ -161,7 +161,7 @@ FreeSurferAsciiMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-FreeSurferAsciiMeshIO ::ReadCells(void * buffer)
+FreeSurferAsciiMeshIO::ReadCells(void * buffer)
 {
   // Get cell buffer
   m_InputFile.precision(12);
@@ -186,15 +186,15 @@ FreeSurferAsciiMeshIO ::ReadCells(void * buffer)
 }
 
 void
-FreeSurferAsciiMeshIO ::ReadPointData(void * itkNotUsed(buffer))
+FreeSurferAsciiMeshIO::ReadPointData(void * itkNotUsed(buffer))
 {}
 
 void
-FreeSurferAsciiMeshIO ::ReadCellData(void * itkNotUsed(buffer))
+FreeSurferAsciiMeshIO::ReadCellData(void * itkNotUsed(buffer))
 {}
 
 void
-FreeSurferAsciiMeshIO ::WriteMeshInformation()
+FreeSurferAsciiMeshIO::WriteMeshInformation()
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -222,7 +222,7 @@ FreeSurferAsciiMeshIO ::WriteMeshInformation()
 }
 
 void
-FreeSurferAsciiMeshIO ::WritePoints(void * buffer)
+FreeSurferAsciiMeshIO::WritePoints(void * buffer)
 {
   // check file name
   if (this->m_FileName.empty())
@@ -333,7 +333,7 @@ FreeSurferAsciiMeshIO ::WritePoints(void * buffer)
 }
 
 void
-FreeSurferAsciiMeshIO ::WriteCells(void * buffer)
+FreeSurferAsciiMeshIO::WriteCells(void * buffer)
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -432,19 +432,19 @@ FreeSurferAsciiMeshIO ::WriteCells(void * buffer)
 }
 
 void
-FreeSurferAsciiMeshIO ::WritePointData(void * itkNotUsed(buffer))
+FreeSurferAsciiMeshIO::WritePointData(void * itkNotUsed(buffer))
 {}
 
 void
-FreeSurferAsciiMeshIO ::WriteCellData(void * itkNotUsed(buffer))
+FreeSurferAsciiMeshIO::WriteCellData(void * itkNotUsed(buffer))
 {}
 
 void
-FreeSurferAsciiMeshIO ::Write()
+FreeSurferAsciiMeshIO::Write()
 {}
 
 void
-FreeSurferAsciiMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+FreeSurferAsciiMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 }

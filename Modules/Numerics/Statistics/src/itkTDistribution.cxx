@@ -30,7 +30,7 @@ namespace itk
 {
 namespace Statistics
 {
-TDistribution ::TDistribution()
+TDistribution::TDistribution()
 {
   m_Parameters = ParametersType(1);
   m_Parameters[0] = 1.0;
@@ -74,7 +74,7 @@ TDistribution::GetDegreesOfFreedom() const
 }
 
 double
-TDistribution ::PDF(double x, SizeValueType degreesOfFreedom)
+TDistribution::PDF(double x, SizeValueType degreesOfFreedom)
 {
   auto   dof = static_cast<double>(degreesOfFreedom);
   double dofplusoneon2 = 0.5 * (dof + 1.0);
@@ -88,7 +88,7 @@ TDistribution ::PDF(double x, SizeValueType degreesOfFreedom)
 }
 
 double
-TDistribution ::PDF(double x, const ParametersType & p)
+TDistribution::PDF(double x, const ParametersType & p)
 {
   if (p.GetSize() != 1)
   {
@@ -99,7 +99,7 @@ TDistribution ::PDF(double x, const ParametersType & p)
 }
 
 double
-TDistribution ::CDF(double x, SizeValueType degreesOfFreedom)
+TDistribution::CDF(double x, SizeValueType degreesOfFreedom)
 {
   double bx;
   double pin, qin;
@@ -145,7 +145,7 @@ TDistribution ::CDF(double x, SizeValueType degreesOfFreedom)
 }
 
 double
-TDistribution ::CDF(double x, const ParametersType & p)
+TDistribution::CDF(double x, const ParametersType & p)
 {
   if (p.GetSize() != 1)
   {

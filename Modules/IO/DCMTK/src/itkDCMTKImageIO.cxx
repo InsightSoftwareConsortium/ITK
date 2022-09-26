@@ -65,7 +65,7 @@ DCMTKImageIO::DCMTKImageIO()
 }
 
 void
-DCMTKImageIO ::SetLogLevel(LogLevelEnum level)
+DCMTKImageIO::SetLogLevel(LogLevelEnum level)
 {
   switch (level)
   {
@@ -96,7 +96,7 @@ DCMTKImageIO ::SetLogLevel(LogLevelEnum level)
 }
 
 DCMTKImageIO::LogLevelEnum
-DCMTKImageIO ::GetLogLevel() const
+DCMTKImageIO::GetLogLevel() const
 {
   dcmtk::log4cplus::Logger rootLogger = dcmtk::log4cplus::Logger::getRoot();
   switch (rootLogger.getLogLevel())
@@ -247,7 +247,7 @@ DCMTKImageIO::CanWriteFile(const char * itkNotUsed(name))
 }
 
 void
-DCMTKImageIO ::OpenDicomImage()
+DCMTKImageIO::OpenDicomImage()
 {
   if (this->m_DImage != nullptr)
   {
@@ -271,7 +271,7 @@ DCMTKImageIO ::OpenDicomImage()
 
 //------------------------------------------------------------------------------
 void
-DCMTKImageIO ::Read(void * buffer)
+DCMTKImageIO::Read(void * buffer)
 {
   this->OpenDicomImage();
   if (m_DImage->getStatus() != EIS_Normal)
@@ -307,7 +307,7 @@ DCMTKImageIO ::Read(void * buffer)
 }
 
 void
-DCMTKImageIO ::ReorderRGBValues(void * buffer, const void * data, size_t count, unsigned int voxel_size)
+DCMTKImageIO::ReorderRGBValues(void * buffer, const void * data, size_t count, unsigned int voxel_size)
 {
   switch (this->m_ComponentType)
   {
@@ -510,12 +510,12 @@ DCMTKImageIO::ReadImageInformation()
 }
 
 void
-DCMTKImageIO ::WriteImageInformation()
+DCMTKImageIO::WriteImageInformation()
 {}
 
 /** */
 void
-DCMTKImageIO ::Write(const void * buffer)
+DCMTKImageIO::Write(const void * buffer)
 {
   (void)(buffer);
 }

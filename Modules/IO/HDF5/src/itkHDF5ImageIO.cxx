@@ -50,7 +50,7 @@ HDF5ImageIO::~HDF5ImageIO()
 }
 
 void
-HDF5ImageIO ::PrintSelf(std::ostream & os, Indent indent) const
+HDF5ImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   // just prints out the pointer value.
@@ -262,7 +262,7 @@ doesAttrExist(const H5::H5Object & object, const char * const name)
 } // namespace
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const bool value)
+HDF5ImageIO::WriteScalar(const std::string & path, const bool value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -284,7 +284,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const bool value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const long value)
+HDF5ImageIO::WriteScalar(const std::string & path, const long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -307,7 +307,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const long value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long value)
+HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -330,7 +330,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const long long value)
+HDF5ImageIO::WriteScalar(const std::string & path, const long long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -352,7 +352,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const long long value)
 }
 
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long long value)
+HDF5ImageIO::WriteScalar(const std::string & path, const unsigned long long value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -375,7 +375,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const unsigned long long val
 
 template <typename TScalar>
 void
-HDF5ImageIO ::WriteScalar(const std::string & path, const TScalar & value)
+HDF5ImageIO::WriteScalar(const std::string & path, const TScalar & value)
 {
   hsize_t       numScalars(1);
   H5::DataSpace scalarSpace(1, &numScalars);
@@ -387,7 +387,7 @@ HDF5ImageIO ::WriteScalar(const std::string & path, const TScalar & value)
 
 template <typename TScalar>
 TScalar
-HDF5ImageIO ::ReadScalar(const std::string & DataSetName)
+HDF5ImageIO::ReadScalar(const std::string & DataSetName)
 {
   hsize_t       dim[1];
   H5::DataSet   scalarSet = this->m_H5File->openDataSet(DataSetName);
@@ -413,7 +413,7 @@ HDF5ImageIO ::ReadScalar(const std::string & DataSetName)
 
 
 void
-HDF5ImageIO ::WriteString(const std::string & path, const std::string & value)
+HDF5ImageIO::WriteString(const std::string & path, const std::string & value)
 {
   hsize_t       numStrings(1);
   H5::DataSpace strSpace(1, &numStrings);
@@ -424,14 +424,14 @@ HDF5ImageIO ::WriteString(const std::string & path, const std::string & value)
 }
 
 void
-HDF5ImageIO ::WriteString(const std::string & path, const char * s)
+HDF5ImageIO::WriteString(const std::string & path, const char * s)
 {
   std::string _s(s);
   WriteString(path, _s);
 }
 
 std::string
-HDF5ImageIO ::ReadString(const std::string & path)
+HDF5ImageIO::ReadString(const std::string & path)
 {
   std::string   rval;
   hsize_t       numStrings(1);
@@ -445,7 +445,7 @@ HDF5ImageIO ::ReadString(const std::string & path)
 
 template <typename TScalar>
 void
-HDF5ImageIO ::WriteVector(const std::string & path, const std::vector<TScalar> & vec)
+HDF5ImageIO::WriteVector(const std::string & path, const std::vector<TScalar> & vec)
 {
   hsize_t       dim(vec.size());
   H5::DataSpace vecSpace(1, &dim);
@@ -457,7 +457,7 @@ HDF5ImageIO ::WriteVector(const std::string & path, const std::vector<TScalar> &
 
 template <typename TScalar>
 std::vector<TScalar>
-HDF5ImageIO ::ReadVector(const std::string & DataSetName)
+HDF5ImageIO::ReadVector(const std::string & DataSetName)
 {
   std::vector<TScalar> vec;
   hsize_t              dim[1];
@@ -478,7 +478,7 @@ HDF5ImageIO ::ReadVector(const std::string & DataSetName)
 }
 
 void
-HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::vector<double>> & dir)
+HDF5ImageIO::WriteDirections(const std::string & path, const std::vector<std::vector<double>> & dir)
 {
   hsize_t dim[2];
   dim[1] = dir.size();
@@ -501,7 +501,7 @@ HDF5ImageIO ::WriteDirections(const std::string & path, const std::vector<std::v
 }
 
 std::vector<std::vector<double>>
-HDF5ImageIO ::ReadDirections(const std::string & path)
+HDF5ImageIO::ReadDirections(const std::string & path)
 {
   std::vector<std::vector<double>> rval;
   H5::DataSet                      dirSet = this->m_H5File->openDataSet(path);
@@ -553,10 +553,10 @@ HDF5ImageIO ::ReadDirections(const std::string & path)
 
 template <typename TType>
 void
-HDF5ImageIO ::StoreMetaData(MetaDataDictionary * metaDict,
-                            const std::string &  HDFPath,
-                            const std::string &  name,
-                            unsigned long        numElements)
+HDF5ImageIO::StoreMetaData(MetaDataDictionary * metaDict,
+                           const std::string &  HDFPath,
+                           const std::string &  name,
+                           unsigned long        numElements)
 {
   if (numElements == 1)
   {
@@ -579,7 +579,7 @@ HDF5ImageIO ::StoreMetaData(MetaDataDictionary * metaDict,
 }
 
 bool
-HDF5ImageIO ::CanWriteFile(const char * name)
+HDF5ImageIO::CanWriteFile(const char * name)
 {
   return this->HasSupportedWriteExtension(name);
 }
@@ -588,7 +588,7 @@ HDF5ImageIO ::CanWriteFile(const char * name)
 // HDF5 Header.  Some code is redundant with ReadImageInformation
 // a StateMachine could provide a better implementation
 bool
-HDF5ImageIO ::CanReadFile(const char * FileNameToRead)
+HDF5ImageIO::CanReadFile(const char * FileNameToRead)
 {
   // HDF5 is overly verbose in complaining that
   //     a file does not exist.
@@ -632,7 +632,7 @@ HDF5ImageIO ::CanReadFile(const char * FileNameToRead)
 }
 
 void
-HDF5ImageIO ::ResetToInitialState()
+HDF5ImageIO::ResetToInitialState()
 {
   // close the H5 File
   {
@@ -661,7 +661,7 @@ HDF5ImageIO ::ResetToInitialState()
 }
 
 void
-HDF5ImageIO ::ReadImageInformation()
+HDF5ImageIO::ReadImageInformation()
 {
   try
   {
@@ -916,7 +916,7 @@ HDF5ImageIO ::ReadImageInformation()
 }
 
 void
-HDF5ImageIO ::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpace)
+HDF5ImageIO::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpace)
 {
   ImageIORegion            regionToRead = this->GetIORegion();
   ImageIORegion::SizeType  size = regionToRead.GetSize();
@@ -958,7 +958,7 @@ HDF5ImageIO ::SetupStreaming(H5::DataSpace * imageSpace, H5::DataSpace * slabSpa
 }
 
 void
-HDF5ImageIO ::Read(void * buffer)
+HDF5ImageIO::Read(void * buffer)
 {
   ImageIORegion            regionToRead = this->GetIORegion();
   ImageIORegion::SizeType  size = regionToRead.GetSize();
@@ -974,7 +974,7 @@ HDF5ImageIO ::Read(void * buffer)
 
 template <typename TType>
 bool
-HDF5ImageIO ::WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBase)
+HDF5ImageIO::WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
   auto * metaObj = dynamic_cast<MetaDataObject<TType> *>(metaObjBase);
   if (metaObj == nullptr)
@@ -988,7 +988,7 @@ HDF5ImageIO ::WriteMeta(const std::string & name, MetaDataObjectBase * metaObjBa
 
 template <typename TType>
 bool
-HDF5ImageIO ::WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObjBase)
+HDF5ImageIO::WriteMetaArray(const std::string & name, MetaDataObjectBase * metaObjBase)
 {
   using MetaDataArrayObject = MetaDataObject<Array<TType>>;
   auto * metaObj = dynamic_cast<MetaDataArrayObject *>(metaObjBase);
@@ -1010,7 +1010,7 @@ HDF5ImageIO ::WriteMetaArray(const std::string & name, MetaDataObjectBase * meta
  * appropriate header information.
  */
 void
-HDF5ImageIO ::WriteImageInformation()
+HDF5ImageIO::WriteImageInformation()
 {
   //
   // guard so that image information is only written once
@@ -1270,7 +1270,7 @@ HDF5ImageIO ::WriteImageInformation()
  * Write the image Information before writing data
  */
 void
-HDF5ImageIO ::Write(const void * buffer)
+HDF5ImageIO::Write(const void * buffer)
 {
   this->WriteImageInformation();
   try
@@ -1329,7 +1329,7 @@ HDF5ImageIO ::Write(const void * buffer)
 //
 // GetHeaderSize -- return 0
 ImageIOBase::SizeType
-HDF5ImageIO ::GetHeaderSize() const
+HDF5ImageIO::GetHeaderSize() const
 {
   return 0;
 }

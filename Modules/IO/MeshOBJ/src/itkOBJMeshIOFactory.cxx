@@ -27,7 +27,7 @@ void
 OBJMeshIOFactory::PrintSelf(std::ostream &, Indent) const
 {}
 
-OBJMeshIOFactory ::OBJMeshIOFactory()
+OBJMeshIOFactory::OBJMeshIOFactory()
 {
   this->RegisterOverride("itkMeshIOBase", "itkOBJMeshIO", "OBJ Mesh IO", true, CreateObjectFunction<OBJMeshIO>::New());
 }

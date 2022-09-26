@@ -53,7 +53,7 @@ SingleValuedVnlCostFunctionAdaptor::SetScales(const ScalesType & scales)
 
 /**  Delegate computation of the value to the CostFunction. */
 SingleValuedVnlCostFunctionAdaptor::InternalMeasureType
-SingleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparameters)
+SingleValuedVnlCostFunctionAdaptor::f(const InternalParametersType & inparameters)
 {
   if (!m_CostFunction)
   {
@@ -94,8 +94,8 @@ SingleValuedVnlCostFunctionAdaptor ::f(const InternalParametersType & inparamete
 
 /**  Delegate computation of the gradient to the costfunction.  */
 void
-SingleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inparameters,
-                                           InternalDerivativeType &       gradient)
+SingleValuedVnlCostFunctionAdaptor::gradf(const InternalParametersType & inparameters,
+                                          InternalDerivativeType &       gradient)
 {
   if (!m_CostFunction)
   {
@@ -130,9 +130,9 @@ SingleValuedVnlCostFunctionAdaptor ::gradf(const InternalParametersType & inpara
 
 /**  Delegate computation of value and gradient to the costfunction.     */
 void
-SingleValuedVnlCostFunctionAdaptor ::compute(const InternalParametersType & x,
-                                             InternalMeasureType *          fun,
-                                             InternalDerivativeType *       g)
+SingleValuedVnlCostFunctionAdaptor::compute(const InternalParametersType & x,
+                                            InternalMeasureType *          fun,
+                                            InternalDerivativeType *       g)
 {
   // delegate the computation to the CostFunction
   ParametersType parameters(x.size());

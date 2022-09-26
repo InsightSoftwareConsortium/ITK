@@ -22,7 +22,7 @@ namespace itk
 {
 const double FRPR_TINY = 1e-20;
 
-FRPROptimizer ::FRPROptimizer()
+FRPROptimizer::FRPROptimizer()
 {
   m_UseUnitLengthGradient = false;
   m_OptimizationType = OptimizationEnum::PolakRibiere;

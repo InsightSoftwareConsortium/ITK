@@ -41,7 +41,7 @@ GE5ImageIO::~GE5ImageIO()
 }
 
 int
-GE5ImageIO ::CheckGE5xImages(char const * const imageFileTemplate, std::string & reason)
+GE5ImageIO::CheckGE5xImages(char const * const imageFileTemplate, std::string & reason)
 {
   //
   // Does it exist?

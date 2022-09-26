@@ -26,7 +26,7 @@ namespace itk
 {
 namespace fem
 {
-const Element3DC0LinearTriangular::Float Element3DC0LinearTriangular ::trigGaussRuleInfo[6][7][4] = {
+const Element3DC0LinearTriangular::Float Element3DC0LinearTriangular::trigGaussRuleInfo[6][7][4] = {
   { // order=0, never used
     { 0.0 } },
   { // order=1

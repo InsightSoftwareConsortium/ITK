@@ -21,13 +21,13 @@
 namespace itk
 {
 ChainCodePath2D::OutputType
-ChainCodePath2D ::Evaluate(const InputType & input) const
+ChainCodePath2D::Evaluate(const InputType & input) const
 {
   return DecodeOffset(m_Chain2D[input]);
 }
 
 ChainCodePath2D::IndexType
-ChainCodePath2D ::EvaluateToIndex(const InputType & input) const
+ChainCodePath2D::EvaluateToIndex(const InputType & input) const
 {
   IndexType index = GetStart();
 
@@ -41,7 +41,7 @@ ChainCodePath2D ::EvaluateToIndex(const InputType & input) const
 }
 
 ChainCodePath2D::OffsetType
-ChainCodePath2D ::IncrementInput(InputType & input) const
+ChainCodePath2D::IncrementInput(InputType & input) const
 {
   if (input < NumberOfSteps())
   {
@@ -54,7 +54,7 @@ ChainCodePath2D ::IncrementInput(InputType & input) const
 }
 
 std::string
-ChainCodePath2D ::GetChainCodeAsString() const
+ChainCodePath2D::GetChainCodeAsString() const
 {
   std::string printableChain;
 
@@ -72,7 +72,7 @@ ChainCodePath2D ::GetChainCodeAsString() const
 }
 
 /** Constructor */
-ChainCodePath2D ::ChainCodePath2D()
+ChainCodePath2D::ChainCodePath2D()
 {
   // Most of the work is done in the parent constructor.
 
@@ -129,7 +129,7 @@ ChainCodePath2D::~ChainCodePath2D() = default;
 
 /** Standard "PrintSelf" method */
 void
-ChainCodePath2D ::PrintSelf(std::ostream & os, Indent indent) const
+ChainCodePath2D::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << indent << "Chain code 2D:  " << GetChainCodeAsString() << std::endl;

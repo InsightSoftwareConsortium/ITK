@@ -22,7 +22,7 @@
 
 namespace itk
 {
-BYUMeshIO ::BYUMeshIO()
+BYUMeshIO::BYUMeshIO()
   : m_PartId(NumericTraits<SizeValueType>::max())
   , m_FirstCellId(NumericTraits<SizeValueType>::OneValue())
   , m_LastCellId(NumericTraits<SizeValueType>::max())
@@ -33,7 +33,7 @@ BYUMeshIO ::BYUMeshIO()
 BYUMeshIO::~BYUMeshIO() = default;
 
 bool
-BYUMeshIO ::CanReadFile(const char * fileName)
+BYUMeshIO::CanReadFile(const char * fileName)
 {
   if (!itksys::SystemTools::FileExists(fileName, true))
   {
@@ -49,7 +49,7 @@ BYUMeshIO ::CanReadFile(const char * fileName)
 }
 
 bool
-BYUMeshIO ::CanWriteFile(const char * fileName)
+BYUMeshIO::CanWriteFile(const char * fileName)
 {
   if (itksys::SystemTools::GetFilenameLastExtension(fileName) != ".byu")
   {
@@ -60,7 +60,7 @@ BYUMeshIO ::CanWriteFile(const char * fileName)
 }
 
 void
-BYUMeshIO ::ReadMeshInformation()
+BYUMeshIO::ReadMeshInformation()
 {
   // Define input file stream and attach it to input file
   std::ifstream inputFile;
@@ -178,7 +178,7 @@ BYUMeshIO ::ReadMeshInformation()
 }
 
 void
-BYUMeshIO ::ReadPoints(void * buffer)
+BYUMeshIO::ReadPoints(void * buffer)
 {
   // Define input file stream and attach it to input file
   std::ifstream inputFile;
@@ -216,7 +216,7 @@ BYUMeshIO ::ReadPoints(void * buffer)
 }
 
 void
-BYUMeshIO ::ReadCells(void * buffer)
+BYUMeshIO::ReadCells(void * buffer)
 {
   // Define input file stream and attach it to input file
   std::ifstream inputFile;
@@ -270,15 +270,15 @@ BYUMeshIO ::ReadCells(void * buffer)
 }
 
 void
-BYUMeshIO ::ReadPointData(void * itkNotUsed(buffer))
+BYUMeshIO::ReadPointData(void * itkNotUsed(buffer))
 {}
 
 void
-BYUMeshIO ::ReadCellData(void * itkNotUsed(buffer))
+BYUMeshIO::ReadCellData(void * itkNotUsed(buffer))
 {}
 
 void
-BYUMeshIO ::WriteMeshInformation()
+BYUMeshIO::WriteMeshInformation()
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -309,7 +309,7 @@ BYUMeshIO ::WriteMeshInformation()
 }
 
 void
-BYUMeshIO ::WritePoints(void * buffer)
+BYUMeshIO::WritePoints(void * buffer)
 {
   // check file name
   if (this->m_FileName.empty())
@@ -417,7 +417,7 @@ BYUMeshIO ::WritePoints(void * buffer)
 }
 
 void
-BYUMeshIO ::WriteCells(void * buffer)
+BYUMeshIO::WriteCells(void * buffer)
 {
   // Check file name
   if (this->m_FileName.empty())
@@ -513,19 +513,19 @@ BYUMeshIO ::WriteCells(void * buffer)
 }
 
 void
-BYUMeshIO ::WritePointData(void * itkNotUsed(buffer))
+BYUMeshIO::WritePointData(void * itkNotUsed(buffer))
 {}
 
 void
-BYUMeshIO ::WriteCellData(void * itkNotUsed(buffer))
+BYUMeshIO::WriteCellData(void * itkNotUsed(buffer))
 {}
 
 void
-BYUMeshIO ::Write()
+BYUMeshIO::Write()
 {}
 
 void
-BYUMeshIO ::PrintSelf(std::ostream & os, Indent indent) const
+BYUMeshIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 

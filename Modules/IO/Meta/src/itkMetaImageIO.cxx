@@ -509,7 +509,7 @@ MetaImageIO::CanWriteFile(const char * name)
 }
 
 void
-MetaImageIO ::WriteImageInformation()
+MetaImageIO::WriteImageInformation()
 {
 
   MetaDataDictionary & metaDict = this->GetMetaDataDictionary();
@@ -665,7 +665,7 @@ MetaImageIO ::WriteImageInformation()
  *
  */
 void
-MetaImageIO ::Write(const void * buffer)
+MetaImageIO::Write(const void * buffer)
 {
   const unsigned int numberOfDimensions = this->GetNumberOfDimensions();
 
@@ -1111,7 +1111,7 @@ MetaImageIO ::Write(const void * buffer)
  * smaller than the LargestPossibleRegion and greater or equal to the
  * RequestedRegion */
 ImageIORegion
-MetaImageIO ::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
+MetaImageIO::GenerateStreamableReadRegionFromRequestedRegion(const ImageIORegion & requestedRegion) const
 {
   //
   // The default implementations determines that the streamable region is

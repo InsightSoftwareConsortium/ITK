@@ -42,13 +42,13 @@ protected:
 };
 
 /** Create with a reference to the ITK object */
-LBFGSBOptimizerHelperv4 ::LBFGSBOptimizerHelperv4(vnl_cost_function & f, LBFGSBOptimizerv4 * const itkObj)
+LBFGSBOptimizerHelperv4::LBFGSBOptimizerHelperv4(vnl_cost_function & f, LBFGSBOptimizerv4 * const itkObj)
   : Superclass::LBFGSOptimizerBaseHelperv4(f, itkObj)
 {}
 
 /** Handle new iteration event */
 bool
-LBFGSBOptimizerHelperv4 ::report_iter()
+LBFGSBOptimizerHelperv4::report_iter()
 {
   const bool ret = Superclass::report_iter();
   m_ItkObj->m_InfinityNormOfProjectedGradient = this->get_inf_norm_projected_gradient();
@@ -56,7 +56,7 @@ LBFGSBOptimizerHelperv4 ::report_iter()
 }
 //-------------------------------------------------------------------------
 
-LBFGSBOptimizerv4 ::LBFGSBOptimizerv4()
+LBFGSBOptimizerv4::LBFGSBOptimizerv4()
   : m_InitialPosition(0)
   , m_LowerBound(0)
   , m_UpperBound(0)
@@ -66,7 +66,7 @@ LBFGSBOptimizerv4 ::LBFGSBOptimizerv4()
 LBFGSBOptimizerv4::~LBFGSBOptimizerv4() = default;
 
 void
-LBFGSBOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
+LBFGSBOptimizerv4::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
@@ -93,7 +93,7 @@ LBFGSBOptimizerv4 ::PrintSelf(std::ostream & os, Indent indent) const
 }
 
 void
-LBFGSBOptimizerv4 ::SetScales(const ScalesType &)
+LBFGSBOptimizerv4::SetScales(const ScalesType &)
 {
   itkWarningMacro(<< "LBFGSB optimizer does not support scaling. All scales are set to one.");
   m_Scales.SetSize(this->m_Metric->GetNumberOfLocalParameters());
@@ -102,14 +102,14 @@ LBFGSBOptimizerv4 ::SetScales(const ScalesType &)
 }
 
 void
-LBFGSBOptimizerv4 ::SetInitialPosition(const ParametersType & param)
+LBFGSBOptimizerv4::SetInitialPosition(const ParametersType & param)
 {
   m_InitialPosition = param;
   this->Modified();
 }
 
 void
-LBFGSBOptimizerv4 ::SetLowerBound(const BoundValueType & value)
+LBFGSBOptimizerv4::SetLowerBound(const BoundValueType & value)
 {
   this->m_LowerBound = value;
   if (m_OptimizerInitialized)
@@ -120,7 +120,7 @@ LBFGSBOptimizerv4 ::SetLowerBound(const BoundValueType & value)
 }
 
 void
-LBFGSBOptimizerv4 ::SetUpperBound(const BoundValueType & value)
+LBFGSBOptimizerv4::SetUpperBound(const BoundValueType & value)
 {
   this->m_UpperBound = value;
   if (m_OptimizerInitialized)
@@ -131,7 +131,7 @@ LBFGSBOptimizerv4 ::SetUpperBound(const BoundValueType & value)
 }
 
 void
-LBFGSBOptimizerv4 ::SetBoundSelection(const BoundSelectionType & value)
+LBFGSBOptimizerv4::SetBoundSelection(const BoundSelectionType & value)
 {
   m_BoundSelection = value;
   if (m_OptimizerInitialized)
@@ -142,7 +142,7 @@ LBFGSBOptimizerv4 ::SetBoundSelection(const BoundSelectionType & value)
 }
 
 void
-LBFGSBOptimizerv4 ::SetCostFunctionConvergenceFactor(double value)
+LBFGSBOptimizerv4::SetCostFunctionConvergenceFactor(double value)
 {
   if (value < 0.0)
   {
@@ -158,7 +158,7 @@ LBFGSBOptimizerv4 ::SetCostFunctionConvergenceFactor(double value)
 }
 
 void
-LBFGSBOptimizerv4 ::SetMaximumNumberOfCorrections(unsigned int value)
+LBFGSBOptimizerv4::SetMaximumNumberOfCorrections(unsigned int value)
 {
   m_MaximumNumberOfCorrections = value;
   if (m_OptimizerInitialized)
@@ -169,7 +169,7 @@ LBFGSBOptimizerv4 ::SetMaximumNumberOfCorrections(unsigned int value)
 }
 
 void
-LBFGSBOptimizerv4 ::SetMetric(MetricType * metric)
+LBFGSBOptimizerv4::SetMetric(MetricType * metric)
 {
   Superclass::SetMetric(metric);
 
@@ -193,7 +193,7 @@ LBFGSBOptimizerv4 ::SetMetric(MetricType * metric)
 }
 
 void
-LBFGSBOptimizerv4 ::StartOptimization(bool /*doOnlyInitialization*/)
+LBFGSBOptimizerv4::StartOptimization(bool /*doOnlyInitialization*/)
 {
   // Perform some verification, check scales,
   // pass settings to cost-function adaptor.
