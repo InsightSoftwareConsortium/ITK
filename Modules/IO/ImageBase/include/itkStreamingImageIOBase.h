@@ -96,8 +96,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** \brief Returns true if GetIORegion is not the same size as the
-   * largest region give by GetNumberOfDimensions.
+  /** \brief Returns true if GetIORegion() is not the same size as the
+   * largest region give by GetNumberOfDimensions().
    *
    * This compares the IORegion to the size of the image in the
    * file. With out regaurd to the dimensions of either, if the
@@ -129,13 +129,13 @@ protected:
    * \param _buffer is pointer to an allocated block of memory
    * suitable to hold the IORegion of the pixel type
    *
-   * This methods relies on GetDataPosition to determin where the
-   * data is located in the file. It uses m_IORegion to determin the
+   * This methods relies on GetDataPosition() to determin where the
+   * data is located in the file. It uses ImageIOBase#m_IORegion to determin the
    * requested region to read.
    *
    * The files data is assumed to be unpadded and continuous in the
    * file for the size of the image in the dimensions of the
-   * m_IORegion. This means that the image file could be broken into
+   * ImageIOBase#m_IORegion. This means that the image file could be broken into
    * slices, but not blocks for this methods to be used.
    */
   virtual bool
@@ -148,8 +148,8 @@ protected:
    * \param _buffer is a pointer to the data in a continuous block
    * for the region
    *
-   * This methods relies on GetDataPosition to determin where the data
-   * is located in the file. It usesy m_IORegion determin the requested
+   * This methods relies on GetDataPosition() to determin where the data
+   * is located in the file. It usesy ImageIOBase#m_IORegion determin the requested
    * region to written.
    */
   virtual bool
