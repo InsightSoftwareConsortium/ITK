@@ -129,8 +129,8 @@ protected:
    * \param _buffer is pointer to an allocated block of memory
    * suitable to hold the IORegion of the pixel type
    *
-   * This methods relies on GetDataPosition() to determin where the
-   * data is located in the file. It uses ImageIOBase#m_IORegion to determin the
+   * This methods relies on GetDataPosition() to determine where the
+   * data is located in the file. It uses ImageIOBase#m_IORegion to determine the
    * requested region to read.
    *
    * The files data is assumed to be unpadded and continuous in the
@@ -148,8 +148,8 @@ protected:
    * \param _buffer is a pointer to the data in a continuous block
    * for the region
    *
-   * This methods relies on GetDataPosition() to determin where the data
-   * is located in the file. It usesy ImageIOBase#m_IORegion determin the requested
+   * This methods relies on GetDataPosition() to determine where the data
+   * is located in the file. It uses ImageIOBase#m_IORegion determine the requested
    * region to written.
    */
   virtual bool
