@@ -459,11 +459,8 @@ Object::GetGlobalWarningDisplay()
 unsigned long
 Object::AddObserver(const EventObject & event, Command * cmd)
 {
-  if (!this->m_SubjectImplementation)
-  {
-    this->m_SubjectImplementation = std::make_unique<SubjectImplementation>();
-  }
-  return this->m_SubjectImplementation->AddObserver(event, cmd);
+  const auto & thisAsConst = *this;
+  return thisAsConst.AddObserver(event, cmd);
 }
 
 unsigned long
@@ -471,8 +468,7 @@ Object::AddObserver(const EventObject & event, Command * cmd) const
 {
   if (!this->m_SubjectImplementation)
   {
-    auto * me = const_cast<Self *>(this);
-    me->m_SubjectImplementation = std::make_unique<SubjectImplementation>();
+    this->m_SubjectImplementation = std::make_unique<SubjectImplementation>();
   }
   return this->m_SubjectImplementation->AddObserver(event, cmd);
 }

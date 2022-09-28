@@ -151,6 +151,11 @@ public:
    * and an itk::Command to execute. It returns an unsigned long tag
    * which can be used later to remove the event or retrieve the
    * command.
+   *
+   * \note This member function is overloaded for const and non-const,
+   * just for backward compatibility. Removing the non-const overload
+   * appears to break the use of SWIG %pythonprepend in
+   * ITK/Wrapping/Generators/Python/PyBase/pyBase.i
    */
   unsigned long
   AddObserver(const EventObject & event, Command *);
@@ -275,7 +280,7 @@ private:
 
   /** Implementation class for Subject/Observer Pattern.
    * This is only allocated if used. */
-  std::unique_ptr<SubjectImplementation> m_SubjectImplementation;
+  mutable std::unique_ptr<SubjectImplementation> m_SubjectImplementation;
 
   /**
    * Implementation for holding Object MetaData
