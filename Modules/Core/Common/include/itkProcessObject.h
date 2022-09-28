@@ -779,11 +779,11 @@ protected:
    * correctly, that all required inputs are set, and needed parameters
    * are set appropriately. If not valid an exceptions will be thrown.
    *
-   * This method is called before UpdateOutputInformation is
+   * This method is called before UpdateOutputInformation() is
    * propagated to the inputs.
    *
    * The ProcessObject's implementation verifies that the
-   * NumberOfRequiredInputs are set and not null.
+   * #m_NumberOfRequiredInputs are set and not null.
    *
    */
   virtual void

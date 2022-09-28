@@ -67,13 +67,13 @@ namespace itk
  * first.
  *
  * All inputs to ImageToImageFilter (if there is more than one) are
- * checked in the VerifyInputInformation method to verify that they
+ * checked in the VerifyInputInformation() method to verify that they
  * occupy the same physical space.  If the input images are in the
  * same physical space, then the location of each voxel is identical,
  * and the filter can operate voxel-by-voxel in index space.  Some
  * filters -- registration filters, for example -- will violate this
  * precondition, in which case they should redefine
- * VerifyInputInformation to relax or eliminate this requirement.
+ * VerifyInputInformation() to relax or eliminate this requirement.
  *
  * Access methods -- Set/GetCoordinateTolerance and
  * Set/GetDirectionTolerance -- are provided for cases where the
@@ -227,7 +227,7 @@ protected:
   /** \brief Verifies that the input images occupy the same physical
    * space and the each index is at the same physical location.
    *
-   * The default implementation of the PropagateRequestedRegion
+   * The default implementation of the PropagateRequestedRegion()
    * methods copies the index and size from the output to the
    * input. This makes an implicit assumption that the images occupy
    * the same physical location at each voxel. This method enforces
