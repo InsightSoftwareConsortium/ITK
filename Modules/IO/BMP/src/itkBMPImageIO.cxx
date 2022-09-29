@@ -17,6 +17,7 @@
  *=========================================================================*/
 #include "itkBMPImageIO.h"
 #include "itkByteSwapper.h"
+#include "itkMakeUniqueForOverwrite.h"
 #include "itksys/SystemTools.hxx"
 #include <iostream>
 
@@ -171,7 +172,6 @@ BMPImageIO::Read(void * buffer)
 {
   auto *        p = static_cast<char *>(buffer);
   unsigned long l = 0;
-  char *        value;
 
   this->OpenFileForReading(m_Ifstream, m_FileName);
 
@@ -181,9 +181,9 @@ BMPImageIO::Read(void * buffer)
   // https://msdn.microsoft.com/en-us/library/windows/desktop/dd183383%28v=vs.85%29.aspx
   if (m_BMPCompression == 1 && (this->GetNumberOfComponents() == 3 || this->GetIsReadAsScalarPlusPalette()))
   {
-    value = new char[m_BMPDataSize + 1];
+    const auto value = make_unique_for_overwrite<char[]>(m_BMPDataSize + 1);
     m_Ifstream.seekg(m_BitMapOffset, std::ios::beg);
-    m_Ifstream.read((char *)value, m_BMPDataSize);
+    m_Ifstream.read(value.get(), m_BMPDataSize);
 
     SizeValueType posLine = 0;
     SizeValueType line = m_Dimensions[1] - 1;
@@ -288,13 +288,13 @@ BMPImageIO::Read(void * buffer)
     {
       paddedStreamRead = ((streamRead / 4) + 1) * 4;
     }
-    value = new char[paddedStreamRead + 1];
+    const auto value = make_unique_for_overwrite<char[]>(paddedStreamRead + 1);
 
     for (unsigned int id = 0; id < m_Dimensions[1]; ++id)
     {
       const unsigned int line_id = m_FileLowerLeft ? (m_Dimensions[1] - id - 1) : id;
       m_Ifstream.seekg(m_BitMapOffset + paddedStreamRead * line_id, std::ios::beg);
-      m_Ifstream.read((char *)value, paddedStreamRead);
+      m_Ifstream.read(value.get(), paddedStreamRead);
       for (long i = 0; i < streamRead; ++i)
       {
         if (this->GetNumberOfComponents() == 1)
@@ -331,7 +331,6 @@ BMPImageIO::Read(void * buffer)
       }
     }
   }
-  delete[] value;
   m_Ifstream.close();
 }
 
