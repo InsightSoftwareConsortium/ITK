@@ -3,7 +3,7 @@ image. It can be used, for example, to identify pixel membership within a set
 of tissue types. Different algorithms are available including Bayesian
 classification, Gaussian models, and K-means clustering. After tissue labels
 have been assigned, they can be modified and applied with the
-\ref ITKLabelMap.")
+\\ref ITKLabelMap.")
 
 itk_module(ITKClassifiers
   DEPENDS
