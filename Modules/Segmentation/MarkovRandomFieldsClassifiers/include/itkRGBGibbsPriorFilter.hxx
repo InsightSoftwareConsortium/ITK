@@ -556,8 +556,6 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::ApplyGibbsLabeller()
   LabelledImageIndexType offsetIndex3D;
   offsetIndex3D.Fill(0);
 
-  const auto dist = make_unique_for_overwrite<double[]>(m_NumberOfClasses);
-
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
   const unsigned int frame = m_ImageWidth * m_ImageHeight;
   const unsigned int rowsize = m_ImageWidth;
