@@ -15,23 +15,14 @@
  *  limitations under the License.
  *
  *=========================================================================*/
-#ifndef itkSpatialObjectExport_h
-#define itkSpatialObjectExport_h
+#ifndef itkNamespace_h
+#define itkNamespace_h
 
-#if defined(ITKDLL) && defined(ITK_WINDOWS_EXPORT_ALL_SYMBOLS)
-#  ifdef ITKSpatialObjects_EXPORTS
-#    define ITKSpatialObjectExport
-#  else
-#    if defined(_WIN32) || defined(WIN32)
-#      define ITKSpatialObjectExport __declspec(dllimport)
-#    endif
-#  endif
+#define ITK_NAMESPACE_IS_NOT_ITK
+#define ITK_NAMESPACE slicer_itk
+
+#if defined(ITK_NAMESPACE_IS_NOT_ITK) && !defined(itk)
+#define itk ITK_NAMESPACE
 #endif
 
-#ifndef ITKSpatialObjectExport
-#  define ITKSpatialObjectExport
-#endif
-
-#include "itkNamespace.h"
-
-#endif
+#endif //itkNamespace_h

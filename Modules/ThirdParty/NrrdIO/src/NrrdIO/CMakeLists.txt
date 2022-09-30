@@ -138,7 +138,7 @@ else() # <-- ITK START_REPLACE
    set(TEEM_STATIC 1)
   endif()
 
-  set(MANGLE_PREFIX itk)
+  set(MANGLE_PREFIX slicer_itk)
   configure_file(${NrrdIO_SOURCE_DIR}/itk_NrrdIO_mangle.h.in
     ${NrrdIO_BINARY_DIR}/itk_NrrdIO_mangle.h
     @ONLY

@@ -30,7 +30,7 @@ endif(WIN32)
 configure_file(${ITK3P_PNG_SOURCE_DIR}/pngDllConfig.h.in
                ${ITK3P_PNG_BINARY_DIR}/pngDllConfig.h)
 
-set(MANGLE_PREFIX itk_png)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(${ITK3P_PNG_SOURCE_DIR}/itk_png_mangle.h.in
                ${ITK3P_PNG_BINARY_DIR}/itk_png_mangle.h
                @ONLY)

@@ -124,7 +124,7 @@ configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/src/jversion.h.in"
         "${CMAKE_CURRENT_BINARY_DIR}/jversion.h")
 
-set(MANGLE_PREFIX "itk") # prefix for symbols mangling
+set(MANGLE_PREFIX "slicer_itk") # prefix for symbols mangling
 configure_file("${CMAKE_CURRENT_SOURCE_DIR}/itk_jpeg_mangle.h.in"
         "${CMAKE_CURRENT_BINARY_DIR}/itk_jpeg_mangle.h")
 

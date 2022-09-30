@@ -18,6 +18,8 @@
 #ifndef itkMakeFilled_h
 #define itkMakeFilled_h
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 /** Yields a container of the specified type, filled by the specified value, assigned to each of its elements.

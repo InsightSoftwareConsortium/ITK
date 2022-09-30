@@ -18,6 +18,8 @@
 #ifndef itkQuadEdgeMeshMacro_h
 #define itkQuadEdgeMeshMacro_h
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 //////////////////////////////////////////////////////////////////////////////

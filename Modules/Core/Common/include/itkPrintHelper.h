@@ -30,6 +30,8 @@
 #include <type_traits>
 
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 // Forward declaration so itkPrintHelper.h can be safely included from

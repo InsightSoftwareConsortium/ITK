@@ -19,6 +19,8 @@
 #ifndef itkBitCast_h
 #define itkBitCast_h
 
+#include "itkNamespace.h"
+
 #include <cstring>     // For memcpy.
 #include <type_traits> // For is_trivially_copyable and remove_const_t.
 

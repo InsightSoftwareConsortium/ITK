@@ -24,6 +24,8 @@
 #include <utility>  // For move.
 #include <iterator> // For begin and end.
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 // Utilities for GoogleTest unit tests of iterator ranges.
