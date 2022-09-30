@@ -22,7 +22,7 @@
 #include "itkNumericTraits.h"
 #include "itkMath.h"
 #include "itkMath.h"
-#include "itkMakeUniqueForOverwrite.h"
+#include <memory> // For make_unique.
 
 namespace itk
 {
@@ -184,11 +184,7 @@ HistogramToTextureFeaturesFilter<THistogram>::ComputeMeansAndVariances(double & 
 
   // Initialize everything
   typename HistogramType::SizeValueType binsPerAxis = inputHistogram->GetSize(0);
-  const auto                            marginalSums = make_unique_for_overwrite<double[]>(binsPerAxis);
-  for (double * ms_It = marginalSums.get(); ms_It < marginalSums.get() + binsPerAxis; ++ms_It)
-  {
-    *ms_It = 0;
-  }
+  const auto                            marginalSums = std::make_unique<double[]>(binsPerAxis);
   pixelMean = 0;
 
   typename RelativeFrequencyContainerType::const_iterator rFreqIterator = m_RelativeFrequencyContainer.begin();
