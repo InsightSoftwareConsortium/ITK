@@ -109,7 +109,7 @@ configure_file(${ITK3P_TIFF_SOURCE_DIR}/tiffDllConfig.h.in
 configure_file(${ITK3P_TIFF_SOURCE_DIR}/tif_config.h.in
   ${ITK3P_TIFF_BINARY_DIR}/itk_tif_config.h)
 
-set(MANGLE_PREFIX itk_tiff)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(${ITK3P_TIFF_SOURCE_DIR}/itk_tiff_mangle.h.in
   ${ITK3P_TIFF_BINARY_DIR}/itk_tiff_mangle.h
   @ONLY)

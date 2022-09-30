@@ -18,6 +18,8 @@
 #ifndef itkBoolean_h
 #define itkBoolean_h
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 

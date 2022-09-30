@@ -129,6 +129,7 @@ set(ITK_USE_TBB ${Module_ITKTBB})
 
 configure_file(src/itkConfigure.h.in itkConfigure.h)
 configure_file(src/itkConfigurePrivate.h.in itkConfigurePrivate.h)
+configure_file(src/itkNamespace.h.in itkNamespace.h)
 
 set(ITKCommon_INCLUDE_DIRS ${ITKCommon_BINARY_DIR})
 set(ITKCommon_LIBRARIES ITKCommon)
@@ -137,5 +138,6 @@ itk_module_impl()
 
 install(
   FILES ${ITKCommon_BINARY_DIR}/itkConfigure.h
+  ${ITKCommon_BINARY_DIR}/itkNamespace.h
   DESTINATION ${ITKCommon_INSTALL_INCLUDE_DIR}
   COMPONENT Development)

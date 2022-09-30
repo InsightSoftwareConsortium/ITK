@@ -31,7 +31,7 @@ INCLUDE_DIRECTORIES(
   ${ITK3P_NrrdIO_BINARY_DIR}
 )
 
-set(MANGLE_PREFIX itk)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(${ITK3P_NrrdIO_SOURCE_DIR}/itk_NrrdIO_mangle.h.in
   ${ITK3P_NrrdIO_BINARY_DIR}/itk_NrrdIO_mangle.h
   @ONLY)

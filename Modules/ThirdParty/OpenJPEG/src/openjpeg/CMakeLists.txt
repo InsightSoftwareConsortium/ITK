@@ -68,7 +68,7 @@ CONFIGURE_FILE(${ITK3P_OpenJPEG_SOURCE_DIR}/opj_configure.h.in
 # configure name mangling to allow multiple libraries to coexist
 # peacefully
 if(EXISTS ${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg_mangle.h.in)
-set(MANGLE_PREFIX itk)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(${ITK3P_OpenJPEG_SOURCE_DIR}/openjpeg_mangle.h.in
                ${ITK3P_OpenJPEG_BINARY_DIR}/openjpeg_mangle.h
              @ONLY)

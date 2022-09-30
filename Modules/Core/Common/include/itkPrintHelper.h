@@ -33,6 +33,8 @@
 #  undef ITK_CASTXML_GCC_VECTOR_WORKAROUND
 #endif
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 

@@ -4,7 +4,7 @@ cmake_minimum_required (VERSION 3.12)
 project (HDF5_SRC C)
 
 # ITK --start
-set(MANGLE_PREFIX itk)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(${HDF5_SRC_DIR}/itk_hdf5_mangle.h.in
                ${HDF5_SRC_BINARY_DIR}/itk_hdf5_mangle.h
                @ONLY)

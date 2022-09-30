@@ -226,6 +226,8 @@ macro(itk_module_impl)
         set(_export_header_file "${${itk-module}_BINARY_DIR}/include/${itk-module}Export.h")
       endif()
 
+      set(_export_custom_content [=[#include "itkNamespace.h"]=])
+
       # Generate the export macro header for symbol visibility/Windows DLL declspec
       generate_export_header(
         ${itk-module}
@@ -236,7 +238,9 @@ macro(itk_module_impl)
         NO_EXPORT_MACRO_NAME
         ${itk-module}_HIDDEN
         STATIC_DEFINE
-        ITK_STATIC)
+        ITK_STATIC
+        CUSTOM_CONTENT_FROM_VARIABLE
+        _export_custom_content)
       install(
         FILES ${_export_header_file}
         DESTINATION ${${itk-module}_INSTALL_INCLUDE_DIR}

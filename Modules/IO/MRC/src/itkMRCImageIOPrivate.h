@@ -20,6 +20,8 @@
 
 #include <utility>
 
+#include "itkNamespace.h"
+
 /*
  *  This code was contributed in the Insight Journal paper:
  *  "A Streaming IO Base Class and Support for Streaming the MRC and VTK File Format"

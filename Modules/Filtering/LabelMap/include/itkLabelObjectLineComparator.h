@@ -18,6 +18,8 @@
 #ifndef itkLabelObjectLineComparator_h
 #define itkLabelObjectLineComparator_h
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 namespace Functor

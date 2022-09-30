@@ -50,7 +50,7 @@ endif(WIN32)
 configure_file(${ITK3P_JPEG_SOURCE_DIR}/jpegDllConfig.h.in
                ${ITK3P_JPEG_BINARY_DIR}/jpegDllConfig.h)
 
-set(MANGLE_PREFIX itk_jpeg)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(${ITK3P_JPEG_SOURCE_DIR}/itk_jpeg_mangle.h.in
                ${ITK3P_JPEG_BINARY_DIR}/itk_jpeg_mangle.h
                @ONLY)

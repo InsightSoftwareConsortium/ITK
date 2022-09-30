@@ -178,7 +178,7 @@ CONFIGURE_FILE(${ITK3P_EXPAT_SOURCE_DIR}/expatDllConfig.h.in
 
 configure_file(expat_config.h.cmake "${ITK3P_EXPAT_BINARY_DIR}/expat_config.h")
 
-set(MANGLE_PREFIX itk_expat)
+set(MANGLE_PREFIX slicer_itk)
 configure_file(itk_expat_mangle.h.in
                "${ITK3P_EXPAT_BINARY_DIR}/itk_expat_mangle.h"
                @ONLY)

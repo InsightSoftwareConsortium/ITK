@@ -22,6 +22,8 @@
 #include <memory>      // For unique_ptr.
 #include <type_traits> // For remove_extent_t, false_type, etc.
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 

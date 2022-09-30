@@ -21,6 +21,8 @@
 
 #include <utility>
 
+#include "itkNamespace.h"
+
 namespace itk
 {
 /**
