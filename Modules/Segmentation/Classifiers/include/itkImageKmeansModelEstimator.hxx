@@ -399,9 +399,8 @@ ImageKmeansModelEstimator<TInputImage, TMembershipFunction>::NearestNeighborSear
 {
   // itkDebugMacro(<<"Start nearest_neighbor_search_basic()");
 
-  double     bestdistortion, tempdistortion, diff;
-  int        bestcodeword;
-  const auto tempVec = make_unique_for_overwrite<double[]>(m_VectorDimension);
+  double bestdistortion, tempdistortion, diff;
+  int    bestcodeword;
 
   // unused: double *centroidVecTemp = ( double * ) new double[m_VectorDimension];
 
