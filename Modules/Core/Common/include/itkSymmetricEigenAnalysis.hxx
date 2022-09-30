@@ -57,7 +57,7 @@ template <typename TMatrix, typename TVector, typename TEigenMatrix>
 unsigned int
 SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesLegacy(const TMatrix & A, TVector & D) const
 {
-  const auto workArea1 = make_unique_for_overwrite<double[]>(m_Dimension);
+  const auto workArea1 = std::make_unique<double[]>(m_Dimension);
 
   // Copy the input matrix
   const auto inputMatrix = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
@@ -68,7 +68,6 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesLegacy
   for (unsigned int row = 0; row < m_Dimension; ++row)
   {
     dVector[row] = D[row];
-    workArea1[row] = 0;
 
     for (unsigned int col = 0; col < m_Dimension; ++col)
     {
@@ -94,8 +93,8 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   TVector &       EigenValues,
   TEigenMatrix &  EigenVectors) const
 {
-  const auto workArea1 = make_unique_for_overwrite<double[]>(m_Dimension);
-  const auto workArea2 = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
+  const auto workArea1 = std::make_unique<double[]>(m_Dimension);
+  const auto workArea2 = std::make_unique<double[]>(m_Dimension * m_Dimension);
 
   // Copy the input matrix
   const auto inputMatrix = make_unique_for_overwrite<double[]>(m_Dimension * m_Dimension);
@@ -106,11 +105,9 @@ SymmetricEigenAnalysis<TMatrix, TVector, TEigenMatrix>::ComputeEigenValuesAndVec
   for (unsigned int row = 0; row < m_Dimension; ++row)
   {
     dVector[row] = EigenValues[row];
-    workArea1[row] = 0;
 
     for (unsigned int col = 0; col < m_Dimension; ++col)
     {
-      workArea2[k] = 0;
       inputMatrix[k++] = A(row, col);
     }
   }

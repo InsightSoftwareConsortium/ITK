@@ -615,18 +615,16 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::RegionEraser()
 {
   const unsigned int size = m_ImageWidth * m_ImageHeight * m_ImageDepth;
 
-  m_Region = make_unique_for_overwrite<unsigned short[]>(size);
+  m_Region = std::make_unique<unsigned short[]>(size);
   m_RegionCount = make_unique_for_overwrite<unsigned short[]>(size);
 
-  const auto valid_region_counter = make_unique_for_overwrite<unsigned short[]>(size);
+  const auto valid_region_counter = std::make_unique<unsigned short[]>(size);
 
   LabelledImageRegionIterator labelledImageIt(m_LabelledImage, m_LabelledImage->GetBufferedRegion());
 
   for (unsigned int r = 0; r < size; ++r)
   {
-    m_Region[r] = 0;
     m_RegionCount[r] = 1;
-    valid_region_counter[r] = 0;
   }
 
   LabelType i = NumericTraits<LabelType>::ZeroValue();
