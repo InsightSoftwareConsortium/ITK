@@ -27,7 +27,12 @@
 
 template <unsigned int Dimension>
 void
-GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk::Point<double, Dimension>> & agreeData);
+GenerateData(std::vector<itk::Point<double, Dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & agreeData,
+             char *                                       movingFeatureMesh,
+             char *                                       fixedFeatureMesh,
+             char *                                       movingMesh,
+             char *                                       fixedMesh);
 
 
 int
@@ -51,32 +56,31 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   std::vector<itk::Point<double, DimensionPoint>> agreeData;
   std::vector<double>                             transformParameters;
 
-  return EXIT_SUCCESS;
-  GenerateData<DimensionPoint>(data, agreeData);
-
+  GenerateData<DimensionPoint>(data, agreeData, argv[1], argv[2], argv[3], argv[4]);
 
   // create and initialize the parameter estimator
-  double maximalDistanceFromPlane = 6;
+  double maximalDistanceFromPlane = 0.3;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
-  registrationEstimator->SetMinimalForEstimate(3);
+  registrationEstimator->SetMinimalForEstimate(100);
   registrationEstimator->SetDelta(maximalDistanceFromPlane);
+  registrationEstimator->SetAgreeData(agreeData);
   registrationEstimator->LeastSquaresEstimate(data, transformParameters);
 
-  std::cout << "Least Squares Estimate is " << std::endl;
   unsigned int i = 0;
   for (i = 0; i < transformParameters.size(); i++)
   {
     std::cout << transformParameters[i] << ", ";
   }
 
-
   // create and initialize the RANSAC algorithm
-  double              desiredProbabilityForNoOutliers = 0.999;
+  double              desiredProbabilityForNoOutliers = 0.99;
   double              percentageOfDataUsed;
   RANSACType::Pointer ransacEstimator = RANSACType::New();
   ransacEstimator->SetData(data);
   ransacEstimator->SetAgreeData(agreeData);
   ransacEstimator->SetParametersEstimator(registrationEstimator);
+  ransacEstimator->SetMaxIteration(100);
+
   percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
 
   if (transformParameters.empty())
@@ -99,7 +103,12 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
 template <unsigned int Dimension>
 void
-GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk::Point<double, Dimension>> & agreeData)
+GenerateData(std::vector<itk::Point<double, Dimension>> & data,
+             std::vector<itk::Point<double, Dimension>> & agreeData,
+             char *                                       movingFeatureMesh,
+             char *                                       fixedFeatureMesh,
+             char *                                       movingMesh,
+             char *                                       fixedMesh)
 {
   // Read the two point sets that are the putative matches
   using CoordinateType = double;
@@ -107,23 +116,22 @@ GenerateData(std::vector<itk::Point<double, Dimension>> & data, std::vector<itk:
   using ReaderType = itk::MeshFileReader<MeshType>;
 
   auto reader1 = ReaderType::New();
-  reader1->SetFileName("/data/Apedata/Slicer-cli-outputs/train/EJEJHH_fixed_corr.vtk");
+  reader1->SetFileName(fixedFeatureMesh);
   reader1->Update();
   auto mesh1 = reader1->GetOutput();
 
   auto reader2 = ReaderType::New();
-  reader2->SetFileName("/data/Apedata/Slicer-cli-outputs/train/EJEJHH_moving_corr.vtk");
+  reader2->SetFileName(movingFeatureMesh);
   reader2->Update();
   auto mesh2 = reader2->GetOutput();
 
-
   auto reader1_all = ReaderType::New();
-  reader1_all->SetFileName("/data/Apedata/Slicer-cli-outputs/EJEJHH_fixedMeshPoints.vtk");
+  reader1_all->SetFileName(fixedMesh);
   reader1_all->Update();
   auto mesh1_all = reader1_all->GetOutput();
 
   auto reader2_all = ReaderType::New();
-  reader2_all->SetFileName("/data/Apedata/Slicer-cli-outputs/EJEJHH_movingMeshPointsBefore.vtk");
+  reader2_all->SetFileName(movingMesh);
   reader2_all->Update();
   auto mesh2_all = reader2_all->GetOutput();
 
