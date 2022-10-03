@@ -3,7 +3,7 @@
 
 /*
 This header file mangles all symbols exported from the HDF5 library.
-It is included in all files while building the HDF5 library.  Due to
+It is included in all files while building the HDF5 library. Due to
 namespace pollution, no HDF5 headers should be included in .h files in
 ITK.
 
@@ -29,12 +29,12 @@ The sort commands sorts the lines alphabetically and discards duplicates.
 
 The following commands are used to generate the suggested symbols on Windows systems:
 
-dumpbin /symbols libitkhdf5* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
+dumpbin /symbols *hdf5* > symbol_table.txt (Must be done from the Visual Studio Command Prompt)
 
 Then execute the following in Git Bash:
 
 export LC_COLLATE=POSIX
-cat symbol_table.txt | grep "UNDEF.*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' | sort -u
+cat symbol_table.txt | grep -E "(UNDEF|SECT).*External" | grep -i "H5\w" | awk '{print $(NF) }' | awk '!/itk_/ { print }' | awk '{ if (a[$1]++ == 0) print $0; }' "$@" | sed 's \(.*\) \1\ itk_\1 ' | sed 's/^/#define /' | sort -u
 
 For the bash commands:
 
