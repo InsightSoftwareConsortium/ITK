@@ -21,6 +21,8 @@ import sys
 import numpy as np
 import copy
 
+print("Running RansacMeshTest Python")
+
 inlier_value = float(sys.argv[1])
 number_of_ransac_points = int(sys.argv[2])
 number_of_iterations = int(sys.argv[3])
@@ -28,6 +30,14 @@ movingFeatureMeshPath = sys.argv[4]
 fixedFeatureMeshPath = sys.argv[5]
 movingMeshPath = sys.argv[6]
 fixedMeshPath = sys.argv[7]
+
+print(inlier_value)
+print(number_of_ransac_points)
+print(number_of_iterations)
+print(movingFeatureMeshPath)
+print(fixedFeatureMeshPath)
+print(movingMeshPath)
+print(fixedMeshPath)
 
 movingFeatureMesh = itk.meshread(movingFeatureMeshPath, itk.F)
 fixedFeatureMesh = itk.meshread(fixedFeatureMeshPath, itk.F)
