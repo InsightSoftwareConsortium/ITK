@@ -84,7 +84,7 @@ TestMattesMetricWithAffineTransform(TInterpolator * const interpolator, const bo
 
   auto imgFixed = FixedImageType::New();
   imgFixed->SetRegions(region);
-  imgFixed->Allocate();
+  imgFixed->Allocate(true);
   imgFixed->SetSpacing(imgSpacing);
   imgFixed->SetOrigin(imgOrigin);
 
@@ -462,6 +462,87 @@ itkMattesMutualInformationImageToImageMetricv4Test(int, char *[])
     std::cout << "Test failed when using all the pixels instead of sampling" << std::endl;
     return EXIT_FAILURE;
   }
+  // Verify that a constant fixed image (and, symmetrically, a constant
+  // moving image) is rejected with a descriptive exception during
+  // Initialize(). Mattes mutual information is undefined when one of the
+  // images has zero marginal entropy; a graceful "no-op" would silently
+  // mask the degenerate input. See ITK PR #3679.
+  //
+  // We intentionally do not use ITK_TRY_EXPECT_EXCEPTION here, because
+  // that macro accepts *any* itk::ExceptionObject and would let an
+  // unrelated precondition failure (e.g. from Superclass::Initialize())
+  // masquerade as confirmation of the new constant-image guard. Instead,
+  // catch the exception explicitly and assert that the message identifies
+  // the offending image.
+  auto runConstantImageCheck =
+    [&](auto * fixed, auto * moving, const std::string & expectedSubstring, const std::string & description) -> int {
+    std::cout << "Test metric Initialize() rejects " << description << '.' << std::endl;
+    using LocalImageType = std::remove_pointer_t<decltype(fixed)>;
+    using LocalMetricType = itk::MattesMutualInformationImageToImageMetricv4<LocalImageType, LocalImageType>;
+    auto metric = LocalMetricType::New();
+    metric->SetFixedImage(fixed);
+    metric->SetMovingImage(moving);
+    metric->SetMovingInterpolator(linearInterpolator);
+    using LocalTransformType = itk::AffineTransform<double, LocalImageType::ImageDimension>;
+    metric->SetMovingTransform(LocalTransformType::New());
+    try
+    {
+      metric->Initialize();
+    }
+    catch (const itk::ExceptionObject & e)
+    {
+      const std::string desc = e.GetDescription();
+      if (desc.find(expectedSubstring) == std::string::npos)
+      {
+        std::cerr << "Initialize() threw the wrong exception for " << description << ":\n  " << desc << std::endl;
+        return EXIT_FAILURE;
+      }
+      std::cout << "  Caught expected exception: " << desc.substr(0, 80) << "..." << std::endl;
+      return EXIT_SUCCESS;
+    }
+    std::cerr << "Initialize() did not throw for " << description << '.' << std::endl;
+    return EXIT_FAILURE;
+  };
+
+  using ConstantImageType = ImageType;
+  const ConstantImageType::SizeType   constSize = { { static_cast<itk::SizeValueType>(imageSize),
+                                                      static_cast<itk::SizeValueType>(imageSize) } };
+  const ConstantImageType::IndexType  constStart = { { 0, 0 } };
+  const ConstantImageType::RegionType constRegion{ constStart, constSize };
+
+  auto makeImage = [&](bool constant) {
+    auto img = ConstantImageType::New();
+    img->SetRegions(constRegion);
+    img->Allocate(true); // zero-initialized
+    if (!constant)
+    {
+      itk::SizeValueType                          counter = 0;
+      itk::ImageRegionIterator<ConstantImageType> it(img, constRegion);
+      for (it.GoToBegin(); !it.IsAtEnd(); ++it, ++counter)
+      {
+        it.Set(static_cast<ConstantImageType::PixelType>(counter));
+      }
+    }
+    return img;
+  };
+
+  // Case (a): constant fixed image, varying moving image.
+  if (runConstantImageCheck(makeImage(true).GetPointer(),
+                            makeImage(false).GetPointer(),
+                            "All fixed-image samples in the analysis region have the same intensity value",
+                            "a constant fixed image") != EXIT_SUCCESS)
+  {
+    return EXIT_FAILURE;
+  }
+  // Case (b): symmetric — varying fixed image, constant moving image.
+  if (runConstantImageCheck(makeImage(false).GetPointer(),
+                            makeImage(true).GetPointer(),
+                            "All moving-image samples in the analysis region have the same intensity value",
+                            "a constant moving image") != EXIT_SUCCESS)
+  {
+    return EXIT_FAILURE;
+  }
+
   useSampling = true;
   failed =
     TestMattesMetricWithAffineTransform<ImageType, LinearInterpolatorType>(linearInterpolator, useSampling, imageSize);

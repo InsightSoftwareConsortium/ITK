@@ -246,6 +246,66 @@ MattesMutualInformationImageToImageMetricv4<TFixedImage,
    */
   constexpr int padding{ 2 }; // this will pad by 2 bins
 
+  // Two distinct degenerate-input conditions are detected here, before the
+  // bin-size division below would either produce NaN/Inf or, worse, silently
+  // poison downstream threader output:
+  //
+  //   (a) Empty analysis region. The TrueMin/TrueMax sentinels at
+  //       initialization are NumericTraits::max() and ::NonpositiveMin();
+  //       if no sample is ever observed (mask excludes everything,
+  //       sampled-point set is empty), TrueMax stays below TrueMin. This is
+  //       a configuration problem, not a math problem.
+  //
+  //   (b) Constant intensity. TrueMax equals TrueMin (or differs only by
+  //       round-off). Mattes MI is mathematically undefined for a constant
+  //       image: the marginal entropy is zero, MI is identically zero, and
+  //       no meaningful gradient can be computed.
+  //
+  // The two are reported separately so a misconfigured mask does not get
+  // diagnosed as a constant image (which would print the sentinel value
+  // 1.79e+308 as if it were a measured intensity). The constant-image
+  // predicate uses NumericTraits::epsilon() rather than operator== to
+  // avoid the "comparing floating-point values is unsafe" warning and to
+  // tolerate machine-precision noise; for integer pixel types, epsilon()
+  // is zero so the comparison is exact. The Superclass already provides
+  // FixedRealType and MovingRealType, so we use those rather than
+  // re-declaring local aliases (which would trigger -Wshadow).
+  const auto fixedRange = static_cast<typename Superclass::FixedRealType>(this->m_FixedImageTrueMax) -
+                          static_cast<typename Superclass::FixedRealType>(this->m_FixedImageTrueMin);
+  const auto movingRange = static_cast<typename Superclass::MovingRealType>(this->m_MovingImageTrueMax) -
+                           static_cast<typename Superclass::MovingRealType>(this->m_MovingImageTrueMin);
+
+  if (this->m_FixedImageTrueMax < this->m_FixedImageTrueMin)
+  {
+    itkExceptionMacro("No fixed-image samples were observed in the analysis region. Verify that the fixed "
+                      "image mask or sampled point set contains at least one valid pixel that overlaps the "
+                      "fixed image buffered region.");
+  }
+  if (fixedRange <= NumericTraits<typename Superclass::FixedRealType>::epsilon())
+  {
+    itkExceptionMacro("All fixed-image samples in the analysis region have the same intensity value ("
+                      << this->m_FixedImageTrueMin
+                      << "). Mattes mutual information is undefined for a constant image: the marginal "
+                         "entropy is zero and no meaningful gradient can be computed. Provide a fixed "
+                         "image with non-degenerate intensity range, or restrict the analysis region "
+                         "(via mask or sampled point set) to a region with intensity variation.");
+  }
+  if (this->m_MovingImageTrueMax < this->m_MovingImageTrueMin)
+  {
+    itkExceptionMacro("No moving-image samples were observed in the analysis region. Verify that the moving "
+                      "image mask contains at least one valid pixel that overlaps the moving image "
+                      "buffered region.");
+  }
+  if (movingRange <= NumericTraits<typename Superclass::MovingRealType>::epsilon())
+  {
+    itkExceptionMacro("All moving-image samples in the analysis region have the same intensity value ("
+                      << this->m_MovingImageTrueMin
+                      << "). Mattes mutual information is undefined for a constant image: the marginal "
+                         "entropy is zero and no meaningful gradient can be computed. Provide a moving "
+                         "image with non-degenerate intensity range, or restrict the analysis region "
+                         "(via mask or sampled point set) to a region with intensity variation.");
+  }
+
   this->m_FixedImageBinSize = (this->m_FixedImageTrueMax - this->m_FixedImageTrueMin) /
                               static_cast<PDFValueType>(this->m_NumberOfHistogramBins - 2 * padding);
   this->m_FixedImageNormalizedMin =
