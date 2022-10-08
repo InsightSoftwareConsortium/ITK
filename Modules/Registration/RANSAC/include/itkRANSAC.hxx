@@ -137,17 +137,11 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   srand((unsigned)time(NULL)); // seed random number generator
 
   // STEP2: create the threads that generate hypotheses and test
-
-  std::cout << "Number of Threads is " << this->numberOfThreads << std::endl;
-  std::cout << "Max Counter is " << this->maxIteration << std::endl;
-
   itk::MultiThreaderBase::SetGlobalDefaultNumberOfThreads(this->numberOfThreads);
   itk::MultiThreaderBase::Pointer threader = itk::MultiThreaderBase::New();
   threader->SetSingleMethod(RANSAC<T, SType>::RANSACThreadCallback, this);
   // runs all threads and blocks till they finish
   threader->SingleMethodExecute();
-
-  std::cout << "this->numVotesForBest " << this->numVotesForBest << std::endl;
 
   using Similarity3DTransformType = Similarity3DTransform<double>;
   auto transform = Similarity3DTransformType::New();
@@ -155,7 +149,6 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
   auto optParameters = transform->GetParameters();
   auto fixedParameters = transform->GetFixedParameters();
 
-  std::cout << "RANSAC parameters are " << std::endl;
   for (unsigned int i = 0; i < 10; ++i)
   {
     std::cout << this->parametersRansac[i] << " ";
@@ -237,7 +230,6 @@ RANSAC<T, SType>::Compute(std::vector<SType> & parameters, double desiredProbabi
       }
     }
 
-    std::cout << "Pranjal testing size of inliers is " << leastSquaresEstimateData.size() << std::endl;
     paramEstimator->LeastSquaresEstimate(leastSquaresEstimateData, parameters);
   }
 

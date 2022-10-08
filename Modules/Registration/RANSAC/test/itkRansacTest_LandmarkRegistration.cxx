@@ -59,10 +59,12 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   GenerateData<DimensionPoint>(data, agreeData, argv[1], argv[2], argv[3], argv[4]);
 
   // create and initialize the parameter estimator
-  double maximalDistanceFromPlane = 0.3;
+  double inlierValue = 3;
+  int    ransacPoints = 100;
+  int    maxIteration = 100;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
-  registrationEstimator->SetMinimalForEstimate(100);
-  registrationEstimator->SetDelta(maximalDistanceFromPlane);
+  registrationEstimator->SetMinimalForEstimate(ransacPoints);
+  registrationEstimator->SetDelta(inlierValue);
   registrationEstimator->SetAgreeData(agreeData);
   registrationEstimator->LeastSquaresEstimate(data, transformParameters);
 
@@ -79,7 +81,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   ransacEstimator->SetData(data);
   ransacEstimator->SetAgreeData(agreeData);
   ransacEstimator->SetParametersEstimator(registrationEstimator);
-  ransacEstimator->SetMaxIteration(100);
+  ransacEstimator->SetMaxIteration(maxIteration);
 
   percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
 
@@ -89,7 +91,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   }
   else
   {
-    std::cout << "RANSAC hyper(plane) parameters: [n,a]\n\t [ ";
+    std::cout << "RANSAC parameters: [n,a]\n\t [ ";
     for (i = 0; i < transformParameters.size(); i++)
     {
       std::cout << transformParameters[i] << ", ";
