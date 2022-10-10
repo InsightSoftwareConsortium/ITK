@@ -190,25 +190,28 @@ ImageIORegion::IsInside(const IndexType & index) const
   return true;
 }
 
-/** Test if a region (the argument) is completely inside of this region */
-bool
-ImageIORegion::IsInside(const Self & region) const
-{
-  IndexType beginCorner = region.GetIndex();
 
-  if (!this->IsInside(beginCorner))
+/** Test if a region (the argument) is completely inside of this region. If
+ * the region that is passed as argument has a size of value zero, or if the
+ * dimensionality is zero, then it will not be considered to be inside of the
+ * current region, even its starting index is inside. */
+bool
+ImageIORegion::IsInside(const Self & otherRegion) const
+{
+  if (m_ImageDimension == 0 || otherRegion.m_ImageDimension != m_ImageDimension)
   {
     return false;
   }
-  IndexType endCorner(region.m_ImageDimension);
-  SizeType  size = region.GetSize();
+  const auto & otherIndex = otherRegion.m_Index;
+  const auto & otherSize = otherRegion.m_Size;
+
   for (unsigned int i = 0; i < m_ImageDimension; ++i)
   {
-    endCorner[i] = beginCorner[i] + size[i] - 1;
-  }
-  if (!this->IsInside(endCorner))
-  {
-    return false;
+    if (otherIndex[i] < m_Index[i] || otherSize[i] == 0 ||
+        otherIndex[i] + static_cast<IndexValueType>(otherSize[i]) > m_Index[i] + static_cast<IndexValueType>(m_Size[i]))
+    {
+      return false;
+    }
   }
   return true;
 }
