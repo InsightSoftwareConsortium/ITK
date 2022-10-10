@@ -197,3 +197,22 @@ TEST(ImageIORegion, IsAssignable)
   Expect_Assignable(GenerateRandomRegion(2), GenerateRandomRegion(2));
   Expect_Assignable(GenerateRandomRegion(2), GenerateRandomRegion(3));
 }
+
+
+// Tests that a zero-sized region is not considered to be inside of another region.
+TEST(ImageIORegion, ZeroSizedRegionIsNotInside)
+{
+  for (const unsigned int dimension : { 0, 2, 3 })
+  {
+    itk::ImageIORegion region(dimension);
+
+    region.SetSize(itk::ImageIORegion::SizeType(dimension, 2));
+
+    for (const auto indexValue : { -1, 0, 1 })
+    {
+      itk::ImageIORegion zeroSizedRegion(dimension);
+      zeroSizedRegion.SetIndex(itk::ImageIORegion::IndexType(dimension, indexValue));
+      EXPECT_FALSE(region.IsInside(zeroSizedRegion));
+    };
+  }
+}
