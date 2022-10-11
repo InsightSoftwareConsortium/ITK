@@ -1975,11 +1975,29 @@ NiftiImageIO::SetImageIOOrientationFromNIfTI(unsigned short dims)
             const vnl_matrix_fixed<float, 4, 4> sform_as_matrix{ &(this->m_NiftiImage->sto_xyz.m[0][0]) };
             const vnl_matrix_fixed<float, 4, 4> qform_as_matrix{ &(this->m_NiftiImage->qto_xyz.m[0][0]) };
 
-            // if sform_as_matrix * inv(qform_as_matrix) is approximately and identity matrix,
-            // then they are very similar.
-            const vnl_matrix_fixed<float, 4, 4> is_ident = sform_as_matrix * qform_as_matrix.transpose();
-            const bool                          matricies_are_similar = is_ident.is_identity(1.0e-4);
-            return matricies_are_similar;
+            // extract rotation matrix
+            const vnl_matrix_fixed<float, 3, 3> sform_3x3 = sform_as_matrix.extract(3, 3, 0, 0);
+            const vnl_matrix_fixed<float, 3, 3> qform_3x3 = qform_as_matrix.extract(3, 3, 0, 0);
+            vnl_svd<float>                      sform_svd(sform_3x3.as_ref());
+            vnl_svd<float>                      qform_svd(qform_3x3.as_ref());
+
+            // extract offset
+            const vnl_vector<float> sform_offset{ sform_as_matrix.get_column(3).extract(3, 0) };
+            const vnl_vector<float> qform_offset{ qform_as_matrix.get_column(3).extract(3, 0) };
+            // extract perspective
+            const vnl_vector<float> sform_perspective{ sform_as_matrix.get_row(3).as_vector() };
+            const vnl_vector<float> qform_perspective{ qform_as_matrix.get_row(3).as_vector() };
+            // if sform_3x3 * inv(qform_3x3) is approximately and identity matrix then they are very similar.
+            const vnl_matrix_fixed<float, 3, 3> candidate_identity{
+              sform_svd.U() * vnl_matrix_inverse<float>(qform_svd.U()).as_matrix()
+            };
+
+            const bool spacing_similar{ sform_svd.W().diagonal().is_equal(qform_svd.W().diagonal(), 1.0e-4) };
+            const bool rotation_matricies_are_similar{ candidate_identity.is_identity(1.0e-4) };
+            const bool offsets_are_similar{ sform_offset.is_equal(qform_offset, 1.0e-4) };
+            const bool perspectives_are_similar{ sform_perspective.is_equal(qform_perspective, 1.0e-4) };
+
+            return rotation_matricies_are_similar && offsets_are_similar && perspectives_are_similar && spacing_similar;
           }();
           prefer_sform_over_qform = sform_and_qform_are_very_similar;
         }
