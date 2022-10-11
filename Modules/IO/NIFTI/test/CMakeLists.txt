@@ -30,6 +30,10 @@ list(APPEND ITKIONIFTI-Test_LIBRARIES ITKIONIFTI-TestSupport)
 
 CreateTestDriver(ITKIONIFTI  "${ITKIONIFTI-Test_LIBRARIES}" "${ITKIONIFTITests}")
 
+itk_add_test(NAME itkNiftisform2DirectionDef.nii.gz
+      COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
+              ${ITK_TEST_OUTPUT_DIR} DATA{${ITK_DATA_ROOT}/Input/itkNiftisform2DirectionDef.nii.gz})
+
 itk_add_test(NAME itkNiftiIOBigEndianCompressed.hdr
       COMMAND ITKIONIFTITestDriver itkNiftiImageIOTest
               ${ITK_TEST_OUTPUT_DIR} itkNiftiIOBigEndianCompressed.hdr DATA{${ITK_DATA_ROOT}/Input/BigEndianCompressed.hdr})
