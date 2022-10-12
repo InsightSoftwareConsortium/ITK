@@ -82,7 +82,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       std::cout.flush();
     }
   }
-  if (testName == "FPOverFlow")
+  if (testName == "FPOverflow")
   {
     std::cout << "Testing floating point overflow" << std::endl;
     std::cout.flush();
@@ -103,7 +103,7 @@ itkFloatingPointExceptionsTest(int argc, char * argv[])
       std::cout.flush();
     }
   }
-  if (testName == "FPUnderFlow")
+  if (testName == "FPUnderflow")
   {
     std::cout << "Testing floating point underflow" << std::endl;
     std::cout.flush();
