@@ -165,6 +165,7 @@ public:
   using PointSetPointer = typename PointSetType::Pointer;
   using PointDataType = typename PointSetType::PixelType;
   using PointDataContainerType = typename PointSetType::PointDataContainer;
+  using PointDataContainerPointer = typename PointDataContainerType::Pointer;
 
   /** Other type alias. */
   using RealType = float;
@@ -318,10 +319,6 @@ private:
   void
   RefineControlPointLattice();
 
-  /** Determine the residuals after fitting to one level. */
-  void
-  UpdatePointSet();
-
   /** This function is not used as it requires an evaluation of all
    * (SplineOrder+1)^ImageDimensions B-spline weights for each evaluation. */
   void
@@ -334,6 +331,10 @@ private:
   /** Function used to generate the sampled B-spline object quickly. */
   void
   ThreadedGenerateDataForReconstruction(const RegionType &, ThreadIdType);
+
+  /** Update the input point set values with the residuals after fitting to a level. */
+  void
+  ThreadedGenerateDataForUpdatePointSetValues(const RegionType &, ThreadIdType);
 
   /** Sub-function used by GenerateOutputImageFast() to generate the sampled
    * B-spline object quickly. */
@@ -368,8 +369,7 @@ private:
 
   vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension];
 
-  typename PointDataContainerType::Pointer m_InputPointData;
-  typename PointDataContainerType::Pointer m_OutputPointData;
+  PointDataContainerPointer m_InputPointData;
 
   typename KernelType::Pointer m_Kernel[ImageDimension];
 
@@ -383,6 +383,7 @@ private:
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
   bool     m_IsFittingComplete{ false };
+  bool     m_DoUpdatePointSetValues{ false };
 };
 } // end namespace itk
 
