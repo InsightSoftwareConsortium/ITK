@@ -555,9 +555,9 @@ if("${CMAKE_SYSTEM_NAME}" MATCHES "Darwin|Linux")
   itk_add_test(NAME itkFloatingPointExceptionsTest2 COMMAND ITKCommon1TestDriver
     itkFloatingPointExceptionsTest ZeroDivByZero)
   itk_add_test(NAME itkFloatingPointExceptionsTest3 COMMAND ITKCommon1TestDriver
-    itkFloatingPointExceptionsTest FPOverFlow)
+    itkFloatingPointExceptionsTest FPOverflow)
   itk_add_test(NAME itkFloatingPointExceptionsTest4 COMMAND ITKCommon1TestDriver
-    itkFloatingPointExceptionsTest FPUnderFlow)
+    itkFloatingPointExceptionsTest FPUnderflow)
 
   set_tests_properties(
     itkFloatingPointExceptionsTest1
