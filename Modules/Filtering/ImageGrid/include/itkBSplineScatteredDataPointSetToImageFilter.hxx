@@ -64,7 +64,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::BSpline
     this->m_RefinedLatticeCoefficients[i].fill(0.0);
   }
 
-  this->m_InputPointData = PointDataContainerType::New();
+  this->m_ResidualPointSetValues = PointDataContainerType::New();
 
   this->m_PointWeights = WeightsContainerType::New();
 }
@@ -235,25 +235,23 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     }
   }
 
-  this->m_InputPointData->Initialize();
+  this->m_ResidualPointSetValues->Initialize();
   if (inputPointSet->GetNumberOfPoints() > 0)
   {
     const auto & pointData = inputPointSet->GetPointData()->CastToSTLConstContainer();
-
-    if (!m_UsePointWeights)
+    if (!this->m_UsePointWeights)
     {
-      m_PointWeights->CastToSTLContainer().assign(pointData.size(), 1);
+      this->m_PointWeights->CastToSTLContainer().assign(pointData.size(), 1);
     }
-    m_InputPointData->CastToSTLContainer() = pointData;
+    // Use the residuals to compute the higher level solutions but start with the original
+    // values for the first level.
+    this->m_ResidualPointSetValues->CastToSTLContainer().assign(pointData.begin(), pointData.end());
   }
 
   this->m_CurrentLevel = 0;
   this->m_CurrentNumberOfControlPoints = this->m_NumberOfControlPoints;
 
-
-  // Set up multithread processing to handle generating the
-  // control point lattice.
-
+  // Set up multithread processing
   typename ImageSource<TOutputImage>::ThreadStruct str1;
   str1.Filter = this;
 
@@ -276,11 +274,11 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Generat
     for (this->m_CurrentLevel = 1; this->m_CurrentLevel < this->m_MaximumNumberOfLevels; this->m_CurrentLevel++)
     {
       // Multithread updating the point set values
-      this->m_DoUpdatePointSetValues = true;
+      this->m_DoUpdateResidualValues = true;
       // this->BeforeThreadedGenerateData();
       multiThreader->SingleMethodExecute();
       // this->AfterThreadedGenerateData();
-      this->m_DoUpdatePointSetValues = false;
+      this->m_DoUpdateResidualValues = false;
 
       ImageRegionIterator<PointDataImageType> ItPsi(this->m_PsiLattice, this->m_PsiLattice->GetLargestPossibleRegion());
       ImageRegionIterator<PointDataImageType> ItPhi(this->m_PhiLattice, this->m_PhiLattice->GetLargestPossibleRegion());
@@ -397,9 +395,9 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
 {
   if (!this->m_IsFittingComplete)
   {
-    if (this->m_DoUpdatePointSetValues)
+    if (this->m_DoUpdateResidualValues)
     {
-      this->ThreadedGenerateDataForUpdatePointSetValues(region, threadId);
+      this->ThreadedGenerateDataForUpdatingResidualValues(region, threadId);
     }
     else
     {
@@ -548,7 +546,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
       RealType wc = this->m_PointWeights->GetElement(n);
       RealType t = ItW.Get();
       currentThreadOmegaLattice->SetPixel(idx, currentThreadOmegaLattice->GetPixel(idx) + wc * t * t);
-      PointDataType data = this->m_InputPointData->GetElement(n);
+      PointDataType data = this->m_ResidualPointSetValues->GetElement(n);
       data *= (t * t * t * wc / w2Sum);
       currentThreadDeltaLattice->SetPixel(idx, currentThreadDeltaLattice->GetPixel(idx) + data);
     }
@@ -887,7 +885,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::RefineC
 
 template <typename TInputPointSet, typename TOutputImage>
 void
-BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::ThreadedGenerateDataForUpdatePointSetValues(
+BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::ThreadedGenerateDataForUpdatingResidualValues(
   const RegionType & itkNotUsed(region),
   ThreadIdType       threadId)
 {
@@ -994,7 +992,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::Threade
         break;
       }
     }
-    this->m_InputPointData->CastToSTLContainer()[n] -= collapsedPhiLattices[0]->GetPixel(startPhiIndex);
+    this->m_ResidualPointSetValues->CastToSTLContainer()[n] -= collapsedPhiLattices[0]->GetPixel(startPhiIndex);
   }
 }
 
@@ -1147,7 +1145,7 @@ BSplineScatteredDataPointSetToImageFilter<TInputPointSet, TOutputImage>::PrintSe
     os << indent << "[" << i << "]: " << this->m_RefinedLatticeCoefficients[i] << std::endl;
   }
 
-  itkPrintSelfObjectMacro(InputPointData);
+  itkPrintSelfObjectMacro(ResidualPointSetValues);
 
   os << indent << "Kernel: " << std::endl;
   for (unsigned int i = 0; i < ImageDimension; ++i)

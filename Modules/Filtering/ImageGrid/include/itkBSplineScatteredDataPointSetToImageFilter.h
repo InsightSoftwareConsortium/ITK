@@ -332,9 +332,9 @@ private:
   void
   ThreadedGenerateDataForReconstruction(const RegionType &, ThreadIdType);
 
-  /** Update the input point set values with the residuals after fitting to a level. */
+  /** Update the residuals for multi-level fitting. */
   void
-  ThreadedGenerateDataForUpdatePointSetValues(const RegionType &, ThreadIdType);
+  ThreadedGenerateDataForUpdatingResidualValues(const RegionType &, ThreadIdType);
 
   /** Sub-function used by GenerateOutputImageFast() to generate the sampled
    * B-spline object quickly. */
@@ -369,7 +369,7 @@ private:
 
   vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension];
 
-  PointDataContainerPointer m_InputPointData;
+  PointDataContainerPointer m_ResidualPointSetValues;
 
   typename KernelType::Pointer m_Kernel[ImageDimension];
 
@@ -383,7 +383,7 @@ private:
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
   bool     m_IsFittingComplete{ false };
-  bool     m_DoUpdatePointSetValues{ false };
+  bool     m_DoUpdateResidualValues{ false };
 };
 } // end namespace itk
 
