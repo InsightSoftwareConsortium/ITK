@@ -127,8 +127,7 @@ ObjectFactoryBase::GetPimplGlobalsPointer() -> ObjectFactoryBasePrivate *
   return m_PimplGlobals;
 }
 
-
-/** \class StringOverMap
+/** \class OverrideMap
  * \brief Internal implementation class for ObjectFactorBase.
  *
  * Create a sub class to shrink the size of the symbols
@@ -136,12 +135,7 @@ ObjectFactoryBase::GetPimplGlobalsPointer() -> ObjectFactoryBasePrivate *
  * and a pointer member can be used.  This avoids other
  * classes including <map> and getting long symbol warnings.
  */
-using StringOverMapType = std::multimap<std::string, ObjectFactoryBase::OverrideInformation>;
-
-/** \class OverRideMap
- * \brief Internal implementation class for ObjectFactorBase.
- */
-class ObjectFactoryBase::OverRideMap : public StringOverMapType
+class ObjectFactoryBase::OverrideMap : public std::multimap<std::string, OverrideInformation>
 {};
 
 /**
@@ -485,7 +479,7 @@ ObjectFactoryBase::ReHash()
  * initialize class members
  */
 ObjectFactoryBase::ObjectFactoryBase()
-  : m_OverrideMap{ std::make_unique<OverRideMap>() }
+  : m_OverrideMap{ std::make_unique<OverrideMap>() }
 {
   m_LibraryHandle = nullptr;
   m_LibraryDate = 0;
@@ -731,7 +725,7 @@ ObjectFactoryBase::RegisterOverride(const char *               classOverride,
   info.m_EnabledFlag = enableFlag;
   info.m_CreateObject = createFunction;
 
-  m_OverrideMap->insert(OverRideMap::value_type(classOverride, info));
+  m_OverrideMap->insert(OverrideMap::value_type(classOverride, info));
 }
 
 LightObject::Pointer
