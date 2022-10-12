@@ -268,7 +268,7 @@ protected:
 
 private:
   // Forward reference because of private implementation
-  class OverRideMap;
+  class OverrideMap;
   class ObjectFactoryBasePrivate;
 
   /** Set/Get the pointer to ObjectFactoryBasePrivate.
@@ -277,7 +277,7 @@ private:
   SynchronizeObjectFactoryBase(void * objectFactoryBasePrivate);
   itkGetGlobalDeclarationMacro(ObjectFactoryBasePrivate, PimplGlobals);
 
-  const std::unique_ptr<OverRideMap> m_OverrideMap;
+  const std::unique_ptr<OverrideMap> m_OverrideMap;
 
   /** Initialize the static list of Factories. */
   static void
