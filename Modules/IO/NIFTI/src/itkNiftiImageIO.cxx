@@ -279,7 +279,7 @@ dumpdata(const void * x)
 }
 } // namespace
 #else
-#  define dumpdata(x)
+#  define dumpdata(x) ITK_NOOP_STATEMENT
 #endif // #if defined(ITK_USE_VERY_VERBOSE_NIFTI_DEBUGGING)
 
 namespace
@@ -354,45 +354,6 @@ UpperToLowerOrder(int dim)
   for (int i = 0; i < dim; ++i)
   {
     for (int j = 0; j <= i; j++, index2++)
-    {
-      rval[index2] = mat[i][j];
-    }
-  }
-  rval[index2] = -1;
-  for (int i = 0; i < dim; ++i)
-  {
-    delete[] mat[i];
-  }
-  delete[] mat;
-  return rval;
-}
-
-// returns an ordering array for converting lower triangular symmetric matrix
-// to upper triangular symmetric matrix
-int *
-LowerToUpperOrder(int dim)
-{
-  auto ** mat = new int *[dim];
-
-  for (int i = 0; i < dim; ++i)
-  {
-    mat[i] = new int[dim];
-  }
-  // fill in
-  int index(0);
-  for (int i = 0; i < dim; ++i)
-  {
-    for (int j = 0; j <= i; j++, index++)
-    {
-      mat[i][j] = index;
-      mat[j][i] = index;
-    }
-  }
-  auto * rval = new int[index + 1];
-  int    index2(0);
-  for (int i = 0; i < dim; ++i)
-  {
-    for (int j = i; j < dim; j++, index2++)
     {
       rval[index2] = mat[i][j];
     }
@@ -741,7 +702,6 @@ NiftiImageIO::Read(void * buffer)
     if (this->GetPixelType() == IOPixelEnum::DIFFUSIONTENSOR3D ||
         this->GetPixelType() == IOPixelEnum::SYMMETRICSECONDRANKTENSOR)
     {
-      //      vecOrder = LowerToUpperOrder(SymMatDim(numComponents));
       vecOrder = UpperToLowerOrder(SymMatDim(numComponents));
     }
     else
@@ -2270,7 +2230,7 @@ NiftiImageIO::SetNIfTIOrientationFromImageIO(unsigned short origdims, unsigned s
   // set the quaternions, from the direction vectors
   // Initialize to size 3 with values of 0
   //
-  // The type here must be float, because that matches the signature
+  // The type here must be a float, because that matches the signature
   // of the nifti_make_orthog_mat44() method below.
   using DirectionMatrixComponentType = float;
   const int                                 mindims(dims < 3 ? 3 : dims);
