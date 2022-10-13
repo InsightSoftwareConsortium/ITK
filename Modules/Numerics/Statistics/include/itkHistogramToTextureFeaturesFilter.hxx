@@ -21,7 +21,6 @@
 
 #include "itkNumericTraits.h"
 #include "itkMath.h"
-#include "itkMath.h"
 #include <memory> // For make_unique.
 
 namespace itk
