@@ -18,7 +18,6 @@
 #include "itkMeanSquaresImageToImageMetricv4.h"
 #include "itkTranslationTransform.h"
 #include "itkMath.h"
-#include "itkMath.h"
 
 /* Simple test to verify that class builds and runs.
  * Results are not verified. See ImageToImageMetricv4Test

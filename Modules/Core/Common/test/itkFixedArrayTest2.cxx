@@ -20,7 +20,6 @@
 #include "itkFixedArray.h"
 #include <ctime>
 #include <cstring>
-#include <cstring>
 
 int
 itkFixedArrayTest2(int, char *[])

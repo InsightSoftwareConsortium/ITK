@@ -17,7 +17,6 @@
  *=========================================================================*/
 #include "itkImageFileReader.h"
 #include "itkImageFileWriter.h"
-#include "itkImageFileWriter.h"
 #include "itkTestingMacros.h"
 #include <fstream>
 
