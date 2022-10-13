@@ -22,7 +22,6 @@
 
 #include "itkProgressReporter.h"
 #include "itkMath.h"
-#include "itkMath.h"
 
 namespace itk
 {

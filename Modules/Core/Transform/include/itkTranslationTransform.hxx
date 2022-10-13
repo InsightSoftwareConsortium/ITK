@@ -19,7 +19,6 @@
 #define itkTranslationTransform_hxx
 
 #include "itkMath.h"
-#include "itkMath.h"
 
 namespace itk
 {

@@ -27,7 +27,6 @@
 #include "itkVectorNeighborhoodOperatorImageFilter.h"
 
 #include "itkMath.h"
-#include "itkMath.h"
 
 namespace itk
 {
