@@ -278,6 +278,10 @@ private:
   using CubicBSplineFunctionType = BSplineKernelFunction<3, PDFValueType>;
   using CubicBSplineDerivativeFunctionType = BSplineDerivativeKernelFunction<3, PDFValueType>;
 
+  /** Extract common processing for both GetValueAndDerivative and GetValue functions */
+  void
+  CommonGetValueProcessing() const;
+
   /** Precompute fixed image parzen window indices. */
   void
   ComputeFixedImageParzenWindowIndices(FixedImageSampleContainer & samples);
