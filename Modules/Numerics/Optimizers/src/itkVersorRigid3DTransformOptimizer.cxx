@@ -27,7 +27,8 @@ namespace itk
 void
 VersorRigid3DTransformOptimizer::StepAlongGradient(double factor, const DerivativeType & transformedGradient)
 {
-  const ParametersType & currentPosition = this->GetCurrentPosition();
+  const ParametersType &        currentPosition = this->GetCurrentPosition();
+  static constexpr unsigned int NumberOfParameters = 6;
 
   // The parameters are assumed to be the right part of the versor and the
   // components of the translation vector.
@@ -66,16 +67,17 @@ VersorRigid3DTransformOptimizer::StepAlongGradient(double factor, const Derivati
   //
   VersorType newRotation = currentRotation * gradientRotation;
 
-  ParametersType newParameters(SpaceDimension);
+  ParametersType newParameters(NumberOfParameters);
 
   newParameters[0] = newRotation.GetX();
   newParameters[1] = newRotation.GetY();
   newParameters[2] = newRotation.GetZ();
 
-  // Now do the typical update for a Vector space.
-  for (unsigned int k = 3; k < 6; ++k)
+  // Optimize the non-versor parameters as the
+  // RegularStepGradientDescentOptimizer
+  for (unsigned int j = 3; j < NumberOfParameters; ++j)
   {
-    newParameters[k] = currentPosition[k] + transformedGradient[k] * factor;
+    newParameters[j] = currentPosition[j] + transformedGradient[j] * factor;
   }
 
   this->SetCurrentPosition(newParameters);
