@@ -56,19 +56,14 @@ VersorRigid3DTransform<TParametersValueType>::SetParameters(const ParametersType
   // Transfer the versor part
 
   AxisType axis;
-
-  double norm = parameters[0] * parameters[0];
   axis[0] = parameters[0];
-  norm += parameters[1] * parameters[1];
   axis[1] = parameters[1];
-  norm += parameters[2] * parameters[2];
   axis[2] = parameters[2];
-  if (norm > 0)
-  {
-    norm = std::sqrt(norm);
-  }
 
-  double epsilon = 1e-10;
+  const double norm =
+    std::sqrt(parameters[0] * parameters[0] + parameters[1] * parameters[1] + parameters[2] * parameters[2]);
+
+  constexpr double epsilon = 1e-10;
   if (norm >= 1.0 - epsilon)
   {
     axis = axis / (norm + epsilon * norm);
