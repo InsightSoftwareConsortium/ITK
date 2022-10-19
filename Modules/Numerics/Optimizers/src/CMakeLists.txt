@@ -13,7 +13,6 @@ set(ITKOptimizers_SRCS
   itkSingleValuedVnlCostFunctionAdaptor.cxx
   itkMultipleValuedNonLinearVnlOptimizer.cxx
   itkPowellOptimizer.cxx
-  itkVersorRigid3DTransformOptimizer.cxx
   itkVersorTransformOptimizer.cxx
   itkOnePlusOneEvolutionaryOptimizer.cxx
   itkMultipleValuedNonLinearOptimizer.cxx

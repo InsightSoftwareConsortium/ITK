@@ -18,67 +18,16 @@
 #ifndef itkVersorRigid3DTransformOptimizer_h
 #define itkVersorRigid3DTransformOptimizer_h
 
-#include "itkRegularStepGradientDescentOptimizer.h"
-#include "itkVersor.h"
-#include "ITKOptimizersExport.h"
+#include "itkVersorTransformOptimizer.h"
 
+// At some point in the distant future, remove support for VersorRigid3DTransformOptimizer
+// #if defined(ITK_FUTURE_LEGACY_REMOVE)
+// #warning "itkVersorRigid3DTransformOptimizer is identical to itkVersorTransformOptimizer, please replace"
+// #else
 namespace itk
 {
-/** \class VersorRigid3DTransformOptimizer
- * \brief Implement a gradient descent optimizer for the VersorRigid3DTransform
- * parameter space.
- *
- * VersorRigid3DTransformOptimizer is a variant of the
- * gradient descent optimizer implemented in
- * RegularStepGradientDescentOptimizer.
- *
- * Versors are not in a vector space, for that reason,
- * the classical gradient descent algorithm has to be
- * modified in order to be applicable to Versors (unit
- * quaternions) that form the group SO(3).
- *
- * The Versor space has only three degrees of freedom,
- * even though Versors are represented using four values.
- *
- * This optimizer assumes that the CostFunction to be
- * optimized has an itk::Versor as parameters.
- *
- * \sa RegularStepGradientDescentOptimizer
- * \sa Versor
- * \sa VersorRigid3DTransform
- *
- * \ingroup Numerics Optimizers
- * \ingroup ITKOptimizers
- */
-class ITKOptimizers_EXPORT VersorRigid3DTransformOptimizer : public RegularStepGradientDescentBaseOptimizer
-{
-public:
-  ITK_DISALLOW_COPY_AND_MOVE(VersorRigid3DTransformOptimizer);
-
-  /** Standard class type aliases. */
-  using Self = VersorRigid3DTransformOptimizer;
-  using Superclass = RegularStepGradientDescentBaseOptimizer;
-  using Pointer = SmartPointer<Self>;
-  using ConstPointer = SmartPointer<const Self>;
-
-  /** Method for creation through the object factory. */
-  itkNewMacro(Self);
-
-  /** Run-time type information (and related methods). */
-  itkTypeMacro(VersorRigid3DTransformOptimizer, RegularStepGradientDescentBaseOptimizer);
-
-  /**  Versor Type  */
-  using VersorType = Versor<double>;
-  using VectorType = VersorType::VectorType;
-
-  /** Advance one step following the gradient direction. */
-  void
-  StepAlongGradient(double factor, const DerivativeType & transformedGradient) override;
-
-protected:
-  VersorRigid3DTransformOptimizer() = default;
-  ~VersorRigid3DTransformOptimizer() override = default;
-};
+using VersorRigid3DTransformOptimizer = VersorTransformOptimizer;
 } // end namespace itk
+// #endif
 
 #endif
