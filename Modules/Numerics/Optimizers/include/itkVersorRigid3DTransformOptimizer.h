@@ -28,18 +28,20 @@ namespace itk
  * \brief Implement a gradient descent optimizer for the VersorRigid3DTransform
  * parameter space.
  *
- * VersorRigid3DTransformOptimizer is a variant of the gradient descent
- * optimizer implemented in RegularStepGradientDescentOptimizer.
+ * VersorRigid3DTransformOptimizer is a variant of the
+ * gradient descent optimizer implemented in
+ * RegularStepGradientDescentOptimizer.
  *
- * Versors are not in a vector space, for that reason, the classical gradient
- * descent algorithm has to be modified in order to be applicable to Versors
- * (unit quaternions) that form the group SO(3).
+ * Versors are not in a vector space, for that reason,
+ * the classical gradient descent algorithm has to be
+ * modified in order to be applicable to Versors (unit
+ * quaternions) that form the group SO(3).
  *
- * The Versor space has only three degrees of freedom, even though Versors are
- * represented using four values.
+ * The Versor space has only three degrees of freedom,
+ * even though Versors are represented using four values.
  *
- * This optimizer assumes that the CostFunction to be optimized has an
- * itk::Versor and an itk::Vector as parameters.
+ * This optimizer assumes that the CostFunction to be
+ * optimized has an itk::Versor as parameters.
  *
  * \sa RegularStepGradientDescentOptimizer
  * \sa Versor
@@ -64,9 +66,6 @@ public:
 
   /** Run-time type information (and related methods). */
   itkTypeMacro(VersorRigid3DTransformOptimizer, RegularStepGradientDescentBaseOptimizer);
-
-  /** This class is specialized for 3D  */
-  static constexpr unsigned int SpaceDimension = 6;
 
   /**  Versor Type  */
   using VersorType = Versor<double>;

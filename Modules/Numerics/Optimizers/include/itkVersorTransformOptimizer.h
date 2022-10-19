@@ -40,7 +40,7 @@ namespace itk
  * even though Versors are represented using four values.
  *
  * This optimizer assumes that the CostFunction to be
- * optimized has an itk::Versor as parameter.
+ * optimized has an itk::Versor as parameters.
  *
  * \sa RegularStepGradientDescentOptimizer
  * \sa Versor
