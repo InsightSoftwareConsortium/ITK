@@ -18,6 +18,7 @@
 #ifndef itkOrthogonalSwath2DPathFilter_hxx
 #define itkOrthogonalSwath2DPathFilter_hxx
 
+#include "itkMakeUniqueForOverwrite.h"
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 
@@ -36,9 +37,9 @@ OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::GenerateData()
 
   // Re-initialize the member variables
   m_SwathSize = swathMeritImage->GetLargestPossibleRegion().GetSize();
-  m_StepValues.reset(new int[m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]]);
-  m_MeritValues.reset(new double[m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]]);
-  m_OptimumStepsValues.reset(new int[m_SwathSize[0]]);
+  m_StepValues = make_unique_for_overwrite<int[]>(m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]);
+  m_MeritValues = make_unique_for_overwrite<double[]>(m_SwathSize[0] * m_SwathSize[1] * m_SwathSize[1]);
+  m_OptimumStepsValues = make_unique_for_overwrite<int[]>(m_SwathSize[0]);
   m_FinalOffsetValues->Initialize();
 
   // Perform the remaining calculations; use dynamic programming
