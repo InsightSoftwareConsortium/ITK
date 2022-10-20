@@ -330,8 +330,8 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::EnlargeOutputRequestedRegion(
     // DataObject::PropagateRequestedRegion() has an exception
     // specification
     std::ostringstream message;
-    message << "ImageIO returns IO region that does not fully contain the requested region"
-            << "Requested region: " << imageRequestedRegion << "StreamableRegion region: " << streamableRegion;
+    message << "ImageIO returns IO region that does not fully contain the requested region. Requested region: "
+            << imageRequestedRegion << "StreamableRegion region: " << streamableRegion;
     InvalidRequestedRegionError e(__FILE__, __LINE__);
     e.SetLocation(ITK_LOCATION);
     e.SetDescription(message.str().c_str());

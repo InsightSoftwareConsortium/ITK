@@ -774,8 +774,7 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::ThreadedAlloc
   // Throw an exception if we don't have enough layers.
   if (m_Data[ThreadId].m_Layers.size() < 3)
   {
-    itkExceptionMacro(<< "Not enough layers have been allocated for the sparse"
-                      << "field. Requires at least one layer.");
+    itkExceptionMacro(<< "Not enough layers have been allocated for the sparse field. Requires at least one layer.");
   }
 
   // Layers used as buffers for transferring pixels during load balancing

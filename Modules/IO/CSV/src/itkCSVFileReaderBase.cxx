@@ -58,14 +58,12 @@ CSVFileReaderBase::PrepareForParsing()
 
   if (this->m_UseStringDelimiterCharacter && !(this->m_HasRowHeaders || this->m_HasColumnHeaders))
   {
-    itkWarningMacro(<< " Use string delimiter has been set to on"
-                    << "but row and/or column headers indicators are off!");
+    itkWarningMacro(<< " Use string delimiter has been set to on but row and/or column headers indicators are off!");
   }
 
   if (this->m_UseStringDelimiterCharacter && this->m_FieldDelimiterCharacter == this->m_StringDelimiterCharacter)
   {
-    itkExceptionMacro(<< "The same character has been set for the string"
-                      << "delimiter and the field delimiter character!");
+    itkExceptionMacro(<< "The same character has been set for the string delimiter and the field delimiter character!");
   }
 }
 
