@@ -242,8 +242,8 @@ ImageFileWriter<TInputImage>::Write()
   // largest region or not.
   if (!largestIORegion.IsInside(pasteIORegion))
   {
-    itkExceptionMacro(<< "Largest possible region does not fully contain requested paste IO region"
-                      << "Paste IO region: " << pasteIORegion << "Largest possible region: " << largestRegion);
+    itkExceptionMacro(<< "Largest possible region does not fully contain requested paste IO region. Paste IO region: "
+                      << pasteIORegion << "Largest possible region: " << largestRegion);
   }
 
   // Determine the actual number of divisions of the input. This is determined
@@ -270,8 +270,9 @@ ImageFileWriter<TInputImage>::Write()
     // largest region or not.
     if (!pasteIORegion.IsInside(streamIORegion))
     {
-      itkExceptionMacro(<< "ImageIO returns streamable region that is not fully contain in paste IO region"
-                        << "Paste IO region: " << pasteIORegion << "Streamable region: " << streamIORegion);
+      itkExceptionMacro(
+        << "ImageIO returns streamable region that is not fully contain in paste IO region. Paste IO region: "
+        << pasteIORegion << "Streamable region: " << streamIORegion);
     }
 
     InputImageRegionType streamRegion;

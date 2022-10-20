@@ -53,9 +53,8 @@ VnlForwardFFTImageFilter<TInputImage, TOutputImage>::GenerateData()
     if (!VnlFFTCommon::IsDimensionSizeLegal(inputSize[i]))
     {
       itkExceptionMacro(<< "Cannot compute FFT of image with size " << inputSize
-                        << ". VnlForwardFFTImageFilter operates "
-                        << "only on images whose size in each dimension has"
-                        << "only a combination of 2,3, and 5 as prime factors.");
+                        << ". VnlForwardFFTImageFilter operates only on images whose size in each dimension has only a "
+                           "combination of 2,3, and 5 as prime factors.");
     }
     vectorSize *= inputSize[i];
   }
