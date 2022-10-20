@@ -177,22 +177,14 @@ LightObject::~LightObject()
   /**
    * warn user if reference counting is on and the object is being referenced
    * by another object.
-   * a call to uncaught_exception is necessary here to avoid throwing an
-   * exception if one has been thrown already. This is likely to
-   * happen when a subclass constructor (say B) is throwing an exception: at
-   * that point, the stack unwinds by calling all superclass destructors back
-   * to this method (~LightObject): since the ref count is still 1, an
-   * exception would be thrown again, causing the system to abort()!
    */
-  if (m_ReferenceCount > 0 && !std::uncaught_exception())
+  if (m_ReferenceCount > 0)
   {
     // A general exception safety rule is that destructors should
     // never throw.  Something is wrong with a program that reaches
     // this point anyway.  Also this is the least-derived class so the
     // whole object has been destroyed by this point anyway.  Just
-    // issue a warning.
-    // itkExceptionMacro(<< "Trying to delete object with non-zero reference
-    // count.");
+    // issue a warning, do not call `itkExceptionMacro`.
     itkWarningMacro("Trying to delete object with non-zero reference count.");
   }
 }
