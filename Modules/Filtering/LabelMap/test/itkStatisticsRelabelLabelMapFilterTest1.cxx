@@ -32,8 +32,8 @@ itkStatisticsRelabelLabelMapFilterTest1(int argc, char * argv[])
   if (argc < 6)
   {
     std::cerr << "Missing Parameters." << std::endl;
-    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " input feature output"
-              << "background reverseOrdering attribute" << std::endl;
+    std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv)
+              << " input feature output background reverseOrdering attribute" << std::endl;
     return EXIT_FAILURE;
   }
 

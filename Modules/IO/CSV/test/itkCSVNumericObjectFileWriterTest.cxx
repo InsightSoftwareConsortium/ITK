@@ -74,14 +74,13 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   {
     caught = true;
     std::cerr << "Exception caught!" << std::endl;
-    std::cerr << "This is an expected exception as there is no input"
-              << "file provided." << std::endl;
+    std::cerr << "This is an expected exception as there is no input file provided." << std::endl;
     std::cerr << exp << std::endl;
   }
   if (!caught)
   {
-    std::cerr << "An exception should have been caught here as there"
-              << "is no input file provided. Test fails." << std::endl;
+    std::cerr << "An exception should have been caught here as there is no input file provided. Test fails."
+              << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -104,8 +103,8 @@ itkCSVNumericObjectFileWriterTest(int argc, char * argv[])
   }
   if (!caught)
   {
-    std::cerr << "An exception should have been caught here as there is no"
-              << "input object to write out. Test fails." << std::endl;
+    std::cerr << "An exception should have been caught here as there is no input object to write out. Test fails."
+              << std::endl;
     return EXIT_FAILURE;
   }
 

@@ -31,12 +31,8 @@ itkRenyiEntropyMaskedThresholdImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage:" << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << " inputImageFile"
-              << " maskImageFile"
-              << " outputImageFile"
-              << " maskOutput"
-              << " maskValue"
-              << "expectedThreshold" << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << " inputImageFile maskImageFile outputImageFile maskOutput maskValue expectedThreshold" << std::endl;
     return EXIT_FAILURE;
   }
 

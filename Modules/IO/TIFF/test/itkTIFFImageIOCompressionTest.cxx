@@ -141,9 +141,7 @@ itkTIFFImageIOCompressionTest(int argc, char * argv[])
   if (argc < 4)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv) << " inputFile"
-              << " outputFile"
-              << "compression"
-              << "[JPEGQuality]" << std::endl;
+              << " outputFile compression [JPEGQuality]" << std::endl;
     return EXIT_FAILURE;
   }
 
