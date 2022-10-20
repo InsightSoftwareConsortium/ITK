@@ -1120,7 +1120,7 @@ def imwrite(
 
 
 def imread(
-    filename: fileiotype,
+    filename: Union[fileiotype, Sequence[Union[str, os.PathLike]]],
     pixel_type: Optional["itkt.PixelTypes"] = None,
     fallback_only: bool = False,
     imageio: Optional["itkt.ImageIOBase"] = None,
@@ -1202,7 +1202,7 @@ def imread(
         template_reader_type = itk.ImageSeriesReader
         io_filename = f"{filename[0]}"
         increase_dimension = True
-        kwargs = {"FileNames": [f"{f}" for f in filename]}
+        kwargs = {"FileNames": [f"{str(f)}" for f in filename]}
     else:
         template_reader_type = itk.ImageFileReader
         io_filename = f"{filename}"
