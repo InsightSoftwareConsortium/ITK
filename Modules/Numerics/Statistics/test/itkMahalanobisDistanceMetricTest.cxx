@@ -243,8 +243,9 @@ itkMahalanobisDistanceMetricTest(int, char *[])
   try
   {
     distance->Evaluate(measurementSingleComponent, measurementSingleComponent3);
-    std::cerr << "Attempting to compute distance between unequal size measurement vectors"
-              << "Exception should have been thrown: " << std::endl;
+    std::cerr
+      << "Attempting to compute distance between unequal size measurement vectors. Exception should have been thrown: "
+      << std::endl;
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excpt)

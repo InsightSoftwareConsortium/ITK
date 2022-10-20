@@ -66,10 +66,8 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   {
     std::cerr << "Missing parameters." << std::endl;
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << "inputImage referenceImage "
-              << "resampledImageLinear resampledImageNonLinear "
-              << "resampledImageLinearNearestExtrapolate"
-              << "resampledImageNonLinearNearestExtrapolate";
+    std::cerr << "inputImage referenceImage resampledImageLinear resampledImageNonLinear "
+                 "resampledImageLinearNearestExtrapolate resampledImageNonLinearNearestExtrapolate";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }

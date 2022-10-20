@@ -179,8 +179,8 @@ itkSampleClassifierFilterTest3(int, char *[])
   try
   {
     filter->Update();
-    std::cerr << "Exception should be thrown since weight array has size different"
-              << "from the number of classes set" << std::endl;
+    std::cerr << "Exception should be thrown since weight array has size different from the number of classes set"
+              << std::endl;
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)

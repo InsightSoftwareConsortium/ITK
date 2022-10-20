@@ -251,8 +251,8 @@ itkImageClassifierFilterTest(int argc, char * argv[])
   try
   {
     filter->Update();
-    std::cerr << "Attempting to run a classification without setting"
-              << "decision rule, should throw an exception" << std::endl;
+    std::cerr << "Attempting to run a classification without setting decision rule, should throw an exception"
+              << std::endl;
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)

@@ -146,8 +146,7 @@ itkCSVArray2DFileReaderTest(int argc, char * argv[])
   }
   if (!caught)
   {
-    std::cerr << "An exception should have been caught here as the filename does"
-              << "not exist! Test fails." << std::endl;
+    std::cerr << "An exception should have been caught here as the filename does not exist! Test fails." << std::endl;
     return EXIT_FAILURE;
   }
 
