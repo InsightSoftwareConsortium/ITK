@@ -108,7 +108,6 @@ ImageIOBase::SetDimensions(unsigned int i, SizeValueType dim)
 {
   if (i >= m_Dimensions.size())
   {
-    itkWarningMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Dimensions.size());
     itkExceptionMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Dimensions.size());
   }
   this->Modified();
@@ -120,7 +119,6 @@ ImageIOBase::SetOrigin(unsigned int i, double origin)
 {
   if (i >= m_Origin.size())
   {
-    itkWarningMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Origin.size());
     itkExceptionMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Origin.size());
   }
   this->Modified();
@@ -132,7 +130,6 @@ ImageIOBase::SetSpacing(unsigned int i, double spacing)
 {
   if (i >= m_Spacing.size())
   {
-    itkWarningMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Spacing.size());
     itkExceptionMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Spacing.size());
   }
   this->Modified();
@@ -144,7 +141,6 @@ ImageIOBase::SetDirection(unsigned int i, const std::vector<double> & direction)
 {
   if (i >= m_Direction.size())
   {
-    itkWarningMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Direction.size());
     itkExceptionMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Direction.size());
   }
   this->Modified();
@@ -156,7 +152,6 @@ ImageIOBase::SetDirection(unsigned int i, const vnl_vector<double> & direction)
 {
   if (i >= m_Direction.size())
   {
-    itkWarningMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Direction.size());
     itkExceptionMacro("Index: " << i << " is out of bounds, expected maximum is " << m_Direction.size());
   }
   this->Modified();
