@@ -17,6 +17,7 @@
  *=========================================================================*/
 #ifndef itkNeighborhoodAllocator_h
 #define itkNeighborhoodAllocator_h
+#include "itkMakeUniqueForOverwrite.h"
 #include <algorithm>
 #include <iostream>
 #include <memory>
@@ -63,7 +64,7 @@ public:
   void
   Allocate(unsigned int n)
   {
-    m_Data.reset(new TPixel[n]);
+    m_Data = make_unique_for_overwrite<TPixel[]>(n);
     m_ElementCount = n;
   }
 
@@ -158,7 +159,7 @@ public:
     if (n != m_ElementCount)
     {
       *this = NeighborhoodAllocator();
-      m_Data.reset(new TPixel[n]);
+      m_Data = make_unique_for_overwrite<TPixel[]>(n);
       m_ElementCount = n;
     }
   }

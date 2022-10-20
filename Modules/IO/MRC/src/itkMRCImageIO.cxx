@@ -21,6 +21,7 @@
 #include "itkMetaDataObject.h"
 #include "itkIOCommon.h"
 #include "itkByteSwapper.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 #include <fstream>
 #include <memory> // For unique_ptr.
@@ -246,7 +247,7 @@ MRCImageIO::InternalReadImageInformation(std::ifstream & file)
 
   this->OpenFileForReading(file, m_FileName);
 
-  buffer.reset(new char[m_MRCHeader->GetHeaderSize()]);
+  buffer = make_unique_for_overwrite<char[]>(m_MRCHeader->GetHeaderSize());
   if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer.get()), m_MRCHeader->GetHeaderSize()))
   {
     itkExceptionMacro(<< "Header Read failed: Wanted " << m_MRCHeader->GetHeaderSize() << " bytes, but read "
@@ -259,7 +260,7 @@ MRCImageIO::InternalReadImageInformation(std::ifstream & file)
     itkExceptionMacro(<< "Unrecognized header");
   }
 
-  buffer.reset(new char[m_MRCHeader->GetExtendedHeaderSize()]);
+  buffer = make_unique_for_overwrite<char[]>(m_MRCHeader->GetExtendedHeaderSize());
   if (!this->ReadBufferAsBinary(file, static_cast<void *>(buffer.get()), m_MRCHeader->GetExtendedHeaderSize()))
   {
     itkExceptionMacro(<< "Extended Header Read failed.");

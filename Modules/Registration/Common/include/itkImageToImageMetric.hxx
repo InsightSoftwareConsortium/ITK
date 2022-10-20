@@ -20,6 +20,7 @@
 
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkMath.h"
+#include "itkMakeUniqueForOverwrite.h"
 
 namespace itk
 {
@@ -305,10 +306,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
 {
   this->SetNumberOfWorkUnits(m_NumberOfWorkUnits);
 
-  m_ThreaderNumberOfMovingImageSamples.reset(new unsigned int[m_NumberOfWorkUnits - 1]);
+  m_ThreaderNumberOfMovingImageSamples = make_unique_for_overwrite<unsigned int[]>(m_NumberOfWorkUnits - 1);
 
   // Allocate the array of transform clones to be used in every thread
-  m_ThreaderTransform.reset(new TransformPointer[m_NumberOfWorkUnits - 1]);
+  m_ThreaderTransform = make_unique_for_overwrite<TransformPointer[]>(m_NumberOfWorkUnits - 1);
   for (ThreadIdType ithread = 0; ithread < m_NumberOfWorkUnits - 1; ++ithread)
   {
     this->m_ThreaderTransform[ithread] = this->m_Transform->Clone();
@@ -422,8 +423,10 @@ ImageToImageMetric<TFixedImage, TMovingImage>::MultiThreadingInitialize()
     }
     else
     {
-      this->m_ThreaderBSplineTransformWeights.reset(new BSplineTransformWeightsType[m_NumberOfWorkUnits - 1]);
-      this->m_ThreaderBSplineTransformIndices.reset(new BSplineTransformIndexArrayType[m_NumberOfWorkUnits - 1]);
+      this->m_ThreaderBSplineTransformWeights =
+        make_unique_for_overwrite<BSplineTransformWeightsType[]>(m_NumberOfWorkUnits - 1);
+      this->m_ThreaderBSplineTransformIndices =
+        make_unique_for_overwrite<BSplineTransformIndexArrayType[]>(m_NumberOfWorkUnits - 1);
     }
 
     for (unsigned int j = 0; j < FixedImageDimension; ++j)
