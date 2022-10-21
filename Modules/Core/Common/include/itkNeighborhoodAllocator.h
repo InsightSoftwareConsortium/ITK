@@ -60,7 +60,7 @@ public:
   /** Defaulted destructor */
   ~NeighborhoodAllocator() = default;
 
-  /** Allocates memory using new() */
+  /** Allocates memory. */
   void
   Allocate(unsigned int n)
   {
@@ -68,7 +68,7 @@ public:
     m_ElementCount = n;
   }
 
-  /** Deallocates memory using delete[](). */
+  /** Deallocates memory. */
   void
   Deallocate()
   {
@@ -79,7 +79,7 @@ public:
   /** Copy constructor. */
   NeighborhoodAllocator(const Self & other)
     : m_ElementCount(other.m_ElementCount)
-    , m_Data(new TPixel[other.m_ElementCount])
+    , m_Data(make_unique_for_overwrite<TPixel[]>(other.m_ElementCount))
   {
     std::copy_n(other.m_Data.get(), m_ElementCount, m_Data.get());
   }
