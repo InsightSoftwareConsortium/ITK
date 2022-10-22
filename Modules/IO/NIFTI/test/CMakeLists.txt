@@ -13,6 +13,7 @@ itkNiftiImageIOTest10.cxx
 itkNiftiImageIOTest11.cxx
 itkNiftiImageIOTest12.cxx
 itkNiftiImageIOTest13.cxx
+itkNiftiLargeImageRegionReadTest.cxx
 itkNiftiReadAnalyzeTest.cxx
 itkNiftiReadWriteDirectionTest.cxx
 itkExtractSlice.cxx
@@ -114,6 +115,10 @@ itk_add_test(NAME itkNiftiQFormSFormDifferentSpacingTest
       itkNiftiImageIOTest13
       DATA{Input/ChickenEgg-zeros.nii.gz}
       )
+
+itk_add_test(NAME itkNiftiLargeImageRegionReadTest
+      COMMAND ITKIONIFTITestDriver itkNiftiLargeImageRegionReadTest
+      ${ITK_TEST_OUTPUT_DIR}/itkNiftiLargeImageRegionReadTest.nii.gz)
 
 itk_add_test(NAME itkNiftiWriteCoerceOrthogonalDirectionTest
         COMMAND ITKIONIFTITestDriver itkNiftiWriteCoerceOrthogonalDirectionTest
