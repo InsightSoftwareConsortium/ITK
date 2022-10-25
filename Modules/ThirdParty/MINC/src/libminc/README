@@ -17,7 +17,7 @@ Minc tools are hosted in https://github.com/BIC-MNI/minc-tools
 Additional tools are available from the Montreal Neurological
 Institute (MNI).
 
-    http://packages.bic.mni.mcgill.ca/tgz
+    https://packages.bic.mni.mcgill.ca/tgz
 
 
 SUPPORT FOR HDF5 "MINC 2.0" FORMAT FILES
@@ -26,7 +26,7 @@ SUPPORT FOR HDF5 "MINC 2.0" FORMAT FILES
 This change requires that HDF5 must be installed before MINC can be
 built. You can obtain HDF5 from, current version is 1.8.11:
 
-   http://www.hdfgroup.org/
+   https://www.hdfgroup.org/
 
 You should NOT need to become an HDF5 expert to use MINC 2.0.
 However, two tools included with HDF5 may prove useful, "h5dump" and
@@ -106,4 +106,4 @@ MINC_PREFER_V2_API = {1,0}
 DOCUMENTATION
 -------------
 
-http://en.wikibooks.org/wiki/MINC
+https://en.wikibooks.org/wiki/MINC
