@@ -1447,7 +1447,9 @@ int miopen_volume(const char *filename, int mode, mihandle_t *volume)
     }
     /* Get dimension variable attributes for each dimension */
     _miget_file_dimension(handle, p1, &handle->dim_handles[i]);
-    p1 = p2 + 1;
+    if (p2 != NULL) {
+      p1 = p2 + 1;
+    }
   }
 
   if( miset_volume_world_indices(handle) < 0 ) {
