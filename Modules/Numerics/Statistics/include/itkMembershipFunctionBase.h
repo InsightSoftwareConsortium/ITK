@@ -92,7 +92,7 @@ public:
   SetMeasurementVectorSize(MeasurementVectorSizeType s)
   {
     // Test whether the vector type is resizable or not
-    MeasurementVectorType m;
+    MeasurementVectorType m{};
 
     if (MeasurementVectorTraits::IsResizable(m))
     {
