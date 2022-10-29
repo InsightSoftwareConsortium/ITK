@@ -60,6 +60,10 @@ else()
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(CastXML)
     endif()
+    cmake_policy(PUSH)
+    if(POLICY CMP0135)
+      cmake_policy(SET CMP0135 NEW)
+    endif()
     ExternalProject_Add(castxml
       URL ${_castxml_url}
       URL_HASH SHA512=${_castxml_hash}
@@ -67,6 +71,7 @@ else()
       BUILD_COMMAND ""
       INSTALL_COMMAND "${CMAKE_COMMAND}" -E copy_directory "${CMAKE_CURRENT_BINARY_DIR}/castxml-prefix/src/castxml" "${CMAKE_CURRENT_BINARY_DIR}/castxml"
       )
+    cmake_policy(POP)
     set(CASTXML_EXECUTABLE ${castxml_ep})
     set(CASTXML_EXECUTABLE ${castxml_ep} CACHE FILEPATH "castxml executable." FORCE)
   # Build from source
