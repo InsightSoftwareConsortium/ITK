@@ -138,6 +138,11 @@ else()
               install
         )
       endif()
+      if(${CMAKE_VERSION} VERSION_LESS 3.24)
+        set(download_extract_timestamp_flag)
+      else()
+        set(download_extract_timestamp_flag DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+      endif()
       set(pcre_hash "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb")
       ExternalProject_Add(PCRE
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${pcre_hash}/download"
@@ -148,6 +153,7 @@ else()
           --prefix=${CMAKE_CURRENT_BINARY_DIR}/PCRE
           --enable-shared=no
         ${extra_external_project_commands}
+        ${download_extract_timestamp_flag}
         )
 
       # swig uses bison find it by cmake and pass it down
@@ -240,6 +246,11 @@ message(STATUS \"Swig configure successfully completed.\")
         )
       endif()
 
+      if(${CMAKE_VERSION} VERSION_LESS 3.24)
+        set(download_extract_timestamp_flag)
+      else()
+        set(download_extract_timestamp_flag DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+      endif()
       ExternalProject_Add(swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
         URL_HASH SHA512=${swig_hash}
@@ -247,6 +258,7 @@ message(STATUS \"Swig configure successfully completed.\")
           ${extra_swig_configure_env} ${CMAKE_COMMAND} -P "${_swig_configure_script}"
         ${extra_external_project_commands}
         DEPENDS PCRE
+        ${download_extract_timestamp_flag}
         )
     endif()
 
