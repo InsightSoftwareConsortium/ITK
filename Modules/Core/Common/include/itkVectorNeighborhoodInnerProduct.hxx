@@ -43,9 +43,11 @@ VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &           
   const auto stride = static_cast<unsigned int>(s.stride());
   for (unsigned int i = start; o_it < op_end; i += stride, ++o_it)
   {
+    const auto & neighborPixel = it.GetPixel(i);
+
     for (j = 0; j < VectorDimension; ++j)
     {
-      sum[j] += *o_it * (it.GetPixel(i))[j];
+      sum[j] += *o_it * neighborPixel[j];
     }
   }
 
@@ -75,9 +77,11 @@ VectorNeighborhoodInnerProduct<TImage>::operator()(const std::slice &       s,
   const auto stride = static_cast<unsigned int>(s.stride());
   for (unsigned int i = start; o_it < op_end; i += stride, ++o_it)
   {
+    const auto & neighborPixel = it[i];
+
     for (j = 0; j < VectorDimension; ++j)
     {
-      sum[j] += *o_it * it[i][j];
+      sum[j] += *o_it * neighborPixel[j];
     }
   }
 
