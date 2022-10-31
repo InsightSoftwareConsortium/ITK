@@ -27,8 +27,7 @@ namespace itk
 template <typename TInputImage, typename TOutputImage>
 ComposeImageFilter<TInputImage, TOutputImage>::ComposeImageFilter()
 {
-  OutputPixelType p;
-  int             nbOfComponents = NumericTraits<OutputPixelType>::GetLength(p);
+  int nbOfComponents = NumericTraits<OutputPixelType>::GetLength({});
   nbOfComponents = std::max(1, nbOfComponents); // require at least one input
   this->SetNumberOfRequiredInputs(nbOfComponents);
   this->DynamicMultiThreadingOn();

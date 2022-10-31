@@ -147,8 +147,7 @@ Image<TPixel, VImageDimension>::GetNumberOfComponentsPerPixel() const
 {
   // use the GetLength() method which works with variable length arrays,
   // to make it work with as much pixel types as possible
-  const auto p = PixelType();
-  return NumericTraits<PixelType>::GetLength(p);
+  return NumericTraits<PixelType>::GetLength({});
 }
 
 
