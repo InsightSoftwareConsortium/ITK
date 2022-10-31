@@ -95,7 +95,7 @@ ImageToListSampleFilter<TImage, TMaskImage>::GetMeasurementVectorSize() const
   MeasurementVectorType m;
   unsigned int          measurementVectorSize;
 
-  if (!MeasurementVectorTraits::IsResizable(m))
+  if (!MeasurementVectorTraits::IsResizable<MeasurementVectorType>({}))
   {
     measurementVectorSize = NumericTraits<MeasurementVectorType>::GetLength(m);
   }
