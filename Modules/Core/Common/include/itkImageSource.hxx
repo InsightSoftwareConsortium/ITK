@@ -254,8 +254,8 @@ ImageSource<TOutputImage>::ThreadedGenerateData(const OutputImageRegionType &
 #if !defined(ITK_LEGACY_REMOVE)
   this->DynamicThreadedGenerateData(region);
 #else
-  itkExceptionMacro("With DynamicMultiThreadingOff subclass should override this method. \
-The signature of ThreadedGenerateData() has been changed in ITK v4 to use the new ThreadIdType.");
+  itkExceptionMacro("With DynamicMultiThreadingOff subclass should override this method. The signature of "
+                    "ThreadedGenerateData() has been changed in ITK v4 to use the new ThreadIdType.");
 #endif
 }
 
@@ -264,9 +264,9 @@ template <typename TOutputImage>
 void
 ImageSource<TOutputImage>::DynamicThreadedGenerateData(const OutputImageRegionType &)
 {
-  itkExceptionMacro("Subclass should override this method!!! \
-If old behavior is desired invoke this->DynamicMultiThreadingOff(); \
-before Update() is called. The best place is in class constructor.");
+  itkExceptionMacro(
+    "Subclass should override this method!!! If old behavior is desired invoke this->DynamicMultiThreadingOff(); "
+    "before Update() is called. The best place is in class constructor.");
 }
 
 // Callback routine used by the classic threading library. This routine just calls

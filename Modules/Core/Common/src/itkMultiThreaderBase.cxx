@@ -152,10 +152,8 @@ MultiThreaderBase::GetGlobalDefaultThreaderPrivate()
              itksys::SystemTools::GetEnv("ITK_USE_THREADPOOL", envVar))
     {
       envVar = itksys::SystemTools::UpperCase(envVar);
-      itkGenericOutputMacro("Warning: ITK_USE_THREADPOOL \
-has been deprecated since ITK v5.0. \
-You should now use ITK_GLOBAL_DEFAULT_THREADER\
-\nFor example ITK_GLOBAL_DEFAULT_THREADER=Pool");
+      itkGenericOutputMacro("Warning: ITK_USE_THREADPOOL has been deprecated since ITK v5.0. You should now use "
+                            "ITK_GLOBAL_DEFAULT_THREADER\nFor example ITK_GLOBAL_DEFAULT_THREADER=Pool");
       if (envVar != "NO" && envVar != "OFF" && envVar != "FALSE")
       {
 #ifdef __EMSCRIPTEN__

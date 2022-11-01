@@ -138,8 +138,7 @@ CompareHistogramImageToImageMetric<TFixedImage, TMovingImage>::FormTrainingHisto
 
   if (NumberOfPixelsCounted == 0)
   {
-    itkExceptionMacro(<< "All the points mapped to outside of the Training moving \
-age");
+    itkExceptionMacro(<< "All the points mapped to outside of the Training moving age");
   }
 }
 

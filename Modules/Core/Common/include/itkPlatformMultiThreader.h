@@ -72,16 +72,14 @@ public:
    * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
   itkLegacyMacro(static void SetGlobalMaximumNumberOfThreads(ThreadIdType val))
   {
-    itkGenericOutputMacro("Warning: SetGlobalMaximumNumberOfThreads \
-should now be called on itk::MultiThreaderBase. \
-It can affect all MultiThreaderBase's derived classes in ITK");
+    itkGenericOutputMacro("Warning: SetGlobalMaximumNumberOfThreads should now be called on itk::MultiThreaderBase. It "
+                          "can affect all MultiThreaderBase's derived classes in ITK");
     Superclass::SetGlobalMaximumNumberOfThreads(val);
   }
   itkLegacyMacro(static ThreadIdType GetGlobalMaximumNumberOfThreads())
   {
-    itkGenericOutputMacro("Warning: GetGlobalMaximumNumberOfThreads \
-should now be called on itk::MultiThreaderBase. \
-It can affect all MultiThreaderBase's derived classes in ITK");
+    itkGenericOutputMacro("Warning: GetGlobalMaximumNumberOfThreads should now be called on itk::MultiThreaderBase. It "
+                          "can affect all MultiThreaderBase's derived classes in ITK");
     return Superclass::GetGlobalMaximumNumberOfThreads();
   }
 
@@ -91,16 +89,14 @@ It can affect all MultiThreaderBase's derived classes in ITK");
    * of threads was accepted. Legacy: use MultiThreaderBase to invoke these. */
   itkLegacyMacro(static void SetGlobalDefaultNumberOfThreads(ThreadIdType val))
   {
-    itkGenericOutputMacro("Warning: SetGlobalDefaultNumberOfThreads \
-should now be called on itk::MultiThreaderBase. \
-It can affect all MultiThreaderBase's derived classes in ITK");
+    itkGenericOutputMacro("Warning: SetGlobalDefaultNumberOfThreads should now be called on itk::MultiThreaderBase. It "
+                          "can affect all MultiThreaderBase's derived classes in ITK");
     Superclass::SetGlobalDefaultNumberOfThreads(val);
   }
   itkLegacyMacro(static ThreadIdType GetGlobalDefaultNumberOfThreads())
   {
-    itkGenericOutputMacro("Warning: GetGlobalDefaultNumberOfThreads \
-should now be called on itk::MultiThreaderBase. \
-It can affect all MultiThreaderBase's derived classes in ITK");
+    itkGenericOutputMacro("Warning: GetGlobalDefaultNumberOfThreads should now be called on itk::MultiThreaderBase. It "
+                          "can affect all MultiThreaderBase's derived classes in ITK");
     return Superclass::GetGlobalDefaultNumberOfThreads();
   }
 #endif
