@@ -131,8 +131,7 @@ public:
         // only change the measurement vector size if the container is empty.
         if (this->Size())
         {
-          itkExceptionMacro("Attempting to change the measurement \
-          vector size of a non-empty Sample");
+          itkExceptionMacro("Attempting to change the measurement vector size of a non-empty Sample");
         }
         else
         {
@@ -149,8 +148,7 @@ public:
       // exception
       if (defaultLength != s)
       {
-        itkExceptionMacro("Attempting to change the measurement \
-                           vector size of a non-resizable vector type");
+        itkExceptionMacro("Attempting to change the measurement vector size of a non-resizable vector type");
       }
     }
   }

@@ -260,8 +260,7 @@ FindSampleBound(const TSample *                           sample,
 
   if (sample->Size() == 0)
   {
-    itkGenericExceptionMacro(<< "Attempting to compute bounds of a sample list containing no\
-       measurement vectors");
+    itkGenericExceptionMacro(<< "Attempting to compute bounds of a sample list containing no measurement vectors");
   }
 
   min = begin.GetMeasurementVector();
