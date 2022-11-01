@@ -46,7 +46,7 @@ MRI scan in order to combine the information contained in both.
 
 The ITK project uses an [open governance model](./GOVERNANCE.md)
 and is fiscally sponsored by [NumFOCUS](https://numfocus.org/). Consider making
-a [tax-deductible donation](https://numfocus.org/donate-to-itk) to help the project
+a [tax-deductible donation](https://opencollective.com/itk) to help the project
 pay for developer time, professional services, travel, workshops, and a variety of other needs.
 
 <div align="center">
@@ -100,7 +100,7 @@ ITK is a fiscally sponsored project of [NumFOCUS](https://numfocus.org/), a non-
 to supporting the open source scientific computing community. If you want to
 support ITK's mission to develop and maintain open-source, reproducible
 scientific image analysis software for education and research, please consider
-making a [donation](https://numfocus.org/donate-to-itk) to support our efforts.
+making a [donation](https://opencollective.com/itk) to support our efforts.
 
 NumFOCUS is 501(c)(3) non-profit charity in the United States; as such,
 donations to NumFOCUS are tax-deductible as allowed by law. As with any
