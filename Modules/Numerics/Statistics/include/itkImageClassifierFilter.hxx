@@ -138,8 +138,7 @@ ImageClassifierFilter<TSample, TInputImage, TOutputImage>::GenerateData()
 
   if (membershipFunctionsWeightsArray.Size() != this->m_NumberOfClasses)
   {
-    itkExceptionMacro("Membership functions weight array size does not match the\
-                      number of classes ");
+    itkExceptionMacro("Membership functions weight array size does not match the number of classes ");
   }
 
   const auto * inputImage = static_cast<const InputImageType *>(this->ProcessObject::GetInput(0));

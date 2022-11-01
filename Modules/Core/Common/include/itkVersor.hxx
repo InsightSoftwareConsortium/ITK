@@ -209,8 +209,7 @@ Versor<T>::Normalize()
   if (itk::Math::abs(tensor) < 1e-20)
   {
     ExceptionObject except;
-    except.SetDescription("Attempt to normalize a \
-                           itk::Versor with zero tensor");
+    except.SetDescription("Attempt to normalize a itk::Versor with zero tensor");
     except.SetLocation(__FILE__);
     throw except;
   }

@@ -83,8 +83,8 @@ QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction<TMesh, TQEType>::Evaluate(QE
   }
   if (!SecondFaceFound)
   {
-    itkDebugMacro("DeleteVertex requires at least two distinct \
-    facets incident to the facets that are incident to g->GetDestination().");
+    itkDebugMacro("DeleteVertex requires at least two distinct facets incident to the facets that are incident to "
+                  "g->GetDestination().");
     return ((QEType *)nullptr);
   }
 
