@@ -737,7 +737,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
 
   this->m_Optimizer->SetMetric(this->m_Metric);
 
-  if ((this->m_Optimizer->GetScales()).Size() != this->m_OutputTransform->GetNumberOfLocalParameters())
+  if (this->m_Optimizer->CanUseScales() &&
+      ((this->m_Optimizer->GetScales()).Size() != this->m_OutputTransform->GetNumberOfLocalParameters()))
   {
     using ScalesType = typename OptimizerType::ScalesType;
     ScalesType scales;

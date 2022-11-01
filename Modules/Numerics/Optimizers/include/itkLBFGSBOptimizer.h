@@ -194,6 +194,13 @@ public:
   const std::string
   GetStopConditionDescription() const override;
 
+  /** Returns false unconditionally because LBFGSBOptimizer does not support using scales. */
+  bool
+  CanUseScales() const override
+  {
+    return false;
+  }
+
 protected:
   LBFGSBOptimizer();
   ~LBFGSBOptimizer() override;
