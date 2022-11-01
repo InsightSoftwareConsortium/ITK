@@ -91,8 +91,7 @@ readonly paths="
 extract_source () {
     git_archive
     pushd "${extractdir}/${name}-reduced"
-	git update-index --chmod=+x 'src/libminc/libsrc/Make.com'
-    # chmod u-x volume_io/Geometry/tensors.c
+    git update-index --chmod=+x 'src/libminc/libsrc/Make.com'
     popd
 }
 
