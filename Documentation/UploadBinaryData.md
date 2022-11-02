@@ -87,7 +87,7 @@ When `./Utilities/SetupForDevelopment.sh` is executed, as described in
 [CONTRIBUTING.md], authentication to Girder is configured in Git. If the Git
 `girder.api-key` config or `GIRDER_API_KEY` environmental variable is not set,
 a prompt will appear for your username and password. The API key can be
-created in the data.kitware.com user account web browser interface.
+created in the [data.kitware.com] user account web browser interface.
 
 To upload new binary testing data:
 
@@ -175,7 +175,7 @@ actual file is desired in the build tree. Stage the new file to your commit:
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [solution to this problem]: https://blog.kitware.com/cmake-externaldata-using-large-files-with-distributed-version-control/
 [UploadBinaryData.sh]: ../Utilities/UploadBinaryData.sh
-[CONTRIBUTING.md]: ../../CONTRIBUTING.md
+[CONTRIBUTING.md]: ../CONTRIBUTING.md
 
 [Analyze format]: http://www.grahamwideman.com/gw/brain/analyze/formatdoc.htm
 [MD5 hash]: https://en.wikipedia.org/wiki/MD5
