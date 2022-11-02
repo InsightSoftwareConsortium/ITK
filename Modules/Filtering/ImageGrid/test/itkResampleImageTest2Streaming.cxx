@@ -178,8 +178,7 @@ itkResampleImageTest2Streaming(int argc, char * argv[])
   writer2->SetNumberOfStreamDivisions(8);
   ITK_TRY_EXPECT_NO_EXCEPTION(writer2->Update());
 
-  std::cout << "We demanded splitting into 8 pieces for streaming, \
-but faked non-linearity should disable streaming."
+  std::cout << "We demanded splitting into 8 pieces for streaming, but faked non-linearity should disable streaming."
             << std::endl;
   if (monitor->VerifyInputFilterExecutedStreaming(8))
   {
