@@ -59,9 +59,7 @@ itkImageToListSampleAdaptorTestTemplate()
   {
     // purposely call Size() method prematurely in order to trigger an exception.
     sample->Size();
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -71,9 +69,7 @@ itkImageToListSampleAdaptorTestTemplate()
   {
     // purposely call GetTotalFrequency() method prematurely in order to trigger an exception.
     sample->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -83,9 +79,7 @@ itkImageToListSampleAdaptorTestTemplate()
   try
   {
     typename ImageToListSampleAdaptorType::MeasurementVectorType m = sample->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet "
-              << m << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet " << m << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -95,9 +89,7 @@ itkImageToListSampleAdaptorTestTemplate()
   try
   {
     typename ImageToListSampleAdaptorType::ImageConstPointer image = sample->GetImage();
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -108,9 +100,7 @@ itkImageToListSampleAdaptorTestTemplate()
   {
     // purposely call GetFrequency() method prematurely in order to trigger an exception.
     sample->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {

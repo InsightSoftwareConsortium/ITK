@@ -141,9 +141,9 @@ itkBMPImageIOTest5(int argc, char * argv[])
     if (it1.Value() != it2.Value())
     {
       std::cout << "Test failed!" << std::endl;
-      std::cout << "An image stored in a lower-left bitmap is different than \
-                   the same image stored in an upper-left bitmap."
-                << std::endl;
+      std::cout
+        << "An image stored in a lower-left bitmap is different than the same image stored in an upper-left bitmap."
+        << std::endl;
       return EXIT_FAILURE;
     }
 

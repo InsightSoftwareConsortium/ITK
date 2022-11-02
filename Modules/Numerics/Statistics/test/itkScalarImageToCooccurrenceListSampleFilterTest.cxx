@@ -102,9 +102,7 @@ itkScalarImageToCooccurrenceListSampleFilterTest(int, char *[])
 
   if (filter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should return nullptr since the input is\
-                  not set yet "
-              << std::endl;
+    std::cerr << "GetInput() should return nullptr since the input is not set yet " << std::endl;
     return EXIT_FAILURE;
   }
 
