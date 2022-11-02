@@ -42,6 +42,11 @@ jobs:
           if DEFINED SYSTEM_PULLREQUEST_SOURCECOMMITID git checkout $(System.PullRequest.SourceCommitId)
         displayName: Checkout pull request HEAD
 
+      - task: UsePythonVersion@0
+        inputs:
+          versionSpec: '3.9'
+          architecture: 'x64'
+
       - script: |
           pip3 install ninja
           pip3 install --upgrade setuptools
