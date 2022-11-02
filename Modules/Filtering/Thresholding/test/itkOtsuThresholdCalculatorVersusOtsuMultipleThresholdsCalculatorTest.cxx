@@ -80,9 +80,9 @@ itkOtsuThresholdCalculatorVersusOtsuMultipleThresholdsCalculatorTest(int argc, c
     if (itk::Math::NotAlmostEquals(otsuCalculator->GetThreshold(), otsuMultipleCalculator->GetOutput()[0]))
     {
       std::cerr << "Test failed!" << std::endl;
-      std::cerr << "Error in itk::OtsuThresholdCalculator::GetThreshold() or \
-                 itk::OtsuMultipleThresholdsCalculator::GetOutput()"
-                << std::endl;
+      std::cerr
+        << "Error in itk::OtsuThresholdCalculator::GetThreshold() or itk::OtsuMultipleThresholdsCalculator::GetOutput()"
+        << std::endl;
       std::cout << "Computed Otsu threshold: " << otsuCalculator->GetThreshold()
                 << " is different from computed Otsu multiple threshold: " << otsuMultipleCalculator->GetOutput()[0]
                 << std::endl;

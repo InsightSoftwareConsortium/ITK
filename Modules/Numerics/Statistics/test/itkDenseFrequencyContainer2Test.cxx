@@ -68,16 +68,14 @@ itkDenseFrequencyContainer2Test(int, char *[])
 
     if (container->SetFrequency(binOutOfBound, frequency))
     {
-      std::cerr << "SetFrequency() method should have returned false boolean\
-                    since the bin index is out of bound \n"
+      std::cerr << "SetFrequency() method should have returned false boolean since the bin index is out of bound \n"
                 << std::endl;
       return EXIT_FAILURE;
     }
 
     if (container->GetFrequency(binOutOfBound) != itk::NumericTraits<AbsoluteFrequencyType>::ZeroValue())
     {
-      std::cerr << "GetFrequency() method should have returned zero frequency\
-                    since the bin index is out of bound \n"
+      std::cerr << "GetFrequency() method should have returned zero frequency since the bin index is out of bound \n"
                 << std::endl;
       return EXIT_FAILURE;
     }
@@ -125,9 +123,9 @@ itkDenseFrequencyContainer2Test(int, char *[])
 
     if (container->IncreaseFrequency(binOutOfBound, frequency))
     {
-      std::cerr << "IncreaseFrequency() method should have returned a false boolean\
-                    since the bin index is out of bound \n"
-                << std::endl;
+      std::cerr
+        << "IncreaseFrequency() method should have returned a false boolean since the bin index is out of bound \n"
+        << std::endl;
       return EXIT_FAILURE;
     }
 

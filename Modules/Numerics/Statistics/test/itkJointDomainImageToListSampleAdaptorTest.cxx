@@ -70,9 +70,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     // calling Size() method prematurely in order to trigger an exception.
     adaptor->Size();
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -82,9 +80,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     // calling GetTotalFrequency() method prematurely in order to trigger an exception.
     adaptor->GetTotalFrequency();
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -95,9 +91,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     // calling GetMeasurementVector() method prematurely in order to trigger an exception.
     adaptor->GetMeasurementVector(0);
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -108,9 +102,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     // calling GetImage() method prematurely in order to trigger an exception.
     adaptor->GetImage();
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -121,9 +113,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     // calling GetFrequency() method prematurely in order to trigger an exception.
     adaptor->GetFrequency(0);
-    std::cerr << "Exception should have been thrown since the input image \
-                  is not set yet"
-              << std::endl;
+    std::cerr << "Exception should have been thrown since the input image is not set yet" << std::endl;
   }
   catch (const itk::ExceptionObject & excp)
   {
@@ -225,9 +215,7 @@ itkJointDomainImageToListSampleAdaptorTest(int, char *[])
   {
     if (!itk::Math::FloatAlmostEqual(v1[m], v2[m], 4, epsilon))
     {
-      std::cerr << "Accessing the measurement vector using the two method produced different \
-                  result "
-                << std::endl;
+      std::cerr << "Accessing the measurement vector using the two method produced different result " << std::endl;
       return EXIT_FAILURE;
     }
   }

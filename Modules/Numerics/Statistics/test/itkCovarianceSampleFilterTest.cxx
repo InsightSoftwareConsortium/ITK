@@ -93,9 +93,7 @@ itkCovarianceSampleFilterTest(int, char *[])
   try
   {
     covarianceFilter->Update();
-    std::cerr << "Exception should have been thrown since \
-                 Update() is invoked without setting an input "
-              << std::endl;
+    std::cerr << "Exception should have been thrown since Update() is invoked without setting an input " << std::endl;
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
@@ -107,9 +105,7 @@ itkCovarianceSampleFilterTest(int, char *[])
 
   if (covarianceFilter->GetInput() != nullptr)
   {
-    std::cerr << "GetInput() should return nullptr if the input \
-                     has not been set"
-              << std::endl;
+    std::cerr << "GetInput() should return nullptr if the input has not been set" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -138,9 +134,8 @@ itkCovarianceSampleFilterTest(int, char *[])
   if ((itk::Math::abs(mean[0] - mean2[0]) > epsilon) || (itk::Math::abs(mean[1] - mean2[1]) > epsilon) ||
       (itk::Math::abs(mean[2] - mean2[2]) > epsilon))
   {
-    std::cerr << "Mean parameter value retrieved using GetMean() and the decorator\
-                  are not the same:: "
-              << mean << "," << mean2 << std::endl;
+    std::cerr << "Mean parameter value retrieved using GetMean() and the decorator are not the same:: " << mean << ","
+              << mean2 << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -170,9 +165,9 @@ itkCovarianceSampleFilterTest(int, char *[])
       (itk::Math::abs(meanCalculatedUsingMeanSampleFilter[1] - mean[1]) > epsilon) ||
       (itk::Math::abs(meanCalculatedUsingMeanSampleFilter[2] - mean[2]) > epsilon))
   {
-    std::cerr << "Mean calculated using the MeanSampleFilter is different from\
-                 the one calculated using the covariance filter "
-              << std::endl;
+    std::cerr
+      << "Mean calculated using the MeanSampleFilter is different from the one calculated using the covariance filter "
+      << std::endl;
     std::cerr << "Mean computed with covariance filter = " << mean << std::endl;
     std::cerr << "Mean computed with mean filter = " << meanCalculatedUsingMeanSampleFilter << std::endl;
     return EXIT_FAILURE;

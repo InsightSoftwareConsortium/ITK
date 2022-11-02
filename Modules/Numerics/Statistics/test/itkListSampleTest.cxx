@@ -64,9 +64,9 @@ itkListSampleTest(int argc, char * argv[])
   try
   {
     sample->PushBack(mvLargerSize);
-    std::cerr << "Exception was expected since the vector that was\
-                  added to the list has size different from what is set"
-              << std::endl;
+    std::cerr
+      << "Exception was expected since the vector that was added to the list has size different from what is set"
+      << std::endl;
     return EXIT_FAILURE;
   }
   catch (const itk::ExceptionObject & excp)
