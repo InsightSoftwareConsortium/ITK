@@ -55,12 +55,14 @@ itkRealTimeIntervalTest(int, char *[])
   double timeInMicroSeconds = interval0.GetTimeInMicroSeconds();
   double timeInMilliSeconds = interval0.GetTimeInMilliSeconds();
   double timeInSeconds = interval0.GetTimeInSeconds();
+  double timeInMinutes = interval0.GetTimeInMinutes();
   double timeInHours = interval0.GetTimeInHours();
   double timeInDays = interval0.GetTimeInDays();
 
   CHECK_FOR_VALUE(timeInMicroSeconds, 0.0);
   CHECK_FOR_VALUE(timeInMilliSeconds, 0.0);
   CHECK_FOR_VALUE(timeInSeconds, 0.0);
+  CHECK_FOR_VALUE(timeInMinutes, 0.0);
   CHECK_FOR_VALUE(timeInHours, 0.0);
   CHECK_FOR_VALUE(timeInDays, 0.0);
 
