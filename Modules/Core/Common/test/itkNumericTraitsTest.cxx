@@ -34,6 +34,7 @@
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkNumericTraitsTensorPixel.h"
 #include "itkNumericTraitsVariableLengthVectorPixel.h"
+#include "itkTestingMacros.h"
 
 namespace
 {
@@ -799,6 +800,13 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::Point<double, 5>());
   CheckFixedArrayTraits(itk::Point<long double, 5>());
 
+  using PointType = itk::Point<long double, 5>;
+  auto         pointPixel = PointType();
+  unsigned int pointSize = itk::NumericTraits<PointType>::GetLength(pointPixel) + 1;
+  ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<PointType>::SetLength(pointPixel, pointSize));
+
+  pointSize = itk::NumericTraits<PointType>::GetLength(pointPixel) - 1;
+  ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<PointType>::SetLength(pointPixel, pointSize));
 
   // itk::RGBPixel<char>()
   CheckFixedArrayTraits(itk::RGBPixel<char>());
@@ -825,6 +833,13 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::RGBPixel<double>());
   CheckFixedArrayTraits(itk::RGBPixel<long double>());
 
+  using RGBPixelType = itk::RGBPixel<long double>;
+  auto         rgbPixel = RGBPixelType();
+  unsigned int rgbPixelSize = itk::NumericTraits<RGBPixelType>::GetLength(rgbPixel) + 1;
+  ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBPixelType>::SetLength(rgbPixel, rgbPixelSize));
+
+  rgbPixelSize = itk::NumericTraits<RGBPixelType>::GetLength(rgbPixel) - 1;
+  ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBPixelType>::SetLength(rgbPixel, rgbPixelSize));
 
   // itk::RGBAPixel<char>()
   CheckFixedArrayTraits(itk::RGBAPixel<char>());
@@ -851,6 +866,13 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(itk::RGBAPixel<double>());
   CheckFixedArrayTraits(itk::RGBAPixel<long double>());
 
+  using RGBAPixelType = itk::RGBAPixel<long double>;
+  auto         rgbaPixel = RGBAPixelType();
+  unsigned int rgbaPixelSize = itk::NumericTraits<RGBAPixelType>::GetLength(rgbaPixel) + 1;
+  ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBAPixelType>::SetLength(rgbaPixel, rgbaPixelSize));
+
+  rgbaPixelSize = itk::NumericTraits<RGBAPixelType>::GetLength(rgbaPixel) - 1;
+  ITK_TRY_EXPECT_EXCEPTION(itk::NumericTraits<RGBAPixelType>::SetLength(rgbaPixel, rgbaPixelSize));
 
   // itk::SymmetricSecondRankTensor<char, 1>()
   CheckFixedArrayTraits(itk::SymmetricSecondRankTensor<char, 1>());

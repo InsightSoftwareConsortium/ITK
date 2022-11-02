@@ -85,6 +85,9 @@ itkPointSetTest(int, char *[])
   PointSet::RegionType region = 0;
   pset->SetRequestedRegion(region);
 
+  pset->SetBufferedRegion(region);
+  ITK_TEST_SET_GET_VALUE(region, pset->GetBufferedRegion());
+
   // Clear the point set
   pset->Initialize();
 
