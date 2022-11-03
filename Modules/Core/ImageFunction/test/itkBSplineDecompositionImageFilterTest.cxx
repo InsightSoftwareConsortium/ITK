@@ -76,11 +76,8 @@ itkBSplineDecompositionImageFilterTest(int argc, char * argv[])
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
     std::cerr << " splineOrder";
-    std::cerr << " splinePoles(e.g. 0.12753,-0.48673,0.76439,\
-                 [0.12753,-0.48673,0.76439],\
-                 \"[0.12753 -0.48673 0.76439]\",\
-                 \"(0.12753 -0.48673 0.76439)\", or\
-                 \"0.12753 -0.48673 0.76439\")";
+    std::cerr << " splinePoles(e.g. 0.12753,-0.48673,0.76439, [0.12753,-0.48673,0.76439], \"[0.12753 -0.48673 "
+                 "0.76439]\", \"(0.12753 -0.48673 0.76439)\", or \"0.12753 -0.48673 0.76439\")";
     std::cerr << std::endl;
     return EXIT_FAILURE;
   }
