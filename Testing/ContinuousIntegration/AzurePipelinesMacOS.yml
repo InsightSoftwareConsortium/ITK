@@ -24,6 +24,11 @@ jobs:
         fi
       displayName: Checkout pull request HEAD
 
+    - task: UsePythonVersion@0
+      inputs:
+        versionSpec: '3.9'
+        architecture: 'x64'
+
     - bash: |
         set -x
         sudo python3 -m pip install ninja
