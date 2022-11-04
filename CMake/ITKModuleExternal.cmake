@@ -50,6 +50,12 @@ if(NOT ITK_BINARY_DIR)
   set(ITK_BINARY_DIR ${ITK_DIR})
 endif()
 
+# Set default value for project that are not using the
+# "GNUInstallDirs" CMake module.
+if(NOT DEFINED CMAKE_INSTALL_LIBDIR)
+  set(CMAKE_INSTALL_LIBDIR "lib")
+endif()
+
 # The default path when not wrapping.  Restore standard build location
 # if python wrapping is turned on, and then turned off.
 if(NOT CMAKE_LIBRARY_OUTPUT_DIRECTORY)
