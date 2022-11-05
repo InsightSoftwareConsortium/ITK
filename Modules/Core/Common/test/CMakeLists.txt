@@ -106,6 +106,9 @@ itkSpatialOrientationTest.cxx
 itkStdStreamStateSaveTest.cxx
 itkVersionTest.cxx
 VNLSparseLUSolverTraitsTest.cxx
+itkSobelOperatorImageConvolutionTest.cxx
+itkSobelOperatorImageFilterTest.cxx
+itkSobelOperatorTest.cxx
 )
 set(ITKCommon2Tests
 itkSTLThreadTest.cxx
@@ -273,6 +276,24 @@ itk_add_test(NAME itkSpatialOrientationTest COMMAND ITKCommon1TestDriver itkSpat
 itk_add_test(NAME VNLSparseLUSolverTraitsTest COMMAND ITKCommon1TestDriver VNLSparseLUSolverTraitsTest)
 itk_add_test(NAME itkGaussianDerivativeOperatorTest
   COMMAND ITKCommon1TestDriver itkGaussianDerivativeOperatorTest)
+itk_add_test(NAME itkSobelOperatorImageConvolutionHorizTest
+  COMMAND ITKCommon1TestDriver
+  --compare DATA{Baseline/itkSobelOperatorImageHorizTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png
+  itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png)
+itk_add_test(NAME itkSobelOperatorImageFilterHorizTest
+  COMMAND ITKCommon1TestDriver
+  --compare DATA{Baseline/itkSobelOperatorImageHorizTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png
+  itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.png)
+itk_add_test(NAME itkSobelOperatorImageConvolutionVertTest
+  COMMAND ITKCommon1TestDriver
+  --compare DATA{Baseline/itkSobelOperatorImageVertTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.png
+  itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionVertTest.png)
+itk_add_test(NAME itkSobelOperatorImageFilterVertTest
+  COMMAND ITKCommon1TestDriver
+  --compare DATA{Baseline/itkSobelOperatorImageVertTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.png
+  itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 1 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterVertTest.png)
+itk_add_test(NAME itkSobelOperatorTest
+  COMMAND ITKCommon1TestDriver itkSobelOperatorTest)
 
 itk_add_test(NAME itkConstNeighborhoodIteratorTest
       COMMAND ITKCommon2TestDriver --redirectOutput ${TEMP}/itkConstNeighborhoodIteratorTest.txt
