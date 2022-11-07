@@ -457,7 +457,11 @@ to the release branch and push to GitHub `upstream`.
 
 Then [build the
 wheels](https://itkpythonpackage.readthedocs.io/en/latest/Build_ITK_Python_packages.html)
-from the `release` branch locally.
+and the build tarballs from the `release` branch locally.
+
+  * Wheel archives are named `dist-<platform>.tar.gz` and contain loadable Python packages;
+  * Build tarballs are named `ITKPythonBuilds-<platform>.tar.zst` and contain ITK dependencies,
+      source and build trees, and scripts for building ITK remote module Python wheels.
 
 Build the sdist and wheels for Linux (amd64):
 
@@ -469,8 +473,10 @@ git checkout release
 git pull origin release
 git clean -fdx
 ./scripts/dockcross-manylinux-build-wheels.sh
+# Create wheel archive
 tar cvzf /tmp/dist-linux.tar.gz ./dist
 rm dist/*
+# Create build tarball
 cd ..
 ./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
 ```
@@ -496,8 +502,10 @@ git checkout release
 git pull
 git clean -fdx
 ./scripts/macpython-build-wheels.sh
+# Create wheel archive
 tar cvzf /tmp/dist-macos.tar.gz ./dist
 rm dist/*
+# Create build tarball
 cd ..
 ./ITKPythonPackage/scripts/macpython-build-tarball.sh
 ```
@@ -516,8 +524,10 @@ cd C:\P\IPP
 set PATH=C:\P\doxygen;%PATH%
 C:\Python39-x64\python.exe ./scripts/windows_build_wheels.py
 # Back in Git Bash...
+# Create wheel archive
 tar cvzf /c/P/dist-windows.tar.gz ./dist
 rm dist/*
+# Create build tarball
 cd ..
 rm -f ./ITKPythonBuilds-windows.zip
 powershell "IPP/scripts/windows-build-tarball.ps1"
