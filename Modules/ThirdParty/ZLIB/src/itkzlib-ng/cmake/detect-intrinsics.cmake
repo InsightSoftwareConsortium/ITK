@@ -2,25 +2,35 @@
 # Licensed under the Zlib license, see LICENSE.md for details
 
 macro(check_acle_compiler_flag)
-    if(NOT NATIVEFLAG AND NOT HAVE_ACLE_FLAG)
-        set(ACLEFLAG "-march=armv8-a+crc" CACHE INTERNAL "Compiler option to enable ACLE support")
-    endif()
-    # Check whether compiler supports ACLE flag
-    set(CMAKE_REQUIRED_FLAGS "${ACLEFLAG} ${NATIVEFLAG}")
-    check_c_source_compiles(
-        "int main() { return 0; }"
-        HAVE_ACLE_FLAG FAIL_REGEX "not supported")
-    if(NOT NATIVEFLAG AND NOT HAVE_ACLE_FLAG)
-        set(ACLEFLAG "-march=armv8-a+crc+simd" CACHE INTERNAL "Compiler option to enable ACLE support" FORCE)
+    if(MSVC)
+        # Both ARM and ARM64-targeting msvc support intrinsics, but
+        # ARM msvc is missing some intrinsics introduced with ARMv8, e.g. crc32
+        if(MSVC_C_ARCHITECTURE_ID STREQUAL "ARM64")
+            set(HAVE_ACLE_FLAG TRUE)
+        endif()
+    else()
+        if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
+            if(NOT NATIVEFLAG AND NOT HAVE_ACLE_FLAG)
+                set(ACLEFLAG "-march=armv8-a+crc" CACHE INTERNAL "Compiler option to enable ACLE support")
+            endif()
+        endif()
         # Check whether compiler supports ACLE flag
-        set(CMAKE_REQUIRED_FLAGS "${ACLEFLAG}")
+        set(CMAKE_REQUIRED_FLAGS "${ACLEFLAG} ${NATIVEFLAG}")
         check_c_source_compiles(
             "int main() { return 0; }"
-            HAVE_ACLE_FLAG2 FAIL_REGEX "not supported")
-        set(HAVE_ACLE_FLAG ${HAVE_ACLE_FLAG2} CACHE INTERNAL "Have compiler option to enable ACLE intrinsics" FORCE)
-        unset(HAVE_ACLE_FLAG2 CACHE) # Don't cache this internal variable
+            HAVE_ACLE_FLAG FAIL_REGEX "not supported")
+        if(NOT NATIVEFLAG AND NOT HAVE_ACLE_FLAG)
+            set(ACLEFLAG "-march=armv8-a+crc+simd" CACHE INTERNAL "Compiler option to enable ACLE support" FORCE)
+            # Check whether compiler supports ACLE flag
+            set(CMAKE_REQUIRED_FLAGS "${ACLEFLAG}")
+            check_c_source_compiles(
+                "int main() { return 0; }"
+                HAVE_ACLE_FLAG2 FAIL_REGEX "not supported")
+            set(HAVE_ACLE_FLAG ${HAVE_ACLE_FLAG2} CACHE INTERNAL "Have compiler option to enable ACLE intrinsics" FORCE)
+            unset(HAVE_ACLE_FLAG2 CACHE) # Don't cache this internal variable
+        endif()
+        set(CMAKE_REQUIRED_FLAGS)
     endif()
-    set(CMAKE_REQUIRED_FLAGS)
 endmacro()
 
 macro(check_avx512_intrinsics)
@@ -122,6 +132,8 @@ macro(check_avx2_intrinsics)
         if(NOT NATIVEFLAG)
             set(AVX2FLAG "-mavx2")
         endif()
+    elseif(MSVC)
+        set(AVX2FLAG "/arch:AVX2")
     endif()
     # Check whether compiler supports AVX2 intrinics
     set(CMAKE_REQUIRED_FLAGS "${AVX2FLAG} ${NATIVEFLAG}")
@@ -220,7 +232,7 @@ endmacro()
 macro(check_vpclmulqdq_intrinsics)
     if(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
         if(NOT NATIVEFLAG)
-            set(VPCLMULFLAG "-mvpclmulqdq")
+            set(VPCLMULFLAG "-mvpclmulqdq -mavx512f")
         endif()
     endif()
     # Check whether compiler supports VPCLMULQDQ intrinsics

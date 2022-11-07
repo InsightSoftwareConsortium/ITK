@@ -6,14 +6,9 @@
  * For conditions of distribution and use, see copyright notice in zlib.h
  */
 #ifdef ARM_NEON_ADLER32
-#ifdef _M_ARM64
-#  include <arm64_neon.h>
-#else
-#  include <arm_neon.h>
-#endif
+#include "neon_intrins.h"
 #include "../../zbuild.h"
 #include "../../adler32_p.h"
-#include "../../fallback_builtins.h"
 
 static void NEON_accum32(uint32_t *s, const uint8_t *buf, uint64_t len) {
     static const uint16_t ALIGNED_(16) taps[64] = {
@@ -44,10 +39,10 @@ static void NEON_accum32(uint32_t *s, const uint8_t *buf, uint64_t len) {
     uint16x8_t s2_4, s2_5, s2_6, s2_7;
     s2_4 = s2_5 = s2_6 = s2_7 = vdupq_n_u16(0);
 
-    int num_iter = len >> 2;
+    uint64_t num_iter = len >> 2;
     int rem = len & 3;
 
-    for (int i = 0; i < num_iter; ++i) {
+    for (uint64_t i = 0; i < num_iter; ++i) {
         uint8x16x4_t d0_d3 = vld1q_u8_x4(buf);
 
         /* Unfortunately it doesn't look like there's a direct sum 8 bit to 32

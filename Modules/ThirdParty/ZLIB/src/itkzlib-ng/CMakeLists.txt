@@ -76,7 +76,7 @@ endif()
 option(WITH_GZFILEOP "Compile with support for gzFile related functions" ON)
 option(ZLIB_COMPAT "Compile with zlib compatible API" OFF)
 option(ZLIB_ENABLE_TESTS "Build test binaries" ON)
-option(ZLIB_DUAL_LINK "Dual link tests against system zlib" OFF)
+option(ZLIBNG_ENABLE_TESTS "Test zlib-ng specific API" ON)
 option(WITH_FUZZERS "Build test/fuzz" OFF)
 option(WITH_BENCHMARKS "Build test/benchmarks" OFF)
 option(WITH_BENCHMARK_APPS "Build application benchmarks" OFF)
@@ -127,7 +127,6 @@ option(INSTALL_UTILS "Copy minigzip and minideflate during install" OFF)
 
 mark_as_advanced(FORCE
     ZLIB_SYMBOL_PREFIX
-    ZLIB_DUAL_LINK
     WITH_REDUCED_MEM
     WITH_ACLE WITH_NEON
     WITH_DFLTCC_DEFLATE
@@ -201,7 +200,7 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
     # Enable warnings in GCC and Clang
     set(WARNFLAGS -Wall)
     set(WARNFLAGS_MAINTAINER -Wextra -Wpedantic)
-    set(WARNFLAGS_DISABLE -Wno-implicit-fallthrough)
+    set(WARNFLAGS_DISABLE)
     if(WITH_NATIVE_INSTRUCTIONS)
         if(BASEARCH_PPC_FOUND)
             set(NATIVEFLAG "-mcpu=native")
@@ -247,6 +246,9 @@ elseif(CMAKE_C_COMPILER_ID MATCHES "GNU" OR CMAKE_C_COMPILER_ID MATCHES "Clang")
         if(FNO_LTO_AVAILABLE)
             set(NOLTOFLAG "-fno-lto")
         endif()
+    endif()
+    if(MINGW)
+        list(APPEND WARNFLAGS_DISABLE -Wno-pedantic-ms-format)
     endif()
 else()
     if(WITH_NATIVE_INSTRUCTIONS)
@@ -335,10 +337,16 @@ check_function_exists(strerror HAVE_STRERROR)
 if(NOT HAVE_STRERROR)
     add_definitions(-DNO_STRERROR)
 endif()
-set(CMAKE_REQUIRED_DEFINITIONS -D _POSIX_C_SOURCE=200112L)
+set(CMAKE_REQUIRED_DEFINITIONS -D_POSIX_C_SOURCE=200112L)
 check_function_exists(posix_memalign HAVE_POSIX_MEMALIGN)
 if(HAVE_POSIX_MEMALIGN)
     add_definitions(-DHAVE_POSIX_MEMALIGN)
+endif()
+set(CMAKE_REQUIRED_DEFINITIONS)
+set(CMAKE_REQUIRED_DEFINITIONS -D_ISOC11_SOURCE=1)
+check_function_exists(aligned_alloc HAVE_ALIGNED_ALLOC)
+if(HAVE_ALIGNED_ALLOC)
+    add_definitions(-DHAVE_ALIGNED_ALLOC)
 endif()
 set(CMAKE_REQUIRED_DEFINITIONS)
 
@@ -386,6 +394,21 @@ if(HAVE_ATTRIBUTE_VISIBILITY_INTERNAL)
 endif()
 
 #
+# check for _Thread_local() support in the compiler
+#
+check_c_source_compiles(
+    "_Thread_local int test;
+    int main(void) {
+        (void)test;
+        return 0;
+    }"
+    HAVE_THREAD_LOCAL
+)
+if(HAVE_THREAD_LOCAL)
+    add_definitions(-DHAVE_THREAD_LOCAL)
+endif()
+
+#
 # check for __builtin_ctz() support in the compiler
 #
 check_c_source_compiles(
@@ -400,6 +423,7 @@ check_c_source_compiles(
 if(HAVE_BUILTIN_CTZ)
     add_definitions(-DHAVE_BUILTIN_CTZ)
 endif()
+
 #
 # check for __builtin_ctzll() support in the compiler
 #
@@ -589,7 +613,7 @@ if(WITH_OPTIM)
         endif()
         list(APPEND ZLIB_ARCH_HDRS ${ARCHDIR}/arm_features.h)
         list(APPEND ZLIB_ARCH_SRCS ${ARCHDIR}/arm_features.c)
-        if(WITH_ACLE AND NOT MSVC AND NOT "${ARCH}" MATCHES "armv[2-7]")
+        if(WITH_ACLE AND NOT "${ARCH}" MATCHES "armv[2-7]")
             check_acle_compiler_flag()
             if(HAVE_ACLE_FLAG)
                 add_definitions(-DARM_ACLE_CRC_HASH)
@@ -1163,7 +1187,7 @@ endif()
 add_feature_info(WITH_GZFILEOP WITH_GZFILEOP "Compile with support for gzFile related functions")
 add_feature_info(ZLIB_COMPAT ZLIB_COMPAT "Compile with zlib compatible API")
 add_feature_info(ZLIB_ENABLE_TESTS ZLIB_ENABLE_TESTS "Build test binaries")
-add_feature_info(ZLIB_DUAL_LINK ZLIB_DUAL_LINK "Dual link tests against system zlib")
+add_feature_info(ZLIBNG_ENABLE_TESTS ZLIBNG_ENABLE_TESTS "Test zlib-ng specific API")
 add_feature_info(WITH_SANITIZER WITH_SANITIZER "Enable sanitizer support")
 add_feature_info(WITH_FUZZERS WITH_FUZZERS "Build test/fuzz")
 add_feature_info(WITH_BENCHMARKS WITH_BENCHMARKS "Build test/benchmarks")

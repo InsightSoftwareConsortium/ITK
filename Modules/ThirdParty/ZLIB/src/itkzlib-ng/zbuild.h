@@ -5,6 +5,9 @@
 #ifndef _POSIX_C_SOURCE
 #  define _POSIX_C_SOURCE 200809L /* snprintf, posix_memalign, strdup */
 #endif
+#ifndef _ISOC11_SOURCE
+#  define _ISOC11_SOURCE 1 /* aligned_alloc */
+#endif
 
 #include <stddef.h>
 #include <string.h>
@@ -27,7 +30,7 @@
 
 /* Determine compiler support for TLS */
 #ifndef Z_TLS
-#  if defined(STDC11) && !defined(__STDC_NO_THREADS__)
+#  ifdef HAVE_THREAD_LOCAL
 #    define Z_TLS _Thread_local
 #  elif defined(__GNUC__) || defined(__SUNPRO_C)
 #    define Z_TLS __thread
@@ -39,12 +42,34 @@
 #  endif
 #endif
 
+#ifndef Z_HAS_ATTRIBUTE
+#  if defined(__has_attribute)
+#    define Z_HAS_ATTRIBUTE(a) __has_attribute(a)
+#  else
+#    define Z_HAS_ATTRIBUTE(a) 0
+#  endif
+#endif
+
+#ifndef Z_FALLTHROUGH
+#  if Z_HAS_ATTRIBUTE(__fallthrough__) || (defined(__GNUC__) && (__GNUC__ >= 7))
+#    define Z_FALLTHROUGH __attribute__((__fallthrough__))
+#  else
+#    define Z_FALLTHROUGH do {} while(0) /* fallthrough */
+#  endif
+#endif
+
 /* This has to be first include that defines any types */
 #if defined(_MSC_VER)
 #  if defined(_WIN64)
     typedef __int64 ssize_t;
 #  else
     typedef long ssize_t;
+#  endif
+
+#  if defined(_WIN64)
+    #define SSIZE_MAX _I64_MAX
+#  else
+    #define SSIZE_MAX LONG_MAX
 #  endif
 #endif
 
