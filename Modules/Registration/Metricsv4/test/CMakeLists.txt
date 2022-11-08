@@ -28,6 +28,7 @@ set(ITKMetricsv4Tests
   itkEuclideanDistancePointSetMetricRegistrationTest.cxx
   itkExpectationBasedPointSetMetricRegistrationTest.cxx
   itkEuclideanDistancePointSetMetricTest2.cxx
+  itkEuclideanDistancePointSetMetricTest3.cxx
   itkObjectToObjectMultiMetricv4Test.cxx
   itkObjectToObjectMultiMetricv4RegistrationTest.cxx
   itkMeanSquaresImageToImageMetricv4SpeedTest.cxx
@@ -45,6 +46,9 @@ itk_add_test(NAME itkEuclideanDistancePointSetMetricTest
 
 itk_add_test(NAME itkEuclideanDistancePointSetMetricTest2
       COMMAND ITKMetricsv4TestDriver itkEuclideanDistancePointSetMetricTest2)
+
+itk_add_test(NAME itkEuclideanDistancePointSetMetricTest3
+      COMMAND ITKMetricsv4TestDriver itkEuclideanDistancePointSetMetricTest3)
 
 itk_add_test(NAME itkExpectationBasedPointSetMetricTest
       COMMAND ITKMetricsv4TestDriver itkExpectationBasedPointSetMetricTest)
