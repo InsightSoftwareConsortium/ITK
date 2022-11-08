@@ -71,59 +71,22 @@ static inline __m512i _mm512_zextsi128_si512(__m128i a) {
 
 #endif // __AVX2__
 
-#if defined(ARM_NEON_ADLER32) && !defined(__aarch64__)
-/* Compatibility shim for the _high family of functions */
-#define vmull_high_u8(a, b) vmull_u8(vget_high_u8(a), vget_high_u8(b))
-#define vmlal_high_u8(a, b, c) vmlal_u8(a, vget_high_u8(b), vget_high_u8(c))
-#define vmlal_high_u16(a, b, c) vmlal_u16(a, vget_high_u16(b), vget_high_u16(c))
-#define vaddw_high_u8(a, b) vaddw_u8(a, vget_high_u8(b))
-#endif
-
-#ifdef ARM_NEON_SLIDEHASH
-
-#define vqsubq_u16_x4_x1(out, a, b) do { \
-    out.val[0] = vqsubq_u16(a.val[0], b); \
-    out.val[1] = vqsubq_u16(a.val[1], b); \
-    out.val[2] = vqsubq_u16(a.val[2], b); \
-    out.val[3] = vqsubq_u16(a.val[3], b); \
-} while (0)
-
-/* Have to check for hard float ABI on GCC/clang, but not
- * on MSVC (we don't compile for the soft float ABI on windows)
+/* Missing zero-extension AVX and AVX512 intrinsics.
+ * Fixed in Microsoft Visual Studio 2017 version 15.7
+ * https://developercommunity.visualstudio.com/t/missing-zero-extension-avx-and-avx512-intrinsics/175737
  */
-#if !defined(ARM_NEON_HASLD4) && (defined(__ARM_FP) || defined(_MSC_VER))
-
-#ifdef _M_ARM64
-#  include <arm64_neon.h>
-#else
-#  include <arm_neon.h>
-#endif
-
-static inline uint16x8x4_t vld1q_u16_x4(uint16_t *a) {
-    uint16x8x4_t ret = (uint16x8x4_t) {{
-                          vld1q_u16(a),
-                          vld1q_u16(a+8),
-                          vld1q_u16(a+16),
-                          vld1q_u16(a+24)}};
-    return ret;
+#if defined(_MSC_VER) && _MSC_VER < 1914
+#ifdef __AVX2__
+static inline __m256i _mm256_zextsi128_si256(__m128i a) {
+    return _mm256_inserti128_si256(_mm256_setzero_si256(), a, 0);
 }
+#endif // __AVX2__
 
-static inline uint8x16x4_t vld1q_u8_x4(uint8_t *a) {
-    uint8x16x4_t ret = (uint8x16x4_t) {{
-                          vld1q_u8(a),
-                          vld1q_u8(a+16),
-                          vld1q_u8(a+32),
-                          vld1q_u8(a+48)}};
-    return ret;
+#ifdef __AVX512F__
+static inline __m512i _mm512_zextsi128_si512(__m128i a) {
+    return _mm512_inserti32x4(_mm512_setzero_si512(), a, 0);
 }
-
-static inline void vst1q_u16_x4(uint16_t *p, uint16x8x4_t a) {
-    vst1q_u16(p, a.val[0]);
-    vst1q_u16(p + 8, a.val[1]);
-    vst1q_u16(p + 16, a.val[2]);
-    vst1q_u16(p + 24, a.val[3]);
-}
-#endif // HASLD4 check and hard float
-#endif // ARM_NEON_SLIDEHASH
+#endif // __AVX512F__
+#endif // defined(_MSC_VER) && _MSC_VER < 1914
 
 #endif // include guard FALLBACK_BUILTINS_H
