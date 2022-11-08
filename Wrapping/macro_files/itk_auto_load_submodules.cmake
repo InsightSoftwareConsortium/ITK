@@ -124,7 +124,6 @@ function(generate_castxml_commandline_flags)
     # @CASTXML_INCLUDES@, @WRAPPER_MODULE_NAME@, @CASTXML_TYPEDEFS@, @CASTXML_FORCE_INSTANTIATE@
     configure_file("${ITK_WRAP_CASTXML_SOURCE_DIR}/wrap_.cxx.in" "${cxx_file}" @ONLY)
     unset(CASTXML_INCLUDES)
-    unset(_castxml_depends)
 
     # ====== Get list of include files that may trigger needing a re-write of castxml files
     set(_include ${${WRAPPER_LIBRARY_NAME}_SOURCE_DIR}/include)
@@ -152,7 +151,7 @@ function(generate_castxml_commandline_flags)
             @${castxml_inc_file}
             ${cxx_file}
             VERBATIM
-            DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs} castxml
+            DEPENDS ${_castxml_depends} ${cxx_file} ${castxml_inc_file} ${_hdrs}
     )
     unset(cxx_file)
     unset(castxml_inc_file)
