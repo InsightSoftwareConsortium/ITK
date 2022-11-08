@@ -556,8 +556,13 @@ str = str
                 import numpy as np
                 from itk.support import types
 
-                # if both a numpy dtype and a ctype exist, use the latter.
+                # Convert numpy type to dtype object for consistency
+                # i.e. <np.float32> -> np.dtype('float32')
                 if type(pixel_type) is type:
+                    pixel_type = np.dtype(pixel_type)
+
+                # if both a numpy dtype and an ITK ctype exist, use the latter.
+                if issubclass(type(pixel_type), np.dtype):
                     c_pixel_type = types.itkCType.GetCTypeForDType(pixel_type)
                     if c_pixel_type is not None:
                         pixel_type = c_pixel_type

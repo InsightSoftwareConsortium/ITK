@@ -29,29 +29,29 @@ else:
         loads = dask_deserialize.dispatch(np.ndarray)
         return NDArrayITKBase(loads(header, frames))
 
-def _get_numpy_pixelid(itk_Image_type):
+def _get_numpy_pixelid(itk_Image_type) -> np.dtype:
     """Returns a ITK PixelID given a numpy array."""
 
     # This is a Mapping from numpy array types to itk pixel types.
-    _np_itk = {"UC":np.uint8,
-               "US":np.uint16,
-               "UI":np.uint32,
-               "UL":np.uint64,
-               "ULL":np.uint64,
-               "SC":np.int8,
-               "SS":np.int16,
-               "SI":np.int32,
-               "SL":np.int64,
-               "SLL":np.int64,
-               "F":np.float32,
-               "D":np.float64,
-               "PF2":np.float32,
-               "PF3":np.float32,
+    _np_itk = {"UC":np.dtype(np.uint8),
+               "US":np.dtype(np.uint16),
+               "UI":np.dtype(np.uint32),
+               "UL":np.dtype(np.uint64),
+               "ULL":np.dtype(np.uint64),
+               "SC":np.dtype(np.int8),
+               "SS":np.dtype(np.int16),
+               "SI":np.dtype(np.int32),
+               "SL":np.dtype(np.int64),
+               "SLL":np.dtype(np.int64),
+               "F":np.dtype(np.float32),
+               "D":np.dtype(np.float64),
+               "PF2":np.dtype(np.float32),
+               "PF3":np.dtype(np.float32),
                 }
     import os
     if os.name == 'nt':
-        _np_itk['UL'] = np.uint32
-        _np_itk['SL'] = np.int32
+        _np_itk['UL'] = np.dtype(np.uint32)
+        _np_itk['SL'] = np.dtype(np.int32)
     try:
         return _np_itk[itk_Image_type]
     except KeyError as e:

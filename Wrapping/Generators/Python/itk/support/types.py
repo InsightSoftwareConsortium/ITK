@@ -117,28 +117,28 @@ class itkCType:
         """
         import numpy as np
 
-        _F: "itkCType" = itkCType("float", "F", np.float32)
-        _D: "itkCType" = itkCType("double", "D", np.float64)
-        _UC: "itkCType" = itkCType("unsigned char", "UC", np.uint8)
-        _US: "itkCType" = itkCType("unsigned short", "US", np.uint16)
-        _UI: "itkCType" = itkCType("unsigned int", "UI", np.uint32)
+        _F: "itkCType" = itkCType("float", "F", np.dtype(np.float32))
+        _D: "itkCType" = itkCType("double", "D", np.dtype(np.float64))
+        _UC: "itkCType" = itkCType("unsigned char", "UC", np.dtype(np.uint8))
+        _US: "itkCType" = itkCType("unsigned short", "US", np.dtype(np.uint16))
+        _UI: "itkCType" = itkCType("unsigned int", "UI", np.dtype(np.uint32))
         if os.name == "nt":
-            _UL: "itkCType" = itkCType("unsigned long", "UL", np.uint32)
-            _SL: "itkCType" = itkCType("signed long", "SL", np.int32)
+            _UL: "itkCType" = itkCType("unsigned long", "UL", np.dtype(np.uint32))
+            _SL: "itkCType" = itkCType("signed long", "SL", np.dtype(np.int32))
             _LD: "itkCType" = itkCType("long double", "LD")
         else:
-            _UL: "itkCType" = itkCType("unsigned long", "UL", np.uint64)
-            _SL: "itkCType" = itkCType("signed long", "SL", np.int64)
+            _UL: "itkCType" = itkCType("unsigned long", "UL", np.dtype(np.uint64))
+            _SL: "itkCType" = itkCType("signed long", "SL", np.dtype(np.int64))
             if hasattr(np, "float128"):
-                _LD: "itkCType" = itkCType("long double", "LD", np.float128)
+                _LD: "itkCType" = itkCType("long double", "LD", np.dtype(np.float128))
             else:
                 _LD: "itkCType" = itkCType("long double", "LD")
-        _ULL: "itkCType" = itkCType("unsigned long long", "ULL", np.uint64)
-        _SC: "itkCType" = itkCType("signed char", "SC", np.int8)
-        _SS: "itkCType" = itkCType("signed short", "SS", np.int16)
-        _SI: "itkCType" = itkCType("signed int", "SI", np.int32)
-        _SLL: "itkCType" = itkCType("signed long long", "SLL", np.int64)
-        _B: "itkCType" = itkCType("bool", "B", np.bool8)
+        _ULL: "itkCType" = itkCType("unsigned long long", "ULL", np.dtype(np.uint64))
+        _SC: "itkCType" = itkCType("signed char", "SC", np.dtype(np.int8))
+        _SS: "itkCType" = itkCType("signed short", "SS", np.dtype(np.int16))
+        _SI: "itkCType" = itkCType("signed int", "SI", np.dtype(np.int32))
+        _SLL: "itkCType" = itkCType("signed long long", "SLL", np.dtype(np.int64))
+        _B: "itkCType" = itkCType("bool", "B", np.dtype(np.bool8))
         return _F, _D, _UC, _US, _UI, _UL, _SL, _LD, _ULL, _SC, _SS, _SI, _SLL, _B
 
 
