@@ -323,7 +323,15 @@ def GetArrayFromImage(
     update: bool = True,
     ttype=None,
 ) -> np.ndarray:
-    """Get an array with the content of the image buffer"""
+    """Get an array with the content of the image buffer.
+
+    When *keep_axes* is *False*, the NumPy array will have C-order
+    indexing. This is the reverse of how indices are specified in ITK,
+    i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
+    algorithms in NumPy / SciPy.
+
+    This is a deep copy of the image buffer and is completely safe and without potential side effects.
+    """
     return _GetArrayFromImage(
         image_or_filter, "GetArrayFromImage", keep_axes, update, ttype
     )
@@ -338,7 +346,13 @@ def GetArrayViewFromImage(
     update: bool = True,
     ttype=None,
 ) -> np.ndarray:
-    """Get an array view with the content of the image buffer"""
+    """Get an array view with the content of the image buffer.
+
+    When *keep_axes* is *False*, the NumPy array will have C-order
+    indexing. This is the reverse of how indices are specified in ITK,
+    i.e. k,j,i versus i,j,k. However C-order indexing is expected by most
+    algorithms in NumPy / SciPy.
+    """
     return _GetArrayFromImage(
         image_or_filter, "GetArrayViewFromImage", keep_axes, update, ttype
     )
@@ -347,7 +361,8 @@ def GetArrayViewFromImage(
 array_view_from_image = GetArrayViewFromImage
 
 
-def _GetImageFromArray(arr: ArrayLike, function_name: str, is_vector: bool, ttype):
+def _GetImageFromArray(arr: ArrayLike, function_name: str, is_vector: bool,
+        ttype, need_contiguous:bool = True):
     """Get an ITK image from a Python array."""
     import itk
 
@@ -398,13 +413,36 @@ def _GetImageFromArray(arr: ArrayLike, function_name: str, is_vector: bool, ttyp
 Please specify an output type via the 'ttype' keyword parameter."""
         )
     templatedFunction = getattr(itk.PyBuffer[keys[0]], function_name)
-    return templatedFunction(arr, is_vector)
+    if function_name == "GetImageViewFromArray":
+        return templatedFunction(arr, is_vector, need_contiguous)
+    else:
+        return templatedFunction(arr, is_vector)
+
 
 
 def GetImageFromArray(
     arr: ArrayLike, is_vector: bool = False, ttype=None
 ) -> "itkt.ImageBase":
-    """Get an ITK image from a Python array."""
+    """Get an ITK image from a Python array.
+
+    This is a deep copy of the NumPy array buffer and is completely safe without potential
+    side effects.
+
+    If is_vector is True, then a 3D array will be treated as a 2D vector image,
+    otherwise it will be treated as a 3D image.
+
+    If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
+    will have the same dimensions as the array shape. If the array uses
+    C-order indexing, i.e. k,j,i, the image Size will have the dimensions
+    reversed from the array shape.
+
+    Therefore, since the *np.transpose* operator on a 2D array simply
+    inverts the indexing scheme, the Image representation will be the
+    same for an array and its transpose. If flipping is desired, see
+    *np.reshape*.
+
+    ttype can be used te specify a specific itk.Image type.
+    """
     return _GetImageFromArray(arr, "GetImageFromArray", is_vector, ttype)
 
 
@@ -412,10 +450,29 @@ image_from_array = GetImageFromArray
 
 
 def GetImageViewFromArray(
-    arr: ArrayLike, is_vector: bool = False, ttype=None
+    arr: ArrayLike, is_vector: bool = False, ttype=None, need_contiguous=True
 ) -> "itkt.ImageBase":
-    """Get an ITK image view from a Python array."""
-    return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector, ttype)
+    """Get an ITK image view (shared pixel buffer memory) from a Python array.
+
+    If is_vector is True, then a 3D array will be treated as a 2D vector image,
+    otherwise it will be treated as a 3D image.
+
+    If the array uses Fortran-order indexing, i.e. i,j,k, the Image Size
+    will have the same dimensions as the array shape. If the array uses
+    C-order indexing, i.e. k,j,i, the image Size will have the dimensions
+    reversed from the array shape.
+
+    Therefore, since the *np.transpose* operator on a 2D array simply
+    inverts the indexing scheme, the Image representation will be the
+    same for an array and its transpose. If flipping is desired, see
+    *np.reshape*.
+
+    By default, a warning is issued if this function is called on a non-contiguous
+    array, since a copy is performed and care must be taken to keep a reference
+    to the copied array. This warning can be suppressed with need_contiguous=False
+    """
+    return _GetImageFromArray(arr, "GetImageViewFromArray", is_vector, ttype,
+            need_contiguous=need_contiguous)
 
 
 image_view_from_array = GetImageViewFromArray

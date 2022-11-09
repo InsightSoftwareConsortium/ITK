@@ -57,7 +57,7 @@
 
     GetArrayFromImage = staticmethod(GetArrayFromImage)
 
-    def GetImageViewFromArray(ndarr, is_vector=False):
+    def GetImageViewFromArray(ndarr, is_vector=False, need_contiguous=True):
         """Get an ITK Image view of a NumPy array.
 
         If is_vector is True, then a 3D array will be treated as a 2D vector image,
@@ -72,12 +72,23 @@
         inverts the indexing scheme, the Image representation will be the
         same for an array and its transpose. If flipping is desired, see
         *np.reshape*.
+
+        By default, a warning is issued if this function is called on a non-contiguous
+        array, since a copy is performed and care must be taken to keep a reference
+        to the copied array. This warning can be suppressed with need_contiguous=False
         """
 
         assert ndarr.ndim in (1, 2, 3, 4, 5), \
             "Only arrays of 1, 2, 3, 4 or 5 dimensions are supported."
         if not ndarr.flags['C_CONTIGUOUS'] and not ndarr.flags['F_CONTIGUOUS']:
             ndarr = np.ascontiguousarray(ndarr)
+            if need_contiguous:
+                import warnings
+                msg = """Because the input array was not contiguous, the returned
+                image is not a view of the array passed to this function. Instead,
+                it is a view of the member "base" of the returned image! If that
+                member is ever garbage collected, this view becomes invalid."""
+                warnings.warn(msg)
 
         if is_vector:
             if ndarr.flags['C_CONTIGUOUS']:
@@ -115,7 +126,7 @@
         """
 
         # Create a temporary image view of the array
-        imageView = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(ndarr, is_vector)
+        imageView = itkPyBuffer@PyBufferTypes@.GetImageViewFromArray(ndarr, is_vector, need_contiguous=False)
 
         # Duplicate the image to let it manage its own memory buffer
         import itk
