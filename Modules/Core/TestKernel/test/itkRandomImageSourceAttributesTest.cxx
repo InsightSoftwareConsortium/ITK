@@ -73,9 +73,9 @@ itkRandomImageSourceAttributesTest(int, char *[])
   {
     using ImageType2D = itk::Image<PixelType, Dimension2D>;
 
-    const ImageType2D::SizeType      size{ 25, 25 };
-    const ImageType2D::SpacingType   spacing{ { 0.7, 2.1 } };
-    const ImageType2D::PointType     origin{ { -1.7, 5.2 } };
+    const ImageType2D::SizeType      size{ { 25, 25 } };
+    const ImageType2D::SpacingType   spacing{ { { 0.7, 2.1 } } };
+    const ImageType2D::PointType     origin{ { { -1.7, 5.2 } } };
     const double                     d[4] = { 0, 1.0, 1.0, 0 };
     const ImageType2D::DirectionType direction = ImageType2D::DirectionType::InternalMatrixType(d);
     const ImageType2D::ValueType     min{ 0.0 };
@@ -87,9 +87,9 @@ itkRandomImageSourceAttributesTest(int, char *[])
   {
     using ImageType3D = itk::Image<PixelType, Dimension3D>;
 
-    const ImageType3D::SizeType      size{ 14, 17, 36 };
-    const ImageType3D::SpacingType   spacing{ { 0.7, 0.4, 1.2 } };
-    const ImageType3D::PointType     origin{ { -1.7, 5.2, 3.4 } };
+    const ImageType3D::SizeType      size{ { 14, 17, 36 } };
+    const ImageType3D::SpacingType   spacing{ { { 0.7, 0.4, 1.2 } } };
+    const ImageType3D::PointType     origin{ { { -1.7, 5.2, 3.4 } } };
     const double                     d[9] = { 0, 1.0, 0, 1.0, 0, 0, 0, 1.0, 0 };
     const ImageType3D::DirectionType direction = ImageType3D::DirectionType::InternalMatrixType(d);
     const ImageType3D::ValueType     min{ 0.0 };
