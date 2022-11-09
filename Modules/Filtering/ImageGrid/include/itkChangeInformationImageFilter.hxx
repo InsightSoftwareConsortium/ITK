@@ -24,27 +24,6 @@
 
 namespace itk
 {
-/**
- *
- */
-template <typename TInputImage>
-ChangeInformationImageFilter<TInputImage>::ChangeInformationImageFilter()
-{
-  m_ReferenceImage = nullptr;
-
-  m_ChangeSpacing = false;
-  m_ChangeOrigin = false;
-  m_ChangeDirection = false;
-  m_ChangeRegion = false;
-
-  m_CenterImage = false;
-  m_UseReferenceImage = false;
-
-  m_OutputSpacing.Fill(1.0);
-  m_OutputOrigin.Fill(0.0);
-  m_OutputDirection.SetIdentity();
-  m_OutputOffset.Fill(0);
-}
 
 template <typename TInputImage>
 void
