@@ -488,6 +488,7 @@ docker run --privileged --rm tonistiigi/binfmt --install all
 docker run -it -v $(pwd):/work/ quay.io/pypa/manylinux_2_28_aarch64:latest bash
 # In the container
 cd /work
+yum install sudo
 ./scripts/internal/manylinux-build-wheels.sh
 ```
 
