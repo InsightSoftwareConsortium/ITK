@@ -388,8 +388,15 @@ LBFGSBOptimizer::GetStopConditionDescription() const
     switch (m_VnlOptimizer->get_failure_code())
     {
       case vnl_nonlinear_minimizer::ERROR_FAILURE:
-        stopConditionDescription << "Failure";
+        stopConditionDescription << "Unspecified Failure";
         break;
+#if VXL_VERSION_MAJOR >= 4
+      case vnl_nonlinear_minimizer::ABNORMAL_TERMINATION_IN_LNSRCH:
+        stopConditionDescription << "Abnormal termination in line search.  Often caused by "
+                                 << "rounding errors dominating computation.  This can occur if the function is a very "
+                                 << "flat surface, or has oscillations.";
+        break;
+#endif
       case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT:
         stopConditionDescription << "Dodgy input";
         break;
@@ -424,6 +431,7 @@ LBFGSBOptimizer::GetStopConditionDescription() const
         stopConditionDescription << "Gradient tolerance too small";
         break;
       case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
+        stopConditionDescription << "Failed user requeset";
         break;
     }
   }
