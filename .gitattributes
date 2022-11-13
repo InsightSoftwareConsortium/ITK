@@ -47,13 +47,13 @@ zap.pl           crlf=input
 Modules/Numerics/FEM/src/dsrc2c.c hooks-max-size=260000
 Modules/ThirdParty/** hooks-max-size=300000 hooks.style=
 Modules/ThirdParty/NIFTI/src/nifti/nifti2/nifti2_io.c hooks-max-size=400000
-Modules/ThirdParty/VNL/src/vxl/v3p/netlib/triangle.c hooks-max-size=670000
 Modules/ThirdParty/ZLIB/src/itkzlib-ng/crc32_braid_tbl.h hooks-max-size=700000
 Modules/Filtering/Denoising/include/itkPatchBasedDenoisingImageFilter.hxx hooks-max-size=120000
 Documentation/ReleaseNotes/* hooks-max-size=300000
 Utilities/Doxygen/doxygen.config.in       hooks-max-size=150000
 Wrapping/Generators/Doc/doxygen.config.in hooks-max-size=150000
 
+# VNL-specific .gitattributes should go into Modules/ThirdParty/VNL/.gitattributes
 # GDCM-specific .gitattributes should go into Modules/ThirdParty/GDCM/src/gdcm/.gitattributes
 
 # HDF5-specific .gitattributes should go into Modules/ThirdParty/HDF5/.gitattributes
