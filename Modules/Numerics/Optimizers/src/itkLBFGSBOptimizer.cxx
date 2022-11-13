@@ -388,7 +388,7 @@ LBFGSBOptimizer::GetStopConditionDescription() const
     switch (m_VnlOptimizer->get_failure_code())
     {
       case vnl_nonlinear_minimizer::ERROR_FAILURE:
-        stopConditionDescription << "Failure";
+        stopConditionDescription << "Unspecified Failure";
         break;
       case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT:
         stopConditionDescription << "Dodgy input";
@@ -424,6 +424,7 @@ LBFGSBOptimizer::GetStopConditionDescription() const
         stopConditionDescription << "Gradient tolerance too small";
         break;
       case vnl_nonlinear_minimizer::FAILED_USER_REQUEST:
+        stopConditionDescription << "Failed user requeset";
         break;
     }
   }
