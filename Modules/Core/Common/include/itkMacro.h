@@ -204,7 +204,7 @@ namespace itk
 #  define ITK_ABI_EXPORT __declspec(dllexport)
 #  define ITK_ABI_HIDDEN
 #else
-#  if __GNUC__ >= 4
+#  ifdef __GNUC__
 #    define ITK_ABI_IMPORT __attribute__((visibility("default")))
 #    define ITK_ABI_EXPORT __attribute__((visibility("default")))
 #    define ITK_ABI_HIDDEN __attribute__((visibility("hidden")))
