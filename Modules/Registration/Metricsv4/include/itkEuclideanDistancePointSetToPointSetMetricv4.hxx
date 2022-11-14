@@ -35,7 +35,14 @@ typename EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPoin
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
   const MeasureType distance = point.EuclideanDistanceTo(closestPoint);
-  return distance;
+  if (this->m_DistanceThreshold <= 0 || distance < this->m_DistanceThreshold)
+  {
+    return distance;
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
@@ -52,8 +59,20 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TIn
   PointIdentifier pointId = this->m_MovingTransformedPointsLocator->FindClosestPoint(point);
   closestPoint = this->m_MovingTransformedPointSet->GetPoint(pointId);
 
-  measure = point.EuclideanDistanceTo(closestPoint);
-  localDerivative = closestPoint - point;
+  auto distance = point.EuclideanDistanceTo(closestPoint);
+
+  if (this->m_DistanceThreshold <= 0 || distance < this->m_DistanceThreshold)
+  {
+    measure = distance;
+    localDerivative = closestPoint - point;
+  }
+  else
+  {
+    // Skip the points that are beyond the threshold by making value and derivative as 0.
+    measure = 0;
+    closestPoint.Fill(0.0);
+    localDerivative = closestPoint;
+  }
 }
 
 /** PrintSelf method */
