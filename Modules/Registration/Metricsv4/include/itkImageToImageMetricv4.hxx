@@ -530,11 +530,13 @@ ImageToImageMetricv4<TFixedImage, TMovingImage, TVirtualImage, TInternalComputat
   if (number != this->m_SparseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads())
   {
     this->m_SparseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
+    this->m_SparseGetValueAndDerivativeThreader->SetNumberOfWorkUnits(number);
     this->Modified();
   }
   if (number != this->m_DenseGetValueAndDerivativeThreader->GetMaximumNumberOfThreads())
   {
     this->m_DenseGetValueAndDerivativeThreader->SetMaximumNumberOfThreads(number);
+    this->m_DenseGetValueAndDerivativeThreader->SetNumberOfWorkUnits(number);
     this->Modified();
   }
 }
