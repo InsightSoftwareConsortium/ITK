@@ -32,6 +32,7 @@
 #include "itkObjectFactory.h"
 #include "itkNumericTraits.h"
 #include "itkThreadSupport.h"
+#include "itkIntTypes.h"
 #include <vector>
 #include <map>
 #include <set>
