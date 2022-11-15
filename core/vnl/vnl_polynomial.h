@@ -62,7 +62,7 @@ class VNL_EXPORT vnl_polynomial
   // An assertion makes sure that the input vector is in normalised form, i.e.,
   // that it is either empty or that the highest order coefficient is nonzero.
    vnl_polynomial(std::vector<T> a) : coeffs_(std::move(a)) {
-     assert(a.begin() == a.end() || a.back() != T(0));
+     assert(coeffs_.begin() == coeffs_.end() || coeffs_.back() != T(0));
    }
 
   //: Initialize polynomial from C array, highest order first.

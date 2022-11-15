@@ -5,7 +5,7 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-#define TEST(str,x,y) std::printf(str ":   "); if ((x)!=(y)) { std::printf("FAILED\n"); status = 1; } else { std::printf("PASSED\n"); }
+#define TEST(str,x,y) std::printf(str ":   "); if ((x)!=(y)) { std::printf("FAILED\n"); status = 1; } else { std::printf("PASSED\n"); }  static_assert(true, "")
 
 int test_atomic_count_main(int /*argc*/,char* /*argv*/[])
 {

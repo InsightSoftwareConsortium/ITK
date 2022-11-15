@@ -5,7 +5,7 @@
 #  include "vcl_msvc_warnings.h"
 #endif
 
-#define AssertEq(x,y) {status+=((x)==(y))?0:1;std::cout<<"TEST ["<<(x)<<"] == ["<<(y)<<"] : "<<((x)==(y)?"PASSED":"FAILED")<<std::endl;}
+#define AssertEq(x,y) {status+=((x)==(y))?0:1;std::cout<<"TEST ["<<(x)<<"] == ["<<(y)<<"] : "<<((x)==(y)?"PASSED":"FAILED")<<std::endl;} static_assert(true, "")
 
 int test_sstream_main(int /*argc*/,char* /*argv*/[])
 {

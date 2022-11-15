@@ -2,7 +2,6 @@
 #include <cassert>
 #include <cmath>
 #include <iostream>
-#include <utility>
 
 #include "vnl/vnl_double_2.h"
 

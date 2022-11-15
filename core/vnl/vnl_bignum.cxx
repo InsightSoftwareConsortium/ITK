@@ -1,7 +1,6 @@
 // This is core/vnl/vnl_bignum.cxx
 #include <cstdlib>
 #include <cstring>
-#include <cmath>
 #include <cassert>
 #include <algorithm>
 #include <vector>
@@ -14,12 +13,6 @@
 
 using Counter = unsigned short;
 using Data = unsigned short;
-
-//: Creates a zero vnl_bignum.
-
-vnl_bignum::vnl_bignum()
-
-    = default;
 
 //: Creates a vnl_bignum from a single-precision floating point number.
 
@@ -1110,6 +1103,8 @@ magnitude_cmp(const vnl_bignum & b1, const vnl_bignum & b2)
   Counter i = b1.count; // Else same number of elements
   while (i > 0)
   { // Do lexicographic comparison
+    assert(b1.data != nullptr);
+    assert(b2.data != nullptr);
     if (b1.data[i - 1] > b2.data[i - 1])
       return 1;
     else if (b1.data[i - 1] < b2.data[i - 1])
@@ -1184,10 +1179,16 @@ void
 divide_aux(const vnl_bignum & b1, Data d, vnl_bignum & q, Data & r)
 {
   r = 0; // init remainder to zero
-  unsigned long temp;
+  assert(b1.data != nullptr);
+  if (d == 0)
+  { /* d should never be equal to zero to avoid division by zero */
+    r = NAN;
+    return;
+  }
   for (Counter j = b1.count; j > 0; j--)
   {
-    temp = (unsigned long)r * 0x10000L + (unsigned long)b1.data[j - 1]; // get remainder, append next
+    // get remainder, append next
+    const unsigned long temp = (unsigned long)r * 0x10000L + (unsigned long)b1.data[j - 1];
     if (j < 1 + q.count)
       q.data[j - 1] = Data(temp / d); //   digit, then divide
     r = Data(temp % d);               // calculate new remainder
@@ -1205,12 +1206,21 @@ divide_aux(const vnl_bignum & b1, Data d, vnl_bignum & q, Data & r)
 Data
 estimate_q_hat(const vnl_bignum & u, const vnl_bignum & v, Counter j)
 {
-  Data q_hat,
-    v1 = v.data[v.count - 1], // localize frequent data
-    v2 = v.data[v.count - 2], u0 = u.data[u.count - 1 - j], u1 = u.data[u.count - 2 - j], u2 = u.data[u.count - 3 - j];
+  Data q_hat;
+  const Data & v1 = v.data[v.count - 1]; // localize frequent data
+  const Data & v2 = v.data[v.count - 2];
+  const Data & u0 = u.data[u.count - 1 - j];
+  const Data & u1 = u.data[u.count - 2 - j];
+  const Data & u2 = u.data[u.count - 3 - j];
 
+  const auto v1_UL = static_cast<unsigned long>(v1);
+  if (v1_UL == 0)
+  { /* v1_UL should never be equal to zero to avoid division by zero */
+    q_hat = NAN;
+    return q_hat;
+  }
   // Initial Knuth estimate, usually correct
-  q_hat = (u0 == v1 ? Data(0xffff) : Data(((unsigned long)u0 * 0x10000L + (unsigned long)u1) / (unsigned long)v1));
+  q_hat = (u0 == v1 ? Data(0xffff) : Data(((unsigned long)u0 * 0x10000L + (unsigned long)u1) / v1_UL));
 
   // high speed test to determine most of the cases in which initial
   // estimate is too large.  Eliminates most cases in which q_hat is one too
@@ -1220,12 +1230,12 @@ estimate_q_hat(const vnl_bignum & u, const vnl_bignum & v, Counter j)
   //     v2*q_hat > (u0*0x10000L + u1 - q_hat*v1)*0x10000L + u2.
   // If the inequality is true, decrease q_hat by 1.  If inequality is still
   // true, decrease q_hat again.
-  unsigned long lhs, rhs; // lhs, rhs of Knuth inequality
   for (Counter i = 0; i < 2; i++)
-  {                                                         // loop at most twice
-    lhs = (unsigned long)v2 * (unsigned long)q_hat;         // Calculate left-hand side of ineq.
-    rhs = (unsigned long)u0 * 0x10000L + (unsigned long)u1; // Calculate part of right-hand side
-    rhs -= ((unsigned long)q_hat * (unsigned long)v1);      // Now subtract off part
+  {                                                                       // loop at most twice
+                                                                          // lhs, rhs of Knuth inequality
+    const unsigned long lhs = (unsigned long)v2 * (unsigned long)q_hat;   // Calculate left-hand side of ineq.
+    unsigned long rhs = (unsigned long)u0 * 0x10000L + (unsigned long)u1; // Calculate part of right-hand side
+    rhs -= ((unsigned long)q_hat * (unsigned long)v1);                    // Now subtract off part
 
     if (rhs >= 0x10000L) // if multiplication with 0x10000L causes overflow
       break;             //   then rhs > lhs, so test fails

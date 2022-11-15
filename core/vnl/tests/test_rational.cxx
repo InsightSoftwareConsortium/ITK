@@ -5,6 +5,7 @@
 #include <string>
 #include <utility>
 #include <typeinfo>
+#include <limits>
 #include "vnl/vnl_rational.h"
 #include "testlib/testlib_test.h"
 #include "vnl/vnl_math.h"

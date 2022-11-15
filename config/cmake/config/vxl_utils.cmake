@@ -86,8 +86,14 @@ function( vxl_add_library )
     add_library(${vxl_add_LIBRARY_NAME} ${vxl_add_LIBRARY_SOURCES} )
 
     # This enables object-level build parallelism in VNL libraries for MSVC
-    if(MSVC AND NOT vxl_add_DISABLE_MSVC_MP) 
-      target_compile_definitions(${vxl_add_LIBRARY_NAME} PRIVATE " /MP ")
+    # - disabled for MSVC simulators such as clang-cl
+    #     https://github.com/vxl/vxl/issues/863
+    #     https://gitlab.kitware.com/cmake/cmake/-/issues/19724
+    # - disabled for COMPILE_LANGUAGE!=CXX (via generator expression)
+    # - disabled for DISABLE_MSVC_MP
+    if(MSVC AND NOT "${CMAKE_CXX_SIMULATE_ID}" STREQUAL "MSVC" AND NOT vxl_add_DISABLE_MSVC_MP)
+      target_compile_options(${vxl_add_LIBRARY_NAME} PRIVATE
+          $<$<COMPILE_LANGUAGE:CXX>:/MP> )
     endif()
 
     set_property(GLOBAL APPEND PROPERTY VXLTargets_MODULES ${vxl_add_LIBRARY_NAME})
