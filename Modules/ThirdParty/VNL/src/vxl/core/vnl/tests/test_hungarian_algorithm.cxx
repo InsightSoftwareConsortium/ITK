@@ -10,7 +10,7 @@ static void
 test_hungarian_algorithm_1()
 {
   // Create input image
-  int cost_val[6][6] = { { 4, 12, 11, 20, 16, 19 }, { 12, 8, 20, 13, 22, 18 }, { 6, 9, 4, 15, 9, 12 },
+  constexpr int cost_val[6][6] = { { 4, 12, 11, 20, 16, 19 }, { 12, 8, 20, 13, 22, 18 }, { 6, 9, 4, 15, 9, 12 },
                          { 12, 4, 12, 6, 14, 8 },   { 12, 10, 6, 9, 5, 3 },    { 13, 7, 12, 2, 10, 4 } };
 
   // Create the cost matrix
@@ -46,7 +46,7 @@ test_hungarian_algorithm_1()
   // returns the cost of the assignment
   TEST_NEAR("total cost", HungarianClassTest.GetTotalCost(), 31, 1e-11);
 
-  double cost_val2[6][6] = { { 2, 3.0, 1, 0.1, 2, 7 }, { 1, 0, 1, 2, 3.0, 4 }, { 0, 0, 9, 5, 4.4, 2 },
+  constexpr double cost_val2[6][6] = { { 2, 3.0, 1, 0.1, 2, 7 }, { 1, 0, 1, 2, 3.0, 4 }, { 0, 0, 9, 5, 4.4, 2 },
                              { 1, 5, 6, 3, 0, 1 },     { 0, 1, 2, 0, 1, 2 },   { 2, 3, 1, 0.1, 1, 1 } };
 
   // Create the cost matrix
@@ -211,7 +211,7 @@ static void
 test_hungarian_algorithm_2()
 {
   {
-    double cost_val[3][3] = { { 1, 2, 3 }, { 2, 4, 6 }, { 3, 6, 9 } };
+    constexpr double cost_val[3][3] = { { 1, 2, 3 }, { 2, 4, 6 }, { 3, 6, 9 } };
 
     // Create the cost matrix
     vnl_matrix<double> cost(&cost_val[0][0], 3, 3);
@@ -231,7 +231,7 @@ test_hungarian_algorithm_2()
   }
 
   {
-    double cost_val[4][4] = {
+    constexpr double cost_val[4][4] = {
       { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 5.0, 2.0, 1.0, 6.0 }, { 7.0, 1.0, 3.0, 0.1 }
     };
     vnl_matrix<double> cost(&cost_val[0][0], 4, 4);
@@ -249,7 +249,7 @@ test_hungarian_algorithm_2()
   }
 
   {
-    double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 7.0, 1.0, 3.0, 0.1 } };
+    constexpr double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 7.0, 1.0, 3.0, 0.1 } };
     vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
 
     std::cout << "//-----------------------//\n"
@@ -265,7 +265,7 @@ test_hungarian_algorithm_2()
   {
     // test where the greedy solution is not the optimal
     std::cout << "\n\nTest when greedy != optimal\n";
-    double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 0.2, 3.0, 0.5 }, { 7.0, 1.0, 3.0, 0.1 } };
+    constexpr double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 0.2, 3.0, 0.5 }, { 7.0, 1.0, 3.0, 0.1 } };
     vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
 
     std::cout << "//-----------------------//\n"
@@ -282,7 +282,7 @@ test_hungarian_algorithm_2()
     // a white box test where the row-by-row minimum is not the
     // solution
     std::cout << "\n\nTest when row-by-row min != optimal\n";
-    double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 0.1, 1.0, 3.0, 0.2 } };
+    constexpr double cost_val[3][4] = { { 2.0, 1.0, 5.0, 3.0 }, { 0.5, 6.0, 3.0, 0.5 }, { 0.1, 1.0, 3.0, 0.2 } };
     vnl_matrix<double> cost(&cost_val[0][0], 3, 4);
 
     std::cout << "//-----------------------//\n"
@@ -296,7 +296,7 @@ test_hungarian_algorithm_2()
   }
 
   {
-    double cost_val[5][3] = {
+    constexpr double cost_val[5][3] = {
       { 2.0, 0.5, 7.0 }, { 1.1, 6.0, 1.0 }, { 1.0, 2.0, 1.0 }, { 5.0, 3.0, 3.0 }, { 3.0, 0.5, 0.1 }
     };
 
@@ -312,11 +312,11 @@ test_hungarian_algorithm_2()
     run_test(cost, solution);
   }
 
-  double Inf = std::numeric_limits<double>::infinity();
+  constexpr double Inf = std::numeric_limits<double>::infinity();
 
   {
     std::cout << "\n\nTest with Inf\n";
-    double cost_val[5][3] = {
+    constexpr double cost_val[5][3] = {
       { 2.0, 0.5, 7.0 }, { 1.1, 6.0, 1.0 }, { 1.0, 2.0, 1.0 }, { Inf, 3.0, 3.0 }, { 3.0, 0.5, 0.1 }
     };
 
@@ -334,7 +334,7 @@ test_hungarian_algorithm_2()
 
   {
     std::cout << "\n\nTest with Inf, greedy not optimal\n";
-    double cost_val[5][3] = {
+    constexpr double cost_val[5][3] = {
       { 2.0, 0.5, 7.0 }, { 1.1, 6.0, 1.0 }, { 1.0, 2.0, 1.0 }, { Inf, 3.0, 3.0 }, { 3.0, 0.5, 0.1 }
     };
 

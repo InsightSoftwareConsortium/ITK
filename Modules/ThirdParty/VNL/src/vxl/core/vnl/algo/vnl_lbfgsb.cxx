@@ -141,6 +141,13 @@ vnl_lbfgsb::minimize(vnl_vector<double> & x)
       ok = false;
       break;
     }
+    else if (std::strncmp("ABNORMAL_TERMINATION_IN_LNSRCH", task, 30) == 0)
+    {
+      // some error
+      this->failure_code_ = ABNORMAL_TERMINATION_IN_LNSRCH;
+      ok = false;
+      break;
+    }
     else if (std::strncmp("CONVERGENCE", task, 11) == 0)
     {
       // convergence has been reached

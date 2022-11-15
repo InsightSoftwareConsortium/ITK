@@ -51,7 +51,6 @@ set( vcl_sources
   vcl_ctime.h
   vcl_cwchar.h
   vcl_cwctype.h
-  vcl_deprecated_header.h
   vcl_deque.h
   vcl_exception.h
   vcl_fstream.h
@@ -95,14 +94,6 @@ set( vcl_sources
   internal/vcl_atomic_count_win32.h
   internal/vcl_interlocked.h
   
-  # Compiler specific files produced by WriteCompilerDetectionHeader
-  vcl_compiler_detection.h
-  compilers/VXL_COMPILER_INFO_AppleClang_CXX.h
-  compilers/VXL_COMPILER_INFO_Clang_CXX.h
-  compilers/VXL_COMPILER_INFO_GNU_CXX.h
-  compilers/VXL_COMPILER_INFO_Intel_CXX.h
-  compilers/VXL_COMPILER_INFO_MSVC_CXX.h
-  compilers/VXL_COMPILER_INFO_SunPro_CXX.h
 )
 
 

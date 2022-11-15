@@ -511,6 +511,7 @@
 
 /*! The largest possible value of longs. */
 #define  LARGEST_LONG_INTEGER    LONG_MAX
+#define LARGEST_LONG_INTEGER_AS_DOUBLE ((double)LARGEST_LONG_INTEGER - 1.0) /* VXL - needed to avoid compiler warning about value change during implicit conversion */
 
 /*! The largest possible value of ints. */
 #define  LARGEST_INTEGER    INT_MAX

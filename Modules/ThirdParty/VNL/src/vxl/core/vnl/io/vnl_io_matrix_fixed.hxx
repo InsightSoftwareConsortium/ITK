@@ -38,6 +38,7 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
   switch (v)
   {
    case 1:
+#if !VXL_LEGACY_FUTURE_REMOVE
     vsl_b_read(is, stream_m);
     vsl_b_read(is, stream_n);
     if ( stream_n != n || stream_m != m ) {
@@ -50,6 +51,9 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix_fixed<T,m,n> & p)
     if (m*n>0)
       vsl_b_read_block_old(is, p.begin(), p.size());
     break;
+#else
+    std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required function vsl_b_read_block_old in 2006\n";
+#endif
 
    case 2:
     vsl_b_read(is, stream_m);

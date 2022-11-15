@@ -58,7 +58,7 @@ s_cat(char *lp, char **rpp, integer *rnp, integer *np, ftnlen ll)
                         continue;
                         }
                 lp0 = lp;
-                lp = lp1 = F77_aloc(L = ll, "s_cat");
+                lp = F77_aloc(L = ll, "s_cat");
                 break;
                 }
         lp1 = lp;

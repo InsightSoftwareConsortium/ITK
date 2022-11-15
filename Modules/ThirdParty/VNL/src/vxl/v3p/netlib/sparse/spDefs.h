@@ -461,7 +461,7 @@ spcEXTERN void abort(void);
         if (( (op1) > LARGEST_SHORT_INTEGER AND (op2) != 0) OR \
             ( (op2) > LARGEST_SHORT_INTEGER AND (op1) != 0)) \
         {   double fProduct = (double)(op1) * (double)(op2); \
-            if (fProduct >= LARGEST_LONG_INTEGER) \
+            if (fProduct >= LARGEST_LONG_INTEGER_AS_DOUBLE) \
                 (product) = LARGEST_LONG_INTEGER; \
             else \
                 (product) = (long)fProduct; \
