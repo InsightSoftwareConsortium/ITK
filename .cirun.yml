@@ -6,8 +6,8 @@ runners:
     cloud: aws
     # AWS A1 Arm system
     instance_type: a1.4xlarge
-    # Ubuntu 20.04, 64 GB drive
-    machine_image: ami-049db9debd560491a
+    # Ubuntu 20.04, 64 GB drive, Nov. 15, 2022
+    machine_image: ami-07cc1b7a8ed2ebcef
     region: eu-west-1
     preemptible: false
     # Add a label to match runs-on param in Github Actions yml files
