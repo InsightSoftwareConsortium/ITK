@@ -282,7 +282,7 @@ itk_add_test(NAME itkSobelOperatorImageConvolutionHorizTest
   itkSobelOperatorImageConvolutionTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png)
 itk_add_test(NAME itkSobelOperatorImageFilterHorizTest
   COMMAND ITKCommon1TestDriver
-  --compare DATA{Baseline/itkSobelOperatorImageHorizTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageConvolutionHorizTest.png
+  --compare DATA{Baseline/itkSobelOperatorImageHorizTest.png} ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.png
   itkSobelOperatorImageFilterTest DATA{${ITK_DATA_ROOT}/Input/sf4.png} 0 ${ITK_TEST_OUTPUT_DIR}/itkSobelOperatorImageFilterHorizTest.png)
 itk_add_test(NAME itkSobelOperatorImageConvolutionVertTest
   COMMAND ITKCommon1TestDriver
