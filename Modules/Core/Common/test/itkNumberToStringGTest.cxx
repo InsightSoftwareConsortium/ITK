@@ -19,6 +19,7 @@
 // First include the header file to be tested:
 #include "itkNumberToString.h"
 #include <gtest/gtest.h>
+#include <cmath> // For std::pow.
 
 namespace
 {
@@ -81,7 +82,7 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
 
   for (int8_t exponent{ 20 }; exponent > 0; --exponent)
   {
-    const auto power_of_ten = std::pow(TValue{ 10 }, static_cast<TValue>(exponent));
+    const TValue power_of_ten{ std::pow(TValue{ 10 }, static_cast<TValue>(exponent)) };
 
     // Test +/- 10 ^ exponent
     EXPECT_EQ(numberToString(power_of_ten), '1' + std::string(exponent, '0'));
@@ -90,7 +91,7 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
 
   for (int8_t exponent{ -6 }; exponent < 0; ++exponent)
   {
-    const auto power_of_ten = std::pow(TValue{ 10 }, static_cast<TValue>(exponent));
+    const TValue power_of_ten{ std::pow(TValue{ 10 }, static_cast<TValue>(exponent)) };
 
     // Test +/- 10 ^ exponent
     EXPECT_EQ(numberToString(power_of_ten), "0." + std::string(-1 - exponent, '0') + '1');
