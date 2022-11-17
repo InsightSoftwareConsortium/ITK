@@ -32,6 +32,7 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  const std::string fname{ argv[1] };
 
   constexpr int Dimension = 3;
   using PixelType = unsigned short;
@@ -43,13 +44,12 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
   ImageType::RegionType region;
   region.SetSize(size);
 
-  auto image = ImageType::New();
-  image->SetRegions(region);
-  image->Allocate(true);
-
-  const std::string fname{ argv[1] };
-  itk::WriteImage(image, fname);
-
+  {
+    auto image = ImageType::New();
+    image->SetRegions(region);
+    image->Allocate(true);
+    itk::WriteImage(image, fname);
+  }
 
   using ReaderType = itk::ImageFileReader<ImageType>;
   auto reader = ReaderType::New();
