@@ -18,38 +18,7 @@
 
 #include "itkPointFeature.h"
 #include "itkPointSet.h"
-#include "itkCommand.h"
 #include "itkTestingMacros.h"
-
-namespace
-{
-class ShowProgress : public itk::Command
-{
-public:
-  itkNewMacro(ShowProgress);
-
-  void
-  Execute(itk::Object * caller, const itk::EventObject & event) override
-  {
-    Execute((const itk::Object *)caller, event);
-  }
-
-  void
-  Execute(const itk::Object * caller, const itk::EventObject & event) override
-  {
-    if (!itk::ProgressEvent().CheckEvent(&event))
-    {
-      return;
-    }
-    const auto * processObject = dynamic_cast<const itk::ProcessObject *>(caller);
-    if (!processObject)
-    {
-      return;
-    }
-    std::cout << " " << processObject->GetProgress();
-  }
-};
-} // namespace
 
 int
 itkPointFeatureTest(int argc, char * argv[])
