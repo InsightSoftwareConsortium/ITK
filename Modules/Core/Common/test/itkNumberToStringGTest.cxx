@@ -24,6 +24,14 @@
 namespace
 {
 
+template <typename>
+constexpr const char * floatingPointTypeName = "unspecified type";
+template <>
+constexpr const char * floatingPointTypeName<float> = "float";
+template <>
+constexpr const char * floatingPointTypeName<double> = "double";
+
+
 template <typename TValue>
 void
 Test_all_digits()
@@ -43,10 +51,11 @@ Test_non_finite_special_floating_point_values()
 {
   using NumericLimitsType = std::numeric_limits<TValue>;
   const itk::NumberToString<TValue> numberToString{};
+  const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
-  EXPECT_EQ(numberToString(NumericLimitsType::quiet_NaN()), "NaN");
-  EXPECT_EQ(numberToString(NumericLimitsType::infinity()), "Infinity");
-  EXPECT_EQ(numberToString(-NumericLimitsType::infinity()), "-Infinity");
+  EXPECT_EQ(numberToString(NumericLimitsType::quiet_NaN()), "NaN") << message;
+  EXPECT_EQ(numberToString(NumericLimitsType::infinity()), "Infinity") << message;
+  EXPECT_EQ(numberToString(-NumericLimitsType::infinity()), "-Infinity") << message;
 }
 
 
@@ -56,6 +65,7 @@ Test_round_trip_of_finite_numeric_limits()
 {
   using NumericLimitsType = std::numeric_limits<TValue>;
   const itk::NumberToString<TValue> numberToString{};
+  const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
   for (const TValue expectedValue : { NumericLimitsType::lowest(),
                                       NumericLimitsType::epsilon(),
@@ -65,11 +75,11 @@ Test_round_trip_of_finite_numeric_limits()
                                       NumericLimitsType::max() })
   {
     std::istringstream inputStream{ numberToString(expectedValue) };
-    EXPECT_FALSE(inputStream.eof());
+    EXPECT_FALSE(inputStream.eof()) << message;
     TValue actualValue;
     inputStream >> actualValue;
-    EXPECT_TRUE(inputStream.eof());
-    EXPECT_EQ(actualValue, expectedValue);
+    EXPECT_TRUE(inputStream.eof()) << message;
+    EXPECT_EQ(actualValue, expectedValue) << message;
   }
 }
 
@@ -79,14 +89,15 @@ void
 Test_decimal_notation_supports_up_to_twentyone_digits()
 {
   const itk::NumberToString<TValue> numberToString{};
+  const auto                        message = std::string("Floating point type: ") + floatingPointTypeName<TValue>;
 
   for (int8_t exponent{ 20 }; exponent > 0; --exponent)
   {
     const TValue power_of_ten{ std::pow(TValue{ 10 }, static_cast<TValue>(exponent)) };
 
     // Test +/- 10 ^ exponent
-    EXPECT_EQ(numberToString(power_of_ten), '1' + std::string(exponent, '0'));
-    EXPECT_EQ(numberToString(-power_of_ten), "-1" + std::string(exponent, '0'));
+    EXPECT_EQ(numberToString(power_of_ten), '1' + std::string(exponent, '0')) << message;
+    EXPECT_EQ(numberToString(-power_of_ten), "-1" + std::string(exponent, '0')) << message;
   }
 
   for (int8_t exponent{ -6 }; exponent < 0; ++exponent)
@@ -94,8 +105,8 @@ Test_decimal_notation_supports_up_to_twentyone_digits()
     const TValue power_of_ten{ std::pow(TValue{ 10 }, static_cast<TValue>(exponent)) };
 
     // Test +/- 10 ^ exponent
-    EXPECT_EQ(numberToString(power_of_ten), "0." + std::string(-1 - exponent, '0') + '1');
-    EXPECT_EQ(numberToString(-power_of_ten), "-0." + std::string(-1 - exponent, '0') + '1');
+    EXPECT_EQ(numberToString(power_of_ten), "0." + std::string(-1 - exponent, '0') + '1') << message;
+    EXPECT_EQ(numberToString(-power_of_ten), "-0." + std::string(-1 - exponent, '0') + '1') << message;
   }
 }
 
