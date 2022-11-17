@@ -1240,7 +1240,7 @@ def imread(
     if type(filename) not in [list, tuple]:
         import os
 
-        if os.path.isdir(filename):
+        if os.path.isdir(filename) and imageio is None:
             # read DICOM series of 1 image in a folder, refer to: https://github.com/RSIP-Vision/medio
             names_generator = itk.GDCMSeriesFileNames.New()
             names_generator.SetUseSeriesDetails(True)
