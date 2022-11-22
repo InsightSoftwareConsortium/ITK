@@ -448,9 +448,9 @@ class vnl_finite_int_poly
 
   //: Creates a general finite_int_poly.
   inline vnl_finite_int_poly(std::vector<Scalar> p) : val_(std::move(p)) {
-    assert(N > 1);
-    assert(M > 0);
-    assert(p.size() <= M);
+    static_assert(N > 1, "N must be > 1");
+    static_assert(M > 0, "M must be > 0");
+    assert(val_.size() <= M);
   }
   //: Creates a degree 0 finite_int_poly.
   inline vnl_finite_int_poly(Scalar const& n) : val_(std::vector<Scalar>(1)) { assert(N>1); assert(M>0); val_[0]=n; }

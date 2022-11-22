@@ -34,10 +34,14 @@ void vsl_b_read(vsl_b_istream &is, vnl_vector<T> & p)
   switch (ver)
   {
    case 1:
+#if !VXL_LEGACY_FUTURE_REMOVE
     vsl_b_read(is, n);
     p.set_size(n);
     if (n)
       vsl_b_read_block_old(is, p.data_block(), n);
+#else
+    std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required function vsl_b_read_block_old in 2006\n";
+#endif
     break;
 
    case 2:

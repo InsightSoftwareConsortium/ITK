@@ -111,7 +111,8 @@ class VNL_EXPORT vnl_nonlinear_minimizer
     FAILED_FTOL_TOO_SMALL       = 6,
     FAILED_XTOL_TOO_SMALL       = 7,
     FAILED_GTOL_TOO_SMALL       = 8,
-    FAILED_USER_REQUEST         = 9
+    FAILED_USER_REQUEST         = 9,
+    ABNORMAL_TERMINATION_IN_LNSRCH = 10
   };
 
   //:Whether the error reduced in the last minimization

@@ -17,7 +17,6 @@
  *=========================================================================*/
 
 #include "lsqrDense.h"
-#include "vcl_compiler_detection.h"
 
 lsqrDense::lsqrDense()
 {
