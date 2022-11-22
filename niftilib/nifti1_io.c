@@ -7044,6 +7044,13 @@ int nifti_read_subregion_image( nifti_image * nim,
 
   /* get the file open */
   fp = nifti_image_load_prep( nim );
+  if(znz_isnull(fp))
+    {
+    if(g_opts.debug > 0)
+      fprintf(stderr,"** nifti_read_subregion_image, failed load_prep\n");
+    return -1;
+    }
+
   /* the current offset is just past the nifti header, save
    * location so that SEEK_SET can be used below
    */
@@ -7070,6 +7077,7 @@ int nifti_read_subregion_image( nifti_image * nim,
       {
       fprintf(stderr,"allocation of %d bytes failed\n",total_alloc_size);
       }
+    znzclose(fp);
     return -1;
     }
 
@@ -7117,11 +7125,12 @@ int nifti_read_subregion_image( nifti_image * nim,
               nread = (int)nifti_read_buffer(fp, readptr, read_amount, nim);
               if(nread != read_amount)
                 {
-                if(g_opts.debug > 1)
+                if(g_opts.debug > 0)
                   {
                   fprintf(stderr,"read of %d bytes failed\n",read_amount);
-                  return -1;
                   }
+                znzclose(fp);
+                return -1;
                 }
               bytes += nread;
               readptr += read_amount;
@@ -7132,6 +7141,7 @@ int nifti_read_subregion_image( nifti_image * nim,
       }
     }
   }
+  znzclose(fp);
   return bytes;
 }
 
