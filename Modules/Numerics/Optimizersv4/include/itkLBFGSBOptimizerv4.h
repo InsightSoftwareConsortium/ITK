@@ -170,6 +170,13 @@ public:
    * function. */
   itkGetConstReferenceMacro(InfinityNormOfProjectedGradient, double);
 
+  /** Returns false unconditionally because LBFGSBOptimizerv4 does not support using scales. */
+  bool
+  CanUseScales() const override
+  {
+    return false;
+  }
+
 protected:
   LBFGSBOptimizerv4();
   ~LBFGSBOptimizerv4() override;

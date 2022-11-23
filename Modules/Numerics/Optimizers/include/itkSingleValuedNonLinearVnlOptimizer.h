@@ -101,6 +101,15 @@ public:
   itkGetConstReferenceMacro(CachedDerivative, DerivativeType);
   itkGetConstReferenceMacro(CachedCurrentPosition, ParametersType);
 
+  /** Returns true if derived optimizer supports using scales.
+   * For optimizers that do not support scaling, this
+   * default function is overriden to return false.*/
+  virtual bool
+  CanUseScales() const
+  {
+    return true;
+  }
+
 protected:
   SingleValuedNonLinearVnlOptimizer();
   ~SingleValuedNonLinearVnlOptimizer() override;

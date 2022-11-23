@@ -262,6 +262,15 @@ public:
   virtual const StopConditionReturnStringType
   GetStopConditionDescription() const = 0;
 
+  /** Returns true if derived optimizer supports using scales.
+   * For optimizers that do not support scaling, this
+   * default function is overriden to return false.*/
+  virtual bool
+  CanUseScales() const
+  {
+    return true;
+  }
+
 protected:
   /** Default constructor */
   ObjectToObjectOptimizerBaseTemplate();
