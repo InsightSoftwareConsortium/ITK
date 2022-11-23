@@ -21,36 +21,41 @@ else()
   set(_download_castxml_binaries 0)
   set(_castxml_url)
   set(_castxml_hash)
+  set(_castxml_version 0.4.8)
 
   # If 64 bit Linux build host, use the CastXML binary
   if(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
 
-    set(_castxml_hash dc78771884ce27837b408f339cc7bb7c5152552f88ebf30ffbc2069ae0407bb27ab2b37679adeff10ed26739571bf4c455dad309891c1c7f0fdc990fea474db1)
-    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_castxml_hash c8d57ee92078dd8e98cb6f1ec43618c5ed137cb3c3790352f99ca78ee3caa3918387293e20dc3f84661f0937d78989844c58ca985e840a772d9256c6626607f4)
+    set(_castxml_url
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux.tar.gz")
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Linux" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "aarch64")
 
-    set(_castxml_hash 611035b111b6c632e7d009a8e036c095661ef9e0ba43ee849e655675bee9492558edfa96348b83349f667581d6b0c9c894fe184d8beaec1482a7c69a0288c06d)
-    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_castxml_hash d0bfdfba48a21b665a8267e56f4cd3d00810d17510eb4905e2bd0f2c045d264c03b624448ba5262d3cd8ae9be6546fc2b86f69b0f146777afc208aadd025334c)
+    set(_castxml_url
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-linux-aarch64.tar.gz")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 56cf92eb9ca543a6178689643d32a455da1f92da78ca58a8cb671798ac9f903dc6b687be1d3824ab0211ed49724b62185a21874810139de7dbb6cb39f63b860f)
-    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_castxml_hash 5ad9e16bd2aadefff408e53d8b733597757788256640f9614393205713890dca881b490674c28866f79ca49aba7a42482f1e0fd30f90fead8abe852ef9d10f4f)
+    set(_castxml_url "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows.zip")
     set(_download_castxml_binaries 1)
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
 
-    set(_castxml_hash f7d62660b8c3f19481c0f2b87b144f9cd2a500ad94b1b50b27c1f36d4c0096ca46df9c8a833426392a1d5152bd58dabd2bb0b525f56e341f5310afcf98013748)
-    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_castxml_hash 0ff979f0659581534c7e53aa0a99ec9f0b541b160a8d664ce2f289d590517f2d8180376ccb98dfc75a3e718eb62831385dd32d48b83299e3b16414d1794b7c53)
+    set(_castxml_url
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macosx.tar.gz")
     set(_download_castxml_binaries 1)
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "arm64")
 
-    set(_castxml_hash 5faef93541cb5f30414286a844e47b5732777f26246c6e0933170668e9cf2ff4f3fa4292e861e73e91ed50971caa9d6e7481eead9c9cefda6d54a9042634bf5c)
-    set(_castxml_url "https://data.kitware.com/api/v1/file/hashsum/sha512/${_castxml_hash}/download")
+    set(_castxml_hash f9a1fd33c20327b9542c1c34b5e005b02c1515a038257fb6db8dc9add998d53c36035f85f419f78e74ca0d33b3a2a6cf45a9a6eb995377d7f64910a525d6e737)
+    set(_castxml_url
+      "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-macos-arm.tar.gz")
     set(_download_castxml_binaries 1)
 
   endif()
@@ -152,8 +157,7 @@ else()
     endif()
     ExternalProject_Add(castxml
       GIT_REPOSITORY ${git_protocol}://github.com/CastXML/CastXML.git
-      # CastXML master, 2020-04-27
-      GIT_TAG v0.4.3
+      GIT_TAG v${_castxml_version}
       UPDATE_COMMAND ""
       DEPENDS ${castxml_deps}
       CMAKE_ARGS -Wno-dev
