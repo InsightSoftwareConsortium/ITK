@@ -16,11 +16,11 @@
 #include "vnl/vnl_export.h"
 
 //: cpp traits!
-#define vnl_T_n_aux_1(T) (T x) { data_[0] = x; }
-#define vnl_T_n_aux_2(T) (T x, T y) { data_[0] = x; data_[1] = y; }
-#define vnl_T_n_aux_3(T) (T x, T y, T z) { data_[0] = x; data_[1] = y; data_[2] = z; }
-#define vnl_T_n_aux_4(T) (T x, T y, T z, T w) { data_[0] = x; data_[1] = y; data_[2] = z; data_[3] = w; }
-#define vnl_T_n_aux_5(T) (T x, T y, T z, T w, T u) { data_[0] = x; data_[1] = y; data_[2] = z; data_[3] = w; data_[4]= u; }
+#define vnl_T_n_aux_1(T) (T x) { data_[0] = x; } static_assert(true, "")
+#define vnl_T_n_aux_2(T) (T x, T y) { data_[0] = x; data_[1] = y; } static_assert(true, "")
+#define vnl_T_n_aux_3(T) (T x, T y, T z) { data_[0] = x; data_[1] = y; data_[2] = z; } static_assert(true, "")
+#define vnl_T_n_aux_4(T) (T x, T y, T z, T w) { data_[0] = x; data_[1] = y; data_[2] = z; data_[3] = w; } static_assert(true, "")
+#define vnl_T_n_aux_5(T) (T x, T y, T z, T w, T u) { data_[0] = x; data_[1] = y; data_[2] = z; data_[3] = w; data_[4]= u; } static_assert(true, "")
 
 //: this macro defines the class.
 // e.g. use vnl_T_n_impl(int,2) to implement class vnl_int_2.
@@ -28,18 +28,14 @@
 class vnl_##T##_##n : public vnl_vector_fixed<T ,n> \
 { \
  public: \
-  vnl_##T##_##n() { } \
+  vnl_##T##_##n() = default; \
   vnl_##T##_##n(vnl_vector<T > const & rhs) : vnl_vector_fixed<T ,n>(rhs) { } \
   vnl_##T##_##n(vnl_vector_fixed<T ,n> const & rhs) : vnl_vector_fixed<T ,n>(rhs) { } \
-  vnl_##T##_##n vnl_T_n_aux_##n(T) \
-};
-
-// some compilers need a bit of help with the overload resolution.
-#define vnl_T_n_funcs_impl(T,n) /* no need */
+  vnl_##T##_##n vnl_T_n_aux_##n(T); \
+}
 
 //: clients use this.
-#define vnl_T_n_impl(T,n) \
-vnl_T_n_class_impl(T,n) \
-vnl_T_n_funcs_impl(T,n)
+#define vnl_T_n_impl(T,n); \
+vnl_T_n_class_impl(T,n);
 
 #endif // vnl_T_n_h_

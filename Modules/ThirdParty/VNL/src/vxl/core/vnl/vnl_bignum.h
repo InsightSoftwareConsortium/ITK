@@ -200,7 +200,7 @@ class VNL_EXPORT vnl_bignum
   };
 
 public:
-  vnl_bignum();                        // Void constructor
+  vnl_bignum() = default; // Void constructor
 
   // Converting constructor template for any integer type.
   template <typename T, typename SFINAE =

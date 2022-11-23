@@ -1,7 +1,6 @@
 #ifndef vcl_sys_time_h_
 #define vcl_sys_time_h_
 
-#include <vcl_compiler_detection.h>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif

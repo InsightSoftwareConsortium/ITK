@@ -38,12 +38,16 @@ void vsl_b_read(vsl_b_istream &is, vnl_matrix<T> & p)
   switch (v)
   {
    case 1:
+#if !VXL_LEGACY_FUTURE_REMOVE
     vsl_b_read(is, m);
     vsl_b_read(is, n);
     p.set_size(m, n);
     // Calling begin() on empty matrix causes segfault
     if (m*n>0)
       vsl_b_read_block_old(is, p.begin(), p.size());
+#else
+    std::cerr << "I/O ERROR: Old version 1 file formats are no longer supported since deprecation of required function vsl_b_read_block_old in 2006\n";
+#endif
     break;
 
    case 2:
