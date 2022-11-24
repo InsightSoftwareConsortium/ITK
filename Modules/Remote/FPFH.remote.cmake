@@ -51,5 +51,5 @@ https://github.com/InsightSoftwareConsortium/ITKFPFH
 "
   MODULE_COMPLIANCE_LEVEL 2
   GIT_REPOSITORY ${git_protocol}://github.com/InsightSoftwareConsortium/ITKFPFH.git
-  GIT_TAG e1f323fa173a83b23ad53ac491de80337e9b7f29
+  GIT_TAG 537ed33069ca52a14568d84d5ca668f649fa7da8
 )
