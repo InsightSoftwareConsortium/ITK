@@ -58,6 +58,13 @@ else()
     set(SWIG_VERSION ${ITK_SWIG_VERSION})
 
     include(ExternalProject)
+
+    if(${CMAKE_VERSION} VERSION_LESS 3.24)
+      set(download_extract_timestamp_flag)
+    else()
+      set(download_extract_timestamp_flag DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
+    endif()
+
     if(WIN32)
       # If we are building ITK
       if(ITK_BINARY_DIR)
@@ -70,6 +77,7 @@ else()
         CONFIGURE_COMMAND ""
         BUILD_COMMAND ""
         INSTALL_COMMAND ""
+        ${download_extract_timestamp_flag}
         )
       set(SWIG_DIR ${CMAKE_CURRENT_BINARY_DIR}/swigwin-${SWIG_VERSION})
     else()
@@ -137,11 +145,6 @@ else()
             make
               install
         )
-      endif()
-      if(${CMAKE_VERSION} VERSION_LESS 3.24)
-        set(download_extract_timestamp_flag)
-      else()
-        set(download_extract_timestamp_flag DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
       endif()
       set(pcre_hash "abac4c4f9df9e61d7d7761a9c50843882611752e1df0842a54318f358c28f5953025eba2d78997d21ee690756b56cc9f1c04a5ed591dd60654cc78ba16d9ecfb")
       ExternalProject_Add(PCRE
@@ -246,11 +249,6 @@ message(STATUS \"Swig configure successfully completed.\")
         )
       endif()
 
-      if(${CMAKE_VERSION} VERSION_LESS 3.24)
-        set(download_extract_timestamp_flag)
-      else()
-        set(download_extract_timestamp_flag DOWNLOAD_EXTRACT_TIMESTAMP TRUE)
-      endif()
       ExternalProject_Add(swig
         URL "https://data.kitware.com/api/v1/file/hashsum/sha512/${swig_hash}/download"
         URL_HASH SHA512=${swig_hash}
