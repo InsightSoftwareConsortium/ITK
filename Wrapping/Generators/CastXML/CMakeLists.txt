@@ -40,9 +40,16 @@ else()
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    set(_castxml_hash 5ad9e16bd2aadefff408e53d8b733597757788256640f9614393205713890dca881b490674c28866f79ca49aba7a42482f1e0fd30f90fead8abe852ef9d10f4f)
-    set(_castxml_url "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows.zip")
-    set(_download_castxml_binaries 1)
+    if(CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 10.0.22000)
+      set(_castxml_hash
+        4f6e352a0c7dd2c52386de6af7fee04660ba2cc05fd73f94a2843858f761729a7bea96debf16e51ae52b95b87142f311a08857b852162bf0d204bde9bdc99555)
+      set(_castxml_url "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows-win11.zip")
+      set(_download_castxml_binaries 1)
+    else()
+      set(_castxml_hash 5ad9e16bd2aadefff408e53d8b733597757788256640f9614393205713890dca881b490674c28866f79ca49aba7a42482f1e0fd30f90fead8abe852ef9d10f4f)
+      set(_castxml_url "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows.zip")
+      set(_download_castxml_binaries 1)
+    endif()
 
   # If 64 bit Mac OS X build host ( >= 10.9, Mavericks), use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Darwin" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64" AND (NOT CMAKE_HOST_SYSTEM_VERSION VERSION_LESS "13.0.0"))
