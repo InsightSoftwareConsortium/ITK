@@ -59,6 +59,9 @@ else()
 
     include(ExternalProject)
 
+    # Set the timestamps of the extracted files to their archived
+    # timestamps. Necessary to build configure/autoconf-based
+    # projects such as SWIG and PCRE robustly.
     if(${CMAKE_VERSION} VERSION_LESS 3.24)
       set(download_extract_timestamp_flag)
     else()
