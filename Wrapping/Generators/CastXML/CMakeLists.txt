@@ -65,6 +65,9 @@ else()
     if(ITK_BINARY_DIR)
       itk_download_attempt_check(CastXML)
     endif()
+    # Set the CMP0135 policy to NEW: set the timestamps of the
+    # extracted files to their extraction timestamps. Used for
+    # CMake-based projects such as CastXML.
     cmake_policy(PUSH)
     if(POLICY CMP0135)
       cmake_policy(SET CMP0135 NEW)
