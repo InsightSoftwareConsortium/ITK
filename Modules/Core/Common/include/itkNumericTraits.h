@@ -31,6 +31,7 @@
 
 #include <limits> // for std::numeric_limits
 #include <complex>
+#include <type_traits> // for std::is_floating_point
 
 namespace itk
 {
@@ -1979,6 +1980,12 @@ public:
     }
     m = NumericTraits<ValueType>::ZeroValue();
   }
+
+#if defined(ITK_LEGACY_REMOVE)
+  static_assert(std::is_floating_point<TComponent>::value,
+                "As per https://en.cppreference.com/w/cpp/numeric/complex the behavior is unspecified and may fail to "
+                "compile if TComponent is not float, double, or long double and undefined if T is not NumericType.");
+#endif // defined(ITK_LEGACY_REMOVE)
 };
 /// \endcond
 } // end namespace itk
