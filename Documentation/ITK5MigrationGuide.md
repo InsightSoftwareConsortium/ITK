@@ -463,6 +463,9 @@ scalar value) is discouraged. With ITK 5.3, when having `ITK_LEGACY_REMOVE=ON`, 
 declared `explicit`. ITK 5.3 has included a preferable alternative to these constructors:
 `itk::MakeFilled<ContainerType>(value)`.
 
+`itk::NumericTraits` can no longer be instantiated with `std::complex<T>`, if T is not a floating point type.
+The old behavior can be restored by turning off `ITK_LEGACY_REMOVE`.
+
 Consolidated Vector Filter
 --------------------------
 

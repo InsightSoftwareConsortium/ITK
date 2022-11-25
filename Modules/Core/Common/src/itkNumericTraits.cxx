@@ -71,6 +71,7 @@ constexpr double NumericTraits<double>::One;
 constexpr long double NumericTraits<long double>::Zero;
 constexpr long double NumericTraits<long double>::One;
 
+#if !defined(ITK_LEGACY_REMOVE)
 template <>
 const std::complex<char> NumericTraits<std::complex<char>>::Zero = std::complex<char>(0, 0);
 template <>
@@ -114,6 +115,7 @@ const std::complex<unsigned long> NumericTraits<std::complex<unsigned long>>::Ze
 template <>
 const std::complex<unsigned long> NumericTraits<std::complex<unsigned long>>::One = std::complex<unsigned long>(1UL,
                                                                                                                 0UL);
+#endif // !defined(ITK_LEGACY_REMOVE)
 
 template <>
 const std::complex<float> NumericTraits<std::complex<float>>::Zero = std::complex<float>(0.0f, 0.0f);

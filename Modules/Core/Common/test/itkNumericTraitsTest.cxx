@@ -316,6 +316,7 @@ CheckAllSignedAndIntegerTraits()
   std::cout << "\tThis first one should fail" << std::endl << std::endl;
   didAllTestsPass &= !CheckSignedAndIntegerTraitsForComplexTypes<std::complex<ForcedFailureTestCase>>(
     "std::complex< ForcedFailureTestCase >");
+#if !defined(ITK_LEGACY_REMOVE)
   didAllTestsPass &= CheckSignedAndIntegerTraitsForComplexTypes<std::complex<UnknownTypeTestCase>>(
     "std::complex< UnknownTypeTestCase >");
   didAllTestsPass &= CheckSignedAndIntegerTraitsForComplexTypes<std::complex<char>>(" std::complex< char > ");
@@ -331,6 +332,7 @@ CheckAllSignedAndIntegerTraits()
   didAllTestsPass &=
     CheckSignedAndIntegerTraitsForComplexTypes<std::complex<unsigned long>>(" std::complex< unsigned long > ");
   didAllTestsPass &= CheckSignedAndIntegerTraitsForComplexTypes<std::complex<float>>(" std::complex< float > ");
+#endif // !defined(ITK_LEGACY_REMOVE)
   didAllTestsPass &= CheckSignedAndIntegerTraitsForComplexTypes<std::complex<double>>(" std::complex< double > ");
   didAllTestsPass &=
     CheckSignedAndIntegerTraitsForComplexTypes<std::complex<long double>>(" std::complex< long double > ");
@@ -364,12 +366,17 @@ CheckIsComplexTraits()
                 "std::complex<float> does not have the correct IsComplex trait");
   static_assert(itk::NumericTraits<std::complex<double>>::IsComplex,
                 "std::complex<double> does not have the correct IsComplex trait");
+  static_assert(itk::NumericTraits<std::complex<long double>>::IsComplex,
+                "std::complex<long double> does not have the correct IsComplex trait");
+
+#if !defined(ITK_LEGACY_REMOVE)
   static_assert(itk::NumericTraits<std::complex<char>>::IsComplex,
                 "std::complex<char> does not have the correct IsComplex trait");
   static_assert(itk::NumericTraits<std::complex<int>>::IsComplex,
                 "std::complex<int> does not have the correct IsComplex trait");
   static_assert(itk::NumericTraits<std::complex<unsigned long>>::IsComplex,
                 "std::complex<unsigned long> does not have the correct IsComplex trait");
+#endif // !defined(ITK_LEGACY_REMOVE)
 } // End CheckIsComplexTraits()
 
 } // end anonymous namespace
@@ -1265,6 +1272,7 @@ itkNumericTraitsTest(int, char *[])
 
 
   // std::complex
+#  if !defined(ITK_LEGACY_REMOVE)
   CheckFixedArrayTraits(std::complex<char>());
   CheckFixedArrayTraits(std::complex<unsigned char>());
   CheckFixedArrayTraits(std::complex<short>());
@@ -1273,6 +1281,7 @@ itkNumericTraitsTest(int, char *[])
   CheckFixedArrayTraits(std::complex<unsigned int>());
   CheckFixedArrayTraits(std::complex<long>());
   CheckFixedArrayTraits(std::complex<unsigned long>());
+#  endif // !defined(ITK_LEGACY_REMOVE)
   CheckFixedArrayTraits(std::complex<float>());
   CheckFixedArrayTraits(std::complex<double>());
   CheckFixedArrayTraits(std::complex<long double>());
