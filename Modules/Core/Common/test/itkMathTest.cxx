@@ -655,8 +655,6 @@ main(int, char *[])
     // Test AlmostEquals complex comparisons
     const std::complex<double> z1Double(1.1, 2.1);
     const std::complex<float>  z1Float(1.1f, 2.1f);
-    const std::complex<double> z2Double(1.0, 3.0);
-    const std::complex<int>    z2Int(1, 3);
 
     // Test AlmostEquals with complex numbers of the same value and different types
     std::cout << "Testing COMPLEX vs COMPLEX, DOUBLE vs FLOAT, SAME values " << std::endl;
@@ -671,6 +669,10 @@ main(int, char *[])
       std::cout << "Test passed\n" << std::endl;
     }
 
+#if !defined(ITK_LEGACY_REMOVE)
+    const std::complex<double> z2Double(1.0, 3.0);
+    const std::complex<int>    z2Int(1, 3);
+
     std::cout << "Testing COMPLEX vs COMPLEX, DOUBLE vs INT, SAME values " << std::endl;
     if (itk::Math::AlmostEquals(z2Double, z2Int) == false)
     {
@@ -682,6 +684,7 @@ main(int, char *[])
     {
       std::cout << "Test passed\n" << std::endl;
     }
+#endif // !defined(ITK_LEGACY_REMOVE)
 
     // Test Comparisons with complex values that are very close
     FloatRepresentationD z1AlmostRealPart;
