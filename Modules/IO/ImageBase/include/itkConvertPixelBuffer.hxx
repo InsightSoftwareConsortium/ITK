@@ -274,7 +274,6 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     // http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html
     // NOTE: The scale factors are converted to whole numbers for
     // precision
-    ptrdiff_t        diff = inputNumberOfComponents - 4;
     InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
     while (inputData != endInput)
     {
@@ -282,10 +281,9 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
                          0721.0 * static_cast<double>(*(inputData + 2))) /
                         10000.0) *
                        static_cast<double>(*(inputData + 3)) / maxAlpha;
-      inputData += 4;
       auto val = static_cast<OutputComponentType>(tempval);
       OutputConvertTraits::SetNthComponent(0, *outputData++, val);
-      inputData += diff;
+      inputData += inputNumberOfComponents;
     }
   }
 }
@@ -371,15 +369,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   // just skip the rest of the data
   else
   {
-    ptrdiff_t        diff = inputNumberOfComponents - 3;
     InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
     while (inputData != endInput)
     {
       OutputConvertTraits::SetNthComponent(0, *outputData, static_cast<OutputComponentType>(*inputData));
       OutputConvertTraits::SetNthComponent(1, *outputData, static_cast<OutputComponentType>(*(inputData + 1)));
       OutputConvertTraits::SetNthComponent(2, *outputData, static_cast<OutputComponentType>(*(inputData + 2)));
-      inputData += 3;
-      inputData += diff;
+      inputData += inputNumberOfComponents;
       ++outputData;
     }
   }
@@ -475,7 +471,6 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   }
   else
   {
-    ptrdiff_t        diff = inputNumberOfComponents - 4;
     InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
     while (inputData != endInput)
     {
@@ -483,8 +478,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
       OutputConvertTraits::SetNthComponent(1, *outputData, static_cast<OutputComponentType>(*(inputData + 1)));
       OutputConvertTraits::SetNthComponent(2, *outputData, static_cast<OutputComponentType>(*(inputData + 2)));
       OutputConvertTraits::SetNthComponent(3, *outputData, static_cast<OutputComponentType>(*(inputData + 3)));
-      inputData += 4;
-      inputData += diff;
+      inputData += inputNumberOfComponents;
       ++outputData;
     }
   }
@@ -603,15 +597,13 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   OutputPixelType * outputData,
   size_t            size)
 {
-  ptrdiff_t        diff = inputNumberOfComponents - 2;
   InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
 
   while (inputData != endInput)
   {
     OutputConvertTraits::SetNthComponent(0, *outputData, static_cast<OutputComponentType>(*inputData));
     OutputConvertTraits::SetNthComponent(1, *outputData, static_cast<OutputComponentType>(*(inputData + 1)));
-    inputData += 2;
-    inputData += diff;
+    inputData += inputNumberOfComponents;
     ++outputData;
   }
 }
