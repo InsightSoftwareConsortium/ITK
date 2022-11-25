@@ -10,7 +10,6 @@
 //   2009-03-30 Peter Vanroose - Added arg_min() & arg_max() and reimplemented min() & max()
 // \endverbatim
 
-#include <vcl_compiler_detection.h>
 #ifdef _MSC_VER
 #  include <vcl_msvc_warnings.h>
 #endif // for macro decisions based on compiler type

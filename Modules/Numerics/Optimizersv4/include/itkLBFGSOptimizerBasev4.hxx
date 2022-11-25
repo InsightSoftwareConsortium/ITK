@@ -187,6 +187,15 @@ LBFGSOptimizerBasev4<TInternalVnlOptimizerType>::GetStopConditionDescription() c
       case vnl_nonlinear_minimizer::ERROR_DODGY_INPUT:
         m_StopConditionDescription << "Dodgy input";
         break;
+#if VXL_VERSION_MAJOR >= 4
+      // ABNORMAL_TERMINATION_IN_LNSRCH stop condition added in VXL 4.0
+      case vnl_nonlinear_minimizer::ABNORMAL_TERMINATION_IN_LNSRCH:
+        m_StopConditionDescription
+          << "Abnormal termination in line search.  Often caused by "
+          << "rounding errors dominating computation.  This can occur if the function is a very "
+          << "flat surface, or has oscillations.";
+        break;
+#endif
       case vnl_nonlinear_minimizer::CONVERGED_FTOL:
         m_StopConditionDescription << "Function tolerance reached after " << m_CurrentIteration << " iterations. "
                                    << "The relative reduction of the cost function <= "

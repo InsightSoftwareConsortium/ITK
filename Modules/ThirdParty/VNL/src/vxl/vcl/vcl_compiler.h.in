@@ -4,11 +4,16 @@
 //:
 // \file
 // This file is generated from vcl_compiler.h.in
-// This file has mostly been replaced with
-// CMake supported features in the auto-generated
-// vcl_compiler_detection.h that should be included
-// independently where needed
+// to provide compile-time configured information
 //
+//
+//
+/* The following *_VERSION* variables are set by the cmake 'project' command */
+#define VXL_VERSION       @VXL_VERSION@
+#define VXL_VERSION_MAJOR @VXL_VERSION_MAJOR@
+#define VXL_VERSION_MINOR @VXL_VERSION_MINOR@
+#define VXL_VERSION_PATCH @VXL_VERSION_PATCH@
+#define VXL_VERSION_TWEAK @VXL_VERSION_TWEAK@
 
 /* The version of the CXX compiler used when VXL was built */
 #define VXL_COMPILED_CXX_STANDARD_VERSION @VXL_COMPILED_CXX_STANDARD_VERSION@
@@ -188,10 +193,6 @@
 
 #endif // defined(__clang__) || defined(__GNUC__)
 
-#if __GNUC__ && (__GNUC__ < 4)  //Feature support is now more finely tested in the vcl_compiler_detection.h file
-#  error "Invalid __GNUC__ version not supported."
-#endif
-
 #if defined(_MSC_VER)
 #  if _MSC_VER < 1900
 #   error "Invalid _MSC_VER version. Visual Studio 2015 = Version 14.x is needed to support C++11 features"
@@ -201,6 +202,33 @@
 
 #ifdef VNL_CONFIG_LEGACY_METHODS
 #include "vcl_legacy_aliases.h"
+#endif
+
+// Specialization for deprecation messages are needed to support various
+// compilers prior to c++14 support.  After C++14 support is mandated
+// This macro can be replaced with [[deprecated]] language features.
+#  ifndef VXL_DEPRECATED
+     //MSVC does not consistently define __cplusplus
+     //https://developercommunity.visualstudio.com/content/problem/139261/msvc-incorrectly-defines-cplusplus.html
+#    if !defined(_MSC_VER) && (VXL_COMPILED_CXX_STANDARD_VERSION > 201402L)
+#      define VXL_DEPRECATED [[deprecated]]
+#      define VXL_DEPRECATED_MSG(MSG) [[deprecated(MSG)]]
+#    elif defined(__clang__) || defined(__GNUC__)
+#      define VXL_DEPRECATED __attribute__((__deprecated__))
+#      define VXL_DEPRECATED_MSG(MSG) __attribute__((__deprecated__(MSG)))
+#    elif defined(_MSC_VER)
+#      define VXL_DEPRECATED __declspec(deprecated)
+#      define VXL_DEPRECATED_MSG(MSG) __declspec(deprecated(MSG))
+#    else
+#      define VXL_DEPRECATED
+#      define VXL_DEPRECATED_MSG(MSG)
+#    endif
+#  endif
+
+#if !VXL_LEGACY_FUTURE_REMOVE
+#define VXL_DELETED_FUNCTION =delete
+#else
+#define VXL_DELETED_FUNCTION "USE CXX11 =delete"
 #endif
 
 #endif // vcl_compiler_h_

@@ -70,7 +70,6 @@ class VNL_ALGO_EXPORT vnl_lsqr
   double resid_norm_estimate_;
   double result_norm_estimate_;
   double A_condition_estimate_;
-  double result_norm_;
   long return_code_;
 
   static int aprod_(const long* mode, const long* m, const long* n, double* x, double* y,

@@ -1,4 +1,4 @@
-/* lbfgsb.f -- translated by f2c (version 20100827).
+/* lbfgsb.f -- translated by f2c (version 20160102).
    You must link the resulting object file with libf2c:
         on Microsoft Windows system, link with libf2c.lib;
         on Linux or Unix systems, link with .../path/to/libf2c.a -lm
@@ -2909,7 +2909,7 @@ L30:
 {
     /* System generated locals */
     integer i__1;
-    doublereal d__1;
+    doublereal d__1, d__2;
 
     /* Builtin functions */
     integer s_cmp(char *, char *, ftnlen, ftnlen);
@@ -2934,6 +2934,10 @@ L30:
 /*     This subroutine calls subroutine dcsrch from the Minpack2 library */
 /*       to perform the line search.  Subroutine dscrch is safeguarded so */
 /*       that all trial points lie within the feasible region. */
+
+/*     Be mindful that the dcsrch subroutine being called is a copy in */
+/*       this file (lbfgsb.f) and NOT in the Minpack2 copy distributed */
+/*       by scipy. */
 
 /*     Subprograms called: */
 
@@ -3039,9 +3043,20 @@ L556:
         if (*stp == 1.) {
             dcopy_(n, &z__[1], &c__1, &x[1], &c__1);
         } else {
+/*        take step and prevent rounding error beyond bound */
             i__1 = *n;
             for (i__ = 1; i__ <= i__1; ++i__) {
                 x[i__] = *stp * d__[i__] + t[i__];
+                if (nbd[i__] == 1 || nbd[i__] == 2) {
+/* Computing MAX */
+                    d__1 = x[i__], d__2 = l[i__];
+                    x[i__] = max(d__1,d__2);
+                }
+                if (nbd[i__] == 2 || nbd[i__] == 3) {
+/* Computing MIN */
+                    d__1 = x[i__], d__2 = u[i__];
+                    x[i__] = min(d__1,d__2);
+                }
 /* L41: */
             }
         }
@@ -3627,6 +3642,11 @@ L999:
     i__1 = *n;
     for (i__ = 1; i__ <= i__1; ++i__) {
         gi = g[i__];
+        if (gi != gi) {
+/*          NaN value in gradient: propagate it */
+            *sbgnrm = gi;
+            return 0;
+        }
         if (nbd[i__] != 0) {
             if (gi < 0.) {
                 if (nbd[i__] >= 2) {
@@ -4002,7 +4022,7 @@ L999:
     }
     if (dd_p__ > 0.) {
         dcopy_(n, &xp[1], &c__1, &x[1], &c__1);
-        if (*iprint > 0) {
+        if (*iprint >= 0) {
             printf(" Positive dir derivative in projection ");
             printf(" Using the backtracking step ");
         }

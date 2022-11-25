@@ -53,7 +53,5 @@
 
 #include <vcl_where_root_dir.h>
 #include <vcl_deprecated.h>
-#define vcl_deprecated_header_h_ // to avoid deprecation warning in here
-#include <vcl_deprecated_header.h>
 
 int main() { return 0; }

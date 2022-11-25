@@ -2,6 +2,7 @@
 #include <iomanip>
 #include <limits>
 #include <sstream>
+#include <limits>
 #include "vnl/vnl_math.h"
 #include "vnl/vnl_na.h"
 #include "testlib/testlib_test.h"

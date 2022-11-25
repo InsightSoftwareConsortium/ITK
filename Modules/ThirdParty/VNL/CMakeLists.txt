@@ -28,6 +28,8 @@ else()
   else()
     set(VXL_USE_HISTORICAL_IMPLICIT_CONVERSIONS ON  CACHE BOOL "Allow default deprecated implicit conversions." FORCE )
   endif()
+
+  set(VNL_CONFIG_CHECK_BOUNDS       OFF CACHE BOOL "VXL configuration for ITK" FORCE )
   set(VXL_BUILD_CORE_NUMERICS       ON  CACHE BOOL "VXL configuration for ITK" FORCE )
   set(VXL_BUILD_CORE_NUMERICS_ONLY  ON  CACHE BOOL "VXL configuration for ITK" FORCE ) #This hides other VXL core options from CMake
   set(VXL_NO_EXPORT                 ON  CACHE BOOL "VXL configuration for ITK" FORCE )
