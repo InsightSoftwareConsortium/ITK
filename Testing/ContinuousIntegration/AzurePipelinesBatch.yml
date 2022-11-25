@@ -19,12 +19,12 @@ jobs:
     strategy:
       maxParallel: 2
       matrix:
-        v140:
-          CTEST_CMAKE_GENERATOR_TOOLSET: v140
+        v141:
+          CTEST_CMAKE_GENERATOR_TOOLSET: v141
           CTEST_CMAKE_GENERATOR_PLATFORM: x64
           CTEST_CONFIGURATION_TYPE: Release
-          CTEST_CMAKE_GENERATOR: "Visual Studio 15 2017"
-          imageName: 'vs2017-win2016'
+          CTEST_CMAKE_GENERATOR: "Visual Studio 16 2019"
+          imageName: 'windows-2019'
         v142:
           CTEST_CMAKE_GENERATOR_TOOLSET: v142
           CTEST_CMAKE_GENERATOR_PLATFORM: x64
