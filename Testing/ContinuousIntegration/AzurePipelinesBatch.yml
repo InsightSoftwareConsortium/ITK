@@ -50,7 +50,7 @@ jobs:
       - script: |
           pip3 install ninja
           pip3 install --upgrade setuptools
-          pip3 install scikit-ci-addons
+          pip3 install lxml scikit-ci-addons
         displayName: 'Install dependencies'
 
       - script: |
