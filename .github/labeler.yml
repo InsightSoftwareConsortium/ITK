@@ -104,4 +104,5 @@ type:Infrastructure:
   files:
     - ".github/*"
     - "CMake/*"
+    - "Testing/ContinuousIntegration/*"
     - "Utilities/*"
