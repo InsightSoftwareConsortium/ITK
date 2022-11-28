@@ -182,13 +182,13 @@
 // For 32 bit Intel with MSVC, check _M_IX86_FP.
 // 64 bit Intel x86 always supports both 32 and 64 bit SSE2.
 
-#if defined(__SSE2__) || defined(__x86_64__) || defined(_M_X64) || defined(__amd64)
-#  define ITK_COMPILER_SUPPORTS_SSE2_64
-#endif
-
-#if defined(ITK_COMPILER_SUPPORTS_SSE2_64) || \
-    (defined(_M_IX86_FP) && (_M_IX86_FP >= 2))
+#if defined(__x86_64__) || defined(__amd64__) || (defined(_M_AMD64) && !defined(_M_ARM64EC))
 #  define ITK_COMPILER_SUPPORTS_SSE2_32
+#  define ITK_COMPILER_SUPPORTS_SSE2_64
+#else
+#  if defined(__SSE2__) || (defined(_M_IX86_FP) && (_M_IX86_FP >= 2))
+#    define ITK_COMPILER_SUPPORTS_SSE2_32
+#  endif
 #endif
 
 #endif //itkConfigure_h
