@@ -263,7 +263,7 @@ itkFrequencyFFTLayoutImageRegionIteratorWithIndexTest(int, char *[])
   constexpr unsigned int Dimension = 3;
 
   using CharPixelType = char;
-  using FloatPixelType = char;
+  using FloatPixelType = float;
 
   // Even input image size test
   {
