@@ -200,7 +200,7 @@ function(CreateGoogleTestDriver KIT KIT_LIBS KitTests)
   include(GoogleTest)
 
   if(NOT CMAKE_CROSSCOMPILING)
-    gtest_discover_tests(${exe} DISCOVERY_TIMEOUT 15)
+    gtest_discover_tests(${exe} DISCOVERY_TIMEOUT 120)
   else()
     set(_skip_dependency)
     if(ITK_SKIP_GTEST_DEPENDANCY_AUTO_CHECK)
