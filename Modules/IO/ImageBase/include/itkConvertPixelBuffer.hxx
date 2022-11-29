@@ -274,7 +274,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
     // http://www.poynton.com/notes/colour_and_gamma/ColorFAQ.html
     // NOTE: The scale factors are converted to whole numbers for
     // precision
-    InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
+    InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
     while (inputData != endInput)
     {
       double tempval = ((2125.0 * static_cast<double>(*inputData) + 7154.0 * static_cast<double>(*(inputData + 1)) +
@@ -369,7 +369,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   // just skip the rest of the data
   else
   {
-    InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
+    InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
     while (inputData != endInput)
     {
       OutputConvertTraits::SetNthComponent(0, *outputData, static_cast<OutputComponentType>(*inputData));
@@ -471,7 +471,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   }
   else
   {
-    InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
+    InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
     while (inputData != endInput)
     {
       OutputConvertTraits::SetNthComponent(0, *outputData, static_cast<OutputComponentType>(*inputData));
@@ -597,7 +597,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   OutputPixelType * outputData,
   size_t            size)
 {
-  InputPixelType * endInput = inputData + size * (size_t)inputNumberOfComponents;
+  InputPixelType * endInput = inputData + size * static_cast<size_t>(inputNumberOfComponents);
 
   while (inputData != endInput)
   {
@@ -616,7 +616,7 @@ ConvertPixelBuffer<InputPixelType, OutputPixelType, OutputConvertTraits>::Conver
   OutputPixelType * outputData,
   size_t            size)
 {
-  size_t length = size * (size_t)inputNumberOfComponents;
+  size_t length = size * static_cast<size_t>(inputNumberOfComponents);
 
   for (size_t i = 0; i < length; ++i)
   {
