@@ -48,8 +48,6 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
   faceList = fC(this->GetInput(), outputRegionForThread, this->GetKernel().GetRadius());
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   ImageRegionIterator<TOutputImage> o_iter;
@@ -60,11 +58,11 @@ MorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreadedGenera
   const KernelIteratorType kernelBegin = this->GetKernel().Begin();
   const KernelIteratorType kernelEnd = this->GetKernel().End();
 
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    b_iter = NeighborhoodIteratorType(this->GetKernel().GetRadius(), this->GetInput(), *fit);
+    b_iter = NeighborhoodIteratorType(this->GetKernel().GetRadius(), this->GetInput(), face);
 
-    o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
+    o_iter = ImageRegionIterator<OutputImageType>(this->GetOutput(), face);
     b_iter.OverrideBoundaryCondition(m_BoundaryCondition);
     b_iter.GoToBegin();
 

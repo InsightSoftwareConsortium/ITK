@@ -293,19 +293,17 @@ GrayscaleGeodesicDilateImageFilter<TInputImage, TOutputImage>::DynamicThreadedGe
   kernelRadius.Fill(1);
   faceList = fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType::iterator fit;
-
   typename NeighborhoodIteratorType::OffsetValueType i;
   typename NeighborhoodIteratorType::OffsetType      offset;
 
   MarkerImagePixelType value, dilateValue, maskValue;
 
   // Iterate over the faces
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), *fit);
-    maskIt = ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), *fit);
-    oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), *fit);
+    NeighborhoodIteratorType markerIt(kernelRadius, this->GetMarkerImage(), face);
+    maskIt = ImageRegionConstIterator<MaskImageType>(this->GetMaskImage(), face);
+    oIt = ImageRegionIterator<OutputImageType>(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();

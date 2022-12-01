@@ -105,15 +105,13 @@ VotingBinaryImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
   faceList = bC(input, outputRegionForThread, m_Radius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, *fit);
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    bit = ConstNeighborhoodIterator<InputImageType>(m_Radius, input, face);
+    it = ImageRegionIterator<OutputImageType>(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

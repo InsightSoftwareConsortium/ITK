@@ -153,13 +153,11 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
     bC(inputImage, outputRegionForThread, radius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
-
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   // Initialize the x_slice array
-  ConstNeighborhoodIterator<InputImageType> nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, *fit);
+  ConstNeighborhoodIterator<InputImageType> nit =
+    ConstNeighborhoodIterator<InputImageType>(radius, inputImage, faceList.front());
 
   std::slice          x_slice[InputImageDimension];
   const SizeValueType center = nit.Size() / 2;
@@ -171,10 +169,10 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   CovariantVectorType gradient;
   // Process non-boundary face and then each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, *fit);
-    ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(outputImage, *fit);
+    nit = ConstNeighborhoodIterator<InputImageType>(radius, inputImage, face);
+    ImageRegionIterator<OutputImageType> it = ImageRegionIterator<OutputImageType>(outputImage, face);
     nit.OverrideBoundaryCondition(m_BoundaryCondition);
     nit.GoToBegin();
 

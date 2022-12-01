@@ -131,8 +131,6 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-
   // Setup the kernel that spans the immediate neighbors of the current
   // input pixel - used to determine if that pixel abuts a non-object
   // pixel, i.e., is a boundary pixel
@@ -143,16 +141,16 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
 
   OutputNeighborhoodIteratorType oSNIter;
   InputNeighborhoodIteratorType  iSNIter;
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(), this->GetOutput(), *fit);
+    oSNIter = OutputNeighborhoodIteratorType(m_Kernel.GetRadius(), this->GetOutput(), face);
     // No need to overwrite on output...and m_BoundaryCondition is
     // templated over inputImageType - and cannot be applied to the
     // output image
     // oSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
     oSNIter.GoToBegin();
 
-    iSNIter = InputNeighborhoodIteratorType(bKernelSize, this->GetInput(), *fit);
+    iSNIter = InputNeighborhoodIteratorType(bKernelSize, this->GetInput(), face);
     iSNIter.OverrideBoundaryCondition(m_BoundaryCondition);
     iSNIter.GoToBegin();
 

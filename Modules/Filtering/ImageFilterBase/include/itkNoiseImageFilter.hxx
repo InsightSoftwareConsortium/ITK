@@ -55,8 +55,6 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
   faceList = bC(input, outputRegionForThread, this->GetRadius());
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType::iterator fit;
-
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 
   InputRealType value;
@@ -67,13 +65,13 @@ NoiseImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, *fit);
+    bit = ConstNeighborhoodIterator<InputImageType>(this->GetRadius(), input, face);
     unsigned int neighborhoodSize = bit.Size();
     num = static_cast<InputRealType>(bit.Size());
 
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 
