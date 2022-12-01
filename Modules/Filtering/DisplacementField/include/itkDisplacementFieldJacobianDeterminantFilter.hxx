@@ -183,19 +183,16 @@ DisplacementFieldJacobianDeterminantFilter<TInputImage, TRealType, TOutputImage>
                 outputRegionForThread,
                 m_NeighborhoodRadius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
-
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
     bit = ConstNeighborhoodIteratorType(
-      m_NeighborhoodRadius, dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()), *fit);
-    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), *fit);
+      m_NeighborhoodRadius, dynamic_cast<const RealVectorImageType *>(m_RealValuedInputImage.GetPointer()), face);
+    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

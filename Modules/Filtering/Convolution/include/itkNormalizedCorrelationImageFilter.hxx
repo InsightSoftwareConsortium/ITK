@@ -151,7 +151,6 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
-  typename FaceListType::iterator           fit;
   ImageRegionIterator<OutputImageType>      it;
   ImageRegionConstIterator<MaskImageType>   mit;
   unsigned int                              i;
@@ -163,13 +162,13 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
   OutputPixelRealType                       zero = NumericTraits<OutputPixelType>::ZeroValue();
 
   realTemplateSize = static_cast<OutputPixelRealType>(templateSize);
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIterator<InputImageType>(normalizedTemplate.GetRadius(), input, *fit);
+    bit = ConstNeighborhoodIterator<InputImageType>(normalizedTemplate.GetRadius(), input, face);
     bit.OverrideBoundaryCondition(this->GetBoundaryCondition());
     bit.GoToBegin();
 
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, face);
 
     if (!mask)
     {
@@ -207,7 +206,7 @@ NormalizedCorrelationImageFilter<TInputImage, TMaskImage, TOutputImage, TOperato
     {
       // Mask is defined, use the same calculation as above but only
       // perform it under the mask
-      mit = ImageRegionConstIterator<MaskImageType>(mask, *fit);
+      mit = ImageRegionConstIterator<MaskImageType>(mask, face);
       while (!bit.IsAtEnd())
       {
         if (mit.Get())

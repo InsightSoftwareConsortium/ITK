@@ -201,18 +201,15 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
   r1.Fill(1);
   faceList = bC(m_RealValuedInputImage.GetPointer(), outputRegionForThread, r1);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType::iterator fit;
-  fit = faceList.begin();
-
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 
   // Process each of the data set faces.  The iterator is reinitialized on each
   // face so that it can determine whether or not to check for boundary
   // conditions.
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIteratorType(r1, m_RealValuedInputImage.GetPointer(), *fit);
-    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), *fit);
+    bit = ConstNeighborhoodIteratorType(r1, m_RealValuedInputImage.GetPointer(), face);
+    it = ImageRegionIterator<TOutputImage>(this->GetOutput(), face);
     bit.OverrideBoundaryCondition(&nbc);
     bit.GoToBegin();
 

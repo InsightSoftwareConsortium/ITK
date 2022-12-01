@@ -79,9 +79,8 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType                                  faceCalculator;
-  typename FaceCalculatorType::FaceListType           faceList;
-  typename FaceCalculatorType::FaceListType::iterator fit;
+  FaceCalculatorType                        faceCalculator;
+  typename FaceCalculatorType::FaceListType faceList;
 
   using ShapeNeighborhoodIterator = typename ShapedNeighborhoodIteratorType::ConstIterator;
 
@@ -105,9 +104,9 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   bool isInside;
 
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    ShapedNeighborhoodIteratorType it(radius, input, *fit);
+    ShapedNeighborhoodIteratorType it(radius, input, face);
 
     auto iter = m_OffsetTable.begin();
     while (iter != m_OffsetTable.end())

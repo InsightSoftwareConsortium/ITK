@@ -191,10 +191,10 @@ ContourDirectedMeanDistanceImageFilter<TInputImage1, TInputImage2>::ThreadedGene
 
   // Process each of the boundary faces.  These are N-d regions which border
   // the edge of the buffer.
-  for (auto fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, *fit);
-    bit = ConstNeighborhoodIterator<InputImage1Type>(radius, input, *fit);
+    ImageRegionConstIterator<DistanceMapType> it2(m_DistanceMap, face);
+    bit = ConstNeighborhoodIterator<InputImage1Type>(radius, input, face);
     unsigned int neighborhoodSize = bit.Size();
 
     bit.OverrideBoundaryCondition(&nbc);

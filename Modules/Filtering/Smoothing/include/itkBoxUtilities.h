@@ -226,11 +226,9 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
   // use the face generator for speed
   using FaceCalculatorType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
-  using FaceListTypeIt = typename FaceCalculatorType::FaceListType::iterator;
   FaceCalculatorType faceCalculator;
 
   FaceListType                                  faceList;
-  FaceListTypeIt                                fit;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   // this process is actually slightly asymmetric because we need to
@@ -275,9 +273,9 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
 
   faceList = faceCalculator(accImage, outputRegion, internalRadius);
   // start with the body region
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    if (fit == faceList.begin())
+    if (&face == &faceList.front())
     {
       // this is the body region. This is meant to be an optimized
       // version that doesn't use neighborhood regions
@@ -296,14 +294,14 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
       // set up the iterators for each corner
       for (unsigned int k = 0; k < realCorners.size(); ++k)
       {
-        typename InputImageType::RegionType tReg = (*fit);
+        typename InputImageType::RegionType tReg = face;
         tReg.SetIndex(tReg.GetIndex() + realCorners[k]);
         InputIteratorType tempIt(accImage, tReg);
         tempIt.GoToBegin();
         cornerItVec.push_back(tempIt);
       }
       // set up the output iterator
-      OutputIteratorType oIt(outputImage, *fit);
+      OutputIteratorType oIt(outputImage, face);
       // now do the work
       for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
       {
@@ -325,7 +323,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
     {
       // now we need to deal with the border regions
       using OutputIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
-      OutputIteratorType oIt(outputImage, *fit);
+      OutputIteratorType oIt(outputImage, face);
       // now do the work
       for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
       {
@@ -418,11 +416,9 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
   // use the face generator for speed
   using FaceCalculatorType = typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>;
   using FaceListType = typename FaceCalculatorType::FaceListType;
-  using FaceListTypeIt = typename FaceCalculatorType::FaceListType::iterator;
   FaceCalculatorType faceCalculator;
 
   FaceListType                                  faceList;
-  FaceListTypeIt                                fit;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   // this process is actually slightly asymmetric because we need to
@@ -466,9 +462,9 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
 
   faceList = faceCalculator(accImage, outputRegion, internalRadius);
   // start with the body region
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    if (fit == faceList.begin())
+    if (&face == &faceList.front())
     {
       // this is the body region. This is meant to be an optimized
       // version that doesn't use neighborhood regions
@@ -487,14 +483,14 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
       // set up the iterators for each corner
       for (unsigned int k = 0; k < realCorners.size(); ++k)
       {
-        typename InputImageType::RegionType tReg = (*fit);
+        typename InputImageType::RegionType tReg = face;
         tReg.SetIndex(tReg.GetIndex() + realCorners[k]);
         InputIteratorType tempIt(accImage, tReg);
         tempIt.GoToBegin();
         cornerItVec.push_back(tempIt);
       }
       // set up the output iterator
-      OutputIteratorType oIt(outputImage, *fit);
+      OutputIteratorType oIt(outputImage, face);
       // now do the work
       for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
       {
@@ -520,7 +516,7 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
     {
       // now we need to deal with the border regions
       using OutputIteratorType = ImageRegionIteratorWithIndex<OutputImageType>;
-      OutputIteratorType oIt(outputImage, *fit);
+      OutputIteratorType oIt(outputImage, face);
       // now do the work
       for (oIt.GoToBegin(); !oIt.IsAtEnd(); ++oIt)
       {

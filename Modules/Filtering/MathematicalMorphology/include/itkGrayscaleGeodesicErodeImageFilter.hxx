@@ -289,8 +289,6 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
   kernelRadius.Fill(1);
   faceList = fC(this->GetMarkerImage(), outputRegionForThread, kernelRadius);
 
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<MarkerImageType>::FaceListType::iterator fit;
-
   typename NeighborhoodIteratorType::OffsetValueType i;
   typename NeighborhoodIteratorType::OffsetType      offset;
 
@@ -298,11 +296,11 @@ GrayscaleGeodesicErodeImageFilter<TInputImage, TOutputImage>::DynamicThreadedGen
 
   // Iterate over the faces
   //
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    NeighborhoodIteratorType              markerIt(kernelRadius, this->GetMarkerImage(), *fit);
-    ImageRegionConstIterator<TInputImage> maskIt(this->GetMaskImage(), *fit);
-    ImageRegionIterator<TOutputImage>     oIt(this->GetOutput(), *fit);
+    NeighborhoodIteratorType              markerIt(kernelRadius, this->GetMarkerImage(), face);
+    ImageRegionConstIterator<TInputImage> maskIt(this->GetMaskImage(), face);
+    ImageRegionIterator<TOutputImage>     oIt(this->GetOutput(), face);
 
     markerIt.OverrideBoundaryCondition(&BC);
     markerIt.GoToBegin();

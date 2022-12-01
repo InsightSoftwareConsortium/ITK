@@ -126,18 +126,17 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
   // Process non-boundary region and each of the boundary faces.
   // These are N-d regions which border the edge of the buffer.
   ConstNeighborhoodIterator<InputImageType> bit;
-  typename FaceListType::iterator           fit;
   ImageRegionIterator<OutputImageType>      it;
   ImageRegionConstIterator<MaskImageType>   mit;
 
-  for (fit = faceList.begin(); fit != faceList.end(); ++fit)
+  for (const auto & face : faceList)
   {
-    bit = ConstNeighborhoodIterator<InputImageType>(noperator.GetRadius(), input, *fit);
+    bit = ConstNeighborhoodIterator<InputImageType>(noperator.GetRadius(), input, face);
     bit.OverrideBoundaryCondition(this->GetBoundaryCondition());
     bit.GoToBegin();
 
-    it = ImageRegionIterator<OutputImageType>(output, *fit);
-    mit = ImageRegionConstIterator<MaskImageType>(mask, *fit);
+    it = ImageRegionIterator<OutputImageType>(output, face);
+    mit = ImageRegionConstIterator<MaskImageType>(mask, face);
     while (!bit.IsAtEnd())
     {
       if (mit.Get())
