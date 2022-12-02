@@ -30,6 +30,7 @@ namespace itk
 /** \class FreeSurferAsciiMeshIO
  * \brief This class defines how to read and write freesurfer ASCII surface format.
  * To use IO factory, define the suffix as *.fsa.
+ * Note: FreeSurfer's FreeView may require the .asc suffix for the ASCII file.
  * \ingroup IOFilters
  * \ingroup ITKIOMeshFreeSurfer
  */
@@ -115,7 +116,7 @@ protected:
   /** Write points to output stream */
   template <typename T>
   void
-  WritePoints(T * buffer, std::ofstream & outputFile, T label = itk::NumericTraits<T>::ZeroValue())
+  WritePoints(T * buffer, std::ofstream & outputFile, int label = 0)
   {
     outputFile.precision(6);
     SizeValueType index = 0;
@@ -131,7 +132,7 @@ protected:
 
   template <typename T>
   void
-  WriteCells(T * buffer, std::ofstream & outputFile, T label = itk::NumericTraits<T>::ZeroValue())
+  WriteCells(T * buffer, std::ofstream & outputFile, int label = 0)
   {
     constexpr unsigned int numberOfCellPoints = 3;
     SizeValueType          index = 0;
@@ -144,7 +145,7 @@ protected:
     {
       for (unsigned int jj = 0; jj < numberOfCellPoints; ++jj)
       {
-        outputFile << data[index++] << "  ";
+        outputFile << data[index++] << " ";
       }
       outputFile << label << '\n';
     }
