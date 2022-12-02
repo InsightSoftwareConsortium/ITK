@@ -40,7 +40,6 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   PixelRealType                             val;
   SizeValueType                             counter;
   BFC_type                                  bfc;
-  typename BFC_type::FaceListType           faceList;
   typename RNI_type::RadiusType             radius;
   typename BFC_type::FaceListType::iterator fit;
 
@@ -61,7 +60,7 @@ ScalarAnisotropicDiffusionFunction<TImage>::CalculateAverageGradientMagnitudeSqu
   }
 
   // Get the various region "faces" that are on the data set boundary.
-  faceList = bfc(ip, ip->GetRequestedRegion(), radius);
+  typename BFC_type::FaceListType faceList = bfc(ip, ip->GetRequestedRegion(), radius);
   fit = faceList.begin();
 
   // Now do the actual processing

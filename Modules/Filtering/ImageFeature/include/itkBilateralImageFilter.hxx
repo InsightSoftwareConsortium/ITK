@@ -243,9 +243,9 @@ BilateralImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   ZeroFluxNeumannBoundaryCondition<TInputImage> BC;
 
   // Find the boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
-  faceList = fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+    fC(this->GetInput(), outputRegionForThread, m_GaussianKernel.GetRadius());
 
   OutputPixelRealType centerPixel;
   OutputPixelRealType val, tableArg, normFactor, rangeGaussian, rangeDistance, pixel, gaussianProduct;

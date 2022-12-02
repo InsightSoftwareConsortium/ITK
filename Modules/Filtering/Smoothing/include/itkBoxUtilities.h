@@ -228,7 +228,6 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
   using FaceListType = typename FaceCalculatorType::FaceListType;
   FaceCalculatorType faceCalculator;
 
-  FaceListType                                  faceList;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   // this process is actually slightly asymmetric because we need to
@@ -271,7 +270,7 @@ BoxMeanCalculatorFunction(const TInputImage *               accImage,
     realCorners.push_back(thisCorner);
   }
 
-  faceList = faceCalculator(accImage, outputRegion, internalRadius);
+  FaceListType faceList = faceCalculator(accImage, outputRegion, internalRadius);
   // start with the body region
   for (const auto & face : faceList)
   {
@@ -418,7 +417,6 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
   using FaceListType = typename FaceCalculatorType::FaceListType;
   FaceCalculatorType faceCalculator;
 
-  FaceListType                                  faceList;
   ZeroFluxNeumannBoundaryCondition<TInputImage> nbc;
 
   // this process is actually slightly asymmetric because we need to
@@ -460,7 +458,7 @@ BoxSigmaCalculatorFunction(const TInputImage *               accImage,
     realCorners.push_back(thisCorner);
   }
 
-  faceList = faceCalculator(accImage, outputRegion, internalRadius);
+  FaceListType faceList = faceCalculator(accImage, outputRegion, internalRadius);
   // start with the body region
   for (const auto & face : faceList)
   {

@@ -1024,15 +1024,15 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
     // Initialize the boundary pixels in the status image to
     // m_StatusBoundaryPixel values.  Uses the face calculator to find all of
     // the region faces.
-    BFCType                        faceCalculator;
-    typename BFCType::FaceListType faceList;
+    BFCType faceCalculator;
 
     // Set the difference function radius here
     typename BFCType::SizeType               sz = this->m_DifferenceFunctions[fId]->GetRadius();
     typename BFCType::FaceListType::iterator fit;
 
     // Compute the boundary pixel regions set in a container
-    faceList = faceCalculator(sparsePtr->m_StatusImage, sparsePtr->m_StatusImage->GetRequestedRegion(), sz);
+    typename BFCType::FaceListType faceList =
+      faceCalculator(sparsePtr->m_StatusImage, sparsePtr->m_StatusImage->GetRequestedRegion(), sz);
 
     // Iterate over the boundary region sets
     fit = faceList.begin();

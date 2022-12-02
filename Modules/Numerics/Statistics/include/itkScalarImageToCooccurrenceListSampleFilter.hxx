@@ -79,8 +79,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<ImageType>;
 
-  FaceCalculatorType                        faceCalculator;
-  typename FaceCalculatorType::FaceListType faceList;
+  FaceCalculatorType faceCalculator;
 
   using ShapeNeighborhoodIterator = typename ShapedNeighborhoodIteratorType::ConstIterator;
 
@@ -97,7 +96,7 @@ ScalarImageToCooccurrenceListSampleFilter<TImage>::GenerateData()
 
   output->SetMeasurementVectorSize(measurementVectorSize);
 
-  faceList = faceCalculator(input, input->GetRequestedRegion(), radius);
+  typename FaceCalculatorType::FaceListType faceList = faceCalculator(input, input->GetRequestedRegion(), radius);
 
   OffsetType center_offset;
   center_offset.Fill(0);
