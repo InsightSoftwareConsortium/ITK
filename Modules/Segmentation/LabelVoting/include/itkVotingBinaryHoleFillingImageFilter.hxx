@@ -86,9 +86,9 @@ VotingBinaryHoleFillingImageFilter<TInputImage, TOutputImage>::ThreadedGenerateD
   typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
-  faceList = bC(input, outputRegionForThread, this->GetRadius());
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+    bC(input, outputRegionForThread, this->GetRadius());
 
   ProgressReporter progress(this, threadId, outputRegionForThread.GetNumberOfPixels());
 

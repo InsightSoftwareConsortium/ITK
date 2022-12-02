@@ -224,12 +224,11 @@ ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::Initialize()
   using BFCType = NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<StatusImageType>;
 
   BFCType                                  faceCalculator;
-  typename BFCType::FaceListType           faceList;
   typename BFCType::SizeType               sz;
   typename BFCType::FaceListType::iterator fit;
 
   sz.Fill(1);
-  faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
+  typename BFCType::FaceListType faceList = faceCalculator(m_StatusImage, m_StatusImage->GetRequestedRegion(), sz);
   fit = faceList.begin();
 
   for (++fit; fit != faceList.end(); ++fit) // skip the first (nonboundary) region

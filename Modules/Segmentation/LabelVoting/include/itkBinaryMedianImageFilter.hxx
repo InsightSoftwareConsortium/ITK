@@ -102,9 +102,9 @@ BinaryMedianImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
   typename InputImageType::ConstPointer input = this->GetInput();
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        bC;
-  faceList = bC(input, outputRegionForThread, m_Radius);
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+    bC(input, outputRegionForThread, m_Radius);
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 

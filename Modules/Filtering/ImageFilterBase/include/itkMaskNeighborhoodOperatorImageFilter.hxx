@@ -114,9 +114,7 @@ MaskNeighborhoodOperatorImageFilter<TInputImage, TMaskImage, TOutputImage, TOper
 
   using FaceListType = typename BFC::FaceListType;
   BFC          faceCalculator;
-  FaceListType faceList;
-
-  faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
+  FaceListType faceList = faceCalculator(input, outputRegionForThread, this->GetOperator().GetRadius());
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 

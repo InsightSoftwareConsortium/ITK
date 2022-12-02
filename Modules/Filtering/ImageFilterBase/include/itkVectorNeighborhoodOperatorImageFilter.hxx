@@ -83,7 +83,6 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
 
   VectorNeighborhoodInnerProduct<InputImageType> smartInnerProduct;
   BFC                                            faceCalculator;
-  FaceListType                                   faceList;
 
   // Allocate output
   OutputImageType *      output = this->GetOutput();
@@ -94,7 +93,7 @@ VectorNeighborhoodOperatorImageFilter<TInputImage, TOutputImage>::DynamicThreade
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
+  FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
 
   TotalProgressReporter progress(this, output->GetRequestedRegion().GetNumberOfPixels());
 

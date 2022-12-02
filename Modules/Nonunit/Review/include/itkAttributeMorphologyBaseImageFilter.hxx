@@ -91,8 +91,8 @@ AttributeMorphologyBaseImageFilter<TInputImage, TOutputImage, TAttribute, TFunct
   kernelRadius.Fill(1);
   using FaceCalculatorType = itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<TInputImage>;
   FaceCalculatorType                        faceCalculator;
-  typename FaceCalculatorType::FaceListType faceList;
-  faceList = faceCalculator(input, output->GetRequestedRegion(), kernelRadius);
+  typename FaceCalculatorType::FaceListType faceList =
+    faceCalculator(input, output->GetRequestedRegion(), kernelRadius);
   typename FaceCalculatorType::FaceListType::iterator fit;
   ProgressReporter                                    progress(this, 0, buffsize * 4); // pretend we have 4 steps
 

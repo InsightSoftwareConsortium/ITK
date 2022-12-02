@@ -84,7 +84,6 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
 
   NeighborhoodInnerProduct<InputImageType, OperatorValueType, ComputingPixelType> smartInnerProduct;
   BFC                                                                             faceCalculator;
-  FaceListType                                                                    faceList;
 
   OutputImageType *      output = this->GetOutput();
   const InputImageType * input = this->GetInput();
@@ -94,7 +93,7 @@ NeighborhoodOperatorImageFilter<TInputImage, TOutputImage, TOperatorValueType>::
   // we pass in the input image and the OUTPUT requested region. We are
   // only concerned with centering the neighborhood operator at the
   // pixels that correspond to output pixels.
-  faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
+  FaceListType faceList = faceCalculator(input, outputRegionForThread, m_Operator.GetRadius());
 
   ImageRegionIterator<OutputImageType> it;
 

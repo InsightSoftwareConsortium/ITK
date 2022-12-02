@@ -126,9 +126,9 @@ ObjectMorphologyImageFilter<TInputImage, TOutputImage, TKernel>::DynamicThreaded
   }
 
   // Find the boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList;
   NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>                        fC;
-  faceList = fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<InputImageType>::FaceListType faceList =
+    fC(this->GetInput(), outputRegionForThread, m_Kernel.GetRadius());
 
 
   // Setup the kernel that spans the immediate neighbors of the current

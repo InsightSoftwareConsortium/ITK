@@ -195,11 +195,11 @@ VectorGradientMagnitudeImageFilter<TInputImage, TRealType, TOutputImage>::Dynami
   ImageRegionIterator<TOutputImage>                     it;
 
   // Find the data-set boundary "faces"
-  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType faceList;
-  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>                        bC;
-  RadiusType                                                                                      r1;
+  NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType> bC;
+  RadiusType                                                               r1;
   r1.Fill(1);
-  faceList = bC(m_RealValuedInputImage.GetPointer(), outputRegionForThread, r1);
+  typename NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<RealVectorImageType>::FaceListType faceList =
+    bC(m_RealValuedInputImage.GetPointer(), outputRegionForThread, r1);
 
   TotalProgressReporter progress(this, this->GetOutput()->GetRequestedRegion().GetNumberOfPixels());
 

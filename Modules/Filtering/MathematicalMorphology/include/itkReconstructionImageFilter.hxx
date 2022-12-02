@@ -147,10 +147,9 @@ ReconstructionImageFilter<TInputImage, TOutputImage, TCompare>::GenerateData()
   {
     FaceCalculatorType faceCalculator;
 
-    FaceListType   faceList;
     FaceListTypeIt fit;
 
-    faceList = faceCalculator(maskImageP, maskImageP->GetLargestPossibleRegion(), kernelRadius);
+    FaceListType faceList = faceCalculator(maskImageP, maskImageP->GetLargestPossibleRegion(), kernelRadius);
     // we will only be processing the body region
     fit = faceList.begin();
     // must be a better way of doing this
