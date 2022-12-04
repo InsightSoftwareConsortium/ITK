@@ -1089,7 +1089,6 @@ compilers.
 // clang-format on
 
 // clang-format off
-// NOTE: warning: comparing floating point with == or != is unsafe [-Wfloat-equal]
 /** Set pointer to object; uses Object reference counting methodology.
  * Creates method Set"name"() (e.g., SetPoints()). Note that using
  * smart pointers requires using real pointers when setting input,
@@ -1098,14 +1097,11 @@ compilers.
   virtual void Set##name(type * _arg)                  \
   {                                                    \
     itkDebugMacro("setting " << #name " to " << _arg); \
-    CLANG_PRAGMA_PUSH                                  \
-    CLANG_SUPPRESS_Wfloat_equal                        \
     if (this->m_##name != _arg)                        \
     {                                                  \
       this->m_##name = _arg;                           \
       this->Modified();                                \
     }                                                  \
-    CLANG_PRAGMA_POP                                   \
   }                                                    \
   ITK_MACROEND_NOOP_STATEMENT
 // clang-format on
