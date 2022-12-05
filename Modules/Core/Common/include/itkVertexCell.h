@@ -20,6 +20,9 @@
 
 #include "itkCellInterface.h"
 #include "itkNumericTraits.h"
+#include "itkMakeFilled.h"
+
+#include <array>
 
 namespace itk
 {
@@ -110,13 +113,7 @@ public:
                    InterpolationWeightType *) override;
 
 public:
-  VertexCell()
-  {
-    for (PointIdentifier i = 0; i < Self::NumberOfPoints; ++i)
-    {
-      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
-    }
-  }
+  VertexCell() = default;
 
   ~VertexCell() override = default;
 
@@ -124,7 +121,8 @@ protected:
   /**
    * Store the number of points needed for a vertex.
    */
-  PointIdentifier m_PointIds[NumberOfPoints];
+  std::array<PointIdentifier, NumberOfPoints> m_PointIds{ MakeFilled<std::array<PointIdentifier, NumberOfPoints>>(
+    NumericTraits<PointIdentifier>::max()) };
 };
 } // end namespace itk
 

@@ -20,6 +20,9 @@
 
 #include "itkQuadrilateralCell.h"
 #include "itkHexahedronCellTopology.h"
+#include "itkMakeFilled.h"
+
+#include <array>
 
 namespace itk
 {
@@ -155,7 +158,8 @@ public:
 
 protected:
   /** Store the number of points needed for a hexahedron. */
-  PointIdentifier m_PointIds[NumberOfPoints];
+  std::array<PointIdentifier, NumberOfPoints> m_PointIds{ MakeFilled<std::array<PointIdentifier, NumberOfPoints>>(
+    NumericTraits<PointIdentifier>::max()) };
 
   void
   InterpolationDerivs(CoordRepType pcoords[Self::CellDimension],
@@ -170,13 +174,7 @@ protected:
                    InterpolationWeightType * weights);
 
 public:
-  HexahedronCell()
-  {
-    for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
-    {
-      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
-    }
-  }
+  HexahedronCell() = default;
 
   ~HexahedronCell() override = default;
 };
