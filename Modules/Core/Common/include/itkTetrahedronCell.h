@@ -20,6 +20,9 @@
 
 #include "itkTriangleCell.h"
 #include "itkTetrahedronCellTopology.h"
+#include "itkMakeFilled.h"
+
+#include <array>
 
 namespace itk
 {
@@ -136,19 +139,14 @@ public:
                    InterpolationWeightType *) override;
 
 public:
-  TetrahedronCell()
-  {
-    for (PointIdentifier i = 0; i < Self::NumberOfPoints; ++i)
-    {
-      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
-    }
-  }
+  TetrahedronCell() = default;
 
   ~TetrahedronCell() override = default;
 
 protected:
   /** Store the number of points needed for a tetrahedron. */
-  PointIdentifier m_PointIds[NumberOfPoints];
+  std::array<PointIdentifier, NumberOfPoints> m_PointIds{ MakeFilled<std::array<PointIdentifier, NumberOfPoints>>(
+    NumericTraits<PointIdentifier>::max()) };
 };
 } // end namespace itk
 

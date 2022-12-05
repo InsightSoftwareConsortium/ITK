@@ -19,6 +19,9 @@
 #define itkQuadraticEdgeCell_h
 
 #include "itkVertexCell.h"
+#include "itkMakeFilled.h"
+
+#include <array>
 
 namespace itk
 {
@@ -105,13 +108,7 @@ public:
   /** Visitor interface */
   itkCellVisitMacro(CellGeometryEnum::QUADRATIC_EDGE_CELL);
 
-  QuadraticEdgeCell()
-  {
-    for (PointIdentifier i = 0; i < Self::NumberOfPoints; ++i)
-    {
-      m_PointIds[i] = NumericTraits<PointIdentifier>::max();
-    }
-  }
+  QuadraticEdgeCell() = default;
 
   ~QuadraticEdgeCell() override = default;
 
@@ -123,7 +120,8 @@ public:
 
 protected:
   /** Store number of points needed for a line segment. */
-  PointIdentifier m_PointIds[NumberOfPoints];
+  std::array<PointIdentifier, NumberOfPoints> m_PointIds{ MakeFilled<std::array<PointIdentifier, NumberOfPoints>>(
+    NumericTraits<PointIdentifier>::max()) };
 };
 } // end namespace itk
 
