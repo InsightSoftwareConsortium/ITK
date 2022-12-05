@@ -20,8 +20,9 @@
 
 #include "itkLineCell.h"
 #include "itkTriangleCellTopology.h"
+#include "itkMakeFilled.h"
 
-#include <vector>
+#include <array>
 
 namespace itk
 {
@@ -147,9 +148,7 @@ public:
   ComputeCircumCenter(PointsContainer *);
 
 public:
-  TriangleCell()
-    : m_PointIds(NumberOfPoints, NumericTraits<PointIdentifier>::max())
-  {}
+  TriangleCell() = default;
 #if defined(__GNUC__)
   // A bug in some versions of the GCC and Clang compilers
   // result in an ICE or linker error when "= default" is requested.
@@ -163,7 +162,8 @@ public:
 
 protected:
   /** Store the number of points needed for a triangle. */
-  std::vector<PointIdentifier> m_PointIds;
+  std::array<PointIdentifier, NumberOfPoints> m_PointIds{ MakeFilled<std::array<PointIdentifier, NumberOfPoints>>(
+    NumericTraits<PointIdentifier>::max()) };
 
 private:
   /** Computes the SQUARED distance between a point and a line segment defined
