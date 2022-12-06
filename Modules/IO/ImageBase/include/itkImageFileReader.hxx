@@ -439,7 +439,7 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateData()
 
 template <typename TOutputImage, typename ConvertPixelTraits>
 void
-ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(void * inputData, size_t numberOfPixels)
+ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(const void * inputData, size_t numberOfPixels)
 {
   // get the pointer to the destination buffer
   OutputImagePixelType * outputData = this->GetOutput()->GetPixelContainer()->GetBufferPointer();
@@ -459,19 +459,19 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::DoConvertBuffer(void * inputD
   // VectorImage needs to copy out the buffer differently.. The buffer is of
   // type InternalPixelType, but each pixel is really 'k' consecutive pixels.
 
-#define ITK_CONVERT_BUFFER_IF_BLOCK(_CType, type)                                                        \
-  else if (m_ImageIO->GetComponentType() == _CType)                                                      \
-  {                                                                                                      \
-    if (isVectorImage)                                                                                   \
-    {                                                                                                    \
-      ConvertPixelBuffer<type, OutputImagePixelType, ConvertPixelTraits>::ConvertVectorImage(            \
-        static_cast<type *>(inputData), m_ImageIO->GetNumberOfComponents(), outputData, numberOfPixels); \
-    }                                                                                                    \
-    else                                                                                                 \
-    {                                                                                                    \
-      ConvertPixelBuffer<type, OutputImagePixelType, ConvertPixelTraits>::Convert(                       \
-        static_cast<type *>(inputData), m_ImageIO->GetNumberOfComponents(), outputData, numberOfPixels); \
-    }                                                                                                    \
+#define ITK_CONVERT_BUFFER_IF_BLOCK(_CType, type)                                                              \
+  else if (m_ImageIO->GetComponentType() == _CType)                                                            \
+  {                                                                                                            \
+    if (isVectorImage)                                                                                         \
+    {                                                                                                          \
+      ConvertPixelBuffer<type, OutputImagePixelType, ConvertPixelTraits>::ConvertVectorImage(                  \
+        static_cast<const type *>(inputData), m_ImageIO->GetNumberOfComponents(), outputData, numberOfPixels); \
+    }                                                                                                          \
+    else                                                                                                       \
+    {                                                                                                          \
+      ConvertPixelBuffer<type, OutputImagePixelType, ConvertPixelTraits>::Convert(                             \
+        static_cast<const type *>(inputData), m_ImageIO->GetNumberOfComponents(), outputData, numberOfPixels); \
+    }                                                                                                          \
   }
 
   if (false)

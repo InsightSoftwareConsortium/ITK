@@ -127,7 +127,7 @@ protected:
 
   /** Convert buffer for output */
   void
-  DoConvertBuffer(void * inputData, FrameOffsetType frameNumber);
+  DoConvertBuffer(const void * inputData, FrameOffsetType frameNumber);
 
   /** Set up the VideoIO using VideoIOFactory
    * Warning: this will overwrite any currently set VideoIO */
