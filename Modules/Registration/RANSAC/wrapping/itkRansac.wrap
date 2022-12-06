@@ -1,9 +1,5 @@
 unique(types "${WRAP_ITK_REAL};D")
 
-itk_wrap_class("itk::Point")
-itk_wrap_template("${ITKM_D}6"   "${ITKT_D}, 6")
-itk_end_wrap_class()
-
 itk_wrap_class("itk::ParametersEstimator" POINTER)
 itk_wrap_template("P${ITKM_D}6"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}")
 itk_end_wrap_class()
