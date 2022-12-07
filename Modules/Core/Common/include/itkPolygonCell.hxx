@@ -28,6 +28,8 @@
 #ifndef itkPolygonCell_hxx
 #define itkPolygonCell_hxx
 
+#include <algorithm> // For copy_n.
+
 namespace itk
 {
 /**
@@ -189,12 +191,7 @@ template <typename TCellInterface>
 void
 PolygonCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
 {
-  PointIdConstIterator ii(first);
-
-  for (unsigned int i = 0; i < m_PointIds.size(); ++i)
-  {
-    m_PointIds[i] = *ii++;
-  }
+  std::copy_n(first, m_PointIds.size(), m_PointIds.begin());
 }
 
 /**
