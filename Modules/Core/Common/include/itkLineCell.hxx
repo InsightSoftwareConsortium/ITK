@@ -18,6 +18,8 @@
 #ifndef itkLineCell_hxx
 #define itkLineCell_hxx
 
+#include <algorithm> // For copy_n.
+
 namespace itk
 {
 /**
@@ -103,12 +105,7 @@ template <typename TCellInterface>
 void
 LineCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
 {
-  PointIdConstIterator ii(first);
-
-  for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
-  {
-    m_PointIds[i] = *ii++;
-  }
+  std::copy_n(first, Self::NumberOfPoints, m_PointIds.begin());
 }
 
 /**

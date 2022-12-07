@@ -21,6 +21,8 @@
 #include "vnl/vnl_matrix_fixed.h"
 #include "vnl/algo/vnl_determinant.h"
 
+#include <algorithm> // For copy_n.
+
 namespace itk
 {
 
@@ -148,12 +150,7 @@ template <typename TCellInterface>
 void
 HexahedronCell<TCellInterface>::SetPointIds(PointIdConstIterator first)
 {
-  PointIdConstIterator ii(first);
-
-  for (unsigned int i = 0; i < Self::NumberOfPoints; ++i)
-  {
-    m_PointIds[i] = *ii++;
-  }
+  std::copy_n(first, Self::NumberOfPoints, m_PointIds.begin());
 }
 
 /**
