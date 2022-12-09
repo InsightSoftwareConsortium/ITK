@@ -22,6 +22,9 @@ has to be consistent with the module name defined in the corresponding
 To better distinguish the remote modules from the internal ITK modules, the names
 of the remote modules should **not** contain the "ITK" string prefix in them.
 
+Git hashes should be used to reference a given module revision. If a tagged version is
+required then the equivalent hash should be used in place of the tag string.
+
 
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 
