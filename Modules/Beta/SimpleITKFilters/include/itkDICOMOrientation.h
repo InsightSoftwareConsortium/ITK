@@ -71,6 +71,9 @@ private:
            (static_cast<uint32_t>(tertiary) << static_cast<uint8_t>(CoordinateMajornessTermsEnum::TertiaryMinor));
   }
 
+  CoordinateEnum
+  GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const;
+
 public:
 #if 0
 #  define ITK_ORIENTATIONENUM toOrientation
@@ -177,9 +180,6 @@ public:
   {
     return m_Value;
   }
-
-  CoordinateEnum
-  GetCoordinateTerm(CoordinateMajornessTermsEnum cmt) const;
 
   CoordinateEnum
   GetPrimaryTerm() const
