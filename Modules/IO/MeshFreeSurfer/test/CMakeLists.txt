@@ -13,7 +13,7 @@ itk_add_test(NAME itkFreeSurferMeshIOTestAscii
       ${ITK_TEST_OUTPUT_DIR}/fsmeshiosphere.fsa
       DATA{Baseline/sphere.fsb}
       ${ITK_TEST_OUTPUT_DIR}/fsa2fsbsphere.fsb
-      0 1 1 1 1 162 0 320 0 0
+      0 0 0 0 0 162 0 320 0 0
 )
 itk_add_test(NAME itkFreeSurferMeshIOTestBinary
   COMMAND ITKIOMeshFreeSurferTestDriver itkFreeSurferMeshIOTest
@@ -21,7 +21,7 @@ itk_add_test(NAME itkFreeSurferMeshIOTestBinary
       ${ITK_TEST_OUTPUT_DIR}/fsmeshiosphere.fsb
       DATA{Baseline/sphere.fsa}
       ${ITK_TEST_OUTPUT_DIR}/fsb2fsasphere.fsa
-      0 1 1 1 1 162 0 320 0 1
+      0 0 0 0 0 162 0 320 0 1
 )
 itk_add_test(NAME itkMeshFileReadWriteTestFreeSurfer1
   COMMAND ITKIOMeshFreeSurferTestDriver itkMeshFileReadWriteTest
