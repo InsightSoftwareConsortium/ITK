@@ -32,6 +32,14 @@ itkNiftiLargeImageRegionReadTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  if (sizeof(void *) <= 4)
+  {
+    std::cout << "Test not run: test data requires > 2 GB memory allocation; the detected system architecture is "
+                 "32-bit, which prevents allocating the sufficient amount of memory."
+              << std::endl;
+    return EXIT_SUCCESS;
+  }
+
   const std::string fname{ argv[1] };
 
   constexpr int Dimension = 3;
