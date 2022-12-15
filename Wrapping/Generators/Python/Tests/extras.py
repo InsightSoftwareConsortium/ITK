@@ -199,6 +199,17 @@ assert type(mesh) == itk.Mesh[itk.F, 3]
 itk.meshwrite(mesh, sys.argv[5])
 itk.meshwrite(mesh, sys.argv[5], compression=True)
 
+# smoke test wasm / Python / NumPy conversion
+mesh_dict = itk.dict_from_mesh(mesh)
+mesh_back = itk.mesh_from_dict(mesh_dict)
+
+pointset = itk.PointSet[itk.F, 3].New()
+pointset.SetPoints(mesh.GetPoints())
+pointset.SetPointData(mesh.GetPointData())
+
+pointset_dict = itk.dict_from_pointset(pointset)
+pointset_back = itk.pointset_from_dict(pointset_dict)
+
 # test search
 res = itk.search("Index")
 assert res[0] == "Index"

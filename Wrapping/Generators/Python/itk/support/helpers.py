@@ -401,4 +401,4 @@ def pointset_type_from_wasm_type(jstype):
         prefix = prefix + js_to_python(pointPixelComponentType)
 
     prefix += str(dimension)
-    return getattr(itk.Mesh, prefix)
+    return getattr(itk.PointSet, prefix)
