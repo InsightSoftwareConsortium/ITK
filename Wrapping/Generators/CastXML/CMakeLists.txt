@@ -40,7 +40,7 @@ else()
   # If 64 bit Windows build host, use the CastXML binary
   elseif(CMAKE_HOST_SYSTEM_NAME MATCHES "Windows" AND CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64")
 
-    if(CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 10.0.22000)
+    if(CMAKE_HOST_SYSTEM_VERSION VERSION_GREATER_EQUAL 10.0.19044)
       set(_castxml_hash
         4f6e352a0c7dd2c52386de6af7fee04660ba2cc05fd73f94a2843858f761729a7bea96debf16e51ae52b95b87142f311a08857b852162bf0d204bde9bdc99555)
       set(_castxml_url "https://github.com/CastXML/CastXMLSuperbuild/releases/download/v${_castxml_version}/castxml-windows-win11.zip")
