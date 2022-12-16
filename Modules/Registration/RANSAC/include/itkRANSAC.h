@@ -73,7 +73,7 @@ namespace itk
  *  \ingroup Ransac
  */
 
-template <typename T, typename SType>
+template <typename T, typename SType, typename TTransform>
 class ITK_TEMPLATE_EXPORT RANSAC : public Object
 {
 public:

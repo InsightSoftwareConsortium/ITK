@@ -49,8 +49,9 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  const unsigned int                                              DimensionPoint = 6;
-  typedef itk::RANSAC<itk::Point<double, DimensionPoint>, double> RANSACType;
+  using TTransform = itk::Similarity3DTransform<double>;
+  const unsigned int                                                          DimensionPoint = 6;
+  typedef itk::RANSAC<itk::Point<double, DimensionPoint>, double, TTransform> RANSACType;
 
   std::vector<itk::Point<double, DimensionPoint>> data;
   std::vector<itk::Point<double, DimensionPoint>> agreeData;
@@ -62,7 +63,7 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
   double inlierValue = 3;
   int    ransacPoints = 100;
   int    maxIteration = 100;
-  auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6>::New();
+  auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6, TTransform>::New();
   registrationEstimator->SetMinimalForEstimate(ransacPoints);
   registrationEstimator->SetDelta(inlierValue);
   registrationEstimator->SetAgreeData(agreeData);
