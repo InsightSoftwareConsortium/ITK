@@ -251,8 +251,6 @@ private:
     class PixelReferenceWrapper final
     {
     public:
-      QualifiedPixelType & m_Pixel;
-
       // Wraps the pixel reference that is specified by the first argument.
       // Note: the second parameter is unused, but it is there just to support
       // the use case of iterator::operator*(), which uses either
@@ -266,6 +264,9 @@ private:
 
       // Converts implicitly to a reference to the pixel.
       operator QualifiedPixelType &() const noexcept { return m_Pixel; }
+
+    private:
+      QualifiedPixelType & m_Pixel;
     };
 
 
