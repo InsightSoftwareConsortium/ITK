@@ -290,7 +290,6 @@ for remote in changed_remotes.split():
     module_name = remote.split("/")[-1].split(".")[0]
     if module_name in ["SphinxExamples", "CMakeLists", "README"]:
         continue
-    sys.stdout.write(f"*{module_name}*, ")
     os.chdir(itk_dir)
 
     # The remote file could have been added or its name changed. Use the oldest
@@ -316,6 +315,8 @@ for remote in changed_remotes.split():
     )
     remote_new_tag = remote_tag(remote_spec)
     remote_repo = remote_repository(remote_spec)
+
+    sys.stdout.write(f"[{module_name}]({remote_repo}), ")
 
     os.chdir(scratch_dir)
     remote_dir = scratch_dir / remote_repo.split("/")[-1]
