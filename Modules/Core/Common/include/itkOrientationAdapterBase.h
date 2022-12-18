@@ -64,6 +64,7 @@ protected:
   /** destructor, to silence "virtual class has non-virtual destructor()"
     warnings */
   virtual ~OrientationAdapterBase() = default;
+
 };
 } // namespace itk
 #else // ITK_LEGACY_REMOVE

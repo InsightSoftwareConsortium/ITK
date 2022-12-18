@@ -105,6 +105,7 @@ protected:
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   void
   GenerateInputRequestedRegion() override;
+
 };
 } // end namespace itk
 

@@ -95,6 +95,7 @@ protected:
   ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it);
   Self &
   operator=(const ImageScanlineConstIterator<TImage> & it);
+
 };
 
 // Deduction guide for class template argument deduction (CTAD).

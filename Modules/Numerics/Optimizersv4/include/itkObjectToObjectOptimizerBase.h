@@ -280,6 +280,7 @@ public:
 protected:
   /** Default constructor */
   ObjectToObjectOptimizerBaseTemplate();
+
   ~ObjectToObjectOptimizerBaseTemplate() override;
 
   MetricTypePointer m_Metric{};

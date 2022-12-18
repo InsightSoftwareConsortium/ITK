@@ -110,6 +110,7 @@ permuteColumnsWithSortIndices(QMatrix & eigenVectors, const std::vector<int> & i
   // Apply it
   eigenVectors = eigenVectors * perm;
 }
+
 } // end namespace detail
 
 /** \class SymmetricEigenAnalysisEnums

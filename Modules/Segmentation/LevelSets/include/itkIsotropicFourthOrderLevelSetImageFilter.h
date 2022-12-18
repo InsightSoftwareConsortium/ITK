@@ -125,6 +125,7 @@ protected:
 
     return false;
   }
+
 };
 } // end namespace itk
 

@@ -257,6 +257,7 @@ public:
       (*this)[i] = static_cast<T>(pa[i]);
     }
   }
+
 };
 
 /** Premultiply Operator for product of a vector and a scalar.

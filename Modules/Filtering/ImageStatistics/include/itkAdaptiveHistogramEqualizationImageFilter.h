@@ -132,6 +132,7 @@ public:
       this->Modified();
     }
   }
+
   itkGetConstMacro(UseLookupTable, bool);
   itkBooleanMacro(UseLookupTable);
 #endif

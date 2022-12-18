@@ -121,6 +121,7 @@ protected:
   ImageRegionExclusionIteratorWithIndex(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageRegionExclusionConstIteratorWithIndex<TImage> & it);
+
 };
 } // end namespace itk
 

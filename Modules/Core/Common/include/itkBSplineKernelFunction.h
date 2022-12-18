@@ -180,6 +180,7 @@ private:
     itkGenericExceptionMacro("Evaluate not implemented for spline order " << SplineOrder);
   }
 };
+
 } // end namespace itk
 
 #endif

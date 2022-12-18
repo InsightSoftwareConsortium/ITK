@@ -126,6 +126,7 @@ protected:
   ImageRegionIteratorWithIndex(const ImageRegionConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageRegionConstIteratorWithIndex<TImage> & it);
+
 };
 } // end namespace itk
 

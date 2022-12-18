@@ -151,6 +151,7 @@ protected:
 public:
   /** Object creation methods. */
   QuadEdgeMeshFrontBaseIterator(MeshType * mesh = nullptr, bool start = true, QEType * seed = nullptr);
+
   virtual ~QuadEdgeMeshFrontBaseIterator();
 
   Self &
@@ -244,12 +245,15 @@ public:
   QuadEdgeMeshFrontIterator(MeshType * mesh = (MeshType *)0, bool start = true, QEType * seed = nullptr)
     : Superclass(mesh, start, seed)
   {}
+
   ~QuadEdgeMeshFrontIterator() override = default;
+
   QEType *
   Value()
   {
     return (this->m_CurrentEdge);
   }
+
 };
 
 /**

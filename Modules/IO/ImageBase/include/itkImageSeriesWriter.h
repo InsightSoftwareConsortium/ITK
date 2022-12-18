@@ -52,6 +52,7 @@ public:
   {
     SetDescription(message);
   }
+
 };
 
 /** \class ImageSeriesWriter

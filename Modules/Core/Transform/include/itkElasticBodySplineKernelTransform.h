@@ -109,6 +109,7 @@ protected:
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
    */
   TParametersValueType m_Alpha{};
+
 };
 } // namespace itk
 
