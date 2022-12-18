@@ -27,7 +27,8 @@
 namespace itk
 {
 
-template <unsigned int Dimension>
+
+template <unsigned int Dimension, typename TTransform>
 class LandmarkRegistrationEstimator : public itk::ParametersEstimator<Point<double, Dimension>, double>
 {
 public:

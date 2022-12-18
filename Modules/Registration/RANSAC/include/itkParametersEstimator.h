@@ -21,7 +21,8 @@
 
 #include <vector>
 #include "itkObject.h"
-
+#include "itkSimilarity3DTransform.h"
+#include "itkVersorRigid3DTransform.h"
 
 namespace itk
 {

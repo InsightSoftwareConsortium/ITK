@@ -5,9 +5,11 @@ itk_wrap_template("P${ITKM_D}6"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}")
 itk_end_wrap_class()
 
 itk_wrap_class("itk::LandmarkRegistrationEstimator" POINTER)
-itk_wrap_template("${ITKM_D}6"   "6")
+itk_wrap_template("${ITKM_D}6S"   "6, itk::Similarity3DTransform <${ITKT_D}>")
+itk_wrap_template("${ITKM_D}6V"   "6, itk::VersorRigid3DTransform <${ITKT_D}>")
 itk_end_wrap_class()
 
 itk_wrap_class("itk::RANSAC" POINTER)
-itk_wrap_template("P${ITKM_D}6"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}")
+itk_wrap_template("P${ITKM_D}6S"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}, itk::Similarity3DTransform <${ITKT_D}>")
+itk_wrap_template("P${ITKM_D}6V"   "itk::Point< ${ITKT_D}, 6>, ${ITKT_D}, itk::VersorRigid3DTransform <${ITKT_D}>")
 itk_end_wrap_class()
