@@ -156,6 +156,7 @@ public:
   {
     ImageRegionCopier<T1, T2>::operator()(destRegion, srcRegion);
   }
+
 };
 } // end namespace ImageToImageFilterDetail
 } // end namespace itk

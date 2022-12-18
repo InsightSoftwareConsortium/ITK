@@ -167,6 +167,7 @@ protected:
   {
     Superclass::PrintSelf(os, indent);
   }
+
 };
 } // end namespace itk
 

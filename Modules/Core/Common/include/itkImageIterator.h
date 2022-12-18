@@ -144,6 +144,7 @@ protected:
   ImageIterator(const ImageConstIterator<TImage> & it);
   Self &
   operator=(const ImageConstIterator<TImage> & it);
+
 };
 } // end namespace itk
 

@@ -156,6 +156,7 @@ private:
   {
     m_Canny->SetInput(feature);
   }
+
 };
 } // end namespace itk
 

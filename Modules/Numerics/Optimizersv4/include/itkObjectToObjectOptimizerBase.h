@@ -228,6 +228,7 @@ public:
    * NOTE: deprecated. Use SetNumberOfWorkUnits() */
   itkLegacyMacro(virtual void SetNumberOfThreads(ThreadIdType number)) { return this->SetNumberOfWorkUnits(number); }
   itkLegacyMacro(virtual const ThreadIdType & GetNumberOfThreads() const) { return this->m_NumberOfWorkUnits; }
+
 #endif // !ITK_LEGACY_REMOVE
 
   /** Get the number of work units set to be used. */
@@ -274,6 +275,7 @@ public:
 protected:
   /** Default constructor */
   ObjectToObjectOptimizerBaseTemplate();
+
   ~ObjectToObjectOptimizerBaseTemplate() override;
 
   MetricTypePointer m_Metric;

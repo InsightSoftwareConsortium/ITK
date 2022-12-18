@@ -332,6 +332,7 @@ public:
   {
     this->SetPixel(this->GetCenterNeighborhoodIndex() - this->GetStride(axis), v);
   }
+
 };
 } // namespace itk
 

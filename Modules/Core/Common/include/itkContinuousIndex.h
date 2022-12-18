@@ -86,6 +86,7 @@ public:
       (*this)[i] = static_cast<TCoordRep>(index[i]);
     }
   }
+
 };
 } // namespace itk
 
