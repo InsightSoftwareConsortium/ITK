@@ -139,6 +139,7 @@ protected:
   Value(const LevelSetInputIndexType & iP) override;
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
+
 };
 
 } // namespace itk

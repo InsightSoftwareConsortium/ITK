@@ -254,6 +254,7 @@ TransferAutoPointer(TAutoPointerBase & pa, TAutoPointerDerived & pb)
     pb.ReleaseOwnership(); // pb Release Ownership and clears
   }
 }
+
 } // end namespace itk
 
 #endif

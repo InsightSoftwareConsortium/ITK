@@ -83,6 +83,7 @@ namespace itk
  * \ingroup ImageIterators
  * \ingroup ITKCommon
  */
+
 template <unsigned int VImageDimension>
 class ConnectedImageNeighborhoodShape
 {
@@ -247,8 +248,8 @@ private:
   {
     return (includeCenterPixel ? 1 : 0) + CalculateNumberOfConnectedNeighbors(maximumCityblockDistance);
   }
-};
 
+};
 
 /** Generates the offsets for a connected image neighborhood shape. */
 template <unsigned int VImageDimension, size_t VMaximumCityblockDistance, bool VIncludeCenterPixel>

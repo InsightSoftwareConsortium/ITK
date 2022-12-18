@@ -79,12 +79,14 @@ public:
   {
     return &m_TransformList;
   }
+
 #else
   const TransformListType *
   GetTransformList()
   {
     return &m_TransformList;
   }
+
 #endif
   TransformListType *
   GetModifiableTransformList()

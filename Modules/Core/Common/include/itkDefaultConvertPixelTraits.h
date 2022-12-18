@@ -77,6 +77,7 @@ public:
   {
     return pixel.GetScalarValue();
   }
+
 };
 
 #define ITK_DEFAULTCONVERTTRAITS_NATIVE_SPECIAL(type)           \

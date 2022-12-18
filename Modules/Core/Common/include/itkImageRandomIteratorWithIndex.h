@@ -120,6 +120,7 @@ protected:
   ImageRandomIteratorWithIndex(const ImageRandomConstIteratorWithIndex<TImage> & it);
   Self &
   operator=(const ImageRandomConstIteratorWithIndex<TImage> & it);
+
 };
 } // end namespace itk
 

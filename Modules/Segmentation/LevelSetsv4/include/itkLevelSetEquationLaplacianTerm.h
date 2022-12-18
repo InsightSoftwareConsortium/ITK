@@ -130,6 +130,7 @@ protected:
    *  \f$ \omega_i( p ) \f$. */
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
+
 };
 
 } // namespace itk

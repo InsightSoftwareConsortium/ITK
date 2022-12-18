@@ -48,6 +48,7 @@ public:
     JPT_CFMT = 2,
     MJ2_CFMT = 3
   };
+
   /** \class DFMFormat
    * \ingroup ITKIOJPEG2000
    * */
@@ -58,6 +59,7 @@ public:
     BMP_DFMT = 2,
     YUV_DFMT = 3
   };
+
 };
 // Define how to print enumeration
 extern ITKIOJPEG2000_EXPORT std::ostream &

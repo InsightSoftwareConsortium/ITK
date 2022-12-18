@@ -280,6 +280,7 @@ public:
     {
       return ((m_CellId == r.m_CellId) && (m_FeatureId == r.m_FeatureId));
     }
+
   }; // End Class: Mesh::BoundaryAssignmentIdentifier
 
   /** Used for manipulating boundaries and boundary attributes.  A

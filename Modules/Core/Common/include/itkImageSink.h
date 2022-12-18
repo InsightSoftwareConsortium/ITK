@@ -198,6 +198,7 @@ private:
    */
   double m_CoordinateTolerance{ Self::GetGlobalDefaultCoordinateTolerance() };
   double m_DirectionTolerance{ Self::GetGlobalDefaultDirectionTolerance() };
+
 };
 
 } // namespace itk

@@ -96,6 +96,7 @@ protected:
   using Superclass::MakeOutput;
   DataObjectPointer
   MakeOutput(DataObjectPointerArraySizeType idx) override;
+
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk
