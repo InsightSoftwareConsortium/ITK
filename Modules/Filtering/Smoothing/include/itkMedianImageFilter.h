@@ -108,6 +108,7 @@ protected:
    *     ImageToImageFilter::GenerateData() */
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
+
 };
 } // end namespace itk
 

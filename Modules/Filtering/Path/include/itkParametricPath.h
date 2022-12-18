@@ -139,6 +139,7 @@ protected:
    * constructor of all instantiable children.  Values set in child constructors
    * overwrite values set in parent constructors. */
   InputType m_DefaultInputStepSize{};
+
 };
 
 } // namespace itk
