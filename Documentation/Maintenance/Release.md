@@ -789,6 +789,7 @@ maintainer group.
     [download page](https://itk.org/ITK/resources/software.html).
   * Update the [documentation page](https://itk.org/ITK/help/documentation.html) with a
     link to the Doxygen files for the new release.
+  * Update the API documentation with a new link. See [PR 3804](https://github.com/InsightSoftwareConsortium/ITK/pull/3804/commits/fb00e5b22ad0e5e838779965bfe7254edaae18d1) for an example change.
   * Verify that the links work !
 
 Contact Communications at <comm@kitware.com> in order to update the above pages
