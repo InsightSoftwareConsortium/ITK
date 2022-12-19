@@ -69,22 +69,19 @@ public:
   {
     if (typeid(event) == typeid(itk::StartEvent))
     {
-      std::cout << std::endl << "Position              Value";
-      std::cout << std::endl << std::endl;
+      std::cout << std::endl << "Position              Value" << std::endl << std::endl;
     }
     else if (itk::IterationEvent().CheckEvent(&event))
     {
-      std::cout << m_Optimizer->GetCurrentIteration() << " = ";
-      std::cout << m_Optimizer->GetCurrentPosition() << std::endl;
+      std::cout << m_Optimizer->GetCurrentIteration() << " = " << m_Optimizer->GetCurrentPosition() << std::endl;
     }
     else if (typeid(event) == typeid(itk::EndEvent))
     {
-      std::cout << std::endl << std::endl;
-      std::cout << "After " << m_Optimizer->GetCurrentIteration();
-      std::cout << "  iterations " << std::endl;
-      std::cout << "Solution is    = " << m_Optimizer->GetCurrentPosition();
-      std::cout << std::endl;
-      std::cout << "vnl report = " << std::endl;
+      std::cout << std::endl
+                << std::endl
+                << "After " << m_Optimizer->GetCurrentIteration() << "  iterations " << std::endl
+                << "Solution is    = " << m_Optimizer->GetCurrentPosition() << std::endl
+                << "vnl report = " << std::endl;
       m_Optimizer->GetOptimizer()->diagnose_outcome(std::cout);
     }
   }

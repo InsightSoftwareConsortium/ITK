@@ -119,8 +119,7 @@ GPUReduction<TElement>::GetReductionKernel(int whichKernel, int blockSize, int i
 
   std::ostringstream defines;
 
-  defines << "#define blockSize " << blockSize << std::endl;
-  defines << "#define nIsPow2 " << isPowOf2 << std::endl;
+  defines << "#define blockSize " << blockSize << std::endl << "#define nIsPow2 " << isPowOf2 << std::endl;
 
   defines << "#define T ";
   GetTypenameInString(typeid(TElement), defines);

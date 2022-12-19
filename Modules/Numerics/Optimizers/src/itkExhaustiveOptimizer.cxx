@@ -123,8 +123,8 @@ ExhaustiveOptimizer::ResumeWalking()
     }
 
     m_StopConditionDescription.str("");
-    m_StopConditionDescription << this->GetNameOfClass() << ": Running. ";
-    m_StopConditionDescription << "@ index " << this->GetCurrentIndex() << " value is " << this->GetCurrentValue();
+    m_StopConditionDescription << this->GetNameOfClass() << ": Running. "
+                               << "@ index " << this->GetCurrentIndex() << " value is " << this->GetCurrentValue();
 
     this->InvokeEvent(IterationEvent());
     this->AdvanceOneStep();
@@ -181,8 +181,8 @@ ExhaustiveOptimizer::IncrementIndex(ParametersType & newPosition)
   {
     m_Stop = true;
     m_StopConditionDescription.str("");
-    m_StopConditionDescription << this->GetNameOfClass() << ": ";
-    m_StopConditionDescription << "Completed sampling of parametric space of size " << spaceDimension;
+    m_StopConditionDescription << this->GetNameOfClass() << ": "
+                               << "Completed sampling of parametric space of size " << spaceDimension;
   }
 
   const ScalesType & scales = this->GetScales();

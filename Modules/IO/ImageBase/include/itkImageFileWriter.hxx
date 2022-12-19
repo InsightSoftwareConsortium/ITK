@@ -126,13 +126,13 @@ ImageFileWriter<TInputImage>::Write()
         auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
         msg << "    " << io->GetNameOfClass() << std::endl;
       }
-      msg << "  You probably failed to set a file suffix, or" << std::endl;
-      msg << "    set the suffix to an unsupported type." << std::endl;
+      msg << "  You probably failed to set a file suffix, or" << std::endl
+          << "    set the suffix to an unsupported type." << std::endl;
     }
     else
     {
-      msg << "  There are no registered IO factories." << std::endl;
-      msg << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
+      msg << "  There are no registered IO factories." << std::endl
+          << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem." << std::endl;
     }
     e.SetDescription(msg.str().c_str());
     e.SetLocation(ITK_LOCATION);
@@ -365,11 +365,10 @@ ImageFileWriter<TInputImage>::GenerateData()
     {
       ImageFileWriterException e(__FILE__, __LINE__);
       std::ostringstream       msg;
-      msg << "Did not get requested region!" << std::endl;
-      msg << "Requested:" << std::endl;
-      msg << ioRegion;
-      msg << "Actual:" << std::endl;
-      msg << bufferedRegion;
+      msg << "Did not get requested region!" << std::endl
+          << "Requested:" << std::endl
+          << ioRegion << "Actual:" << std::endl
+          << bufferedRegion;
       e.SetDescription(msg.str().c_str());
       e.SetLocation(ITK_LOCATION);
       throw e;

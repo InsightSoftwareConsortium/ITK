@@ -780,8 +780,8 @@ JPEG2000ImageIO::Write(const void * buffer)
     {
       // TODO should this be and excpetion? can we continue loading
       // and expect good results
-      std::cerr << "Unrecognized progression order in option -P (POC n " << i + 1;
-      std::cerr << ") [LRCP, RLCP, RPCL, PCRL, CPRL] !!" << std::endl;
+      std::cerr << "Unrecognized progression order in option -P (POC n " << i + 1
+                << ") [LRCP, RLCP, RPCL, PCRL, CPRL] !!" << std::endl;
     }
   }
 

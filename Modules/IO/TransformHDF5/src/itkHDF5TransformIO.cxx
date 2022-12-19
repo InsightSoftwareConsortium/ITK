@@ -494,9 +494,7 @@ const std::string
 GetTransformName(int i)
 {
   std::stringstream s;
-  s << HDF5CommonPathNames::transformGroupName;
-  s << "/";
-  s << i;
+  s << HDF5CommonPathNames::transformGroupName << "/" << i;
   return s.str();
 }
 

@@ -49,8 +49,8 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
   bool        isValid = GetValidTypename(typeid(typename TInputImage::PixelType), validTypes, validTypeName);
   if (isValid)
   {
-    defines << "#define InPixelType " << validTypeName << "\n";
-    defines << "#define OutPixelType " << validTypeName << "\n";
+    defines << "#define InPixelType " << validTypeName << "\n"
+            << "#define OutPixelType " << validTypeName << "\n";
 #ifdef __APPLE__
     // This is to work around a bug in the OpenCL compiler on Mac OS 10.6 and 10.7 with NVidia drivers
     // where the compiler was not handling unsigned char arguments correctly.
@@ -59,17 +59,17 @@ GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImag
     // is a known workaround to this problem.
     if (validTypeName == "unsigned char")
     {
-      defines << "#define InArgType unsigned short\n";
-      defines << "#define OutArgType unsigned short\n";
+      defines << "#define InArgType unsigned short\n"
+              << "#define OutArgType unsigned short\n";
     }
     else
     {
-      defines << "#define InArgType " << validTypeName << "\n";
-      defines << "#define OutArgType " << validTypeName << "\n";
+      defines << "#define InArgType " << validTypeName << "\n"
+              << "#define OutArgType " << validTypeName << "\n";
     }
 #else
-    defines << "#define InArgType " << validTypeName << "\n";
-    defines << "#define OutArgType " << validTypeName << "\n";
+    defines << "#define InArgType " << validTypeName << "\n"
+            << "#define OutArgType " << validTypeName << "\n";
 #endif
   }
   else

@@ -119,8 +119,7 @@ ImageMetricLoad<TMoving, TFixed>::InitializeMetric()
   }
   catch (const ExceptionObject & e)
   {
-    std::cout << "Metric initialization failed" << std::endl;
-    std::cout << "Reason " << e.GetDescription() << std::endl;
+    std::cout << "Metric initialization failed" << std::endl << "Reason " << e.GetDescription() << std::endl;
   }
 }
 

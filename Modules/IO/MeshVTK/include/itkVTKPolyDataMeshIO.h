@@ -449,8 +449,7 @@ protected:
   WritePointsBufferAsBINARY(std::ofstream & outputFile, T * buffer, const StringType & pointComponentType)
   {
     /** 1. Write number of points */
-    outputFile << "POINTS " << this->m_NumberOfPoints;
-    outputFile << pointComponentType << "\n";
+    outputFile << "POINTS " << this->m_NumberOfPoints << pointComponentType << "\n";
     itk::ByteSwapper<T>::SwapWriteRangeFromSystemToBigEndian(
       buffer, this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
     outputFile << "\n";
@@ -748,12 +747,10 @@ protected:
           // row 1
           outputFile << ConvertNumberToString(*ptr++) << indent;
           e12 = *ptr++;
-          outputFile << ConvertNumberToString(e12) << indent;
-          outputFile << ConvertNumberToString(zero) << '\n';
+          outputFile << ConvertNumberToString(e12) << indent << ConvertNumberToString(zero) << '\n';
           // row 2
-          outputFile << ConvertNumberToString(e12) << indent;
-          outputFile << ConvertNumberToString(*ptr++) << indent;
-          outputFile << ConvertNumberToString(zero) << '\n';
+          outputFile << ConvertNumberToString(e12) << indent << ConvertNumberToString(*ptr++) << indent
+                     << ConvertNumberToString(zero) << '\n';
           // row 3
           outputFile << ConvertNumberToString(zero) << indent << ConvertNumberToString(zero) << indent
                      << ConvertNumberToString(zero) << "\n\n";
@@ -774,14 +771,12 @@ protected:
           e13 = *ptr++;
           outputFile << ConvertNumberToString(e13) << '\n';
           // row 2
-          outputFile << ConvertNumberToString(e12) << indent;
-          outputFile << ConvertNumberToString(*ptr++) << indent;
+          outputFile << ConvertNumberToString(e12) << indent << ConvertNumberToString(*ptr++) << indent;
           e23 = *ptr++;
           outputFile << ConvertNumberToString(e23) << '\n';
           // row 3
-          outputFile << ConvertNumberToString(e13) << indent;
-          outputFile << ConvertNumberToString(e23) << indent;
-          outputFile << ConvertNumberToString(*ptr++) << "\n\n";
+          outputFile << ConvertNumberToString(e13) << indent << ConvertNumberToString(e23) << indent
+                     << ConvertNumberToString(*ptr++) << "\n\n";
           i += 6;
         }
       }
@@ -801,8 +796,7 @@ protected:
         {
           outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfPointPixelComponents + jj]) << indent;
         }
-        outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfPointPixelComponents + jj]);
-        outputFile << '\n';
+        outputFile << ConvertNumberToString(buffer[ii * this->m_NumberOfPointPixelComponents + jj]) << '\n';
       }
     }
 
@@ -944,12 +938,9 @@ protected:
           // row 1
           outputFile << *ptr++ << indent;
           e12 = *ptr++;
-          outputFile << e12 << indent;
-          outputFile << zero << '\n';
+          outputFile << e12 << indent << zero << '\n';
           // row 2
-          outputFile << e12 << indent;
-          outputFile << *ptr++ << indent;
-          outputFile << zero << '\n';
+          outputFile << e12 << indent << *ptr++ << indent << zero << '\n';
           // row 3
           outputFile << zero << indent << zero << indent << zero << "\n\n";
           i += 3;
@@ -969,14 +960,11 @@ protected:
           e13 = *ptr++;
           outputFile << e13 << '\n';
           // row 2
-          outputFile << e12 << indent;
-          outputFile << *ptr++ << indent;
+          outputFile << e12 << indent << *ptr++ << indent;
           e23 = *ptr++;
           outputFile << e23 << '\n';
           // row 3
-          outputFile << e13 << indent;
-          outputFile << e23 << indent;
-          outputFile << *ptr++ << "\n\n";
+          outputFile << e13 << indent << e23 << indent << *ptr++ << "\n\n";
           i += 6;
         }
       }
@@ -998,8 +986,7 @@ protected:
         {
           outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << indent;
         }
-        outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj];
-        outputFile << '\n';
+        outputFile << buffer[ii * this->m_NumberOfCellPixelComponents + jj] << '\n';
       }
     }
 

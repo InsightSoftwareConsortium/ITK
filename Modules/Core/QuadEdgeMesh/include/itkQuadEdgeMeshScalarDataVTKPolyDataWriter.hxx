@@ -52,8 +52,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
     {
       std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
 
-      outputFile << "CELL_DATA " << this->m_Input->GetNumberOfFaces() << std::endl;
-      outputFile << "SCALARS ";
+      outputFile << "CELL_DATA " << this->m_Input->GetNumberOfFaces() << std::endl << "SCALARS ";
 
       if (!m_CellDataName.empty())
       {
@@ -104,8 +103,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WritePointData()
   {
     std::ofstream outputFile(this->m_FileName.c_str(), std::ios_base::app);
 
-    outputFile << "POINT_DATA " << this->m_Input->GetNumberOfPoints() << std::endl;
-    outputFile << "SCALARS ";
+    outputFile << "POINT_DATA " << this->m_Input->GetNumberOfPoints() << std::endl << "SCALARS ";
 
     if (!m_PointDataName.empty())
     {

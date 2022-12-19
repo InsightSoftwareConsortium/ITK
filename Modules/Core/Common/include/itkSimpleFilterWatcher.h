@@ -262,8 +262,8 @@ protected:
   EndFilter()
   {
     m_TimeProbe.Stop();
-    std::cout << std::endl << "Filter took " << m_TimeProbe.GetMean() << " seconds.";
     std::cout << std::endl
+              << "Filter took " << m_TimeProbe.GetMean() << " seconds." << std::endl
               << "-------- End " << (m_Process.GetPointer() ? m_Process->GetNameOfClass() : "None") << " \""
               << m_Comment << "\" " << std::endl;
     if (!m_Quiet)
