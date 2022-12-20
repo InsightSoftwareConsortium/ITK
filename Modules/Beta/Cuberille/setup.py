@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-cuberille',
-    version='2.5.0',
+    version='2.6.0',
     author='Dan Mueller',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
@@ -44,6 +44,6 @@ setup(
     keywords='ITK InsightToolkit',
     url=r'https://itk.org/',
     install_requires=[
-        r'itk>=5.2.0'
+        r'itk>=5.3.0'
     ]
     )
