@@ -91,7 +91,7 @@ template <typename TParametersValueType>
 const typename TransformFileWriterTemplate<TParametersValueType>::TransformType *
 TransformFileWriterTemplate<TParametersValueType>::GetInput()
 {
-  ConstTransformPointer res = *(m_TransformList.begin());
+  ConstTransformPointer res = m_TransformList.front();
   return res.GetPointer();
 }
 
