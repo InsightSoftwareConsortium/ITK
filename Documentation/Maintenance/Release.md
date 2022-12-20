@@ -1,4 +1,5 @@
 There are typically two feature releases a year, around June and December, and
+  IdentityFile=~/.ssh/id_git_itk
 one to three bug fix release between feature releases. Releasing ITK has many
 steps. This document is a central location for all of the tribal knowledge
 around it.
@@ -277,7 +278,7 @@ master, November 2016 or later, (Girder > 2.0.0).
 Archive the `InsightData` contents on ITK's file server at Kitware:
 
 ```sh
-   rsync -vrt ${ExternalData_OBJECT_STORES}/MD5/ kitware@public:ITKExternalData/MD5/
+   rsync -vrt ${ExternalData_OBJECT_STORES}/MD5/ kitware@web:ITKExternalData/MD5/
 ```
 
 Update the data archive at https://github.com/InsightSoftwareConsortium/ITKTestingData.
@@ -471,14 +472,29 @@ cd ~/Packaging/ITKPythonPackage
 git reset --hard HEAD
 git checkout release
 git pull origin release
-git clean -fdx
+sudo git clean -fdx
+sudo rm -rf ITK-source
+./scripts/dockcross-manylinux-build-wheels.sh
+tar cvzf /tmp/dist-linux-manylinux_2_28.tar.gz ./dist
+rm dist/*
+cd ..
+./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
+mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux_2_28.tar.zst
+
+cd ITKPythonPackage
+git reset --hard HEAD
+sudo git clean -fdx
+git fetch origin manylinux2014
+git cherry-pick origin/manylinux2014
 ./scripts/dockcross-manylinux-build-wheels.sh
 # Create wheel archive
-tar cvzf /tmp/dist-linux.tar.gz ./dist
+tar cvzf /tmp/dist-linux-manylinux2014.tar.gz ./dist
 rm dist/*
 # Create build tarball
 cd ..
 ./ITKPythonPackage/scripts/dockcross-manylinux-build-tarball.sh
+mv ITKPythonBuilds-linux.tar.zst ITKPythonBuilds-linux-manylinux2014.tar.zst
+git reset --hard HEAD~1
 ```
 
 For Linux ARM builds, the steps are similar, but the wheel build step is:
@@ -496,8 +512,8 @@ yum install sudo
 Build the wheels for macOS (both amd64 and ARM):
 
 ```sh
-ssh computron
-cd ~/D/P/ITKPythonPackage
+ssh misty
+cd /Users/svc-dashboard/D/P/ITKPythonPackage
 git reset --hard HEAD
 git checkout release
 git pull
@@ -520,7 +536,7 @@ git reset --hard HEAD
 git checkout release
 git pull
 git clean -fdx
-# Open a x64 Native Tools Command Prompt for VS 2019
+# Open a x64 Native Tools Command Prompt for VS 2022
 cd C:\P\IPP
 set PATH=C:\P\doxygen;%PATH%
 C:\Python39-x64\python.exe ./scripts/windows_build_wheels.py
@@ -626,14 +642,11 @@ generate, then:
 Historical note: Before ITK 3.8, the documentation used to be generated in a
 directory called `Documentation/Doxygen`.
 
-In `Public`, copy the documentation to `/projects/Insight/Doxygen`, and create
-a subdirectory `Insight34-doxygen/Documentation/Doxygen`.
-
-The final directory will look like
-`/projects/Insight/Doxygen/Insight34-doxygen/Documentation/Doxygen`, and at that
-level copy the `html` directory and the `InsightToolkit.tag` file.
-
-Finally, create symbolic link at `/projects/Insight/WWW/InsightDocuments/Web`.
+Unpackage the Doxygen tarball, then upload to the Kitware web server to serve
+at "https://itk.org/Doxygen$MAJOR_VERSION$MINOR_VERSION/html/". Contact
+Kitware Sys-admin to setup a new rsync target. After the upload is complete,
+verify that routing is set up so the path is not clobbered by the website /
+blog.
 
 Update the ITK Software Guide
 -----------------------------
@@ -690,10 +703,14 @@ version in `Superbuild/External-ITK.cmake`.
 
 Update the CMake minimum version in the example files if necessary.
 
-Rendered versions (epub, pdf, html) can be downloaded from the download page
-and rename them.
+Rendered versions can be downloaded from the recent `build-test-publish`
+[Documentation GitHub Artifact](https://github.com/InsightSoftwareConsortium/ITKSphinxExamples/actions/workflows/build-test-publish.yml?query=branch%3Amaster).
+These should be added to a new GitHub Release on the ITKSphinxExamples
+repository with the tag `v$version`.
 
-Set the prefix and tag:
+These html tarballs are also renamed for distribution with the ITK release.
+
+To generate source tarballs, set the prefix and tag:
 
 ```sh
    tag = $(git describe)
@@ -747,9 +764,7 @@ Upload the release artifacts. These include:
 - InsightSoftwareGuide-Book2-$version.pdf
 - InsightSphinxExamples-5.1.0.tar.gz
 - InsightSphinxExamples-5.1.0.zip
-- InsightSphinxExamplesEpub-5.1.0.epub
 - InsightSphinxExamplesHtml-5.1.0.zip
-- InsightSphinxExamplesPdf-5.1.0.pdf
 
 
 If this is an alpha, beta, or release candidate release, check the *This is a
@@ -853,6 +868,9 @@ For the final release, the release notes produced should be used to
   * Add a release note doc in [ITK/Documentation/ReleaseNotes](https://github.com/InsightSoftwareConsortium/ITK/tree/master/Documentation/ReleaseNotes)
   * Create a post in ITK project on [ResearchGate]
   * Update [ITK's Wikipedia page](https://en.wikipedia.org/wiki/Insight_Segmentation_and_Registration_Toolkit).
+  * Send out a summary to Arliss <help@numfocus.org> at NumFOCUS.
+  * Post on the [ITK Open Collective page].
+  * Post a message on the [Image.sc Forum].
 
 Finally, inform Communications at <comm@kitware.com>.
 
@@ -877,6 +895,8 @@ excellent packaging.
 [GitHub]: https://github.com/InsightSoftwareConsortium/ITK
 [ITKPythonPackage]: https://itkpythonpackage.readthedocs.io/en/latest/index.html
 [ITK discussion]: https://discourse.itk.org/
+[Image.sc Forum]: https://image.sc
+[ITK Open Collective page]: https://opencollective.org/itk
 [ITK issue tracking]: https://issues.itk.org/
 [ITK Software Guide]: https://itk.org/ItkSoftwareGuide.pdf
 [ITK wiki]: https://itk.org/Wiki/ITK
