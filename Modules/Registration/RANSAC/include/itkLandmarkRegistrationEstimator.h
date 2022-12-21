@@ -71,6 +71,14 @@ public:
                 std::vector<Point<double, Dimension>> & data,
                 unsigned int                            currentBest) override;
 
+  virtual bool
+  CheckCorresspondenceDistance(std::vector<double> &                     parameters,
+                               std::vector<Point<double, Dimension> *> & data) override;
+
+  virtual bool
+  CheckCorresspondenceEdgeLength(std::vector<double> &                     parameters,
+                                 std::vector<Point<double, Dimension> *> & data) override;
+
   virtual void
   SetDelta(double delta);
 

@@ -103,7 +103,6 @@ ransacEstimator = RANSACType.New()
 ransacEstimator.SetData(data)
 ransacEstimator.SetAgreeData(agreeData)
 ransacEstimator.SetMaxIteration(number_of_iterations)
-ransacEstimator.SetNumberOfThreads(16)
 ransacEstimator.SetParametersEstimator(registrationEstimator)
 
 percentageOfDataUsed = ransacEstimator.Compute(

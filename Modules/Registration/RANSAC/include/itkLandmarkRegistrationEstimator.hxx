@@ -273,6 +273,105 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::SetAgreeData(std::vector<P
 }
 
 template <unsigned int Dimension, typename TTransform>
+bool
+LandmarkRegistrationEstimator<Dimension, TTransform>::CheckCorresspondenceEdgeLength(
+  std::vector<double> &                     parameters,
+  std::vector<Point<double, Dimension> *> & data)
+{
+  itk::Point<double, 3> p0_source;
+  itk::Point<double, 3> p1_source;
+
+  itk::Point<double, 3> p0_dest;
+  itk::Point<double, 3> p1_dest;
+
+  double similarity_threshold = 0.9;
+
+  unsigned int dataSize = data.size();
+  for (unsigned int i = 0; i < dataSize; ++i)
+  {
+    for (unsigned int j = i + 1; j < dataSize; ++j)
+    {
+      Point<double, Dimension> & temp_point1 = *(data[i]);
+      Point<double, Dimension> & temp_point2 = *(data[j]);
+
+      for (unsigned int k = 0; k < 3; ++k)
+      {
+        p0_source[k] = temp_point1[k];
+        p0_dest[k] = temp_point1[k + 3];
+
+        p1_source[k] = temp_point2[k];
+        p1_dest[k] = temp_point2[k + 3];
+      }
+
+      auto dis_source = p0_source.EuclideanDistanceTo(p1_source);
+      auto dis_target = p0_dest.EuclideanDistanceTo(p1_dest);
+
+      if (dis_source < dis_target * similarity_threshold || dis_target < dis_source * similarity_threshold)
+      {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}
+
+template <unsigned int Dimension, typename TTransform>
+bool
+LandmarkRegistrationEstimator<Dimension, TTransform>::CheckCorresspondenceDistance(
+  std::vector<double> &                     parameters,
+  std::vector<Point<double, Dimension> *> & data)
+{
+  auto transform = TTransform::New();
+
+  auto optParameters = transform->GetParameters();
+  auto fixedParameters = transform->GetFixedParameters();
+
+  int          counter = 0;
+  unsigned int totalParameters = optParameters.GetSize() + fixedParameters.GetSize();
+  for (unsigned int i = optParameters.GetSize(); i < totalParameters; ++i)
+  {
+    fixedParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
+  }
+  transform->SetFixedParameters(fixedParameters);
+
+  counter = 0;
+  for (unsigned int i = 0; i < optParameters.GetSize(); ++i)
+  {
+    optParameters.SetElement(counter, parameters[i]);
+    counter = counter + 1;
+  }
+  transform->SetParameters(optParameters);
+
+  itk::Point<double, 3> p0;
+  itk::Point<double, 3> p1;
+
+  unsigned int dataSize = data.size();
+  for (unsigned int i = 0; i < dataSize; ++i)
+  {
+    Point<double, Dimension> & pnt = *(data[i]);
+
+    p0[0] = pnt[0];
+    p0[1] = pnt[1];
+    p0[2] = pnt[2];
+
+    p1[0] = pnt[3];
+    p1[1] = pnt[4];
+    p1[2] = pnt[5];
+
+    auto transformedPoint = transform->TransformPoint(p0);
+    auto distance = p1.EuclideanDistanceTo(transformedPoint);
+    if (distance > this->delta)
+    {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+template <unsigned int Dimension, typename TTransform>
 std::vector<bool>
 LandmarkRegistrationEstimator<Dimension, TTransform>::AgreeMultiple(std::vector<double> &                   parameters,
                                                                     std::vector<Point<double, Dimension>> & data,

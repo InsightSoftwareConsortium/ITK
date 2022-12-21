@@ -61,8 +61,8 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
   // create and initialize the parameter estimator
   double inlierValue = 3;
-  int    ransacPoints = 100;
-  int    maxIteration = 100;
+  int    ransacPoints = 3;
+  int    maxIteration = 10000;
   auto   registrationEstimator = itk::LandmarkRegistrationEstimator<6, TTransform>::New();
   registrationEstimator->SetMinimalForEstimate(ransacPoints);
   registrationEstimator->SetDelta(inlierValue);

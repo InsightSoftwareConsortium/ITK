@@ -325,10 +325,27 @@ RANSAC<T, SType, TTransform>::RANSACThreadCallback(void * arg)
         if (exactEstimateParameters.size() == 0)
           continue;
 
+        // Inexpensive Test
+        auto distanceFlag =
+          caller->paramEstimator->CheckCorresspondenceDistance(exactEstimateParameters, exactEstimateData);
+        if (distanceFlag == false)
+        {
+          continue;
+        }
+
+        // Inexpensive Test
+        auto edgeFlag =
+          caller->paramEstimator->CheckCorresspondenceEdgeLength(exactEstimateParameters, exactEstimateData);
+        if (edgeFlag == false)
+        {
+          continue;
+        }
+
         // see how many agree on this estimate
         numVotesForCur = 0;
         std::fill(curVotes, curVotes + numAgreeObjects, false);
 
+        // Expensive Inlier Test
         auto result =
           caller->paramEstimator->AgreeMultiple(exactEstimateParameters, caller->agreeData, caller->numVotesForBest);
         for (m = 0; m < numAgreeObjects; m++)
