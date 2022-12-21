@@ -13,7 +13,7 @@ except ImportError:
 
 setup(
     name='itk-montage',
-    version='0.8.0',
+    version='0.8.1',
     author='Dženan Zukić, Matt McCormick',
     author_email='itk+community@discourse.itk.org',
     packages=['itk'],
