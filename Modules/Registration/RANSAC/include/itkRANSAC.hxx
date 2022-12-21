@@ -348,19 +348,25 @@ RANSAC<T, SType, TTransform>::RANSACThreadCallback(void * arg)
         // Expensive Inlier Test
         auto result =
           caller->paramEstimator->AgreeMultiple(exactEstimateParameters, caller->agreeData, caller->numVotesForBest);
+        double rmse_value = 0.0;
+
         for (m = 0; m < numAgreeObjects; m++)
         {
-          if (result[m])
+          if (result[m] > 0)
           {
             curVotes[m] = true;
             numVotesForCur++;
+            rmse_value = rmse_value + result[m];
           }
         } // found a larger consensus set?
 
         caller->resultsMutex.lock();
-        if (numVotesForCur > caller->numVotesForBest)
+        if (numVotesForCur > caller->numVotesForBest ||
+            (numVotesForCur == caller->numVotesForBest && rmse_value < caller->bestRMSE))
         {
           caller->numVotesForBest = numVotesForCur;
+          caller->bestRMSE = rmse_value;
+
           std::copy(curVotes, curVotes + numAgreeObjects, caller->bestVotes);
 
           caller->parametersRansac.clear();

@@ -86,7 +86,7 @@ public:
   virtual bool
   Agree(std::vector<SType> & parameters, T & data) = 0;
 
-  virtual std::vector<bool>
+  virtual std::vector<double>
   AgreeMultiple(std::vector<SType> & parameters, std::vector<T> & data, unsigned int currentBest) = 0;
 
   virtual bool

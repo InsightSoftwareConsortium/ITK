@@ -372,7 +372,7 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::CheckCorresspondenceDistan
 }
 
 template <unsigned int Dimension, typename TTransform>
-std::vector<bool>
+std::vector<double>
 LandmarkRegistrationEstimator<Dimension, TTransform>::AgreeMultiple(std::vector<double> &                   parameters,
                                                                     std::vector<Point<double, Dimension>> & data,
                                                                     unsigned int                            currentBest)
@@ -400,7 +400,7 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::AgreeMultiple(std::vector<
   transform->SetParameters(optParameters);
 
   std::vector<double> query_pt(3);
-  std::vector<bool>   output(data.size(), false);
+  std::vector<double> output(data.size(), -1.0);
   // output.reserve(data.size());
 
   const size_t                    num_results = 1;
@@ -436,8 +436,8 @@ LandmarkRegistrationEstimator<Dimension, TTransform>::AgreeMultiple(std::vector<
     if (flag)
     {
       localBest++;
+      output[i] = out_dists_sqr[0];
     }
-    output[i] = flag;
   }
 
   return output;

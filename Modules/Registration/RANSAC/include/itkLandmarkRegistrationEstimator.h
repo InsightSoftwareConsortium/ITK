@@ -66,7 +66,7 @@ public:
   virtual bool
   Agree(std::vector<double> & parameters, Point<double, Dimension> & data) override;
 
-  virtual std::vector<bool>
+  virtual std::vector<double>
   AgreeMultiple(std::vector<double> &                   parameters,
                 std::vector<Point<double, Dimension>> & data,
                 unsigned int                            currentBest) override;
