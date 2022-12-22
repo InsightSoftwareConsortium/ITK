@@ -46,7 +46,7 @@ BANNED_HEADERS = {
     "itkBSplineDeformableTransform.h",  # deprecated
     "vtkCaptureScreen.h",  # these includes require VTK
     "itkMultiThreader.h",  # Compatibility file, it should not be used
-	"itkOrientationAdapterBase.h",  # Compatibility file, it should not be used
+    "itkOrientationAdapterBase.h",  # Compatibility file, it should not be used
     "itkEnableIf.h",  # Compatibility file, it should not be used
     "itkIsSame.h",  # Compatibility file, it should not be used
     "itkIsBaseOf.h",  # Compatibility file, it should not be used
