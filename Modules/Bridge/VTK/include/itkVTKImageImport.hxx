@@ -345,63 +345,63 @@ VTKImageImport<TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
   Superclass::PrintSelf(os, indent);
   if (m_DataExtentCallback)
   {
-    os << "DataExtentCallback: " << m_DataExtentCallback << std::endl;
+    os << indent << "DataExtentCallback: " << m_DataExtentCallback << std::endl;
   }
   if (m_WholeExtentCallback)
   {
-    os << "WholeExtentCallback: " << m_WholeExtentCallback << std::endl;
+    os << indent << "WholeExtentCallback: " << m_WholeExtentCallback << std::endl;
   }
   if (m_BufferPointerCallback)
   {
-    os << "BufferPointerCallback: " << m_BufferPointerCallback << std::endl;
+    os << indent << "BufferPointerCallback: " << m_BufferPointerCallback << std::endl;
   }
   if (m_UpdateDataCallback)
   {
-    os << "UpdateDataCallback: " << m_UpdateDataCallback << std::endl;
+    os << indent << "UpdateDataCallback: " << m_UpdateDataCallback << std::endl;
   }
   if (m_PipelineModifiedCallback)
   {
-    os << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
+    os << indent << "PipelineModifiedCallback: " << m_PipelineModifiedCallback << std::endl;
   }
   if (m_NumberOfComponentsCallback)
   {
-    os << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
+    os << indent << "NumberOfComponentsCallback: " << m_NumberOfComponentsCallback << std::endl;
   }
   if (m_SpacingCallback)
   {
-    os << "SpacingCallback: " << m_SpacingCallback << std::endl;
+    os << indent << "SpacingCallback: " << m_SpacingCallback << std::endl;
   }
   if (m_FloatSpacingCallback)
   {
-    os << "FloatSpacingCallback: " << m_FloatSpacingCallback << std::endl;
+    os << indent << "FloatSpacingCallback: " << m_FloatSpacingCallback << std::endl;
   }
   if (m_OriginCallback)
   {
-    os << "OriginCallback: " << m_OriginCallback << std::endl;
+    os << indent << "OriginCallback: " << m_OriginCallback << std::endl;
   }
   if (m_FloatOriginCallback)
   {
-    os << "FloatOriginCallback: " << m_FloatOriginCallback << std::endl;
+    os << indent << "FloatOriginCallback: " << m_FloatOriginCallback << std::endl;
   }
   if (m_DirectionCallback)
   {
-    os << "DirectionCallback: " << m_DirectionCallback << std::endl;
+    os << indent << "DirectionCallback: " << m_DirectionCallback << std::endl;
   }
   if (m_UpdateInformationCallback)
   {
-    os << "UpdateInformationCallback: " << m_UpdateInformationCallback << std::endl;
+    os << indent << "UpdateInformationCallback: " << m_UpdateInformationCallback << std::endl;
   }
   if (m_ScalarTypeCallback)
   {
-    os << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::endl;
+    os << indent << "ScalarTypeCallback: " << m_ScalarTypeCallback << std::endl;
   }
   if (m_PropagateUpdateExtentCallback)
   {
-    os << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << std::endl;
+    os << indent << "PropagateUpdateExtentCallback: " << m_PropagateUpdateExtentCallback << std::endl;
   }
   if (m_CallbackUserData)
   {
-    os << "CallbackUserData: " << m_CallbackUserData << std::endl;
+    os << indent << "CallbackUserData: " << m_CallbackUserData << std::endl;
   }
 }
 } // namespace itk

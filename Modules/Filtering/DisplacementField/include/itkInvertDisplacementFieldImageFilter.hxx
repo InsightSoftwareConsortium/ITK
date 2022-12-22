@@ -252,9 +252,9 @@ InvertDisplacementFieldImageFilter<TInputImage, TOutputImage>::PrintSelf(std::os
 
   itkPrintSelfObjectMacro(Interpolator);
 
-  os << "Maximum number of iterations: " << this->m_MaximumNumberOfIterations << std::endl;
-  os << "Max error tolerance threshold: " << this->m_MaxErrorToleranceThreshold << std::endl;
-  os << "Mean error tolerance threshold: " << this->m_MeanErrorToleranceThreshold << std::endl;
+  os << indent << "Maximum number of iterations: " << this->m_MaximumNumberOfIterations << std::endl;
+  os << indent << "Max error tolerance threshold: " << this->m_MaxErrorToleranceThreshold << std::endl;
+  os << indent << "Mean error tolerance threshold: " << this->m_MeanErrorToleranceThreshold << std::endl;
 }
 
 } // end namespace itk

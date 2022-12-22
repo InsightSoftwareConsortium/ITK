@@ -194,12 +194,12 @@ void
 CSVArray2DDataObject<TData>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Number of rows in matrix: " << this->m_Matrix.rows() << std::endl;
-  os << "Number of columns in matrix: " << this->m_Matrix.cols() << std::endl << std::endl;
-  os << "Column Headers existence: " << this->m_HasColumnHeaders << std::endl;
-  os << "Row Headers existence: " << this->m_HasRowHeaders << std::endl;
-  os << "Number of Column Headers: " << this->m_ColumnHeaders.size() << std::endl;
-  os << "Number of Row Headers: " << this->m_RowHeaders.size() << std::endl;
+  os << indent << "Number of rows in matrix: " << this->m_Matrix.rows() << std::endl;
+  os << indent << "Number of columns in matrix: " << this->m_Matrix.cols() << std::endl << std::endl;
+  os << indent << "Column Headers existence: " << this->m_HasColumnHeaders << std::endl;
+  os << indent << "Row Headers existence: " << this->m_HasRowHeaders << std::endl;
+  os << indent << "Number of Column Headers: " << this->m_ColumnHeaders.size() << std::endl;
+  os << indent << "Number of Row Headers: " << this->m_RowHeaders.size() << std::endl;
 
   os << "Below is the data: " << std::endl << std::endl;
 

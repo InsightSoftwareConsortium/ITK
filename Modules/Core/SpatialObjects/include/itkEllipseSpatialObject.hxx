@@ -143,8 +143,8 @@ EllipseSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) co
 {
   os << indent << "EllipseSpatialObject(" << this << ")" << std::endl;
   Superclass::PrintSelf(os, indent);
-  os << "Object Radii: " << m_RadiusInObjectSpace << std::endl;
-  os << "Object Center: " << m_CenterInObjectSpace << std::endl;
+  os << indent << "Object Radii: " << m_RadiusInObjectSpace << std::endl;
+  os << indent << "Object Center: " << m_CenterInObjectSpace << std::endl;
 }
 
 } // end namespace itk

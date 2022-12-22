@@ -204,10 +204,10 @@ void
 GaussianSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Maximum: " << m_Maximum << std::endl;
-  os << "Radius: " << m_RadiusInObjectSpace << std::endl;
-  os << "Sigma: " << m_SigmaInObjectSpace << std::endl;
-  os << "Center: " << m_CenterInObjectSpace << std::endl;
+  os << indent << "Maximum: " << m_Maximum << std::endl;
+  os << indent << "Radius: " << m_RadiusInObjectSpace << std::endl;
+  os << indent << "Sigma: " << m_SigmaInObjectSpace << std::endl;
+  os << indent << "Center: " << m_CenterInObjectSpace << std::endl;
 }
 } // end namespace itk
 

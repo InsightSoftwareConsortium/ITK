@@ -72,8 +72,8 @@ GradientMagnitudeRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintS
                                                                                     Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
-  os << "Sigma: " << m_DerivativeFilter->GetSigma() << std::endl;
+  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
+  os << indent << "Sigma: " << m_DerivativeFilter->GetSigma() << std::endl;
 }
 
 /**

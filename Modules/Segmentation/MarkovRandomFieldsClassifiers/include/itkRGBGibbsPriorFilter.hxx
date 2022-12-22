@@ -755,15 +755,15 @@ RGBGibbsPriorFilter<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os,
   os << indent << "StartPoint: " << m_StartPoint << std::endl;
   if (m_TrainingImage)
   {
-    os << "TraingImage: " << m_TrainingImage;
+    os << indent << "TraingImage: " << m_TrainingImage;
   }
   if (m_LabelledImage)
   {
-    os << "TrainingImage: " << m_TrainingImage;
+    os << indent << "TrainingImage: " << m_TrainingImage;
   }
   if (m_ClassifierPtr)
   {
-    os << "ClassifierPtr: " << m_ClassifierPtr;
+    os << indent << "ClassifierPtr: " << m_ClassifierPtr;
   }
 }
 } /* end namespace itk. */

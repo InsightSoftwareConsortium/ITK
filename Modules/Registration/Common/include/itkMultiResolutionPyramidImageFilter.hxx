@@ -326,7 +326,7 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
   os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
   os << indent << "Schedule: " << std::endl;
   os << m_Schedule << std::endl;
-  os << "Use ShrinkImageFilter= " << m_UseShrinkImageFilter << std::endl;
+  os << indent << "Use ShrinkImageFilter= " << m_UseShrinkImageFilter << std::endl;
 }
 
 /*

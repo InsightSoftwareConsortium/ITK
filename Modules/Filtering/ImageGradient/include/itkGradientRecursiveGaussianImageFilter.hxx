@@ -354,7 +354,7 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::
   Superclass::PrintSelf(os, indent);
   os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
   os << indent << "UseImageDirection :   " << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
-  os << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Sigma: " << m_Sigma << std::endl;
 }
 
 } // end namespace itk

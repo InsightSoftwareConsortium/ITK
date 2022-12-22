@@ -277,11 +277,11 @@ BSplineTransformParametersAdaptor<TTransform>::PrintSelf(std::ostream & os, Inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "Required transform domain origin: " << this->m_RequiredTransformDomainOrigin << std::endl;
-  os << "Required transform domain direction: " << this->m_RequiredTransformDomainDirection << std::endl;
-  os << "Required transform domain physical dimensions: " << this->m_RequiredTransformDomainPhysicalDimensions
+  os << indent << "Required transform domain origin: " << this->m_RequiredTransformDomainOrigin << std::endl;
+  os << indent << "Required transform domain direction: " << this->m_RequiredTransformDomainDirection << std::endl;
+  os << indent << "Required transform domain physical dimensions: " << this->m_RequiredTransformDomainPhysicalDimensions
      << std::endl;
-  os << "Required transform domain mesh size: " << this->m_RequiredTransformDomainMeshSize << std::endl;
+  os << indent << "Required transform domain mesh size: " << this->m_RequiredTransformDomainMeshSize << std::endl;
 }
 
 } // namespace itk

@@ -339,9 +339,9 @@ RecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "Sigma: " << m_Sigma << std::endl;
-  os << "Order: " << m_Order << std::endl;
-  os << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
+  os << indent << "Sigma: " << m_Sigma << std::endl;
+  os << indent << "Order: " << m_Order << std::endl;
+  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
 }
 } // end namespace itk
 

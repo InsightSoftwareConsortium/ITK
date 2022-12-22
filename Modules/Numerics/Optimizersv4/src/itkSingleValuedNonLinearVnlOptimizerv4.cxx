@@ -117,7 +117,7 @@ SingleValuedNonLinearVnlOptimizerv4::PrintSelf(std::ostream & os, Indent indent)
   Superclass::PrintSelf(os, indent);
   os << indent << "Cached Derivative: " << this->m_CachedDerivative << std::endl;
   os << indent << "Cached current positiion: " << this->m_CachedCurrentPosition << std::endl;
-  os << "Command observer " << this->m_Command.GetPointer() << std::endl;
-  os << "Cost Function adaptor" << this->m_CostFunctionAdaptor << std::endl;
+  os << indent << "Command observer " << this->m_Command.GetPointer() << std::endl;
+  os << indent << "Cost Function adaptor" << this->m_CostFunctionAdaptor << std::endl;
 }
 } // end namespace itk
