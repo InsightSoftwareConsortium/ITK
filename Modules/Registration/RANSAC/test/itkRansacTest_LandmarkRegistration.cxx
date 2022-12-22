@@ -77,14 +77,15 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
 
   // create and initialize the RANSAC algorithm
   double              desiredProbabilityForNoOutliers = 0.99;
-  double              percentageOfDataUsed;
   RANSACType::Pointer ransacEstimator = RANSACType::New();
   ransacEstimator->SetData(data);
   ransacEstimator->SetAgreeData(agreeData);
   ransacEstimator->SetParametersEstimator(registrationEstimator);
+  ransacEstimator->SetCheckCorresspondenceDistance(true);
+  ransacEstimator->SetCheckCorrespondenceEdgeLength(0.9);
   ransacEstimator->SetMaxIteration(maxIteration);
 
-  percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
+  auto percentageOfDataUsed = ransacEstimator->Compute(transformParameters, desiredProbabilityForNoOutliers);
 
   if (transformParameters.empty())
   {
@@ -99,7 +100,9 @@ itkRansacTest_LandmarkRegistration(int argc, char * argv[])
     }
   }
 
-  std::cout << "percentageOfDataUsed " << percentageOfDataUsed << "\n\n";
+  std::cout << "\n\n" << std::endl;
+  std::cout << "percentageOfDataUsed " << percentageOfDataUsed[0] << "\n\n";
+  std::cout << "Inlier RMSE is  " << percentageOfDataUsed[1] << "\n\n";
   return EXIT_SUCCESS;
 }
 

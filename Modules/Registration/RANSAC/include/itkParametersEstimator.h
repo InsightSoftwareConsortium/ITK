@@ -93,7 +93,7 @@ public:
   CheckCorresspondenceDistance(std::vector<SType> & parameters, std::vector<T *> & data) = 0;
 
   virtual bool
-  CheckCorresspondenceEdgeLength(std::vector<SType> & parameters, std::vector<T *> & data) = 0;
+  CheckCorresspondenceEdgeLength(std::vector<SType> & parameters, std::vector<T *> & data, double edgeLength) = 0;
 
   /**
    * Set the minimal number of data objects required for computation of an exact
@@ -105,7 +105,6 @@ public:
   SetMinimalForEstimate(unsigned int minForEstimate);
   unsigned int
   GetMinimalForEstimate();
-
 
 protected:
   ParametersEstimator() { this->minForEstimate = 0; }
