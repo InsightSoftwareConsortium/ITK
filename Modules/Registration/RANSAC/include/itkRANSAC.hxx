@@ -56,6 +56,34 @@ RANSAC<T, SType, TTransform>::SetMaxIteration(unsigned int inputMaxIteration)
   this->maxIteration = inputMaxIteration;
 }
 
+template <typename T, typename SType, typename TTransform>
+void
+RANSAC<T, SType, TTransform>::SetCheckCorresspondenceDistance(bool inputFlag)
+{
+  this->checkCorresspondenceDistanceFlag = inputFlag;
+}
+
+template <typename T, typename SType, typename TTransform>
+bool
+RANSAC<T, SType, TTransform>::GetCheckCorresspondenceDistance()
+{
+  return this->checkCorresspondenceDistanceFlag;
+}
+
+template <typename T, typename SType, typename TTransform>
+void
+RANSAC<T, SType, TTransform>::SetCheckCorrespondenceEdgeLength(double inputLength)
+{
+  this->checkCorrespondenceEdgeLengthTest = inputLength;
+}
+
+template <typename T, typename SType, typename TTransform>
+double
+RANSAC<T, SType, TTransform>::GetCheckCorrespondenceEdgeLength()
+{
+  return this->checkCorrespondenceEdgeLengthTest;
+}
+
 
 template <typename T, typename SType, typename TTransform>
 unsigned int
@@ -63,7 +91,6 @@ RANSAC<T, SType, TTransform>::GetNumberOfThreads()
 {
   return this->numberOfThreads;
 }
-
 
 template <typename T, typename SType, typename TTransform>
 void
@@ -106,16 +133,23 @@ RANSAC<T, SType, TTransform>::SetAgreeData(std::vector<T> & inputData)
 }
 
 template <typename T, typename SType, typename TTransform>
-double
+std::vector<double>
 RANSAC<T, SType, TTransform>::Compute(std::vector<SType> & parameters, double desiredProbabilityForNoOutliers)
 {
+  std::vector<double> outputPair;
+
   // STEP1: setup
   parameters.clear();
   // the data or the parameter estimator were not set
   // or desiredProbabilityForNoOutliers is not in (0.0,1.0)
   if (this->paramEstimator.IsNull() || this->data.empty() || desiredProbabilityForNoOutliers >= 1.0 ||
       desiredProbabilityForNoOutliers <= 0.0)
-    return 0;
+  {
+    outputPair.push_back(0);
+    outputPair.push_back(0);
+    return outputPair;
+  }
+
 
   unsigned int numForEstimate = this->paramEstimator->GetMinimalForEstimate();
   size_t       numAgreeObjects = this->agreeData.size();
@@ -240,7 +274,9 @@ RANSAC<T, SType, TTransform>::Compute(std::vector<SType> & parameters, double de
   delete this->chosenSubSets;
   delete[] this->bestVotes;
 
-  return (double)this->numVotesForBest / (double)numAgreeObjects;
+  outputPair.push_back((double)this->numVotesForBest / (double)numAgreeObjects);
+  outputPair.push_back(this->bestRMSE);
+  return outputPair;
 }
 
 
@@ -325,25 +361,54 @@ RANSAC<T, SType, TTransform>::RANSACThreadCallback(void * arg)
         if (exactEstimateParameters.size() == 0)
           continue;
 
+        // Inexpensive Test
+        if (caller->checkCorresspondenceDistanceFlag == true)
+        {
+          auto distanceFlag =
+            caller->paramEstimator->CheckCorresspondenceDistance(exactEstimateParameters, exactEstimateData);
+          if (distanceFlag == false)
+          {
+            continue;
+          }
+        }
+
+        // Inexpensive Test
+        if (caller->checkCorrespondenceEdgeLengthTest > 0)
+        {
+          auto edgeFlag = caller->paramEstimator->CheckCorresspondenceEdgeLength(
+            exactEstimateParameters, exactEstimateData, caller->checkCorrespondenceEdgeLengthTest);
+          if (edgeFlag == false)
+          {
+            continue;
+          }
+        }
+
         // see how many agree on this estimate
         numVotesForCur = 0;
         std::fill(curVotes, curVotes + numAgreeObjects, false);
 
+        // Expensive Inlier Test
         auto result =
           caller->paramEstimator->AgreeMultiple(exactEstimateParameters, caller->agreeData, caller->numVotesForBest);
+        double rmse_value = 0.0;
+
         for (m = 0; m < numAgreeObjects; m++)
         {
-          if (result[m])
+          if (result[m] > 0)
           {
             curVotes[m] = true;
             numVotesForCur++;
+            rmse_value = rmse_value + result[m];
           }
         } // found a larger consensus set?
 
         caller->resultsMutex.lock();
-        if (numVotesForCur > caller->numVotesForBest)
+        if (numVotesForCur > caller->numVotesForBest ||
+            (numVotesForCur == caller->numVotesForBest && rmse_value < caller->bestRMSE))
         {
           caller->numVotesForBest = numVotesForCur;
+          caller->bestRMSE = rmse_value;
+
           std::copy(curVotes, curVotes + numAgreeObjects, caller->bestVotes);
 
           caller->parametersRansac.clear();

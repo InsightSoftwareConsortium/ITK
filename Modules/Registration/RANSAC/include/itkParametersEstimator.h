@@ -86,8 +86,14 @@ public:
   virtual bool
   Agree(std::vector<SType> & parameters, T & data) = 0;
 
-  virtual std::vector<bool>
+  virtual std::vector<double>
   AgreeMultiple(std::vector<SType> & parameters, std::vector<T> & data, unsigned int currentBest) = 0;
+
+  virtual bool
+  CheckCorresspondenceDistance(std::vector<SType> & parameters, std::vector<T *> & data) = 0;
+
+  virtual bool
+  CheckCorresspondenceEdgeLength(std::vector<SType> & parameters, std::vector<T *> & data, double edgeLength) = 0;
 
   /**
    * Set the minimal number of data objects required for computation of an exact
@@ -99,7 +105,6 @@ public:
   SetMinimalForEstimate(unsigned int minForEstimate);
   unsigned int
   GetMinimalForEstimate();
-
 
 protected:
   ParametersEstimator() { this->minForEstimate = 0; }

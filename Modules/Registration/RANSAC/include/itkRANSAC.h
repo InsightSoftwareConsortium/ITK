@@ -144,8 +144,24 @@ public:
    *                                        an outlier, must be in (0,1).
    * @return Returns the percentage of data used in the least squares estimate.
    */
-  double
+  std::vector<double>
   Compute(std::vector<SType> & parameters, double desiredProbabilityForNoOutliers);
+
+  void
+  SetCheckCorresspondenceDistance(bool inputFlag);
+
+  bool
+  GetCheckCorresspondenceDistance();
+
+  void
+  SetCheckCorrespondenceEdgeLength(double inputLength);
+
+  double
+  GetCheckCorrespondenceEdgeLength();
+
+  bool   checkCorresspondenceDistanceFlag = false;
+  double checkCorrespondenceEdgeLengthTest = 0;
+
 
 protected:
   /**
@@ -204,6 +220,7 @@ private:
   // agrees with the best model, otherwise false
   bool *       bestVotes;
   unsigned int numVotesForBest;
+  double       bestRMSE;
 
   std::vector<T>      data;
   std::vector<T>      agreeData;
