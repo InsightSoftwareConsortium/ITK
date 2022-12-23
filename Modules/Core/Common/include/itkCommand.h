@@ -139,15 +139,11 @@ public:
   }
 
 protected:
-  T *                         m_This;
-  TMemberFunctionPointer      m_MemberFunction;
-  TConstMemberFunctionPointer m_ConstMemberFunction;
+  T *                         m_This{ nullptr };
+  TMemberFunctionPointer      m_MemberFunction{ nullptr };
+  TConstMemberFunctionPointer m_ConstMemberFunction{ nullptr };
 
-  MemberCommand()
-    : m_This(nullptr)
-    , m_MemberFunction(nullptr)
-    , m_ConstMemberFunction(nullptr)
-  {}
+  MemberCommand() = default;
 
   ~MemberCommand() override = default;
 };
@@ -210,13 +206,10 @@ public:
   }
 
 protected:
-  T *                    m_This;
-  TMemberFunctionPointer m_MemberFunction;
+  T *                    m_This{ nullptr };
+  TMemberFunctionPointer m_MemberFunction{ nullptr };
 
-  ReceptorMemberCommand()
-    : m_This(nullptr)
-    , m_MemberFunction(nullptr)
-  {}
+  ReceptorMemberCommand() = default;
 
   ~ReceptorMemberCommand() override = default;
 };
@@ -277,13 +270,10 @@ public:
   }
 
 protected:
-  T *                    m_This;
-  TMemberFunctionPointer m_MemberFunction;
+  T *                    m_This{ nullptr };
+  TMemberFunctionPointer m_MemberFunction{ nullptr };
 
-  SimpleMemberCommand()
-    : m_This(nullptr)
-    , m_MemberFunction(nullptr)
-  {}
+  SimpleMemberCommand() = default;
 
   ~SimpleMemberCommand() override = default;
 };
@@ -344,13 +334,10 @@ public:
   }
 
 protected:
-  const T *              m_This;
-  TMemberFunctionPointer m_MemberFunction;
+  const T *              m_This{ nullptr };
+  TMemberFunctionPointer m_MemberFunction{ nullptr };
 
-  SimpleConstMemberCommand()
-    : m_This(nullptr)
-    , m_MemberFunction(nullptr)
-  {}
+  SimpleConstMemberCommand() = default;
 
   ~SimpleConstMemberCommand() override = default;
 };
