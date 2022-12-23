@@ -94,22 +94,6 @@ VTKImageImport<TOutputImage>::VTKImageImport()
   {
     itkExceptionMacro(<< "Type currently not supported");
   }
-  m_DataExtentCallback = nullptr;
-  m_WholeExtentCallback = nullptr;
-  m_BufferPointerCallback = nullptr;
-  m_UpdateDataCallback = nullptr;
-  m_PipelineModifiedCallback = nullptr;
-  m_NumberOfComponentsCallback = nullptr;
-  m_SpacingCallback = nullptr;
-  m_FloatSpacingCallback = nullptr;
-  m_OriginCallback = nullptr;
-  m_FloatOriginCallback = nullptr;
-  m_DirectionCallback = nullptr;
-  m_UpdateInformationCallback = nullptr;
-  m_ScalarTypeCallback = nullptr;
-  m_DataExtentCallback = nullptr;
-  m_PropagateUpdateExtentCallback = nullptr;
-  m_CallbackUserData = nullptr;
 }
 
 /**
