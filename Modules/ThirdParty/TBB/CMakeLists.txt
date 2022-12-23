@@ -8,6 +8,7 @@ set(ITKTBB_NO_SRC 1)
 # When this module is loaded by an app, load TBB too.
 set(ITKTBB_EXPORT_CODE_INSTALL "
 set(TBB_DIR \"${TBB_DIR}\")
+find_package(Threads REQUIRED)
 find_package(TBB REQUIRED CONFIG)
 ")
 
@@ -15,6 +16,7 @@ find_package(TBB REQUIRED CONFIG)
 set(ITKTBB_EXPORT_CODE_BUILD "
 if(NOT ITK_BINARY_DIR)
   set(TBB_DIR \"${TBB_DIR}\")
+  find_package(Threads REQUIRED)
   find_package(TBB REQUIRED CONFIG)
 endif()
 ")
