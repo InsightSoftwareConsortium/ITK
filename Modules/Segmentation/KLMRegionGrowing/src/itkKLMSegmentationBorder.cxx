@@ -84,7 +84,6 @@ KLMSegmentationBorder::PrintBorderInfo()
   itkDebugMacro(<< "------------------------------");
   itkDebugMacro(<< "------------------------------");
 
-  std::cout << "Location      : " << this << std::endl;
-  std::cout << "Lambda        : " << m_Lambda << std::endl;
+  std::cout << "Location      : " << this << std::endl << "Lambda        : " << m_Lambda << std::endl;
 }
 } // namespace itk

@@ -463,8 +463,8 @@ MeshFileReader<TOutputMesh, ConvertPointPixelTraits, ConvertCellPixelTraits>::Ge
         auto * io = dynamic_cast<MeshIOBase *>(allobject.GetPointer());
         msg << "    " << io->GetNameOfClass() << std::endl;
       }
-      msg << "  You probably failed to set a file suffix, or" << std::endl;
-      msg << "  set the suffix to an unsupported type." << std::endl;
+      msg << "  You probably failed to set a file suffix, or" << std::endl
+          << "  set the suffix to an unsupported type." << std::endl;
     }
 
     MeshFileReaderException e(__FILE__, __LINE__, msg.str().c_str(), ITK_LOCATION);

@@ -83,8 +83,8 @@ GPUGradientNDAnisotropicDiffusionFunction<TImage>::GPUGradientNDAnisotropicDiffu
     itkExceptionMacro("GPUGradientNDAnisotropicDiffusionFunction supports 1/2/3D image.");
   }
 
-  defines << "#define DIM_" << TImage::ImageDimension << "\n";
-  defines << "#define BLOCK_SIZE " << OpenCLGetLocalBlockSize(TImage::ImageDimension) << "\n";
+  defines << "#define DIM_" << TImage::ImageDimension << "\n"
+          << "#define BLOCK_SIZE " << OpenCLGetLocalBlockSize(TImage::ImageDimension) << "\n";
 
   std::string pixeltypename = GetTypename(typeid(typename TImage::PixelType));
   defines << "#define PIXELTYPE " << pixeltypename << "\n";

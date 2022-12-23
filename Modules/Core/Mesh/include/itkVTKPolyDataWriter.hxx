@@ -86,10 +86,10 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
   }
 
   outputFile.imbue(std::locale::classic());
-  outputFile << "# vtk DataFile Version 2.0" << std::endl;
-  outputFile << "File written by itkVTKPolyDataWriter" << std::endl;
-  outputFile << "ASCII" << std::endl;
-  outputFile << "DATASET POLYDATA" << std::endl;
+  outputFile << "# vtk DataFile Version 2.0" << std::endl
+             << "File written by itkVTKPolyDataWriter" << std::endl
+             << "ASCII" << std::endl
+             << "DATASET POLYDATA" << std::endl;
 
   // POINTS go first
 
@@ -171,8 +171,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
     // LINES
     if (numberOfEdges)
     {
-      outputFile << "LINES " << numberOfEdges << " " << 3 * numberOfEdges;
-      outputFile << std::endl;
+      outputFile << "LINES " << numberOfEdges << " " << 3 * numberOfEdges << std::endl;
 
       cellIterator = cells->Begin();
       while (cellIterator != cellEnd)
@@ -219,8 +218,8 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
         }
         ++cellIterator;
       }
-      outputFile << "POLYGONS " << numberOfPolygons << " ";
-      outputFile << totalNumberOfPointsInPolygons + numberOfPolygons; // FIXME: Is this right ?
+      outputFile << "POLYGONS " << numberOfPolygons << " "
+                 << totalNumberOfPointsInPolygons + numberOfPolygons; // FIXME: Is this right ?
       outputFile << std::endl;
 
       cellIterator = cells->Begin();

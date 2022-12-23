@@ -119,13 +119,13 @@ ImageFileReader<TOutputImage, ConvertPixelTraits>::GenerateOutputInformation()
           auto * io = dynamic_cast<ImageIOBase *>(allobject.GetPointer());
           msg << "    " << io->GetNameOfClass() << std::endl;
         }
-        msg << "  You probably failed to set a file suffix, or" << std::endl;
-        msg << "    set the suffix to an unsupported type." << std::endl;
+        msg << "  You probably failed to set a file suffix, or" << std::endl
+            << "    set the suffix to an unsupported type." << std::endl;
       }
       else
       {
-        msg << "  There are no registered IO factories." << std::endl;
-        msg << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
+        msg << "  There are no registered IO factories." << std::endl
+            << "  Please visit https://www.itk.org/Wiki/ITK/FAQ#NoFactoryException to diagnose the problem."
             << std::endl;
       }
     }

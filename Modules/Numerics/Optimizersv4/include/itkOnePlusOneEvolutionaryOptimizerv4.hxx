@@ -151,8 +151,8 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     if (m_Stop)
     {
       m_StopConditionDescription.str("");
-      m_StopConditionDescription << this->GetNameOfClass() << ": ";
-      m_StopConditionDescription << "StopOptimization() called";
+      m_StopConditionDescription << this->GetNameOfClass() << ": "
+                                 << "StopOptimization() called";
       break;
     }
 
@@ -232,8 +232,8 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
     {
       itkDebugMacro(<< "converges at iteration = " << this->m_CurrentIteration);
       m_StopConditionDescription.str("");
-      m_StopConditionDescription << this->GetNameOfClass() << ": ";
-      m_StopConditionDescription << "Fnorm (" << m_FrobeniusNorm << ") is less than Epsilon (" << m_Epsilon
+      m_StopConditionDescription << this->GetNameOfClass() << ": "
+                                 << "Fnorm (" << m_FrobeniusNorm << ") is less than Epsilon (" << m_Epsilon
                                  << " at iteration #" << this->m_CurrentIteration;
       this->InvokeEvent(EndEvent());
       return;
@@ -267,8 +267,8 @@ OnePlusOneEvolutionaryOptimizerv4<TInternalComputationValueType>::StartOptimizat
   if (this->m_CurrentIteration >= m_MaximumIteration)
   {
     m_StopConditionDescription.str("");
-    m_StopConditionDescription << this->GetNameOfClass() << ": ";
-    m_StopConditionDescription << "Maximum number of iterations (" << m_MaximumIteration << ") exceeded. ";
+    m_StopConditionDescription << this->GetNameOfClass() << ": "
+                               << "Maximum number of iterations (" << m_MaximumIteration << ") exceeded. ";
   }
   this->InvokeEvent(EndEvent());
 }

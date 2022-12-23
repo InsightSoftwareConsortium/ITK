@@ -383,12 +383,12 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()
       //   RemoveDuplicatePointsInObjectSpace was not called.
       if (Math::AlmostEquals(l, 0.0) || std::isnan(l))
       {
-        std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : ";
-        std::cerr << "length between two consecutive points is 0";
-        std::cerr << " (use RemoveDuplicatePointsInObjectSpace())" << std::endl;
-        std::cerr << "   p1 = " << x1 << std::endl;
-        std::cerr << "   p2 = " << x2 << std::endl;
-        std::cerr << "   p3 = " << x3 << std::endl;
+        std::cerr << "TubeSpatialObject::ComputeTangentAndNormals() : "
+                  << "length between two consecutive points is 0"
+                  << " (use RemoveDuplicatePointsInObjectSpace())" << std::endl
+                  << "   p1 = " << x1 << std::endl
+                  << "   p2 = " << x2 << std::endl
+                  << "   p3 = " << x3 << std::endl;
         return false;
       }
     }

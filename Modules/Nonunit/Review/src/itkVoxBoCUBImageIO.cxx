@@ -643,8 +643,7 @@ VoxBoCUBImageIO::WriteImageInformation()
   std::ostringstream header;
 
   // Write the identifiers
-  header << m_VB_IDENTIFIER_SYSTEM << std::endl;
-  header << m_VB_IDENTIFIER_FILETYPE << std::endl;
+  header << m_VB_IDENTIFIER_SYSTEM << std::endl << m_VB_IDENTIFIER_FILETYPE << std::endl;
 
   // Write the data type
   switch (m_ComponentType)

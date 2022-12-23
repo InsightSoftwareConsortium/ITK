@@ -1305,9 +1305,7 @@ SpatialObject<TDimension>::GetClassNameAndDimension() const
 {
   std::ostringstream n;
 
-  n << GetNameOfClass();
-  n << "_";
-  n << TDimension;
+  n << GetNameOfClass() << "_" << TDimension;
 
   return n.str();
 }

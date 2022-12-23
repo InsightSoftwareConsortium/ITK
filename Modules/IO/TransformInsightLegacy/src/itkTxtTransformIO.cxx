@@ -280,8 +280,7 @@ TxtTransformIOTemplate<TParametersValueType>::Write()
   for (typename ConstTransformListType::const_iterator it = transformList.begin(); it != end; ++it, ++count)
   {
     const std::string TransformTypeName = (*it)->GetTransformTypeAsString();
-    out << "#Transform " << count << std::endl;
-    out << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;
+    out << "#Transform " << count << std::endl << "Transform: " << (*it)->GetTransformTypeAsString() << std::endl;
     //
     // Composite Transforms are not written out with parameters;
     // their parameters are the union of all their component

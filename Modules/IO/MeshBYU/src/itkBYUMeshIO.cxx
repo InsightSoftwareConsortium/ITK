@@ -298,12 +298,9 @@ BYUMeshIO::WriteMeshInformation()
 
   // Write BYU file header
   Indent indent(7);
-  outputFile << indent << 1;
-  outputFile << indent << this->m_NumberOfPoints;
-  outputFile << indent << this->m_NumberOfCells;
-  outputFile << indent << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl;
-  outputFile << indent << 1;
-  outputFile << indent << this->m_NumberOfCells << std::endl;
+  outputFile << indent << 1 << indent << this->m_NumberOfPoints << indent << this->m_NumberOfCells << indent
+             << this->m_CellBufferSize - 2 * this->m_NumberOfCells << std::endl
+             << indent << 1 << indent << this->m_NumberOfCells << std::endl;
 
   outputFile.close();
 }

@@ -180,8 +180,7 @@ CSVNumericObjectFileWriter<TValue, VRows, VColumns>::Write()
   }
   catch (const itk::ExceptionObject & exp)
   {
-    std::cerr << "Exception caught! " << std::endl;
-    std::cerr << exp << std::endl;
+    std::cerr << "Exception caught! " << std::endl << exp << std::endl;
     outputStream.close();
     throw;
   }

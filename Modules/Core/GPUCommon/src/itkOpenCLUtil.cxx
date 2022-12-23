@@ -455,8 +455,8 @@ std::string
 Get64BitPragma()
 {
   std::ostringstream msg;
-  msg << "#pragma OPENCL EXTENSION cl_khr_fp64 : enable\n";
-  msg << "#pragma OPENCL EXTENSION cl_amd_fp64 : enable\n";
+  msg << "#pragma OPENCL EXTENSION cl_khr_fp64 : enable\n"
+      << "#pragma OPENCL EXTENSION cl_amd_fp64 : enable\n";
   return msg.str();
 }
 

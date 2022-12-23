@@ -761,8 +761,7 @@ PhilipsRECImageIO::ReadImageInformation()
   }
 //#define DEBUG_ORIENTATION
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Direction cosines = " << direction << std::endl;
-  std::cout << "Spacing = " << spacing << std::endl;
+  std::cout << "Direction cosines = " << direction << std::endl << "Spacing = " << spacing << std::endl;
 #endif
   // Create right/left rotation matrix (about x axis).
   AffineMatrix r1;
@@ -788,10 +787,10 @@ PhilipsRECImageIO::ReadImageInformation()
   // Total rotation matrix.
   AffineMatrix rtotal = r1 * r2 * r3;
 #ifdef DEBUG_ORIENTATION
-  std::cout << "Right-Left rotation = " << r1 << std::endl;
-  std::cout << "Anterior-Posterior rotation = " << r2 << std::endl;
-  std::cout << "Foot-Head rotation = " << r3 << std::endl;
-  std::cout << "Total = " << rtotal << std::endl;
+  std::cout << "Right-Left rotation = " << r1 << std::endl
+            << "Anterior-Posterior rotation = " << r2 << std::endl
+            << "Foot-Head rotation = " << r3 << std::endl
+            << "Total = " << rtotal << std::endl;
 #endif
 
   // Find and set origin

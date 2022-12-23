@@ -461,13 +461,13 @@ KLMSegmentationRegion::PrintRegionInfo()
   // If there are border pointers print the results
   RegionBorderVectorIterator tempVectorIt;
 
-  std::cout << "------------------------------" << std::endl;
-  std::cout << "Location   : " << this << std::endl;
-  std::cout << "Label      : " << (this->GetRegionLabel()) << std::endl;
-  std::cout << "Area       : " << (this->GetRegionArea()) << std::endl;
-  std::cout << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl;
-  std::cout << "Num Borders: " << static_cast<int>(m_RegionBorderVector.size()) << std::endl;
-  std::cout << "++++++++++++++++++++++++++++++" << std::endl;
+  std::cout << "------------------------------" << std::endl
+            << "Location   : " << this << std::endl
+            << "Label      : " << (this->GetRegionLabel()) << std::endl
+            << "Area       : " << (this->GetRegionArea()) << std::endl
+            << "Mean       : " << (this->GetMeanRegionIntensity()) << std::endl
+            << "Num Borders: " << static_cast<int>(m_RegionBorderVector.size()) << std::endl
+            << "++++++++++++++++++++++++++++++" << std::endl;
 
   // If there are border pointers print the results
   tempVectorIt = m_RegionBorderVector.begin();

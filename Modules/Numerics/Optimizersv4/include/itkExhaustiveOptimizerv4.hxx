@@ -129,8 +129,8 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::ResumeWalking()
     }
 
     m_StopConditionDescription.str("");
-    m_StopConditionDescription << this->GetNameOfClass() << ": Running. ";
-    m_StopConditionDescription << "@ index " << this->GetCurrentIndex() << " value is " << m_CurrentValue;
+    m_StopConditionDescription << this->GetNameOfClass() << ": Running. "
+                               << "@ index " << this->GetCurrentIndex() << " value is " << m_CurrentValue;
 
     this->InvokeEvent(IterationEvent());
     this->AdvanceOneStep();
@@ -190,8 +190,8 @@ ExhaustiveOptimizerv4<TInternalComputationValueType>::IncrementIndex(ParametersT
   {
     m_Stop = true;
     m_StopConditionDescription.str("");
-    m_StopConditionDescription << this->GetNameOfClass() << ": ";
-    m_StopConditionDescription << "Completed sampling of parametric space of size " << spaceDimension;
+    m_StopConditionDescription << this->GetNameOfClass() << ": "
+                               << "Completed sampling of parametric space of size " << spaceDimension;
   }
 
   const ScalesType & scales = this->GetScales();
