@@ -118,7 +118,7 @@ ZeroCrossingImageFilter<TInputImage, TOutputImage>::DynamicThreadedGenerateData(
 
   FixedArray<OffsetValueType, 2 * ImageDimension> offset;
 
-  bit = ConstNeighborhoodIterator<InputImageType>(radius, input, *faceList.begin());
+  bit = ConstNeighborhoodIterator<InputImageType>(radius, input, faceList.front());
   // Set the offset of the neighbors to the center pixel.
   for (i = 0; i < ImageDimension; ++i)
   {

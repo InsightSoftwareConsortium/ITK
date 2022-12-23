@@ -49,7 +49,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   decisionRule->SetPriorProbabilities(aPrioris);
   for (auto & value : aPrioris)
   {
-    auto index = &value - &*(aPrioris.begin());
+    auto index = &value - &aPrioris.front();
     ITK_TEST_SET_GET_VALUE(value, decisionRule->GetPriorProbabilities()[index]);
   }
 
@@ -64,7 +64,7 @@ itkMaximumRatioDecisionRuleTest(int, char *[])
   decisionRule->SetPriorProbabilities(aPrioris);
   for (auto & value : aPrioris)
   {
-    auto index = &value - &*(aPrioris.begin());
+    auto index = &value - &aPrioris.front();
     ITK_TEST_SET_GET_VALUE(value, decisionRule->GetPriorProbabilities()[index]);
   }
 

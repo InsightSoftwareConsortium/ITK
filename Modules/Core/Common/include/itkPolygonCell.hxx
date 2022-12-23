@@ -276,7 +276,7 @@ PolygonCell<TCellInterface>::PointIdsBegin() -> PointIdIterator
 {
   if (!m_PointIds.empty())
   {
-    return &*(m_PointIds.begin());
+    return &m_PointIds.front();
   }
   else
   {
@@ -295,7 +295,7 @@ PolygonCell<TCellInterface>::PointIdsBegin() const -> PointIdConstIterator
 {
   if (!m_PointIds.empty())
   {
-    return &*(m_PointIds.begin());
+    return &m_PointIds.front();
   }
   else
   {

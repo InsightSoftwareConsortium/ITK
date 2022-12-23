@@ -233,7 +233,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       while (!it.IsAtEnd())
       {
         it.Set(m_ReplaceValue);
-        if (it.GetIndex() == *m_Seeds2.begin())
+        if (it.GetIndex() == m_Seeds2.front())
         {
           break;
         }
@@ -298,7 +298,7 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::GenerateData()
       while (!it.IsAtEnd())
       {
         it.Set(m_ReplaceValue);
-        if (it.GetIndex() == *m_Seeds2.begin())
+        if (it.GetIndex() == m_Seeds2.front())
         {
           break;
         }
