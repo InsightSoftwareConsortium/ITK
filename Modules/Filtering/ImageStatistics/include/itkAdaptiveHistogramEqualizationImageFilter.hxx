@@ -58,13 +58,15 @@ AdaptiveHistogramEqualizationImageFilter<TImageType, TKernel>::PrintSelf(std::os
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "Alpha: " << m_Alpha << std::endl;
-  os << "Beta: " << m_Beta << std::endl;
+  os << indent << "Alpha: " << m_Alpha << std::endl;
+  os << indent << "Beta: " << m_Beta << std::endl;
 
-  os << "InputMinimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum) << std::endl;
-  os << "InputMaximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum) << std::endl;
+  os << indent << "InputMinimum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMinimum)
+     << std::endl;
+  os << indent << "InputMaximum: " << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_InputMaximum)
+     << std::endl;
 
-  os << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
+  os << indent << "UseLookupTable: " << (m_UseLookupTable ? "On" : "Off") << std::endl;
 }
 } // namespace itk
 

@@ -42,8 +42,8 @@ MeanReciprocalSquareDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Pri
                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Lambda factor = " << m_Lambda << std::endl;
-  os << "Delta  value  = " << m_Delta << std::endl;
+  os << indent << "Lambda factor = " << m_Lambda << std::endl;
+  os << indent << "Delta  value  = " << m_Delta << std::endl;
 }
 
 /*

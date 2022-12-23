@@ -135,7 +135,7 @@ WindowConvergenceMonitoringFunction<TScalar>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "Window size: " << this->m_WindowSize << std::endl;
+  os << indent << "Window size: " << this->m_WindowSize << std::endl;
 }
 
 } // end namespace Function

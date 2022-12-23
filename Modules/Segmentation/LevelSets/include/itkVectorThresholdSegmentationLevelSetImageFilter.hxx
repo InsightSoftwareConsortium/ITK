@@ -37,7 +37,7 @@ VectorThresholdSegmentationLevelSetImageFilter<TInputImage, TFeatureImage, TOutp
                                                                                                    Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "ThresholdFunction: " << m_ThresholdFunction;
+  os << indent << "ThresholdFunction: " << m_ThresholdFunction;
 }
 } // end namespace itk
 

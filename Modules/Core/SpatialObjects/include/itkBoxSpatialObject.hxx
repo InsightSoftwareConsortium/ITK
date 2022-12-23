@@ -102,8 +102,8 @@ void
 BoxSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Object Size: " << m_SizeInObjectSpace << std::endl;
-  os << "Object Position: " << m_PositionInObjectSpace << std::endl;
+  os << indent << "Object Size: " << m_SizeInObjectSpace << std::endl;
+  os << indent << "Object Position: " << m_PositionInObjectSpace << std::endl;
 }
 } // end namespace itk
 

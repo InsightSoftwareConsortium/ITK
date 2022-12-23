@@ -91,7 +91,7 @@ OtsuMultipleThresholdsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
   os << indent << "Thresholds: " << std::endl;
   for (SizeValueType j = 0; j < m_Thresholds.size(); ++j)
   {
-    os << "\tThreshold #" << j << ": "
+    os << indent << "\tThreshold #" << j << ": "
        << static_cast<typename NumericTraits<InputPixelType>::PrintType>(m_Thresholds[j]) << std::endl;
   }
 }

@@ -405,9 +405,10 @@ TileImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent 
 {
   Superclass::PrintSelf(os, indent);
 
-  os << "DefaultPixelValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_DefaultPixelValue)
+  os << indent
+     << "DefaultPixelValue: " << static_cast<typename NumericTraits<OutputPixelType>::PrintType>(m_DefaultPixelValue)
      << std::endl;
-  os << "Layout: " << m_Layout << std::endl;
+  os << indent << "Layout: " << m_Layout << std::endl;
 }
 } // end namespace itk
 #endif
