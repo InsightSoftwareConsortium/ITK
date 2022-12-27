@@ -93,6 +93,9 @@ itkInvertDisplacementFieldImageFilterTest(int argc, char * argv[])
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(inverter, InvertDisplacementFieldImageFilter, ImageToImageFilter);
 
+  auto interpolator = InverterType::DefaultInterpolatorType::New();
+  inverter->SetInterpolator(interpolator);
+  ITK_TEST_SET_GET_VALUE(interpolator, inverter->GetInterpolator());
 
   auto numberOfIterations = static_cast<unsigned int>(std::stoi(argv[1]));
   inverter->SetMaximumNumberOfIterations(numberOfIterations);

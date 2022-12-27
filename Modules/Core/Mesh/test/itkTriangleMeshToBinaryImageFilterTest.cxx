@@ -28,6 +28,7 @@
 #include "itkDefaultDynamicMeshTraits.h"
 #include "itkImageFileWriter.h"
 #include "itkTriangleMeshToBinaryImageFilter.h"
+#include "itkTestingMacros.h"
 
 int
 itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
@@ -63,6 +64,13 @@ itkTriangleMeshToBinaryImageFilterTest(int argc, char * argv[])
 
   using TriangleMeshToBinaryImageFilterType = itk::TriangleMeshToBinaryImageFilter<TriangleMeshType, ImageType>;
   auto imageFilter = TriangleMeshToBinaryImageFilterType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(imageFilter, TriangleMeshToBinaryImageFilter, ImageSource);
+
+
+  ITK_TRY_EXPECT_EXCEPTION(imageFilter->Update());
+
+
   imageFilter->SetInput(mySphereMeshSource->GetOutput());
   ImageType::SizeType size;
 

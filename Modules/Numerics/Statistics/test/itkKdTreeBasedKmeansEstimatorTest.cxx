@@ -100,8 +100,8 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   /* Searching kmeans */
   using Estimator = stat::KdTreeBasedKmeansEstimator<Generator::KdTreeType>;
   auto estimator = Estimator::New();
-  std::cout << estimator->GetNameOfClass() << std::endl;
-  estimator->Print(std::cout);
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(estimator, KdTreeBasedKmeansEstimator, Object);
 
 
   // Set the initial means

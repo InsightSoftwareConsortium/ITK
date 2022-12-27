@@ -32,6 +32,11 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
   std::cout << "GetNameOfClass() = " << functionBase0->GetNameOfClass() << std::endl;
   functionBase0->Print(std::cout);
 
+  constexpr double epsilon = -1.0;
+
+  ITK_TRY_EXPECT_EXCEPTION(functionBase0->SetEpsilon(epsilon));
+
+
   constexpr double epsilon0 = 1.0;
   const double     epsilon1 = 1e-4;
 

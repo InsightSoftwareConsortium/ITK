@@ -35,6 +35,8 @@ itkIdentityTransformTest(int, char *[])
   using IdentityTransformType = itk::IdentityTransform<double>;
   auto transform = IdentityTransformType::New();
 
+  std::cout << "FixedParameters: " << transform->GetFixedParameters() << std::endl;
+
   std::cout << "Testing TransformPoint: ";
   IdentityTransformType::InputPointType  p(10);
   IdentityTransformType::OutputPointType r;
