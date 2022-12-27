@@ -32,9 +32,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template <typename TInputMesh, typename TOutputMesh>
 MeshToMeshFilter<TInputMesh, TOutputMesh>::MeshToMeshFilter()
 {
@@ -42,9 +40,6 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::MeshToMeshFilter()
   this->SetNumberOfRequiredInputs(1);
 }
 
-/**
- *
- */
 template <typename TInputMesh, typename TOutputMesh>
 void
 MeshToMeshFilter<TInputMesh, TOutputMesh>::SetInput(const TInputMesh * input)
@@ -53,9 +48,6 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::SetInput(const TInputMesh * input)
   this->ProcessObject::SetNthInput(0, const_cast<TInputMesh *>(input));
 }
 
-/**
- *
- */
 template <typename TInputMesh, typename TOutputMesh>
 auto
 MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput() const -> const InputMeshType *
@@ -63,9 +55,6 @@ MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput() const -> const InputMeshTy
   return itkDynamicCastInDebugMode<const TInputMesh *>(this->GetPrimaryInput());
 }
 
-/**
- *
- */
 template <typename TInputMesh, typename TOutputMesh>
 auto
 MeshToMeshFilter<TInputMesh, TOutputMesh>::GetInput(unsigned int idx) const -> const InputMeshType *
