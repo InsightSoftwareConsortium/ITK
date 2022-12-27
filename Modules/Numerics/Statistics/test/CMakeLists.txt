@@ -124,7 +124,7 @@ itk_add_test(NAME itkKalmanLinearEstimatorTest
       COMMAND ITKStatisticsTestDriver itkKalmanLinearEstimatorTest)
 itk_add_test(NAME itkKdTreeBasedKmeansEstimatorTest
       COMMAND ITKStatisticsTestDriver itkKdTreeBasedKmeansEstimatorTest
-              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat} 1 28.54746 0.07)
+              DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat} 1 28.54746 0.07 0)
 itk_add_test(NAME itkKdTreeGeneratorTest
       COMMAND ITKStatisticsTestDriver itkKdTreeGeneratorTest
               DATA{${ITK_DATA_ROOT}/Input/Statistics/TwoDimensionTwoGaussian.dat})
