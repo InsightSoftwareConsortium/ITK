@@ -207,7 +207,7 @@ private:
    * A variable to store this derived type.
    * \author Hans J. Johnson
    */
-  MetaDataObjectType m_MetaDataObjectValue;
+  MetaDataObjectType m_MetaDataObjectValue{};
 };
 
 /**
