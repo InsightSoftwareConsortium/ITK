@@ -22,7 +22,7 @@
 int POWELL_CALLS_TO_GET_VALUE = 0;
 
 /**
- *  The objectif function is the quadratic form:
+ *  The objective function is the quadratic form:
  *
  *  1/2 x^T A x - b^T x
  *
