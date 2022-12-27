@@ -205,7 +205,6 @@ private:
 } // end namespace itk
 
 
-/** test */
 int
 itkImageToSpatialObjectRegistrationTest(int, char *[])
 {
@@ -368,7 +367,7 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
     return EXIT_FAILURE;
   }
 
-  /** Setup the optimizer */
+  // Setup the optimizer
   TransformType::ParametersType m_ParametersScale;
   m_ParametersScale.set_size(3);
 
@@ -465,6 +464,6 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
     }
   }
 
-  std::cout << "Test Succeed!" << std::endl;
+  std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;
 }

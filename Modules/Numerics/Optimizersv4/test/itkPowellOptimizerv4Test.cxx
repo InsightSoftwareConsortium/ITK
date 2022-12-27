@@ -225,9 +225,7 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
   }
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
-  std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
   std::cout << "StopConditionDescription: " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   //
@@ -242,8 +240,7 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
   }
 
   // Exercise various member functions.
-  std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
-  std::cout << std::endl;
+  std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration() << std::endl;
   std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << std::endl;
   std::cout << "CurrentCost (through GetValue): " << itkOptimizer->GetValue() << std::endl;
   std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << std::endl;
