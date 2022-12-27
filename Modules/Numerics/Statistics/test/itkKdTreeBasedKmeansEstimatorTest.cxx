@@ -41,8 +41,8 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   char * dataFileName = argv[1];
   int    dataSize = 2000;
-  int    bucketSize = std::stoi(argv[3]);
-  double minStandardDeviation = std::stod(argv[2]);
+  int    bucketSize = std::stoi(argv[2]);
+  double minStandardDeviation = std::stod(argv[3]);
 
   itk::Array<double> trueMeans(4);
   trueMeans[0] = 99.261;
@@ -160,7 +160,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     std::cout << "    Mean displacement: " << std::endl;
     std::cout << "        " << displacement << std::endl << std::endl;
 
-    double tolearancePercent = std::stod(argv[3]);
+    double tolearancePercent = std::stod(argv[4]);
 
     // if the displacement of the estimates are within tolearancePercent% of
     // standardDeviation then we assume it is successful
