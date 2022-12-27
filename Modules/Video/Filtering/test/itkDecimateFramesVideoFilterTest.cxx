@@ -112,7 +112,7 @@ itkDecimateFramesVideoFilterTest(int argc, char * argv[])
   // Run the pipeline
   //////
 
-  // Register FileListIO with the factory -- shouldn't have to do this. Needs fixing
+  // Register FileListVideoIO with the factory -- shouldn't have to do this. Needs fixing
   itk::ObjectFactoryBase::RegisterFactory(itk::FileListVideoIOFactory::New());
 
   // For the sake of debugging output, just use one thread

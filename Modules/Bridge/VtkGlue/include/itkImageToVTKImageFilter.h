@@ -27,10 +27,10 @@ namespace itk
 
 /**
  * \class ImageToVTKImageFilter
- * \brief Converts an ITK image into a VTK image and plugs a
- *  itk data pipeline to a VTK datapipeline.
+ * \brief Converts an ITK Image into a VTK image and plugs a
+ *  ITK data pipeline to a VTK data pipeline.
  *
- *  This class puts together an itkVTKImageExporter and a vtkImageImporter.
+ *  This class puts together VTKImageExport and vtkImageImport objects.
  *  It takes care of the details related to the connection of ITK and VTK
  *  pipelines. The User will perceive this filter as an adaptor to which
  *  an itk::Image can be plugged as input and a vtkImage is produced as
@@ -69,7 +69,7 @@ public:
   using ExporterFilterPointer = typename ExporterFilterType::Pointer;
 
   /** Get the output in the form of a vtkImage.
-      This call is delegated to the internal vtkImageImporter filter  */
+      This call is delegated to the internal vtkImageImport filter  */
   vtkImageData *
   GetOutput() const;
 
