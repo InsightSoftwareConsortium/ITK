@@ -109,11 +109,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 
   // Set the maximum iteration
   estimator->SetMaximumIteration(maximumIteration);
-  if (estimator->GetMaximumIteration() != maximumIteration)
-  {
-    std::cerr << "Error in Set/GetMaximum Iteration" << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TEST_SET_GET_VALUE(maximumIteration, estimator->GetMaximumIteration());
 
   estimator->SetKdTree(generator->GetOutput());
 
