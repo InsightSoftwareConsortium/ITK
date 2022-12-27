@@ -39,7 +39,8 @@ void
 PointSetFunction<TInputPointSet, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "InputPointSet: " << m_PointSet.GetPointer() << std::endl;
+
+  itkPrintSelfObjectMacro(PointSet);
 }
 
 /**
