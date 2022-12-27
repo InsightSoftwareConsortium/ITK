@@ -52,6 +52,6 @@
 #endif
 
 #include <vcl_where_root_dir.h>
-#include <vcl_deprecated.h>
+// #include <vcl_deprecated.h> // This causes compile warnings
 
 int main() { return 0; }
