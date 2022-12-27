@@ -216,7 +216,7 @@ itkFrameAverageVideoFilterTest(int argc, char * argv[])
   // Now test with reading from a file
   //////
 
-  // Register FileListIO with the factory -- shouldn't have to do this. Needs fixing
+  // Register FileListVideoIO with the factory -- shouldn't have to do this. Needs fixing
   itk::ObjectFactoryBase::RegisterFactory(itk::FileListVideoIOFactory::New());
 
   // Set up reader and writer
