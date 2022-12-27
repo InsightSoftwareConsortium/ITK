@@ -297,7 +297,10 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   mf->SetIterations(n);
   mf->SetInput(im_init);
   mf->SetNumberOfWorkUnits(numberOfWorkUnits);
-  mf->SetNumberOfLayers(3);
+
+  typename PSFLSIFT::MorphFilter::StatusType numberOfLayers = 3;
+  mf->SetNumberOfLayers(numberOfLayers);
+  ITK_TEST_SET_GET_VALUE(numberOfLayers, mf->GetNumberOfLayers());
 
   try
   {

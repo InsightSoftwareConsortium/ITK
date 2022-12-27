@@ -310,6 +310,8 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   itkOptimizer->SetBoundSelection(select);
   ITK_TEST_SET_GET_VALUE(select, itkOptimizer->GetBoundSelection());
 
+  ITK_TEST_EXPECT_TRUE(!itkOptimizer->CanUseScales());
+
   auto eventChecker = EventChecker::New();
   itkOptimizer->AddObserver(itk::StartEvent(), eventChecker);
   itkOptimizer->AddObserver(itk::IterationEvent(), eventChecker);

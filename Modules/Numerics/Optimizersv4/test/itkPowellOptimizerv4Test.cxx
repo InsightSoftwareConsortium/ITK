@@ -245,6 +245,7 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
   std::cout << "CurrentIteration: " << itkOptimizer->GetCurrentIteration();
   std::cout << std::endl;
   std::cout << "CurrentCost: " << itkOptimizer->GetCurrentCost() << std::endl;
+  std::cout << "CurrentCost (through GetValue): " << itkOptimizer->GetValue() << std::endl;
   std::cout << "CurrentLineIteration: " << itkOptimizer->GetCurrentLineIteration() << std::endl;
 
   std::cout << "Calls to GetValue = " << POWELL_CALLS_TO_GET_VALUE << std::endl;
