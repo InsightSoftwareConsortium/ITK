@@ -204,18 +204,6 @@ public:
   const char *
   GetLibraryPath();
 
-  /** \class OverrideInformation
-   * \brief Internal implementation class for ObjectFactorBase.
-   * \ingroup ITKCommon
-   */
-  struct OverrideInformation
-  {
-    std::string                       m_Description;
-    std::string                       m_OverrideWithName;
-    bool                              m_EnabledFlag;
-    CreateObjectFunctionBase::Pointer m_CreateObject;
-  };
-
   /** Registers the specified internal factory only once, even when `RegisterInternalFactoryOnce<TFactory>()` is called
    * multiple times (possibly even by multiple threads) for the very same factory. */
   template <typename TFactory>
