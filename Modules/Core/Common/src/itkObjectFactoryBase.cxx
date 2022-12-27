@@ -40,6 +40,18 @@
 
 namespace
 {
+/** \class OverrideInformation
+ * \brief Internal implementation class for ObjectFactorBase.
+ * \ingroup ITKCommon
+ */
+struct OverrideInformation
+{
+  std::string                            m_Description;
+  std::string                            m_OverrideWithName;
+  bool                                   m_EnabledFlag;
+  itk::CreateObjectFunctionBase::Pointer m_CreateObject;
+};
+
 
 using FactoryListType = std::list<itk::ObjectFactoryBase *>;
 
@@ -718,7 +730,7 @@ ObjectFactoryBase::RegisterOverride(const char *               classOverride,
                                     bool                       enableFlag,
                                     CreateObjectFunctionBase * createFunction)
 {
-  ObjectFactoryBase::OverrideInformation info;
+  OverrideInformation info;
 
   info.m_Description = description;
   info.m_OverrideWithName = subclass;
