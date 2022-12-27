@@ -74,9 +74,9 @@ protected:
   using PZwQuerySystemInformation = NTSTATUS(WINAPI *)(UINT, PVOID, ULONG, PULONG);
 
   // handle ntdll.dll library
-  HMODULE m_hNTLib;
+  HMODULE m_hNTLib{ nullptr };
   // Windows native API function to query system information
-  PZwQuerySystemInformation ZwQuerySystemInformation;
+  PZwQuerySystemInformation ZwQuerySystemInformation{ nullptr };
 #  endif // defined(SUPPORT_TOOLHELP32)
 };
 #endif // defined(WIN32) || defined(_WIN32)
