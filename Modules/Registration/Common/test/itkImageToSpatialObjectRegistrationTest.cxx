@@ -293,79 +293,26 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   std::cout << "Number of Parameters  : " << metric->GetNumberOfParameters() << std::endl;
   ITK_TEST_EXPECT_EQUAL(metric->GetNumberOfParameters(), 3);
 
-  bool catching;
-  try
-  {
-    catching = false;
-    registration->Update();
-  }
-  catch (...)
-  {
-    catching = true;
-  }
-
-  if (!catching)
-  {
-    std::cout << "Test failed!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Test exception
+  ITK_TRY_EXPECT_EXCEPTION(registration->Update());
 
   registration->SetFixedImage(image);
   ITK_TEST_SET_GET_VALUE(image, registration->GetFixedImage());
 
-  try
-  {
-    catching = false;
-    registration->Update();
-  }
-  catch (...)
-  {
-    catching = true;
-  }
-
-  if (!catching)
-  {
-    std::cout << "Test failed!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Test exception
+  ITK_TRY_EXPECT_EXCEPTION(registration->Update());
 
   registration->SetMovingSpatialObject(group);
   ITK_TEST_SET_GET_VALUE(group, registration->GetMovingSpatialObject());
 
-  try
-  {
-    catching = false;
-    registration->Update();
-  }
-  catch (...)
-  {
-    catching = true;
-  }
-
-  if (!catching)
-  {
-    std::cout << "Test failed!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Test exception
+  ITK_TRY_EXPECT_EXCEPTION(registration->Update());
 
   registration->SetMetric(metric);
   ITK_TEST_SET_GET_VALUE(metric, registration->GetMetric());
 
-  try
-  {
-    catching = false;
-    registration->Update();
-  }
-  catch (...)
-  {
-    catching = true;
-  }
-
-  if (!catching)
-  {
-    std::cout << "Test failed!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Test exception
+  ITK_TRY_EXPECT_EXCEPTION(registration->Update());
 
   // Setup the optimizer
   TransformType::ParametersType m_ParametersScale;
@@ -409,42 +356,14 @@ itkImageToSpatialObjectRegistrationTest(int, char *[])
   registration->SetOptimizer(optimizer);
   ITK_TEST_SET_GET_VALUE(optimizer, registration->GetOptimizer());
 
-  try
-  {
-    catching = false;
-    registration->Update();
-  }
-  catch (...)
-  {
-    catching = true;
-  }
-
-  if (!catching)
-  {
-    std::cout << "Test failed!" << std::endl;
-    return EXIT_FAILURE;
-  }
-
+  // Test exception
+  ITK_TRY_EXPECT_EXCEPTION(registration->Update());
 
   registration->SetTransform(transform);
   ITK_TEST_SET_GET_VALUE(transform, registration->GetTransform());
 
-
-  try
-  {
-    catching = false;
-    registration->Update();
-  }
-  catch (...)
-  {
-    catching = true;
-  }
-
-  if (!catching)
-  {
-    std::cout << "Test failed!" << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Test exception
+  ITK_TRY_EXPECT_EXCEPTION(registration->Update());
 
   registration->SetInterpolator(interpolator);
   ITK_TEST_SET_GET_VALUE(interpolator, registration->GetInterpolator());

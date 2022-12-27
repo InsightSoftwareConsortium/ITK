@@ -88,16 +88,8 @@ InternalTest(int argc, char * argv[])
   auto reader = ReaderType::New();
   reader->SetFileName(argv[1]);
 
-  try
-  {
-    reader->Update();
-  }
-  catch (const itk::ExceptionObject & err)
-  {
-    std::cout << "ExceptionObject caught !" << std::endl;
-    std::cout << err << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(reader->Update());
+
 
   // Store the input image for convenience
   typename ImageType::Pointer image = reader->GetOutput();
@@ -161,15 +153,8 @@ InternalTest(int argc, char * argv[])
   // Set the input mesh for the parametric filter
   parametricFilter->SetInput(mesh);
 
-  try
-  {
-    parametricFilter->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Error: " << e.what() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(parametricFilter->Update());
+
 
   if (parametricFilter->GetOutput()->GetNumberOfPoints() != mesh->GetNumberOfPoints())
   {

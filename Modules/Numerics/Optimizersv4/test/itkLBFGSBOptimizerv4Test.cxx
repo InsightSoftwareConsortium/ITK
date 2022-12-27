@@ -317,18 +317,8 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   itkOptimizer->AddObserver(itk::IterationEvent(), eventChecker);
   itkOptimizer->AddObserver(itk::EndEvent(), eventChecker);
 
-  try
-  {
-    itkOptimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
+
 
   const OptimizerType::ParametersType & finalPosition = itkOptimizer->GetCurrentPosition();
 
@@ -402,18 +392,8 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   metric->SetParameters(initialValue);
   itkOptimizer->SetNumberOfIterations(1);
 
-  try
-  {
-    itkOptimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
+
 
   std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
@@ -460,18 +440,8 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   itkOptimizer2->AddObserver(itk::IterationEvent(), eventChecker);
   itkOptimizer2->AddObserver(itk::EndEvent(), eventChecker);
 
-  try
-  {
-    itkOptimizer2->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << "Exception thrown ! " << std::endl;
-    std::cerr << "An error occurred during Optimization" << std::endl;
-    std::cerr << "Location    = " << e.GetLocation() << std::endl;
-    std::cerr << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer2->StartOptimization());
+
 
   std::cout << "Boundaries after optimization: " << std::endl;
   std::cout << "Upper bound size: " << itkOptimizer2->GetUpperBound().size() << std::endl;

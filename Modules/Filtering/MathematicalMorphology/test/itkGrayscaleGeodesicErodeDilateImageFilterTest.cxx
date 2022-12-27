@@ -107,16 +107,8 @@ itkGrayscaleGeodesicErodeDilateImageFilterTest(int argc, char * argv[])
   itk::SimpleFilterWatcher watchDilate(dilate);
   itk::SimpleFilterWatcher watchErode(erode);
 
-  // Execute the filter
-  try
-  {
-    writer->Update();
-  }
-  catch (const itk::ExceptionObject & excp)
-  {
-    std::cerr << "Exception caught:" << excp << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
+
 
   std::cout << "Test finished." << std::endl;
   return EXIT_SUCCESS;

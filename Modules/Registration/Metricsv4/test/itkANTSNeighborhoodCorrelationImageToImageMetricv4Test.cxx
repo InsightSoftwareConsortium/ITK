@@ -261,60 +261,23 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   std::cout << "movingImage:" << std::endl;
   ANTSNeighborhoodCorrelationImageToImageMetricv4Test_PrintImage(movingImage);
 
-  /* Initialize. */
-  try
-  {
-    std::cout << "Calling Initialize..." << std::endl;
-    metric->Initialize();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during Initialize: " << exc;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Initialize
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
+
 
   // Evaluate
   MetricType::MeasureType    valueReturn1;
   MetricType::DerivativeType derivativeReturn;
-  try
-  {
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
-    metric->GetValueAndDerivative(valueReturn1, derivativeReturn);
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during GetValueAndDerivative: " << exc;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->GetValueAndDerivative(valueReturn1, derivativeReturn));
 
-  /* Re-initialize. */
-  try
-  {
-    std::cout << "Calling Initialize..." << std::endl;
-    metric->Initialize();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during re-initialize: " << exc;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+  // Re-initialize
+  ITK_TRY_EXPECT_NO_EXCEPTION(metric->Initialize());
+
 
   // Evaluate with GetValue
   MetricType::MeasureType valueReturn2;
-  try
-  {
-    std::cout << "Calling GetValue..." << std::endl;
-    valueReturn2 = metric->GetValue();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during GetValue: " << exc;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(valueReturn2 = metric->GetValue());
+
 
   // Test same value returned by different methods
   std::cout << "Check Value return values..." << std::endl;
@@ -368,31 +331,13 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   metricSparse->SetFixedSampledPointSet(pset);
   metricSparse->SetUseSampledPointSet(true);
 
-  try
-  {
-    metricSparse->Initialize();
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during Initialize() for sparse threader: " << exc;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->Initialize());
+
 
   MetricType::MeasureType    valueReturnSparse;
   MetricType::DerivativeType derivativeReturnSparse;
+  ITK_TRY_EXPECT_NO_EXCEPTION(metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse));
 
-  try
-  {
-    std::cout << "Calling GetValueAndDerivative..." << std::endl;
-    metricSparse->GetValueAndDerivative(valueReturnSparse, derivativeReturnSparse);
-  }
-  catch (const itk::ExceptionObject & exc)
-  {
-    std::cerr << "Caught unexpected exception during GetValueAndDrivative() for sparse threader: " << exc;
-    std::cerr << "Test FAILED." << std::endl;
-    return EXIT_FAILURE;
-  }
 
   std::cout << "Check Value return values between dense and sparse threader..." << std::endl;
   std::cout << "dense: " << valueReturn1 << ", sparse: " << valueReturnSparse << std::endl;
