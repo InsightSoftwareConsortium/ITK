@@ -156,6 +156,7 @@ public:
 
   itkSetMacro(UseClusterLabels, bool);
   itkGetConstMacro(UseClusterLabels, bool);
+  itkBooleanMacro(UseClusterLabels);
 
 protected:
   KdTreeBasedKmeansEstimator();

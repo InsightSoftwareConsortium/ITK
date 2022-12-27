@@ -29,12 +29,12 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
 {
   namespace stat = itk::Statistics;
 
-  if (argc < 4)
+  if (argc < 5)
   {
     std::cerr << "Missing Arguments" << std::endl;
     std::cerr << "Usage: " << std::endl;
-    std::cerr << itkNameOfTestExecutableMacro(argv) << "inputFileName  bucketSize minStandardDeviation tolerancePercent"
-              << std::endl;
+    std::cerr << itkNameOfTestExecutableMacro(argv)
+              << "inputFileName  bucketSize minStandardDeviation tolerancePercent useClusterLabels" << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -126,6 +126,8 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
+  auto useClusterLabels = static_cast<bool>(std::stoi(argv[5]));
+  ITK_TEST_SET_GET_BOOLEAN(estimator, UseClusterLabels, useClusterLabels);
 
   estimator->StartOptimization();
   Estimator::ParametersType estimatedMeans = estimator->GetParameters();
