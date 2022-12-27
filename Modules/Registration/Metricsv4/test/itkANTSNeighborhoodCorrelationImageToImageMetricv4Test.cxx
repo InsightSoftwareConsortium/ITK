@@ -243,11 +243,11 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
   metric->SetRadius(neighborhoodRadius0);
   ITK_TEST_SET_GET_VALUE(neighborhoodRadius0, metric->GetRadius());
 
-  itk::Size<ImageDimension> neighborhood_radius;
-  neighborhood_radius.Fill(1);
+  itk::Size<ImageDimension> neighborhoodRadius;
+  neighborhoodRadius.Fill(1);
 
-  metric->SetRadius(neighborhood_radius);
-  ITK_TEST_SET_GET_VALUE(neighborhood_radius, metric->GetRadius());
+  metric->SetRadius(neighborhoodRadius);
+  ITK_TEST_SET_GET_VALUE(neighborhoodRadius, metric->GetRadius());
 
   metric->SetFixedImage(fixedImage);
   metric->SetMovingImage(movingImage);
@@ -360,7 +360,7 @@ itkANTSNeighborhoodCorrelationImageToImageMetricv4Test(int, char ** const)
 
   /* run the metric with the sparse threader */
   MetricTypePointer metricSparse = MetricType::New();
-  metricSparse->SetRadius(neighborhood_radius);
+  metricSparse->SetRadius(neighborhoodRadius);
   metricSparse->SetFixedImage(fixedImage);
   metricSparse->SetMovingImage(movingImage);
   metricSparse->SetFixedTransform(transformFId);

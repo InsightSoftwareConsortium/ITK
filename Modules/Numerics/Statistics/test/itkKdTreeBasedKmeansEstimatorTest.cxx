@@ -65,19 +65,19 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   pointsContainer->Reserve(dataSize);
   pointSet->SetPoints(pointsContainer);
 
-  PointSetType::PointsContainerIterator p_iter = pointsContainer->Begin();
+  PointSetType::PointsContainerIterator pIter = pointsContainer->Begin();
   PointSetType::PointType               point;
   double                                temp;
   std::ifstream                         dataStream(dataFileName);
-  while (p_iter != pointsContainer->End())
+  while (pIter != pointsContainer->End())
   {
     for (i = 0; i < PointSetType::PointDimension; ++i)
     {
       dataStream >> temp;
       point[i] = temp;
     }
-    p_iter.Value() = point;
-    ++p_iter;
+    pIter.Value() = point;
+    ++pIter;
   }
 
   dataStream.close();
