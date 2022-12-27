@@ -299,14 +299,8 @@ itkParallelSparseFieldLevelSetImageFilterTest(int argc, char * argv[])
   mf->SetNumberOfWorkUnits(numberOfWorkUnits);
   mf->SetNumberOfLayers(3);
 
-  try
-  {
-    mf->Update();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cerr << e << std::endl;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(mf->Update());
+
 
   mf->GetOutput()->Print(std::cout);
 
