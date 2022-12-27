@@ -22,18 +22,12 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TInputPointSet, typename TOutput, typename TCoordRep>
 PointSetFunction<TInputPointSet, TOutput, TCoordRep>::PointSetFunction()
 {
   this->m_PointSet = nullptr;
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <typename TInputPointSet, typename TOutput, typename TCoordRep>
 void
 PointSetFunction<TInputPointSet, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -43,9 +37,6 @@ PointSetFunction<TInputPointSet, TOutput, TCoordRep>::PrintSelf(std::ostream & o
   itkPrintSelfObjectMacro(PointSet);
 }
 
-/**
- * Initialize by setting the input point set
- */
 template <typename TInputPointSet, typename TOutput, typename TCoordRep>
 void
 PointSetFunction<TInputPointSet, TOutput, TCoordRep>::SetInputPointSet(const InputPointSetType * ptr)
