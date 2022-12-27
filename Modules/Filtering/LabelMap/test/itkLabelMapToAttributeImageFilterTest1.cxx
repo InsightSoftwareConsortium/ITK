@@ -57,16 +57,16 @@ itkLabelMapToAttributeImageFilterTest1(int argc, char * argv[])
   auto i2l = I2LType::New();
   i2l->SetInput(reader->GetOutput());
 
-  using L2ImageType =
+  using L2ImageFilterType =
     itk::LabelMapToAttributeImageFilter<LabelMapType,
                                         ImageType,
                                         itk::Functor::NumberOfPixelsLabelObjectAccessor<LabelMapType::LabelObjectType>>;
-  auto l2i = L2ImageType::New();
+  auto l2i = L2ImageFilterType::New();
 
   ITK_EXERCISE_BASIC_OBJECT_METHODS(l2i, LabelMapToAttributeImageFilter, ImageToImageFilter);
 
 
-  auto backgroundValue = itk::NumericTraits<typename L2ImageType::OutputImagePixelType>::NonpositiveMin();
+  auto backgroundValue = itk::NumericTraits<typename L2ImageFilterType::OutputImagePixelType>::NonpositiveMin();
   l2i->SetBackgroundValue(backgroundValue);
   ITK_TEST_SET_GET_VALUE(backgroundValue, l2i->GetBackgroundValue());
 
