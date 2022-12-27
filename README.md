@@ -70,6 +70,12 @@ or
 conda install -c conda-forge itk
 ```
 
+If you're a [Homebrew](https://brew.sh/) user, you can install [itk](https://formulae.brew.sh/formula/itk) via:
+
+```sh
+brew install itk
+```
+
 The cross-platform, C++ core of the toolkit may be built from source using
 [CMake](https://cmake.org).
 
