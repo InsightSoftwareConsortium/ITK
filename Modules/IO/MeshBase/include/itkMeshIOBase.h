@@ -761,7 +761,7 @@ protected:
     }
   }
 
-  /** Write cells to a data buffer, used when readding mesh, used for cellType
+  /** Write cells to a data buffer, used when reading a mesh. Used for cellType
     with constant number of points */
   template <typename TInput, typename TOutput>
   void

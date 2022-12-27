@@ -134,7 +134,7 @@ protected:
       data.get(), this->m_NumberOfPoints * this->m_PointDimension, &outputFile);
   }
 
-  /** Write cells to utput stream */
+  /** Write cells to output stream */
   template <typename T>
   void
   WriteCells(T * buffer, std::ofstream & outputFile)

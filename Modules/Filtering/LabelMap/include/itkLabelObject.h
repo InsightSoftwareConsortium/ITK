@@ -28,7 +28,7 @@ namespace itk
 {
 /**
  * \class LabelObject
- *  \brief The base class for the representation of an labeled binary object in an image.
+ *  \brief The base class for the representation of a labeled binary object in an image.
  *
  * LabelObject is the base class to represent a labeled object in an image.
  * It should be used associated with the LabelMap.

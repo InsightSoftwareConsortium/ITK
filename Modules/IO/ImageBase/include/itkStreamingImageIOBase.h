@@ -106,7 +106,7 @@ protected:
   virtual bool
   RequestedToStream() const;
 
-  /** \brief Reimplemented from super class to get around 2GB
+  /** \brief Reimplemented from superclass to get around 2GB
    * read/write limitation
    *
    * \todo Move this method to itk::ImageIOBase
