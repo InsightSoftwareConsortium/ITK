@@ -58,6 +58,10 @@ itkStatisticsPositionLabelMapFilterTest1(int argc, char * argv[])
 
   using OpeningType = itk::StatisticsPositionLabelMapFilter<I2LType::OutputImageType>;
   auto opening = OpeningType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(opening, StatisticsPositionLabelMapFilter, ShapePositionLabelMapFilter);
+
+
   opening->SetInput(i2l->GetOutput());
   opening->SetAttribute(argv[4]);
   itk::SimpleFilterWatcher watcher(opening, "filter");
