@@ -68,7 +68,7 @@ public:
   itkNewMacro(Self);
 
   /** Runtime information support. */
-  itkTypeMacro(StatisticsPositionLabelMapFilter, InPlaceLabelMapFilter);
+  itkTypeMacro(StatisticsPositionLabelMapFilter, ShapePositionLabelMapFilter);
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
