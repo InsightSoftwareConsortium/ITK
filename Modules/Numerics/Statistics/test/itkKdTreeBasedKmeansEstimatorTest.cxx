@@ -38,12 +38,11 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     return EXIT_FAILURE;
   }
 
-  unsigned int i;
-  unsigned int j;
-  char *       dataFileName = argv[1];
-  int          dataSize = 2000;
-  int          bucketSize = std::stoi(argv[3]);
-  double       minStandardDeviation = std::stod(argv[2]);
+
+  char * dataFileName = argv[1];
+  int    dataSize = 2000;
+  int    bucketSize = std::stoi(argv[3]);
+  double minStandardDeviation = std::stod(argv[2]);
 
   itk::Array<double> trueMeans(4);
   trueMeans[0] = 99.261;
@@ -71,7 +70,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   std::ifstream                         dataStream(dataFileName);
   while (pIter != pointsContainer->End())
   {
-    for (i = 0; i < PointSetType::PointDimension; ++i)
+    for (unsigned int i = 0; i < PointSetType::PointDimension; ++i)
     {
       dataStream >> temp;
       point[i] = temp;
@@ -132,14 +131,14 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
   int                index;
   const unsigned int numberOfMeasurements = sample->GetMeasurementVectorSize();
   const unsigned int numberOfClasses = trueMeans.size() / numberOfMeasurements;
-  for (i = 0; i < numberOfClasses; ++i)
+  for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
     std::cout << "cluster[" << i << "] " << std::endl;
     double displacement = 0.0;
     std::cout << "    true mean :" << std::endl;
     std::cout << "        ";
     index = numberOfMeasurements * i;
-    for (j = 0; j < numberOfMeasurements; ++j)
+    for (unsigned int j = 0; j < numberOfMeasurements; ++j)
     {
       std::cout << trueMeans[index] << " ";
       ++index;
@@ -149,7 +148,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     std::cout << "        ";
 
     index = numberOfMeasurements * i;
-    for (j = 0; j < numberOfMeasurements; ++j)
+    for (unsigned int j = 0; j < numberOfMeasurements; ++j)
     {
       std::cout << estimatedMeans[index] << " ";
       temp = estimatedMeans[index] - trueMeans[index];
