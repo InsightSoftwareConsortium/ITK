@@ -208,7 +208,7 @@ protected:
 
 private:
   SizeValueType      m_SizeGreatestPrimeFactor;
-  InternalSizeType   m_FFTPadSize{ 0 };
+  InternalSizeType   m_FFTPadSize{ { 0 } };
   InternalRegionType m_PaddedInputRegion;
 };
 } // namespace itk
