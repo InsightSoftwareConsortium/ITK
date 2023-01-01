@@ -225,18 +225,8 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
 
   itkOptimizer->SetInitialPosition(initialPosition);
 
-  try
-  {
-    itkOptimizer->StartOptimization();
-  }
-  catch (const itk::ExceptionObject & e)
-  {
-    std::cout << "Exception thrown ! " << std::endl;
-    std::cout << "An error occurred during Optimization" << std::endl;
-    std::cout << "Location    = " << e.GetLocation() << std::endl;
-    std::cout << "Description = " << e.GetDescription() << std::endl;
-    return EXIT_FAILURE;
-  }
+  ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
+
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
