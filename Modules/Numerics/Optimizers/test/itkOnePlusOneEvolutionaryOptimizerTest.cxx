@@ -145,9 +145,6 @@ private:
 int
 itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
 {
-  std::cout << "Gradient Descent Optimizer Test ";
-  std::cout << std::endl << std::endl;
-
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizer;
 
   // Declaration of an itkOptimizer
