@@ -27,7 +27,7 @@ namespace itk
 {
 /**
  * \class AttributeSelectionLabelMapFilter
- * \brief remove the objects according to the value of their attribute
+ * \brief Remove the objects according to the value of their attribute.
  *
  * AttributeSelectionLabelMapFilter removes the objects in a label collection image
  * with an attribute value inside or outside a set of attribute values passed by
