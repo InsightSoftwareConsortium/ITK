@@ -193,9 +193,6 @@ private:
 int
 itkOnePlusOneEvolutionaryOptimizerv4Test(int, char *[])
 {
-  std::cout << "OnePlusOne Evolutionary Optimizer Test ";
-  std::cout << std::endl << std::endl;
-
   using OptimizerType = itk::OnePlusOneEvolutionaryOptimizerv4<double>;
 
   // Declaration of an itkOptimizer
