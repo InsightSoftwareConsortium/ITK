@@ -16,37 +16,35 @@
  *
  *=========================================================================*/
 #include "itkRecursiveGaussianImageFilter.h"
-#include "itkSymmetricSecondRankTensor.h"
+#include "itkVectorImage.h"
 #include "itkTestingMacros.h"
 
 int
-itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
+itkRecursiveGaussianImageFilterOnVectorImageTest(int, char *[])
 {
-  // In this test, we will create a 9x9 image of tensors with pixels (4,4)
-  // and (1,6) set to 'tensor1'. We will filter it using
+  // In this test, we will create a 9x9 image of vectors with pixels (4,4)
+  // and (1,6) set to 'vector1'. We will filter it using
   // RecursiveGaussianImageFilter and compare a few filtered pixels.
   //
   constexpr unsigned int Dimension = 2;
   constexpr double       sigma = 1;
   constexpr double       tolerance = 0.001;
 
-  // Create ON and OFF tensors.
-  using Double3DTensorType = itk::SymmetricSecondRankTensor<double, 3>;
-  Double3DTensorType tensor0(0.0);
-  Double3DTensorType tensor1;
-  tensor1(0, 0) = 1.0;
-  tensor1(0, 1) = 0.0;
-  tensor1(0, 2) = 0.0;
-  tensor1(1, 0) = 0.0; // overrides (0,1)
-  tensor1(1, 1) = 3.0;
-  tensor1(1, 2) = 0.0;
-  tensor1(2, 0) = 0.0; // overrides (0,2)
-  tensor1(2, 1) = 0.0; // overrides (1,2)
-  tensor1(2, 2) = 1.0;
-
-  using PixelType = Double3DTensorType;
-  using ImageType = itk::Image<PixelType, Dimension>;
+  constexpr unsigned int NumberOfComponents = 4;
+  using PixelComponentType = double;
+  using ImageType = itk::VectorImage<PixelComponentType, Dimension>;
+  using PixelType = ImageType::PixelType;
   using ConstIteratorType = itk::ImageLinearConstIteratorWithIndex<ImageType>;
+
+  // Create ON and OFF vectors.
+  PixelType vector0;
+  PixelType vector1;
+
+  vector0.SetSize(NumberOfComponents);
+  vector1.SetSize(NumberOfComponents);
+
+  vector0.Fill(0.0);
+  vector1.Fill(1.0);
 
   // Create the 9x9 input image
   ImageType::SizeType size;
@@ -58,8 +56,9 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
   region.SetIndex(index);
   auto inputImage = ImageType::New();
   inputImage->SetRegions(region);
+  inputImage->SetNumberOfComponentsPerPixel(NumberOfComponents);
   inputImage->Allocate();
-  inputImage->FillBuffer(tensor0);
+  inputImage->FillBuffer(vector0);
 
   std::cout << "Apply RecursiveGaussianImageFilter with a 9x9 image, pixels (4,4) "
             << "and (1,6) set to ON." << std::endl;
@@ -69,10 +68,10 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
    */
   index[0] = 4;
   index[1] = 4;
-  inputImage->SetPixel(index, tensor1);
+  inputImage->SetPixel(index, vector1);
   index[0] = 1;
   index[1] = 6;
-  inputImage->SetPixel(index, tensor1);
+  inputImage->SetPixel(index, vector1);
 
   // Gaussian filter this image now. Each component of the tensor
   // is filtered independently.
@@ -100,34 +99,21 @@ itkRecursiveGaussianImageFiltersOnTensorsTest(int, char *[])
   ConstIteratorType  cit(filteredImage, filteredImage->GetRequestedRegion());
   cit.SetDirection(0);
 
-  /* Print out all Tensor values.
-  for ( cit.GoToBegin(); ! cit.IsAtEnd(); cit.NextLine())
-    {
-    cit.GoToBeginOfLine();
-    while ( ! cit.IsAtEndOfLine() )
-      {
-      std::cout << "Tensor at index: " << cit.GetIndex() << " is " <<
-        cit.Get() << std::endl;
-      ++cit;
-      }
-    }
-  */
-
   index[0] = 4;
   index[1] = 4;
   cit.SetIndex(index);
-  if (itk::Math::abs(cit.Get()(0, 0) - 0.160313) > tolerance)
+  if (itk::Math::abs(cit.Get()[0] - 0.160313) > tolerance)
   {
-    std::cout << "[FAILED] Tensor(0,0) at index (4,4) must be 0.1603 but is " << cit.Get()(0, 0) << std::endl;
+    std::cout << "[FAILED] Tensor(0,0) at index (4,4) must be 0.1603 but is " << cit.Get()[0] << std::endl;
     return EXIT_FAILURE;
   }
 
   index[0] = 6;
   index[1] = 6;
   cit.SetIndex(index);
-  if (itk::Math::abs(cit.Get()(3, 3) - 0.0026944) > tolerance)
+  if (itk::Math::abs(cit.Get()[3] - 0.0026944) > tolerance)
   {
-    std::cout << "[FAILED] Tensor(3,3) at index (6,6) must be 0.0026944 but is " << cit.Get()(3, 3) << std::endl;
+    std::cout << "[FAILED] Tensor(3,3) at index (6,6) must be 0.0026944 but is " << cit.Get()[3] << std::endl;
     return EXIT_FAILURE;
   }
 

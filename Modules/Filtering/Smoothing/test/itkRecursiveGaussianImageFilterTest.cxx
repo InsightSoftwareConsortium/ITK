@@ -28,7 +28,7 @@
 
 
 int
-itkRecursiveGaussianImageFiltersTest(int, char *[])
+itkRecursiveGaussianImageFilterTest(int, char *[])
 {
 
   { // 3D test
