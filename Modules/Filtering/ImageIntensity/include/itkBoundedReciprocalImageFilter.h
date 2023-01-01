@@ -36,7 +36,7 @@ namespace itk
  *
  * \brief Computes 1/(1+x) for each pixel in the image
  *
- * The filter expect both the input and output images to have the same
+ * The filter expects both the input and output images to have the same
  * number of dimensions, and both of a scalar image type.
  *
  * \ingroup ITKImageIntensity
