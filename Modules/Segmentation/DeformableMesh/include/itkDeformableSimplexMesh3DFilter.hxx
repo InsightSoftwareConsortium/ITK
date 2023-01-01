@@ -38,7 +38,7 @@
 
 namespace itk
 {
-/* Constructor. */
+
 template <typename TInputMesh, typename TOutputMesh>
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DFilter()
 {
@@ -63,7 +63,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::DeformableSimplexMesh3DF
   this->m_Data = nullptr;
 }
 
-/* PrintSelf. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
@@ -100,9 +99,8 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream &
     os << indent << "Data = "
        << "(None)" << std::endl;
   }
-} /* End PrintSelf. */
+}
 
-/* Generate Data */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GenerateData()
@@ -145,8 +143,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GenerateData()
   this->ComputeOutput();
 }
 
-/* Set default value of parameters and initialize local data container
- *  such as forces, displacements and displacement derivatives. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
@@ -217,7 +213,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::Initialize()
   }
 }
 
-/* Set the gradient image as an input */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::SetGradient(const GradientImageType * gradientImage)
@@ -235,7 +230,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GetGradient() const -> c
   return gradientImage;
 }
 
-/* Compute normals. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeGeometry()
@@ -339,7 +333,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeDisplacement()
   }
 }
 
-/* */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeInternalForce(SimplexMeshGeometry * data)
@@ -386,7 +379,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeInternalForce(Sim
   }
 }
 
-/** Compute model Displacement according to image gradient forces */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(SimplexMeshGeometry *     data,
@@ -472,7 +464,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeExternalForce(Sim
   data->externalForce[2] = m_Beta * vec_for[2];
 }
 
-/* Copy the content of m_Location into the Output. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeOutput()
@@ -488,7 +479,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::ComputeOutput()
   output->SetLastCellId(this->GetInput(0)->GetLastCellId());
 }
 
-/*  */
 template <typename TInputMesh, typename TOutputMesh>
 void
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::UpdateReferenceMetrics()
