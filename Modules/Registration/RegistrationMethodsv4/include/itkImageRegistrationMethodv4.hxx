@@ -100,8 +100,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_OutputTransform = transformDecorator->GetModifiable();
 
   // By default we set up a 3-level image registration.
-
-  this->m_NumberOfLevels = 0;
   this->SetNumberOfLevels(3);
 
   this->m_ShrinkFactorsPerLevel.resize(this->m_NumberOfLevels);
