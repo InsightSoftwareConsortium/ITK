@@ -12,9 +12,9 @@ itkSmoothingRecursiveGaussianImageFilterOnImageAdaptorTest.cxx
 itkMeanImageFilterTest.cxx
 itkDiscreteGaussianImageFilterTest.cxx
 itkMedianImageFilterTest.cxx
-itkRecursiveGaussianImageFiltersOnTensorsTest.cxx
-itkRecursiveGaussianImageFiltersOnVectorImageTest.cxx
-itkRecursiveGaussianImageFiltersTest.cxx
+itkRecursiveGaussianImageFilterOnTensorsTest.cxx
+itkRecursiveGaussianImageFilterOnVectorImageTest.cxx
+itkRecursiveGaussianImageFilterTest.cxx
 itkRecursiveGaussianScaleSpaceTest1.cxx
 )
 
@@ -161,12 +161,12 @@ itk_add_test(NAME itkFFTDiscreteGaussianImageFilterFactoryTest
       COMMAND ITKSmoothingTestDriver itkFFTDiscreteGaussianImageFilterFactoryTest)
 itk_add_test(NAME itkMedianImageFilterTest
       COMMAND ITKSmoothingTestDriver itkMedianImageFilterTest)
-itk_add_test(NAME itkRecursiveGaussianImageFiltersOnTensorsTest
-      COMMAND ITKSmoothingTestDriver itkRecursiveGaussianImageFiltersOnTensorsTest)
-itk_add_test(NAME itkRecursiveGaussianImageFiltersOnVectorImageTest
-      COMMAND ITKSmoothingTestDriver itkRecursiveGaussianImageFiltersOnVectorImageTest)
-itk_add_test(NAME itkRecursiveGaussianImageFiltersTest
-      COMMAND ITKSmoothingTestDriver itkRecursiveGaussianImageFiltersTest)
+itk_add_test(NAME itkRecursiveGaussianImageFilterOnTensorsTest
+      COMMAND ITKSmoothingTestDriver itkRecursiveGaussianImageFilterOnTensorsTest)
+itk_add_test(NAME itkRecursiveGaussianImageFilterOnVectorImageTest
+      COMMAND ITKSmoothingTestDriver itkRecursiveGaussianImageFilterOnVectorImageTest)
+itk_add_test(NAME itkRecursiveGaussianImageFilterTest
+      COMMAND ITKSmoothingTestDriver itkRecursiveGaussianImageFilterTest)
 itk_add_test(NAME itkRecursiveGaussianScaleSpaceTest1
       COMMAND ITKSmoothingTestDriver
               itkRecursiveGaussianScaleSpaceTest1)
