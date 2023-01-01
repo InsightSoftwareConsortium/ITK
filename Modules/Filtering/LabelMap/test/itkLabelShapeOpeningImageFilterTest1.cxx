@@ -50,29 +50,17 @@ itkLabelShapeOpeningImageFilterTest1(int argc, char * argv[])
 
   opening->SetInput(reader->GetOutput());
 
-  // testing get/set BackgroundValue macro
   int BackgroundValue = (std::stoi(argv[3]));
   opening->SetBackgroundValue(BackgroundValue);
   ITK_TEST_SET_GET_VALUE(BackgroundValue, opening->GetBackgroundValue());
 
-  // testing get and set macros for Lambda
   double lambda = std::stod(argv[4]);
   opening->SetLambda(lambda);
   ITK_TEST_SET_GET_VALUE(lambda, opening->GetLambda());
 
-  // testing boolean macro for ReverseOrdering
-  opening->ReverseOrderingOn();
-  ITK_TEST_SET_GET_VALUE(true, opening->GetReverseOrdering());
-
-  opening->ReverseOrderingOff();
-  ITK_TEST_SET_GET_VALUE(false, opening->GetReverseOrdering());
-
-  // testing get and set macros or ReverseOrdering
   bool reverseOrdering = std::stoi(argv[5]);
-  opening->SetReverseOrdering(reverseOrdering);
-  ITK_TEST_SET_GET_VALUE(reverseOrdering, opening->GetReverseOrdering());
+  ITK_TEST_SET_GET_BOOLEAN(opening, ReverseOrdering, reverseOrdering);
 
-  // testing get and set macros for Attribute
   LabelOpeningType::AttributeType attribute = std::stoi(argv[6]);
   opening->SetAttribute(attribute);
   ITK_TEST_SET_GET_VALUE(attribute, opening->GetAttribute());
