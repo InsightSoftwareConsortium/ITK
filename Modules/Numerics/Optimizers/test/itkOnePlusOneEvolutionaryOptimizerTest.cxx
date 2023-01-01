@@ -153,6 +153,9 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(itkOptimizer, OnePlusOneEvolutionaryOptimizer, SingleValuedNonLinearOptimizer);
+
+
   ITK_TEST_EXPECT_TRUE(!itkOptimizer->GetInitialized());
 
   itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
@@ -175,11 +178,44 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   initialPosition[0] = 100;
   initialPosition[1] = -100;
 
+  auto maximize = false;
   itkOptimizer->MinimizeOn();
-  itkOptimizer->Initialize(10);
-  itkOptimizer->SetEpsilon(0.1);
-  itkOptimizer->SetMaximumIteration(8000);
+  ITK_TEST_SET_GET_VALUE(!maximize, itkOptimizer->GetMinimize());
+  ITK_TEST_SET_GET_BOOLEAN(itkOptimizer, Maximize, maximize);
 
+  unsigned int maximumIteration = 8000;
+  itkOptimizer->SetMaximumIteration(8000);
+  ITK_TEST_SET_GET_VALUE(maximumIteration, itkOptimizer->GetMaximumIteration());
+
+  auto growthFactor = 1.05;
+  itkOptimizer->SetGrowthFactor(growthFactor);
+  ITK_TEST_SET_GET_VALUE(growthFactor, itkOptimizer->GetGrowthFactor());
+
+  auto shrinkFactor = std::pow(growthFactor, -0.25);
+  itkOptimizer->SetShrinkFactor(shrinkFactor);
+  ITK_TEST_SET_GET_VALUE(shrinkFactor, itkOptimizer->GetShrinkFactor());
+
+  auto initialRadius = 1.01;
+  itkOptimizer->SetInitialRadius(initialRadius);
+  ITK_TEST_SET_GET_VALUE(initialRadius, itkOptimizer->GetInitialRadius());
+
+  auto epsilon = 0.1;
+  itkOptimizer->SetEpsilon(epsilon);
+  ITK_TEST_SET_GET_VALUE(epsilon, itkOptimizer->GetEpsilon());
+
+  auto catchGetValueException = false;
+  itkOptimizer->SetCatchGetValueException(catchGetValueException);
+  ITK_TEST_SET_GET_VALUE(catchGetValueException, itkOptimizer->GetCatchGetValueException());
+
+  auto metricWorstPossibleValue = 0;
+  itkOptimizer->SetMetricWorstPossibleValue(metricWorstPossibleValue);
+  ITK_TEST_SET_GET_VALUE(metricWorstPossibleValue, itkOptimizer->GetMetricWorstPossibleValue());
+
+  initialRadius = 10;
+  itkOptimizer->Initialize(initialRadius);
+  ITK_TEST_SET_GET_VALUE(initialRadius, itkOptimizer->GetInitialRadius());
+  ITK_TEST_SET_GET_VALUE(growthFactor, itkOptimizer->GetGrowthFactor());
+  ITK_TEST_SET_GET_VALUE(shrinkFactor, itkOptimizer->GetShrinkFactor());
 
   ITK_TEST_EXPECT_TRUE(itkOptimizer->GetInitialized());
 
