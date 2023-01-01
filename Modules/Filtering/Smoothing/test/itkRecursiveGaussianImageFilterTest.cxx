@@ -198,7 +198,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     std::cout << "Testing normalization across scales...  ";
     { // begin of test for normalization across scales
 
-      filter->SetNormalizeAcrossScale(true);
+      auto normalizeAcrossScale = true;
+      ITK_TEST_SET_GET_BOOLEAN(filter, NormalizeAcrossScale, normalizeAcrossScale);
 
       constexpr double sigmaA = 2.0;
       filter->SetSigma(sigmaA);
@@ -206,8 +207,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
       const PixelType valueA = filter->GetOutput()->GetPixel(index);
 
-
-      filter->SetNormalizeAcrossScale(false);
+      normalizeAcrossScale = false;
+      filter->SetNormalizeAcrossScale(normalizeAcrossScale);
       constexpr double sigmaB = 2.0;
       filter->SetSigma(sigmaB);
 
