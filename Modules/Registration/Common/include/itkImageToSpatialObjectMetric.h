@@ -122,7 +122,7 @@ public:
   using ParametersType = Superclass::ParametersType;
 
   /** Run-time type information (and related methods). */
-  itkTypeMacro(ImageToSpatialObjectMetric, Object);
+  itkTypeMacro(ImageToSpatialObjectMetric, SingleValuedCostFunction);
 
   /** Get/Set the FixedImage. */
   itkSetConstObjectMacro(FixedImage, FixedImageType);
