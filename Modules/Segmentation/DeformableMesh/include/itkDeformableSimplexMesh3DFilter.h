@@ -141,67 +141,46 @@ public:
   using GeometryMapPointer = typename GeometryMapType::Pointer;
   using GeometryMapIterator = typename GeometryMapType::Iterator;
 
-  /** Routines. */
 
-  /** Set/Get routines. */
-
-  /**
-   *  Setter for gradient image
-   */
+  /** Set/Get the gradient image as an input. */
   void
   SetGradient(const GradientImageType * gradientImage);
-
-  /**
-   *  Getter for gradient image
-   */
   const GradientImageType *
   GetGradient() const;
 
-  /**
-   * Set number of iterations for deformation process
-   */
+  /** Set/Get the number of iterations for the deformation process. */
   itkSetMacro(Iterations, int);
   itkGetConstMacro(Iterations, int);
 
-  /** Set scalar factor for internal force */
+  /** Set/Get internal force scaling factor. */
   itkSetMacro(Alpha, double);
-
-  /** Get internal force scaling factor */
   itkGetConstMacro(Alpha, double);
 
-  /** Set external force scaling factor */
+  /** Set/Get external force scaling factor. */
   itkSetMacro(Beta, double);
-
-  /** Get external force scaling factor */
   itkGetConstMacro(Beta, double);
 
-  /** Set reference metrics update scaling factor */
+  /** Set/Get reference metrics update scaling factor. */
   itkSetMacro(Gamma, double);
-
-  /** Get reference metrics update scaling factor */
   itkGetConstMacro(Gamma, double);
 
-  /** Set reference metrics update scaling factor */
+  /** Set/Get reference metrics update scaling factor. */
   itkSetMacro(Damping, double);
-
-  /** Get reference metrics update scaling factor */
   itkGetConstMacro(Damping, double);
 
-  /** control smoothness of the mesh */
+  /** Set/Get the mesh smoothness value. */
   itkSetMacro(Rigidity, unsigned int);
-
-  /** control smoothness of the mesh */
   itkGetConstMacro(Rigidity, unsigned int);
 
   itkSetObjectMacro(Data, GeometryMapType);
   itkGetModifiableObjectMacro(Data, GeometryMapType);
 
-  /** Width, height and depth of image */
+  /** Get the width, height and depth of image. */
   itkGetConstMacro(ImageWidth, int);
   itkGetConstMacro(ImageHeight, int);
   itkGetConstMacro(ImageDepth, int);
 
-  /** current iteration number */
+  /** Get the current iteration number. */
   itkGetConstMacro(Step, int);
 
 protected:
@@ -215,7 +194,7 @@ protected:
   GenerateData() override;
 
   /**
-   * Initializes the datastructures necessary for mesh
+   * Initializes the data structures necessary for mesh
    * deformation with the values from the passed input
    * mesh.
    */
@@ -245,8 +224,9 @@ protected:
   ComputeInternalForce(SimplexMeshGeometry * data);
 
   /**
-   * Compute the external force component
-   * Pass in the gradient image, to avoid inner loop calls to GetGradient()
+   * Compute the external force component.
+   * Computes the model displacement according to image gradient forces.
+   * Passes in the gradient image, to avoid inner loop calls to GetGradient().
    */
   virtual void
   ComputeExternalForce(SimplexMeshGeometry * data, const GradientImageType * gradientImage);
