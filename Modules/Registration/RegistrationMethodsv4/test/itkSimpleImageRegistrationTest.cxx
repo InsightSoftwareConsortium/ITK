@@ -203,6 +203,17 @@ PerformSimpleImageRegistration(int argc, char * argv[])
     ITK_TEST_SET_GET_VALUE(smoothingSigmasPerLevel, affineSimple->GetSmoothingSigmasPerLevel());
   }
 
+  typename AffineRegistrationType::RealType metricSamplingPercentage = 1.0;
+  affineSimple->SetMetricSamplingPercentage(metricSamplingPercentage);
+
+  typename AffineRegistrationType::MetricSamplingPercentageArrayType metricSamplingPercentagePerLevel;
+  metricSamplingPercentagePerLevel.SetSize(numberOfLevels);
+  metricSamplingPercentagePerLevel.Fill(metricSamplingPercentage);
+  ITK_TEST_SET_GET_VALUE(metricSamplingPercentagePerLevel, affineSimple->GetMetricSamplingPercentagePerLevel());
+
+  affineSimple->SetMetricSamplingPercentagePerLevel(metricSamplingPercentagePerLevel);
+  ITK_TEST_SET_GET_VALUE(metricSamplingPercentagePerLevel, affineSimple->GetMetricSamplingPercentagePerLevel());
+
   using GradientDescentOptimizerv4Type = itk::GradientDescentOptimizerv4;
   typename GradientDescentOptimizerv4Type::Pointer affineOptimizer =
     dynamic_cast<GradientDescentOptimizerv4Type *>(affineSimple->GetModifiableOptimizer());
