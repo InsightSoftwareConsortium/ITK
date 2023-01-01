@@ -26,6 +26,8 @@
 #include "itkLabelMapToLabelImageFilter.h"
 
 #include "itkTestingMacros.h"
+#include <algorithm>
+
 
 int
 itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
@@ -42,10 +44,11 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   constexpr unsigned int dim = 3;
 
   using PixelType = unsigned char;
+  using AttributeValueType = bool;
 
   using ImageType = itk::Image<PixelType, dim>;
 
-  using AttributeLabelObjectType = itk::AttributeLabelObject<PixelType, dim, bool>;
+  using AttributeLabelObjectType = itk::AttributeLabelObject<PixelType, dim, AttributeValueType>;
   using LabelMapType = itk::LabelMap<AttributeLabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -76,8 +79,41 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
 
   using LabelOpeningType = itk::AttributeSelectionLabelMapFilter<LabelMapType>;
   auto opening = LabelOpeningType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(opening, AttributeSelectionLabelMapFilter, InPlaceLabelMapFilter);
+
+
+  auto exclude = false;
+  ITK_TEST_SET_GET_BOOLEAN(opening, Exclude, exclude);
+
+  auto attribute = true;
+  opening->SetAttribute(attribute);
+
+  std::set<AttributeValueType> attributeSet;
+  attributeSet.insert(attribute);
+  opening->SetAttributeSet(attributeSet);
+  auto             obtainedAttributeSet = opening->GetAttributeSet();
+  std::vector<int> diff;
+  std::set_difference(attributeSet.begin(),
+                      attributeSet.end(),
+                      obtainedAttributeSet.begin(),
+                      obtainedAttributeSet.end(),
+                      std::inserter(diff, diff.begin()));
+
+  if (diff.size() != 0)
+  {
+    std::cerr << "Error" << std::endl;
+    std::cerr << " Obtained attribute set differs from expected atribute set" << std::endl;
+    for (auto it1 = attributeSet.cbegin(), it2 = obtainedAttributeSet.cbegin();
+         it1 != attributeSet.cend() || it2 != obtainedAttributeSet.cend();
+         ++it1, ++it2)
+    {
+      std::cerr << "expected: " << *it1 << "; obtained: " << *it2 << std::endl;
+    }
+    return EXIT_FAILURE;
+  }
+
   opening->SetInput(reconstruction->GetOutput());
-  opening->SetAttribute(true);
 
   using L2IType = itk::LabelMapToLabelImageFilter<LabelMapType, ImageType>;
   auto l2i = L2IType::New();
