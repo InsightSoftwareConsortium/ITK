@@ -1,5 +1,6 @@
 itk_module_test()
 set(ITKImageIntensityTests
+itkBoundedReciprocalImageFilterTest.cxx
 itkCosImageFilterAndAdaptorTest.cxx
 itkExpImageFilterAndAdaptorTest.cxx
 itkVectorRescaleIntensityImageFilterTest.cxx
@@ -100,6 +101,8 @@ CreateTestDriver(ITKImageIntensity  "${ITKImageIntensity-Test_LIBRARIES}" "${ITK
 
 set(TEMP ${ITK_TEST_OUTPUT_DIR})
 
+itk_add_test(NAME itkBoundedReciprocalImageFilterTest
+      COMMAND ITKImageIntensityTestDriver itkBoundedReciprocalImageFilterTest DATA{${ITK_DATA_ROOT}/Input/Gourds.png})
 itk_add_test(NAME itkCosImageFilterAndAdaptorTest
       COMMAND ITKImageIntensityTestDriver itkCosImageFilterAndAdaptorTest)
 itk_add_test(NAME itkVectorRescaleIntensityImageFilterTest
