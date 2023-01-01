@@ -110,11 +110,23 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     // Create a  Filter
     auto filter = myGaussianFilterType::New();
 
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(filter, RecursiveGaussianImageFilter, RecursiveSeparableImageFilter);
+
+
+    unsigned int direction = 2; // apply along Z
+    filter->SetDirection(direction);
+    ITK_TEST_SET_GET_VALUE(direction, filter->GetDirection());
+
+    auto order = itk::GaussianOrderEnum::ZeroOrder;
+    filter->SetOrder(order);
+    ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
+
+    filter->SetZeroOrder();
+    ITK_TEST_SET_GET_VALUE(order, filter->GetOrder());
 
     // Connect the input images
     filter->SetInput(inputImage);
-    filter->SetDirection(2); // apply along Z
-    filter->SetOrder(itk::GaussianOrderEnum::ZeroOrder);
+    ITK_TEST_SET_GET_VALUE(inputImage, filter->GetInput());
 
 
     // Execute the filter
@@ -126,12 +138,17 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     // Create a  Filter
     auto filter1 = myGaussianFilterType::New();
 
+    filter1->SetDirection(direction);
+
+    order = itk::GaussianOrderEnum::FirstOrder;
+    filter1->SetOrder(order);
+    ITK_TEST_SET_GET_VALUE(order, filter1->GetOrder());
+
+    filter1->SetFirstOrder();
+    ITK_TEST_SET_GET_VALUE(order, filter1->GetOrder());
 
     // Connect the input images
     filter1->SetInput(inputImage);
-    filter1->SetDirection(2); // apply along Z
-    filter1->SetOrder(itk::GaussianOrderEnum::FirstOrder);
-
 
     // Execute the filter1
     std::cout << "Executing First Derivative filter...";
@@ -141,10 +158,17 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
     // Create a  Filter
     auto filter2 = myGaussianFilterType::New();
 
+    filter2->SetDirection(direction);
+
+    order = itk::GaussianOrderEnum::SecondOrder;
+    filter2->SetOrder(order);
+    ITK_TEST_SET_GET_VALUE(order, filter2->GetOrder());
+
+    filter2->SetSecondOrder();
+    ITK_TEST_SET_GET_VALUE(order, filter2->GetOrder());
+
     // Connect the input images
     filter2->SetInput(inputImage);
-    filter2->SetDirection(2); // apply along Z
-    filter2->SetOrder(itk::GaussianOrderEnum::SecondOrder);
 
     // Execute the filter2
     std::cout << "Executing Second Derivative filter...";
@@ -203,6 +227,8 @@ itkRecursiveGaussianImageFilterTest(int, char *[])
 
       constexpr double sigmaA = 2.0;
       filter->SetSigma(sigmaA);
+      ITK_TEST_SET_GET_VALUE(sigmaA, filter->GetSigma());
+
       filter->Update();
 
       const PixelType valueA = filter->GetOutput()->GetPixel(index);
