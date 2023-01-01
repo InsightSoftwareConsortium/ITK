@@ -35,20 +35,18 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   if (argc != 5)
   {
     std::cerr << "Usage: " << itkNameOfTestExecutableMacro(argv);
-    std::cerr << " input marker output";
-    std::cerr << " fg";
-    std::cerr << std::endl;
+    std::cerr << " input marker output fg" << std::endl;
     return EXIT_FAILURE;
   }
 
-  constexpr unsigned int dim = 3;
+  constexpr unsigned int Dimension = 3;
 
   using PixelType = unsigned char;
   using AttributeValueType = bool;
 
-  using ImageType = itk::Image<PixelType, dim>;
+  using ImageType = itk::Image<PixelType, Dimension>;
 
-  using AttributeLabelObjectType = itk::AttributeLabelObject<PixelType, dim, AttributeValueType>;
+  using AttributeLabelObjectType = itk::AttributeLabelObject<PixelType, Dimension, AttributeValueType>;
   using LabelMapType = itk::LabelMap<AttributeLabelObjectType>;
 
   using ReaderType = itk::ImageFileReader<ImageType>;
@@ -65,7 +63,6 @@ itkBinaryReconstructionLabelMapFilterTest(int argc, char * argv[])
   using LabelReconstructionType = itk::BinaryReconstructionLabelMapFilter<LabelMapType, ImageType>;
   auto reconstruction = LabelReconstructionType::New();
 
-  // testing get and set macros for Lambda
   int fg = std::stoi(argv[4]);
   reconstruction->SetForegroundValue(fg);
   ITK_TEST_SET_GET_VALUE(fg, reconstruction->GetForegroundValue());
