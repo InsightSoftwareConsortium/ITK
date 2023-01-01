@@ -73,6 +73,8 @@ OnePlusOneEvolutionaryOptimizer::Initialize(double initialRadius, double grow, d
   {
     m_ShrinkFactor = shrink;
   }
+
+  m_Initialized = true;
 }
 
 void

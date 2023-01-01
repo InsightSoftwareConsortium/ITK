@@ -20,6 +20,7 @@
 #include "itkNormalVariateGenerator.h"
 #include "itkCommand.h"
 #include "itkMath.h"
+#include "itkTestingMacros.h"
 
 namespace itk
 {
@@ -152,6 +153,8 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   // Declaration of an itkOptimizer
   auto itkOptimizer = OptimizerType::New();
 
+  ITK_TEST_EXPECT_TRUE(!itkOptimizer->GetInitialized());
+
   itk::OnePlusOneCommandIterationUpdate::Pointer observer = itk::OnePlusOneCommandIterationUpdate::New();
   itkOptimizer->AddObserver(itk::IterationEvent(), observer);
 
@@ -177,6 +180,8 @@ itkOnePlusOneEvolutionaryOptimizerTest(int, char *[])
   itkOptimizer->SetEpsilon(0.1);
   itkOptimizer->SetMaximumIteration(8000);
 
+
+  ITK_TEST_EXPECT_TRUE(itkOptimizer->GetInitialized());
 
   using GeneratorType = itk::Statistics::NormalVariateGenerator;
   auto generator = GeneratorType::New();
