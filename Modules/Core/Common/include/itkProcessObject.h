@@ -494,6 +494,11 @@ public:
   itkSetClampMacro(NumberOfWorkUnits, ThreadIdType, 1, ITK_MAX_THREADS);
   itkGetConstReferenceMacro(NumberOfWorkUnits, ThreadIdType);
 
+  /** Should progress be updated only by the invoking thread? Yes by default. */
+  itkSetMacro(RestrictProgressUpdatesToInvokingThread, bool);
+  itkGetConstReferenceMacro(RestrictProgressUpdatesToInvokingThread, bool);
+  itkBooleanMacro(RestrictProgressUpdatesToInvokingThread);
+
 #if !defined(ITK_LEGACY_REMOVE) || defined(ITKV4_COMPATIBILITY)
   itkLegacyMacro(void SetNumberOfThreads(ThreadIdType count)) { this->SetNumberOfWorkUnits(count); }
 
@@ -968,7 +973,7 @@ private:
   bool                  m_AbortGenerateData;
   std::atomic<uint32_t> m_Progress;
 
-
+  bool            m_RestrictProgressUpdatesToInvokingThread{ true };
   std::thread::id m_UpdateThreadID;
 
   /** Support processing data in multiple threads. Used by subclasses

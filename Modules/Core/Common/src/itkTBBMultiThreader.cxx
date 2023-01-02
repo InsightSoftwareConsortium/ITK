@@ -127,7 +127,6 @@ TBBMultiThreader::ParallelizeArray(SizeValueType             firstIndex,
   {
     filter = nullptr;
   }
-  ProgressReporter progressStartEnd(filter, 0, 1);
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
@@ -251,7 +250,6 @@ TBBMultiThreader::ParallelizeImageRegion(unsigned int         dimension,
   {
     filter = nullptr;
   }
-  ProgressReporter progressStartEnd(filter, 0, 1);
 
   if (m_NumberOfWorkUnits == 1)
   {

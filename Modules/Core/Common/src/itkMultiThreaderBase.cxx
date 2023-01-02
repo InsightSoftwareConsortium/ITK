@@ -486,8 +486,6 @@ MultiThreaderBase::ParallelizeArray(SizeValueType             firstIndex,
   {
     filter = nullptr;
   }
-  // Upon destruction, progress will be set to 1.0
-  ProgressReporter progress(filter, 0, 1);
 
   if (firstIndex + 1 < lastIndexPlus1)
   {
@@ -549,7 +547,6 @@ MultiThreaderBase::ParallelizeImageRegion(unsigned int                          
   {
     filter = nullptr;
   }
-  ProgressReporter progress(filter, 0, 1);
 
   struct RegionAndCallback rnc
   {
