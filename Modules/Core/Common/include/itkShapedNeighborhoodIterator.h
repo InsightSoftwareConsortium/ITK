@@ -179,7 +179,7 @@ public:
   using typename Superclass::IndexValueType;
 
   /** An  iterator for the ShapedNeighborhood classes. */
-  struct Iterator : public ConstIterator
+  struct Iterator : public Superclass::ConstIterator
   {
     Iterator() = default;
     Iterator(Self * s)

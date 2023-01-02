@@ -128,8 +128,7 @@ public:
 
   /** A global data type used to store values needed to compute the time step.
    */
-  using typename Superclass::GlobalDataStruct;
-  struct ShapePriorGlobalDataStruct : public GlobalDataStruct
+  struct ShapePriorGlobalDataStruct : public Superclass::GlobalDataStruct
   {
     ScalarValueType m_MaxShapePriorChange;
   };
