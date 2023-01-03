@@ -532,7 +532,7 @@ protected:
   SetMetricSamplePoints();
 
   SizeValueType m_CurrentLevel;
-  SizeValueType m_NumberOfLevels;
+  SizeValueType m_NumberOfLevels{ 0 };
   SizeValueType m_CurrentIteration;
   RealType      m_CurrentMetricValue;
   RealType      m_CurrentConvergenceValue;
