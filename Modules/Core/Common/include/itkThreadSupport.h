@@ -20,6 +20,8 @@
 
 #include <cstdlib>
 
+#include "itkConfigure.h" // For ITK_USE_WIN32_THREADS, ITK_USE_PTHREADS, etc.
+
 // This implementation uses a routine called SignalObjectAndWait()
 // which is only defined on WinNT 4.0 or greater systems.  We need to
 // define this symbol in order to get the prototype for the
@@ -36,7 +38,6 @@
 #  include "itkWindows.h"
 #  include <winbase.h>
 #endif
-#include "itkConfigure.h"
 
 
 namespace itk
