@@ -1288,7 +1288,8 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   if (m_ReseedIterator || m_RandomSeed != seed)
   {
     m_ReseedIterator = false;
-    m_CurrentRandomSeed = m_RandomSeed = seed;
+    m_RandomSeed = seed;
+    m_CurrentRandomSeed = seed;
     this->Modified();
   }
 }
