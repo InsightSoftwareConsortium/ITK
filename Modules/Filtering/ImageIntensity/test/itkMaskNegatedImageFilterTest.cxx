@@ -19,6 +19,9 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkMaskNegatedImageFilter.h"
+#include "itkVectorImage.h"
+#include "itkTestingMacros.h"
+
 
 int
 itkMaskNegatedImageFilterTest(int, char *[])
@@ -155,6 +158,40 @@ itkMaskNegatedImageFilterTest(int, char *[])
       return EXIT_FAILURE;
     }
   }
+
+  // Vector image tests
+  using myVectorImageType = itk::VectorImage<float, myDimension>;
+
+  auto inputVectorImage = myVectorImageType::New();
+  inputVectorImage->SetRegions(region);
+  inputVectorImage->SetNumberOfComponentsPerPixel(3);
+  inputVectorImage->Allocate();
+
+  using myVectorFilterType = itk::MaskNegatedImageFilter<myVectorImageType, MaskImageType, myVectorImageType>;
+
+  auto vectorFilter = myVectorFilterType::New();
+  vectorFilter->SetInput1(inputVectorImage);
+  vectorFilter->SetMaskImage(inputMask);
+
+  myVectorImageType::PixelType outsideValue = vectorFilter->GetOutsideValue();
+  ITK_TEST_EXPECT_EQUAL(outsideValue.GetSize(), 0);
+
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(vectorFilter->Update());
+
+  // Check that the outside value consists of three zeros.
+  myVectorImageType::PixelType outsideValue3 = vectorFilter->GetOutsideValue();
+  myVectorImageType::PixelType threeZeros(3);
+  threeZeros.Fill(0.0f);
+  ITK_TEST_EXPECT_EQUAL(outsideValue3, threeZeros);
+
+  // Reset the outside value to zero vector of length 23.
+  myVectorImageType::PixelType zeros23(23);
+  zeros23.Fill(1.0f);
+  vectorFilter->SetOutsideValue(zeros23);
+
+  ITK_TRY_EXPECT_EXCEPTION(vectorFilter->Update());
+
 
   // All objects should be automatically destroyed at this point
   return EXIT_SUCCESS;
