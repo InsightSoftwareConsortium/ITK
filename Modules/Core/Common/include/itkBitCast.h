@@ -19,15 +19,14 @@
 #ifndef itkBitCast_h
 #define itkBitCast_h
 
-#if __cplusplus < 202002L
-
-#  include <cstring>     // For memcpy.
-#  include <type_traits> // For is_trivially_copyable and remove_const_t.
+#include <cstring>     // For memcpy.
+#include <type_traits> // For is_trivially_copyable and remove_const_t.
 
 namespace itk
 {
 
-/** Rudimentary `bit_cast` implementation for C++14/C++17. From C++20, `std::bit_cast` is preferred.
+/** Rudimentary `bit_cast` implementation for C++14/C++17. From C++20, `std::bit_cast` would be preferred, at least if
+ * the C++20 feature macro `__cpp_lib_bit_cast` is defined.
  */
 template <typename TDestination, class TSource>
 TDestination
@@ -45,16 +44,5 @@ bit_cast(const TSource & source)
 
 } // namespace itk
 
-#else
-
-// From C++20, std::bit_cast is included with the C++ Standard Library.
-#  include <bit>
-
-namespace itk
-{
-using ::std::bit_cast;
-}
-
-#endif
 
 #endif // itkBitCast_h
