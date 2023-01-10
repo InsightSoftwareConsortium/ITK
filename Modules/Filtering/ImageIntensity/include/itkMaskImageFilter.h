@@ -38,11 +38,8 @@ class MaskInput
 public:
   using AccumulatorType = typename NumericTraits<TInput>::AccumulateType;
 
-  MaskInput()
-  {
-    m_MaskingValue = NumericTraits<TMask>::ZeroValue();
-    InitializeOutsideValue(static_cast<TOutput *>(nullptr));
-  }
+  MaskInput() = default;
+
   ~MaskInput() = default;
   bool
   operator==(const MaskInput &) const
@@ -94,22 +91,21 @@ public:
 
 private:
   template <typename TPixelType>
-  void
-  InitializeOutsideValue(TPixelType *)
+  TPixelType
+  DefaultOutsideValue(TPixelType *)
   {
-    this->m_OutsideValue = NumericTraits<TPixelType>::ZeroValue();
+    return NumericTraits<TPixelType>::ZeroValue();
   }
 
   template <typename TValue>
-  void
-  InitializeOutsideValue(VariableLengthVector<TValue> *)
+  VariableLengthVector<TValue>
+  DefaultOutsideValue(VariableLengthVector<TValue> *)
   {
     // set the outside value to be of zero length
-    this->m_OutsideValue = VariableLengthVector<TValue>(0);
+    return VariableLengthVector<TValue>(0);
   }
-
-  TOutput m_OutsideValue;
-  TMask   m_MaskingValue;
+  TOutput m_OutsideValue{ DefaultOutsideValue(static_cast<TOutput *>(nullptr)) };
+  TMask   m_MaskingValue{ NumericTraits<TMask>::ZeroValue() };
 };
 } // namespace Functor
 
