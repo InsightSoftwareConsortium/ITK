@@ -19,11 +19,8 @@
 #ifndef itkMakeUniqueForOverwrite_h
 #define itkMakeUniqueForOverwrite_h
 
-#include <memory> // For unique_ptr.
-
-#if __cplusplus < 202002L
-
-#  include <type_traits> // For remove_extent_t, false_type, etc.
+#include <memory>      // For unique_ptr.
+#include <type_traits> // For remove_extent_t, false_type, etc.
 
 namespace itk
 {
@@ -45,7 +42,8 @@ struct is_unbounded_array<T[]> : std::true_type
 
 
 /** `make_unique_for_overwrite` implementation for C++14/C++17, specifically for dynamically sized ("unbounded")
- * arrays. From C++20, `std::make_unique_for_overwrite` is preferred.
+ * arrays. From C++20, `std::make_unique_for_overwrite` would be preferred, at least if the C++20 feature macro
+ * `__cpp_lib_smart_ptr_for_overwrite` is defined.
  *
  * Example (mind the square brackets):
    \code
@@ -68,14 +66,5 @@ make_unique_for_overwrite(const size_t numberOfElements)
 }
 
 } // namespace itk
-
-#else
-
-namespace itk
-{
-using ::std::make_unique_for_overwrite;
-}
-
-#endif
 
 #endif // itkMakeUniqueForOverwrite_h
