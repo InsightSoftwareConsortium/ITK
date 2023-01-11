@@ -110,6 +110,7 @@ public:
   itkConceptMacro(OnlyDefinedForFloatingPointTypes0, (itk::Concept::IsFloatingPoint<FixedRealType>));
   itkConceptMacro(OnlyDefinedForFloatingPointTypes1, (itk::Concept::IsFloatingPoint<MovingRealType>));
 #endif // ITK_USE_CONCEPT_CHECKING
+
 };
 } // end namespace itk
 

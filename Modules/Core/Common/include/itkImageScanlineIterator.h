@@ -95,6 +95,7 @@ protected:
   ImageScanlineIterator(const ImageScanlineConstIterator<TImage> & it);
   Self &
   operator=(const ImageScanlineConstIterator<TImage> & it);
+
 };
 } // end namespace itk
 

@@ -182,6 +182,7 @@ private:
   /** Support processing data in multiple threads. Used by subclasses
    * (e.g., ImageSource). */
   MultiThreaderBase::Pointer m_Threader{ MultiThreaderBase::New() };
+
 };
 } // end namespace itk
 

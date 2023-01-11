@@ -48,6 +48,7 @@ template <typename TPixel1, typename TPixel2>
 class JoinFunctor
 {
 public:
+
   JoinFunctor() = default;
   ~JoinFunctor() = default;
 
@@ -161,6 +162,7 @@ private:
   {
     out[idx] = static_cast<JoinValueType>(B);
   }
+
 }; // class JoinFunction
 
 template <typename TImage1, typename TImage2>
