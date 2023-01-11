@@ -16,16 +16,16 @@ jobs:
       with:
         repo-token: "${{ secrets.GITHUB_TOKEN }}"
         issue-message: |
-          Thank you for contributing an issue!
+          Thank you for contributing an issue! 🙏
 
-          **Welcome to the ITK community!**
+          **Welcome to the ITK community!** 🤗👋☀️
 
-          We are glad you are here and appreciate your contribution. Please keep in mind our [community participation guidelines](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CODE_OF_CONDUCT.md).
-          Also, please check [existing open issues](https://github.com/InsightSoftwareConsortium/ITK/issues) and consider discussion on the [ITK Discourse](https://discourse.itk.org).
+          We are glad you are here and appreciate your contribution. Please keep in mind our [community participation guidelines](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CODE_OF_CONDUCT.md). 📜
+          Also, please check [existing open issues](https://github.com/InsightSoftwareConsortium/ITK/issues) and consider discussion on the [ITK Discourse](https://discourse.itk.org). 📖
         pr-message: |
-          Thank you for contributing a pull request!
+          Thank you for contributing a pull request! 🙏
 
-          **Welcome to the ITK community!**
+          **Welcome to the ITK community!** 🤗👋☀️
 
-          We are glad you are here and appreciate your contribution. Please keep in mind our [community participation guidelines](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CODE_OF_CONDUCT.md).
-          More support and guidance on the contribution process and be found in our [contributing guide](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md).
+          We are glad you are here and appreciate your contribution. Please keep in mind our [community participation guidelines](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CODE_OF_CONDUCT.md). 📜
+          More support and guidance on the contribution process can be found in our [contributing guide](https://github.com/InsightSoftwareConsortium/ITK/blob/master/CONTRIBUTING.md). 📖
