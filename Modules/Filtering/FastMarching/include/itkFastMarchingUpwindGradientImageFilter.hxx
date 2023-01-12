@@ -59,6 +59,26 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::os
   os << indent << "Target value: " << m_TargetValue << std::endl;
 }
 
+template <typename TLevelSet, typename TSpeedImage>
+void
+FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::VerifyPreconditions() ITKv5_CONST
+{
+  Superclass::VerifyPreconditions();
+
+  switch (this->m_TargetReachedMode)
+  {
+    case AllTargets:
+      this->VerifyTargetReachedModeConditions(this->m_NumberOfTargets);
+      break;
+    case OneTarget:
+      this->VerifyTargetReachedModeConditions(1);
+      break;
+    case SomeTargets:
+      this->VerifyTargetReachedModeConditions(this->m_NumberOfTargets);
+      break;
+  }
+}
+
 /**
  *
  */
