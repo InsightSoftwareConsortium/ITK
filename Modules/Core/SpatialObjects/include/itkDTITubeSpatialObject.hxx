@@ -46,14 +46,6 @@ DTITubeSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object */
-template <unsigned int TDimension>
-void
-DTITubeSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  os << indent << "DTITubeSpatialObject(" << this << ")" << std::endl;
-  Superclass::PrintSelf(os, indent);
-}
 } // end namespace itk
 
 #endif // end itkDTITubeSpatialObject_hxx

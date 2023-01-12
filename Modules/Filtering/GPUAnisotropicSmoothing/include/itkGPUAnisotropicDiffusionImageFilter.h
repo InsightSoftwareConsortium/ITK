@@ -67,8 +67,6 @@ public:
 protected:
   GPUAnisotropicDiffusionImageFilter() = default;
   ~GPUAnisotropicDiffusionImageFilter() override = default;
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Prepare for the iteration process. */
   void

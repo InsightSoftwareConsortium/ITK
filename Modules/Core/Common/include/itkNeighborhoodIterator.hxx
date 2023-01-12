@@ -145,15 +145,6 @@ NeighborhoodIterator<TImage, TBoundaryCondition>::SetPixel(const unsigned int n,
 
 template <typename TImage, typename TBoundaryCondition>
 void
-NeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  os << indent;
-  os << "NeighborhoodIterator {this= " << this << "}" << std::endl;
-  Superclass::PrintSelf(os, indent.GetNextIndent());
-}
-
-template <typename TImage, typename TBoundaryCondition>
-void
 NeighborhoodIterator<TImage, TBoundaryCondition>::SetNeighborhood(const NeighborhoodType & N)
 {
   unsigned int i;

@@ -216,16 +216,6 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
   }
 }
 
-/**
- * PrintSelf method
- */
-template <typename TInputImage, typename TOutputImage>
-void
-RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
 /*
  * GenerateOutputRequestedRegion
  */

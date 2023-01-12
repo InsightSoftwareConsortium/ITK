@@ -238,10 +238,6 @@ public:
     return *this;
   }
 
-  /** Standard itk print method */
-  void
-  PrintSelf(std::ostream &, Indent) const override;
-
   /** Returns a const iterator for the neighborhood which points to the first
    * pixel in the neighborhood. */
   Iterator
@@ -264,9 +260,5 @@ protected:
   using typename Superclass::NeighborIndexType;
 };
 } // namespace itk
-
-#ifndef ITK_MANUAL_INSTANTIATION
-#  include "itkShapedNeighborhoodIterator.hxx"
-#endif
 
 #endif

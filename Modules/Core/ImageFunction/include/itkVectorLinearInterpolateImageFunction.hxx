@@ -30,15 +30,6 @@ template <typename TInputImage, typename TCoordRep>
 const unsigned long VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::m_Neighbors =
   1 << TInputImage::ImageDimension;
 
-/**
- * PrintSelf
- */
-template <typename TInputImage, typename TCoordRep>
-void
-VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  this->Superclass::PrintSelf(os, indent);
-}
 
 /**
  * Evaluate at image index position
