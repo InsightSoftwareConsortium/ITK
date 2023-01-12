@@ -23,6 +23,33 @@
 
 namespace itk
 {
+
+/** \class FastMarchingUpwindGradientImageFilterEnums
+ *
+ * \brief enums for itk::FastMarchingUpwindGradientImageFilter
+ *
+ * \ingroup ITKFastMarching
+ */
+class FastMarchingUpwindGradientImageFilterEnums
+{
+public:
+  /** \class TargetCondition
+   * \ingroup ITKFastMarching
+   * Specify how many targets are necessary to determine when the front must stop.
+   */
+  enum class TargetCondition : int
+  {
+    NoTargets,
+    OneTarget,
+    SomeTargets,
+    AllTargets
+  };
+};
+/** Define how to print enumeration values. */
+extern ITKFastMarching_EXPORT std::ostream &
+                              operator<<(std::ostream & out, const FastMarchingUpwindGradientImageFilterEnums::TargetCondition value);
+
+
 /**
  * \class FastMarchingUpwindGradientImageFilter
  *
@@ -97,6 +124,17 @@ public:
   /** The dimension of the level set. */
   static constexpr unsigned int SetDimension = Superclass::SetDimension;
 
+  using TargetConditionEnum = FastMarchingUpwindGradientImageFilterEnums::TargetCondition;
+  /** Backwards compatibility for enum values */
+#if !defined(ITK_LEGACY_REMOVE)
+  // We need to expose the enum values at the class level
+  // for backwards compatibility
+  static constexpr TargetConditionEnum NoTargets = TargetConditionEnum::NoTargets;
+  static constexpr TargetConditionEnum OneTarget = TargetConditionEnum::OneTarget;
+  static constexpr TargetConditionEnum SomeTargets = TargetConditionEnum::SomeTargets;
+  static constexpr TargetConditionEnum AllTargets = TargetConditionEnum::AllTargets;
+#endif
+
   /** Set the container of Target Points.
    * If a target point is reached, the propagation stops.
    * Trial points are represented as a VectorContainer of LevelSetNodes. */
@@ -155,31 +193,31 @@ public:
   /** Choose whether the front must stop when the first target has been reached
    * or all targets have been reached.
    */
-  itkSetMacro(TargetReachedMode, int);
-  itkGetConstReferenceMacro(TargetReachedMode, int);
+  itkSetMacro(TargetReachedMode, TargetConditionEnum);
+  itkGetConstReferenceMacro(TargetReachedMode, TargetConditionEnum);
   void
   SetTargetReachedModeToNoTargets()
   {
-    this->SetTargetReachedMode(NoTargets);
+    this->SetTargetReachedMode(TargetConditionEnum::NoTargets);
     m_NumberOfTargets = 0;
   }
   void
   SetTargetReachedModeToOneTarget()
   {
-    this->SetTargetReachedMode(OneTarget);
+    this->SetTargetReachedMode(TargetConditionEnum::OneTarget);
     m_NumberOfTargets = 1;
   }
   void
   SetTargetReachedModeToSomeTargets(SizeValueType numberOfTargets)
   {
-    this->SetTargetReachedMode(SomeTargets);
+    this->SetTargetReachedMode(TargetConditionEnum::SomeTargets);
     m_NumberOfTargets = numberOfTargets;
   }
 
   void
   SetTargetReachedModeToAllTargets()
   {
-    this->SetTargetReachedMode(AllTargets);
+    this->SetTargetReachedMode(TargetConditionEnum::AllTargets);
     // m_NumberOfTargets is not used for this case
   }
 
@@ -187,18 +225,10 @@ public:
   itkGetConstReferenceMacro(NumberOfTargets, SizeValueType);
 
   /** Get the arrival time corresponding to the last reached target.
-   *  If TargetReachedMode is set to NoTargets, TargetValue contains
+   *  If TargetReachedMode is set to TargetConditionEnum::NoTargets, TargetValue contains
    *  the last (aka largest) Eikonal solution value generated.
    */
   itkGetConstReferenceMacro(TargetValue, double);
-
-  enum
-  {
-    NoTargets,
-    OneTarget,
-    SomeTargets,
-    AllTargets
-  };
 
 #ifdef ITK_USE_CONCEPT_CHECKING
   // Begin concept checking
@@ -250,9 +280,11 @@ protected:
   }
 
   /** Check that the conditions to set the target reached mode are satisfied.
-   *  The sufficient target point count is 1 for OneTarget and AllTargets modes; and it is
-   *  given by a particular value for the SomeTargets mode.
-   *  Raises an exception if the conditions are not satisfied.
+   *
+   * The sufficient target point count is 1 for TargetConditionEnum::OneTarget and TargetConditionEnum::AllTargets
+   * modes; and it is given by a particular value for the TargetConditionEnum::SomeTargets mode.
+   *
+   * Raises an exception if the conditions are not satisfied.
    */
   void
   VerifyTargetReachedModeConditions(unsigned int targetModeMinPoints = 1) const
@@ -285,7 +317,7 @@ private:
 
   double m_TargetOffset;
 
-  int m_TargetReachedMode;
+  TargetConditionEnum m_TargetReachedMode;
 
   double m_TargetValue;
 
