@@ -38,13 +38,6 @@ MeanSampleFilter<TSample>::MeanSampleFilter()
 
 template <typename TSample>
 void
-MeanSampleFilter<TSample>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
-template <typename TSample>
-void
 MeanSampleFilter<TSample>::SetInput(const SampleType * sample)
 {
   this->ProcessObject::SetNthInput(0, const_cast<SampleType *>(sample));

@@ -42,14 +42,6 @@ AffineTransform<TParametersValueType, VDimension>::AffineTransform(const MatrixT
   : Superclass(matrix, offset)
 {}
 
-/** Print self */
-template <typename TParametersValueType, unsigned int VDimension>
-void
-AffineTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
 /** Compose with a translation */
 template <typename TParametersValueType, unsigned int VDimension>
 void

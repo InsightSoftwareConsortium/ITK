@@ -133,15 +133,6 @@ ImageMaskSpatialObject<TDimension, TPixel>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object */
-template <unsigned int TDimension, typename TPixel>
-void
-ImageMaskSpatialObject<TDimension, TPixel>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  Superclass::PrintSelf(os, indent);
-}
-
-
 template <unsigned int TDimension, typename TPixel>
 auto
 ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBoxInIndexSpace() const -> RegionType

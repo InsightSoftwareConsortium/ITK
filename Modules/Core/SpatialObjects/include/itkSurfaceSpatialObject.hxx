@@ -66,15 +66,6 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::InternalClone() const
   return loPtr;
 }
 
-/** Print the surface object */
-template <unsigned int TDimension, typename TSurfacePointType>
-void
-SurfaceSpatialObject<TDimension, TSurfacePointType>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  os << indent << "SurfaceSpatialObject(" << this << ")" << std::endl;
-  Superclass::PrintSelf(os, indent);
-}
-
 #if !defined(ITK_LEGACY_REMOVE)
 /** Approximate the normals of the surface */
 template <unsigned int TDimension, typename TSurfacePointType>

@@ -46,14 +46,6 @@ GroupSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object */
-template <unsigned int TDimension>
-void
-GroupSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  os << indent << "GroupSpatialObject(" << this << ")" << std::endl;
-  Superclass::PrintSelf(os, indent);
-}
 } // end namespace itk
 
 #endif // end itkGroupSpatialObject_hxx

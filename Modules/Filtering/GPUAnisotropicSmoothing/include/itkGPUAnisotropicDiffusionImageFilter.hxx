@@ -90,14 +90,6 @@ GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter
   }
 }
 
-template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
-void
-GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>::PrintSelf(std::ostream & os,
-                                                                                             Indent indent) const
-{
-  GPUSuperclass::PrintSelf(os, indent.GetNextIndent());
-}
-
 } // end namespace itk
 
 #endif

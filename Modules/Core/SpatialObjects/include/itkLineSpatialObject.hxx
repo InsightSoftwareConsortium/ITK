@@ -50,15 +50,6 @@ LineSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object. */
-template <unsigned int TDimension>
-void
-LineSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
-{
-  os << indent << "LineSpatialObject(" << this << ")" << std::endl;
-  Superclass::PrintSelf(os, indent);
-}
-
 template <unsigned int TDimension>
 bool
 LineSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) const

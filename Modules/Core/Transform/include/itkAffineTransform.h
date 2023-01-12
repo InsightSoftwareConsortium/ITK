@@ -281,9 +281,6 @@ protected:
   /** Destroy an AffineTransform object   */
   ~AffineTransform() override = default;
 
-  /** Print contents of an AffineTransform */
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
 }; // class AffineTransform
 
 } // namespace itk

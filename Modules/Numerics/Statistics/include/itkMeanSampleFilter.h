@@ -106,8 +106,6 @@ public:
 protected:
   MeanSampleFilter();
   ~MeanSampleFilter() override = default;
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** DataObject pointer */
   using DataObjectPointer = DataObject::Pointer;

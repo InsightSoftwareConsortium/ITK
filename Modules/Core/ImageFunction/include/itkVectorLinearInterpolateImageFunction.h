@@ -94,8 +94,6 @@ public:
 protected:
   VectorLinearInterpolateImageFunction() = default;
   ~VectorLinearInterpolateImageFunction() override = default;
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
   /** Number of neighbors used in the interpolation */
