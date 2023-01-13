@@ -55,11 +55,11 @@ public:
 
 public:
   /** Default constructor. It is created with an empty array
-   *  it has to be allocated later by assignment              */
+   *  it has to be allocated later by assignment */
   Array();
 
   /** Copy constructor.  Uses VNL copy constructor with correct
-   *  setting for memory management.                          */
+   *  setting for memory management. */
   Array(const Array &);
 
   /** Construct from a VnlVectorType */

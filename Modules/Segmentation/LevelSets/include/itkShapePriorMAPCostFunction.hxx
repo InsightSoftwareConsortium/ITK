@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFeatureImage, typename TOutputPixel>
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ShapePriorMAPCostFunction()
 {
@@ -35,9 +33,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ShapePriorMAPCostFunctio
   m_Weights.Fill(1.0);
 }
 
-/**
- * PrintSelf
- */
 template <typename TFeatureImage, typename TOutputPixel>
 void
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,9 +44,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::PrintSelf(std::ostream &
   os << indent << "Weights: " << m_Weights << std::endl;
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 auto
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(const ParametersType & parameters) const
@@ -93,9 +85,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogInsideTerm(con
   return output;
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 typename ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::MeasureType
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogShapePriorTerm(
@@ -112,9 +101,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogShapePriorTerm
   return measure;
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 auto
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogGradientTerm(const ParametersType & parameters) const
@@ -148,9 +134,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogGradientTerm(c
   return sum;
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 typename ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::MeasureType
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogPosePriorTerm(
@@ -159,9 +142,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogPosePriorTerm(
   return 0.0;
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 void
 ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::Initialize()

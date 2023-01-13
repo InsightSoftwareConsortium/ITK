@@ -27,9 +27,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TParametersValueType, unsigned int VDimension>
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType,
                                                    VDimension>::BSplineSmoothingOnUpdateDisplacementFieldTransform()
@@ -39,9 +36,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType,
   this->m_NumberOfControlPointsForTheTotalField.Fill(0);
 }
 
-/**
- * set mesh size for update field
- */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::SetMeshSizeForTheUpdateField(
@@ -55,9 +49,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
   this->SetNumberOfControlPointsForTheUpdateField(numberOfControlPoints);
 }
 
-/**
- * set mesh size for total field
- */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::SetMeshSizeForTheTotalField(
@@ -169,9 +160,6 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
   }
 }
 
-/**
- * set displacement field and project it onto the space of b-spline transforms
- */
 template <typename TParametersValueType, unsigned int VDimension>
 typename BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::DisplacementFieldPointer
 BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimension>::BSplineSmoothDisplacementField(

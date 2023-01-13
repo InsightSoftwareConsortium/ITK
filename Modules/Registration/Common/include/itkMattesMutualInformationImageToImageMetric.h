@@ -282,7 +282,7 @@ private:
   void
   CommonGetValueProcessing() const;
 
-  /** Precompute fixed image parzen window indices. */
+  /** Compute the Parzen window index locations from the pre-computed samples. */
   void
   ComputeFixedImageParzenWindowIndices(FixedImageSampleContainer & samples);
 

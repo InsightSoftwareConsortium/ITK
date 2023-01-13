@@ -117,33 +117,33 @@ public:
     return m_TensorMatrix;
   }
 
-  /** Copy one DTITubeSpatialObjectPoint to another */
+  /** Copy one DTITubeSpatialObjectPoint to another. */
   Self &
   operator=(const DTITubeSpatialObjectPoint & rhs);
 
-  /** Add a field to the point list */
+  /** Add a field to the point list. */
   void
   AddField(const char * name, float value);
 
-  /** Add a field to the point list */
+  /** Add a field to the point list. */
   void
   AddField(DTITubeSpatialObjectPointFieldEnum name, float value);
 
-  /** Set a field value */
+  /** Set a field value. */
   void
   SetField(DTITubeSpatialObjectPointFieldEnum name, float value);
 
   void
   SetField(const char * name, float value);
 
-  /** Return the list of extra fields */
+  /** Get the list of fields. */
   const FieldListType &
   GetFields() const
   {
     return m_Fields;
   }
 
-  /** Return the value of the specific fields */
+  /** Get the value of the specified field. */
   float
   GetField(const char * name) const;
 
@@ -158,7 +158,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Translate the enum to char */
+  /** Translate the enum to a string. */
   std::string
   TranslateEnumToChar(DTITubeSpatialObjectPointFieldEnum name) const;
 };

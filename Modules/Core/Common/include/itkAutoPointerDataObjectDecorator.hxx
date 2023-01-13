@@ -32,7 +32,6 @@
 namespace itk
 {
 
-/** Set value */
 template <typename T>
 void
 AutoPointerDataObjectDecorator<T>::Set(T * val)
@@ -46,7 +45,6 @@ AutoPointerDataObjectDecorator<T>::Set(T * val)
   }
 }
 
-/** PrintSelf method */
 template <typename T>
 void
 AutoPointerDataObjectDecorator<T>::PrintSelf(std::ostream & os, Indent indent) const

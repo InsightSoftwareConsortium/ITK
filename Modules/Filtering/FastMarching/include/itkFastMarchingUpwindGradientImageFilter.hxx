@@ -25,9 +25,7 @@
 
 namespace itk
 {
-/**
- *
- */
+
 template <typename TLevelSet, typename TSpeedImage>
 FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::FastMarchingUpwindGradientImageFilter()
 {
@@ -41,9 +39,6 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::FastMarchingUpwin
   m_NumberOfTargets = 0;
 }
 
-/**
- *
- */
 template <typename TLevelSet, typename TSpeedImage>
 void
 FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -83,9 +78,6 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::VerifyPreconditio
   }
 }
 
-/**
- *
- */
 template <typename TLevelSet, typename TSpeedImage>
 void
 FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::Initialize(LevelSetImageType * output)
@@ -250,9 +242,6 @@ FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::UpdateNeighbors(c
   }
 }
 
-/**
- *
- */
 template <typename TLevelSet, typename TSpeedImage>
 void
 FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::ComputeGradient(

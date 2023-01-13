@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 ImageRegistrationMethod<TFixedImage, TMovingImage>::ImageRegistrationMethod()
 {
@@ -52,9 +50,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::ImageRegistrationMethod()
   this->SetNumberOfWorkUnits(this->GetMultiThreader()->GetNumberOfWorkUnits());
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage>
 ModifiedTimeType
 ImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() const
@@ -104,9 +99,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() const
   return mtime;
 }
 
-/*
- * Set the initial transform parameters
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::SetInitialTransformParameters(const ParametersType & param)
@@ -115,10 +107,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::SetInitialTransformParameter
   this->Modified();
 }
 
-/**
-
- * Set the region of the fixed image to be considered for registration
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::SetFixedImageRegion(const FixedImageRegionType & region)
@@ -128,9 +116,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::SetFixedImageRegion(const Fi
   this->Modified();
 }
 
-/**
- * Initialize by setting the interconnects between components.
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
@@ -205,9 +190,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
   m_Optimizer->SetInitialPosition(m_InitialTransformParameters);
 }
 
-/**
- * Starts the Optimization process
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::StartOptimization()
@@ -232,9 +214,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::StartOptimization()
   m_Transform->SetParameters(m_LastTransformParameters);
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -252,9 +231,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
   os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
 }
 
-/*
- * Generate Data
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::GenerateData()
@@ -277,9 +253,6 @@ ImageRegistrationMethod<TFixedImage, TMovingImage>::GenerateData()
   this->StartOptimization();
 }
 
-/**
- *  Get Output
- */
 template <typename TFixedImage, typename TMovingImage>
 auto
 ImageRegistrationMethod<TFixedImage, TMovingImage>::GetOutput() const -> const TransformOutputType *

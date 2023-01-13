@@ -225,8 +225,9 @@ protected:
     return this->Superclass::Halt();
   }
 
-  /** A simple method to copy the data from the input to the output.
-   * If the input does not exist, a zero field is written to the output. */
+  /** Copy the data from the input to the output.
+   *
+   * When the input is not set, the output is filled with zero values. */
   void
   CopyInputToOutput() override;
 
@@ -236,23 +237,28 @@ protected:
   InitializeIteration() override;
 
   /** Utility to smooth the displacement field (represented in the Output)
-   * using a Gaussian operator. The amount of smoothing can be specified
+   * using a separable Gaussian kernel. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
   virtual void
   SmoothDisplacementField();
 
-  /** Utility to smooth the UpdateBuffer using a Gaussian operator.
+  /** Utility to smooth the UpdateBuffer using a separable Gaussian kernel.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
   virtual void
   SmoothUpdateField();
 
-  /** This method is called after the solution has been generated. In this case,
-   * the filter release the memory of the internal buffers. */
+  /** Release the memory of the internal buffers.
+   *
+   * Called after the solution has been generated.
+   */
   void
   PostProcessOutput() override;
 
-  /** This method is called before iterating the solution. */
+  /** Initialize flags.
+   *
+   * Called before iterating the solution.
+   */
   void
   Initialize() override;
 

@@ -58,11 +58,11 @@ public:
   /** Destructor */
   ~LineSpatialObjectPoint() override = default;
 
-  /** Get Normal */
+  /** Get the normal. */
   const CovariantVectorType &
   GetNormalInObjectSpace(unsigned int index) const;
 
-  /** Set Normal */
+  /** Set the normal. */
   void
   SetNormalInObjectSpace(CovariantVectorType & normal, unsigned int index);
 

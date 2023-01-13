@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::ChainCodeToFourierSeriesPathFilter()
 {
@@ -32,9 +30,6 @@ ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath
   m_NumberOfHarmonics = 8;
 }
 
-/**
- * GenerateData Performs the reflection
- */
 template <typename TInputChainCodePath, typename TOutputFourierSeriesPath>
 void
 ChainCodeToFourierSeriesPathFilter<TInputChainCodePath, TOutputFourierSeriesPath>::GenerateData()

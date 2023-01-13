@@ -22,7 +22,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <typename TTreeType>
 ChildTreeIterator<TTreeType>::ChildTreeIterator(TTreeType * tree, const TreeNodeType * start)
   : TreeIteratorBase<TTreeType>(tree, start)
@@ -42,7 +41,6 @@ ChildTreeIterator<TTreeType>::ChildTreeIterator(const TreeIteratorBase<TTreeType
   this->m_Position = m_ParentNode->GetChild(m_ListPosition);
 }
 
-/** Go to a specific child */
 template <typename TTreeType>
 bool
 ChildTreeIterator<TTreeType>::GoToChild(ChildIdentifier number)
@@ -59,7 +57,6 @@ ChildTreeIterator<TTreeType>::GoToChild(ChildIdentifier number)
   return true;
 }
 
-/** Go to the parent node */
 template <typename TTreeType>
 bool
 ChildTreeIterator<TTreeType>::GoToParent()
@@ -78,7 +75,6 @@ ChildTreeIterator<TTreeType>::GoToParent()
   return true;
 }
 
-/** Return the type of the iterator */
 template <typename TTreeType>
 auto
 ChildTreeIterator<TTreeType>::GetType() const -> NodeType
@@ -86,7 +82,6 @@ ChildTreeIterator<TTreeType>::GetType() const -> NodeType
   return TreeIteratorBaseEnums::TreeIteratorBaseNode::CHILD;
 }
 
-/** Return true if the next node exists */
 template <typename TTreeType>
 bool
 ChildTreeIterator<TTreeType>::HasNext() const
@@ -101,7 +96,6 @@ ChildTreeIterator<TTreeType>::HasNext() const
   }
 }
 
-/** Return the next node */
 template <typename TTreeType>
 auto
 ChildTreeIterator<TTreeType>::Next() -> const ValueType &
@@ -115,7 +109,6 @@ ChildTreeIterator<TTreeType>::Next() -> const ValueType &
   return this->m_Position->Get();
 }
 
-/** Clone function */
 template <typename TTreeType>
 TreeIteratorBase<TTreeType> *
 ChildTreeIterator<TTreeType>::Clone()

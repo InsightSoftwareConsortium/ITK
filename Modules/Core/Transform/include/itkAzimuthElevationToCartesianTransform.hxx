@@ -21,7 +21,7 @@
 
 namespace itk
 {
-// Constructor with default arguments
+
 template <typename TParametersValueType, unsigned int VDimension>
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::AzimuthElevationToCartesianTransform()
 // add this construction call when deriving from itk::Transform
@@ -36,7 +36,6 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::AzimuthE
   m_ForwardAzimuthElevationToPhysical = true;
 }
 
-// Print self
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,
@@ -84,7 +83,6 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::Transfor
   return result;
 }
 
-/** Transform a point, from azimuth-elevation to cartesian */
 template <typename TParametersValueType, unsigned int VDimension>
 typename AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::OutputPointType
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::TransformAzElToCartesian(
@@ -120,7 +118,6 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::Transfor
   return result;
 }
 
-// Set parameters
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::SetAzimuthElevationToCartesianParameters(

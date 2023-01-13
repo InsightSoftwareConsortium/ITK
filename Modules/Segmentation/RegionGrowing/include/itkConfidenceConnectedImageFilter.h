@@ -137,7 +137,7 @@ public:
    * executed using the Update() method. */
   itkGetConstReferenceMacro(Variance, InputRealType);
 
-  /** Method to access seed container */
+  /** Method to access seed container. */
   virtual const SeedsContainerType &
   GetSeeds() const;
 

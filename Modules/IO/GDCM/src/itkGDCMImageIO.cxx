@@ -1636,7 +1636,6 @@ GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 #endif
 }
 
-/** Print enum values */
 std::ostream &
 operator<<(std::ostream & out, const GDCMImageIOEnums::Compression value)
 {

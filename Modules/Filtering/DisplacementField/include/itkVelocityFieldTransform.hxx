@@ -26,9 +26,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TParametersValueType, unsigned int VDimension>
 VelocityFieldTransform<TParametersValueType, VDimension>::VelocityFieldTransform()
 {
@@ -67,9 +64,6 @@ VelocityFieldTransform<TParametersValueType, VDimension>::UpdateTransformParamet
   this->IntegrateVelocityField();
 }
 
-/**
- * return an inverse transformation
- */
 template <typename TParametersValueType, unsigned int VDimension>
 bool
 VelocityFieldTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) const
@@ -92,7 +86,6 @@ VelocityFieldTransform<TParametersValueType, VDimension>::GetInverse(Self * inve
   }
 }
 
-// Return an inverse of this transform
 template <typename TParametersValueType, unsigned int VDimension>
 auto
 VelocityFieldTransform<TParametersValueType, VDimension>::GetInverseTransform() const -> InverseTransformBasePointer

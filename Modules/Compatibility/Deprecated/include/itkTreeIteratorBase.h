@@ -89,27 +89,30 @@ public:
   static constexpr NodeType LEAF = NodeType::LEAF;
 #endif
 
-  /** Add an element to the tree */
+  /** Add an element to the tree at the current node.
+   *
+   * Creates a new child node.
+   */
   virtual bool
   Add(ValueType element);
 
-  /** Add an element at a given position */
+  /** Add an element to the tree at a given position. */
   virtual bool
   Add(int position, ValueType element);
 
-  /** Add a subtree */
+  /** Add a subtree. */
   virtual bool
   Add(TTreeType & subTree);
 
-  /** Get a value */
+  /** Get the value of the current node. */
   virtual const ValueType &
   Get() const;
 
-  /** Get the subtree */
+  /** Get the subtree. */
   virtual TTreeType *
   GetSubTree() const;
 
-  /** Return true if the current node is a leaf */
+  /** Return true if the current node is a leaf. */
   virtual bool
   IsLeaf() const;
 
@@ -121,85 +124,88 @@ public:
   virtual NodeType
   GetType() const = 0;
 
-  /** Go to the specified child */
+  /** Go to the specified child. */
   virtual bool
   GoToChild(ChildIdentifier number = 0);
 
-  /** Go to the parent */
+  /** Go to the parent of the current node. */
   virtual bool
   GoToParent();
 
-  /** Set the current value of the node */
+  /** Set the specified value to the current node. */
   void
   Set(ValueType element);
 
-  /** Return true if the current node has a child */
+  /** Return true if the current node has a child. */
   virtual bool
   HasChild(int number = 0) const;
 
-  /** Return the current ChildPosition of an element */
+  /** Return the current child position of an element. */
   virtual int
   ChildPosition(ValueType element) const;
 
-  /** Remove a child */
+  /** Remove a child.
+   *
+   * Removes its child nodes as well.
+   * /
   virtual bool
   RemoveChild(int number);
 
-  /** Count the number of children */
+  /** Count the number of children. */
   virtual int
   CountChildren() const;
 
-  /** Return true if the current node has a parent */
+  /** Return true if the current node has a parent. */
   virtual bool
   HasParent() const;
 
-  /** Disconnect the tree */
+  /** Disconnect the tree. */
   virtual bool
   Disconnect();
 
-  /** Return a list of children */
+  /** Return a list of children. */
   virtual TreeIteratorBase<TTreeType> *
   Children();
 
-  /** Return a list of parents */
+  /** Return the list of parents. */
   virtual TreeIteratorBase<TTreeType> *
   Parents();
 
-  /** Return a list of child */
+  /** Get the child corresponding to the given a number at the current node. */
   virtual TreeIteratorBase<TTreeType> *
   GetChild(int number) const;
 
-  /** Count the number of nodes */
+  /** Count the number of nodes. */
   virtual int
   Count();
 
-  /** Remove the current node from the tree */
+  /** Remove the current node from the tree. */
   bool
   Remove();
 
-  /** Get the current node */
+  /** Get the current node. */
   virtual TreeNodeType *
   GetNode();
 
   virtual const TreeNodeType *
   GetNode() const;
 
-  /** Get the root */
+  /** Get the root. */
   TreeNodeType *
   GetRoot();
 
   const TreeNodeType *
   GetRoot() const;
 
-  /** Get the tree */
+  /** Get the tree. */
   TTreeType *
   GetTree() const;
 
-  /** Return the first parent found */
+  /** Return the first parent found. */
   const TreeNodeType *
   GetParent() const;
 
-  /** Move an iterator to the beginning of the tree */
+  /** Move an iterator to the beginning of the tree. */
   void
   GoToBegin()
   {

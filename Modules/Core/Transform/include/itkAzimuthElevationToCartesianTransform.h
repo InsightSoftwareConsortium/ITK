@@ -188,13 +188,11 @@ public:
   void
   SetForwardCartesianToAzimuthElevation();
 
-  /** Perform conversion from Azimuth Elevation coordinates to Cartesian
-   *  Coordinates. */
+  /** Transform a point from azimuth-elevation coordinates to Cartesian coordinates. */
   OutputPointType
   TransformAzElToCartesian(const InputPointType & point) const;
 
-  /** Perform conversion from Cartesian Coordinates to Azimuth Elevation
-   *  coordinates.  */
+  /** Transform a point from Cartesian coordinates to azimuth-elevation coordinates. */
   OutputPointType
   TransformCartesianToAzEl(const OutputPointType & point) const;
 

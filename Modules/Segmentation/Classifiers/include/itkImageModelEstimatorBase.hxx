@@ -41,9 +41,6 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>::GenerateData()
   this->EstimateModels();
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputImage, typename TMembershipFunction>
 void
 ImageModelEstimatorBase<TInputImage, TMembershipFunction>::PrintSelf(std::ostream & os, Indent indent) const
@@ -67,11 +64,7 @@ ImageModelEstimatorBase<TInputImage, TMembershipFunction>::PrintSelf(std::ostrea
 
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
-} // end PrintSelf
-
-//------------------------------------------------------------------
-// Add a membership function corresponding to the class index
-//------------------------------------------------------------------
+}
 
 template <typename TInputImage, typename TMembershipFunction>
 unsigned int

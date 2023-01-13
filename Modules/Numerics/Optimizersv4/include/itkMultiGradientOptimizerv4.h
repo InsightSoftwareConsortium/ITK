@@ -116,15 +116,15 @@ public:
   const StopConditionReturnStringType
   GetStopConditionDescription() const override;
 
-  /** Get the list of optimizers currently held.  */
+  /** Get the list of optimizers currently held. */
   OptimizersListType &
   GetOptimizersList();
 
-  /** Set the list of optimizers to combine */
+  /** Set the list of optimizers to combine. */
   void
   SetOptimizersList(OptimizersListType & p);
 
-  /** Get the list of metric values that we produced after the multi-objective search.  */
+  /** Get the list of metric values that we produced after the multi-objective search. */
   const MetricValuesListType &
   GetMetricValuesList() const;
 

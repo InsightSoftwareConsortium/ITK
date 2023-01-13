@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursiveGaussianImageFilter()
 {
@@ -79,9 +77,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::HessianRecursive
   this->SetSigma(1.0);
 }
 
-/**
- * Set value of Sigma
- */
 template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealType sigma)
@@ -98,9 +93,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(RealTyp
   this->Modified();
 }
 
-/**
- * Get value of Sigma
- */
 template <typename TInputImage, typename TOutputImage>
 auto
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const -> RealType
@@ -108,9 +100,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const
   return m_DerivativeFilterA->GetSigma();
 }
 
-/**
- * Set Normalize Across Scale Space
- */
 template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcrossScale(bool normalize)
@@ -125,9 +114,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcro
   this->Modified();
 }
 
-//
-//
-//
 template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -145,9 +131,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputReq
   }
 }
 
-//
-//
-//
 template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
@@ -160,9 +143,6 @@ HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputReq
   }
 }
 
-/**
- * Compute filter for Gaussian kernel
- */
 template <typename TInputImage, typename TOutputImage>
 void
 HessianRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()

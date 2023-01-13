@@ -22,18 +22,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TCoordRep>
 VectorMeanImageFunction<TInputImage, TCoordRep>::VectorMeanImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 void
 VectorMeanImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -42,9 +37,6 @@ VectorMeanImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, In
   os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 auto
 VectorMeanImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType

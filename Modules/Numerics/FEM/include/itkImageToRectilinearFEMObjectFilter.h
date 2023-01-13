@@ -103,15 +103,15 @@ public:
   /**Get the number of element in each dimension of the generated mesh*/
   itkGetMacro(NumberOfElements, vnl_vector<unsigned int>);
 
-  /**Get/Set the material used for the mesh */
+  /**Get/Set the material used for the mesh. */
   itkGetMacro(Material, MaterialPointerType);
   itkSetMacro(Material, MaterialPointerType);
 
-  /**Get/Set the element type used to generate the mesh */
+  /**Get/Set the element type used to generate the mesh. */
   itkGetMacro(Element, ElementBasePointerType);
   itkSetMacro(Element, ElementBasePointerType);
 
-  /** Set/Get the image input of this process object.  */
+  /** Set/Get the input image. */
   using Superclass::SetInput;
   void
   SetInput(InputImageType * image);
@@ -161,9 +161,11 @@ protected:
   void
   GenerateData() override;
 
+  /** Generate a rectangular mesh of quadrilateral elements. */
   void
   Generate2DRectilinearMesh();
 
+  /** Generate a rectangular mesh of hexahedron elements. */
   void
   Generate3DRectilinearMesh();
 

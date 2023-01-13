@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 LineSpatialObject<TDimension>::LineSpatialObject()
 {
@@ -32,7 +32,6 @@ LineSpatialObject<TDimension>::LineSpatialObject()
   this->GetProperty().SetAlpha(1);
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 LineSpatialObject<TDimension>::InternalClone() const

@@ -54,23 +54,23 @@ public:
   /** Destructor */
   ~SurfaceSpatialObjectPoint() override = default;
 
-  /** Get Normal */
+  /** Get the normal in object space. */
   const CovariantVectorType &
   GetNormalInObjectSpace() const;
 
-  /** Get Normal */
+  /** Get the normal in world space. */
   const CovariantVectorType
   GetNormalInWorldSpace() const;
 
-  /** Set Normal */
+  /** Set the normal in object space. */
   void
   SetNormalInObjectSpace(const CovariantVectorType & normal);
 
-  /** Set Normal */
+  /** Set the normal in world space. */
   void
   SetNormalInWorldSpace(const CovariantVectorType & normal);
 
-  /** Copy one SurfaceSpatialObjectPoint to another */
+  /** Copy one SurfaceSpatialObjectPoint to another. */
   Self &
   operator=(const SurfaceSpatialObjectPoint & rhs);
 

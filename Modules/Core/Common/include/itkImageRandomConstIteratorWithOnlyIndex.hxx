@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Default constructor. Needed since we provide a cast constructor. */
+
 template <typename TImage>
 ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyIndex()
   : ImageConstIteratorWithOnlyIndex<TImage>()
@@ -32,8 +32,6 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyI
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
-/** Constructor establishes an iterator to walk a particular image and a
- * particular region of that image. */
 template <typename TImage>
 ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyIndex(const ImageType *  ptr,
                                                                                      const RegionType & region)
@@ -45,7 +43,6 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::ImageRandomConstIteratorWithOnlyI
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
-/**  Set the number of samples to extract from the region */
 template <typename TImage>
 void
 ImageRandomConstIteratorWithOnlyIndex<TImage>::SetNumberOfSamples(SizeValueType number)
@@ -53,7 +50,6 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::SetNumberOfSamples(SizeValueType 
   m_NumberOfSamplesRequested = number;
 }
 
-/**  Set the number of samples to extract from the region */
 template <typename TImage>
 auto
 ImageRandomConstIteratorWithOnlyIndex<TImage>::GetNumberOfSamples() const -> SizeValueType
@@ -61,7 +57,6 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::GetNumberOfSamples() const -> Siz
   return m_NumberOfSamplesRequested;
 }
 
-/** Reinitialize the seed of the random number generator */
 template <typename TImage>
 void
 ImageRandomConstIteratorWithOnlyIndex<TImage>::ReinitializeSeed()
@@ -76,7 +71,6 @@ ImageRandomConstIteratorWithOnlyIndex<TImage>::ReinitializeSeed(int seed)
   m_Generator->SetSeed(seed);
 }
 
-/** Execute an acrobatic random jump */
 template <typename TImage>
 void
 ImageRandomConstIteratorWithOnlyIndex<TImage>::RandomJump()

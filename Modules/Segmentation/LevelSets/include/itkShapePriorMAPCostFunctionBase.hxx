@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFeatureImage, typename TOutputPixel>
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::ShapePriorMAPCostFunctionBase()
 {
@@ -32,9 +30,6 @@ ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::ShapePriorMAPCostFun
   m_FeatureImage = nullptr;
 }
 
-/**
- * PrintSelf
- */
 template <typename TFeatureImage, typename TOutputPixel>
 void
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::PrintSelf(std::ostream & os, Indent indent) const
@@ -45,9 +40,6 @@ ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::PrintSelf(std::ostre
   os << indent << "FeatureImage:  " << m_FeatureImage.GetPointer() << std::endl;
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 auto
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::GetValue(const ParametersType & parameters) const
@@ -57,9 +49,6 @@ ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::GetValue(const Param
           this->ComputeLogShapePriorTerm(parameters) + this->ComputeLogPosePriorTerm(parameters));
 }
 
-/**
- *
- */
 template <typename TFeatureImage, typename TOutputPixel>
 void
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::Initialize()

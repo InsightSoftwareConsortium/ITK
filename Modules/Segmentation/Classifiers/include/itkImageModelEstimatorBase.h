@@ -125,7 +125,10 @@ public:
     m_MembershipFunctions.resize(0);
   }
 
-  /** Stores a MembershipCalculator of a class in its internal vector */
+  /** Add a membership function corresponding to the class index.
+   *
+   * Stores a MembershipCalculator of a class in its internal vector.
+   */
   unsigned int
   AddMembershipFunction(MembershipFunctionPointer function);
 

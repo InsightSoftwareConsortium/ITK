@@ -24,7 +24,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   PointSetToPointSetMetricWithIndexv4()
@@ -57,7 +56,6 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   this->m_CalculateValueAndDerivativeInTangentSpace = false;
 }
 
-/** Initialize the metric */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::Initialize()
@@ -651,8 +649,6 @@ const typename PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointS
   return ranges;
 }
 
-
-/** PrintSelf */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(

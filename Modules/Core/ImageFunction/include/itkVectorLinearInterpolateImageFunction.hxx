@@ -23,17 +23,12 @@
 
 namespace itk
 {
-/**
- * Define the number of neighbors
- */
+
 template <typename TInputImage, typename TCoordRep>
 const unsigned long VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::m_Neighbors =
   1 << TInputImage::ImageDimension;
 
 
-/**
- * Evaluate at image index position
- */
 template <typename TInputImage, typename TCoordRep>
 typename VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::OutputType
 VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(

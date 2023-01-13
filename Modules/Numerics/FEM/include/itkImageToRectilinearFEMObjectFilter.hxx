@@ -26,9 +26,6 @@ namespace itk
 namespace fem
 {
 
-/*
- * Default constructor for Filter
- */
 template <typename TInputImage>
 ImageToRectilinearFEMObjectFilter<TInputImage>::ImageToRectilinearFEMObjectFilter()
 {
@@ -49,9 +46,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::SetInput(InputImageType * image)
   this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(image));
 }
 
-/**
- * Connect one of the operands for pixel-wise addition
- */
 template <typename TInputImage>
 void
 ImageToRectilinearFEMObjectFilter<TInputImage>::SetInput(unsigned int index, InputImageType * image)
@@ -60,9 +54,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::SetInput(unsigned int index, Inp
   this->ProcessObject::SetNthInput(index, const_cast<InputImageType *>(image));
 }
 
-/**
- *
- */
 template <typename TInputImage>
 auto
 ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput() -> InputImageType *
@@ -75,9 +66,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput() -> InputImageType *
   return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(0));
 }
 
-/**
- *
- */
 template <typename TInputImage>
 auto
 ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput(unsigned int idx) -> InputImageType *
@@ -85,9 +73,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetInput(unsigned int idx) -> In
   return itkDynamicCastInDebugMode<InputImageType *>(this->ProcessObject::GetInput(idx));
 }
 
-/**
- *
- */
 template <typename TInputImage>
 auto
 ImageToRectilinearFEMObjectFilter<TInputImage>::MakeOutput(DataObjectPointerArraySizeType itkNotUsed(idx))
@@ -96,9 +81,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::MakeOutput(DataObjectPointerArra
   return FEMObjectType::New().GetPointer();
 }
 
-/**
- *
- */
 template <typename TInputImage>
 auto
 ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput() -> FEMObjectType *
@@ -111,9 +93,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput() -> FEMObjectType *
   return itkDynamicCastInDebugMode<FEMObjectType *>(this->ProcessObject::GetOutput(0));
 }
 
-/**
- *
- */
 template <typename TInputImage>
 auto
 ImageToRectilinearFEMObjectFilter<TInputImage>::GetOutput(unsigned int idx) -> FEMObjectType *
@@ -147,9 +126,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::GenerateData()
   }
 }
 
-/**
- * Generate a rectangular mesh of quadrilateral elements
- */
 template <typename TInputImage>
 void
 ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
@@ -218,9 +194,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate2DRectilinearMesh()
   }
 }
 
-/**
- * Generate a rectangular mesh of hexahedron elements
- */
 template <typename TInputImage>
 void
 ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
@@ -317,9 +290,6 @@ ImageToRectilinearFEMObjectFilter<TInputImage>::Generate3DRectilinearMesh()
   }
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputImage>
 void
 ImageToRectilinearFEMObjectFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const

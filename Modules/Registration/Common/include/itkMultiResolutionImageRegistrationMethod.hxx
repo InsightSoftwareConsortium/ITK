@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::MultiResolutionImageRegistrationMethod()
 {
@@ -64,9 +62,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::MultiResoluti
   this->ProcessObject::SetNthOutput(0, transformDecorator.GetPointer());
 }
 
-/*
- * Initialize by setting the interconnects between components.
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
@@ -112,9 +107,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::Initialize()
   transformOutput->Set(m_Transform);
 }
 
-/*
- * Stop the Registration Process
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::StopRegistration()
@@ -122,9 +114,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::StopRegistrat
   m_Stop = true;
 }
 
-/**
- * Set the schedules for the fixed and moving image pyramid
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::SetSchedules(
@@ -153,9 +142,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::SetSchedules(
   this->Modified();
 }
 
-/**
- * Set the number of levels
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::SetNumberOfLevels(SizeValueType numberOfLevels)
@@ -171,9 +157,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::SetNumberOfLe
   this->Modified();
 }
 
-/**
- * Stop the Registration Process
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyramids()
@@ -277,9 +260,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PreparePyrami
   }
 }
 
-/*
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -321,9 +301,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std
   os << m_MovingImagePyramidSchedule << std::endl;
 }
 
-/*
- * Generate Data
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GenerateData()
@@ -435,9 +412,6 @@ MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GetMTime() co
   return mtime;
 }
 
-/*
- *  Get Output
- */
 template <typename TFixedImage, typename TMovingImage>
 auto
 MultiResolutionImageRegistrationMethod<TFixedImage, TMovingImage>::GetOutput() const -> const TransformOutputType *

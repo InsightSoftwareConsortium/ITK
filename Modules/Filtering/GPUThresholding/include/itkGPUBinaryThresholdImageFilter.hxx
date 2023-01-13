@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 GPUBinaryThresholdImageFilter<TInputImage, TOutputImage>::GPUBinaryThresholdImageFilter()
 {

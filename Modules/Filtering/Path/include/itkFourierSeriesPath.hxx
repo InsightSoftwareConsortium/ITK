@@ -86,9 +86,6 @@ FourierSeriesPath<VDimension>::AddHarmonic(const VectorType & CosCoefficients, c
   this->Modified();
 }
 
-/**
- * Constructor
- */
 template <unsigned int VDimension>
 FourierSeriesPath<VDimension>::FourierSeriesPath()
 {
@@ -97,9 +94,6 @@ FourierSeriesPath<VDimension>::FourierSeriesPath()
   m_SinCoefficients = CoefficientsType::New();
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <unsigned int VDimension>
 void
 FourierSeriesPath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const

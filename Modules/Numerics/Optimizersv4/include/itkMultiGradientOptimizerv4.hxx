@@ -22,7 +22,6 @@
 namespace itk
 {
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::MultiGradientOptimizerv4Template()
 
@@ -35,7 +34,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::MultiGradientOp
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -45,7 +43,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::
   os << indent << "Stop condition description: " << this->m_StopConditionDescription.str() << std::endl;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 auto
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetOptimizersList() -> OptimizersListType &
@@ -53,7 +50,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetOptimizersLi
   return this->m_OptimizersList;
 }
 
-/** Set the list of optimizers to use in the multiple gradient descent */
 template <typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::SetOptimizersList(
@@ -66,7 +62,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::SetOptimizersLi
   }
 }
 
-/** Get the list of metric values that we produced after the multi-gradient optimization.  */
 template <typename TInternalComputationValueType>
 auto
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetMetricValuesList() const
@@ -75,7 +70,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetMetricValues
   return this->m_MetricValuesList;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 auto
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
@@ -84,7 +78,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::GetStopConditio
   return this->m_StopConditionDescription.str();
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::StopOptimization()
@@ -97,9 +90,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StopOptimizatio
   this->InvokeEvent(EndEvent());
 }
 
-/**
- * Start and run the optimization
- */
 template <typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimization(bool doOnlyInitialization)
@@ -143,9 +133,6 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimizati
   }
 }
 
-/**
- * Resume optimization.
- */
 template <typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization()

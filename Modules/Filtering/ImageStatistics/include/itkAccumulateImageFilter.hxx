@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 AccumulateImageFilter<TInputImage, TOutputImage>::AccumulateImageFilter()
 {
@@ -135,9 +133,6 @@ AccumulateImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
   itkDebugMacro("GenerateInputRequestedRegion End");
 }
 
-/**
- * GenerateData Performs the accumulation
- */
 template <typename TInputImage, typename TOutputImage>
 void
 AccumulateImageFilter<TInputImage, TOutputImage>::GenerateData()

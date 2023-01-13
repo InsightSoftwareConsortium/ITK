@@ -722,7 +722,7 @@ public:
    */
   ~VariableLengthVector();
 
-  /** Reserves memory of a certain length.
+  /** Reserves memory of a certain size of data.
    *
    * If the array already contains data, the existing data is copied over and
    * new space is allocated, if necessary. If the length to reserve is less
@@ -960,11 +960,11 @@ public:
 
   ITK_UNEQUAL_OPERATOR_MEMBER_FUNCTION(Self);
 
-  /** Returns vector's Euclidean Norm  */
+  /** Returns vector's Euclidean norm. */
   RealValueType
   GetNorm() const;
 
-  /** Returns vector's squared Euclidean Norm  */
+  /** Returns vector's squared Euclidean norm. */
   RealValueType
   GetSquaredNorm() const;
 

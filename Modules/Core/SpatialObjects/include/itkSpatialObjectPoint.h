@@ -148,11 +148,11 @@ public:
     return m_Color;
   }
 
-  /** Set the color */
+  /** Set the color of the point. */
   void
   SetColor(double r, double g, double b, double a = 1);
 
-  /** Set/Get red color of the point */
+  /** Set/Get red color of the point. */
   void
   SetRed(double r)
   {

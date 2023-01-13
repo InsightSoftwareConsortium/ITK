@@ -162,7 +162,10 @@ protected:
 
   /** Static function used as a "callback" by the MultiThreaderBase.  The threading
    * library will call this routine for each thread, which will delegate the
-   * control to ThreadedGetValue(). */
+   * control to ThreadedGetValue.
+   *
+   * Calls the ThreadedGenerateData method after setting the correct region for this thread.
+   */
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   ThreaderCallback(void * arg);
 

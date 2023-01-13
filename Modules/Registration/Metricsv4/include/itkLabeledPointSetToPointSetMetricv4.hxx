@@ -26,7 +26,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   LabeledPointSetToPointSetMetricv4()
@@ -236,7 +235,6 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   }
 }
 
-/** PrintSelf method */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(

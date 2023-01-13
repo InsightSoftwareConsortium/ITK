@@ -84,14 +84,12 @@ ChainCodePath<VDimension>::IncrementInput(InputType & input) const -> OffsetType
   }
 }
 
-/** Constructor */
 template <unsigned int VDimension>
 ChainCodePath<VDimension>::ChainCodePath()
 {
   m_Start = this->GetZeroIndex();
 }
 
-/** Standard "PrintSelf" method */
 template <unsigned int VDimension>
 void
 ChainCodePath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const

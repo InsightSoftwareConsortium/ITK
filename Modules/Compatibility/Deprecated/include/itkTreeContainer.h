@@ -56,64 +56,64 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(TreeContainer, TreeContainerBase);
 
-  /** Constructor */
+  /** Constructor with default children count. */
   TreeContainer(int defaultChildrenCount);
 
-  /** Constructor */
+  /** Constructor by adding a tree. */
   TreeContainer(TreeContainer<TValue> & tree);
 
-  /** Set the root as an element */
+  /** Set the specified element as the root. */
   bool
   SetRoot(const TValue element) override;
 
-  /** The the root as an iterator position */
+  /** Set the specified iterator position as the root. */
   bool
   SetRoot(IteratorType & pos);
 
-  /** Set the root as a tree node */
+  /** Set the specified tree node as the root. */
   bool
   SetRoot(TreeNode<TValue> * node) override;
 
-  /** Return true if the element is in the tree */
+  /** Return true if the element is in the tree. */
   bool
   Contains(const TValue element) override;
 
-  /** Return the number of elements in the tree */
+  /** Return the number of elements in the tree. */
   int
   Count() const override;
 
-  /** Return true if the element is a leaf */
+  /** Return true if the node containing the given element is a leaf of the tree. */
   bool
   IsLeaf(const TValue element) override;
 
-  /** Return true if the element is a root */
+  /** Return true if the node containing the given element is the root. */
   bool
   IsRoot(const TValue element) override;
 
-  /** Clear the tree */
+  /** Clear the tree. */
   bool
   Clear() override;
 
-  /** operator equal */
+  /** operator equal. */
   bool
   operator==(TreeContainer<TValue> & tree);
 
-  /** Swap the iterators */
+  /** Swap the iterators. */
   bool
   Swap(IteratorType & v, IteratorType & w);
 
-  /** Get the root */
+  /** Get the root. */
   const TreeNodeType *
   GetRoot() const override
   {
     return m_Root.GetPointer();
   }
 
-  /** Add a child to a given parent using values */
+  /** Add a child to a given parent. */
   bool
   Add(const TValue child, const TValue parent);
 
-  /** Get node given a value */
+  /** Get the node corresponding to the given a value. */
   const TreeNodeType *
   GetNode(TValue val) const;
 

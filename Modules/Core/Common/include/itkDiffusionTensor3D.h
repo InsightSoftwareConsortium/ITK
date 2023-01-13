@@ -131,7 +131,20 @@ public:
     return *this;
   }
 
-  /** Get Trace value */
+  /** Get the trace value.
+   *
+   * Note that the indices are related to the fact
+   * that we store only the upper-right triangle of
+   * the matrix. Like
+   *
+   *       | 0  1  2  |
+   *       | X  3  4  |
+   *       | X  X  5  |
+   *
+   * The trace is therefore the sum of the components
+   * M[0], M[3] and M[5].
+   *
+   */
   AccumulateValueType
   GetTrace() const;
 
@@ -143,7 +156,7 @@ public:
   RealValueType
   GetRelativeAnisotropy() const;
 
-  /** Get the Inner Scalar Product from the Tensor. */
+  /** Get the inner scalar product from the Tensor. */
   RealValueType
   GetInnerScalarProduct() const;
 };

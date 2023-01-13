@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TPointDimension>
 TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
 {
@@ -42,7 +42,6 @@ TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint()
   m_Alpha3 = 0;
 }
 
-/** Copy Constructor */
 template <unsigned int TPointDimension>
 TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint(const TubeSpatialObjectPoint & other)
   : Superclass(other)
@@ -64,7 +63,6 @@ TubeSpatialObjectPoint<TPointDimension>::TubeSpatialObjectPoint(const TubeSpatia
   this->SetAlpha3(other.GetAlpha3());
 }
 
-/** Get the radius */
 template <unsigned int TPointDimension>
 double
 TubeSpatialObjectPoint<TPointDimension>::GetRadiusInWorldSpace() const
@@ -86,7 +84,6 @@ TubeSpatialObjectPoint<TPointDimension>::GetRadiusInWorldSpace() const
   return worldR;
 }
 
-/** Get the radius */
 template <unsigned int TPointDimension>
 void
 TubeSpatialObjectPoint<TPointDimension>::SetRadiusInWorldSpace(double newR)

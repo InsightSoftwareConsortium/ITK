@@ -322,14 +322,14 @@ public:
     return *this;
   }
 
-  /** Set/Get number of random samples to get from the image region */
+  /** Set/Get number of random samples to extract from the image region. */
   void
   SetNumberOfSamples(SizeValueType number);
 
   SizeValueType
   GetNumberOfSamples() const;
 
-  /** Reinitialize the seed of the random number generator  */
+  /** Reinitialize the seed of the random number generator. */
   void
   ReinitializeSeed();
 
@@ -339,6 +339,7 @@ public:
   ReinitializeSeed(int);
 
 private:
+  /** Update the position. */
   void
   UpdatePosition();
 

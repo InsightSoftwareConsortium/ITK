@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   FastSymmetricForcesDemonsRegistrationFilter()
@@ -40,9 +38,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   m_Adder->InPlaceOn();
 }
 
-/*
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -56,9 +51,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   Superclass::InitializeIteration();
 }
 
-/*
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetMetric() const
@@ -68,9 +60,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   return drfp->GetMetric();
 }
 
-/**
- * Return intensity difference threshold
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
@@ -81,9 +70,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   return drfp->GetIntensityDifferenceThreshold();
 }
 
-/**
- * Sets the intensity difference threshold
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
@@ -94,9 +80,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   drfp->SetIntensityDifferenceThreshold(threshold);
 }
 
-/**
- * Get the maximum update step length
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetMaximumUpdateStepLength()
@@ -107,9 +90,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   return drfp->GetMaximumUpdateStepLength();
 }
 
-/**
- * Set the maximum update step length
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetMaximumUpdateStepLength(
@@ -120,9 +100,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   drfp->SetMaximumUpdateStepLength(threshold);
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 const double &
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetRMSChange() const
@@ -132,9 +109,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   return drfp->GetRMSChange();
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 auto
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetUseGradientType() const
@@ -145,9 +119,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   return drfp->GetUseGradientType();
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetUseGradientType(
@@ -158,10 +129,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   drfp->SetUseGradientType(gtype);
 }
 
-/**
- * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
- * It throws and exception, if it is not.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   DemonsRegistrationFunctionType *
@@ -178,10 +145,6 @@ typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, 
   return drfp;
 }
 
-/**
- * Checks whether the DifferenceFunction is of type DemonsRegistrationFunction.
- * It throws and exception, if it is not.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 const typename FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   DemonsRegistrationFunctionType *
@@ -215,9 +178,6 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
   upbuf->Allocate();
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::ApplyUpdate(

@@ -26,7 +26,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension>
 SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSampleDimension>::
   SpatialObjectToImageStatisticsCalculator()
@@ -43,7 +43,6 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
   m_Sample = SampleType::New();
 }
 
-/** Compute Statistics from the Sample vector */
 template <typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension>
 bool
 SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSampleDimension>::ComputeStatistics()
@@ -78,7 +77,6 @@ SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSamp
   return true;
 }
 
-/** */
 template <typename TInputImage, typename TInputSpatialObject, unsigned int TSampleDimension>
 void
 SpatialObjectToImageStatisticsCalculator<TInputImage, TInputSpatialObject, TSampleDimension>::Update()

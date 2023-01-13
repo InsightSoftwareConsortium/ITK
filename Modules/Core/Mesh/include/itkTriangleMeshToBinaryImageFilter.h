@@ -185,7 +185,7 @@ public:
   itkSetMacro(Size, SizeType);
   itkGetConstMacro(Size, SizeType);
 
-  /** Set the mesh input of this process object.  */
+  /** Set the input mesh. */
   using Superclass::SetInput;
   void
   SetInput(InputMeshType * input);
@@ -200,7 +200,7 @@ public:
     }
   }
 
-  /** Get the mesh input of this process object.  */
+  /** Get the input mesh. */
   InputMeshType *
   GetInput();
 
@@ -224,6 +224,7 @@ protected:
   virtual void
   RasterizeTriangles();
 
+  /** Convert a single polygon/triangle to raster format. */
   static int
   PolygonToImageRaster(PointVector coords, Point1DArray & zymatrix, int extent[6]);
 

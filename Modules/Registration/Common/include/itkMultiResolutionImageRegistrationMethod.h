@@ -134,7 +134,7 @@ public:
   /** Smart Pointer type to a DataObject. */
   using DataObjectPointer = typename DataObject::Pointer;
 
-  /** Method to stop the registration. */
+  /** Stop the registration. */
   void
   StopRegistration();
 
@@ -174,7 +174,7 @@ public:
   itkSetObjectMacro(MovingImagePyramid, MovingImagePyramidType);
   itkGetModifiableObjectMacro(MovingImagePyramid, MovingImagePyramidType);
 
-  /** Set/Get the schedules . */
+  /** Set/Get the schedules for the fixed and moving image pyramid. */
   void
   SetSchedules(const ScheduleType & fixedImagePyramidSchedule, const ScheduleType & movingImagePyramidSchedule);
 

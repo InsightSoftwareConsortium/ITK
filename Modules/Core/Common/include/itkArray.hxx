@@ -22,13 +22,13 @@
 
 namespace itk
 {
-/** Default constructor */
+
 template <typename TValue>
 Array<TValue>::Array()
   : vnl_vector<TValue>()
 {}
 
-/** Copy constructor */
+
 template <typename TValue>
 Array<TValue>::Array(const Self & rhs)
   : vnl_vector<TValue>(rhs)
@@ -43,7 +43,7 @@ Array<TValue>::Array(const VnlVectorType & rhs)
 // no matter the setting of let array manage memory of rhs
 {}
 
-/** Constructor with size */
+
 template <typename TValue>
 Array<TValue>::Array(SizeValueType dimension)
   : vnl_vector<TValue>(dimension)
@@ -51,13 +51,11 @@ Array<TValue>::Array(SizeValueType dimension)
 // no matter the setting of let array manage memory of rhs
 {}
 
-/** Constructor with size and initial value for each element. */
 template <typename TValue>
 Array<TValue>::Array(const SizeValueType dimension, const TValue & value)
   : vnl_vector<TValue>(dimension, value)
 {}
 
-/** Constructor with user specified data */
 template <typename TValue>
 Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMemory)
   : m_LetArrayManageMemory(LetArrayManageMemory)
@@ -67,7 +65,6 @@ Array<TValue>::Array(ValueType * datain, SizeValueType sz, bool LetArrayManageMe
 }
 
 #if defined(ITK_LEGACY_REMOVE)
-/** Constructor with user specified const data */
 template <typename TValue>
 Array<TValue>::Array(const ValueType * datain, SizeValueType sz)
   : vnl_vector<TValue>(datain, sz)
@@ -76,7 +73,6 @@ Array<TValue>::Array(const ValueType * datain, SizeValueType sz)
 {}
 
 #else // defined ( ITK_LEGACY_REMOVE )
-/** Constructor with user specified const data */
 template <typename TValue>
 Array<TValue>::Array(const ValueType * datain, SizeValueType sz, bool /* LetArrayManageMemory */)
   : /* NOTE: The 3rd argument "LetArrayManageMemory, was never valid to use, but is
@@ -87,8 +83,6 @@ Array<TValue>::Array(const ValueType * datain, SizeValueType sz, bool /* LetArra
 {}
 #endif
 
-
-/** Destructor */
 template <typename TValue>
 Array<TValue>::~Array()
 {

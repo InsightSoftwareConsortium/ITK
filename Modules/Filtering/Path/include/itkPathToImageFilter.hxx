@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TInputPath, typename TOutputImage>
 PathToImageFilter<TInputPath, TOutputImage>::PathToImageFilter()
 {
@@ -129,7 +129,6 @@ PathToImageFilter<TInputPath, TOutputImage>::GetSpacing() const
   return m_Spacing;
 }
 
-//----------------------------------------------------------------------------
 template <typename TInputPath, typename TOutputImage>
 void
 PathToImageFilter<TInputPath, TOutputImage>::SetOrigin(const double * origin)
@@ -180,8 +179,6 @@ PathToImageFilter<TInputPath, TOutputImage>::GetOrigin() const
 {
   return m_Origin;
 }
-
-//----------------------------------------------------------------------------
 
 template <typename TInputPath, typename TOutputImage>
 void
@@ -281,7 +278,7 @@ PathToImageFilter<TInputPath, TOutputImage>::GenerateData()
   }
 
   itkDebugMacro(<< "PathToImageFilter::GenerateData() finished");
-} // end update function
+}
 
 template <typename TInputPath, typename TOutputImage>
 void

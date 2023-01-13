@@ -138,11 +138,11 @@ public:
   void
   UpdateTransformParameters(const DerivativeType & update, ScalarType factor = 1.0) override;
 
-  /** Return an inverse of this transform. */
+  /** Get the inverse of the transform. */
   bool
   GetInverse(Self * inverse) const;
 
-  /** Return an inverse of this transform. */
+  /** Get the inverse of the transform. */
   InverseTransformBasePointer
   GetInverseTransform() const override;
 

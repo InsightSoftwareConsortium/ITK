@@ -170,7 +170,10 @@ protected:
   void
   ThreadedGenerateData(const RegionType &, ThreadIdType);
 
-  /** Handle optimization internally */
+  /** Start the optimization at each level.
+   *
+   * Performs a basic gradient descent operation.
+   */
   virtual void
   StartOptimization();
 

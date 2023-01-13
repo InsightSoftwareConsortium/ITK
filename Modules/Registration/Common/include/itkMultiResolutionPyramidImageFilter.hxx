@@ -30,9 +30,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::MultiResolutionPyramidImageFilter()
 {
@@ -42,9 +40,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::MultiResolutionPyr
   m_UseShrinkImageFilter = false;
 }
 
-/**
- * Set the number of computation levels
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetNumberOfLevels(unsigned int num)
@@ -99,9 +94,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetNumberOfLevels(
   }
 }
 
-/*
- * Set the starting shrink factors
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetStartingShrinkFactors(unsigned int factor)
@@ -110,9 +102,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetStartingShrinkF
   this->SetStartingShrinkFactors(fixedArray.GetDataPointer());
 }
 
-/**
- * Set the starting shrink factors
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetStartingShrinkFactors(const unsigned int * factors)
@@ -141,9 +130,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetStartingShrinkF
   this->Modified();
 }
 
-/*
- * Get the starting shrink factors
- */
 template <typename TInputImage, typename TOutputImage>
 const unsigned int *
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GetStartingShrinkFactors() const
@@ -151,9 +137,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GetStartingShrinkF
   return (m_Schedule.data_block());
 }
 
-/*
- * Set the multi-resolution schedule
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetSchedule(const ScheduleType & schedule)
@@ -192,9 +175,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::SetSchedule(const 
   }
 }
 
-/*
- * Is the schedule downward divisible ?
- */
 template <typename TInputImage, typename TOutputImage>
 bool
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::IsScheduleDownwardDivisible(const ScheduleType & schedule)
@@ -219,9 +199,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::IsScheduleDownward
   return true;
 }
 
-/*
- * GenerateData for non downward divisible schedules
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
@@ -313,9 +290,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
   }
 }
 
-/**
- * PrintSelf method
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -329,9 +303,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
   os << indent << "Use ShrinkImageFilter= " << m_UseShrinkImageFilter << std::endl;
 }
 
-/*
- * GenerateOutputInformation
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInformation()
@@ -404,9 +375,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputInfo
   }
 }
 
-/*
- * GenerateOutputRequestedRegion
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequestedRegion(DataObject * refOutput)
@@ -500,9 +468,6 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequ
   }
 }
 
-/**
- * GenerateInputRequestedRegion
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()

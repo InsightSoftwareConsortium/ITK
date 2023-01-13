@@ -22,25 +22,21 @@
 namespace itk
 {
 
-/** Constructor with number of rows and columns as arguments */
 template <typename TValue>
 Array2D<TValue>::Array2D(unsigned int numberOfRows, unsigned int numberOfCols)
   : vnl_matrix<TValue>(numberOfRows, numberOfCols)
 {}
 
-/** Constructor from a vnl_matrix */
 template <typename TValue>
 Array2D<TValue>::Array2D(const VnlMatrixType & matrix)
   : vnl_matrix<TValue>(matrix)
 {}
 
-/** Copy Constructor  */
 template <typename TValue>
 Array2D<TValue>::Array2D(const Self & array)
   : vnl_matrix<TValue>(array)
 {}
 
-/** Assignment Operator from Array */
 template <typename TValue>
 Array2D<TValue> &
 Array2D<TValue>::operator=(const Self & array)
@@ -49,7 +45,6 @@ Array2D<TValue>::operator=(const Self & array)
   return *this;
 }
 
-/** Assignment Operator from vnl_matrix */
 template <typename TValue>
 Array2D<TValue> &
 Array2D<TValue>::operator=(const VnlMatrixType & matrix)
@@ -58,7 +53,6 @@ Array2D<TValue>::operator=(const VnlMatrixType & matrix)
   return *this;
 }
 
-/** Set the size of the array */
 template <typename TValue>
 void
 Array2D<TValue>::SetSize(unsigned int m, unsigned int n)

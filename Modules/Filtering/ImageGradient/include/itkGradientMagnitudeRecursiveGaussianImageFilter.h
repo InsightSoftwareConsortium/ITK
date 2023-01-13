@@ -110,13 +110,14 @@ public:
   /** Runtime information support. */
   itkTypeMacro(GradientMagnitudeRecursiveGaussianImageFilter, InPlaceImageFilter);
 
-  /** Set Sigma value. Sigma is measured in the units of image spacing.  */
+  /** Set/Get Sigma value. Sigma is measured in the units of image spacing.  */
   void
   SetSigma(RealType sigma);
   RealType
   GetSigma();
 
-  /** Define which normalization factor will be used for the Gaussian
+  /** Set/Get the normalization factor that will be used for the Gaussian.
+   *
    *  \sa  RecursiveGaussianImageFilter::SetNormalizeAcrossScale
    */
   void

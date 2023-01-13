@@ -26,9 +26,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TCoordRep>
 MedianImageFunction<TInputImage, TCoordRep>::MedianImageFunction() = default;
 
@@ -44,10 +42,6 @@ MedianImageFunction<TInputImage, TCoordRep>::SetNeighborhoodRadius(const unsigne
   }
 }
 
-
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 void
 MedianImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -56,9 +50,6 @@ MedianImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent
   os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 auto
 MedianImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> OutputType

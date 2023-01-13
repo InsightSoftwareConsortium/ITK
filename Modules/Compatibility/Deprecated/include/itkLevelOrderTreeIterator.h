@@ -45,28 +45,28 @@ public:
   /** Constructor with end level specification */
   LevelOrderTreeIterator(TreeType * tree, int endLevel = INT_MAX, const TreeNodeType * start = nullptr);
 
-  /** Constructor with end level specification */
+  /** Constructor with end level specification. */
   LevelOrderTreeIterator(TreeType * tree, int startLevel, int endLevel, const TreeNodeType * start = nullptr);
 
   ~LevelOrderTreeIterator() override = default;
 
-  /** Get the type of the iterator */
+  /** Get the type of the iterator. */
   NodeType
   GetType() const override;
 
-  /** Get the start level */
+  /** Get the start level. */
   int
   GetStartLevel() const;
 
-  /** Get the end level */
+  /** Get the end level. */
   int
   GetEndLevel() const;
 
-  /** Get the current level */
+  /** Get the current level. */
   int
   GetLevel() const;
 
-  /** Clone function */
+  /** Clone function. */
   TreeIteratorBase<TTreeType> *
   Clone() override;
 
@@ -85,21 +85,24 @@ public:
   }
 
 protected:
-  /** Return the next node */
+  /** Get the next node. */
   const ValueType &
   Next() override;
 
-  /** Return true if the next node exists */
+  /** Return true if the next node exists. */
   bool
   HasNext() const override;
 
 private:
+  /** Find the next available node. */
   const TreeNodeType *
   FindNextNode() const;
 
+  /** Helper function to find the next node. */
   const TreeNodeType *
   FindNextNodeHelp() const;
 
+  /** Get the level given a node. */
   int
   GetLevel(const TreeNodeType * node) const;
 

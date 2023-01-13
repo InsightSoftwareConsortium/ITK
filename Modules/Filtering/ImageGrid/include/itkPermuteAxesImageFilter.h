@@ -88,20 +88,25 @@ public:
   itkGetConstReferenceMacro(InverseOrder, PermuteOrderArrayType);
 
 protected:
-  /** PermuteAxesImageFilter produces an image which is a different
-   * resolution and with a different pixel spacing than its input
-   * image.  As such, PermuteAxesImageFilter needs to provide an
-   * implementation for GenerateOutputInformation() in order to inform
-   * the pipeline execution model.  The original documentation of this
-   * method is below.
+  /** PermuteAxesImageFilter produces an image which is a different resolution and with a different pixel spacing than
+   * its input image.
+   *
+   * The output image meta information is obtained by permuting the input image meta information.
+   *
+   * As such, PermuteAxesImageFilter needs to provide an implementation for GenerateOutputInformation() in order to
+   * inform the pipeline execution model.
+   *
    * \sa ProcessObject::GenerateOutputInformaton() */
   void
   GenerateOutputInformation() override;
 
-  /** PermuteAxesImageFilter needs different input requested region than the output
-   * requested region.  As such, PermuteAxesImageFilter needs to provide an
-   * implementation for GenerateInputRequestedRegion() in order to inform the
-   * pipeline execution model.
+  /** PermuteAxesImageFilter needs different input requested region than the output requested region.
+   *
+   * The required input requested region is obtained by permuting the index and size of the output requested region.
+   *
+   * As such, PermuteAxesImageFilter needs to provide an implementation for GenerateInputRequestedRegion() in order to
+   * inform the pipeline execution model.
+   *
    * \sa ProcessObject::GenerateInputRequestedRegion() */
   void
   GenerateInputRequestedRegion() override;

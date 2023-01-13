@@ -23,18 +23,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MatchCardinalityImageToImageMetric()
 {
   this->SetComputeGradient(false); // don't use the default gradients
 }
 
-/*
- * Get the match Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 typename MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
@@ -43,9 +38,6 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   return const_cast<Self *>(this)->GetNonconstValue(parameters);
 }
 
-/**
- * Get the match Measure (non const version. spawns threads).
- */
 template <typename TFixedImage, typename TMovingImage>
 typename MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::GetNonconstValue(
@@ -183,7 +175,6 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreadedGetValue(
   m_ThreadCounts[threadId] = threadNumberOfPixelsCounted;
 }
 
-//----------------------------------------------------------------------------
 template <typename TFixedImage, typename TMovingImage>
 ThreadIdType
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(ThreadIdType           i,
@@ -241,9 +232,6 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::SplitFixedRegion(
   return maxThreadIdUsed + 1;
 }
 
-// Callback routine used by the threading library. This routine just calls
-// the ThreadedGenerateData method after setting the correct region for this
-// thread.
 template <typename TFixedImage, typename TMovingImage>
 ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(void * arg)
@@ -275,9 +263,6 @@ MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::ThreaderCallback(
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const

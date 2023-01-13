@@ -228,9 +228,6 @@ BlockMatchingImageFilter<TFixedImage, TMovingImage, TFeatures, TDisplacements, T
   m_SimilaritiesValuesArray.reset();
 }
 
-// Callback routine used by the threading library. This routine just calls
-// the ThreadedGenerateData method after setting the correct region for this
-// thread.
 template <typename TFixedImage,
           typename TMovingImage,
           typename TFeatures,

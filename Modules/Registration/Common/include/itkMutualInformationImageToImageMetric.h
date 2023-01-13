@@ -137,11 +137,11 @@ public:
   void
   GetDerivative(const ParametersType & parameters, DerivativeType & derivative) const override;
 
-  /**  Get the value. */
+  /** Get the value. */
   MeasureType
   GetValue(const ParametersType & parameters) const override;
 
-  /**  Get the value and derivatives for single valued optimizers. */
+  /** Get the value and derivatives for single valued optimizers. */
   void
   GetValueAndDerivative(const ParametersType & parameters,
                         MeasureType &          value,
@@ -227,15 +227,27 @@ private:
   typename KernelFunctionType::Pointer m_KernelFunction{};
 
   /** Uniformly select samples from the fixed image buffer.
+   *
+   * Each sample consists of:
+   *  - the fixed image value
+   *  - the corresponding moving image value
+   *
    * \warning Note that this method has a different signature than the one in
    * the base OptImageToImageMetric and therefore they are not intended to
    * provide polymorphism. That is, this function is not overriding the one in
-   * the base class. */
+   * the base class.
+   */
   virtual void
   SampleFixedImageDomain(SpatialSampleContainer & samples) const;
 
-  /**
-   * Calculate the intensity derivatives at a point
+  /*
+   * Calculate derivatives of the image intensity at the specified point with respect to the transform parmeters.
+   *
+   * \todo This should really be done by the mapper.
+   *
+   * \todo This is a temporary solution until this feature is implemented
+   * in the mapper. This solution only works for any transform
+   * that support ComputeJacobianWithRespectToParameters()
    */
   void
   CalculateDerivatives(const FixedImagePointType &, DerivativeType &, TransformJacobianType &) const;

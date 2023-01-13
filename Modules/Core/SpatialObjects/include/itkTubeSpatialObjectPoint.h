@@ -55,36 +55,36 @@ public:
   /** Default destructor. */
   ~TubeSpatialObjectPoint() override = default;
 
-  /** Get R */
+  /** Get the radius in object space. */
   double
   GetRadiusInObjectSpace() const
   {
     return m_RadiusInObjectSpace;
   }
 
-  /** Get R */
+  /** Get the radius in world space. */
   double
   GetRadiusInWorldSpace() const;
 
-  /** Set R */
+  /** Set the radius in object space. */
   void
   SetRadiusInObjectSpace(double newR)
   {
     m_RadiusInObjectSpace = newR;
   }
 
-  /** Set R */
+  /** Set the radius in world space. */
   void
   SetRadiusInWorldSpace(double newR);
 
-  /** Get the tangent in Object Space */
+  /** Get the tangent in object space. */
   const VectorType &
   GetTangentInObjectSpace() const
   {
     return m_TangentInObjectSpace;
   }
 
-  /** Get the tangent in World Space */
+  /** Get the tangent in world space. */
   const VectorType
   GetTangentInWorldSpace() const;
 

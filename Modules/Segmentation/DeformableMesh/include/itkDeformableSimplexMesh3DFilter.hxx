@@ -220,7 +220,6 @@ DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::SetGradient(const Gradie
   this->SetNthInput(1, const_cast<GradientImageType *>(gradientImage));
 }
 
-/* Get the gradient image as an input */
 template <typename TInputMesh, typename TOutputMesh>
 auto
 DeformableSimplexMesh3DFilter<TInputMesh, TOutputMesh>::GetGradient() const -> const GradientImageType *

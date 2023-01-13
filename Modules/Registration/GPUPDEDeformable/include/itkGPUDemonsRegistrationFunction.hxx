@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GPUDemonsRegistrationFunction()
 {
@@ -93,9 +91,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   m_ComputeUpdateGPUKernelHandle = this->m_GPUKernelManager->CreateKernel("ComputeUpdate");
 }
 
-/**
- * Standard "PrintSelf" method.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
@@ -127,9 +122,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Pr
   os << m_SumOfSquaredChange << std::endl;
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::SetIntensityDifferenceThreshold(
@@ -138,9 +130,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Se
   m_IntensityDifferenceThreshold = threshold;
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GetIntensityDifferenceThreshold() const
@@ -148,9 +137,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Ge
   return m_IntensityDifferenceThreshold;
 }
 
-/**
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -185,9 +171,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::In
   m_SumOfSquaredChange = 0.0;
 }
 
-/**
- * Allocate GPU buffers for computing metric statistics
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GPUAllocateMetricData(
@@ -217,10 +200,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   m_GPUSquaredChange->ReleaseGPUInputBuffer();
   m_GPUSquaredDifference->ReleaseGPUInputBuffer();
 }
-
-/**
- * Compute update at a specify neighbourhood
- */
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
@@ -298,9 +277,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   }
 }
 
-/**
- * Compute update at a specify neighbourhood
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
@@ -390,9 +366,6 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
   return update;
 }
 
-/**
- * Update the metric and release the per-thread-global data.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(void * gd) const

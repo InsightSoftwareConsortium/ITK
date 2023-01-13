@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::MinMaxCurvatureFlowImageFilter()
 {
@@ -37,9 +35,6 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::MinMaxCurvatureFlowIm
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }
 
-/*
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -48,9 +43,6 @@ MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   os << indent << "StencilRadius: " << m_StencilRadius << std::endl;
 }
 
-/*
- * Initialize the state of filter and equation before each iteration.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()

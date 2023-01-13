@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/* Constructor: setting the default parameter values. */
+
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::VoronoiSegmentationImageFilterBase()
   : m_WorkingVD(VoronoiDiagram::New())

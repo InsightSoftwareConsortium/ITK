@@ -22,18 +22,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedPointSet, typename TMovingImage>
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::NormalizedCorrelationPointSetToImageMetric()
 {
   m_SubtractMean = false;
 }
 
-/**
- * Get the match Measure
- */
 template <typename TFixedPointSet, typename TMovingImage>
 typename NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
@@ -112,9 +107,6 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetVal
   return measure;
 }
 
-/**
- * Get the Derivative Measure
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDerivative(
@@ -257,9 +249,6 @@ NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDer
   }
 }
 
-/*
- * Get both the match Measure and theDerivative Measure
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 NormalizedCorrelationPointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValueAndDerivative(

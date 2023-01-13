@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TImage>
 CurvatureFlowFunction<TImage>::CurvatureFlowFunction()
 {
@@ -41,9 +39,6 @@ CurvatureFlowFunction<TImage>::CurvatureFlowFunction()
   m_TimeStep = 0.05f;
 }
 
-/**
- * Compute the global time step
- */
 template <typename TImage>
 auto
 CurvatureFlowFunction<TImage>::ComputeGlobalTimeStep(void * itkNotUsed(gd)) const -> TimeStepType
@@ -51,9 +46,6 @@ CurvatureFlowFunction<TImage>::ComputeGlobalTimeStep(void * itkNotUsed(gd)) cons
   return this->GetTimeStep();
 }
 
-/**
- * Update the solution at pixels which lies on the data boundary.
- */
 template <typename TImage>
 typename CurvatureFlowFunction<TImage>::PixelType
 CurvatureFlowFunction<TImage>::ComputeUpdate(const NeighborhoodType & it,

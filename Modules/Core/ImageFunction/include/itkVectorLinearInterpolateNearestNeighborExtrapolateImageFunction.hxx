@@ -30,9 +30,6 @@ template <typename TInputImage, typename TCoordRep>
 const unsigned int VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::m_Neighbors =
   1 << TInputImage::ImageDimension;
 
-/**
- * Evaluate at image index position
- */
 template <typename TInputImage, typename TCoordRep>
 typename VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::OutputType
 VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(

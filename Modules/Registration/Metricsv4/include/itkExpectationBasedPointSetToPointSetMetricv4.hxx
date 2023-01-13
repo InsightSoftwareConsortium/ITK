@@ -24,7 +24,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 ExpectationBasedPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::
   ExpectationBasedPointSetToPointSetMetricv4()

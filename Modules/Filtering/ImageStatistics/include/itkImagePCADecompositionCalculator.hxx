@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TBasisImage>
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::ImagePCADecompositionCalculator()
 {
@@ -50,9 +48,6 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::SetBasisImages(const 
   this->Modified();
 }
 
-/**
- * Compute the projection
- */
 template <typename TInputImage, typename TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::Compute()
@@ -65,9 +60,6 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::Compute()
   m_Projection = m_BasisMatrix * m_ImageAsVector;
 }
 
-/*
- * Convert a vector of basis images into a matrix. Each image is flattened into 1-D.
- */
 template <typename TInputImage, typename TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix()
@@ -103,9 +95,6 @@ ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateBasisMatrix(
   m_ImageAsVector.set_size(m_NumPixels);
 }
 
-/**
- * Convert an image into a 1-D vector, changing the pixel type if necessary.
- */
 template <typename TInputImage, typename TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::CalculateRecenteredImageAsVector()

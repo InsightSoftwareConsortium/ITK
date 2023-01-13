@@ -69,7 +69,9 @@ public:
   using ExporterFilterPointer = typename ExporterFilterType::Pointer;
 
   /** Get the output in the form of a vtkImage.
-      This call is delegated to the internal vtkImageImport filter  */
+   *
+   * This call is delegated to the internal vtkImageImport filter.
+   */
   vtkImageData *
   GetOutput() const;
 
@@ -81,22 +83,24 @@ public:
   GetInput();
 
   /** Return the internal VTK image importer filter.
-      This is intended to facilitate users the access
-      to methods in the importer */
+   *
+   * Intended to facilitate users the access to methods in the importer.
+   */
   vtkImageImport *
   GetImporter() const;
 
   /** Return the internal ITK image exporter filter.
-      This is intended to facilitate users the access
-      to methods in the exporter */
+   *
+   * Intended to facilitate users the access to methods in the exporter.
+   */
   ExporterFilterType *
   GetExporter() const;
 
-  /** This call delegates the update to the importer */
+  /** This call delegates the update to the importer. */
   void
   Update() override;
 
-  /** This call delegates the update to the importer */
+  /** This call delegates the update to the importer. */
   void
   UpdateLargestPossibleRegion() override;
 

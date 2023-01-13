@@ -146,14 +146,22 @@ protected:
   virtual void
   InitializePyramidSplineFilter(int SplineOrder);
 
-  /** The basic operator for reducing a line of data by a factor of 2 */
+  /** Reduce the input data vector by a factor of 2 and writes the results to the location specified by the output
+   * Iterator.
+   *
+   * \p inTraverseSize is the size of the input vector.
+   */
   virtual void
   Reduce1DImage(const std::vector<double> & in,
                 OutputImageIterator &       out,
                 unsigned int                inTraverseSize,
                 ProgressReporter &          progress);
 
-  /** The basic operator for expanding a line of data by a factor of 2 */
+  /** Expand the input data vector by a factor of 2 and writes the results to the location specified by the output
+   * Iterator
+   *
+   * \p inTraverseSize is the size of the in vector.
+   */
   virtual void
   Expand1DImage(const std::vector<double> & in,
                 OutputImageIterator &       out,
@@ -173,12 +181,11 @@ protected:
   std::vector<double> m_H; // upsampling filter coefficients
 
 private:
-  // Resizes m_Scratch Variable based on image sizes
+  /** Allocate scratch space based on image sizes. */
   void
   InitializeScratch(SizeType DataLength);
 
-  // Copies a line of data from the input to the m_Scratch for subsequent
-  // processing
+  /** Copy a line of data from the input to the m_Scratch for subsequent processing. */
   void
   CopyInputLineToScratch(ConstInputImageIterator & Iter);
 

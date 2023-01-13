@@ -21,14 +21,13 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 GroupSpatialObject<TDimension>::GroupSpatialObject()
 {
   this->SetTypeName("GroupSpatialObject");
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 GroupSpatialObject<TDimension>::InternalClone() const

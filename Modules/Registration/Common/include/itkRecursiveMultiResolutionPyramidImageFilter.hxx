@@ -30,18 +30,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::RecursiveMultiResolutionPyramidImageFilter()
 {
   this->Superclass::m_UseShrinkImageFilter = true;
 }
 
-/**
- * GenerateData
- */
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateData()
@@ -216,9 +211,6 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateD
   }
 }
 
-/*
- * GenerateOutputRequestedRegion
- */
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateOutputRequestedRegion(DataObject * ptr)
@@ -341,9 +333,6 @@ RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateO
   delete oper;
 }
 
-/**
- * GenerateInputRequestedRegion
- */
 template <typename TInputImage, typename TOutputImage>
 void
 RecursiveMultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()

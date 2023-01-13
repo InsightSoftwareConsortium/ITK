@@ -138,15 +138,15 @@ public:
   itkSetMacro(MetricWeights, WeightsArrayType);
   itkGetMacro(MetricWeights, WeightsArrayType);
 
-  /** Add a metric to the queue */
+  /** Add a metric to the queue. */
   void
   AddMetric(MetricType * metric);
 
-  /** Clear the metric queue */
+  /** Clear the metric queue. */
   void
   ClearMetricQueue();
 
-  /** Get the number of metrics */
+  /** Get the number of metrics. */
   SizeValueType
   GetNumberOfMetrics() const;
 

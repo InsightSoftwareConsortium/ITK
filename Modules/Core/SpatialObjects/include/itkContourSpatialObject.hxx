@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 ContourSpatialObject<TDimension>::ContourSpatialObject()
 {
@@ -104,7 +104,6 @@ ContourSpatialObject<TDimension>::GetOrientationInObjectSpace() const
   return m_OrientationInObjectSpace;
 }
 
-/** Set the control points which are defining the contour */
 template <unsigned int TDimension>
 void
 ContourSpatialObject<TDimension>::SetControlPoints(const ContourPointListType & points)
@@ -122,7 +121,6 @@ ContourSpatialObject<TDimension>::SetControlPoints(const ContourPointListType & 
   this->Modified();
 }
 
-/** Add a control point which is defining the contour */
 template <unsigned int TDimension>
 void
 ContourSpatialObject<TDimension>::AddControlPoint(const ContourPointType & point)
@@ -132,7 +130,6 @@ ContourSpatialObject<TDimension>::AddControlPoint(const ContourPointType & point
   this->Modified();
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 ContourSpatialObject<TDimension>::InternalClone() const
@@ -156,7 +153,6 @@ ContourSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-/** Print the contour spatial object */
 template <unsigned int TDimension>
 void
 ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const

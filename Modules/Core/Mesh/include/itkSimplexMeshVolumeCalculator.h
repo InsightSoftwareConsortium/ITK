@@ -193,7 +193,7 @@ private:
   void
   CreateTriangles();
 
-  /** intermediate volume computation */
+  /** Calculate volume of triangle. */
   void
   CalculateTriangleVolume(InputPointType p1, InputPointType p2, InputPointType p3);
 

@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension, typename TTubePointType>
 TubeSpatialObject<TDimension, TTubePointType>::TubeSpatialObject()
 {
@@ -52,7 +52,6 @@ TubeSpatialObject<TDimension, TTubePointType>::Clear()
   this->Modified();
 }
 
-/** Copy the information from another spatial object */
 template <unsigned int TDimension, typename TTubePointType>
 void
 TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject * data)
@@ -87,7 +86,6 @@ TubeSpatialObject<TDimension, TTubePointType>::CopyInformation(const DataObject 
   // this->SetParentPoint(source->GetParentPoint());
 }
 
-/** InternalClone */
 template <unsigned int TDimension, typename TTubePointType>
 typename LightObject::Pointer
 TubeSpatialObject<TDimension, TTubePointType>::InternalClone() const
@@ -107,7 +105,6 @@ TubeSpatialObject<TDimension, TTubePointType>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object */
 template <unsigned int TDimension, typename TTubePointType>
 void
 TubeSpatialObject<TDimension, TTubePointType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -120,7 +117,6 @@ TubeSpatialObject<TDimension, TTubePointType>::PrintSelf(std::ostream & os, Inde
   Superclass::PrintSelf(os, indent);
 }
 
-/** Compute the bounds of the tube */
 template <unsigned int TDimension, typename TTubePointType>
 void
 TubeSpatialObject<TDimension, TTubePointType>::ComputeMyBoundingBox()
@@ -179,9 +175,6 @@ TubeSpatialObject<TDimension, TTubePointType>::ComputeMyBoundingBox()
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
 template <unsigned int TDimension, typename TTubePointType>
 bool
 TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const PointType & point) const
@@ -295,7 +288,6 @@ TubeSpatialObject<TDimension, TTubePointType>::IsInsideInObjectSpace(const Point
   return false;
 }
 
-/** Remove duplicate points */
 template <unsigned int TDimension, typename TTubePointType>
 unsigned int
 TubeSpatialObject<TDimension, TTubePointType>::RemoveDuplicatePointsInObjectSpace(double minSpacingInObjectSpace)
@@ -322,7 +314,6 @@ TubeSpatialObject<TDimension, TTubePointType>::RemoveDuplicatePointsInObjectSpac
   return nPoints;
 }
 
-/** Compute the tangent of the centerline of the tube */
 template <unsigned int TDimension, typename TTubePointType>
 bool
 TubeSpatialObject<TDimension, TTubePointType>::ComputeTangentsAndNormals()

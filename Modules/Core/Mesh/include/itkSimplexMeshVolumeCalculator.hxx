@@ -91,9 +91,6 @@ SimplexMeshVolumeCalculator<TInputMesh>::FindCellId(IdentifierType id1, Identifi
   return *cellIt;
 }
 
-/**
- * Calculate volume of triangle
- */
 template <typename TInputMesh>
 void
 SimplexMeshVolumeCalculator<TInputMesh>::CalculateTriangleVolume(InputPointType p1,
@@ -253,9 +250,6 @@ SimplexMeshVolumeCalculator<TInputMesh>::Compute()
   this->Finalize();
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputMesh>
 void
 SimplexMeshVolumeCalculator<TInputMesh>::PrintSelf(std::ostream & os, Indent indent) const

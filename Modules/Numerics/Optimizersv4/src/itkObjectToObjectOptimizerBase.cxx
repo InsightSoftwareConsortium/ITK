@@ -25,7 +25,6 @@ namespace itk
 ITK_GCC_PRAGMA_DIAG_PUSH()
 ITK_GCC_PRAGMA_DIAG(ignored "-Wattributes")
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ObjectToObjectOptimizerBaseTemplate()
 {
@@ -41,11 +40,9 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ObjectToObje
   this->m_DoEstimateScales = true;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::~ObjectToObjectOptimizerBaseTemplate() = default;
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -84,7 +81,6 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::PrintSelf(st
   os << indent << "DoEstimateScales: " << this->m_DoEstimateScales << std::endl;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::SetNumberOfWorkUnits(ThreadIdType number)
@@ -100,7 +96,6 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::SetNumberOfW
   }
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimization(
@@ -191,7 +186,6 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::StartOptimiz
   }
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 const typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::ParametersType &
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::GetCurrentPosition() const
@@ -203,7 +197,6 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::GetCurrentPo
   return this->m_Metric->GetParameters();
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 const typename ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::MeasureType &
 ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::GetValue() const

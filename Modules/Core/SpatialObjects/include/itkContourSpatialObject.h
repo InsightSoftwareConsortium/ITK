@@ -126,11 +126,11 @@ public:
     return m_ControlPoints;
   }
 
-  /** Set the list of control points. */
+  /** Set the list of control points defining the contour. */
   void
   SetControlPoints(const ControlPointListType & points);
 
-  /** Set the list of control points. */
+  /** Add a point to the list of control points defining the contour. */
   void
   AddControlPoint(const ControlPointType & point);
 

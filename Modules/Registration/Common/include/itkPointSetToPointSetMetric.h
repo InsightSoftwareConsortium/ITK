@@ -108,7 +108,7 @@ public:
   /** Connect the Transform. */
   itkSetObjectMacro(Transform, TransformType);
 
-  /** Get a pointer to the Transform.  */
+  /** Get a pointer to the Transform. */
   itkGetModifiableObjectMacro(Transform, TransformType);
 
   /** Set the parameters defining the Transform. */
@@ -122,8 +122,7 @@ public:
     return m_Transform->GetNumberOfParameters();
   }
 
-  /** Initialize the Metric by making sure that all the components
-   *  are present and plugged together correctly     */
+  /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
   virtual void
   Initialize();
 

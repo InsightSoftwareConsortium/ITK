@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TValue>
 TreeContainer<TValue>::TreeContainer()
 {
@@ -30,7 +30,6 @@ TreeContainer<TValue>::TreeContainer()
   m_DefaultChildrenCount = 2;
 }
 
-/** Constructor with default children count */
 template <typename TValue>
 TreeContainer<TValue>::TreeContainer(int dcc)
 {
@@ -39,7 +38,6 @@ TreeContainer<TValue>::TreeContainer(int dcc)
   m_DefaultChildrenCount = dcc;
 }
 
-/** Constructor by adding a tree */
 template <typename TValue>
 TreeContainer<TValue>::TreeContainer(TreeContainer<TValue> &)
 {
@@ -48,7 +46,6 @@ TreeContainer<TValue>::TreeContainer(TreeContainer<TValue> &)
   m_DefaultChildrenCount = 3;
 }
 
-/** Set the root of the tree */
 template <typename TValue>
 bool
 TreeContainer<TValue>::SetRoot(const TValue element)
@@ -59,7 +56,6 @@ TreeContainer<TValue>::SetRoot(const TValue element)
   return true;
 }
 
-/** Set the root of the tree */
 template <typename TValue>
 bool
 TreeContainer<TValue>::SetRoot(TreeNode<TValue> * node)
@@ -68,7 +64,6 @@ TreeContainer<TValue>::SetRoot(TreeNode<TValue> * node)
   return true;
 }
 
-/** Count the number of nodes in the tree */
 template <typename TValue>
 int
 TreeContainer<TValue>::Count() const
@@ -88,7 +83,6 @@ TreeContainer<TValue>::Count() const
   return size;
 }
 
-/** Swap the iterators */
 template <typename TValue>
 bool
 TreeContainer<TValue>::Swap(IteratorType & v, IteratorType & w)
@@ -129,7 +123,6 @@ TreeContainer<TValue>::Swap(IteratorType & v, IteratorType & w)
   return true;
 }
 
-/** Return true if the tree contains this element */
 template <typename TValue>
 bool
 TreeContainer<TValue>::Contains(const TValue element)
@@ -147,7 +140,6 @@ TreeContainer<TValue>::Contains(const TValue element)
   return false;
 }
 
-/** Equal operator */
 template <typename TValue>
 bool
 TreeContainer<TValue>::operator==(TreeContainer<TValue> & tree)
@@ -170,7 +162,6 @@ TreeContainer<TValue>::operator==(TreeContainer<TValue> & tree)
   return true;
 }
 
-/** Return true if the given element is a leaf of the tree */
 template <typename TValue>
 bool
 TreeContainer<TValue>::IsLeaf(TValue element)
@@ -194,7 +185,6 @@ TreeContainer<TValue>::IsLeaf(TValue element)
   return false;
 }
 
-/** Return true of the node containing the element is the root */
 template <typename TValue>
 bool
 TreeContainer<TValue>::IsRoot(TValue element)
@@ -219,7 +209,6 @@ TreeContainer<TValue>::IsRoot(TValue element)
   return false;
 }
 
-/** Clear the tree */
 template <typename TValue>
 bool
 TreeContainer<TValue>::Clear()
@@ -230,7 +219,6 @@ TreeContainer<TValue>::Clear()
   return success;
 }
 
-/** Get node given a value */
 template <typename TValue>
 const TreeNode<TValue> *
 TreeContainer<TValue>::GetNode(TValue val) const
@@ -248,7 +236,6 @@ TreeContainer<TValue>::GetNode(TValue val) const
   return nullptr;
 }
 
-/** Set the root of the tree from the iterator position */
 template <typename TValue>
 bool
 TreeContainer<TValue>::SetRoot(IteratorType & pos)
@@ -291,7 +278,6 @@ TreeContainer<TValue>::SetRoot(IteratorType & pos)
   return true;
 }
 
-/** Add a child to a given parent */
 template <typename TValue>
 bool
 TreeContainer<TValue>::Add(const TValue child, const TValue parent)
@@ -316,7 +302,6 @@ TreeContainer<TValue>::Add(const TValue child, const TValue parent)
   return false;
 }
 
-/** Print self */
 template <typename TValue>
 void
 TreeContainer<TValue>::PrintSelf(std::ostream & os, Indent indent) const

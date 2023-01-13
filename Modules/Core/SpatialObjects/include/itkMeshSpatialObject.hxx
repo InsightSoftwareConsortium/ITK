@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TMesh>
 MeshSpatialObject<TMesh>::MeshSpatialObject()
 {
@@ -48,9 +48,6 @@ MeshSpatialObject<TMesh>::Clear()
   this->Modified();
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
 template <typename TMesh>
 bool
 MeshSpatialObject<TMesh>::IsInsideInObjectSpace(const PointType & point) const
@@ -94,7 +91,6 @@ MeshSpatialObject<TMesh>::IsInsideInObjectSpace(const PointType & point) const
   return false;
 }
 
-/** Compute the bounds of the object which is the same as the internal mesh */
 template <typename TMesh>
 void
 MeshSpatialObject<TMesh>::ComputeMyBoundingBox()
@@ -112,7 +108,6 @@ MeshSpatialObject<TMesh>::ComputeMyBoundingBox()
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
 
-/** Set the Mesh in the spatial object */
 template <typename TMesh>
 void
 MeshSpatialObject<TMesh>::SetMesh(MeshType * mesh)
@@ -124,7 +119,6 @@ MeshSpatialObject<TMesh>::SetMesh(MeshType * mesh)
   }
 }
 
-/** Get the Mesh inside the spatial object */
 template <typename TMesh>
 auto
 MeshSpatialObject<TMesh>::GetMesh() -> MeshType *
@@ -139,7 +133,6 @@ MeshSpatialObject<TMesh>::GetMesh() const -> const MeshType *
   return m_Mesh.GetPointer();
 }
 
-/** InternalClone */
 template <typename TMesh>
 typename LightObject::Pointer
 MeshSpatialObject<TMesh>::InternalClone() const
@@ -159,7 +152,6 @@ MeshSpatialObject<TMesh>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object */
 template <typename TMesh>
 void
 MeshSpatialObject<TMesh>::PrintSelf(std::ostream & os, Indent indent) const
@@ -170,7 +162,6 @@ MeshSpatialObject<TMesh>::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << m_Mesh << std::endl;
 }
 
-/** Get the modification time */
 template <typename TMesh>
 ModifiedTimeType
 MeshSpatialObject<TMesh>::GetMTime() const

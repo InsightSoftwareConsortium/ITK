@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::AnisotropicDiffusionImageFilter()
 {
@@ -36,7 +34,6 @@ AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::AnisotropicDiffusion
   m_GradientMagnitudeIsFixed = false;
 }
 
-/** Prepare for the iteration process. */
 template <typename TInputImage, typename TOutputImage>
 void
 AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::InitializeIteration()

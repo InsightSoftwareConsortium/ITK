@@ -116,22 +116,21 @@ public:
 
   using MovedGradientPixelType = typename MovedGradientImageType::PixelType;
 
-  /** Get the derivatives of the match measure. */
+  /** Get the derivatives of the similarity measure. */
   void
   GetDerivative(const TransformParametersType & parameters, DerivativeType & derivative) const override;
 
-  /**  Get the value for single valued optimizers. */
+  /** Get the value of the similarity measure for single valued optimizers. */
   MeasureType
   GetValue(const TransformParametersType & parameters) const override;
 
-  /**  Get value and derivatives for multiple valued optimizers. */
+  /** Get value and derivatives of the similarity measure for multiple valued optimizers. */
   void
   GetValueAndDerivative(const TransformParametersType & parameters,
                         MeasureType &                   Value,
                         DerivativeType &                Derivative) const override;
 
-  /** Initialize the Metric by making sure that all the components
-   *  are present and plugged together correctly     */
+  /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
   void
   Initialize() override;
 

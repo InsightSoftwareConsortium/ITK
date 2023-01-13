@@ -75,7 +75,6 @@ EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TIn
   }
 }
 
-/** PrintSelf method */
 template <typename TFixedPointSet, typename TMovingPointSet, class TInternalComputationValueType>
 void
 EuclideanDistancePointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComputationValueType>::PrintSelf(

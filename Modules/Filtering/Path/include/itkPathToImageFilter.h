@@ -64,7 +64,7 @@ public:
   /** ImageDimension constants */
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  /** Set/Get the path input of this process object.  */
+  /** Set/Get the input path. */
   using Superclass::SetInput;
   virtual void
   SetInput(const InputPathType * input);

@@ -113,7 +113,6 @@ SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::FindCellId(CellIdentif
   return *cellIt;
 }
 
-/* PrintSelf. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const

@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TPixel>
 Hessian3DToVesselnessMeasureImageFilter<TPixel>::Hessian3DToVesselnessMeasureImageFilter()
 {

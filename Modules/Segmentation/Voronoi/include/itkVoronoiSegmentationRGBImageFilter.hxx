@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/* Constructor: setting of the default values for the parameters. */
+
 template <typename TInputImage, typename TOutputImage>
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::VoronoiSegmentationRGBImageFilter()
 {
@@ -70,7 +70,6 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetSTDPercentError
   }
 }
 
-/* Initialization for the segmentation. */
 template <typename TInputImage, typename TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(unsigned int           inputNumber,
@@ -79,7 +78,6 @@ VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(unsigned 
   this->Superclass::SetInput(inputNumber, input);
 }
 
-/* Initialization for the segmentation. */
 template <typename TInputImage, typename TOutputImage>
 void
 VoronoiSegmentationRGBImageFilter<TInputImage, TOutputImage>::SetInput(const InputImageType * input)

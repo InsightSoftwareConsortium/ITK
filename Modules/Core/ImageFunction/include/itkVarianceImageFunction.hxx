@@ -23,18 +23,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TCoordRep>
 VarianceImageFunction<TInputImage, TCoordRep>::VarianceImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 void
 VarianceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -43,9 +38,6 @@ VarianceImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Inde
   os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 auto
 VarianceImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType

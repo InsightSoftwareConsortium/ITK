@@ -23,7 +23,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -37,7 +36,6 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   this->m_MovingTransform = nullptr;
 }
 
-/** Add a metric to the queue. */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -49,7 +47,6 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   this->m_MetricQueue.push_back(metric);
 }
 
-/** Clear the queue */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -61,7 +58,6 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
   this->m_MetricQueue.clear();
 }
 
-/** Get the number of metrics */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,

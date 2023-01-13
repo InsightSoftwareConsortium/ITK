@@ -27,11 +27,7 @@
 
 namespace itk
 {
-/**
- * A protected default constructor allows the New() routine to create an
- * instance of SimplexMesh.   All the containers are initialized to empty
- * containers.
- */
+
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::SimplexMesh()
   : m_LastCellId(0)
@@ -39,11 +35,6 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::SimplexMesh()
   m_GeometryData = GeometryMapType::New();
 }
 
-/**
- * Mesh Destructor takes care of releasing the memory of Cells
- * and CellBoundaries objects for which normal pointers are
- * stored.
- */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::~SimplexMesh()
 {
@@ -224,7 +215,6 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::ReplaceFace(CellIdentifier    
   return replaceIndex;
 }
 
-/* PrintSelf. */
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>
 void
 SimplexMesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, Indent indent) const

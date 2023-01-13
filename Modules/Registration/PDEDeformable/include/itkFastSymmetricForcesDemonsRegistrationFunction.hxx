@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
   FastSymmetricForcesDemonsRegistrationFunction()
@@ -62,9 +60,6 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   m_SumOfSquaredChange = 0.0;
 }
 
-/**
- * Standard "PrintSelf" method.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(
@@ -94,9 +89,6 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   os << m_SumOfSquaredChange << std::endl;
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
@@ -105,9 +97,6 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   m_IntensityDifferenceThreshold = threshold;
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::
@@ -116,9 +105,6 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   return m_IntensityDifferenceThreshold;
 }
 
-/**
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -159,9 +145,6 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   m_SumOfSquaredChange = 0.0;
 }
 
-/**
- * Compute update at a non boundary neighbourhood
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(
@@ -273,9 +256,6 @@ FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDispla
   return update;
 }
 
-/**
- * Update the metric and release the per-thread-global data.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 FastSymmetricForcesDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ReleaseGlobalDataPointer(

@@ -137,6 +137,7 @@ public:
   virtual double
   GetIntensityDifferenceThreshold() const;
 
+  /** Set/Get the maximum update step length. */
   virtual void
   SetMaximumUpdateStepLength(double);
 
@@ -178,8 +179,11 @@ protected:
   using AdderPointer = typename AdderType::Pointer;
 
 private:
-  /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type.
-   * this method will throw an exception if the function is not of the expected type. */
+  /** Downcast the DifferenceFunction using a dynamic_cast to ensure that it is of the correct type (i.e.
+   * a DemonsRegistrationFunction).
+   *
+   * Throws an exception if the function is not of the expected type.
+   */
   DemonsRegistrationFunctionType *
   DownCastDifferenceFunctionType();
 

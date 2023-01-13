@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::NeighborhoodConnectedImageFilter()
 {
@@ -63,9 +61,6 @@ NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::AddSeed(const Index
   this->Modified();
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const

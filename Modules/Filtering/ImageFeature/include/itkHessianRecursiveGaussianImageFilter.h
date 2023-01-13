@@ -112,7 +112,7 @@ public:
   /** Method for creation through the object factory. */
   itkNewMacro(Self);
 
-  /** Set Sigma value. Sigma is measured in the units of image spacing.  */
+  /** Set/Get Sigma value. Sigma is measured in the units of image spacing.  */
   void
   SetSigma(RealType sigma);
   RealType

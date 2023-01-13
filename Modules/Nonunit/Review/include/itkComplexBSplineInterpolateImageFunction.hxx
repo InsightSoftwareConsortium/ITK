@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::
   ComplexBSplineInterpolateImageFunction()
@@ -37,9 +35,6 @@ ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>:
   this->SetSplineOrder(3);
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 void
 ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::PrintSelf(std::ostream & os,

@@ -265,7 +265,6 @@ TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::CreateNewEdge(CellIden
   }
 }
 
-/* PrintSelf. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const

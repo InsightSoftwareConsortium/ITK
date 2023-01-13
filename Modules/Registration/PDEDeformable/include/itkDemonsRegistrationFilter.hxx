@@ -20,9 +20,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::DemonsRegistrationFilter()
 {
@@ -45,9 +43,6 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSe
   os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
 }
 
-/*
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -72,9 +67,6 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::Initial
   }
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetMetric() const
@@ -89,9 +81,6 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetMetr
   return drfp->GetMetric();
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetIntensityDifferenceThreshold() const
@@ -106,9 +95,6 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetInte
   return drfp->GetIntensityDifferenceThreshold();
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetIntensityDifferenceThreshold(
@@ -124,9 +110,6 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetInte
   drfp->SetIntensityDifferenceThreshold(threshold);
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::ApplyUpdate(const TimeStepType & dt)

@@ -29,9 +29,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TParametersValueType, unsigned int VDimension>
 TimeVaryingBSplineVelocityFieldTransform<TParametersValueType, VDimension>::TimeVaryingBSplineVelocityFieldTransform()
 {

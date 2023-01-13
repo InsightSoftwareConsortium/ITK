@@ -25,9 +25,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MutualInformationImageToImageMetric()
 {
@@ -64,9 +62,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::o
   os << m_KernelFunction.GetPointer() << std::endl;
 }
 
-/*
- * Set the number of spatial samples
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SetNumberOfSpatialSamples(unsigned int num)
@@ -86,17 +81,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SetNumberOfSpati
   m_SampleB.resize(m_NumberOfSpatialSamples);
 }
 
-/*
- * Uniformly sample the fixed image domain. Each sample consists of:
- *  - the fixed image value
- *  - the corresponding moving image value
- *
- * \warning Note that this method has a different signature than the one in
- * the base OptImageToImageMetric and therefore they are not intended to
- * provide polymorphism. That is, this function is not overriding the one in
- * the base class.
- *
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImageDomain(
@@ -193,9 +177,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::SampleFixedImage
   }
 }
 
-/*
- * Get the match Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 auto
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const ParametersType & parameters) const
@@ -279,9 +260,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValue(const P
   return measure;
 }
 
-/*
- * Get the both Value and Derivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(const ParametersType & parameters,
@@ -423,9 +401,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDeriv
   derivative /= itk::Math::sqr(m_MovingImageStandardDeviation);
 }
 
-/*
- * Get the match measure derivative
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const ParametersType & parameters,
@@ -437,16 +412,6 @@ MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(co
   this->GetValueAndDerivative(parameters, value, derivative);
 }
 
-/*
- * Calculate derivatives of the image intensity with respect
- * to the transform parmeters.
- *
- * This should really be done by the mapper.
- *
- * This is a temporary solution until this feature is implemented
- * in the mapper. This solution only works for any transform
- * that support ComputeJacobianWithRespectToParameters()
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CalculateDerivatives(

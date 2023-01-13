@@ -29,9 +29,6 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::KLMRegionGrowImageFilter()
   this->SetMaximumNumberOfRegions(2);
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputImage, typename TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -44,11 +41,8 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os
   os << indent << "Current internal value of lambda parameter: " << m_InternalLambda << std::endl;
   os << indent << "Initial number of regions: " << m_InitialNumberOfRegions << std::endl;
   os << indent << "Current number of regions: " << m_NumberOfRegions << std::endl;
-} // end PrintSelf
+}
 
-/*
- * GenerateInputRequestedRegion method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -62,9 +56,6 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
   }
 }
 
-/**
- * EnlargeOutputRequestedRegion method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
@@ -91,7 +82,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateData()
   outputPtr->Allocate();
 
   GenerateOutputImage();
-} // end GenerateData
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -164,7 +155,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateOutputImage()
       tmpIndex[idim] = 0;
     }
   }
-} // end GenerateOutputImage()
+}
 
 template <typename TInputImage, typename TOutputImage>
 auto
@@ -183,7 +174,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GetLabelledImage() -> Label
   labelImagePtr = GenerateLabelledImage(labelImagePtr);
 
   return labelImagePtr;
-} // end GetLabelledImage()
+}
 
 template <typename TInputImage, typename TOutputImage>
 auto
@@ -244,14 +235,14 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateLabelledImage(Label
 
   // Return the reference to the labelled image
   return labelImagePtr;
-} // end GenerateLabelledImage()
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
 KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ApplyRegionGrowImageFilter()
 {
   this->ApplyKLM();
-} // end ApplyRegionGrowImageFilter()
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -272,7 +263,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ApplyKLM()
   }
 
   this->ResolveRegions();
-} // end ApplyKLM()
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -549,7 +540,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   {
     itkExceptionMacro(<< "KLM initialization is incorrect");
   }
-} // end InitializeKLM()
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -590,7 +581,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeRegionParameters(
     m_InitialRegionArea *= gridSize[idim] * spacing[idim];
   }
   m_InitialRegionMean /= m_InitialRegionArea;
-} // end InitializeRegionParameters
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -691,7 +682,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::MergeRegions()
     m_BorderCandidate = &(m_BordersDynamicPointer.back());
     m_InternalLambda = m_BorderCandidate->m_Pointer->GetLambda();
   }
-} // end MergeRegions
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -777,7 +768,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
 
     m_RegionsPointer[iregion]->SetRegionParameters(newMeanValue, newAreaValue, newLabelValue);
   }
-} // end ResolveRegions()
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -793,7 +784,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintAlgorithmRegionStats()
       m_RegionsPointer[k]->PrintRegionInfo();
     }
   }
-} // end PrintAlgorithmRegionStats
+}
 
 template <typename TInputImage, typename TOutputImage>
 void
@@ -805,7 +796,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintAlgorithmBorderStats()
     std::cout << "Stats for Border No: " << (k + 1) << std::endl;
     m_BordersDynamicPointer[k].m_Pointer->PrintBorderInfo();
   }
-} // end PrintAlgorithmBorderStats
+}
 } // namespace itk
 
 #endif

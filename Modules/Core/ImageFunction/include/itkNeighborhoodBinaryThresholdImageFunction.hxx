@@ -23,18 +23,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TCoordRep>
 NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::NeighborhoodBinaryThresholdImageFunction()
 {
   m_Radius.Fill(1);
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 void
 NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -44,9 +39,6 @@ NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::PrintSelf(std:
   os << indent << "Radius: " << m_Radius << std::endl;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 bool
 NeighborhoodBinaryThresholdImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const

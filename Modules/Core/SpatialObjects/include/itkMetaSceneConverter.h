@@ -69,11 +69,11 @@ public:
   using MetaConverterPointer = typename MetaConverterBaseType::Pointer;
   using ConverterMapType = std::map<std::string, MetaConverterPointer>;
 
-  /** Read a MetaFile and create a Scene SpatialObject */
+  /** Read a MetaFile and create a Scene SpatialObject. */
   SpatialObjectPointer
   ReadMeta(const std::string & name);
 
-  /** write out a SpatialObject */
+  /** Write out a SpatialObject. */
   bool
   WriteMeta(const SpatialObjectType * soScene,
             const std::string &       fileName,
@@ -108,6 +108,10 @@ public:
                         const std::string &     spatialObjectTypeName,
                         MetaConverterBaseType * converter);
 
+  /** Convert a metaScene into a composite SpatialObject
+   *
+   * Manages tbe composite SpatialObject to keep a hierarchy.
+   */
   MetaScene *
   CreateMetaScene(const SpatialObjectType * soScene,
                   unsigned int              depth = SpatialObjectType::MaximumDepth,

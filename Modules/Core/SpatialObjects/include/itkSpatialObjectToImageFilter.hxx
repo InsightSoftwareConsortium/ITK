@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TInputSpatialObject, typename TOutputImage>
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SpatialObjectToImageFilter()
 {
@@ -45,7 +45,6 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SpatialObjectToIm
   m_UseObjectValue = false;
 }
 
-/** Set the Input SpatialObject */
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(const InputSpatialObjectType * input)
@@ -54,7 +53,6 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(const In
   this->ProcessObject::SetNthInput(0, const_cast<InputSpatialObjectType *>(input));
 }
 
-/** Connect one of the operands  */
 template <typename TInputSpatialObject, typename TOutputImage>
 void
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(unsigned int                index,
@@ -64,7 +62,6 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::SetInput(unsigned
   this->ProcessObject::SetNthInput(index, const_cast<TInputSpatialObject *>(object));
 }
 
-/** Get the input Spatial Object */
 template <typename TInputSpatialObject, typename TOutputImage>
 auto
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput() -> const InputSpatialObjectType *
@@ -72,7 +69,6 @@ SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput() -> con
   return static_cast<const TInputSpatialObject *>(this->GetPrimaryInput());
 }
 
-/** Get the input Spatial Object */
 template <typename TInputSpatialObject, typename TOutputImage>
 auto
 SpatialObjectToImageFilter<TInputSpatialObject, TOutputImage>::GetInput(unsigned int idx)

@@ -161,7 +161,6 @@ LoggerThreadWrapper<SimpleLoggerType>::Flush()
   this->m_Mutex.unlock();
 }
 
-/** Constructor */
 template <typename SimpleLoggerType>
 LoggerThreadWrapper<SimpleLoggerType>::LoggerThreadWrapper()
 {
@@ -170,7 +169,6 @@ LoggerThreadWrapper<SimpleLoggerType>::LoggerThreadWrapper()
   m_Thread = std::thread(&Self::ThreadFunction, this);
 }
 
-/** Destructor */
 template <typename SimpleLoggerType>
 LoggerThreadWrapper<SimpleLoggerType>::~LoggerThreadWrapper()
 {
@@ -222,7 +220,6 @@ LoggerThreadWrapper<SimpleLoggerType>::ThreadFunction()
   }
 }
 
-/** Print contents of a LoggerThreadWrapper */
 template <typename SimpleLoggerType>
 void
 LoggerThreadWrapper<SimpleLoggerType>::PrintSelf(std::ostream & os, Indent indent) const

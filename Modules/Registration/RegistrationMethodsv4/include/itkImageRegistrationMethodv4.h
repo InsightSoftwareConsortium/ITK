@@ -313,7 +313,7 @@ public:
    * By initializing the random number generator seed to a value the
    * same deterministic sampling will be used each Update
    * execution. On the other hand, calling the method
-   * ReinitializeSeed() without arguments will use the wall clock in
+   * MetricSamplingReinitializeSeed() without arguments will use the wall clock in
    * order to have psuedo-random initialization of the seeds. This
    * will indeed increase the non-deterministic behavior of the
    * metric.
@@ -438,7 +438,7 @@ public:
   using Superclass::MakeOutput;
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
-  /** Returns the transform resulting from the registration process  */
+  /** Return the transform resulting from the registration process. */
   virtual DecoratedOutputTransformType *
   GetOutput();
   virtual const DecoratedOutputTransformType *
@@ -527,7 +527,7 @@ protected:
   virtual VirtualImageBaseConstPointer
   GetCurrentLevelVirtualDomainImage();
 
-  /** Get metric samples. */
+  /** Set the metric sample points. */
   virtual void
   SetMetricSamplePoints();
 

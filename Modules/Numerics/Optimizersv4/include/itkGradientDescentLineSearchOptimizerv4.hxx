@@ -22,9 +22,6 @@
 namespace itk
 {
 
-/**
- * Default constructor
- */
 template <typename TInternalComputationValueType>
 GradientDescentLineSearchOptimizerv4Template<
   TInternalComputationValueType>::GradientDescentLineSearchOptimizerv4Template()
@@ -50,9 +47,6 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Pri
   Superclass::PrintSelf(os, indent);
 }
 
-/**
- * Advance one Step following the gradient direction
- */
 template <typename TInternalComputationValueType>
 void
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
@@ -94,11 +88,6 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Adv
 }
 
 
-// a and c are the current bounds; the minimum is between them.
-// b is a center point
-// f(x) is some mathematical function elsewhere defined
-// a corresponds to x1; b corresponds to x2; c corresponds to x3
-// x corresponds to x4
 template <typename TInternalComputationValueType>
 TInternalComputationValueType
 GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::GoldenSectionSearch(

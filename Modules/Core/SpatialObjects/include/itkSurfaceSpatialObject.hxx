@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension, typename TSurfacePointType>
 SurfaceSpatialObject<TDimension, TSurfacePointType>::SurfaceSpatialObject()
 {
@@ -48,7 +48,6 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::Clear()
   this->Modified();
 }
 
-/** InternalClone */
 template <unsigned int TDimension, typename TSurfacePointType>
 typename LightObject::Pointer
 SurfaceSpatialObject<TDimension, TSurfacePointType>::InternalClone() const
@@ -67,7 +66,6 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::InternalClone() const
 }
 
 #if !defined(ITK_LEGACY_REMOVE)
-/** Approximate the normals of the surface */
 template <unsigned int TDimension, typename TSurfacePointType>
 bool
 SurfaceSpatialObject<TDimension, TSurfacePointType>::Approximate3DNormals()
@@ -76,7 +74,6 @@ SurfaceSpatialObject<TDimension, TSurfacePointType>::Approximate3DNormals()
 }
 #endif // LEGACY
 
-/** Approximate the normals of the surface in 2D or 3D */
 template <unsigned int TDimension, typename TSurfacePointType>
 bool
 SurfaceSpatialObject<TDimension, TSurfacePointType>::ComputeNormals()

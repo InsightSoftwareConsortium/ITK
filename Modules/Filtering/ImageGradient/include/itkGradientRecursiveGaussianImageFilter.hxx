@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursiveGaussianImageFilter()
 {
@@ -75,9 +73,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GradientRecursi
   this->SetSigma(1.0);
 }
 
-/**
- * Set value of Sigma along all dimensions.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(ScalarRealType sigma)
@@ -86,9 +81,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigma(Scalar
   this->SetSigmaArray(sigmas);
 }
 
-/**
- * Set value of Sigma array.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(const SigmaArrayType & sigma)
@@ -108,9 +100,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetSigmaArray(c
   }
 }
 
-/**
- * Get the Sigma array.
- */
 template <typename TInputImage, typename TOutputImage>
 auto
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray() const -> SigmaArrayType
@@ -118,9 +107,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigmaArray()
   return m_Sigma;
 }
 
-/**
- * Get value of Sigma. Returns the sigma along the first dimension.
- */
 template <typename TInputImage, typename TOutputImage>
 auto
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() const -> ScalarRealType
@@ -128,9 +114,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GetSigma() cons
   return m_Sigma[0];
 }
 
-/**
- * Set Normalize Across Scale Space
- */
 template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcrossScale(bool normalize)
@@ -148,9 +131,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::SetNormalizeAcr
   this->Modified();
 }
 
-//
-//
-//
 template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -168,9 +148,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateInputRe
   }
 }
 
-//
-//
-//
 template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
@@ -183,9 +160,6 @@ GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::EnlargeOutputRe
   }
 }
 
-/**
- * Compute filter for Gaussian kernel
- */
 template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::GenerateData()

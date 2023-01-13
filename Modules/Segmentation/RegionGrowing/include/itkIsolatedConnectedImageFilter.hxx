@@ -28,9 +28,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::IsolatedConnectedImageFilter()
 {
@@ -45,9 +43,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::IsolatedConnectedImageF
   m_ThresholdingFailed = false;
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -91,7 +86,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedR
   output->SetRequestedRegionToLargestPossibleRegion();
 }
 
-/** Add seed point 1. This seed will be isolated from Seed2 (if possible). */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::AddSeed1(const IndexType & seed)
@@ -100,9 +94,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::AddSeed1(const IndexTyp
   this->Modified();
 }
 
-/** \deprecated
- * Set seed point 1. This seed will be isolated from Seed2 (if possible).
- *  This method is deprecated, please use AddSeed1() */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::SetSeed1(const IndexType & seed)
@@ -111,7 +102,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::SetSeed1(const IndexTyp
   this->AddSeed1(seed);
 }
 
-/** Clear all the seeds1. */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds1()
@@ -123,7 +113,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds1()
   }
 }
 
-/** Add seed point 2. This seed will be isolated from Seed1 (if possible). */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::AddSeed2(const IndexType & seed)
@@ -132,9 +121,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::AddSeed2(const IndexTyp
   this->Modified();
 }
 
-
-/** Set seed point 2. This seed will be isolated from Seed1 (if
- *  possible).  This method is deprecated, please use AddSeed2() */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::SetSeed2(const IndexType & seed)
@@ -143,7 +129,6 @@ IsolatedConnectedImageFilter<TInputImage, TOutputImage>::SetSeed2(const IndexTyp
   this->AddSeed2(seed);
 }
 
-/** Clear all the seeds2. */
 template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::ClearSeeds2()

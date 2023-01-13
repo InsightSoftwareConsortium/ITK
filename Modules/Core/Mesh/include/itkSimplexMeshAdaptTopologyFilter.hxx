@@ -48,7 +48,6 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::GenerateData()
   this->ComputeCellParameters();
 }
 
-//
 template <typename TInputMesh, typename TOutputMesh>
 void
 SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::Initialize()
@@ -375,7 +374,6 @@ SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::ModifyNeighborCells(Cel
   outputMesh->BuildCellLinks();
 }
 
-/* PrintSelf. */
 template <typename TInputMesh, typename TOutputMesh>
 void
 SimplexMeshAdaptTopologyFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const

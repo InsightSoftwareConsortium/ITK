@@ -118,8 +118,7 @@ public:
   using GaussianType = typename DensityFunctionType::GaussianType;
   using DensityFunctionPointer = typename DensityFunctionType::Pointer;
 
-  /** Initialize the Metric by making sure that all the components
-   *  are present and plugged together correctly     */
+  /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
   void
   Initialize() override;
 
@@ -208,6 +207,7 @@ public:
   MeasureType
   GetLocalNeighborhoodValue(const PointType & point, const PixelType & pixel = 0) const override;
 
+  /** Get the local measure and the derivative values. */
   void
   GetLocalNeighborhoodValueAndDerivative(const PointType &,
                                          MeasureType &,

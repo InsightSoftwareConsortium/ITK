@@ -214,7 +214,7 @@ protected:
   /** Provides derived classes with the ability to set this private var */
   itkSetMacro(LastTransformParameters, ParametersType);
 
-  /* Start the Optimization */
+  /** Start the optimization. */
   void
   StartOptimization();
 

@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::EigenAnalysis2DImageFilter()
 {
@@ -37,9 +35,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ei
   static_assert(EigenVectorType::Dimension == 2, "Error: PixelType of EigenVector Image must have exactly 2 elements!");
 }
 
-/**
- * Connect one the image containing the [0,0] elements of the input matrix
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 void
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::SetInput1(TInputImage * image)
@@ -47,11 +42,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Se
   this->SetNthInput(0, image);
 }
 
-/**
- * Connect one the image containing the [0,1] elements of the input matrix
- * this element is the same [1,0] because this filter assumes symmetric
- * matrices
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 void
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::SetInput2(TInputImage * image)
@@ -59,9 +49,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Se
   this->SetNthInput(1, image);
 }
 
-/**
- * Connect one the image containing the [1,1] elements of the input matrix
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 void
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::SetInput3(TInputImage * image)
@@ -69,9 +56,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Se
   this->SetNthInput(2, image);
 }
 
-/**
- * Get the largest eigenvalue considering the sign
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 auto
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GetMaxEigenValue()
@@ -80,9 +64,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   return dynamic_cast<EigenValueImageType *>(this->ProcessObject::GetOutput(0));
 }
 
-/**
- * Get the smallest eigenvalue considering the sign
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 auto
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GetMinEigenValue()
@@ -91,9 +72,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   return dynamic_cast<EigenValueImageType *>(this->ProcessObject::GetOutput(1));
 }
 
-/**
- * Get the eigenvector corresponding to the largest eigenvalue (considering the sign)
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 auto
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::GetMaxEigenVector()
@@ -117,11 +95,6 @@ EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::Ge
   }
 }
 
-/**
- *   Make Output
- * \todo Verify that MakeOutput is creating the right type of objects
- *  this could be the cause of the reinterpret_cast bug in this class
- */
 template <typename TInputImage, typename TEigenValueImage, typename TEigenVectorImage>
 DataObject::Pointer
 EigenAnalysis2DImageFilter<TInputImage, TEigenValueImage, TEigenVectorImage>::MakeOutput(

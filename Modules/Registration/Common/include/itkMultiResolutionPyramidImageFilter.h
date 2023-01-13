@@ -226,7 +226,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Generate the output data. */
+  /** Generate the output data for non-downward divisible schedules. */
   void
   GenerateData() override;
 

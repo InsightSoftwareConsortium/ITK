@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TFixedPointSet, typename TMovingPointSet>
 PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::PointSetToPointSetMetric()
 {
@@ -30,7 +30,6 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::PointSetToPointSetMet
   m_Transform = nullptr;      // has to be provided by the user.
 }
 
-/** Set the parameters that define a unique transform */
 template <typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::SetTransformParameters(
@@ -43,7 +42,6 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::SetTransformParameter
   m_Transform->SetParameters(parameters);
 }
 
-/** Initialize the metric */
 template <typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::Initialize()
@@ -70,7 +68,6 @@ PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::Initialize()
   m_FixedPointSet->UpdateSource();
 }
 
-/** PrintSelf */
 template <typename TFixedPointSet, typename TMovingPointSet>
 void
 PointSetToPointSetMetric<TFixedPointSet, TMovingPointSet>::PrintSelf(std::ostream & os, Indent indent) const

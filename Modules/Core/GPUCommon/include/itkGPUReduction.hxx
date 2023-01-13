@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TElement>
 GPUReduction<TElement>::GPUReduction()
 {
@@ -46,9 +44,6 @@ GPUReduction<TElement>::~GPUReduction()
   this->ReleaseGPUInputBuffer();
 }
 
-/**
- * Standard "PrintSelf" method.
- */
 template <typename TElement>
 void
 GPUReduction<TElement>::PrintSelf(std::ostream & os, Indent indent) const

@@ -28,9 +28,6 @@ RegionGrowImageFilter<TInputImage, TOutputImage>::RegionGrowImageFilter()
   m_MaximumNumberOfRegions = 0;
 }
 
-/**
- * PrintSelf
- */
 template <typename TInputImage, typename TOutputImage>
 void
 RegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -39,7 +36,7 @@ RegionGrowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, I
   os << indent << "Region grow image filter object" << std::endl;
   os << indent << "Maximum number of regions: " << m_MaximumNumberOfRegions << std::endl;
   os << indent << "Maximum grid size : " << m_GridSize << std::endl;
-} // end PrintSelf
+}
 } // namespace itk
 
 #endif

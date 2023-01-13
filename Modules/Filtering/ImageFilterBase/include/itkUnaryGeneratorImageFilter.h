@@ -162,7 +162,8 @@ protected:
    * execution model.  The original documentation of this method is
    * below.
    *
-   * \sa ProcessObject::GenerateOutputInformation()  */
+   * \sa ProcessObject::GenerateOutputInformation()
+   */
   void
   GenerateOutputInformation() override;
 

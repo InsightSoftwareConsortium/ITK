@@ -20,9 +20,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   SymmetricForcesDemonsRegistrationFilter()
@@ -33,9 +31,6 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(drfp.GetPointer()));
 }
 
-/*
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -60,9 +55,6 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   }
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetMetric() const
@@ -77,9 +69,6 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   return drfp->GetMetric();
 }
 
-/*
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 double
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
@@ -95,9 +84,6 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   return drfp->GetIntensityDifferenceThreshold();
 }
 
-/*
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::SetIntensityDifferenceThreshold(
@@ -113,9 +99,6 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   drfp->SetIntensityDifferenceThreshold(threshold);
 }
 
-/*
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 const double &
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::GetRMSChange() const
@@ -130,9 +113,6 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   return drfp->GetRMSChange();
 }
 
-/*
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::ApplyUpdate(
