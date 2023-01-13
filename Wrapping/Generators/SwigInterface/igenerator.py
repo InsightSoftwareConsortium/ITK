@@ -1210,6 +1210,34 @@ class SwigInputGenerator:
                 elif any([b.startswith("PathSource") for b in bases]):
                     return_typehint = "-> itkt.PathSourceReturn"
 
+                instantiation = f"""
+
+    instance = itk.{process_object}.New(*args, **kwargs)
+"""
+                if snake_case == 'transform_to_displacement_field_filter':
+                    instantiation = f"""
+    transform = None
+    if len(args):
+        transform = args[0]
+    elif 'transform' in kwargs:
+        transform = kwargs.pop('transform')
+    elif 'transform_input' in kwargs:
+        transform = kwargs.pop('transform_input')
+    else:
+        raise ValueError('A transform is required. Pass as the first argument.')
+
+    input_dim = transform.GetInputSpaceDimension()
+    output_dim = transform.GetOutputSpaceDimension()
+    ParametersType = itk.template(transform)[1][0]
+
+    decorator = itk.DataObjectDecorator[itk.Transform[ParametersType, input_dim, output_dim]].New()
+    decorator.Set(transform)
+
+    FieldType = itk.Image[itk.Vector[itk.F, output_dim], output_dim]
+
+    args = (decorator,)
+    instance = itk.TransformToDisplacementFieldFilter[FieldType, ParametersType].New(*args, **kwargs)
+"""
                 # print(args_typehint, kwargs_typehints, return_typehint)
                 self.outputFile.write(
                     f"""from itk.support import helpers
@@ -1224,8 +1252,7 @@ def {snake_case}(*args{args_typehint}, {kwargs_typehints}**kwargs){return_typehi
     kwarg_typehints = {{ {kwarg_dict} }}
     specified_kwarg_typehints = {{ k:v for (k,v) in kwarg_typehints.items() if kwarg_typehints[k] is not ... }}
     kwargs.update(specified_kwarg_typehints)
-
-    instance = itk.{process_object}.New(*args, **kwargs)
+{instantiation}
     return instance.__internal_call__()
 
 def {snake_case}_init_docstring():
