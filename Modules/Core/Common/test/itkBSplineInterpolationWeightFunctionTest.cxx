@@ -50,7 +50,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     constexpr unsigned int SplineOrder = 2;
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
-    std::cout << " and SplineOrder= " << SplineOrder << "  ";
+    std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
     using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
@@ -150,7 +150,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     constexpr unsigned int SplineOrder = 3;
 
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
-    std::cout << " and SplineOrder= " << SplineOrder << "  ";
+    std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
     using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
@@ -238,7 +238,7 @@ itkBSplineInterpolationWeightFunctionTest(int, char *[])
     constexpr unsigned int SpaceDimension = 3;
     constexpr unsigned int SplineOrder = 3;
     std::cout << "Testing SpaceDimension= " << SpaceDimension;
-    std::cout << " and SplineOrder= " << SplineOrder << "  ";
+    std::cout << " and SplineOrder= " << SplineOrder << std::endl;
 
     using FunctionType = itk::BSplineInterpolationWeightFunction<CoordRepType, SpaceDimension, SplineOrder>;
     using ContinuousIndexType = FunctionType::ContinuousIndexType;
