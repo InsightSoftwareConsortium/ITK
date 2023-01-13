@@ -41,7 +41,7 @@ template <unsigned int Dimension, typename TTransform>
 void
 LandmarkRegistrationEstimator<Dimension, TTransform>::SetDelta(double inputDelta)
 {
-  this->delta = inputDelta * inputDelta;
+  this->delta = inputDelta;
 }
 
 template <unsigned int Dimension, typename TTransform>
