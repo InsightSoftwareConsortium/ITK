@@ -73,11 +73,11 @@ public:
   Clear() override;
 
 #if !defined(ITK_LEGACY_REMOVE)
-  /** Calculate the normalized tangent - Old spelling of function name */
+  /** Approximate the normals of the surface. */
   itkLegacyMacro(bool Approximate3DNormals());
 #endif
 
-  /** Compute the normals to the surface from neighboring points */
+  /** Compute the normals to the surface from neighboring points. */
   bool
   ComputeNormals();
 

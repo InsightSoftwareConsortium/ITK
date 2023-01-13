@@ -25,9 +25,6 @@
 namespace itk
 {
 
-/*
- * constructor
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -46,9 +43,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   this->m_UserHasSetVirtualDomain = false;
 }
 
-/*
- * Initialize
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -90,9 +84,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   }
 }
 
-/*
- * SetTransform
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -104,9 +95,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   this->SetMovingTransform(transform);
 }
 
-/*
- * GetTransform
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -118,9 +106,6 @@ const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualI
   return this->GetMovingTransform();
 }
 
-/*
- * UpdateTransformParameters
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -135,9 +120,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   this->m_MovingTransform->UpdateTransformParameters(derivative, factor);
 }
 
-/*
- * GetNumberOfParameters
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -150,9 +132,6 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   return this->m_MovingTransform->GetNumberOfParameters();
 }
 
-/*
- * GetParameters
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -164,9 +143,6 @@ const typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualI
   return this->m_MovingTransform->GetParameters();
 }
 
-/*
- * SetParameters
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -178,9 +154,6 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   this->m_MovingTransform->SetParametersByValue(params);
 }
 
-/*
- * GetNumberOfLocalParameters
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,
@@ -193,9 +166,6 @@ typename ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, 
   return this->m_MovingTransform->GetNumberOfLocalParameters();
 }
 
-/*
- * HasLocalSupport
- */
 template <unsigned int TFixedDimension,
           unsigned int TMovingDimension,
           typename TVirtualImage,

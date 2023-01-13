@@ -152,7 +152,12 @@ public:
     return m_TypeName;
   }
 
-  /** Get the class name with the dimension of the spatial object appended */
+  /** Get the class name with the dimension of the spatial object appended.
+   *
+   * Returns the type of the spatial object as a string.
+   *
+   * Used by the SpatialObjectFactory.
+   */
   virtual std::string
   GetClassNameAndDimension() const;
 
@@ -200,23 +205,36 @@ public:
   /* Transforms */
   /**************/
 
-  /** This defines the transformation from the global coordinate frame.
-   *  By setting this transform, the object transform is updated */
+  /** Set the global to local transformation.
+   *
+   * Defines the transformation from the global coordinate frame.
+   *
+   * By setting this transform, the object transform is updated.
+   */
   void
   SetObjectToWorldTransform(const TransformType * transform);
   itkGetModifiableObjectMacro(ObjectToWorldTransform, TransformType);
   const TransformType *
   GetObjectToWorldTransformInverse() const;
 
-  /** Transforms points from the object-specific "physical" space
-   * to the "physical" space of its parent object.  */
+
+  /** Set the local to global transformation.
+   *
+   * Transforms points from the object-specific "physical" space to the "physical" space of its parent object.
+   */
   void
   SetObjectToParentTransform(const TransformType * transform);
   itkGetModifiableObjectMacro(ObjectToParentTransform, TransformType);
   const TransformType *
   GetObjectToParentTransformInverse() const;
 
-  /** Compute the Local transform when the global transform is set */
+
+  /** Set the local to global transformation.
+   *
+   * Compute the local transform when the global transform is set.
+   *
+   * This does not change the IndexToObjectMatrix.
+   */
   void
   ComputeObjectToParentTransform();
 
@@ -232,7 +250,7 @@ public:
    */
   /**********************************************************************/
 
-  /** Returns true if a point is inside the object in object space. */
+  /** Returns true if a point is inside the object or its children in object space. */
   bool
   IsInsideInObjectSpace(const PointType & point, unsigned int depth, const std::string & name = "") const;
 
@@ -247,7 +265,7 @@ public:
   Update() override;
 
 
-  /** Returns the value at a point. Returns true if that value is valid */
+  /** Returns the value at a point. Returns true if that value is valid. */
   virtual bool
   ValueAtInObjectSpace(const PointType &   point,
                        double &            value,
@@ -266,15 +284,19 @@ public:
   /********************************************************/
   /* Helper functions to recurse queries through children */
   /********************************************************/
+
+  /** Return if a point is inside the object or its children. */
   virtual bool
   IsInsideChildrenInObjectSpace(const PointType & point, unsigned int depth = 0, const std::string & name = "") const;
 
+  /** Return the value of the object at a point. */
   virtual bool
   ValueAtChildrenInObjectSpace(const PointType &   point,
                                double &            value,
                                unsigned int        depth = 0,
                                const std::string & name = "") const;
 
+  /** Return if the object is evaluable at a point. */
   virtual bool
   IsEvaluableAtChildrenInObjectSpace(const PointType &   point,
                                      unsigned int        depth = 0,
@@ -345,12 +367,17 @@ public:
   virtual bool
   HasParent() const;
 
-
-  /** Return a pointer to the parent object in the hierarchy tree */
+  /** Get the parent of the spatial object.
+   *
+   * Returns a pointer to the parent object in the hierarchy tree.
+   */
   virtual const Self *
   GetParent() const;
 
-  /** Return a pointer to the parent object in the hierarchy tree */
+  /** Get the parent of the spatial object.
+   *
+   * Returns a pointer to the parent object in the hierarchy tree.
+   */
   virtual Self *
   GetParent();
 
@@ -380,14 +407,19 @@ public:
   void
   RemoveAllChildren(unsigned int depth = MaximumDepth);
 
-  /** Returns a list of pointer to the children affiliated to this object.
+  /** Get the children affiliated to this object.
    * A depth of 0 returns the immediate children. A depth of 1 returns the
    * children and those children's children.
-   * \warning User is responsible for freeing the list, but not the elements of
+   * \warning The user is responsible for freeing the list, but not the elements of
    * the list. */
   virtual ChildrenListType *
   GetChildren(unsigned int depth = 0, const std::string & name = "") const;
 
+  /** Get the children affiliated to this object.
+   * A depth of 0 returns the immediate children. A depth of 1 returns the
+   * children and those children's children.
+   * \warning The user is responsible for freeing the list, but not the elements of
+   * the list. */
   virtual ChildrenConstListType *
   GetConstChildren(unsigned int depth = 0, const std::string & name = "") const;
 
@@ -399,11 +431,11 @@ public:
                          unsigned int            depth = 0,
                          const std::string &     name = "") const;
 
-  /** Returns the number of children currently assigned to the object. */
+  /** Get the number of children currently assigned to the object. */
   unsigned int
   GetNumberOfChildren(unsigned int depth = 0, const std::string & name = "") const;
 
-  /** Return a SpatialObject given its ID, if it is a child */
+  /** Return a SpatialObject given its ID, if it is a child. */
   SpatialObject<VDimension> *
   GetObjectById(int id);
 
@@ -413,7 +445,10 @@ public:
   bool
   FixParentChildHierarchyUsingParentIds();
 
-  /** Confirm that every object inherited from this has a unique Id */
+  /** Check if the parent objects have a defined ID.
+   *
+   * Confirms that every object inherited from this has a unique Id.
+   */
   bool
   CheckIdValidity() const;
 
@@ -421,7 +456,10 @@ public:
   void
   FixIdValidity();
 
-  /** Generate a unique Id */
+  /** Generate a unique Id.
+   *
+   * Returns the next available Id. For speed reason the MaxID+1 is returned.
+   */
   int
   GetNextAvailableId() const;
 
@@ -442,7 +480,10 @@ public:
   GetMyBoundingBoxInWorldSpace() const;
 
   /** Compute an axis-aligned bounding box for an object and its selected
-   * children, down to a specified depth, in object space. */
+   * children, down to a specified depth, in object space.
+   *
+   * After computation, the resulting bounding box is stored in m_FamilyBoundingBoxInWorldSpace.
+   */
   virtual bool
   ComputeFamilyBoundingBox(unsigned int depth = 0, const std::string & name = "") const;
 
@@ -460,7 +501,9 @@ public:
   /* Regions used by DataObject */
   /******************************/
 
-  /** Set the region object that defines the size and starting index
+  /** Set the largest possible region.
+   *
+   * Sets the region object that defines the size and starting index
    * for the largest possible region this image could represent.  This
    * is used in determining how much memory would be needed to load an
    * entire dataset.  It is also used to determine boundary
@@ -559,7 +602,7 @@ public:
   void
   UpdateOutputInformation() override;
 
-  /** Copy information from the specified data set.  This method is
+  /** Copy the information from the specified data object.  This method is
    * part of the pipeline execution model. By default, a ProcessObject
    * will copy meta-data from the first input to all of its
    * outputs. See ProcessObject::GenerateOutputInformation().  Each

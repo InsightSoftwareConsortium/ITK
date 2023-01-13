@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Default constructor.
- */
+
 template <typename TInputImage, typename TOutputImage>
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::IsoContourDistanceImageFilter()
 {
@@ -38,9 +36,6 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::IsoContourDistanceImag
   m_NarrowBand = nullptr;
 }
 
-/**
- * Set the input narrowband container.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::SetNarrowBand(NarrowBandType * ptr)
@@ -52,23 +47,18 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::SetNarrowBand(NarrowBa
   }
 }
 
-/**
- * PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
   os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
   os << indent << "FarValue: " << m_FarValue << std::endl;
   os << std::endl;
 }
 
-/**
- * GenerateInputRequestedRegion method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -77,9 +67,6 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::GenerateInputRequested
   this->Superclass::GenerateInputRequestedRegion();
 }
 
-/**
- * EnlargeOutputRequestedRegion method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * output)
@@ -157,10 +144,6 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreaderFullCallback(v
   return ITK_THREAD_RETURN_DEFAULT_VALUE;
 }
 
-/**
- * Before ThreadedGenerateData:
- *  Split the band if we use narrowband mode
- */
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerateData()
@@ -181,8 +164,6 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::BeforeThreadedGenerate
   }
 }
 
-//----------------------------------------------------------------------------
-// The execute method created by the subclass.
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
@@ -223,7 +204,6 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateData(
   }
 }
 
-// The execute method created by the subclass.
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataFull(
@@ -266,8 +246,6 @@ IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataFu
   }
 }
 
-
-// The execute method created by the subclass.
 template <typename TInputImage, typename TOutputImage>
 void
 IsoContourDistanceImageFilter<TInputImage, TOutputImage>::ThreadedGenerateDataBand(

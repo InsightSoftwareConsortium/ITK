@@ -154,7 +154,7 @@ private:
   InputImageConstPointer m_InputImage{};
   ClassifiedImagePointer m_ClassifiedImage{};
 
-  /** Define a virtual Classifier function to classify the whole image. */
+  /** Define a virtual classifier function to classify the whole image. */
   virtual void
   Classify();
 }; // class ImageClassifierBase

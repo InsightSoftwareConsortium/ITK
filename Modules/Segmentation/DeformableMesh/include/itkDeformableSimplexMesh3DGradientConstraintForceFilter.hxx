@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/* Constructore  */
+
 template <typename TInputMesh, typename TOutputMesh>
 DeformableSimplexMesh3DGradientConstraintForceFilter<TInputMesh, TOutputMesh>::
   DeformableSimplexMesh3DGradientConstraintForceFilter()

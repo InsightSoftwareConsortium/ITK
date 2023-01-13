@@ -38,9 +38,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::BSplineInterpolateImageFunction()
 {
@@ -55,9 +53,6 @@ BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::BSplin
   this->m_UseImageDirection = true;
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>
 void
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::PrintSelf(std::ostream & os,

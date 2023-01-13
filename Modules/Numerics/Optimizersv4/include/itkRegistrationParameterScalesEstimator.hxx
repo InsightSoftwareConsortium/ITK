@@ -44,7 +44,6 @@ RegistrationParameterScalesEstimator<TMetric>::RegistrationParameterScalesEstima
   // the metric object must be set before EstimateScales()
 }
 
-/** Estimate the trusted scale for steps. It returns the voxel spacing. */
 template <typename TMetric>
 auto
 RegistrationParameterScalesEstimator<TMetric>::EstimateMaximumStepSize() -> FloatType
@@ -68,7 +67,6 @@ RegistrationParameterScalesEstimator<TMetric>::EstimateMaximumStepSize() -> Floa
   return minSpacing;
 }
 
-/** Validate and set metric and its transforms. */
 template <typename TMetric>
 bool
 RegistrationParameterScalesEstimator<TMetric>::CheckAndSetInputs()
@@ -90,7 +88,6 @@ RegistrationParameterScalesEstimator<TMetric>::CheckAndSetInputs()
   return true;
 }
 
-/** Get the transform being estimated scales for. */
 template <typename TMetric>
 const TransformBaseTemplate<typename TMetric::MeasureType> *
 RegistrationParameterScalesEstimator<TMetric>::GetTransform()
@@ -105,7 +102,6 @@ RegistrationParameterScalesEstimator<TMetric>::GetTransform()
   }
 }
 
-/** Get the dimension of the target transformed to. */
 template <typename TMetric>
 itk::SizeValueType
 RegistrationParameterScalesEstimator<TMetric>::GetDimension()
@@ -119,8 +115,6 @@ RegistrationParameterScalesEstimator<TMetric>::GetDimension()
     return FixedDimension;
   }
 }
-
-/** Check if the transform being optimized has local support. */
 
 template <typename TMetric>
 bool
@@ -226,7 +220,6 @@ RegistrationParameterScalesEstimator<TMetric>::TransformHasLocalSupportForScales
   }
 }
 
-/** Get the number of scales. */
 template <typename TMetric>
 SizeValueType
 RegistrationParameterScalesEstimator<TMetric>::GetNumberOfLocalParameters()
@@ -241,7 +234,6 @@ RegistrationParameterScalesEstimator<TMetric>::GetNumberOfLocalParameters()
   }
 }
 
-/** Update the transform with a change in parameters. */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::UpdateTransformParameters(const ParametersType & deltaParameters)
@@ -263,10 +255,6 @@ RegistrationParameterScalesEstimator<TMetric>::UpdateTransformParameters(const P
   }
 }
 
-/** Transform a physical point to a new physical point.
- *  We want to compute shift in physical space so that the scales is not
- *  sensitive to spacings and directions of voxel sampling.
- */
 template <typename TMetric>
 template <typename TTargetPointType>
 void
@@ -283,7 +271,6 @@ RegistrationParameterScalesEstimator<TMetric>::TransformPoint(const VirtualPoint
   }
 }
 
-/** Get the squared norms of the transform Jacobians w.r.t parameters at a point */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::ComputeSquaredJacobianNorms(const VirtualPointType & point,
@@ -321,9 +308,6 @@ RegistrationParameterScalesEstimator<TMetric>::ComputeSquaredJacobianNorms(const
   }
 }
 
-/** Sample the virtual domain with phyical points
- *  and store the results into this->m_SamplePoints.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomain()
@@ -371,9 +355,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomain()
   this->m_SamplingTime = this->GetTimeStamp();
 }
 
-/**
- * Set the sampling strategy automatically for scales estimation.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SetScalesSamplingStrategy()
@@ -397,9 +378,6 @@ RegistrationParameterScalesEstimator<TMetric>::SetScalesSamplingStrategy()
   }
 }
 
-/**
- * Set the sampling strategy automatically for step scale estimation.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SetStepScaleSamplingStrategy()
@@ -424,10 +402,6 @@ RegistrationParameterScalesEstimator<TMetric>::SetStepScaleSamplingStrategy()
   }
 }
 
-/**
- * Check if the transform is a general affine transform that maps a line
- * segment to a line segment.
- */
 template <typename TMetric>
 bool
 RegistrationParameterScalesEstimator<TMetric>::CheckGeneralAffineTransform()
@@ -442,14 +416,6 @@ RegistrationParameterScalesEstimator<TMetric>::CheckGeneralAffineTransform()
   }
 }
 
-/**
- * The templated version of CheckGeneralAffineTransform to check if the
- * transform is a general affine transform that maps a line segment to
- * a line segment.
- *
- * Examples are subclasses of MatrixOffsetTransformBaseType, TranslationTransform,
- * Rigid3DPerspectiveTransform, IdentityTransform, etc.
- */
 template <typename TMetric>
 template <typename TTransform>
 bool
@@ -472,9 +438,6 @@ RegistrationParameterScalesEstimator<TMetric>::CheckGeneralAffineTransformTempla
   return false;
 }
 
-/**
- *  Get the index of the virtual image center.
- */
 template <typename TMetric>
 auto
 RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() -> VirtualIndexType
@@ -494,9 +457,6 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralIndex() ->
   return centralIndex;
 }
 
-/**
- *  Get the region around the virtual image center.
- */
 template <typename TMetric>
 auto
 RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -> VirtualRegionType
@@ -529,9 +489,6 @@ RegistrationParameterScalesEstimator<TMetric>::GetVirtualDomainCentralRegion() -
   return centralRegion;
 }
 
-/**
- *  Sample the virtual domain with the voxels around the center.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCentralRegion()
@@ -540,9 +497,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCentralReg
   SampleVirtualDomainWithRegion(centralRegion);
 }
 
-/**
- *  Sample the virtual domain with all voxels inside a region.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithRegion(VirtualRegionType region)
@@ -569,10 +523,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithRegion(Vir
   }
 }
 
-/**
- *  Sample the virtual domain with the points at image corners.
- *  And store the results into this->m_SamplePoints.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
@@ -602,9 +552,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithCorners()
   }
 }
 
-/**
- * Sample the physical points of the virtual domain in a uniform random distribution.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainRandomly()
@@ -649,9 +596,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainRandomly()
   }
 }
 
-/**
- * Sample the virtual domain using a point set.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithPointSet()
@@ -678,9 +622,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithPointSet()
   }
 }
 
-/**
- * Sample the virtual domain fully with all pixels.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainFully()
@@ -689,9 +630,6 @@ RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainFully()
   this->SampleVirtualDomainWithRegion(region);
 }
 
-/**
- * Print the information about this class.
- */
 template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::PrintSelf(std::ostream & os, Indent indent) const

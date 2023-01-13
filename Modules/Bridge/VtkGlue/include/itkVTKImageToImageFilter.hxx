@@ -25,9 +25,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TOutputImage>
 VTKImageToImageFilter<TOutputImage>::VTKImageToImageFilter()
 {
@@ -51,9 +48,6 @@ VTKImageToImageFilter<TOutputImage>::VTKImageToImageFilter()
   this->SetCallbackUserData(m_Exporter->GetCallbackUserData());
 }
 
-/**
- * Destructor
- */
 template <typename TOutputImage>
 VTKImageToImageFilter<TOutputImage>::~VTKImageToImageFilter()
 {
@@ -64,9 +58,6 @@ VTKImageToImageFilter<TOutputImage>::~VTKImageToImageFilter()
   }
 }
 
-/**
- * Set a vtkImageData as input
- */
 template <typename TOutputImage>
 void
 VTKImageToImageFilter<TOutputImage>::SetInput(vtkImageData * inputImage)
@@ -78,9 +69,6 @@ VTKImageToImageFilter<TOutputImage>::SetInput(vtkImageData * inputImage)
 #endif
 }
 
-/**
- * Get the exporter filter
- */
 template <typename TOutputImage>
 vtkImageExport *
 VTKImageToImageFilter<TOutputImage>::GetExporter() const
@@ -88,9 +76,6 @@ VTKImageToImageFilter<TOutputImage>::GetExporter() const
   return m_Exporter;
 }
 
-/**
- * Get the importer filter
- */
 template <typename TOutputImage>
 auto
 VTKImageToImageFilter<TOutputImage>::GetImporter() const -> const Superclass *

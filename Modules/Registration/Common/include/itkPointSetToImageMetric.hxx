@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedPointSet, typename TMovingImage>
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::PointSetToImageMetric()
 {
@@ -36,9 +34,6 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::PointSetToImageMetric()
   m_GradientImage = nullptr;   // computed at initialization
 }
 
-/**
- * Set the parameters that define a unique transform
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::SetTransformParameters(const ParametersType & parameters) const
@@ -50,9 +45,6 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::SetTransformParameters(cons
   m_Transform->SetParameters(parameters);
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::Initialize()
@@ -109,9 +101,6 @@ PointSetToImageMetric<TFixedPointSet, TMovingImage>::Initialize()
   }
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const

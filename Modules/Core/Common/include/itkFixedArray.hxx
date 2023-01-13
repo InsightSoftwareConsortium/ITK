@@ -22,31 +22,19 @@
 
 namespace itk
 {
-/**
- * Constructor to initialize entire array to one value.
- */
+
 template <typename TValue, unsigned int VLength>
 FixedArray<TValue, VLength>::FixedArray(const ValueType & r)
 {
   std::fill_n(m_InternalArray, VLength, r);
 }
 
-/**
- * Constructor assumes input points to array of correct size.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
 template <typename TValue, unsigned int VLength>
 FixedArray<TValue, VLength>::FixedArray(const ValueType r[VLength])
 {
   std::copy_n(r, VLength, m_InternalArray);
 }
 
-/**
- * Assignment operator assumes input points to array of correct size.
- * Values are copied individually instead of with a binary copy.  This
- * allows the ValueType's assignment operator to be executed.
- */
 template <typename TValue, unsigned int VLength>
 FixedArray<TValue, VLength> &
 FixedArray<TValue, VLength>::operator=(const ValueType r[VLength])
@@ -58,9 +46,6 @@ FixedArray<TValue, VLength>::operator=(const ValueType r[VLength])
   return *this;
 }
 
-/**
- * Operator != compares different types of arrays.
- */
 template <typename TValue, unsigned int VLength>
 bool
 FixedArray<TValue, VLength>::operator==(const FixedArray & r) const
@@ -68,9 +53,6 @@ FixedArray<TValue, VLength>::operator==(const FixedArray & r) const
   return std::equal(m_InternalArray, m_InternalArray + VLength, r.m_InternalArray);
 }
 
-/**
- * Get an Iterator for the beginning of the FixedArray.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::Begin() -> Iterator
@@ -78,9 +60,6 @@ FixedArray<TValue, VLength>::Begin() -> Iterator
   return Iterator(m_InternalArray);
 }
 
-/**
- * Get a ConstIterator for the beginning of the FixedArray.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::Begin() const -> ConstIterator
@@ -88,9 +67,6 @@ FixedArray<TValue, VLength>::Begin() const -> ConstIterator
   return ConstIterator(m_InternalArray);
 }
 
-/**
- * Get an Iterator for the end of the FixedArray.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::End() -> Iterator
@@ -98,9 +74,6 @@ FixedArray<TValue, VLength>::End() -> Iterator
   return Iterator(m_InternalArray + VLength);
 }
 
-/**
- * Get a ConstIterator for the end of the FixedArray.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::End() const -> ConstIterator
@@ -110,9 +83,6 @@ FixedArray<TValue, VLength>::End() const -> ConstIterator
 
 #if !defined(ITK_LEGACY_REMOVE)
 
-/**
- * Get a begin ReverseIterator.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::rBegin() -> ReverseIterator
@@ -120,9 +90,6 @@ FixedArray<TValue, VLength>::rBegin() -> ReverseIterator
   return ReverseIterator(m_InternalArray + VLength);
 }
 
-/**
- * Get a begin ConstReverseIterator.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::rBegin() const -> ConstReverseIterator
@@ -130,9 +97,6 @@ FixedArray<TValue, VLength>::rBegin() const -> ConstReverseIterator
   return ConstReverseIterator(m_InternalArray + VLength);
 }
 
-/**
- * Get an end ReverseIterator.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::rEnd() -> ReverseIterator
@@ -140,9 +104,6 @@ FixedArray<TValue, VLength>::rEnd() -> ReverseIterator
   return ReverseIterator(m_InternalArray);
 }
 
-/**
- * Get an end ConstReverseIterator.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::rEnd() const -> ConstReverseIterator
@@ -152,9 +113,6 @@ FixedArray<TValue, VLength>::rEnd() const -> ConstReverseIterator
 
 #endif // defined ( ITK_LEGACY_REMOVE )
 
-/**
- * Get the size of the FixedArray.
- */
 template <typename TValue, unsigned int VLength>
 auto
 FixedArray<TValue, VLength>::Size() const -> SizeType
@@ -162,9 +120,6 @@ FixedArray<TValue, VLength>::Size() const -> SizeType
   return VLength;
 }
 
-/**
- * Fill all elements of the array with the given value.
- */
 template <typename TValue, unsigned int VLength>
 void
 FixedArray<TValue, VLength>::Fill(const ValueType & value)

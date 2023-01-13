@@ -79,36 +79,49 @@ public:
   static constexpr unsigned int ImageDimension = TInputImage::ImageDimension;
 
   /** Connect the image containing the elements [0,0]
-   * of the input 2D matrix */
+   * of the input 2D matrix. */
   void
   SetInput1(TInputImage * image);
 
   /** Connect the image containing the elements [0,1]
    * of the input 2D matrix. This is the same [1,0]
    * element given that the input matrix is expected
-   * to be symmetric */
+   * to be symmetric. */
   void
   SetInput2(TInputImage * image);
 
   /** Connect the image containing the elements [1,1]
-   * of the input 2D matrix */
+   * of the input 2D matrix. */
   void
   SetInput3(TInputImage * image);
 
-  /** Get the Output image with the greatest eigenvalue */
+  /** Get the output image with the largest eigenvalue.
+   *
+   * The sign is taken into account in the computation.
+   */
   EigenValueImageType *
   GetMaxEigenValue();
 
-  /** Get the Output image with the smallest eigenvalue */
+  /** Get the output image with the smallest eigenvalue.
+   *
+   * The sign is taken into account in the computation.
+   */
   EigenValueImageType *
   GetMinEigenValue();
 
-  /** Get the Output image with the eigen vector associated with
-   * the greatest eigen value */
+  /** Get the output image with the eigenvector associated with
+   * the greatest eigenvalue
+   *
+   * The sign is taken into account in the computation.
+   */
   EigenVectorImageType *
   GetMaxEigenVector();
 
-  /**  Create the Output */
+  /**  Create the output.
+   *
+   * \todo Verify that MakeOutput is creating the right type of objects
+   * this could be the cause of the reinterpret_cast bug in this class.
+   */
   using DataObjectPointerArraySizeType = ProcessObject::DataObjectPointerArraySizeType;
   using Superclass::MakeOutput;
   DataObject::Pointer

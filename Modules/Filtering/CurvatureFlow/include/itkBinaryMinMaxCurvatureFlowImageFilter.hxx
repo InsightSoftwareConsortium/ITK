@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::BinaryMinMaxCurvatureFlowImageFilter()
 {
@@ -36,20 +34,15 @@ BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::BinaryMinMaxCur
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "Threshold: " << m_Threshold << std::endl;
 }
 
-/**
- * Initialize the state of filter and equation before each iteration.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BinaryMinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()

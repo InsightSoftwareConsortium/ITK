@@ -203,7 +203,7 @@ public:
     return m_W;
   }
 
-  /** Returns the rotation angle in radians.  */
+  /** Returns the rotation angle in radians. */
   ValueType
   GetAngle() const;
 
@@ -219,9 +219,10 @@ public:
   VectorType
   GetRight() const;
 
-  /** Set the versor using a vector and angle
-   * the unit vector parallel to the given vector
-   * will be used. The angle is expected in radians. */
+  /** Set the versor using a vector and angle.
+   *
+   * The unit vector parallel to the given vector will be used. The angle is expected in radians.
+   */
   void
   Set(const VectorType & axis, ValueType angle);
 
@@ -277,7 +278,10 @@ public:
   VectorType
   Transform(const VectorType & v) const;
 
-  /** Transform a covariant vector.  */
+  /** Transform a covariant vector.
+   *
+   * Given that this is an orthogonal transformation CovariantVectors are transformed as vectors.
+   */
   CovariantVectorType
   Transform(const CovariantVectorType & v) const;
 
@@ -297,7 +301,7 @@ public:
   Self
   SquareRoot() const;
 
-  /** Compute the Exponential of the unit quaternion
+  /** Compute the Exponential of the unit quaternion.
    * Exponentiation by a factor is equivalent to
    * multiplication of the rotation angle of the quaternion. */
   Self

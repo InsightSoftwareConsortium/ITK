@@ -29,9 +29,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::ConfidenceConnectedImageFilter()
 {
@@ -71,7 +69,6 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::AddSeed(const IndexTy
   this->Modified();
 }
 
-/** Method to access seed container */
 template <typename TInputImage, typename TOutputImage>
 auto
 ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> const SeedsContainerType &
@@ -80,9 +77,6 @@ ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::GetSeeds() const -> c
   return this->m_Seeds;
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 ConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const

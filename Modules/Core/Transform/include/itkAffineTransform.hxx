@@ -23,26 +23,23 @@
 
 namespace itk
 {
-/** Constructor with default arguments */
+
 template <typename TParametersValueType, unsigned int VDimension>
 AffineTransform<TParametersValueType, VDimension>::AffineTransform()
   : Superclass(ParametersDimension)
 {}
 
-/** Constructor with default arguments */
 template <typename TParametersValueType, unsigned int VDimension>
 AffineTransform<TParametersValueType, VDimension>::AffineTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
 {}
 
-/** Constructor with explicit arguments */
 template <typename TParametersValueType, unsigned int VDimension>
 AffineTransform<TParametersValueType, VDimension>::AffineTransform(const MatrixType &       matrix,
                                                                    const OutputVectorType & offset)
   : Superclass(matrix, offset)
 {}
 
-/** Compose with a translation */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Translate(const OutputVectorType & trans, bool pre)
@@ -62,7 +59,6 @@ AffineTransform<TParametersValueType, VDimension>::Translate(const OutputVectorT
   this->Modified();
 }
 
-/** Compose with isotropic scaling */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Scale(const TParametersValueType & factor, bool pre)
@@ -88,7 +84,6 @@ AffineTransform<TParametersValueType, VDimension>::Scale(const TParametersValueT
   this->Modified();
 }
 
-/** Compose with anisotropic scaling */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Scale(const OutputVectorType & factor, bool pre)
@@ -118,7 +113,6 @@ AffineTransform<TParametersValueType, VDimension>::Scale(const OutputVectorType 
   this->Modified();
 }
 
-/** Compose with elementary rotation */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Rotate(int axis1, int axis2, TParametersValueType angle, bool pre)
@@ -152,9 +146,6 @@ AffineTransform<TParametersValueType, VDimension>::Rotate(int axis1, int axis2, 
   this->Modified();
 }
 
-/** Compose with 2D rotation
- * \todo Find a way to generate a compile-time error
- * is this is used with VDimension != 2. */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Rotate2D(TParametersValueType angle, bool pre)
@@ -179,9 +170,6 @@ AffineTransform<TParametersValueType, VDimension>::Rotate2D(TParametersValueType
   this->Modified();
 }
 
-/** Compose with 3D rotation
- *  \todo Find a way to generate a compile-time error
- *  is this is used with VDimension != 3. */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Rotate3D(const OutputVectorType & axis,
@@ -230,7 +218,6 @@ AffineTransform<TParametersValueType, VDimension>::Rotate3D(const OutputVectorTy
   this->Modified();
 }
 
-/** Compose with elementary rotation */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 AffineTransform<TParametersValueType, VDimension>::Shear(int axis1, int axis2, TParametersValueType coef, bool pre)
@@ -261,7 +248,6 @@ AffineTransform<TParametersValueType, VDimension>::Shear(int axis1, int axis2, T
   this->Modified();
 }
 
-/** Get an inverse of this transform. */
 template <typename TParametersValueType, unsigned int VDimension>
 bool
 AffineTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) const
@@ -269,7 +255,6 @@ AffineTransform<TParametersValueType, VDimension>::GetInverse(Self * inverse) co
   return this->Superclass::GetInverse(inverse);
 }
 
-/** Return an inverse of this transform. */
 template <typename TParametersValueType, unsigned int VDimension>
 typename AffineTransform<TParametersValueType, VDimension>::InverseTransformBasePointer
 AffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const
@@ -279,7 +264,6 @@ AffineTransform<TParametersValueType, VDimension>::GetInverseTransform() const
   return this->GetInverse(inv) ? inv.GetPointer() : nullptr;
 }
 
-/** Compute a distance between two affine transforms */
 template <typename TParametersValueType, unsigned int VDimension>
 typename AffineTransform<TParametersValueType, VDimension>::ScalarType
 AffineTransform<TParametersValueType, VDimension>::Metric(const Self * other) const
@@ -299,7 +283,6 @@ AffineTransform<TParametersValueType, VDimension>::Metric(const Self * other) co
   return std::sqrt(result);
 }
 
-/** Compute a distance between self and the identity transform */
 template <typename TParametersValueType, unsigned int VDimension>
 typename AffineTransform<TParametersValueType, VDimension>::ScalarType
 AffineTransform<TParametersValueType, VDimension>::Metric() const

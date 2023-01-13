@@ -26,9 +26,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::MeanSquaresImageToImageMetric()
 {
@@ -43,9 +41,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::MeanSquaresImageToImag
   this->SetUseAllPixels(true);
 }
 
-/**
- * Print out internal information about this class
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -53,9 +48,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream
   Superclass::PrintSelf(os, indent);
 }
 
-/**
- * Initialize
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
@@ -177,9 +169,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivativeT
   return true;
 }
 
-/**
- * Get the both Value and Derivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(const ParametersType & parameters,
@@ -241,9 +230,6 @@ MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
   }
 }
 
-/**
- * Get the match measure derivative
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const ParametersType & parameters,

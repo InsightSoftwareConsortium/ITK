@@ -29,7 +29,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <unsigned int VDimension>
 MetaFEMObjectConverter<VDimension>::MetaFEMObjectConverter() = default;
 
@@ -40,7 +39,6 @@ MetaFEMObjectConverter<VDimension>::CreateMetaObject() -> MetaObjectType *
   return dynamic_cast<MetaObjectType *>(new FEMObjectMetaObjectType);
 }
 
-/** Convert a metaFEMObject into an FEMObject SpatialObject  */
 template <unsigned int VDimension>
 auto
 MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectType * mo) -> SpatialObjectPointer
@@ -312,7 +310,6 @@ MetaFEMObjectConverter<VDimension>::MetaObjectToSpatialObject(const MetaObjectTy
   return FEMSO.GetPointer();
 }
 
-/** Convert an FEMObject SpatialObject into a metaFEMObject */
 template <unsigned int VDimension>
 auto
 MetaFEMObjectConverter<VDimension>::SpatialObjectToMetaObject(const SpatialObjectType * so) -> MetaObjectType *

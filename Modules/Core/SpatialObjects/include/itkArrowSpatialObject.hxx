@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 ArrowSpatialObject<TDimension>::ArrowSpatialObject()
 {
@@ -51,7 +51,6 @@ ArrowSpatialObject<TDimension>::Clear()
   this->Modified();
 }
 
-/** Compute the bounding box */
 template <unsigned int TDimension>
 void
 ArrowSpatialObject<TDimension>::ComputeMyBoundingBox()
@@ -64,7 +63,6 @@ ArrowSpatialObject<TDimension>::ComputeMyBoundingBox()
   this->GetModifiableMyBoundingBoxInObjectSpace()->SetMaximum(pnt);
 }
 
-/** Check if a given point is on the arrow */
 template <unsigned int TDimension>
 bool
 ArrowSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) const
@@ -140,7 +138,6 @@ ArrowSpatialObject<TDimension>::GetLengthInWorldSpace() const
   return len;
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 ArrowSpatialObject<TDimension>::InternalClone() const

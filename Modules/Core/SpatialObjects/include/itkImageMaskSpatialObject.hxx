@@ -25,16 +25,13 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension, typename TPixel>
 ImageMaskSpatialObject<TDimension, TPixel>::ImageMaskSpatialObject()
 {
   this->SetTypeName("ImageMaskSpatialObject");
 }
 
-/** Test whether a point is inside or outside the object
- *  For computational speed purposes, it is faster if the method does not
- *  check the name of the class and the current depth */
 template <unsigned int TDimension, typename TPixel>
 bool
 ImageMaskSpatialObject<TDimension, TPixel>::IsInsideInObjectSpace(const PointType & point) const
@@ -114,8 +111,6 @@ ImageMaskSpatialObject<TDimension, TPixel>::ComputeMyBoundingBox()
   }
 }
 
-
-/** InternalClone */
 template <unsigned int TDimension, typename TPixel>
 typename LightObject::Pointer
 ImageMaskSpatialObject<TDimension, TPixel>::InternalClone() const

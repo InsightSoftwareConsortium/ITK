@@ -70,16 +70,16 @@ public:
   virtual void
   AddPoint(const SpatialObjectPointType & newPoint);
 
-  /** Removes the indicated point from this object */
+  /** Removes the indicated point from this object. */
   virtual void
   RemovePoint(IdentifierType id);
 
   /** Assign points to this object, and assigned this object to
-   * each point (for computing world coordinates) */
+   * each point (for computing world coordinates). */
   virtual void
   SetPoints(const SpatialObjectPointListType & newPoints);
 
-  /** Get the list of points assigned to this object */
+  /** Get the list of points assigned to this object. */
   virtual SpatialObjectPointListType &
   GetPoints()
   {
@@ -113,14 +113,18 @@ public:
     return static_cast<SizeValueType>(m_Points.size());
   }
 
-  /** Method returns the Point closest to the given point */
+  /** Get the closest point in world space. */
   TSpatialObjectPointType
   ClosestPointInWorldSpace(const PointType & point) const;
 
+  /** Get the closest point in object space. */
   TSpatialObjectPointType
   ClosestPointInObjectSpace(const PointType & point) const;
 
-  /** Returns true if the point is inside the Blob, false otherwise. */
+  /** Test if a world-coordinate point is inside of this object or its children.
+   *
+   * Returns true if the point is inside the blob, false otherwise.
+   */
   bool
   IsInsideInObjectSpace(const PointType & point) const override;
 

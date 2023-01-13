@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedPointSet, typename TMovingSpatialObject>
 PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,
                                           TMovingSpatialObject>::PointSetToSpatialObjectDemonsRegistration()
@@ -32,9 +30,6 @@ PointSetToSpatialObjectDemonsRegistration<TFixedPointSet,
   m_MovingSpatialObject = nullptr; // has to be provided by the user.
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedPointSet, typename TMovingSpatialObject>
 void
 PointSetToSpatialObjectDemonsRegistration<TFixedPointSet, TMovingSpatialObject>::PrintSelf(std::ostream & os,

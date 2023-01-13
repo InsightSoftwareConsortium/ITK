@@ -110,7 +110,7 @@ public:
     this->SetOutputNarrowBandwidth(value);
   }
 
-  /** Set/Get the input narrowband. */
+  /** Set/Get the input narrowband container. */
   void
   SetInputNarrowBand(NodeContainer * ptr);
 

@@ -28,9 +28,7 @@
 
 namespace itk
 {
-//
-// Constructor
-//
+
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType>::GradientImageFilter()
 {
@@ -42,9 +40,6 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
   this->ThreaderUpdateProgressOff();
 }
 
-//
-// Destructor
-//
 template <typename TInputImage, typename TOperatorValueType, typename TOutputValueType, typename TOutputImageType>
 GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputImageType>::~GradientImageFilter()
 {

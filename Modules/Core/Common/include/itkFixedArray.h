@@ -194,7 +194,12 @@ public:
    * \note The other five "special member functions" are defaulted implicitly, following the C++ "Rule of Zero". */
   FixedArray() = default;
 
-  /** Conversion constructors */
+  /** Conversion constructors.
+   *
+   * Constructor assumes input points to array of correct size.
+   * Values are copied individually instead of with a binary copy.  This
+   * allows the ValueType's assignment operator to be executed.
+   */
   FixedArray(const ValueType r[VLength]);
   FixedArray(const ValueType &);
 
@@ -222,7 +227,12 @@ public:
     std::copy_n(r, VLength, m_InternalArray);
   }
 
-  /** Operator= defined for a variety of types. */
+  /** Operator= defined for a variety of types.
+   *
+   * The assignment operator assumes input points to array of correct size.
+   * Values are copied individually instead of with a binary copy.  This
+   * allows the ValueType's assignment operator to be executed.
+   */
   template <typename TFixedArrayValueType>
   FixedArray &
   operator=(const FixedArray<TFixedArrayValueType, VLength> & r)
@@ -302,25 +312,32 @@ public:
     return m_InternalArray;
   }
 
-  /** Get various iterators to the array. */
+  /** Get an Iterator for the beginning of the FixedArray. */
   Iterator
   Begin();
 
+  /** Get a ConstIterator for the beginning of the FixedArray. */
   ConstIterator
   Begin() const;
 
+  /** Get an Iterator for the end of the FixedArray. */
   Iterator
   End();
 
+  /** Get a ConstIterator for the end of the FixedArray. */
   ConstIterator
   End() const;
 
+  /** Get a begin ReverseIterator. */
   itkLegacyMacro(ReverseIterator rBegin());
 
+  /** Get a begin ConstReverseIterator. */
   itkLegacyMacro(ConstReverseIterator rBegin() const);
 
+  /** Get an end ReverseIterator. */
   itkLegacyMacro(ReverseIterator rEnd());
 
+  /** Get an end ConstReverseIterator. */
   itkLegacyMacro(ConstReverseIterator rEnd() const);
 
   constexpr const_iterator
@@ -395,7 +412,7 @@ public:
     return this->crend();
   }
 
-  /** Size of the container */
+  /** Size of the container. */
   SizeType
   Size() const;
 

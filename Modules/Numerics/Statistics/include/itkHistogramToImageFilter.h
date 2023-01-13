@@ -86,7 +86,7 @@ public:
   /** Determine the image dimension. */
   static constexpr unsigned int ImageDimension = OutputImageType::ImageDimension;
 
-  /** Set/Get the input of this process object.  */
+  /** Set/Get the input histogram. */
   using Superclass::SetInput;
   virtual void
   SetInput(const HistogramType * input);

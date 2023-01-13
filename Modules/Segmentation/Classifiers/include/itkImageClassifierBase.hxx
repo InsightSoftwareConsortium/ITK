@@ -20,9 +20,7 @@
 
 namespace itk
 {
-/**
- * PrintSelf
- */
+
 template <typename TInputImage, typename TClassifiedImage>
 void
 ImageClassifierBase<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -34,21 +32,15 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os,
   os << m_ClassifiedImage.GetPointer() << std::endl;
   os << indent << "InputImage: ";
   os << m_InputImage.GetPointer() << std::endl;
-} // end PrintSelf
+}
 
-/**
- * Generate data (start the classification process)
- */
 template <typename TInputImage, typename TClassifiedImage>
 void
 ImageClassifierBase<TInputImage, TClassifiedImage>::GenerateData()
 {
   this->Classify();
-} // end Generate data
+}
 
-//------------------------------------------------------------------
-// The core function where classification is carried out
-//------------------------------------------------------------------
 template <typename TInputImage, typename TClassifiedImage>
 void
 ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
@@ -114,11 +106,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::Classify()
     outputClassifiedLabel = ClassifiedImagePixelType(classLabel);
     classifiedIt.Set(outputClassifiedLabel);
   }
-} // end Classify
+}
 
-/**
- * Allocate
- */
 template <typename TInputImage, typename TClassifiedImage>
 void
 ImageClassifierBase<TInputImage, TClassifiedImage>::Allocate()

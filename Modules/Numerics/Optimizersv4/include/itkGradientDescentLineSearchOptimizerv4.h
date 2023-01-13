@@ -125,6 +125,14 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  /** Search the golden section.
+   *
+   * \p a and \p c are the current bounds; the minimum is between them.
+   * \p b is a center point.
+   * \c f(x) is some mathematical function elsewhere defined.
+   * \p a corresponds to \c x1; \p b corresponds to \c x2; \p c corresponds to \c x3.
+   * \c x corresponds to \c x4.
+   */
   TInternalComputationValueType
   GoldenSectionSearch(TInternalComputationValueType a,
                       TInternalComputationValueType b,

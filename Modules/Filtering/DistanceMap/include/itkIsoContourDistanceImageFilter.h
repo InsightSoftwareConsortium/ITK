@@ -172,6 +172,7 @@ protected:
   void
   ThreadedGenerateDataBand(const OutputImageRegionType & outputRegionForThread, ThreadIdType threadId);
 
+  /** Split the band if the narrowband mode is used. */
   void
   BeforeThreadedGenerateData() override;
 

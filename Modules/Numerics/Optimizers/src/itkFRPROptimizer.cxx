@@ -200,27 +200,18 @@ FRPROptimizer::StartOptimization()
   this->InvokeEvent(EndEvent());
 }
 
-/**
- *
- */
 void
 FRPROptimizer::SetToPolakRibiere()
 {
   m_OptimizationType = OptimizationEnum::PolakRibiere;
 }
 
-/**
- *
- */
 void
 FRPROptimizer::SetToFletchReeves()
 {
   m_OptimizationType = OptimizationEnum::FletchReeves;
 }
 
-/**
- *
- */
 void
 FRPROptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -230,7 +221,6 @@ FRPROptimizer::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Use unit length gradient = " << m_UseUnitLengthGradient << std::endl;
 }
 
-/** Print enum values */
 std::ostream &
 operator<<(std::ostream & out, const FRPROptimizerEnums::Optimization value)
 {

@@ -23,9 +23,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::MeanSquareRegistrationFunction()
 {
@@ -51,9 +49,6 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::M
   m_MovingImageInterpolator = itkDynamicCastInDebugMode<InterpolatorType *>(interp.GetPointer());
 }
 
-/*
- * Standard "PrintSelf" method.
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PrintSelf(std::ostream & os,
@@ -72,9 +67,6 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::P
   */
 }
 
-/*
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 void
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::InitializeIteration()
@@ -96,9 +88,6 @@ MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::I
   this->SetEnergy(0.0);
 }
 
-/**
- * Compute update at a non boundary neighbourhood
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>
 typename MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::PixelType
 MeanSquareRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::ComputeUpdate(

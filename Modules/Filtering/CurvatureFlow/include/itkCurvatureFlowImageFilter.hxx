@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::CurvatureFlowImageFilter()
 {
@@ -37,9 +35,6 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::CurvatureFlowImageFilter()
   this->SetDifferenceFunction(static_cast<FiniteDifferenceFunctionType *>(cffp.GetPointer()));
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,9 +44,6 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os
   os << std::endl;
 }
 
-/**
- * Initialize the state of filter and equation before each iteration.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
@@ -77,9 +69,6 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::InitializeIteration()
   }
 }
 
-/**
- * GenerateInputRequestedRegion
- */
 template <typename TInputImage, typename TOutputImage>
 void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegion()
@@ -101,9 +90,6 @@ CurvatureFlowImageFilter<TInputImage, TOutputImage>::GenerateInputRequestedRegio
   inputPtr->SetRequestedRegion(outputPtr->GetRequestedRegion());
 }
 
-/**
- * EnlargeOutputRequestedRegion
- */
 template <typename TInputImage, typename TOutputImage>
 void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::EnlargeOutputRequestedRegion(DataObject * ptr)

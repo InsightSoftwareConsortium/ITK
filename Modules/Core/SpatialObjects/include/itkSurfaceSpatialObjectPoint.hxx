@@ -21,14 +21,13 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TPointDimension>
 SurfaceSpatialObjectPoint<TPointDimension>::SurfaceSpatialObjectPoint()
 {
   m_NormalInObjectSpace.Fill(0);
 }
 
-/** Copy Constructor */
 template <unsigned int TPointDimension>
 SurfaceSpatialObjectPoint<TPointDimension>::SurfaceSpatialObjectPoint(const SurfaceSpatialObjectPoint & other)
   : Superclass(other)
@@ -36,7 +35,6 @@ SurfaceSpatialObjectPoint<TPointDimension>::SurfaceSpatialObjectPoint(const Surf
   this->m_NormalInObjectSpace = other.m_NormalInObjectSpace;
 }
 
-/** Set the normal : N-D case */
 template <unsigned int TPointDimension>
 void
 SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(const CovariantVectorType & normal)
@@ -44,7 +42,6 @@ SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInObjectSpace(const Covaria
   m_NormalInObjectSpace = normal;
 }
 
-/** Set the normal : N-D case */
 template <unsigned int TPointDimension>
 void
 SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInWorldSpace(const CovariantVectorType & normal)
@@ -58,7 +55,6 @@ SurfaceSpatialObjectPoint<TPointDimension>::SetNormalInWorldSpace(const Covarian
     Superclass::m_SpatialObject->GetObjectToWorldTransform()->GetInverseTransform()->TransformCovariantVector(normal);
 }
 
-/** Get the normal at one point */
 template <unsigned int TPointDimension>
 auto
 SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const -> const CovariantVectorType &
@@ -66,7 +62,6 @@ SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace() const -> co
   return m_NormalInObjectSpace;
 }
 
-/** Get the normal at one point */
 template <unsigned int TPointDimension>
 auto
 SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInWorldSpace() const -> const CovariantVectorType
@@ -79,7 +74,6 @@ SurfaceSpatialObjectPoint<TPointDimension>::GetNormalInWorldSpace() const -> con
   return Superclass::m_SpatialObject->GetObjectToWorldTransform()->TransformCovariantVector(m_NormalInObjectSpace);
 }
 
-/** Print the object */
 template <unsigned int TPointDimension>
 void
 SurfaceSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
@@ -90,7 +84,6 @@ SurfaceSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent 
   os << indent << m_NormalInObjectSpace << std::endl;
 }
 
-/** Copy a surface point to another */
 template <unsigned int TPointDimension>
 auto
 SurfaceSpatialObjectPoint<TPointDimension>::operator=(const SurfaceSpatialObjectPoint & rhs) -> Self &

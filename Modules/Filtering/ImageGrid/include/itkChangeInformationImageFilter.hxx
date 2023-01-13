@@ -174,9 +174,6 @@ ChangeInformationImageFilter<TInputImage>::GenerateData()
   output->SetBufferedRegion(region);
 }
 
-/**
- *
- */
 template <typename TInputImage>
 void
 ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const

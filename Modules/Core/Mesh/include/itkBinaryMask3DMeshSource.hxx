@@ -87,7 +87,6 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SetInput(const InputImageType 
   this->ProcessObject::SetNthInput(0, const_cast<InputImageType *>(image));
 }
 
-/** Generate the data */
 template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::GenerateData()
@@ -2689,7 +2688,6 @@ BinaryMask3DMeshSource<TInputImage, TOutputMesh>::SearchThroughLastFrame(int ind
   return result;
 }
 
-/** PrintSelf */
 template <typename TInputImage, typename TOutputMesh>
 void
 BinaryMask3DMeshSource<TInputImage, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const

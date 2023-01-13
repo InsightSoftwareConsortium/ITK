@@ -36,9 +36,7 @@ namespace itk
 {
 namespace fem
 {
-/*
- * Default constructor for FEMObject class
- */
+
 template <unsigned int VDimension>
 FEMObject<VDimension>::FEMObject()
 {
@@ -333,9 +331,6 @@ FEMObject<VDimension>::FinalizeMesh()
   this->GenerateMFC();
 }
 
-/**
- * Assign a global freedom number to each DOF in a system.
- */
 template <unsigned int VDimension>
 void
 FEMObject<VDimension>::GenerateMFC()
@@ -369,9 +364,6 @@ FEMObject<VDimension>::GenerateMFC()
   }
 }
 
-/**
- * Assign a global freedom number to each DOF in a system.
- */
 template <unsigned int VDimension>
 void
 FEMObject<VDimension>::GenerateGFN()

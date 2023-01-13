@@ -78,7 +78,7 @@ public:
 
   static constexpr unsigned int OutputImageDimension = TOutputImage::ImageDimension;
 
-  /** Set/Get the image input of this process object.  */
+  /** Set/Get the input spatial object. */
   using Superclass::SetInput;
   virtual void
   SetInput(const InputSpatialObjectType * input);

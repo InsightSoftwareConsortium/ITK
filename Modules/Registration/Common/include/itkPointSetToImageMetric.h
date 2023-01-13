@@ -151,15 +151,14 @@ public:
   itkSetMacro(ComputeGradient, bool);
   itkGetConstReferenceMacro(ComputeGradient, bool);
 
-  /** Return the number of parameters required by the Transform */
+  /** Get the number of parameters required by the Transform. */
   unsigned int
   GetNumberOfParameters() const override
   {
     return m_Transform->GetNumberOfParameters();
   }
 
-  /** Initialize the Metric by making sure that all the components
-   *  are present and plugged together correctly     */
+  /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
   virtual void
   Initialize();
 

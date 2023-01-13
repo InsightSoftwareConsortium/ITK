@@ -22,7 +22,6 @@
 namespace itk
 {
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 MultiStartOptimizerv4Template<TInternalComputationValueType>::MultiStartOptimizerv4Template()
 
@@ -37,7 +36,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::MultiStartOptimize
   m_LocalOptimizer = nullptr;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -47,7 +45,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ost
   os << indent << "Stop condition description: " << this->m_StopConditionDescription.str() << std::endl;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetParametersList() -> ParametersListType &
@@ -55,7 +52,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::GetParametersList(
   return this->m_ParametersList;
 }
 
-/** Set the list of parameters over which to search */
 template <typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>::SetParametersList(
@@ -68,7 +64,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::SetParametersList(
   }
 }
 
-/** Get the list of metric values that we produced after the multi-start search.  */
 template <typename TInternalComputationValueType>
 auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetMetricValuesList() const
@@ -77,7 +72,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::GetMetricValuesLis
   return this->m_MetricValuesList;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetBestParameters() -> ParametersType
@@ -85,8 +79,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::GetBestParameters(
   return this->m_ParametersList[m_BestParametersIndex];
 }
 
-
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>::InstantiateLocalOptimizer()
@@ -97,7 +89,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::InstantiateLocalOp
   this->m_LocalOptimizer = optimizer;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 auto
 MultiStartOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDescription() const
@@ -106,7 +97,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::GetStopConditionDe
   return this->m_StopConditionDescription.str();
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>::StopOptimization()
@@ -119,9 +109,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::StopOptimization()
   this->InvokeEvent(EndEvent());
 }
 
-/**
- * Start and run the optimization
- */
 template <typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>::StartOptimization(bool doOnlyInitialization)
@@ -150,9 +137,6 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::StartOptimization(
   }
 }
 
-/**
- * Resume optimization.
- */
 template <typename TInternalComputationValueType>
 void
 MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization()

@@ -77,7 +77,13 @@ public:
   const MeshType *
   GetMesh() const;
 
-  /** Returns true if the point is inside, false otherwise. */
+  /** Test whether a point is inside or outside the object.
+   *
+   * Returns true if the point is inside, false otherwise.
+   *
+   * For computational speed purposes, it is faster if the method does not check the name of the class and the current
+   * depth.
+   */
   bool
   IsInsideInObjectSpace(const PointType & point) const override;
 
@@ -103,7 +109,7 @@ public:
   itkGetConstMacro(IsInsidePrecisionInObjectSpace, double);
 
 protected:
-  /** Compute the boundaries of the image spatial object. */
+  /** Compute the boundaries of the spatial object. */
   void
   ComputeMyBoundingBox() override;
 

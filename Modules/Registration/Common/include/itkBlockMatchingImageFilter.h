@@ -198,9 +198,11 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Static function used as a "callback" by the MultiThreaderBase.  The threading
-   * library will call this routine for each thread, which will delegate the
-   * control to DynamicThreadedGenerateData(). */
+  /** Static function used as a "callback" by the MultiThreaderBase.
+   *
+   * The threading library will call this routine for each thread, which will delegate the control to
+   * DynamicThreadedGenerateData() after setting the correct region for the thread.
+   */
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   ThreaderCallback(void * arg);
 

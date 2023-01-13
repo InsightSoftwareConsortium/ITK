@@ -144,10 +144,8 @@ protected:
   GPUPDEDeformableRegistrationFilter();
   ~GPUPDEDeformableRegistrationFilter() override = default;
 
-  void
-  PrintSelf(std::ostream & os, Indent indent) const override;
-
-  /** A simple method to copy the data from the input to the output.
+  /** Copy the data from the input to the output.
+   *
    * If the input does not exist, a zero field is written to the output. */
   void
   CopyInputToOutput() override;
@@ -158,13 +156,15 @@ protected:
   InitializeIteration() override;
 
   /** Utility to smooth the deformation field (represented in the Output)
-   * using a Gaussian operator. The amount of smoothing can be specified
+   * using a separable Gaussian kernel. The amount of smoothing can be specified
    * by setting the StandardDeviations. */
   void
   SmoothDisplacementField() override;
 
-  /** Smooth a vector field, which may be m_DisplacementField or
-   * m_UpdateBuffer. */
+  /** Smooth a vector field using a separable Gaussian kernel.
+   *
+   * The smoothed field may be m_DisplacementField or m_UpdateBuffer.
+   */
   virtual void
   GPUSmoothVectorField(DisplacementFieldPointer         field,
                        typename GPUDataManager::Pointer GPUSmoothingKernels[],
@@ -173,18 +173,23 @@ protected:
   virtual void
   AllocateSmoothingBuffer();
 
-  /** Utility to smooth the UpdateBuffer using a Gaussian operator.
+  /** Smooth the UpdateBuffer using a separable Gaussian kernel.
    * The amount of smoothing can be specified by setting the
    * UpdateFieldStandardDeviations. */
   void
   SmoothUpdateField() override;
 
-  /** This method is called after the solution has been generated. In this case,
-   * the filter release the memory of the internal buffers. */
+  /** Release the memory of the internal buffers.
+   *
+   * Called after the solution has been generated.
+   */
   void
   PostProcessOutput() override;
 
-  /** This method is called before iterating the solution. */
+  /** Initialize flags.
+   *
+   * Called before iterating the solution.
+   */
   void
   Initialize() override;
 

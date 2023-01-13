@@ -41,15 +41,15 @@ public:
   /** Constructor */
   ChildTreeIterator(const TreeIteratorBase<TTreeType> & iterator);
 
-  /** Get the type of the iterator */
+  /** Get the type of the iterator. */
   NodeType
   GetType() const override;
 
-  /** Go to a specific child node */
+  /** Go to a specific child node. */
   bool
   GoToChild(ChildIdentifier number = 0) override;
 
-  /** Go to a parent node */
+  /** Go to the parent node. */
   bool
   GoToParent() override;
 
@@ -72,11 +72,11 @@ public:
   }
 
 protected:
-  /** Get the next value */
+  /** Get the next node. */
   const ValueType &
   Next() override;
 
-  /** Return true if the next value exists */
+  /** Return true if the next node exists. */
   bool
   HasNext() const override;
 

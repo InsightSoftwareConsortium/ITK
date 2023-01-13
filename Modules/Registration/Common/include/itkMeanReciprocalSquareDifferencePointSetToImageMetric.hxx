@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/*
- * Constructor
- */
+
 template <typename TFixedPointSet, typename TMovingImage>
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,
                                                     TMovingImage>::MeanReciprocalSquareDifferencePointSetToImageMetric()
@@ -32,9 +30,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet,
   m_Lambda = 1.0;
 }
 
-/**
- * Get the match Measure
- */
 template <typename TFixedPointSet, typename TMovingImage>
 typename MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::MeasureType
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValue(
@@ -92,9 +87,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   return measure;
 }
 
-/*
- * Get the Derivative Measure
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::GetDerivative(
@@ -192,9 +184,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   }
 }
 
-/*
- * Get both the match Measure and theDerivative Measure
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::GetValueAndDerivative(
@@ -295,9 +284,6 @@ MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage
   value = measure;
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedPointSet, typename TMovingImage>
 void
 MeanReciprocalSquareDifferencePointSetToImageMetric<TFixedPointSet, TMovingImage>::PrintSelf(std::ostream & os,

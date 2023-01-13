@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 BlobSpatialObject<TDimension>::BlobSpatialObject()
 {
@@ -35,7 +35,6 @@ BlobSpatialObject<TDimension>::BlobSpatialObject()
   this->GetProperty().SetAlpha(1);
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 BlobSpatialObject<TDimension>::InternalClone() const
@@ -52,7 +51,6 @@ BlobSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-/** Print the blob spatial object */
 template <unsigned int TDimension>
 void
 BlobSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const

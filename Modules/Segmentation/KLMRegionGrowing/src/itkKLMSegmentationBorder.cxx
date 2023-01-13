@@ -28,9 +28,6 @@ KLMSegmentationBorder::KLMSegmentationBorder()
 
 KLMSegmentationBorder::~KLMSegmentationBorder() = default;
 
-/**
- * PrintSelf
- */
 void
 KLMSegmentationBorder::PrintSelf(std::ostream & os, Indent indent) const
 {
@@ -38,37 +35,37 @@ KLMSegmentationBorder::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Lambda  = " << m_Lambda << std::endl;
   os << indent << "Region1 = " << m_Region1 << std::endl;
   os << indent << "Region2 = " << m_Region2 << std::endl;
-} // end PrintSelf
+}
 
 void
 KLMSegmentationBorder::SetRegion1(KLMSegmentationRegion * Region1)
 {
   m_Region1 = Region1;
-} // end SetRegion1
+}
 
 KLMSegmentationRegion *
 KLMSegmentationBorder::GetRegion1()
 {
   return m_Region1;
-} // end GetRegion2
+}
 
 void
 KLMSegmentationBorder::SetRegion2(KLMSegmentationRegion * Region2)
 {
   m_Region2 = Region2;
-} // end SetRegion2
+}
 
 KLMSegmentationRegion *
 KLMSegmentationBorder::GetRegion2()
 {
   return m_Region2;
-} // end GetRegion2
+}
 
 void
 KLMSegmentationBorder::EvaluateLambda()
 {
   m_Lambda = m_Region1->EnergyFunctional(m_Region2) / this->GetBorderLength();
-} // end EvaluateLambda()
+}
 
 void
 KLMSegmentationBorder::PrintBorderInfo()

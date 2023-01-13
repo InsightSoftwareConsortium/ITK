@@ -123,8 +123,7 @@ public:
     return m_TimeStep;
   }
 
-  /** This method computes the solution update for each pixel that does not
-   * lie on a the data set boundary. */
+  /** Compute the solution update for each pixel that does not lie on a the data set boundary. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,
                 void *                   globalData,

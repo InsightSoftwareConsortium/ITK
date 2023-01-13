@@ -87,8 +87,7 @@ public:
     return GetRadiusValueType();
   }
 
-  /** This method computes the solution update for each pixel that does not
-   * lie on a the data set boundary. */
+  /** Compute the solution update for each pixel that does not lie on a the data set boundary. */
   PixelType
   ComputeUpdate(const NeighborhoodType & it,
                 void *                   globalData,
@@ -116,8 +115,7 @@ private:
   struct Dispatch : public DispatchBase
   {};
 
-  /** This method computes the threshold by averaging the intensity
-   *  in direction perpendicular to the image gradient. */
+  /** Compute the threshold by averaging the intensity in direction perpendicular to the image gradient. */
   PixelType
   ComputeThreshold(const Dispatch<2> &, const NeighborhoodType & it) const;
 

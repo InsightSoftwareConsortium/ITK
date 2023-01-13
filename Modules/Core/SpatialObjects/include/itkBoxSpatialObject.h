@@ -71,7 +71,7 @@ public:
   /** Get the position of the box spatial object in object space. */
   itkGetConstReferenceMacro(PositionInObjectSpace, PointType);
 
-  /** Test whether a point is inside or outside the object */
+  /** Test whether a point is inside the object. */
   bool
   IsInsideInObjectSpace(const PointType & point) const override;
 
@@ -88,7 +88,6 @@ protected:
   BoxSpatialObject();
   ~BoxSpatialObject() override = default;
 
-  /** Print the object information in a stream. */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
@@ -96,7 +95,6 @@ protected:
   InternalClone() const override;
 
 private:
-  /** object space */
   SizeType  m_SizeInObjectSpace{};
   PointType m_PositionInObjectSpace{};
 };

@@ -217,37 +217,43 @@ private:
     using Type = T;
   };
 
-  /** Specialized versions of EvaluateAtIndex() method to handle scalar or vector pixel types.*/
+  /** Specialized version of EvaluateAtIndex() method to handle scalar pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtIndexSpecialized(const IndexType & index,
                              OutputType &      orientedDerivative,
                              OutputTypeSpecializationStructType<OutputType>) const;
+
+  /** Specialized version of EvaluateAtIndex() method to handle vector pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtIndexSpecialized(const IndexType & index,
                              OutputType &      derivative,
                              OutputTypeSpecializationStructType<Type>) const;
 
-  /** Specialized versions of EvaluateAtContinuousIndex() method to handle scalar or vector pixel types.*/
+  /** Specialized version of EvaluateAtContinuousIndex() method to handle scalar pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
                                        OutputType &                orientedDerivative,
                                        OutputTypeSpecializationStructType<OutputType>) const;
+
+  /** Specialized version of EvaluateAtContinuousIndex() method to handle vector pixel types.*/
   template <typename Type>
   inline void
   EvaluateAtContinuousIndexSpecialized(const ContinuousIndexType & cindex,
                                        OutputType &                derivative,
                                        OutputTypeSpecializationStructType<Type>) const;
 
-  /** Specialized versions of Evaluate() method to handle scalar or vector pixel types.*/
+  /** Specialized version of Evaluate() method to handle scalar pixel types.*/
   // NOTE: for some unknown reason, making these methods inline (as those above are inlined) makes them run *slower*.
   template <typename Type>
   void
   EvaluateSpecialized(const PointType & point,
                       OutputType &      orientedDerivative,
                       OutputTypeSpecializationStructType<OutputType>) const;
+
+  /** Specialized version of Evaluate() method to handle vector pixel types.*/
   template <typename Type>
   void
   EvaluateSpecialized(const PointType & point, OutputType & derivative, OutputTypeSpecializationStructType<Type>) const;

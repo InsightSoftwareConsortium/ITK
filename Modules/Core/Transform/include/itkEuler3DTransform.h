@@ -131,6 +131,10 @@ public:
   SetComputeZYX(const bool flag);
   itkGetConstMacro(ComputeZYX, bool);
 
+  /** Set the state to the identity.
+   *
+   * Sets the angles to a 0 value.
+   */
   void
   SetIdentity() override;
 
@@ -152,6 +156,7 @@ protected:
   void
   ComputeMatrix() override;
 
+  /** Compute angles from the rotation matrix. */
   void
   ComputeMatrixParameters() override;
 

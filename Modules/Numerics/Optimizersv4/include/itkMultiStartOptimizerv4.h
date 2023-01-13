@@ -134,15 +134,15 @@ public:
   ParametersListType &
   GetParametersList();
 
-  /** Set the list of parameters over which to search */
+  /** Set the list of parameters over which to search. */
   void
   SetParametersList(ParametersListType & p);
 
-  /** Get the list of metric values that we produced after the multi-start search.  */
+  /** Get the list of metric values that we produced after the multi-start search. */
   const MetricValuesListType &
   GetMetricValuesList() const;
 
-  /** Return the parameters from the best visited position */
+  /** Return the parameters from the best visited position. */
   ParametersType
   GetBestParameters();
 

@@ -87,7 +87,11 @@ public:
   using Superclass::IsInsideInObjectSpace;
 
   /** Returns the value of the image at the requested point.
-   *  Returns true if that value is valid */
+   *
+   * Returns true if that value is valid.
+   *
+   * The value returned is always of type double; for RGB Images the value returned is the value of the first channel.
+   */
   bool
   ValueAtInObjectSpace(const PointType &   point,
                        double &            value,
@@ -115,7 +119,7 @@ public:
   itkLegacyMacro(const char * GetPixelTypeName()) { return m_PixelType.c_str(); }
 #endif
 
-  /** Set/Get the interpolator */
+  /** Set/Get the interpolator. */
   void
   SetInterpolator(InterpolatorType * interpolator);
   itkGetConstMacro(Interpolator, InterpolatorType *);

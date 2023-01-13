@@ -23,7 +23,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <typename TPointSet, class TInternalComputationValueType>
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::
   JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4()
@@ -37,7 +36,6 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
   , m_Prefactor1(0.0)
 {}
 
-/** Initialize the metric */
 template <typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::Initialize()
@@ -76,7 +74,6 @@ JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputa
   return value;
 }
 
-/** Get both the match Measure and the Derivative Measure  */
 template <typename TPointSet, class TInternalComputationValueType>
 void
 JensenHavrdaCharvatTsallisPointSetToPointSetMetricv4<TPointSet, TInternalComputationValueType>::

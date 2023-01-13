@@ -25,7 +25,7 @@
 
 namespace itk
 {
-/** Print self method */
+
 template <typename TInputImage, typename TOutput>
 void
 NeighborhoodOperatorImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream & os, Indent indent) const
@@ -34,7 +34,6 @@ NeighborhoodOperatorImageFunction<TInputImage, TOutput>::PrintSelf(std::ostream 
   os << indent << "Applying Operator Function:" << std::endl;
 }
 
-/** Evaluate the function at the specified point */
 template <typename TInputImage, typename TOutput>
 TOutput
 NeighborhoodOperatorImageFunction<TInputImage, TOutput>::EvaluateAtIndex(const IndexType & index) const

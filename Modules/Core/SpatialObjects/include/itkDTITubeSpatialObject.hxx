@@ -21,14 +21,13 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 DTITubeSpatialObject<TDimension>::DTITubeSpatialObject()
 {
   this->SetTypeName("DTITubeSpatialObject");
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 DTITubeSpatialObject<TDimension>::InternalClone() const

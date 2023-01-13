@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <typename TFixedImage, typename TMovingSpatialObject>
 ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::ImageToSpatialObjectMetric()
 
@@ -32,7 +32,6 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::ImageToSpatialObj
   m_Interpolator = nullptr;        // has to be provided by the user.
 }
 
-/** Return the number of parameters required by the Transform */
 template <typename TFixedImage, typename TMovingSpatialObject>
 unsigned int
 ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::GetNumberOfParameters() const
@@ -43,10 +42,6 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::GetNumberOfParame
   }
   return m_Transform->GetNumberOfParameters();
 }
-
-/**
- * Initialize
- */
 
 template <typename TFixedImage, typename TMovingSpatialObject>
 void
@@ -82,7 +77,6 @@ ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::Initialize()
   this->InvokeEvent(InitializeEvent());
 }
 
-/** PrintSelf */
 template <typename TFixedImage, typename TMovingSpatialObject>
 void
 ImageToSpatialObjectMetric<TFixedImage, TMovingSpatialObject>::PrintSelf(std::ostream & os, Indent indent) const

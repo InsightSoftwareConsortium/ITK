@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Default constructor. Needed since we provide a cast constructor. */
+
 template <typename TImage>
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingConstIteratorWithIndex()
   : ImageConstIteratorWithIndex<TImage>()
@@ -32,8 +32,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingCo
   m_Permutation = nullptr;
 }
 
-/** Constructor establishes an iterator to walk a particular image and a
- * particular region of that image. */
 template <typename TImage>
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingConstIteratorWithIndex(
   const ImageType *  ptr,
@@ -46,10 +44,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ImageRandomNonRepeatingCo
   m_Permutation = new RandomPermutation(m_NumberOfPixelsInRegion);
 }
 
-
-//----------------------------------------------------------------------
-//    Assignment Operator
-//----------------------------------------------------------------------
 template <typename TImage>
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage> &
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::operator=(const Self & it)
@@ -72,7 +66,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::operator=(const Self & it
   return *this;
 }
 
-/**  Set the number of samples to extract from the region */
 template <typename TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetNumberOfSamples(SizeValueType number)
@@ -84,7 +77,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetNumberOfSamples(SizeVa
   }
 }
 
-/**  Set the number of samples to extract from the region */
 template <typename TImage>
 auto
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::GetNumberOfSamples() const -> SizeValueType
@@ -92,7 +84,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::GetNumberOfSamples() cons
   return m_NumberOfSamplesRequested;
 }
 
-/** Reinitialize the seed of the random number generator */
 template <typename TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ReinitializeSeed()
@@ -109,7 +100,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed
   this->m_Permutation->Shuffle();
 }
 
-/** update the position */
 template <typename TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetPriorityImage(const PriorityImageType * priorityImage)
@@ -136,7 +126,6 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetPriorityImage(const Pr
   this->m_Permutation->Shuffle();
 }
 
-/** update the position */
 template <typename TImage>
 void
 ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::UpdatePosition()

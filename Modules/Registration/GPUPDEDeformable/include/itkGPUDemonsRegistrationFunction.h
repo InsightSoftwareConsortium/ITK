@@ -155,7 +155,10 @@ public:
     return global;
   }
 
-  /** Release memory for global data structure. */
+  /** Release memory for global data structure.
+   *
+   * Updates the metric and releases the per-thread-global data.
+   */
   void
   ReleaseGlobalDataPointer(void * GlobalData) const override;
 
@@ -164,8 +167,7 @@ public:
   void
   GPUAllocateMetricData(unsigned int numPixels) override;
 
-  /** Release GPU buffers for computing metric statistics
-   * */
+  /** Release GPU buffers for computing metric statistics. */
   void
   GPUReleaseMetricData() override;
 
@@ -173,19 +175,24 @@ public:
   void
   InitializeIteration() override;
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary */
+  /** Compute update at the specified neighbourhood.
+   *
+   * Called by a finite difference solver image filter at each pixel that does not lie on a data set boundary.
+   */
   PixelType
   ComputeUpdate(const NeighborhoodType & neighborhood,
                 void *                   globalData,
                 const FloatOffsetType &  offset = FloatOffsetType(0.0)) override;
 
+  /** Compute update at the specified neighbourhood. */
   void
   GPUComputeUpdate(const DisplacementFieldTypePointer output, DisplacementFieldTypePointer update, void * gd) override;
 
-  /** Get the metric value. The metric value is the mean square difference
-   * in intensity between the fixed image and transforming moving image
-   * computed over the the overlapping region between the two images. */
+  /** Get the metric value.
+   *
+   * The metric value is the mean square difference in intensity between the fixed image and transforming moving image
+   * computed over the the overlapping region between the two images.
+   */
   virtual double
   GetMetric() const
   {

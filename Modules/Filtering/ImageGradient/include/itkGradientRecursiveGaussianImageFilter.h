@@ -129,7 +129,7 @@ public:
   /** Runtime information support. */
   itkTypeMacro(GradientRecursiveGaussianImageFilter, ImageToImageFilter);
 
-  /** Set Sigma value. Sigma is measured in the units of image spacing. */
+  /** Set/Get the Sigma value. Sigma is measured in the units of image spacing. */
   void
   SetSigmaArray(const SigmaArrayType & sigma);
   void
@@ -137,6 +137,8 @@ public:
 
   SigmaArrayType
   GetSigmaArray() const;
+
+  /** Get the value of Sigma along the first dimension. */
   ScalarRealType
   GetSigma() const;
 

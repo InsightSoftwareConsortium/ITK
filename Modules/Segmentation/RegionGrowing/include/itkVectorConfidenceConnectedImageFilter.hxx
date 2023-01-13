@@ -29,9 +29,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::VectorConfidenceConnectedImageFilter()
 {
@@ -43,9 +41,6 @@ VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::VectorConfidenc
   m_ThresholdFunction = DistanceThresholdFunctionType::New();
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const

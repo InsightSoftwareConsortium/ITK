@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <unsigned int VDimension>
 ParametricPath<VDimension>::ParametricPath()
 {

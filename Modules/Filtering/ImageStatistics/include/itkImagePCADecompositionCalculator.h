@@ -137,9 +137,11 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  /** Convert a vector of basis images into a matrix flattening each image into 1-D. */
   void
   CalculateBasisMatrix();
 
+  /** Convert an image into a 1-D vector changing the pixel type if necessary. */
   void
   CalculateRecenteredImageAsVector();
 

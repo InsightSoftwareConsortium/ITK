@@ -23,7 +23,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension, typename PixelType>
 ImageSpatialObject<TDimension, PixelType>::ImageSpatialObject()
 {
@@ -34,7 +34,6 @@ ImageSpatialObject<TDimension, PixelType>::ImageSpatialObject()
   this->Update();
 }
 
-/** Destructor */
 template <unsigned int TDimension, typename PixelType>
 ImageSpatialObject<TDimension, PixelType>::~ImageSpatialObject() = default;
 
@@ -56,7 +55,6 @@ ImageSpatialObject<TDimension, PixelType>::Clear()
   this->Modified();
 }
 
-/** Set the interpolator */
 template <unsigned int TDimension, typename PixelType>
 void
 ImageSpatialObject<TDimension, PixelType>::SetInterpolator(InterpolatorType * interpolator)
@@ -72,8 +70,6 @@ ImageSpatialObject<TDimension, PixelType>::SetInterpolator(InterpolatorType * in
   }
 }
 
-
-/** Return true if the given point is inside the image */
 template <unsigned int TDimension, typename PixelType>
 bool
 ImageSpatialObject<TDimension, PixelType>::IsInsideInObjectSpace(const PointType & point) const
@@ -82,10 +78,6 @@ ImageSpatialObject<TDimension, PixelType>::IsInsideInObjectSpace(const PointType
   return m_Image->TransformPhysicalPointToIndex(point, index);
 }
 
-/** Return the value of the image at a specified point
- *  The value returned is always of type double
- *  For RGB Images the value returned is the value of the first channel.
- */
 template <unsigned int TDimension, typename PixelType>
 bool
 ImageSpatialObject<TDimension, PixelType>::ValueAtInObjectSpace(const PointType &   point,
@@ -119,7 +111,6 @@ ImageSpatialObject<TDimension, PixelType>::ValueAtInObjectSpace(const PointType 
   return false;
 }
 
-/** Compute the bounds of the image */
 template <unsigned int TDimension, typename PixelType>
 void
 ImageSpatialObject<TDimension, PixelType>::ComputeMyBoundingBox()
@@ -145,8 +136,6 @@ ImageSpatialObject<TDimension, PixelType>::ComputeMyBoundingBox()
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
 
-
-/** Set the image in the spatial object */
 template <unsigned int TDimension, typename PixelType>
 void
 ImageSpatialObject<TDimension, PixelType>::SetImage(const ImageType * image)
@@ -169,7 +158,6 @@ ImageSpatialObject<TDimension, PixelType>::SetImage(const ImageType * image)
   }
 }
 
-/** Get the image inside the spatial object */
 template <unsigned int TDimension, typename PixelType>
 auto
 ImageSpatialObject<TDimension, PixelType>::GetImage() const -> const ImageType *
@@ -177,7 +165,6 @@ ImageSpatialObject<TDimension, PixelType>::GetImage() const -> const ImageType *
   return m_Image.GetPointer();
 }
 
-/** InternalClone */
 template <unsigned int TDimension, typename PixelType>
 typename LightObject::Pointer
 ImageSpatialObject<TDimension, PixelType>::InternalClone() const
@@ -198,7 +185,6 @@ ImageSpatialObject<TDimension, PixelType>::InternalClone() const
   return loPtr;
 }
 
-/** Print the object */
 template <unsigned int TDimension, typename PixelType>
 void
 ImageSpatialObject<TDimension, PixelType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -214,7 +200,6 @@ ImageSpatialObject<TDimension, PixelType>::PrintSelf(std::ostream & os, Indent i
 #endif
 }
 
-/** Get the modification time */
 template <unsigned int TDimension, typename PixelType>
 ModifiedTimeType
 ImageSpatialObject<TDimension, PixelType>::GetMTime() const
@@ -230,7 +215,6 @@ ImageSpatialObject<TDimension, PixelType>::GetMTime() const
   return latestMTime;
 }
 
-/** Set the slice position */
 template <unsigned int TDimension, typename PixelType>
 void
 ImageSpatialObject<TDimension, PixelType>::SetSliceNumber(unsigned int dimension, int position)

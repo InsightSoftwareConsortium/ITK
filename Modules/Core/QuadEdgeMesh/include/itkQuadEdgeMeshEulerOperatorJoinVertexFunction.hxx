@@ -32,7 +32,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::QuadEdgeMeshEulerOp
   , m_EdgeStatus(STANDARD_CONFIG)
 {}
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 void
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -81,7 +80,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::PrintSelf(std::ostr
   }
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 auto
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Evaluate(QEType * e) -> OutputType
@@ -121,7 +119,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Evaluate(QEType * e
   }
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
@@ -232,7 +229,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Process(QEType * e)
   return (result);
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuadEdge(QEType * e)
@@ -257,7 +253,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedQuad
   return (rebuildEdge);
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 TQEType *
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace(
@@ -287,7 +282,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::ProcessIsolatedFace
   }
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QEType *                e,
@@ -316,7 +310,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsFaceIsolated(QETy
   return border;
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 typename QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::EdgeStatusType
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CheckStatus(QEType *                e,
@@ -426,7 +419,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CheckStatus(QEType 
   return STANDARD_CONFIG;
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsTetrahedron(QEType * e)
@@ -499,7 +491,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsTetrahedron(QETyp
   return false;
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsSamosa(QEType * e)
@@ -507,7 +498,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsSamosa(QEType * e
   return ((e->GetOrder() == 2) && (e->GetSym()->GetOrder() == 2));
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEye(QEType * e)
@@ -518,7 +508,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEye(QEType * e)
   return ((OriginOrderIsTwo && !DestinationOrderIsTwo) || (!OriginOrderIsTwo && DestinationOrderIsTwo));
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 auto
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CommonVertexNeighboor(QEType * e) -> PointIdentifier
@@ -558,7 +547,6 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::CommonVertexNeighbo
   return static_cast<PointIdentifier>(intersection_list.size());
 }
 
-//--------------------------------------------------------------------------
 template <typename TMesh, typename TQEType>
 bool
 QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::IsEdgeLinkingTwoDifferentBorders(QEType * e)

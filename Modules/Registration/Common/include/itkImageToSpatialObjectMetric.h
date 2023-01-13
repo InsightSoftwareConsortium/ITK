@@ -144,16 +144,16 @@ public:
                         MeasureType &          Value,
                         DerivativeType &       Derivative) const override = 0;
 
-  /** Return the number of parameters required by the Transform */
+  /** Return the number of parameters required by the Transform. */
   unsigned int
   GetNumberOfParameters() const override;
 
-  /** Initialize the metric */
+  /** Initialize the metric. */
   virtual void
   Initialize();
 
   /** Get the last transformation parameters visited by
-   * the optimizer. This function overload the superclass's one */
+   * the optimizer. This function overload the superclass's one. */
   itkGetConstReferenceMacro(LastTransformParameters, ParametersType);
 
   /** Set/Get the Transform. */

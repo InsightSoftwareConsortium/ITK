@@ -22,33 +22,22 @@
 
 namespace itk
 {
-/**
- * Constructor with initialization
- */
+
 template <typename T>
 DiffusionTensor3D<T>::DiffusionTensor3D(const Superclass & r)
   : SymmetricSecondRankTensor<T, 3>(r)
 {}
 
-/**
- * Constructor with initialization
- */
 template <typename T>
 DiffusionTensor3D<T>::DiffusionTensor3D(const ComponentType & r)
   : SymmetricSecondRankTensor<T, 3>(r)
 {}
 
-/**
- * Constructor with initialization
- */
 template <typename T>
 DiffusionTensor3D<T>::DiffusionTensor3D(const ComponentArrayType r)
   : SymmetricSecondRankTensor<T, 3>(r)
 {}
 
-/**
- * Assignment Operator
- */
 template <typename T>
 DiffusionTensor3D<T> &
 DiffusionTensor3D<T>::operator=(const ComponentType & r)
@@ -57,9 +46,6 @@ DiffusionTensor3D<T>::operator=(const ComponentType & r)
   return *this;
 }
 
-/**
- * Assignment Operator
- */
 template <typename T>
 DiffusionTensor3D<T> &
 DiffusionTensor3D<T>::operator=(const ComponentArrayType r)
@@ -68,9 +54,6 @@ DiffusionTensor3D<T>::operator=(const ComponentArrayType r)
   return *this;
 }
 
-/**
- * Assignment Operator
- */
 template <typename T>
 DiffusionTensor3D<T> &
 DiffusionTensor3D<T>::operator=(const Superclass & r)
@@ -79,21 +62,6 @@ DiffusionTensor3D<T>::operator=(const Superclass & r)
   return *this;
 }
 
-/**
- * Get the Trace, specialized version for 3D.
- *
- * Note that the indices are related to the fact
- * that we store only the upper-right triangle of
- * the matrix. Like
- *
- *       | 0  1  2  |
- *       | X  3  4  |
- *       | X  X  5  |
- *
- * The trace is therefore the sum of the components
- * M[0], M[3] and M[5].
- *
- */
 template <typename T>
 auto
 DiffusionTensor3D<T>::GetTrace() const -> AccumulateValueType
@@ -105,9 +73,6 @@ DiffusionTensor3D<T>::GetTrace() const -> AccumulateValueType
   return trace;
 }
 
-/**
- *  Compute the value of fractional anisotropy
- */
 template <typename T>
 auto
 DiffusionTensor3D<T>::GetFractionalAnisotropy() const -> RealValueType
@@ -139,9 +104,6 @@ DiffusionTensor3D<T>::GetFractionalAnisotropy() const -> RealValueType
   return 0.0;
 }
 
-/**
- *  Compute the value of relative anisotropy
- */
 template <typename T>
 auto
 DiffusionTensor3D<T>::GetRelativeAnisotropy() const -> RealValueType
@@ -170,9 +132,6 @@ DiffusionTensor3D<T>::GetRelativeAnisotropy() const -> RealValueType
   return relativeAnisotropy;
 }
 
-/**
- *  Compute the inner scalar product
- */
 template <typename T>
 auto
 DiffusionTensor3D<T>::GetInnerScalarProduct() const -> RealValueType

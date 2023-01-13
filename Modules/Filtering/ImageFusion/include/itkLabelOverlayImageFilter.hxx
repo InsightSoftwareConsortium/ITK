@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor method
- */
+
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::LabelOverlayImageFilter()
 {
@@ -51,10 +49,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GenerateOutputI
   }
 }
 
-
-/**
- * Destructor method
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 void
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::BeforeThreadedGenerateData()
@@ -64,9 +58,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::BeforeThreadedG
   this->SetFunctor(this->GetFunctor());
 }
 
-/**
- * Set Label Image
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 void
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::SetLabelImage(const TLabelImage * input)
@@ -74,9 +65,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::SetLabelImage(c
   this->SetInput2(input);
 }
 
-/**
- * Get Label Image
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 auto
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GetLabelImage() const -> const LabelImageType *
@@ -84,9 +72,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GetLabelImage()
   return itkDynamicCastInDebugMode<LabelImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(1)));
 }
 
-/**
- * Get number of colors in the LUT container
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 unsigned int
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GetNumberOfColors() const
@@ -94,9 +79,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::GetNumberOfColo
   return this->GetFunctor().GetNumberOfColors();
 }
 
-/**
- * Empty the color LUT container
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 void
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::ResetColors()
@@ -104,9 +86,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::ResetColors()
   this->GetFunctor().ResetColors();
 }
 
-/**
- * Add a color to the LUT container
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 void
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::AddColor(ComponentType r,
@@ -116,9 +95,6 @@ LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::AddColor(Compon
   this->GetFunctor().AddColor(r, g, b);
 }
 
-/**
- * Standard PrintSelf method
- */
 template <typename TInputImage, typename TLabelImage, typename TOutputImage>
 void
 LabelOverlayImageFilter<TInputImage, TLabelImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const

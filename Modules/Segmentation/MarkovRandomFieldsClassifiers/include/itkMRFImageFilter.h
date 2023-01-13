@@ -267,13 +267,14 @@ public:
   itkSetMacro(SmoothingFactor, double);
   itkGetConstMacro(SmoothingFactor, double);
 
-  /** Set the neighborhood radius */
+  /** Set the neighborhood radius. */
   void
   SetNeighborhoodRadius(const NeighborhoodRadiusType &);
 
-  /** Sets the radius for the neighborhood, calculates size from the
-   * radius, and allocates storage. */
-
+  /** Sets the radius for the neighborhood.
+   *
+   * Calculates size from the radius, and allocates storage.
+   */
   void
   SetNeighborhoodRadius(const SizeValueType);
 
@@ -352,7 +353,7 @@ protected:
   virtual void
   ApplyMRFImageFilter();
 
-  /** Minimization algorithm to be used. */
+  /** Minimize the funcional to be used. */
   virtual void
   MinimizeFunctional();
 
@@ -364,8 +365,8 @@ protected:
 
   /** Labelled status image neighborhood iterator type alias */
   using LabelStatusImageNeighborhoodIterator = NeighborhoodIterator<LabelStatusImageType>;
-  // Function implementing the neighborhood operation
 
+  /** Perform the MRF operation with each neighborhood. */
   virtual void
   DoNeighborhoodOperation(const InputImageNeighborhoodIterator & imageIter,
                           LabelledImageNeighborhoodIterator &    labelledIter,
@@ -428,7 +429,7 @@ private:
   virtual void
   SetDefaultMRFNeighborhoodWeight();
 
-  // Function implementing the ICM algorithm to label the images
+  /** Apply the ICM algorithm to label the images. */
   void
   ApplyICMLabeller();
 }; // class MRFImageFilter

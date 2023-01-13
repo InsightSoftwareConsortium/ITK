@@ -87,6 +87,7 @@ public:
   using GradientIntensityImageType = Image<PixelType, 3>;
   using GradientIntensityImagePointer = typename GradientIntensityImageType::Pointer;
 
+  /** Set/Get the scalar for balloon force. */
   itkSetMacro(Kappa, double);
   itkGetConstMacro(Kappa, double);
 
@@ -102,17 +103,13 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /**
-   * Compute the external force component
+  /** Compute the external force component.
+   *
+   * Computes the model Displacement according to image gradient forces.
    */
   void
   ComputeExternalForce(SimplexMeshGeometry * data, const GradientImageType * gradientImage) override;
 
-  /** Parameters definitions. */
-
-  /**
-   * scalar for balloon force
-   */
   double m_Kappa{};
 }; // end of class
 } // end namespace itk

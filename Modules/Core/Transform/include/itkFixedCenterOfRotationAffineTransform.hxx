@@ -24,7 +24,7 @@
 
 namespace itk
 {
-/** Constructor with default arguments */
+
 template <typename TParametersValueType, unsigned int VDimension>
 FixedCenterOfRotationAffineTransform<TParametersValueType, VDimension>::FixedCenterOfRotationAffineTransform()
   : Superclass(ParametersDimension)

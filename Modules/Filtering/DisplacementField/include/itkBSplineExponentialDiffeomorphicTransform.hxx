@@ -27,9 +27,6 @@
 namespace itk
 {
 
-/**
- * Constructor
- */
 template <typename TParametersValueType, unsigned int VDimension>
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::BSplineExponentialDiffeomorphicTransform()
 
@@ -38,9 +35,6 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::BSpl
   this->m_NumberOfControlPointsForTheUpdateField.Fill(4);
 }
 
-/**
- * set mesh size for update field
- */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::SetMeshSizeForTheUpdateField(
@@ -54,9 +48,6 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::SetM
   this->SetNumberOfControlPointsForTheUpdateField(numberOfControlPoints);
 }
 
-/**
- * set mesh size for update field
- */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::SetMeshSizeForTheConstantVelocityField(
@@ -193,9 +184,6 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::BSpl
   return smoothField;
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <typename TParametersValueType, unsigned int VDimension>
 void
 BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os,

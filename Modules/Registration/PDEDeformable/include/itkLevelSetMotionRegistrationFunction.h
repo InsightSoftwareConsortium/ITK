@@ -126,8 +126,10 @@ public:
     return m_MovingImageInterpolator;
   }
 
-  /** Compute the time step that can taken for this iterations.  In
-   * this context, the timestep is a function of the maximum gradients. */
+  /** Compute the time global step that for this iteration.
+   *
+   * In this context, the timestep is a function of the maximum gradients.
+   */
   TimeStepType
   ComputeGlobalTimeStep(void * GlobalData) const override;
 
@@ -145,7 +147,10 @@ public:
     return global;
   }
 
-  /** Release memory for global data structure. */
+  /** Release memory for global data structure.
+   *
+   * Updates the metric and releases the per-thread-global data.
+   */
   void
   ReleaseGlobalDataPointer(void * gd) const override;
 
@@ -153,8 +158,10 @@ public:
   void
   InitializeIteration() override;
 
-  /** This method is called by a finite difference solver image filter at
-   * each pixel that does not lie on a data set boundary */
+  /** Compute update at the specified neighbourhood.
+   *
+   * Called by a finite difference solver image filter at each pixel that does not lie on a data set boundary.
+   */
   PixelType
   ComputeUpdate(const NeighborhoodType & it, void * gd, const FloatOffsetType & offset = FloatOffsetType(0.0)) override;
 

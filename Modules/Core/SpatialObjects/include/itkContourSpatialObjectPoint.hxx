@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TPointDimension>
 ContourSpatialObjectPoint<TPointDimension>::ContourSpatialObjectPoint()
 {
@@ -29,7 +29,6 @@ ContourSpatialObjectPoint<TPointDimension>::ContourSpatialObjectPoint()
   m_PickedPointInObjectSpace.Fill(0);
 }
 
-/** Copy Constructor */
 template <unsigned int TPointDimension>
 ContourSpatialObjectPoint<TPointDimension>::ContourSpatialObjectPoint(const ContourSpatialObjectPoint & other)
   : Superclass(other)

@@ -24,9 +24,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TImage>
 PermuteAxesImageFilter<TImage>::PermuteAxesImageFilter()
 {
@@ -39,9 +37,6 @@ PermuteAxesImageFilter<TImage>::PermuteAxesImageFilter()
   this->ThreaderUpdateProgressOff();
 }
 
-/**
- * PrintSelf
- */
 template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -65,9 +60,6 @@ PermuteAxesImageFilter<TImage>::PrintSelf(std::ostream & os, Indent indent) cons
   os << m_InverseOrder[j] << "]" << std::endl;
 }
 
-/**
- * Set the permutation order
- */
 template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
@@ -113,10 +105,6 @@ PermuteAxesImageFilter<TImage>::SetOrder(const PermuteOrderArrayType & order)
   }
 }
 
-/**
- * The output image meta information is obtained by permuting
- * the input image meta information.
- */
 template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::GenerateOutputInformation()
@@ -170,10 +158,6 @@ PermuteAxesImageFilter<TImage>::GenerateOutputInformation()
   outputPtr->SetLargestPossibleRegion(outputRegion);
 }
 
-/**
- * The required input requested region is obtained by permuting
- * the index and size of the output requested region
- */
 template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::GenerateInputRequestedRegion()
@@ -208,9 +192,6 @@ PermuteAxesImageFilter<TImage>::GenerateInputRequestedRegion()
   inputPtr->SetRequestedRegion(inputRegion);
 }
 
-/**
- *
- */
 template <typename TImage>
 void
 PermuteAxesImageFilter<TImage>::DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread)

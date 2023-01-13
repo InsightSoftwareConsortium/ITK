@@ -29,9 +29,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::MattesMutualInformationImageToImageMetric()
   : m_PRatioArray(0, 0)
@@ -320,10 +318,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::Initialize
   this->ComputeFixedImageParzenWindowIndices(this->m_FixedImageSamples);
 }
 
-/**
- * From the pre-computed samples, now
- * fill in the parzen window index locations
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputeFixedImageParzenWindowIndices(
@@ -697,9 +691,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAn
   }
 }
 
-/**
- * Get the both Value and Derivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(
@@ -878,9 +869,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::CommonGetV
   }
 }
 
-/**
- * Get the match measure derivative
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(const ParametersType & parameters,
@@ -892,9 +880,6 @@ MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::GetDerivat
   this->GetValueAndDerivative(parameters, value, derivative);
 }
 
-/**
- * Compute PDF derivatives contribution for each parameter
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 MattesMutualInformationImageToImageMetric<TFixedImage, TMovingImage>::ComputePDFDerivatives(

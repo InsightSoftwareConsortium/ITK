@@ -72,8 +72,13 @@ public:
   /** Run-time type information (and related methods). */
   itkTypeMacro(ImageMaskSpatialObject, ImageSpatialObject);
 
-  /** Returns true if the point is inside, false otherwise. According to this function,
-   * a point is inside the image mask when the value of its nearest pixel is non-zero. */
+  /** Test whether a point is inside the object.
+   *
+   * A point is inside the image mask when the value of its nearest pixel is non-zero.
+   *
+   * For computational speed purposes, it is faster if the method does not  check the name of the class and the
+   * current depth.
+   */
   bool
   IsInsideInObjectSpace(const PointType & point) const override;
 

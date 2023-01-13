@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension>
 BoxSpatialObject<TDimension>::BoxSpatialObject()
 {
@@ -45,7 +45,6 @@ BoxSpatialObject<TDimension>::Clear()
   this->Modified();
 }
 
-/** Test whether a point is inside or outside the object */
 template <unsigned int TDimension>
 bool
 BoxSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) const
@@ -55,7 +54,6 @@ BoxSpatialObject<TDimension>::IsInsideInObjectSpace(const PointType & point) con
   return this->GetMyBoundingBoxInObjectSpace()->IsInside(point);
 }
 
-/** Compute the bounds of the box */
 template <unsigned int TDimension>
 void
 BoxSpatialObject<TDimension>::ComputeMyBoundingBox()
@@ -76,7 +74,6 @@ BoxSpatialObject<TDimension>::ComputeMyBoundingBox()
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
 
-/** InternalClone */
 template <unsigned int TDimension>
 typename LightObject::Pointer
 BoxSpatialObject<TDimension>::InternalClone() const
@@ -96,7 +93,6 @@ BoxSpatialObject<TDimension>::InternalClone() const
   return loPtr;
 }
 
-/** Print Self function */
 template <unsigned int TDimension>
 void
 BoxSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const

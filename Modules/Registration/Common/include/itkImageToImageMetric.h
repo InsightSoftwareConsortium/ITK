@@ -219,8 +219,7 @@ public:
     return m_Transform->GetNumberOfParameters();
   }
 
-  /** Initialize the Metric by making sure that all the components
-   *  are present and plugged together correctly     */
+  /** Initialize the Metric by making sure that all the components are present and plugged together correctly. */
   virtual void
   Initialize();
 
@@ -228,8 +227,10 @@ public:
   virtual void
   MultiThreadingInitialize();
 
-  /** Number of spatial samples to used to compute metric
-   *   This sets the number of samples.  */
+  /** Number of spatial samples to compute the metric.
+   *
+   * Sets the number of samples.
+   */
   virtual void
   SetNumberOfFixedImageSamples(SizeValueType numSamples);
   itkGetConstReferenceMacro(NumberOfFixedImageSamples, SizeValueType);
@@ -371,14 +372,21 @@ protected:
   /** FixedImageSamplePoint type alias support */
   using FixedImageSampleContainer = std::vector<FixedImageSamplePoint>;
 
-  /** Uniformly select a sample set from the fixed image domain. */
+  /** Uniformly select a sample set from the fixed image domain.
+   *
+   * Samples the fixed image using a random walk.
+   */
   virtual void
   SampleFixedImageRegion(FixedImageSampleContainer & samples) const;
 
+  /** Use the indexes that have been passed to the metric. */
   virtual void
   SampleFixedImageIndexes(FixedImageSampleContainer & samples) const;
 
-  /** Gather all the pixels from the fixed image domain. */
+  /** Sample the fixed image domain using all pixels in the Fixed image region.
+   *
+   * Gathers all the pixels from the fixed image domain.
+   */
   virtual void
   SampleFullFixedImageRegion(FixedImageSampleContainer & samples) const;
 
@@ -476,11 +484,14 @@ protected:
   mutable std::unique_ptr<BSplineTransformWeightsType[]>    m_ThreaderBSplineTransformWeights;
   mutable std::unique_ptr<BSplineTransformIndexArrayType[]> m_ThreaderBSplineTransformIndices;
 
+  /** Cache pre-transformed points, weights and indices. */
   virtual void
   PreComputeTransformValues();
 
   /** Transform a point from FixedImage domain to MovingImage domain.
-   * This function also checks if mapped point is within support region. */
+   *
+   * This function also checks if mapped point is within support region.
+   */
   virtual void
   TransformPoint(unsigned int           sampleNumber,
                  MovingImagePointType & mappedPoint,
@@ -488,6 +499,10 @@ protected:
                  double &               movingImageValue,
                  ThreadIdType           threadId) const;
 
+  /** Transform a point from FixedImage domain to MovingImage domain.
+   *
+   * This function also checks if mapped point is within support region.
+   */
   virtual void
   TransformPointWithDerivatives(unsigned int           sampleNumber,
                                 MovingImagePointType & mappedPoint,
@@ -504,7 +519,9 @@ protected:
   /** Pointer to central difference calculator. */
   typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
 
-  /** Compute image derivatives at a point. */
+  /** Compute image derivatives at a point using a central difference function if we are not using a
+   * BSplineInterpolator, which includes derivatives.
+   */
   virtual void
   ComputeImageDerivatives(const MovingImagePointType & mappedPoint,
                           ImageDerivativesType &       gradient,
@@ -578,15 +595,19 @@ protected:
   void
   GetValueMultiThreadedPostProcessInitiate() const;
 
+  /** Get the match Measure. */
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   GetValueMultiThreaded(void * workunitInfoAsVoid);
 
+  /** Get the match Measure. */
   static ITK_THREAD_RETURN_FUNCTION_CALL_CONVENTION
   GetValueMultiThreadedPostProcess(void * workunitInfoAsVoid);
 
+  /** Get the match Measur.e */
   virtual inline void
   GetValueThread(ThreadIdType threadId) const;
 
+  /** Get the match Measure. */
   virtual inline void
   GetValueThreadPreProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
@@ -633,8 +654,10 @@ protected:
   GetValueAndDerivativeThreadPostProcess(ThreadIdType itkNotUsed(threadId), bool itkNotUsed(withinSampleThread)) const
   {}
 
-  /** Synchronizes the threader transforms with the transform
-   *   member variable.
+  /** Synchronizes the threader transforms with the transform member variable.
+   *
+   * This method can be const because we are not altering the m_ThreaderTransform pointer. We are altering the object
+   * that m_ThreaderTransform[idx] points at.* This is allowed under C++ const rules.
    */
   virtual void
   SynchronizeTransforms() const;

@@ -31,9 +31,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutputImage>
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::BSplineResampleImageFilterBase()
 {
@@ -43,9 +41,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::BSplineResampleImageF
   this->SetSplineOrder(0);
 }
 
-/**
- * Standard "PrintSelf" method
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -54,9 +49,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostrea
   os << indent << "Spline Order: " << m_SplineOrder << std::endl;
 }
 
-/**
- * Initializes the Pyramid Spline Filter parameters for an "l2" filter
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::InitializePyramidSplineFilter(int SplineOrder)
@@ -180,10 +172,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::SetSplineOrder(int sp
   this->Modified();
 }
 
-/** Reduce1DImage - reduces the vector of data (in) by a
- *     factor of 2 and writes the results to the location specified
- *     by the Iterator (out).  inTraverseSize is the size of the in vector.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const std::vector<double> & in,
@@ -263,10 +251,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Reduce1DImage(const s
   }
 }
 
-/** Expand1DImage - expands the vector of data (in) by a
- *     factor of 2 and writes the results to the location specified
- *     by the Iterator (out).  inTraverseSize is the size of the in vector.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const std::vector<double> & in,
@@ -337,8 +321,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::Expand1DImage(const s
   }
 }
 
-/**  Reduce an Image by a factor of 2 in each dimension.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputImageIterator & outItr)
@@ -454,8 +436,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ReduceNDImage(OutputI
   }
 }
 
-/**  Expand an Image by a factor of 2 in each dimension.
- */
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputImageIterator & outItr)
@@ -570,7 +550,6 @@ BSplineResampleImageFilterBase<TInputImage, TOutputImage>::ExpandNDImage(OutputI
   }
 }
 
-// Allocate scratch space
 template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::InitializeScratch(SizeType DataLength)

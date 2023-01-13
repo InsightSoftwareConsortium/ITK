@@ -22,18 +22,13 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TCoordRep>
 ScatterMatrixImageFunction<TInputImage, TCoordRep>::ScatterMatrixImageFunction()
 {
   m_NeighborhoodRadius = 1;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 void
 ScatterMatrixImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -42,9 +37,6 @@ ScatterMatrixImageFunction<TInputImage, TCoordRep>::PrintSelf(std::ostream & os,
   os << indent << "NeighborhoodRadius: " << m_NeighborhoodRadius << std::endl;
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep>
 auto
 ScatterMatrixImageFunction<TInputImage, TCoordRep>::EvaluateAtIndex(const IndexType & index) const -> RealType

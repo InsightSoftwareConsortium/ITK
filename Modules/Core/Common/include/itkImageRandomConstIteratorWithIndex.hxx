@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Default constructor. Needed since we provide a cast constructor. */
+
 template <typename TImage>
 ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex()
   : ImageConstIteratorWithIndex<TImage>()
@@ -32,8 +32,6 @@ ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex()
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
-/** Constructor establishes an iterator to walk a particular image and a
- * particular region of that image. */
 template <typename TImage>
 ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(const ImageType *  ptr,
                                                                              const RegionType & region)
@@ -45,7 +43,6 @@ ImageRandomConstIteratorWithIndex<TImage>::ImageRandomConstIteratorWithIndex(con
   m_Generator = Statistics::MersenneTwisterRandomVariateGenerator::New();
 }
 
-/**  Set the number of samples to extract from the region */
 template <typename TImage>
 void
 ImageRandomConstIteratorWithIndex<TImage>::SetNumberOfSamples(SizeValueType number)
@@ -53,7 +50,6 @@ ImageRandomConstIteratorWithIndex<TImage>::SetNumberOfSamples(SizeValueType numb
   m_NumberOfSamplesRequested = number;
 }
 
-/**  Set the number of samples to extract from the region */
 template <typename TImage>
 auto
 ImageRandomConstIteratorWithIndex<TImage>::GetNumberOfSamples() const -> SizeValueType
@@ -61,7 +57,6 @@ ImageRandomConstIteratorWithIndex<TImage>::GetNumberOfSamples() const -> SizeVal
   return m_NumberOfSamplesRequested;
 }
 
-/** Reinitialize the seed of the random number generator */
 template <typename TImage>
 void
 ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed()
@@ -77,7 +72,6 @@ ImageRandomConstIteratorWithIndex<TImage>::ReinitializeSeed(int seed)
   // vnl_sample_reseed(seed);
 }
 
-/** Execute an acrobatic random jump */
 template <typename TImage>
 void
 ImageRandomConstIteratorWithIndex<TImage>::RandomJump()

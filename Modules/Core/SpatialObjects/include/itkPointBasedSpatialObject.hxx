@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TDimension, class TSpatialObjectPointType>
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::PointBasedSpatialObject()
   : SpatialObject<TDimension>()
@@ -44,7 +44,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::Clear()
   this->Modified();
 }
 
-/** Set Points from a list */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 void
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::AddPoint(const SpatialObjectPointType & newPoint)
@@ -55,7 +54,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::AddPoint(const Spa
   this->Modified();
 }
 
-/** Remove a Point from the list */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 void
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::RemovePoint(IdentifierType id)
@@ -70,7 +68,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::RemovePoint(Identi
   this->Modified();
 }
 
-/** Set Points from a list */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 void
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::SetPoints(const SpatialObjectPointListType & newPoints)
@@ -88,7 +85,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::SetPoints(const Sp
   this->Modified();
 }
 
-/** Determine closest point in object space */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 TSpatialObjectPointType
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObjectSpace(const PointType & point) const
@@ -118,7 +114,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInObje
   return closestPoint;
 }
 
-/** Determine closest point in world space */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 TSpatialObjectPointType
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorldSpace(const PointType & point) const
@@ -148,7 +143,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ClosestPointInWorl
   return closestPoint;
 }
 
-/** Compute bounding box of just this object */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 void
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ComputeMyBoundingBox()
@@ -180,8 +174,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::ComputeMyBoundingB
   this->GetModifiableMyBoundingBoxInObjectSpace()->ComputeBoundingBox();
 }
 
-/** Test if a world-coordinate point is inside of this object or its
- *    children, if they match the search depth and name */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 bool
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::IsInsideInObjectSpace(const PointType & point) const
@@ -213,8 +205,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::IsInsideInObjectSp
   return false;
 }
 
-
-/** InternalClone */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 typename LightObject::Pointer
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::InternalClone() const
@@ -234,7 +224,6 @@ PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::InternalClone() co
   return loPtr;
 }
 
-/** Print the object */
 template <unsigned int TDimension, class TSpatialObjectPointType>
 void
 PointBasedSpatialObject<TDimension, TSpatialObjectPointType>::PrintSelf(std::ostream & os, Indent indent) const

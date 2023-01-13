@@ -197,7 +197,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Check the metric and the transforms. */
+  /** Validate the metric and the transforms and set them. */
   bool
   CheckAndSetInputs();
 
@@ -219,12 +219,19 @@ protected:
    * The templated version of CheckGeneralAffineTransform to check if the
    * transform is a general affine transform that maps a line segment to
    * a line segment.
+   *
+   * Examples are subclasses of MatrixOffsetTransformBaseType, TranslationTransform, Rigid3DPerspectiveTransform,
+   * IdentityTransform, etc.
    */
   template <typename TTransform>
   bool
   CheckGeneralAffineTransformTemplated();
 
-  /** Transform a physical point to a new physical point. */
+  /** Transform a physical point to a new physical point.
+   *
+   * We want to compute shift in physical space so that the scales is not sensitive to spacings and directions of
+   * voxel sampling.
+   */
   template <typename TTargetPointType>
   void
   TransformPoint(const VirtualPointType & point, TTargetPointType & mappedPoint);
@@ -234,7 +241,7 @@ protected:
   void
   TransformPointToContinuousIndex(const VirtualPointType & point, TContinuousIndexType & mappedIndex);
 
-  /** Compute the transform Jacobian at a physical point. */
+  /** Compute the squared norms of the transform Jacobians w.r.t parameters at a physical point. */
   void
   ComputeSquaredJacobianNorms(const VirtualPointType & point, ParametersType & squareNorms);
 
@@ -258,7 +265,7 @@ protected:
   void
   UpdateTransformParameters(const ParametersType & deltaParameters);
 
-  /** Sample the virtual domain and store the physical points in m_SamplePoints. */
+  /** Sample the virtual domain with phyical points and store the results in m_SamplePoints. */
   virtual void
   SampleVirtualDomain();
 
@@ -266,7 +273,10 @@ protected:
   void
   SampleVirtualDomainFully();
 
-  /** Sample the virtual domain with corners. */
+  /** Sample the virtual domain with corners.
+   *
+   * Sample the virtual domain with the points at image corners, and store the results in m_SamplePoints.
+   */
   void
   SampleVirtualDomainWithCorners();
 
@@ -274,7 +284,10 @@ protected:
   void
   SampleVirtualDomainRandomly();
 
-  /** Sample the virtual domain with voxel in the central region. */
+  /** Sample the virtual domain with the voxel in the central region.
+   *
+   * Samples the virtual domain with the voxels around the center.
+   */
   void
   SampleVirtualDomainWithCentralRegion();
 
@@ -286,7 +299,10 @@ protected:
   void
   SampleVirtualDomainWithPointSet();
 
-  /** Get the central index of the virtual domain. */
+  /** Get the central index of the virtual domain.
+   *
+   * Gets the region around the virtual image center.
+   */
   VirtualIndexType
   GetVirtualDomainCentralIndex();
 

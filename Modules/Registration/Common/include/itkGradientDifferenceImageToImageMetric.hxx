@@ -29,9 +29,7 @@
 #include "itkSimpleFilterWatcher.h"
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage>
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDifferenceImageToImageMetric()
 {
@@ -56,9 +54,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GradientDiffere
   this->m_DerivativeDelta = 0.001;
 }
 
-/**
- * Initialize
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
@@ -135,9 +130,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::Initialize()
   }
 }
 
-/**
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
@@ -146,9 +138,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::
   os << indent << "DerivativeDelta: " << this->m_DerivativeDelta << std::endl;
 }
 
-/**
- * Compute the range of the moved image gradients
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGradientRange() const
@@ -186,9 +175,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMovedGra
   }
 }
 
-/**
- * Compute the gradient variances in each dimension.
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance() const
@@ -262,9 +248,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeVariance
   }
 }
 
-/**
- * Get the value of the similarity measure
- */
 template <typename TFixedImage, typename TMovingImage>
 typename GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
@@ -325,9 +308,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::ComputeMeasure(
   return measure;
 }
 
-/**
- * Get the value of the similarity measure
- */
 template <typename TFixedImage, typename TMovingImage>
 typename GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::MeasureType
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
@@ -371,9 +351,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValue(
   return currentMeasure;
 }
 
-/**
- * Get the Derivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
@@ -398,9 +375,6 @@ GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetDerivative(
   }
 }
 
-/**
- * Get both the match Measure and theDerivative Measure
- */
 template <typename TFixedImage, typename TMovingImage>
 void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::GetValueAndDerivative(

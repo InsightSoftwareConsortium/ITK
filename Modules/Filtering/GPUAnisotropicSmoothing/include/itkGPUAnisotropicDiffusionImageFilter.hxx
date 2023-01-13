@@ -23,7 +23,6 @@
 namespace itk
 {
 
-/** Prepare for the iteration process. */
 template <typename TInputImage, typename TOutputImage, typename TParentImageFilter>
 void
 GPUAnisotropicDiffusionImageFilter<TInputImage, TOutputImage, TParentImageFilter>::InitializeIteration()

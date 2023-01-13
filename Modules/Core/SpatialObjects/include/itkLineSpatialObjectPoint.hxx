@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TPointDimension>
 LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint()
 {
@@ -35,7 +35,6 @@ LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint()
   }
 }
 
-/** Copy Constructor */
 template <unsigned int TPointDimension>
 LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint(const LineSpatialObjectPoint & other)
   : Superclass(other)
@@ -43,7 +42,6 @@ LineSpatialObjectPoint<TPointDimension>::LineSpatialObjectPoint(const LineSpatia
   this->m_NormalArrayInObjectSpace = other.m_NormalArrayInObjectSpace;
 }
 
-/** Get the specified normal */
 template <unsigned int TPointDimension>
 auto
 LineSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace(unsigned int index) const -> const CovariantVectorType &
@@ -51,7 +49,6 @@ LineSpatialObjectPoint<TPointDimension>::GetNormalInObjectSpace(unsigned int ind
   return m_NormalArrayInObjectSpace[index];
 }
 
-/** Print the object */
 template <unsigned int TPointDimension>
 void
 LineSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const

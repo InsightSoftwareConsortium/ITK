@@ -112,7 +112,7 @@ public:
   const ParametersType &
   GetParameters() const override;
 
-  /** Set the rotational part of the transform */
+  /** Set the rotational part of the transform. */
   void
   SetRotation(const VersorType & versor);
 

@@ -125,6 +125,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  /** Compute statistics from the sample vector. */
   bool
   ComputeStatistics();
 

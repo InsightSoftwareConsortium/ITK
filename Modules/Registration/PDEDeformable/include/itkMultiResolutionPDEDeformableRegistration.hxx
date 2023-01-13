@@ -25,9 +25,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -70,9 +68,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   m_StopRegistrationFlag = false;
 }
 
-/*
- * Set the moving image image.
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -92,9 +87,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   this->ProcessObject::SetNthInput(2, const_cast<MovingImageType *>(ptr));
 }
 
-/*
- * Get the moving image image.
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -120,9 +112,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   return dynamic_cast<const MovingImageType *>(this->ProcessObject::GetInput(2));
 }
 
-/*
- * Set the fixed image.
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -142,9 +131,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   this->ProcessObject::SetNthInput(1, const_cast<FixedImageType *>(ptr));
 }
 
-/*
- * Get the fixed image.
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -170,9 +156,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   return dynamic_cast<const FixedImageType *>(this->ProcessObject::GetInput(1));
 }
 
-/*
- *
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -204,9 +187,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   return num;
 }
 
-/**
- * Set the number of multi-resolution levels
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -240,9 +220,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   }
 }
 
-/**
- * Standard PrintSelf method.
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,
@@ -285,19 +262,6 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   os << m_StopRegistrationFlag << std::endl;
 }
 
-/*
- * Perform a the deformable registration using a multiresolution scheme
- * using an internal mini-pipeline
- *
- *  ref_pyramid ->  registrator  ->  field_expander --|| tempField
- * test_pyramid ->           |                              |
- *                           |                              |
- *                           --------------------------------
- *
- * A tempField image is used to break the cycle between the
- * registrator and field_expander.
- *
- */
 template <typename TFixedImage,
           typename TMovingImage,
           typename TDisplacementField,

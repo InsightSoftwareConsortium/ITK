@@ -67,8 +67,12 @@ public:
   void
   Clear() override;
 
-  /** Set all radii to the same radius value.  Each radius is
-   *  half the length of one axis of the ellipse.  */
+  /** Set all radii to the same radius value
+   *
+   * Each radius is half the length of one axis of the ellipse.
+   *
+   * The ellipse is formed by setting the ObjectToParentTransform.
+   */
   void
   SetRadiusInObjectSpace(double radius);
 
@@ -84,7 +88,11 @@ public:
   /** Get center in object space */
   itkGetConstReferenceMacro(CenterInObjectSpace, PointType);
 
-  /** Test whether a point is inside or outside the object */
+  /** Test whether a point is inside the object.
+   *
+   * For computational speed purposes, it is faster if the method does not  check the name of the class and the
+   * current depth.
+   */
   bool
   IsInsideInObjectSpace(const PointType & point) const override;
 
@@ -110,7 +118,6 @@ protected:
   EllipseSpatialObject();
   ~EllipseSpatialObject() override = default;
 
-  /** Print the object information in a stream. */
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 

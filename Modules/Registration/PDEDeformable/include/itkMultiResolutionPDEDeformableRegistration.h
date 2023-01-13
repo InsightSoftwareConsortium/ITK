@@ -237,8 +237,17 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  /** Generate output data by performing the registration
-   * at each resolution level. */
+  /** Generate output data by performing the registration at each resolution level.
+   *
+   * Performs a the deformable registration using a multiresolution scheme using an internal mini-pipeline
+   *
+   *  ref_pyramid ->  registrator  ->  field_expander --|| tempField
+   * test_pyramid ->           |                              |
+   *                           |                              |
+   *                           --------------------------------
+   *
+   * A tempField image is used to break the cycle between the registrator and field_expander.
+   */
   void
   GenerateData() override;
 

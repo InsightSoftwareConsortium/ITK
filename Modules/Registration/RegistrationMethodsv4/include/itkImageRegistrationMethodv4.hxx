@@ -31,9 +31,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ImageRegistrationMethodv4()
 {
@@ -244,9 +242,6 @@ const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, 
   return static_cast<const PointSetType *>(this->ProcessObject::GetInput(2 * index + 1));
 }
 
-/*
- * Set optimizer weights and do checking for identity.
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetOptimizerWeights(
@@ -282,9 +277,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
 }
 
-/*
- * Initialize by setting the interconnects between components.
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::
@@ -816,9 +808,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_OutputTransform = this->GetModifiableTransform();
 }
 
-/*
- * Start the registration
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::GenerateData()
@@ -838,9 +827,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
 }
 
-/**
- * Set the moving transform adaptors per stage
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::
@@ -858,9 +844,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
 }
 
-/**
- * Get the moving transform adaptors per stage
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::
   TransformParametersAdaptorsContainerType &
@@ -870,9 +853,6 @@ const typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, 
   return this->m_TransformParametersAdaptorsPerLevel;
 }
 
-/**
- * Set the number of levels
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetNumberOfLevels(
@@ -909,9 +889,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
 }
 
-/**
- * Get the metric samples
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetMetricSamplePoints()
@@ -1157,9 +1134,6 @@ typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtu
   return currentLevelVirtualDomainImage;
 }
 
-/*
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::PrintSelf(
@@ -1211,9 +1185,6 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
      << std::endl;
 }
 
-/*
- *  Get output transform
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 typename ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::
   DecoratedOutputTransformType *

@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor */
+
 template <unsigned int TPointDimension>
 SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
 {
@@ -39,7 +39,6 @@ SpatialObjectPoint<TPointDimension>::SpatialObjectPoint()
   m_SpatialObject = nullptr;
 }
 
-/** Copy Constructor */
 template <unsigned int TPointDimension>
 SpatialObjectPoint<TPointDimension>::SpatialObjectPoint(const SpatialObjectPoint & other)
 {
@@ -74,7 +73,6 @@ SpatialObjectPoint<TPointDimension>::GetPositionInWorldSpace() const -> PointTyp
   return m_SpatialObject->GetObjectToWorldTransform()->TransformPoint(m_PositionInObjectSpace);
 }
 
-/** Set the color of the point */
 template <unsigned int TPointDimension>
 void
 SpatialObjectPoint<TPointDimension>::SetColor(double r, double g, double b, double a)
@@ -156,7 +154,6 @@ SpatialObjectPoint<TPointDimension>::SetTagScalarDictionary(const std::map<std::
   m_ScalarDictionary = dict;
 }
 
-/** PrintSelfMethod */
 template <unsigned int TPointDimension>
 void
 SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const

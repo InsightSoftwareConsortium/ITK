@@ -188,8 +188,9 @@ protected:
   typename LightObject::Pointer
   InternalClone() const override;
 
-  /**
-   * Smooth the displacement field using B-splines.
+  /** Smooth the displacement field using B-splines.
+   *
+   * Sets displacement field and projects it onto the space of B-spline transforms.
    */
   DisplacementFieldPointer
   BSplineSmoothDisplacementField(const DisplacementFieldType *, const ArrayType &);

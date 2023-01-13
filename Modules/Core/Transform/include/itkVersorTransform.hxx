@@ -22,7 +22,7 @@
 
 namespace itk
 {
-/** Constructor with default arguments */
+
 template <typename TParametersValueType>
 VersorTransform<TParametersValueType>::VersorTransform()
   : Superclass(ParametersDimension)
@@ -30,7 +30,6 @@ VersorTransform<TParametersValueType>::VersorTransform()
   m_Versor.SetIdentity();
 }
 
-/** Constructor with default arguments */
 template <typename TParametersValueType>
 VersorTransform<TParametersValueType>::VersorTransform(unsigned int parametersDimension)
   : Superclass(parametersDimension)
@@ -38,7 +37,6 @@ VersorTransform<TParametersValueType>::VersorTransform(unsigned int parametersDi
   m_Versor.SetIdentity();
 }
 
-/** Constructor with default arguments */
 template <typename TParametersValueType>
 VersorTransform<TParametersValueType>::VersorTransform(const MatrixType & matrix, const OutputVectorType & offset)
   : Superclass(matrix, offset)
@@ -46,7 +44,6 @@ VersorTransform<TParametersValueType>::VersorTransform(const MatrixType & matrix
   this->ComputeMatrixParameters(); // called in MatrixOffset baseclass
 }
 
-/** Set Parameters */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::SetParameters(const ParametersType & parameters)
@@ -81,7 +78,6 @@ VersorTransform<TParametersValueType>::SetParameters(const ParametersType & para
   itkDebugMacro(<< "After setting parameters ");
 }
 
-/** Set Parameters */
 template <typename TParametersValueType>
 auto
 VersorTransform<TParametersValueType>::GetParameters() const -> const ParametersType &
@@ -93,7 +89,6 @@ VersorTransform<TParametersValueType>::GetParameters() const -> const Parameters
   return this->m_Parameters;
 }
 
-/** Set Rotational Part */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::SetRotation(const VersorType & versor)
@@ -103,7 +98,6 @@ VersorTransform<TParametersValueType>::SetRotation(const VersorType & versor)
   this->ComputeOffset();
 }
 
-/** Set Rotational Part */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::SetRotation(const AxisType & axis, AngleType angle)
@@ -113,7 +107,6 @@ VersorTransform<TParametersValueType>::SetRotation(const AxisType & axis, AngleT
   this->ComputeOffset();
 }
 
-/** Set Identity */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::SetIdentity()
@@ -125,7 +118,6 @@ VersorTransform<TParametersValueType>::SetIdentity()
   this->Modified();
 }
 
-/** Compute the matrix */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::ComputeMatrix()
@@ -133,7 +125,6 @@ VersorTransform<TParametersValueType>::ComputeMatrix()
   this->SetVarMatrix(m_Versor.GetMatrix());
 }
 
-/** Compute the matrix */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::ComputeMatrixParameters()
@@ -189,7 +180,6 @@ VersorTransform<TParametersValueType>::ComputeJacobianWithRespectToParameters(co
   jacobian[2][2] = 2.0 * ((vxw + vyz) * px + (vyw - vxz) * py) / vw;
 }
 
-/** Print self */
 template <typename TParametersValueType>
 void
 VersorTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent indent) const

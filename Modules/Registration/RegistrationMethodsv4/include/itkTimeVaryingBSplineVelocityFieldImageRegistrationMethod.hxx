@@ -34,9 +34,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   TFixedImage,
@@ -54,9 +52,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   this->m_NumberOfIterationsPerLevel[2] = 40;
 }
 
-/*
- * Start the optimization at each level.  We just do a basic gradient descent operation.
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
@@ -837,9 +832,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<
   }
 }
 
-/*
- * Start the registration
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
@@ -869,9 +861,6 @@ TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,
   this->GetTransformOutput()->Set(this->m_OutputTransform);
 }
 
-/*
- * PrintSelf
- */
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
 TimeVaryingBSplineVelocityFieldImageRegistrationMethod<TFixedImage,

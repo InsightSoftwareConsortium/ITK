@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::CentralDifferenceImageFunction()
 {
@@ -34,9 +32,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::CentralDiff
   this->m_Interpolator = LinearInterpolatorType::New();
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 void
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInputImage(const TInputImage * inputData)
@@ -67,9 +62,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInputIma
   }
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 void
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInterpolator(InterpolatorType * interpolator)
@@ -85,9 +77,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::SetInterpol
   }
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 void
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -96,9 +85,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::PrintSelf(s
   os << indent << "UseImageDirection = " << this->m_UseImageDirection << std::endl;
 }
 
-/**
- * EvaluateAtIndex
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 auto
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtIndex(const IndexType & index) const
@@ -115,9 +101,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   return derivative;
 }
 
-/*
- * Specialized for scalar pixels
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 template <typename Type>
 void
@@ -171,9 +154,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   }
 }
 
-/*
- * Specialized for vector pixels
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 template <typename Type>
 void
@@ -255,9 +235,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtI
   }
 }
 
-/**
- *
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 auto
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::Evaluate(const PointType & point) const
@@ -274,9 +251,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::Evaluate(co
   return derivative;
 }
 
-/*
- * Specialized for scalar pixels
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 template <typename Type>
 void
@@ -343,9 +317,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   }
 }
 
-/*
- * Specialized for vector pixels
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 template <typename Type>
 void
@@ -457,9 +428,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateSpe
   }
 }
 
-/**
- * EvaluateAtContinuousIndex
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 typename CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::OutputType
 CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtContinuousIndex(
@@ -474,9 +442,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   return derivative;
 }
 
-/*
- * Specialized for scalar pixels
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 template <typename Type>
 void
@@ -531,9 +496,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::EvaluateAtC
   }
 }
 
-/*
- * Specialized for vector pixels
- */
 template <typename TInputImage, typename TCoordRep, typename TOutputType>
 template <typename Type>
 void

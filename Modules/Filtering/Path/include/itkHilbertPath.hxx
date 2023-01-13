@@ -22,7 +22,6 @@
 namespace itk
 {
 
-/** Constructor */
 template <typename TIndexValue, unsigned int VDimension>
 HilbertPath<TIndexValue, VDimension>::HilbertPath()
 
@@ -239,7 +238,6 @@ HilbertPath<TIndexValue, VDimension>::GetEntry(const PathIndexType x) -> PathInd
   }
 }
 
-/** Standard "PrintSelf" method */
 template <typename TIndexValue, unsigned int VDimension>
 void
 HilbertPath<TIndexValue, VDimension>::PrintSelf(std::ostream & os, Indent indent) const

@@ -21,9 +21,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TInputImage, typename TOutput, typename TCoordRep>
 ImageFunction<TInputImage, TOutput, TCoordRep>::ImageFunction()
 {
@@ -34,9 +32,7 @@ ImageFunction<TInputImage, TOutput, TCoordRep>::ImageFunction()
   m_EndContinuousIndex.Fill(0.0f);
 }
 
-/**
- * Standard "PrintSelf" method
- */
+
 template <typename TInputImage, typename TOutput, typename TCoordRep>
 void
 ImageFunction<TInputImage, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Indent indent) const
@@ -49,9 +45,6 @@ ImageFunction<TInputImage, TOutput, TCoordRep>::PrintSelf(std::ostream & os, Ind
   os << indent << "EndContinuousIndex: " << m_EndContinuousIndex << std::endl;
 }
 
-/**
- * Initialize by setting the input image
- */
 template <typename TInputImage, typename TOutput, typename TCoordRep>
 void
 ImageFunction<TInputImage, TOutput, TCoordRep>::SetInputImage(const InputImageType * ptr)

@@ -148,7 +148,7 @@ public:
   using InverseTransformBaseType = typename Superclass::InverseTransformBaseType;
   using InverseTransformBasePointer = typename InverseTransformBaseType::Pointer;
 
-  /** Compose affine transformation with a translation
+  /** Compose affine transformation with a translation.
    *
    * This method modifies self to include a translation of the
    * origin.  The translation is precomposed with self if pre is
@@ -157,7 +157,7 @@ public:
   void
   Translate(const OutputVectorType & trans, bool pre = false);
 
-  /** Compose affine transformation with a scaling
+  /** Compose affine transformation with a scaling.
    *
    * This method modifies self to magnify the source by a given
    * factor along each axis.  If all factors are the same, or only a
@@ -174,7 +174,7 @@ public:
   void
   Scale(const TParametersValueType & factor, bool pre = false);
 
-  /** Compose affine transformation with an elementary rotation
+  /** Compose affine transformation with an elementary rotation.
    *
    * This method composes self with a rotation that affects two
    * specified axes, replacing the current value of self.  The
@@ -192,7 +192,7 @@ public:
   void
   Rotate(int axis1, int axis2, TParametersValueType angle, bool pre = false);
 
-  /** Compose 2D affine transformation with a rotation
+  /** Compose 2D affine transformation with a rotation.
    *
    * This method composes self, which must be a 2D affine
    * transformation, with a clockwise rotation through a given angle
@@ -208,7 +208,7 @@ public:
   void
   Rotate2D(TParametersValueType angle, bool pre = false);
 
-  /** Compose 3D affine transformation with a rotation
+  /** Compose 3D affine transformation with a rotation.
    *
    * This method composes self, which must be a 3D affine
    * transformation, with a clockwise rotation around a specified
@@ -238,15 +238,15 @@ public:
   void
   Shear(int axis1, int axis2, TParametersValueType coef, bool pre = false);
 
-  /** Get an inverse of this transform. */
+  /** Get the inverse of the transform. */
   bool
   GetInverse(Self * inverse) const;
 
-  /** Return an inverse of this transform. */
+  /** Get the inverse of the transform. */
   InverseTransformBasePointer
   GetInverseTransform() const override;
 
-  /** Compute distance between two affine transformations
+  /** Compute distance between two affine transformations.
    *
    * This method computes a "distance" between two affine
    * transformations.  This distance is guaranteed to be a metric,

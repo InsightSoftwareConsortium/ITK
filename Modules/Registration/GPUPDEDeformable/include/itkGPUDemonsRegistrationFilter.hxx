@@ -20,9 +20,7 @@
 
 namespace itk
 {
-/**
- * Default constructor
- */
+
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
   GPUDemonsRegistrationFilter()
@@ -48,9 +46,6 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
 }
 
-/*
- * Set the function state values before each iteration
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 void
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::InitializeIteration()
@@ -75,9 +70,6 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   }
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 double
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::GetMetric() const
@@ -92,9 +84,6 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   return drfp->GetMetric();
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 double
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
@@ -110,9 +99,6 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   return drfp->GetIntensityDifferenceThreshold();
 }
 
-/**
- *
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 void
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::
@@ -128,9 +114,6 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
   drfp->SetIntensityDifferenceThreshold(threshold);
 }
 
-/**
- * Get the metric value from the difference function
- */
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>
 void
 GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TParentImageFilter>::ApplyUpdate(

@@ -22,9 +22,7 @@
 
 namespace itk
 {
-/**
- * Constructor
- */
+
 template <typename TImageType, typename TFeatureImageType>
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ShapePriorSegmentationLevelSetFunction()
 {
@@ -32,9 +30,6 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ShapePrio
   m_ShapePriorWeight = NumericTraits<ScalarValueType>::ZeroValue();
 }
 
-/**
- * PrintSelf
- */
 template <typename TImageType, typename TFeatureImageType>
 void
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -44,9 +39,6 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf
   os << indent << "ShapePriorWeight: " << m_ShapePriorWeight << std::endl;
 }
 
-/**
- * Compute the equation value.
- */
 template <typename TImageType, typename TFeatureImageType>
 typename ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PixelType
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUpdate(
@@ -82,9 +74,6 @@ ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeUp
   return value;
 }
 
-/**
- * Compute the global time step.
- */
 template <typename TImageType, typename TFeatureImageType>
 auto
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::ComputeGlobalTimeStep(void * gd) const

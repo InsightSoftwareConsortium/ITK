@@ -24,7 +24,6 @@
 namespace itk
 {
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientDescentOptimizerBasev4Template()
 
@@ -53,7 +52,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GradientD
   this->m_DoEstimateLearningRateOnce = true;
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
@@ -85,8 +83,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
      << std::endl;
 }
 
-
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 auto
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GetStopConditionDescription() const
@@ -95,7 +91,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::GetStopCo
   return this->m_StopConditionDescription.str();
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StopOptimization()
@@ -105,7 +100,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StopOptim
   this->InvokeEvent(EndEvent());
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::ModifyGradientByScales()
@@ -174,7 +168,6 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOpti
   Superclass::StartOptimization(doOnlyInitialization);
 }
 
-//-------------------------------------------------------------------
 template <typename TInternalComputationValueType>
 void
 GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::ModifyGradientByLearningRate()

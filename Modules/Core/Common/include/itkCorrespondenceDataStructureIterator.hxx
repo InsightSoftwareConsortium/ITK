@@ -21,7 +21,7 @@
 
 namespace itk
 {
-/** Constructor.  Initializes iterators, pointers, and m_IsAtEnd. */
+
 template <typename TStructureType>
 CorrespondenceDataStructureIterator<TStructureType>::CorrespondenceDataStructureIterator(TStructureType * StructurePtr)
 {
@@ -44,8 +44,6 @@ CorrespondenceDataStructureIterator<TStructureType>::IsAtEnd() const
   return m_IsAtEnd;
 }
 
-/** Goes to the next corresponding node clique in the structure,
- *  moving on to the next base node clique if necessary. */
 template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>::GoToNext()
@@ -58,7 +56,6 @@ CorrespondenceDataStructureIterator<TStructureType>::GoToNext()
   }
 }
 
-/** Goes to the next base node clique. */
 template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>::GoToNextBaseGroup()
@@ -88,7 +85,6 @@ CorrespondenceDataStructureIterator<TStructureType>::GoToNextBaseGroup()
   }
 }
 
-/** Resets the iterator to the default settings/placement.*/
 template <typename TStructureType>
 void
 CorrespondenceDataStructureIterator<TStructureType>::Reset()

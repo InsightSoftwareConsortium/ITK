@@ -46,7 +46,6 @@ template <unsigned int VRadius, typename TInput, typename TOutput>
 const double BlackmanWindowFunction<VRadius, TInput, TOutput>::m_Factor2 = 2.0 * itk::Math::pi / VRadius;
 } // end namespace Function
 
-
 template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
@@ -109,7 +108,6 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   }
 }
 
-/** PrintSelf */
 template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
@@ -123,7 +121,6 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   this->Superclass::PrintSelf(os, indent);
 }
 
-/** Evaluate at image index position */
 template <typename TInputImage,
           unsigned int VRadius,
           typename TWindowFunction,
