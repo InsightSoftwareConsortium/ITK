@@ -53,15 +53,6 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   ITK_EXERCISE_BASIC_OBJECT_METHODS(marcher, FastMarchingUpwindGradientImageFilter, FastMarchingImageFilter);
 
 
-  // Test exceptions
-  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToOneTarget());
-
-  itk::SizeValueType numberOfTargets = 0;
-  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets));
-
-  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToAllTargets());
-
-
   //   ShowProgressObject progressWatch(marcher);
   //   itk::SimpleMemberCommand<ShowProgressObject>::Pointer command;
   //   command = itk::SimpleMemberCommand<ShowProgressObject>::New();
@@ -164,6 +155,20 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   marcher->SetTargetOffset(targetOffset);
   ITK_TEST_SET_GET_VALUE(targetOffset, marcher->GetTargetOffset());
 
+
+  // Test exceptions
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToOneTarget());
+  ITK_TRY_EXPECT_EXCEPTION(marcher->Update());
+
+  itk::SizeValueType numberOfTargets = 0;
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets));
+  ITK_TEST_SET_GET_VALUE(numberOfTargets, marcher->GetNumberOfTargets());
+  ITK_TRY_EXPECT_EXCEPTION(marcher->Update());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToAllTargets());
+  ITK_TRY_EXPECT_EXCEPTION(marcher->Update());
+
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToNoTargets());
 
   // turn on debugging
   // marcher->DebugOn();
@@ -285,7 +290,8 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   // Now stop the algorithm once SOME of the targets have been reached.
   numberOfTargets = targetPoints->Size() + 1;
-  ITK_TRY_EXPECT_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets));
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets))
+  ITK_TRY_EXPECT_EXCEPTION(marcher->Update());
 
   numberOfTargets = targetPoints->Size() - 1;
   marcher->SetTargetReachedModeToSomeTargets(numberOfTargets);
@@ -303,7 +309,6 @@ itkFastMarchingUpwindGradientTest(int, char *[])
   ITK_TEST_SET_GET_VALUE(FloatFMType::AllTargets, marcher->GetTargetReachedMode());
 
   numberOfTargets = targetPoints->Size();
-  ITK_TEST_EXPECT_EQUAL(numberOfTargets, marcher->GetNumberOfTargets());
 
   ITK_TRY_EXPECT_NO_EXCEPTION(marcher->Update());
 

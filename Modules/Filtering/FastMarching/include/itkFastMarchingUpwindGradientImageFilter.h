@@ -166,16 +166,12 @@ public:
   void
   SetTargetReachedModeToOneTarget()
   {
-    this->VerifyTargetReachedModeConditions();
-
     this->SetTargetReachedMode(OneTarget);
     m_NumberOfTargets = 1;
   }
   void
   SetTargetReachedModeToSomeTargets(SizeValueType numberOfTargets)
   {
-    this->VerifyTargetReachedModeConditions(numberOfTargets);
-
     this->SetTargetReachedMode(SomeTargets);
     m_NumberOfTargets = numberOfTargets;
   }
@@ -183,10 +179,8 @@ public:
   void
   SetTargetReachedModeToAllTargets()
   {
-    this->VerifyTargetReachedModeConditions();
-
     this->SetTargetReachedMode(AllTargets);
-    m_NumberOfTargets = m_TargetPoints->Size();
+    // m_NumberOfTargets is not used for this case
   }
 
   /** Get the number of targets. */
@@ -221,6 +215,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
+  virtual void
+  VerifyPreconditions() ITKv5_CONST override;
+
   void
   Initialize(LevelSetImageType *) override;
 
@@ -240,7 +237,7 @@ protected:
    *  Returns true if at least a target point exists; returns false otherwise.
    */
   bool
-  IsTargetPointsExistenceConditionSatisfied()
+  IsTargetPointsExistenceConditionSatisfied() const
   {
     if (!m_TargetPoints || m_TargetPoints->Size() == 0)
     {
@@ -258,7 +255,7 @@ protected:
    *  Raises an exception if the conditions are not satisfied.
    */
   void
-  VerifyTargetReachedModeConditions(unsigned int targetModeMinPoints = 1)
+  VerifyTargetReachedModeConditions(unsigned int targetModeMinPoints = 1) const
   {
     bool targetPointsExist = this->IsTargetPointsExistenceConditionSatisfied();
 
