@@ -189,8 +189,8 @@ private:
 };
 
 // Define how to print enumeration
-extern ITKCommon_EXPORT std::ostream &
-                        operator<<(std::ostream & out, DCMTKImageIO::LogLevelEnum value);
+extern ITKIODCMTK_EXPORT std::ostream &
+                         operator<<(std::ostream & out, DCMTKImageIO::LogLevelEnum value);
 
 } // end namespace itk
 
