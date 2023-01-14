@@ -51,10 +51,10 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
 {
   unsigned int dim; // index over dimension
 
-  /**
-   * Compute base index = closest index below point
-   * Compute distance from point to base index
-   */
+  //
+  // Compute base index = closest index below point
+  // Compute distance from point to base index
+  //
   IndexType baseIndex;
   IndexType neighIndex;
   double    distance[ImageDimension];
@@ -82,11 +82,11 @@ VectorLinearInterpolateNearestNeighborExtrapolateImageFunction<TInputImage, TCoo
     }
   }
 
-  /**
-   * Interpolated value is the weight some of each of the surrounding
-   * neighbors. The weight for each neighbour is the fraction overlap
-   * of the neighbor pixel with respect to a pixel centered on point.
-   */
+  //
+  // Interpolated value is the weight some of each of the surrounding
+  // neighbors. The weight for each neighbour is the fraction overlap
+  // of the neighbor pixel with respect to a pixel centered on point.
+  //
   OutputType output;
   NumericTraits<OutputType>::SetLength(output, this->GetInputImage()->GetNumberOfComponentsPerPixel());
   output.Fill(0.0);

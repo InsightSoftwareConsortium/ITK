@@ -133,7 +133,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::StartOptimization(
   this->m_BestParametersIndex = static_cast<ParameterListSizeType>(0);
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
 
-  /* Must call the superclass version for basic validation and setup */
+  // Must call the superclass version for basic validation and setup.
   if (this->m_NumberOfIterations > static_cast<SizeValueType>(0))
   {
     Superclass::StartOptimization(doOnlyInitialization);
@@ -164,7 +164,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
   this->m_Stop = false;
   while (!this->m_Stop)
   {
-    /* Compute metric value */
+    // Compute metric value
     try
     {
       this->m_Metric->SetParameters(this->m_ParametersList[this->m_CurrentIteration]);
@@ -179,9 +179,8 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
     }
     catch (const ExceptionObject &)
     {
-      /** We simply ignore this exception because it may just be a bad starting point.
-       *  We hope that other start points are better.
-       */
+      // We simply ignore this exception because it may just be a bad starting point.
+      // We hope that other start points are better.
       itkWarningMacro("An exception occurred in sub-optimization number "
                       << this->m_CurrentIteration
                       << ".  If too many of these occur, you may need to set a different set of initial parameters.");
@@ -192,8 +191,8 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
       this->m_MinimumMetricValue = this->m_CurrentMetricValue;
       this->m_BestParametersIndex = this->m_CurrentIteration;
     }
-    /* Check if optimization has been stopped externally.
-     * (Presumably this could happen from a multi-threaded client app?) */
+    // Check if optimization has been stopped externally.
+    // (Presumably this could happen from a multi-threaded client app?)
     if (this->m_Stop)
     {
       this->m_StopConditionDescription << "StopOptimization() called";
@@ -202,7 +201,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
 
     this->InvokeEvent(IterationEvent());
 
-    /* Update and check iteration count */
+    // Update and check iteration count
     this->m_CurrentIteration++;
     if (this->m_CurrentIteration >= this->m_NumberOfIterations)
     {

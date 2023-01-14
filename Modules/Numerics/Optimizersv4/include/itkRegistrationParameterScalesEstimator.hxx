@@ -656,7 +656,7 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::SampleVirtualDomainWithPointSet()
 {
-  /* The virtual domain point set must already be supplied */
+  // The virtual domain point set must already be supplied.
   if (!this->m_VirtualDomainPointSet)
   {
     itkExceptionMacro("The virtual domain point set has not been set.");

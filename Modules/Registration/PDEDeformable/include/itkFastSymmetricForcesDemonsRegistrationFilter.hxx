@@ -256,9 +256,7 @@ FastSymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplace
 
   this->SetRMSChange(drfp->GetRMSChange());
 
-  /*
-   * Smooth the deformation field
-   */
+  // Smooth the deformation field
   if (this->GetSmoothDisplacementField())
   {
     this->SmoothDisplacementField();
