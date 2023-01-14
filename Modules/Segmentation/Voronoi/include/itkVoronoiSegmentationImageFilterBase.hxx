@@ -21,6 +21,7 @@
 
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkVoronoiDiagram2DGenerator.h"
+#include "itkPrintHelper.h"
 #include <cmath>
 
 namespace itk
@@ -39,20 +40,32 @@ void
 VoronoiSegmentationImageFilterBase<TInputImage, TOutputImage, TBinaryPriorImage>::PrintSelf(std::ostream & os,
                                                                                             Indent         indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number Of Seeds: " << m_NumberOfSeeds << std::endl;
 
-  os << indent << "Minimum Region for Split: " << m_MinRegion << std::endl;
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
+  os << indent << "NumberOfSeeds: " << m_NumberOfSeeds << std::endl;
+  os << indent << "MinRegion: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinRegion)
+     << std::endl;
+  os << indent << "Steps: " << m_Steps << std::endl;
+  os << indent << "LastStepSeeds: " << m_LastStepSeeds << std::endl;
+  os << indent << "NumberOfSeedsToAdded: " << m_NumberOfSeedsToAdded << std::endl;
+  os << indent << "NumberOfBoundary: " << m_NumberOfBoundary << std::endl;
 
-  os << indent << "Number Of Steps to Run: (0 means runs until no region to split) " << m_Steps << std::endl;
+  os << indent << "NumberOfPixels: " << m_NumberOfPixels << std::endl;
+  os << indent << "Label: " << m_Label << std::endl;
 
-  os << indent << "UseBackgroundInAPrior = " << m_UseBackgroundInAPrior << std::endl;
-  os << indent << "OutputBoundary = " << m_OutputBoundary << std::endl;
-  os << indent << "MeanDeviation = " << m_MeanDeviation << std::endl;
-  os << indent << "LastStepSeeds = " << m_LastStepSeeds << std::endl;
-  os << indent << "InteractiveSegmentation = " << m_InteractiveSegmentation << std::endl;
-  os << indent << "NumberOfSeedsToAdded = " << m_NumberOfSeedsToAdded << std::endl;
-  os << indent << "Size = " << m_Size << std::endl;
+  os << indent << "MeanDeviation: " << m_MeanDeviation << std::endl;
+  os << indent << "UseBackgroundInAPrior: " << (m_UseBackgroundInAPrior ? "On" : "Off") << std::endl;
+  os << indent << "OutputBoundary: " << (m_OutputBoundary ? "On" : "Off") << std::endl;
+
+  os << indent << "InteractiveSegmentation: " << (m_InteractiveSegmentation ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(WorkingVD);
+  itkPrintSelfObjectMacro(VDGenerator);
+
+  os << indent << "SeedsToAdded: " << m_SeedsToAdded << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage, typename TBinaryPriorImage>

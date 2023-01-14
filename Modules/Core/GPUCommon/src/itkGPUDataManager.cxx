@@ -264,12 +264,16 @@ GPUDataManager::Initialize()
 void
 GPUDataManager::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "GPUDataManager (" << this << ')' << std::endl;
-  os << indent << "m_BufferSize: " << m_BufferSize << std::endl;
-  os << indent << "m_IsGPUBufferDirty: " << m_IsGPUBufferDirty << std::endl;
-  os << indent << "m_GPUBuffer: " << m_GPUBuffer << std::endl;
-  os << indent << "m_IsCPUBufferDirty: " << m_IsCPUBufferDirty << std::endl;
-  os << indent << "m_CPUBuffer: " << m_CPUBuffer << std::endl;
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "BufferSize: " << m_BufferSize << std::endl;
+  os << indent << "ContextManager: " << m_ContextManager << std::endl;
+  os << indent << "CommandQueueId: " << m_CommandQueueId << std::endl;
+  os << indent << "MemFlags: " << m_MemFlags << std::endl;
+  os << indent << "GPUBuffer: " << m_GPUBuffer << std::endl;
+  os << indent << "CPUBuffer: " << m_CPUBuffer << std::endl;
+  os << indent << "IsGPUBufferDirty: " << (m_IsGPUBufferDirty ? "On" : "Off") << std::endl;
+  os << indent << "IsCPUBufferDirty: " << m_IsCPUBufferDirty ? "On" : "Off") << std::endl;
 }
 
 } // namespace itk

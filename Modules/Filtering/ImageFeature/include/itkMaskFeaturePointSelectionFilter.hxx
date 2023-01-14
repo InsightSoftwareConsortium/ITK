@@ -25,6 +25,7 @@
 #include "itkNumericTraits.h"
 #include "itkImageRegionIterator.h"
 #include "itkCompensatedSummation.h"
+#include "itkPrintHelper.h"
 
 
 namespace itk
@@ -43,26 +44,16 @@ template <typename TImage, typename TMask, typename TFeatures>
 void
 MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_NonConnectivity: ";
-  switch (m_NonConnectivity)
-  {
-    case 0:
-      os << "VERTEX_CONNECTIVITY";
-      break;
-    case 1:
-      os << "EDGE_CONNECTIVITY";
-      break;
-    case 2:
-      os << "FACE_CONNECTIVITY";
-      break;
-    default:
-      os << static_cast<unsigned int>(m_NonConnectivity);
-  }
-  os << std::endl
-     << indent << "m_BlockRadius: " << m_BlockRadius << std::endl
-     << indent << "m_ComputeStructureTensors: " << (m_ComputeStructureTensors ? "yes" : "no") << std::endl
-     << indent << "m_SelectFraction: " << m_SelectFraction << std::endl;
+
+  os << indent << "NonConnectivity: " << m_NonConnectivity << std::endl;
+  os << indent << "NonConnectivityOffsets: " << m_NonConnectivityOffsets << std::endl;
+  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BlockRadius)
+     << std::endl;
+  os << indent << "SelectFraction: " << m_SelectFraction << std::endl;
+  os << indent << "ComputeStructureTensors: " << (m_ComputeStructureTensors ? "On" : "Off") << std::endl;
 }
 
 template <typename TImage, typename TMask, typename TFeatures>

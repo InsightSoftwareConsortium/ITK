@@ -41,11 +41,13 @@ ComplexBSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>:
                                                                                            Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-  os << indent << "Real Interpolator: " << m_RealInterpolator << std::endl;
-  os << indent << "Imaginary Interpolator: " << m_ImaginaryInterpolator << std::endl;
-  os << indent << "Complex to Real Filter: " << m_RealFilter << std::endl;
-  os << indent << "Complex to Imaginary Filter: " << m_ImaginaryFilter << std::endl;
+
+  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
+
+  itkPrintSelfObjectMacro(RealInterpolator);
+  itkPrintSelfObjectMacro(ImaginaryInterpolator);
+  itkPrintSelfObjectMacro(RealFilter);
+  itkPrintSelfObjectMacro(ImaginaryFilter);
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>

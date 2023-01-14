@@ -55,7 +55,9 @@ void
 ElasticBodySplineKernelTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_Alpha: " << m_Alpha << std::endl;
+
+  os << indent << "Alpha: " << static_cast<typename NumericTraits<TParametersValueType>::PrintType>(m_Alpha)
+     << std::endl;
 }
 } // namespace itk
 #endif

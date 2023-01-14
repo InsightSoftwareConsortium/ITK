@@ -166,10 +166,40 @@ void
 OrthogonalSwath2DPathFilter<TParametricPath, TSwathMeritImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "StepValues:  " << m_StepValues.get() << std::endl;
-  os << indent << "MeritValues:  " << m_MeritValues.get() << std::endl;
-  os << indent << "OptimumStepsValues:  " << m_OptimumStepsValues.get() << std::endl;
-  os << indent << "FinalOffsetValues:  " << m_FinalOffsetValues << std::endl;
+
+  os << indent << "StepValues: ";
+  if (m_StepValues.get() != nullptr)
+  {
+    os << *m_StepValues.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "MeritValues: ";
+  if (m_MeritValues.get() != nullptr)
+  {
+    os << *m_MeritValues.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "OptimumStepsValues: ";
+  if (m_OptimumStepsValues.get() != nullptr)
+  {
+    os << *m_OptimumStepsValues.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  itkPrintSelfObjectMacro(FinalOffsetValues);
+
+  os << indent << "SwathSize: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_SwathSize) << std::endl;
 }
 
 // The next three functions are private helper functions

@@ -389,33 +389,29 @@ DisplacementFieldToBSplineImageFilter<TInputImage, TInputPointSet, TOutputImage>
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Estimate inverse: ";
-  if (this->m_EstimateInverse)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
-  os << indent << "Enforce stationary boundary: ";
-  if (this->m_EnforceStationaryBoundary)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
-  os << indent << "Spline order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Number of fitting levels: " << this->m_NumberOfFittingLevels << std::endl;
-  os << indent << "Number of control points: " << this->m_NumberOfControlPoints << std::endl;
+  os << indent << "EstimateInverse: " << (m_EstimateInverse ? "On" : "Off") << std::endl;
+  os << indent << "EnforceStationaryBoundary: " << (m_EnforceStationaryBoundary ? "On" : "Off") << std::endl;
+  os << indent << "NumberOfControlPoints: " << m_NumberOfControlPoints << std::endl;
+  os << indent << "NumberOfFittingLevels: " << m_NumberOfFittingLevels << std::endl;
 
-  os << indent << "B-spline domain" << std::endl;
-  os << indent << "  Origin: " << this->m_BSplineDomainOrigin << std::endl;
-  os << indent << "  Spacing: " << this->m_BSplineDomainSpacing << std::endl;
-  os << indent << "  Size: " << this->m_BSplineDomainSize << std::endl;
-  os << indent << "  Direction: " << this->m_BSplineDomainDirection << std::endl;
+  itkPrintSelfObjectMacro(PointWeights);
+
+  os << indent << "UsePointWeights: " << (m_UsePointWeights ? "On" : "Off") << std::endl;
+
+  os << indent
+     << "BSplineDomainOrigin: " << static_cast<typename NumericTraits<OriginType>::PrintType>(m_BSplineDomainOrigin)
+     << std::endl;
+  os << indent
+     << "BSplineDomainSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_BSplineDomainSpacing)
+     << std::endl;
+  os << indent << "BSplineDomainSize: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_BSplineDomainSize)
+     << std::endl;
+  os << indent << "BSplineDomainDirection: "
+     << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_BSplineDomainDirection) << std::endl;
+
+  os << indent << "BSplineDomainIsDefined: " << (m_BSplineDomainIsDefined ? "On" : "Off") << std::endl;
+  os << indent << "UseInputFieldToDefineTheBSplineDomain: " << (m_UseInputFieldToDefineTheBSplineDomain ? "On" : "Off")
+     << std::endl;
 }
 
 } // end namespace itk

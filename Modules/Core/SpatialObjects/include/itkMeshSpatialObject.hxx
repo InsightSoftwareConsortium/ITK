@@ -157,9 +157,13 @@ void
 MeshSpatialObject<TMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << "Mesh: " << std::endl;
-  os << indent << "m_IsInsidePrecisionInObjectSpace: " << m_IsInsidePrecisionInObjectSpace << std::endl;
-  os << indent << m_Mesh << std::endl;
+
+  itkPrintSelfObjectMacro(Mesh);
+
+#if !defined(ITK_LEGACY_REMOVE)
+  os << indent << "PixelType: " << m_PixelType << std::endl;
+#endif
+  os << indent << "IsInsidePrecisionInObjectSpace: " << m_IsInsidePrecisionInObjectSpace << std::endl;
 }
 
 template <typename TMesh>

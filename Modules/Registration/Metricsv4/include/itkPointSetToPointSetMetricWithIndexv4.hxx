@@ -656,30 +656,33 @@ PointSetToPointSetMetricWithIndexv4<TFixedPointSet, TMovingPointSet, TInternalCo
   Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Fixed PointSet: " << this->m_FixedPointSet.GetPointer() << std::endl;
-  os << indent << "Fixed Transform: " << this->m_FixedTransform.GetPointer() << std::endl;
-  os << indent << "Moving PointSet: " << this->m_MovingPointSet.GetPointer() << std::endl;
-  os << indent << "Moving Transform: " << this->m_MovingTransform.GetPointer() << std::endl;
 
-  os << indent << "Store derivative as sparse field = ";
-  if (this->m_StoreDerivativeAsSparseFieldForLocalSupportTransforms)
-  {
-    os << "true." << std::endl;
-  }
-  else
-  {
-    os << "false." << std::endl;
-  }
+  itkPrintSelfObjectMacro(FixedPointSet);
+  itkPrintSelfObjectMacro(FixedTransformedPointSet);
+  itkPrintSelfObjectMacro(FixedTransformedPointsLocator);
+  itkPrintSelfObjectMacro(MovingPointSet);
+  itkPrintSelfObjectMacro(MovingTransformedPointSet);
+  itkPrintSelfObjectMacro(MovingTransformedPointsLocator);
+  itkPrintSelfObjectMacro(VirtualTransformedPointSet);
 
-  os << indent << "Calculate in tangent space = ";
-  if (this->m_CalculateValueAndDerivativeInTangentSpace)
-  {
-    os << "true." << std::endl;
-  }
-  else
-  {
-    os << "false." << std::endl;
-  }
+  os << indent << "UsePointSetData: " << (m_UsePointSetData ? "On" : "Off") << std::endl;
+  os << indent
+     << "CalculateValueAndDerivativeInTangentSpace: " << (m_CalculateValueAndDerivativeInTangentSpace ? "On" : "Off")
+     << std::endl;
+
+  os << indent << "MovingTransformPointLocatorsNeedInitialization: "
+     << (m_MovingTransformPointLocatorsNeedInitialization ? "On" : "Off") << std::endl;
+  os << indent << "FixedTransformPointLocatorsNeedInitialization: "
+     << (m_FixedTransformPointLocatorsNeedInitialization ? "On" : "Off") << std::endl;
+  os << indent << "HaveWarnedAboutNumberOfValidPoints: " << (m_HaveWarnedAboutNumberOfValidPoints ? "On" : "Off")
+     << std::endl;
+  os << indent << "StoreDerivativeAsSparseFieldForLocalSupportTransforms: "
+     << (m_StoreDerivativeAsSparseFieldForLocalSupportTransforms ? "On" : "Off") << std::endl;
+
+  os << indent << "MovingTransformedPointSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_MovingTransformedPointSetTime) << std::endl;
+  os << indent << "FixedTransformedPointSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_FixedTransformedPointSetTime) << std::endl;
 }
 } // end namespace itk
 

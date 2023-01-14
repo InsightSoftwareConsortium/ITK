@@ -49,36 +49,29 @@ ObjectToObjectOptimizerBaseTemplate<TInternalComputationValueType>::PrintSelf(st
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Number of work units: " << this->m_NumberOfWorkUnits << std::endl;
-  os << indent << "Number of scales:  " << this->m_Scales.Size() << std::endl;
-  if (this->GetScalesInitialized())
-  {
-    os << indent << "m_Scales: " << this->m_Scales << std::endl;
-  }
-  else
-  {
-    os << indent << "m_Scales: uninitialized." << std::endl;
-  }
-  os << indent << "m_ScalesAreIdentity: " << this->GetScalesAreIdentity() << std::endl;
-  if (this->m_Weights.Size() > 0)
-  {
-    os << indent << "m_Weights: " << this->m_Weights << std::endl;
-  }
-  else
-  {
-    os << indent << "m_Weights is unset. Treated as identity." << std::endl;
-  }
-  os << indent << "m_WeightsAreIdentity: " << this->GetWeightsAreIdentity() << std::endl;
   itkPrintSelfObjectMacro(Metric);
+
+  os << indent
+     << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
+     << std::endl;
+  os << indent
+     << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
+     << std::endl;
+  os << indent
+     << "NumberOfIterations: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfIterations)
+     << std::endl;
+  os << indent
+     << "CurrentMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_CurrentMetricValue)
+     << std::endl;
+  os << indent << "Scales: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Scales) << std::endl;
+  os << indent << "Weights: " << static_cast<typename NumericTraits<ScalesType>::PrintType>(m_Weights) << std::endl;
+
+  os << indent << "ScalesAreIdentity: " << (m_ScalesAreIdentity ? "On" : "Off") << std::endl;
+
   itkPrintSelfObjectMacro(ScalesEstimator);
-  if (this->m_CurrentIteration > 0)
-  {
-    os << indent << "CurrentIteration: " << this->m_CurrentIteration << std::endl;
-  }
-  os << indent << "Number of iterations: " << this->m_NumberOfIterations << std::endl;
-  os << indent << "CurrentMetricValue: "
-     << static_cast<typename NumericTraits<MeasureType>::PrintType>(this->m_CurrentMetricValue) << std::endl;
-  os << indent << "DoEstimateScales: " << this->m_DoEstimateScales << std::endl;
+
+  os << indent << "WeightsAreIdentity: " << (m_WeightsAreIdentity ? "On" : "Off") << std::endl;
+  os << indent << "DoEstimateScales: " << (m_DoEstimateScales ? "On" : "Off") << std::endl;
 }
 
 template <typename TInternalComputationValueType>

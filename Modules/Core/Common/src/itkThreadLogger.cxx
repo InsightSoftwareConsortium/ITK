@@ -208,12 +208,15 @@ ThreadLogger::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Thread ID: " << this->m_Thread.get_id() << std::endl;
-  os << indent << "Low-priority Message Delay: " << this->m_Delay << std::endl;
-  os << indent << "Operation Queue Size: " << this->m_OperationQ.size() << std::endl;
-  os << indent << "Message Queue Size: " << this->m_MessageQ.size() << std::endl;
-  os << indent << "Level Queue Size: " << this->m_LevelQ.size() << std::endl;
-  os << indent << "Output Queue Size: " << this->m_OutputQ.size() << std::endl;
+  os << indent << "Thread ID: " << m_Thread.get_id() << std::endl;
+  os << indent << "TerminationRequested: " << m_TerminationRequested << std::endl;
+
+  os << indent << "OperationQ size: " << m_OperationQ.size() << std::endl;
+  os << indent << "MessageQ size: " << m_MessageQ.size() << std::endl;
+  os << indent << "LevelQ size: " << m_LevelQ.size() << std::endl;
+  os << indent << "OutputQ size: " << m_OutputQ.size() << std::endl;
+
+  os << indent << "Delay: " << m_Delay << std::endl;
 }
 
 } // namespace itk

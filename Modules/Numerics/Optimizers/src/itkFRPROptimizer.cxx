@@ -216,9 +216,9 @@ void
 FRPROptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Optimization Type = " << m_OptimizationType << std::endl;
-  os << indent << "0=FletchReeves, 1=PolakRibiere" << std::endl;
-  os << indent << "Use unit length gradient = " << m_UseUnitLengthGradient << std::endl;
+
+  os << indent << "OptimizationType: " << m_OptimizationType << std::endl;
+  os << indent << "UseUnitLengthGradient: " << (m_UseUnitLengthGradient ? "On" : "Off") << std::endl;
 }
 
 std::ostream &

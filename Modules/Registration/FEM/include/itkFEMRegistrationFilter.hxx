@@ -1457,47 +1457,84 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Min E: " << m_MinE << std::endl;
-  os << indent << "Current Level: " << m_CurrentLevel << std::endl;
-  os << indent << "Max Iterations: " << m_Maxiters << std::endl;
-  os << indent << "Max Level: " << m_MaxLevel << std::endl;
-  os << indent << "Total Iterations: " << m_TotalIterations << std::endl;
+  os << indent << "DoLineSearchOnImageEnergy: " << m_DoLineSearchOnImageEnergy << std::endl;
+  os << indent << "LineSearchMaximumIterations: " << m_LineSearchMaximumIterations << std::endl;
 
-  os << indent << "Descent Direction: " << m_DescentDirection << std::endl;
+  os << indent << "NumberOfIntegrationPoints: " << m_NumberOfIntegrationPoints << std::endl;
+  os << indent << "MetricWidth: " << m_MetricWidth << std::endl;
+  os << indent << "Maxiters: " << m_Maxiters << std::endl;
+  os << indent << "TotalIterations: " << m_TotalIterations << std::endl;
+  os << indent << "MaxLevel: " << m_MaxLevel << std::endl;
+  os << indent << "FileCount: " << m_FileCount << std::endl;
+  os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
+  os << indent << "CurrentLevelImageSize: "
+     << static_cast<typename NumericTraits<typename FixedImageType::SizeType>::PrintType>(m_CurrentLevel) << std::endl;
+  os << indent << "WhichMetric: " << m_WhichMetric << std::endl;
+
+  os << indent << "MeshPixelsPerElementAtEachResolution: " << m_MeshPixelsPerElementAtEachResolution << std::endl;
+
+  os << indent << "TimeStep: " << m_TimeStep << std::endl;
   os << indent << "E: " << m_E << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
   os << indent << "Rho: " << m_Rho << std::endl;
-  os << indent << "Time Step: " << m_TimeStep << std::endl;
+  os << indent << "Gamma: " << m_Gamma << std::endl;
+  os << indent << "Energy: " << m_Energy << std::endl;
+  os << indent << "MinE: " << m_MinE << std::endl;
+  os << indent << "MinJacobian: " << m_MinJacobian << std::endl;
   os << indent << "Alpha: " << m_Alpha << std::endl;
 
-  os << indent << "Smoothing Standard Deviation: " << m_StandardDeviations << std::endl;
-  os << indent << "Maximum Error: " << m_MaximumError << std::endl;
-  os << indent << "Maximum Kernel Width: " << m_MaximumKernelWidth << std::endl;
+  os << indent << "UseLandmarks: " << (m_UseLandmarks ? "On" : "Off") << std::endl;
+  os << indent << "UseMassMatrix: " << (m_UseNormalizedGradient ? "On" : "Off") << std::endl;
+  os << indent << "UseNormalizedGradient: " << (m_UseNormalizedGradient ? "On" : "Off") << std::endl;
+  os << indent << "CreateMeshFromImage: " << (m_CreateMeshFromImage ? "On" : "Off") << std::endl;
+  os << indent << "EmployRegridding: " << m_EmployRegridding << std::endl;
+  os << indent << "DescentDirection: " << m_DescentDirection << std::endl;
+  os << indent << "EnergyReductionFactor: " << m_EnergyReductionFactor << std::endl;
+  os << indent << "FullImageSize: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_FullImageSize)
+     << std::endl;
+  os << indent << "ImageOrigin: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_ImageOrigin)
+     << std::endl;
 
-  os << indent << "Pixels Per Element: " << m_MeshPixelsPerElementAtEachResolution << std::endl;
-  os << indent << "Number of Integration Points: " << m_NumberOfIntegrationPoints << std::endl;
-  os << indent << "Metric Width: " << m_MetricWidth << std::endl;
-  os << indent << "Line Search Energy = " << m_DoLineSearchOnImageEnergy << std::endl;
-  os << indent << "Line Search Maximum Iterations: " << m_LineSearchMaximumIterations << std::endl;
-  os << indent << "Use Mass Matrix: " << m_UseMassMatrix << std::endl;
-  os << indent << "Employ Regridding: " << m_EmployRegridding << std::endl;
+  os << indent << "ImageScaling: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_ImageScaling)
+     << std::endl;
+  os << indent
+     << "CurrentImageScaling: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_CurrentImageScaling)
+     << std::endl;
 
-  os << indent << "Use Landmarks: " << m_UseLandmarks << std::endl;
-  os << indent << "Use Normalized Gradient: " << m_UseNormalizedGradient << std::endl;
-  os << indent << "Min Jacobian = " << m_MinJacobian << std::endl;
-
-  os << indent << "Image Scaling: " << m_ImageScaling << std::endl;
-  os << indent << "Current Image Scaling: " << m_CurrentImageScaling << std::endl;
-  os << indent << "Full Image Size: " << m_FullImageSize << std::endl;
-  os << indent << "Image Origin: " << m_ImageOrigin << std::endl;
-  os << indent << "Create Mesh: " << m_CreateMeshFromImage << std::endl;
+  os << indent << "FieldRegion: " << m_FieldRegion << std::endl;
+  os << indent
+     << "FieldSize: " << static_cast<typename NumericTraits<typename FieldType::SizeType>::PrintType>(m_FieldSize)
+     << std::endl;
 
   itkPrintSelfObjectMacro(Field);
   itkPrintSelfObjectMacro(TotalField);
   itkPrintSelfObjectMacro(Load);
+  itkPrintSelfObjectMacro(Warper);
   itkPrintSelfObjectMacro(WarpedImage);
+  itkPrintSelfObjectMacro(FloatImage);
+
+  os << indent << "Wregion: " << m_Wregion << std::endl;
+  os << indent
+     << "Windex: " << static_cast<typename NumericTraits<typename FixedImageType::IndexType>::PrintType>(m_Windex)
+     << std::endl;
+
+  itkPrintSelfObjectMacro(MovingImage);
+  itkPrintSelfObjectMacro(OriginalMovingImage);
+  itkPrintSelfObjectMacro(FixedImage);
+
+  itkPrintSelfObjectMacro(Element);
+  itkPrintSelfObjectMacro(Material);
+  itkPrintSelfObjectMacro(Metric);
   itkPrintSelfObjectMacro(FEMObject);
+
+  os << indent << "LandmarkArray: " << m_LandmarkArray << std::endl;
+
   itkPrintSelfObjectMacro(Interpolator);
+
+  os << indent << "MaximumError: " << m_MaximumError << std::endl;
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
+
+  os << indent << "StandardDeviation: "
+     << static_cast<typename NumericTraits<StandardDeviationsType>::PrintType>(m_StandardDeviations) << std::endl;
 }
 
 } // end namespace fem

@@ -68,25 +68,30 @@ LevelSetMotionRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MovingImageIterpolator: ";
-  os << m_MovingImageInterpolator.GetPointer() << std::endl;
-  os << indent << "IntensityDifferenceThreshold: ";
-  os << m_IntensityDifferenceThreshold << std::endl;
-  os << indent << "GradientMagnitudeThreshold: ";
-  os << m_GradientMagnitudeThreshold << std::endl;
-  os << indent << "Alpha: ";
-  os << m_Alpha << std::endl;
+  os << indent
+     << "FixedImageSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_FixedImageSpacing)
+     << std::endl;
+  os << indent << "FixedImageOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_FixedImageOrigin)
+     << std::endl;
 
-  os << indent << "Metric: ";
-  os << m_Metric << std::endl;
-  os << indent << "SumOfSquaredDifference: ";
-  os << m_SumOfSquaredDifference << std::endl;
-  os << indent << "NumberOfPixelsProcessed: ";
-  os << m_NumberOfPixelsProcessed << std::endl;
-  os << indent << "RMSChange: ";
-  os << m_RMSChange << std::endl;
-  os << indent << "SumOfSquaredChange: ";
-  os << m_SumOfSquaredChange << std::endl;
+  itkPrintSelfObjectMacro(MovingImageSmoothingFilter);
+
+  itkPrintSelfObjectMacro(MovingImageInterpolator);
+  itkPrintSelfObjectMacro(SmoothMovingImageInterpolator);
+
+  os << indent << "Alpha: " << m_Alpha << std::endl;
+  os << indent << "GradientMagnitudeThreshold: " << m_GradientMagnitudeThreshold << std::endl;
+  os << indent << "IntensityDifferenceThreshold: " << m_IntensityDifferenceThreshold << std::endl;
+  os << indent << "GradientSmoothingStandardDeviations: " << m_GradientSmoothingStandardDeviations << std::endl;
+
+  os << indent << "Metric: " << m_Metric << std::endl;
+  os << indent << "SumOfSquaredDifference: " << m_SumOfSquaredDifference << std::endl;
+  os << indent << "NumberOfPixelsProcessed: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsProcessed) << std::endl;
+  os << indent << "RMSChange: " << m_RMSChange << std::endl;
+  os << indent << "SumOfSquaredChange: " << m_SumOfSquaredChange << std::endl;
+
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

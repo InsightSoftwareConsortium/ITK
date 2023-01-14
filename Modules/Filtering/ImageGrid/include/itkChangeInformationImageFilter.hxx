@@ -180,47 +180,28 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
 {
   Superclass::PrintSelf(os, indent);
 
+  itkPrintSelfObjectMacro(ReferenceImage);
+
   os << indent << "CenterImage: " << (m_CenterImage ? "On" : "Off") << std::endl;
   os << indent << "ChangeSpacing: " << (m_ChangeSpacing ? "On" : "Off") << std::endl;
   os << indent << "ChangeOrigin: " << (m_ChangeOrigin ? "On" : "Off") << std::endl;
   os << indent << "ChangeDirection: " << (m_ChangeDirection ? "On" : "Off") << std::endl;
   os << indent << "ChangeRegion: " << (m_ChangeRegion ? "On" : "Off") << std::endl;
   os << indent << "UseReferenceImage: " << (m_UseReferenceImage ? "On" : "Off") << std::endl;
-  if (m_ReferenceImage)
-  {
-    os << indent << "ReferenceImage: " << m_ReferenceImage.GetPointer() << std::endl;
-  }
-  else
-  {
-    os << indent << "ReferenceImage: 0" << std::endl;
-  }
-  os << indent << "OutputSpacing: [";
-  if (ImageDimension >= 1)
-  {
-    os << m_OutputSpacing[0];
-  }
-  for (unsigned int j = 1; j < ImageDimension; ++j)
-  {
-    os << ", " << m_OutputSpacing[j];
-  }
-  os << ']' << std::endl;
 
-  os << indent << "OutputOrigin: [";
-  if (ImageDimension >= 1)
-  {
-    os << m_OutputOrigin[0];
-  }
-  for (unsigned int j = 1; j < ImageDimension; ++j)
-  {
-    os << ", " << m_OutputOrigin[j];
-  }
-  os << ']' << std::endl;
+  os << indent << "OutputSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_OutputSpacing)
+     << std::endl;
+  os << indent << "OutputOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_OutputOrigin)
+     << std::endl;
+  os << indent
+     << "OutputDirection: " << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_OutputDirection)
+     << std::endl;
 
-  os << indent << "OutputDirection:" << std::endl;
-  os << m_OutputDirection << std::endl;
-
-  os << indent << "OutputOffset: [";
-  os << m_OutputOffset << std::endl;
+  os << indent
+     << "OutputOffset: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_OutputOffset)
+     << std::endl;
+  os << indent << "Shift: " << static_cast<typename NumericTraits<OutputImageOffsetType>::PrintType>(m_Shift)
+     << std::endl;
 }
 } // end namespace itk
 

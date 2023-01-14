@@ -112,7 +112,7 @@ public:
   ~SparseFieldCityBlockNeighborList() = default;
 
   void
-  Print(std::ostream & os) const;
+  Print(std::ostream & os, Indent indent) const;
 
 private:
   unsigned int              m_Size;

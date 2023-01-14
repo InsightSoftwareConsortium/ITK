@@ -33,32 +33,8 @@ void
 QuadEdgeMeshEulerOperatorFlipEdgeFunction<TMesh, TQEType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_EdgeStatus: ";
-  switch (m_EdgeStatus)
-  {
-    default:
-    case EdgeStatusEnum::STANDARD_CONFIG:
-      os << "STANDARD_CONFIG" << std::endl;
-      break;
-    case EdgeStatusEnum::EDGE_NULL:
-      os << "EDGE_NULL" << std::endl;
-      break;
-    case EdgeStatusEnum::MESH_NULL:
-      os << "MESH_NULL" << std::endl;
-      break;
-    case EdgeStatusEnum::NON_INTERNAL_EDGE:
-      os << "NON_INTERNAL_EDGE" << std::endl;
-      break;
-    case EdgeStatusEnum::NON_TRIANGULAR_RIGHT_FACE:
-      os << "NON_TRIANGULAR_RIGHT_FACE" << std::endl;
-      break;
-    case EdgeStatusEnum::NON_TRIANGULAR_LEFT_FACE:
-      os << "NON_TRIANGULAR_LEFT_FACE" << std::endl;
-      break;
-    case EdgeStatusEnum::EXISTING_OPPOSITE_EDGE:
-      os << "EXISTING_OPPOSITE_EDGE" << std::endl;
-      break;
-  }
+
+  os << indent << "EdgeStatus: " << m_EdgeStatus;
 }
 
 template <typename TMesh, typename TQEType>

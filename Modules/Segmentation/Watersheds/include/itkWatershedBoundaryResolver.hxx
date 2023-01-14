@@ -107,7 +107,7 @@ BoundaryResolver<TPixelType, TDimension>::PrintSelf(std::ostream & os, Indent in
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Face = " << m_Face << std::endl;
+  os << indent << "Face: " << m_Face << std::endl;
 }
 } // end namespace watershed
 } // end namespace itk

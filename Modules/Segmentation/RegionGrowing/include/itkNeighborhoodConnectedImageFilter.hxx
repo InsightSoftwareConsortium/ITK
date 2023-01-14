@@ -21,6 +21,7 @@
 #include "itkNeighborhoodBinaryThresholdImageFunction.h"
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -65,7 +66,11 @@ template <typename TInputImage, typename TOutputImage>
 void
 NeighborhoodConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  this->Superclass::PrintSelf(os, indent);
+  using namespace print_helper;
+
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Seeds: " << m_Seeds << std::endl;
   os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
      << std::endl;
   os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)

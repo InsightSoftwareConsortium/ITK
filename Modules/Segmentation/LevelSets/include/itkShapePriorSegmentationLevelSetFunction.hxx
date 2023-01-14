@@ -35,8 +35,12 @@ void
 ShapePriorSegmentationLevelSetFunction<TImageType, TFeatureImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ShapeFunction: " << m_ShapeFunction.GetPointer() << std::endl;
-  os << indent << "ShapePriorWeight: " << m_ShapePriorWeight << std::endl;
+
+  itkPrintSelfObjectMacro(ShapeFunction);
+
+  os << indent
+     << "ShapePriorWeight: " << static_cast<typename NumericTraits<ScalarValueType>::PrintType>(m_ShapePriorWeight)
+     << std::endl;
 }
 
 template <typename TImageType, typename TFeatureImageType>

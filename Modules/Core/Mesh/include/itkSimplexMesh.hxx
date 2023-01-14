@@ -221,10 +221,10 @@ SimplexMesh<TPixelType, VDimension, TMeshTraits>::PrintSelf(std::ostream & os, I
 {
   this->Superclass::PrintSelf(os, indent);
 
-  os << indent << "LastCellId = " << m_LastCellId << std::endl;
+  os << indent << "LastCellId: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_LastCellId)
+     << std::endl;
 
-  GeometryMapPointer geometryMap = this->GetGeometryData();
-  os << indent << "GeometryData: " << geometryMap << std::endl;
+  itkPrintSelfObjectMacro(GeometryData);
 }
 
 template <typename TPixelType, unsigned int VDimension, typename TMeshTraits>

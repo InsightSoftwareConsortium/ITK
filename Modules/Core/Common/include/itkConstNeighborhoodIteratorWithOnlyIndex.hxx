@@ -399,6 +399,8 @@ template <typename TImage>
 void
 ConstNeighborhoodIteratorWithOnlyIndex<TImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  Superclass::PrintSelf(os, indent);
+
   DimensionValueType i;
 
   os << indent;
@@ -448,7 +450,6 @@ ConstNeighborhoodIteratorWithOnlyIndex<TImage>::PrintSelf(std::ostream & os, Ind
     os << m_InnerBoundsHigh[i] << ' ';
   }
   os << "} }" << std::endl;
-  Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
 template <typename TImage>

@@ -19,6 +19,7 @@
 #define itkColorTable_hxx
 
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 #include "vnl/vnl_sample.h"
 
 #include <sstream>
@@ -365,14 +366,13 @@ template <typename TComponent>
 void
 ColorTable<TComponent>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfColors = " << m_NumberOfColors << std::endl;
-  for (unsigned int i = 0; i < m_NumberOfColors; ++i)
-  {
-    os << indent << "ColorName[" << i << "] = " << m_ColorName[i] << ", "
-       << "Color[" << i << "] = " << m_Color[i] << std::endl;
-  }
+  os << indent << "NumberOfColors: " << m_NumberOfColors << std::endl;
+  os << indent << "ColorName: " << m_ColorName << std::endl;
+  os << indent << "Color: " << m_Color << std::endl;
 }
 } // namespace itk
 

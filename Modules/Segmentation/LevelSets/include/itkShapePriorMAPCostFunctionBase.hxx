@@ -35,9 +35,10 @@ void
 ShapePriorMAPCostFunctionBase<TFeatureImage, TOutputPixel>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ShapeFunction: " << m_ShapeFunction.GetPointer() << std::endl;
-  os << indent << "ActiveRegion:  " << m_ActiveRegion.GetPointer() << std::endl;
-  os << indent << "FeatureImage:  " << m_FeatureImage.GetPointer() << std::endl;
+
+  itkPrintSelfObjectMacro(ShapeFunction);
+  itkPrintSelfObjectMacro(ActiveRegion);
+  itkPrintSelfObjectMacro(FeatureImage);
 }
 
 template <typename TFeatureImage, typename TOutputPixel>

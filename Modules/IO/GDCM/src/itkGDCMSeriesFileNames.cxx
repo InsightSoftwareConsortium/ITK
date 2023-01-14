@@ -19,6 +19,7 @@
 #include "itkGDCMSeriesFileNames.h"
 #include "itksys/SystemTools.hxx"
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 #include "gdcmSerieHelper.h"
 
 namespace itk
@@ -264,31 +265,32 @@ GDCMSeriesFileNames::GetOutputFileNames()
 void
 GDCMSeriesFileNames::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i;
   os << indent << "InputDirectory: " << m_InputDirectory << std::endl;
-  os << indent << "LoadSequences:" << m_LoadSequences << std::endl;
-  os << indent << "LoadPrivateTags:" << m_LoadPrivateTags << std::endl;
-  if (m_Recursive)
+  os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
+
+  os << indent << "InputFileNames: " << m_InputFileNames << std::endl;
+  os << indent << "OutputFileNames: " << m_OutputFileNames << std::endl;
+
+  os << indent << "SerieHelper: ";
+  if (m_SerieHelper.get() != nullptr)
   {
-    os << indent << "Recursive: True" << std::endl;
+    os << m_SerieHelper.get() << std::endl;
   }
   else
   {
-    os << indent << "Recursive: False" << std::endl;
+    os << "(null)" << std::endl;
   }
 
-  for (i = 0; i < m_InputFileNames.size(); ++i)
-  {
-    os << indent << "InputFileNames[" << i << "]: " << m_InputFileNames[i] << std::endl;
-  }
+  os << indent << "SeriesUIDs: " << m_SeriesUIDs << std::endl;
 
-  os << indent << "OutputDirectory: " << m_OutputDirectory << std::endl;
-  for (i = 0; i < m_OutputFileNames.size(); ++i)
-  {
-    os << indent << "OutputFileNames[" << i << "]: " << m_OutputFileNames[i] << std::endl;
-  }
+  os << indent << "UseSeriesDetails: " << (m_UseSeriesDetails ? "On" : "Off") << std::endl;
+  os << indent << "Recursive: " << (m_Recursive ? "On" : "Off") << std::endl;
+  os << indent << "LoadSequences: " << (m_LoadSequences ? "On" : "Off") << std::endl;
+  os << indent << "LoadPrivateTags: " << (m_LoadPrivateTags ? "On" : "Off") << std::endl;
 }
 
 void

@@ -190,10 +190,19 @@ SpatialObjectProperty::operator=(const SpatialObjectProperty & rhs)
 void
 SpatialObjectProperty::PrintSelf(std::ostream & os, Indent indent) const
 {
+  os << indent << "Color: " << m_Color << std::endl;
   os << indent << "Name: " << m_Name << std::endl;
-  os << indent << "RGBA: " << m_Color.GetRed() << ' ' << m_Color.GetGreen() << ' ' << m_Color.GetBlue() << ' '
-     << m_Color.GetAlpha() << std::endl;
-  os << indent << "ScalarDictionary size: " << m_ScalarDictionary.size() << std::endl;
-  os << indent << "StringDictionary size: " << m_StringDictionary.size() << std::endl;
+
+  os << indent << "ScalarDictionary: " << std::endl;
+  for (const auto & keyval : m_ScalarDictionary)
+  {
+    os << indent.GetNextIndent() << keyval.first << ": " << keyval.second << std::endl;
+  }
+
+  os << indent << "StringDictionary: " << std::endl;
+  for (const auto & keyval : m_StringDictionary)
+  {
+    os << indent.GetNextIndent() << keyval.first << ": " << keyval.second << std::endl;
+  }
 }
 } // end of namespace itk

@@ -150,11 +150,14 @@ void
 CollidingFrontsImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ApplyConnectivity = " << m_ApplyConnectivity << std::endl;
-  os << indent << "SeedPoints1: " << m_SeedPoints1.GetPointer() << std::endl;
-  os << indent << "SeedPoints2: " << m_SeedPoints2.GetPointer() << std::endl;
+
+  itkPrintSelfObjectMacro(SeedPoints1);
+  itkPrintSelfObjectMacro(SeedPoints2);
+
+  os << indent << "StopOnTargets: " << (m_StopOnTargets ? "On" : "Off") << std::endl;
+  os << indent << "ApplyConnectivity: " << (m_ApplyConnectivity ? "On" : "Off") << std::endl;
+
   os << indent << "NegativeEpsilon: " << m_NegativeEpsilon << std::endl;
-  os << indent << "StopOnTargets: " << m_StopOnTargets << std::endl;
 }
 } // end namespace itk
 

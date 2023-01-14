@@ -101,7 +101,8 @@ template <typename TInputImage, typename TOutputImage>
 void
 AnisotropicDiffusionImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  Superclass::PrintSelf(os, indent.GetNextIndent());
+  Superclass::PrintSelf(os, indent);
+
   os << indent << "TimeStep: " << m_TimeStep << std::endl;
   os << indent << "ConductanceParameter: " << m_ConductanceParameter << std::endl;
   os << indent << "ConductanceScalingParameter: " << m_ConductanceScalingParameter << std::endl;

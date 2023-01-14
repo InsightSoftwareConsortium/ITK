@@ -224,8 +224,8 @@ void
 CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Spline Order: " << this->m_SplineOrder << std::endl;
-  os << indent << "Piecewise Polynomial Pieces: " << std::endl;
+
+  os << indent << "BSplineShapeFunctions: " << std::endl;
 
   TRealValueType a{ 0.0 };
   TRealValueType b{ 0.0 };
@@ -255,6 +255,8 @@ CoxDeBoorBSplineKernelFunction<VSplineOrder, TRealValueType>::PrintSelf(std::ost
 
     os << ",  X \\in [" << a << ", " << b << ']' << std::endl;
   }
+
+  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
 }
 } // namespace itk
 

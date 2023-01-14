@@ -106,13 +106,18 @@ void
 PointSetToImageMetric<TFixedPointSet, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Moving Image: " << m_MovingImage.GetPointer() << std::endl;
-  os << indent << "Fixed  Image: " << m_FixedPointSet.GetPointer() << std::endl;
-  os << indent << "Gradient Image: " << m_GradientImage.GetPointer() << std::endl;
-  os << indent << "Transform:    " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "Number of Pixels Counted: " << m_NumberOfPixelsCounted << std::endl;
-  os << indent << "Compute Gradient: " << m_ComputeGradient << std::endl;
+
+  os << indent << "NumberOfPixelsCounted: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted) << std::endl;
+
+  itkPrintSelfObjectMacro(FixedPointSet);
+  itkPrintSelfObjectMacro(MovingImage);
+  itkPrintSelfObjectMacro(Transform);
+  itkPrintSelfObjectMacro(Interpolator);
+
+  os << indent << "ComputeGradient: " << (m_ComputeGradient ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(GradientImage);
 }
 } // end namespace itk
 

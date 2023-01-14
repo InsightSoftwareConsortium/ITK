@@ -19,6 +19,7 @@
 #define itkChainCodePath_hxx
 
 #include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -94,8 +95,12 @@ template <unsigned int VDimension>
 void
 ChainCodePath<VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "Start index:  " << m_Start << std::endl;
+
+  os << indent << "Start: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_Start) << std::endl;
+  os << indent << "Chain: " << m_Chain << std::endl;
 }
 } // end namespace itk
 

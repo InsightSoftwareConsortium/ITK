@@ -207,6 +207,31 @@ void
 CumulativeGaussianCostFunction::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Range Dimension = " << m_RangeDimension << std::endl;
+
+  os << indent << "OriginalDataArray: ";
+  if (m_OriginalDataArray != nullptr)
+  {
+    os << *m_OriginalDataArray << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "RangeDimension: " << m_RangeDimension << std::endl;
+
+  os << indent << "Measure: " << m_Measure << std::endl;
+
+  os << indent << "MeasurePointer: ";
+  if (m_MeasurePointer != nullptr)
+  {
+    os << *m_MeasurePointer << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "Parameters: " << m_Parameters << std::endl;
 }
 } // end namespace itk

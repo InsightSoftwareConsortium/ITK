@@ -100,17 +100,20 @@ ImageToNeighborhoodSampleAdaptor<TImage, TBoundaryCondition>::PrintSelf(std::ost
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Image: ";
-  if (m_Image.IsNotNull())
-  {
-    os << m_Image << std::endl;
-  }
-  else
-  {
-    os << "not set." << std::endl;
-  }
-  os << indent << "UseImageRegion: " << m_UseImageRegion << std::endl;
+  itkPrintSelfObjectMacro(Image);
+
+  os << indent << "MeasurementVectorInternal: "
+     << static_cast<typename NumericTraits<MeasurementVectorType>::PrintType>(m_MeasurementVectorInternal) << std::endl;
+  os << indent << "InstanceIdentifierInternal: "
+     << static_cast<typename NumericTraits<InstanceIdentifier>::PrintType>(m_InstanceIdentifierInternal) << std::endl;
+  os << indent
+     << "NeighborIndexInternal: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_NeighborIndexInternal)
+     << std::endl;
+  os << indent << "Radius: " << static_cast<typename NumericTraits<NeighborhoodRadiusType>::PrintType>(m_Radius)
+     << std::endl;
   os << indent << "Region: " << m_Region << std::endl;
+  os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
+  os << indent << "UseImageRegion: " << (m_UseImageRegion ? "On" : "Off") << std::endl;
   os << indent << "Neighborhood Radius: " << m_Radius << std::endl;
 }
 
@@ -238,10 +241,10 @@ std::ostream &
 operator<<(std::ostream & os, const std::vector<itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition>> & mv)
 {
   itk::ConstNeighborhoodIterator<TImage, TBoundaryCondition> nbhd = mv[0];
-  os << "Neighborhood:" << std::endl;
+  os << "Neighborhood: " << std::endl;
   os << "    Radius: " << nbhd.GetRadius() << std::endl;
   os << "    Size: " << nbhd.GetSize() << std::endl;
-  os << "    Index of Center Pixel: " << nbhd.GetIndex() << std::endl;
+  os << "    Index: " << nbhd.GetIndex() << std::endl;
   return os;
 }
 

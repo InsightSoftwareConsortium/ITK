@@ -20,6 +20,7 @@
 
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -665,36 +666,45 @@ template <typename TMeasurement, typename TFrequencyContainer>
 void
 Histogram<TMeasurement, TFrequencyContainer>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  // os << indent << "MeasurementVectorSize: " << this->GetMeasurementVectorSize() << std::endl;
-  os << indent << "TotalFrequency: " << this->GetTotalFrequency() << std::endl;
-  os << indent << "Size: ";
-  for (unsigned int i = 0; i < m_Size.Size(); ++i)
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
+  os << indent << "OffsetTable: " << std::endl;
+  for (const auto & elem : m_OffsetTable)
   {
-    os << m_Size[i] << "  ";
+    os << indent.GetNextIndent() << "[" << &elem - &*(m_OffsetTable.begin()) << "]: " << elem << std::endl;
   }
-  os << std::endl;
-  os << indent << "Bin Minima: ";
-  for (unsigned int i = 0; i < m_Min.size(); ++i)
-  {
-    os << m_Min[i][0] << "  ";
-  }
-  os << std::endl;
-  os << indent << "Bin Maxima: ";
-  for (unsigned int i = 0; i < m_Max.size(); ++i)
-  {
-    os << m_Max[i].back() << "  ";
-  }
-  os << std::endl;
-  os << indent << "ClipBinsAtEnds: " << itk::NumericTraits<bool>::PrintType(this->GetClipBinsAtEnds()) << std::endl;
-  os << indent << "OffsetTable: ";
-  for (unsigned int i = 0; i < this->m_OffsetTable.size(); ++i)
-  {
-    os << this->m_OffsetTable[i] << "  ";
-  }
-  os << std::endl;
+
   itkPrintSelfObjectMacro(FrequencyContainer);
+
+  os << indent << "NumberOfInstances: " << m_NumberOfInstances << std::endl;
+
+  os << indent << "Min: " << std::endl;
+  for (const auto & elemVec : m_Min)
+  {
+    for (const auto & elem : elemVec)
+    {
+      os << indent << "[" << &elem - &*(elemVec.begin())
+         << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
+    }
+  }
+
+  os << indent << "Max: " << std::endl;
+  for (const auto & elemVec : m_Max)
+  {
+    for (const auto & elem : elemVec)
+    {
+      os << indent << "[" << &elem - &*(elemVec.begin())
+         << "]: " << static_cast<typename NumericTraits<MeasurementType>::PrintType>(elem) << std::endl;
+    }
+  }
+
+  os << indent << "TempMeasurementVector: "
+     << static_cast<typename NumericTraits<MeasurementVectorType>::PrintType>(m_TempMeasurementVector) << std::endl;
+  os << indent << "TempIndex: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_TempIndex) << std::endl;
+  os << indent << "ClipBinsAtEnds: " << (m_ClipBinsAtEnds ? "On" : "Off") << std::endl;
 }
 
 template <typename TMeasurement, typename TFrequencyContainer>

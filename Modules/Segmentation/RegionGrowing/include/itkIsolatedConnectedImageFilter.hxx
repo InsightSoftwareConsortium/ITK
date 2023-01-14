@@ -25,6 +25,7 @@
 #include "itkMath.h"
 #include "itkNumericTraits.h"
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -47,23 +48,30 @@ template <typename TInputImage, typename TOutputImage>
 void
 IsolatedConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   this->Superclass::PrintSelf(os, indent);
+
+  os << indent << "Seeds1: " << std::endl;
+  os << indent << "Seeds2: " << std::endl;
+
   os << indent << "Lower: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Lower)
      << std::endl;
   os << indent << "Upper: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_Upper)
      << std::endl;
+
   os << indent
      << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
+
   os << indent
      << "IsolatedValue: " << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValue)
      << std::endl;
   os << indent << "IsolatedValueTolerance: "
      << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_IsolatedValueTolerance) << std::endl;
-  os << indent << "FindUpperThreshold: " << static_cast<typename NumericTraits<bool>::PrintType>(m_FindUpperThreshold)
-     << std::endl;
-  os << indent << "Thresholding Failed: " << static_cast<typename NumericTraits<bool>::PrintType>(m_ThresholdingFailed)
-     << std::endl;
+
+  os << indent << "FindUpperThreshold: " << (m_FindUpperThreshold ? "On" : "Off") << std::endl;
+  os << indent << "ThresholdingFailed: " << (m_ThresholdingFailed ? "On" : "Off") << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

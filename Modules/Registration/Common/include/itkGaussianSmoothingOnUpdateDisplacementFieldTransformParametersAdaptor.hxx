@@ -82,23 +82,21 @@ GaussianSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>
 {
   Superclass::PrintSelf(os, indent);
 
-  if (this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0 ||
-      this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0)
-  {
-    os << indent << "Gaussian smoothing parameters: " << std::endl;
-    if (this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0)
-    {
-      os << indent
-         << "m_GaussianSmoothingVarianceForTheUpdateField: " << this->m_GaussianSmoothingVarianceForTheUpdateField
-         << std::endl;
-    }
-    if (this->m_GaussianSmoothingVarianceForTheTotalFieldSetTime > 0)
-    {
-      os << indent
-         << "m_GaussianSmoothingVarianceForTheTotalField: " << this->m_GaussianSmoothingVarianceForTheTotalField
-         << std::endl;
-    }
-  }
+  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
+     << std::endl;
+  os << indent << "GaussianSmoothingVarianceForTheTotalField: "
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheTotalField)
+     << std::endl;
+
+  os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
+          m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
+     << std::endl;
+  os << indent << "GaussianSmoothingVarianceForTheTotalFieldSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
+          m_GaussianSmoothingVarianceForTheTotalFieldSetTime)
+     << std::endl;
 }
 
 } // namespace itk

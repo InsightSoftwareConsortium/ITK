@@ -203,12 +203,12 @@ VoronoiSegmentationImageFilter<TInputImage, TOutputImage, TBinaryPriorImage>::Pr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Mean = " << m_Mean << std::endl;
-  os << indent << "MeanTolerance = " << m_MeanTolerance << std::endl;
-  os << indent << "MeanPercentError = " << m_MeanPercentError << std::endl;
-  os << indent << "STD = " << m_STD << std::endl;
-  os << indent << "STDTolerance = " << m_STDTolerance << std::endl;
-  os << indent << "STDPercentError = " << m_STDPercentError << std::endl;
+  os << indent << "Mean: " << m_Mean << std::endl;
+  os << indent << "STD: " << m_STD << std::endl;
+  os << indent << "MeanTolerance: " << m_MeanTolerance << std::endl;
+  os << indent << "STDTolerance: " << m_STDTolerance << std::endl;
+  os << indent << "MeanPercentError: " << m_MeanPercentError << std::endl;
+  os << indent << "STDPercentError: " << m_STDPercentError << std::endl;
 }
 } // namespace itk
 

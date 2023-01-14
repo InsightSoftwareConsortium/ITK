@@ -46,6 +46,16 @@ void
 MeanSquaresImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "PerThread: ";
+  if (m_PerThread.get() != nullptr)
+  {
+    os << m_PerThread.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
 }
 
 template <typename TFixedImage, typename TMovingImage>

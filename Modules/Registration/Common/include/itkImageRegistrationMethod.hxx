@@ -219,16 +219,18 @@ void
 ImageRegistrationMethod<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Metric: " << m_Metric.GetPointer() << std::endl;
-  os << indent << "Optimizer: " << m_Optimizer.GetPointer() << std::endl;
-  os << indent << "Transform: " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "Fixed Image: " << m_FixedImage.GetPointer() << std::endl;
-  os << indent << "Moving Image: " << m_MovingImage.GetPointer() << std::endl;
-  os << indent << "Fixed Image Region Defined: " << m_FixedImageRegionDefined << std::endl;
-  os << indent << "Fixed Image Region: " << m_FixedImageRegion << std::endl;
-  os << indent << "Initial Transform Parameters: " << m_InitialTransformParameters << std::endl;
-  os << indent << "Last    Transform Parameters: " << m_LastTransformParameters << std::endl;
+
+  itkPrintSelfObjectMacro(Metric);
+  itkPrintSelfObjectMacro(Optimizer);
+  itkPrintSelfObjectMacro(FixedImage);
+  itkPrintSelfObjectMacro(MovingImage);
+  itkPrintSelfObjectMacro(Transform);
+  itkPrintSelfObjectMacro(Interpolator);
+
+  os << indent << "InitialTransformParameters: " << m_InitialTransformParameters << std::endl;
+  os << indent << "LastTransformParameters: " << m_LastTransformParameters << std::endl;
+  os << indent << "FixedImageRegionDefined: " << (m_FixedImageRegionDefined ? "On" : "Off") << std::endl;
+  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage>

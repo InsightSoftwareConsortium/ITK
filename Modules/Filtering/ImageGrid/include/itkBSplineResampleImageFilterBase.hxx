@@ -28,6 +28,8 @@
 #ifndef itkBSplineResampleImageFilterBase_hxx
 #define itkBSplineResampleImageFilterBase_hxx
 
+#include "itkPrintHelper.h"
+
 
 namespace itk
 {
@@ -45,8 +47,18 @@ template <typename TInputImage, typename TOutputImage>
 void
 BSplineResampleImageFilterBase<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "Spline Order: " << m_SplineOrder << std::endl;
+
+  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
+  os << indent << "GSize: " << m_GSize << std::endl;
+  os << indent << "HSize: " << m_HSize << std::endl;
+
+  os << indent << "G: " << m_G << std::endl;
+  os << indent << "H: " << m_H << std::endl;
+
+  os << indent << "Scratch: " << m_Scratch << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

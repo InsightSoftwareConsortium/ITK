@@ -19,6 +19,7 @@
 #define itkQuadEdgeMeshEulerOperatorJoinVertexFunction_hxx
 
 #include "itkQuadEdgeMeshZipMeshFunction.h"
+#include "itkNumericTraits.h"
 
 #include <list>
 #include <algorithm>
@@ -38,8 +39,9 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::PrintSelf(std::ostr
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_OldPointID: " << m_OldPointID << std::endl;
-  os << indent << "m_EdgeStatus: ";
+  os << indent << "OldPointID: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_OldPointID)
+     << std::endl;
+  os << indent << "EdgeStatus: ";
 
   switch (m_EdgeStatus)
   {

@@ -20,6 +20,7 @@
 
 #include "itkMatrix.h"
 #include "itkSymmetricEigenAnalysis.h"
+#include "itkPrintHelper.h"
 
 #include <cmath>
 #include "vnl/algo/vnl_qr.h"
@@ -819,32 +820,16 @@ void
 LandmarkBasedTransformInitializer<TTransform, TFixedImage, TMovingImage>::PrintSelf(std::ostream & os,
                                                                                     Indent         indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  itkPrintSelfObjectMacro(Transform);
   itkPrintSelfObjectMacro(ReferenceImage);
+  itkPrintSelfObjectMacro(Transform);
 
-  os << indent << "Fixed Landmarks: " << std::endl;
-  auto fitr = this->m_FixedLandmarks.begin();
-  while (fitr != this->m_FixedLandmarks.end())
-  {
-    os << indent << *fitr << std::endl;
-    ++fitr;
-  }
-  os << indent << "Moving Landmarks: " << std::endl;
-  auto mitr = this->m_MovingLandmarks.begin();
-  while (mitr != this->m_MovingLandmarks.end())
-  {
-    os << indent << *mitr << std::endl;
-    ++mitr;
-  }
-  os << indent << "Landmark Weight: " << std::endl;
-  auto witr = this->m_LandmarkWeight.begin();
-  while (witr != this->m_LandmarkWeight.end())
-  {
-    os << indent << *witr << std::endl;
-    ++witr;
-  }
+  os << indent << "FixedLandmarks: " << m_FixedLandmarks << std::endl;
+  os << indent << "MovingLandmarks: " << m_MovingLandmarks << std::endl;
+  os << indent << "LandmarkWeight: " << m_LandmarkWeight << std::endl;
 
   os << indent << "BSplineNumberOfControlPoints: " << m_BSplineNumberOfControlPoints << std::endl;
 }

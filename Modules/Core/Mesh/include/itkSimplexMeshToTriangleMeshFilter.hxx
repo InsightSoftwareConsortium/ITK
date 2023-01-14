@@ -118,7 +118,8 @@ void
 SimplexMeshToTriangleMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ToDo: implement PrinSelf!!!";
+
+  itkPrintSelfObjectMacro(Centers);
 }
 } // namespace itk
 

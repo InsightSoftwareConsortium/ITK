@@ -191,11 +191,11 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Prin
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Spline order = " << this->m_SplineOrder << std::endl;
   os << indent
-     << "Number of control points for the velocity field = " << this->m_NumberOfControlPointsForTheConstantVelocityField
+     << "NumberOfControlPointsForTheConstantVelocityField: " << m_NumberOfControlPointsForTheConstantVelocityField
      << std::endl;
-  os << indent << "Number of control points for the update field = " << this->m_NumberOfControlPointsForTheUpdateField
+  os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
+  os << indent << "SplineOrder: " << static_cast<typename NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder)
      << std::endl;
 }
 

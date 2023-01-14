@@ -1409,7 +1409,40 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
      << std::endl;
   os << indent << "StatusNull: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_StatusNull)
      << std::endl;
-  os << indent << "SparseData: " << m_SparseData << std::endl;
+
+  os << indent << "SparseData: ";
+  for (IdCellType i = 0; i < m_FunctionCount; ++i)
+  {
+    SparseDataStruct * sparsePtr = this->m_SparseData[i];
+
+    os << indent.GetNextIndent() << "Layers: " << sparsePtr->m_Layers << std::endl;
+
+    os << indent.GetNextIndent() << "StatusImage: ";
+    if (sparsePtr->m_StatusImage != nullptr)
+    {
+      os << sparsePtr->m_StatusImage << std::endl;
+    }
+    else
+    {
+      os << "(null)" << std::endl;
+    }
+
+    os << indent.GetNextIndent() << "LayerNodeStore: ";
+    if (sparsePtr->m_LayerNodeStore != nullptr)
+    {
+      os << sparsePtr->m_LayerNodeStore << std::endl;
+    }
+    else
+    {
+      os << "(null)" << std::endl;
+    }
+
+    os << indent.GetNextIndent() << "UpdateBuffer: " << sparsePtr->m_UpdateBuffer << std::endl;
+
+    os << indent.GetNextIndent() << "Index: " << static_cast <
+      typename NumericTraits<IdCellType>::PrintType(sparsePtr->m_Index) << std::endl;
+  }
+
   os << indent << "NumberOfLayers: " << m_NumberOfLayers << std::endl;
   os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
      << std::endl;
@@ -1420,21 +1453,6 @@ MultiphaseSparseFiniteDifferenceImageFilter<TInputImage, TFeatureImage, TOutputI
   os << indent << "RMSSum: " << m_RMSSum << std::endl;
   os << indent << "RMSCounter: " << m_RMSCounter << std::endl;
   os << indent << "BoundsCheckingActive: " << m_BoundsCheckingActive << std::endl;
-
-  for (IdCellType i = 0; i < this->m_FunctionCount; ++i)
-  {
-    SparseDataStruct * sparsePtr = this->m_SparseData[i];
-    os << indent << "m_LayerNodeStore: " << std::endl;
-    sparsePtr->m_LayerNodeStore->Print(os, indent.GetNextIndent());
-    for (i = 0; i < sparsePtr->m_Layers.size(); ++i)
-    {
-      os << indent << "m_Layers[" << i << "]: size=" << sparsePtr->m_Layers[i]->Size() << std::endl;
-      os << indent << sparsePtr->m_Layers[i];
-    }
-
-    os << indent << "m_UpdateBuffer: size=" << static_cast<InputSizeValueType>(sparsePtr->m_UpdateBuffer.size())
-       << " capacity = " << static_cast<InputSizeValueType>(sparsePtr->m_UpdateBuffer.capacity()) << std::endl;
-  }
 }
 } // end namespace itk
 

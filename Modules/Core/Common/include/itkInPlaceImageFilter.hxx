@@ -37,17 +37,9 @@ void
 InPlaceImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
   os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
-  if (this->CanRunInPlace())
-  {
-    os << indent << "The input and output to this filter are the same type. The filter can be run in place."
-       << std::endl;
-  }
-  else
-  {
-    os << indent << "The input and output to this filter are different types. The filter cannot be run in place."
-       << std::endl;
-  }
+  os << indent << "RunningInPlace: " << (m_RunningInPlace ? "On" : "Off") << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

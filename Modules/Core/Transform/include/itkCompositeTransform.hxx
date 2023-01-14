@@ -965,28 +965,24 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
 {
   Superclass::PrintSelf(os, indent);
 
-  if (this->GetNumberOfTransforms() == 0)
-  {
-    return;
-  }
-
-  os << indent << "TransformsToOptimizeFlags, begin() to end(): " << std::endl << indent << indent;
-  for (auto it = this->m_TransformsToOptimizeFlags.begin(); it != this->m_TransformsToOptimizeFlags.end(); ++it)
+  os << indent << "TransformsToOptimizeFlags: " << std::endl << indent << indent;
+  for (auto it = m_TransformsToOptimizeFlags.begin(); it != m_TransformsToOptimizeFlags.end(); ++it)
   {
     os << *it << ' ';
   }
   os << std::endl;
 
-  os << indent << "TransformsToOptimize in queue, from begin to end:" << std::endl;
+  os << indent << "TransformsToOptimizeQueue: " << std::endl;
   typename TransformQueueType::const_iterator cit;
-  for (cit = this->m_TransformsToOptimizeQueue.begin(); cit != this->m_TransformsToOptimizeQueue.end(); ++cit)
+  for (cit = m_TransformsToOptimizeQueue.begin(); cit != m_TransformsToOptimizeQueue.end(); ++cit)
   {
     os << indent << ">>>>>>>>>" << std::endl;
     (*cit)->Print(os, indent);
   }
-  os << indent << "End of TransformsToOptimizeQueue." << std::endl << "<<<<<<<<<<" << std::endl;
 
-  os << indent << "End of CompositeTransform." << std::endl << "<<<<<<<<<<" << std::endl;
+  os << indent << "PreviousTransformsToOptimizeUpdateTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_PreviousTransformsToOptimizeUpdateTime)
+     << std::endl;
 }
 
 

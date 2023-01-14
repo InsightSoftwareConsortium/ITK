@@ -18,6 +18,9 @@
 #ifndef itkObjectStore_hxx
 #define itkObjectStore_hxx
 
+#include "itkNumericTraits.h"
+#include "itkPrintHelper.h"
+
 
 namespace itk
 {
@@ -136,14 +139,16 @@ template <typename TObjectType>
 void
 ObjectStore<TObjectType>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_GrowthStrategy: " << m_GrowthStrategy << std::endl;
-  os << indent << "m_Size: " << m_Size << std::endl;
-  os << indent << "m_LinearGrowthSize: " << static_cast<SizeValueType>(m_LinearGrowthSize) << std::endl;
-  os << indent << "Free list size: " << static_cast<SizeValueType>(m_FreeList.size()) << std::endl;
-  os << indent << "Free list capacity: " << static_cast<SizeValueType>(m_FreeList.capacity()) << std::endl;
-  os << indent << "Number of blocks in store: " << static_cast<SizeValueType>(m_Store.size()) << std::endl;
+  os << indent << "GrowthStrategy: " << m_GrowthStrategy << std::endl;
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_Size) << std::endl;
+  os << indent
+     << "LinearGrowthSize: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_LinearGrowthSize)
+     << std::endl;
+  os << indent << "FreeList: " << m_FreeList << std::endl;
 }
 } // end namespace itk
 

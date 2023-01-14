@@ -304,13 +304,20 @@ ScalarImageToRunLengthMatrixFilter<TImageType, THistogramFrequencyContainer>::Pr
                                                                                         Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Offsets: " << this->GetOffsets() << std::endl;
-  os << indent << "Min: " << this->m_Min << std::endl;
-  os << indent << "Max: " << this->m_Max << std::endl;
-  os << indent << "Min distance: " << this->m_MinDistance << std::endl;
-  os << indent << "Max distance: " << this->m_MaxDistance << std::endl;
-  os << indent << "NumberOfBinsPerAxis: " << this->m_NumberOfBinsPerAxis << std::endl;
-  os << indent << "InsidePixelValue: " << this->m_InsidePixelValue << std::endl;
+
+  os << indent << "NumberOfBinsPerAxis: " << m_NumberOfBinsPerAxis << std::endl;
+  os << indent << "Min: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Min) << std::endl;
+  os << indent << "Max: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_Max) << std::endl;
+  os << indent << "MinDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MinDistance)
+     << std::endl;
+  os << indent << "MaxDistance: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_MaxDistance)
+     << std::endl;
+  os << indent << "InsidePixelValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_InsidePixelValue)
+     << std::endl;
+  os << indent << "LowerBound: " << m_LowerBound << std::endl;
+  os << indent << "UpperBound: " << m_UpperBound << std::endl;
+
+  itkPrintSelfObjectMacro(Offsets);
 }
 
 template <typename TImageType, typename THistogramFrequencyContainer>

@@ -138,28 +138,18 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
                                                                                           Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Smooth deformation field: " << (m_SmoothDisplacementField ? "on" : "off") << std::endl;
-  unsigned int j = 0;
-  os << indent << "Standard deviations: [" << m_StandardDeviations[j];
-  for (j = 1; j < ImageDimension; ++j)
-  {
-    os << ", " << m_StandardDeviations[j];
-  }
-  os << ']' << std::endl;
-  os << indent << "Smooth update field: " << (m_SmoothUpdateField ? "on" : "off") << std::endl;
-  j = 0;
-  os << indent << "Update field standard deviations: [" << m_UpdateFieldStandardDeviations[j];
-  for (j = 1; j < ImageDimension; ++j)
-  {
-    os << ", " << m_UpdateFieldStandardDeviations[j];
-  }
-  os << ']' << std::endl;
-  os << indent << "StopRegistrationFlag: ";
-  os << m_StopRegistrationFlag << std::endl;
-  os << indent << "MaximumError: ";
-  os << m_MaximumError << std::endl;
-  os << indent << "MaximumKernelWidth: ";
-  os << m_MaximumKernelWidth << std::endl;
+
+  os << indent << "StandardDeviations: " << m_StandardDeviations << std::endl;
+  os << indent << "UpdateFieldStandardDeviations: " << m_UpdateFieldStandardDeviations << std::endl;
+
+  os << indent << "SmoothDisplacementField: " << (m_SmoothDisplacementField ? "On" : "Off") << std::endl;
+  os << indent << "SmoothUpdateField: " << (m_SmoothUpdateField ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(TempField);
+
+  os << indent << "MaximumError: " << m_MaximumError << std::endl;
+  os << indent << "MaximumKernelWidth: " << m_MaximumKernelWidth << std::endl;
+  os << indent << "StopRegistrationFlag: " << (m_StopRegistrationFlag ? "On" : "Off") << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

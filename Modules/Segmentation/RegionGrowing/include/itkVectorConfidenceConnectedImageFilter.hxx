@@ -26,6 +26,7 @@
 #include "itkFloodFilledImageFunctionConditionalIterator.h"
 #include "itkNumericTraitsRGBPixel.h"
 #include "itkProgressReporter.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -45,13 +46,19 @@ template <typename TInputImage, typename TOutputImage>
 void
 VectorConfidenceConnectedImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  this->Superclass::PrintSelf(os, indent);
-  os << indent << "Number of iterations: " << m_NumberOfIterations << std::endl;
-  os << indent << "Multiplier for confidence interval: " << m_Multiplier << std::endl;
+  using namespace print_helper;
+
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "Seeds: " << m_Seeds << std::endl;
+  os << indent << "Multiplier: " << m_Multiplier << std::endl;
+  os << indent << "NumberOfIterations: " << m_NumberOfIterations << std::endl;
   os << indent
      << "ReplaceValue: " << static_cast<typename NumericTraits<OutputImagePixelType>::PrintType>(m_ReplaceValue)
      << std::endl;
   os << indent << "InitialNeighborhoodRadius: " << m_InitialNeighborhoodRadius << std::endl;
+
+  itkPrintSelfObjectMacro(ThresholdFunction);
 }
 
 template <typename TInputImage, typename TOutputImage>

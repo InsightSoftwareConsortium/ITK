@@ -95,6 +95,18 @@ public:
   {
     m_Value = val;
   }
+
+  inline friend std::ostream &
+  operator<<(std::ostream & os, const ImageVoxel & val)
+  {
+    os << "Vpos: " << val.m_Vpos << std::endl;
+    os << "Spos: " << val.m_Spos << std::endl;
+    os << "Value: " << val.m_Value << std::endl;
+    os << "Distance: " << val.m_Distance << std::endl;
+    os << "Index: " << val.m_Index << std::endl;
+
+    return os;
+  }
 };
 /** \class DeformableSimplexMesh3DGradientConstraintForceFilterEnums
  * \brief Contains all enum classes used by the DeformableSimplexMesh3DGradientConstraintForceFilter class.

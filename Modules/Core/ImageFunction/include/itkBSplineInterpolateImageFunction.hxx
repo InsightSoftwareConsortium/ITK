@@ -35,6 +35,7 @@
 #include "itkVector.h"
 
 #include "itkMatrix.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -58,10 +59,58 @@ void
 BSplineInterpolateImageFunction<TImageType, TCoordRep, TCoefficientType>::PrintSelf(std::ostream & os,
                                                                                     Indent         indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "Spline Order: " << m_SplineOrder << std::endl;
-  os << indent << "UseImageDirection = " << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
-  os << indent << "NumberOfWorkUnits: " << m_NumberOfWorkUnits << std::endl;
+
+  os << indent << "Scratch: " << m_Scratch << std::endl;
+  os << indent
+     << "DataLength: " << static_cast<typename NumericTraits<typename TImageType::SizeType>::PrintType>(m_DataLength)
+     << std::endl;
+  os << indent << "SplineOrder: " << m_SplineOrder << std::endl;
+
+  itkPrintSelfObjectMacro(Coefficients);
+
+  os << indent << "MaxNumberInterpolationPoints: " << m_MaxNumberInterpolationPoints << std::endl;
+  os << indent << "PointsToIndex: " << m_PointsToIndex << std::endl;
+
+  itkPrintSelfObjectMacro(CoefficientFilter);
+
+  os << indent << "UseImageDirection: " << (m_UseImageDirection ? "On" : "Off") << std::endl;
+
+  os << indent
+     << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
+     << std::endl;
+
+  os << indent << "ThreadedEvaluateIndex: ";
+  if (m_ThreadedEvaluateIndex != nullptr)
+  {
+    os << m_ThreadedEvaluateIndex.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "ThreadedWeights: ";
+  if (m_ThreadedWeights != nullptr)
+  {
+    os << m_ThreadedWeights.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "ThreadedWeightsDerivative: ";
+  if (m_ThreadedWeightsDerivative != nullptr)
+  {
+    os << m_ThreadedWeightsDerivative.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
 }
 
 template <typename TImageType, typename TCoordRep, typename TCoefficientType>

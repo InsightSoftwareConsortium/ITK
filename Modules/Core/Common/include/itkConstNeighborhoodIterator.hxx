@@ -566,6 +566,8 @@ template <typename TImage, typename TBoundaryCondition>
 void
 ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  Superclass::PrintSelf(os, indent);
+
   DimensionValueType i;
 
   os << indent;
@@ -623,7 +625,6 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & 
     os << m_InnerBoundsHigh[i] << ' ';
   }
   os << "} }" << std::endl;
-  Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
 template <typename TImage, typename TBoundaryCondition>

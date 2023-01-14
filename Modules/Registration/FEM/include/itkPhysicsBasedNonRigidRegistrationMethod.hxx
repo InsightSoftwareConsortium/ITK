@@ -104,12 +104,14 @@ PhysicsBasedNonRigidRegistrationMethod<TFixedImage, TMovingImage, TMaskImage, TM
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_SelectFraction: " << m_SelectFraction << std::endl;
-  os << indent << "m_NonConnectivity: " << m_NonConnectivity << std::endl;
-  os << indent << "m_BlockRadius: " << m_BlockRadius << std::endl;
-  os << indent << "m_SearchRadius: " << m_SearchRadius << std::endl;
-  os << indent << "m_ApproximationSteps: " << m_ApproximationSteps << std::endl;
-  os << indent << "m_OutlierRejectionSteps: " << m_OutlierRejectionSteps << std::endl;
+  os << indent << "SelectFraction: " << m_SelectFraction << std::endl;
+  os << indent << "NonConnectivity: " << m_NonConnectivity << std::endl;
+  os << indent << "BlockRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_BlockRadius)
+     << std::endl;
+  os << indent << "SearchRadius: " << static_cast<typename NumericTraits<ImageSizeType>::PrintType>(m_SearchRadius)
+     << std::endl;
+  os << indent << "ApproximationSteps: " << m_ApproximationSteps << std::endl;
+  os << indent << "OutlierRejectionSteps: " << m_OutlierRejectionSteps << std::endl;
 
   itkPrintSelfObjectMacro(FeatureSelectionFilter);
   itkPrintSelfObjectMacro(BlockMatchingFilter);

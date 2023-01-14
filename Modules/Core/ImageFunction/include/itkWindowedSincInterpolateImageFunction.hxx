@@ -118,7 +118,10 @@ WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunction, TBou
   std::ostream & os,
   Indent         indent) const
 {
-  this->Superclass::PrintSelf(os, indent);
+  Superclass::PrintSelf(os, indent);
+
+  os << indent << "OffsetTable: " << m_OffsetTable << std::endl;
+  os << indent << "WeightOffsetTable: " << m_WeightOffsetTable << std::endl;
 }
 
 template <typename TInputImage,
