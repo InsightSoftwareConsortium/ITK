@@ -391,13 +391,13 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
     k = KLMSegmentationBorder::New();
   }
 
-  /* the following initialization of the borders ensures that
-     each border is assigned region1 and region2 such that,
-     the label of region1 is less than the label of region2/
-     and, that when a new border is added to a region,
-     PushBack can be used for region1 and PushFront can be used
-     for region2.  This will ensure that the borders are
-     sorted by increased labels for region1 then region2 */
+  // The following initialization of the borders ensures that
+  // each border is assigned region1 and region2 such that,
+  // the label of region1 is less than the label of region2/
+  // and, that when a new border is added to a region,
+  // PushBack can be used for region1 and PushFront can be used
+  // for region2.  This will ensure that the borders are
+  // sorted by increased labels for region1 then region2
 
   m_TotalBorderLength = 0;
   unsigned int borderCounter = 0;

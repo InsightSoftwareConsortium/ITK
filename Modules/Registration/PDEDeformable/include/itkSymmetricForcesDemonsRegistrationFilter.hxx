@@ -53,9 +53,7 @@ SymmetricForcesDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacement
   // call the superclass  implementation
   Superclass::InitializeIteration();
 
-  /*
-   * Smooth the deformation field
-   */
+  // Smooth the deformation field
   if (this->GetSmoothDisplacementField())
   {
     this->SmoothDisplacementField();

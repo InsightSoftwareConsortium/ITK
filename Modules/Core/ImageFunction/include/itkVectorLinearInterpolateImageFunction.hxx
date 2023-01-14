@@ -48,10 +48,10 @@ typename VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::OutputTyp
 VectorLinearInterpolateImageFunction<TInputImage, TCoordRep>::EvaluateAtContinuousIndex(
   const ContinuousIndexType & index) const
 {
-  /**
-   * Compute base index = closet index below point
-   * Compute distance from point to base index
-   */
+  //
+  // Compute base index = closet index below point
+  // Compute distance from point to base index
+  //
   IndexType                 baseIndex;
   InternalComputationType   distance[ImageDimension];
   const TInputImage * const inputImgPtr = this->GetInputImage();

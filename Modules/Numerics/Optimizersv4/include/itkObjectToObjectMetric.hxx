@@ -35,7 +35,7 @@ template <unsigned int TFixedDimension,
 ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParametersValueType>::ObjectToObjectMetric()
 
 {
-  /* Both transforms default to an identity transform */
+  // Both transforms default to an identity transform.
   using MovingIdentityTransformType = IdentityTransform<TParametersValueType, Self::MovingDimension>;
   using FixedIdentityTransformType = IdentityTransform<TParametersValueType, Self::FixedDimension>;
   this->m_FixedTransform = FixedIdentityTransformType::New();
@@ -130,8 +130,8 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
   const DerivativeType & derivative,
   TParametersValueType   factor)
 {
-  /* Rely on transform::UpdateTransformParameters to verify proper
-   * size of derivative */
+  // Rely on transform::UpdateTransformParameters to verify proper
+  // size of derivative.
   this->m_MovingTransform->UpdateTransformParameters(derivative, factor);
 }
 

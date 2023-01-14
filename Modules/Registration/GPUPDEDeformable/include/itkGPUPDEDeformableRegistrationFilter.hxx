@@ -46,7 +46,7 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
 
   m_TempField = DisplacementFieldType::New();
 
-  /** Build GPU Program */
+  // Build GPU program
 
   std::ostringstream defines;
 

@@ -1345,9 +1345,9 @@ ImageToImageMetric<TFixedImage, TMovingImage>::SynchronizeTransforms() const
 {
   for (ThreadIdType threadId = 0; threadId < m_NumberOfWorkUnits - 1; ++threadId)
   {
-    /** Set the fixed parameters first. Some transforms have parameters which depend on
-        the values of the fixed parameters. For instance, the BSplineTransform
-        checks the grid size (part of the fixed parameters) before setting the parameters. */
+    // Set the fixed parameters first. Some transforms have parameters which depend on
+    // the values of the fixed parameters. For instance, the BSplineTransform
+    // checks the grid size (part of the fixed parameters) before setting the parameters.
     this->m_ThreaderTransform[threadId]->SetFixedParameters(this->m_Transform->GetFixedParameters());
     this->m_ThreaderTransform[threadId]->SetParameters(this->m_Transform->GetParameters());
   }

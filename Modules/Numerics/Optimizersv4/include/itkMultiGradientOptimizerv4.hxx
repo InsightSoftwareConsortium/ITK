@@ -118,7 +118,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimizati
   this->m_MinimumMetricValue = this->m_MaximumMetricValue;
   const ParametersType & testParamsAreTheSameObject = this->m_OptimizersList[0]->GetCurrentPosition();
   this->m_MetricValuesList.push_back(this->m_MaximumMetricValue);
-  /* Initialize the optimizer, but don't run it. */
+  // Initialize the optimizer, but don't run it.
   this->m_OptimizersList[0]->StartOptimization(true /* doOnlyInitialization */);
 
   for (SizeValueType whichOptimizer = 1; whichOptimizer < maxOpt; ++whichOptimizer)
@@ -129,14 +129,14 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::StartOptimizati
     {
       itkExceptionMacro(" Parameter objects are not identical across all optimizers/metrics.");
     }
-    /* Initialize the optimizer, but don't run it. */
+    // Initialize the optimizer, but don't run it.
     this->m_OptimizersList[whichOptimizer]->StartOptimization(true /* doOnlyInitialization */);
   }
 
   this->m_CurrentIteration = static_cast<SizeValueType>(0);
 
-  /* Must call the superclass version for basic validation and setup,
-   * and to start the optimization loop. */
+  // Must call the superclass version for basic validation and setup,
+  // and to start the optimization loop.
   if (this->m_NumberOfIterations > static_cast<SizeValueType>(0))
   {
     Superclass::StartOptimization(doOnlyInitialization);
@@ -157,10 +157,10 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
   this->m_Stop = false;
   while (!this->m_Stop)
   {
-    /* Compute metric value/derivative. */
+    // Compute metric value/derivative.
 
     auto maxOpt = static_cast<SizeValueType>(this->m_OptimizersList.size());
-    /** we rely on learning rate or parameter scale estimator to do the weighting */
+    // We rely on learning rate or parameter scale estimator to do the weighting.
     TInternalComputationValueType combinefunction =
       NumericTraits<TInternalComputationValueType>::OneValue() / static_cast<TInternalComputationValueType>(maxOpt);
     itkDebugMacro(" nopt " << maxOpt);
@@ -177,13 +177,13 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
         itkDebugMacro(" resized ");
       }
 
-      /* Modify the gradient by scales, weights and learning rate */
+      // Modify the gradient by scales, weights and learning rate.
       this->m_OptimizersList[whichOptimizer]->ModifyGradientByScales();
       this->m_OptimizersList[whichOptimizer]->EstimateLearningRate();
       this->m_OptimizersList[whichOptimizer]->ModifyGradientByLearningRate();
 
       itkDebugMacro(" mod-grad ");
-      /** combine the gradients */
+      // Combine the gradients
       if (whichOptimizer == 0)
       {
         this->m_Gradient.Fill(0);
@@ -193,8 +193,8 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
       this->m_MetricValuesList[whichOptimizer] = this->m_OptimizersList[whichOptimizer]->GetCurrentMetricValue();
     } // endfor
 
-    /* Check if optimization has been stopped externally.
-     * (Presumably this could happen from a multi-threaded client app?) */
+    // Check if optimization has been stopped externally.
+    // (Presumably this could happen from a multi-threaded client app?)
     if (this->m_Stop)
     {
       this->m_StopConditionDescription << "StopOptimization() called";
@@ -202,7 +202,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
     }
     try
     {
-      /* Pass combined gradient to transforms and let them update */
+      // Pass combined gradient to transforms and let them update
       itkDebugMacro(" combine-grad ");
       this->m_OptimizersList[0]->GetModifiableMetric()->UpdateTransformParameters(this->m_Gradient);
     }
@@ -215,7 +215,7 @@ MultiGradientOptimizerv4Template<TInternalComputationValueType>::ResumeOptimizat
       throw;
     }
     this->InvokeEvent(IterationEvent());
-    /* Update and check iteration count */
+    // Update and check iteration count
     this->m_CurrentIteration++;
     if (this->m_CurrentIteration >= this->m_NumberOfIterations)
     {

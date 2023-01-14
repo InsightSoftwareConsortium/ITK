@@ -30,7 +30,7 @@ namespace itk
 template <typename TElement>
 GPUReduction<TElement>::GPUReduction()
 {
-  /*** Prepare GPU opencl program ***/
+  // Prepare GPU opencl program
   m_GPUKernelManager = GPUKernelManager::New();
   m_GPUDataManager = nullptr;
 

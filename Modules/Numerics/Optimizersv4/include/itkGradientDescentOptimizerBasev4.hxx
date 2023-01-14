@@ -118,8 +118,8 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::ModifyGra
   IndexRangeType fullrange;
   fullrange[0] = 0;
   fullrange[1] = this->m_Gradient.GetSize() - 1; // range is inclusive
-  /* Perform the modification either with or without threading */
 
+  // Perform the modification either with or without threading.
   if (this->m_Metric->HasLocalSupport())
   {
     // Inheriting classes should instantiate and assign m_ModifyGradientByScalesThreader
@@ -130,7 +130,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::ModifyGra
   }
   else
   {
-    /* Global transforms are small, so update without threading. */
+    // Global transforms are small, so update without threading.
     this->ModifyGradientByScalesOverSubRange(fullrange);
   }
 }
@@ -141,7 +141,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOpti
 {
   itkDebugMacro("StartOptimization");
 
-  /* Validate some settings */
+  // Validate some settings
   if (this->m_ScalesEstimator.IsNotNull() && this->m_DoEstimateLearningRateOnce &&
       this->m_DoEstimateLearningRateAtEachIteration)
   {
@@ -150,13 +150,13 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOpti
                       "are enabled. Not allowed. ");
   }
 
-  /* Estimate the parameter scales if requested. */
+  // Estimate the parameter scales if requested.
   if (this->m_ScalesEstimator.IsNotNull() && this->m_DoEstimateScales)
   {
     this->m_ScalesEstimator->EstimateScales(this->m_Scales);
     itkDebugMacro("Estimated scales = " << this->m_Scales);
 
-    /* If user hasn't set this, assign the default. */
+    // If user hasn't set this, assign the default.
     if (this->m_MaximumStepSizeInPhysicalUnits <= NumericTraits<TInternalComputationValueType>::epsilon())
     {
       this->m_MaximumStepSizeInPhysicalUnits = this->m_ScalesEstimator->EstimateMaximumStepSize();
@@ -170,7 +170,7 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::StartOpti
     this->m_ConvergenceMonitoring->SetWindowSize(this->m_ConvergenceWindowSize);
   }
 
-  /* Must call the superclass version for basic validation and setup */
+  // Must call the superclass version for basic validation and setup.
   Superclass::StartOptimization(doOnlyInitialization);
 }
 
@@ -188,21 +188,21 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::ModifyGra
   fullrange[0] = 0;
   fullrange[1] = this->m_Gradient.GetSize() - 1; // range is inclusive
 
-  /* Perform the modification either with or without threading */
+  // Perform the modification either with or without threading
   if (this->m_Metric->HasLocalSupport())
   {
     // Inheriting classes should instantiate and assign m_ModifyGradientByLearningRateThreader
     // in their constructor.
     itkAssertInDebugAndIgnoreInReleaseMacro(!m_ModifyGradientByLearningRateThreader.IsNull());
-    /* Add a check for m_LearningRateIsIdentity?
-       But m_LearningRate is not assessible here.
-       Should we declare it in a base class as m_Scales ? */
+    // Add a check for m_LearningRateIsIdentity?
+    // But m_LearningRate is not assessible here.
+    // Should we declare it in a base class as m_Scales ?
 
     this->m_ModifyGradientByLearningRateThreader->Execute(this, fullrange);
   }
   else
   {
-    /* Global transforms are small, so update without threading. */
+    // Global transforms are small, so update without threading.
     this->ModifyGradientByLearningRateOverSubRange(fullrange);
   }
 }

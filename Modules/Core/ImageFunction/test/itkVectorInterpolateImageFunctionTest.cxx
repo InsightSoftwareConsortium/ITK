@@ -319,7 +319,7 @@ itkVectorInterpolateImageFunctionTest(int, char *[])
     flag = 1;
 
 
-  /* Return results of test */
+  // Return results of test
   if (flag != 0)
   {
     std::cout << "*** Some test failed" << std::endl;

@@ -68,9 +68,7 @@ GPUDemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField, TPare
 
   drfp->SetUseMovingImageGradient(m_UseMovingImageGradient);
 
-  /**
-   * Smooth the deformation field
-   */
+  // Smooth the deformation field
   if (this->GetSmoothDisplacementField())
   {
     this->SmoothDisplacementField();

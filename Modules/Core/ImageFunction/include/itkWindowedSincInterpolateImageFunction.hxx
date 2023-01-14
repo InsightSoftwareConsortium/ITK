@@ -23,7 +23,8 @@
 
 namespace itk
 {
-/* Constant definitions for functions */
+
+// Constant definitions for functions
 namespace Function
 {
 template <unsigned int VRadius, typename TInput, typename TOutput>

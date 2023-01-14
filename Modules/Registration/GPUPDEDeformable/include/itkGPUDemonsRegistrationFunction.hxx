@@ -350,17 +350,16 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::Co
     gradientSquaredMagnitude += itk::Math::sqr(gradient[j]);
   }
 
-  /**
-   * Compute Update.
-   * In the original equation the denominator is defined as (g-f)^2 + grad_mag^2.
-   * However there is a mismatch in units between the two terms.
-   * The units for the second term is intensity^2/mm^2 while the
-   * units for the first term is intensity^2. This mismatch is particularly
-   * problematic when the fixed image does not have unit spacing.
-   * In this implementation, we normalize the first term by a factor K,
-   * such that denominator = (g-f)^2/K + grad_mag^2
-   * where K = mean square spacing to compensate for the mismatch in units.
-   */
+  // Compute Update.
+  // In the original equation the denominator is defined as (g-f)^2 + grad_mag^2.
+  // However there is a mismatch in units between the two terms.
+  // The units for the second term is intensity^2/mm^2 while the
+  // units for the first term is intensity^2. This mismatch is particularly
+  // problematic when the fixed image does not have unit spacing.
+  // In this implementation, we normalize the first term by a factor K,
+  // such that denominator = (g-f)^2/K + grad_mag^2
+  // where K = mean square spacing to compensate for the mismatch in units.
+
   const double speedValue = fixedValue - movingValue;
   const double sqr_speedValue = itk::Math::sqr(speedValue);
 
