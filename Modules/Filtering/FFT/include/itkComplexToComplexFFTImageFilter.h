@@ -54,8 +54,6 @@ extern ITKFFT_EXPORT std::ostream &
  * \brief Implements an API to enable the Fourier transform or the inverse
  * Fourier transform of images with complex valued voxels to be computed.
  *
- * \ingroup FourierTransform
- *
  * \author Simon K. Warfield simon.warfield\@childrens.harvard.edu
  *
  * \note Attribution Notice. This research work was made possible by
@@ -69,9 +67,9 @@ extern ITKFFT_EXPORT std::ostream &
  * https://www.insight-journal.org/browse/publication/128
  *
  * \ingroup FourierTransform
+ * \ingroup ITKFFT
  *
  * \sa ForwardFFTImageFilter
- * \ingroup ITKFFT
  */
 template <typename TInputImage, typename TOutputImage = TInputImage>
 class ITK_TEMPLATE_EXPORT ComplexToComplexFFTImageFilter : public ImageToImageFilter<TInputImage, TOutputImage>
