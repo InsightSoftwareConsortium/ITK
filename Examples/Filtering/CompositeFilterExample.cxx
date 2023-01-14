@@ -237,7 +237,7 @@ CompositeExampleImageFilter<TImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Threshold:" << this->m_Threshold << std::endl;
+  os << indent << "Threshold: " << m_Threshold << std::endl;
 }
 
 } // end namespace itk

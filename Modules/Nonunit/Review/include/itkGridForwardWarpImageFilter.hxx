@@ -148,7 +148,7 @@ GridForwardWarpImageFilter<TDisplacementField, TOutputImage>::PrintSelf(std::ost
      << std::endl;
   os << indent << "ForegroundValue: " << static_cast<typename NumericTraits<PixelType>::PrintType>(m_ForegroundValue)
      << std::endl;
-  os << indent << "m_GridPixSpacing: " << m_GridPixSpacing << std::endl;
+  os << indent << "GridPixSpacing: " << m_GridPixSpacing << std::endl;
 }
 } // end namespace itk
 

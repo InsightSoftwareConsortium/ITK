@@ -21,6 +21,7 @@
 #include "itkImageRegionIteratorWithIndex.h"
 #include "itkImageRegionIterator.h"
 #include "itkImageRegionConstIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -325,9 +326,17 @@ template <typename TInputImage, typename TOutputImage>
 void
 GradientRecursiveGaussianImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "NormalizeAcrossScale: " << m_NormalizeAcrossScale << std::endl;
-  os << indent << "UseImageDirection :   " << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
+
+  os << indent << "SmoothingFilters: " << m_SmoothingFilters << std::endl;
+
+  itkPrintSelfObjectMacro(DerivativeFilter);
+  itkPrintSelfObjectMacro(ImageAdaptor);
+
+  os << indent << "NormalizeAcrossScale: " << (m_NormalizeAcrossScale ? "On" : "Off") << std::endl;
+  os << indent << "UseImageDirection: " << (m_UseImageDirection ? "On" : "Off") << std::endl;
   os << indent << "Sigma: " << m_Sigma << std::endl;
 }
 

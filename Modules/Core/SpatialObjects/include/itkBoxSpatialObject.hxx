@@ -98,8 +98,12 @@ void
 BoxSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Object Size: " << m_SizeInObjectSpace << std::endl;
-  os << indent << "Object Position: " << m_PositionInObjectSpace << std::endl;
+
+  os << indent << "SizeInObjectSpace: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_SizeInObjectSpace)
+     << std::endl;
+  os << indent
+     << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
+     << std::endl;
 }
 } // end namespace itk
 

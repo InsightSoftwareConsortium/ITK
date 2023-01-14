@@ -298,45 +298,46 @@ void
 PipelineMonitorImageFilter<TImageType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "m_NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
 
-  os << indent << "m_NumberOfClearPipeline: " << m_NumberOfClearPipeline << std::endl;
-
-  os << indent << "m_ClearPipelineOnGenerateOutputInformation: " << m_ClearPipelineOnGenerateOutputInformation
+  os << indent
+     << "ClearPipelineOnGenerateOutputInformation: " << (m_ClearPipelineOnGenerateOutputInformation ? "On" : "Off")
      << std::endl;
+  os << indent << "NumberOfUpdates: " << m_NumberOfUpdates << std::endl;
+  os << indent << "NumberOfClearPipeline: " << m_NumberOfClearPipeline << std::endl;
 
-  os << indent << "m_OutputRequestedRegions:" << std::endl;
+  os << indent << "OutputRequestedRegions: " << std::endl;
   for (auto i = m_OutputRequestedRegions.begin(); i != m_OutputRequestedRegions.end(); ++i)
   {
     i->Print(os, indent.GetNextIndent());
   }
 
-  os << indent << "m_InputRequestedRegions:" << std::endl;
+  os << indent << "InputRequestedRegions: " << std::endl;
   for (auto i = m_InputRequestedRegions.begin(); i != m_InputRequestedRegions.end(); ++i)
   {
     i->Print(os, indent.GetNextIndent());
   }
 
-  os << indent << "m_UpdatedBufferedRegions:" << std::endl;
+  os << indent << "UpdatedBufferedRegions: " << std::endl;
   for (auto i = m_UpdatedBufferedRegions.begin(); i != m_UpdatedBufferedRegions.end(); ++i)
   {
     i->Print(os, indent.GetNextIndent());
   }
 
-  os << indent << "m_UpdatedRequestedRegions:" << std::endl;
+  os << indent << "UpdatedRequestedRegions: " << std::endl;
   for (auto i = m_UpdatedRequestedRegions.begin(); i != m_UpdatedRequestedRegions.end(); ++i)
   {
     i->Print(os, indent.GetNextIndent());
   }
 
-  os << indent << "m_UpdatedOutputOrigin:" << std::endl;
-  os << indent.GetNextIndent() << m_UpdatedOutputOrigin << std::endl;
-  os << indent << "m_UpdatedOutputDirection:" << std::endl;
-  os << indent.GetNextIndent() << m_UpdatedOutputDirection << std::endl;
-  os << indent << "m_UpdatedOutputSpacing:" << std::endl;
-  os << indent.GetNextIndent() << m_UpdatedOutputSpacing << std::endl;
-  os << indent << "m_UpdatedOutputLargestPossibleRegion: " << std::endl;
-  m_UpdatedOutputLargestPossibleRegion.Print(os, indent.GetNextIndent());
+  os << indent
+     << "UpdatedOutputOrigin: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_UpdatedOutputOrigin)
+     << std::endl;
+  os << indent << "UpdatedOutputDirection: "
+     << static_cast<typename NumericTraits<DirectionType>::PrintType>(m_UpdatedOutputDirection) << std::endl;
+  os << indent
+     << "UpdatedOutputSpacing: " << static_cast<typename NumericTraits<SpacingType>::PrintType>(m_UpdatedOutputSpacing)
+     << std::endl;
+  os << indent << "UpdatedOutputLargestPossibleRegion: " << m_UpdatedOutputLargestPossibleRegion << std::endl;
 }
 
 } // namespace itk

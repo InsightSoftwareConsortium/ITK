@@ -127,10 +127,14 @@ BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor<TTransform>:
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "B-spline parameters: " << std::endl;
-  os << indent << "  number of control points for the update field = " << this->m_NumberOfControlPointsForTheUpdateField
+  os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
+  os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;
+  os << indent << "NumberOfControlPointsForTheUpdateFieldSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
+          m_NumberOfControlPointsForTheUpdateFieldSetTime)
      << std::endl;
-  os << indent << "  number of control points for the total field = " << this->m_NumberOfControlPointsForTheTotalField
+  os << indent << "NumberOfControlPointsForTheTotalFieldSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_NumberOfControlPointsForTheTotalFieldSetTime)
      << std::endl;
 }
 

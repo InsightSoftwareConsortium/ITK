@@ -38,9 +38,8 @@ DemonsRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::PrintSe
                                                                                    Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "UseMovingImageGradient: ";
-  os << m_UseMovingImageGradient << std::endl;
-  os << indent << "Intensity difference threshold: " << this->GetIntensityDifferenceThreshold() << std::endl;
+
+  os << indent << "UseMovingImageGradient: " << (m_UseMovingImageGradient ? "On" : "Off") << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField>

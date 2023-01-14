@@ -135,7 +135,45 @@ void
 GradientDifferenceImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "DerivativeDelta: " << this->m_DerivativeDelta << std::endl;
+
+  os << indent << "Variance: " << m_Variance << std::endl;
+
+  os << indent << "MinMovedGradient: " << m_MinMovedGradient << std::endl;
+  os << indent << "MaxMovedGradient: " << m_MaxMovedGradient << std::endl;
+  os << indent << "MinFixedGradient: " << m_MinFixedGradient << std::endl;
+  os << indent << "MaxFixedGradient: " << m_MaxFixedGradient << std::endl;
+
+  itkPrintSelfObjectMacro(TransformMovingImageFilter);
+
+  itkPrintSelfObjectMacro(CastFixedImageFilter);
+
+  os << indent << "FixedSobelOperators: ";
+  for (const auto & elem : m_FixedSobelOperators)
+  {
+    os << indent.GetNextIndent() << elem << std::endl;
+  }
+
+  os << indent << "FixedSobelFilters: ";
+  if (m_FixedSobelFilters[0] != nullptr)
+  {
+    for (const auto & elem : m_FixedSobelFilters)
+    {
+      os << indent.GetNextIndent() << *elem << std::endl;
+    }
+  }
+  else
+  {
+    os << "(empty)" << std::endl;
+  }
+
+  m_MovedBoundCond.Print(os, indent);
+  m_FixedBoundCond.Print(os, indent);
+
+  itkPrintSelfObjectMacro(CastMovedImageFilter);
+
+  os << indent << "MovedSobelOperators: " << m_MovedSobelOperators << std::endl;
+
+  os << indent << "DerivativeDelta: " << m_DerivativeDelta << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage>

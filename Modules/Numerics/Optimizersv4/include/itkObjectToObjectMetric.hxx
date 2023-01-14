@@ -563,14 +563,14 @@ ObjectToObjectMetric<TFixedDimension, TMovingDimension, TVirtualImage, TParamete
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "ObjectToObjectMetric: " << std::endl;
-
   itkPrintSelfObjectMacro(FixedTransform);
   itkPrintSelfObjectMacro(MovingTransform);
   itkPrintSelfObjectMacro(VirtualImage);
 
-  os << indent << "m_UserHasSetVirtualDomain: " << this->m_UserHasSetVirtualDomain << std::endl
-     << indent << "m_NumberOfValidPoints: " << this->m_NumberOfValidPoints << std::endl;
+  os << indent << "UserHasSetVirtualDomain: " << (m_UserHasSetVirtualDomain ? "On" : "Off") << std::endl;
+  os << indent
+     << "NumberOfValidPoints: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfValidPoints)
+     << std::endl;
 }
 
 } // namespace itk

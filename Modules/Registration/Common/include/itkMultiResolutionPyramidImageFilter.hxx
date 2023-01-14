@@ -297,10 +297,9 @@ MultiResolutionPyramidImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ost
   Superclass::PrintSelf(os, indent);
 
   os << indent << "MaximumError: " << m_MaximumError << std::endl;
-  os << indent << "No. levels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Schedule: " << std::endl;
-  os << m_Schedule << std::endl;
-  os << indent << "Use ShrinkImageFilter= " << m_UseShrinkImageFilter << std::endl;
+  os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
+  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
+  os << indent << "UseShrinkImageFilter: " << (m_UseShrinkImageFilter ? "On" : "Off") << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

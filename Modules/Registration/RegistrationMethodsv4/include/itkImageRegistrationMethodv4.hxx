@@ -28,6 +28,7 @@
 #include "itkMattesMutualInformationImageToImageMetricv4.h"
 #include "itkMersenneTwisterRandomVariateGenerator.h"
 #include "itkRegistrationParameterScalesFromPhysicalShift.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -1140,45 +1141,75 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   std::ostream & os,
   Indent         indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  Indent indent2 = indent.GetNextIndent();
 
-  os << indent << "Number of levels = " << this->m_NumberOfLevels << std::endl;
+  os << indent << "CurrentLevel: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentLevel)
+     << std::endl;
+  os << indent << "NumberOfLevels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfLevels)
+     << std::endl;
+  os << indent
+     << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
+     << std::endl;
+  os << indent
+     << "CurrentMetricValue: " << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentMetricValue)
+     << std::endl;
+  os << indent << "CurrentConvergenceValue: "
+     << static_cast<typename NumericTraits<RealType>::PrintType>(m_CurrentConvergenceValue) << std::endl;
+  os << indent << "IsConverged: " << (m_IsConverged ? "On" : "Off") << std::endl;
 
-  for (SizeValueType level = 0; level < this->m_NumberOfLevels; ++level)
-  {
-    os << indent << "Shrink factors (level " << level << "): " << this->m_ShrinkFactorsPerLevel[level] << std::endl;
-  }
-  os << indent << "Smoothing sigmas: " << this->m_SmoothingSigmasPerLevel << std::endl;
+  os << indent << "FixedSmoothImages: " << m_FixedSmoothImages << std::endl;
+  os << indent << "MovingSmoothImages: " << m_MovingSmoothImages << std::endl;
+  os << indent << "FixedImageMasks: " << m_FixedImageMasks << std::endl;
+  os << indent << "MovingImageMasks: " << m_MovingImageMasks << std::endl;
 
-  if (this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits == true)
-  {
-    os << indent2 << "Smoothing sigmas are specified in physical units." << std::endl;
-  }
-  else
-  {
-    os << indent2 << "Smoothing sigmas are specified in voxel units." << std::endl;
-  }
+  itkPrintSelfObjectMacro(VirtualDomainImage);
 
-  if (this->m_OptimizerWeights.Size() > 0)
-  {
-    os << indent << "Optimizers weights: " << this->m_OptimizerWeights << std::endl;
-  }
+  os << indent << "FixedPointSets: " << m_FixedPointSets << std::endl;
+  os << indent << "MovingPointSets: " << m_MovingPointSets << std::endl;
 
-  os << indent << "Metric sampling strategy: " << this->m_MetricSamplingStrategy << std::endl;
+  os << indent << "NumberOfFixedObjects: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedObjects) << std::endl;
+  os << indent << "NumberOfMovingObjects: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMovingObjects) << std::endl;
 
-  os << indent << "Metric sampling percentage: ";
-  for (SizeValueType i = 0; i < this->m_NumberOfLevels; ++i)
-  {
-    os << this->m_MetricSamplingPercentagePerLevel[i] << ' ';
-  }
-  os << std::endl;
+  itkPrintSelfObjectMacro(Optimizer);
 
-  os << indent << "ReseedIterator: " << m_ReseedIterator << std::endl;
+  os << indent
+     << "OptimizerWeights: " << static_cast<typename NumericTraits<OptimizerWeightsType>::PrintType>(m_OptimizerWeights)
+     << std::endl;
+  os << indent << "OptimizerWeightsAreIdentity: " << (m_OptimizerWeightsAreIdentity ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(Metric);
+
+  os << indent << "MetricSamplingStrategy: " << m_MetricSamplingStrategy << std::endl;
+  os << indent << "MetricSamplingPercentagePerLevel: " << m_MetricSamplingPercentagePerLevel << std::endl;
+  os << indent
+     << "NumberOfMetrics: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfMetrics)
+     << std::endl;
+  os << indent << "FirstImageMetricIndex: " << m_FirstImageMetricIndex << std::endl;
+  os << indent << "ShrinkFactorsPerLevel: " << m_ShrinkFactorsPerLevel << std::endl;
+  os << indent << "SmoothingSigmasPerLevel: " << m_SmoothingSigmasPerLevel << std::endl;
+  os << indent
+     << "SmoothingSigmasAreSpecifiedInPhysicalUnits: " << (m_SmoothingSigmasAreSpecifiedInPhysicalUnits ? "On" : "Off")
+     << std::endl;
+
+  os << indent << "ReseedIterator: " << (m_ReseedIterator ? "On" : "Off") << std::endl;
   os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
   os << indent << "CurrentRandomSeed: " << m_CurrentRandomSeed << std::endl;
 
-  os << indent << "InPlace: " << (this->m_InPlace ? "On" : "Off") << std::endl;
+  os << indent << "TransformParametersAdaptorsPerLevel: ";
+  for (const auto & val : m_TransformParametersAdaptorsPerLevel)
+  {
+    os << val << " ";
+  }
+  os << std::endl;
+
+  itkPrintSelfObjectMacro(CompositeTransform);
+  itkPrintSelfObjectMacro(OutputTransform);
+
+  os << indent << "InPlace: " << (m_InPlace ? "On" : "Off") << std::endl;
 
   os << indent
      << "InitializeCenterOfLinearOutputTransform: " << (m_InitializeCenterOfLinearOutputTransform ? "On" : "Off")

@@ -472,15 +472,15 @@ NiftiImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NiftiImageHolder: " << *(this->m_NiftiImageHolder).get() << std::endl;
-  os << indent << "NiftiImage: " << this->m_NiftiImage << std::endl;
-  os << indent << "RescaleSlope: " << this->m_RescaleSlope << std::endl;
-  os << indent << "RescaleIntercept: " << this->m_RescaleIntercept << std::endl;
-  os << indent << "OnDiskComponentType: " << this->m_OnDiskComponentType << std::endl;
-  os << indent << "LegacyAnalyze75Mode: " << this->m_LegacyAnalyze75Mode << std::endl;
-  os << indent << "ConvertRASVectors: " << m_ConvertRASVectors << std::endl;
-  os << indent << "ConvertRASDisplacementVectors: " << m_ConvertRASDisplacementVectors << std::endl;
-  os << indent << "ConvertRAS: " << m_ConvertRAS << std::endl;
+  os << indent << "NiftiImageHolder: " << *(m_NiftiImageHolder).get() << std::endl;
+  os << indent << "NiftiImage: " << m_NiftiImage << std::endl;
+  os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
+  os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
+  os << indent << "ConvertRAS: " << (m_ConvertRAS ? "On" : "Off") << std::endl;
+  os << indent << "ConvertRASVectors: " << (m_ConvertRASVectors ? "On" : "Off") << std::endl;
+  os << indent << "ConvertRASDisplacementVectors: " << (m_ConvertRASDisplacementVectors ? "On" : "Off") << std::endl;
+  os << indent << "OnDiskComponentType: " << m_OnDiskComponentType << std::endl;
+  os << indent << "LegacyAnalyze75Mode: " << m_LegacyAnalyze75Mode << std::endl;
 }
 
 bool

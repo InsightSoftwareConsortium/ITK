@@ -59,6 +59,10 @@ void
 DTITubeSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "TensorMatrix: " << m_TensorMatrix << std::endl;
+  // ToDo
+  // os << indent << "Fields: " << m_Fields << std::endl;
 }
 
 template <unsigned int TPointDimension>

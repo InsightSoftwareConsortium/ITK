@@ -83,6 +83,41 @@ GPUPDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField
   Indent         indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro(TempField);
+
+  os << indent << "SmoothingKernelSizes: " << m_SmoothingKernelSizes << std::endl;
+
+  os << indent << "SmoothingKernels: ";
+  if (m_SmoothingKernels != nullptr)
+  {
+    os << static_cast<typename NumericTraits<DeformationScalarType>::PrintType>(*m_SmoothingKernels);
+  }
+  os << std::endl;
+
+  itkPrintSelfObjectMacro(GPUSmoothingKernels);
+
+  os << indent << "UpdateFieldSmoothingKernelSizes: " << m_UpdateFieldSmoothingKernelSizes << std::endl;
+
+  os << indent << "UpdateFieldSmoothingKernels: ";
+  if (m_UpdateFieldSmoothingKernels != nullptr)
+  {
+    os << static_cast<typename NumericTraits<DeformationScalarType>::PrintType>(*m_UpdateFieldSmoothingKernels);
+  }
+  os << std::endl;
+
+  itkPrintSelfObjectMacro(UpdateFieldGPUSmoothingKernels);
+
+  os << indent << "ImageSizes: ";
+  if (m_ImageSizes != nullptr)
+  {
+    os << *m_ImageSizes;
+  }
+  os << std::endl;
+
+  itkPrintSelfObjectMacro(m_GPUImageSizes);
+
+  os << indent << "SmoothDisplacementFieldGPUKernelHandle: " << m_SmoothDisplacementFieldGPUKernelHandle << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage, typename TDisplacementField, typename TParentImageFilter>

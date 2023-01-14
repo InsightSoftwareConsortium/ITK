@@ -292,19 +292,12 @@ BayesianClassifierInitializationImageFilter<TInputImage, TProbabilityPrecisionTy
                                                                                                Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  os << indent << "UserSuppliesMembershipFunctions: " << (m_UserSuppliesMembershipFunctions ? "On" : "Off")
+     << std::endl;
   os << indent << "NumberOfClasses: " << m_NumberOfClasses << std::endl;
-  if (m_MembershipFunctionContainer)
-  {
-    os << indent << "Membership function container:" << m_MembershipFunctionContainer << std::endl;
-  }
-  if (m_UserSuppliesMembershipFunctions)
-  {
-    os << indent << "Membership functions provided" << std::endl;
-  }
-  else
-  {
-    os << indent << "Membership functions not provided" << std::endl;
-  }
+
+  itkPrintSelfObjectMacro(MembershipFunctionContainer);
 }
 } // end namespace itk
 

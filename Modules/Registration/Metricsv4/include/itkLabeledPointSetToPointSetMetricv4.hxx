@@ -20,6 +20,7 @@
 
 
 #include "itkEuclideanDistancePointSetToPointSetMetricv4.h"
+#include "itkPrintHelper.h"
 
 #include <algorithm>
 
@@ -241,23 +242,17 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   std::ostream & os,
   Indent         indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << "Fixed label set: ";
-  typename LabelSetType::const_iterator itF;
-  for (itF = this->m_FixedPointSetLabels.begin(); itF != this->m_FixedPointSetLabels.end(); ++itF)
-  {
-    os << *itF << ' ';
-  }
-  os << std::endl;
+  itkPrintSelfObjectMacro(PointSetMetric);
 
-  os << "Moving label set: ";
-  typename LabelSetType::const_iterator itM;
-  for (itM = this->m_MovingPointSetLabels.begin(); itM != this->m_MovingPointSetLabels.end(); ++itM)
-  {
-    os << *itM << ' ';
-  }
-  os << std::endl;
+  os << indent << "PointSetMetricClones: " << m_PointSetMetricClones << std::endl;
+
+  os << indent << "FixedPointSetLabels: " << m_FixedPointSetLabels << std::endl;
+  os << indent << "MovingPointSetLabels: " << m_MovingPointSetLabels << std::endl;
+  os << indent << "CommonPointSetLabels: " << m_CommonPointSetLabels << std::endl;
 }
 
 } // end namespace itk

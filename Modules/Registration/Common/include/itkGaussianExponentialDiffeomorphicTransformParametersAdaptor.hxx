@@ -84,21 +84,21 @@ GaussianExponentialDiffeomorphicTransformParametersAdaptor<TTransform>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  if (this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime > 0)
-  {
-    os << indent << "Gaussian smoothing parameters: " << std::endl;
-    if (this->m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime > 0)
-    {
-      os << indent << "m_GaussianSmoothingVarianceForTheConstantVelocityField: "
-         << this->m_GaussianSmoothingVarianceForTheConstantVelocityField << std::endl;
-    }
-    if (this->m_GaussianSmoothingVarianceForTheUpdateFieldSetTime > 0)
-    {
-      os << indent
-         << "m_GaussianSmoothingVarianceForTheUpdateField: " << this->m_GaussianSmoothingVarianceForTheUpdateField
-         << std::endl;
-    }
-  }
+  os << indent << "GaussianSmoothingVarianceForTheConstantVelocityField: "
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(
+          m_GaussianSmoothingVarianceForTheConstantVelocityField)
+     << std::endl;
+  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
+     << std::endl;
+  os << indent << "GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
+          m_GaussianSmoothingVarianceForTheConstantVelocityFieldSetTime)
+     << std::endl;
+  os << indent << "GaussianSmoothingVarianceForTheUpdateFieldSetTime: "
+     << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(
+          m_GaussianSmoothingVarianceForTheUpdateFieldSetTime)
+     << std::endl;
 }
 
 } // namespace itk

@@ -42,8 +42,8 @@ SparseFieldLayer<TNodeType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_HeadNode:  " << m_HeadNode << std::endl;
-  os << indent << "Empty? : " << this->Empty() << std::endl;
+  os << indent << "HeadNode: " << m_HeadNode << std::endl;
+  os << indent << "Size: " << m_Size << std::endl;
 }
 
 template <typename TNodeType>

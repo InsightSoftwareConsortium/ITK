@@ -270,7 +270,27 @@ void
 TriangleMeshToSimplexMeshFilter<TInputMesh, TOutputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "ToDo: implement PrinSelf!!!";
+
+  os << indent << "FaceSet: " << m_FaceSet << std::endl;
+
+  itkPrintSelfObjectMacro(Edges);
+  itkPrintSelfObjectMacro(EdgeNeighborList);
+  itkPrintSelfObjectMacro(VertexNeighborList);
+  itkPrintSelfObjectMacro(LineCellIndices);
+
+  os << indent << "IdOffset: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_IdOffset)
+     << std::endl;
+  os << indent << "EdgeCellId: " << static_cast<typename NumericTraits<CellIdentifier>::PrintType>(m_EdgeCellId)
+     << std::endl;
+  os << indent
+     << "HandledEdgeIds: " << static_cast<typename NumericTraits<IdVectorPointer>::PrintType>(m_HandledEdgeIds)
+     << std::endl;
+  os << indent << "IdOffset: " << static_cast<typename NumericTraits<PointIdentifier>::PrintType>(m_IdOffset)
+     << std::endl;
+
+  // ToDo
+  // os << indent << "NewInputMeshCellPointer: " << m_NewInputMeshCellPointer << std::endl;
+  // os << indent << "NewSimplexCellPointer: " << m_NewSimplexCellPointer << std::endl;
 }
 
 template <typename TInputMesh, typename TOutputMesh>

@@ -1607,34 +1607,45 @@ void
 GDCMImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Internal Component Type: " << this->GetComponentTypeAsString(m_InternalComponentType) << std::endl;
+
   os << indent << "RescaleSlope: " << m_RescaleSlope << std::endl;
   os << indent << "RescaleIntercept: " << m_RescaleIntercept << std::endl;
-  os << indent << "KeepOriginalUID:" << (m_KeepOriginalUID ? "On" : "Off") << std::endl;
-  os << indent << "LoadPrivateTags:" << (m_LoadPrivateTags ? "On" : "Off") << std::endl;
   os << indent << "UIDPrefix: " << m_UIDPrefix << std::endl;
   os << indent << "StudyInstanceUID: " << m_StudyInstanceUID << std::endl;
   os << indent << "SeriesInstanceUID: " << m_SeriesInstanceUID << std::endl;
   os << indent << "FrameOfReferenceInstanceUID: " << m_FrameOfReferenceInstanceUID << std::endl;
-  os << indent << "CompressionType:" << m_CompressionType << std::endl;
+  os << indent << "KeepOriginalUID: " << (m_KeepOriginalUID ? "On" : "Off") << std::endl;
+  os << indent << "LoadPrivateTags: " << (m_LoadPrivateTags ? "On" : "Off") << std::endl;
+  os << indent << "ReadYBRtoRGB: " << (m_ReadYBRtoRGB ? "On" : "Off") << std::endl;
+
+  os << indent << "GlobalNumberOfDimensions: " << m_GlobalNumberOfDimensions << std::endl;
+  os << indent << "CompressionType: " << m_CompressionType << std::endl;
+  os << indent << "SingleBit: " << (m_SingleBit ? "On" : "Off") << std::endl;
+  os << indent << "InternalComponentType: " << m_InternalComponentType << std::endl;
+
+  os << indent << "DICOMHeader: ";
+  if (m_DICOMHeader != nullptr)
+  {
+    os << m_DICOMHeader << std::endl;
+  }
 
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
-  os << indent << "Patient Name:" << m_PatientName << std::endl;
-  os << indent << "Patient ID:" << m_PatientID << std::endl;
-  os << indent << "Patient Sex:" << m_PatientSex << std::endl;
-  os << indent << "Patient Age:" << m_PatientAge << std::endl;
-  os << indent << "Study ID:" << m_StudyID << std::endl;
-  os << indent << "Patient DOB:" << m_PatientDOB << std::endl;
-  os << indent << "Study Description:" << m_StudyDescription << std::endl;
-  os << indent << "Body Part:" << m_BodyPart << std::endl;
-  os << indent << "Number Of Series In Study:" << m_NumberOfSeriesInStudy << std::endl;
-  os << indent << "Number Of Study Related Series:" << m_NumberOfStudyRelatedSeries << std::endl;
-  os << indent << "Study Date:" << m_StudyDate << std::endl;
-  os << indent << "Modality:" << m_Modality << std::endl;
-  os << indent << "Manufacturer:" << m_Manufacturer << std::endl;
-  os << indent << "Institution Name:" << m_Institution << std::endl;
-  os << indent << "Model:" << m_Model << std::endl;
-  os << indent << "Scan Options:" << m_ScanOptions << std::endl;
+  os << indent << "PatientName: " << m_PatientName << std::endl;
+  os << indent << "PatientID: " << m_PatientID << std::endl;
+  os << indent << "PatientSex: " << m_PatientSex << std::endl;
+  os << indent << "PatientAge: " << m_PatientAge << std::endl;
+  os << indent << "StudyID: " << m_StudyID << std::endl;
+  os << indent << "PatientDOB: " << m_PatientDOB << std::endl;
+  os << indent << "StudyDescription: " << m_StudyDescription << std::endl;
+  os << indent << "BodyPart: " << m_BodyPart << std::endl;
+  os << indent << "NumberOfSeriesInStudy: " << m_NumberOfSeriesInStudy << std::endl;
+  os << indent << "NumberOfStudyRelatedSeries: " << m_NumberOfStudyRelatedSeries << std::endl;
+  os << indent << "StudyDate: " << m_StudyDate << std::endl;
+  os << indent << "Modality: " << m_Modality << std::endl;
+  os << indent << "Manufacturer: " << m_Manufacturer << std::endl;
+  os << indent << "InstitutionName: " << m_Institution << std::endl;
+  os << indent << "Model: " << m_Model << std::endl;
+  os << indent << "ScanOptions: " << m_ScanOptions << std::endl;
 #endif
 }
 

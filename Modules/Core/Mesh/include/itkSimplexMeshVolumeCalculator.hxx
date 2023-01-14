@@ -255,16 +255,28 @@ void
 SimplexMeshVolumeCalculator<TInputMesh>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  //  os << indent << "Mesh   = " << m_SimplexMesh << std::endl;
-  os << indent << "Area = " << m_Area << std::endl;
-  os << indent << "Volume = " << m_Volume << std::endl;
-  os << indent << "VolumeX = " << m_VolumeX << std::endl;
-  os << indent << "VolumeY = " << m_VolumeY << std::endl;
-  os << indent << "VolumeZ = " << m_VolumeZ << std::endl;
-  os << indent << "Kx = " << m_Kx << std::endl;
-  os << indent << "Ky = " << m_Ky << std::endl;
-  os << indent << "Kz = " << m_Kz << std::endl;
-  os << indent << "NumberOfTriangles: " << m_NumberOfTriangles << std::endl;
+
+  itkPrintSelfObjectMacro(Centers);
+  itkPrintSelfObjectMacro(SimplexMesh);
+
+  os << indent << "Volume: " << m_Volume << std::endl;
+  os << indent << "VolumeX: " << m_VolumeX << std::endl;
+  os << indent << "VolumeY: " << m_VolumeY << std::endl;
+  os << indent << "VolumeZ: " << m_VolumeZ << std::endl;
+  os << indent << "Area: " << m_Area << std::endl;
+  os << indent << "Kx: " << m_Kx << std::endl;
+  os << indent << "Ky: " << m_Ky << std::endl;
+  os << indent << "Kz: " << m_Kz << std::endl;
+  os << indent << "Wxyz: " << m_Wxyz << std::endl;
+  os << indent << "Wxy: " << m_Wxy << std::endl;
+  os << indent << "Wxz: " << m_Wxz << std::endl;
+  os << indent << "Wyz: " << m_Wyz << std::endl;
+  os << indent << "Muncx: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncx) << std::endl;
+  os << indent << "Muncy: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncy) << std::endl;
+  os << indent << "Muncz: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_Muncz) << std::endl;
+  os << indent
+     << "NumberOfTriangles: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTriangles)
+     << std::endl;
 }
 } // namespace itk
 

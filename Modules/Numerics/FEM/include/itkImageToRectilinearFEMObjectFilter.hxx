@@ -295,10 +295,12 @@ void
 ImageToRectilinearFEMObjectFilter<TInputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number of Elements: " << m_NumberOfElements << std::endl;
-  os << indent << "Pixels Per Element: " << m_PixelsPerElement << std::endl;
-  os << indent << "Material: " << m_Material << std::endl;
-  os << indent << "Element: " << m_Element << std::endl;
+
+  os << indent << "NumberOfElements: " << m_NumberOfElements << std::endl;
+  os << indent << "PixelsPerElement: " << m_PixelsPerElement << std::endl;
+
+  itkPrintSelfObject(Material);
+  itkPrintSelfObjectMacro(Element);
 }
 
 } // end namespace fem

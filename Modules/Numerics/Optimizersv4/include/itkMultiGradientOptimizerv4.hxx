@@ -18,6 +18,8 @@
 #ifndef itkMultiGradientOptimizerv4_hxx
 #define itkMultiGradientOptimizerv4_hxx
 
+#include "itkPrintHelper.h"
+
 
 namespace itk
 {
@@ -38,9 +40,21 @@ template <typename TInternalComputationValueType>
 void
 MultiGradientOptimizerv4Template<TInternalComputationValueType>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "Stop condition:" << this->m_StopCondition << std::endl;
-  os << indent << "Stop condition description: " << this->m_StopConditionDescription.str() << std::endl;
+
+  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << std::endl;
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
+  os << indent << "OptimizersList: " << m_OptimizersList << std::endl;
+  os << indent << "MetricValuesList: " << m_MetricValuesList << std::endl;
+  os << indent
+     << "MinimumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MinimumMetricValue)
+     << std::endl;
+  os << indent
+     << "MaximumMetricValue: " << static_cast<typename NumericTraits<MeasureType>::PrintType>(m_MaximumMetricValue)
+     << std::endl;
 }
 
 template <typename TInternalComputationValueType>

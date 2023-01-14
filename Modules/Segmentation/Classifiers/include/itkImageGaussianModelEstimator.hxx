@@ -34,7 +34,16 @@ ImageGaussianModelEstimator<TInputImage, TMembershipFunction, TTrainingImage>::P
 
   os << indent << "NumberOfSamples: " << m_NumberOfSamples << std::endl;
   os << indent << "Means: " << m_Means << std::endl;
-  os << indent << "Covariance: " << m_Covariance.get() << std::endl;
+
+  os << indent << "Covariance: ";
+  if (m_Covariance != nullptr)
+  {
+    os << *m_Covariance.get() << std::endl;
+  }
+  else
+  {
+    os << "(null): " << std::endl;
+  }
 
   itkPrintSelfObjectMacro(TrainingImage);
 }

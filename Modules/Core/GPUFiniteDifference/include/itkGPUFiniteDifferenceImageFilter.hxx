@@ -294,22 +294,20 @@ GPUFiniteDifferenceImageFilter<TInputImage, TOutputImage, TParentImageFilter>::P
                                                                                          Indent         indent) const
 {
   GPUSuperclass::PrintSelf(os, indent);
-  CPUSuperclass::PrintSelf(os, indent);
-  /*
-    os << indent << "UseImageSpacing: " << ( m_UseImageSpacing ? "On" : "Off" ) << std::endl;
-    os << indent << "State: " << m_State << std::endl;
-    os << std::endl;
-    if ( m_DifferenceFunction )
-      {
-      os << indent << "DifferenceFunction: " << std::endl;
-      m_DifferenceFunction->Print( os, indent.GetNextIndent() );
-      }
-    else
-      {
-      os << indent << "DifferenceFunction: " << "(None)" << std::endl;
-      }
-    os << std::endl;
-  */
+
+  os << indent << "InitTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_InitTime) << std::endl;
+  os << indent
+     << "ComputeUpdateTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_ComputeUpdateTime)
+     << std::endl;
+  os << indent << "ApplyUpdateTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_ApplyUpdateTime)
+     << std::endl;
+  os << indent << "SmoothFieldTime: " << static_cast<typename NumericTraits<TimeProbe>::PrintType>(m_SmoothFieldTime)
+     << std::endl;
+
+  itkPrintSelfObjectMacro(DifferenceFunction);
+
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  os << indent << "State: " << m_State << std::endl;
 }
 
 } // end namespace itk

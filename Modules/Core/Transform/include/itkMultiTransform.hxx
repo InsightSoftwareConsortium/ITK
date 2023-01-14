@@ -359,21 +359,13 @@ MultiTransform<TParametersValueType, VDimension, VSubDimensions>::PrintSelf(std:
 {
   Superclass::PrintSelf(os, indent);
 
-  if (this->m_TransformQueue.empty())
-  {
-    os << indent << "Transform queue is empty." << std::endl;
-    return;
-  }
-
-  os << indent << "Transforms in queue, from begin to end:" << std::endl;
+  os << indent << "TransformQueue: " << std::endl;
   typename TransformQueueType::const_iterator cit;
   for (cit = this->m_TransformQueue.begin(); cit != this->m_TransformQueue.end(); ++cit)
   {
     os << indent << ">>>>>>>>>" << std::endl;
     (*cit)->Print(os, indent);
   }
-
-  os << indent << "End of MultiTransform." << std::endl << "<<<<<<<<<<" << std::endl;
 }
 
 } // end namespace itk

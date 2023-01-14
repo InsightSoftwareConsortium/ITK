@@ -27,6 +27,7 @@
 #include <fstream>
 #include "itkMath.h"
 #include "itkPlatformMultiThreader.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -76,14 +77,20 @@ ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::ParallelSparseField
 
 template <typename TNeighborhoodType>
 void
-ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os) const
+ParallelSparseFieldCityBlockNeighborList<TNeighborhoodType>::Print(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   os << "ParallelSparseFieldCityBlockNeighborList: " << std::endl;
-  for (unsigned int i = 0; i < this->GetSize(); ++i)
-  {
-    os << "m_ArrayIndex[" << i << "]: " << m_ArrayIndex[i] << std::endl
-       << "m_NeighborhoodOffset[" << i << "]: " << m_NeighborhoodOffset[i] << std::endl;
-  }
+
+  os << indent << "m_Pad1: " << m_Pad1 << std::endl;
+  os << indent << "Size: " << m_Size << std::endl;
+  os << indent << "Radius: " << m_Radius << std::endl;
+  os << indent << "ArrayIndex: " << m_ArrayIndex << std::endl;
+  os << indent << "NeighborhoodOffset: " << m_NeighborhoodOffset << std::endl;
+
+  os << indent << "StrideTable: " << m_StrideTable << std::endl;
+  os << indent << "Pad2: " << m_Pad2 << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>
@@ -2502,25 +2509,102 @@ template <typename TInputImage, typename TOutputImage>
 void
 ParallelSparseFieldLevelSetImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  unsigned int i;
-  os << indent << "m_NumberOfLayers: " << NumericTraits<StatusType>::PrintType(this->GetNumberOfLayers()) << std::endl;
-  os << indent << "m_IsoSurfaceValue: " << this->GetIsoSurfaceValue() << std::endl;
-  os << indent << "m_LayerNodeStore: " << m_LayerNodeStore;
-  ThreadIdType ThreadId;
-  for (ThreadId = 0; ThreadId < m_NumOfWorkUnits; ++ThreadId)
+  m_NeighborList.Print(os, indent);
+
+  os << indent << "ConstantGradientValue: " << m_ConstantGradientValue << std::endl;
+
+  itkPrintSelfObjectMacro(ShiftedImage);
+
+  os << indent << "Layers: " << m_Layers << std::endl;
+
+  os << indent << "NumberOfLayers: " << static_cast<typename NumericTraits<StatusType>::PrintType>(m_NumberOfLayers)
+     << std::endl;
+
+  itkPrintSelfObjectMacro(StatusImage);
+  itkPrintSelfObjectMacro(OutputImage);
+
+  itkPrintSelfObjectMacro(StatusImageTemp);
+  itkPrintSelfObjectMacro(OutputImageTemp);
+
+  itkPrintSelfObjectMacro(LayerNodeStore);
+
+  os << indent << "IsoSurfaceValue: " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_IsoSurfaceValue)
+     << std::endl;
+
+  os << indent << "TimeStepList: " << m_TimeStepList << std::endl;
+  os << indent << "ValidTimeStepList: " << m_ValidTimeStepList << std::endl;
+
+  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
+
+  os << indent << "NumOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumOfWorkUnits)
+     << std::endl;
+
+  os << indent << "SplitAxis: " << m_SplitAxis << std::endl;
+  os << indent << "ZSize: " << m_ZSize << std::endl;
+  os << indent << "BoundaryChanged: " << (m_BoundaryChanged ? "On" : "Off") << std::endl;
+
+  os << indent << "Boundary: ";
+  if (m_Boundary != nullptr)
+  {
+    os << *m_Boundary << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "GlobalZHistogram: ";
+  if (m_GlobalZHistogram != nullptr)
+  {
+    os << *m_GlobalZHistogram << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "MapZToThreadNumber: ";
+  if (m_MapZToThreadNumber != nullptr)
+  {
+    os << *m_MapZToThreadNumber << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "ZCumulativeFrequency: ";
+  if (m_ZCumulativeFrequency != nullptr)
+  {
+    os << *m_ZCumulativeFrequency << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "Data: ";
+  for (ThreadIdType ThreadId = 0; ThreadId < m_NumOfWorkUnits; ++ThreadId)
   {
     os << indent << "ThreadId: " << ThreadId << std::endl;
     if (m_Data != nullptr)
     {
-      for (i = 0; i < m_Data[ThreadId].m_Layers.size(); ++i)
+      for (unsigned int i = 0; i < m_Data[ThreadId].m_Layers.size(); ++i)
       {
-        os << indent << "m_Layers[" << i << "]: size=" << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
+        os << indent << "m_Layers[" << i << "] size: " << m_Data[ThreadId].m_Layers[i]->Size() << std::endl;
         os << indent << m_Data[ThreadId].m_Layers[i];
       }
     }
   }
+  os << std::endl;
+
+  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  os << indent << "InterpolateSurfaceLocation: " << (m_InterpolateSurfaceLocation ? "On" : "Off") << std::endl;
+  os << indent << "BoundsCheckingActive: " << (m_BoundsCheckingActive ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 

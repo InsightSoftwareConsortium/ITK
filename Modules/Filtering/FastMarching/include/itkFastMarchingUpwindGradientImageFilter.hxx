@@ -44,14 +44,18 @@ void
 FastMarchingUpwindGradientImageFilter<TLevelSet, TSpeedImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Target points: " << m_TargetPoints.GetPointer() << std::endl;
-  os << indent << "Reached points: " << m_ReachedTargetPoints.GetPointer() << std::endl;
-  os << indent << "Gradient image: " << m_GradientImage.GetPointer() << std::endl;
-  os << indent << "Generate gradient image: " << m_GenerateGradientImage << std::endl;
-  os << indent << "Number of targets: " << m_NumberOfTargets << std::endl;
-  os << indent << "Target offset: " << m_TargetOffset << std::endl;
-  os << indent << "Target reach mode: " << m_TargetReachedMode << std::endl;
-  os << indent << "Target value: " << m_TargetValue << std::endl;
+
+  itkPrintSelfObjectMacro(TargetPoints);
+  itkPrintSelfObjectMacro(ReachedTargetPoints);
+  itkPrintSelfObjectMacro(GradientImage);
+
+  os << indent << "GenerateGradientImage: " << (m_GenerateGradientImage ? "On" : "Off") << std::endl;
+  os << indent << "TargetOffset: " << m_TargetOffset << std::endl;
+  os << indent << "TargetReachedMode: " << m_TargetReachedMode << std::endl;
+  os << indent << "TargetValue: " << m_TargetValue << std::endl;
+  os << indent
+     << "NumberOfTargets: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfTargets)
+     << std::endl;
 }
 
 template <typename TLevelSet, typename TSpeedImage>

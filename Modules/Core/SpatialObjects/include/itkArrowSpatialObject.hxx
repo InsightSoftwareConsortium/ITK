@@ -162,11 +162,14 @@ template <unsigned int TDimension>
 void
 ArrowSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "ArrowSpatialObject(" << this << ')' << std::endl;
   Superclass::PrintSelf(os, indent);
-  os << indent << "Object Position = " << m_PositionInObjectSpace << std::endl;
-  os << indent << "Object Direction = " << m_DirectionInObjectSpace << std::endl;
-  os << indent << "Object Length = " << m_LengthInObjectSpace << std::endl;
+
+  os << indent << "DirectionInObjectSpace: "
+     << static_cast<typename NumericTraits<VectorType>::PrintType>(m_DirectionInObjectSpace) << std::endl;
+  os << indent
+     << "PositionInObjectSpace: " << static_cast<typename NumericTraits<PointType>::PrintType>(m_PositionInObjectSpace)
+     << std::endl;
+  os << indent << "LengthInObjectSpace: " << m_LengthInObjectSpace << std::endl;
 }
 } // end namespace itk
 

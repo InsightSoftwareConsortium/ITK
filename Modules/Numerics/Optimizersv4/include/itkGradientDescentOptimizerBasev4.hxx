@@ -58,28 +58,24 @@ GradientDescentOptimizerBasev4Template<TInternalComputationValueType>::PrintSelf
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent
-     << "DoEstimateLearningRateAtEachIteration: " << (this->m_DoEstimateLearningRateAtEachIteration ? "On" : "Off")
+  os << indent << "DoEstimateLearningRateAtEachIteration: " << (m_DoEstimateLearningRateAtEachIteration ? "On" : "Off")
      << std::endl;
-  os << indent << "DoEstimateLearningRateOnce: " << (this->m_DoEstimateLearningRateOnce ? "On" : "Off") << std::endl;
+  os << indent << "DoEstimateLearningRateOnce: " << (m_DoEstimateLearningRateOnce ? "On" : "Off") << std::endl;
   os << indent << "MaximumStepSizeInPhysicalUnits: "
-     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(
-          this->m_MaximumStepSizeInPhysicalUnits)
+     << static_cast<typename NumericTraits<TInternalComputationValueType>::PrintType>(m_MaximumStepSizeInPhysicalUnits)
      << std::endl;
-  os << indent << "UseConvergenceMonitoring: " << (this->m_UseConvergenceMonitoring ? "On" : "Off") << std::endl;
+  os << indent << "UseConvergenceMonitoring: " << (m_UseConvergenceMonitoring ? "On" : "Off") << std::endl;
   os << indent << "ConvergenceWindowSize: "
-     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(this->m_ConvergenceWindowSize) << std::endl;
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_ConvergenceWindowSize) << std::endl;
 
   itkPrintSelfObjectMacro(ConvergenceMonitoring);
   itkPrintSelfObjectMacro(ModifyGradientByScalesThreader);
   itkPrintSelfObjectMacro(ModifyGradientByLearningRateThreader);
 
-  os << indent << "Stop: " << (this->m_Stop ? "On" : "Off") << std::endl;
-  os << indent << "StopCondition: "
-     << static_cast<typename NumericTraits<StopConditionObjectToObjectOptimizerEnum>::PrintType>(this->m_StopCondition)
-     << std::endl;
-  os << indent << "StopConditionDescription: " << this->m_StopConditionDescription.str() << std::endl;
-  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(this->m_Gradient)
+  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << std::endl;
+  os << indent << "StopConditionDescription: " << m_StopConditionDescription.str() << std::endl;
+  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient)
      << std::endl;
 }
 

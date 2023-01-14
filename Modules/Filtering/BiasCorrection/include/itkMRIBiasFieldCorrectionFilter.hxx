@@ -952,90 +952,41 @@ MRIBiasFieldCorrectionFilter<TInputImage, TOutputImage, TMaskImage>::PrintSelf(s
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Use interslice intensity correction: ";
-  if (m_UsingInterSliceIntensityCorrection)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
+  itkPrintSelfObjectMacro(EnergyFunction);
+  itkPrintSelfObjectMacro(NormalVariateGenerator);
 
-  os << indent << "Use slab identification: ";
-  if (m_UsingSlabIdentification)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
+  itkPrintSelfObjectMacro(InputMask);
+  itkPrintSelfObjectMacro(OutputMask);
+  itkPrintSelfObjectMacro(InternalInput);
 
-  os << indent << "Use biasfield correction: ";
-  if (m_UsingBiasFieldCorrection)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
+  os << indent << "SlicingDirection: " << m_SlicingDirection << std::endl;
 
-  os << indent << "Generate output image: ";
-  if (m_GeneratingOutput)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
-
-  os << indent << "Is bias field multiplicative: ";
-  if (m_BiasFieldMultiplicative)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
-
-  os << indent << "Biasfield degree = " << m_BiasFieldDegree << std::endl;
-  os << indent << "Optimizer initial radius: " << m_OptimizerInitialRadius << std::endl;
-  os << indent << "Optimizer growth factor: " << m_OptimizerGrowthFactor << std::endl;
-  os << indent << "Optimizer shrink factor: " << m_OptimizerShrinkFactor << std::endl;
-  os << indent << "Volume optimizer max iteration: " << m_VolumeCorrectionMaximumIteration << std::endl;
-  os << indent << "Interslice correction optimizer max iteration: " << m_InterSliceCorrectionMaximumIteration
+  os << indent << "BiasFieldMultiplicative: " << (m_BiasFieldMultiplicative ? "On" : "Off") << std::endl;
+  os << indent << "UsingInterSliceIntensityCorrection: " << (m_UsingInterSliceIntensityCorrection ? "On" : "Off")
      << std::endl;
-  os << indent << "Slicing direction: " << m_SlicingDirection << std::endl;
+  os << indent << "UsingSlabIdentification: " << (m_UsingSlabIdentification ? "On" : "Off") << std::endl;
+  os << indent << "UsingBiasFieldCorrection: " << (m_UsingBiasFieldCorrection ? "On" : "Off") << std::endl;
+  os << indent << "GeneratingOutput: " << (m_GeneratingOutput ? "On" : "Off") << std::endl;
 
-  os << indent << "InputMask: ";
-  if (m_InputMask.IsNotNull())
-  {
-    os << m_InputMask << std::endl;
-  }
-  else
-  {
-    os << "not set." << std::endl;
-  }
+  os << indent << "SlabNumberOfSamples: " << m_SlabNumberOfSamples << std::endl;
+  os << indent << "SlabBackgroundMinimumThreshold: "
+     << static_cast<typename NumericTraits<InputImagePixelType>::PrintType>(m_SlabBackgroundMinimumThreshold)
+     << std::endl;
+  os << indent << "SlabTolerance" << m_SlabTolerance << std::endl;
 
-  os << indent << "OutputMask: ";
-  if (m_OutputMask.IsNotNull())
-  {
-    os << m_OutputMask << std::endl;
-  }
-  else
-  {
-    os << "not set." << std::endl;
-  }
+  os << indent << "BiasFieldDegree: " << m_BiasFieldDegree << std::endl;
+  os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
+  os << indent << "Schedule: " << static_cast<typename NumericTraits<ScheduleType>::PrintType>(m_Schedule) << std::endl;
 
-  os << indent << "Energy function: " << m_EnergyFunction << std::endl;
-  os << indent << "Normal random variate generator: " << m_NormalVariateGenerator << std::endl;
-  os << indent << "Multires: No. levels: " << m_NumberOfLevels << std::endl;
-  os << indent << "Multires: Schedule: " << std::endl;
-  os << m_Schedule << std::endl;
+  os << indent << "VolumeCorrectionMaximumIteration: " << m_VolumeCorrectionMaximumIteration << std::endl;
+  os << indent << "InterSliceCorrectionMaximumIteration: " << m_InterSliceCorrectionMaximumIteration << std::endl;
+
+  os << indent << "OptimizerInitialRadius: " << m_OptimizerInitialRadius << std::endl;
+  os << indent << "OptimizerGrowthFactor: " << m_OptimizerGrowthFactor << std::endl;
+  os << indent << "OptimizerShrinkFactor: " << m_OptimizerShrinkFactor << std::endl;
+
+  os << indent << "TissueClassMeans: " << m_TissueClassMeans << std::endl;
+  os << indent << "TissueClassSigmas: " << m_TissueClassSigmas << std::endl;
 }
 } // end namespace itk
 

@@ -36,8 +36,9 @@ PointSetToSpatialObjectDemonsRegistration<TFixedPointSet, TMovingSpatialObject>:
                                                                                            Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Fixed PointSet: " << m_FixedPointSet.GetPointer() << std::endl;
-  os << indent << "Moving SpatialObject: " << m_MovingSpatialObject.GetPointer() << std::endl;
+
+  itkPrintSelfObjectMacro(MovingSpatialObject);
+  itkPrintSelfObjectMacro(FixedPointSet);
 }
 
 } // end namespace itk

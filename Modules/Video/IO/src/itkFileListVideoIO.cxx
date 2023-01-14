@@ -18,6 +18,7 @@
 #include "itkFileListVideoIO.h"
 
 #include "itkImageIOFactory.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -488,21 +489,13 @@ FileListVideoIO::VerifyExtensions(const std::vector<std::string> & fileList) con
 void
 FileListVideoIO::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  if (!m_ImageIO.IsNull())
-  {
-    os << indent << "Internal ImageIO:" << std::endl;
-    m_ImageIO->Print(os, indent.GetNextIndent());
-  }
+  itkPrintSelfObjectMacro(ImageIO);
 
-  os << indent << "Image filenames:" << std::endl;
-  auto it = m_FileNames.begin();
-  while (it != m_FileNames.end())
-  {
-    os << indent << *it << std::endl;
-    ++it;
-  }
+  os << indent << "FileNames: " << m_FileNames << std::endl;
 }
 
 } // end namespace itk

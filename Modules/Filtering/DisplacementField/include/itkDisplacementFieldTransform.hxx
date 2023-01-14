@@ -613,11 +613,11 @@ DisplacementFieldTransform<TParametersValueType, VDimension>::PrintSelf(std::ost
      << static_cast<typename NumericTraits<ModifiedTimeType>::PrintType>(m_DisplacementFieldSetTime) << std::endl;
 
   os << indent
-     << "m_IdentityJacobian: " << static_cast<typename NumericTraits<JacobianType>::PrintType>(m_IdentityJacobian)
+     << "IdentityJacobian: " << static_cast<typename NumericTraits<JacobianType>::PrintType>(m_IdentityJacobian)
      << std::endl;
 
-  os << indent << " CoordinateTolerance: " << m_CoordinateTolerance << std::endl;
-  os << indent << " DirectionTolerance: " << m_DirectionTolerance << std::endl;
+  os << indent << "CoordinateTolerance: " << m_CoordinateTolerance << std::endl;
+  os << indent << "DirectionTolerance: " << m_DirectionTolerance << std::endl;
 }
 } // namespace itk
 

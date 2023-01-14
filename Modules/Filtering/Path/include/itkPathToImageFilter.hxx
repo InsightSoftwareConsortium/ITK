@@ -285,9 +285,13 @@ void
 PathToImageFilter<TInputPath, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Size : " << m_Size << std::endl;
-  os << indent << "Path Value : " << m_PathValue << std::endl;
-  os << indent << "Background Value : " << m_BackgroundValue << std::endl;
+
+  os << indent << "Size: " << static_cast<typename NumericTraits<SizeType>::PrintType>(m_Size) << std::endl;
+  os << indent << "Spacing: " << m_Spacing << std::endl;
+  os << indent << "Origin: " << m_Origin << std::endl;
+  os << indent << "PathValue : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_PathValue) << std::endl;
+  os << indent << "BackgroundValue : " << static_cast<typename NumericTraits<ValueType>::PrintType>(m_BackgroundValue)
+     << std::endl;
 }
 } // end namespace itk
 

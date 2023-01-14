@@ -20,6 +20,7 @@
 
 #include "itkMath.h"
 #include "itkImageRegionConstIteratorWithIndex.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -267,8 +268,16 @@ template <typename TFixedImage, typename TMovingImage>
 void
 MatchCardinalityImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
+
   os << indent << "MeasureMatches: " << (m_MeasureMatches ? "On" : "Off") << std::endl;
+
+  os << indent << "ThreadMatches: " << m_ThreadMatches << std::endl;
+  os << indent << "ThreadCounts: " << m_ThreadCounts << std::endl;
+
+  itkPrintSelfObjectMacro(Threader);
 }
 } // end namespace itk
 

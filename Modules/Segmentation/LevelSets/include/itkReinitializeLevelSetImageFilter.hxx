@@ -55,16 +55,18 @@ void
 ReinitializeLevelSetImageFilter<TLevelSet>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Level set value: " << m_LevelSetValue << std::endl;
-  os << indent << "Narrowbanding: " << m_NarrowBanding << std::endl;
-  os << indent << "Input narrow bandwidth: " << m_InputNarrowBandwidth;
-  os << std::endl;
-  os << indent << "Output narrow bandwidth: " << m_OutputNarrowBandwidth;
-  os << std::endl;
-  os << indent << "Input narrow band: " << m_InputNarrowBand.GetPointer();
-  os << std::endl;
-  os << indent << "Output narrow band: " << m_OutputNarrowBand.GetPointer();
-  os << std::endl;
+
+  os << indent << "LevelSetValue: " << m_LevelSetValue << std::endl;
+
+  itkPrintSelfObjectMacro(Locator);
+  itkPrintSelfObjectMacro(Marcher);
+
+  os << indent << "Narrowbanding: " << (m_NarrowBanding ? "On" : "Off") << std::endl;
+  os << indent << "InputNarrowBandwidth: " << m_InputNarrowBandwidth << std::endl;
+  os << indent << "OutputNarrowBandwidth: " << m_OutputNarrowBandwidth << std::endl;
+
+  itkPrintSelfObjectMacro(InputNarrowBand);
+  itkPrintSelfObjectMacro(OutputNarrowBand);
 }
 
 template <typename TLevelSet>

@@ -190,14 +190,17 @@ void
 ImageSpatialObject<TDimension, PixelType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Image: " << std::endl;
-  os << indent << m_Image << std::endl;
-  os << indent << "Interpolator: " << std::endl;
-  os << indent << m_Interpolator << std::endl;
-  os << indent << "SliceNumber: " << m_SliceNumber << std::endl;
+
+  itkPrintSelfObjectMacro(Image);
+
+  os << indent << "SliceNumber: " << static_cast<typename NumericTraits<IndexType>::PrintType>(m_SliceNumber)
+     << std::endl;
+
 #if !defined(ITK_LEGACY_REMOVE)
   os << indent << "PixelType: " << m_PixelType << std::endl;
 #endif
+
+  itkPrintSelfObjectMacro(Interpolator);
 }
 
 template <unsigned int TDimension, typename PixelType>

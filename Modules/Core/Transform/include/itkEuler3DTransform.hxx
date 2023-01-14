@@ -359,9 +359,10 @@ Euler3DTransform<TParametersValueType>::PrintSelf(std::ostream & os, Indent inde
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Euler's angles: AngleX=" << m_AngleX << " AngleY=" << m_AngleY << " AngleZ=" << m_AngleZ
-     << std::endl;
-  os << indent << "m_ComputeZYX = " << m_ComputeZYX << std::endl;
+  os << indent << "AngleX: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleX) << std::endl;
+  os << indent << "AngleY: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleY) << std::endl;
+  os << indent << "AngleZ: " << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_AngleZ) << std::endl;
+  os << indent << "ComputeZYX: " << (m_ComputeZYX ? "On" : "Off") << std::endl;
 }
 
 } // namespace itk

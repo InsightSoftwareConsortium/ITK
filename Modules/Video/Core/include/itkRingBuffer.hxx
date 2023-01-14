@@ -19,6 +19,7 @@
 #define itkRingBuffer_hxx
 
 #include "itkMath.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -35,9 +36,11 @@ template <typename TElement>
 void
 RingBuffer<TElement>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "RingBuffer:" << std::endl;
-  os << indent << "NumberOfBuffers: " << this->m_PointerVector.size() << std::endl;
+
+  os << indent << "PointerVector: " << m_PointerVector << std::endl;
 }
 
 template <typename TElement>

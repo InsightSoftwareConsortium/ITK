@@ -39,10 +39,10 @@ PhasedArray3DSpecialCoordinatesImage<TPixel>::PrintSelf(std::ostream & os, Inden
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "m_RadiusSampleSize = " << m_RadiusSampleSize << std::endl;
-  os << indent << "m_AzimuthAngularSeparation = " << m_AzimuthAngularSeparation << std::endl;
-  os << indent << "m_ElevationAngularSeparation = " << m_ElevationAngularSeparation << std::endl;
-  os << indent << "m_FirstSampleDistance = " << m_FirstSampleDistance << std::endl;
+  os << indent << "RadiusSampleSize: " << m_RadiusSampleSize << std::endl;
+  os << indent << "AzimuthAngularSeparation: " << m_AzimuthAngularSeparation << std::endl;
+  os << indent << "ElevationAngularSeparation: " << m_ElevationAngularSeparation << std::endl;
+  os << indent << "FirstSampleDistance: " << m_FirstSampleDistance << std::endl;
 }
 } // end namespace itk
 

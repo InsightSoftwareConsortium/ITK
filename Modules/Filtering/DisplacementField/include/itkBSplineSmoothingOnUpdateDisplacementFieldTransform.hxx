@@ -214,21 +214,11 @@ BSplineSmoothingOnUpdateDisplacementFieldTransform<TParametersValueType, VDimens
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Enforce stationary boundary: ";
-  if (this->m_EnforceStationaryBoundary)
-  {
-    os << "true" << std::endl;
-  }
-  else
-  {
-    os << "false" << std::endl;
-  }
-  os << indent << "B-spline parameters: " << std::endl;
-  os << indent << "  spline order = " << this->m_SplineOrder << std::endl;
-  os << indent << "  number of control points for the update field = " << this->m_NumberOfControlPointsForTheUpdateField
+  os << indent << "SplineOrder: " << static_cast<typename NumericTraits<SplineOrderType>::PrintType>(m_SplineOrder)
      << std::endl;
-  os << indent << "  number of control points for the total field = " << this->m_NumberOfControlPointsForTheTotalField
-     << std::endl;
+  os << indent << "EnforceStationaryBoundary: " << (m_EnforceStationaryBoundary ? "On" : "Off") << std::endl;
+  os << indent << "NumberOfControlPointsForTheUpdateField: " << m_NumberOfControlPointsForTheUpdateField << std::endl;
+  os << indent << "NumberOfControlPointsForTheTotalField: " << m_NumberOfControlPointsForTheTotalField << std::endl;
 }
 } // namespace itk
 

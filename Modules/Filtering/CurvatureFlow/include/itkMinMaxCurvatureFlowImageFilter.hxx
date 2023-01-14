@@ -40,7 +40,9 @@ void
 MinMaxCurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "StencilRadius: " << m_StencilRadius << std::endl;
+
+  os << indent << "StencilRadius: " << static_cast<typename NumericTraits<RadiusValueType>::PrintType>(m_StencilRadius)
+     << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

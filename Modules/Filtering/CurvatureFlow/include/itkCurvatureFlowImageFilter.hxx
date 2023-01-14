@@ -40,8 +40,8 @@ void
 CurvatureFlowImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "Time step: " << m_TimeStep;
-  os << std::endl;
+
+  os << indent << "TimeStep: " << static_cast<typename NumericTraits<TimeStepType>::PrintType>(m_TimeStep) << std::endl;
 }
 
 template <typename TInputImage, typename TOutputImage>

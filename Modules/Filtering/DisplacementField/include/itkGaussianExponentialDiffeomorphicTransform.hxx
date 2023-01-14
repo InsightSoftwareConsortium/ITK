@@ -233,12 +233,12 @@ GaussianExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Pri
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "Calculate number of integration steps automatically = "
-     << this->m_CalculateNumberOfIntegrationStepsAutomatically << std::endl;
-  os << indent
-     << "Gaussian variance for the velocity field = " << this->m_GaussianSmoothingVarianceForTheConstantVelocityField
+  os << indent << "GaussianSmoothingVarianceForTheConstantVelocityField: "
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(
+          m_GaussianSmoothingVarianceForTheConstantVelocityField)
      << std::endl;
-  os << indent << "Gaussian variance for the update field = " << this->m_GaussianSmoothingVarianceForTheUpdateField
+  os << indent << "GaussianSmoothingVarianceForTheUpdateField: "
+     << static_cast<typename NumericTraits<ScalarType>::PrintType>(m_GaussianSmoothingVarianceForTheUpdateField)
      << std::endl;
 }
 

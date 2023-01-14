@@ -237,6 +237,13 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
                                          TDefaultRegistrationType>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
+
+  itkPrintSelfObjectMacro(RegistrationFilter);
+  itkPrintSelfObjectMacro(MovingImagePyramid);
+  itkPrintSelfObjectMacro(FixedImagePyramid);
+  itkPrintSelfObjectMacro(FieldExpander);
+  itkPrintSelfObjectMacro(InitialDisplacementField);
+
   os << indent << "NumberOfLevels: " << m_NumberOfLevels << std::endl;
   os << indent << "CurrentLevel: " << m_CurrentLevel << std::endl;
 
@@ -248,18 +255,7 @@ MultiResolutionPDEDeformableRegistration<TFixedImage,
   }
   os << m_NumberOfIterations[ilevel] << ']' << std::endl;
 
-  os << indent << "RegistrationFilter: ";
-  os << m_RegistrationFilter.GetPointer() << std::endl;
-  os << indent << "MovingImagePyramid: ";
-  os << m_MovingImagePyramid.GetPointer() << std::endl;
-  os << indent << "FixedImagePyramid: ";
-  os << m_FixedImagePyramid.GetPointer() << std::endl;
-
-  os << indent << "FieldExpander: ";
-  os << m_FieldExpander.GetPointer() << std::endl;
-
-  os << indent << "StopRegistrationFlag: ";
-  os << m_StopRegistrationFlag << std::endl;
+  os << indent << "StopRegistrationFlag: " << (m_StopRegistrationFlag ? "On" : "Off") << std::endl;
 }
 
 template <typename TFixedImage,

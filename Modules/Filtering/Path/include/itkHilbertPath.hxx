@@ -18,6 +18,8 @@
 #ifndef itkHilbertPath_hxx
 #define itkHilbertPath_hxx
 
+#include "itkPrintHelper.h"
+
 
 namespace itk
 {
@@ -242,9 +244,13 @@ template <typename TIndexValue, unsigned int VDimension>
 void
 HilbertPath<TIndexValue, VDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  std::cout << "Hilbert order: " << this->m_HilbertOrder << std::endl;
+  os << "HilbertOrder: " << static_cast<typename NumericTraits<HilbertOrderType>::PrintType>(m_HilbertOrder)
+     << std::endl;
+  os << "HilbertPath: " << m_HilbertPath << std::endl;
 }
 } // end namespace itk
 

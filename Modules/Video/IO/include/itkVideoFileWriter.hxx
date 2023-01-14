@@ -297,14 +297,25 @@ template <typename TInputVideoStream>
 void
 VideoFileWriter<TInputVideoStream>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "FileName: " << this->m_FileName << std::endl;
-  if (!m_VideoIO.IsNull())
-  {
-    os << indent << "VideoIO:" << std::endl;
-    this->m_VideoIO->Print(os, indent.GetNextIndent());
-  }
+  os << indent << "FileName: " << m_FileName << std::endl;
+
+  itkPrintSelfObjectMacro(VideoIO);
+
+  os << indent << "OutputTemporalRegion: " << m_OutputTemporalRegion << std::endl;
+
+  os << indent
+     << "FramesPerSecond: " << static_cast<typename NumericTraits<TemporalRatioType>::PrintType>(m_FramesPerSecond)
+     << std::endl;
+  os << indent << "FourCC: " << m_FourCC << std::endl;
+  os << indent << "Dimensions: " << m_Dimensions << std::endl;
+  os << indent
+     << "NumberOfComponents: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfComponents)
+     << std::endl;
+  os << indent << "ComponentType: " << m_ComponentType << std::endl;
 }
 
 } // end namespace itk

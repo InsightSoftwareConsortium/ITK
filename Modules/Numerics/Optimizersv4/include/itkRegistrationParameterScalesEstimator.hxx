@@ -22,6 +22,7 @@
 #include "itkCompositeTransform.h"
 #include "itkPointSet.h"
 #include "itkObjectToObjectMetric.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -634,18 +635,25 @@ template <typename TMetric>
 void
 RegistrationParameterScalesEstimator<TMetric>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "MetricType   = " << std::endl;
-  os << indent << typeid(MetricType).name() << std::endl;
+  itkPrintSelfObjectMacro(Metric);
 
-  os << indent << "m_SamplePoints.size = " << std::endl;
-  os << indent << this->m_SamplePoints.size() << std::endl;
+  os << indent << "SamplePoints: " << m_SamplePoints << std::endl;
+  os << indent << "SamplingTime: " << static_cast<typename NumericTraits<TimeStamp>::PrintType>(m_SamplingTime)
+     << std::endl;
+  os << indent << "NumberOfRandomSamples: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfRandomSamples) << std::endl;
+  os << indent
+     << "CentralRegionRadius: " << static_cast<typename NumericTraits<IndexValueType>::PrintType>(m_CentralRegionRadius)
+     << std::endl;
 
-  os << indent << "m_TransformForward = " << this->m_TransformForward << std::endl;
-  os << indent << "m_SamplingStrategy = " << this->m_SamplingStrategy << std::endl;
+  itkPrintSelfObjectMacro(VirtualDomainPointSet);
 
-  os << indent << "m_VirtualDomainPointSet = " << this->m_VirtualDomainPointSet.GetPointer() << std::endl;
+  os << indent << "TransformForward: " << (m_TransformForward ? "On" : "Off") << std::endl;
+  os << indent << "SamplingStrategy: " << m_SamplingStrategy << std::endl;
 }
 
 } // namespace itk

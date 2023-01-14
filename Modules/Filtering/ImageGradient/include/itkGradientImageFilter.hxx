@@ -221,9 +221,18 @@ GradientImageFilter<TInputImage, TOperatorValueType, TOutputValueType, TOutputIm
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "UseImageSpacing: " << (this->m_UseImageSpacing ? "On" : "Off") << std::endl;
-  os << indent << "UseImageDirection = " << (this->m_UseImageDirection ? "On" : "Off") << std::endl;
-  os << indent << "BoundaryCondition = \n" << this->m_BoundaryCondition << std::endl;
+  os << indent << "UseImageSpacing: " << (m_UseImageSpacing ? "On" : "Off") << std::endl;
+  os << indent << "UseImageDirection: " << (m_UseImageDirection ? "On" : "Off") << std::endl;
+
+  os << indent << "BoundaryCondition: ";
+  if (m_BoundaryCondition != nullptr)
+  {
+    os << m_BoundaryCondition << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
 }
 } // end namespace itk
 

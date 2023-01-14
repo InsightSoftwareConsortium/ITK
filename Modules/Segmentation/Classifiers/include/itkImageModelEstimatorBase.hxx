@@ -19,6 +19,7 @@
 #define itkImageModelEstimatorBase_hxx
 
 #include "itkCommand.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -45,25 +46,14 @@ template <typename TInputImage, typename TMembershipFunction>
 void
 ImageModelEstimatorBase<TInputImage, TMembershipFunction>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
-  os << indent << "Number of models: " << m_NumberOfModels << std::endl;
-  os << indent << "                   " << std::endl;
 
-  os << indent << "Results of the model estimator." << std::endl;
-  os << indent << "====================================" << std::endl;
+  os << indent << "NumberOfModels: " << m_NumberOfModels << std::endl;
+  os << indent << "MembershipFunctions: " << m_MembershipFunctions << std::endl;
 
-  for (unsigned int classIndex = 0; classIndex < m_NumberOfModels; ++classIndex)
-  {
-    os << indent << "Statistics for " << classIndex << std::endl;
-    (m_MembershipFunctions[classIndex])->Print(os);
-
-    os << indent << "====================================" << std::endl;
-  }
-
-  os << indent << "                   " << std::endl;
-
-  os << indent << "InputImage: ";
-  os << m_InputImage.GetPointer() << std::endl;
+  itkPrintSelfObjectMacro(InputImage);
 }
 
 template <typename TInputImage, typename TMembershipFunction>

@@ -43,26 +43,14 @@ AzimuthElevationToCartesianTransform<TParametersValueType, VDimension>::PrintSel
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "x = z*tan(Azimuth)" << std::endl;
-  os << indent << "y = z*tan(Elevation)" << std::endl;
-  os << indent << "z = r * cos(Azimuth) "
-     << " / sqrt((1 + cos(Azimuth) * cos(Azimuth) * tan(Elevation)"
-     << "* tan(Elevation)))" << std::endl;
-  os << indent << "Azimuth = 1 / (tan(x/z))" << std::endl;
-  os << indent << "Elevation = 1 / (tan(y/z))" << std::endl;
-  os << indent << "r = sqrt(x*x + y*y + z*z)" << std::endl;
-  os << indent << "m_MaxAzimuth = " << m_MaxAzimuth << std::endl;
-  os << indent << "m_MaxElevation = " << m_MaxElevation << std::endl;
-  os << indent << "m_RadiusSampleSize = " << m_RadiusSampleSize << std::endl;
-  os << indent << "m_AzimuthAngularSeparation = ";
-  os << indent << m_AzimuthAngularSeparation << std::endl;
-  os << indent << "m_ElevationAngularSeparation = ";
-  os << indent << m_ElevationAngularSeparation << std::endl;
-  os << indent << "m_FirstSampleDistance = ";
-  os << indent << m_FirstSampleDistance << std::endl;
-  os << indent << "m_ForwardAzimuthElevationToPhysical = ";
-  os << indent << (m_ForwardAzimuthElevationToPhysical ? "True" : "False");
-  os << indent << std::endl;
+  os << indent << "MaxAzimuth: " << m_MaxAzimuth << std::endl;
+  os << indent << "MaxElevation: " << m_MaxElevation << std::endl;
+  os << indent << "RadiusSampleSize: " << m_RadiusSampleSize << std::endl;
+  os << indent << "AzimuthAngularSeparation: " << m_AzimuthAngularSeparation << std::endl;
+  os << indent << "ElevationAngularSeparation: " << m_ElevationAngularSeparation << std::endl;
+  os << indent << "FirstSampleDistance: " << m_FirstSampleDistance << std::endl;
+  os << indent << "ForwardAzimuthElevationToPhysical: " << (m_ForwardAzimuthElevationToPhysical ? "On" : "Off")
+     << std::endl;
 }
 
 template <typename TParametersValueType, unsigned int VDimension>

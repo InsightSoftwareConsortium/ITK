@@ -21,6 +21,7 @@
 #include "itkImageRandomConstIteratorWithIndex.h"
 #include "itkMath.h"
 #include "itkMakeUniqueForOverwrite.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -1208,70 +1209,131 @@ template <typename TFixedImage, typename TMovingImage>
 void
 ImageToImageMetric<TFixedImage, TMovingImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "NumberOfFixedImageSamples: ";
-  os << m_NumberOfFixedImageSamples << std::endl;
-
+  os << indent << "UseFixedImageIndexes: " << (m_UseFixedImageIndexes ? "On" : "Off") << std::endl;
+  os << indent << "FixedImageIndexes: " << m_FixedImageIndexes << std::endl;
+  os << indent
+     << "UseFixedImageSamplesIntensityThreshold: " << (m_UseFixedImageSamplesIntensityThreshold ? "On" : "Off")
+     << std::endl;
   os << indent << "FixedImageSamplesIntensityThreshold: "
      << static_cast<typename NumericTraits<FixedImagePixelType>::PrintType>(m_FixedImageSamplesIntensityThreshold)
      << std::endl;
-
-  os << indent << "UseFixedImageSamplesIntensityThreshold: ";
-  os << m_UseFixedImageSamplesIntensityThreshold << std::endl;
-
-  if (m_UseFixedImageIndexes)
-  {
-    os << indent << "Use Fixed Image Indexes: True" << std::endl;
-    os << indent << "Number of Fixed Image Indexes = " << m_FixedImageIndexes.size() << std::endl;
-  }
-  else
-  {
-    os << indent << "Use Fixed Image Indexes: False" << std::endl;
-  }
-
-  if (m_UseSequentialSampling)
-  {
-    os << indent << "Use Sequential Sampling: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "Use Sequential Sampling: False" << std::endl;
-  }
-
-  os << indent << "UseAllPixels: ";
-  os << m_UseAllPixels << std::endl;
-
-  os << indent << "ReseedIterator: " << m_ReseedIterator << std::endl;
-  os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
-
-  os << indent << "Threader: " << m_Threader << std::endl;
-  os << indent << "Number of Work units: " << m_NumberOfWorkUnits << std::endl;
-  os << indent << "ThreaderParameter: " << std::endl;
-  os << indent << "ThreaderNumberOfMovingImageSamples: " << std::endl;
-  if (m_ThreaderNumberOfMovingImageSamples)
-  {
-    for (ThreadIdType i = 0; i < m_NumberOfWorkUnits - 1; ++i)
-    {
-      os << "  Thread[" << i << "]= " << static_cast<unsigned int>(m_ThreaderNumberOfMovingImageSamples[i])
-         << std::endl;
-    }
-  }
-
-  os << indent << "ComputeGradient: " << static_cast<typename NumericTraits<bool>::PrintType>(m_ComputeGradient)
+  os << indent << "FixedImageSamples: " << m_FixedImageSamples << std::endl;
+  os << indent
+     << "NumberOfParameters: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfParameters)
      << std::endl;
-  os << indent << "Moving Image: " << m_MovingImage.GetPointer() << std::endl;
-  os << indent << "Fixed  Image: " << m_FixedImage.GetPointer() << std::endl;
-  os << indent << "Gradient Image: " << m_GradientImage.GetPointer() << std::endl;
-  os << indent << "Transform:    " << m_Transform.GetPointer() << std::endl;
-  os << indent << "Interpolator: " << m_Interpolator.GetPointer() << std::endl;
-  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
-  os << indent << "Moving Image Mask: " << m_MovingImageMask.GetPointer() << std::endl;
-  os << indent << "Fixed Image Mask: " << m_FixedImageMask.GetPointer() << std::endl;
-  os << indent << "Number of Moving Image Samples: " << m_NumberOfPixelsCounted << std::endl;
+  os << indent << "NumberOfFixedImageSamples: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfFixedImageSamples) << std::endl;
+  os << indent << "NumberOfPixelsCounted: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPixelsCounted) << std::endl;
 
-  os << indent << "UseCachingOfBSplineWeights: ";
-  os << this->m_UseCachingOfBSplineWeights << std::endl;
+  itkPrintSelfObjectMacro(MovingImage);
+  itkPrintSelfObjectMacro(FixedImage);
+  itkPrintSelfObjectMacro(Transform);
+
+  os << indent << "ThreaderTransform: ";
+  if (m_ThreaderTransform.get() != nullptr)
+  {
+    os << *m_ThreaderTransform.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  itkPrintSelfObjectMacro(Interpolator);
+
+  os << indent << "ComputeGradient: " << (m_ComputeGradient ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(GradientImage);
+  itkPrintSelfObjectMacro(MovingImageMask);
+  itkPrintSelfObjectMacro(FixedImageMask);
+
+  os << indent
+     << "NumberOfWorkUnits: " << static_cast<typename NumericTraits<ThreadIdType>::PrintType>(m_NumberOfWorkUnits)
+     << std::endl;
+  os << indent << "UseAllPixels: " << (m_UseAllPixels ? "On" : "Off") << std::endl;
+  os << indent << "UseSequentialSampling: " << (m_UseSequentialSampling ? "On" : "Off") << std::endl;
+  os << indent << "ReseedIterator: " << (m_ReseedIterator ? "On" : "Off") << std::endl;
+  os << indent << "RandomSeed: " << m_RandomSeed << std::endl;
+  os << indent << "TransformIsBSpline: " << (m_TransformIsBSpline ? "On" : "Off") << std::endl;
+
+  os << indent
+     << "NumBSplineWeights: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumBSplineWeights)
+     << std::endl;
+
+  itkPrintSelfObjectMacro(BSplineTransform);
+
+  os << indent << "BSplineTransformWeightsArray: " << m_BSplineTransformWeightsArray << std::endl;
+  os << indent << "BSplineTransformIndicesArray: " << m_BSplineTransformIndicesArray << std::endl;
+  os << indent << "BSplinePreTransformPointsArray: " << m_BSplinePreTransformPointsArray << std::endl;
+  os << indent << "WithinBSplineSupportRegionArray: " << m_WithinBSplineSupportRegionArray << std::endl;
+  os << indent << "BSplineParametersOffset: "
+     << static_cast<typename NumericTraits<BSplineParametersOffsetType>::PrintType>(m_BSplineParametersOffset)
+     << std::endl;
+
+  os << indent << "UseCachingOfBSplineWeights: " << (m_UseCachingOfBSplineWeights ? "On" : "Off") << std::endl;
+  os << indent << "BSplineTransformWeights: "
+     << static_cast<typename NumericTraits<BSplineTransformWeightsType>::PrintType>(m_BSplineTransformWeights)
+     << std::endl;
+  os << indent << "BSplineTransformIndices: "
+     << static_cast<typename NumericTraits<BSplineTransformIndexArrayType>::PrintType>(m_BSplineTransformIndices)
+     << std::endl;
+
+  os << indent << "ThreaderBSplineTransformWeights: ";
+  if (m_ThreaderBSplineTransformWeights.get() != nullptr)
+  {
+    os << *m_ThreaderBSplineTransformWeights.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "ThreaderBSplineTransformIndices: ";
+  if (m_ThreaderBSplineTransformIndices.get() != nullptr)
+  {
+    os << *m_ThreaderBSplineTransformIndices.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "InterpolatorIsBSpline: " << (m_InterpolatorIsBSpline ? "On" : "Off") << std::endl;
+
+  itkPrintSelfObjectMacro(BSplineInterpolator);
+  itkPrintSelfObjectMacro(DerivativeCalculator);
+
+  itkPrintSelfObjectMacro(Threader);
+
+  os << indent << "ConstSelfWrapper: ";
+  if (m_ConstSelfWrapper.get() != nullptr)
+  {
+    os << m_ConstSelfWrapper.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "ThreaderNumberOfMovingImageSamples: ";
+  if (m_ThreaderNumberOfMovingImageSamples.get() != nullptr)
+  {
+    os << *m_ThreaderNumberOfMovingImageSamples.get() << std::endl;
+  }
+  else
+  {
+    os << "(null)" << std::endl;
+  }
+
+  os << indent << "WithinThreadPreProcess: " << (m_WithinThreadPreProcess ? "On" : "Off") << std::endl;
+  os << indent << "WithinThreadPostProcess: " << (m_WithinThreadPostProcess ? "On" : "Off") << std::endl;
+
+  os << indent << "FixedImageRegion: " << m_FixedImageRegion << std::endl;
 }
 
 template <typename TFixedImage, typename TMovingImage>

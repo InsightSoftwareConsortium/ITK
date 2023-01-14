@@ -27,11 +27,8 @@ ImageClassifierBase<TInputImage, TClassifiedImage>::PrintSelf(std::ostream & os,
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "General Image Classifier / Clusterer" << std::endl;
-  os << indent << "ClassifiedImage: ";
-  os << m_ClassifiedImage.GetPointer() << std::endl;
-  os << indent << "InputImage: ";
-  os << m_InputImage.GetPointer() << std::endl;
+  itkPrintSelfObjectMacro(InputImage);
+  itkPrintSelfObjectMacro(ClassifiedImage);
 }
 
 template <typename TInputImage, typename TClassifiedImage>

@@ -54,33 +54,35 @@ SPSAOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
 
-  os << indent << "a: " << m_Sa << std::endl;
-  os << indent << "A: " << m_A << std::endl;
-  os << indent << "Alpha: " << m_Alpha << std::endl;
-  os << indent << "c: " << m_Sc << std::endl;
-  os << indent << "Gamma: " << m_Gamma << std::endl;
-  os << indent << "Tolerance: " << m_Tolerance << std::endl;
-  os << indent << "GradientMagnitude: " << m_GradientMagnitude << std::endl;
-  os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << std::endl;
-  os << indent << "Gradient: " << m_Gradient << std::endl;
-  os << indent << "StateOfConvergence: " << m_StateOfConvergence << std::endl;
-
-  os << indent << "NumberOfPerturbations: " << m_NumberOfPerturbations << std::endl;
-
+  os << indent << "Gradient: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Gradient)
+     << std::endl;
   os << indent << "LearningRate: " << m_LearningRate << std::endl;
+  os << indent << "Delta: " << static_cast<typename NumericTraits<DerivativeType>::PrintType>(m_Delta) << std::endl;
+  os << indent << "Stop: " << (m_Stop ? "On" : "Off") << std::endl;
+  os << indent << "StopCondition: " << m_StopCondition << std::endl;
+  os << indent << "StateOfConvergence: " << m_StateOfConvergence << std::endl;
+  os << indent
+     << "CurrentIteration: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_CurrentIteration)
+     << std::endl;
 
-  os << indent << "MaximumNumberOfIterations: " << m_MaximumNumberOfIterations << std::endl;
-  os << indent << "MinimumNumberOfIterations: " << m_MinimumNumberOfIterations << std::endl;
+  itkPrintSelfObjectMacro(Generator);
 
-  os << indent << "Maximize: " << m_Maximize << std::endl;
+  os << indent << "MinimumNumberOfIterations: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MinimumNumberOfIterations) << std::endl;
+  os << indent << "MaximumNumberOfIterations: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_MaximumNumberOfIterations) << std::endl;
+  os << indent << "StateOfConvergenceDecayRate: " << m_StateOfConvergenceDecayRate << std::endl;
+  os << indent << "Tolerance: " << m_Tolerance << std::endl;
+  os << indent << "Maximize: " << (m_Maximize ? "On" : "Off") << std::endl;
+  os << indent << "GradientMagnitude: " << m_GradientMagnitude << std::endl;
+  os << indent << "NumberOfPerturbations: "
+     << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumberOfPerturbations) << std::endl;
 
-  os << indent << "CurrentIteration: " << m_CurrentIteration;
-  if (m_CostFunction)
-  {
-    os << indent << "CostFunction: " << m_CostFunction;
-  }
-  os << indent << "StopCondition: " << m_StopCondition;
-  os << std::endl;
+  os << indent << "Sa: " << m_Sa << std::endl;
+  os << indent << "Sc: " << m_Sc << std::endl;
+  os << indent << "A " << m_A << std::endl;
+  os << indent << "Alpha: " << m_Alpha << std::endl;
+  os << indent << "Gamma: " << m_Gamma << std::endl;
 } // end PrintSelf
 
 /**

@@ -121,7 +121,7 @@ public:
   }
 
   void
-  Print(std::ostream & os) const;
+  Print(std::ostream & os, Indent indent) const;
 
 private:
   char                      m_Pad1[128];

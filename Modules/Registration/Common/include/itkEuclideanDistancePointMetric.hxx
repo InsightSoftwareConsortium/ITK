@@ -154,15 +154,10 @@ EuclideanDistancePointMetric<TFixedPointSet, TMovingPointSet, TDistanceMap>::Pri
                                                                                        Indent         indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "DistanceMap: " << m_DistanceMap << std::endl;
-  if (m_ComputeSquaredDistance)
-  {
-    os << indent << "m_ComputeSquaredDistance: True" << std::endl;
-  }
-  else
-  {
-    os << indent << "m_ComputeSquaredDistance: False" << std::endl;
-  }
+
+  itkPrintSelfObjectMacro(DistanceMap);
+
+  os << indent << "ComputeSquaredDistance: " << (m_ComputeSquaredDistance ? "On" : "Off") << std::endl;
 }
 } // end namespace itk
 

@@ -19,6 +19,7 @@
 #define itkImagePCADecompositionCalculator_hxx
 
 #include "itkImageRegionConstIterator.h"
+#include "itkPrintHelper.h"
 
 namespace itk
 {
@@ -141,10 +142,24 @@ template <typename TInputImage, typename TBasisImage>
 void
 ImagePCADecompositionCalculator<TInputImage, TBasisImage>::PrintSelf(std::ostream & os, Indent indent) const
 {
+  using namespace print_helper;
+
   Superclass::PrintSelf(os, indent);
+
   os << indent << "Projection: " << m_Projection << std::endl;
-  os << indent << "Image: " << m_Image.GetPointer() << std::endl;
-  os << indent << "Mean Image: " << m_MeanImage.GetPointer() << std::endl;
+  os << indent << "ImageAsVector: " << m_ImageAsVector << std::endl;
+  os << indent << "BasisImages: " << m_BasisImages << std::endl;
+
+  itkPrintSelfObjectMacro(MeanImage);
+
+  os << indent << "m_Size: " << static_cast<typename NumericTraits<BasisSizeType>::PrintType>(m_Size) << std::endl;
+
+  itkPrintSelfObjectMacro(Image);
+
+  os << indent << "BasisMatrix: " << m_BasisMatrix << std::endl;
+  os << indent << "BasisMatrixCalculated: " << (m_BasisMatrixCalculated ? "On" : "Off") << std::endl;
+  os << indent << "NumPixels: " << static_cast<typename NumericTraits<SizeValueType>::PrintType>(m_NumPixels)
+     << std::endl;
 }
 } // end namespace itk
 
