@@ -290,7 +290,7 @@ GPUDemonsRegistrationFunction<TFixedImage, TMovingImage, TDisplacementField>::GP
   m_SumOfSquaredDifference = m_GPUSquaredDifference->GetGPUResult();
   m_NumberOfPixelsProcessed = m_GPUPixelCounter->GetGPUResult();
   m_SumOfSquaredChange = m_GPUSquaredChange->GetGPUResult();
-  // std::cout << "m_NumberOfPixelsProcessed = " << m_NumberOfPixelsProcessed << std::endl;
+
   if (m_NumberOfPixelsProcessed)
   {
     m_Metric = m_SumOfSquaredDifference / static_cast<double>(m_NumberOfPixelsProcessed);

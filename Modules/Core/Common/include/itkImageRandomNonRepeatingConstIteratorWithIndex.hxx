@@ -130,8 +130,7 @@ ImageRandomNonRepeatingConstIteratorWithIndex<TImage>::SetPriorityImage(const Pr
       position -= residual;
       position /= sizeInThisDimension;
     }
-    // std::cout<<pixel<<" "<<positionIndex<<"
-    // "<<priorityImage->GetPixel(positionIndex)std::endl;
+
     this->m_Permutation->SetPriority(pixel, priorityImage->GetPixel(positionIndex));
   }
   this->m_Permutation->Shuffle();
