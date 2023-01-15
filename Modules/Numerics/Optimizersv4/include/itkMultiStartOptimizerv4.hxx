@@ -211,7 +211,7 @@ MultiStartOptimizerv4Template<TInternalComputationValueType>::ResumeOptimization
       this->StopOptimization();
       break;
     }
-  } // while (!m_Stop)
+  }
 }
 
 } // namespace itk
