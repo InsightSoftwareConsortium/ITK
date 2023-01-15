@@ -30,7 +30,6 @@ CentralDifferenceImageFunction<TInputImage, TCoordRep, TOutputType>::CentralDiff
 {
   this->m_UseImageDirection = true;
 
-  /* Interpolator. Default to linear. */
   using LinearInterpolatorType = LinearInterpolateImageFunction<TInputImage, TCoordRep>;
   this->m_Interpolator = LinearInterpolatorType::New();
 }

@@ -163,7 +163,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::GenerateOutputImage()
       }
       tmpIndex[idim] = 0;
     }
-  } // end iregion loop
+  }
 } // end GenerateOutputImage()
 
 template <typename TInputImage, typename TOutputImage>
@@ -360,7 +360,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
       }
       tmpIndex[idim] = 0;
     }
-  } // end iregion loop
+  }
 
   // Determine the borders next and initialize them
 
@@ -432,7 +432,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
       if (borderCounter >= numberOfBorders)
       {
         itkExceptionMacro(<< "KLM initialization is incorrect");
-      } // end if
+      }
 
       // Load the border of interest
       KLMSegmentationBorderPtr pcurrentBorder = m_BordersPointer[borderCounter];
@@ -453,7 +453,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
         intRegion1Index += indexRegion1[jdim] * tmpVal;
         intRegion2Index += indexRegion2[jdim] * tmpVal;
         tmpVal *= numRegionsAlongDim[jdim];
-      } // end jdim loop
+      }
 
       KLMSegmentationRegionPtr pRegion1 = m_RegionsPointer[intRegion1Index];
       KLMSegmentationRegionPtr pRegion2 = m_RegionsPointer[intRegion2Index];
@@ -514,11 +514,11 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::InitializeKLM()
   if (Math::NotAlmostEquals(m_TotalBorderLength, actualBorderLength))
   {
     itkExceptionMacro(<< "KLM initialization is incorrect");
-  } // end if
+  }
   else
   {
     itkDebugMacro(<< "Passed initialization");
-  } // end else
+  }
 
   // Allocate memory to store the array of pointers that point to the
   // static border objects
@@ -728,7 +728,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
         // In memory, the regions go from 0 to label-1. Hence the -1 offset
         uniqLabel = tmpLabel;
         tmpLabel = m_RegionsPointer[uniqLabel - 1]->GetRegionLabel();
-      } // end of chain (while loop)
+      }
 
       // Then re-walk the chain to change the label of each chain
       // member to be the last one just retrieved (uniqLabel)
@@ -737,16 +737,15 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
         m_RegionsPointer[origLabel - 1]->SetRegionLabel(uniqLabel);
         origLabel = currLabel;
         currLabel = m_RegionsPointer[origLabel - 1]->GetRegionLabel();
-      } // end of while ( currLabel != origLabel )
-    }   // end of the if condition for detecting unresolved chain
-
+      }
+    }
     else // The original label is unique, record it
     {
       uniqueLabelsVec.push_back(origLabel);
     }
 
     ++regionsPointerIt;
-  } // end of all regions
+  }
 
   // Sort the unique labels
   std::sort(uniqueLabelsVec.begin(), uniqueLabelsVec.end());
@@ -777,7 +776,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::ResolveRegions()
     MeanRegionIntensityType newMeanValue = m_RegionsPointer[labelValue - 1]->GetMeanRegionIntensity();
 
     m_RegionsPointer[iregion]->SetRegionParameters(newMeanValue, newAreaValue, newLabelValue);
-  } // end looping through the regions
+  }
 } // end ResolveRegions()
 
 template <typename TInputImage, typename TOutputImage>
@@ -793,7 +792,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintAlgorithmRegionStats()
       std::cout << "Stats for Region No: " << m_RegionsPointer[k]->GetRegionLabel() << std::endl;
       m_RegionsPointer[k]->PrintRegionInfo();
     }
-  } // end region printloop
+  }
 } // end PrintAlgorithmRegionStats
 
 template <typename TInputImage, typename TOutputImage>
@@ -805,7 +804,7 @@ KLMRegionGrowImageFilter<TInputImage, TOutputImage>::PrintAlgorithmBorderStats()
   {
     std::cout << "Stats for Border No: " << (k + 1) << std::endl;
     m_BordersDynamicPointer[k].m_Pointer->PrintBorderInfo();
-  } // end region printloop
+  }
 } // end PrintAlgorithmBorderStats
 } // namespace itk
 

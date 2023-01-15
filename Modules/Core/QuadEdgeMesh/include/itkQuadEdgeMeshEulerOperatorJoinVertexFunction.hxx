@@ -95,18 +95,12 @@ QuadEdgeMeshEulerOperatorJoinVertexFunction<TMesh, TQEType>::Evaluate(QEType * e
     default:
     case STANDARD_CONFIG:
       return Process(e);
-
-    // ******************************************************************
     // Isolated quad edge
     case QUADEDGE_ISOLATED:
       return ProcessIsolatedQuadEdge(e);
-
-    // ******************************************************************
     // Isolated face
     case FACE_ISOLATED:
       return ProcessIsolatedFace(e, edges_to_be_deleted);
-
-    // ******************************************************************
     // e == 0
     case EDGE_NULL:
     // m_Mesh == 0

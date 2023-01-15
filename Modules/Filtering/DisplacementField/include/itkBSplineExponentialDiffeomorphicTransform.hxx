@@ -143,9 +143,7 @@ BSplineExponentialDiffeomorphicTransform<TParametersValueType, VDimension>::Upda
   updatedVelocityField->Update();
   updatedVelocityField->DisconnectPipeline();
 
-  //
   // Smooth the velocity field
-  //
   bool smoothVelocityField = true;
   for (unsigned int d = 0; d < Dimension; ++d)
   {
