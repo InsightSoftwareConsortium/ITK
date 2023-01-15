@@ -145,7 +145,6 @@ ShapePriorMAPCostFunction<TFeatureImage, TOutputPixel>::ComputeLogGradientTerm(c
   }
 
   sum *= m_Weights[1];
-  //  std::cout << sum << " ";
   return sum;
 }
 

@@ -145,8 +145,6 @@ typename WindowedSincInterpolateImageFunction<TInputImage, VRadius, TWindowFunct
     distance[dim] = index[dim] - static_cast<double>(baseIndex[dim]);
   }
 
-  // cout << "Sampling at index " << index << " discrete " << baseIndex << endl;
-
   // Position the neighborhood at the index of interest
   Size<ImageDimension> radius;
   radius.Fill(VRadius);
