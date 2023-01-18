@@ -112,7 +112,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ChangeMapType m_MapOfLabelToBeReplaced;
+  ChangeMapType m_MapOfLabelToBeReplaced{};
 }; // end of class
 } // end namespace itk
 

@@ -317,10 +317,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  AttributeType m_Attribute;
+  AttributeType m_Attribute{};
 
 private:
-  bool m_ReverseOrdering;
+  bool m_ReverseOrdering{};
   struct LineOfLabelObject
   {
     using LineType = typename LabelObjectType::LineType;

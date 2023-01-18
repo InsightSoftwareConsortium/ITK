@@ -503,14 +503,14 @@ private:
   bool
   CalculateOrientedBoundingBoxVertices(vnl_symmetric_eigensystem<double> eig, LabelGeometry & m_LabelGeometry);
 
-  bool m_CalculatePixelIndices;
-  bool m_CalculateOrientedBoundingBox;
-  bool m_CalculateOrientedLabelRegions;
-  bool m_CalculateOrientedIntensityRegions;
+  bool m_CalculatePixelIndices{};
+  bool m_CalculateOrientedBoundingBox{};
+  bool m_CalculateOrientedLabelRegions{};
+  bool m_CalculateOrientedIntensityRegions{};
 
-  MapType       m_LabelGeometryMapper;
-  LabelGeometry m_LabelGeometry;
-  LabelsType    m_AllLabels;
+  MapType       m_LabelGeometryMapper{};
+  LabelGeometry m_LabelGeometry{};
+  LabelsType    m_AllLabels{};
 }; // end of class
 
 } // end namespace itk

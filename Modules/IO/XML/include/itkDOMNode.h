@@ -256,22 +256,22 @@ private:
   DOMNode * m_Parent{ nullptr };
 
   /** The XML tag of this node. */
-  std::string m_Name;
+  std::string m_Name{};
 
   /** The special attribute "id" of this node. */
-  std::string m_ID;
+  std::string m_ID{};
 
   /** Internally the children are stored in a vector. */
   using ChildrenContainer = std::vector<Pointer>;
-  ChildrenContainer m_Children;
+  ChildrenContainer m_Children{};
 
   /** Internally the attributes are stored in a map. */
   using AttributesContainer = std::map<AttributeKeyType, AttributeValueType>;
-  AttributesContainer m_Attributes;
+  AttributesContainer m_Attributes{};
 
   /** Container to keep the inserting orders of the attributes. */
   using OrderedAttributesContainer = std::list<AttributeItemType *>;
-  OrderedAttributesContainer m_OrderedAttributes;
+  OrderedAttributesContainer m_OrderedAttributes{};
 };
 
 } // namespace itk

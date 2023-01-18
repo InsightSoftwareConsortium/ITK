@@ -86,17 +86,17 @@ protected:
   GetImageRegionSplitter() const override;
 
 private:
-  ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter;
+  ImageRegionSplitterDirection::Pointer m_ImageRegionSplitter{};
 
   /** Destroy FFTW Plans and associated buffers. */
   void
   DestroyPlans();
 
   bool                  m_PlanComputed{ false };
-  PlanArrayType         m_PlanArray;
+  PlanArrayType         m_PlanArray{};
   unsigned int          m_LastImageSize{ 0 };
-  PlanBufferPointerType m_InputBufferArray;
-  PlanBufferPointerType m_OutputBufferArray;
+  PlanBufferPointerType m_InputBufferArray{};
+  PlanBufferPointerType m_OutputBufferArray{};
 };
 
 

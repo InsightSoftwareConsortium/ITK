@@ -140,10 +140,10 @@ protected:
   itkSetDecoratedOutputMacro(Maximum, PixelType);
 
 private:
-  PixelType m_ThreadMin;
-  PixelType m_ThreadMax;
+  PixelType m_ThreadMin{};
+  PixelType m_ThreadMax{};
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 };
 } // end namespace itk
 

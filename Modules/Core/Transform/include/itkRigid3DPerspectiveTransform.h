@@ -251,22 +251,22 @@ protected:
 
 private:
   /** Offset of the transformation. */
-  OffsetType m_Offset;
+  OffsetType m_Offset{};
 
   /** Rotation of the transformation. */
-  VersorType m_Versor;
+  VersorType m_Versor{};
 
   /** Set Focal distance of the projection. */
-  TParametersValueType m_FocalDistance;
+  TParametersValueType m_FocalDistance{};
 
   /** Matrix representation of the rotation. */
-  MatrixType m_RotationMatrix;
+  MatrixType m_RotationMatrix{};
 
   /** Fixed offset */
-  OffsetType m_FixedOffset;
+  OffsetType m_FixedOffset{};
 
   /** Center of rotation */
-  InputPointType m_CenterOfRotation;
+  InputPointType m_CenterOfRotation{};
 }; // class Rigid3DPerspectiveTransform:
 } // namespace itk
 

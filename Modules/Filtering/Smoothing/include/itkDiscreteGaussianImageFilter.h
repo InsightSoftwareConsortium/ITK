@@ -368,35 +368,35 @@ protected:
 private:
   /** The variance of the gaussian blurring kernel in each dimensional
     direction. */
-  ArrayType m_Variance;
+  ArrayType m_Variance{};
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  ArrayType m_MaximumError;
+  ArrayType m_MaximumError{};
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */
-  unsigned int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth{};
 
   /** Number of dimensions to process. Default is all dimensions */
-  unsigned int m_FilterDimensionality;
+  unsigned int m_FilterDimensionality{};
 
   /** Flag to indicate whether to use image spacing */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 
   /** Pointer to a persistent boundary condition object used
    ** for the image iterator. */
-  InputBoundaryConditionPointerType m_InputBoundaryCondition;
+  InputBoundaryConditionPointerType m_InputBoundaryCondition{};
 
   /** Default boundary condition */
-  InputDefaultBoundaryConditionType m_InputDefaultBoundaryCondition;
+  InputDefaultBoundaryConditionType m_InputDefaultBoundaryCondition{};
 
   /** Boundary condition use for the intermediate filters */
-  RealBoundaryConditionPointerType m_RealBoundaryCondition;
+  RealBoundaryConditionPointerType m_RealBoundaryCondition{};
 
   /** Default boundary condition use for the intermediate filters */
-  RealDefaultBoundaryConditionType m_RealDefaultBoundaryCondition;
+  RealDefaultBoundaryConditionType m_RealDefaultBoundaryCondition{};
 };
 } // end namespace itk
 

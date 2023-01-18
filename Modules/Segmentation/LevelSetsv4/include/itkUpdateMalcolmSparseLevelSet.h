@@ -110,18 +110,18 @@ protected:
   ~UpdateMalcolmSparseLevelSet() override = default;
 
   // output
-  LevelSetPointer m_OutputLevelSet;
+  LevelSetPointer m_OutputLevelSet{};
 
-  LevelSetLayerType m_Update;
+  LevelSetLayerType m_Update{};
 
-  IdentifierType           m_CurrentLevelSetId;
-  LevelSetOutputRealType   m_RMSChangeAccumulator;
-  EquationContainerPointer m_EquationContainer;
+  IdentifierType           m_CurrentLevelSetId{};
+  LevelSetOutputRealType   m_RMSChangeAccumulator{};
+  EquationContainerPointer m_EquationContainer{};
 
   using LabelImageType = Image<int8_t, ImageDimension>;
   using LabelImagePointer = typename LabelImageType::Pointer;
 
-  LabelImagePointer m_InternalImage;
+  LabelImagePointer m_InternalImage{};
 
   using NeighborhoodIteratorType = ShapedNeighborhoodIterator<LabelImageType>;
 
@@ -148,9 +148,9 @@ protected:
 
 private:
   // input
-  LevelSetPointer m_InputLevelSet;
+  LevelSetPointer m_InputLevelSet{};
 
-  LevelSetOffsetType m_Offset;
+  LevelSetOffsetType m_Offset{};
 
   using NodePairType = std::pair<LevelSetInputType, LevelSetOutputType>;
 };

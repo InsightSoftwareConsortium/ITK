@@ -231,22 +231,22 @@ private:
   void
   AllocateUpdateBuffer();
 
-  bool m_NonNegativeHessianBasedMeasure;
+  bool m_NonNegativeHessianBasedMeasure{};
 
-  double m_SigmaMinimum;
-  double m_SigmaMaximum;
+  double m_SigmaMinimum{};
+  double m_SigmaMaximum{};
 
-  unsigned int        m_NumberOfSigmaSteps;
-  SigmaStepMethodEnum m_SigmaStepMethod;
+  unsigned int        m_NumberOfSigmaSteps{};
+  SigmaStepMethodEnum m_SigmaStepMethod{};
 
-  typename HessianToMeasureFilterType::Pointer m_HessianToMeasureFilter;
+  typename HessianToMeasureFilterType::Pointer m_HessianToMeasureFilter{};
 
-  typename HessianFilterType::Pointer m_HessianFilter;
+  typename HessianFilterType::Pointer m_HessianFilter{};
 
-  typename UpdateBufferType::Pointer m_UpdateBuffer;
+  typename UpdateBufferType::Pointer m_UpdateBuffer{};
 
-  bool m_GenerateScalesOutput;
-  bool m_GenerateHessianOutput;
+  bool m_GenerateScalesOutput{};
+  bool m_GenerateHessianOutput{};
 };
 } // end namespace itk
 

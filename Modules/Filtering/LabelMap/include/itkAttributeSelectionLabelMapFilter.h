@@ -157,8 +157,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  AttributeSetType m_AttributeSet;
-  bool             m_Exclude;
+  AttributeSetType m_AttributeSet{};
+  bool             m_Exclude{};
 
 }; // end of class
 

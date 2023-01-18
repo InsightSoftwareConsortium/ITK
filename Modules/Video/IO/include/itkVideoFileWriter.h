@@ -136,20 +136,20 @@ protected:
 
 private:
   /** The file to write. */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** The VideoIO used for writing. */
-  IOBasePointer m_VideoIO;
+  IOBasePointer m_VideoIO{};
 
   /** TemporalRegion to write out. */
-  TemporalRegion m_OutputTemporalRegion;
+  TemporalRegion m_OutputTemporalRegion{};
 
   /** Parameters for writing. */
   TemporalRatioType          m_FramesPerSecond{ 24 };
-  std::string                m_FourCC;
-  std::vector<SizeValueType> m_Dimensions;
+  std::string                m_FourCC{};
+  std::vector<SizeValueType> m_Dimensions{};
   SizeValueType              m_NumberOfComponents{ 0 };
-  IOComponentEnum            m_ComponentType;
+  IOComponentEnum            m_ComponentType{};
 };
 
 } // end namespace itk

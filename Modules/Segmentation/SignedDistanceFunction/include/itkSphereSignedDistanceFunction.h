@@ -107,8 +107,8 @@ protected:
 private:
   using VectorType = Vector<CoordRepType, Self::SpaceDimension>;
 
-  VectorType m_Translation;
-  double     m_Radius;
+  VectorType m_Translation{};
+  double     m_Radius{};
 };
 } // end namespace itk
 

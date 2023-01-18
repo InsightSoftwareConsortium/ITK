@@ -169,14 +169,14 @@ protected:
 
 private:
   /** The variance of the Gaussian Filter used in this filter */
-  ArrayType m_Variance;
+  ArrayType m_Variance{};
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction.  */
-  ArrayType m_MaximumError;
+  ArrayType m_MaximumError{};
 
-  OutputImagePixelType m_BackgroundValue;
-  OutputImagePixelType m_ForegroundValue;
+  OutputImagePixelType m_BackgroundValue{};
+  OutputImagePixelType m_ForegroundValue{};
 };
 } // end of namespace itk
 

@@ -149,23 +149,23 @@ protected:
 
   unsigned int m_BufferSize; // # of bytes
 
-  GPUContextManager * m_ContextManager;
+  GPUContextManager * m_ContextManager{};
 
-  int m_CommandQueueId;
+  int m_CommandQueueId{};
 
   /** buffer type */
-  cl_mem_flags m_MemFlags;
+  cl_mem_flags m_MemFlags{};
 
   /** buffer pointers */
-  cl_mem m_GPUBuffer;
-  void * m_CPUBuffer;
+  cl_mem m_GPUBuffer{};
+  void * m_CPUBuffer{};
 
   /** checks if buffer needs to be updated */
-  bool m_IsGPUBufferDirty;
-  bool m_IsCPUBufferDirty;
+  bool m_IsGPUBufferDirty{};
+  bool m_IsCPUBufferDirty{};
 
   /** Mutex lock to prevent r/w hazard for multithreaded code */
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 };
 
 } // namespace itk

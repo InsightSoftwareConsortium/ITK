@@ -114,8 +114,8 @@ private:
   RGBPixelType
   GetColorPaletteEntry(const unsigned char entry) const;
 
-  std::ifstream  m_Ifstream;
-  std::ofstream  m_Ofstream;
+  std::ifstream  m_Ifstream{};
+  std::ofstream  m_Ofstream{};
   long           m_BitMapOffset{ 0 };
   bool           m_FileLowerLeft{ false };
   short          m_Depth{ 8 };
@@ -123,7 +123,7 @@ private:
   unsigned int   m_ColorPaletteSize{ 0 };
   long           m_BMPCompression{ 0 };
   unsigned long  m_BMPDataSize{ 0 };
-  PaletteType    m_ColorPalette;
+  PaletteType    m_ColorPalette{};
 };
 } // end namespace itk
 

@@ -228,22 +228,22 @@ protected:
     return m_KernelCCVector.end();
   }
 
-  bool m_BoundaryToForeground;
+  bool m_BoundaryToForeground{};
 
 private:
   /** Pixel value to dilate */
-  InputPixelType m_ForegroundValue;
+  InputPixelType m_ForegroundValue{};
 
   /** Pixel value for background */
-  OutputPixelType m_BackgroundValue;
+  OutputPixelType m_BackgroundValue{};
 
   /** Difference sets definition */
-  NeighborIndexContainerContainer m_KernelDifferenceSets;
+  NeighborIndexContainerContainer m_KernelDifferenceSets{};
 
   /** For each Connected Component ( CC ) of structuring element we
    * store the position of one element, arbitrary chosen, which belongs
    * to the CC */
-  std::vector<OffsetType> m_KernelCCVector;
+  std::vector<OffsetType> m_KernelCCVector{};
 };
 } // end namespace itk
 

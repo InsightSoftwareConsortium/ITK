@@ -220,10 +220,10 @@ protected:
 
 private:
   /** Desired variance of the discrete Gaussian function. */
-  VarianceArrayType m_Variance;
+  VarianceArrayType m_Variance{};
 
   /** Order of the derivatives in each dimension. */
-  OrderArrayType m_Order;
+  OrderArrayType m_Order{};
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions. */
@@ -235,14 +235,14 @@ private:
   unsigned int m_MaximumKernelWidth{ 30 };
 
   /** Array of derivative operators, one for each dimension. */
-  GaussianDerivativeOperatorArrayType m_OperatorArray;
+  GaussianDerivativeOperatorArrayType m_OperatorArray{};
 
   /** N-dimensional kernel which is the result of convolving the operators
    * for calculating derivatives. */
-  KernelType m_DerivativeKernel;
+  KernelType m_DerivativeKernel{};
 
   /** OperatorImageFunction */
-  OperatorImageFunctionPointer m_OperatorImageFunction;
+  OperatorImageFunctionPointer m_OperatorImageFunction{};
 
   /** Flag for scale-space normalization of derivatives. */
   bool m_NormalizeAcrossScale{ true };

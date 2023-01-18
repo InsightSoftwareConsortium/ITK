@@ -105,9 +105,9 @@ protected:
   CopyObject(const InternalSpatialObjectType * source, InternalSpatialObjectType * destination);
 
 private:
-  SpatialObjectConstPointer m_Input;
-  SpatialObjectPointer      m_DuplicateSpatialObject;
-  ModifiedTimeType          m_InternalSpatialObjectTime;
+  SpatialObjectConstPointer m_Input{};
+  SpatialObjectPointer      m_DuplicateSpatialObject{};
+  ModifiedTimeType          m_InternalSpatialObjectTime{};
 };
 } // end namespace itk
 

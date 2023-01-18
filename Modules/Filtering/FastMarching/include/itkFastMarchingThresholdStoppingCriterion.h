@@ -76,7 +76,7 @@ protected:
 
   ~FastMarchingThresholdStoppingCriterion() override = default;
 
-  OutputPixelType m_Threshold;
+  OutputPixelType m_Threshold{};
 
   void
   SetCurrentNode(const NodeType &) override

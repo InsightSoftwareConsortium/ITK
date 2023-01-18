@@ -394,13 +394,13 @@ private:
 
   using LabelStatusImageFaceListIterator = typename LabelStatusImageFaceListType::iterator;
 
-  InputImageNeighborhoodRadiusType       m_InputImageNeighborhoodRadius;
-  LabelledImageNeighborhoodRadiusType    m_LabelledImageNeighborhoodRadius;
-  LabelStatusImageNeighborhoodRadiusType m_LabelStatusImageNeighborhoodRadius;
+  InputImageNeighborhoodRadiusType       m_InputImageNeighborhoodRadius{};
+  LabelledImageNeighborhoodRadiusType    m_LabelledImageNeighborhoodRadius{};
+  LabelStatusImageNeighborhoodRadiusType m_LabelStatusImageNeighborhoodRadius{};
 
   unsigned int m_NumberOfClasses{ 0 };
   unsigned int m_MaximumNumberOfIterations{ 50 };
-  unsigned int m_KernelSize;
+  unsigned int m_KernelSize{};
 
   int          m_ErrorCounter{ 0 };
   int          m_NeighborhoodSize{ 27 };
@@ -412,15 +412,15 @@ private:
   unsigned int m_NumberOfIterations{ 0 };
   MRFStopEnum  m_StopCondition{ MRFStopEnum::MaximumNumberOfIterations };
 
-  LabelStatusImagePointer m_LabelStatusImage;
+  LabelStatusImagePointer m_LabelStatusImage{};
 
-  std::vector<double> m_MRFNeighborhoodWeight;
-  std::vector<double> m_NeighborInfluence;
-  std::vector<double> m_MahalanobisDistance;
-  std::vector<double> m_DummyVector;
+  std::vector<double> m_MRFNeighborhoodWeight{};
+  std::vector<double> m_NeighborInfluence{};
+  std::vector<double> m_MahalanobisDistance{};
+  std::vector<double> m_DummyVector{};
 
   /** Pointer to the classifier to be used for the MRF labelling. */
-  typename ClassifierType::Pointer m_ClassifierPtr;
+  typename ClassifierType::Pointer m_ClassifierPtr{};
 
   /** Set/Get the weighting parameters (Beta Matrix). A default 3 x 3 x 3
    * matrix is provided. However, the user is allowed to override it

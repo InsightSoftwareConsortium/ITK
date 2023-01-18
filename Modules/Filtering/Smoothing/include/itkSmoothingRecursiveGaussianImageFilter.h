@@ -169,13 +169,13 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1];
-  FirstGaussianFilterPointer    m_FirstSmoothingFilter;
-  CastingFilterPointer          m_CastingFilter;
+  InternalGaussianFilterPointer m_SmoothingFilters[ImageDimension - 1]{};
+  FirstGaussianFilterPointer    m_FirstSmoothingFilter{};
+  CastingFilterPointer          m_CastingFilter{};
 
   bool m_NormalizeAcrossScale{ false };
 
-  SigmaArrayType m_Sigma;
+  SigmaArrayType m_Sigma{};
 };
 } // end namespace itk
 

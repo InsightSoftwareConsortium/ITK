@@ -130,10 +130,10 @@ protected:
   /** Used in GaussianSmoothTimeVaryingVelocityField as variance for the
    * GaussianOperator
    */
-  ScalarType m_GaussianSpatialSmoothingVarianceForTheUpdateField;
-  ScalarType m_GaussianSpatialSmoothingVarianceForTheTotalField;
-  ScalarType m_GaussianTemporalSmoothingVarianceForTheUpdateField;
-  ScalarType m_GaussianTemporalSmoothingVarianceForTheTotalField;
+  ScalarType m_GaussianSpatialSmoothingVarianceForTheUpdateField{};
+  ScalarType m_GaussianSpatialSmoothingVarianceForTheTotalField{};
+  ScalarType m_GaussianTemporalSmoothingVarianceForTheUpdateField{};
+  ScalarType m_GaussianTemporalSmoothingVarianceForTheTotalField{};
 };
 
 } // end namespace itk

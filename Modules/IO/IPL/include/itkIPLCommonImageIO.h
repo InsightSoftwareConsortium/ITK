@@ -164,9 +164,9 @@ protected:
 
   //
   // data members
-  GEImageHeader *   m_ImageHeader;
-  IOByteOrderEnum   m_SystemByteOrder;
-  IPLFileNameList * m_FilenameList;
+  GEImageHeader *   m_ImageHeader{};
+  IOByteOrderEnum   m_SystemByteOrder{};
+  IPLFileNameList * m_FilenameList{};
   //
   // return 0 on success, -1 on failure
   int

@@ -121,13 +121,13 @@ protected:
   }
 
 private:
-  TRealValueType m_Sigma;
+  TRealValueType m_Sigma{};
 
-  TRealValueType m_Frequency;
+  TRealValueType m_Frequency{};
 
-  TRealValueType m_PhaseOffset;
+  TRealValueType m_PhaseOffset{};
 
-  bool m_CalculateImaginaryPart;
+  bool m_CalculateImaginaryPart{};
 };
 } // end namespace itk
 

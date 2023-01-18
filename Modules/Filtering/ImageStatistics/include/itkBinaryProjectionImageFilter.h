@@ -186,10 +186,10 @@ protected:
   }
 
   /** Pixel value to dilate */
-  InputPixelType m_ForegroundValue;
+  InputPixelType m_ForegroundValue{};
 
   /** Pixel value for background */
-  OutputPixelType m_BackgroundValue;
+  OutputPixelType m_BackgroundValue{};
 }; // end BinaryProjectionImageFilter
 } // end namespace itk
 

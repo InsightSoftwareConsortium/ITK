@@ -314,22 +314,22 @@ private:
    * termination criterion */
   double m_CentroidPositionChangesThreshold{ 0.0 };
   /** pointer to the k-d tree */
-  typename TKdTree::Pointer m_KdTree;
+  typename TKdTree::Pointer m_KdTree{};
   /** pointer to the euclidean distance function */
-  typename EuclideanDistanceMetric<ParameterType>::Pointer m_DistanceMetric;
+  typename EuclideanDistanceMetric<ParameterType>::Pointer m_DistanceMetric{};
 
   /** k-means */
-  ParametersType m_Parameters;
+  ParametersType m_Parameters{};
 
-  CandidateVector m_CandidateVector;
+  CandidateVector m_CandidateVector{};
 
-  ParameterType m_TempVertex;
+  ParameterType m_TempVertex{};
 
   bool                                  m_UseClusterLabels{ false };
   bool                                  m_GenerateClusterLabels{ false };
-  ClusterLabelsType                     m_ClusterLabels;
+  ClusterLabelsType                     m_ClusterLabels{};
   MeasurementVectorSizeType             m_MeasurementVectorSize{ 0 };
-  MembershipFunctionVectorObjectPointer m_MembershipFunctionsObject;
+  MembershipFunctionVectorObjectPointer m_MembershipFunctionsObject{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

@@ -145,7 +145,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  VertexListPointer m_VertexList;
+  VertexListPointer m_VertexList{};
 };
 } // end namespace itk
 

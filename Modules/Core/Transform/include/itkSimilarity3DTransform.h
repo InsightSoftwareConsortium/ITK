@@ -158,7 +158,7 @@ protected:
   ComputeMatrixParameters() override;
 
 private:
-  ScaleType m_Scale;
+  ScaleType m_Scale{};
 }; // class Similarity3DTransform
 } // namespace itk
 

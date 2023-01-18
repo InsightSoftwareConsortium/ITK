@@ -109,7 +109,7 @@ protected:
   InternalClone() const override;
 
 private:
-  DistanceMetricPointer m_DistanceMetric;
+  DistanceMetricPointer m_DistanceMetric{};
 };
 } // end of namespace Statistics
 } // end namespace itk

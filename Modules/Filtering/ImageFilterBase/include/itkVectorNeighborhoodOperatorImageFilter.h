@@ -166,11 +166,11 @@ protected:
 
 private:
   /** Pointer to the internal operator used to filter the image. */
-  Neighborhood<ScalarValueType, Self::ImageDimension> m_Operator;
+  Neighborhood<ScalarValueType, Self::ImageDimension> m_Operator{};
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
-  ImageBoundaryConditionPointerType m_BoundsCondition;
+  ImageBoundaryConditionPointerType m_BoundsCondition{};
 };
 } // end namespace itk
 

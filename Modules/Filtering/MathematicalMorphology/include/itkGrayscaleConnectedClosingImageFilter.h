@@ -121,9 +121,9 @@ protected:
 
 private:
   unsigned long       m_NumberOfIterationsUsed{ 1 };
-  InputImageIndexType m_Seed;
+  InputImageIndexType m_Seed{};
 
-  bool m_FullyConnected;
+  bool m_FullyConnected{};
 }; // end of class
 } // end namespace itk
 

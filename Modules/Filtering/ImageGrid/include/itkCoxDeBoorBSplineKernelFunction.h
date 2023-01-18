@@ -134,8 +134,8 @@ private:
   PolynomialType
   CoxDeBoor(const unsigned short, const VectorType, const unsigned int, const unsigned int);
 
-  MatrixType   m_BSplineShapeFunctions;
-  unsigned int m_SplineOrder;
+  MatrixType   m_BSplineShapeFunctions{};
+  unsigned int m_SplineOrder{};
 };
 } // end namespace itk
 

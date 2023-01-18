@@ -253,7 +253,7 @@ private:
   DirectionType m_OutputDirection{ DirectionType::GetIdentity() };
 
   OutputImageOffsetType m_OutputOffset{};
-  OutputImageOffsetType m_Shift;
+  OutputImageOffsetType m_Shift{};
 };
 } // end namespace itk
 

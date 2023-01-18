@@ -204,19 +204,19 @@ public:
 protected:
   IsolatedConnectedImageFilter();
   ~IsolatedConnectedImageFilter() override = default;
-  SeedsContainerType m_Seeds1;
-  SeedsContainerType m_Seeds2;
+  SeedsContainerType m_Seeds1{};
+  SeedsContainerType m_Seeds2{};
 
-  InputImagePixelType m_Lower;
-  InputImagePixelType m_Upper;
+  InputImagePixelType m_Lower{};
+  InputImagePixelType m_Upper{};
 
-  OutputImagePixelType m_ReplaceValue;
+  OutputImagePixelType m_ReplaceValue{};
 
-  InputImagePixelType m_IsolatedValue;
-  InputImagePixelType m_IsolatedValueTolerance;
+  InputImagePixelType m_IsolatedValue{};
+  InputImagePixelType m_IsolatedValueTolerance{};
 
-  bool m_FindUpperThreshold;
-  bool m_ThresholdingFailed;
+  bool m_FindUpperThreshold{};
+  bool m_ThresholdingFailed{};
 
   // Override since the filter needs all the data for the algorithm
   void

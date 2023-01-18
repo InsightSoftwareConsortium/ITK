@@ -356,30 +356,30 @@ private:
   bool         m_UsePointWeights{ false };
   unsigned int m_MaximumNumberOfLevels{ 1 };
   unsigned int m_CurrentLevel{ 0 };
-  ArrayType    m_NumberOfControlPoints;
-  ArrayType    m_CurrentNumberOfControlPoints;
-  ArrayType    m_CloseDimension;
-  ArrayType    m_SplineOrder;
-  ArrayType    m_NumberOfLevels;
+  ArrayType    m_NumberOfControlPoints{};
+  ArrayType    m_CurrentNumberOfControlPoints{};
+  ArrayType    m_CloseDimension{};
+  ArrayType    m_SplineOrder{};
+  ArrayType    m_NumberOfLevels{};
 
-  typename WeightsContainerType::Pointer m_PointWeights;
+  typename WeightsContainerType::Pointer m_PointWeights{};
 
-  typename PointDataImageType::Pointer m_PhiLattice;
-  typename PointDataImageType::Pointer m_PsiLattice;
+  typename PointDataImageType::Pointer m_PhiLattice{};
+  typename PointDataImageType::Pointer m_PsiLattice{};
 
-  vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension];
+  vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension]{};
 
-  PointDataContainerPointer m_ResidualPointSetValues;
+  PointDataContainerPointer m_ResidualPointSetValues{};
 
-  typename KernelType::Pointer m_Kernel[ImageDimension];
+  typename KernelType::Pointer m_Kernel[ImageDimension]{};
 
-  typename KernelOrder0Type::Pointer m_KernelOrder0;
-  typename KernelOrder1Type::Pointer m_KernelOrder1;
-  typename KernelOrder2Type::Pointer m_KernelOrder2;
-  typename KernelOrder3Type::Pointer m_KernelOrder3;
+  typename KernelOrder0Type::Pointer m_KernelOrder0{};
+  typename KernelOrder1Type::Pointer m_KernelOrder1{};
+  typename KernelOrder2Type::Pointer m_KernelOrder2{};
+  typename KernelOrder3Type::Pointer m_KernelOrder3{};
 
-  std::vector<RealImagePointer>      m_OmegaLatticePerThread;
-  std::vector<PointDataImagePointer> m_DeltaLatticePerThread;
+  std::vector<RealImagePointer>      m_OmegaLatticePerThread{};
+  std::vector<PointDataImagePointer> m_DeltaLatticePerThread{};
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
   bool     m_IsFittingComplete{ false };

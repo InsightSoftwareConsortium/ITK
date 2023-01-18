@@ -139,16 +139,16 @@ protected:
 
 private:
   double            m_HarmonicEnergy{ 0.0 };
-  ImageConstPointer m_Image;
+  ImageConstPointer m_Image{};
 
-  RegionType m_Region;
+  RegionType m_Region{};
   bool       m_RegionSetByUser{ false };
 
   bool m_UseImageSpacing{ true };
 
-  WeightsType m_DerivativeWeights;
+  WeightsType m_DerivativeWeights{};
 
-  RadiusType m_NeighborhoodRadius;
+  RadiusType m_NeighborhoodRadius{};
 };
 } // end namespace itk
 

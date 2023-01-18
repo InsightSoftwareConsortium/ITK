@@ -124,8 +124,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeType m_UpperBoundaryPadSize;
-  SizeType m_LowerBoundaryPadSize;
+  SizeType m_UpperBoundaryPadSize{};
+  SizeType m_LowerBoundaryPadSize{};
 };
 } // end namespace itk
 

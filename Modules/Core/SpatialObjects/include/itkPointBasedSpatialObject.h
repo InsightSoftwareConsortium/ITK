@@ -135,7 +135,7 @@ protected:
   PointBasedSpatialObject();
   ~PointBasedSpatialObject() override = default;
 
-  SpatialObjectPointListType m_Points;
+  SpatialObjectPointListType m_Points{};
 
   /** Method to print the object.*/
   void

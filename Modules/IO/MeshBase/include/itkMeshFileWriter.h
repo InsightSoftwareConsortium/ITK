@@ -176,14 +176,14 @@ protected:
   WriteCellData();
 
 private:
-  std::string         m_FileName;
-  MeshIOBase::Pointer m_MeshIO;
+  std::string         m_FileName{};
+  MeshIOBase::Pointer m_MeshIO{};
   bool                m_UserSpecifiedMeshIO; // track whether the MeshIO is
                                              // user specified
   bool m_FactorySpecifiedMeshIO;             // track whether the factory
                                              // mechanism set the MeshIO
-  bool m_UseCompression;
-  bool m_FileTypeIsBINARY;
+  bool m_UseCompression{};
+  bool m_FileTypeIsBINARY{};
 };
 
 

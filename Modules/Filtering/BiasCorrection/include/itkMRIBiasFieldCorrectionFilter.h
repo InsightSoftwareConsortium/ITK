@@ -158,22 +158,22 @@ protected:
 
 private:
   /** Bias field object pointer. */
-  BiasFieldType * m_BiasField;
+  BiasFieldType * m_BiasField{};
 
   /** Input image smart pointer. */
-  ImagePointer m_Image;
+  ImagePointer m_Image{};
 
   /** Input mask image smart pointer. */
-  MaskPointer m_Mask;
+  MaskPointer m_Mask{};
 
   /** Region of interest. */
-  ImageRegionType m_Region;
+  ImageRegionType m_Region{};
 
   /** Internal energy function object pointer. */
-  InternalEnergyFunction * m_InternalEnergyFunction;
+  InternalEnergyFunction * m_InternalEnergyFunction{};
 
   /** Sampling factors */
-  SamplingFactorType m_SamplingFactor;
+  SamplingFactorType m_SamplingFactor{};
 }; // end of class
 
 /**
@@ -565,37 +565,37 @@ protected:
 
 private:
   /** Energy function object pointer. */
-  EnergyFunctionPointer m_EnergyFunction;
+  EnergyFunctionPointer m_EnergyFunction{};
 
   /** Normal variate generator smart pointer. */
-  NormalVariateGeneratorType::Pointer m_NormalVariateGenerator;
+  NormalVariateGeneratorType::Pointer m_NormalVariateGenerator{};
 
   /** Input mask image smart pointer. */
-  ImageMaskPointer m_InputMask;
+  ImageMaskPointer m_InputMask{};
 
   /** Output mask image smart pointer. */
-  ImageMaskPointer m_OutputMask;
+  ImageMaskPointer m_OutputMask{};
 
   /** Internal image smart pointer. */
-  InternalImagePointer m_InternalInput;
+  InternalImagePointer m_InternalInput{};
 
   /** Storage for the MRI slab identifier return. */
-  SlabRegionVectorType m_Slabs;
+  SlabRegionVectorType m_Slabs{};
 
   /** [0 - x, 1 - y, 2 - z]. */
-  int m_SlicingDirection;
+  int m_SlicingDirection{};
 
   /** Bias Field character if true, multiplicative.  if false, additive. */
   bool m_BiasFieldMultiplicative{ true };
 
   /** operation selection flags. */
-  bool m_UsingInterSliceIntensityCorrection;
+  bool m_UsingInterSliceIntensityCorrection{};
   bool m_UsingSlabIdentification{ false };
   bool m_UsingBiasFieldCorrection{ true };
   bool m_GeneratingOutput{ true };
 
   unsigned int        m_SlabNumberOfSamples{ 200 };
-  InputImagePixelType m_SlabBackgroundMinimumThreshold;
+  InputImagePixelType m_SlabBackgroundMinimumThreshold{};
   double              m_SlabTolerance{ 0.0 };
 
   /** The degree of the bias field estimate. */
@@ -605,15 +605,15 @@ private:
   unsigned int m_NumberOfLevels{ 0 };
 
   /** The multires schedule */
-  ScheduleType m_Schedule;
+  ScheduleType m_Schedule{};
 
   /** Storage for the initial 3D bias field estimate coefficients that will be
    * used for correcting each slab. */
-  BiasFieldType::CoefficientArrayType m_BiasFieldCoefficients;
+  BiasFieldType::CoefficientArrayType m_BiasFieldCoefficients{};
 
   /** Storage for the resulting 3D bias field estimate coefficients
    * after optimization. */
-  BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients;
+  BiasFieldType::CoefficientArrayType m_EstimatedBiasFieldCoefficients{};
 
   int m_VolumeCorrectionMaximumIteration{ 2000 };
 
@@ -626,13 +626,13 @@ private:
   double m_OptimizerGrowthFactor{ 1.05 };
 
   /** Storage for the optimizer's search radius shrink factor. */
-  double m_OptimizerShrinkFactor;
+  double m_OptimizerShrinkFactor{};
 
   /** Storage for tissue classes' mean values. */
-  Array<double> m_TissueClassMeans;
+  Array<double> m_TissueClassMeans{};
 
   /** Storage for tissue classes' variance values. */
-  Array<double> m_TissueClassSigmas;
+  Array<double> m_TissueClassSigmas{};
 };
 
 } // end namespace itk

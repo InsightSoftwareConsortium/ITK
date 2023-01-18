@@ -167,7 +167,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ThresholdFunctionPointer m_ThresholdFunction;
+  ThresholdFunctionPointer m_ThresholdFunction{};
 };
 } // end namespace itk
 

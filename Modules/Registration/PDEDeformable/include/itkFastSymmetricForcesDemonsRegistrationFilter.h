@@ -186,8 +186,8 @@ private:
   const DemonsRegistrationFunctionType *
   DownCastDifferenceFunctionType() const;
 
-  MultiplyByConstantPointer m_Multiplier;
-  AdderPointer              m_Adder;
+  MultiplyByConstantPointer m_Multiplier{};
+  AdderPointer              m_Adder{};
 };
 } // end namespace itk
 

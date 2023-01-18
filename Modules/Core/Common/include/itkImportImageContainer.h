@@ -199,10 +199,10 @@ protected:
   }
 
 private:
-  TElement *         m_ImportPointer;
-  TElementIdentifier m_Size;
-  TElementIdentifier m_Capacity;
-  bool               m_ContainerManageMemory;
+  TElement *         m_ImportPointer{};
+  TElementIdentifier m_Size{};
+  TElementIdentifier m_Capacity{};
+  bool               m_ContainerManageMemory{};
 };
 } // end namespace itk
 

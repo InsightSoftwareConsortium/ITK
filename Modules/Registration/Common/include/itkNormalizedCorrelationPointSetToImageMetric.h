@@ -108,7 +108,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool m_SubtractMean;
+  bool m_SubtractMean{};
 };
 } // end namespace itk
 

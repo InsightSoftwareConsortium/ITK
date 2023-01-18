@@ -171,7 +171,7 @@ private:
   PixelType     m_ThreadMin{ 1 };
   PixelType     m_ThreadMax{ 1 };
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 }; // end of class
 } // end namespace itk
 

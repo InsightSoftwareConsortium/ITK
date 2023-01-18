@@ -129,8 +129,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  OutputImagePixelType m_BackgroundValue;
-  OutputImagePixelType m_ForegroundValue;
+  OutputImagePixelType m_BackgroundValue{};
+  OutputImagePixelType m_ForegroundValue{};
 
   /**
    * ZeroCrossingImageFilter can be implemented as a multithreaded filter.

@@ -813,22 +813,22 @@ protected:
 
 private:
   /** Pointer to the input sample */
-  const TSample * m_Sample;
+  const TSample * m_Sample{};
 
   /** Number of measurement vectors can be stored in a terminal node. */
-  int m_BucketSize;
+  int m_BucketSize{};
 
   /** Pointer to the root node */
-  KdTreeNodeType * m_Root;
+  KdTreeNodeType * m_Root{};
 
   /** Pointer to the empty terminal node */
-  KdTreeNodeType * m_EmptyTerminalNode;
+  KdTreeNodeType * m_EmptyTerminalNode{};
 
   /** Distance metric smart pointer */
-  typename DistanceMetricType::Pointer m_DistanceMetric;
+  typename DistanceMetricType::Pointer m_DistanceMetric{};
 
   /** Measurement vector size */
-  MeasurementVectorSizeType m_MeasurementVectorSize;
+  MeasurementVectorSizeType m_MeasurementVectorSize{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

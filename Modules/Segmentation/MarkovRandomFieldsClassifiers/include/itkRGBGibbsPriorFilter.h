@@ -237,7 +237,7 @@ private:
   unsigned int m_MaximumNumberOfIterations{ 10 }; /** number of the
                                                 iteration. */
 
-  typename ClassifierType::Pointer m_ClassifierPtr;
+  typename ClassifierType::Pointer m_ClassifierPtr{};
 
   unsigned int m_BoundaryGradient{ 7 };                  /** the threshold for the existence of a
                                                         boundary. */

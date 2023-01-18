@@ -108,7 +108,7 @@ protected:
   ~GradientNDAnisotropicDiffusionFunction() override = default;
 
   /** Inner product function. */
-  NeighborhoodInnerProduct<ImageType> m_InnerProduct;
+  NeighborhoodInnerProduct<ImageType> m_InnerProduct{};
 
   /** Slices for the ND neighborhood. */
   std::slice x_slice[ImageDimension];
@@ -116,13 +116,13 @@ protected:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operator. */
-  DerivativeOperator<PixelType, Self::ImageDimension> m_DerivativeOperator;
+  DerivativeOperator<PixelType, Self::ImageDimension> m_DerivativeOperator{};
 
   /** Modified global average gradient magnitude term. */
   PixelType m_K;
 
-  NeighborhoodSizeValueType m_Center;
-  NeighborhoodSizeValueType m_Stride[ImageDimension];
+  NeighborhoodSizeValueType m_Center{};
+  NeighborhoodSizeValueType m_Stride[ImageDimension]{};
 
   static double m_MIN_NORM;
 };

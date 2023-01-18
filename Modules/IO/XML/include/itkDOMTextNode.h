@@ -63,7 +63,7 @@ protected:
 
 private:
   /** Variable to hold the text string of this node. */
-  std::string m_Text;
+  std::string m_Text{};
 };
 
 } // namespace itk

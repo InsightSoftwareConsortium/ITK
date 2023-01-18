@@ -128,14 +128,14 @@ private:
 
   /** Cell Id  in which the point P, which is used
    * to define the mapping, lies in. */
-  unsigned int m_PolarCellIdentifier;
+  unsigned int m_PolarCellIdentifier{};
 
   /** Whether the result is sphere or plane.  */
-  bool m_MapToSphere;
+  bool m_MapToSphere{};
 
   /** The scale when mapping to the plane.
    *  Determines how far the farthest point goes. */
-  double m_MapScale;
+  double m_MapScale{};
 };
 } // end namespace itk
 

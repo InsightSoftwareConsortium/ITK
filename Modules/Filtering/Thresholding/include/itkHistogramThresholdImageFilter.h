@@ -215,13 +215,13 @@ private:
   void
   SetUpHistogramGenerator(HistogramGeneratorPointer histogramGenerator);
 
-  OutputPixelType   m_InsideValue;
-  OutputPixelType   m_OutsideValue;
-  InputPixelType    m_Threshold;
-  MaskPixelType     m_MaskValue;
-  CalculatorPointer m_Calculator;
+  OutputPixelType   m_InsideValue{};
+  OutputPixelType   m_OutsideValue{};
+  InputPixelType    m_Threshold{};
+  MaskPixelType     m_MaskValue{};
+  CalculatorPointer m_Calculator{};
   unsigned int      m_NumberOfHistogramBins{ 256 };
-  bool              m_AutoMinimumMaximum;
+  bool              m_AutoMinimumMaximum{};
   bool              m_MaskOutput{ true };
 };
 

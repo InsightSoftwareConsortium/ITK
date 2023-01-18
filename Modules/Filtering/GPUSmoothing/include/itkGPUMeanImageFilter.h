@@ -90,7 +90,7 @@ protected:
   GPUGenerateData() override;
 
 private:
-  int m_MeanFilterGPUKernelHandle;
+  int m_MeanFilterGPUKernelHandle{};
 };
 
 /**

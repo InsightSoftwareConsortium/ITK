@@ -162,9 +162,9 @@ protected:
 
 private:
   double          m_Pow{ 1 };
-  InputPixelType  m_Threshold;
-  OutputPixelType m_InsideValue;
-  OutputPixelType m_OutsideValue;
+  InputPixelType  m_Threshold{};
+  OutputPixelType m_InsideValue{};
+  OutputPixelType m_OutsideValue{};
 };
 } // end namespace itk
 

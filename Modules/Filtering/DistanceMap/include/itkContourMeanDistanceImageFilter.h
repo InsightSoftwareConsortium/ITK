@@ -155,8 +155,8 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
-  RealType m_MeanDistance;
-  bool     m_UseImageSpacing;
+  RealType m_MeanDistance{};
+  bool     m_UseImageSpacing{};
 }; // end of class
 } // end namespace itk
 

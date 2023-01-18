@@ -88,7 +88,7 @@ protected:
   PopulateDomainWithKdTree();
 
 private:
-  KdTreePointer   m_KdTree;
+  KdTreePointer   m_KdTree{};
   NeighborsIdType m_NumberOfNeighbors{ 10 };
 };
 

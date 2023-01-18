@@ -168,13 +168,13 @@ protected:
   PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  NodeContainerPointer m_SeedPoints1;
-  NodeContainerPointer m_SeedPoints2;
+  NodeContainerPointer m_SeedPoints1{};
+  NodeContainerPointer m_SeedPoints2{};
 
-  bool m_StopOnTargets;
-  bool m_ApplyConnectivity;
+  bool m_StopOnTargets{};
+  bool m_ApplyConnectivity{};
 
-  double m_NegativeEpsilon;
+  double m_NegativeEpsilon{};
 };
 } // end namespace itk
 

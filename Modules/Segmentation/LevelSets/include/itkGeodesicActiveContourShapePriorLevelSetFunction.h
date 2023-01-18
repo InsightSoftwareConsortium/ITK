@@ -180,7 +180,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_DerivativeSigma;
+  double m_DerivativeSigma{};
 };
 } // end namespace itk
 

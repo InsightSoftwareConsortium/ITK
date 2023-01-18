@@ -200,7 +200,7 @@ private:
   OutputPixelType m_BackgroundValue = NumericTraits<OutputPixelType>::ZeroValue();
   LabelType       m_ObjectCount = 0;
 
-  typename TInputImage::ConstPointer m_Input;
+  typename TInputImage::ConstPointer m_Input{};
 };
 } // end namespace itk
 

@@ -249,7 +249,7 @@ protected:
   }
 
 private:
-  ScaleType m_Scale;
+  ScaleType m_Scale{};
 }; // class Similarity2DTransform
 } // namespace itk
 

@@ -83,8 +83,8 @@ protected:
 
   ~FastMarchingNumberOfElementsStoppingCriterion() override = default;
 
-  IdentifierType m_CurrentNumberOfElements;
-  IdentifierType m_TargetNumberOfElements;
+  IdentifierType m_CurrentNumberOfElements{};
+  IdentifierType m_TargetNumberOfElements{};
 
   void
   SetCurrentNode(const NodeType &) override

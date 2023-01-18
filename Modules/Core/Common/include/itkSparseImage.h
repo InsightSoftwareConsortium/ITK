@@ -151,9 +151,9 @@ protected:
 
 private:
   /** The variables for storing the node variables. */
-  typename NodeListType::Pointer m_NodeList;
+  typename NodeListType::Pointer m_NodeList{};
 
-  typename NodeStoreType::Pointer m_NodeStore;
+  typename NodeStoreType::Pointer m_NodeStore{};
 };
 } // end namespace itk
 

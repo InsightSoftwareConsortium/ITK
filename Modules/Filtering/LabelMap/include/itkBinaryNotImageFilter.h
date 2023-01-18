@@ -144,8 +144,8 @@ protected:
   }
 
 private:
-  PixelType m_ForegroundValue;
-  PixelType m_BackgroundValue;
+  PixelType m_ForegroundValue{};
+  PixelType m_BackgroundValue{};
 };
 
 } // end namespace itk

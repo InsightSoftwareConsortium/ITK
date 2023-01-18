@@ -375,17 +375,17 @@ private:
   void
   MergeMap(MapType &, MapType &) const;
 
-  MapType                       m_LabelStatistics;
-  ValidLabelValuesContainerType m_ValidLabelValues;
+  MapType                       m_LabelStatistics{};
+  ValidLabelValuesContainerType m_ValidLabelValues{};
 
-  bool m_UseHistograms;
+  bool m_UseHistograms{};
 
-  typename HistogramType::SizeType m_NumBins;
+  typename HistogramType::SizeType m_NumBins{};
 
-  RealType m_LowerBound;
-  RealType m_UpperBound;
+  RealType m_LowerBound{};
+  RealType m_UpperBound{};
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 
 }; // end of class
 } // end namespace itk

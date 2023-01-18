@@ -230,12 +230,12 @@ protected:
   void
   GenerateData() override;
 
-  double m_MaximumError;
+  double m_MaximumError{};
 
-  unsigned int m_NumberOfLevels;
-  ScheduleType m_Schedule;
+  unsigned int m_NumberOfLevels{};
+  ScheduleType m_Schedule{};
 
-  bool m_UseShrinkImageFilter;
+  bool m_UseShrinkImageFilter{};
 };
 } // namespace itk
 

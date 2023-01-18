@@ -332,11 +332,11 @@ private:
   using PRatioType = PDFValueType;
   using PRatioArrayType = Array2D<PRatioType>;
 
-  mutable PRatioArrayType m_PRatioArray;
+  mutable PRatioArrayType m_PRatioArray{};
 
   /** The moving image marginal PDF. */
   using MarginalPDFType = std::vector<PDFValueType>;
-  mutable MarginalPDFType m_MovingImageMarginalPDF;
+  mutable MarginalPDFType m_MovingImageMarginalPDF{};
 
   struct MMIMetricPerThreadStruct
   {
@@ -365,7 +365,7 @@ private:
   // See
   //   https://thetweaker.wordpress.com/2010/05/05/stdvector-of-aligned-elements/
   //   https://connect.microsoft.com/VisualStudio/feedback/details/692988
-  std::unique_ptr<AlignedMMIMetricPerThreadStruct[]> m_MMIMetricPerThreadVariables;
+  std::unique_ptr<AlignedMMIMetricPerThreadStruct[]> m_MMIMetricPerThreadVariables{};
 #endif
 
   bool         m_UseExplicitPDFDerivatives{ true };

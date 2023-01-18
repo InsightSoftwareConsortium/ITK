@@ -290,7 +290,7 @@ protected:
   }
 
 private:
-  TParametersValueType m_Angle;
+  TParametersValueType m_Angle{};
 
 }; // class Rigid2DTransform
 

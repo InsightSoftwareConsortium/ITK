@@ -193,10 +193,10 @@ protected:
 private:
   unsigned int m_MaximumNumberOfCorrections{ 5 };
 
-  ParametersType     m_InitialPosition;
-  BoundValueType     m_LowerBound;
-  BoundValueType     m_UpperBound;
-  BoundSelectionType m_BoundSelection;
+  ParametersType     m_InitialPosition{};
+  BoundValueType     m_LowerBound{};
+  BoundValueType     m_UpperBound{};
+  BoundSelectionType m_BoundSelection{};
 };
 } // end namespace itk
 #endif

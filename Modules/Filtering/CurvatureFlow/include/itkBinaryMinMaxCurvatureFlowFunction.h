@@ -91,7 +91,7 @@ protected:
   ~BinaryMinMaxCurvatureFlowFunction() override = default;
 
 private:
-  double m_Threshold;
+  double m_Threshold{};
 };
 } // end namespace itk
 

@@ -113,8 +113,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  AttributeValueType m_Lambda;
-  bool               m_ReverseOrdering;
+  AttributeValueType m_Lambda{};
+  bool               m_ReverseOrdering{};
 
 }; // end of class
 

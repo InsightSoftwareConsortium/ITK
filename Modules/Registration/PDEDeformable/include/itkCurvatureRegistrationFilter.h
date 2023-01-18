@@ -193,19 +193,19 @@ protected:
   ApplyUpdate(const TimeStepType & dt) override;
 
 private:
-  unsigned int m_FixedImageDimensions[ImageDimension];
+  unsigned int m_FixedImageDimensions[ImageDimension]{};
 
-  RealTypeDFT * m_DisplacementFieldComponentImage;
-  RealTypeDFT * m_DisplacementFieldComponentImageDCT;
+  RealTypeDFT * m_DisplacementFieldComponentImage{};
+  RealTypeDFT * m_DisplacementFieldComponentImageDCT{};
 
-  float m_ConstraintWeight;
+  float m_ConstraintWeight{};
 
-  fftw_plan m_PlanForwardDCT;
-  fftw_plan m_PlanBackwardDCT;
+  fftw_plan m_PlanForwardDCT{};
+  fftw_plan m_PlanBackwardDCT{};
 
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 
-  RealTypeDFT * m_DiagonalElements[ImageDimension];
+  RealTypeDFT * m_DiagonalElements[ImageDimension]{};
 };
 } // end namespace itk
 

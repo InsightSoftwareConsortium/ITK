@@ -188,17 +188,17 @@ private:
   // Variables needed by the smoothing spline routine.
 
   /** Temporary storage for processing of Coefficients. */
-  CoefficientsVectorType m_Scratch;
+  CoefficientsVectorType m_Scratch{};
 
   /** Image size. */
-  typename TInputImage::SizeType m_DataLength;
+  typename TInputImage::SizeType m_DataLength{};
 
   /** User specified spline order (3rd or cubic is the default). */
   unsigned int m_SplineOrder{ 0 };
 
-  SplinePolesVectorType m_SplinePoles;
+  SplinePolesVectorType m_SplinePoles{};
 
-  int m_NumberOfPoles;
+  int m_NumberOfPoles{};
 
   /** Tolerance used for determining initial causal coefficient. Default is 1e-10.*/
   double m_Tolerance{ 1e-10 };

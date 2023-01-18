@@ -130,11 +130,11 @@ protected:
 
 
 private:
-  typename InterpolatorType::Pointer m_Interpolator;
+  typename InterpolatorType::Pointer m_Interpolator{};
 
-  typename IntermediateImageType::Pointer m_IntermediateImage;
+  typename IntermediateImageType::Pointer m_IntermediateImage{};
 
-  double m_Distance;
+  double m_Distance{};
 };
 } // end namespace itk
 

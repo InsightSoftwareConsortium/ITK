@@ -116,14 +116,14 @@ public:
 protected:
   NeighborhoodConnectedImageFilter();
   ~NeighborhoodConnectedImageFilter() override = default;
-  std::vector<IndexType> m_Seeds;
+  std::vector<IndexType> m_Seeds{};
 
-  InputImagePixelType m_Lower;
-  InputImagePixelType m_Upper;
+  InputImagePixelType m_Lower{};
+  InputImagePixelType m_Upper{};
 
-  OutputImagePixelType m_ReplaceValue;
+  OutputImagePixelType m_ReplaceValue{};
 
-  InputImageSizeType m_Radius;
+  InputImageSizeType m_Radius{};
 
   // Override since the filter needs all the data for the algorithm
   void

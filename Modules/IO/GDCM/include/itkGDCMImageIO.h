@@ -362,68 +362,68 @@ protected:
   void
   InternalReadImageInformation();
 
-  double m_RescaleSlope;
+  double m_RescaleSlope{};
 
-  double m_RescaleIntercept;
+  double m_RescaleIntercept{};
 
-  std::string m_UIDPrefix;
+  std::string m_UIDPrefix{};
 
-  std::string m_StudyInstanceUID;
+  std::string m_StudyInstanceUID{};
 
-  std::string m_SeriesInstanceUID;
+  std::string m_SeriesInstanceUID{};
 
-  std::string m_FrameOfReferenceInstanceUID;
+  std::string m_FrameOfReferenceInstanceUID{};
 
-  bool m_KeepOriginalUID;
+  bool m_KeepOriginalUID{};
 
-  bool m_LoadPrivateTags;
+  bool m_LoadPrivateTags{};
 
-  bool m_ReadYBRtoRGB;
+  bool m_ReadYBRtoRGB{};
 
 private:
 #if defined(ITKIO_DEPRECATED_GDCM1_API)
-  std::string m_PatientName;
+  std::string m_PatientName{};
 
-  std::string m_PatientID;
+  std::string m_PatientID{};
 
-  std::string m_PatientDOB;
+  std::string m_PatientDOB{};
 
-  std::string m_StudyID;
+  std::string m_StudyID{};
 
-  std::string m_StudyDescription;
+  std::string m_StudyDescription{};
 
-  std::string m_BodyPart;
+  std::string m_BodyPart{};
 
-  std::string m_NumberOfSeriesInStudy;
+  std::string m_NumberOfSeriesInStudy{};
 
-  std::string m_NumberOfStudyRelatedSeries;
+  std::string m_NumberOfStudyRelatedSeries{};
 
-  std::string m_PatientSex;
+  std::string m_PatientSex{};
 
-  std::string m_PatientAge;
+  std::string m_PatientAge{};
 
-  std::string m_StudyDate;
+  std::string m_StudyDate{};
 
-  std::string m_Modality;
+  std::string m_Modality{};
 
-  std::string m_Manufacturer;
+  std::string m_Manufacturer{};
 
-  std::string m_Institution;
+  std::string m_Institution{};
 
-  std::string m_Model;
+  std::string m_Model{};
 
-  std::string m_ScanOptions;
+  std::string m_ScanOptions{};
 #endif
 
-  unsigned int m_GlobalNumberOfDimensions;
+  unsigned int m_GlobalNumberOfDimensions{};
 
-  CompressionEnum m_CompressionType;
+  CompressionEnum m_CompressionType{};
 
-  bool m_SingleBit;
+  bool m_SingleBit{};
 
-  IOComponentEnum m_InternalComponentType;
+  IOComponentEnum m_InternalComponentType{};
 
-  InternalHeader * m_DICOMHeader;
+  InternalHeader * m_DICOMHeader{};
 };
 
 } // end namespace itk

@@ -120,8 +120,8 @@ private:
   using OrientationMap = std::map<std::string, OrientationFlags>;
   using InverseOrientationMap = std::map<OrientationFlags, std::string>;
 
-  OrientationMap        m_OrientationMap;
-  InverseOrientationMap m_InverseOrientationMap;
+  OrientationMap        m_OrientationMap{};
+  InverseOrientationMap m_InverseOrientationMap{};
 
   // Method to swap bytes in read buffer
   void

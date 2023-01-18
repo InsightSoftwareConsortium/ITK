@@ -132,7 +132,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputType                m_Apex;
+  InputType                m_Apex{};
   double                   m_AngleZ{ 0.0f };
   double                   m_ApertureAngleX{ 0.0f };
   double                   m_ApertureAngleY{ 0.0f };

@@ -146,7 +146,7 @@ private:
   virtual void
   WriteImageInformation(const void * buffer);
 
-  MRCHeaderObject::Pointer m_MRCHeader;
+  MRCHeaderObject::Pointer m_MRCHeader{};
 };
 } // namespace itk
 

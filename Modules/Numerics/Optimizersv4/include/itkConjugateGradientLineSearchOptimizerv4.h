@@ -94,8 +94,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  DerivativeType m_LastGradient;
-  DerivativeType m_ConjugateGradient;
+  DerivativeType m_LastGradient{};
+  DerivativeType m_ConjugateGradient{};
 };
 
 /** This helps to meet backward compatibility */

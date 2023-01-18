@@ -151,7 +151,7 @@ protected:
   MutexLock() = default;
   ~MutexLock() override = default;
 
-  SimpleMutexLock m_SimpleMutexLock;
+  SimpleMutexLock m_SimpleMutexLock{};
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 };

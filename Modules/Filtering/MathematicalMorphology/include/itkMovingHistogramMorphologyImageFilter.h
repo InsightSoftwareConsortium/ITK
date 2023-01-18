@@ -115,7 +115,7 @@ protected:
   void
   ConfigureHistogram(THistogram & histogram) override;
 
-  PixelType m_Boundary;
+  PixelType m_Boundary{};
 }; // end of class
 } // end namespace itk
 

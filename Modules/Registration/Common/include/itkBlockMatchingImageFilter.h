@@ -213,13 +213,13 @@ protected:
 
 private:
   // algorithm parameters
-  ImageSizeType m_BlockRadius;
-  ImageSizeType m_SearchRadius;
+  ImageSizeType m_BlockRadius{};
+  ImageSizeType m_SearchRadius{};
 
   // temporary dynamic arrays for storing threads outputs
-  SizeValueType                          m_PointsCount;
-  std::unique_ptr<DisplacementsVector[]> m_DisplacementsVectorsArray;
-  std::unique_ptr<SimilaritiesValue[]>   m_SimilaritiesValuesArray;
+  SizeValueType                          m_PointsCount{};
+  std::unique_ptr<DisplacementsVector[]> m_DisplacementsVectorsArray{};
+  std::unique_ptr<SimilaritiesValue[]>   m_SimilaritiesValuesArray{};
 };
 } // end namespace itk
 

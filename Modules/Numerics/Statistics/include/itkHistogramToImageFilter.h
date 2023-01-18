@@ -135,7 +135,7 @@ protected:
   void
   GenerateData() override;
 
-  FunctorType m_Functor;
+  FunctorType m_Functor{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

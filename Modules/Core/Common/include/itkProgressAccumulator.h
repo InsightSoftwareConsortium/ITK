@@ -147,25 +147,25 @@ private:
   ReportProgress(Object * who, const EventObject & event);
 
   /** The client mini-pipeline filter */
-  GenericFilterPointer m_MiniPipelineFilter;
+  GenericFilterPointer m_MiniPipelineFilter{};
 
   /** An array of record structures */
   using FilterRecordVector = std::vector<struct FilterRecord>;
 
   /** The total accumulated progress */
-  float m_AccumulatedProgress;
+  float m_AccumulatedProgress{};
 
   /** The total accumulated progress for multiple runs of the mini-pipeline */
-  float m_BaseAccumulatedProgress;
+  float m_BaseAccumulatedProgress{};
 
   /**
    * A list of progress proportions of the different filters in the
    * pipeline
    */
-  FilterRecordVector m_FilterRecord;
+  FilterRecordVector m_FilterRecord{};
 
   /** The callback command */
-  CommandPointer m_CallbackCommand;
+  CommandPointer m_CallbackCommand{};
 };
 } // End namespace itk
 

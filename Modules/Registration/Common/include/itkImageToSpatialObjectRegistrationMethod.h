@@ -197,18 +197,18 @@ protected:
   void
   Initialize();
 
-  ParametersType m_InitialTransformParameters;
-  ParametersType m_LastTransformParameters;
+  ParametersType m_InitialTransformParameters{};
+  ParametersType m_LastTransformParameters{};
 
 private:
-  MetricPointer          m_Metric;
-  OptimizerType::Pointer m_Optimizer;
+  MetricPointer          m_Metric{};
+  OptimizerType::Pointer m_Optimizer{};
 
-  MovingSpatialObjectConstPointer m_MovingSpatialObject;
-  FixedImageConstPointer          m_FixedImage;
+  MovingSpatialObjectConstPointer m_MovingSpatialObject{};
+  FixedImageConstPointer          m_FixedImage{};
 
-  TransformPointer    m_Transform;
-  InterpolatorPointer m_Interpolator;
+  TransformPointer    m_Transform{};
+  InterpolatorPointer m_Interpolator{};
 };
 } // end namespace itk
 

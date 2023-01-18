@@ -88,9 +88,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  StreamPointerType m_Stream;
+  StreamPointerType m_Stream{};
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 };
 } // namespace itk
 

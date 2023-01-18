@@ -113,11 +113,11 @@ protected:
   GenerateData() override;
 
 private:
-  bool m_SafeBorder;
+  bool m_SafeBorder{};
 
-  AlgorithmEnum m_Algorithm;
+  AlgorithmEnum m_Algorithm{};
 
-  bool m_ForceAlgorithm;
+  bool m_ForceAlgorithm{};
 }; // end of class
 } // end namespace itk
 

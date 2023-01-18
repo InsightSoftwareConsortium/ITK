@@ -288,19 +288,19 @@ private:
    * must save state between calls to GenerateData() so that the
    * computationally expensive execution of segment tree generation is
    * not unnecessarily repeated. */
-  typename watershed::Segmenter<InputImageType>::Pointer m_Segmenter;
+  typename watershed::Segmenter<InputImageType>::Pointer m_Segmenter{};
 
-  typename watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator;
+  typename watershed::SegmentTreeGenerator<ScalarType>::Pointer m_TreeGenerator{};
 
-  typename watershed::Relabeler<ScalarType, Self::ImageDimension>::Pointer m_Relabeler;
+  typename watershed::Relabeler<ScalarType, Self::ImageDimension>::Pointer m_Relabeler{};
 
-  unsigned long m_ObserverTag;
+  unsigned long m_ObserverTag{};
 
-  bool m_LevelChanged;
-  bool m_ThresholdChanged;
-  bool m_InputChanged;
+  bool m_LevelChanged{};
+  bool m_ThresholdChanged{};
+  bool m_InputChanged{};
 
-  TimeStamp m_GenerateDataMTime;
+  TimeStamp m_GenerateDataMTime{};
 };
 } // end namespace itk
 

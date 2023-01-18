@@ -127,8 +127,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputType    m_Origin;
-  GradientType m_OriginGradient;
+  InputType    m_Origin{};
+  GradientType m_OriginGradient{};
   double       m_DistanceMin{ 0.0 };
   double       m_DistanceMax{ 0.0 };
   double       m_Epsilon{ 0.0 };

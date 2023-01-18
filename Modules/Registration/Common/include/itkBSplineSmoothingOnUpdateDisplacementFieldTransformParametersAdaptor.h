@@ -127,10 +127,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ArrayType        m_NumberOfControlPointsForTheUpdateField;
-  ArrayType        m_NumberOfControlPointsForTheTotalField;
-  ModifiedTimeType m_NumberOfControlPointsForTheUpdateFieldSetTime;
-  ModifiedTimeType m_NumberOfControlPointsForTheTotalFieldSetTime;
+  ArrayType        m_NumberOfControlPointsForTheUpdateField{};
+  ArrayType        m_NumberOfControlPointsForTheTotalField{};
+  ModifiedTimeType m_NumberOfControlPointsForTheUpdateFieldSetTime{};
+  ModifiedTimeType m_NumberOfControlPointsForTheTotalFieldSetTime{};
 
 
 }; // class BSplineSmoothingOnUpdateDisplacementFieldTransformParametersAdaptor

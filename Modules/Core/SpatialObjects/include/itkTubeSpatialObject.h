@@ -136,9 +136,9 @@ protected:
   InternalClone() const override;
 
 private:
-  int  m_ParentPoint;
-  bool m_EndRounded;
-  bool m_Root;
+  int  m_ParentPoint{};
+  bool m_EndRounded{};
+  bool m_Root{};
 };
 
 } // end namespace itk

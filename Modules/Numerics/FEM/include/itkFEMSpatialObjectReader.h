@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  std::string m_FileName;
+  std::string m_FileName{};
 
   FEMSpatialObjectReader();
   ~FEMSpatialObjectReader() override = default;

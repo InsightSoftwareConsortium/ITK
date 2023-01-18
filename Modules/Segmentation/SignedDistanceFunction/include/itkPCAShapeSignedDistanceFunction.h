@@ -186,22 +186,22 @@ protected:
 
 private:
   /** intrinsic data members */
-  unsigned int m_NumberOfPrincipalComponents;
-  unsigned int m_NumberOfTransformParameters;
+  unsigned int m_NumberOfPrincipalComponents{};
+  unsigned int m_NumberOfTransformParameters{};
 
-  ImagePointer       m_MeanImage;
-  ImagePointerVector m_PrincipalComponentImages;
-  ParametersType     m_PrincipalComponentStandardDeviations;
+  ImagePointer       m_MeanImage{};
+  ImagePointerVector m_PrincipalComponentImages{};
+  ParametersType     m_PrincipalComponentStandardDeviations{};
 
   /** transform and interpolator/extrapolator for image interpolation */
-  typename TransformType::Pointer m_Transform;
+  typename TransformType::Pointer m_Transform{};
 
-  InterpolatorPointerVector m_Interpolators;
-  ExtrapolatorPointerVector m_Extrapolators;
+  InterpolatorPointerVector m_Interpolators{};
+  ExtrapolatorPointerVector m_Extrapolators{};
 
   /** shape and pose parameters */
-  ParametersType m_WeightOfPrincipalComponents;
-  ParametersType m_TransformParameters;
+  ParametersType m_WeightOfPrincipalComponents{};
+  ParametersType m_TransformParameters{};
 };
 } // end namespace itk
 

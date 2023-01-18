@@ -156,16 +156,16 @@ protected:
   void
   GenerateData() override;
 
-  SizeType m_Size;
+  SizeType m_Size{};
 
-  PointType m_Origin;
+  PointType m_Origin{};
 
-  SpacingType m_Spacing;
+  SpacingType m_Spacing{};
 
-  DirectionType m_Direction;
+  DirectionType m_Direction{};
 
-  ValueType m_InsideValue;
-  ValueType m_OutsideValue;
+  ValueType m_InsideValue{};
+  ValueType m_OutsideValue{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

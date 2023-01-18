@@ -159,7 +159,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  WeightEnum m_Weight;
+  WeightEnum m_Weight{};
 
   /** \brief Compute the normal to a face iPoly. It assumes that iPoly != 0
    * and

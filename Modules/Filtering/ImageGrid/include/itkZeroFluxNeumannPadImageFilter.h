@@ -111,7 +111,7 @@ protected:
   ~ZeroFluxNeumannPadImageFilter() override = default;
 
 private:
-  ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition;
+  ZeroFluxNeumannBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition{};
 };
 } // end namespace itk
 

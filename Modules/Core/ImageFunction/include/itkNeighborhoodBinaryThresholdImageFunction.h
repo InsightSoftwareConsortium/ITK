@@ -117,7 +117,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputSizeType m_Radius;
+  InputSizeType m_Radius{};
 };
 } // end namespace itk
 

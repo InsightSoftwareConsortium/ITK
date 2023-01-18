@@ -168,9 +168,9 @@ protected:
   using ConsecutiveVectorType = typename ScanlineFunctions::ConsecutiveVectorType;
 
 private:
-  OutputImagePixelType m_BackgroundValue;
+  OutputImagePixelType m_BackgroundValue{};
 
-  LineMapType m_LineMap;
+  LineMapType m_LineMap{};
 };
 } // end namespace itk
 

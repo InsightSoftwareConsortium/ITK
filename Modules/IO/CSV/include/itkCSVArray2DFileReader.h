@@ -130,7 +130,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  Array2DDataObjectPointer m_Array2DDataObject;
+  Array2DDataObjectPointer m_Array2DDataObject{};
 };
 
 } // end namespace itk

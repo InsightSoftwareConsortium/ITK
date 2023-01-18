@@ -90,8 +90,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MovingSpatialObjectConstPointer m_MovingSpatialObject;
-  FixedPointSetConstPointer       m_FixedPointSet;
+  MovingSpatialObjectConstPointer m_MovingSpatialObject{};
+  FixedPointSetConstPointer       m_FixedPointSet{};
 };
 } // end namespace itk
 

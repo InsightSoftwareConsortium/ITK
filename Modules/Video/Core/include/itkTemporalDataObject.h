@@ -154,12 +154,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Buffer for holding component data objects */
-  BufferType::Pointer m_DataObjectBuffer;
+  BufferType::Pointer m_DataObjectBuffer{};
 
   /** We want to keep track of our regions in time. **/
-  TemporalRegionType m_LargestPossibleTemporalRegion;
-  TemporalRegionType m_RequestedTemporalRegion;
-  TemporalRegionType m_BufferedTemporalRegion;
+  TemporalRegionType m_LargestPossibleTemporalRegion{};
+  TemporalRegionType m_RequestedTemporalRegion{};
+  TemporalRegionType m_BufferedTemporalRegion{};
 
   TemporalUnitEnum m_TemporalUnit{ TemporalUnitEnum::Frame };
 }; // end class TemporalDataObject

@@ -225,25 +225,25 @@ protected:
   void
   GenerateNumericFileNamesAndWrite();
 
-  ImageIOBase::Pointer m_ImageIO;
+  ImageIOBase::Pointer m_ImageIO{};
 
   // track whether the ImageIO is user specified
   bool m_UserSpecifiedImageIO{ false };
 
 private:
   /** A list of filenames to be processed. */
-  FileNamesContainer m_FileNames;
+  FileNamesContainer m_FileNames{};
 
   /** These variables are used for generating filenames using a numeric
    * approach This functionality is being DEPRECATED since it belongs to a
    * NumericSeriesFileNames class. Removing this functionality from here allows
    * to use additional SeriesFileNames such as the DICOM filenames generators.
    * */
-  std::string   m_SeriesFormat;
+  std::string   m_SeriesFormat{};
   SizeValueType m_StartIndex{ 1 };
   SizeValueType m_IncrementIndex{ 1 };
 
-  bool m_UseCompression;
+  bool m_UseCompression{};
 
   /** Array of MetaDataDictionary used for passing information to each slice */
   DictionaryArrayRawPointer m_MetaDataDictionaryArray{ nullptr };

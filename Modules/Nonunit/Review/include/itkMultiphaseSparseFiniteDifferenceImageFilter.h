@@ -359,10 +359,10 @@ protected:
   };
 
   /** Connectivity information for examining neighbor pixels.   */
-  NeighborListType m_NeighborList;
+  NeighborListType m_NeighborList{};
 
   /** Stores the distance between pixels in the neighborhood iterator. */
-  std::vector<ValueType> m_PixelDistance;
+  std::vector<ValueType> m_PixelDistance{};
 
   /**This function allows a subclass to override the way in which updates to
    * output values are applied during each iteration.  The default simply
@@ -519,34 +519,34 @@ protected:
       meaningful status. */
   static const StatusType m_StatusNull;
 
-  std::vector<SparseDataStruct *> m_SparseData;
+  std::vector<SparseDataStruct *> m_SparseData{};
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
    * This active layer is the interface of interest, i.e. the zero level set. */
-  unsigned int m_NumberOfLayers;
+  unsigned int m_NumberOfLayers{};
 
   /** The value in the input which represents the isosurface of interest. */
-  ValueType m_IsoSurfaceValue;
+  ValueType m_IsoSurfaceValue{};
 
   /** The value of the pixel outside the sparse layers */
-  ValueType m_BackgroundValue;
+  ValueType m_BackgroundValue{};
 
   /** This flag tells the solver whether or not to interpolate for the actual
       surface location when calculating change at each active layer node.  By
       default this is turned on. Subclasses which do not sample propagation
       (speed), advection, or curvature terms should turn this flag off. */
-  bool m_InterpolateSurfaceLocation;
+  bool m_InterpolateSurfaceLocation{};
 
 private:
-  unsigned int m_CurrentFunctionIndex;
+  unsigned int m_CurrentFunctionIndex{};
 
   double       m_RMSSum{ 0. };
   unsigned int m_RMSCounter{ 0 };
 
   /** This flag is true when methods need to check boundary conditions and
       false when methods do not need to check for boundary conditions. */
-  bool m_BoundsCheckingActive;
+  bool m_BoundsCheckingActive{};
 };
 } // end namespace itk
 

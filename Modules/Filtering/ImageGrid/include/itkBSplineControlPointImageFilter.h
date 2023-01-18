@@ -236,25 +236,25 @@ private:
   void SetNumberOfLevels(ArrayType);
 
   /** Parameters for the output image. */
-  SizeType      m_Size;
-  SpacingType   m_Spacing;
-  OriginType    m_Origin;
-  DirectionType m_Direction;
+  SizeType      m_Size{};
+  SpacingType   m_Spacing{};
+  OriginType    m_Origin{};
+  DirectionType m_Direction{};
 
   bool         m_DoMultilevel{ false };
   unsigned int m_MaximumNumberOfLevels{ 1 };
-  ArrayType    m_NumberOfControlPoints;
-  ArrayType    m_CloseDimension;
-  ArrayType    m_SplineOrder;
-  ArrayType    m_NumberOfLevels;
+  ArrayType    m_NumberOfControlPoints{};
+  ArrayType    m_CloseDimension{};
+  ArrayType    m_SplineOrder{};
+  ArrayType    m_NumberOfLevels{};
 
-  vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension];
+  vnl_matrix<RealType> m_RefinedLatticeCoefficients[ImageDimension]{};
 
-  typename KernelType::Pointer       m_Kernel[ImageDimension];
-  typename KernelOrder0Type::Pointer m_KernelOrder0;
-  typename KernelOrder1Type::Pointer m_KernelOrder1;
-  typename KernelOrder2Type::Pointer m_KernelOrder2;
-  typename KernelOrder3Type::Pointer m_KernelOrder3;
+  typename KernelType::Pointer       m_Kernel[ImageDimension]{};
+  typename KernelOrder0Type::Pointer m_KernelOrder0{};
+  typename KernelOrder1Type::Pointer m_KernelOrder1{};
+  typename KernelOrder2Type::Pointer m_KernelOrder2{};
+  typename KernelOrder3Type::Pointer m_KernelOrder3{};
 
   RealType m_BSplineEpsilon{ static_cast<RealType>(1e-3) };
 

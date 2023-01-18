@@ -280,50 +280,50 @@ protected:
 
 private:
   /** Cache fixed image information. */
-  PointType     m_FixedImageOrigin;
-  SpacingType   m_FixedImageSpacing;
-  DirectionType m_FixedImageDirection;
-  double        m_Normalizer;
+  PointType     m_FixedImageOrigin{};
+  SpacingType   m_FixedImageSpacing{};
+  DirectionType m_FixedImageDirection{};
+  double        m_Normalizer{};
 
   /** Function to compute derivatives of the fixed image. */
-  GradientCalculatorPointer m_FixedImageGradientCalculator;
+  GradientCalculatorPointer m_FixedImageGradientCalculator{};
 
   /** Function to compute derivatives of the moving image (unwarped). */
-  MovingImageGradientCalculatorPointer m_MappedMovingImageGradientCalculator;
+  MovingImageGradientCalculatorPointer m_MappedMovingImageGradientCalculator{};
 
-  GradientEnum m_UseGradientType;
+  GradientEnum m_UseGradientType{};
 
   /** Function to interpolate the moving image. */
-  InterpolatorPointer m_MovingImageInterpolator;
+  InterpolatorPointer m_MovingImageInterpolator{};
 
   /** Filter to warp moving image for fast gradient computation. */
-  WarperPointer m_MovingImageWarper;
+  WarperPointer m_MovingImageWarper{};
 
-  MovingImageType * m_MovingImageWarperOutput;
+  MovingImageType * m_MovingImageWarperOutput{};
 
   /** The global timestep. */
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 
   /** Threshold below which the denominator term is considered zero. */
-  double m_DenominatorThreshold;
+  double m_DenominatorThreshold{};
 
   /** Threshold below which two intensity value are assumed to match. */
-  double m_IntensityDifferenceThreshold;
+  double m_IntensityDifferenceThreshold{};
 
   /** Maximum update step length in pixels (default is 0.5 as in Thirion). */
-  double m_MaximumUpdateStepLength;
+  double m_MaximumUpdateStepLength{};
 
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double        m_Metric;
-  mutable double        m_SumOfSquaredDifference;
-  mutable SizeValueType m_NumberOfPixelsProcessed;
-  mutable double        m_RMSChange;
-  mutable double        m_SumOfSquaredChange;
+  mutable double        m_Metric{};
+  mutable double        m_SumOfSquaredDifference{};
+  mutable SizeValueType m_NumberOfPixelsProcessed{};
+  mutable double        m_RMSChange{};
+  mutable double        m_SumOfSquaredChange{};
 
   /** Mutex lock to protect modification to metric. */
-  mutable std::mutex m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock{};
 };
 } // end namespace itk
 

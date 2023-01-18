@@ -245,18 +245,18 @@ private:
   }
 
 
-  std::vector<GaussianFilterPointer> m_SmoothingFilters;
-  DerivativeFilterPointer            m_DerivativeFilter;
-  OutputImageAdaptorPointer          m_ImageAdaptor;
+  std::vector<GaussianFilterPointer> m_SmoothingFilters{};
+  DerivativeFilterPointer            m_DerivativeFilter{};
+  OutputImageAdaptorPointer          m_ImageAdaptor{};
 
   /** Normalize the image across scale space */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{};
 
   /** Take into account image orientation when computing the Gradient */
-  bool m_UseImageDirection;
+  bool m_UseImageDirection{};
 
   /** Standard deviation of the gaussian */
-  SigmaArrayType m_Sigma;
+  SigmaArrayType m_Sigma{};
 };
 } // end namespace itk
 

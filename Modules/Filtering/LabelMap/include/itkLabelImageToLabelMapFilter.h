@@ -126,9 +126,9 @@ protected:
   AfterThreadedGenerateData() override;
 
 private:
-  OutputImagePixelType m_BackgroundValue;
+  OutputImagePixelType m_BackgroundValue{};
 
-  typename std::vector<OutputImagePointer> m_TemporaryImages;
+  typename std::vector<OutputImagePointer> m_TemporaryImages{};
 }; // end of class
 } // end namespace itk
 

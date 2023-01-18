@@ -117,7 +117,7 @@ protected:
   RandomIntType
   GetIntegerVariate(RandomIntType lowerBound, RandomIntType upperBound, RandomIntType mean) override;
 
-  RealType m_Variance;
+  RealType m_Variance{};
 }; // end of class GaussianRandomSpatialNeighborSubsampler
 
 } // end of namespace Statistics

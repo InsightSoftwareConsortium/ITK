@@ -207,10 +207,10 @@ private:
   using FieldInterpolatorOutputType = typename FieldInterpolatorType::OutputType;
   using AdderPointer = typename AdderType::Pointer;
 
-  MultiplyByConstantPointer m_Multiplier;
-  FieldExponentiatorPointer m_Exponentiator;
-  VectorWarperPointer       m_Warper;
-  AdderPointer              m_Adder;
+  MultiplyByConstantPointer m_Multiplier{};
+  FieldExponentiatorPointer m_Exponentiator{};
+  VectorWarperPointer       m_Warper{};
+  AdderPointer              m_Adder{};
   bool                      m_UseFirstOrderExp{ false };
 };
 } // end namespace itk

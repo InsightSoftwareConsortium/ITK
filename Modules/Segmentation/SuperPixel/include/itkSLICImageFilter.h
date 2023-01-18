@@ -203,13 +203,13 @@ protected:
   Distance(const ClusterType & cluster, const InputPixelType & _v, const PointType & pt);
 
 private:
-  SuperGridSizeType m_SuperGridSize;
-  unsigned int      m_MaximumNumberOfIterations;
+  SuperGridSizeType m_SuperGridSize{};
+  unsigned int      m_MaximumNumberOfIterations{};
   double            m_SpatialProximityWeight{ 10.0 };
 
-  FixedArray<double, ImageDimension> m_DistanceScales;
-  std::vector<ClusterComponentType>  m_Clusters;
-  std::vector<ClusterComponentType>  m_OldClusters;
+  FixedArray<double, ImageDimension> m_DistanceScales{};
+  std::vector<ClusterComponentType>  m_Clusters{};
+  std::vector<ClusterComponentType>  m_OldClusters{};
 
 
   void
@@ -228,17 +228,17 @@ private:
 
   using MarkerImageType = Image<unsigned char, ImageDimension>;
 
-  std::vector<UpdateClusterMap> m_UpdateClusterPerThread;
+  std::vector<UpdateClusterMap> m_UpdateClusterPerThread{};
 
-  typename DistanceImageType::Pointer m_DistanceImage;
-  typename MarkerImageType::Pointer   m_MarkerImage;
+  typename DistanceImageType::Pointer m_DistanceImage{};
+  typename MarkerImageType::Pointer   m_MarkerImage{};
 
   bool m_EnforceConnectivity{ true };
 
   bool m_InitializationPerturbation{ true };
 
-  double     m_AverageResidual;
-  std::mutex m_Mutex;
+  double     m_AverageResidual{};
+  std::mutex m_Mutex{};
 };
 } // end namespace itk
 

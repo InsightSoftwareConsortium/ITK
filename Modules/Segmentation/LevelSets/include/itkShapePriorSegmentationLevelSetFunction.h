@@ -161,8 +161,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ShapeFunctionPointer m_ShapeFunction;
-  ScalarValueType      m_ShapePriorWeight;
+  ShapeFunctionPointer m_ShapeFunction{};
+  ScalarValueType      m_ShapePriorWeight{};
 };
 } // end namespace itk
 

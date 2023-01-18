@@ -243,14 +243,14 @@ protected:
   PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  InputPixelType m_ForegroundValue;
-  unsigned int   m_ElapsedIterations;
-  unsigned int   m_MaximumIterations;
+  InputPixelType m_ForegroundValue{};
+  unsigned int   m_ElapsedIterations{};
+  unsigned int   m_MaximumIterations{};
 
-  double m_ConfidenceWeight;
+  double m_ConfidenceWeight{};
 
-  std::vector<double> m_Sensitivity;
-  std::vector<double> m_Specificity;
+  std::vector<double> m_Sensitivity{};
+  std::vector<double> m_Specificity{};
 };
 } // end namespace itk
 

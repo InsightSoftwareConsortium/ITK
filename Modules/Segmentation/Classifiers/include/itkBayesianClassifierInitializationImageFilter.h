@@ -174,7 +174,7 @@ private:
   bool         m_UserSuppliesMembershipFunctions{ false };
   unsigned int m_NumberOfClasses{ 0 };
 
-  typename MembershipFunctionContainerType::Pointer m_MembershipFunctionContainer;
+  typename MembershipFunctionContainerType::Pointer m_MembershipFunctionContainer{};
 };
 } // end namespace itk
 

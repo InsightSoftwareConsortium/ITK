@@ -201,7 +201,7 @@ protected:
   DynamicThreadedGenerateData(const ImageRegionType & outputRegionForThread) override;
 
 private:
-  std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
+  std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction{};
 
   bool m_ActualXDimensionIsOdd{ false };
 };

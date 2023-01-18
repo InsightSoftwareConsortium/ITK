@@ -116,7 +116,7 @@ protected:
   GenerateData() override;
 
 private:
-  RealType m_Constant;
+  RealType m_Constant{};
 
 }; // end of class
 } // end namespace itk

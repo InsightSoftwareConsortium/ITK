@@ -235,15 +235,15 @@ protected:
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
 private:
-  typename CooccurrenceMatrixFilterType::Pointer m_GLCMGenerator;
+  typename CooccurrenceMatrixFilterType::Pointer m_GLCMGenerator{};
 
-  typename TextureFeaturesFilterType::Pointer m_GLCMCalculator;
+  typename TextureFeaturesFilterType::Pointer m_GLCMCalculator{};
 
-  FeatureValueVectorPointer     m_FeatureMeans;
-  FeatureValueVectorPointer     m_FeatureStandardDeviations;
-  FeatureNameVectorConstPointer m_RequestedFeatures;
-  OffsetVectorConstPointer      m_Offsets;
-  bool                          m_FastCalculations;
+  FeatureValueVectorPointer     m_FeatureMeans{};
+  FeatureValueVectorPointer     m_FeatureStandardDeviations{};
+  FeatureNameVectorConstPointer m_RequestedFeatures{};
+  OffsetVectorConstPointer      m_Offsets{};
+  bool                          m_FastCalculations{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

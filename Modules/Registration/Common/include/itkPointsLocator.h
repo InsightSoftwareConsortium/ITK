@@ -114,10 +114,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PointsContainerPointer m_Points;
-  SampleAdaptorPointer   m_SampleAdaptor;
-  TreeGeneratorPointer   m_KdTreeGenerator;
-  TreeConstPointer       m_Tree;
+  PointsContainerPointer m_Points{};
+  SampleAdaptorPointer   m_SampleAdaptor{};
+  TreeGeneratorPointer   m_KdTreeGenerator{};
+  TreeConstPointer       m_Tree{};
 };
 
 } // end namespace itk

@@ -135,10 +135,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  DomainMapType m_DomainMap;
+  DomainMapType m_DomainMap{};
 
-  const InputImageType * m_InputImage;
-  OutputImageType *      m_OutputImage;
+  const InputImageType * m_InputImage{};
+  OutputImageType *      m_OutputImage{};
 };
 
 } /* namespace itk */

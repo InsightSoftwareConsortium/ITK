@@ -192,17 +192,17 @@ private:
   void
   CalculateInnerProduct();
 
-  InputImageIteratorArray m_InputImageIteratorArray;
+  InputImageIteratorArray m_InputImageIteratorArray{};
 
-  VectorOfDoubleType m_Means;
+  VectorOfDoubleType m_Means{};
 
-  MatrixOfDoubleType m_InnerProduct;
+  MatrixOfDoubleType m_InnerProduct{};
 
-  MatrixOfDoubleType m_EigenVectors;
+  MatrixOfDoubleType m_EigenVectors{};
 
-  VectorOfDoubleType m_EigenValues;
+  VectorOfDoubleType m_EigenValues{};
 
-  VectorOfDoubleType m_EigenVectorNormalizedEnergy;
+  VectorOfDoubleType m_EigenVectorNormalizedEnergy{};
 
   ImageSizeType m_InputImageSize{ {} };
 
@@ -210,7 +210,7 @@ private:
 
   unsigned int m_NumberOfTrainingImages{ 0 };
 
-  unsigned int m_NumberOfPrincipalComponentsRequired;
+  unsigned int m_NumberOfPrincipalComponentsRequired{};
 };
 
 } // end namespace itk

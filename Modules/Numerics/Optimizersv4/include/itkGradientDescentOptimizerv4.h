@@ -225,13 +225,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 
-  TInternalComputationValueType m_LearningRate;
-  TInternalComputationValueType m_MinimumConvergenceValue;
-  TInternalComputationValueType m_ConvergenceValue;
+  TInternalComputationValueType m_LearningRate{};
+  TInternalComputationValueType m_MinimumConvergenceValue{};
+  TInternalComputationValueType m_ConvergenceValue{};
 
   /** Store the best value and related parameters. */
-  MeasureType    m_CurrentBestValue;
-  ParametersType m_BestParameters;
+  MeasureType    m_CurrentBestValue{};
+  ParametersType m_BestParameters{};
 
   bool m_ReturnBestParametersAndValue{ false };
 
@@ -240,7 +240,7 @@ protected:
    * This is needed by the regular step gradient descent and
    * Quasi Newton optimizers.
    */
-  DerivativeType m_PreviousGradient;
+  DerivativeType m_PreviousGradient{};
 
 private:
 };

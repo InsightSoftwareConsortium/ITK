@@ -108,9 +108,9 @@ protected:
   InternalClone() const override;
 
 private:
-  VectorType m_DirectionInObjectSpace;
-  PointType  m_PositionInObjectSpace;
-  double     m_LengthInObjectSpace;
+  VectorType m_DirectionInObjectSpace{};
+  PointType  m_PositionInObjectSpace{};
+  double     m_LengthInObjectSpace{};
 };
 
 } // end namespace itk

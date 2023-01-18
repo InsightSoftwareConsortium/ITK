@@ -87,7 +87,7 @@ protected:
   using RMSChangeAccumulatorType = CompensatedSummation<LevelSetOutputRealType>;
   using RMSChangeAccumulatorPerThreadType = std::vector<RMSChangeAccumulatorType>;
 
-  RMSChangeAccumulatorPerThreadType m_RMSChangeAccumulatorPerThread;
+  RMSChangeAccumulatorPerThreadType m_RMSChangeAccumulatorPerThread{};
 };
 
 } // end namespace itk

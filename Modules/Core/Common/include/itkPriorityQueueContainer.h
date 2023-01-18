@@ -254,7 +254,7 @@ public:
 
 protected:
   // One instance of the interface to deal with the functions calls
-  ElementInterfaceType m_Interface;
+  ElementInterfaceType m_Interface{};
 
   inline ElementWrapperType &
   GetElementAtLocation(const ElementIdentifierType & identifier)

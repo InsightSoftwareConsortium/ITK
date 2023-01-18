@@ -293,21 +293,21 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  typename FEMObjectType::Pointer      m_FEMObject;
-  typename FEMSolverType::Pointer      m_FEMSolver;
-  typename FEMSolverType::ConstPointer m_FEMDeformedObject;
-  typename MeshType::Pointer           m_Mesh;
+  typename FEMObjectType::Pointer      m_FEMObject{};
+  typename FEMSolverType::Pointer      m_FEMSolver{};
+  typename FEMSolverType::ConstPointer m_FEMDeformedObject{};
+  typename MeshType::Pointer           m_Mesh{};
 
-  typename ConfidencePointSetType::ConstPointer m_ConfidencePointSet;
-  typename TensorPointSetType::ConstPointer     m_TensorPointSet;
+  typename ConfidencePointSetType::ConstPointer m_ConfidencePointSet{};
+  typename TensorPointSetType::ConstPointer     m_TensorPointSet{};
 
   /** Rectilinear mesh */
-  SizeType            m_NumberOfElements;
-  ContinuousIndexType m_PixelsPerElement;
-  SpacingType         m_SpacingPerElement;
+  SizeType            m_NumberOfElements{};
+  ContinuousIndexType m_PixelsPerElement{};
+  SpacingType         m_SpacingPerElement{};
 
   /** Material */
-  MaterialPointerType m_Material;
+  MaterialPointerType m_Material{};
 };
 
 } // end namespace fem

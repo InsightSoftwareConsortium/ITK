@@ -141,12 +141,12 @@ protected:
   AfterThreadedGenerateData() override;
 
 private:
-  unsigned int m_MajorityThreshold;
+  unsigned int m_MajorityThreshold{};
 
-  SizeValueType m_NumberOfPixelsChanged;
+  SizeValueType m_NumberOfPixelsChanged{};
 
   // Auxiliary array for multi-threading
-  Array<SizeValueType> m_Count;
+  Array<SizeValueType> m_Count{};
 };
 } // end namespace itk
 

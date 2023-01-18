@@ -152,11 +152,11 @@ private:
   void
   EstimateGaussianModelParameters();
 
-  MatrixType                    m_NumberOfSamples;
-  MatrixType                    m_Means;
+  MatrixType                    m_NumberOfSamples{};
+  MatrixType                    m_Means{};
   std::unique_ptr<MatrixType[]> m_Covariance{ nullptr };
 
-  TrainingImagePointer m_TrainingImage;
+  TrainingImagePointer m_TrainingImage{};
 };
 } // end namespace itk
 

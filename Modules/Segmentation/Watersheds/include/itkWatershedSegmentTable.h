@@ -272,9 +272,9 @@ protected:
   {}
   ~SegmentTable() override = default;
 
-  HashMapType m_HashMap;
+  HashMapType m_HashMap{};
 
-  ScalarType m_MaximumDepth;
+  ScalarType m_MaximumDepth{};
 
 private:
   void

@@ -112,7 +112,7 @@ protected:
 
 private:
   /** How many times should we apply the blur? */
-  unsigned int m_Repetitions;
+  unsigned int m_Repetitions{};
 };
 } // end namespace itk
 

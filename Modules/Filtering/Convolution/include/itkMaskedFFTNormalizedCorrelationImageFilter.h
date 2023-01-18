@@ -330,17 +330,17 @@ private:
   /** Larger values zero-out pixels on a larger border around the correlation image.
    * Thus, larger values remove less stable computations but also limit the capture range.
    * The default is set to 0. */
-  SizeValueType m_RequiredNumberOfOverlappingPixels;
+  SizeValueType m_RequiredNumberOfOverlappingPixels{};
   /** Similar to m_RequiredNumberOfOverlappingPixels except that the m_RequiredFractionOfOverlappingPixels is multiplied
    * by the m_MaximumNumberOfOverlappingPixels to determine the requiredNumberOfOverlappingPixels. The default is 0. */
-  RealPixelType m_RequiredFractionOfOverlappingPixels;
+  RealPixelType m_RequiredFractionOfOverlappingPixels{};
   /** This is computed internally */
-  SizeValueType m_MaximumNumberOfOverlappingPixels;
+  SizeValueType m_MaximumNumberOfOverlappingPixels{};
 
   /** This is used for the progress reporter */
   const unsigned int m_TotalForwardAndInverseFFTs{ 12 };
   /** The total accumulated progress */
-  float m_AccumulatedProgress;
+  float m_AccumulatedProgress{};
 };
 } // end namespace itk
 

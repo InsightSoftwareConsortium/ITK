@@ -188,9 +188,9 @@ protected:
 
 
 private:
-  bool          m_RunOneIteration;
-  unsigned long m_NumberOfIterationsUsed;
-  bool          m_FullyConnected;
+  bool          m_RunOneIteration{};
+  unsigned long m_NumberOfIterationsUsed{};
+  bool          m_FullyConnected{};
 }; // end of class
 } // end namespace itk
 

@@ -271,7 +271,7 @@ private:
                            double & marginalDevSquared,
                            double & pixelVariance);
 
-  RelativeFrequencyContainerType m_RelativeFrequencyContainer;
+  RelativeFrequencyContainerType m_RelativeFrequencyContainer{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

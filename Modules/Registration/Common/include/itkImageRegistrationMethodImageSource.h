@@ -148,10 +148,10 @@ protected:
   }
 
 private:
-  typename FixedImageType::Pointer  m_FixedImage;
-  typename MovingImageType::Pointer m_MovingImage;
+  typename FixedImageType::Pointer  m_FixedImage{};
+  typename MovingImageType::Pointer m_MovingImage{};
 
-  ParametersType m_Parameters;
+  ParametersType m_Parameters{};
 };
 
 } // end namespace testhelper

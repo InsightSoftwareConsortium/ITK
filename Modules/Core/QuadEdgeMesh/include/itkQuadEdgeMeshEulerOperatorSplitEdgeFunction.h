@@ -88,7 +88,7 @@ protected:
   ~QuadEdgeMeshEulerOperatorSplitEdgeFunction() override = default;
 
 private:
-  typename SplitVertex::Pointer m_SplitVertex;
+  typename SplitVertex::Pointer m_SplitVertex{};
 };
 } // end namespace itk
 

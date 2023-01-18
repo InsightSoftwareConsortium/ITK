@@ -246,13 +246,13 @@ private:
   double m_StepLength{ 0 };
   double m_StepTolerance{ 0 };
 
-  ParametersType     m_LineOrigin;
-  vnl_vector<double> m_LineDirection;
+  ParametersType     m_LineOrigin{};
+  vnl_vector<double> m_LineDirection{};
 
   double m_ValueTolerance{ 0 };
 
   /** Internal storage for the value type / used as a cache  */
-  MeasureType m_CurrentCost;
+  MeasureType m_CurrentCost{};
 
   /** this is user-settable flag to stop optimization.
    * when users call StartOptimization, this value will be set false.
@@ -260,9 +260,9 @@ private:
    * optimization will stop at the next iteration. */
   bool m_Stop{ false };
 
-  ParametersType m_CurrentPosition;
+  ParametersType m_CurrentPosition{};
 
-  std::ostringstream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription{};
 }; // end of class
 } // end of namespace itk
 

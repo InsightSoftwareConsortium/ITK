@@ -284,7 +284,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InternalDataContainerType m_InternalContainer;
+  InternalDataContainerType m_InternalContainer{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

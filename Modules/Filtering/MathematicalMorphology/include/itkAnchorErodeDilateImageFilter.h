@@ -85,7 +85,7 @@ protected:
 
 
   // should be set by the meta filter
-  InputImagePixelType m_Boundary;
+  InputImagePixelType m_Boundary{};
 
 private:
   using BresType = BresenhamLine<Self::InputImageDimension>;

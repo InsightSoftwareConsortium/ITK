@@ -160,11 +160,11 @@ protected:
   ~VectorRescaleIntensityImageFilter() override = default;
 
 private:
-  InputRealType m_Scale;
-  InputRealType m_Shift;
+  InputRealType m_Scale{};
+  InputRealType m_Shift{};
 
-  InputRealType  m_InputMaximumMagnitude;
-  OutputRealType m_OutputMaximumMagnitude;
+  InputRealType  m_InputMaximumMagnitude{};
+  OutputRealType m_OutputMaximumMagnitude{};
 };
 } // end namespace itk
 

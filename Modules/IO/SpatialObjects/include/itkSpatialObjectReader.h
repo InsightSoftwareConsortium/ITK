@@ -117,17 +117,17 @@ public:
                         MetaConverterBaseType * converter);
 
 protected:
-  std::string m_FileName;
+  std::string m_FileName{};
 
   SpatialObjectReader();
   ~SpatialObjectReader() override = default;
 
 private:
-  GroupPointer m_Group;
+  GroupPointer m_Group{};
 
-  SpatialObjectPointer m_SpatialObject;
+  SpatialObjectPointer m_SpatialObject{};
 
-  typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter;
+  typename MetaSceneConverterType::Pointer m_MetaToSpatialConverter{};
 };
 } // namespace itk
 

@@ -167,14 +167,14 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  OutputRegionType m_BufferedRegion;
-  NodeType         m_StartIndex;
-  NodeType         m_LastIndex;
+  OutputRegionType m_BufferedRegion{};
+  NodeType         m_StartIndex{};
+  NodeType         m_LastIndex{};
 
-  OutputRegionType    m_OutputRegion;
-  OutputPointType     m_OutputOrigin;
-  OutputSpacingType   m_OutputSpacing;
-  OutputDirectionType m_OutputDirection;
+  OutputRegionType    m_OutputRegion{};
+  OutputPointType     m_OutputOrigin{};
+  OutputSpacingType   m_OutputSpacing{};
+  OutputDirectionType m_OutputDirection{};
   bool                m_OverrideOutputInformation{ false };
 
   /** Generate the output image meta information. */
@@ -184,8 +184,8 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  LabelImagePointer              m_LabelImage;
-  ConnectedComponentImagePointer m_ConnectedComponentImage;
+  LabelImagePointer              m_LabelImage{};
+  ConnectedComponentImagePointer m_ConnectedComponentImage{};
 
   IdentifierType
   GetTotalNumberOfNodes() const override;
@@ -245,8 +245,8 @@ protected:
   bool
   IsCriticalC4Configuration2D(const std::bitset<9> &) const;
 
-  Array<unsigned char> m_RotationIndices[4];
-  Array<unsigned char> m_ReflectionIndices[2];
+  Array<unsigned char> m_RotationIndices[4]{};
+  Array<unsigned char> m_ReflectionIndices[2]{};
 
   // Functions/data for the 3-D case
   void
@@ -258,8 +258,8 @@ protected:
   bool
   IsChangeWellComposed3D(const NodeType &) const;
 
-  Array<unsigned char> m_C1Indices[12];
-  Array<unsigned char> m_C2Indices[8];
+  Array<unsigned char> m_C1Indices[12]{};
+  Array<unsigned char> m_C2Indices[8]{};
 
   // Functions for both 2D/3D cases
   bool
@@ -267,7 +267,7 @@ protected:
   bool
   DoesVoxelChangeViolateStrictTopology(const NodeType &) const;
 
-  const InputImageType * m_InputCache;
+  const InputImageType * m_InputCache{};
 
 private:
 };

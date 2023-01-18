@@ -124,7 +124,7 @@ protected:
   GenerateData() override;
 
 private:
-  OutputImageRegionType m_Region;
+  OutputImageRegionType m_Region{};
 };
 } // end namespace itk
 

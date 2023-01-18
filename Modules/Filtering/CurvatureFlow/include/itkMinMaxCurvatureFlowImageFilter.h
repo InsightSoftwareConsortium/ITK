@@ -144,7 +144,7 @@ protected:
   InitializeIteration() override;
 
 private:
-  RadiusValueType m_StencilRadius;
+  RadiusValueType m_StencilRadius{};
 };
 } // namespace itk
 

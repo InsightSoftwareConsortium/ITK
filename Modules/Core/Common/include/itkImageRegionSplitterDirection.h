@@ -77,7 +77,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_Direction;
+  unsigned int m_Direction{};
 };
 } // end namespace itk
 

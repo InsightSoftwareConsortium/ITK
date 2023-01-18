@@ -131,9 +131,9 @@ protected:
 
 private:
   unsigned int m_NumberOfSeeds{ 0 };
-  PointType    m_VorBoundary;
-  OutputType   m_OutputVD;
-  SeedsType    m_Seeds;
+  PointType    m_VorBoundary{};
+  OutputType   m_OutputVD{};
+  SeedsType    m_Seeds{};
 
   /** Compare point coordinates in the y direction. */
   static bool
@@ -229,16 +229,16 @@ private:
   unsigned int                 m_PQhashsize{ 0 };
   unsigned int                 m_Nedges{ 0 };
   unsigned int                 m_Nvert{ 0 };
-  FortuneSite *                m_BottomSite;
-  std::vector<FortuneHalfEdge> m_PQHash;
+  FortuneSite *                m_BottomSite{};
+  std::vector<FortuneHalfEdge> m_PQHash{};
 
   unsigned int                   m_ELhashsize{ 0 };
-  FortuneHalfEdge                m_ELleftend;
-  FortuneHalfEdge                m_ELrightend;
-  std::vector<FortuneHalfEdge *> m_ELHash;
+  FortuneHalfEdge                m_ELleftend{};
+  FortuneHalfEdge                m_ELrightend{};
+  std::vector<FortuneHalfEdge *> m_ELHash{};
 
-  FortuneEdge              m_DELETED;
-  std::vector<FortuneSite> m_SeedSites;
+  FortuneEdge              m_DELETED{};
+  std::vector<FortuneSite> m_SeedSites{};
 
   /** Methods to convert the result from Fortune Algorithm into itkMesh
    * structure.

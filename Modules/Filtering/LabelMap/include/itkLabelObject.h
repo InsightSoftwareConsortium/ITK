@@ -406,8 +406,8 @@ protected:
 private:
   using LineContainerType = typename std::deque<LineType>;
 
-  LineContainerType m_LineContainer;
-  LabelType         m_Label;
+  LineContainerType m_LineContainer{};
+  LabelType         m_Label{};
 };
 } // end namespace itk
 

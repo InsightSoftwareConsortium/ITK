@@ -185,14 +185,14 @@ protected:
 
 private:
   /** Internal operator used to filter the image. */
-  OutputNeighborhoodType m_Operator;
+  OutputNeighborhoodType m_Operator{};
 
   /** Pointer to a persistent boundary condition object used
    * for the image iterator. */
-  ImageBoundaryConditionPointerType m_BoundsCondition;
+  ImageBoundaryConditionPointerType m_BoundsCondition{};
 
   /** Default boundary condition */
-  DefaultBoundaryCondition m_DefaultBoundaryCondition;
+  DefaultBoundaryCondition m_DefaultBoundaryCondition{};
 };
 } // end namespace itk
 

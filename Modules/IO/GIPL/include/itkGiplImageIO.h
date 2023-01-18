@@ -96,11 +96,11 @@ private:
   bool
   CheckExtension(const char *);
 
-  std::ifstream m_Ifstream;
-  std::ofstream m_Ofstream;
-  bool          m_IsCompressed;
+  std::ifstream m_Ifstream{};
+  std::ofstream m_Ofstream{};
+  bool          m_IsCompressed{};
 
-  GiplImageIOInternals * m_Internal;
+  GiplImageIOInternals * m_Internal{};
 };
 } // end namespace itk
 

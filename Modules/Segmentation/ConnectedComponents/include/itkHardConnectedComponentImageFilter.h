@@ -125,7 +125,7 @@ protected:
   }
 
 private:
-  ListType m_Seeds;
+  ListType m_Seeds{};
 };
 } // end namespace itk
 

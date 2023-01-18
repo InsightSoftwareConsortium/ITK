@@ -109,7 +109,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  bool m_ReverseOrdering;
+  bool m_ReverseOrdering{};
 
 private:
   struct LineOfLabelObject

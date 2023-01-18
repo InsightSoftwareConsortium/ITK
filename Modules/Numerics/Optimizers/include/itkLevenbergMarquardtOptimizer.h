@@ -96,12 +96,12 @@ protected:
   using CostFunctionAdaptorType = Superclass::CostFunctionAdaptorType;
 
 private:
-  bool                                   m_OptimizerInitialized;
-  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
-  unsigned int                           m_NumberOfIterations;
-  double                                 m_ValueTolerance;
-  double                                 m_GradientTolerance;
-  double                                 m_EpsilonFunction;
+  bool                                   m_OptimizerInitialized{};
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer{};
+  unsigned int                           m_NumberOfIterations{};
+  double                                 m_ValueTolerance{};
+  double                                 m_GradientTolerance{};
+  double                                 m_EpsilonFunction{};
 };
 } // end namespace itk
 

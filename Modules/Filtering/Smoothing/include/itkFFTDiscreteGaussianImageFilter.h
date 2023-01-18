@@ -178,7 +178,7 @@ private:
     FFTDiscreteGaussianImageFilterEnums::KernelSource::OPERATORS;
 
   /* Kernel image is allocated with GenerateKernelImage() */
-  typename RealImageType::Pointer m_KernelImage;
+  typename RealImageType::Pointer m_KernelImage{};
 
   /* Persist mini-pipeline filter to minimize construction costs
    * on repeated calls to GenerateData() */

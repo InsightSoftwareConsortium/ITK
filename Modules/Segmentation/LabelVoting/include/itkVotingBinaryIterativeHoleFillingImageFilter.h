@@ -147,15 +147,15 @@ protected:
   GenerateData() override;
 
 private:
-  InputSizeType m_Radius;
+  InputSizeType m_Radius{};
 
-  InputPixelType m_ForegroundValue;
-  InputPixelType m_BackgroundValue;
+  InputPixelType m_ForegroundValue{};
+  InputPixelType m_BackgroundValue{};
 
-  unsigned int m_MaximumNumberOfIterations;
-  unsigned int m_CurrentNumberOfIterations;
-  unsigned int m_MajorityThreshold;
-  unsigned int m_NumberOfPixelsChanged;
+  unsigned int m_MaximumNumberOfIterations{};
+  unsigned int m_CurrentNumberOfIterations{};
+  unsigned int m_MajorityThreshold{};
+  unsigned int m_NumberOfPixelsChanged{};
 };
 } // end namespace itk
 

@@ -162,25 +162,25 @@ protected:
 
 private:
   /** The interpolator. */
-  typename InterpolatorType::Pointer m_Interpolator;
+  typename InterpolatorType::Pointer m_Interpolator{};
 
   unsigned int m_MaximumNumberOfIterations{ 20 };
 
-  RealType m_MaxErrorToleranceThreshold;
-  RealType m_MeanErrorToleranceThreshold;
+  RealType m_MaxErrorToleranceThreshold{};
+  RealType m_MeanErrorToleranceThreshold{};
 
   // internal ivars necessary for multithreading basic operations
 
-  typename DisplacementFieldType::Pointer m_ComposedField;
-  typename RealImageType::Pointer         m_ScaledNormImage;
+  typename DisplacementFieldType::Pointer m_ComposedField{};
+  typename RealImageType::Pointer         m_ScaledNormImage{};
 
-  RealType    m_MaxErrorNorm;
-  RealType    m_MeanErrorNorm;
-  RealType    m_Epsilon;
-  SpacingType m_DisplacementFieldSpacing;
+  RealType    m_MaxErrorNorm{};
+  RealType    m_MeanErrorNorm{};
+  RealType    m_Epsilon{};
+  SpacingType m_DisplacementFieldSpacing{};
   bool        m_DoThreadedEstimateInverse{ false };
   bool        m_EnforceBoundaryCondition{ true };
-  std::mutex  m_Mutex;
+  std::mutex  m_Mutex{};
 };
 
 } // end namespace itk

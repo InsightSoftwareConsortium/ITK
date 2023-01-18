@@ -146,9 +146,9 @@ protected:
   CloseVolume();
 
 private:
-  MINCImageIOPImpl * m_MINCPImpl;
+  MINCImageIOPImpl * m_MINCPImpl{};
 
-  MatrixType m_DirectionCosines;
+  MatrixType m_DirectionCosines{};
 
   // complex type images, composed of complex numbers
   // int m_Complex;

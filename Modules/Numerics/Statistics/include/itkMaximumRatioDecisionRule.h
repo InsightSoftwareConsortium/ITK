@@ -111,7 +111,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PriorProbabilityVectorType m_PriorProbabilities;
+  PriorProbabilityVectorType m_PriorProbabilities{};
 
 }; // end of class
 } // namespace Statistics

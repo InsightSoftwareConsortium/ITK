@@ -176,16 +176,16 @@ protected:
   RecomputeGaussianKernel();
 
 private:
-  double m_Sigma[ImageDimension];
+  double m_Sigma[ImageDimension]{};
 
   /** Array of 1D operators. Contains a derivative kernel for
    * each dimension. Note: A future version of ITK could extend this array
    * to include a Gaussian blurring kernel for each dimension.*/
-  OperatorArrayType m_OperatorArray;
+  OperatorArrayType m_OperatorArray{};
 
-  std::vector<Offset<ImageDimension>> m_ImageNeighborhoodOffsets[ImageDimension];
+  std::vector<Offset<ImageDimension>> m_ImageNeighborhoodOffsets[ImageDimension]{};
 
-  double m_Extent[ImageDimension];
+  double m_Extent[ImageDimension]{};
 
   /** Flag to indicate whether to use image spacing. */
   bool m_UseImageSpacing{ true };

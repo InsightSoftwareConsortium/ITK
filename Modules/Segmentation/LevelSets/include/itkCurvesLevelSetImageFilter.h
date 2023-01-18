@@ -159,7 +159,7 @@ protected:
   GenerateData() override;
 
 private:
-  CurvesFunctionPointer m_CurvesFunction;
+  CurvesFunctionPointer m_CurvesFunction{};
 };
 } // end namespace itk
 

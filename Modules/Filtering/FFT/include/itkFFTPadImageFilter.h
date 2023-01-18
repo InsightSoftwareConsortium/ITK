@@ -109,9 +109,9 @@ protected:
 
 
 private:
-  SizeValueType m_SizeGreatestPrimeFactor;
+  SizeValueType m_SizeGreatestPrimeFactor{};
 
-  DefaultBoundaryConditionType m_DefaultBoundaryCondition;
+  DefaultBoundaryConditionType m_DefaultBoundaryCondition{};
 
 }; // end of class
 

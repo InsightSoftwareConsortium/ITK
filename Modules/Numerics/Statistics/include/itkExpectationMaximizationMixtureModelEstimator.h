@@ -226,18 +226,18 @@ protected:
 
 private:
   /** Target data sample pointer*/
-  const TSample * m_Sample;
+  const TSample * m_Sample{};
 
   int m_MaxIteration{ 100 };
   int m_CurrentIteration{ 0 };
 
   TERMINATION_CODE_ENUM m_TerminationCode{ TERMINATION_CODE_ENUM::NOT_CONVERGED };
-  ComponentVectorType   m_ComponentVector;
-  ProportionVectorType  m_InitialProportions;
-  ProportionVectorType  m_Proportions;
+  ComponentVectorType   m_ComponentVector{};
+  ProportionVectorType  m_InitialProportions{};
+  ProportionVectorType  m_Proportions{};
 
-  MembershipFunctionVectorObjectPointer  m_MembershipFunctionsObject;
-  MembershipFunctionsWeightsArrayPointer m_MembershipFunctionsWeightArrayObject;
+  MembershipFunctionVectorObjectPointer  m_MembershipFunctionsObject{};
+  MembershipFunctionsWeightsArrayPointer m_MembershipFunctionsWeightArrayObject{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

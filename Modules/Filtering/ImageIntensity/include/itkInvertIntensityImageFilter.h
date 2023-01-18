@@ -136,7 +136,7 @@ protected:
   ~InvertIntensityImageFilter() override = default;
 
 private:
-  InputPixelType m_Maximum;
+  InputPixelType m_Maximum{};
 };
 } // end namespace itk
 

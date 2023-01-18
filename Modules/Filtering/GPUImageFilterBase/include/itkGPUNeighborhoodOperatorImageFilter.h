@@ -188,9 +188,9 @@ private:
   /** Default boundary condition
   DefaultBoundaryCondition m_DefaultBoundaryCondition;*/
 
-  int m_NeighborhoodOperatorFilterGPUKernelHandle;
+  int m_NeighborhoodOperatorFilterGPUKernelHandle{};
 
-  typename NeighborhoodGPUBufferType::Pointer m_NeighborhoodGPUBuffer;
+  typename NeighborhoodGPUBufferType::Pointer m_NeighborhoodGPUBuffer{};
 };
 } // end namespace itk
 

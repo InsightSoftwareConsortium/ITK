@@ -165,10 +165,10 @@ protected:
 
 private:
   /** Variable to hold the input XML file name. */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** Variable to hold the output DOM object, created internally or supplied by the user. */
-  OutputPointer m_DOMNodeXML;
+  OutputPointer m_DOMNodeXML{};
 
   /** Variable to keep the current context during XML parsing. */
   OutputType * m_Context{ nullptr };

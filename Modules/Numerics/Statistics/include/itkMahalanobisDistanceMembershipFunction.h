@@ -135,10 +135,10 @@ private:
 
   // inverse covariance matrix. automatically calculated
   // when covariance matrix is set.
-  CovarianceMatrixType m_InverseCovariance;
+  CovarianceMatrixType m_InverseCovariance{};
 
   /** Boolean to cache whether the covariance is singular or nearly singular */
-  bool m_CovarianceNonsingular;
+  bool m_CovarianceNonsingular{};
 };
 } // end of namespace Statistics
 } // end namespace itk

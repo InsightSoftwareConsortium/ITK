@@ -110,10 +110,10 @@ protected:
   void
   ComputeVertexIdMapping() override;
 
-  OutputCoordRepType m_Lambda;
-  OutputCoordRepType m_LambdaSquare;
+  OutputCoordRepType m_Lambda{};
+  OutputCoordRepType m_LambdaSquare{};
 
-  std::unordered_map<OutputPointIdentifier, OutputCoordRepType> m_LocalLambdaSquare;
+  std::unordered_map<OutputPointIdentifier, OutputCoordRepType> m_LocalLambdaSquare{};
 };
 } // end namespace itk
 

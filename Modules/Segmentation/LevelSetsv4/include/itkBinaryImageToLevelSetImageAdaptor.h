@@ -108,7 +108,7 @@ protected:
   ~BinaryImageToLevelSetImageAdaptor() override;
 
 private:
-  SignedDistanceTransformFilterPointer m_SignedDistanceTransformFilter;
+  SignedDistanceTransformFilterPointer m_SignedDistanceTransformFilter{};
 };
 
 ////////////////////////////////////////////////////////////////////////////////

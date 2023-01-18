@@ -113,7 +113,7 @@ protected:
   /**
    * scalar for balloon force
    */
-  double m_Kappa;
+  double m_Kappa{};
 }; // end of class
 } // end namespace itk
 

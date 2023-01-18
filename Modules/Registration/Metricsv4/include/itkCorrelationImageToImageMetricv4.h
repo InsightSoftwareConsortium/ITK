@@ -166,14 +166,14 @@ protected:
   using CorrelationHelperSparseThreaderType =
     CorrelationImageToImageMetricv4HelperThreader<ThreadedIndexedContainerPartitioner, Superclass, Self>;
 
-  typename CorrelationHelperDenseThreaderType::Pointer  m_HelperDenseThreader;
-  typename CorrelationHelperSparseThreaderType::Pointer m_HelperSparseThreader;
+  typename CorrelationHelperDenseThreaderType::Pointer  m_HelperDenseThreader{};
+  typename CorrelationHelperSparseThreaderType::Pointer m_HelperSparseThreader{};
 
   /* These values are computed during InitializeForIteration(),
    * using the helper class
    * */
-  mutable MeasureType m_AverageFix;
-  mutable MeasureType m_AverageMov;
+  mutable MeasureType m_AverageFix{};
+  mutable MeasureType m_AverageMov{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

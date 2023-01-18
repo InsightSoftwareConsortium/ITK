@@ -209,7 +209,7 @@ protected:
 
 private:
   /** Desired variance of the discrete Gaussian function */
-  VarianceArrayType m_Variance;
+  VarianceArrayType m_Variance{};
 
   /** Difference between the areas under the curves of the continuous and
    * discrete Gaussian functions */
@@ -223,13 +223,13 @@ private:
   /** Array of derivative operators, one for each dimension and order.
    * First N zero-rder operators are stored, then N first-order making
    * 2*N operators altogether where N=ImageDimension */
-  GaussianDerivativeOperatorArrayType m_OperatorArray;
+  GaussianDerivativeOperatorArrayType m_OperatorArray{};
 
   /** Array of N-dimensional kernels used to calculate gradient components */
-  KernelArrayType m_KernelArray;
+  KernelArrayType m_KernelArray{};
 
   /** OperatorImageFunction */
-  OperatorImageFunctionPointer m_OperatorImageFunction;
+  OperatorImageFunctionPointer m_OperatorImageFunction{};
 
   /** Flag for scale-space normalization of derivatives */
   bool m_NormalizeAcrossScale{ true };

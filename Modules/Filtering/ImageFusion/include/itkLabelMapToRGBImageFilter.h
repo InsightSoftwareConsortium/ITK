@@ -117,7 +117,7 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  FunctorType m_Functor;
+  FunctorType m_Functor{};
 }; // end of class
 
 } // end namespace itk

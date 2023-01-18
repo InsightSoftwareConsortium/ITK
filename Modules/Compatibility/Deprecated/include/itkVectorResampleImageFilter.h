@@ -233,14 +233,14 @@ protected:
 
 
 private:
-  SizeType                m_Size;
-  TransformPointerType    m_Transform;
-  InterpolatorPointerType m_Interpolator;
-  PixelType               m_DefaultPixelValue;
-  SpacingType             m_OutputSpacing;
-  OriginPointType         m_OutputOrigin;
-  DirectionType           m_OutputDirection;
-  IndexType               m_OutputStartIndex;
+  SizeType                m_Size{};
+  TransformPointerType    m_Transform{};
+  InterpolatorPointerType m_Interpolator{};
+  PixelType               m_DefaultPixelValue{};
+  SpacingType             m_OutputSpacing{};
+  OriginPointType         m_OutputOrigin{};
+  DirectionType           m_OutputDirection{};
+  IndexType               m_OutputStartIndex{};
 };
 } // end namespace itk
 

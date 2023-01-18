@@ -102,10 +102,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The LevelSetFunctionWithRefitTerm object. */
-  typename FunctionType::Pointer m_Function;
+  typename FunctionType::Pointer m_Function{};
 
   /** The number of iterations for which this filter will run. */
-  unsigned int m_MaxFilterIteration;
+  unsigned int m_MaxFilterIteration{};
 
   /** This filter halts when the iteration count reaches the specified count. */
   bool

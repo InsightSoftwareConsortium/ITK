@@ -112,7 +112,7 @@ protected:
   virtual ~LevelSetQuadEdgeMesh() = default;
 
 private:
-  MeshPointer m_Mesh;
+  MeshPointer m_Mesh{};
 };
 } // namespace itk
 

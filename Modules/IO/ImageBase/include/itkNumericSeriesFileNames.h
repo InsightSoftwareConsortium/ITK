@@ -108,9 +108,9 @@ private:
   SizeValueType m_IncrementIndex{ 1 };
 
   /** A string for formatting the names of files in the series. */
-  std::string m_SeriesFormat;
+  std::string m_SeriesFormat{};
 
-  std::vector<std::string> m_FileNames;
+  std::vector<std::string> m_FileNames{};
 };
 } // namespace itk
 

@@ -447,7 +447,7 @@ protected:
   ~FunctionCommand() override;
 
 
-  FunctionObjectType m_FunctionObject;
+  FunctionObjectType m_FunctionObject{};
 };
 
 } // end namespace itk

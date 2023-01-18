@@ -207,26 +207,26 @@ private:
   //
   // Declare member variables for the filters of the internal pipeline.
   //
-  typename ThresholdFilterType::Pointer m_ThresholdFilter;
-  typename ConnectedFilterType::Pointer m_ConnectedComponent;
+  typename ThresholdFilterType::Pointer m_ThresholdFilter{};
+  typename ConnectedFilterType::Pointer m_ConnectedComponent{};
 
-  typename RelabelFilterType::Pointer m_LabeledComponent;
+  typename RelabelFilterType::Pointer m_LabeledComponent{};
 
-  typename MinMaxCalculatorType::Pointer m_MinMaxCalculator;
+  typename MinMaxCalculatorType::Pointer m_MinMaxCalculator{};
 
   // Variables defined by the user
-  unsigned int m_MinimumObjectSizeInPixels;
+  unsigned int m_MinimumObjectSizeInPixels{};
 
   // Binary threshold variables
-  OutputPixelType m_OutsideValue;
-  OutputPixelType m_InsideValue;
+  OutputPixelType m_OutsideValue{};
+  OutputPixelType m_InsideValue{};
 
-  PixelType m_LowerBoundary;
-  PixelType m_UpperBoundary;
+  PixelType m_LowerBoundary{};
+  PixelType m_UpperBoundary{};
 
   // Filter variables
-  PixelType     m_ThresholdValue;
-  SizeValueType m_NumberOfObjects;
+  PixelType     m_ThresholdValue{};
+  SizeValueType m_NumberOfObjects{};
 };
 } // end namespace itk
 

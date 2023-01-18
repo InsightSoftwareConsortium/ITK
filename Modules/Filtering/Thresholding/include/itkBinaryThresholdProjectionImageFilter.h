@@ -187,13 +187,13 @@ protected:
   }
 
   /** Pixel value for output foreground */
-  OutputPixelType m_ForegroundValue;
+  OutputPixelType m_ForegroundValue{};
 
   /** Pixel value for output background */
-  OutputPixelType m_BackgroundValue;
+  OutputPixelType m_BackgroundValue{};
 
   /** Pixel value for input Threshold */
-  InputPixelType m_ThresholdValue;
+  InputPixelType m_ThresholdValue{};
 }; // end BinaryThresholdProjectionImageFilter
 } // end namespace itk
 

@@ -134,21 +134,21 @@ private:
 
   using OutputContainerType = std::queue<OutputType::Pointer>;
 
-  std::thread m_Thread;
+  std::thread m_Thread{};
 
-  std::atomic<bool> m_TerminationRequested;
+  std::atomic<bool> m_TerminationRequested{};
 
-  OperationContainerType m_OperationQ;
+  OperationContainerType m_OperationQ{};
 
-  MessageContainerType m_MessageQ;
+  MessageContainerType m_MessageQ{};
 
-  LevelContainerType m_LevelQ;
+  LevelContainerType m_LevelQ{};
 
-  OutputContainerType m_OutputQ;
+  OutputContainerType m_OutputQ{};
 
-  mutable std::mutex m_Mutex;
+  mutable std::mutex m_Mutex{};
 
-  DelayType m_Delay;
+  DelayType m_Delay{};
 
 }; // class ThreadLogger
 } // namespace itk

@@ -314,9 +314,9 @@ protected:
   void
   GenerateData() override;
 
-  InputImageRegionType m_ExtractionRegion;
+  InputImageRegionType m_ExtractionRegion{};
 
-  OutputImageRegionType m_OutputImageRegion;
+  OutputImageRegionType m_OutputImageRegion{};
 
 private:
   DirectionCollapseStrategyEnum m_DirectionCollapseStrategy{ DirectionCollapseStrategyEnum::DIRECTIONCOLLAPSETOUNKOWN };

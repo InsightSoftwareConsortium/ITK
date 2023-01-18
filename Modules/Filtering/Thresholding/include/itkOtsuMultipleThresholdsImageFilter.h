@@ -155,8 +155,8 @@ protected:
 private:
   SizeValueType       m_NumberOfHistogramBins{ 128 };
   SizeValueType       m_NumberOfThresholds{ 1 };
-  OutputPixelType     m_LabelOffset;
-  ThresholdVectorType m_Thresholds;
+  OutputPixelType     m_LabelOffset{};
+  ThresholdVectorType m_Thresholds{};
   bool                m_ValleyEmphasis{ false };
 #if defined(ITKV4_COMPATIBILITY)
   bool m_ReturnBinMidpoint{ true };

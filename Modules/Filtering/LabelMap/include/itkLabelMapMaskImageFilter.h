@@ -186,13 +186,13 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputImagePixelType  m_Label;
-  OutputImagePixelType m_BackgroundValue;
+  InputImagePixelType  m_Label{};
+  OutputImagePixelType m_BackgroundValue{};
   bool                 m_Negated{ false };
   bool                 m_Crop{ false };
-  SizeType             m_CropBorder;
+  SizeType             m_CropBorder{};
 
-  TimeStamp m_CropTimeStamp;
+  TimeStamp m_CropTimeStamp{};
 }; // end of class
 
 } // end namespace itk

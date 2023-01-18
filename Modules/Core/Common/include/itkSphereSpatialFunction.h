@@ -75,10 +75,10 @@ protected:
 
 private:
   /** The center of the sphere (of the same type as Input). */
-  InputType m_Center;
+  InputType m_Center{};
 
   /** The radius of the sphere. */
-  double m_Radius;
+  double m_Radius{};
 };
 } // end namespace itk
 

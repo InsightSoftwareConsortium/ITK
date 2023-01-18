@@ -116,8 +116,8 @@ protected:
   VerifyInputInformation() ITKv5_CONST override;
 
 private:
-  SizeType m_UpperBoundaryCropSize;
-  SizeType m_LowerBoundaryCropSize;
+  SizeType m_UpperBoundaryCropSize{};
+  SizeType m_LowerBoundaryCropSize{};
 };
 } // end namespace itk
 

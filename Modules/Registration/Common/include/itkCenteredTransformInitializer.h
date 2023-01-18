@@ -146,11 +146,11 @@ protected:
   itkGetModifiableObjectMacro(Transform, TransformType);
 
 private:
-  TransformPointer m_Transform;
+  TransformPointer m_Transform{};
 
-  FixedImagePointer m_FixedImage;
+  FixedImagePointer m_FixedImage{};
 
-  MovingImagePointer m_MovingImage;
+  MovingImagePointer m_MovingImage{};
 
   bool m_UseMoments{ false };
 

@@ -134,10 +134,10 @@ protected:
   GenerateData() override;
 
 private:
-  typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter;
+  typename EigenAnalysisFilterType::Pointer m_SymmetricEigenValueFilter{};
 
-  double m_Alpha1;
-  double m_Alpha2;
+  double m_Alpha1{};
+  double m_Alpha2{};
 };
 } // end namespace itk
 

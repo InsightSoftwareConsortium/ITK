@@ -332,56 +332,56 @@ protected:
   ReorganizeW();
 
   /** Stiffness parameter */
-  double m_Stiffness;
+  double m_Stiffness{};
 
   /** The list of displacements.
    * d[i] = q[i] - p[i]; */
-  VectorSetPointer m_Displacements;
+  VectorSetPointer m_Displacements{};
 
   /** The L matrix. */
-  LMatrixType m_LMatrix;
+  LMatrixType m_LMatrix{};
 
   /** The K matrix. */
-  KMatrixType m_KMatrix;
+  KMatrixType m_KMatrix{};
 
   /** The P matrix. */
-  PMatrixType m_PMatrix;
+  PMatrixType m_PMatrix{};
 
   /** The Y matrix. */
-  YMatrixType m_YMatrix;
+  YMatrixType m_YMatrix{};
 
   /** The W matrix. */
-  WMatrixType m_WMatrix;
+  WMatrixType m_WMatrix{};
 
   /** The Deformation matrix.
       This is an auxiliary matrix that will hold the
       Deformation (non-affine) part of the transform.
       Those are the coefficients that will multiply the
       Kernel function */
-  DMatrixType m_DMatrix;
+  DMatrixType m_DMatrix{};
 
   /** Rotatinoal/Shearing part of the Affine component of the Transformation */
-  AMatrixType m_AMatrix;
+  AMatrixType m_AMatrix{};
 
   /** Translational part of the Affine component of the Transformation */
-  BMatrixType m_BVector;
+  BMatrixType m_BVector{};
 
   /** The G matrix.
    *  It is made mutable because m_GMatrix was made an ivar
    *  only to avoid copying the matrix at return time */
-  mutable GMatrixType m_GMatrix;
+  mutable GMatrixType m_GMatrix{};
 
   /** Has the W matrix been computed? */
-  bool m_WMatrixComputed;
+  bool m_WMatrixComputed{};
 
   /** Identity matrix. */
   IMatrixType m_I;
 
   /** The list of source landmarks, denoted 'p'. */
-  PointSetPointer m_SourceLandmarks;
+  PointSetPointer m_SourceLandmarks{};
 
   /** The list of target landmarks, denoted 'q'. */
-  PointSetPointer m_TargetLandmarks;
+  PointSetPointer m_TargetLandmarks{};
 
 private:
 };

@@ -186,31 +186,31 @@ protected:
 
 private:
   /** The finite difference function. */
-  NormalFunctionType * m_NormalFunction;
+  NormalFunctionType * m_NormalFunction{};
 
   /** The number of iterations this filter will execute. */
-  unsigned int m_MaxIteration;
+  unsigned int m_MaxIteration{};
 
   /** The upper and lower limits of the band of the scalar image on which we
       operate. */
-  NodeValueType m_IsoLevelLow, m_IsoLevelHigh;
+  NodeValueType m_IsoLevelLow, m_IsoLevelHigh{};
 
   /** The minimum length a vector is allowed to have to avoid divide by zero. */
-  NodeValueType m_MinVectorNorm;
+  NodeValueType m_MinVectorNorm{};
 
   /** The ON/OFF switch for unsharp masking. Default is OFF. */
-  bool m_UnsharpMaskingFlag;
+  bool m_UnsharpMaskingFlag{};
 
   /** The weight determining the extent of enhancement if unsharp masking is
       turned on. */
-  NodeValueType m_UnsharpMaskingWeight;
+  NodeValueType m_UnsharpMaskingWeight{};
 
   /** Constants used in computations. */
-  unsigned long m_Indicator[Self::ImageDimension];
-  unsigned int  m_NumVertex;
-  NodeValueType m_DimConst;
-  NodeValueType m_DimConst2;
-  RadiusType    m_ManifoldRadius;
+  unsigned long m_Indicator[Self::ImageDimension]{};
+  unsigned int  m_NumVertex{};
+  NodeValueType m_DimConst{};
+  NodeValueType m_DimConst2{};
+  RadiusType    m_ManifoldRadius{};
 };
 } // end namespace itk
 

@@ -210,9 +210,9 @@ protected:
   MergeMap(MapType & m1, MapType & m2) const;
 
 private:
-  MapType m_LabelSetMeasures;
+  MapType m_LabelSetMeasures{};
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 }; // end of class
 
 } // end namespace itk

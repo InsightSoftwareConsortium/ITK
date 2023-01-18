@@ -96,7 +96,7 @@ protected:
 private:
   /** Internal pointer to the Mattes metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
-  TDemonsMetric * m_DemonsAssociate;
+  TDemonsMetric * m_DemonsAssociate{};
 };
 
 } // end namespace itk

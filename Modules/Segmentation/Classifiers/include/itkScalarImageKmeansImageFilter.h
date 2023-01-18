@@ -172,13 +172,13 @@ protected:
 private:
   using MeansContainer = std::vector<RealPixelType>;
 
-  MeansContainer m_InitialMeans;
+  MeansContainer m_InitialMeans{};
 
-  ParametersType m_FinalMeans;
+  ParametersType m_FinalMeans{};
 
   bool m_UseNonContiguousLabels{ false };
 
-  ImageRegionType m_ImageRegion;
+  ImageRegionType m_ImageRegion{};
 
   bool m_ImageRegionDefined{ false };
 };

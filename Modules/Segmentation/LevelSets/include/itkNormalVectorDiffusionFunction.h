@@ -169,14 +169,14 @@ protected:
 
 private:
   /** The conductance parameter used for anisotropic diffusion. */
-  NodeValueType m_ConductanceParameter;
+  NodeValueType m_ConductanceParameter{};
 
   /** The internal variable used in the FluxStopFunction. It is computed from
    * ConductanceParameter. */
-  NodeValueType m_FluxStopConstant;
+  NodeValueType m_FluxStopConstant{};
 
   /** The isotropic/anisotropic filtering choice parameter. */
-  int m_NormalProcessType;
+  int m_NormalProcessType{};
 };
 } // end namespace itk
 

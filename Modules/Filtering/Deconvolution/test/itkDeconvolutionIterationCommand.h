@@ -66,7 +66,7 @@ protected:
   DeconvolutionIterationCommand() { m_NumberOfIterations = 0; }
 
 private:
-  int m_NumberOfIterations;
+  int m_NumberOfIterations{};
 };
 
 } // end namespace itk

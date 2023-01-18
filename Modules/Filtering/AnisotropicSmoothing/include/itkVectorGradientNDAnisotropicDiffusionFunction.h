@@ -94,7 +94,7 @@ protected:
 
 private:
   /** Inner product function. */
-  VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct;
+  VectorNeighborhoodInnerProduct<ImageType> m_InnerProduct{};
 
   /** Slices for the ND neighborhood. */
   std::slice x_slice[ImageDimension];
@@ -102,15 +102,15 @@ private:
   std::slice xd_slice[ImageDimension][ImageDimension];
 
   /** Derivative operators. */
-  DerivativeOperator<ScalarValueType, Self::ImageDimension> m_DerivativeOperator;
+  DerivativeOperator<ScalarValueType, Self::ImageDimension> m_DerivativeOperator{};
 
   /** Modified global average gradient magnitude term. */
   ScalarValueType m_K;
 
   static double m_MIN_NORM;
 
-  SizeValueType m_Stride[ImageDimension];
-  SizeValueType m_Center;
+  SizeValueType m_Stride[ImageDimension]{};
+  SizeValueType m_Center{};
 };
 } // end namespace itk
 

@@ -85,7 +85,7 @@ protected:
 
   ~LevelSetDenseImage() override = default;
 
-  ImagePointer m_Image;
+  ImagePointer m_Image{};
 
   bool
   IsInsideDomain(const InputType & inputIndex) const override;

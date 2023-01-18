@@ -103,42 +103,42 @@ protected:
 
 private:
   /** When to stop the iteration for the Gaussian extension loop. */
-  double m_DifferenceTolerance;
+  double m_DifferenceTolerance{};
 
   /** The final mean of the Cumulative Gaussian. */
-  double m_ComputedMean;
+  double m_ComputedMean{};
 
   /** The final standard deviation of the Cumulative Gaussian. */
-  double m_ComputedStandardDeviation;
+  double m_ComputedStandardDeviation{};
 
   /** The final amplitude of the Gaussian. */
-  double m_ComputedAmplitude;
+  double m_ComputedAmplitude{};
 
   /** The transition height (distance between upper and lower
    * asymptotes) of the Cumulative Gaussian. */
-  double m_ComputedTransitionHeight;
+  double m_ComputedTransitionHeight{};
 
   /** The final upper asymptote of the Cumulative Gaussian. */
-  double m_UpperAsymptote;
+  double m_UpperAsymptote{};
 
   /** The final lower asymptote of the Cumulative Gaussian. */
-  double m_LowerAsymptote;
+  double m_LowerAsymptote{};
 
   /** Offset for the mean calculation. */
-  double m_OffsetForMean;
+  double m_OffsetForMean{};
 
   /** Flag to print iteration results. */
-  bool m_Verbose;
+  bool m_Verbose{};
 
   /** Least squares fit error as a measure of goodness. */
-  double m_FitError;
+  double m_FitError{};
 
   /** Array of values computed from the final parameters of the
    * Cumulative Gaussian. */
-  MeasureType * m_FinalSampledArray;
+  MeasureType * m_FinalSampledArray{};
 
   /** Original data array. */
-  MeasureType * m_CumulativeGaussianArray;
+  MeasureType * m_CumulativeGaussianArray{};
 
   /** Extend the tails of the Gaussian. */
   MeasureType *
@@ -176,7 +176,7 @@ private:
   VerticalBestShift(MeasureType * originalArray, MeasureType * newArray);
 
   /** Describe the stop condition */
-  std::ostringstream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription{};
 };
 } // end namespace itk
 

@@ -79,8 +79,8 @@ protected:
 
 private:
   FrequencyType m_Frequency{ 1 };
-  TimeStampType m_Difference;
-  TimeStampType m_Origin;
+  TimeStampType m_Difference{};
+  TimeStampType m_Origin{};
 
   // Returns a timestamp in a TimeStamp data structure.
   // We hide this method in the private section, because it returns the

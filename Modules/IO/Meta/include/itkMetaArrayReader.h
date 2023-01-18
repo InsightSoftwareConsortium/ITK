@@ -249,9 +249,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MetaArray m_MetaArray;
+  MetaArray m_MetaArray{};
 
-  std::string m_FileName;
+  std::string m_FileName{};
 
   void * m_Buffer{ nullptr };
 };

@@ -130,8 +130,8 @@ private:
 
   unsigned int m_NumberOfColors{ 0 };
 
-  ColorNameVectorType m_ColorName;
-  ColorVectorType     m_Color;
+  ColorNameVectorType m_ColorName{};
+  ColorVectorType     m_Color{};
 };
 } // namespace itk
 

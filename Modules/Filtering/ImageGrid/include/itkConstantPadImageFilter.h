@@ -113,7 +113,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ConstantBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition;
+  ConstantBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition{};
 };
 } // end namespace itk
 

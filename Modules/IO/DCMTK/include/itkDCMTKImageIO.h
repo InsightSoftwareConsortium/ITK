@@ -175,17 +175,17 @@ private:
   }
 
   /*----- internal helpers --------------------------------------------*/
-  bool m_UseJPEGCodec;
-  bool m_UseJPLSCodec;
-  bool m_UseRLECodec;
+  bool m_UseJPEGCodec{};
+  bool m_UseJPLSCodec{};
+  bool m_UseRLECodec{};
 
-  DicomImage * m_DImage;
+  DicomImage * m_DImage{};
 
-  bool m_DicomImageSetByUser;
+  bool m_DicomImageSetByUser{};
 
-  double      m_RescaleSlope;
-  double      m_RescaleIntercept;
-  std::string m_LastFileName;
+  double      m_RescaleSlope{};
+  double      m_RescaleIntercept{};
+  std::string m_LastFileName{};
 };
 
 // Define how to print enumeration

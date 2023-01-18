@@ -330,30 +330,30 @@ private:
    * The number of outlier rejection.
    * Note that outlier rejection is performed from approximation to interpolation
    */
-  unsigned int m_OutlierRejectionSteps;
+  unsigned int m_OutlierRejectionSteps{};
 
   /**
    * The number of approximation to interpolation without outlier rejection.
    */
-  unsigned int m_ApproximationSteps;
+  unsigned int m_ApproximationSteps{};
 
 
   /** Represents the index of the vector and matrix. */
   using FEMIndexType = unsigned int;
 
-  FEMIndexType m_ForceIndex;
-  FEMIndexType m_LandmarkForceIndex;
-  FEMIndexType m_ExternalForceIndex;
-  FEMIndexType m_SolutionIndex;
-  FEMIndexType m_MeshStiffnessMatrixIndex;
-  FEMIndexType m_LandmarkStiffnessMatrixIndex;
-  FEMIndexType m_StiffnessMatrixIndex;
+  FEMIndexType m_ForceIndex{};
+  FEMIndexType m_LandmarkForceIndex{};
+  FEMIndexType m_ExternalForceIndex{};
+  FEMIndexType m_SolutionIndex{};
+  FEMIndexType m_MeshStiffnessMatrixIndex{};
+  FEMIndexType m_LandmarkStiffnessMatrixIndex{};
+  FEMIndexType m_StiffnessMatrixIndex{};
 
-  double m_TradeOffImageMeshEnergy;
+  double m_TradeOffImageMeshEnergy{};
 
-  double m_ToleranceToLargestDisplacement;
-  double m_ConjugateGradientPrecision;
-  double m_FractionErrorRejected;
+  double m_ToleranceToLargestDisplacement{};
+  double m_ConjugateGradientPrecision{};
+  double m_FractionErrorRejected{};
 
   /**
    * Use interpolation grid to initialize the landmarks or not.  If use the
@@ -361,9 +361,9 @@ private:
    * points) are usually the grid points if these landmarks come from a feature
    * point detection algorithm applied on an image.
    */
-  bool m_UseInterpolationGrid;
+  bool m_UseInterpolationGrid{};
 
-  LinearSystemWrapperItpack m_Itpack;
+  LinearSystemWrapperItpack m_Itpack{};
 };
 
 /**

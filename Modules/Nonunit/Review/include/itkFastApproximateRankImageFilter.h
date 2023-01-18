@@ -115,7 +115,7 @@ protected:
   }
 
 private:
-  float m_Rank;
+  float m_Rank{};
 };
 } // namespace itk
 

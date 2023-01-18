@@ -320,15 +320,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SeedsType                      m_Seeds;
-  unsigned int                   m_NumberOfSeeds;
-  std::vector<PolygonCellType *> m_VoronoiRegions;
-  PointType                      m_VoronoiBoundary;
-  PointType                      m_VoronoiBoundaryOrigin;
-  std::vector<std::vector<int>>  m_CellNeighborsID;
+  SeedsType                      m_Seeds{};
+  unsigned int                   m_NumberOfSeeds{};
+  std::vector<PolygonCellType *> m_VoronoiRegions{};
+  PointType                      m_VoronoiBoundary{};
+  PointType                      m_VoronoiBoundaryOrigin{};
+  std::vector<std::vector<int>>  m_CellNeighborsID{};
 
-  std::vector<EdgeInfo>    m_LineList;
-  std::vector<VoronoiEdge> m_EdgeList;
+  std::vector<EdgeInfo>    m_LineList{};
+  std::vector<VoronoiEdge> m_EdgeList{};
 };
 
 } // end namespace itk

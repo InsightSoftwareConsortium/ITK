@@ -196,18 +196,18 @@ protected:
   void
   GenerateData() override;
 
-  IndexType     m_Index;
-  SizeType      m_Size;
-  double        m_Spacing[OutputImageDimension];
-  double        m_Origin[OutputImageDimension];
-  DirectionType m_Direction;
+  IndexType     m_Index{};
+  SizeType      m_Size{};
+  double        m_Spacing[OutputImageDimension]{};
+  double        m_Origin[OutputImageDimension]{};
+  DirectionType m_Direction{};
 
-  unsigned int m_ChildrenDepth;
+  unsigned int m_ChildrenDepth{};
 
-  ValueType m_InsideValue;
-  ValueType m_OutsideValue;
+  ValueType m_InsideValue{};
+  ValueType m_OutsideValue{};
 
-  bool m_UseObjectValue;
+  bool m_UseObjectValue{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

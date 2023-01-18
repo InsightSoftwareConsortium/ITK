@@ -101,7 +101,7 @@ protected:
 
 private:
   /** The function that will be evaluated over the image */
-  FunctionType * m_PixelFunction;
+  FunctionType * m_PixelFunction{};
 };
 } // end namespace itk
 

@@ -212,16 +212,16 @@ private:
   void
   NormalizeHistogram();
 
-  OffsetVectorConstPointer m_Offsets;
-  PixelType                m_Min;
-  PixelType                m_Max;
+  OffsetVectorConstPointer m_Offsets{};
+  PixelType                m_Min{};
+  PixelType                m_Max{};
 
-  unsigned int          m_NumberOfBinsPerAxis;
-  MeasurementVectorType m_LowerBound;
-  MeasurementVectorType m_UpperBound;
-  bool                  m_Normalize;
+  unsigned int          m_NumberOfBinsPerAxis{};
+  MeasurementVectorType m_LowerBound{};
+  MeasurementVectorType m_UpperBound{};
+  bool                  m_Normalize{};
 
-  MaskPixelType m_InsidePixelValue;
+  MaskPixelType m_InsidePixelValue{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

@@ -124,8 +124,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeType m_UpperBoundaryCropSize;
-  SizeType m_LowerBoundaryCropSize;
+  SizeType m_UpperBoundaryCropSize{};
+  SizeType m_LowerBoundaryCropSize{};
 };
 } // end namespace itk
 

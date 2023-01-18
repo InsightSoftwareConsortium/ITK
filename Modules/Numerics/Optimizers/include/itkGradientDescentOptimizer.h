@@ -173,7 +173,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   // made protected so subclass can access
-  DerivativeType m_Gradient;
+  DerivativeType m_Gradient{};
 
   bool m_Maximize{ false };
 
@@ -187,7 +187,7 @@ private:
   };
   SizeValueType      m_NumberOfIterations{ 100 };
   SizeValueType      m_CurrentIteration{ 0 };
-  std::ostringstream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription{};
 };
 
 // Define how to print enumeration

@@ -201,7 +201,7 @@ private:
   DataExtentCallbackType            m_DataExtentCallback{ nullptr };
   BufferPointerCallbackType         m_BufferPointerCallback{ nullptr };
 
-  std::string m_ScalarTypeName;
+  std::string m_ScalarTypeName{};
 };
 } // namespace itk
 

@@ -191,16 +191,16 @@ protected:
                const std::vector<OffsetValueType> & stride);
 
 private:
-  PixelRealType m_LevelSetValue;
-  PixelType     m_FarValue;
+  PixelRealType m_LevelSetValue{};
+  PixelType     m_FarValue{};
 
-  InputSpacingType m_Spacing;
+  InputSpacingType m_Spacing{};
 
-  bool                    m_NarrowBanding;
-  NarrowBandPointer       m_NarrowBand;
-  std::vector<RegionType> m_NarrowBandRegion;
+  bool                    m_NarrowBanding{};
+  NarrowBandPointer       m_NarrowBand{};
+  std::vector<RegionType> m_NarrowBandRegion{};
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 };
 } // namespace itk
 

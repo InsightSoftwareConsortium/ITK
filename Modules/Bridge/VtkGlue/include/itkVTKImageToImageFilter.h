@@ -93,7 +93,7 @@ protected:
 
 private:
   using ImageExportPointer = vtkSmartPointer<vtkImageExport>;
-  ImageExportPointer m_Exporter;
+  ImageExportPointer m_Exporter{};
 };
 
 } // end namespace itk

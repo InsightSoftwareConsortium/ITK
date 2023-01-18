@@ -136,7 +136,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  AttributeType m_Attribute;
+  AttributeType m_Attribute{};
 }; // end of class
 
 } // end namespace itk

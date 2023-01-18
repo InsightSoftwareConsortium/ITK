@@ -421,36 +421,36 @@ protected:
       max() of the pixel type used to represent the time-crossing map. */
   itkGetConstReferenceMacro(LargeValue, PixelType);
 
-  OutputRegionType m_BufferedRegion;
+  OutputRegionType m_BufferedRegion{};
   using LevelSetIndexType = typename LevelSetImageType::IndexType;
-  LevelSetIndexType m_StartIndex;
-  LevelSetIndexType m_LastIndex;
+  LevelSetIndexType m_StartIndex{};
+  LevelSetIndexType m_LastIndex{};
 
   itkGetConstReferenceMacro(StartIndex, LevelSetIndexType);
   itkGetConstReferenceMacro(LastIndex, LevelSetIndexType);
 
 private:
-  NodeContainerPointer m_AlivePoints;
-  NodeContainerPointer m_TrialPoints;
-  NodeContainerPointer m_OutsidePoints;
+  NodeContainerPointer m_AlivePoints{};
+  NodeContainerPointer m_TrialPoints{};
+  NodeContainerPointer m_OutsidePoints{};
 
-  LabelImagePointer m_LabelImage;
+  LabelImagePointer m_LabelImage{};
 
-  double m_SpeedConstant;
-  double m_InverseSpeed;
-  double m_StoppingValue;
+  double m_SpeedConstant{};
+  double m_InverseSpeed{};
+  double m_StoppingValue{};
 
-  bool                 m_CollectPoints;
-  NodeContainerPointer m_ProcessedPoints;
+  bool                 m_CollectPoints{};
+  NodeContainerPointer m_ProcessedPoints{};
 
-  OutputRegionType    m_OutputRegion;
-  OutputPointType     m_OutputOrigin;
-  OutputSpacingType   m_OutputSpacing;
-  OutputDirectionType m_OutputDirection;
-  bool                m_OverrideOutputInformation;
+  OutputRegionType    m_OutputRegion{};
+  OutputPointType     m_OutputOrigin{};
+  OutputSpacingType   m_OutputSpacing{};
+  OutputDirectionType m_OutputDirection{};
+  bool                m_OverrideOutputInformation{};
 
-  typename LevelSetImageType::PixelType m_LargeValue;
-  AxisNodeType                          m_NodesUsed[SetDimension];
+  typename LevelSetImageType::PixelType m_LargeValue{};
+  AxisNodeType                          m_NodesUsed[SetDimension]{};
 
   /** Trial points are stored in a min-heap. This allow efficient access
    * to the trial point with minimum value which is the next grid point
@@ -459,9 +459,9 @@ private:
   using NodeComparer = std::greater<AxisNodeType>;
   using HeapType = std::priority_queue<AxisNodeType, HeapContainer, NodeComparer>;
 
-  HeapType m_TrialHeap;
+  HeapType m_TrialHeap{};
 
-  double m_NormalizationFactor;
+  double m_NormalizationFactor{};
 };
 } // namespace itk
 

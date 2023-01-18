@@ -107,8 +107,8 @@ protected:
 
 protected:
 private:
-  ComponentType m_Component;
-  bool          m_Initialized;
+  ComponentType m_Component{};
+  bool          m_Initialized{};
 };
 } // end namespace itk
 

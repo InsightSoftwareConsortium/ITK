@@ -160,8 +160,8 @@ protected:
   }
 
 private:
-  double          m_Scale[VDimension];
-  InputVectorType m_MatrixScale;
+  double          m_Scale[VDimension]{};
+  InputVectorType m_MatrixScale{};
 }; // class ScalableAffineTransform
 } // namespace itk
 

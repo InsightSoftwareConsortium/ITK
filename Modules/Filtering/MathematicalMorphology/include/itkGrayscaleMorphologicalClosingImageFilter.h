@@ -139,24 +139,24 @@ protected:
 
 private:
   // the filters used internally
-  typename HistogramErodeFilterType::Pointer m_HistogramErodeFilter;
+  typename HistogramErodeFilterType::Pointer m_HistogramErodeFilter{};
 
-  typename HistogramDilateFilterType::Pointer m_HistogramDilateFilter;
+  typename HistogramDilateFilterType::Pointer m_HistogramDilateFilter{};
 
-  typename BasicErodeFilterType::Pointer m_BasicErodeFilter;
+  typename BasicErodeFilterType::Pointer m_BasicErodeFilter{};
 
-  typename BasicDilateFilterType::Pointer m_BasicDilateFilter;
+  typename BasicDilateFilterType::Pointer m_BasicDilateFilter{};
 
-  typename VanHerkGilWermanDilateFilterType::Pointer m_VanHerkGilWermanDilateFilter;
+  typename VanHerkGilWermanDilateFilterType::Pointer m_VanHerkGilWermanDilateFilter{};
 
-  typename VanHerkGilWermanErodeFilterType::Pointer m_VanHerkGilWermanErodeFilter;
+  typename VanHerkGilWermanErodeFilterType::Pointer m_VanHerkGilWermanErodeFilter{};
 
-  typename AnchorFilterType::Pointer m_AnchorFilter;
+  typename AnchorFilterType::Pointer m_AnchorFilter{};
 
   // and the name of the filter
-  AlgorithmEnum m_Algorithm;
+  AlgorithmEnum m_Algorithm{};
 
-  bool m_SafeBorder;
+  bool m_SafeBorder{};
 }; // end of class
 } // end namespace itk
 

@@ -136,7 +136,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  FlipAxesArrayType m_FlipAxes;
+  FlipAxesArrayType m_FlipAxes{};
   bool              m_FlipAboutOrigin{ true };
 };
 } // end namespace itk

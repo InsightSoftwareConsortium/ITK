@@ -82,7 +82,7 @@ protected:
   GenerateData() override;
 
   /** Transform to apply to all the mesh points. */
-  typename TransformType::Pointer m_Transform;
+  typename TransformType::Pointer m_Transform{};
 };
 } // end namespace itk
 

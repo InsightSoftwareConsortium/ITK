@@ -106,17 +106,17 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** GPU kernel manager for GPUFiniteDifferenceFunction class */
-  GPUKernelManager::Pointer m_GPUKernelManager;
-  GPUDataPointer            m_GPUDataManager;
+  GPUKernelManager::Pointer m_GPUKernelManager{};
+  GPUDataPointer            m_GPUDataManager{};
 
   /* GPU kernel handle for GPUComputeUpdate */
-  int m_ReduceGPUKernelHandle;
-  int m_TestGPUKernelHandle;
+  int m_ReduceGPUKernelHandle{};
+  int m_TestGPUKernelHandle{};
 
-  unsigned int m_Size;
-  bool         m_SmallBlock;
+  unsigned int m_Size{};
+  bool         m_SmallBlock{};
 
-  TElement m_GPUResult, m_CPUResult;
+  TElement m_GPUResult, m_CPUResult{};
 };
 } // end namespace itk
 

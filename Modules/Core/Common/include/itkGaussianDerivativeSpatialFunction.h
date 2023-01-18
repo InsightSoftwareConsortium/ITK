@@ -98,19 +98,19 @@ protected:
 
 private:
   /** Current direction */
-  mutable unsigned int m_Direction;
+  mutable unsigned int m_Direction{};
 
   /** The standard deviation in each direction. */
-  ArrayType m_Sigma;
+  ArrayType m_Sigma{};
 
   /** The mean in each direction. */
-  ArrayType m_Mean;
+  ArrayType m_Mean{};
 
   /** A scale factor multiplied by the true value of the Gaussian. */
-  double m_Scale;
+  double m_Scale{};
 
   /** Whether or not to normalize the Gaussian. */
-  bool m_Normalized;
+  bool m_Normalized{};
 };
 } // end namespace itk
 

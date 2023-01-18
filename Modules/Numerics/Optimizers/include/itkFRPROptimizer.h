@@ -133,9 +133,9 @@ private:
   static constexpr OptimizationEnum PolakRibiere = OptimizationEnum::PolakRibiere;
 #endif
 
-  OptimizationEnum m_OptimizationType;
+  OptimizationEnum m_OptimizationType{};
 
-  bool m_UseUnitLengthGradient;
+  bool m_UseUnitLengthGradient{};
 }; // end of class
 } // end of namespace itk
 

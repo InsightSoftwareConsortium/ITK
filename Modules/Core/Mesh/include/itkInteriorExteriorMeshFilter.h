@@ -91,7 +91,7 @@ protected:
   GenerateData() override;
 
   /** Transform applied to all the mesh points. */
-  typename SpatialFunctionType::Pointer m_SpatialFunction;
+  typename SpatialFunctionType::Pointer m_SpatialFunction{};
 };
 } // end namespace itk
 

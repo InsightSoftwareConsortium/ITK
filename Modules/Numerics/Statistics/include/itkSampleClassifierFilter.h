@@ -150,10 +150,10 @@ protected:
   MakeOutput(DataObjectPointerArraySizeType idx) override;
 
 private:
-  unsigned int m_NumberOfClasses;
+  unsigned int m_NumberOfClasses{};
 
   /** Decision Rule */
-  DecisionRulePointer m_DecisionRule;
+  DecisionRulePointer m_DecisionRule{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

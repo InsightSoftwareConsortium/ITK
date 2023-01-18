@@ -257,24 +257,24 @@ protected:
   void
   AssembleFforTimeStep(int dim = 0);
 
-  Float m_TimeStep;
-  Float m_Rho;
-  Float m_Alpha;
-  Float m_CurrentMaxSolution;
+  Float m_TimeStep{};
+  Float m_Rho{};
+  Float m_Alpha{};
+  Float m_CurrentMaxSolution{};
 
-  bool         m_UseMassMatrix;
-  unsigned int m_Iterations;
+  bool         m_UseMassMatrix{};
+  unsigned int m_Iterations{};
 
-  unsigned int m_ForceTIndex;
-  unsigned int m_ForceTotalIndex;
-  unsigned int m_ForceTMinus1Index;
-  unsigned int m_SolutionTIndex;
-  unsigned int m_SolutionTMinus1Index;
-  unsigned int m_SolutionVectorTMinus1Index;
-  unsigned int m_TotalSolutionIndex;
-  unsigned int m_DifferenceMatrixIndex;
-  unsigned int m_SumMatrixIndex;
-  unsigned int m_DiffMatrixBySolutionTMinus1Index;
+  unsigned int m_ForceTIndex{};
+  unsigned int m_ForceTotalIndex{};
+  unsigned int m_ForceTMinus1Index{};
+  unsigned int m_SolutionTIndex{};
+  unsigned int m_SolutionTMinus1Index{};
+  unsigned int m_SolutionVectorTMinus1Index{};
+  unsigned int m_TotalSolutionIndex{};
+  unsigned int m_DifferenceMatrixIndex{};
+  unsigned int m_SumMatrixIndex{};
+  unsigned int m_DiffMatrixBySolutionTMinus1Index{};
 };
 } // end namespace fem
 } // end namespace itk

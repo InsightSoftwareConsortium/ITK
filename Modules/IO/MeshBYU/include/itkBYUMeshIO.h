@@ -161,9 +161,9 @@ protected:
 
 private:
   StreamOffsetType m_FilePosition{ 0 };
-  SizeValueType    m_PartId;
-  SizeValueType    m_FirstCellId;
-  SizeValueType    m_LastCellId;
+  SizeValueType    m_PartId{};
+  SizeValueType    m_FirstCellId{};
+  SizeValueType    m_LastCellId{};
 };
 } // end namespace itk
 

@@ -153,7 +153,7 @@ protected:
   void
   ReinitializeToSignedDistance();
 
-  typename LevelSetContainerType::Pointer m_UpdateBuffer;
+  typename LevelSetContainerType::Pointer m_UpdateBuffer{};
 
   friend class LevelSetEvolutionComputeIterationThreader<LevelSetType,
                                                          ThreadedImageRegionPartitioner<TImage::ImageDimension>,
@@ -162,14 +162,14 @@ protected:
     LevelSetEvolutionComputeIterationThreader<LevelSetType,
                                               ThreadedImageRegionPartitioner<TImage::ImageDimension>,
                                               Self>;
-  typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
+  typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader{};
 
   using DomainMapConstIteratorType = typename DomainMapImageFilterType::DomainMapType::const_iterator;
   using ThreadedDomainMapPartitionerType = ThreadedIteratorRangePartitioner<DomainMapConstIteratorType>;
   friend class LevelSetEvolutionComputeIterationThreader<LevelSetType, ThreadedDomainMapPartitionerType, Self>;
   using SplitDomainMapComputeIterationThreaderType =
     LevelSetEvolutionComputeIterationThreader<LevelSetType, ThreadedDomainMapPartitionerType, Self>;
-  typename SplitDomainMapComputeIterationThreaderType::Pointer m_SplitDomainMapComputeIterationThreader;
+  typename SplitDomainMapComputeIterationThreaderType::Pointer m_SplitDomainMapComputeIterationThreader{};
 
   friend class LevelSetEvolutionUpdateLevelSetsThreader<LevelSetType,
                                                         ThreadedImageRegionPartitioner<TImage::ImageDimension>,
@@ -178,10 +178,10 @@ protected:
     LevelSetEvolutionUpdateLevelSetsThreader<LevelSetType,
                                              ThreadedImageRegionPartitioner<TImage::ImageDimension>,
                                              Self>;
-  typename SplitLevelSetUpdateLevelSetsThreaderType::Pointer m_SplitLevelSetUpdateLevelSetsThreader;
+  typename SplitLevelSetUpdateLevelSetsThreaderType::Pointer m_SplitLevelSetUpdateLevelSetsThreader{};
 
   /** Helper variable for threading. */
-  const IdListType * m_IdListToProcessWhenThreading;
+  const IdListType * m_IdListToProcessWhenThreading{};
 };
 
 
@@ -264,7 +264,7 @@ protected:
   using NodePairType = std::pair<LevelSetInputType, LevelSetOutputType>;
 
   // For sparse case, the update buffer needs to be the size of the active layer
-  std::map<IdentifierType, LevelSetLayerType *> m_UpdateBuffer;
+  std::map<IdentifierType, LevelSetLayerType *> m_UpdateBuffer{};
 
   /** Initialize the update buffers for all level sets to hold the updates of
    *  equations in each iteration */
@@ -291,7 +291,7 @@ protected:
   friend class LevelSetEvolutionComputeIterationThreader<LevelSetType, SplitLevelSetPartitionerType, Self>;
   using SplitLevelSetComputeIterationThreaderType =
     LevelSetEvolutionComputeIterationThreader<LevelSetType, SplitLevelSetPartitionerType, Self>;
-  typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader;
+  typename SplitLevelSetComputeIterationThreaderType::Pointer m_SplitLevelSetComputeIterationThreader{};
 };
 
 

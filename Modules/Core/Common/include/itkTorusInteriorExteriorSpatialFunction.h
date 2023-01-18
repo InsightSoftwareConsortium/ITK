@@ -85,7 +85,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  InputType m_Origin;
+  InputType m_Origin{};
   double    m_MajorRadius{ 3.0 };
   double    m_MinorRadius{ 1.0 };
 };

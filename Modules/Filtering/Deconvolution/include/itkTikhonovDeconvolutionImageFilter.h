@@ -114,7 +114,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_RegularizationConstant;
+  double m_RegularizationConstant{};
 };
 
 namespace Functor

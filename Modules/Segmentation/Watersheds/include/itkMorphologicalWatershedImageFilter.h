@@ -135,7 +135,7 @@ private:
 
   bool m_MarkWatershedLine{ true };
 
-  InputImagePixelType m_Level;
+  InputImagePixelType m_Level{};
 }; // end of class
 } // end namespace itk
 

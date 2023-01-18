@@ -248,35 +248,35 @@ private:
   void
   ThreadedCompute2ndDerivativePos(const OutputImageRegionType & outputRegionForThread);
 
-  ArrayType m_Variance;
-  ArrayType m_MaximumError;
+  ArrayType m_Variance{};
+  ArrayType m_MaximumError{};
 
   OutputImagePixelType m_UpperThreshold; // should be float here?
   OutputImagePixelType m_LowerThreshold; // should be float here?
 
-  typename OutputImageType::Pointer m_UpdateBuffer1;
+  typename OutputImageType::Pointer m_UpdateBuffer1{};
 
   /** Gaussian filter to smooth the input image. */
-  typename GaussianImageFilterType::Pointer m_GaussianFilter;
+  typename GaussianImageFilterType::Pointer m_GaussianFilter{};
 
   /** Multiply image filter to multiply with the zero crossings of the second
    *  derivative. */
-  typename MultiplyImageFilterType::Pointer m_MultiplyImageFilter;
+  typename MultiplyImageFilterType::Pointer m_MultiplyImageFilter{};
 
   /** Function objects that are used in the inner loops of derivatiVex
    *  calculations. */
-  DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge1stDerivativeOper;
-  DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge2ndDerivativeOper;
+  DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge1stDerivativeOper{};
+  DerivativeOperator<OutputImagePixelType, Self::ImageDimension> m_ComputeCannyEdge2ndDerivativeOper{};
 
-  std::slice m_ComputeCannyEdgeSlice[ImageDimension];
+  std::slice m_ComputeCannyEdgeSlice[ImageDimension]{};
 
-  SizeValueType m_Stride[ImageDimension];
-  SizeValueType m_Center;
+  SizeValueType m_Stride[ImageDimension]{};
+  SizeValueType m_Center{};
 
-  typename ListNodeStorageType::Pointer m_NodeStore;
-  ListPointerType                       m_NodeList;
+  typename ListNodeStorageType::Pointer m_NodeStore{};
+  ListPointerType                       m_NodeList{};
 
-  OutputImageType * m_OutputImage;
+  OutputImageType * m_OutputImage{};
 };
 } // end of namespace itk
 

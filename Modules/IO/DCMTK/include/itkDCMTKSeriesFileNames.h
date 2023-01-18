@@ -192,24 +192,24 @@ private:
   void
   GetDicomData(const std::string & series, bool saveFileNames);
   /** Contains the input directory where the DICOM serie is found */
-  std::string m_InputDirectory;
+  std::string m_InputDirectory{};
 
   /** Contains the output directory where the DICOM serie should be written */
-  std::string m_OutputDirectory;
+  std::string m_OutputDirectory{};
 
   /** Internal structure to keep the list of input/output filenames */
-  FileNamesContainerType m_InputFileNames;
-  FileNamesContainerType m_OutputFileNames;
+  FileNamesContainerType m_InputFileNames{};
+  FileNamesContainerType m_OutputFileNames{};
 
   /** Internal structure to order serie from one directory */
 
   /** Internal structure to keep the list of series UIDs */
-  SeriesUIDContainerType m_SeriesUIDs;
+  SeriesUIDContainerType m_SeriesUIDs{};
 
-  bool m_UseSeriesDetails;
-  bool m_Recursive;
-  bool m_LoadSequences;
-  bool m_LoadPrivateTags;
+  bool m_UseSeriesDetails{};
+  bool m_Recursive{};
+  bool m_LoadSequences{};
+  bool m_LoadPrivateTags{};
 };
 } // namespace itk
 

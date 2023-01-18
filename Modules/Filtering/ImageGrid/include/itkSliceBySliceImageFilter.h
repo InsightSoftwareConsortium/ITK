@@ -178,13 +178,13 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  unsigned int m_Dimension;
+  unsigned int m_Dimension{};
 
-  typename InputFilterType::Pointer m_InputFilter;
+  typename InputFilterType::Pointer m_InputFilter{};
 
-  typename OutputFilterType::Pointer m_OutputFilter;
+  typename OutputFilterType::Pointer m_OutputFilter{};
 
-  IndexValueType m_SliceIndex;
+  IndexValueType m_SliceIndex{};
 };
 } // namespace itk
 

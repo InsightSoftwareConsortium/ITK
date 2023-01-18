@@ -308,10 +308,10 @@ private:
   GetGeneralInfoString(std::string file, int lineNum);
 
   /** Filename to read. */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** Vector of strings for storing each line of PAR file. */
-  std::vector<std::string> m_PARFileLines;
+  std::vector<std::string> m_PARFileLines{};
 };
 } // end namespace itk
 

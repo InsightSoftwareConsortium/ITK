@@ -86,13 +86,13 @@ protected:
 private:
   using MeshPointer = typename MeshType::ConstPointer;
 
-  MeshPointer m_Mesh;
+  MeshPointer m_Mesh{};
 
-  PointIdentifier m_ExpectedNumberOfPoints;
-  CellIdentifier  m_ExpectedNumberOfEdges;
-  CellIdentifier  m_ExpectedNumberOfFaces;
-  CellIdentifier  m_ExpectedNumberOfBoundaries;
-  OffsetValueType m_ExpectedGenus;
+  PointIdentifier m_ExpectedNumberOfPoints{};
+  CellIdentifier  m_ExpectedNumberOfEdges{};
+  CellIdentifier  m_ExpectedNumberOfFaces{};
+  CellIdentifier  m_ExpectedNumberOfBoundaries{};
+  OffsetValueType m_ExpectedGenus{};
 };
 } // namespace itk
 

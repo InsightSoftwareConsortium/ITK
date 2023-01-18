@@ -155,9 +155,9 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  PixelType m_OutsideValue;
-  PixelType m_Lower;
-  PixelType m_Upper;
+  PixelType m_OutsideValue{};
+  PixelType m_Lower{};
+  PixelType m_Upper{};
 };
 } // end namespace itk
 

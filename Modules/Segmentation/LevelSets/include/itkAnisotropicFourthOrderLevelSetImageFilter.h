@@ -134,10 +134,10 @@ protected:
 
 private:
   /** The LevelSetFunctionWithRefitTerm object. */
-  typename FunctionType::Pointer m_Function;
+  typename FunctionType::Pointer m_Function{};
 
   /** The number of iterations for which this filter will run. */
-  unsigned int m_MaxFilterIteration;
+  unsigned int m_MaxFilterIteration{};
 };
 } // end namespace itk
 

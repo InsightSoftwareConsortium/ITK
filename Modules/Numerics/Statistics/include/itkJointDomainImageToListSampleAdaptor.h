@@ -334,15 +334,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  NormalizationFactorsType                 m_NormalizationFactors;
-  mutable MeasurementVectorType            m_TempVector;
-  mutable PointType                        m_TempPoint;
-  mutable ImageIndexType                   m_TempIndex;
-  mutable RangeDomainMeasurementVectorType m_TempRangeVector;
-  ImageConstPointer                        m_Image;
-  bool                                     m_UsePixelContainer;
+  NormalizationFactorsType                 m_NormalizationFactors{};
+  mutable MeasurementVectorType            m_TempVector{};
+  mutable PointType                        m_TempPoint{};
+  mutable ImageIndexType                   m_TempIndex{};
+  mutable RangeDomainMeasurementVectorType m_TempRangeVector{};
+  ImageConstPointer                        m_Image{};
+  bool                                     m_UsePixelContainer{};
 
-  PixelContainerConstPointer m_PixelContainer;
+  PixelContainerConstPointer m_PixelContainer{};
 }; // end of class JointDomainImageToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk

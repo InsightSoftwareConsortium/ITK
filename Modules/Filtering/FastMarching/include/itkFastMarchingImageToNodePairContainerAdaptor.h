@@ -139,16 +139,16 @@ protected:
   /** \brief Destructor */
   ~FastMarchingImageToNodePairContainerAdaptor() override = default;
 
-  ImageConstPointer m_AliveImage;
-  ImageConstPointer m_TrialImage;
-  ImageConstPointer m_ForbiddenImage;
+  ImageConstPointer m_AliveImage{};
+  ImageConstPointer m_TrialImage{};
+  ImageConstPointer m_ForbiddenImage{};
 
-  NodePairContainerPointer m_AlivePoints;
-  NodePairContainerPointer m_TrialPoints;
-  NodePairContainerPointer m_ForbiddenPoints;
+  NodePairContainerPointer m_AlivePoints{};
+  NodePairContainerPointer m_TrialPoints{};
+  NodePairContainerPointer m_ForbiddenPoints{};
 
-  OutputPixelType m_AliveValue;
-  OutputPixelType m_TrialValue;
+  OutputPixelType m_AliveValue{};
+  OutputPixelType m_TrialValue{};
 
   bool m_IsForbiddenImageBinaryMask{ false };
 

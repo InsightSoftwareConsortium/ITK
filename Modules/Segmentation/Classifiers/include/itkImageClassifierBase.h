@@ -151,8 +151,8 @@ protected:
 private:
   using InputImageSizeType = typename TInputImage::SizeType;
 
-  InputImageConstPointer m_InputImage;
-  ClassifiedImagePointer m_ClassifiedImage;
+  InputImageConstPointer m_InputImage{};
+  ClassifiedImagePointer m_ClassifiedImage{};
 
   /** Define a virtual Classifier function to classify the whole image. */
   virtual void

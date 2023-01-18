@@ -193,7 +193,7 @@ protected:
 
 private:
   // Radius of the neighborhood window centered at each pixel
-  RadiusType m_Radius;
+  RadiusType m_Radius{};
 };
 
 } // end namespace itk

@@ -229,8 +229,8 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-  OutputPixelType m_InsideValue;
-  OutputPixelType m_OutsideValue;
+  OutputPixelType m_InsideValue{};
+  OutputPixelType m_OutsideValue{};
 };
 } // end namespace itk
 

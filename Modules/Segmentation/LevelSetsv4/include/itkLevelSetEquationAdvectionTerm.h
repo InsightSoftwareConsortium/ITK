@@ -130,7 +130,7 @@ protected:
 
   ~LevelSetEquationAdvectionTerm() override = default;
 
-  AdvectionImagePointer m_AdvectionImage;
+  AdvectionImagePointer m_AdvectionImage{};
 
   /** Return the spatial speed dependence a given pixel location
    * Usually, it is constant across the image domain */
@@ -144,12 +144,12 @@ protected:
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
 
-  LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
+  LevelSetOutputRealType m_NeighborhoodScales[ImageDimension]{};
 
 private:
-  LevelSetOutputRealType m_DerivativeSigma;
+  LevelSetOutputRealType m_DerivativeSigma{};
 
-  bool m_AutoGenerateAdvectionImage;
+  bool m_AutoGenerateAdvectionImage{};
 
   void
   GenerateAdvectionImage();

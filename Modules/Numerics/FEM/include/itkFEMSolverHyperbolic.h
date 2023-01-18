@@ -149,10 +149,10 @@ protected:
     vector_tmp = 5
   };
 
-  Float        m_TimeStep;
-  Float        m_Gamma;
-  Float        m_Beta;
-  unsigned int m_NumberOfIterations;
+  Float        m_TimeStep{};
+  Float        m_Gamma{};
+  Float        m_Beta{};
+  unsigned int m_NumberOfIterations{};
 };
 
 } // end namespace fem

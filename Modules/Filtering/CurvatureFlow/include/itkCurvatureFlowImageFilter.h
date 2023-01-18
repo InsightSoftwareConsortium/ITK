@@ -191,7 +191,7 @@ protected:
   GenerateInputRequestedRegion() override;
 
 private:
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 };
 } // namespace itk
 

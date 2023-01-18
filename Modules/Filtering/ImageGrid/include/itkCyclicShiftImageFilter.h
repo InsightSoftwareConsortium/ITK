@@ -101,7 +101,7 @@ protected:
 
   /** Protected so that subclasses may set it without calling
   Modified(). */
-  OffsetType m_Shift;
+  OffsetType m_Shift{};
 }; // end of class
 } // end namespace itk
 

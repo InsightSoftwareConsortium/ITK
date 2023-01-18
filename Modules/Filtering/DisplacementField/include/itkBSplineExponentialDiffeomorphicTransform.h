@@ -171,8 +171,8 @@ protected:
   PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ArrayType m_NumberOfControlPointsForTheConstantVelocityField;
-  ArrayType m_NumberOfControlPointsForTheUpdateField;
+  ArrayType m_NumberOfControlPointsForTheConstantVelocityField{};
+  ArrayType m_NumberOfControlPointsForTheUpdateField{};
 
   SplineOrderType m_SplineOrder{ 3 };
 };

@@ -308,20 +308,20 @@ protected:
 
 
 private:
-  NodeContainerPointer m_TargetPoints;
-  NodeContainerPointer m_ReachedTargetPoints;
+  NodeContainerPointer m_TargetPoints{};
+  NodeContainerPointer m_ReachedTargetPoints{};
 
-  GradientImagePointer m_GradientImage;
+  GradientImagePointer m_GradientImage{};
 
-  bool m_GenerateGradientImage;
+  bool m_GenerateGradientImage{};
 
-  double m_TargetOffset;
+  double m_TargetOffset{};
 
-  TargetConditionEnum m_TargetReachedMode;
+  TargetConditionEnum m_TargetReachedMode{};
 
-  double m_TargetValue;
+  double m_TargetValue{};
 
-  SizeValueType m_NumberOfTargets;
+  SizeValueType m_NumberOfTargets{};
 };
 } // namespace itk
 

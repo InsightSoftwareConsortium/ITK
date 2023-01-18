@@ -129,7 +129,7 @@ protected:
 
   ~ScalarChanAndVeseDenseLevelSetImageFilter() override = default;
 
-  SharedDataPointer m_SharedData;
+  SharedDataPointer m_SharedData{};
 
   void
   Initialize() override;

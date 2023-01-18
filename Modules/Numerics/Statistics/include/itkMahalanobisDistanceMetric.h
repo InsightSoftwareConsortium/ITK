@@ -127,7 +127,7 @@ private:
 
   // inverse covariance matrix which is automatically calculated
   // when covariance matrix is set.  This speeds up the GetProbability()
-  CovarianceMatrixType m_InverseCovariance;
+  CovarianceMatrixType m_InverseCovariance{};
 
   double m_Epsilon{ 1e-100 };
   double m_DoubleMax{ 1e+20 };

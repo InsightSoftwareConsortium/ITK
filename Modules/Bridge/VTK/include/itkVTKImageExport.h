@@ -128,14 +128,14 @@ protected:
   BufferPointerCallback() override;
 
 private:
-  std::string m_ScalarTypeName;
-  int         m_WholeExtent[6];
-  int         m_DataExtent[6];
-  double      m_DataSpacing[3];
-  double      m_DataOrigin[3];
-  double      m_DataDirection[9];
-  float       m_FloatDataSpacing[3];
-  float       m_FloatDataOrigin[3];
+  std::string m_ScalarTypeName{};
+  int         m_WholeExtent[6]{};
+  int         m_DataExtent[6]{};
+  double      m_DataSpacing[3]{};
+  double      m_DataOrigin[3]{};
+  double      m_DataDirection[9]{};
+  float       m_FloatDataSpacing[3]{};
+  float       m_FloatDataOrigin[3]{};
 };
 } // end namespace itk
 

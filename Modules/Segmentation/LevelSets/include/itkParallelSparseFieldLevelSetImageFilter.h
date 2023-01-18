@@ -352,7 +352,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** Connectivity information for examining neighbor pixels.   */
-  ParallelSparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType>> m_NeighborList;
+  ParallelSparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType>> m_NeighborList{};
 
   /** The constant gradient to maintain between isosurfaces in the
       spare-field of the level-set image.  This value defaults to 1.0 */
@@ -388,34 +388,34 @@ protected:
    * each pixel.  This way we only need to consider the zero level set in our
    * calculations.  Makes the implementation easier and more efficient.
    * This is used only during the initialization of the level set. */
-  typename OutputImageType::Pointer m_ShiftedImage;
+  typename OutputImageType::Pointer m_ShiftedImage{};
 
   /** An array which contains all of the layers needed in the sparse
    * field. Layers are organized as follows: m_Layer[0] = active layer,
    * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2.
    * This is used only during the initialization of the level set. */
-  LayerListType m_Layers;
+  LayerListType m_Layers{};
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
    * This active layer is the interface of interest, i.e. the zero
    * level set. */
-  StatusType m_NumberOfLayers;
+  StatusType m_NumberOfLayers{};
 
   /** An image of status values used internally by the algorithm. */
-  typename StatusImageType::Pointer m_StatusImage;
-  typename OutputImageType::Pointer m_OutputImage;
+  typename StatusImageType::Pointer m_StatusImage{};
+  typename OutputImageType::Pointer m_OutputImage{};
 
   /** Images used temporarily during the initialization of the thread data
     structures. */
-  typename StatusImageType::Pointer m_StatusImageTemp;
-  typename OutputImageType::Pointer m_OutputImageTemp;
+  typename StatusImageType::Pointer m_StatusImageTemp{};
+  typename OutputImageType::Pointer m_OutputImageTemp{};
 
   /** Storage for layer node objects. */
-  typename LayerNodeStorageType::Pointer m_LayerNodeStore;
+  typename LayerNodeStorageType::Pointer m_LayerNodeStore{};
 
   /** The value in the input which represents the isosurface of interest. */
-  ValueType m_IsoSurfaceValue;
+  ValueType m_IsoSurfaceValue{};
 
   /** The RMS change calculated from each update.  Can be used by a subclass to
    *  determine halting criteria.  Valid only for the previous iteration, not
@@ -712,9 +712,9 @@ protected:
   ThreadedInitializeIteration(ThreadIdType ThreadId);
 
   /** Thread-specific data */
-  std::vector<TimeStepType> m_TimeStepList;
-  BooleanStdVectorType      m_ValidTimeStepList;
-  TimeStepType              m_TimeStep;
+  std::vector<TimeStepType> m_TimeStepList{};
+  BooleanStdVectorType      m_ValidTimeStepList{};
+  TimeStepType              m_TimeStep{};
 
   /** The number of work units to use. */
   ThreadIdType m_NumOfWorkUnits{ 0 };

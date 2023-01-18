@@ -130,8 +130,8 @@ protected:
 
 private:
   double               m_Probability{ 0.01 };
-  OutputImagePixelType m_SaltValue;
-  OutputImagePixelType m_PepperValue;
+  OutputImagePixelType m_SaltValue{};
+  OutputImagePixelType m_PepperValue{};
 };
 } // end namespace itk
 

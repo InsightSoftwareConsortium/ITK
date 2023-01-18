@@ -177,7 +177,7 @@ protected:
 
 
 private:
-  OutputPixelType m_DefaultValue;
+  OutputPixelType m_DefaultValue{};
   bool            m_UseDefaultValue{ true };
 };
 } // end namespace itk

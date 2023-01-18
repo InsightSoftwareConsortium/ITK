@@ -141,7 +141,7 @@ protected:
   ComputePruneImage();
 
 private:
-  unsigned int m_Iteration;
+  unsigned int m_Iteration{};
 }; // end of BinaryThinningImageFilter class
 } // end namespace itk
 

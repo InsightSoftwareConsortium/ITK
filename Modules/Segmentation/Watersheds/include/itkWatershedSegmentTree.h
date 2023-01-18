@@ -218,7 +218,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  DequeType m_Deque;
+  DequeType m_Deque{};
 };
 } // end namespace watershed
 } // end namespace itk

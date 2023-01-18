@@ -104,7 +104,7 @@ protected:
 
 
 private:
-  PatternArrayType m_CheckerPattern;
+  PatternArrayType m_CheckerPattern{};
 };
 } // end namespace itk
 

@@ -95,9 +95,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ArrayType m_Sigma;
+  ArrayType m_Sigma{};
 
-  ArrayType m_Mean;
+  ArrayType m_Mean{};
 
   double m_Scale{ 1.0 };
 

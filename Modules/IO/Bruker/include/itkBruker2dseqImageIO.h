@@ -140,7 +140,7 @@ private:
   SwapBytesIfNecessary(void * buff, SizeValueType components);
 
   IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UCHAR };
-  IOByteOrderEnum m_MachineByteOrder;
+  IOByteOrderEnum m_MachineByteOrder{};
 };
 
 } // end namespace itk

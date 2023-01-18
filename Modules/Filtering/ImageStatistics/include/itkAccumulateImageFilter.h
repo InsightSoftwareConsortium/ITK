@@ -128,8 +128,8 @@ protected:
   GenerateData() override;
 
 private:
-  unsigned int m_AccumulateDimension;
-  bool         m_Average;
+  unsigned int m_AccumulateDimension{};
+  bool         m_Average{};
 };
 } // end namespace itk
 

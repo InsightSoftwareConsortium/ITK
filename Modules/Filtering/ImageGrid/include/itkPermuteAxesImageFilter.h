@@ -126,8 +126,8 @@ protected:
 
 
 private:
-  PermuteOrderArrayType m_Order;
-  PermuteOrderArrayType m_InverseOrder;
+  PermuteOrderArrayType m_Order{};
+  PermuteOrderArrayType m_InverseOrder{};
 };
 } // end namespace itk
 

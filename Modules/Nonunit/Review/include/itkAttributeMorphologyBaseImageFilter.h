@@ -157,18 +157,18 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * itkNotUsed(output)) override;
 
-  AttributeType m_AttributeValuePerPixel;
+  AttributeType m_AttributeValuePerPixel{};
 
 private:
-  bool          m_FullyConnected;
-  AttributeType m_Lambda;
+  bool          m_FullyConnected{};
+  AttributeType m_Lambda{};
 
   // some constants used several times in the code
   static constexpr OffsetValueType INACTIVE = -1;
   static constexpr OffsetValueType ACTIVE = -2;
 
   // Just used for area/volume openings at the moment
-  std::unique_ptr<AttributeType[]> m_AuxData;
+  std::unique_ptr<AttributeType[]> m_AuxData{};
 
   using OffsetVecType = std::vector<OffsetType>;
   // offset in the linear array.
@@ -181,11 +181,11 @@ private:
   // it is sorted with a stable sort by grey level as the
   // first step in the algorithm. The sorting step avoids
   // the need to explicitly locate regional extrema.
-  std::unique_ptr<OffsetValueType[]> m_SortPixels;
-  std::unique_ptr<OffsetValueType[]> m_Parent;
+  std::unique_ptr<OffsetValueType[]> m_SortPixels{};
+  std::unique_ptr<OffsetValueType[]> m_Parent{};
 
   // This is a bit ugly, but I can't see an easy way around
-  std::unique_ptr<InputPixelType[]> m_Raw;
+  std::unique_ptr<InputPixelType[]> m_Raw{};
 
   class CompareOffsetType
   {
@@ -203,7 +203,7 @@ private:
     }
   };
 
-  CompareOffsetType m_CompareOffset;
+  CompareOffsetType m_CompareOffset{};
   // version from PAMI. Note - using the AuxData array rather than the
   // parent array to store area
   void

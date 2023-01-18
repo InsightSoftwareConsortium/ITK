@@ -181,7 +181,7 @@ protected:
   void
   GenerateData() override;
 
-  MeshIOBase::Pointer m_MeshIO;
+  MeshIOBase::Pointer m_MeshIO{};
   bool                m_UserSpecifiedMeshIO; // keep track whether the MeshIO is
                                              // user specified
   std::string m_FileName;                    // The file to be read
@@ -195,7 +195,7 @@ private:
   void
   ReadCellsUsingMeshIO();
 
-  std::string m_ExceptionMessage;
+  std::string m_ExceptionMessage{};
 };
 
 

@@ -222,9 +222,9 @@ protected:
   GenerateData() override;
 
 private:
-  std::string m_FileName;
+  std::string m_FileName{};
 
-  ImageIOBase::Pointer m_ImageIO;
+  ImageIOBase::Pointer m_ImageIO{};
   bool                 m_UserSpecifiedImageIO{ false };
 
   ImageIORegion m_PasteIORegion{ TInputImage::ImageDimension };

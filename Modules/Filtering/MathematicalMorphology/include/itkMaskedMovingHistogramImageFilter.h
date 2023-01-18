@@ -173,13 +173,13 @@ protected:
                 const IndexType        currentIdx);
 
 private:
-  bool m_GenerateOutputMask;
+  bool m_GenerateOutputMask{};
 
-  OutputPixelType m_FillValue;
+  OutputPixelType m_FillValue{};
 
-  MaskPixelType m_MaskValue;
+  MaskPixelType m_MaskValue{};
 
-  MaskPixelType m_BackgroundMaskValue;
+  MaskPixelType m_BackgroundMaskValue{};
 }; // end of class
 } // end namespace itk
 

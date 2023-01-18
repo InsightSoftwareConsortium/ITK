@@ -180,10 +180,10 @@ protected:
 
 private:
   /**  Vector containing the scale. */
-  ScaleVectorType m_Scale;
+  ScaleVectorType m_Scale{};
 
   /**  Vector containing the skew */
-  SkewVectorType m_Skew;
+  SkewVectorType m_Skew{};
 }; // class ComposeScaleSkewVersor3DTransform
 } // namespace itk
 

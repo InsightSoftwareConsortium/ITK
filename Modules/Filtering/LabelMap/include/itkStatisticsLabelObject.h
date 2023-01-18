@@ -603,26 +603,26 @@ protected:
   }
 
 private:
-  double    m_Minimum;
-  double    m_Maximum;
-  double    m_Mean;
-  double    m_Sum;
-  double    m_StandardDeviation;
-  double    m_Variance;
-  double    m_Median;
-  IndexType m_MaximumIndex;
-  IndexType m_MinimumIndex;
-  PointType m_CenterOfGravity;
+  double    m_Minimum{};
+  double    m_Maximum{};
+  double    m_Mean{};
+  double    m_Sum{};
+  double    m_StandardDeviation{};
+  double    m_Variance{};
+  double    m_Median{};
+  IndexType m_MaximumIndex{};
+  IndexType m_MinimumIndex{};
+  PointType m_CenterOfGravity{};
   // MatrixType m_CentralMoments;
-  VectorType m_WeightedPrincipalMoments;
-  MatrixType m_WeightedPrincipalAxes;
-  double     m_Skewness;
-  double     m_Kurtosis;
-  double     m_WeightedElongation;
+  VectorType m_WeightedPrincipalMoments{};
+  MatrixType m_WeightedPrincipalAxes{};
+  double     m_Skewness{};
+  double     m_Kurtosis{};
+  double     m_WeightedElongation{};
 
-  typename HistogramType::ConstPointer m_Histogram;
+  typename HistogramType::ConstPointer m_Histogram{};
 
-  double m_WeightedFlatness;
+  double m_WeightedFlatness{};
 };
 } // end namespace itk
 

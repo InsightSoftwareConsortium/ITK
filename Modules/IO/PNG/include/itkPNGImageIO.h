@@ -117,7 +117,7 @@ protected:
   WriteSlice(const std::string & fileName, const void * const buffer);
 
 
-  PaletteType m_ColorPalette;
+  PaletteType m_ColorPalette{};
 };
 } // end namespace itk
 

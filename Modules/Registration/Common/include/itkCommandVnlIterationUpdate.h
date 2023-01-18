@@ -125,7 +125,7 @@ private:
   /**
    *  WeakPointer to the Optimizer
    */
-  WeakPointer<OptimizerType> m_Optimizer;
+  WeakPointer<OptimizerType> m_Optimizer{};
 };
 
 

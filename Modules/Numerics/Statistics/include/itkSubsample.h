@@ -308,10 +308,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  const TSample *            m_Sample;
-  InstanceIdentifierHolder   m_IdHolder;
-  unsigned int               m_ActiveDimension;
-  TotalAbsoluteFrequencyType m_TotalFrequency;
+  const TSample *            m_Sample{};
+  InstanceIdentifierHolder   m_IdHolder{};
+  unsigned int               m_ActiveDimension{};
+  TotalAbsoluteFrequencyType m_TotalFrequency{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

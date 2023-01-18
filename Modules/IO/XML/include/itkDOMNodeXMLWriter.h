@@ -106,13 +106,13 @@ protected:
 
 private:
   /** Variable to hold the output XML file name. */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** Variable to hold the input DOM object. */
-  ConstInputPointer m_Input;
+  ConstInputPointer m_Input{};
 
   /** Variable to hold the indentation (i.e. number of white spaces) for a child node w.r.t. its parent. */
-  std::string m_IndentStep;
+  std::string m_IndentStep{};
 };
 
 } // namespace itk

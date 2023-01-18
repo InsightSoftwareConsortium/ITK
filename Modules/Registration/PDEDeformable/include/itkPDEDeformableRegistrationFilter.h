@@ -274,26 +274,26 @@ protected:
 
 private:
   /** Standard deviation for Gaussian smoothing */
-  StandardDeviationsType m_StandardDeviations;
-  StandardDeviationsType m_UpdateFieldStandardDeviations;
+  StandardDeviationsType m_StandardDeviations{};
+  StandardDeviationsType m_UpdateFieldStandardDeviations{};
 
   /** Modes to control smoothing of the update and displacement fields */
-  bool m_SmoothDisplacementField;
-  bool m_SmoothUpdateField;
+  bool m_SmoothDisplacementField{};
+  bool m_SmoothUpdateField{};
 
   /** Temporary displacement field use for smoothing the
    * the displacement field. */
-  DisplacementFieldPointer m_TempField;
+  DisplacementFieldPointer m_TempField{};
 
 private:
   /** Maximum error for Gaussian operator approximation. */
-  double m_MaximumError;
+  double m_MaximumError{};
 
   /** Limits of Gaussian kernel width. */
-  unsigned int m_MaximumKernelWidth;
+  unsigned int m_MaximumKernelWidth{};
 
   /** Flag to indicate user stop registration request. */
-  bool m_StopRegistrationFlag;
+  bool m_StopRegistrationFlag{};
 };
 } // end namespace itk
 

@@ -139,9 +139,9 @@ protected:
   GenerateData() override;
 
 private:
-  ArrayType m_Sigma;
+  ArrayType m_Sigma{};
 
-  ArrayType m_Mean;
+  ArrayType m_Mean{};
 
   double m_Scale{ 255.0 };
 

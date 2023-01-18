@@ -215,19 +215,19 @@ protected:
   typename DisplacementFieldType::Pointer
   CopyDisplacementField(const DisplacementFieldType *) const;
 
-  ScalarType m_LowerTimeBound;
-  ScalarType m_UpperTimeBound;
+  ScalarType m_LowerTimeBound{};
+  ScalarType m_UpperTimeBound{};
 
-  unsigned int m_NumberOfIntegrationSteps;
+  unsigned int m_NumberOfIntegrationSteps{};
 
-  VelocityFieldPointer m_VelocityField;
+  VelocityFieldPointer m_VelocityField{};
 
   /** The interpolator. */
-  typename VelocityFieldInterpolatorType::Pointer m_VelocityFieldInterpolator;
+  typename VelocityFieldInterpolatorType::Pointer m_VelocityFieldInterpolator{};
 
   /** Track when the VELOCITY field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
-  unsigned long m_VelocityFieldSetTime;
+  unsigned long m_VelocityFieldSetTime{};
 
 private:
   /**

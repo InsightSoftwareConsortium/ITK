@@ -123,7 +123,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  DistanceMapPointer m_DistanceMap;
+  DistanceMapPointer m_DistanceMap{};
   bool               m_ComputeSquaredDistance{ false };
 };
 } // end namespace itk

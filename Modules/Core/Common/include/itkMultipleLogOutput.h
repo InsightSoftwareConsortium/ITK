@@ -85,7 +85,7 @@ protected:
 private:
   using ContainerType = std::set<OutputType::Pointer>;
 
-  ContainerType m_Output;
+  ContainerType m_Output{};
 };
 } // namespace itk
 

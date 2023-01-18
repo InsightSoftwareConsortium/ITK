@@ -85,8 +85,8 @@ protected:
   QuadEdgeMeshScalarDataVTKPolyDataWriter();
   ~QuadEdgeMeshScalarDataVTKPolyDataWriter() override = default;
 
-  std::string m_CellDataName;
-  std::string m_PointDataName;
+  std::string m_CellDataName{};
+  std::string m_PointDataName{};
 
   void
   GenerateData() override;

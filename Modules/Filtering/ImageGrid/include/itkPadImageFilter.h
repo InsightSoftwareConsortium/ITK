@@ -117,8 +117,8 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  SizeType m_PadLowerBound;
-  SizeType m_PadUpperBound;
+  SizeType m_PadLowerBound{};
+  SizeType m_PadUpperBound{};
 };
 } // end namespace itk
 

@@ -111,7 +111,7 @@ protected:
 private:
   // Default boundary condition for erosion filter, defaults to
   // NumericTraits<PixelType>::max()
-  DefaultBoundaryConditionType m_ErodeBoundaryCondition;
+  DefaultBoundaryConditionType m_ErodeBoundaryCondition{};
 }; // end of class
 } // end namespace itk
 

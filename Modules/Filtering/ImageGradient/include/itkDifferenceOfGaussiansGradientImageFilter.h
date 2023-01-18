@@ -95,7 +95,7 @@ protected:
   GenerateData() override;
 
 private:
-  unsigned int m_Width;
+  unsigned int m_Width{};
 };
 } // end namespace itk
 

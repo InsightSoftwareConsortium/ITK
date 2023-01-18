@@ -117,7 +117,7 @@ protected:
   Value(const LevelSetInputIndexType & index, const LevelSetDataType & iData) override;
 
 
-  InputImagePointer m_Mask;
+  InputImagePointer m_Mask{};
 };
 
 } // namespace itk

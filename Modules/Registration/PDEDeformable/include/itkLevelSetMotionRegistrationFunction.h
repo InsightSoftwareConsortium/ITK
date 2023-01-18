@@ -242,42 +242,42 @@ protected:
 
 private:
   /** Cache fixed image information. */
-  SpacingType m_FixedImageSpacing;
-  PointType   m_FixedImageOrigin;
+  SpacingType m_FixedImageSpacing{};
+  PointType   m_FixedImageOrigin{};
 
   /** Function to compute derivatives of the moving image. */
-  MovingImageSmoothingFilterPointer m_MovingImageSmoothingFilter;
+  MovingImageSmoothingFilterPointer m_MovingImageSmoothingFilter{};
 
   /** Function to interpolate the moving image. */
-  InterpolatorPointer m_MovingImageInterpolator;
-  InterpolatorPointer m_SmoothMovingImageInterpolator;
+  InterpolatorPointer m_MovingImageInterpolator{};
+  InterpolatorPointer m_SmoothMovingImageInterpolator{};
 
   /** Stabilization factor for normalizing gradients to protect
    * against small gradient magnitudes */
-  double m_Alpha;
+  double m_Alpha{};
 
   /** Threshold below which the gradient is considered zero. */
-  double m_GradientMagnitudeThreshold;
+  double m_GradientMagnitudeThreshold{};
 
   /** Threshold below which two intensity value are assumed to match. */
-  double m_IntensityDifferenceThreshold;
+  double m_IntensityDifferenceThreshold{};
 
   /** Smoothing parameter for gradient calculation */
-  double m_GradientSmoothingStandardDeviations;
+  double m_GradientSmoothingStandardDeviations{};
 
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double        m_Metric;
-  mutable double        m_SumOfSquaredDifference;
-  mutable SizeValueType m_NumberOfPixelsProcessed;
-  mutable double        m_RMSChange;
-  mutable double        m_SumOfSquaredChange;
+  mutable double        m_Metric{};
+  mutable double        m_SumOfSquaredDifference{};
+  mutable SizeValueType m_NumberOfPixelsProcessed{};
+  mutable double        m_RMSChange{};
+  mutable double        m_SumOfSquaredChange{};
 
   /** Mutex lock to protect modification to metric. */
-  mutable std::mutex m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock{};
 
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 };
 } // end namespace itk
 

@@ -173,7 +173,7 @@ private:
   SizeType
   GetIORegionSizeInComponents() const;
 
-  SizeType m_HeaderSize;
+  SizeType m_HeaderSize{};
 };
 } // end namespace itk
 

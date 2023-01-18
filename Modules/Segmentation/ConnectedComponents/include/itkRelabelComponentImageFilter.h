@@ -287,13 +287,13 @@ private:
   ObjectSizeType m_MinimumObjectSize{ 0 };
   bool           m_SortByObjectSize{ true };
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 
   using MapType = std::map<LabelType, RelabelComponentObjectType>;
-  MapType m_SizeMap;
+  MapType m_SizeMap{};
 
-  ObjectSizeInPixelsContainerType        m_SizeOfObjectsInPixels;
-  ObjectSizeInPhysicalUnitsContainerType m_SizeOfObjectsInPhysicalUnits;
+  ObjectSizeInPixelsContainerType        m_SizeOfObjectsInPixels{};
+  ObjectSizeInPhysicalUnitsContainerType m_SizeOfObjectsInPhysicalUnits{};
 };
 } // end namespace itk
 

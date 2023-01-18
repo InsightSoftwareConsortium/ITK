@@ -233,7 +233,7 @@ protected:
   GenerateData() override;
 
 private:
-  unsigned long m_TotalNumberOfRuns;
+  unsigned long m_TotalNumberOfRuns{};
 };
 
 } // end of namespace Statistics

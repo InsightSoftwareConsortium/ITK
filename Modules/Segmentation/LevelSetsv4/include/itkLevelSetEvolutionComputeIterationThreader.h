@@ -207,7 +207,7 @@ protected:
   AfterThreadedExecution() override;
 
   using NodePairsPerThreadType = std::vector<std::vector<NodePairType>>;
-  NodePairsPerThreadType m_NodePairsPerThread;
+  NodePairsPerThreadType m_NodePairsPerThread{};
 };
 
 } // namespace itk

@@ -180,11 +180,11 @@ private:
   //
   //   encodedValue = m_FreemanCode[ x offset + 1 ][ y offset + 1 ]
   //
-  int m_FreemanCode[3][3];
+  int m_FreemanCode[3][3]{};
 
   // m_ReverseFreemanCode[ encodedValue ] implements a lookup table for the
   // inverse of m_FreemanCode[][].  It is initialized in the constructor.
-  OffsetType m_ReverseFreemanCode[9];
+  OffsetType m_ReverseFreemanCode[9]{};
 };
 } // end namespace itk
 

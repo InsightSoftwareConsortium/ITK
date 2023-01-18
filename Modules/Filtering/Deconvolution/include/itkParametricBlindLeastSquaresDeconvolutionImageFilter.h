@@ -122,17 +122,17 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  KernelSourcePointer m_KernelSource;
+  KernelSourcePointer m_KernelSource{};
 
   /** Step sizes for the gradient descent of the image and the
    * kernel parameters. These are very different spaces, so they
    * deserve different step size parameters. */
-  double m_Alpha;
-  double m_Beta;
+  double m_Alpha{};
+  double m_Beta{};
 
   /** Temporary images. */
-  InternalComplexImagePointerType m_TransformedInput;
-  InternalComplexImagePointerType m_TransformedCurrentEstimate;
+  InternalComplexImagePointerType m_TransformedInput{};
+  InternalComplexImagePointerType m_TransformedCurrentEstimate{};
 
   /** These are the internal filters that perform the updating of the
    * image estimate. */
@@ -140,13 +140,13 @@ private:
                                                            InternalComplexImageType,
                                                            InternalComplexImageType,
                                                            InternalComplexImageType>;
-  typename DifferenceFilterType::Pointer m_DifferenceFilter;
+  typename DifferenceFilterType::Pointer m_DifferenceFilter{};
 
   using ImageUpdateFilterType = TernaryGeneratorImageFilter<InternalComplexImageType,
                                                             InternalComplexImageType,
                                                             InternalComplexImageType,
                                                             InternalComplexImageType>;
-  typename ImageUpdateFilterType::Pointer m_ImageUpdateFilter;
+  typename ImageUpdateFilterType::Pointer m_ImageUpdateFilter{};
 };
 
 } // end namespace itk

@@ -135,13 +135,13 @@ public:
 protected:
   /** An object containing points used by the mesh.  Individual points are
    * accessed through point identifiers. */
-  PointsContainerPointer m_PointsContainer;
+  PointsContainerPointer m_PointsContainer{};
 
   /** An object containing data associated with the mesh's points.
    * Optionally, this can be nullptr, indicating that no data are associated with
    * the points.  The data for a point can be accessed through its point
    * identifier. */
-  PointDataContainerPointer m_PointDataContainer;
+  PointDataContainerPointer m_PointDataContainer{};
 
 public:
   /** Copy the geometric and topological structure of the given input pointSet.
@@ -275,11 +275,11 @@ protected:
   // RequestedRegion are used to define the currently requested
   // region. The LargestPossibleRegion is always requested region = 0
   // and number of regions = 1;
-  RegionType m_MaximumNumberOfRegions;
-  RegionType m_NumberOfRegions;
-  RegionType m_RequestedNumberOfRegions;
-  RegionType m_BufferedRegion;
-  RegionType m_RequestedRegion;
+  RegionType m_MaximumNumberOfRegions{};
+  RegionType m_NumberOfRegions{};
+  RegionType m_RequestedNumberOfRegions{};
+  RegionType m_BufferedRegion{};
+  RegionType m_RequestedRegion{};
 }; // End Class: PointSet
 } // end namespace itk
 

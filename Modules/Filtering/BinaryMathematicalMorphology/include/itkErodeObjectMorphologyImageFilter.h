@@ -121,11 +121,11 @@ protected:
   Evaluate(OutputNeighborhoodIteratorType & nit, const KernelType & kernel) override;
 
 private:
-  PixelType m_BackgroundValue;
+  PixelType m_BackgroundValue{};
 
   // Default boundary condition for erosion filter, defaults to
   // NumericTraits<PixelType>::max()
-  DefaultBoundaryConditionType m_ErodeBoundaryCondition;
+  DefaultBoundaryConditionType m_ErodeBoundaryCondition{};
 }; // end of class
 } // end namespace itk
 

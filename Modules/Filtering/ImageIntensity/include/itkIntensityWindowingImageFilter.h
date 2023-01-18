@@ -219,14 +219,14 @@ protected:
   ~IntensityWindowingImageFilter() override = default;
 
 private:
-  RealType m_Scale;
-  RealType m_Shift;
+  RealType m_Scale{};
+  RealType m_Shift{};
 
-  InputPixelType m_WindowMinimum;
-  InputPixelType m_WindowMaximum;
+  InputPixelType m_WindowMinimum{};
+  InputPixelType m_WindowMaximum{};
 
-  OutputPixelType m_OutputMinimum;
-  OutputPixelType m_OutputMaximum;
+  OutputPixelType m_OutputMinimum{};
+  OutputPixelType m_OutputMaximum{};
 };
 } // end namespace itk
 

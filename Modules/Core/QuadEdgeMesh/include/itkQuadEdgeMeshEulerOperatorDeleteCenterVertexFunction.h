@@ -73,7 +73,7 @@ protected:
   ~QuadEdgeMeshEulerOperatorDeleteCenterVertexFunction() override = default;
 
 private:
-  PointIdentifier m_OldPointID;
+  PointIdentifier m_OldPointID{};
 };
 } // end namespace itk
 
