@@ -153,11 +153,11 @@ protected:
   /**
    * the value of the border - used in boundary condition.
    */
-  typename TInputImage::PixelType m_MarkerValue;
+  typename TInputImage::PixelType m_MarkerValue{};
 
 private:
-  bool m_FullyConnected;
-  bool m_UseInternalCopy;
+  bool m_FullyConnected{};
+  bool m_UseInternalCopy{};
 
   using FaceCalculatorType = typename itk::NeighborhoodAlgorithm::ImageBoundaryFacesCalculator<OutputImageType>;
 

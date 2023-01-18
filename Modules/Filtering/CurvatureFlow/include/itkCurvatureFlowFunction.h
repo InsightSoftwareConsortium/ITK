@@ -149,7 +149,7 @@ protected:
   ~CurvatureFlowFunction() override = default;
 
 private:
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 };
 } // end namespace itk
 

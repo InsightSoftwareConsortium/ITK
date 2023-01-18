@@ -308,10 +308,10 @@ protected:
     m_Initialized_invert = false;
   }
 
-  ParametersType m_Parameters;
+  ParametersType m_Parameters{};
 
-  mutable VIO_General_transform m_Xfm;
-  mutable VIO_General_transform m_Xfm_inv;
+  mutable VIO_General_transform m_Xfm{};
+  mutable VIO_General_transform m_Xfm_inv{};
 
   bool m_Invert{ false };
   bool m_Initialized{ false };

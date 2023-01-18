@@ -291,7 +291,7 @@ private:
 
   FeiExtendedHeader * m_ExtendedFeiHeader{ nullptr };
 
-  bool m_BigEndianHeader;
+  bool m_BigEndianHeader{};
 };
 } // namespace itk
 

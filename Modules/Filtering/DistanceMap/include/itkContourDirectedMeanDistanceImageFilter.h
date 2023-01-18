@@ -170,12 +170,12 @@ protected:
 private:
   using DistanceMapType = Image<RealType, Self::ImageDimension>;
 
-  typename DistanceMapType::Pointer m_DistanceMap;
+  typename DistanceMapType::Pointer m_DistanceMap{};
 
-  Array<RealType>       m_MeanDistance;
-  Array<IdentifierType> m_Count;
-  RealType              m_ContourDirectedMeanDistance;
-  bool                  m_UseImageSpacing;
+  Array<RealType>       m_MeanDistance{};
+  Array<IdentifierType> m_Count{};
+  RealType              m_ContourDirectedMeanDistance{};
+  bool                  m_UseImageSpacing{};
 };
 } // end namespace itk
 

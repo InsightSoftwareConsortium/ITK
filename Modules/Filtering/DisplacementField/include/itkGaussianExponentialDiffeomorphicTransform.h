@@ -126,14 +126,14 @@ protected:
   using GaussianSmoothingSmootherType =
     VectorNeighborhoodOperatorImageFilter<ConstantVelocityFieldType, ConstantVelocityFieldType>;
 
-  GaussianSmoothingOperatorType m_GaussianSmoothingOperator;
+  GaussianSmoothingOperatorType m_GaussianSmoothingOperator{};
 
   void
   PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  ScalarType m_GaussianSmoothingVarianceForTheUpdateField;
-  ScalarType m_GaussianSmoothingVarianceForTheConstantVelocityField;
+  ScalarType m_GaussianSmoothingVarianceForTheUpdateField{};
+  ScalarType m_GaussianSmoothingVarianceForTheConstantVelocityField{};
 };
 
 } // end namespace itk

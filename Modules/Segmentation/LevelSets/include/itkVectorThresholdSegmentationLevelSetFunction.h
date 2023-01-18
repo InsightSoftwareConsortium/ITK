@@ -169,8 +169,8 @@ protected:
     os << indent << "ThresholdValue: " << m_Threshold << std::endl;
   }
 
-  MahalanobisFunctionPointer m_Mahalanobis;
-  ScalarValueType            m_Threshold;
+  MahalanobisFunctionPointer m_Mahalanobis{};
+  ScalarValueType            m_Threshold{};
 };
 } // end namespace itk
 

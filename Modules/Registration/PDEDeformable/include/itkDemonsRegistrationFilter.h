@@ -148,7 +148,7 @@ protected:
   {}
 
 private:
-  bool m_UseMovingImageGradient;
+  bool m_UseMovingImageGradient{};
 };
 } // end namespace itk
 

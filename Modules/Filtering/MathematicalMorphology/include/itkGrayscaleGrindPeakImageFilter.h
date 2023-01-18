@@ -140,7 +140,7 @@ protected:
 private:
   unsigned long m_NumberOfIterationsUsed{ 1 };
 
-  bool m_FullyConnected;
+  bool m_FullyConnected{};
 }; // end of class
 } // end namespace itk
 

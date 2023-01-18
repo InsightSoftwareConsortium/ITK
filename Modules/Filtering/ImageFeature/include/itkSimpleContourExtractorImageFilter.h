@@ -147,10 +147,10 @@ protected:
 
 
 private:
-  InputPixelType  m_InputForegroundValue;
-  InputPixelType  m_InputBackgroundValue;
-  OutputPixelType m_OutputForegroundValue;
-  OutputPixelType m_OutputBackgroundValue;
+  InputPixelType  m_InputForegroundValue{};
+  InputPixelType  m_InputBackgroundValue{};
+  OutputPixelType m_OutputForegroundValue{};
+  OutputPixelType m_OutputBackgroundValue{};
 };
 } // end namespace itk
 

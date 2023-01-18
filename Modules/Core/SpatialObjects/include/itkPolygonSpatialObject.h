@@ -109,10 +109,10 @@ protected:
   InternalClone() const override;
 
 private:
-  mutable bool             m_IsClosed;
-  mutable int              m_OrientationInObjectSpace;
-  mutable ModifiedTimeType m_OrientationInObjectSpaceMTime;
-  double                   m_ThicknessInObjectSpace;
+  mutable bool             m_IsClosed{};
+  mutable int              m_OrientationInObjectSpace{};
+  mutable ModifiedTimeType m_OrientationInObjectSpaceMTime{};
+  double                   m_ThicknessInObjectSpace{};
 };
 
 } // namespace itk

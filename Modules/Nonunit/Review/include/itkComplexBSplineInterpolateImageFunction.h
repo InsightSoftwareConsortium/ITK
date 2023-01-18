@@ -143,14 +143,14 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_SplineOrder;
+  unsigned int m_SplineOrder{};
 
-  typename InterpolatorType::Pointer m_RealInterpolator;
-  typename InterpolatorType::Pointer m_ImaginaryInterpolator;
+  typename InterpolatorType::Pointer m_RealInterpolator{};
+  typename InterpolatorType::Pointer m_ImaginaryInterpolator{};
 
-  typename RealFilterType::Pointer m_RealFilter;
+  typename RealFilterType::Pointer m_RealFilter{};
 
-  typename ImaginaryFilterType::Pointer m_ImaginaryFilter;
+  typename ImaginaryFilterType::Pointer m_ImaginaryFilter{};
 }; // class
 } // namespace itk
 

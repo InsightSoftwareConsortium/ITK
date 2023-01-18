@@ -195,10 +195,10 @@ protected:
   BandPass(FrequencyIteratorType & freqIt);
 
 private:
-  std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
+  std::function<void(const ImageRegionType &)> m_DynamicThreadedGenerateDataFunction{};
 
-  FrequencyValueType m_LowFrequencyThreshold;
-  FrequencyValueType m_HighFrequencyThreshold;
+  FrequencyValueType m_LowFrequencyThreshold{};
+  FrequencyValueType m_HighFrequencyThreshold{};
 
   bool m_PassBand{ true };
   bool m_PassLowFrequencyThreshold{ true };

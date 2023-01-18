@@ -111,7 +111,7 @@ protected:
   GenerateData() override;
 
 private:
-  OutputImagePixelType m_BackgroundValue;
+  OutputImagePixelType m_BackgroundValue{};
 
 }; // end of class
 

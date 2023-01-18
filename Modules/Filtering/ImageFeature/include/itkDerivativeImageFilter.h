@@ -150,12 +150,12 @@ protected:
 
 private:
   /** The order of the derivative. */
-  unsigned int m_Order;
+  unsigned int m_Order{};
 
   /** The direction of the derivative. */
-  unsigned int m_Direction;
+  unsigned int m_Direction{};
 
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 };
 } // end namespace itk
 

@@ -254,10 +254,10 @@ private:
 
   // flag to take or not the image direction into account
   // when computing the derivatives.
-  bool m_UseImageDirection;
+  bool m_UseImageDirection{};
 
   // interpolator
-  InterpolatorPointer m_Interpolator;
+  InterpolatorPointer m_Interpolator{};
 };
 } // end namespace itk
 

@@ -136,13 +136,13 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  InputSizeType m_Radius;
+  InputSizeType m_Radius{};
 
-  InputPixelType m_ForegroundValue;
-  InputPixelType m_BackgroundValue;
+  InputPixelType m_ForegroundValue{};
+  InputPixelType m_BackgroundValue{};
 
-  unsigned int m_BirthThreshold;
-  unsigned int m_SurvivalThreshold;
+  unsigned int m_BirthThreshold{};
+  unsigned int m_SurvivalThreshold{};
 };
 } // end namespace itk
 

@@ -870,9 +870,9 @@ protected:
 private:
   OffsetValueType m_OffsetTable[VImageDimension + 1]{};
 
-  RegionType m_LargestPossibleRegion;
-  RegionType m_RequestedRegion;
-  RegionType m_BufferedRegion;
+  RegionType m_LargestPossibleRegion{};
+  RegionType m_RequestedRegion{};
+  RegionType m_BufferedRegion{};
 };
 } // end namespace itk
 

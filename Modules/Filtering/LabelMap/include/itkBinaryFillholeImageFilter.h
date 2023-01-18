@@ -122,9 +122,9 @@ protected:
   GenerateData() override;
 
 private:
-  InputImagePixelType m_ForegroundValue;
+  InputImagePixelType m_ForegroundValue{};
 
-  bool m_FullyConnected;
+  bool m_FullyConnected{};
 
 }; // end of class
 

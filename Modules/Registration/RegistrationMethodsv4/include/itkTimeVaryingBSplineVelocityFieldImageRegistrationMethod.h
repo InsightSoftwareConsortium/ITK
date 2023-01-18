@@ -236,18 +236,18 @@ protected:
                                                   const FixedImageMasksContainerType);
 
 private:
-  DisplacementFieldTransformPointer m_IdentityDisplacementFieldTransform;
+  DisplacementFieldTransformPointer m_IdentityDisplacementFieldTransform{};
 
-  RealType m_LearningRate;
+  RealType m_LearningRate{};
 
-  RealType     m_ConvergenceThreshold;
+  RealType     m_ConvergenceThreshold{};
   unsigned int m_ConvergenceWindowSize{ 10 };
 
-  NumberOfIterationsArrayType m_NumberOfIterationsPerLevel;
+  NumberOfIterationsArrayType m_NumberOfIterationsPerLevel{};
 
   SizeValueType m_NumberOfTimePointSamples{ 4 };
 
-  WeightsElementType m_BoundaryWeight;
+  WeightsElementType m_BoundaryWeight{};
 };
 } // end namespace itk
 

@@ -99,7 +99,7 @@ protected:
   ~MinMaxCurvatureFlowFunction() override = default;
 
   using StencilOperatorType = Neighborhood<PixelType, Self::ImageDimension>;
-  StencilOperatorType m_StencilOperator;
+  StencilOperatorType m_StencilOperator{};
 
   /** Initialize the stencil operator to be an N-Dimensional sphere
    * of radius m_StencilRadius. */
@@ -107,7 +107,7 @@ protected:
   InitializeStencilOperator();
 
 private:
-  RadiusValueType m_StencilRadius;
+  RadiusValueType m_StencilRadius{};
 
   // To control overloaded versions of ComputeThreshold
   struct DispatchBase

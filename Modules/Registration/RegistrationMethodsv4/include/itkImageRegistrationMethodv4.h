@@ -531,54 +531,54 @@ protected:
   virtual void
   SetMetricSamplePoints();
 
-  SizeValueType m_CurrentLevel;
+  SizeValueType m_CurrentLevel{};
   SizeValueType m_NumberOfLevels{ 0 };
-  SizeValueType m_CurrentIteration;
-  RealType      m_CurrentMetricValue;
-  RealType      m_CurrentConvergenceValue;
-  bool          m_IsConverged;
+  SizeValueType m_CurrentIteration{};
+  RealType      m_CurrentMetricValue{};
+  RealType      m_CurrentConvergenceValue{};
+  bool          m_IsConverged{};
 
-  FixedImagesContainerType      m_FixedSmoothImages;
-  MovingImagesContainerType     m_MovingSmoothImages;
-  FixedImageMasksContainerType  m_FixedImageMasks;
-  MovingImageMasksContainerType m_MovingImageMasks;
-  VirtualImagePointer           m_VirtualDomainImage;
-  PointSetsContainerType        m_FixedPointSets;
-  PointSetsContainerType        m_MovingPointSets;
-  SizeValueType                 m_NumberOfFixedObjects;
-  SizeValueType                 m_NumberOfMovingObjects;
+  FixedImagesContainerType      m_FixedSmoothImages{};
+  MovingImagesContainerType     m_MovingSmoothImages{};
+  FixedImageMasksContainerType  m_FixedImageMasks{};
+  MovingImageMasksContainerType m_MovingImageMasks{};
+  VirtualImagePointer           m_VirtualDomainImage{};
+  PointSetsContainerType        m_FixedPointSets{};
+  PointSetsContainerType        m_MovingPointSets{};
+  SizeValueType                 m_NumberOfFixedObjects{};
+  SizeValueType                 m_NumberOfMovingObjects{};
 
-  OptimizerPointer     m_Optimizer;
-  OptimizerWeightsType m_OptimizerWeights;
-  bool                 m_OptimizerWeightsAreIdentity;
+  OptimizerPointer     m_Optimizer{};
+  OptimizerWeightsType m_OptimizerWeights{};
+  bool                 m_OptimizerWeightsAreIdentity{};
 
-  MetricPointer                                       m_Metric;
-  MetricSamplingStrategyEnum                          m_MetricSamplingStrategy;
-  MetricSamplingPercentageArrayType                   m_MetricSamplingPercentagePerLevel;
-  SizeValueType                                       m_NumberOfMetrics;
-  int                                                 m_FirstImageMetricIndex;
-  std::vector<ShrinkFactorsPerDimensionContainerType> m_ShrinkFactorsPerLevel;
-  SmoothingSigmasArrayType                            m_SmoothingSigmasPerLevel;
-  bool                                                m_SmoothingSigmasAreSpecifiedInPhysicalUnits;
+  MetricPointer                                       m_Metric{};
+  MetricSamplingStrategyEnum                          m_MetricSamplingStrategy{};
+  MetricSamplingPercentageArrayType                   m_MetricSamplingPercentagePerLevel{};
+  SizeValueType                                       m_NumberOfMetrics{};
+  int                                                 m_FirstImageMetricIndex{};
+  std::vector<ShrinkFactorsPerDimensionContainerType> m_ShrinkFactorsPerLevel{};
+  SmoothingSigmasArrayType                            m_SmoothingSigmasPerLevel{};
+  bool                                                m_SmoothingSigmasAreSpecifiedInPhysicalUnits{};
 
-  bool m_ReseedIterator;
-  int  m_RandomSeed;
-  int  m_CurrentRandomSeed;
+  bool m_ReseedIterator{};
+  int  m_RandomSeed{};
+  int  m_CurrentRandomSeed{};
 
 
-  TransformParametersAdaptorsContainerType m_TransformParametersAdaptorsPerLevel;
+  TransformParametersAdaptorsContainerType m_TransformParametersAdaptorsPerLevel{};
 
-  CompositeTransformPointer m_CompositeTransform;
+  CompositeTransformPointer m_CompositeTransform{};
 
   // TODO: m_OutputTransform should be removed and replaced with a named input parameter for
   //      the pipeline
-  OutputTransformPointer m_OutputTransform;
+  OutputTransformPointer m_OutputTransform{};
 
 
 private:
-  bool m_InPlace;
+  bool m_InPlace{};
 
-  bool m_InitializeCenterOfLinearOutputTransform;
+  bool m_InitializeCenterOfLinearOutputTransform{};
 
   // helper function to create the right kind of concrete transform
   template <typename TTransform>

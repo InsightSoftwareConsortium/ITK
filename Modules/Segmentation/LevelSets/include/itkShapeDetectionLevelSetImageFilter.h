@@ -143,7 +143,7 @@ protected:
   GenerateData() override;
 
 private:
-  ShapeDetectionFunctionPointer m_ShapeDetectionFunction;
+  ShapeDetectionFunctionPointer m_ShapeDetectionFunction{};
 };
 } // end namespace itk
 

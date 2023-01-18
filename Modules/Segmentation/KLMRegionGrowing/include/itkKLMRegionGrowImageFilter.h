@@ -377,12 +377,12 @@ private:
   unsigned int m_InitialNumberOfRegions{ 0 };
   double       m_TotalBorderLength{ 0.0 };
 
-  std::vector<KLMSegmentationRegionPtr>      m_RegionsPointer;
-  std::vector<KLMSegmentationBorderPtr>      m_BordersPointer;
-  std::vector<KLMSegmentationBorderArrayPtr> m_BordersDynamicPointer;
+  std::vector<KLMSegmentationRegionPtr>      m_RegionsPointer{};
+  std::vector<KLMSegmentationBorderPtr>      m_BordersPointer{};
+  std::vector<KLMSegmentationBorderArrayPtr> m_BordersDynamicPointer{};
   KLMSegmentationBorderArrayPtr *            m_BorderCandidate{ nullptr };
 
-  MeanRegionIntensityType m_InitialRegionMean;
+  MeanRegionIntensityType m_InitialRegionMean{};
   double                  m_InitialRegionArea{ 0 };
 }; // class KLMRegionGrowImageFilter
 } // namespace itk

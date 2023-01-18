@@ -191,9 +191,9 @@ protected:
   GenerateData() override;
 
 private:
-  SeedContainerType m_Seeds;
+  SeedContainerType m_Seeds{};
 
-  OutputImagePixelType m_ReplaceValue;
+  OutputImagePixelType m_ReplaceValue{};
 
   ConnectedThresholdImageFilterEnums::Connectivity m_Connectivity{ ConnectivityEnum::FaceConnectivity };
 };

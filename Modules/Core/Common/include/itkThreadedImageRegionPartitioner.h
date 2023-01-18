@@ -93,7 +93,7 @@ protected:
   using ImageRegionSplitterType = ImageRegionSplitterSlowDimension;
 
 private:
-  ImageRegionSplitterType::Pointer m_ImageRegionSplitter;
+  ImageRegionSplitterType::Pointer m_ImageRegionSplitter{};
 };
 
 } // end namespace itk

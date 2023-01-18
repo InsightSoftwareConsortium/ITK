@@ -257,7 +257,7 @@ private:
     return m_Functor;
   }
 
-  FunctorType m_Functor;
+  FunctorType m_Functor{};
 
   template <typename TPixelType>
   void

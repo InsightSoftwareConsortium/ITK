@@ -121,9 +121,9 @@ protected:
   TreeContainer();
   ~TreeContainer() override = default;
 
-  typename TreeNodeType::Pointer m_Root;
+  typename TreeNodeType::Pointer m_Root{};
 
-  int m_DefaultChildrenCount;
+  int m_DefaultChildrenCount{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

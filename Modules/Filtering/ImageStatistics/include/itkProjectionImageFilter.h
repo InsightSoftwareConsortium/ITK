@@ -122,7 +122,7 @@ protected:
   virtual AccumulatorType NewAccumulator(SizeValueType) const;
 
 private:
-  unsigned int m_ProjectionDimension;
+  unsigned int m_ProjectionDimension{};
 };
 } // end namespace itk
 

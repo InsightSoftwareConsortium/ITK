@@ -113,9 +113,9 @@ private:
   /** Evaluate using a stretched gabor filter (ensure zero dc response) */
   double m_PhaseOffset{ 0.0 };
 
-  ArrayType m_Sigma;
+  ArrayType m_Sigma{};
 
-  ArrayType m_Mean;
+  ArrayType m_Mean{};
 };
 } // end namespace itk
 

@@ -161,7 +161,7 @@ protected:
 
 private:
   /**  Vector containing the scale. */
-  ScaleVectorType m_Scale;
+  ScaleVectorType m_Scale{};
 }; // class ScaleVersor3DTransform
 } // namespace itk
 

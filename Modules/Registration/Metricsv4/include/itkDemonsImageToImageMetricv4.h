@@ -143,13 +143,13 @@ protected:
 private:
   /** Threshold below which the denominator term is considered zero.
    *  Fixed programmatically in constructor. */
-  TInternalComputationValueType m_DenominatorThreshold;
+  TInternalComputationValueType m_DenominatorThreshold{};
 
   /** Threshold below which two intensity value are assumed to match. */
-  TInternalComputationValueType m_IntensityDifferenceThreshold;
+  TInternalComputationValueType m_IntensityDifferenceThreshold{};
 
   /* Used to normalize derivative calculation. Automatically calculated */
-  TInternalComputationValueType m_Normalizer;
+  TInternalComputationValueType m_Normalizer{};
 };
 
 } // end namespace itk

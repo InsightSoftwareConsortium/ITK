@@ -197,13 +197,13 @@ protected:
   ResetArguments(int kernelIdx);
 
 private:
-  cl_program m_Program;
+  cl_program m_Program{};
 
-  GPUContextManager * m_Manager;
-  int                 m_CommandQueueId;
+  GPUContextManager * m_Manager{};
+  int                 m_CommandQueueId{};
 
-  std::vector<cl_kernel>                       m_KernelContainer;
-  std::vector<std::vector<KernelArgumentList>> m_KernelArgumentReady;
+  std::vector<cl_kernel>                       m_KernelContainer{};
+  std::vector<std::vector<KernelArgumentList>> m_KernelArgumentReady{};
 
   template <typename TArg>
   bool

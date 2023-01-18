@@ -80,7 +80,7 @@ protected:
   TemporalStreamingGenerateData() override;
 
   /** Pointer to filter to use for internal filter */
-  typename ImageFilterType::Pointer m_ImageFilter;
+  typename ImageFilterType::Pointer m_ImageFilter{};
 
 private:
 }; // end class ImageFilterToVideoFilterWrapper

@@ -202,9 +202,9 @@ private:
   FindCellId(IdentifierType id1, IdentifierType id2, IdentifierType id3);
 
   /** attribute stores the result of the simplex cell visitor */
-  PointMapPointer m_Centers;
+  PointMapPointer m_Centers{};
 
-  InputMeshPointer m_SimplexMesh;
+  InputMeshPointer m_SimplexMesh{};
 
   double m_Volume{ 0.0 };
   double m_VolumeX{ 0.0 };

@@ -123,7 +123,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  mutable NeighborhoodType m_Operator;
+  mutable NeighborhoodType m_Operator{};
 };
 } // end namespace itk
 

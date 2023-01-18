@@ -138,7 +138,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_NoiseVariance;
+  double m_NoiseVariance{};
 };
 
 namespace Functor

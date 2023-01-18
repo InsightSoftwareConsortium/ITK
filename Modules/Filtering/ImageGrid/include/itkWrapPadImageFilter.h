@@ -102,7 +102,7 @@ protected:
   ~WrapPadImageFilter() override = default;
 
 private:
-  PeriodicBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition;
+  PeriodicBoundaryCondition<TInputImage, TOutputImage> m_InternalBoundaryCondition{};
 };
 } // end namespace itk
 

@@ -150,9 +150,9 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  FunctorType    m_Functor;
-  double         m_Opacity;
-  LabelPixelType m_BackgroundValue;
+  FunctorType    m_Functor{};
+  double         m_Opacity{};
+  LabelPixelType m_BackgroundValue{};
 };
 } // end namespace itk
 

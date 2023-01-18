@@ -199,51 +199,51 @@ protected:
 
 private:
   /** Smart pointer to the normal random variate generator. */
-  NormalVariateGeneratorType::Pointer m_RandomGenerator;
+  NormalVariateGeneratorType::Pointer m_RandomGenerator{};
 
   /** Maximum iteration limit. */
-  unsigned int m_MaximumIteration;
+  unsigned int m_MaximumIteration{};
 
   /** Current iteration */
-  unsigned int m_CurrentIteration;
+  unsigned int m_CurrentIteration{};
 
-  bool   m_CatchGetValueException;
-  double m_MetricWorstPossibleValue;
+  bool   m_CatchGetValueException{};
+  double m_MetricWorstPossibleValue{};
 
   /** Set if the Metric should be maximized: Default = False */
-  bool m_Maximize;
+  bool m_Maximize{};
 
   /** The minimal size of search radius
    * (frobenius_norm of covariance matrix). */
-  double m_Epsilon;
+  double m_Epsilon{};
 
   /** Initial search radius in parameter space. */
-  double m_InitialRadius;
+  double m_InitialRadius{};
 
   /** Search radius growth factor in parameter space. */
-  double m_GrowthFactor;
+  double m_GrowthFactor{};
 
   /** Search radius shrink factor in parameter space, */
-  double m_ShrinkFactor;
+  double m_ShrinkFactor{};
 
   /** Flag tells if the optimizer was initialized using Initialize function. */
-  bool m_Initialized;
+  bool m_Initialized{};
 
   /** Internal storage for the value type / used as a cache  */
-  MeasureType m_CurrentCost;
+  MeasureType m_CurrentCost{};
 
   /** This is user-settable flag to stop optimization.
    * when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
    * optimization will stop at the next iteration. */
-  bool m_Stop;
+  bool m_Stop{};
 
   /** Stop description */
-  std::ostringstream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription{};
 
   /** Cache variable for reporting the Frobenius Norm
    */
-  double m_FrobeniusNorm;
+  double m_FrobeniusNorm{};
 }; // end of class
 } // end of namespace itk
 

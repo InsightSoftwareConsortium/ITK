@@ -267,27 +267,27 @@ private:
   void
   Perturb(double * oldCodeword, int scale, double * newCodeword);
 
-  CodebookMatrixOfDoubleType m_Codebook;
+  CodebookMatrixOfDoubleType m_Codebook{};
 
   // Buffer for K-means calculations
-  CodebookMatrixOfDoubleType m_Centroid;
+  CodebookMatrixOfDoubleType m_Centroid{};
 
-  double m_Threshold;
-  double m_OffsetAdd;
-  double m_OffsetMultiply;
-  int    m_MaxSplitAttempts;
+  double m_Threshold{};
+  double m_OffsetAdd{};
+  double m_OffsetMultiply{};
+  int    m_MaxSplitAttempts{};
 
-  bool   m_ValidInCodebook;
-  double m_DoubleMaximum;
-  double m_OutputDistortion;
-  int    m_OutputNumberOfEmptyCells;
+  bool   m_ValidInCodebook{};
+  double m_DoubleMaximum{};
+  double m_OutputDistortion{};
+  int    m_OutputNumberOfEmptyCells{};
 
-  SizeValueType m_VectorDimension;
-  SizeValueType m_NumberOfCodewords;
-  SizeValueType m_CurrentNumberOfCodewords;
+  SizeValueType m_VectorDimension{};
+  SizeValueType m_NumberOfCodewords{};
+  SizeValueType m_CurrentNumberOfCodewords{};
 
-  CodebookMatrixOfIntegerType m_CodewordHistogram;
-  CodebookMatrixOfDoubleType  m_CodewordDistortion;
+  CodebookMatrixOfIntegerType m_CodewordHistogram{};
+  CodebookMatrixOfDoubleType  m_CodewordDistortion{};
 }; // class ImageKmeansModelEstimator
 
 } // end namespace itk

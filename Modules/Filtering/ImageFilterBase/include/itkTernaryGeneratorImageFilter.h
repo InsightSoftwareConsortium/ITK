@@ -264,7 +264,7 @@ protected:
 
 
 private:
-  std::function<void(const OutputImageRegionType &)> m_DynamicThreadedGenerateDataFunction;
+  std::function<void(const OutputImageRegionType &)> m_DynamicThreadedGenerateDataFunction{};
 };
 } // end namespace itk
 

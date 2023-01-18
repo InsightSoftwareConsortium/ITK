@@ -219,30 +219,30 @@ protected:
 
 private:
   /** The order of the derivatives in each dimensional direction. */
-  OrderArrayType m_Order;
+  OrderArrayType m_Order{};
 
   /** The variance of the gaussian blurring kernel in each dimensional
     direction. */
-  ArrayType m_Variance;
+  ArrayType m_Variance{};
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  ArrayType m_MaximumError;
+  ArrayType m_MaximumError{};
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */
-  int m_MaximumKernelWidth;
+  int m_MaximumKernelWidth{};
 
   /** Flag to indicate whether to use image spacing */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 
   /** Flag for scale-space normalization of derivatives. */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{};
 
   /** Number of pieces to divide the input on the internal composite
   pipeline. The upstream pipeline will not be effected. */
-  unsigned int m_InternalNumberOfStreamDivisions;
+  unsigned int m_InternalNumberOfStreamDivisions{};
 };
 } // end namespace itk
 

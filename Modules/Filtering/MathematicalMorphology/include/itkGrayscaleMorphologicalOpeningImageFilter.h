@@ -138,19 +138,19 @@ protected:
 
 private:
   // the filters used internally
-  typename HistogramDilateFilterType::Pointer m_HistogramDilateFilter;
+  typename HistogramDilateFilterType::Pointer m_HistogramDilateFilter{};
 
-  typename HistogramErodeFilterType::Pointer m_HistogramErodeFilter;
+  typename HistogramErodeFilterType::Pointer m_HistogramErodeFilter{};
 
-  typename BasicDilateFilterType::Pointer m_BasicDilateFilter;
+  typename BasicDilateFilterType::Pointer m_BasicDilateFilter{};
 
-  typename BasicErodeFilterType::Pointer m_BasicErodeFilter;
+  typename BasicErodeFilterType::Pointer m_BasicErodeFilter{};
 
-  typename VanHerkGilWermanDilateFilterType::Pointer m_VanHerkGilWermanDilateFilter;
+  typename VanHerkGilWermanDilateFilterType::Pointer m_VanHerkGilWermanDilateFilter{};
 
-  typename VanHerkGilWermanErodeFilterType::Pointer m_VanHerkGilWermanErodeFilter;
+  typename VanHerkGilWermanErodeFilterType::Pointer m_VanHerkGilWermanErodeFilter{};
 
-  typename AnchorFilterType::Pointer m_AnchorFilter;
+  typename AnchorFilterType::Pointer m_AnchorFilter{};
 
   // and the name of the filter
   AlgorithmEnum m_Algorithm{ AlgorithmEnum::HISTO };

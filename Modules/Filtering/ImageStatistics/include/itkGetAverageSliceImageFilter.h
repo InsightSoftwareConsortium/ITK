@@ -73,7 +73,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_AveragedOutDimension;
+  unsigned int m_AveragedOutDimension{};
 };
 } // end namespace itk
 

@@ -207,24 +207,24 @@ protected:
 private:
   /** Temporary deformation field use for smoothing the
    * the deformation field. */
-  DisplacementFieldPointer m_TempField;
+  DisplacementFieldPointer m_TempField{};
 
 private:
   /** Memory buffer for smoothing kernels of the displacement field. */
-  int                              m_SmoothingKernelSizes[ImageDimension];
-  DeformationScalarType *          m_SmoothingKernels[ImageDimension];
-  typename GPUDataManager::Pointer m_GPUSmoothingKernels[ImageDimension];
+  int                              m_SmoothingKernelSizes[ImageDimension]{};
+  DeformationScalarType *          m_SmoothingKernels[ImageDimension]{};
+  typename GPUDataManager::Pointer m_GPUSmoothingKernels[ImageDimension]{};
 
   /** Memory buffer for smoothing kernels of the update field. */
-  int                              m_UpdateFieldSmoothingKernelSizes[ImageDimension];
-  DeformationScalarType *          m_UpdateFieldSmoothingKernels[ImageDimension];
-  typename GPUDataManager::Pointer m_UpdateFieldGPUSmoothingKernels[ImageDimension];
+  int                              m_UpdateFieldSmoothingKernelSizes[ImageDimension]{};
+  DeformationScalarType *          m_UpdateFieldSmoothingKernels[ImageDimension]{};
+  typename GPUDataManager::Pointer m_UpdateFieldGPUSmoothingKernels[ImageDimension]{};
 
-  int *                            m_ImageSizes;
-  typename GPUDataManager::Pointer m_GPUImageSizes;
+  int *                            m_ImageSizes{};
+  typename GPUDataManager::Pointer m_GPUImageSizes{};
 
   /* GPU kernel handle for GPUSmoothDisplacementField */
-  int m_SmoothDisplacementFieldGPUKernelHandle;
+  int m_SmoothDisplacementFieldGPUKernelHandle{};
 };
 } // end namespace itk
 

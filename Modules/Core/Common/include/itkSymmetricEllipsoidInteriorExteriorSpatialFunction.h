@@ -83,7 +83,7 @@ protected:
 
 private:
   /** The center of the ellipsoid. */
-  InputType m_Center;
+  InputType m_Center{};
 
   /** The unique axis length of the ellipsoid. */
   double m_UniqueAxis{ 10 };
@@ -92,7 +92,7 @@ private:
   double m_SymmetricAxes{ 5 };
 
   /** The orientation vector of the ellipsoid's unique axis. */
-  Vector<double, VDimension> m_Orientation;
+  Vector<double, VDimension> m_Orientation{};
 
   /** The vector ratio. */
   double m_VectorRatio{ 0.0 };

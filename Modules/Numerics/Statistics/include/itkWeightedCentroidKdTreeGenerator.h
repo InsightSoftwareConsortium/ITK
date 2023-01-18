@@ -108,9 +108,9 @@ protected:
                           unsigned int            level) override;
 
 private:
-  MeasurementVectorType m_TempLowerBound;
-  MeasurementVectorType m_TempUpperBound;
-  MeasurementVectorType m_TempMean;
+  MeasurementVectorType m_TempLowerBound{};
+  MeasurementVectorType m_TempUpperBound{};
+  MeasurementVectorType m_TempMean{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

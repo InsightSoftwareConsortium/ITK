@@ -272,17 +272,17 @@ protected:
                                       const DisplacementFieldType * fieldPtr,
                                       DisplacementType &            output);
 
-  bool m_DefFieldSameInformation;
+  bool m_DefFieldSameInformation{};
   // variables for deffield interpolator
-  IndexType m_StartIndex, m_EndIndex;
+  IndexType m_StartIndex, m_EndIndex{};
 
 private:
-  PixelType     m_EdgePaddingValue;
-  SpacingType   m_OutputSpacing;
-  PointType     m_OutputOrigin;
-  DirectionType m_OutputDirection;
+  PixelType     m_EdgePaddingValue{};
+  SpacingType   m_OutputSpacing{};
+  PointType     m_OutputOrigin{};
+  DirectionType m_OutputDirection{};
 
-  InterpolatorPointer m_Interpolator;
+  InterpolatorPointer m_Interpolator{};
   SizeType            m_OutputSize;       // Size of the output image
   IndexType           m_OutputStartIndex; // output image start index
 };

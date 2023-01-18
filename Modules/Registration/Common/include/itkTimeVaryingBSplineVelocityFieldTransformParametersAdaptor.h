@@ -213,13 +213,13 @@ private:
   void
   UpdateRequiredFixedParameters();
 
-  MeshSizeType  m_RequiredTransformDomainMeshSize;
-  OriginType    m_RequiredTransformDomainOrigin;
-  DirectionType m_RequiredTransformDomainDirection;
-  SpacingType   m_RequiredTransformDomainSpacing;
-  SizeType      m_RequiredTransformDomainSize;
+  MeshSizeType  m_RequiredTransformDomainMeshSize{};
+  OriginType    m_RequiredTransformDomainOrigin{};
+  DirectionType m_RequiredTransformDomainDirection{};
+  SpacingType   m_RequiredTransformDomainSpacing{};
+  SizeType      m_RequiredTransformDomainSize{};
 
-  SizeValueType m_SplineOrder;
+  SizeValueType m_SplineOrder{};
 
 }; // class TimeVaryingBSplineVelocityFieldTransformParametersAdaptor
 } // namespace itk

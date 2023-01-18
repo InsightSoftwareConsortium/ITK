@@ -128,11 +128,11 @@ public:
 
 protected:
   /** The weight for the refitting term. */
-  ScalarValueType m_RefitWeight;
+  ScalarValueType m_RefitWeight{};
 
   /** The weight for other scalar propagation terms that can be defined by
       classes derived from this class. */
-  ScalarValueType m_OtherPropagationWeight;
+  ScalarValueType m_OtherPropagationWeight{};
 
   LevelSetFunctionWithRefitTerm();
   void
@@ -160,10 +160,10 @@ protected:
 
 private:
   /** The sparse image that contains the target curvature information. */
-  typename SparseImageType::Pointer m_SparseTargetImage;
+  typename SparseImageType::Pointer m_SparseTargetImage{};
 
   /** The minimum vector norm parameter. */
-  ScalarValueType m_MinVectorNorm;
+  ScalarValueType m_MinVectorNorm{};
 
   /** Constants used in computations. */
   static const NeighborhoodSizeValueType m_NumVertex;

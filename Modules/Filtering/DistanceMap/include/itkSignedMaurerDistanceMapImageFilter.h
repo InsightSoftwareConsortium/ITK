@@ -188,8 +188,8 @@ private:
        Voronoi(unsigned int, OutputIndexType idx, OutputImageType * output);
   bool Remove(OutputPixelType, OutputPixelType, OutputPixelType, OutputPixelType, OutputPixelType, OutputPixelType);
 
-  InputPixelType   m_BackgroundValue;
-  InputSpacingType m_Spacing;
+  InputPixelType   m_BackgroundValue{};
+  InputSpacingType m_Spacing{};
 
   unsigned int m_CurrentDimension{ 0 };
 
@@ -197,7 +197,7 @@ private:
   bool m_UseImageSpacing{ true };
   bool m_SquaredDistance{ false };
 
-  const InputImageType * m_InputCache;
+  const InputImageType * m_InputCache{};
 };
 } // end namespace itk
 

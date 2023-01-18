@@ -132,7 +132,7 @@ protected:
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
 private:
-  ShrinkFactorsType m_ShrinkFactors;
+  ShrinkFactorsType m_ShrinkFactors{};
 
   /** Round different pixel types. */
   template <class TOutputType, class TInputType>

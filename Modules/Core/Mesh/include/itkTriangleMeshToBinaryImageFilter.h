@@ -227,22 +227,22 @@ protected:
   static int
   PolygonToImageRaster(PointVector coords, Point1DArray & zymatrix, int extent[6]);
 
-  OutputImageType * m_InfoImage;
+  OutputImageType * m_InfoImage{};
 
-  IndexType m_Index;
+  IndexType m_Index{};
 
-  SizeType m_Size;
+  SizeType m_Size{};
 
-  SpacingType m_Spacing;
+  SpacingType m_Spacing{};
 
   PointType m_Origin; // start value
 
-  double m_Tolerance;
+  double m_Tolerance{};
 
-  ValueType m_InsideValue;
-  ValueType m_OutsideValue;
+  ValueType m_InsideValue{};
+  ValueType m_OutsideValue{};
 
-  DirectionType m_Direction;
+  DirectionType m_Direction{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

@@ -135,16 +135,16 @@ protected:
 
 private:
   /** Target image pointer that MRASlabIdentifier will use. */
-  ImageConstPointer m_Image;
+  ImageConstPointer m_Image{};
 
   /** The number of pixels per slice which will be included
    * for average calculation. In a sense, it's sampling size per slice. */
-  unsigned int m_NumberOfSamples;
+  unsigned int m_NumberOfSamples{};
 
-  int                  m_SlicingDirection;
-  ImagePixelType       m_BackgroundMinimumThreshold;
-  double               m_Tolerance;
-  SlabRegionVectorType m_Slabs;
+  int                  m_SlicingDirection{};
+  ImagePixelType       m_BackgroundMinimumThreshold{};
+  double               m_Tolerance{};
+  SlabRegionVectorType m_Slabs{};
 };
 } // end namespace itk
 

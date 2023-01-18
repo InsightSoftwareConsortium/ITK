@@ -174,9 +174,9 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  bool m_ReverseOrdering;
+  bool m_ReverseOrdering{};
 
-  AttributeType m_Attribute;
+  AttributeType m_Attribute{};
 }; // end of class
 } // end namespace itk
 

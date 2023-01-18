@@ -114,9 +114,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  AdaptorPointer m_ImageToListSampleAdaptor;
+  AdaptorPointer m_ImageToListSampleAdaptor{};
 
-  GeneratorPointer m_HistogramGenerator;
+  GeneratorPointer m_HistogramGenerator{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

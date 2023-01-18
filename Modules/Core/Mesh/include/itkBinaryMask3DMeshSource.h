@@ -159,7 +159,7 @@ protected:
 
 
   bool       m_RegionOfInterestProvidedByUser{ false };
-  RegionType m_RegionOfInterest;
+  RegionType m_RegionOfInterest{};
 
   void
   GenerateOutputInformation() override
@@ -217,8 +217,8 @@ private:
 
   unsigned char m_LUT[256][2]; // the two lookup tables
 
-  IdentifierType m_LastVoxel[14];
-  IdentifierType m_CurrentVoxel[14];
+  IdentifierType m_LastVoxel[14]{};
+  IdentifierType m_CurrentVoxel[14]{};
 
   IdentifierType ** m_LastRow{ nullptr };
   IdentifierType ** m_LastFrame{ nullptr };
@@ -231,9 +231,9 @@ private:
   int           m_LastFrameNum{ 0 };
   int           m_CurrentRowNum{ 200 };
   int           m_CurrentFrameNum{ 2000 };
-  unsigned char m_AvailableNodes[14];
+  unsigned char m_AvailableNodes[14]{};
 
-  double m_LocationOffset[14][3];
+  double m_LocationOffset[14][3]{};
 
   SizeValueType m_NumberOfNodes{ 0 };
   SizeValueType m_NumberOfCells{ 0 };
@@ -251,13 +251,13 @@ private:
   int m_LastFrameIndex{ 0 };
 
   unsigned char  m_PointFound{ 0 };
-  InputPixelType m_ObjectValue;
+  InputPixelType m_ObjectValue{};
 
   /** temporary variables used in CreateMesh to avoid thousands of
    *  calls to GetInput() and GetOutput()
    */
-  OutputMeshType *       m_OutputMesh;
-  const InputImageType * m_InputImage;
+  OutputMeshType *       m_OutputMesh{};
+  const InputImageType * m_InputImage{};
 };
 } // end namespace itk
 

@@ -119,8 +119,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int          m_NumberOfStreamDivisions;
-  RegionSplitterPointer m_RegionSplitter;
+  unsigned int          m_NumberOfStreamDivisions{};
+  RegionSplitterPointer m_RegionSplitter{};
 };
 } // end namespace itk
 

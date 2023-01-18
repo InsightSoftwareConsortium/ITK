@@ -186,8 +186,8 @@ private:
   double m_AngleResolution{ 500 };
   double m_Threshold{ 0 };
 
-  OutputImagePointer m_SimplifyAccumulator;
-  LinesListType      m_LinesList;
+  OutputImagePointer m_SimplifyAccumulator{};
+  LinesListType      m_LinesList{};
   LinesListSizeType  m_NumberOfLines{ 1 };
   double             m_DiscRadius{ 10 };
   double             m_Variance{ 5 };

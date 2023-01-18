@@ -121,8 +121,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  OriginalPathConstPointer         m_OriginalPath;
-  OrthogonalCorrectionTablePointer m_OrthogonalCorrectionTable;
+  OriginalPathConstPointer         m_OriginalPath{};
+  OrthogonalCorrectionTablePointer m_OrthogonalCorrectionTable{};
 };
 } // namespace itk
 

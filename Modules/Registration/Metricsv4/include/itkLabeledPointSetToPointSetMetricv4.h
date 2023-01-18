@@ -154,12 +154,12 @@ private:
   MovingPointSetPointer
   GetLabeledMovingPointSet(const LabelType) const;
 
-  PointSetMetricPointer              m_PointSetMetric;
-  std::vector<PointSetMetricPointer> m_PointSetMetricClones;
+  PointSetMetricPointer              m_PointSetMetric{};
+  std::vector<PointSetMetricPointer> m_PointSetMetricClones{};
 
-  LabelSetType m_FixedPointSetLabels;
-  LabelSetType m_MovingPointSetLabels;
-  LabelSetType m_CommonPointSetLabels;
+  LabelSetType m_FixedPointSetLabels{};
+  LabelSetType m_MovingPointSetLabels{};
+  LabelSetType m_CommonPointSetLabels{};
 };
 } // end namespace itk
 

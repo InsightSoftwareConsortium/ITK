@@ -207,9 +207,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  SizeValueType      m_SizeGreatestPrimeFactor;
+  SizeValueType      m_SizeGreatestPrimeFactor{};
   InternalSizeType   m_FFTPadSize{ { 0 } };
-  InternalRegionType m_PaddedInputRegion;
+  InternalRegionType m_PaddedInputRegion{};
 };
 } // namespace itk
 

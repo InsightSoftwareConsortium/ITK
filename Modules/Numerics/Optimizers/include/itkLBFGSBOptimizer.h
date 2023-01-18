@@ -224,10 +224,10 @@ private:
   unsigned int m_CurrentIteration{ 0 };
   double       m_InfinityNormOfProjectedGradient{ 0.0 };
 
-  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
-  BoundValueType                         m_LowerBound;
-  BoundValueType                         m_UpperBound;
-  BoundSelectionType                     m_BoundSelection;
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer{};
+  BoundValueType                         m_LowerBound{};
+  BoundValueType                         m_UpperBound{};
+  BoundSelectionType                     m_BoundSelection{};
 };
 } // end namespace itk
 

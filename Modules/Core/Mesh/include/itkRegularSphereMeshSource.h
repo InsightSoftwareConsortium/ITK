@@ -108,13 +108,13 @@ protected:
   AddCell(OutputMeshType * mesh, const typename OutputMeshType::PointIdentifier * pointIds, IdentifierType idx);
 
   /** model center */
-  PointType m_Center;
+  PointType m_Center{};
 
   /** models resolution */
-  unsigned int m_Resolution;
+  unsigned int m_Resolution{};
 
   /** model scales */
-  VectorType m_Scale;
+  VectorType m_Scale{};
 };
 } // end namespace itk
 

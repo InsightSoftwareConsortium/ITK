@@ -292,19 +292,19 @@ public:
 protected:
   /** Holds cells used by the mesh.  Individual cells are accessed
    *  through cell identifiers.  */
-  CellsContainerPointer m_CellsContainer;
+  CellsContainerPointer m_CellsContainer{};
 
   CellsVectorContainerPointer cellOutputVectorContainer;
   /** An object containing data associated with the mesh's cells.
    *  Optionally, this can be nullptr, indicating that no data are associated
    *  with the cells.  The data for a cell can be accessed through its cell
    *  identifier.  */
-  CellDataContainerPointer m_CellDataContainer;
+  CellDataContainerPointer m_CellDataContainer{};
 
   /** An object containing parent cell links for each point.  Since a point
    *  can be used by multiple cells, each point identifier accesses another
    *  container which holds the cell identifiers */
-  mutable CellLinksContainerPointer m_CellLinksContainer;
+  mutable CellLinksContainerPointer m_CellLinksContainer{};
 
   /** A vector of objects containing explicit cell boundary assignments.
    *  The vector is indexed by the topological dimension of the cell
@@ -315,7 +315,7 @@ protected:
    *  in the containers stored in the Boundaries vector.  They can also be
    *  used to access the data stored by a particular boundary through the
    *  containers in the BoundaryData vector.  */
-  BoundaryAssignmentsContainerVector m_BoundaryAssignmentsContainers;
+  BoundaryAssignmentsContainerVector m_BoundaryAssignmentsContainers{};
 
 public:
   /** Get the number of cells in the cells container. */
@@ -586,10 +586,10 @@ protected:
 
   /** The bounding box (xmin,xmax, ymin,ymax, ...) of the mesh. The
    * bounding box is used for searching, picking, display, etc. */
-  BoundingBoxPointer m_BoundingBox;
+  BoundingBoxPointer m_BoundingBox{};
 
 private:
-  MeshClassCellsAllocationMethodEnum m_CellsAllocationMethod;
+  MeshClassCellsAllocationMethodEnum m_CellsAllocationMethod{};
 
   /** Create a new cell of a given type. */
   void

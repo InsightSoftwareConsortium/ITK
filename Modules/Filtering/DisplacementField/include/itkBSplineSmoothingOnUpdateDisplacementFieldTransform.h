@@ -197,8 +197,8 @@ protected:
 private:
   SplineOrderType m_SplineOrder{ 3 };
   bool            m_EnforceStationaryBoundary{ true };
-  ArrayType       m_NumberOfControlPointsForTheUpdateField;
-  ArrayType       m_NumberOfControlPointsForTheTotalField;
+  ArrayType       m_NumberOfControlPointsForTheUpdateField{};
+  ArrayType       m_NumberOfControlPointsForTheTotalField{};
 };
 
 } // end namespace itk

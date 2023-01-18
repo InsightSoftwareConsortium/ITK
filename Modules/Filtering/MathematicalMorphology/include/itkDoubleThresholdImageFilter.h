@@ -148,17 +148,17 @@ protected:
   GenerateData() override;
 
 private:
-  InputPixelType m_Threshold1;
-  InputPixelType m_Threshold2;
-  InputPixelType m_Threshold3;
-  InputPixelType m_Threshold4;
+  InputPixelType m_Threshold1{};
+  InputPixelType m_Threshold2{};
+  InputPixelType m_Threshold3{};
+  InputPixelType m_Threshold4{};
 
-  OutputPixelType m_InsideValue;
-  OutputPixelType m_OutsideValue;
+  OutputPixelType m_InsideValue{};
+  OutputPixelType m_OutsideValue{};
 
   unsigned long m_NumberOfIterationsUsed{ 1 };
 
-  bool m_FullyConnected;
+  bool m_FullyConnected{};
 };
 } // end namespace itk
 

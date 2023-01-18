@@ -643,14 +643,14 @@ private:
   /** Type of spatial object */
   std::string m_TypeName{ "SpatialObject" };
 
-  PropertyType m_Property;
+  PropertyType m_Property{};
 
   int    m_ParentId{ -1 };
   Self * m_Parent{ nullptr };
 
-  RegionType m_LargestPossibleRegion;
-  RegionType m_RequestedRegion;
-  RegionType m_BufferedRegion;
+  RegionType m_LargestPossibleRegion{};
+  RegionType m_RequestedRegion{};
+  RegionType m_BufferedRegion{};
 
   const BoundingBoxPointer m_MyBoundingBoxInObjectSpace{ BoundingBoxType::New() };
   const BoundingBoxPointer m_MyBoundingBoxInWorldSpace{ BoundingBoxType::New() };
@@ -663,7 +663,7 @@ private:
   const TransformPointer m_ObjectToWorldTransform{ TransformType::New() };
   const TransformPointer m_ObjectToWorldTransformInverse{ TransformType::New() };
 
-  ChildrenListType m_ChildrenList;
+  ChildrenListType m_ChildrenList{};
 
   /** Default inside value for the ValueAtInWorldSpace() */
   double m_DefaultInsideValue{ 1.0 };

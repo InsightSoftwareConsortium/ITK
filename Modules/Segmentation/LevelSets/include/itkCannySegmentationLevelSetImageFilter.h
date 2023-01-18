@@ -202,7 +202,7 @@ protected:
   CannySegmentationLevelSetImageFilter();
 
 private:
-  typename CannyFunctionType::Pointer m_CannyFunction;
+  typename CannyFunctionType::Pointer m_CannyFunction{};
 };
 } // end namespace itk
 

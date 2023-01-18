@@ -122,10 +122,10 @@ protected:
   void
   GenerateData() override;
 
-  unsigned int m_NumberOfIterations;
+  unsigned int m_NumberOfIterations{};
 
-  double m_StopValue;
-  double m_Time;
+  double m_StopValue{};
+  double m_Time{};
 };
 } // end namespace itk
 

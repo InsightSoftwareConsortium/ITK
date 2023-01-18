@@ -209,11 +209,11 @@ protected:
   UpdateLocalDistance(VectorImageType *, const IndexType &, const OffsetType &);
 
 private:
-  bool m_SquaredDistance;
-  bool m_InputIsBinary;
-  bool m_UseImageSpacing;
+  bool m_SquaredDistance{};
+  bool m_InputIsBinary{};
+  bool m_UseImageSpacing{};
 
-  SpacingType m_InputSpacingCache;
+  SpacingType m_InputSpacingCache{};
 };
 } // end namespace itk
 

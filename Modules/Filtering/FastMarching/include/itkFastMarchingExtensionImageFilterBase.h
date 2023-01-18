@@ -144,11 +144,11 @@ protected:
   void
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
-  AuxValueContainerPointer m_AuxiliaryAliveValues;
-  AuxValueContainerPointer m_AuxiliaryTrialValues;
+  AuxValueContainerPointer m_AuxiliaryAliveValues{};
+  AuxValueContainerPointer m_AuxiliaryTrialValues{};
 
 private:
-  AuxImageType * m_AuxImages[VAuxDimension];
+  AuxImageType * m_AuxImages[VAuxDimension]{};
 };
 } // namespace itk
 

@@ -118,8 +118,8 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  OutputPixelType m_BackgroundColor;
-  LabelPixelType  m_BackgroundValue;
+  OutputPixelType m_BackgroundColor{};
+  LabelPixelType  m_BackgroundValue{};
 };
 } // end namespace itk
 

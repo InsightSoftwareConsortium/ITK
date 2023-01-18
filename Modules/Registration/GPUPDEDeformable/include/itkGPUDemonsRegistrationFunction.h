@@ -243,49 +243,49 @@ protected:
   };
 
   /* GPU kernel handle for GPUComputeUpdate */
-  int m_ComputeUpdateGPUKernelHandle;
+  int m_ComputeUpdateGPUKernelHandle{};
 
 private:
   /** Cache fixed image information. */
   // SpacingType                  m_FixedImageSpacing;
   // PointType                    m_FixedImageOrigin;
-  PixelType m_ZeroUpdateReturn;
-  double    m_Normalizer;
+  PixelType m_ZeroUpdateReturn{};
+  double    m_Normalizer{};
 
   /** Function to compute derivatives of the fixed image. */
-  GradientCalculatorPointer m_FixedImageGradientCalculator;
+  GradientCalculatorPointer m_FixedImageGradientCalculator{};
 
   /** Function to compute derivatives of the moving image. */
-  MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator;
-  bool                                 m_UseMovingImageGradient;
+  MovingImageGradientCalculatorPointer m_MovingImageGradientCalculator{};
+  bool                                 m_UseMovingImageGradient{};
 
   /** Function to interpolate the moving image. */
-  InterpolatorPointer m_MovingImageInterpolator;
+  InterpolatorPointer m_MovingImageInterpolator{};
 
   /** The global timestep. */
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 
   /** Threshold below which the denominator term is considered zero. */
-  double m_DenominatorThreshold;
+  double m_DenominatorThreshold{};
 
   /** Threshold below which two intensity value are assumed to match. */
-  double m_IntensityDifferenceThreshold;
+  double m_IntensityDifferenceThreshold{};
 
   /** The metric value is the mean square difference in intensity between
    * the fixed image and transforming moving image computed over the
    * the overlapping region between the two images. */
-  mutable double        m_Metric;
-  mutable double        m_SumOfSquaredDifference;
-  mutable SizeValueType m_NumberOfPixelsProcessed;
-  mutable double        m_RMSChange;
-  mutable double        m_SumOfSquaredChange;
+  mutable double        m_Metric{};
+  mutable double        m_SumOfSquaredDifference{};
+  mutable SizeValueType m_NumberOfPixelsProcessed{};
+  mutable double        m_RMSChange{};
+  mutable double        m_SumOfSquaredChange{};
 
-  mutable GPUReduction<int>::Pointer   m_GPUPixelCounter;
-  mutable GPUReduction<float>::Pointer m_GPUSquaredChange;
-  mutable GPUReduction<float>::Pointer m_GPUSquaredDifference;
+  mutable GPUReduction<int>::Pointer   m_GPUPixelCounter{};
+  mutable GPUReduction<float>::Pointer m_GPUSquaredChange{};
+  mutable GPUReduction<float>::Pointer m_GPUSquaredDifference{};
 
   /** Mutex lock to protect modification to metric. */
-  mutable std::mutex m_MetricCalculationLock;
+  mutable std::mutex m_MetricCalculationLock{};
 };
 } // end namespace itk
 

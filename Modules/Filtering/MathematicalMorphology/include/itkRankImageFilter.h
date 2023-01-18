@@ -137,7 +137,7 @@ protected:
   ConfigureHistogram(HistogramType & histogram) override;
 
 private:
-  float m_Rank;
+  float m_Rank{};
 }; // end of class
 } // end namespace itk
 

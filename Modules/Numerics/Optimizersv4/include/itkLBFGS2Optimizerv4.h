@@ -506,14 +506,14 @@ protected:
 private:
   // Private Implementation (Pimpl), to hide liblbfgs data structures
   class PrivateImplementationHolder;
-  lbfgs_parameter_t m_Parameters;
+  lbfgs_parameter_t m_Parameters{};
 
-  bool   m_EstimateScalesAtEachIteration;
-  double m_CurrentStepSize;
-  double m_CurrentParameterNorm;
-  double m_CurrentGradientNorm;
-  int    m_CurrentNumberOfEvaluations;
-  int    m_StatusCode;
+  bool   m_EstimateScalesAtEachIteration{};
+  double m_CurrentStepSize{};
+  double m_CurrentParameterNorm{};
+  double m_CurrentGradientNorm{};
+  int    m_CurrentNumberOfEvaluations{};
+  int    m_StatusCode{};
 
   /**
    * itkGradientDecentOptimizerv4Template specific non supported methods.

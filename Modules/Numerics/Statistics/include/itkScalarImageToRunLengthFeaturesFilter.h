@@ -221,13 +221,13 @@ protected:
   DataObjectPointer MakeOutput(DataObjectPointerArraySizeType) override;
 
 private:
-  typename RunLengthMatrixFilterType::Pointer m_RunLengthMatrixGenerator;
+  typename RunLengthMatrixFilterType::Pointer m_RunLengthMatrixGenerator{};
 
-  FeatureValueVectorPointer     m_FeatureMeans;
-  FeatureValueVectorPointer     m_FeatureStandardDeviations;
-  FeatureNameVectorConstPointer m_RequestedFeatures;
-  OffsetVectorConstPointer      m_Offsets;
-  bool                          m_FastCalculations;
+  FeatureValueVectorPointer     m_FeatureMeans{};
+  FeatureValueVectorPointer     m_FeatureStandardDeviations{};
+  FeatureNameVectorConstPointer m_RequestedFeatures{};
+  OffsetVectorConstPointer      m_Offsets{};
+  bool                          m_FastCalculations{};
 };
 } // end of namespace Statistics
 } // end of namespace itk

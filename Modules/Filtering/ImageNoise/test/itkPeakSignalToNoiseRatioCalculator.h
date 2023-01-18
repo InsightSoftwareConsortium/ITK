@@ -101,10 +101,10 @@ protected:
 private:
   bool m_Valid; // Have moments been computed
                 // yet?
-  double m_Output;
+  double m_Output{};
 
-  InputImageConstPointer m_Image;
-  InputImageConstPointer m_NoisyImage;
+  InputImageConstPointer m_Image{};
+  InputImageConstPointer m_NoisyImage{};
 
 }; // class PeakSignalToNoiseRatioCalculator
 

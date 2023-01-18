@@ -147,7 +147,7 @@ protected:
   MeasureType
   EvaluateMeasure(HistogramType & histogram) const override;
 
-  double m_Epsilon;
+  double m_Epsilon{};
 };
 } // End namespace itk.
 

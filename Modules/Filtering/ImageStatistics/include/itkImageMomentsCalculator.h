@@ -226,8 +226,8 @@ private:
   VectorType m_Pm;    // Principal moments (physical)
   MatrixType m_Pa;    // Principal axes (physical)
 
-  ImageConstPointer         m_Image;
-  SpatialObjectConstPointer m_SpatialObjectMask;
+  ImageConstPointer         m_Image{};
+  SpatialObjectConstPointer m_SpatialObjectMask{};
 }; // class ImageMomentsCalculator
 } // end namespace itk
 

@@ -107,7 +107,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_Lambda;
+  double m_Lambda{};
 };
 } // end namespace itk
 

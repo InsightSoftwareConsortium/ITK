@@ -164,13 +164,13 @@ protected:
   GenerateData() override;
 
 private:
-  SeedsContainerType   m_Seeds;
-  double               m_Multiplier;
-  unsigned int         m_NumberOfIterations;
-  OutputImagePixelType m_ReplaceValue;
-  unsigned int         m_InitialNeighborhoodRadius;
+  SeedsContainerType   m_Seeds{};
+  double               m_Multiplier{};
+  unsigned int         m_NumberOfIterations{};
+  OutputImagePixelType m_ReplaceValue{};
+  unsigned int         m_InitialNeighborhoodRadius{};
 
-  DistanceThresholdFunctionPointer m_ThresholdFunction;
+  DistanceThresholdFunctionPointer m_ThresholdFunction{};
 };
 } // end namespace itk
 

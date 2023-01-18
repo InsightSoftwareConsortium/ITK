@@ -97,8 +97,8 @@ protected:
 
 private:
   /** object space */
-  SizeType  m_SizeInObjectSpace;
-  PointType m_PositionInObjectSpace;
+  SizeType  m_SizeInObjectSpace{};
+  PointType m_PositionInObjectSpace{};
 };
 } // end namespace itk
 

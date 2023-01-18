@@ -450,11 +450,11 @@ protected:
   const TransformQueueType &
   GetTransformsToOptimizeQueue() const;
 
-  mutable TransformQueueType    m_TransformsToOptimizeQueue;
-  TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags;
+  mutable TransformQueueType    m_TransformsToOptimizeQueue{};
+  TransformsToOptimizeFlagsType m_TransformsToOptimizeFlags{};
 
 private:
-  mutable ModifiedTimeType m_PreviousTransformsToOptimizeUpdateTime;
+  mutable ModifiedTimeType m_PreviousTransformsToOptimizeUpdateTime{};
 };
 
 } // end namespace itk

@@ -117,11 +117,11 @@ protected:
   InternalClone() const override;
 
 private:
-  MeshPointer m_Mesh;
+  MeshPointer m_Mesh{};
 #if !defined(ITK_LEGACY_REMOVE)
-  std::string m_PixelType;
+  std::string m_PixelType{};
 #endif
-  double m_IsInsidePrecisionInObjectSpace;
+  double m_IsInsidePrecisionInObjectSpace{};
 };
 
 } // end namespace itk

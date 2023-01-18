@@ -89,10 +89,10 @@ protected:
 
 private:
   /** The center of the ellipsoid. */
-  InputType m_Center;
+  InputType m_Center{};
 
   /** The axes lengths of the ellipsoid. */
-  InputType m_Axes;
+  InputType m_Axes{};
 
   /** The orientation vectors (must be orthogonal) of the ellipsoid axes. */
   OrientationType m_Orientations{};

@@ -188,18 +188,18 @@ protected:
   GenerateData();
 
 private:
-  typename PointsLocatorType::Pointer m_PointsLocator;
+  typename PointsLocatorType::Pointer m_PointsLocator{};
 
   unsigned int m_CovarianceKNeighborhood{ 5 };
   unsigned int m_EvaluationKNeighborhood{ 50 };
-  RealType     m_RegularizationSigma;
-  RealType     m_KernelSigma;
+  RealType     m_RegularizationSigma{};
+  RealType     m_KernelSigma{};
 
-  GaussianContainerType m_Gaussians;
+  GaussianContainerType m_Gaussians{};
   bool                  m_Normalize{ true };
   bool                  m_UseAnisotropicCovariances{ true };
 
-  MultiThreaderBase::Pointer m_MultiThreader;
+  MultiThreaderBase::Pointer m_MultiThreader{};
 };
 
 } // end namespace itk

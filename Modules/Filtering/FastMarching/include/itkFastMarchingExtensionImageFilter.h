@@ -153,10 +153,10 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  typename AuxValueContainer::Pointer m_AuxAliveValues;
-  typename AuxValueContainer::Pointer m_AuxTrialValues;
+  typename AuxValueContainer::Pointer m_AuxAliveValues{};
+  typename AuxValueContainer::Pointer m_AuxTrialValues{};
 
-  AuxImageType * m_AuxImages[AuxDimension];
+  AuxImageType * m_AuxImages[AuxDimension]{};
 };
 } // namespace itk
 

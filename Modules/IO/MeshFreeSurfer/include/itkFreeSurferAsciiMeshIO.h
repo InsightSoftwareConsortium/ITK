@@ -182,7 +182,7 @@ protected:
   CloseFile();
 
 private:
-  std::ifstream m_InputFile;
+  std::ifstream m_InputFile{};
 };
 } // end namespace itk
 

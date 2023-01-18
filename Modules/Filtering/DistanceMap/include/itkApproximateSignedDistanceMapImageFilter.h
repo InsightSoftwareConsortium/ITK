@@ -141,12 +141,12 @@ protected:
 private:
   using IsoContourType = IsoContourDistanceImageFilter<InputImageType, OutputImageType>;
   using ChamferType = FastChamferDistanceImageFilter<OutputImageType, OutputImageType>;
-  typename IsoContourType::Pointer m_IsoContourFilter;
+  typename IsoContourType::Pointer m_IsoContourFilter{};
 
-  typename ChamferType::Pointer m_ChamferFilter;
+  typename ChamferType::Pointer m_ChamferFilter{};
 
-  InputPixelType m_InsideValue;
-  InputPixelType m_OutsideValue;
+  InputPixelType m_InsideValue{};
+  InputPixelType m_OutsideValue{};
 };
 } // end of namespace itk
 

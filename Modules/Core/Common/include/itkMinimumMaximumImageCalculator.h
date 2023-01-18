@@ -114,15 +114,15 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PixelType         m_Minimum;
-  PixelType         m_Maximum;
-  ImageConstPointer m_Image;
+  PixelType         m_Minimum{};
+  PixelType         m_Maximum{};
+  ImageConstPointer m_Image{};
 
-  IndexType m_IndexOfMinimum;
-  IndexType m_IndexOfMaximum;
+  IndexType m_IndexOfMinimum{};
+  IndexType m_IndexOfMaximum{};
 
-  RegionType m_Region;
-  bool       m_RegionSetByUser;
+  RegionType m_Region{};
+  bool       m_RegionSetByUser{};
 };
 } // end namespace itk
 

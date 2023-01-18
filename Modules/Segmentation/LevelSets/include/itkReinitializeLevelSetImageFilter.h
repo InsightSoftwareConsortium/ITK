@@ -170,17 +170,17 @@ protected:
   }
 
 private:
-  double m_LevelSetValue;
+  double m_LevelSetValue{};
 
-  typename LocatorType::Pointer m_Locator;
+  typename LocatorType::Pointer m_Locator{};
 
-  typename FastMarchingImageFilterType::Pointer m_Marcher;
+  typename FastMarchingImageFilterType::Pointer m_Marcher{};
 
-  bool                 m_NarrowBanding;
-  double               m_InputNarrowBandwidth;
-  double               m_OutputNarrowBandwidth;
-  NodeContainerPointer m_InputNarrowBand;
-  NodeContainerPointer m_OutputNarrowBand;
+  bool                 m_NarrowBanding{};
+  double               m_InputNarrowBandwidth{};
+  double               m_OutputNarrowBandwidth{};
+  NodeContainerPointer m_InputNarrowBand{};
+  NodeContainerPointer m_OutputNarrowBand{};
 };
 } // namespace itk
 

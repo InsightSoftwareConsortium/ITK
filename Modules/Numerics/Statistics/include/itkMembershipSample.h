@@ -316,11 +316,11 @@ private:
   int
   GetInternalClassLabel(const ClassLabelType classLabel) const;
 
-  UniqueClassLabelsType           m_UniqueClassLabels;
-  ClassLabelHolderType            m_ClassLabelHolder;
-  std::vector<ClassSamplePointer> m_ClassSamples;
-  SampleConstPointer              m_Sample;
-  unsigned int                    m_NumberOfClasses;
+  UniqueClassLabelsType           m_UniqueClassLabels{};
+  ClassLabelHolderType            m_ClassLabelHolder{};
+  std::vector<ClassSamplePointer> m_ClassSamples{};
+  SampleConstPointer              m_Sample{};
+  unsigned int                    m_NumberOfClasses{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

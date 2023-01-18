@@ -119,8 +119,8 @@ protected:
 
 private:
   /* object space */
-  ArrayType m_RadiusInObjectSpace;
-  PointType m_CenterInObjectSpace;
+  ArrayType m_RadiusInObjectSpace{};
+  PointType m_CenterInObjectSpace{};
 };
 
 } // end namespace itk

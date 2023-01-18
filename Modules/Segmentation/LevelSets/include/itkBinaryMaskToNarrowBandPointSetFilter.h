@@ -144,10 +144,10 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  DistanceFilterPointer m_DistanceFilter;
-  RescaleFilterPointer  m_RescaleFilter;
+  DistanceFilterPointer m_DistanceFilter{};
+  RescaleFilterPointer  m_RescaleFilter{};
 
-  float m_BandWidth;
+  float m_BandWidth{};
 };
 } // end namespace itk
 

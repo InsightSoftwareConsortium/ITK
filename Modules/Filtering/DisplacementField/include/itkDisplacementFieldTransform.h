@@ -450,12 +450,12 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** The displacement field and its inverse (if it exists). */
-  typename DisplacementFieldType::Pointer m_DisplacementField;
-  typename DisplacementFieldType::Pointer m_InverseDisplacementField;
+  typename DisplacementFieldType::Pointer m_DisplacementField{};
+  typename DisplacementFieldType::Pointer m_InverseDisplacementField{};
 
   /** The interpolator. */
-  typename InterpolatorType::Pointer m_Interpolator;
-  typename InterpolatorType::Pointer m_InverseInterpolator;
+  typename InterpolatorType::Pointer m_Interpolator{};
+  typename InterpolatorType::Pointer m_InverseInterpolator{};
 
   /** Track when the displacement field was last set/assigned, as
    * distinct from when it may have had its contents modified. */
@@ -463,7 +463,7 @@ protected:
 
   /** Create an identity jacobian for use in
    * ComputeJacobianWithRespectToParameters. */
-  JacobianType m_IdentityJacobian;
+  JacobianType m_IdentityJacobian{};
 
 private:
   /** Internal method for calculating either forward or inverse jacobian,
@@ -493,8 +493,8 @@ private:
   virtual void
   SetFixedParametersFromDisplacementField() const;
 
-  double m_CoordinateTolerance;
-  double m_DirectionTolerance;
+  double m_CoordinateTolerance{};
+  double m_DirectionTolerance{};
 };
 
 } // end namespace itk

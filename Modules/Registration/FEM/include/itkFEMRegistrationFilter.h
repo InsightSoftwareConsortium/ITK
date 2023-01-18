@@ -668,24 +668,24 @@ private:
   /** Parameters used to define Multi-resolution registration. */
   vnl_vector<unsigned int> m_NumberOfIntegrationPoints; // resolution of integration
   vnl_vector<unsigned int> m_MetricWidth;               // number of iterations at each level
-  vnl_vector<unsigned int> m_Maxiters;
+  vnl_vector<unsigned int> m_Maxiters{};
   unsigned int             m_TotalIterations{ 0 }; // total number of iterations that were run
   unsigned int             m_MaxLevel{ 1 };
   unsigned int             m_FileCount{ 0 };    // keeps track of number of files written
   unsigned int             m_CurrentLevel{ 0 }; // current resolution level
 
-  typename FixedImageType::SizeType m_CurrentLevelImageSize;
+  typename FixedImageType::SizeType m_CurrentLevelImageSize{};
 
   unsigned int m_WhichMetric{ 0 };
 
   /** Stores the number of  pixels per element  of the mesh for each
       resolution of the multi-resolution pyramid */
-  vnl_vector<unsigned int> m_MeshPixelsPerElementAtEachResolution;
+  vnl_vector<unsigned int> m_MeshPixelsPerElementAtEachResolution{};
 
   Float             m_TimeStep{ 1 };
   vnl_vector<Float> m_E;
-  vnl_vector<Float> m_Rho;
-  vnl_vector<Float> m_Gamma;
+  vnl_vector<Float> m_Rho{};
+  vnl_vector<Float> m_Gamma{};
   Float             m_Energy{ 0.0 };      // current value of energy
   Float             m_MinE;               // minimum recorded energy
   Float             m_MinJacobian{ 1.0 }; // minimum recorded energy
@@ -698,49 +698,49 @@ private:
   unsigned int  m_EmployRegridding{ 1 };
   SignEnum      m_DescentDirection{ SignEnum::positive };
   Float         m_EnergyReductionFactor{ 0.0 };
-  ImageSizeType m_FullImageSize;
-  ImageSizeType m_ImageOrigin;
+  ImageSizeType m_FullImageSize{};
+  ImageSizeType m_ImageOrigin{};
 
   /** Gives the ratio of original image size to current image size - for
    * dealing with multi-resolution. */
-  ImageSizeType                  m_ImageScaling;
-  ImageSizeType                  m_CurrentImageScaling;
-  typename FieldType::RegionType m_FieldRegion;
-  typename FieldType::SizeType   m_FieldSize;
-  typename FieldType::Pointer    m_Field;
+  ImageSizeType                  m_ImageScaling{};
+  ImageSizeType                  m_CurrentImageScaling{};
+  typename FieldType::RegionType m_FieldRegion{};
+  typename FieldType::SizeType   m_FieldSize{};
+  typename FieldType::Pointer    m_Field{};
 
   // Only use TotalField if re-gridding is employed.
-  typename FieldType::Pointer           m_TotalField;
+  typename FieldType::Pointer           m_TotalField{};
   typename ImageMetricLoadType::Pointer m_Load; // Defines the load to use
 
   // Define the warper
-  typename WarperType::Pointer m_Warper;
+  typename WarperType::Pointer m_Warper{};
 
   // Declare a new image to hold the warped reference
-  typename FixedImageType::Pointer    m_WarpedImage;
-  typename FloatImageType::Pointer    m_FloatImage;
-  typename FixedImageType::RegionType m_Wregion;
-  typename FixedImageType::IndexType  m_Windex;
+  typename FixedImageType::Pointer    m_WarpedImage{};
+  typename FloatImageType::Pointer    m_FloatImage{};
+  typename FixedImageType::RegionType m_Wregion{};
+  typename FixedImageType::IndexType  m_Windex{};
 
   // Declare images for target and reference
-  typename MovingImageType::Pointer m_MovingImage;
-  typename MovingImageType::Pointer m_OriginalMovingImage;
-  typename FixedImageType::Pointer  m_FixedImage;
+  typename MovingImageType::Pointer m_MovingImage{};
+  typename MovingImageType::Pointer m_OriginalMovingImage{};
+  typename FixedImageType::Pointer  m_FixedImage{};
 
   // Element and metric pointers
-  typename Element::Pointer       m_Element;
-  typename MaterialType::Pointer  m_Material;
-  MetricBaseTypePointer           m_Metric;
-  typename FEMObjectType::Pointer m_FEMObject;
+  typename Element::Pointer       m_Element{};
+  typename MaterialType::Pointer  m_Material{};
+  MetricBaseTypePointer           m_Metric{};
+  typename FEMObjectType::Pointer m_FEMObject{};
 
-  LandmarkArrayType   m_LandmarkArray;
-  InterpolatorPointer m_Interpolator;
+  LandmarkArrayType   m_LandmarkArray{};
+  InterpolatorPointer m_Interpolator{};
 
   double m_MaximumError{ 0.1 };
 
   unsigned int m_MaximumKernelWidth{ 30 };
 
-  StandardDeviationsType m_StandardDeviations;
+  StandardDeviationsType m_StandardDeviations{};
 };
 } // end namespace fem
 } // end namespace itk

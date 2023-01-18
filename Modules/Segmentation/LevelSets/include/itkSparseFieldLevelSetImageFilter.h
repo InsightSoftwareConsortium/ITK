@@ -452,7 +452,7 @@ protected:
   itkGetConstMacro(ValueOne, ValueType);
 
   /** Connectivity information for examining neighbor pixels.   */
-  SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType>> m_NeighborList;
+  SparseFieldCityBlockNeighborList<NeighborhoodIterator<OutputImageType>> m_NeighborList{};
 
   /** The constant gradient to maintain between isosurfaces in the
       sparse-field of the level-set image.  This value defaults to 1.0 */
@@ -487,13 +487,13 @@ protected:
   /** This image is a copy of the input with m_IsoSurfaceValue subtracted from
    * each pixel.  This way we only need to consider the zero level set in our
    * calculations.  Makes the implementation easier and more efficient. */
-  typename OutputImageType::Pointer m_ShiftedImage;
+  typename OutputImageType::Pointer m_ShiftedImage{};
 
   /** An array which contains all of the layers needed in the sparse
    * field. Layers are organized as follows: m_Layer[0] = active layer,
    * m_Layer[i:odd] = inside layer (i+1)/2, m_Layer[i:even] = outside layer i/2
    */
-  LayerListType m_Layers;
+  LayerListType m_Layers{};
 
   /** The number of layers to use in the sparse field.  Sparse field will
    * consist of m_NumberOfLayers layers on both sides of a single active layer.
@@ -502,17 +502,17 @@ protected:
   unsigned int m_NumberOfLayers{ 2 };
 
   /** An image of status values used internally by the algorithm. */
-  typename StatusImageType::Pointer m_StatusImage;
+  typename StatusImageType::Pointer m_StatusImage{};
 
   /** Storage for layer node objects. */
-  typename LayerNodeStorageType::Pointer m_LayerNodeStore;
+  typename LayerNodeStorageType::Pointer m_LayerNodeStore{};
 
   /** The value in the input which represents the isosurface of interest. */
-  ValueType m_IsoSurfaceValue;
+  ValueType m_IsoSurfaceValue{};
 
   /** The update buffer used to store change values computed in
    *  CalculateChange. */
-  UpdateBufferType m_UpdateBuffer;
+  UpdateBufferType m_UpdateBuffer{};
 
   /** The RMS change calculated from each update.  Can be used by a subclass to
    *  determine halting criteria.  Valid only for the previous iteration, not
@@ -525,8 +525,8 @@ protected:
       (speed), advection, or curvature terms should turn this flag off. */
   bool m_InterpolateSurfaceLocation{ true };
 
-  const InputImageType * m_InputImage;
-  OutputImageType *      m_OutputImage;
+  const InputImageType * m_InputImage{};
+  OutputImageType *      m_OutputImage{};
 
 private:
   /** This flag is true when methods need to check boundary conditions and

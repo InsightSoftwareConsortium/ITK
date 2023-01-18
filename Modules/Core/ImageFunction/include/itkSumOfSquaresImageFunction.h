@@ -135,8 +135,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_NeighborhoodRadius;
-  unsigned int m_NeighborhoodSize;
+  unsigned int m_NeighborhoodRadius{};
+  unsigned int m_NeighborhoodSize{};
 
   std::vector<Offset<ImageDimension>> m_NeighborhoodOffsets{ GenerateRectangularImageNeighborhoodOffsets(
     ImageSizeType::Filled(1)) };

@@ -215,31 +215,31 @@ protected:
 
 private:
   /** The fixed image marginal PDF */
-  typename MarginalPDFType::Pointer m_FixedImageMarginalPDF;
+  typename MarginalPDFType::Pointer m_FixedImageMarginalPDF{};
 
   /** The moving image marginal PDF. */
-  typename MarginalPDFType::Pointer m_MovingImageMarginalPDF;
+  typename MarginalPDFType::Pointer m_MovingImageMarginalPDF{};
 
   /** The joint PDF and PDF derivatives. */
-  mutable typename JointPDFType::Pointer m_JointPDF;
+  mutable typename JointPDFType::Pointer m_JointPDF{};
 
   /** Flag to control smoothing of joint pdf */
-  TInternalComputationValueType m_VarianceForJointPDFSmoothing;
+  TInternalComputationValueType m_VarianceForJointPDFSmoothing{};
 
   /** Variables to define the marginal and joint histograms. */
-  SizeValueType                 m_NumberOfHistogramBins;
-  TInternalComputationValueType m_FixedImageTrueMin;
-  TInternalComputationValueType m_FixedImageTrueMax;
-  TInternalComputationValueType m_MovingImageTrueMin;
-  TInternalComputationValueType m_MovingImageTrueMax;
-  TInternalComputationValueType m_FixedImageBinSize;
-  TInternalComputationValueType m_MovingImageBinSize;
+  SizeValueType                 m_NumberOfHistogramBins{};
+  TInternalComputationValueType m_FixedImageTrueMin{};
+  TInternalComputationValueType m_FixedImageTrueMax{};
+  TInternalComputationValueType m_MovingImageTrueMin{};
+  TInternalComputationValueType m_MovingImageTrueMax{};
+  TInternalComputationValueType m_FixedImageBinSize{};
+  TInternalComputationValueType m_MovingImageBinSize{};
 
-  TInternalComputationValueType m_JointPDFSum;
-  JointPDFSpacingType           m_JointPDFSpacing;
+  TInternalComputationValueType m_JointPDFSum{};
+  JointPDFSpacingType           m_JointPDFSpacing{};
 
-  TInternalComputationValueType m_Log2;
-  JointPDFIndexValueType        m_Padding;
+  TInternalComputationValueType m_Log2{};
+  JointPDFIndexValueType        m_Padding{};
 };
 
 } // end namespace itk

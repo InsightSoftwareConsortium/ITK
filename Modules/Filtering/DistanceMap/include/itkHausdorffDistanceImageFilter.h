@@ -147,9 +147,9 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * data) override;
 
 private:
-  RealType m_HausdorffDistance;
-  RealType m_AverageHausdorffDistance;
-  bool     m_UseImageSpacing;
+  RealType m_HausdorffDistance{};
+  RealType m_AverageHausdorffDistance{};
+  bool     m_UseImageSpacing{};
 }; // end of class
 } // end namespace itk
 

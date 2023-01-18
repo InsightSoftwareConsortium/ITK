@@ -228,7 +228,7 @@ private:
 
   bool m_UserProvidedSmoothingFilter{ false };
 
-  SmoothingFilterPointer m_SmoothingFilter;
+  SmoothingFilterPointer m_SmoothingFilter{};
 
   unsigned int m_NumberOfSmoothingIterations{ 0 };
 };

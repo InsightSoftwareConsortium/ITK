@@ -136,18 +136,18 @@ protected:
 
 private:
   /** The file to read */
-  std::string m_FileName;
+  std::string m_FileName{};
 
   /** VideoIOBase used to retrieve images. This may be changed if more
    * hierarchy is added to support general ImageSet sources. */
-  VideoIOBase::Pointer m_VideoIO;
+  VideoIOBase::Pointer m_VideoIO{};
 
   /** Flag to store whether or not the pixel type needs to be converted. */
-  bool m_PixelConversionNeeded;
+  bool m_PixelConversionNeeded{};
 
   /** Flag to indicate whether to report the last frame as the last IFrame. On
    * by default. */
-  bool m_IFrameSafe;
+  bool m_IFrameSafe{};
 };
 
 } // end namespace itk

@@ -133,7 +133,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  typename LaplacianFunctionType::Pointer m_LaplacianFunction;
+  typename LaplacianFunctionType::Pointer m_LaplacianFunction{};
 };
 } // end namespace itk
 

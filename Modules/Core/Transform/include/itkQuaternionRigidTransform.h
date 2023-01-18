@@ -160,7 +160,7 @@ protected:
 
 private:
   /** Rotation of the transformation. */
-  VnlQuaternionType m_Rotation;
+  VnlQuaternionType m_Rotation{};
 }; // class QuaternionRigidTransform
 } // namespace itk
 

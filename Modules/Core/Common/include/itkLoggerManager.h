@@ -110,7 +110,7 @@ protected:
 private:
   using ContainerType = std::map<NameType, LoggerPointer>;
 
-  ContainerType m_LoggerSet;
+  ContainerType m_LoggerSet{};
 }; // class Logger
 } // namespace itk
 

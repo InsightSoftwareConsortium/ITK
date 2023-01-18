@@ -172,7 +172,7 @@ protected:
   GenerateData() override;
 
 private:
-  GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction;
+  GeodesicActiveContourFunctionPointer m_GeodesicActiveContourFunction{};
 };
 } // end namespace itk
 

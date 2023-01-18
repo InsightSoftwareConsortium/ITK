@@ -494,12 +494,12 @@ protected:
   ComponentWeightsType m_SqrtComponentWeights = ComponentWeightsType::Filled(1);
 
 private:
-  bool m_UseImageSpacing;
-  bool m_UsePrincipleComponents;
+  bool m_UseImageSpacing{};
+  bool m_UsePrincipleComponents{};
 
-  ThreadIdType m_RequestedNumberOfWorkUnits;
+  ThreadIdType m_RequestedNumberOfWorkUnits{};
 
-  typename RealVectorImageType::ConstPointer m_RealValuedInputImage;
+  typename RealVectorImageType::ConstPointer m_RealValuedInputImage{};
 };
 } // end namespace itk
 

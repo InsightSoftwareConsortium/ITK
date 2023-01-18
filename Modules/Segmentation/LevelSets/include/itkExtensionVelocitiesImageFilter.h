@@ -130,9 +130,9 @@ private:
   using FastMarchingImageFilterType =
     FastMarchingExtensionImageFilter<TLevelSet, TAuxValue, VAuxDimension, SpeedImageType>;
 
-  typename LocatorType::Pointer m_Locator;
+  typename LocatorType::Pointer m_Locator{};
 
-  typename FastMarchingImageFilterType::Pointer m_Marcher;
+  typename FastMarchingImageFilterType::Pointer m_Marcher{};
 };
 } // namespace itk
 

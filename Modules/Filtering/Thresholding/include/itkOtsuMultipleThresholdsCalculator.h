@@ -116,7 +116,7 @@ protected:
 
 private:
   SizeValueType m_NumberOfThresholds{ 1 };
-  OutputType    m_Output;
+  OutputType    m_Output{};
   bool          m_ValleyEmphasis{ false };
 #if defined(ITKV4_COMPATIBILITY)
   bool m_ReturnBinMidpoint{ true };

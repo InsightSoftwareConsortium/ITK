@@ -153,10 +153,10 @@ private:
 
   unsigned int m_Precision{ 6 };
 
-  std::string m_FileName;
-  std::string m_DataFileName;
+  std::string m_FileName{};
+  std::string m_DataFileName{};
 
-  MetaArray m_MetaArray;
+  MetaArray m_MetaArray{};
 
   const void * m_Buffer{ nullptr };
 };

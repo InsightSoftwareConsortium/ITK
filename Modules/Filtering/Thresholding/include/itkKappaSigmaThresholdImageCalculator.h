@@ -120,13 +120,13 @@ protected:
 
 private:
   bool           m_Valid{ false }; // Have moments been computed yet?
-  MaskPixelType  m_MaskValue;
+  MaskPixelType  m_MaskValue{};
   double         m_SigmaFactor{ 2 };
   unsigned int   m_NumberOfIterations{ 2 };
-  InputPixelType m_Output;
+  InputPixelType m_Output{};
 
-  InputImageConstPointer m_Image;
-  MaskImageConstPointer  m_Mask;
+  InputImageConstPointer m_Image{};
+  MaskImageConstPointer  m_Mask{};
 };
 } // end namespace itk
 

@@ -127,7 +127,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  MarkerImagePixelType m_ForegroundValue;
+  MarkerImagePixelType m_ForegroundValue{};
 
 }; // end of class
 

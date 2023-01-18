@@ -590,8 +590,8 @@ private:
   OutputVectorType m_Translation{};
 
   /** To avoid recomputation of the inverse if not needed */
-  TimeStamp         m_MatrixMTime;
-  mutable TimeStamp m_InverseMatrixMTime;
+  TimeStamp         m_MatrixMTime{};
+  mutable TimeStamp m_InverseMatrixMTime{};
 }; // class MatrixOffsetTransformBase
 } // namespace itk
 

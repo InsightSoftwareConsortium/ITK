@@ -89,7 +89,7 @@ protected:
   GenerateData() override;
 
 private:
-  typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator;
+  typename OtsuMultipleThresholdsCalculator<THistogram>::Pointer m_OtsuMultipleThresholdsCalculator{};
 #if defined(ITKV4_COMPATIBILITY)
   bool m_ReturnBinMidpoint{ true };
 #else

@@ -131,16 +131,16 @@ protected:
                       TInternalComputationValueType c,
                       TInternalComputationValueType metricb = NumericTraits<TInternalComputationValueType>::max());
 
-  TInternalComputationValueType m_LowerLimit;
-  TInternalComputationValueType m_UpperLimit;
-  TInternalComputationValueType m_Phi;
-  TInternalComputationValueType m_Resphi;
-  TInternalComputationValueType m_Epsilon;
+  TInternalComputationValueType m_LowerLimit{};
+  TInternalComputationValueType m_UpperLimit{};
+  TInternalComputationValueType m_Phi{};
+  TInternalComputationValueType m_Resphi{};
+  TInternalComputationValueType m_Epsilon{};
 
   /** Controls the maximum recursion depth for the golden section search */
-  unsigned int m_MaximumLineSearchIterations;
+  unsigned int m_MaximumLineSearchIterations{};
   /** Counts the recursion depth for the golden section search */
-  unsigned int m_LineSearchIterations;
+  unsigned int m_LineSearchIterations{};
 };
 
 /** This helps to meet backward compatibility */

@@ -173,14 +173,14 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  BorderTransformEnum m_TransformType;
-  BorderPickEnum      m_BorderPick;
+  BorderTransformEnum m_TransformType{};
+  BorderPickEnum      m_BorderPick{};
 
-  InputCoordRepType m_Radius;
+  InputCoordRepType m_Radius{};
 
-  InputVectorPointType m_Border;
+  InputVectorPointType m_Border{};
 
-  MapPointIdentifier m_BoundaryPtMap;
+  MapPointIdentifier m_BoundaryPtMap{};
 
   void
   GenerateData() override;

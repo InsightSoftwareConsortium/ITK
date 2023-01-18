@@ -78,7 +78,7 @@ public:
   GetMTime() const override;
 
 protected:
-  FEMObjectPointer m_FEMObject;
+  FEMObjectPointer m_FEMObject{};
 
   FEMObjectSpatialObject();
   ~FEMObjectSpatialObject() override;

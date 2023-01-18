@@ -151,11 +151,11 @@ protected:
   VerifyInputInformation() ITKv5_CONST override;
 
 private:
-  typename TileImageType::Pointer m_TileImage;
+  typename TileImageType::Pointer m_TileImage{};
 
-  OutputPixelType m_DefaultPixelValue;
+  OutputPixelType m_DefaultPixelValue{};
 
-  LayoutArrayType m_Layout;
+  LayoutArrayType m_Layout{};
 }; // end of class
 } // end namespace itk
 

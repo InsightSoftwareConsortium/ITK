@@ -92,10 +92,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  FunctionOutputType m_LowerThreshold;
-  FunctionOutputType m_UpperThreshold;
+  FunctionOutputType m_LowerThreshold{};
+  FunctionOutputType m_UpperThreshold{};
 
-  typename FunctionType::Pointer m_Function;
+  typename FunctionType::Pointer m_Function{};
 };
 } // end namespace itk
 

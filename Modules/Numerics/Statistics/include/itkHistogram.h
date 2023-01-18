@@ -501,12 +501,12 @@ protected:
   ~Histogram() override = default;
 
   // The number of bins for each dimension
-  SizeType m_Size;
+  SizeType m_Size{};
 
 private:
   using OffsetTableType = std::vector<InstanceIdentifier>;
-  OffsetTableType           m_OffsetTable;
-  FrequencyContainerPointer m_FrequencyContainer;
+  OffsetTableType           m_OffsetTable{};
+  FrequencyContainerPointer m_FrequencyContainer{};
   unsigned int              m_NumberOfInstances{ 0 };
 
   // This method is provided here just to avoid a "hidden" warning
@@ -516,13 +516,13 @@ private:
   {}
 
   // lower bound of each bin
-  std::vector<std::vector<MeasurementType>> m_Min;
+  std::vector<std::vector<MeasurementType>> m_Min{};
 
   // upper bound of each bin
-  std::vector<std::vector<MeasurementType>> m_Max;
+  std::vector<std::vector<MeasurementType>> m_Max{};
 
-  mutable MeasurementVectorType m_TempMeasurementVector;
-  mutable IndexType             m_TempIndex;
+  mutable MeasurementVectorType m_TempMeasurementVector{};
+  mutable IndexType             m_TempIndex{};
 
   bool m_ClipBinsAtEnds{ true };
 };

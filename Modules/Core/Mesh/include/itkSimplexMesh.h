@@ -295,7 +295,7 @@ protected:
   /**
    * The map stores a SimplexMeshGeometry object for each mesh point
    */
-  GeometryMapPointer m_GeometryData;
+  GeometryMapPointer m_GeometryData{};
 
   /**
    * The last cell id is the index which is used for insertion of new
@@ -303,7 +303,7 @@ protected:
    * one cannot rely on the size of the map or the highest index when
    * cells are removed.
    */
-  CellIdentifier m_LastCellId;
+  CellIdentifier m_LastCellId{};
 }; // End Class:  SimplexMesh
 } // end namespace itk
 

@@ -176,10 +176,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  bool m_ReverseOrdering;
+  bool m_ReverseOrdering{};
 
-  SizeValueType m_NumberOfObjects;
-  AttributeType m_Attribute;
+  SizeValueType m_NumberOfObjects{};
+  AttributeType m_Attribute{};
 }; // end of class
 } // end namespace itk
 

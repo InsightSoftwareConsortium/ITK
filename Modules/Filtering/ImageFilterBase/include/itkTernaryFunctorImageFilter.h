@@ -162,7 +162,7 @@ protected:
 
 
 private:
-  FunctorType m_Functor;
+  FunctorType m_Functor{};
 };
 } // end namespace itk
 

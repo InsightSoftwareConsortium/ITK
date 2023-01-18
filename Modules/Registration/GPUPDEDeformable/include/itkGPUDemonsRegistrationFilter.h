@@ -144,7 +144,7 @@ protected:
   ApplyUpdate(const TimeStepType & dt) override;
 
 private:
-  bool m_UseMovingImageGradient;
+  bool m_UseMovingImageGradient{};
 };
 
 /** \class GPUDemonsRegistrationFilterFactory

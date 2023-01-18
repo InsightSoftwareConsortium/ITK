@@ -278,18 +278,18 @@ protected:
   {}
 
 private:
-  RegistrationPointer       m_RegistrationFilter;
-  FixedImagePyramidPointer  m_FixedImagePyramid;
-  MovingImagePyramidPointer m_MovingImagePyramid;
-  FieldExpanderPointer      m_FieldExpander;
-  DisplacementFieldPointer  m_InitialDisplacementField;
+  RegistrationPointer       m_RegistrationFilter{};
+  FixedImagePyramidPointer  m_FixedImagePyramid{};
+  MovingImagePyramidPointer m_MovingImagePyramid{};
+  FieldExpanderPointer      m_FieldExpander{};
+  DisplacementFieldPointer  m_InitialDisplacementField{};
 
-  unsigned int           m_NumberOfLevels;
-  unsigned int           m_CurrentLevel;
-  NumberOfIterationsType m_NumberOfIterations;
+  unsigned int           m_NumberOfLevels{};
+  unsigned int           m_CurrentLevel{};
+  NumberOfIterationsType m_NumberOfIterations{};
 
   /** Flag to indicate user stop registration request. */
-  bool m_StopRegistrationFlag;
+  bool m_StopRegistrationFlag{};
 };
 } // end namespace itk
 

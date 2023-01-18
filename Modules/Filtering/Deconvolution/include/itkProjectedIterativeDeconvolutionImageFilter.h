@@ -85,7 +85,7 @@ protected:
 private:
   using ProjectionFilterType = ThresholdImageFilter<InternalImageType>;
 
-  typename ProjectionFilterType::Pointer m_ProjectionFilter;
+  typename ProjectionFilterType::Pointer m_ProjectionFilter{};
 };
 } // namespace itk
 

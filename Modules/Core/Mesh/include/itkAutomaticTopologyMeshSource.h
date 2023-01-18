@@ -412,8 +412,8 @@ private:
   using CellHashMap = std::
     unordered_map<Array<IdentifierType>, IdentifierType, IdentifierArrayHashFunction, IdentifierArrayEqualsFunction>;
 
-  PointHashMap m_PointsHashTable;
-  CellHashMap  m_CellsHashTable;
+  PointHashMap m_PointsHashTable{};
+  CellHashMap  m_CellsHashTable{};
   MeshPointer  m_OutputMesh; // Retained for convenience.
 };
 } // end namespace itk

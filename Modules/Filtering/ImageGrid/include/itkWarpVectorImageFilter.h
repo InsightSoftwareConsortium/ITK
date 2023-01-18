@@ -229,12 +229,12 @@ protected:
 
 
 private:
-  PixelType     m_EdgePaddingValue;
-  SpacingType   m_OutputSpacing;
-  PointType     m_OutputOrigin;
-  DirectionType m_OutputDirection;
+  PixelType     m_EdgePaddingValue{};
+  SpacingType   m_OutputSpacing{};
+  PointType     m_OutputOrigin{};
+  DirectionType m_OutputDirection{};
 
-  InterpolatorPointer m_Interpolator;
+  InterpolatorPointer m_Interpolator{};
 };
 } // end namespace itk
 

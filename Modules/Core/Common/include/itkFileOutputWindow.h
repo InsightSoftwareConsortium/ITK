@@ -88,12 +88,12 @@ protected:
   void
   Initialize();
 
-  std::ofstream * m_Stream;
+  std::ofstream * m_Stream{};
 
-  std::string m_FileName;
+  std::string m_FileName{};
 
-  bool m_Flush;
-  bool m_Append;
+  bool m_Flush{};
+  bool m_Append{};
 };
 } // end namespace itk
 

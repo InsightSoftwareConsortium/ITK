@@ -105,7 +105,7 @@ protected:
   FastMarchingQuadEdgeMeshFilterBase();
   ~FastMarchingQuadEdgeMeshFilterBase() override = default;
 
-  NodeLabelMapType m_Label;
+  NodeLabelMapType m_Label{};
 
   IdentifierType
   GetTotalNumberOfNodes() const override;
@@ -174,7 +174,7 @@ protected:
   InitializeOutput(OutputMeshType * oMesh) override;
 
 private:
-  const InputMeshType * m_InputMesh;
+  const InputMeshType * m_InputMesh{};
 };
 } // namespace itk
 

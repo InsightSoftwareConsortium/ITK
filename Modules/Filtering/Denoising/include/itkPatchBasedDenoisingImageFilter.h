@@ -532,10 +532,10 @@ private:
     InputImageType *                 Img;
   };
 
-  std::vector<ThreadDataStruct> m_ThreadData;
+  std::vector<ThreadDataStruct> m_ThreadData{};
 
   /** The buffer that holds the updates for an iteration of the algorithm. */
-  typename OutputImageType::Pointer m_UpdateBuffer;
+  typename OutputImageType::Pointer m_UpdateBuffer{};
 
   unsigned int m_NumPixelComponents{ 0 };
   unsigned int m_NumIndependentComponents{ 0 };
@@ -545,27 +545,27 @@ private:
 
   bool m_UseFastTensorComputations{ true };
 
-  RealArrayType  m_KernelBandwidthSigma;
+  RealArrayType  m_KernelBandwidthSigma{};
   bool           m_KernelBandwidthSigmaIsSet{ false };
-  RealArrayType  m_IntensityRescaleInvFactor;
-  PixelType      m_ZeroPixel;
-  PixelArrayType m_ImageMin;
-  PixelArrayType m_ImageMax;
+  RealArrayType  m_IntensityRescaleInvFactor{};
+  PixelType      m_ZeroPixel{};
+  PixelArrayType m_ImageMin{};
+  PixelArrayType m_ImageMax{};
   double         m_KernelBandwidthFractionPixelsForEstimation{ 0.20 };
   bool           m_ComputeConditionalDerivatives{ false };
-  double         m_MinSigma;
-  double         m_MinProbability;
-  unsigned int   m_SigmaUpdateDecimationFactor;
+  double         m_MinSigma{};
+  double         m_MinProbability{};
+  unsigned int   m_SigmaUpdateDecimationFactor{};
   double         m_SigmaUpdateConvergenceTolerance{ 0.01 };
-  ShortArrayType m_SigmaConverged;
+  ShortArrayType m_SigmaConverged{};
   double         m_KernelBandwidthMultiplicationFactor{ 1.0 };
 
-  RealType m_NoiseSigma;
-  RealType m_NoiseSigmaSquared;
+  RealType m_NoiseSigma{};
+  RealType m_NoiseSigmaSquared{};
   bool     m_NoiseSigmaIsSet{ false };
 
-  BaseSamplerPointer                m_Sampler;
-  typename ListAdaptorType::Pointer m_SearchSpaceList;
+  BaseSamplerPointer                m_Sampler{};
+  typename ListAdaptorType::Pointer m_SearchSpaceList{};
 };
 } // end namespace itk
 

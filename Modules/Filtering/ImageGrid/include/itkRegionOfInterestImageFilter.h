@@ -128,7 +128,7 @@ protected:
   DynamicThreadedGenerateData(const RegionType & outputRegionForThread) override;
 
 private:
-  RegionType m_RegionOfInterest;
+  RegionType m_RegionOfInterest{};
 };
 } // end namespace itk
 

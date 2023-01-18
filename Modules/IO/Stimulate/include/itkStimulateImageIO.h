@@ -136,10 +136,10 @@ protected:
   InternalReadImageInformation(std::ifstream & file);
 
 private:
-  std::string m_DataFileName;
-  char        m_SdtOrient[256];
-  float       m_DisplayRange[2];
-  char        m_FidName[256];
+  std::string m_DataFileName{};
+  char        m_SdtOrient[256]{};
+  float       m_DisplayRange[2]{};
+  char        m_FidName[256]{};
 };
 } // end namespace itk
 

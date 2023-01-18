@@ -492,15 +492,15 @@ protected:
   virtual void
   ClearCellsContainer();
 
-  CellsContainerPointer m_EdgeCellsContainer;
+  CellsContainerPointer m_EdgeCellsContainer{};
 
 private:
-  CellIdentifier m_NumberOfFaces;
-  CellIdentifier m_NumberOfEdges;
+  CellIdentifier m_NumberOfFaces{};
+  CellIdentifier m_NumberOfEdges{};
 
 protected:
-  FreePointIndexesType m_FreePointIndexes;
-  FreeCellIndexesType  m_FreeCellIndexes;
+  FreePointIndexesType m_FreePointIndexes{};
+  FreeCellIndexesType  m_FreeCellIndexes{};
 };
 } // namespace itk
 

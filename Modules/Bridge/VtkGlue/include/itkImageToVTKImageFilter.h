@@ -105,8 +105,8 @@ protected:
   ~ImageToVTKImageFilter() override;
 
 private:
-  ExporterFilterPointer m_Exporter;
-  vtkImageImport *      m_Importer;
+  ExporterFilterPointer m_Exporter{};
+  vtkImageImport *      m_Importer{};
 };
 
 } // end namespace itk

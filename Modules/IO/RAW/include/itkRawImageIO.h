@@ -169,12 +169,12 @@ protected:
   // void ComputeInternalFileName(unsigned long slice);
 
 private:
-  std::string m_InternalFileName;
+  std::string m_InternalFileName{};
 
-  unsigned long  m_FileDimensionality;
-  bool           m_ManualHeaderSize;
-  SizeValueType  m_HeaderSize;
-  unsigned short m_ImageMask;
+  unsigned long  m_FileDimensionality{};
+  bool           m_ManualHeaderSize{};
+  SizeValueType  m_HeaderSize{};
+  unsigned short m_ImageMask{};
 };
 
 template <typename TPixel, unsigned int VImageDimension>

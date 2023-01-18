@@ -91,9 +91,9 @@ protected:
   using MeasurementType = typename HistogramType::MeasurementType;
 
 private:
-  InstanceIdentifier m_FirstBin;
-  InstanceIdentifier m_LastBin;
-  SizeValueType      m_Size;
+  InstanceIdentifier m_FirstBin{};
+  InstanceIdentifier m_LastBin{};
+  SizeValueType      m_Size{};
 };
 
 } // end namespace itk

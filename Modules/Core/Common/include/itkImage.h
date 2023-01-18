@@ -393,7 +393,7 @@ protected:
 
 private:
   /** Memory for the current buffer. */
-  PixelContainerPointer m_Buffer;
+  PixelContainerPointer m_Buffer{};
 };
 } // end namespace itk
 

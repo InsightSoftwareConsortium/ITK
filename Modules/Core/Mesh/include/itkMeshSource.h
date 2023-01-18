@@ -165,8 +165,8 @@ protected:
 private:
   /** Used by streaming: The requested region of the output being processed
    * by the execute method. Set in the GenerateInputRequestedRegion method. */
-  int m_GenerateDataRegion;
-  int m_GenerateDataNumberOfRegions;
+  int m_GenerateDataRegion{};
+  int m_GenerateDataNumberOfRegions{};
 };
 } // end namespace itk
 

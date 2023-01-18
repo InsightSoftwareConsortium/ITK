@@ -193,7 +193,7 @@ protected:
   float m_InnerRadius{ 0.0 };
 
 private:
-  NodeContainerType m_NodeContainer;
+  NodeContainerType m_NodeContainer{};
 };
 } // end namespace itk
 

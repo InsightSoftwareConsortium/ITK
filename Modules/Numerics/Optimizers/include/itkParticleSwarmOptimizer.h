@@ -102,9 +102,9 @@ protected:
   UpdateSwarm() override;
 
 private:
-  ParametersType::ValueType m_InertiaCoefficient;
-  ParametersType::ValueType m_PersonalCoefficient;
-  ParametersType::ValueType m_GlobalCoefficient;
+  ParametersType::ValueType m_InertiaCoefficient{};
+  ParametersType::ValueType m_PersonalCoefficient{};
+  ParametersType::ValueType m_GlobalCoefficient{};
 };
 
 } // end namespace itk

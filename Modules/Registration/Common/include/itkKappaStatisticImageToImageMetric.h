@@ -130,7 +130,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  RealType m_ForegroundValue;
+  RealType m_ForegroundValue{};
   bool     m_Complement{ false };
 };
 } // end namespace itk

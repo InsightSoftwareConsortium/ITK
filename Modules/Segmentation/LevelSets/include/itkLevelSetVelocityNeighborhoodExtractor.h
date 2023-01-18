@@ -132,9 +132,9 @@ protected:
   CalculateDistance(Index & index) override;
 
 private:
-  typename AuxValueContainer::Pointer m_AuxInsideValues;
-  typename AuxValueContainer::Pointer m_AuxOutsideValues;
-  AuxImageConstPointer                m_AuxImage[VAuxDimension];
+  typename AuxValueContainer::Pointer m_AuxInsideValues{};
+  typename AuxValueContainer::Pointer m_AuxOutsideValues{};
+  AuxImageConstPointer                m_AuxImage[VAuxDimension]{};
 };
 } // namespace itk
 

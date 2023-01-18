@@ -132,10 +132,10 @@ protected:
   InternalClone() const override;
 
 private:
-  ScalarType m_Maximum;
-  ScalarType m_RadiusInObjectSpace;
-  ScalarType m_SigmaInObjectSpace;
-  PointType  m_CenterInObjectSpace;
+  ScalarType m_Maximum{};
+  ScalarType m_RadiusInObjectSpace{};
+  ScalarType m_SigmaInObjectSpace{};
+  PointType  m_CenterInObjectSpace{};
 };
 } // end namespace itk
 

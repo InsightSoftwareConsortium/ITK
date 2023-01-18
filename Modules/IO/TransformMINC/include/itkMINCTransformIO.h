@@ -84,8 +84,8 @@ protected:
   MINCTransformIOTemplate();
   ~MINCTransformIOTemplate() override;
 
-  VIO_General_transform m_XFM;
-  bool                  m_XFM_initialized;
+  VIO_General_transform m_XFM{};
+  bool                  m_XFM_initialized{};
 
 private:
   void

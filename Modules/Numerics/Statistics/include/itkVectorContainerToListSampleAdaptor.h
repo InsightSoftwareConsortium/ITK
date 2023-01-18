@@ -258,7 +258,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  VectorContainerConstPointer m_VectorContainer;
+  VectorContainerConstPointer m_VectorContainer{};
 }; // end of class VectorContainerToListSampleAdaptor
 } // end of namespace Statistics
 } // end of namespace itk

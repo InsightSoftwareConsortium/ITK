@@ -123,7 +123,7 @@ private:
   SizeValueType m_UnderflowCount{ 0 };
   SizeValueType m_OverflowCount{ 0 };
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 };
 } // end namespace itk
 

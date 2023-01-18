@@ -256,12 +256,12 @@ private:
   ComputeRemainingCoefficients(bool symmetric);
 
   /** Sigma of the gaussian kernel. */
-  ScalarRealType m_Sigma;
+  ScalarRealType m_Sigma{};
 
   /** Normalize the image across scale space */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{};
 
-  GaussianOrderEnum m_Order;
+  GaussianOrderEnum m_Order{};
 };
 } // end namespace itk
 

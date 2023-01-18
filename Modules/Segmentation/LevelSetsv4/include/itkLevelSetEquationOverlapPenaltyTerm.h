@@ -130,8 +130,8 @@ protected:
   Value(const LevelSetInputIndexType & index, const LevelSetDataType & data) override;
 
 private:
-  DomainMapImageFilterType * m_DomainMapImageFilter;
-  CacheImageType *           m_CacheImage;
+  DomainMapImageFilterType * m_DomainMapImageFilter{};
+  CacheImageType *           m_CacheImage{};
 };
 
 } // namespace itk

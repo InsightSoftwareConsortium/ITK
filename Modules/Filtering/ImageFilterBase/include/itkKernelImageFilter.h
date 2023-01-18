@@ -102,7 +102,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
   /** kernel or structuring element to use. */
-  KernelType m_Kernel;
+  KernelType m_Kernel{};
 
 private:
   template <typename T>

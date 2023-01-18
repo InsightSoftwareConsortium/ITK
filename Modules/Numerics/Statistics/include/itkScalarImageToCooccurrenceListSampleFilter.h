@@ -118,7 +118,7 @@ protected:
   GenerateData() override;
 
 private:
-  OffsetTable m_OffsetTable;
+  OffsetTable m_OffsetTable{};
 }; // end of class ScalarImageToListSampleFilter
 } // end of namespace Statistics
 } // end of namespace itk

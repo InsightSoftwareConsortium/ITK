@@ -184,13 +184,13 @@ private:
   RealType       m_MaxDistance{ NumericTraits<RealType>::ZeroValue() };
   IdentifierType m_PixelCount{};
 
-  CompensatedSummationType m_Sum;
+  CompensatedSummationType m_Sum{};
 
   RealType m_DirectedHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };
   RealType m_AverageHausdorffDistance{ NumericTraits<RealType>::ZeroValue() };
   bool     m_UseImageSpacing{ true };
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 }; // end of class
 } // end namespace itk
 

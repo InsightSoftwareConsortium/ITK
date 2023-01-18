@@ -105,10 +105,10 @@ protected:
 
   /** GPU kernel handle is defined here instead of in the child class
    * because GPUGenerateData() in this base class is used. */
-  int m_UnaryFunctorImageFilterGPUKernelHandle;
+  int m_UnaryFunctorImageFilterGPUKernelHandle{};
 
 private:
-  FunctorType m_Functor;
+  FunctorType m_Functor{};
 };
 
 } // end of namespace itk

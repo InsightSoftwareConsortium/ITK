@@ -304,8 +304,8 @@ protected:
 private:
   /** The anchor node of the list.  m_HeadNode->Next is the first node in the
    *  list. If m_HeadNode->Next == m_HeadNode, then the list is empty. */
-  NodeType *   m_HeadNode;
-  unsigned int m_Size;
+  NodeType *   m_HeadNode{};
+  unsigned int m_Size{};
 };
 } // end namespace itk
 

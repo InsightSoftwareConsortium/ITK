@@ -248,15 +248,15 @@ protected:
   }
 
 private:
-  double      m_Opacity;
-  int         m_Type;
-  int         m_Priority;
-  SizeType    m_ContourThickness;
-  SizeType    m_DilationRadius;
-  int         m_SliceDimension;
-  FunctorType m_Functor;
+  double      m_Opacity{};
+  int         m_Type{};
+  int         m_Priority{};
+  SizeType    m_ContourThickness{};
+  SizeType    m_DilationRadius{};
+  int         m_SliceDimension{};
+  FunctorType m_Functor{};
 
-  LabelMapPointer m_TempImage;
+  LabelMapPointer m_TempImage{};
 
 }; // end of class
 

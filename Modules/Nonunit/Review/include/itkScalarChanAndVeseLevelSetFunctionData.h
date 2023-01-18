@@ -99,10 +99,10 @@ public:
   using typename Superclass::FeatureIndexType;
   using typename Superclass::FeaturePointType;
 
-  double m_BackgroundConstantValues;
-  double m_ForegroundConstantValues;
-  double m_WeightedSumOfPixelValuesInsideLevelSet;
-  double m_WeightedSumOfPixelValuesOutsideLevelSet;
+  double m_BackgroundConstantValues{};
+  double m_ForegroundConstantValues{};
+  double m_WeightedSumOfPixelValuesInsideLevelSet{};
+  double m_WeightedSumOfPixelValuesOutsideLevelSet{};
 
 protected:
   ScalarChanAndVeseLevelSetFunctionData()

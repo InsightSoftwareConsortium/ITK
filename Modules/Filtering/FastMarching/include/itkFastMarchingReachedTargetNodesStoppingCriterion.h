@@ -185,11 +185,11 @@ protected:
   ~FastMarchingReachedTargetNodesStoppingCriterion() override = default;
 
   TargetConditionEnum   m_TargetCondition{ TargetConditionEnum::AllTargets };
-  std::vector<NodeType> m_TargetNodes;
-  std::vector<NodeType> m_ReachedTargetNodes;
+  std::vector<NodeType> m_TargetNodes{};
+  std::vector<NodeType> m_ReachedTargetNodes{};
   size_t                m_NumberOfTargetsToBeReached{ 0 };
-  OutputPixelType       m_TargetOffset;
-  OutputPixelType       m_StoppingValue;
+  OutputPixelType       m_TargetOffset{};
+  OutputPixelType       m_StoppingValue{};
   bool                  m_Satisfied{ false };
   bool                  m_Initialized{ false };
 

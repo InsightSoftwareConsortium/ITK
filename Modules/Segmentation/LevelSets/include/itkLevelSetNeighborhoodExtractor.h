@@ -179,19 +179,19 @@ private:
 
   double m_LevelSetValue{ 0.0 };
 
-  NodeContainerPointer m_InsidePoints;
-  NodeContainerPointer m_OutsidePoints;
+  NodeContainerPointer m_InsidePoints{};
+  NodeContainerPointer m_OutsidePoints{};
 
-  LevelSetConstPointer m_InputLevelSet;
+  LevelSetConstPointer m_InputLevelSet{};
 
   bool                 m_NarrowBanding{ false };
   double               m_NarrowBandwidth{ 12.0 };
-  NodeContainerPointer m_InputNarrowBand;
+  NodeContainerPointer m_InputNarrowBand{};
 
-  typename LevelSetImageType::RegionType m_ImageRegion;
-  typename LevelSetImageType::PixelType  m_LargeValue;
+  typename LevelSetImageType::RegionType m_ImageRegion{};
+  typename LevelSetImageType::PixelType  m_LargeValue{};
 
-  std::vector<NodeType> m_NodesUsed;
+  std::vector<NodeType> m_NodesUsed{};
 
   bool m_LastPointIsInside{ false };
 };

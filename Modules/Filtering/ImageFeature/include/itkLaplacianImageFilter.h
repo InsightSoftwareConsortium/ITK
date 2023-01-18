@@ -138,7 +138,7 @@ protected:
   PrintSelf(std::ostream &, Indent) const override;
 
 private:
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 };
 } // end namespace itk
 

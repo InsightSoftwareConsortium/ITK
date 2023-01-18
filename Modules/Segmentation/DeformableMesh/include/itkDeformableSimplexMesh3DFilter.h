@@ -263,7 +263,7 @@ protected:
    * Values should lie between 0.001 and 0.3. Higher values
    * increase the stiffness of the mesh
    */
-  double m_Alpha;
+  double m_Alpha{};
 
   /**
    * Scalar defining the influence of the external force components
@@ -271,7 +271,7 @@ protected:
    * data. Typical value range from 0.00001 to 0.3
    *
    */
-  double m_Beta;
+  double m_Beta{};
 
   /**
    * Gamma influences the distribution of the mesh points. It should
@@ -279,33 +279,33 @@ protected:
    * more regular. When increasing gamma, mesh points will have higher
    * density in places of high curvature.
    */
-  double m_Gamma;
-  double m_Damping;
+  double m_Gamma{};
+  double m_Damping{};
   /**
    * This scalar determines the smoothness of the surface model. Values
    * should range from 0 to 10. It determines the radius of the neighborhood
    * during internal force computation using the curvature shape constraint.
    * The higher the rigidity the higher the smoothness.
    */
-  unsigned int m_Rigidity;
+  unsigned int m_Rigidity{};
 
   // definition of internal parameters
   /** Number of iterations */
-  int m_Step;
+  int m_Step{};
   /** Image size */
-  int m_ImageWidth;
+  int m_ImageWidth{};
   /** Image size */
-  int m_ImageHeight;
+  int m_ImageHeight{};
   /** Image size */
-  int m_ImageDepth;
+  int m_ImageDepth{};
 
   /** This threshold decides when to stop the model. */
-  int m_Iterations;
+  int m_Iterations{};
 
   /**
    * map stores a Geometry object for every mesh point
    */
-  GeometryMapPointer m_Data;
+  GeometryMapPointer m_Data{};
 
 }; // end of class
 } // end namespace itk

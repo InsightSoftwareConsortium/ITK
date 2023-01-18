@@ -178,7 +178,7 @@ protected:
   ComputeMaximumInputValue();
 
 private:
-  OutputPixelType m_LabelForUndecidedPixels;
+  OutputPixelType m_LabelForUndecidedPixels{};
   bool            m_HasLabelForUndecidedPixels{ false };
   size_t          m_TotalLabelCount{ 0 };
 };

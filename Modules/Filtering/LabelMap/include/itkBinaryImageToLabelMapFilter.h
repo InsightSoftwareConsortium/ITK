@@ -179,9 +179,9 @@ protected:
   using WorkUnitData = typename ScanlineFunctions::WorkUnitData;
 
 private:
-  OutputPixelType m_OutputBackgroundValue;
-  InputPixelType  m_InputForegroundValue;
-  SizeValueType   m_NumberOfObjects;
+  OutputPixelType m_OutputBackgroundValue{};
+  InputPixelType  m_InputForegroundValue{};
+  SizeValueType   m_NumberOfObjects{};
 };
 } // end namespace itk
 

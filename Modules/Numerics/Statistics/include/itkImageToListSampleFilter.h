@@ -144,7 +144,7 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  MaskPixelType m_MaskValue;
+  MaskPixelType m_MaskValue{};
 }; // end of class ImageToListSampleFilter
 } // end of namespace Statistics
 } // end of namespace itk

@@ -48,7 +48,7 @@ public:
   itkNewMacro(Self);
 
 protected:
-  std::string m_FileName;
+  std::string m_FileName{};
 
   FEMSpatialObjectWriter();
   ~FEMSpatialObjectWriter() override = default;

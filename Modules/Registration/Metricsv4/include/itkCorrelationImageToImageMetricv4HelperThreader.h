@@ -134,11 +134,11 @@ private:
                     PaddedCorrelationMetricPerThreadStruct,
                     AlignedCorrelationMetricPerThreadStruct);
   /* per thread variables for correlation and its derivatives */
-  std::unique_ptr<AlignedCorrelationMetricPerThreadStruct[]> m_CorrelationMetricPerThreadVariables;
+  std::unique_ptr<AlignedCorrelationMetricPerThreadStruct[]> m_CorrelationMetricPerThreadVariables{};
 
   /** Internal pointer to the metric object in use by this threader.
    *  This will avoid costly dynamic casting in tight loops. */
-  TCorrelationMetric * m_CorrelationAssociate;
+  TCorrelationMetric * m_CorrelationAssociate{};
 };
 
 } // end namespace itk

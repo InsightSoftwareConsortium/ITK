@@ -187,10 +187,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  TransformPointer    m_Transform;
-  InputPointType      m_FocalPoint;
-  double              m_Threshold;
-  InterpolatorPointer m_Interpolator;
+  TransformPointer    m_Transform{};
+  InputPointType      m_FocalPoint{};
+  double              m_Threshold{};
+  InterpolatorPointer m_Interpolator{};
 };
 } // namespace itk
 

@@ -239,9 +239,9 @@ protected:
 
 private:
 private:
-  typename ColormapType::Pointer m_Colormap;
+  typename ColormapType::Pointer m_Colormap{};
 
-  bool m_UseInputImageExtremaForScaling;
+  bool m_UseInputImageExtremaForScaling{};
 };
 } // end namespace itk
 

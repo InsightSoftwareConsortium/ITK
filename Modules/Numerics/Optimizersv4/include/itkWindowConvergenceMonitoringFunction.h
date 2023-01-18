@@ -86,9 +86,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  EnergyValueContainerSizeType m_WindowSize;
+  EnergyValueContainerSizeType m_WindowSize{};
 
-  RealType m_TotalEnergy;
+  RealType m_TotalEnergy{};
 };
 } // end namespace Function
 } // end namespace itk

@@ -160,7 +160,7 @@ protected:
 
 
 private:
-  ShrinkFactorsType m_ShrinkFactors;
+  ShrinkFactorsType m_ShrinkFactors{};
 };
 } // end namespace itk
 

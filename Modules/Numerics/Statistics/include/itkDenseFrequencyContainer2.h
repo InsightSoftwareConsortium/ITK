@@ -118,8 +118,8 @@ protected:
 
 private:
   /** Internal storage */
-  FrequencyContainerPointer  m_FrequencyContainer;
-  TotalAbsoluteFrequencyType m_TotalFrequency;
+  FrequencyContainerPointer  m_FrequencyContainer{};
+  TotalAbsoluteFrequencyType m_TotalFrequency{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

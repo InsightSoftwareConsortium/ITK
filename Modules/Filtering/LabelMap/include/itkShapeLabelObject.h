@@ -766,26 +766,26 @@ protected:
   }
 
 private:
-  RegionType    m_BoundingBox;
-  SizeValueType m_NumberOfPixels;
-  double        m_PhysicalSize;
-  CentroidType  m_Centroid;
-  SizeValueType m_NumberOfPixelsOnBorder;
-  double        m_PerimeterOnBorder;
-  double        m_FeretDiameter;
-  VectorType    m_PrincipalMoments;
-  MatrixType    m_PrincipalAxes;
-  double        m_Elongation;
-  double        m_Perimeter;
-  double        m_Roundness;
-  double        m_EquivalentSphericalRadius;
-  double        m_EquivalentSphericalPerimeter;
-  VectorType    m_EquivalentEllipsoidDiameter;
-  double        m_Flatness;
-  double        m_PerimeterOnBorderRatio;
+  RegionType    m_BoundingBox{};
+  SizeValueType m_NumberOfPixels{};
+  double        m_PhysicalSize{};
+  CentroidType  m_Centroid{};
+  SizeValueType m_NumberOfPixelsOnBorder{};
+  double        m_PerimeterOnBorder{};
+  double        m_FeretDiameter{};
+  VectorType    m_PrincipalMoments{};
+  MatrixType    m_PrincipalAxes{};
+  double        m_Elongation{};
+  double        m_Perimeter{};
+  double        m_Roundness{};
+  double        m_EquivalentSphericalRadius{};
+  double        m_EquivalentSphericalPerimeter{};
+  VectorType    m_EquivalentEllipsoidDiameter{};
+  double        m_Flatness{};
+  double        m_PerimeterOnBorderRatio{};
 
-  OrientedBoundingBoxSizeType  m_OrientedBoundingBoxSize;
-  OrientedBoundingBoxPointType m_OrientedBoundingBoxOrigin;
+  OrientedBoundingBoxSizeType  m_OrientedBoundingBoxSize{};
+  OrientedBoundingBoxPointType m_OrientedBoundingBoxOrigin{};
 };
 } // end namespace itk
 

@@ -137,19 +137,19 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  CoefficientsComputation * m_CoefficientsMethod;
+  CoefficientsComputation * m_CoefficientsMethod{};
 
-  MeshBorderTransformPointer m_BorderTransform;
+  MeshBorderTransformPointer m_BorderTransform{};
 
   // first is the id of the input mesh and second is the corresponding id
   // in m_BoundaryPtMap
-  InputMapPointIdentifier m_BoundaryPtMap;
+  InputMapPointIdentifier m_BoundaryPtMap{};
 
   // first is the id of the input mesh and second is the corresponding id
   // in m_InternalPtList
-  InputMapPointIdentifier m_InternalPtMap;
+  InputMapPointIdentifier m_InternalPtMap{};
 
-  std::vector<OutputPointType> m_Border;
+  std::vector<OutputPointType> m_Border{};
 
   void
   CopyToOutputBorder();

@@ -125,11 +125,11 @@ protected:
   void
   GenerateData() override;
 
-  SizeType  m_Size;
-  double    m_Spacing[OutputImageDimension];
-  double    m_Origin[OutputImageDimension];
-  ValueType m_PathValue;
-  ValueType m_BackgroundValue;
+  SizeType  m_Size{};
+  double    m_Spacing[OutputImageDimension]{};
+  double    m_Origin[OutputImageDimension]{};
+  ValueType m_PathValue{};
+  ValueType m_BackgroundValue{};
 
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

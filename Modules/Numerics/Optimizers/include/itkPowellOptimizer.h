@@ -241,41 +241,41 @@ protected:
   itkSetMacro(Stop, bool);
 
 private:
-  unsigned int m_SpaceDimension;
+  unsigned int m_SpaceDimension{};
 
   /** Current iteration */
-  unsigned int m_CurrentIteration;
-  unsigned int m_CurrentLineIteration;
+  unsigned int m_CurrentIteration{};
+  unsigned int m_CurrentLineIteration{};
 
   /** Maximum iteration limit. */
-  unsigned int m_MaximumIteration;
-  unsigned int m_MaximumLineIteration;
+  unsigned int m_MaximumIteration{};
+  unsigned int m_MaximumLineIteration{};
 
-  bool   m_CatchGetValueException;
-  double m_MetricWorstPossibleValue;
+  bool   m_CatchGetValueException{};
+  double m_MetricWorstPossibleValue{};
 
   /** Set if the Metric should be maximized: Default = False */
-  bool m_Maximize;
+  bool m_Maximize{};
 
   /** The minimal size of search */
-  double m_StepLength;
-  double m_StepTolerance;
+  double m_StepLength{};
+  double m_StepTolerance{};
 
-  ParametersType     m_LineOrigin;
-  vnl_vector<double> m_LineDirection;
+  ParametersType     m_LineOrigin{};
+  vnl_vector<double> m_LineDirection{};
 
-  double m_ValueTolerance;
+  double m_ValueTolerance{};
 
   /** Internal storage for the value type / used as a cache  */
-  MeasureType m_CurrentCost;
+  MeasureType m_CurrentCost{};
 
   /** this is user-settable flag to stop optimization.
    * when users call StartOptimization, this value will be set false.
    * By calling StopOptimization, this flag will be set true, and
    * optimization will stop at the next iteration. */
-  bool m_Stop;
+  bool m_Stop{};
 
-  std::ostringstream m_StopConditionDescription;
+  std::ostringstream m_StopConditionDescription{};
 }; // end of class
 } // end of namespace itk
 

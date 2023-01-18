@@ -147,15 +147,15 @@ private:
   void
   SetTransform(SpatialObjectType * so, const MetaObject * meta);
 
-  double m_Orientation[100];
-  double m_Position[10];
-  double m_CenterOfRotation[10];
+  double m_Orientation[100]{};
+  double m_Position[10]{};
+  double m_CenterOfRotation[10]{};
 
-  MetaEvent *      m_Event;
-  bool             m_BinaryPoints;
-  bool             m_WriteImagesInSeparateFile;
-  unsigned int     m_TransformPrecision;
-  ConverterMapType m_ConverterMap;
+  MetaEvent *      m_Event{};
+  bool             m_BinaryPoints{};
+  bool             m_WriteImagesInSeparateFile{};
+  unsigned int     m_TransformPrecision{};
+  ConverterMapType m_ConverterMap{};
 };
 } // end namespace itk
 

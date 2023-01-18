@@ -132,7 +132,7 @@ private:
   };
 
   itkAlignedTypedef(64, PerThreadS, AlignedPerThreadType);
-  std::unique_ptr<AlignedPerThreadType[]> m_PerThread;
+  std::unique_ptr<AlignedPerThreadType[]> m_PerThread{};
 };
 } // end namespace itk
 

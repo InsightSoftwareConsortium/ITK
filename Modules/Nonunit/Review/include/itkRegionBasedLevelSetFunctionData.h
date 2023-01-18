@@ -135,12 +135,12 @@ public:
   FeatureIndexType
   GetFeatureIndex(const InputIndexType & inputIndex);
 
-  double m_WeightedNumberOfPixelsInsideLevelSet;
-  double m_WeightedNumberOfPixelsOutsideLevelSet;
+  double m_WeightedNumberOfPixelsInsideLevelSet{};
+  double m_WeightedNumberOfPixelsOutsideLevelSet{};
 
-  InputImagePointer m_HeavisideFunctionOfLevelSetImage;
-  InputIndexType    m_Start;
-  InputIndexType    m_End;
+  InputImagePointer m_HeavisideFunctionOfLevelSetImage{};
+  InputIndexType    m_Start{};
+  InputIndexType    m_End{};
 
 protected:
   RegionBasedLevelSetFunctionData();

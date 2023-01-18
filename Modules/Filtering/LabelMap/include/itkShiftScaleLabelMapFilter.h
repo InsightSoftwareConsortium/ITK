@@ -99,10 +99,10 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  double m_Shift;
-  double m_Scale;
+  double m_Shift{};
+  double m_Scale{};
 
-  bool m_ChangeBackgroundValue;
+  bool m_ChangeBackgroundValue{};
 }; // end of class
 } // end namespace itk
 

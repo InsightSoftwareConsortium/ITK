@@ -136,9 +136,9 @@ protected:
   void
   Accumulate(const InputPixelType & inputPixel, const LevelSetOutputRealType & heavisideValue);
 
-  InputPixelRealType     m_Mean;
-  InputPixelRealType     m_TotalValue;
-  LevelSetOutputRealType m_TotalH;
+  InputPixelRealType     m_Mean{};
+  InputPixelRealType     m_TotalValue{};
+  LevelSetOutputRealType m_TotalH{};
 };
 
 } // namespace itk

@@ -153,19 +153,19 @@ protected:
   void
   GenerateData() override;
 
-  ImageIOBase::Pointer m_ImageIO;
+  ImageIOBase::Pointer m_ImageIO{};
 
   bool m_UserSpecifiedImageIO; // keep track whether the
                                // ImageIO is user specified
 
-  bool m_UseStreaming;
+  bool m_UseStreaming{};
 
 private:
-  std::string m_ExceptionMessage;
+  std::string m_ExceptionMessage{};
 
   // The region that the ImageIO class will return when we ask to
   // produce the requested region.
-  ImageIORegion m_ActualIORegion;
+  ImageIORegion m_ActualIORegion{};
 };
 
 

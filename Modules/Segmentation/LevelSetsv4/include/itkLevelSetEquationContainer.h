@@ -288,9 +288,9 @@ protected:
   LevelSetEquationContainer() = default;
   ~LevelSetEquationContainer() override = default;
 
-  LevelSetContainerPointer m_LevelSetContainer;
-  MapContainerType         m_Container;
-  InputImagePointer        m_Input;
+  LevelSetContainerPointer m_LevelSetContainer{};
+  MapContainerType         m_Container{};
+  InputImagePointer        m_Input{};
 };
 } // namespace itk
 

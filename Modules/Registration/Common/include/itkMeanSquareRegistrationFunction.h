@@ -175,22 +175,22 @@ protected:
 
 private:
   /** Cache fixed image information. */
-  SpacingType m_FixedImageSpacing;
+  SpacingType m_FixedImageSpacing{};
 
   /** Function to compute derivatives of the fixed image. */
-  GradientCalculatorPointer m_FixedImageGradientCalculator;
+  GradientCalculatorPointer m_FixedImageGradientCalculator{};
 
   /** Function to interpolate the moving image. */
-  InterpolatorPointer m_MovingImageInterpolator;
+  InterpolatorPointer m_MovingImageInterpolator{};
 
   /** The global timestep. */
-  TimeStepType m_TimeStep;
+  TimeStepType m_TimeStep{};
 
   /** Threshold below which the denominator term is considered zero. */
-  double m_DenominatorThreshold;
+  double m_DenominatorThreshold{};
 
   /** Threshold below which two intensity value are assumed to match. */
-  double m_IntensityDifferenceThreshold;
+  double m_IntensityDifferenceThreshold{};
 };
 } // end namespace itk
 

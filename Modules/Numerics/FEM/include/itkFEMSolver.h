@@ -410,35 +410,35 @@ protected:
   InitializeLinearSystemWrapper();
 
   /** Number of global degrees of freedom in a system. */
-  unsigned int m_NGFN;
+  unsigned int m_NGFN{};
 
   /**
    * Number of multi freedom constraints in a system.
    * This member is set in a AssembleK function.
    */
-  unsigned int m_NMFC;
+  unsigned int m_NMFC{};
 
   /** Pointer to LinearSystemWrapper object. */
-  LinearSystemWrapper::Pointer m_LinearSystem;
+  LinearSystemWrapper::Pointer m_LinearSystem{};
 
   /** LinearSystemWrapperVNL object that is used by default in Solver class. */
-  LinearSystemWrapperVNL m_LinearSystemVNL;
+  LinearSystemWrapperVNL m_LinearSystemVNL{};
 
   /**
    * An Image of pointers to Element objects that represents a grid used
    * for interpolation of solution. Each Pixel in an image is a pointer to
    * an Element object in which that pixel is located.
    */
-  InterpolationGridPointerType m_InterpolationGrid;
+  InterpolationGridPointerType m_InterpolationGrid{};
 
-  FEMObjectPointer m_FEMObject;
+  FEMObjectPointer m_FEMObject{};
 
 private:
   /** Properties of the interpolation grid. */
-  InterpolationGridRegionType    m_Region;
-  InterpolationGridPointType     m_Origin;
-  InterpolationGridSpacingType   m_Spacing;
-  InterpolationGridDirectionType m_Direction;
+  InterpolationGridRegionType    m_Region{};
+  InterpolationGridPointType     m_Origin{};
+  InterpolationGridSpacingType   m_Spacing{};
+  InterpolationGridDirectionType m_Direction{};
 };
 } // end namespace fem
 } // end namespace itk

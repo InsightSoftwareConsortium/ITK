@@ -372,18 +372,18 @@ protected:
   /**
    * Number of global degrees of freedom in a system
    */
-  unsigned int m_NGFN;
+  unsigned int m_NGFN{};
 
   /**
    * Number of multi freedom constraints in a system.
    * This member is set in a AssembleK function.
    */
-  unsigned int m_NMFC;
+  unsigned int m_NMFC{};
 
-  ElementContainerPointer  m_ElementContainer;
-  NodeContainerPointer     m_NodeContainer;
-  LoadContainerPointer     m_LoadContainer;
-  MaterialContainerPointer m_MaterialContainer;
+  ElementContainerPointer  m_ElementContainer{};
+  NodeContainerPointer     m_NodeContainer{};
+  LoadContainerPointer     m_LoadContainer{};
+  MaterialContainerPointer m_MaterialContainer{};
 
 private:
   void

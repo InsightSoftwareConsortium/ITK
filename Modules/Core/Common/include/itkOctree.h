@@ -220,8 +220,8 @@ private:
   unsigned int        m_Depth{ 0 };  // The depth of the Octree
   unsigned int        m_TrueDims[3]; // The true dimensions of the image
   OctreeNodeBranch    m_ColorTable[ColorTableSize];
-  OctreeNode          m_Tree;
-  MappingFunctionType m_MappingFunction;
+  OctreeNode          m_Tree{};
+  MappingFunctionType m_MappingFunction{};
 };
 } // namespace itk
 

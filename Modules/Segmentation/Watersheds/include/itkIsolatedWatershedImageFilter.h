@@ -117,20 +117,20 @@ public:
 protected:
   IsolatedWatershedImageFilter();
   ~IsolatedWatershedImageFilter() override = default;
-  IndexType m_Seed1;
-  IndexType m_Seed2;
+  IndexType m_Seed1{};
+  IndexType m_Seed2{};
 
-  OutputImagePixelType m_ReplaceValue1;
-  OutputImagePixelType m_ReplaceValue2;
+  OutputImagePixelType m_ReplaceValue1{};
+  OutputImagePixelType m_ReplaceValue2{};
 
-  typename GradientMagnitudeType::Pointer m_GradientMagnitude;
+  typename GradientMagnitudeType::Pointer m_GradientMagnitude{};
 
-  typename WatershedType::Pointer m_Watershed;
+  typename WatershedType::Pointer m_Watershed{};
 
-  double m_Threshold;
-  double m_IsolatedValue;
-  double m_IsolatedValueTolerance;
-  double m_UpperValueLimit;
+  double m_Threshold{};
+  double m_IsolatedValue{};
+  double m_IsolatedValueTolerance{};
+  double m_UpperValueLimit{};
 
   // Override since the filter needs all the data for the algorithm
   void

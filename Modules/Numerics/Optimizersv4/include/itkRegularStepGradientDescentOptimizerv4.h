@@ -138,13 +138,13 @@ protected:
 
 
 private:
-  TInternalComputationValueType m_RelaxationFactor;
+  TInternalComputationValueType m_RelaxationFactor{};
 
-  TInternalComputationValueType m_MinimumStepLength;
+  TInternalComputationValueType m_MinimumStepLength{};
 
-  TInternalComputationValueType m_GradientMagnitudeTolerance;
+  TInternalComputationValueType m_GradientMagnitudeTolerance{};
 
-  MeasureType m_CurrentLearningRateRelaxation;
+  MeasureType m_CurrentLearningRateRelaxation{};
 };
 
 } // end namespace itk

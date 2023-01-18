@@ -132,14 +132,14 @@ protected:
   GenerateData() override;
 
 private:
-  VectorType m_ViewVector;
-  VectorType m_UpVector;
+  VectorType m_ViewVector{};
+  VectorType m_UpVector{};
 
-  MatrixType m_RotationMatrix;
+  MatrixType m_RotationMatrix{};
 
-  PointType m_CameraCenterPoint;
+  PointType m_CameraCenterPoint{};
 
-  ProjPlanePointType m_FocalPoint;
+  ProjPlanePointType m_FocalPoint{};
 
   double m_FocalDistance{ 0.0 };
 };

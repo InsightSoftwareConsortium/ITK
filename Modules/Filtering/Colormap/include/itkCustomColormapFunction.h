@@ -109,9 +109,9 @@ protected:
   ~CustomColormapFunction() override = default;
 
 private:
-  ChannelType m_RedChannel;
-  ChannelType m_GreenChannel;
-  ChannelType m_BlueChannel;
+  ChannelType m_RedChannel{};
+  ChannelType m_GreenChannel{};
+  ChannelType m_BlueChannel{};
 };
 } // end namespace Function
 } // end namespace itk

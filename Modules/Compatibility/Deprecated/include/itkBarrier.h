@@ -79,8 +79,8 @@ private:
   unsigned int            m_NumberArrived{ 0 };
   unsigned int            m_NumberExpected{ 0 };
   unsigned int            m_Generation{ 0 }; // Allows successive waits
-  std::condition_variable m_ConditionVariable;
-  std::mutex              m_Mutex;
+  std::condition_variable m_ConditionVariable{};
+  std::mutex              m_Mutex{};
 };
 } // end namespace itk
 

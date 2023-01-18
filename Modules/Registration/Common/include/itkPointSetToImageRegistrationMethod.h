@@ -179,17 +179,17 @@ protected:
   GenerateData() override;
 
 private:
-  MetricPointer          m_Metric;
-  OptimizerType::Pointer m_Optimizer;
+  MetricPointer          m_Metric{};
+  OptimizerType::Pointer m_Optimizer{};
 
-  MovingImageConstPointer   m_MovingImage;
-  FixedPointSetConstPointer m_FixedPointSet;
+  MovingImageConstPointer   m_MovingImage{};
+  FixedPointSetConstPointer m_FixedPointSet{};
 
-  TransformPointer    m_Transform;
-  InterpolatorPointer m_Interpolator;
+  TransformPointer    m_Transform{};
+  InterpolatorPointer m_Interpolator{};
 
-  ParametersType m_InitialTransformParameters;
-  ParametersType m_LastTransformParameters;
+  ParametersType m_InitialTransformParameters{};
+  ParametersType m_LastTransformParameters{};
 };
 } // end namespace itk
 

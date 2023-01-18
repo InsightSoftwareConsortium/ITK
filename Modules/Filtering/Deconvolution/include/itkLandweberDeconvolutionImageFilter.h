@@ -153,9 +153,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_Alpha;
+  double m_Alpha{};
 
-  InternalComplexImagePointerType m_TransformedInput;
+  InternalComplexImagePointerType m_TransformedInput{};
 
   using LandweberFunctor =
     Functor::LandweberMethod<InternalComplexType, InternalComplexType, InternalComplexType, InternalComplexType>;
@@ -164,8 +164,8 @@ private:
                                                           InternalComplexImageType,
                                                           InternalComplexImageType>;
 
-  typename LandweberFilterType::Pointer m_LandweberFilter;
-  typename IFFTFilterType::Pointer      m_IFFTFilter;
+  typename LandweberFilterType::Pointer m_LandweberFilter{};
+  typename IFFTFilterType::Pointer      m_IFFTFilter{};
 };
 
 } // end namespace itk

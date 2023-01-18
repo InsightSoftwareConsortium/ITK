@@ -306,25 +306,25 @@ protected:
 
   ~LevelSetEquationTermContainer() override = default;
 
-  LevelSetIdentifierType   m_CurrentLevelSetId;
-  LevelSetContainerPointer m_LevelSetContainer;
+  LevelSetIdentifierType   m_CurrentLevelSetId{};
+  LevelSetContainerPointer m_LevelSetContainer{};
 
-  InputImagePointer m_Input;
+  InputImagePointer m_Input{};
 
   using HashMapStringTermContainerType = std::unordered_map<std::string, TermPointer>;
 
-  HashMapStringTermContainerType m_NameContainer;
+  HashMapStringTermContainerType m_NameContainer{};
 
   using RequiredDataType = typename TermType::RequiredDataType;
-  RequiredDataType m_RequiredData;
+  RequiredDataType m_RequiredData{};
 
-  MapTermContainerType m_Container;
+  MapTermContainerType m_Container{};
 
   using MapCFLContainerType = std::map<TermIdType, std::atomic<LevelSetOutputRealType>>;
   using MapCFLContainerIterator = typename MapCFLContainerType::iterator;
   using MapCFLContainerConstIterator = typename MapCFLContainerType::const_iterator;
 
-  MapCFLContainerType m_TermContribution;
+  MapCFLContainerType m_TermContribution{};
 };
 
 } // namespace itk

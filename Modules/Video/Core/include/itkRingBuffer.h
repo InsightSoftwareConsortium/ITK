@@ -119,7 +119,7 @@ protected:
   SizeValueType m_HeadIndex{ 0 };
 
   /** Vector of pointers to elements */
-  std::vector<ElementPointer> m_PointerVector;
+  std::vector<ElementPointer> m_PointerVector{};
 }; // end RingBuffer class
 
 } // end namespace itk

@@ -100,7 +100,7 @@ protected:
   GenerateData() override;
 
 private:
-  bool m_Inverse;
+  bool m_Inverse{};
 
 }; // end of class
 } // end namespace itk

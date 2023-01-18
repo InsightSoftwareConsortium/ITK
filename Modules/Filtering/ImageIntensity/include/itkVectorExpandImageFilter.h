@@ -183,8 +183,8 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-  ExpandFactorsArrayType m_ExpandFactors;
-  InterpolatorPointer    m_Interpolator;
+  ExpandFactorsArrayType m_ExpandFactors{};
+  InterpolatorPointer    m_Interpolator{};
 };
 } // end namespace itk
 

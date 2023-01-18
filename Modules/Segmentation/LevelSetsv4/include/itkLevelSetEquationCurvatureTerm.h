@@ -139,11 +139,11 @@ protected:
   LevelSetOutputRealType
   Value(const LevelSetInputIndexType & iP, const LevelSetDataType & iData) override;
 
-  LevelSetOutputRealType m_NeighborhoodScales[ImageDimension];
+  LevelSetOutputRealType m_NeighborhoodScales[ImageDimension]{};
 
-  CurvatureImagePointer m_CurvatureImage;
+  CurvatureImagePointer m_CurvatureImage{};
 
-  bool m_UseCurvatureImage;
+  bool m_UseCurvatureImage{};
 };
 
 } // namespace itk

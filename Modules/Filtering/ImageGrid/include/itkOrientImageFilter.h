@@ -316,11 +316,11 @@ private:
   };
   bool m_UseImageDirection{ false };
 
-  PermuteOrderArrayType m_PermuteOrder;
-  FlipAxesArrayType     m_FlipAxes;
+  PermuteOrderArrayType m_PermuteOrder{};
+  FlipAxesArrayType     m_FlipAxes{};
 
-  std::map<std::string, CoordinateOrientationCode> m_StringToCode;
-  std::map<CoordinateOrientationCode, std::string> m_CodeToString;
+  std::map<std::string, CoordinateOrientationCode> m_StringToCode{};
+  std::map<CoordinateOrientationCode, std::string> m_CodeToString{};
 }; // end of class
 } // end namespace itk
 

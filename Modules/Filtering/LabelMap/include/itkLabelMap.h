@@ -497,8 +497,8 @@ private:
   using LabelObjectContainerIterator = typename LabelObjectContainerType::iterator;
   using LabelObjectContainerConstIterator = typename LabelObjectContainerType::const_iterator;
 
-  LabelObjectContainerType m_LabelObjectContainer;
-  LabelType                m_BackgroundValue;
+  LabelObjectContainerType m_LabelObjectContainer{};
+  LabelType                m_BackgroundValue{};
 
   void
   AddPixel(const LabelObjectContainerIterator & it, const IndexType & idx, const LabelType & label);

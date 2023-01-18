@@ -135,8 +135,8 @@ protected:
 
 private:
   CurvaturesEnum               m_CurvatureType = CurvaturesEnum::GaussCurvature;
-  DoubleVectorContainerPointer m_GaussCurvatureData;
-  MeshConstPointer             m_TriangleMesh;
+  DoubleVectorContainerPointer m_GaussCurvatureData{};
+  MeshConstPointer             m_TriangleMesh{};
 };
 
 } // namespace itk

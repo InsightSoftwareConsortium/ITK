@@ -284,23 +284,23 @@ protected:
 
 private:
   /** Parameters for the B-spline object domain */
-  SizeType    m_Size;
-  SpacingType m_Spacing;
-  OriginType  m_Origin;
+  SizeType    m_Size{};
+  SpacingType m_Spacing{};
+  OriginType  m_Origin{};
 
-  ArrayType m_NumberOfControlPoints;
-  ArrayType m_CloseDimension;
-  ArrayType m_SplineOrder;
+  ArrayType m_NumberOfControlPoints{};
+  ArrayType m_CloseDimension{};
+  ArrayType m_SplineOrder{};
 
-  RealImagePointer m_NeighborhoodWeightImage;
+  RealImagePointer m_NeighborhoodWeightImage{};
 
-  typename KernelType::Pointer       m_Kernel[ImageDimension];
-  typename KernelOrder0Type::Pointer m_KernelOrder0;
-  typename KernelOrder1Type::Pointer m_KernelOrder1;
-  typename KernelOrder2Type::Pointer m_KernelOrder2;
-  typename KernelOrder3Type::Pointer m_KernelOrder3;
+  typename KernelType::Pointer       m_Kernel[ImageDimension]{};
+  typename KernelOrder0Type::Pointer m_KernelOrder0{};
+  typename KernelOrder1Type::Pointer m_KernelOrder1{};
+  typename KernelOrder2Type::Pointer m_KernelOrder2{};
+  typename KernelOrder3Type::Pointer m_KernelOrder3{};
 
-  CoordRepType m_BSplineEpsilon;
+  CoordRepType m_BSplineEpsilon{};
 };
 
 } // end namespace itk

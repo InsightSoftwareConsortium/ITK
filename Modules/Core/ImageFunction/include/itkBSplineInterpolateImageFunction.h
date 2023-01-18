@@ -356,14 +356,14 @@ protected:
 
   // These are needed by the smoothing spline routine.
   // temp storage for processing of Coefficients
-  std::vector<CoefficientDataType> m_Scratch;
+  std::vector<CoefficientDataType> m_Scratch{};
   // Image size
-  typename TImageType::SizeType m_DataLength;
+  typename TImageType::SizeType m_DataLength{};
   // User specified spline order (3rd or cubic is the default)
-  unsigned int m_SplineOrder;
+  unsigned int m_SplineOrder{};
 
   // Spline coefficients
-  typename CoefficientImageType::ConstPointer m_Coefficients;
+  typename CoefficientImageType::ConstPointer m_Coefficients{};
 
 private:
   /** Determines the weights for interpolation of the value x */
@@ -408,16 +408,16 @@ private:
                                                 // neighborhood
                                                 // indices
 
-  CoefficientFilterPointer m_CoefficientFilter;
+  CoefficientFilterPointer m_CoefficientFilter{};
 
   // flag to take or not the image direction into account when computing the
   // derivatives.
-  bool m_UseImageDirection;
+  bool m_UseImageDirection{};
 
-  ThreadIdType                          m_NumberOfWorkUnits;
-  std::unique_ptr<vnl_matrix<long>[]>   m_ThreadedEvaluateIndex;
-  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeights;
-  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeightsDerivative;
+  ThreadIdType                          m_NumberOfWorkUnits{};
+  std::unique_ptr<vnl_matrix<long>[]>   m_ThreadedEvaluateIndex {};
+  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeights {};
+  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeightsDerivative {};
 };
 } // namespace itk
 

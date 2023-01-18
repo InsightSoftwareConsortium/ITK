@@ -92,7 +92,7 @@ protected:
   ~ConditionVariable() override;
 
 private:
-  ConditionVariableType m_ConditionVariable;
+  ConditionVariableType m_ConditionVariable{};
 };
 } // end namespace itk
 

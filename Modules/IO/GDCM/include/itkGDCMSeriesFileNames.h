@@ -199,14 +199,14 @@ private:
   std::string m_OutputDirectory = "";
 
   /** Internal structure to keep the list of input/output filenames */
-  FileNamesContainerType m_InputFileNames;
-  FileNamesContainerType m_OutputFileNames;
+  FileNamesContainerType m_InputFileNames{};
+  FileNamesContainerType m_OutputFileNames{};
 
   /** Internal structure to order serie from one directory */
-  std::unique_ptr<gdcm::SerieHelper> m_SerieHelper;
+  std::unique_ptr<gdcm::SerieHelper> m_SerieHelper{};
 
   /** Internal structure to keep the list of series UIDs */
-  SeriesUIDContainerType m_SeriesUIDs;
+  SeriesUIDContainerType m_SeriesUIDs{};
 
   bool m_UseSeriesDetails = true;
   bool m_Recursive = false;

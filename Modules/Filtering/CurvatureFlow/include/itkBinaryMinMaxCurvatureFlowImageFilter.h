@@ -131,7 +131,7 @@ protected:
   InitializeIteration() override;
 
 private:
-  double m_Threshold;
+  double m_Threshold{};
 };
 } // namespace itk
 

@@ -161,7 +161,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  ChoiceMethodEnum m_Method;
+  ChoiceMethodEnum m_Method{};
 
 private:
   void

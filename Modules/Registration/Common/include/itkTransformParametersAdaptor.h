@@ -120,7 +120,7 @@ protected:
     itkPrintSelfObjectMacro(Transform);
   }
 
-  TransformPointer m_Transform;
+  TransformPointer m_Transform{};
 }; // class TransformParametersAdaptor
 } // namespace itk
 

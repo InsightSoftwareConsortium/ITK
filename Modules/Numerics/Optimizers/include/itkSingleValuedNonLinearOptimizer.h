@@ -82,7 +82,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  CostFunctionPointer m_CostFunction;
+  CostFunctionPointer m_CostFunction{};
 };
 } // end namespace itk
 

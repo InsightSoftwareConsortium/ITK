@@ -132,7 +132,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  int m_PlanRigor;
+  int m_PlanRigor{};
 };
 
 

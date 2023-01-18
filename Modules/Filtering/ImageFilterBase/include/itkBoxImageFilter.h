@@ -91,7 +91,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  RadiusType m_Radius;
+  RadiusType m_Radius{};
 };
 } // namespace itk
 

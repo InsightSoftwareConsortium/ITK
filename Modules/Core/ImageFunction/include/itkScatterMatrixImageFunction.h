@@ -122,7 +122,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  unsigned int m_NeighborhoodRadius;
+  unsigned int m_NeighborhoodRadius{};
 };
 } // end namespace itk
 

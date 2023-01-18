@@ -181,12 +181,12 @@ protected:
   GenerateData() override;
 
 private:
-  BinaryValueType m_UpperBinaryValue;
-  BinaryValueType m_LowerBinaryValue;
+  BinaryValueType m_UpperBinaryValue{};
+  BinaryValueType m_LowerBinaryValue{};
 
-  typename CurvatureFunctionType::Pointer m_CurvatureFunction;
+  typename CurvatureFunctionType::Pointer m_CurvatureFunction{};
 
-  const TInputImage * m_InputImage;
+  const TInputImage * m_InputImage{};
 };
 } // end namespace itk
 

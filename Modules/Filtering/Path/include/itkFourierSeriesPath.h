@@ -123,8 +123,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  CoefficientsPointer m_CosCoefficients;
-  CoefficientsPointer m_SinCoefficients;
+  CoefficientsPointer m_CosCoefficients{};
+  CoefficientsPointer m_SinCoefficients{};
 };
 } // end namespace itk
 

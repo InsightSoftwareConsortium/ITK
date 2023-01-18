@@ -118,14 +118,14 @@ protected:
 
 private:
   /** A string for formatting the names of files in the series. */
-  std::string m_Archetype;
+  std::string m_Archetype{};
 
-  std::vector<StringVectorType> m_Groupings;
+  std::vector<StringVectorType> m_Groupings{};
   StringVectorType              m_FileNames; // ivar for returning by
                                              // reference
 
-  TimeStamp m_ArchetypeMTime;
-  TimeStamp m_ScanTime;
+  TimeStamp m_ArchetypeMTime{};
+  TimeStamp m_ScanTime{};
 };
 } // namespace itk
 

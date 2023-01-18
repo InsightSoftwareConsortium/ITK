@@ -178,7 +178,7 @@ protected:
   FindCellId(CellIdentifier id1, CellIdentifier id2, CellIdentifier id3);
 
   /** attribute stores the result of the simplex cell visitor */
-  PointMapPointer m_Centers;
+  PointMapPointer m_Centers{};
 };
 } // namespace itk
 

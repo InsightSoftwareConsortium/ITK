@@ -176,31 +176,31 @@ private:
   virtual TOutput
   EvaluateAtIndex(const IndexType & index, const OperatorArrayType & operatorArray) const;
 
-  SigmaArrayType                       m_Sigma;
-  OperatorImageFunctionPointer         m_OperatorImageFunction;
-  OperatorInternalImageFunctionPointer m_OperatorInternalImageFunction;
-  mutable OperatorArrayType            m_OperatorArray;
-  mutable OperatorArrayType            m_ContinuousOperatorArray;
-  InternalImagePointer                 m_InternalImage;
+  SigmaArrayType                       m_Sigma{};
+  OperatorImageFunctionPointer         m_OperatorImageFunction{};
+  OperatorInternalImageFunctionPointer m_OperatorInternalImageFunction{};
+  mutable OperatorArrayType            m_OperatorArray{};
+  mutable OperatorArrayType            m_ContinuousOperatorArray{};
+  InternalImagePointer                 m_InternalImage{};
 
   /** The maximum error of the gaussian blurring kernel in each dimensional
    * direction. For definition of maximum error, see GaussianOperator.
    * \sa GaussianOperator */
-  ErrorArrayType  m_MaximumError;
-  ExtentArrayType m_Extent;
+  ErrorArrayType  m_MaximumError{};
+  ExtentArrayType m_Extent{};
 
   /** Maximum allowed kernel width for any dimension of the discrete Gaussian
       approximation */
-  int m_MaximumKernelWidth;
+  int m_MaximumKernelWidth{};
 
   /** Number of dimensions to process. Default is all dimensions */
-  unsigned int m_FilterDimensionality;
+  unsigned int m_FilterDimensionality{};
 
   /** Flag to indicate whether to use image spacing */
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 
   /** Neighborhood Image Function */
-  GaussianFunctionPointer m_GaussianFunction;
+  GaussianFunctionPointer m_GaussianFunction{};
 };
 } // end namespace itk
 

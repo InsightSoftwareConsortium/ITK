@@ -305,7 +305,7 @@ protected:
   /**
    * class member storing cell id offset
    */
-  CellIdentifier m_IdOffset;
+  CellIdentifier m_IdOffset{};
 
   /**
    * threshold controls the percentage of cells
@@ -328,9 +328,9 @@ protected:
    * \brief member for accessing the filter result during
    *  creation
    */
-  OutputMeshPointer m_Output;
+  OutputMeshPointer m_Output{};
 
-  InputCellAutoPointer m_NewSimplexCellPointer;
+  InputCellAutoPointer m_NewSimplexCellPointer{};
 };
 } // namespace itk
 

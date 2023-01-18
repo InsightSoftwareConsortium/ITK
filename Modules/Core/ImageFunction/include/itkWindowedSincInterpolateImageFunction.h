@@ -340,17 +340,17 @@ private:
   static constexpr unsigned int m_WindowSize{ 2 * VRadius };
 
   /** The function object, used to compute window */
-  TWindowFunction m_WindowFunction;
+  TWindowFunction m_WindowFunction{};
 
   /** Size of the offset table */
   static constexpr unsigned int m_OffsetTableSize = Math::UnsignedPower(m_WindowSize, ImageDimension);
 
   /** The offset array, used to keep a list of relevant
    * offsets in the neihborhoodIterator */
-  unsigned int m_OffsetTable[m_OffsetTableSize];
+  unsigned int m_OffsetTable[m_OffsetTableSize]{};
 
   /** Index into the weights array for each offset */
-  unsigned int m_WeightOffsetTable[m_OffsetTableSize][ImageDimension];
+  unsigned int m_WeightOffsetTable[m_OffsetTableSize][ImageDimension]{};
 
   /** The sinc function */
   inline double

@@ -156,13 +156,13 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFiltersArray      m_SmoothingFilters;
-  DerivativeFilterAPointer  m_DerivativeFilterA;
-  DerivativeFilterBPointer  m_DerivativeFilterB;
-  OutputImageAdaptorPointer m_ImageAdaptor;
+  GaussianFiltersArray      m_SmoothingFilters{};
+  DerivativeFilterAPointer  m_DerivativeFilterA{};
+  DerivativeFilterBPointer  m_DerivativeFilterB{};
+  OutputImageAdaptorPointer m_ImageAdaptor{};
 
   /** Normalize the image across scale space */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{};
 };
 } // end namespace itk
 

@@ -213,18 +213,18 @@ private:
 
   /** Container to store sample set  A - used to approximate the probability
    * density function (pdf). */
-  mutable SpatialSampleContainer m_SampleA;
+  mutable SpatialSampleContainer m_SampleA{};
 
   /** Container to store sample set  B - used to approximate the mutual
    * information value. */
-  mutable SpatialSampleContainer m_SampleB;
+  mutable SpatialSampleContainer m_SampleB{};
 
-  unsigned int m_NumberOfSpatialSamples;
-  double       m_MovingImageStandardDeviation;
-  double       m_FixedImageStandardDeviation;
-  double       m_MinProbability;
+  unsigned int m_NumberOfSpatialSamples{};
+  double       m_MovingImageStandardDeviation{};
+  double       m_FixedImageStandardDeviation{};
+  double       m_MinProbability{};
 
-  typename KernelFunctionType::Pointer m_KernelFunction;
+  typename KernelFunctionType::Pointer m_KernelFunction{};
 
   /** Uniformly select samples from the fixed image buffer.
    * \warning Note that this method has a different signature than the one in
@@ -243,7 +243,7 @@ private:
   using typename Superclass::CoordinateRepresentationType;
   using DerivativeFunctionType = CentralDifferenceImageFunction<MovingImageType, CoordinateRepresentationType>;
 
-  typename DerivativeFunctionType::Pointer m_DerivativeCalculator;
+  typename DerivativeFunctionType::Pointer m_DerivativeCalculator{};
 };
 } // end namespace itk
 

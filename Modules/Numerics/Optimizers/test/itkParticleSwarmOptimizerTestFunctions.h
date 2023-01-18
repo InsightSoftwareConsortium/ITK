@@ -142,7 +142,7 @@ public:
 
 private:
   MatrixType m_A;
-  VectorType m_Intercept;
+  VectorType m_Intercept{};
 };
 
 /**
@@ -233,8 +233,8 @@ protected:
   }
 
 private:
-  unsigned long m_IterationNumber;
-  bool          m_PrintOptimizer;
+  unsigned long m_IterationNumber{};
+  bool          m_PrintOptimizer{};
 };
 
 } // namespace itk

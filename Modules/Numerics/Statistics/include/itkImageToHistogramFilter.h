@@ -173,12 +173,12 @@ protected:
   virtual void
   ThreadedMergeHistogram(HistogramPointer && histogram);
 
-  std::mutex m_Mutex;
+  std::mutex m_Mutex{};
 
-  HistogramPointer m_MergeHistogram;
+  HistogramPointer m_MergeHistogram{};
 
-  HistogramMeasurementVectorType m_Minimum;
-  HistogramMeasurementVectorType m_Maximum;
+  HistogramMeasurementVectorType m_Minimum{};
+  HistogramMeasurementVectorType m_Maximum{};
 
 private:
   void

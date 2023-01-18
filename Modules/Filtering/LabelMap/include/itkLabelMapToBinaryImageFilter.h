@@ -155,8 +155,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  OutputImagePixelType m_BackgroundValue;
-  OutputImagePixelType m_ForegroundValue;
+  OutputImagePixelType m_BackgroundValue{};
+  OutputImagePixelType m_ForegroundValue{};
 }; // end of class
 } // end namespace itk
 

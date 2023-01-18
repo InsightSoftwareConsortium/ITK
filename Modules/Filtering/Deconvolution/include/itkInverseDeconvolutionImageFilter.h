@@ -118,7 +118,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  double m_KernelZeroMagnitudeThreshold;
+  double m_KernelZeroMagnitudeThreshold{};
 };
 
 namespace Functor

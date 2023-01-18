@@ -224,7 +224,7 @@ protected:
                            // implemented
 
 private:
-  ThresholdFunctionPointer m_ThresholdFunction;
+  ThresholdFunctionPointer m_ThresholdFunction{};
 };
 } // end namespace itk
 

@@ -112,8 +112,8 @@ protected:
   ~LevelSetEquationChanAndVeseExternalTerm() override = default;
 
 private:
-  DomainMapImageFilterType * m_DomainMapImageFilter;
-  CacheImageType *           m_CacheImage;
+  DomainMapImageFilterType * m_DomainMapImageFilter{};
+  CacheImageType *           m_CacheImage{};
 };
 
 } // namespace itk

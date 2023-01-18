@@ -196,9 +196,9 @@ protected:
   VerifyExtensions(const std::vector<std::string> & fileList) const;
 
 private:
-  ImageIOBase::Pointer m_ImageIO;
+  ImageIOBase::Pointer m_ImageIO{};
 
-  std::vector<std::string> m_FileNames;
+  std::vector<std::string> m_FileNames{};
 };
 } // end namespace itk
 

@@ -176,21 +176,21 @@ protected:
   VectorType
   IntegrateVelocityAtPoint(const PointType & initialSpatialPoint, const TimeVaryingVelocityFieldType * inputField);
 
-  RealType m_LowerTimeBound;
-  RealType m_UpperTimeBound;
+  RealType m_LowerTimeBound{};
+  RealType m_UpperTimeBound{};
 
-  DisplacementFieldPointer m_InitialDiffeomorphism;
+  DisplacementFieldPointer m_InitialDiffeomorphism{};
 
-  unsigned int m_NumberOfIntegrationSteps;
+  unsigned int m_NumberOfIntegrationSteps{};
 
-  unsigned int m_NumberOfTimePoints;
+  unsigned int m_NumberOfTimePoints{};
 
-  DisplacementFieldInterpolatorPointer m_DisplacementFieldInterpolator;
+  DisplacementFieldInterpolatorPointer m_DisplacementFieldInterpolator{};
 
   bool m_TimeBoundsAsRates{ true };
 
 private:
-  VelocityFieldInterpolatorPointer m_VelocityFieldInterpolator;
+  VelocityFieldInterpolatorPointer m_VelocityFieldInterpolator{};
 };
 } // namespace itk
 

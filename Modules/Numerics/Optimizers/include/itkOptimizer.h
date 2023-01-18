@@ -106,12 +106,12 @@ protected:
   // Keep m_CurrentPosition as a protected var so that subclasses can
   // have fast access.  This is important when optimizing high-dimensional
   // spaces, e.g. bspline transforms.
-  ParametersType m_CurrentPosition;
+  ParametersType m_CurrentPosition{};
 
 private:
-  ParametersType m_InitialPosition;
-  ScalesType     m_Scales;
-  ScalesType     m_InverseScales;
+  ParametersType m_InitialPosition{};
+  ScalesType     m_Scales{};
+  ScalesType     m_InverseScales{};
 };
 } // end namespace itk
 

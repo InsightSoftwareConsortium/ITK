@@ -107,9 +107,9 @@ protected:
   GenerateData() override;
 
 private:
-  RadiusType m_NeighborhoodRadius;
+  RadiusType m_NeighborhoodRadius{};
 
-  typename MaskImageType::Pointer m_MaskImage;
+  typename MaskImageType::Pointer m_MaskImage{};
 }; // end of class
 } // end namespace itk
 

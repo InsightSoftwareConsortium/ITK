@@ -195,9 +195,9 @@ private:
   /** Only used to synchronize the global variable across static libraries.*/
   itkGetGlobalDeclarationMacro(unsigned int, DefaultDoublePrecision);
 
-  MetaImage m_MetaImage;
+  MetaImage m_MetaImage{};
 
-  unsigned int m_SubSamplingFactor;
+  unsigned int m_SubSamplingFactor{};
 
   static unsigned int * m_DefaultDoublePrecision;
 };

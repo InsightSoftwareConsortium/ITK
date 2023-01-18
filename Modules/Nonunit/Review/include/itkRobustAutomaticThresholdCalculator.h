@@ -116,10 +116,10 @@ protected:
 private:
   bool           m_Valid{ false }; // Have moments been computed yet?
   double         m_Pow{ 1 };
-  InputPixelType m_Output;
+  InputPixelType m_Output{};
 
-  InputImageConstPointer    m_Input;
-  GradientImageConstPointer m_Gradient;
+  InputImageConstPointer    m_Input{};
+  GradientImageConstPointer m_Gradient{};
 };
 } // end namespace itk
 

@@ -188,7 +188,7 @@ private:
   using CoordImageIterator = ImageRegionConstIterator<CoordImageType>;
   using CoordImageRegionType = typename CoordImageType::RegionType;
 
-  InterpolatorPointer m_Interpolator;
+  InterpolatorPointer m_Interpolator{};
   PixelType           m_DefaultPixelValue; // default pixel value if the
                                            // point is outside the image
 };

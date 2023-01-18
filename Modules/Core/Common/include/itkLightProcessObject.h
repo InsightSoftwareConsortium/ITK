@@ -132,8 +132,8 @@ private:
   /**
    * These support the progress method and aborting filter execution.
    */
-  bool  m_AbortGenerateData;
-  float m_Progress;
+  bool  m_AbortGenerateData{};
+  float m_Progress{};
 };
 } // end namespace itk
 

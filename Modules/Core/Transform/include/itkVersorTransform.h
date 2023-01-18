@@ -162,7 +162,7 @@ protected:
 
 private:
   /** Versor containing the rotation */
-  VersorType m_Versor;
+  VersorType m_Versor{};
 }; // class VersorTransform
 } // namespace itk
 

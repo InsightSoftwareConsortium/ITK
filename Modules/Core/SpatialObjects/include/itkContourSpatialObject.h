@@ -204,15 +204,15 @@ protected:
   InternalClone() const override;
 
 private:
-  ContourPointListType m_ControlPoints;
+  ContourPointListType m_ControlPoints{};
 
-  InterpolationMethodEnum m_InterpolationMethod;
-  unsigned int            m_InterpolationFactor;
+  InterpolationMethodEnum m_InterpolationMethod{};
+  unsigned int            m_InterpolationFactor{};
 
-  mutable bool             m_IsClosed;
-  mutable int              m_OrientationInObjectSpace;
-  mutable ModifiedTimeType m_OrientationInObjectSpaceMTime;
-  int                      m_AttachedToSlice;
+  mutable bool             m_IsClosed{};
+  mutable int              m_OrientationInObjectSpace{};
+  mutable ModifiedTimeType m_OrientationInObjectSpaceMTime{};
+  int                      m_AttachedToSlice{};
 };
 } // end namespace itk
 

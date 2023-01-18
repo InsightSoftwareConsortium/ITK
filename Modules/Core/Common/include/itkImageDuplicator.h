@@ -121,9 +121,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  ImageConstPointer m_InputImage;
-  ImagePointer      m_DuplicateImage;
-  ModifiedTimeType  m_InternalImageTime;
+  ImageConstPointer m_InputImage{};
+  ImagePointer      m_DuplicateImage{};
+  ModifiedTimeType  m_InternalImageTime{};
 };
 } // end namespace itk
 

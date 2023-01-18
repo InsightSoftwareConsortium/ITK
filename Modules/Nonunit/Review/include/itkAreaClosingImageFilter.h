@@ -126,7 +126,7 @@ protected:
   }
 
 private:
-  bool m_UseImageSpacing;
+  bool m_UseImageSpacing{};
 };
 } // namespace itk
 #endif

@@ -413,8 +413,8 @@ protected:
 private:
   double m_AzimuthAngularSeparation;   // in radians
   double m_ElevationAngularSeparation; // in radians
-  double m_RadiusSampleSize;
-  double m_FirstSampleDistance;
+  double m_RadiusSampleSize{};
+  double m_FirstSampleDistance{};
 };
 } // end namespace itk
 

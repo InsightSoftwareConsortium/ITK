@@ -301,9 +301,9 @@ protected:
   void
   DynamicThreadedGenerateData(const OutputImageRegionType & outputRegionForThread) override;
 
-  InputImageRegionType m_ExtractionRegion;
+  InputImageRegionType m_ExtractionRegion{};
 
-  OutputImageRegionType m_OutputImageRegion;
+  OutputImageRegionType m_OutputImageRegion{};
 
 private:
   DIRECTIONCOLLAPSESTRATEGY m_DirectionCollaspeStrategy{

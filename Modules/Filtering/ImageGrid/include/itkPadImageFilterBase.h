@@ -113,7 +113,7 @@ protected:
   InternalSetBoundaryCondition(const BoundaryConditionPointerType boundaryCondition);
 
 private:
-  BoundaryConditionPointerType m_BoundaryCondition;
+  BoundaryConditionPointerType m_BoundaryCondition{};
 };
 
 } // end namespace itk

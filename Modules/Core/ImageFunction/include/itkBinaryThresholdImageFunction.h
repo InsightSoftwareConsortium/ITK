@@ -152,8 +152,8 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  PixelType m_Lower;
-  PixelType m_Upper;
+  PixelType m_Lower{};
+  PixelType m_Upper{};
 };
 } // end namespace itk
 

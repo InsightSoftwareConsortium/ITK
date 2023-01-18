@@ -145,22 +145,22 @@ protected:
   GenerateData() override;
 
 private:
-  PixelType m_Boundary;
+  PixelType m_Boundary{};
 
   // the filters used internally
-  typename HistogramFilterType::Pointer m_HistogramFilter;
+  typename HistogramFilterType::Pointer m_HistogramFilter{};
 
-  typename BasicFilterType::Pointer m_BasicFilter;
+  typename BasicFilterType::Pointer m_BasicFilter{};
 
-  typename AnchorFilterType::Pointer m_AnchorFilter;
+  typename AnchorFilterType::Pointer m_AnchorFilter{};
 
-  typename VHGWFilterType::Pointer m_VHGWFilter;
+  typename VHGWFilterType::Pointer m_VHGWFilter{};
 
   // and the name of the filter
-  AlgorithmEnum m_Algorithm;
+  AlgorithmEnum m_Algorithm{};
 
   // the boundary condition need to be stored here
-  DefaultBoundaryConditionType m_BoundaryCondition;
+  DefaultBoundaryConditionType m_BoundaryCondition{};
 }; // end of class
 } // end namespace itk
 

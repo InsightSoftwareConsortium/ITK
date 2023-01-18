@@ -73,7 +73,7 @@ protected:
   }
 
 private:
-  const TRealValueType m_Factor;
+  const TRealValueType m_Factor{};
 };
 } // end namespace itk
 

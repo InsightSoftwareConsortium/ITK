@@ -176,31 +176,31 @@ protected:
 
 private:
   /** Pointer to the input (source) sample */
-  TSample * m_SourceSample;
+  TSample * m_SourceSample{};
 
   /** Smart pointer to the internal Subsample object. This class needs
    * a Subsample object because the partitioning process involves sorting
    * and selection. */
-  SubsamplePointer m_Subsample;
+  SubsamplePointer m_Subsample{};
 
   /** The number of measurement vectors that can be stored in a terminal
    * node. */
-  unsigned int m_BucketSize;
+  unsigned int m_BucketSize{};
 
   /** Pointer to the resulting k-d tree. */
-  OutputPointer m_Tree;
+  OutputPointer m_Tree{};
 
   /** Temporary lower bound for the TreeGenerationLoop */
-  MeasurementVectorType m_TempLowerBound;
+  MeasurementVectorType m_TempLowerBound{};
 
   /** Temporary upper bound for the TreeGenerationLoop */
-  MeasurementVectorType m_TempUpperBound;
+  MeasurementVectorType m_TempUpperBound{};
 
   /** Temporary mean for the TreeGenerationLoop */
-  MeasurementVectorType m_TempMean;
+  MeasurementVectorType m_TempMean{};
 
   /** Length of a measurement vector */
-  MeasurementVectorSizeType m_MeasurementVectorSize;
+  MeasurementVectorSizeType m_MeasurementVectorSize{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

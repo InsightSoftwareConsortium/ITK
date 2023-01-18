@@ -214,12 +214,12 @@ private:
   using LabelsConstIterator = typename LabelsContainer::const_iterator;
   using LabelsIterator = typename LabelsContainer::iterator;
 
-  InputRealType   m_ContourValue;
-  bool            m_ReverseContourOrientation;
-  bool            m_VertexConnectHighPixels;
-  bool            m_LabelContours;
-  bool            m_UseCustomRegion;
-  InputRegionType m_RequestedRegion;
+  InputRealType   m_ContourValue{};
+  bool            m_ReverseContourOrientation{};
+  bool            m_VertexConnectHighPixels{};
+  bool            m_LabelContours{};
+  bool            m_UseCustomRegion{};
+  InputRegionType m_RequestedRegion{};
 
   // Represent each contour as deque of vertices to facilitate addition of
   // nodes at beginning or end. At the end of the processing, we will copy
@@ -310,7 +310,7 @@ private:
   FillOutputs(const std::vector<InputPixelType> &                        allLabels,
               std::unordered_map<InputPixelType, ContourContainerType> & labelsContoursOutput);
 
-  InputPixelType m_UnusedLabel;
+  InputPixelType m_UnusedLabel{};
 };
 } // end namespace itk
 

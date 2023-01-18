@@ -179,13 +179,13 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-  float m_Alpha;
-  float m_Beta;
+  float m_Alpha{};
+  float m_Beta{};
 
-  InputPixelType m_InputMinimum;
-  InputPixelType m_InputMaximum;
+  InputPixelType m_InputMinimum{};
+  InputPixelType m_InputMaximum{};
 
-  bool m_UseLookupTable;
+  bool m_UseLookupTable{};
 };
 } // end namespace itk
 

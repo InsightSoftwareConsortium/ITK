@@ -215,9 +215,9 @@ protected:
   BeforeThreadedGenerateData() override;
 
 private:
-  ThresholdVector     m_Thresholds;
-  RealThresholdVector m_RealThresholds;
-  OutputPixelType     m_LabelOffset;
+  ThresholdVector     m_Thresholds{};
+  RealThresholdVector m_RealThresholds{};
+  OutputPixelType     m_LabelOffset{};
 };
 } // end namespace itk
 

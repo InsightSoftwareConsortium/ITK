@@ -109,7 +109,7 @@ protected:
   /** alpha,  Alpha is related to Poisson's Ratio (\f$\nu\f$) as
    * \f$ \alpha = 12 ( 1 - \nu ) - 1\f$
    */
-  TParametersValueType m_Alpha;
+  TParametersValueType m_Alpha{};
 };
 } // namespace itk
 

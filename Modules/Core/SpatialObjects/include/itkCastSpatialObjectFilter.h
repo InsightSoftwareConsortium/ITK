@@ -229,7 +229,7 @@ protected:
 
 
 private:
-  typename InputSpatialObjectType::Pointer m_Input;
+  typename InputSpatialObjectType::Pointer m_Input{};
 
 }; // End class CastSpatialObjectFilter
 

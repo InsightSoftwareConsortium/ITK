@@ -148,10 +148,10 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool                   m_ComputeFeretDiameter;
-  bool                   m_ComputePerimeter;
-  bool                   m_ComputeOrientedBoundingBox;
-  LabelImageConstPointer m_LabelImage;
+  bool                   m_ComputeFeretDiameter{};
+  bool                   m_ComputePerimeter{};
+  bool                   m_ComputeOrientedBoundingBox{};
+  LabelImageConstPointer m_LabelImage{};
 
   void
   ComputeFeretDiameter(LabelObjectType * labelObject);

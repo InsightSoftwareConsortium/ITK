@@ -129,14 +129,14 @@ protected:
   ~CannySegmentationLevelSetFunction() override = default;
 
 private:
-  ScalarValueType m_Variance;
-  double          m_Threshold;
+  ScalarValueType m_Variance{};
+  double          m_Threshold{};
 
-  typename CannyEdgeDetectionImageFilter<ImageType, ImageType>::Pointer m_Canny;
+  typename CannyEdgeDetectionImageFilter<ImageType, ImageType>::Pointer m_Canny{};
 
-  typename DanielssonDistanceMapImageFilter<ImageType, ImageType>::Pointer m_Distance;
+  typename DanielssonDistanceMapImageFilter<ImageType, ImageType>::Pointer m_Distance{};
 
-  typename CastImageFilter<FeatureImageType, ImageType>::Pointer m_Caster;
+  typename CastImageFilter<FeatureImageType, ImageType>::Pointer m_Caster{};
 
   /** If FeatureImageType != ImageType,
    *  use the CastImageFilter to match them.

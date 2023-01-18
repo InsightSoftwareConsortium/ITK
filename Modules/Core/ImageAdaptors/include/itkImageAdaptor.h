@@ -521,11 +521,11 @@ private:
 
   // Adapted image, most of the calls to ImageAdaptor
   // will be delegated to this image
-  typename TImage::Pointer m_Image;
+  typename TImage::Pointer m_Image{};
 
   // Data accessor object,
   // it converts the presentation of a pixel
-  AccessorType m_PixelAccessor;
+  AccessorType m_PixelAccessor{};
 };
 } // end namespace itk
 

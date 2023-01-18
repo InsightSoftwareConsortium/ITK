@@ -237,7 +237,7 @@ protected:
   void
   GenerateData() override; // general pipeline function.
 
-  SizeType      m_Size;
+  SizeType      m_Size{};
   int           m_NumberOfSeeds{ 200 };
   SizeValueType m_MinRegion{ 20 };
   int           m_Steps{ 0 };
@@ -245,8 +245,8 @@ protected:
   int           m_NumberOfSeedsToAdded{ 0 };
   int           m_NumberOfBoundary{ 0 };
 
-  std::vector<SizeValueType> m_NumberOfPixels;
-  std::vector<unsigned char> m_Label;
+  std::vector<SizeValueType> m_NumberOfPixels{};
+  std::vector<unsigned char> m_Label{};
 
   double m_MeanDeviation{ 0.8 };
   bool   m_UseBackgroundInAPrior{ false };
@@ -254,11 +254,11 @@ protected:
                                     // output the object.
   bool m_InteractiveSegmentation{ false };
 
-  typename VoronoiDiagram::Pointer m_WorkingVD;
+  typename VoronoiDiagram::Pointer m_WorkingVD{};
 
-  typename VoronoiDiagramGenerator::Pointer m_VDGenerator;
+  typename VoronoiDiagramGenerator::Pointer m_VDGenerator{};
 
-  std::vector<PointType> m_SeedsToAdded;
+  std::vector<PointType> m_SeedsToAdded{};
 
   // private methods:
   // Classify all the voronoi cells as interior , exterior or boundary.

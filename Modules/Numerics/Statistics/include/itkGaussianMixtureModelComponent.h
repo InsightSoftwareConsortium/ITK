@@ -106,15 +106,15 @@ protected:
   GenerateData() override;
 
 private:
-  typename NativeMembershipFunctionType::Pointer m_GaussianMembershipFunction;
+  typename NativeMembershipFunctionType::Pointer m_GaussianMembershipFunction{};
 
-  typename MeanEstimatorType::MeasurementVectorType m_Mean;
+  typename MeanEstimatorType::MeasurementVectorType m_Mean{};
 
-  typename CovarianceEstimatorType::MatrixType m_Covariance;
+  typename CovarianceEstimatorType::MatrixType m_Covariance{};
 
-  typename MeanEstimatorType::Pointer m_MeanEstimator;
+  typename MeanEstimatorType::Pointer m_MeanEstimator{};
 
-  typename CovarianceEstimatorType::Pointer m_CovarianceEstimator;
+  typename CovarianceEstimatorType::Pointer m_CovarianceEstimator{};
 }; // end of class
 } // end of namespace Statistics
 } // end of namespace itk

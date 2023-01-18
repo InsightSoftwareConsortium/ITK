@@ -137,7 +137,7 @@ protected:
   };
 
 private:
-  bool m_ReverseOrdering;
+  bool m_ReverseOrdering{};
 
 }; // end of class
 

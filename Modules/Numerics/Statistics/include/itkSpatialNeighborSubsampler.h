@@ -123,8 +123,8 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  RadiusType m_Radius;
-  bool       m_RadiusInitialized;
+  RadiusType m_Radius{};
+  bool       m_RadiusInitialized{};
 }; // end of class SpatialNeighborSubsampler
 
 } // end of namespace Statistics

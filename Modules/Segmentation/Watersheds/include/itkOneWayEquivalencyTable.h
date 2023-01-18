@@ -166,7 +166,7 @@ protected:
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
 
-  HashTableType m_HashMap;
+  HashTableType m_HashMap{};
 };
 } // end namespace itk
 

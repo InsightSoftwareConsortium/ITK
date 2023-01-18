@@ -207,30 +207,30 @@ protected:
 private:
   /** The standard deviation of the gaussian blurring kernel in the image
       range. Units are intensity. */
-  double m_RangeSigma;
+  double m_RangeSigma{};
 
   /** The standard deviation of the gaussian blurring kernel in each
       dimensional direction. Units match image spacing units. */
-  ArrayType m_DomainSigma;
+  ArrayType m_DomainSigma{};
 
   /** Multiplier used to define statistical thresholds.  Gaussians are
    * only evaluated to m_DomainMu*m_DomainSigma or m_RangeMu*m_RangeSigma. */
-  double m_DomainMu;
-  double m_RangeMu;
+  double m_DomainMu{};
+  double m_RangeMu{};
 
   /** Number of dimensions to process. Default is all dimensions */
-  unsigned int m_FilterDimensionality;
+  unsigned int m_FilterDimensionality{};
 
   /** Gaussian kernel used for smoothing in the spatial domain */
-  KernelType m_GaussianKernel;
-  SizeType   m_Radius;
-  bool       m_AutomaticKernelSize;
+  KernelType m_GaussianKernel{};
+  SizeType   m_Radius{};
+  bool       m_AutomaticKernelSize{};
 
   /** Variables for the lookup table of range gaussian values */
-  unsigned long       m_NumberOfRangeGaussianSamples;
-  double              m_DynamicRange;
-  double              m_DynamicRangeUsed;
-  std::vector<double> m_RangeGaussianTable;
+  unsigned long       m_NumberOfRangeGaussianSamples{};
+  double              m_DynamicRange{};
+  double              m_DynamicRangeUsed{};
+  std::vector<double> m_RangeGaussianTable{};
 };
 } // end namespace itk
 

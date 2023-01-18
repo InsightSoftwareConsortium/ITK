@@ -135,15 +135,15 @@ protected:
   InternalClone() const override;
 
 private:
-  ImagePointer m_Image;
+  ImagePointer m_Image{};
 
-  IndexType m_SliceNumber;
+  IndexType m_SliceNumber{};
 
 #if !defined(ITK_LEGACY_REMOVE)
-  std::string m_PixelType;
+  std::string m_PixelType{};
 #endif
 
-  typename InterpolatorType::Pointer m_Interpolator;
+  typename InterpolatorType::Pointer m_Interpolator{};
 
 #if !defined(ITK_LEGACY_REMOVE)
   template <typename T>

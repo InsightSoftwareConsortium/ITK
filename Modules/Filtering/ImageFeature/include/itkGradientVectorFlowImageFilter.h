@@ -153,10 +153,10 @@ private:
                                                    // image
   int m_IterationNum;                              // the iteration number
 
-  LaplacianFilterPointer                 m_LaplacianFilter;
-  typename Superclass::InputImagePointer m_IntermediateImage;
+  LaplacianFilterPointer                 m_LaplacianFilter{};
+  typename Superclass::InputImagePointer m_IntermediateImage{};
 
-  InternalImagePointer m_InternalImages[Superclass::InputImageDimension];
+  InternalImagePointer m_InternalImages[Superclass::InputImageDimension]{};
   InternalImagePointer m_BImage; // store the "b" value for every pixel
 
   typename Superclass::InputImagePointer m_CImage; // store the $c_i$ value for

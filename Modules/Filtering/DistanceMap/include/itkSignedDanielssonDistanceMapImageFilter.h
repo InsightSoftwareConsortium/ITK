@@ -232,8 +232,8 @@ protected:
   GenerateData() override;
 
 private:
-  bool m_SquaredDistance;
-  bool m_UseImageSpacing;
+  bool m_SquaredDistance{};
+  bool m_UseImageSpacing{};
   bool m_InsideIsPositive; // ON is treated as inside pixels
 };                         // end of SignedDanielssonDistanceMapImageFilter
                            // class

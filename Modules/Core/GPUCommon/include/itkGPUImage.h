@@ -209,7 +209,7 @@ protected:
   using Superclass::Graft;
 
 private:
-  typename GPUImageDataManager<GPUImage>::Pointer m_DataManager;
+  typename GPUImageDataManager<GPUImage>::Pointer m_DataManager{};
 };
 
 class ITK_TEMPLATE_EXPORT GPUImageFactory : public itk::ObjectFactoryBase

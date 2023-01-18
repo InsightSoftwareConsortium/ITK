@@ -213,7 +213,7 @@ protected:
   /**
    * Range of search for Bresenham algorithm (normal line at each vertex)
    */
-  int m_Range;
+  int m_Range{};
 
 private:
   double
@@ -226,13 +226,13 @@ private:
   Clear();
 
   // line starting voxel
-  ImageVoxel * m_StartVoxel;
+  ImageVoxel * m_StartVoxel{};
   // line voxels in direction
-  std::vector<ImageVoxel *> m_Positive;
+  std::vector<ImageVoxel *> m_Positive{};
   // line voxels in -direction
-  std::vector<ImageVoxel *> m_Negative;
+  std::vector<ImageVoxel *> m_Negative{};
 
-  OriginalImagePointer m_Image;
+  OriginalImagePointer m_Image{};
 }; // end of class
 } // namespace itk
 

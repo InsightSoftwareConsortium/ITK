@@ -103,9 +103,9 @@ protected:
 
 private:
   /** Filename to read */
-  std::string m_FileName;
-  std::string m_Header;
-  std::string m_Version;
+  std::string m_FileName{};
+  std::string m_Header{};
+  std::string m_Version{};
 };
 
 } // end namespace itk

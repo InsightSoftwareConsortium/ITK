@@ -95,18 +95,18 @@ protected:
   GenerateData() override;
 
   /** model center */
-  OPointType m_Center;
+  OPointType m_Center{};
 
   /** model resolutions */
-  unsigned int m_ResolutionX;
-  unsigned int m_ResolutionY;
+  unsigned int m_ResolutionX{};
+  unsigned int m_ResolutionY{};
 
   /** model scales */
-  OPointType m_Scale;
+  OPointType m_Scale{};
 
   /** model squareness */
-  double m_Squareness1;
-  double m_Squareness2;
+  double m_Squareness1{};
+  double m_Squareness2{};
 };
 } // end namespace itk
 #ifndef ITK_MANUAL_INSTANTIATION

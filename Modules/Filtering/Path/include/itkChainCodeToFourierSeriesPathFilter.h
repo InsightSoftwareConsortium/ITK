@@ -88,7 +88,7 @@ protected:
   GenerateData() override;
 
 private:
-  unsigned int m_NumberOfHarmonics;
+  unsigned int m_NumberOfHarmonics{};
 };
 } // end namespace itk
 

@@ -197,16 +197,16 @@ protected:
   };
 
 private:
-  GrowthStrategyEnum m_GrowthStrategy;
+  GrowthStrategyEnum m_GrowthStrategy{};
 
-  SizeValueType m_Size;
-  SizeValueType m_LinearGrowthSize;
+  SizeValueType m_Size{};
+  SizeValueType m_LinearGrowthSize{};
 
   /** Pointers to objects available for borrowing. */
-  FreeListType m_FreeList;
+  FreeListType m_FreeList{};
 
   /** A list of MemoryBlocks that have been allocated. */
-  std::vector<MemoryBlock> m_Store;
+  std::vector<MemoryBlock> m_Store{};
 };
 
 } // end namespace itk

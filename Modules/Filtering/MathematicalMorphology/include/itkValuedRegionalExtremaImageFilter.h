@@ -156,7 +156,7 @@ protected:
   GenerateData() override;
 
 private:
-  typename TInputImage::PixelType m_MarkerValue;
+  typename TInputImage::PixelType m_MarkerValue{};
 
   bool m_FullyConnected{ false };
   bool m_Flat{ false };

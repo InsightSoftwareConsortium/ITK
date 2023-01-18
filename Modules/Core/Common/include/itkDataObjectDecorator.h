@@ -141,7 +141,7 @@ protected:
 
 protected:
 private:
-  ComponentPointer m_Component;
+  ComponentPointer m_Component{};
 };
 } // end namespace itk
 

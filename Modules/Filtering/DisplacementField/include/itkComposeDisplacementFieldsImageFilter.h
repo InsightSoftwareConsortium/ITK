@@ -146,7 +146,7 @@ protected:
 
 private:
   /** The interpolator. */
-  typename InterpolatorType::Pointer m_Interpolator;
+  typename InterpolatorType::Pointer m_Interpolator{};
 };
 
 } // end namespace itk

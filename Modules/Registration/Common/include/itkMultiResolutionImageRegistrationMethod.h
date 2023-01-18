@@ -246,35 +246,35 @@ protected:
   itkSetMacro(CurrentLevel, SizeValueType);
 
 private:
-  MetricPointer          m_Metric;
-  OptimizerType::Pointer m_Optimizer;
+  MetricPointer          m_Metric{};
+  OptimizerType::Pointer m_Optimizer{};
 
-  MovingImageConstPointer m_MovingImage;
-  FixedImageConstPointer  m_FixedImage;
+  MovingImageConstPointer m_MovingImage{};
+  FixedImageConstPointer  m_FixedImage{};
 
-  TransformPointer    m_Transform;
-  InterpolatorPointer m_Interpolator;
+  TransformPointer    m_Transform{};
+  InterpolatorPointer m_Interpolator{};
 
-  MovingImagePyramidPointer m_MovingImagePyramid;
-  FixedImagePyramidPointer  m_FixedImagePyramid;
+  MovingImagePyramidPointer m_MovingImagePyramid{};
+  FixedImagePyramidPointer  m_FixedImagePyramid{};
 
-  ParametersType m_InitialTransformParameters;
-  ParametersType m_InitialTransformParametersOfNextLevel;
-  ParametersType m_LastTransformParameters;
+  ParametersType m_InitialTransformParameters{};
+  ParametersType m_InitialTransformParametersOfNextLevel{};
+  ParametersType m_LastTransformParameters{};
 
-  FixedImageRegionType              m_FixedImageRegion;
-  std::vector<FixedImageRegionType> m_FixedImageRegionPyramid;
+  FixedImageRegionType              m_FixedImageRegion{};
+  std::vector<FixedImageRegionType> m_FixedImageRegionPyramid{};
 
-  SizeValueType m_NumberOfLevels;
-  SizeValueType m_CurrentLevel;
+  SizeValueType m_NumberOfLevels{};
+  SizeValueType m_CurrentLevel{};
 
-  bool m_Stop;
+  bool m_Stop{};
 
-  ScheduleType m_FixedImagePyramidSchedule;
-  ScheduleType m_MovingImagePyramidSchedule;
+  ScheduleType m_FixedImagePyramidSchedule{};
+  ScheduleType m_MovingImagePyramidSchedule{};
 
-  bool m_ScheduleSpecified;
-  bool m_NumberOfLevelsSpecified;
+  bool m_ScheduleSpecified{};
+  bool m_NumberOfLevelsSpecified{};
 };
 } // end namespace itk
 

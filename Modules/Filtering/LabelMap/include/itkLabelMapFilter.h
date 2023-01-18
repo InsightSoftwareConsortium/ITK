@@ -132,10 +132,10 @@ protected:
     return static_cast<InputImageType *>(const_cast<DataObject *>(this->ProcessObject::GetInput(0)));
   }
 
-  std::mutex m_LabelObjectContainerLock;
+  std::mutex m_LabelObjectContainerLock{};
 
 private:
-  typename InputImageType::Iterator m_LabelObjectIterator;
+  typename InputImageType::Iterator m_LabelObjectIterator{};
 };
 } // end namespace itk
 

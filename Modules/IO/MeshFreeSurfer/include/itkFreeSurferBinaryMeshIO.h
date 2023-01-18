@@ -198,7 +198,7 @@ protected:
 private:
   StreamOffsetType m_FilePosition{ 0 };
   itk::uint32_t    m_FileTypeIdentifier{ 0 };
-  std::ifstream    m_InputFile;
+  std::ifstream    m_InputFile{};
 };
 } // end namespace itk
 

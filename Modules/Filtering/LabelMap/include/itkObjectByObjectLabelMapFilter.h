@@ -212,37 +212,37 @@ protected:
   GenerateData() override;
 
 private:
-  bool     m_ConstrainPaddingToImage;
-  SizeType m_PadSize;
-  bool     m_BinaryInternalOutput;
+  bool     m_ConstrainPaddingToImage{};
+  SizeType m_PadSize{};
+  bool     m_BinaryInternalOutput{};
 
-  bool m_KeepLabels;
+  bool m_KeepLabels{};
 
-  InternalOutputPixelType m_InternalForegroundValue;
+  InternalOutputPixelType m_InternalForegroundValue{};
 
   using SelectType = itk::LabelSelectionLabelMapFilter<LabelMapType>;
-  typename SelectType::Pointer m_Select;
+  typename SelectType::Pointer m_Select{};
 
   using CropType = itk::AutoCropLabelMapFilter<LabelMapType>;
-  typename CropType::Pointer m_Crop;
+  typename CropType::Pointer m_Crop{};
 
   using PadType = itk::PadLabelMapFilter<LabelMapType>;
-  typename PadType::Pointer m_Pad;
+  typename PadType::Pointer m_Pad{};
 
   using LM2BIType = itk::LabelMapToBinaryImageFilter<LabelMapType, InternalInputImageType>;
-  typename LM2BIType::Pointer m_LM2BI;
+  typename LM2BIType::Pointer m_LM2BI{};
 
   using LI2LMType = itk::LabelImageToLabelMapFilter<InternalOutputImageType, LabelMapType>;
-  typename LI2LMType::Pointer m_LI2LM;
+  typename LI2LMType::Pointer m_LI2LM{};
 
   using BI2LMType = itk::BinaryImageToLabelMapFilter<InternalOutputImageType, LabelMapType>;
-  typename BI2LMType::Pointer m_BI2LM;
+  typename BI2LMType::Pointer m_BI2LM{};
 
-  typename InputFilterType::Pointer  m_InputFilter;
-  typename OutputFilterType::Pointer m_OutputFilter;
+  typename InputFilterType::Pointer  m_InputFilter{};
+  typename OutputFilterType::Pointer m_OutputFilter{};
 
 
-  InputImagePixelType m_Label;
+  InputImagePixelType m_Label{};
 
 }; // end of class
 

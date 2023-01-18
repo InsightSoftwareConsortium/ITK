@@ -110,7 +110,7 @@ protected:
   GenerateOutputInformation() override;
 
 private:
-  SizeType m_CropBorder;
+  SizeType m_CropBorder{};
 };
 } // end namespace itk
 

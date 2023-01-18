@@ -162,17 +162,17 @@ protected:
 
 private:
   /** Coordinate transform to use. */
-  KernelTransformPointerType m_KernelTransform;
+  KernelTransformPointerType m_KernelTransform{};
 
   /** Region of the output image. */
-  OutputImageRegionType m_OutputRegion;
+  OutputImageRegionType m_OutputRegion{};
 
-  SpacingType     m_OutputSpacing;
-  OriginPointType m_OutputOrigin;
-  DirectionType   m_OutputDirection;
+  SpacingType     m_OutputSpacing{};
+  OriginPointType m_OutputOrigin{};
+  DirectionType   m_OutputDirection{};
 
-  LandmarkContainerPointer m_SourceLandmarks;
-  LandmarkContainerPointer m_TargetLandmarks;
+  LandmarkContainerPointer m_SourceLandmarks{};
+  LandmarkContainerPointer m_TargetLandmarks{};
 };
 
 } // end namespace itk

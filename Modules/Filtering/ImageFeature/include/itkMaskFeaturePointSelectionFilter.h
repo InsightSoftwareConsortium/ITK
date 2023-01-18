@@ -158,11 +158,11 @@ protected:
   ComputeConnectivityOffsets();
 
 private:
-  unsigned int            m_NonConnectivity;
-  std::vector<OffsetType> m_NonConnectivityOffsets;
-  SizeType                m_BlockRadius;
-  double                  m_SelectFraction;
-  bool                    m_ComputeStructureTensors;
+  unsigned int            m_NonConnectivity{};
+  std::vector<OffsetType> m_NonConnectivityOffsets{};
+  SizeType                m_BlockRadius{};
+  double                  m_SelectFraction{};
+  bool                    m_ComputeStructureTensors{};
 };
 } // end namespace itk
 

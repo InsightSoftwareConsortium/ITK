@@ -91,8 +91,8 @@ protected:
   DynamicThreadedGenerateData(const InputImageRegionType & outputRegionForThread) override;
 
 
-  InputImagePixelType m_Boundary1;
-  InputImagePixelType m_Boundary2;
+  InputImagePixelType m_Boundary1{};
+  InputImagePixelType m_Boundary2{};
 
 private:
   using BresType = BresenhamLine<Self::InputImageDimension>;

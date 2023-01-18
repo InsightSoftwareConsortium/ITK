@@ -213,8 +213,8 @@ private:
   double m_GradientNormThreshold{ 1.0 };
   double m_SigmaGradient{ 1.0 };
 
-  RadiusImagePointer  m_RadiusImage;
-  CirclesListType     m_CirclesList;
+  RadiusImagePointer  m_RadiusImage{};
+  CirclesListType     m_CirclesList{};
   CirclesListSizeType m_NumberOfCircles{ 1 };
   double              m_DiscRadiusRatio{ 1 };
   double              m_Variance{ 10 };

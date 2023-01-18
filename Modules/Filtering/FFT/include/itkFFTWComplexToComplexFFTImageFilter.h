@@ -143,9 +143,9 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  bool m_CanUseDestructiveAlgorithm;
+  bool m_CanUseDestructiveAlgorithm{};
 
-  int m_PlanRigor;
+  int m_PlanRigor{};
 };
 
 

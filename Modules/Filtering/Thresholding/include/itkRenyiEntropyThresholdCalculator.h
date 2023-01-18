@@ -108,9 +108,9 @@ protected:
                           const std::vector<double> & P2);
 
 private:
-  InstanceIdentifier m_FirstBin;
-  InstanceIdentifier m_LastBin;
-  SizeValueType      m_Size;
+  InstanceIdentifier m_FirstBin{};
+  InstanceIdentifier m_LastBin{};
+  SizeValueType      m_Size{};
 };
 
 } // end namespace itk

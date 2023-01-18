@@ -127,11 +127,11 @@ protected:
   EnlargeOutputRequestedRegion(DataObject * output) override;
 
 private:
-  GaussianFilterPointer   m_SmoothingFilters[NumberOfSmoothingFilters];
-  DerivativeFilterPointer m_DerivativeFilter;
+  GaussianFilterPointer   m_SmoothingFilters[NumberOfSmoothingFilters]{};
+  DerivativeFilterPointer m_DerivativeFilter{};
 
   /** Normalize the image across scale space */
-  bool m_NormalizeAcrossScale;
+  bool m_NormalizeAcrossScale{};
 };
 } // end namespace itk
 
