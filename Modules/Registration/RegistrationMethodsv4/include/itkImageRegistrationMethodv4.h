@@ -593,6 +593,25 @@ private:
   {
     ptr = IdentityTransform<RealType, ImageDimension>::New().GetPointer();
   }
+
+  /** Clear image masks. */
+  void
+  ClearImageMasks();
+
+  /** Clear registration entities.
+   *
+   * Clears smoothing images and point sets.
+   */
+  void
+  ClearRegistrationEntities();
+
+  /** Clear smoothing images. */
+  void
+  ClearSmoothingImages();
+
+  /** Clear point sets. */
+  void
+  ClearPointSets();
 };
 } // end namespace itk
 

@@ -425,10 +425,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
       this->m_VirtualDomainImage->Allocate();
     }
 
-    this->m_FixedImageMasks.clear();
-    this->m_FixedImageMasks.resize(this->m_NumberOfMetrics);
-    this->m_MovingImageMasks.clear();
-    this->m_MovingImageMasks.resize(this->m_NumberOfMetrics);
+    this->ClearImageMasks();
 
     for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
     {
@@ -595,14 +592,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   // Although this isn't necessary, we want to leave the option for
   // changing the point sets per level.
 
-  this->m_FixedSmoothImages.clear();
-  this->m_FixedSmoothImages.resize(this->m_NumberOfMetrics);
-  this->m_MovingSmoothImages.clear();
-  this->m_MovingSmoothImages.resize(this->m_NumberOfMetrics);
-  this->m_FixedPointSets.clear();
-  this->m_FixedPointSets.resize(this->m_NumberOfMetrics);
-  this->m_MovingPointSets.clear();
-  this->m_MovingPointSets.resize(this->m_NumberOfMetrics);
+  this->ClearRegistrationEntities();
 
   for (SizeValueType n = 0; n < this->m_NumberOfMetrics; ++n)
   {
@@ -746,6 +736,43 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   }
 }
 
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearImageMasks()
+{
+  this->m_FixedImageMasks.clear();
+  this->m_FixedImageMasks.resize(this->m_NumberOfMetrics);
+  this->m_MovingImageMasks.clear();
+  this->m_MovingImageMasks.resize(this->m_NumberOfMetrics);
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearRegistrationEntities()
+{
+  this->ClearPointSets();
+  this->ClearSmoothingImages();
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearSmoothingImages()
+{
+  this->m_FixedSmoothImages.clear();
+  this->m_FixedSmoothImages.resize(this->m_NumberOfMetrics);
+  this->m_MovingSmoothImages.clear();
+  this->m_MovingSmoothImages.resize(this->m_NumberOfMetrics);
+}
+
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::ClearPointSets()
+{
+  this->m_FixedPointSets.clear();
+  this->m_FixedPointSets.resize(this->m_NumberOfMetrics);
+  this->m_MovingPointSets.clear();
+  this->m_MovingPointSets.resize(this->m_NumberOfMetrics);
+}
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
