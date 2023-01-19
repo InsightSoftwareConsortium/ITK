@@ -30,7 +30,9 @@ itkNiftiImageIOTest2(int argc, char * argv[])
     itksys::SystemTools::ChangeDirectory(testdir);
   }
   if (argc != 4)
+  {
     return EXIT_FAILURE;
+  }
   char * arg1 = argv[1];
   char * arg2 = argv[2];
   char * prefix = argv[3];

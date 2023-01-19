@@ -30,21 +30,37 @@ int
 VerifyPixel(int row, int col, short val, float & expected)
 {
   if (row < 0)
+  {
     row += 8;
+  }
   if (row < 0)
+  {
     row += 8;
+  }
   if (row > 7)
+  {
     row -= 8;
+  }
   if (row > 7)
+  {
     row -= 8;
+  }
   if (col < 0)
+  {
     col += 12;
+  }
   if (col < 0)
+  {
     col += 12;
+  }
   if (col > 11)
+  {
     col -= 12;
+  }
   if (col > 11)
+  {
     col -= 12;
+  }
   expected = 8 * col + row;
   return (itk::Math::AlmostEquals(val, expected));
 }

@@ -53,10 +53,14 @@ CheckTraits(bool issigned, T * = nullptr)
 
   // make sure the numeric_limits is specialized
   if (!itk::NumericTraits<T>::is_specialized)
+  {
     return false;
+  }
 
   if (itk::NumericTraits<T>::is_signed != issigned)
+  {
     return false;
+  }
 
   return true;
 }
@@ -69,14 +73,20 @@ CheckType(size_t size, bool exactSize, bool issigned, const char * name, T * = n
   bool ret = true;
 
   if (exactSize)
+  {
     ret &= CheckSize<T>(size);
+  }
   else
+  {
     ret &= CheckAtleastSize<T>(size);
+  }
 
   ret &= CheckTraits<T>(issigned);
 
   if (ret)
+  {
     return ret;
+  }
 
   std::cout << "error with type \"" << name << "\" sizeof: " << sizeof(T)
             << " specialized: " << itk::NumericTraits<T>::is_specialized << " digits: " << itk::NumericTraits<T>::digits
@@ -140,7 +150,9 @@ itkIntTypesTest(int, char *[])
 
 
   if (pass)
+  {
     return EXIT_SUCCESS;
+  }
 
   return EXIT_FAILURE;
 }

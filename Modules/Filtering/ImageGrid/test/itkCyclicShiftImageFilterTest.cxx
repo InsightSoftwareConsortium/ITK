@@ -90,7 +90,9 @@ itkCyclicShiftImageFilterTest(int argc, char * argv[])
     {
       outputIndex[i] = (outputIndex[i] + shift[i]) % imageSize[i];
       if (outputIndex[i] < 0)
+      {
         outputIndex[i] += imageSize[i];
+      }
       outputIndex[i] += newOrigin[i];
     }
 

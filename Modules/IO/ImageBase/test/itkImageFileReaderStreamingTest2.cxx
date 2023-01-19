@@ -61,7 +61,9 @@ SameRegionImage(ImageConstPointer test, ImageConstPointer baseline)
   std::cout << "NumberOfPixelsWithDifferences: " << status << std::endl;
 
   if (status > numberOfPixelTolerance)
+  {
     return false;
+  }
   return true;
 }
 

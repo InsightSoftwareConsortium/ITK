@@ -85,11 +85,17 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
   {
     bool ok = true;
     if (i < linelength && itk::Math::NotAlmostEquals(params[i], paramsZero))
+    {
       ok = false;
+    }
     if (i % linelength == 0 && itk::Math::NotAlmostEquals(params[i], paramsZero))
+    {
       ok = false;
+    }
     if (i % linelength == (linelength - 1) && itk::Math::NotAlmostEquals(params[i], paramsZero))
+    {
       ok = false;
+    }
     if (!ok)
     {
       std::cout << "0-valued boundaries not found when expected "
@@ -128,11 +134,17 @@ itkGaussianSmoothingOnUpdateDisplacementFieldTransformTest(int, char *[])
     {
       bool ok = true;
       if (i < linelength && itk::Math::NotAlmostEquals(params[i], paramsZero))
+      {
         ok = false;
+      }
       if (i % linelength == 0 && itk::Math::NotAlmostEquals(params[i], paramsZero))
+      {
         ok = false;
+      }
       if (i % linelength == (linelength - 1) && itk::Math::NotAlmostEquals(params[i], paramsZero))
+      {
         ok = false;
+      }
       if (!ok)
       {
         std::cout << "0-valued boundaries not found when expected "

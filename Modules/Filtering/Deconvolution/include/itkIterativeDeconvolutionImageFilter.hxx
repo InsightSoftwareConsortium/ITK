@@ -128,7 +128,9 @@ IterativeDeconvolutionImageFilter<TInputImage, TKernelImage, TOutputImage, TInte
   {
     this->InvokeEvent(IterationEvent());
     if (m_StopIteration)
+    {
       break;
+    }
 
     this->Iteration(progress, iterationWeight);
   }

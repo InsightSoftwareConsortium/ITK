@@ -67,7 +67,9 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   bool rotateinput = false;
   if (argc > 5)
     if (std::stoi(argv[5]) == 1)
+    {
       rotateinput = true;
+    }
   constexpr unsigned int Dimension = 2;
   using PixelType = unsigned short; // I assume png is unsigned short
   using InternalPixelType = double;
@@ -170,7 +172,9 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   metric->SetFixedImage(fixedImage);
   metric->SetMovingImage(movingImage);
   if (rotateinput)
+  {
     metric->SetMovingImage(resample->GetOutput());
+  }
   metric->SetFixedTransform(identityTransform);
   metric->SetMovingTransform(affineTransform);
   bool gaussian = false;
@@ -228,7 +232,9 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   resampleout->SetTransform(affineTransform);
   resampleout->SetInput(movingImage);
   if (rotateinput)
+  {
     resampleout->SetInput(resample->GetOutput());
+  }
   resampleout->SetSize(fixedImage->GetLargestPossibleRegion().GetSize());
   resampleout->SetOutputOrigin(fixedImage->GetOrigin());
   resampleout->SetOutputSpacing(fixedImage->GetSpacing());
@@ -243,7 +249,11 @@ itkMultiStartImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   writer->Update();
   std::cout << "After optimization affine params are: " << affineTransform->GetParameters() << std::endl;
   if (MOptimizer->GetBestParametersIndex() == 18)
+  {
     return EXIT_SUCCESS;
+  }
   else
+  {
     return EXIT_FAILURE;
+  }
 }

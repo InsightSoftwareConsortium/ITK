@@ -176,7 +176,9 @@ itkFRPROptimizerTest(int, char *[])
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+      {
         pass = false;
+      }
     }
 
     // Exercise various member functions.
@@ -229,7 +231,9 @@ itkFRPROptimizerTest(int, char *[])
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+      {
         pass = false;
+      }
     }
 
     // Exercise various member functions.

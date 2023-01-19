@@ -390,7 +390,9 @@ PNGImageIO::ReadImageInformation()
       png_get_PLTE(png_ptr, info_ptr, &palette, &num_entry);
 
       if (num_entry < 0)
+      {
         num_entry = 0;
+      }
       auto num_entryI(static_cast<size_t>(num_entry));
 
       m_ColorPalette.resize(num_entryI);

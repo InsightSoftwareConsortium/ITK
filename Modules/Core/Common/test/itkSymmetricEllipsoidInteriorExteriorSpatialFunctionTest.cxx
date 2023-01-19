@@ -79,7 +79,9 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
         testPosition[2] = z;
         functionValue = spatialFunc->Evaluate(testPosition);
         if (functionValue == 1)
+        {
           interiorPixelCounter++;
+        }
       }
     }
   }

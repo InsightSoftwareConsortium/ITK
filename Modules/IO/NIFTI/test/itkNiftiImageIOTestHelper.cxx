@@ -43,23 +43,31 @@ WriteNiftiTestFiles(const std::string & prefix)
   // Force to be Nifti-compliant
   std::ofstream little_hdr((prefix + "NiftiLittleEndian.hdr").c_str(), std::ios::binary | std::ios::out);
   if (!little_hdr.is_open())
+  {
     return EXIT_FAILURE;
+  }
   std::cout << "NiftiLittleEndian written" << std::endl;
   little_hdr.write(reinterpret_cast<const char *>(&NiftiLittleEndian), sizeof(NiftiLittleEndian));
   little_hdr.close();
   std::ofstream little_img((prefix + "NiftiLittleEndian.img").c_str(), std::ios::binary | std::ios::out);
   if (!little_img.is_open())
+  {
     return EXIT_FAILURE;
+  }
   little_img.write(reinterpret_cast<const char *>(LittleEndian_img), sizeof(LittleEndian_img));
   little_img.close();
   std::ofstream big_hdr((prefix + "NiftiBigEndian.hdr").c_str(), std::ios::binary | std::ios::out);
   if (!big_hdr.is_open())
+  {
     return EXIT_FAILURE;
+  }
   big_hdr.write(reinterpret_cast<const char *>(&NiftiBigEndian), sizeof(NiftiBigEndian));
   big_hdr.close();
   std::ofstream big_img((prefix + "NiftiBigEndian.img").c_str(), std::ios::binary | std::ios::out);
   if (!big_img.is_open())
+  {
     return EXIT_FAILURE;
+  }
   big_img.write(reinterpret_cast<const char *>(BigEndian_img), sizeof(BigEndian_img));
   big_img.close();
   return EXIT_SUCCESS;
@@ -100,12 +108,16 @@ TestNiftiByteSwap(const std::string & prefix)
     while (!littleIter.IsAtEnd())
     {
       if (itk::Math::NotExactlyEquals(littleIter.Get(), bigIter.Get()))
+      {
         break;
+      }
       ++littleIter;
       ++bigIter;
     }
     if (!littleIter.IsAtEnd() || !bigIter.IsAtEnd())
+    {
       rval = -1;
+    }
   }
   catch (const itk::ExceptionObject & ex)
   {

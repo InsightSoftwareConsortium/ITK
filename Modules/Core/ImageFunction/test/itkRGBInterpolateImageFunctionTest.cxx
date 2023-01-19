@@ -238,13 +238,17 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // position at the image border
   {
@@ -256,13 +260,17 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // position near image border
   {
@@ -275,13 +283,17 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // position outside the image
   {
@@ -293,13 +305,17 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = RGBInterpolate::TestGeometricPoint(interp, point, false, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // at non-integer position
   {
@@ -311,13 +327,17 @@ itkRGBInterpolateImageFunctionTest(int, char *[])
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = RGBInterpolate::TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
 
   /* Return results of test */

@@ -1076,7 +1076,9 @@ MINCImageIO::WriteImageInformation()
       ExposeMetaData<std::string>(thisDic, "storage_data_type", storage_data_type))
   {
     if (storage_data_type == typeid(char).name())
+    {
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_BYTE;
+    }
     else if (storage_data_type == typeid(unsigned char).name())
       this->m_MINCPImpl->m_Volume_type = MI_TYPE_UBYTE;
     else if (storage_data_type == typeid(short).name())
@@ -1350,9 +1352,13 @@ get_buffer_min_max(const void * _buffer, size_t len, double & buf_min, double & 
   for (size_t i = 0; i < len; ++i)
   {
     if (buf[i] < static_cast<double>(buf_min))
+    {
       buf_min = static_cast<double>(buf[i]);
+    }
     if (buf[i] > static_cast<double>(buf_max))
+    {
       buf_max = static_cast<double>(buf[i]);
+    }
   }
 }
 

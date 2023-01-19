@@ -87,9 +87,13 @@ bool
 ImagesEqual(const TImage * img1, const TImage * img2, const typename TImage::RegionType & region)
 {
   if (!img1->GetBufferedRegion().IsInside(region))
+  {
     return false;
+  }
   if (!img2->GetBufferedRegion().IsInside(region))
+  {
     return false;
+  }
 
   itk::ImageRegionConstIterator<TImage> it1(img1, region);
   itk::ImageRegionConstIterator<TImage> it2(img2, region);

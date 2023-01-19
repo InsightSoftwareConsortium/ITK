@@ -240,13 +240,17 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   index[0] = 10;
   index[1] = 20;
@@ -270,13 +274,17 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // position near image border
   {
@@ -289,13 +297,17 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // position outside the image
   {
@@ -307,13 +319,17 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint(interp, point, false, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   // at non-integer position
   {
@@ -325,13 +341,17 @@ itkVectorLinearInterpolateNearestNeighborExtrapolateImageFunctionTest(int, char 
   }
 
   if (!passed)
+  {
     flag = 1;
+  }
 
   image->TransformContinuousIndexToPhysicalPoint(cindex, point);
   passed = TestGeometricPoint(interp, point, true, output);
 
   if (!passed)
+  {
     flag = 1;
+  }
 
 
   /* Return results of test */

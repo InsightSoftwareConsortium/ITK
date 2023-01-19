@@ -256,10 +256,14 @@ itkImageFileWriterStreamingPastingCompressingTest1(int argc, char * argv[])
     {
       expectException[i] = 0;
       if (std::stoi(argv[i + expectedExceptionOffset]) == 1)
+      {
         expectException[i] = 1;
+      }
     }
     else
+    {
       expectException[i] = -1;
+    }
   }
 
   i = 0;

@@ -77,9 +77,13 @@ FillWithCircle(TImage *                   image,
       distance += itk::Math::sqr(static_cast<double>(index[j]) - center[j]);
     }
     if (distance <= r2)
+    {
       it.Set(foregnd);
+    }
     else
+    {
       it.Set(backgnd);
+    }
     ++it;
   }
 }

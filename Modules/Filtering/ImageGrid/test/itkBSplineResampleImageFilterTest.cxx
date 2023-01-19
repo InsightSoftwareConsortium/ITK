@@ -645,7 +645,9 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     passed = true;
   }
   if (!passed)
+  {
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  }
   passed = false;
 
   try
@@ -660,7 +662,9 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     passed = true;
   }
   if (!passed)
+  {
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  }
   passed = false;
 
   try
@@ -675,7 +679,9 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     passed = true;
   }
   if (!passed)
+  {
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  }
   passed = false;
 
   try
@@ -690,7 +696,9 @@ itkBSplineResampleImageFilterTest(int itkNotUsed(argc), char * itkNotUsed(argv)[
     passed = true;
   }
   if (!passed)
+  {
     std::cout << "*** " << flag << " expected exception was not caught." << std::endl;
+  }
 
   std::cout << "dummyflag: " << dummyflag << std::endl;
   // Return results of test

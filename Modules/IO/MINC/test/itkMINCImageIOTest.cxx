@@ -261,7 +261,9 @@ equal(const itk::VariableLengthVector<TPixel> & pix1, const itk::VariableLengthV
   for (size_t i = 0; i < pix1.GetSize(); ++i)
   {
     if (pix1[i] != pix2[i])
+    {
       return false;
+    }
   }
   return true;
 }
@@ -276,7 +278,9 @@ abs_vector_diff(const itk::VariableLengthVector<TPixel> & pix1, const itk::Varia
   {
     double d = itk::Math::abs(static_cast<double>(pix1[i] - pix2[i]));
     if (d > diff)
+    {
       diff = d;
+    }
   }
   return diff;
 }
@@ -383,9 +387,13 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
   {
     TPixel pix;
     if (tolerance > 0.0)
+    {
       RandomPix(randgen, pix, 100);
+    }
     else
+    {
       RandomPix(randgen, pix);
+    }
     it.Set(pix);
   }
 
@@ -629,9 +637,13 @@ MINCReadWriteTestVector(const char * fileName,
   {
     InternalPixelType pix(vector_length);
     if (tolerance > 0.0)
+    {
       RandomVectorPix<TPixel>(randgen, pix, 100.0);
+    }
     else
+    {
       RandomVectorPix<TPixel>(randgen, pix);
+    }
     it.Set(pix);
   }
 

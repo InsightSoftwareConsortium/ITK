@@ -1793,7 +1793,9 @@ GiftiMeshIO::GetNumberOfPixelComponentsFromGifti(int datatype)
   nifti_datatype_sizes(datatype, &BytePerVoxel, &SwapSize);
 
   if (SwapSize == 0 && BytePerVoxel > 0)
+  {
     numComponents = BytePerVoxel;
+  }
   else if (SwapSize > 0 && BytePerVoxel > 0)
     numComponents = BytePerVoxel / SwapSize;
 

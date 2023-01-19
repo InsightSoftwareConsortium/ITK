@@ -369,7 +369,9 @@ AmoebaTest1()
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
+    {
       pass = false;
+    }
   }
 
   if (!pass)
@@ -442,7 +444,9 @@ AmoebaTest1()
     for (unsigned int j = 0; j < 2; ++j)
     {
       if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > xTolerance)
+      {
         pass = false;
+      }
     }
 
     if (!pass)

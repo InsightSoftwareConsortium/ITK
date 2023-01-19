@@ -196,7 +196,9 @@ FileFreeImageIO ::SplitString(const std::string &        text,
   {
     std::string::size_type stop = text.find_first_of(separators, start);
     if (stop > n)
+    {
       stop = n;
+    }
     words.push_back(text.substr(start, stop - start));
     start = text.find_first_not_of(separators, stop + 1);
   }

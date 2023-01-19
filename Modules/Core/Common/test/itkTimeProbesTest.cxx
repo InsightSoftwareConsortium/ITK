@@ -43,7 +43,9 @@ TestTransformIndexToPhysicalPoint(T * image)
       }
     }
     if (k == 5)
+    {
       std::cout << point3D << std::endl;
+    }
   }
 }
 template <typename T>
@@ -66,7 +68,9 @@ TestTransformPhysicalPointToIndex(T * image)
       }
     }
     if (k == 5)
+    {
       std::cout << point3D << std::endl;
+    }
   }
 }
 //-------------------------

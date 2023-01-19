@@ -41,7 +41,9 @@ CheckBuffer(const TImageType * image, typename TImageType::PixelType p)
   while (!iter.IsAtEnd())
   {
     if (itk::Math::NotExactlyEquals(iter.Get(), p))
+    {
       return false;
+    }
     ++iter;
   }
   return true;

@@ -58,7 +58,9 @@ itk_feenableexcept(const fexcept_t excepts)
 
   static fenv_t fenv;
   if (fegetenv(&fenv))
+  {
     return static_cast<fexcept_t>(-1);
+  }
 
   // all previous masks
   const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
@@ -74,7 +76,9 @@ itk_fedisableexcept(const fexcept_t excepts)
 
   static fenv_t fenv;
   if (fegetenv(&fenv))
+  {
     return static_cast<fexcept_t>(-1);
+  }
 
   // previous masks
   const fexcept_t old_excepts = (fenv & FM_ALL_EXCEPT) << FE_EXCEPT_SHIFT;
@@ -109,7 +113,9 @@ itk_feenableexcept(const fexcept_t excepts)
 
   static fenv_t fenv;
   if (fegetenv(&fenv))
+  {
     return static_cast<fexcept_t>(-1);
+  }
 
   // previous masks
   const fexcept_t old_excepts = fenv._itk_control_word & FE_ALL_EXCEPT;
@@ -128,7 +134,9 @@ itk_fedisableexcept(const fexcept_t excepts)
 
   static fenv_t fenv;
   if (fegetenv(&fenv))
+  {
     return static_cast<fexcept_t>(-1);
+  }
 
   // all previous masks
   fexcept_t old_excepts = fenv._itk_control_word & FE_ALL_EXCEPT;
