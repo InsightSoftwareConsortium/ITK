@@ -594,6 +594,10 @@ private:
     ptr = IdentityTransform<RealType, ImageDimension>::New().GetPointer();
   }
 
+  /** Set the metric sampling random number generator seed to the specified value. */
+  void
+  SetMetricSamplingSeed(int seed);
+
   /** Clear image masks. */
   void
   ClearImageMasks();

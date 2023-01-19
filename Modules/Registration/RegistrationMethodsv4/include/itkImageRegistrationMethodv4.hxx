@@ -119,8 +119,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   this->m_SmoothingSigmasAreSpecifiedInPhysicalUnits = true;
 
   this->m_ReseedIterator = false;
-  this->m_RandomSeed = Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed();
-  this->m_CurrentRandomSeed = this->m_RandomSeed;
+  this->SetMetricSamplingSeed(Statistics::MersenneTwisterRandomVariateGenerator::GetNextSeed());
 
   this->m_MetricSamplingStrategy = MetricSamplingStrategyEnum::NONE;
   this->m_MetricSamplingPercentagePerLevel.SetSize(this->m_NumberOfLevels);
@@ -1315,12 +1314,19 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   if (m_ReseedIterator || m_RandomSeed != seed)
   {
     m_ReseedIterator = false;
-    m_RandomSeed = seed;
-    m_CurrentRandomSeed = seed;
+    this->SetMetricSamplingSeed(seed);
     this->Modified();
   }
 }
 
+template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
+void
+ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, TPointSet>::SetMetricSamplingSeed(
+  int seed)
+{
+  m_RandomSeed = seed;
+  m_CurrentRandomSeed = seed;
+}
 
 template <typename TFixedImage, typename TMovingImage, typename TTransform, typename TVirtualImage, typename TPointSet>
 void
