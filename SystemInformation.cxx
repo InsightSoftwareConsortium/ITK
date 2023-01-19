@@ -482,7 +482,7 @@ protected:
                                        unsigned int); // For windows
 
   // For Linux and Cygwin, /proc/cpuinfo formats are slightly different
-  bool RetreiveInformationFromCpuInfoFile();
+  bool RetrieveInformationFromCpuInfoFile();
   std::string ExtractValueFromCpuInfoFile(std::string buffer, const char* word,
                                           size_t init = 0);
 
@@ -1265,11 +1265,10 @@ public:
   }
 
 private:
-  void* GetRealAddress() const
+  size_t GetRealAddress() const
   {
-    return reinterpret_cast<void*>(
-      static_cast<char*>(this->Address) -
-      static_cast<char*>(this->BinaryBaseAddress));
+    return static_cast<size_t>(static_cast<char*>(this->Address) -
+                               static_cast<char*>(this->BinaryBaseAddress));
   }
 
   std::string GetFileName(const std::string& path) const;
@@ -1521,7 +1520,7 @@ void SystemInformationImplementation::RunCPUCheck()
 #elif defined(__hpux)
   this->QueryHPUXProcessor();
 #elif defined(__linux) || defined(__CYGWIN__)
-  this->RetreiveInformationFromCpuInfoFile();
+  this->RetrieveInformationFromCpuInfoFile();
 #else
   this->QueryProcessor();
 #endif
@@ -3263,6 +3262,9 @@ bool SystemInformationImplementation::RetrieveClassicalCPUIdentity()
             case 0x3b:
               this->ChipID.ProcessorName = "Zhaoxin kx6000";
               break;
+            case 0x5b:
+              this->ChipID.ProcessorName = "Zhaoxin kh40000";
+              break;
             default:
               this->ChipID.ProcessorName =
                 "Unknown IDT\\Centaur\\VIA\\Zhaoxin family";
@@ -3295,6 +3297,9 @@ bool SystemInformationImplementation::RetrieveClassicalCPUIdentity()
               break;
             case 0x3b:
               this->ChipID.ProcessorName = "Zhaoxin kx6000";
+              break;
+            case 0x5b:
+              this->ChipID.ProcessorName = "Zhaoxin kh40000";
               break;
             default:
               this->ChipID.ProcessorName = "Unknown Zhaoxin family";
@@ -3430,7 +3435,7 @@ std::string SystemInformationImplementation::ExtractValueFromCpuInfoFile(
 }
 
 /** Query for the cpu status */
-bool SystemInformationImplementation::RetreiveInformationFromCpuInfoFile()
+bool SystemInformationImplementation::RetrieveInformationFromCpuInfoFile()
 {
   this->NumberOfLogicalCPU = 0;
   this->NumberOfPhysicalCPU = 0;
