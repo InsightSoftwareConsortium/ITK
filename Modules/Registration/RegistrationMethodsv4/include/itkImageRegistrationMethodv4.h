@@ -594,6 +594,19 @@ private:
     ptr = IdentityTransform<RealType, ImageDimension>::New().GetPointer();
   }
 
+  /** Initialize members according to the required number of levels.
+   *
+   * Initialize the shrink factors, smoothing sigmas, and metric sampling percentage values. If
+   * decreasingConsecutiveShrinkFactors is true, the shrink factors will be initialized to decreasing integer values
+   * starting from the number of levels minus one (e.g. if the number of level is $3$, they will be initialized to the
+   * set ${2,1,0}$; if false, they will be initialized to all $1$'s. An equivalent logic applies to the smoothing sigma
+   * values.
+   */
+  void
+  InitializeToLevels(const SizeValueType numberOfLevels,
+                     const bool          decreasingConsecutiveShrinkFactors,
+                     const bool          decreasingConsecutiveSmoothingSigmas);
+
   /** Set the metric sampling random number generator seed to the specified value. */
   void
   SetMetricSamplingSeed(int seed);
