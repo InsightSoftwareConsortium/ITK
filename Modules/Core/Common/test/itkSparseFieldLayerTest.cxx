@@ -68,7 +68,9 @@ itkSparseFieldLayerTest(int, char *[])
     while (cit != layer->End())
     {
       if (cit->value != i || cit->value != i)
+      {
         return EXIT_FAILURE;
+      }
       ++cit;
       --i;
     }
@@ -78,10 +80,14 @@ itkSparseFieldLayerTest(int, char *[])
     while (it != layer->End())
     {
       if (it->value != i || it->value != i)
+      {
         return EXIT_FAILURE;
+      }
       it->value = 32567;
       if (it->value != 32567 || it->value != 32567)
+      {
         return EXIT_FAILURE;
+      }
       ++it;
       --i;
     }

@@ -142,9 +142,13 @@ itkNarrowBandThresholdSegmentationLevelSetImageFilterTest(int, char *[])
         for (i = 0; i < 3; ++i)
         {
           if (idx[i] < 32)
+          {
             val += idx[i];
+          }
           else
+          {
             val += 64 - idx[i];
+          }
         }
         inputImage->SetPixel(idx, val);
       }

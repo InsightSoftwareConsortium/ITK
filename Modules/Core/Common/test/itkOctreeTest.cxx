@@ -57,9 +57,13 @@ itkOctreeTest(int, char *[])
     {
       unsigned int val = rand() % 16384;
       if (counter && counter % 8 == 0)
+      {
         std::cerr << val << std::endl;
+      }
       else
+      {
         std::cerr << val << " ";
+      }
       counter++;
       ri.Set(val);
       ++ri;

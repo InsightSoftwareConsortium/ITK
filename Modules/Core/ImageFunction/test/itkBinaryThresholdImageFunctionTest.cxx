@@ -73,30 +73,42 @@ itkBinaryThresholdImageFunctionTest(int, char *[])
 
   int failed = 0;
   if (!threshold->EvaluateAtIndex(index))
+  {
     failed++;
+  }
 
   threshold->ThresholdAbove(100.0);
   if (!threshold->EvaluateAtIndex(index))
+  {
     failed++;
+  }
 
   threshold->ThresholdAbove(101.0);
   if (threshold->EvaluateAtIndex(index))
+  {
     failed++;
+  }
 
   threshold->ThresholdBetween(100.0, 100.0);
   if (!threshold->EvaluateAtIndex(index))
+  {
     failed++;
+  }
 
   threshold->ThresholdBetween(-100.0, 0.0);
   if (threshold->EvaluateAtIndex(index))
+  {
     failed++;
+  }
 
   index[0] = 8;
   index[1] = 8;
   index[2] = 8;
   threshold->ThresholdBetween(100.0, 200.0);
   if (threshold->EvaluateAtIndex(index))
+  {
     failed++;
+  }
 
   std::cout << threshold;
 

@@ -217,9 +217,13 @@ itkMeanSquaresImageToImageMetricv4RegistrationTest(int argc, char * argv[])
   try
   {
     if (numberOfDisplacementIterations > 0)
+    {
       optimizer->StartOptimization();
+    }
     else
+    {
       std::cout << "** SKIPPING DISPLACEMENT FIELD OPT\n";
+    }
   }
   catch (const itk::ExceptionObject & e)
   {

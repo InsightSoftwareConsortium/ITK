@@ -360,7 +360,9 @@ IsGPUAvailable()
   cl_platform_id platformId = OpenCLSelectPlatform("NVIDIA");
 
   if (platformId == nullptr)
+  {
     return false;
+  }
 
   cl_device_type devType = CL_DEVICE_TYPE_GPU;
 
@@ -370,7 +372,9 @@ IsGPUAvailable()
   free(device_id);
 
   if (numDevices < 1)
+  {
     return false;
+  }
 
   return true;
 }

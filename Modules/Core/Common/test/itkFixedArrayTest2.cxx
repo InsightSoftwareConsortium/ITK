@@ -112,9 +112,13 @@ itkFixedArrayTest2(int, char *[])
 
   const bool sameptr = (vec == vec2);
   if (sameptr)
+  {
     std::cout << "Same pointers: true" << std::endl;
+  }
   else
+  {
     std::cout << "Same pointers: false" << std::endl;
+  }
 
   std::cout << "Performance ratio = " << ratio << "%" << std::endl;
 

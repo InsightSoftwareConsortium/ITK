@@ -250,7 +250,9 @@ GPUReduction<TElement>::GPUGenerateData()
   this->GetNumBlocksAndThreads(whichKernel, size, maxBlocks, maxThreads, numBlocks, numThreads);
 
   if (numBlocks == 1)
+  {
     cpuFinalThreshold = 1;
+  }
 
   // allocate output data for the result
   auto * h_odata = (TElement *)malloc(numBlocks * sizeof(TElement));

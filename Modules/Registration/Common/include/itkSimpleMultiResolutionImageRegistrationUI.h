@@ -35,7 +35,9 @@ public:
   {
 
     if (!ptr)
+    {
       return;
+    }
     m_Registrator = ptr;
     typename itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::Pointer iterationCommand =
       itk::SimpleMemberCommand<SimpleMultiResolutionImageRegistrationUI>::New();
@@ -101,14 +103,18 @@ public:
     this->Superclass::StartNewLevel();
 
     if (!this->m_Registrator)
+    {
       return;
+    }
 
     // Try to cast the optimizer to a gradient descent type,
     // return if casting didn't work.
     itk::GradientDescentOptimizer::Pointer optimizer =
       dynamic_cast<itk::GradientDescentOptimizer *>(this->m_Registrator->GetModifiableOptimizer());
     if (!optimizer)
+    {
       return;
+    }
 
     unsigned int level = this->m_Registrator->GetCurrentLevel();
     if (m_NumberOfIterations.Size() >= level + 1)

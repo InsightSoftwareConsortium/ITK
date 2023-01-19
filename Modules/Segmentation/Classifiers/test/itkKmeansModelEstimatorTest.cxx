@@ -271,9 +271,13 @@ itkKmeansModelEstimatorTest(int, char *[])
   meanCDBKvalue /= NCODEWORDS * NUMBANDS;
 
   if (error < 0.1 * meanCDBKvalue)
+  {
     std::cout << "Kmeans algorithm passed (without initial input)" << std::endl;
+  }
   else
+  {
     std::cout << "Kmeans algorithm failed (without initial input)" << std::endl;
+  }
 
   // Validation with no codebook/initial Kmeans estimate
   vnl_matrix<double> kmeansResult = applyKmeansEstimator->GetKmeansResults();

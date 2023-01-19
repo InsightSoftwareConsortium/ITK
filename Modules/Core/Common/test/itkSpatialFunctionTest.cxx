@@ -58,7 +58,11 @@ itkSpatialFunctionTest(int, char *[])
   // The function should have returned a value of 1, since the center is inside
   // the sphere
   if (funcVal == 1)
+  {
     return EXIT_SUCCESS;
+  }
   else
+  {
     return EXIT_FAILURE;
+  }
 }

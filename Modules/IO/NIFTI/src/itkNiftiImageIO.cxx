@@ -1020,7 +1020,9 @@ NiftiImageIO::ReadImageInformation()
     else
     {
       if (this->GetLegacyAnalyze75Mode() == NiftiImageIOEnums::Analyze75Flavor::AnalyzeITK4Warning)
+      {
         itkWarningMacro(<< this->GetFileName() << " is Analyze file and it's deprecated ");
+      }
       // to disable this message, specify preferred Analyze flavor using SetLegacyAnalyze75Mode
     }
   }

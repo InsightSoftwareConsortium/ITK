@@ -343,7 +343,9 @@ itkGibbsTest(int, char *[])
     labeloutIt.GoToBegin();
     while ( !labeloutIt.IsAtEnd() ) {
     if ((i%ImageWidth<10) && (i/ImageWidth<10) && (labeloutIt.Get()==1))
+    {
       j++;
+    }
     i++;
     ++labeloutIt;
     }

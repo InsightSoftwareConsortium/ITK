@@ -44,7 +44,9 @@ ImageBoundaryFaceCalculatorTest(TImage *                          image,
   }
 
   if (faceList.empty())
+  {
     return true;
+  }
 
   image->FillBuffer(0);
   for (auto fit = faceList.begin(); fit != faceList.end(); ++fit)
@@ -112,7 +114,9 @@ NeighborhoodAlgorithmTest()
 
   // test 1: requestToProcessRegion match the bufferedRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
+  {
     return false;
+  }
 
   ind.Fill(1);
   size.Fill(4);
@@ -121,7 +125,9 @@ NeighborhoodAlgorithmTest()
 
   // test 2: requestToProcessRegion is part of bufferedRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
+  {
     return false;
+  }
 
   ind.Fill(0);
   region.SetIndex(ind);
@@ -138,7 +144,9 @@ NeighborhoodAlgorithmTest()
 
   // test 3: requestToProcessRegion match the bufferedRegion, but all the bufferedRegion is inside the boundary
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
+  {
     return false;
+  }
 
   size.Fill(5);
   region.SetSize(size);
@@ -153,7 +161,9 @@ NeighborhoodAlgorithmTest()
 
   // test 4: bufferedRegion is part of the requestToProcessRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
+  {
     return false;
+  }
 
   ind.Fill(0);
   size.Fill(10);
@@ -170,7 +180,9 @@ NeighborhoodAlgorithmTest()
   region.SetSize(size);
   // test 5: requestToProcessRegion is part of boundary of bufferedRegion
   if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
+  {
     return false;
+  }
 
   if (VDimension == 2)
   {
@@ -191,7 +203,9 @@ NeighborhoodAlgorithmTest()
     radius.Fill(4);
     // test 6: test condition encountered by BoxMeanImageFilterTest with 24 threads
     if (!ImageBoundaryFaceCalculatorTest(image.GetPointer(), region, radius))
+    {
       return false;
+    }
   }
 
 
@@ -202,16 +216,24 @@ int
 itkNeighborhoodAlgorithmTest(int, char *[])
 {
   if (!NeighborhoodAlgorithmTest<int, 1>())
+  {
     return EXIT_FAILURE;
+  }
 
   if (!NeighborhoodAlgorithmTest<int, 2>())
+  {
     return EXIT_FAILURE;
+  }
 
   if (!NeighborhoodAlgorithmTest<int, 3>())
+  {
     return EXIT_FAILURE;
+  }
 
   if (!NeighborhoodAlgorithmTest<int, 4>())
+  {
     return EXIT_FAILURE;
+  }
 
   return EXIT_SUCCESS;
 }

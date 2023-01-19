@@ -410,9 +410,13 @@ struct AlmostEqualsSignedVsUnsigned
   AlmostEqualsFunction(TSignedInt signedVariable, TUnsignedInt unsignedVariable)
   {
     if (signedVariable < 0)
+    {
       return false;
+    }
     if (unsignedVariable > static_cast<size_t>(itk::NumericTraits<TSignedInt>::max()))
+    {
       return false;
+    }
     return signedVariable == static_cast<TSignedInt>(unsignedVariable);
   }
 };

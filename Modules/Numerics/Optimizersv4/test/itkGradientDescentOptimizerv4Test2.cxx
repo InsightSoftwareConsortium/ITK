@@ -73,7 +73,9 @@ public:
   GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
     if (derivative.Size() != this->GetNumberOfParameters())
+    {
       derivative.SetSize(this->GetNumberOfParameters());
+    }
 
     value = 0.0;
 

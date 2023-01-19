@@ -54,7 +54,9 @@ SameImage(std::string output, std::string baseline)
   unsigned long status = diff->GetNumberOfPixelsWithDifferences();
 
   if (status > numberOfPixelTolerance)
+  {
     return false;
+  }
   return true;
 }
 
@@ -93,10 +95,14 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   writer->SetNumberOfStreamDivisions(numberOfDataPieces);
 
   if (std::string(argv[2]) != writer->GetFileName())
+  {
     return EXIT_FAILURE;
+  }
 
   if (numberOfDataPieces != writer->GetNumberOfStreamDivisions())
+  {
     return EXIT_FAILURE;
+  }
 
   // Write the whole image
   ITK_TRY_EXPECT_NO_EXCEPTION(writer->Update());
@@ -143,7 +149,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   }
 
   if (!SameImage(argv[1], argv[2]))
+  {
     return EXIT_FAILURE;
+  }
 
   reader->Modified();
   ////////////////////////////////////////////////
@@ -168,7 +176,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   }
 
   if (!SameImage(argv[1], argv[2]))
+  {
     return EXIT_FAILURE;
+  }
 
 
   reader->Modified();
@@ -194,7 +204,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
   }
 
   if (!SameImage(argv[1], argv[2]))
+  {
     return EXIT_FAILURE;
+  }
 
 
   reader->Modified();
@@ -319,7 +331,9 @@ itkImageFileWriterStreamingTest2(int argc, char * argv[])
 
 
   if (!SameImage(argv[1], argv[2]))
+  {
     return EXIT_FAILURE;
+  }
 
 
   return EXIT_SUCCESS;

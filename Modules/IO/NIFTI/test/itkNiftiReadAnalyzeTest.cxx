@@ -277,7 +277,9 @@ itkNiftiAnalyzeContentsAndCoordinatesTest(char *                                
   catch (...)
   {
     if (analyze_mode == itk::NiftiImageIOEnums::Analyze75Flavor::AnalyzeReject)
+    {
       std::cerr << "Failure is expected" << std::endl << std::endl;
+    }
     return EXIT_FAILURE;
   }
 

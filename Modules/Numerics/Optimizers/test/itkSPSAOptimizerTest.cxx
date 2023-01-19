@@ -230,7 +230,9 @@ itkSPSAOptimizerTest(int, char *[])
   for (unsigned int j = 0; j < 2; ++j)
   {
     if (itk::Math::abs(finalPosition[j] - trueParameters[j]) > 0.01)
+    {
       pass = false;
+    }
   }
   if (itkOptimizer->GetStopCondition() == itk::SPSAOptimizer::StopConditionSPSAOptimizerEnum::Unknown)
   {

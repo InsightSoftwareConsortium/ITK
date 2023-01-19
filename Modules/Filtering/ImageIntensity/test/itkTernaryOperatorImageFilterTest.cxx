@@ -84,7 +84,9 @@ itkTernaryOperatorImageFilterTest(int, char *[])
   for (maskIt.GoToBegin(); !maskIt.IsAtEnd(); ++maskIt)
   {
     if (maskIt.GetIndex()[0] + maskIt.GetIndex()[1] % 2 == 0)
+    {
       maskIt.Set(true);
+    }
   }
 
   constexpr short val1 = 25;

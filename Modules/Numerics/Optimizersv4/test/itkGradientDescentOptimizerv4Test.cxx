@@ -78,7 +78,9 @@ public:
   GetValueAndDerivative(MeasureType & value, DerivativeType & derivative) const override
   {
     if (derivative.Size() != 2)
+    {
       derivative.SetSize(2);
+    }
 
     double x = m_Parameters[0];
     double y = m_Parameters[1];

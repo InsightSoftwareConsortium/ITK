@@ -53,7 +53,9 @@ void
 MINCTransformIOTemplate<TParametersValueType>::_cleanup()
 {
   if (m_XFM_initialized)
+  {
     delete_general_transform(&m_XFM);
+  }
   m_XFM_initialized = false;
 }
 

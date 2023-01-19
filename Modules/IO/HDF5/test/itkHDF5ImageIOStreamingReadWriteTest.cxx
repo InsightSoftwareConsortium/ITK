@@ -122,7 +122,9 @@ HDF5ReadWriteTest2(const char * fileName)
 
   // Check streaming regions.
   if (!writerMonitor->VerifyInputFilterExecutedStreaming(5))
+  {
     return EXIT_FAILURE;
+  }
   typename ImageType::RegionType expectedRegion;
   expectedRegion.SetIndex(0, 0);
   expectedRegion.SetIndex(1, 0);
@@ -202,7 +204,9 @@ HDF5ReadWriteTest2(const char * fileName)
 
   // Check number of streaming regions.
   if (!readerMonitor->VerifyInputFilterExecutedStreaming(5))
+  {
     return EXIT_FAILURE;
+  }
 
   // Check streaming regions.
   typename MonitorFilterType::RegionVectorType readerRegionVector = readerMonitor->GetUpdatedBufferedRegions();

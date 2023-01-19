@@ -267,7 +267,9 @@ public:
   {
     cleanup();
     if (input_transform_file(xfm, &m_Xfm) != VIO_OK)
+    {
       itkExceptionMacro(<< "Error reading XFM:" << xfm);
+    }
     m_Initialized = true;
   }
 
@@ -275,7 +277,9 @@ public:
   Invert()
   {
     if (!m_Initialized)
+    {
       itkExceptionMacro(<< "XFM not initialized");
+    }
     if (!m_Initialized_invert)
     {
       create_inverse_general_transform(&m_Xfm, &m_Xfm_inv);
@@ -288,7 +292,9 @@ protected:
   MINCTransformAdapter()
   {
     if (VInputDimension != 3 || VOutputDimension != 3)
+    {
       itkExceptionMacro(<< "Sorry, only 3D to 3d minc xfm transform is currently implemented");
+    }
   }
 
   ~MINCTransformAdapter() override { cleanup(); }

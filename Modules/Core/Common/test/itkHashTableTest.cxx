@@ -82,7 +82,9 @@ itkHashTableTest(int, char *[])
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
   if (Set.empty())
+  {
     std::cout << "Set is empty." << std::endl;
+  }
   Set.rehash(50);
   Set.insert("the horror");
   auto                        hsh_it = Set.begin();
@@ -116,7 +118,9 @@ itkHashTableTest(int, char *[])
   // CppCheck gives us a warning if the return value isn't used.
   // This is to prevent the user from calling empty() when they mean clear().
   if (months.empty())
+  {
     std::cout << "Set is empty." << std::endl;
+  }
   months.rehash(50);
   HashMapType::value_type p("psychotic break", 2);
   months.insert(p);

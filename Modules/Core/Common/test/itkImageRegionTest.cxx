@@ -252,15 +252,23 @@ itkImageRegionTest(int, char *[])
 
     indexC.Fill(13);
     if (regionA.IsInside(indexC))
+    {
       std::cout << "13,13,13 IsInside" << std::endl;
+    }
     else
+    {
       std::cout << "13,13,13 is not inside !" << std::endl;
+    }
 
     indexC[0] = ContinuousIndexNumericTraits::quiet_NaN();
     if (regionA.IsInside(indexC))
+    {
       std::cout << "** NaN,13,13 *is* inside. **" << std::endl;
+    }
     else
+    {
       std::cout << "NaN,13,13 is not inside" << std::endl;
+    }
 
     std::cout << "NaN < -1 = " << (indexC[0] < -1.0) << std::endl;
     std::cout << "NaN > -1 = " << (indexC[0] > -1.0) << std::endl;

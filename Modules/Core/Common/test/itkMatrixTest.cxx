@@ -398,7 +398,9 @@ itkMatrixTest(int, char *[])
       for (unsigned int j = 0; j < 3; ++j)
       {
         if (itk::Math::isnan(invertedMatrix[i][j]))
+        {
           ++num_nans;
+        }
       }
     }
 

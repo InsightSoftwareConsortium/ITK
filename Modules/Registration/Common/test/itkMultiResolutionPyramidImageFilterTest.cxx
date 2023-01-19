@@ -373,7 +373,9 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
       }
       unsigned int sz = inputSize[j] / schedule[testLevel][j];
       if (sz == 0)
+      {
         sz = 1;
+      }
       if (outputSize[j] != sz)
       {
         break;
