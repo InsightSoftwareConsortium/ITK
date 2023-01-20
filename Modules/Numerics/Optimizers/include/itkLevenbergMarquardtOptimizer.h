@@ -97,7 +97,7 @@ protected:
 
 private:
   bool                                   m_OptimizerInitialized{};
-  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer{};
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
   unsigned int                           m_NumberOfIterations{};
   double                                 m_ValueTolerance{};
   double                                 m_GradientTolerance{};

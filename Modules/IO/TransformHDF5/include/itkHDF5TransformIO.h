@@ -150,7 +150,7 @@ private:
   void
   WriteOneTransform(const int transformIndex, const TransformType * curTransform);
 
-  std::unique_ptr<H5::H5File> m_H5File{};
+  std::unique_ptr<H5::H5File> m_H5File;
 
   /** Utility function for inferring data storage type
    * from class template.

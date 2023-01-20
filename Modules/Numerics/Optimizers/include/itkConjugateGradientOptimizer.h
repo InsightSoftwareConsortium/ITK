@@ -88,7 +88,7 @@ protected:
 private:
   /**  The vnl optimization method for conjugate gradient. */
   bool                                   m_OptimizerInitialized{};
-  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer{};
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
 };
 } // end namespace itk
 

@@ -181,7 +181,7 @@ protected:
 
 private:
   bool                                   m_OptimizerInitialized{};
-  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer{};
+  std::unique_ptr<InternalOptimizerType> m_VnlOptimizer;
   mutable std::ostringstream             m_StopConditionDescription{};
 
   bool         m_Trace{};

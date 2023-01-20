@@ -124,7 +124,7 @@ protected:
   itkAlignedTypedef(ITK_CACHE_LINE_ALIGNMENT,
                     PaddedJointHistogramMIPerThreadStruct,
                     AlignedJointHistogramMIPerThreadStruct);
-  std::unique_ptr<AlignedJointHistogramMIPerThreadStruct[]> m_JointHistogramMIPerThreadVariables{};
+  std::unique_ptr<AlignedJointHistogramMIPerThreadStruct[]> m_JointHistogramMIPerThreadVariables;
 
 private:
   /** Internal pointer to the metric object in use by this threader.
