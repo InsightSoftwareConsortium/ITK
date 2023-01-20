@@ -161,7 +161,7 @@ protected:
   PrintSelf(std::ostream & os, Indent indent) const override;
 
 private:
-  std::unique_ptr<JPEG2000ImageIOInternal> m_Internal{};
+  std::unique_ptr<JPEG2000ImageIOInternal> m_Internal;
 
   using SizeValueType = ImageIORegion::SizeValueType;
   using IndexValueType = ImageIORegion::IndexValueType;

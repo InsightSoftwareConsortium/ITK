@@ -415,9 +415,9 @@ private:
   bool m_UseImageDirection{};
 
   ThreadIdType                          m_NumberOfWorkUnits{};
-  std::unique_ptr<vnl_matrix<long>[]>   m_ThreadedEvaluateIndex {};
-  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeights {};
-  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeightsDerivative {};
+  std::unique_ptr<vnl_matrix<long>[]>   m_ThreadedEvaluateIndex;
+  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeights;
+  std::unique_ptr<vnl_matrix<double>[]> m_ThreadedWeightsDerivative;
 };
 } // namespace itk
 

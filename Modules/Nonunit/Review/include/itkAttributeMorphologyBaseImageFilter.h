@@ -168,7 +168,7 @@ private:
   static constexpr OffsetValueType ACTIVE = -2;
 
   // Just used for area/volume openings at the moment
-  std::unique_ptr<AttributeType[]> m_AuxData{};
+  std::unique_ptr<AttributeType[]> m_AuxData;
 
   using OffsetVecType = std::vector<OffsetType>;
   // offset in the linear array.
@@ -181,11 +181,11 @@ private:
   // it is sorted with a stable sort by grey level as the
   // first step in the algorithm. The sorting step avoids
   // the need to explicitly locate regional extrema.
-  std::unique_ptr<OffsetValueType[]> m_SortPixels{};
-  std::unique_ptr<OffsetValueType[]> m_Parent{};
+  std::unique_ptr<OffsetValueType[]> m_SortPixels;
+  std::unique_ptr<OffsetValueType[]> m_Parent;
 
   // This is a bit ugly, but I can't see an easy way around
-  std::unique_ptr<InputPixelType[]> m_Raw{};
+  std::unique_ptr<InputPixelType[]> m_Raw;
 
   class CompareOffsetType
   {

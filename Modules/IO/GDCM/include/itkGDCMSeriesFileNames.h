@@ -203,7 +203,7 @@ private:
   FileNamesContainerType m_OutputFileNames{};
 
   /** Internal structure to order serie from one directory */
-  std::unique_ptr<gdcm::SerieHelper> m_SerieHelper{};
+  std::unique_ptr<gdcm::SerieHelper> m_SerieHelper;
 
   /** Internal structure to keep the list of series UIDs */
   SeriesUIDContainerType m_SeriesUIDs{};
