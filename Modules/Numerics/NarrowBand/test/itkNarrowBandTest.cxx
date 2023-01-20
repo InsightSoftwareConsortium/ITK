@@ -77,7 +77,9 @@ itkNarrowBandTest(int, char *[])
   {
     std::cout << "Region " << i << std::endl;
     for (; regions[i].Begin != regions[i].End; regions[i].Begin++)
+    {
       std::cout << "Index: " << regions[i].Begin->m_Index << " Data: " << regions[i].Begin->m_Data << std::endl;
+    }
     i++;
   }
   std::cout << "Test Passed. " << std::endl;

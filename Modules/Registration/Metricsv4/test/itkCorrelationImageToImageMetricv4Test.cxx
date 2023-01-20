@@ -164,7 +164,9 @@ itkCorrelationImageToImageMetricv4Test(int, char ** const)
   using PointType = ImageType::PointType;
   PointType p0;
   for (unsigned int i = 0; i < imageDimensionality; ++i)
+  {
     p0[i] = 0;
+  }
 
   itFixed.GoToBegin();
   unsigned int count = 1;

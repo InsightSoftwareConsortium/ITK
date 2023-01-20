@@ -142,7 +142,9 @@ NullImageToImageFilterDriver<TInputImage, TOutputImage>::Execute()
   typename TOutputImage::IndexType index;
 
   for (unsigned int i = 0; i < ImageDimension; ++i)
+  {
     index[i] = 0;
+  }
   const typename TOutputImage::RegionType region(index, m_ImageSize);
 
   // Allocate the input

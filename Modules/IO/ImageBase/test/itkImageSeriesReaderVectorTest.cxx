@@ -35,7 +35,9 @@ itkImageSeriesReaderVectorTest(int argc, char * argv[])
 
   VectorImageSeriesReader::FileNamesContainer fnames;
   for (int i = 1; i < argc; ++i)
+  {
     fnames.push_back(argv[i]);
+  }
 
 
   std::cout << "testing reading an image series into VecorImage" << std::endl;

@@ -96,7 +96,9 @@ AdaptorSupportedModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
     temp_vector = it.Get();
 
     for (i = 0; i < N; ++i)
+    {
       temp_vector[i] += 3.435f;
+    }
 
     it.Set(temp_vector);
     ++it;
@@ -118,7 +120,9 @@ NoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
     temp_vector = it.Get();
 
     for (i = 0; i < N; ++i)
+    {
       temp_vector[i] += 3.435f;
+    }
 
     it.Set(temp_vector);
     ++it;
@@ -140,7 +144,9 @@ BypassAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   while (!it.IsAtEnd())
   {
     for (i = 0; i < N; ++i)
+    {
       (it.Value())[i] += 3.435f;
+    }
 
     ++it;
   }
@@ -159,7 +165,9 @@ BypassNoAdaptorSupportModifyVectors(itk::Image<itk::Vector<float, 3>, 3> * img)
   while (!it.IsAtEnd())
   {
     for (i = 0; i < N; ++i)
+    {
       (it.Value())[i] += 3.435f;
+    }
 
     ++it;
   }

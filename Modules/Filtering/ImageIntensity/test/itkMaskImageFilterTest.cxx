@@ -94,7 +94,9 @@ itkMaskImageFilterTest(int, char *[])
   // Set to mask first 2 pixels and last 2 pixels and leave the rest as is
   std::cout << "Second operand " << std::endl;
   for (unsigned int i = 0; i < 2; ++i, ++it2)
+  {
     it2.Set(0);
+  }
 
   while (!it2.IsAtEnd())
   {
@@ -103,7 +105,9 @@ itkMaskImageFilterTest(int, char *[])
   }
 
   for (unsigned int i = 0; i < 3; ++i, --it2)
+  {
     it2.Set(0);
+  }
 
   it2.GoToBegin();
   while (!it2.IsAtEnd())

@@ -96,7 +96,9 @@ itkMaskNegatedImageFilterTest(int, char *[])
   // Set to mask first 2 pixels and last 2 pixels and leave the rest as is
   std::cout << "Second operand " << std::endl;
   for (unsigned int i = 0; i < 2; ++i, ++maskIterator)
+  {
     maskIterator.Set(0);
+  }
 
   while (!maskIterator.IsAtEnd())
   {
@@ -105,7 +107,9 @@ itkMaskNegatedImageFilterTest(int, char *[])
   }
 
   for (unsigned int i = 0; i < 3; ++i, --maskIterator)
+  {
     maskIterator.Set(0);
+  }
 
   maskIterator.GoToBegin();
   while (!maskIterator.IsAtEnd())

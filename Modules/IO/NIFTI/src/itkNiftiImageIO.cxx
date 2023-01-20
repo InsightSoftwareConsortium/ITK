@@ -1760,7 +1760,9 @@ IsAffine(const mat44 & nifti_mat)
 
   for (int i = 0; i < 4; ++i)
     for (int j = 0; j < 4; ++j)
+    {
       mat[i][j] = double{ nifti_mat.m[i][j] };
+    }
 
   // First make sure the bottom row meets the condition that it is (0, 0, 0, 1)
   {
