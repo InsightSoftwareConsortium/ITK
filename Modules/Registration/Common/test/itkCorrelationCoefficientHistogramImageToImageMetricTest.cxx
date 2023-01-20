@@ -112,13 +112,17 @@ itkCorrelationCoefficientHistogramImageToImageMetricTest(int, char *[])
     ParametersType parameters(transform->GetNumberOfParameters());
 
     for (unsigned int k = 0; k < ImageDimension; ++k)
+    {
       parameters[k] = 0.0f;
+    }
 
     // Set scales for derivative calculation.
     ScalesType scales(transform->GetNumberOfParameters());
 
     for (unsigned int k = 0; k < ImageDimension; ++k)
+    {
       scales[k] = 1;
+    }
 
     metric->SetDerivativeStepLengthScales(scales);
 

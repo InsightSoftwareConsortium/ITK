@@ -156,7 +156,9 @@ ParticleSwarmOptimizerBase::PrintSelf(std::ostream & os, Indent indent) const
   end = this->m_ParameterBounds.end();
   os << indent << "Parameter bounds: [";
   for (it = this->m_ParameterBounds.begin(); it != end; ++it)
+  {
     os << " [" << it->first << ", " << it->second << "]";
+  }
   os << " ]\n";
   os << indent << "Parameters' convergence tolerance: " << this->m_ParametersConvergenceTolerance;
   os << "\n";

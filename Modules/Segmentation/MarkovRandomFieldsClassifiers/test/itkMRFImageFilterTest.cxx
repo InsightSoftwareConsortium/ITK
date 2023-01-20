@@ -92,13 +92,17 @@ itkMRFImageFilterTest(int, char *[])
     dblVec[0] = 21;
     dblVec[1] = 19;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
 
     // Vector no. 4-6
     dblVec[0] = 18;
     dblVec[1] = 14;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
   }
 
   // Row 4-6
@@ -108,13 +112,17 @@ itkMRFImageFilterTest(int, char *[])
     dblVec[0] = 15;
     dblVec[1] = 11;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
 
     // Vector no. 4-6
     dblVec[0] = 10;
     dblVec[1] = 16;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -127,13 +135,17 @@ itkMRFImageFilterTest(int, char *[])
     dblVec[0] = 14;
     dblVec[1] = 20;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
 
     // Vector no. 4-6 Row k
     dblVec[0] = 18;
     dblVec[1] = 22;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
   }
 
   // Row 4-6
@@ -143,13 +155,17 @@ itkMRFImageFilterTest(int, char *[])
     dblVec[0] = 15;
     dblVec[1] = 15;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
 
     // Vector no. 4-6 Row k
     dblVec[0] = 12;
     dblVec[1] = 12;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -162,13 +178,17 @@ itkMRFImageFilterTest(int, char *[])
     dblVec[0] = 19;
     dblVec[1] = 20;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
 
     // Vector no. 4-6 Row k
     dblVec[0] = 19;
     dblVec[1] = 21;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
   }
 
   // Row 4-6
@@ -178,13 +198,17 @@ itkMRFImageFilterTest(int, char *[])
     dblVec[0] = 12;
     dblVec[1] = 12;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
 
     // Vector no. 4-6 Row k
     dblVec[0] = 11;
     dblVec[1] = 10;
     for (i = 0; i < halfWidth; ++i, ++outIt)
+    {
       outIt.Set(dblVec);
+    }
   }
 
   //---------------------------------------------------------------
@@ -224,14 +248,18 @@ itkMRFImageFilterTest(int, char *[])
   {
     // Vector no. 1-3 Row k
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
+    {
       classoutIt.Set(2);
+    }
   }
 
   // Row 4-6
   for (k = 0; k < halfHeight; ++k)
   {
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
+    {
       classoutIt.Set(1);
+    }
   }
   //--------------------------------------------------------------------------
   // Slice 2
@@ -241,7 +269,9 @@ itkMRFImageFilterTest(int, char *[])
   {
     // Vector no. 1-3 Row k
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
+    {
       classoutIt.Set(0);
+    }
   }
 
   //--------------------------------------------------------------------------
@@ -251,14 +281,18 @@ itkMRFImageFilterTest(int, char *[])
   {
     // Vector no. 1-3 Row k
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
+    {
       classoutIt.Set(2);
+    }
   }
 
   // Row 4-6
   for (k = 0; k < halfHeight; ++k)
   {
     for (i = 0; i < (halfWidth * 2); ++i, ++classoutIt)
+    {
       classoutIt.Set(1);
+    }
   }
 
   //----------------------------------------------------------------------

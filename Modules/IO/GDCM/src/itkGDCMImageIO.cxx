@@ -655,7 +655,9 @@ GDCMImageIO::InternalReadImageInformation()
         m_El.Read(m_Ss);
         assert(m_El.GetLength() == 2);
         for (unsigned long i = 0; i < m_El.GetLength(); ++i)
+        {
           sp.push_back(m_El.GetValue(i));
+        }
         std::swap(sp[0], sp[1]);
         assert(sp.size() == 2);
         spacing[0] = sp[0];

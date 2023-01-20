@@ -507,7 +507,9 @@ MINCImageIO::ReadImageInformation()
       miget_dimension_start(this->m_MINCPImpl->m_MincApparentDims[usable_dimensions], MI_ORDER_APPARENT, &_start);
 
       for (int j = 0; j < 3; ++j)
+      {
         dir_cos[j][i - 1] = _dir[j];
+      }
 
       origin[i - 1] = _start;
       sep[i - 1] = _sep;
@@ -557,7 +559,9 @@ MINCImageIO::ReadImageInformation()
   o_origin = dir_cos * origin;
 
   for (int i = 0; i < spatial_dimension_count; ++i)
+  {
     this->SetOrigin(i, o_origin[i]);
+  }
 
   miclass_t volume_data_class;
 
@@ -1189,7 +1193,9 @@ MINCImageIO::WriteImageInformation()
   if (!dimorder_good) // use default order!
   {
     for (unsigned int i = 0; i < minc_dimensions; ++i)
+    {
       this->m_MINCPImpl->m_MincFileDims[i] = this->m_MINCPImpl->m_MincApparentDims[i];
+    }
   }
 
   mivolumeprops_t hprops;

@@ -202,9 +202,13 @@ MultiLabelSTAPLEImageFilter<TInputImage, TOutputImage, TWeights>::InitializePrio
 
     WeightsType totalProbMass = 0.0;
     for (InputPixelType l = 0; l < this->m_TotalLabelCount; ++l)
+    {
       totalProbMass += this->m_PriorProbabilities[l];
+    }
     for (InputPixelType l = 0; l < this->m_TotalLabelCount; ++l)
+    {
       this->m_PriorProbabilities[l] /= totalProbMass;
+    }
   }
 }
 

@@ -64,7 +64,9 @@ itkSymmetricSecondRankTensorImageWriteReadTest(int argc, char * argv[])
   {
     itr.Set(tensorPixelInput);
     for (unsigned int i = 0; i < 3; ++i)
+    {
       tensorPixelInput[i]++;
+    }
     ++itr;
   }
 

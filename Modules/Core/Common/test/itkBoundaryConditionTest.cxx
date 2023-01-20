@@ -37,7 +37,9 @@ printn(itk::NeighborhoodAllocator<TPixel> & n, const itk::Size<2> & sz)
   for (j = 0; j < sz[1]; ++j)
   {
     for (i = 0; i < sz[0]; ++i, ++k)
+    {
       std::cout << n[k] << " ";
+    }
     std::cout << std::endl;
   }
 }
@@ -137,9 +139,13 @@ itkBoundaryConditionTest(int, char *[])
   //  for (; !it2D.IsAtEnd(); ++it2D) *it2D = 1.0f;
   filln(image2D);
   for (; !it3D.IsAtEnd(); ++it3D)
+  {
     it3D.Set(1.0f);
+  }
   for (; !itND.IsAtEnd(); ++itND)
+  {
     itND.Set(1.0f);
+  }
 
   println("Initializing smart neighborhood iterators");
   itk::Size<2> sz2;

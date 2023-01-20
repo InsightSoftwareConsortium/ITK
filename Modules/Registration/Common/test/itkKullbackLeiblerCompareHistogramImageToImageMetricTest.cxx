@@ -210,7 +210,9 @@ itkKullbackLeiblerCompareHistogramImageToImageMetricTest(int, char *[])
   ScalesType scales(transformer->GetNumberOfParameters());
 
   for (unsigned int k = 0; k < transformer->GetNumberOfParameters(); ++k)
+  {
     scales[k] = 1;
+  }
 
   metric->SetDerivativeStepLengthScales(scales);
 

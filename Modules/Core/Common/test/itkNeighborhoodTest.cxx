@@ -37,17 +37,23 @@ itkNeighborhoodTest(int, char *[])
 
   println("Test data access");
   for (i = 0; i < b.Size(); ++i)
+  {
     b[i] = static_cast<float>(i);
+  }
   b.Print(std::cout);
 
   println("Test non_const iterators");
   for (itk::Neighborhood<float, 2>::Iterator it = b.Begin(); it < b.End(); ++it)
+  {
     *it = 4.0f;
+  }
   b.Print(std::cout);
 
   println("Test const_iterators");
   for (itk::Neighborhood<float, 2>::ConstIterator itc = b.Begin(); itc < b.End(); ++itc)
+  {
     std::cout << *itc << " ";
+  }
 
   println("Copy the buffer into a vnl_vector");
   vnl_vector<float> v = b.GetBufferReference();

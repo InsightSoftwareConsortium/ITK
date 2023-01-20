@@ -472,12 +472,16 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
               << "acquisition:TestDoubleArray " << std::endl;
     std::cerr << "metaDataDoubleArray=";
     for (size_t i = 0; i < metaDataDoubleArray.size(); ++i)
+    {
       std::cerr << metaDataDoubleArray[i] << " ";
+    }
     std::cerr << std::endl;
 
     std::cerr << "metaDataDoubleArray2=";
     for (size_t i = 0; i < metaDataDoubleArray2.size(); ++i)
+    {
       std::cerr << metaDataDoubleArray2[i] << " ";
+    }
     std::cerr << std::endl;
 
     success = EXIT_FAILURE;
@@ -491,12 +495,16 @@ MINCReadWriteTest(const char * fileName, const char * minc_storage_type, double 
               << "acquisition:TestFloatArray " << std::endl;
     std::cerr << "metaDataFloatArray=";
     for (size_t i = 0; i < metaDataFloatArray.size(); ++i)
+    {
       std::cerr << metaDataFloatArray[i] << " ";
+    }
     std::cerr << std::endl;
 
     std::cerr << "metaDataFloatArray2=";
     for (size_t i = 0; i < metaDataFloatArray2.size(); ++i)
+    {
       std::cerr << metaDataFloatArray2[i] << " ";
+    }
     std::cerr << std::endl;
 
     success = EXIT_FAILURE;
