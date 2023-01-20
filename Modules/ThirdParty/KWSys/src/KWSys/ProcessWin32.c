@@ -2119,7 +2119,7 @@ static void kwsysProcessSetExitExceptionByIndex(kwsysProcess* cp, int code,
       KWSYSPE_CASE(Fault, "In-page error");
       break;
     case STATUS_INVALID_HANDLE:
-      KWSYSPE_CASE(Fault, "Invalid hanlde");
+      KWSYSPE_CASE(Fault, "Invalid handle");
       break;
     case STATUS_NONCONTINUABLE_EXCEPTION:
       KWSYSPE_CASE(Fault, "Noncontinuable exception");
@@ -2406,8 +2406,9 @@ static int kwsysProcess_List__Next_NT4(kwsysProcess_List* self)
 {
   if (self->CurrentInfo) {
     if (self->CurrentInfo->NextEntryDelta > 0) {
-      self->CurrentInfo = ((PSYSTEM_PROCESS_INFORMATION)(
-        (char*)self->CurrentInfo + self->CurrentInfo->NextEntryDelta));
+      self->CurrentInfo =
+        ((PSYSTEM_PROCESS_INFORMATION)((char*)self->CurrentInfo +
+                                       self->CurrentInfo->NextEntryDelta));
       return 1;
     }
     self->CurrentInfo = 0;

@@ -213,8 +213,8 @@ bool Glob::RecurseDirectory(std::string::size_type start,
     fname = kwsys::SystemTools::LowerCase(fname);
 #endif
 
-    bool isDir = kwsys::SystemTools::FileIsDirectory(realname);
-    bool isSymLink = kwsys::SystemTools::FileIsSymlink(realname);
+    bool isDir = d.FileIsDirectory(cc);
+    bool isSymLink = d.FileIsSymlink(cc);
 
     if (isDir && (!isSymLink || this->RecurseThroughSymlinks)) {
       if (isSymLink) {
@@ -390,8 +390,8 @@ bool Glob::FindFiles(const std::string& inexpr, GlobMessages* messages)
 #endif
       // Handle drive letters on Windows
       if (expr[1] == ':' && expr[0] != '/') {
-      skip = 2;
-    }
+        skip = 2;
+      }
   }
 
   if (skip > 0) {
