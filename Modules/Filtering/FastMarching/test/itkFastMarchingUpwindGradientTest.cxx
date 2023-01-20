@@ -297,7 +297,7 @@ itkFastMarchingUpwindGradientTest(int, char *[])
 
   // Now stop the algorithm once SOME of the targets have been reached.
   numberOfTargets = targetPoints->Size() + 1;
-  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets))
+  ITK_TRY_EXPECT_NO_EXCEPTION(marcher->SetTargetReachedModeToSomeTargets(numberOfTargets));
   ITK_TRY_EXPECT_EXCEPTION(marcher->Update());
 
   numberOfTargets = targetPoints->Size() - 1;
