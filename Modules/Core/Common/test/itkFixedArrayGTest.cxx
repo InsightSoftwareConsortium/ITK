@@ -25,7 +25,8 @@
 #include <gtest/gtest.h>
 
 #include <array>
-#include <numeric> // For iota.
+#include <numeric>     // For iota.
+#include <type_traits> // For remove_reference_t.
 
 
 namespace
@@ -323,4 +324,23 @@ TEST(FixedArray, StdMemberFunctionsWork)
   EXPECT_EQ(cdata[0], 1);
   d3arr.data()[0] = 10;
   EXPECT_EQ(cdata[0], 10);
+}
+
+
+// Tests that each element of a value-initialized FixedArray is itself value-initialized. By definition,
+// "value-initialization" is performed when an object is constructed with an empty {} initializer.
+TEST(FixedArray, ValueInitialized)
+{
+  const auto expectEachElementValueInitialized = [](const auto & fixedArray) {
+    for (const auto & element : fixedArray)
+    {
+      using ValueType = std::remove_reference_t<decltype(element)>;
+
+      EXPECT_EQ(element, ValueType{});
+    }
+  };
+
+  expectEachElementValueInitialized(itk::FixedArray<int, 3>{});
+  expectEachElementValueInitialized(itk::FixedArray<float, 3>{});
+  expectEachElementValueInitialized(itk::FixedArray<void *, 3>{});
 }
