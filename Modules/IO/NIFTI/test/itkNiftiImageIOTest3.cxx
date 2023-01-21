@@ -42,7 +42,7 @@ Decrement(ScalarType & value, std::enable_if_t<std::numeric_limits<ScalarType>::
 
 template <typename ScalarType, unsigned int TVecLength, unsigned int TDimension>
 int
-TestImageOfVectors(const std::string & fname)
+TestImageOfVectors(const std::string & fname, const std::string & intentCode = "")
 {
   constexpr int dimsize = 2;
   /** Deformation field pixel type. */
@@ -143,6 +143,11 @@ TestImageOfVectors(const std::string & fname)
       }
     }
   }
+  if (!intentCode.empty())
+  {
+    itk::MetaDataDictionary & dictionary = vi->GetMetaDataDictionary();
+    itk::EncapsulateMetaData<std::string>(dictionary, "intent_code", intentCode);
+  }
   try
   {
     itk::IOTestHelper::WriteImage<VectorImageType, itk::NiftiImageIO>(vi, fname);
@@ -181,6 +186,24 @@ TestImageOfVectors(const std::string & fname)
     return EXIT_FAILURE;
   }
   bool same = true;
+  if (!intentCode.empty())
+  {
+    const itk::MetaDataDictionary & dictionary = readback->GetMetaDataDictionary();
+    std::string                     readIntentCode;
+    if (itk::ExposeMetaData<std::string>(dictionary, "intent_code", readIntentCode))
+    {
+      if (readIntentCode != intentCode)
+      {
+        std::cout << "intent_code is different: " << readIntentCode << " != " << intentCode << std::endl;
+        same = false;
+      }
+    }
+    else
+    {
+      std::cout << "The read image should have an intent_code in its dictionary" << std::endl;
+      same = false;
+    }
+  }
   if (readback->GetOrigin() != vi->GetOrigin())
   {
     std::cout << "Origin is different: " << readback->GetOrigin() << " != " << vi->GetOrigin() << std::endl;
@@ -294,6 +317,10 @@ itkNiftiImageIOTest3(int argc, char * argv[])
   success |= TestImageOfVectors<float, 4, 3>(std::string("testVectorImage_float_4_3.nii.gz"));
   success |= TestImageOfVectors<float, 4, 4>(std::string("testVectorImage_float_4_4.nii.gz"));
   success |= TestImageOfVectors<double, 3, 3>(std::string("testVectorImage_double_3_3.nii.gz"));
+
+  // Test reading/writing as displacement field (NIFTI intent code = 1006)
+  success |= TestImageOfVectors<double, 3, 1>(std::string("testDispacementImage_double.nii.gz"), std::string("1006"));
+  success |= TestImageOfVectors<float, 3, 1>(std::string("testDisplacementImage_float.nii.gz"), std::string("1006"));
 
   return success;
 }
