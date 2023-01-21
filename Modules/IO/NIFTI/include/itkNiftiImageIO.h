@@ -188,6 +188,37 @@ public:
   itkSetMacro(LegacyAnalyze75Mode, NiftiImageIOEnums::Analyze75Flavor);
   itkGetConstMacro(LegacyAnalyze75Mode, NiftiImageIOEnums::Analyze75Flavor);
 
+  /** Enable conversion of vector coordinates between RAS coordinate system (in NIFTI file) and
+   * LPS (ITK convention) when reading or writing a generic vector image file (intent code: 1007).
+   *
+   * This flag is disabled by default because vectors may store non-spatial information.
+   *
+   * By default an ITK vector image is written to NIFTI file as a generic vector image, unless
+   * "intent_code" field is set explicitly to set to "1006" (displacement vector).
+   */
+  itkSetMacro(ConvertRASVectors, bool);
+  itkGetConstMacro(ConvertRASVectors, bool);
+  itkBooleanMacro(ConvertRASVectors);
+
+  /** Enable conversion of vector coordinates between RAS coordinate system (in NIFTI file) and
+   * LPS (ITK convention) when reading or writing a "displacement vector" file (intent code: 1006).
+   *
+   * This flag is enabled by default. Disabling it may be useful to avoid unnecessary conversions
+   * in applications that uses RAS coordinate system.
+   *
+   * To write a vector image as displacement vector: set "intent_code" to "1006" in the metadata
+   * dictionary of the input image.
+   *
+   \code
+       itk::MetaDataDictionary& dictionary = image->GetMetaDataDictionary();
+       itk::EncapsulateMetaData<std::string>(dictionary, "intent_code", "1006");
+   \endcode
+   *
+   */
+  itkSetMacro(ConvertRASDisplacementVectors, bool);
+  itkGetConstMacro(ConvertRASDisplacementVectors, bool);
+  itkBooleanMacro(ConvertRASDisplacementVectors);
+
 protected:
   NiftiImageIO();
   ~NiftiImageIO() override;
@@ -237,6 +268,10 @@ private:
 
   double m_RescaleSlope{ 1.0 };
   double m_RescaleIntercept{ 0.0 };
+
+  bool m_ConvertRAS{ false };
+  bool m_ConvertRASVectors{ false };
+  bool m_ConvertRASDisplacementVectors{ true };
 
   IOComponentEnum m_OnDiskComponentType{ IOComponentEnum::UNKNOWNCOMPONENTTYPE };
 
