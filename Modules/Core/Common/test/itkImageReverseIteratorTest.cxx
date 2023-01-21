@@ -98,9 +98,6 @@ itkImageReverseIteratorTest(int, char *[])
   (*o3)[regionEndIndex3D] = (*o3)[regionStartIndex3D];
   TestConstPixelAccess(*o3, *o3);
 
-
-  itk::ImageIterator<ImageType> standardIt(o3, region);
-
   // Iterate over a region using a simple for loop
   itk::ImageRegionIterator<ImageType> it(o3, region);
 
