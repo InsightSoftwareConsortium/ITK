@@ -151,6 +151,10 @@ PerformSimpleImageRegistration(int argc, char * argv[])
 
   using AffineRegistrationType = itk::ImageRegistrationMethodv4<FixedImageType, MovingImageType>;
   auto affineSimple = AffineRegistrationType::New();
+
+  ITK_EXERCISE_BASIC_OBJECT_METHODS(affineSimple, ImageRegistrationMethodv4, ProcessObject);
+
+
   affineSimple->SetObjectName("affineSimple");
 
   // Test exceptions

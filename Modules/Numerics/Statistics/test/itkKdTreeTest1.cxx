@@ -67,6 +67,7 @@ itkKdTreeTest1(int argc, char * argv[])
   const unsigned int bucketSize = std::stoi(argv[3]);
 
   treeGenerator->SetSample(sample);
+
   treeGenerator->SetBucketSize(bucketSize);
   treeGenerator->Update();
 

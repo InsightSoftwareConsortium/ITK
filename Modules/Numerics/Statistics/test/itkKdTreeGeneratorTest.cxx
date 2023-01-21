@@ -18,6 +18,7 @@
 
 #include "itkListSample.h"
 #include "itkKdTreeGenerator.h"
+#include "itkTestingMacros.h"
 
 int
 itkKdTreeGeneratorTest(int, char *[])
@@ -44,7 +45,8 @@ itkKdTreeGeneratorTest(int, char *[])
     using TreeGeneratorType = itk::Statistics::KdTreeGenerator<SampleType>;
     auto treeGenerator = TreeGeneratorType::New();
 
-    std::cout << "KdTreeGenerator class name: " << treeGenerator->GetNameOfClass() << std::endl;
+    ITK_EXERCISE_BASIC_OBJECT_METHODS(treeGenerator, KdTreeGenerator, Object);
+
 
     treeGenerator->SetSample(sample);
     treeGenerator->SetBucketSize(16);
