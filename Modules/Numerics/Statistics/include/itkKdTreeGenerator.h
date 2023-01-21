@@ -110,14 +110,16 @@ public:
   /** Typedef for the smart pointer to the Subsample */
   using SubsamplePointer = typename SubsampleType::Pointer;
 
-  /** Sets the input sample that provides the measurement vectors. */
+  /** Set/Get the input sample that provides the measurement vectors. */
   void
   SetSample(TSample * sample);
+  itkGetConstMacro(SourceSample, TSample *);
 
   /** Sets the number of measurement vectors that can be stored in a
    * terminal node. */
   void
   SetBucketSize(unsigned int size);
+  itkGetConstMacro(BucketSize, unsigned int);
 
   /** Returns the pointer to the generated k-d tree. */
   OutputPointer

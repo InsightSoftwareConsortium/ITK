@@ -49,7 +49,12 @@ itkKdTreeGeneratorTest(int, char *[])
 
 
     treeGenerator->SetSample(sample);
-    treeGenerator->SetBucketSize(16);
+    ITK_TEST_SET_GET_VALUE(sample, treeGenerator->GetSourceSample());
+
+    unsigned int bucketSize = 16;
+    treeGenerator->SetBucketSize(bucketSize);
+    ITK_TEST_SET_GET_VALUE(bucketSize, treeGenerator->GetBucketSize());
+
     treeGenerator->Update();
 
     using TreeType = TreeGeneratorType::KdTreeType;
