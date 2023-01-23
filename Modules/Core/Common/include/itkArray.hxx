@@ -24,12 +24,6 @@ namespace itk
 {
 
 template <typename TValue>
-Array<TValue>::Array()
-  : vnl_vector<TValue>()
-{}
-
-
-template <typename TValue>
 Array<TValue>::Array(const Self & rhs)
   : vnl_vector<TValue>(rhs)
 // The copy constructor creates new memory, no matter

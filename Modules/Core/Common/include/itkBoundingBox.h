@@ -189,7 +189,7 @@ public:
   DeepCopy() const;
 
 protected:
-  BoundingBox();
+  BoundingBox() = default;
   ~BoundingBox() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

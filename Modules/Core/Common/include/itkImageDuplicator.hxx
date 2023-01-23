@@ -24,14 +24,6 @@ namespace itk
 {
 
 template <typename TInputImage>
-ImageDuplicator<TInputImage>::ImageDuplicator()
-{
-  m_InputImage = nullptr;
-  m_DuplicateImage = nullptr;
-  m_InternalImageTime = 0;
-}
-
-template <typename TInputImage>
 void
 ImageDuplicator<TInputImage>::Update()
 {

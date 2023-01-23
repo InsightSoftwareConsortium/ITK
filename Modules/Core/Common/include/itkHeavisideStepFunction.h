@@ -79,7 +79,7 @@ public:
   EvaluateDerivative(const InputType & input) const override;
 
 protected:
-  HeavisideStepFunction();
+  HeavisideStepFunction() = default;
   ~HeavisideStepFunction() override = default;
 };
 } // namespace itk
