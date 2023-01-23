@@ -934,6 +934,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5E_init itk_H5E_init
 #define H5E_init_g itk_H5E_init_g
 #define H5E_printf_stack itk_H5E_printf_stack
+#define H5E_t itk_H5E_t
 #define H5E_stack_g itk_H5E_stack_g
 #define H5E_term_package itk_H5E_term_package
 #define H5Eauto_is_v2 itk_H5Eauto_is_v2
@@ -1749,6 +1750,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5I_remove itk_H5I_remove
 #define H5I_subst itk_H5I_subst
 #define H5I_term_package itk_H5I_term_package
+#define H5I_type_info_t itk_H5I_type_info_t
 #define H5I_type_info_array_g itk_H5I_type_info_array_g
 #define H5I_type_t itk_H5I_type_t
 #define H5Iclear_type itk_H5Iclear_type
@@ -3804,6 +3806,7 @@ e.g. remove mangling for H5Fget_info but leave it for H5Fget_info1 and H5Fget_in
 #define H5_chunk_elmts_blk_free_list itk_H5_chunk_elmts_blk_free_list
 #define H5_chunk_image_blk_free_list itk_H5_chunk_image_blk_free_list
 #define H5_combine_path itk_H5_combine_path
+#define H5_debug_t itk_H5_debug_t
 #define H5_debug_g itk_H5_debug_g
 #define H5_direct_block_blk_free_list itk_H5_direct_block_blk_free_list
 #define H5_ea_native_elmt_blk_free_list itk_H5_ea_native_elmt_blk_free_list
