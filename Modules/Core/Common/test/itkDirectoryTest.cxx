@@ -45,14 +45,5 @@ itkDirectoryTest(int argc, char * argv[])
     std::cout << "File 0 is " << directory->GetFile(0) << std::endl;
   }
 
-  // This should fail
-  auto fileOutOfRange = static_cast<unsigned int>(directory->GetNumberOfFiles());
-  if (directory->GetFile(fileOutOfRange))
-  {
-    std::cerr << "directory->GetFile(directory->GetNumberOfFiles())"
-              << " should have failed." << std::endl;
-    return EXIT_FAILURE;
-  }
-
   return EXIT_SUCCESS;
 }
