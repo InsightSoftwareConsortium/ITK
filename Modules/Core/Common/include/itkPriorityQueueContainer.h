@@ -162,7 +162,7 @@ public:
   using ElementIdentifierType = TElementIdentifier;
 
   using Superclass = MinPriorityQueueElementWrapper<ElementType, ElementPriorityType, ElementIdentifierType>;
-  MaxPriorityQueueElementWrapper();
+  MaxPriorityQueueElementWrapper() = default;
 
   MaxPriorityQueueElementWrapper(ElementType element, ElementPriorityType priority);
 

@@ -22,10 +22,6 @@
 
 namespace itk
 {
-template <typename TInput, typename TOutput>
-HeavisideStepFunction<TInput, TOutput>::HeavisideStepFunction()
-  : Superclass()
-{}
 
 template <typename TInput, typename TOutput>
 auto

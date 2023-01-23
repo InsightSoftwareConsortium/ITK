@@ -56,7 +56,7 @@ public:
 public:
   /** Default constructor. It is created with an empty array
    *  it has to be allocated later by assignment */
-  Array();
+  Array() = default;
 
   /** Copy constructor.  Uses VNL copy constructor with correct
    *  setting for memory management. */

@@ -184,10 +184,6 @@ MinPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::
 // -----------------------------------------------------------------------------
 // MaxPriorityQueueElementWrapper
 // -----------------------------------------------------------------------------
-template <typename TElement, typename TElementPriority, typename TElementIdentifier>
-MaxPriorityQueueElementWrapper<TElement, TElementPriority, TElementIdentifier>::MaxPriorityQueueElementWrapper()
-  : Superclass()
-{}
 // -----------------------------------------------------------------------------
 
 // -----------------------------------------------------------------------------

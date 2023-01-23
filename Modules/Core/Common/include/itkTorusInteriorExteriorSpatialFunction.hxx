@@ -22,13 +22,6 @@
 namespace itk
 {
 template <unsigned int VDimension, typename TInput>
-TorusInteriorExteriorSpatialFunction<VDimension, TInput>::TorusInteriorExteriorSpatialFunction()
-
-{
-  m_Origin.Fill(0.0);
-}
-
-template <unsigned int VDimension, typename TInput>
 auto
 TorusInteriorExteriorSpatialFunction<VDimension, TInput>::Evaluate(const InputType & position) const -> OutputType
 {

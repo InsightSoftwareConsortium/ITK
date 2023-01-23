@@ -125,13 +125,6 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Get
 }
 #endif
 
-/** */
-template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
-BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::BoundingBox()
-  : m_PointsContainer(nullptr)
-{
-  m_Bounds.Fill(NumericTraits<CoordRepType>::ZeroValue());
-}
 
 template <typename TPointIdentifier, unsigned int VPointDimension, typename TCoordRep, typename TPointsContainer>
 bool

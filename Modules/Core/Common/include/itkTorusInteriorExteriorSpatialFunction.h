@@ -79,7 +79,7 @@ public:
   itkSetMacro(MinorRadius, double);
 
 protected:
-  TorusInteriorExteriorSpatialFunction();
+  TorusInteriorExteriorSpatialFunction() = default;
   ~TorusInteriorExteriorSpatialFunction() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;

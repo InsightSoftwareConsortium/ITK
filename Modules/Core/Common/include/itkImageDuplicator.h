@@ -115,7 +115,7 @@ public:
   Update();
 
 protected:
-  ImageDuplicator();
+  ImageDuplicator() = default;
   ~ImageDuplicator() override = default;
   void
   PrintSelf(std::ostream & os, Indent indent) const override;
