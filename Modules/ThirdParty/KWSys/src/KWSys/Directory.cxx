@@ -7,6 +7,8 @@
 
 #include KWSYS_HEADER(Encoding.hxx)
 
+#include KWSYS_HEADER(SystemTools.hxx)
+
 // Work-around CMake dependency scanning limitation.  This must
 // duplicate the above list of headers.
 #if 0
@@ -16,15 +18,48 @@
 #endif
 
 #include <string>
+#include <utility>
 #include <vector>
+
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#  include <windows.h>
+
+#  include <ctype.h>
+#  include <fcntl.h>
+#  include <io.h>
+#  include <stdio.h>
+#  include <stdlib.h>
+#  include <string.h>
+#  include <sys/stat.h>
+#  include <sys/types.h>
+#endif
 
 namespace KWSYS_NAMESPACE {
 
 class DirectoryInternals
 {
 public:
+  struct FileData
+  {
+    std::string Name;
+#if defined(_WIN32) && !defined(__CYGWIN__)
+    WIN32_FIND_DATAW FindData;
+#endif
+    FileData(std::string name
+#if defined(_WIN32) && !defined(__CYGWIN__)
+             ,
+             WIN32_FIND_DATAW data
+#endif
+             )
+      : Name(std::move(name))
+#if defined(_WIN32) && !defined(__CYGWIN__)
+      , FindData(std::move(data))
+#endif
+    {
+    }
+  };
   // Array of Files
-  std::vector<std::string> Files;
+  std::vector<FileData> Files;
 
   // Path to Open'ed directory
   std::string Path;
@@ -59,10 +94,45 @@ unsigned long Directory::GetNumberOfFiles() const
 
 const char* Directory::GetFile(unsigned long dindex) const
 {
-  if (dindex >= this->Internal->Files.size()) {
-    return nullptr;
+  return this->Internal->Files[dindex].Name.c_str();
+}
+
+std::string const& Directory::GetFileName(std::size_t i) const
+{
+  return this->Internal->Files[i].Name;
+}
+
+std::string Directory::GetFilePath(std::size_t i) const
+{
+  std::string abs = this->Internal->Path;
+  if (!abs.empty() && abs.back() != '/') {
+    abs += '/';
   }
-  return this->Internal->Files[dindex].c_str();
+  abs += this->Internal->Files[i].Name;
+  return abs;
+}
+
+bool Directory::FileIsDirectory(std::size_t i) const
+{
+#if defined(_WIN32) && !defined(__CYGWIN__)
+  auto const& data = this->Internal->Files[i].FindData;
+  return (data.dwFileAttributes & FILE_ATTRIBUTE_DIRECTORY) != 0;
+#else
+  std::string const& path = this->GetFilePath(i);
+  return kwsys::SystemTools::FileIsDirectory(path);
+#endif
+}
+
+bool Directory::FileIsSymlink(std::size_t i) const
+{
+  std::string const& path = this->GetFilePath(i);
+#if defined(_WIN32) && !defined(__CYGWIN__)
+  auto const& data = this->Internal->Files[i].FindData;
+  return kwsys::SystemTools::FileIsSymlinkWithAttr(
+    Encoding::ToWindowsExtendedPath(path), data.dwFileAttributes);
+#else
+  return kwsys::SystemTools::FileIsSymlink(path);
+#endif
 }
 
 const char* Directory::GetPath() const
@@ -81,23 +151,13 @@ void Directory::Clear()
 // First Windows platforms
 
 #if defined(_WIN32) && !defined(__CYGWIN__)
-#  include <windows.h>
-
-#  include <ctype.h>
-#  include <fcntl.h>
-#  include <io.h>
-#  include <stdio.h>
-#  include <stdlib.h>
-#  include <string.h>
-#  include <sys/stat.h>
-#  include <sys/types.h>
 
 namespace KWSYS_NAMESPACE {
 
 Status Directory::Load(std::string const& name, std::string* errorMessage)
 {
   this->Clear();
-  intptr_t srchHandle;
+  HANDLE srchHandle;
   char* buf;
   size_t bufLength;
   size_t n = name.size();
@@ -116,14 +176,14 @@ Status Directory::Load(std::string const& name, std::string* errorMessage)
       snprintf(buf, bufLength, "%s/*", name.c_str());
     }
   }
-  struct _wfinddata_t data; // data of current file
+  WIN32_FIND_DATAW data; // data of current file
 
   // Now put them into the file array
   srchHandle =
-    _wfindfirst((wchar_t*)Encoding::ToWindowsExtendedPath(buf).c_str(), &data);
+    FindFirstFileW(Encoding::ToWindowsExtendedPath(buf).c_str(), &data);
   delete[] buf;
 
-  if (srchHandle == -1) {
+  if (srchHandle == INVALID_HANDLE_VALUE) {
     Status status = Status::POSIX_errno();
     if (errorMessage) {
       *errorMessage = status.GetString();
@@ -133,10 +193,11 @@ Status Directory::Load(std::string const& name, std::string* errorMessage)
 
   // Loop through names
   do {
-    this->Internal->Files.push_back(Encoding::ToNarrow(data.name));
-  } while (_wfindnext(srchHandle, &data) != -1);
+    this->Internal->Files.emplace_back(Encoding::ToNarrow(data.cFileName),
+                                       data);
+  } while (FindNextFileW(srchHandle, &data));
   this->Internal->Path = name;
-  if (_findclose(srchHandle) == -1) {
+  if (!FindClose(srchHandle)) {
     Status status = Status::POSIX_errno();
     if (errorMessage) {
       *errorMessage = status.GetString();
@@ -149,7 +210,7 @@ Status Directory::Load(std::string const& name, std::string* errorMessage)
 unsigned long Directory::GetNumberOfFilesInDirectory(const std::string& name,
                                                      std::string* errorMessage)
 {
-  intptr_t srchHandle;
+  HANDLE srchHandle;
   char* buf;
   size_t bufLength;
   size_t n = name.size();
@@ -162,13 +223,13 @@ unsigned long Directory::GetNumberOfFilesInDirectory(const std::string& name,
     buf = new char[n + 2 + 1];
     snprintf(buf, bufLength, "%s/*", name.c_str());
   }
-  struct _wfinddata_t data; // data of current file
+  WIN32_FIND_DATAW data; // data of current file
 
   // Now put them into the file array
-  srchHandle = _wfindfirst((wchar_t*)Encoding::ToWide(buf).c_str(), &data);
+  srchHandle = FindFirstFileW(Encoding::ToWide(buf).c_str(), &data);
   delete[] buf;
 
-  if (srchHandle == -1) {
+  if (srchHandle == INVALID_HANDLE_VALUE) {
     if (errorMessage) {
       if (unsigned int errorId = GetLastError()) {
         LPSTR message = nullptr;
@@ -190,8 +251,8 @@ unsigned long Directory::GetNumberOfFilesInDirectory(const std::string& name,
   unsigned long count = 0;
   do {
     count++;
-  } while (_wfindnext(srchHandle, &data) != -1);
-  _findclose(srchHandle);
+  } while (FindNextFileW(srchHandle, &data));
+  FindClose(srchHandle);
   return count;
 }
 
