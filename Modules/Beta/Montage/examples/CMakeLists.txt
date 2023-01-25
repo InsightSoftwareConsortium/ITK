@@ -2,17 +2,22 @@ cmake_minimum_required(VERSION 3.10.2)
 project(ITKMontageExamples)
 
 set(ExampleSpecificComponents
+  Montage
   ITKBiasCorrection
   ITKImageGrid
   ITKImageFeature
+  ITKIOMeta
+  ITKIONRRD
+  ITKIOPNG
+  ITKIOTransformInsightLegacy
   )
 
 if(NOT ITK_SOURCE_DIR)
-  find_package(ITK 5.2 REQUIRED COMPONENTS Montage ITKImageIO ITKTransformIO ITKTestKernel ${ExampleSpecificComponents})
+  find_package(ITK 5.2 REQUIRED COMPONENTS ITKImageIO ITKTransformIO ${ExampleSpecificComponents})
 else()
   # when being built as part of ITK, ITKImageIO and ITKTransformIO
   # lists of modules are not yet ready, causing a configure error
-  find_package(ITK REQUIRED COMPONENTS Montage ITKIOTransformInsightLegacy ITKIONRRD ITKIOPNG ITKTestKernel ${ExampleSpecificComponents})
+  find_package(ITK REQUIRED COMPONENTS ${ExampleSpecificComponents})
 endif()
 include(${ITK_USE_FILE})
 
