@@ -714,7 +714,7 @@ WriteBuffer(std::ostream & os, const TComponent * buffer, ImageIOBase::SizeType 
     {
       os << "\n";
     }
-    os << PrintType(*ptr++) << " ";
+    os << PrintType(*ptr++) << ' ';
   }
 }
 } // namespace

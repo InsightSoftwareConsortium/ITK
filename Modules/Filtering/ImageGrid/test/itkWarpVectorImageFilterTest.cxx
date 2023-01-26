@@ -280,8 +280,8 @@ itkWarpVectorImageFilterTest(int, char *[])
         if (itk::Math::abs(trueValue[k] - value[k]) > 1e-4)
         {
           testPassed = false;
-          std::cout << "Error at Index: " << index << " ";
-          std::cout << "Expected: " << trueValue << " ";
+          std::cout << "Error at Index: " << index << ' ';
+          std::cout << "Expected: " << trueValue << ' ';
           std::cout << "Actual: " << value << std::endl;
           break;
         }
@@ -293,8 +293,8 @@ itkWarpVectorImageFilterTest(int, char *[])
       if (value != PixelType(padValue))
       {
         testPassed = false;
-        std::cout << "Error at Index: " << index << " ";
-        std::cout << "Expected: " << padValue << " ";
+        std::cout << "Error at Index: " << index << ' ';
+        std::cout << "Expected: " << padValue << ' ';
         std::cout << "Actual: " << value << std::endl;
       }
     }

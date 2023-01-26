@@ -110,16 +110,15 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
     {
       PointType point = pointIterator.Value();
 
-      outputFile << point[0] << " " << point[1];
+      outputFile << point[0] << ' ' << point[1];
 
       if (TInputMesh::PointDimension > 2)
       {
-        outputFile << " " << point[2];
+        outputFile << ' ' << point[2];
       }
       else
       {
-        outputFile << " "
-                   << "0.0";
+        outputFile << ' ' << "0.0";
       }
 
       outputFile << std::endl;
@@ -171,7 +170,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
     // LINES
     if (numberOfEdges)
     {
-      outputFile << "LINES " << numberOfEdges << " " << 3 * numberOfEdges << std::endl;
+      outputFile << "LINES " << numberOfEdges << ' ' << 3 * numberOfEdges << std::endl;
 
       cellIterator = cells->Begin();
       while (cellIterator != cellEnd)
@@ -187,7 +186,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
             outputFile << cellPointer->GetNumberOfPoints();
             while (pointIdIterator != pointIdEnd)
             {
-              outputFile << " " << IdMap[*pointIdIterator];
+              outputFile << ' ' << IdMap[*pointIdIterator];
               ++pointIdIterator;
             }
             outputFile << std::endl;
@@ -218,7 +217,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
         }
         ++cellIterator;
       }
-      outputFile << "POLYGONS " << numberOfPolygons << " "
+      outputFile << "POLYGONS " << numberOfPolygons << ' '
                  << totalNumberOfPointsInPolygons + numberOfPolygons; // FIXME: Is this right ?
       outputFile << std::endl;
 
@@ -238,7 +237,7 @@ VTKPolyDataWriter<TInputMesh>::GenerateData()
             outputFile << cellPointer->GetNumberOfPoints();
             while (pointIdIterator != pointIdEnd)
             {
-              outputFile << " " << IdMap[*pointIdIterator];
+              outputFile << ' ' << IdMap[*pointIdIterator];
               ++pointIdIterator;
             }
             outputFile << std::endl;

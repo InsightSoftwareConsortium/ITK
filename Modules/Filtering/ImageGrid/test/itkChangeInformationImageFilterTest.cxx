@@ -49,12 +49,12 @@ PrintInformation(ImagePointer image1, ImagePointer image2)
     std::cout << "  ";
     for (j = 0; j < ImageDimension; ++j)
     {
-      std::cout << image1->GetDirection()[i][j] << " ";
+      std::cout << image1->GetDirection()[i][j] << ' ';
     }
     std::cout << "     ";
     for (j = 0; j < ImageDimension; ++j)
     {
-      std::cout << image2->GetDirection()[i][j] << " ";
+      std::cout << image2->GetDirection()[i][j] << ' ';
     }
     std::cout << std::endl;
   }
@@ -91,17 +91,17 @@ PrintInformation3(ImagePointer image1, ImagePointer image2, ImagePointer image3)
     std::cout << "  ";
     for (j = 0; j < ImageDimension; ++j)
     {
-      std::cout << image1->GetDirection()[i][j] << " ";
+      std::cout << image1->GetDirection()[i][j] << ' ';
     }
     std::cout << "     ";
     for (j = 0; j < ImageDimension; ++j)
     {
-      std::cout << image2->GetDirection()[i][j] << " ";
+      std::cout << image2->GetDirection()[i][j] << ' ';
     }
     std::cout << "     ";
     for (j = 0; j < ImageDimension; ++j)
     {
-      std::cout << image3->GetDirection()[i][j] << " ";
+      std::cout << image3->GetDirection()[i][j] << ' ';
     }
     std::cout << std::endl;
   }

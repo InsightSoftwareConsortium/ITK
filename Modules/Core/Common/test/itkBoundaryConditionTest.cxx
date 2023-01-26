@@ -38,7 +38,7 @@ printn(itk::NeighborhoodAllocator<TPixel> & n, const itk::Size<2> & sz)
   {
     for (i = 0; i < sz[0]; ++i, ++k)
     {
-      std::cout << n[k] << " ";
+      std::cout << n[k] << ' ';
     }
     std::cout << std::endl;
   }

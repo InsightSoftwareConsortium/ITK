@@ -56,7 +56,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WriteCellData()
 
       if (!m_CellDataName.empty())
       {
-        outputFile << m_CellDataName << " " << m_CellDataName << std::endl;
+        outputFile << m_CellDataName << ' ' << m_CellDataName << std::endl;
       }
       else
       {
@@ -107,7 +107,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WritePointData()
 
     if (!m_PointDataName.empty())
     {
-      outputFile << m_PointDataName << " " << m_PointDataName << std::endl;
+      outputFile << m_PointDataName << ' ' << m_PointDataName << std::endl;
     }
     else
     {
@@ -122,7 +122,7 @@ QuadEdgeMeshScalarDataVTKPolyDataWriter<TMesh>::WritePointData()
 
     while (c_it != pointdata->End())
     {
-      outputFile << c_it.Value() << " ";
+      outputFile << c_it.Value() << ' ';
       if (k % 3 == 0)
       {
         outputFile << std::endl;

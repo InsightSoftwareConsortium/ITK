@@ -96,7 +96,7 @@ GradientDescentLineSearchOptimizerv4Template<TInternalComputationValueType>::Gol
   TInternalComputationValueType c,
   TInternalComputationValueType metricb)
 {
-  itkDebugMacro("GoldenSectionSearch: " << a << " " << b << " " << c << " " << metricb);
+  itkDebugMacro("GoldenSectionSearch: " << a << ' ' << b << ' ' << c << ' ' << metricb);
 
   if (this->m_LineSearchIterations > this->m_MaximumLineSearchIterations)
   {

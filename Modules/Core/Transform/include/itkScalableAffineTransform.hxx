@@ -83,13 +83,13 @@ ScalableAffineTransform<TParametersValueType, VDimension>::PrintSelf(std::ostrea
   os << indent << "Scale : ";
   for (i = 0; i < VDimension; ++i)
   {
-    os << m_Scale[i] << " ";
+    os << m_Scale[i] << ' ';
   }
   os << std::endl;
   os << indent << "MatrixScale : ";
   for (i = 0; i < VDimension; ++i)
   {
-    os << m_MatrixScale[i] << " ";
+    os << m_MatrixScale[i] << ' ';
   }
   os << std::endl;
 }

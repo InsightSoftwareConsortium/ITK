@@ -148,10 +148,10 @@ RotationMatrixToVersorTest()
           {
             std::cout << "(alpha,beta,gamma)= (" << alpha << "," << beta << "," << gamma << ")" << std::endl;
 
-            std::cout << newMRtestPoint << " " << newVRtestPoint << " " << newVRFROMMRPoint << " "
+            std::cout << newMRtestPoint << ' ' << newVRtestPoint << ' ' << newVRFROMMRPoint << ' '
                       << newVRFROMMRTransformPoint << std::endl;
-            std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << " "
-                      << error_newMRtestPoint_newVRFROMMRPoint << " "
+            std::cout << "ERRORS: " << error_newMRtestPoint_newVRtestPoint << ' '
+                      << error_newMRtestPoint_newVRFROMMRPoint << ' '
                       << error_newVRFROMMRPoint_newVRFROMMRTransformPoint << std::endl;
             std::cout << "MR=\n"
                       << MR << "\nVR=\n"

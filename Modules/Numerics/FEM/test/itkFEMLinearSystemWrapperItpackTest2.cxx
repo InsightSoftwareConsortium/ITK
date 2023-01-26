@@ -74,7 +74,7 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 0) << " ";
+      std::cout << it.GetMatrixValue(i, j, 0) << ' ';
     }
     std::cout << std::endl;
   }
@@ -89,7 +89,7 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   std::cout << "Vector 0" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetVectorValue(i, 0) << " ";
+    std::cout << it.GetVectorValue(i, 0) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -129,7 +129,7 @@ itkFEMLinearSystemWrapperItpackTest2(int argc, char * argv[])
   std::cout << "Solution 0" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetSolutionValue(i, 0) << " ";
+    std::cout << it.GetSolutionValue(i, 0) << ' ';
   }
   std::cout << std::endl << std::endl;
 

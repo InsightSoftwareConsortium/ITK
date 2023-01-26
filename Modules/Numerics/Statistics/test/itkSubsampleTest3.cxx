@@ -83,7 +83,7 @@ itkSubsampleTest3(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  std::cout << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
   FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 
@@ -120,7 +120,7 @@ itkSubsampleTest3(int, char *[])
   mean[0] = 0.5;
   mean[1] = 0.5;
 
-  std::cout << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {

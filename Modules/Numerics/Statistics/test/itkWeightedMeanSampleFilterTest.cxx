@@ -150,7 +150,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result " << std::endl;
-    std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
   }
@@ -179,7 +179,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result " << std::endl;
-    std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
   }
@@ -206,7 +206,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result" << std::endl;
-    std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
@@ -234,7 +234,7 @@ itkWeightedMeanSampleFilterTest(int, char *[])
   if ((itk::Math::abs(meanOutput[0] - mean[0]) > epsilon) || (itk::Math::abs(meanOutput[1] - mean[1]) > epsilon))
   {
     std::cerr << "Wrong result" << std::endl;
-    std::cerr << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+    std::cerr << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
     std::cerr << "The result is not what is expected" << std::endl;
     return EXIT_FAILURE;
   }

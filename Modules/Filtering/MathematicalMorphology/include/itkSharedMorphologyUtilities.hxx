@@ -141,7 +141,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
   sPos = static_cast<int>(Tnear * itk::Math::abs(line[perpdir]) + 0.5);
   ePos = static_cast<int>(Tfar * itk::Math::abs(line[perpdir]) + 0.5);
 
-  // std::cout << Tnear << " " << Tfar << std::endl;
+  // std::cout << Tnear << ' ' << Tfar << std::endl;
   if (Tfar < Tnear) // seems to need some margin
   {
     // in theory, no intersection, but search between them
@@ -149,7 +149,7 @@ ComputeStartEnd(const typename TImage::IndexType  StartIndex,
     unsigned int inside = 0; // initialize to avoid warning
     if (Tnear - Tfar < 10)
     {
-      //      std::cout << "Searching " << Tnear << " " << Tfar << std::endl;
+      //      std::cout << "Searching " << Tnear << ' ' << Tfar << std::endl;
       itkAssertInDebugAndIgnoreInReleaseMacro(ePos >= 0);
       itkAssertInDebugAndIgnoreInReleaseMacro(sPos < static_cast<int>(LineOffsets.size()));
       for (int i = ePos; i <= sPos; ++i)

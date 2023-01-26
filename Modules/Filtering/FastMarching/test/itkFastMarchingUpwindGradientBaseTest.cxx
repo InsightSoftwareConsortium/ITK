@@ -182,8 +182,8 @@ itkFastMarchingUpwindGradientBaseTest(int, char *[])
 
     if ((outputPixelNorm < 0.9999) || (outputPixelNorm > 1.0001) || (dot < 0.99) || (dot > 1.01))
     {
-      std::cout << iterator.GetIndex() << " ";
-      std::cout << outputPixelNorm << " ";
+      std::cout << iterator.GetIndex() << ' ';
+      std::cout << outputPixelNorm << ' ';
       std::cout << dot << std::endl;
       passed = false;
     }

@@ -130,7 +130,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
     for (int j = -2; j < 3; ++j)
     {
       unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
-      std::cout << params(index) << " ";
+      std::cout << params(index) << ' ';
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {
         std::cout << "Expected to read a smoothed value at this index."
@@ -203,7 +203,7 @@ itkBSplineExponentialDiffeomorphicTransformTest(int, char *[])
     for (int j = -2; j < 3; ++j)
     {
       unsigned int index = outlier + static_cast<unsigned int>(i * (int)(dimLength * dimensions) + j);
-      std::cout << params(index) << " ";
+      std::cout << params(index) << ' ';
       if (itk::Math::AlmostEquals(params(index), paramsFillValue))
       {
         std::cout << "Expected to read a smoothed value at this index."

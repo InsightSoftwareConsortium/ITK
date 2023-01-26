@@ -27,7 +27,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostr
   os << " m_ActiveIndexList = [";
   for (auto it = m_ActiveIndexList.begin(); it != m_ActiveIndexList.end(); ++it)
   {
-    os << *it << " ";
+    os << *it << ' ';
   }
   os << "] ";
   os << " m_CenterIsActive = " << m_CenterIsActive;

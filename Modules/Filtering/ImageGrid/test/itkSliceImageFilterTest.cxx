@@ -118,7 +118,7 @@ TEST(SliceImageFilterTests, PhysicalPoint1)
           img = RunFilter<ImageType>(source->GetOutput(), start, stop, step);
 
           EXPECT_TRUE(CheckValueIsPhysicalPoint(img.GetPointer()))
-            << "== Failed - step:" << step[0] << " " << step[1] << " start: " << start[0] << " " << start[1]
+            << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1]
             << std::endl;
         }
 }
@@ -159,8 +159,8 @@ TEST(SliceImageFilterTests, PhysicalPoint2)
           img = RunFilter<ImageType>(source->GetOutput(), start, stop, step);
 
           EXPECT_TRUE(CheckValueIsPhysicalPoint(img.GetPointer()))
-            << "== Failed - step:" << step[0] << " " << step[1] << " start: " << start[0] << " " << start[1]
-            << " stop: " << stop[0] << " " << stop[1] << std::endl;
+            << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1]
+            << " stop: " << stop[0] << ' ' << stop[1] << std::endl;
         }
 }
 
@@ -197,8 +197,8 @@ TEST(SliceImageFilterTests, PhysicalPoint3)
           img = RunFilter<ImageType>(source->GetOutput(), start, stop, step);
 
           EXPECT_TRUE(CheckValueIsPhysicalPoint(img.GetPointer()))
-            << "== Failed - step:" << step[0] << " " << step[1] << " start: " << start[0] << " " << start[1]
-            << " stop: " << stop[0] << " " << stop[1] << std::endl;
+            << "== Failed - step:" << step[0] << ' ' << step[1] << " start: " << start[0] << ' ' << start[1]
+            << " stop: " << stop[0] << ' ' << stop[1] << std::endl;
         }
 }
 

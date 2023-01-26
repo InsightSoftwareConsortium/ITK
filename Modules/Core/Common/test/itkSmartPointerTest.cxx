@@ -47,14 +47,14 @@ public:
   inline friend std::ostream &
   operator<<(std::ostream & os, itkTestObject const & o)
   {
-    os << "itkTestObject " << (void const *)&o << " " << o.m_ReferenceCount;
+    os << "itkTestObject " << (void const *)&o << ' ' << o.m_ReferenceCount;
     return os;
   }
 
   std::ostream &
   Print(std::ostream & os) const
   {
-    os << "itkTestObject " << (void const *)this << " " << this->m_ReferenceCount;
+    os << "itkTestObject " << (void const *)this << ' ' << this->m_ReferenceCount;
     return os;
   }
 
@@ -141,11 +141,11 @@ itkSmartPointerTest(int, char *[])
     o4 = o1;
     if (o1 < o2)
     {
-      std::cout << "o1 is < o2 " << o1 << " " << o2 << std::endl;
+      std::cout << "o1 is < o2 " << o1 << ' ' << o2 << std::endl;
     }
     else
     {
-      std::cout << "o1 is not < o2 " << &o1 << " " << &o2 << std::endl;
+      std::cout << "o1 is not < o2 " << &o1 << ' ' << &o2 << std::endl;
     }
   }
   std::cout << "end second test" << std::endl << std::endl;

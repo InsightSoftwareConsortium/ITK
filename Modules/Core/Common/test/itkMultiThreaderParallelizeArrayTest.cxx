@@ -44,7 +44,7 @@ public:
     {
       return;
     }
-    std::cout << " " << processObject->GetProgress();
+    std::cout << ' ' << processObject->GetProgress();
   }
 };
 

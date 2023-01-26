@@ -418,7 +418,7 @@ itkSymmetricEigenAnalysisTest(int argc, char * argv[])
 
         if (itk::Math::abs(eigvec2[i] - itk::Math::sgn0(eigenvectors[2][0]) * eigenvectors[2][i]) > tolerance)
         {
-          std::cout << eigenvectors[2][i] << " " << eigvec2[i] << std::endl;
+          std::cout << eigenvectors[2][i] << ' ' << eigvec2[i] << std::endl;
           std::cout << "Eigen vector computation failed" << std::endl;
           return EXIT_FAILURE;
         }

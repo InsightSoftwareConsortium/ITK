@@ -126,13 +126,13 @@ FiniteCylinderSpatialFunction<VDimension, TInput>::PrintSelf(std::ostream & os, 
   os << indent << "Orientation: " << std::endl;
   for (i = 0; i < VDimension; ++i)
   {
-    os << indent << indent << m_Orientation[i] << " ";
+    os << indent << indent << m_Orientation[i] << ' ';
   }
   os << std::endl;
   os << indent << "Normalized Orientation: " << std::endl;
   for (i = 0; i < VDimension; ++i)
   {
-    os << indent << indent << m_NormalizedOrientation[i] << " ";
+    os << indent << indent << m_NormalizedOrientation[i] << ' ';
   }
   os << std::endl;
 }

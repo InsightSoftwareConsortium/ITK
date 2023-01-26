@@ -602,7 +602,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
       for (unsigned int i = 0; i < node->Size(); ++i)
       {
         os << this->GetMeasurementVector(node->GetInstanceIdentifier(i));
-        os << " ";
+        os << ' ';
       }
       os << "\" ];" << std::endl;
     }
@@ -611,7 +611,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
   {
     os << "\"" << node << "\" [label=\"";
     os << this->GetMeasurementVector(node->GetInstanceIdentifier(0));
-    os << " " << partitionDimensionCharSymbol << "=" << partitionValue;
+    os << ' ' << partitionDimensionCharSymbol << "=" << partitionValue;
     os << "\" ];" << std::endl;
   }
 

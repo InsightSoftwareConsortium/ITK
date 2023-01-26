@@ -117,8 +117,8 @@ itkSubsampleTest2(int, char *[])
   IteratorType iter = subSample2->Begin();
   while (iter != subSample2->End())
   {
-    std::cout << iter.GetInstanceIdentifier() << " ";
-    std::cout << iter.GetMeasurementVector() << " ";
+    std::cout << iter.GetInstanceIdentifier() << ' ';
+    std::cout << iter.GetMeasurementVector() << ' ';
     std::cout << iter.GetFrequency() << std::endl;
     ++iter;
   }
@@ -128,8 +128,8 @@ itkSubsampleTest2(int, char *[])
   IteratorType citer = subSample2->Begin();
   while (citer != subSample2->End())
   {
-    std::cout << citer.GetInstanceIdentifier() << " ";
-    std::cout << citer.GetMeasurementVector() << " ";
+    std::cout << citer.GetInstanceIdentifier() << ' ';
+    std::cout << citer.GetMeasurementVector() << ' ';
     std::cout << citer.GetFrequency() << std::endl;
     ++citer;
   }

@@ -341,7 +341,7 @@ OtsuMultipleThresholdsCalculator<TInputHistogram>::PrintSelf(std::ostream & os, 
   os << indent << "Output: ";
   for (SizeValueType j = 0; j < m_NumberOfThresholds; ++j)
   {
-    os << m_Output[j] << " ";
+    os << m_Output[j] << ' ';
   }
   os << std::endl;
 }

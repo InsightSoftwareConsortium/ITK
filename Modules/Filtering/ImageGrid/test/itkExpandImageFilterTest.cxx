@@ -172,8 +172,8 @@ itkExpandImageFilterTest(int, char *[])
       if (itk::Math::abs(trueValue - value) > 1e-4)
       {
         testPassed = false;
-        std::cout << "Error at Index: " << index << " ";
-        std::cout << "Expected: " << trueValue << " ";
+        std::cout << "Error at Index: " << index << ' ';
+        std::cout << "Expected: " << trueValue << ' ';
         std::cout << "Actual: " << value << std::endl;
       }
     }
@@ -182,8 +182,8 @@ itkExpandImageFilterTest(int, char *[])
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
         testPassed = false;
-        std::cout << "Error at Index: " << index << " ";
-        std::cout << "Expected: " << padValue << " ";
+        std::cout << "Error at Index: " << index << ' ';
+        std::cout << "Expected: " << padValue << ' ';
         std::cout << "Actual: " << value << std::endl;
       }
     }

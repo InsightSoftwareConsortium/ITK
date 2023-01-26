@@ -973,7 +973,7 @@ CompositeTransform<TParametersValueType, VDimension>::PrintSelf(std::ostream & o
   os << indent << "TransformsToOptimizeFlags, begin() to end(): " << std::endl << indent << indent;
   for (auto it = this->m_TransformsToOptimizeFlags.begin(); it != this->m_TransformsToOptimizeFlags.end(); ++it)
   {
-    os << *it << " ";
+    os << *it << ' ';
   }
   os << std::endl;
 

@@ -130,7 +130,7 @@ itkWarpImageFilterTest2(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(it1.Value(), it2.Value()))
     {
-      std::cout << "Pixels differ " << it1.Value() << " " << it2.Value() << std::endl;
+      std::cout << "Pixels differ " << it1.Value() << ' ' << it2.Value() << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -163,7 +163,7 @@ itkWarpImageFilterTest2(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(streamIt.Value(), it2.Value()))
     {
-      std::cout << "Pixels differ " << streamIt.Value() << " " << it2.Value() << std::endl;
+      std::cout << "Pixels differ " << streamIt.Value() << ' ' << it2.Value() << std::endl;
       return EXIT_FAILURE;
     }
   }

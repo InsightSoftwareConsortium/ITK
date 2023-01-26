@@ -77,14 +77,14 @@ TestIntegersAreSame(const T1 & v1, const T2 & v2)
   {
     std::cout << "Error in "
               << "itk::Math::AlmostEquals(v2, v1) " << std::endl;
-    std::cout << __FILE__ << " " << __LINE__ << " " << v2 << " == " << v1 << std::endl;
+    std::cout << __FILE__ << ' ' << __LINE__ << ' ' << v2 << " == " << v1 << std::endl;
     testPassStatus = EXIT_FAILURE;
   }
   if (itk::Math::AlmostEquals(v1, v2) == true)
   {
     std::cout << "Error in "
               << "itk::Math::AlmostEquals(v1, v2) " << std::endl;
-    std::cout << __FILE__ << " " << __LINE__ << " " << v1 << " == " << v2 << std::endl;
+    std::cout << __FILE__ << ' ' << __LINE__ << ' ' << v1 << " == " << v2 << std::endl;
     testPassStatus = EXIT_FAILURE;
   }
   return testPassStatus;
@@ -602,7 +602,7 @@ main(int, char *[])
     // Test AlmostEquals()
     if (itk::Math::AlmostEquals(f, d) == true || itk::Math::AlmostEquals(d, f) == true)
     {
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     if (itk::Math::AlmostEquals(f, sc) == false || itk::Math::AlmostEquals(sc, f) == false ||
@@ -610,21 +610,21 @@ main(int, char *[])
         itk::Math::AlmostEquals(1, 1.0) == false || itk::Math::AlmostEquals(2.0, 1.0) == true ||
         itk::Math::AlmostEquals(1, 2) == true)
     {
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
 
     // Test ExactlyEquals()  it should detect normal inequalities
     if (itk::Math::ExactlyEquals(f, d) == true || itk::Math::ExactlyEquals(d, f) == true)
     {
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
 
     // Test comparison values of different types
     if (itk::Math::NotExactlyEquals(1.0f, 1.0) || itk::Math::NotExactlyEquals(1.0, 1.0f))
     {
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
 
@@ -639,7 +639,7 @@ main(int, char *[])
     // Very close values should be AlmostEqual
     if (itk::Math::NotAlmostEquals(oneExact.asFloat, oneAlmost.asFloat))
     {
-      std::cout << __FILE__ << " " << __LINE__ << " " << oneExact.asFloat << " == " << oneAlmost.asFloat << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << oneExact.asFloat << " == " << oneAlmost.asFloat << std::endl;
       std::cout << "AlmostEquals Test Failure\n" << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
@@ -647,7 +647,7 @@ main(int, char *[])
     // Even very close values are not ExactlyEqual
     if (itk::Math::ExactlyEquals(oneExact.asFloat, oneAlmost.asFloat))
     {
-      std::cout << __FILE__ << " " << __LINE__ << " " << oneExact.asFloat << " == " << oneAlmost.asFloat << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << oneExact.asFloat << " == " << oneAlmost.asFloat << std::endl;
       std::cout << "ExactlyEquals Test Failure\n" << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
@@ -661,7 +661,7 @@ main(int, char *[])
     if (itk::Math::AlmostEquals(z1Double, z1Float) == false)
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else
@@ -677,7 +677,7 @@ main(int, char *[])
     if (itk::Math::AlmostEquals(z2Double, z2Int) == false)
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else
@@ -696,7 +696,7 @@ main(int, char *[])
     if (itk::Math::NotAlmostEquals(z1Double, z1DoubleAlmost))
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else
@@ -713,7 +713,7 @@ main(int, char *[])
     if (itk::Math::NotAlmostEquals(z3Double, r3Double))
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else
@@ -725,7 +725,7 @@ main(int, char *[])
     if (itk::Math::NotAlmostEquals(z3Double, r3Float))
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else
@@ -743,7 +743,7 @@ main(int, char *[])
     if (itk::Math::NotAlmostEquals(z4Float, r4FloatAlmost.asFloat))
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else
@@ -755,7 +755,7 @@ main(int, char *[])
     if (itk::Math::NotAlmostEquals(z3Double, r4FloatAlmost.asFloat))
     {
       std::cout << "Test FAILED!!\n" << std::endl;
-      std::cout << __FILE__ << " " << __LINE__ << " " << f << " == " << d << std::endl;
+      std::cout << __FILE__ << ' ' << __LINE__ << ' ' << f << " == " << d << std::endl;
       testPassStatus = EXIT_FAILURE;
     }
     else

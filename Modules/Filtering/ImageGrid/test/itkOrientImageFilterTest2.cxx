@@ -37,7 +37,7 @@ PrintImg(ImageType::Pointer img, const OrientImageFilterType::PermuteOrderArrayT
       for (Index[0] = 0; Index[0] < 4; Index[0]++)
       {
         std::cerr << img->GetPixel(Index).c_str()[permute[0]] << img->GetPixel(Index).c_str()[permute[1]]
-                  << img->GetPixel(Index).c_str()[permute[2]] << " ";
+                  << img->GetPixel(Index).c_str()[permute[2]] << ' ';
       }
       std::cerr << " | ";
     }

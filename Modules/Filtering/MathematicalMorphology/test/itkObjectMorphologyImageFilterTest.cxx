@@ -212,7 +212,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
         for (x = 0; x < size[0]; ++x)
         {
           i[0] = x;
-          std::cerr << outputImage->GetPixel(i) << outputBinImage->GetPixel(i) << " ";
+          std::cerr << outputImage->GetPixel(i) << outputBinImage->GetPixel(i) << ' ';
         }
         std::cerr << std::endl;
       }
@@ -308,7 +308,7 @@ itkObjectMorphologyImageFilterTest(int, char *[])
         for (x = 0; x < size[0]; ++x)
         {
           i[0] = x;
-          std::cout << output2Image->GetPixel(i) << outputBin2Image->GetPixel(i) << " ";
+          std::cout << output2Image->GetPixel(i) << outputBin2Image->GetPixel(i) << ' ';
         }
         std::cout << std::endl;
       }

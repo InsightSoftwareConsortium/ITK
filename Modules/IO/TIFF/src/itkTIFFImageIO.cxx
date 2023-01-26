@@ -1189,8 +1189,8 @@ TIFFImageIO::ReadTIFFTags()
       continue;
     }
 
-    itkDebugMacro(<< "TiffInfo tag " << field_name << "(" << tag << "): " << itkTIFFFieldDataType(field) << " "
-                  << value_count << " " << raw_data);
+    itkDebugMacro(<< "TiffInfo tag " << field_name << "(" << tag << "): " << itkTIFFFieldDataType(field) << ' '
+                  << value_count << ' ' << raw_data);
 
 
 #define itkEncapsulate(T1, T2)                                                         \

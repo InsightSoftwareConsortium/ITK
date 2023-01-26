@@ -120,7 +120,7 @@ itkNearestNeighborInterpolateImageFunctionTest(int, char *[])
       VariablePixelType variablevectorpixel = variablevectorimage->GetPixel(index);
       variablevectorpixel.Fill(value);
 
-      std::cout << value << " ";
+      std::cout << value << ' ';
     }
     std::cout << std::endl;
   }

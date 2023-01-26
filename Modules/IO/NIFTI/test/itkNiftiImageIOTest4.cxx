@@ -28,7 +28,7 @@ PrintDir(Test4ImageType::DirectionType & dir)
   {
     for (unsigned int j = 0; j < 3; ++j)
     {
-      std::cerr << dir[i][j] << " ";
+      std::cerr << dir[i][j] << ' ';
     }
     std::cerr << std::endl;
   }

@@ -92,7 +92,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
     {
       Extreme = buffer[i];
     }
-    //    std::cout << i << " " << static_cast<int>(Extreme) << " " << static_cast<int>(buffer[i]) <<
+    //    std::cout << i << ' ' << static_cast<int>(Extreme) << ' ' << static_cast<int>(buffer[i]) <<
     // std::endl;
     buffer[i] = Extreme;
   }
@@ -104,7 +104,7 @@ AnchorOpenCloseLine<TInputPix, TCompare>::DoLine(std::vector<InputImagePixelType
     {
       Extreme = buffer[i];
     }
-    //    std::cout << static_cast<int>(Extreme) << " " << static_cast<int>(buffer[i]) << std::endl;
+    //    std::cout << static_cast<int>(Extreme) << ' ' << static_cast<int>(buffer[i]) << std::endl;
     buffer[i] = Extreme;
   }
 }

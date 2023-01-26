@@ -253,8 +253,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
     JoinVertexType::EdgeStatusType status = joinVertex->GetEdgeStatus();
 
     std::cout << "*** " << kk << " ***" << std::endl;
-    std::cout << "org: " << id_org << " "
-              << "dest: " << id_dest << " " << status << std::endl;
+    std::cout << "org: " << id_org << ' ' << "dest: " << id_dest << ' ' << status << std::endl;
 
     if ((status == JoinVertexType::EDGE_JOINING_DIFFERENT_BORDERS) || (status == JoinVertexType::SAMOSA_CONFIG) ||
         (status == JoinVertexType::TETRAHEDRON_CONFIG))
@@ -264,7 +263,7 @@ itkQuadEdgeMeshEulerOperatorJoinVertexTest(int argc, char * argv[])
 
     if (!qe_output)
     {
-      std::cout << "Number of Edges: " << mesh->GetNumberOfEdges() << " " << std::endl;
+      std::cout << "Number of Edges: " << mesh->GetNumberOfEdges() << ' ' << std::endl;
       std::cout << "Number of Faces: " << mesh->GetNumberOfFaces() << std::endl;
       std::cout << "FAILED." << std::endl;
       return EXIT_FAILURE;

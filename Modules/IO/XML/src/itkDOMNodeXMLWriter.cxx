@@ -64,7 +64,7 @@ DOMNodeXMLWriter::Update(std::ostream & os, std::string indent)
   input->GetAllAttributes(attributes);
   for (auto & attribute : attributes)
   {
-    os << " " << attribute.first << "=\"" << attribute.second << "\"";
+    os << ' ' << attribute.first << "=\"" << attribute.second << "\"";
   }
 
   // write the ending of the start tag, and all children if applicable

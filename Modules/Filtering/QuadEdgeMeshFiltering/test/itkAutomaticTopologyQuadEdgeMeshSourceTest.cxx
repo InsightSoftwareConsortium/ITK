@@ -235,7 +235,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
       PointIdIterator pointsEnd = cell->PointIdsEnd();
       while (pointIter != pointsEnd)
       {
-        std::cout << *pointIter << " ";
+        std::cout << *pointIter << ' ';
         ++pointIter;
       }
       std::cout << std::endl;
@@ -260,7 +260,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         std::cout << "Neighbors across vertex 0: ";
         for (const auto & neighborIter : cellSet)
         {
-          std::cout << neighborIter << " ";
+          std::cout << neighborIter << ' ';
         }
         std::cout << "\n";
 
@@ -268,7 +268,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         std::cout << "Neighbors across vertex 1: ";
         for (const auto & neighborIter : cellSet)
         {
-          std::cout << neighborIter << " ";
+          std::cout << neighborIter << ' ';
         }
         std::cout << "\n";
 
@@ -276,7 +276,7 @@ itkAutomaticTopologyQuadEdgeMeshSourceTest(int, char *[])
         std::cout << "Neighbors having edge as boundary: ";
         for (const auto & neighborIter : cellSet)
         {
-          std::cout << neighborIter << " ";
+          std::cout << neighborIter << ' ';
         }
         std::cout << "\n" << std::endl;
       }

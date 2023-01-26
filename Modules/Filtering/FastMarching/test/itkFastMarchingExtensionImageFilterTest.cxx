@@ -279,9 +279,9 @@ itkFastMarchingExtensionImageFilterTest(int, char *[])
     {
       if (itk::Math::abs(outputValue) / distance > 1.42)
       {
-        std::cout << iterator.GetIndex() << " ";
-        std::cout << itk::Math::abs(outputValue) / distance << " ";
-        std::cout << itk::Math::abs(outputValue) << " " << distance << std::endl;
+        std::cout << iterator.GetIndex() << ' ';
+        std::cout << itk::Math::abs(outputValue) / distance << ' ';
+        std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
         passed = false;
         break;
       }

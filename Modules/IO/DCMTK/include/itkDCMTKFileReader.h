@@ -124,7 +124,7 @@ public:
     std::string val;
     if (this->GetElementOB(group, element, val, throwException) != EXIT_SUCCESS)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << " " << std::hex
+      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << ' ' << std::hex
                                   << element << std::dec);
     }
     const char * data = val.c_str();
@@ -148,7 +148,7 @@ public:
     std::string val;
     if (this->GetElementOB(group, element, val, throwException) != EXIT_SUCCESS)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << " " << std::hex
+      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << ' ' << std::hex
                                   << element << std::dec);
     }
     const char * data = val.c_str();
@@ -201,19 +201,19 @@ public:
     auto * dsItem = dynamic_cast<DcmDecimalString *>(resultStack.top());
     if (dsItem == nullptr)
     {
-      DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag " << std::hex << group << " " << element
+      DCMTKExceptionOrErrorReturn(<< "Can't get DecimalString Element at tag " << std::hex << group << ' ' << element
                                   << std::dec);
     }
 
     OFVector<Float64> doubleVals;
     if (dsItem->getFloat64Vector(doubleVals) != EC_Normal)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex << group << " " << std::hex
+      DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex << group << ' ' << std::hex
                                   << element << std::dec);
     }
     if (doubleVals.size() != count)
     {
-      DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex << group << " " << std::hex << element << " expected "
+      DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex << group << ' ' << std::hex << element << " expected "
                                   << count << "items, but found " << doubleVals.size() << std::dec);
     }
     for (unsigned int i = 0; i < count; ++i)
@@ -283,23 +283,23 @@ public:
     DcmElement * el;
     if (this->m_Dataset->findAndGetElement(tagkey, el) != EC_Normal)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex << group << " " << std::hex << element << std::dec);
+      DCMTKExceptionOrErrorReturn(<< "Cant find tag " << std::hex << group << ' ' << std::hex << element << std::dec);
     }
     auto * dsItem = dynamic_cast<DcmDecimalString *>(el);
     if (dsItem == nullptr)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << " " << std::hex
+      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << ' ' << std::hex
                                   << element << std::dec);
     }
     OFVector<Float64> doubleVals;
     if (dsItem->getFloat64Vector(doubleVals) != EC_Normal)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex << group << " " << std::hex
+      DCMTKExceptionOrErrorReturn(<< "Cant extract Array from DecimalString " << std::hex << group << ' ' << std::hex
                                   << element << std::dec);
     }
     if (doubleVals.size() != count)
     {
-      DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex << group << " " << std::hex << element << " expected "
+      DCMTKExceptionOrErrorReturn(<< "DecimalString " << std::hex << group << ' ' << std::hex << element << " expected "
                                   << count << "items, but found " << doubleVals.size() << std::dec);
     }
     for (unsigned int i = 0; i < count; ++i)
@@ -323,7 +323,7 @@ public:
     std::string val;
     if (this->GetElementOB(group, element, val, throwException) != EXIT_SUCCESS)
     {
-      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << " " << std::hex
+      DCMTKExceptionOrErrorReturn(<< "Cant find DecimalString element " << std::hex << group << ' ' << std::hex
                                   << element << std::dec);
     }
     const char * data = val.c_str();

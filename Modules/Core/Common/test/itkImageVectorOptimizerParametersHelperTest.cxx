@@ -128,7 +128,7 @@ itkImageVectorOptimizerParametersHelperTest(int, char *[])
       vectorpixel.Fill(value);
       vectorpixel += vectorvalues;
 
-      std::cout << value << " ";
+      std::cout << value << ' ';
     }
     std::cout << std::endl;
   }

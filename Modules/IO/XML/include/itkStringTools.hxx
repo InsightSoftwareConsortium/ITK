@@ -96,7 +96,7 @@ StringTools::FromData(std::string & s, const std::vector<T> & data)
   oss.exceptions(oss.badbit);
   for (size_t i = 0; i < data.size(); ++i)
   {
-    oss << " " << data[i];
+    oss << ' ' << data[i];
   }
 
   s.append(oss.str());
@@ -183,7 +183,7 @@ StringTools::FromData(std::string & s, const Array<T> & data)
   oss.exceptions(oss.badbit);
   for (unsigned int i = 0; i < static_cast<unsigned int>(data.GetSize()); ++i)
   {
-    oss << " " << data[i];
+    oss << ' ' << data[i];
   }
 
   s.append(oss.str());

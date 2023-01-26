@@ -27,7 +27,7 @@
 inline std::ostream &
 operator<<(std::ostream & o, const itk::CovariantVector<float, 3> & v)
 {
-  o << "[" << v[0] << " " << v[1] << " " << v[2] << "]";
+  o << "[" << v[0] << ' ' << v[1] << ' ' << v[2] << "]";
   return o;
 }
 

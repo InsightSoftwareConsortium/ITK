@@ -610,7 +610,7 @@ VoxBoCUBImageIO::ReadImageInformation()
         {
           if (!oss.str().empty())
           {
-            oss << " ";
+            oss << ' ';
           }
           oss << word;
         }

@@ -159,9 +159,9 @@ void
 SpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Id: " << m_Id << std::endl;
-  os << indent << "RGBA: " << m_Color.GetRed() << " ";
-  os << m_Color.GetGreen() << " ";
-  os << m_Color.GetBlue() << " ";
+  os << indent << "RGBA: " << m_Color.GetRed() << ' ';
+  os << m_Color.GetGreen() << ' ';
+  os << m_Color.GetBlue() << ' ';
   os << m_Color.GetAlpha() << std::endl;
   os << indent << "Position: ";
   for (unsigned int i = 1; i < TPointDimension; ++i)

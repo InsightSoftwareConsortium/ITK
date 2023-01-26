@@ -336,7 +336,7 @@ CumulativeGaussianOptimizer::PrintArray(MeasureType * array)
 {
   for (int i = 0; i < static_cast<int>(array->GetNumberOfElements()); ++i)
   {
-    std::cerr << i << " " << array->get(i) << std::endl;
+    std::cerr << i << ' ' << array->get(i) << std::endl;
   }
 }
 

@@ -384,7 +384,7 @@ itkPatchBasedDenoisingImageFilterTest(int argc, char * argv[])
       std::cerr << noiseModel << " is not a valid noise model choice. Please choose one of: ";
       for (const auto & modelChoice : modelChoices)
       {
-        std::cerr << modelChoice << " " << std::endl;
+        std::cerr << modelChoice << ' ' << std::endl;
       }
       return EXIT_FAILURE;
     }

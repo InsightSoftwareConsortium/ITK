@@ -94,8 +94,8 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
   aIterEnd = extractor->GetAuxInsideValues()->End();
   for (; iter != iterEnd; iter++, aIter++)
   {
-    std::cout << iter.Value().GetIndex() << " ";
-    std::cout << iter.Value().GetValue() << " ";
+    std::cout << iter.Value().GetIndex() << ' ';
+    std::cout << iter.Value().GetValue() << ' ';
     std::cout << aIter.Value() << std::endl;
   }
 
@@ -107,8 +107,8 @@ itkLevelSetVelocityNeighborhoodExtractorTest(int, char *[])
 
   for (; iter != iterEnd; iter++, aIter++)
   {
-    std::cout << iter.Value().GetIndex() << " ";
-    std::cout << iter.Value().GetValue() << " ";
+    std::cout << iter.Value().GetIndex() << ' ';
+    std::cout << iter.Value().GetValue() << ' ';
     std::cout << aIter.Value() << std::endl;
   }
 

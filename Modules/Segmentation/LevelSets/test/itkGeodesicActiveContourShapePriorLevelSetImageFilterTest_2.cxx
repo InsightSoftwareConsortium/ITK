@@ -46,7 +46,7 @@ public:
   ShowIteration()
   {
     std::cout << m_Filter->GetElapsedIterations() << ": ";
-    std::cout << m_Filter->GetCurrentParameters() << " ";
+    std::cout << m_Filter->GetCurrentParameters() << ' ';
     std::cout << m_Filter->GetRMSChange() << std::endl;
   }
 

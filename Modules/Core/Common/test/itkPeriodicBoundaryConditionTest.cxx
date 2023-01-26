@@ -44,7 +44,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
   {
     for (x = 0; x < p.GetSize()[0]; ++x, ++i)
     {
-      std::cout << p.GetPixel(i) << " ";
+      std::cout << p.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -57,7 +57,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
   {
     for (x = 0; x < v.GetSize()[0]; ++x, ++i)
     {
-      std::cout << v.GetPixel(i)[0] << " ";
+      std::cout << v.GetPixel(i)[0] << ' ';
     }
     std::cout << std::endl;
   }
@@ -78,7 +78,7 @@ TestPrintNeighborhood(IteratorType & p, VectorIteratorType & v)
       int pixel1 = p.GetBoundaryCondition()->GetPixel(index, p.GetImagePointer());
       int pixel2 = p.GetPixel(i);
 
-      std::cout << pixel1 << " ";
+      std::cout << pixel1 << ' ';
 
       // Check agreement of output from three three methods of accessing pixel values.
       if (pixel1 != pixel2)
@@ -146,7 +146,7 @@ itkPeriodicBoundaryConditionTest(int, char *[])
       VectorImageType::PixelType vectorPixel(1);
       vectorPixel[0] = image->GetPixel(pos);
       vectorImage->SetPixel(pos, vectorPixel);
-      std::cout << image->GetPixel(pos) << " ";
+      std::cout << image->GetPixel(pos) << ' ';
     }
     std::cout << std::endl;
   }

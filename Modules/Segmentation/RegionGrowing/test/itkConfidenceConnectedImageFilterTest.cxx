@@ -64,7 +64,7 @@ itkConfidenceConnectedImageFilterTest(int argc, char * argv[])
   std::cout << "Filter Seeds";
   for (const auto & oneSeed : filter->GetSeeds())
   {
-    std::cout << " " << oneSeed;
+    std::cout << ' ' << oneSeed;
   }
   std::cout << std::endl;
 

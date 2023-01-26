@@ -99,7 +99,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 1,1 shrink factor
     unsigned int factors[2] = { 1, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
     bin->SetShrinkFactors(factors);
     monitor2->Update();
 
@@ -125,7 +125,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 2,1 shrink factor
     unsigned int factors[2] = { 2, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -151,7 +151,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 2,2 shrink factor
     unsigned int factors[2] = { 2, 2 };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -177,7 +177,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 5,2 shrink factor
     unsigned int factors[2] = { 5, 2 };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -221,7 +221,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 2,1 shrink factor
     unsigned int factors[2] = { 2, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -247,7 +247,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 3,1 shrink factor
     unsigned int factors[2] = { 3, 1 };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
     bin->SetShrinkFactors(factors);
     monitor2->UpdateLargestPossibleRegion();
 
@@ -277,7 +277,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
   {
     // update with 3,1 shrink factor
     unsigned int factors[2] = { 1, shrink };
-    std::cout << "== Testing with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+    std::cout << "== Testing with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
 
     for (unsigned int x = 1; x < 10; ++x)
       for (unsigned int y = 2 * shrink; y < 20; ++y)
@@ -289,7 +289,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
         sourceImage->SetRegions(region);
         sourceImage->Allocate();
 
-        std::cout << "--Resolution " << x << " " << y << "--" << std::endl;
+        std::cout << "--Resolution " << x << ' ' << y << "--" << std::endl;
 
         itk::ImageRegionIteratorWithIndex<InputImageType> outIt(sourceImage, region);
         for (outIt.GoToBegin(); !outIt.IsAtEnd(); ++outIt)
@@ -313,7 +313,7 @@ itkBinShrinkImageFilterTest1(int, char *[])
             {
               if (!lfailed)
               {
-                std::cout << "--Resolution " << x << " " << y << "--" << std::endl;
+                std::cout << "--Resolution " << x << ' ' << y << "--" << std::endl;
               }
               std::cout << "Wrong pixel value at " << inIt.GetIndex() << " of " << inIt.Get()
                         << ", expected: " << expectedValue << std::endl;

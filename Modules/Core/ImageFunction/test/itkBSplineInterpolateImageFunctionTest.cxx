@@ -136,7 +136,7 @@ TestGeometricPoint(const TInterpolator * interp, const PointType & point, bool i
   std::cout << " Point: " << point;
 
   bool bvalue = interp->IsInsideBuffer(point);
-  std::cout << " Inside: " << bvalue << " ";
+  std::cout << " Inside: " << bvalue << ' ';
 
   if (bvalue != isInside)
   {

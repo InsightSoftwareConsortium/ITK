@@ -666,16 +666,13 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
 
   // Write characteristics of the data
   file << "DATASET STRUCTURED_POINTS\n"
-       << "DIMENSIONS " << this->GetDimensions(0) << " "
-       << ((this->GetNumberOfDimensions() > 1) ? this->GetDimensions(1) : 1) << " "
-       << ((this->GetNumberOfDimensions() > 2) ? this->GetDimensions(2) : 1) << " "
-       << "\n";
-  file << "SPACING " << this->GetSpacing(0) << " " << ((this->GetNumberOfDimensions() > 1) ? this->GetSpacing(1) : 1.0)
-       << " " << ((this->GetNumberOfDimensions() > 2) ? this->GetSpacing(2) : 1.0) << " "
-       << "\n";
-  file << "ORIGIN " << this->GetOrigin(0) << " " << ((this->GetNumberOfDimensions() > 1) ? this->GetOrigin(1) : 0.0)
-       << " " << ((this->GetNumberOfDimensions() > 2) ? this->GetOrigin(2) : 0.0) << " "
-       << "\n";
+       << "DIMENSIONS " << this->GetDimensions(0) << ' '
+       << ((this->GetNumberOfDimensions() > 1) ? this->GetDimensions(1) : 1) << ' '
+       << ((this->GetNumberOfDimensions() > 2) ? this->GetDimensions(2) : 1) << ' ' << "\n";
+  file << "SPACING " << this->GetSpacing(0) << ' ' << ((this->GetNumberOfDimensions() > 1) ? this->GetSpacing(1) : 1.0)
+       << ' ' << ((this->GetNumberOfDimensions() > 2) ? this->GetSpacing(2) : 1.0) << ' ' << "\n";
+  file << "ORIGIN " << this->GetOrigin(0) << ' ' << ((this->GetNumberOfDimensions() > 1) ? this->GetOrigin(1) : 0.0)
+       << ' ' << ((this->GetNumberOfDimensions() > 2) ? this->GetOrigin(2) : 0.0) << ' ' << "\n";
 
   file << "POINT_DATA " << this->GetImageSizeInPixels() << "\n";
 
@@ -685,8 +682,7 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
        (this->GetPixelType() == IOPixelEnum::RGBA && this->GetNumberOfComponents() == 4)) &&
       (this->GetComponentType() == IOComponentEnum::UCHAR) && (this->GetFileType() == IOFileEnum::Binary))
   {
-    file << "COLOR_SCALARS color_scalars"
-         << " " << this->GetNumberOfComponents() << "\n";
+    file << "COLOR_SCALARS color_scalars" << ' ' << this->GetNumberOfComponents() << "\n";
   }
   // Prefer the VECTORS representation when possible:
   else if (this->GetPixelType() == IOPixelEnum::VECTOR && this->GetNumberOfComponents() == 3)
@@ -702,7 +698,7 @@ VTKImageIO::WriteImageInformation(const void * itkNotUsed(buffer))
     // According to VTK documentation number of components should in
     // range (1,4):
     // todo this should be asserted or checked earlier!
-    file << "SCALARS scalars " << this->GetComponentTypeAsString(m_ComponentType) << " "
+    file << "SCALARS scalars " << this->GetComponentTypeAsString(m_ComponentType) << ' '
          << this->GetNumberOfComponents() << "\n"
          << "LOOKUP_TABLE default\n";
   }

@@ -104,7 +104,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
     const InputPixelType  input = it.Get();
     const OutputPixelType output = ot.Get();
-    std::cout << static_cast<double>(input) << " " << static_cast<double>(output) << std::endl;
+    std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << std::endl;
 
     if (output > maxRemainingLabel)
     {
@@ -154,7 +154,7 @@ itkChangeLabelImageFilterTest(int, char *[])
 
     const InputPixelType  input = ita.Get();
     const OutputPixelType output = ota.Get();
-    std::cout << static_cast<double>(input) << " " << static_cast<double>(output) << std::endl;
+    std::cout << static_cast<double>(input) << ' ' << static_cast<double>(output) << std::endl;
 
     if (input != output)
     {

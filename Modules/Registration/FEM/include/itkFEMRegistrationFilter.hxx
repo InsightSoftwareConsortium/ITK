@@ -1012,7 +1012,7 @@ FEMRegistrationFilter<TMovingImage, TFixedImage, TFemObject>::ExpandVectorField(
   for (unsigned int i = 0; i < ImageDimension; ++i)
   {
     pad[i] = 0.0;
-    itkDebugMacro(<< expandFactors[i] << " ");
+    itkDebugMacro(<< expandFactors[i] << ' ');
   }
   itkDebugMacro(<< std::endl);
   auto m_FieldExpander = ExpanderType::New();

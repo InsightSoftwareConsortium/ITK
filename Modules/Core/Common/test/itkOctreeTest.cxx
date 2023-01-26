@@ -62,7 +62,7 @@ itkOctreeTest(int, char *[])
       }
       else
       {
-        std::cerr << val << " ";
+        std::cerr << val << ' ';
       }
       counter++;
       ri.Set(val);

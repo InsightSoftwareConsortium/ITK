@@ -77,7 +77,7 @@ itkMeanSampleFilterTest2(int, char *[])
   expectedMean[0] = 0.5;
   expectedMean[1] = 0.5;
 
-  std::cout << meanOutput[0] << " " << expectedMean[0] << " " << meanOutput[1] << " " << expectedMean[1] << " "
+  std::cout << meanOutput[0] << ' ' << expectedMean[0] << ' ' << meanOutput[1] << ' ' << expectedMean[1] << ' '
             << std::endl;
 
   // FilterType::MeasurementVectorType::ValueType is an int in this case

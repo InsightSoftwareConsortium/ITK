@@ -28,7 +28,7 @@ print_vnl_matrix(T & mat)
   {
     for (unsigned int c = 0; c < mat.columns(); ++c)
     {
-      std::cout << mat(r, c) << " ";
+      std::cout << mat(r, c) << ' ';
     }
     std::cout << std::endl;
   }
@@ -77,7 +77,7 @@ itkNumericsTest(int, char *[])
   {
     for (unsigned int c = 0; c < mat.rows(); ++c)
     {
-      std::cout << mat(r, c) << " ";
+      std::cout << mat(r, c) << ' ';
     }
     std::cout << std::endl;
   }

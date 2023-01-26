@@ -44,21 +44,21 @@ itkTIFFImageIOInfoTest(int argc, char * argv[])
   std::cout << "Dimensions: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
   {
-    std::cout << tiffImageIO->GetDimensions(d) << " ";
+    std::cout << tiffImageIO->GetDimensions(d) << ' ';
   }
   std::cout << ")" << std::endl;
 
   std::cout << "Origin: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
   {
-    std::cout << tiffImageIO->GetOrigin(d) << " ";
+    std::cout << tiffImageIO->GetOrigin(d) << ' ';
   }
   std::cout << ")" << std::endl;
 
   std::cout << "Spacing: ( ";
   for (unsigned int d = 0; d < tiffImageIO->GetNumberOfDimensions(); ++d)
   {
-    std::cout << tiffImageIO->GetSpacing(d) << " ";
+    std::cout << tiffImageIO->GetSpacing(d) << ' ';
   }
   std::cout << ")" << std::endl;
 

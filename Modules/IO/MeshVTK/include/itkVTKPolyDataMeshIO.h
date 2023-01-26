@@ -435,7 +435,7 @@ protected:
     {
       for (unsigned int jj = 0; jj < this->m_PointDimension - 1; ++jj)
       {
-        outputFile << ConvertNumberToString(buffer[ii * this->m_PointDimension + jj]) << " ";
+        outputFile << ConvertNumberToString(buffer[ii * this->m_PointDimension + jj]) << ' ';
       }
 
       outputFile << ConvertNumberToString(buffer[ii * this->m_PointDimension + this->m_PointDimension - 1]) << '\n';
@@ -476,7 +476,7 @@ protected:
     if (numberOfVertices)
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
-      outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
+      outputFile << "VERTICES " << numberOfVertices << ' ' << numberOfVertexIndices << '\n';
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
@@ -486,7 +486,7 @@ protected:
           outputFile << nn;
           for (unsigned int jj = 0; jj < nn; ++jj)
           {
-            outputFile << " " << buffer[index++];
+            outputFile << ' ' << buffer[index++];
           }
           outputFile << '\n';
         }
@@ -534,14 +534,14 @@ protected:
       numberOfLineIndices += numberOfLines;
       EncapsulateMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
       EncapsulateMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
-      outputFile << "LINES " << numberOfLines << " " << numberOfLineIndices << '\n';
+      outputFile << "LINES " << numberOfLines << ' ' << numberOfLineIndices << '\n';
       for (SizeValueType ii = 0; ii < polylines->Size(); ++ii)
       {
         auto nn = static_cast<unsigned int>(polylines->ElementAt(ii).size());
         outputFile << nn;
         for (unsigned int jj = 0; jj < nn; ++jj)
         {
-          outputFile << " " << polylines->ElementAt(ii)[jj];
+          outputFile << ' ' << polylines->ElementAt(ii)[jj];
         }
         outputFile << '\n';
       }
@@ -553,7 +553,7 @@ protected:
     if (numberOfPolygons)
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
-      outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
+      outputFile << "POLYGONS " << numberOfPolygons << ' ' << numberOfPolygonIndices << '\n';
       for (SizeValueType ii = 0; ii < this->m_NumberOfCells; ++ii)
       {
         auto cellType = static_cast<CellGeometryEnum>(static_cast<int>(buffer[index++]));
@@ -564,7 +564,7 @@ protected:
           outputFile << nn;
           for (unsigned int jj = 0; jj < nn; ++jj)
           {
-            outputFile << " " << buffer[index++];
+            outputFile << ' ' << buffer[index++];
           }
           outputFile << '\n';
         }
@@ -595,7 +595,7 @@ protected:
     if (numberOfVertices)
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfVertexIndices", numberOfVertexIndices);
-      outputFile << "VERTICES " << numberOfVertices << " " << numberOfVertexIndices << '\n';
+      outputFile << "VERTICES " << numberOfVertices << ' ' << numberOfVertexIndices << '\n';
       const auto data = make_unique_for_overwrite<unsigned int[]>(numberOfVertexIndices);
       ReadCellsBuffer(buffer, data.get());
       itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(
@@ -640,7 +640,7 @@ protected:
       EncapsulateMetaData<unsigned int>(metaDic, "numberOfLines", numberOfLines);
       EncapsulateMetaData<unsigned int>(metaDic, "numberOfLineIndices", numberOfLineIndices);
 
-      outputFile << "LINES " << numberOfLines << " " << numberOfLineIndices << '\n';
+      outputFile << "LINES " << numberOfLines << ' ' << numberOfLineIndices << '\n';
       const auto    data = make_unique_for_overwrite<unsigned int[]>(numberOfLineIndices);
       unsigned long outputIndex = 0;
       for (SizeValueType ii = 0; ii < polylines->Size(); ++ii)
@@ -663,7 +663,7 @@ protected:
     if (numberOfPolygons)
     {
       ExposeMetaData<unsigned int>(metaDic, "numberOfPolygonIndices", numberOfPolygonIndices);
-      outputFile << "POLYGONS " << numberOfPolygons << " " << numberOfPolygonIndices << '\n';
+      outputFile << "POLYGONS " << numberOfPolygons << ' ' << numberOfPolygonIndices << '\n';
       const auto data = make_unique_for_overwrite<unsigned int[]>(numberOfPolygonIndices);
       ReadCellsBuffer(buffer, data.get());
       itk::ByteSwapper<unsigned int>::SwapWriteRangeFromSystemToBigEndian(

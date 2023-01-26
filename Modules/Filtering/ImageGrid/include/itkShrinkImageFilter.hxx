@@ -55,7 +55,7 @@ ShrinkImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, Inden
   os << indent << "Shrink Factor: ";
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
-    os << m_ShrinkFactors[j] << " ";
+    os << m_ShrinkFactors[j] << ' ';
   }
   os << std::endl;
 }

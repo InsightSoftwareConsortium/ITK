@@ -100,7 +100,7 @@ public:
     {
       for (itk::SizeValueType i = 0; i < gradient.GetSize(); i += (gradient.GetSize() / 16))
       {
-        std::cout << gradient[i] << " ";
+        std::cout << gradient[i] << ' ';
       }
     }
     std::cout << std::endl;

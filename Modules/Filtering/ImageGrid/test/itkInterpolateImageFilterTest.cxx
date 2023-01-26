@@ -86,7 +86,7 @@ itkInterpolateImageFilterTest(int, char *[])
   while (!inIter1.IsAtEnd())
   {
 
-    std::cout << " " << inIter1.Get() << " " << inIter2.Get() << " " << outIter.Get() << std::endl;
+    std::cout << ' ' << inIter1.Get() << ' ' << inIter2.Get() << ' ' << outIter.Get() << std::endl;
 
     if (outIter.Get() != temp)
     {

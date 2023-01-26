@@ -252,7 +252,7 @@ PolygonGroupSpatialObjectXMLFileWriter::WriteFile()
     {
       PolygonSpatialObjectType::PointType curpoint = pointIt->GetPositionInObjectSpace();
       WriteStartElement("POINT", output);
-      output << curpoint[0] << " " << curpoint[1] << " " << curpoint[2];
+      output << curpoint[0] << ' ' << curpoint[1] << ' ' << curpoint[2];
       WriteEndElement("POINT", output);
       output << std::endl;
       ++pointIt;

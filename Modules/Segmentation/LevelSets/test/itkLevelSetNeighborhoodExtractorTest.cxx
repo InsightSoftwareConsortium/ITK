@@ -69,7 +69,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   iterEnd = extractor->GetInsidePoints()->End();
   for (; iter != iterEnd; ++iter)
   {
-    std::cout << iter.Value().GetIndex() << " ";
+    std::cout << iter.Value().GetIndex() << ' ';
     std::cout << iter.Value().GetValue() << std::endl;
   }
 
@@ -78,7 +78,7 @@ itkLevelSetNeighborhoodExtractorTest(int, char *[])
   iterEnd = extractor->GetOutsidePoints()->End();
   for (; iter != iterEnd; ++iter)
   {
-    std::cout << iter.Value().GetIndex() << " ";
+    std::cout << iter.Value().GetIndex() << ' ';
     std::cout << iter.Value().GetValue() << std::endl;
   }
 

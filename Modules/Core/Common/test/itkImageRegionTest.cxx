@@ -176,7 +176,7 @@ itkImageRegionTest(int, char *[])
   {
     std::cout << "Error with IsInside 3C. Expected false." << std::endl
               << "  indexC: " << indexC << std::endl
-              << "  start & size: " << startA << " " << sizeA << std::endl;
+              << "  start & size: " << startA << ' ' << sizeA << std::endl;
     passed = false;
   }
   std::cout << "Testing ContinuousIndexNumericTraits::min()." << std::endl;

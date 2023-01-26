@@ -193,7 +193,7 @@ itkRelabelComponentImageFilterTest(int argc, char * argv[])
       std::cout << "\tBounding box = ";
       for (auto jj : bbox)
       {
-        std::cout << jj << " ";
+        std::cout << jj << ' ';
       }
       std::cout << std::endl;
       if (statistics->HasLabel(ii))

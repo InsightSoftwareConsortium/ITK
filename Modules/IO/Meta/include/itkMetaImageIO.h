@@ -218,7 +218,7 @@ MetaImageIO::WriteMatrixInMetaData(std::ostringstream &       strs,
         strs << mval[i][j];
         if (i != VNRows - 1 || j != VNColumns - 1)
         {
-          strs << " ";
+          strs << ' ';
         }
       }
     }
