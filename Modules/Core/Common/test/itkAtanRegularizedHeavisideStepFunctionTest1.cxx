@@ -58,7 +58,7 @@ itkAtanRegularizedHeavisideStepFunctionTest1(int, char *[])
     const InputType ix = x * incValue;
     OutputType      f = functionBase0->Evaluate(ix);
     OutputType      df = functionBase0->EvaluateDerivative(ix);
-    std::cout << ix << " " << f << " " << df << std::endl;
+    std::cout << ix << ' ' << f << ' ' << df << std::endl;
   }
 
   return EXIT_SUCCESS;

@@ -82,7 +82,7 @@ public:
       while (!it.IsAtEndOfLine())
       {
         PixelType readValue = it.Get();
-        std::cout << readValue << " ";
+        std::cout << readValue << ' ';
         if (readValue != value)
         {
           std::cerr << "At index " << it.GetIndex() << std::endl;

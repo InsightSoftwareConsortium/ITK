@@ -112,7 +112,7 @@ itkDifferenceOfGaussiansGradientTest(int, char *[])
   std::cout << "Seeds for FloodFilledSpatialFunctionConditionalIterator" << std::endl;
   for (const auto & seed : sfi.GetSeeds())
   {
-    std::cout << seed << " ";
+    std::cout << seed << ' ';
   }
   std::cout << std::endl;
 

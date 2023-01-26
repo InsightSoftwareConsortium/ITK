@@ -44,7 +44,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     std::cout << "Scale from instantiating an identity transform:  ";
     for (unsigned int j = 0; j < N; ++j)
     {
-      std::cout << scale[j] << " ";
+      std::cout << scale[j] << ' ';
     }
     std::cout << std::endl;
     for (unsigned int i = 0; i < N; ++i)
@@ -75,7 +75,7 @@ itkScaleLogarithmicTransformTest(int, char *[])
     std::cout << "scale initialization  test:  ";
     for (unsigned int j = 0; j < N; ++j)
     {
-      std::cout << scale[j] << " ";
+      std::cout << scale[j] << ' ';
     }
     std::cout << std::endl;
 

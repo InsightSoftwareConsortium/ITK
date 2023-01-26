@@ -310,8 +310,8 @@ itkWarpImageFilterTest(int, char *[])
       if (itk::Math::abs(trueValue - value) > 1e-4)
       {
         testPassed = false;
-        std::cout << "Error at Index: " << index << " ";
-        std::cout << "Expected: " << trueValue << " ";
+        std::cout << "Error at Index: " << index << ' ';
+        std::cout << "Expected: " << trueValue << ' ';
         std::cout << "Actual: " << value << std::endl;
       }
     }
@@ -321,8 +321,8 @@ itkWarpImageFilterTest(int, char *[])
       if (itk::Math::NotExactlyEquals(value, padValue))
       {
         testPassed = false;
-        std::cout << "Error at Index: " << index << " ";
-        std::cout << "Expected: " << padValue << " ";
+        std::cout << "Error at Index: " << index << ' ';
+        std::cout << "Expected: " << padValue << ' ';
         std::cout << "Actual: " << value << std::endl;
       }
     }
@@ -363,8 +363,8 @@ itkWarpImageFilterTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(outIter.Get(), streamIter.Get()))
     {
-      std::cout << "Error C at Index: " << outIter.GetIndex() << " ";
-      std::cout << "Expected: " << outIter.Get() << " ";
+      std::cout << "Error C at Index: " << outIter.GetIndex() << ' ';
+      std::cout << "Expected: " << outIter.Get() << ' ';
       std::cout << "Actual: " << streamIter.Get() << std::endl;
       testPassed = false;
     }

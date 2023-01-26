@@ -46,7 +46,7 @@ ReadImage(const std::string & fileName)
   catch (const itk::ExceptionObject & err)
   {
     std::cout << "Caught an exception: " << std::endl;
-    std::cout << err << " " << __FILE__ << " " << __LINE__ << std::endl;
+    std::cout << err << ' ' << __FILE__ << ' ' << __LINE__ << std::endl;
     throw;
   }
   catch (...)

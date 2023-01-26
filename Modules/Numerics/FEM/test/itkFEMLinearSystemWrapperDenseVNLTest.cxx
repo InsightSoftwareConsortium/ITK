@@ -84,7 +84,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 0) << " ";
+      std::cout << it.GetMatrixValue(i, j, 0) << ' ';
     }
     std::cout << std::endl;
   }
@@ -115,7 +115,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 1) << " ";
+      std::cout << it.GetMatrixValue(i, j, 1) << ' ';
     }
     std::cout << std::endl;
   }
@@ -130,7 +130,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 2) << " ";
+      std::cout << it.GetMatrixValue(i, j, 2) << ' ';
     }
     std::cout << std::endl;
   }
@@ -147,7 +147,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   std::cout << "Vector 0" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetVectorValue(i, 0) << " ";
+    std::cout << it.GetVectorValue(i, 0) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -156,7 +156,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   it.MultiplyMatrixVector(1, 0, 0);
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetVectorValue(i, 1) << " ";
+    std::cout << it.GetVectorValue(i, 1) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -166,12 +166,12 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   it.SwapVectors(0, 1);
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetVectorValue(i, 0) << " ";
+    std::cout << it.GetVectorValue(i, 0) << ' ';
   }
   std::cout << std::endl << "Vector 1" << std::endl;
   for (i = 0; i < 5; ++i)
   {
-    std::cout << it.GetVectorValue(i, 1) << " ";
+    std::cout << it.GetVectorValue(i, 1) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -183,7 +183,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 0) << " ";
+      std::cout << it.GetMatrixValue(i, j, 0) << ' ';
     }
     std::cout << std::endl;
   }
@@ -192,7 +192,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 2) << " ";
+      std::cout << it.GetMatrixValue(i, j, 2) << ' ';
     }
     std::cout << std::endl;
   }
@@ -204,7 +204,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   std::cout << "Solution 0" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetSolutionValue(i, 0) << " ";
+    std::cout << it.GetSolutionValue(i, 0) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -217,7 +217,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   it.SetSolutionValue(4, 5, 1);
   for (i = 0; i < 5; ++i)
   {
-    std::cout << it.GetSolutionValue(i, 1) << " ";
+    std::cout << it.GetSolutionValue(i, 1) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -227,12 +227,12 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   std::cout << "Solution 0" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetSolutionValue(i, 0) << " ";
+    std::cout << it.GetSolutionValue(i, 0) << ' ';
   }
   std::cout << std::endl << "Solution 1" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetSolutionValue(i, 1) << " ";
+    std::cout << it.GetSolutionValue(i, 1) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -242,7 +242,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   std::cout << "Vector 0" << std::endl;
   for (i = 0; i < N; ++i)
   {
-    std::cout << it.GetVectorValue(i, 0) << " ";
+    std::cout << it.GetVectorValue(i, 0) << ' ';
   }
   std::cout << std::endl << std::endl;
 
@@ -254,7 +254,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   {
     for (j = 0; j < N; ++j)
     {
-      std::cout << it.GetMatrixValue(i, j, 2) << " ";
+      std::cout << it.GetMatrixValue(i, j, 2) << ' ';
     }
     std::cout << std::endl;
   }
@@ -266,7 +266,7 @@ itkFEMLinearSystemWrapperDenseVNLTest(int, char *[])
   std::cout << "Vector 0" << std::endl;
   for (i = 0; i < 5; ++i)
   {
-    std::cout << it.GetVectorValue(i, 0) << " ";
+    std::cout << it.GetVectorValue(i, 0) << ' ';
   }
   std::cout << std::endl << std::endl;
 

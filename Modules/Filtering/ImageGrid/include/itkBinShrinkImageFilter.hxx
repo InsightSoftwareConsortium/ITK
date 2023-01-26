@@ -48,7 +48,7 @@ BinShrinkImageFilter<TInputImage, TOutputImage>::PrintSelf(std::ostream & os, In
   os << indent << "Shrink Factor: ";
   for (unsigned int j = 0; j < ImageDimension; ++j)
   {
-    os << m_ShrinkFactors[j] << " ";
+    os << m_ShrinkFactors[j] << ' ';
   }
   os << std::endl;
 }

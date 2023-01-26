@@ -348,7 +348,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
     InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
     for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
     {
-      std::cout << basisImage_it.Get() << " ";
+      std::cout << basisImage_it.Get() << ' ';
     }
     std::cout << "]" << std::endl;
   }
@@ -369,7 +369,7 @@ itkImagePCADecompositionCalculatorTest(int, char *[])
     InputImageIterator basisImage_it(basis_it, basis_it->GetBufferedRegion());
     for (basisImage_it.GoToBegin(); !basisImage_it.IsAtEnd(); ++basisImage_it)
     {
-      std::cout << basisImage_it.Get() << " ";
+      std::cout << basisImage_it.Get() << ' ';
     }
     std::cout << "]" << std::endl;
   }

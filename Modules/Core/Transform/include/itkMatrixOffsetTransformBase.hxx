@@ -65,7 +65,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
     os << indent.GetNextIndent();
     for (j = 0; j < VOutputDimension; ++j)
     {
-      os << m_Matrix[i][j] << " ";
+      os << m_Matrix[i][j] << ' ';
     }
     os << std::endl;
   }
@@ -80,7 +80,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
     os << indent.GetNextIndent();
     for (j = 0; j < VOutputDimension; ++j)
     {
-      os << this->GetInverseMatrix()[i][j] << " ";
+      os << this->GetInverseMatrix()[i][j] << ' ';
     }
     os << std::endl;
   }

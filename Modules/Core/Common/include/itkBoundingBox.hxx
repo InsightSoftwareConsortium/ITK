@@ -43,7 +43,7 @@ BoundingBox<TPointIdentifier, VPointDimension, TCoordRep, TPointsContainer>::Pri
   os << indent << "Bounding Box: ( ";
   for (unsigned int i = 0; i < PointDimension; ++i)
   {
-    os << m_Bounds[2 * i] << "," << m_Bounds[2 * i + 1] << " ";
+    os << m_Bounds[2 * i] << "," << m_Bounds[2 * i + 1] << ' ';
   }
   os << " )" << std::endl;
 }

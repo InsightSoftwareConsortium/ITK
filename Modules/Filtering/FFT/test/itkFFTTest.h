@@ -103,7 +103,7 @@ test_fft(unsigned int * SizeOfDimensions)
       }
       else
       {
-        std::cout << val << " ";
+        std::cout << val << ' ';
       }
       counter++;
       originalImageIterator.Set(val);
@@ -158,7 +158,7 @@ test_fft(unsigned int * SizeOfDimensions)
       unsigned int yStride = j * sizes[0];
       for (unsigned int k = 0; k < sizes[0]; ++k)
       {
-        std::cout << fftbuf[zStride + yStride + k] << " ";
+        std::cout << fftbuf[zStride + yStride + k] << ' ';
       }
       std::cout << std::endl;
     }
@@ -234,7 +234,7 @@ test_fft(unsigned int * SizeOfDimensions)
     }
     else
     {
-      std::cerr << val << " ";
+      std::cerr << val << ' ';
     }
     counter++;
     ++inverseFFTImageIterator;
@@ -258,7 +258,7 @@ test_fft(unsigned int * SizeOfDimensions)
     }
     if (diff > 0.01)
     {
-      std::cerr << "Diff found in test_fft: " << val << " " << val2 << " diff " << diff << std::endl;
+      std::cerr << "Diff found in test_fft: " << val << ' ' << val2 << " diff " << diff << std::endl;
       return -1;
     }
     ++originalImageIterator;
@@ -322,7 +322,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       }
       else
       {
-        std::cout << val << " ";
+        std::cout << val << ' ';
       }
       counter++;
       originalImageIterator.Set(val);
@@ -381,7 +381,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       unsigned int yStride = j * sizesA[0];
       for (unsigned int k = 0; k < sizesA[0]; ++k)
       {
-        std::cout << fftbufA[zStride + yStride + k] << " ";
+        std::cout << fftbufA[zStride + yStride + k] << ' ';
       }
       std::cout << std::endl;
     }
@@ -396,7 +396,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
       unsigned int yStride = j * sizesB[0];
       for (unsigned int k = 0; k < sizesB[0]; ++k)
       {
-        std::cout << fftbufB[zStride + yStride + k] << " ";
+        std::cout << fftbufB[zStride + yStride + k] << ' ';
       }
       std::cout << std::endl;
     }
@@ -425,7 +425,7 @@ test_fft_rtc(unsigned int * SizeOfDimensions)
         }
         if (diff > 0.01)
         {
-          std::cerr << "Diff found in test_fft_r2c: " << fftbufA[zStrideA + yStrideA + k] << " "
+          std::cerr << "Diff found in test_fft_r2c: " << fftbufA[zStrideA + yStrideA + k] << ' '
                     << fftbufB[zStrideB + yStrideB + k] << " diff " << diff << std::endl;
           return -1;
         }

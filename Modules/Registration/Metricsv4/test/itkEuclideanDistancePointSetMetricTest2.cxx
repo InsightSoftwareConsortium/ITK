@@ -183,8 +183,8 @@ itkEuclideanDistancePointSetMetricTest2Run()
         passed = false;
       }
     }
-    std::cout << " fixed, moving, txf'ed, moving-txf: " << fixedPoint << " " << movingPoint << " " << transformedPoint
-              << " " << movingPoint - transformedPoint << std::endl;
+    std::cout << " fixed, moving, txf'ed, moving-txf: " << fixedPoint << ' ' << movingPoint << ' ' << transformedPoint
+              << ' ' << movingPoint - transformedPoint << std::endl;
   }
 
   if (!passed)

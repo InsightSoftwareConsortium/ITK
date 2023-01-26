@@ -1036,17 +1036,17 @@ NiftiImageIO::SetImageIOMetadataFromNIfTI()
   EncapsulateMetaData<std::string>(thisDic, "qoffset_z", qoffset_z.str());
 
   std::ostringstream srow_x;
-  srow_x << nim->sto_xyz.m[0][0] << " " << nim->sto_xyz.m[0][1] << " " << nim->sto_xyz.m[0][2] << " "
+  srow_x << nim->sto_xyz.m[0][0] << ' ' << nim->sto_xyz.m[0][1] << ' ' << nim->sto_xyz.m[0][2] << ' '
          << nim->sto_xyz.m[0][3];
   EncapsulateMetaData<std::string>(thisDic, "srow_x", srow_x.str());
 
   std::ostringstream srow_y;
-  srow_y << nim->sto_xyz.m[1][0] << " " << nim->sto_xyz.m[1][1] << " " << nim->sto_xyz.m[1][2] << " "
+  srow_y << nim->sto_xyz.m[1][0] << ' ' << nim->sto_xyz.m[1][1] << ' ' << nim->sto_xyz.m[1][2] << ' '
          << nim->sto_xyz.m[1][3];
   EncapsulateMetaData<std::string>(thisDic, "srow_y", srow_y.str());
 
   std::ostringstream srow_z;
-  srow_z << nim->sto_xyz.m[2][0] << " " << nim->sto_xyz.m[2][1] << " " << nim->sto_xyz.m[2][2] << " "
+  srow_z << nim->sto_xyz.m[2][0] << ' ' << nim->sto_xyz.m[2][1] << ' ' << nim->sto_xyz.m[2][2] << ' '
          << nim->sto_xyz.m[2][3];
   EncapsulateMetaData<std::string>(thisDic, "srow_z", srow_z.str());
 

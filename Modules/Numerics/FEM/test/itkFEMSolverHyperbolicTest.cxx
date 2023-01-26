@@ -144,7 +144,7 @@ PrintSolution(FEMSolverType * S)
     std::cout << "Solution Node " << i << ":";
     for (unsigned int d = 0, dof; (dof = S->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; ++d)
     {
-      std::cout << " " << S->GetSolution(dof);
+      std::cout << ' ' << S->GetSolution(dof);
     }
     std::cout << std::endl;
   }

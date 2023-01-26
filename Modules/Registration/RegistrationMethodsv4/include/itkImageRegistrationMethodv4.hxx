@@ -1170,7 +1170,7 @@ ImageRegistrationMethodv4<TFixedImage, TMovingImage, TTransform, TVirtualImage, 
   os << indent << "Metric sampling percentage: ";
   for (SizeValueType i = 0; i < this->m_NumberOfLevels; ++i)
   {
-    os << this->m_MetricSamplingPercentagePerLevel[i] << " ";
+    os << this->m_MetricSamplingPercentagePerLevel[i] << ' ';
   }
   os << std::endl;
 

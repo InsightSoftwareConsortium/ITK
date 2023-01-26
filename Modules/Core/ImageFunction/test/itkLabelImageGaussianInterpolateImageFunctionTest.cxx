@@ -81,7 +81,7 @@ itkLabelImageGaussianInterpolateImageFunctionTest(int, char *[])
         const IndexType index = { { x, y } };
         const PixelType value = valarray[x][y];
         small_image->SetPixel(index, value);
-        std::cout << value << " ";
+        std::cout << value << ' ';
       }
       std::cout << std::endl;
     }

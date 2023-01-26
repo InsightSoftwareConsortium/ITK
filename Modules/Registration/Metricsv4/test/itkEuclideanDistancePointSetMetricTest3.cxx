@@ -104,7 +104,7 @@ itkEuclideanDistancePointSetMetricTest3Run(double distanceThreshold)
     auto pointId = pointsLocator->FindClosestPoint(tempFixedPoint);
     auto closestPoint = movingPoints->GetPoint(pointId);
     distanceArray.push_back(closestPoint.EuclideanDistanceTo(tempFixedPoint));
-    std::cout << n << " " << tempFixedPoint << " , " << closestPoint << " "
+    std::cout << n << ' ' << tempFixedPoint << " , " << closestPoint << ' '
               << closestPoint.EuclideanDistanceTo(tempFixedPoint) << std::endl;
   }
 

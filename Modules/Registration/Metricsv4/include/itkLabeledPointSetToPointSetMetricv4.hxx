@@ -247,7 +247,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   typename LabelSetType::const_iterator itF;
   for (itF = this->m_FixedPointSetLabels.begin(); itF != this->m_FixedPointSetLabels.end(); ++itF)
   {
-    os << *itF << " ";
+    os << *itF << ' ';
   }
   os << std::endl;
 
@@ -255,7 +255,7 @@ LabeledPointSetToPointSetMetricv4<TFixedPointSet, TMovingPointSet, TInternalComp
   typename LabelSetType::const_iterator itM;
   for (itM = this->m_MovingPointSetLabels.begin(); itM != this->m_MovingPointSetLabels.end(); ++itM)
   {
-    os << *itM << " ";
+    os << *itM << ' ';
   }
   os << std::endl;
 }

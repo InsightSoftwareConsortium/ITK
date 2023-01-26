@@ -140,7 +140,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     index = numberOfMeasurements * i;
     for (unsigned int j = 0; j < numberOfMeasurements; ++j)
     {
-      std::cout << trueMeans[index] << " ";
+      std::cout << trueMeans[index] << ' ';
       ++index;
     }
     std::cout << std::endl;
@@ -150,7 +150,7 @@ itkKdTreeBasedKmeansEstimatorTest(int argc, char * argv[])
     index = numberOfMeasurements * i;
     for (unsigned int j = 0; j < numberOfMeasurements; ++j)
     {
-      std::cout << estimatedMeans[index] << " ";
+      std::cout << estimatedMeans[index] << ' ';
       temp = estimatedMeans[index] - trueMeans[index];
       ++index;
       displacement += (temp * temp);

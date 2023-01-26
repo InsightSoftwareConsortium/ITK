@@ -98,7 +98,7 @@ itkMeanSampleFilterTest(int, char *[])
   mean[0] = 2.0;
   mean[1] = 2.0;
 
-  std::cout << meanOutput[0] << " " << mean[0] << " " << meanOutput[1] << " " << mean[1] << " " << std::endl;
+  std::cout << meanOutput[0] << ' ' << mean[0] << ' ' << meanOutput[1] << ' ' << mean[1] << ' ' << std::endl;
 
   FilterType::MeasurementVectorType::ValueType epsilon = 1e-6;
 

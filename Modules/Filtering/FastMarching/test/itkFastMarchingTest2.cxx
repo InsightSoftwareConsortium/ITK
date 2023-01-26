@@ -196,9 +196,9 @@ itkFastMarchingTest2(int, char *[])
 
       if (itk::Math::abs(outputValue) / distance > 1.42)
       {
-        std::cout << iterator.GetIndex() << " ";
-        std::cout << itk::Math::abs(outputValue) / distance << " ";
-        std::cout << itk::Math::abs(outputValue) << " " << distance << std::endl;
+        std::cout << iterator.GetIndex() << ' ';
+        std::cout << itk::Math::abs(outputValue) / distance << ' ';
+        std::cout << itk::Math::abs(outputValue) << ' ' << distance << std::endl;
         passed = false;
       }
     }
@@ -206,8 +206,8 @@ itkFastMarchingTest2(int, char *[])
     {
       if (outputValue != 0.)
       {
-        std::cout << iterator.GetIndex() << " ";
-        std::cout << outputValue << " " << 0.;
+        std::cout << iterator.GetIndex() << ' ';
+        std::cout << outputValue << ' ' << 0.;
         std::cout << std::endl;
         passed = false;
       }

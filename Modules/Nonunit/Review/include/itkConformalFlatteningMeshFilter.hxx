@@ -623,9 +623,8 @@ ConformalFlatteningMeshFilter<TInputMesh, TOutputMesh>::GenerateData()
     }
   }
 
-  itkDebugMacro("bounds"
-                << " " << bounds[0] << " " << bounds[1] << " " << bounds[2] << " " << bounds[3] << " " << bounds[4]
-                << " " << bounds[5]);
+  itkDebugMacro("bounds" << ' ' << bounds[0] << ' ' << bounds[1] << ' ' << bounds[2] << ' ' << bounds[3] << ' '
+                         << bounds[4] << ' ' << bounds[5]);
 
   // Create duplicate references to the rest of data on the mesh
   this->CopyInputMeshToOutputMeshPointData();

@@ -188,11 +188,11 @@ ParticleSwarmOptimizerBase::PrintSwarm(std::ostream & os, Indent indent) const
     const ParticleData & p = *it;
     os << indent;
     PrintParamtersType(p.m_CurrentParameters, os);
-    os << " ";
+    os << ' ';
     PrintParamtersType(p.m_CurrentVelocity, os);
-    os << " " << p.m_CurrentValue << " ";
+    os << ' ' << p.m_CurrentValue << ' ';
     PrintParamtersType(p.m_BestParameters, os);
-    os << " " << p.m_BestValue << "\n";
+    os << ' ' << p.m_BestValue << "\n";
   }
   os << indent << "]\n";
 }
@@ -204,7 +204,7 @@ ParticleSwarmOptimizerBase::PrintParamtersType(const ParametersType & x, std::os
   unsigned int sz = x.size();
   for (unsigned int i = 0; i < sz; ++i)
   {
-    os << x[i] << " ";
+    os << x[i] << ' ';
   }
 }
 

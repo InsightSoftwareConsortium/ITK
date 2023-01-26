@@ -1215,7 +1215,7 @@ QuadEdgeMesh<TPixel, VDimension, TTraits>::AddFace(const PointIdList & points) -
     {
       if (edge->IsLeftSet())
       {
-        itkDebugMacro("Edge [" << i << " " << ((i + 1) % N) << " has a left face.");
+        itkDebugMacro("Edge [" << i << ' ' << ((i + 1) % N) << " has a left face.");
         return (QEPrimal *)nullptr;
       }
     }

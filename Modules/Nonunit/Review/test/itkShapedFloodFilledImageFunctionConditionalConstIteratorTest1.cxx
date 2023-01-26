@@ -75,7 +75,7 @@ itkShapedFloodFilledImageFunctionConditionalConstIteratorTest1(int argc, char * 
   std::cout << "Iterator seeds";
   for (auto seed : shapedFloodIt.GetSeeds())
   {
-    std::cout << " " << seed;
+    std::cout << ' ' << seed;
   }
   std::cout << std::endl;
 

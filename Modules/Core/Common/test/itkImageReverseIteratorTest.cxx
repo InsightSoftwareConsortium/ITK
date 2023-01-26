@@ -107,7 +107,7 @@ itkImageReverseIteratorTest(int, char *[])
     std::cout << "Simple iterator loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
-      std::cout << index[i] << " ";
+      std::cout << index[i] << ' ';
     }
     std::cout << std::endl;
   }
@@ -123,7 +123,7 @@ itkImageReverseIteratorTest(int, char *[])
     std::cout << "Simple iterator backwards loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
-      std::cout << index[i] << " ";
+      std::cout << index[i] << ' ';
     }
     std::cout << std::endl;
   } while (!backIt.IsAtBegin()); // stop when we reach the beginning
@@ -138,7 +138,7 @@ itkImageReverseIteratorTest(int, char *[])
     std::cout << "Reverse iterator: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
-      std::cout << index[i] << " ";
+      std::cout << index[i] << ' ';
     }
     std::cout << std::endl;
   }
@@ -160,7 +160,7 @@ itkImageReverseIteratorTest(int, char *[])
     std::cout << "Reverse iterator backwards loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
-      std::cout << index[i] << " ";
+      std::cout << index[i] << ' ';
     }
     std::cout << std::endl;
   } while (!backReverseIt.IsAtBegin()); // stop when we reach the beginning
@@ -173,7 +173,7 @@ itkImageReverseIteratorTest(int, char *[])
     std::cout << "Reverse const iterator: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
-      std::cout << index[i] << " ";
+      std::cout << index[i] << ' ';
     }
     std::cout << std::endl;
   }

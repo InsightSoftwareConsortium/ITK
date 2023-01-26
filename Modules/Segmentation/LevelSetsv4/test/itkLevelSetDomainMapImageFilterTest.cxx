@@ -106,7 +106,7 @@ itkLevelSetDomainMapImageFilterTest(int, char *[])
         {
           for (const auto & lIt : *lout)
           {
-            std::cout << lIt << " ";
+            std::cout << lIt << ' ';
           }
           std::cout << std::endl;
         }

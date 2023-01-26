@@ -56,7 +56,7 @@ itkConvertBufferTest(int, char *[])
   std::cerr << "itk::RGBPixel<float> array converted from float\n";
   for (unsigned int j = 0; j < 3; ++j)
   {
-    std::cerr << pf[j] << " ";
+    std::cerr << pf[j] << ' ';
     for (unsigned int k = 0; k < sizeof(pf) / sizeof(itk::RGBPixel<float>); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(pf[k][j], ipa3com[j + k * 3]);
@@ -69,7 +69,7 @@ itkConvertBufferTest(int, char *[])
   std::cerr << "itk::RGBAPixel<float> array \n";
   for (unsigned int j = 0; j < 3; ++j)
   {
-    std::cerr << pa[j] << " ";
+    std::cerr << pa[j] << ' ';
     for (unsigned int k = 0; k < sizeof(pa) / sizeof(itk::RGBAPixel<float>); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(pa[k][j], ipa3com[j + k * 3]);
@@ -88,7 +88,7 @@ itkConvertBufferTest(int, char *[])
   std::cerr << "itk::RGBAPixel<unsigned char> array \n";
   for (unsigned int j = 0; j < 3; ++j)
   {
-    std::cerr << ucpa[j] << " ";
+    std::cerr << ucpa[j] << ' ';
     for (unsigned int k = 0; k < sizeof(ucpa) / sizeof(itk::RGBAPixel<unsigned char>); ++k)
     {
       ITK_TEST_EXPECT_EQUAL(ucpa[k][j], ucipa3com[j + k * 3]);
@@ -107,7 +107,7 @@ itkConvertBufferTest(int, char *[])
   std::cerr << "\nfloat array  : ";
   for (int i = 0; i < arraySize; ++i)
   {
-    std::cerr << farray[i] << " ";
+    std::cerr << farray[i] << ' ';
     ITK_TEST_EXPECT_EQUAL(darray[i], static_cast<double>(farray[i]));
   }
   // convert a float array to an int array
@@ -115,7 +115,7 @@ itkConvertBufferTest(int, char *[])
   std::cerr << "\nint array   : ";
   for (int i = 0; i < arraySize; ++i)
   {
-    std::cerr << iarray[i] << " ";
+    std::cerr << iarray[i] << ' ';
     ITK_TEST_EXPECT_EQUAL(iarray[i], static_cast<int>(farray[i]));
   }
   // convert the int array to the float array
@@ -123,7 +123,7 @@ itkConvertBufferTest(int, char *[])
   std::cerr << "\ndouble array : ";
   for (int i = 0; i < arraySize; ++i)
   {
-    std::cerr << darray[i] << " ";
+    std::cerr << darray[i] << ' ';
     ITK_TEST_EXPECT_EQUAL(farray[i], static_cast<float>(iarray[i]));
   }
   std::cerr << "\n";

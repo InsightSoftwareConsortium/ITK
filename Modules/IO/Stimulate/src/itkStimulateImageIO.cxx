@@ -511,25 +511,25 @@ StimulateImageIO::Write(const void * buffer)
   file << "\ndim:";
   for (i = 0; i < m_NumberOfDimensions; ++i)
   {
-    file << " " << m_Dimensions[i];
+    file << ' ' << m_Dimensions[i];
   }
 
   file << "\norigin:";
   for (i = 0; i < m_NumberOfDimensions; ++i)
   {
-    file << " " << m_Origin[i];
+    file << ' ' << m_Origin[i];
   }
 
   file << "\nfov:";
   for (i = 0; i < m_NumberOfDimensions; ++i)
   {
-    file << " " << m_Spacing[i] * m_Dimensions[i]; // fov = interval * dim
+    file << ' ' << m_Spacing[i] * m_Dimensions[i]; // fov = interval * dim
   }
 
   file << "\ninterval:";
   for (i = 0; i < m_NumberOfDimensions; ++i)
   {
-    file << " " << m_Spacing[i];
+    file << ' ' << m_Spacing[i];
   }
 
   // preparation for writing buffer:
@@ -594,6 +594,6 @@ void
 StimulateImageIO::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "\nDisplayRange: " << m_DisplayRange[0] << " " << m_DisplayRange[1];
+  os << indent << "\nDisplayRange: " << m_DisplayRange[0] << ' ' << m_DisplayRange[1];
 }
 } // end namespace itk

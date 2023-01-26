@@ -53,7 +53,7 @@ PrintImg(ImageType::Pointer img)
     {
       for (Index[0] = 0; Index[0] < 4; Index[0]++)
       {
-        std::cerr << img->GetPixel(Index) << " ";
+        std::cerr << img->GetPixel(Index) << ' ';
       }
       std::cerr << std::endl;
     }

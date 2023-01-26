@@ -80,7 +80,7 @@ RGBImageTotalAbsDifference(const itk::Image<itk::RGBPixel<TPixelValue>, VDimensi
       ++testIt2;
       IterType validIt2 = validIt;
       ++validIt2;
-      std::cerr << testIt.GetIndex() << " [ " << validPx << " " << validIt2.Get() << "] != [ " << testPx << " "
+      std::cerr << testIt.GetIndex() << " [ " << validPx << ' ' << validIt2.Get() << "] != [ " << testPx << ' '
                 << testIt2.Get() << " ]" << std::endl;
       return localDiff;
     }

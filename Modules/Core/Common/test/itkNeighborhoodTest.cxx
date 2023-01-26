@@ -52,7 +52,7 @@ itkNeighborhoodTest(int, char *[])
   println("Test const_iterators");
   for (itk::Neighborhood<float, 2>::ConstIterator itc = b.Begin(); itc < b.End(); ++itc)
   {
-    std::cout << *itc << " ";
+    std::cout << *itc << ' ';
   }
 
   println("Copy the buffer into a vnl_vector");

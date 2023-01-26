@@ -132,7 +132,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
   std::cout << "Iterator seeds";
   for (auto seed : iterator.GetSeeds())
   {
-    std::cout << " " << seed;
+    std::cout << ' ' << seed;
   }
   std::cout << std::endl;
 

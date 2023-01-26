@@ -276,8 +276,8 @@ itkAtomicIntTest(int, char *[])
   mt->SetSingleMethod(MyFunction4, nullptr);
   mt->SingleMethodExecute();
 
-  std::cout << Total << " " << TotalAtomic.load() << std::endl;
-  std::cout << Total64 << " " << TotalAtomic64.load() << std::endl;
+  std::cout << Total << ' ' << TotalAtomic.load() << std::endl;
+  std::cout << Total64 << ' ' << TotalAtomic64.load() << std::endl;
 
   std::cout << "MTime: " << AnObject->GetMTime() << std::endl;
 

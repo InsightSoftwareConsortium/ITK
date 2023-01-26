@@ -155,7 +155,7 @@ itkHessian3DToVesselnessMeasureImageFilterTest(int argc, char * argv[])
   itg.GoToBegin();
   while (!itg.IsAtEnd())
   {
-    std::cout << itg.Get() << " ";
+    std::cout << itg.Get() << ' ';
     ++itg;
   }
 

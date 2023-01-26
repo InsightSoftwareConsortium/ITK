@@ -202,8 +202,8 @@ itkJensenHavrdaCharvatTsallisPointSetMetricTestRun()
 
       for (unsigned int d = 0; d < metric->GetNumberOfParameters(); ++d)
       {
-        moving_str1 << sourcePoint[d] << " ";
-        moving_str2 << targetPoint[d] << " ";
+        moving_str1 << sourcePoint[d] << ' ';
+        moving_str2 << targetPoint[d] << ' ';
       }
       if (Dimension < 3)
       {

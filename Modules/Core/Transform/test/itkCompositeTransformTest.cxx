@@ -907,7 +907,7 @@ itkCompositeTransformTest(int, char *[])
     for (itk::SizeValueType n = 0; n < 12; ++n)
     {
       const TranslationTransformType::ParametersType & params = translationTransformVector[n]->GetParameters();
-      std::cout << " " << params[0];
+      std::cout << ' ' << params[0];
     }
     std::cout << std::endl;
     return EXIT_FAILURE;

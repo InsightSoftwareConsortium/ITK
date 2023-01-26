@@ -34,7 +34,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   for (ul = 0; ul < 100; ++ul)
   {
     pixel = ulf(ul);
-    std::cout << ul << "->" << static_cast<int>(pixel[0]) << " " << static_cast<int>(pixel[1]) << " "
+    std::cout << ul << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
               << static_cast<int>(pixel[2]) << std::endl;
   }
   std::cout << "Testing unsigned long integers in little endian mode" << std::endl;
@@ -43,7 +43,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   for (ul = 0; ul < 100; ++ul)
   {
     pixel = ulf(ul);
-    std::cout << ul << "->" << static_cast<int>(pixel[0]) << " " << static_cast<int>(pixel[1]) << " "
+    std::cout << ul << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
               << static_cast<int>(pixel[2]) << std::endl;
   }
 
@@ -54,7 +54,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   for (char c = 0; c < 100; ++c)
   {
     pixel = ucf(c);
-    std::cout << static_cast<int>(c) << "->" << static_cast<int>(pixel[0]) << " " << static_cast<int>(pixel[1]) << " "
+    std::cout << static_cast<int>(c) << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
               << static_cast<int>(pixel[2]) << std::endl;
   }
 
@@ -67,7 +67,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   {
     pixel = ff(f);
 
-    std::cout << f << "->" << static_cast<int>(pixel[0]) << " " << static_cast<int>(pixel[1]) << " "
+    std::cout << f << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
               << static_cast<int>(pixel[2]) << std::endl;
   }
   std::cout << "Testing float in little endian mode" << std::endl;
@@ -76,7 +76,7 @@ itkScalarToRGBPixelFunctorTest(int, char *[])
   for (f = 0; f < 100; ++f)
   {
     pixel = ff(f);
-    std::cout << f << "->" << static_cast<int>(pixel[0]) << " " << static_cast<int>(pixel[1]) << " "
+    std::cout << f << "->" << static_cast<int>(pixel[0]) << ' ' << static_cast<int>(pixel[1]) << ' '
               << static_cast<int>(pixel[2]) << std::endl;
   }
 

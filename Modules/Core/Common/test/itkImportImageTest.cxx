@@ -108,7 +108,7 @@ itkImportImageTest(int, char *[])
           (region.GetSize()[0] *
            ((shrink->GetShrinkFactors()[1] / 2) + (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[1]))))))
     {
-      std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() << " " << iterator2.Get() << " compare value "
+      std::cout << " iterator2.GetIndex() Get() " << iterator2.GetIndex() << ' ' << iterator2.Get() << " compare value "
                 << itk::Math::RoundHalfIntegerUp<short>(static_cast<float>(
                      (shrink->GetShrinkFactors()[0] * iterator2.GetIndex()[0] + shrink->GetShrinkFactors()[0] / 2) +
                      (region.GetSize()[0] * ((shrink->GetShrinkFactors()[1] / 2) +

@@ -133,14 +133,14 @@ Neighborhood<TPixel, VDimension, TContainer>::PrintSelf(std::ostream & os, Inden
   os << indent << "StrideTable: [ ";
   for (DimensionValueType i = 0; i < VDimension; ++i)
   {
-    os << m_StrideTable[i] << " ";
+    os << m_StrideTable[i] << ' ';
   }
   os << "]" << std::endl;
 
   os << indent << "OffsetTable: [ ";
   for (DimensionValueType i = 0; i < m_OffsetTable.size(); ++i)
   {
-    os << m_OffsetTable[i] << " ";
+    os << m_OffsetTable[i] << ' ';
   }
   os << "]" << std::endl;
 }

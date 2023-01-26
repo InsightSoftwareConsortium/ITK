@@ -191,7 +191,7 @@ void
 SpatialObjectProperty::PrintSelf(std::ostream & os, Indent indent) const
 {
   os << indent << "Name: " << m_Name << std::endl;
-  os << indent << "RGBA: " << m_Color.GetRed() << " " << m_Color.GetGreen() << " " << m_Color.GetBlue() << " "
+  os << indent << "RGBA: " << m_Color.GetRed() << ' ' << m_Color.GetGreen() << ' ' << m_Color.GetBlue() << ' '
      << m_Color.GetAlpha() << std::endl;
   os << indent << "ScalarDictionary size: " << m_ScalarDictionary.size() << std::endl;
   os << indent << "StringDictionary size: " << m_StringDictionary.size() << std::endl;

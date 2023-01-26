@@ -264,7 +264,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
       itkExceptionMacro(<< "Error reading file: " << m_FileName
                         << "point ids must be >= 0.\n"
                            "ids="
-                        << ids[0] << " " << ids[1] << " " << ids[2] << " " << ids[3]);
+                        << ids[0] << ' ' << ids[1] << ' ' << ids[2] << ' ' << ids[3]);
     }
 
     if (static_cast<PointIdentifier>(ids[0]) >= numberOfPoints ||
@@ -273,7 +273,7 @@ VTKTetrahedralMeshReader<TOutputMesh>::GenerateData()
         static_cast<PointIdentifier>(ids[3]) >= numberOfPoints)
     {
       itkExceptionMacro(<< "Error reading file: " << m_FileName << "Point ids must be < number of points: "
-                        << numberOfPoints << "\nids= " << ids[0] << " " << ids[1] << " " << ids[2] << " " << ids[3]);
+                        << numberOfPoints << "\nids= " << ids[0] << ' ' << ids[1] << ' ' << ids[2] << ' ' << ids[3]);
     }
 
     CellAutoPointer cell;

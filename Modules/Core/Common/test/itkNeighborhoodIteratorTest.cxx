@@ -87,7 +87,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -104,7 +104,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -115,7 +115,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -126,7 +126,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -137,7 +137,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -150,7 +150,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -161,7 +161,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -172,7 +172,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }
@@ -183,7 +183,7 @@ itkNeighborhoodIteratorTest(int, char *[])
   {
     for (x = 0; x < 5; ++x, ++i)
     {
-      std::cout << it3.GetPixel(i) << " ";
+      std::cout << it3.GetPixel(i) << ' ';
     }
     std::cout << std::endl;
   }

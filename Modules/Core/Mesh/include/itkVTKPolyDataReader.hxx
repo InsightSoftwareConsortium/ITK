@@ -254,14 +254,14 @@ VTKPolyDataReader<TOutputMesh>::GenerateData()
       itkExceptionMacro(<< "Error reading file: " << m_FileName
                         << "point ids must be >= 0.\n"
                            "ids="
-                        << ids[0] << " " << ids[1] << " " << ids[2]);
+                        << ids[0] << ' ' << ids[1] << ' ' << ids[2]);
     }
 
     const auto signedNumberOfPoints = itk::Math::CastWithRangeCheck<OffsetValueType>(numberOfPoints);
     if (ids[0] >= signedNumberOfPoints || ids[1] >= signedNumberOfPoints || ids[2] >= signedNumberOfPoints)
     {
       itkExceptionMacro(<< "Error reading file: " << m_FileName << "Point ids must be < number of points: "
-                        << numberOfPoints << "\nids= " << ids[0] << " " << ids[1] << " " << ids[2]);
+                        << numberOfPoints << "\nids= " << ids[0] << ' ' << ids[1] << ' ' << ids[2]);
     }
 
     CellAutoPointer cell;

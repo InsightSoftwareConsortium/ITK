@@ -87,7 +87,7 @@ EllipsoidInteriorExteriorSpatialFunction<VDimension, TInput>::PrintSelf(std::ost
   {
     for (j = 0; j < VDimension; ++j)
     {
-      os << indent << indent << m_Orientations[i][j] << " ";
+      os << indent << indent << m_Orientations[i][j] << ' ';
     }
     os << std::endl;
   }

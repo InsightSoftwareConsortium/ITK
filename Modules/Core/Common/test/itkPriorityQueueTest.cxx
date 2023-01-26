@@ -67,12 +67,12 @@ itkPriorityQueueTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(min_priority_queue->Peek().m_Priority, *it))
     {
-      std::cout << min_priority_queue->Peek().m_Priority << " " << *it << std::endl;
+      std::cout << min_priority_queue->Peek().m_Priority << ' ' << *it << std::endl;
       return EXIT_FAILURE;
     }
     if (min_priority_queue->Size() != i)
     {
-      std::cout << "Size " << min_priority_queue->Size() << " " << i << std::endl;
+      std::cout << "Size " << min_priority_queue->Size() << ' ' << i << std::endl;
       return EXIT_FAILURE;
     }
     min_priority_queue->Pop();
@@ -86,12 +86,12 @@ itkPriorityQueueTest(int, char *[])
   {
     if (itk::Math::NotAlmostEquals(max_priority_queue->Peek().m_Priority, sequence.back()))
     {
-      std::cout << max_priority_queue->Peek().m_Priority << " " << sequence.back() << std::endl;
+      std::cout << max_priority_queue->Peek().m_Priority << ' ' << sequence.back() << std::endl;
       return EXIT_FAILURE;
     }
     if (max_priority_queue->Size() != sequence.size())
     {
-      std::cout << "Size " << max_priority_queue->Size() << " " << sequence.size() << std::endl;
+      std::cout << "Size " << max_priority_queue->Size() << ' ' << sequence.size() << std::endl;
       return EXIT_FAILURE;
     }
     max_priority_queue->Pop();

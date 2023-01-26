@@ -303,7 +303,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   std::cout << "Specificity: ";
   for (auto value : specificity)
   {
-    std::cout << value << " ";
+    std::cout << value << ' ';
   }
   std::cout << std::endl;
 
@@ -311,7 +311,7 @@ itkSTAPLEImageFilterTest(int argc, char * argv[])
   std::cout << "Sensitivity: ";
   for (auto value : specificity)
   {
-    std::cout << value << " ";
+    std::cout << value << ' ';
   }
   std::cout << std::endl;
 

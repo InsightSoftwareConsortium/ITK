@@ -122,7 +122,7 @@ itkPadImageFilterTest(int, char *[])
       index[1] = j;
 
       short pixel = output->GetPixel(index);
-      std::cout << pixel << " ";
+      std::cout << pixel << ' ';
       if (index[0] == 0 && index[1] == 0)
       {
         if (pixel != 1)

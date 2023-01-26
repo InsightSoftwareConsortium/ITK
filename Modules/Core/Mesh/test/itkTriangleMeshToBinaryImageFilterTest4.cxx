@@ -224,7 +224,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
     if (itk::Math::NotExactlyEquals(testSpacing[i], spacingAsFloatArray[i]))
     {
       std::cerr << "SetSpacing failure " << testSpacing << std::endl
-                << "!= " << spacingAsFloatArray[0] << " " << spacingAsFloatArray[1] << " " << spacingAsFloatArray[2]
+                << "!= " << spacingAsFloatArray[0] << ' ' << spacingAsFloatArray[1] << ' ' << spacingAsFloatArray[2]
                 << std::endl;
       return EXIT_FAILURE;
     }
@@ -242,7 +242,7 @@ itkTriangleMeshToBinaryImageFilterTest4(int argc, char * argv[])
     if (itk::Math::NotExactlyEquals(testOrigin[i], originAsFloatArray[i]))
     {
       std::cerr << "SetOrigin failure " << testOrigin << std::endl
-                << "!= " << originAsFloatArray[0] << " " << originAsFloatArray[1] << " " << originAsFloatArray[2]
+                << "!= " << originAsFloatArray[0] << ' ' << originAsFloatArray[1] << ' ' << originAsFloatArray[2]
                 << std::endl;
       return EXIT_FAILURE;
     }

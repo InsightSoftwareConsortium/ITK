@@ -97,8 +97,8 @@ ActualTest(std::string inputFileName,
 {
 
   std::cout << "Writing Combination: ";
-  std::cout << streamWriting << " ";
-  std::cout << pasteWriting << " " << compressWriting << std::endl;
+  std::cout << streamWriting << ' ';
+  std::cout << pasteWriting << ' ' << compressWriting << std::endl;
 
   std::ostringstream outputFileNameStream;
   outputFileNameStream << outputFileNameBase << streamWriting;

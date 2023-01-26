@@ -45,7 +45,7 @@ printnb(const TIteratorType & nb, bool full)
 
     while (it != nb.End())
     {
-      std::cout << **it << " ";
+      std::cout << **it << ' ';
       if ((count % sz) == 0)
       {
         std::cout << std::endl;

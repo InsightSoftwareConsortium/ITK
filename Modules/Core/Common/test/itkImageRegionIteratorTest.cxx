@@ -128,7 +128,7 @@ itkImageRegionIteratorTest(int, char *[])
     std::cout << "Simple iterator backwards loop: ";
     for (unsigned int i = 0; i < index.GetIndexDimension(); ++i)
     {
-      std::cout << index[i] << " ";
+      std::cout << index[i] << ' ';
     }
     std::cout << std::endl;
   } while (!backIt.IsAtBegin()); // stop when we reach the beginning

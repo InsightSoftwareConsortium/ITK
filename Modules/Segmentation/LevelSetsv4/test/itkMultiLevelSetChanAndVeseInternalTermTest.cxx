@@ -198,7 +198,7 @@ itkMultiLevelSetChanAndVeseInternalTermTest(int, char *[])
 
       for (const auto & lIt : *lout)
       {
-        std::cout << lIt << " ";
+        std::cout << lIt << ' ';
         levelSet = lscontainer->GetLevelSet(lIt - 1);
         std::cout << levelSet->Evaluate(temp_it.GetIndex()) << std::endl;
 

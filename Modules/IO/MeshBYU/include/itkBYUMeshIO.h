@@ -126,7 +126,7 @@ protected:
       outputFile << indent;
       for (unsigned int jj = 0; jj < this->m_PointDimension; ++jj)
       {
-        outputFile << ConvertNumberToString(buffer[index++]) << " ";
+        outputFile << ConvertNumberToString(buffer[index++]) << ' ';
       }
       outputFile << '\n';
     }

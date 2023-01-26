@@ -49,7 +49,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
       for (HistogramType::Iterator iter = histogram->Begin(); iter != histogram->End(); ++iter)
       {
         iter.SetFrequency(1);
-        std::cout << " " << iter.GetMeasurementVector()[0];
+        std::cout << ' ' << iter.GetMeasurementVector()[0];
       }
       std::cout << std::endl;
     }
@@ -80,7 +80,7 @@ itkOtsuMultipleThresholdsCalculatorTest2(int, char *[])
     std::cout << thresholdCount << " thresholds:";
     for (unsigned long j = 0; j < thresholdCount; ++j)
     {
-      std::cout << " " << thMid[j] << "(" << thMax[j] << ")";
+      std::cout << ' ' << thMid[j] << "(" << thMax[j] << ")";
       if (thMax[j] <= thMid[j])
       {
         passed = false;

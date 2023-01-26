@@ -493,7 +493,7 @@ Element::PrintSelf(std::ostream & os, Indent indent) const
   for (unsigned int i = 0; i < this->m_EdgeIds.size(); ++i)
   {
     os << indent << "Edge Ids (" << i << "): " << this->m_EdgeIds[i][0];
-    os << " " << this->m_EdgeIds[i][1] << std::endl;
+    os << ' ' << this->m_EdgeIds[i][1] << std::endl;
   }
 }
 

@@ -138,7 +138,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   for (PhilipsRECImageIOType::TriggerTimesContainerType::ElementIdentifier iter = 0; iter < ptrToTimePoints->Size();
        iter++)
   {
-    std::cout << " " << ptrToTimePoints->ElementAt(iter);
+    std::cout << ' ' << ptrToTimePoints->ElementAt(iter);
   }
   std::cout << std::endl;
 
@@ -164,7 +164,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   std::cout << "EchoTimes =";
   for (PhilipsRECImageIOType::EchoTimesContainerType::ElementIdentifier iter = 0; iter < ptrToEchoes->Size(); ++iter)
   {
-    std::cout << " " << ptrToEchoes->ElementAt(iter);
+    std::cout << ' ' << ptrToEchoes->ElementAt(iter);
   }
   std::cout << std::endl;
 
@@ -241,7 +241,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   std::cout << "RepetitionTimes =";
   for (PhilipsRECImageIOType::RepetitionTimesContainerType::ElementIdentifier iter = 0; iter < ptrToTR->Size(); ++iter)
   {
-    std::cout << " " << ptrToTR->ElementAt(iter);
+    std::cout << ' ' << ptrToTR->ElementAt(iter);
   }
   std::cout << std::endl;
 
@@ -401,7 +401,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   for (PhilipsRECImageIOType::GradientBvalueContainerType::ElementIdentifier iter = 0; iter < ptrToBValues->Size();
        iter++)
   {
-    std::cout << " " << ptrToBValues->ElementAt(iter);
+    std::cout << ' ' << ptrToBValues->ElementAt(iter);
   }
   std::cout << std::endl;
 
@@ -429,7 +429,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
        iter < ptrToGradValues->Size();
        iter++)
   {
-    std::cout << " " << ptrToGradValues->ElementAt(iter);
+    std::cout << ' ' << ptrToGradValues->ElementAt(iter);
   }
   std::cout << std::endl;
 
@@ -529,7 +529,7 @@ itkPhilipsRECImageIOPrintTest(int argc, char * argv[])
   for (PhilipsRECImageIOType::LabelTypesASLContainerType::ElementIdentifier iter = 0; iter < ptrToASLLabelTypes->Size();
        iter++)
   {
-    std::cout << " " << ptrToASLLabelTypes->ElementAt(iter);
+    std::cout << ' ' << ptrToASLLabelTypes->ElementAt(iter);
   }
   std::cout << std::endl;
 

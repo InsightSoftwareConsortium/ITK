@@ -246,13 +246,13 @@ ImageIORegion::PrintSelf(std::ostream & os, Indent indent) const
   os << indent << "Index: ";
   for (const auto i : this->GetIndex())
   {
-    os << i << " ";
+    os << i << ' ';
   }
   os << std::endl;
   os << indent << "Size: ";
   for (const auto k : this->GetSize())
   {
-    os << k << " ";
+    os << k << ' ';
   }
   os << std::endl;
 }

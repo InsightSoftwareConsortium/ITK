@@ -78,7 +78,7 @@ itkShapedIteratorFromStructuringElementTest(int, char *[])
     PixelType value = imit.Get();
     ++imit;
     ++col;
-    std::cout << value << " ";
+    std::cout << value << ' ';
     if ((col % 10) == 0)
     {
       std::cout << std::endl;

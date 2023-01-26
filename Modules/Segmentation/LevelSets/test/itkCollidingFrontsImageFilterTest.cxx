@@ -141,7 +141,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
       // allow half a pixel diagonal tolerance
       if (distance > radius + 1.414 / 2.0)
       {
-        std::cout << outputPixel << " " << distance << std::endl;
+        std::cout << outputPixel << ' ' << distance << std::endl;
         passed = false;
       }
     }
@@ -149,7 +149,7 @@ itkCollidingFrontsImageFilterTest(int argc, char * argv[])
     {
       if (distance < radius)
       {
-        std::cout << outputPixel << " " << distance << std::endl;
+        std::cout << outputPixel << ' ' << distance << std::endl;
         passed = false;
       }
     }

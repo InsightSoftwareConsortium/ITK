@@ -91,20 +91,20 @@ itkBinShrinkImageFilterTest2(int, char *[])
     {
       factors[1] = yf;
 
-      std::cout << "Testing with shrink factors:" << xf << " " << yf << std::endl;
+      std::cout << "Testing with shrink factors:" << xf << ' ' << yf << std::endl;
 
       using FilterType = itk::BinShrinkImageFilter<ImageType, ImageType>;
       auto shrink = FilterType::New();
 
       shrink->SetInput(source->GetOutput());
 
-      std::cout << "Testing with shrink factors:" << xf << " " << yf << std::endl;
+      std::cout << "Testing with shrink factors:" << xf << ' ' << yf << std::endl;
       shrink->SetShrinkFactors(factors);
       shrink->UpdateLargestPossibleRegion();
       if (!CheckValueIsPhysicalPoint(shrink->GetOutput()))
       {
         pass = false;
-        std::cout << "== Failed with shrink factors " << factors[0] << " " << factors[1] << " == " << std::endl;
+        std::cout << "== Failed with shrink factors " << factors[0] << ' ' << factors[1] << " == " << std::endl;
       }
     }
   }

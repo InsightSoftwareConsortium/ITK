@@ -170,7 +170,7 @@ itkGradientRecursiveGaussianFilterTest3Compare(typename TGradImage1DType::Pointe
         if (itk::Math::abs(truth - test) > tolerance)
         {
           std::cerr << "One or more components of vector gradient image pixel are not as expected: " << std::endl
-                    << "d, c, truth, test: " << d << " " << c << " " << truth << " " << test << std::endl
+                    << "d, c, truth, test: " << d << ' ' << c << ' ' << truth << ' ' << test << std::endl
                     << "scalar pixel gradient: " << scalar << " vector pixel gradient: " << vector << std::endl;
           return EXIT_FAILURE;
         }
