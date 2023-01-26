@@ -124,7 +124,7 @@ public:
 
   /** Default Constructor. Need to provide a default constructor since we
    * provide a copy constructor. */
-  ImageConstIteratorWithOnlyIndex();
+  ImageConstIteratorWithOnlyIndex() = default;
 
   /** Copy Constructor. The copy constructor is provided to make sure the
    * handle to the image is properly reference counted. */
@@ -254,7 +254,7 @@ public:
   }
 
 protected: // made protected so other iterators can access
-  typename TImage::ConstPointer m_Image;
+  typename TImage::ConstPointer m_Image{};
 
   IndexType m_PositionIndex{ { 0 } }; // Index where we currently are
   IndexType m_BeginIndex{ { 0 } };    // Index to start iterating over
@@ -262,11 +262,11 @@ protected: // made protected so other iterators can access
                                       // one pixel past the end of each
                                       // row, col, slice, etc....
 
-  RegionType m_Region; // region to iterate over
+  RegionType m_Region{}; // region to iterate over
 
   OffsetValueType m_OffsetTable[ImageDimension + 1]{};
 
-  bool m_Remaining;
+  bool m_Remaining{ false };
 };
 } // end namespace itk
 

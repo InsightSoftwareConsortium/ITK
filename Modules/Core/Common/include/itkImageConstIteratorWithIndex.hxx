@@ -25,18 +25,6 @@ namespace itk
 //  Constructor
 //----------------------------------------------------------------------
 template <typename TImage>
-ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex()
-{
-  m_Position = nullptr;
-  m_Begin = nullptr;
-  m_End = nullptr;
-  m_Remaining = false;
-}
-
-//----------------------------------------------------------------------
-//  Constructor
-//----------------------------------------------------------------------
-template <typename TImage>
 ImageConstIteratorWithIndex<TImage>::ImageConstIteratorWithIndex(const Self & it)
 {
   m_Image = it.m_Image; // copy the smart pointer
