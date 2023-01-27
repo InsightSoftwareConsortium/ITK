@@ -145,7 +145,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   {
     os << ", " << m_StandardDeviations[j];
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
   os << indent << "Smooth update field: " << (m_SmoothUpdateField ? "on" : "off") << std::endl;
   j = 0;
   os << indent << "Update field standard deviations: [" << m_UpdateFieldStandardDeviations[j];
@@ -153,7 +153,7 @@ PDEDeformableRegistrationFilter<TFixedImage, TMovingImage, TDisplacementField>::
   {
     os << ", " << m_UpdateFieldStandardDeviations[j];
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
   os << indent << "StopRegistrationFlag: ";
   os << m_StopRegistrationFlag << std::endl;
   os << indent << "MaximumError: ";

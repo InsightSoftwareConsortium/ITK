@@ -202,7 +202,7 @@ itkPointSetToPointSetRegistrationTest(int, char *[])
   psToImageFilter->SetOrigin(origin);
 
   std::cout << "Spacing and origin: [" << psToImageFilter->GetSpacing() << "], ,[" << psToImageFilter->GetOrigin()
-            << "]" << std::endl;
+            << ']' << std::endl;
 
 
   ITK_TRY_EXPECT_NO_EXCEPTION(psToImageFilter->Update());

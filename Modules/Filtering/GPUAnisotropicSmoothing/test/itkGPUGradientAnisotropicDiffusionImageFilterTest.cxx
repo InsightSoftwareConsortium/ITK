@@ -161,7 +161,7 @@ runGPUGradientAnisotropicDiffusionImageFilterTest(const std::string & inFile, co
         }
         if (RMSError > RMSThreshold)
         {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ")" << std::endl;
+          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << std::endl;
           return EXIT_FAILURE;
         }
       }

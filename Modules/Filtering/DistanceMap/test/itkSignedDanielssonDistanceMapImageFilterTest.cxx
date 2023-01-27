@@ -141,16 +141,16 @@ test(int testIdx)
     {
       while (!it2D4.IsAtEndOfLine())
       {
-        std::cout << "[";
+        std::cout << '[';
         for (unsigned int i = 0; i < 2; ++i)
         {
           std::cout << it2D4.Get()[i];
           if (i == 0)
           {
-            std::cout << ",";
+            std::cout << ',';
           }
         }
-        std::cout << "]";
+        std::cout << ']';
         std::cout << "\t";
         ++it2D4;
       }

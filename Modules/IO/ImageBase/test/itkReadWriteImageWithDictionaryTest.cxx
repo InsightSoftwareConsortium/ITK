@@ -93,8 +93,8 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     {
       std::cout << "voxelunitstr.size()=" << voxelunitstr.size() << std::endl;
       std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "voxelunitstr=|" << voxelunitstr << "|" << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << "|" << std::endl;
+      std::cout << "voxelunitstr=|" << voxelunitstr << '|' << std::endl;
+      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
       ++numWrongMetaData;
     }
   }
@@ -110,8 +110,8 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     {
       std::cout << "datestr.size()=" << datestr.size() << std::endl;
       std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "datestr=|" << datestr << "|" << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << "|" << std::endl;
+      std::cout << "datestr=|" << datestr << '|' << std::endl;
+      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
       ++numWrongMetaData;
     }
   }
@@ -127,8 +127,8 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     {
       std::cout << "timestr.size()=" << timestr.size() << std::endl;
       std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "timestr=|" << timestr << "|" << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << "|" << std::endl;
+      std::cout << "timestr=|" << timestr << '|' << std::endl;
+      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
       ++numWrongMetaData;
     }
   }
@@ -144,8 +144,8 @@ itkReadWriteImageWithDictionaryTest(int argc, char * argv[])
     {
       std::cout << "patientstr.size()=" << patientstr.size() << std::endl;
       std::cout << "metadatastr.size()=" << metadatastr.size() << std::endl;
-      std::cout << "patientstr=|" << patientstr << "|" << std::endl;
-      std::cout << "metadatastr=|" << metadatastr << "|" << std::endl;
+      std::cout << "patientstr=|" << patientstr << '|' << std::endl;
+      std::cout << "metadatastr=|" << metadatastr << '|' << std::endl;
       ++numWrongMetaData;
     }
   }

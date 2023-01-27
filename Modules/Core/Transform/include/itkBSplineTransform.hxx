@@ -72,7 +72,7 @@ BSplineTransform<TParametersValueType, VDimension, VSplineOrder>::GetTransformTy
   if (VSplineOrder != 3)
   {
     std::ostringstream n;
-    n << Superclass::GetTransformTypeAsString() << "_" << VSplineOrder;
+    n << Superclass::GetTransformTypeAsString() << '_' << VSplineOrder;
     return n.str();
   }
   return Superclass::GetTransformTypeAsString();

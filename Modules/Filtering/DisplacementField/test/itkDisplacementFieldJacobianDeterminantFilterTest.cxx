@@ -109,7 +109,7 @@ TestDisplacementJacobianDeterminantValue()
   if (itk::Math::abs(jacobianDeterminant - expectedJacobianDeterminant) > epsilon)
   {
     std::cerr << "Test failed!" << std::endl;
-    std::cerr << "Error in pixel value at index [" << index << "]" << std::endl;
+    std::cerr << "Error in pixel value at index [" << index << ']' << std::endl;
     std::cerr << "Expected value " << jacobianDeterminant << std::endl;
     std::cerr << " differs from " << expectedJacobianDeterminant;
     std::cerr << " by more than " << epsilon << std::endl;

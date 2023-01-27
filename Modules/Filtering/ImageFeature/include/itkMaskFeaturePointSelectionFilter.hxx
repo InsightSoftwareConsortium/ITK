@@ -98,7 +98,7 @@ MaskFeaturePointSelectionFilter<TImage, TMask, TFeatures>::ComputeConnectivityOf
   else
   {
     itkExceptionMacro("Cannot use non-connectivity of value "
-                      << m_NonConnectivity << ", expected a value in the range 0.." << ImageDimension - 1 << ".");
+                      << m_NonConnectivity << ", expected a value in the range 0.." << ImageDimension - 1 << '.');
   }
 }
 

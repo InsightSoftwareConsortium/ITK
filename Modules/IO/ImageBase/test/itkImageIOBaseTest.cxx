@@ -179,7 +179,7 @@ itkImageIOBaseTest(int, char *[])
         if (componentTypeString.compare(listComponentTypeString[i]) != 0)
         {
           std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
-                    << listComponentTypeString[i] << "'" << std::endl;
+                    << listComponentTypeString[i] << '\'' << std::endl;
           return EXIT_FAILURE;
         }
       }
@@ -189,7 +189,7 @@ itkImageIOBaseTest(int, char *[])
         if (pixelTypeString.compare(listIOPixelTypeString[i]) != 0)
         {
           std::cerr << "GetPixelTypeAsString(" << listIOPixelType[i] << ") should return '" << listIOPixelTypeString[i]
-                    << "'" << std::endl;
+                    << '\'' << std::endl;
           return EXIT_FAILURE;
         }
       }
@@ -227,7 +227,7 @@ itkImageIOBaseTest(int, char *[])
         if (componentTypeString.compare(listComponentTypeString[i]) != 0)
         {
           std::cerr << "GetComponentTypeAsString(" << listComponentType[i] << ") should return '"
-                    << listComponentTypeString[i] << "'" << std::endl;
+                    << listComponentTypeString[i] << '\'' << std::endl;
           return EXIT_FAILURE;
         }
       }

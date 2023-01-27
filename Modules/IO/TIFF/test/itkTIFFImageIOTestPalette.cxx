@@ -29,7 +29,7 @@ printPalette(std::vector<T> palette)
 {
   for (unsigned int i = 0; i < palette.size(); ++i)
   {
-    std::cout << "[" << i << "]:" << palette[i] << std::endl;
+    std::cout << '[' << i << "]:" << palette[i] << std::endl;
   }
 }
 
@@ -211,7 +211,7 @@ itkTIFFImageIOTestPalette(int argc, char * argv[])
     {
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Read and written palette don't have the same size ( " << palette_read.size() << " vs "
-                << palette_written.size() << ")" << std::endl;
+                << palette_written.size() << ')' << std::endl;
       return EXIT_FAILURE;
     }
     bool   palette_equal = true;

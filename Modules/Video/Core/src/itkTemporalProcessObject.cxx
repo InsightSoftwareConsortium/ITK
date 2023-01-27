@@ -493,7 +493,7 @@ TemporalProcessObject::GenerateData()
 void
 TemporalProcessObject::TemporalStreamingGenerateData()
 {
-  itkExceptionMacro(<< "itk::Error: " << this->GetNameOfClass() << "(" << this
+  itkExceptionMacro(<< "itk::Error: " << this->GetNameOfClass() << '(' << this
                     << "): Subclass should override this method!!!");
 }
 

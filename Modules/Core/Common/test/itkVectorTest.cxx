@@ -216,7 +216,7 @@ itkVectorTest(int, char *[])
   b[1] = 1.0;
   b[2] = 0.0;
   c = itk::CrossProduct(a, b);
-  std::cout << "(" << a << ") cross (" << b << ") : (" << c << ")" << std::endl;
+  std::cout << '(' << a << ") cross (" << b << ") : (" << c << ')' << std::endl;
 
   using DoubleVector3 = itk::Vector<double, 3>;
   DoubleVector3 aa, bb, cc;
@@ -227,7 +227,7 @@ itkVectorTest(int, char *[])
   bb[1] = 1.0;
   bb[2] = 0.0;
   cc = itk::CrossProduct(aa, bb);
-  std::cout << "(" << aa << ") cross (" << bb << ") : (" << cc << ")" << std::endl;
+  std::cout << '(' << aa << ") cross (" << bb << ") : (" << cc << ')' << std::endl;
   DoubleVector3 ia, ib, ic;
   ia[0] = 1;
   ia[1] = 0;
@@ -236,7 +236,7 @@ itkVectorTest(int, char *[])
   ib[1] = 1;
   ib[2] = 0;
   ic = itk::CrossProduct(ia, ib);
-  std::cout << "(" << ia << ") cross (" << ib << ") : (" << ic << ")" << std::endl;
+  std::cout << '(' << ia << ") cross (" << ib << ") : (" << ic << ')' << std::endl;
   if (passed)
   {
     std::cout << "Vector test passed." << std::endl;

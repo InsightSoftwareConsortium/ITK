@@ -79,7 +79,7 @@ void
 SurfaceSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "SurfaceSpatialObjectPoint(" << this << ")" << std::endl;
+  os << indent << "SurfaceSpatialObjectPoint(" << this << ')' << std::endl;
   os << indent << "Normal definition: ";
   os << indent << m_NormalInObjectSpace << std::endl;
 }

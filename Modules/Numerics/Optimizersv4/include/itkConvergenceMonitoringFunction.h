@@ -109,7 +109,7 @@ protected:
     auto it = this->m_EnergyValues.begin();
     while (it != this->m_EnergyValues.end())
     {
-      os << "(" << it - this->m_EnergyValues.begin() << "): " << *it << ' ';
+      os << '(' << it - this->m_EnergyValues.begin() << "): " << *it << ' ';
       ++it;
     }
     os << std::endl;

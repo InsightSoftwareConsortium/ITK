@@ -1184,13 +1184,11 @@ test_regiongrowKLM2D()
       std::cout << "Test FAILED" << std::endl;
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero))
       {
-        std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "0" << std::endl;
+        std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << std::endl;
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
       {
-        std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "0" << std::endl;
+        std::cout << "pixelOut[1]: " << pixelOut[1] << " != " << '0' << std::endl;
       }
       return EXIT_FAILURE;
     }
@@ -1690,13 +1688,11 @@ test_regiongrowKLM3D()
       std::cout << "Test FAILED" << std::endl;
       if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero))
       {
-        std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                  << "0" << std::endl;
+        std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << std::endl;
       }
       if (itk::Math::NotAlmostEquals(pixelOut[1], pixelOutZero))
       {
-        std::cout << "pixelOut[1]: " << pixelOut[1] << " != "
-                  << "0" << std::endl;
+        std::cout << "pixelOut[1]: " << pixelOut[1] << " != " << '0' << std::endl;
       }
       return EXIT_FAILURE;
     }
@@ -2088,8 +2084,7 @@ test_regiongrowKLM4D()
     if (itk::Math::NotAlmostEquals(pixelOut[0], pixelOutZero))
     {
       std::cout << "Test FAILED" << std::endl;
-      std::cout << "pixelOut[0]: " << pixelOut[0] << " != "
-                << "0" << std::endl;
+      std::cout << "pixelOut[0]: " << pixelOut[0] << " != " << '0' << std::endl;
       return EXIT_FAILURE;
     }
 

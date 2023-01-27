@@ -52,7 +52,7 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
       if (d != path->EvaluateInverse(index))
       {
         std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Incorrect match-up for path index (" << d << ") and multi-dimensional index (" << index << ")"
+        std::cerr << "Incorrect match-up for path index (" << d << ") and multi-dimensional index (" << index << ')'
                   << std::endl;
         testStatus = EXIT_FAILURE;
       }
@@ -67,7 +67,7 @@ HilbertPathTestHelper(unsigned int maxHilbertPathOder)
       if (d != path->EvaluateInverse(index))
       {
         std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Incorrect match-up for path index (" << d << ") and multi-dimensional index (" << index << ")"
+        std::cerr << "Incorrect match-up for path index (" << d << ") and multi-dimensional index (" << index << ')'
                   << std::endl;
         testStatus = EXIT_FAILURE;
       }

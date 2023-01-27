@@ -235,8 +235,8 @@ RegularStepGradientDescentOptimizerv4TestHelper(
 
   ParametersType finalPosition = optimizer->GetMetric()->GetParameters();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   //
   // Check results to see if it is within range

@@ -140,8 +140,8 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "GetDerivative ( " << x << " , " << y << ") = "
-              << "(" << -derivative[0] << " , " << -derivative[1] << ")" << std::endl;
+    std::cout << "GetDerivative ( " << x << " , " << y << ") = " << '(' << -derivative[0] << " , " << -derivative[1]
+              << ')' << std::endl;
   }
 
   void
@@ -322,7 +322,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
 
   const OptimizerType::ParametersType & finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
   std::cout << "Final Function Value = " << itkOptimizer->GetValue() << std::endl;
 
   std::cout << "Infinity Norm of Projected Gradient = " << itkOptimizer->GetInfinityNormOfProjectedGradient()
@@ -395,7 +395,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   ITK_TRY_EXPECT_NO_EXCEPTION(itkOptimizer->StartOptimization());
 
 
-  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   if (itkOptimizer->GetCurrentIteration() != 1)
@@ -448,7 +448,7 @@ itkLBFGSBOptimizerv4Test(int, char *[])
   std::cout << "Lower bound size: " << itkOptimizer2->GetLowerBound().size() << std::endl;
 
   const OptimizerType::ParametersType & finalPosition2 = itkOptimizer2->GetCurrentPosition();
-  std::cout << "Solution = (" << finalPosition2[0] << "," << finalPosition2[1] << ")" << std::endl;
+  std::cout << "Solution = (" << finalPosition2[0] << ',' << finalPosition2[1] << ')' << std::endl;
   std::cout << "Final Function Value = " << itkOptimizer2->GetValue() << std::endl;
 
   // check results

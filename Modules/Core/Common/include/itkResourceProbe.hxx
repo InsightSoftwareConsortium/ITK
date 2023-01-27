@@ -257,7 +257,7 @@ ResourceProbe<ValueType, MeanType>::PrintSystemInformation(std::ostream & os)
 
   os << "    Operating System is " << (systeminfo.Is64Bits() ? "64 bit" : "32 bit") << std::endl;
 
-  os << "ITK Version: " << ITK_VERSION_STRING << "." << ITK_VERSION_PATCH << std::endl;
+  os << "ITK Version: " << ITK_VERSION_STRING << '.' << ITK_VERSION_PATCH << std::endl;
 }
 
 
@@ -551,7 +551,7 @@ ResourceProbe<ValueType, MeanType>::PrintJSONSystemInformation(std::ostream & os
   os << "    },\n";
 
   std::ostringstream itkVersionStringStream;
-  itkVersionStringStream << ITK_VERSION_STRING << "." << ITK_VERSION_PATCH;
+  itkVersionStringStream << ITK_VERSION_STRING << '.' << ITK_VERSION_PATCH;
 
   PrintJSONvar(os, "ITKVersion", itkVersionStringStream.str(), 4, false);
   os << "  }";

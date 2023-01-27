@@ -459,7 +459,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
   if (fp.size() < VInputDimension)
   {
     itkExceptionMacro(<< "Error setting fixed parameters: parameters array size (" << fp.size()
-                      << ") is less than expected  (VInputDimension = " << VInputDimension << ")");
+                      << ") is less than expected  (VInputDimension = " << VInputDimension << ')');
   }
   this->m_FixedParameters = fp;
   InputPointType c;
@@ -520,7 +520,7 @@ MatrixOffsetTransformBase<TParametersValueType, VInputDimension, VOutputDimensio
                       << ") is less than expected "
                       << " (VInputDimension * VOutputDimension + VOutputDimension) "
                       << " (" << VInputDimension << " * " << VOutputDimension << " + " << VOutputDimension << " = "
-                      << VInputDimension * VOutputDimension + VOutputDimension << ")");
+                      << VInputDimension * VOutputDimension + VOutputDimension << ')');
   }
 
   unsigned int par = 0;

@@ -91,9 +91,9 @@ itkOpenCVVideoCaptureTest(int argc, char * argv[])
   if (static_cast<int>(scalarCap->get(CV_CAP_PROP_FRAME_WIDTH)) != std::stoi(argv[4]) ||
       static_cast<int>(scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT)) != std::stoi(argv[5]))
   {
-    std::cerr << "Frame dimensions not reporting correctly. Got [" << scalarCap->get(CV_CAP_PROP_FRAME_WIDTH) << ","
-              << scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT) << "] Expected: [" << std::stoi(argv[4]) << ","
-              << std::stoi(argv[5]) << "]" << std::endl;
+    std::cerr << "Frame dimensions not reporting correctly. Got [" << scalarCap->get(CV_CAP_PROP_FRAME_WIDTH) << ','
+              << scalarCap->get(CV_CAP_PROP_FRAME_HEIGHT) << "] Expected: [" << std::stoi(argv[4]) << ','
+              << std::stoi(argv[5]) << ']' << std::endl;
     return EXIT_FAILURE;
   }
 

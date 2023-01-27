@@ -84,8 +84,8 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   filter->SetWindowMaximum(windowMaximum);
   ITK_TEST_SET_GET_VALUE(windowMaximum, filter->GetWindowMaximum());
 
-  std::cout << "Window minimum:maximum = " << windowMinimum << ":" << windowMaximum << ", equivalent window:level = "
-            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindow()) << ":"
+  std::cout << "Window minimum:maximum = " << windowMinimum << ':' << windowMaximum << ", equivalent window:level = "
+            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindow()) << ':'
             << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetLevel()) << std::endl;
 
   std::cout << "Gray level linear transformation scale = "
@@ -133,10 +133,10 @@ itkIntensityWindowingImageFilterTest(int, char *[])
   filter->SetWindowLevel(window, level);
 
   std::cout << "Window:level = "
-            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindow()) << ":"
+            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindow()) << ':'
             << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetLevel())
             << ", equivalent window minimum:maximum = "
-            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindowMinimum()) << ":"
+            << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindowMinimum()) << ':'
             << static_cast<itk::NumericTraits<FilterType::InputPixelType>::PrintType>(filter->GetWindowMaximum())
             << std::endl;
 

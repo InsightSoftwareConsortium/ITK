@@ -114,17 +114,17 @@ itkImageAdaptorPipeLineTest(int, char *[])
   while (!it.IsAtEnd())
   {
     myIndexType index = it.GetIndex();
-    std::cout << "[";
+    std::cout << '[';
     std::cout.width(3);
-    std::cout << index[0] << ",";
+    std::cout << index[0] << ',';
     std::cout.width(3);
-    std::cout << index[1] << ",";
+    std::cout << index[1] << ',';
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(4);
-    std::cout << it.Get().GetRed() << ",";
+    std::cout << it.Get().GetRed() << ',';
     std::cout.width(4);
-    std::cout << it.Get().GetGreen() << ",";
+    std::cout << it.Get().GetGreen() << ',';
     std::cout.width(4);
     std::cout << it.Get().GetBlue() << std::endl;
     ++it;
@@ -158,11 +158,11 @@ itkImageAdaptorPipeLineTest(int, char *[])
   while (!itf.IsAtEnd())
   {
     myIndexType index = itf.GetIndex();
-    std::cout << "[";
+    std::cout << '[';
     std::cout.width(3);
-    std::cout << index[0] << ",";
+    std::cout << index[0] << ',';
     std::cout.width(3);
-    std::cout << index[1] << ",";
+    std::cout << index[1] << ',';
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);
@@ -224,11 +224,11 @@ itkImageAdaptorPipeLineTest(int, char *[])
   while (!ito.IsAtEnd())
   {
     myIndexType index = ito.GetIndex();
-    std::cout << "[";
+    std::cout << '[';
     std::cout.width(3);
-    std::cout << index[0] << ",";
+    std::cout << index[0] << ',';
     std::cout.width(3);
-    std::cout << index[1] << ",";
+    std::cout << index[1] << ',';
     std::cout.width(3);
     std::cout << index[2] << "] =  ";
     std::cout.width(8);

@@ -312,14 +312,14 @@ itkVersorRigid3DTransformOptimizerTest(int, char *[])
   }
   finalRotation.Set(finalRightPart);
   std::cout << std::endl;
-  std::cout << "Solution versor  = (" << finalRotation << ")" << std::endl;
+  std::cout << "Solution versor  = (" << finalRotation << ')' << std::endl;
 
   VersorType::VectorType finalTranslation;
   for (unsigned int j = 0; j < spaceDimensions; ++j)
   {
     finalTranslation[j] = finalPosition[j + spaceDimensions];
   }
-  std::cout << "Solution vector  = (" << finalTranslation << ")" << std::endl;
+  std::cout << "Solution vector  = (" << finalTranslation << ')' << std::endl;
 
   //
   // check results to see if it is within range

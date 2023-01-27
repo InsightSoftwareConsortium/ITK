@@ -562,7 +562,7 @@ OutputWindowDisplayDebugText(const char *);
  * a condition that results in program failure). Example usage looks like:
  * itkExceptionMacro(<< "this is error info" << this->SomeVariable); */
 #define itkExceptionMacro(x) \
-  itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << "(" << this << "): " x)
+  itkSpecializedMessageExceptionMacro(ExceptionObject, << this->GetNameOfClass() << '(' << this << "): " x)
 
 #define itkGenericExceptionMacro(x) itkSpecializedMessageExceptionMacro(ExceptionObject, x)
 

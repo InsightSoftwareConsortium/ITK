@@ -907,7 +907,7 @@ DCMTKFileReader::GetElementUI(const unsigned short group,
   auto * uiItem = dynamic_cast<DcmUniqueIdentifier *>(el);
   if (uiItem == nullptr)
   {
-    DCMTKExceptionOrErrorReturn(<< "Can't convert data item " << group << "," << entry);
+    DCMTKExceptionOrErrorReturn(<< "Can't convert data item " << group << ',' << entry);
   }
   OFString ofString;
   if (uiItem->getOFStringArray(ofString, false) != EC_Normal)

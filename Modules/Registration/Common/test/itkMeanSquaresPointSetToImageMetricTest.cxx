@@ -120,7 +120,7 @@ itkMeanSquaresPointSetToImageMetricTest(int, char *[])
     if (counter == 0)
     {
       fixedImage->TransformIndexToPhysicalPoint(it.GetIndex(), point);
-      std::cout << "******************* " << pointId << ":" << point << std::endl;
+      std::cout << "******************* " << pointId << ':' << point << std::endl;
       fixedPointSet->SetPoint(pointId, point);
       fixedPointSet->SetPointData(pointId, it.Get());
       ++pointId;

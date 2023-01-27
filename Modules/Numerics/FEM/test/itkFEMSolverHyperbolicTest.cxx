@@ -31,9 +31,7 @@ PrintK(FEMSolverType * S)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl
-            << "k"
-            << "=[";
+  std::cout << std::endl << 'k' << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     std::cout << " [";
@@ -51,7 +49,7 @@ PrintK(FEMSolverType * S)
     }
     else
     {
-      std::cout << "]";
+      std::cout << ']';
     }
   }
   std::cout << "];" << std::endl;
@@ -63,9 +61,7 @@ PrintF(FEMSolverType * S)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl
-            << "f"
-            << "=[";
+  std::cout << std::endl << 'f' << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
@@ -91,7 +87,7 @@ PrintNodalCoordinates(FEMSolverType * S)
   {
     std::cout << " [";
     std::cout << S->GetInput()->GetNode(i)->GetCoordinates();
-    std::cout << "]";
+    std::cout << ']';
   }
   std::cout << "];" << std::endl;
 }
@@ -141,7 +137,7 @@ PrintSolution(FEMSolverType * S)
 
   for (int i = 0; i < numberOfNodes; ++i)
   {
-    std::cout << "Solution Node " << i << ":";
+    std::cout << "Solution Node " << i << ':';
     for (unsigned int d = 0, dof; (dof = S->GetInput()->GetNode(i)->GetDegreeOfFreedom(d)) != invalidID; ++d)
     {
       std::cout << ' ' << S->GetSolution(dof);

@@ -267,7 +267,7 @@ doDenoising(const std::string & inputFileName,
       {
         std::cout.precision(static_cast<unsigned int>(itk::Math::abs(std::log10(tolerance))));
         std::cout << "Error in GetKernelBandwidthSigma() "
-                  << "at index: [" << i << "]" << std::endl;
+                  << "at index: [" << i << ']' << std::endl;
         std::cout << "Expected value: " << expectedValue << ", but got: " << resultValue << std::endl;
         std::cout << "Test failed!" << std::endl;
         return EXIT_FAILURE;

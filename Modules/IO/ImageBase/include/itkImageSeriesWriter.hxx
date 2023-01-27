@@ -281,7 +281,7 @@ ImageSeriesWriter<TInputImage, TOutputImage>::WriteFiles()
         if (slice > m_MetaDataDictionaryArray->size() - 1)
         {
           itkExceptionMacro("The slice number: " << slice + 1 << " exceeds the size of the MetaDataDictionaryArray "
-                                                 << m_MetaDataDictionaryArray->size() << ".");
+                                                 << m_MetaDataDictionaryArray->size() << '.');
         }
         DictionaryRawPointer dictionary = (*m_MetaDataDictionaryArray)[slice];
         m_ImageIO->SetMetaDataDictionary((*dictionary));

@@ -195,7 +195,7 @@ public:
   bool
   RunTests()
   {
-    std::cout << "Testing itkTransform<" << VInputDimension << "," << VOutputDimension << ">" << std::endl;
+    std::cout << "Testing itkTransform<" << VInputDimension << ',' << VOutputDimension << '>' << std::endl;
     auto transform = TransformType::New();
 
     InputPointType pnt;

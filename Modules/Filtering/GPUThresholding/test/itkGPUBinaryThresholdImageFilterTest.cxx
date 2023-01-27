@@ -145,7 +145,7 @@ runGPUBinaryThresholdImageFilterTest(const std::string & inFile, const std::stri
         }
         if (RMSError > RMSThreshold)
         {
-          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ")" << std::endl;
+          std::cout << "RMS Error exceeds threshold (" << RMSThreshold << ')' << std::endl;
           return EXIT_FAILURE;
         }
       }

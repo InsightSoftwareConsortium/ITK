@@ -114,7 +114,7 @@ LabelShapeKeepNObjectsImageFilter<TInputImage>::PrintSelf(std::ostream & os, Ind
      << std::endl;
   os << indent << "NumberOfObjects: " << m_NumberOfObjects << std::endl;
   os << indent << "ReverseOrdering: " << m_ReverseOrdering << std::endl;
-  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ")"
+  os << indent << "Attribute: " << LabelObjectType::GetNameFromAttribute(m_Attribute) << " (" << m_Attribute << ')'
      << std::endl;
 }
 } // end namespace itk

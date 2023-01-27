@@ -124,7 +124,7 @@ itkPNGImageIOTest(int argc, char * argv[])
     std::cout << "Palette: " << std::endl;
     for (unsigned int i = 0; i < palette.size(); ++i)
     {
-      std::cout << "[" << i << "]:" << palette[i] << std::endl;
+      std::cout << '[' << i << "]:" << palette[i] << std::endl;
     }
   }
   else

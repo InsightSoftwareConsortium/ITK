@@ -90,7 +90,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "(" << derivative[0] << " , " << derivative[1] << ")" << std::endl;
+    std::cout << '(' << derivative[0] << " , " << derivative[1] << ')' << std::endl;
   }
 
   void
@@ -279,7 +279,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
   OptimizerType::ParametersType finalPosition;
   finalPosition = itkOptimizer->GetCurrentPosition();
 
-  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
 
   std::cout << "End condition   = " << itkOptimizer->GetStopConditionDescription() << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
@@ -340,7 +340,7 @@ itkLBFGS2Optimizerv4Test(int, char *[])
     return EXIT_FAILURE;
   }
 
-  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
   std::cout << "NumberOfIterations  = " << itkOptimizer->GetCurrentIteration() << std::endl;
 
   if (itkOptimizer->GetCurrentIteration() != 2)

@@ -110,20 +110,20 @@ itkSymmetricEllipsoidInteriorExteriorSpatialFunctionTest(int, char *[])
     // function value = 1
     std::cout << "calculated ellipsoid volume = " << volume << std::endl
               << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
-              << "volume error = " << volumeError << "%" << std::endl
+              << "volume error = " << volumeError << '%' << std::endl
               << "function value = " << functionValue << std::endl
               << "center location = (" << spatialFunc->GetCenter()[0] << ", " << spatialFunc->GetCenter()[0] << ", "
-              << spatialFunc->GetCenter()[2] << ")" << std::endl
+              << spatialFunc->GetCenter()[2] << ')' << std::endl
               << "itkSymmetricEllipsoidSpatialFunction ended successfully!" << std::endl;
     return EXIT_SUCCESS;
   }
   // Default behavior is to fail
   std::cerr << "calculated ellipsoid volume = " << volume << std::endl
             << "measured ellipsoid volume = " << interiorPixelCounter << std::endl
-            << "volume error = " << volumeError << "%" << std::endl
+            << "volume error = " << volumeError << '%' << std::endl
             << "function value = " << functionValue << std::endl
             << "center location = (" << spatialFunc->GetCenter()[0] << ", " << spatialFunc->GetCenter()[0] << ", "
-            << spatialFunc->GetCenter()[2] << ")" << std::endl
+            << spatialFunc->GetCenter()[2] << ')' << std::endl
             << "itkSymmetricEllipsoidSpatialFunction failed :(" << std::endl;
   return EXIT_FAILURE;
 }

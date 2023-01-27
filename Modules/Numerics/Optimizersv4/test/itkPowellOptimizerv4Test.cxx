@@ -215,7 +215,7 @@ itkPowellOptimizerv4Test(int argc, char * argv[])
 
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
-  std::cout << "Solution        = (" << finalPosition[0] << "," << finalPosition[1] << ")" << std::endl;
+  std::cout << "Solution        = (" << finalPosition[0] << ',' << finalPosition[1] << ')' << std::endl;
   std::cout << "StopConditionDescription: " << itkOptimizer->GetStopConditionDescription() << std::endl;
 
   //

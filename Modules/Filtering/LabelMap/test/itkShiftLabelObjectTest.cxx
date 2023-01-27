@@ -88,7 +88,7 @@ itkShiftLabelObjectTest(int argc, char * argv[])
       index[1] = ctrJ;
       unsigned long val;
       val = map->GetPixel(index);
-      std::cout << "Pixel[" << ctrI << "," << ctrJ << "]: " << val << std::endl;
+      std::cout << "Pixel[" << ctrI << ',' << ctrJ << "]: " << val << std::endl;
       if ((ctrI == 5) || (ctrJ == 5))
       {
         itkAssertOrThrowMacro((val == 1), "Error in Label Image (foreground).");

@@ -50,9 +50,9 @@ ForwardInverseFullFFTTest(const char * inputFileName)
   {
     if (it.Get() > tolerance)
     {
-      std::cerr << "Error found at pixel " << it.GetIndex() << "." << std::endl;
+      std::cerr << "Error found at pixel " << it.GetIndex() << '.' << std::endl;
       std::cerr << "Absolute difference is " << it.Get() << ", which is greater than the acceptable tolerance of"
-                << tolerance << "." << std::endl;
+                << tolerance << '.' << std::endl;
       success = false;
       break;
     }
@@ -94,9 +94,9 @@ ForwardInverseHalfFFTTest(const char * inputFileName)
   {
     if (it.Get() > tolerance)
     {
-      std::cerr << "ForwardInverseHalfFFTTest: Error found at pixel " << it.GetIndex() << "." << std::endl;
+      std::cerr << "ForwardInverseHalfFFTTest: Error found at pixel " << it.GetIndex() << '.' << std::endl;
       std::cerr << "Absolute difference is " << it.Get() << ", which is greater than the acceptable tolerance of"
-                << tolerance << "." << std::endl;
+                << tolerance << '.' << std::endl;
       success = false;
       break;
     }

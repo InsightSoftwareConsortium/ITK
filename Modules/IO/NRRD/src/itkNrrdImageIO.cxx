@@ -286,7 +286,7 @@ NrrdImageIO::ReadImageInformation()
 
       // don't use macro so that we can free err
       std::ostringstream message;
-      message << "itk::ERROR: " << this->GetNameOfClass() << "(" << this << "): "
+      message << "itk::ERROR: " << this->GetNameOfClass() << '(' << this << "): "
               << "ReadImageInformation: Error reading " << this->GetFileName() << ":\n"
               << err;
       ExceptionObject e_(__FILE__, __LINE__, message.str().c_str(), ITK_LOCATION);

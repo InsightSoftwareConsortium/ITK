@@ -119,7 +119,7 @@ itkVectorGradientMagnitudeImageFilterTest2(int argc, char * argv[])
   }
 
   std::cout << "The gradient image range was (low, high) = (" << rescale->GetInputMinimum() << ", "
-            << rescale->GetInputMaximum() << ")" << std::endl;
+            << rescale->GetInputMaximum() << ')' << std::endl;
   std::cout << "Output was scaled, shifted = " << rescale->GetScale() << ", " << rescale->GetShift() << std::endl;
 
   return EXIT_SUCCESS;

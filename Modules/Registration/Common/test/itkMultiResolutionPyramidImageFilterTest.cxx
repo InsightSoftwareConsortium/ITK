@@ -351,7 +351,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
                   << " at pixel spacing level "
                   << pyramid->GetOutput(testLevel)->GetDirection() * pyramid->GetOutput(testLevel)->GetSpacing()
                   << std::endl;
-        std::cout << "ERROR PERCENT:  " << ErrorCenterOfMass.GetNorm() << "/"
+        std::cout << "ERROR PERCENT:  " << ErrorCenterOfMass.GetNorm() << '/'
                   << pyramid->GetOutput(testLevel)->GetSpacing().GetNorm() << " = " << ErrorPercentage << std::endl;
       }
       else
@@ -360,7 +360,7 @@ itkMultiResolutionPyramidImageFilterTest(int argc, char * argv[])
                   << " != " << InputCenterOfMass << " at pixel spacing level "
                   << pyramid->GetOutput(testLevel)->GetDirection() * pyramid->GetOutput(testLevel)->GetSpacing()
                   << std::endl;
-        std::cout << "OFFSET DIFF PERCENT:  " << ErrorCenterOfMass.GetNorm() << "/"
+        std::cout << "OFFSET DIFF PERCENT:  " << ErrorCenterOfMass.GetNorm() << '/'
                   << pyramid->GetOutput(testLevel)->GetSpacing().GetNorm() << " = " << ErrorPercentage << std::endl;
       }
       // break;

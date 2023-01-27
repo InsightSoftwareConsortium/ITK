@@ -128,7 +128,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
         if (itk::Math::NotAlmostEquals(value, (index[2] - 1) * 2))
         {
           std::cout << " (Error in resampled image: Pixel " << index << " = " << value << ", expecting "
-                    << (index[2] - 1) * 2 << ")" << std::endl;
+                    << (index[2] - 1) * 2 << ')' << std::endl;
           passed = false;
         }
       }
@@ -181,7 +181,7 @@ itkResamplePhasedArray3DSpecialCoordinatesImageTest(int, char *[])
         if (itk::Math::NotAlmostEquals(value, index[2]))
         {
           std::cout << " (Error in resampled image: Pixel " << index << " = " << value << ", expecting " << index[2]
-                    << ")" << std::endl;
+                    << ')' << std::endl;
           passed = false;
         }
       }

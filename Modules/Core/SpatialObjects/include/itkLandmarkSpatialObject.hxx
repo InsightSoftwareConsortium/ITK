@@ -56,7 +56,7 @@ template <unsigned int TDimension>
 void
 LandmarkSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "LandmarkSpatialObject(" << this << ")" << std::endl;
+  os << indent << "LandmarkSpatialObject(" << this << ')' << std::endl;
   os << indent << "ID: " << this->GetId() << std::endl;
   os << indent << "nb of points: " << static_cast<SizeValueType>(this->m_Points.size()) << std::endl;
   Superclass::PrintSelf(os, indent);

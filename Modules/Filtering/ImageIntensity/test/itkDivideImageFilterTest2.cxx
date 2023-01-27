@@ -125,7 +125,7 @@ itkDivideImageFilterTest2(int, char *[])
       {
         std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
         std::cerr << "Test failed!" << std::endl;
-        std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ":" << i << "]" << std::endl;
+        std::cerr << "Error in pixel value at index [" << oIt.GetIndex() << ':' << i << ']' << std::endl;
         std::cerr << "Expected value " << expectedValue << std::endl;
         std::cerr << " differs from " << oIt.Get()[i];
         std::cerr << " by more than " << epsilon << std::endl;

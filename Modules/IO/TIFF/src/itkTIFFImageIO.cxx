@@ -186,7 +186,7 @@ TIFFImageIO::Read(void * buffer)
   {
     if (!this->CanReadFile(m_FileName.c_str()))
     {
-      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
+      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << '!');
     }
   }
 
@@ -255,7 +255,7 @@ TIFFImageIO::PrintSelf(std::ostream & os, Indent indent) const
        << "\n";
     for (size_t i = 0; i < m_ColorPalette.size(); ++i)
     {
-      os << indent << "[" << i << "]" << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
+      os << indent << '[' << i << ']' << itk::NumericTraits<PaletteType::value_type>::PrintType(m_ColorPalette[i])
          << std::endl;
     }
   }
@@ -340,7 +340,7 @@ TIFFImageIO::ReadImageInformation()
   {
     if (!this->CanReadFile(m_FileName.c_str()))
     {
-      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << "!");
+      itkExceptionMacro(<< "Cannot open file " << this->m_FileName << '!');
     }
   }
 
@@ -1189,7 +1189,7 @@ TIFFImageIO::ReadTIFFTags()
       continue;
     }
 
-    itkDebugMacro(<< "TiffInfo tag " << field_name << "(" << tag << "): " << itkTIFFFieldDataType(field) << ' '
+    itkDebugMacro(<< "TiffInfo tag " << field_name << '(' << tag << "): " << itkTIFFFieldDataType(field) << ' '
                   << value_count << ' ' << raw_data);
 
 

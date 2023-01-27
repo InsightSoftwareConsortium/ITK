@@ -182,7 +182,7 @@ ObjectToObjectMultiMetricv4<TFixedDimension, TMovingDimension, TVirtualImage, TI
       {
         itkExceptionMacro(
           "Expected exactly one transform set to be optimized within the composite transform. Error with metric "
-          << j << ".");
+          << j << '.');
       }
     }
 

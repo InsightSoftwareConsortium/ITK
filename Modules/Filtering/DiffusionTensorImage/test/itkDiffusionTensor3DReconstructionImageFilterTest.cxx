@@ -131,8 +131,7 @@ itkDiffusionTensor3DReconstructionImageFilterTest(int argc, char * argv[])
         {
           std::cerr.precision(static_cast<int>(itk::Math::abs(std::log10(epsilon))));
           std::cerr << "Test failed!" << std::endl;
-          std::cerr << "Error in gradientDirection [" << i << "]"
-                    << "[" << j << "]" << std::endl;
+          std::cerr << "Error in gradientDirection [" << i << ']' << '[' << j << ']' << std::endl;
           std::cerr << "Expected value " << gradientDirectionComponent << std::endl;
           std::cerr << " differs from " << outputComponent;
           std::cerr << " by more than " << epsilon << std::endl;

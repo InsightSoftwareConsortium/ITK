@@ -78,7 +78,7 @@ TestCellInterface(std::string name, TCell * aCell)
   CellAutoPointer cell(aCell, true);
   const TCell *   cell2 = aCell;
 
-  std::cout << "-------- " << name << "(" << aCell->GetNameOfClass() << ")" << std::endl;
+  std::cout << "-------- " << name << '(' << aCell->GetNameOfClass() << ')' << std::endl;
   std::cout << "    Type: " << static_cast<int>(cell->GetType()) << std::endl;
   std::cout << "    Dimension: " << cell->GetDimension() << std::endl;
   std::cout << "    NumberOfPoints: " << cell->GetNumberOfPoints() << std::endl;
@@ -182,7 +182,7 @@ template <typename TCell>
 int
 TestQECellInterface(std::string name, TCell * aCell)
 {
-  std::cout << "-------- " << name << "(" << aCell->GetNameOfClass() << ")" << std::endl;
+  std::cout << "-------- " << name << '(' << aCell->GetNameOfClass() << ')' << std::endl;
 
   TCell *       cell = aCell;
   const TCell * cell2 = aCell;

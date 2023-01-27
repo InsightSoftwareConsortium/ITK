@@ -62,7 +62,7 @@ NumericSeriesFileNames::GetFileNames()
     {
       std::stringstream message_cache;
       message_cache << "The filename is too long for temp buffer."
-                    << " Truncated form: " << temp.get() << "." << std::endl
+                    << " Truncated form: " << temp.get() << '.' << std::endl
                     << "nchars: " << nchars << " bufflen: " << bufflen << " result: " << result;
       itkExceptionMacro(<< message_cache.str());
     }

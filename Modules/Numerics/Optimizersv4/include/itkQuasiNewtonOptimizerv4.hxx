@@ -130,7 +130,7 @@ QuasiNewtonOptimizerv4Template<TInternalComputationValueType>::AdvanceOneStep()
                                      << " iterations since"
                                      << " there is no progress in the last " << m_MaximumIterationsWithoutProgress
                                      << " steps." << std::endl
-                                     << " The best value is from Iteration " << m_BestIteration << ".";
+                                     << " The best value is from Iteration " << m_BestIteration << '.';
     this->StopOptimization();
     return;
   }

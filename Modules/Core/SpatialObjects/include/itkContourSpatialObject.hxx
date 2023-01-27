@@ -157,7 +157,7 @@ template <unsigned int TDimension>
 void
 ContourSpatialObject<TDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "ContourSpatialObject(" << this << ")" << std::endl;
+  os << indent << "ContourSpatialObject(" << this << ')' << std::endl;
   os << indent << "#Control Points: " << static_cast<SizeValueType>(m_ControlPoints.size()) << std::endl;
   os << indent << "Interpolation type: " << m_InterpolationMethod << std::endl;
   os << indent << "Contour closed: " << m_IsClosed << std::endl;

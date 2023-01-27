@@ -184,19 +184,19 @@ HardwareWisdomFilenameGenerator::GenerateWisdomFilename(const std::string & base
 
   if (this->m_UseOSName)
   {
-    OSD << hardwareInfo.GetOSName() << "_";
+    OSD << hardwareInfo.GetOSName() << '_';
   }
   if (this->m_UseOSRelease)
   {
-    OSD << hardwareInfo.GetOSRelease() << "_";
+    OSD << hardwareInfo.GetOSRelease() << '_';
   }
   if (this->m_UseOSVersion)
   {
-    OSD << hardwareInfo.GetOSVersion() << "_";
+    OSD << hardwareInfo.GetOSVersion() << '_';
   }
   if (this->m_UseOSPlatform)
   {
-    OSD << hardwareInfo.GetOSPlatform() << "_";
+    OSD << hardwareInfo.GetOSPlatform() << '_';
   }
   if (this->m_UseOSBitSize)
   {
@@ -205,27 +205,27 @@ HardwareWisdomFilenameGenerator::GenerateWisdomFilename(const std::string & base
   }
   if (this->m_UseNumberOfProcessors)
   {
-    OSD << hardwareInfo.GetNumberOfLogicalCPU() << "x" << hardwareInfo.GetNumberOfPhysicalCPU() << "_";
+    OSD << hardwareInfo.GetNumberOfLogicalCPU() << 'x' << hardwareInfo.GetNumberOfPhysicalCPU() << '_';
   }
   if (this->m_UseVendorString)
   {
-    OSD << hardwareInfo.GetVendorString() << "_";
+    OSD << hardwareInfo.GetVendorString() << '_';
   }
   if (this->m_UseVendorID)
   {
-    OSD << hardwareInfo.GetVendorID() << "_";
+    OSD << hardwareInfo.GetVendorID() << '_';
   }
   if (this->m_UseTypeID)
   {
-    OSD << hardwareInfo.GetTypeID() << "_";
+    OSD << hardwareInfo.GetTypeID() << '_';
   }
   if (this->m_UseFamilyID)
   {
-    OSD << hardwareInfo.GetFamilyID() << "_";
+    OSD << hardwareInfo.GetFamilyID() << '_';
   }
   if (this->m_UseModelID)
   {
-    OSD << hardwareInfo.GetModelID() << "_";
+    OSD << hardwareInfo.GetModelID() << '_';
   }
   if (this->m_UseSteppingCode)
   {

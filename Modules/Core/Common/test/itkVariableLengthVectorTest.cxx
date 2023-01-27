@@ -20,14 +20,13 @@
 #include "itkVariableLengthVector.h"
 #include "itkMath.h"
 
-#define ASSERT(cond, text)                                                   \
-  CLANG_PRAGMA_PUSH                                                          \
-  CLANG_SUPPRESS_Wfloat_equal if (!(cond)) CLANG_PRAGMA_POP                  \
-  {                                                                          \
-    std::cerr << __FILE__ << ":" << __LINE__ << ":"                          \
-              << "Assertion failed: " << #cond << ": " << text << std::endl; \
-    result = EXIT_FAILURE;                                                   \
-  }                                                                          \
+#define ASSERT(cond, text)                                                                                         \
+  CLANG_PRAGMA_PUSH                                                                                                \
+  CLANG_SUPPRESS_Wfloat_equal if (!(cond)) CLANG_PRAGMA_POP                                                        \
+  {                                                                                                                \
+    std::cerr << __FILE__ << ':' << __LINE__ << ':' << "Assertion failed: " << #cond << ": " << text << std::endl; \
+    result = EXIT_FAILURE;                                                                                         \
+  }                                                                                                                \
   ITK_MACROEND_NOOP_STATEMENT
 
 int

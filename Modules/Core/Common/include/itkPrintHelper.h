@@ -39,9 +39,9 @@ operator<<(std::ostream & os, const std::vector<T> & v)
     return os << "()";
   }
 
-  os << "(";
+  os << '(';
   std::copy(v.begin(), v.end() - 1, std::ostream_iterator<T>(os, ", "));
-  return os << v.back() << ")";
+  return os << v.back() << ')';
 }
 
 } // end namespace print_helper

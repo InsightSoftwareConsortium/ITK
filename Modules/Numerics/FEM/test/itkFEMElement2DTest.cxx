@@ -283,7 +283,7 @@ PrintK1(Solver2DType * S, int s)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl << "k" << s << "=[";
+  std::cout << std::endl << 'k' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     std::cout << " [";
@@ -301,7 +301,7 @@ PrintK1(Solver2DType * S, int s)
     }
     else
     {
-      std::cout << "]";
+      std::cout << ']';
     }
   }
   std::cout << "];" << std::endl;
@@ -313,7 +313,7 @@ PrintF1(Solver2DType * S, int s)
 {
   itk::fem::LinearSystemWrapper::Pointer lsw = S->GetLinearSystemWrapper();
 
-  std::cout << std::endl << "f" << s << "=[";
+  std::cout << std::endl << 'f' << s << "=[";
   for (unsigned int j = 0; j < lsw->GetSystemOrder(); ++j)
   {
     if (j > 0)
@@ -338,7 +338,7 @@ PrintNodalCoordinates1(Solver2DType * S, int w)
   {
     std::cout << " [";
     std::cout << S->GetInput()->GetNode(i)->GetCoordinates();
-    std::cout << "]";
+    std::cout << ']';
   }
   std::cout << "];" << std::endl;
 }

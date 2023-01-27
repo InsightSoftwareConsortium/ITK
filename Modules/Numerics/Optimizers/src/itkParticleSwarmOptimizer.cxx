@@ -39,7 +39,7 @@ ParticleSwarmOptimizer::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
   os << "Acceleration coefficients [inertia, personal, global]: ";
-  os << "[" << this->m_InertiaCoefficient << ", " << this->m_PersonalCoefficient << ", ";
+  os << '[' << this->m_InertiaCoefficient << ", " << this->m_PersonalCoefficient << ", ";
   os << this->m_GlobalCoefficient << "]\n";
 }
 

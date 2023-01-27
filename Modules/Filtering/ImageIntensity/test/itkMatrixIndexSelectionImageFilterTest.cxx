@@ -127,9 +127,9 @@ itkMatrixIndexSelectionImageFilterTest(int argc, char * argv[])
   if (indexA != testIndexA || indexB != testIndexB)
   {
     std::cerr << "Error " << std::endl;
-    std::cerr << " Expected indices: (" << indexA << ", " << indexB << ")" << std::endl;
+    std::cerr << " Expected indices: (" << indexA << ", " << indexB << ')' << std::endl;
     std::cerr << " differ from ";
-    std::cerr << " obtained indices: (" << testIndexA << ", " << testIndexB << ")" << std::endl;
+    std::cerr << " obtained indices: (" << testIndexA << ", " << testIndexB << ')' << std::endl;
     return EXIT_FAILURE;
   }
 

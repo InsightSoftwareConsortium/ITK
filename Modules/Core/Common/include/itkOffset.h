@@ -460,7 +460,7 @@ template <unsigned int VDimension>
 std::ostream &
 operator<<(std::ostream & os, const Offset<VDimension> & ind)
 {
-  os << "[";
+  os << '[';
   unsigned int dimlim = VDimension - 1;
   for (unsigned int i = 0; i < dimlim; ++i)
   {
@@ -470,7 +470,7 @@ operator<<(std::ostream & os, const Offset<VDimension> & ind)
   {
     os << ind[VDimension - 1];
   }
-  os << "]";
+  os << ']';
   return os;
 }
 

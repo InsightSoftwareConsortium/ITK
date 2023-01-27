@@ -88,7 +88,7 @@ public:
     derivative[0] = -(3 * x + 2 * y - 2);
     derivative[1] = -(2 * x + 6 * y + 8);
 
-    std::cout << "(" << derivative[0] << " , " << derivative[1] << ")" << std::endl;
+    std::cout << '(' << derivative[0] << " , " << derivative[1] << ')' << std::endl;
   }
 
   void
@@ -278,8 +278,8 @@ itkExhaustiveOptimizerv4Test(int, char *[])
 
   ParametersType finalPosition = itkOptimizer->GetMinimumMetricValuePosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   std::cout << "CurrentValue: " << itkOptimizer->GetCurrentValue() << std::endl;
 

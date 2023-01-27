@@ -113,7 +113,7 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   GaussianSourceType::ParametersType params = gaussianImage->GetParameters();
   if (params.GetSize() != 7)
   {
-    std::cerr << "Incorrect number of parameters. Expected 7, got " << params.GetSize() << "." << std::endl;
+    std::cerr << "Incorrect number of parameters. Expected 7, got " << params.GetSize() << '.' << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -152,7 +152,7 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   {
     std::cerr << "Sigma disagrees with parameters array." << std::endl;
     std::cerr << "Sigma: " << gaussianImage->GetSigma() << ", parameters: [" << params[0] << ", " << params[1] << ", "
-              << params[2] << "]" << std::endl;
+              << params[2] << ']' << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -162,7 +162,7 @@ itkGaussianImageSourceTest(int argc, char * argv[])
   {
     std::cerr << "Mean disagrees with parameters array." << std::endl;
     std::cerr << "Mean: " << gaussianImage->GetMean() << ", parameters: [" << params[3] << ", " << params[4] << ", "
-              << params[5] << "]" << std::endl;
+              << params[5] << ']' << std::endl;
     return EXIT_FAILURE;
   }
 

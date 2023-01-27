@@ -610,7 +610,7 @@ ConstNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostream & 
   }
   os << ", m_Begin = " << m_Begin;
   os << ", m_End = " << m_End;
-  os << "}" << std::endl;
+  os << '}' << std::endl;
 
   os << indent << ",  m_InnerBoundsLow = { ";
   for (i = 0; i < Dimension; ++i)

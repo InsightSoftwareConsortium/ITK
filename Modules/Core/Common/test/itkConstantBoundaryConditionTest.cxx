@@ -166,7 +166,7 @@ itkConstantBoundaryConditionTest(int, char *[])
 
   if (bc.GetConstant() != constant)
   {
-    std::cerr << "Got unexpected constant " << bc.GetConstant() << ", expected " << constant << "." << std::endl;
+    std::cerr << "Got unexpected constant " << bc.GetConstant() << ", expected " << constant << '.' << std::endl;
     return EXIT_FAILURE;
   }
 
@@ -176,7 +176,7 @@ itkConstantBoundaryConditionTest(int, char *[])
 
   if (vbc.GetConstant()[0] != constant)
   {
-    std::cerr << "Got unexpected constant " << vbc.GetConstant() << ", expected " << vectorConstant << "." << std::endl;
+    std::cerr << "Got unexpected constant " << vbc.GetConstant() << ", expected " << vectorConstant << '.' << std::endl;
     return EXIT_FAILURE;
   }
 

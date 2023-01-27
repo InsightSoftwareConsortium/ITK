@@ -394,7 +394,7 @@ TileImageFilter<TInputImage, TOutputImage>::VerifyInputInformation() ITKv5_CONST
     if (numComponents != image->GetNumberOfComponentsPerPixel())
     {
       itkExceptionMacro(<< "Primary input has " << numComponents << " numberOfComponents "
-                        << "but input " << idx << " has " << image->GetNumberOfComponentsPerPixel() << "!");
+                        << "but input " << idx << " has " << image->GetNumberOfComponentsPerPixel() << '!');
     }
   }
 }

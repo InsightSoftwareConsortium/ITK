@@ -43,7 +43,7 @@ public:
   {
     std::ostringstream loc;
 
-    loc << ":" << m_Line << ":\n";
+    loc << ':' << m_Line << ":\n";
     m_What = m_File;
     m_What += loc.str();
     m_What += m_Description;

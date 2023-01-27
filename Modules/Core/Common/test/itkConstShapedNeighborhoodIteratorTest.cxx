@@ -28,7 +28,7 @@ PrintShapedNeighborhood(const itk::ConstShapedNeighborhoodIterator<TestImageType
   {
     std::cout << it.Get();
   }
-  std::cout << "]" << std::endl;
+  std::cout << ']' << std::endl;
 }
 
 int

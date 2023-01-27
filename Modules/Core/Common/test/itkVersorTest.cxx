@@ -146,7 +146,7 @@ RotationMatrixToVersorTest()
           if ((error_newMRtestPoint_newVRtestPoint + error_newMRtestPoint_newVRFROMMRPoint +
                error_newVRFROMMRPoint_newVRFROMMRTransformPoint) > maxAllowedPointError)
           {
-            std::cout << "(alpha,beta,gamma)= (" << alpha << "," << beta << "," << gamma << ")" << std::endl;
+            std::cout << "(alpha,beta,gamma)= (" << alpha << ',' << beta << ',' << gamma << ')' << std::endl;
 
             std::cout << newMRtestPoint << ' ' << newVRtestPoint << ' ' << newVRFROMMRPoint << ' '
                       << newVRFROMMRTransformPoint << std::endl;

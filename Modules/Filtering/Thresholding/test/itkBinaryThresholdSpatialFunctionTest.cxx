@@ -150,7 +150,7 @@ itkBinaryThresholdSpatialFunctionTest(int, char *[])
       std::cerr << "Test failed!" << std::endl;
       std::cerr << "Error at index: " << index << std::endl;
       std::cout << "Point value: " << value << " is not within thresholds [" << lowerThreshold << ", " << upperThreshold
-                << "]" << std::endl;
+                << ']' << std::endl;
       return EXIT_FAILURE;
     }
 

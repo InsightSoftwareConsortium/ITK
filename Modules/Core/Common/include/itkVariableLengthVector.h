@@ -1322,7 +1322,7 @@ template <typename TExpr1, typename TExpr2, typename TBinaryOp>
 std::ostream &
 operator<<(std::ostream & os, VariableLengthVectorExpression<TExpr1, TExpr2, TBinaryOp> const & v)
 {
-  os << "[";
+  os << '[';
   if (v.Size() != 0)
   {
     os << v[0];
@@ -1331,7 +1331,7 @@ operator<<(std::ostream & os, VariableLengthVectorExpression<TExpr1, TExpr2, TBi
       os << ", " << v[i];
     }
   }
-  return os << "]";
+  return os << ']';
 }
 
 /** Returns vector's Euclidean Norm.
@@ -1377,7 +1377,7 @@ operator<<(std::ostream & os, const VariableLengthVector<TValue> & arr)
   const unsigned int length = arr.Size();
   const int          last = static_cast<unsigned int>(length) - 1;
 
-  os << "[";
+  os << '[';
   for (int i = 0; i < last; ++i)
   {
     os << arr[i] << ", ";
@@ -1386,7 +1386,7 @@ operator<<(std::ostream & os, const VariableLengthVector<TValue> & arr)
   {
     os << arr[last];
   }
-  os << "]";
+  os << ']';
   return os;
 }
 //@}

@@ -54,7 +54,7 @@ void
 LineSpatialObjectPoint<TPointDimension>::PrintSelf(std::ostream & os, Indent indent) const
 {
   Superclass::PrintSelf(os, indent);
-  os << indent << "LineSpatialObjectPoint(" << this << ")" << std::endl;
+  os << indent << "LineSpatialObjectPoint(" << this << ')' << std::endl;
   unsigned int ii = 0;
   while (ii < TPointDimension - 1)
   {

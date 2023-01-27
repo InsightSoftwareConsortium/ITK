@@ -450,7 +450,7 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file
 {
   std::ostringstream buf;
 
-  buf << "Index of " << moreDescription << " out of bounds (" << index1 << ")";
+  buf << "Index of " << moreDescription << " out of bounds (" << index1 << ')';
   SetDescription(buf.str().c_str());
 }
 
@@ -464,7 +464,7 @@ FEMExceptionLinearSystemBounds::FEMExceptionLinearSystemBounds(const char * file
 {
   std::ostringstream buf;
 
-  buf << "Index out of bounds (" << index1 << "," << index2 << ")";
+  buf << "Index out of bounds (" << index1 << ',' << index2 << ')';
   SetDescription(buf.str().c_str());
 }
 

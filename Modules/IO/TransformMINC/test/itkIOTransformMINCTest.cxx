@@ -589,7 +589,7 @@ check_composite2(const char * transform_file, const char * transform_grid_file)
   os << "MNI Transform File" << std::endl;
   os << std::endl;
   os << "Transform_Type = Grid_Transform;" << std::endl;
-  os << "Displacement_Volume = " << transform_grid_file << ";" << std::endl;
+  os << "Displacement_Volume = " << transform_grid_file << ';' << std::endl;
   os << "Transform_Type = Linear;" << std::endl;
 
   os << "Linear_Transform =" << std::endl;

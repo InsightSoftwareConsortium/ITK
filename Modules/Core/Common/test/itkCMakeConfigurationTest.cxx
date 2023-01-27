@@ -61,7 +61,7 @@ itkCMakeInformationPrintFile(const char * name, std::ostream & os)
     const char * div = "=======================================================================";
     os << ":\n[" << div << "[\n";
     os << fin.rdbuf();
-    os << "]" << div << "]\n";
+    os << ']' << div << "]\n";
     os.flush();
   }
   else

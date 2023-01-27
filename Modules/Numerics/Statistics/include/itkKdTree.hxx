@@ -534,7 +534,7 @@ KdTree<TSample>::PrintTree(KdTreeNodeType * node,
     os << "          ";
     for (unsigned int i = 0; i < node->Size(); ++i)
     {
-      os << "[" << node->GetInstanceIdentifier(i) << "] "
+      os << '[' << node->GetInstanceIdentifier(i) << "] "
          << this->m_Sample->GetMeasurementVector(node->GetInstanceIdentifier(i)) << ", ";
     }
     os << std::endl;
@@ -576,7 +576,7 @@ KdTree<TSample>::PlotTree(std::ostream & os) const
   //
   // Graph footer
   //
-  os << "}" << std::endl;
+  os << '}' << std::endl;
 }
 
 template <typename TSample>
@@ -611,7 +611,7 @@ KdTree<TSample>::PlotTree(KdTreeNodeType * node, std::ostream & os) const
   {
     os << "\"" << node << "\" [label=\"";
     os << this->GetMeasurementVector(node->GetInstanceIdentifier(0));
-    os << ' ' << partitionDimensionCharSymbol << "=" << partitionValue;
+    os << ' ' << partitionDimensionCharSymbol << '=' << partitionValue;
     os << "\" ];" << std::endl;
   }
 

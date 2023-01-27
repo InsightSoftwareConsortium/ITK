@@ -78,7 +78,7 @@ Test(const std::string & inFileName, const std::string & outFileName, const std:
 
         std::string tagvalue = entryvalue->GetMetaDataObjectValue();
 
-        std::cout << "(" << key << ") ";
+        std::cout << '(' << key << ") ";
         std::cout << " = " << tagvalue << std::endl;
       }
     }

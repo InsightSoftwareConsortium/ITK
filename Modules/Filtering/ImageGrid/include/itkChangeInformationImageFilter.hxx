@@ -203,7 +203,7 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << ", " << m_OutputSpacing[j];
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "OutputOrigin: [";
   if (ImageDimension >= 1)
@@ -214,7 +214,7 @@ ChangeInformationImageFilter<TInputImage>::PrintSelf(std::ostream & os, Indent i
   {
     os << ", " << m_OutputOrigin[j];
   }
-  os << "]" << std::endl;
+  os << ']' << std::endl;
 
   os << indent << "OutputDirection:" << std::endl;
   os << m_OutputDirection << std::endl;

@@ -58,7 +58,7 @@ public:
     std::cout << "  Iteration " << filter->GetElapsedIterations() << " (of "
               << filter->GetMaximumNumberOfIterations()[filter->GetCurrentLevel()] << ").  ";
     std::cout << " Current convergence value = " << filter->GetCurrentConvergenceMeasurement()
-              << " (threshold = " << filter->GetConvergenceThreshold() << ")" << std::endl;
+              << " (threshold = " << filter->GetConvergenceThreshold() << ')' << std::endl;
   }
 };
 

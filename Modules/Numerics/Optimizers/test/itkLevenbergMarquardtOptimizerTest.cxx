@@ -364,9 +364,9 @@ itkRunLevenbergMarquardOptimization(bool   useGradient,
   finalPosition = optimizer->GetCurrentPosition();
 
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ",";
-  std::cout << finalPosition[2] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ',';
+  std::cout << finalPosition[2] << ')' << std::endl;
 
 
   //

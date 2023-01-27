@@ -195,7 +195,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     if (varReturned[i] != varChanged[i])
     {
       std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in GetVariance() at index [" << i << "]" << std::endl;
+      std::cout << "Error in GetVariance() at index [" << i << ']' << std::endl;
       std::cout << "Expected: " << varChanged[i] << ", but got: " << varReturned[i] << std::endl;
       return EXIT_FAILURE;
     }
@@ -214,7 +214,7 @@ itkDiscreteHessianGaussianImageFunctionTestND(int argc, char * argv[])
     if (itk::Math::NotAlmostEquals(varReturned[i], itk::Math::pi))
     {
       std::cout << "Test failed!" << std::endl;
-      std::cout << "Error in GetVariance() at index [" << i << "]" << std::endl;
+      std::cout << "Error in GetVariance() at index [" << i << ']' << std::endl;
       std::cout << "Expected: " << itk::Math::pi << ", but got: " << varReturned[i] << std::endl;
       return EXIT_FAILURE;
     }

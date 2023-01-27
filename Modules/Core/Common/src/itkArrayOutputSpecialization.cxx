@@ -24,7 +24,7 @@ namespace itk
 template <>
 std::ostream & operator<<<double>(std::ostream & os, const Array<double> & arr)
 {
-  os << "[";
+  os << '[';
   const size_t length = arr.size();
   if (length >= 1)
   {
@@ -35,14 +35,14 @@ std::ostream & operator<<<double>(std::ostream & os, const Array<double> & arr)
     }
     os << ConvertNumberToString(arr[last]);
   }
-  os << "]";
+  os << ']';
   return os;
 }
 
 template <>
 std::ostream & operator<<<float>(std::ostream & os, const Array<float> & arr)
 {
-  os << "[";
+  os << '[';
   const size_t length = arr.size();
   if (length >= 1)
   {
@@ -53,7 +53,7 @@ std::ostream & operator<<<float>(std::ostream & os, const Array<float> & arr)
     }
     os << ConvertNumberToString(arr[last]);
   }
-  os << "]";
+  os << ']';
   return os;
 }
 
@@ -65,7 +65,7 @@ std::ostream & operator<<<double>(std::ostream & os, const Array2D<double> & arr
 
   for (unsigned int r = 0; r < numberOfRows; ++r)
   {
-    os << "[";
+    os << '[';
     if (numberOfColumns >= 1)
     {
       const unsigned int lastColumn = numberOfColumns - 1;
@@ -75,7 +75,7 @@ std::ostream & operator<<<double>(std::ostream & os, const Array2D<double> & arr
       }
       os << ConvertNumberToString(arr(r, lastColumn));
     }
-    os << "]" << std::endl;
+    os << ']' << std::endl;
   }
 
   return os;
@@ -89,7 +89,7 @@ std::ostream & operator<<<float>(std::ostream & os, const Array2D<float> & arr)
 
   for (unsigned int r = 0; r < numberOfRows; ++r)
   {
-    os << "[";
+    os << '[';
     if (numberOfColumns >= 1)
     {
       const unsigned int lastColumn = numberOfColumns - 1;
@@ -99,7 +99,7 @@ std::ostream & operator<<<float>(std::ostream & os, const Array2D<float> & arr)
       }
       os << ConvertNumberToString(arr(r, lastColumn));
     }
-    os << "]" << std::endl;
+    os << ']' << std::endl;
   }
 
   return os;

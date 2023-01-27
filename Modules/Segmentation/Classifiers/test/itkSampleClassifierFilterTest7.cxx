@@ -156,7 +156,7 @@ itkSampleClassifierFilterTest7(int argc, char * argv[])
   bool passed = true;
   for (unsigned int i = 0; i < numberOfClasses; ++i)
   {
-    std::cout << "Cluster[" << i << "]" << std::endl;
+    std::cout << "Cluster[" << i << ']' << std::endl;
     std::cout << "    Parameters:" << std::endl;
     std::cout << "         " << (components[i])->GetFullParameters() << std::endl;
     std::cout << "    Proportion: ";

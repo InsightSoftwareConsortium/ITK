@@ -53,7 +53,7 @@ GaussianRandomSpatialNeighborSubsampler<TSample, TRegion>::GetIntegerVariate(Ran
 {
   if (upperBound < lowerBound)
   {
-    itkExceptionMacro(<< "upperBound (" << upperBound << ") not >= to lowerBound(" << lowerBound << ")");
+    itkExceptionMacro(<< "upperBound (" << upperBound << ") not >= to lowerBound(" << lowerBound << ')');
   }
 
   RandomIntType randInt = 0;

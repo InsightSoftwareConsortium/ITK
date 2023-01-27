@@ -121,8 +121,8 @@ itkLabelObjectTest(int argc, char * argv[])
 
   while (!it1.IsAtEnd())
   {
-    std::cout << it1.GetLine().GetIndex() << "-" << it1.GetLine().GetLength() << "    ";
-    std::cout << it2.GetLine().GetIndex() << "-" << it2.GetLine().GetLength();
+    std::cout << it1.GetLine().GetIndex() << '-' << it1.GetLine().GetLength() << "    ";
+    std::cout << it2.GetLine().GetIndex() << '-' << it2.GetLine().GetLength();
     std::cout << std::endl;
     if (it1.GetLine().GetIndex() != it2.GetLine().GetIndex() || it1.GetLine().GetLength() != it2.GetLine().GetLength())
     {
@@ -189,7 +189,7 @@ itkLabelObjectTest(int argc, char * argv[])
     }
     if (!lo->HasIndex(idxs[i]))
     {
-      std::cerr << "label object should have the index " << idxs[i] << "!" << std::endl;
+      std::cerr << "label object should have the index " << idxs[i] << '!' << std::endl;
       return EXIT_FAILURE;
     }
   }
@@ -200,7 +200,7 @@ itkLabelObjectTest(int argc, char * argv[])
   idx[2] = 10;
   if (lo->HasIndex(idx))
   {
-    std::cerr << "label object shouldn't have the index " << idx << "!" << std::endl;
+    std::cerr << "label object shouldn't have the index " << idx << '!' << std::endl;
     return EXIT_FAILURE;
   }
 

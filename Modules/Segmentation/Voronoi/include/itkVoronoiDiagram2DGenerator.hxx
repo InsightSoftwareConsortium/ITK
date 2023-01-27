@@ -1266,7 +1266,7 @@ VoronoiDiagram2DGenerator<TCoordRepType>::PrintSelf(std::ostream & os, Indent in
   os << indent << "ELHash: " << std::endl;
   for (unsigned int i = 0; i < m_ELHash.size(); ++i)
   {
-    os << indent << "[" << i << "]: " << m_ELHash[i] << std::endl;
+    os << indent << '[' << i << "]: " << m_ELHash[i] << std::endl;
   }
 }
 } // namespace itk

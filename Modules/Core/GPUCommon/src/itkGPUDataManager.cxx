@@ -264,7 +264,7 @@ GPUDataManager::Initialize()
 void
 GPUDataManager::PrintSelf(std::ostream & os, Indent indent) const
 {
-  os << indent << "GPUDataManager (" << this << ")" << std::endl;
+  os << indent << "GPUDataManager (" << this << ')' << std::endl;
   os << indent << "m_BufferSize: " << m_BufferSize << std::endl;
   os << indent << "m_IsGPUBufferDirty: " << m_IsGPUBufferDirty << std::endl;
   os << indent << "m_GPUBuffer: " << m_GPUBuffer << std::endl;

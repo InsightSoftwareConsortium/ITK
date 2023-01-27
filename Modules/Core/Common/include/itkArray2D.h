@@ -99,7 +99,7 @@ operator<<(std::ostream & os, const Array2D<TValue> & arr)
 
   for (unsigned int r = 0; r < numberOfRows; ++r)
   {
-    os << "[";
+    os << '[';
     if (numberOfColumns >= 1)
     {
       const unsigned int lastColumn = numberOfColumns - 1;
@@ -109,7 +109,7 @@ operator<<(std::ostream & os, const Array2D<TValue> & arr)
       }
       os << arr(r, lastColumn);
     }
-    os << "]" << std::endl;
+    os << ']' << std::endl;
   }
 
   return os;

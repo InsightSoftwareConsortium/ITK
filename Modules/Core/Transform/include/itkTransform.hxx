@@ -38,8 +38,8 @@ Transform<TParametersValueType, VInputDimension, VOutputDimension>::GetTransform
 {
   std::ostringstream n;
 
-  n << GetNameOfClass() << "_" << this->GetTransformTypeAsString(static_cast<TParametersValueType *>(nullptr)) << "_"
-    << this->GetInputSpaceDimension() << "_" << this->GetOutputSpaceDimension();
+  n << GetNameOfClass() << '_' << this->GetTransformTypeAsString(static_cast<TParametersValueType *>(nullptr)) << '_'
+    << this->GetInputSpaceDimension() << '_' << this->GetOutputSpaceDimension();
   return n.str();
 }
 

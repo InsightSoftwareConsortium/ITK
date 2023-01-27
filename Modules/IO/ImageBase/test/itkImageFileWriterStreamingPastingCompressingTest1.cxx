@@ -103,7 +103,7 @@ ActualTest(std::string inputFileName,
   std::ostringstream outputFileNameStream;
   outputFileNameStream << outputFileNameBase << streamWriting;
   outputFileNameStream << pasteWriting << compressWriting;
-  outputFileNameStream << "." << outputFileNameExtension;
+  outputFileNameStream << '.' << outputFileNameExtension;
   std::string outputFileName = outputFileNameStream.str();
 
   std::cout << "Writing to File: " << outputFileName << std::endl;

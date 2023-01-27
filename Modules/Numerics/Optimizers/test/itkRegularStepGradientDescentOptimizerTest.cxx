@@ -162,8 +162,8 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
   ParametersType finalPosition = itkOptimizer->GetCurrentPosition();
   std::cout << "Solution        = (";
-  std::cout << finalPosition[0] << ",";
-  std::cout << finalPosition[1] << ")" << std::endl;
+  std::cout << finalPosition[0] << ',';
+  std::cout << finalPosition[1] << ')' << std::endl;
 
   //
   // check results to see if it is within range
@@ -206,8 +206,8 @@ itkRegularStepGradientDescentOptimizerTest(int, char *[])
 
     finalPosition = itkOptimizer->GetCurrentPosition();
     std::cout << "Solution        = (";
-    std::cout << finalPosition[0] << ",";
-    std::cout << finalPosition[1] << ")" << std::endl;
+    std::cout << finalPosition[0] << ',';
+    std::cout << finalPosition[1] << ')' << std::endl;
 
     //
     // check results to see if it is within range

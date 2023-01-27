@@ -68,7 +68,7 @@ VectorDoubleRMSPredFormat(const char * expr1,
   {
     return ::testing::AssertionFailure() << "The size of " << expr1 << " and " << expr2 << " different, where\n"
                                          << expr1 << " evaluates to " << val1 << ",\n"
-                                         << expr2 << " evaluates to " << val2 << ".";
+                                         << expr2 << " evaluates to " << val2 << '.';
   }
   double total = 0.0;
   for (unsigned int i = 0; i < val1Size; ++i)
@@ -86,7 +86,7 @@ VectorDoubleRMSPredFormat(const char * expr1,
                                        << ",\n  which exceeds " << rmsErrorExpr << ", where\n"
                                        << expr1 << " evaluates to " << val1 << ",\n"
                                        << expr2 << " evaluates to " << val2 << ", and\n"
-                                       << rmsErrorExpr << " evaluates to " << rmsError << ".";
+                                       << rmsErrorExpr << " evaluates to " << rmsError << '.';
 }
 
 } // end namespace Predicate

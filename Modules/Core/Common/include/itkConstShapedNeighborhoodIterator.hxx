@@ -31,7 +31,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::PrintSelf(std::ostr
   }
   os << "] ";
   os << " m_CenterIsActive = " << m_CenterIsActive;
-  os << "}" << std::endl;
+  os << '}' << std::endl;
   Superclass::PrintSelf(os, indent.GetNextIndent());
 }
 
@@ -120,7 +120,7 @@ ConstShapedNeighborhoodIterator<TImage, TBoundaryCondition>::CreateActiveListFro
   if (this->GetRadius() != neighborhood.GetRadius())
   {
     itkGenericExceptionMacro(<< "Radius of shaped iterator(" << this->GetRadius()
-                             << ") does not equal radius of neighborhood(" << neighborhood.GetRadius() << ")");
+                             << ") does not equal radius of neighborhood(" << neighborhood.GetRadius() << ')');
   }
   typename NeighborhoodType::ConstIterator nit;
   NeighborIndexType                        idx = 0;

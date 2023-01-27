@@ -212,7 +212,7 @@ template <typename TValue>
 std::ostream &
 operator<<(std::ostream & os, const Array<TValue> & arr)
 {
-  os << "[";
+  os << '[';
   const unsigned int length = arr.size();
   if (length >= 1)
   {
@@ -223,7 +223,7 @@ operator<<(std::ostream & os, const Array<TValue> & arr)
     }
     os << arr[last];
   }
-  os << "]";
+  os << ']';
   return os;
 }
 

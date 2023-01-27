@@ -200,7 +200,7 @@ itkCompensatedSummationTest2(int, char *[])
     if (domainThreader->GetNumberOfWorkUnitsUsed() != maxNumberOfThreads)
     {
       std::cerr << "Error: Expected to use " << maxNumberOfThreads << "threads, but used "
-                << domainThreader->GetNumberOfWorkUnitsUsed() << "." << std::endl;
+                << domainThreader->GetNumberOfWorkUnitsUsed() << '.' << std::endl;
       return EXIT_FAILURE;
     }
     std::cout << "# of digits precision in double: " << std::numeric_limits<double>::digits10 << std::endl;

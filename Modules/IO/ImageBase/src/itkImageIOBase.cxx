@@ -323,7 +323,7 @@ ImageIOBase::GetPixelSize() const
 {
   if (m_ComponentType == IOComponentEnum::UNKNOWNCOMPONENTTYPE || m_PixelType == IOPixelEnum::UNKNOWNPIXELTYPE)
   {
-    itkExceptionMacro("Unknown pixel or component type: (" << m_PixelType << ", " << m_ComponentType << ")");
+    itkExceptionMacro("Unknown pixel or component type: (" << m_PixelType << ", " << m_ComponentType << ')');
   }
 
   return this->GetComponentSize() * this->GetNumberOfComponents();
