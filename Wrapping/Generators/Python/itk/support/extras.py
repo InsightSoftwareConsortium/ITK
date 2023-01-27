@@ -811,6 +811,7 @@ def image_from_dict(image_dict: Dict) -> "itkt.Image":
     image.SetSpacing(image_dict["spacing"])
     image.SetDirection(image_dict["direction"])
     image.SetObjectName(image_dict["name"])
+    image.SetRegions(image_dict["size"])
     return image
 
 
